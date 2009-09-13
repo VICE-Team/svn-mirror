@@ -253,7 +253,7 @@ void vic_sound_clock(int cycles)
 {
   int i,j;
   if (cycles<=0) return;
-  for(j=0;j<3;j++)
+  for (j=0;j<3;j++)
   {
     int chspeed="\4\3\2"[j];
     if (snd.ch[j].ctr > cycles)
@@ -262,7 +262,7 @@ void vic_sound_clock(int cycles)
        snd.ch[j].ctr -= cycles;
     }
     else
-    for(i=cycles;i;i--)
+    for (i=cycles;i;i--)
     {
       snd.ch[j].ctr--;
       if (snd.ch[j].ctr<=0)
@@ -292,7 +292,7 @@ void vic_sound_clock(int cycles)
     snd.ch[3].ctr -= cycles;
   }
   else
-  for(i=cycles;i;i--)
+  for (i=cycles;i;i--)
   {
     snd.ch[3].ctr--;
     if (snd.ch[3].ctr<=0)

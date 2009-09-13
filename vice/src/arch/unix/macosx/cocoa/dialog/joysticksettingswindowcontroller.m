@@ -65,7 +65,7 @@ static char *keyNames[KEYSET_SIZE] = {
 
 #ifdef HAS_JOYSTICK
     // fetch axis map from joy driver
-    for(i=0; i < JOYSTICK_DESCRIPTOR_MAX_AXIS; i++) {
+    for (i=0; i < JOYSTICK_DESCRIPTOR_MAX_AXIS; i++) {
         axis_map_t *am = &joy_axis_map[i];
         NSString *name = [NSString stringWithCString:am->name encoding:NSUTF8StringEncoding];
         [hidXAxis addItemWithTitle:name];
@@ -87,7 +87,7 @@ static char *keyNames[KEYSET_SIZE] = {
     int numDevices = build_device_list(&devices);
     if (numDevices>0) {
         int i;
-        for(i=0;i<numDevices;i++) {
+        for (i=0;i<numDevices;i++) {
            pRecDevice dev = devices[i];
            int serial = get_device_serial(dev);
            NSString *desc = [NSString stringWithFormat:@"%04x:%04x:%d %s",
@@ -142,7 +142,7 @@ static char *keyNames[KEYSET_SIZE] = {
     // key set setup
     int keySetNum = [keySetSelect indexOfSelectedItem];
     int i;
-    for(i=0;i<KEYSET_SIZE;i++) {
+    for (i=0;i<KEYSET_SIZE;i++) {
         NSString *res1 = [NSString stringWithFormat:@"KeySet%d%s",
                           keySetNum+1,keyNames[i]];
         int keyCode1 = [self getIntResource:res1];
@@ -167,7 +167,7 @@ static char *keyNames[KEYSET_SIZE] = {
     } else {
         int pos;
         int found = -1;
-        for(pos=0;pos<[hidName numberOfItems];++pos) {
+        for (pos=0;pos<[hidName numberOfItems];++pos) {
             NSString *title = [hidName itemTitleAtIndex:pos];
             if ([title hasPrefix:device]) {
                 found = pos;
@@ -230,7 +230,7 @@ static char *keyNames[KEYSET_SIZE] = {
     int i;
     int ids[HID_NUM_BUTTONS] = { 0,0,0,0,0,0 };
     [self getHidButtons:ids];
-    for(i=0;i<6;i++) {
+    for (i=0;i<6;i++) {
         NSString *desc;
         if (ids[i]==0)
             desc = @"N/A";
@@ -289,7 +289,7 @@ static char *keyNames[KEYSET_SIZE] = {
 -(IBAction)defineKeysetButton:(id)sender
 {
     int i;
-    for(i=0;i<KEYSET_SIZE;i++) {
+    for (i=0;i<KEYSET_SIZE;i++) {
         if (keyButtons[i]==sender) {
             break;
         }

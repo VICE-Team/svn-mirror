@@ -474,7 +474,7 @@ void new_joystick_init(void)
     for (i = 0; i < ANALOG_JOY_NUM; i++) {
         const char *dev;
         int j;
-        for(j = 0; j < 2; j++) {
+        for (j = 0; j < 2; j++) {
             dev = joydevs[i][j];
             ajoyfd[i] = open(dev, O_RDONLY);
             if (ajoyfd[i] >= 0)
@@ -522,7 +522,7 @@ void new_joystick_init(void)
 void new_joystick_close(void)
 {
     int i;
-    for(i=0; i<ANALOG_JOY_NUM; ++i)
+    for (i=0; i<ANALOG_JOY_NUM; ++i)
       if (ajoyfd[i] > 0)
         close (ajoyfd[i]);
 }

@@ -72,7 +72,7 @@ void draw_vkeyb(unsigned char *screen) {
 	unsigned int i;
 
 	/* keyboard */
-	for(i=0; keyb[i]; i++) 
+	for (i=0; keyb[i]; i++) 
         	draw_ascii_string(screen, display_width, vkeyb_x, vkeyb_y+(i*8), keyb[i], kb_fg, kb_bg);
 
 	/* cursor */
@@ -129,7 +129,7 @@ void draw_vkeyb(unsigned char *screen) {
 		vkey_released=1;
 	} else if (input_b && button_deselected) {
 		button_deselected=0;
-		for(i=0; keytable[i]; i+=4) {
+		for (i=0; keytable[i]; i+=4) {
 			if ((cursor_x-(vkeyb_x/8)==keytable[i]) 
 				&& (cursor_y-(vkeyb_y/8)==keytable[i+1])) {
 				vkey_row=keytable[i+2];

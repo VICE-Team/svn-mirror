@@ -317,7 +317,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 psid_init_driver();
                 vsid_ui_init();
                 machine_play_psid(0);
-                for(i=0;i < VSID_S_LASTLINE; i++)
+                for (i=0;i < VSID_S_LASTLINE; i++)
                 {
                    *vsidstrings[i]=0;
                 }
@@ -338,7 +338,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         {
             hdc = BeginPaint(window, &ps);
             if (*vsidstrings[VSID_S_TIMER]) /* start only when timer string has been filled */
-                for(i=0;i < VSID_S_LASTLINE;i++)
+                for (i=0;i < VSID_S_LASTLINE;i++)
                     vsid_disp( 0, i, "%s", vsidstrings[i]);
 
             EndPaint(window, &ps);

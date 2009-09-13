@@ -147,12 +147,12 @@ void c64dtvflash_store(int addr, BYTE value)
                     if (c64dtvflash_mem_lock[paddr_to_sector(addr)]) {
                     if (flash_log_enabled) log_message(c64dtvflash_log, "flash: ignoring erase (locked) %06x-%06x\n",j,k);
                     } else {
-                        for(i=j;i<k;i++) c64dtvflash_mem[i]=0xff;
+                        for (i=j;i<k;i++) c64dtvflash_mem[i]=0xff;
                         if (flash_log_enabled) log_message(c64dtvflash_log, "flash: erased %06x-%06x\n",j,k);
                     }
                     break;
                 case 0x10: /* Chip Erase */
-                    for(i=0;i<0x200000;i++) {
+                    for (i=0;i<0x200000;i++) {
                         if (!(c64dtvflash_mem_lock[paddr_to_sector(addr)])) c64dtvflash_mem[i]=0xff;
                     }
                     if (flash_log_enabled) log_message(c64dtvflash_log, "flash: chip erased\n");
@@ -285,7 +285,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
         return;
     }
 
-    for(i = 0; i < max; ++i) {
+    for (i = 0; i < max; ++i) {
         r = fwrite(buf, 0x10000, 1, fd);
         if (r < 1) {
             log_message(c64dtvflash_log, "Error while writing to file %s in create_blank_image.", filename);

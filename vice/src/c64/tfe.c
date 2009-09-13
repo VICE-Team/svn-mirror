@@ -452,7 +452,7 @@ void tfe_reset(void)
         
         /* spec: mac address is undefined after reset.
            real HW: keeps the last set address. */
-        for(i=0;i<6;i++)
+        for (i=0;i<6;i++)
             SET_PP_8(TFE_PP_ADDR_MAC_ADDR+i,tfe_ia_mac[i]);
         
         /* reset state */

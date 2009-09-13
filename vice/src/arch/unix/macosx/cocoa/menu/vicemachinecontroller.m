@@ -228,7 +228,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     int highestIndex = -1;
     NSString *path = nil;
     NSString *lastPath = nil;
-    for(i=0;i<10;i++) {
+    for (i=0;i<10;i++) {
         lastPath = path;
         path = [NSString stringWithFormat:@"%@/quicksnap%d.vsf",prefPath,i];
         if (![fileManager fileExistsAtPath:path]) {
@@ -251,7 +251,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         if (highestIndex==9) {
             NSString *newPath = [NSString stringWithFormat:@"%@/quicksnap0.vsf",prefPath];
             [fileManager removeFileAtPath:newPath handler:nil];
-            for(i=1;i<10;i++) {
+            for (i=1;i<10;i++) {
                 NSString *oldPath = [NSString stringWithFormat:@"%@/quicksnap%d.vsf",prefPath,i];
                 [fileManager movePath:oldPath toPath:newPath handler:nil];
                 newPath = oldPath;
@@ -407,7 +407,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         gfxoutputdrv_codec_t *video_codecs = formatlist[i].video_codecs;
         NSMutableDictionary *video = [[NSMutableDictionary alloc] init];
         if (video_codecs!=NULL) {
-            for(j=0;video_codecs->name!=NULL;j++) {
+            for (j=0;video_codecs->name!=NULL;j++) {
                 NSString *vname = [NSString stringWithCString:video_codecs->name encoding:NSUTF8StringEncoding];
                 [video setObject:vname forKey:[NSNumber numberWithInt:video_codecs->id]];
                 video_codecs++;
@@ -418,7 +418,7 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
         gfxoutputdrv_codec_t *audio_codecs = formatlist[i].audio_codecs;
         NSMutableDictionary *audio = [[NSMutableDictionary alloc] init];
         if (audio_codecs!=NULL) {
-            for(j=0;audio_codecs->name!=NULL;j++) {
+            for (j=0;audio_codecs->name!=NULL;j++) {
                 NSString *aname = [NSString stringWithCString:audio_codecs->name encoding:NSUTF8StringEncoding];
                 [audio setObject:aname forKey:[NSNumber numberWithInt:audio_codecs->id]];
                 audio_codecs++;                

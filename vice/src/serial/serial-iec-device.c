@@ -233,7 +233,7 @@ void serial_iec_device_reset(void)
     log_message(serial_iec_device_log, "serial_iec_device_reset()");
 #endif
 
-    for(i = 0; i < IECBUS_NUM; i++) 
+    for (i = 0; i < IECBUS_NUM; i++) 
     if (serial_iec_device_state[i].enabled) {
         iecbus_device_write(i, (BYTE)(IECBUS_DEVICE_WRITE_CLK
                             | IECBUS_DEVICE_WRITE_DATA));
@@ -284,7 +284,7 @@ void serial_iec_device_exec(CLOCK clk_value)
 {
     unsigned int i;
 
-    for(i = 0; i < IECBUS_NUM; i++)
+    for (i = 0; i < IECBUS_NUM; i++)
         if (serial_iec_device_state[i].enabled)
             serial_iec_device_exec_main(i, clk_value);
 }

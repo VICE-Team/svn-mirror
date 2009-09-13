@@ -63,7 +63,7 @@
     
     int i;
     int mask = 1;
-    for(i=0;i<5;i++) {
+    for (i=0;i<5;i++) {
         int xp = cw * pos[i][0];
         int yp = ch * pos[i][1];
         NSRect rect = NSMakeRect(xp,yp,cw-1,ch-1);

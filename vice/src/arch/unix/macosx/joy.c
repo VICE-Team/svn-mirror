@@ -423,7 +423,7 @@ static int find_axis_tag(const char *name,int def)
   if (name==NULL)
     return def;
   int i;
-  for(i=0;i<JOYSTICK_DESCRIPTOR_MAX_AXIS;i++) {
+  for (i=0;i<JOYSTICK_DESCRIPTOR_MAX_AXIS;i++) {
     axis_map_t *ptr = &joy_axis_map[i];
     if (strcmp(ptr->name,name)==0)
       return ptr->tag;
@@ -434,7 +434,7 @@ static int find_axis_tag(const char *name,int def)
 const char *find_axis_name(int tag)
 {
   int i;
-  for(i=0;i<JOYSTICK_DESCRIPTOR_MAX_AXIS;i++) {
+  for (i=0;i<JOYSTICK_DESCRIPTOR_MAX_AXIS;i++) {
     axis_map_t *ptr = &joy_axis_map[i];
     if (ptr->tag == tag)
       return ptr->name;
@@ -445,7 +445,7 @@ const char *find_axis_name(int tag)
 static pRecElement find_axis_element(joystick_descriptor_t *joy,int tag)
 {
   int i;
-  for(i=0;i<joy->num_axis;i++) {
+  for (i=0;i<joy->num_axis;i++) {
     pRecElement elem = joy->axis[i];
     if (elem->usage==tag)
       return elem;
@@ -456,7 +456,7 @@ static pRecElement find_axis_element(joystick_descriptor_t *joy,int tag)
 static pRecElement find_button_element(joystick_descriptor_t *joy,int id)
 {
   int i;
-  for(i=0;i<joy->num_buttons;i++) {
+  for (i=0;i<joy->num_buttons;i++) {
     pRecElement elem = joy->buttons[i];
     if (elem->usage==id)
       return elem;
@@ -473,7 +473,7 @@ static void build_joystick_button_axis_lists(joystick_descriptor_t *joy)
   joy->num_buttons = 0;
   joy->num_axis = 0;
 
-  for(element = HIDGetFirstDeviceElement(joy->device, kHIDElementTypeInput); 
+  for (element = HIDGetFirstDeviceElement(joy->device, kHIDElementTypeInput); 
       element != NULL;
       element = HIDGetNextDeviceElement(element, kHIDElementTypeInput)) {
     /* axis elements */
@@ -553,7 +553,7 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
       return;
   }
   
-  for(i=0;i<HID_NUM_BUTTONS;i++)
+  for (i=0;i<HID_NUM_BUTTONS;i++)
     joy->mapped_buttons[i]  = find_button_element(joy,ids[i]);
   
   log_message(LOG_DEFAULT,"mac_joy: buttons: fire=%ld alt_fire=%ld left=%ld right=%ld up=%ld down=%ld",
@@ -584,7 +584,7 @@ int get_device_serial(pRecDevice last_device)
   pRecDevice device;
 
   /* iterate through all devices */
-  for(device = HIDGetFirstDevice();device != last_device;device = HIDGetNextDevice(device)) {
+  for (device = HIDGetFirstDevice();device != last_device;device = HIDGetNextDevice(device)) {
     if ((device->vendorID==last_device->vendorID) && 
        (device->productID==last_device->productID)) {
       count++;
@@ -628,7 +628,7 @@ static void assign_joysticks_from_device_list(void)
   joy_b.device = NULL;
   
   /* iterate through all devices */
-  for(device = HIDGetFirstDevice();device != NULL;device = HIDGetNextDevice(device)) {
+  for (device = HIDGetFirstDevice();device != NULL;device = HIDGetNextDevice(device)) {
     
     /* check if its a joystick or game pad device */
     if ((device->usage == kHIDUsage_GD_Joystick) ||
@@ -676,7 +676,7 @@ int build_device_list(pRecDevice **devices)
   pRecDevice device;
   
   /* iterate through all devices */
-  for(device = HIDGetFirstDevice();device != NULL;device = HIDGetNextDevice(device)) {
+  for (device = HIDGetFirstDevice();device != NULL;device = HIDGetNextDevice(device)) {
     
     /* check if its a joystick or game pad device */
     if ((device->usage == kHIDUsage_GD_Joystick) ||
@@ -691,7 +691,7 @@ int build_device_list(pRecDevice **devices)
   *devices = (pRecDevice *)malloc(sizeof(pRecDevice)*count);
   
   /* iterate through all devices */
-  for(device = HIDGetFirstDevice();device != NULL;device = HIDGetNextDevice(device)) {
+  for (device = HIDGetFirstDevice();device != NULL;device = HIDGetNextDevice(device)) {
     
     /* check if its a joystick or game pad device */
     if ((device->usage == kHIDUsage_GD_Joystick) ||
@@ -795,7 +795,7 @@ static BYTE read_joystick(joystick_descriptor_t *joy)
 extern int detect_axis(joystick_descriptor_t *joy,int x_axis)
 {
   int i;
-  for(i=0;i<joy->num_axis;i++) {
+  for (i=0;i<joy->num_axis;i++) {
     pRecElement element = joy->axis[i];
     if (read_axis_element(joy->device,element,x_axis ? &joy->x_calib : &joy->y_calib,1,1)==1) {
       return element->usage;
@@ -807,7 +807,7 @@ extern int detect_axis(joystick_descriptor_t *joy,int x_axis)
 extern int detect_button(joystick_descriptor_t *joy)
 {
   int i;
-  for(i=0;i<joy->num_buttons;i++) {
+  for (i=0;i<joy->num_buttons;i++) {
     pRecElement element = joy->buttons[i];
     if (read_button_element(joy->device,element,1)==1) {
       return element->usage;

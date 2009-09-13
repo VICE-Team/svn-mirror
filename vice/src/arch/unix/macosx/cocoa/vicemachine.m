@@ -95,7 +95,7 @@ VICEMachine *theVICEMachine = nil;
     int argc = [args count];
     char **argv = (char **)malloc(sizeof(char *) * argc);
     int i;
-    for(i=0;i<argc;i++) {
+    for (i=0;i<argc;i++) {
         NSString *str = (NSString *)[args objectAtIndex:i];
         argv[i] = strdup([str cStringUsingEncoding:NSUTF8StringEncoding]);
     }

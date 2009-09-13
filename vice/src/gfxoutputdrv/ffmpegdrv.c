@@ -673,7 +673,7 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
     }
     
     /* free the streams */
-    for(i = 0; i < ffmpegdrv_oc->nb_streams; i++) {
+    for (i = 0; i < ffmpegdrv_oc->nb_streams; i++) {
         (*ffmpeglib.p_av_free)((void *)ffmpegdrv_oc->streams[i]);
         ffmpegdrv_oc->streams[i] = NULL;
     }

@@ -46,7 +46,7 @@
     };
     int i;
     numDriveTypes = 14;
-    for(i=0;i<numDriveTypes;i++)
+    for (i=0;i<numDriveTypes;i++)
         driveTypeMap[i] = map[i];
     
     // TODO: set emulator dependent
@@ -61,7 +61,7 @@
     // setup tab view labels
     [driveChooser setSegmentCount:driveCount];
     int i;
-    for(i=0;i<driveCount;i++) {
+    for (i=0;i<driveCount;i++) {
         NSString *driveName = [NSString stringWithFormat:@"Drive %d",i+driveOffset];
         [driveChooser setLabel:driveName forSegment:i];
     }
@@ -86,7 +86,7 @@
 
         // enable valid drive types
         int j;
-        for(j=0;j<numDriveTypes;j++) {
+        for (j=0;j<numDriveTypes;j++) {
             int isDriveValid = drive_check_type([self mapToDriveType:j],driveId);
             id cell = [driveType cellAtRow:j column:0];
             [cell setEnabled:isDriveValid];
@@ -166,7 +166,7 @@
 -(int)mapFromDriveType:(int)driveTypeId
 {
     int i;
-    for(i=0;i<numDriveTypes;i++) {
+    for (i=0;i<numDriveTypes;i++) {
         if (driveTypeId == driveTypeMap[i])
             return i;
     }

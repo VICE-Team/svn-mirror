@@ -139,7 +139,7 @@
 
     // find media format in description and setup audio and video codecs
     int i;
-    for(i=0;i<[currentMediaFormats count];i++) {
+    for (i=0;i<[currentMediaFormats count];i++) {
         NSArray *fa = (NSArray *)[currentMediaFormats objectAtIndex:i];
         NSString *formatName = (NSString *)[fa objectAtIndex:0];
 
@@ -200,7 +200,7 @@
         // fill in formats
         [mediaFormat removeAllItems];
         int i;
-        for(i=0;i<[currentMediaFormats count];i++) {
+        for (i=0;i<[currentMediaFormats count];i++) {
             NSArray *fa = (NSArray *)[currentMediaFormats objectAtIndex:i];
             NSString *formatName = (NSString *)[fa objectAtIndex:0];
             [mediaFormat addItemWithTitle:formatName];

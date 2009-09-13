@@ -379,7 +379,7 @@ void uistatusbar_draw(void)
                 + sdl_active_canvas->viewport->first_x;
 
 
-    for(i = 0; i < MAX_STATUSBAR_LEN; ++i) {
+    for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
         c = statusbar_text[i];
 
         if (c == 0) {

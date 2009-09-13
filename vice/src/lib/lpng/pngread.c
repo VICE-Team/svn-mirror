@@ -337,7 +337,7 @@ png_read_info(png_structp png_ptr, png_infop info_ptr)
          png_ptr->mode |= PNG_HAVE_PNG_SIGNATURE;
    }
 
-   for(;;)
+   for (;;)
    {
 #ifdef PNG_USE_LOCAL_ARRAYS
       PNG_IHDR;

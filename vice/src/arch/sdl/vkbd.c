@@ -180,10 +180,10 @@ static void sdl_vkbd_key_map(void)
         unmap = 1;
     } else {
         /* get the key name for displaying */
-        for(j = vkbd_x; (j > -1) && (vkbd->keytable[j + vkbd_y * vkbd_w] == b); --j);
+        for (j = vkbd_x; (j > -1) && (vkbd->keytable[j + vkbd_y * vkbd_w] == b); --j);
         ++j;
 
-        for(i = 0; ((i + j) < vkbd_w) && (vkbd->keytable[i + j + vkbd_y * vkbd_w] == b); ++i) {
+        for (i = 0; ((i + j) < vkbd_w) && (vkbd->keytable[i + j + vkbd_y * vkbd_w] == b); ++i) {
             keyname[i] = vkbd->keyb[vkbd_y][i + j];
         }
 

@@ -445,7 +445,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int *siz
 
   /* check countdown (sync) */
   found_pass = -1;
-  for( count=9; count>0; count-- )
+  for ( count=9; count>0; count-- )
     {
       data = tap_cbm_read_byte(tap);
 #if TAP_DEBUG > 1
@@ -546,7 +546,7 @@ static int tap_cbm_read_block(tap_t *tap, BYTE *buffer, int size)
 
   ret = -1;
   error_count = -1;
-  for(pass=1; pass<=2; pass++)
+  for (pass=1; pass<=2; pass++)
     {
       /* try to read data.  If tap_cbm_read_block_once() finds a sync countdown 
          it will reset 'pass' to the value indicated by the countdown. */
@@ -573,7 +573,7 @@ static int tap_cbm_read_block(tap_t *tap, BYTE *buffer, int size)
           /* Test checksum:
              EXORing all bytes (including checksum byte) must result in 0 */
           parity = 0;
-          for(i=0; i<size; i++) parity ^= buffer[i];
+          for (i=0; i<size; i++) parity ^= buffer[i];
           if ( parity != 0 ) ret = -7;
           
           /* exit */
@@ -779,7 +779,7 @@ static int tap_tt_read_byte(tap_t *tap)
 
   /* turbo-tape encodes a byte as a sequence of 8 short or long pulses,
      short pulse=0,  long pulse=1.  MSB comes first */
-  for(i=0; i<8; i++)
+  for (i=0; i<8; i++)
     {
       pulse = tap_get_pulse(tap, &pos_advance);
       if ( pulse<0 ) return -1;
@@ -859,7 +859,7 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
     return -6; /* pilot read error */
 
   /* check countdown */
-  for( count=9; count>0; count-- )
+  for ( count=9; count>0; count-- )
     {
       data = tap_tt_read_byte(tap);
 #if TAP_DEBUG > 1
@@ -886,7 +886,7 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
 #endif
 
   /* read data */
-  for(count=0; count<size; count++)
+  for (count=0; count<size; count++)
     {
       data = tap_tt_read_byte(tap);
       if ( data == -1 ) return -1; /* end-of-tape */
@@ -910,7 +910,7 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
 #endif
       if ( buffer!=NULL )
         {
-          for(count=0; count<size; count++) data ^= buffer[count];
+          for (count=0; count<size; count++) data ^= buffer[count];
           if ( data!=0 ) return -5; /* checksum error */
         }
     }
@@ -1106,7 +1106,7 @@ static int tap_find_pilot(tap_t *tap, int type)
         pos[i] = ftell(tap->fd);*/
         if (count < 1) return -1;
 
-        for( i=0; (i < count) && (countCBM < minCBM) && (countTT<PILOT_MIN_LENGTH_TT*8); i++ )
+        for ( i=0; (i < count) && (countCBM < minCBM) && (countTT<PILOT_MIN_LENGTH_TT*8); i++ )
           {
             if ( type==PILOT_TYPE_ANY || type==PILOT_TYPE_CBM )
               {

@@ -59,7 +59,7 @@
     // setup drive chooser
     [driveChooser setSegmentCount:driveCount];
     int i;
-    for(i=0;i<driveCount;i++) {
+    for (i=0;i<driveCount;i++) {
         NSString *driveName = [NSString stringWithFormat:@"Drive %d",i+driveOffset];
         [driveChooser setLabel:driveName forSegment:i];
     }

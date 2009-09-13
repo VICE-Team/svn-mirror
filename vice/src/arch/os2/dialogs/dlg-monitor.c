@@ -147,7 +147,7 @@ static void UpdateDisassembly(HWND hwnd)
         cnt = pos + 50;
     }
 
-    for(; i < cnt; i++) {
+    for (; i < cnt; i++) {
         //
         // check if a label for this adress exists
         //

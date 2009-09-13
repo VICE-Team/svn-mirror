@@ -219,7 +219,7 @@
                 // direct enum
                 else if (hint == ResourceTreeItemHintEnumDirect) {
                     int i;
-                    for(i=2;i<numArgs;i++) {
+                    for (i=2;i<numArgs;i++) {
                         NSString *argString = (NSString *)[args objectAtIndex:i];
                         int argValue = [self parseIntFromString:argString];
                         if (argValue == value) {
@@ -231,7 +231,7 @@
                 // map string to ineger:   txt=value
                 else if (hint == ResourceTreeItemHintMapInteger) {
                     int i;
-                    for(i=2;i<numArgs;i++) {
+                    for (i=2;i<numArgs;i++) {
                         NSString *argString = (NSString *)[args objectAtIndex:i];
                         NSArray *pair = [argString componentsSeparatedByString:@"="];
                         if ([pair count]>=2) {
@@ -290,7 +290,7 @@
         if (hint==ResourceTreeItemHintEnum ||
            hint==ResourceTreeItemHintEnumDirect) {
             int i;
-            for(i=2;i<numArgs;i++) {
+            for (i=2;i<numArgs;i++) {
                 NSString *argVal = (NSString *)[args objectAtIndex:i];
                 if ([argVal isEqualToString:string]) {
                     if (hint==ResourceTreeItemHintEnum)
@@ -304,7 +304,7 @@
         // map
         else if (hint==ResourceTreeItemHintMapInteger) {
             int i;
-             for(i=2;i<numArgs;i++) {
+             for (i=2;i<numArgs;i++) {
                  NSString *argString = (NSString *)[args objectAtIndex:i];
                  NSArray *pair = [argString componentsSeparatedByString:@"="];
                  if ([pair count]>=2) {
@@ -391,7 +391,7 @@
                 NSComboBoxCell *ccell = [[NSComboBoxCell alloc] initTextCell:@""];
                 int i;
                 [ccell setButtonBordered:FALSE];
-                for(i=2;i<numArgs;i++) {
+                for (i=2;i<numArgs;i++) {
                     [ccell addItemWithObjectValue:[args objectAtIndex:i]];
                 }
                 dataCell = ccell;
@@ -402,7 +402,7 @@
                 NSComboBoxCell *ccell = [[NSComboBoxCell alloc] initTextCell:@""];
                 int i;
                 [ccell setButtonBordered:FALSE];
-                for(i=2;i<numArgs;i++) {
+                for (i=2;i<numArgs;i++) {
                     NSString *argString = (NSString *)[args objectAtIndex:i];
                     NSArray *pair = [argString componentsSeparatedByString:@"="];
                     if ([pair count]>=2) {
@@ -465,7 +465,7 @@
     } else {
         int num = [children count];
         int i;
-        for(i=0;i<num;i++) {
+        for (i=0;i<num;i++) {
             [(ResourceTreeItem *)[children objectAtIndex:i] invalidateCache];
         }
     }

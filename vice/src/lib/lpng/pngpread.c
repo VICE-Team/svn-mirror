@@ -750,7 +750,7 @@ png_process_IDAT_data(png_structp png_ptr, png_bytep buffer,
 
    png_ptr->zstream.next_in = buffer;
    png_ptr->zstream.avail_in = (uInt)buffer_length;
-   for(;;)
+   for (;;)
    {
       ret = inflate(&png_ptr->zstream, Z_PARTIAL_FLUSH);
       if (ret != Z_OK)

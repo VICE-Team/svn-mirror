@@ -156,7 +156,7 @@
     float y = PERIPH_OFFSET;
     float x = PERIPH_OFFSET;
     float total_height = PERIPH_OFFSET;
-    for(i = 0; i < DRIVE_NUM; i++)
+    for (i = 0; i < DRIVE_NUM; i++)
     {
         int flag = 1<<i;
         if (enable & flag)
@@ -242,7 +242,7 @@
     int i;
     
     [tape_view setEnabled:on];
-    for(i=0;i<DRIVE_NUM;i++) {
+    for (i=0;i<DRIVE_NUM;i++) {
         [drive_view[i] setEnabled:on];
     }
     [sound_view setEnabled:on];

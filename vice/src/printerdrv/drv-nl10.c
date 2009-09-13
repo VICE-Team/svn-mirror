@@ -247,7 +247,7 @@ static void reset(nl10_t *nl10)
   nl10->pos_x      = nl10->marg_l;
   /* init_mapping(nl10, 0); */
 
-  for(i=0; i<40; i++)
+  for (i=0; i<40; i++)
     {
       nl10->htabs[i] = 8 * (i+1);
       nl10->vtabs[i] = 0;
@@ -281,11 +281,11 @@ static int store_char(BYTE *dest, const BYTE *src)
     ret = 1;
 
   dest[0] = ret ? src[0] : ((src[0] & 0x80) | 10);
-  for(c=0; c<11; c++)
+  for (c=0; c<11; c++)
     {
       dest[c+1] = src[c+1];
       if ( c!=0 )
-        for(r=0; r<8; r++)
+        for (r=0; r<8; r++)
           if ( (dest[c] & (1<<r)) && (dest[c+1] & (1<<r)) )
             {
               log_warning(drvnl10_log, "Illegal dot col=%u, row=%u\n", c+1, r+1);
@@ -304,11 +304,11 @@ static int store_char_nlq(BYTE *dest, const BYTE *src)
   int ret = 1;
 
   dest[0] = src[0];
-  for(c=0; c<46; c++)
+  for (c=0; c<46; c++)
     {
       dest[c+1] = src[c+1];
       if ( c!=0 && c!=23 )
-        for(r=0; r<8; r++)
+        for (r=0; r<8; r++)
           if ( (dest[c] & (1<<r)) && (dest[c+1] & (1<<r)) )
             {
               log_warning(drvnl10_log, "Illegal dot col=%u, row=%u\n", c+1, r+1);
@@ -338,8 +338,8 @@ static void linefeed(nl10_t *nl10, unsigned int prnr)
 {
   int c, i, j;
 
-  for(i=0; i<nl10->linespace; i++)
-    for(j=inc_y(nl10); j>0; j--)
+  for (i=0; i<nl10->linespace; i++)
+    for (j=inc_y(nl10); j>0; j--)
       {
         while( nl10->pos_y_pix < BORDERY )
           {
@@ -348,7 +348,7 @@ static void linefeed(nl10_t *nl10, unsigned int prnr)
           }
         
         /* output topmost row */
-        for(c=0; c<MAX_COL; c++)
+        for (c=0; c<MAX_COL; c++)
           output_select_putc(prnr, (BYTE)(nl10->line[0][c] ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
         output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
         
@@ -381,9 +381,9 @@ static void output_buf(nl10_t *nl10, unsigned int prnr)
   int r,c;
 
   /* output buffer */
-  for(r=0; r<BUF_ROW; r++)
+  for (r=0; r<BUF_ROW; r++)
     {
-      for(c=0; c<MAX_COL; c++)
+      for (c=0; c<MAX_COL; c++)
         output_select_putc(prnr, (BYTE)(drv_nl10[prnr].line[r][c] ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
       output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
     }
@@ -400,7 +400,7 @@ static void formfeed(nl10_t *nl10, unsigned int prnr)
 {
   int r;
   output_buf(nl10, prnr);
-  for(r=nl10->pos_y_pix; r<MAX_ROW; r++)
+  for (r=nl10->pos_y_pix; r<MAX_ROW; r++)
     output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
   nl10->line_nr   = 1;
   nl10->pos_y     = 0;
@@ -474,8 +474,8 @@ static void draw_char_nlq(nl10_t *nl10, const BYTE c)
       else
 	{ rs = 0; re = 16; }
       
-      for(i=0; i<23; i++)
-        for(k=0; k<expanded; k++)
+      for (i=0; i<23; i++)
+        for (k=0; k<expanded; k++)
           {
             WORD data;
             data = ((cdata[i+1] & 0x01 ? 0x0002 : 0) + (cdata[i+24] & 0x01 ? 0x0001 : 0) +
@@ -487,8 +487,8 @@ static void draw_char_nlq(nl10_t *nl10, const BYTE c)
                     (cdata[i+1] & 0x40 ? 0x2000 : 0) + (cdata[i+24] & 0x40 ? 0x1000 : 0) +
                     (cdata[i+1] & 0x80 ? 0x8000 : 0) + (cdata[i+24] & 0x80 ? 0x4000 : 0));
             
-            for(j=rs; j<re; j++)
-              for(n=0; n<nl10->expand; n++)
+            for (j=rs; j<re; j++)
+              for (n=0; n<nl10->expand; n++)
                 {
                   if ( underline && (j+desc)==16 && n==0 )
                     {}
@@ -507,7 +507,7 @@ static void draw_char_nlq(nl10_t *nl10, const BYTE c)
       nl10->pos_x += expanded;
 
       if ( underline )
-        for(i=xs; i<nl10->pos_x; i++)
+        for (i=xs; i<nl10->pos_x; i++)
           if ( (i&3)==1 )
             draw_point2(nl10, i, (8*nl10->expand)*4+1);
     }
@@ -582,15 +582,15 @@ static void draw_char_draft(nl10_t *nl10, const BYTE c)
 	{ rs = 0; re = 8; }
 
       desc = (cdata[0] & 128) ? 0 : 1;
-      for(i=cs; i<=ce; i++)
+      for (i=cs; i<=ce; i++)
 	  {
 	    BYTE data = cdata[i+1];
-            for(j=rs; j<re; j++)
+            for (j=rs; j<re; j++)
               if ( data & (1<<(7-j)) )
-                for(l=0; l<=emphasize; l++)
-                  for(m=0; m<=bold; m++)
-                    for(n=0; n<nl10->expand; n++)
-                      for(k=0; k<expanded; k++)
+                for (l=0; l<=emphasize; l++)
+                  for (m=0; m<=bold; m++)
+                    for (n=0; n<nl10->expand; n++)
+                      for (k=0; k<expanded; k++)
                         {
                           if ( underline && (j+desc)==8 && n==0 )
                             {}
@@ -630,7 +630,7 @@ static void draw_char_draft(nl10_t *nl10, const BYTE c)
 	nl10->pos_x += expanded * 3 - expanded/2;
   
       if ( underline )
-	for(i=xs; i<nl10->pos_x; i++)
+	for (i=xs; i<nl10->pos_x; i++)
 	  if ( (i&3)==1 )
 	    draw_point2(nl10, i, (8*nl10->expand)*pinspace+pinoffset+1);
     }
@@ -646,10 +646,10 @@ static void draw_char_draft_reverse(nl10_t *nl10, const BYTE c)
     {
       expanded  = (is_mode(nl10, NL10_EXPANDED | NL10_EXPANDED_LINE)   ? 2 : 1) * nl10->expand;
       
-      for(i=0; i<=11; i++)
-	for(k=0; k<expanded; k++)
+      for (i=0; i<=11; i++)
+	for (k=0; k<expanded; k++)
 	  {
-	    for(j=0; j<7; j++)
+	    for (j=0; j<7; j++)
 	      {
                 BYTE bit = 1<<(7-j);
 
@@ -708,7 +708,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
 	  {
 	    /* 480 dots per line */
 	    
-	    for(j=0; j<7; j++)
+	    for (j=0; j<7; j++)
 	      if ( ((c & (1<<j))!=0) ^ ((nl10->gfx_mode & NL10_GFX_REVERSE)!=0) )
 		draw_point3(nl10, nl10->pos_x, j*4+1);
 	    
@@ -723,7 +723,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
 	    /* 01234 */
 	    /* #**#* */
 	    
-	    for(j=0; j<7; j++)
+	    for (j=0; j<7; j++)
 	      if ( c & (1<<j) )
 		{
 		  if ( nl10->gfx_count & 1 )
@@ -746,7 +746,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
           {
             /* 480 dots per line */
 
-            for(j=0; j<8; j++)
+            for (j=0; j<8; j++)
               if ( c & (1<<(7-j)) )
                 draw_point3(nl10, nl10->pos_x, j*4+1);
             
@@ -761,7 +761,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
             /* 0123456789012345678901234 */
             /* *#** *#* *#* *#* *#* *#*  */
             
-            for(j=0; j<8; j++)
+            for (j=0; j<8; j++)
               if ( c & (1<<(7-j)) )
                 {
                   draw_point3(nl10, nl10->pos_x, j*4+1);
@@ -780,7 +780,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
             /* 012345678901234 */
             /* #* *#* *#* *#*  */
             
-            for(j=0; j<8; j++)
+            for (j=0; j<8; j++)
               if ( c & (1<<(7-j)) )
                 {
                   if ( (nl10->gfx_count%4)==3 )
@@ -800,7 +800,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
             /* 0123456789 */
             /* #* *#* #*  */
             
-            for(j=0; j<8; j++)
+            for (j=0; j<8; j++)
               if ( c & (1<<(7-j)) )
             {
               if ( (nl10->gfx_count%3)==2 )
@@ -820,7 +820,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
             /* 01234 */
             /* #**#* */
             
-            for(j=0; j<8; j++)
+            for (j=0; j<8; j++)
               if ( c & (1<<(7-j)) )
                 {
                   if ( nl10->gfx_count & 1 )
@@ -843,7 +843,7 @@ static void draw_graphics(nl10_t *nl10, BYTE c)
             /*   *#*  */
             /*    *#* */
             
-            for(j=0; j<8; j++)
+            for (j=0; j<8; j++)
               if ( c & (1<<(7-j)) )
                 {
                   if ( (nl10->gfx_count%4)==0 )
@@ -989,7 +989,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
             /* ASCII: horizontal tab */
 	    int i;
 	    double w = get_char_width(nl10, ' ', 1);
-	    for(i=0; nl10->htabs[i]>0; i++) 
+	    for (i=0; nl10->htabs[i]>0; i++) 
 	      {
 		int p = nl10->marg_l + (int) (w * nl10->htabs[i]);
 		if ( (nl10->pos_x < p) && (p<nl10->marg_r) )
@@ -1158,7 +1158,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
 	  {
 	    int i;
 	    if ( (nl10->gfx_mode & NL10_GFX_7PIN) && (nl10->esc[2] & 0x80) )
-	      for(i=0; i<nl10->esc[1]; i++) draw_graphics(nl10, nl10->esc[2]);
+	      for (i=0; i<nl10->esc[1]; i++) draw_graphics(nl10, nl10->esc[2]);
 	    nl10->esc_ctr = 0;
 	  }
 	break;
@@ -1361,7 +1361,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
           {
             /* execute macro */
             BYTE i;
-            for(i=0; i<16; i++) 
+            for (i=0; i<16; i++) 
               {
                 if ( nl10->macro[i] == 30 )
                   break;
@@ -1377,7 +1377,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
           {
             /* define macro */
             BYTE i;
-            for(i=0; i<16; i++) nl10->macro[i] = nl10->esc[2+i];
+            for (i=0; i<16; i++) nl10->macro[i] = nl10->esc[2+i];
             nl10->esc_ctr=0;
           }
 
@@ -1454,7 +1454,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
             if ( nl10->esc[2]==0 && nl10->esc[3]==0 && nl10->esc[4]==0 )
               {
                 int c;
-                for( c=0; c<96; c++ )
+                for ( c=0; c<96; c++ )
                   {
                     memcpy(nl10->char_ram     + c*12, drv_nl10_charset     + nl10->mapping[c+32] * 12, 12);
                     memcpy(nl10->char_ram_nlq + c*47, drv_nl10_charset_nlq + nl10->mapping[c+32] * 47, 47);
@@ -1493,7 +1493,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
         else
           {
             int i;
-            for(i=2; i<nl10->esc_ctr; i++) nl10->vtabs[i-2] = nl10->esc[i];
+            for (i=2; i<nl10->esc_ctr; i++) nl10->vtabs[i-2] = nl10->esc[i];
             nl10->vtabs[i-2] = 0;
             nl10->esc_ctr=0;
           }
@@ -1533,7 +1533,7 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
         else
           {
             int i;
-            for(i=2; i<nl10->esc_ctr; i++) nl10->htabs[i-2] = nl10->esc[i];
+            for (i=2; i<nl10->esc_ctr; i++) nl10->htabs[i-2] = nl10->esc[i];
             nl10->htabs[i-2] = 0;
             nl10->esc_ctr=0;
           }
@@ -1953,7 +1953,7 @@ int drv_nl10_init(void)
 
     drvnl10_log = log_open("NL10");
 
-    for(i=0; i<2; i++)
+    for (i=0; i<2; i++)
       {
         drv_nl10[i].char_ram     = lib_malloc(96*12);
         drv_nl10[i].char_ram_nlq = lib_malloc(96*47);
@@ -1985,7 +1985,7 @@ void drv_nl10_shutdown(void)
   int i;
   palette_free(palette);
 
-  for(i=0; i<2; i++)
+  for (i=0; i<2; i++)
     {
       if ( drv_nl10[i].isopen ) 
         output_select_close(i);
@@ -1999,7 +1999,7 @@ void drv_nl10_shutdown(void)
 void drv_nl10_reset(void)
 {
   int i;
-  for(i=0; i<2; i++)
+  for (i=0; i<2; i++)
     reset_hard(&(drv_nl10[i]));
 }
 
@@ -2178,7 +2178,7 @@ static int drv_nl10_init_charset(void)
     log_warning(drvnl10_log, "Invalid NL-10 ROM file.");
 
   /* init NLQ characters */
-  for(i=0; i<129; i++)
+  for (i=0; i<129; i++)
     {
       /* roman */
       memcpy(drv_nl10_charset_nlq + (i*47) +  0, drv_nl10_rom + 0x0960 + i*24, 24);
@@ -2190,12 +2190,12 @@ static int drv_nl10_init_charset(void)
     }
 
   /* construct nlq cbm-graphic characters from draft cbm-graphic characters */
-  for(i=129; i<CHARSET_SIZE; i++)
+  for (i=129; i<CHARSET_SIZE; i++)
     {
       drv_nl10_charset_nlq[i*47]        = drv_nl10_charset[i*12] & 128 ? 255 : 0;
       drv_nl10_charset_nlq_italic[i*47] = drv_nl10_charset[i*12] & 128 ? 255 : 0;
 
-      for(j=0; j<6; j++)
+      for (j=0; j<6; j++)
 	{
 	  BYTE b = drv_nl10_charset[i*12+j*2+1];
 	  drv_nl10_charset_nlq[i*47 + j*4 +  1] = b;

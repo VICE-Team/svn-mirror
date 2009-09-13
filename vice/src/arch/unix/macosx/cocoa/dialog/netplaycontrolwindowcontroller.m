@@ -96,7 +96,7 @@
 {
     int ctl = [self getIntResource:@"NetworkControl"];
     int i;
-    for(i=0;i<10;i++) {
+    for (i=0;i<10;i++) {
         BOOL on = ((ctl & flags[i]) == flags[i]);
         [control[i] setState:on];
     }
@@ -161,7 +161,7 @@
 {
     int ctl = 0;
     int i;
-    for(i=0;i<10;i++) {
+    for (i=0;i<10;i++) {
         if ([control[i] state] == NSOnState) {
             ctl |= flags[i];
         }

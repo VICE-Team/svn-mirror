@@ -347,7 +347,7 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
     while (cnt < len) {
         for (i = 0; i < y; i++) {
             mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
-            for(j = 0; j < (x / 8); j++) {
+            for (j = 0; j < (x / 8); j++) {
                 mon_print_bin(mon_get_mem_val(mem,
                               (WORD)(ADDR_LIMIT(addr + j))), '.', '*');
                 cnt++;

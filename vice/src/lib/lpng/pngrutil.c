@@ -2874,7 +2874,7 @@ png_read_finish_row(png_structp png_ptr)
 
       png_ptr->zstream.next_out = (Byte *)&extra;
       png_ptr->zstream.avail_out = (uInt)1;
-      for(;;)
+      for (;;)
       {
          if (!(png_ptr->zstream.avail_in))
          {

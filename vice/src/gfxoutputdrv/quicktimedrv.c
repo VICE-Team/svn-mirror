@@ -533,9 +533,9 @@ static int quicktimedrv_record(screenshot_t *screenshot)
     srcBuffer += yoff * line_size + xoff;
     
     int x,y;
-    for(y = 0; y < h; y++) {
+    for (y = 0; y < h; y++) {
         int pix = 0;
-        for(x=0; x < w; x++) {
+        for (x=0; x < w; x++) {
             BYTE val = srcBuffer[x];
             buffer[pix++] = screenshot->palette->entries[val].red;
             buffer[pix++] = screenshot->palette->entries[val].green;

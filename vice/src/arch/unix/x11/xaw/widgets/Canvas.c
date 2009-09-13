@@ -140,7 +140,7 @@ ArgList args;
 Cardinal *nargs;
 {
   int	i;
-  for(i=0; i<*nargs; i++) {
+  for (i=0; i<*nargs; i++) {
     if (strcmp(XtNexposeProc,args[i].name)==0 ||
 	strcmp(XtNexposeProcData,args[i].name)==0)
       return True;

@@ -250,7 +250,7 @@ static void gp2x_joystick_init (void)
 
 static void gp2x_joystick_deinit(void)
 {
- int i; for(gp2x_usbjoys=i=0;i<4;i++) if (gp2x_usbjoy[i] > 0) close(gp2x_usbjoy[i]);
+ int i; for (gp2x_usbjoys=i=0;i<4;i++) if (gp2x_usbjoy[i] > 0) close(gp2x_usbjoy[i]);
 }
 
 
@@ -590,7 +590,7 @@ void gp2x_deinit(void)
  
   gp2x_joystick_deinit();
 
-  { unsigned int i; for(i=0;i<8;i++) if (gp2x_dev[i]) close(gp2x_dev[i]); }    /* close all devices */
+  { unsigned int i; for (i=0;i<8;i++) if (gp2x_dev[i]) close(gp2x_dev[i]); }    /* close all devices */
 
   fcloseall();                                                   /* close all files */
 

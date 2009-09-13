@@ -84,7 +84,7 @@ static NSString *help_texts[] = {
     // buttons
     int i;
     float x = fw - bw * 3;
-    for(i=0;i<2;i++) {
+    for (i=0;i<2;i++) {
         buttons[i] = [[NSButton alloc] initWithFrame:NSMakeRect(x,0,bw,bw)];
         [buttons[i] setFont:[NSFont fontWithName:@"Apple Symbols" size:14]];    
         [buttons[i] setTag:i];

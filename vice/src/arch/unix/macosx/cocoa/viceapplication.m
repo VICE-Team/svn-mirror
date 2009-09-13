@@ -88,7 +88,7 @@ const float control_win_width = 200;
     // build args array
     argsArray = [[NSMutableArray alloc] init];
     int i;
-    for(i=0;i<argc;i++) {
+    for (i=0;i<argc;i++) {
         [argsArray addObject:[NSString stringWithCString:argv[i]]];
     }
 

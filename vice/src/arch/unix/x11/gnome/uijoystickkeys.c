@@ -36,7 +36,7 @@ static void ui_keybutton_pressed(GtkButton *button,
     int i;
     GtkWidget **buttons = user_data;
 
-    for(i=0; i<18; i++)
+    for (i=0; i<18; i++)
         if (button != GTK_BUTTON(buttons[i]))
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(buttons[i]),
                                          FALSE);
@@ -56,7 +56,7 @@ static gboolean ui_change_key(GtkWidget *widget,
     if (key == GDK_Escape)
         key = 0;
 
-    for(i=0; i<18; i++)
+    for (i=0; i<18; i++)
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(k->buttons[i]))) {
             k->keys[i] = key;
             gtk_button_set_label(GTK_BUTTON(k->buttons[i]), key != 0 ? gdk_keyval_name(key) : "None");
@@ -128,7 +128,7 @@ UI_CALLBACK(ui_keyset_dialog) {
     label[15] = gtk_label_new("Northwest");
     label[16] = gtk_label_new("North");
     label[17] = gtk_label_new("Northeast");
-    for(i=0;i<18;i++) {
+    for (i=0;i<18;i++) {
         char *keylabel = (keys[i] != 0) ? gdk_keyval_name(keys[i]) : "None";
         box[i] = gtk_vbox_new(FALSE, 0);
         button[i] = gtk_toggle_button_new();

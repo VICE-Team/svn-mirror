@@ -249,7 +249,7 @@
         unsigned int code = [theEvent keyCode];
         unsigned int changedFlags = modifierFlags ^ lastKeyModifierFlags;
         int i;
-        for(i=0;i<NUM_MODIFIERS;i++) {
+        for (i=0;i<NUM_MODIFIERS;i++) {
             unsigned int flag = 1<<i;
             if (changedFlags & flag) {
                 modifierKeyCode[i] = code;

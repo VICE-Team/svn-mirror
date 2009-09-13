@@ -71,7 +71,7 @@ static BYTE ntsc=0;
 static void setfreq(BYTE buf)
 {
   int i;
-  for(i=0; i<MAXCARDS; i++)
+  for (i=0; i<MAXCARDS; i++)
     if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       {
 	DWORD w;
@@ -85,9 +85,9 @@ static void mutethem(void)
   DWORD w;
   int i;
   BYTE buf[0x19*2];
-  for(i=0; i<=0x18; i++)
+  for (i=0; i<=0x18; i++)
     buf[i*2]=i, buf[i*2+1]=0;
-  for(i=0; i<MAXCARDS; i++)
+  for (i=0; i<MAXCARDS; i++)
     if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       DeviceIoControl(sidhandle[i],SID_SID_PEEK_POKE,buf,sizeof(buf),0L,0UL,&w,0L);
   memset(sidbuf, 0, sizeof(sidbuf));
@@ -100,12 +100,12 @@ int catweaselmkiii_open(void)
   int i, z=0;
 
   /* close any open handles */
-  for(i=0; i<MAXCARDS; i++)
+  for (i=0; i<MAXCARDS; i++)
     if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       CloseHandle(sidhandle[i]), sidhandle[i]=INVALID_HANDLE_VALUE;
 
   /* find up to four CatWeasel cards */
-  for(i=0; i<MAXCARDS; i++)
+  for (i=0; i<MAXCARDS; i++)
     {
       char buf[32];
       sprintf(buf, "\\\\.\\SID6581_%u", i+1);
@@ -147,7 +147,7 @@ int catweaselmkiii_close(void)
   int i;
 
   mutethem();
-  for(i=0; i<MAXCARDS; i++)
+  for (i=0; i<MAXCARDS; i++)
     if (sidhandle[i]!=INVALID_HANDLE_VALUE)
       CloseHandle(sidhandle[i]), sidhandle[i]=INVALID_HANDLE_VALUE;
 

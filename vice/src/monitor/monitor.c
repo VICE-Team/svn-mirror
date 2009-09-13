@@ -636,7 +636,7 @@ void mon_backtrace(void)
     /* TODO support DTV stack relocation, check memspace handling, move somewhere else */
     n = 0;
     sp = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_SP);
-    for(i = sp + 0x100 + 1; i < 0x1ff; i++) {
+    for (i = sp + 0x100 + 1; i < 0x1ff; i++) {
         addr = mon_get_mem_val(default_memspace, i);
         addr += ((WORD)mon_get_mem_val(default_memspace, (WORD)(i + 1))) << 8;
         addr -= 2;
@@ -679,7 +679,7 @@ void mon_cpuhistory(int count)
 
     pos = (cpuhistory_i + 1 - count) & (CPUHISTORY_SIZE-1);
     
-    for(i=0; i < count; ++i) {
+    for (i=0; i < count; ++i) {
         addr = cpuhistory[pos].addr;
         op = cpuhistory[pos].op;
         p1 = cpuhistory[pos].p1;
@@ -753,7 +753,7 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
     if (end_addr == BAD_ADDR) end_addr = mon_memmap_size-1;
     if (start_addr>end_addr) start_addr = end_addr;
 
-    for(i = start_addr; i <= end_addr; ++i) {
+    for (i = start_addr; i <= end_addr; ++i) {
         b = mon_memmap[i];
         if ((b & mask)!= 0) {
             if (machine_class == VICE_MACHINE_C64DTV) {
@@ -806,7 +806,7 @@ BYTE mon_memmap_palette[256*3];
 void mon_memmap_make_palette(void)
 {
     int i;
-    for(i=0; i<256; ++i) {
+    for (i=0; i<256; ++i) {
         mon_memmap_palette[i*3+0] = (i&(MEMMAP_RAM_W))?0x80:0+(i&(MEMMAP_ROM_W))?0x60:0+(i&(MEMMAP_I_O_W))?0x1f:0;
         mon_memmap_palette[i*3+1] = (i&(MEMMAP_RAM_X))?0x80:0+(i&(MEMMAP_ROM_X))?0x60:0+(i&(MEMMAP_I_O_W|MEMMAP_I_O_R))?0x1f:0;
         mon_memmap_palette[i*3+2] = (i&(MEMMAP_RAM_R))?0x80:0+(i&(MEMMAP_ROM_R))?0x60:0+(i&(MEMMAP_I_O_R))?0x1f:0;

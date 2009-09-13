@@ -445,7 +445,7 @@ void vicii_reset(void)
     vicii.countb = 0;
     vicii.countb_mod = 0;
     vicii.countb_step = 0;
-    for(i=0;i<256;i++) vicii.dtvpalette[i]=i;
+    for (i=0;i<256;i++) vicii.dtvpalette[i]=i;
 
     vicii.dtvpalette[0]=0;
     vicii.dtvpalette[1]=0x0f;

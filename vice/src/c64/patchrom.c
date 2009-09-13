@@ -308,7 +308,7 @@ int patch_rom(const char *str)
                     a & 0xFFFF, bytes, ((bytes > 1) ? "s":""));
 
         i += (bytes * rev);     /* select patch */
-        for(n = bytes; n--;)
+        for (n = bytes; n--;)
             c64memrom_rom64_store(a++, (BYTE)patch_bytes[i++]);
 
         i += (bytes * (PATCH_VERSIONS - rev));  /* skip patch */

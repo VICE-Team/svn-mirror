@@ -543,7 +543,7 @@
     int numItems = [menu numberOfItems];
     int i;
     BOOL foundTag = NO;
-    for(i=0;i<numItems;i++) {
+    for (i=0;i<numItems;i++) {
         NSMenuItem *item = [menu itemAtIndex:i];
         BOOL check = ([item tag] == tagValue);
         [item setState:check ? NSOnState : NSOffState];

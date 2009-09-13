@@ -169,7 +169,7 @@ void sort_dir(struct dir_item *list, int num_items, int sepdir) {
 	unsigned int i;
 	struct dir_item temp;
 
-	for(i=0; i<(unsigned int)(num_items-1); i++) {
+	for (i=0; i<(unsigned int)(num_items-1); i++) {
 		if (strcmp(list[i].name, list[i+1].name)>0) {
 			temp=list[i];
 			list[i]=list[i+1];
@@ -178,7 +178,7 @@ void sort_dir(struct dir_item *list, int num_items, int sepdir) {
 		}
 	}
 	if (sepdir) {
-		for(i=0; i<(unsigned int)(num_items-1); i++) {
+		for (i=0; i<(unsigned int)(num_items-1); i++) {
 			if ((list[i].type!=0)&&(list[i+1].type == 0)) {
 				temp=list[i];
 				list[i]=list[i+1];
@@ -431,7 +431,7 @@ char *image_file_req(unsigned char *screen, const char *image) {
 		input_b=0;
 		num_items=0;
 		selected+=7;
-		for(i=0; selected[i]!='"' && i<32; i++);
+		for (i=0; selected[i]!='"' && i<32; i++);
 		selected[i]='\0';
 		return selected;
 	} else if (input_x) {
@@ -475,7 +475,7 @@ char *file_req(unsigned char *screen, char *dir) {
 			dir_items[0].name="..";
 			dir_items[0].type=0;
 			num_items++;
-			for(int i=0; i<num_files && i<1024; i++) {
+			for (int i=0; i<num_files && i<1024; i++) {
 				zip_file_name=zip_get_name(zip_archive, i, 0);
 				dir_items[num_items].name=(char *)malloc(strlen(zip_file_name)+1);
 				strcpy(dir_items[num_items].name, zip_file_name);
@@ -483,7 +483,7 @@ char *file_req(unsigned char *screen, char *dir) {
 			}
 			zip_close(zip_archive);
 			/* entry types assume all zip content is files */
-			for(int i=1; i<num_items; i++) dir_items[i].type=1;
+			for (int i=1; i<num_items; i++) dir_items[i].type=1;
 		} else {
 #endif
 			dirstream=opendir(cwd);
@@ -500,7 +500,7 @@ char *file_req(unsigned char *screen, char *dir) {
 			}
 			closedir(dirstream);
 			/* get entry types */
-			for(i=0; i<num_items; i++) {
+			for (i=0; i<num_items; i++) {
 				path=(char *)malloc(strlen(cwd)+strlen(dir_items[i].name)+2);
 				sprintf(path, "%s/%s", cwd, dir_items[i].name);
 				if (!stat(path, &item)) {
@@ -596,7 +596,7 @@ char *file_req(unsigned char *screen, char *dir) {
 				/* check for .. selected */
 					&& path[pathlength-2] == '.'
 					&& path[pathlength-3] == '/') {
-				for(i=4; i<pathlength && path[pathlength-i]!='/'; i++);
+				for (i=4; i<pathlength && path[pathlength-i]!='/'; i++);
 				if (i<pathlength
 					&& path[(pathlength-i)+1]!='.'
 					&& path[(pathlength-i)+2]!='.') 
@@ -708,7 +708,7 @@ void draw_prefs (unsigned char *screen) {
 			fprintf(stderr, "opening zip file\n");
 			if (strstr(imagefile, ".zip/") || strstr(imagefile, ".ZIP/")) {
 				strcpy(tmp_string, imagefile);
-				for(i=strlen(tmp_string); tmp_string[i]!='/'; i--);
+				for (i=strlen(tmp_string); tmp_string[i]!='/'; i--);
 				tmp_string[i]='\0'; /* tmp_string points now to zip archive */
 				char *zip_member=tmp_string+i+1;
 				int zip_error;
@@ -944,7 +944,7 @@ void draw_prefs (unsigned char *screen) {
 		} else if (cursor_pos == SAVE_SNAP) {
 			int freename=0;
 			int snapnum;
-			for(snapnum=0; !freename; snapnum++) {
+			for (snapnum=0; !freename; snapnum++) {
 				DIR *snaps_dir=opendir("./snapshots");
 				struct dirent *direntry;
 				freename=1;
@@ -965,7 +965,7 @@ void draw_prefs (unsigned char *screen) {
 		}
 	}
 
-	for(i=0; i<NUM_OPTIONS; i++) {
+	for (i=0; i<NUM_OPTIONS; i++) {
 		bg=menu_bg;
 		if (i == cursor_pos) bg=menu_hl;
 		draw_ascii_string(screen, display_width, MENU_X, MENU_Y+(i*8), option_txt[i], menu_fg, bg);

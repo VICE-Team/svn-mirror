@@ -1040,7 +1040,7 @@ static void OPL_initalize(FM_OPL *OPL)
 	OPL->freqbase  = (OPL->rate) ? ((double)OPL->clock / 72.0) / OPL->rate  : 0;
 
 	/* make fnumber -> increment counter table */
-	for( i=0 ; i < 1024 ; i++ )
+	for ( i=0 ; i < 1024 ; i++ )
 	{
 		/* opn phase increment counter = 20bit */
 		OPL->fn_tab[i] = (UINT32)( (double)i * 64 * OPL->freqbase * (1<<(FREQ_SH-10)) ); /* -10 because chip works with 10.10 fixed point, while we use 16.16 */
@@ -1437,13 +1437,13 @@ static void OPLResetChip(FM_OPL *OPL)
 	OPLWriteReg(OPL,0x02,0); /* Timer1 */
 	OPLWriteReg(OPL,0x03,0); /* Timer2 */
 	OPLWriteReg(OPL,0x04,0); /* IRQ mask clear */
-	for(i = 0xff ; i >= 0x20 ; i-- ) OPLWriteReg(OPL,i,0);
+	for (i = 0xff ; i >= 0x20 ; i-- ) OPLWriteReg(OPL,i,0);
 
 	/* reset operator parameters */
-	for( c = 0 ; c < 9 ; c++ )
+	for ( c = 0 ; c < 9 ; c++ )
 	{
 		OPL_CH *CH = &OPL->P_CH[c];
-		for(s = 0 ; s < 2 ; s++ )
+		for (s = 0 ; s < 2 ; s++ )
 		{
 			/* wave table */
 			CH->SLOT[s].wavetable = 0;
@@ -1547,7 +1547,7 @@ static int OPLTimerOver(FM_OPL *OPL,int c)
 		if ( OPL->mode & 0x80 )
 		{	/* CSM mode total level latch and auto key on */
 			int ch;
-			for(ch=0; ch<9; ch++)
+			for (ch=0; ch<9; ch++)
 				CSMKeyControll( &OPL->P_CH[ch] );
 		}
 	}
@@ -1617,7 +1617,7 @@ void ym3812_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length)
 		SLOT8_1 = &OPL->P_CH[8].SLOT[SLOT1];
 		SLOT8_2 = &OPL->P_CH[8].SLOT[SLOT2];
 	}
-	for( i=0; i < length ; i++ )
+	for ( i=0; i < length ; i++ )
 	{
 		int lt;
 
@@ -1718,7 +1718,7 @@ void ym3526_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length)
 		SLOT8_1 = &OPL->P_CH[8].SLOT[SLOT1];
 		SLOT8_2 = &OPL->P_CH[8].SLOT[SLOT2];
 	}
-	for( i=0; i < length ; i++ )
+	for ( i=0; i < length ; i++ )
 	{
 		int lt;
 

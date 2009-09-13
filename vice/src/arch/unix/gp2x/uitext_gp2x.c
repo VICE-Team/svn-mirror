@@ -38,11 +38,11 @@ void draw_ascii_string(unsigned char *screen, int screen_width,
 	unsigned char *char_rom=(unsigned char *)builtin_char_rom;
 
 	char c;
-	for(i=0; (c=text[i]); i++) {
+	for (i=0; (c=text[i]); i++) {
 		if (c>=97&&c<=122) c+=160;
 		register unsigned char *s=char_rom+(c*8)+0x800;
 		register unsigned char *d=dst;
-		for(j=0; j<8; j++) {
+		for (j=0; j<8; j++) {
 			register unsigned char v = *s++;
 			d[0] = (v & 0x80) ? fg_colour : bg_colour;
 			d[1] = (v & 0x40) ? fg_colour : bg_colour;
@@ -69,10 +69,10 @@ void draw_petscii_string(unsigned char *screen, int screen_width,
 	unsigned char *char_rom=(unsigned char *)builtin_char_rom;
 
 	char c;
-	for(i=0; (c=text[i]); i++) {
+	for (i=0; (c=text[i]); i++) {
 		register unsigned char *s=char_rom+(c*8)+0x800;
 		register unsigned char *d=dst;
-		for(j=0; j<8; j++) {
+		for (j=0; j<8; j++) {
 			register unsigned char v = *s++;
 			d[0] = (v & 0x80) ? fg_colour : bg_colour;
 			d[1] = (v & 0x40) ? fg_colour : bg_colour;

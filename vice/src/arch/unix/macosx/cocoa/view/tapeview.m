@@ -114,7 +114,7 @@ static NSString *help_texts[] = {
     int i;
     float x = 0.0;
     float y = 0.0;
-    for(i=0;i<9;i++) {
+    for (i=0;i<9;i++) {
         float font_size = 14.0;
         // make ff and fr buttons smaller
         if ((i==2)||(i==3)) {
@@ -251,7 +251,7 @@ static NSString *help_texts[] = {
         
     // toggle button
     int i;
-    for(i=0;i<7;i++) {
+    for (i=0;i<7;i++) {
         [buttons[i] setEnabled:do_enable];
     }
 }
@@ -261,11 +261,11 @@ static NSString *help_texts[] = {
     int i;
     
     if (on==NO) {
-        for(i=0;i<9;i++) {
+        for (i=0;i<9;i++) {
             [buttons[i] setEnabled:NO];
         }
     } else {
-        for(i=0;i<7;i++) {
+        for (i=0;i<7;i++) {
             [buttons[i] setEnabled:tapeControlEnabled];
         }
         [buttons[7] setEnabled:tapeEjectEnabled];

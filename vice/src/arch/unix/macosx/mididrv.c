@@ -251,7 +251,7 @@ static void	midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *co
     
     MIDIPacket *packet = pktlist->packet;
 	for (i = 0; i < pktlist->numPackets; ++i) {
-        for(j=0;j < packet->length;j++) {
+        for (j=0;j < packet->length;j++) {
             if (write_fifo(packet->data[j])) {
                 log_error(mididrv_log,"MIDI-In overrun!");
             }

@@ -148,7 +148,7 @@
     // Expert Cartridge
     int expertCartridgeMode = [self getIntResource:@"CartridgeMode"];
     int i;
-    for(i=0;i<3;i++) {
+    for (i=0;i<3;i++) {
         NSMenuItem *item = [expertCartridgeModeMenu itemAtIndex:i];
         [item setState:(i == expertCartridgeMode) ? NSOnState : NSOffState];
     }

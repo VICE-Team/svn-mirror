@@ -180,7 +180,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
 {
 //	fprintf(stderr, "calling %s\n", __func__);
 	unsigned int i;
-	for(i=0; i<palette->num_entries; i++) {
+	for (i=0; i<palette->num_entries; i++) {
 		gp2x_palette[i*2]	= ((palette->entries[i].green)<<8) | (palette->entries[i].blue);
  		gp2x_palette[i*2+1]	= palette->entries[i].red;
 	}

@@ -243,7 +243,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     }
 
     /* write PRG data to file */
-    for(i = 0; i < prg->size; i++) {
+    for (i = 0; i < prg->size; i++) {
         if (vdrive_iec_write(vdrive, prg->data[i], secondary) != SERIAL_OK) {
             log_error(log, "Could not write file");
             free_prg(prg);
@@ -286,7 +286,7 @@ int autostart_prg_perform_injection(log_t log)
                 prg->size);
                 
     /* store data in emu memory */
-    for(i = 0; i < prg->size; i++) {
+    for (i = 0; i < prg->size; i++) {
         mem_store((WORD)(prg->start_addr + i), prg->data[i]);
     }
     

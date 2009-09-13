@@ -134,7 +134,7 @@ int tfe_arch_init(void)
         return 0;
     }
 
-    for(i = 0; pIFs[i]; i++) {
+    for (i = 0; pIFs[i]; i++) {
         log_debug(" %s", pIFs[i]);
     }
 
