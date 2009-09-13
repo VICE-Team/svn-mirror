@@ -28,16 +28,24 @@
 
 #include "minimal.h"
 
-static unsigned int volume=100;
+static unsigned int volume = 100;
 
-void gp2x_sound_frame(void *blah, void *buff, int samples) {}
-
-void volume_up() {
-	if (volume<100) volume+=5;
-	gp2x_sound_volume(volume, volume);
+void gp2x_sound_frame(void *blah, void *buff, int samples)
+{
 }
 
-void volume_down() {
-	if (volume>0) volume-=5;
-	gp2x_sound_volume(volume, volume);
+void volume_up(void)
+{
+    if (volume < 100) {
+        volume += 5;
+    }
+    gp2x_sound_volume(volume, volume);
+}
+
+void volume_down(void)
+{
+    if (volume > 0) {
+        volume -= 5;
+    }
+    gp2x_sound_volume(volume, volume);
 }

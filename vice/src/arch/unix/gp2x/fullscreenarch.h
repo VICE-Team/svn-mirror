@@ -38,7 +38,6 @@ struct fullscreenconfig_s {
 };
 typedef struct fullscreenconfig_s fullscreenconfig_t;
 
-
 struct ui_menu_entry_s;
 
 extern int fullscreen_is_enabled; 
@@ -56,4 +55,3 @@ extern int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas);
 extern void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas);
 
 #endif
-
