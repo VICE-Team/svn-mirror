@@ -179,6 +179,7 @@ noinst_HEADERS = \
 	platform_freebsd_version.h \
 	platform_netbsd_version.h \
 	platform_openbsd_version.h \
+	platform_qnx6_version.h \
 	plus4ui.h \
 	printer.h \
 	ps2mouse.h \

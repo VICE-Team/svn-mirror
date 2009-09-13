@@ -84,4 +84,16 @@
 #define PLATFORM_CPU "S390x"
 #endif
 
+#ifdef __avr32__
+#define PLATFORM_CPU "AVR32"
+#endif
+
+#ifdef __vax__
+#define PLATFORM_CPU "VAX"
+#endif
+
+#ifdef __ns32000__
+#define PLATFORM_CPU "NS32K"
+#endif
+
 #endif

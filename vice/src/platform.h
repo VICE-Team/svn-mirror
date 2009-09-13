@@ -125,6 +125,63 @@
 
 #endif
 
+/* QNX 4.x discovery */
+#if defined(__QNX__) && !defined(__QNXNTO__)
+#define PLATFORM_OS "QNX 4.x"
+#define PLATFORM_COMPILER "Watcom"
+#define FIND_X86_CPU
+#endif
+
+
+/* QNX 6.x discovery */
+#ifdef __QNXNTO__
+
+#define PLATFORM_COMPILER "GCC"
+
+/* Get QNX version */
+#include "platform_qnx6_version.h"
+
+#ifdef __arm__
+#define PLATFORM_CPU "ARMLE"
+#endif
+
+#ifdef __mips__
+#define PLATFORM_CPU "MIPSLE"
+#endif
+
+#ifdef __sh__
+#define PLATFORM_CPU "SHLE"
+#endif
+
+#if defined(__powerpc__) || defined(__ppc__)
+#define PLATFORM_CPU "PPCBE"
+#endif
+
+#ifndef PLATFORM_CPU
+#define FIND_X86_CPU
+#endif
+
+#endif
+
+
+/* HPUX discovery */
+#ifdef _hpux
+#define PLATFORM_OS "HPUX"
+#define PLATFORM_COMPILER "HP UPC"
+#endif
+
+#if defined(__hpux) && !defined(_hpux)
+#define PLATFORM_OS "HPUX"
+#define PLATFORM_COMPILER "GCC"
+#endif
+
+
+/* IRIX discovery */
+#ifdef __sgi
+#define PLATFORM_OS "IRIX"
+#define PLATFORM_COMPILER "GCC"
+#endif
+
 
 /* OpenServer 5.x discovery */
 #ifdef OPENSERVER5_COMPILE
@@ -141,12 +198,31 @@
 #define FIND_X86_CPU
 #endif
 
+
 /* UnixWare 7.x discovery */
 #ifdef _UNIXWARE7
 #define PLATFORM_OS "UnixWare 7.x"
 #define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
+
+
+/* SunOS and Solaris discovery */
+#if defined(sun) || defined(__sun)
+#  if defined(__SVR4) || defined(__svr4__)
+#    define PLATFORM_OS "Solaris"
+# else
+#    define PLATFORM_OS "SunOS"
+#  endif
+#endif
+
+/* UWIN discovery */
+#ifdef _UWIN
+#define PLATFORM_OS "UWIN"
+#define PLATFORM_COMPILER "GCC"
+#define FIND_X86_CPU
+#endif
+
 
 /* Generic cpu discovery */
 #include "platform_cpu_type.h"
