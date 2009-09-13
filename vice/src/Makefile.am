@@ -174,6 +174,11 @@ noinst_HEADERS = \
 	petui.h \
 	piacore.h \
 	platform.h \
+	platform_aix_version.h \
+	platform_cpu_type.h \
+	platform_freebsd_version.h \
+	platform_netbsd_version.h \
+	platform_openbsd_version.h \
 	plus4ui.h \
 	printer.h \
 	ps2mouse.h \

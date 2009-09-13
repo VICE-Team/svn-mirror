@@ -27,6 +27,8 @@
 #ifndef VICE_PLATFORM_H
 #define VICE_PLATFORM_H
 
+#include "vice.h"
+
 /* AIX discovery */
 
 #ifdef _AIX
@@ -38,103 +40,8 @@
 #  define PLATFORM COMPILER "GCC"
 #endif
 
-/* find out what version of AIX is being used */
-#ifdef _AIX61
-#define PLATFORM_OS "AIX 6.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX53)
-#define PLATFORM_OS "AIX 5.3"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX52)
-#define PLATFORM_OS "AIX 5.2"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX51)
-#define PLATFORM_OS "AIX 5.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX433)
-#define PLATFORM_OS "AIX 4.3.3"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX432)
-#define PLATFORM_OS "AIX 4.3.2"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX431)
-#define PLATFORM_OS "AIX 4.3.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX43)
-#define PLATFORM_OS "AIX 4.3"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX421)
-#define PLATFORM_OS "AIX 4.2.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX42)
-#define PLATFORM_OS "AIX 4.2"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX415)
-#define PLATFORM_OS "AIX 4.1.5"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX414)
-#define PLATFORM_OS "AIX 4.1.4"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX413)
-#define PLATFORM_OS "AIX 4.1.3"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX411)
-#define PLATFORM_OS "AIX 4.1.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX41)
-#define PLATFORM_OS "AIX 4.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX4)
-#define PLATFORM_OS "AIX 4.0"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX32)
-#define PLATFORM_OS "AIX 3.2"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX31)
-#define PLATFORM_OS "AIX 3.1"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX3)
-#define PLATFORM_OS "AIX 3.0"
-#endif
-
-#ifdef PLATFORM_OS
-#define PLATFORM_CPU "RS6000"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX13)
-#define PLATFORM_OS "AIX 1.3"
-#endif
-
-#if !defined(PLATFORM_OS) && defined(_AIX11)
-#define PLATFORM_OS "AIX 1.1"
-#endif
-
-#ifndef PLATFORM_OS
-#define PLATFORM_OS "AIX"
-#endif
-
-/* define FIND_X86_CPU for later generic x86 cpu discovery */
-#ifndef PLATFORM_CPU
-#define FIND_X86_CPU
-#endif
+/* Get AIX version */
+#include "platform_aix_version.h"
 
 #endif /* AIX */
 
@@ -149,24 +56,16 @@
 
 /* AROS discovery */
 #ifdef AMIGA_AROS
-
-#if defined(__amd64__) || defined(__x86_64__)
-#define PLATFORM_CPU "AMD64/x86_64"
-#endif
-
-#if defined(__ppc__) || defined(__powerpc__)
-#define PLATFORM_CPU "PPC"
-#endif
-
-/* define FIND_X86_CPU for later generic x86 cpu discovery */
-#ifndef PLATFORM_CPU
-#define FIND_X86_CPU
-#endif
-
 #define PLATFORM_OS "AROS"
 #define PLATFORM_COMPILER "GCC"
+#endif
 
-#endif /* AMIGA_AROS */
+
+/* MorphOS discovery */
+#ifdef AMIGA_MORPHOS
+#define PLATFORM_OS "MorphOS"
+#define PLATFORM_COMPILER "GCC"
+#endif
 
 
 /* BeOS discovery */
@@ -204,45 +103,87 @@
 /* FreeBSD discovery */
 #ifdef __FreeBSD__
 
-#if defined(__amd64__) || defined(__x86_64__)
-#define PLATFORM_CPU "AMD64/x86_64"
+/* Get FreeBSD version */
+#include "platform_freebsd_version.h"
+
 #endif
 
-#if defined(__powerpc__) || defined(__ppc__)
-#define PLATFORM_CPU "PPC"
+
+/* NetBSD discovery */
+#ifdef __NetBSD__
+
+/* Get NetBSD version */
+#include "platform_netbsd_version.h"
+
 #endif
 
-#ifdef __ia64__
-#define PLATFORM_CPU "IA64"
+/* OpenBSD discovery */
+#ifdef __OpenBSD__
+
+/* Get OpenBSD version */
+#include "platform_openbsd_version.h"
+
 #endif
 
-#ifdef __sparc__
-#define PLATFORM_CPU "Sparc"
+
+/* OpenServer 5.x discovery */
+#ifdef OPENSERVER5_COMPILE
+#define PLATFORM_OS "OpenServer 5.x"
+#define PLATFORM_COMPILER "GCC"
+#define FIND_X86_CPU
 #endif
 
-#ifdef __alpha__
-#define FIND_ALPHA_CPU
+
+/* OpenServer 6.x discovery */
+#ifdef OPENSERVER6_COMPILE
+#define PLATFORM_OS "OpenServer 6.x"
+#define PLATFORM_COMPILER "GCC"
+#define FIND_X86_CPU
 #endif
 
-/* Find out what version of freebsd is being used. */
-#if (__FreeBSD__==1)
-#define PLATFORM_OS "FreeBSD 1.x"
-#else
-
-#include <sys/param.h>
-
-#if (__FreeBSD_version==119411)
-#define PLATFORM_OS "FreeBSD 2.0"
+/* UnixWare 7.x discovery */
+#ifdef _UNIXWARE7
+#define PLATFORM_OS "UnixWare 7.x"
+#define PLATFORM_COMPILER "GCC"
+#define FIND_X86_CPU
 #endif
 
-#if (__FreeBSD_version==199504)
-#define PLATFORM_OS "FreeBSD 2.0.5"
+/* Generic cpu discovery */
+#include "platform_cpu_type.h"
+
+
+/* Generic m68k cpu discovery */
+#ifdef FIND_M68K_CPU
+
+#ifdef __mc68060__
+#define PLATFORM_CPU "68060"
 #endif
 
-#endif /* __FreeBSD__ == 1 */
+#if !defined(PLATFORM_CPU) && defined(__mc68040__)
+#define PLATFORM_CPU "68040"
+#endif
 
+#if !defined(PLATFORM_CPU) && defined(__mc68030__)
+#define PLATFORM_CPU "68030"
+#endif
 
-#endif /* __FreeBSD__ */
+#if !defined(PLATFORM_CPU) && defined(__mc68020__)
+#define PLATFORM_CPU "68020"
+#endif
+
+#if !defined(PLATFORM_CPU) && defined(__mc68010__)
+#define PLATFORM_CPU "68010"
+#endif
+
+#if !defined(PLATFORM_CPU) && defined(__mc68000__)
+#define PLATFORM_CPU "68000"
+#endif
+
+#ifndef PLATFORM_CPU
+#define PLATFORM_CPU "M68K"
+#endif
+
+#endif /* FIND_M68K_CPU */
 
 
 /* Generic alpha cpu discovery */
