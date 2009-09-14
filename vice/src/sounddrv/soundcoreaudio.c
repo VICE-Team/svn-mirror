@@ -352,7 +352,7 @@ static int coreaudio_write(SWORD *pbuf, size_t nr)
     int i, count;
 
     /* number of fragments */
-    count = nr / fragment_size;
+    count = nr / fragment_sword_size;
 
     for (i = 0; i < count; i++)
     {
