@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "archdep.h"
 #include "cmdline.h"
@@ -38,7 +39,6 @@
 #include "megacart.h"
 #include "mem.h"
 #include "resources.h"
-#include "string.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
