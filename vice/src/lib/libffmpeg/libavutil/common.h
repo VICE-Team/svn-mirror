@@ -125,7 +125,7 @@
 #define FFMIN(a,b) ((a) > (b) ? (b) : (a))
 #define FFMIN3(a,b,c) FFMIN(FFMIN(a,b),c)
 
-#define FFSWAP(type,a,b) do{type SWAP_tmp= b; b= a; a= SWAP_tmp;}while(0)
+#define FFSWAP(type,a,b) do{type SWAP_tmp= b; b= a; a= SWAP_tmp;}while (0)
 #define FF_ARRAY_ELEMS(a) (sizeof(a) / sizeof((a)[0]))
 
 /* misc math functions */
@@ -232,7 +232,7 @@ static inline av_const float av_clipf(float a, float amin, float amax)
         if (ones==1)\
             ERROR\
         val&= 127>>ones;\
-        while(--ones > 0){\
+        while (--ones > 0){\
             int tmp= GET_BYTE - 128;\
             if (tmp>>6)\
                 ERROR\

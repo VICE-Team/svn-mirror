@@ -32,7 +32,7 @@ static void gp2x_2ndcore_start(void)
   {
    unsigned long data;
 
-   while(!q->items); /* waiting for head to increase... */
+   while (!q->items); /* waiting for head to increase... */
 
    data=q->place940t[q->tail = (q->tail < q->max_items ? q->tail+1 : 0)];
    q->items--;
@@ -87,7 +87,7 @@ static void gp2x_2ndcore_start(void)
 /*  88:*/   asm volatile (".word 0xe3800a01"); /*        orr     r0, r0, #4096   ; 0x1000 */ \
 /*  8c:*/   asm volatile (".word 0xe3800103"); /*        orr     r0, r0, #-1073741824    ; 0xc0000000 */ \
 /*  90:*/   asm volatile (".word 0xee010f10"); /*        mcr     15, 0, r0, cr1, cr0, {0} */ \
-   while(1) gp2x_2ndcore_run(gp2x_dequeue((gp2x_queue *)gp2x_2ndcore_data_ptr(GP2X_QUEUE_ARRAY_PTR))); \
+   while (1) gp2x_2ndcore_run(gp2x_dequeue((gp2x_queue *)gp2x_2ndcore_data_ptr(GP2X_QUEUE_ARRAY_PTR))); \
 } \
 void gp2x_dualcore_launch_##name##_subprogram(void) { gp2x_dualcore_launch_program((unsigned long *)&gp2x_2ndcore_start, ((int)&gp2x_dualcore_launch_##name##_subprogram)-((int)&gp2x_2ndcore_start)); }
 

@@ -396,7 +396,7 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
             break;
         }
         error = 0;
-    } while(0);
+    } while (0);
 
     if (error) {
         if ( ! SOCKET_IS_INVALID(sockfd) ) {
@@ -444,7 +444,7 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
             break;
         }
         error = 0;
-    } while(0);
+    } while (0);
 
     if (error) {
         if ( ! SOCKET_IS_INVALID(sockfd) ) {

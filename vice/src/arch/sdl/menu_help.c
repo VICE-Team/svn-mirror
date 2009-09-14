@@ -171,7 +171,7 @@ static void show_text(const char *text)
     menu_draw = sdl_ui_get_menu_param();
 
     string = lib_malloc(81);
-    while(active) {
+    while (active) {
         sdl_ui_clear();
         for (y = 0; (y < menu_draw->max_text_y) && (current_line < strlen(text)); y++) {
             z = 0;
@@ -271,7 +271,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 2007-2009 Daniel Kahlin", 16);
         sdl_ui_print_center("(C) 2008-2009 Antti S. Lankila", 17);
         sdl_ui_refresh();
-        while(active) {
+        while (active) {
             switch(sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:
@@ -376,7 +376,7 @@ static UI_MENU_CALLBACK(show_font_callback)
             sdl_ui_print_center(fontchars, 1 + j);
         }
         sdl_ui_refresh();
-        while(active) {
+        while (active) {
             switch(sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:

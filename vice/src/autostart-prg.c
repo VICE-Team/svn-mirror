@@ -90,7 +90,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     /* copy data to memory */
     ptr = prg->start_addr;
     i = 0;
-    while(ptr <= end) {
+    while (ptr <= end) {
         if (fileio_read(finfo, &(prg->data[i]), 1) != 1) {
             log_error(log, "Error loading data from '%s'", file_name);
             lib_free(prg->data);

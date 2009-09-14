@@ -118,7 +118,7 @@ static void sdl_ui_display_path(const char *current_dir)
             temp = strchr(temp + 1, FSDEV_DIR_SEP_CHR);
         }
 
-        while(text[len - after] != FSDEV_DIR_SEP_CHR) {
+        while (text[len - after] != FSDEV_DIR_SEP_CHR) {
             after++;
         }
 
@@ -218,7 +218,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     total = dirs + files + 2;
     menu_max = menu_draw->max_text_y - (MENU_FIRST_Y + 2);
 
-    while(active) {
+    while (active) {
         if (redraw) {
             sdl_ui_file_selector_redraw(directory, title, current_dir, offset, (total-offset > menu_max) ? menu_max : total-offset, (total - offset > menu_max) ? 1 : 0);
             redraw = 0;

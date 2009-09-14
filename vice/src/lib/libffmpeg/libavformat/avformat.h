@@ -1294,12 +1294,12 @@ do {\
     __typeof__(elem) _elem = (elem);\
     (void)sizeof(**_tab == _elem); /* check that types are compatible */\
     ff_dynarray_add((intptr_t **)_tab, nb_ptr, (intptr_t)_elem);\
-} while(0)
+} while (0)
 #else
 #define dynarray_add(tab, nb_ptr, elem)\
 do {\
     ff_dynarray_add((intptr_t **)(tab), nb_ptr, (intptr_t)(elem));\
-} while(0)
+} while (0)
 #endif
 
 time_t mktimegm(struct tm *tm);

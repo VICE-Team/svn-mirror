@@ -987,7 +987,7 @@ void mon_cart_freeze(void)
 static monitor_cpu_type_t* find_monitor_cpu_type(CPU_TYPE_t cputype)
 {
     monitor_cpu_type_list_t *list_ptr=monitor_cpu_type_list;
-    while(list_ptr->monitor_cpu_type.cpu_type != cputype) {
+    while (list_ptr->monitor_cpu_type.cpu_type != cputype) {
         list_ptr = list_ptr->next_monitor_cpu_type;
         if (!list_ptr) {
             return NULL;
@@ -1059,7 +1059,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     monitor_cpu_type_list_ptr = monitor_cpu_type_list;
 
     i = 0;
-    while(asmarray[i] != NULL) {
+    while (asmarray[i] != NULL) {
         memcpy(&(monitor_cpu_type_list_ptr->monitor_cpu_type),
                asmarray[i], sizeof(monitor_cpu_type_t));
         monitor_cpu_type_list_ptr->next_monitor_cpu_type = monitor_list_new();

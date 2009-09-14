@@ -47,7 +47,7 @@ static const char *vicii_palettes[]=
 {
     [palette1Popup removeAllItems];
     const char **pal = vicii_palettes;
-    while(*pal!=NULL) {
+    while (*pal!=NULL) {
         [palette1Popup addItemWithTitle:[NSString stringWithCString:*pal encoding:NSUTF8StringEncoding]];
         pal++;
     }

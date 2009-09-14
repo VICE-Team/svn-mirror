@@ -210,7 +210,7 @@ VICEMachine *theVICEMachine = nil;
         finishedDate = [NSDate dateWithTimeIntervalSinceNow:seconds];
     
     // run loop until time out or line input was submitted
-    while(isWaitingForLineInput && 
+    while (isWaitingForLineInput && 
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                      beforeDate:finishedDate] )
     {}

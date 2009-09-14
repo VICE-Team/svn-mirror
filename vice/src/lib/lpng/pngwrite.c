@@ -946,7 +946,7 @@ png_write_flush(png_structp png_ptr)
          png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
          wrote_IDAT = 1;
       }
-   } while(wrote_IDAT == 1);
+   } while (wrote_IDAT == 1);
 
    /* If there is any data left to be output, write it into a new IDAT */
    if (png_ptr->zbuf_size != png_ptr->zstream.avail_out)

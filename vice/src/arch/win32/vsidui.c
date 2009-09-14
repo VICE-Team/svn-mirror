@@ -221,7 +221,7 @@ void vsid_ui_display_irqtype(const char *irq)
 void vsid_ui_close(void)
 {
     if (hwnd)
-        while(DestroyWindow(hwnd)==0);
+        while (DestroyWindow(hwnd)==0);
     hwnd=NULL;
 }
 

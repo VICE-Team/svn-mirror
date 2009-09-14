@@ -100,9 +100,9 @@ extern void ciat_init_table(void);
 #ifndef NO_INLINE
 #  define       NO_INLINE
 #endif
-#  define       CIAT_LOGIN(a)   do { ciat_login a; } while(0)
-#  define       CIAT_LOG(a)     do { ciat_log a; } while(0)
-#  define       CIAT_LOGOUT(a)  do { ciat_logout a; } while(0)
+#  define       CIAT_LOGIN(a)   do { ciat_login a; } while (0)
+#  define       CIAT_LOG(a)     do { ciat_log a; } while (0)
+#  define       CIAT_LOGOUT(a)  do { ciat_logout a; } while (0)
 
 #else /* CIAT_DEBUG */
 

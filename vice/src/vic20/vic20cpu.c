@@ -128,7 +128,7 @@ CLOCK maincpu_clk = 0L;
                 CLK_INC();                                      \
             }                                                   \
         }                                                       \
-    } while(0)
+    } while (0)
 
 #else /* !ALLOW_UNALIGNED_ACCESS */
 #define FETCH_OPCODE(o) \
@@ -152,7 +152,7 @@ CLOCK maincpu_clk = 0L;
                 CLK_INC();                                        \
             }                                                     \
         }                                                         \
-    } while(0)
+    } while (0)
 
 #endif /* !ALLOW_UNALIGNED_ACCESS */
 

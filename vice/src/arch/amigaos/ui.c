@@ -329,7 +329,7 @@ static void ui_paste_clipboard_text(void)
             break;
         }
 
-        while(1)
+        while (1)
         {
             error = ParseIFF(iff, IFFPARSE_SCAN);
             if (error == IFFERR_EOC) {

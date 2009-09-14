@@ -94,7 +94,7 @@ static int set_system_path(const char *val, void *param)
         expanded_system_path = s;
 
         tmp_path = p + strlen(ARCHDEP_FINDPATH_SEPARATOR_STRING);
-    } while(p != NULL);
+    } while (p != NULL);
 
     lib_free(current_dir);
     lib_free(tmp_path_save);

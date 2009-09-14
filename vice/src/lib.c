@@ -687,7 +687,7 @@ static void xmvsprintf_number(char **buf, unsigned int *bufsize,
         precision = i;
         size -= precision;
     if (!(type & (ZEROPAD + LEFT)))
-        while(size-->0)
+        while (size-->0)
             xmvsprintf_add(buf, bufsize, position, ' ');
     if (sign)
         xmvsprintf_add(buf, bufsize, position, sign);

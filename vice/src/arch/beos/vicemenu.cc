@@ -41,7 +41,7 @@ void vicemenu_free_tune_menu(void)
 {
     BMenuItem *mi;
 
-    while(mi = vsid_tune_menu->FindItem(MENU_VSID_TUNE)) {
+    while (mi = vsid_tune_menu->FindItem(MENU_VSID_TUNE)) {
         vsid_tune_menu->RemoveItem(mi);
         delete mi;
     }

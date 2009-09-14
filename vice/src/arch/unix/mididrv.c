@@ -172,7 +172,7 @@ static void mididrv_oss_out(BYTE b)
         if (n < 0) {
             log_error(mididrv_log, "Error writing: %s.", strerror(errno));
         }
-    } while(n != 1);
+    } while (n != 1);
 
     return;
 }

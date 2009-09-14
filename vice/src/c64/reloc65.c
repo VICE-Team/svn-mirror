@@ -161,7 +161,7 @@ static int read_undef(unsigned char *buf)
     n = buf[0] + 256 * buf[1];
     while (n){
         n--;
-        while(!buf[l++]);
+        while (!buf[l++]);
     }
     return l;
 }
@@ -177,7 +177,7 @@ static unsigned char *reloc_seg(unsigned char *buf, int len,
     int type, seg, old, new;
 /*printf("tdiff=%04x, ddiff=%04x, bdiff=%04x, zdiff=%04x\n",
             fp->tdiff, fp->ddiff, fp->bdiff, fp->zdiff);*/
-    while(*rtab) {
+    while (*rtab) {
         if ((*rtab & 255) == 255) {
             adr += 254;
             rtab++;
@@ -229,9 +229,9 @@ static unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
     n = buf[0] + 256 * buf[1];
     buf +=2;
 
-    while(n) {
+    while (n) {
 /*printf("relocating %s, ", buf);*/
-        while(*(buf++));
+        while (*(buf++));
         seg = *buf;
         old = buf[1] + 256 * buf[2];
         new = old + reldiff(seg);

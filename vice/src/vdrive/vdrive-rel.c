@@ -569,7 +569,7 @@ static int vdrive_rel_grow(vdrive_t *vdrive, unsigned int secondary,
 
     /* Add a sector to the rel file until we meet the required
         records. */
-    while( records >= p->record_max ) {
+    while ( records >= p->record_max ) {
         l = vdrive_rel_add_sector(vdrive, secondary, &track, &sector);
         if (l) break;
     }

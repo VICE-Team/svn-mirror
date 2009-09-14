@@ -192,7 +192,7 @@ double log(double arg)
     return (-HUGE);
   }
   x = frexp(arg, &exp);
-  while(x < 0.5)
+  while (x < 0.5)
   {
     x = x*2;
     exp = exp - 1;

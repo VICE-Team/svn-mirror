@@ -181,14 +181,14 @@ void gp2x_video_setgamma(unsigned short gamma) /*0..255*/
 {
   int i=256*3; 
   gp2x_memregs[0x295C>>1]=0;                                                     
-  while(i--) gp2x_memregs[0x295E>>1]=gamma; 
+  while (i--) gp2x_memregs[0x295E>>1]=gamma; 
 }
 
 void gp2x_video_setpalette(void)
 {
   unsigned short *g=(unsigned short *)gp2x_palette; int i=512;
   gp2x_memregs[0x2958>>1]=0;                                                     
-  while(i--) gp2x_memregs[0x295A>>1]=*g++; 
+  while (i--) gp2x_memregs[0x295A>>1]=*g++; 
 }
 
 void gp2x_blitter_rect15(gp2x_rect *r)
@@ -196,9 +196,9 @@ void gp2x_blitter_rect15(gp2x_rect *r)
  int x, y; unsigned short *data=r->data15, *offset=&gp2x_screen15[r->x+r->y*320];
 
  y=r->h; if (r->solid)
-         while(y--) { x=r->w; while(x--) *offset++=*data++; offset+=320-x; }
+         while (y--) { x=r->w; while (x--) *offset++=*data++; offset+=320-x; }
          else
-         while(y--) { x=r->w; while(x--) { if (*data) *offset=*data; offset++, data++; }
+         while (y--) { x=r->w; while (x--) { if (*data) *offset=*data; offset++, data++; }
                       offset+=320-x; }
 }
 
@@ -207,9 +207,9 @@ void gp2x_blitter_rect8(gp2x_rect *r)
  int x, y; unsigned char *data=r->data8,   *offset=&gp2x_screen8[r->x+r->y*320]; 
 
  y=r->h; if (r->solid)
-         while(y--) { x=r->w; while(x--) *offset++=*data++; offset+=320-x; }
+         while (y--) { x=r->w; while (x--) *offset++=*data++; offset+=320-x; }
          else
-         while(y--) { x=r->w; while(x--) { if (*data) *offset=*data; offset++, data++; }
+         while (y--) { x=r->w; while (x--) { if (*data) *offset=*data; offset++, data++; }
                       offset+=320-x; }
 }
  
@@ -232,7 +232,7 @@ static void gp2x_joystick_init (void)
 {
  char device[32]; int i=-1; gp2x_usbjoys = 0;
 
- while(++i<4) { sprintf (device, "/dev/input/js%d", i); 
+ while (++i<4) { sprintf (device, "/dev/input/js%d", i); 
                 if ((gp2x_usbjoy[i] = open(device, O_RDONLY|O_NONBLOCK, 0)) >0) gp2x_usbjoys++; }
 #if 0
 	printf("Joystick(s) found: %d\n",gp2x_usbjoys+1);
@@ -392,8 +392,8 @@ char *gp2x_joystick_name(int joystick)
 
 void gp2x_joystick_wait(int joystick, unsigned long combination)
 {
- while(gp2x_joystick_read(joystick) != combination);
- while(gp2x_joystick_read(joystick) == combination);
+ while (gp2x_joystick_read(joystick) != combination);
+ while (gp2x_joystick_read(joystick) == combination);
 }
 
 void gp2x_sound_volume(int l, int r)
@@ -405,7 +405,7 @@ void gp2x_sound_volume(int l, int r)
 void gp2x_timer_delay(unsigned long ticks)
 {
  unsigned long target=gp2x_memregl[0x0A00>>2]+ticks*gp2x_ticks_per_second;
- while(gp2x_memregl[0x0A00>>2]<target); 
+ while (gp2x_memregl[0x0A00>>2]<target); 
 }
 
 unsigned long gp2x_timer_read(void)
@@ -426,7 +426,7 @@ static void gp2x_initqueue(gp2x_queue *q, unsigned long queue_items, unsigned lo
 
 static void gp2x_enqueue(gp2x_queue *q, unsigned long data)
 {	
-  while(q->items==q->max_items); /*waiting for tail to decrease...*/
+  while (q->items==q->max_items); /*waiting for tail to decrease...*/
   q->place920t[q->head = (q->head < q->max_items ? q->head+1 : 0)] = data;
   q->items++;
 }
@@ -461,7 +461,7 @@ static void gp2x_dualcore_registers(int save)
 void gp2x_dualcore_sync(void)
 {
   gp2x_queue *q=(gp2x_queue *)gp2x_1stcore_data_ptr(GP2X_QUEUE_ARRAY_PTR);
-  while(q->items);
+  while (q->items);
 }
 
 void gp2x_dualcore_exec(unsigned long command) { gp2x_enqueue((gp2x_queue *)gp2x_1stcore_data_ptr(GP2X_QUEUE_ARRAY_PTR),command); }
@@ -479,7 +479,7 @@ void gp2x_dualcore_launch_program(unsigned long *area, unsigned long size)
 
   gp2x_940t_pause(0);            
                              
-  while(i < size) *arm940t_ram++=area[i++];
+  while (i < size) *arm940t_ram++=area[i++];
 
   gp2x_initqueue((gp2x_queue *)gp2x_1stcore_data_ptr(GP2X_QUEUE_ARRAY_PTR), GP2X_QUEUE_MAX_ITEMS, (unsigned long *)gp2x_1stcore_data_ptr(GP2X_QUEUE_DATA_PTR), (unsigned long *)gp2x_2ndcore_data_ptr(GP2X_QUEUE_DATA_PTR));
 
@@ -581,7 +581,7 @@ void gp2x_init(int ticks_per_second, int bpp, int rate, int bits, int stereo, in
 extern int fcloseall(void);
 void gp2x_deinit(void)
 {
-  while((gp2x_sound++)<1000000);                               /* wait arm920t threads to finish */
+  while ((gp2x_sound++)<1000000);                               /* wait arm920t threads to finish */
 
   gp2x_dualcore_registers(0);
 

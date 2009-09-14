@@ -70,10 +70,10 @@ enum  { GP2X_UP=0x1,       GP2X_LEFT=0x4,       GP2X_DOWN=0x10,  GP2X_RIGHT=0x40
 #define gp2x_2ndcore_data_ptr(v)       gp2x_2ndcore_code_ptr((v)+0x100000)
 #define gp2x_1stcore_data_ptr(v)       gp2x_1stcore_code_ptr((v)+0x100000)
                                             
-#define gp2x_video_wait_vsync()        while(gp2x_memregs[0x1182>>1]&(1<<4));
-#define gp2x_video_wait_hsync()        while(gp2x_memregs[0x1182>>1]&(1<<5));
+#define gp2x_video_wait_vsync()        while (gp2x_memregs[0x1182>>1]&(1<<4));
+#define gp2x_video_wait_hsync()        while (gp2x_memregs[0x1182>>1]&(1<<5));
 
-#define gp2x_video_color8(C,R,G,B)     do gp2x_palette[((C)<<1)+0]=((G)<<8)|(B),gp2x_palette[((C)<<1)+1]=(R); while(0)
+#define gp2x_video_color8(C,R,G,B)     do gp2x_palette[((C)<<1)+0]=((G)<<8)|(B),gp2x_palette[((C)<<1)+1]=(R); while (0)
 #define gp2x_video_color15(R,G,B,A)    ((((R)&0xF8)<<8)|(((G)&0xF8)<<3)|(((B)&0xF8)>>3)|((A)<<5))
 
 

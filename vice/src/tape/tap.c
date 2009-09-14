@@ -318,7 +318,7 @@ static int tap_cbm_read_byte(tap_t *tap)
         data = tap_get_pulse(tap, &pos_advance);
         if (data < 0) return -1;
       }
-    while( !TAP_PULSE_LONG(data) );
+    while ( !TAP_PULSE_LONG(data) );
 
     /* expect either M (L-M: start-of-byte) or S (L-S: end-of-data-block) */
     data = tap_get_pulse(tap, &pos_advance);
@@ -363,7 +363,7 @@ static int tap_cbm_skip_pilot(tap_t *tap)
   errors  = 0;
   counter = 0;
   current_filepos = ftell(tap->fd);
-  while(1)
+  while (1)
     {
       /*  Save file position */
       fpos = current_filepos;
@@ -474,7 +474,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int *siz
   /* read data */
   count  = 0;
   ecount = 0;
-  while(1)
+  while (1)
     {
       data = tap_cbm_read_byte(tap);
 
@@ -497,7 +497,7 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, BYTE *buffer, int *siz
             {
               /* single error in second pass => check if this byte was also in error on
                  first pass.  If so then fail, otherwise go on. */
-              while( ecount<*error_count && error_buf[ecount]<count ) ecount++;
+              while ( ecount<*error_count && error_buf[ecount]<count ) ecount++;
               if ( (*error_count<0) || (error_buf[ecount] == count) )
                 return -6; /* error: double read error  */
             }
@@ -654,7 +654,7 @@ static int tap_cbm_read_file_seq(tap_t *tap)
   int ret;
   BYTE buffer[193];
 
-  while(1)
+  while (1)
     {
       /* find next pilot */
       ret = tap_find_pilot(tap, PILOT_TYPE_CBM);
@@ -722,7 +722,7 @@ static int tap_cbm_skip_file(tap_t *tap)
       long fpos;
       int ret;
 
-      while(1)
+      while (1)
         {
           fpos = ftell(tap->fd);
 
@@ -815,7 +815,7 @@ static int tap_tt_skip_pilot(tap_t *tap)
           fseek(tap->fd, -8, SEEK_CUR);
         }
     }
-  while( data==2 );
+  while ( data==2 );
 
 #if TAP_DEBUG > 1
   log_debug("-0x%X) ", ftell(tap->fd));
@@ -1025,7 +1025,7 @@ static int tap_find_pilot(tap_t *tap, int type)
     log_debug(" TAP_FIND_PILOT");
 #endif
 
-    while( (countCBM<minCBM) && (countTT<PILOT_MIN_LENGTH_TT*8) )
+    while ( (countCBM<minCBM) && (countTT<PILOT_MIN_LENGTH_TT*8) )
       {
 /*        count = fread(&data, 1, 256, tap->fd); */
         int startpos = ftell(tap->fd);
@@ -1205,7 +1205,7 @@ static int tap_find_header(tap_t *tap)
             {
               int pos_advance;
               fseek(tap->fd, fpos, SEEK_SET);
-              while( TAP_PULSE_SHORT(tap_get_pulse(tap, &pos_advance)) );
+              while ( TAP_PULSE_SHORT(tap_get_pulse(tap, &pos_advance)) );
             }
         }
       else if ( type==PILOT_TYPE_TT )
@@ -1338,7 +1338,7 @@ int tap_seek_start(tap_t *tap)
 int tap_seek_to_file(tap_t *tap, unsigned int file_number)
 {
   tap_seek_start(tap);
-  while( (int) file_number > tap->current_file_number )
+  while ( (int) file_number > tap->current_file_number )
     {
       if ( tap_seek_to_next_file(tap, 0) < 0 )
         return -1;

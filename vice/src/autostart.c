@@ -967,7 +967,7 @@ static void autostart_disk_cook_name(char **name)
 
     pos = 0;
 
-    while((*name)[pos] != '\0') {
+    while ((*name)[pos] != '\0') {
         if (((unsigned char)((*name)[pos])) == 0xa0) {
             char *ptr;
 

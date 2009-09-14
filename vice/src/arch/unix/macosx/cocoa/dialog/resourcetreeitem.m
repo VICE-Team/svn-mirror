@@ -80,7 +80,7 @@
     NSMutableArray *a = [[NSMutableArray alloc] init];
     NSEnumerator *enumerator = [dict keyEnumerator];
     id key;
-    while((key = [enumerator nextObject])) {
+    while ((key = [enumerator nextObject])) {
         ResourceTreeItem *item = [[ResourceTreeItem alloc] initWithTitle:key];
         [a addObject:item];
         

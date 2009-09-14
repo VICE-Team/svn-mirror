@@ -391,7 +391,7 @@ static const BYTE burst_status_tab[] = {
                  CLK_ADD(CLK,1);                                \
             }                                                   \
         } \
-    } while(0)
+    } while (0)
 
 #else /* !ALLOW_UNALIGNED_ACCESS */
 /* TODO optimize */
@@ -465,7 +465,7 @@ static const BYTE burst_status_tab[] = {
                  CLK_ADD(CLK,1);                                \
             }                                                   \
         } \
-    } while(0)
+    } while (0)
 
 #endif /* !ALLOW_UNALIGNED_ACCESS */
 

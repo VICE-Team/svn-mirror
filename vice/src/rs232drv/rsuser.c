@@ -331,7 +331,7 @@ static void keepup_tx_buffer(void)
     if ((!clk_start_bit) || maincpu_clk < clk_start_bit)
         return;
 
-    while(clk_start_bit < clk_end_tx) {
+    while (clk_start_bit < clk_end_tx) {
         LOG_DEBUG(("keepup: clk=%d, _bit=%d (%d), _tx=%d.",
                   maincpu_clk, clk_start_bit-clk_start_tx, clk_start_bit,
                   clk_start_tx));

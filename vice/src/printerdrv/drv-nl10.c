@@ -341,7 +341,7 @@ static void linefeed(nl10_t *nl10, unsigned int prnr)
   for (i=0; i<nl10->linespace; i++)
     for (j=inc_y(nl10); j>0; j--)
       {
-        while( nl10->pos_y_pix < BORDERY )
+        while ( nl10->pos_y_pix < BORDERY )
           {
             output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
             nl10->pos_y_pix++;
@@ -364,7 +364,7 @@ static void linefeed(nl10_t *nl10, unsigned int prnr)
         /* check end-of-page */
         if ( nl10->pos_y_pix >= MAX_ROW-BORDERY )
           {
-            while( nl10->pos_y_pix++ < MAX_ROW )
+            while ( nl10->pos_y_pix++ < MAX_ROW )
               output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
             nl10->line_nr   = 0;
             nl10->pos_y     = 0;
@@ -900,14 +900,14 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
 	{
           /* if found, read and print description string from ROM
              (terminated by 0xff) */
-	  while( (i<NL10_ROM_SIZE) && (drv_nl10_rom[i] != 0xff) ) 
+	  while ( (i<NL10_ROM_SIZE) && (drv_nl10_rom[i] != 0xff) ) 
             print_char(nl10, prnr, drv_nl10_rom[i++]);
 	  return;
 	}
     }
 
   /* ensure that top margin is honored */
-  while( nl10->line_nr <= nl10->marg_t )
+  while ( nl10->line_nr <= nl10->marg_t )
     linefeed(nl10, prnr);
   
   /* ensure that left margin is honored */
@@ -1018,7 +1018,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
       {
         /* advance to next vertical tab position */
         int i = 0;
-        while( (nl10->line_nr >= nl10->vtabs[i]) && (i==0 || (nl10->vtabs[i]>nl10->vtabs[i-1])) )
+        while ( (nl10->line_nr >= nl10->vtabs[i]) && (i==0 || (nl10->vtabs[i]>nl10->vtabs[i-1])) )
           i++;
 
         if ( (nl10->vtabs[i] <= nl10->vtabs[i-1]) )
@@ -1028,7 +1028,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
 
             /* find the first tab greater than the top margin */
             i=0;
-            while( (nl10->marg_t >= nl10->vtabs[i]) && (i==0 || (nl10->vtabs[i]>nl10->vtabs[i-1])) )
+            while ( (nl10->marg_t >= nl10->vtabs[i]) && (i==0 || (nl10->vtabs[i]>nl10->vtabs[i-1])) )
               i++;
 
             if ( nl10->vtabs[i] <= nl10->vtabs[i-1] )
@@ -1040,7 +1040,7 @@ static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c
 
         if ( i>=0 )
           {
-            while( nl10->line_nr < nl10->vtabs[i] )
+            while ( nl10->line_nr < nl10->vtabs[i] )
               linefeed(nl10, prnr);
           }
         break;

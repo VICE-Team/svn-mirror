@@ -1811,7 +1811,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
     /* Copies from p2 to p1 */
 
-    while((p2 = (unsigned char *)fgets(line, MAX_INLINE_LEN, source)) != NULL) {
+    while ((p2 = (unsigned char *)fgets(line, MAX_INLINE_LEN, source)) != NULL) {
         /*
         iAN: skip comment line when starting with ";"
         */

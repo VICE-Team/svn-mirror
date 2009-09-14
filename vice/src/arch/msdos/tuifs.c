@@ -164,7 +164,7 @@ static struct file_list *file_list_read_lfn(const char *path, const char *patter
            imo...  */
         _djstat_flags = (_STAT_INODE | _STAT_EXEC_EXT | _STAT_EXEC_MAGIC | _STAT_DIRSIZE | _STAT_ROOT_TIME | _STAT_WRITEBIT);
 
-        while((d = readdir(ds)) != NULL) {
+        while ((d = readdir(ds)) != NULL) {
             struct stat s;
             int type;
             /* Warning: Assumes `path' has a trailing '/'.  */

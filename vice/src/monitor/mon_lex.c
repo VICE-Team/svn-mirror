@@ -3445,7 +3445,7 @@ int yylex_destroy  (void)
 {
     
     /* Pop the buffer stack, destroying each element. */
-	while(YY_CURRENT_BUFFER){
+	while (YY_CURRENT_BUFFER){
 		yy_delete_buffer(YY_CURRENT_BUFFER  );
 		YY_CURRENT_BUFFER_LVALUE = NULL;
 		yypop_buffer_state();

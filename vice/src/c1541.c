@@ -2389,7 +2389,7 @@ static int tape_cmd(int nargs, char **args)
                         lib_free(dest_name_ascii);
                         return FD_WRTERR;
                     }
-                } while(retval == 1);
+                } while (retval == 1);
             }
 
             vdrive_iec_close(drive, 1);

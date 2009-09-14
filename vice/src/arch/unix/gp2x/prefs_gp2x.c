@@ -392,7 +392,7 @@ char *image_file_req(unsigned char *screen, const char *image) {
 		contents_list[0], menu_fg, menu_bg);
 
 	row=0;
-	while(row<(num_items-1) && row<MENU_HEIGHT) {
+	while (row<(num_items-1) && row<MENU_HEIGHT) {
 		if (row == (cursor_pos-first_visible)) {
 			bg=menu_hl;
 			selected=contents_list[row+first_visible+1];
@@ -403,7 +403,7 @@ char *image_file_req(unsigned char *screen, const char *image) {
 			contents_list[row+first_visible+1], menu_fg, bg);
 		row++;
 	}
-	while(row<MENU_HEIGHT) {
+	while (row<MENU_HEIGHT) {
         	draw_ascii_string(screen, display_width, MENU_X, MENU_LS+(8*row), blank_line, menu_fg, menu_bg);
 		row++;
 	}
@@ -492,7 +492,7 @@ char *file_req(unsigned char *screen, char *dir) {
 				return (char *)-1;
 			}
 			/* read directory entries */
-			while((direntry=readdir(dirstream))) {
+			while ((direntry=readdir(dirstream))) {
 				dir_items[num_items].name=(char *)malloc(strlen(direntry->d_name)+1);
 				strcpy(dir_items[num_items].name, direntry->d_name);
 				num_items++;
@@ -538,7 +538,7 @@ char *file_req(unsigned char *screen, char *dir) {
 
 	/* display directory contents */
 	row=0;
-	while(row<num_items && row<MENU_HEIGHT) {
+	while (row<num_items && row<MENU_HEIGHT) {
 		if (row == (cursor_pos-first_visible)) {
 			bg=menu_hl; /* C64_YELLOW; */
 			selected=dir_items[row+first_visible].name;
@@ -948,7 +948,7 @@ void draw_prefs (unsigned char *screen) {
 				DIR *snaps_dir=opendir("./snapshots");
 				struct dirent *direntry;
 				freename=1;
-				while((direntry=readdir(snaps_dir))) {
+				while ((direntry=readdir(snaps_dir))) {
 					sprintf(tmp_string, "%04d.sna", snapnum);
 					if (!strcmp(tmp_string, direntry->d_name)) freename=0;
 				}
@@ -970,7 +970,7 @@ void draw_prefs (unsigned char *screen) {
 		if (i == cursor_pos) bg=menu_hl;
 		draw_ascii_string(screen, display_width, MENU_X, MENU_Y+(i*8), option_txt[i], menu_fg, bg);
 	}
-	while(i<=MENU_HEIGHT) {
+	while (i<=MENU_HEIGHT) {
 		draw_ascii_string(screen, display_width, MENU_X, MENU_Y+(i*8), option_txt[BLANK1], menu_bg, bg);
 		i++;
 	}
