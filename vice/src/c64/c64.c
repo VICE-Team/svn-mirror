@@ -457,8 +457,9 @@ int machine_specific_init(void)
                        1, 0xcc, 0xd1, 0xd3, 0xd5);
     }
 
-    if (vicii_init(VICII_STANDARD) == NULL && !console_mode && !vsid_mode)
+    if (vicii_init(VICII_STANDARD) == NULL && !video_disabled_mode) {
         return -1;
+    }
 
     c64_mem_init();
 

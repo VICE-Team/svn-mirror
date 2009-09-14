@@ -67,6 +67,7 @@ extern
     const
 #endif
 int console_mode;
+extern int video_disabled_mode;
 
 /* Initialize the machine's resources.  */
 extern int machine_resources_init(void);

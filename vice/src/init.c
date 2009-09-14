@@ -175,7 +175,7 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("system file locator");
         return -1;
     }
-    if (!vsid_mode && ui_cmdline_options_init() < 0) {
+    if ((!(vsid_mode && video_disabled_mode)) && ui_cmdline_options_init() < 0) {
         init_cmdline_options_fail("UI");
         return -1;
     }
@@ -214,27 +214,23 @@ int init_cmdline_options(void)
         return -1;
     }
 
-    if (vsid_mode) {
-        return 0;
-    }
-
-    if (fsdevice_cmdline_options_init() < 0) {
+    if (!vsid_mode && fsdevice_cmdline_options_init() < 0) {
         init_cmdline_options_fail("file system");
         return -1;
     }
-    if (joystick_init_cmdline_options() < 0) {
+    if ((!(vsid_mode && video_disabled_mode)) && joystick_init_cmdline_options() < 0) {
         init_cmdline_options_fail("joystick");
         return -1;
     }
-    if (kbdbuf_cmdline_options_init() < 0) {
+    if (!vsid_mode && kbdbuf_cmdline_options_init() < 0) {
         init_cmdline_options_fail("keyboard");
         return -1;
     }
-    if (ram_cmdline_options_init() < 0) {
+    if (!vsid_mode && ram_cmdline_options_init() < 0) {
         init_cmdline_options_fail("RAM");
         return -1;
     }
-    if (gfxoutput_cmdline_options_init() < 0) {
+    if (!vsid_mode && gfxoutput_cmdline_options_init() < 0) {
         init_cmdline_options_fail("GFXOUTPUT");
         return -1;
     }
@@ -253,8 +249,11 @@ int init_main(void)
 
     romset_init();
 
-    if (!vsid_mode) {
+    if (!video_disabled_mode) {
         palette_init();
+    }
+
+    if (!vsid_mode) {
         gfxoutput_init();
         screenshot_init();
 
@@ -280,8 +279,11 @@ int init_main(void)
 
     keyboard_init();
 
-    if (!vsid_mode) {
+    if (!video_disabled_mode) {
         joystick_init();
+    }
+
+    if (!vsid_mode) {
         disk_image_init();
         vdrive_init();
     }

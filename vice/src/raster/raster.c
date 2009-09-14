@@ -157,7 +157,7 @@ static int realize_canvas(raster_t *raster)
 
     raster->intialized = 1;
 
-    if (!console_mode && !vsid_mode) {
+    if (!video_disabled_mode) {
         new_canvas = video_canvas_create(raster->canvas,
                      &raster->canvas->draw_buffer->canvas_width,
                      &raster->canvas->draw_buffer->canvas_height, 1);
@@ -186,7 +186,7 @@ static int realize_canvas(raster_t *raster)
 
 static int perform_mode_change(raster_t *raster)
 {
-    if (!console_mode && !vsid_mode
+    if (!video_disabled_mode
         && raster->canvas && raster->canvas->palette != NULL) {
         if (video_canvas_set_palette(raster->canvas,
             raster->canvas->palette) < 0)

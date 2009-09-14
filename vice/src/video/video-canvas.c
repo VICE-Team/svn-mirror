@@ -98,7 +98,7 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
     viewport_t *viewport;
     geometry_t *geometry;
 
-    if (console_mode || vsid_mode) {
+    if (video_disabled_mode) {
         return;
     }
 

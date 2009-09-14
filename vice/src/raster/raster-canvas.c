@@ -106,7 +106,7 @@ inline static void refresh_canvas(raster_t *raster)
 
 void raster_canvas_handle_end_of_frame(raster_t *raster)
 {
-    if (console_mode || vsid_mode)
+    if (video_disabled_mode)
         return;
 
     if (raster->skip_frame)

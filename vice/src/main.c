@@ -72,6 +72,7 @@ int vsid_mode = 0;
 const
 #endif
 int console_mode = 0;
+int video_disabled_mode = 0;
 static int init_done;
 
 /* ------------------------------------------------------------------------- */
@@ -90,10 +91,14 @@ int main_program(int argc, char **argv)
 #ifndef __OS2__
         if (strcmp(argv[i], "-console") == 0) {
             console_mode = 1;
+            video_disabled_mode = 1;
         } else
 #endif
         if (strcmp(argv[i], "-vsid") == 0) {
             vsid_mode = 1;
+#ifndef USE_SDLUI
+            video_disabled_mode = 1;
+#endif
         } else if (strcmp(argv[i], "-config") == 0) {
             if ((i+1) < argc) {
                 vice_config_file = lib_stralloc(argv[++i]);
