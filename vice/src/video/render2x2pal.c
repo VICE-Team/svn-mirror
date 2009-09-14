@@ -37,14 +37,18 @@
 static inline
 void convert_yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu)
 {
-#pragma warning( push )
-#pragma warning( disable: 4244 )
+#ifdef _MSC_VER
+# pragma warning( push )
+# pragma warning( disable: 4244 )
+#endif
 
     *red = (y + v) >> 16;
     *blu = (y + u) >> 16;
     *grn = (y - ((50 * u + 130 * v) >> 8)) >> 16;
 
-#pragma warning( pop )
+#ifdef _MSC_VER
+# pragma warning( pop )
+#endif
 }
 
 /* Often required function that stores gamma-corrected pixel to current line,
@@ -135,8 +139,10 @@ void store_line_and_scanline_UYVY(
     SWORD *const prevline, const int shade,
     SDWORD y, SDWORD u, SDWORD v)
 {
-#pragma warning( push )
-#pragma warning( disable: 4244 )
+#ifdef _MSC_VER
+# pragma warning( push )
+# pragma warning( disable: 4244 )
+#endif
 
     y >>= 16;
     u >>= 16;
@@ -160,7 +166,9 @@ void store_line_and_scanline_UYVY(
     prevline[1] = u;
     prevline[2] = v;
 
-#pragma warning( pop )
+#ifdef _MSC_VER
+# pragma warning( pop )
+#endif
 }
 
 static inline
@@ -169,8 +177,10 @@ void store_line_and_scanline_YUY2(
     SWORD *const prevline, const int shade,
     SDWORD y, SDWORD u, SDWORD v)
 {
-#pragma warning( push )
-#pragma warning( disable: 4244 )
+#ifdef _MSC_VER
+# pragma warning( push )
+# pragma warning( disable: 4244 )
+#endif
 
     y >>= 16;
     u >>= 16;
@@ -194,7 +204,9 @@ void store_line_and_scanline_YUY2(
     prevline[1] = u;
     prevline[2] = v;
 
-#pragma warning( pop )
+#ifdef _MSC_VER
+# pragma warning( pop )
+#endif
 }
 
 static inline
@@ -203,8 +215,10 @@ void store_line_and_scanline_YVYU(
     SWORD *const prevline, const int shade,
     SDWORD y, SDWORD u, SDWORD v)
 {
-#pragma warning( push )
-#pragma warning( disable: 4244 )
+#ifdef _MSC_VER
+# pragma warning( push )
+# pragma warning( disable: 4244 )
+#endif
 
     y >>= 16;
     u >>= 16;
@@ -228,7 +242,9 @@ void store_line_and_scanline_YVYU(
     prevline[1] = u;
     prevline[2] = v;
 
-#pragma warning( pop )
+#ifdef _MSC_VER
+# pragma warning( pop )
+#endif
 }
 
 
