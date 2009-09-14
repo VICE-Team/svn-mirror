@@ -38,6 +38,7 @@
 #include "megacart.h"
 #include "mem.h"
 #include "resources.h"
+#include "string.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
