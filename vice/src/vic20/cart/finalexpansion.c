@@ -31,6 +31,7 @@
 
 #include "archdep.h"
 #include "cartridge.h"
+#include "cmdline.h"
 #include "lib.h"
 #include "machine.h"
 #include "finalexpansion.h"
@@ -38,6 +39,7 @@
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vic20cartmem.h"
@@ -106,6 +108,11 @@ static BYTE register_a;
 static BYTE register_b;
 static BYTE lock_bit;
 
+static int finalexpansion_writeback;
+static char *cartfile = NULL;   /* perhaps the one in vic20cart.c could
+                                   be used instead? */
+
+static log_t fe_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -143,7 +150,6 @@ static int is_mode_ram(void)
     return ( (register_a & REGA_MODE_MASK) == MODE_RAM );
 }
 
-/* 0x9c00-0x9fff */
 static int is_locked(void)
 {
     if (register_b & REGB_REG_OFF) {
@@ -155,48 +161,6 @@ static int is_locked(void)
     return 0;
 }
 
-BYTE REGPARM1 finalexpansion_io3_read(WORD addr)
-{   
-    BYTE value;
-
-    addr &= 0x03;
-    FE_DEBUG(("Read reg%02x. (locked=%d)", addr, is_locked()));
-    if (!is_locked()) {
-        switch (addr) {
-        case 0x02:
-            value = register_a;
-            break;
-        case 0x03:
-            value = register_b;
-            break;
-        default:
-            value = vic20_cpu_last_data;
-            break;
-        }
-    } else {
-        value = vic20_cpu_last_data;
-    }
-    return value;
-}
-
-void REGPARM2 finalexpansion_io3_store(WORD addr, BYTE value)
-{
-    addr &= 0x03;
-    FE_DEBUG(("Wrote reg%02x = %02x. (locked=%d)", addr, value, is_locked()));
-    if (!is_locked()) {
-        switch (addr) {
-        case 0x02:
-            register_a = value;
-            break;
-        case 0x03:
-            register_b = value;
-            break;
-        }
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
 static unsigned int calc_addr(WORD addr, int bank, WORD base)
 {
     unsigned int faddr;
@@ -207,47 +171,6 @@ static unsigned int calc_addr(WORD addr, int bank, WORD base)
     faddr ^= (register_b & REGB_INV_A14) ? 0x4000 : 0;
 
     return faddr;
-}
-
-static void internal_store(WORD addr, BYTE value, int blk, WORD base)
-{
-    BYTE mode;
-    int bank;
-    unsigned int faddr;
-
-    mode = register_a & REGA_MODE_MASK;
-
-    if (blk == 0) {
-        bank = 0;
-    } else {
-        switch (mode) {
-        case MODE_FLASH_WRITE:
-        case MODE_SUPER_RAM:
-            bank = register_a & REGA_BANK_MASK;
-            break;
-        default:
-            bank = 1;
-            break;
-        }
-    }
-
-    faddr = calc_addr(addr, bank, base);
-
-    switch (mode) {
-    case MODE_FLASH_WRITE:
-        if (blk != 0) {
-            flash040core_store(&flash_state, faddr, value);
-        }
-        break;
-    case MODE_START:
-    case MODE_FLASH_READ:
-    case MODE_RAM:
-    case MODE_SUPER_RAM:
-        cart_ram[faddr] = value;
-        break;
-    default:
-        break;
-    }
 }
 
 static BYTE internal_read(WORD addr, int blk, WORD base)
@@ -300,18 +223,50 @@ static BYTE internal_read(WORD addr, int blk, WORD base)
     return value;
 }
 
-/* ------------------------------------------------------------------------- */
-
-/* 0x0400 - 0x0fff */
-void REGPARM2 finalexpansion_ram123_store(WORD addr, BYTE value)
+static void internal_store(WORD addr, BYTE value, int blk, WORD base)
 {
-    if ( !(register_b & REGB_BLK0_OFF) ) {
-        if ( !( is_mode_ram() && (register_a & REGA_BLK0_RO) ) ) {
-            internal_store(addr, value, 0, BLK0_BASE);
+    BYTE mode;
+    int bank;
+    unsigned int faddr;
+
+    mode = register_a & REGA_MODE_MASK;
+
+    if (blk == 0) {
+        bank = 0;
+    } else {
+        switch (mode) {
+        case MODE_FLASH_WRITE:
+        case MODE_SUPER_RAM:
+            bank = register_a & REGA_BANK_MASK;
+            break;
+        default:
+            bank = 1;
+            break;
         }
+    }
+
+    faddr = calc_addr(addr, bank, base);
+
+    switch (mode) {
+    case MODE_FLASH_WRITE:
+        if (blk != 0) {
+            flash040core_store(&flash_state, faddr, value);
+        }
+        break;
+    case MODE_START:
+    case MODE_FLASH_READ:
+    case MODE_RAM:
+    case MODE_SUPER_RAM:
+        cart_ram[faddr] = value;
+        break;
+    default:
+        break;
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* read 0x0400 - 0x0fff */
 BYTE REGPARM1 finalexpansion_ram123_read(WORD addr)
 {
     BYTE value;
@@ -323,16 +278,17 @@ BYTE REGPARM1 finalexpansion_ram123_read(WORD addr)
     return value;
 }
 
-/* 0x2000-0x3fff */
-void REGPARM2 finalexpansion_blk1_store(WORD addr, BYTE value)
+/* store 0x0400 - 0x0fff */
+void REGPARM2 finalexpansion_ram123_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK1_OFF) ) {
-        if ( !( is_mode_ram() && (register_a & REGA_BLK1_RO) ) ) {
-            internal_store(addr, value, 1, BLK1_BASE);
+    if ( !(register_b & REGB_BLK0_OFF) ) {
+        if ( !( is_mode_ram() && (register_a & REGA_BLK0_RO) ) ) {
+            internal_store(addr, value, 0, BLK0_BASE);
         }
     }
 }
 
+/* read 0x2000-0x3fff */
 BYTE REGPARM1 finalexpansion_blk1_read(WORD addr)
 {
     BYTE value;
@@ -344,16 +300,17 @@ BYTE REGPARM1 finalexpansion_blk1_read(WORD addr)
     return value;
 }
 
-/* 0x4000-0x5fff */
-void REGPARM2 finalexpansion_blk2_store(WORD addr, BYTE value)
+/* store 0x2000-0x3fff */
+void REGPARM2 finalexpansion_blk1_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK2_OFF) ) {
-        if ( !( is_mode_ram() && (register_a & REGA_BLK2_RO) ) ) {
-            internal_store(addr, value, 2, BLK2_BASE);
+    if ( !(register_b & REGB_BLK1_OFF) ) {
+        if ( !( is_mode_ram() && (register_a & REGA_BLK1_RO) ) ) {
+            internal_store(addr, value, 1, BLK1_BASE);
         }
     }
 }
 
+/* read 0x4000-0x5fff */
 BYTE REGPARM1 finalexpansion_blk2_read(WORD addr)
 {
     BYTE value;
@@ -365,16 +322,17 @@ BYTE REGPARM1 finalexpansion_blk2_read(WORD addr)
     return value;
 }
 
-/* 0x6000-0x7fff */
-void REGPARM2 finalexpansion_blk3_store(WORD addr, BYTE value)
+/* store 0x4000-0x5fff */
+void REGPARM2 finalexpansion_blk2_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK3_OFF) ) {
-        if ( !( is_mode_ram() && (register_a & REGA_BLK3_RO) ) ) {
-            internal_store(addr, value, 3, BLK3_BASE);
+    if ( !(register_b & REGB_BLK2_OFF) ) {
+        if ( !( is_mode_ram() && (register_a & REGA_BLK2_RO) ) ) {
+            internal_store(addr, value, 2, BLK2_BASE);
         }
     }
 }
 
+/* read 0x6000-0x7fff */
 BYTE REGPARM1 finalexpansion_blk3_read(WORD addr)
 {
     BYTE value;
@@ -386,18 +344,17 @@ BYTE REGPARM1 finalexpansion_blk3_read(WORD addr)
     return value;
 }
 
-/* 0xa000-0xbfff */
-void REGPARM2 finalexpansion_blk5_store(WORD addr, BYTE value)
+/* store 0x6000-0x7fff */
+void REGPARM2 finalexpansion_blk3_store(WORD addr, BYTE value)
 {
-    lock_bit = 0;
-
-    if ( !(register_b & REGB_BLK5_OFF) ) {
-        if ( !( is_mode_ram() && (register_a & REGA_BLK5_RO) ) ) {
-            internal_store(addr, value, 5, BLK5_BASE);
+    if ( !(register_b & REGB_BLK3_OFF) ) {
+        if ( !( is_mode_ram() && (register_a & REGA_BLK3_RO) ) ) {
+            internal_store(addr, value, 3, BLK3_BASE);
         }
     }
 }
 
+/* read 0xa000-0xbfff */
 BYTE REGPARM1 finalexpansion_blk5_read(WORD addr)
 {
     BYTE value;
@@ -412,10 +369,68 @@ BYTE REGPARM1 finalexpansion_blk5_read(WORD addr)
     return value;
 }
 
+/* store 0xa000-0xbfff */
+void REGPARM2 finalexpansion_blk5_store(WORD addr, BYTE value)
+{
+    lock_bit = 0;
 
+    if ( !(register_b & REGB_BLK5_OFF) ) {
+        if ( !( is_mode_ram() && (register_a & REGA_BLK5_RO) ) ) {
+            internal_store(addr, value, 5, BLK5_BASE);
+        }
+    }
+}
+
+/* read 0x9c00-0x9fff */
+BYTE REGPARM1 finalexpansion_io3_read(WORD addr)
+{   
+    BYTE value;
+
+    addr &= 0x03;
+    FE_DEBUG(("Read reg%02x. (locked=%d)", addr, is_locked()));
+    if (!is_locked()) {
+        switch (addr) {
+        case 0x02:
+            value = register_a;
+            break;
+        case 0x03:
+            value = register_b;
+            break;
+        default:
+            value = vic20_cpu_last_data;
+            break;
+        }
+    } else {
+        value = vic20_cpu_last_data;
+    }
+    return value;
+}
+
+/* store 0x9c00-0x9fff */
+void REGPARM2 finalexpansion_io3_store(WORD addr, BYTE value)
+{
+    addr &= 0x03;
+    FE_DEBUG(("Wrote reg%02x = %02x. (locked=%d)", addr, value, is_locked()));
+    if (!is_locked()) {
+        switch (addr) {
+        case 0x02:
+            register_a = value;
+            break;
+        case 0x03:
+            register_b = value;
+            break;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------- */
 
 void finalexpansion_init(void)
 {
+    if (fe_log == LOG_ERR) {
+        fe_log = log_open("Final Expansion");
+    }
+
     register_a = 0x00;
     register_b = 0x00;
     lock_bit = 1;
@@ -471,6 +486,7 @@ int finalexpansion_bin_attach(const char *filename)
     /* should probably guard this */
     flash040core_init(&flash_state, FLASH040_TYPE_B, cart_flash);
 
+    util_string_set(&cartfile, filename);
     if ( zfile_load(filename, flash_state.flash_data, (size_t)CART_ROM_SIZE) < 0 ) {
         finalexpansion_detach();
         return -1;
@@ -485,12 +501,72 @@ int finalexpansion_bin_attach(const char *filename)
 
 void finalexpansion_detach(void)
 {
+    /* try to write back cartridge contents if write back is enabled */
+    if (finalexpansion_writeback) {
+        FILE *fd;
+        fd = fopen(cartfile, "wb");
+        if (fd) {
+            fwrite(flash_state.flash_data, (size_t)CART_ROM_SIZE, 1, fd);
+            fclose(fd);
+            log_message(fe_log, "Wrote back image `%s'.",
+                        cartfile);
+        } else {
+            log_message(fe_log, "Failed to write back image `%s'!",
+                        cartfile);
+        }
+    }
+
     mem_cart_blocks = 0;
     mem_initialize_memory();
     lib_free(flash_state.flash_data);
     flash040core_shutdown(&flash_state);
     lib_free(cart_ram);
     cart_ram = NULL;
+    lib_free(cartfile);
+    cartfile = NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int set_finalexpansion_writeback(int val, void *param)
+{
+    finalexpansion_writeback = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "FinalExpansionWriteBack", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &finalexpansion_writeback, set_finalexpansion_writeback, NULL },
+    { NULL }
+};
+
+int finalexpansion_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+void finalexpansion_resources_shutdown(void)
+{
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-fewriteback", SET_RESOURCE, 0,
+      NULL, NULL, "FinalExpansionWriteBack", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_FINALEXPANSION_WRITEBACK,
+      NULL, NULL },
+    { "+fewriteback", SET_RESOURCE, 0,
+      NULL, NULL, "FinalExpansionWriteBack", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_FINALEXPANSION_WRITEBACK,
+      NULL, NULL },
+    { NULL }
+};
+
+int finalexpansion_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */

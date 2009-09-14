@@ -33,8 +33,10 @@
 
 extern BYTE REGPARM1 megacart_ram123_read(WORD addr);
 extern void REGPARM2 megacart_ram123_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 megacart_mem_read(WORD addr);
-extern void REGPARM2 megacart_mem_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 megacart_blk123_read(WORD addr);
+extern void REGPARM2 megacart_blk123_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 megacart_blk5_read(WORD addr);
+extern void REGPARM2 megacart_blk5_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 megacart_io2_read(WORD addr);
 extern void REGPARM2 megacart_io2_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 megacart_io3_read(WORD addr);
@@ -48,5 +50,9 @@ extern int megacart_bin_attach(const char *filename);
 /* extern int megacart_bin_attach(const char *filename, BYTE *rawcart); */
 /* extern int megacart_crt_attach(FILE *fd, BYTE *rawcart); */
 extern void megacart_detach(void);
+
+extern int megacart_resources_init(void);
+extern void megacart_resources_shutdown(void);
+extern int megacart_cmdline_options_init(void);
 
 #endif

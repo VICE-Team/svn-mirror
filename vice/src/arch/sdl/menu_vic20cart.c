@@ -126,6 +126,9 @@ static UI_MENU_CALLBACK(set_cart_default_callback)
 }
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
+UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
 
 const ui_menu_entry_t vic20cart_menu[] = {
     {"Attach generic cartridge image",
@@ -158,5 +161,18 @@ const ui_menu_entry_t vic20cart_menu[] = {
      MENU_ENTRY_RESOURCE_TOGGLE,
      toggle_CartridgeReset_callback,
      NULL},
+    SDL_MENU_ITEM_SEPARATOR,
+    {"Final Expansion write back",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_FinalExpansionWriteBack_callback,
+     NULL},
+    {"Mega-Cart NvRAM write back",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_MegaCartNvRAMWriteBack_callback,
+     NULL},
+    {"Mega-Cart NvRAM file",
+     MENU_ENTRY_DIALOG,
+     file_string_MegaCartNvRAMfilename_callback,
+     (ui_callback_data_t)"Select Mega-Cart NvRAM image"},
     {NULL}
 };

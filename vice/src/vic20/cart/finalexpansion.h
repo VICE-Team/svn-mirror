@@ -53,4 +53,8 @@ extern int finalexpansion_bin_attach(const char *filename);
 /* extern int finalexpansion_crt_attach(FILE *fd, BYTE *rawcart); */
 extern void finalexpansion_detach(void);
 
+extern int finalexpansion_resources_init(void);
+extern void finalexpansion_resources_shutdown(void);
+extern int finalexpansion_cmdline_options_init(void);
+
 #endif

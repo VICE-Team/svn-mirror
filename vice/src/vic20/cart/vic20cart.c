@@ -127,18 +127,17 @@ static const resource_int_t resources_int[] = {
 
 int cartridge_resources_init(void)
 {
-    if ( resources_register_int(resources_int) < 0) {
-        return -1;
-    }
-    if ( resources_register_string(resources_string) < 0) {
-        return -1;
-    }
-
-    return generic_resources_init();
+    return resources_register_int(resources_int) < 0 ||
+        resources_register_string(resources_string) < 0 ||
+        generic_resources_init() < 0 ||
+        finalexpansion_resources_init() < 0 ||
+        megacart_resources_init() < 0;
 }
 
 void cartridge_resources_shutdown(void)
 {
+    megacart_resources_shutdown();
+    finalexpansion_resources_shutdown();
     generic_resources_shutdown();
 
     lib_free(cartridge_file);
@@ -226,7 +225,9 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_attach_image = cartridge_attach_image;
     mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
 
-    return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options) < 0 ||
+        finalexpansion_cmdline_options_init() < 0 ||
+        megacart_cmdline_options_init() < 0;
 }
 
 /* ------------------------------------------------------------------------- */

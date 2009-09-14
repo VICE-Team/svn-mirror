@@ -30,12 +30,15 @@
 #include <stdlib.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "cartridge.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "megacart.h"
 #include "mem.h"
 #include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vic20cartmem.h"
@@ -89,6 +92,12 @@ static int nvram_en_flop = 0;
 static BYTE bank_low_reg = 0;
 static BYTE bank_high_reg = 0;
 
+/* Resource variables */
+static char *nvram_filename = NULL;
+static int nvram_writeback = 0;
+
+static log_t megacart_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 /* helper pointers */
@@ -97,7 +106,125 @@ static BYTE *cart_rom_high;
 
 /* ------------------------------------------------------------------------- */
 
-/* 0x9800-0x9bff */
+/* read 0x0400-0x0fff */
+BYTE REGPARM1 megacart_ram123_read(WORD addr)
+{
+    if (nvram_en_flop) {
+        return cart_nvram[addr & 0x1fff];
+    } else {
+        return vic20_v_bus_last_data;
+    }
+}
+
+/* store 0x0400-0x0fff */
+void REGPARM2 megacart_ram123_store(WORD addr, BYTE value)
+{
+    if (nvram_en_flop) {
+        cart_nvram[addr & 0x1fff] = value;
+    }
+}
+
+/* read 0x2000-0x7fff */
+BYTE REGPARM1 megacart_blk123_read(WORD addr)
+{
+    BYTE bank_low;
+    BYTE bank_high;
+    int ram_low_en;
+    int ram_high_en;
+
+    /* get bank registers */
+    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
+    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
+
+    /* determine flags from bank registers. */
+    ram_low_en = (bank_low & 0x80) ? 1 : 0;
+    ram_high_en = (bank_high & 0x80) ? 1 : 0;
+
+    if (!ram_low_en) {
+        return cart_rom_low[(addr & 0x1fff) | (bank_low * 0x2000)];
+    } else {
+        if (ram_high_en) {
+            return cart_ram[addr];
+        }
+    }
+
+    return vic20_cpu_last_data;
+}
+
+/* store 0x2000-0x7fff */
+void REGPARM2 megacart_blk123_store(WORD addr, BYTE value)
+{
+    BYTE bank_low;
+    BYTE bank_high;
+    int ram_low_en;
+    int ram_high_en;
+    int ram_wp;
+
+    /* get bank registers */
+    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
+    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
+
+    /* determine flags from bank registers. */
+    ram_low_en = (bank_low & 0x80) ? 1 : 0;
+    ram_high_en = (bank_high & 0x80) ? 1 : 0;
+    ram_wp = (bank_high & 0x40) ? 0 : 1;
+
+    if (!ram_wp && (ram_low_en && ram_high_en) ) {
+        cart_ram[addr] = value;
+    }
+}
+
+/* read 0xa000-0xbfff */
+BYTE REGPARM1 megacart_blk5_read(WORD addr)
+{
+    BYTE bank_low;
+    BYTE bank_high;
+    int ram_low_en;
+    int ram_high_en;
+
+    /* get bank registers */
+    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
+    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
+
+    /* determine flags from bank registers. */
+    ram_low_en = (bank_low & 0x80) ? 1 : 0;
+    ram_high_en = (bank_high & 0x80) ? 1 : 0;
+
+    if (!ram_high_en) {
+        return cart_rom_high[(addr & 0x1fff) | (bank_high * 0x2000)];
+    } else {
+        if (!ram_low_en) {
+            return cart_rom_low[(addr & 0x1fff) | (bank_low * 0x2000)];
+        }
+    }
+
+    return cart_ram[addr & 0x1fff];
+}
+
+/* store 0xa000-0xbfff */
+void REGPARM2 megacart_blk5_store(WORD addr, BYTE value)
+{
+    BYTE bank_low;
+    BYTE bank_high;
+    int ram_low_en;
+    int ram_high_en;
+    int ram_wp;
+
+    /* get bank registers */
+    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
+    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
+
+    /* determine flags from bank registers. */
+    ram_low_en = (bank_low & 0x80) ? 1 : 0;
+    ram_high_en = (bank_high & 0x80) ? 1 : 0;
+    ram_wp = (bank_high & 0x40) ? 0 : 1;
+
+    if (!ram_wp && (ram_low_en && ram_high_en) ) {
+        cart_ram[addr & 0x1fff] = value;
+    }
+}
+
+/* read 0x9800-0x9bff */
 BYTE REGPARM1 megacart_io2_read(WORD addr)
 {
     BYTE value;
@@ -109,6 +236,7 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
     return value;
 }
 
+/* store 0x9800-0x9bff */
 void REGPARM2 megacart_io2_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
@@ -116,7 +244,7 @@ void REGPARM2 megacart_io2_store(WORD addr, BYTE value)
     }
 }
 
-/* 0x9c00-0x9fff */
+/* read 0x9c00-0x9fff */
 BYTE REGPARM1 megacart_io3_read(WORD addr)
 {
     BYTE value;
@@ -128,6 +256,7 @@ BYTE REGPARM1 megacart_io3_read(WORD addr)
     return value;
 }
 
+/* store 0x9c00-0x9fff */
 void REGPARM2 megacart_io3_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
@@ -155,99 +284,14 @@ void REGPARM2 megacart_io3_store(WORD addr, BYTE value)
     }
 }
 
-/* 0x0400-0x0fff */
-void REGPARM2 megacart_ram123_store(WORD addr, BYTE value)
-{
-    if (nvram_en_flop) {
-        cart_nvram[addr & 0x1fff] = value;
-    }
-}
-
-BYTE REGPARM1 megacart_ram123_read(WORD addr)
-{
-    if (nvram_en_flop) {
-        return cart_nvram[addr & 0x1fff];
-    } else {
-        return vic20_v_bus_last_data;
-    }
-}
-
-/* 
- * 0x2000-0x7fff
- * 0xa000-0xbfff
- */
-void REGPARM2 megacart_mem_store(WORD addr, BYTE value)
-{
-    BYTE bank_low;
-    BYTE bank_high;
-    int ram_low_en;
-    int ram_high_en;
-    int ram_wp;
-
-    /* get bank registers */
-    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
-    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
-
-    /* determine flags from bank registers. */
-    ram_low_en = (bank_low & 0x80) ? 1 : 0;
-    ram_high_en = (bank_high & 0x80) ? 1 : 0;
-    ram_wp = (bank_high & 0x40) ? 0 : 1;
-
-    if (addr >= 0x2000 && addr < 0x8000) {
-        if (!ram_wp && (ram_low_en && ram_high_en) ) {
-            cart_ram[addr] = value;
-        }
-    }
-    if (addr >= 0xa000 && addr < 0xc000) {
-        if (!ram_wp && (ram_low_en && ram_high_en) ) {
-            cart_ram[addr & 0x1fff] = value;
-        }
-    }
-}
-
-BYTE REGPARM1 megacart_mem_read(WORD addr)
-{
-    BYTE bank_low;
-    BYTE bank_high;
-    int ram_low_en;
-    int ram_high_en;
-
-    /* get bank registers */
-    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
-    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
-
-    /* determine flags from bank registers. */
-    ram_low_en = (bank_low & 0x80) ? 1 : 0;
-    ram_high_en = (bank_high & 0x80) ? 1 : 0;
-
-    if (addr >= 0x2000 && addr < 0x8000) {
-        if (!ram_low_en) {
-            return cart_rom_low[(addr & 0x1fff) | (bank_low * 0x2000)];
-        } else {
-            if (ram_high_en) {
-                return cart_ram[addr];
-            } else {
-                return vic20_cpu_last_data;
-            }
-        }
-    }
-    if (addr >= 0xa000 && addr < 0xc000) {
-        if (!ram_high_en) {
-            return cart_rom_high[(addr & 0x1fff) | (bank_high * 0x2000)];
-        } else {
-            if (!ram_low_en) {
-                return cart_rom_low[(addr & 0x1fff) | (bank_low * 0x2000)];
-            } else {
-                return cart_ram[addr & 0x1fff];
-            }
-        }
-    }
-    return 0x00; /* should never happen */
-}
-
+/* ------------------------------------------------------------------------- */
 
 void megacart_init(void)
 {
+    if (megacart_log == LOG_ERR) {
+        megacart_log = log_open("Mega-Cart");
+    }
+
     reset_mode = BUTTON_RESET;
     oe_flop = 0;
     nvram_en_flop = 0;
@@ -280,11 +324,47 @@ static int zfile_load(const char *filename, BYTE *dest, size_t size)
         zfile_fclose(fd);
         return -1;
     }
-    if ( fread(cart_rom, size, 1, fd) < 1) {
+    if ( fread(dest, size, 1, fd) < 1) {
         zfile_fclose(fd);
         return -1;
     }
     zfile_fclose(fd);
+    return 0;
+}
+
+static int try_nvram_load(const char *filename)
+{
+    if (cart_nvram && filename && *filename != '\0') {
+        if ( zfile_load(filename, cart_nvram, (size_t)CART_NVRAM_SIZE) < 0 ) {
+            log_message(megacart_log, "Failed to read NvRAM image `%s'!",
+                        filename);
+            return -1;
+        } else {
+            log_message(megacart_log, "Read NvRAM image `%s'.",
+                        filename);
+        }
+    }
+
+    return 0;
+}
+
+static int try_nvram_save(const char *filename)
+{
+    if (cart_nvram && filename && *filename != '\0') {
+        FILE *fd;
+        fd = fopen(filename, "wb");
+        if (fd) {
+            fwrite(cart_nvram, (size_t)CART_NVRAM_SIZE, 1, fd);
+            fclose(fd);
+            log_message(megacart_log, "Wrote back NvRAM image `%s'.",
+                        filename);
+        } else {
+            log_message(megacart_log, "Failed to write back NvRAM image `%s'!",
+                        filename);
+            return -1;
+        }
+    }
+
     return 0;
 }
 
@@ -305,6 +385,8 @@ int megacart_bin_attach(const char *filename)
         return -1;
     }
 
+    try_nvram_load(nvram_filename);
+
     cart_rom_low = cart_rom;
     cart_rom_high = cart_rom + 0x100000;
 
@@ -317,6 +399,11 @@ int megacart_bin_attach(const char *filename)
 
 void megacart_detach(void)
 {
+    /* try to write back NvRAM contents if write back is enabled */
+    if (nvram_writeback) {
+        try_nvram_save(nvram_filename);
+    }
+
     mem_cart_blocks = 0;
     mem_initialize_memory();
     lib_free(cart_ram);
@@ -328,3 +415,81 @@ void megacart_detach(void)
 }
 
 /* ------------------------------------------------------------------------- */
+
+static int set_nvram_filename(const char *name, void *param)
+{
+    if (nvram_filename && name && strcmp(name, nvram_filename) == 0) {
+        return 0;
+    }
+
+    /* try to write back NvRAM contents to the old file if write back is enabled */
+    if (nvram_writeback) {
+        try_nvram_save(nvram_filename);
+    }
+
+    util_string_set(&nvram_filename, name);
+
+    try_nvram_load(nvram_filename);
+    return 0;
+}
+
+static const resource_string_t resources_string[] = {
+    { "MegaCartNvRAMfilename", "", RES_EVENT_NO, NULL,
+      &nvram_filename, set_nvram_filename, NULL },
+    { NULL }
+};
+
+static int set_nvram_writeback(int val, void *param)
+{
+    nvram_writeback = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "MegaCartNvRAMWriteBack", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &nvram_writeback, set_nvram_writeback, NULL },
+    { NULL }
+};
+
+int megacart_resources_init(void)
+{
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
+
+    return resources_register_int(resources_int);
+}
+
+void megacart_resources_shutdown(void)
+{
+    lib_free(nvram_filename);
+    nvram_filename = NULL;
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-mcnvramfile", SET_RESOURCE, 1,
+      NULL, NULL, "MegaCartNvRAMfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Set Mega-Cart NvRAM filename") },
+    { "-mcnvramwriteback", SET_RESOURCE, 0,
+      NULL, NULL, "MegaCartNvRAMWriteBack", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable Mega-Cart NvRAM writeback") },
+    { "+mcnvramwriteback", SET_RESOURCE, 0,
+      NULL, NULL, "MegaCartNvRAMWriteBack", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable Mega-Cart NvRAM writeback") },
+    { NULL }
+};
+
+int megacart_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+

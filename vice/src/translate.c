@@ -8504,6 +8504,34 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
+/* vic20/cart/finalexpansion.c */
+/* en */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK,    N_("Enable Final Expansion write back to ROM file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/finalexpansion.c */
+/* en */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK,    N_("Disable Final Expansion write back to ROM file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_TR, ""},  /* fuzzy */
+#endif
+
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BORDER_MODE,    N_("Set VIC-II border display mode (0: normal, 1: full, 2: debug)")},
 #ifdef HAS_TRANSLATION

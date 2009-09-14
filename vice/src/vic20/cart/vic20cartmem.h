@@ -32,10 +32,6 @@
 extern int mem_cartridge_type;
 extern int mem_cart_blocks;
 
-BYTE REGPARM1 cartridge_read_io2(WORD addr);
-void REGPARM2 cartridge_store_io2(WORD addr, BYTE value);
-BYTE REGPARM1 cartridge_read_io3(WORD addr);
-void REGPARM2 cartridge_store_io3(WORD addr, BYTE value);
 BYTE REGPARM1 cartridge_read_ram123(WORD addr);
 void REGPARM2 cartridge_store_ram123(WORD addr, BYTE value);
 BYTE REGPARM1 cartridge_read_blk1(WORD addr);
@@ -46,6 +42,10 @@ BYTE REGPARM1 cartridge_read_blk3(WORD addr);
 void REGPARM2 cartridge_store_blk3(WORD addr, BYTE value);
 BYTE REGPARM1 cartridge_read_blk5(WORD addr);
 void REGPARM2 cartridge_store_blk5(WORD addr, BYTE value);
+BYTE REGPARM1 cartridge_read_io2(WORD addr);
+void REGPARM2 cartridge_store_io2(WORD addr, BYTE value);
+BYTE REGPARM1 cartridge_read_io3(WORD addr);
+void REGPARM2 cartridge_store_io3(WORD addr, BYTE value);
 
 #endif
 

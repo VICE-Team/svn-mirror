@@ -1100,6 +1100,12 @@ IDCLS_SPECIFY_MEGA_CART_ROM_NAME
 /* vic20/cart/vic20cart.c */
 IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME
 
+/* vic20/cart/finalexpansion.c */
+IDCLS_ENABLE_FINALEXPANSION_WRITEBACK
+
+/* vic20/cart/finalexpansion.c */
+IDCLS_DISABLE_FINALEXPANSION_WRITEBACK
+
 /* vicii/vicii-cmdline-options.c */
 IDCLS_SET_BORDER_MODE
 
