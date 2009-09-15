@@ -37,6 +37,8 @@ AC_DEFINE(VERSION_RC,"$VERSION_RC",[Win32 Version string.])
 
 is_unix=no
 is_unix_gp2x=no
+is_unix_wiz=no
+is_unix_dingux=no
 is_unix_x11=no
 is_unix_macosx=no
 is_dos=no
@@ -69,6 +71,8 @@ AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen d
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables GNOME UI support])
 AC_ARG_ENABLE(sdlui,[  --enable-sdlui          enables SDL UI support])
 AC_ARG_ENABLE(gp2x,[  --enable-gp2x           enables GP2X support])
+AC_ARG_ENABLE(wiz,[  --enable-wiz            enables WIZ support])
+AC_ARG_ENABLE(dingux,[  --enable-dingux         enables Dingoo linux support])
 AC_ARG_ENABLE(nls,[  --disable-nls           disables national language support])
 AC_ARG_ENABLE(realdevice,[  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 AC_ARG_ENABLE(ffmpeg,[  --disable-ffmpeg        disable FFmpeg library support])
@@ -108,6 +112,41 @@ fi
 dnl gp2x / cocoa ui sanity check
 if test x"$enable_gp2x" = "xyes" -a x"$with_cocoa" = "xyes"; then
   AC_MSG_ERROR([you cannot use --enable-gp2x and --with-cocoa together.])
+fi
+
+dnl wiz / gnomeui sanity check
+if test x"$enable_wiz" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-wiz and --enable-gnomeui together.])
+fi
+
+dnl wiz / cocoa ui sanity check
+if test x"$enable_wiz" = "xyes" -a x"$with_cocoa" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-wiz and --with-cocoa together.])
+fi
+
+dnl dingux / gnomeui sanity check
+if test x"$enable_dingux" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-dingux and --enable-gnomeui together.])
+fi
+
+dnl dingux / cocoa ui sanity check
+if test x"$enable_dingux" = "xyes" -a x"$with_cocoa" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-dingux and --with-cocoa together.])
+fi
+
+dnl gp2x / wiz ui sanity check
+if test x"$enable_gp2x" = "xyes" -a x"$with_wiz" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-gp2x and --with-wiz together.])
+fi
+
+dnl gp2x / dingux ui sanity check
+if test x"$enable_gp2x" = "xyes" -a x"$with_dingux" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-gp2x and --with-dingux together.])
+fi
+
+dnl wiz / dingux ui sanity check
+if test x"$enable_wiz" = "xyes" -a x"$with_dingux" = "xyes"; then
+  AC_MSG_ERROR([you cannot use --enable-wiz and --with-dingux together.])
 fi
 
 if test x"$enable_memmap" = "xyes"; then
@@ -390,7 +429,7 @@ elif test x"$host_os" = "xriscos"; then
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
-elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x" -o x"$enable_gp2xui" = "xyes"; then
+elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x" -o x"$enable_gp2x" = "xyes"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -407,6 +446,44 @@ elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor
     AC_DEFINE(GP2X,,[Enable GP2X compilation])
   else
     AC_DEFINE(GP2X_SDL,,[Enable SDL GP2X compilation])
+  fi
+  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
+elif test x"$host_os" = "xwiz" -o x"$host_os" = "xlinux-wiz" -o x"$host_vendor" = "xwiz" -o x"$enable_wiz" = "xyes"; then
+
+  dnl This is used by subsequent tests.
+  ac_cv_prog_gcc=yes
+  GCC=yes
+
+  is_unix=yes
+  is_unix_wiz=yes
+
+  CFLAGS="$CFLAGS -fomit-frame-pointer -mcpu=arm920t -msoft-float"
+
+  if test x"$enable_sdlui" != "xyes"; then
+    AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+    AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
+    AC_DEFINE(WIZ,,[Enable WIZ compilation])
+  else
+    AC_DEFINE(WIZ_SDL,,[Enable SDL WIZ compilation])
+  fi
+  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
+elif test x"$host_os" = "xdingux" -o x"$host_os" = "xdingoo" -o x"$host_os" = "xlinux-uclibc-dingux" -o x"$host_os" = "xlinux-uclibc-dingoo" -o x"$host_vendor" = "xdingux" -o x"$host_vendor" = "xdingoo" -o x"$enable_dingux" = "xyes"; then
+
+  dnl This is used by subsequent tests.
+  ac_cv_prog_gcc=yes
+  GCC=yes
+
+  is_unix=yes
+  is_unix_dingux=yes
+
+  CFLAGS="$CFLAGS -fexpensive-optimizations -fomit-frame-pointer -frename-registers"
+
+  if test x"$enable_sdlui" != "xyes"; then
+    AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+    AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
+    AC_DEFINE(DINGUX,,[Enable DINGUX compilation])
+  else
+    AC_DEFINE(DINGUX_SDL,,[Enable SDL DINGUX compilation])
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 else
@@ -2518,6 +2595,20 @@ if test x"$is_unix" = "xyes"; then
     AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   fi
 
+  if test x"$is_unix_wiz" = "xyes" ; then
+    AM_CONDITIONAL(UNIX_WIZ_COMPILE, true)
+    AM_CONDITIONAL(MAKE_BINDIST, true)
+  else
+    AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
+  fi
+
+  if test x"$is_unix_dingux" = "xyes" ; then
+    AM_CONDITIONAL(UNIX_DINGUX_COMPILE, true)
+    AM_CONDITIONAL(MAKE_BINDIST, true)
+  else
+    AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  fi
+
   if test x"$is_unix_macosx" = "xyes" ; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
     if test x"$enable_bundle" != "xno" ; then
@@ -2529,7 +2620,7 @@ if test x"$is_unix" = "xyes"; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   fi
 
-  if test x"$is_unix_gp2x" != "xyes" -a x"$is_unix_macosx" != "xyes"; then
+  if test x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes" -a x"$is_unix_dingux" != "xyes" -a x"$is_unix_macosx" != "xyes"; then
     AM_CONDITIONAL(MAKE_BINDIST, false)
   fi
 
