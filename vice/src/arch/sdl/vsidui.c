@@ -141,69 +141,69 @@ static UI_MENU_CALLBACK(vsidui_tune_callback)
 UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
 
 static const ui_menu_entry_t vsid_main_menu[] = {
-    { "Load PSID file",
-      MENU_ENTRY_DIALOG,
-      load_psid_callback,
-      NULL },
-    { "Next tune",
-      MENU_ENTRY_OTHER,
-      vsidui_tune_callback,
-      (ui_callback_data_t)SDLUI_VSID_CMD_NEXT },
-    { "Previous tune",
-      MENU_ENTRY_OTHER,
-      vsidui_tune_callback,
-      (ui_callback_data_t)SDLUI_VSID_CMD_PREV },
-    { "Override PSID settings",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PSIDKeepEnv_callback,
-      NULL },
-    { "SID settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sid_c64_menu },
-    { "Sound settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sound_output_menu },
-    { "Video settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64_video_menu },
-    { "Reset",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)reset_menu },
-    { "Pause",
-      MENU_ENTRY_OTHER,
-      pause_callback,
-      NULL },
-    { "Monitor",
-      MENU_ENTRY_OTHER,
-      monitor_callback,
-      NULL },
-    { "Statusbar",
-      MENU_ENTRY_OTHER,
-      statusbar_callback,
-      NULL },
+    {"Load PSID file",
+     MENU_ENTRY_DIALOG,
+     load_psid_callback,
+     NULL},
+    {"Next tune",
+     MENU_ENTRY_OTHER,
+     vsidui_tune_callback,
+     (ui_callback_data_t)SDLUI_VSID_CMD_NEXT},
+    {"Previous tune",
+     MENU_ENTRY_OTHER,
+     vsidui_tune_callback,
+     (ui_callback_data_t)SDLUI_VSID_CMD_PREV},
+    {"Override PSID settings",
+     MENU_ENTRY_RESOURCE_TOGGLE,
+     toggle_PSIDKeepEnv_callback,
+     NULL},
+    {"SID settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)sid_c64_menu},
+    {"Sound settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)sound_output_menu},
+    {"Video settings",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)c64_video_menu},
+    {"Reset",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)reset_menu},
+    {"Pause",
+     MENU_ENTRY_OTHER,
+     pause_callback,
+     NULL},
+    {"Monitor",
+     MENU_ENTRY_OTHER,
+     monitor_callback,
+     NULL},
+    {"Statusbar",
+     MENU_ENTRY_OTHER,
+     statusbar_callback,
+     NULL},
 #ifdef DEBUG
-    { "Debug",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)debug_menu },
+    {"Debug",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)debug_menu},
 #endif
-    { "Help",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)help_menu },
-    { "Settings management",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)settings_manager_menu },
-    { "Quit emulator",
-      MENU_ENTRY_OTHER,
-      quit_callback,
-      NULL },
-    { NULL }
+    {"Help",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)help_menu},
+    {"Settings management",
+     MENU_ENTRY_SUBMENU,
+     submenu_callback,
+     (ui_callback_data_t)settings_manager_menu},
+    {"Quit emulator",
+     MENU_ENTRY_OTHER,
+     quit_callback,
+     NULL},
+    {NULL}
 };
 
 
@@ -275,15 +275,13 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
-    sprintf(vsidstrings[VSID_S_SYNC], "Using %s sync",
-                sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-    log_message(LOG_DEFAULT, "%s",vsidstrings[VSID_S_SYNC]);
+    sprintf(vsidstrings[VSID_S_SYNC], "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_SYNC]);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation",
-                    csidmodel[ model>19 ? 7 : model ]);
+    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation", csidmodel[model > 19 ? 7 : model]);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_MODEL]);
 }
 
@@ -318,10 +316,10 @@ void vsid_ui_display_time(unsigned int sec)
 {
     unsigned int h, m;
 
-    h = sec/3600;
-    sec = sec-(h*3600);
-    m = sec/60;
-    sec = sec-(m*60);
+    h = sec / 3600;
+    sec = sec - (h * 3600);
+    m = sec / 60;
+    sec = sec - (m * 60);
     sprintf(vsidstrings[VSID_S_TIMER], "%02d:%02d:%02d", h, m, sec);
 
 #if 0
