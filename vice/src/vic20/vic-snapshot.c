@@ -42,7 +42,7 @@
 
 static char snap_module_name[] = "VIC-I";
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 
 int vic_snapshot_write_module(snapshot_t *s)
@@ -51,23 +51,41 @@ int vic_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (SMW_B(m, (BYTE)VIC_RASTER_CYCLE(maincpu_clk)) < 0
-        || SMW_W(m, (WORD)VIC_RASTER_Y(maincpu_clk)) < 0)
+        || SMW_W(m, (WORD)VIC_RASTER_Y(maincpu_clk)) < 0) {
         goto fail;
+    }
 
-    if (SMW_W(m, (WORD)vic.memptr) < 0)
+    if (0
+        || (SMW_W(m, (WORD)vic.area) < 0)
+        || (SMW_W(m, (WORD)vic.fetch_state) < 0)
+        || (SMW_DW(m, (DWORD)vic.raster_line) < 0)
+        || (SMW_DW(m, (DWORD)vic.text_cols) < 0)
+        || (SMW_DW(m, (DWORD)vic.text_lines) < 0)
+        || (SMW_DW(m, (DWORD)vic.pending_text_cols) < 0)
+        || (SMW_DW(m, (DWORD)vic.line_was_blank) < 0)
+        || (SMW_DW(m, (DWORD)vic.memptr) < 0)
+        || (SMW_DW(m, (DWORD)vic.memptr_inc) < 0)
+        || (SMW_DW(m, (DWORD)vic.row_counter) < 0)
+        || (SMW_DW(m, (DWORD)vic.buf_offset) < 0)
+        || (SMW_B(m, vic.vbuf) < 0)) {
         goto fail;
+    }
 
     /* Color RAM.  */
-    if (SMW_BA(m, mem_ram + 0x9400, 0x800) < 0)
+    if (SMW_BA(m, mem_ram + 0x9400, 0x400) < 0) {
         goto fail;
+    }
 
-    for (i = 0; i < 0x10; i++)
-        if (SMW_B(m, (BYTE)vic.regs[i]) < 0)
+    for (i = 0; i < 0x10; i++) {
+        if (SMW_B(m, (BYTE)vic.regs[i]) < 0) {
             goto fail;
+        }
+    }
 
     return snapshot_module_close(m);
 
@@ -90,8 +108,9 @@ int vic_snapshot_read_module(snapshot_t *s)
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         log_error(vic.log, "Snapshot module version (%d.%d) newer than %d.%d.",
@@ -100,35 +119,58 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (SMR_B(m, &b) < 0)
+    if (SMR_B(m, &b) < 0) {
         goto fail;
+    }
     if (b != VIC_RASTER_CYCLE(maincpu_clk)) {
         log_error(vic.log, "Cycle value (%d) incorrect; should be %d.",
                   (int)b, VIC_RASTER_CYCLE(maincpu_clk));
         goto fail;
     }
+    vic.raster_cycle = (unsigned int)b;
 
-    if (SMR_W(m, &w) < 0)
+    if (SMR_W(m, &w) < 0) {
         goto fail;
-
+    }
     if (w != VIC_RASTER_Y(maincpu_clk)) {
           log_error(vic.log, "Raster line value (%d) incorrect; should be %d.",
                     (int)w, VIC_RASTER_Y(maincpu_clk));
         goto fail;
     }
 
-    if (SMR_W(m, &w) < 0)
+    if (SMR_W(m, &w) < 0) {
         goto fail;
+    }
+    vic.area = (vic_area_state_t)w;
 
-    vic.memptr = w;
+    if (SMR_W(m, &w) < 0) {
+        goto fail;
+    }
+    vic.fetch_state = (vic_fetch_state_t)w;
+
+    if (0
+        || (SMR_DW_UINT(m, &vic.raster_line) < 0)
+        || (SMR_DW_UINT(m, &vic.text_cols) < 0)
+        || (SMR_DW_UINT(m, &vic.text_lines) < 0)
+        || (SMR_DW_UINT(m, &vic.pending_text_cols) < 0)
+        || (SMR_DW_UINT(m, &vic.line_was_blank) < 0)
+        || (SMR_DW_UINT(m, &vic.memptr) < 0)
+        || (SMR_DW_UINT(m, &vic.memptr_inc) < 0)
+        || (SMR_DW_UINT(m, &vic.row_counter) < 0)
+        || (SMR_DW_UINT(m, &vic.buf_offset) < 0)
+        || (SMR_B(m, &vic.vbuf) < 0)) {
+        goto fail;
+    }
 
     /* Color RAM.  */
-    if (SMR_BA(m, mem_ram + 0x9400, 0x800) < 0)
+    if (SMR_BA(m, mem_ram + 0x9400, 0x400) < 0) {
         goto fail;
+    }
 
     for (i = 0; i < 0x10; i++) {
-        if (SMR_B(m, &b) < 0)
+        if (SMR_B(m, &b) < 0) {
             goto fail;
+        }
 
         /* XXX: This assumes that there are no side effects.  */
         vic_store(i, b);

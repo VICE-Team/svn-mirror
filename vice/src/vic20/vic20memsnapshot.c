@@ -58,7 +58,7 @@ static log_t vic20_snapshot_log = LOG_ERR;
  * VIC20 memory dump contains the available memory at the moment
  */
 #define VIC20MEM_DUMP_VER_MAJOR   1
-#define VIC20MEM_DUMP_VER_MINOR   0
+#define VIC20MEM_DUMP_VER_MINOR   1
 #define SNAP_MEM_MODULE_NAME      "VIC20MEM"
 
 /*
@@ -68,9 +68,11 @@ static log_t vic20_snapshot_log = LOG_ERR;
  *                                  3: 1 = expansion block 3 RAM enabled
  *                                  5: 1 = expansion block 5 RAM enabled
  *
+ * UBYTE        cpu_last_data
+ * UBYTE        v_bus_last_data
+ * UBYTE        v_bus_last_high
  * ARRAY        RAM0            1k RAM $0000-$03ff
  * ARRAY        RAM1            4k RAM $1000-$1fff
- * ARRAY        COLORRAM        2k Video RAM
  * ARRAY        BLK0            3k RAM $0400-$0fff (if blk 0 RAM enabled)
  * ARRAY        BLK1            8k RAM $2000-$3fff (if blk 1 RAM enabled)
  * ARRAY        BLK2            8k RAM $4000-$5fff (if blk 2 RAM enabled)
@@ -100,9 +102,12 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 
     SMW_B(m, config);
 
+    SMW_B(m, vic20_cpu_last_data);
+    SMW_B(m, vic20_v_bus_last_data);
+    SMW_B(m, vic20_v_bus_last_high);
+
     SMW_BA(m, mem_ram, 0x0400);
     SMW_BA(m, mem_ram + 0x1000, 0x1000);
-    SMW_BA(m, mem_ram + 0x9400, 0x0800);
 
     if (config & 1) {
         SMW_BA(m, mem_ram + 0x0400, 0x0c00);
@@ -143,9 +148,12 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     SMR_B(m, &config);
 
+    SMR_B(m, &vic20_cpu_last_data);
+    SMR_B(m, &vic20_v_bus_last_data);
+    SMR_B(m, &vic20_v_bus_last_high);
+
     SMR_BA(m, mem_ram, 0x0400);
     SMR_BA(m, mem_ram + 0x1000, 0x1000);
-    SMR_BA(m, mem_ram + 0x9400, 0x0800);
 
     resources_set_int("RAMBlock0", (config & 1) ? 1 : 0 );
     if (config & 1) {
