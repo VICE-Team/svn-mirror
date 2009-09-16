@@ -196,73 +196,73 @@ static int joymap_file_set(const char *val, void *param)
 }
 
 static resource_string_t resources_string[] = {
-    {"JoyMapFile", NULL, RES_EVENT_NO, NULL,
-     &joymap_file, joymap_file_set, (void *)0},
-    {NULL},
+    { "JoyMapFile", NULL, RES_EVENT_NO, NULL,
+      &joymap_file, joymap_file_set, (void *)0 },
+    { NULL }
 };
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
 static const resource_int_t resources_int[] = {
-    {"JoyDevice1", 0, RES_EVENT_NO, NULL,
-     &joystick_port_map[0], joyport1select, NULL},
-    {"JoyDevice2", 0, RES_EVENT_NO, NULL,
-     &joystick_port_map[1], joyport2select, NULL},
-    {"JoyDevice3", 0, RES_EVENT_NO, NULL,
-     &joystick_port_map[2], joyport3select, NULL},
-    {"JoyDevice4", 0, RES_EVENT_NO, NULL,
-     &joystick_port_map[3], joyport4select, NULL},
+    { "JoyDevice1", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[0], joyport1select, NULL },
+    { "JoyDevice2", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[1], joyport2select, NULL },
+    { "JoyDevice3", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[2], joyport3select, NULL },
+    { "JoyDevice4", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[3], joyport4select, NULL },
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    {"JoyThreshold", DEFAULT_JOYSTICK_THRESHOLD, RES_EVENT_NO, NULL,
-     &joystick_threshold, set_joystick_threshold, NULL},
-    {"JoyFuzz", DEFAULT_JOYSTICK_FUZZ, RES_EVENT_NO, NULL,
-     &joystick_fuzz, set_joystick_fuzz, NULL},
+    { "JoyThreshold", DEFAULT_JOYSTICK_THRESHOLD, RES_EVENT_NO, NULL,
+      &joystick_threshold, set_joystick_threshold, NULL },
+    { "JoyFuzz", DEFAULT_JOYSTICK_FUZZ, RES_EVENT_NO, NULL,
+      &joystick_fuzz, set_joystick_fuzz, NULL },
 #endif
-    {NULL},
+    { NULL }
 };
 
 /* Command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_SDL_NUMJOYSTICKS
-    {"-joymap", SET_RESOURCE, 1, NULL, NULL, "JoyMapFile", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     N_("<name>"), "Specify name of joystick map file"},
-    {"-joythreshold", SET_RESOURCE, 1, NULL, NULL, "JoyThreshold", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-32767>", "Set joystick threshold"},
-    {"-joyfuzz", SET_RESOURCE, 1, NULL, NULL, "JoyFuzz", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-32767>", "Set joystick fuzz"},
+    { "-joymap", SET_RESOURCE, 1, NULL, NULL, "JoyMapFile", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<name>"), "Specify name of joystick map file" },
+    { "-joythreshold", SET_RESOURCE, 1, NULL, NULL, "JoyThreshold", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-32767>", "Set joystick threshold" },
+    { "-joyfuzz", SET_RESOURCE, 1, NULL, NULL, "JoyFuzz", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-32767>", "Set joystick fuzz" },
 #endif
-    {NULL},
+    { NULL }
 };
 
 static const cmdline_option_t joydev1cmdline_options[] = {
-    {"-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-4>", "Set device for joystick port 1"},
-    {NULL},
+    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-4>", "Set device for joystick port 1" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
-    {"-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-4>", "Set device for joystick port 2"},
-    {NULL},
+    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-4>", "Set device for joystick port 2" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
     {"-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-4>", "Set device for extra joystick port 1"},
-    {NULL},
+     "<0-4>", "Set device for extra joystick port 1" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
-    {"-extrajoydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-4>", "Set device for extra joystick port 2"},
-    {NULL},
+    { "-extrajoydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-4>", "Set device for extra joystick port 2" },
+    { NULL }
 };
 
 int joystick_arch_init_resources(void)

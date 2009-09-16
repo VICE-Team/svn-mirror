@@ -190,31 +190,31 @@ static int set_aspect_ratio(const char *val, void *param)
 
 static const resource_string_t resources_string[] = {
 #ifdef HAVE_HWSCALE
-    {"AspectRatio", "1.0", RES_EVENT_NO, NULL,
-     &aspect_ratio_s, set_aspect_ratio, NULL},
+    { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
+      &aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
-    {NULL}
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
 #ifdef WATCOM_COMPILE
-    {"SDLBitdepth", 32, RES_EVENT_NO, NULL,
-     &sdl_bitdepth, set_sdl_bitdepth, NULL},
+    { "SDLBitdepth", 32, RES_EVENT_NO, NULL,
+      &sdl_bitdepth, set_sdl_bitdepth, NULL },
 #else
-    {"SDLBitdepth", 0, RES_EVENT_NO, NULL,
-     &sdl_bitdepth, set_sdl_bitdepth, NULL},
+    { "SDLBitdepth", 0, RES_EVENT_NO, NULL,
+      &sdl_bitdepth, set_sdl_bitdepth, NULL },
 #endif
-    {"SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
-     &sdl_limit_mode, set_sdl_limit_mode, NULL},
-    {"SDLCustomWidth", 800, RES_EVENT_NO, NULL,
-     &sdl_custom_width, set_sdl_custom_width, NULL},
-    {"SDLCustomHeight", 600, RES_EVENT_NO, NULL,
-     &sdl_custom_height, set_sdl_custom_height, NULL},
+    { "SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
+      &sdl_limit_mode, set_sdl_limit_mode, NULL },
+    { "SDLCustomWidth", 800, RES_EVENT_NO, NULL,
+      &sdl_custom_width, set_sdl_custom_width, NULL },
+    { "SDLCustomHeight", 600, RES_EVENT_NO, NULL,
+      &sdl_custom_height, set_sdl_custom_height, NULL },
 #ifdef HAVE_HWSCALE
-    {"SDLGLAspectMode", 0, RES_EVENT_NO, NULL,
-     &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL},
+    { "SDLGLAspectMode", 0, RES_EVENT_NO, NULL,
+      &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
 #endif
-    {NULL}
+    { NULL }
 };
 
 int video_arch_resources_init(void)
@@ -242,27 +242,27 @@ void video_arch_resources_shutdown(void)
 /* Video-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-sdlbitdepth", SET_RESOURCE, 1, NULL, NULL, "SDLBitdepth", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)"},
-    {"-sdllimitmode", SET_RESOURCE, 1, NULL, NULL, "SDLLimitMode", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)"},
-    {"-sdlcustomw", SET_RESOURCE, 1, NULL, NULL, "SDLCustomWidth", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<width>", "Set custom resolution width"},
-    {"-sdlcustomh", SET_RESOURCE, 1, NULL, NULL, "SDLCustomHeight", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<height>", "Set custom resolution height"},
+    { "-sdlbitdepth", SET_RESOURCE, 1, NULL, NULL, "SDLBitdepth", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)" },
+    { "-sdllimitmode", SET_RESOURCE, 1, NULL, NULL, "SDLLimitMode", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)" },
+    { "-sdlcustomw", SET_RESOURCE, 1, NULL, NULL, "SDLCustomWidth", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<width>", "Set custom resolution width" },
+    { "-sdlcustomh", SET_RESOURCE, 1, NULL, NULL, "SDLCustomHeight", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<height>", "Set custom resolution height" },
 #ifdef HAVE_HWSCALE
-    {"-sdlaspectmode", SET_RESOURCE, 1, NULL, NULL, "SDLGLAspectMode", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<mode>", "Set aspect ratio mode (0 = any, 1 = fixed)"},
-    {"-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)"},
+    { "-sdlaspectmode", SET_RESOURCE, 1, NULL, NULL, "SDLGLAspectMode", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<mode>", "Set aspect ratio mode (0 = any, 1 = fixed)" },
+    { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)" },
 #endif
-    {NULL}
+    { NULL }
 };
 
 int video_init_cmdline_options(void)

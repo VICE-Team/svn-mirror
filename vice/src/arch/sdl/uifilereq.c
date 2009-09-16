@@ -109,7 +109,7 @@ static void sdl_ui_display_path(const char *current_dir)
 
     if (len > menu_draw->max_text_x) {
         text = lib_stralloc(current_dir);
-        
+
         temp = strchr(current_dir + 1, FSDEV_DIR_SEP_CHR);
         before = temp - current_dir + 1;
 

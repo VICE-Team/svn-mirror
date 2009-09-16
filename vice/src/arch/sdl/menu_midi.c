@@ -51,35 +51,35 @@ void sdl_menu_midi_out_free(void)
 }
 
 static const ui_menu_entry_t midi_driver_menu[] = {
-    {"OSS",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIDriver_callback,
-     (ui_callback_data_t)0},
+    { "OSS",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIDriver_callback,
+      (ui_callback_data_t)0 },
 #ifdef USE_ALSA
-    {"ALSA",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIDriver_callback,
-     (ui_callback_data_t)1},
+    { "ALSA",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIDriver_callback,
+      (ui_callback_data_t)1 },
 #endif
-    {NULL}
+    { NULL }
 };
 
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS            \
     SDL_MENU_ITEM_SEPARATOR,                   \
-    {"Driver",                                 \
-     MENU_ENTRY_SUBMENU,                       \
-     submenu_radio_callback,                   \
-     (ui_callback_data_t)midi_driver_menu},    \
+    { "Driver",                                \
+      MENU_ENTRY_SUBMENU,                      \
+      submenu_radio_callback,                  \
+      (ui_callback_data_t)midi_driver_menu },  \
     SDL_MENU_ITEM_SEPARATOR,                   \
     SDL_MENU_ITEM_TITLE("OSS driver devices"), \
-    {"MIDI-In",                                \
-     MENU_ENTRY_RESOURCE_STRING,               \
-     string_MIDIInDev_callback,                \
-     (ui_callback_data_t)"MIDI-In device"},    \
-    {"MIDI-Out",                               \
-     MENU_ENTRY_RESOURCE_STRING,               \
-     string_MIDIOutDev_callback,               \
-     (ui_callback_data_t)"MIDI-Out device"},
+    { "MIDI-In",                               \
+      MENU_ENTRY_RESOURCE_STRING,              \
+      string_MIDIInDev_callback,               \
+      (ui_callback_data_t)"MIDI-In device" },  \
+    { "MIDI-Out",                              \
+      MENU_ENTRY_RESOURCE_STRING,              \
+      string_MIDIOutDev_callback,              \
+      (ui_callback_data_t)"MIDI-Out device" },
 
 #endif /* defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT) */
 
@@ -97,20 +97,20 @@ void sdl_menu_midi_out_free(void)
 {
 }
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS               \
-    SDL_MENU_ITEM_SEPARATOR,                      \
-    {"Client name",                               \
-     MENU_ENTRY_RESOURCE_STRING,                  \
-     string_MIDIName_callback,                    \
-     (ui_callback_data_t)"Name of MIDI client"},  \
-    {"MIDI-In",                                   \
-     MENU_ENTRY_RESOURCE_STRING,                  \
-     string_MIDIInName_callback,                  \
-     (ui_callback_data_t)"Name of MIDI-In Port"}, \
-    {"MIDI-Out",                                  \
-     MENU_ENTRY_RESOURCE_STRING,                  \
-     string_MIDIOutName_callback,                 \
-     (ui_callback_data_t)"Name of MIDI-Out Port"},
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS                 \
+    SDL_MENU_ITEM_SEPARATOR,                        \
+    { "Client name",                                \
+      MENU_ENTRY_RESOURCE_STRING,                   \
+      string_MIDIName_callback,                     \
+      (ui_callback_data_t)"Name of MIDI client" },  \
+    { "MIDI-In",                                    \
+      MENU_ENTRY_RESOURCE_STRING,                   \
+      string_MIDIInName_callback,                   \
+      (ui_callback_data_t)"Name of MIDI-In Port" }, \
+    { "MIDI-Out",                                   \
+      MENU_ENTRY_RESOURCE_STRING,                   \
+      string_MIDIOutName_callback,                  \
+      (ui_callback_data_t)"Name of MIDI-Out Port" },
 
 #endif /* defined(MACOSX_SUPPORT) */
 
@@ -231,16 +231,16 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
     return "->";
 }
 
-#define VICE_SDL_MIDI_ARCHDEP_ITEMS         \
-    SDL_MENU_ITEM_SEPARATOR,                \
-    {"MIDI-In",                             \
-     MENU_ENTRY_DYNAMIC_SUBMENU,            \
-     MIDIInDev_dynmenu_callback,            \
-     (ui_callback_data_t)midi_in_dyn_menu}, \
-    {"MIDI-Out",                            \
-     MENU_ENTRY_DYNAMIC_SUBMENU,            \
-     MIDIOutDev_dynmenu_callback,           \
-     (ui_callback_data_t)midi_out_dyn_menu},
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS           \
+    SDL_MENU_ITEM_SEPARATOR,                  \
+    { "MIDI-In",                              \
+      MENU_ENTRY_DYNAMIC_SUBMENU,             \
+      MIDIInDev_dynmenu_callback,             \
+      (ui_callback_data_t)midi_in_dyn_menu }, \
+    { "MIDI-Out",                             \
+      MENU_ENTRY_DYNAMIC_SUBMENU,             \
+      MIDIOutDev_dynmenu_callback,            \
+      (ui_callback_data_t)midi_out_dyn_menu },
 
 #endif /* defined(WIN32_COMPILE) && !defined(__XBOX__) */
 
@@ -250,49 +250,49 @@ UI_MENU_DEFINE_TOGGLE(MIDIEnable)
 UI_MENU_DEFINE_RADIO(MIDIMode)
 
 static const ui_menu_entry_t midi_type_menu[] = {
-    {"Sequential",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIMode_callback,
-     (ui_callback_data_t)0},
-    {"Passport",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIMode_callback,
-     (ui_callback_data_t)1},
-    {"DATEL",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIMode_callback,
-     (ui_callback_data_t)2},
-    {"Namesoft",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIMode_callback,
-     (ui_callback_data_t)3},
-    {"Maplin",
-     MENU_ENTRY_RESOURCE_RADIO,
-     radio_MIDIMode_callback,
-     (ui_callback_data_t)4},
-    {NULL}
+    { "Sequential",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIMode_callback,
+      (ui_callback_data_t)0 },
+    { "Passport",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIMode_callback,
+      (ui_callback_data_t)1 },
+    { "DATEL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIMode_callback,
+      (ui_callback_data_t)2 },
+    { "Namesoft",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIMode_callback,
+      (ui_callback_data_t)3 },
+    { "Maplin",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MIDIMode_callback,
+      (ui_callback_data_t)4 },
+    { NULL }
 };
 
 const ui_menu_entry_t midi_c64_menu[] = {
-    {"MIDI emulation",
-     MENU_ENTRY_RESOURCE_TOGGLE,
-     toggle_MIDIEnable_callback,
-     NULL},
-    {"MIDI cart type",
-     MENU_ENTRY_SUBMENU,
-     submenu_radio_callback,
-     (ui_callback_data_t)midi_type_menu},
+    { "MIDI emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MIDIEnable_callback,
+      NULL },
+    { "MIDI cart type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)midi_type_menu },
     VICE_SDL_MIDI_ARCHDEP_ITEMS
-    {NULL}
+    { NULL }
 };
 
 const ui_menu_entry_t midi_vic20_menu[] = {
-    {"MIDI emulation",
-     MENU_ENTRY_RESOURCE_TOGGLE,
-     toggle_MIDIEnable_callback,
-     NULL},
+    { "MIDI emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MIDIEnable_callback,
+      NULL },
     VICE_SDL_MIDI_ARCHDEP_ITEMS
-    {NULL}
+    { NULL }
 };
 
 #endif /* HAVE_MIDI */

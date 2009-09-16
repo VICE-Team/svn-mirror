@@ -46,11 +46,11 @@ void sdl_menu_ethernet_interface_free(void)
 
 UI_MENU_DEFINE_STRING(ETHERNET_INTERFACE)
 
-#define VICE_SDL_TFE_ARCHDEP_ITEMS       \
-    {"Interface",                        \
-     MENU_ENTRY_RESOURCE_STRING,         \
-     string_ETHERNET_INTERFACE_callback, \
-     (ui_callback_data_t)"Ethernet interface"},
+#define VICE_SDL_TFE_ARCHDEP_ITEMS        \
+    { "Interface",                        \
+      MENU_ENTRY_RESOURCE_STRING,         \
+      string_ETHERNET_INTERFACE_callback, \
+      (ui_callback_data_t)"Ethernet interface" },
 
 #endif /* defined(UNIX_COMPILE) */
 
@@ -110,11 +110,11 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
     return "->";
 }
 
-#define VICE_SDL_TFE_ARCHDEP_ITEMS        \
-    {"Interface",                         \
-     MENU_ENTRY_DYNAMIC_SUBMENU,          \
-     ETHERNET_INTERFACE_dynmenu_callback, \
-     (ui_callback_data_t)ethernet_interface_dyn_menu},
+#define VICE_SDL_TFE_ARCHDEP_ITEMS         \
+    { "Interface",                         \
+      MENU_ENTRY_DYNAMIC_SUBMENU,          \
+      ETHERNET_INTERFACE_dynmenu_callback, \
+      (ui_callback_data_t)ethernet_interface_dyn_menu },
 
 #endif /* defined(WIN32_COMPILE) && !defined(__XBOX__) */
 
@@ -133,20 +133,20 @@ static UI_MENU_CALLBACK(show_ETHERNET_DISABLED_callback)
 }
 
 const ui_menu_entry_t tfe_menu[] = {
-    {"Ethernet support",
-     MENU_ENTRY_TEXT,
-     show_ETHERNET_DISABLED_callback,
-     (ui_callback_data_t)1},
-    {"Ethernet emulation",
-     MENU_ENTRY_RESOURCE_TOGGLE,
-     toggle_ETHERNET_ACTIVE_callback,
-     NULL},
-    {"RR-NET compatibility mode",
-     MENU_ENTRY_RESOURCE_TOGGLE,
-     toggle_ETHERNET_AS_RR_callback,
-     NULL},
+    { "Ethernet support",
+      MENU_ENTRY_TEXT,
+      show_ETHERNET_DISABLED_callback,
+      (ui_callback_data_t)1 },
+    { "Ethernet emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ETHERNET_ACTIVE_callback,
+      NULL },
+    { "RR-NET compatibility mode",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ETHERNET_AS_RR_callback,
+      NULL },
     VICE_SDL_TFE_ARCHDEP_ITEMS
-    {NULL}
+    { NULL }
 };
 
 #endif /* HAVE_TFE */

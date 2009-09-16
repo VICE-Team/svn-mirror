@@ -68,39 +68,39 @@ static UI_MENU_CALLBACK(save_screenshot_callback)
 }
 
 const ui_menu_entry_t screenshot_menu[] = {
-    {"Save BMP screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"BMP"},
+    { "Save BMP screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"BMP" },
 #ifdef HAVE_GIF
-    {"Save GIF screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"GIF"},
+    { "Save GIF screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"GIF" },
 #endif
-    {"Save IFF screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"IFF"},
+    { "Save IFF screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"IFF" },
 #ifdef HAVE_JPEG
-    {"Save JPG screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"JEPG"},
+    { "Save JPG screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"JPEG" },
 #endif
-    {"Save PCX screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"PCX"},
+    { "Save PCX screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"PCX" },
 #ifdef HAVE_PNG
-    {"Save PNG screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"PNG"},
+    { "Save PNG screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"PNG" },
 #endif
-    {"Save PPM screenshot",
-     MENU_ENTRY_DIALOG,
-     save_screenshot_callback,
-     (ui_callback_data_t)"PPM"},
-    {NULL}
+    { "Save PPM screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"PPM" },
+    { NULL }
 };

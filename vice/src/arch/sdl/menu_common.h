@@ -39,8 +39,8 @@ extern const char *sdl_menu_text_tick;
 extern const char *sdl_menu_text_unknown;
 extern const char *sdl_menu_text_exit_ui;
 
-#define SDL_MENU_ITEM_SEPARATOR {"", MENU_ENTRY_TEXT, seperator_callback, NULL}
-#define SDL_MENU_ITEM_TITLE(title) {title, MENU_ENTRY_TEXT, seperator_callback, (ui_callback_data_t)1}
+#define SDL_MENU_ITEM_SEPARATOR { "", MENU_ENTRY_TEXT, seperator_callback, NULL }
+#define SDL_MENU_ITEM_TITLE(title) { title, MENU_ENTRY_TEXT, seperator_callback, (ui_callback_data_t)1 }
 
 #define UI_MENU_CALLBACK(name) \
     const char *name(int activated, ui_callback_data_t param)

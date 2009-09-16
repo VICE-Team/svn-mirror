@@ -82,9 +82,9 @@ static int hotkey_file_set(const char *val, void *param)
 }
 
 static resource_string_t resources_string[] = {
-    {"HotkeyFile", NULL, RES_EVENT_NO, NULL,
-     &hotkey_file, hotkey_file_set, (void *)0},
-    {NULL},
+    { "HotkeyFile", NULL, RES_EVENT_NO, NULL,
+      &hotkey_file, hotkey_file_set, (void *)0 },
+    { NULL }
 };
 
 int sdlkbd_init_resources(void)
