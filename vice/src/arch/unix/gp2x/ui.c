@@ -30,12 +30,12 @@
 
 void ui_display_joyport(BYTE *joyport)
 {
-  /* needed */
+    /* needed */
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
-  /* needed */
+    /* needed */
 }
 
 void ui_display_volume(int vol)
