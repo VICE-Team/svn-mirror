@@ -58,16 +58,16 @@
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
-    {"VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE},
-    {"VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN},
-    {"VICIIScale2x", IDM_TOGGLE_SCALE2X},
-    {"PALEmulation", IDM_TOGGLE_FASTPAL},
-    {"VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE},
-    {"Mouse", IDM_MOUSE},
-    {"CartridgeReset", IDM_TOGGLE_CART_RESET},
-    {"EmuID", IDM_TOGGLE_EMUID},
-    {"SFXSoundSampler", IDM_TOGGLE_SFX_SS},
-    {NULL, 0}
+    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
+    { "PALEmulation", IDM_TOGGLE_FASTPAL },
+    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "Mouse", IDM_MOUSE },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "EmuID", IDM_TOGGLE_EMUID },
+    { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { NULL, 0 }
 };
 
 static int c64_ui_specific(video_canvas_t *canvas, int idm)

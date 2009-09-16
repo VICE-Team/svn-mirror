@@ -45,15 +45,15 @@
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
-    {"VICDoubleSize", IDM_TOGGLE_DOUBLESIZE},
-    {"VICDoubleScan", IDM_TOGGLE_DOUBLESCAN},
-    {"VICScale2x", IDM_TOGGLE_SCALE2X},
-    {"PALEmulation", IDM_TOGGLE_FASTPAL},
-    {"VICVideoCache", IDM_TOGGLE_VIDEOCACHE},
-    {"IEEE488", IDM_IEEE488},
-    {"EmuID", IDM_TOGGLE_EMUID},
-    {"CartridgeReset", IDM_TOGGLE_CART_RESET},
-    {NULL, 0}
+    { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICScale2x", IDM_TOGGLE_SCALE2X },
+    { "PALEmulation", IDM_TOGGLE_FASTPAL },
+    { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "IEEE488", IDM_IEEE488 },
+    { "EmuID", IDM_TOGGLE_EMUID },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { NULL, 0 }
 };
 
 static const uicart_params_t vic20_ui_cartridges[] = {

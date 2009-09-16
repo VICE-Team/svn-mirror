@@ -264,7 +264,7 @@ void scan( TEXT *dir, TEXT *dirsofar )
     IExec->FreeVec(ndirsofar);
 }
 
-int main( void )
+int main(void)
 {
     if (init()) {
         scan("", "");

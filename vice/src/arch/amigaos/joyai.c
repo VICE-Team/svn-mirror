@@ -241,25 +241,25 @@ typedef struct {
 
 static keysym_type keysym_1[] = {
     /* Digital */
-    { "Up", DIGITAL_UP, -1, TYPE_NONE, 0, NULL},
-    { "Down", DIGITAL_DOWN, -1, TYPE_NONE, 0, NULL},
-    { "Left", DIGITAL_LEFT,  -1, TYPE_NONE, 0, NULL},
-    { "Right", DIGITAL_RIGHT, -1, TYPE_NONE, 0, NULL},
-    { "Fire", DIGITAL_FIRE, -1, TYPE_NONE, 0, NULL},
+    { "Up", DIGITAL_UP, -1, TYPE_NONE, 0, NULL },
+    { "Down", DIGITAL_DOWN, -1, TYPE_NONE, 0, NULL },
+    { "Left", DIGITAL_LEFT,  -1, TYPE_NONE, 0, NULL },
+    { "Right", DIGITAL_RIGHT, -1, TYPE_NONE, 0, NULL },
+    { "Fire", DIGITAL_FIRE, -1, TYPE_NONE, 0, NULL },
 };
 
 static keysym_type keysym_2[] = {
     /* Digital */
-    {"Up", DIGITAL_UP, -1, TYPE_NONE, 0, NULL },
-    {"Down", DIGITAL_DOWN, -1, TYPE_NONE, 0, NULL },
-    {"Left", DIGITAL_LEFT, -1, TYPE_NONE, 0, NULL },
-    {"Right",DIGITAL_RIGHT, -1, TYPE_NONE, 0, NULL },
-    {"Fire", DIGITAL_FIRE, -1, TYPE_NONE, 0, NULL },
+    { "Up", DIGITAL_UP, -1, TYPE_NONE, 0, NULL },
+    { "Down", DIGITAL_DOWN, -1, TYPE_NONE, 0, NULL },
+    { "Left", DIGITAL_LEFT, -1, TYPE_NONE, 0, NULL },
+    { "Right",DIGITAL_RIGHT, -1, TYPE_NONE, 0, NULL },
+    { "Fire", DIGITAL_FIRE, -1, TYPE_NONE, 0, NULL },
 };
 
 static AIN_DeviceID joy_id[2] = {-1, -1};
 
-static char *joy_resource[2] = {NULL, NULL};
+static char *joy_resource[2] = { NULL, NULL };
 
 #define NUM_KEYSYM ((sizeof(keysym_1)) / (sizeof(keysym_type)))
 
@@ -268,7 +268,7 @@ static AIN_DeviceID default_id = -1, default_count = 0;
 struct Library *AIN_Base = NULL;
 struct AIN_IFace *IAIN = NULL;
 static void *CTX = NULL;
-static AIN_DeviceHandle *ai_handle[2] = {NULL, NULL};
+static AIN_DeviceHandle *ai_handle[2] = { NULL, NULL };
 static struct MsgPort *ai_port = NULL;
 
 #include "resources.h"
@@ -286,7 +286,7 @@ static int set_JOYAI_resource(const char *name, void *param)
     return 0;
 }
 
-#define MYRES(res, def, name) {name, def, RES_EVENT_NO, NULL, &res, set_JOYAI_resource, (void *)&res},
+#define MYRES(res, def, name) { name, def, RES_EVENT_NO, NULL, &res, set_JOYAI_resource, (void *)&res },
 
 static const resource_string_t resources_string[] = {
     MYRES(joy_resource[0], "-1", "JOYAI1_ID")
@@ -301,7 +301,7 @@ static const resource_string_t resources_string[] = {
     MYRES(keysym_2[2].resource, "0,0,-1", "JOYAI2_Left")
     MYRES(keysym_2[3].resource, "0,0,-1", "JOYAI2_Right")
     MYRES(keysym_2[4].resource, "0,0,-1", "JOYAI2_Fire")
-    {NULL}
+    { NULL }
 };
 
 int joyai_init_resources(void)
@@ -374,7 +374,7 @@ static int ai_init(void)
     if ((AIN_Base = OpenLibrary("AmigaInput.library", 51))) {
         if ((IAIN = (struct AIN_IFace *)GetInterface(AIN_Base, "main", 1, NULL))) {
             if ((ai_port = CreateMsgPort())) {
-                struct TagItem tags[] = {{AINCC_Port, (ULONG)ai_port}, {TAG_DONE, TAG_DONE}};
+                struct TagItem tags[] = { { AINCC_Port, (ULONG)ai_port}, { TAG_DONE, TAG_DONE } };
 
                 CTX = AIN_CreateContext(1, tags);
                 if (CTX != NULL) {

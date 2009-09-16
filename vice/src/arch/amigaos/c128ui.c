@@ -56,34 +56,34 @@
 #include "mui/uivideoc128.h"
 
 static const ui_res_possible_values_t VDCrev[] = {
-    {0, IDM_VDC_REV_0},
-    {1, IDM_VDC_REV_1},
-    {2, IDM_VDC_REV_2},
-    {-1, 0}
+    { 0, IDM_VDC_REV_0 },
+    { 1, IDM_VDC_REV_1 },
+    { 2, IDM_VDC_REV_2 },
+    { -1, 0 }
 };
 
 static const ui_res_value_list_t c128_ui_res_values[] = {
-    {"VDCRevision", VDCrev, 0},
-    {NULL, NULL, 0}
+    { "VDCRevision", VDCrev, 0 },
+    { NULL, NULL, 0 }
 };
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
-    {"VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE},
-    {"VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN},
-    {"VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE},
-    {"VICIIScale2x", IDM_TOGGLE_SCALE2X},
-    {"PALEmulation", IDM_TOGGLE_FASTPAL},
-    {"IEEE488", IDM_IEEE488},
-    {"Mouse", IDM_MOUSE},
-    {"CartridgeReset", IDM_TOGGLE_CART_RESET},
-    {"VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE},
-    {"VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN},
-    {"VDC64KB", IDM_TOGGLE_VDC64KB},
-    {"EmuID", IDM_TOGGLE_EMUID},
-    {"SFXSoundSampler", IDM_TOGGLE_SFX_SS},
-//  {"InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM},
-//  {"ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM},
-    {NULL, 0}
+    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
+    { "PALEmulation", IDM_TOGGLE_FASTPAL },
+    { "IEEE488", IDM_IEEE488 },
+    { "Mouse", IDM_MOUSE },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
+    { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
+    { "VDC64KB", IDM_TOGGLE_VDC64KB },
+    { "EmuID", IDM_TOGGLE_EMUID },
+    { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+//  { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
+//  { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
+    { NULL, 0 }
 };
 
 static int c128_ui_specific(video_canvas_t *canvas, int idm)

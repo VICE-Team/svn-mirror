@@ -258,23 +258,23 @@ static int set_joystick_fire_4(int value, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &joystick_device[0], set_joystick_device_1, NULL},
-    {"JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &joystick_device[1], set_joystick_device_2, NULL},
-    {"JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &joystick_device[2], set_joystick_device_3, NULL},
-    {"JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &joystick_device[3], set_joystick_device_4, NULL},
-    {"JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-     &joystick_fire[0], set_joystick_fire_1, NULL},
-    {"JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-     &joystick_fire[1], set_joystick_fire_2, NULL},
-    {"JoyFire3", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-     &joystick_fire[2], set_joystick_fire_3, NULL},
-    {"JoyFire4", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-     &joystick_fire[3], set_joystick_fire_4, NULL},
-    {NULL}
+    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[0], set_joystick_device_1, NULL },
+    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[1], set_joystick_device_2, NULL },
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[2], set_joystick_device_3, NULL },
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[3], set_joystick_device_4, NULL },
+    { "JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+      &joystick_fire[0], set_joystick_fire_1, NULL },
+    { "JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+      &joystick_fire[1], set_joystick_fire_2, NULL },
+    { "JoyFire3", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+      &joystick_fire[2], set_joystick_fire_3, NULL },
+    { "JoyFire4", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
+      &joystick_fire[3], set_joystick_fire_4, NULL },
+    { NULL }
 };
 
 int joystick_arch_init_resources(void)
@@ -285,39 +285,39 @@ int joystick_arch_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t joydev1cmdline_options[] = {
-    {"-joydev1", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice1", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NUMBER, IDS_SET_INPUT_JOYLL_1,
-     NULL, NULL},
-    {NULL}
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_JOYLL_1,
+      NULL, NULL },
+    { NULL }
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
-    {"-joydev2", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice2", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NUMBER, IDS_SET_INPUT_JOYLL_2,
-     NULL, NULL},
-    {NULL}
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_JOYLL_2,
+      NULL, NULL },
+    { NULL }
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
-    {"-extrajoydev1", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice3", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYLL_1,
-     NULL, NULL},
-    {NULL}
+    { "-extrajoydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYLL_1,
+      NULL, NULL },
+    { NULL }
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
-    {"-extrajoydev2", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice4", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYLL_2,
-     NULL, NULL},
-    {NULL}
+    { "-extrajoydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYLL_2,
+      NULL, NULL },
+    { NULL }
 };
 
 int joystick_init_cmdline_options(void)

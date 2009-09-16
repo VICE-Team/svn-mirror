@@ -60,32 +60,32 @@ static void uilib_select_hook_proc(void){} /* FIXME */
 
 static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
     /* UILIB_SELECTOR_STYLE_DEFAULT */
-    {NULL,
-     NULL, 0, "InitialDefaultDir", NULL},
+    { NULL,
+      NULL, 0, "InitialDefaultDir", NULL },
     /* UILIB_SELECTOR_STYLE_TAPE */
-    {read_tape_image_contents,
-     uilib_select_tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir", NULL},
+    { read_tape_image_contents,
+      uilib_select_tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK */
-    {read_disk_image_contents,
-     uilib_select_hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir", NULL},
+    { read_disk_image_contents,
+      uilib_select_hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK_AND_TAPE */
-    {read_disk_or_tape_image_contents,
-     uilib_select_hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir", NULL},
+    { read_disk_or_tape_image_contents,
+      uilib_select_hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir", NULL },
     /* UILIB_SELECTOR_STYLE_CART */
-    {NULL,
-     NULL, 0, "InitialCartDir", NULL},
+    { NULL,
+      NULL, 0, "InitialCartDir", NULL },
     /* UILIB_SELECTOR_STYLE_SNAPSHOT */
-    {NULL,
-     NULL, 0, "InitialSnapshotDir", NULL},
+    { NULL,
+      NULL, 0, "InitialSnapshotDir", NULL },
     /* UILIB_SELECTOR_STYLE_EVENT_START */
-    {NULL,
-     NULL, 0, "EventSnapshotDir", "EventStartSnapshot"},
+    { NULL,
+      NULL, 0, "EventSnapshotDir", "EventStartSnapshot" },
     /* UILIB_SELECTOR_STYLE_EVENT_END */
-    {NULL,
-     NULL, 0, "EventSnapshotDir", "EventEndSnapshot"},
+    { NULL,
+      NULL, 0, "EventSnapshotDir", "EventEndSnapshot" },
     /* DUMMY entry Insert new styles before this */
-    {NULL,
-     NULL, 0, NULL, NULL}
+    { NULL,
+      NULL, 0, NULL, NULL }
 };
 
 static char *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];

@@ -133,68 +133,68 @@ void toggle_menu_item(struct Menu *menu, int idm, int checked)
 }
 
 static const ui_menu_toggle_t toggle_list[] = {
-    {"Sound", IDM_TOGGLE_SOUND},
-    {"DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION},
-    {"AutostartHandleTrueDriveEmulation", IDM_TOGGLE_AUTOSTART_HANDLE_TDE},
-    {"WarpMode", IDM_TOGGLE_WARP_MODE},
-    {"VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES},
-    {"SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT},
-    {"ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT},
-    {"FullScreenEnabled", IDM_TOGGLE_FULLSCREEN},
-    {"StatusbarEnabled", IDM_TOGGLE_STATUSBAR},
-    {"KeySetEnable", IDM_JOYKEYS_TOGGLE},
+    { "Sound", IDM_TOGGLE_SOUND },
+    { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
+    { "AutostartHandleTrueDriveEmulation", IDM_TOGGLE_AUTOSTART_HANDLE_TDE },
+    { "WarpMode", IDM_TOGGLE_WARP_MODE },
+    { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
+    { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
+    { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
+    { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
+    { "StatusbarEnabled", IDM_TOGGLE_STATUSBAR },
+    { "KeySetEnable", IDM_JOYKEYS_TOGGLE },
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-    {"VideoOverlayEnabled", IDM_TOGGLE_OVERLAY},
+    { "VideoOverlayEnabled", IDM_TOGGLE_OVERLAY },
 #endif
-    {NULL, 0}
+    { NULL, 0 }
 };
 
 static const ui_res_possible_values_t RefreshRateValues[] = {
-    {0, IDM_REFRESH_RATE_AUTO},
-    {1, IDM_REFRESH_RATE_1},
-    {2, IDM_REFRESH_RATE_2},
-    {3, IDM_REFRESH_RATE_3},
-    {4, IDM_REFRESH_RATE_4},
-    {5, IDM_REFRESH_RATE_5},
-    {6, IDM_REFRESH_RATE_6},
-    {7, IDM_REFRESH_RATE_7},
-    {8, IDM_REFRESH_RATE_8},
-    {9, IDM_REFRESH_RATE_9},
-    {10, IDM_REFRESH_RATE_10},
-    {-1, 0}
+    { 0, IDM_REFRESH_RATE_AUTO },
+    { 1, IDM_REFRESH_RATE_1 },
+    { 2, IDM_REFRESH_RATE_2 },
+    { 3, IDM_REFRESH_RATE_3 },
+    { 4, IDM_REFRESH_RATE_4 },
+    { 5, IDM_REFRESH_RATE_5 },
+    { 6, IDM_REFRESH_RATE_6 },
+    { 7, IDM_REFRESH_RATE_7 },
+    { 8, IDM_REFRESH_RATE_8 },
+    { 9, IDM_REFRESH_RATE_9 },
+    { 10, IDM_REFRESH_RATE_10 },
+    { -1, 0 }
 };
 
 static ui_res_possible_values_t SpeedValues[] = {
-    {0, IDM_MAXIMUM_SPEED_NO_LIMIT},
-    {10, IDM_MAXIMUM_SPEED_10},
-    {20, IDM_MAXIMUM_SPEED_20},
-    {50, IDM_MAXIMUM_SPEED_50},
-    {100, IDM_MAXIMUM_SPEED_100},
-    {200, IDM_MAXIMUM_SPEED_200},
-    {-1, 0}
+    { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
+    { 10, IDM_MAXIMUM_SPEED_10 },
+    { 20, IDM_MAXIMUM_SPEED_20 },
+    { 50, IDM_MAXIMUM_SPEED_50 },
+    { 100, IDM_MAXIMUM_SPEED_100 },
+    { 200, IDM_MAXIMUM_SPEED_200 },
+    { -1, 0 }
 };
 
 static ui_res_possible_values_t RecordingOptions[] = {
-    {EVENT_START_MODE_FILE_SAVE, IDM_EVENT_START_MODE_SAVE},
-    {EVENT_START_MODE_FILE_LOAD, IDM_EVENT_START_MODE_LOAD},
-    {EVENT_START_MODE_RESET, IDM_EVENT_START_MODE_RESET},
-    {EVENT_START_MODE_PLAYBACK, IDM_EVENT_START_MODE_PLAYBACK},
-    {-1, 0}
+    { EVENT_START_MODE_FILE_SAVE, IDM_EVENT_START_MODE_SAVE },
+    { EVENT_START_MODE_FILE_LOAD, IDM_EVENT_START_MODE_LOAD },
+    { EVENT_START_MODE_RESET, IDM_EVENT_START_MODE_RESET },
+    { EVENT_START_MODE_PLAYBACK, IDM_EVENT_START_MODE_PLAYBACK },
+    { -1, 0 }
 };
 
 static const ui_res_possible_values_t SyncFactor[] = {
-    {MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL},
-    {MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC},
-    {MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD},
-    {-1, 0}
+    { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
+    { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
+    { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
+    { -1, 0 }
 };
 
 static const ui_res_value_list_t value_list[] = {
-    {"RefreshRate", RefreshRateValues, 0},
-    {"Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM},
-    {"MachineVideoStandard", SyncFactor, 0},
-    {"EventStartMode", RecordingOptions, 0},
-    {NULL, NULL, 0}
+    { "RefreshRate", RefreshRateValues, 0 },
+    { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
+    { "MachineVideoStandard", SyncFactor, 0 },
+    { "EventStartMode", RecordingOptions, 0 },
+    { NULL, NULL, 0 }
 };
 
 static struct TranslateNewMenu *machine_specific_translation_menu = NULL;

@@ -27,10 +27,10 @@
 #ifndef VICE_JOY_H
 #define VICE_JOY_H
 
-#define JOYDEV_NONE     0
-#define JOYDEV_NUMPAD   1
-#define JOYDEV_KEYSET1  2
-#define JOYDEV_KEYSET2  3
+#define JOYDEV_NONE    0
+#define JOYDEV_NUMPAD  1
+#define JOYDEV_KEYSET1 2
+#define JOYDEV_KEYSET2 3
 
 extern int joy_arch_init(void);
 extern int joystick_arch_init_resources(void);

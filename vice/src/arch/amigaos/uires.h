@@ -92,14 +92,14 @@ enum {
 };
 
 /* These have been altered for the locale support. */
-#define TITLE(a, b) {NM_TITLE, (int)a, (STRPTR)b, 0, 0L, (APTR)NULL},
-#define ITEM(a, b, c) {NM_ITEM, (int)a, (STRPTR)b, 0, 0L, (APTR)c},
-#define SUB(a, b, c) {NM_SUB, (int)a, (STRPTR)b, 0, 0L, (APTR)c},
-#define ITEMSEPARATOR() {NM_ITEM, (int)0, NULL, 0, 0L, NULL},
-#define SUBSEPARATOR() {NM_SUB, (int)0, NULL, 0, 0L, NULL},
-#define ITEMTOGGLE(a, b, c) {NM_ITEM, (int)a, (STRPTR)b, (CHECKIT | MENUTOGGLE), 0L, (APTR)c},
-#define SUBTOGGLE(a, b, c) {NM_SUB, (int)a, (STRPTR)b, (CHECKIT | MENUTOGGLE), 0L, (APTR)c},
-#define END() {NM_END, (int)0, NULL, 0, 0L, NULL},
+#define TITLE(a, b) { NM_TITLE, (int)a, (STRPTR)b, 0, 0L, (APTR)NULL },
+#define ITEM(a, b, c) { NM_ITEM, (int)a, (STRPTR)b, 0, 0L, (APTR)c },
+#define SUB(a, b, c) { NM_SUB, (int)a, (STRPTR)b, 0, 0L, (APTR)c },
+#define ITEMSEPARATOR() { NM_ITEM, (int)0, NULL, 0, 0L, NULL },
+#define SUBSEPARATOR() { NM_SUB, (int)0, NULL, 0, 0L, NULL },
+#define ITEMTOGGLE(a, b, c) { NM_ITEM, (int)a, (STRPTR)b, (CHECKIT | MENUTOGGLE), 0L, (APTR)c },
+#define SUBTOGGLE(a, b, c) { NM_SUB, (int)a, (STRPTR)b, (CHECKIT | MENUTOGGLE), 0L, (APTR)c },
+#define END() { NM_END, (int)0, NULL, 0, 0L, NULL },
 
 struct TranslateNewMenu
 {

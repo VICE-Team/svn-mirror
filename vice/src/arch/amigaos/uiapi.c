@@ -55,7 +55,12 @@ typedef enum {
     UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_NONE
 } ui_jam_action_t;
 
-enum {REQ_JAM_NONE, REQ_JAM_RESET, REQ_JAM_HARD_RESET, REQ_JAM_MONITOR};
+enum {
+    REQ_JAM_NONE,
+    REQ_JAM_RESET,
+    REQ_JAM_HARD_RESET,
+    REQ_JAM_MONITOR
+};
 
 extern video_canvas_t *canvaslist;
 
@@ -149,43 +154,43 @@ static int set_initial_dir(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {"MonitorDimensions", "", RES_EVENT_NO, NULL,
-     &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL},
-    {"InitialDefaultDir", "", RES_EVENT_NO, NULL,
-     &ui_resources.initialdir[0], set_initial_dir, (void *)0},
-    {"InitialTapeDir", "", RES_EVENT_NO, NULL,
-     &ui_resources.initialdir[1], set_initial_dir, (void *)1},
-    {"InitialDiskDir", "", RES_EVENT_NO, NULL,
-     &ui_resources.initialdir[2], set_initial_dir, (void *)2},
-    {"InitialAutostartDir", "", RES_EVENT_NO, NULL,
-     &ui_resources.initialdir[3], set_initial_dir, (void *)3},
-    {"InitialCartDir", "", RES_EVENT_NO, NULL,
-     &ui_resources.initialdir[4], set_initial_dir, (void *)4},
-    {"InitialSnapshotDir", "", RES_EVENT_NO, NULL,
-     &ui_resources.initialdir[5], set_initial_dir, (void *)5},
-    {NULL}
+    { "MonitorDimensions", "", RES_EVENT_NO, NULL,
+      &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
+    { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
+    { "InitialTapeDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
+    { "InitialDiskDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[2], set_initial_dir, (void *)2 },
+    { "InitialAutostartDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[3], set_initial_dir, (void *)3 },
+    { "InitialCartDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
+    { "InitialSnapshotDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[5], set_initial_dir, (void *)5 },
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
-    {"FullscreenBitdepth", 8, RES_EVENT_NO, NULL,
-     &ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL},
-    {"FullscreenWidth", 640, RES_EVENT_NO, NULL,
-     &ui_resources.fullscreenwidth, set_fullscreen_width, NULL},
-    {"FullscreenHeight", 480, RES_EVENT_NO, NULL,
-     &ui_resources.fullscreenheight, set_fullscreen_height, NULL},
-    {"FullscreenEnabled", 0, RES_EVENT_NO, NULL,
-     &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL},
-    {"StatusBarEnabled", 1, RES_EVENT_NO, NULL,
-     &ui_resources.statusbarenabled, set_statusbar_enabled, NULL},
+    { "FullscreenBitdepth", 8, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
+    { "FullscreenWidth", 640, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
+    { "FullscreenHeight", 480, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenheight, set_fullscreen_height, NULL },
+    { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
+    { "StatusBarEnabled", 1, RES_EVENT_NO, NULL,
+      &ui_resources.statusbarenabled, set_statusbar_enabled, NULL },
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-    {"VideoOverlayEnabled", 0, RES_EVENT_NO, NULL,
-     &ui_resources.videooverlayenabled, set_videooverlay_enabled, NULL},
+    { "VideoOverlayEnabled", 0, RES_EVENT_NO, NULL,
+      &ui_resources.videooverlayenabled, set_videooverlay_enabled, NULL },
 #endif
-    {"SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
-     &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL},
-    {"ConfirmOnExit", 1, RES_EVENT_NO, NULL,
-     &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL},
-    {NULL}
+    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+      &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
+      &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
+    { NULL }
 };
 
 int ui_resources_init(void)
@@ -217,27 +222,27 @@ void ui_resources_shutdown(void)
 /* UI-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-saveres", SET_RESOURCE, 0,
-     NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
-     NULL, NULL},
-    {"+saveres", SET_RESOURCE, 0,
-     NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDCLS_UNUSED, IDS_NEVER_SAVE_SETTINGS_EXIT,
-     NULL, NULL},
-    {"-confirmexit", SET_RESOURCE, 0,
-     NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDCLS_UNUSED, IDS_CONFIRM_QUITING_VICE,
-     NULL, NULL},
-    {"+confirmexit", SET_RESOURCE, 0,
-     NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDCLS_UNUSED, IDS_NEVER_CONFIRM_QUITING_VICE,
-     NULL, NULL},
-    {NULL}
+    { "-saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
+      NULL, NULL },
+    { "+saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NEVER_SAVE_SETTINGS_EXIT,
+      NULL, NULL },
+    { "-confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_CONFIRM_QUITING_VICE,
+      NULL, NULL },
+    { "+confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NEVER_CONFIRM_QUITING_VICE,
+      NULL, NULL },
+    { NULL }
 };
 
 int ui_cmdline_options_init(void)

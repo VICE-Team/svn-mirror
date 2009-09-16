@@ -555,9 +555,9 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
     /* try to get screenmode to use */
     if (fullscreen) {
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
-        static const UBYTE depths_lowend[] = {16, 15, 0};
+        static const UBYTE depths_lowend[] = { 16, 15, 0 };
 #ifdef AMIGA_MORPHOS
-        static const UBYTE depths_highend[] = {32, 24, 16, 15, 0};
+        static const UBYTE depths_highend[] = { 32, 24, 16, 15, 0 };
 #endif
         const UBYTE *depths;
         int i;
@@ -718,10 +718,10 @@ reopenwindow:
             int pixfmt;
             fourcc_t yuvfmt;
         } vlayer_formats[] = {
-            {SRCFMT_YCbCr16, 0, {FOURCC_YUY2}},
-            {SRCFMT_RGB16, PIXFMT_RGB16PC, {0}},
-            {SRCFMT_RGB15, PIXFMT_RGB15PC, {0}},
-            {-1,}
+            { SRCFMT_YCbCr16, 0, { FOURCC_YUY2 } },
+            { SRCFMT_RGB16, PIXFMT_RGB16PC, { 0 } },
+            { SRCFMT_RGB15, PIXFMT_RGB15PC, { 0 } },
+            { -1, }
         };
         int i;
 
@@ -1210,41 +1210,41 @@ static const struct {
     unsigned long color_format;
     int (*makecol)(int r, int g, int b);
 } color_formats[] = {
-    {PIXFMT_RGB15, makecol_RGB555LE},
-    {PIXFMT_BGR15, makecol_BGR555LE},
-    {PIXFMT_RGB15PC, makecol_RGB555BE},
-    {PIXFMT_BGR15PC, makecol_BGR555BE},
-    {PIXFMT_RGB16, makecol_RGB565LE},
-    {PIXFMT_BGR16, makecol_BGR565LE},
-    {PIXFMT_RGB16PC, makecol_RGB565BE},
-    {PIXFMT_BGR16PC, makecol_BGR565BE},
-    {PIXFMT_RGB24, makecol_BGR24},
-    {PIXFMT_BGR24, makecol_RGB24},
-    {PIXFMT_ARGB32, makecol_BGRA32},
-    {PIXFMT_BGRA32, makecol_ARGB32},
-    {PIXFMT_RGBA32, makecol_ABGR32},
-    {PIXFMT_ABGR32, makecol_RGBA32},
-    {0, NULL}
+    { PIXFMT_RGB15, makecol_RGB555LE },
+    { PIXFMT_BGR15, makecol_BGR555LE },
+    { PIXFMT_RGB15PC, makecol_RGB555BE },
+    { PIXFMT_BGR15PC, makecol_BGR555BE },
+    { PIXFMT_RGB16, makecol_RGB565LE },
+    { PIXFMT_BGR16, makecol_BGR565LE },
+    { PIXFMT_RGB16PC, makecol_RGB565BE },
+    { PIXFMT_BGR16PC, makecol_BGR565BE },
+    { PIXFMT_RGB24, makecol_BGR24 },
+    { PIXFMT_BGR24, makecol_RGB24 },
+    { PIXFMT_ARGB32, makecol_BGRA32 },
+    { PIXFMT_BGRA32, makecol_ARGB32 },
+    { PIXFMT_RGBA32, makecol_ABGR32 },
+    { PIXFMT_ABGR32, makecol_RGBA32 },
+    { 0, NULL }
 };
 #else
 static const struct {
     unsigned long color_format;
     int (*makecol)(int r, int g, int b);
 } color_formats[] = {
-    {PIXFMT_RGB15, makecol_RGB555BE},
-    {PIXFMT_BGR15, makecol_BGR555BE},
-    {PIXFMT_RGB15PC, makecol_RGB555LE},
-    {PIXFMT_BGR15PC, makecol_BGR555LE},
-    {PIXFMT_RGB16, makecol_RGB565BE},
-    {PIXFMT_BGR16, makecol_BGR565BE},
-    {PIXFMT_RGB16PC, makecol_RGB565LE},
-    {PIXFMT_BGR16PC, makecol_BGR565LE},
-    {IXFMT_RGB24, makecol_RGB24},
-    {PIXFMT_BGR24, makecol_BGR24},
-    {PIXFMT_ARGB32, makecol_ARGB32},
-    {PIXFMT_BGRA32, makecol_BGRA32},
-    {PIXFMT_RGBA32, makecol_RGBA32},
-    {0, NULL}
+    { PIXFMT_RGB15, makecol_RGB555BE },
+    { PIXFMT_BGR15, makecol_BGR555BE },
+    { PIXFMT_RGB15PC, makecol_RGB555LE },
+    { PIXFMT_BGR15PC, makecol_BGR555LE },
+    { PIXFMT_RGB16, makecol_RGB565BE },
+    { PIXFMT_BGR16, makecol_BGR565BE },
+    { PIXFMT_RGB16PC, makecol_RGB565LE },
+    { PIXFMT_BGR16PC, makecol_BGR565LE },
+    { IXFMT_RGB24, makecol_RGB24 },
+    { PIXFMT_BGR24, makecol_BGR24 },
+    { PIXFMT_ARGB32, makecol_ARGB32 },
+    { PIXFMT_BGRA32, makecol_BGRA32 },
+    { PIXFMT_RGBA32, makecol_RGBA32 },
+    { 0, NULL }
 };
 #endif
 #else
@@ -1252,20 +1252,20 @@ static const struct {
     unsigned long color_format;
     int (*makecol)(int r, int g, int b);
 } color_formats[] = {
-    {RGBFB_R8G8B8, makecol_RGB24}, /* TrueColor RGB (8 bit each) */
-    {RGBFB_B8G8R8, makecol_BGR24}, /* TrueColor BGR (8 bit each) */
-    {RGBFB_R5G6B5PC, makecol_RGB565LE}, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: gggbbbbbrrrrrggg */
-    {RGBFB_R5G5B5PC, makecol_RGB555LE}, /* HiColor15 (5 bit each), format: gggbbbbb0rrrrrgg */
-    {RGBFB_A8R8G8B8, makecol_ARGB32}, /* 4 Byte TrueColor ARGB (A unused alpha channel) */
-    {RGBFB_A8B8G8R8, makecol_ABGR32}, /* 4 Byte TrueColor ABGR (A unused alpha channel) */
-    {RGBFB_R8G8B8A8, makecol_RGBA32}, /* 4 Byte TrueColor RGBA (A unused alpha channel) */
-    {GBFB_B8G8R8A8, makecol_BGRA32}, /* 4 Byte TrueColor BGRA (A unused alpha channel) */
-    {RGBFB_R5G6B5, makecol_RGB565BE}, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: rrrrrggggggbbbbb */
-    {RGBFB_R5G5B5, makecol_RGB555BE}, /* HiColor15 (5 bit each), format: 0rrrrrgggggbbbbb */
-    {RGBFB_B5G6R5PC, makecol_BGR565LE}, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: gggrrrrrbbbbbggg */
-    {RGBFB_B5G5R5PC, makecol_BGR555LE}, /* HiColor15 (5 bit each), format: gggrrrrr0bbbbbbgg */
+    { RGBFB_R8G8B8, makecol_RGB24 }, /* TrueColor RGB (8 bit each) */
+    { RGBFB_B8G8R8, makecol_BGR24 }, /* TrueColor BGR (8 bit each) */
+    { RGBFB_R5G6B5PC, makecol_RGB565LE }, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: gggbbbbbrrrrrggg */
+    { RGBFB_R5G5B5PC, makecol_RGB555LE }, /* HiColor15 (5 bit each), format: gggbbbbb0rrrrrgg */
+    { RGBFB_A8R8G8B8, makecol_ARGB32 }, /* 4 Byte TrueColor ARGB (A unused alpha channel) */
+    { RGBFB_A8B8G8R8, makecol_ABGR32 }, /* 4 Byte TrueColor ABGR (A unused alpha channel) */
+    { RGBFB_R8G8B8A8, makecol_RGBA32 }, /* 4 Byte TrueColor RGBA (A unused alpha channel) */
+    { GBFB_B8G8R8A8, makecol_BGRA32 }, /* 4 Byte TrueColor BGRA (A unused alpha channel) */
+    { RGBFB_R5G6B5, makecol_RGB565BE }, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: rrrrrggggggbbbbb */
+    { RGBFB_R5G5B5, makecol_RGB555BE }, /* HiColor15 (5 bit each), format: 0rrrrrgggggbbbbb */
+    { RGBFB_B5G6R5PC, makecol_BGR565LE }, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: gggrrrrrbbbbbggg */
+    { RGBFB_B5G5R5PC, makecol_BGR555LE }, /* HiColor15 (5 bit each), format: gggrrrrr0bbbbbbgg */
     /* END */
-    {0, NULL},
+    { 0, NULL },
 };
 #endif
 

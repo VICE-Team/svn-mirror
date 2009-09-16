@@ -49,12 +49,12 @@
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
-    {"TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE},
-    {"TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN},
-    {"TEDVideoCache", IDM_TOGGLE_VIDEOCACHE},
-    {"TEDScale2x", IDM_TOGGLE_SCALE2X},
-    {"PALEmulation", IDM_TOGGLE_FASTPAL},
-    {NULL, 0}
+    { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "TEDScale2x", IDM_TOGGLE_SCALE2X },
+    { "PALEmulation", IDM_TOGGLE_FASTPAL },
+    { NULL, 0 }
 };
 
 static const uicart_params_t plus4_ui_cartridges[] = {

@@ -283,24 +283,28 @@ static void ahi_task(void)
 s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(s64 time))
 {
 #ifdef AMIGA_MORPHOS
-    struct TagItem ti[]={{NP_CodeType, CODETYPE_PPC},
-                         {NP_Entry, (ULONG)ahi_task},
-                         {NP_Name, (ULONG)ahi_task_name},
-                         {NP_PPCStackSize, 32768},
-                         {NP_Priority, 10},
-                         {NP_Input, 0},
-                         {NP_Output, 0},
-                         {NP_CurrentDir, 0},
-                         {NP_CopyVars, FALSE},
-                         {NP_WindowPtr, -1},
-                         {NP_HomeDir, 0},
-                         {TAG_DONE, 0}};
+    struct TagItem ti[] = {
+        { NP_CodeType, CODETYPE_PPC },
+        { NP_Entry, (ULONG)ahi_task },
+        { NP_Name, (ULONG)ahi_task_name },
+        { NP_PPCStackSize, 32768 },
+        { NP_Priority, 10 },
+        { NP_Input, 0 },
+        { NP_Output, 0 },
+        { NP_CurrentDir, 0 },
+        { NP_CopyVars, FALSE },
+        { NP_WindowPtr, -1 },
+        { NP_HomeDir, 0 },
+        { TAG_DONE, 0 }
+};
 #else
-    struct TagItem ti[]={{NP_Entry, (ULONG)ahi_task},
-                         {NP_Name, (ULONG)ahi_task_name},
-                         {NP_StackSize, 4 * 65536}, /* 64KB should be enough */
-                         {NP_Priority, 10},
-                         {TAG_DONE, 0}};
+    struct TagItem ti[] = {
+        { NP_Entry, (ULONG)ahi_task },
+        { NP_Name, (ULONG)ahi_task_name },
+        { NP_StackSize, 4 * 65536 }, /* 64KB should be enough */
+        { NP_Priority, 10 },
+        { TAG_DONE, 0 }
+};
 #endif
     s32 i;
     u32 signals;

@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include "pointer.h"
 
-static unsigned short empty_pointer[] = {0,0,0,0,0,0,0,0,0,0,0,0};
+static unsigned short empty_pointer[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static int pointer_default = POINTER_SHOW, pointer_hidden = 0;
 
 void pointer_set_default(int def)

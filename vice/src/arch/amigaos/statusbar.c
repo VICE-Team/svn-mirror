@@ -75,11 +75,11 @@ static int tape_control;
 struct {
     int red, green, blue;
 } palette[b_num] = {
-    {0, 255, 0},
-    {255, 0, 0},
-    {0, 0, 0},
-    {255, 255, 0},
-    {128, 128, 128},
+    { 0, 255, 0 },
+    { 255, 0, 0 },
+    { 0, 0, 0 },
+    { 255, 255, 0 },
+    { 128, 128, 128 },
 };
 
 const struct TextAttr led_font_attr = {

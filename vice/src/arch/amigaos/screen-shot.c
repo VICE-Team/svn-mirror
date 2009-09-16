@@ -41,7 +41,8 @@
 #include "intl.h"
 #include "translate.h"
 
-enum { SS_BMP=1,
+enum {
+    SS_BMP=1,
 #ifdef HAVE_GIF
     SS_GIF,
 #endif
@@ -53,7 +54,8 @@ enum { SS_BMP=1,
 #ifdef HAVE_PNG
     SS_PNG,
 #endif
-    SS_PPM };
+    SS_PPM
+};
 
 #ifndef HAVE_GIF
 #define SS_GIF 1000

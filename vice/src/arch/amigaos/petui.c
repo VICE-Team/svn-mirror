@@ -45,11 +45,11 @@
 #include "mui/uivideocbm2pet.h"
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
-    {"CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE},
-    {"CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN},
-    {"CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE},
-    {"EmuID", IDM_TOGGLE_EMUID},   
-    {NULL, 0}
+    { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "EmuID", IDM_TOGGLE_EMUID },   
+    { NULL, 0 }
 };
 
 static int pet_ui_specific(video_canvas_t *canvas, int idm)

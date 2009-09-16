@@ -68,8 +68,7 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 
 #ifdef TFE_DEBUG_PKTDUMP
 
-static
-void debug_output( const char *text, BYTE *what, int count )
+static void debug_output( const char *text, BYTE *what, int count )
 {
     char buffer[256];
     char *p = buffer;
@@ -81,13 +80,13 @@ void debug_output( const char *text, BYTE *what, int count )
     OutputDebugString(buffer);
     do {
         p = buffer;
-        for (i=0; (i<8) && len1>0; len1--, i++) {
-            sprintf( p, "%02x ", (unsigned int)(unsigned char)*pbuffer1++);
+        for (i = 0; (i < 8) && len1 > 0; len1--, i++) {
+            sprintf(p, "%02x ", (unsigned int)(unsigned char)*pbuffer1++);
             p += 3;
         }
-        *(p-1) = '\n'; *p = 0;
+        *(p - 1) = '\n'; *p = 0;
         OutputDebugString(buffer);
-    } while (len1>0);
+    } while (len1 > 0);
 }
 #endif // #ifdef TFE_DEBUG_PKTDUMP
 
@@ -332,8 +331,7 @@ typedef struct TFE_PCAP_INTERNAL_tag {
 } TFE_PCAP_INTERNAL;
 
 /* Callback function invoked by libpcap for every incoming packet */
-static
-void TfePcapPacketHandler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data)
+static void TfePcapPacketHandler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data)
 {
     TFE_PCAP_INTERNAL *pinternal = (void*)param;
 
