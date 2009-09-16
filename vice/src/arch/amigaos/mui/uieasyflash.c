@@ -50,8 +50,8 @@ static const int ui_easyflash_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "EasyFlashJumper", ui_easyflash_enable, ui_easyflash_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "EasyFlashWriteCRT", ui_easyflash_enable, ui_easyflash_enable_values},
+    { NULL, MUI_TYPE_CYCLE, "EasyFlashJumper", ui_easyflash_enable, ui_easyflash_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "EasyFlashWriteCRT", ui_easyflash_enable, ui_easyflash_enable_values },
     UI_END /* mandatory */
 };
 
@@ -69,9 +69,9 @@ static APTR build_gui(void)
     APTR app, ui, ok, action_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook SaveEasyFlashCRTHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)SaveEasyFlashCRT, NULL};
+    static const struct Hook SaveEasyFlashCRTHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)SaveEasyFlashCRT, NULL };
 #else
-    static const struct Hook SaveEasyFlashCRTHook = {{NULL, NULL}, (VOID *)SaveEasyFlashCRT, NULL, NULL};
+    static const struct Hook SaveEasyFlashCRTHook = { { NULL, NULL }, (VOID *)SaveEasyFlashCRT, NULL, NULL };
 #endif
 
     app = mui_get_app();

@@ -151,14 +151,14 @@ static const int ui_pet_keyboard_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "RamSize", ui_pet_ram_size, ui_pet_ram_size_values},
-    {NULL, MUI_TYPE_CYCLE, "VideoSize", ui_pet_video, ui_pet_video_values},
-    {NULL, MUI_TYPE_CYCLE, "IOSize", ui_pet_io_size, ui_pet_io_size_values},
-    {NULL, MUI_TYPE_CYCLE, "KeymapIndex", ui_pet_keyboard, ui_pet_keyboard_values},
-    {NULL, MUI_TYPE_CYCLE, "Crtc", ui_pet_enable, ui_pet_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "SuperPET", ui_pet_enable, ui_pet_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "Ram9", ui_pet_enable, ui_pet_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "RamA", ui_pet_enable, ui_pet_enable_values},
+    { NULL, MUI_TYPE_CYCLE, "RamSize", ui_pet_ram_size, ui_pet_ram_size_values },
+    { NULL, MUI_TYPE_CYCLE, "VideoSize", ui_pet_video, ui_pet_video_values },
+    { NULL, MUI_TYPE_CYCLE, "IOSize", ui_pet_io_size, ui_pet_io_size_values },
+    { NULL, MUI_TYPE_CYCLE, "KeymapIndex", ui_pet_keyboard, ui_pet_keyboard_values },
+    { NULL, MUI_TYPE_CYCLE, "Crtc", ui_pet_enable, ui_pet_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "SuperPET", ui_pet_enable, ui_pet_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "Ram9", ui_pet_enable, ui_pet_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "RamA", ui_pet_enable, ui_pet_enable_values },
     UI_END /* mandatory */
 };
 

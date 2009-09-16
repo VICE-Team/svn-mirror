@@ -67,9 +67,9 @@ static const int ui_c64_256k_base_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "C64_256K", ui_c64_256k_enable, ui_c64_256k_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "C64_256Kbase", ui_c64_256k_base, ui_c64_256k_base_values},
-    {NULL, MUI_TYPE_FILENAME, "C64_256Kfilename", NULL, NULL},
+    { NULL, MUI_TYPE_CYCLE, "C64_256K", ui_c64_256k_enable, ui_c64_256k_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "C64_256Kbase", ui_c64_256k_base, ui_c64_256k_base_values },
+    { NULL, MUI_TYPE_FILENAME, "C64_256Kfilename", NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -91,9 +91,9 @@ static APTR build_gui(void)
     APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse, NULL};
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse, NULL };
 #else
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)Browse, NULL, NULL};
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse, NULL, NULL };
 #endif
 
     app = mui_get_app();

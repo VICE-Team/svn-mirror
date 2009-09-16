@@ -101,15 +101,15 @@ static char *ui_sound_formats[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "SoundSampleRate", ui_sound_freq, ui_sound_freq_values},
-    {NULL, MUI_TYPE_CYCLE, "SoundBufferSize", ui_sound_buffer, ui_sound_buffer_values},
-    {NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values},
-    {NULL, MUI_TYPE_INTEGER, "SoundVolume", NULL, NULL},
+    { NULL, MUI_TYPE_CYCLE, "SoundSampleRate", ui_sound_freq, ui_sound_freq_values },
+    { NULL, MUI_TYPE_CYCLE, "SoundBufferSize", ui_sound_buffer, ui_sound_buffer_values },
+    { NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values },
+    { NULL, MUI_TYPE_INTEGER, "SoundVolume", NULL, NULL },
     UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from_record[] = {
-    {NULL, MUI_TYPE_FILENAME, "SoundRecordDeviceArg", NULL, NULL},
+    { NULL, MUI_TYPE_FILENAME, "SoundRecordDeviceArg", NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -143,9 +143,9 @@ static APTR build_gui_record(void)
     APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseRecordHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse_Record_File, NULL};
+    static const struct Hook BrowseRecordHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse_Record_File, NULL };
 #else
-    static const struct Hook BrowseRecordHook = {{NULL, NULL}, (VOID *)Browse_Record_File, NULL, NULL};
+    static const struct Hook BrowseRecordHook = { { NULL, NULL }, (VOID *)Browse_Record_File, NULL, NULL };
 #endif
 
     app = mui_get_app();

@@ -63,13 +63,13 @@ static const int ui_mmc64_bios_revision_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_FILENAME, "MMC64BIOSfilename", NULL, NULL},
-    {NULL, MUI_TYPE_CYCLE, "MMC64", ui_mmc64_enable, ui_mmc64_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "MMC64_revision", ui_mmc64_bios_revision, ui_mmc64_bios_revision_values},
-    {NULL, MUI_TYPE_CYCLE, "MMC64_flashjumper", ui_mmc64_enable, ui_mmc64_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "MMC64_bios_write", ui_mmc64_enable, ui_mmc64_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "MMC64_RO", ui_mmc64_enable, ui_mmc64_enable_values},
-    {NULL, MUI_TYPE_FILENAME, "MMC64imagefilename", NULL, NULL},
+    { NULL, MUI_TYPE_FILENAME, "MMC64BIOSfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMC64", ui_mmc64_enable, ui_mmc64_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "MMC64_revision", ui_mmc64_bios_revision, ui_mmc64_bios_revision_values },
+    { NULL, MUI_TYPE_CYCLE, "MMC64_flashjumper", ui_mmc64_enable, ui_mmc64_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "MMC64_bios_write", ui_mmc64_enable, ui_mmc64_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "MMC64_RO", ui_mmc64_enable, ui_mmc64_enable_values },
+    { NULL, MUI_TYPE_FILENAME, "MMC64imagefilename", NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -104,11 +104,11 @@ static APTR build_gui(void)
     APTR app, ui, ok, browse_button_bios, browse_button_image, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseBIOSHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse_BIOS, NULL};
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse_Image, NULL};
+    static const struct Hook BrowseBIOSHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse_BIOS, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse_Image, NULL };
 #else
-    static const struct Hook BrowseBIOSHook = {{NULL, NULL}, (VOID *)Browse_BIOS, NULL, NULL};
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)Browse_Image, NULL, NULL};
+    static const struct Hook BrowseBIOSHook = { { NULL, NULL }, (VOID *)Browse_BIOS, NULL, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse_Image, NULL, NULL };
 #endif
 
     app = mui_get_app();

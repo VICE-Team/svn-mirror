@@ -92,11 +92,11 @@ static const int ui_c64dtv_hummer_joy_port_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL},
-    {NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values},
-    {NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "HummerUserportDevice", ui_c64dtv_userport_device, ui_c64dtv_userport_device_values},
-    {NULL, MUI_TYPE_CYCLE, "HummerUserportJoyPort", ui_c64dtv_hummer_joy_port, ui_c64dtv_hummer_joy_port_values},
+    { NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values },
+    { NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "HummerUserportDevice", ui_c64dtv_userport_device, ui_c64dtv_userport_device_values },
+    { NULL, MUI_TYPE_CYCLE, "HummerUserportJoyPort", ui_c64dtv_hummer_joy_port, ui_c64dtv_hummer_joy_port_values },
     UI_END /* mandatory */
 };
 
@@ -118,9 +118,9 @@ static APTR build_gui(void)
     APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse, NULL};
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse, NULL };
 #else
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)Browse, NULL, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse, NULL, NULL };
 #endif
 
     app = mui_get_app();

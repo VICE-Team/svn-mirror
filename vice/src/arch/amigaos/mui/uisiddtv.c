@@ -153,12 +153,12 @@ static const int ui_sid_model_values[] =
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sid_engine, ui_sid_engine_values},
-    {NULL, MUI_TYPE_CYCLE, "SidModel", ui_sid_model, ui_sid_model_values},
-    {NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL},
+    { NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sid_engine, ui_sid_engine_values },
+    { NULL, MUI_TYPE_CYCLE, "SidModel", ui_sid_model, ui_sid_model_values },
+    { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
 #ifdef HAVE_RESID
-    {NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values},
-    {NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, NULL},
+    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values },
+    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, NULL },
 #endif
     UI_END /* mandatory */
 };

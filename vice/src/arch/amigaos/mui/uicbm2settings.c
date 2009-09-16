@@ -79,14 +79,14 @@ static const int ui_cbm2mem_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "ModelLine", ui_cbm2_model, ui_cbm2_model_values},
-    {NULL, MUI_TYPE_CYCLE, "RamSize", ui_cbm2_memsize, ui_cbm2_memsize_values},
-    {NULL, MUI_TYPE_CYCLE, "Ram08", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "Ram1", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "Ram2", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "Ram4", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "Ram6", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "RamC", ui_cbm2mem_enable, ui_cbm2mem_enable_values},
+    { NULL, MUI_TYPE_CYCLE, "ModelLine", ui_cbm2_model, ui_cbm2_model_values },
+    { NULL, MUI_TYPE_CYCLE, "RamSize", ui_cbm2_memsize, ui_cbm2_memsize_values },
+    { NULL, MUI_TYPE_CYCLE, "Ram08", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "Ram1", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "Ram2", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "Ram4", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "Ram6", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "RamC", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
     UI_END /* mandatory */
 };
 

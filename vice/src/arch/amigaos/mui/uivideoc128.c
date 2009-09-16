@@ -51,18 +51,18 @@ static const int ui_external_palette_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL},
-    {NULL, MUI_TYPE_CYCLE, "VICIIExternalPalette", ui_external_palette_enable, ui_external_palette_enable_values},
-    {NULL, MUI_TYPE_FILENAME, "VICIIPaletteFile", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, NULL},
-    {NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "VDCPaletteFile", NULL, NULL},
+    { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIIExternalPalette", ui_external_palette_enable, ui_external_palette_enable_values },
+    { NULL, MUI_TYPE_FILENAME, "VICIIPaletteFile", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "VDCPaletteFile", NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -97,11 +97,11 @@ static APTR build_gui(void)
     APTR app, ui, ok, browse_button1, browse_button2, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseVICIIFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)BrowseVICII, NULL};
-    static const struct Hook BrowseVDCFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)BrowseVDC, NULL};
+    static const struct Hook BrowseVICIIFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)BrowseVICII, NULL };
+    static const struct Hook BrowseVDCFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)BrowseVDC, NULL };
 #else
-    static const struct Hook BrowseVICIIFileHook = {{NULL, NULL}, (VOID *)BrowseVICII, NULL, NULL};
-    static const struct Hook BrowseVDCFileHook = {{NULL, NULL}, (VOID *)BrowseVDC, NULL, NULL};
+    static const struct Hook BrowseVICIIFileHook = { { NULL, NULL }, (VOID *)BrowseVICII, NULL, NULL };
+    static const struct Hook BrowseVDCFileHook = { { NULL, NULL }, (VOID *)BrowseVDC, NULL, NULL };
 #endif
 
     app = mui_get_app();

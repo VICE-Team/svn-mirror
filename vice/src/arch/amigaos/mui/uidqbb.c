@@ -51,8 +51,8 @@ static const int ui_dqbb_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "DQBB", ui_dqbb_enable, ui_dqbb_enable_values},
-    {NULL, MUI_TYPE_FILENAME, "DQBBfilename", NULL, NULL},
+    { NULL, MUI_TYPE_CYCLE, "DQBB", ui_dqbb_enable, ui_dqbb_enable_values },
+    { NULL, MUI_TYPE_FILENAME, "DQBBfilename", NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -74,9 +74,9 @@ static APTR build_gui(void)
     APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)Browse, NULL};
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse, NULL };
 #else
-    static const struct Hook BrowseFileHook = {{NULL, NULL}, (VOID *)Browse, NULL, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse, NULL, NULL };
 #endif
 
     app = mui_get_app();

@@ -132,13 +132,13 @@ static const int drive_extend_values[] = {
     -1
 };
 
-#define DECL(device) \
-    {NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device}, \
-    {NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values},
+#define DECL(device)                                                                                               \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device }, \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values },
 
 #define DECL_NUM (2)
 
-static ui_to_from_t ui_to_from[] = { DECL(8) DECL(9) DECL(10) DECL(11) UI_END};
+static ui_to_from_t ui_to_from[] = { DECL(8) DECL(9) DECL(10) DECL(11) UI_END };
 
 static APTR build_gui(void)
 {

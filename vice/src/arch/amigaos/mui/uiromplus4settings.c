@@ -37,23 +37,22 @@
 static video_canvas_t *rom_canvas;
 
 static ui_to_from_t ui_to_from_computer[] = {
-    {NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "3plus1loName", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "3plus1hiName", NULL, NULL},
+    { NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "3plus1loName", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "3plus1hiName", NULL, NULL },
     UI_END /* mandatory */
 };
-
 
 static APTR hook_object_computer[countof(ui_to_from_computer)];
 
 static ui_to_from_t ui_to_from_drive[] = {
-    {NULL, MUI_TYPE_FILENAME, "DosName1541", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1541ii", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1551", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1570", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1571", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1581", NULL, NULL},
+    { NULL, MUI_TYPE_FILENAME, "DosName1541", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1541ii", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1551", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1570", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1571", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1581", NULL, NULL },
     UI_END /* mandatory */
 };
 

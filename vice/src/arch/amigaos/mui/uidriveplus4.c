@@ -170,20 +170,20 @@ static const int drive_idle_values[] = {
     -1
 };
 
-#define DECL(device) \
-    {NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device}, \
-    {NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values},      \
-    {NULL, MUI_TYPE_RADIO, "Drive" #device "IdleMethod", drive_idle_strings, drive_idle_values},                 \
-    {NULL, MUI_TYPE_CHECK, "Drive" #device "RAM2000", NULL, NULL},                                               \
-    {NULL, MUI_TYPE_CHECK, "Drive" #device "RAM4000", NULL, NULL},                                               \
-    {NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL},                                               \
-    {NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL},                                               \
-    {NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL},                                               \
-    {NULL, MUI_TYPE_CHECK, "Drive" #device "ParallelCable", NULL, NULL},
+#define DECL(device)                                                                                               \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device }, \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values },      \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "IdleMethod", drive_idle_strings, drive_idle_values },                 \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM2000", NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM4000", NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "ParallelCable", NULL, NULL },
 
 #define DECL_NUM (9)
 
-static ui_to_from_t ui_to_from[] = {DECL(8) DECL(9) DECL(10) DECL(11) UI_END};
+static ui_to_from_t ui_to_from[] = { DECL(8) DECL(9) DECL(10) DECL(11) UI_END };
 
 static APTR build_gui(void)
 {

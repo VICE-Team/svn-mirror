@@ -111,9 +111,9 @@ static const int ui_ram_constant_pat_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "RAMInitStartValue", ui_ram_1st_byte, ui_ram_1st_byte_values},
-    {NULL, MUI_TYPE_CYCLE, "RAMInitValueInvert", ui_ram_constant_val, ui_ram_constant_val_values},
-    {NULL, MUI_TYPE_CYCLE, "RAMInitPatternInvert", ui_ram_constant_pat, ui_ram_constant_pat_values},
+    { NULL, MUI_TYPE_CYCLE, "RAMInitStartValue", ui_ram_1st_byte, ui_ram_1st_byte_values },
+    { NULL, MUI_TYPE_CYCLE, "RAMInitValueInvert", ui_ram_constant_val, ui_ram_constant_val_values },
+    { NULL, MUI_TYPE_CYCLE, "RAMInitPatternInvert", ui_ram_constant_pat, ui_ram_constant_pat_values },
     UI_END /* mandatory */
 };
 

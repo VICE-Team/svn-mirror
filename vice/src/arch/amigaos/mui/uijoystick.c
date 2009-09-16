@@ -108,21 +108,21 @@ static const int ui_userport_joystick_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values},
-    {NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_joystick_enable, ui_joystick_enable_values},
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_joystick_enable, ui_joystick_enable_values },
     UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from_plus4[] = {
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values},
-    {NULL, MUI_TYPE_CYCLE, "SidCartJoy", ui_joystick_enable, ui_joystick_enable_values},
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "SidCartJoy", ui_joystick_enable, ui_joystick_enable_values },
     UI_END /* mandatory */
 };
 
@@ -142,8 +142,8 @@ static ULONG BT1Click(struct Hook *hook, Object *obj, APTR arg)
 
 static APTR build_gui_c64(void)
 {
-    static const struct Hook BT0Hook = {{NULL, NULL}, (VOID *)BT0Click, NULL, NULL };
-    static const struct Hook BT1Hook = {{NULL, NULL}, (VOID *)BT1Click, NULL, NULL };
+    static const struct Hook BT0Hook = { { NULL, NULL }, (VOID *)BT0Click, NULL, NULL };
+    static const struct Hook BT1Hook = { { NULL, NULL }, (VOID *)BT1Click, NULL, NULL };
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
@@ -209,8 +209,8 @@ static APTR build_gui_c64(void)
 
 static APTR build_gui_c64dtv(void)
 {
-    static const struct Hook BT0Hook = {{NULL, NULL}, (VOID *)BT0Click, NULL, NULL};
-    static const struct Hook BT1Hook = {{NULL, NULL}, (VOID *)BT1Click, NULL, NULL};
+    static const struct Hook BT0Hook = { { NULL, NULL }, (VOID *)BT0Click, NULL, NULL };
+    static const struct Hook BT1Hook = { { NULL, NULL }, (VOID *)BT1Click, NULL, NULL };
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
@@ -276,8 +276,8 @@ static APTR build_gui_c64dtv(void)
 
 static APTR build_gui_cbm5x0(void)
 {
-    static const struct Hook BT0Hook = {{NULL, NULL}, (VOID *)BT0Click, NULL, NULL};
-    static const struct Hook BT1Hook = {{NULL, NULL}, (VOID *)BT1Click, NULL, NULL};
+    static const struct Hook BT0Hook = { { NULL, NULL }, (VOID *)BT0Click, NULL, NULL };
+    static const struct Hook BT1Hook = { { NULL, NULL }, (VOID *)BT1Click, NULL, NULL };
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
@@ -314,8 +314,8 @@ static APTR build_gui_cbm5x0(void)
 
 static APTR build_gui_pet(void)
 {
-    static const struct Hook BT0Hook = {{NULL, NULL}, (VOID *)BT0Click, NULL, NULL};
-    static const struct Hook BT1Hook = {{NULL, NULL}, (VOID *)BT1Click, NULL, NULL};
+    static const struct Hook BT0Hook = { { NULL, NULL }, (VOID *)BT0Click, NULL, NULL };
+    static const struct Hook BT1Hook = { { NULL, NULL }, (VOID *)BT1Click, NULL, NULL };
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
@@ -368,8 +368,8 @@ static APTR build_gui_pet(void)
 
 static APTR build_gui_vic20(void)
 {
-    static const struct Hook BT0Hook = {{NULL, NULL}, (VOID *)BT0Click, NULL, NULL};
-    static const struct Hook BT1Hook = {{NULL, NULL}, (VOID *)BT1Click, NULL, NULL};
+    static const struct Hook BT0Hook = { { NULL, NULL }, (VOID *)BT0Click, NULL, NULL };
+    static const struct Hook BT1Hook = { { NULL, NULL }, (VOID *)BT1Click, NULL, NULL };
     APTR BT0, BT1;
 
     APTR gui = GroupObject,
@@ -430,8 +430,8 @@ static APTR build_gui_vic20(void)
 
 static APTR build_gui_plus4(void)
 {
-    static const struct Hook BT0Hook = {{NULL, NULL}, (VOID *)BT0Click, NULL, NULL};
-    static const struct Hook BT1Hook = {{NULL, NULL}, (VOID *)BT1Click, NULL, NULL};
+    static const struct Hook BT0Hook = { { NULL, NULL }, (VOID *)BT0Click, NULL, NULL };
+    static const struct Hook BT1Hook = { { NULL, NULL }, (VOID *)BT1Click, NULL, NULL };
     APTR BT0, BT1;
 
     APTR gui = GroupObject,

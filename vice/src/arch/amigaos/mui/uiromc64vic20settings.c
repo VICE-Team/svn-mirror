@@ -46,16 +46,16 @@ static ui_to_from_t ui_to_from_computer[] = {
 static APTR hook_object_computer[countof(ui_to_from_computer)];
 
 static ui_to_from_t ui_to_from_drive[] = {
-    {NULL, MUI_TYPE_FILENAME, "DosName1541", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1541ii", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1570", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1571", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1581", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName2031", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName2040", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName3040", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName4040", NULL, NULL},
-    {NULL, MUI_TYPE_FILENAME, "DosName1001", NULL, NULL},
+    { NULL, MUI_TYPE_FILENAME, "DosName1541", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1541ii", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1570", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1571", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1581", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName2031", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName2040", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName3040", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName4040", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1001", NULL, NULL },
     UI_END /* mandatory */
 };
 

@@ -75,12 +75,12 @@ static const int ui_c128_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_CYCLE, "MachineType", ui_c128_machine_type, ui_c128_machine_type_values},
-    {NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_c128_enable, ui_c128_enable_values},
-    {NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL},
-    {NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values},
-    {NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL},
-    {NULL, MUI_TYPE_CYCLE, "C128FullBanks", ui_c128_enable, ui_c128_enable_values},
+    { NULL, MUI_TYPE_CYCLE, "MachineType", ui_c128_machine_type, ui_c128_machine_type_values },
+    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_c128_enable, ui_c128_enable_values },
+    { NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values },
+    { NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "C128FullBanks", ui_c128_enable, ui_c128_enable_values },
     UI_END /* mandatory */
 };
 
@@ -115,11 +115,11 @@ static APTR build_gui(void)
     APTR app, ui, ok, cancel, browse_button1, browse_button2;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseInternalHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)BrowseInternal, NULL};
-    static const struct Hook BrowseExternalHook = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)BrowseExternal, NULL};
+    static const struct Hook BrowseInternalHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)BrowseInternal, NULL };
+    static const struct Hook BrowseExternalHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)BrowseExternal, NULL };
 #else
-    static const struct Hook BrowseInternalHook = {{NULL, NULL}, (VOID *)BrowseInternal, NULL, NULL};
-    static const struct Hook BrowseExternalHook = {{NULL, NULL}, (VOID *)BrowseExternal, NULL, NULL};
+    static const struct Hook BrowseInternalHook = { { NULL, NULL }, (VOID *)BrowseInternal, NULL, NULL };
+    static const struct Hook BrowseExternalHook = { { NULL, NULL }, (VOID *)BrowseExternal, NULL, NULL };
 #endif
 
     app = mui_get_app();

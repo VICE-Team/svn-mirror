@@ -44,15 +44,15 @@
 #include "mui.h"
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_INTEGER, "NetworkServerPort", NULL, NULL},
-    {NULL, MUI_TYPE_TEXT, "NetworkServerBindAddress", NULL, NULL},
-    {NULL, MUI_TYPE_TEXT, "NetworkServerName", NULL, NULL},
+    { NULL, MUI_TYPE_INTEGER, "NetworkServerPort", NULL, NULL },
+    { NULL, MUI_TYPE_TEXT, "NetworkServerBindAddress", NULL, NULL },
+    { NULL, MUI_TYPE_TEXT, "NetworkServerName", NULL, NULL },
     UI_END /* mandatory */
 };
 
-#define BTN_START_SERVER (256+0)
-#define BTN_CONNECT_TO   (256+1)
-#define BTN_DISCONNECT   (256+2)
+#define BTN_START_SERVER (256 + 0)
+#define BTN_CONNECT_TO   (256 + 1)
+#define BTN_DISCONNECT   (256 + 2)
 
 static APTR build_gui(void)
 {
