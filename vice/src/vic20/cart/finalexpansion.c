@@ -503,16 +503,26 @@ void finalexpansion_detach(void)
 {
     /* try to write back cartridge contents if write back is enabled */
     if (finalexpansion_writeback) {
-        FILE *fd;
-        fd = fopen(cartfile, "wb");
-        if (fd) {
-            fwrite(flash_state.flash_data, (size_t)CART_ROM_SIZE, 1, fd);
-            fclose(fd);
-            log_message(fe_log, "Wrote back image `%s'.",
-                        cartfile);
+        if (flash_state.flash_dirty) {
+            int n;
+            FILE *fd;
+
+            n=0;
+            log_message(fe_log, "Flash dirty, trying to write back...");
+            fd = fopen(cartfile, "wb");
+            if (fd) {
+                n = fwrite(flash_state.flash_data, (size_t)CART_ROM_SIZE, 1, fd);
+                fclose(fd);
+            }
+            if (n<1) {
+                log_message(fe_log, "Failed to write back image `%s'!",
+                            cartfile);
+            } else {
+                log_message(fe_log, "Wrote back image `%s'.",
+                            cartfile);
+            }
         } else {
-            log_message(fe_log, "Failed to write back image `%s'!",
-                        cartfile);
+            log_message(fe_log, "Flash clean, skipping write back.");
         }
     }
 
