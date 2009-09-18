@@ -107,76 +107,76 @@ int window_count = 0;
 
 /* List of resources that can be switched on and off from the menus.  */
 ui_menu_toggle  toggle_list[] = {
-    {"Sound", MENU_TOGGLE_SOUND},
-    {"DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION},
-    {"AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART},
-    {"EmuID", MENU_TOGGLE_EMUID},
-    {"DirectWindow", MENU_TOGGLE_DIRECTWINDOW},
-    {"WarpMode", MENU_TOGGLE_WARP_MODE},
-    {"VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES},
-    {"SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT},
-    {"ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT},
-    {"ExtraJoy", MENU_TOGGLE_USERPORT_JOY},
-    {NULL, 0}
+    { "Sound", MENU_TOGGLE_SOUND },
+    { "DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION },
+    { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
+    { "EmuID", MENU_TOGGLE_EMUID },
+    { "DirectWindow", MENU_TOGGLE_DIRECTWINDOW },
+    { "WarpMode", MENU_TOGGLE_WARP_MODE },
+    { "VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES },
+    { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
+    { "ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT },
+    { "ExtraJoy", MENU_TOGGLE_USERPORT_JOY },
+    { NULL, 0 }
 };
 
 /*  List of resources which can have multiple mutual exclusive menu entries. */
 ui_res_possible_values RefreshRateValues[] = {
-    {0, MENU_REFRESH_RATE_AUTO},
-    {1, MENU_REFRESH_RATE_1},
-    {2, MENU_REFRESH_RATE_2},
-    {3, MENU_REFRESH_RATE_3},
-    {4, MENU_REFRESH_RATE_4},
-    {5, MENU_REFRESH_RATE_5},
-    {6, MENU_REFRESH_RATE_6},
-    {7, MENU_REFRESH_RATE_7},
-    {8, MENU_REFRESH_RATE_8},
-    {9, MENU_REFRESH_RATE_9},
-    {10, MENU_REFRESH_RATE_10},
-    {-1, 0}
+    { 0, MENU_REFRESH_RATE_AUTO },
+    { 1, MENU_REFRESH_RATE_1 },
+    { 2, MENU_REFRESH_RATE_2 },
+    { 3, MENU_REFRESH_RATE_3 },
+    { 4, MENU_REFRESH_RATE_4 },
+    { 5, MENU_REFRESH_RATE_5 },
+    { 6, MENU_REFRESH_RATE_6 },
+    { 7, MENU_REFRESH_RATE_7 },
+    { 8, MENU_REFRESH_RATE_8 },
+    { 9, MENU_REFRESH_RATE_9 },
+    { 10, MENU_REFRESH_RATE_10 },
+    { -1, 0 }
 };
 
 ui_res_possible_values SpeedValues[] = {
-    {0, MENU_MAXIMUM_SPEED_NO_LIMIT},
-    {10, MENU_MAXIMUM_SPEED_10},
-    {20, MENU_MAXIMUM_SPEED_20},
-    {50, MENU_MAXIMUM_SPEED_50},
-    {100, MENU_MAXIMUM_SPEED_100},
-    {200, MENU_MAXIMUM_SPEED_200},
-    {-1, 0}
+    { 0, MENU_MAXIMUM_SPEED_NO_LIMIT },
+    { 10, MENU_MAXIMUM_SPEED_10 },
+    { 20, MENU_MAXIMUM_SPEED_20 },
+    { 50, MENU_MAXIMUM_SPEED_50 },
+    { 100, MENU_MAXIMUM_SPEED_100 },
+    { 200, MENU_MAXIMUM_SPEED_200 },
+    { -1, 0 }
 };
 
 ui_res_possible_values RecordingOptions[] = {
-    {EVENT_START_MODE_FILE_SAVE, MENU_EVENT_START_MODE_SAVE},
-    {EVENT_START_MODE_FILE_LOAD, MENU_EVENT_START_MODE_LOAD},
-    {EVENT_START_MODE_RESET, MENU_EVENT_START_MODE_RESET},
-    {EVENT_START_MODE_PLAYBACK, MENU_EVENT_START_MODE_PLAYBACK},
-    {-1, 0}
+    { EVENT_START_MODE_FILE_SAVE, MENU_EVENT_START_MODE_SAVE },
+    { EVENT_START_MODE_FILE_LOAD, MENU_EVENT_START_MODE_LOAD },
+    { EVENT_START_MODE_RESET, MENU_EVENT_START_MODE_RESET },
+    { EVENT_START_MODE_PLAYBACK, MENU_EVENT_START_MODE_PLAYBACK },
+    { -1, 0 }
 };
 
 ui_res_possible_values SyncFactor[] = {
-    {MACHINE_SYNC_PAL, MENU_SYNC_FACTOR_PAL},
-    {MACHINE_SYNC_NTSC, MENU_SYNC_FACTOR_NTSC},
-    {MACHINE_SYNC_NTSCOLD, MENU_SYNC_FACTOR_NTSCOLD},
-    {-1, 0}
+    { MACHINE_SYNC_PAL, MENU_SYNC_FACTOR_PAL },
+    { MACHINE_SYNC_NTSC, MENU_SYNC_FACTOR_NTSC },
+    { MACHINE_SYNC_NTSCOLD, MENU_SYNC_FACTOR_NTSCOLD },
+    { -1, 0 }
 };
 
 ui_res_possible_values UserportJoyType[] = {
-    {EXTRA_JOYSTICK_CGA, MENU_USERPORT_JOY_CGA},
-    {EXTRA_JOYSTICK_PET, MENU_USERPORT_JOY_PET},
-    {EXTRA_JOYSTICK_HUMMER, MENU_USERPORT_JOY_HUMMER},
-    {EXTRA_JOYSTICK_OEM, MENU_USERPORT_JOY_OEM},
-    {EXTRA_JOYSTICK_HIT, MENU_USERPORT_JOY_HIT},
-    {-1, 0}
+    { EXTRA_JOYSTICK_CGA, MENU_USERPORT_JOY_CGA },
+    { EXTRA_JOYSTICK_PET, MENU_USERPORT_JOY_PET },
+    { EXTRA_JOYSTICK_HUMMER, MENU_USERPORT_JOY_HUMMER },
+    { EXTRA_JOYSTICK_OEM, MENU_USERPORT_JOY_OEM },
+    { EXTRA_JOYSTICK_HIT, MENU_USERPORT_JOY_HIT },
+    { -1, 0 }
 };
 
 ui_res_value_list value_list[] = {
-    {"RefreshRate", RefreshRateValues},
-    {"Speed", SpeedValues},
-    {"MachineVideoStandard", SyncFactor},
-    {"EventStartMode", RecordingOptions},
-    {"ExtraJoyType", UserportJoyType},
-    {NULL, NULL}
+    { "RefreshRate", RefreshRateValues },
+    { "Speed", SpeedValues },
+    { "MachineVideoStandard", SyncFactor },
+    { "EventStartMode", RecordingOptions },
+    { "ExtraJoyType", UserportJoyType },
+    { NULL, NULL }
 };
 
 ui_menu_toggle *machine_specific_toggles = NULL;
@@ -227,13 +227,13 @@ static int set_confirm_on_exit(int val, void *param)
 
 
 static const resource_int_t resources_int[] = {
-    {"JoystickDisplay", 0, RES_EVENT_NO, NULL,
-     &joystickdisplay, set_joystickdisplay, NULL},
-    {"SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
-     &save_resources_on_exit, set_save_resources_on_exit, NULL},
-    {"ConfirmOnExit", 1, RES_EVENT_NO, NULL,
-     &confirm_on_exit, set_confirm_on_exit, NULL},
-    {NULL}
+    { "JoystickDisplay", 0, RES_EVENT_NO, NULL,
+      &joystickdisplay, set_joystickdisplay, NULL },
+    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+      &save_resources_on_exit, set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
+      &confirm_on_exit, set_confirm_on_exit, NULL },
+    { NULL }
 };
 
 int ui_resources_init(void)
@@ -249,7 +249,7 @@ void ui_resources_shutdown(void)
 
 /* UI-related command-line options.  */
 static const cmdline_option_t cmdline_options[] = {
-    {NULL}
+    { NULL }
 };
 
 int ui_cmdline_options_init(void)
@@ -1281,7 +1281,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
     ui_display_statustext(text, 0);
 }
 
-static BYTE ui_joystick_status[3] = {255, 255, 255};
+static BYTE ui_joystick_status[3] = { 255, 255, 255 };
 
 static void ui_display_joyport(int port_num)
 {

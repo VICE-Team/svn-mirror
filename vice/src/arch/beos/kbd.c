@@ -118,9 +118,9 @@ static int set_keymap_index(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"KeymapIndex", 0, RES_EVENT_NO, NULL,
-     &keymap_index, set_keymap_index, NULL},
-    {NULL}
+    { "KeymapIndex", 0, RES_EVENT_NO, NULL,
+      &keymap_index, set_keymap_index, NULL },
+    { NULL }
 };
 
 int kbd_resources_init(void)
@@ -129,12 +129,12 @@ int kbd_resources_init(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-keymap", SET_RESOURCE, 1,
-     NULL, NULL, "KeymapIndex", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Specify index of used keymap"},
-    {NULL},
+    { "-keymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapIndex", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Specify index of used keymap" },
+    { NULL },
 };
 
 int kbd_cmdline_options_init(void)

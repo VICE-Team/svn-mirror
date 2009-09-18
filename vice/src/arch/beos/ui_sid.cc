@@ -93,9 +93,9 @@ static int sidmodel_values[] = {
     -1
 };
 
-static int c64sidaddressbase[] = {0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1};
-static int c128sidaddressbase[] = {0xd4, 0xd7, 0xde, 0xdf, -1};
-static int cbm2sidaddressbase[] = {0xda, -1};
+static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
+static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
+static int cbm2sidaddressbase[] = { 0xda, -1 };
 
 class SidWindow : public BWindow {
         BListView *addresslistview;

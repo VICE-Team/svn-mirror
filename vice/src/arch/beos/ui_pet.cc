@@ -55,13 +55,13 @@ static char* pet_model_name[] = {
     NULL
 };
 
-static int pet_memory[] = {4, 8, 16, 32, 96, 128, 0};
-static char *video_text[] = {"Auto", "40 columns", "80 columns", NULL};
-static int video_res[] = {0, 40, 80};
-static char *iosize_text[] = {"256 Byte", "2 KByte", NULL};
-static int iosize_res[] = {0x100, 0x800};
-static char *keyboard_text[] = {"Graphics", "Business (UK)", NULL};
-static int keyboard_res[] = {2, 0};
+static int pet_memory[] = { 4, 8, 16, 32, 96, 128, 0 };
+static char *video_text[] = { "Auto", "40 columns", "80 columns", NULL };
+static int video_res[] = { 0, 40, 80 };
+static char *iosize_text[] = { "256 Byte", "2 KByte", NULL };
+static int iosize_res[] = { 0x100, 0x800 };
+static char *keyboard_text[] = { "Graphics", "Business (UK)", NULL };
+static int keyboard_res[] = { 2, 0 };
 
 class PetWindow : public BWindow {
     public:

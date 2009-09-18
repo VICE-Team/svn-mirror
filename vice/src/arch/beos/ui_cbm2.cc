@@ -39,10 +39,10 @@ extern "C" {
 #include "vsync.h"
 }
 
-static char* cbm2_model_name[] = {"610", "620", "620+", "710", "720", "720+", NULL};
-static char *cbm2_modelline[] = {"7x0 (50Hz)", "6x0 60Hz", "6x0 50Hz", NULL};
-static int cbm2_memory[] = {128, 256, 512, 1024, 0};
-static char *rambank_res[] = {"Ram08", "Ram1", "Ram2", "Ram4", "Ram6", "RamC", NULL};
+static char* cbm2_model_name[] = { "610", "620", "620+", "710", "720", "720+", NULL };
+static char *cbm2_modelline[] = { "7x0 (50Hz)", "6x0 60Hz", "6x0 50Hz", NULL };
+static int cbm2_memory[] = { 128, 256, 512, 1024, 0 };
+static char *rambank_res[] = { "Ram08", "Ram1", "Ram2", "Ram4", "Ram6", "RamC", NULL };
 static char *rambank_text[] = {
     "Bank 15 $0800-$0fff RAM",
     "Bank 15 $1000-$1fff RAM",

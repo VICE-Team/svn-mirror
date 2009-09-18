@@ -83,10 +83,7 @@ JoyView::JoyView(BRect r, int joyport) : BView(r, "joy_view", B_FOLLOW_NONE, B_W
     char str[128];
     char *item_name;
     char portname[] = "Port X";
-    char *joydevice_name[] = {"None",
-                              "Numpad",
-                              "Keyset 1",
-                              "Keyset 2"};
+    char *joydevice_name[] = { "None", "Numpad", "Keyset 1", "Keyset 2" };
 
     portname[5] = 'A' + joyport - 1;
 
@@ -265,15 +262,15 @@ static char *keydefine_texts[] = {
 };
 
 static struct _point{int x; int y;} keydefine_pos[] = {
-    {0, 0},
-    {80, 0},
-    {160, 0},
-    {160, 30},
-    {160, 60},
-    {80, 60},
-    {0, 60},
-    {0, 30},
-    {80, 30}
+    { 0, 0 },
+    { 80, 0 },
+    { 160, 0 },
+    { 160, 30 },
+    { 160, 60 },
+    { 80, 60 },
+    { 0, 60 },
+    { 0, 30 },
+    { 80, 30 }
 };
 
 static char *keydefine_resource[] = { 

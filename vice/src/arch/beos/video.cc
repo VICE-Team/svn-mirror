@@ -95,9 +95,9 @@ static int set_direct_window(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"DirectWindow", 1, RES_EVENT_NO, NULL,
-     &use_direct_window, set_direct_window, NULL},
-    {NULL}
+    { "DirectWindow", 1, RES_EVENT_NO, NULL,
+      &use_direct_window, set_direct_window, NULL },
+    { NULL }
 };
 
 int video_arch_resources_init(void)
@@ -111,16 +111,16 @@ void video_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    {"-directwindow", SET_RESOURCE, 0,
-     NULL, NULL, "DirectWindow", (resource_value_t) 1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable BeOS DirectWindow API"},
-    {"+directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable BeOS DirectWindow API"},
-    {NULL}
+    { "-directwindow", SET_RESOURCE, 0,
+      NULL, NULL, "DirectWindow", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable BeOS DirectWindow API" },
+    { "+directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable BeOS DirectWindow API" },
+    { NULL }
 };
 
 int video_init_cmdline_options(void)

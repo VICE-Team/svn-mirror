@@ -56,16 +56,16 @@ static struct _colorcontrol {
     int multiplier;
     BSlider *slider;
 } color_control[] =  {
-    {"Saturation", "ColorSaturation", 2000, NULL},
-    {"Contrast", "ColorContrast", 2000, NULL},
-    {"Brightness", "ColorBrightness", 2000, NULL},
-    {"Gamma", "ColorGamma", 2000, NULL},
-    {"PAL Scanline Shade", "PALScanLineShade", 1000, NULL},
-    {"PAL Blur", "PALBlur", 1000, NULL},
-    {"Tint", "ColorTint", 2000, NULL},
-    {"Odd Lines Phase", "PALOddLinePhase", 2000, NULL},
-    {"Odd Lines Offset", "PALOddLineOffset", 2000, NULL},
-    {NULL, NULL, 0, NULL}
+    { "Saturation", "ColorSaturation", 2000, NULL },
+    { "Contrast", "ColorContrast", 2000, NULL },
+    { "Brightness", "ColorBrightness", 2000, NULL },
+    { "Gamma", "ColorGamma", 2000, NULL },
+    { "PAL Scanline Shade", "PALScanLineShade", 1000, NULL },
+    { "PAL Blur", "PALBlur", 1000, NULL },
+    { "Tint", "ColorTint", 2000, NULL },
+    { "Odd Lines Phase", "PALOddLinePhase", 2000, NULL },
+    { "Odd Lines Offset", "PALOddLineOffset", 2000, NULL },
+    { NULL, NULL, 0, NULL }
 };
 
 static char *modes[] = {
@@ -83,19 +83,19 @@ typedef struct {
 
 static Chip_Parameters chip_param_table[] =
 {
-    {"VICIIPaletteFile", "VICIIExternalPalette",
-     "VICII Palette"},
-    {"VICPaletteFile", "VICExternalPalette",
-     "VIC Palette"},
-    {"CRTCPaletteFile", NULL,
-     "CRTC Palette"},
-    {"VDCPaletteFile", NULL,
-     "VDC Palette"},
-    {"TEDPaletteFile", "TEDExternalPalette",
-     "TED Palette"},
+    { "VICIIPaletteFile", "VICIIExternalPalette",
+      "VICII Palette" },
+    { "VICPaletteFile", "VICExternalPalette",
+      "VIC Palette" },
+    { "CRTCPaletteFile", NULL,
+      "CRTC Palette"},
+    { "VDCPaletteFile", NULL,
+      "VDC Palette" },
+    { "TEDPaletteFile", "TEDExternalPalette",
+      "TED Palette" },
 };
 
-static int chip[] = {-1, -1};
+static int chip[] = { -1, -1 };
 
 BListView *palettelistview;
 

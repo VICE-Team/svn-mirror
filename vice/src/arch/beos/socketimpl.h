@@ -38,8 +38,10 @@
 #include <socket.h>
 #include <netdb.h>
 #include <byteorder.h>
+
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
+
 #define PF_INET AF_INET
 #define INVALID_SOCKET (SOCKET)(~0)
 #define HAVE_HTONS

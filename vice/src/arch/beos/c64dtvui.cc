@@ -64,49 +64,49 @@ extern "C" {
 extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
-    {"VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE},
-    {"VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN},
-    {"VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE},
-    {"c64dtvromrw", MENU_TOGGLE_C64DTV_WRITE_ENABLE},
-    {"Mouse", MENU_TOGGLE_MOUSE},
-    {"ps2mouse", MENU_TOGGLE_PS2MOUSE},
-    {"PALEmulation", MENU_TOGGLE_FASTPAL},
-    {"VICIIScale2x", MENU_TOGGLE_SCALE2X},
-    {NULL, 0}
+    { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "c64dtvromrw", MENU_TOGGLE_C64DTV_WRITE_ENABLE },
+    { "Mouse", MENU_TOGGLE_MOUSE },
+    { "ps2mouse", MENU_TOGGLE_PS2MOUSE },
+    { "PALEmulation", MENU_TOGGLE_FASTPAL },
+    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
+    { NULL, 0 }
 };
 
 ui_res_possible_values C64DTVRevision[] = {
-    {2, MENU_C64DTV_REVISION_2},
-    {3, MENU_C64DTV_REVISION_3},
-    {-1, 0}
+    { 2, MENU_C64DTV_REVISION_2 },
+    { 3, MENU_C64DTV_REVISION_3 },
+    { -1, 0 }
 };
 
 ui_res_possible_values HummerJoyPort[] = {
-    {1, MENU_HUMMER_JOY_PORT_1},
-    {2, MENU_HUMMER_JOY_PORT_2},
-    {-1, 0}
+    { 1, MENU_HUMMER_JOY_PORT_1 },
+    { 2, MENU_HUMMER_JOY_PORT_2 },
+    { -1, 0 }
 };
 
 ui_res_possible_values HummerUserportDevice[] = {
-    {HUMMER_USERPORT_NONE, MENU_HUMMER_USERPORT_NONE},
-    {HUMMER_USERPORT_ADC, MENU_HUMMER_USERPORT_ADC},
-    {HUMMER_USERPORT_JOY, MENU_HUMMER_USERPORT_JOY},
-    {-1, 0}
+    { HUMMER_USERPORT_NONE, MENU_HUMMER_USERPORT_NONE },
+    { HUMMER_USERPORT_ADC, MENU_HUMMER_USERPORT_ADC },
+    { HUMMER_USERPORT_JOY, MENU_HUMMER_USERPORT_JOY },
+    { -1, 0 }
 };
 
 ui_res_possible_values c64dtvviciiBorders[] = {
-    {0, MENU_VICII_BORDERS_NORMAL},
-    {1, MENU_VICII_BORDERS_FULL},
-    {2, MENU_VICII_BORDERS_DEBUG},
-    {-1, 0}
+    { 0, MENU_VICII_BORDERS_NORMAL },
+    { 1, MENU_VICII_BORDERS_FULL },
+    { 2, MENU_VICII_BORDERS_DEBUG },
+    { -1, 0 }
 };
 
 ui_res_value_list c64dtv_ui_res_values[] = {
-    {"DtvRevision", C64DTVRevision},
-    {"HummerUserportJoyPort", HummerJoyPort},
-    {"HummerUserportDevice", HummerUserportDevice},
-    {"VICIIBorderMode", c64dtvviciiBorders},
-    {NULL, NULL}
+    { "DtvRevision", C64DTVRevision },
+    { "HummerUserportJoyPort", HummerJoyPort },
+    { "HummerUserportDevice", HummerUserportDevice },
+    { "VICIIBorderMode", c64dtvviciiBorders },
+    { NULL, NULL }
 };
 
 void c64dtv_ui_specific(void *msg, void *window)

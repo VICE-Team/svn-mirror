@@ -33,15 +33,15 @@ extern "C" {
 }
 #include "statusbar.h"
 
-const rgb_color statusbar_background = {200,200,200,0};
-const rgb_color statusbar_green_led = {10,200,10,0};
-const rgb_color statusbar_red_led = {200,10,10,0};
-const rgb_color statusbar_black_led = {5,5,5,0};
-const rgb_color statusbar_motor_on = {250,250,0,0};
-const rgb_color statusbar_motor_off = {120,120,120,0};
-const rgb_color statusbar_joystick_dir = {10,250,10,0};
-const rgb_color statusbar_joystick_fire = {250,10,10,0};
-const rgb_color statusbar_joystick_off = {100,100,100,0};
+const rgb_color statusbar_background = { 200, 200, 200, 0 };
+const rgb_color statusbar_green_led = { 10, 200, 10, 0 };
+const rgb_color statusbar_red_led = { 200, 10, 10, 0 };
+const rgb_color statusbar_black_led = { 5, 5, 5, 0 };
+const rgb_color statusbar_motor_on = { 250, 250, 0, 0 };
+const rgb_color statusbar_motor_off = { 120, 120, 120, 0 };
+const rgb_color statusbar_joystick_dir = { 10, 250, 10, 0};
+const rgb_color statusbar_joystick_fire = { 250, 10, 10, 0};
+const rgb_color statusbar_joystick_off = { 100, 100, 100, 0 };
 
 ViceStatusbar::ViceStatusbar(BRect r) 
     : BView(r,"statusbar",B_FOLLOW_LEFT|B_FOLLOW_TOP, B_WILL_DRAW)
@@ -133,11 +133,11 @@ void ViceStatusbar::DisplayTapeStatus(int enabled, int counter,int motor, int co
 {
     char str[256];
     BRect frame;
-    const BPoint play_button[] = {BPoint(198, 55), BPoint(201, 58), BPoint(198, 61)};
-    const BPoint ff_button1[] = {BPoint(197, 55), BPoint(200, 58), BPoint(197, 61)};
-    const BPoint ff_button2[] = {BPoint(200, 55), BPoint(203, 58), BPoint(200, 61)};
-    const BPoint rewind_button1[] = {BPoint(203, 55), BPoint(200, 58), BPoint(203, 61)};
-    const BPoint rewind_button2[] = {BPoint(200, 55), BPoint(197, 58), BPoint(200, 61)};
+    const BPoint play_button[] = { BPoint(198, 55), BPoint(201, 58), BPoint(198, 61) };
+    const BPoint ff_button1[] = { BPoint(197, 55), BPoint(200, 58), BPoint(197, 61) };
+    const BPoint ff_button2[] = { BPoint(200, 55), BPoint(203, 58), BPoint(200, 61) };
+    const BPoint rewind_button1[] = { BPoint(203, 55), BPoint(200, 58), BPoint(203, 61) };
+    const BPoint rewind_button2[] = { BPoint(200, 55), BPoint(197, 58), BPoint(200, 61) };
 
     frame = BRect(155, 53, 215, 65);
     sprintf(str, "T:  %03d", counter);
@@ -199,13 +199,13 @@ void ViceStatusbar::DisplayImage(int drive_num, const char *image)
     Draw(frame);
 }
 
-static struct _xy {int x; int y; } direction_offset[] = 
+static struct _xy { int x; int y; } direction_offset[] = 
 {
-    {6, 1},		/* up    */
-    {6, 11},	/* down  */
-    {1, 6},		/* left  */
-    {11, 6},	/* right */
-    {6, 6}		/* fire  */
+    { 6, 1 },		/* up    */
+    { 6, 11 },		/* down  */
+    { 1, 6 },		/* left  */
+    { 11, 6 },		/* right */
+    { 6, 6 }		/* fire  */
 };
 
 static BRect joystickframe = BRect(10, 20, 130, 39);

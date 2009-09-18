@@ -43,20 +43,20 @@ static struct _drive_type {
     char *name;
     int id;
 } drive_type[] = {
-    {"1541", DRIVE_TYPE_1541},
-    {"1541-II", DRIVE_TYPE_1541II},
-    {"1551", DRIVE_TYPE_1551},
-    {"1571", DRIVE_TYPE_1571},
-    {"1581", DRIVE_TYPE_1581},
-    {"2031", DRIVE_TYPE_2031},
-    {"2040", DRIVE_TYPE_2040},
-    {"3040", DRIVE_TYPE_3040},
-    {"4040", DRIVE_TYPE_4040},
-    {"1001", DRIVE_TYPE_1001},
-    {"8050", DRIVE_TYPE_8050},
-    {"8250", DRIVE_TYPE_8250},
-    {"None", DRIVE_TYPE_NONE},
-    {NULL, 0}
+    { "1541", DRIVE_TYPE_1541 },
+    { "1541-II", DRIVE_TYPE_1541II },
+    { "1551", DRIVE_TYPE_1551 },
+    { "1571", DRIVE_TYPE_1571 },
+    { "1581", DRIVE_TYPE_1581 },
+    { "2031", DRIVE_TYPE_2031 },
+    { "2040", DRIVE_TYPE_2040 },
+    { "3040", DRIVE_TYPE_3040 },
+    { "4040", DRIVE_TYPE_4040 },
+    { "1001", DRIVE_TYPE_1001 },
+    { "8050", DRIVE_TYPE_8050 },
+    { "8250", DRIVE_TYPE_8250 },
+    { "None", DRIVE_TYPE_NONE },
+    { NULL, 0 }
 };
 	
 struct _drive_extendimagepolicy {
@@ -64,32 +64,32 @@ struct _drive_extendimagepolicy {
     int id;
     BRadioButton *radiobutton; /* we have to remeber for enable/disable them */
 } drive_extendimagepolicy[] = {
-    {"Never extend", DRIVE_EXTEND_NEVER, NULL},
-    {"Ask on extend", DRIVE_EXTEND_ASK, NULL},
-    {"Extend on access", DRIVE_EXTEND_ACCESS, NULL},
-    {NULL, 0, NULL}
+    { "Never extend", DRIVE_EXTEND_NEVER, NULL },
+    { "Ask on extend", DRIVE_EXTEND_ASK, NULL },
+    { "Extend on access", DRIVE_EXTEND_ACCESS, NULL },
+    { NULL, 0, NULL }
 };
 
 struct _drive_expansion {
     char *name;
     char *resource_name;
 } drive_expansion[] = {
-    {"$2000-$3FFF RAM", "Drive%dRAM2000"},
-    {"$4000-$5FFF RAM", "Drive%dRAM4000"},
-    {"$6000-$7FFF RAM", "Drive%dRAM6000"},
-    {"$8000-$9FFF RAM", "Drive%dRAM8000"},
-    {"$A000-$BFFF RAM", "Drive%dRAMA000"},
-    {NULL, NULL}
+    { "$2000-$3FFF RAM", "Drive%dRAM2000" },
+    { "$4000-$5FFF RAM", "Drive%dRAM4000" },
+    { "$6000-$7FFF RAM", "Drive%dRAM6000" },
+    { "$8000-$9FFF RAM", "Drive%dRAM8000" },
+    { "$A000-$BFFF RAM", "Drive%dRAMA000" },
+    { NULL, NULL }
 };
 
 struct _drive_idlemethod {
     char *name;
     int id;
 } drive_idlemethod[] = {
-    {"None", DRIVE_IDLE_NO_IDLE},
-    {"Trap idle", DRIVE_IDLE_TRAP_IDLE},
-    {"Skip cycles", DRIVE_IDLE_SKIP_CYCLES},
-    {NULL, 0}
+    { "None", DRIVE_IDLE_NO_IDLE },
+    { "Trap idle", DRIVE_IDLE_TRAP_IDLE },
+    { "Skip cycles", DRIVE_IDLE_SKIP_CYCLES },
+    { NULL, 0 }
 };
 
 class DriveView : public BView {

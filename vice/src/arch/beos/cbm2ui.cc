@@ -37,10 +37,10 @@ extern "C" {
 }
 
 ui_menu_toggle  cbm2_ui_menu_toggles[] = {
-    {"CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE},
-    {"CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN},
-    {"CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE},
-    {NULL, 0}
+    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { NULL, 0 }
 };
 
 void cbm2_ui_specific(void *msg, void *window)

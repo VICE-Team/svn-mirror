@@ -61,47 +61,25 @@ extern "C" {
 }
 
 ui_menu_toggle  vic20_ui_menu_toggles[] = {
-    {"VICDoubleSize", MENU_TOGGLE_DOUBLESIZE},
-    {"VICDoubleScan", MENU_TOGGLE_DOUBLESCAN},
-    {"VICVideoCache", MENU_TOGGLE_VIDEOCACHE},
-    {"PALEmulation", MENU_TOGGLE_FASTPAL},
-    {"VICScale2x", MENU_TOGGLE_SCALE2X},
-    {"IEEE488", MENU_TOGGLE_IEEE488},
-    {"SidCart", MENU_TOGGLE_SIDCART},
-    {"SidFilters", MENU_TOGGLE_SIDCART_FILTERS},
-    {"Mouse", MENU_TOGGLE_MOUSE},
-    {NULL, 0}
+    { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "PALEmulation", MENU_TOGGLE_FASTPAL },
+    { "VICScale2x", MENU_TOGGLE_SCALE2X },
+    { "IEEE488", MENU_TOGGLE_IEEE488 },
+    { "SidCart", MENU_TOGGLE_SIDCART },
+    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
+    { "Mouse", MENU_TOGGLE_MOUSE },
+    { NULL, 0 }
 };
 
 static ui_cartridge_t vic20_ui_cartridges[]={
-    {
-        MENU_CART_VIC20_16KB_2000,
-        CARTRIDGE_VIC20_16KB_2000,
-        "4/8/16KB at $2000"
-    },
-    {
-        MENU_CART_VIC20_16KB_4000,
-        CARTRIDGE_VIC20_16KB_4000,
-        "4/8/16KB at $4000"
-    },
-    {
-        MENU_CART_VIC20_16KB_6000,
-        CARTRIDGE_VIC20_16KB_6000,
-        "4/8/16KB at $6000"
-    },
-    {
-        MENU_CART_VIC20_8KB_A000,
-        CARTRIDGE_VIC20_8KB_A000,
-        "8KB at $A000"
-    },
-    {
-        MENU_CART_VIC20_4KB_B000,
-        CARTRIDGE_VIC20_4KB_B000,
-        "4KB at $B000"
-    },
-    {
-        0, 0, NULL
-    }
+    { MENU_CART_VIC20_16KB_2000, CARTRIDGE_VIC20_16KB_2000, "4/8/16KB at $2000" },
+    { MENU_CART_VIC20_16KB_4000, CARTRIDGE_VIC20_16KB_4000, "4/8/16KB at $4000" },
+    { MENU_CART_VIC20_16KB_6000, CARTRIDGE_VIC20_16KB_6000, "4/8/16KB at $6000" },
+    { MENU_CART_VIC20_8KB_A000, CARTRIDGE_VIC20_8KB_A000, "8KB at $A000" },
+    { MENU_CART_VIC20_4KB_B000, CARTRIDGE_VIC20_4KB_B000, "4KB at $B000" },
+    { 0, 0, NULL }
 };
 
 
@@ -172,28 +150,28 @@ void vic20_ui_specific(void *msg, void *window)
 }
 
 ui_res_possible_values vic20_SIDCARTModel[] = {
-    {0, MENU_SIDCART_MODEL_6581},
-    {1, MENU_SIDCART_MODEL_8580},
-    {-1, 0}
+    { 0, MENU_SIDCART_MODEL_6581 },
+    { 1, MENU_SIDCART_MODEL_8580 },
+    { -1, 0 }
 };
 
 ui_res_possible_values vic20_SIDCARTAddress[] = {
-    {0, MENU_SIDCART_ADDRESS_1},
-    {1, MENU_SIDCART_ADDRESS_2},
-    {-1, 0}
+    { 0, MENU_SIDCART_ADDRESS_1 },
+    { 1, MENU_SIDCART_ADDRESS_2 },
+    { -1, 0 }
 };
 
 ui_res_possible_values vic20_SIDCARTClock[] = {
-    {0, MENU_SIDCART_CLOCK_C64},
-    {1, MENU_SIDCART_CLOCK_NATIVE},
-    {-1, 0}
+    { 0, MENU_SIDCART_CLOCK_C64 },
+    { 1, MENU_SIDCART_CLOCK_NATIVE },
+    { -1, 0 }
 };
 
 ui_res_value_list vic20_ui_res_values[] = {
-    {"SidModel", vic20_SIDCARTModel},
-    {"SidAddress", vic20_SIDCARTAddress},
-    {"SidClock", vic20_SIDCARTClock},
-    {NULL, NULL}
+    { "SidModel", vic20_SIDCARTModel },
+    { "SidAddress", vic20_SIDCARTAddress },
+    { "SidClock", vic20_SIDCARTClock },
+    { NULL, NULL }
 };
 
 int vic20ui_init(void)

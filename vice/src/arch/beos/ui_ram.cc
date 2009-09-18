@@ -40,8 +40,8 @@ extern "C" {
 #include "vsync.h"
 }
 
-static int ui_ram_startvalue[] = {0, 255, -1};
-static int ui_ram_invertvalue[] = {0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1};
+static int ui_ram_startvalue[] = { 0, 255, -1 };
+static int ui_ram_invertvalue[] = { 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1 };
 
 BListView *valueinvertlistview;
 BListView *patterninvertlistview;

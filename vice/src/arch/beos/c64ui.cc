@@ -65,216 +65,161 @@ extern "C" {
 extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c64_ui_menu_toggles[] = {
-    {"VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE},
-    {"VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN},
-    {"VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE},
-    {"REU", MENU_TOGGLE_REU},
-    {"GEORAM", MENU_TOGGLE_GEORAM},
-    {"RAMCART", MENU_TOGGLE_RAMCART},
-    {"DQBB", MENU_TOGGLE_DQBB},
-    {"Isepic", MENU_TOGGLE_ISEPIC},
-    {"IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH},
-    {"PLUS60K", MENU_TOGGLE_PLUS60K},
-    {"PLUS256K", MENU_TOGGLE_PLUS256K},
-    {"256K", MENU_TOGGLE_C64_256K},
-    {"DIGIMAX", MENU_TOGGLE_DIGIMAX},
-    {"MMC64", MENU_TOGGLE_MMC64},
-    {"MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER},
-    {"MMC64_bios_write", MENU_TOGGLE_MMC64_SAVE},
-    {"MMC64_RO", MENU_TOGGLE_MMC64_READ_ONLY},
-    {"Mouse", MENU_TOGGLE_MOUSE},
-    {"PALEmulation", MENU_TOGGLE_FASTPAL},
-    {"VICIIScale2x", MENU_TOGGLE_SCALE2X},
-    {"SFXSoundExpander", MENU_TOGGLE_SFX_SE},
-    {"SFXSoundSampler", MENU_TOGGLE_SFX_SS},
-    {"EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER},
-    {"EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE},
-    {NULL, 0}
+    { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "REU", MENU_TOGGLE_REU },
+    { "GEORAM", MENU_TOGGLE_GEORAM },
+    { "RAMCART", MENU_TOGGLE_RAMCART },
+    { "DQBB", MENU_TOGGLE_DQBB },
+    { "Isepic", MENU_TOGGLE_ISEPIC },
+    { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },
+    { "PLUS60K", MENU_TOGGLE_PLUS60K },
+    { "PLUS256K", MENU_TOGGLE_PLUS256K },
+    { "256K", MENU_TOGGLE_C64_256K },
+    { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
+    { "MMC64", MENU_TOGGLE_MMC64 },
+    { "MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER },
+    { "MMC64_bios_write", MENU_TOGGLE_MMC64_SAVE },
+    { "MMC64_RO", MENU_TOGGLE_MMC64_READ_ONLY },
+    { "Mouse", MENU_TOGGLE_MOUSE },
+    { "PALEmulation", MENU_TOGGLE_FASTPAL },
+    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
+    { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
+    { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
+    { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
+    { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
+    { NULL, 0 }
 };
 
 ui_res_possible_values ReuSize[] = {
-    {128, MENU_REU_SIZE_128},
-    {256, MENU_REU_SIZE_256},
-    {512, MENU_REU_SIZE_512},
-    {1024, MENU_REU_SIZE_1024},
-    {2048, MENU_REU_SIZE_2048},
-    {4096, MENU_REU_SIZE_4096},
-    {8192, MENU_REU_SIZE_8192},
-    {16384, MENU_REU_SIZE_16384},
-    {-1, 0}
+    { 128, MENU_REU_SIZE_128 },
+    { 256, MENU_REU_SIZE_256 },
+    { 512, MENU_REU_SIZE_512 },
+    { 1024, MENU_REU_SIZE_1024 },
+    { 2048, MENU_REU_SIZE_2048 },
+    { 4096, MENU_REU_SIZE_4096 },
+    { 8192, MENU_REU_SIZE_8192 },
+    { 16384, MENU_REU_SIZE_16384 },
+    { -1, 0 }
 };
 
 ui_res_possible_values GeoRAMSize[] = {
-    {64, MENU_GEORAM_SIZE_64},
-    {128, MENU_GEORAM_SIZE_128},
-    {256, MENU_GEORAM_SIZE_256},
-    {512, MENU_GEORAM_SIZE_512},
-    {1024, MENU_GEORAM_SIZE_1024},
-    {2048, MENU_GEORAM_SIZE_2048},
-    {4096, MENU_GEORAM_SIZE_4096},
-    {-1, 0}
+    { 64, MENU_GEORAM_SIZE_64 },
+    { 128, MENU_GEORAM_SIZE_128 },
+    { 256, MENU_GEORAM_SIZE_256 },
+    { 512, MENU_GEORAM_SIZE_512 },
+    { 1024, MENU_GEORAM_SIZE_1024 },
+    { 2048, MENU_GEORAM_SIZE_2048 },
+    { 4096, MENU_GEORAM_SIZE_4096 },
+    { -1, 0 }
 };
 
 ui_res_possible_values RamCartSize[] = {
-    {64, MENU_RAMCART_SIZE_64},
-    {128, MENU_RAMCART_SIZE_128},
-    {-1, 0}
+    { 64, MENU_RAMCART_SIZE_64 },
+    { 128, MENU_RAMCART_SIZE_128 },
+    { -1, 0 }
 };
 
 ui_res_possible_values Plus60kBase[] = {
-    {0xd040, MENU_PLUS60K_BASE_D040},
-    {0xd100, MENU_PLUS60K_BASE_D100},
-    {-1, 0}
+    { 0xd040, MENU_PLUS60K_BASE_D040 },
+    { 0xd100, MENU_PLUS60K_BASE_D100 },
+    { -1, 0 }
 };
 
 ui_res_possible_values C64_256KBase[] = {
-    {0xde00, MENU_C64_256K_BASE_DE00},
-    {0xde80, MENU_C64_256K_BASE_DE80},
-    {0xdf00, MENU_C64_256K_BASE_DF00},
-    {0xdf80, MENU_C64_256K_BASE_DF80},
-    {-1, 0}
+    { 0xde00, MENU_C64_256K_BASE_DE00 },
+    { 0xde80, MENU_C64_256K_BASE_DE80 },
+    { 0xdf00, MENU_C64_256K_BASE_DF00 },
+    { 0xdf80, MENU_C64_256K_BASE_DF80 },
+    { -1, 0 }
 };
 
 ui_res_possible_values DigimaxBase[] = {
-    {0xdd00, MENU_DIGIMAX_BASE_DD00},
-    {0xde00, MENU_DIGIMAX_BASE_DE00},
-    {0xde20, MENU_DIGIMAX_BASE_DE20},
-    {0xde40, MENU_DIGIMAX_BASE_DE40},
-    {0xde60, MENU_DIGIMAX_BASE_DE60},
-    {0xde80, MENU_DIGIMAX_BASE_DE80},
-    {0xdea0, MENU_DIGIMAX_BASE_DEA0},
-    {0xdec0, MENU_DIGIMAX_BASE_DEC0},
-    {0xdee0, MENU_DIGIMAX_BASE_DEE0},
-    {0xdf00, MENU_DIGIMAX_BASE_DF00},
-    {0xdf20, MENU_DIGIMAX_BASE_DF20},
-    {0xdf40, MENU_DIGIMAX_BASE_DF40},
-    {0xdf60, MENU_DIGIMAX_BASE_DF60},
-    {0xdf80, MENU_DIGIMAX_BASE_DF80},
-    {0xdfa0, MENU_DIGIMAX_BASE_DFA0},
-    {0xdfc0, MENU_DIGIMAX_BASE_DFC0},
-    {0xdfe0, MENU_DIGIMAX_BASE_DFE0},
-    {-1, 0}
+    { 0xdd00, MENU_DIGIMAX_BASE_DD00 },
+    { 0xde00, MENU_DIGIMAX_BASE_DE00 },
+    { 0xde20, MENU_DIGIMAX_BASE_DE20 },
+    { 0xde40, MENU_DIGIMAX_BASE_DE40 },
+    { 0xde60, MENU_DIGIMAX_BASE_DE60 },
+    { 0xde80, MENU_DIGIMAX_BASE_DE80 },
+    { 0xdea0, MENU_DIGIMAX_BASE_DEA0 },
+    { 0xdec0, MENU_DIGIMAX_BASE_DEC0 },
+    { 0xdee0, MENU_DIGIMAX_BASE_DEE0 },
+    { 0xdf00, MENU_DIGIMAX_BASE_DF00 },
+    { 0xdf20, MENU_DIGIMAX_BASE_DF20 },
+    { 0xdf40, MENU_DIGIMAX_BASE_DF40 },
+    { 0xdf60, MENU_DIGIMAX_BASE_DF60 },
+    { 0xdf80, MENU_DIGIMAX_BASE_DF80 },
+    { 0xdfa0, MENU_DIGIMAX_BASE_DFA0 },
+    { 0xdfc0, MENU_DIGIMAX_BASE_DFC0 },
+    { 0xdfe0, MENU_DIGIMAX_BASE_DFE0 },
+    { -1, 0 }
 };
 
 ui_res_possible_values SFXSoundExpanderChip[] = {
-    {3526, MENU_SFX_SE_3526},
-    {3812, MENU_SFX_SE_3812},
-    {-1, 0}
+    { 3526, MENU_SFX_SE_3526 },
+    { 3812, MENU_SFX_SE_3812 },
+    { -1, 0 }
 };
 
 ui_res_possible_values MMC64Revision[] = {
-    {0, MENU_MMC64_REVISION_A},
-    {1, MENU_MMC64_REVISION_B},
-    {-1, 0}
+    { 0, MENU_MMC64_REVISION_A },
+    { 1, MENU_MMC64_REVISION_B },
+    { -1, 0 }
 };
 
 ui_res_possible_values c64viciiBorders[] = {
-    {0, MENU_VICII_BORDERS_NORMAL},
-    {1, MENU_VICII_BORDERS_FULL},
-    {2, MENU_VICII_BORDERS_DEBUG},
-    {-1, 0}
+    { 0, MENU_VICII_BORDERS_NORMAL },
+    { 1, MENU_VICII_BORDERS_FULL },
+    { 2, MENU_VICII_BORDERS_DEBUG },
+    { -1, 0 }
 };
 
 ui_res_possible_values c64mousetypes[] = {
-    {MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351},
-    {MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS},
-    {MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA},
-    {MOUSE_TYPE_PADDLE, MENU_MOUSE_TYPE_PADDLE},
-    {-1, 0}
+    { MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351 },
+    { MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS },
+    { MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA },
+    { MOUSE_TYPE_PADDLE, MENU_MOUSE_TYPE_PADDLE },
+    { -1, 0 }
 };
 
 ui_res_possible_values c64mouseports[] = {
-    {1, MENU_MOUSE_PORT_JOY1},
-    {2, MENU_MOUSE_PORT_JOY2},
-    {-1, 0}
+    { 1, MENU_MOUSE_PORT_JOY1 },
+    { 2, MENU_MOUSE_PORT_JOY2 },
+    { -1, 0 }
 };
 
 ui_res_value_list c64_ui_res_values[] = {
-    {"REUsize", ReuSize},
-    {"GeoRAMsize", GeoRAMSize},
-    {"RAMCARTsize", RamCartSize},
-    {"PLUS60Kbase", Plus60kBase},
-    {"C64_256Kbase", C64_256KBase},
-    {"DIGIMAXbase", DigimaxBase},
-    {"SFXSoundExpanderChip", SFXSoundExpanderChip},
-    {"MMC64_revision", MMC64Revision},
-    {"VICIIBorderMode", c64viciiBorders},
-    {"Mousetype", c64mousetypes},
-    {"Mouseport", c64mouseports},
-    {NULL, NULL}
+    { "REUsize", ReuSize },
+    { "GeoRAMsize", GeoRAMSize },
+    { "RAMCARTsize", RamCartSize },
+    { "PLUS60Kbase", Plus60kBase },
+    { "C64_256Kbase", C64_256KBase },
+    { "DIGIMAXbase", DigimaxBase },
+    { "SFXSoundExpanderChip", SFXSoundExpanderChip },
+    { "MMC64_revision", MMC64Revision },
+    { "VICIIBorderMode", c64viciiBorders },
+    { "Mousetype", c64mousetypes },
+    { "Mouseport", c64mouseports },
+    { NULL, NULL }
 };
 
 static ui_cartridge_t c64_ui_cartridges[]={
-    {
-    MENU_CART_ATTACH_CRT,
-    CARTRIDGE_CRT,
-    "CRT"
-    },
-    {
-    MENU_CART_ATTACH_8KB,
-    CARTRIDGE_GENERIC_8KB,
-    "Raw 8KB"
-    },
-    {
-    MENU_CART_ATTACH_16KB,
-    CARTRIDGE_GENERIC_16KB,
-    "Raw 16KB"
-    },
-    {
-    MENU_CART_ATTACH_AR,
-    CARTRIDGE_ACTION_REPLAY,
-    "Action Replay",
-    },
-    {
-    MENU_CART_ATTACH_AR3,
-    CARTRIDGE_ACTION_REPLAY3,
-    "Action Replay 3",
-    },
-    {
-    MENU_CART_ATTACH_AR4,
-    CARTRIDGE_ACTION_REPLAY4,
-    "Action Replay 4",
-    },
-    {
-    MENU_CART_ATTACH_STARDOS,
-    CARTRIDGE_STARDOS,
-    "StarDOS",
-    },
-    {
-    MENU_CART_ATTACH_AT,
-    CARTRIDGE_ATOMIC_POWER,
-    "Atomic Power"
-    },
-    {
-    MENU_CART_ATTACH_EPYX,
-    CARTRIDGE_EPYX_FASTLOAD,
-    "Epyx Fastload"
-    },
-    {
-    MENU_CART_ATTACH_IEEE488,
-    CARTRIDGE_IEEE488,
-    "IEEE488 interface"
-    },
-    {
-    MENU_CART_ATTACH_IDE64,
-    CARTRIDGE_IDE64,
-    "IDE64 interface"
-    },
-    {
-    MENU_CART_ATTACH_SS4,
-    CARTRIDGE_SUPER_SNAPSHOT,
-    "Super Snapshot 4",
-    },
-    {
-    MENU_CART_ATTACH_SS5,
-    CARTRIDGE_SUPER_SNAPSHOT_V5,
-    "Super Snapshot 5",
-    },
-    {
-    0, 0, NULL
-    }
+    { MENU_CART_ATTACH_CRT, CARTRIDGE_CRT, "CRT" },
+    { MENU_CART_ATTACH_8KB, CARTRIDGE_GENERIC_8KB, "Raw 8KB" },
+    { MENU_CART_ATTACH_16KB, CARTRIDGE_GENERIC_16KB, "Raw 16KB" },
+    { MENU_CART_ATTACH_AR, CARTRIDGE_ACTION_REPLAY, "Action Replay" },
+    { MENU_CART_ATTACH_AR3, CARTRIDGE_ACTION_REPLAY3, "Action Replay 3" },
+    { MENU_CART_ATTACH_AR4, CARTRIDGE_ACTION_REPLAY4, "Action Replay 4" },
+    { MENU_CART_ATTACH_STARDOS, CARTRIDGE_STARDOS, "StarDOS" },
+    { MENU_CART_ATTACH_AT, CARTRIDGE_ATOMIC_POWER, "Atomic Power" },
+    { MENU_CART_ATTACH_EPYX, CARTRIDGE_EPYX_FASTLOAD, "Epyx Fastload" },
+    { MENU_CART_ATTACH_IEEE488, CARTRIDGE_IEEE488, "IEEE488 interface" },
+    { MENU_CART_ATTACH_IDE64, CARTRIDGE_IDE64, "IDE64 interface" },
+    { MENU_CART_ATTACH_SS4, CARTRIDGE_SUPER_SNAPSHOT, "Super Snapshot 4" },
+    { MENU_CART_ATTACH_SS5, CARTRIDGE_SUPER_SNAPSHOT_V5, "Super Snapshot 5" },
+    { 0, 0, NULL }
 };
-
 
 static void c64_ui_attach_cartridge(void *msg, void *window)
 {
