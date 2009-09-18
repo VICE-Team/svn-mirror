@@ -49,21 +49,21 @@ static TUI_MENU_CALLBACK(georam_size_submenu_callback)
 }
 
 static tui_menu_item_def_t georam_size_submenu[] = {
-    {"_64KB", NULL, radio_GEORAMsize_callback,
-     (void *)64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"_128KB", NULL, radio_GEORAMsize_callback,
-     (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"_256KB", NULL, radio_GEORAMsize_callback,
-     (void *)256, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"_512KB", NULL, radio_GEORAMsize_callback,
-     (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"102_4KB", NULL, radio_GEORAMsize_callback,
-     (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"2_048KB", NULL, radio_GEORAMsize_callback,
-     (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"40_96KB", NULL, radio_GEORAMsize_callback,
-     (void *)4096, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {NULL}
+    { "_64KB", NULL, radio_GEORAMsize_callback,
+      (void *)64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_128KB", NULL, radio_GEORAMsize_callback,
+      (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_256KB", NULL, radio_GEORAMsize_callback,
+      (void *)256, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_512KB", NULL, radio_GEORAMsize_callback,
+      (void *)512, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "102_4KB", NULL, radio_GEORAMsize_callback,
+      (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "2_048KB", NULL, radio_GEORAMsize_callback,
+      (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "40_96KB", NULL, radio_GEORAMsize_callback,
+      (void *)4096, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
 };
 
 static TUI_MENU_CALLBACK(georam_image_file_callback)
@@ -92,17 +92,17 @@ static TUI_MENU_CALLBACK(georam_image_file_callback)
 }
 
 static tui_menu_item_def_t georam_menu_items[] = {
-    {"_Enable GEORAM:", "Emulate GEORAM Expansion Unit",
-     toggle_GEORAM_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"GEORAM _size:", "Select the size of the GEORAM",
-     georam_size_submenu_callback, NULL, 7,
-     TUI_MENU_BEH_CONTINUE, georam_size_submenu,
-     "GEORAM size"},
-    {"GEORAM _image file:", "Select the GEORAM image file",
-     georam_image_file_callback, NULL, 20,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_Enable GEORAM:", "Emulate GEORAM Expansion Unit",
+      toggle_GEORAM_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "GEORAM _size:", "Select the size of the GEORAM",
+      georam_size_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, georam_size_submenu,
+      "GEORAM size" },
+    { "GEORAM _image file:", "Select the GEORAM image file",
+      georam_image_file_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 void uigeoram_init(struct tui_menu *parent_submenu)

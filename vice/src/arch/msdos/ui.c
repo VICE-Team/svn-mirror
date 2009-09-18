@@ -96,11 +96,11 @@ static int set_statusbar_enabled(int v, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"UseLeds", 1, RES_EVENT_NO, NULL,
-     &use_leds, set_use_leds, NULL},
-    {"ShowStatusbar", STATUSBAR_MODE_AUTO, RES_EVENT_NO, NULL,
-     &statusbar_is_enabled, set_statusbar_enabled, NULL},
-    {NULL}
+    { "UseLeds", 1, RES_EVENT_NO, NULL,
+      &use_leds, set_use_leds, NULL },
+    { "ShowStatusbar", STATUSBAR_MODE_AUTO, RES_EVENT_NO, NULL,
+      &statusbar_is_enabled, set_statusbar_enabled, NULL },
+    { NULL }
 };
 
 int ui_resources_init(void)
@@ -113,27 +113,27 @@ void ui_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-leds", SET_RESOURCE, 0,
-     NULL, NULL, "UseLeds", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable usage of PC keyboard LEDs"},
-    {"+leds", SET_RESOURCE, 0,
-     NULL, NULL, "UseLeds", (resource_value_t)0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable usage of PC keyboard LEDs"},
-    {"-statusbar", SET_RESOURCE, 0,
-     NULL, NULL, "ShowStatusbar", (resource_value_t)0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable the Statusbar"},
-    {"+statusbar", SET_RESOURCE, 0,
-     NULL, NULL, "ShowStatusbar", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable the Statusbar"},
-    {NULL},
+    { "-leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable usage of PC keyboard LEDs" },
+    { "+leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable usage of PC keyboard LEDs" },
+    { "-statusbar", SET_RESOURCE, 0,
+      NULL, NULL, "ShowStatusbar", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable the Statusbar" },
+    { "+statusbar", SET_RESOURCE, 0,
+      NULL, NULL, "ShowStatusbar", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable the Statusbar" },
+    { NULL },
 };
 
 int ui_cmdline_options_init(void)

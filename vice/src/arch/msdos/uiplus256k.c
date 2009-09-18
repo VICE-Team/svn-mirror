@@ -60,13 +60,13 @@ static TUI_MENU_CALLBACK(plus256k_image_file_callback)
 }
 
 static tui_menu_item_def_t plus256k_menu_items[] = {
-    {"_Enable PLUS256K:", "Emulate PLUS256K RAM Expansion",
-     toggle_PLUS256K_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"PLUS256K _image file:", "Select the PLUS256K image file",
-     plus256k_image_file_callback, NULL, 20,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_Enable PLUS256K:", "Emulate PLUS256K RAM Expansion",
+      toggle_PLUS256K_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "PLUS256K _image file:", "Select the PLUS256K image file",
+      plus256k_image_file_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 void uiplus256k_init(struct tui_menu *parent_submenu)

@@ -65,28 +65,28 @@ static TUI_MENU_CALLBACK(lightpen_type_submenu_callback)
 }
 
 static tui_menu_item_def_t lightpen_type_submenu[] = {
-    {"Pen with button Up", NULL, radio_LightpenType_callback,
-     (void *)LIGHTPEN_TYPE_PEN_U, 20, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"Pen with button Left", NULL, radio_LightpenType_callback,
-     (void *)LIGHTPEN_TYPE_PEN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"Datel Pen", NULL, radio_LightpenType_callback,
-     (void *)LIGHTPEN_TYPE_PEN_DATEL, 20, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"Magnum Light Phaser", NULL, radio_LightpenType_callback,
-     (void *)LIGHTPEN_TYPE_GUN_Y, 20, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"Stack Light Rifle", NULL, radio_LightpenType_callback,
-     (void *)LIGHTPEN_TYPE_GUN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {NULL}
+    { "Pen with button Up", NULL, radio_LightpenType_callback,
+      (void *)LIGHTPEN_TYPE_PEN_U, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Pen with button Left", NULL, radio_LightpenType_callback,
+      (void *)LIGHTPEN_TYPE_PEN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Datel Pen", NULL, radio_LightpenType_callback,
+      (void *)LIGHTPEN_TYPE_PEN_DATEL, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Magnum Light Phaser", NULL, radio_LightpenType_callback,
+      (void *)LIGHTPEN_TYPE_GUN_Y, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Stack Light Rifle", NULL, radio_LightpenType_callback,
+      (void *)LIGHTPEN_TYPE_GUN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
 };
 
 static tui_menu_item_def_t lightpen_menu_items[] = {
-    {"_Enable Lightpen:", "Emulate Lightpen",
-     toggle_Lightpen_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Lightpen _type:", "Select the lightpen type",
-     lightpen_type_submenu_callback, NULL, 11,
-     TUI_MENU_BEH_CONTINUE, lightpen_type_submenu,
-     "Lightpen type"},
-    {NULL}
+    { "_Enable Lightpen:", "Emulate Lightpen",
+      toggle_Lightpen_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Lightpen _type:", "Select the lightpen type",
+      lightpen_type_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, lightpen_type_submenu,
+      "Lightpen type" },
+    { NULL }
 };
 
 void uilightpen_init(struct tui_menu *parent_submenu)

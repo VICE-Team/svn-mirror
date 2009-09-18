@@ -492,7 +492,7 @@ int tfe_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, i
 {
     int len;
 
-    TFE_PCAP_INTERNAL internal = {*plen, pbuffer};
+    TFE_PCAP_INTERNAL internal = { *plen, pbuffer };
 
 #ifdef TFE_DEBUG_ARCH
     log_message(tfe_arch_log, "tfe_arch_receive() called, with *plen=%u.", *plen);

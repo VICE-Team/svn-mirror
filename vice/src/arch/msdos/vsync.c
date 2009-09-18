@@ -102,13 +102,13 @@ static int set_warp_mode(int val, void *param)
 
 /* Vsync-related resources.  */
 static const resource_int_t resources_int[] = {
-    {"Speed", 100, RES_EVENT_NO, NULL,
-     &relative_speed, set_relative_speed, NULL},
-    {"RefreshRate", 0, RES_EVENT_STRICT, (resource_value_t)1,
-     &refresh_rate, set_refresh_rate, NULL},
-    {"WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
-     &warp_mode_enabled, set_warp_mode, NULL},
-    {NULL}
+    { "Speed", 100, RES_EVENT_NO, NULL,
+      &relative_speed, set_relative_speed, NULL },
+    { "RefreshRate", 0, RES_EVENT_STRICT, (resource_value_t)1,
+      &refresh_rate, set_refresh_rate, NULL },
+    { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &warp_mode_enabled, set_warp_mode, NULL },
+    { NULL }
 };
 
 void vsyncarch_init(void)
@@ -138,27 +138,27 @@ signed long vsyncarch_frequency(void)
 
 /* Vsync-related command-line options.  */
 static const cmdline_option_t cmdline_options[] = {
-    {"-speed", SET_RESOURCE, 1,
-     NULL, NULL, "Speed", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<percent>", "Limit emulation speed to specified value"},
-    {"-refresh", SET_RESOURCE, 1,
-     NULL, NULL, "RefreshRate", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<value>", "Update every <value> frames (`0' for automatic)"},
-    {"-warp", SET_RESOURCE, 0,
-     NULL, NULL, "WarpMode", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable warp mode"},
-    {"+warp", SET_RESOURCE, 0,
-     NULL, NULL, "WarpMode", (resource_value_t)0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable warp mode"},
-    {NULL}
+    { "-speed", SET_RESOURCE, 1,
+      NULL, NULL, "Speed", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<percent>", "Limit emulation speed to specified value" },
+    { "-refresh", SET_RESOURCE, 1,
+      NULL, NULL, "RefreshRate", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<value>", "Update every <value> frames (`0' for automatic)" },
+    { "-warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable warp mode" },
+    { "+warp", SET_RESOURCE, 0,
+      NULL, NULL, "WarpMode", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable warp mode" },
+    { NULL }
 };
 
 int vsync_cmdline_options_init(void)

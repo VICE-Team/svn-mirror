@@ -55,15 +55,15 @@ int statusbar_possible = 0;
 /* colors for the statusbar */
 struct statusbar_color_s statusbar_color[] =
 {
-    {{00, 00, 00}, 0}, /* STATUSBAR_COLOR_BLACK    */
-    {{55, 55, 55}, 0}, /* STATUSBAR_COLOR_WHITE    */
-    {{31, 31, 31}, 0}, /* STATUSBAR_COLOR_GREY     */
-    {{15, 15, 15}, 0}, /* STATUSBAR_COLOR_DARKGREY */
-    {{10, 10, 50}, 0}, /* STATUSBAR_COLOR_BLUE     */
-    {{63, 63, 00}, 0}, /* STATUSBAR_COLOR_YELLOW   */
-    {{63, 00, 00}, 0}, /* STATUSBAR_COLOR_RED      */
-    {{00, 63, 00}, 0}, /* STATUSBAR_COLOR_GREEN    */
-    {{00, 00, 00}, -1 }
+    { { 00, 00, 00 }, 0 }, /* STATUSBAR_COLOR_BLACK    */
+    { { 55, 55, 55 }, 0 }, /* STATUSBAR_COLOR_WHITE    */
+    { { 31, 31, 31 }, 0 }, /* STATUSBAR_COLOR_GREY     */
+    { { 15, 15, 15 }, 0 }, /* STATUSBAR_COLOR_DARKGREY */
+    { { 10, 10, 50 }, 0 }, /* STATUSBAR_COLOR_BLUE     */
+    { { 63, 63, 00 }, 0 }, /* STATUSBAR_COLOR_YELLOW   */
+    { { 63, 00, 00 }, 0 }, /* STATUSBAR_COLOR_RED      */
+    { { 00, 63, 00 }, 0 }, /* STATUSBAR_COLOR_GREEN    */
+    { { 00, 00, 00 }, -1 }
 };
 
 void statusbar_register_colors(int next_avail, RGB *colors)

@@ -48,22 +48,22 @@ static TUI_MENU_CALLBACK(soundexpander_chip_submenu_callback)
 }
 
 static tui_menu_item_def_t soundexpander_chip_submenu[] = {
-    {"3526", NULL, radio_SFXSoundExpanderChip_callback,
-     (void *)3526, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"3812", NULL, radio_SFXSoundExpanderChip_callback,
-     (void *)3812, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {NULL}
+    { "3526", NULL, radio_SFXSoundExpanderChip_callback,
+      (void *)3526, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "3812", NULL, radio_SFXSoundExpanderChip_callback,
+      (void *)3812, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
 };
 
 static tui_menu_item_def_t soundexpander_menu_items[] = {
-    {"_Enable SFX Sound Expander:", "Emulate SFX Sound Expander Cartridge",
-     toggle_SFXSoundExpander_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"SFX Sound Expander _chip:", "Select the YM chip model used in the SFX Sound Expander Cartridge",
-     soundexpander_chip_submenu_callback, NULL, 11,
-     TUI_MENU_BEH_CONTINUE, soundexpander_chip_submenu,
-     "SFX Sound Expander chip"},
-    {NULL}
+    { "_Enable SFX Sound Expander:", "Emulate SFX Sound Expander Cartridge",
+      toggle_SFXSoundExpander_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "SFX Sound Expander _chip:", "Select the YM chip model used in the SFX Sound Expander Cartridge",
+      soundexpander_chip_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, soundexpander_chip_submenu,
+      "SFX Sound Expander chip" },
+    { NULL }
 };
 
 void uisoundexpander_init(struct tui_menu *parent_submenu)

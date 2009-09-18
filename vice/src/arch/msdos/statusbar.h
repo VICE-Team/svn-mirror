@@ -39,8 +39,7 @@
     drive 2:        250 - 310
 */
 
-struct statusbar_color_s
-{
+struct statusbar_color_s {
     RGB rgb_color;
     int index;
 };

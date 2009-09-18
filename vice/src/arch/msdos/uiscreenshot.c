@@ -72,131 +72,131 @@ static TUI_MENU_CALLBACK(png_file_name_callback);
 static char *file_name = NULL;
 
 static tui_menu_item_def_t write_bmp_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify BMP screenshot file name",
-     bmp_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save BMP screenshot with the specified name",
-     write_bmp_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify BMP screenshot file name",
+      bmp_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save BMP screenshot with the specified name",
+      write_bmp_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 static tui_menu_item_def_t write_pcx_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify PCX screenshot file name",
-     pcx_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save PCX screenshot with the specified name",
-     write_pcx_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify PCX screenshot file name",
+      pcx_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save PCX screenshot with the specified name",
+      write_pcx_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 static tui_menu_item_def_t write_ppm_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify PPM screenshot file name",
-     ppm_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save PPM screenshot with the specified name",
-     write_ppm_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify PPM screenshot file name",
+      ppm_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save PPM screenshot with the specified name",
+      write_ppm_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 static tui_menu_item_def_t write_iff_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify IFF screenshot file name",
-     iff_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save IFF screenshot with the specified name",
-     write_iff_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify IFF screenshot file name",
+      iff_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save IFF screenshot with the specified name",
+      write_iff_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 #ifdef HAVE_GIF
 static tui_menu_item_def_t write_gif_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify GIF screenshot file name",
-     gif_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save GIF screenshot with the specified name",
-     write_gif_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify GIF screenshot file name",
+      gif_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save GIF screenshot with the specified name",
+      write_gif_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 #endif
 
 #ifdef HAVE_JPEG
 static tui_menu_item_def_t write_jpeg_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify JPEG screenshot file name",
-     jpeg_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save JPEG screenshot with the specified name",
-     write_jpeg_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify JPEG screenshot file name",
+      jpeg_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save JPEG screenshot with the specified name",
+      write_jpeg_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 #endif
 
 #ifdef HAVE_PNG
 static tui_menu_item_def_t write_png_screenshot_menu_def[] = {
-    {"_File name:",
-     "Specify PNG screenshot file name",
-     png_file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Do it!",
-     "Save PNG screenshot with the specified name",
-     write_png_screenshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify PNG screenshot file name",
+      png_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save PNG screenshot with the specified name",
+      write_png_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 #endif
 
 tui_menu_item_def_t ui_screenshot_menu_def[] = {
-    {"_Write BMP Screenshot",
-     "Write a BMP screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_bmp_screenshot_menu_def, NULL},
+    { "_Write BMP Screenshot",
+      "Write a BMP screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_bmp_screenshot_menu_def, NULL },
 #ifdef HAVE_GIF
-    {"W_rite GIF Screenshot",
-     "Write a GIF screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_gif_screenshot_menu_def, NULL},
+    { "W_rite GIF Screenshot",
+      "Write a GIF screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_gif_screenshot_menu_def, NULL },
 #endif
-    {"_Write IFF Screenshot",
-     "Write a IFF screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_iff_screenshot_menu_def, NULL},
+    { "_Write IFF Screenshot",
+      "Write a IFF screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_iff_screenshot_menu_def, NULL },
 #ifdef HAVE_JPEG
-    {"Wr_ite JPEG Screenshot",
-     "Write a JPEG screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_jpeg_screenshot_menu_def, NULL},
+    { "Wr_ite JPEG Screenshot",
+      "Write a JPEG screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_jpeg_screenshot_menu_def, NULL },
 #endif
-    {"_Write PCX Screenshot",
-     "Write a PCX screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_pcx_screenshot_menu_def, NULL},
+    { "_Write PCX Screenshot",
+      "Write a PCX screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_pcx_screenshot_menu_def, NULL },
 #ifdef HAVE_PNG
-    {"Wri_te PNG Screenshot",
-     "Write a PNG screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_png_screenshot_menu_def, NULL},
+    { "Wri_te PNG Screenshot",
+      "Write a PNG screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_png_screenshot_menu_def, NULL },
 #endif
-    {"Wri_te PPM Screenshot",
-     "Write a PPM screenshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_ppm_screenshot_menu_def, NULL},
-    {NULL}
+    { "Wri_te PPM Screenshot",
+      "Write a PPM screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_ppm_screenshot_menu_def, NULL },
+    { NULL }
 };
 
 static char *screenshot_selector(const char *title, char *extension)

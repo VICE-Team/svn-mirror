@@ -61,24 +61,24 @@ static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
     }
 }
 
-#define DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(num)                          \
-static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {      \
-    {"_Never extend",                                                          \
-     "Never create more than 35 tracks",                                       \
-     radio_Drive##num##ExtendImagePolicy_callback,                             \
-     (void *)DRIVE_EXTEND_NEVER, 0,                                            \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                          \
-    {"_Ask on extend",                                                         \
-     "Ask the user before creating extra tracks",                              \
-     radio_Drive##num##ExtendImagePolicy_callback,                             \
-     (void *)DRIVE_EXTEND_ASK, 0,                                              \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                          \
-    {"_Extend on access",                                                      \
-     "Automagically extend the disk image if extra (>35) tracks are accessed", \
-     radio_Drive##num##ExtendImagePolicy_callback,                             \
-     (void *)DRIVE_EXTEND_ACCESS, 0,                                           \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                          \
-    {NULL}                                                                     \
+#define DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(num)                           \
+static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {       \
+    { "_Never extend",                                                          \
+      "Never create more than 35 tracks",                                       \
+      radio_Drive##num##ExtendImagePolicy_callback,                             \
+      (void *)DRIVE_EXTEND_NEVER, 0,                                            \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
+    { "_Ask on extend",                                                         \
+      "Ask the user before creating extra tracks",                              \
+      radio_Drive##num##ExtendImagePolicy_callback,                             \
+      (void *)DRIVE_EXTEND_ASK, 0,                                              \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
+    { "_Extend on access",                                                      \
+      "Automagically extend the disk image if extra (>35) tracks are accessed", \
+      radio_Drive##num##ExtendImagePolicy_callback,                             \
+      (void *)DRIVE_EXTEND_ACCESS, 0,                                           \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
+    { NULL }                                                                    \
 };
 
 DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
@@ -129,57 +129,57 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
     }
 }
 
-#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                   \
-static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
-    {"_None",                                                             \
-     "Disable hardware-level emulation of drive #" #num,                  \
-     radio_Drive##num##Type_callback, (void *)0, 0,                       \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"_1541, 5\"1/4 SS",                                                  \
-     "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,      \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"1541-_II, 5\"1/4 SS",                                               \
-     "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,   \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,       \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"15_51, 5\"1/4 SS",                                                  \
-     "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,      \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"15_71, 5\"1/4 DS",                                                  \
-     "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,      \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"15_81, 3\"1/2 DS",                                                  \
-     "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,      \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1581, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"_2031, 5\"1/4 SS IEEE488",                                          \
-     "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num, \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2031, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"_3040, 5\"1/4 SD IEEE488",                                          \
-     "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_3040, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"_4040, 5\"1/4 SD IEEE488",                                          \
-     "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4040, 0 ,        \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"1_001, 5\"1/4 DS IEEE488",                                          \
-     "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,           \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"8050, 5\"1/4 _SD IEEE488",                                          \
-     "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {"8520, 5\"1/4 _DD IEEE488",                                          \
-     "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,           \
-     radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,         \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                     \
-    {NULL}                                                                \
+#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                    \
+static tui_menu_item_def_t drive##num##_type_submenu[] = {                 \
+    { "_None",                                                             \
+      "Disable hardware-level emulation of drive #" #num,                  \
+      radio_Drive##num##Type_callback, (void *)0, 0,                       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "_1541, 5\"1/4 SS",                                                  \
+      "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,      \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "1541-_II, 5\"1/4 SS",                                               \
+      "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,   \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "15_51, 5\"1/4 SS",                                                  \
+      "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,      \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "15_71, 5\"1/4 DS",                                                  \
+      "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,      \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "15_81, 3\"1/2 DS",                                                  \
+      "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,      \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1581, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "_2031, 5\"1/4 SS IEEE488",                                          \
+      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num, \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2031, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "_3040, 5\"1/4 SD IEEE488",                                          \
+      "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_3040, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "_4040, 5\"1/4 SD IEEE488",                                          \
+      "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4040, 0 ,        \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "1_001, 5\"1/4 DS IEEE488",                                          \
+      "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,           \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "8050, 5\"1/4 _SD IEEE488",                                          \
+      "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,           \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { "8520, 5\"1/4 _DD IEEE488",                                          \
+      "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,           \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,         \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
+    { NULL }                                                               \
 };
 
 DEFINE_DRIVE_MODEL_SUBMENU(8)
@@ -210,24 +210,24 @@ static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
     }
 }
 
-#define DEFINE_DRIVE_IDLE_METHOD_SUBMENU(num)                          \
-static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {      \
-    {"_None",                                                          \
-     "Always run the drive CPU as on the real thing",                  \
-     radio_Drive##num##IdleMethod_callback,                            \
-     (void *)DRIVE_IDLE_NO_IDLE, 0,                                    \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                  \
-    {"_Trap Idle",                                                     \
-     "Stop running the drive CPU when entering the idle DOS loop",     \
-     radio_Drive##num##IdleMethod_callback,                            \
-     (void *)DRIVE_IDLE_TRAP_IDLE, 0,                                  \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                  \
-    {"_Skip Cycles",                                                   \
-     "Skip drive CPU cycles when the IEC bus is not used for a while", \
-     radio_Drive##num##IdleMethod_callback,                            \
-     (void *)DRIVE_IDLE_SKIP_CYCLES, 0,                                \
-     TUI_MENU_BEH_CLOSE, NULL, NULL},                                  \
-    {NULL}                                                             \
+#define DEFINE_DRIVE_IDLE_METHOD_SUBMENU(num)                           \
+static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {       \
+    { "_None",                                                          \
+      "Always run the drive CPU as on the real thing",                  \
+      radio_Drive##num##IdleMethod_callback,                            \
+      (void *)DRIVE_IDLE_NO_IDLE, 0,                                    \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
+    { "_Trap Idle",                                                     \
+      "Stop running the drive CPU when entering the idle DOS loop",     \
+      radio_Drive##num##IdleMethod_callback,                            \
+      (void *)DRIVE_IDLE_TRAP_IDLE, 0,                                  \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
+    { "_Skip Cycles",                                                   \
+      "Skip drive CPU cycles when the IEC bus is not used for a while", \
+      radio_Drive##num##IdleMethod_callback,                            \
+      (void *)DRIVE_IDLE_SKIP_CYCLES, 0,                                \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
+    { NULL }                                                            \
 };
 
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
@@ -237,53 +237,53 @@ TUI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
 TUI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 
 static tui_menu_item_def_t drive_settings_submenu[] = {
-    {"True Drive _Emulation:",
-     "Enable hardware-level floppy drive emulation",
-     toggle_DriveTrueEmulation_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_Handle TDE with autostart:",
-     "Enable hardware-level floppy drive emulation handling for autostart",
-     toggle_AutostartHandleTrueDriveEmulation_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"--"},
-    {"Drive #_8 model:",
-     "Specify model for drive #8",
-     drive_type_submenu_callback, (void *)8, 26,
-     TUI_MENU_BEH_CONTINUE, drive8_type_submenu,
-     "Drive 8 model"},
-    {"Drive #8 idle method:",
-     "Specify idle method for drive #8",
-     drive_idle_method_submenu_callback, (void *)8, 12,
-     TUI_MENU_BEH_CONTINUE, drive8_idle_method_submenu,
-     "Drive 8 idle method"},
-    {"Drive #8 Parallel Cable:",
-     "Enable a SpeedDOS-compatible parallel cable for drive #8",
-     toggle_Drive8ParallelCable_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Drive #8 40-Track Image Support:",
-     "Settings for dealing with 40-track disk images in drive #8",
-     drive_extend_image_policy_submenu_callback, (void *)8, 16,
-     TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, ""},
-    {"--"},
-    {"Drive #_9 model:",
-     "Specify model for drive #9",
-     drive_type_submenu_callback, (void *)9, 26,
-     TUI_MENU_BEH_CONTINUE, drive9_type_submenu,
-     "Drive 9 model"},
-    {"Drive #9 idle method:",
-     "Specify idle method for drive #9",
-     drive_idle_method_submenu_callback, (void *)9, 12,
-     TUI_MENU_BEH_CONTINUE, drive9_idle_method_submenu,
-     "Drive 9 idle method"},
-    {"Drive #9 Parallel Cable:",
-     "Enable a SpeedDOS-compatible parallel cable for drive #9",
-     toggle_Drive9ParallelCable_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Drive #9 40-Track Image Support:",
-     "Settings for dealing with 40-track disk images in drive #9",
-     drive_extend_image_policy_submenu_callback, (void *)9, 16,
-     TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, ""},
-    {NULL}
+    { "True Drive _Emulation:",
+      "Enable hardware-level floppy drive emulation",
+      toggle_DriveTrueEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Handle TDE with autostart:",
+      "Enable hardware-level floppy drive emulation handling for autostart",
+      toggle_AutostartHandleTrueDriveEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Drive #_8 model:",
+      "Specify model for drive #8",
+      drive_type_submenu_callback, (void *)8, 26,
+      TUI_MENU_BEH_CONTINUE, drive8_type_submenu,
+      "Drive 8 model" },
+    { "Drive #8 idle method:",
+      "Specify idle method for drive #8",
+      drive_idle_method_submenu_callback, (void *)8, 12,
+      TUI_MENU_BEH_CONTINUE, drive8_idle_method_submenu,
+      "Drive 8 idle method" },
+    { "Drive #8 Parallel Cable:",
+      "Enable a SpeedDOS-compatible parallel cable for drive #8",
+      toggle_Drive8ParallelCable_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #8 40-Track Image Support:",
+      "Settings for dealing with 40-track disk images in drive #8",
+      drive_extend_image_policy_submenu_callback, (void *)8, 16,
+      TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, "" },
+    { "--" },
+    { "Drive #_9 model:",
+      "Specify model for drive #9",
+      drive_type_submenu_callback, (void *)9, 26,
+      TUI_MENU_BEH_CONTINUE, drive9_type_submenu,
+      "Drive 9 model" },
+    { "Drive #9 idle method:",
+      "Specify idle method for drive #9",
+      drive_idle_method_submenu_callback, (void *)9, 12,
+      TUI_MENU_BEH_CONTINUE, drive9_idle_method_submenu,
+      "Drive 9 idle method" },
+    { "Drive #9 Parallel Cable:",
+      "Enable a SpeedDOS-compatible parallel cable for drive #9",
+      toggle_Drive9ParallelCable_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #9 40-Track Image Support:",
+      "Settings for dealing with 40-track disk images in drive #9",
+      drive_extend_image_policy_submenu_callback, (void *)9, 16,
+      TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
+    { NULL }
 };
 
 void uidrive_init(struct tui_menu *parent_submenu)

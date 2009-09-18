@@ -47,15 +47,15 @@ static TUI_MENU_CALLBACK(c64_256k_base_submenu_callback)
 }
 
 static tui_menu_item_def_t c64_256k_base_submenu[] = {
-    {"$_DE00-$DE7F", NULL, radio_C64_256Kbase_callback,
-     (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"$D_E80-$DEFF", NULL, radio_C64_256Kbase_callback,
-     (void *)0xde80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"$DF_00-$DF7F", NULL, radio_C64_256Kbase_callback,
-     (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"$D_F80-$DFFF", NULL, radio_C64_256Kbase_callback,
-     (void *)0xdf80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {NULL}
+    { "$_DE00-$DE7F", NULL, radio_C64_256Kbase_callback,
+      (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$D_E80-$DEFF", NULL, radio_C64_256Kbase_callback,
+      (void *)0xde80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$DF_00-$DF7F", NULL, radio_C64_256Kbase_callback,
+      (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$D_F80-$DFFF", NULL, radio_C64_256Kbase_callback,
+      (void *)0xdf80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
 };
 
 static TUI_MENU_CALLBACK(c64_256k_image_file_callback)
@@ -84,16 +84,16 @@ static TUI_MENU_CALLBACK(c64_256k_image_file_callback)
 }
 
 static tui_menu_item_def_t c64_256k_menu_items[] = {
-    {"_Enable 256K:", "Emulate 256K RAM Expansion",
-     toggle_C64_256K_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"256K _base:", "Select the base of the 256K RAM Expansion",
-     c64_256k_base_submenu_callback, NULL, 11,
-     TUI_MENU_BEH_CONTINUE, c64_256k_base_submenu, "256K base"},
-    {"256K _image file:", "Select the 256K image file",
-     c64_256k_image_file_callback, NULL, 20,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_Enable 256K:", "Emulate 256K RAM Expansion",
+      toggle_C64_256K_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "256K _base:", "Select the base of the 256K RAM Expansion",
+      c64_256k_base_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, c64_256k_base_submenu, "256K base" },
+    { "256K _image file:", "Select the 256K image file",
+      c64_256k_image_file_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 void uic64_256k_init(struct tui_menu *parent_submenu)

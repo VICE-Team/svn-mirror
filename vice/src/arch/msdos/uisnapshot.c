@@ -53,37 +53,37 @@ static int save_roms_flag;
 static int save_disks_flag;
 
 static tui_menu_item_def_t write_snapshot_menu_def[] = {
-    {"_File name:",
-     "Specify snapshot file name",
-     file_name_callback, NULL, 30,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"--" },
-    {"Save _Disks:",
-     "Save current disk images in the snapshot file",
-     toggle_callback, (void *) &save_disks_flag, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Save _ROMs:",
-     "Save current ROMs in the snapshot file",
-     toggle_callback, (void *) &save_roms_flag, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"--"},
-    {"_Do it!",
-     "Save snapshot with the specified parameters",
-     write_snapshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_File name:",
+      "Specify snapshot file name",
+      file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "Save _Disks:",
+      "Save current disk images in the snapshot file",
+      toggle_callback, (void *) &save_disks_flag, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Save _ROMs:",
+      "Save current ROMs in the snapshot file",
+      toggle_callback, (void *) &save_roms_flag, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "_Do it!",
+      "Save snapshot with the specified parameters",
+      write_snapshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 tui_menu_item_def_t ui_snapshot_menu_def[] = {
-    {"_Write Snapshot",
-     "Write a snapshot file",
-     NULL, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, write_snapshot_menu_def, NULL},
-    {"_Load Snapshot",
-     "Load a snapshot file",
-     load_snapshot_callback, NULL, 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "_Write Snapshot",
+      "Write a snapshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_snapshot_menu_def, NULL },
+    { "_Load Snapshot",
+      "Load a snapshot file",
+      load_snapshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 static char *snapshot_selector(const char *title)

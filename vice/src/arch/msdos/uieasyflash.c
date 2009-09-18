@@ -50,16 +50,16 @@ static TUI_MENU_CALLBACK(EasyFlash_save_now_callback)
 }
 
 static tui_menu_item_def_t easyflash_menu_items[] = {
-    {"Enable EasyFlash _jumper:", "EasyFlash jumper",
-     toggle_EasyFlashJumper_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Enable saving to EasyFlash CRT on _detachr:", "Save to EasyFlash crt on detach",
-     toggle_EasyFlashWriteCRT_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Save to EasyFlash CRT now:", "Save to EasyFlash CRT now",
-     EasyFlash_save_now_callback, NULL, 20,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "Enable EasyFlash _jumper:", "EasyFlash jumper",
+      toggle_EasyFlashJumper_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable saving to EasyFlash CRT on _detachr:", "Save to EasyFlash crt on detach",
+      toggle_EasyFlashWriteCRT_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Save to EasyFlash CRT now:", "Save to EasyFlash CRT now",
+      EasyFlash_save_now_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 void uieasyflash_init(struct tui_menu *parent_submenu)

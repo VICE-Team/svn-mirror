@@ -36,7 +36,7 @@
 #include "statusbar.h"
 #include "video.h"
 
-#define NUM_AVAILABLE_COLORS	0x100
+#define NUM_AVAILABLE_COLORS 0x100
 
 struct palette_s;
 struct video_draw_buffer_callback_s;

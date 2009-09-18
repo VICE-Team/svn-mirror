@@ -47,13 +47,13 @@ static struct {
     const char *menu_item;
     char *long_description;
 } palette_items[] = {
-    {"default", "Default (green)", "_Default",
-     "Default VICE C610 palette (Green)"},
-    {"amber", "Amber", "_Amber",
-     "Amber palette"},
-    {"white", "White", "_White",
-     "White palette"},
-    {NULL}
+    { "default", "Default (green)", "_Default",
+      "Default VICE C610 palette (Green)" },
+    { "amber", "Amber", "_Amber",
+      "Amber palette" },
+    { "white", "White", "_White",
+      "White palette" },
+    { NULL }
 };
 
 static TUI_MENU_CALLBACK(palette_callback)
@@ -133,16 +133,16 @@ TUI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 TUI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 
 static tui_menu_item_def_t video_menu_items[] = {
-    {"Video _Cache:",
-     "Enable screen cache (disabled when using triple buffering)",
-     toggle_CrtcVideoCache_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"--"},
-    {"_Double Scan:",
-     "Display double lines when running in 80-column mode",
-     toggle_CrtcDoubleScan_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "Video _Cache:",
+      "Enable screen cache (disabled when using triple buffering)",
+      toggle_CrtcVideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
+    { "_Double Scan:",
+      "Display double lines when running in 80-column mode",
+      toggle_CrtcDoubleScan_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -165,44 +165,44 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
 }
 
 static tui_menu_item_def_t rom_menu_items[] = {
-    {"--" },
-    {"Load new _Kernal ROM...",
-     "Load new Kernal ROM",
-     load_rom_file_callback, "KernalName", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new _BASIC ROM...",
-     "Load new BASIC ROM",
-     load_rom_file_callback, "BasicName", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new _Character ROM...",
-     "Load new Character ROM",
-     load_rom_file_callback, "ChargenName", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new 15_41 ROM...",
-     "Load new 1541 ROM",
-     load_rom_file_callback, "DosName1541", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new 1541-_II ROM...",
-     "Load new 1541-II ROM",
-     load_rom_file_callback, "DosName1541ii", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new 15_71 ROM...",
-     "Load new 1571 ROM",
-     load_rom_file_callback, "DosName1571", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new 15_81 ROM...",
-     "Load new 1581 ROM",
-     load_rom_file_callback, "DosName1581", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new _2031 ROM...",
-     "Load new 2031 ROM",
-     load_rom_file_callback, "DosName2031", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"Load new _1001 ROM...",
-     "Load new 1001 ROM",
-     load_rom_file_callback, "DosName1001", 0,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {NULL}
+    { "--" },
+    { "Load new _Kernal ROM...",
+      "Load new Kernal ROM",
+      load_rom_file_callback, "KernalName", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new _BASIC ROM...",
+      "Load new BASIC ROM",
+      load_rom_file_callback, "BasicName", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new _Character ROM...",
+      "Load new Character ROM",
+      load_rom_file_callback, "ChargenName", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new 15_41 ROM...",
+      "Load new 1541 ROM",
+      load_rom_file_callback, "DosName1541", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new 1541-_II ROM...",
+      "Load new 1541-II ROM",
+      load_rom_file_callback, "DosName1541ii", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new 15_71 ROM...",
+      "Load new 1571 ROM",
+      load_rom_file_callback, "DosName1571", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new 15_81 ROM...",
+      "Load new 1581 ROM",
+      load_rom_file_callback, "DosName1581", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new _2031 ROM...",
+      "Load new 2031 ROM",
+      load_rom_file_callback, "DosName2031", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new _1001 ROM...",
+      "Load new 1001 ROM",
+      load_rom_file_callback, "DosName1001", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
 };
 
 /* ------------------------------------------------------------------------- */

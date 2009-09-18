@@ -49,22 +49,22 @@
 /* #define DEBUG_VIDEO */
 
 vga_mode_t vga_modes[] = {
-    {320, 200, 8, " 320x200  8Bit"},
-    {360, 240, 8, " 360x240  8Bit"},
-    {360, 270, 8, " 360x270  8Bit"},
-    {376, 282, 8, " 376x282  8Bit"},
-    {400, 300, 8, " 400x300  8Bit"},
-    {640, 480, 8, " 640x480  8Bit"},
-    {800, 600, 8, " 800x600  8Bit"},
-    {1024,768, 8, "1024x768  8Bit"},
-    {320, 200, 16, " 320x200 16Bit"},
-    {400, 300, 16, " 400x300 16Bit"},
-    {640, 480, 16, " 640x480 16Bit"},
-    {800, 600, 16, " 800x600 16Bit"},
-    {1024,768, 16, "1024x768 16Bit"},
-    {640, 480, 32, " 640x480 32Bit"},
-    {800, 600, 32, " 800x600 32Bit"},
-    {1024,768, 32, "1024x768 32Bit"}
+    { 320, 200, 8, " 320x200  8Bit" },
+    { 360, 240, 8, " 360x240  8Bit" },
+    { 360, 270, 8, " 360x270  8Bit" },
+    { 376, 282, 8, " 376x282  8Bit" },
+    { 400, 300, 8, " 400x300  8Bit" },
+    { 640, 480, 8, " 640x480  8Bit" },
+    { 800, 600, 8, " 800x600  8Bit" },
+    { 1024,768, 8, "1024x768  8Bit" },
+    { 320, 200, 16, " 320x200 16Bit" },
+    { 400, 300, 16, " 400x300 16Bit" },
+    { 640, 480, 16, " 640x480 16Bit" },
+    { 800, 600, 16, " 800x600 16Bit" },
+    { 1024,768, 16, "1024x768 16Bit" },
+    { 640, 480, 32, " 640x480 32Bit" },
+    { 800, 600, 32, " 800x600 32Bit" },
+    { 1024,768, 32, "1024x768 32Bit" }
 };
 
 video_canvas_t *last_canvas;
@@ -121,13 +121,13 @@ static int set_try_triple_buffering(int val, void *param)
 #endif
 
 static const resource_int_t resources_int[] = {
-    {"VGAMode", VGA_320x200x8, RES_EVENT_NO, NULL,
-     &vga_mode, set_vga_mode, NULL},
+    { "VGAMode", VGA_320x200x8, RES_EVENT_NO, NULL,
+      &vga_mode, set_vga_mode, NULL },
 #ifndef USE_MIDAS_SOUND
-    {"TripleBuffering", 0, RES_EVENT_NO, NULL,
-     &try_triple_buffering, set_try_triple_buffering, NULL},
+    { "TripleBuffering", 0, RES_EVENT_NO, NULL,
+      &try_triple_buffering, set_try_triple_buffering, NULL },
 #endif
-    {NULL}
+    { NULL }
 };
 
 int video_arch_resources_init(void)
@@ -144,24 +144,24 @@ void video_arch_resources_shutdown(void)
 /* Video-specific command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-vgamode", SET_RESOURCE, 1,
-     NULL, NULL, "VGAMode", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<mode>", "Set VGA mode to <mode>"},
+    { "-vgamode", SET_RESOURCE, 1,
+      NULL, NULL, "VGAMode", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<mode>", "Set VGA mode to <mode>" },
 #ifndef USE_MIDAS_SOUND
-    {"-triplebuf", SET_RESOURCE, 0,
-     NULL, NULL, "TripleBuffering", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Try to use triple buffering when possible"},
-    {"+triplebuf", SET_RESOURCE, 0,
-     NULL, NULL, "TripleBuffering", (resource_value_t)1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable usage of triple buffering"},
+    { "-triplebuf", SET_RESOURCE, 0,
+      NULL, NULL, "TripleBuffering", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Try to use triple buffering when possible" },
+    { "+triplebuf", SET_RESOURCE, 0,
+      NULL, NULL, "TripleBuffering", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable usage of triple buffering" },
 #endif
-    {NULL}
+    { NULL }
 };
 
 int video_init_cmdline_options(void)

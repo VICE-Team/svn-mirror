@@ -49,22 +49,22 @@ static TUI_MENU_CALLBACK(ethernet_as_rr_submenu_callback)
 }
 
 static tui_menu_item_def_t ethernet_as_rr_submenu[] = {
-    {"_TFE", NULL, radio_ETHERNET_AS_RR_callback,
-     (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {"_RRNET", NULL, radio_ETHERNET_AS_RR_callback,
-     (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL},
-    {NULL}
+    { "_TFE", NULL, radio_ETHERNET_AS_RR_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_RRNET", NULL, radio_ETHERNET_AS_RR_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
 };
 
 static tui_menu_item_def_t tfe_menu_items[] = {
-    {"_Enable Ethernet:", "Emulate Ethernet Cartridge",
-     toggle_ETHERNET_ACTIVE_callback, NULL, 3,
-     TUI_MENU_BEH_CONTINUE, NULL, NULL},
-    {"_TFE or RRNET:", "Select which type to use",
-     ethernet_as_rr_submenu_callback, NULL, 7,
-     TUI_MENU_BEH_CONTINUE, ethernet_as_rr_submenu,
-     "Ethernet type"},
-    {NULL}
+    { "_Enable Ethernet:", "Emulate Ethernet Cartridge",
+      toggle_ETHERNET_ACTIVE_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_TFE or RRNET:", "Select which type to use",
+      ethernet_as_rr_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, ethernet_as_rr_submenu,
+      "Ethernet type" },
+    { NULL }
 };
 
 void uitfe_init(struct tui_menu *parent_submenu)
