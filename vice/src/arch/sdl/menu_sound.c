@@ -48,20 +48,14 @@ UI_MENU_DEFINE_RADIO(SoundDeviceName)
 static UI_MENU_CALLBACK(custom_volume_callback)
 {
     static char buf[20];
-    char *value = NULL;
     int previous, new_value;
 
     resources_get_int("SoundVolume", &previous);
 
     if (activated) {
-        sprintf(buf, "%i", previous);
-        value = sdl_ui_text_input_dialog("Enter volume", buf);
-        if (value) {
-            new_value = strtol(value, NULL, 0);
-            if (new_value != previous) {
-                resources_set_int("SoundVolume", new_value);
-            }
-            lib_free(value);
+        new_value = sdl_ui_slider_input_dialog("Select volume", previous, 0, 100);
+        if (new_value != previous) {
+            resources_set_int("SoundVolume", new_value);
         }
     } else {
         sprintf(buf, "%i%%", previous);

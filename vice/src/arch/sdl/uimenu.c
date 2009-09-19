@@ -563,6 +563,124 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
     return got_key;
 }
 
+static int sdl_ui_slider(const char* title, const int cur, const int min, const int max, int pos_x, int pos_y)
+{
+    int i = 0, done = 0, loop = 0, screen_dirty = 1, step = 1;
+    float segment = 0, parts = 0;
+    char *new_string = NULL, *value = NULL;
+
+    new_string = lib_malloc(menu_draw.max_text_x + 1);
+
+    /* sanity check */
+    i = cur;
+    if (i < min) {
+        i = min;
+    }
+    if (i > max) {
+        i = max;
+    }
+
+    segment = (float) max / (menu_draw.max_text_x - 1);
+
+    do {
+        if (screen_dirty) {
+            sprintf(new_string, "Step: %-10i", step);
+            sdl_ui_print_wrap(new_string, pos_x, &pos_y);
+            pos_y++;
+
+            parts = i / segment;
+            for (loop = 0; loop < menu_draw.max_text_x; loop++) {
+                new_string[loop] = i ? (loop <= parts ? '*' : '.') : '.';
+            }
+            new_string[loop] = 0;
+            sdl_ui_print_wrap(new_string, pos_x, &pos_y);
+            pos_y++;
+
+            sprintf(new_string, "%-10i", i);
+            sdl_ui_print_wrap(new_string, pos_x, &pos_y);
+            pos_y = pos_y - 2;
+
+            sdl_ui_refresh();
+            screen_dirty = 0;
+        }
+
+        switch(sdl_ui_menu_poll_input()) {
+            case MENU_ACTION_LEFT:
+                if (i > min) {
+                    i = i - step;
+                    if (i < min) {
+                        i = min;
+                    }
+                    screen_dirty = 1;
+                }
+                break;
+
+            case MENU_ACTION_RIGHT:
+                if (i < max) {
+                    i = i + step;
+                    if (i > max) {
+                        i = max;
+                    }
+                    screen_dirty = 1;
+                }
+                break;
+
+            case MENU_ACTION_UP:
+                step /= 10;
+                if (step < 1) {
+                    step = 1;
+                }
+                screen_dirty = 1;
+                break;
+
+            case MENU_ACTION_DOWN:
+                if (step * 10 < max) {
+                    step *= 10;
+                }
+                screen_dirty = 1;
+                break;
+
+            case MENU_ACTION_CANCEL:
+            case MENU_ACTION_EXIT:
+                i = cur;
+                done = 1;
+                break;
+
+            case MENU_ACTION_SELECT:
+                done = 1;
+                break;
+
+            case MENU_ACTION_MAP:
+                sprintf(new_string, "%i", i);
+                value = sdl_ui_text_input_dialog(title, new_string);
+
+                /* accept value from user, convert and free */
+                if (value) {
+                    i = strtol(value, NULL, 0);
+
+                    if (i < min) {
+                        i = min;
+                    }
+                    if (i > max) {
+                        i = max;
+                    }
+                    lib_free(value);
+                }
+                screen_dirty = 1;
+                break;
+
+            default:
+                break;
+        }
+    } while (!done);
+
+    lib_free(new_string);
+    new_string = NULL;
+
+    return i;
+}
+
+
 /* ------------------------------------------------------------------ */
 /* External UI interface */
 
@@ -975,6 +1093,15 @@ char* sdl_ui_text_input_dialog(const char* title, const char* previous)
     sdl_ui_clear();
     i = sdl_ui_display_title(title) / menu_draw.max_text_x;
     return sdl_ui_readline(previous, 0, i + MENU_FIRST_Y, 0);
+}
+
+int sdl_ui_slider_input_dialog(const char* title, const int cur, const int min, const int max)
+{
+    int i;
+
+    sdl_ui_clear();
+    i = sdl_ui_display_title(title) / menu_draw.max_text_x;
+    return sdl_ui_slider(title, cur, min, max, 0, i + MENU_FIRST_Y);
 }
 
 ui_menu_entry_t *sdl_ui_get_main_menu(void)
