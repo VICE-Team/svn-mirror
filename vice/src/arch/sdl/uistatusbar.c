@@ -42,6 +42,10 @@
 /* ----------------------------------------------------------------- */
 /* static functions/variables */
 
+#ifndef MIN
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
+
 #define MAX_STATUSBAR_LEN           128
 #define STATUSBAR_SPEED_POS         0
 #define STATUSBAR_PAUSE_POS         4
@@ -364,6 +368,7 @@ void uistatusbar_draw(void)
 {
     int i;
     BYTE c, color_f, color_b;
+    unsigned int line;
     menu_draw_t *limits = NULL;
     menufont = sdl_ui_get_menu_font();
 
@@ -374,7 +379,9 @@ void uistatusbar_draw(void)
     color_b = limits->color_back;
     pitch = limits->pitch;
 
-    draw_offset = (sdl_active_canvas->geometry->last_displayed_line - menufont->h + 1) * pitch
+    line = MIN(sdl_active_canvas->viewport->last_line, sdl_active_canvas->geometry->last_displayed_line);
+
+    draw_offset = (line - menufont->h + 1) * pitch
                 + sdl_active_canvas->geometry->extra_offscreen_border_left
                 + sdl_active_canvas->viewport->first_x;
 
