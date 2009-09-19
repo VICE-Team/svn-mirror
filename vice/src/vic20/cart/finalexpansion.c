@@ -448,25 +448,41 @@ void finalexpansion_config_setup(BYTE *rawcart)
 {
 }
 
-/* this is a duplicate of the code in megacart.c.  Should be made
-   into common code. */
-static int zfile_load(const char *filename, BYTE *dest, size_t size)
+static int zfile_load(const char *filename, BYTE *dest)
 {
     FILE *fd;
+    size_t fsize;
 
     fd = zfile_fopen(filename, MODE_READ);
     if (!fd) {
+        log_message(fe_log, "Failed to open image `%s'!",
+                    filename);
         return -1;
     }
-    if (util_file_length(fd) != size) {
-        zfile_fclose(fd);
-        return -1;
+    fsize=util_file_length(fd);
+ 
+    if (fsize < 0x8000) {
+        size_t tsize;
+        size_t offs;
+        tsize=(fsize+0x0fff) & 0xfffff000;
+        offs = 0x8000 - tsize;
+        dest += offs;
+        log_message(fe_log, "Size less than 32Kb.  Aligning as close as possible to the 32Kb boundary in 4Kb blocks. (0x%06X-0x%06X)",offs, offs+tsize);    
+    } else if (fsize < (size_t)CART_ROM_SIZE) {
+        log_message(fe_log, "Size less than 512Kb, padding.");
+    } else if (fsize > (size_t)CART_ROM_SIZE) {
+        fsize=CART_ROM_SIZE;
+        log_message(fe_log, "Size larger than 512Kb, truncating.");
     }
-    if ( fread(dest, size, 1, fd) < 1) {
+    if ( fread(dest, fsize, 1, fd) < 1) {
+        log_message(fe_log, "Failed to read image `%s'!",
+                    filename);
         zfile_fclose(fd);
         return -1;
     }
     zfile_fclose(fd);
+    log_message(fe_log, "Read image `%s'.",
+                filename);
     return 0;
 }
 
@@ -483,11 +499,14 @@ int finalexpansion_bin_attach(const char *filename)
         return -1;
     }
 
-    /* should probably guard this */
+    /* flash040core_init() does not clear the flash */
+    memset(cart_flash, 0xff, CART_ROM_SIZE);
+
+    /* should we guard this? */
     flash040core_init(&flash_state, FLASH040_TYPE_B, cart_flash);
 
     util_string_set(&cartfile, filename);
-    if ( zfile_load(filename, flash_state.flash_data, (size_t)CART_ROM_SIZE) < 0 ) {
+    if ( zfile_load(filename, flash_state.flash_data) < 0 ) {
         finalexpansion_detach();
         return -1;
     }
