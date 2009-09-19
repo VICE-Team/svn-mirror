@@ -240,8 +240,8 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
     return NULL;
 }
 
-UI_MENU_DEFINE_INT(JoyThreshold)
-UI_MENU_DEFINE_INT(JoyFuzz)
+UI_MENU_DEFINE_SLIDER(JoyThreshold, 0, 32767)
+UI_MENU_DEFINE_SLIDER(JoyFuzz, 0, 32767)
 
 static const ui_menu_entry_t define_joy_misc_menu[] = {
     { "Menu activate",
@@ -255,11 +255,11 @@ static const ui_menu_entry_t define_joy_misc_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "Threshold",
       MENU_ENTRY_RESOURCE_INT,
-      int_JoyThreshold_callback,
+      slider_JoyThreshold_callback,
       (ui_callback_data_t)"Set joystick threshold (0 - 32767)" },
     { "Fuzz",
       MENU_ENTRY_RESOURCE_INT,
-      int_JoyFuzz_callback,
+      slider_JoyFuzz_callback,
       (ui_callback_data_t)"Set joystick fuzz (0 - 32767)" },
     { NULL }
 };

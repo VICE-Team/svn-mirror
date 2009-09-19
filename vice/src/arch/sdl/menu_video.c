@@ -62,10 +62,10 @@ static const ui_menu_entry_t vicii_border_menu[] = {
 /* PAL emulation menu */
 
 UI_MENU_DEFINE_TOGGLE(PALEmulation)
-UI_MENU_DEFINE_INT(PALScanLineShade)
-UI_MENU_DEFINE_INT(PALBlur)
-UI_MENU_DEFINE_INT(PALOddLinePhase)
-UI_MENU_DEFINE_INT(PALOddLineOffset)
+UI_MENU_DEFINE_SLIDER(PALScanLineShade, 0, 1000)
+UI_MENU_DEFINE_SLIDER(PALBlur, 0, 1000)
+UI_MENU_DEFINE_SLIDER(PALOddLinePhase, 0, 2000)
+UI_MENU_DEFINE_SLIDER(PALOddLineOffset, 0, 2000)
 
 static const ui_menu_entry_t pal_controls_menu[] = {
     { "PAL emulation",
@@ -76,51 +76,51 @@ static const ui_menu_entry_t pal_controls_menu[] = {
     SDL_MENU_ITEM_TITLE("PAL controls"),
     { "Scanline shade",
       MENU_ENTRY_RESOURCE_INT,
-      int_PALScanLineShade_callback,
+      slider_PALScanLineShade_callback,
       (ui_callback_data_t)"Set PAL shade (0-1000)" },
     { "Blur",
       MENU_ENTRY_RESOURCE_INT,
-      int_PALBlur_callback,
+      slider_PALBlur_callback,
       (ui_callback_data_t)"Set PAL blur (0-1000)" },
     { "Oddline phase",
       MENU_ENTRY_RESOURCE_INT,
-      int_PALOddLinePhase_callback,
+      slider_PALOddLinePhase_callback,
       (ui_callback_data_t)"Set PAL oddline phase (0-2000)" },
     { "Oddline offset",
       MENU_ENTRY_RESOURCE_INT,
-      int_PALOddLineOffset_callback,
+      slider_PALOddLineOffset_callback,
       (ui_callback_data_t)"Set PAL oddline offset (0-2000)" },
     { NULL }
 };
 
 /* Color menu */
 
-UI_MENU_DEFINE_INT(ColorGamma)
-UI_MENU_DEFINE_INT(ColorTint)
-UI_MENU_DEFINE_INT(ColorSaturation)
-UI_MENU_DEFINE_INT(ColorContrast)
-UI_MENU_DEFINE_INT(ColorBrightness)
+UI_MENU_DEFINE_SLIDER(ColorGamma, 0, 2000)
+UI_MENU_DEFINE_SLIDER(ColorTint, 0, 2000)
+UI_MENU_DEFINE_SLIDER(ColorSaturation, 0, 2000)
+UI_MENU_DEFINE_SLIDER(ColorContrast, 0, 2000)
+UI_MENU_DEFINE_SLIDER(ColorBrightness, 0, 2000)
 
 static const ui_menu_entry_t color_controls_menu[] = {
     { "Gamma",
       MENU_ENTRY_RESOURCE_INT,
-      int_ColorGamma_callback,
+      slider_ColorGamma_callback,
       (ui_callback_data_t)"Set gamma (0-2000)" },
     { "Tint",
       MENU_ENTRY_RESOURCE_INT,
-      int_ColorTint_callback,
+      slider_ColorTint_callback,
       (ui_callback_data_t)"Set tint (0-2000)" },
     { "Saturation",
       MENU_ENTRY_RESOURCE_INT,
-      int_ColorSaturation_callback,
+      slider_ColorSaturation_callback,
       (ui_callback_data_t)"Set saturation (0-2000)" },
     { "Contrast",
       MENU_ENTRY_RESOURCE_INT,
-      int_ColorContrast_callback,
+      slider_ColorContrast_callback,
       (ui_callback_data_t)"Set contrast (0-2000)" },
     { "Brightness",
       MENU_ENTRY_RESOURCE_INT,
-      int_ColorBrightness_callback,
+      slider_ColorBrightness_callback,
       (ui_callback_data_t)"Set brightness (0-2000)" },
     { NULL }
 };

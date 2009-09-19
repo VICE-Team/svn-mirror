@@ -240,7 +240,7 @@ const char *sdl_ui_menu_int_helper(int activated, ui_callback_data_t param, cons
             lib_free(value);
         }
     } else {
-        return buf;       
+        return buf;
     }
     return NULL;
 }
@@ -290,5 +290,28 @@ const char *sdl_ui_menu_file_string_helper(int activated, ui_callback_data_t par
 #endif
         return previous;
     }
+    return NULL;
+}
+
+const char *sdl_ui_menu_slider_helper(int activated, ui_callback_data_t param, const char *resource_name, const int min, const int max)
+{
+    static char buf[20];
+    int previous, new_value;
+
+    if (resources_get_int(resource_name, &previous)) {
+        return sdl_menu_text_unknown;
+    }
+
+    sprintf(buf, "%i", previous);
+
+    if (activated) {
+        new_value = sdl_ui_slider_input_dialog((const char *)param, previous, min, max);
+        if (new_value != previous) {
+            resources_set_int(resource_name, new_value);
+        }
+    } else {
+        return buf;
+    }
+
     return NULL;
 }
