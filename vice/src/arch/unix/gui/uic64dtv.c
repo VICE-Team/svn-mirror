@@ -85,7 +85,7 @@ ui_menu_entry_t c64dtv_submenu[] = {
       NULL, NULL, c64dtv_revision_submenu },
     { "--" },
     { N_("*Enable Hummer ADC"),
-      toggle_HummerADC, NULL, NULL },
+      (ui_callback_t) toggle_HummerADC, NULL, NULL },
     { N_("PS/2 mouse on Userport"),
       NULL, NULL, ps2_mouse_submenu },
     { NULL }
