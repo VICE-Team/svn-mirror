@@ -94,7 +94,7 @@ static void display_tape(void)
     int len;
 
     if (tape_enabled) {
-        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor) ?'*' : ' ', tape_counter, " >f<R" [tape_control]);
+        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor) ?'*' : ' ', tape_counter, " >f<R"[tape_control]);
     } else {
         len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "     ");
     }
@@ -335,9 +335,9 @@ static int set_statusbar(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"SDLStatusbar", 0, RES_EVENT_NO, NULL,
-     &statusbar_enabled, set_statusbar, NULL},
-    {NULL},
+    { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
+      &statusbar_enabled, set_statusbar, NULL },
+    { NULL }
 };
 
 int uistatusbar_init_resources(void)
