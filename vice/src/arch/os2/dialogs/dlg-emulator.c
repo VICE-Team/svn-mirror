@@ -52,7 +52,19 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 {
     // FIXME: Speed=0 'No Limit' is missing
     static int first = TRUE;
-    const char psz[11][6] = {" Auto", " 1/1", " 1/2", " 1/3", " 1/4", " 1/5", " 1/6",  " 1/7", " 1/8", " 1/9", " 1/10"};
+    const char psz[11][6] = {
+        " Auto",
+        " 1/1",
+        " 1/2",
+        " 1/3",
+        " 1/4",
+        " 1/5",
+        " 1/6",
+        " 1/7",
+        " 1/8",
+        " 1/9",
+        " 1/10"
+    };
 
     switch (msg) {
         case WM_INITDLG:

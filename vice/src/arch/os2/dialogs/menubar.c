@@ -76,7 +76,7 @@
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
 
-const char cbm_models[][5] = {"510", "610", "620", "620+", "710", "720", "720+"};
+const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
 
 static void set_cbm_model(WORD addr, void *model)
 {
@@ -86,7 +86,20 @@ static void set_cbm_model(WORD addr, void *model)
 
 #ifdef __XPET__
 #include "pets.h"
-const char pet_models[][10] = {"2001", "3008", "3016", "3032", "3032B", "4016", "4032", "4032B", "8032", "8096", "8296", "SuperPET"};
+const char pet_models[][10] = {
+    "2001",
+    "3008",
+    "3016",
+    "3032",
+    "3032B",
+    "4016",
+    "4032",
+    "4032B",
+    "8032",
+    "8096",
+    "8296",
+    "SuperPET"
+};
 static void set_pet_model(WORD addr, void *model)
 {
     pet_set_model((char*)model, NULL);

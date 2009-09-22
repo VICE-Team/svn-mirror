@@ -26,8 +26,7 @@
 
 #define DID_FILE_FILTER 0x1000
 
-struct _FILEDLG2
-{
+struct _FILEDLG2 {
     int fN;
     char **fName;
     char **fExt;

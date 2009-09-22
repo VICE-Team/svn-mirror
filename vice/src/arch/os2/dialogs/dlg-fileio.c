@@ -81,24 +81,21 @@ static const char *VIDEO_PALETTE = "CrtcPaletteFile";
 static const char *VIDEO_PALETTE = "ViciiPaletteFile";
 #endif
 
-struct _filter
-{
+struct _filter {
     char *ext;
     char *desc;
 };
 
 typedef struct _filter filter_t;
 
-struct _subaction
-{
+struct _subaction {
     char *action;
     filter_t *filter;
 };
 
 typedef struct _subaction subaction_t;
 
-struct _action
-{
+struct _action {
     char *type;
     subaction_t *subact;
     int enabled;             // enable subaction?
@@ -107,187 +104,186 @@ struct _action
 typedef struct _action action_t;
 
 static filter_t FilterDisk[] = {
-    {"*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*", "All Disk Images"},
-    {"*.d64*; *.g64*; *.x64*",                                  "All 1541 Images"},
-    {"*.d64*", "1541"},
-    {"*.g64*", "1541"},
-    {"*.x64*", "1541"},
-    {"*.d71*", "1571"},
-    {"*.d80*", "8050"},
-    {"*.d81*", "1581"},
-    {"*.d82*", "8250"},
-    {NULL}
+    { "*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*", "All Disk Images" },
+    { "*.d64*; *.g64*; *.x64*", "All 1541 Images" },
+    { "*.d64*", "1541" },
+    { "*.g64*", "1541" },
+    { "*.x64*", "1541" },
+    { "*.d71*", "1571" },
+    { "*.d80*", "8050" },
+    { "*.d81*", "1581" },
+    { "*.d82*", "8250" },
+    { NULL }
 };
 
 static filter_t FilterTape[] = {
-    {"*.t64*; *.tap*", "All Tape Images"},
-    {"*.t64*", "T64"},
-    {"*.tap*", "Raw 1531 Tape File"},
-    {NULL}
+    { "*.t64*; *.tap*", "All Tape Images" },
+    { "*.t64*", "T64" },
+    { "*.tap*", "Raw 1531 Tape File" },
+    { NULL }
 };
 
 #if defined(__X64__) || defined(__X128__) || defined(__XPET__) || defined(__XCBM__)
 static filter_t FilterCart[] = {
-    {"*.crt; *.bin", "All Cartridge Images"},
-    {"*.crt", "CRT"},
-    {"*.bin", "BIN"},
-    {NULL}
+    { "*.crt; *.bin", "All Cartridge Images" },
+    { "*.crt", "CRT" },
+    { "*.bin", "BIN" },
+    { NULL }
 };
 #endif
 
-static filter_t FilterPal[] = {{"*.vpl", "Vice/2 Color Palette"}, {NULL}};
-static filter_t FilterVsf[] = {{"*.vsf", "Vice/2 Snapshot File"}, {NULL}};
-static filter_t FilterKbd[] = {{"*.vkm", "Vice/2 Keyboard Map"}, {NULL}};
-static filter_t FilterRomSet[] = {{"*.vrs", "Vice/2 Rom Set"}, {NULL}};
-static filter_t FilterPng[] = {{"*.png", "Portable Network Graphic"}, {NULL}};
-static filter_t FilterBmp[] = {{"*.bmp", "Bitmap"}, {NULL}};
-static filter_t FilterCfg[] = {{"*.cfg", "Vice/2 Configuration"}, {NULL}};
-static filter_t FilterFlip[] = {{"*.vfl", "Vice/2 Fliplist"}, {NULL}};
-static filter_t FilterKernal[] = {{"kernal*", "Kernal ROM"}, {NULL}};
-static filter_t FilterBasic[] = {{"basic*", "Basic ROM"}, {NULL}};
-static filter_t FilterChargen[] = {{"charg*", "Character ROM"}, {NULL}};
+static filter_t FilterPal[] = { { "*.vpl", "Vice/2 Color Palette" }, { NULL } };
+static filter_t FilterVsf[] = { { "*.vsf", "Vice/2 Snapshot File" }, { NULL } };
+static filter_t FilterKbd[] = { { "*.vkm", "Vice/2 Keyboard Map" }, { NULL } };
+static filter_t FilterRomSet[] = { { "*.vrs", "Vice/2 Rom Set" }, { NULL } };
+static filter_t FilterPng[] = { { "*.png", "Portable Network Graphic" }, { NULL } };
+static filter_t FilterBmp[] = { { "*.bmp", "Bitmap" }, { NULL } };
+static filter_t FilterCfg[] = { { "*.cfg", "Vice/2 Configuration" }, { NULL } };
+static filter_t FilterFlip[] = { { "*.vfl", "Vice/2 Fliplist" }, { NULL } };
+static filter_t FilterKernal[] = { { "kernal*", "Kernal ROM" }, { NULL } };
+static filter_t FilterBasic[] = { { "basic*", "Basic ROM"}, { NULL } };
+static filter_t FilterChargen[] = { { "charg*", "Character ROM" }, { NULL } };
 
 #ifdef __X128__
-static filter_t FilterZ80[] = {{"z80bios*", "Z80 BIOS"}, {NULL}};
+static filter_t FilterZ80[] = { { "z80bios*", "Z80 BIOS" }, { NULL } };
 #endif
 
-static filter_t Filter1541[] = {{"dos1541*", "1541 ROM"}, {NULL}};
-static filter_t Filter15412[] = {{"d1541II*", "1541-II ROM"}, {NULL}};
-static filter_t Filter1571[] = {{"dos1571*", "1571 ROM"}, {NULL}};
-static filter_t Filter1581[] = {{"dos1581*", "1581 ROM"}, {NULL}};
-static filter_t Filter2031[] = {{"dos2031*", "2031 ROM"}, {NULL}};
-static filter_t Filter1001[] = {{"dos1001*", "1001 ROM"}, {NULL}};
-static filter_t Filter2040[] = {{"dos2040*", "2040 ROM"}, {NULL}};
-static filter_t Filter3040[] = {{"dos3040*", "3040 ROM"}, {NULL}};
-static filter_t Filter4040[] = {{"dos4040*", "4040 ROM"}, {NULL}};
+static filter_t Filter1541[] = { { "dos1541*", "1541 ROM" }, { NULL } };
+static filter_t Filter15412[] = { { "d1541II*", "1541-II ROM" }, { NULL } };
+static filter_t Filter1571[] = { { "dos1571*", "1571 ROM" }, { NULL } };
+static filter_t Filter1581[] = { { "dos1581*", "1581 ROM" }, { NULL } };
+static filter_t Filter2031[] = { { "dos2031*", "2031 ROM" }, { NULL } };
+static filter_t Filter1001[] = { { "dos1001*", "1001 ROM" }, { NULL } };
+static filter_t Filter2040[] = { { "dos2040*", "2040 ROM" }, { NULL } };
+static filter_t Filter3040[] = { { "dos3040*", "3040 ROM" }, { NULL } };
+static filter_t Filter4040[] = { { "dos4040*", "4040 ROM" }, { NULL } };
 
 static subaction_t SubDisk[] = {
-    {"as Diskette in Drive #8", FilterDisk},
-    {"as Diskette in Drive #9", FilterDisk},
-    {"as Diskette in Drive #10", FilterDisk},
-    {"as Diskette in Drive #11", FilterDisk},
-    {NULL}
+    { "as Diskette in Drive #8", FilterDisk },
+    { "as Diskette in Drive #9", FilterDisk },
+    { "as Diskette in Drive #10", FilterDisk },
+    { "as Diskette in Drive #11", FilterDisk },
+    { NULL }
 };
 
 static subaction_t SubFlip[] = {
-    {"of Drive #8", FilterFlip},
-    {"of Drive #9", FilterFlip},
-    {NULL}
+    { "of Drive #8", FilterFlip },
+    { "of Drive #9", FilterFlip },
+    { NULL }
 };
 
-static subaction_t SubTape[] = {{"as Tape to Datasette", FilterTape}, {NULL}};
-static subaction_t SubKbd[] = {{"as new keyboard mapping", FilterKbd}, {NULL}};
-static subaction_t SubCfg[] = {{"as new configuration", FilterCfg}, {NULL}};
+static subaction_t SubTape[] = { { "as Tape to Datasette", FilterTape }, { NULL } };
+static subaction_t SubKbd[] = { { "as new keyboard mapping", FilterKbd }, { NULL } };
+static subaction_t SubCfg[] = { { "as new configuration", FilterCfg }, { NULL } };
 
 #if defined __X64__ || defined __X128__
-static subaction_t SubCart2[]  = {{"as cartridge image", FilterCart}, {NULL}};
+static subaction_t SubCart2[]  = { { "as cartridge image", FilterCart }, { NULL } };
 #endif
 
-static subaction_t SubVsf[] = {{"as Vice/2 snapshot file", FilterVsf}, {NULL}};
-static subaction_t SubRomSet[] = {{"as Vice/2 rom set", FilterRomSet}, {NULL}};
+static subaction_t SubVsf[] = { { "as Vice/2 snapshot file", FilterVsf }, { NULL } };
+static subaction_t SubRomSet[] = { { "as Vice/2 rom set", FilterRomSet }, { NULL } };
 
 static subaction_t SubScr[] = {
-    {"as Portable Network Graphic (PiNG)", FilterPng},
-    {"as Native Bitmap (BMP)", FilterBmp},
-    {NULL}
+    { "as Portable Network Graphic (PiNG)", FilterPng },
+    { "as Native Bitmap (BMP)", FilterBmp },
+    { NULL }
 };
 
 static subaction_t SubPal[] = {
 #ifdef __XCBM__
-    {"as new CRTC palette", FilterPal},
-    {"as new VICII palette", FilterPal},
+    { "as new CRTC palette", FilterPal },
+    { "as new VICII palette", FilterPal },
 #else
-    {"as new color palette", FilterPal},
+    { "as new color palette", FilterPal },
 #endif
 #ifdef __X128__
-    {"as new VDC palette", FilterPal},
+    { "as new VDC palette", FilterPal },
 #endif
-    {NULL}
+    { NULL }
 };
 
 #if defined __X64__ || defined __X128__
 static subaction_t SubCart[] = {
-    {"as Generic Cartridge", FilterCart},
-    {"as Generic 8kB Cartridge", FilterCart},
-    {"as Generic 16kB Cartridge", FilterCart},
-    {"as 32kB Action Replay Cartridge", FilterCart},
-    {"as 32kB Atomic Power Cartridge", FilterCart},
-    {"as 8kB Epyx Fastloader Cartridge", FilterCart},
-    {"as 32kB Super Snapshot Cartridge", FilterCart},
-    {"as 64kB Super Snapshot Cartridge", FilterCart},
-    {"as 16kB Westermann learning Cartridge", FilterCart},
-    {"as CBM IEEE488 Cartridge", FilterCart},
-    {"as IDE64 Cartridge", FilterCart},
-    {NULL}
+    { "as Generic Cartridge", FilterCart },
+    { "as Generic 8kB Cartridge", FilterCart },
+    { "as Generic 16kB Cartridge", FilterCart },
+    { "as 32kB Action Replay Cartridge", FilterCart },
+    { "as 32kB Atomic Power Cartridge", FilterCart },
+    { "as 8kB Epyx Fastloader Cartridge", FilterCart },
+    { "as 32kB Super Snapshot Cartridge", FilterCart },
+    { "as 64kB Super Snapshot Cartridge", FilterCart },
+    { "as 16kB Westermann learning Cartridge", FilterCart },
+    { "as CBM IEEE488 Cartridge", FilterCart },
+    { "as IDE64 Cartridge", FilterCart },
+    { NULL }
 };
 #endif
 
 #ifdef __XPET__
 static subaction_t SubExtRom[] = {
-    {"to memory address $9000", FilterCart},
-    {"to memory address $A000", FilterCart},
-    {"to memory address $B000", FilterCart},
-    {NULL}
+    { "to memory address $9000", FilterCart },
+    { "to memory address $A000", FilterCart },
+    { "to memory address $B000", FilterCart },
+    { NULL }
 };
 #endif
 
 #ifdef __XCBM__
 static subaction_t SubCbmCart[] = {
-    {"to memory address $1000", FilterCart},
-    {"to memory address $2000", FilterCart},
-    {"to memory address $4000", FilterCart},
-    {"to memory address $6000", FilterCart},
-    {NULL}
+    { "to memory address $1000", FilterCart },
+    { "to memory address $2000", FilterCart },
+    { "to memory address $4000", FilterCart },
+    { "to memory address $6000", FilterCart },
+    { NULL }
 };
 #endif
 
 #ifdef __X128__
 static subaction_t SubFuncRom[] = {
-    {"internal", FilterCart},
-    {"external", FilterCart},
-    {NULL}
+    { "internal", FilterCart },
+    { "external", FilterCart },
+    { NULL }
 };
 #endif
 
 static subaction_t SubRom[] = {
-    {"as Kernal ROM", FilterKernal},
-    {"as Character ROM", FilterChargen},
-    {"as 1541 ROM", Filter1541},
-    {"as 1541-II ROM", Filter15412},
-    {"as 1571 ROM", Filter1571},
-    {"as 1581 ROM", Filter1581},
-    {"as 2031 ROM", Filter2031},
-    {"as 1001 ROM", Filter1001},
-    {"as 2040 ROM", Filter2040},
-    {"as 3040 ROM", Filter3040},
-    {"as 4040 ROM", Filter4040},
+    { "as Kernal ROM", FilterKernal },
+    { "as Character ROM", FilterChargen },
+    { "as 1541 ROM", Filter1541 },
+    { "as 1541-II ROM", Filter15412 },
+    { "as 1571 ROM", Filter1571 },
+    { "as 1581 ROM", Filter1581 },
+    { "as 2031 ROM", Filter2031 },
+    { "as 1001 ROM", Filter1001 },
+    { "as 2040 ROM", Filter2040 },
+    { "as 3040 ROM", Filter3040 },
+    { "as 4040 ROM", Filter4040 },
 #ifndef __X128__
-    {"as Basic ROM", FilterBasic},
+    { "as Basic ROM", FilterBasic },
 #else
-    {"as Z80 BIOS", FilterZ80},
-    {"as C64 Kernal ROM", FilterKernal},
-    {"as C64 Basic ROM", FilterBasic},
-    {"as C64 Character ROM", FilterChargen},
-    {"as International Character ROM", FilterChargen},
-    {"as German Character ROM", FilterChargen},
-    {"as French Character ROM", FilterChargen},
-    {"as Swedish Character ROM", FilterChargen},
-    {"as Swedish Character ROM", FilterChargen},
-    {"as International Kernal ROM", FilterKernal},
-    {"as German Kernal  ROM", FilterKernal},
-    {"as Finnish Kernal ROM", FilterKernal},
-    {"as Frensh Kernal ROM", FilterKernal},
-    {"as Italian Kernal ROM", FilterKernal},
-    {"as Norwegian Kernal ROM", FilterKernal},
-    {"as Swedish Kernal ROM", FilterKernal},
-    {"as Basic ROM (Hi)", FilterBasic},
-    {"as Basic ROM (Lo)", FilterBasic},
+    { "as Z80 BIOS", FilterZ80 },
+    { "as C64 Kernal ROM", FilterKernal },
+    { "as C64 Basic ROM", FilterBasic },
+    { "as C64 Character ROM", FilterChargen },
+    { "as International Character ROM", FilterChargen },
+    { "as German Character ROM", FilterChargen },
+    { "as French Character ROM", FilterChargen },
+    { "as Swedish Character ROM", FilterChargen },
+    { "as Swedish Character ROM", FilterChargen },
+    { "as International Kernal ROM", FilterKernal },
+    { "as German Kernal  ROM", FilterKernal },
+    { "as Finnish Kernal ROM", FilterKernal },
+    { "as Frensh Kernal ROM", FilterKernal },
+    { "as Italian Kernal ROM", FilterKernal },
+    { "as Norwegian Kernal ROM", FilterKernal },
+    { "as Swedish Kernal ROM", FilterKernal },
+    { "as Basic ROM (Hi)", FilterBasic },
+    { "as Basic ROM (Lo)", FilterBasic },
 #endif
-    {NULL}
+    { NULL }
 };
 
-struct _trapaction
-{
+struct _trapaction {
     int pending;
     int rc;
     const char *path;
@@ -364,7 +360,7 @@ static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
     handle.hwnd = hwnd;
     handle.execute = func;
 #else
-    trapaction_t handle = {TRUE, 0, path, hwnd, func};
+    trapaction_t handle = { TRUE, 0, path, hwnd, func };
 #endif
 
     interrupt_maincpu_trigger_trap(exec_func, &handle);
@@ -382,33 +378,33 @@ static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
 }
 
 static action_t LoadAction[] = {
-    {"Attach Disk Image", SubDisk, TRUE},
-    {"Attache Tape Image", SubTape, FALSE},
-    {"Load Fliplist", SubFlip, TRUE},
-    {"Load and Attach Fliplist", SubFlip, TRUE},
-    {"Load Snapshot", SubVsf, FALSE },
+    { "Attach Disk Image", SubDisk, TRUE },
+    { "Attache Tape Image", SubTape, FALSE },
+    { "Load Fliplist", SubFlip, TRUE },
+    { "Load and Attach Fliplist", SubFlip, TRUE },
+    { "Load Snapshot", SubVsf, FALSE },
 #if defined __X128__ || defined __CBM2__
-    {"Load Color Palette", SubPal, TRUE},
+    { "Load Color Palette", SubPal, TRUE },
 #else
-    {"Load Color Palette", SubPal, FALSE},
+    { "Load Color Palette", SubPal, FALSE },
 #endif
-    {"Load Keyboard Map", SubKbd, FALSE},
-    {"Load ROM Image", SubRom, TRUE},
-    {"Load ROM Set", SubRomSet, FALSE },
-    {"Load Configuration File", SubCfg, FALSE },
+    { "Load Keyboard Map", SubKbd, FALSE },
+    { "Load ROM Image", SubRom, TRUE },
+    { "Load ROM Set", SubRomSet, FALSE },
+    { "Load Configuration File", SubCfg, FALSE },
 #if defined __X64__ || defined __X128__
-    {"Attach Cartridge Image", SubCart, TRUE},
+    { "Attach Cartridge Image", SubCart, TRUE },
 #endif
 #ifdef __XPET__
-    {"Load 4kB extension Rom", SubExtRom, TRUE},
+    { "Load 4kB extension Rom", SubExtRom, TRUE },
 #endif
 #ifdef __XCBM__
-    {"Load 4kB Cartridge image", SubCbmCart, TRUE},
+    { "Load 4kB Cartridge image", SubCbmCart, TRUE },
 #endif
 #ifdef __X128__
-    {"Load Function ROM Image", SubFuncRom, TRUE},
+    { "Load Function ROM Image", SubFuncRom, TRUE },
 #endif
-    {NULL}
+    { NULL }
 };
 
 static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
@@ -575,15 +571,15 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
 }
 
 static action_t SaveAction[] = {
-    {"Save Configuration File", SubCfg, FALSE},
-    {"Save Snapshot File", SubVsf, FALSE},
-    {"Save Screenshot", SubScr, FALSE},
-    {"Save Fliplist", SubFlip, TRUE},
-    {"Save ROM Set", SubRomSet, FALSE},
+    { "Save Configuration File", SubCfg, FALSE },
+    { "Save Snapshot File", SubVsf, FALSE },
+    { "Save Screenshot", SubScr, FALSE },
+    { "Save Fliplist", SubFlip, TRUE },
+    { "Save ROM Set", SubRomSet, FALSE },
 #if defined __X64__ || defined __X128__
-    {"Save Expert Cardridge", SubCart2, FALSE},
+    { "Save Expert Cardridge", SubCart2, FALSE },
 #endif
-    {NULL}
+    { NULL }
 };
 
 static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
@@ -696,8 +692,7 @@ static void ShowContents(HWND hwnd, char *image_name)
 }
 
 #define numfonts 14
-const char fnames[numfonts][25] =
-{
+const char fnames[numfonts][25] = {
     "C64 Upper Case",
     "C64 Lower Case",
     "C128 Upper Case",
@@ -718,7 +713,7 @@ static void LboxDrawLine(HWND hwnd, OWNERITEM *item, RECTL *rcl, image_contents_
 {
     const HPS hps = item->hps;
     const int name = WinDlgLboxSelectedItem(hwnd, DID_FONTNAME_LB);
-    FATTRS font = {sizeof(FATTRS), 0, 0, "", 0, 0, 8, 8, 0, 0};
+    FATTRS font = { sizeof(FATTRS), 0, 0, "", 0, 0, 8, 8, 0, 0 };
 
     strcpy(font.szFacename, fnames[name]);
 
@@ -1116,7 +1111,15 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     mbtemp.flStyle = BS_DEFAULT;
                     mb.mb2d[0] = mbtemp;
 #else
-                    MB2INFO mb = {sizeof(MB2INFO), hpt, 1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE, "      OK      ", 0, BS_DEFAULT};
+                    MB2INFO mb = {
+                        sizeof(MB2INFO),
+                        hpt,
+                        1,
+                        MB_CUSTOMICON | WS_VISIBLE,
+                        NULLHANDLE,
+                        "      OK      ",
+                        0,
+                        BS_DEFAULT};
 #endif
                     WinMessageBox2(HWND_DESKTOP, hwnd, txt, "VICE/2 Error", 0, &mb);
                     lib_free(txt);

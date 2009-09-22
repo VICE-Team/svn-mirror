@@ -34,7 +34,7 @@
 #include "util.h"
 
 static char *SerialFile = NULL;
-static FILE *fd[3] = {NULL, NULL, NULL};
+static FILE *fd[3] = { NULL, NULL, NULL };
 
 static int set_serial_file(const char *val, void *param)
 {
@@ -44,9 +44,9 @@ static int set_serial_file(const char *val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {"SerialFile", "SerialFile", RES_EVENT_NO, NULL,
-     &SerialFile, set_serial_file, NULL},
-    NULL
+    { "SerialFile", "SerialFile", RES_EVENT_NO, NULL,
+      &SerialFile, set_serial_file, NULL },
+    { NULL }
 };
 
 int rs232_resources_init(void)

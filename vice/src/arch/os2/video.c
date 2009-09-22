@@ -368,20 +368,20 @@ static int set_logging(int val, void *param)
 
 static const resource_int_t resources1_int[] = {
 #ifndef DIRECT_ACCESS
-    {"WindowStretchFactor", 1, RES_EVENT_NO, NULL,
-     &stretch, set_stretch_factor, NULL},
+    { "WindowStretchFactor", 1, RES_EVENT_NO, NULL,
+      &stretch, set_stretch_factor, NULL },
 #endif
-    {"PMBorderType", 2, RES_EVENT_NO, NULL,
-     &border, set_border_type, NULL},
-    {"Menubar", 1, RES_EVENT_NO, NULL,
-     &menu, set_menu, NULL},
-    {NULL}
+    { "PMBorderType", 2, RES_EVENT_NO, NULL,
+      &border, set_border_type, NULL },
+    { "Menubar", 1, RES_EVENT_NO, NULL,
+      &menu, set_menu, NULL },
+    { NULL }
 };
 
 static const resource_int_t resources2_int[] = {
-    {"Logwin", 1, RES_EVENT_NO, NULL,
-     &logwin, set_logging, NULL},
-    {NULL}
+    { "Logwin", 1, RES_EVENT_NO, NULL,
+      &logwin, set_logging, NULL },
+    { NULL }
 };
 
 int video_arch_resources_init(void)
@@ -395,42 +395,42 @@ void video_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options1[] = {
 #ifndef DIRECT_ACCESS
-    {"-stretch", SET_RESOURCE, 1,
-     NULL, NULL, "WindowStretchFactor", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Specify stretch factor for PM Windows (1,2,3,...)"},
+    { "-stretch", SET_RESOURCE, 1,
+      NULL, NULL, "WindowStretchFactor", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
 #endif
-    {"-border",  SET_RESOURCE, 1,
-     NULL, NULL, "PMBorderType", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Specify window border type (1=small, 2=dialog, else=no border)"},
-    {"-menu", SET_RESOURCE, 0,
-     NULL, NULL, "Menubar", (resource_value_t) 1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable Main Menu Bar"},
-    {"+menu", SET_RESOURCE, 0,
-     NULL, NULL, "Menubar", (resource_value_t) 0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable Main Menu Bar"},
-    {NULL}
+    { "-border",  SET_RESOURCE, 1,
+      NULL, NULL, "PMBorderType", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Specify window border type (1=small, 2=dialog, else=no border)" },
+    { "-menu", SET_RESOURCE, 0,
+      NULL, NULL, "Menubar", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable Main Menu Bar" },
+    { "+menu", SET_RESOURCE, 0,
+      NULL, NULL, "Menubar", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable Main Menu Bar" },
+    { NULL }
 };
 
 static const cmdline_option_t cmdline_options2[] = {
-    {"-logwin", SET_RESOURCE, 0,
-     NULL, NULL, "Logwin", (resource_value_t) 1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable Logging Window"},
-    {"+logwin", SET_RESOURCE, 0,
-     NULL, NULL, "Logwin", (resource_value_t) 0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable Logging Window"},
-    {NULL}
+    { "-logwin", SET_RESOURCE, 0,
+      NULL, NULL, "Logwin", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable Logging Window" },
+    { "+logwin", SET_RESOURCE, 0,
+      NULL, NULL, "Logwin", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable Logging Window" },
+    { NULL }
 };
 
 int video_init_cmdline_options(void)
@@ -1032,7 +1032,12 @@ void VideoCanvasBlit(video_canvas_t *c, UINT xs, UINT ys, UINT xi, UINT yi, UINT
     }
 #else
     {
-        RECTL rectl = {c->divesetup.lScreenPosX, c->divesetup.lScreenPosY, c->divesetup.lScreenPosX + c->width, c->divesetup.lScreenPosY + c->height};
+        RECTL rectl = {
+            c->divesetup.lScreenPosX,
+            c->divesetup.lScreenPosY,
+            c->divesetup.lScreenPosX + c->width,
+            c->divesetup.lScreenPosY + c->height
+        };
         rc = DiveAcquireFrameBuffer(c->hDiveInst, &rectl);
     }
     if (rc != DIVE_SUCCESS) {

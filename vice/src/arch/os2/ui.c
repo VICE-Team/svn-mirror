@@ -74,9 +74,9 @@ static int set_use_leds(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"UseLeds", 1, RES_EVENT_NO, NULL,
-     &use_leds, set_use_leds, NULL},
-    NULL
+    { "UseLeds", 1, RES_EVENT_NO, NULL,
+      &use_leds, set_use_leds, NULL },
+    { NULL }
 };
 
 int ui_resources_init(void)
@@ -89,17 +89,17 @@ void ui_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-leds", SET_RESOURCE, 0,
-     NULL, NULL, "UseLeds", (resource_value_t) 1,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable usage of PC keyboard LEDs"},
-    {"+leds", SET_RESOURCE, 0,
-     NULL, NULL, "UseLeds", (resource_value_t) 0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable usage of PC keyboard LEDs"},
-    NULL,
+    { "-leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable usage of PC keyboard LEDs" },
+    { "+leds", SET_RESOURCE, 0,
+      NULL, NULL, "UseLeds", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable usage of PC keyboard LEDs" },
+    { NULL }
 };
 
 int ui_cmdline_options_init(void)
@@ -186,7 +186,7 @@ void cbm2ui_shutdown(void)
 
 int ui_init_finish(void)
 {
-    DATETIME DT = {0}; // Date and time information
+    DATETIME DT = { 0 }; // Date and time information
 
     DosGetDateTime(&DT);
 

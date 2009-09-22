@@ -45,8 +45,7 @@
 
 #define nTYPES 7
 
-const char imgType[nTYPES][13]=
-{
+const char imgType[nTYPES][13] = {
     "<1541> *.d64",
     "<1541> *.g64",
     "<1541> *.x64",
@@ -56,8 +55,7 @@ const char imgType[nTYPES][13]=
     "<8250> *.d82"
 };
 
-const int imgRes[nTYPES]=
-{
+const int imgRes[nTYPES] = {
     DISK_IMAGE_TYPE_D64,
     DISK_IMAGE_TYPE_G64,
     DISK_IMAGE_TYPE_X64,

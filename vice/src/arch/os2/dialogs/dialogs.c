@@ -63,9 +63,9 @@ void ViceErrorDlg(HWND hwnd, int id, char *text)
     mbtemp.flStyle = BS_DEFAULT;
     mb.mb2d[0]=mbtemp;
 #else
-    MB2INFO mb = {sizeof(MB2INFO), WinLoadPointer(HWND_DESKTOP, NULLHANDLE, id),
+    MB2INFO mb = { sizeof(MB2INFO), WinLoadPointer(HWND_DESKTOP, NULLHANDLE, id),
                   1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE, "      OK      ",
-                  0, BS_DEFAULT};
+                  0, BS_DEFAULT };
 #endif
     WinMessageBox2(HWND_DESKTOP, hwnd, text, "VICE/2 Error", 0, &mb);
 }

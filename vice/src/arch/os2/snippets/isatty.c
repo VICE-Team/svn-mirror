@@ -2,5 +2,5 @@
 
 int isatty(int whatever)
 {
-  return 0;
+    return 0;
 }

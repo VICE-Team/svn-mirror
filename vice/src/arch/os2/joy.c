@@ -48,21 +48,26 @@ static log_t joylog = LOG_ERR;
 extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
 
 typedef enum {
-    KEYSET_N    = 0x0,
-    KEYSET_E    = 0x1,
-    KEYSET_S    = 0x2,
-    KEYSET_W    = 0x3,
-    KEYSET_NW   = 0x4,
-    KEYSET_NE   = 0x5,
-    KEYSET_SE   = 0x6,
-    KEYSET_SW   = 0x7,
-    KEYSET_FIRE = 0x8
+    KEYSET_N = 0,
+    KEYSET_E = 1,
+    KEYSET_S = 2,
+    KEYSET_W = 3,
+    KEYSET_NW = 4,
+    KEYSET_NE = 5,
+    KEYSET_SE = 6,
+    KEYSET_SW = 7,
+    KEYSET_FIRE = 8
 } joystick_directions_t;
 
 const int cbm_set[9] = {
-    CBM_NORTH, CBM_EAST, CBM_SOUTH, CBM_WEST,
-    CBM_NORTH|CBM_WEST,  CBM_NORTH|CBM_EAST,
-    CBM_SOUTH|CBM_EAST,  CBM_SOUTH|CBM_WEST,
+    CBM_NORTH,
+    CBM_EAST,
+    CBM_SOUTH,
+    CBM_WEST,
+    CBM_NORTH | CBM_WEST,
+    CBM_NORTH | CBM_EAST,
+    CBM_SOUTH | CBM_EAST,
+    CBM_SOUTH | CBM_WEST,
     CBM_FIRE
 };
 
@@ -132,10 +137,10 @@ static int set_joy(int v, void *param)
 }
 
 #define DEFINE_RES_SET_CALDATA(txt, num, dir, def) \
-    {txt, (int) def,                               \
-     RES_EVENT_NO, NULL,                           \
-     &(joy[num].direction[dir]), set_joy,          \
-     (void*)((num << 5) | dir)}
+    { txt, (int) def,                              \
+      RES_EVENT_NO, NULL,                          \
+      &(joy[num].direction[dir]), set_joy,         \
+      (void*)((num << 5) | dir) }
 
 static int set_keyset(int v, void *param)
 {
@@ -146,19 +151,19 @@ static int set_keyset(int v, void *param)
 }
 
 #define DEFINE_RES_SET_KEYDATA(txt, num, dir)  \
-    {txt, K_NONE, RES_EVENT_NO, NULL,          \
-     &(keyset[num][dir]), set_keyset,          \
-     (void*)((num << 5) | dir)}
+    { txt, K_NONE, RES_EVENT_NO, NULL,         \
+      &(keyset[num][dir]), set_keyset,         \
+      (void*)((num << 5) | dir) }
 
 static const resource_int_t resources_int[] = {
-    {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &cbm_joystick[0], set_cbm_joystick, (void *)0},
-    {"JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &cbm_joystick[1], set_cbm_joystick, (void *)1},
-    {"JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &cbm_joystick[2], set_cbm_joystick, (void *)2},
-    {"JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &cbm_joystick[3], set_cbm_joystick, (void *)3},
+    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[0], set_cbm_joystick, (void *)0 },
+    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[1], set_cbm_joystick, (void *)1 },
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[2], set_cbm_joystick, (void *)2 },
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[3], set_cbm_joystick, (void *)3 },
 
     DEFINE_RES_SET_CALDATA("JoyAup", 0, KEYSET_N, 200),
     DEFINE_RES_SET_CALDATA("JoyAdown", 0, KEYSET_S, 600),
@@ -200,53 +205,53 @@ int joystick_init_resources(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-joy1cal", CALL_FUNCTION, 0,
-     &set_joyA_autoCal, (void *) TRUE, NULL, 0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Start auto calibration for PC joystick #1"},
-    {"-joy2cal", CALL_FUNCTION, 0,
-     &set_joyB_autoCal, (void *) TRUE, NULL, 0,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Start auto calibration for PC joystick #2"},
-    NULL
+    { "-joy1cal", CALL_FUNCTION, 0,
+      &set_joyA_autoCal, (void *) TRUE, NULL, 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Start auto calibration for PC joystick #1" },
+    { "-joy2cal", CALL_FUNCTION, 0,
+      &set_joyB_autoCal, (void *) TRUE, NULL, 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Start auto calibration for PC joystick #2" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev1cmdline_options[] = {
-    {"-joydev1", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice1", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Set input device for CBM joystick port #1"},
-    NULL
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for CBM joystick port #1" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
-    {"-joydev2", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice2", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Set input device for CBM joystick port #2"},
-    NULL
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for CBM joystick port #2" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
-    {"-extrajoydev1", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice3", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Set input device for extra CBM joystick port #1"},
-    NULL
+    { "-extrajoydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for extra CBM joystick port #1" },
+    { NULL }
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
-    {"-extrajoydev2", SET_RESOURCE, 1,
-     NULL, NULL, "JoyDevice4", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<number>", "Set input device for extra CBM joystick port #2"},
-    NULL
+    { "-extrajoydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<number>", "Set input device for extra CBM joystick port #2" },
+    { NULL }
 };
 
 int joystick_init_cmdline_options(void)
@@ -525,7 +530,7 @@ static int handle_keyset_mapping(joystick_device_t pc_device, const int *set, kb
    keyboard interrupt, so take care when modifying this code!  */
 int joystick_handle_key(kbd_code_t kcode, int pressed)
 {
-    const int numpad[] = {K_KP8, K_KP6, K_KP2, K_KP4, K_KP7, K_KP9, K_KP3, K_KP1, K_KP0};
+    const int numpad[] = { K_KP8, K_KP6, K_KP2, K_KP4, K_KP7, K_KP9, K_KP3, K_KP1, K_KP0 };
 
     /* (Notice we have to handle all the keysets even when one key is used
        more than once (the most intuitive behavior), so we use `|' instead of

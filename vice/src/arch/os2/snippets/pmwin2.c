@@ -45,7 +45,7 @@ void WinLboxInsertMultitems(HWND hwnd, PSZ *txt, ULONG cnt)
     info.reserved = 0;
     info.reserved2 = 0;
 #else
-    LBOXINFO info = {LIT_END, cnt, 0, 0};
+    LBOXINFO info = { LIT_END, cnt, 0, 0 };
 #endif
 
     WinSendMsg(hwnd, LM_INSERTMULTITEMS, &info, txt);

@@ -62,9 +62,9 @@ static int set_hide_mouseptr(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"HideMousePtr", 0, RES_EVENT_NO, NULL,
-     &hide_mouseptr, set_hide_mouseptr, NULL},
-    {NULL}
+    { "HideMousePtr", 0, RES_EVENT_NO, NULL,
+      &hide_mouseptr, set_hide_mouseptr, NULL },
+    { NULL }
 };
 
 int mousedrv_resources_init(void)
@@ -75,17 +75,17 @@ int mousedrv_resources_init(void)
 /* ----------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-hidemouseptr", SET_RESOURCE, 0,
-     NULL, NULL, "HideMousePtr", (resource_value_t) 1,
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Enable hiding of mouse pointer inside the window"},
-    {"+hidemouseptr", SET_RESOURCE, 0,
-     NULL, NULL, "HideMousePtr", (resource_value_t) 0,
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     NULL, "Disable hiding of mouse pointer inside the window"},
-    {NULL}
+    { "-hidemouseptr", SET_RESOURCE, 0,
+      NULL, NULL, "HideMousePtr", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable hiding of mouse pointer inside the window" },
+    { "+hidemouseptr", SET_RESOURCE, 0,
+      NULL, NULL, "HideMousePtr", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable hiding of mouse pointer inside the window" },
+    { NULL }
 };
 
 int mousedrv_cmdline_options_init(void)

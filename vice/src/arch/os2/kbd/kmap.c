@@ -41,10 +41,10 @@
 
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
-static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {"KeymapSymFile", "KeymapPosFile"};
+static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = { "KeymapSymFile", "KeymapPosFile" };
 
 /* name of keymap file for symbolic and positional mappings */
-static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {NULL, NULL};
+static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = { NULL, NULL };
 
 static int set_keymap_file(int myindex, const char *name)
 {
@@ -81,11 +81,11 @@ static int set_keymap_pos_file(const char *val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {"KeymapSymFile", "default.vkm", RES_EVENT_NO, NULL,
-     &keymap_file_list[0], set_keymap_sym_file, NULL},
-    {"KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
-     &keymap_file_list[1], set_keymap_pos_file, NULL},
-    NULL
+    { "KeymapSymFile", "default.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[0], set_keymap_sym_file, NULL },
+    { "KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[1], set_keymap_pos_file, NULL },
+    { NULL }
 };
 
 int kbd_resources_init(void)
@@ -104,17 +104,17 @@ int kbd_resources_init(void)
 /* keymap command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    {"-symkeymap", SET_RESOURCE, 1,
+    { "-symkeymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapSymFile", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<name>", "Specify name of symbolic keymap file"},
-    {"-poskeymap", SET_RESOURCE, 1,
-     NULL, NULL, "KeymapPosFile", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDCLS_UNUSED, IDCLS_UNUSED,
-     "<name>", "Specify name of positional keymap file"},
-    NULL
+      "<name>", "Specify name of symbolic keymap file" },
+    { "-poskeymap", SET_RESOURCE, 1,
+      NULL, NULL, "KeymapPosFile", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<name>", "Specify name of positional keymap file" },
+    { NULL }
 };
 
 int kbd_cmdline_options_init(void)

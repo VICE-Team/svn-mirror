@@ -30,11 +30,11 @@
 #include "kbd.h"
 
 enum joystick_bits_s {
-    CBM_NORTH = 0x1,
-    CBM_SOUTH = 0x2,
-    CBM_WEST  = 0x4,
-    CBM_EAST  = 0x8,
-    CBM_FIRE  = 0x10
+    CBM_NORTH = 1,
+    CBM_SOUTH = 2,
+    CBM_WEST = 4,
+    CBM_EAST = 8,
+    CBM_FIRE = 16
 };
 typedef enum joystick_bits_s joystick_bits_t;
 
@@ -51,12 +51,12 @@ extern int joystick_handle_key(kbd_code_t kcode, int pressed);
 
 typedef int joystick_device_t;
 
-#define JOYDEV_NONE     0x00
-#define JOYDEV_HW1      0x01
-#define JOYDEV_HW2      0x02
-#define JOYDEV_NUMPAD   0x04
-#define JOYDEV_KEYSET1  0x08
-#define JOYDEV_KEYSET2  0x10
+#define JOYDEV_NONE    0x00
+#define JOYDEV_HW1     0x01
+#define JOYDEV_HW2     0x02
+#define JOYDEV_NUMPAD  0x04
+#define JOYDEV_KEYSET1 0x08
+#define JOYDEV_KEYSET2 0x10
 
 int set_joyA_autoCal(const char *value, void *extra_param);
 int set_joyB_autoCal(const char *value, void *extra_param);
@@ -124,9 +124,9 @@ typedef struct {
 } GAME_DATA_STRUCT;
 
 typedef struct {
-    GAME_POS  lower;
-    GAME_POS  centre;
-    GAME_POS  upper;
+    GAME_POS lower;
+    GAME_POS centre;
+    GAME_POS upper;
 } GAME_3POS_STRUCT;
 
 // status struct returned to OS/2 applications:
