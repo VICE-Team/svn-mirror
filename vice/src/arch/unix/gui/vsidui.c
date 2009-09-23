@@ -243,26 +243,24 @@ static UI_CALLBACK(psid_load)
     ui_button_t button;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SID, UILIB_FILTER_ALL };
 
-    filename = ui_select_file(_("Load PSID file"), NULL, 0, NULL,
-                              filter, sizeof(filter) / sizeof(*filter),
-                              &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Load PSID file"), NULL, 0, NULL, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
 
     vsync_suspend_speed_eval();
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (machine_autodetect_psid(filename) < 0) {
-          log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
-          return;
-        }
-        psid_init_driver();
-        machine_play_psid(0);
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        vsid_create_menus();
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (machine_autodetect_psid(filename) < 0) {
+                log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
+                return;
+            }
+            psid_init_driver();
+            machine_play_psid(0);
+            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            vsid_create_menus();
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
@@ -278,10 +276,10 @@ static UI_CALLBACK(psid_tune)
 #endif
 
 static ui_menu_entry_t ui_load_commands_menu[] = {
-  { N_("Load PSID file..."),
-    (ui_callback_t)psid_load, NULL, NULL,
-    KEYSYM_l, UI_HOTMOD_META },
-  { NULL }
+    { N_("Load PSID file..."),
+      (ui_callback_t)psid_load, NULL, NULL,
+      KEYSYM_l, UI_HOTMOD_META },
+    { NULL }
 };
 
 
@@ -303,105 +301,107 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
 static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
-  { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)3000, NULL },
-  { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)1000, NULL },
-  { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)500, NULL },
-  { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)100, NULL },
-  { NULL }
+    { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)3000, NULL },
+    { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)1000, NULL },
+    { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)500, NULL },
+    { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
+      (ui_callback_data_t)100, NULL },
+    { NULL }
 };
 */
+
 /*
 UI_MENU_DEFINE_TOGGLE(Sound)
 static ui_menu_entry_t sound_settings_submenu_vsid[] = {
-  { N_("*Enable sound playback"),
-    (ui_callback_t)toggle_Sound, NULL, NULL },
-  { "--" },
-  { N_("Sample rate"),
-    NULL, NULL, set_sound_sample_rate_submenu },
-  { N_("Buffer size"),
-    NULL, NULL, set_sound_buffer_size_submenu_vsid },
-  { N_("Oversample"),
-    NULL, NULL, set_sound_oversample_submenu },
-  { NULL },
+    { N_("*Enable sound playback"),
+      (ui_callback_t)toggle_Sound, NULL, NULL },
+    { "--" },
+    { N_("Sample rate"),
+      NULL, NULL, set_sound_sample_rate_submenu },
+    { N_("Buffer size"),
+      NULL, NULL, set_sound_buffer_size_submenu_vsid },
+    { N_("Oversample"),
+      NULL, NULL, set_sound_oversample_submenu },
+    { NULL },
 };
 */
+
 static ui_menu_entry_t ui_sound_settings_menu_vsid[] = {
-  { N_("Sound settings"),
-    NULL, NULL, sound_settings_submenu },
-  { NULL }
+    { N_("Sound settings"),
+      NULL, NULL, sound_settings_submenu },
+    { NULL }
 };
 
 UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
 
 static ui_menu_entry_t psid_menu[] = {
-  { N_("*Override PSID settings"),
-    (ui_callback_t)toggle_PSIDKeepEnv, NULL, NULL },
-  { N_("SID settings"),
-    NULL, NULL, sid_submenu },
-  { N_("Video standard"),
-    NULL, NULL, set_video_standard_submenu_vsid },
-  { NULL }
+    { N_("*Override PSID settings"),
+      (ui_callback_t)toggle_PSIDKeepEnv, NULL, NULL },
+    { N_("SID settings"),
+      NULL, NULL, sid_submenu },
+    { N_("Video standard"),
+      NULL, NULL, set_video_standard_submenu_vsid },
+    { NULL }
 };
 
 static ui_menu_entry_t vsidui_left_menu[] = {
-  { "--",
-    NULL, NULL, ui_load_commands_menu },
-  { "",
-    NULL, NULL, ui_tune_menu },
-  { "--",
-    NULL, NULL, ui_tool_commands_menu },
-  { "--",
-    NULL, NULL, ui_help_commands_menu },
-  { "--",
-    NULL, NULL, ui_run_commands_menu },
-  { "--",
-    NULL, NULL, ui_exit_commands_menu },
-  { NULL }
+    { "--",
+      NULL, NULL, ui_load_commands_menu },
+    { "",
+      NULL, NULL, ui_tune_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_help_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
 };
 
 static ui_menu_entry_t vsidui_right_menu[] = {
-  { "",
-    NULL, NULL, ui_sound_settings_menu_vsid },
-  { "--",
-    NULL, NULL, psid_menu },
-  { NULL }
+    { "",
+      NULL, NULL, ui_sound_settings_menu_vsid },
+    { "--",
+      NULL, NULL, psid_menu },
+    { NULL }
 };
 
 #ifdef USE_GNOMEUI
 static ui_menu_entry_t vsidui_file_menu[] = {
-  { "",
-    NULL, NULL, ui_load_commands_menu },
-  { "",
-    NULL, NULL, ui_tune_menu },
-  { "--",
-    NULL, NULL, ui_tool_commands_menu },
-  { "--",
-    NULL, NULL, ui_help_commands_menu },
-  { "--",
-    NULL, NULL, ui_run_commands_menu },
-  { "--",
-    NULL, NULL, ui_exit_commands_menu },
-  { NULL }
+    { "",
+      NULL, NULL, ui_load_commands_menu },
+    { "",
+      NULL, NULL, ui_tune_menu },
+    { "--",
+      NULL, NULL, ui_tool_commands_menu },
+    { "--",
+      NULL, NULL, ui_help_commands_menu },
+    { "--",
+      NULL, NULL, ui_run_commands_menu },
+    { "--",
+      NULL, NULL, ui_exit_commands_menu },
+    { NULL }
 };
 
 static ui_menu_entry_t vsidui_settings_menu[] = {
-  { "",
-    NULL, NULL, ui_sound_settings_menu_vsid },
-  { "--",
-    NULL, NULL, psid_menu },
-  { NULL }
+    { "",
+      NULL, NULL, ui_sound_settings_menu_vsid },
+    { "--",
+      NULL, NULL, psid_menu },
+    { NULL }
 };
 
 static ui_menu_entry_t vsidui_top_menu[] = {
-  { N_("File"),
-    NULL, NULL, vsidui_file_menu },
-  { N_("Settings"),
-    NULL, NULL, vsidui_settings_menu },
-  { NULL }
+    { N_("File"),
+      NULL, NULL, vsidui_file_menu },
+    { N_("Settings"),
+      NULL, NULL, vsidui_settings_menu },
+    { NULL }
 };
 #endif	/* USE_GNOMEUI */
 
@@ -429,24 +429,19 @@ static void vsid_create_menus(void)
 
     /* Build tune menu. */
     for (i = 0; i <= tunes; i++) {
-        tune_menu[i].string =
-            (ui_callback_data_t)lib_stralloc(buf);
-        tune_menu[i].callback =
-            (ui_callback_t) radio_PSIDTune;
-        tune_menu[i].callback_data =
-            (ui_callback_data_t)(long) i;
+        tune_menu[i].string = (ui_callback_data_t)lib_stralloc(buf);
+        tune_menu[i].callback = (ui_callback_t) radio_PSIDTune;
+        tune_menu[i].callback_data = (ui_callback_data_t)(long)i;
         tune_menu[i].sub_menu = NULL;
         tune_menu[i].hotkey_keysym = i < 10 ? KEYSYM_0 + i : 0;
-        tune_menu[i].hotkey_modifier =
-            (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
+        tune_menu[i].hotkey_modifier = (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
         lib_free(buf);
         buf = lib_msprintf(_("*Tune %d"), i + 1);
     }
 
     lib_free(buf);
 
-    tune_menu[i].string =
-        (ui_callback_data_t) NULL;
+    tune_menu[i].string = (ui_callback_data_t) NULL;
 
     ui_tune_menu[0].sub_menu = tune_menu;
 
@@ -468,11 +463,11 @@ int vsid_ui_init(void)
     int res;
     video_canvas_t canvas;
 
-    res = ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 
-				100, 0);
-    if (res < 0)
+    res = ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 100, 0);
+    if (res < 0) {
         return -1;
-    
+    }
+
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
 
@@ -505,16 +500,14 @@ void vsid_ui_display_copyright(const char *copyright)
 void vsid_ui_display_sync(int sync)
 {
     char buf[50];
-    sprintf(buf, "Using %s sync",
-	    sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    sprintf(buf, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
     log_message(LOG_DEFAULT, "%s", buf);
     ui_vsid_setsync(buf);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    log_message(LOG_DEFAULT, "Using %s emulation",
-		model == 0 ? "MOS6581" : "MOS8580");
+    log_message(LOG_DEFAULT, "Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
     ui_vsid_setmodel(model == 0 ? "MOS6581" : "MOS8580");
 }
 

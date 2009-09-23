@@ -32,7 +32,6 @@
 #include "uimenu.h"
 #include "uirs232user.h"
 
-
 UI_MENU_DEFINE_RADIO(RsUserDev)
 
 ui_menu_entry_t rs232user_device_submenu[] = {
@@ -64,4 +63,3 @@ ui_menu_entry_t rs232user_baudrate_submenu[] = {
       (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)9600, NULL },
     { NULL }
 };
-

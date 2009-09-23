@@ -35,9 +35,7 @@
 #include "uimenu.h"
 #include "vsync.h"
 
-
-void uilib_select_string(const char *resname, const char *title,
-                         const char *name)
+void uilib_select_string(const char *resname, const char *title, const char *name)
 {
     ui_button_t button;
     const char *value;
@@ -48,21 +46,23 @@ void uilib_select_string(const char *resname, const char *title,
 
     resources_get_string(resname, &value);
 
-    if (value == NULL)
+    if (value == NULL) {
         value = "";
+    }
 
     len = strlen(value) * 2;
-    if (len < 255)
+    if (len < 255) {
         len = 255;
+    }
 
     new_value = lib_calloc(1, len + 1);
     strncpy(new_value, value, len);
 
     button = ui_input_string(title, name, new_value, len);
 
-    if (button == UI_BUTTON_OK)
+    if (button == UI_BUTTON_OK) {
         resources_set_string(resname, new_value);
+    }
 
     lib_free(new_value);
 }
-

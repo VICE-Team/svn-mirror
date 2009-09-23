@@ -32,15 +32,13 @@
 #include "uimenu.h"
 #include "uiramcart.h"
 
-
 UI_MENU_DEFINE_TOGGLE(RAMCART)
 UI_MENU_DEFINE_RADIO(RAMCARTsize)
 UI_MENU_DEFINE_TOGGLE(RAMCART_RO)
 
 UI_CALLBACK(set_ramcart_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("RAMCART image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("RAMCART image name"), _("Name:"));
 }
 
 static ui_menu_entry_t ramcart_size_submenu[] = {
@@ -63,4 +61,3 @@ ui_menu_entry_t ramcart_submenu[] = {
       (ui_callback_data_t)"RAMCARTfilename", NULL },
     { NULL }
 };
-

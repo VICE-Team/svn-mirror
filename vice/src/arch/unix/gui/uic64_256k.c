@@ -37,8 +37,7 @@ UI_MENU_DEFINE_RADIO(C64_256Kbase)
 
 UI_CALLBACK(set_c64_256k_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("256K image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("256K image name"), _("Name:"));
 }
 
 static ui_menu_entry_t c64_256k_base_submenu[] = {

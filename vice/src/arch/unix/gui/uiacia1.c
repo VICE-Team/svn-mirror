@@ -32,7 +32,6 @@
 #include "uiacia1.h"
 #include "uimenu.h"
 
-
 UI_MENU_DEFINE_RADIO(Acia1Dev)
 
 ui_menu_entry_t uiacia1_device_submenu[] = {
@@ -46,4 +45,3 @@ ui_menu_entry_t uiacia1_device_submenu[] = {
       (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)3, NULL },
     { NULL }
 };
-

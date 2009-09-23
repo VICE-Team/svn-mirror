@@ -32,14 +32,12 @@
 #include "uimenu.h"
 #include "uipetreu.h"
 
-
 UI_MENU_DEFINE_TOGGLE(PETREU)
 UI_MENU_DEFINE_RADIO(PETREUsize)
 
 UI_CALLBACK(set_petreu_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PETREU image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PETREU image name"), _("Name:"));
 }
 
 static ui_menu_entry_t petreu_size_submenu[] = {

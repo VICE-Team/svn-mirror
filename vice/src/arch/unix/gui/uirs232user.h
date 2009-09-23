@@ -33,4 +33,3 @@ extern struct ui_menu_entry_s rs232user_device_submenu[];
 extern struct ui_menu_entry_s rs232user_baudrate_submenu[];
 
 #endif
-

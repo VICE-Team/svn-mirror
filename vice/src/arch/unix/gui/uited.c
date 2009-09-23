@@ -39,6 +39,7 @@
 #include "openGL_sync.h"
 
 #include "uifullscreen-menu.h"
+
 UI_FULLSCREEN(TED, KEYSYM_d)
 
 /*
@@ -65,13 +66,17 @@ UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
+
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 #endif
+
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
+
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
@@ -85,10 +90,11 @@ static UI_CALLBACK(color_set)
 
         resources_get_int("TEDExternalPalette", &val);
 
-        if (val)
+        if (val) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 
@@ -144,4 +150,3 @@ void uited_menu_shutdown(void)
 {
     UI_FULLSCREEN_MENU_SHUTDOWN(TED);
 }
-

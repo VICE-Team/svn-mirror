@@ -34,6 +34,7 @@
 #include "uivdc.h"
 
 #include "uifullscreen-menu.h"
+
 UI_FULLSCREEN(VDC, KEYSYM_f)
 
 UI_MENU_DEFINE_STRING_RADIO(VDCPaletteFile)
@@ -64,9 +65,11 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
+
 UI_MENU_DEFINE_TOGGLE(VDC64KB)
 
 ui_menu_entry_t vdc_submenu[] = {

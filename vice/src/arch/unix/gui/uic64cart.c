@@ -42,7 +42,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 static UI_CALLBACK(attach_cartridge)
 {
     int type = vice_ptr_to_int(UI_MENU_CB_PARAM);
@@ -50,40 +49,37 @@ static UI_CALLBACK(attach_cartridge)
     vsync_suspend_speed_eval();
 
     switch (type) {
-      case CARTRIDGE_EXPERT:
-        /*
-         * Expert cartridge has *no* image file.
-         * It's only emulation that should be enabled!
-         */
-        if (cartridge_attach_image(type, NULL) < 0)
-            ui_error(_("Cannot attach cartridge"));
-        break;
-
-      default:
-        {
-            char *filename;
-            ui_button_t button;
-            static char *last_dir;
-            uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
-
-            filename = ui_select_file(_("Attach cartridge image"),
-                                      NULL, 0, last_dir,
-                                      filter, sizeof(filter) / sizeof(*filter),
-                                      &button, 0, NULL, UI_FC_LOAD);
-
-            switch (button) {
-              case UI_BUTTON_OK:
-                if (cartridge_attach_image(type, filename) < 0)
-                    ui_error(_("Cannot attach cartridge"));
-                lib_free(last_dir);
-                util_fname_split(filename, &last_dir, NULL);
-                break;
-              default:
-                /* Do nothing special. */
-                break;
+        case CARTRIDGE_EXPERT:
+            /*
+             * Expert cartridge has *no* image file.
+             * It's only emulation that should be enabled!
+             */
+            if (cartridge_attach_image(type, NULL) < 0) {
+                ui_error(_("Cannot attach cartridge"));
             }
-            lib_free(filename);
-        }
+            break;
+        default:
+            {
+                char *filename;
+                ui_button_t button;
+                static char *last_dir;
+                uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
+
+                filename = ui_select_file(_("Attach cartridge image"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
+                switch (button) {
+                    case UI_BUTTON_OK:
+                        if (cartridge_attach_image(type, filename) < 0) {
+                            ui_error(_("Cannot attach cartridge"));
+                        }
+                        lib_free(last_dir);
+                        util_fname_split(filename, &last_dir, NULL);
+                        break;
+                    default:
+                        /* Do nothing special. */
+                        break;
+                }
+                lib_free(filename);
+            }
     }
     ui_update_menus();
 }
@@ -110,12 +106,12 @@ static UI_CALLBACK(control_cartridge)
         ui_update_menus();
     } else {
         switch (mem_cartridge_type) {
-          case CARTRIDGE_EXPERT:
-            ui_menu_set_sensitive(w, 1);
-            break;
-          default:
-            ui_menu_set_sensitive(w, 0);
-            break;
+            case CARTRIDGE_EXPERT:
+                ui_menu_set_sensitive(w, 1);
+                break;
+            default:
+                ui_menu_set_sensitive(w, 0);
+                break;
         }
     }
 }
@@ -128,11 +124,11 @@ static UI_CALLBACK(save_cartridge)
 UI_MENU_DEFINE_RADIO(CartridgeMode)
 
 static ui_menu_entry_t cartridge_control_submenu[] = {
-    { "*Prg", (ui_callback_t)radio_CartridgeMode,
+    { N_("*Prg"), (ui_callback_t)radio_CartridgeMode,
       (ui_callback_data_t)CARTRIDGE_MODE_PRG, NULL },
-    { "*Off", (ui_callback_t)radio_CartridgeMode,
+    { N_("*Off"), (ui_callback_t)radio_CartridgeMode,
       (ui_callback_data_t)CARTRIDGE_MODE_OFF, NULL },
-    { "*On", (ui_callback_t)radio_CartridgeMode,
+    { N_("*On"), (ui_callback_t)radio_CartridgeMode,
       (ui_callback_data_t)CARTRIDGE_MODE_ON, NULL },
     { "--" },
     { N_("Save cartridge image..."),
@@ -209,4 +205,3 @@ ui_menu_entry_t ui_c64cart_commands_menu[] = {
       (ui_callback_data_t)0, cartridge_control_submenu },
     { NULL }
 };
-

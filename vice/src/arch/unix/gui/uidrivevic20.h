@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s ui_drivevic20_settings_menu[];
 
 #endif
-

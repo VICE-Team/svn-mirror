@@ -44,22 +44,22 @@
 #include "util.h"
 #include "vsync.h"
 
-
 static UI_CALLBACK(set_keymap_type)
 {
-     int kindex, newindex = vice_ptr_to_int(UI_MENU_CB_PARAM);
+    int kindex, newindex = vice_ptr_to_int(UI_MENU_CB_PARAM);
 
-     if (resources_get_int("KeymapIndex", &kindex) < 0)
-         return;
+    if (resources_get_int("KeymapIndex", &kindex) < 0) {
+        return;
+    }
 
-     if (!CHECK_MENUS) {
+    if (!CHECK_MENUS) {
         if ((kindex & 1) != newindex) {
             resources_set_int("KeymapIndex", (kindex & ~1) + newindex);
             ui_update_menus();
         }
-     } else {
+    } else {
         ui_menu_set_tick(w, (kindex & 1) == newindex);
-     }
+    }
 }
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
@@ -84,19 +84,17 @@ static UI_CALLBACK(select_user_keymap)
     resname = machine_keymap_res_name_list[kindex];
 
     vsync_suspend_speed_eval();
-    filename = ui_select_file(_("Read Keymap File"), NULL, 0, last_dir,
-                              filter, sizeof(filter) / sizeof(*filter),
-                              &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Read Keymap File"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
-      case UI_BUTTON_OK:
-        resources_set_string(resname, filename);
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            resources_set_string(resname, filename);
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
@@ -111,10 +109,10 @@ static UI_CALLBACK(dump_keymap)
 
     ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"),
-                        wd, len) == UI_BUTTON_OK) {
-        if (keyboard_keymap_dump(wd) < 0)
+    if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"), wd, len) == UI_BUTTON_OK) {
+        if (keyboard_keymap_dump(wd) < 0) {
             ui_error(strerror(errno));
+        }
     }
     lib_free(wd);
 }
@@ -138,4 +136,3 @@ ui_menu_entry_t uikeyboard_settings_menu[] = {
       NULL, NULL, keyboard_settings_submenu },
     { NULL }
 };
-

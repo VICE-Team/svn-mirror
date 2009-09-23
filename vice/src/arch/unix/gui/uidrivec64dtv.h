@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s ui_drivec64dtv_settings_menu[];
 
 #endif
-

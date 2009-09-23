@@ -55,7 +55,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 static UI_CALLBACK(change_working_directory)
 {
     char *wd;
@@ -67,18 +66,16 @@ static UI_CALLBACK(change_working_directory)
     ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
 #ifdef USE_GNOMEUI
-    if (ui_change_dir(_("VICE setting"),
-		      _("Change current working directory"),
-		      wd, len) == UI_BUTTON_OK) {
-        if (ioutil_chdir(wd) < 0)
+    if (ui_change_dir(_("VICE setting"), _("Change current working directory"), wd, len) == UI_BUTTON_OK) {
+        if (ioutil_chdir(wd) < 0) {
             ui_error(_("Directory not found"));
+        }
     }
 #else
-    if (ui_input_string(_("VICE setting"),
-                        _("Change current working directory"),
-                        wd, len) == UI_BUTTON_OK) {
-        if (ioutil_chdir(wd) < 0)
+    if (ui_input_string(_("VICE setting"), _("Change current working directory"), wd, len) == UI_BUTTON_OK) {
+        if (ioutil_chdir(wd) < 0) {
             ui_error(_("Directory not found"));
+        }
     }
 #endif
     lib_free(wd);
@@ -96,10 +93,9 @@ static UI_CALLBACK(activate_monitor)
 #ifdef HAVE_MOUSE
     ui_restore_mouse();
 #endif
-    if (!ui_emulation_is_paused())
+    if (!ui_emulation_is_paused()) {
         monitor_startup_trap();
-    else
-    {
+    } else {
         monitor_startup();
 #ifdef HAVE_FULLSCREEN
 	fullscreen_resume();
@@ -115,16 +111,16 @@ static UI_CALLBACK(run_c1541)
     vsync_suspend_speed_eval();
     sound_close();
     switch (system("xterm -sb -e c1541 &")) {
-      case 127:
-        ui_error(_("Couldn't run /bin/sh???"));
-        break;
-      case -1:
-        ui_error(_("Couldn't run xterm"));
-        break;
-      case 0:
-        break;
-      default:
-        ui_error(_("Unknown error while running c1541"));
+        case 127:
+            ui_error(_("Couldn't run /bin/sh???"));
+            break;
+        case -1:
+            ui_error(_("Couldn't run xterm"));
+            break;
+        case 0:
+            break;
+        default:
+            ui_error(_("Unknown error while running c1541"));
     }
 }
 
@@ -152,8 +148,7 @@ static UI_CALLBACK(browse_manual)
 
     resources_get_string("HTMLBrowserCommand", &bcommand);
 
-    if (bcommand == NULL ||
-        *bcommand == '\0') {
+    if (bcommand == NULL || *bcommand == '\0') {
         ui_error(_("No HTML browser is defined."));
     } else {
         /* FIXME: Argh.  Ugly!  */
@@ -165,7 +160,7 @@ static UI_CALLBACK(browse_manual)
         const char *boot_path;
         boot_path = archdep_boot_path();
         char *manual_path;
-        manual_path = util_concat(boot_path,"/../doc/vice_toc.html",NULL);
+        manual_path = util_concat(boot_path, "/../doc/vice_toc.html", NULL);
 #else
         static const char manual_path[] = DOCDIR "/vice_toc.html";
 #endif
@@ -224,8 +219,9 @@ static UI_CALLBACK(browse_manual)
         }
 
         log_debug("Executing `%s'...", buf);
-        if (system(buf) != 0)
+        if (system(buf) != 0) {
             ui_error(_("Cannot run HTML browser."));
+        }
             
 #ifdef MACOSX_BUNDLE
         lib_free(manual_path);
@@ -272,10 +268,7 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
         filename = (char *)data;
     } else {
         uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SNAPSHOT, UILIB_FILTER_ALL };
-        filename = ui_select_file(_("Load snapshot"), NULL, 0,
-                                  load_snapshot_last_dir,
-                                  filter, sizeof(filter) / sizeof(*filter),
-                                  &button, 0, NULL, UI_FC_LOAD);
+        filename = ui_select_file(_("Load snapshot"), NULL, 0, load_snapshot_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
         if (button != UI_BUTTON_OK) {
             lib_free(filename);
             return;
@@ -284,8 +277,9 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
     lib_free(load_snapshot_last_dir);
     util_fname_split(filename, &load_snapshot_last_dir, NULL);
 
-    if (machine_read_snapshot(filename, 0) < 0)
+    if (machine_read_snapshot(filename, 0) < 0) {
         ui_error(_("Cannot load snapshot file\n`%s'"), filename);
+    }
     ui_update_menus();
 
     lib_free(filename);
@@ -293,21 +287,22 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
 
 static UI_CALLBACK(load_snapshot)
 {
-    if (!ui_emulation_is_paused())
+    if (!ui_emulation_is_paused()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)0);
-    else
+    } else {
         load_snapshot_trap(0, 0);
+    }
 }
 
 static UI_CALLBACK(load_quicksnap)
 {
-    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
-        machine_name, ".vsf", NULL);
+    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", machine_name, ".vsf", NULL);
 
-    if (!ui_emulation_is_paused())
+    if (!ui_emulation_is_paused()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)fname);
-    else
+    } else {
         load_snapshot_trap(0, (void *)fname);
+    }
 }
 
 static void save_snapshot_trap(WORD unused_addr, void *data)
@@ -333,8 +328,7 @@ static UI_CALLBACK(save_snapshot)
 
 static UI_CALLBACK(save_quicksnap)
 {
-    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
-        machine_name, ".vsf", NULL);
+    char *fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/", machine_name, ".vsf", NULL);
 
     interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)fname);
 }
@@ -350,17 +344,15 @@ static UI_CALLBACK(events_select_dir)
 
     ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"),
-                        _("Select history directory"),
-                        wd, len) == UI_BUTTON_OK) {
+    if (ui_input_string(_("VICE setting"), _("Select history directory"), wd, len) == UI_BUTTON_OK) {
         ioutil_stat(wd, &i, &is_dir);
-	if (!is_dir)
+        if (!is_dir) {
             ui_error(_("Directory not found"));
-	else
-	    resources_set_string("EventSnapshotDir", wd);
+        } else {
+            resources_set_string("EventSnapshotDir", wd);
+        }
     }
     lib_free(wd);
-    
 }
 
 static UI_CALLBACK(record_events_start)
@@ -407,10 +399,8 @@ static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
     vsync_suspend_speed_eval();
 
     resources_set_string("SoundRecordDeviceName", "");
-    s = ui_select_file(_("Record sound to file"), NULL, 0, NULL,
-                              &extension, 1, &button, 0, NULL, UI_FC_LOAD);
-    if (button == UI_BUTTON_OK && s != NULL)
-    {
+    s = ui_select_file(_("Record sound to file"), NULL, 0, NULL, &extension, 1, &button, 0, NULL, UI_FC_LOAD);
+    if (button == UI_BUTTON_OK && s != NULL) {
         util_add_extension(&s, format);
         resources_set_string("SoundRecordDeviceArg", s);
         resources_set_string("SoundRecordDeviceName", format);
@@ -422,28 +412,28 @@ static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
 
 static UI_CALLBACK(sound_record_wav)
 {
-    sound_record_start("wav",UILIB_FILTER_WAV);
+    sound_record_start("wav", UILIB_FILTER_WAV);
 }
 
 static UI_CALLBACK(sound_record_voc)
 {
-    sound_record_start("voc",UILIB_FILTER_VOC);
+    sound_record_start("voc", UILIB_FILTER_VOC);
 }
 
 static UI_CALLBACK(sound_record_iff)
 {
-    sound_record_start("iff",UILIB_FILTER_IFF);
+    sound_record_start("iff", UILIB_FILTER_IFF);
 }
 
 static UI_CALLBACK(sound_record_aiff)
 {
-    sound_record_start("aiff",UILIB_FILTER_AIFF);
+    sound_record_start("aiff", UILIB_FILTER_AIFF);
 }
 
 #ifdef USE_LAMEMP3
 static UI_CALLBACK(sound_record_mp3)
 {
-    sound_record_start("mp3",UILIB_FILTER_MP3);
+    sound_record_start("mp3", UILIB_FILTER_MP3);
 }
 #endif
 

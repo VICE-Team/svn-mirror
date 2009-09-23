@@ -37,13 +37,11 @@
 #include "uimenu.h"
 #include "uiromset.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_RADIO(Drive8ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive9ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive10ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive11ParallelCable)
-
 
 static UI_CALLBACK(parallel_cable_control)
 {
@@ -52,13 +50,13 @@ static UI_CALLBACK(parallel_cable_control)
     } else {
         int type;
 
-        resources_get_int_sprintf("Drive%iType", &type,
-                                  vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
+        resources_get_int_sprintf("Drive%iType", &type, vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
 
-        if (drive_check_parallel_cable(type))
+        if (drive_check_parallel_cable(type)) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 
@@ -291,4 +289,3 @@ ui_menu_entry_t ui_driveplus4_romset_submenu[] = {
       (ui_callback_data_t)"DosName1581", NULL },
     { NULL }
 };
-

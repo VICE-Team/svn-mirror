@@ -32,7 +32,6 @@
 #include "uimenu.h"
 #include "uimmc64.h"
 
-
 UI_MENU_DEFINE_TOGGLE(MMC64)
 UI_MENU_DEFINE_RADIO(MMC64_revision)
 UI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
@@ -41,20 +40,18 @@ UI_MENU_DEFINE_TOGGLE(MMC64_RO)
 
 UI_CALLBACK(set_mmc64_bios_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC64 BIOS name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC64 BIOS name"), _("Name:"));
 }
 
 UI_CALLBACK(set_mmc64_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC64 image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC64 image name"), _("Name:"));
 }
 
 static ui_menu_entry_t mmc64_revision_submenu[] = {
-    { "*Rev. A", (ui_callback_t)radio_MMC64_revision,
+    { N_("*Rev. A"), (ui_callback_t)radio_MMC64_revision,
       (ui_callback_data_t)0, NULL },
-    { "*Rev. B", (ui_callback_t)radio_MMC64_revision,
+    { N_("*Rev. B"), (ui_callback_t)radio_MMC64_revision,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };

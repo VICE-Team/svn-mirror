@@ -37,7 +37,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_STRING_RADIO(Printer4Driver)
 
 ui_menu_entry_t uiprinter_pr4_driver_submenu[] = {
@@ -124,17 +123,16 @@ UI_CALLBACK(set_printer_dump_file)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Select printer dump file"),
-                              NULL, False, last_dir, NULL, &button, False);
+    filename = ui_select_file(_("Select printer dump file"), NULL, False, last_dir, NULL, &button, False);
     switch (button) {
-      case UI_BUTTON_OK:
-        resources_set_string(resource, filename);
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            resources_set_string(resource, filename);
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
@@ -142,9 +140,7 @@ UI_CALLBACK(set_printer_dump_file)
 
 UI_CALLBACK(uiprinter_set_printer_exec_file)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM,
-                        _("Command to execute for printing (preceed with '|')"),
-                        _("Command:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for printing (preceed with '|')"), _("Command:"));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -182,4 +178,3 @@ UI_CALLBACK(uiprinter_formfeed)
 {
     printer_formfeed(vice_ptr_to_uint(UI_MENU_CB_PARAM));
 }
-

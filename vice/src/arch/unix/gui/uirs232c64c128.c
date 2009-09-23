@@ -35,7 +35,6 @@
 #include "uirs232c64c128.h"
 #include "uirs232user.h"
 
-
 UI_MENU_DEFINE_RADIO(Acia1Irq)
 
 static ui_menu_entry_t uiacia1_irq_submenu[] = {

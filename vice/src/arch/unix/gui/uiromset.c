@@ -41,7 +41,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 UI_CALLBACK(ui_set_romset)
 {
     machine_romset_file_load(UI_MENU_CB_PARAM);
@@ -57,20 +56,19 @@ UI_CALLBACK(ui_load_rom_file)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Load ROM file"),
-                              NULL, 0, last_dir, &filter, 1, &button,
-                              0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Load ROM file"), NULL, 0, last_dir, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0)
-            ui_error(_("Could not load ROM file\n'%s'"), filename);
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0) {
+                ui_error(_("Could not load ROM file\n'%s'"), filename);
+            }
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     ui_update_menus();
     lib_free(filename);
@@ -84,9 +82,9 @@ UI_CALLBACK(ui_unload_rom_file)
 UI_MENU_DEFINE_RADIO(RomsetSourceFile)
 
 ui_menu_entry_t uiromset_type_submenu[] = {
-    { "*Archive", (ui_callback_t)radio_RomsetSourceFile,
+    { N_("*Archive"), (ui_callback_t)radio_RomsetSourceFile,
       (ui_callback_data_t)0, NULL },
-    { "*File", (ui_callback_t)radio_RomsetSourceFile,
+    { N_("*File"), (ui_callback_t)radio_RomsetSourceFile,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };
@@ -100,21 +98,19 @@ static UI_CALLBACK(uiromset_archive_load)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Load custom ROM set archive"),
-                              NULL, 0, last_dir,
-                              filter, sizeof(filter) / sizeof(*filter),
-                              &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Load custom ROM set archive"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (romset_archive_load(filename, 0) < 0)
-            ui_error(_("Could not load ROM set archive\n'%s'"), filename);
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (romset_archive_load(filename, 0) < 0) {
+                ui_error(_("Could not load ROM set archive\n'%s'"), filename);
+            }
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
 
     ui_update_menus();
@@ -133,11 +129,11 @@ static UI_CALLBACK(uiromset_archive_save)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("File to save ROM set archive to"),
-                             _("ROM set archive:"), new_value, len);
+    button = ui_input_string(_("File to save ROM set archive to"), _("ROM set archive:"), new_value, len);
 
-    if (button == UI_BUTTON_OK)
+    if (button == UI_BUTTON_OK) {
         romset_archive_save(new_value);
+    }
 
     lib_free(new_value);
 }
@@ -164,11 +160,11 @@ static UI_CALLBACK(uiromset_archive_item_create)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("ROM set item name to create"),
-                             _("ROM set name:"), new_value, len);
+    button = ui_input_string(_("ROM set item name to create"), _("ROM set name:"), new_value, len);
 
-    if (button == UI_BUTTON_OK)
+    if (button == UI_BUTTON_OK) {
         machine_romset_archive_item_create(new_value);
+    }
 
     lib_free(new_value);
 }
@@ -180,8 +176,7 @@ static UI_CALLBACK(uiromset_archive_item_delete)
 
     if (!CHECK_MENUS) {
         vsync_suspend_speed_eval();
-        button = ui_input_string(_("Delete configuration"), _("Enter name"),
-                                 input_string, 32);
+        button = ui_input_string(_("Delete configuration"), _("Enter name"), input_string, 32);
         if (button == UI_BUTTON_OK) {
             romset_archive_item_delete(input_string);
             ui_update_menus();
@@ -199,12 +194,12 @@ static UI_CALLBACK(uiromset_archive_item_select)
         /* FIXME: Apparently there are no boundary checks! */
         resources_get_string("RomsetArchiveActive", &active);
 
-        if (!*input_string)
+        if (!*input_string) {
             sprintf(input_string, "%s", active);
+        }
 
         vsync_suspend_speed_eval();
-        button = ui_input_string(_("Active configuration"), _("Enter name"),
-                                 input_string, 32);
+        button = ui_input_string(_("Active configuration"), _("Enter name"), input_string, 32);
         if (button == UI_BUTTON_OK) {
             resources_set_string("RomsetArchiveActive", input_string);
             ui_update_menus();
@@ -242,21 +237,19 @@ static UI_CALLBACK(uiromset_file_load)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Load custom ROM set file"),
-                              NULL, 0, last_dir,
-                              filter, sizeof(filter) / sizeof(*filter),
-                              &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Load custom ROM set file"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (machine_romset_file_load(filename) < 0)
-            ui_error(_("Could not load ROM set file\n'%s'"), filename);
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (machine_romset_file_load(filename) < 0) {
+                ui_error(_("Could not load ROM set file\n'%s'"), filename);
+            }
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
 
     ui_update_menus();
@@ -275,11 +268,11 @@ static UI_CALLBACK(uiromset_file_save)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("File to save ROM set definition to"),
-                             _("ROM set file:"), new_value, len);
+    button = ui_input_string(_("File to save ROM set definition to"), _("ROM set file:"), new_value, len);
 
-    if (button == UI_BUTTON_OK)
+    if (button == UI_BUTTON_OK) {
         machine_romset_file_save(new_value);
+    }
 
     lib_free(new_value);
 }
@@ -304,4 +297,3 @@ ui_menu_entry_t uiromset_file_submenu[] = {
       (ui_callback_t)uiromset_file_list, NULL, NULL },
     { NULL }
 };
-

@@ -35,9 +35,7 @@
 #include "uidrivevic20.h"
 #include "uimenu.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-
 
 static ui_menu_entry_t uidrivevic20_drive0_expansion_submenu[] = {
     { "",
@@ -122,4 +120,3 @@ ui_menu_entry_t ui_drivevic20_settings_menu[] = {
       NULL, NULL, drivevic20_settings_submenu },
     { NULL }
 };
-

@@ -37,6 +37,7 @@
 #include "openGL_sync.h"
 
 #include "uifullscreen-menu.h"
+
 UI_FULLSCREEN(CRTC, KEYSYM_f)
 
 UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
@@ -58,9 +59,11 @@ UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcScale2x)
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
+
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif

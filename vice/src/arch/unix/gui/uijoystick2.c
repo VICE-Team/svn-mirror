@@ -37,7 +37,6 @@
 #include "vsync.h"
 #include "uijoystickkeys.h"
 
-
 static UI_CALLBACK(set_joystick_device_1)
 {
     int tmp;
@@ -94,8 +93,9 @@ static UI_CALLBACK(swap_joystick_ports)
 {
     int tmp1, tmp2;
 
-    if (w != NULL)
+    if (w != NULL) {
         vsync_suspend_speed_eval();
+    }
     resources_get_int("JoyDevice1", &tmp1);
     resources_get_int("JoyDevice2", &tmp2);
     resources_set_int("JoyDevice1", tmp2);
@@ -107,8 +107,9 @@ static UI_CALLBACK(swap_userport_joystick_ports)
 {
     int tmp3, tmp4;
 
-    if (w != NULL)
+    if (w != NULL) {
         vsync_suspend_speed_eval();
+    }
     resources_get_int("JoyDevice3", &tmp3);
     resources_get_int("JoyDevice4", &tmp4);
     resources_set_int("JoyDevice3", tmp4);
@@ -123,27 +124,27 @@ UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 UI_MENU_DEFINE_RADIO(ExtraJoyType)
 
 static ui_menu_entry_t userport_joystick_type_c64_submenu[] = {
-    { "*CGA userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*CGA userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
-    { "*PET userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*PET userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
-    { "*Hummer userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*Hummer userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
-    { "*OEM userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*OEM userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
-    { "*HIT userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*HIT userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_HIT, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t userport_joystick_type_submenu[] = {
-    { "*CGA userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*CGA userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
-    { "*PET userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*PET userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
-    { "*Hummer userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*Hummer userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
-    { "*OEM userport joystick adapter", (ui_callback_t)radio_ExtraJoyType,
+    { N_("*OEM userport joystick adapter"), (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
     { NULL }
 };

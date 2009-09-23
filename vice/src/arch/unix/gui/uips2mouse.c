@@ -33,7 +33,6 @@
 #include "uimenu.h"
 #include "uips2mouse.h"
 
-
 UI_MENU_DEFINE_TOGGLE(Mouse)
 UI_MENU_DEFINE_TOGGLE(ps2mouse)
 

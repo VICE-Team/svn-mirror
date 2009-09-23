@@ -33,4 +33,3 @@ extern struct ui_menu_entry_s datasette_control_submenu[];
 extern struct ui_menu_entry_s ui_datasette_commands_menu[];
 
 #endif
-

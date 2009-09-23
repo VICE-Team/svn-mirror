@@ -33,4 +33,3 @@ extern struct ui_menu_entry_s peripheralieee_settings_submenu[];
 extern struct ui_menu_entry_s ui_peripheralieee_settings_menu[];
 
 #endif
-

@@ -43,4 +43,3 @@ extern struct ui_menu_entry_s set_drive2_idle_method_submenu[];
 extern struct ui_menu_entry_s set_drive3_idle_method_submenu[];
 
 #endif
-

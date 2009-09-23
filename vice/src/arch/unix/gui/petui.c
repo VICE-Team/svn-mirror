@@ -56,7 +56,6 @@
 #include "uisound.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DiagPin)
 UI_MENU_DEFINE_TOGGLE(Crtc)
 UI_MENU_DEFINE_TOGGLE(Ram9)
@@ -132,45 +131,45 @@ static ui_menu_entry_t sidcart_submenu[] = {
 
 static ui_menu_entry_t pet_memsize_submenu[] = {
     { N_("*4 kByte"),
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)4, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)4, NULL },
     { N_("*8 kByte"),
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)8, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)8, NULL },
     { N_("*16 kByte"),
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)16, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)16, NULL },
     { N_("*32 kByte"),
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)32, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)32, NULL },
     { N_("*96 kByte"),
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)96, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)96, NULL },
     { N_("*128 kByte"),
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_iosize_submenu[] = {
     { N_("*2 kByte"),
-        (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x800, NULL },
+      (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x800, NULL },
     { N_("*256 Byte"),
-        (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x100, NULL },
+      (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x100, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_keybd_submenu[] = {
     { N_("*Graphics"),
-        (ui_callback_t)set_KeyboardType, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)1, NULL },
     { N_("*Business (UK)"),
-        (ui_callback_t)set_KeyboardType, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)0, NULL },
     { N_("*Business (DE)"),
-        (ui_callback_t)set_KeyboardType, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_video_submenu[] = {
     { N_("*Auto (from ROM)"),
-        (ui_callback_t)radio_VideoSize, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_VideoSize, (ui_callback_data_t)0, NULL },
     { N_("*40 Columns"),
-        (ui_callback_t)radio_VideoSize, (ui_callback_data_t)40, NULL },
+      (ui_callback_t)radio_VideoSize, (ui_callback_data_t)40, NULL },
     { N_("*80 Columns"),
-        (ui_callback_t)radio_VideoSize, (ui_callback_data_t)80, NULL },
+      (ui_callback_t)radio_VideoSize, (ui_callback_data_t)80, NULL },
     { NULL }
 };
 
@@ -230,22 +229,22 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 };
 
 static ui_menu_entry_t pet_romset_submenu[] = {
-    { "Basic 1",
+    { N_("Basic 1"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom1g.vrs", NULL },
-    { "Basic 2, graphics",
+    { N_("Basic 2, graphics"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom2g.vrs", NULL },
-    { "Basic 2, Business",
+    { N_("Basic 2, Business"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom2b.vrs", NULL },
-    { "Basic 4, 40 cols, graphics",
+    { N_("Basic 4, 40 cols, graphics"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom4g40.vrs", NULL },
-    { "Basic 4, 40 cols, business",
+    { N_("Basic 4, 40 cols, business"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom4b40.vrs", NULL },
-    { "Basic 4, 80 cols, business",
+    { N_("Basic 4, 80 cols, business"),
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom4b80.vrs", NULL },
     { "--" },
-    { "*Basic 1 Patch (if loaded)",
+    { N_("*Basic 1 Patch (if loaded)"),
       (ui_callback_t)toggle_Basic1, NULL, NULL },
-    { "*Basic 1 character set",
+    { N_("*Basic 1 character set"),
       (ui_callback_t)toggle_Basic1Chars, NULL, NULL },
     { "--" },
     { N_("Load new computer ROM"),
@@ -354,8 +353,9 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0)
+    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0) {
         return;
+    }
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
@@ -524,7 +524,6 @@ int petui_init(void)
     ui_set_topmenu(petui_top_menu);
     ui_set_speedmenu(ui_performance_settings_menu);
     ui_update_menus();
-    /* ui_toggle_drive_status(0); */
 
     return 0;
 }
@@ -533,4 +532,3 @@ void petui_shutdown(void)
 {
     petui_dynamic_menu_shutdown();
 }
-

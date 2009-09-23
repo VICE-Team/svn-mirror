@@ -68,8 +68,9 @@ static UI_CALLBACK(set_refresh_rate)
             ui_update_menus();
         }
     } else {
-        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 0)
+        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 0) {
             have_custom_refresh_rate = 1;
+        }
         if (vice_ptr_to_int(UI_MENU_CB_PARAM) == current_refresh_rate) {
             ui_menu_set_tick(w, 1);
             have_custom_refresh_rate = 0;
@@ -101,28 +102,28 @@ static UI_CALLBACK(set_custom_refresh_rate)
 
     resources_get_int("RefreshRate", &current_refresh_rate);
 
-    if (!*input_string)
+    if (!*input_string) {
         sprintf(input_string, "%d", current_refresh_rate);
+    }
 
     if (CHECK_MENUS) {
-        if (have_custom_refresh_rate)
+        if (have_custom_refresh_rate) {
             ui_menu_set_tick(w, 1);
-        else
+        } else {
             ui_menu_set_tick(w, 0);
+        }
         have_custom_refresh_rate = 0;
     } else {
         int current_speed;
 
         vsync_suspend_speed_eval();
         msg_string = lib_stralloc(_("Enter refresh rate"));
-        button = ui_input_string(_("Refresh rate"), msg_string, input_string,
-                                 32);
+        button = ui_input_string(_("Refresh rate"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             resources_get_int("Speed", &current_speed);
-            if (!(current_speed <= 0 && i <= 0) && i >= 0
-                && current_refresh_rate != i) {
+            if (!(current_speed <= 0 && i <= 0) && i >= 0 && current_refresh_rate != i) {
                 resources_set_int("RefreshRate", i);
                 ui_update_menus();
             }
@@ -149,8 +150,9 @@ static UI_CALLBACK(set_maximum_speed)
             ui_update_menus();
         }
     } else {
-        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 100)
+        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 100) {
             have_custom_maximum_speed = 1;
+        }
         if (current_speed == vice_ptr_to_int(UI_MENU_CB_PARAM)) {
             ui_menu_set_tick(w, 1);
             have_custom_maximum_speed = 0;
@@ -176,20 +178,21 @@ static UI_CALLBACK(set_custom_maximum_speed)
     int current_speed;
 
     resources_get_int("Speed", &current_speed);
-    if (!*input_string)
+    if (!*input_string) {
         sprintf(input_string, "%d", current_speed);
+    }
 
     if (CHECK_MENUS) {
-        if (have_custom_maximum_speed)
+        if (have_custom_maximum_speed) {
             ui_menu_set_tick(w, 1);
-        else
+        } else {
             ui_menu_set_tick(w, 0);
+        }
         have_custom_maximum_speed = 0;
     } else {
         vsync_suspend_speed_eval();
         msg_string = lib_stralloc(_("Enter speed"));
-        button = ui_input_string(_("Maximum run speed"), msg_string,
-                                 input_string, 32);
+        button = ui_input_string(_("Maximum run speed"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             int current_refresh_rate;
@@ -197,8 +200,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
             resources_get_int("RefreshRate", &current_refresh_rate);
 
             i = atoi(input_string);
-            if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
-                && current_speed != i) {
+            if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0 && current_speed != i) {
                 resources_set_int("Speed", i);
                 ui_update_menus();
             } else {
@@ -215,11 +217,12 @@ static UI_CALLBACK(save_resources)
     char *fname;
     
     vsync_suspend_speed_eval();
-    if (resources_save(NULL) < 0)
+    if (resources_save(NULL) < 0) {
         ui_error(_("Cannot save settings."));
-    else {
-        if (w != NULL)
+    }else {
+        if (w != NULL) {
             ui_message(_("Settings saved successfully."));
+        }
     }
     fname = archdep_default_fliplist_file_name();
     fliplist_save_list((unsigned int) -1, fname);
@@ -235,15 +238,12 @@ static UI_CALLBACK(load_resources)
     r = resources_load(NULL);
 
     if (r < 0) {
-        if (r == RESERR_FILE_INVALID)
+        if (r == RESERR_FILE_INVALID) {
             ui_error(_("Cannot load settings:\nresource file not valid."));
-        else
+        } else {
             ui_error(_("Cannot load settings:\nresource file not found."));
+        }
     }
-#if 0
-    else if (w != NULL)
-        ui_message(_("Settings loaded."));
-#endif
 
     ui_update_menus();
 }
@@ -255,9 +255,11 @@ static UI_CALLBACK(save_resources_file)
     char *filename;
     ui_button_t button;
     int len = 1024;
+
 #ifndef HAVE_DIRNAME
     char *tmp;
 #endif
+
 #ifdef USE_GNOMEUI
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 #endif
@@ -268,12 +270,9 @@ static UI_CALLBACK(save_resources_file)
     strcpy(filename, "");
 
 #ifdef USE_GNOMEUI
-    filename = ui_select_file(_("File to save settings to"), 
-			      NULL, 0, resources_last_dir,
-                              &filter, 1, &button, 0, NULL, UI_FC_SAVE);
+    filename = ui_select_file(_("File to save settings to"), NULL, 0, resources_last_dir, &filter, 1, &button, 0, NULL, UI_FC_SAVE);
 #else
-    button = ui_input_string(_("File to save settings to"),
-                             _("Name:"), filename, len);
+    button = ui_input_string(_("File to save settings to"), _("Name:"), filename, len);
 #endif
     
     if (button == UI_BUTTON_OK && filename != NULL) {
@@ -284,14 +283,13 @@ static UI_CALLBACK(save_resources_file)
                 ui_message(_("Settings saved successfully."));
             }
         }
-      lib_free(resources_last_dir);
-	resources_last_dir = lib_stralloc(filename);
+        lib_free(resources_last_dir);
+        resources_last_dir = lib_stralloc(filename);
 #ifdef HAVE_DIRNAME
-	resources_last_dir = dirname(resources_last_dir);
+        resources_last_dir = dirname(resources_last_dir);
 #else
         tmp = resources_last_dir + strlen(resources_last_dir);
-        while (*tmp != '/')
-        {
+        while (*tmp != '/') {
             tmp--;
         }
         tmp--;
@@ -311,9 +309,7 @@ static UI_CALLBACK(load_resources_file)
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
     vsync_suspend_speed_eval();
-    filename = ui_select_file(_("Resource file name"),
-                              NULL, 0, resources_last_dir,
-                              &filter, 1, &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Resource file name"), NULL, 0, resources_last_dir, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
         r = resources_load(filename);
@@ -444,4 +440,3 @@ ui_menu_entry_t ui_debug_settings_menu[] = {
     { NULL }
 };
 #endif
-

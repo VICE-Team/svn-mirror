@@ -37,4 +37,3 @@ extern struct ui_menu_entry_s ui_settings_settings_menu[];
 extern struct ui_menu_entry_s ui_debug_settings_menu[];
 
 #endif
-

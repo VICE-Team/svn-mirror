@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s printeriec_settings_menu[];
 
 #endif
-

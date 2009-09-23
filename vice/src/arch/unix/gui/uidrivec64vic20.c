@@ -35,7 +35,6 @@
 #include "uimenu.h"
 #include "uiromset.h"
 
-
 ui_menu_entry_t uidrivec64vic20_set_drive0_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
@@ -161,4 +160,3 @@ ui_menu_entry_t ui_drivec64vic20_romset_submenu[] = {
       (ui_callback_data_t)"DosName1001", NULL },
     { NULL }
 };
-

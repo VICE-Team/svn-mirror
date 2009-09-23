@@ -33,4 +33,3 @@ extern struct ui_menu_entry_s mouse_submenu[];
 extern struct ui_menu_entry_s mouse_vic20_submenu[];
 
 #endif
-

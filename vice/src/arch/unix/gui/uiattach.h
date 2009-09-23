@@ -36,4 +36,3 @@ extern struct ui_menu_entry_s uiattach_smart_attach_menu[];
 extern void uiattach_shutdown(void);
 
 #endif
-

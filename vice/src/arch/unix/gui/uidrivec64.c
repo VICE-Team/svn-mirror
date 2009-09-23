@@ -36,9 +36,7 @@
 #include "uidriveiec.h"
 #include "uimenu.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-
 
 static ui_menu_entry_t drivec64_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
@@ -99,4 +97,3 @@ ui_menu_entry_t ui_drivec64_settings_menu[] = {
       NULL, NULL, drivec64_settings_submenu },
     { NULL }
 };
-

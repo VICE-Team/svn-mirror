@@ -32,10 +32,8 @@
 #include "uimenu.h"
 #include "uiprinter.h"
 
-
 UI_MENU_DEFINE_TOGGLE(IECDevice4)
 UI_MENU_DEFINE_TOGGLE(IECDevice5)
-
 
 ui_menu_entry_t printeriec_plus4_settings_menu[] = {
     { N_("*IEC printer #4 emulation"),

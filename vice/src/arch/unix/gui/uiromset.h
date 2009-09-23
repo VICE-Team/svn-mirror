@@ -40,4 +40,3 @@ extern UI_CALLBACK(ui_unload_rom_file);
 extern void uiromset_menu_init(void);
 
 #endif
-

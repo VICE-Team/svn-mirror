@@ -37,4 +37,3 @@ typedef enum {
 } ui_hotkey_modifier_t;
 
 #endif
-

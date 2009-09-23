@@ -39,20 +39,19 @@
 
 UI_MENU_DEFINE_TOGGLE(MIDIEnable)
 UI_MENU_DEFINE_RADIO(MIDIMode)
+
 #ifdef USE_ALSA
 UI_MENU_DEFINE_RADIO(MIDIDriver)
 #endif
 
 UI_CALLBACK(set_midi_in_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-In device"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-In device"), _("Name:"));
 }
 
 UI_CALLBACK(set_midi_out_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-Out device"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-Out device"), _("Name:"));
 }
 
 #ifdef USE_ALSA

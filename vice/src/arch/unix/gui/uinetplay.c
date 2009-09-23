@@ -59,13 +59,13 @@ static UI_CALLBACK(ui_netplay_set_port)
 
     resources_get_int("NetworkServerPort", &current_port);
 
-    if (!*input_string)
+    if (!*input_string) {
         sprintf(input_string, "%d", current_port);
+    }
 
     vsync_suspend_speed_eval();
     msg_string = lib_stralloc(_("Enter port"));
-    button = ui_input_string(_("Netplay TCP port"), msg_string, input_string,
-                             32);
+    button = ui_input_string(_("Netplay TCP port"), msg_string, input_string, 32);
     lib_free(msg_string);
 
     if (button == UI_BUTTON_OK) {
@@ -81,20 +81,21 @@ static UI_CALLBACK(ui_netplay_set_port)
 
 static UI_CALLBACK(ui_netplay_start_server)
 {
-    if (network_start_server() < 0)
+    if (network_start_server() < 0) {
         ui_error(_("Error starting the netplay server."));
+    }
 }
 
 UI_CALLBACK(ui_netplay_set_host)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Netplay Server name"),
-                        _("Hostname:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Netplay Server name"), _("Hostname:"));
 }
 
 static UI_CALLBACK(ui_netplay_connect_to_server)
 {
-    if (network_connect_client() < 0)
+    if (network_connect_client() < 0) {
         ui_error(_("Error connecting to server."));
+    }
 }
 
 static UI_CALLBACK(ui_netplay_disconnect)
@@ -124,4 +125,3 @@ ui_menu_entry_t netplay_submenu[] = {
 };
 
 #endif	/* HAVE_NETWORK */
-

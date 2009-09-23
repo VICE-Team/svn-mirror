@@ -30,4 +30,3 @@
 extern void ui_cartridge_dialog(void);
 
 #endif
-

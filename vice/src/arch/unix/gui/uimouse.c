@@ -43,15 +43,15 @@ static ui_menu_entry_t mousetype_submenu[] = {
       (ui_callback_data_t)1, NULL },
     { "*AMIGA", (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)2, NULL },
-    { "*Paddles", (ui_callback_t)radio_Mousetype,
+    { N_("*Paddles"), (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t mouseport_submenu[] = {
-    { "*Port 1", (ui_callback_t)radio_Mouseport,
+    { N_("*Port 1"), (ui_callback_t)radio_Mouseport,
       (ui_callback_data_t)1, NULL },
-    { "*Port 2", (ui_callback_t)radio_Mouseport,
+    { N_("*Port 2"), (ui_callback_t)radio_Mouseport,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -75,4 +75,3 @@ ui_menu_entry_t mouse_vic20_submenu[] = {
 };
 
 #endif
-

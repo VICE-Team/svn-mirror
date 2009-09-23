@@ -44,7 +44,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 struct cb_data_t {
     int unit;
     long data;                  /* should be enough for a pointer */
@@ -53,7 +52,6 @@ struct cb_data_t {
 typedef enum {
     CBD_NEXT, CBD_PREV, CBD_ADD, CBD_REMOVE
 } cbd_enum_t;
-
 
 extern char last_attached_images[NUM_DRIVES][256];
 extern ui_drive_enable_t enabled_drives;
@@ -87,33 +85,30 @@ static UI_CALLBACK(load_save_fliplist)
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_FLIPLIST, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
-    title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"),
-                        NULL);
-    filename = ui_select_file(title, NULL, 0,
-                              load_save_fliplist_last_dir,
-                              filter, sizeof(filter) / sizeof(*filter),
-                              &button, 1, NULL, UI_FC_LOAD);
+    title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"), NULL);
+    filename = ui_select_file(title, NULL, 0, load_save_fliplist_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
     lib_free(title);
     switch (button) {
-      case UI_BUTTON_OK:
-        if (what) {
-            if (fliplist_load_list((unsigned int)-1, filename, 0) == 0)
-                ui_message(_("Successfully read `%s'."), filename);
-            else
-                ui_error(_("Error reading `%s'."), filename);
-        } else {
-            if (fliplist_save_list((unsigned int)-1, filename) == 0)
-                ui_message(_("Successfully wrote `%s'."), filename);
-            else
-                ui_error(_("Error writing `%s'."), filename);
-        }
-        lib_free(load_save_fliplist_last_dir);
-        util_fname_split(filename, &load_save_fliplist_last_dir, NULL);
-        break;
-      default:
-        break;
+        case UI_BUTTON_OK:
+            if (what) {
+                if (fliplist_load_list((unsigned int)-1, filename, 0) == 0) {
+                    ui_message(_("Successfully read `%s'."), filename);
+                } else {
+                    ui_error(_("Error reading `%s'."), filename);
+                }
+            } else {
+                if (fliplist_save_list((unsigned int)-1, filename) == 0) {
+                    ui_message(_("Successfully wrote `%s'."), filename);
+                } else {
+                    ui_error(_("Error writing `%s'."), filename);
+                }
+            }
+            lib_free(load_save_fliplist_last_dir);
+            util_fname_split(filename, &load_save_fliplist_last_dir, NULL);
+            break;
+        default:
+            break;
     }
-
 }
 
 ui_menu_entry_t fliplist_submenu[] = {
@@ -138,31 +133,25 @@ ui_menu_entry_t fliplist_submenu[] = {
 
 static UI_CALLBACK(attach_from_fliplist2)
 {
-    file_system_attach_disk(fliplist_get_unit((void *)UI_MENU_CB_PARAM),
-                            fliplist_get_image((void *)UI_MENU_CB_PARAM));
+    file_system_attach_disk(fliplist_get_unit((void *)UI_MENU_CB_PARAM), fliplist_get_image((void *)UI_MENU_CB_PARAM));
 }
 
 static UI_CALLBACK(remove_from_fliplist2)
 {
-    fliplist_remove(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                    (char *) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
-    uifliplist_update_menus(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                            ((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
+    fliplist_remove(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit, (char *)((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
+    uifliplist_update_menus(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit, ((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
 }
 
 static UI_CALLBACK(add2fliplist2)
 {
-    fliplist_set_current(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                         (char *) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
+    fliplist_set_current(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit, (char *)((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
     fliplist_add_image(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
-    uifliplist_update_menus(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                            ((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
+    uifliplist_update_menus(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit, ((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
 }
 
 static UI_CALLBACK(attach_from_fliplist)
 {
-    fliplist_attach_head(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                         (int) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
+    fliplist_attach_head(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit, (int)((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
 }
 
 #ifdef USE_GNOMEUI
@@ -171,6 +160,7 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 #endif
 
 #define FLIPLIST_MENU_LIMIT 256
+
 void uifliplist_update_menus(int from_unit, int to_unit)
 {
     /* Yick, allocate dynamically */
@@ -186,10 +176,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
 
     resources_get_int("DriveTrueEmulation", &true_emu);
 
-    for (drive = from_unit - 8;
-        (drive <= to_unit - 8) && (drive < NUM_DRIVES);
-        drive++) {
-
+    for (drive = from_unit - 8; (drive <= to_unit - 8) && (drive < NUM_DRIVES); drive++) {
         i = 0;
         t0 = t1 = t2 = t3 = t4 = t5 = NULL;
 
@@ -212,31 +199,31 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         /* this won't work so far for Xaw, because the checkmarks
            aren't updated when a menu is destroyed, as the flipmenu is
            dynamically regenerated; The Gnome code is already fixed. */
-        memcpy(&flipmenu[drive][i], (const char *)ui_drive_options_submenu,
-               sizeof(ui_menu_entry_t));
+        memcpy(&flipmenu[drive][i], (const char *)ui_drive_options_submenu, sizeof(ui_menu_entry_t));
         i++;
         /* Write protext UI controll */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         flipmenu[drive][i].string = _("*Write Protect");
-        if (drive == 0)
-            flipmenu[drive][i].callback = 
-		G_CALLBACK(toggle_AttachDevice8Readonly);
-        else
-            flipmenu[drive][i].callback = 
-		G_CALLBACK(toggle_AttachDevice9Readonly);
+        if (drive == 0) {
+            flipmenu[drive][i].callback = G_CALLBACK(toggle_AttachDevice8Readonly);
+        } else {
+            flipmenu[drive][i].callback = G_CALLBACK(toggle_AttachDevice9Readonly);
+        }
         i++;
 #endif
 
-        fliplist_start = i;     /* if we take the goto don't free anythin */
+        fliplist_start = i;     /* if we take the goto don't free anything */
 
         /* don't update menu deeply when drive has not been enabled
            or nothing has been attached */
         if (true_emu) {
-            if (!((1 << drive) & enabled_drives))
+            if (!((1 << drive) & enabled_drives)) {
                 goto update_menu;
+            }
         } else {
-            if (strcmp(last_attached_images[drive], "") == 0)
+            if (strcmp(last_attached_images[drive], "") == 0) {
                 goto update_menu;
+            }
         }
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
@@ -250,8 +237,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_NEXT].unit = drive + 8;
         cb_data[drive][CBD_NEXT].data = 1;
-        flipmenu[drive][i].callback_data =
-            (ui_callback_data_t)&(cb_data[drive][CBD_NEXT]);
+        flipmenu[drive][i].callback_data = (ui_callback_data_t)&(cb_data[drive][CBD_NEXT]);
         lib_free(dir);
         dir = NULL;
         lib_free(image);
@@ -265,8 +251,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_PREV].unit = drive + 8;
         cb_data[drive][CBD_PREV].data = 0;
-        flipmenu[drive][i].callback_data =
-            (ui_callback_data_t)&(cb_data[drive][CBD_PREV]);
+        flipmenu[drive][i].callback_data = (ui_callback_data_t)&(cb_data[drive][CBD_PREV]);
         lib_free(dir);
         dir = NULL;
         lib_free(image);
@@ -280,8 +265,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback = (ui_callback_t)add2fliplist2;
         cb_data[drive][CBD_ADD].unit = drive + 8;
         cb_data[drive][CBD_ADD].data = (long) last_attached_images[drive];
-        flipmenu[drive][i].callback_data =
-            (ui_callback_data_t)&(cb_data[drive][CBD_ADD]);
+        flipmenu[drive][i].callback_data = (ui_callback_data_t)&(cb_data[drive][CBD_ADD]);
         lib_free(dir);
         dir = NULL;
         lib_free(image);
@@ -295,8 +279,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback = (ui_callback_t)remove_from_fliplist2;
         cb_data[drive][CBD_REMOVE].unit = drive + 8;
         cb_data[drive][CBD_REMOVE].data = (long) last_attached_images[drive];
-        flipmenu[drive][i].callback_data =
-            (ui_callback_data_t)&(cb_data[drive][CBD_REMOVE]);
+        flipmenu[drive][i].callback_data = (ui_callback_data_t)&(cb_data[drive][CBD_REMOVE]);
         lib_free(dir);
         dir = NULL;
         lib_free(image);
@@ -314,10 +297,8 @@ void uifliplist_update_menus(int from_unit, int to_unit)
             memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
             util_fname_split(fliplist_get_image(fl_iterator), &dir, &image);
             flipmenu[drive][i].string = util_concat(NO_TRANS, image, NULL);
-            flipmenu[drive][i].callback =
-                (ui_callback_t)attach_from_fliplist2;
-            flipmenu[drive][i].callback_data =
-                (ui_callback_data_t)fl_iterator;
+            flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist2;
+            flipmenu[drive][i].callback_data = (ui_callback_data_t)fl_iterator;
 
             fl_iterator = fliplist_next_iterate(drive + 8);
             lib_free(dir);
@@ -327,9 +308,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
             i++;
             if (i >= (FLIPLIST_MENU_LIMIT - 1)) {
                 /* the end delimitor must fit */
-                log_warning(LOG_DEFAULT,
-                            "Number of fliplist menu entries exceeded."
-                            "Cutting after %d entries.", i);
+                log_warning(LOG_DEFAULT, "Number of fliplist menu entries exceeded. Cutting after %d entries.", i);
                 break;
             }
         }
@@ -348,13 +327,11 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         if (drive == 0) {
             ui_destroy_drive8_menu();
             /* FIXME: Make sure the widget is really destroyed! */
-            ui_set_drive8_menu(ui_menu_create(menuname /*"LeftDrive8Menu"*/,
-                                              flipmenu[drive], NULL));
+            ui_set_drive8_menu(ui_menu_create(menuname, flipmenu[drive], NULL));
         } else {
             ui_destroy_drive9_menu();
             /* FIXME: Make sure the widget is really destroyed! */
-            ui_set_drive9_menu(ui_menu_create(menuname /*"LeftDrive9Menu"*/,
-                                              flipmenu[drive], NULL));
+            ui_set_drive9_menu(ui_menu_create(menuname, flipmenu[drive], NULL));
         }
 #endif
 
@@ -378,4 +355,3 @@ void uifliplist_shutdown(void)
 {
     lib_free(load_save_fliplist_last_dir);
 }
-

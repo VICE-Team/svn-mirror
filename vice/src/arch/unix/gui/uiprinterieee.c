@@ -33,7 +33,6 @@
 #include "uimenu.h"
 #include "uiprinter.h"
 
-
 UI_MENU_DEFINE_TOGGLE(PrinterUserport)
 
 ui_menu_entry_t printerieee_settings_menu[] = {
@@ -74,4 +73,3 @@ ui_menu_entry_t printerieee_settings_menu[] = {
       (ui_callback_data_t)"PrinterTextDevice3", NULL },
     { NULL }
 };
-

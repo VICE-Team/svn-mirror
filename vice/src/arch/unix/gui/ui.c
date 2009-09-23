@@ -39,7 +39,6 @@
 #include "vsync.h"
 #include "openGL_sync.h"
 
-
 static int is_paused = 0;
 
 static void pause_trap(WORD addr, void *data)
@@ -47,8 +46,9 @@ static void pause_trap(WORD addr, void *data)
     ui_display_paused(1);
     is_paused = 1;
     vsync_suspend_speed_eval();
-    while (is_paused)
+    while (is_paused) {
         ui_dispatch_next_event();
+    }
 }
 
 void ui_pause_emulation(int flag)

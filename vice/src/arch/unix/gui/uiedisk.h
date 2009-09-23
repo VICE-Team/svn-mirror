@@ -30,4 +30,3 @@
 extern int ui_empty_disk_dialog(char *);
 
 #endif
-

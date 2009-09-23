@@ -32,4 +32,3 @@
 extern UI_CALLBACK(ui_load_palette);
 
 #endif
-

@@ -38,4 +38,3 @@ extern struct ui_menu_entry_s joystick_settings_plus4_menu[];
 extern struct ui_menu_entry_s joystick_options_submenu[];
 
 #endif
-

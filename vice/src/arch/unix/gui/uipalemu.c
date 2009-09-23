@@ -36,7 +36,6 @@
 #include "uipalemu.h"
 #include "util.h"
 
-
 static UI_CALLBACK(toggle_DelayLoopEmulation)
 {
     int delayloopemulation;
@@ -53,10 +52,11 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
 
         ui_menu_set_tick(w, delayloopemulation);
 
-        if (video_standard == MACHINE_SYNC_PAL)
+        if (video_standard == MACHINE_SYNC_PAL) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 
@@ -70,61 +70,59 @@ static UI_CALLBACK(PAL_control_cb)
     int what = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char*resource;
 
-    switch (what)
-    {
-      case 0:
-        resource = "PALScanLineShade";
-        resources_get_int(resource, &current);
-        current /= 10;
-        sprintf(buf, "%d", current);
-        button = ui_input_string(_("PAL Scanline shade"), _("Scanline Shade in percent"), buf, 50);
-        break;
-      case 2:
-        resource = "ColorTint";
-        resources_get_int(resource, &current);
-        current /= 10;
-        sprintf(buf, "%d", current);
-        button = ui_input_string(_("New PAL Tint"), _("Tint in percent"), buf, 50);
-        break;
-      case 3:
-        resource = "PALOddLinePhase";
-        resources_get_int(resource, &current);
-        current /= 10;
-        sprintf(buf, "%d", current);
-        button = ui_input_string(_("New PAL Odd Line Phase"), _("Phase in percent"), buf, 50);
-        break;
-      case 4:
-        resource = "PALOddLineOffset";
-        resources_get_int(resource, &current);
-        current /= 10;
-        sprintf(buf, "%d", current);
-        button = ui_input_string(_("New PAL Odd Line Offset"), _("Offset in percent"), buf, 50);
-        break;
-      case 1:
-      default:
-        resource = "PALBlur";
-        resources_get_int(resource, &current);
-        current /= 10;
-        sprintf(buf, "%d", current);
-        button = ui_input_string(_("PAL Blurredness"), _("Blurredness in percent"), buf, 50);
-        break;
+    switch (what) {
+        case 0:
+            resource = "PALScanLineShade";
+            resources_get_int(resource, &current);
+            current /= 10;
+            sprintf(buf, "%d", current);
+            button = ui_input_string(_("PAL Scanline shade"), _("Scanline Shade in percent"), buf, 50);
+            break;
+        case 2:
+            resource = "ColorTint";
+            resources_get_int(resource, &current);
+            current /= 10;
+            sprintf(buf, "%d", current);
+            button = ui_input_string(_("New PAL Tint"), _("Tint in percent"), buf, 50);
+            break;
+        case 3:
+            resource = "PALOddLinePhase";
+            resources_get_int(resource, &current);
+            current /= 10;
+            sprintf(buf, "%d", current);
+            button = ui_input_string(_("New PAL Odd Line Phase"), _("Phase in percent"), buf, 50);
+            break;
+        case 4:
+            resource = "PALOddLineOffset";
+            resources_get_int(resource, &current);
+            current /= 10;
+            sprintf(buf, "%d", current);
+            button = ui_input_string(_("New PAL Odd Line Offset"), _("Offset in percent"), buf, 50);
+            break;
+        case 1:
+        default:
+            resource = "PALBlur";
+            resources_get_int(resource, &current);
+            current /= 10;
+            sprintf(buf, "%d", current);
+            button = ui_input_string(_("PAL Blurredness"), _("Blurredness in percent"), buf, 50);
+            break;
     }
     
     switch (button) {
-      case UI_BUTTON_OK:
-        if (util_string_to_long(buf, NULL, 10, &res) != 0) {
-             ui_error(_("Invalid value: %s"), buf);
-             return;
-        }
-        break;
-      default:
-        break;
+        case UI_BUTTON_OK:
+            if (util_string_to_long(buf, NULL, 10, &res) != 0) {
+                 ui_error(_("Invalid value: %s"), buf);
+                 return;
+            }
+            break;
+        default:
+            break;
     }
 
-    if ((current != res) &&
-        (res <= 100) &&
-        (res >= 0))
+    if ((current != res) && (res <= 100) && (res >= 0)) {
         resources_set_int(resource, (int)(res * 10));
+    }
 }
 #endif
 

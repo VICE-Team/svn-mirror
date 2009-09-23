@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s plus60k_submenu[];
 
 #endif
-

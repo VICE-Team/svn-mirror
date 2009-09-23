@@ -49,7 +49,6 @@
 #include "vsync.h"
 #include "ioutil.h"
 
-
 static int selection_from_image = 0;
 
 void ui_set_selected_file(int num)
@@ -58,6 +57,7 @@ void ui_set_selected_file(int num)
 }
 
 static char *attach_disk_last_dir = NULL;
+
 static read_contents_func_type funcs[] = {
     diskcontents_read_unit8,
     diskcontents_read_unit9,
@@ -75,10 +75,8 @@ UI_CALLBACK(attach_disk)
 
     vsync_suspend_speed_eval();
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
-    filename = ui_select_file(title, funcs[unit - 8],
-                              unit == 8 ? 1 : 0, attach_disk_last_dir,
-                              filter, sizeof(filter) / sizeof(*filter), &button,  1, &attach_wp,
-			      UI_FC_LOAD);
+    filename = ui_select_file(title, funcs[unit - 8], unit == 8 ? 1 : 0, attach_disk_last_dir,
+                              filter, sizeof(filter) / sizeof(*filter), &button,  1, &attach_wp, UI_FC_LOAD);
 
     lib_free(title);
     if (attach_wp) {
@@ -87,22 +85,23 @@ UI_CALLBACK(attach_disk)
     }
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (file_system_attach_disk(unit, filename) < 0)
-            ui_error(_("Invalid Disk Image"));
-        lib_free(attach_disk_last_dir);
-        util_fname_split(filename, &attach_disk_last_dir, NULL);
-        break;
-      case UI_BUTTON_AUTOSTART:
-        if (autostart_disk(filename, NULL, selection_from_image,
-            AUTOSTART_MODE_RUN) < 0)
-            ui_error(_("Invalid Disk Image or Filename"));
-        lib_free(attach_disk_last_dir);
-        util_fname_split(filename, &attach_disk_last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (file_system_attach_disk(unit, filename) < 0) {
+                ui_error(_("Invalid Disk Image"));
+            }
+            lib_free(attach_disk_last_dir);
+            util_fname_split(filename, &attach_disk_last_dir, NULL);
+            break;
+        case UI_BUTTON_AUTOSTART:
+            if (autostart_disk(filename, NULL, selection_from_image, AUTOSTART_MODE_RUN) < 0) {
+                ui_error(_("Invalid Disk Image or Filename"));
+            }
+            lib_free(attach_disk_last_dir);
+            util_fname_split(filename, &attach_disk_last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
 
     lib_free(filename);
@@ -127,6 +126,7 @@ static ui_menu_entry_t attach_disk_image_submenu[] = {
 static UI_CALLBACK(attach_empty_disk)
 {
     int unit = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
     /* Where does the 1024 come from?  */
     char filename[1024];
 
@@ -135,11 +135,13 @@ static UI_CALLBACK(attach_empty_disk)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_empty_disk_dialog(filename) < 0)
+    if (ui_empty_disk_dialog(filename) < 0) {
         return;
+    }
 
-    if (file_system_attach_disk(unit, filename) < 0)
+    if (file_system_attach_disk(unit, filename) < 0) {
         ui_error(_("Invalid Disk Image"));
+    }
 }
 
 static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
@@ -199,28 +201,26 @@ static UI_CALLBACK(attach_tape)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Attach a tape image"),
-                              tapecontents_read,
-                              1, attach_tape_last_dir, filter, sizeof(filter) / sizeof(*filter),
-                              &button, 1, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Attach a tape image"), tapecontents_read, 1, attach_tape_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (tape_image_attach(1, filename) < 0)
-            ui_error(_("Invalid Tape Image"));
-        lib_free(attach_tape_last_dir);
-        util_fname_split(filename, &attach_tape_last_dir, NULL);
-        break;
-      case UI_BUTTON_AUTOSTART:
-        if (autostart_tape(filename, NULL, selection_from_image,
-            AUTOSTART_MODE_RUN) < 0)
-            ui_error(_("Invalid Tape Image"));
-        lib_free(attach_tape_last_dir);
-        util_fname_split(filename, &attach_tape_last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (tape_image_attach(1, filename) < 0) {
+                ui_error(_("Invalid Tape Image"));
+            }
+            lib_free(attach_tape_last_dir);
+            util_fname_split(filename, &attach_tape_last_dir, NULL);
+            break;
+        case UI_BUTTON_AUTOSTART:
+            if (autostart_tape(filename, NULL, selection_from_image, AUTOSTART_MODE_RUN) < 0) {
+                ui_error(_("Invalid Tape Image"));
+            }
+            lib_free(attach_tape_last_dir);
+            util_fname_split(filename, &attach_tape_last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
@@ -244,8 +244,9 @@ static image_contents_t *read_disk_or_tape_image_contents(const char *fname)
     image_contents_t *tmp;
 
     tmp = diskcontents_filesystem_read(fname);
-    if (tmp)
+    if (tmp) {
         return tmp;
+    }
     return tapecontents_read(fname);
 }
 
@@ -264,38 +265,33 @@ static UI_CALLBACK(smart_attach)
     if (smart_attach_last_dir) {
         dir = smart_attach_last_dir;
         do_free_dir = 0;
-    }
-    else {
+    } else {
         dir = ioutil_current_dir();
         do_free_dir = 1;
     }
-    filename = ui_select_file(_("Smart-attach a file"),
-                              read_disk_or_tape_image_contents,
-                              1, dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
-    if (do_free_dir)
+    filename = ui_select_file(_("Smart-attach a file"), read_disk_or_tape_image_contents, 1, dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
+    if (do_free_dir) {
         lib_free(dir);
+    }
 
     switch (button) {
-      case UI_BUTTON_OK:
-        if (file_system_attach_disk(8, filename) < 0
-            && tape_image_attach(1, filename) < 0
-            && autostart_snapshot(filename, NULL) < 0
-            && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
-            ui_error(_("Unknown image type"));
-        }
-        lib_free(smart_attach_last_dir);
-        util_fname_split(filename, &smart_attach_last_dir, NULL);
-        break;
-      case UI_BUTTON_AUTOSTART:
-        if (autostart_autodetect(filename, NULL, selection_from_image,
-            AUTOSTART_MODE_RUN) < 0)
-            ui_error(_("Unknown image type"));
-        lib_free(smart_attach_last_dir);
-        util_fname_split(filename, &smart_attach_last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (file_system_attach_disk(8, filename) < 0 && tape_image_attach(1, filename) < 0 && autostart_snapshot(filename, NULL) < 0 && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
+                ui_error(_("Unknown image type"));
+            }
+            lib_free(smart_attach_last_dir);
+            util_fname_split(filename, &smart_attach_last_dir, NULL);
+            break;
+        case UI_BUTTON_AUTOSTART:
+            if (autostart_autodetect(filename, NULL, selection_from_image, AUTOSTART_MODE_RUN) < 0) {
+                ui_error(_("Unknown image type"));
+            }
+            lib_free(smart_attach_last_dir);
+            util_fname_split(filename, &smart_attach_last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
@@ -315,4 +311,3 @@ void uiattach_shutdown(void)
     lib_free(attach_tape_last_dir);
     lib_free(smart_attach_last_dir);
 }
-

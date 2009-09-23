@@ -35,4 +35,3 @@ extern ui_menu_entry_t uiperipheral_set_device10_type_submenu[];
 extern ui_menu_entry_t uiperipheral_set_device11_type_submenu[];
 
 #endif
-

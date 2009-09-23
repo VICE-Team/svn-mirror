@@ -73,7 +73,6 @@
 #include "uivicii.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_video_standard_c64_submenu[] = {
@@ -367,8 +366,9 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0)
+    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0) {
         return;
+    }
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
@@ -557,9 +557,7 @@ static void c64ui_dynamic_menu_shutdown(void)
 
 int c64ui_init(void)
 {
-    memcpy(set_video_standard_submenu, 
-           set_video_standard_c64_submenu,
-           sizeof(set_video_standard_c64_submenu));
+    memcpy(set_video_standard_submenu, set_video_standard_c64_submenu, sizeof(set_video_standard_c64_submenu));
 
     ui_set_application_icon(c64_icon_data);
     c64ui_dynamic_menu_create();

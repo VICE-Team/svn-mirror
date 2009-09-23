@@ -37,4 +37,3 @@ extern ui_menu_entry_t uidrivec64vic20_set_drive3_type_submenu[];
 extern struct ui_menu_entry_s ui_drivec64vic20_romset_submenu[];
 
 #endif
-

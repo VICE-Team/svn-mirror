@@ -34,7 +34,6 @@
 #include "uirs232.h"
 #include "uirs232petplus4cbm2.h"
 
-
 ui_menu_entry_t uirs232petplus4cbm2_submenu[] = {
     { N_("ACIA device"),
       NULL, NULL, uiacia1_device_submenu },
@@ -56,4 +55,3 @@ ui_menu_entry_t uirs232petplus4cbm2_submenu[] = {
       (ui_callback_data_t)"RsDevice4", NULL },
     { NULL }
 };
-

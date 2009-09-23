@@ -39,4 +39,3 @@ extern void ui_netplay_dialog(void);
 #endif
 
 #endif
-

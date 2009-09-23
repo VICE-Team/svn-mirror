@@ -58,7 +58,6 @@
 #include "uivicii.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_video_standard_cbm2_submenu[] = {
@@ -143,25 +142,25 @@ UI_MENU_DEFINE_RADIO(ModelLine)
 
 static ui_menu_entry_t cbm2_modelline_submenu[] = {
     { "*7x0 (50 Hz)",
-        (ui_callback_t)radio_ModelLine, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_ModelLine, (ui_callback_data_t)0, NULL },
     { "*6x0 60 Hz",
-        (ui_callback_t)radio_ModelLine, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_ModelLine, (ui_callback_data_t)1, NULL },
     { "*6x0 50 Hz",
-        (ui_callback_t)radio_ModelLine, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_ModelLine, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
 UI_MENU_DEFINE_RADIO(RamSize)
 
 static ui_menu_entry_t cbm2_memsize_submenu[] = {
-    { "*128 kByte",
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
-    { "*256 kByte",
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)256, NULL },
+    { N_("*128 kByte"),
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
+    { N_("*256 kByte"),
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)256, NULL },
     { "*512 kByte",
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)512, NULL },
-    { "*1024 kByte",
-        (ui_callback_t)radio_RamSize, (ui_callback_data_t)1024, NULL },
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)512, NULL },
+    { N_("*1024 kByte"),
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)1024, NULL },
     { NULL }
 };
 
@@ -211,9 +210,9 @@ static UI_CALLBACK(set_KeyboardType)
 
 static ui_menu_entry_t cbm2_keybd_submenu[] = {
     { N_("*Graphics"),
-        (ui_callback_t)set_KeyboardType, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)1, NULL },
     { N_("*Business (UK)"),
-        (ui_callback_t)set_KeyboardType, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)set_KeyboardType, (ui_callback_data_t)0, NULL },
     { NULL }
 };
 
@@ -363,7 +362,6 @@ static ui_menu_entry_t cbm2_menu[] = {
     { NULL }
 };
 
-
 static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
@@ -375,9 +373,11 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0)
+    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0) {
         return;
+    }
 }
+
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { N_("Save media file"),
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
@@ -594,9 +594,7 @@ static void cbm2ui_dynamic_menu_shutdown(void)
 
 int cbm2ui_init(void)
 {
-    memcpy(set_video_standard_submenu,
-           set_video_standard_cbm2_submenu,
-           sizeof(set_video_standard_cbm2_submenu));
+    memcpy(set_video_standard_submenu, set_video_standard_cbm2_submenu, sizeof(set_video_standard_cbm2_submenu));
 
     ui_set_application_icon(cbm2_icon_data);
     cbm2ui_dynamic_menu_create();
@@ -622,4 +620,3 @@ void cbm2ui_shutdown(void)
 {
     cbm2ui_dynamic_menu_shutdown();
 }
-

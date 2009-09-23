@@ -38,6 +38,7 @@
 #include "uivicii.h"
 #include "uipalemu.h"
 #include "vicii.h"
+
 #ifdef HAVE_OPENGL_SYNC
 #include <stdlib.h>		/* strtol() */
 #include "openGL_sync.h"
@@ -46,10 +47,10 @@
 
 /* array for the actual data to be copied into */
 struct ui_menu_entry_s set_video_standard_submenu[4] = {
-  { NULL },
-  { NULL },
-  { NULL },
-  { NULL }
+    { NULL },
+    { NULL },
+    { NULL },
+    { NULL }
 };
 
 #include "uifullscreen-menu.h"
@@ -97,34 +98,41 @@ UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
+
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(VICIIHwScale, HwScalePossible, NOTHING)
 #endif
+
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+
 static UI_CALLBACK(openGL_set_desktoprefresh)
 {
     if (!CHECK_MENUS) {
-	float f;
-	char *buf = lib_calloc(sizeof(char), 10);
-	sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
-	ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), 
-			buf, 10);
-	f = (float) strtol(buf, NULL, 10);
-	openGL_set_canvas_refreshrate(f);
-	lib_free(buf);
+        float f;
+        char *buf = lib_calloc(sizeof(char), 10);
+
+        sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+        ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
+        f = (float) strtol(buf, NULL, 10);
+        openGL_set_canvas_refreshrate(f);
+        lib_free(buf);
     } else {
-        if (openGL_available(0) && openGL_sync_enabled())
+        if (openGL_available(0) && openGL_sync_enabled()) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 
 #endif
+
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
+
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
@@ -138,10 +146,11 @@ static UI_CALLBACK(color_set)
 
         resources_get_int("VICIIExternalPalette", &val);
 
-        if (val)
+        if (val) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 

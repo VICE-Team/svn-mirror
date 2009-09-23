@@ -32,14 +32,12 @@
 #include "uimenu.h"
 #include "uireu.h"
 
-
 UI_MENU_DEFINE_TOGGLE(REU)
 UI_MENU_DEFINE_RADIO(REUsize)
 
 UI_CALLBACK(set_reu_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("REU image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("REU image name"), _("Name:"));
 }
 
 static ui_menu_entry_t reu_size_submenu[] = {
@@ -72,4 +70,3 @@ ui_menu_entry_t reu_submenu[] = {
       (ui_callback_data_t)"REUfilename", NULL },
     { NULL }
 };
-

@@ -42,6 +42,7 @@
 #endif
 
 #include "uifullscreen-menu.h"
+
 UI_FULLSCREEN(VIC, KEYSYM_d)
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
@@ -68,31 +69,36 @@ UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
+
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
 #endif
+
 UI_MENU_DEFINE_TOGGLE(VICScale2x)
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+
 static UI_CALLBACK(openGL_set_desktoprefresh)
 {
     if (!CHECK_MENUS) {
 	float f;
 	char *buf = lib_calloc(sizeof(char), 10);
 	sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
-	ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), 
-			buf, 10);
+	ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
 	f = (float) strtol(buf, NULL, 10);
 	openGL_set_canvas_refreshrate(f);
 	lib_free(buf);
     } else {
-        if (openGL_available(0) && openGL_sync_enabled())
+        if (openGL_available(0) && openGL_sync_enabled()) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 #endif
+
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
@@ -106,10 +112,11 @@ static UI_CALLBACK(color_set)
 
         resources_get_int("VICExternalPalette", &val);
 
-        if (val)
+        if (val) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 
@@ -163,4 +170,3 @@ void uivic_menu_shutdown(void)
 {
     UI_FULLSCREEN_MENU_SHUTDOWN(VIC);
 }
-

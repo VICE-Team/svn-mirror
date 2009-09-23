@@ -32,14 +32,12 @@
 #include "uimenu.h"
 #include "uiplus60k.h"
 
-
 UI_MENU_DEFINE_TOGGLE(PLUS60K)
 UI_MENU_DEFINE_RADIO(PLUS60Kbase)
 
 UI_CALLBACK(set_plus60k_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS60K image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS60K image name"), _("Name:"));
 }
 
 static ui_menu_entry_t plus60k_base_submenu[] = {

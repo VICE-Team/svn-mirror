@@ -38,6 +38,7 @@
 static UI_CALLBACK(ui_datasette_control)
 {
     int command = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
     datasette_control(command);
 }
 
@@ -63,18 +64,17 @@ static UI_CALLBACK(datasette_settings)
     sprintf(buf, "%d", current);
     button = ui_input_string(title, prompt, buf, 50);
     switch (button) {
-      case UI_BUTTON_OK:
-        if (util_string_to_long(buf, NULL, 10, &res) != 0) {
-             ui_error(_("Invalid value: %s"), buf);
-             return;
-        }
-        resources_set_int(resource, (int)res);
-        break;
-    default:
-        break;
+        case UI_BUTTON_OK:
+            if (util_string_to_long(buf, NULL, 10, &res) != 0) {
+                ui_error(_("Invalid value: %s"), buf);
+                return;
+            }
+            resources_set_int(resource, (int)res);
+            break;
+        default:
+            break;
     }
 }
-
 
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 
@@ -106,4 +106,3 @@ ui_menu_entry_t ui_datasette_commands_menu[] = {
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };
-

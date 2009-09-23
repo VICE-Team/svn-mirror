@@ -36,7 +36,6 @@
 #include "uidriveiec.h"
 #include "uimenu.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 
@@ -101,4 +100,3 @@ ui_menu_entry_t ui_drivec64dtv_settings_menu[] = {
       NULL, NULL, drivec64dtv_settings_submenu },
     { NULL }
 };
-

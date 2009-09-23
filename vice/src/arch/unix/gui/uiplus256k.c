@@ -32,13 +32,11 @@
 #include "uimenu.h"
 #include "uiplus256k.h"
 
-
 UI_MENU_DEFINE_TOGGLE(PLUS256K)
 
 UI_CALLBACK(set_plus256k_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS256K image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS256K image name"), _("Name:"));
 }
 
 ui_menu_entry_t plus256k_submenu[] = {

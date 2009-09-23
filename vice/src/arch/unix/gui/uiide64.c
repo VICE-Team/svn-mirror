@@ -37,11 +37,9 @@
 #include "uimenu.h"
 #include "vsync.h"
 
-
 UI_CALLBACK(set_ide64_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("IDE64 image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("IDE64 image name"), _("Name:"));
 }
 
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
@@ -55,10 +53,11 @@ static UI_CALLBACK(set_cylinders)
 
         resources_get_int("IDE64AutodetectSize", &autosize);
 
-        if (autosize)
+        if (autosize) {
             ui_menu_set_sensitive(w, 0);
-        else
+        } else {
             ui_menu_set_sensitive(w, 1);
+        }
     } else {
         char *msg_string;
         ui_button_t button;
@@ -72,8 +71,7 @@ static UI_CALLBACK(set_cylinders)
         sprintf(input_string, "%d", cylinders);
 
         msg_string = lib_stralloc(_("Enter number of cylinders"));
-        button = ui_input_string(_("IDE64 cylinders"), msg_string, input_string,
-                                 32);
+        button = ui_input_string(_("IDE64 cylinders"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
@@ -94,10 +92,11 @@ static UI_CALLBACK(set_heads)
 
         resources_get_int("IDE64AutodetectSize", &autosize);
 
-        if (autosize)
+        if (autosize) {
             ui_menu_set_sensitive(w, 0);
-        else
+        } else {
             ui_menu_set_sensitive(w, 1);
+        }
     } else {
         char *msg_string;
         ui_button_t button;
@@ -111,8 +110,7 @@ static UI_CALLBACK(set_heads)
         sprintf(input_string, "%d", heads);
 
         msg_string = lib_stralloc(_("Enter number of heads"));
-        button = ui_input_string(_("IDE64 heads"), msg_string, input_string,
-                                 32);
+        button = ui_input_string(_("IDE64 heads"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
@@ -133,10 +131,11 @@ static UI_CALLBACK(set_sectors)
 
         resources_get_int("IDE64AutodetectSize", &autosize);
 
-        if (autosize)
+        if (autosize) {
             ui_menu_set_sensitive(w, 0);
-        else
+        } else {
             ui_menu_set_sensitive(w, 1);
+        }
     } else {
         char *msg_string;
         ui_button_t button;
@@ -150,8 +149,7 @@ static UI_CALLBACK(set_sectors)
         sprintf(input_string, "%d", sectors);
 
         msg_string = lib_stralloc(_("Enter number of sectors"));
-        button = ui_input_string(_("IDE64 sectors"), msg_string, input_string,
-                                 32);
+        button = ui_input_string(_("IDE64 sectors"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
@@ -177,4 +175,3 @@ ui_menu_entry_t ide64_submenu[] = {
       (ui_callback_t)set_sectors, NULL, NULL },
     { NULL }
 };
-

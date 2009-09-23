@@ -39,4 +39,3 @@ extern UI_CALLBACK(set_rs232_exec_file);
 extern UI_CALLBACK(set_rs232_dump_file);
 
 #endif
-

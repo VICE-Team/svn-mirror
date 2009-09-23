@@ -34,14 +34,12 @@
 #include "uimenu.h"
 #include "uitfe.h"
 
-
 UI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
 UI_MENU_DEFINE_TOGGLE(ETHERNET_AS_RR)
 
 UI_CALLBACK(set_interface_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Ethernet interface"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), _("Name:"));
 }
 
 ui_menu_entry_t tfe_submenu[] = {
@@ -56,4 +54,3 @@ ui_menu_entry_t tfe_submenu[] = {
 };
 
 #endif
-

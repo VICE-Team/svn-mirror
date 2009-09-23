@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s uiacia1_device_submenu[];
 
 #endif
-

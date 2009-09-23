@@ -62,7 +62,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 enum {
     MEM_NONE,
     MEM_ALL,
@@ -85,28 +84,28 @@ static UI_CALLBACK(set_common_memory_configuration)
     int blocks;
 
     switch (vice_ptr_to_int(UI_MENU_CB_PARAM)) {
-      case MEM_NONE:
-        blocks = 0;
-        break;
-      case MEM_ALL:
-        blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
-        break;
-      case MEM_3K:
-        blocks = BLOCK_0;
-        break;
-      case MEM_8K:
-        blocks = BLOCK_1;
-        break;
-      case MEM_16K:
-        blocks = BLOCK_1 | BLOCK_2;
-        break;
-      case MEM_24K:
-        blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
-        break;
-      default:
-        /* Shouldn't happen.  */
-        fprintf(stderr, _("What?!\n"));
-        blocks = 0;         /* Make compiler happy.  */
+        case MEM_NONE:
+            blocks = 0;
+            break;
+        case MEM_ALL:
+            blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
+            break;
+        case MEM_3K:
+            blocks = BLOCK_0;
+            break;
+        case MEM_8K:
+            blocks = BLOCK_1;
+            break;
+        case MEM_16K:
+            blocks = BLOCK_1 | BLOCK_2;
+            break;
+        case MEM_24K:
+            blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
+            break;
+        default:
+            /* Shouldn't happen.  */
+            fprintf(stderr, _("What?!\n"));
+            blocks = 0;         /* Make compiler happy.  */
     }
     resources_set_int("RamBlock0", blocks & BLOCK_0 ? 1 : 0);
     resources_set_int("RamBlock1", blocks & BLOCK_1 ? 1 : 0);
@@ -262,21 +261,19 @@ static UI_CALLBACK(attach_cartridge)
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_VIC20CART, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
-    filename = ui_select_file(_("Attach cartridge image"),
-                              NULL, 0, last_dir,
-                              filter, sizeof(filter) / sizeof(*filter), &button,
-                              0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Attach cartridge image"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
     switch (button) {
-      case UI_BUTTON_OK:
-        if (cartridge_attach_image(type, filename) < 0)
-            ui_error(_("Invalid cartridge image"));
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        ui_update_menus();
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (cartridge_attach_image(type, filename) < 0) {
+                ui_error(_("Invalid cartridge image"));
+            }
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            ui_update_menus();
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
@@ -446,24 +443,6 @@ static ui_menu_entry_t rs232_settings_menu[] = {
 
 /*------------------------------------------------------------*/
 
-/*
-UI_MENU_DEFINE_TOGGLE(IEEE488)
-
-static ui_menu_entry_t vic20_io_submenu[] = {
-    { "*VIC-1112 IEEE 488 module",
-      (ui_callback_t)toggle_IEEE488, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t vic20_io_settings_menu[] = {
-    { "I/O settings",
-      NULL, NULL, vic20_io_submenu },
-    { NULL }
-};
-*/
-
-/*------------------------------------------------------------*/
-
 static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
@@ -475,8 +454,9 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0)
+    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0) {
         return;
+    }
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
@@ -542,9 +522,6 @@ static ui_menu_entry_t vic20_right_menu[] = {
       NULL, NULL, ui_drivevic20_settings_menu },
     { "",
       NULL, NULL, ui_peripheraliec_settings_menu },
-/*
-                                     vic20_io_settings_menu,
-*/
     { "",
       NULL, NULL, joystick_settings_menu },
     { "",
@@ -676,4 +653,3 @@ void vic20ui_shutdown(void)
 {
     vic20ui_dynamic_menu_shutdown();
 }
-

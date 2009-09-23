@@ -38,7 +38,6 @@
 #include "util.h"
 #include "vsync.h"
 
-
 UI_CALLBACK(ui_load_palette)
 {
     char *filename, *title;
@@ -48,21 +47,20 @@ UI_CALLBACK(ui_load_palette)
 
     vsync_suspend_speed_eval();
     title = lib_stralloc(_("Load custom palette"));
-    filename = ui_select_file(title, NULL, 0, last_dir,
-                              filter, sizeof(filter) / sizeof(*filter),
-                              &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(title, NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
 
     lib_free(title);
     switch (button) {
-      case UI_BUTTON_OK:
-        if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0)
-            ui_error(_("Could not load palette file\n'%s'"), filename);
-        lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0) {
+                ui_error(_("Could not load palette file\n'%s'"), filename);
+            }
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     ui_update_menus();
     lib_free(filename);

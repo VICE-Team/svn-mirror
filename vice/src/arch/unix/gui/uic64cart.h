@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s ui_c64cart_commands_menu[];
 
 #endif
-

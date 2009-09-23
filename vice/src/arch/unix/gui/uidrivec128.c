@@ -37,9 +37,7 @@
 #include "uimenu.h"
 #include "uiromset.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive8Type,
@@ -239,4 +237,3 @@ ui_menu_entry_t ui_drivec128_romset_submenu[] = {
       (ui_callback_data_t)"DosName1001", NULL },
     { NULL }
 };
-

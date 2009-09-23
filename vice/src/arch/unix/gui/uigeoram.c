@@ -32,14 +32,12 @@
 #include "uimenu.h"
 #include "uigeoram.h"
 
-
 UI_MENU_DEFINE_TOGGLE(GEORAM)
 UI_MENU_DEFINE_RADIO(GEORAMsize)
 
 UI_CALLBACK(set_georam_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("GEORAM image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("GEORAM image name"), _("Name:"));
 }
 
 static ui_menu_entry_t georam_size_submenu[] = {
@@ -70,4 +68,3 @@ ui_menu_entry_t georam_submenu[] = {
       (ui_callback_data_t)"GEORAMfilename", NULL },
     { NULL }
 };
-

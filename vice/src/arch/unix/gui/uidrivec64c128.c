@@ -35,20 +35,14 @@
 #include "uidriveiec.h"
 #include "uimenu.h"
 
-
 UI_MENU_DEFINE_RADIO(Drive8ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive9ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive10ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive11ParallelCable)
-UI_MENU_DEFINE_TOGGLE_COND(Drive8ProfDOS, Drive8Type,
-                           drive_check_profdos)
-UI_MENU_DEFINE_TOGGLE_COND(Drive9ProfDOS, Drive9Type,
-                           drive_check_profdos)
-UI_MENU_DEFINE_TOGGLE_COND(Drive10ProfDOS, Drive10Type,
-                           drive_check_profdos)
-UI_MENU_DEFINE_TOGGLE_COND(Drive11ProfDOS, Drive11Type,
-                           drive_check_profdos)
-
+UI_MENU_DEFINE_TOGGLE_COND(Drive8ProfDOS, Drive8Type, drive_check_profdos)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9ProfDOS, Drive9Type, drive_check_profdos)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10ProfDOS, Drive10Type, drive_check_profdos)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11ProfDOS, Drive11Type, drive_check_profdos)
 
 static UI_CALLBACK(parallel_cable_control)
 {
@@ -57,13 +51,13 @@ static UI_CALLBACK(parallel_cable_control)
     } else {
         int type;
 
-        resources_get_int_sprintf("Drive%iType", &type,
-                                  vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
+        resources_get_int_sprintf("Drive%iType", &type, vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
 
-        if (drive_check_parallel_cable(type))
+        if (drive_check_parallel_cable(type)) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 
@@ -158,4 +152,3 @@ ui_menu_entry_t uidrivec64c128_drive3_expansion_submenu[] = {
       (ui_callback_t)toggle_Drive11ProfDOS, NULL, NULL },
     { NULL }
 };
-

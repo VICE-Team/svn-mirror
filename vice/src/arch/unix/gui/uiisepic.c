@@ -32,7 +32,6 @@
 #include "uimenu.h"
 #include "uiisepic.h"
 
-
 UI_MENU_DEFINE_TOGGLE(Isepic)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 

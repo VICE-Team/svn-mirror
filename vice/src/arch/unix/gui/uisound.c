@@ -35,7 +35,6 @@
 #include "uimenu.h"
 #include "uisound.h"
 
-
 UI_MENU_DEFINE_TOGGLE(Sound)
 UI_MENU_DEFINE_STRING_RADIO(SoundDeviceName)
 UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
@@ -46,8 +45,7 @@ UI_MENU_DEFINE_RADIO(SoundSuspendTime)
 
 UI_CALLBACK(set_sound_device_arg)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Sound driver argument"),
-                        _("Argument:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Sound driver argument"), _("Argument:"));
 }
 
 ui_menu_entry_t set_sound_sample_rate_submenu[] = {
@@ -163,17 +161,16 @@ void uisound_menu_create(void)
 
     num = sound_device_num();
 
-    if (num == 0)
+    if (num == 0) {
         return;
+    }
 
     devices_submenu = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; i < num ; i++) {
-        devices_submenu[i].string =
-            (ui_callback_data_t)lib_msprintf("*%s", sound_device_name(i));
+        devices_submenu[i].string = (ui_callback_data_t)lib_msprintf("*%s", sound_device_name(i));
         devices_submenu[i].callback = (ui_callback_t)radio_SoundDeviceName;
-        devices_submenu[i].callback_data
-            = (ui_callback_data_t)lib_stralloc(sound_device_name(i));
+        devices_submenu[i].callback_data = (ui_callback_data_t)lib_stralloc(sound_device_name(i));
     }
 
     sound_settings_submenu[2].sub_menu = devices_submenu;
@@ -186,8 +183,9 @@ void uisound_menu_shutdown(void)
 
     devices_submenu = sound_settings_submenu[2].sub_menu;
 
-    if (devices_submenu == NULL)
+    if (devices_submenu == NULL) {
         return;
+    }
 
     sound_settings_submenu[2].sub_menu = NULL;
 
@@ -201,4 +199,3 @@ void uisound_menu_shutdown(void)
 
     lib_free(devices_submenu);
 }
-

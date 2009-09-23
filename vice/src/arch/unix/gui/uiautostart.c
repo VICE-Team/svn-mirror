@@ -40,8 +40,7 @@ UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
 UI_CALLBACK(set_autostart_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Disk image for PRG autostart"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Disk image for PRG autostart"), _("Name:"));
 }
 
 static ui_menu_entry_t uiautostart_prg_mode_submenu[] = {

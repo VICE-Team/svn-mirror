@@ -37,7 +37,6 @@
 #include "uimenu.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_RADIO(SidEngine)
 
 ui_menu_entry_t sid_engine_submenu[] = {
@@ -201,8 +200,7 @@ UI_CALLBACK(set_sid_resid_passband)
 
     sprintf(input_string, "%d", i);
     msg_string = lib_stralloc(_("Enter passband in percentage of total bandwidth\n(0 - 90, lower is faster, higher is better)"));
-    button = ui_input_string(_("Passband percentage"),
-                             msg_string, input_string, 32);
+    button = ui_input_string(_("Passband percentage"), msg_string, input_string, 32);
     lib_free(msg_string);
     if (button == UI_BUTTON_OK) {
         i = atoi(input_string);

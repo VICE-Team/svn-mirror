@@ -33,4 +33,3 @@ extern struct ui_menu_entry_s ui_drivepetcbm2_settings_menu[];
 extern struct ui_menu_entry_s ui_drivepetcbm2_romset_submenu[];
 
 #endif
-

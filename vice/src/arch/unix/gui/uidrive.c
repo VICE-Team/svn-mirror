@@ -34,14 +34,12 @@
 #include "uidrive.h"
 #include "uimenu.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive10ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive11ExtendImagePolicy)
-
 
 UI_CALLBACK(uidrive_extend_policy_control)
 {
@@ -50,13 +48,13 @@ UI_CALLBACK(uidrive_extend_policy_control)
     } else {
         int type;
 
-        resources_get_int_sprintf("Drive%iType", &type,
-                                  vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
+        resources_get_int_sprintf("Drive%iType", &type, vice_ptr_to_int(UI_MENU_CB_PARAM) + 8);
 
-        if (drive_check_extend_policy(type))
+        if (drive_check_extend_policy(type)) {
             ui_menu_set_sensitive(w, 1);
-        else
+        } else {
             ui_menu_set_sensitive(w, 0);
+        }
     }
 }
 

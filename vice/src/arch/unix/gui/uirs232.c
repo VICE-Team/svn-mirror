@@ -37,40 +37,39 @@
 #include "uimenu.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
 ui_menu_entry_t ser1_c64c128_baud_submenu[] = {
   { "*300",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
   { N_("*38400 (Swiftlink/Turbo232 only)"),
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)38400, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)38400, NULL },
   { N_("*57600 (Turbo232 only)"),
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)57600, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)57600, NULL },
   { N_("*115200 (Turbo232 only)"),
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)115200, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)115200, NULL },
   { NULL }
 };
 
 ui_menu_entry_t ser1_baud_submenu[] = {
   { "*300",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
+    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
   { NULL }
 };
 
@@ -78,35 +77,35 @@ UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
 ui_menu_entry_t ser2_c64c128_baud_submenu[] = {
   { "*300",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
   { N_("*38400 (Swiftlink/Turbo232 only)"),
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)38400, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)38400, NULL },
   { N_("*57600 (Turbo232 only)"),
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)57600, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)57600, NULL },
   { N_("*115200 (Turbo232 only)"),
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)115200, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)115200, NULL },
   { NULL }
 };
 
 ui_menu_entry_t ser2_baud_submenu[] = {
   { "*300",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
+    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
   { NULL }
 };
 
@@ -119,30 +118,24 @@ UI_CALLBACK(set_rs232_device_file)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Select RS232 device file"),
-                              NULL, 0, "/dev", &filter, 1, &button, 0,
-                              NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Select RS232 device file"), NULL, 0, "/dev", &filter, 1, &button, 0, NULL, UI_FC_LOAD);
     switch (button) {
-      case UI_BUTTON_OK:
-        resources_set_string(resource, filename);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
+        case UI_BUTTON_OK:
+            resources_set_string(resource, filename);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
     }
     lib_free(filename);
 }
 
 UI_CALLBACK(set_rs232_exec_file)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM,
-                        _("Command to execute for RS232 (preceed with '|')"),
-                        _("Command:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for RS232 (preceed with '|')"), _("Command:"));
 }
 
 UI_CALLBACK(set_rs232_dump_file)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"),
-                        _("Dump file:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), _("Dump file:"));
 }
-

@@ -38,7 +38,6 @@
 #include "uiprinterieee.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 UI_MENU_DEFINE_TOGGLE(FSDevice8ConvertP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice9ConvertP00)
@@ -56,7 +55,6 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
-
 
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { N_("Device type"), NULL, NULL, uiperipheral_set_device8_type_submenu },
@@ -144,4 +142,3 @@ ui_menu_entry_t ui_peripheralieee_settings_menu[] = {
       NULL, NULL, peripheralieee_settings_submenu },
     { NULL }
 };
-

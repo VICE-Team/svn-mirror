@@ -69,7 +69,6 @@
 #include "uivicii.h"
 #include "vsync.h"
 
-
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_video_standard_c128_submenu[] = {
@@ -237,12 +236,12 @@ UI_CALLBACK(set_function_rom_name)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Function ROM image"), NULL, 0,
-                              last_dir, filter, 1, &button,  0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Function ROM image"), NULL, 0, last_dir, filter, 1, &button,  0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
-        if (resources_set_string(resname, filename) < 0)
+        if (resources_set_string(resname, filename) < 0) {
             ui_error(_("Could not load function ROM image\n'%s'"), filename);
+        }
     }
 }
 
@@ -358,8 +357,9 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0)
+    if (ui_screenshot_dialog(filename, machine_video_canvas_get(wid)) < 0) {
         return;
+    }
 }
 
 static ui_menu_entry_t screenshot_submenu[] = {
@@ -380,21 +380,20 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 UI_MENU_DEFINE_RADIO(MachineType)
 
-
 static ui_menu_entry_t machine_type_submenu[] = {
-    { "*International", (ui_callback_t)radio_MachineType,
+    { N_("*International"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_INT, NULL },
-    { "*Finnish", (ui_callback_t)radio_MachineType,
+    { N_("*Finnish"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_FINNISH, NULL },
-    { "*French", (ui_callback_t)radio_MachineType,
+    { N_("*French"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_FRENCH, NULL },
-    { "*German", (ui_callback_t)radio_MachineType,
+    { N_("*German"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_GERMAN, NULL },
-    { "*Italian", (ui_callback_t)radio_MachineType,
+    { N_("*Italian"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_ITALIAN, NULL },
-    { "*Norwegian", (ui_callback_t)radio_MachineType,
+    { N_("*Norwegian"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_NORWEGIAN, NULL },
-    { "*Swedish", (ui_callback_t)radio_MachineType,
+    { N_("*Swedish"), (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_SWEDISH, NULL },
     { NULL }
 };
@@ -588,9 +587,7 @@ static void c128ui_dynamic_menu_shutdown(void)
 
 int c128ui_init(void)
 {
-    memcpy(set_video_standard_submenu,
-           set_video_standard_c128_submenu,
-           sizeof(set_video_standard_c128_submenu));
+    memcpy(set_video_standard_submenu, set_video_standard_c128_submenu, sizeof(set_video_standard_c128_submenu));
 
     ui_set_application_icon(c128_icon_data);
     c128ui_dynamic_menu_create();
@@ -610,4 +607,3 @@ void c128ui_shutdown(void)
 {
     c128ui_dynamic_menu_shutdown();
 }
-

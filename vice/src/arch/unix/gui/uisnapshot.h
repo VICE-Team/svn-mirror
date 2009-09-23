@@ -30,4 +30,3 @@
 extern void ui_snapshot_dialog(void);
 
 #endif
-

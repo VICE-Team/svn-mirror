@@ -37,8 +37,7 @@ UI_MENU_DEFINE_TOGGLE(DQBB)
 
 UI_CALLBACK(set_dqbb_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("DQBB image name"),
-                        _("Name:"));
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("DQBB image name"), _("Name:"));
 }
 
 ui_menu_entry_t dqbb_submenu[] = {

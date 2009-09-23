@@ -35,7 +35,6 @@
 #include "uimenu.h"
 #include "uieasyflash.h"
 
-
 UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 
@@ -55,4 +54,3 @@ ui_menu_entry_t easyflash_submenu[] = {
       (ui_callback_t)easyflash_save_callback, NULL, NULL },
     { NULL }
 };
-

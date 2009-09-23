@@ -34,12 +34,10 @@
 #include "uimenu.h"
 #include "uiprinter.h"
 
-
 UI_MENU_DEFINE_RADIO(FileSystemDevice8)
 UI_MENU_DEFINE_RADIO(FileSystemDevice9)
 UI_MENU_DEFINE_RADIO(FileSystemDevice10)
 UI_MENU_DEFINE_RADIO(FileSystemDevice11)
-
 
 UI_CALLBACK(uiperipheral_set_fsdevice_directory)
 {
@@ -111,4 +109,3 @@ ui_menu_entry_t uiperipheral_set_device11_type_submenu[] = {
       (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
     { NULL }
 };
-

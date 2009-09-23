@@ -45,4 +45,3 @@ extern UI_CALLBACK(radio_Drive10Type);
 extern UI_CALLBACK(radio_Drive11Type);
 
 #endif
-

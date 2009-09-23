@@ -32,4 +32,3 @@
 extern struct ui_menu_entry_s uirs232petplus4cbm2_submenu[];
 
 #endif
-
