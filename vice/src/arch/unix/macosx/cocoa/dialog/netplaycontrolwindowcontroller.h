@@ -35,7 +35,7 @@
 
     IBOutlet NSTextField *serverNameTextField;
     IBOutlet NSTextField *serverPortTextField;
-    
+
     IBOutlet NSButton *control00;
     IBOutlet NSButton *control01;
     IBOutlet NSButton *control02;
@@ -47,9 +47,9 @@
     IBOutlet NSButton *control07;
     IBOutlet NSButton *control08;
     IBOutlet NSButton *control09;
-    
+
     IBOutlet NSTextField *infoTextField;
-    
+
     NSButton *control[10];
     int flags[10];
 }

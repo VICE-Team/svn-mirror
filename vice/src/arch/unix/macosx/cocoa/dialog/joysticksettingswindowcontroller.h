@@ -34,16 +34,16 @@
 #include "joy.h"
 
 enum {
-    KEYSET_NORTH=0,
-    KEYSET_SOUTH=1,
-    KEYSET_WEST=2,
-    KEYSET_EAST=3,
-    KEYSET_NORTHWEST=4,
-    KEYSET_SOUTHWEST=5,
-    KEYSET_NORTHEAST=6,
-    KEYSET_SOUTHEAST=7,
-    KEYSET_FIRE=8,
-    KEYSET_SIZE=9
+    KEYSET_NORTH = 0,
+    KEYSET_SOUTH = 1,
+    KEYSET_WEST = 2,
+    KEYSET_EAST = 3,
+    KEYSET_NORTHWEST = 4,
+    KEYSET_SOUTHWEST = 5,
+    KEYSET_NORTHEAST = 6,
+    KEYSET_SOUTHEAST = 7,
+    KEYSET_FIRE = 8,
+    KEYSET_SIZE = 9
 } JoystickKeyset;
 
 @interface JoystickSettingsWindowController : VICEResourceWindowController
@@ -74,11 +74,11 @@ enum {
     IBOutlet NSPopUpButton *hidXAxis;
     IBOutlet NSButton      *hidXDetect;
     IBOutlet NSTextField   *hidXThreshold;
-    
+
     IBOutlet NSPopUpButton *hidYAxis;
     IBOutlet NSButton      *hidYDetect;
     IBOutlet NSTextField   *hidYThreshold;
-    
+
     IBOutlet NSButton      *hidNorth;
     IBOutlet NSButton      *hidSouth;
     IBOutlet NSButton      *hidWest;
@@ -116,4 +116,3 @@ enum {
 -(IBAction)defineHidButton:(id)sender;
 
 @end
-

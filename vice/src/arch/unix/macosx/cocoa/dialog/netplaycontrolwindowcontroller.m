@@ -60,7 +60,7 @@
 -(void)setButtonState
 {
     int mode = [[VICEApplication theMachineController] getNetplayMode];
-    if (mode==0) {
+    if (mode == 0) {
         [startServerButton setEnabled:TRUE];
         [connectToButton setEnabled:TRUE];
         [disconnectButton setEnabled:FALSE];
@@ -69,7 +69,7 @@
         [startServerButton setEnabled:FALSE];
         [connectToButton setEnabled:FALSE];
         [disconnectButton setEnabled:TRUE];
-        [infoTextField setStringValue:(mode==3 ? @"Client" : @"Server")];
+        [infoTextField setStringValue:(mode == 3 ? @"Client" : @"Server")];
     }
 }
 
@@ -96,7 +96,7 @@
 {
     int ctl = [self getIntResource:@"NetworkControl"];
     int i;
-    for (i=0;i<10;i++) {
+    for (i = 0; i < 10; i++) {
         BOOL on = ((ctl & flags[i]) == flags[i]);
         [control[i] setState:on];
     }
@@ -161,7 +161,7 @@
 {
     int ctl = 0;
     int i;
-    for (i=0;i<10;i++) {
+    for (i = 0; i < 10; i++) {
         if ([control[i] state] == NSOnState) {
             ctl |= flags[i];
         }

@@ -45,7 +45,7 @@
 {
     NSWindow *window = [self window];
     int state = [[[notification userInfo] objectForKey:@"state"] intValue];
-    switch(state) {
+    switch (state) {
         case VICEMonitorStateOn:
             shownBeforeMonitor = [window isVisible];
             if (shownBeforeMonitor) {
@@ -84,8 +84,9 @@
 {
     NSNumber *number = [[VICEApplication theMachineController] 
                             getIntResource:name];
-    if (number==nil)
+    if (number == nil) {
         return -1;
+    }
     int result = [number intValue];
     return result;
 }

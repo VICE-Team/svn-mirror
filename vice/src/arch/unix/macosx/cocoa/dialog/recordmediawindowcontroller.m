@@ -59,14 +59,14 @@
 
 -(void)updateAudioBitrate
 {
-    NSString *res = [NSString stringWithFormat:@"%@AudioBitrate",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@AudioBitrate", currentMediaType];
     int value = [self getIntResource:res];
     [audioBitrate setIntValue:value];
 }
 
 -(void)updateVideoBitrate
 {
-    NSString *res = [NSString stringWithFormat:@"%@VideoBitrate",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@VideoBitrate", currentMediaType];
     int value = [self getIntResource:res];
     [videoBitrate setIntValue:value];    
 }
@@ -74,10 +74,10 @@
 -(void)updateVideoFormat
 {        
     // get current video format
-    NSString *res = [NSString stringWithFormat:@"%@VideoCodec",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@VideoCodec", currentMediaType];
     int codecId = [self getIntResource:res];
     NSString *codecName = (NSString *)[currentVideoFormats objectForKey:[NSNumber numberWithInt:codecId]];
-    if (codecName!=nil) {
+    if (codecName != nil) {
         [videoFormat selectItemWithTitle:codecName];
     }
 }
@@ -85,10 +85,10 @@
 -(void)updateAudioFormat
 {
     // get current video format
-    NSString *res = [NSString stringWithFormat:@"%@AudioCodec",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@AudioCodec", currentMediaType];
     int codecId = [self getIntResource:res];
     NSString *codecName = (NSString *)[currentAudioFormats objectForKey:[NSNumber numberWithInt:codecId]];
-    if (codecName!=nil) {
+    if (codecName != nil) {
         [audioFormat selectItemWithTitle:codecName];
     }
 }
@@ -105,7 +105,7 @@
     
     if (doit) {
         fileName = [fileName stringByDeletingPathExtension];
-        NSString *result = [NSString stringWithFormat:@"%@.%@",fileName,currentDefaultExtension];
+        NSString *result = [NSString stringWithFormat:@"%@.%@", fileName, currentDefaultExtension];
         [mediaFileName setStringValue:result];
     }
 }
@@ -123,28 +123,29 @@
 
 -(void)updateMediaFormat
 {
-    if (!currentMediaTypeHasFormats)
+    if (!currentMediaTypeHasFormats) {
         return;
+    }
     
     // get current format
-    NSString *res = [NSString stringWithFormat:@"%@Format",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@Format", currentMediaType];
     [currentMediaFormat release];
     currentMediaFormat = [self getStringResource:res];
     [currentMediaFormat retain];
 
     [self fetchDefaultExtension];
-    
+
     // set media format
     [mediaFormat selectItemWithTitle:currentMediaFormat];
 
     // find media format in description and setup audio and video codecs
     int i;
-    for (i=0;i<[currentMediaFormats count];i++) {
+    for (i = 0; i < [currentMediaFormats count]; i++) {
         NSArray *fa = (NSArray *)[currentMediaFormats objectAtIndex:i];
         NSString *formatName = (NSString *)[fa objectAtIndex:0];
 
         // set audio and video codecs for current format
-        if ([currentMediaFormat compare:formatName]==NSOrderedSame) {
+        if ([currentMediaFormat compare:formatName] == NSOrderedSame) {
             currentVideoFormats = (NSDictionary *)[fa objectAtIndex:1];
             currentAudioFormats = (NSDictionary *)[fa objectAtIndex:2];
 
@@ -153,7 +154,7 @@
 
             [audioFormat removeAllItems];
             [audioFormat addItemsWithTitles:[currentAudioFormats allValues]];
-            
+
             BOOL hasVideoFormats = [currentVideoFormats count] > 0;
             BOOL hasAudioFormats = [currentAudioFormats count] > 0;
             
@@ -161,7 +162,7 @@
             [videoBitrate setEnabled:hasVideoFormats];
             [audioFormat  setEnabled:hasAudioFormats];
             [audioBitrate setEnabled:hasAudioFormats];
-            
+
             break;
         }
     }
@@ -179,7 +180,7 @@
     [currentMediaType release];
     currentMediaType = [[mediaType selectedItem] title];
     [currentMediaType retain];
-    
+
     // ask the machine controller if the media type has options
     currentMediaTypeHasFormats = [[VICEApplication theMachineController] mediaDriverHasFormats:currentMediaType];
     BOOL hasFormats = currentMediaTypeHasFormats;
@@ -190,22 +191,22 @@
     [videoBitrate setEnabled:hasFormats];
     [audioFormat setEnabled:hasFormats];
     [audioBitrate setEnabled:hasFormats];
-    
+
     if (hasFormats) {
         // fetch all formats and video/audio codecs from machine controller
         [currentMediaFormats release];
         currentMediaFormats = [[VICEApplication theMachineController] enumMediaFormats:currentMediaType];
         [currentMediaFormats retain];
-                
+        
         // fill in formats
         [mediaFormat removeAllItems];
         int i;
-        for (i=0;i<[currentMediaFormats count];i++) {
+        for (i = 0; i < [currentMediaFormats count]; i++) {
             NSArray *fa = (NSArray *)[currentMediaFormats objectAtIndex:i];
             NSString *formatName = (NSString *)[fa objectAtIndex:0];
             [mediaFormat addItemWithTitle:formatName];
         }
-        
+
         // set current format and setup audio video codecs
         [self updateMediaFormat];
     } else {
@@ -233,7 +234,7 @@
     int canvasId = [VICEApplication currentCanvasId];
     NSString *fileName = [mediaFileName stringValue];
     NSString *driver = [[mediaType selectedItem] title];
-    
+
     BOOL ok = [[VICEApplication theMachineController] startRecordingMedia:driver
                                                                fromCanvas:canvasId
                                                                    toFile:fileName];
@@ -253,7 +254,7 @@
 -(IBAction)stopRecording:(id)sender
 {
     [[VICEApplication theMachineController] stopRecordingMedia];
-    
+
     [stopRecord setEnabled:FALSE];
     [startRecord setEnabled:TRUE];
     [mediaFileName setEnabled:TRUE];
@@ -267,9 +268,9 @@
 
 -(IBAction)pickMediaFileName:(id)sender
 {
-    NSString *title = [NSString stringWithFormat:@"Record %@ Media",currentDefaultExtension];
+    NSString *title = [NSString stringWithFormat:@"Record %@ Media", currentDefaultExtension];
     NSString *fileName = [self pickSaveFileWithTitle:title types:[NSArray arrayWithObjects:currentDefaultExtension,nil]];
-    if (fileName!=nil) {
+    if (fileName != nil) {
         [mediaFileName setStringValue:fileName];
     }
 }
@@ -281,7 +282,7 @@
 
 -(IBAction)changedMediaFormat:(id)sender
 {
-    NSString *res = [NSString stringWithFormat:@"%@Format",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@Format", currentMediaType];
     [self setStringResource:res toValue:[mediaFormat titleOfSelectedItem]];
     [self updateMediaFormat];
 }
@@ -290,8 +291,8 @@
 {
     NSString *curFormat = [audioFormat titleOfSelectedItem];
     NSArray *keys = [currentAudioFormats allKeysForObject:curFormat];
-    if ([keys count]==1) {
-        NSString *res = [NSString stringWithFormat:@"%@AudioCodec",currentMediaType];
+    if ([keys count] == 1) {
+        NSString *res = [NSString stringWithFormat:@"%@AudioCodec", currentMediaType];
         int value = [(NSNumber *)[keys objectAtIndex:0] intValue];
         [self setIntResource:res toValue:value];
         [self updateAudioFormat];
@@ -300,7 +301,7 @@
 
 -(IBAction)changedAudioBitrate:(id)sender
 {
-    NSString *res = [NSString stringWithFormat:@"%@AudioBitrate",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@AudioBitrate", currentMediaType];
     int value = [audioBitrate intValue];
     [self setIntResource:res toValue:value];
     [self updateAudioBitrate];
@@ -310,17 +311,17 @@
 {
     NSString *curFormat = [videoFormat titleOfSelectedItem];
     NSArray *keys = [currentVideoFormats allKeysForObject:curFormat];
-    if ([keys count]==1) {
-        NSString *res = [NSString stringWithFormat:@"%@VideoCodec",currentMediaType];
+    if ([keys count] == 1) {
+        NSString *res = [NSString stringWithFormat:@"%@VideoCodec", currentMediaType];
         int value = [(NSNumber *)[keys objectAtIndex:0] intValue];
         [self setIntResource:res toValue:value];
         [self updateVideoFormat];
-    } 
+    }
 }
 
 -(IBAction)changedVideoBitrate:(id)sender
 {
-    NSString *res = [NSString stringWithFormat:@"%@VideoBitrate",currentMediaType];
+    NSString *res = [NSString stringWithFormat:@"%@VideoBitrate", currentMediaType];
     int value = [videoBitrate intValue];
     [self setIntResource:res toValue:value];
     [self updateVideoBitrate];

@@ -31,7 +31,7 @@
 @interface DriveSettingsWindowController : VICEResourceWindowController
 {
     IBOutlet NSSegmentedControl *driveChooser;
-    
+
     IBOutlet NSMatrix *driveType;
     IBOutlet NSMatrix *trackHandling;
     IBOutlet NSMatrix *idleMethod;

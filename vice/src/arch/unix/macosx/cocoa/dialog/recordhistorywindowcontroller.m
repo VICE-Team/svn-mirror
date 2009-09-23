@@ -34,23 +34,23 @@
 {
     self = [super initWithWindowNibName:@"RecordHistory"];
     [self registerForResourceUpdate:@selector(updateResources:)];
-    
+
     // register notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayRecording:)
                                                  name:VICEDisplayRecordingNotification
                                                object:nil];
 
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(displayPlayback:)
-                                                name:VICEDisplayPlaybackNotification
-                                              object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayPlayback:)
+                                                 name:VICEDisplayPlaybackNotification
+                                               object:nil];
 
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(displayEventTime:)
-                                                name:VICEDisplayEventTimeNotification
-                                              object:nil];
-     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayEventTime:)
+                                                 name:VICEDisplayEventTimeNotification
+                                               object:nil];
+
     return self;
 }
 
@@ -67,7 +67,7 @@
 {
     NSString *workDir = [self getStringResource:@"EventSnapshotDir"];
     [workDirText setStringValue:workDir];
-    
+
     int startMode = [self getIntResource:@"EventStartMode"];
     [startRecordPopup selectItemWithTag:startMode];
 }
@@ -80,7 +80,7 @@
     BOOL playback = [[dict objectForKey:@"playback"] boolValue];
     NSString *version = (NSString *)[dict objectForKey:@"version"];
     if (playback) { 
-        [playbackText setStringValue:[NSString stringWithFormat:@"Playback: %@",version]];
+        [playbackText setStringValue:[NSString stringWithFormat:@"Playback: %@", version]];
     } else {
         [playbackText setStringValue:@""];
         [self setButtonState];
@@ -92,8 +92,9 @@
     NSDictionary * dict = [notification userInfo];
     BOOL recording = [[dict objectForKey:@"recording"] boolValue];
     [recordingText setStringValue:(recording ? @"Recording" : @"")];
-    if (!recording)
+    if (!recording) {
         [self setButtonState];
+    }
 }
 
 -(void)displayEventTime:(NSNotification *)notification
@@ -105,14 +106,14 @@
     int curMin = curTime / 60;
     int curSec = curTime % 60;
     NSString *txt;
-    if (totalTime!=0) {
+    if (totalTime != 0) {
         int totalMin = totalTime / 60;
         int totalSec = totalTime % 60;
         txt = [NSString stringWithFormat:@"Time %02d:%02d  Total Time %02d:%02d",
-                curMin,curSec,totalMin,totalSec];
+                curMin, curSec, totalMin, totalSec];
     } else {
         txt = [NSString stringWithFormat:@"Time %02d:%02d",
-                curMin,curSec];    
+                curMin, curSec];    
     }
     [timeText setStringValue:txt];
 }
@@ -181,7 +182,7 @@
 {
     VICEAppController *appCtrl = [VICEApplication theAppController];
     NSString *path = [appCtrl pickDirectoryWithTitle:@"Record History"];
-    if (path!=nil) {
+    if (path != nil) {
         [self setStringResource:@"EventSnapshotDir" toValue:path];
         [self updateResources:nil];
     }

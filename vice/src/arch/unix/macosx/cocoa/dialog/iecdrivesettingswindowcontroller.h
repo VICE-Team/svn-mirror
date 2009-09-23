@@ -33,7 +33,7 @@
 @interface IECDriveSettingsWindowController : VICEResourceWindowController
 {
     IBOutlet NSSegmentedControl *driveChooser;
-    
+
     IBOutlet NSButton *enableIECDrive;
 
     IBOutlet NSTextField *imagePath;
@@ -49,9 +49,9 @@
 
     IBOutlet NSButton *useOpenCBMDevice;
     IBOutlet NSButton *useRawFloppy;
-    
+
     IBOutlet NSTextField *status;
-    
+
     int driveOffset;
     int driveCount;
 }

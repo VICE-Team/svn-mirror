@@ -35,13 +35,13 @@
     IBOutlet NSTextField *mediaFileName;
     IBOutlet NSButton *mediaFileNamePicker;
     IBOutlet NSPopUpButton *mediaType;
-    
+
     IBOutlet NSPopUpButton *mediaFormat;
     IBOutlet NSPopUpButton *audioFormat;
     IBOutlet NSTextField *audioBitrate;
     IBOutlet NSPopUpButton *videoFormat;
     IBOutlet NSTextField *videoBitrate;
-    
+
     NSArray *currentMediaFormats;
 
     NSString *currentMediaType;

@@ -37,7 +37,7 @@
 -(id)init
 {
     self = [super initWithWindowNibName:@"IECDriveSettings"];
-    
+
     // listen to resource changes
     [self registerForResourceUpdate:@selector(updateResources:)];
 
@@ -59,15 +59,15 @@
     // setup drive chooser
     [driveChooser setSegmentCount:driveCount];
     int i;
-    for (i=0;i<driveCount;i++) {
-        NSString *driveName = [NSString stringWithFormat:@"Drive %d",i+driveOffset];
+    for (i = 0; i < driveCount; i++) {
+        NSString *driveName = [NSString stringWithFormat:@"Drive %d", i + driveOffset];
         [driveChooser setLabel:driveName forSegment:i];
     }
     [driveChooser setSelectedSegment:0];
 
     // setup dialog from resources
     [self updateResources:nil];
-    
+
     [super windowDidLoad];
 }
 
@@ -75,36 +75,36 @@
 {
     int curDriveId = [driveChooser selectedSegment];
     int curDrive = curDriveId + driveOffset;
-    
+
     // toggle IECDevice checkmark and selection
     int isIecDrive = [self getIntResource:@"IECDevice%d" withNumber:curDrive];
     [enableIECDrive setState:isIecDrive];
     int fileSystemDevice = [self getIntResource:@"FileSystemDevice%d" withNumber:curDrive];
-    
+
     // set disk image name
     NSString *diskName = [[VICEApplication theMachineController] getDiskName:curDrive];
-    [imagePath setStringValue:(diskName!=nil)?diskName:@""];
-    BOOL isImagePath = isIecDrive && (fileSystemDevice==ATTACH_DEVICE_FS) && (diskName!=nil);
+    [imagePath setStringValue:(diskName != nil) ? diskName : @""];
+    BOOL isImagePath = isIecDrive && (fileSystemDevice == ATTACH_DEVICE_FS) && (diskName != nil);
     [imagePath setEnabled:isImagePath];
-    
+
     // attach image read only
     int doAttachReadOnly = [self getIntResource:@"AttachDevice%dReadOnly" withNumber:curDrive];
     [attachReadOnly setState:doAttachReadOnly];
     [attachReadOnly setEnabled:isImagePath];
-    
+
     // image buttons
     [attachImage setEnabled:isIecDrive];
-    [autostartImage setEnabled:isIecDrive && (curDriveId==0)];
-    
+    [autostartImage setEnabled:isIecDrive && (curDriveId == 0)];
+
     // dir path
     NSString *dir = [self getStringResource:@"FSDevice%dDir" withNumber:curDrive];
-    [dirPath setStringValue:(dir!=nil)?dir:@""];
-    BOOL isDirPath = isIecDrive && (fileSystemDevice==ATTACH_DEVICE_FS) && (diskName==nil);
+    [dirPath setStringValue:(dir != nil) ? dir : @""];
+    BOOL isDirPath = isIecDrive && (fileSystemDevice == ATTACH_DEVICE_FS) && (diskName == nil);
     [dirPath setEnabled:isDirPath];
 
     // dir buttons
     [mountDir setEnabled:isIecDrive];
-  
+
     // set state of dir options
     [readP00Files setEnabled:isDirPath];
     [writeP00Files setEnabled:isDirPath];
@@ -126,12 +126,14 @@
 
 -(void)updateStatus
 {
-    const char *names[5] = { "None",
-                             "File System",
-                             "Real Drive",
-                             "Raw Drive",
-                             "Disk Image" };
-    
+    const char *names[5] = {
+        "None",
+        "File System",
+        "Real Drive",
+        "Raw Drive",
+        "Disk Image"
+    };
+
     int curDriveId = [driveChooser selectedSegment];
     int curDrive = curDriveId + driveOffset;
 
@@ -140,10 +142,11 @@
     if (isIecDrive) {
         state = [self getIntResource:@"FileSystemDevice%d" withNumber:curDrive];
         NSString *diskName = [[VICEApplication theMachineController] getDiskName:curDrive];
-        if (state==1 && (diskName!=nil))
+        if (state == 1 && (diskName != nil)) {
             state = 4;
+        }
     }
-    [status setStringValue:[NSString stringWithFormat:@"Type: %s",names[state]]];    
+    [status setStringValue:[NSString stringWithFormat:@"Type: %s", names[state]]];    
 }
 
 -(void)updateDiskImageName:(NSNotification *)notification
@@ -239,7 +242,7 @@
 -(IBAction)mountDir:(id)sender
 {
     int curDrive = [driveChooser selectedSegment] + driveOffset;
-    
+
     // get directory
     NSString *dir = [[VICEApplication theAppController] pickDirectoryWithTitle:@"Pick Directory to Mount"];
     if (dir == nil) {

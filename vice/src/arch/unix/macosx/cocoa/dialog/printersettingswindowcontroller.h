@@ -31,15 +31,15 @@
 @interface PrinterSettingsWindowController : VICEResourceWindowController
 {
     IBOutlet NSSegmentedControl *printerChooser;
-    
+
     IBOutlet NSButton *useIECDevice;
     IBOutlet NSPopUpButton *printerEmulation;
     IBOutlet NSButton *sendFormFeed;
-    
+
     IBOutlet NSPopUpButton *driver;
     IBOutlet NSPopUpButton *output;
     IBOutlet NSPopUpButton *textDevice;
-    
+
     IBOutlet NSTextField *printerTextDevice1;
     IBOutlet NSTextField *printerTextDevice2;
     IBOutlet NSTextField *printerTextDevice3;

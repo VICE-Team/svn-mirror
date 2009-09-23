@@ -30,7 +30,7 @@
 
 #include "printer.h"
 
-static const char *tag[3] = { "Userport","4","5" };
+static const char *tag[3] = { "Userport", "4", "5" };
 
 @implementation PrinterSettingsWindowController
 
@@ -53,35 +53,35 @@ static const char *tag[3] = { "Userport","4","5" };
     int printerId = [printerChooser selectedSegment];
 
     // IEC Device
-    [useIECDevice setHidden:(printerId==0)];
+    [useIECDevice setHidden:(printerId == 0)];
     if (printerId>0) {
         int doUse = [self getIntResource:@"IECDevice%d" withNumber:printerId];
         [useIECDevice setState:doUse];
     }
-    
+
     // printer emulation
-    int emul = [self getIntResource:[NSString stringWithFormat:@"Printer%s",tag[printerId]]];
+    int emul = [self getIntResource:[NSString stringWithFormat:@"Printer%s", tag[printerId]]];
     [printerEmulation selectItemAtIndex:emul];
 
     // send form feed button
-    [sendFormFeed setEnabled:(emul>0)];
-    
+    [sendFormFeed setEnabled:(emul > 0)];
+
     // file output options
     BOOL hasFileOutput = (emul == PRINTER_DEVICE_FS);
     [driver setEnabled:hasFileOutput];
     [output setEnabled:hasFileOutput];
     [textDevice setEnabled:hasFileOutput];
-    
+
     NSString *driverStr = [self getStringResource:
-        [NSString stringWithFormat:@"Printer%sDriver",tag[printerId]]];
+        [NSString stringWithFormat:@"Printer%sDriver", tag[printerId]]];
     NSString *outputStr = [self getStringResource:
-        [NSString stringWithFormat:@"Printer%sOutput",tag[printerId]]];
+        [NSString stringWithFormat:@"Printer%sOutput", tag[printerId]]];
     int textDeviceVal = [self getIntResource:
-        [NSString stringWithFormat:@"Printer%sTextDevice",tag[printerId]]];
+        [NSString stringWithFormat:@"Printer%sTextDevice", tag[printerId]]];
     [driver selectItemWithTitle:[driverStr uppercaseString]];
     [output selectItemWithTitle:[outputStr capitalizedString]];
     [textDevice selectItemAtIndex:textDeviceVal];
-    
+
     // printer text devices
     NSString *textDevice1 = [self getStringResource:@"PrinterTextDevice1"];
     [printerTextDevice1 setStringValue:textDevice1];
@@ -122,8 +122,8 @@ static const char *tag[3] = { "Userport","4","5" };
 -(IBAction)doSendFormFeed:(id)sender
 {
     int curPrinter = [printerChooser selectedSegment];
-    static const int map[3] = { 2,0,1 };
-    
+    static const int map[3] = { 2, 0, 1 };
+
     [[VICEApplication theMachineController] printerFormFeed:map[curPrinter]];
 }
 
@@ -131,7 +131,7 @@ static const char *tag[3] = { "Userport","4","5" };
 {
     int curPrinter = [printerChooser selectedSegment];
     NSMenuItem *cell = [sender selectedItem];
-    [self setStringResource:[NSString stringWithFormat:@"Printer%sDriver",tag[curPrinter]]
+    [self setStringResource:[NSString stringWithFormat:@"Printer%sDriver", tag[curPrinter]]
                     toValue:[[cell title] lowercaseString]];
 }
 
@@ -139,7 +139,7 @@ static const char *tag[3] = { "Userport","4","5" };
 {
     int curPrinter = [printerChooser selectedSegment];
     NSMenuItem *cell = [sender selectedItem];
-    [self setStringResource:[NSString stringWithFormat:@"Printer%sOutput",tag[curPrinter]]
+    [self setStringResource:[NSString stringWithFormat:@"Printer%sOutput", tag[curPrinter]]
                     toValue:[[cell title] lowercaseString]];
 }
 
@@ -147,7 +147,7 @@ static const char *tag[3] = { "Userport","4","5" };
 {
     int curPrinter = [printerChooser selectedSegment];
     int emu = [sender indexOfSelectedItem];
-    [self setIntResource:[NSString stringWithFormat:@"Printer%sTextDevice",tag[curPrinter]]
+    [self setIntResource:[NSString stringWithFormat:@"Printer%sTextDevice", tag[curPrinter]]
                  toValue:emu];
 }
 

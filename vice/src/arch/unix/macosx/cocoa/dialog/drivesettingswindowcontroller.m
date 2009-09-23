@@ -46,9 +46,10 @@
     };
     int i;
     numDriveTypes = 14;
-    for (i=0;i<numDriveTypes;i++)
+    for (i = 0; i < numDriveTypes; i++) {
         driveTypeMap[i] = map[i];
-    
+    }
+
     // TODO: set emulator dependent
     driveOffset = 8;
     driveCount = 4;
@@ -61,8 +62,8 @@
     // setup tab view labels
     [driveChooser setSegmentCount:driveCount];
     int i;
-    for (i=0;i<driveCount;i++) {
-        NSString *driveName = [NSString stringWithFormat:@"Drive %d",i+driveOffset];
+    for (i = 0; i < driveCount; i++) {
+        NSString *driveName = [NSString stringWithFormat:@"Drive %d", i + driveOffset];
         [driveChooser setLabel:driveName forSegment:i];
     }
     [driveChooser setSelectedSegment:0];
@@ -86,7 +87,7 @@
 
         // enable valid drive types
         int j;
-        for (j=0;j<numDriveTypes;j++) {
+        for (j = 0; j < numDriveTypes; j++) {
             int isDriveValid = drive_check_type([self mapToDriveType:j],driveId);
             id cell = [driveType cellAtRow:j column:0];
             [cell setEnabled:isDriveValid];
@@ -141,7 +142,7 @@
         [parallelCable setEnabled:canParallel];
         int parallelCableVal = [self getIntResource:@"Drive%dParallelCable" withNumber:driveNum];
         [parallelCable setState:parallelCableVal];
-        
+
     } else {
         // disable all controls
         [driveType setEnabled:false];
@@ -158,17 +159,19 @@
 
 -(int)mapToDriveType:(int)driveId
 {
-    if ((driveId>=0)&&(driveId<numDriveTypes))
+    if ((driveId >= 0) && (driveId < numDriveTypes)) {
         return driveTypeMap[driveId];
+    }
     return DRIVE_TYPE_NONE;
 }
 
 -(int)mapFromDriveType:(int)driveTypeId
 {
     int i;
-    for (i=0;i<numDriveTypes;i++) {
-        if (driveTypeId == driveTypeMap[i])
+    for (i = 0; i < numDriveTypes; i++) {
+        if (driveTypeId == driveTypeMap[i]) {
             return i;
+        }
     }
     return numDriveTypes;
 }

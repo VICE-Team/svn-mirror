@@ -29,9 +29,16 @@
 #import "vicenotifications.h"
 #import "viceappcontroller.h"
 
-static const char *vicii_palettes[]=
-{
- "default","c64hq","c64s","ccs64","frodo","godot","pc64","vice",NULL
+static const char *vicii_palettes[] = {
+    "default",
+    "c64hq",
+    "c64s",
+    "ccs64",
+    "frodo",
+    "godot",
+    "pc64",
+    "vice",
+    NULL
 };
 
 @implementation VideoSettingsWindowController
@@ -47,7 +54,7 @@ static const char *vicii_palettes[]=
 {
     [palette1Popup removeAllItems];
     const char **pal = vicii_palettes;
-    while (*pal!=NULL) {
+    while (*pal != NULL) {
         [palette1Popup addItemWithTitle:[NSString stringWithCString:*pal encoding:NSUTF8StringEncoding]];
         pal++;
     }
@@ -78,10 +85,10 @@ static const char *vicii_palettes[]=
 -(void)updateColorResources
 {
     int saturation = [self getIntResource:@"ColorSaturation"];
-    int contrast   = [self getIntResource:@"ColorContrast"];
+    int contrast = [self getIntResource:@"ColorContrast"];
     int brightness = [self getIntResource:@"ColorBrightness"];
-    int gamma      = [self getIntResource:@"ColorGamma"];
-    
+    int gamma = [self getIntResource:@"ColorGamma"];
+
     [saturationSlider setFloatValue:saturation];
     [saturationText   setFloatValue:saturation];
     [contrastSlider   setFloatValue:contrast];
@@ -94,11 +101,11 @@ static const char *vicii_palettes[]=
 
 -(void)updatePALResources
 {
-    int blur          = [self getIntResource:@"PALBlur"];
+    int blur = [self getIntResource:@"PALBlur"];
     int scanlineShade = [self getIntResource:@"PALScanLineShade"];
-    int oddLinePhase  = [self getIntResource:@"PALOddLinePhase"];
+    int oddLinePhase = [self getIntResource:@"PALOddLinePhase"];
     int oddLineOffset = [self getIntResource:@"PALOddLineOffset"];
-    
+
     [blurSlider            setFloatValue:blur];
     [blurText              setFloatValue:blur];
     [scanlineShadeSlider   setFloatValue:scanlineShade];
@@ -239,7 +246,7 @@ static const char *vicii_palettes[]=
     NSArray *types = [NSArray arrayWithObjects:@"vpl", nil];
     VICEAppController *appCtrl = [VICEApplication theAppController];
     NSString *path = [appCtrl pickOpenFileWithTitle:@"Load Palette" types:types];
-    if (path!=nil) {
+    if (path != nil) {
         [self setStringResource:@"VICIIPaletteFile" toValue:path];
         [self updatePaletteResources];
     }

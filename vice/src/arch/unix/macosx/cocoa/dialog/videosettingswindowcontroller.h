@@ -34,7 +34,7 @@
     IBOutlet NSSlider *contrastSlider;
     IBOutlet NSSlider *brightnessSlider;
     IBOutlet NSSlider *gammaSlider;
-    
+
     IBOutlet NSTextField *saturationText;
     IBOutlet NSTextField *contrastText;
     IBOutlet NSTextField *brightnessText;
@@ -44,12 +44,12 @@
     IBOutlet NSSlider *scanlineShadeSlider;
     IBOutlet NSSlider *oddLinePhaseSlider;
     IBOutlet NSSlider *oddLineOffsetSlider;
-    
+
     IBOutlet NSTextField *blurText;
     IBOutlet NSTextField *scanlineShadeText;
     IBOutlet NSTextField *oddLinePhaseText;
     IBOutlet NSTextField *oddLineOffsetText;
-    
+
     IBOutlet NSButton      *palette1Toggle;
     IBOutlet NSPopUpButton *palette1Popup;
     IBOutlet NSButton      *palette1Pick;
