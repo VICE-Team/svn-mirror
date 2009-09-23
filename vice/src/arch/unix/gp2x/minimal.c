@@ -115,7 +115,7 @@
 #include "minimal.h"
 
 unsigned char *gp2x_screen8, *gp2x_upperRAM;
-unsigned long gp2x_dev[8]= {0, 0, 0, 0, 0, 0, 0, 0}, gp2x_physvram[8], *gp2x_memregl, gp2x_volume, gp2x_ticks_per_second;
+unsigned long gp2x_dev[8]= { 0, 0, 0, 0, 0, 0, 0, 0 }, gp2x_physvram[8], *gp2x_memregl, gp2x_volume, gp2x_ticks_per_second;
 volatile unsigned long gp2x_sound_pausei = 1, gp2x_ticks = 0, gp2x_sound = 0, *gp2x_dualcore_ram;
 unsigned short *gp2x_memregs, *gp2x_screen15, *gp2x_logvram15[4], gp2x_sound_buffer[4 + ((44100 / 25) * 2) * 8]; /* 25 Hz gives our biggest supported sampling buffer */
 volatile unsigned short gp2x_palette[512];

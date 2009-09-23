@@ -66,62 +66,62 @@ void ui_update_menus(void)
     /* needed */
 }
 
-void ui_display_tape_current_image()
+void ui_display_tape_current_image(void)
 {
     /* needed */
 }
 
-void ui_display_tape_counter()
+void ui_display_tape_counter(void)
 {
     /* needed */
 }
 
-void ui_display_tape_motor_status()
+void ui_display_tape_motor_status(void)
 {
     /* needed */
 }
 
-void ui_display_tape_control_status()
+void ui_display_tape_control_status(void)
 {
     /* needed */
 }
 
-void ui_set_tape_status()
+void ui_set_tape_status(void)
 {
     /* needed */
 }
 
-void ui_display_recording()
+void ui_display_recording(void)
 {
     /* needed */
 }
 
-void ui_display_playback()
+void ui_display_playback(void)
 {
     /* needed */
 }
 
-void ui_init()
+void ui_init(void)
 {
     gp2x_init(1000, 8, 11025, 16, 1, 60);
 }
 
-void archdep_ui_init()
+void archdep_ui_init(void)
 {
     /* needed */
 }
 
-void ui_init_finish()
+void ui_init_finish(void)
 {
     /* needed */
 }
 
-void ui_enable_drive_status()
+void ui_enable_drive_status(void)
 {
     /* needed */
 }
 
-void ui_extend_image_dialog()
+void ui_extend_image_dialog(void)
 {
     /* needed */
 }
@@ -160,47 +160,47 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
     }
 }
 
-void ui_resources_init()
+void ui_resources_init(void)
 {
     /* needed */
 }
 
-void ui_cmdline_options_init()
+void ui_cmdline_options_init(void)
 {
     /* needed */
 }
 
-void ui_init_finalize()
+void ui_init_finalize(void)
 {
     /* needed */
 }
 
-void ui_jam_dialog()
+void ui_jam_dialog(void)
 {
     /* needed */
 }
 
-void ui_shutdown()
+void ui_shutdown(void)
 {
     /* needed */
 }
 
-void ui_resources_shutdown()
+void ui_resources_shutdown(void)
 {
     /* needed */
 }
 
-void _ui_menu_radio_helper()
+void _ui_menu_radio_helper(void)
 {
     /* needed */
 }
 
-void ui_check_mouse_cursor()
+void ui_check_mouse_cursor(void)
 {
     /* needed */
 }
 
-void ui_dispatch_events()
+void ui_dispatch_events(void)
 {
     /* needed */
 }

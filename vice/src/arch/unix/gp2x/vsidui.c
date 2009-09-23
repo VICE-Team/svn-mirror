@@ -51,9 +51,7 @@
 #include "vsiduiunix.h"
 #include "gp2xui.h"
 
-
 extern struct ui_menu_entry_s sid_submenu[];
-
 
 static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);
@@ -63,8 +61,7 @@ static void vsid_create_menus(void);
 UI_MENU_DEFINE_RADIO(PSIDTune)
 
 static ui_menu_entry_t ui_tune_menu[] = {
-  { N_("Tunes"),
-    NULL, NULL, NULL },
+  { "Tunes", NULL, NULL, NULL },
   { NULL }
 };
 
@@ -81,7 +78,7 @@ static void vsid_create_menus(void)
     int i;
     char *buf;
 
-    buf = lib_stralloc(_("*Default Tune"));
+    buf = lib_stralloc("*Default Tune");
 
     /* Free previously allocated memory. */
     for (i = 0; i <= tunes; i++) {
@@ -93,24 +90,19 @@ static void vsid_create_menus(void)
 
     /* Build tune menu. */
     for (i = 0; i <= tunes; i++) {
-        tune_menu[i].string =
-            (ui_callback_data_t)lib_stralloc(buf);
-        tune_menu[i].callback =
-            (ui_callback_t) radio_PSIDTune;
-        tune_menu[i].callback_data =
-            (ui_callback_data_t) i;
+        tune_menu[i].string = (ui_callback_data_t)lib_stralloc(buf);
+        tune_menu[i].callback = (ui_callback_t)radio_PSIDTune;
+        tune_menu[i].callback_data = (ui_callback_data_t)i;
         tune_menu[i].sub_menu = NULL;
         tune_menu[i].hotkey_keysym = (i < 10) ? XK_0 + i : 0;
-        tune_menu[i].hotkey_modifier =
-            (ui_hotkey_modifier_t) (i < 10) ? UI_HOTMOD_META : 0;
+        tune_menu[i].hotkey_modifier = (ui_hotkey_modifier_t)(i < 10) ? UI_HOTMOD_META : 0;
         lib_free(buf);
-        buf = lib_msprintf(_("*Tune %d"), i + 1);
+        buf = lib_msprintf("*Tune %d", i + 1);
     }
 
     lib_free(buf);
 
-    tune_menu[i].string =
-        (ui_callback_data_t) NULL;
+    tune_menu[i].string = NULL;
 
     ui_tune_menu[0].sub_menu = tune_menu;
 
@@ -146,15 +138,13 @@ void vsid_ui_display_copyright(const char *copyright)
 void vsid_ui_display_sync(int sync)
 {
     char buf[50];
-    sprintf(buf, "Using %s sync",
-	    sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    sprintf(buf, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
     log_message(LOG_DEFAULT, buf);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    log_message(LOG_DEFAULT, "Using %s emulation",
-		model == 0 ? "MOS6581" : "MOS8580");
+    log_message(LOG_DEFAULT, "Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
 }
 
 void vsid_ui_set_default_tune(int nr)

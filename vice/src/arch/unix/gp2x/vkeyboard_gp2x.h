@@ -37,7 +37,7 @@ extern int cursor_bg;
 extern int kb_height;
 extern int kb_width;
 
-extern int mapped_key_a,     mapped_key_x;
+extern int mapped_key_a, mapped_key_x;
 extern int mapped_key_a_row, mapped_key_a_col;
 extern int mapped_key_x_row, mapped_key_x_col;
 

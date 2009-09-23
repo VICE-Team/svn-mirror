@@ -39,25 +39,28 @@ typedef struct ui_menu_entry_s {
     ui_hotkey_modifier_t hotkey_modifier;
 } ui_menu_entry_t;
 
-#define UI_MENU_DEFINE_RADIO(resource)                                  \
-    static UI_CALLBACK(radio_##resource)                                \
-    {                                                                   \
-        _ui_menu_radio_helper();    \
+#define UI_MENU_DEFINE_RADIO(resource)   \
+    static UI_CALLBACK(radio_##resource) \
+    {                                    \
+        _ui_menu_radio_helper();         \
     }
+
 extern void _ui_menu_radio_helper(void);
 
-#define UI_MENU_DEFINE_TOGGLE(resource)                                 \
-    static UI_CALLBACK(toggle_##resource)                               \
-    {                                                                   \
-        _ui_menu_toggle_helper();   \
+#define UI_MENU_DEFINE_TOGGLE(resource)   \
+    static UI_CALLBACK(toggle_##resource) \
+    {                                     \
+        _ui_menu_toggle_helper();         \
     }
+
 extern void _ui_menu_toggle_helper(void);
 
-#define UI_MENU_DEFINE_STRING_RADIO(resource)                               \
-    static void radio_##resource() \
-    {                                                                       \
-        _ui_menu_string_radio_helper(); \
+#define UI_MENU_DEFINE_STRING_RADIO(resource) \
+    static void radio_##resource()            \
+    {                                         \
+        _ui_menu_string_radio_helper();       \
     }
+
 extern void _ui_menu_string_radio_helper(void);
 
 #endif

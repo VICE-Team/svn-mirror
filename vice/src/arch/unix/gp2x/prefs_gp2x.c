@@ -143,7 +143,7 @@ void display_set() {
         } else {
             gp2x_memregs[0x2906 >> 1] = 1024;			/* scale horizontal */
         }
-        gp2x_memregs[0x2908>>1] = 320;			/* scale vertical */
+        gp2x_memregs[0x2908 >> 1] = 320;			/* scale vertical */
     }
 }
 

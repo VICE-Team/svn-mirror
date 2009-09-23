@@ -30,21 +30,20 @@
 #include "vice.h"
 #include "types.h"
 
-#define UI_CALLBACK(name)                               \
-    void name(void)
+#define UI_CALLBACK(name) void name(void)
 
-typedef void * ui_callback_t;
-typedef void * ui_callback_data_t;
-typedef void * ui_keysym_t;
-typedef void * ui_hotkey_modifier_t;
-typedef void * ui_window_t;
+typedef void *ui_callback_t;
+typedef void *ui_callback_data_t;
+typedef void *ui_keysym_t;
+typedef void *ui_hotkey_modifier_t;
+typedef void *ui_window_t;
 
 #define UI_MENU_CB_PARAM NULL
 
 #define False 0
-#define True 1
+#define True  1
 
-#define XK_m NULL
+#define XK_m           NULL
 #define UI_HOTMOD_META NULL
 
 extern void ui_set_left_menu(int);

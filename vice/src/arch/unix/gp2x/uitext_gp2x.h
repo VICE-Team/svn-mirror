@@ -27,12 +27,7 @@
 #ifndef VICE_UITEXT_GP2X_H
 #define VICE_UITEXT_GP2X_H
 
-extern void draw_ascii_string(unsigned char *screen, int screen_width, 
-		int x, int y, const char *text, 
-		unsigned char fg_colour, unsigned char bg_colour);
-
-extern void draw_petscii_string(unsigned char *screen, int screen_width, 
-		int x, int y, const char *text, 
-		unsigned char fg_colour, unsigned char bg_colour);
+extern void draw_ascii_string(unsigned char *screen, int screen_width, int x, int y, const char *text, unsigned char fg_colour, unsigned char bg_colour);
+extern void draw_petscii_string(unsigned char *screen, int screen_width, int x, int y, const char *text, unsigned char fg_colour, unsigned char bg_colour);
 
 #endif
