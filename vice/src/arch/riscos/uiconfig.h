@@ -153,11 +153,11 @@ typedef struct menu_icon_s {
 #define Menu_Flags  0x07003011
 
 /* The menus */
-#define MENU_HEADER(name,w) {name, 7,2,7,0, w, Menu_Height, 0}
-#define MENU_ITEM(name) {0, (RO_MenuHead*)-1, Menu_Flags, {name}}
-#define MENU_ITEM_LAST(name) {MFlg_LastItem, (RO_MenuHead*)-1, Menu_Flags, {name}}
-#define MENU_ITEM_SUB(name,sub) {0, (RO_MenuHead*)sub, Menu_Flags, {name}}
-#define MENU_ITEM_SUBLAST(name, sub) {MFlg_LastItem, (RO_MenuHead*)sub, Menu_Flags, {name}}
+#define MENU_HEADER(name,w) { name, 7, 2, 7, 0, w, Menu_Height, 0 }
+#define MENU_ITEM(name) { 0, (RO_MenuHead*)-1, Menu_Flags, { name } }
+#define MENU_ITEM_LAST(name) { MFlg_LastItem, (RO_MenuHead*)-1, Menu_Flags, { name } }
+#define MENU_ITEM_SUB(name,sub) { 0, (RO_MenuHead*)sub, Menu_Flags, { name } }
+#define MENU_ITEM_SUBLAST(name, sub) { MFlg_LastItem, (RO_MenuHead*)sub, Menu_Flags, { name } }
 
 /*
  *  Configuration icons

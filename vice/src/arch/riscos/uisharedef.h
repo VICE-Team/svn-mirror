@@ -75,62 +75,88 @@
 
 /* Icon lists for machine-specific greying out */
 
-#define ICON_LIST_PET                                                              \
-    {CONF_WIN_PET, Icon_ConfPET_PetMem}, {CONF_WIN_PET, Icon_ConfPET_PetMemT},     \
-    {CONF_WIN_PET, Icon_ConfPET_PetIO}, {CONF_WIN_PET, Icon_ConfPET_PetIOT},       \
-    {CONF_WIN_PET, Icon_ConfPET_PetVideo}, {CONF_WIN_PET, Icon_ConfPET_PetVideoT}, \
-    {CONF_WIN_PET, Icon_ConfPET_PetModel}, {CONF_WIN_PET, Icon_ConfPET_PetModelT}, \
-    {CONF_WIN_PET, Icon_ConfPET_PetKbd}, {CONF_WIN_PET, Icon_ConfPET_PetCrt},      \
-    {CONF_WIN_PET, Icon_ConfPET_PetRAM9}, {CONF_WIN_PET, Icon_ConfPET_PetRAMA},    \
-    {CONF_WIN_PET, Icon_ConfPET_PetDiagPin},
+#define ICON_LIST_PET                         \
+    { CONF_WIN_PET, Icon_ConfPET_PetMem},     \
+    { CONF_WIN_PET, Icon_ConfPET_PetMemT },   \
+    { CONF_WIN_PET, Icon_ConfPET_PetIO},      \
+    { CONF_WIN_PET, Icon_ConfPET_PetIOT },    \
+    { CONF_WIN_PET, Icon_ConfPET_PetVideo},   \
+    { CONF_WIN_PET, Icon_ConfPET_PetVideoT }, \
+    { CONF_WIN_PET, Icon_ConfPET_PetModel},   \
+    { CONF_WIN_PET, Icon_ConfPET_PetModelT }, \
+    { CONF_WIN_PET, Icon_ConfPET_PetKbd},     \
+    { CONF_WIN_PET, Icon_ConfPET_PetCrt },    \
+    { CONF_WIN_PET, Icon_ConfPET_PetRAM9},    \
+    { CONF_WIN_PET, Icon_ConfPET_PetRAMA },   \
+    { CONF_WIN_PET, Icon_ConfPET_PetDiagPin },
 
-#define ICON_LIST_VIC                                                            \
-    {CONF_WIN_VIC, Icon_ConfVIC_VICCart}, {CONF_WIN_VIC, Icon_ConfVIC_VICCartT}, \
-    {CONF_WIN_VIC, Icon_ConfVIC_VICCartF}, {CONF_WIN_VIC, Icon_ConfVIC_VICMem},
+#define ICON_LIST_VIC                        \
+    { CONF_WIN_VIC, Icon_ConfVIC_VICCart },  \
+    { CONF_WIN_VIC, Icon_ConfVIC_VICCartT }, \
+    { CONF_WIN_VIC, Icon_ConfVIC_VICCartF }, \
+    { CONF_WIN_VIC, Icon_ConfVIC_VICMem },
 
-#define ICON_LIST_CART64                                                                 \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_CartType}, {CONF_WIN_SYSTEM, Icon_ConfSys_CartTypeT}, \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_CartFile},
+#define ICON_LIST_CART64                         \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_CartType },  \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_CartTypeT }, \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_CartFile },
 
-#define ICON_LIST_DEVRSUSR                                                                 \
-    {CONF_WIN_DEVICES, Icon_ConfDev_RsUsr}, {CONF_WIN_DEVICES, Icon_ConfDev_RsUsrDev},     \
-    {CONF_WIN_DEVICES, Icon_ConfDev_RsUsrDevT}, {CONF_WIN_DEVICES, Icon_ConfDev_FileRsOK}, \
-    {CONF_WIN_DEVICES, Icon_ConfDev_FileRsPath}, {CONF_WIN_DEVICES, Icon_ConfDev_FileRsIcon},
+#define ICON_LIST_DEVRSUSR                         \
+    { CONF_WIN_DEVICES, Icon_ConfDev_RsUsr },      \
+    { CONF_WIN_DEVICES, Icon_ConfDev_RsUsrDev },   \
+    { CONF_WIN_DEVICES, Icon_ConfDev_RsUsrDevT },  \
+    { CONF_WIN_DEVICES, Icon_ConfDev_FileRsOK },   \
+    { CONF_WIN_DEVICES, Icon_ConfDev_FileRsPath }, \
+    { CONF_WIN_DEVICES, Icon_ConfDev_FileRsIcon },
 
-#define ICON_LIST_DEVICES                                                                 \
-    {CONF_WIN_DEVICES, Icon_ConfDev_ACIADE}, {CONF_WIN_DEVICES, Icon_ConfDev_ACIAD67},    \
-    {CONF_WIN_DEVICES, Icon_ConfDev_ACIAIrq}, {CONF_WIN_DEVICES, Icon_ConfDev_ACIADev},   \
-    {CONF_WIN_DEVICES, Icon_ConfDev_ACIADevT},   {CONF_WIN_DEVICES, Icon_ConfDev_Serial}, \
-    {CONF_WIN_DEVICES, Icon_ConfDev_SerialT},                                             \
+#define ICON_LIST_DEVICES                        \
+    { CONF_WIN_DEVICES, Icon_ConfDev_ACIADE },   \
+    { CONF_WIN_DEVICES, Icon_ConfDev_ACIAD67 },  \
+    { CONF_WIN_DEVICES, Icon_ConfDev_ACIAIrq },  \
+    { CONF_WIN_DEVICES, Icon_ConfDev_ACIADev },  \
+    { CONF_WIN_DEVICES, Icon_ConfDev_ACIADevT }, \
+    { CONF_WIN_DEVICES, Icon_ConfDev_Serial },   \
+    { CONF_WIN_DEVICES, Icon_ConfDev_SerialT },  \
     ICON_LIST_DEVRSUSR
 
-#define ICON_LIST_SID                                                                    \
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter}, {CONF_WIN_SOUND, Icon_ConfSnd_SidModel},   \
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT}, {CONF_WIN_SOUND, Icon_ConfSnd_SidEngine},  \
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidEngineT}, {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp}, \
-    {CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT}, {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass}, \
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo},
+#define ICON_LIST_SID                            \
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidFilter },  \
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidModel },   \
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidModelT },  \
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidEngine },  \
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidEngineT }, \
+    { CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp },  \
+    { CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT }, \
+    { CONF_WIN_SOUND, Icon_ConfSnd_ResidPass },  \
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidStereo },
 
-#define ICON_LIST_SYSTEM                                                                      \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_REU}, {CONF_WIN_SYSTEM, Icon_ConfSys_IEEE488},             \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_GEORAM},                                                   \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_RAMCART},                                                  \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_PLUS60K},                                                  \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_C64_256K},                                                 \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSScoll}, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSBcoll},
+#define ICON_LIST_SYSTEM                           \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_REU },         \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_IEEE488 },     \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_GEORAM },      \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_RAMCART },     \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_PLUS60K },     \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_C64_256K },    \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_CheckSScoll }, \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_CheckSBcoll },
 
-#define ICON_LIST_SYS64                                                              \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}, \
-    {CONF_WIN_SYSTEM, Icon_ConfSys_Basic},
+#define ICON_LIST_SYS64                        \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_CharGen }, \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_Kernal },  \
+    { CONF_WIN_SYSTEM, Icon_ConfSys_Basic },
 
-#define ICON_LIST_TRUE                                                                           \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrv},                                                     \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8}, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8T},   \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8}, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8T}, \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar8},                                                 \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9}, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9T},   \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9}, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9T}, \
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9},
+#define ICON_LIST_TRUE                               \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrv },       \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8 },   \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8T },  \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8 },  \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8T }, \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar8 },   \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9 },   \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9T },  \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9 },  \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9T }, \
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9 },
 
 /* Emulator menu entries */
 #define Menu_EmuWin_Items      11

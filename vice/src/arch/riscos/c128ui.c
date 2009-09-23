@@ -45,7 +45,7 @@ static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";
 static const conf_iconid_t conf_grey_x128[] = {
     ICON_LIST_PET
     ICON_LIST_VIC
-    {0xff, 0xff}
+    { 0xff, 0xff }
 };
 
 static const char Rsrc_VICIICache[] = "VICIIVideoCache";
@@ -66,9 +66,9 @@ static struct MenuDisplayVideoCache {
     disp_desc_t dd;
     const char *values[2];
 } MenuDisplayVideoCache = {
-    {NULL, {CONF_WIN_VIDEO, 0},
-    (RO_MenuHead*)&MenuVideoCache, 2, DISP_DESC_BITFIELD, 0},
-    {Rsrc_VICIICache, Rsrc_VDCCache}
+    { NULL, { CONF_WIN_VIDEO, 0 },
+    (RO_MenuHead*)&MenuVideoCache, 2, DISP_DESC_BITFIELD, 0 },
+    { Rsrc_VICIICache, Rsrc_VDCCache }
 };
 
 

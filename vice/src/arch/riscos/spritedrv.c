@@ -216,8 +216,7 @@ static int sprite_save(screenshot_t *screenshot, const char *filename)
     return sprite_close(screenshot);
 }
 
-static gfxoutputdrv_t sprite_drv =
-{
+static gfxoutputdrv_t sprite_drv = {
     "Sprite",
     "Sprite Driver",
     NULL, /* default extension */

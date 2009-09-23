@@ -62,19 +62,19 @@ static const char *LastMonitorCommand = NULL;
 static text_window_t MsgWinDescs[msg_win_NUMBER] = {
 
   /* monitor window */
-  {"corpus.medium", TWIN_FLAG_LINEEDIT, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 4096, {&(MsgWinDescs[msg_win_monitor]), ui_monitor_enter}},
+  { "corpus.medium", TWIN_FLAG_LINEEDIT, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 4096, { &(MsgWinDescs[msg_win_monitor]), ui_monitor_enter } },
 
   /* license window */
-  {"corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0},
+  { "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0 },
 
   /* warranty window */
-  {"corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0},
+  { "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0 },
 
   /* contributor window */
-  {"corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0},
+  { "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0 },
 
   /* log window */
-  {"corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 1024}
+  { "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 1024 }
 };
 
 void msgwin_monitor_close(void)

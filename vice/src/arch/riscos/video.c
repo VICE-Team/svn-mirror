@@ -403,25 +403,25 @@ static int set_pal_emu_double(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {"ScreenMode", "28:640,480,3", RES_EVENT_NO, NULL,
-     &ScreenModeNormString, set_screen_mode_norm, NULL},
-    {"ScreenModePAL", "28:640,480,5", RES_EVENT_NO, NULL,
-     &ScreenModePALString, set_screen_mode_pal, NULL},
-    {"ScreenModeDouble", "31:800,600,5", RES_EVENT_NO, NULL,
-     &ScreenModeDoubleString, set_screen_mode_double, NULL},
-    {NULL}
+    { "ScreenMode", "28:640,480,3", RES_EVENT_NO, NULL,
+      &ScreenModeNormString, set_screen_mode_norm, NULL },
+    { "ScreenModePAL", "28:640,480,5", RES_EVENT_NO, NULL,
+      &ScreenModePALString, set_screen_mode_pal, NULL },
+    { "ScreenModeDouble", "31:800,600,5", RES_EVENT_NO, NULL,
+      &ScreenModeDoubleString, set_screen_mode_double, NULL },
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
-    {"ScreenSetPalette", 1, RES_EVENT_NO, NULL,
-     &ScreenSetPalette, set_screen_palette, NULL},
-    {"UseBPlot", 1, RES_EVENT_NO, NULL,
-     &UseBPlotModule, set_bplot_status, NULL},
-    {"PALEmuDepth", 0, RES_EVENT_NO, NULL,
-     &PALEmuDepth, set_pal_emu_depth, NULL},
-    {"PALEmuDouble", 0, RES_EVENT_NO, NULL,
-     &PALEmuDouble, set_pal_emu_double, NULL},
-    {NULL}
+    { "ScreenSetPalette", 1, RES_EVENT_NO, NULL,
+      &ScreenSetPalette, set_screen_palette, NULL },
+    { "UseBPlot", 1, RES_EVENT_NO, NULL,
+      &UseBPlotModule, set_bplot_status, NULL },
+    { "PALEmuDepth", 0, RES_EVENT_NO, NULL,
+      &PALEmuDepth, set_pal_emu_depth, NULL },
+    { "PALEmuDouble", 0, RES_EVENT_NO, NULL,
+      &PALEmuDouble, set_pal_emu_double, NULL },
+    { NULL }
 };
 
 int video_arch_resources_init(void)

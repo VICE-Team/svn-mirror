@@ -35,7 +35,7 @@
 
 static char *SerialFile=NULL;
 static int SerialBaud;
-static FILE *fd[3] = {NULL, NULL, NULL};
+static FILE *fd[3] = { NULL, NULL, NULL };
 
 static int set_serial_file(const char *val, void *param)
 {
@@ -55,15 +55,15 @@ static int set_serial_baud(int val, void *param)
 
 
 static const resource_string_t resources_string[] = {
-    {"SerialFile", "SerialFile", RES_EVENT_NO, NULL,
-     &SerialFile, set_serial_file, NULL },
-   {NULL}
+    { "SerialFile", "SerialFile", RES_EVENT_NO, NULL,
+      &SerialFile, set_serial_file, NULL },
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
-    {"SerialBaud", 7, RES_EVENT_NO, NULL,
-     &SerialBaud, set_serial_baud, NULL },
-    {NULL}
+    { "SerialBaud", 7, RES_EVENT_NO, NULL,
+      &SerialBaud, set_serial_baud, NULL },
+    { NULL }
 };
 
 int rs232_resources_init(void)

@@ -35,8 +35,8 @@
 #include "resources.h"
 #include "vsyncarch.h"
 
-int ajoyfd[4] = {-1, -1, -1, -1};
-int djoyfd[4] = {-1, -1, -1, -1};
+int ajoyfd[4] = { -1, -1, -1, -1 };
+int djoyfd[4] = { -1, -1, -1, -1 };
 static BYTE old_joy[4];
 
 static int set_joystick_port1(int val, void *param)
@@ -64,15 +64,15 @@ static int set_joystick_port4(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    {"JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-     &joystick_port_map[0], set_joystick_port1, NULL},
-    {"JoyDevice2", JOYDEV_KBD1, RES_EVENT_NO, NULL,
-     &joystick_port_map[1], set_joystick_port2, NULL},
-    {"JoyDevice3", JOYDEV_KBD1, RES_EVENT_NO, NULL,
-     &joystick_port_map[2], set_joystick_port3, NULL},
-    {"JoyDevice4", JOYDEV_KBD1, RES_EVENT_NO, NULL,
-     &joystick_port_map[3], set_joystick_port4, NULL},
-    {NULL}
+    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[0], set_joystick_port1, NULL },
+    { "JoyDevice2", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+      &joystick_port_map[1], set_joystick_port2, NULL },
+    { "JoyDevice3", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+      &joystick_port_map[2], set_joystick_port3, NULL },
+    { "JoyDevice4", JOYDEV_KBD1, RES_EVENT_NO, NULL,
+      &joystick_port_map[3], set_joystick_port4, NULL },
+    { NULL }
 };
 
 int joy_arch_init(void)

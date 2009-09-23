@@ -101,8 +101,8 @@ keymap_desc ViceKeymap = {
 #define KeyJoy2_Fire    83    /* "g"		*/
 
 Joy_Keys JoystickKeys[2] = {
-    {KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire},
-    {KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire}
+    { KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire },
+    { KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire }
 };
 
 /* 40/80 column key.  */
@@ -302,17 +302,17 @@ static int set_joystick_keys2(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {Rsrc_JoyKeys1, DefaultJoyKeys1, RES_EVENT_NO, NULL,
-     &JoyKeyString1, set_joystick_keys1, NULL},
-    {Rsrc_JoyKeys2, DefaultJoyKeys2, RES_EVENT_NO, NULL,
-     &JoyKeyString2, set_joystick_keys2, NULL},
-    {NULL}
+    { Rsrc_JoyKeys1, DefaultJoyKeys1, RES_EVENT_NO, NULL,
+      &JoyKeyString1, set_joystick_keys1, NULL },
+    { Rsrc_JoyKeys2, DefaultJoyKeys2, RES_EVENT_NO, NULL,
+      &JoyKeyString2, set_joystick_keys2, NULL },
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
-    {"KeymapIndex", 0, RES_EVENT_NO, NULL,
-     &keymap_index, set_keymap_index, NULL},
-    {NULL}
+    { "KeymapIndex", 0, RES_EVENT_NO, NULL,
+      &keymap_index, set_keymap_index, NULL },
+    { NULL }
 };
 
 int kbd_resources_init(void)

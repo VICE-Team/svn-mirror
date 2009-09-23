@@ -90,7 +90,7 @@ static const conf_iconid_t conf_grey_xplus4[] = {
     ICON_LIST_SYSTEM
     ICON_LIST_SID
     ICON_LIST_PET
-    {0xff, 0xff}
+    { 0xff, 0xff }
 };
 
 static const char Rsrc_TEDCache[] = "TEDVideoCache";
@@ -109,9 +109,9 @@ static struct MenuDisplayVideoCache {
     disp_desc_t dd;
     const char *values[1];
 } MenuDisplayVideoCache = {
-    {NULL, {CONF_WIN_VIDEO, 0},
-    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
-    {Rsrc_TEDCache}
+    { NULL, { CONF_WIN_VIDEO, 0 },
+    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0 },
+    { Rsrc_TEDCache }
 };
 
 static void plus4ui_grey_out_machine_icons(void)

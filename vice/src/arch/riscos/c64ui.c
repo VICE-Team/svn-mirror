@@ -44,8 +44,8 @@ static const char C64keyfile[] = "Vice:C64.ROdflt/vkm";
 static const conf_iconid_t conf_grey_x64[] = {
     ICON_LIST_PET
     ICON_LIST_VIC
-    {CONF_WIN_DEVICES, Icon_ConfDev_ACIAD67},
-    {0xff, 0xff}
+    { CONF_WIN_DEVICES, Icon_ConfDev_ACIAD67 },
+    { 0xff, 0xff }
 };
 
 static const char Rsrc_VICIICache[] = "VICIIVideoCache";
@@ -55,16 +55,16 @@ static struct MenuVideoCache {
     RO_MenuItem item[1];
 } MenuVideoCache = {
     MENU_HEADER("\\MenVCaT", 200),
-    {MENU_ITEM_LAST("\\MenVCaVIC2")}
+    { MENU_ITEM_LAST("\\MenVCaVIC2") }
 };
 
 static struct MenuDisplayVideoCache {
     disp_desc_t dd;
     const char *values[1];
 } MenuDisplayVideoCache = {
-    {NULL, {CONF_WIN_VIDEO, 0},
-    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
-    {Rsrc_VICIICache}
+    { NULL, { CONF_WIN_VIDEO, 0 },
+    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0 },
+    { Rsrc_VICIICache }
 };
 
 void c64ui_grey_out_machine_icons(void)

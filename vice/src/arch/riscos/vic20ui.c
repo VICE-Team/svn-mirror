@@ -90,7 +90,7 @@ static const conf_iconid_t conf_grey_xvic[] = {
     ICON_LIST_SID
     ICON_LIST_DEVICES
     ICON_LIST_PET
-    {0xff, 0xff}
+    { 0xff, 0xff }
 };
 
 static const char Rsrc_VICCache[] = "VICVideoCache";
@@ -109,9 +109,9 @@ static struct MenuDisplayVideoCache {
     disp_desc_t dd;
     const char *values[1];
 } MenuDisplayVideoCache = {
-    {NULL, {CONF_WIN_VIDEO, 0},
-    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
-    {Rsrc_VICCache}
+    { NULL, { CONF_WIN_VIDEO, 0 },
+      (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
+    { Rsrc_VICCache }
 };
 
 static void vic20ui_grey_out_machine_icons(void)

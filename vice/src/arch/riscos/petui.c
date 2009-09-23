@@ -149,7 +149,7 @@ static const conf_iconid_t conf_grey_xpet[] = {
     ICON_LIST_SYSTEM
     ICON_LIST_DEVICES
     ICON_LIST_SID
-    {0xff, 0xff}
+    { 0xff, 0xff }
 };
 
 static const char Rsrc_CrtcCache[] = "CrtcVideoCache";
@@ -168,18 +168,18 @@ static struct MenuDisplayVideoCache {
     disp_desc_t dd;
     const char *values[1];
 } MenuDisplayVideoCache = {
-    {NULL, {CONF_WIN_VIDEO, 0},
-    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
-    {Rsrc_CrtcCache}
+    { NULL, { CONF_WIN_VIDEO, 0 },
+    (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0 },
+    { Rsrc_CrtcCache }
 };
 
 static config_item_t PETdependconf[] = {
-    {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetCrt}},
-    {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAM9}},
-    {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAMA}},
-    {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetDiagPin}},
-    {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetSuper}},
-    {NULL, 0, {0, 0}}
+    { Rsrc_PetCrt, CONFIG_SELECT, { CONF_WIN_PET, Icon_ConfPET_PetCrt } },
+    { Rsrc_PetRAM9, CONFIG_SELECT, { CONF_WIN_PET, Icon_ConfPET_PetRAM9 } },
+    { Rsrc_PetRAMA, CONFIG_SELECT, { CONF_WIN_PET, Icon_ConfPET_PetRAMA } },
+    { Rsrc_PetDiag, CONFIG_SELECT, { CONF_WIN_PET, Icon_ConfPET_PetDiagPin } },
+    { Rsrc_PetSuper, CONFIG_SELECT, { CONF_WIN_PET, Icon_ConfPET_PetSuper } },
+    { NULL, 0, { 0, 0 } }
 };
 
 /* PET keyboard names */

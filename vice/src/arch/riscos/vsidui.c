@@ -73,16 +73,16 @@ static char *SymbolStrings[] = {
 };
 
 static help_icon_t Help_VSidWindow[] = {
-    {-1, "\\HelpVSidWindow"},
-    {Icon_VSid_TotalTunes, "\\HelpVSidTotal"},
-    {Icon_VSid_Tune, "\\HelpVSidTune"},
-    {Icon_VSid_NextTune, "\\HelpVSidNext"},
-    {Icon_VSid_PrevTune, "\\HelpVSidPrev"},
-    {Icon_VSid_StopTune, "\\HelpVSidStop"},
-    {Icon_VSid_Default, "\\HelpVSidDefault"},
-    {Icon_VSid_PlayTime, "\\HelpVSidTime"},
-    {Icon_VSid_Pause, "\\HelpVSidPause"},
-    {Help_Icon_End, NULL}
+    { -1, "\\HelpVSidWindow" },
+    { Icon_VSid_TotalTunes, "\\HelpVSidTotal" },
+    { Icon_VSid_Tune, "\\HelpVSidTune" },
+    { Icon_VSid_NextTune, "\\HelpVSidNext" },
+    { Icon_VSid_PrevTune, "\\HelpVSidPrev" },
+    { Icon_VSid_StopTune, "\\HelpVSidStop" },
+    { Icon_VSid_Default, "\\HelpVSidDefault" },
+    { Icon_VSid_PlayTime, "\\HelpVSidTime" },
+    { Icon_VSid_Pause, "\\HelpVSidPause" },
+    { Help_Icon_End, NULL }
 };
 
 static void vsid_ui_display_paused(int state)

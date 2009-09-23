@@ -218,71 +218,76 @@ static char EmuTitle[256];
 static int *SpriteArea;
 
 /* Icon translation tables */
-static const char LEDtoIcon[4] = {Icon_Pane_LED0, Icon_Pane_LED1, Icon_Pane_LED2, Icon_Pane_LED3};
-static const char DriveToFile[4] = {Icon_ConfDrv_DriveFile8, Icon_ConfDrv_DriveFile9, Icon_ConfDrv_DriveFile10, Icon_ConfDrv_DriveFile11};
+static const char LEDtoIcon[4] = { Icon_Pane_LED0, Icon_Pane_LED1, Icon_Pane_LED2, Icon_Pane_LED3 };
+static const char DriveToFile[4] = {
+    Icon_ConfDrv_DriveFile8,
+    Icon_ConfDrv_DriveFile9,
+    Icon_ConfDrv_DriveFile10,
+    Icon_ConfDrv_DriveFile11
+};
 
 /* Config icons affected by True Drive Emulation state */
 static const conf_iconid_t TrueDependentIcons[] = {
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar8},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt10},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt10T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle10},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle10T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar10},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt11},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt11T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle11},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle11T},
-    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar11},
-    {0xff, 0xff}
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar8 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt10 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt10T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle10 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle10T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar10 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt11 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt11T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle11 },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle11T },
+    { CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar11 },
+    { 0xff, 0xff }
 };
 
 /* Config icons affected by Tape file state */
 static const conf_iconid_t TapeFileDependentIcons[] = {
-    {CONF_WIN_TAPE, Icon_ConfTap_TapeDetach},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataCounter},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataStop},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataRewind},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataPlay},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataForward},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataRecord},
-    {CONF_WIN_TAPE, Icon_ConfTap_DataDoReset},
-    {0xff, 0xff}
+    { CONF_WIN_TAPE, Icon_ConfTap_TapeDetach },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataCounter },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataStop },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataRewind },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataPlay },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataForward },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataRecord },
+    { CONF_WIN_TAPE, Icon_ConfTap_DataDoReset },
+    { 0xff, 0xff }
 };
 
 /* Config icons affected by Sound enable state */
 static const conf_iconid_t SoundDependentIcons[] = {
-    {CONF_WIN_SOUND, Icon_ConfSnd_SampleRate},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SampleRateT},
-    {CONF_WIN_SOUND, Icon_ConfSnd_Oversample},
-    {CONF_WIN_SOUND, Icon_ConfSnd_OversampleT},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuff},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuffT},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjust},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjustT},
-    {CONF_WIN_SOUND, Icon_ConfSnd_Volume},
-    {0xff, 0xff}
+    { CONF_WIN_SOUND, Icon_ConfSnd_SampleRate },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SampleRateT },
+    { CONF_WIN_SOUND, Icon_ConfSnd_Oversample },
+    { CONF_WIN_SOUND, Icon_ConfSnd_OversampleT },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SoundBuff },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SoundBuffT },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjust },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjustT },
+    { CONF_WIN_SOUND, Icon_ConfSnd_Volume },
+    { 0xff, 0xff }
 };
 
 static const conf_iconid_t SidDependentIcons[] = {
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidModel},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT},
-    {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp},
-    {CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT},
-    {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass},
-    {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo},
-    {CONF_WIN_SOUND, Icon_ConfSnd_Sid2Addr},
-    {0xff, 0xff}
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidFilter },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidModel },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidModelT },
+    { CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp },
+    { CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT },
+    { CONF_WIN_SOUND, Icon_ConfSnd_ResidPass },
+    { CONF_WIN_SOUND, Icon_ConfSnd_SidStereo },
+    { CONF_WIN_SOUND, Icon_ConfSnd_Sid2Addr },
+    { 0xff, 0xff }
 };
 
 /* Configuration options */
@@ -298,8 +303,8 @@ static char *DriveFile10 = NULL;
 static char *DriveFile11 = NULL;
 static char *TapeFile = NULL;
 
-static int *DriveTypes[] = {&DriveType8, &DriveType9, &DriveType10, &DriveType11};
-static char **DriveFiles[] = {&DriveFile8, &DriveFile9, &DriveFile10, &DriveFile11};
+static int *DriveTypes[] = { &DriveType8, &DriveType9, &DriveType10, &DriveType11 };
+static char **DriveFiles[] = { &DriveFile8, &DriveFile9, &DriveFile10, &DriveFile11 };
 
 /* Logging */
 static log_t roui_log = LOG_ERR;
@@ -326,8 +331,8 @@ int FrameBufferUpdate = 0;
 int ModeChanging = 0;
 
 /* LED states */
-int DriveLEDStates[4] = {0, 0, 0, 0};
-int DriveTrackNumbers[4] = {36, 36, 36, 36};
+int DriveLEDStates[4] = { 0, 0, 0, 0 };
+int DriveTrackNumbers[4] = { 36, 36, 36, 36 };
 
 /* The screen */
 RO_Screen ScreenMode;
@@ -427,8 +432,8 @@ static char *SymbolStrings[] = {
 };
 
 static Joy_Keys JoyToIcon[2] = {
-    {Icon_ConfJoy_JoyKey1U, Icon_ConfJoy_JoyKey1D, Icon_ConfJoy_JoyKey1L, Icon_ConfJoy_JoyKey1R, Icon_ConfJoy_JoyKey1F},
-    {Icon_ConfJoy_JoyKey2U, Icon_ConfJoy_JoyKey2D, Icon_ConfJoy_JoyKey2L, Icon_ConfJoy_JoyKey2R, Icon_ConfJoy_JoyKey2F}
+    { Icon_ConfJoy_JoyKey1U, Icon_ConfJoy_JoyKey1D, Icon_ConfJoy_JoyKey1L, Icon_ConfJoy_JoyKey1R, Icon_ConfJoy_JoyKey1F },
+    { Icon_ConfJoy_JoyKey2U, Icon_ConfJoy_JoyKey2D, Icon_ConfJoy_JoyKey2L, Icon_ConfJoy_JoyKey2R, Icon_ConfJoy_JoyKey2F }
 };
 
 /* Configuration menu */
@@ -458,7 +463,7 @@ static struct MenuConfigure {
       MENU_ITEM("\\MenConfSys"),
       MENU_ITEM("\\MenConfVid"),
       MENU_ITEM("\\MenConfJoy"),
-      {MFlg_Dotted, (RO_MenuHead*)-1, Menu_Flags, {"\\MenConfMch"}},
+      { MFlg_Dotted, (RO_MenuHead*)-1, Menu_Flags, { "\\MenConfMch" } },
       MENU_ITEM("\\MenConfSav"),
       MENU_ITEM_LAST("\\MenConfRel")
     }
@@ -526,7 +531,7 @@ static struct MenuFliplist {
         MENU_ITEM("\\MenFlpNxt"),
         MENU_ITEM("\\MenFlpPrv"),
         MENU_ITEM("\\MenFlpClr"),
-        {MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, {"\\MenFlpSav"}},
+        { MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, { "\\MenFlpSav" } },
         MENU_ITEM_LAST("\\MenFlpImg")
     }
 };
@@ -572,7 +577,7 @@ static struct MenuEmuWindow {
         MENU_ITEM_SUB("\\MenEmuConf", &MenuConfigure),
         MENU_ITEM_SUB("\\MenEmuFlip", &MenuFliplist),
         MENU_ITEM("\\MenEmuSnap"),
-        {MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, {"\\MenEmuScr"}},
+        { MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, { "\\MenEmuScr" } },
         MENU_ITEM("\\MenEmuFrz"),
         MENU_ITEM("\\MenEmuPane"),
         MENU_ITEM("\\MenEmuActv"),
@@ -632,7 +637,7 @@ static char VideoSyncCustomField[16];
 /* Sprite name copied in by the ui init function of the machine */
 static RO_IconDesc IBarIcon = {
     -1, 0, 0, 68, 68, 0x301a,
-    {""},
+    { "" },
     0
 };
 
@@ -696,9 +701,9 @@ static const char Rsrc_Gamma[] = "ColorGamma";
 static const char Rsrc_DelLoop[] = "PALEmulation";
 static const char Rsrc_LineShade[] = "PALScanLineShade";
 
-static const char *Rsrc_ConvP00[4] = {Rsrc_Conv8P00, Rsrc_Conv9P00, Rsrc_Conv10P00, Rsrc_Conv11P00};
-static const char *Rsrc_SaveP00[4] = {Rsrc_Save8P00, Rsrc_Save9P00, Rsrc_Save10P00, Rsrc_Save11P00};
-static const char *Rsrc_HideCBM[4] = {Rsrc_Hide8CBM, Rsrc_Hide9CBM, Rsrc_Hide10CBM, Rsrc_Hide11CBM};
+static const char *Rsrc_ConvP00[4] = { Rsrc_Conv8P00, Rsrc_Conv9P00, Rsrc_Conv10P00, Rsrc_Conv11P00 };
+static const char *Rsrc_SaveP00[4] = { Rsrc_Save8P00, Rsrc_Save9P00, Rsrc_Save10P00, Rsrc_Save11P00 };
+static const char *Rsrc_HideCBM[4] = { Rsrc_Hide8CBM, Rsrc_Hide9CBM, Rsrc_Hide10CBM, Rsrc_Hide11CBM };
 
 static disp_desc_t *MenuDisplayROMSet = NULL;
 
@@ -706,9 +711,9 @@ static struct MenuDisplayROMSetTmpl {
     disp_desc_t dd;
     int values[1];
 } MenuDisplayROMSetTmpl = {
-    {NULL, {CONF_WIN_SYSTEM, Icon_ConfSys_ROMSetT},
-    (RO_MenuHead*)&MenuROMSetTmpl, 1, DISP_DESC_STRING, 0},
-    {0}
+    { NULL, { CONF_WIN_SYSTEM, Icon_ConfSys_ROMSetT },
+    (RO_MenuHead*)&MenuROMSetTmpl, 1, DISP_DESC_STRING, 0 },
+    { 0 }
 };
 
 /*
@@ -787,35 +792,35 @@ static int set_16bit_sound(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {Rsrc_DriveF8, "@", RES_EVENT_NO, NULL,
-     &DriveFile8, set_drive_file8, NULL },
-    {Rsrc_DriveF9, "@", RES_EVENT_NO, NULL,
-     &DriveFile9, set_drive_file9, NULL },
-    {Rsrc_DriveF10, "@", RES_EVENT_NO, NULL,
-     &DriveFile10, set_drive_file10, NULL },
-    {Rsrc_DriveF11, "@", RES_EVENT_NO, NULL,
-     &DriveFile11, set_drive_file11, NULL },
-    {Rsrc_TapeFile, "", RES_EVENT_NO, NULL,
-     &TapeFile, set_tape_file, NULL },
-    {NULL}
+    { Rsrc_DriveF8, "@", RES_EVENT_NO, NULL,
+      &DriveFile8, set_drive_file8, NULL },
+    { Rsrc_DriveF9, "@", RES_EVENT_NO, NULL,
+      &DriveFile9, set_drive_file9, NULL },
+    { Rsrc_DriveF10, "@", RES_EVENT_NO, NULL,
+      &DriveFile10, set_drive_file10, NULL },
+    { Rsrc_DriveF11, "@", RES_EVENT_NO, NULL,
+      &DriveFile11, set_drive_file11, NULL },
+    { Rsrc_TapeFile, "", RES_EVENT_NO, NULL,
+      &TapeFile, set_tape_file, NULL },
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
-    {Rsrc_SndEvery, 0, RES_EVENT_NO, NULL,
-     &SoundPollEvery, set_sound_every, NULL },
-    {Rsrc_AutoPause, 0, RES_EVENT_NO, NULL,
-     &AutoPauseEmu, set_auto_pause, NULL },
-    {Rsrc_DriveT8, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
-     &DriveType8, set_drive_type8, NULL },
-    {Rsrc_DriveT9, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
-     &DriveType9, set_drive_type9, NULL },
-    {Rsrc_DriveT10, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
-     &DriveType10, set_drive_type10, NULL },
-    {Rsrc_DriveT11, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
-     &DriveType11, set_drive_type11, NULL },
-    {Rsrc_Snd16Bit, 0, RES_EVENT_NO, NULL,
-     &Use16BitSound, set_16bit_sound, NULL },
-    {NULL}
+    { Rsrc_SndEvery, 0, RES_EVENT_NO, NULL,
+      &SoundPollEvery, set_sound_every, NULL },
+    { Rsrc_AutoPause, 0, RES_EVENT_NO, NULL,
+      &AutoPauseEmu, set_auto_pause, NULL },
+    { Rsrc_DriveT8, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+      &DriveType8, set_drive_type8, NULL },
+    { Rsrc_DriveT9, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+      &DriveType9, set_drive_type9, NULL },
+    { Rsrc_DriveT10, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+      &DriveType10, set_drive_type10, NULL },
+    { Rsrc_DriveT11, DRIVE_TYPE_FS, RES_EVENT_NO, NULL,
+      &DriveType11, set_drive_type11, NULL },
+    { Rsrc_Snd16Bit, 0, RES_EVENT_NO, NULL,
+      &Use16BitSound, set_16bit_sound, NULL },
+    { NULL }
 };
 
 int ui_load_template(const char *tempname, RO_Window **wptr, wimp_msg_desc *msg)
@@ -3559,11 +3564,11 @@ static void ui_toggle_resource_menu(const char *name, RO_MenuHead *menu, int num
 }
 
 static config_item_t SystemROMconf[] = {
-    {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}},
-    {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}},
-    {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Basic}},
-    {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_Palette}},
-    {NULL, 0, {0, 0}}
+    { Rsrc_CharGen, CONFIG_STRING, { CONF_WIN_SYSTEM, Icon_ConfSys_CharGen } },
+    { Rsrc_Kernal, CONFIG_STRING, { CONF_WIN_SYSTEM, Icon_ConfSys_Kernal } },
+    { Rsrc_Basic, CONFIG_STRING, { CONF_WIN_SYSTEM, Icon_ConfSys_Basic } },
+    { Rsrc_Palette, CONFIG_STRING, { CONF_WIN_VIDEO, Icon_ConfVid_Palette } },
+    { NULL, 0, { 0, 0 } }
 };
 
 /* Update all open config windows */
