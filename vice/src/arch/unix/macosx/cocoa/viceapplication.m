@@ -89,7 +89,7 @@ const float control_win_width = 200;
     argsArray = [[NSMutableArray alloc] init];
     int i;
     for (i=0;i<argc;i++) {
-        [argsArray addObject:[NSString stringWithCString:argv[i]]];
+        [argsArray addObject:[NSString stringWithCString:argv[i] encoding:NSUTF8StringEncoding]];
     }
 
     postponeAutostart = YES;
@@ -137,17 +137,17 @@ const float control_win_width = 200;
     // create default log console
     consoleWindow = [[ConsoleWindow alloc] 
          initWithContentRect:[self placeConsole:TRUE]
-                       title:[NSString stringWithCString:_("VICE: Console")]];
+                       title:[NSString stringWithCString:_("VICE: Console") encoding:NSUTF8StringEncoding]];
 
     // create monitor window
     monitorWindow = [[ConsoleWindow alloc] 
          initWithContentRect:[self placeConsole:FALSE]
-                       title:[NSString stringWithCString:_("VICE: Monitor")]];
+                       title:[NSString stringWithCString:_("VICE: Monitor") encoding:NSUTF8StringEncoding]];
     
     // create control window
     controlWindow = [[ControlWindow alloc] 
          initWithContentRect:[self placeControl]
-                       title:[NSString stringWithCString:_("VICE: Control")]];
+                       title:[NSString stringWithCString:_("VICE: Control") encoding:NSUTF8StringEncoding]];
     
     // set visibility of windows
     [self setWindowVisibilityFromUserDefaults:consoleWindow default:YES];
@@ -325,7 +325,7 @@ const float control_win_width = 200;
     canvasCount++;
     NSString *title;
     if (canvasCount==1)
-        title = [NSString stringWithCString:canvas->viewport->title];
+        title = [NSString stringWithCString:canvas->viewport->title encoding:NSUTF8StringEncoding];
     else
         title = [NSString stringWithFormat:@"%s #%d",canvas->viewport->title,canvasCount];
     

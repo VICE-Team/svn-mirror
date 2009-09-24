@@ -134,7 +134,9 @@
     NSData * data = [[notification userInfo]
         objectForKey:NSFileHandleNotificationDataItem];
 
-    [self appendText:[NSString stringWithCString:[data bytes] length:[data length]]];
+    [self appendText:[[[NSString alloc] initWithBytes:[data bytes] 
+                                              length:[data length]
+                                              encoding:NSUTF8StringEncoding] autorelease]];
 
     [[notification object] readInBackgroundAndNotify];
 }

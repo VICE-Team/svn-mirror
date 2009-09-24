@@ -86,7 +86,7 @@ void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int pwm2
 void ui_display_drive_current_image(unsigned int drive_number,
                                     const char *image)
 {
-    NSString *string = [NSString stringWithCString:image];
+    NSString *string = [NSString stringWithCString:image encoding:NSUTF8StringEncoding];
     [[theVICEMachine machineNotifier] postDisplayDriveImageNotification:drive_number
                                                    image:string];
 }
@@ -100,7 +100,7 @@ void ui_set_tape_status(int enable)
 
 void ui_display_tape_current_image(const char *image)
 {
-    NSString *string = [NSString stringWithCString:image];
+    NSString *string = [NSString stringWithCString:image encoding:NSUTF8StringEncoding];
     [[theVICEMachine machineNotifier] postDisplayTapeImageNotification:string];
 }
 
@@ -137,7 +137,7 @@ void ui_display_recording(int recording_status)
 
 void ui_display_playback(int playback_status, char *version)
 {
-    NSString *string = [NSString stringWithCString:version ? version : ""];
+    NSString *string = [NSString stringWithCString:version ? version : ""  encoding:NSUTF8StringEncoding];
     [[theVICEMachine machineNotifier] postDisplayPlaybackNotification:(BOOL)playback_status
                                                version:string];
 }
@@ -176,8 +176,9 @@ void ui_error(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    NSString *string = [[NSString alloc] initWithFormat:[NSString stringWithCString:format]
-                                              arguments:args];
+    NSString *string = [[NSString alloc] 
+        initWithFormat:[NSString stringWithCString:format encoding:NSUTF8StringEncoding]
+             arguments:args];
     va_end(args);
 
     [[theVICEMachine app] runErrorMessage:string];
@@ -188,8 +189,9 @@ void ui_message(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    NSString *string = [[NSString alloc] initWithFormat:[NSString stringWithCString:format]
-                                              arguments:args];
+    NSString *string = [[NSString alloc] 
+        initWithFormat:[NSString stringWithCString:format encoding:NSUTF8StringEncoding]
+             arguments:args];
     va_end(args);
 
     [[theVICEMachine app] runWarningMessage:string];
@@ -200,8 +202,9 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
     va_list args;
     va_start(args, format);
-    NSString * string = [[NSString alloc] initWithFormat:[NSString stringWithCString:format]
-                                               arguments:args];
+    NSString * string = [[NSString alloc] 
+        initWithFormat:[NSString stringWithCString:format encoding:NSUTF8StringEncoding]
+             arguments:args];
     va_end(args);
 
     int result = [[theVICEMachine app] runCPUJamDialog:string];
@@ -219,8 +222,9 @@ char* ui_get_file(const char *format,...)
 {
     va_list args;
     va_start(args, format);
-    NSString * string = [[NSString alloc] initWithFormat:[NSString stringWithCString:format]
-                                               arguments:args];
+    NSString * string = [[NSString alloc] 
+        initWithFormat:[NSString stringWithCString:format encoding:NSUTF8StringEncoding]
+             arguments:args];
     va_end(args);
 
     NSString * path = [[theVICEMachine app] getOpenFileName:string types:nil];

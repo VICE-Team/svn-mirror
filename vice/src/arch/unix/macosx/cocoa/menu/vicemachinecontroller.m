@@ -574,8 +574,8 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     const char *cstr = [string cStringUsingEncoding:NSUTF8StringEncoding];
     if (convert) {
         int len = [string length];
-        char *pstr = lib_malloc(len+1);
-        memcpy(pstr,cstr,len);
+        char *pstr = (char *)malloc(len+1);
+        memcpy(pstr,cstr,len+1);
         charset_petconvstring(pstr,0);
         
         kbdbuf_feed(pstr);

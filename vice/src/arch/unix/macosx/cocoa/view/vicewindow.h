@@ -29,7 +29,7 @@
 #import "viceglview.h"
 #import "fullscreenwindow.h"
 
-@interface VICEWindow : NSWindow
+@interface VICEWindow : NSWindow <FullscreenToggling>
 {
     NSBox *canvasContainer;
     VICEGLView *canvasView;

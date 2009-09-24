@@ -27,7 +27,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol FullscreenToggling
+ - (void)toggleFullscreen:(id)sender;
+@end
+
 @interface FullscreenWindow : NSWindow
+{
+    id<FullscreenToggling> toggler;
+}
 
 -(id)init;
 
@@ -35,6 +42,7 @@
 -(void)setAppNonActive:(id)data;
 
 -(void)toggleFullscreen:(id)sender;
+-(void)setToggler:(id<FullscreenToggling>)toggler;
 
 @end
 

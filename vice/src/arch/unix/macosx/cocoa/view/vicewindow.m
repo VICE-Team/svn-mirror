@@ -202,7 +202,7 @@
     } else {
         [self orderOut:nil];
         fullscreenWindow = [[FullscreenWindow alloc] init];
-        [fullscreenWindow setDelegate:self];
+        [fullscreenWindow setToggler:self];
         [fullscreenWindow setContentView:canvasView];
         [fullscreenWindow makeKeyAndOrderFront:self];
         isFullscreen = TRUE;

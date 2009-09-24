@@ -46,7 +46,7 @@
         NSOpenGLPFADoubleBuffer,
         NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute)8,
 //        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16,
-        (NSOpenGLPixelFormatAttribute)nil
+        (NSOpenGLPixelFormatAttribute)0
     };
     
     // init with given format

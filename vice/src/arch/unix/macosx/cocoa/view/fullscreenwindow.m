@@ -26,6 +26,7 @@
  */
 
 #import "fullscreenwindow.h"
+#import "vicewindow.h"
 
 // for SetSystemUIMode:
 #include <QuickTime/QuickTime.h>
@@ -109,7 +110,12 @@
 -(void)toggleFullscreen:(id)sender
 {
     // report to VICEWindow to close fullscreen
-    [[self delegate] toggleFullscreen:self];
+    [toggler toggleFullscreen:self];
+}
+
+-(void)setToggler:(id<FullscreenToggling>)t
+{
+    toggler = t;
 }
 
 @end

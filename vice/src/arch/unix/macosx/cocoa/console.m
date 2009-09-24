@@ -41,7 +41,8 @@ console_t *console_open(const char *id)
     // open console window
     ConsoleWindow *window = [[ConsoleWindow alloc] 
                         initWithContentRect:NSMakeRect(600, 140, 500, 200)
-                                      title:[NSString stringWithCString:id]];
+                                      title:[NSString stringWithCString:id
+                                            encoding:NSUTF8StringEncoding]];
 
     // create VICE console structure
     console_t * console;
