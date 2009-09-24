@@ -31,42 +31,49 @@
 #include "uimenu.h"
 #include "resources.h"
 
-static void ui_keybutton_pressed(GtkButton *button,
-                                 gpointer user_data) {
+static void ui_keybutton_pressed(GtkButton *button, gpointer user_data)
+{
     int i;
     GtkWidget **buttons = user_data;
 
-    for (i=0; i<18; i++)
-        if (button != GTK_BUTTON(buttons[i]))
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(buttons[i]),
-                                         FALSE);
+    for (i = 0; i < 18; i++) {
+        if (button != GTK_BUTTON(buttons[i])) {
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(buttons[i]), FALSE);
+        }
+    }
 }
 
-struct keysbuttons {GtkWidget **buttons; guint *keys;};
+struct keysbuttons {
+    GtkWidget **buttons;
+    guint *keys;
+};
 
-static gboolean ui_change_key(GtkWidget *widget,
-                       GdkEventKey *event,
-                       gpointer user_data) {
+static gboolean ui_change_key(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
     int i;
     struct keysbuttons *k = user_data;
     guint key = event->keyval;
 
-    if (key == GDK_Alt_L || key == GDK_Alt_R)
+    if (key == GDK_Alt_L || key == GDK_Alt_R) {
         return FALSE;
-    if (key == GDK_Escape)
+    }
+    if (key == GDK_Escape) {
         key = 0;
+    }
 
-    for (i=0; i<18; i++)
+    for (i = 0; i < 18; i++) {
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(k->buttons[i]))) {
             k->keys[i] = key;
             gtk_button_set_label(GTK_BUTTON(k->buttons[i]), key != 0 ? gdk_keyval_name(key) : "None");
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(k->buttons[i]), FALSE);
             return TRUE;
         }
+    }
     return FALSE;
 }
 
-UI_CALLBACK(ui_keyset_dialog) {
+UI_CALLBACK(ui_keyset_dialog)
+{
     GtkWidget *keyset_dialog,
     *keyset1,
     *button[18], *label[18], *box[18],
@@ -76,38 +83,30 @@ UI_CALLBACK(ui_keyset_dialog) {
     struct keysbuttons k = {button, keys};
     gint res;
 
-    keyset_dialog =
-        gtk_dialog_new_with_buttons ("Configure keysets",
-                                     0,
-                                     GTK_DIALOG_MODAL,
-                                     GTK_STOCK_OK,
-                                     GTK_RESPONSE_OK,
-                                     GTK_STOCK_CANCEL,
-                                     GTK_RESPONSE_CANCEL,
-				     NULL);
+    keyset_dialog = gtk_dialog_new_with_buttons ("Configure keysets", 0, GTK_DIALOG_MODAL, GTK_STOCK_OK, GTK_RESPONSE_OK, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
     gtk_window_set_resizable(GTK_WINDOW(keyset_dialog), FALSE);
 
-        resources_get_int("KeySet1SouthWest", (void *)&keys[0]);
-        resources_get_int("KeySet1South"    , (void *)&keys[1]);
-        resources_get_int("KeySet1SouthEast", (void *)&keys[2]);
-        resources_get_int("KeySet1West"     , (void *)&keys[3]);
-        resources_get_int("KeySet1Fire"     , (void *)&keys[4]);
-        resources_get_int("KeySet1East"     , (void *)&keys[5]);
-        resources_get_int("KeySet1NorthWest", (void *)&keys[6]);
-        resources_get_int("KeySet1North"    , (void *)&keys[7]);
-        resources_get_int("KeySet1NorthEast", (void *)&keys[8]);
-        resources_get_int("KeySet2SouthWest", (void *)&keys[9]);
-        resources_get_int("KeySet2South"    , (void *)&keys[10]);
-        resources_get_int("KeySet2SouthEast", (void *)&keys[11]);
-        resources_get_int("KeySet2West"     , (void *)&keys[12]);
-        resources_get_int("KeySet2Fire"     , (void *)&keys[13]);
-        resources_get_int("KeySet2East"     , (void *)&keys[14]);
-        resources_get_int("KeySet2NorthWest", (void *)&keys[15]);
-        resources_get_int("KeySet2North"    , (void *)&keys[16]);
-        resources_get_int("KeySet2NorthEast", (void *)&keys[17]);
+    resources_get_int("KeySet1SouthWest", (void *)&keys[0]);
+    resources_get_int("KeySet1South", (void *)&keys[1]);
+    resources_get_int("KeySet1SouthEast", (void *)&keys[2]);
+    resources_get_int("KeySet1West", (void *)&keys[3]);
+    resources_get_int("KeySet1Fire", (void *)&keys[4]);
+    resources_get_int("KeySet1East", (void *)&keys[5]);
+    resources_get_int("KeySet1NorthWest", (void *)&keys[6]);
+    resources_get_int("KeySet1North", (void *)&keys[7]);
+    resources_get_int("KeySet1NorthEast", (void *)&keys[8]);
+    resources_get_int("KeySet2SouthWest", (void *)&keys[9]);
+    resources_get_int("KeySet2South", (void *)&keys[10]);
+    resources_get_int("KeySet2SouthEast", (void *)&keys[11]);
+    resources_get_int("KeySet2West", (void *)&keys[12]);
+    resources_get_int("KeySet2Fire", (void *)&keys[13]);
+    resources_get_int("KeySet2East", (void *)&keys[14]);
+    resources_get_int("KeySet2NorthWest", (void *)&keys[15]);
+    resources_get_int("KeySet2North", (void *)&keys[16]);
+    resources_get_int("KeySet2NorthEast", (void *)&keys[17]);
 
-    titlelabel1 = gtk_label_new ("Keyset 1");
-    titlelabel2 = gtk_label_new ("Keyset 2");
+    titlelabel1 = gtk_label_new("Keyset 1");
+    titlelabel2 = gtk_label_new("Keyset 2");
     ruler = gtk_hruler_new();
     keyset1 = gtk_table_new(9, 3, 0);
     label[0] = gtk_label_new("Southwest");
@@ -128,8 +127,9 @@ UI_CALLBACK(ui_keyset_dialog) {
     label[15] = gtk_label_new("Northwest");
     label[16] = gtk_label_new("North");
     label[17] = gtk_label_new("Northeast");
-    for (i=0;i<18;i++) {
+    for (i = 0;i < 18; i++) {
         char *keylabel = (keys[i] != 0) ? gdk_keyval_name(keys[i]) : "None";
+
         box[i] = gtk_vbox_new(FALSE, 0);
         button[i] = gtk_toggle_button_new();
         gtk_button_set_label(GTK_BUTTON(button[i]), keylabel);
@@ -138,9 +138,7 @@ UI_CALLBACK(ui_keyset_dialog) {
         gtk_widget_show(box[i]);
         gtk_widget_show(button[i]);
         gtk_widget_show(label[i]);
-        g_signal_connect(G_OBJECT(button[i]), "pressed",
-			 G_CALLBACK(ui_keybutton_pressed),
-			 (gpointer) button);
+        g_signal_connect(G_OBJECT(button[i]), "pressed", G_CALLBACK(ui_keybutton_pressed), (gpointer) button);
     }
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(keyset_dialog)->vbox), keyset1, FALSE, FALSE, 0);
     gtk_table_attach (GTK_TABLE(keyset1), titlelabel1, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
@@ -168,29 +166,27 @@ UI_CALLBACK(ui_keyset_dialog) {
     gtk_widget_show(titlelabel1);
     gtk_widget_show(titlelabel2);
     gtk_widget_show(ruler);
-    g_signal_connect(G_OBJECT(keyset_dialog), "key-press-event",
-		     G_CALLBACK(ui_change_key),
-		     (gpointer) &k);
+    g_signal_connect(G_OBJECT(keyset_dialog), "key-press-event", G_CALLBACK(ui_change_key), (gpointer)&k);
     res = gtk_dialog_run(GTK_DIALOG(keyset_dialog));
     if (res == GTK_RESPONSE_OK) {
-            resources_set_int("KeySet1SouthWest", keys[0]);
-            resources_set_int("KeySet1South"    , keys[1]);
-            resources_set_int("KeySet1SouthEast", keys[2]);
-            resources_set_int("KeySet1West"     , keys[3]);
-            resources_set_int("KeySet1Fire"     , keys[4]);
-            resources_set_int("KeySet1East"     , keys[5]);
-            resources_set_int("KeySet1NorthWest", keys[6]);
-            resources_set_int("KeySet1North"    , keys[7]);
-            resources_set_int("KeySet1NorthEast", keys[8]);
-            resources_set_int("KeySet2SouthWest", keys[9]);
-            resources_set_int("KeySet2South"    , keys[10]);
-            resources_set_int("KeySet2SouthEast", keys[11]);
-            resources_set_int("KeySet2West"     , keys[12]);
-            resources_set_int("KeySet2Fire"     , keys[13]);
-            resources_set_int("KeySet2East"     , keys[14]);
-            resources_set_int("KeySet2NorthWest", keys[15]);
-            resources_set_int("KeySet2North"    , keys[16]);
-            resources_set_int("KeySet2NorthEast", keys[17]);
+        resources_set_int("KeySet1SouthWest", keys[0]);
+        resources_set_int("KeySet1South", keys[1]);
+        resources_set_int("KeySet1SouthEast", keys[2]);
+        resources_set_int("KeySet1West", keys[3]);
+        resources_set_int("KeySet1Fire", keys[4]);
+        resources_set_int("KeySet1East", keys[5]);
+        resources_set_int("KeySet1NorthWest", keys[6]);
+        resources_set_int("KeySet1North", keys[7]);
+        resources_set_int("KeySet1NorthEast", keys[8]);
+        resources_set_int("KeySet2SouthWest", keys[9]);
+        resources_set_int("KeySet2South", keys[10]);
+        resources_set_int("KeySet2SouthEast", keys[11]);
+        resources_set_int("KeySet2West", keys[12]);
+        resources_set_int("KeySet2Fire", keys[13]);
+        resources_set_int("KeySet2East", keys[14]);
+        resources_set_int("KeySet2NorthWest", keys[15]);
+        resources_set_int("KeySet2North", keys[16]);
+        resources_set_int("KeySet2NorthEast", keys[17]);
     }
     gtk_widget_destroy(keyset_dialog);
 }

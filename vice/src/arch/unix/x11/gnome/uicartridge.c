@@ -45,39 +45,33 @@ void ui_cartridge_dialog(void)
     
     if (cartridge_dialog)
     {
-	gdk_window_show(cartridge_dialog->window);
-	gdk_window_raise(cartridge_dialog->window);
-	gtk_widget_show(cartridge_dialog);
-    }
-    else
-    {
+        gdk_window_show(cartridge_dialog->window);
+        gdk_window_raise(cartridge_dialog->window);
+        gtk_widget_show(cartridge_dialog);
+    } else {
         uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
-	cartridge_dialog = vice_file_entry(_("Save Cartridge"), NULL, NULL, &filter, 1,
-				UI_FC_SAVE);
-	g_signal_connect(G_OBJECT(cartridge_dialog),
-			 "destroy",
-			 G_CALLBACK(gtk_widget_destroyed),
-			 &cartridge_dialog);
+        cartridge_dialog = vice_file_entry(_("Save Cartridge"), NULL, NULL, &filter, 1, UI_FC_SAVE);
+        g_signal_connect(G_OBJECT(cartridge_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &cartridge_dialog);
     }
 
     ui_popup(cartridge_dialog, _("Save Cartridge"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(cartridge_dialog));
     ui_popdown(cartridge_dialog);
     
-    if (res != GTK_RESPONSE_ACCEPT)
-	return;
+    if (res != GTK_RESPONSE_ACCEPT) {
+        return;
+    }
     
     name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(cartridge_dialog));
-    if (!name)
-    {
-	ui_error(_("Invalid filename"));
-	return;
+    if (!name) {
+        ui_error(_("Invalid filename"));
+        return;
     }
 	    
-    if (cartridge_save_image (name) < 0)
+    if (cartridge_save_image (name) < 0) {
         ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
-    else
+    } else {
 	ui_message(_("Successfully wrote `%s'\n"), name);
+    }
     lib_free(name);
 }
-

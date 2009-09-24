@@ -44,8 +44,9 @@ signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
     guint sym = gdk_keyval_from_name(keyname);
 
-    if (sym == GDK_VoidSymbol)
+    if (sym == GDK_VoidSymbol) {
         return -1;
+    }
 
     return (signed long)sym;
 }
@@ -62,28 +63,22 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 
     key = report->key.keyval;
     switch (report->type) {
-      case GDK_KEY_PRESS:
-        keyboard_key_pressed((signed long)key);
-        return TRUE;
-
-      case GDK_KEY_RELEASE:
-        if (key == GDK_Shift_L
-         || key == GDK_Shift_R
-         || key == GDK_ISO_Level3_Shift
-        )
+        case GDK_KEY_PRESS:
+            keyboard_key_pressed((signed long)key);
+            return TRUE;
+        case GDK_KEY_RELEASE:
+            if (key == GDK_Shift_L || key == GDK_Shift_R || key == GDK_ISO_Level3_Shift) {
+                keyboard_key_clear();
+            }
+            keyboard_key_released(key);
+            break;
+        case GDK_ENTER_NOTIFY:
+        case GDK_LEAVE_NOTIFY:
+        case GDK_FOCUS_CHANGE:
             keyboard_key_clear();
-        keyboard_key_released(key);
-        break;
-
-      case GDK_ENTER_NOTIFY:
-      case GDK_LEAVE_NOTIFY:
-      case GDK_FOCUS_CHANGE:
-        keyboard_key_clear();
-        break;
-
-      default:
-        break;
-
+            break;
+        default:
+            break;
     }                           /* switch */
     return FALSE;
 }

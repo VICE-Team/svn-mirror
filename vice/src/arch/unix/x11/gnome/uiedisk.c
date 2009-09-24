@@ -44,14 +44,16 @@ static struct {
     char *label;
     GtkWidget *w;
     int type;
-} type_radio[] = { {"d64", NULL, DISK_IMAGE_TYPE_D64},
-		   {"d71", NULL, DISK_IMAGE_TYPE_D71},
-		   {"d80", NULL, DISK_IMAGE_TYPE_D80},
-		   {"d81", NULL, DISK_IMAGE_TYPE_D81},
-		   {"d82", NULL, DISK_IMAGE_TYPE_D82},
-		   {"g64", NULL, DISK_IMAGE_TYPE_G64},
-		   {"x64", NULL, DISK_IMAGE_TYPE_X64},
-		   { NULL, NULL, 0} };
+} type_radio[] = {
+    { "d64", NULL, DISK_IMAGE_TYPE_D64 },
+    { "d71", NULL, DISK_IMAGE_TYPE_D71 },
+    { "d80", NULL, DISK_IMAGE_TYPE_D80 },
+    { "d81", NULL, DISK_IMAGE_TYPE_D81 },
+    { "d82", NULL, DISK_IMAGE_TYPE_D82 },
+    { "g64", NULL, DISK_IMAGE_TYPE_G64 },
+    { "x64", NULL, DISK_IMAGE_TYPE_X64 },
+    { NULL, NULL, 0 }
+};
 
 static GtkWidget *edisk_dialog, *diskname, *diskid;
 
@@ -59,11 +61,9 @@ static GtkWidget *build_empty_disk_dialog(void)
 {
     GtkWidget *d, *box, *hbox, *tmp, *frame;
     int i;
-    uilib_file_filter_enum_t filter[] = {UILIB_FILTER_DISK, UILIB_FILTER_ALL};
-    
-    d = vice_file_entry(_("Create disk"), NULL, NULL,
-				filter, sizeof(filter) / sizeof(*filter),
-				UI_FC_SAVE);
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DISK, UILIB_FILTER_ALL };
+
+    d = vice_file_entry(_("Create disk"), NULL, NULL, filter, sizeof(filter) / sizeof(*filter), UI_FC_SAVE);
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     frame = gtk_frame_new(_("Disk options"));
@@ -74,13 +74,13 @@ static GtkWidget *build_empty_disk_dialog(void)
     tmp = gtk_label_new(_("Diskname: "));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
-    
+
     diskname = gtk_entry_new();
     gtk_entry_set_max_length(GTK_ENTRY(diskname), 16);
     gtk_editable_set_editable(GTK_EDITABLE(diskname), TRUE);
     gtk_box_pack_start(GTK_BOX(hbox), diskname, FALSE, FALSE, 0);
     gtk_widget_show(diskname);
-    
+
     tmp = gtk_label_new("ID: ");
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
@@ -96,40 +96,30 @@ static GtkWidget *build_empty_disk_dialog(void)
 
     hbox = gtk_hbox_new(0, FALSE);
 
-    for (i = 0; type_radio[i].label; i++)
-    {
-	if (i == 0)
-	{
-	    type_radio[i].w = 
-		gtk_radio_button_new_with_label(NULL, type_radio[i].label);
-	    gtk_toggle_button_set_active(
-		GTK_TOGGLE_BUTTON(type_radio[i].w ), TRUE);
-	}
-	else
-	    type_radio[i].w = gtk_radio_button_new_with_label(
-		gtk_radio_button_get_group(
-		    GTK_RADIO_BUTTON(type_radio[i - 1].w)), 
-		type_radio[i].label);
-	
-	gtk_box_pack_start(GTK_BOX(hbox), type_radio[i].w, FALSE, FALSE, 0);
-	gtk_widget_show(type_radio[i].w);
+    for (i = 0; type_radio[i].label; i++) {
+        if (i == 0) {
+            type_radio[i].w = gtk_radio_button_new_with_label(NULL, type_radio[i].label);
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(type_radio[i].w), TRUE);
+        } else {
+            type_radio[i].w = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(type_radio[i - 1].w)), type_radio[i].label);
+        }
+        gtk_box_pack_start(GTK_BOX(hbox), type_radio[i].w, FALSE, FALSE, 0);
+        gtk_widget_show(type_radio[i].w);
     }
 
     gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
-    
+
     gtk_container_add(GTK_CONTAINER(frame), box);
     gtk_widget_show(box);
 
 #if GTK_CHECK_VERSION(2, 14, 0)
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), frame, 
-		       FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), frame, FALSE, FALSE, 0);
 #else
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, 
-		       FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, FALSE, FALSE, 0);
 #endif
     gtk_widget_show(frame);
-    
+
     return d;
 }
 
@@ -141,62 +131,58 @@ int ui_empty_disk_dialog(char *name)
     const char *dname, *id;
     int i, type = 0, ret = 0;
 
-    if (edisk_dialog)
-    {
-	gdk_window_show(edisk_dialog->window);
-	gdk_window_raise(edisk_dialog->window);
-	gtk_widget_show(edisk_dialog);
-    }
-    else
-    {
-	edisk_dialog = build_empty_disk_dialog();
-	g_signal_connect(G_OBJECT(edisk_dialog),
-			 "destroy",
-			 G_CALLBACK(gtk_widget_destroyed),
-			 &edisk_dialog);
+    if (edisk_dialog) {
+        gdk_window_show(edisk_dialog->window);
+        gdk_window_raise(edisk_dialog->window);
+        gtk_widget_show(edisk_dialog);
+    } else {
+        edisk_dialog = build_empty_disk_dialog();
+        g_signal_connect(G_OBJECT(edisk_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &edisk_dialog);
     }
 
     ui_popup(edisk_dialog, _("Create empty Diskimage"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(edisk_dialog));
     ui_popdown(edisk_dialog);
 
-    if (res != GTK_RESPONSE_ACCEPT)
-	return -1;
+    if (res != GTK_RESPONSE_ACCEPT) {
+        return -1;
+    }
 
     /* filename */
     fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(edisk_dialog));
-    if (!fname)
-	return -1;
-    
+    if (!fname) {
+        return -1;
+    }
+
     strcpy(name, fname);
     lib_free(fname);
-    
+
     /* format label */
     dname = gtk_entry_get_text(GTK_ENTRY(diskname));
-    if (!dname)
-	dname = "";
+    if (!dname) {
+        dname = "";
+    }
 
     /* disk ID */
     id = gtk_entry_get_text(GTK_ENTRY(diskid));
-    if (!id)
-	id = "00";
+    if (!id) {
+        id = "00";
+    }
 
     /* type radio button */
-    for (i = 0; type_radio[i].label; i++)
-	if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active)
-	{
-	    type = type_radio[i].type;
-	    break;
-	}
+    for (i = 0; type_radio[i].label; i++) {
+        if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active) {
+            type = type_radio[i].type;
+            break;
+        }
+    }
 
     format_text = util_concat(dname, ",", id, NULL);
-    if (vdrive_internal_create_format_disk_image(name, format_text, type)
-        < 0) {
-	ui_error(_("Can't create image `%s'."));
-	ret = -1;
+    if (vdrive_internal_create_format_disk_image(name, format_text, type) < 0) {
+        ui_error(_("Can't create image `%s'."));
+        ret = -1;
     }
     lib_free(format_text);
 
     return ret;
 }
-
