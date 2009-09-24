@@ -29,98 +29,81 @@
 
 static void getsize(unsigned char *readbuffer, int filesize)
 {
-  int counter=0;
-  int sizecounter=0;
-  int foundspace=0;
-  int start=0;
-  int size=0;
-  int totalsize=0;
+    int counter = 0;
+    int sizecounter = 0;
+    int foundspace = 0;
+    int start = 0;
+    int size = 0;
+    int totalsize = 0;
 
-  while (counter!=filesize)
-  {
-    if (foundspace==4) /* size Xxx[ ] */
-    {
-      if (isspace(readbuffer[counter]))
-        foundspace++;
-      else
-      {
-        foundspace=0;
-        size=0;
-      }
+    while (counter != filesize) {
+        if (foundspace == 4) {
+            if (isspace(readbuffer[counter])) {
+                foundspace++;
+            } else {
+                foundspace = 0;
+                size = 0;
+            }
+        }
+        if (foundspace == 2 || foundspace == 3) {
+            if (islower(readbuffer[counter])) {
+                foundspace++;
+            } else {
+                foundspace = 0;
+                size = 0;
+            }
+        }
+        if (foundspace == 1) {
+            if (isupper(readbuffer[counter])) {
+                foundspace++;
+            } else {
+                foundspace = 0;
+                size = 0;
+            }
+        }
+        if (foundspace == 0) {
+            if (isspace(readbuffer[counter])) {
+                foundspace++;
+            } else {
+                if (isdigit(readbuffer[counter])) {
+                    size = (size * 10) + readbuffer[counter] - '0';
+                } else {
+                    size = 0;
+                }
+            }
+        }
+        if (foundspace == 5) {
+            totalsize = totalsize + size;
+            foundspace = 0;
+            size = 0;
+        }
+        counter++;
     }
-    if (foundspace==2 || foundspace==3) /* size Xx[x] or size X[x]x */
-    {
-      if (islower(readbuffer[counter]))
-        foundspace++;
-      else
-      {
-        foundspace=0;
-        size=0;
-      }
-    }
-    if (foundspace==1) /* size [X]xx */
-    {
-      if (isupper(readbuffer[counter]))
-        foundspace++;
-      else
-      {
-        foundspace=0;
-        size=0;
-      }
-    }
-    if (foundspace==0) /* [size ]Xxx */
-    {
-      if (isspace(readbuffer[counter]))
-      {
-        foundspace++;
-      }
-      else
-      {
-       if (isdigit(readbuffer[counter]))
-          size=(size*10)+readbuffer[counter]-'0';
-        else
-          size=0;
-      }
-    }
-    if (foundspace==5) /* got the size */
-    {
-      totalsize=totalsize+size;
-      foundspace=0;
-      size=0;
-    }
-    counter++;
-  }
-  printf("%d\n",totalsize);
+    printf("%d\n", totalsize);
 }
 
 int main(int argc, char **argv)
 {
-  struct stat statbuf;
-  FILE *infile;
-  unsigned char *buffer=NULL;
+    struct stat statbuf;
+    FILE *infile;
+    unsigned char *buffer = NULL;
 
-  if (argc==2)
-  {
-    if (stat(argv[1], &statbuf)>=0)
-    {
-      if (statbuf.st_size>0)
-      {
-        buffer=(unsigned char*)malloc(statbuf.st_size);
-        if (buffer!=NULL)
-        {
-          infile=fopen(argv[1],"rb");
-          if (infile)
-          {
-            if (fread(buffer,1,statbuf.st_size,infile)==statbuf.st_size)
-            {
-              getsize(buffer,statbuf.st_size);
+    if (argc == 2) {
+        if (stat(argv[1], &statbuf) >= 0) {
+            if (statbuf.st_size > 0) {
+                buffer = (unsigned char*)malloc(statbuf.st_size);
+                if (buffer != NULL) {
+                    infile = fopen(argv[1], "rb");
+                    if (infile) {
+                        if (fread(buffer, 1, statbuf.st_size, infile) == statbuf.st_size) {
+                            getsize(buffer, statbuf.st_size);
+                        } else {
+                            fclose(infile);
+                        }
+                    }
+                }
             }
-            else
-              fclose(infile);
-          }
         }
-      }
     }
-  }
-  return 0;
+    return 0;
 }

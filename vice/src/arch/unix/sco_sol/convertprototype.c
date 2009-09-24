@@ -29,63 +29,53 @@
 
 static void convertprototype(unsigned char *readbuffer, int filesize)
 {
-  int counter=0;
+    int counter = 0;
 
-  while (counter<filesize)
-  {
-    while (!isspace(readbuffer[counter]) || !isdigit(readbuffer[counter+1]))
-    {
-      printf("%c",readbuffer[counter]);
-      counter++;
+    while (counter < filesize) {
+        while (!isspace(readbuffer[counter]) || !isdigit(readbuffer[counter + 1])) {
+            printf("%c", readbuffer[counter]);
+            counter++;
+        }
+        printf("%c", readbuffer[counter]);
+        if (readbuffer[counter + 1] == '0') {
+            printf("%c", readbuffer[counter + 2]);
+            printf("%c", readbuffer[counter + 3]);
+        } else {
+            printf("%c", readbuffer[counter + 1]);
+            printf("%c", readbuffer[counter + 2]);
+        }
+        printf("%c", readbuffer[counter + 3]);
+        counter += 4;
+        printf(" root bin\n");
+        while (readbuffer[counter] != '\n') {
+            counter++;
+        }
+        counter++;
     }
-    printf("%c",readbuffer[counter]);
-    if (readbuffer[counter+1]=='0')
-    {
-      printf("%c",readbuffer[counter+2]);
-      printf("%c",readbuffer[counter+3]);
-    }
-    else
-    {
-      printf("%c",readbuffer[counter+1]);
-      printf("%c",readbuffer[counter+2]);
-    }
-    printf("%c",readbuffer[counter+3]);
-    counter+=4;
-    printf(" root bin\n");
-    while (readbuffer[counter] != '\n')
-      counter++;
-    counter++;
-  }
 }
 
 int main(int argc, char **argv)
 {
-  struct stat statbuf;
-  FILE *infile;
-  unsigned char *buffer=NULL;
+    struct stat statbuf;
+    FILE *infile;
+    unsigned char *buffer = NULL;
 
-  if (argc==2)
-  {
-    if (stat(argv[1], &statbuf)>=0)
-    {
-      if (statbuf.st_size>0)
-      {
-        buffer=(unsigned char*)malloc(statbuf.st_size);
-        if (buffer!=NULL)
-        {
-          infile=fopen(argv[1],"rb");
-          if (infile)
-          {
-            if (fread(buffer,1,statbuf.st_size,infile)==statbuf.st_size)
-            {
-              convertprototype(buffer,statbuf.st_size);
+    if (argc == 2) {
+        if (stat(argv[1], &statbuf) >= 0) {
+            if (statbuf.st_size > 0) {
+                buffer = (unsigned char*)malloc(statbuf.st_size);
+                if (buffer != NULL) {
+                    infile = fopen(argv[1], "rb");
+                    if (infile) {
+                        if (fread(buffer, 1, statbuf.st_size, infile) == statbuf.st_size) {
+                            convertprototype(buffer,statbuf.st_size);
+                        } else {
+                            fclose(infile);
+                        }
+                    }
+                }
             }
-            else
-              fclose(infile);
-          }
         }
-      }
     }
-  }
-  return 0;
+    return 0;
 }

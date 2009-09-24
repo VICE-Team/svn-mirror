@@ -29,155 +29,120 @@
 
 static void scan_libs(unsigned char *readbuffer, int filesize)
 {
-  int counter=0;
-  int libnamecounter=0;
-  int founddot=0;
-  int gotname=0;
-  int start=0;
-  char libname[200];
+    int counter = 0;
+    int libnamecounter = 0;
+    int founddot = 0;
+    int gotname = 0;
+    int start = 0;
+    char libname[200];
 
-  while (counter!=filesize)
-  {
-    if (libnamecounter>2 && founddot==4) /* lib*.so.[*] */
-    {
-      if (isdigit(readbuffer[counter]))
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-      }
-      else
-      {
-        libname[libnamecounter]=0;
-        gotname=1;
-      }
+    while (counter != filesize) {
+        if (libnamecounter > 2 && founddot == 4) {
+            if (isdigit(readbuffer[counter])) {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+            } else {
+                libname[libnamecounter] = 0;
+                gotname = 1;
+            }
+        }
+        if (libnamecounter > 2 && founddot == 3) {
+            if (readbuffer[counter] == '.') {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+                founddot++;
+            } else {
+                libnamecounter = 0;
+                founddot = 0;
+            }
+        }
+        if (libnamecounter > 2 && founddot == 2) {
+            if (readbuffer[counter] == 'o') {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+                founddot++;
+            } else {
+                libnamecounter = 0;
+                founddot=0;
+            }
+        }
+        if (libnamecounter > 2 && founddot == 1) {
+            if (readbuffer[counter] == 's') {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+                founddot++;
+            } else {
+                libnamecounter = 0;
+                founddot = 0;
+            }
+        }
+        if (libnamecounter > 2 && founddot == 0) {
+            if (isalpha(readbuffer[counter]) || isdigit(readbuffer[counter]) || readbuffer[counter] == '-' || readbuffer[counter] == '+' || readbuffer[counter] == '.') {
+                if (readbuffer[counter] == '.' && readbuffer[counter + 1] == 's') {
+                    founddot = 1;
+                }
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+            } else {
+                libnamecounter = 0;
+            }
+        }
+        if (libnamecounter == 2) {
+            if (readbuffer[counter] == 'b') {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+            } else {
+                libnamecounter = 0;
+            }
+        }
+        if (libnamecounter == 1) {
+            if (readbuffer[counter] == 'i') {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+            } else {
+                libnamecounter = 0;
+            }
+        }
+        if (libnamecounter == 0) {
+            if (readbuffer[counter] == 'l') {
+                libname[libnamecounter] = readbuffer[counter];
+                libnamecounter++;
+                start = counter;
+            }
+        }
+        counter++;
+        if (gotname == 1) {
+            printf("            <QPM:RequiresLibrary>%s</QPM:RequiresLibrary>\n", readbuffer + start);
+            libnamecounter = 0;
+            founddot = 0;
+            libnamecounter = 0;
+            gotname = 0;
+        }
     }
-    if (libnamecounter>2 && founddot==3) /* lib*.so[.]* */
-    {
-      if (readbuffer[counter]=='.')
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-        founddot++;
-      }
-      else
-      {
-        libnamecounter=0;
-        founddot=0;
-      }
-    }
-    if (libnamecounter>2 && founddot==2) /* lib*.s[O].* */
-    {
-      if (readbuffer[counter]=='o')
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-        founddot++;
-      }
-      else
-      {
-        libnamecounter=0;
-        founddot=0;
-      }
-    }
-    if (libnamecounter>2 && founddot==1) /* lib*.[S]o.* */
-    {
-      if (readbuffer[counter]=='s')
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-        founddot++;
-      }
-      else
-      {
-        libnamecounter=0;
-        founddot=0;
-      }
-    }
-    if (libnamecounter>2 && founddot==0) /* lib[*.]so.* */
-    {
-      if (isalpha(readbuffer[counter]) || 
-          isdigit(readbuffer[counter]) ||
-          readbuffer[counter]=='-' ||
-          readbuffer[counter]=='+' ||
-          readbuffer[counter]=='.')
-      {
-        if (readbuffer[counter]=='.' && readbuffer[counter+1]=='s')
-          founddot=1;
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-      }
-      else
-        libnamecounter=0;
-    }
-    if (libnamecounter==2) /* li[B]*.so.* */
-    {
-      if (readbuffer[counter]=='b')
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-      }
-      else
-        libnamecounter=0;
-    }
-    if (libnamecounter==1) /* l[I]b*.so.* */
-    {
-      if (readbuffer[counter]=='i')
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-      }
-      else
-        libnamecounter=0;
-    }
-    if (libnamecounter==0) /* [L]ib*.so.* */
-    {
-      if (readbuffer[counter]=='l')
-      {
-        libname[libnamecounter]=readbuffer[counter];
-        libnamecounter++;
-        start=counter;
-      }
-    }
-    counter++;
-    if (gotname==1)
-    {
-      printf("            <QPM:RequiresLibrary>%s</QPM:RequiresLibrary>\n",readbuffer+start);
-      libnamecounter==0;
-      founddot=0;
-      libnamecounter=0;
-      gotname=0;
-    }
-  }
 }
 
 int main(int argc, char **argv)
 {
-  struct stat statbuf;
-  FILE *infile;
-  unsigned char *buffer=NULL;
+    struct stat statbuf;
+    FILE *infile;
+    unsigned char *buffer = NULL;
 
-  if (argc==2)
-  {
-    if (stat(argv[1], &statbuf)>=0)
-    {
-      if (statbuf.st_size>0)
-      {
-        buffer=(unsigned char*)malloc(statbuf.st_size);
-        if (buffer!=NULL)
-        {
-          infile=fopen(argv[1],"rb");
-          if (infile)
-          {
-            if (fread(buffer,1,statbuf.st_size,infile)==statbuf.st_size)
-            {
-              scan_libs(buffer,statbuf.st_size);
+    if (argc == 2) {
+        if (stat(argv[1], &statbuf) >= 0) {
+            if (statbuf.st_size > 0) {
+                buffer = (unsigned char*)malloc(statbuf.st_size);
+                if (buffer != NULL) {
+                    infile = fopen(argv[1], "rb");
+                    if (infile) {
+                        if (fread(buffer, 1, statbuf.st_size, infile) == statbuf.st_size) {
+                            scan_libs(buffer, statbuf.st_size);
+                        } else {
+                            fclose(infile);
+                        }
+                    }
+                }
             }
-            else
-              fclose(infile);
-          }
         }
-      }
     }
-  }
-  return 0;
+    return 0;
 }

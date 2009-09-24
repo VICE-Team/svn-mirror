@@ -5,16 +5,17 @@
 #include "editline.h"
 
 
-#if     defined(NEED_STRDUP)
+#ifdef NEED_STRDUP
 /*
 **  Return an allocated copy of a string.
 */
 char *strdup(char *p)
 {
-    char        *new;
+    char *new;
 
-    if ((new = NEW(char, strlen(p) + 1)) != NULL)
-        (void)strcpy(new, p);
+    if ((new = NEW(char, strlen(p) + 1)) != NULL) {
+        strcpy(new, p);
+    }
     return new;
 }
 #endif  /* defined(NEED_STRDUP) */
@@ -24,8 +25,8 @@ char *strdup(char *p)
 */
 STATIC int compare(CONST void *p1, CONST void *p2)
 {
-    CONST char  **v1;
-    CONST char  **v2;
+    CONST char **v1;
+    CONST char **v2;
 
     v1 = (CONST char **)p1;
     v2 = (CONST char **)p2;
@@ -38,49 +39,55 @@ STATIC int compare(CONST void *p1, CONST void *p2)
 */
 STATIC int FindMatches(char *dir, char *file, char ***avp)
 {
-    char        **av;
-    char        **new;
-    char        *p;
-    DIR         *dp;
-    DIRENTRY    *ep;
-    SIZE_T      ac;
-    SIZE_T      len;
+    char **av;
+    char **new;
+    char *p;
+    DIR *dp;
+    DIRENTRY *ep;
+    SIZE_T ac;
+    SIZE_T len;
 
-    if ((dp = opendir(dir)) == NULL)
+    if ((dp = opendir(dir)) == NULL) {
         return 0;
+    }
 
     av = NULL;
     ac = 0;
     len = strlen(file);
     while ((ep = readdir(dp)) != NULL) {
         p = ep->d_name;
-        if (p[0] == '.' && (p[1] == '\0' || (p[1] == '.' && p[2] == '\0')))
+        if (p[0] == '.' && (p[1] == '\0' || (p[1] == '.' && p[2] == '\0'))) {
             continue;
-        if (len && strncmp(p, file, len) != 0)
+        }
+        if (len && strncmp(p, file, len) != 0) {
             continue;
+        }
 
         if ((ac % MEM_INC) == 0) {
-            if ((new = NEW(char*, ac + MEM_INC)) == NULL)
+            if ((new = NEW(char*, ac + MEM_INC)) == NULL) {
                 break;
+            }
             if (ac) {
-                COPYFROMTO(new, av, ac * sizeof (char **));
+                COPYFROMTO(new, av, ac * sizeof(char **));
                 DISPOSE(av);
             }
             *avp = av = new;
         }
 
         if ((av[ac] = strdup(p)) == NULL) {
-            if (ac == 0)
+            if (ac == 0) {
                 DISPOSE(av);
+            }
             break;
         }
         ac++;
     }
 
     /* Clean up and return. */
-    (void)closedir(dp);
-    if (ac)
-        qsort(av, ac, sizeof (char **), compare);
+    closedir(dp);
+    if (ac) {
+        qsort(av, ac, sizeof(char **), compare);
+    }
     return ac;
 }
 
@@ -90,20 +97,21 @@ STATIC int FindMatches(char *dir, char *file, char ***avp)
 STATIC int SplitPath(char *path, char **dirpart, char **filepart)
 {
     static char DOT[] = ".";
-    char        *dpart;
-    char        *fpart;
+    char *dpart;
+    char *fpart;
 
     if ((fpart = strrchr(path, '/')) == NULL) {
-        if ((dpart = strdup(DOT)) == NULL)
+        if ((dpart = strdup(DOT)) == NULL) {
             return -1;
+        }
         if ((fpart = strdup(path)) == NULL) {
             DISPOSE(dpart);
             return -1;
         }
-    }
-    else {
-        if ((dpart = strdup(path)) == NULL)
+    } else {
+        if ((dpart = strdup(path)) == NULL) {
             return -1;
+        }
         dpart[fpart - path] = '\0';
         if ((fpart = strdup(++fpart)) == NULL) {
             DISPOSE(dpart);
@@ -121,19 +129,20 @@ STATIC int SplitPath(char *path, char **dirpart, char **filepart)
 */
 char *rl_complete(char *pathname, int *unique)
 {
-    char        **av;
-    char        *dir;
-    char        *file;
-    char        *new;
-    char        *p;
-    SIZE_T      ac;
-    SIZE_T      end;
-    SIZE_T      i;
-    SIZE_T      j;
-    SIZE_T      len;
+    char **av;
+    char *dir;
+    char *file;
+    char *new;
+    char *p;
+    SIZE_T ac;
+    SIZE_T end;
+    SIZE_T i;
+    SIZE_T j;
+    SIZE_T len;
 
-    if (SplitPath(pathname, &dir, &file) < 0)
+    if (SplitPath(pathname, &dir, &file) < 0) {
         return NULL;
+    }
     if ((ac = FindMatches(dir, file, &av)) == 0) {
         DISPOSE(dir);
         DISPOSE(file);
@@ -149,22 +158,24 @@ char *rl_complete(char *pathname, int *unique)
         if ((p = NEW(char, j + 1)) != NULL) {
             COPYFROMTO(p, av[0] + len, j);
             if ((new = NEW(char, strlen(dir) + strlen(av[0]) + 2)) != NULL) {
-                (void)strcpy(new, dir);
-                (void)strcat(new, "/");
-                (void)strcat(new, av[0]);
+                strcpy(new, dir);
+                strcat(new, "/");
+                strcat(new, av[0]);
                 rl_add_slash(new, p);
                 DISPOSE(new);
             }
         }
-    }
-    else {
+    } else {
         *unique = 0;
         if (len) {
             /* Find largest matching substring. */
-            for (i = len, end = strlen(av[0]); i < end; i++)
-                for (j = 1; j < ac; j++)
-                    if (av[0][i] != av[j][i])
+            for (i = len, end = strlen(av[0]); i < end; i++) {
+                for (j = 1; j < ac; j++) {
+                    if (av[0][i] != av[j][i]) {
                         goto breakout;
+                    }
+                }
+            }
   breakout:
             if (i > len) {
                 j = i - len + 1;
@@ -179,8 +190,9 @@ char *rl_complete(char *pathname, int *unique)
     /* Clean up and return. */
     DISPOSE(dir);
     DISPOSE(file);
-    for (i = 0; i < ac; i++)
+    for (i = 0; i < ac; i++) {
         DISPOSE(av[i]);
+    }
     DISPOSE(av);
     return p;
 }
@@ -190,12 +202,13 @@ char *rl_complete(char *pathname, int *unique)
 */
 int rl_list_possib(char *pathname, char ***avp)
 {
-    char        *dir;
-    char        *file;
-    int         ac;
+    char *dir;
+    char *file;
+    int ac;
 
-    if (SplitPath(pathname, &dir, &file) < 0)
+    if (SplitPath(pathname, &dir, &file) < 0) {
         return 0;
+    }
     ac = FindMatches(dir, file, avp);
     DISPOSE(dir);
     DISPOSE(file);

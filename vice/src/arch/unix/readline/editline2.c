@@ -8,81 +8,87 @@
 /*
 **  Manifest constants.
 */
-#define SCREEN_WIDTH    80
-#define SCREEN_ROWS     24
-#define NO_ARG          (-1)
-#define DEL             127
-#define CTL(x)          ((x) & 0x1F)
-#define ISCTL(x)        ((x) && (x) < ' ')
-#define UNCTL(x)        ((x) + 64)
-#define META(x)         ((x) | 0x80)
-#define ISMETA(x)       ((x) & 0x80)
-#define UNMETA(x)       ((x) & 0x7F)
-#if     !defined(HIST_SIZE)
-#define HIST_SIZE       20
+#define SCREEN_WIDTH 80
+#define SCREEN_ROWS  24
+#define NO_ARG       (-1)
+#define DEL          127
+#define CTL(x)       ((x) & 0x1F)
+#define ISCTL(x)     ((x) && (x) < ' ')
+#define UNCTL(x)     ((x) + 64)
+#define META(x)      ((x) | 0x80)
+#define ISMETA(x)    ((x) & 0x80)
+#define UNMETA(x)    ((x) & 0x7F)
+
+#ifndef HIST_SIZE
+#define HIST_SIZE    20
 #endif  /* !defined(HIST_SIZE) */
 
 /*
 **  Command status codes.
 */
 typedef enum _STATUS {
-    CSdone, CSeof, CSmove, CSdispatch, CSstay
+    CSdone,
+    CSeof,
+    CSmove,
+    CSdispatch,
+    CSstay
 } STATUS;
 
 /*
 **  The type of case-changing to perform.
 */
 typedef enum _CASE {
-    TOupper, TOlower
+    TOupper,
+    TOlower
 } CASE;
 
 /*
 **  Key to command mapping.
 */
 typedef struct _KEYMAP {
-    CHAR        Key;
-    STATUS      (*Function)();
+    CHAR Key;
+    STATUS (*Function)();
 } KEYMAP;
 
 /*
 **  Command history structure.
 */
 typedef struct _HISTORY {
-    int         Size;
-    int         Pos;
-    CHAR        *Lines[HIST_SIZE];
+    int Size;
+    int Pos;
+    CHAR *Lines[HIST_SIZE];
 } HISTORY;
 
 /*
 **  Globals.
 */
-int             rl_eof;
-int             rl_erase;
-int             rl_intr;
-int             rl_kill;
+int rl_eof;
+int rl_erase;
+int rl_intr;
+int rl_kill;
 
-STATIC CHAR             NIL[] = "";
-STATIC CONST CHAR       *Input = NIL;
-STATIC CHAR             *Line;
-STATIC CONST char       *Prompt;
-STATIC CHAR             *Yanked;
-STATIC char             *Screen;
-STATIC char             NEWLINE[]= CRLF;
-STATIC HISTORY          H;
-int             rl_quit;
-STATIC int              Repeat;
-STATIC int              End;
-STATIC int              Mark;
-STATIC int              OldPoint;
-STATIC int              Point;
-STATIC int              PushBack;
-STATIC int              Pushed;
-STATIC SIZE_T           Length;
-STATIC SIZE_T           ScreenCount;
-STATIC SIZE_T           ScreenSize;
-STATIC char             *backspace;
-STATIC int              TTYwidth;
-STATIC int              TTYrows;
+STATIC CHAR NIL[] = "";
+STATIC CONST CHAR *Input = NIL;
+STATIC CHAR *Line;
+STATIC CONST char *Prompt;
+STATIC CHAR *Yanked;
+STATIC char *Screen;
+STATIC char NEWLINE[] = CRLF;
+STATIC HISTORY H;
+int rl_quit;
+STATIC int Repeat;
+STATIC int End;
+STATIC int Mark;
+STATIC int OldPoint;
+STATIC int Point;
+STATIC int PushBack;
+STATIC int Pushed;
+STATIC SIZE_T Length;
+STATIC SIZE_T ScreenCount;
+STATIC SIZE_T ScreenSize;
+STATIC char *backspace;
+STATIC int TTYwidth;
+STATIC int TTYrows;
 
 /*
  *  Removed FORWARD addressing ...
@@ -122,77 +128,65 @@ STATIC STATUS ring_bell(void);
 STATIC STATUS wipe(void);
 STATIC STATUS yank(void);
 
-
-STATIC KEYMAP   Map[33] = {
-    {   CTL('@'),       ring_bell       },
-    {   CTL('A'),       beg_line        },
-    {   CTL('B'),       bk_char         },
-    {   CTL('D'),       del_char        },
-    {   CTL('E'),       end_line        },
-    {   CTL('F'),       fd_char         },
-    {   CTL('G'),       ring_bell       },
-    {   CTL('H'),       bk_del_char     },
-    {   CTL('I'),       c_complete      },
-    {   CTL('J'),       accept_line     },
-    {   CTL('K'),       kill_line       },
-    {   CTL('L'),       redisplay       },
-    {   CTL('M'),       accept_line     },
-    {   CTL('N'),       h_next          },
-    {   CTL('O'),       ring_bell       },
-    {   CTL('P'),       h_prev          },
-    {   CTL('Q'),       ring_bell       },
-    {   CTL('R'),       h_search        },
-    {   CTL('S'),       ring_bell       },
-    {   CTL('T'),       transpose       },
-    {   CTL('U'),       ring_bell       },
-    {   CTL('V'),       quote           },
-    {   CTL('W'),       wipe            },
-    {   CTL('X'),       exchange        },
-    {   CTL('Y'),       yank            },
-    {   CTL('Z'),       ring_bell       },
-    {   CTL('['),       meta            },
-    {   CTL(']'),       move_to_char    },
-    {   CTL('^'),       ring_bell       },
-    {   CTL('_'),       ring_bell       },
-    {   0,              NULL            }
+STATIC KEYMAP Map[33] = {
+    { CTL('@'), ring_bell },
+    { CTL('A'), beg_line },
+    { CTL('B'), bk_char },
+    { CTL('D'), del_char },
+    { CTL('E'), end_line },
+    { CTL('F'), fd_char },
+    { CTL('G'), ring_bell },
+    { CTL('H'), bk_del_char },
+    { CTL('I'), c_complete },
+    { CTL('J'), accept_line },
+    { CTL('K'), kill_line },
+    { CTL('L'), redisplay },
+    { CTL('M'), accept_line },
+    { CTL('N'), h_next },
+    { CTL('O'), ring_bell },
+    { CTL('P'), h_prev },
+    { CTL('Q'), ring_bell },
+    { CTL('R'), h_search },
+    { CTL('S'), ring_bell },
+    { CTL('T'), transpose },
+    { CTL('U'), ring_bell },
+    { CTL('V'), quote },
+    { CTL('W'), wipe },
+    { CTL('X'), exchange },
+    { CTL('Y'), yank },
+    { CTL('Z'), ring_bell },
+    { CTL('['), meta },
+    { CTL(']'), move_to_char },
+    { CTL('^'), ring_bell },
+    { CTL('_'), ring_bell },
+    { 0, NULL }
 };
 
-STATIC KEYMAP   MetaMap[16]= {
-    {   CTL('H'),       bk_kill_word    },
-    {   DEL,            bk_kill_word    },
-    {   ' ',            mk_set  },
-    {   '.',            last_argument   },
-    {   '<',            h_first         },
-    {   '>',            h_last          },
-    {   '?',            c_possible      },
-    {   'b',            bk_word         },
-    {   'd',            fd_kill_word    },
-    {   'f',            fd_word         },
-    {   'l',            case_down_word  },
-    {   'u',            case_up_word    },
-    {   'y',            yank            },
-    {   'w',            copy_region     },
-    {   0,              NULL            }
+STATIC KEYMAP MetaMap[16] = {
+    { CTL('H'), bk_kill_word },
+    { DEL, bk_kill_word },
+    { ' ', mk_set },
+    { '.', last_argument },
+    { '<', h_first },
+    { '>', h_last },
+    { '?', c_possible },
+    { 'b', bk_word },
+    { 'd', fd_kill_word },
+    { 'f', fd_word },
+    { 'l', case_down_word },
+    { 'u', case_up_word },
+    { 'y', yank },
+    { 'w', copy_region },
+    { 0, NULL }
 };
-
-
 
 /* Display print 8-bit chars as `M-x' or as the actual 8-bit char? */
-int             rl_meta_chars = 1;
+int rl_meta_chars = 1;
 
 /*
 **  Declarations.
 */
 STATIC CHAR *editinput(void);
-#if 0
-extern int      read();
-extern int      write();
-#if     defined(USE_TERMCAP)
-extern char     *getenv();
-extern char     *tgetstr();
-extern int      tgetent();
-#endif  /* defined(USE_TERMCAP) */
-#endif
 
 /*
 **  TTY input/output functions.
@@ -201,7 +195,7 @@ extern int      tgetent();
 STATIC void TTYflush(void)
 {
     if (ScreenCount) {
-        (void)write(1, Screen, ScreenCount);
+        write(1, Screen, ScreenCount);
         ScreenCount = 0;
     }
 }
@@ -217,8 +211,9 @@ STATIC void TTYput(CHAR c)
 
 STATIC void TTYputs(CHAR *p)
 {
-    while (*p)
+    while (*p) {
         TTYput(*p++);
+    }
 }
 
 STATIC void TTYshow(CHAR c)
@@ -226,65 +221,67 @@ STATIC void TTYshow(CHAR c)
     if (c == DEL) {
         TTYput('^');
         TTYput('?');
-    }
-    else if (ISCTL(c)) {
+    } else if (ISCTL(c)) {
         TTYput('^');
         TTYput(UNCTL(c));
-    }
-    else if (rl_meta_chars && ISMETA(c)) {
+    } else if (rl_meta_chars && ISMETA(c)) {
         TTYput('M');
         TTYput('-');
         TTYput(UNMETA(c));
-    }
-    else
+    } else {
         TTYput(c);
+    }
 }
 
 STATIC void TTYstring(CHAR *p)
 {
-    while (*p)
+    while (*p) {
         TTYshow(*p++);
+    }
 }
 
 STATIC unsigned int TTYget(void)
 {
-    CHAR        c;
+    CHAR c;
 
     TTYflush();
     if (Pushed) {
         Pushed = 0;
         return PushBack;
     }
-    if (*Input)
+    if (*Input) {
         return *Input++;
+    }
     return read(0, &c, (SIZE_T)1) == 1 ? c : EOF;
 }
 
-#define TTYback()       (backspace ? TTYputs((CHAR *)backspace) : TTYput('\b'))
+#define TTYback() (backspace ? TTYputs((CHAR *)backspace) : TTYput('\b'))
 
 STATIC void TTYbackn(int n)
 {
-    while (--n >= 0)
+    while (--n >= 0) {
         TTYback();
+    }
 }
 
 STATIC void TTYinfo(void)
 {
-    static int          init;
-#if     defined(USE_TERMCAP)
-    char                *term;
-    char                buff[2048];
-    char                *bp;
+    static int init;
+
+#ifdef USE_TERMCAP
+    char *term;
+    char buff[2048];
+    char *bp;
 #endif  /* defined(USE_TERMCAP) */
-#if     defined(TIOCGWINSZ)
-    struct winsize      W;
+
+#ifdef TIOCGWINSZ
+    struct winsize W;
 #endif  /* defined(TIOCGWINSZ) */
 
     if (init) {
-#if     defined(TIOCGWINSZ)
+#ifdef TIOCGWINSZ
         /* Perhaps we got resized. */
-        if (ioctl(0, TIOCGWINSZ, &W) >= 0
-         && W.ws_col > 0 && W.ws_row > 0) {
+        if (ioctl(0, TIOCGWINSZ, &W) >= 0 && W.ws_col > 0 && W.ws_row > 0) {
             TTYwidth = (int)W.ws_col;
             TTYrows = (int)W.ws_row;
         }
@@ -294,10 +291,11 @@ STATIC void TTYinfo(void)
     init++;
 
     TTYwidth = TTYrows = 0;
-#if     defined(USE_TERMCAP)
+#ifdef USE_TERMCAP
     bp = &buff[0];
-    if ((term = getenv("TERM")) == NULL)
+    if ((term = getenv("TERM")) == NULL) {
         term = "dumb";
+    }
     if (tgetent(buff, term) < 0) {
        TTYwidth = SCREEN_WIDTH;
        TTYrows = SCREEN_ROWS;
@@ -308,7 +306,7 @@ STATIC void TTYinfo(void)
     TTYrows = tgetnum("li");
 #endif  /* defined(USE_TERMCAP) */
 
-#if     defined(TIOCGWINSZ)
+#ifdef TIOCGWINSZ
     if (ioctl(0, TIOCGWINSZ, &W) >= 0) {
         TTYwidth = (int)W.ws_col;
         TTYrows = (int)W.ws_row;
@@ -326,29 +324,34 @@ STATIC void TTYinfo(void)
 */
 STATIC void columns(int ac, CHAR **av)
 {
-    CHAR        *p;
-    int         i;
-    int         j;
-    int         k;
-    int         len;
-    int         skip;
-    int         longest;
-    int         cols;
+    CHAR *p;
+    int i;
+    int j;
+    int k;
+    int len;
+    int skip;
+    int longest;
+    int cols;
 
     /* Find longest name, determine column count from that. */
-    for (longest = 0, i = 0; i < ac; i++)
-        if ((j = strlen((char *)av[i])) > longest)
+    for (longest = 0, i = 0; i < ac; i++) {
+        if ((j = strlen((char *)av[i])) > longest) {
             longest = j;
+        }
+    }
     cols = TTYwidth / (longest + 3);
 
     TTYputs((CHAR *)NEWLINE);
     for (skip = ac / cols + 1, i = 0; i < skip; i++) {
         for (j = i; j < ac; j += skip) {
-            for (p = av[j], len = strlen((char *)p), k = len; --k >= 0; p++)
+            for (p = av[j], len = strlen((char *)p), k = len; --k >= 0; p++) {
                 TTYput(*p);
-            if (j + skip < ac)
-                while (++len < longest + 3)
+            }
+            if (j + skip < ac) {
+                while (++len < longest + 3) {
                     TTYput(' ');
+                }
+            }
         }
         TTYputs((CHAR *)NEWLINE);
     }
@@ -356,35 +359,38 @@ STATIC void columns(int ac, CHAR **av)
 
 STATIC void reposition(void)
 {
-    int         i;
-    CHAR        *p;
+    int i;
+    CHAR *p;
 
     TTYput('\r');
     TTYputs((CHAR *)Prompt);
-    for (i = Point, p = Line; --i >= 0; p++)
+    for (i = Point, p = Line; --i >= 0; p++) {
         TTYshow(*p);
+    }
 }
 
 STATIC void left(STATUS Change)
 {
     TTYback();
     if (Point) {
-        if (ISCTL(Line[Point - 1]))
+        if (ISCTL(Line[Point - 1])) {
             TTYback();
-        else if (rl_meta_chars && ISMETA(Line[Point - 1])) {
+        } else if (rl_meta_chars && ISMETA(Line[Point - 1])) {
             TTYback();
             TTYback();
         }
     }
-    if (Change == CSmove)
+    if (Change == CSmove) {
         Point--;
+    }
 }
 
 STATIC void right(STATUS Change)
 {
     TTYshow(Line[Point]);
-    if (Change == CSmove)
+    if (Change == CSmove) {
         Point++;
+    }
 }
 
 STATIC STATUS ring_bell(void)
@@ -396,7 +402,7 @@ STATIC STATUS ring_bell(void)
 
 STATIC STATUS do_macro(unsigned int c)
 {
-    CHAR                name[4];
+    CHAR name[4];
 
     name[0] = '_';
     name[1] = c;
@@ -412,22 +418,27 @@ STATIC STATUS do_macro(unsigned int c)
 
 STATIC STATUS do_forward(STATUS move)
 {
-    int         i;
-    CHAR        *p;
+    int i;
+    CHAR *p;
 
     i = 0;
     do {
         p = &Line[Point];
-        for ( ; Point < End && (*p == ' ' || !isalnum(*p)); Point++, p++)
-            if (move == CSmove)
+        for ( ; Point < End && (*p == ' ' || !isalnum(*p)); Point++, p++) {
+            if (move == CSmove) {
                 right(CSstay);
+            }
+        }
 
-        for (; Point < End && isalnum(*p); Point++, p++)
-            if (move == CSmove)
+        for (; Point < End && isalnum(*p); Point++, p++) {
+            if (move == CSmove) {
                 right(CSstay);
+            }
+        }
 
-        if (Point == End)
+        if (Point == End) {
             break;
+        }
     } while (++i < Repeat);
 
     return CSstay;
@@ -435,25 +446,28 @@ STATIC STATUS do_forward(STATUS move)
 
 STATIC STATUS do_case(CASE type)
 {
-    int         i;
-    int         end;
-    int         count;
-    CHAR        *p;
+    int i;
+    int end;
+    int count;
+    CHAR *p;
 
-    (void)do_forward(CSstay);
+    do_forward(CSstay);
     if (OldPoint != Point) {
-        if ((count = Point - OldPoint) < 0)
+        if ((count = Point - OldPoint) < 0) {
             count = -count;
+        }
         Point = OldPoint;
-        if ((end = Point + count) > End)
+        if ((end = Point + count) > End) {
             end = End;
+        }
         for (i = Point, p = &Line[i]; i < end; i++, p++) {
             if (type == TOupper) {
-                if (islower(*p))
+                if (islower(*p)) {
                     *p = toupper(*p);
-            }
-            else if (isupper(*p))
+                }
+            } else if (isupper(*p)) {
                 *p = tolower(*p);
+            }
             right(CSmove);
         }
     }
@@ -472,25 +486,25 @@ STATIC STATUS case_up_word(void)
 
 STATIC void ceol(void)
 {
-    int         extras;
-    int         i;
-    CHAR        *p;
+    int extras;
+    int i;
+    CHAR *p;
 
     for (extras = 0, i = Point, p = &Line[i]; i <= End; i++, p++) {
         TTYput(' ');
         if (ISCTL(*p)) {
             TTYput(' ');
             extras++;
-        }
-        else if (rl_meta_chars && ISMETA(*p)) {
+        } else if (rl_meta_chars && ISMETA(*p)) {
             TTYput(' ');
             TTYput(' ');
             extras += 2;
         }
     }
 
-    for (i += extras; i > Point; i--)
+    for (i += extras; i > Point; i--) {
         TTYback();
+    }
 }
 
 STATIC void clear_line(void)
@@ -505,15 +519,16 @@ STATIC void clear_line(void)
 
 STATIC STATUS insert_string(CHAR *p)
 {
-    SIZE_T      len;
-    int         i;
-    CHAR        *new;
-    CHAR        *q;
+    SIZE_T len;
+    int i;
+    CHAR *new;
+    CHAR *q;
 
     len = strlen((char *)p);
     if (End + len >= Length) {
-        if ((new = NEW(CHAR, Length + len + MEM_INC)) == NULL)
+        if ((new = NEW(CHAR, Length + len + MEM_INC)) == NULL) {
             return CSstay;
+        }
         if (Length) {
             COPYFROMTO(new, Line, Length);
             DISPOSE(Line);
@@ -522,8 +537,9 @@ STATIC STATUS insert_string(CHAR *p)
         Length += len + MEM_INC;
     }
 
-    for (q = &Line[Point], i = End - Point; --i >= 0; )
+    for (q = &Line[Point], i = End - Point; --i >= 0;) {
         q[len + i] = q[i];
+    }
     COPYFROMTO(&Line[Point], p, len);
     End += len;
     Line[End] = '\0';
@@ -545,8 +561,9 @@ STATIC CHAR *prev_hist(void)
 
 STATIC STATUS do_insert_hist(CHAR *p)
 {
-    if (p == NULL)
+    if (p == NULL) {
         return ring_bell();
+    }
     Point = 0;
     reposition();
     ceol();
@@ -556,13 +573,14 @@ STATIC STATUS do_insert_hist(CHAR *p)
 
 STATIC STATUS do_hist(CHAR *(*move)(void))
 {
-    CHAR        *p;
-    int         i;
+    CHAR *p;
+    int i;
 
     i = 0;
     do {
-        if ((p = (*move)()) == NULL)
+        if ((p = (*move)()) == NULL) {
             return ring_bell();
+        }
     } while (++i < Repeat);
     return do_insert_hist(p);
 }
@@ -592,33 +610,37 @@ STATIC STATUS h_last(void)
 */
 STATIC int substrcmp(char *text, char *pat, int len)
 {
-    CHAR        c;
+    CHAR c;
 
-    if ((c = *pat) == '\0')
+    if ((c = *pat) == '\0') {
         return *text == '\0';
-    for ( ; *text; text++)
-        if (*text == c && strncmp(text, pat, len) == 0)
+    }
+    for ( ; *text; text++) {
+        if (*text == c && strncmp(text, pat, len) == 0) {
             return 0;
+        }
+    }
     return 1;
 }
 
 STATIC CHAR *search_hist(CHAR *search, CHAR *(*move)(void))
 {
     static CHAR *old_search;
-    int         len;
-    int         pos;
-    int         (*match)(char *, char *, int);
-    char        *pat;
+    int len;
+    int pos;
+    int (*match)(char *, char *, int);
+    char *pat;
 
     /* Save or get remembered search pattern. */
     if (search && *search) {
-        if (old_search)
+        if (old_search) {
             DISPOSE(old_search);
+        }
         old_search = (CHAR *)strdup((char *)search);
-    }
-    else {
-        if (old_search == NULL || *old_search == '\0')
+    } else {
+        if (old_search == NULL || *old_search == '\0') {
             return NULL;
+        }
         search = old_search;
     }
 
@@ -626,29 +648,31 @@ STATIC CHAR *search_hist(CHAR *search, CHAR *(*move)(void))
     if (*search == '^') {
         match = strncmp;
         pat = (char *)(search + 1);
-    }
-    else {
+    } else {
         match = substrcmp;
         pat = (char *)search;
     }
     len = strlen(pat);
 
-    for (pos = H.Pos; (*move)() != NULL; )
-        if ((*match)((char *)H.Lines[H.Pos], pat, len) == 0)
+    for (pos = H.Pos; (*move)() != NULL;) {
+        if ((*match)((char *)H.Lines[H.Pos], pat, len) == 0) {
             return H.Lines[H.Pos];
+        }
+    }
     H.Pos = pos;
     return NULL;
 }
 
 STATIC STATUS h_search(void)
 {
-    static int  Searching;
-    CONST char  *old_prompt;
-    CHAR        *(*move)(void);
-    CHAR        *p;
+    static int Searching;
+    CONST char *old_prompt;
+    CHAR *(*move)(void);
+    CHAR *p;
 
-    if (Searching)
+    if (Searching) {
         return ring_bell();
+    }
     Searching = 1;
 
     clear_line();
@@ -667,12 +691,13 @@ STATIC STATUS h_search(void)
 
 STATIC STATUS fd_char(void)
 {
-    int         i;
+    int i;
 
     i = 0;
     do {
-        if (Point >= End)
+        if (Point >= End) {
             break;
+        }
         right(CSmove);
     } while (++i < Repeat);
     return CSstay;
@@ -685,8 +710,9 @@ STATIC void save_yank(int begin, int i)
         Yanked = NULL;
     }
 
-    if (i < 1)
+    if (i < 1) {
         return;
+    }
 
     if ((Yanked = NEW(CHAR, (SIZE_T)i + 1)) != NULL) {
         COPYFROMTO(Yanked, &Line[begin], i);
@@ -696,11 +722,12 @@ STATIC void save_yank(int begin, int i)
 
 STATIC STATUS delete_string(int count)
 {
-    int         i;
-    CHAR        *p;
+    int i;
+    CHAR *p;
 
-    if (count <= 0 || End == Point)
+    if (count <= 0 || End == Point) {
         return ring_bell();
+    }
 
     if (count == 1 && Point == End - 1) {
         /* Optimize common case of delete at end of line. */
@@ -711,8 +738,7 @@ STATIC STATUS delete_string(int count)
         if (ISCTL(*p)) {
             i = 2;
             TTYput(' ');
-        }
-        else if (rl_meta_chars && ISMETA(*p)) {
+        } else if (rl_meta_chars && ISMETA(*p)) {
             i = 3;
             TTYput(' ');
             TTYput(' ');
@@ -721,14 +747,17 @@ STATIC STATUS delete_string(int count)
         *p = '\0';
         return CSmove;
     }
-    if (Point + count > End && (count = End - Point) <= 0)
+    if (Point + count > End && (count = End - Point) <= 0) {
         return CSstay;
+    }
 
-    if (count > 1)
+    if (count > 1) {
         save_yank(Point, count);
+    }
 
-    for (p = &Line[Point], i = End - (Point + count) + 1; --i >= 0; p++)
+    for (p = &Line[Point], i = End - (Point + count) + 1; --i >= 0; p++) {
         p[0] = p[count];
+    }
     ceol();
     End -= count;
     TTYstring(&Line[Point]);
@@ -737,12 +766,13 @@ STATIC STATUS delete_string(int count)
 
 STATIC STATUS bk_char(void)
 {
-    int         i;
+    int i;
 
     i = 0;
     do {
-        if (Point == 0)
+        if (Point == 0) {
             break;
+        }
         left(CSmove);
     } while (++i < Repeat);
 
@@ -751,12 +781,13 @@ STATIC STATUS bk_char(void)
 
 STATIC STATUS bk_del_char(void)
 {
-    int         i;
+    int i;
 
     i = 0;
     do {
-        if (Point == 0)
+        if (Point == 0) {
             break;
+        }
         left(CSmove);
     } while (++i < Repeat);
 
@@ -773,18 +804,17 @@ STATIC STATUS redisplay(void)
 
 STATIC STATUS kill_line(void)
 {
-    int         i;
+    int i;
 
     if (Repeat != NO_ARG) {
         if (Repeat < Point) {
             i = Point;
             Point = Repeat;
             reposition();
-            (void)delete_string(i - Point);
-        }
-        else if (Repeat > Point) {
+            delete_string(i - Point);
+        } else if (Repeat > Point) {
             right(CSmove);
-            (void)delete_string(Repeat - Point - 1);
+            delete_string(Repeat - Point - 1);
         }
         return CSmove;
     }
@@ -798,11 +828,11 @@ STATIC STATUS kill_line(void)
 
 STATIC STATUS insert_char(int c)
 {
-    STATUS      s;
-    CHAR        buff[2];
-    CHAR        *p;
-    CHAR        *q;
-    int         i;
+    STATUS s;
+    CHAR buff[2];
+    CHAR *p;
+    CHAR *q;
+    int i;
 
     if (Repeat == NO_ARG || Repeat < 2) {
         buff[0] = c;
@@ -810,10 +840,12 @@ STATIC STATUS insert_char(int c)
         return insert_string(buff);
     }
 
-    if ((p = NEW(CHAR, Repeat + 1)) == NULL)
+    if ((p = NEW(CHAR, Repeat + 1)) == NULL) {
         return CSstay;
-    for (i = Repeat, q = p; --i >= 0; )
+    }
+    for (i = Repeat, q = p; --i >= 0;) {
         *q++ = c;
+    }
     *q = '\0';
     Repeat = 0;
     s = insert_string(p);
@@ -823,68 +855,84 @@ STATIC STATUS insert_char(int c)
 
 STATIC STATUS meta(void)
 {
-    unsigned int        c;
-    KEYMAP              *kp;
+    unsigned int c;
+    KEYMAP *kp;
 
     if ((c = TTYget()) == EOF)
         return CSeof;
-#if     defined(ANSI_ARROWS)
+#ifdef ANSI_ARROWS
     /* Also include VT-100 arrows. */
-    if (c == '[' || c == 'O')
+    if (c == '[' || c == 'O') {
         switch (c = TTYget()) {
-        default:        return ring_bell();
-        case EOF:       return CSeof;
-        case 'A':       return h_prev();
-        case 'B':       return h_next();
-        case 'C':       return fd_char();
-        case 'D':       return bk_char();
+            default:
+                return ring_bell();
+            case EOF:
+                return CSeof;
+            case 'A':
+                return h_prev();
+            case 'B':
+                return h_next();
+            case 'C':
+                return fd_char();
+            case 'D':
+                return bk_char();
         }
+    }
 #endif  /* defined(ANSI_ARROWS) */
 
     if (isdigit(c)) {
-        for (Repeat = c - '0'; (c = TTYget()) != EOF && isdigit(c); )
+        for (Repeat = c - '0'; (c = TTYget()) != EOF && isdigit(c);) {
             Repeat = Repeat * 10 + c - '0';
+        }
         Pushed = 1;
         PushBack = c;
         return CSstay;
     }
 
-    if (isupper(c))
+    if (isupper(c)) {
         return do_macro(c);
-    for (OldPoint = Point, kp = MetaMap; kp->Function; kp++)
-        if (kp->Key == c)
+    }
+    for (OldPoint = Point, kp = MetaMap; kp->Function; kp++) {
+        if (kp->Key == c) {
             return (*kp->Function)();
+        }
+    }
 
     return ring_bell();
 }
 
 STATIC STATUS emacs(unsigned int c)
 {
-    STATUS              s;
-    KEYMAP              *kp;
+    STATUS s;
+    KEYMAP *kp;
 
     if (ISMETA(c)) {
         Pushed = 1;
         PushBack = UNMETA(c);
         return meta();
     }
-    for (kp = Map; kp->Function; kp++)
-        if (kp->Key == c)
+    for (kp = Map; kp->Function; kp++) {
+        if (kp->Key == c) {
             break;
+        }
+    }
     s = kp->Function ? (*kp->Function)() : insert_char((int)c);
-    if (!Pushed)
+    if (!Pushed) {
         /* No pushback means no repeat count; hacky, but true. */
         Repeat = NO_ARG;
+    }
     return s;
 }
 
 STATIC STATUS TTYspecial(unsigned int c)
 {
-    if (ISMETA(c))
+    if (ISMETA(c)) {
         return CSdispatch;
+    }
 
-    if (c == rl_erase || c == DEL)
+    if (c == rl_erase || c == DEL) {
         return bk_del_char();
+    }
     if (c == rl_kill) {
         if (Point != 0) {
             Point = 0;
@@ -898,31 +946,23 @@ STATIC STATUS TTYspecial(unsigned int c)
         Line[0] = '\0';
         return redisplay();
     }
-    if (c == rl_eof && Point == 0 && End == 0)
+    if (c == rl_eof && Point == 0 && End == 0) {
         return CSeof;
+    }
 
     return CSdispatch;
 }
 
 STATIC CHAR *editinput(void)
 {
-    unsigned int        c;
+    unsigned int c;
 
     Repeat = NO_ARG;
     OldPoint = Point = Mark = End = 0;
     Line[0] = '\0';
 
-    while ((c = TTYget()) != EOF)
+    while ((c = TTYget()) != EOF) {
         switch (TTYspecial(c)) {
-        case CSdone:
-            return Line;
-        case CSeof:
-            return NULL;
-        case CSmove:
-            reposition();
-            break;
-        case CSdispatch:
-            switch (emacs(c)) {
             case CSdone:
                 return Line;
             case CSeof:
@@ -931,28 +971,40 @@ STATIC CHAR *editinput(void)
                 reposition();
                 break;
             case CSdispatch:
+                switch (emacs(c)) {
+                    case CSdone:
+                        return Line;
+                    case CSeof:
+                        return NULL;
+                    case CSmove:
+                        reposition();
+                        break;
+                    case CSdispatch:
+                    case CSstay:
+                        break;
+                }
+                break;
             case CSstay:
                 break;
-            }
-            break;
-        case CSstay:
-            break;
         }
+    }
     return NULL;
 }
 
 STATIC void hist_add(CHAR *p)
 {
-    int         i;
+    int i;
 
-    if ((p = (CHAR *)strdup((char *)p)) == NULL)
+    if ((p = (CHAR *)strdup((char *)p)) == NULL) {
         return;
-    if (H.Size < HIST_SIZE)
+    }
+    if (H.Size < HIST_SIZE) {
         H.Lines[H.Size++] = p;
-    else {
+    } else {
         DISPOSE(H.Lines[0]);
-        for (i = 0; i < HIST_SIZE - 1; i++)
+        for (i = 0; i < HIST_SIZE - 1; i++) {
             H.Lines[i] = H.Lines[i + 1];
+        }
         H.Lines[i] = p;
     }
     H.Pos = H.Size - 1;
@@ -972,12 +1024,13 @@ void rl_initialize(void)
 
 char *readline(CONST char *prompt)
 {
-    CHAR        *line;
+    CHAR *line;
 
     if (Line == NULL) {
         Length = MEM_INC;
-        if ((Line = NEW(CHAR, Length)) == NULL)
+        if ((Line = NEW(CHAR, Length)) == NULL) {
             return NULL;
+        }
     }
 
     TTYinfo();
@@ -1000,13 +1053,16 @@ char *readline(CONST char *prompt)
 
 void add_history(char *p)
 {
-    if (p == NULL || *p == '\0')
+    if (p == NULL || *p == '\0') {
         return;
+    }
 
-#if     defined(UNIQUE_HISTORY)
-    if (H.Pos && strcmp(p, H.Lines[H.Pos - 1]) == 0)
+#ifdef UNIQUE_HISTORY
+    if (H.Pos && strcmp(p, H.Lines[H.Pos - 1]) == 0) {
         return;
+    }
 #endif  /* defined(UNIQUE_HISTORY) */
+
     hist_add((CHAR *)p);
 }
 
@@ -1040,15 +1096,17 @@ STATIC STATUS end_line(void)
 STATIC CHAR *find_word(void)
 {
     static char SEPS[] = "#;&|^$=`'{}()<>\n\t ";
-    CHAR        *p;
-    CHAR        *new;
-    SIZE_T      len;
+    CHAR *p;
+    CHAR *new;
+    SIZE_T len;
 
-    for (p = &Line[Point]; p > Line && strchr(SEPS, (char)p[-1]) == NULL; p--)
+    for (p = &Line[Point]; p > Line && strchr(SEPS, (char)p[-1]) == NULL; p--) {
         continue;
+    }
     len = Point - (p - Line) + 1;
-    if ((new = NEW(CHAR, len)) == NULL)
+    if ((new = NEW(CHAR, len)) == NULL) {
         return NULL;
+    }
     COPYFROMTO(new, p, len);
     new[len - 1] = '\0';
     return new;
@@ -1056,19 +1114,21 @@ STATIC CHAR *find_word(void)
 
 STATIC STATUS c_complete(void)
 {
-    CHAR        *p;
-    CHAR        *word;
-    int         unique;
-    STATUS      s;
+    CHAR *p;
+    CHAR *word;
+    int unique;
+    STATUS s;
 
     word = find_word();
     p = (CHAR *)rl_complete((char *)word, &unique);
-    if (word)
+    if (word) {
         DISPOSE(word);
+    }
     if (p && *p) {
         s = insert_string(p);
-        if (!unique)
-            (void)ring_bell();
+        if (!unique) {
+            ring_bell();
+        }
         DISPOSE(p);
         return s;
     }
@@ -1077,18 +1137,20 @@ STATIC STATUS c_complete(void)
 
 STATIC STATUS c_possible(void)
 {
-    CHAR        **av;
-    CHAR        *word;
-    int         ac;
+    CHAR **av;
+    CHAR *word;
+    int ac;
 
     word = find_word();
     ac = rl_list_possib((char *)word, (char ***)&av);
-    if (word)
+    if (word) {
         DISPOSE(word);
+    }
     if (ac) {
         columns(ac, av);
-        while (--ac >= 0)
+        while (--ac >= 0) {
             DISPOSE(av[ac]);
+        }
         DISPOSE(av);
         return CSmove;
     }
@@ -1103,11 +1165,12 @@ STATIC STATUS accept_line(void)
 
 STATIC STATUS transpose(void)
 {
-    CHAR        c;
+    CHAR c;
 
     if (Point) {
-        if (Point == End)
+        if (Point == End) {
             left(CSmove);
+        }
         c = Line[Point - 1];
         left(CSstay);
         Line[Point - 1] = Line[Point];
@@ -1120,17 +1183,18 @@ STATIC STATUS transpose(void)
 
 STATIC STATUS quote(void)
 {
-    unsigned int        c;
+    unsigned int c;
 
     return (c = TTYget()) == EOF ? CSeof : insert_char((int)c);
 }
 
 STATIC STATUS wipe(void)
 {
-    int         i;
+    int i;
 
-    if (Mark > End)
+    if (Mark > End) {
         return ring_bell();
+    }
 
     if (Point > Mark) {
         i = Point;
@@ -1150,10 +1214,11 @@ STATIC STATUS mk_set(void)
 
 STATIC STATUS exchange(void)
 {
-    unsigned int        c;
+    unsigned int c;
 
-    if ((c = TTYget()) != CTL('X'))
+    if ((c = TTYget()) != CTL('X')) {
         return c == EOF ? CSeof : ring_bell();
+    }
 
     if ((c = Mark) <= End) {
         Mark = Point;
@@ -1165,37 +1230,42 @@ STATIC STATUS exchange(void)
 
 STATIC STATUS yank(void)
 {
-    if (Yanked && *Yanked)
+    if (Yanked && *Yanked) {
         return insert_string(Yanked);
+    }
     return CSstay;
 }
 
 STATIC STATUS copy_region(void)
 {
-    if (Mark > End)
+    if (Mark > End) {
         return ring_bell();
+    }
 
-    if (Point > Mark)
+    if (Point > Mark) {
         save_yank(Mark, Point - Mark);
-    else
+    } else {
         save_yank(Point, Mark - Point);
+    }
 
     return CSstay;
 }
 
 STATIC STATUS move_to_char(void)
 {
-    unsigned int        c;
-    int                 i;
-    CHAR                *p;
+    unsigned int c;
+    int i;
+    CHAR *p;
 
-    if ((c = TTYget()) == EOF)
+    if ((c = TTYget()) == EOF) {
         return CSeof;
-    for (i = Point + 1, p = &Line[i]; i < End; i++, p++)
+    }
+    for (i = Point + 1, p = &Line[i]; i < End; i++, p++) {
         if (*p == c) {
             Point = i;
             return CSmove;
         }
+    }
     return CSstay;
 }
 
@@ -1206,9 +1276,9 @@ STATIC STATUS fd_word(void)
 
 STATIC STATUS fd_kill_word(void)
 {
-    int         i;
+    int i;
 
-    (void)do_forward(CSstay);
+    do_forward(CSstay);
     if (OldPoint != Point) {
         i = Point - OldPoint;
         Point = OldPoint;
@@ -1219,19 +1289,22 @@ STATIC STATUS fd_kill_word(void)
 
 STATIC STATUS bk_word(void)
 {
-    int         i;
-    CHAR        *p;
+    int i;
+    CHAR *p;
 
     i = 0;
     do {
-        for (p = &Line[Point]; p > Line && !isalnum(p[-1]); p--)
+        for (p = &Line[Point]; p > Line && !isalnum(p[-1]); p--) {
             left(CSmove);
+        }
 
-        for (; p > Line && p[-1] != ' ' && isalnum(p[-1]); p--)
+        for (; p > Line && p[-1] != ' ' && isalnum(p[-1]); p--) {
             left(CSmove);
+        }
 
-        if (Point == 0)
+        if (Point == 0) {
             break;
+        }
     } while (++i < Repeat);
 
     return CSstay;
@@ -1240,27 +1313,31 @@ STATIC STATUS bk_word(void)
 STATIC STATUS bk_kill_word(void)
 {
     (void)bk_word();
-    if (OldPoint != Point)
+    if (OldPoint != Point) {
         return delete_string(OldPoint - Point);
+    }
     return CSstay;
 }
 
 STATIC int argify(CHAR *line, CHAR ***avp)
 {
-    CHAR        *c;
-    CHAR        **p;
-    CHAR        **new;
-    int         ac;
-    int         i;
+    CHAR *c;
+    CHAR **p;
+    CHAR **new;
+    int ac;
+    int i;
 
     i = MEM_INC;
-    if ((*avp = p = NEW(CHAR*, i))== NULL)
+    if ((*avp = p = NEW(CHAR*, i)) == NULL) {
          return 0;
+    }
 
-    for (c = line; isspace(*c); c++)
+    for (c = line; isspace(*c); c++) {
         continue;
-    if (*c == '\n' || *c == '\0')
+    }
+    if (*c == '\n' || *c == '\0') {
         return 0;
+    }
 
     for (ac = 0, p[ac++] = c; *c && *c != '\n'; ) {
         if (isspace(*c)) {
@@ -1279,9 +1356,9 @@ STATIC int argify(CHAR *line, CHAR ***avp)
                 }
                 p[ac++] = c;
             }
-        }
-        else
+        } else {
             c++;
+        }
     }
     *c = '\0';
     p[ac] = NULL;
@@ -1290,25 +1367,29 @@ STATIC int argify(CHAR *line, CHAR ***avp)
 
 STATIC STATUS last_argument(void)
 {
-    CHAR        **av;
-    CHAR        *p;
-    STATUS      s;
-    int         ac;
+    CHAR **av;
+    CHAR *p;
+    STATUS s;
+    int ac;
 
-    if (H.Size == 1 || (p = H.Lines[H.Size - 2]) == NULL)
+    if (H.Size == 1 || (p = H.Lines[H.Size - 2]) == NULL) {
         return ring_bell();
+    }
 
-    if ((p = (CHAR *)strdup((char *)p)) == NULL)
+    if ((p = (CHAR *)strdup((char *)p)) == NULL) {
         return CSstay;
+    }
     ac = argify(p, &av);
 
-    if (Repeat != NO_ARG)
+    if (Repeat != NO_ARG) {
         s = Repeat < ac ? insert_string(av[Repeat]) : ring_bell();
-    else
+    } else {
         s = ac ? insert_string(av[ac - 1]) : CSstay;
+    }
 
-    if (ac)
+    if (ac) {
         DISPOSE(av);
+    }
     DISPOSE(p);
     return s;
 }
