@@ -52,19 +52,20 @@ static log_t mididrv_log = LOG_ERR;
 
 /* ----- FIFO Buffer ----- */
 #define OUT_BUF_LEN 3
-static int out_index=0;
+
+static int out_index = 0;
 static BYTE out_buf[OUT_BUF_LEN];
 
 #define IN_BUF_LEN 1024
-static volatile unsigned int in_wi=0;
-static volatile unsigned int in_ri=0;
+static volatile unsigned int in_wi = 0;
+static volatile unsigned int in_ri = 0;
 static BYTE in_buf[IN_BUF_LEN];
 
 /* ----- MIDI Vars ----- */
 static int midi_client_usage = 0;
-static MIDIClientRef    midi_client = NULL;
-static MIDIEndpointRef  midi_destination = NULL;
-static MIDIEndpointRef  midi_source = NULL;
+static MIDIClientRef midi_client = NULL;
+static MIDIEndpointRef midi_destination = NULL;
+static MIDIEndpointRef midi_source = NULL;
 
 /* ----- Resources ----- */
 
@@ -74,19 +75,19 @@ static char *midi_out_name = NULL;
 
 static int set_midi_name(const char *val, void *param)
 {
-    util_string_set(&midi_name,val);
+    util_string_set(&midi_name, val);
     return 0;
 }
 
 static int set_midi_in_name(const char *val, void *param)
 {
-    util_string_set(&midi_in_name,val);
+    util_string_set(&midi_in_name, val);
     return 0;
 }
 
 static int set_midi_out_name(const char *val, void *param)
 {
-    util_string_set(&midi_out_name,val);
+    util_string_set(&midi_out_name, val);
     return 0;
 }
 
@@ -110,22 +111,22 @@ void mididrv_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-  { "-midiname", SET_RESOURCE, 1,
-    NULL, NULL, "MIDIName", NULL,
-    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-    IDCLS_UNUSED, IDCLS_UNUSED,
-    N_("<name>"), N_("Name of MIDI Client") },
-  { "-midiinname", SET_RESOURCE, 1,
-    NULL, NULL, "MIDIInName", NULL,
-    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-    IDCLS_UNUSED, IDCLS_UNUSED,
-    N_("<name>"), N_("Name of MIDI-In Port") },
-  { "-midioutname", SET_RESOURCE, 1,
-    NULL, NULL, "MIDIOutName", NULL,
-    USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-    IDCLS_UNUSED, IDCLS_UNUSED,
-    N_("<name>"), N_("Name of MIDI-Out Port") },
-  { NULL }
+    { "-midiname", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIName", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<name>"), N_("Name of MIDI Client") },
+    { "-midiinname", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIInName", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<name>"), N_("Name of MIDI-In Port") },
+    { "-midioutname", SET_RESOURCE, 1,
+      NULL, NULL, "MIDIOutName", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<name>"), N_("Name of MIDI-Out Port") },
+    { NULL }
 };
 
 int mididrv_cmdline_options_init(void)
@@ -137,25 +138,26 @@ int mididrv_cmdline_options_init(void)
 
 static void reset_fifo(void)
 {
-    in_wi=0;
-    in_ri=0;
+    in_wi = 0;
+    in_ri = 0;
 }
 
 static int write_fifo(BYTE data)
 {
-    if (((in_wi-in_ri) % IN_BUF_LEN) == (IN_BUF_LEN-1))
+    if (((in_wi - in_ri) % IN_BUF_LEN) == (IN_BUF_LEN - 1)) {
         return 1;
+    }
 
     in_buf[in_wi] = data;
-    in_wi = (in_wi+1) % IN_BUF_LEN;
+    in_wi = (in_wi + 1) % IN_BUF_LEN;
     return 0;
 }
 
 static int read_fifo(BYTE *data)
 {
-    if (((in_wi-in_ri) % IN_BUF_LEN) != 0) {
-        *data=in_buf[in_ri];
-        in_ri = (in_ri+1) % IN_BUF_LEN;
+    if (((in_wi - in_ri) % IN_BUF_LEN) != 0) {
+        *data = in_buf[in_ri];
+        in_ri = (in_ri + 1) % IN_BUF_LEN;
         return 1;
     }
     return 0;
@@ -165,48 +167,49 @@ static int read_fifo(BYTE *data)
 
 static int message_len(BYTE msg)
 {
-    int len=0;
+    int len = 0;
+
     switch (msg & 0xf0) {
-    case 0x80: /* Note Off */
-    case 0x90: /* Note On */
-    case 0xa0: /* Polyphonic Aftertouch */
-    case 0xb0: /* Control Change */
-    case 0xe0: /* Pitch Wheel */
-        len=3;
-        break;
-    case 0xc0: /* Program Change */
-    case 0xd0: /* Channel Aftertouch */
-        len=2;
-        break;
-    case 0xf0: /* Special */
-        switch (msg) {
-        case 0xf0: /* Sysex Start (shouldn't happen here) */
-        case 0xf7: /* Sysex End (shouldn't happen here) */
-            len=-1;
+        case 0x80: /* Note Off */
+        case 0x90: /* Note On */
+        case 0xa0: /* Polyphonic Aftertouch */
+        case 0xb0: /* Control Change */
+        case 0xe0: /* Pitch Wheel */
+            len = 3;
             break;
-        case 0xf2: /* Song Pointer */
-            len=3;
+        case 0xc0: /* Program Change */
+        case 0xd0: /* Channel Aftertouch */
+            len = 2;
             break;
-        case 0xf1: /* Quarter Frame */
-        case 0xf3: /* Song Select */
-        case 0xf9: /* Measure End */
-            len=2;
+        case 0xf0: /* Special */
+            switch (msg) {
+                case 0xf0: /* Sysex Start (shouldn't happen here) */
+                case 0xf7: /* Sysex End (shouldn't happen here) */
+                    len = -1;
+                    break;
+                case 0xf2: /* Song Pointer */
+                    len = 3;
+                    break;
+                case 0xf1: /* Quarter Frame */
+                case 0xf3: /* Song Select */
+                case 0xf9: /* Measure End */
+                    len = 2;
+                    break;
+                case 0xf6: /* Tuning Request */
+                case 0xf8: /* Timing Clock */
+                case 0xfa: /* Start */
+                case 0xfb: /* Continue */
+                case 0xfc: /* Stop */
+                case 0xfe: /* Active Sensing */
+                case 0xff: /* Reset */
+                    len = 1;
+                    break;
+                default:
+                    break;
+            }
+        default: /* running status */
+            len = 2;
             break;
-        case 0xf6: /* Tuning Request */
-        case 0xf8: /* Timing Clock */
-        case 0xfa: /* Start */
-        case 0xfb: /* Continue */
-        case 0xfc: /* Stop */
-        case 0xfe: /* Active Sensing */
-        case 0xff: /* Reset */
-            len=1;
-            break;
-        default:
-            break;
-        }
-    default: /* running status */
-        len=2;
-        break;
     }
     return len;
 }
@@ -215,29 +218,28 @@ static int message_len(BYTE msg)
 
 static int create_client(void)
 {
-    if (midi_client==NULL) {
+    if (midi_client == NULL) {
         log_message(mididrv_log, "Opening MIDI client '%s'", midi_name);
-        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault,
-            midi_name,kCFStringEncodingUTF8); 
+        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_name, kCFStringEncodingUTF8); 
         OSStatus status = MIDIClientCreate(name, NULL, NULL, &midi_client);
         CFRelease(name);
-        if (status!=noErr) {
+        if (status != noErr) {
             log_error(mididrv_log, "Error creating MIDI client!");
             return -1;
         }
     }
-    midi_client_usage ++;
+    midi_client_usage++;
     return 0;
 }
 
 static void dispose_client(void)
 {
-    if (midi_client!=NULL) {
-        midi_client_usage --;
+    if (midi_client != NULL) {
+        midi_client_usage--;
         if (midi_client_usage == 0) {
             log_message(mididrv_log, "Closing MIDI client");
             OSStatus status = MIDIClientDispose(midi_client);
-            if (status!=noErr) {
+            if (status != noErr) {
                 log_error(mididrv_log, "Error disposing client!");
             }
             midi_client = NULL;
@@ -250,10 +252,10 @@ static void	midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *co
     unsigned int i,j;
     
     MIDIPacket *packet = pktlist->packet;
-	for (i = 0; i < pktlist->numPackets; ++i) {
-        for (j=0;j < packet->length;j++) {
+    for (i = 0; i < pktlist->numPackets; ++i) {
+        for (j = 0; j < packet->length; j++) {
             if (write_fifo(packet->data[j])) {
-                log_error(mididrv_log,"MIDI-In overrun!");
+                log_error(mididrv_log, "MIDI-In overrun!");
             }
         }
         packet = MIDIPacketNext(packet);
@@ -266,15 +268,15 @@ static void dump_sources(void)
     CFStringRef pname;
     char name[64];
     
-	n = MIDIGetNumberOfSources();
+    n = MIDIGetNumberOfSources();
     log_message(mididrv_log,"found %d sources", n);
-    for (i=0 ; i < n; ++i) {
+    for (i = 0 ; i < n; ++i) {
         MIDIEndpointRef endpnt = MIDIGetSource(i);
-		MIDIObjectGetStringProperty(endpnt, kMIDIPropertyName, &pname);
-		CFStringGetCString(pname, name, sizeof(name), 0);
-		CFRelease(pname);
-        
-        log_message(mididrv_log,"source #%d: %s",i,name);
+        MIDIObjectGetStringProperty(endpnt, kMIDIPropertyName, &pname);
+        CFStringGetCString(pname, name, sizeof(name), 0);
+        CFRelease(pname);
+
+        log_message(mididrv_log, "source #%d: %s", i, name);
     }
 }
 
@@ -284,15 +286,15 @@ static void dump_destinations(void)
     CFStringRef pname;
     char name[64];
     
-	n = MIDIGetNumberOfDestinations();
-    log_message(mididrv_log,"found %d destinations", n);
-    for (i=0 ; i < n; ++i) {
+    n = MIDIGetNumberOfDestinations();
+    log_message(mididrv_log, "found %d destinations", n);
+    for (i = 0; i < n; ++i) {
         MIDIEndpointRef endpnt = MIDIGetDestination(i);
-		MIDIObjectGetStringProperty(endpnt, kMIDIPropertyName, &pname);
-		CFStringGetCString(pname, name, sizeof(name), 0);
-		CFRelease(pname);
-        
-        log_message(mididrv_log,"destination #%d: %s",i,name);
+        MIDIObjectGetStringProperty(endpnt, kMIDIPropertyName, &pname);
+        CFStringGetCString(pname, name, sizeof(name), 0);
+        CFRelease(pname);
+
+        log_message(mididrv_log, "destination #%d: %s", i, name);
     }
 }
 
@@ -308,18 +310,17 @@ void mididrv_init(void)
 /* opens a MIDI-In device, returns handle */
 int mididrv_in_open(void)
 {
-    if (create_client()<0)
+    if (create_client() < 0) {
         return -1;
-    
-    if (midi_destination==NULL) {
+    }
+
+    if (midi_destination == NULL) {
         log_message(mididrv_log, "Opening MIDI-In port '%s'", midi_in_name);
 
-        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault,
-            midi_in_name,kCFStringEncodingUTF8); 
-        OSStatus status = MIDIDestinationCreate(midi_client,name,
-            midi_read_proc,NULL,&midi_destination);
+        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_in_name, kCFStringEncodingUTF8); 
+        OSStatus status = MIDIDestinationCreate(midi_client, name, midi_read_proc, NULL, &midi_destination);
         CFRelease(name);
-        if (status!=noErr) {
+        if (status != noErr) {
             log_error(mididrv_log, "Error creating MIDI-In port!");
             return -1;
         }
@@ -327,7 +328,7 @@ int mididrv_in_open(void)
 
     /* reset FIFO */
     reset_fifo();
-    
+
     dump_destinations();
     return 0;
 }
@@ -335,24 +336,24 @@ int mididrv_in_open(void)
 /* opens a MIDI-Out device, returns handle */
 int mididrv_out_open(void)
 {
-    if (create_client()<0)
+    if (create_client() < 0) {
         return -1;
+    }
     
-    if (midi_source==NULL) {
+    if (midi_source == NULL) {
         log_message(mididrv_log, "Opening MIDI-Out port '%s'", midi_out_name);
 
-        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault,
-            midi_out_name,kCFStringEncodingUTF8); 
-        OSStatus status = MIDISourceCreate(midi_client,name,&midi_source);
+        CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_out_name, kCFStringEncodingUTF8); 
+        OSStatus status = MIDISourceCreate(midi_client, name, &midi_source);
         CFRelease(name);
-        if (status!=noErr) {
+        if (status != noErr) {
             log_error(mididrv_log, "Error creating MIDI-Out port!");
             return -1;
         }
     }
 
     /* reset buffer */
-    out_index=0;
+    out_index = 0;
 
     dump_sources();
     return 0;
@@ -361,32 +362,32 @@ int mididrv_out_open(void)
 /* closes the MIDI-In device*/
 void mididrv_in_close(void)
 {
-    if (midi_destination!=NULL) {
+    if (midi_destination != NULL) {
         log_message(mididrv_log, "Closing MIDI-In port");
 
         OSStatus status = MIDIEndpointDispose(midi_destination);
-        if (status!=noErr) {
+        if (status != noErr) {
             log_error(mididrv_log, "Error disposing MIDI-In port!");
         }
         midi_destination = NULL;
     }
-    
+
     dispose_client();
 }
 
 /* closes the MIDI-Out device*/
 void mididrv_out_close(void)
 {
-    if (midi_source!=NULL) {
+    if (midi_source != NULL) {
         log_message(mididrv_log, "Closing MIDI-Out port");
 
         OSStatus status = MIDIEndpointDispose(midi_source);
-        if (status!=noErr) {
+        if (status != noErr) {
             log_error(mididrv_log, "Error disposing MIDI-Out port!");
         }
         midi_source = NULL;
     }
-    
+
     dispose_client();
 }
 
@@ -403,18 +404,18 @@ void mididrv_out(BYTE b)
     log_message(mididrv_log, "out %02x", b);
 #endif
 
-    out_buf[out_index]=b;
+    out_buf[out_index] = b;
     out_index++;
     if (out_index >= OUT_BUF_LEN) {
-        out_index=0;
+        out_index = 0;
         log_error(mididrv_log, "MIDI-Out overrun.");
     }
 
     thres = message_len(out_buf[0]);
 
     /* flush when enough bytes have been queued */
-    if (out_index >=thres) {
-        out_index=0;
+    if (out_index >= thres) {
+        out_index = 0;
 
 #ifdef DEBUG
         log_message(mididrv_log, "flushing out %06x", data);
@@ -427,11 +428,11 @@ void mididrv_out(BYTE b)
 #endif
 
         /* add midi packet */
-        pkt = MIDIPacketListAdd(&pktlist,0,pkt,timestamp,thres,out_buf);
+        pkt = MIDIPacketListAdd(&pktlist, 0, pkt, timestamp, thres, out_buf);
 
         /* send midi packet */
-        OSStatus status = MIDIReceived(midi_source,&pktlist);
-        if (status!=noErr) {
+        OSStatus status = MIDIReceived(midi_source, &pktlist);
+        if (status != noErr) {
             log_error(mididrv_log, "Failed to output data on MIDI-Out device.");
         }
     }
@@ -450,4 +451,3 @@ int mididrv_in(BYTE *b)
 }
 
 #endif /* HAVE_MIDI */
-
