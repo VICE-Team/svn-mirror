@@ -43,8 +43,7 @@ typedef struct pal_res_s {
     GtkWidget *w;		/* widget holding the scrollbar+label */
 } pal_res_t;
 
-static pal_res_t ctrls[] =
-{
+static pal_res_t ctrls[] = {
     { N_("Blurredness"), "PALBlur", 2, NULL, NULL },
     { N_("Scanline Shade"), "PALScanLineShade", 2, NULL, NULL  },
     { N_("Saturation"), "ColorSaturation", 1, NULL, NULL  },
@@ -59,13 +58,14 @@ static pal_res_t ctrls[] =
 static void upd_sb (GtkAdjustment *adj, gpointer data)
 {
     int v = (int) adj->value;
-    pal_res_t *p = (pal_res_t *) data;
+    pal_res_t *p = (pal_res_t *)data;
 
-    v  = (int) v / p->scale;
+    v  = (int)v / p->scale;
 
     /* FIXME: temporary solution, gnome/gtk people need to fix this situation */
-    if (machine_class != VICE_MACHINE_PET)
+    if (machine_class != VICE_MACHINE_PET) {
         resources_set_int(p->res, v);
+    }
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
@@ -75,20 +75,19 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 
     /* FIXME: temporary solution, gnome/gtk people need to fix this
        situation */
-    if (machine_class == VICE_MACHINE_PET)
-	return;
+    if (machine_class == VICE_MACHINE_PET) {
+        return;
+    }
     
-    for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
-    {
-	resources_get_default_value(ctrls[i].res, (void *)&tmp);
-	resources_set_int(ctrls[i].res, tmp);
+    for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
+        resources_get_default_value(ctrls[i].res, (void *)&tmp);
+        resources_set_int(ctrls[i].res, tmp);
         tmp = tmp * ctrls[i].scale;
         if (ctrls[i].adj) {
-            gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj),
-                                     (gfloat) tmp);
+            gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj), (gfloat)tmp);
         }
     }      
-    
+
     video_canvas_refresh_all(cached_canvas);
 }
 
@@ -100,18 +99,16 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     GtkWidget *f;
     GtkWidget *l, *c;
     GtkWidget *box;
-    
     GtkWidget *rb;
     unsigned int i;
     int v;
 
     cached_canvas = canvas;
     f = gtk_frame_new(_("PAL Settings"));
-    
+
     b = gtk_vbox_new(FALSE, 5);
 
-    for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
-    {
+    for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
         hb = gtk_hbox_new(FALSE, 0);
 
         c = gtk_hbox_new(FALSE, 0);
@@ -128,19 +125,16 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	
         /* FIXME: temporary solution, gnome/gtk people need to fix this
            situation */
-        if (machine_class != VICE_MACHINE_PET)
+        if (machine_class != VICE_MACHINE_PET) {
             resources_get_int(ctrls[i].res, &v);
+        }
 
-        gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), 
-                                 (gfloat) (v * ctrls[i].scale));
+        gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrls[i].scale));
         sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
-        gtk_range_set_update_policy(GTK_RANGE(sb),
-                                    GTK_UPDATE_CONTINUOUS);
+        gtk_range_set_update_policy(GTK_RANGE(sb), GTK_UPDATE_CONTINUOUS);
         gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
 
-        g_signal_connect(G_OBJECT(adj), "value_changed",
-                         G_CALLBACK (upd_sb), 
-                         &ctrls[i]);
+        g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (upd_sb), &ctrls[i]);
 
         gtk_widget_show(sb);
         gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
@@ -152,10 +146,8 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 
     rb = gtk_button_new_with_label(_("Reset"));
     gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
-    g_signal_connect(G_OBJECT(rb), "clicked",
-                     G_CALLBACK(pal_ctrl_reset),
-                     rb);
-    GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
+    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), rb);
+    GTK_WIDGET_UNSET_FLAGS(rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
     gtk_widget_show(box);

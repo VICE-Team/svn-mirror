@@ -39,8 +39,7 @@
 #include <GL/gl.h>
 #endif
 
-typedef void (*video_refresh_func_t)(struct video_canvas_s *,
-              int, int, int, int, unsigned int, unsigned int);
+typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
 
 
 struct video_canvas_s {
