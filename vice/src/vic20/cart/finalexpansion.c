@@ -1,5 +1,5 @@
 /*
- * finalexpansion.c -- VIC20 Final Expansion v3.1 emulation.
+ * finalexpansion.c -- VIC20 Final Expansion v3.1/v3.2 emulation.
  *
  * Written by
  *  Daniel Kahlin <daniel@kahlin.net>
@@ -56,6 +56,9 @@
 #else
 #define FE_DEBUG(x)
 #endif
+
+/* emulate Final Expansion v3.2 */
+#define FINAL_EXPANSION_V3_2
 
 /* base addresses for the blocks */
 #define BLK0_BASE 0x0000
@@ -122,11 +125,17 @@ static log_t fe_log = LOG_ERR;
 #define REGA_BANK_MASK   0x0f  /* only 512 KB connected */
 
 #define REGA_MODE_MASK   0xe0
-#define MODE_START       0x00  /* Start Modus         (000zzzzz) [Mod_ROM_A] */
-#define MODE_FLASH_WRITE 0x20  /* Flash-Schreib-Modus (001zzzzz) [Mod_Prog]  */
-#define MODE_FLASH_READ  0x40  /* Flash-Lese-Modus    (010zzzzz) [Mod_ROM]   */
-#define MODE_RAM         0x80  /* RAM Modus           (100zzzzz) [Mod_RAM]   */
-#define MODE_SUPER_RAM   0xa0  /* Super RAM Modus     (101zzzzz) [Mod_RAM2]  */
+#define MODE_START       0x00  /* Start Modus         (000zzzzz) [Mod_START] */
+#define MODE_FLASH       0x20  /* Flash-Schreib-Modus (001zzzzz) [Mod_FLASH] */
+#define MODE_SUPER_ROM   0x40  /* Flash-Lese-Modus    (010zzzzz) [Mod_SROM]  */
+#ifdef FINAL_EXPANSION_V3_2
+#define MODE_ROM_RAM     0x60  /* v3.2                (011zzzzz) [Mod_ROMRAM]*/
+#endif
+#define MODE_RAM1        0x80  /* RAM Modus           (100zzzzz) [Mod_RAM1]  */
+#define MODE_SUPER_RAM   0xa0  /* Super RAM Modus     (101zzzzz) [Mod_SRAM]  */
+#ifdef FINAL_EXPANSION_V3_2
+#define MODE_RAM2        0xc0  /* v3.2                (110zzzzz) [Mod_RAM2]  */
+#endif
 
 /* in MODE_RAM */
 #define REGA_BLK0_RO     0x01
@@ -148,7 +157,7 @@ static log_t fe_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 static int is_mode_ram(void)
 {
-    return ( (register_a & REGA_MODE_MASK) == MODE_RAM );
+    return ( (register_a & REGA_MODE_MASK) == MODE_RAM1 );
 }
 
 static int is_locked(void)
@@ -188,8 +197,8 @@ static BYTE internal_read(WORD addr, int blk, WORD base)
     } else {
         switch (mode) {
         case MODE_START:
-        case MODE_FLASH_READ:
-        case MODE_FLASH_WRITE:
+        case MODE_SUPER_ROM:
+        case MODE_FLASH:
         case MODE_SUPER_RAM:
             bank = register_a & REGA_BANK_MASK;
             break;
@@ -209,11 +218,11 @@ static BYTE internal_read(WORD addr, int blk, WORD base)
             value = vic20_cpu_last_data;
         }
         break;
-    case MODE_FLASH_READ:
-    case MODE_FLASH_WRITE:
+    case MODE_SUPER_ROM:
+    case MODE_FLASH:
         value = flash040core_read(&flash_state, faddr);
         break;
-    case MODE_RAM:
+    case MODE_RAM1:
     case MODE_SUPER_RAM:
         value = cart_ram[faddr];
         break;
@@ -236,7 +245,7 @@ static void internal_store(WORD addr, BYTE value, int blk, WORD base)
         bank = 0;
     } else {
         switch (mode) {
-        case MODE_FLASH_WRITE:
+        case MODE_FLASH:
         case MODE_SUPER_RAM:
             bank = register_a & REGA_BANK_MASK;
             break;
@@ -249,14 +258,14 @@ static void internal_store(WORD addr, BYTE value, int blk, WORD base)
     faddr = calc_addr(addr, bank, base);
 
     switch (mode) {
-    case MODE_FLASH_WRITE:
+    case MODE_FLASH:
         if (blk != 0) {
             flash040core_store(&flash_state, faddr, value);
         }
         break;
     case MODE_START:
-    case MODE_FLASH_READ:
-    case MODE_RAM:
+    case MODE_SUPER_ROM:
+    case MODE_RAM1:
     case MODE_SUPER_RAM:
         cart_ram[faddr] = value;
         break;
