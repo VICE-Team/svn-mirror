@@ -178,7 +178,7 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
         } else {
             gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
         }
-    } else
+    } else {
         gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
     }
 }
