@@ -527,7 +527,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     /* FFV1 isn't strict standard compliant */
     if (c->codec_id == CODEC_ID_FFV1) {
         c->strict_std_compliance = -1;
-        c->pix_fmt = PIX_FMT_RGBA32;
+        c->pix_fmt = PIX_FMT_RGBA;
     }
 
 #ifdef HAVE_FFMPEG_SWSCALE
