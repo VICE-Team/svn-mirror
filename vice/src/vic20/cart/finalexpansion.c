@@ -135,10 +135,10 @@ static log_t fe_log = LOG_ERR;
 
 /* in MODE_RAM1, MODE_RAM2, MODE_ROM_RAM */
 #define REGA_BLK0_RO     0x01
-#define REGA_BLK1_MODE   0x02
-#define REGA_BLK2_MODE   0x04
-#define REGA_BLK3_MODE   0x08
-#define REGA_BLK5_MODE   0x10
+#define REGA_BLK1_SEL    0x02
+#define REGA_BLK2_SEL    0x04
+#define REGA_BLK3_SEL    0x08
+#define REGA_BLK5_SEL    0x10
 
 /* Register B ($9c03) */
 #define REGB_BLK0_OFF    0x01
@@ -151,19 +151,6 @@ static log_t fe_log = LOG_ERR;
 #define REGB_REG_OFF     0x80
 
 /* ------------------------------------------------------------------------- */
-static int is_mode_ram(void)
-{
-    switch (register_a & REGA_MODE_MASK) {
-    case MODE_ROM_RAM:
-    case MODE_RAM1:
-    case MODE_RAM2:
-        return 1;
-    default:
-        break;
-    }
-    return 0;
-}
-
 static int is_locked(void)
 {
     if (register_b & REGB_REG_OFF) {
@@ -187,7 +174,7 @@ static unsigned int calc_addr(WORD addr, int bank, WORD base)
     return faddr;
 }
 
-static BYTE internal_read(WORD addr, int blk, WORD base, int mbit)
+static BYTE internal_blk0_read(WORD addr, WORD base)
 {
     BYTE mode;
     int bank;
@@ -196,34 +183,96 @@ static BYTE internal_read(WORD addr, int blk, WORD base, int mbit)
 
     mode = register_a & REGA_MODE_MASK;
 
-    if (blk == 0) {
-        bank = 0;
-    } else {
-        switch (mode) {
-        case MODE_SUPER_ROM:
-        case MODE_FLASH:
-        case MODE_SUPER_RAM:
-            bank = register_a & REGA_BANK_MASK;
-            break;
-        case MODE_ROM_RAM:
-        case MODE_RAM1:
-            bank = 1;
-            break;
-        case MODE_RAM2:
-            if (mbit) {
-                bank = 2;
-            } else {
-                bank = 1;
-            }
-            break;
-        default:
-            bank = 0;
-            break;
-        }
-    }
+    /* Blk0 is hardwired to bank 0 */
+    bank = 0;
 
+    /* Calculate Address */
     faddr = calc_addr(addr, bank, base);
 
+    /* Perform access */
+    switch (mode) {
+    case MODE_ROM_RAM:
+    case MODE_RAM1:
+    case MODE_RAM2:
+    case MODE_SUPER_ROM:
+    case MODE_SUPER_RAM:
+        value = cart_ram[faddr];
+        break;
+    default:
+        value = vic20_cpu_last_data;
+        break;
+    }
+    return value;
+}
+
+static void internal_blk0_store(WORD addr, BYTE value, WORD base, int ro)
+{
+    BYTE mode;
+    int bank;
+    unsigned int faddr;
+
+    mode = register_a & REGA_MODE_MASK;
+
+    /* Blk0 is hardwired to bank 0 */
+    bank = 0;
+
+    /* Calculate Address */
+    faddr = calc_addr(addr, bank, base);
+
+    /* Perform access */
+    switch (mode) {
+    case MODE_ROM_RAM:
+    case MODE_RAM1:
+    case MODE_RAM2:
+        if (!ro) {
+            cart_ram[faddr] = value;
+        }
+        break;
+    case MODE_SUPER_ROM:
+    case MODE_SUPER_RAM:
+        cart_ram[faddr] = value;
+        break;
+    default:
+        break;
+    }
+}
+
+static BYTE internal_read(WORD addr, int blk, WORD base, int sel)
+{
+    BYTE mode;
+    int bank;
+    unsigned int faddr;
+    BYTE value;
+
+    mode = register_a & REGA_MODE_MASK;
+
+    /* Determine which bank to access */
+    switch (mode) {
+    case MODE_FLASH:
+    case MODE_SUPER_ROM:
+    case MODE_SUPER_RAM:
+        bank = register_a & REGA_BANK_MASK;
+        break;
+    case MODE_ROM_RAM:
+    case MODE_RAM1:
+        bank = 1;
+        break;
+    case MODE_RAM2:
+        if (sel) {
+            bank = 2;
+        } else {
+            bank = 1;
+        }
+        break;
+    default:
+        bank = 0;
+        break;
+    }
+
+    /* Calculate Address */
+    faddr = calc_addr(addr, bank, base);
+
+    /* Perform access */
     switch (mode) {
     case MODE_START:
         if (blk == 5) {
@@ -232,12 +281,12 @@ static BYTE internal_read(WORD addr, int blk, WORD base, int mbit)
             value = vic20_cpu_last_data;
         }
         break;
-    case MODE_SUPER_ROM:
     case MODE_FLASH:
+    case MODE_SUPER_ROM:
         value = flash040core_read(&flash_state, faddr);
         break;
     case MODE_ROM_RAM:
-        if (mbit) {
+        if (sel) {
             value = flash040core_read(&flash_state, faddr);
         } else {
             value = cart_ram[faddr];
@@ -255,7 +304,7 @@ static BYTE internal_read(WORD addr, int blk, WORD base, int mbit)
     return value;
 }
 
-static void internal_store(WORD addr, BYTE value, int blk, WORD base, int mbit)
+static void internal_store(WORD addr, BYTE value, int blk, WORD base, int sel)
 {
     BYTE mode;
     int bank;
@@ -263,49 +312,46 @@ static void internal_store(WORD addr, BYTE value, int blk, WORD base, int mbit)
 
     mode = register_a & REGA_MODE_MASK;
 
-    if (blk == 0) {
-        bank = 0;
-    } else {
-        switch (mode) {
-        case MODE_FLASH:
-        case MODE_SUPER_RAM:
-            bank = register_a & REGA_BANK_MASK;
-            break;
-        case MODE_SUPER_ROM:
-#ifdef FE3_2_SUPER_ROM_BUG
-            bank = 1 | (register_a & REGA_BANK_MASK);
-            break;
-#endif
-        case MODE_START:
-            bank = 1;
-            break;
-        case MODE_ROM_RAM:
-        case MODE_RAM1:
-            if (mbit) {
-                bank = 2;
-            } else {
-                bank = 1;
-            }
-            break;
-        case MODE_RAM2:
-            bank = 1;
-            break;
-        default:
-            bank = 0;
-            break;
-        }
-    }
-
-    faddr = calc_addr(addr, bank, base);
-
+    /* Determine which bank to access */
     switch (mode) {
     case MODE_FLASH:
-        if (blk != 0) {
-            flash040core_store(&flash_state, faddr, value);
-        }
+    case MODE_SUPER_RAM:
+        bank = register_a & REGA_BANK_MASK;
+        break;
+    case MODE_SUPER_ROM:
+#ifdef FE3_2_SUPER_ROM_BUG
+        bank = 1 | (register_a & REGA_BANK_MASK);
+        break;
+#endif
+    case MODE_START:
+        bank = 1;
         break;
     case MODE_ROM_RAM:
-        if (mbit) {
+    case MODE_RAM1:
+        if (sel) {
+            bank = 2;
+        } else {
+            bank = 1;
+        }
+        break;
+    case MODE_RAM2:
+        bank = 1;
+        break;
+    default:
+        bank = 0;
+        break;
+    }
+
+    /* Calculate Address */
+    faddr = calc_addr(addr, bank, base);
+
+    /* Perform access */
+    switch (mode) {
+    case MODE_FLASH:
+        flash040core_store(&flash_state, faddr, value);
+        break;
+    case MODE_ROM_RAM:
+        if (sel) {
             cart_ram[faddr] = value;
         }
         break;
@@ -328,7 +374,7 @@ BYTE REGPARM1 finalexpansion_ram123_read(WORD addr)
 {
     BYTE value;
     if ( !(register_b & REGB_BLK0_OFF) ) {
-        value = internal_read(addr, 0, BLK0_BASE, 0);
+        value = internal_blk0_read(addr, BLK0_BASE);
     } else {
         value = vic20_v_bus_last_data;
     }
@@ -339,9 +385,7 @@ BYTE REGPARM1 finalexpansion_ram123_read(WORD addr)
 void REGPARM2 finalexpansion_ram123_store(WORD addr, BYTE value)
 {
     if ( !(register_b & REGB_BLK0_OFF) ) {
-        if ( !( is_mode_ram() && (register_a & REGA_BLK0_RO) ) ) {
-            internal_store(addr, value, 0, BLK0_BASE, 0);
-        }
+        internal_blk0_store(addr, value, BLK0_BASE, (register_a & REGA_BLK0_RO));
     }
 }
 
@@ -350,7 +394,7 @@ BYTE REGPARM1 finalexpansion_blk1_read(WORD addr)
 {
     BYTE value;
     if ( !(register_b & REGB_BLK1_OFF) ) {
-        value = internal_read(addr, 1, BLK1_BASE, register_a & REGA_BLK1_MODE);
+        value = internal_read(addr, 1, BLK1_BASE, register_a & REGA_BLK1_SEL);
     } else {
         value = vic20_cpu_last_data;
     }
@@ -361,7 +405,7 @@ BYTE REGPARM1 finalexpansion_blk1_read(WORD addr)
 void REGPARM2 finalexpansion_blk1_store(WORD addr, BYTE value)
 {
     if ( !(register_b & REGB_BLK1_OFF) ) {
-        internal_store(addr, value, 1, BLK1_BASE, register_a & REGA_BLK1_MODE);
+        internal_store(addr, value, 1, BLK1_BASE, register_a & REGA_BLK1_SEL);
     }
 }
 
@@ -370,7 +414,7 @@ BYTE REGPARM1 finalexpansion_blk2_read(WORD addr)
 {
     BYTE value;
     if ( !(register_b & REGB_BLK2_OFF) ) {
-        value = internal_read(addr, 2, BLK2_BASE, register_a & REGA_BLK2_MODE);
+        value = internal_read(addr, 2, BLK2_BASE, register_a & REGA_BLK2_SEL);
     } else {
         value = vic20_cpu_last_data;
     }
@@ -381,7 +425,7 @@ BYTE REGPARM1 finalexpansion_blk2_read(WORD addr)
 void REGPARM2 finalexpansion_blk2_store(WORD addr, BYTE value)
 {
     if ( !(register_b & REGB_BLK2_OFF) ) {
-        internal_store(addr, value, 2, BLK2_BASE, register_a & REGA_BLK2_MODE);
+        internal_store(addr, value, 2, BLK2_BASE, register_a & REGA_BLK2_SEL);
     }
 }
 
@@ -390,7 +434,7 @@ BYTE REGPARM1 finalexpansion_blk3_read(WORD addr)
 {
     BYTE value;
     if ( !(register_b & REGB_BLK3_OFF) ) {
-        value = internal_read(addr, 3, BLK3_BASE, register_a & REGA_BLK3_MODE);
+        value = internal_read(addr, 3, BLK3_BASE, register_a & REGA_BLK3_SEL);
     } else {
         value = vic20_cpu_last_data;
     }
@@ -401,7 +445,7 @@ BYTE REGPARM1 finalexpansion_blk3_read(WORD addr)
 void REGPARM2 finalexpansion_blk3_store(WORD addr, BYTE value)
 {
     if ( !(register_b & REGB_BLK3_OFF) ) {
-        internal_store(addr, value, 3, BLK3_BASE, register_a & REGA_BLK3_MODE);
+        internal_store(addr, value, 3, BLK3_BASE, register_a & REGA_BLK3_SEL);
     }
 }
 
@@ -413,7 +457,7 @@ BYTE REGPARM1 finalexpansion_blk5_read(WORD addr)
     lock_bit = 1;
 
     if ( !(register_b & REGB_BLK5_OFF) ) {
-        value = internal_read(addr, 5, BLK5_BASE, register_a & REGA_BLK5_MODE);
+        value = internal_read(addr, 5, BLK5_BASE, register_a & REGA_BLK5_SEL);
     } else {
         value = vic20_cpu_last_data;
     }
@@ -426,7 +470,7 @@ void REGPARM2 finalexpansion_blk5_store(WORD addr, BYTE value)
     lock_bit = 0;
 
     if ( !(register_b & REGB_BLK5_OFF) ) {
-        internal_store(addr, value, 5, BLK5_BASE, register_a & REGA_BLK5_MODE);
+        internal_store(addr, value, 5, BLK5_BASE, register_a & REGA_BLK5_SEL);
     }
 }
 
