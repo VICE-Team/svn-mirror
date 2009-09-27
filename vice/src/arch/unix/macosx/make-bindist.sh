@@ -2,7 +2,7 @@
 # make-bindist.sh for Mac OSX
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 #
-# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip> <ui_type> [sdk_tag]
+# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip> <ui_type> [bin_format]
 
 RUN_PATH=`dirname $0`
 
@@ -13,7 +13,7 @@ STRIP=$2
 VICE_VERSION=$3
 ZIP=$4
 UI_TYPE=$5
-SDK_TAG=$6
+BIN_FORMAT=$6
 
 # ui type
 if [ "x$UI_TYPE" = "x" ]; then
@@ -27,20 +27,18 @@ if [ ! -x $TEST_BIN ]; then
   echo "error missing binary $TEST_BIN"
   exit 1
 fi
-BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | cut -f3,4 -d" "`
-if [ x"$BIN_TYPE" = "xuniversal binary" ]; then
-  BIN_FORMAT=ub
-elif [ x"$BIN_TYPE" = "xfat file" ]; then
-  BIN_FORMAT=ub
-elif [ x"$BIN_TYPE" = "xexecutable i386" ]; then
-  BIN_FORMAT=i386
-elif [ x"$BIN_TYPE" = "x64-bit executable" ]; then
-  BIN_FORMAT=x86_64
-elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
-  BIN_FORMAT=ppc
-else
-  echo "fatal: unknown bin type '$BIN_TYPE'"
-  exit 1
+if [ x"$BIN_FORMAT" = "x" ]; then
+  BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | cut -f3,4 -d" "`
+  if [ x"$BIN_TYPE" = "xexecutable i386" ]; then
+    BIN_FORMAT=i386
+  elif [ x"$BIN_TYPE" = "x64-bit executable" ]; then
+    BIN_FORMAT=x86_64
+  elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
+    BIN_FORMAT=ppc
+  else
+    echo "fatal: unknown bin type '$BIN_TYPE'"
+    exit 1
+  fi
 fi
 echo "  binary format: $BIN_FORMAT"
 

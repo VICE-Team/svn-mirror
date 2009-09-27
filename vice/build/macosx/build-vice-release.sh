@@ -14,16 +14,22 @@ ONLY_BIN=0
 DEL_TARGET=0
 EXTLIB="extlib"
 BUILD_DIR=""
-ARCH="ub"
-UI="sdl x11 gtk cocoa cocoa+10.5"
 DEBUG=0
 DIR_DIST=0
+
+DEFAULT_UI="cocoa"
+DEFAULT_ARCH="i386+ppc"
+DEFAULT_SDK_VERSION="10.4"
+DEFAULT_COMPILER="gcc40"
+JOBS="sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang"
 
 usage() {
   cat <<EOF
 
   Usage:
     $0 [options] <vice-svn-repository>
+    
+    Build a VICE Release or Snapshot for a set of uis, archs, sdks, and compilers
 
   Options:                                                                 Default:
     -s                       do snapshot build                             [release build]
@@ -32,17 +38,23 @@ usage() {
     -f                       force delete target directory if it exists    [abort if exists]
     -e <path to extlib>      set path of external library directory        [extlib]
     -o <target dir>          set target directory                          [BUILD-snapshot/release]
-    -a <arch>                set arch type, e.g. i386 ppc ub               [$ARCH]
-    -u <uis>                 set uis <ui>[+<sdk>]                          [$UI]
     -d                       build debug version                           [release]
     -i                       create distribution in directory              [create DMG]
-    -D                       quick debug preset: -slbfdi -a i386 -u cocoa+10.5
+    
+    -u <uis>                 set default ui:       sdl x11 gtk cocoa       [$DEFAULT_UI]
+    -a <arch>                set default arch:     i386 ppc x86_64 i386+ppc i386+x86_64 [$DEFAULT_ARCH]
+    -k <sdk_version>         set default sdk:      10.4 10.5 10.6          [$DEFAULT_SDK_VERSION]
+    -c <compiler>            set default compiler: gcc40 gcc42 clang       [$DEFAULT_COMPILER]
+    -j <jobs>                set build jobs
+                             [$JOBS]
+    
+    -D                       quick debug preset: -slbfdi -j cocoa-i386-10.4
 EOF
   exit 2
 }
 
 # parse arguments
-while getopts "slbfe:o:a:u:diD" i ; do
+while getopts "slbfe:o:diu:a:k:c:j:D" i ; do
   case "$i" in
     s) SNAPSHOT=1;;
     l) LINK_SRC=1;;
@@ -50,24 +62,29 @@ while getopts "slbfe:o:a:u:diD" i ; do
     f) DEL_TARGET=1;;
     e) EXTLIB="$OPTARG";;
     o) BUILD_DIR="$OPTARG";;
-    a) ARCH="$OPTARG";;
-    u) UI="$OPTARG";;
     d) DEBUG=1;;
     i) DIR_DIST=1;;
+    
+    u) DEFAULT_UI="$OPTARG";;
+    a) DEFAULT_ARCH="$OPTARG";;
+    k) DEFAULT_SDK_VERSION="$OPTARG";;
+    c) DEFAULT_COMPILER="$OPTARG";;
+    j) JOBS="$OPTARG";;
+
     D) DEBUG=1
        SNAPSHOT=1
        LINK_SRC=1
        ONLY_BIN=1
        DEL_TARGET=1
        DIR_DIST=1
-       UI="cocoa+10.5"
-       ARCH="i386";;
+       JOBS="cocoa-i386-10.4-gcc40"
+       ;;
     ?) usage;;
   esac
 done
 shift $(($OPTIND-1))
 
-# mode
+# mode settings
 if [ $SNAPSHOT = 1 ]; then
   echo -n "mode:           snapshot"
 else
@@ -177,21 +194,45 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-# build dists
-if [ "$UI" != "none" ]; then
-  echo "--- binaries for $UI ---"
-  for dist in $UI ; do
+# build dist jobs
+if [ "x$JOBS" != "x" ]; then
+  for JOB in $JOBS ; do
     
-    # extract ui and sdk
-    UI_TYPE="${dist%+*}"
-    if [ "$UI_TYPE" != "$dist" ]; then
-      SDK="${dist#*+}"
-    else
-      SDK="10.4"
-    fi
+    # determine job parameters
+    UI=$DEFAULT_UI
+    ARCH=$DEFAULT_ARCH
+    SDK_VERSION=$DEFAULT_SDK_VERSION
+    COMPILER=$DEFAULT_COMPILER
+    
+    # parse job description
+    JOB="`echo $JOB | sed -e 's/-/ /g'`"
+    for PARAM in $DEFAULT_UI $DEFAULT_ARCH $DEFAULT_SDK_VERSION $DEFAULT_COMPILER $JOB ; do
+      case "$PARAM" in
+        sdl)    UI=sdl;;
+        x11)    UI=x11;;
+        gtk)    UI=gtk;;
+        cocoa)  UI=cocoa;;
+      
+        i386)   ARCH=i386;;
+        ppc)    ARCH=ppc;;
+        x86_64) ARCH=x86_64;;
+        *+*)    ARCH="$PARAM";;
+        
+        10.4)   SDK_VERSION=10.4;;
+        10.5)   SDK_VERSION=10.5;;
+        10.6)   SDK_VERSION=10.6;;
+
+        gcc40)  COMPILER=gcc40;;
+        gcc42)  COMPILER=gcc42;;
+        clang)  COMPILER=clang;;
+        
+        ?) echo "Unknown Job Parameter!"; exit 1;;
+      esac
+    done
         
     # set output log
-    LOG="$BUILD_DIR/build-$dist.log"
+    TAG="$UI-$ARCH-$SDK_VERSION-$COMPILER"
+    LOG="$BUILD_DIR/build-$TAG.log"
     
     # set dist type
     if [ $DIR_DIST = 1 ]; then
@@ -201,14 +242,14 @@ if [ "$UI" != "none" ]; then
     fi
     
     # do build
-    echo "-- building binaries for $UI_TYPE $ARCH $SDK --"
-    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh $ARCH "$UI_TYPE" "$DIST_TYPE" "$EXTLIB" "$BUILD_DIR" "$SDK" $DEBUG) >"$LOG" 2>&1 
+    echo "--- building binaries [$UI-$ARCH-$SDK_VERSION-$COMPILER] ---"
+    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh "$ARCH" "$SDK_VERSION" "$COMPILER" "$UI" "$DIST_TYPE" "$EXTLIB" "$BUILD_DIR" "$DEBUG") >"$LOG" 2>&1 
 
     # check generated files
     if [ $DIR_DIST = 1 ]; then
-      FILES="$(ls -d $BUILD_DIR/$UI_TYPE-$SDK/$ARCH/vice-macosx-* 2>/dev/null)"
+      FILES="$(ls -d $BUILD_DIR/$UI-$SDK_VERSION-$COMPILER/$ARCH/vice-macosx-* 2>/dev/null)"
     else
-      FILES="$(ls $BUILD_DIR/$UI_TYPE-$SDK/$ARCH/vice-macosx-*.dmg 2>/dev/null)"
+      FILES="$(ls $BUILD_DIR/$UI-$SDK_VERSION-$COMPILER/$ARCH/vice-macosx-*.dmg 2>/dev/null)"
     fi
     echo "generated output: $FILES"
     if [ "x$FILES" = "x" ]; then

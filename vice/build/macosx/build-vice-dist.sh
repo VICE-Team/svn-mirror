@@ -26,62 +26,68 @@ fi
 
 # ----- check args -----
 if [ "x$1" = "x" ]; then
-  echo "Usage: $0 <arch> <ui-type> <dist-type> <extlib-dir> <build-dir> [sdk-ver] [gcc-version]"
-  echo "   arch        Build architecture       ub,i386,ppc"
-  echo "   ui-type     User Interface Type      x11,gtk,cocoa"
-  echo "   dist-type   Type of Distribution     dmg,dir"
+  echo "Usage: $0 <arch> <sdk_version> <compiler> <ui-type> <dist-type> <extlib-dir> <build-dir> <debug>"
+  echo "   arch        Build architecture       i386 ppc x86_64 ubi i386+ppc i386+x86_64"
+  echo "   sdk-ver     Select SDK version       10.4 10.5 10.6"
+  echo "   compiler    Select compiler suite    gcc40 gcc42 clang"
+  echo "   ui-type     User Interface Type      sdl x11 gtk cocoa"
+  echo "   dist-type   Type of Distribution     dmg dir"
   echo "   extlib-dir  External Libraries"
   echo "   build-dir   Where VICE is built"
-  echo "   sdk-ver     Select SDK version       10.5"
   echo "   debug       Build debug version      0"
-  echo "   gcc-version Select gcc version       4.0"
   exit 1
 fi
 ARCH="$1"
-if [ "$ARCH" != "ub" -a "$ARCH" != "i386" -a "$ARCH" != "ppc" ]; then
-  echo "Wrong architecture given: use 'ub', 'i386', or 'ppc'!"
+MULTI_ARCH="`echo \"$ARCH\" | sed -e 's/+/ /g'`"
+for A in $MULTI_ARCH ; do
+  if [ "$A" != "i386" -a "$A" != "ppc" -a "$A" != "x86_64" ]; then
+    echo "Wrong architecture given: $A"
+    exit 1
+  fi
+done
+SDK_VERSION="$2"
+if [ "$SDK_VERSION" != "10.4" -a "$SDK_VERSION" != "10.5" -a "$SDK_VERSION" != "10.6" ]; then
+  echo "Wrong SDK version given: $SDK_VERSION"
   exit 1
 fi
-UI_TYPE="$2"
+COMPILER="$3"
+if [ "$COMPILER" != "gcc40" -a "$COMPILER" != "gcc42" -a "$COMPILER" != "clang" ]; then
+  echo "Wrong compiler given: $COMPILER"
+  exit 1
+fi
+UI_TYPE="$4"
 if [ "$UI_TYPE" != "x11" -a "$UI_TYPE" != "gtk" -a "$UI_TYPE" != "cocoa" -a "$UI_TYPE" != "sdl" ]; then
   echo "Wrong UI Type given: use 'x11' or 'gtk', or 'cocoa'!"
   exit 1
 fi
-DIST_TYPE="$3"
+DIST_TYPE="$5"
 if [ "$DIST_TYPE" != "dir" -a "$DIST_TYPE" != "dmg" ]; then
   echo "Wrong Build Target: use 'dir' or 'dmg'!"
   exit 1
 fi
-EXTLIB_DIR="`cd \"$4\" && pwd`"
+EXTLIB_DIR="`cd \"$6\" && pwd`"
 if [ ! -d "$EXTLIB_DIR" ]; then
   echo "ExtLib Directory '$EXTLIB_DIR' does not exist!"
   exit 1
 fi
-BUILD_DIR="`cd \"$5\" && pwd`"
+BUILD_DIR="`cd \"$7\" && pwd`"
 if [ "$BUILD_DIR" = "" ]; then
   echo "No Build Directory given!"
   exit 1
 fi
-SDK_VERSION="$6"
-if [ "x$SDK_VERSION" = "x" ]; then
-  SDK_VERSION="10.4"
-fi
-DEBUG="$7"
+DEBUG="$8"
 if [ "x$DEBUG" = "x" ]; then
-  DEBUG=1
+  DEBUG=0
 fi
-GCC_VERSION="$8"
-if [ "x$GCC_VERSION" = "x" ]; then
-  GCC_VERSION=4.0
-fi
-echo "  architecture: $ARCH"
+
+echo "  architecture: $ARCH [$MULTI_ARCH]"
+echo "  sdk version:  $SDK_VERSION"
+echo "  compiler:     $COMPILER"
 echo "  ui type:      $UI_TYPE"
 echo "  dist type:    $DIST_TYPE"
 echo "  ext lib dir:  $EXTLIB_DIR"
 echo "  build dir:    $BUILD_DIR"
-echo "  sdk version:  $SDK_VERSION"
 echo "  debug:        $DEBUG"
-echo "  gcc version:  $GCC_VERSION"
 
 # ----- determine number of CPUs -----
 NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
@@ -91,29 +97,20 @@ echo
 # ----- determine build options -----
 echo "----- Determine Build Options -----"
 
-# check if a library is available for the selected architecture
+# check if a library is available for the selected architectures
 check_lib () {
   local libName="$1"
   echo -n "checking for library '$libName' ... "
-  # check for i386 lib
-  if [ "$ARCH" = "ub" -o "$ARCH" = "i386" ]; then
-    local I386_PATH="$EXTLIB_DIR/i386/lib/$libName"
-    if [ ! -f "$I386_PATH" ]; then
-      echo " i386 build missing ($I386_PATH)"
+  # check for arch lib
+  for A in $MULTI_ARCH ; do
+    local A_PATH="$EXTLIB_DIR/$A-$SDK_VERSION-$COMPILER/lib/$libName"
+    if [ ! -f "$A_PATH" ]; then
+      echo " $A build missing ($A_PATH)"
       false
       return
     fi
-  fi
-  # check for ppc lib
-  if [ "$ARCH" = "ub" -o "$ARCH" = "ppc" ]; then
-    local PPC_PATH="$EXTLIB_DIR/ppc/lib/$libName"
-    if [ ! -f "$PPC_PATH" ]; then
-      echo " ppc build missing! ($PPC_PATH)"
-      false
-      return
-    fi
-  fi
-  echo " available for $ARCH"
+  done
+  echo " available for $MULTI_ARCH"
   true
 }
 
@@ -140,7 +137,7 @@ fi
 # check for hidutil
 check_lib "libHIDUtilities.a"
 if [ "$?" = "0" ]; then
-  echo "+++ With Joystick Support +++"
+  echo "  +++ With Joystick Support +++"
   CONFIGURE_OPTS="Joystick $CONFIGURE_OPTS"
 fi
 
@@ -152,24 +149,24 @@ if [ "$UI_TYPE" != "sdl" ]; then
     if [ "$?" = "0" ]; then
       CONFIGURE_FLAGS="--enable-ethernet $CONFIGURE_FLAGS"
       CONFIGURE_OPTS="Ethernet $CONFIGURE_OPTS"
-      echo "+++ With Ethernet Support +++"
+      echo "  +++ With Ethernet Support +++"
     fi
   fi
 fi
 
 # check for ffmpeg and lame
-#check_lib "libavcodec.dylib"
-#if [ "$?" = "0" ]; then
-#  check_lib "libmp3lame.dylib"
-#  if [ "$?" = "0" ]; then
-#    CONFIGURE_FLAGS="--enable-ffmpeg $CONFIGURE_FLAGS"
-#    CONFIGURE_OPTS="FFMPEG $CONFIGURE_OPTS"
-#    echo "+++ With FFMPEG + Lame Support +++"
-#  fi
-#fi
+check_lib "libavcodec.dylib"
+if [ "$?" = "0" ]; then
+  check_lib "libmp3lame.dylib"
+  if [ "$?" = "0" ]; then
+    CONFIGURE_FLAGS="--enable-ffmpeg $CONFIGURE_FLAGS"
+    CONFIGURE_OPTS="FFMPEG $CONFIGURE_OPTS"
+    echo "  +++ With FFMPEG + Lame Support +++"
+  fi
+fi
 
 # ----- setup build dir -----
-BUILD_DIR="$BUILD_DIR/$UI_TYPE-$SDK_VERSION"
+BUILD_DIR="$BUILD_DIR/$UI_TYPE-$SDK_VERSION-$COMPILER"
 if [ ! -d "$BUILD_DIR" ]; then
   mkdir -p "$BUILD_DIR"
 fi
@@ -177,26 +174,22 @@ if [ ! -d "$BUILD_DIR" ]; then
   echo "ERROR: Creating build directory '$BUILD_DIR' failed!"
   exit 1
 fi
-if [ "$ARCH" = "ub" ]; then
-  mkdir -p "$BUILD_DIR/ppc"
-  mkdir -p "$BUILD_DIR/i386"
-elif [ "$ARCH" = "i386" ]; then
-  mkdir -p "$BUILD_DIR/i386"
-else
-  mkdir -p "$BUILD_DIR/ppc"
-fi
+# create build subdirs (including 'ub' dirs)
+for A in $ARCH $MULTI_ARCH ; do
+  A_DIR="$BUILD_DIR/$A"
+  if [ ! -d "$A_DIR" ]; then
+    mkdir -p "$A_DIR";
+  fi
+done
 
 # ----- Copy Gtk Config Files -----
 if [ "$UI_TYPE" = "gtk" ]; then
   echo "----- Copy GTK Config Files -----"
-  ANY_ARCH="$ARCH"
-  if [ "$ANY_ARCH" = "ub" ]; then
-    ANY_ARCH="i386"
-  fi
+  ANY_ARCH=${MULTI_ARCH%% *}
   # copy fontconfig 
   MYFONTCONFIG="$BUILD_DIR/$ARCH/etc/fonts"
   if [ ! -d "$MYFONTCONFIG" ]; then
-    FONTCONFIG="$EXTLIB_DIR/$ANY_ARCH/etc/fonts"
+    FONTCONFIG="$EXTLIB_DIR/$ANY_ARCH-$SDK_VERSION-$COMPILER/etc/fonts"
     if [ ! -d "$FONTCONFIG" ]; then
       echo "FontConfig dir not found in '$FONTCONFIG'"
       exit 1
@@ -214,22 +207,33 @@ else
   COMMON_CFLAGS="-O3"
 fi
 
-# extra flags
+# HACK: extra flags for GL compile
 if [ "$UI_TYPE" != "cocoa" ]; then
   LDFLAGS_EXTRA="-dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib"
+fi
+if [ "$COMPILER" = "clang" ]; then
+  LDFLAGS_EXTRA="-read_only_relocs suppress"
 fi
 
 build_vice () {
   local BUILD_ARCH="$1"
   local BUILD_SDK="$2"
   local BUILD_SDK_VERSION="$3"
+  local BUILD_COMPILER="$4"
+  local BUILD_CC="$5"
+  local BUILD_CXX="$6"
   local VICE_SRC="`pwd`"
-  local BUILD_ARCH2="powerpc"
-  if [ "$BUILD_ARCH" = "i386" ]; then
-    BUILD_ARCH2="i386"
+  local BUILD_ARCH2="$BUILD_ARCH"
+  if [ "$BUILD_ARCH" = "ppc" ]; then
+    BUILD_ARCH2="powerpc"
   fi
+  local BUILD_TAG="$BUILD_ARCH-$BUILD_SDK_VERSION-$BUILD_COMPILER"
 
-  echo "----- Bulding VICE ($BUILD_ARCH) in $BUILD_DIR/$BUILD_ARCH/src -----"
+  echo
+  echo "----- Bulding VICE [$BUILD_ARCH-$BUILD_SDK_VERSION-$COMPILER] -----"
+  echo "  sdk path:     $BUILD_SDK"
+  echo "  c compiler:   $BUILD_CC"
+  echo "  c++ compiler: $BUILD_CXX"
 
   # already here?
   if [ -f "$BUILD_DIR/$BUILD_ARCH/src/x64" ]; then
@@ -242,14 +246,14 @@ build_vice () {
   cd "$BUILD_DIR/$BUILD_ARCH"
   set -x
   env \
-    PATH="$EXTLIB_DIR/$BUILD_ARCH/bin:$PATH" \
-    CPPFLAGS="-I$EXTLIB_DIR/$BUILD_ARCH/include" \
+    PATH="$EXTLIB_DIR/$BUILD_TAG/bin:$PATH" \
+    CPPFLAGS="-I$EXTLIB_DIR/$BUILD_TAG/include" \
     CFLAGS="$COMMON_CFLAGS" \
     OBJCFLAGS="$COMMON_CFLAGS" \
-    LDFLAGS="-L$EXTLIB_DIR/$BUILD_ARCH/lib $LDFLAGS_EXTRA" \
-    CC="gcc-$GCC_VERSION -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    CXX="g++-$GCC_VERSION -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    LD="gcc-$GCC_VERSION -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    LDFLAGS="-L$EXTLIB_DIR/$BUILD_TAG/lib $LDFLAGS_EXTRA" \
+    CC="$BUILD_CC -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    CXX="$BUILD_CXX -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    LD="$BUILD_CC -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS \
       --x-includes=$BUILD_SDK/usr/X11R6/include --x-libraries=$BUILD_SDK/usr/X11R6/lib
   set +x
@@ -331,56 +335,43 @@ fix_ref () {
 }
 
 # setup SDK paths
-echo "----- Choosing SDKs -----"
 SDK_BASE=/Developer/SDKs
 case "$SDK_VERSION" in
-10.3+4)
-  PPC_SDK=$SDK_BASE/MacOSX10.3.9.sdk
-  I386_SDK=$SDK_BASE/MacOSX10.4u.sdk
-  PPC_SDK_VERSION=10.3
-  I386_SDK_VERSION=10.4
-  ;;
-10.4)
-  PPC_SDK=$SDK_BASE/MacOSX10.4u.sdk
-  I386_SDK=$SDK_BASE/MacOSX10.4u.sdk
-  PPC_SDK_VERSION=10.4
-  I386_SDK_VERSION=10.4
-  ;;
-10.5)
-  PPC_SDK=$SDK_BASE/MacOSX10.5.sdk
-  I386_SDK=$SDK_BASE/MacOSX10.5.sdk
-  PPC_SDK_VERSION=10.5
-  I386_SDK_VERSION=10.5
-  ;;
-*)
-  echo "Invalid SDK given: $SDK_VERSION"
-  exit 1
-  ;;
+10.4) SDK_PATH=$SDK_BASE/MacOSX10.4u.sdk;;
+10.5) SDK_PATH=$SDK_BASE/MacOSX10.5.sdk;;
+10.6) SDK_PATH=$SDK_BASE/MacOSX10.6.sdk;;
 esac
-echo "ppc:  $PPC_SDK_VERSION $PPC_SDK"
-if [ ! -d "$PPC_SDK" ]; then
-  echo "ERROR: ppc SDK not found!"
+if [ ! -d "$SDK_PATH" ]; then
+  echo "ERROR: SDK directory not found: $SDK_PATH"
   exit 1
 fi
-echo "i386: $I386_SDK_VERSION $I386_SDK"
-if [ ! -d "$I386_SDK" ]; then
-  echo "ERROR: i386 SDK not found!"
+
+# setup compiler
+case "$COMPILER" in
+gcc40) 
+  BUILD_CC=/usr/bin/gcc-4.0
+  BUILD_CXX=/usr/bin/g++-4.0;;
+gcc42)
+  BUILD_CC=/usr/bin/gcc-4.2
+  BUILD_CXX=/usr/bin/g++-4.2;;
+clang)
+  BUILD_CC=/Developer/usr/bin/clang
+  BUILD_CXX=/Developer/usr/bin/llvm-g++-4.2;;
+esac
+if [ ! -x "$BUILD_CC" ]; then
+  echo "ERROR: C compiler not found: $BUILD_CC"
+  exit 1
+fi
+if [ ! -x "$BUILD_CXX" ]; then
+  echo "ERROR: C++ compiler not found: $BUILD_CXX"
   exit 1
 fi
 
 # build vice
-if [ "$ARCH" = "ub" ]; then
-  build_vice i386 $I386_SDK $I386_SDK_VERSION
-  build_vice ppc $PPC_SDK $PPC_SDK_VERSION
-  copy_dylib i386
-  copy_dylib ppc
-elif [ "$ARCH" = "i386" ]; then
-  build_vice i386 $I386_SDK $I386_SDK_VERSION
-  copy_dylib i386
-else
-  build_vice ppc $PPC_SDK $PPC_SDK_VERSION
-  copy_dylib ppc
-fi
+for A in $MULTI_ARCH ; do
+  build_vice "$A" "$SDK_PATH" "$SDK_VERSION" "$COMPILER" "$BUILD_CC" "$BUILD_CXX"
+  copy_dylib "$A"
+done
 
 APPS="c1541 cartconv petcat x128 x64 x64dtv xcbm2 xpet xplus4 xvic"
 
@@ -389,51 +380,51 @@ if [ "$UI_TYPE" = "cocoa" ]; then
   echo "----- Fixing Library References -----"
   # in all apps
   for app in $APPS ; do
-    if [ "$ARCH" = "ub" ]; then
-      fix_ref "$BUILD_DIR/i386/src/$app"
-      fix_ref "$BUILD_DIR/ppc/src/$app"
-    else
-      fix_ref "$BUILD_DIR/$ARCH/src/$app"
-    fi
+    for A in $MULTI_ARCH ; do
+      fix_ref "$BUILD_DIR/$A/src/$app"
+    done
   done
   # and all libs
   for lib in $EXTLIB ; do
     LIBNAME="`basename \"$lib\"`"
-    if [ "$ARCH" = "ub" ]; then
-      fix_ref "$BUILD_DIR/i386/lib/$LIBNAME"
-      fix_ref "$BUILD_DIR/ppc/lib/$LIBNAME"
-    else
-      fix_ref "$BUILD_DIR/$ARCH/lib/$LIBNAME"
-    fi
+    for A in $MULTI_ARCH ; do
+      fix_ref "$BUILD_DIR/$A/lib/$LIBNAME"
+    done
   done
 fi
 
 # ----- Create Universal Binary -----
-if [ "$ARCH" = "ub" ]; then
+if [ "$ARCH" != "$MULTI_ARCH" ]; then
   echo "----- Combining Binaries into Universal Binaries -----"
-  mkdir -p "$BUILD_DIR/ub/src"  
-  if [ -f "$BUILD_DIR/ub/src/x64" ]; then
+  mkdir -p "$BUILD_DIR/$ARCH/src"  
+  if [ -f "$BUILD_DIR/$ARCH/src/x64" ]; then
     echo "  hmm... Already combined?! skipping..."
   else
     for app in $APPS ; do
+      MULTI_APP=""
+      for A in $MULTI_ARCH ; do
+        MULTI_APP="$BUILD_DIR/$A/src/$app $MULTI_APP"
+      done
       echo "  combining '$app'"
-      lipo -create -output "$BUILD_DIR/ub/src/$app" \
-        "$BUILD_DIR/ppc/src/$app" "$BUILD_DIR/i386/src/$app"
+      lipo -create -output "$BUILD_DIR/$ARCH/src/$app" $MULTI_APP
     done
-    if [ ! -f "$BUILD_DIR/ub/src/x64" ]; then
+    if [ ! -f "$BUILD_DIR/$ARCH/src/x64" ]; then
       echo "FATAL: no universal x64 found!"
       exit 1
     fi
   fi
   
   # combine dynamic libs
-  mkdir -p "$BUILD_DIR/ub/lib"
+  mkdir -p "$BUILD_DIR/$ARCH/lib"
   for lib in $EXTLIB ; do
     LIBNAME="`basename \"$lib\"`"
-    if [ ! -e "$BUILD_DIR/ub/lib/$LIBNAME" ]; then
+    if [ ! -e "$BUILD_DIR/$ARCH/lib/$LIBNAME" ]; then
+      MULTI_LIB=""
+      for A in $MULTI_ARCH ; do
+        MULTI_LIB="$BUILD_DIR/$A/lib/$LIBNAME $MULTI_LIB"
+      done
       echo "  combining dylib '$LIBNAME'"
-      lipo -create -output "$BUILD_DIR/ub/lib/$LIBNAME" \
-        "$BUILD_DIR/ppc/lib/$LIBNAME" "$BUILD_DIR/i386/lib/$LIBNAME"
+      lipo -create -output "$BUILD_DIR/$ARCH/lib/$LIBNAME" $MULTI_LIB
     else
       echo "  already combined dylib '$LIBNAME'"
     fi
@@ -453,8 +444,8 @@ else
   STRIP="strip"
 fi
 (cd "$BUILD_DIR/$ARCH" && \
-$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION $ZIP $UI_TYPE $SDK_VERSION)
+$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION $ZIP $UI_TYPE "$ARCH-$SDK_VERSION-$COMPILER")
 
-echo "----- Ready: architecture: $ARCH, ui-type: $UI_TYPE, dist-type: $DIST_TYPE -----"
+echo "----- Ready: architecture: [$ARCH-$SDK_VERSION-$COMPILER,$UI_TYPE,$DIST_TYPE] -----"
 echo "VICE was configured with: $CONFIGURE_OPTS"
 exit 0
