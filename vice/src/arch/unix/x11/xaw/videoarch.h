@@ -34,7 +34,6 @@
 #include "ui.h"
 #include "uiarch.h"
 
-
 #include "vice.h"
 
 #include <X11/Xlib.h>
@@ -56,8 +55,7 @@
 
 #include "uiarch.h"
 
-typedef void (*video_refresh_func_t)(struct video_canvas_s *,
-              int, int, int, int, unsigned int, unsigned int);
+typedef void (*video_refresh_func_t)(struct video_canvas_s *, int, int, int, int, unsigned int, unsigned int);
 
 struct fullscreenconfig_s;
 struct palette_s;
@@ -102,12 +100,10 @@ extern int _video_use_xsync;
 
 /* ------------------------------------------------------------------------- */
 
-extern void video_convert_color_table(unsigned int i, BYTE *data,
-                                      long col, video_canvas_t *c);
+extern void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canvas_t *c);
 
 extern void uicolor_init_video_colors(void);
 
-void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
-                       Boolean *ctd);
+void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd);
 
 #endif

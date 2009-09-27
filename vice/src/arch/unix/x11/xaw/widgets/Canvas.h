@@ -26,48 +26,48 @@
 #include <X11/Core.h>
 
 #ifndef XtNexposeProc
-#define	XtNexposeProc		"exposeProc"
-#define	XtCExposeProc		"ExposeProc"
+#define XtNexposeProc "exposeProc"
+#define XtCExposeProc "ExposeProc"
 #endif
 
 #ifndef XtNexposeProcData
-#define	XtNexposeProcData	"exposeProcData"
-#define	XtCExposeProcData	"ExposeProcData"
+#define XtNexposeProcData "exposeProcData"
+#define XtCExposeProcData "ExposeProcData"
 #endif
 
-#ifndef	XtNresizeProc
-#define	XtNresizeProc		"resizeProc"
-#define	XtCResizeProc		"ResizeProc"
+#ifndef XtNresizeProc
+#define XtNresizeProc "resizeProc"
+#define XtCResizeProc "ResizeProc"
 #endif
 
-#ifndef	XtNresizeProcData
-#define	XtNresizeProcData	"resizeProcData"
-#define	XtCResizeProcData	"ResizeProcData"
+#ifndef XtNresizeProcData
+#define XtNresizeProcData "resizeProcData"
+#define XtCResizeProcData "ResizeProcData"
 #endif
 
 #ifndef XtNvisual
-#define XtNvisual		"visual"
-#define XtCVisual		"Visual"
+#define XtNvisual "visual"
+#define XtCVisual "Visual"
 #endif
 
 extern WidgetClass xfwfcanvasWidgetClass;
 
 typedef struct _CanvasClassRec *CanvasWidgetClass;
-typedef struct _CanvasRec      *CanvasWidget;
+typedef struct _CanvasRec *CanvasWidget;
 
-typedef void(*XfwfCanvasExposeProc)(
+typedef void(*XfwfCanvasExposeProc) (
 #if NeedFunctionPrototypes
-	Widget w,
-	XExposeEvent *event,
-	Region region,
-	XtPointer client_data
+    Widget w,
+    XExposeEvent *event,
+    Region region,
+    XtPointer client_data
 #endif
 );
 
 typedef void(*XfwfCanvasResizeProc)(
 #if NeedFunctionPrototypes
-	Widget w,
-	XtPointer client_data
+    Widget w,
+    XtPointer client_data
 #endif
 );
 

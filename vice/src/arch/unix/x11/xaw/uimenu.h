@@ -61,53 +61,43 @@ extern int ui_dispatch_hotkeys(int key);
    For this reason, to update the checkmarks, we simply have to call all the
    callbacks with a NULL `call_data' parameter.  */
 
-#define UI_MENU_DEFINE_TOGGLE(resource)                             \
-static UI_CALLBACK(toggle_##resource)                               \
-{                                                                   \
-    _ui_menu_toggle_helper(w, client_data, call_data, #resource);   \
-}
+#define UI_MENU_DEFINE_TOGGLE(resource)                               \
+    static UI_CALLBACK(toggle_##resource)                             \
+    {                                                                 \
+        _ui_menu_toggle_helper(w, client_data, call_data, #resource); \
+    }
 
-#define UI_MENU_DEFINE_RADIO(resource)                              \
-static UI_CALLBACK(radio_##resource)                                \
-{                                                                   \
-    _ui_menu_radio_helper(w, client_data, call_data, #resource);    \
-}
+#define UI_MENU_DEFINE_RADIO(resource)                               \
+    static UI_CALLBACK(radio_##resource)                             \
+    {                                                                \
+        _ui_menu_radio_helper(w, client_data, call_data, #resource); \
+    }
 
-#define UI_MENU_DEFINE_STRING_RADIO(resource)                           \
-static UI_CALLBACK(radio_##resource)                                    \
-{                                                                       \
-    _ui_menu_string_radio_helper(w, client_data, call_data, #resource); \
-}
+#define UI_MENU_DEFINE_STRING_RADIO(resource)                               \
+    static UI_CALLBACK(radio_##resource)                                    \
+    {                                                                       \
+        _ui_menu_string_radio_helper(w, client_data, call_data, #resource); \
+    }
 
-#define UI_MENU_DEFINE_TOGGLE_COND(name, res, comp)   \
-static UI_CALLBACK(toggle_##name)                     \
-{                                                     \
-    int val;                                          \
-                                                      \
-    resources_get_int(#res, &val);                    \
-                                                      \
-    if (comp(val))                                    \
-        ui_menu_set_sensitive(w, True);               \
-    else                                              \
-        ui_menu_set_sensitive(w, False);              \
-                                                      \
-    _ui_menu_toggle_helper(w, client_data, call_data, \
-                           #name);                    \
-}
+#define UI_MENU_DEFINE_TOGGLE_COND(name, res, comp)               \
+    static UI_CALLBACK(toggle_##name)                             \
+    {                                                             \
+        int val;                                                  \
+                                                                  \
+        resources_get_int(#res, &val);                            \
+                                                                  \
+        if (comp(val)) {                                          \
+            ui_menu_set_sensitive(w, True);                       \
+        } else {                                                  \
+            ui_menu_set_sensitive(w, False);                      \
+        }                                                         \
+                                                                  \
+        _ui_menu_toggle_helper(w, client_data, call_data, #name); \
+    }
 
 /* Private helper functions for toggle and radio menu items.  */
-extern void _ui_menu_toggle_helper(Widget w,
-                                   ui_callback_data_t client_data,
-                                   ui_callback_data_t call_data,
-                                   const char *resource_name);
-extern void _ui_menu_radio_helper(Widget w,
-                                  ui_callback_data_t client_data,
-                                  ui_callback_data_t call_data,
-                                  const char *resource_name);
-extern void _ui_menu_string_radio_helper(Widget w,
-                                         ui_callback_data_t client_data,
-                                         ui_callback_data_t call_data,
-                                         const char *resource_name);
+extern void _ui_menu_toggle_helper(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data, const char *resource_name);
+extern void _ui_menu_radio_helper(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data, const char *resource_name);
+extern void _ui_menu_string_radio_helper(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data, const char *resource_name);
 
 #endif /* _UIMENU_H */
-

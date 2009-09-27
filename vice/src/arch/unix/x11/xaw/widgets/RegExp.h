@@ -62,19 +62,19 @@ typedef char fwf_regex_t;
 
 #endif
 
-void    RegExpInit(fwf_regex_t *r);
-void    RegExpFree(fwf_regex_t *r);
-void	RegExpCompile(const char *regexp, fwf_regex_t *r);
-int	RegExpMatch(const char *string, fwf_regex_t *r);
-void	_RegExpError(int val);
-void	RegExpPatternToRegExp(const char *pattern, char *reg_exp);
+extern void RegExpInit(fwf_regex_t *r);
+extern void RegExpFree(fwf_regex_t *r);
+extern void	RegExpCompile(const char *regexp, fwf_regex_t *r);
+extern int	RegExpMatch(const char *string, fwf_regex_t *r);
+extern void	_RegExpError(int val);
+extern void	RegExpPatternToRegExp(const char *pattern, char *reg_exp);
 
 #ifndef TRUE
-#define TRUE				1
+#define TRUE 1
 #endif
 
 #ifndef FALSE
-#define	FALSE				0
+#define FALSE 0
 #endif
 
 #endif

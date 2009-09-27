@@ -73,35 +73,35 @@
 
  *===========================================================================*/
 
-#define	SUPERCLASS	&(simpleClassRec)
+#define SUPERCLASS &(simpleClassRec)
 
-#define	FontAscent(f)	((f)->max_bounds.ascent)
-#define	FontDescent(f)	((f)->max_bounds.descent)
-#define	FontH(f)	(FontAscent(f) + FontDescent(f) + 2)
-#define	FontW(f,s,w)	(XfwfTextWidth(f,s,strlen(s), MultiListTabs(w)) + 1)
-#define	FontMaxCharW(f)	((f)->max_bounds.rbearing-(f)->min_bounds.lbearing+1)
+#define FontAscent(f)   ((f)->max_bounds.ascent)
+#define FontDescent(f)  ((f)->max_bounds.descent)
+#define FontH(f)        (FontAscent(f) + FontDescent(f) + 2)
+#define FontW(f, s, w)  (XfwfTextWidth(f,s,strlen(s), MultiListTabs(w)) + 1)
+#define FontMaxCharW(f) ((f)->max_bounds.rbearing-(f)->min_bounds.lbearing+1)
 
 #ifndef abs
-#define abs(a)			((a) < 0 ? -(a) : (a))
+#define abs(a) ((a) < 0 ? -(a) : (a))
 #endif
 
 #ifndef max
-#define max(a,b)		((a) > (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 #endif
 
 #ifndef min
-#define min(a,b)		((a) < (b) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-#define XtStrlen(s)		((s) ? strlen(s) : 0)
+#define XtStrlen(s) ((s) ? strlen(s) : 0)
 
-#define	TypeAlloc(t,n)		lib_malloc(sizeof(t) * n)
-#define	StrCopy(s)		strcpy(TypeAlloc(char,strlen(s)+1),s)
-#define	StrCopyRetLength(s,lp)	strcpy(TypeAlloc(char,(*lp=(strlen(s)+1))),s)
+#define TypeAlloc(t,n)          lib_malloc(sizeof(t) * n)
+#define StrCopy(s)              strcpy(TypeAlloc(char, strlen(s) + 1),s)
+#define StrCopyRetLength(s, lp) strcpy(TypeAlloc(char, (*lp = (strlen(s) + 1))),s)
 
-#define CoreFieldOffset(f)	XtOffset(Widget,core.f)
-#define	SimpleFieldOffset(f)	XtOffset(XfwfMultiListWidget,simple.f)
-#define MultiListFieldOffset(f)	XtOffset(XfwfMultiListWidget,multiList.f)
+#define CoreFieldOffset(f)      XtOffset(Widget, core.f)
+#define SimpleFieldOffset(f)    XtOffset(XfwfMultiListWidget, simple.f)
+#define MultiListFieldOffset(f) XtOffset(XfwfMultiListWidget, multiList.f)
 
 /*===========================================================================*
 
@@ -111,83 +111,62 @@
 
 #if (!NeedFunctionPrototypes)
 
-static void			Initialize();
-static void			Redisplay();
-static XtGeometryResult		PreferredGeometry();
-static void                     Destroy();
-static void			Resize();
-static Boolean			SetValues();
+static void Initialize();
+static void Redisplay();
+static XtGeometryResult PreferredGeometry();
+static void Destroy();
+static void Resize();
+static Boolean SetValues();
 
-static void			DestroyOldData();
-static void			InitializeNewData();
-static void			CreateNewGCs();
+static void DestroyOldData();
+static void InitializeNewData();
+static void CreateNewGCs();
 
-static void			RecalcCoords();
-static void			NegotiateSizeChange();
-static Boolean			Layout();
+static void RecalcCoords();
+static void NegotiateSizeChange();
+static Boolean Layout();
 
-static void			RedrawAll();
-static void			RedrawItem();
-static void			RedrawRowColumn();
+static void RedrawAll();
+static void RedrawItem();
+static void RedrawRowColumn();
 
-static void			PixelToRowColumn();
-static void			RowColumnToPixels();
-static Boolean			RowColumnToItem();
-static Boolean			ItemToRowColumn();
+static void PixelToRowColumn();
+static void RowColumnToPixels();
+static Boolean RowColumnToItem();
+static Boolean ItemToRowColumn();
 
-static void			Select();
-static void			Unselect();
-static void			Toggle();
-static void			Extend();
-static void			Notify();
+static void Select();
+static void Unselect();
+static void Toggle();
+static void Extend();
+static void Notify();
 
 #else
 
-static void		Initialize(Widget request, Widget new);
-static void             Destroy(XfwfMultiListWidget mlw);
-static void 		Redisplay(XfwfMultiListWidget mlw,
-				XEvent *event, Region rectangle_union);
-static XtGeometryResult PreferredGeometry(XfwfMultiListWidget mlw,
-				XtWidgetGeometry *parent_idea,
-				XtWidgetGeometry *our_idea);
-static void		Resize(XfwfMultiListWidget mlw);
-static Boolean		SetValues(XfwfMultiListWidget cpl,
-				XfwfMultiListWidget rpl,
-			XfwfMultiListWidget npl);
-static void		DestroyOldData(XfwfMultiListWidget mlw);
-static void		InitializeNewData(XfwfMultiListWidget mlw);
-static void		CreateNewGCs(XfwfMultiListWidget mlw);
-static void		RecalcCoords(XfwfMultiListWidget mlw,
-				Boolean width_changeable,
-				Boolean height_changeable);
-static void		NegotiateSizeChange(XfwfMultiListWidget mlw,
-				Dimension width, Dimension height);
-static Boolean		Layout(XfwfMultiListWidget mlw,
-				Boolean w_changeable, Boolean h_changeable,
-				Dimension *w_ptr, Dimension *h_ptr);
-static void		RedrawAll(XfwfMultiListWidget mlw);
-static void		RedrawItem(XfwfMultiListWidget mlw, int item_index);
-static void		RedrawRowColumn(XfwfMultiListWidget mlw,
-				int row, int column);
-static void		PixelToRowColumn(XfwfMultiListWidget mlw,
-				int x, int y, int *row_ptr, int *column_ptr);
-static void		RowColumnToPixels(XfwfMultiListWidget mlw,
-				int row, int col, int *x_ptr, int *y_ptr,
-				int *w_ptr, int *h_ptr);
-static Boolean		RowColumnToItem(XfwfMultiListWidget mlw,
-				int row, int column, int *item_ptr);
-static Boolean		ItemToRowColumn(XfwfMultiListWidget mlw,
-				int item_index, int *row_ptr, int *column_ptr);
-static void		Select(XfwfMultiListWidget mlw, XEvent *event,
-				String *params, Cardinal *num_params);
-static void		Unselect(XfwfMultiListWidget mlw, XEvent *event,
-				String *params, Cardinal *num_params);
-static void		Toggle(XfwfMultiListWidget mlw, XEvent *event,
-				String *params, Cardinal *num_params);
-static void		Extend(XfwfMultiListWidget mlw, XEvent *event,
-				String *params, Cardinal *num_params);
-static void		Notify(XfwfMultiListWidget mlw, XEvent *event,
-				String *params, Cardinal *num_params);
+static void Initialize(Widget request, Widget new);
+static void Destroy(XfwfMultiListWidget mlw);
+static void Redisplay(XfwfMultiListWidget mlw, XEvent *event, Region rectangle_union);
+static XtGeometryResult PreferredGeometry(XfwfMultiListWidget mlw, XtWidgetGeometry *parent_idea, XtWidgetGeometry *our_idea);
+static void Resize(XfwfMultiListWidget mlw);
+static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfMultiListWidget npl);
+static void DestroyOldData(XfwfMultiListWidget mlw);
+static void InitializeNewData(XfwfMultiListWidget mlw);
+static void CreateNewGCs(XfwfMultiListWidget mlw);
+static void RecalcCoords(XfwfMultiListWidget mlw, Boolean width_changeable, Boolean height_changeable);
+static void NegotiateSizeChange(XfwfMultiListWidget mlw, Dimension width, Dimension height);
+static Boolean Layout(XfwfMultiListWidget mlw, Boolean w_changeable, Boolean h_changeable, Dimension *w_ptr, Dimension *h_ptr);
+static void RedrawAll(XfwfMultiListWidget mlw);
+static void RedrawItem(XfwfMultiListWidget mlw, int item_index);
+static void RedrawRowColumn(XfwfMultiListWidget mlw, int row, int column);
+static void PixelToRowColumn(XfwfMultiListWidget mlw, int x, int y, int *row_ptr, int *column_ptr);
+static void RowColumnToPixels(XfwfMultiListWidget mlw, int row, int col, int *x_ptr, int *y_ptr, int *w_ptr, int *h_ptr);
+static Boolean RowColumnToItem(XfwfMultiListWidget mlw, int row, int column, int *item_ptr);
+static Boolean ItemToRowColumn(XfwfMultiListWidget mlw, int item_index, int *row_ptr, int *column_ptr);
+static void Select(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
+static void Unselect(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
+static void Toggle(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
+static void Extend(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
+static void Notify(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
 #endif
 
 /*===========================================================================*
@@ -197,120 +176,58 @@ static void		Notify(XfwfMultiListWidget mlw, XEvent *event,
  *===========================================================================*/
 
 #ifdef MINIX_SUPPORT
-static XtResource resources[] =
-{
-	{XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension),
-	    32, XtRString, "0"},
-	{XtNheight, XtCHeight, XtRDimension, sizeof(Dimension),
-	    34, XtRString, "0"},
-	{XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel),
-	    104,XtRString,"XtDefaultBackground"},
-
-	{XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor),
-	    116, XtRString, "left_ptr"},
-
-	{XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel),
-	    140, XtRString,"XtDefaultForeground"},
-	{XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel),
-	    144, XtRString, "XtDefaultBackground"},
-	{XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel),
-	    148, XtRString, "XtDefaultForeground"},
-	{XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension),
-	    152, XtRImmediate, (caddr_t)8},
-	{XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension),
-	    154, XtRImmediate, (caddr_t)0},
-	{XtNdefaultColumns, XtCColumns, XtRInt,  sizeof(int),
-	    156, XtRImmediate, (caddr_t)1},
-	{XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean),
-	    160, XtRString, (caddr_t) "False"},
-	{XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean),
-	    161, XtRString, (caddr_t) "False"},
-	{XtNverticalList, XtCBoolean, XtRBoolean,  sizeof(Boolean),
-	    162, XtRString, (caddr_t) "False"},
-	{XtNlongest, XtCLongest, XtRInt,  sizeof(int),
-	    164, XtRImmediate, (caddr_t)0},
-	{XtNnumberStrings, XtCNumberStrings, XtRInt,  sizeof(int),
-	    168, XtRImmediate, (caddr_t)0},
-	{XtNfont,  XtCFont, XtRFontStruct, sizeof(XFontStruct *),
-	    172,XtRString, "XtDefaultFont"},
-	{XtNlist, XtCList, XtRPointer, sizeof(char **),
-	    176, XtRString, NULL},
-	{XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *),
-	    180, XtRString, NULL},
-	{XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t),
-	    184, XtRCallback, NULL},
-	{XtNmaxSelectable, XtCValue, XtRInt, sizeof(int),
-	    188, XtRImmediate, (caddr_t) 1},
-
-	{XtNshadeSurplus, XtCBoolean, XtRBoolean, sizeof(Boolean),
-	    192, XtRString, "True"},
-
-	{XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension),
-	    194, XtRImmediate, (caddr_t)0},
-	{XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension),
-	    196, XtRImmediate, (caddr_t)0},
-
-	{XtNtablist, XtCTablist, XtRString, sizeof(int *),
-	    256, XtRImmediate, (XtPointer)NULL },
-
+static XtResource resources[] = {
+    { XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension), 32, XtRString, "0" },
+    { XtNheight, XtCHeight, XtRDimension, sizeof(Dimension), 34, XtRString, "0" },
+    { XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel), 104, XtRString, "XtDefaultBackground" },
+    { XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor), 116, XtRString, "left_ptr" },
+    { XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel), 140, XtRString, "XtDefaultForeground" },
+    { XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel), 144, XtRString, "XtDefaultBackground" },
+    { XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel), 148, XtRString, "XtDefaultForeground" },
+    { XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), 152, XtRImmediate, (caddr_t)8 },
+    { XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), 154, XtRImmediate, (caddr_t)0 },
+    { XtNdefaultColumns, XtCColumns, XtRInt, sizeof(int), 156, XtRImmediate, (caddr_t)1 },
+    { XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean), 160, XtRString, (caddr_t)"False" },
+    { XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean), 161, XtRString, (caddr_t)"False" },
+    { XtNverticalList, XtCBoolean, XtRBoolean, sizeof(Boolean), 162, XtRString, (caddr_t)"False" },
+    { XtNlongest, XtCLongest, XtRInt, sizeof(int), 164, XtRImmediate, (caddr_t)0 },
+    { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), 168, XtRImmediate, (caddr_t)0 },
+    { XtNfont, XtCFont, XtRFontStruct, sizeof(XFontStruct *), 172, XtRString, "XtDefaultFont" },
+    { XtNlist, XtCList, XtRPointer, sizeof(char **), 176, XtRString, NULL },
+    { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), 180, XtRString, NULL },
+    { XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t), 184, XtRCallback, NULL },
+    { XtNmaxSelectable, XtCValue, XtRInt, sizeof(int), 188, XtRImmediate, (caddr_t)1 },
+    { XtNshadeSurplus, XtCBoolean, XtRBoolean, sizeof(Boolean), 192, XtRString, "True" },
+    { XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension), 194, XtRImmediate, (caddr_t)0 },
+    { XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension), 196, XtRImmediate, (caddr_t)0 },
+    { XtNtablist, XtCTablist, XtRString, sizeof(int *), 256, XtRImmediate, (XtPointer)NULL },
 };
 #else
-static XtResource resources[] =
-{
-	{XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension),
-	    CoreFieldOffset(width), XtRString, "0"},
-	{XtNheight, XtCHeight, XtRDimension, sizeof(Dimension),
-	    CoreFieldOffset(height), XtRString, "0"},
-	{XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel),
-	    CoreFieldOffset(background_pixel),XtRString,"XtDefaultBackground"},
-
-	{XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor),
-	    SimpleFieldOffset(cursor), XtRString, "left_ptr"},
-
-	{XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel),
-	    MultiListFieldOffset(foreground), XtRString,"XtDefaultForeground"},
-	{XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel),
-	    MultiListFieldOffset(highlight_fg), XtRString, "XtDefaultBackground"},
-	{XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel),
-	    MultiListFieldOffset(highlight_bg), XtRString, "XtDefaultForeground"},
-	{XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension),
-	    MultiListFieldOffset(column_space), XtRImmediate, (caddr_t)8},
-	{XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension),
-	    MultiListFieldOffset(row_space), XtRImmediate, (caddr_t)0},
-	{XtNdefaultColumns, XtCColumns, XtRInt,  sizeof(int),
-	    MultiListFieldOffset(default_cols), XtRImmediate, (caddr_t)1},
-	{XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean),
-	    MultiListFieldOffset(force_cols), XtRString, (caddr_t) "False"},
-	{XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean),
-	    MultiListFieldOffset(paste), XtRString, (caddr_t) "False"},
-	{XtNverticalList, XtCBoolean, XtRBoolean,  sizeof(Boolean),
-	    MultiListFieldOffset(row_major), XtRString, (caddr_t) "False"},
-	{XtNlongest, XtCLongest, XtRInt,  sizeof(int),
-	    MultiListFieldOffset(longest), XtRImmediate, (caddr_t)0},
-	{XtNnumberStrings, XtCNumberStrings, XtRInt,  sizeof(int),
-	    MultiListFieldOffset(nitems), XtRImmediate, (caddr_t)0},
-	{XtNfont,  XtCFont, XtRFontStruct, sizeof(XFontStruct *),
-	    MultiListFieldOffset(font),XtRString, "XtDefaultFont"},
-	{XtNlist, XtCList, XtRPointer, sizeof(char **),
-	    MultiListFieldOffset(list), XtRString, NULL},
-	{XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *),
-	    MultiListFieldOffset(sensitive_array), XtRString, NULL},
-	{XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t),
-	    MultiListFieldOffset(callback), XtRCallback, NULL},
-	{XtNmaxSelectable, XtCValue, XtRInt, sizeof(int),
-	    MultiListFieldOffset(max_selectable), XtRImmediate, (caddr_t) 1},
-
-	{XtNshadeSurplus, XtCBoolean, XtRBoolean, sizeof(Boolean),
-	    MultiListFieldOffset(shade_surplus), XtRString, "True"},
-
-	{XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension),
-	    MultiListFieldOffset(col_width), XtRImmediate, (caddr_t)0},
-	{XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension),
-	    MultiListFieldOffset(row_height), XtRImmediate, (caddr_t)0},
-
-	{XtNtablist, XtCTablist, XtRString, sizeof(int *),
-	    MultiListFieldOffset(tablist), XtRImmediate, (XtPointer)NULL },
-
+static XtResource resources[] = {
+    { XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension), CoreFieldOffset(width), XtRString, "0" },
+    { XtNheight, XtCHeight, XtRDimension, sizeof(Dimension), CoreFieldOffset(height), XtRString, "0" },
+    { XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel), CoreFieldOffset(background_pixel), XtRString, "XtDefaultBackground" },
+    { XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor), SimpleFieldOffset(cursor), XtRString, "left_ptr" },
+    { XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(foreground), XtRString, "XtDefaultForeground" },
+    { XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_fg), XtRString, "XtDefaultBackground" },
+    { XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_bg), XtRString, "XtDefaultForeground" },
+    { XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), MultiListFieldOffset(column_space), XtRImmediate, (caddr_t)8 },
+    { XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), MultiListFieldOffset(row_space), XtRImmediate, (caddr_t)0 },
+    { XtNdefaultColumns, XtCColumns, XtRInt, sizeof(int), MultiListFieldOffset(default_cols), XtRImmediate, (caddr_t)1 },
+    { XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(force_cols), XtRString, (caddr_t)"False" },
+    { XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(paste), XtRString, (caddr_t)"False" },
+    { XtNverticalList, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(row_major), XtRString, (caddr_t)"False" },
+    { XtNlongest, XtCLongest, XtRInt, sizeof(int), MultiListFieldOffset(longest), XtRImmediate, (caddr_t)0 },
+    { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), MultiListFieldOffset(nitems), XtRImmediate, (caddr_t)0 },
+    { XtNfont, XtCFont, XtRFontStruct, sizeof(XFontStruct *), MultiListFieldOffset(font), XtRString, "XtDefaultFont" },
+    { XtNlist, XtCList, XtRPointer, sizeof(char **), MultiListFieldOffset(list), XtRString, NULL },
+    { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), MultiListFieldOffset(sensitive_array), XtRString, NULL },
+    { XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t), MultiListFieldOffset(callback), XtRCallback, NULL },
+    { XtNmaxSelectable, XtCValue, XtRInt, sizeof(int), MultiListFieldOffset(max_selectable), XtRImmediate, (caddr_t)1 },
+    { XtNshadeSurplus, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(shade_surplus), XtRString, "True" },
+    { XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension), MultiListFieldOffset(col_width), XtRImmediate, (caddr_t) 0},
+    { XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension), MultiListFieldOffset(row_height), XtRImmediate, (caddr_t) 0},
+    { XtNtablist, XtCTablist, XtRString, sizeof(int *), MultiListFieldOffset(tablist), XtRImmediate, (XtPointer)NULL },
 };
 #endif
 
@@ -320,7 +237,6 @@ static XtResource resources[] =
 
  *===========================================================================*/
 
-
 static char defaultTranslations[] =
 "	Shift <Btn1Down>:			Toggle()\n\
 	Ctrl <Btn1Down>:			Unselect()\n\
@@ -328,14 +244,13 @@ static char defaultTranslations[] =
 	Button1 <Btn1Motion>:			Extend()\n\
 	<Btn1Up>:				Notify()";
 
-static XtActionsRec actions[] =
-{
-	{"Select",				(XtActionProc)Select},
-	{"Unselect",				(XtActionProc)Unselect},
-	{"Toggle",				(XtActionProc)Toggle},
-	{"Extend",				(XtActionProc)Extend},
-	{"Notify",				(XtActionProc)Notify},
-	{NULL,					(XtActionProc)NULL}
+static XtActionsRec actions[] = {
+    { "Select", (XtActionProc)Select },
+    { "Unselect", (XtActionProc)Unselect },
+    { "Toggle", (XtActionProc)Toggle },
+    { "Extend", (XtActionProc)Extend },
+    { "Notify", (XtActionProc)Notify },
+    { NULL, (XtActionProc)NULL }
 };
 
 /*===========================================================================*
@@ -344,46 +259,44 @@ static XtActionsRec actions[] =
 
  *===========================================================================*/
 
-XfwfMultiListClassRec xfwfMultiListClassRec =
-{
-	{
-		/* superclass		*/	(WidgetClass)SUPERCLASS,
-		/* class_name		*/	"XfwfMultiList",
-		/* widget_size		*/	sizeof(XfwfMultiListRec),
-		/* class_initialize	*/	NULL,
-		/* class_part_initialize*/	NULL,
-		/* class_inited		*/	FALSE,
-		/* initialize		*/	(XtInitProc)Initialize,
-		/* initialize_hook	*/	NULL,
-		/* realize		*/	XtInheritRealize,
-		/* actions		*/	actions,
-		/* num_actions		*/	XtNumber(actions),
-		/* resources		*/	resources,
-		/* resource_count	*/	XtNumber(resources),
-		/* xrm_class		*/	NULLQUARK,
-		/* compress_motion	*/	TRUE,
-		/* compress_exposure	*/	FALSE,
-		/* compress_enterleave	*/	TRUE,
-		/* visible_interest	*/	FALSE,
-                /* destroy              */      (XtWidgetProc)Destroy,
-		/* resize		*/	(XtWidgetProc)Resize,
-		/* expose		*/	(XtExposeProc)Redisplay,
-		/* set_values		*/	(XtSetValuesFunc)SetValues,
-		/* set_values_hook	*/	NULL,
-		/* set_values_almost	*/	XtInheritSetValuesAlmost,
-		/* get_values_hook	*/	NULL,
-		/* accept_focus		*/	NULL,
-		/* version		*/	XtVersion,
-		/* callback_private	*/	NULL,
-		/* tm_table		*/	defaultTranslations,
-		/* query_geometry       */	(XtGeometryHandler)
-							PreferredGeometry,
-		/* display_accelerator  */	XtInheritDisplayAccelerator,
-		/* extension            */	NULL
-	}, /* Core Part */
-	{
-		/* change_sensitive     */	XtInheritChangeSensitive
-	}
+XfwfMultiListClassRec xfwfMultiListClassRec = {
+    {
+        /* superclass            */ (WidgetClass)SUPERCLASS,
+        /* class_name            */ "XfwfMultiList",
+        /* widget_size           */ sizeof(XfwfMultiListRec),
+        /* class_initialize      */ NULL,
+        /* class_part_initialize */ NULL,
+        /* class_inited          */ FALSE,
+        /* initialize            */ (XtInitProc)Initialize,
+        /* initialize_hook       */ NULL,
+        /* realize               */ XtInheritRealize,
+        /* actions               */ actions,
+        /* num_actions           */ XtNumber(actions),
+        /* resources             */ resources,
+        /* resource_count        */ XtNumber(resources),
+        /* xrm_class             */ NULLQUARK,
+        /* compress_motion       */ TRUE,
+        /* compress_exposure     */ FALSE,
+        /* compress_enterleave   */ TRUE,
+        /* visible_interest      */ FALSE,
+        /* destroy               */ (XtWidgetProc)Destroy,
+        /* resize                */ (XtWidgetProc)Resize,
+        /* expose                */ (XtExposeProc)Redisplay,
+        /* set_values            */ (XtSetValuesFunc)SetValues,
+        /* set_values_hook       */ NULL,
+        /* set_values_almost     */ XtInheritSetValuesAlmost,
+        /* get_values_hook       */ NULL,
+        /* accept_focus          */ NULL,
+        /* version               */ XtVersion,
+        /* callback_private      */ NULL,
+        /* tm_table              */ defaultTranslations,
+        /* query_geometry        */ (XtGeometryHandler)PreferredGeometry,
+        /* display_accelerator   */ XtInheritDisplayAccelerator,
+        /* extension             */ NULL
+    }, /* Core Part */
+    {
+        /* change_sensitive      */ XtInheritChangeSensitive
+    }
 };
 
 WidgetClass xfwfMultiListWidgetClass = (WidgetClass)&xfwfMultiListClassRec;
@@ -405,22 +318,19 @@ WidgetClass xfwfMultiListWidgetClass = (WidgetClass)&xfwfMultiListClassRec;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Initialize(request,new)
-Widget request,new;
+static void Initialize(Widget request, Widget new)
 {
-	XfwfMultiListWidget mlw;
+    XfwfMultiListWidget mlw;
 
-	mlw = (XfwfMultiListWidget)new;
-	CreateNewGCs(mlw);
-	InitializeNewData(mlw);
-	MultiListTabs(mlw) = XfwfTablist2Tabs(MultiListTabList(mlw));
-	RecalcCoords(mlw,(MultiListWidth(mlw) == 0),
-		     (MultiListHeight(mlw) == 0));
+    mlw = (XfwfMultiListWidget)new;
+    CreateNewGCs(mlw);
+    InitializeNewData(mlw);
+    MultiListTabs(mlw) = XfwfTablist2Tabs(MultiListTabList(mlw));
+    RecalcCoords(mlw, (MultiListWidth(mlw) == 0), (MultiListHeight(mlw) == 0));
 } /* Initialize */
 
 /* [AB] 2000-07-19 Destroy list on exit */
-static void Destroy(mlw)
-XfwfMultiListWidget mlw;
+static void Destroy(XfwfMultiListWidget mlw)
 {
     DestroyOldData(mlw);
 } /* End Destroy */
@@ -435,48 +345,40 @@ XfwfMultiListWidget mlw;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Redisplay(mlw,event,rectangle_union)
-XfwfMultiListWidget mlw;
-XEvent *event;
-Region rectangle_union;
+static void Redisplay(XfwfMultiListWidget mlw, XEvent *event, Region rectangle_union)
 {
-	GC shade_gc;
-	int i,x1,y1,w,h,x2,y2,row,col,ul_row,ul_col,lr_row,lr_col;
+    GC shade_gc;
+    int i, x1, y1, w, h, x2, y2, row, col, ul_row, ul_col, lr_row, lr_col;
 
-	if (MultiListShadeSurplus(mlw))
-		shade_gc = MultiListGrayGC(mlw);
-	    else
-		shade_gc = MultiListEraseGC(mlw);
-	if (event == NULL)
-	{
-		XFillRectangle(XtDisplay(mlw),XtWindow(mlw),shade_gc,0,0,
-			       MultiListWidth(mlw),MultiListHeight(mlw));
-		for (i = 0; i < MultiListNumItems(mlw); i++) RedrawItem(mlw,i);
-	}
-	    else
-	{
-		x1 = event->xexpose.x;
-		y1 = event->xexpose.y;
-		w = event->xexpose.width;
-		h = event->xexpose.height;
-		x2 = x1 + w;
-		y2 = y1 + h;
-		XFillRectangle(XtDisplay(mlw),XtWindow(mlw),
-			       shade_gc,x1,y1,w,h);
-		PixelToRowColumn(mlw,x1,y1,&ul_row,&ul_col);
-		PixelToRowColumn(mlw,x2,y2,&lr_row,&lr_col);
-		lr_row = min(lr_row,MultiListNumRows(mlw) - 1);
-		lr_col = min(lr_col,MultiListNumCols(mlw) - 1);
-		for (col = ul_col; col <= lr_col; col++)
-		{
-			for (row = ul_row; row <= lr_row; row++)
-			{
-				RedrawRowColumn(mlw,row,col);
-			}
-		}
-	}
+    if (MultiListShadeSurplus(mlw)) {
+        shade_gc = MultiListGrayGC(mlw);
+    } else {
+        shade_gc = MultiListEraseGC(mlw);
+    }
+    if (event == NULL) {
+        XFillRectangle(XtDisplay(mlw), XtWindow(mlw), shade_gc, 0, 0, MultiListWidth(mlw), MultiListHeight(mlw));
+        for (i = 0; i < MultiListNumItems(mlw); i++) {
+            RedrawItem(mlw, i);
+        }
+    } else {
+        x1 = event->xexpose.x;
+        y1 = event->xexpose.y;
+        w = event->xexpose.width;
+        h = event->xexpose.height;
+        x2 = x1 + w;
+        y2 = y1 + h;
+        XFillRectangle(XtDisplay(mlw), XtWindow(mlw), shade_gc, x1, y1, w, h);
+        PixelToRowColumn(mlw, x1, y1, &ul_row, &ul_col);
+        PixelToRowColumn(mlw, x2, y2, &lr_row, &lr_col);
+        lr_row = min(lr_row, MultiListNumRows(mlw) - 1);
+        lr_col = min(lr_col, MultiListNumCols(mlw) - 1);
+        for (col = ul_col; col <= lr_col; col++) {
+            for (row = ul_row; row <= lr_row; row++) {
+                RedrawRowColumn(mlw, row, col);
+            }
+        }
+    }
 } /* End Redisplay */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -489,40 +391,42 @@ Region rectangle_union;
 
  *---------------------------------------------------------------------------*/
 
-static XtGeometryResult PreferredGeometry(mlw,parent_idea,our_idea)
-XfwfMultiListWidget mlw;
-XtWidgetGeometry *parent_idea,*our_idea;
+static XtGeometryResult PreferredGeometry(XfwfMultiListWidget mlw, XtWidgetGeometry *parent_idea, XtWidgetGeometry *our_idea)
 {
-	Dimension nw,nh;
-	Boolean parent_wants_w,parent_wants_h,we_changed_size;
+    Dimension nw,nh;
+    Boolean parent_wants_w, parent_wants_h, we_changed_size;
     
-	parent_wants_w = (parent_idea->request_mode) & CWWidth;
-	parent_wants_h = (parent_idea->request_mode) & CWHeight;
+    parent_wants_w = (parent_idea->request_mode) & CWWidth;
+    parent_wants_h = (parent_idea->request_mode) & CWHeight;
 
-	if (parent_wants_w)
-		nw = parent_idea->width;
-	    else
-		nw = MultiListWidth(mlw);
+    if (parent_wants_w) {
+        nw = parent_idea->width;
+    } else {
+        nw = MultiListWidth(mlw);
+    }
 
-	if (parent_wants_h)
-		nh = parent_idea->height;
-	    else
-		nh = MultiListHeight(mlw);
+    if (parent_wants_h) {
+        nh = parent_idea->height;
+    } else {
+        nh = MultiListHeight(mlw);
+    }
 
-	our_idea->request_mode = 0;
-	if (!parent_wants_w && !parent_wants_h) return(XtGeometryYes);
+    our_idea->request_mode = 0;
+    if (!parent_wants_w && !parent_wants_h) {
+        return XtGeometryYes;
+    }
 
-	we_changed_size = Layout(mlw,!parent_wants_w,!parent_wants_h,&nw,&nh);
-	our_idea->request_mode |= (CWWidth | CWHeight);
-	our_idea->width = nw;
-	our_idea->height = nh;
+    we_changed_size = Layout(mlw, !parent_wants_w, !parent_wants_h, &nw,&nh);
+    our_idea->request_mode |= (CWWidth | CWHeight);
+    our_idea->width = nw;
+    our_idea->height = nh;
 
-	if (we_changed_size)
-		return(XtGeometryAlmost);
-	    else
-		return(XtGeometryYes);
+    if (we_changed_size) {
+        return XtGeometryAlmost;
+    } else {
+        return XtGeometryYes;
+    }
 } /* End PreferredGeometry */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -533,16 +437,14 @@ XtWidgetGeometry *parent_idea,*our_idea;
 
  *---------------------------------------------------------------------------*/
 
-static void Resize(mlw)
-XfwfMultiListWidget mlw;
+static void Resize(XfwfMultiListWidget mlw)
 {
-	Dimension width,height;
+    Dimension width, height;
 
-	width = MultiListWidth(mlw);
-	height = MultiListHeight(mlw);
-	Layout(mlw,False,False,&width,&height);
+    width = MultiListWidth(mlw);
+    height = MultiListHeight(mlw);
+    Layout(mlw, False, False, &width, &height);
 } /* End Resize */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -557,102 +459,84 @@ XfwfMultiListWidget mlw;
  *---------------------------------------------------------------------------*/
 
 /*ARGSUSED*/
-static Boolean SetValues(cpl,rpl,npl)
-XfwfMultiListWidget cpl,rpl,npl;
+static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfMultiListWidget npl)
 {
-	Boolean redraw,recalc;
+    Boolean redraw,recalc;
 
-	redraw = False;
-	recalc = False;
+    redraw = False;
+    recalc = False;
 
-		/* Graphic Context Changes */
+    /* Graphic Context Changes */
 
-	if ((MultiListFG(cpl) != MultiListFG(npl)) ||
-	    (MultiListBG(cpl) != MultiListBG(npl)) ||
-	    (MultiListHighlightFG(cpl) != MultiListHighlightFG(npl)) ||
-	    (MultiListHighlightBG(cpl) != MultiListHighlightBG(npl)) ||
-	    (MultiListFont(cpl) != MultiListFont(npl)))
-	{
-		XtDestroyGC(MultiListEraseGC(cpl));
-		XtDestroyGC(MultiListDrawGC(cpl));
-		XtDestroyGC(MultiListHighlightForeGC(cpl));
-		XtDestroyGC(MultiListHighlightBackGC(cpl));
-		XtDestroyGC(MultiListGrayGC(cpl));
-		CreateNewGCs(npl);
-		redraw = True;
-	}
+    if ((MultiListFG(cpl) != MultiListFG(npl)) || (MultiListBG(cpl) != MultiListBG(npl)) ||
+        (MultiListHighlightFG(cpl) != MultiListHighlightFG(npl)) || (MultiListHighlightBG(cpl) != MultiListHighlightBG(npl)) ||
+        (MultiListFont(cpl) != MultiListFont(npl))) {
+        XtDestroyGC(MultiListEraseGC(cpl));
+        XtDestroyGC(MultiListDrawGC(cpl));
+        XtDestroyGC(MultiListHighlightForeGC(cpl));
+        XtDestroyGC(MultiListHighlightBackGC(cpl));
+        XtDestroyGC(MultiListGrayGC(cpl));
+        CreateNewGCs(npl);
+        redraw = True;
+    }
 
-		/* Changes That Require Redraw */
+    /* Changes That Require Redraw */
 
-	if ((MultiListSensitive(cpl) != MultiListSensitive(npl)) ||
-	    (MultiListAncesSensitive(cpl) != MultiListAncesSensitive(npl)))
-	{
-		redraw = True;
-	}
+    if ((MultiListSensitive(cpl) != MultiListSensitive(npl)) || (MultiListAncesSensitive(cpl) != MultiListAncesSensitive(npl))) {
+        redraw = True;
+    }
 
-		/* Changes That Require Selection Changes */
+    /* Changes That Require Selection Changes */
 
-	if ((MultiListMaxSelectable(cpl) != MultiListMaxSelectable(npl)))
-	{
-		XtWarning("Dynamic change to maxSelectable unimplemented");
-	}
+    if ((MultiListMaxSelectable(cpl) != MultiListMaxSelectable(npl))) {
+        XtWarning("Dynamic change to maxSelectable unimplemented");
+    }
 
-		/* Changes That Require Data Initialization */
+    /* Changes That Require Data Initialization */
 
-	if ((MultiListList(cpl) != MultiListList(npl)) ||
-	    (MultiListNumItems(cpl) != MultiListNumItems(npl)) ||
-	    (MultiListSensitiveArray(cpl) != MultiListSensitiveArray(npl)))
-	{
-		DestroyOldData(cpl);
-		InitializeNewData(npl);
-		recalc = True;
-		redraw = True;
-	}
+    if ((MultiListList(cpl) != MultiListList(npl)) || (MultiListNumItems(cpl) != MultiListNumItems(npl)) || (MultiListSensitiveArray(cpl) != MultiListSensitiveArray(npl))) {
+        DestroyOldData(cpl);
+        InitializeNewData(npl);
+        recalc = True;
+        redraw = True;
+    }
 
-	if (MultiListTabList(cpl) != MultiListTabList(npl))
-	{
-		if (MultiListTabs(cpl))
-			XtFree( (char *) MultiListTabs(cpl));
-		MultiListTabs(npl) = XfwfTablist2Tabs(MultiListTabList(npl));
-	}
+    if (MultiListTabList(cpl) != MultiListTabList(npl)) {
+        if (MultiListTabs(cpl)) {
+            XtFree((char *)MultiListTabs(cpl));
+        }
+        MultiListTabs(npl) = XfwfTablist2Tabs(MultiListTabList(npl));
+    }
 
-		/* Changes That Require Recalculating Coordinates */
+    /* Changes That Require Recalculating Coordinates */
 
-	if ((MultiListWidth(cpl) != MultiListWidth(npl)) ||
-	    (MultiListHeight(cpl) != MultiListHeight(npl)) ||
-	    (MultiListColumnSpace(cpl) != MultiListColumnSpace(npl)) ||
-	    (MultiListRowSpace(cpl) != MultiListRowSpace(npl)) ||
-	    (MultiListDefaultCols(cpl) != MultiListDefaultCols(npl)) ||
-	    ((MultiListForceCols(cpl) != MultiListForceCols(npl)) &&
-	     (MultiListNumCols(cpl) != MultiListNumCols(npl))) ||
-	    (MultiListRowMajor(cpl) != MultiListRowMajor(npl)) ||
-	    (MultiListFont(cpl) != MultiListFont(npl)) ||
-	    (MultiListLongest(cpl) != MultiListLongest(npl)))
-	{
-		recalc = True;
-		redraw = True;
-	}
+    if ((MultiListWidth(cpl) != MultiListWidth(npl)) || (MultiListHeight(cpl) != MultiListHeight(npl)) ||
+        (MultiListColumnSpace(cpl) != MultiListColumnSpace(npl)) || (MultiListRowSpace(cpl) != MultiListRowSpace(npl)) ||
+        (MultiListDefaultCols(cpl) != MultiListDefaultCols(npl)) || ((MultiListForceCols(cpl) != MultiListForceCols(npl)) &&
+        (MultiListNumCols(cpl) != MultiListNumCols(npl))) || (MultiListRowMajor(cpl) != MultiListRowMajor(npl)) ||
+        (MultiListFont(cpl) != MultiListFont(npl)) || (MultiListLongest(cpl) != MultiListLongest(npl))) {
+        recalc = True;
+        redraw = True;
+    }
 
-	if (MultiListColWidth(cpl) != MultiListColWidth(npl))
-	{
-		XtWarning("columnWidth Resource Is Read-Only");
-		MultiListColWidth(npl) = MultiListColWidth(cpl);
-	}
-	if (MultiListRowHeight(cpl) != MultiListRowHeight(npl))
-	{
-		XtWarning("rowHeight Resource Is Read-Only");
-		MultiListRowHeight(npl) = MultiListRowHeight(cpl);
-	}
+    if (MultiListColWidth(cpl) != MultiListColWidth(npl)) {
+        XtWarning("columnWidth Resource Is Read-Only");
+        MultiListColWidth(npl) = MultiListColWidth(cpl);
+    }
+    if (MultiListRowHeight(cpl) != MultiListRowHeight(npl)) {
+        XtWarning("rowHeight Resource Is Read-Only");
+        MultiListRowHeight(npl) = MultiListRowHeight(cpl);
+    }
 
-	if (recalc)
-	{
-		RecalcCoords(npl,!MultiListWidth(npl),!MultiListHeight(npl));
-	}
-    
-	if (!XtIsRealized((Widget)cpl))
-		return(False);
-	    else
-		return(redraw);
+    if (recalc) {
+        RecalcCoords(npl, !MultiListWidth(npl), !MultiListHeight(npl));
+    }
+
+    if (!XtIsRealized((Widget)cpl)) {
+        return False;
+    } else {
+        return redraw;
+    }
 } /* End SetValues */
 
 /*===========================================================================*
@@ -672,27 +556,24 @@ XfwfMultiListWidget cpl,rpl,npl;
 
  *---------------------------------------------------------------------------*/
 
-static void DestroyOldData(mlw)
-XfwfMultiListWidget mlw;
+static void DestroyOldData(XfwfMultiListWidget mlw)
 {
-	int i;
+    int i;
 
-	if (MultiListItemArray(mlw) != NULL)	/* Free Old List */
-	{
-		for (i = 0; i < MultiListNumItems(mlw); i++)
-		{
-			lib_free(MultiListItemString(MultiListNthItem(mlw,i)));
-		}
-		lib_free((char *)MultiListItemArray(mlw));
-	}
-	if (MultiListSelArray(mlw) != NULL)
-	    lib_free((char *)MultiListSelArray(mlw));
-	MultiListSelArray(mlw) = NULL;
-	MultiListNumSelected(mlw) = 0;
-	MultiListItemArray(mlw) = NULL;
-	MultiListNumItems(mlw) = 0;
+    if (MultiListItemArray(mlw) != NULL) {
+        for (i = 0; i < MultiListNumItems(mlw); i++) {
+            lib_free(MultiListItemString(MultiListNthItem(mlw, i)));
+        }
+        lib_free((char *)MultiListItemArray(mlw));
+    }
+    if (MultiListSelArray(mlw) != NULL) {
+        lib_free((char *)MultiListSelArray(mlw));
+    }
+    MultiListSelArray(mlw) = NULL;
+    MultiListNumSelected(mlw) = 0;
+    MultiListItemArray(mlw) = NULL;
+    MultiListNumItems(mlw) = 0;
 } /* End DestroyOldData */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -712,68 +593,52 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-static void InitializeNewData(mlw)
-XfwfMultiListWidget mlw;
+static void InitializeNewData(XfwfMultiListWidget mlw)
 {
-	int i;
-	XfwfMultiListItem *item;
-	String *string_array;
+    int i;
+    XfwfMultiListItem *item;
+    String *string_array;
 
-	string_array = MultiListList(mlw);
-	if (string_array == NULL) MultiListNumItems(mlw) = 0;
+    string_array = MultiListList(mlw);
+    if (string_array == NULL) {
+        MultiListNumItems(mlw) = 0;
+    }
 
-	if (MultiListNumItems(mlw) == 0)		/* Count Elements */
-	{
-		if (string_array == NULL)		/* No elements */
-		{
-			MultiListNumItems(mlw) = 0;
-		}
-		    else
-		{
-			for (i = 0; string_array[i] != NULL; i++);
-			MultiListNumItems(mlw) = i;
-		}
-	}
-	if (MultiListNumItems(mlw) == 0)		/* No Items */
-	{
-		MultiListItemArray(mlw) = NULL;
-	}
-	    else
-	{
-		MultiListItemArray(mlw) =
-			TypeAlloc(XfwfMultiListItem,MultiListNumItems(mlw));
-		for (i = 0; i < MultiListNumItems(mlw); i++)
-		{
-			item = MultiListNthItem(mlw,i);
-			if (MultiListSensitiveArray(mlw) == NULL ||
-			    (MultiListSensitiveArray(mlw)[i] == True))
-			{
-				MultiListItemSensitive(item) = True;
-			}
-			    else
-			{
-				MultiListItemSensitive(item) = False;
-			}
-			MultiListItemString(item) = StrCopy(string_array[i]);
-			MultiListItemHighlighted(item) = False;
-		}
-	}
-	if (MultiListMaxSelectable(mlw) == 0)
-	{
-		MultiListSelArray(mlw) = NULL;
-		MultiListNumSelected(mlw) = 0;
-	}
-	    else
-	{
-		MultiListSelArray(mlw) =
-			TypeAlloc(int,MultiListMaxSelectable(mlw));
-		MultiListNumSelected(mlw) = 0;
-	}
+    if (MultiListNumItems(mlw) == 0) {
+        if (string_array == NULL) {
+            MultiListNumItems(mlw) = 0;
+        } else {
+            for (i = 0; string_array[i] != NULL; i++) {
+            }
+            MultiListNumItems(mlw) = i;
+        }
+    }
+    if (MultiListNumItems(mlw) == 0) {
+        MultiListItemArray(mlw) = NULL;
+    } else {
+        MultiListItemArray(mlw) = TypeAlloc(XfwfMultiListItem, MultiListNumItems(mlw));
+        for (i = 0; i < MultiListNumItems(mlw); i++) {
+            item = MultiListNthItem(mlw, i);
+            if (MultiListSensitiveArray(mlw) == NULL || (MultiListSensitiveArray(mlw)[i] == True)) {
+                MultiListItemSensitive(item) = True;
+            } else {
+                MultiListItemSensitive(item) = False;
+            }
+            MultiListItemString(item) = StrCopy(string_array[i]);
+	      MultiListItemHighlighted(item) = False;
+        }
+    }
+    if (MultiListMaxSelectable(mlw) == 0) {
+        MultiListSelArray(mlw) = NULL;
+        MultiListNumSelected(mlw) = 0;
+    } else {
+        MultiListSelArray(mlw) = TypeAlloc(int, MultiListMaxSelectable(mlw));
+        MultiListNumSelected(mlw) = 0;
+    }
 
-	MultiListList(mlw) = NULL;
-	MultiListSensitiveArray(mlw) = NULL;
+    MultiListList(mlw) = NULL;
+    MultiListSensitiveArray(mlw) = NULL;
 } /* End InitializeNewData */
-		
 
 /*---------------------------------------------------------------------------*
 
@@ -786,36 +651,34 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-static void CreateNewGCs(mlw)
-XfwfMultiListWidget mlw;
+static void CreateNewGCs(XfwfMultiListWidget mlw)
 {
-	XGCValues values;
-	unsigned int attribs;
+    XGCValues values;
+    unsigned int attribs;
 
-	attribs = GCForeground | GCBackground | GCFont;
-	values.foreground = MultiListFG(mlw);
-	values.background = MultiListBG(mlw);
-	values.font = MultiListFont(mlw)->fid;
-	MultiListDrawGC(mlw) = XtGetGC((Widget)mlw,attribs,&values);
+    attribs = GCForeground | GCBackground | GCFont;
+    values.foreground = MultiListFG(mlw);
+    values.background = MultiListBG(mlw);
+    values.font = MultiListFont(mlw)->fid;
+    MultiListDrawGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
 
-	values.foreground = MultiListBG(mlw);
-	MultiListEraseGC(mlw) = XtGetGC((Widget)mlw,attribs,&values);
+    values.foreground = MultiListBG(mlw);
+    MultiListEraseGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
 
-	values.foreground = MultiListHighlightFG(mlw);
-	values.background = MultiListHighlightBG(mlw);
-	MultiListHighlightForeGC(mlw) = XtGetGC((Widget)mlw,attribs,&values);
+    values.foreground = MultiListHighlightFG(mlw);
+    values.background = MultiListHighlightBG(mlw);
+    MultiListHighlightForeGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
 
-	values.foreground = MultiListHighlightBG(mlw);
-	values.background = MultiListHighlightBG(mlw);
-	MultiListHighlightBackGC(mlw) = XtGetGC((Widget)mlw,attribs,&values);
+    values.foreground = MultiListHighlightBG(mlw);
+    values.background = MultiListHighlightBG(mlw);
+    MultiListHighlightBackGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
 
-	attribs |= GCTile | GCFillStyle;
-	values.foreground = MultiListFG(mlw);
-	values.background = MultiListBG(mlw);
-	values.fill_style = FillTiled;
-	values.tile = XmuCreateStippledPixmap(XtScreen(mlw),MultiListFG(mlw),
-					      MultiListBG(mlw),MultiListDepth(mlw));
-	MultiListGrayGC(mlw) = XtGetGC((Widget)mlw,attribs,&values);
+    attribs |= GCTile | GCFillStyle;
+    values.foreground = MultiListFG(mlw);
+    values.background = MultiListBG(mlw);
+    values.fill_style = FillTiled;
+    values.tile = XmuCreateStippledPixmap(XtScreen(mlw), MultiListFG(mlw), MultiListBG(mlw), MultiListDepth(mlw));
+    MultiListGrayGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
 } /* End CreateNewGCs */
 
 /*===========================================================================*
@@ -838,39 +701,25 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-#if NeedFunctionPrototypes
-static void
-RecalcCoords(XfwfMultiListWidget mlw,
-	     Boolean width_changeable, Boolean height_changeable)
-#else
-static void
-RecalcCoords(mlw,width_changeable,height_changeable)
-XfwfMultiListWidget mlw;
-Boolean width_changeable,height_changeable;
-#endif
+static void RecalcCoords(XfwfMultiListWidget mlw, Boolean width_changeable, Boolean height_changeable)
 {
-	String str;
-	Dimension width,height;
-	register int i,text_width;
+    String str;
+    Dimension width, height;
+    register int i, text_width;
 
-	width = MultiListWidth(mlw);
-	height = MultiListHeight(mlw);
-	if (MultiListNumItems(mlw) != 0 && MultiListLongest(mlw) == 0)
-	{
-		for (i = 0; i < MultiListNumItems(mlw); i++)
-		{
-			str = MultiListItemString(MultiListNthItem(mlw,i));
-			text_width = FontW(MultiListFont(mlw),str,mlw);
-			MultiListLongest(mlw) = max(MultiListLongest(mlw),
-						    text_width);
-		}
-	}
-	if (Layout(mlw,width_changeable,height_changeable,&width,&height))
-	{
-		NegotiateSizeChange(mlw,width,height);
-	}
+    width = MultiListWidth(mlw);
+    height = MultiListHeight(mlw);
+    if (MultiListNumItems(mlw) != 0 && MultiListLongest(mlw) == 0) {
+        for (i = 0; i < MultiListNumItems(mlw); i++) {
+            str = MultiListItemString(MultiListNthItem(mlw, i));
+            text_width = FontW(MultiListFont(mlw), str, mlw);
+            MultiListLongest(mlw) = max(MultiListLongest(mlw), text_width);
+        }
+    }
+    if (Layout(mlw, width_changeable, height_changeable, &width, &height)) {
+        NegotiateSizeChange(mlw, width, height);
+    }
 } /* End RecalcCoords */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -883,61 +732,48 @@ Boolean width_changeable,height_changeable;
 
  *---------------------------------------------------------------------------*/
 
-#if NeedFunctionPrototypes
-static void
-NegotiateSizeChange(XfwfMultiListWidget mlw, Dimension width, Dimension height)
-#else
-static void
-NegotiateSizeChange(mlw,width,height)
-XfwfMultiListWidget mlw;
-Dimension width,height;
-#endif
+static void NegotiateSizeChange(XfwfMultiListWidget mlw, Dimension width, Dimension height)
 {
-	int attempt_number;
-	Boolean w_fixed,h_fixed;
-	Dimension *w_ptr,*h_ptr;
+    int attempt_number;
+    Boolean w_fixed, h_fixed;
+    Dimension *w_ptr, *h_ptr;
 	
-	XtWidgetGeometry request,reply;
+    XtWidgetGeometry request, reply;
 
-	request.request_mode = CWWidth | CWHeight;
-	request.width = width;
-	request.height = height;
+    request.request_mode = CWWidth | CWHeight;
+    request.width = width;
+    request.height = height;
     
-	for (attempt_number = 1; attempt_number <= 3; attempt_number++)
-	{
-		switch (XtMakeGeometryRequest((Widget)mlw,&request,&reply))
-		{
-		    case XtGeometryYes:
-		    case XtGeometryNo:
-			return;
-		    case XtGeometryAlmost:
-			switch (attempt_number)
-			{
-			    case 1:
-				w_fixed = (request.width != reply.width);
-				h_fixed = (request.height != reply.height);
-				w_ptr = &(reply.width);
-				h_ptr = &(reply.height);
-				Layout(mlw,!w_fixed,!h_fixed,w_ptr,h_ptr);
-				break;
-			    case 2:
-				w_ptr = &(reply.width);
-				h_ptr = &(reply.height);
-				Layout(mlw,False,False,w_ptr,h_ptr);
-				break;
-			    case 3:
-				return;
-			}
-			break;
-		    default:
-			XtAppWarning(XtWidgetToApplicationContext((Widget)mlw),
-				"MultiList Widget: Unknown geometry return.");
-			break;
-		}
-		request = reply;
-	}
+    for (attempt_number = 1; attempt_number <= 3; attempt_number++) {
+        switch (XtMakeGeometryRequest((Widget)mlw, &request, &reply)) {
+            case XtGeometryYes:
+            case XtGeometryNo:
+                return;
+            case XtGeometryAlmost:
+                switch (attempt_number) {
+                    case 1:
+                        w_fixed = (request.width != reply.width);
+                        h_fixed = (request.height != reply.height);
+                        w_ptr = &(reply.width);
+                        h_ptr = &(reply.height);
+                        Layout(mlw, !w_fixed, !h_fixed, w_ptr, h_ptr);
+                        break;
+                    case 2:
+                        w_ptr = &(reply.width);
+                        h_ptr = &(reply.height);
+                        Layout(mlw, False, False, w_ptr, h_ptr);
+                        break;
+                    case 3:
+                        return;
+                }
+                break;
+            default:
+                XtAppWarning(XtWidgetToApplicationContext((Widget)mlw), "MultiList Widget: Unknown geometry return.");
+                break;
+        }
+        request = reply;
+    }
 } /* End NegotiateSizeChange */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -954,110 +790,85 @@ Dimension width,height;
 
  *---------------------------------------------------------------------------*/
 
-#if NeedFunctionPrototypes
-static Boolean
-Layout(XfwfMultiListWidget mlw, Boolean w_changeable, Boolean h_changeable,
-       Dimension *w_ptr, Dimension *h_ptr)
-#else
-static Boolean
-Layout(mlw,w_changeable,h_changeable,w_ptr,h_ptr)
-XfwfMultiListWidget mlw;
-Boolean w_changeable,h_changeable;
-Dimension *w_ptr,*h_ptr;
-#endif
+static Boolean Layout(XfwfMultiListWidget mlw, Boolean w_changeable, Boolean h_changeable, Dimension *w_ptr, Dimension *h_ptr)
 {
-	Boolean size_changed = False;
+    Boolean size_changed = False;
 
-	/*
-	 * If force columns is set, then always use the number
-	 * of columns specified by default_cols.
-	 */
+    /*
+     * If force columns is set, then always use the number
+     * of columns specified by default_cols.
+     */
 
-	MultiListColWidth(mlw) = MultiListLongest(mlw) +
-		MultiListColumnSpace(mlw);
-	MultiListRowHeight(mlw) = FontH(MultiListFont(mlw)) +
-		MultiListRowSpace(mlw);
-	if (MultiListForceCols(mlw))
-	{
-		MultiListNumCols(mlw) = max(MultiListDefaultCols(mlw),1);
-		if (MultiListNumItems(mlw) == 0)
-			MultiListNumRows(mlw) = 1;
-		    else
-			MultiListNumRows(mlw) = (MultiListNumItems(mlw) - 1) /
-				MultiListNumCols(mlw) + 1;
-		if (w_changeable)
-		{
-			*w_ptr = MultiListNumCols(mlw) *
-				MultiListColWidth(mlw);
-			size_changed = True;
-		}
-		    else
-		{
-			MultiListColWidth(mlw) = *w_ptr /
-				(Dimension)MultiListNumCols(mlw);
-		}
-		if (h_changeable)
-		{
-			*h_ptr = MultiListNumRows(mlw) *
-				MultiListRowHeight(mlw);
-			size_changed = True;
-		}
-		return(size_changed);
-	}
+    MultiListColWidth(mlw) = MultiListLongest(mlw) + MultiListColumnSpace(mlw);
+    MultiListRowHeight(mlw) = FontH(MultiListFont(mlw)) + MultiListRowSpace(mlw);
+    if (MultiListForceCols(mlw)) {
+        MultiListNumCols(mlw) = max(MultiListDefaultCols(mlw), 1);
+        if (MultiListNumItems(mlw) == 0) {
+            MultiListNumRows(mlw) = 1;
+        } else {
+            MultiListNumRows(mlw) = (MultiListNumItems(mlw) - 1) / MultiListNumCols(mlw) + 1;
+        }
+        if (w_changeable) {
+            *w_ptr = MultiListNumCols(mlw) * MultiListColWidth(mlw);
+            size_changed = True;
+        } else {
+            MultiListColWidth(mlw) = *w_ptr / (Dimension)MultiListNumCols(mlw);
+        }
+        if (h_changeable) {
+            *h_ptr = MultiListNumRows(mlw) * MultiListRowHeight(mlw);
+            size_changed = True;
+        }
+        return size_changed;
+    }
 
-	/*
-	 * If both width and height are free to change then use
-	 * default_cols to determine the number of columns and set
-	 * the new width and height to just fit the window.
-	 */
+    /*
+     * If both width and height are free to change then use
+     * default_cols to determine the number of columns and set
+     * the new width and height to just fit the window.
+     */
 
-	if (w_changeable && h_changeable)
-	{
-		MultiListNumCols(mlw) = max(MultiListDefaultCols(mlw),1);
-		if (MultiListNumItems(mlw) == 0)
-			MultiListNumRows(mlw) = 1;
-		    else
-			MultiListNumRows(mlw) = (MultiListNumItems(mlw) - 1) /
-				MultiListNumCols(mlw) + 1;
-		*w_ptr = MultiListNumCols(mlw) * MultiListColWidth(mlw);
-		*h_ptr = MultiListNumRows(mlw) * MultiListRowHeight(mlw);
-		return(True);
-	}
+    if (w_changeable && h_changeable) {
+        MultiListNumCols(mlw) = max(MultiListDefaultCols(mlw), 1);
+        if (MultiListNumItems(mlw) == 0) {
+            MultiListNumRows(mlw) = 1;
+        } else {
+            MultiListNumRows(mlw) = (MultiListNumItems(mlw) - 1) / MultiListNumCols(mlw) + 1;
+        }
+        *w_ptr = MultiListNumCols(mlw) * MultiListColWidth(mlw);
+        *h_ptr = MultiListNumRows(mlw) * MultiListRowHeight(mlw);
+        return True;
+    }
 
-	/*
-	 * If the width is fixed then use it to determine the
-	 * number of columns.  If the height is free to move
-	 * (width still fixed) then resize the height of the
-	 * widget to fit the current MultiList exactly.
-	 */
+    /*
+     * If the width is fixed then use it to determine the
+     * number of columns.  If the height is free to move
+     * (width still fixed) then resize the height of the
+     * widget to fit the current MultiList exactly.
+     */
 
-	if (!w_changeable)
-	{
-		MultiListNumCols(mlw) = *w_ptr / MultiListColWidth(mlw);
-		MultiListNumCols(mlw) = max(MultiListNumCols(mlw),1);
-		MultiListNumRows(mlw) = (MultiListNumItems(mlw) - 1) /
-			MultiListNumCols(mlw) + 1;
-		MultiListColWidth(mlw) = *w_ptr / (Dimension)MultiListNumCols(mlw);
-		if (h_changeable)
-		{
-			*h_ptr = MultiListNumRows(mlw) * MultiListRowHeight(mlw);
-			size_changed = True;
-		}
-		return(size_changed);
-	}
+    if (!w_changeable) {
+        MultiListNumCols(mlw) = *w_ptr / MultiListColWidth(mlw);
+        MultiListNumCols(mlw) = max(MultiListNumCols(mlw),1);
+        MultiListNumRows(mlw) = (MultiListNumItems(mlw) - 1) / MultiListNumCols(mlw) + 1;
+        MultiListColWidth(mlw) = *w_ptr / (Dimension)MultiListNumCols(mlw);
+        if (h_changeable) {
+            *h_ptr = MultiListNumRows(mlw) * MultiListRowHeight(mlw);
+            size_changed = True;
+        }
+        return size_changed;
+    }
 
-	/*
-	 * The last case is xfree and !yfree we use the height to
-	 * determine the number of rows and then set the width to
-	 * just fit the resulting number of columns.
-	 */
+    /*
+     * The last case is xfree and !yfree we use the height to
+     * determine the number of rows and then set the width to
+     * just fit the resulting number of columns.
+     */
 
-	MultiListNumRows(mlw) = *h_ptr / MultiListRowHeight(mlw);
-	MultiListNumRows(mlw) = max(MultiListNumRows(mlw),1);
-	MultiListNumCols(mlw) = (MultiListNumItems(mlw) - 1) /
-		MultiListNumRows(mlw) + 1;
-	*w_ptr = MultiListNumCols(mlw) * MultiListColWidth(mlw);
-	return(True);
+    MultiListNumRows(mlw) = *h_ptr / MultiListRowHeight(mlw);
+    MultiListNumRows(mlw) = max(MultiListNumRows(mlw),1);
+    MultiListNumCols(mlw) = (MultiListNumItems(mlw) - 1) / MultiListNumRows(mlw) + 1;
+    *w_ptr = MultiListNumCols(mlw) * MultiListColWidth(mlw);
+    return True;
 } /* End Layout */
 
 /*===========================================================================*
@@ -1075,10 +886,9 @@ Dimension *w_ptr,*h_ptr;
 
  *---------------------------------------------------------------------------*/
 
-static void RedrawAll(mlw)
-XfwfMultiListWidget mlw;
+static void RedrawAll(XfwfMultiListWidget mlw)
 {
-	Redisplay(mlw,NULL,NULL);
+    Redisplay(mlw, NULL, NULL);
 } /* End RedrawAll */
 
 
@@ -1091,18 +901,14 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-static void RedrawItem(mlw,item_index)
-XfwfMultiListWidget mlw;
-int item_index;
+static void RedrawItem(XfwfMultiListWidget mlw, int item_index)
 {
-	int row = 0,column = 0;
+    int row = 0, column = 0;
 
-	if (ItemToRowColumn(mlw,item_index,&row,&column))
-	{
-		RedrawRowColumn(mlw,row,column);
-	}
+    if (ItemToRowColumn(mlw, item_index, &row, &column)) {
+        RedrawRowColumn(mlw,row,column);
+    }
 } /* End RedrawItem */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1115,69 +921,51 @@ int item_index;
 
  *---------------------------------------------------------------------------*/
 
-static void RedrawRowColumn(mlw,row,column)
-XfwfMultiListWidget mlw;
-int row,column;
+static void RedrawRowColumn(XfwfMultiListWidget mlw, int row, int column)
 {
-	GC bg_gc, fg_gc = 0;
-	XfwfMultiListItem *item = NULL;
-	int ul_x,ul_y,str_x,str_y,w,h,item_index = 0,has_item,text_h;
+    GC bg_gc, fg_gc = 0;
+    XfwfMultiListItem *item = NULL;
+    int ul_x, ul_y, str_x, str_y, w, h, item_index = 0, has_item, text_h;
 
-	if (!XtIsRealized((Widget)mlw)) return;
-	has_item = RowColumnToItem(mlw,row,column,&item_index);
-	RowColumnToPixels(mlw,row,column,&ul_x,&ul_y,&w,&h);
+    if (!XtIsRealized((Widget)mlw)) {
+        return;
+    }
+    has_item = RowColumnToItem(mlw, row, column, &item_index);
+    RowColumnToPixels(mlw, row, column, &ul_x, &ul_y, &w, &h);
 
-	if (has_item == False)					/* No Item */
-	{
-		if (MultiListShadeSurplus(mlw))
-			bg_gc = MultiListGrayGC(mlw);
-		    else
-			bg_gc = MultiListEraseGC(mlw);
-	}
-	    else
-	{
-		item = MultiListNthItem(mlw,item_index);
-		if ((!MultiListSensitive(mlw)) ||
-		    (!MultiListItemSensitive(item)))	/* Insensitive */
-		{
-		        if (MultiListItemHighlighted(item))	/* Selected */
-			{
-				bg_gc = MultiListGrayGC(mlw);
-				fg_gc = MultiListEraseGC(mlw);
-			}
-			    else				/* !Selected */
-			{
-				bg_gc = MultiListEraseGC(mlw);
-				fg_gc = MultiListGrayGC(mlw);
-			}
-		}
-		    else				/* Sensitive */
-		{
-		        if (MultiListItemHighlighted(item))	/* Selected */
-			{
-				bg_gc = MultiListHighlightBackGC(mlw);
-				fg_gc = MultiListHighlightForeGC(mlw);
-			}
-			    else				/* !Selected */
-			{
-				bg_gc = MultiListEraseGC(mlw);
-				fg_gc = MultiListDrawGC(mlw);
-			}
-		}
-	}
-	XFillRectangle(XtDisplay(mlw),XtWindow(mlw),bg_gc,ul_x,ul_y,w,h);
-	if (has_item == True)
-	{
-		text_h = min(FontH(MultiListFont(mlw)) +
-			     (int)MultiListRowSpace(mlw),(int)MultiListRowHeight(mlw));
-		str_x = ul_x + MultiListColumnSpace(mlw) / 2;
-		str_y = ul_y + FontAscent(MultiListFont(mlw)) +
-			((int)MultiListRowHeight(mlw) - text_h) / 2;
-		XfwfDrawString(XtDisplay(mlw),XtWindow(mlw),fg_gc,
-			    str_x,str_y,MultiListItemString(item),
-			    strlen(MultiListItemString(item)),
-				MultiListTabs(mlw));
-	}
+    if (has_item == False) {
+        if (MultiListShadeSurplus(mlw)) {
+            bg_gc = MultiListGrayGC(mlw);
+        } else {
+            bg_gc = MultiListEraseGC(mlw);
+        }
+    } else {
+        item = MultiListNthItem(mlw,item_index);
+        if ((!MultiListSensitive(mlw)) || (!MultiListItemSensitive(item))) {
+            if (MultiListItemHighlighted(item)) {
+                bg_gc = MultiListGrayGC(mlw);
+                fg_gc = MultiListEraseGC(mlw);
+            } else {
+                bg_gc = MultiListEraseGC(mlw);
+                fg_gc = MultiListGrayGC(mlw);
+            }
+        } else {
+            if (MultiListItemHighlighted(item))	{
+                bg_gc = MultiListHighlightBackGC(mlw);
+                fg_gc = MultiListHighlightForeGC(mlw);
+            } else {
+                bg_gc = MultiListEraseGC(mlw);
+                fg_gc = MultiListDrawGC(mlw);
+            }
+        }
+    }
+    XFillRectangle(XtDisplay(mlw), XtWindow(mlw), bg_gc, ul_x, ul_y, w, h);
+    if (has_item == True) {
+        text_h = min(FontH(MultiListFont(mlw)) + (int)MultiListRowSpace(mlw), (int)MultiListRowHeight(mlw));
+        str_x = ul_x + MultiListColumnSpace(mlw) / 2;
+        str_y = ul_y + FontAscent(MultiListFont(mlw)) + ((int)MultiListRowHeight(mlw) - text_h) / 2;
+        XfwfDrawString(XtDisplay(mlw),XtWindow(mlw), fg_gc, str_x, str_y, MultiListItemString(item), strlen(MultiListItemString(item)), MultiListTabs(mlw));
+    }
 } /* End RedrawRowColumn */
 	
 /*===========================================================================*
@@ -1202,12 +990,10 @@ int row,column;
 
  *---------------------------------------------------------------------------*/
 
-static void PixelToRowColumn(mlw,x,y,row_ptr,column_ptr)
-XfwfMultiListWidget mlw;
-int x,y,*row_ptr,*column_ptr;
+static void PixelToRowColumn(XfwfMultiListWidget mlw, int x, int y, int *row_ptr, int *column_ptr)
 {
-	*row_ptr = y / (int)MultiListRowHeight(mlw);
-	*column_ptr = x / (int)MultiListColWidth(mlw);
+    *row_ptr = y / (int)MultiListRowHeight(mlw);
+    *column_ptr = x / (int)MultiListColWidth(mlw);
 } /* End PixelToRowColumn */
 
 /*---------------------------------------------------------------------------*
@@ -1219,14 +1005,12 @@ int x,y,*row_ptr,*column_ptr;
 
  *---------------------------------------------------------------------------*/
 
-static void RowColumnToPixels(mlw,row,col,x_ptr,y_ptr,w_ptr,h_ptr)
-XfwfMultiListWidget mlw;
-int row,col,*x_ptr,*y_ptr,*w_ptr,*h_ptr;
+static void RowColumnToPixels(XfwfMultiListWidget mlw, int row, int col, int *x_ptr, int *y_ptr, int *w_ptr, int *h_ptr)
 {
-	*x_ptr = col * MultiListColWidth(mlw);
-	*y_ptr = row * MultiListRowHeight(mlw);
-	*w_ptr = MultiListColWidth(mlw);
-	*h_ptr = MultiListRowHeight(mlw);
+    *x_ptr = col * MultiListColWidth(mlw);
+    *y_ptr = row * MultiListRowHeight(mlw);
+    *w_ptr = MultiListColWidth(mlw);
+    *h_ptr = MultiListRowHeight(mlw);
 } /* End RowColumnToPixels */
 
 /*---------------------------------------------------------------------------*
@@ -1241,34 +1025,27 @@ int row,col,*x_ptr,*y_ptr,*w_ptr,*h_ptr;
 
  *---------------------------------------------------------------------------*/
 
-static Boolean RowColumnToItem(mlw,row,column,item_ptr)
-XfwfMultiListWidget mlw;
-int row,column,*item_ptr;
+static Boolean RowColumnToItem(XfwfMultiListWidget mlw, int row, int column, int *item_ptr)
 {
-	register int x_stride,y_stride;
+    register int x_stride,y_stride;
 
-	if (row < 0 || row >= MultiListNumRows(mlw) ||
-	    column < 0 || column >= MultiListNumCols(mlw))
-	{
-		return(False);
-	}
-	if (MultiListRowMajor(mlw))
-	{
-		x_stride = 1;
-		y_stride = MultiListNumCols(mlw);
-	}
-	    else
-	{
-		x_stride = MultiListNumRows(mlw);
-		y_stride = 1;
-	}
-	*item_ptr = row * y_stride + column * x_stride;
-	if (*item_ptr >= MultiListNumItems(mlw))
-		return(False);
-	    else
-		return(True);
+    if (row < 0 || row >= MultiListNumRows(mlw) || column < 0 || column >= MultiListNumCols(mlw)) {
+        return False;
+    }
+    if (MultiListRowMajor(mlw)) {
+        x_stride = 1;
+        y_stride = MultiListNumCols(mlw);
+    } else {
+        x_stride = MultiListNumRows(mlw);
+        y_stride = 1;
+    }
+    *item_ptr = row * y_stride + column * x_stride;
+    if (*item_ptr >= MultiListNumItems(mlw)) {
+        return False;
+    } else {
+        return True;
+    }
 } /* End RowColumnToItem */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1282,25 +1059,19 @@ int row,column,*item_ptr;
 
  *---------------------------------------------------------------------------*/
 
-static Boolean ItemToRowColumn(mlw,item_index,row_ptr,column_ptr)
-XfwfMultiListWidget mlw;
-int item_index,*row_ptr,*column_ptr;
+static Boolean ItemToRowColumn(XfwfMultiListWidget mlw, int item_index, int *row_ptr, int *column_ptr)
 {
-	if (item_index < 0 || item_index >= MultiListNumItems(mlw))
-	{
-		return(False);
-	}
-	if (MultiListRowMajor(mlw))
-	{
-		*row_ptr = item_index / MultiListNumCols(mlw);
-		*column_ptr = item_index % MultiListNumCols(mlw);
-	}
-	    else
-	{
-		*row_ptr = item_index % MultiListNumRows(mlw);
-		*column_ptr = item_index / MultiListNumRows(mlw);
-	}
-	return(True);
+    if (item_index < 0 || item_index >= MultiListNumItems(mlw)) {
+        return False;
+    }
+    if (MultiListRowMajor(mlw)) {
+        *row_ptr = item_index / MultiListNumCols(mlw);
+        *column_ptr = item_index % MultiListNumCols(mlw);
+    } else {
+        *row_ptr = item_index % MultiListNumRows(mlw);
+        *column_ptr = item_index / MultiListNumRows(mlw);
+    }
+    return True;
 } /* End ItemToRowColumn */
 
 /*===========================================================================*
@@ -1326,33 +1097,24 @@ int item_index,*row_ptr,*column_ptr;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Select(mlw,event,params,num_params)
-XfwfMultiListWidget mlw;
-XEvent *event;
-String *params;
-Cardinal *num_params;
+static void Select(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params)
 {
-	int click_x,click_y;
-	int status,item_index = 0,row,column;
+    int click_x,click_y;
+    int status, item_index = 0, row, column;
 
-	click_x = event->xbutton.x;
-	click_y = event->xbutton.y;
-	PixelToRowColumn(mlw,click_x,click_y,&row,&column);
-	XfwfMultiListUnhighlightAll(mlw);
-	MultiListMostRecentAct(mlw) = XfwfMultiListActionHighlight;
-	status = RowColumnToItem(mlw,row,column,&item_index);
-	if ((status == False) ||
-	    (!MultiListItemSensitive(MultiListNthItem(mlw,item_index))))
-	{
-		MultiListMostRecentItem(mlw) = -1;
-	}
-	    else
-	{
-		MultiListMostRecentItem(mlw) = item_index;
-		XfwfMultiListHighlightItem(mlw,item_index);
-	}
+    click_x = event->xbutton.x;
+    click_y = event->xbutton.y;
+    PixelToRowColumn(mlw, click_x, click_y, &row, &column);
+    XfwfMultiListUnhighlightAll(mlw);
+    MultiListMostRecentAct(mlw) = XfwfMultiListActionHighlight;
+    status = RowColumnToItem(mlw, row, column, &item_index);
+    if ((status == False) || (!MultiListItemSensitive(MultiListNthItem(mlw, item_index)))) {
+        MultiListMostRecentItem(mlw) = -1;
+    } else {
+        MultiListMostRecentItem(mlw) = item_index;
+        XfwfMultiListHighlightItem(mlw,item_index);
+    }
 } /* End Select */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1369,26 +1131,21 @@ Cardinal *num_params;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Unselect(mlw,event,params,num_params)
-XfwfMultiListWidget mlw;
-XEvent *event;
-String *params;
-Cardinal *num_params;
+static void Unselect(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params)
 {
-	int click_x,click_y;
-	int status,item_index = 0,row,column;
+    int click_x, click_y;
+    int status, item_index = 0, row, column;
 
-	click_x = event->xbutton.x;
-	click_y = event->xbutton.y;
-	PixelToRowColumn(mlw,click_x,click_y,&row,&column);
-	MultiListMostRecentItem(mlw) = -1;
-	MultiListMostRecentAct(mlw) = XfwfMultiListActionUnhighlight;
-	status = RowColumnToItem(mlw,row,column,&item_index);
-	if ((status == True) &&
-	    (MultiListItemSensitive(MultiListNthItem(mlw,item_index))))
-		XfwfMultiListHighlightItem(mlw,item_index);
+    click_x = event->xbutton.x;
+    click_y = event->xbutton.y;
+    PixelToRowColumn(mlw, click_x, click_y, &row, &column);
+    MultiListMostRecentItem(mlw) = -1;
+    MultiListMostRecentAct(mlw) = XfwfMultiListActionUnhighlight;
+    status = RowColumnToItem(mlw, row, column, &item_index);
+    if ((status == True) && (MultiListItemSensitive(MultiListNthItem(mlw, item_index)))) {
+        XfwfMultiListHighlightItem(mlw,item_index);
+    }
 } /* End Unselect */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1414,33 +1171,23 @@ Cardinal *num_params;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Toggle(mlw,event,params,num_params)
-XfwfMultiListWidget mlw;
-XEvent *event;
-String *params;
-Cardinal *num_params;
+static void Toggle(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params)
 {
-	int click_x,click_y;
-	int status,item_index = 0,row,column;
+    int click_x,click_y;
+    int status, item_index = 0, row, column;
 
-	click_x = event->xbutton.x;
-	click_y = event->xbutton.y;
-	PixelToRowColumn(mlw,click_x,click_y,&row,&column);
-	status = RowColumnToItem(mlw,row,column,&item_index);
-	if ((status == False) ||
-	    (!MultiListItemSensitive(MultiListNthItem(mlw,item_index))))
-	{
-		MultiListMostRecentAct(mlw) = XfwfMultiListActionHighlight;
-		MultiListMostRecentItem(mlw) = -1;
-	}
-	    else
-	{
-		MultiListMostRecentAct(mlw) =
-			XfwfMultiListToggleItem(mlw,item_index);
-		MultiListMostRecentItem(mlw) = item_index;
-	}
+    click_x = event->xbutton.x;
+    click_y = event->xbutton.y;
+    PixelToRowColumn(mlw, click_x, click_y, &row, &column);
+    status = RowColumnToItem(mlw, row, column, &item_index);
+    if ((status == False) || (!MultiListItemSensitive(MultiListNthItem(mlw, item_index)))) {
+        MultiListMostRecentAct(mlw) = XfwfMultiListActionHighlight;
+        MultiListMostRecentItem(mlw) = -1;
+    } else {
+        MultiListMostRecentAct(mlw) = XfwfMultiListToggleItem(mlw, item_index);
+        MultiListMostRecentItem(mlw) = item_index;
+    }
 } /* End Toggle */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1456,30 +1203,24 @@ Cardinal *num_params;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Extend(mlw,event,params,num_params)
-XfwfMultiListWidget mlw;
-XEvent *event;
-String *params;
-Cardinal *num_params;
+static void Extend(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params)
 {
-	int click_x,click_y;
-	int status,item_index = 0,row,column;
+    int click_x, click_y;
+    int status, item_index = 0, row, column;
 
-	click_x = ((XMotionEvent*)event)->x;
-	click_y = ((XMotionEvent*)event)->y;
-	PixelToRowColumn(mlw,click_x,click_y,&row,&column);
-	status = RowColumnToItem(mlw,row,column,&item_index);
-	if ((status == True) &&
-	    (MultiListItemSensitive(MultiListNthItem(mlw,item_index))))
-	{
-		MultiListMostRecentItem(mlw) = item_index;
-		if (MultiListMostRecentAct(mlw) == XfwfMultiListActionHighlight)
-			XfwfMultiListHighlightItem(mlw,item_index);
-		    else
-			XfwfMultiListUnhighlightItem(mlw,item_index);
-	}
+    click_x = ((XMotionEvent*)event)->x;
+    click_y = ((XMotionEvent*)event)->y;
+    PixelToRowColumn(mlw, click_x, click_y, &row, &column);
+    status = RowColumnToItem(mlw, row, column, &item_index);
+    if ((status == True) && (MultiListItemSensitive(MultiListNthItem(mlw, item_index)))) {
+        MultiListMostRecentItem(mlw) = item_index;
+        if (MultiListMostRecentAct(mlw) == XfwfMultiListActionHighlight) {
+            XfwfMultiListHighlightItem(mlw, item_index);
+        } else {
+            XfwfMultiListUnhighlightItem(mlw,item_index);
+        }
+    }
 } /* End Extend */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1497,51 +1238,44 @@ Cardinal *num_params;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Notify(mlw,event,params,num_params)
-XfwfMultiListWidget mlw;
-XEvent *event;
-String *params;
-Cardinal *num_params;
+static void Notify(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params)
 {
-	char *buffer;
-	String string;
-	int i,byte_count,item_index;
-	XfwfMultiListReturnStruct ret_value;
+    char *buffer;
+    String string;
+    int i, byte_count, item_index;
+    XfwfMultiListReturnStruct ret_value;
 
-	if ((MultiListNumSelected(mlw) != 0) && MultiListPaste(mlw))
-	{
-		byte_count = 0;
-		for (i = 0; i < MultiListNumSelected(mlw); i++)
-		{
-			item_index = MultiListSelArray(mlw)[i];
-			string = MultiListItemString(MultiListNthItem(mlw,
-				item_index));
-			byte_count = byte_count + strlen(string) + 1;
-		}
-		buffer = lib_malloc(byte_count);
-		buffer[0] = '\0';
-		for (i = 0; i < MultiListNumSelected(mlw); i++)
-		{
-			if (i != 0) strcat(buffer,"\n");
-			item_index = MultiListSelArray(mlw)[i];
-			string = MultiListItemString(MultiListNthItem(mlw,
-				item_index));
-			strcat(buffer,string);
-		}
-		XStoreBytes(XtDisplay(mlw),buffer,byte_count);
-		lib_free(buffer);
-	}
+    if ((MultiListNumSelected(mlw) != 0) && MultiListPaste(mlw)) {
+        byte_count = 0;
+        for (i = 0; i < MultiListNumSelected(mlw); i++) {
+            item_index = MultiListSelArray(mlw)[i];
+            string = MultiListItemString(MultiListNthItem(mlw, item_index));
+            byte_count = byte_count + strlen(string) + 1;
+        }
+        buffer = lib_malloc(byte_count);
+        buffer[0] = '\0';
+        for (i = 0; i < MultiListNumSelected(mlw); i++) {
+            if (i != 0) {
+                strcat(buffer,"\n");
+            }
+            item_index = MultiListSelArray(mlw)[i];
+            string = MultiListItemString(MultiListNthItem(mlw, item_index));
+            strcat(buffer,string);
+        }
+        XStoreBytes(XtDisplay(mlw), buffer, byte_count);
+        lib_free(buffer);
+    }
 
-	ret_value.action = MultiListMostRecentAct(mlw);
-	ret_value.item = MultiListMostRecentItem(mlw);
-	if (ret_value.item == -1)
-		ret_value.string = NULL;
-	    else
-		ret_value.string = MultiListItemString(MultiListNthItem(mlw,
-			ret_value.item));
-	ret_value.num_selected = MultiListNumSelected(mlw);
-	ret_value.selected_items = MultiListSelArray(mlw);
-	XtCallCallbacks((Widget)mlw,XtNcallback,(caddr_t)&ret_value);
+    ret_value.action = MultiListMostRecentAct(mlw);
+    ret_value.item = MultiListMostRecentItem(mlw);
+    if (ret_value.item == -1) {
+        ret_value.string = NULL;
+    } else {
+        ret_value.string = MultiListItemString(MultiListNthItem(mlw, ret_value.item));
+    }
+    ret_value.num_selected = MultiListNumSelected(mlw);
+    ret_value.selected_items = MultiListSelArray(mlw);
+    XtCallCallbacks((Widget)mlw, XtNcallback, (caddr_t)&ret_value);
 } /* End Notify */
 
 /*===========================================================================*
@@ -1565,33 +1299,34 @@ Cardinal *num_params;
 
  *---------------------------------------------------------------------------*/
 
-Boolean XfwfMultiListHighlightItem(mlw,item_index)
-XfwfMultiListWidget mlw;
-int item_index;
+Boolean XfwfMultiListHighlightItem(XfwfMultiListWidget mlw, int item_index)
 {
-	XfwfMultiListItem *item;
+    XfwfMultiListItem *item;
 
-	if (MultiListMaxSelectable(mlw) == 0) return(False);
-	if (item_index < 0 || item_index >= MultiListNumItems(mlw))
-	{
-		MultiListMostRecentItem(mlw) = -1;
-		return(False);
-	}
-	item = MultiListNthItem(mlw,item_index);
-	if (MultiListItemSensitive(item) == False) return(False);
-	MultiListMostRecentItem(mlw) = item_index;
-	if (MultiListItemHighlighted(item) == True) return(True);
-	if (MultiListNumSelected(mlw) == MultiListMaxSelectable(mlw))
-	{
-		XfwfMultiListUnhighlightItem(mlw,MultiListSelArray(mlw)[0]);
-	}
-	MultiListItemHighlighted(item) = True;
-	MultiListSelArray(mlw)[MultiListNumSelected(mlw)] = item_index;
-	++ MultiListNumSelected(mlw);
-	RedrawItem(mlw,item_index);
-	return(True);
+    if (MultiListMaxSelectable(mlw) == 0) {
+        return False;
+    }
+    if (item_index < 0 || item_index >= MultiListNumItems(mlw)) {
+        MultiListMostRecentItem(mlw) = -1;
+        return False;
+    }
+    item = MultiListNthItem(mlw, item_index);
+    if (MultiListItemSensitive(item) == False) {
+        return False;
+    }
+    MultiListMostRecentItem(mlw) = item_index;
+    if (MultiListItemHighlighted(item) == True) {
+        return True;
+    }
+    if (MultiListNumSelected(mlw) == MultiListMaxSelectable(mlw)) {
+        XfwfMultiListUnhighlightItem(mlw,MultiListSelArray(mlw)[0]);
+    }
+    MultiListItemHighlighted(item) = True;
+    MultiListSelArray(mlw)[MultiListNumSelected(mlw)] = item_index;
+    ++MultiListNumSelected(mlw);
+    RedrawItem(mlw,item_index);
+    return True;
 } /* End XfwfMultiListHighlightItem */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1603,31 +1338,30 @@ int item_index;
 
  *---------------------------------------------------------------------------*/
 
-void XfwfMultiListHighlightAll(mlw)
-XfwfMultiListWidget mlw;
+void XfwfMultiListHighlightAll(XfwfMultiListWidget mlw)
 {
-	int i;
-	XfwfMultiListItem *item;
+    int i;
+    XfwfMultiListItem *item;
 
-	MultiListNumSelected(mlw) = 0;
-	for (i = 0; i < MultiListNumItems(mlw); i++)
-	{
-		item = MultiListNthItem(mlw,i);
-		MultiListItemHighlighted(item) = False;
-	}
-	for (i = 0; i < MultiListNumItems(mlw); i++)
-	{
-		if (MultiListNumSelected(mlw) == MultiListMaxSelectable(mlw))
-			break;
-		item = MultiListNthItem(mlw,i);
-		if (MultiListItemSensitive(item) == False) continue;
-		MultiListItemHighlighted(item) = True;
-		MultiListSelArray(mlw)[MultiListNumSelected(mlw)] = i;
-		++ MultiListNumSelected(mlw);
-	}
-	RedrawAll(mlw);
+    MultiListNumSelected(mlw) = 0;
+    for (i = 0; i < MultiListNumItems(mlw); i++) {
+        item = MultiListNthItem(mlw, i);
+        MultiListItemHighlighted(item) = False;
+    }
+    for (i = 0; i < MultiListNumItems(mlw); i++) {
+        if (MultiListNumSelected(mlw) == MultiListMaxSelectable(mlw)) {
+            break;
+        }
+        item = MultiListNthItem(mlw, i);
+        if (MultiListItemSensitive(item) == False) {
+            continue;
+        }
+        MultiListItemHighlighted(item) = True;
+        MultiListSelArray(mlw)[MultiListNumSelected(mlw)] = i;
+        ++MultiListNumSelected(mlw);
+    }
+    RedrawAll(mlw);
 } /* End XfwfMultiListHighlightAll */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1640,28 +1374,35 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-void XfwfMultiListUnhighlightItem(mlw,item_index)
-XfwfMultiListWidget mlw;
-int item_index;
+void XfwfMultiListUnhighlightItem(XfwfMultiListWidget mlw, int item_index)
 {
-	int i;
-	XfwfMultiListItem *item;
+    int i;
+    XfwfMultiListItem *item;
 
-	if (MultiListMaxSelectable(mlw) == 0) return;
-	if (item_index < 0 || item_index >= MultiListNumItems(mlw)) return;
-	item = MultiListNthItem(mlw,item_index);
-	if (MultiListItemHighlighted(item) == False) return;
-	MultiListItemHighlighted(item) = False;
+    if (MultiListMaxSelectable(mlw) == 0) {
+        return;
+    }
+    if (item_index < 0 || item_index >= MultiListNumItems(mlw)) {
+        return;
+    }
+    item = MultiListNthItem(mlw, item_index);
+    if (MultiListItemHighlighted(item) == False) {
+        return;
+    }
+    MultiListItemHighlighted(item) = False;
 
-	for (i = 0; i < MultiListNumSelected(mlw); i++)
-		if (MultiListSelArray(mlw)[i] == item_index) break;
-	for (i = i + 1; i < MultiListNumSelected(mlw); i++)
-		MultiListSelArray(mlw)[i - 1] = MultiListSelArray(mlw)[i];
-	-- MultiListNumSelected(mlw);
+    for (i = 0; i < MultiListNumSelected(mlw); i++) {
+        if (MultiListSelArray(mlw)[i] == item_index) {
+            break;
+        }
+    }
+    for (i = i + 1; i < MultiListNumSelected(mlw); i++) {
+        MultiListSelArray(mlw)[i - 1] = MultiListSelArray(mlw)[i];
+    }
+    --MultiListNumSelected(mlw);
 
-	RedrawItem(mlw,item_index);
+    RedrawItem(mlw,item_index);
 } /* End XfwfMultiListUnhighlightItem */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1671,21 +1412,19 @@ int item_index;
 
  *---------------------------------------------------------------------------*/
 
-void XfwfMultiListUnhighlightAll(mlw)
-XfwfMultiListWidget mlw;
+void XfwfMultiListUnhighlightAll(XfwfMultiListWidget mlw)
 {
-	int i;
-	XfwfMultiListItem *item;
+    int i;
+    XfwfMultiListItem *item;
 
-	for (i = 0; i < MultiListNumItems(mlw); i++)
-	{
-		item = MultiListNthItem(mlw,i);
-		if (MultiListItemHighlighted(item))
-			XfwfMultiListUnhighlightItem(mlw,i);
-	}
-	MultiListNumSelected(mlw) = 0;
+    for (i = 0; i < MultiListNumItems(mlw); i++) {
+        item = MultiListNthItem(mlw, i);
+        if (MultiListItemHighlighted(item)) {
+            XfwfMultiListUnhighlightItem(mlw, i);
+        }
+    }
+    MultiListNumSelected(mlw) = 0;
 } /* End XfwfMultiListUnhighlightAll */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1698,31 +1437,28 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-int XfwfMultiListToggleItem(mlw,item_index)
-XfwfMultiListWidget mlw;
-int item_index;
+int XfwfMultiListToggleItem(XfwfMultiListWidget mlw, int item_index)
 {
-	XfwfMultiListItem *item;
+    XfwfMultiListItem *item;
 
-	if (MultiListMaxSelectable(mlw) == 0)
-		return(XfwfMultiListActionNothing);
-	if (item_index < 0 || item_index >= MultiListNumItems(mlw))
-		return(XfwfMultiListActionNothing);
-	item = MultiListNthItem(mlw,item_index);
-	if (MultiListItemSensitive(item) == False)
-		return(XfwfMultiListActionNothing);
-	if (MultiListItemHighlighted(item))
-	{
-		XfwfMultiListUnhighlightItem(mlw,item_index);
-		return(XfwfMultiListActionUnhighlight);
-	}
-	    else
-	{
-		XfwfMultiListHighlightItem(mlw,item_index);
-		return(XfwfMultiListActionHighlight);
-	}
+    if (MultiListMaxSelectable(mlw) == 0) {
+        return XfwfMultiListActionNothing;
+    }
+    if (item_index < 0 || item_index >= MultiListNumItems(mlw)) {
+        return XfwfMultiListActionNothing;
+    }
+    item = MultiListNthItem(mlw, item_index);
+    if (MultiListItemSensitive(item) == False) {
+        return XfwfMultiListActionNothing;
+    }
+    if (MultiListItemHighlighted(item)) {
+        XfwfMultiListUnhighlightItem(mlw, item_index);
+        return XfwfMultiListActionUnhighlight;
+    } else {
+        XfwfMultiListHighlightItem(mlw, item_index);
+        return XfwfMultiListActionHighlight;
+    }
 } /* End XfwfMultiListToggleItem */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1736,30 +1472,24 @@ int item_index;
 
  *---------------------------------------------------------------------------*/
 
-XfwfMultiListReturnStruct *XfwfMultiListGetHighlighted(mlw)
-XfwfMultiListWidget mlw;
+XfwfMultiListReturnStruct *XfwfMultiListGetHighlighted(XfwfMultiListWidget mlw)
 {
-	XfwfMultiListItem *item;
-	static XfwfMultiListReturnStruct ret_value;
+    XfwfMultiListItem *item;
+    static XfwfMultiListReturnStruct ret_value;
 
-	ret_value.action = XfwfMultiListActionStatus;
-	if (MultiListNumSelected(mlw) == 0)
-	{
-		ret_value.item = -1;
-		ret_value.string = NULL;
-	}
-	    else
-	{
-		ret_value.item = MultiListSelArray(mlw)
-			[MultiListNumSelected(mlw) - 1];
-		item = MultiListNthItem(mlw,ret_value.item);
-		ret_value.string = MultiListItemString(item);
-	}
-	ret_value.num_selected = MultiListNumSelected(mlw);
-	ret_value.selected_items = MultiListSelArray(mlw);
-	return(&ret_value);
+    ret_value.action = XfwfMultiListActionStatus;
+    if (MultiListNumSelected(mlw) == 0) {
+        ret_value.item = -1;
+        ret_value.string = NULL;
+    } else {
+        ret_value.item = MultiListSelArray(mlw)[MultiListNumSelected(mlw) - 1];
+        item = MultiListNthItem(mlw,ret_value.item);
+        ret_value.string = MultiListItemString(item);
+    }
+    ret_value.num_selected = MultiListNumSelected(mlw);
+    ret_value.selected_items = MultiListSelArray(mlw);
+    return &ret_value;
 } /* End XfwfMultiListGetHighlighted */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1771,18 +1501,16 @@ XfwfMultiListWidget mlw;
 
  *---------------------------------------------------------------------------*/
 
-Boolean XfwfMultiListIsHighlighted(mlw,item_index)
-XfwfMultiListWidget mlw;
-int item_index;
+Boolean XfwfMultiListIsHighlighted(XfwfMultiListWidget mlw, int item_index)
 {
-	XfwfMultiListItem *item;
+    XfwfMultiListItem *item;
 
-	if (item_index < 0 || item_index >= MultiListNumItems(mlw))
-		return(False);
-	item = MultiListNthItem(mlw,item_index);
-	return(MultiListItemHighlighted(item));
+    if (item_index < 0 || item_index >= MultiListNumItems(mlw)) {
+        return False;
+    }
+    item = MultiListNthItem(mlw, item_index);
+    return MultiListItemHighlighted(item);
 } /* End XfwfMultiListIsHighlighted */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1795,23 +1523,19 @@ int item_index;
 
  *---------------------------------------------------------------------------*/
 
-Boolean XfwfMultiListGetItemInfo(mlw,item_index,str_ptr,h_ptr,s_ptr)
-XfwfMultiListWidget mlw;
-int item_index;
-String *str_ptr;
-Boolean *h_ptr,*s_ptr;
+Boolean XfwfMultiListGetItemInfo(XfwfMultiListWidget mlw, int item_index, String *str_ptr, Boolean *h_ptr, Boolean *s_ptr)
 {
-	XfwfMultiListItem *item;
+    XfwfMultiListItem *item;
 
-	if (item_index < 0 || item_index >= MultiListNumItems(mlw))
-		return(False);
-	item = MultiListNthItem(mlw,item_index);
-	*str_ptr = MultiListItemString(item);
-	*h_ptr = MultiListItemHighlighted(item);
-	*s_ptr = MultiListItemSensitive(item);
-	return(True);
+    if (item_index < 0 || item_index >= MultiListNumItems(mlw)) {
+        return False;
+    }
+    item = MultiListNthItem(mlw, item_index);
+    *str_ptr = MultiListItemString(item);
+    *h_ptr = MultiListItemHighlighted(item);
+    *s_ptr = MultiListItemSensitive(item);
+    return True;
 } /* End XfwfMultiListGetItemInfo */
-
 
 /*---------------------------------------------------------------------------*
 
@@ -1824,27 +1548,16 @@ Boolean *h_ptr,*s_ptr;
 
  *---------------------------------------------------------------------------*/
 
-#if NeedFunctionPrototypes
-void
-XfwfMultiListSetNewData(XfwfMultiListWidget mlw, String *list,
-			int nitems, int longest, Boolean resize,
-			Boolean *sensitivity_array)
-#else
-void
-XfwfMultiListSetNewData(mlw,list,nitems,longest,resize,sensitivity_array)
-XfwfMultiListWidget mlw;
-String *list;
-int nitems,longest;
-int resize;
-Boolean *sensitivity_array;
-#endif
+void XfwfMultiListSetNewData(XfwfMultiListWidget mlw, String *list, int nitems, int longest, Boolean resize, Boolean *sensitivity_array)
 {
-	DestroyOldData(mlw);
-	MultiListList(mlw) = list;
-	MultiListNumItems(mlw) = max(nitems,0);
-	MultiListLongest(mlw) = max(longest,0);
-	MultiListSensitiveArray(mlw) = sensitivity_array;
-	InitializeNewData(mlw);
-	RecalcCoords(mlw,resize,resize);
-	if (XtIsRealized((Widget)mlw)) Redisplay(mlw,NULL,NULL);
+    DestroyOldData(mlw);
+    MultiListList(mlw) = list;
+    MultiListNumItems(mlw) = max(nitems, 0);
+    MultiListLongest(mlw) = max(longest, 0);
+    MultiListSensitiveArray(mlw) = sensitivity_array;
+    InitializeNewData(mlw);
+    RecalcCoords(mlw, resize, resize);
+    if (XtIsRealized((Widget)mlw)) {
+        Redisplay(mlw, NULL, NULL);
+    }
 } /* End XfwfMultiListSetNewData */

@@ -22,33 +22,29 @@
 #ifndef VICE_SCROLLEDLISTP_H_
 #define VICE_SCROLLEDLISTP_H_
 
-typedef struct _XfwfScrolledListClassPart
-{
-	int    empty;
+typedef struct _XfwfScrolledListClassPart {
+    int    empty;
 } XfwfScrolledListClassPart;
 
-typedef struct
-{
-	Widget				list;
-	Widget				viewport;
-	char				**item_array;
-	int				item_count;
-	Boolean				*sensitive_array;
-	XtCallbackList			callback;
+typedef struct {
+    Widget list;
+    Widget viewport;
+    char **item_array;
+    int item_count;
+    Boolean *sensitive_array;
+    XtCallbackList callback;
 } XfwfScrolledListPart;
 
-typedef struct _XfwfScrolledListClassRec
-{
-	CoreClassPart			core_class;
-	CompositeClassPart		composite_class;
-	XfwfScrolledListClassPart	scrolledList_class;
+typedef struct _XfwfScrolledListClassRec {
+    CoreClassPart core_class;
+    CompositeClassPart composite_class;
+    XfwfScrolledListClassPart scrolledList_class;
 } XfwfScrolledListClassRec;
 
-typedef struct _XfwfScrolledListRec
-{
-	CorePart			core;
-	CompositePart			composite;
-	XfwfScrolledListPart		scrolledList;
+typedef struct _XfwfScrolledListRec {
+    CorePart core;
+    CompositePart composite;
+    XfwfScrolledListPart scrolledList;
 } XfwfScrolledListRec;
 
 extern XfwfScrolledListClassRec xfwfScrolledListClassRec;

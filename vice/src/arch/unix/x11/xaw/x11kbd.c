@@ -54,8 +54,9 @@ signed long kbd_arch_keyname_to_keynum(char *keyname)
 
     sym = XStringToKeysym(keyname);
 
-    if (sym == NoSymbol)
+    if (sym == NoSymbol) {
         return -1;
+    }
 
     return (signed long)sym;
 }
@@ -79,40 +80,42 @@ void x11kbd_press(signed long key)
 
     /* Hotkeys */
     switch (key) {
-      case XK_Shift_L:
-      case XK_Shift_R:
-        shift_count++;
-        break;
-
-      case XK_Control_L:
-      case XK_Control_R:
-        control_count++;
-        break;
-      case XK_Meta_L:
-      case XK_Meta_R:
+        case XK_Shift_L:
+        case XK_Shift_R:
+            shift_count++;
+            break;
+        case XK_Control_L:
+        case XK_Control_R:
+            control_count++;
+            break;
+        case XK_Meta_L:
+        case XK_Meta_R:
 #ifdef ALT_AS_META
-      case XK_Alt_L:
-      case XK_Alt_R:
+        case XK_Alt_L:
+        case XK_Alt_R:
 #endif
 #ifdef MODE_SWITCH_AS_META
-      case XK_Mode_switch:
+        case XK_Mode_switch:
 #endif
-        meta_count++;
-        break;
+            meta_count++;
+            break;
     }
 
-    if ((meta_count != 0) &&
-        ui_dispatch_hotkeys(key))
+    if ((meta_count != 0) && ui_dispatch_hotkeys(key)) {
         return;
+    }
 
-    if (vsid_mode)
+    if (vsid_mode) {
         return;
+    }
 
-    if (meta_count != 0)
+    if (meta_count != 0) {
         return;
+    }
 
-    if (key == NoSymbol)
+    if (key == NoSymbol) {
         return;
+    }
 
     keyboard_key_pressed(key);
 }
@@ -125,35 +128,40 @@ void x11kbd_release(signed long key)
 
     /* Hotkeys */
     switch (key) {
-      case XK_Shift_L:
-      case XK_Shift_R:
-        if (shift_count > 0)
-            shift_count--;
-        break;
-      case XK_Control_L:
-      case XK_Control_R:
-        if (control_count > 0)
-            control_count--;
-        break;
-      case XK_Meta_L:
-      case XK_Meta_R:
+        case XK_Shift_L:
+        case XK_Shift_R:
+            if (shift_count > 0) {
+                shift_count--;
+            }
+            break;
+        case XK_Control_L:
+        case XK_Control_R:
+            if (control_count > 0) {
+                control_count--;
+            }
+            break;
+        case XK_Meta_L:
+        case XK_Meta_R:
 #ifdef ALT_AS_META
-      case XK_Alt_L:
-      case XK_Alt_R:
+        case XK_Alt_L:
+        case XK_Alt_R:
 #endif
 #ifdef MODE_SWITCH_AS_META
-      case XK_Mode_switch:
+        case XK_Mode_switch:
 #endif
-        if (meta_count > 0)
-            meta_count--;
-        break;
+            if (meta_count > 0) {
+                meta_count--;
+            }
+            break;
     }
 
-    if (vsid_mode)
+    if (vsid_mode) {
         return;
+    }
 
-    if (meta_count != 0)
+    if (meta_count != 0) {
         return;
+    }
     if (IsModifierKey(key)) {
         /* FIXME: This is a dirty kludge.  X11 can sometimes give the
            KeyPress event with the shifted KeySym, and the KeyRelease one
@@ -171,8 +179,9 @@ void x11kbd_release(signed long key)
         /* TODO: do we have to cleanup joypads here too? */
     }
 
-    if (key == NoSymbol)
+    if (key == NoSymbol) {
         return;
+    }
 
     keyboard_key_released(key);
 }
@@ -191,8 +200,7 @@ void x11kbd_focus_change(void)
     return;
 }
 
-void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
-                       Boolean *ctd)
+void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
 {
     static char buffer[20];
     KeySym key;
@@ -202,22 +210,22 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
     switch (report->type) {
-      case KeyPress:
-        x11kbd_press((signed long)key);
-        break;
-      case KeyRelease:
-        x11kbd_release((signed long)key);
-        break;
-      case EnterNotify:
-      case LeaveNotify:
-        x11kbd_enter_leave();
-        break;                  /* LeaveNotify */
-      case FocusOut:
-      case FocusIn:
-        x11kbd_focus_change();
-        break;
-      default:
-        break;
+        case KeyPress:
+            x11kbd_press((signed long)key);
+            break;
+        case KeyRelease:
+            x11kbd_release((signed long)key);
+            break;
+        case EnterNotify:
+        case LeaveNotify:
+            x11kbd_enter_leave();
+            break;                  /* LeaveNotify */
+        case FocusOut:
+        case FocusIn:
+            x11kbd_focus_change();
+            break;
+        default:
+            break;
     }                           /* switch */
 }
 
@@ -233,4 +241,3 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[7] = XK_KP_8;
     joykeys[8] = XK_KP_9;
 }
-

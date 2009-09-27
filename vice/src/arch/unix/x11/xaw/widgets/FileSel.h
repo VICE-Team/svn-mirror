@@ -25,59 +25,57 @@
 #include "ScrList.h"
 #include "DirMgr.h"
 
-extern WidgetClass	xfwfFileSelectorWidgetClass;
+extern WidgetClass xfwfFileSelectorWidgetClass;
 
 typedef struct _XfwfFileSelectorClassRec *XfwfFileSelectorWidgetClass;
-typedef struct _XfwfFileSelectorRec      *XfwfFileSelectorWidget;
+typedef struct _XfwfFileSelectorRec *XfwfFileSelectorWidget;
 
-#define	XtNpathname XtNcurrentDirectory		/* For Compatibility */
+#define XtNpathname XtNcurrentDirectory		/* For Compatibility */
 
 #ifndef XtNtitle
-#define	XtNtitle			"title"
+#define XtNtitle "title"
 #endif
 
 #ifndef XtNcurrentDirectory	/* [EP] Oct 8th, 1996 */
-#define	XtNcurrentDirectory		"currentDirectory"
+#define XtNcurrentDirectory "currentDirectory"
 #endif
-#define	XtNcurrentFile			"currentFile"
-#define	XtNsortMode			"sortMode"
-#define	XtNpattern			"pattern"
-#define	XtNokButtonCallback		"okButtonCallback"
-#define	XtNcancelButtonCallback		"cancelButtonCallback"
-#define XtNcontentsButtonCallback	"contentsButtonCallback"
-#define XtNautostartButtonCallback	"autostartButtonCallback"
-#define	XtNselectionChangeCallback	"selectionChangeCallback"
-#define	XtNshowOkButton			"showOkButton"
-#define	XtNshowCancelButton		"showCancelButton"
-#define XtNshowContentsButton		"showContentsButton"
-#define XtNshowAutostartButton		"showAutostartButton"
-#define	XtNfileSelected			"fileSelected"
-#define	XtNflagLinks			"flagLinks"
-#define	XtNcheckExistence		"checkExistence"
 
-#define	XtCPathname			"Pathname"
-#define	XtCFilename			"Filename"
+#define XtNcurrentFile "currentFile"
+#define XtNsortMode "sortMode"
+#define XtNpattern "pattern"
+#define XtNokButtonCallback "okButtonCallback"
+#define XtNcancelButtonCallback "cancelButtonCallback"
+#define XtNcontentsButtonCallback "contentsButtonCallback"
+#define XtNautostartButtonCallback "autostartButtonCallback"
+#define XtNselectionChangeCallback "selectionChangeCallback"
+#define XtNshowOkButton "showOkButton"
+#define XtNshowCancelButton "showCancelButton"
+#define XtNshowContentsButton "showContentsButton"
+#define XtNshowAutostartButton "showAutostartButton"
+#define XtNfileSelected "fileSelected"
+#define XtNflagLinks "flagLinks"
+#define XtNcheckExistence "checkExistence"
 
-typedef struct _XfwfFileSelectorOkButtonReturnStruct
-{
-	char *path;
-	char *file;
-	char *file_box_text;
+#define XtCPathname "Pathname"
+#define XtCFilename "Filename"
+
+typedef struct _XfwfFileSelectorOkButtonReturnStruct {
+    char *path;
+    char *file;
+    char *file_box_text;
 } XfwfFileSelectorOkButtonReturnStruct;
 
-typedef struct _XfwfFileSelectorSelectionChangeReturnStruct
-{
-	Boolean file_selected;
-	char *path;
-	char *file;
+typedef struct _XfwfFileSelectorSelectionChangeReturnStruct {
+    Boolean file_selected;
+    char *path;
+    char *file;
 } XfwfFileSelectorSelectionChangeReturnStruct;
 
-typedef struct _XfwfFileSelectorStatusStruct
-{
-	Boolean file_selected;
-	char *path;
-	char *file;
-	char *file_box_text;
+typedef struct _XfwfFileSelectorStatusStruct {
+    Boolean file_selected;
+    char *path;
+    char *file;
+    char *file_box_text;
 } XfwfFileSelectorStatusStruct;
 
 /*---------------------------------------------------------------------------*
@@ -88,17 +86,16 @@ typedef struct _XfwfFileSelectorStatusStruct
 
 #if (!NeedFunctionPrototypes)
 
-void	XfwfFileSelectorChangeDirectory();
-void	XfwfFileSelectorRefresh();
-void	XfwfFileSelectorGetStatus();
+void XfwfFileSelectorChangeDirectory();
+void XfwfFileSelectorRefresh();
+void XfwfFileSelectorGetStatus();
 
 #else
 
-void	XfwfFileSelectorChangeDirectory(XfwfFileSelectorWidget fsw, 
-                                        const char *dir);
-void	XfwfFileSelectorRefresh(XfwfFileSelectorWidget fsw);
-void	XfwfFileSelectorGetStatus(XfwfFileSelectorWidget fsw,
-				  XfwfFileSelectorStatusStruct *ssp);
+void XfwfFileSelectorChangeDirectory(XfwfFileSelectorWidget fsw, const char *dir);
+void XfwfFileSelectorRefresh(XfwfFileSelectorWidget fsw);
+void XfwfFileSelectorGetStatus(XfwfFileSelectorWidget fsw, XfwfFileSelectorStatusStruct *ssp);
 
 #endif
+
 #endif

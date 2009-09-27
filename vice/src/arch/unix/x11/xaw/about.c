@@ -68,51 +68,61 @@ static UI_CALLBACK(info_dialog_no_warranty_callback)
 
 static UI_CALLBACK(info_dialog_contrib_callback)
 {
-    ui_show_text(_("Contributors to the VICE project"), info_contrib_text,
-                 -1, -1);
+    ui_show_text(_("Contributors to the VICE project"), info_contrib_text, -1, -1);
 }
 
-static Widget build_info_dialog(Widget parent,
-                                int *return_flag, ...)
+static Widget build_info_dialog(Widget parent, int *return_flag, ...)
 {
     Widget shell, pane, info_form, button_form, tmp, prevlabel = NULL;
     va_list arglist;
     String str;
 
     shell = ui_create_transient_shell(parent, "infoDialogShell");
-    pane = XtVaCreateManagedWidget
-        ("infoDialog", panedWidgetClass, shell, NULL);
-    info_form = XtVaCreateManagedWidget
-        ("textForm", formWidgetClass, pane, NULL);
-    button_form = XtVaCreateManagedWidget
-        ("buttonBox", boxWidgetClass, pane, XtNshowGrip, False,
-         XtNskipAdjust, True, XtNorientation, XtorientHorizontal, NULL);
+    pane = XtVaCreateManagedWidget("infoDialog",
+                                   panedWidgetClass, shell,
+                                   NULL);
+    info_form = XtVaCreateManagedWidget("textForm",
+                                        formWidgetClass, pane,
+                                        NULL);
+    button_form = XtVaCreateManagedWidget("buttonBox",
+                                          boxWidgetClass, pane,
+                                          XtNshowGrip, False,
+                                          XtNskipAdjust, True,
+                                          XtNorientation, XtorientHorizontal,
+                                          NULL);
     va_start(arglist, return_flag);
     while ((str = va_arg(arglist, String))) {
-        tmp = XtVaCreateManagedWidget
-            ("infoString", labelWidgetClass, info_form,
-             XtNlabel, str, XtNjustify, XtJustifyCenter, XtNresize, False,
-             XtNwidth, 220, NULL);
-        if (prevlabel)
+        tmp = XtVaCreateManagedWidget("infoString",
+                                      labelWidgetClass, info_form,
+                                      XtNlabel, str,
+                                      XtNjustify, XtJustifyCenter,
+                                      XtNresize, False,
+                                      XtNwidth, 220,
+                                      NULL);
+        if (prevlabel) {
             XtVaSetValues(tmp, XtNfromVert, prevlabel, NULL);
+        }
         prevlabel = tmp;
     }
     va_end(arglist);
-    tmp = XtVaCreateManagedWidget
-        ("closeButton", commandWidgetClass, button_form, NULL);
-    XtAddCallback(tmp, XtNcallback,
-                  info_dialog_close_callback, (XtPointer)return_flag);
-    tmp = XtVaCreateManagedWidget
-        ("licenseButton", commandWidgetClass, button_form,
-         XtNfromHoriz, tmp, NULL);
+    tmp = XtVaCreateManagedWidget("closeButton",
+                                  commandWidgetClass, button_form,
+                                  NULL);
+    XtAddCallback(tmp, XtNcallback, info_dialog_close_callback, (XtPointer)return_flag);
+    tmp = XtVaCreateManagedWidget("licenseButton",
+                                  commandWidgetClass, button_form,
+                                  XtNfromHoriz, tmp,
+                                  NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_license_callback, NULL);
-    tmp = XtVaCreateManagedWidget
-        ("noWarrantyButton", commandWidgetClass, button_form,
-         XtNfromHoriz, tmp, NULL);
+    tmp = XtVaCreateManagedWidget("noWarrantyButton",
+                                  commandWidgetClass, button_form,
+                                  XtNfromHoriz, tmp,
+                                  NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_no_warranty_callback, NULL);
-    tmp = XtVaCreateManagedWidget
-        ("contribButton", commandWidgetClass, button_form,
-         XtNfromHoriz, tmp, NULL);
+    tmp = XtVaCreateManagedWidget("contribButton",
+                                  commandWidgetClass, button_form,
+                                  XtNfromHoriz, tmp,
+                                  NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_contrib_callback, NULL);
     return pane;
 }
@@ -123,45 +133,44 @@ UI_CALLBACK(ui_about)
     static int is_closed;
 
     if (!info_dialog) {
-        info_dialog = build_info_dialog
-            (_ui_top_level, &is_closed,
-             "",
-             "V I C E",
-             "",
-             "Version " VERSION,
+        info_dialog = build_info_dialog(_ui_top_level, &is_closed,
+                                        "",
+                                        "V I C E",
+                                        "",
+                                        "Version " VERSION,
 #ifdef UNSTABLE
-             "(unstable)",
+                                        "(unstable)",
 #endif
-             "",
-             "Copyright C 1998-2009 Andreas Boose",
-             "Copyright C 1998-2009 Dag Lem",
-             "Copyright C 1998-2009 Tibor Biczo",
-             "Copyright C 1999-2009 Andreas Matthies",
-             "Copyright C 1999-2009 Martin Pottendorfer",
-             "Copyright C 2000-2009 Spiro Trikaliotis",
-             "Copyright C 2005-2009 Marco van den Heuvel",
-             "Copyright C 2006-2009 Christian Vogelgsang",
-             "Copyright C 2007-2009 Fabrizio Gennari",
-             "Copyright C 2007-2009 M. Kiesel",
-             "Copyright C 2007-2009 Hannu Nuotio",
-             "Copyright C 2007-2009 Daniel Kahlin",
-             "Copyright C 2008-2009 Antti S. Lankila",
-             "Copyright C 1999-2007 Andreas Dehmel",
-             "Copyright C 1999-2005 Thomas Bretz",
-             "Copyright C 2003-2005 David Hansel",
-             "Copyright C 2000-2004 Markus Brenner",
-             "",
-             _("Official VICE homepage:"),
-             "http://www.viceteam.org/",
-             "",
-             NULL);
+                                        "",
+                                        "Copyright C 1998-2009 Andreas Boose",
+                                        "Copyright C 1998-2009 Dag Lem",
+                                        "Copyright C 1998-2009 Tibor Biczo",
+                                        "Copyright C 1999-2009 Andreas Matthies",
+                                        "Copyright C 1999-2009 Martin Pottendorfer",
+                                        "Copyright C 2000-2009 Spiro Trikaliotis",
+                                        "Copyright C 2005-2009 Marco van den Heuvel",
+                                        "Copyright C 2006-2009 Christian Vogelgsang",
+                                        "Copyright C 2007-2009 Fabrizio Gennari",
+                                        "Copyright C 2007-2009 M. Kiesel",
+                                        "Copyright C 2007-2009 Hannu Nuotio",
+                                        "Copyright C 2007-2009 Daniel Kahlin",
+                                        "Copyright C 2008-2009 Antti S. Lankila",
+                                        "Copyright C 1999-2007 Andreas Dehmel",
+                                        "Copyright C 1999-2005 Thomas Bretz",
+                                        "Copyright C 2003-2005 David Hansel",
+                                        "Copyright C 2000-2004 Markus Brenner",
+                                        "",
+                                        _("Official VICE homepage:"),
+                                        "http://www.viceteam.org/",
+                                        "",
+                                        NULL);
     }
     vsync_suspend_speed_eval();
     ui_popup(XtParent(info_dialog), _("VICE Information"), False);
 
     is_closed = 0;
-    while (!is_closed)
+    while (!is_closed) {
         ui_dispatch_next_event();
+    }
     ui_popdown(XtParent(info_dialog));
 }
-

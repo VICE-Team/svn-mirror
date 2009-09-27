@@ -85,7 +85,6 @@
 #include "renderxv.h"
 #endif
 
-
 static log_t x11video_log = LOG_ERR;
 
 #ifdef HAVE_XVIDEO
@@ -103,7 +102,7 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 /*  #define MITSHM_DEBUG */
 
 #ifdef MITSHM_DEBUG
-#define DEBUG_MITSHM(x)         log_debug x
+#define DEBUG_MITSHM(x) log_debug x
 #else
 #define DEBUG_MITSHM(x)
 #endif
@@ -138,8 +137,9 @@ static int set_try_mitshm(int val, void *param)
 #ifdef HAVE_XVIDEO
 static int set_fourcc(const char *val, void *param)
 {
-    if (util_string_set(&fourcc_s, val))
+    if (util_string_set(&fourcc_s, val)) {
         return 0;
+    }
 
     if (fourcc_s != NULL && strlen(fourcc_s) == 4) {
         memcpy(&fourcc, fourcc_s, 4);
@@ -160,11 +160,9 @@ static int set_aspect_ratio(const char *val, void *param)
         aspect_ratio = strtod(val, &endptr);
         if (val == endptr) {
             aspect_ratio = 1.0;
-        }
-        else if (aspect_ratio < 0.8) {
+        } else if (aspect_ratio < 0.8) {
             aspect_ratio = 0.8;
-        }
-        else if (aspect_ratio > 1.2) {
+        } else if (aspect_ratio > 1.2) {
             aspect_ratio = 1.2;
         }
     } else {
@@ -201,8 +199,9 @@ int video_arch_resources_init(void)
 #ifdef HAVE_OPENGL_SYNC
     openGL_register_resources();
 #endif
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -271,14 +270,9 @@ static void (*_refresh_func)();
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;
 
-/* The RootWindow of our screen. */
-/* static Window root_window; */
-
-
 /* ------------------------------------------------------------------------- */
 
-void video_convert_color_table(unsigned int i, BYTE *data, long col,
-                               video_canvas_t *canvas)
+void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canvas_t *canvas)
 {
 #ifdef HAVE_XVIDEO
     if (canvas->videoconfig->hwscale && canvas->xv_image) {
@@ -287,17 +281,15 @@ void video_convert_color_table(unsigned int i, BYTE *data, long col,
 #endif
 
     switch (canvas->x_image->bits_per_pixel) {
-      case 8:
-        video_render_setphysicalcolor(canvas->videoconfig, i,
-                                      (DWORD)(*data), 8);
-        break;
-      case 16:
-      case 24:
-      case 32:
-      default:
-        video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(col),
-                                      canvas->x_image->bits_per_pixel);
-	break;
+        case 8:
+            video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(*data), 8);
+            break;
+        case 16:
+        case 24:
+        case 32:
+        default:
+            video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(col), canvas->x_image->bits_per_pixel);
+            break;
     }
 }
 
@@ -311,7 +303,7 @@ int video_init(void)
     _video_gc = video_get_gc(&gc_values);
     display = x11ui_get_display_ptr();
 
-     x11video_log = log_open("X11Video");
+    x11video_log = log_open("X11Video");
 
     color_init();
     
@@ -325,15 +317,11 @@ int video_init(void)
         int major_version, minor_version, pixmap_flag;
 
         /* Check whether the server supports the Shared Memory Extension. */
-        if (!XShmQueryVersion(display, &major_version, &minor_version,
-                              &pixmap_flag)) {
-            log_warning(x11video_log,
-                        "The MITSHM extension is not supported "
-                        "on this display.");
+        if (!XShmQueryVersion(display, &major_version, &minor_version, &pixmap_flag)) {
+            log_warning(x11video_log, "The MITSHM extension is not supported on this display.");
             use_mitshm = 0;
         } else {
-            DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."),
-                          major_version, minor_version));
+            DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."), major_version, minor_version));
             use_mitshm = 1;
         }
     }
@@ -357,9 +345,9 @@ int shmmajor;          /* major number of MITSHM error codes */
 /* Catch XShmAttach()-failure. */
 int shmhandler(Display *display, XErrorEvent *err)
 {
-    if (err->request_code == shmmajor &&
-        err->minor_code == X_ShmAttach)
-      mitshm_failed=1;
+    if (err->request_code == shmmajor && err->minor_code == X_ShmAttach) {
+        mitshm_failed = 1;
+    }
 
     return 0;
 }
@@ -370,8 +358,9 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 {
     Display *display;
 
-    if (canvas == NULL)
+    if (canvas == NULL) {
         return;
+    }
 
 #ifdef HAVE_XVIDEO
     if (canvas->xv_image) {
@@ -382,14 +371,15 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #endif
 
         display = x11ui_get_display_ptr();
-	destroy_yuv_image(display, canvas->xv_image, shminfo);
-	return;
+        destroy_yuv_image(display, canvas->xv_image, shminfo);
+        return;
     }
 #endif
 
 #ifdef HAVE_FULLSCREEN
-    if (fullscreen_is_enabled)
+    if (fullscreen_is_enabled) {
         return;
+    }
 #endif
 
     display = x11ui_get_display_ptr();
@@ -397,16 +387,20 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #ifdef USE_MITSHM
     if (canvas->using_mitshm) {
         XShmDetach(display, &(canvas->xshm_info));
-        if (canvas->x_image)
+        if (canvas->x_image) {
             XDestroyImage(canvas->x_image);
-        if (shmdt(canvas->xshm_info.shmaddr))
+        }
+        if (shmdt(canvas->xshm_info.shmaddr)) {
             log_error(x11video_log, "Cannot release shared memory!");
+        }
     } 
-    else if (canvas->x_image)
+    else if (canvas->x_image) {
         XDestroyImage(canvas->x_image);
+    }
 #else
-    if (canvas->x_image)
+    if (canvas->x_image) {
         XDestroyImage(canvas->x_image);
+    }
 #endif
 }
 
@@ -426,17 +420,17 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #ifdef HAVE_XVIDEO
 /* Mapping between VICE and XVideo color settings. */
 struct {
-  char* name;
-  Atom atom;
-  int min;
-  int max;
-  int *value;
+    char* name;
+    Atom atom;
+    int min;
+    int max;
+    int *value;
 }
 xv_settings[] = {
-  { "XV_SATURATION", 0, 0, 0, &video_resources.color_saturation },
-  { "XV_CONTRAST",   0, 0, 0, &video_resources.color_contrast },
-  { "XV_BRIGHTNESS", 0, 0, 0, &video_resources.color_brightness },
-  { "XV_GAMMA",      0, 0, 0, &video_resources.color_gamma }
+    { "XV_SATURATION", 0, 0, 0, &video_resources.color_saturation },
+    { "XV_CONTRAST", 0, 0, 0, &video_resources.color_contrast },
+    { "XV_BRIGHTNESS", 0, 0, 0, &video_resources.color_brightness },
+    { "XV_GAMMA", 0, 0, 0, &video_resources.color_gamma }
 };
 
 static void init_xv_settings(video_canvas_t *canvas)
@@ -446,16 +440,13 @@ static void init_xv_settings(video_canvas_t *canvas)
         int i, j;
         int numattr = 0;
         Display *dpy = x11ui_get_display_ptr();
-        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port,
-                                                  &numattr);
-        for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0]));
-            i++) {
+        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port, &numattr);
+        for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0])); i++) {
             xv_settings[i].atom = 0;
 
             for (j = 0; j < numattr; j++) {
                 if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
-                    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name,
-                                                      False);
+                    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name, False);
                     xv_settings[i].min = attr[j].min_value;
                     xv_settings[i].max = attr[j].max_value;
                     break;
@@ -475,9 +466,7 @@ static void init_xv_settings(video_canvas_t *canvas)
 
 static void video_refresh_func(void (*rfunc)(void));
 
-
-static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
-                                  unsigned int height)
+static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
     int sizeofpixel = sizeof(BYTE);
     Display *display;
@@ -494,29 +483,27 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
-    if (canvas->depth > 8)
+    if (canvas->depth > 8) {
         sizeofpixel *= 2;
-    if (canvas->depth > 16)
+    }
+    if (canvas->depth > 16) {
         sizeofpixel *= 2;
+    }
 
 #ifdef HAVE_XVIDEO
     canvas->xv_image = NULL;
 
-    if (canvas->videoconfig->hwscale
-        && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
-            || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
-    {
+    if (canvas->videoconfig->hwscale && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1 || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)) {
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 #endif
 
-        canvas->xv_image = create_yuv_image(display, canvas->xv_port,
-                                            canvas->xv_format, width, height,
-                                            shminfo);
-        if (!(canvas->xv_image))
+        canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo);
+        if (!(canvas->xv_image)) {
             return -1;
+        }
 
         /* Copy data for architecture independent rendering. */
         canvas->yuv_image.width = canvas->xv_image->width;
@@ -527,9 +514,7 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
         canvas->yuv_image.offsets = canvas->xv_image->offsets;
         canvas->yuv_image.data = (unsigned char *)canvas->xv_image->data;
 
-        log_message(x11video_log,
-                    "Successfully initialized using XVideo (%dx%d %.4s).",
-                    width, height, canvas->xv_format.label);
+        log_message(x11video_log, "Successfully initialized using XVideo (%dx%d %.4s).", width, height, canvas->xv_format.label);
 
         return 0;
     }
@@ -541,27 +526,18 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 #ifdef USE_MITSHM
 tryagain:
     if (canvas->using_mitshm) {
-        DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, "
-                      "%d x %d pixels...", width, height));
-        canvas->x_image = XShmCreateImage(display, visual, canvas->depth,
-                                          ZPixmap, NULL, &(canvas->xshm_info),
-                                          width, height);
+        DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, %d x %d pixels...", width, height));
+        canvas->x_image = XShmCreateImage(display, visual, canvas->depth, ZPixmap, NULL, &(canvas->xshm_info), width, height);
         if (!canvas->x_image) {
-            log_warning(x11video_log,
-                        "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
+            log_warning(x11video_log, "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
             canvas->using_mitshm = 0;
             goto tryagain;
         }
         DEBUG_MITSHM(("Done."));
-        DEBUG_MITSHM(("frame_buffer_alloc(): shmgetting %ld bytes...",
-                      (long)canvas->x_image->bytes_per_line
-                      * canvas->x_image->height));
-        canvas->xshm_info.shmid = shmget(IPC_PRIVATE,
-                                  canvas->x_image->bytes_per_line
-                                  * canvas->x_image->height, IPC_CREAT | 0604);
+        DEBUG_MITSHM(("frame_buffer_alloc(): shmgetting %ld bytes...", (long)canvas->x_image->bytes_per_line * canvas->x_image->height));
+        canvas->xshm_info.shmid = shmget(IPC_PRIVATE, canvas->x_image->bytes_per_line * canvas->x_image->height, IPC_CREAT | 0604);
         if (canvas->xshm_info.shmid == -1) {
-            log_warning(x11video_log,
-                        "Cannot get shared memory; falling back to non MITSHM extension mode.");
+            log_warning(x11video_log, "Cannot get shared memory; falling back to non MITSHM extension mode.");
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
             goto tryagain;
@@ -571,8 +547,7 @@ tryagain:
         canvas->xshm_info.shmaddr = shmat(canvas->xshm_info.shmid, 0, 0);
         canvas->x_image->data = canvas->xshm_info.shmaddr;
         if (canvas->xshm_info.shmaddr == (char *)-1) {
-            log_warning(x11video_log,
-                        "Cannot get shared memory address; falling back to non MITSHM extension mode.");
+            log_warning(x11video_log, "Cannot get shared memory address; falling back to non MITSHM extension mode.");
             shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
@@ -586,8 +561,7 @@ tryagain:
         olderrorhandler = XSetErrorHandler(shmhandler);
 
         if (!XShmAttach(display, &(canvas->xshm_info))) {
-            log_warning(x11video_log,
-                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+            log_warning(x11video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
             shmdt(canvas->xshm_info.shmaddr);
             shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
             XDestroyImage(canvas->x_image);
@@ -603,8 +577,7 @@ tryagain:
         shmctl(canvas->xshm_info.shmid, IPC_RMID, 0);
 
         if (mitshm_failed) {
-            log_warning(x11video_log,
-                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+            log_warning(x11video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
             shmdt(canvas->xshm_info.shmaddr);
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
@@ -620,26 +593,26 @@ tryagain:
 
         data = lib_malloc(width * height * sizeofpixel);
 
-        if (data == NULL)
+        if (data == NULL) {
             return -1;
+        }
 
-        canvas->x_image = XCreateImage(display, visual, canvas->depth, ZPixmap,
-                                       0, data, width, height, 32, 0);
-        if (!canvas->x_image)
+        canvas->x_image = XCreateImage(display, visual, canvas->depth, ZPixmap, 0, data, width, height, 32, 0);
+        if (!canvas->x_image) {
             return -1;
+        }
 
         video_refresh_func((void (*)(void))XPutImage);
     }
 
 #ifdef USE_MITSHM
-    log_message(x11video_log, "Successfully initialized%s shared memory.",
-                (canvas->using_mitshm) ? ", using" : " without");
+    log_message(x11video_log, "Successfully initialized%s shared memory.", (canvas->using_mitshm) ? ", using" : " without");
 
-    if (!(canvas->using_mitshm))
+    if (!(canvas->using_mitshm)) {
         log_warning(x11video_log, "Performance will be poor.");
+    }
 #else
-    log_message(x11video_log,
-                "Successfully initialized without shared memory.");
+    log_message(x11video_log, "Successfully initialized without shared memory.");
 #endif
 
     return 0;
@@ -653,7 +626,6 @@ static GC video_get_gc(XGCValues *gc_values)
 
     return XCreateGC(display, XtWindow(_ui_top_level), 0, gc_values);
 }
-
 
 /* Make the canvas visible. */
 void video_canvas_map(video_canvas_t *s)
@@ -682,10 +654,7 @@ static void ui_finish_canvas(video_canvas_t *c)
     c->drawable = XtWindow(c->emuwindow);
 }
 
-
-
-video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                                    unsigned int *height, int mapped)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     int res;
     unsigned int new_width, new_height;
@@ -696,18 +665,19 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     new_width = *width;
     new_height = *height;
 
-    if (canvas->videoconfig->doublesizex)
+    if (canvas->videoconfig->doublesizex) {
         new_width *= 2;
+    }
 
-    if (canvas->videoconfig->doublesizey)
+    if (canvas->videoconfig->doublesizey) {
         new_height *= 2;
+    }
 
 #ifdef HAVE_XVIDEO
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 
-    if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format))
-    {
+    if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format)) {
         if (canvas->videoconfig->hwscale) {
             log_message(x11video_log, "HW scaling not available");
             canvas->videoconfig->hwscale = 0;
@@ -722,26 +692,28 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         return NULL;
     }
 
-    res = ui_open_canvas_window(canvas, canvas->viewport->title,
-				new_width, new_height, 1);
+    res = ui_open_canvas_window(canvas, canvas->viewport->title, new_width, new_height, 1);
     if (res < 0) {
         return NULL;
     }
 
-    if (!_video_gc)
+    if (!_video_gc) {
         _video_gc = video_get_gc(&gc_values);
+    }
 
     canvas->width = new_width;
     canvas->height = new_height;
 
     ui_finish_canvas(canvas);
 
-    if (canvas->depth > 8)
-	uicolor_init_video_colors();
+    if (canvas->depth > 8) {
+        uicolor_init_video_colors();
+    }
 
 #ifdef HAVE_XVIDEO
     init_xv_settings(canvas);
 #endif
+
 #ifdef HAVE_OPENGL_SYNC
     openGL_sync_init(canvas);
 #endif
@@ -761,7 +733,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
     video_canvas_shutdown(canvas);
 }
 
-
 int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 {
 #ifdef HAVE_XVIDEO
@@ -771,8 +742,7 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 
         Display *dpy = x11ui_get_display_ptr();
 
-        for (i = 0; i < (int)(sizeof(xv_settings) / sizeof(xv_settings[0]));
-            i++) {
+        for (i = 0; i < (int)(sizeof(xv_settings) / sizeof(xv_settings[0])); i++) {
             /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
             int v_min = 0, v_max = 2000;
             int v_zero = (v_min + v_max) / 2;
@@ -781,8 +751,7 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
             int xv_zero = (xv_settings[i].min + xv_settings[i].max) / 2;
             int xv_range = xv_settings[i].max - xv_settings[i].min;
 
-            int xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range
-                         + xv_zero;
+            int xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range + xv_zero;
 
             if (!xv_settings[i].atom) {
                 continue;
@@ -799,25 +768,26 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 }
 
 /* Change the size of the canvas. */
-void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
-                         unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
-    if (console_mode || vsid_mode)
+    if (console_mode || vsid_mode) {
         return;
+    }
 
 #ifdef HAVE_XVIDEO
     if (canvas->videoconfig->hwscale) {
-	struct geometry_s *geometry = canvas->geometry;
-	width = geometry->gfx_size.width + geometry->gfx_position.x * 2;
-	height =
-	  geometry->last_displayed_line - geometry->first_displayed_line + 1;
+        struct geometry_s *geometry = canvas->geometry;
+        width = geometry->gfx_size.width + geometry->gfx_position.x * 2;
+        height = geometry->last_displayed_line - geometry->first_displayed_line + 1;
     }
 #endif
-    if (canvas->videoconfig->doublesizex)
+    if (canvas->videoconfig->doublesizex) {
         width *= 2;
+    }
 
-    if (canvas->videoconfig->doublesizey)
+    if (canvas->videoconfig->doublesizey) {
         height *= 2;
+    }
 
     video_arch_frame_buffer_free(canvas);
     video_arch_frame_buffer_alloc(canvas, width, height);
@@ -835,7 +805,6 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
 #endif
 }
 
-
 /* ------------------------------------------------------------------------- */
 
 static void video_refresh_func(void (*rfunc)(void))
@@ -846,24 +815,17 @@ static void video_refresh_func(void (*rfunc)(void))
 /* ------------------------------------------------------------------------- */
 
 /* Refresh a canvas.  */
-void video_canvas_refresh(video_canvas_t *canvas,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
+void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
     Display *display;
-#if 0
-    log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h,
-              canvas->draw_buffer->draw_buffer_width);
-#endif
 
-    if (console_mode || vsid_mode)
+    if (console_mode || vsid_mode) {
         return;
+    }
 
 #ifdef HAVE_XVIDEO
     if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        int doublesize = canvas->videoconfig->doublesizex
-          && canvas->videoconfig->doublesizey;
+        int doublesize = canvas->videoconfig->doublesizex && canvas->videoconfig->doublesizey;
 
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
@@ -889,23 +851,15 @@ void video_canvas_refresh(video_canvas_t *canvas,
                          xs, ys, w, h,
                          xi, yi);
 
-        XGetGeometry(display,
-                     canvas->drawable,
-                     &root, &x, &y,
-                     &dest_w, &dest_h, &border_width, &depth);
+        XGetGeometry(display, canvas->drawable, &root, &x, &y, &dest_w, &dest_h, &border_width, &depth);
 
         /* Xv does subpixel scaling. Since coordinates are in integers we
            refresh the entire image to get it right. */
-        display_yuv_image(display, canvas->xv_port,
-                          canvas->drawable, _video_gc,
-                          canvas->xv_image, shminfo,
-                          0, 0,
-                          canvas->width, canvas->height,
-                          dest_w, dest_h,
-                          aspect_ratio);
+        display_yuv_image(display, canvas->xv_port, canvas->drawable, _video_gc, canvas->xv_image, shminfo, 0, 0, canvas->width, canvas->height, dest_w, dest_h, aspect_ratio);
 
-        if (_video_use_xsync)
+        if (_video_use_xsync) {
             XSync(display, False);
+        }
 
         return;
     }
@@ -929,25 +883,19 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #endif
 
     if (xi + w > canvas->width || yi + h > canvas->height) {
-        log_debug("Attempt to draw outside canvas!\n"
-                  "XI%i YI%i W%i H%i CW%i CH%i\n",
-                  xi, yi, w, h, canvas->width, canvas->height);
-	return;			/* this makes `-fullscreen -80col' work 
-				   XXX fix me some day */
+        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, canvas->width, canvas->height);
+        return;			/* this makes `-fullscreen -80col' work 
+					   XXX fix me some day */
     }
 
-    video_canvas_render(canvas, (BYTE *)canvas->x_image->data,
-                        w, h, xs, ys, xi, yi,
-                        canvas->x_image->bytes_per_line,
-                        canvas->x_image->bits_per_pixel);
-
+    video_canvas_render(canvas, (BYTE *)canvas->x_image->data, w, h, xs, ys, xi, yi, canvas->x_image->bytes_per_line, canvas->x_image->bits_per_pixel);
 
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
 
-    _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image,
-                  xi, yi, xi, yi, w, h, False, NULL, canvas);
+    _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image, xi, yi, xi, yi, w, h, False, NULL, canvas);
     
-    if (_video_use_xsync)
+    if (_video_use_xsync) {
         XSync(display, False);
+    }
 }

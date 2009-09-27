@@ -9,33 +9,29 @@
  *	the "tabs" argument is NULL, works exactly like its
  *	counterpart.
  */
-int
-XfwfTextWidth(font, str, length, tabs)
-     XFontStruct *font;
-     String str;
-     int length;
-     int *tabs;
+int XfwfTextWidth(XFontStruct *font, String str, int length, int *tabs)
 {
-	register char	*p, *ep;
-	register int	tx, tab, rc;
+    register char *p, *ep;
+    register int tx, tab, rc;
 
-	tab = tx = 0;
- 	if (length == 0) return 0;
-	for (p = str; length; )
-	{
-		ep = strnchr(p, '\t', length);
-		if (ep && tabs)
-		{
-			tx = tabs[tab++];
-			length -= ep - p + 1;
-			p = ep + 1;
-		}
-		else
-		{
-			rc = XTextWidth(font, p, length);
-			if (rc < 0) return rc; else return rc + tx;
-		}
-	}
-	return 0;
+    tab = tx = 0;
+    if (length == 0) {
+        return 0;
+    }
+    for (p = str; length;) {
+        ep = strnchr(p, '\t', length);
+        if (ep && tabs) {
+            tx = tabs[tab++];
+            length -= ep - p + 1;
+            p = ep + 1;
+        } else {
+            rc = XTextWidth(font, p, length);
+            if (rc < 0) {
+                return rc;
+            } else {
+                return rc + tx;
+            }
+        }
+    }
+    return 0;
 }
-

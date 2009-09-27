@@ -21,24 +21,23 @@
 #ifndef VICE_SCROLLEDLIST_H_
 #define VICE_SCROLLEDLIST_H_
 
-extern WidgetClass		xfwfScrolledListWidgetClass;
+extern WidgetClass xfwfScrolledListWidgetClass;
 
 typedef struct _XfwfScrolledListClassRec *XfwfScrolledListWidgetClass;
-typedef struct _XfwfScrolledListRec      *XfwfScrolledListWidget;
+typedef struct _XfwfScrolledListRec *XfwfScrolledListWidget;
 
-typedef struct
-{
-	Widget multilist;	/* The list widget clicked on */
-	String string;		/* The name of the item clicked on */
-	int index;		/* The index of the item clicked on */
-	Boolean highlighted;	/* Are any items highlighted? */
+typedef struct {
+    Widget multilist;	/* The list widget clicked on */
+    String string;		/* The name of the item clicked on */
+    int index;		/* The index of the item clicked on */
+    Boolean highlighted;	/* Are any items highlighted? */
 } XfwfScrolledListReturnStruct;
 
-#define	XtNlist			"list"
-#define	XtNnumberStrings	"numberStrings"
+#define XtNlist          "list"
+#define XtNnumberStrings "numberStrings"
 
 #ifndef XtNsensitiveArray
-#define	XtNsensitiveArray	"sensitiveArray"
+#define XtNsensitiveArray "sensitiveArray"
 #endif
 
 /*===========================================================================*
@@ -49,29 +48,21 @@ typedef struct
 
 #if (!NeedFunctionPrototypes)
 
-extern void		XfwfScrolledListSetList();
-extern void		XfwfScrolledListUnhighlightAll();
-extern XfwfScrolledListReturnStruct *
-			XfwfScrolledListGetHighlighted();
-extern Boolean		XfwfScrolledListIsHighlighted();
-extern Boolean		XfwfScrolledListGetItem();
+extern void XfwfScrolledListSetList();
+extern void XfwfScrolledListUnhighlightAll();
+extern XfwfScrolledListReturnStruct *XfwfScrolledListGetHighlighted();
+extern Boolean XfwfScrolledListIsHighlighted();
+extern Boolean XfwfScrolledListGetItem();
 
 #else
 
-extern void		XfwfScrolledListSetList(Widget w, char **newlist,
-				int items, int resize,
-				Boolean *sensitive_array);
-extern void		XfwfScrolledListUnhighlightAll(Widget w);
-extern void		XfwfScrolledListHighlightItem(Widget w,
-				int item_index);
-extern XfwfScrolledListReturnStruct *
-		XfwfScrolledListGetHighlighted(XfwfScrolledListWidget sw);
-extern Boolean		XfwfScrolledListIsHighlighted(Widget w,
-				int item_index);
-extern Boolean		XfwfScrolledListGetItem(Widget w, int item_index,
-				String *str_ptr, Boolean *high_ptr,
-				Boolean *sens_ptr);
+extern void XfwfScrolledListSetList(Widget w, char **newlist, int items, int resize, Boolean *sensitive_array);
+extern void XfwfScrolledListUnhighlightAll(Widget w);
+extern void XfwfScrolledListHighlightItem(Widget w, int item_index);
+extern XfwfScrolledListReturnStruct *XfwfScrolledListGetHighlighted(XfwfScrolledListWidget sw);
+extern Boolean XfwfScrolledListIsHighlighted(Widget w, int item_index);
+extern Boolean XfwfScrolledListGetItem(Widget w, int item_index, String *str_ptr, Boolean *high_ptr, Boolean *sens_ptr);
 
 #endif
-#endif
 
+#endif

@@ -33,7 +33,6 @@
 #include "uiarch.h"
 #include "vsiduiunix.h"
 
-
 static char *author, *copyright, *name, *vsidsync, *model, *irq;
 static int tune;
 static char *line;
@@ -41,12 +40,8 @@ static char *line;
 static void update_line(void)
 {
     lib_free(line);
-    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n"
-                        "%s\nModel: %s\nIRQ: %s") ,
-                        name, tune,
-                        author, copyright, vsidsync, model, irq);
+    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s"), name, tune, author, copyright, vsidsync, model, irq);
 }
-
 
 ui_window_t build_vsid_ctrl_widget(void)
 {
@@ -99,4 +94,3 @@ void ui_vsid_setirq(const char *c)
     irq = lib_stralloc(c);
     update_line();
 }
-

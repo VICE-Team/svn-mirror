@@ -56,7 +56,6 @@
 #include "uiscreenshot.h"
 #include "util.h"
 
-
 static Widget screenshot_dialog;
 static Widget screenshot_dialog_pane;
 static Widget file_name_form;
@@ -76,9 +75,9 @@ static Widget cancel_button;
 
 static char *screenshot_file_name;
 
-#define FILL_BOX_WIDTH          10
-#define OPTION_LABELS_WIDTH     50
-#define OPTION_LABELS_JUSTIFY   XtJustifyLeft
+#define FILL_BOX_WIDTH        10
+#define OPTION_LABELS_WIDTH   50
+#define OPTION_LABELS_JUSTIFY XtJustifyLeft
 
 extern Widget rec_button;
 
@@ -88,11 +87,11 @@ static UI_CALLBACK(browse_callback)
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
     char *filename;
 
-    filename = ui_select_file(_("Save screenshot file"), NULL, False, NULL,
-                              &filter, 1, &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Save screenshot file"), NULL, False, NULL, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
-    if (button == UI_BUTTON_OK)
+    if (button == UI_BUTTON_OK) {
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
+    }
 
     lib_free(filename);
 }
@@ -118,21 +117,22 @@ static UI_CALLBACK(save_callback)
     
     for (i = 0; i < num_buttons; i++) {
         XtVaGetValues(driver_buttons[i], XtNstate, &driver_flag, NULL);
-        if (driver_flag)
+        if (driver_flag) {
            break;
+        }
 
         driver = gfxoutput_drivers_iter_next();
     }
     
-    if (!driver)
-	return;
+    if (!driver) {
+        return;
+    }
  
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     util_add_extension(&name, driver->default_extension);
-    if (name && (strcmp(driver->name, "FFMPEG") == 0))
-    {
-	XtRealizeWidget(rec_button);
-	XtManageChild(rec_button);
+    if (name && (strcmp(driver->name, "FFMPEG") == 0)) {
+        XtRealizeWidget(rec_button);
+        XtManageChild(rec_button);
     }
     screenshot_save(driver->name, name, canvas);
 }
@@ -147,133 +147,118 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
     static char *text_box_translations = "<Btn1Down>: select-start() focus-in()";
 #endif
 
-    if (screenshot_dialog != NULL)
+    if (screenshot_dialog != NULL) {
         return;
+    }
 
-    screenshot_dialog = ui_create_transient_shell(_ui_top_level,
-                                                  "screenshotDialog");
+    screenshot_dialog = ui_create_transient_shell(_ui_top_level, "screenshotDialog");
 
-    screenshot_dialog_pane = XtVaCreateManagedWidget
-        ("screenshotDialogPane",
-         panedWidgetClass, screenshot_dialog,
-         NULL);
+    screenshot_dialog_pane = XtVaCreateManagedWidget("screenshotDialogPane",
+                                                     panedWidgetClass, screenshot_dialog,
+                                                     NULL);
     
-    file_name_form = XtVaCreateManagedWidget
-        ("fileNameForm",
-         formWidgetClass, screenshot_dialog_pane,
-         XtNshowGrip, False, NULL);
+    file_name_form = XtVaCreateManagedWidget("fileNameForm",
+                                             formWidgetClass, screenshot_dialog_pane,
+                                             XtNshowGrip, False,
+                                             NULL);
     
-    file_name_label = XtVaCreateManagedWidget
-        ("fileNameLabel",
-         labelWidgetClass, file_name_form,
-         XtNjustify, XtJustifyLeft,
-         XtNlabel, _("File name:"),
-         XtNborderWidth, 0,
-         NULL);
+    file_name_label = XtVaCreateManagedWidget("fileNameLabel",
+                                              labelWidgetClass, file_name_form,
+                                              XtNjustify, XtJustifyLeft,
+                                              XtNlabel, _("File name:"),
+                                              XtNborderWidth, 0,
+                                              NULL);
 
 #ifndef ENABLE_TEXTFIELD
-    file_name_field = XtVaCreateManagedWidget
-        ("fileNameField",
-         asciiTextWidgetClass, file_name_form,
-         XtNfromHoriz, file_name_label,
-         XtNwidth, 240,
-         XtNtype, XawAsciiString,
-         XtNeditType, XawtextEdit,
-         NULL);
+    file_name_field = XtVaCreateManagedWidget("fileNameField",
+                                              asciiTextWidgetClass, file_name_form,
+                                              XtNfromHoriz, file_name_label,
+                                              XtNwidth, 240,
+                                              XtNtype, XawAsciiString,
+                                              XtNeditType, XawtextEdit,
+                                              NULL);
 #else
-    file_name_field = XtVaCreateManagedWidget
-        ("fileNameField",
-         textfieldWidgetClass, file_name_form,
-         XtNfromHoriz, file_name_label,
-         XtNwidth, 240,
-         XtNstring, "",         /* Otherwise, it does not work correctly.  */
-         NULL);
+    file_name_field = XtVaCreateManagedWidget("fileNameField",
+                                              textfieldWidgetClass, file_name_form,
+                                              XtNfromHoriz, file_name_label,
+                                              XtNwidth, 240,
+                                              XtNstring, "",         /* Otherwise, it does not work correctly.  */
+                                              NULL);
 #endif
-    XtOverrideTranslations(file_name_field,
-                               XtParseTranslationTable(text_box_translations));
+    XtOverrideTranslations(file_name_field, XtParseTranslationTable(text_box_translations));
 
-    browse_button = XtVaCreateManagedWidget
-        ("browseButton",
-         commandWidgetClass, file_name_form,
-         XtNfromHoriz, file_name_field,
-         XtNlabel, _("Browse..."),
-         NULL);
+    browse_button = XtVaCreateManagedWidget("browseButton",
+                                            commandWidgetClass, file_name_form,
+                                            XtNfromHoriz, file_name_field,
+                                            XtNlabel, _("Browse..."),
+                                            NULL);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
-    options_form = XtVaCreateManagedWidget
-        ("optionsForm",
-         formWidgetClass, screenshot_dialog_pane,
-         XtNskipAdjust, True,
-         NULL);
+    options_form = XtVaCreateManagedWidget("optionsForm",
+                                           formWidgetClass, screenshot_dialog_pane,
+                                           XtNskipAdjust, True,
+                                           NULL);
 
-    driver_label = XtVaCreateManagedWidget
-        ("ImageTypeLabel",
-         labelWidgetClass, options_form,
-         XtNborderWidth, 0,
-         XtNfromHoriz, options_filling_box_left,
-         XtNjustify, OPTION_LABELS_JUSTIFY,
-         XtNwidth, OPTION_LABELS_WIDTH,
-         XtNleft, XawChainLeft,
-         XtNright, XawChainRight,
-         XtNheight, 20,
-         XtNlabel, _("Image format:"),
-         NULL);
+    driver_label = XtVaCreateManagedWidget("ImageTypeLabel",
+                                           labelWidgetClass, options_form,
+                                           XtNborderWidth, 0,
+                                           XtNfromHoriz, options_filling_box_left,
+                                           XtNjustify, OPTION_LABELS_JUSTIFY,
+                                           XtNwidth, OPTION_LABELS_WIDTH,
+                                           XtNleft, XawChainLeft,
+                                           XtNright, XawChainRight,
+                                           XtNheight, 20,
+                                           XtNlabel, _("Image format:"),
+                                           NULL);
 
     num_buttons = gfxoutput_num_drivers();
     driver_buttons = lib_malloc(sizeof(Widget) * num_buttons);
     driver = gfxoutput_drivers_iter_init();
 
-    driver_buttons[0] = XtVaCreateManagedWidget
-        (driver->displayname,
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, driver_label,
-         XtNfromVert, browse_button,
-         XtNwidth, 180,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, driver->displayname,
-         NULL);
+    driver_buttons[0] = XtVaCreateManagedWidget(driver->displayname,
+                                                toggleWidgetClass, options_form,
+                                                XtNfromHoriz, driver_label,
+                                                XtNfromVert, browse_button,
+                                                XtNwidth, 180,
+                                                XtNheight, 20,
+                                                XtNright, XtChainRight,
+                                                XtNleft, XtChainRight,
+                                                XtNlabel, driver->displayname,
+                                                NULL);
     driver = gfxoutput_drivers_iter_next();
     for (i = 1; i < num_buttons; i++) {
-        driver_buttons[i] = XtVaCreateManagedWidget
-            (driver->displayname,
-             toggleWidgetClass, options_form,
-             XtNfromHoriz, driver_label,
-             XtNfromVert, driver_buttons[i-1],
-             XtNwidth, 180,
-             XtNheight, 20,
-             XtNright, XtChainRight,
-             XtNleft, XtChainRight,
-             XtNlabel, driver->displayname,
-             XtNradioGroup, driver_buttons[i-1],
-             NULL);
+        driver_buttons[i] = XtVaCreateManagedWidget(driver->displayname,
+                                                    toggleWidgetClass, options_form,
+                                                    XtNfromHoriz, driver_label,
+                                                    XtNfromVert, driver_buttons[i - 1],
+                                                    XtNwidth, 180,
+                                                    XtNheight, 20,
+                                                    XtNright, XtChainRight,
+                                                    XtNleft, XtChainRight,
+                                                    XtNlabel, driver->displayname,
+                                                    XtNradioGroup, driver_buttons[i - 1],
+                                                    NULL);
         driver = gfxoutput_drivers_iter_next();
     }
 
-    button_box = XtVaCreateManagedWidget
-        ("buttonBox",
-         boxWidgetClass, screenshot_dialog_pane,
-         XtNshowGrip, False, NULL);
+    button_box = XtVaCreateManagedWidget("buttonBox",
+                                         boxWidgetClass, screenshot_dialog_pane,
+                                         XtNshowGrip, False,
+                                         NULL);
 
-    save_button = XtVaCreateManagedWidget
-        ("saveButton",
-         commandWidgetClass, button_box,
-         XtNlabel, _("Save"),
-         NULL);
+    save_button = XtVaCreateManagedWidget("saveButton",
+                                          commandWidgetClass, button_box,
+                                          XtNlabel, _("Save"),
+                                          NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, (XtPointer)canvas);
     
-    cancel_button = XtVaCreateManagedWidget
-        ("cancelButton",
-         commandWidgetClass, button_box,
-         XtNlabel, _("Cancel"),
-         NULL);
+    cancel_button = XtVaCreateManagedWidget("cancelButton",
+                                            commandWidgetClass, button_box,
+                                            XtNlabel, _("Cancel"),
+                                            NULL);
     XtAddCallback(cancel_button, XtNcallback, cancel_callback, NULL);
 
     XtVaSetValues(driver_buttons[0], XtNstate, True, NULL);
-/*
-    XtVaSetValues(save_disk_off_button, XtNstate, True, NULL);
-*/
     XtSetKeyboardFocus(screenshot_dialog_pane, file_name_field);
 }
 
@@ -291,4 +276,3 @@ void uiscreenshot_shutdown(void)
 {
     lib_free(driver_buttons);
 }
-

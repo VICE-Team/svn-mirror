@@ -62,11 +62,10 @@
 
  *---------------------------------------------------------------------------*/
 
-typedef	struct
-{
-	Boolean		sensitive;
-	Boolean		highlighted;
-	String		string;
+typedef struct {
+    Boolean sensitive;
+    Boolean highlighted;
+    String string;
 } XfwfMultiListItem;
 
 /*---------------------------------------------------------------------------*
@@ -75,66 +74,62 @@ typedef	struct
 
  *---------------------------------------------------------------------------*/
 
-typedef struct
-{
-	int		foo;
+typedef struct {
+    int foo;
 } XfwfMultiListClassPart;
 
-typedef struct _XfwfMultiListClassRec
-{
-	CoreClassPart		core_class;
-	SimpleClassPart		simple_class;
-	XfwfMultiListClassPart	multiList_class;
+typedef struct _XfwfMultiListClassRec {
+    CoreClassPart core_class;
+    SimpleClassPart simple_class;
+    XfwfMultiListClassPart multiList_class;
 } XfwfMultiListClassRec;
 
 extern XfwfMultiListClassRec xfwfMultiListClassRec;
 
-typedef struct
-{
-	Pixel			foreground;
-	Pixel			highlight_fg;
-	Pixel			highlight_bg;
-	Dimension		column_space;
-	Dimension		row_space;
-	int			default_cols;
-	Boolean			force_cols;
-	Boolean			paste;
-	Boolean			row_major;
-	int			longest;
-	int			nitems;
-	XFontStruct		*font;
-	String			*list;
-	Boolean			*sensitive_array;
-	XtCallbackList  	callback;
-	int			max_selectable;
-	Boolean			shade_surplus;
-	Dimension		col_width;
-	Dimension		row_height;
+typedef struct {
+    Pixel foreground;
+    Pixel highlight_fg;
+    Pixel highlight_bg;
+    Dimension column_space;
+    Dimension row_space;
+    int default_cols;
+    Boolean force_cols;
+    Boolean paste;
+    Boolean row_major;
+    int longest;
+    int nitems;
+    XFontStruct *font;
+    String *list;
+    Boolean *sensitive_array;
+    XtCallbackList callback;
+    int max_selectable;
+    Boolean shade_surplus;
+    Dimension col_width;
+    Dimension row_height;
 
-	int			right_padding;
-	int			bottom_padding;
-	int			nrows;
-	int			ncols;
-	int			most_recent_clicked_item;
-	int			most_recent_action;
-	GC			erase_gc;
-	GC			draw_gc;
-	GC			highlight_bg_gc;
-	GC			highlight_fg_gc;
-	GC			gray_gc;
-	XfwfMultiListItem	*item_array;
-	int			num_selected;
-	int			*sel_array;
+    int right_padding;
+    int bottom_padding;
+    int nrows;
+    int ncols;
+    int most_recent_clicked_item;
+    int most_recent_action;
+    GC erase_gc;
+    GC draw_gc;
+    GC highlight_bg_gc;
+    GC highlight_fg_gc;
+    GC gray_gc;
+    XfwfMultiListItem *item_array;
+    int num_selected;
+    int *sel_array;
 
-	char			*tablist;
-	int			*tabs;
+    char *tablist;
+    int *tabs;
 } XfwfMultiListPart;
 
-typedef struct _XfwfMultiListRec
-{
-	CorePart		core;
-	SimplePart		simple;
-	XfwfMultiListPart	multiList;
+typedef struct _XfwfMultiListRec {
+    CorePart core;
+    SimplePart simple;
+    XfwfMultiListPart multiList;
 } XfwfMultiListRec;
 
 /*---------------------------------------------------------------------------*
@@ -143,58 +138,58 @@ typedef struct _XfwfMultiListRec
 
  *---------------------------------------------------------------------------*/
 
-#define	MultiListItemSensitive(i)	((i)->sensitive)
-#define	MultiListItemHighlighted(i)	((i)->highlighted)
-#define	MultiListItemString(i)		((i)->string)
+#define MultiListItemSensitive(i)   ((i)->sensitive)
+#define MultiListItemHighlighted(i) ((i)->highlighted)
+#define MultiListItemString(i)      ((i)->string)
 
-#define	InstanceCore(w)			(&((w)->core))
-#define	InstanceSimple(w)		(&((w)->simple))
-#define	InstanceMultiList(w)		(&((w)->multiList))
+#define InstanceCore(w)      (&((w)->core))
+#define InstanceSimple(w)    (&((w)->simple))
+#define InstanceMultiList(w) (&((w)->multiList))
 
-#define	MultiListWidth(w)		(InstanceCore(w)->width)
-#define	MultiListHeight(w)		(InstanceCore(w)->height)
-#define	MultiListBG(w)			(InstanceCore(w)->background_pixel)
-#define	MultiListSensitive(w)		(InstanceCore(w)->sensitive)
-#define	MultiListAncesSensitive(w)	(InstanceCore(w)->ancestor_sensitive)
-#define	MultiListDepth(w)		(InstanceCore(w)->depth)
+#define MultiListWidth(w)          (InstanceCore(w)->width)
+#define MultiListHeight(w)         (InstanceCore(w)->height)
+#define MultiListBG(w)             (InstanceCore(w)->background_pixel)
+#define MultiListSensitive(w)      (InstanceCore(w)->sensitive)
+#define MultiListAncesSensitive(w) (InstanceCore(w)->ancestor_sensitive)
+#define MultiListDepth(w)          (InstanceCore(w)->depth)
 
-#define	MultiListFG(w)			(InstanceMultiList(w)->foreground)
-#define	MultiListHighlightFG(w)		(InstanceMultiList(w)->highlight_fg)
-#define	MultiListHighlightBG(w)		(InstanceMultiList(w)->highlight_bg)
-#define	MultiListColumnSpace(w)		(InstanceMultiList(w)->column_space)
-#define	MultiListRowSpace(w)		(InstanceMultiList(w)->row_space)
-#define	MultiListDefaultCols(w)		(InstanceMultiList(w)->default_cols)
-#define	MultiListForceCols(w)		(InstanceMultiList(w)->default_cols)
-#define	MultiListPaste(w)		(InstanceMultiList(w)->paste)
-#define	MultiListRowMajor(w)		(InstanceMultiList(w)->row_major)
-#define	MultiListLongest(w)		(InstanceMultiList(w)->longest)
-#define	MultiListNumItems(w)		(InstanceMultiList(w)->nitems)
-#define	MultiListFont(w)		(InstanceMultiList(w)->font)
-#define	MultiListList(w)		(InstanceMultiList(w)->list)
-#define	MultiListSensitiveArray(w)	(InstanceMultiList(w)->sensitive_array)
-#define	MultiListCallback(w)		(InstanceMultiList(w)->callback)
-#define	MultiListMaxSelectable(w)	(InstanceMultiList(w)->max_selectable)
-#define	MultiListShadeSurplus(w)	(InstanceMultiList(w)->shade_surplus)
+#define MultiListFG(w)             (InstanceMultiList(w)->foreground)
+#define MultiListHighlightFG(w)    (InstanceMultiList(w)->highlight_fg)
+#define MultiListHighlightBG(w)    (InstanceMultiList(w)->highlight_bg)
+#define MultiListColumnSpace(w)    (InstanceMultiList(w)->column_space)
+#define MultiListRowSpace(w)       (InstanceMultiList(w)->row_space)
+#define MultiListDefaultCols(w)    (InstanceMultiList(w)->default_cols)
+#define MultiListForceCols(w)      (InstanceMultiList(w)->default_cols)
+#define MultiListPaste(w)          (InstanceMultiList(w)->paste)
+#define MultiListRowMajor(w)       (InstanceMultiList(w)->row_major)
+#define MultiListLongest(w)        (InstanceMultiList(w)->longest)
+#define MultiListNumItems(w)       (InstanceMultiList(w)->nitems)
+#define MultiListFont(w)           (InstanceMultiList(w)->font)
+#define MultiListList(w)           (InstanceMultiList(w)->list)
+#define MultiListSensitiveArray(w) (InstanceMultiList(w)->sensitive_array)
+#define MultiListCallback(w)       (InstanceMultiList(w)->callback)
+#define MultiListMaxSelectable(w)  (InstanceMultiList(w)->max_selectable)
+#define MultiListShadeSurplus(w)   (InstanceMultiList(w)->shade_surplus)
 
-#define	MultiListColWidth(w)		(InstanceMultiList(w)->col_width)
-#define	MultiListRowHeight(w)		(InstanceMultiList(w)->row_height)
-#define	MultiListRightPadding(w)	(InstanceMultiList(w)->right_padding)
-#define	MultiListBottomPadding(w)	(InstanceMultiList(w)->bottom_padding)
-#define	MultiListNumRows(w)		(InstanceMultiList(w)->nrows)
-#define	MultiListNumCols(w)		(InstanceMultiList(w)->ncols)
-#define	MultiListMostRecentItem(w)	(InstanceMultiList(w)->most_recent_clicked_item)
-#define	MultiListMostRecentAct(w)	(InstanceMultiList(w)->most_recent_action)
-#define	MultiListEraseGC(w)		(InstanceMultiList(w)->erase_gc)
-#define	MultiListDrawGC(w)		(InstanceMultiList(w)->draw_gc)
-#define	MultiListHighlightForeGC(w)	(InstanceMultiList(w)->highlight_fg_gc)
-#define	MultiListHighlightBackGC(w)	(InstanceMultiList(w)->highlight_bg_gc)
-#define	MultiListGrayGC(w)		(InstanceMultiList(w)->gray_gc)
-#define	MultiListItemArray(w)		(InstanceMultiList(w)->item_array)
-#define	MultiListNthItem(w,n)		(&(MultiListItemArray(w)[n]))
-#define	MultiListSelArray(w)		(InstanceMultiList(w)->sel_array)
-#define	MultiListNumSelected(w)		(InstanceMultiList(w)->num_selected)
+#define MultiListColWidth(w)        (InstanceMultiList(w)->col_width)
+#define MultiListRowHeight(w)       (InstanceMultiList(w)->row_height)
+#define MultiListRightPadding(w)    (InstanceMultiList(w)->right_padding)
+#define MultiListBottomPadding(w)   (InstanceMultiList(w)->bottom_padding)
+#define MultiListNumRows(w)         (InstanceMultiList(w)->nrows)
+#define MultiListNumCols(w)         (InstanceMultiList(w)->ncols)
+#define MultiListMostRecentItem(w)  (InstanceMultiList(w)->most_recent_clicked_item)
+#define MultiListMostRecentAct(w)   (InstanceMultiList(w)->most_recent_action)
+#define MultiListEraseGC(w)         (InstanceMultiList(w)->erase_gc)
+#define MultiListDrawGC(w)          (InstanceMultiList(w)->draw_gc)
+#define MultiListHighlightForeGC(w) (InstanceMultiList(w)->highlight_fg_gc)
+#define MultiListHighlightBackGC(w) (InstanceMultiList(w)->highlight_bg_gc)
+#define MultiListGrayGC(w)          (InstanceMultiList(w)->gray_gc)
+#define MultiListItemArray(w)       (InstanceMultiList(w)->item_array)
+#define MultiListNthItem(w, n)      (&(MultiListItemArray(w)[n]))
+#define MultiListSelArray(w)        (InstanceMultiList(w)->sel_array)
+#define MultiListNumSelected(w)     (InstanceMultiList(w)->num_selected)
 
-#define	MultiListTabList(w)		(InstanceMultiList(w)->tablist)
-#define	MultiListTabs(w)		(InstanceMultiList(w)->tabs)
+#define MultiListTabList(w) (InstanceMultiList(w)->tablist)
+#define MultiListTabs(w)    (InstanceMultiList(w)->tabs)
 
 #endif

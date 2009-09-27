@@ -28,29 +28,27 @@
 #include "Canvas.h"
 
 typedef struct {
-  char	dummy;	/* some stupid compilers barf on empty structures */
+  char dummy;	/* some stupid compilers barf on empty structures */
 } CanvasClassPart;
-
 
 typedef struct _CanvasClassRec {
     CoreClassPart	core_class;
-    CanvasClassPart	canvas_class;
+    CanvasClassPart canvas_class;
 } CanvasClassRec;
 
 extern CanvasClassRec canvasClassRec;
 
-
 typedef struct {
-  XfwfCanvasExposeProc	redraw;
-  XtPointer		redraw_data;
-  XfwfCanvasResizeProc	resize;
-  XtPointer		resize_data;
-  Visual		*visual;
+    XfwfCanvasExposeProc redraw;
+    XtPointer redraw_data;
+    XfwfCanvasResizeProc resize;
+    XtPointer resize_data;
+    Visual *visual;
 } CanvasPart;
 
 typedef struct _CanvasRec {
-    CorePart		core;
-    CanvasPart	canvas;
+    CorePart core;
+    CanvasPart canvas;
 } CanvasRec;
 
 #endif /* _CanvasP_h */

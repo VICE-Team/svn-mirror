@@ -37,28 +37,22 @@
 
 /* POSIX <regex.h> version.  */
 
-void RegExpInit(r)
-    fwf_regex_t *r;
+void RegExpInit(fwf_regex_t *r)
 {
     return;
 }
 
-void RegExpFree(r)
-    fwf_regex_t *r;
+void RegExpFree(fwf_regex_t *r)
 {
     regfree(r);
 }
 
-void RegExpCompile(regexp, r)
-    const char *regexp;
-    fwf_regex_t *r;
+void RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
     regcomp(r, regexp, 0);
 }
 
-int RegExpMatch(string, r)
-    const char *string;
-    fwf_regex_t *r;
+int RegExpMatch(const char *string, fwf_regex_t *r)
 {
     return !regexec(r, string, 0, NULL, 0);
 }
@@ -67,12 +61,12 @@ int RegExpMatch(string, r)
 
 /* Insane <regexp.h> version.  */
 
-#define	INIT		register char *sp = instring;
-#define	GETC()		(*sp++)
-#define	PEEKC()		(*sp)
-#define	UNGETC(c)	-- sp
-#define	RETURN(ptr)	return NULL;
-#define	ERROR(val)	_RegExpError(val)
+#define INIT        register char *sp = instring;
+#define GETC()      (*sp++)
+#define PEEKC()     (*sp)
+#define UNGETC(c)   --sp
+#define RETURN(ptr) return NULL;
+#define ERROR(val)  _RegExpError(val)
 
 /* Forward decl required by <regexp.h>.  */
 void _RegExpError(int val);
@@ -81,77 +75,67 @@ void _RegExpError(int val);
 
 #define RE_SIZE 1024            /* Completely arbitrary, but who cares.  */
 
-void RegExpInit(r)
-    fwf_regex_t *r;
+void RegExpInit(fwf_regex_t *r)
 {
     *r = malloc(RE_SIZE);       /* FIXME: missing check!  */
     return;
 }
 
-void RegExpFree(r)
-    fwf_regex_t *r;
+void RegExpFree(fwf_regex_t *r)
 {
     lib_free(*r);
     return;
 }
 
-void RegExpCompile(regexp, r)
-    const char *regexp;
-    fwf_regex_t *r;
+void RegExpCompile(const char *regexp, fwf_regex_t *r)
+    ;
+    ;
 {
-    char **s = (char **) r;
+    char **s = (char **)r;
 
     /* Mmmh...  while cannot arg 1 of `compile' be const?  Compiler barfs on
        GNU libc 2.0.6.  */
-    compile((char *) regexp, *s, *s + RE_SIZE - 1, '\0');
-}				/* End RegExpCompile */
+    compile((char *)regexp, *s, *s + RE_SIZE - 1, '\0');
+} /* End RegExpCompile */
 
-
-int RegExpMatch(string, fsm_ptr)
-    const char *string;
-    fwf_regex_t *fsm_ptr;
+int RegExpMatch(const char *string, fwf_regex_t *fsm_ptr)
 {
     /* Mmmh...  while cannot arg 1 of `compile' be const?  Compiler barfs on
        GNU libc 2.0.6.  */
-    if (advance((char *) string, *fsm_ptr) != 0)
-	return (TRUE);
-    else
-	return (FALSE);
-}				/* End RegExpMatch */
+    if (advance((char *)string, *fsm_ptr) != 0) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+} /* End RegExpMatch */
 
-void _RegExpError(val)
-    int val;
+void _RegExpError(int val)
 {
     fprintf(stderr, "Regular Expression Error %d\n", val);
     exit(-1);
-}				/* End _RegExpError */
+} /* End _RegExpError */
 
 #else
 
 /* Dummy for system that don't have neither <regex.h> and <regexp.h>.  */
 
-void RegExpInit(r)
-    fwf_regex_t *r;
+void RegExpInit(fwf_regex_t *r)
+    ;
 {
     return;
 }
 
-void RegExpFree(r)
-    fwf_regex_t *r;
+void RegExpFree(fwf_regex_t *r)
 {
     return;
 }
 
-void RegExpCompile(regexp, r)
-    const char *regexp;
-    fwf_regex_t *r;
+void RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
     return;
 }
 
-int RegExpMatch(string, r)
-    const char *string;
-    fwf_regex_t *r;
+int RegExpMatch(const char *string, fwf_regex_t *r)
 {
     return TRUE;                /* Always match.  */
 }
@@ -160,42 +144,41 @@ int RegExpMatch(string, r)
 
 /* ------------------------------------------------------------------------- */
 
-void RegExpPatternToRegExp(pattern, reg_exp)
-    const char *pattern;
-    char *reg_exp;
+void RegExpPatternToRegExp(const char *pattern, char *reg_exp)
 {
     int in_bracket;
 
     in_bracket = 0;
     while (*pattern != '\0') {
-	if (in_bracket) {
-	    if (*pattern == ']')
-		in_bracket = 0;
-	    *reg_exp++ = *pattern++;
-	} else {
-	    switch (*pattern) {
-	      case '[':
-		  in_bracket = 1;
-		  *reg_exp++ = '[';
-		  break;
-	      case '?':
-		  *reg_exp++ = '.';
-		  break;
-	      case '*':
-		  *reg_exp++ = '.';
-		  *reg_exp++ = '*';
-		  break;
-	      case '.':
-		  *reg_exp++ = '\\';
-		  *reg_exp++ = '.';
-		  break;
-	      default:
-		  *reg_exp++ = *pattern;
-		  break;
-	    }
-	    ++pattern;
-	}
+        if (in_bracket) {
+            if (*pattern == ']') {
+                in_bracket = 0;
+            }
+            *reg_exp++ = *pattern++;
+        } else {
+            switch (*pattern) {
+                case '[':
+                    in_bracket = 1;
+                    *reg_exp++ = '[';
+                    break;
+                case '?':
+                    *reg_exp++ = '.';
+                    break;
+                case '*':
+                    *reg_exp++ = '.';
+                    *reg_exp++ = '*';
+                    break;
+                case '.':
+                    *reg_exp++ = '\\';
+                    *reg_exp++ = '.';
+                    break;
+                default:
+                    *reg_exp++ = *pattern;
+                    break;
+            }
+            ++pattern;
+        }
     }
     *reg_exp++ = '$';
     *reg_exp++ = '\0';
-}				/* End RegExpPatternToRegExp */
+} /* End RegExpPatternToRegExp */

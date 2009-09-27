@@ -61,7 +61,6 @@
 #include "util.h"
 #include "vdrive-internal.h"
 
-
 static Widget emptydisk_dialog;
 static Widget emptydisk_dialog_pane;
 static Widget file_name_form;
@@ -87,9 +86,9 @@ static Widget cancel_button;
 
 static char *edisk_file_name;
 
-#define FILL_BOX_WIDTH          10
-#define OPTION_LABELS_WIDTH     100
-#define OPTION_LABELS_JUSTIFY   XtJustifyLeft
+#define FILL_BOX_WIDTH        10
+#define OPTION_LABELS_WIDTH   100
+#define OPTION_LABELS_JUSTIFY XtJustifyLeft
 
 static UI_CALLBACK(browse_callback)
 {
@@ -97,11 +96,11 @@ static UI_CALLBACK(browse_callback)
     char *filename;
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
-    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL,
-                              &filter, 1, &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
-    if (button == UI_BUTTON_OK)
+    if (button == UI_BUTTON_OK) {
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
+    }
 
     lib_free(filename);
 }
@@ -113,15 +112,20 @@ static UI_CALLBACK(cancel_callback)
 
 #define NR_FORMATS 7
 
-static char *extensions[NR_FORMATS] = {
-    "d64", "d67", "d71", "d81", "d80", "d82", "g64" };
+static char *extensions[NR_FORMATS] = { "d64", "d67", "d71", "d81", "d80", "d82", "g64" };
 
 static UI_CALLBACK(save_callback)
 {
-    int dtypes[] = { DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D67,
-    	             DISK_IMAGE_TYPE_D71,
-                     DISK_IMAGE_TYPE_D81, DISK_IMAGE_TYPE_D80,
-                     DISK_IMAGE_TYPE_D82, DISK_IMAGE_TYPE_G64 };
+    int dtypes[] = {
+         DISK_IMAGE_TYPE_D64,
+         DISK_IMAGE_TYPE_D67,
+    	   DISK_IMAGE_TYPE_D71,
+         DISK_IMAGE_TYPE_D81,
+         DISK_IMAGE_TYPE_D80,
+         DISK_IMAGE_TYPE_D82,
+         DISK_IMAGE_TYPE_G64
+    };
+
     char *filename;
     String name;
     String iname;
@@ -137,24 +141,19 @@ static UI_CALLBACK(save_callback)
         XtVaGetValues(disk_type_d67_button, XtNstate, &disk_type_flag, NULL);
         if (disk_type_flag == False) {
             type_cnt ++;
-            XtVaGetValues(disk_type_d71_button, XtNstate,
-                          &disk_type_flag, NULL);
+            XtVaGetValues(disk_type_d71_button, XtNstate, &disk_type_flag, NULL);
             if (disk_type_flag == False) {
                 type_cnt ++;
-                XtVaGetValues(disk_type_d81_button, XtNstate,
-                              &disk_type_flag, NULL);
+                XtVaGetValues(disk_type_d81_button, XtNstate, &disk_type_flag, NULL);
                 if (disk_type_flag == False) {
                     type_cnt ++;
-                    XtVaGetValues(disk_type_d80_button, XtNstate,
-                                  &disk_type_flag, NULL);
+                    XtVaGetValues(disk_type_d80_button, XtNstate, &disk_type_flag, NULL);
                     if (disk_type_flag == False) {
                         type_cnt ++;
-                        XtVaGetValues(disk_type_d82_button, XtNstate,
-                                      &disk_type_flag, NULL);
+                        XtVaGetValues(disk_type_d82_button, XtNstate, &disk_type_flag, NULL);
                         if (disk_type_flag == False) {
                             type_cnt ++;
-                            XtVaGetValues(disk_type_g64_button, XtNstate,
-                                          &disk_type_flag, NULL);
+                            XtVaGetValues(disk_type_g64_button, XtNstate, &disk_type_flag, NULL);
                             if (disk_type_flag == False) {
                                 type_cnt ++;
                             }
@@ -165,28 +164,28 @@ static UI_CALLBACK(save_callback)
         }
     }
   
-    if (type_cnt < 0 || type_cnt >= NR_FORMATS)
-	return;
- 
+    if (type_cnt < 0 || type_cnt >= NR_FORMATS) {
+        return;
+    }
+
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     XtVaGetValues(image_name_field, XtNstring, &iname, NULL);
 
     filename = lib_stralloc(name);
     util_add_extension(&filename, extensions[type_cnt]);
 
-    if (vdrive_internal_create_format_disk_image(filename, iname,
-                                                 dtypes[type_cnt]) < 0)
+    if (vdrive_internal_create_format_disk_image(filename, iname, dtypes[type_cnt]) < 0) {
         ui_error(_("Couldn't create disk image"));
-    else
+    } else {
         strcpy(edisk_file_name, filename);
+    }
 
     lib_free(filename);
 }
 
-
-static void ui_focus_to( XtPointer XtP )
+static void ui_focus_to(XtPointer XtP)
 {
-   XtSetKeyboardFocus(emptydisk_dialog_pane, *(Widget*)XtP);
+    XtSetKeyboardFocus(emptydisk_dialog_pane, *(Widget*)XtP);
 }
 
 static void build_emptydisk_dialog(void)
@@ -197,259 +196,216 @@ static void build_emptydisk_dialog(void)
     static char *text_box_translations = "<Btn1Down>: select-start() focus-in()";
 #endif
 
-    if (emptydisk_dialog != NULL)
+    if (emptydisk_dialog != NULL) {
         return;
+    }
 
-    emptydisk_dialog = ui_create_transient_shell(_ui_top_level,
-                                                "emptydiskDialog");
+    emptydisk_dialog = ui_create_transient_shell(_ui_top_level, "emptydiskDialog");
 
-    emptydisk_dialog_pane = XtVaCreateManagedWidget
-        ("emptydiskDialogPane",
-         panedWidgetClass, emptydisk_dialog,
-         NULL);
-    
-    file_name_form = XtVaCreateManagedWidget
-        ("fileNameForm",
-         formWidgetClass, emptydisk_dialog_pane,
-         XtNshowGrip, False, NULL);
-    
-    file_name_label = XtVaCreateManagedWidget
-        ("fileNameLabel",
-         labelWidgetClass, file_name_form,
-         XtNjustify, XtJustifyLeft,
-         XtNlabel, _("File name:"),
-         XtNborderWidth, 0,
-         NULL);
+    emptydisk_dialog_pane = XtVaCreateManagedWidget("emptydiskDialogPane",
+                                                    panedWidgetClass, emptydisk_dialog,
+                                                    NULL);
+
+    file_name_form = XtVaCreateManagedWidget("fileNameForm",
+                                             formWidgetClass, emptydisk_dialog_pane,
+                                             XtNshowGrip, False,
+                                             NULL);
+
+    file_name_label = XtVaCreateManagedWidget("fileNameLabel",
+                                              labelWidgetClass, file_name_form,
+                                              XtNjustify, XtJustifyLeft,
+                                              XtNlabel, _("File name:"),
+                                              XtNborderWidth, 0,
+                                              NULL);
 
 #ifndef ENABLE_TEXTFIELD
-    file_name_field = XtVaCreateManagedWidget
-        ("fileNameField",
-         asciiTextWidgetClass, file_name_form,
-         XtNfromHoriz, file_name_label,
-         XtNwidth, 240,
-         XtNtype, XawAsciiString,
-         XtNeditType, XawtextEdit,
-         NULL);
+    file_name_field = XtVaCreateManagedWidget("fileNameField",
+                                              asciiTextWidgetClass, file_name_form,
+                                              XtNfromHoriz, file_name_label,
+                                              XtNwidth, 240,
+                                              XtNtype, XawAsciiString,
+                                              XtNeditType, XawtextEdit,
+                                              NULL);
 #else
-    file_name_field = XtVaCreateManagedWidget
-        ("fileNameField",
-         textfieldWidgetClass, file_name_form,
-         XtNfromHoriz, file_name_label,
-         XtNwidth, 240,
-         XtNstring, "",         /* Otherwise, it does not work correctly.  */
-         NULL);
+    file_name_field = XtVaCreateManagedWidget("fileNameField",
+                                              textfieldWidgetClass, file_name_form,
+                                              XtNfromHoriz, file_name_label,
+                                              XtNwidth, 240,
+                                              XtNstring, "",         /* Otherwise, it does not work correctly.  */
+                                              NULL);
 #endif
-    XtOverrideTranslations(file_name_field,
-                           XtParseTranslationTable(text_box_translations));
+    XtOverrideTranslations(file_name_field, XtParseTranslationTable(text_box_translations));
 
-    browse_button = XtVaCreateManagedWidget
-        ("browseButton",
-         commandWidgetClass, file_name_form,
-         XtNfromHoriz, file_name_field,
-         XtNlabel, _("Browse..."),
-         NULL);
+    browse_button = XtVaCreateManagedWidget("browseButton",
+                                            commandWidgetClass, file_name_form,
+                                            XtNfromHoriz, file_name_field,
+                                            XtNlabel, _("Browse..."),
+                                            NULL);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
-    image_name_form =
-	XtVaCreateManagedWidget
-        ("imageNameForm",
-         formWidgetClass, emptydisk_dialog_pane,
-         XtNfromVert, file_name_form,
-         XtNshowGrip, False, NULL);
-    
-    image_name_label = XtVaCreateManagedWidget
-        ("imageNameLabel",
-         labelWidgetClass, image_name_form,
-/*
-         XtNfromVert, file_name_form,
-*/
-         XtNjustify, XtJustifyLeft,
-         XtNlabel, _("Disk name:"),
-         XtNborderWidth, 0,
-         NULL);
+    image_name_form = XtVaCreateManagedWidget("imageNameForm",
+                                              formWidgetClass, emptydisk_dialog_pane,
+                                              XtNfromVert, file_name_form,
+                                              XtNshowGrip, False, NULL);
+
+    image_name_label = XtVaCreateManagedWidget("imageNameLabel",
+                                               labelWidgetClass, image_name_form,
+                                               XtNjustify, XtJustifyLeft,
+                                               XtNlabel, _("Disk name:"),
+                                               XtNborderWidth, 0,
+                                               NULL);
 
 #ifndef ENABLE_TEXTFIELD
-    image_name_field = XtVaCreateManagedWidget
-        ("imageNameField",
-         asciiTextWidgetClass, image_name_form,
-         XtNfromHoriz, image_name_label,
-/*
-         XtNfromVert, file_name_form,
-*/
-         XtNwidth, 240,
-         XtNtype, XawAsciiString,
-         XtNeditType, XawtextEdit,
-         NULL);
+    image_name_field = XtVaCreateManagedWidget("imageNameField",
+                                               asciiTextWidgetClass, image_name_form,
+                                               XtNfromHoriz, image_name_label,
+                                               XtNwidth, 240,
+                                               XtNtype, XawAsciiString,
+                                               XtNeditType, XawtextEdit,
+                                               NULL);
 #else
-    image_name_field = XtVaCreateManagedWidget
-        ("imageNameField",
-         textfieldWidgetClass, image_name_form,
-         XtNfromHoriz, image_name_label,
-/*
-         XtNfromVert, file_name_form,
-*/
-         XtNwidth, 240,
-         XtNstring, "",         /* Otherwise, it does not work correctly.  */
-         NULL);
+    image_name_field = XtVaCreateManagedWidget("imageNameField",
+                                               textfieldWidgetClass, image_name_form,
+                                               XtNfromHoriz, image_name_label,
+                                               XtNwidth, 240,
+                                               XtNstring, "",         /* Otherwise, it does not work correctly.  */
+                                               NULL);
 #endif
-    XtOverrideTranslations(image_name_field,
-                           XtParseTranslationTable(text_box_translations));
+    XtOverrideTranslations(image_name_field, XtParseTranslationTable(text_box_translations));
 
-    options_form = XtVaCreateManagedWidget
-        ("optionsForm",
-         formWidgetClass, emptydisk_dialog_pane,
-         XtNskipAdjust, True,
-         NULL);
+    options_form = XtVaCreateManagedWidget("optionsForm",
+                                           formWidgetClass, emptydisk_dialog_pane,
+                                           XtNskipAdjust, True,
+                                           NULL);
 
-    disk_type_label = XtVaCreateManagedWidget
-        ("ImageTypeLabel",
-         labelWidgetClass, options_form,
-         XtNborderWidth, 0,
-         XtNfromHoriz, options_filling_box_left,
-         XtNjustify, OPTION_LABELS_JUSTIFY,
-         XtNwidth, OPTION_LABELS_WIDTH,
-         XtNleft, XawChainLeft,
-         XtNright, XawChainRight,
-         XtNheight, 20,
-         XtNlabel, _("Disk format:"),
-         NULL);
+    disk_type_label = XtVaCreateManagedWidget("ImageTypeLabel",
+                                              labelWidgetClass, options_form,
+                                              XtNborderWidth, 0,
+                                              XtNfromHoriz, options_filling_box_left,
+                                              XtNjustify, OPTION_LABELS_JUSTIFY,
+                                              XtNwidth, OPTION_LABELS_WIDTH,
+                                              XtNleft, XawChainLeft,
+                                              XtNright, XawChainRight,
+                                              XtNheight, 20,
+                                              XtNlabel, _("Disk format:"),
+                                              NULL);
 
-    disk_type_d64_button = XtVaCreateManagedWidget
-        ("ImageTypeD64Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_label,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "D64",
-         NULL);
+    disk_type_d64_button = XtVaCreateManagedWidget("ImageTypeD64Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_label,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D64",
+                                                   NULL);
 
-    disk_type_d67_button = XtVaCreateManagedWidget
-        ("ImageTypeD67Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d64_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "D67",
-         XtNradioGroup, disk_type_d64_button,
-         NULL);
+    disk_type_d67_button = XtVaCreateManagedWidget("ImageTypeD67Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d64_button,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D67",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
 
-    disk_type_d71_button = XtVaCreateManagedWidget
-        ("ImageTypeD71Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d67_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "D71",
-         XtNradioGroup, disk_type_d64_button,
-         NULL);
+    disk_type_d71_button = XtVaCreateManagedWidget("ImageTypeD71Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d67_button,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D71",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
 
-    disk_type_d81_button = XtVaCreateManagedWidget
-        ("ImageTypeD81Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d71_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "D81",
-         XtNradioGroup, disk_type_d64_button,
-         NULL);
+    disk_type_d81_button = XtVaCreateManagedWidget("ImageTypeD81Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d71_button,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D81",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
 
-    disk_type_d80_button = XtVaCreateManagedWidget
-        ("ImageTypeD80Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d81_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "D80",
-         XtNradioGroup, disk_type_d64_button,
-         NULL);
+    disk_type_d80_button = XtVaCreateManagedWidget("ImageTypeD80Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d81_button,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D80",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
 
-    disk_type_d82_button = XtVaCreateManagedWidget
-        ("ImageTypeD82Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d80_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "D82",
-         XtNradioGroup, disk_type_d64_button,
-         NULL);
+    disk_type_d82_button = XtVaCreateManagedWidget("ImageTypeD82Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d80_button,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D82",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
 
-    disk_type_g64_button = XtVaCreateManagedWidget
-        ("ImageTypeG64Button",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d82_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "G64",
-         XtNradioGroup, disk_type_d64_button,
-         NULL);
+    disk_type_g64_button = XtVaCreateManagedWidget("ImageTypeG64Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d82_button,
+                                                   XtNfromVert, browse_button,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "G64",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
 
-    button_box = XtVaCreateManagedWidget
-        ("buttonBox",
-         boxWidgetClass, emptydisk_dialog_pane,
-         XtNshowGrip, False, NULL);
+    button_box = XtVaCreateManagedWidget("buttonBox",
+                                         boxWidgetClass, emptydisk_dialog_pane,
+                                         XtNshowGrip, False,
+                                         NULL);
 
-    save_button = XtVaCreateManagedWidget
-        ("saveButton",
-         commandWidgetClass, button_box,
-         XtNlabel, _("Save"),
-         NULL);
+    save_button = XtVaCreateManagedWidget("saveButton",
+                                          commandWidgetClass, button_box,
+                                          XtNlabel, _("Save"),
+                                          NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, NULL);
     
-    cancel_button = XtVaCreateManagedWidget
-        ("cancelButton",
-         commandWidgetClass, button_box,
-         XtNlabel, _("Cancel"),
-         NULL);
+    cancel_button = XtVaCreateManagedWidget("cancelButton",
+                                            commandWidgetClass, button_box,
+                                            XtNlabel, _("Cancel"),
+                                            NULL);
     XtAddCallback(cancel_button, XtNcallback, cancel_callback, NULL);
 
     XtVaSetValues(disk_type_d64_button, XtNstate, True, NULL);
-/*
-    XtVaSetValues(save_disk_off_button, XtNstate, True, NULL);
-*/
 
     XtVaSetValues(image_name_field, XtNstring, "VICE,01", NULL);
 
-    XtAddEventHandler(file_name_field,
-                      ButtonPressMask, False,
-                      (XtEventHandler)ui_focus_to,
-                      (XtPointer)&file_name_field );
-    XtAddEventHandler(image_name_field,
-                      ButtonPressMask, False,
-                      (XtEventHandler)ui_focus_to,
-                      (XtPointer)&image_name_field );
+    XtAddEventHandler(file_name_field, ButtonPressMask, False, (XtEventHandler)ui_focus_to, (XtPointer)&file_name_field);
+    XtAddEventHandler(image_name_field, ButtonPressMask, False, (XtEventHandler)ui_focus_to, (XtPointer)&image_name_field);
 
-    ui_focus_to( (XtPointer)&file_name_field );
-
+    ui_focus_to((XtPointer)&file_name_field);
 }
 
 int ui_empty_disk_dialog(char *name)
 {
     edisk_file_name = name;
     *edisk_file_name= 0;
-    
+
     build_emptydisk_dialog();
     ui_popup(emptydisk_dialog, _("Create empty disk"), True);
     return *name ? 0 : -1;
 }
-

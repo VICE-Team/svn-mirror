@@ -9,37 +9,22 @@
  *	the "tabs" argument is NULL, works exactly like its
  *	counterpart.
  */
-void
-XfwfDrawImageString(display, drawable, gc, x, y, string, length, tabs)
-     Display *display;
-     Drawable drawable;
-     GC gc;
-     int x;
-     int y;
-     String string;
-     int length;
-     int *tabs;
+void XfwfDrawImageString(Display *display, Drawable drawable, GC gc, int x, int y, String string, int length, int *tabs)
 {
-	register char	*p, *ep;
-	register int	tx, tab;
+    register char *p, *ep;
+    register int tx, tab;
 
-	tab = tx = 0;
-	for (p = string; length; )
-	{
-		ep = strnchr(p, '\t', length);
-		if (ep && tabs)
-		{
-			XDrawImageString(display, drawable, gc, x+tx, y,
-				p, ep - p);
-			tx = tabs[tab++];
-			length -= ep - p + 1;
-			p = ep + 1;
-		}
-		else
-		{
-			XDrawImageString(display, drawable, gc, x+tx, y,
-				p, length);
-			break;
-		}
-	}
+    tab = tx = 0;
+    for (p = string; length;) {
+        ep = strnchr(p, '\t', length);
+        if (ep && tabs) {
+            XDrawImageString(display, drawable, gc, x + tx, y, p, ep - p);
+            tx = tabs[tab++];
+            length -= ep - p + 1;
+            p = ep + 1;
+        } else {
+            XDrawImageString(display, drawable, gc, x + tx, y, p, length);
+            break;
+        }
+    }
 }

@@ -51,7 +51,6 @@
 #include "x11menu.h"
 #include "util.h"
 
-
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
     { "--" },
@@ -100,36 +99,37 @@ static void position_submenu(Widget w, Widget parent)
        height.  */
     XtRealizeWidget(w);
 
-    XtVaGetValues(parent, XtNx, &parent_x, XtNy, &parent_y,
-                  XtNwidth, &parent_width, NULL);
+    XtVaGetValues(parent, XtNx, &parent_x, XtNy, &parent_y, XtNwidth, &parent_width, NULL);
     XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
-    XtTranslateCoords(XtParent(parent), parent_x, parent_y,
-                      &parent_x, &parent_y);
+    XtTranslateCoords(XtParent(parent), parent_x, parent_y, &parent_x, &parent_y);
     my_x = parent_x + parent_width - 2;
     my_y = parent_y + 1;
-    XGetGeometry(my_display, RootWindow(my_display, my_screen), &foowin, &foo,
-                 &foo, &root_width, &root_height, &ufoo, &ufoo);
-    if (my_x + my_width > (int) root_width)
+    XGetGeometry(my_display, RootWindow(my_display, my_screen), &foowin, &foo, &foo, &root_width, &root_height, &ufoo, &ufoo);
+    if (my_x + my_width > (int)root_width) {
         my_x -= my_width + parent_width - 2;
-    if (my_y + my_height > (int) root_height)
+    }
+    if (my_y + my_height > (int) root_height) {
         my_y = root_height - my_height;
+    }
     XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     XtPopup(w, XtGrabNonexclusive);
 }
 
 static UI_CALLBACK(menu_popup_callback)
 {
-    if (menu_popup == 0)
+    if (menu_popup == 0) {
         top_menu = w;
+    }
     menu_popup++;
 }
 
 static UI_CALLBACK(menu_popdown_callback)
 {
-    if (menu_popup > 0)
+    if (menu_popup > 0) {
         menu_popup--;
-    else
+    } else {
         top_menu = NULL;
+    }
 }
 
 static UI_CALLBACK(submenu_popup_callback)
@@ -140,8 +140,9 @@ static UI_CALLBACK(submenu_popup_callback)
 static UI_CALLBACK(submenu_popdown_callback)
 {
     submenu_popped_up--;
-    if (XawSimpleMenuGetActiveEntry(w))
+    if (XawSimpleMenuGetActiveEntry(w)) {
         XtPopdown((Widget)client_data);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -157,18 +158,15 @@ static registered_hotkey_t *registered_hotkeys = NULL;
 static int num_registered_hotkeys;
 static int num_allocated_hotkeys;
 
-
 /* ------------------------------------------------------------------------- */
 
-static void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym,
-                        void *callback, void *client_data)
+static void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym, void *callback, void *client_data)
 {
     registered_hotkey_t *p;
 
     if (registered_hotkeys == 0) {
         num_allocated_hotkeys = 32;
-        registered_hotkeys = lib_malloc(num_allocated_hotkeys
-                                        * sizeof(registered_hotkey_t));
+        registered_hotkeys = lib_malloc(num_allocated_hotkeys * sizeof(registered_hotkey_t));
         num_registered_hotkeys = 0;
     } else if (num_registered_hotkeys == num_allocated_hotkeys) {
         num_allocated_hotkeys *= 2;
@@ -195,12 +193,11 @@ int ui_dispatch_hotkeys(int key)
     /* XXX: Notice that we don't actually check the hotkey modifiers
        here.  */
     for (i = 0; i < num_registered_hotkeys; i++, p++) {
-	if (p->keysym == key) {
-	    ((void *(*)(void *, void *, void *))
-	     p->callback)(NULL, p->client_data, NULL);
-	    ret = 1;
-	    break;
-	}
+        if (p->keysym == key) {
+	      ((void *(*)(void *, void *, void *))p->callback)(NULL, p->client_data, NULL);
+	      ret = 1;
+	      break;
+        }
     }
     return ret;
 }
@@ -208,8 +205,7 @@ int ui_dispatch_hotkeys(int key)
 /* ------------------------------------------------------------------------- */
 
 /* Yes, this sucks.  Sorry.  */
-static void position_submenu_action(Widget w, XEvent *event,
-                                    String *params, Cardinal *num_params)
+static void position_submenu_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
 {
     Widget new_active_submenu, new_active_entry;
 
@@ -222,9 +218,7 @@ static void position_submenu_action(Widget w, XEvent *event,
 
         /* Find the submenu for the current active menu item and the level of
            this submenu.  */
-        for (level_found = active_found = 0, level = 0, i = 0;
-             i < num_submenus && !(level_found && active_found);
-             i++) {
+        for (level_found = active_found = 0, level = 0, i = 0; i < num_submenus && !(level_found && active_found); i++) {
             if (!active_found && submenus[i].parent == new_active_entry) {
                 new_active_submenu = submenus[i].widget;
                 active_found = 1;
@@ -237,31 +231,34 @@ static void position_submenu_action(Widget w, XEvent *event,
 
         /* Remove all the submenus whose level is higher than this submenu.  */
         for (i = 0; i < num_submenus; i++) {
-            if (submenus[i].level > level)
+            if (submenus[i].level > level) {
                 XtPopdown(submenus[i].widget);
+            }
         }
 
         /* Position the submenu for this menu item.  */
-        if (new_active_submenu != NULL && new_active_entry != NULL)
+        if (new_active_submenu != NULL && new_active_entry != NULL) {
             position_submenu(new_active_submenu, new_active_entry);
+        }
 
         active_submenu = new_active_submenu;
         active_entry = new_active_entry;
     }
 }
 
-static void popdown_submenus_action(Widget w, XEvent *event,
-                                    String *params, Cardinal *num_params)
+static void popdown_submenus_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
 {
     int i;
 
-    if (menu_popup == 0)
+    if (menu_popup == 0) {
         return;
+    }
 
     /* Pop down all the submenus and the top ones.  */
 
-    for (i = 0; i < num_submenus; i++)
+    for (i = 0; i < num_submenus; i++) {
         XtPopdown(submenus[i].widget);
+    }
 
     XtPopdown(top_menu);
     top_menu = NULL;
@@ -272,8 +269,7 @@ static void popdown_submenus_action(Widget w, XEvent *event,
     menu_popup = 0;
 }
 
-static void menu_unhighlight_action(Widget w, XEvent *event, String *params,
-                                    Cardinal *num_params)
+static void menu_unhighlight_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
 {
     XtCallActionProc(w, "unhighlight", event, params, *num_params);
 }
@@ -284,28 +280,35 @@ static char *make_menu_label(ui_menu_entry_t *e)
     char *retstr, *trans;
 
     /* Check wether NO_TRANS prefix is there, if yes don't translate it */
-    if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0)
+    if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0) {
         trans = lib_stralloc(e->string + strlen(NO_TRANS));
-    else
+    } else {
         trans = lib_stralloc(_(e->string));
+    }
 
-    if (e->hotkey_keysym == KEYSYM_NONE)
+    if (e->hotkey_keysym == KEYSYM_NONE) {
         return trans;
+    }
 
-    if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
+    if (e->hotkey_modifier & UI_HOTMOD_CONTROL) {
         tmp = "C-";
-    if (e->hotkey_modifier & UI_HOTMOD_META)
+    }
+    if (e->hotkey_modifier & UI_HOTMOD_META) {
         tmp = "M-";
-    if (e->hotkey_modifier & UI_HOTMOD_ALT)
+    }
+    if (e->hotkey_modifier & UI_HOTMOD_ALT) {
         tmp = "A-";
-    if (e->hotkey_modifier & UI_HOTMOD_SHIFT)
+    }
+    if (e->hotkey_modifier & UI_HOTMOD_SHIFT) {
         tmp = "S-";
+    }
 
     key_string = strchr(XKeysymToString(e->hotkey_keysym), '_');
-    if (key_string == NULL)
+    if (key_string == NULL) {
         key_string = XKeysymToString(e->hotkey_keysym);
-    else
+    } else {
         key_string++;
+    }
 
     retstr = util_concat(trans, "    (", tmp, key_string, ")", NULL);
 
@@ -366,8 +369,7 @@ Widget ui_menu_create(const char *menu_name, ...)
         XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
         XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
     }
-    XtOverrideTranslations
-        (w, XtParseTranslationTable
+    XtOverrideTranslations(w, XtParseTranslationTable
          ("<BtnMotion>: highlight() PositionSubmenu()\n"
           "@Num_Lock<BtnMotion>: highlight() PositionSubmenu()\n"
           "<LeaveWindow>: Unhighlight()\n"
@@ -381,73 +383,65 @@ Widget ui_menu_create(const char *menu_name, ...)
 
             name = lib_msprintf("MenuItem%d", j);
             switch (*list[i].string) {
-              case '-':         /* line */
-                new_item = XtCreateManagedWidget("separator",
-                                                 smeLineObjectClass, w,
-                                                 NULL, 0);
-                break;
-              case '*':         /* toggle */
-                {
-                    char *label = make_menu_label(&list[i]);
+                case '-':         /* line */
+                    new_item = XtCreateManagedWidget("separator",
+                                                     smeLineObjectClass, w,
+                                                     NULL, 0);
+                    break;
+                case '*':         /* toggle */
+                    {
+                        char *label = make_menu_label(&list[i]);
 
-                    new_item = XtVaCreateManagedWidget(name,
-                                                       smeBSBObjectClass, w,
-                                                       XtNrightMargin, 20,
-                                                       XtNleftMargin, 20,
-                                                       XtNlabel,
-                                                       label + 1,
-                                                       NULL);
-                    /* Add this item to the list of calls to perform to update
-                       the menu status. */
-                    if (list[i].callback) {
-                        if (num_checkmark_menu_items >=
-                            num_checkmark_menu_items_max) {
-                            num_checkmark_menu_items_max += 100;
-                            checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
+                        new_item = XtVaCreateManagedWidget(name,
+                                                           smeBSBObjectClass, w,
+                                                           XtNrightMargin, 20,
+                                                           XtNleftMargin, 20,
+                                                           XtNlabel, label + 1,
+                                                           NULL);
+                        /* Add this item to the list of calls to perform to update
+                           the menu status. */
+                        if (list[i].callback) {
+                            if (num_checkmark_menu_items >= num_checkmark_menu_items_max) {
+                                num_checkmark_menu_items_max += 100;
+                                checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
+                            }
+                            checkmark_menu_items[num_checkmark_menu_items++] = new_item;
                         }
-                        checkmark_menu_items[num_checkmark_menu_items++]
-                            = new_item;
+                        j++;
+
+                        lib_free(label);
                     }
-                    j++;
+                    break;
+                case 0:
+                    break;
+                default:
+                    {
+                        char *label = make_menu_label(&list[i]);
 
-                    lib_free(label);
-                }
-                break;
-              case 0:
-                break;
-              default:
-                {
-                    char *label = make_menu_label(&list[i]);
-
-                    new_item = XtVaCreateManagedWidget(name,
-                                                       smeBSBObjectClass, w,
-                                                       XtNleftMargin, 20,
-                                                       XtNrightMargin, 20,
-                                                       XtNlabel,
-                                                       label,
-                                                       NULL);
-                    lib_free(label);
-                    j++;
-                }
+                        new_item = XtVaCreateManagedWidget(name,
+                                                           smeBSBObjectClass, w,
+                                                           XtNleftMargin, 20,
+                                                           XtNrightMargin, 20,
+                                                           XtNlabel, label,
+                                                           NULL);
+                        lib_free(label);
+                        j++;
+                    }
             }
             lib_free(name);
 
-            if (list[i].callback)
-                XtAddCallback(new_item, XtNcallback,
-                              (XtCallbackProc) list[i].callback,
-                              list[i].callback_data);
+            if (list[i].callback) {
+                XtAddCallback(new_item, XtNcallback, (XtCallbackProc)list[i].callback, list[i].callback_data);
+            }
             if (list[i].sub_menu) {
                 if (num_submenus > MAX_SUBMENUS) {
-                    fprintf(stderr,
-                            "Maximum number of sub menus reached! "
-                            "Please fix the code.\n");
+                    fprintf(stderr, "Maximum number of sub menus reached! Please fix the code.\n");
                     exit(-1);
                 }
                 if (new_item != NULL && *list[i].string != '-') {
                     Widget oldw = w;
 
-                    XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap,
-                              NULL);
+                    XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap, NULL);
                     w = ui_create_shell(_ui_top_level, "SUB", simpleMenuWidgetClass);
                     menulevel++;
 
@@ -455,38 +449,30 @@ Widget ui_menu_create(const char *menu_name, ...)
                     submenus[num_submenus].widget = w;
                     submenus[num_submenus].parent = new_item;
                     submenus[num_submenus].level = menulevel;
-                    XtAddCallback(w,
-                              XtNpopupCallback, submenu_popup_callback,
-                              submenus + num_submenus);
-                    XtAddCallback(w,
-                              XtNpopdownCallback, submenu_popdown_callback,
-                              (XtPointer) w);
+                    XtAddCallback(w, XtNpopupCallback, submenu_popup_callback, submenus + num_submenus);
+                    XtAddCallback(w, XtNpopdownCallback, submenu_popdown_callback, (XtPointer)w);
                     num_submenus++;
 
                     menulevel--;
                     w = oldw;
-                }
-                else {
+                } else {
                     ui_menu_create("SUB", list[i].sub_menu, NULL);
                 }
             } else {            /* no submenu */
-                if (list[i].hotkey_keysym != (KeySym) 0
-                    && list[i].callback != NULL)
-                    ui_hotkey_register(list[i].hotkey_modifier,
-                                       (signed long)list[i].hotkey_keysym,
-                                       (ui_callback_t)list[i].callback,
-                                       (ui_callback_data_t)list[i].callback_data);
+                if (list[i].hotkey_keysym != (KeySym)0 && list[i].callback != NULL) {
+                    ui_hotkey_register(list[i].hotkey_modifier, (signed long)list[i].hotkey_keysym, (ui_callback_t)list[i].callback, (ui_callback_data_t)list[i].callback_data);
+                }
             }
         }
     }
 
     level--;
-    if (level == 0)
+    if (level == 0) {
         menulevel = 0;
+    }
 
 #ifdef UI_MENU_DEBUG
-    fprintf(stderr, "num_checkmark_menu_items: %d\tnum_submenus = %d.\n",
-            num_checkmark_menu_items, num_submenus);
+    fprintf(stderr, "num_checkmark_menu_items: %d\tnum_submenus = %d.\n", num_checkmark_menu_items, num_submenus);
 #endif
     va_end(ap);
     return w;
@@ -501,9 +487,9 @@ void ui_menu_update_all(void)
 {
     int i;
 
-    for (i = 0; i < num_checkmark_menu_items; i++)
-        XtCallCallbacks(checkmark_menu_items[i],
-                        XtNcallback, (XtPointer)!NULL);
+    for (i = 0; i < num_checkmark_menu_items; i++) {
+        XtCallCallbacks(checkmark_menu_items[i], XtNcallback, (XtPointer)!NULL);
+    }
 }
 
 void ui_menu_set_tick(Widget w, int flag)
@@ -522,15 +508,13 @@ void ui_menu_set_sensitive(Widget w, int flag)
    functions are defined through `UI_MENU_DEFINE_TOGGLE()',
    `UI_MENU_DEFINE_RADIO()' or `UI_MENU_DEFINE_STRING_RADIO()'.  */
 
-void _ui_menu_toggle_helper(Widget w,
-                            ui_callback_data_t client_data,
-                            ui_callback_data_t call_data,
-                            const char *resource_name)
+void _ui_menu_toggle_helper(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data, const char *resource_name)
 {
     int current_value;
 
-    if (resources_get_int(resource_name, &current_value) < 0)
+    if (resources_get_int(resource_name, &current_value) < 0) {
         return;
+    }
 
     if (!call_data) {
         resources_set_int(resource_name, !current_value);
@@ -540,10 +524,7 @@ void _ui_menu_toggle_helper(Widget w,
     }
 }
 
-void _ui_menu_radio_helper(Widget w,
-                           ui_callback_data_t client_data,
-                           ui_callback_data_t call_data,
-                           const char *resource_name)
+void _ui_menu_radio_helper(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data, const char *resource_name)
 {
     int current_value;
 
@@ -559,17 +540,15 @@ void _ui_menu_radio_helper(Widget w,
     }
 }
 
-void _ui_menu_string_radio_helper(Widget w,
-                                  ui_callback_data_t client_data,
-                                  ui_callback_data_t call_data,
-                                  const char *resource_name)
+void _ui_menu_string_radio_helper(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data, const char *resource_name)
 {
     const char *current_value;
 
     resources_get_string(resource_name, &current_value);
 
-    if (current_value == 0)
+    if (current_value == 0) {
         return;
+    }
 
     if (!call_data) {
         if (strcmp(current_value, (const char *)client_data) != 0) {
@@ -577,8 +556,7 @@ void _ui_menu_string_radio_helper(Widget w,
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, strcmp(current_value,
-                         (const char *)client_data) == 0);
+        ui_menu_set_tick(w, strcmp(current_value, (const char *)client_data) == 0);
     }
 }
 
@@ -587,4 +565,3 @@ void uimenu_shutdown(void)
     lib_free(registered_hotkeys);
     lib_free(checkmark_menu_items);
 }
-

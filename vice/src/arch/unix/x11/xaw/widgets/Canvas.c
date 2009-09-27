@@ -32,126 +32,103 @@
 
 #ifdef MINIX_SUPPORT
 static XtResource resources[] = {
-  {XtNexposeProc, XtCExposeProc, XtRFunction, sizeof(XfwfCanvasExposeProc),
-     116,    XtRFunction, NULL},
-  {XtNexposeProcData, XtCExposeProcData, XtRPointer, sizeof(XtPointer),
-     120, XtRFunction, NULL},
-  {XtNresizeProc, XtCResizeProc, XtRFunction, sizeof(XfwfCanvasResizeProc),
-     124,    XtRFunction, NULL},
-  {XtNresizeProcData, XtCResizeProcData, XtRPointer, sizeof(XtPointer),
-     128, XtRFunction, NULL},
-  {XtNvisual, XtCVisual, XtRVisual, sizeof(Visual*),
-     132, XtRImmediate, CopyFromParent}
+    { XtNexposeProc, XtCExposeProc, XtRFunction, sizeof(XfwfCanvasExposeProc), 116, XtRFunction, NULL },
+    { XtNexposeProcData, XtCExposeProcData, XtRPointer, sizeof(XtPointer), 120, XtRFunction, NULL },
+    { XtNresizeProc, XtCResizeProc, XtRFunction, sizeof(XfwfCanvasResizeProc), 124, XtRFunction, NULL },
+    { XtNresizeProcData, XtCResizeProcData, XtRPointer, sizeof(XtPointer), 128, XtRFunction, NULL },
+    { XtNvisual, XtCVisual, XtRVisual, sizeof(Visual*), 132, XtRImmediate, CopyFromParent }
 };
 #else
 static XtResource resources[] = {
-  {XtNexposeProc, XtCExposeProc, XtRFunction, sizeof(XfwfCanvasExposeProc),
-     offset(redraw),	XtRFunction, NULL},
-  {XtNexposeProcData, XtCExposeProcData, XtRPointer, sizeof(XtPointer),
-     offset(redraw_data), XtRFunction, NULL},
-  {XtNresizeProc, XtCResizeProc, XtRFunction, sizeof(XfwfCanvasResizeProc),
-     offset(resize),	XtRFunction, NULL},
-  {XtNresizeProcData, XtCResizeProcData, XtRPointer, sizeof(XtPointer),
-     offset(resize_data), XtRFunction, NULL},
-  {XtNvisual, XtCVisual, XtRVisual, sizeof(Visual*),
-      offset(visual), XtRImmediate, CopyFromParent}
+    { XtNexposeProc, XtCExposeProc, XtRFunction, sizeof(XfwfCanvasExposeProc), offset(redraw), XtRFunction, NULL },
+    { XtNexposeProcData, XtCExposeProcData, XtRPointer, sizeof(XtPointer), offset(redraw_data), XtRFunction, NULL },
+    { XtNresizeProc, XtCResizeProc, XtRFunction, sizeof(XfwfCanvasResizeProc), offset(resize), XtRFunction, NULL },
+    { XtNresizeProcData, XtCResizeProcData, XtRPointer, sizeof(XtPointer), offset(resize_data), XtRFunction, NULL },
+    { XtNvisual, XtCVisual, XtRVisual, sizeof(Visual*), offset(visual), XtRImmediate, CopyFromParent }
 };
 #endif
 
-static void CanvasRealize(Widget widget, XtValueMask *value_mask,
-                          XSetWindowAttributes *attributes);
+static void CanvasRealize(Widget widget, XtValueMask *value_mask, XSetWindowAttributes *attributes);
 static void Redisplay(Widget w, XExposeEvent *event, Region region);
 static void Resize(CanvasWidget cw);
-static Boolean SetValues(CanvasWidget current, CanvasWidget request,
-                         CanvasWidget new, ArgList args, Cardinal *nargs);
-
+static Boolean SetValues(CanvasWidget current, CanvasWidget request, CanvasWidget new, ArgList args, Cardinal *nargs);
 
 CanvasClassRec canvasClassRec = {
     {
-    /* core_class fields	 */
-    /* superclass	  	 */ (WidgetClass) &widgetClassRec,
-    /* class_name	  	 */ "Canvas",
-    /* widget_size	  	 */ sizeof(CanvasRec),
-    /* class_initialize   	 */ NULL,
-    /* class_part_initialize	 */ NULL,
-    /* class_inited       	 */ False,
-    /* initialize	  	 */ NULL,
-    /* initialize_hook		 */ NULL,
-    /* realize		  	 */ CanvasRealize,
-    /* actions		  	 */ NULL,
-    /* num_actions	  	 */ 0,
-    /* resources	  	 */ resources,
-    /* num_resources	  	 */ XtNumber(resources),
-    /* xrm_class	  	 */ NULLQUARK,
-    /* compress_motion	  	 */ True,
-    /* compress_exposure  	 */ XtExposeCompressMultiple,
-    /* compress_enterleave	 */ True,
-    /* visible_interest	  	 */ True,
-    /* destroy		  	 */ NULL,
-    /* resize		  	 */ Resize,
-    /* expose		  	 */ Redisplay,
-    /* set_values	  	 */ SetValues,
-    /* set_values_hook		 */ NULL,
-    /* set_values_almost	 */ XtInheritSetValuesAlmost,
-    /* get_values_hook		 */ NULL,
-    /* accept_focus	 	 */ NULL,
-    /* version			 */ XtVersion,
-    /* callback_private   	 */ NULL,
-    /* tm_table		   	 */ NULL,
-    /* query_geometry		 */ NULL,
-    /* display_accelerator       */ XtInheritDisplayAccelerator,
-    /* extension                 */ NULL
+    /* core_class fields     */
+    /* superclass            */ (WidgetClass) &widgetClassRec,
+    /* class_name            */ "Canvas",
+    /* widget_size           */ sizeof(CanvasRec),
+    /* class_initialize      */ NULL,
+    /* class_part_initialize */ NULL,
+    /* class_inited          */ False,
+    /* initialize            */ NULL,
+    /* initialize_hook       */ NULL,
+    /* realize               */ CanvasRealize,
+    /* actions               */ NULL,
+    /* num_actions           */ 0,
+    /* resources             */ resources,
+    /* num_resources         */ XtNumber(resources),
+    /* xrm_class             */ NULLQUARK,
+    /* compress_motion       */ True,
+    /* compress_exposure     */ XtExposeCompressMultiple,
+    /* compress_enterleave   */ True,
+    /* visible_interest      */ True,
+    /* destroy               */ NULL,
+    /* resize                */ Resize,
+    /* expose                */ Redisplay,
+    /* set_values            */ SetValues,
+    /* set_values_hook       */ NULL,
+    /* set_values_almost     */ XtInheritSetValuesAlmost,
+    /* get_values_hook       */ NULL,
+    /* accept_focus          */ NULL,
+    /* version               */ XtVersion,
+    /* callback_private      */ NULL,
+    /* tm_table              */ NULL,
+    /* query_geometry        */ NULL,
+    /* display_accelerator   */ XtInheritDisplayAccelerator,
+    /* extension             */ NULL
     },
     {
       0 /* some stupid compilers barf on empty structures */
     },
 };
 
-WidgetClass xfwfcanvasWidgetClass = (WidgetClass) & canvasClassRec;
+WidgetClass xfwfcanvasWidgetClass = (WidgetClass)&canvasClassRec;
 
-
-static void CanvasRealize(widget, value_mask, attributes)
-    Widget		 widget;
-    XtValueMask		 *value_mask;
-    XSetWindowAttributes *attributes;
+static void CanvasRealize(Widget widget, XtValueMask *value_mask, XSetWindowAttributes *attributes)
 {
-  CanvasWidget	cw = (CanvasWidget)widget;
-    XtCreateWindow(widget, (unsigned int) InputOutput,
-	(Visual *) cw->canvas.visual, *value_mask, attributes);
+    CanvasWidget cw = (CanvasWidget)widget;
+    XtCreateWindow(widget, (unsigned int)InputOutput, (Visual *)cw->canvas.visual, *value_mask, attributes);
 } /* CoreRealize */
 
-static void Redisplay(w, event, region)
-Widget w;
-XExposeEvent *event;
-Region region;
+static void Redisplay(Widget w, XExposeEvent *event, Region region)
 {
-  CanvasWidget	cw = (CanvasWidget)w;
-  if (!XtIsRealized(w))
-    return;
+    CanvasWidget cw = (CanvasWidget)w;
+    if (!XtIsRealized(w)) {
+        return;
+    }
 
-  if (cw->canvas.redraw)
-    (cw->canvas.redraw)((Widget)cw,event,region,cw->canvas.redraw_data);
-
+    if (cw->canvas.redraw) {
+        (cw->canvas.redraw)((Widget)cw, event, region, cw->canvas.redraw_data);
+    }
 }
 
-static Boolean SetValues(current, request, new, args, nargs)
-CanvasWidget current, request, new;
-ArgList args;
-Cardinal *nargs;
+static Boolean SetValues(CanvasWidget current, CanvasWidget request, CanvasWidget new, ArgList args, Cardinal *nargs)
 {
-  int	i;
-  for (i=0; i<*nargs; i++) {
-    if (strcmp(XtNexposeProc,args[i].name)==0 ||
-	strcmp(XtNexposeProcData,args[i].name)==0)
-      return True;
-  }
-  return False;
+    int i;
+
+    for (i = 0; i < *nargs; i++) {
+        if (strcmp(XtNexposeProc,args[i].name) == 0 || strcmp(XtNexposeProcData,args[i].name) == 0) {
+            return True;
+        }
+    }
+    return False;
 }
 
-
-static void Resize(cw)
-CanvasWidget cw;
+static void Resize(CanvasWidget cw)
 {
-  if (cw->canvas.resize)
-    (cw->canvas.resize)((Widget)cw, cw->canvas.resize_data);
+    if (cw->canvas.resize) {
+        (cw->canvas.resize)((Widget)cw, cw->canvas.resize_data);
+    }
 }
