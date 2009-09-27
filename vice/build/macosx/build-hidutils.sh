@@ -14,7 +14,7 @@ SCRIPT_DIR="`dirname \"$0\"`"
 . "$SCRIPT_DIR/build-inc.sh"
 
 # parse args
-parse_args "$1" "$2"
+parse_args "$@"
 
 # create target dirs
 make_dirs lib include
@@ -22,12 +22,12 @@ make_dirs lib include
 # setup compiler environment
 set_compiler_env
 
-echo "===== hidutils build for $ARCH ====="
+echo "===== hidutils build $BUILD_TAG ====="
 
 # check if lib is already available
 HIDUTIL_LIB="libHIDUtilities.a"
 HIDUTIL_HDR="HID_Utilities_External.h"
-if [ -e "$INSTALL_DIR/lib/$HIDUTIL_LIB" -a -e "$INSTALL_DIR/include/$HIDUTIL_HDR" ]; then
+if [ -e "$INSTALL_DIR/lib/$HIDUTIL_LIB" -a -e "$INSTALL_DIR/include/$HIDUTIL_HDR" -a "x$FORCE_BUILD" = "x" ]; then
   echo "  hidutil library already for $ARCH installed. ($HIDUTIL_LIB, $HIDUTIL_HDR exists)"
   exit 0
 fi
@@ -49,6 +49,10 @@ if [ ! -d "$DIR" ]; then
     echo "FATAL: '$DIR' does not exits! unzip failed???"
     exit 1
   fi
+  
+  # patch source
+  mv "$DIR/HID_Utilities_External.h" "$DIR/t"
+  sed -e 's,^extern long HIDCalibrateValue,//,g' -e 's,^extern long HIDScale,//,g' < "$DIR/t" > "$DIR/HID_Utilities_External.h" 
 fi
 
 # compile files
@@ -89,4 +93,4 @@ fi
 # clean up source
 rm -rf "$DIR"
 
-echo "===== hidutils ready for $ARCH ====="
+echo "===== hidutils ready $BUILD_TAG ====="

@@ -9,12 +9,11 @@ parse_args () {
   # get arguments
   BASE_DIR="$1"
   ARCH="$2"
-  if [ "$ARCH" = "" ]; then
-    echo "Usage: $0 <build-dir> <arch:ppc|i386>"
-    exit 1
-  fi
-  if [ "$BASE_DIR" = ""  ]; then
-    echo "Please give base dir!"
+  SDK_VERSION="$3"
+  COMPILER="$4"
+  export FORCE_BUILD="$5"
+  if [ "x$ARCH" = "x" ]; then
+    echo "Usage: $0 <build-dir> <arch:ppc|i386|x86_64> [sdk:10.4|10.5|10.6] [gcc40|gcc42|clang] [force build!=0]"
     exit 1
   fi
   if [ ! -d "$BASE_DIR" ]; then
@@ -24,21 +23,81 @@ parse_args () {
   # normalize base dir
   BASE_DIR="`cd \"$BASE_DIR\" && pwd`"
 
-  # check arguments
+  # check arch
   if [ "$ARCH" = "ppc" ]; then
     INSTALL_DIR="$BASE_DIR/ppc"
   elif [ "$ARCH" = "i386" ]; then
     INSTALL_DIR="$BASE_DIR/i386"
+  elif [ "$ARCH" = "x86_64" ]; then
+    INSTALL_DIR="$BASE_DIR/x86_64"
   else
-    echo "Unknown ARCH: $ARCH (ppc or i386)"
+    echo "Unknown ARCH: $ARCH (ppc|i386|x86_64)"
     exit 1
   fi
+
+  # autoselect SDK
+  if [ "x$SDK_VERSION" = "x" ]; then
+    if [ "$ARCH" = "x86_64" ]; then
+      SDK_VERSION="10.6"
+    else
+      SDK_VERSION="10.4"
+    fi
+  fi
+  
+  # check SDK
+  if [ "$SDK_VERSION" = "10.4" ]; then
+    SDK=/Developer/SDKs/MacOSX10.4u.sdk
+  elif [ "$SDK_VERSION" = "10.5" ]; then
+    SDK=/Developer/SDKs/MacOSX10.5.sdk
+  elif [ "$SDK_VERSION" = "10.6" ]; then  
+    SDK=/Developer/SDKs/MacOSX10.6.sdk
+  else
+    echo "Unknown SDK_VERSION: $SDK_VERSION"
+    exit 1
+  fi
+
+  # autoselect compiler
+  if [ "x$COMPILER" = "x" ]; then
+    if [ "$SDK_VERSION" = "10.6" ]; then
+      COMPILER="gcc42"
+    else
+      COMPILER="gcc40"
+    fi
+  fi
+
+  # check compiler
+  if [ "$COMPILER" = "gcc40" ]; then
+    GCC="/usr/bin/gcc-4.0"
+    GXX="/usr/bin/g++-4.0"
+  elif [ "$COMPILER" = "gcc42" ]; then
+    GCC="/usr/bin/gcc-4.2"
+    GXX="/usr/bin/g++-4.2"
+  elif [ "$COMPILER" = "clang" ]; then
+    GCC="/Developer/usr/bin/clang"
+    GXX="/Developer/usr/bin/llvm-g++-4.2"
+  else
+    echo "Unknown COMPILER: $COMPILER"
+    exit 1
+  fi
+
+  # extend install dir
+  INSTALL_DIR="$INSTALL_DIR-$SDK_VERSION-$COMPILER"
 
   # setup base dir
   if [ ! -d "$INSTALL_DIR" ]; then
     echo "  creating install dir $INSTALL_DIR"
     mkdir -p "$INSTALL_DIR"
+    mkdir -p "$INSTALL_DIR/bin"
+    mkdir -p "$INSTALL_DIR/include"
+    mkdir -p "$INSTALL_DIR/lib"
+    mkdir -p "$INSTALL_DIR/man"
   fi
+  
+  # number of cpus
+  export NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
+  
+  # build tag
+  export BUILD_TAG="[$ARCH-$SDK_VERSION-$COMPILER,force=$FORCE_BUILD,cpus=$NUM_CPUS]"
 }
 
 # configure/compile/install a autoconf'ed distribution
@@ -58,10 +117,10 @@ configure_make_install () {
   URL="$5"
   CONFIG_OPT="$6"
 
-  echo "----- $DIR ($ARCH) -----"
+  echo "----- $DIR $BUILD_TAG -----"
   
   # check if lib is available
-  if [ -e "$INSTALL_DIR/$CHECK_FILE" ]; then
+  if [ -e "$INSTALL_DIR/$CHECK_FILE" -a "x$FORCE_BUILD" = "x" ]; then
     echo "  Already installed. ($CHECK_FILE available)"
   else
     
@@ -101,8 +160,12 @@ configure_make_install () {
     else
       BUILD_DIR="BUILD"
       if [ -d "$BUILD_DIR" ]; then
-        echo "FATAL: build directory '$BUILD_DIR' already here!"
-        exit 1
+        if [ "x$FORCE_BUILD" != "x" ]; then
+          rm -rf "$BUILD_DIR"
+        else
+          echo "FATAL: build directory '$BUILD_DIR' already here!"
+          exit 1
+        fi
       fi
       mkdir BUILD
     fi
@@ -115,7 +178,7 @@ configure_make_install () {
     # build
     echo "  configure options: $CONFIG_OPT"
     (cd "$BUILD_DIR" && eval "../$DIR/configure --prefix=\"$INSTALL_DIR\" $CONFIG_OPT $EXTRA_OPT")
-    (cd "$BUILD_DIR" && make)
+    (cd "$BUILD_DIR" && make -j$NUM_CPUS)
     if [ "$?" != "0" ]; then
       echo "FATAL: make failed!"
       exit 1
@@ -137,7 +200,7 @@ configure_make_install () {
       rm -rf "$DIR"
     fi
     
-    echo "----- ready with $2 -----" 
+    echo "----- ready with $2 $BUILD_TAG -----" 
   fi
 }
 
@@ -151,40 +214,19 @@ make_dirs () {
   done
 }
 
-set_compiler_env () {
-  # setup SDK paths
-  local PPC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-  local I386_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-  local PPC_SDK_VERSION=10.4
-  local I386_SDK_VERSION=10.4
-  GCC_VERSION=4.0
-  
-  # choose SDK
-  if [ "$ARCH" = "ppc" ]; then
-    SDK="$PPC_SDK"
-    SDK_VERSION="$PPC_SDK_VERSION"
-  else
-    SDK="$I386_SDK"
-    SDK_VERSION="$I386_SDK_VERSION"
-  fi
-    
+set_compiler_env () {    
   # set common flags
   export CPPFLAGS="-I$INSTALL_DIR/include"
   export LDFLAGS="-L$INSTALL_DIR/lib"
   export PATH="$INSTALL_DIR/bin:$PATH"
 
-  # do cross-compile?
-  #if [ "`uname -p`" != "$ARCH" ]; then
-  #  EXTRA_OPT="--host=$ARCH-apple-darwin`uname -r`"
-  #fi
-  
   # use X11 from SDK
   if [ "$USE_X11" = "1" ]; then 
     EXTRA_OPT="--x-includes=$SDK/usr/X11R6/include --x-libraries=$SDK/usr/X11R6/lib"
   fi
   
   export COMPILE_TAG="-arch $ARCH -isysroot $SDK -mmacosx-version-min=$SDK_VERSION"
-  export CC="gcc-$GCC_VERSION $COMPILE_TAG"
-  export CXX="g++-$GCC_VERSION $COMPILE_TAG"
-  export LD="gcc-$GCC_VERSION $COMPILE_TAG"
+  export CC="$GCC $COMPILE_TAG"
+  export CXX="$GXX $COMPILE_TAG"
+  export LD="$GCC $COMPILE_TAG"
 }

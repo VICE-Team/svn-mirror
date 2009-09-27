@@ -14,7 +14,7 @@ SCRIPT_DIR="`dirname \"$0\"`"
 . "$SCRIPT_DIR/build-inc.sh"
 
 # parse args
-parse_args "$1" "$2"
+parse_args "$@"
 
 # create target dirs
 make_dirs bin lib include man share
@@ -23,7 +23,9 @@ make_dirs bin lib include man share
 USE_X11=1
 set_compiler_env
 
-echo "===== gtk+ build for $ARCH ====="
+export COMPILE_IN_SRC=1
+
+echo "===== gtk+ build $BUILD_TAG ====="
 
 # ----- Tool Libs -----
 # gettext
@@ -84,6 +86,6 @@ configure_make_install gtkglext-1.2.0.tar.bz2 gtkglext-1.2.0 lib/libgtkglext-x11
                        "gtkglext-1.2.0.tar.bz2" \
                        "--with-gl-libdir=/System/Library/Frameworks/OpenGL.framework/Versions/Current/Libraries/"
 
-echo "===== gtk+ ready for $ARCH ====="
+echo "===== gtk+ ready $BUILD_TAG ====="
 
                        

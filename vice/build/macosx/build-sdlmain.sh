@@ -17,7 +17,7 @@ SCRIPT_DIR="`dirname \"$0\"`"
 . "$SCRIPT_DIR/build-inc.sh"
 
 # parse args
-parse_args "$1" "$2"
+parse_args "$@"
 
 # create target dirs
 make_dirs lib include
@@ -25,7 +25,7 @@ make_dirs lib include
 # setup compiler environment
 set_compiler_env
 
-echo "===== SDLMain build for $ARCH ====="
+echo "===== SDLMain build $BUILD_TAG ====="
 
 # check if lib is already available
 SDLMAIN_LIB="libSDLmain.a"
@@ -71,4 +71,4 @@ fi
 # clean up source
 rm -f "$O_FILE"
 
-echo "===== SDLMain ready for $ARCH ====="
+echo "===== SDLMain ready $BUILD_TAG ====="

@@ -12,12 +12,12 @@ SCRIPT_DIR="`dirname \"$0\"`"
 . "$SCRIPT_DIR/build-inc.sh"
 
 # parse args
-parse_args "$1" "$2"
+parse_args "$@"
 
 # setup compiler environment
 set_compiler_env
 
-echo "===== ffmpeg+lame build for $ARCH ====="
+echo "===== ffmpeg+lame build $BUILD_TAG ====="
 
 configure_make_install lame-3.97.tar.gz lame-3.97 lib/libmp3lame.dylib install \
                        "http://lame.sourceforge.net/index.php" \
@@ -29,9 +29,9 @@ configure_make_install "" ffmpeg-svn lib/libavcodec.dylib "install-libs install-
                        "svn checkout svn://svn.mplayerhq.hu/ffmpeg/trunk ffmpeg-svn" \
                        "--disable-ffmpeg --disable-ffserver --disable-ffplay \
                         --disable-static --enable-shared --enable-libmp3lame \
-                        --cc=gcc-$GCC_VERSION \
+                        --cc=\"$GCC\" \
                         \"--extra-cflags=$CPPFLAGS $COMPILE_TAG\" \"--extra-ldflags=$LDFLAGS $COMPILE_TAG\" \
-                        --arch=$ARCH --disable-altivec --disable-mmx"
+                        --arch=$ARCH --disable-altivec --disable-mmx" 
 
-echo "===== ffmpeg+lame ready for $ARCH ====="
+echo "===== ffmpeg+lame ready $BUILD_TAG ====="
 
