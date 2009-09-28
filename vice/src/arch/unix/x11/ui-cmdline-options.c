@@ -34,7 +34,6 @@
 #include "translate.h"
 #include "ui.h"
 
-
 static const cmdline_option_t cmdline_options[] = {
     { "-htmlbrowser", SET_RESOURCE, 1,
       NULL, NULL, "HTMLBrowserCommand", NULL,

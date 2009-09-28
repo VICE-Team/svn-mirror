@@ -31,15 +31,15 @@
 #include "archapi.h"
 
 /* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR   "."
-#define FSDEV_DIR_SEP_STR      "/"
-#define FSDEV_DIR_SEP_CHR      '/'
-#define FSDEV_EXT_SEP_STR      "."
-#define FSDEV_EXT_SEP_CHR      '.'
+#define FSDEVICE_DEFAULT_DIR "."
+#define FSDEV_DIR_SEP_STR    "/"
+#define FSDEV_DIR_SEP_CHR    '/'
+#define FSDEV_EXT_SEP_STR    "."
+#define FSDEV_EXT_SEP_CHR    '.'
 
 /* Path separator.  */
-#define ARCHDEP_FINDPATH_SEPARATOR_CHAR         ':'
-#define ARCHDEP_FINDPATH_SEPARATOR_STRING       ":"
+#define ARCHDEP_FINDPATH_SEPARATOR_CHAR   ':'
+#define ARCHDEP_FINDPATH_SEPARATOR_STRING ":"
 
 /* Modes for fopen().  */
 #define MODE_READ              "r"
@@ -117,17 +117,17 @@ extern const char *archdep_pref_path;
 
 /* Define the default system directory (where the ROMs are).  */
 #ifdef __NetBSD__
-#define LIBDIR          PREFIX "/share/vice"
+#define LIBDIR PREFIX "/share/vice"
 #else
-#define LIBDIR          PREFIX "/lib/vice"
+#define LIBDIR PREFIX "/lib/vice"
 #endif
 
 #if defined(__FreeBSD__) || defined(__NetBSD__)
-#define DOCDIR          PREFIX "/share/doc/vice"
+#define DOCDIR PREFIX "/share/doc/vice"
 #else
-#define DOCDIR          LIBDIR "/doc"
+#define DOCDIR LIBDIR "/doc"
 #endif
 
-#define VICEUSERDIR     ".vice"
+#define VICEUSERDIR ".vice"
 
 #endif

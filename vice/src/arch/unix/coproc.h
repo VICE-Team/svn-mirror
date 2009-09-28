@@ -33,4 +33,3 @@
 extern int fork_coproc(int *fd_wr, int *fd_rd, char *cmd);
 
 #endif
-

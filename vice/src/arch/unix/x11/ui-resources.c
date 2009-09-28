@@ -36,7 +36,6 @@
 #include "ui.h"
 #include "util.h"
 
-
 struct ui_resources_s {
     char *html_browser_command;
     int use_private_colormap;
@@ -56,13 +55,13 @@ static ui_resources_t ui_resources;
 
 static unsigned int ui_resources_initialized = 0;
 
-
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(int d, void *param)
 {
     /* Minimal sanity check.  */
-    if (d < 0 || d > 32)
+    if (d < 0 || d > 32) {
         return -1;
+    }
 
     ui_resources.depth = d;
     return 0;
@@ -71,8 +70,9 @@ static int set_depth(int d, void *param)
 static int set_width(int d, void *param)
 {
     /* Minimal sanity check.  */
-    if (d < 0)
+    if (d < 0) {
         return -1;
+    }
 
     ui_resources.window_width = d;
     return 0;
@@ -81,8 +81,9 @@ static int set_width(int d, void *param)
 static int set_height(int d, void *param)
 {
     /* Minimal sanity check.  */
-    if (d < 0)
+    if (d < 0) {
         return -1;
+    }
 
     ui_resources.window_height = d;
     return 0;
@@ -125,8 +126,7 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
-#if defined (USE_XF86_EXTENSIONS) && \
-    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 static int fullscreen_set_fs(int val, void *param)
 {
     ui_resources.fs_enabled_pending = val;
@@ -147,8 +147,7 @@ static const resource_int_t resources_int[] = {
       &ui_resources.window_width, set_width, NULL },
     { "WindowHeight", 0, RES_EVENT_NO, NULL,
       &ui_resources.window_height, set_height, NULL },
-#if defined (USE_XF86_EXTENSIONS) && \
-    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "UseFullscreen", 0, RES_EVENT_NO, NULL,
       &ui_resources.fs_enabled_pending, fullscreen_set_fs, NULL },
 #endif
@@ -159,15 +158,16 @@ int ui_resources_init(void)
 {
     ui_resources_initialized = 1;
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)
 {
-    if (ui_resources_initialized)
+    if (ui_resources_initialized) {
         lib_free(ui_resources.html_browser_command);
+    }
 }
-

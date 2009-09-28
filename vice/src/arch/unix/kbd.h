@@ -74,4 +74,3 @@ extern void x11kbd_enter_leave(void);
 extern void x11kbd_focus_change(void);
 
 #endif
-

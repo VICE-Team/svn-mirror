@@ -53,9 +53,8 @@ extern int x11ui_get_display_depth(void);
 extern int x11ui_get_screen(void);
 extern void x11ui_fullscreen(int enable);
 
-Display *x11ui_get_display_ptr(void);
-Window x11ui_get_X11_window(void);
+extern Display *x11ui_get_display_ptr(void);
+extern Window x11ui_get_X11_window(void);
 #endif
 
 #endif
-

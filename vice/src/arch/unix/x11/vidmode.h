@@ -56,4 +56,3 @@ extern void vidmode_menu_create(struct ui_menu_entry_s *menu);
 extern void vidmode_menu_shutdown(struct ui_menu_entry_s *menu);
 
 #endif
-

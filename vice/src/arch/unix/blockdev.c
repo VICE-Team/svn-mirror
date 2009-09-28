@@ -35,11 +35,7 @@
 #include "log.h"
 #include "types.h"
 
-
-/*static log_t blockdev_log = LOG_DEFAULT;*/
-
 static int device;
-
 
 int blockdev_open(const char *name, unsigned int *read_only)
 {
@@ -48,15 +44,17 @@ int blockdev_open(const char *name, unsigned int *read_only)
 
         if (device == -1) {
             device = open(name, O_RDONLY);
-            if (device == -1)
+            if (device == -1) {
                 return -1;
+            }
             *read_only = 1;
         }
     } else {
         device = open(name, O_RDONLY);
 
-        if (device == -1)
+        if (device == -1) {
             return -1;
+        }
     }
 
     return 0;
@@ -77,8 +75,9 @@ int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
 
     lseek(device, offset, SEEK_SET);
 
-    if (read(device, (void *)buf, 256) != 256)
+    if (read(device, (void *)buf, 256) != 256) {
         return -1;
+    }
 
     return 0;
 }
@@ -91,8 +90,9 @@ int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
 
     lseek(device, offset, SEEK_SET);
 
-    if (write(device, (void *)buf, 256) != 256)
+    if (write(device, (void *)buf, 256) != 256) {
         return -1;
+    }
 
     return 0;
 }
@@ -112,4 +112,3 @@ int blockdev_cmdline_options_init()
 {
     return 0;
 }
-

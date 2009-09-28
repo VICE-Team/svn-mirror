@@ -41,7 +41,6 @@
 int mouse_x, mouse_y;
 int mouse_accelx = 2, mouse_accely = 2;
 
-
 void mousedrv_mouse_changed(void)
 {
     ui_check_mouse_cursor();
@@ -69,15 +68,17 @@ void mousedrv_init(void)
 
 void mouse_button(int bnumber, int state)
 {
-    if (bnumber == 0)
+    if (bnumber == 0) {
         mouse_button_left(state);
-    if (bnumber == 2)
+    }
+    if (bnumber == 2) {
         mouse_button_right(state);
+    }
 }
 
 BYTE mousedrv_get_x(void)
 {
-    static int last_mouse_x=0;
+    static int last_mouse_x = 0;
 
     if (last_mouse_x - mouse_x > 16) {
         last_mouse_x -= 16;
@@ -93,7 +94,7 @@ BYTE mousedrv_get_x(void)
 
 BYTE mousedrv_get_y(void)
 {
-    static int last_mouse_y=0;
+    static int last_mouse_y = 0;
 
     if (last_mouse_y - mouse_y > 16) {
         last_mouse_y -= 16;
@@ -110,8 +111,9 @@ BYTE mousedrv_get_y(void)
 void mouse_move(int x, int y)
 {
 
-    if (!_mouse_enabled)
+    if (!_mouse_enabled) {
         return;
+    }
 
     mouse_x = x;
     mouse_y = 256 - y;

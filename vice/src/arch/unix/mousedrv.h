@@ -44,4 +44,3 @@ extern int mouse_x, mouse_y;
 extern int mouse_accelx, mouse_accely;
 
 #endif
-

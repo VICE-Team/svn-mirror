@@ -36,4 +36,3 @@ extern const char *plus4_icon_data[];
 extern const char *vic20_icon_data[];
 
 #endif
-

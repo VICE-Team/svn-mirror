@@ -35,6 +35,7 @@
 #ifdef HAS_JOYSTICK
 #include "joy.h"
 #endif
+
 #ifdef HAVE_OPENGL_SYNC
 #include "openGL_sync.h"
 #endif
@@ -70,7 +71,7 @@ unsigned long vsyncarch_gettime(void)
 
 void vsyncarch_init(void)
 {
-    (void)vsync_set_event_dispatcher(ui_dispatch_events);
+    vsync_set_event_dispatcher(ui_dispatch_events);
 }
 
 /* Display speed (percentage) and frame rate (frames per second). */
@@ -107,6 +108,7 @@ void vsyncarch_presync(void)
 void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 {
     void_hook_t t = ui_dispatch_hook;
+
     ui_dispatch_hook = hook;
     return t;
 }
@@ -125,8 +127,7 @@ vsyncarch_sync_with_raster(video_canvas_t *c)
     openGL_sync_with_raster();
 }
 
-int 
-vsyncarch_vbl_sync_enabled(void)
+int vsyncarch_vbl_sync_enabled(void)
 {
     return openGL_sync_enabled();
 }

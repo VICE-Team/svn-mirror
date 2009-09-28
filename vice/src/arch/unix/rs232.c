@@ -34,7 +34,7 @@
  *
  */
 
-#undef        DEBUG
+#undef DEBUG
 
 #include "vice.h"
 
@@ -78,42 +78,41 @@
 #ifdef __NeXT__
 int cfsetispeed(struct termios *t, int speed)
 { 
-  t->c_ispeed = speed; 
-  return 0; 
+    t->c_ispeed = speed; 
+    return 0; 
 }
 
 int cfsetospeed(struct termios *t, int speed)
 {
-  t->c_ispeed = speed;
-  return 0;
+    t->c_ispeed = speed;
+    return 0;
 }
 
 int tcgetattr(int fildes, struct termios *tp)
 {
-  return ioctl(fildes, TIOCGETA, tp);
+    return ioctl(fildes, TIOCGETA, tp);
 }
 
 int tcsetattr(int fd, int opt, const struct termios *t)
 {
-  int st;
+    int st;
 
-  switch(opt)
-  {
-    case TCSANOW:
-      st = ioctl(fd, TIOCSETA, t);
-      break;
-    case TCSADRAIN:
-      st = ioctl(fd, TIOCSETAW, t);
-      break;
-    case TCSAFLUSH:
-      st = ioctl(fd, TIOCSETAF, t);
-      break;
-    default:
-      st = -1;
-      errno = EINVAL;
-      break;
-  }
-  return st;
+    switch(opt) {
+        case TCSANOW:
+            st = ioctl(fd, TIOCSETA, t);
+            break;
+        case TCSADRAIN:
+            st = ioctl(fd, TIOCSETAW, t);
+            break;
+        case TCSAFLUSH:
+            st = ioctl(fd, TIOCSETAF, t);
+            break;
+        default:
+            st = -1;
+            errno = EINVAL;
+            break;
+    }
+    return st;
 }
 #endif
 
@@ -192,9 +191,9 @@ typedef struct rs232 {
     struct termios saved;
 } rs232_t;
 
-#define T_FILE          0
-#define T_TTY           1
-#define T_PROC          2
+#define T_FILE 0
+#define T_TTY  1
+#define T_PROC 2
 
 static rs232_t fds[RS232_NUM_DEVICES];
 
@@ -209,8 +208,9 @@ void rs232_init(void)
 {
     int i;
 
-    for (i = 0; i < RS232_NUM_DEVICES; i++)
+    for (i = 0; i < RS232_NUM_DEVICES; i++) {
         fds[i].inuse = 0;
+    }
 
     rs232_log = log_open("RS232");
 }
@@ -255,23 +255,29 @@ static void set_tty(int i, int baud)
     buf = fds[i].saved;
 
     buf.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+
     /* echho off, cononical mode off, extended input processing
      * off, signal chars off */
     buf.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+
     /* no SIGINT on Break, CR-to-NL off, input parity check off,
      * don't strip 8th bit on input, output flow control off */
     buf.c_cflag &= ~(CSIZE | PARENB);
+
     /* clear size bits, parity checking off */
     buf.c_cflag |= CS8;
+
     /* set 8 bits/char */
     buf.c_oflag &= ~(OPOST);
+
     /* ouput processing off */
     buf.c_cc[VMIN] = 1;         /* 1 byte at a time, no timer */
     buf.c_cc[VTIME] = 0;
 
     for (i = 0; speed_tab[i].baud; i++) {
-        if (speed_tab[i].baud >= baud)
+        if (speed_tab[i].baud >= baud) {
             break;
+        }
     }
     speed = speed_tab[i].speed;
 
@@ -299,8 +305,9 @@ int rs232_open(int device)
     int i, fd;
 
     for (i = 0; i < RS232_NUM_DEVICES; i++) {
-        if (!fds[i].inuse)
+        if (!fds[i].inuse) {
             break;
+        }
     }
     if (i >= RS232_NUM_DEVICES) {
         log_error(rs232_log, "No more devices available.");
@@ -325,11 +332,9 @@ int rs232_open(int device)
         fds[i].inuse = 1;
         fds[i].file = rs232_devfile[device];
     } else {
-        fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC,
-                  S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
-            log_error(rs232_log, "Cannot open file \"%s\": %s",
-                      rs232_devfile[device], strerror(errno));
+            log_error(rs232_log, "Cannot open file \"%s\": %s", rs232_devfile[device], strerror(errno));
             return -1;
         }
         fds[i].fd_r = fds[i].fd_w = fd;
@@ -420,8 +425,9 @@ int rs232_getc(int fd, BYTE * b)
         return -1;
     }
 
-    if (fds[fd].type == T_FILE)
+    if (fds[fd].type == T_FILE) {
         return 0;
+    }
 
     FD_ZERO(&rdset);
     FD_SET(fds[fd].fd_r, &rdset);
@@ -437,8 +443,9 @@ int rs232_getc(int fd, BYTE * b)
 
     if (ret && (FD_ISSET(fds[fd].fd_r, &rdset))) {
         n = read(fds[fd].fd_r, b, 1);
-        if (n)
+        if (n) {
             return 1;
+        }
     }
     return 0;
 }

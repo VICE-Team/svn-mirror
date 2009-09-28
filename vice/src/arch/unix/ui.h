@@ -32,7 +32,6 @@
 #include "types.h"
 #include "imagecontents.h"
 
-
 /* If this is #defined, `Alt' is handled the same as `Meta'.  On
    systems which have Meta, it's better to use Meta instead of Alt as
    a shortcut modifier (because Alt is usually used by Window
@@ -49,9 +48,18 @@
 #define NO_TRANS "no-trans"
 
 typedef enum {
-    UI_BUTTON_NONE, UI_BUTTON_CLOSE, UI_BUTTON_OK, UI_BUTTON_CANCEL,
-    UI_BUTTON_YES, UI_BUTTON_NO, UI_BUTTON_RESET, UI_BUTTON_HARDRESET,
-    UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
+    UI_BUTTON_NONE,
+    UI_BUTTON_CLOSE,
+    UI_BUTTON_OK,
+    UI_BUTTON_CANCEL,
+    UI_BUTTON_YES,
+    UI_BUTTON_NO,
+    UI_BUTTON_RESET,
+    UI_BUTTON_HARDRESET,
+    UI_BUTTON_MON,
+    UI_BUTTON_DEBUG,
+    UI_BUTTON_CONTENTS,
+    UI_BUTTON_AUTOSTART
 } ui_button_t;
 
 /* ------------------------------------------------------------------------- */
@@ -70,22 +78,12 @@ void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
 void ui_dispatch_events(void);
 extern void ui_exit(void);
-extern void ui_show_text(const char *title, const char *text, int width,
-                         int height);
+extern void ui_show_text(const char *title, const char *text, int width, int height);
 
-extern char *ui_select_file(const char *title,
-                            read_contents_func_type read_contents_func,
-                            unsigned int allow_autostart,
-                            const char *default_dir,
-                            enum uilib_file_filter_enum_s* patterns,
-                            int num_patterns,
-                            ui_button_t *button_return,
-                            unsigned int show_preview,
-                            int *attach_wp,
-			    ui_filechooser_t action);
+extern char *ui_select_file(const char *title, read_contents_func_type read_contents_func, unsigned int allow_autostart, const char *default_dir, enum uilib_file_filter_enum_s* patterns,
+                            int num_patterns, ui_button_t *button_return, unsigned int show_preview, int *attach_wp, ui_filechooser_t action);
 
-extern ui_button_t ui_input_string(const char *title, const char *prompt,
-                                   char *buf, unsigned int buflen);
+extern ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
 
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);
@@ -111,4 +109,3 @@ extern void ui_common_init(void);
 extern void ui_common_shutdown(void);
 
 #endif
-

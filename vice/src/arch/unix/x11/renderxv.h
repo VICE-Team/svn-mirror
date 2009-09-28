@@ -32,6 +32,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XShm.h>
+
 #ifndef __QNX__
 #ifndef MINIX_SUPPORT
 #include <sys/ipc.h>
@@ -41,26 +42,20 @@
 #include "qnxipc.h"
 #include "qnxshm.h"
 #endif
+
 #include <X11/extensions/Xv.h>
 #include <X11/extensions/Xvlib.h>
 
 #include "video/renderyuv.h"
 
+extern int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format);
 
-int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format);
+extern XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format, int width, int height, XShmSegmentInfo* shminfo);
 
-XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format,
-			  int width, int height, XShmSegmentInfo* shminfo);
+extern void destroy_yuv_image(Display* display, XvImage* image, XShmSegmentInfo* shminfo);
 
-void destroy_yuv_image(Display* display, XvImage* image,
-		       XShmSegmentInfo* shminfo);
-
-void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc,
-		       XvImage* image,
-		       XShmSegmentInfo* shminfo,
-		       int src_x, int src_y,
-		       unsigned int src_w, unsigned int src_h,
-		       unsigned int dest_w, unsigned int dest_h,
-		       double aspect_ratio);
+extern void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc, XvImage* image, XShmSegmentInfo* shminfo,
+                              int src_x, int src_y, unsigned int src_w, unsigned int src_h, unsigned int dest_w, unsigned int dest_h,
+                              double aspect_ratio);
 
 #endif /* _RENDERXV_H */

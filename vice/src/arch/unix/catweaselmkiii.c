@@ -59,8 +59,9 @@ static int ntsc = 0;
 /* set all CatWeasels frequency to global variable ntsc */
 static void setfreq()
 {
-    if (sidfh >= 0)
+    if (sidfh >= 0) {
         ioctl(sidfh, ntsc ? CWSID_IOCTL_NTSC : CWSID_IOCTL_PAL);
+    }
 }
 
 /* open unix device */
@@ -72,13 +73,13 @@ int catweaselmkiii_open(void)
     if (sidfh < 0) {
         sidfh = open("/dev/sid", O_RDWR);
 
-        if (sidfh < 0)
-            sidfh = open("/dev/misc/sid", O_RDWR);
-
-	/* could not open at standard locations: error */
         if (sidfh < 0) {
-            log_error(LOG_DEFAULT,
-                      "could not open sid device /dev/sid or /dev/misc/sid");
+            sidfh = open("/dev/misc/sid", O_RDWR);
+        }
+
+        /* could not open at standard locations: error */
+        if (sidfh < 0) {
+            log_error(LOG_DEFAULT, "could not open sid device /dev/sid or /dev/misc/sid");
             return -1;
         }
     }
@@ -104,9 +105,9 @@ int catweaselmkiii_open(void)
 /* close unix device */
 int catweaselmkiii_close(void)
 {
-  /* if there is a device opened */
+    /* if there is a device opened */
     if (sidfh >= 0) {
-      /* mute */
+        /* mute */
         memset(sidbuf, 0, sizeof(sidbuf));
         lseek(sidfh, 0, SEEK_SET);
         write(sidfh, sidbuf, sizeof(sidbuf));
@@ -123,19 +124,18 @@ int catweaselmkiii_close(void)
 /* read value from SIDs */
 int catweaselmkiii_read(WORD addr, int chipno)
 {
-  /* check if chipno and addr is valid */
+    /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
-      /* if addr is from read-only register, perform a read read */
+        /* if addr is from read-only register, perform a read read */
         if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
             addr += chipno*0x20;
             lseek(sidfh, addr, SEEK_SET);
             read(sidfh, &sidbuf[addr], 1);
-        } 
-	/* else correct addr, so it becomes an index into sidbuf[] */
-	else
+        } else {
           addr += chipno*0x20;
+        }
 
-	/* take value from sidbuf[] */
+        /* take value from sidbuf[] */
         return sidbuf[addr];
     }
 
@@ -145,13 +145,15 @@ int catweaselmkiii_read(WORD addr, int chipno)
 /* write value into SID */
 void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 {
-  /* check if chipno and addr is valid */
+    /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x18) {
-      /* correct addr, so it becomes an index into sidbuf[] and the unix device */
+        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
         addr += chipno * 0x20;
-	/* write into sidbuf[] */
+
+        /* write into sidbuf[] */
         sidbuf[addr] = val;
-	/* if the device is opened, write to device */
+
+        /* if the device is opened, write to device */
         if (sidfh >= 0) {
             lseek(sidfh, addr, SEEK_SET);
             write(sidfh, &val, 1);

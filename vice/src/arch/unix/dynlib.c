@@ -67,4 +67,3 @@ int vice_dynlib_close(void *handle)
 }
 
 #endif
-

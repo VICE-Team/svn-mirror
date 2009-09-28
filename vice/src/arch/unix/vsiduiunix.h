@@ -39,4 +39,3 @@ extern void ui_vsid_setmodel(const char *a);
 extern void ui_vsid_setirq(const char *a);
 
 #endif
-

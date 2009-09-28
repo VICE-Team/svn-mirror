@@ -37,7 +37,6 @@
 #include "video.h"
 #include "videoarch.h"
 
-
 #if defined  (USE_XF86_EXTENSIONS) && defined (HAVE_FULLSCREEN)
 
 #define STR_VIDMODE "Vidmode"
@@ -46,6 +45,7 @@
 #ifdef USE_XF86_VIDMODE_EXT
 #include "vidmode.h"
 #endif
+
 #ifdef HAVE_XRANDR
 #include "xrandr.h"
 #endif
@@ -55,8 +55,9 @@ int fullscreen_is_enabled;
 int fullscreen_available(void) 
 {
 #ifdef USE_XF86_VIDMODE_EXT
-    if (vidmode_available())
+    if (vidmode_available()) {
         return 1;
+    }
 #endif
     return 0;
 }
@@ -101,12 +102,14 @@ void fullscreen_set_mouse_timeout(void)
 void fullscreen_mode_callback(const char *device, void *callback)
 {
 #ifdef USE_XF86_VIDMODE_EXT
-    if (strcmp(STR_VIDMODE, device) == 0)
+    if (strcmp(STR_VIDMODE, device) == 0) {
         vidmode_mode_callback(callback);
+    }
 #endif
 #ifdef HAVE_XRANDR
-    if (strcmp(STR_XRANDR, device) == 0)
+    if (strcmp(STR_XRANDR, device) == 0) {
         xrandr_mode_callback(callback);
+    }
 #endif
 }
 
@@ -134,12 +137,14 @@ int fullscreen_init(void)
 {
     int ret = 0;
 #ifdef HAVE_XRANDR
-    if (xrandr_init() < 0)
-	ret++;
+    if (xrandr_init() < 0) {
+        ret++;
+    }
 #endif
 #ifdef USE_XF86_VIDMODE_EXT
-    if (vidmode_init() < 0)
+    if (vidmode_init() < 0) {
         ret++;
+    }
 #endif
     return ret;
 }
@@ -155,40 +160,44 @@ void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas)
 
 static int fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
-    if (!fullscreen_is_enabled)
-	return 0;
+    if (!fullscreen_is_enabled) {
+        return 0;
+    }
     return ui_fullscreen_statusbar(canvas, enable);
 }
 
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
-    if (canvas->fullscreenconfig->device == NULL)
-	return 0;
-    
+    if (canvas->fullscreenconfig->device == NULL) {
+        return 0;
+    }
+
 #ifdef USE_XF86_VIDMODE_EXT
-    if (strcmp(STR_VIDMODE, canvas->fullscreenconfig->device) == 0)
-        if (vidmode_enable(canvas, enable) < 0)
+    if (strcmp(STR_VIDMODE, canvas->fullscreenconfig->device) == 0) {
+        if (vidmode_enable(canvas, enable) < 0) {
             return -1;
+        }
+    }
 #endif
 #ifdef HAVE_XRANDR
-    if (strcmp(STR_XRANDR, canvas->fullscreenconfig->device) == 0)
-        if (xrandr_enable(canvas, enable) < 0)
+    if (strcmp(STR_XRANDR, canvas->fullscreenconfig->device) == 0) {
+        if (xrandr_enable(canvas, enable) < 0) {
             return -1;
+        }
+    }
 #endif
     fullscreen_is_enabled = canvas->fullscreenconfig->enable = enable;
-    resources_set_int("UseFullscreen",  enable);
+    resources_set_int("UseFullscreen", enable);
     return 0;
 }
 
-static int fullscreen_double_size(struct video_canvas_s *canvas,
-                                  int double_size)
+static int fullscreen_double_size(struct video_canvas_s *canvas, int double_size)
 {
     canvas->fullscreenconfig->double_size = double_size;
     return 0;
 }
 
-static int fullscreen_double_scan(struct video_canvas_s *canvas,
-                                  int double_scan)
+static int fullscreen_double_scan(struct video_canvas_s *canvas, int double_scan)
 {
     canvas->fullscreenconfig->double_scan = double_scan;
     return 0;
@@ -198,12 +207,14 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 {
     while (1) {
 #ifdef USE_XF86_VIDMODE_EXT
-    if (strcmp(STR_VIDMODE, device) == 0)
-        break;
+        if (strcmp(STR_VIDMODE, device) == 0) {
+            break;
+        }
 #endif
 #ifdef HAVE_XRANDR
-    if (strcmp(STR_XRANDR, device) == 0)
-        break;
+        if (strcmp(STR_XRANDR, device) == 0) {
+            break;
+        }
 #endif
         return -1;
     }

@@ -47,7 +47,7 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #endif /* #ifdef MINIX_SUPPORT */
 
 #if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
-# include <sys/resource.h>
+#include <sys/resource.h>
 #endif
 
 #include <sys/types.h>
@@ -65,8 +65,7 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #include <unistd.h>
 
 #ifdef __minix
-# define recv(socket, buffer, length, flags) \
-         recvfrom(socket, buffer, length, flags, NULL, NULL)
+# define recv(socket, buffer, length, flags) recvfrom(socket, buffer, length, flags, NULL, NULL)
 extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #endif
 

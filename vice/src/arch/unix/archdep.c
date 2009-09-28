@@ -58,7 +58,7 @@
 #include "util.h"
 
 #ifdef __NeXT__
-#define waitpid(p, s, o)  wait3((union wait *)(s), (o), (struct rusage *) 0)
+#define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif
 
 static char *argv0 = NULL;
@@ -92,10 +92,11 @@ char *archdep_program_name(void)
         char *p;
 
         p = strrchr(argv0, '/');
-        if (p == NULL)
+        if (p == NULL) {
             program_name = lib_stralloc(argv0);
-        else
+        } else {
             program_name = lib_stralloc(p + 1);
+        }
     }
 
     return program_name;
@@ -115,29 +116,23 @@ const char *archdep_boot_path(void)
 
 const char *archdep_home_path(void)
 {
+    char *home;
 #ifdef GP2X
-    char *home;
-
     home = ".";
-
-    return home;
 #else
-    char *home;
-
     home = getenv("HOME");
     if (home == NULL) {
         struct passwd *pwd;
 
         pwd = getpwuid(getuid());
-        if ((pwd == NULL)
-            || ((home = pwd->pw_dir) == NULL)) {
+        if ((pwd == NULL) || ((home = pwd->pw_dir) == NULL)) {
             /* give up */
             home = ".";
         }
     }
+#endif
 
     return home;
-#endif
 }
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
@@ -159,75 +154,48 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
            and then in the `boot_path'.  */
 
 #if defined(MINIXVMD) || defined(MINIX_SUPPORT)
-        default_path_temp = util_concat(LIBDIR, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+        default_path_temp = util_concat(LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    home_path, "/", VICEUSERDIR, "/", emu_id,NULL);
 
-        default_path = util_concat(default_path_temp,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/PRINTER",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/PRINTER",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/PRINTER",
-                                   NULL);
+        default_path = util_concat(default_path_temp, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/PRINTER", NULL);
         lib_free(default_path_temp);
 
 #else 
 #if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
 #if defined(MACOSX_COCOA)
-        #define MACOSX_ROMDIR "/../Resources/ROM/"
+#define MACOSX_ROMDIR "/../Resources/ROM/"
 #else
-        #define MACOSX_ROMDIR "/../ROM/"
+#define MACOSX_ROMDIR "/../ROM/"
 #endif
-        default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+        default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
 
-                                   boot_path, MACOSX_ROMDIR, "DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, MACOSX_ROMDIR, "DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
 
-                                   boot_path, MACOSX_ROMDIR, "PRINTER",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/PRINTER",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/PRINTER",
-                                   NULL);
+                                   boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/PRINTER", NULL);
 #else
-        default_path = util_concat(LIBDIR, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   LIBDIR, "/PRINTER",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/PRINTER",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "/PRINTER",
-                                   NULL);
+        default_path = util_concat(LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/PRINTER", NULL);
 #endif
 #endif
     }
@@ -243,37 +211,37 @@ char *archdep_make_backup_filename(const char *fname)
 
 char *archdep_default_resource_file_name(void)
 {
-    if (archdep_pref_path==NULL) {
-      const char *home;
+    if (archdep_pref_path == NULL) {
+        const char *home;
       
-      home = archdep_home_path();
-      return util_concat(home, "/.vice/vicerc", NULL);
+        home = archdep_home_path();
+        return util_concat(home, "/.vice/vicerc", NULL);
     } else {
-      return util_concat(archdep_pref_path, "/vicerc", NULL);
+        return util_concat(archdep_pref_path, "/vicerc", NULL);
     }
 }
 
 char *archdep_default_fliplist_file_name(void)
 {
-    if (archdep_pref_path==NULL) {
-      const char *home;
+    if (archdep_pref_path == NULL) {
+        const char *home;
 
-      home = archdep_home_path();
-      return util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
+        home = archdep_home_path();
+        return util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
     } else {
-      return util_concat(archdep_pref_path, "/fliplist-", machine_name, ".vfl", NULL);
+        return util_concat(archdep_pref_path, "/fliplist-", machine_name, ".vfl", NULL);
     }
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-    if (archdep_pref_path==NULL) {
-      const char *home;
+    if (archdep_pref_path == NULL) {
+        const char *home;
 
-      home = archdep_home_path();
-      return util_concat(home, "/.vice/autostart-", machine_name, ".d64", NULL);
+        home = archdep_home_path();
+        return util_concat(home, "/.vice/autostart-", machine_name, ".d64", NULL);
     } else {
-      return util_concat(archdep_pref_path, "/autostart-", machine_name, ".d64", NULL);
+        return util_concat(archdep_pref_path, "/autostart-", machine_name, ".d64", NULL);
     }
 }
 
@@ -283,11 +251,11 @@ char *archdep_default_save_resource_file_name(void)
     const char *home;
     const char *viceuserdir;
 
-    if (archdep_pref_path==NULL) {
-      home = archdep_home_path();
-      viceuserdir = util_concat(home, "/.vice", NULL);
+    if (archdep_pref_path == NULL) {
+        home = archdep_home_path();
+        viceuserdir = util_concat(home, "/.vice", NULL);
     } else {
-      viceuserdir = archdep_pref_path;
+        viceuserdir = archdep_pref_path;
     }
 
     if (access(viceuserdir, F_OK)) {
@@ -297,7 +265,7 @@ char *archdep_default_save_resource_file_name(void)
     fname = util_concat(viceuserdir, "/vicerc", NULL);
     
     if (archdep_pref_path==NULL) {
-      lib_free(viceuserdir);
+        lib_free(viceuserdir);
     }
 
     return fname;
@@ -305,13 +273,15 @@ char *archdep_default_save_resource_file_name(void)
 
 #if defined(MACOSX_COCOA)
 int default_log_fd = 0;
+
 FILE *archdep_open_default_log_file(void)
 {
     int newFd = dup(default_log_fd);
-    FILE *file = fdopen(newFd,"w");
+    FILE *file = fdopen(newFd, "w");
     setlinebuf(file);
     return file;
 }
+
 #else
 FILE *archdep_open_default_log_file(void)
 {
@@ -336,37 +306,39 @@ int archdep_num_text_columns(void)
     char *s;
 
     s = getenv("COLUMNS");
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
     return atoi(s);
 }
 
-int archdep_default_logger(const char *level_string, const char *txt) {
-    if (fputs(level_string, stdout) == EOF
-        || fprintf(stdout, "%s", txt) < 0
-        || fputc ('\n', stdout) == EOF)
+int archdep_default_logger(const char *level_string, const char *txt)
+{
+    if (fputs(level_string, stdout) == EOF || fprintf(stdout, "%s", txt) < 0 || fputc ('\n', stdout) == EOF) {
         return -1;
+    }
     return 0;
 }
 
 int archdep_path_is_relative(const char *path)
 {
-    if (path == NULL)
+    if (path == NULL) {
         return 0;
+    }
 
     return *path != '/';
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
+int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
     pid_t child_pid;
     int child_status;
     char *stdout_redir = NULL;
 
     if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL)
+        if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
+        }
         stdout_redir = *pstdout_redir;
     }
 
@@ -377,13 +349,11 @@ int archdep_spawn(const char *name, char **argv,
     } else {
         if (child_pid == 0) {
             if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
-                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
-                          stdout_redir, strerror(errno));
+                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.", stdout_redir, strerror(errno));
                 _exit(-1);
             }
             if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
-                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
-                          stderr_redir, strerror(errno));
+                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.", stderr_redir, strerror(errno));
                 _exit(-1);
             }
             execvp(name, argv);
@@ -396,10 +366,11 @@ int archdep_spawn(const char *name, char **argv,
         return -1;
     }
 
-    if (WIFEXITED(child_status))
+    if (WIFEXITED(child_status)) {
         return WEXITSTATUS(child_status);
-    else
+    } else {
         return -1;
+    }
 }
 
 /* return malloc'd version of full pathname of orig_name */
@@ -441,10 +412,10 @@ char *archdep_quote_parameter(const char *name)
 char *archdep_tmpnam(void)
 {
 #ifdef GP2X
-    static unsigned int tmp_string_counter=0;
+    static unsigned int tmp_string_counter = 0;
     char tmp_string[32];
 
-    sprintf(tmp_string,"vice%d.tmp",tmp_string_counter++);
+    sprintf(tmp_string, "vice%d.tmp", tmp_string_counter++);
     return lib_stralloc(tmp_string);
 #else
 #ifdef HAVE_MKSTEMP
@@ -454,17 +425,18 @@ char *archdep_tmpnam(void)
     char* tmp;
 
     tmpName = lib_malloc(ioutil_maxpathlen());
-    if ((tmp = getenv("TMPDIR")) != NULL ) {
+    if ((tmp = getenv("TMPDIR")) != NULL) {
         strncpy(tmpName, tmp, ioutil_maxpathlen());
         tmpName[ioutil_maxpathlen() - sizeof(mkstempTemplate)] = '\0';
-    }
-    else
+    } else {
         strcpy(tmpName, "/tmp" );
-    strcat(tmpName, mkstempTemplate );
-    if ((fd = mkstemp(tmpName)) < 0 )
+    }
+    strcat(tmpName, mkstempTemplate);
+    if ((fd = mkstemp(tmpName)) < 0) {
         tmpName[0] = '\0';
-    else
+    } else {
         close(fd);
+    }
 
     lib_free(tmpName);
     return lib_stralloc(tmpName);
@@ -475,7 +447,7 @@ char *archdep_tmpnam(void)
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
- {
+{
 #ifdef GP2X
     static unsigned int tmp_string_counter = 0;
     char *tmp;
@@ -502,10 +474,11 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
     tmpdir = getenv("TMPDIR");
 
-    if (tmpdir != NULL ) 
+    if (tmpdir != NULL) {
         tmp = util_concat(tmpdir, template, NULL);
-    else
+    } else {
         tmp = util_concat("/tmp", template, NULL);
+    }
 
     fildes = mkstemp(tmp);
 
@@ -529,13 +502,15 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 
     tmp = tmpnam(NULL);
 
-    if (tmp == NULL)
+    if (tmp == NULL) {
         return NULL;
+    }
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = lib_stralloc(tmp);
 
@@ -547,10 +522,9 @@ int archdep_file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz")) && (l < 3 || strcasecmp(name + l - 2, ".z")) && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
         return 0;
+    }
     return 1;
 }
 
@@ -588,11 +562,13 @@ int archdep_file_is_blockdev(const char *name)
 {
     struct stat buf;
 
-    if (stat(name, &buf) != 0)
+    if (stat(name, &buf) != 0) {
         return 0;
+    }
 
-    if (S_ISBLK(buf.st_mode))
+    if (S_ISBLK(buf.st_mode)) {
         return 1;
+    }
 
     return 0;
 }
@@ -601,11 +577,13 @@ int archdep_file_is_chardev(const char *name)
 {
     struct stat buf;
 
-    if (stat(name, &buf) != 0)
+    if (stat(name, &buf) != 0) {
         return 0;
+    }
 
-    if (S_ISCHR(buf.st_mode))
+    if (S_ISCHR(buf.st_mode)) {
         return 1;
+    }
 
     return 0;
 }
@@ -615,4 +593,3 @@ void archdep_shutdown(void)
     lib_free(argv0);
     lib_free(boot_path);
 }
-

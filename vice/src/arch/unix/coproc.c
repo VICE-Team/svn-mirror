@@ -69,38 +69,37 @@
 
 #include "log.h"
 
-#define SHELL   "/bin/sh"
+#define SHELL "/bin/sh"
 
 /* HP-UX 9 fix */
 #ifndef SA_RESTART
-#define SA_RESTART      0
+#define SA_RESTART 0
 #endif
 
 #ifdef __NeXT__
 int sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
 {
-  struct sigvec vec, ovec;
-  int st;
+    struct sigvec vec, ovec;
+    int st;
 
-  vec.sv_handler = act->sa_handler;
-  vec.sv_mask = act->sa_mask;
-  vec.sv_flags = act->sa_flags;
+    vec.sv_handler = act->sa_handler;
+    vec.sv_mask = act->sa_mask;
+    vec.sv_flags = act->sa_flags;
 
-  st = sigvec(sig, &vec, &ovec);
+    st = sigvec(sig, &vec, &ovec);
 
-  if (oact)
-  {
-    oact->sa_handler = ovec.sv_handler;
-    oact->sa_mask = ovec.sv_mask;
-    oact->sa_flags = ovec.sv_flags;
-  }
-  return st;
+    if (oact) {
+        oact->sa_handler = ovec.sv_handler;
+        oact->sa_mask = ovec.sv_mask;
+        oact->sa_flags = ovec.sv_flags;
+    }
+    return st;
 }
 
 int sigemptyset(sigset_t *set)
 {
-  *set = 0;
-  return 0;
+    *set = 0;
+    return 0;
 }
 #endif
 
@@ -160,5 +159,4 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     }
     return 0;
 }
-
 #endif

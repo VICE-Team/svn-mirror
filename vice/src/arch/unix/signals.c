@@ -47,8 +47,7 @@ static RETSIGTYPE ignore64(int sig)
 static RETSIGTYPE break64(int sig)
 {
 #ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT, "Received signal %d (%s).",
-                sig, sys_siglist[sig]);
+    log_message(LOG_DEFAULT, "Received signal %d (%s).", sig, sys_siglist[sig]);
 #else
     log_message(LOG_DEFAULT, "Received signal %d.", sig);
 #endif
@@ -66,11 +65,11 @@ void signals_init(int do_core_dumps)
 #endif
 
     if (!do_core_dumps) {
-        signal(SIGSEGV,  break64);
-        signal(SIGILL,   break64);
-        signal(SIGPIPE,  break64);
-        signal(SIGHUP,   break64);
-        signal(SIGQUIT,  break64);
+        signal(SIGSEGV, break64);
+        signal(SIGILL, break64);
+        signal(SIGPIPE, break64);
+        signal(SIGHUP, break64);
+        signal(SIGQUIT, break64);
     }
 }
 
@@ -93,4 +92,3 @@ void signals_abort_unset(void)
 {
     signal(SIGINT, old_handler);
 }
-

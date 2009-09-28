@@ -29,14 +29,14 @@
 
 struct ui_menu_entry_s;
 
-int xrandr_init(void);
-void xrandr_menu_create(struct ui_menu_entry_s *menu);
-int xrandr_enable(struct video_canvas_s *canvase, int activate);
-int xrandr_mode(struct video_canvas_s *canvase, int mode);
-void xrandr_menu_shutdown(struct ui_menu_entry_s *menu);
-void xrandr_mode_callback(ui_callback_t cb);
-void xrandr_shutdown(void);
-void xrandr_suspend(int level);
-void xrandr_resume(void);
+extern int xrandr_init(void);
+extern void xrandr_menu_create(struct ui_menu_entry_s *menu);
+extern int xrandr_enable(struct video_canvas_s *canvase, int activate);
+extern int xrandr_mode(struct video_canvas_s *canvase, int mode);
+extern void xrandr_menu_shutdown(struct ui_menu_entry_s *menu);
+extern void xrandr_mode_callback(ui_callback_t cb);
+extern void xrandr_shutdown(void);
+extern void xrandr_suspend(int level);
+extern void xrandr_resume(void);
 
 #endif /* __xrandr_h__ */

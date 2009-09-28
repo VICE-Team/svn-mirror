@@ -100,10 +100,9 @@ char *readline(const char *prompt)
     {
         int len;
 
-        for (len = strlen(p);
-            len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
-            len--)
+        for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
             p[len - 1] = '\0';
+        }
     }
 
     return p;
@@ -126,4 +125,3 @@ int console_close_all(void)
 {
     return 0;
 }
-

@@ -95,8 +95,7 @@ static int mididrv_oss_in_open(void)
 
     fd_in = open(midi_in_dev, O_RDONLY);
     if (fd_in < 0) {
-        log_error(mididrv_log, "Cannot open file \"%s\": %s",
-                  midi_in_dev, strerror(errno));
+        log_error(mididrv_log, "Cannot open file \"%s\": %s", midi_in_dev, strerror(errno));
         return -1;
     }
 
@@ -119,8 +118,7 @@ static int mididrv_oss_out_open(void)
 
     fd_out = open(midi_out_dev, O_WRONLY);
     if (fd_out < 0) {
-        log_error(mididrv_log, "Cannot open file \"%s\": %s",
-                  midi_out_dev, strerror(errno));
+        log_error(mididrv_log, "Cannot open file \"%s\": %s", midi_out_dev, strerror(errno));
         return -1;
     }
 
@@ -159,6 +157,7 @@ static void mididrv_oss_out_close(void)
 static void mididrv_oss_out(BYTE b)
 {
     ssize_t n;
+
 #ifdef DEBUG
     log_message(mididrv_log, "oss_out %02x", b);
 #endif
@@ -236,10 +235,13 @@ static void mididrv_oss_shutdown(void)
 
 /** the ALSA sequencer object which handles MIDI */
 static snd_seq_t *seq = NULL;
+
 /** identifier of the ALSA MIDI port */
 static int port;
+
 /** the MIDI event parser is used to create ALSA MIDI events from bytes outputted by the AIC */
 static snd_midi_event_t *midi_event_parser = NULL;
+
 /** size in bytes of buffers used by ALSA MIDI driver */
 #define RINGBUFFER_SIZE 1024
 
@@ -297,8 +299,10 @@ static void mididrv_alsa_out(BYTE b)
         snd_seq_ev_set_source(&ev, port);
         snd_seq_ev_set_subs(&ev);
         snd_seq_ev_set_direct(&ev);
+
         /* give event to ALSA */
         snd_seq_event_output(seq, &ev);
+
         /* tell ALSA to transmit event immiediately */
         snd_seq_drain_output(seq);
     }
@@ -370,7 +374,7 @@ static int mididrv_alsa_in(BYTE *b)
     }
 
     /* ignore some events */
-    switch(ev->type) {
+    switch (ev->type) {
         /* these are all ALSA internal events, which don't produce MIDI bytes */
         case SND_SEQ_EVENT_OSS:
         case SND_SEQ_EVENT_CLIENT_START:
@@ -472,7 +476,7 @@ static void mididrv_alsa_init(void)
 
     /* create one MIDI port */
     port = snd_seq_create_simple_port(seq, "MIDI in/out",
-                                      SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE|SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ,
+                                      SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE | SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ,
                                       SND_SEQ_PORT_TYPE_APPLICATION);
     if (port < 0) {
         log_error(mididrv_log, "could not create ALSA sequencer port");
@@ -495,11 +499,11 @@ static void mididrv_alsa_init(void)
 typedef struct midi_driver_s {
     void (*init)(void);
     void (*shutdown)(void);
-    int  (*in)(BYTE *b);
+    int (*in)(BYTE *b);
     void (*out)(BYTE b);
-    int  (*in_open)(void);
+    int (*in_open)(void);
     void (*in_close)(void);
-    int  (*out_open)(void);
+    int (*out_open)(void);
     void (*out_close)(void);
 } midi_driver_t;
 
@@ -547,6 +551,7 @@ void mididrv_out(BYTE b)
 {
     midi_drivers[midi_driver_num].out(b);
 }
+
 int mididrv_in_open(void)
 {
     return midi_drivers[midi_driver_num].in_open();
@@ -603,8 +608,8 @@ static int set_midi_driver(int val, void *param)
         return -1;
     }
 
-    in_was_open = (fd_in >= 0)?1:0;
-    out_was_open = (fd_out >= 0)?1:0;
+    in_was_open = (fd_in >= 0) ? 1 : 0;
+    out_was_open = (fd_out >= 0) ? 1 : 0;
 
     midi_drivers[midi_driver_num].shutdown();
 
@@ -621,7 +626,6 @@ static int set_midi_driver(int val, void *param)
     }
     return 0;
 }
-
 
 static const resource_int_t resources_int[] = {
     { "MIDIDriver", MIDI_DRIVER_OSS,
@@ -676,4 +680,3 @@ int mididrv_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-

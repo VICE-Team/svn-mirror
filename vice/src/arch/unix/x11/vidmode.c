@@ -44,7 +44,6 @@
 #include "vidmode.h"
 #include "x11ui.h"
 
-
 int vm_is_enabled = 0;
 int vm_is_suspended = 0;
 
@@ -58,7 +57,6 @@ static int vidmode_selected_mode = 0;
 XF86VidModeModeInfo **vm_modes;
 vm_bestvideomode_t *vm_bestmodes = NULL;
 
-
 extern int screen;
 
 int vidmode_init(void)
@@ -71,40 +69,33 @@ int vidmode_init(void)
 
     display = x11ui_get_display_ptr();
 
-    if (!XF86VidModeGetAllModeLines(display, screen, &vm_mode_count,
-        &vm_modes)) {
+    if (!XF86VidModeGetAllModeLines(display, screen, &vm_mode_count, &vm_modes)) {
         log_error(vidmode_log, "Error getting video mode information - disabling vidmode extension.");
         vm_available = 0;
         return 0;
     }
 
     for (i = 0; i < vm_mode_count; i++) {
-        if (vm_modes[i]->hdisplay <= 800 &&
-            vm_modes[i]->hdisplay >= 320 &&
-            vm_modes[i]->vdisplay <= 600 &&
-            vm_modes[i]->vdisplay >= 200) {
-            vm_bestmodes = (vm_bestvideomode_t *)lib_realloc(vm_bestmodes,
-                           (vm_index + 1) * sizeof(vm_bestvideomode_t));
+        if (vm_modes[i]->hdisplay <= 800 && vm_modes[i]->hdisplay >= 320 && vm_modes[i]->vdisplay <= 600 && vm_modes[i]->vdisplay >= 200) {
+            vm_bestmodes = (vm_bestvideomode_t *)lib_realloc(vm_bestmodes, (vm_index + 1) * sizeof(vm_bestvideomode_t));
             vm_bestmodes[vm_index].modeindex = i;
 
             if (vm_modes[i]->vtotal * vm_modes[i]->htotal) {
-                hz = vm_modes[i]->dotclock * 1000
-                     / (vm_modes[i]->vtotal * vm_modes[i]->htotal);
-            }
-            else 
+                hz = vm_modes[i]->dotclock * 1000 / (vm_modes[i]->vtotal * vm_modes[i]->htotal);
+            } else {
                 hz = 0;
-	    
-            vm_bestmodes[vm_index].name = lib_msprintf(" %ix%i-%iHz",
-                                                       vm_modes[i]->hdisplay,
-                                                       vm_modes[i]->vdisplay,
-                                                       hz);
-            if (++vm_index > 29)
+            }
+
+            vm_bestmodes[vm_index].name = lib_msprintf(" %ix%i-%iHz", vm_modes[i]->hdisplay, vm_modes[i]->vdisplay, hz);
+            if (++vm_index > 29) {
                 break;
+            }
         }
     }
 
-    if (vm_index == 0)
+    if (vm_index == 0) {
         return 0;
+    }
 
     vm_available = 1;
     return 0;
@@ -122,8 +113,9 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
     Display *vm_display;
 
-    if (vm_available == 0)
+    if (vm_available == 0) {
         return 0;
+    }
 
     vm_display = x11ui_get_display_ptr();
 
@@ -134,8 +126,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 
         XF86VidModeModeInfo *vm;
 
-        log_message(vidmode_log, "Enabling Vidmode with%s",
-                    vm_bestmodes[vidmode_selected_mode].name);
+        log_message(vidmode_log, "Enabling Vidmode with%s", vm_bestmodes[vidmode_selected_mode].name);
         vm = vm_modes[vm_bestmodes[vidmode_selected_mode].modeindex];
 
         saved_w = canvas->draw_buffer->canvas_width;
@@ -147,10 +138,12 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         canvas->draw_buffer->canvas_width = vm->hdisplay + 10;
         canvas->draw_buffer->canvas_height = vm->vdisplay - status_h + 10;
 
-        if (canvas->videoconfig->doublesizex)
+        if (canvas->videoconfig->doublesizex) {
             canvas->draw_buffer->canvas_width /= 2;
-        if (canvas->videoconfig->doublesizey)
+        }
+        if (canvas->videoconfig->doublesizey) {
             canvas->draw_buffer->canvas_height /= 2;
+        }
 
         video_viewport_resize(canvas);
 
@@ -160,17 +153,14 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 
         XF86VidModeSwitchToMode(vm_display, screen, vm);
         XF86VidModeSetViewPort(vm_display, screen, x + 5, y + 5);
-        XWarpPointer(vm_display,
-                     None, DefaultRootWindow(vm_display),
-                     0, 0, vm->hdisplay, vm->vdisplay,
-                     x + vm->hdisplay / 2,
-                     y + vm->vdisplay / 2);
+        XWarpPointer(vm_display, None, DefaultRootWindow(vm_display), 0, 0, vm->hdisplay, vm->vdisplay, x + vm->hdisplay / 2, y + vm->vdisplay / 2);
         active_canvas = canvas;
         vm_is_enabled = 1;
         vm_is_suspended = 0;
     } else {
-        if (!vm_is_enabled)
+        if (!vm_is_enabled) {
             return 0;
+        }
         vm_is_enabled = 0;
         log_message(vidmode_log, "Disabling Vidmode");
         XF86VidModeSwitchToMode(vm_display, screen, vm_modes[0]);
@@ -178,18 +168,19 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         canvas->draw_buffer->canvas_width = saved_w;
         canvas->draw_buffer->canvas_height = saved_h;
         video_viewport_resize(canvas);
-
     }
     return 0;
 }
 
 int vidmode_mode(struct video_canvas_s *canvas, int mode)
 {
-    if (mode < 0)
+    if (mode < 0) {
         return 0;
+    }
 
-    if (vidmode_log != LOG_ERR)
+    if (vidmode_log != LOG_ERR) {
 	log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
+    }
     vidmode_selected_mode = mode;
 
     return 0;
@@ -204,25 +195,30 @@ void vidmode_shutdown(void)
         XF86VidModeSwitchToMode(x11ui_get_display_ptr(), screen, vm_modes[0]);
     }
 
-    if (vm_available == 0)
+    if (vm_available == 0) {
         return;
+    }
 
-    for (i = 0; i < vm_index; i++)
+    for (i = 0; i < vm_index; i++) {
         lib_free(vm_bestmodes[i].name);
+    }
 
     lib_free(vm_bestmodes);
 }
 
 void vidmode_suspend(int level)
 {
-    if (vm_is_enabled == 0)
+    if (vm_is_enabled == 0) {
         return;
+    }
 
-    if (level > 0)
+    if (level > 0) {
         return;
+    }
 
-    if (vm_is_suspended > 0)
+    if (vm_is_suspended > 0) {
         return;
+    }
 
     vm_is_suspended = 1;
     vidmode_enable(active_canvas, 0);
@@ -230,19 +226,20 @@ void vidmode_suspend(int level)
 
 void vidmode_resume(void)
 {
-   if (vm_is_enabled == 0)
+    if (vm_is_enabled == 0) {
         return;
+    }
 
-   if (vm_is_suspended == 0)
-      return;
+    if (vm_is_suspended == 0) {
+        return;
+    }
 
-   vm_is_suspended = 0;
-   vidmode_enable(active_canvas, 1);
+    vm_is_suspended = 0;
+    vidmode_enable(active_canvas, 1);
 }
 
 void vidmode_set_mouse_timeout(void)
 {
-
 }
 
 int vidmode_available(void)
@@ -264,20 +261,19 @@ void vidmode_menu_create(struct ui_menu_entry_s *menu)
 
     amodes = vidmode_available_modes();
 
-    resolutions_submenu = lib_calloc((size_t)(amodes + 1),
-                          sizeof(ui_menu_entry_t));
+    resolutions_submenu = lib_calloc((size_t)(amodes + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; i < amodes ; i++) {
-        resolutions_submenu[i].string =
-            (ui_callback_data_t)lib_msprintf("*%s", vm_bestmodes[i].name);
+        resolutions_submenu[i].string = (ui_callback_data_t)lib_msprintf("*%s", vm_bestmodes[i].name);
         resolutions_submenu[i].callback = (ui_callback_t)mode_callback;
         resolutions_submenu[i].callback_data = (ui_callback_data_t)(unsigned long)i;
     }
 
     for (i = 0; menu[i].string; i++) {
         if (strncmp(menu[i].string, "VidMode", 7) == 0) {
-            if (amodes > 0)
+            if (amodes > 0) {
                 menu[i].sub_menu = resolutions_submenu;
+            }
             break;
         }
     }
@@ -290,8 +286,9 @@ void vidmode_menu_shutdown(struct ui_menu_entry_s *menu)
 
     amodes = vidmode_available_modes();
 
-    if (amodes == 0)
+    if (amodes == 0) {
         return;
+    }
 
     for (i = 0; menu[i].string; i++) {
         if (strncmp(menu[i].string, "VidMode", 7) == 0) {
@@ -303,10 +300,10 @@ void vidmode_menu_shutdown(struct ui_menu_entry_s *menu)
     menu[i].sub_menu = NULL;
 
     if (resolutions_submenu != NULL) {
-        for (i = 0; i < amodes ; i++)
+        for (i = 0; i < amodes ; i++) {
             lib_free(resolutions_submenu[i].string);
+        }
     }
 
     lib_free(resolutions_submenu);
 }
-

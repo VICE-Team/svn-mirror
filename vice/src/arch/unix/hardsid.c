@@ -55,12 +55,12 @@ static alarm_t *hsid_alarm = 0;
 
 static void hardsid_alarm_handler(CLOCK offset, void *data);
 
-
 static int hardsid_init(void)
 {
     /* Already open */
-    if (hsid_fd >= 0)
+    if (hsid_fd >= 0) {
         return -1;
+    }
 
     /* Open device */
     hsid_fd = open("/dev/sid", O_RDWR);
@@ -83,48 +83,46 @@ void hardsid_reset(void)
 {
     hsid_main_clk  = maincpu_clk;
     hsid_alarm_clk = HARDSID_DELAY_CYCLES;
-    alarm_set (hsid_alarm, HARDSID_DELAY_CYCLES);
+    alarm_set(hsid_alarm, HARDSID_DELAY_CYCLES);
 }
 
 int hardsid_open(void)
 {
-    if (hardsid_init() < 0)
+    if (hardsid_init() < 0) {
         return -1;
-    hsid_alarm = alarm_new(maincpu_alarm_context, "hardsid",
-                           hardsid_alarm_handler, 0);
-    hardsid_reset ();
+    }
+    hsid_alarm = alarm_new(maincpu_alarm_context, "hardsid", hardsid_alarm_handler, 0);
+    hardsid_reset();
     return 0;
 }
 
 int hardsid_close(void)
 {
     /* Driver cleans up after itself */
-    if (hsid_fd >= 0)
-        close (hsid_fd);
-    alarm_destroy (hsid_alarm);
+    if (hsid_fd >= 0) {
+        close(hsid_fd);
+    }
+    alarm_destroy(hsid_alarm);
     hsid_alarm = 0;
     return 0;
 }
 
 int hardsid_read(WORD addr, int chipno)
 {
-    if (hsid_fd >= 0)
-    {
+    if (hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
         hsid_main_clk = maincpu_clk;
 
-        while ( cycles > 0xffff )
-        {
+        while (cycles > 0xffff) {
             /* delay */
             ioctl(hsid_fd, HSID_IOCTL_DELAY, 0xffff);
             cycles -= 0xffff;
         }
 
-//(BYTE)device_map[chipno]
         {
-            uint packet = (( cycles & 0xffff ) << 16 ) | (( addr & 0x1f ) << 8 );
+            uint packet = ((cycles & 0xffff) << 16) | ((addr & 0x1f) << 8);
             ioctl(hsid_fd, HSID_IOCTL_READ, &packet);
-            return (int) packet;
+            return (int)packet;
         }
     }
     return 0;
@@ -136,19 +134,15 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
     {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
         hsid_main_clk = maincpu_clk;
-//printf ("store: clock ticks %u\n", cycles);
 
-        while ( cycles > 0xffff )
-        {
+        while (cycles > 0xffff) {
             /* delay */
             ioctl(hsid_fd, HSID_IOCTL_DELAY, 0xffff);
             cycles -= 0xffff;
         }
 
-//(BYTE)device_map[chipno]
-        uint packet = (( cycles & 0xffff ) << 16 ) | (( addr & 0x1f ) << 8 )
-            | val;
-        write (hsid_fd, &packet, sizeof (packet));
+        uint packet = ((cycles & 0xffff) << 16) | ((addr & 0x1f) << 8) | val;
+        write(hsid_fd, &packet, sizeof (packet));
     }
 }
 
@@ -158,47 +152,31 @@ void hardsid_set_machine_parameter(long cycles_per_sec)
 
 unsigned int hardsid_available(void)
 {
-    if (hardsid_init() < 0)
+    if (hardsid_init() < 0) {
         return 0;
+    }
 
     /* Say one for now */
     return 1;
-    /* ioctl (hsid_fd, HSID_IOCTL_DEVICES, 0); */
 }
 
 void hardsid_alarm_handler (CLOCK offset, void *data)
 {
     CLOCK cycles = (hsid_alarm_clk + offset) - hsid_main_clk;
-//printf ("alarm: clock ticks %u, hsid_alarm_clk %u, hsid_main_clk %u, maincpu_clk %u, offset %u\n", cycles, hsid_alarm_clk, hsid_main_clk, maincpu_clk, offset);
 
-    if (cycles < HARDSID_DELAY_CYCLES)
-{
+    if (cycles < HARDSID_DELAY_CYCLES) {
         hsid_alarm_clk = hsid_main_clk + HARDSID_DELAY_CYCLES;
-//printf ("timer reset hsid_main_clk %u, hsid_alarm_clk %u\n", hsid_main_clk, hsid_alarm_clk);
-}
-    else
-    {
+    } else {
         uint delay = (uint) cycles;
         ioctl(hsid_fd, HSID_IOCTL_DELAY, delay);
         hsid_main_clk   = maincpu_clk - offset;
         hsid_alarm_clk  = hsid_main_clk + HARDSID_DELAY_CYCLES;
-//printf ("standard delay insert %u, hsid_main_clk %u, hsid_alarm_clk %u\n", HARDSID_DELAY_CYCLES, hsid_main_clk, hsid_alarm_clk);
     }
-    alarm_set (hsid_alarm, hsid_alarm_clk);
+    alarm_set(hsid_alarm, hsid_alarm_clk);
 }
 
 void hardsid_set_device(unsigned int chipno, unsigned int device)
 {
-/*    device_map[chipno] = device; */
 }
-
-/*
-void hardsid_set_machine_parameter(long cycles_per_sec)
-{
-  ntsc=(BYTE)((cycles_per_sec <= 1000000)?0:1);
-  setfreq(ntsc);
-}
-*/
 
 #endif
-

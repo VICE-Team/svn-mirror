@@ -57,8 +57,7 @@ static int check_openGL(Display *dpy);
 static int openGL_dummy_set(int val, void *a);
 static video_canvas_t *current_canvas;
 
-static resource_int_t resources_openGL_sync_int[] =
-{
+static resource_int_t resources_openGL_sync_int[] = {
     { "openGL_sync", 0, RES_EVENT_NO, NULL,
       &openGL_sync, set_openGL_sync, NULL },
     { "openGL_no_sync", 0, RES_EVENT_NO, NULL,
@@ -66,168 +65,154 @@ static resource_int_t resources_openGL_sync_int[] =
     { NULL }
 };
 
-int
-openGL_available(int v)
+int openGL_available(int v)
 {
     return !no_sync;
 }
 
-void
-openGL_register_resources(void)
+void openGL_register_resources(void)
 {
     resources_register_int(resources_openGL_sync_int);
 }
 
-void 
-openGL_sync_init(video_canvas_t *canvas)
+void openGL_sync_init(video_canvas_t *canvas)
 {
     Display *dpy;
-    
+
     current_canvas = canvas; /* save to have access to refreshrate */
-    
-    if (openGL_log == LOG_ERR)
-	openGL_log = log_open("openGL");
-    else
-	return;			/* we've been initializied already */
+
+    if (openGL_log == LOG_ERR) {
+        openGL_log = log_open("openGL");
+    } else {
+        return;			/* we've been initializied already */
+    }
 
     dpy = x11ui_get_display_ptr();
 
-    if (check_openGL(dpy))
-	no_sync = 1;
-    else
-	init_openGL();
+    if (check_openGL(dpy)) {
+        no_sync = 1;
+    } else {
+        init_openGL();
+    }
 }
 
-void 
-openGL_sync_with_raster(void)
+void openGL_sync_with_raster(void)
 {
     extern int glXWaitVideoSyncSGI(int m, int d, unsigned int *c);
-    
+
     int r;
     unsigned int c;
-    if (openGL_sync && !no_sync)
-	if ((r = glXWaitVideoSyncSGI(1, 0, &c)))
-	    log_error(openGL_log, "glXWaitVideoSyncSGI() returned %d", r);
+    if (openGL_sync && !no_sync) {
+        if ((r = glXWaitVideoSyncSGI(1, 0, &c))) {
+            log_error(openGL_log, "glXWaitVideoSyncSGI() returned %d", r);
+        }
+    }
 }
 
-int
-openGL_sync_enabled()
+int openGL_sync_enabled()
 {
     return openGL_sync;
 }
 
-void
-openGL_sync_shutdown(void)
+void openGL_sync_shutdown(void)
 {
-    if (openGL_sync)
-	set_openGL_sync(0, NULL);
-    if (cx)
-    {
-	glXDestroyContext(x11ui_get_display_ptr(), cx);
-	cx = NULL;
+    if (openGL_sync) {
+        set_openGL_sync(0, NULL);
+    }
+    if (cx) {
+        glXDestroyContext(x11ui_get_display_ptr(), cx);
+        cx = NULL;
     }
 }
 
-void 
-init_openGL(void)
+void init_openGL(void)
 {
     XVisualInfo *vi;     
     Display *dpy;
+
     /*get the deepest buffer with 1 red bit*/ 
-    static int attributeListSgl[] = { GLX_RGBA, GLX_RED_SIZE, 1, 
-				      GLX_GREEN_SIZE, 1, GLX_BLUE_SIZE, 1, 
-				      None }; 
+    static int attributeListSgl[] = { GLX_RGBA, GLX_RED_SIZE, 1, GLX_GREEN_SIZE, 1, GLX_BLUE_SIZE, 1, None }; 
 
     dpy = x11ui_get_display_ptr();
-    vi = glXChooseVisual(dpy, DefaultScreen(dpy), 
-			 attributeListSgl); 
-    if (vi == NULL) 
-    {
-	log_error(openGL_log, "glXChooseVisual() failed");
-	no_sync = 1;
-	return;
+    vi = glXChooseVisual(dpy, DefaultScreen(dpy), attributeListSgl); 
+    if (vi == NULL) {
+        log_error(openGL_log, "glXChooseVisual() failed");
+        no_sync = 1;
+        return;
     }
-    
-    if (cx)
-	glXDestroyContext(dpy, cx);
-    
+
+    if (cx) {
+        glXDestroyContext(dpy, cx);
+    }
+
     cx = glXCreateContext(dpy, vi, 0, GL_TRUE);
-    if (!cx)
-    {
-	log_error(openGL_log, "glXCreateContext() failed");
-	no_sync = 1;
-	return;
+    if (!cx) {
+        log_error(openGL_log, "glXCreateContext() failed");
+        no_sync = 1;
+        return;
     }
     glXMakeCurrent(dpy, x11ui_get_X11_window(), cx);
     openGL_initialized = 1;
 }
 
-void
-openGL_set_canvas_refreshrate(float rr)
+void openGL_set_canvas_refreshrate(float rr)
 {
-    if ((rr < 50.0) || (rr > 150.0))
-	return;
-    if (current_canvas)
-	current_canvas->refreshrate = rr;
+    if ((rr < 50.0) || (rr > 150.0)) {
+        return;
+    }
+    if (current_canvas) {
+        current_canvas->refreshrate = rr;
+    }
 }
 
-float
-openGL_get_canvas_refreshrate()
+float openGL_get_canvas_refreshrate(void)
 {
     return current_canvas->refreshrate;
 }
 
 /* ---------------------------------------------------------------------*/
-static int
-check_openGL(Display *dpy)
+static int check_openGL(Display *dpy)
 {
     /* Fixme: add code here to check if extension exists */
     const char *ext_table;
     char *t1, *t2;
     int b, e;
-    
-    if (glXQueryExtension(dpy, &b, &e) &&
-	(ext_table = glXQueryExtensionsString(dpy, DefaultScreen(dpy))))
-    {
-	t1 = lib_stralloc(ext_table);
-	t2 = strtok(t1, " ");
-	while (t2)
-	{
-	    if (strcmp(t2, "GLX_SGI_video_sync") == 0)
-	    {
-		log_message(openGL_log, 
-			    "GLX_SGI_video_sync extension is supported");
-		lib_free(t1);
-		return 0;
-	    }
-	    t2 = strtok(NULL, " ");
-	}
-	lib_free(t1);
+
+    if (glXQueryExtension(dpy, &b, &e) && (ext_table = glXQueryExtensionsString(dpy, DefaultScreen(dpy)))) {
+        t1 = lib_stralloc(ext_table);
+        t2 = strtok(t1, " ");
+        while (t2) {
+            if (strcmp(t2, "GLX_SGI_video_sync") == 0) {
+                log_message(openGL_log, "GLX_SGI_video_sync extension is supported");
+                lib_free(t1);
+                return 0;
+            }
+            t2 = strtok(NULL, " ");
+        }
+        lib_free(t1);
     }
-    log_message(openGL_log, 
-		"GLX_SGI_video_sync extension not supported");
-    
+    log_message(openGL_log, "GLX_SGI_video_sync extension not supported");
+
     return 1;
 }
 
-static int
-set_openGL_sync(int val, void *param)
+static int set_openGL_sync(int val, void *param)
 {
-    if (no_sync)
-	return 0;
+    if (no_sync) {
+        return 0;
+    }
 
     openGL_sync = val;
-    if (openGL_sync && openGL_initialized)
-	init_openGL();
+    if (openGL_sync && openGL_initialized) {
+        init_openGL();
+    }
 
-    log_message(openGL_log, "%s openGL_sync", 
-		openGL_sync? "enabling" : "disabling");
+    log_message(openGL_log, "%s openGL_sync", openGL_sync? "enabling" : "disabling");
     ui_update_menus();
     return 0;
 }
 
-static int
-openGL_dummy_set(int val, void *param)
+static int openGL_dummy_set(int val, void *param)
 {
     return 0;
 }
