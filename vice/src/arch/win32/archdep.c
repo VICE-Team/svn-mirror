@@ -42,27 +42,35 @@
 #ifdef HAVE_DIR_H
 #include <dir.h>
 #endif
+
 #ifdef HAVE_DIRECT_H
 #include <direct.h>
 #endif
+
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
+
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
+
 #ifdef HAVE_PROCESS_H
 #include <process.h>
 #endif
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
+
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -74,11 +82,9 @@
 #include "system.h"
 #include "util.h"
 
-
-#define STDIN_FILENO        0
-#define STDOUT_FILENO       1
-#define STDERR_FILENO       2
-
+#define STDIN_FILENO  0
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
 
 static char *orig_workdir;
 static char *argv0;
@@ -121,13 +127,15 @@ char *archdep_program_name(void)
         int len;
 
         s = strrchr(argv0, '\\');
-        if (s == NULL)
+        if (s == NULL) {
             s = argv0;
-        else
+        } else {
             s++;
+        }
         e = strchr(s, '.');
-        if (e == NULL)
+        if (e == NULL) {
             e = argv0 + strlen(argv0);
+        }
 
         len = e - s + 1;
         program_name = lib_malloc(len);
@@ -140,32 +148,32 @@ char *archdep_program_name(void)
 
 static char *boot_path = NULL;
 
-static HANDLE   hkernel = NULL;
-static HANDLE   hpsapi = NULL;
+static HANDLE hkernel = NULL;
+static HANDLE hpsapi = NULL;
 
-typedef HANDLE (WINAPI * _CreateToolhelp32Snapshot)(
+typedef HANDLE (WINAPI *_CreateToolhelp32Snapshot) (
     DWORD dwFlags,
     DWORD th32ProcessID
 );
 
-typedef BOOL (WINAPI * _Module32First)(
+typedef BOOL (WINAPI *_Module32First) (
     HANDLE hSnapshot,
     LPMODULEENTRY32 lpme
 );
 
-typedef BOOL (WINAPI * _Module32Next)(
+typedef BOOL (WINAPI *_Module32Next) (
     HANDLE hSnapshot,
     LPMODULEENTRY32 lpme
 );
 
-typedef BOOL (WINAPI * _EnumProcessModules)(
+typedef BOOL (WINAPI *_EnumProcessModules) (
     HANDLE hProcess,      // handle to process
     HMODULE *lphModule,   // array of module handles
     DWORD cb,             // size of array
     LPDWORD lpcbNeeded    // number of bytes required
 );
 
-typedef DWORD (WINAPI * _GetModuleFileNameEx)(
+typedef DWORD (WINAPI *_GetModuleFileNameEx) (
     HANDLE hProcess,    // handle to process
     HMODULE hModule,    // handle to module
     LPTSTR lpFilename,  // path buffer
@@ -174,10 +182,10 @@ typedef DWORD (WINAPI * _GetModuleFileNameEx)(
 
 static BOOL verify_exe(char *file_name)
 {
-DWORD	version_info_size;
-BOOL	bResult = FALSE;
-char	*company_name = NULL;
-int 	company_name_length = 0;
+    DWORD version_info_size;
+    BOOL bResult = FALSE;
+    char *company_name = NULL;
+    int company_name_length = 0;
 
     version_info_size = GetFileVersionInfoSize(file_name, NULL);
 
@@ -202,17 +210,17 @@ int 	company_name_length = 0;
 
 const char *archdep_boot_path(void)
 {
-HANDLE          snap;
-MODULEENTRY32   ment;
-HANDLE          hproc;
-int             cbneed;
-int             i;
-_CreateToolhelp32Snapshot   func_CreateToolhelp32Snapshot = NULL;
-_Module32First              func_Module32First  = NULL;
-_Module32Next               func_Module32Next = NULL;
-_EnumProcessModules         func_EnumProcessModules = NULL;
-_GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
-char            *possible_trojan_path;
+    HANDLE snap;
+    MODULEENTRY32 ment;
+    HANDLE hproc;
+    int cbneed;
+    int i;
+    _CreateToolhelp32Snapshot func_CreateToolhelp32Snapshot = NULL;
+    _Module32First func_Module32First = NULL;
+    _Module32Next func_Module32Next = NULL;
+    _EnumProcessModules func_EnumProcessModules = NULL;
+    _GetModuleFileNameEx func_GetModuleFileNameEx = NULL;
+    char *possible_trojan_path;
 
     possible_trojan_path = NULL;
     if (boot_path == NULL) {
@@ -221,23 +229,22 @@ char            *possible_trojan_path;
             OutputDebugString(TEXT("DLL: kernel32.dll loaded"));
 
             OutputDebugString(TEXT("DLL: getting address for CreateToolhelp32Snapshot"));
-            func_CreateToolhelp32Snapshot
-                = (_CreateToolhelp32Snapshot)GetProcAddress(hkernel,
-                  TEXT("CreateToolhelp32Snapshot"));
-            if (func_CreateToolhelp32Snapshot)
+            func_CreateToolhelp32Snapshot = (_CreateToolhelp32Snapshot)GetProcAddress(hkernel, TEXT("CreateToolhelp32Snapshot"));
+            if (func_CreateToolhelp32Snapshot) {
                 OutputDebugString(TEXT("CreateToolhelp32Snaphshot success"));
+            }
 
             OutputDebugString(TEXT("DLL: getting address for Module32First"));
-            func_Module32First = (_Module32First)GetProcAddress(hkernel,
-                                 TEXT("Module32First"));
-            if (func_Module32First)
+            func_Module32First = (_Module32First)GetProcAddress(hkernel, TEXT("Module32First"));
+            if (func_Module32First) {
                 OutputDebugString(TEXT("Module32First success"));
+            }
 
             OutputDebugString(TEXT("DLL: getting address for Module32Next"));
-            func_Module32Next = (_Module32Next)GetProcAddress(hkernel,
-                                 TEXT("Module32Next"));
-            if (func_Module32Next)
+            func_Module32Next = (_Module32Next)GetProcAddress(hkernel, TEXT("Module32Next"));
+            if (func_Module32Next) {
                 OutputDebugString(TEXT("Module32Next success"));
+            }
         }
 
         hpsapi = LoadLibrary(TEXT("psapi.dll"));
@@ -245,36 +252,31 @@ char            *possible_trojan_path;
             OutputDebugString(TEXT("DLL: psapi.dll loaded"));
 
             OutputDebugString(TEXT("DLL: getting address for EnumProcessModules"));
-            func_EnumProcessModules
-                = (_EnumProcessModules)GetProcAddress(hpsapi,
-                  TEXT("EnumProcessModules"));
-            if (func_EnumProcessModules)
+            func_EnumProcessModules = (_EnumProcessModules)GetProcAddress(hpsapi, TEXT("EnumProcessModules"));
+            if (func_EnumProcessModules) {
                 OutputDebugString(TEXT("EnumProcessModules success"));
+            }
 
             OutputDebugString(TEXT("DLL: getting address for GetModuleFileNameEx"));
-            func_GetModuleFileNameEx
-                = (_GetModuleFileNameEx)GetProcAddress(hpsapi,
-                  TEXT("GetModuleFileNameExA"));
-            if (func_GetModuleFileNameEx)
+            func_GetModuleFileNameEx = (_GetModuleFileNameEx)GetProcAddress(hpsapi, TEXT("GetModuleFileNameExA"));
+            if (func_GetModuleFileNameEx) {
                 OutputDebugString(TEXT("GetModuleFileNameEx success"));
+            }
         }
 
         if (func_EnumProcessModules) {
             OutputDebugString(TEXT("BOOT path NT method"));
-            hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
-                                FALSE, GetCurrentProcessId());
+            hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
             cbneed = 0;
             func_EnumProcessModules(hproc, NULL, 0, (LPDWORD)&cbneed);
             if (cbneed) {
                 HMODULE *modules = lib_malloc(cbneed);
-                int	n_modules = cbneed / sizeof(HMODULE);
-                if (func_EnumProcessModules(hproc, modules, cbneed,
-                    (LPDWORD)&cbneed)) {
+                int n_modules = cbneed / sizeof(HMODULE);
+                if (func_EnumProcessModules(hproc, modules, cbneed, (LPDWORD)&cbneed)) {
                     for (i = 0; i < n_modules; i++) {
                         TCHAR st_temp[MAX_PATH];
                         char temp[MAX_PATH];
-                        if (func_GetModuleFileNameEx(hproc, modules[i], st_temp,
-                            MAX_PATH)) {
+                        if (func_GetModuleFileNameEx(hproc, modules[i], st_temp, MAX_PATH)) {
                             system_wcstombs(temp, st_temp, MAX_PATH);
                             OutputDebugString(st_temp);
                             if (verify_exe(temp)) {
@@ -291,8 +293,7 @@ char            *possible_trojan_path;
             CloseHandle(hproc);
         } else if (func_CreateToolhelp32Snapshot && func_Module32First && func_Module32Next) {
             OutputDebugString(TEXT("BOOT path Win9x method"));
-            snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,
-                                                 GetCurrentProcessId());
+            snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
             memset(&ment, 0, sizeof(MODULEENTRY32));
             ment.dwSize = sizeof(MODULEENTRY32);
             func_Module32First(snap, &ment);
@@ -328,8 +329,9 @@ char            *possible_trojan_path;
         OutputDebugString(boot_path);
 
         /* This should not happen, but you never know...  */
-        if (boot_path == NULL)
+        if (boot_path == NULL) {
             boot_path = lib_stralloc(".\\");
+        }
     }
 
     if (possible_trojan_path) {
@@ -348,12 +350,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
 
-        default_path = util_concat(boot_path, "\\", emu_id,
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "\\DRIVES",
-                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   boot_path, "\\PRINTER",
-                                   NULL);
+        default_path = util_concat(boot_path, "\\", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "\\DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "\\PRINTER", NULL);
     }
 
     return default_path;
@@ -381,16 +380,15 @@ char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\fliplist-", 
-		       machine_name, ".vfl", NULL);
+    return util_concat(archdep_boot_path(), "\\fliplist-", machine_name, ".vfl", NULL);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-  const char *home;
+    const char *home;
 
-  home = archdep_boot_path();
-  return util_concat(home, "\\autostart-", machine_name, ".d64", NULL);
+    home = archdep_boot_path();
+    return util_concat(home, "\\autostart-", machine_name, ".d64", NULL);
 }
 
 FILE *archdep_open_default_log_file(void)
@@ -429,25 +427,25 @@ int archdep_default_logger(const char *level_string, const char *txt)
 
 int archdep_path_is_relative(const char *path)
 {
-    if (path == NULL)
+    if (path == NULL) {
         return 0;
+    }
 
     /* `c:\foo', `c:/foo', `c:foo', `\foo' and `/foo' are absolute.  */
 
-    return !((isalpha(path[0]) && path[1] == ':')
-            || path[0] == '/' || path[0] == '\\');
+    return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
 }
 
-int archdep_spawn(const char *name, char **argv,
-                  char **pstdout_redir, const char *stderr_redir)
-{
 #ifndef _S_IREAD
 #define _S_IREAD S_IREAD
 #endif
+
 #ifndef _S_IWRITE
 #define _S_IWRITE S_IWRITE
 #endif
 
+int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
+{
     int new_stdout, new_stderr;
     int old_stdout_mode, old_stderr_mode;
     int old_stdout, old_stderr;
@@ -455,8 +453,9 @@ int archdep_spawn(const char *name, char **argv,
     char *stdout_redir = NULL;
 
     if (pstdout_redir != NULL) {
-        if (*pstdout_redir == NULL)
+        if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
+        }
         stdout_redir = *pstdout_redir;
     }
 
@@ -470,11 +469,9 @@ int archdep_spawn(const char *name, char **argv,
        descriptors.  */
     if (stdout_redir != NULL) {
         old_stdout = _dup(STDOUT_FILENO);
-        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
-                           _S_IWRITE | _S_IREAD);
+        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT, _S_IWRITE | _S_IREAD);
         if (new_stdout == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                      stdout_redir, strerror(errno));
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.", stdout_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -482,11 +479,9 @@ int archdep_spawn(const char *name, char **argv,
     }
     if (stderr_redir != NULL) {
         old_stderr = _dup(STDERR_FILENO);
-        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
-                           _S_IWRITE | _S_IREAD);
+        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT, _S_IWRITE | _S_IREAD);
         if (new_stderr == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                      stderr_redir, strerror(errno));
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.", stderr_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -505,14 +500,18 @@ cleanup:
         _dup2(old_stderr, STDERR_FILENO);
         _close(old_stderr);
     }
-    if (old_stdout_mode >= 0)
+    if (old_stdout_mode >= 0) {
         _setmode(STDOUT_FILENO, old_stdout_mode);
-    if (old_stderr_mode >= 0)
+    }
+    if (old_stderr_mode >= 0) {
         _setmode(STDERR_FILENO, old_stderr_mode);
-    if (new_stdout >= 0)
+    }
+    if (new_stdout >= 0) {
         _close(new_stdout);
-    if (new_stderr >= 0)
+    }
+    if (new_stderr >= 0) {
         _close(new_stderr);
+    }
 
     return retval;
 }
@@ -538,19 +537,19 @@ void archdep_startup_log_error(const char *format, ...)
     lib_free(tmp);
 }
 
-
 char *archdep_quote_parameter(const char *name)
 {
     char *a;
+
     a = util_concat("\"", name, "\"", NULL);
     return a;
 }
-
 
 char *archdep_filename_parameter(const char *name)
 {
     char *exp;
     char *a;
+
     archdep_expand_path(&exp, name);
     a = archdep_quote_parameter(exp);
     lib_free(exp);
@@ -559,12 +558,13 @@ char *archdep_filename_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-    if (getenv("temp"))
+    if (getenv("temp")) {
         return util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    else if (getenv("tmp"))
+    } else if (getenv("tmp")) {
         return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    else
+    } else {
         return lib_stralloc(tmpnam(NULL));
+    }
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
@@ -572,17 +572,19 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     char *tmp;
     FILE *fd;
 
-    if (getenv("temp"))
+    if (getenv("temp")) {
         tmp = util_concat(getenv("temp"), tmpnam(NULL), NULL);
-    else if (getenv("tmp"))
+    } else if (getenv("tmp")) {
         tmp = util_concat(getenv("tmp"), tmpnam(NULL), NULL);
-    else
+    } else {
         tmp = lib_stralloc(tmpnam(NULL));
+    }
 
     fd = fopen(tmp, mode);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return NULL;
+    }
 
     *filename = tmp;
 
@@ -593,10 +595,9 @@ int archdep_file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz")) && (l < 3 || strcasecmp(name + l - 2, ".z")) && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
         return 0;
+    }
     return 1;
 }
 
@@ -614,8 +615,9 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;
 
-    if (stat(file_name, &statbuf) < 0)
+    if (stat(file_name, &statbuf) < 0) {
         return -1;
+    }
 
     *len = statbuf.st_size;
     *isdir = S_ISDIR(statbuf.st_mode);
@@ -630,8 +632,9 @@ int archdep_file_is_blockdev(const char *name)
 
 int archdep_file_is_chardev(const char *name)
 {
-    if (strcmp(name, "/dev/cbm") == 0)
+    if (strcmp(name, "/dev/cbm") == 0) {
         return 1;
+    }
 
     return 0;
 }

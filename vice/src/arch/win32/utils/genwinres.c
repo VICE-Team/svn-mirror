@@ -29,19 +29,19 @@ void read_buffer(FILE *file)
     buffer_readpointer = 0;
 }
 
-#define GET_HEADER_FIRST_BYTE    0
-#define GET_HEADER_SECOND_BYTE   1
-#define GET_HEADER_THIRD_BYTE    2
-#define FIND_LINE_END            3
-#define SKIP_LINE                4
-#define OUTPUT_LINE              5
+#define GET_HEADER_FIRST_BYTE  0
+#define GET_HEADER_SECOND_BYTE 1
+#define GET_HEADER_THIRD_BYTE  2
+#define FIND_LINE_END          3
+#define SKIP_LINE              4
+#define OUTPUT_LINE            5
 
 void process_file(char *filename, FILE *houtput, FILE *moutput)
 {
-FILE *infile;
-int state;
-int res_value = 0;
-int is_idm = 0;
+    FILE *infile;
+    int state;
+    int res_value = 0;
+    int is_idm = 0;
 
     infile = fopen(filename, "rb");
     if (infile) {
@@ -141,13 +141,15 @@ int is_idm = 0;
                     case OUTPUT_LINE:
                         if ((buffer[buffer_readpointer] == 0x0a) || (buffer[buffer_readpointer] == 0x0d)) {
                             fprintf(houtput, " %d\n", res_value);
-                            if (is_idm)
+                            if (is_idm) {
                                 fprintf(moutput, "\", %d }, \n", res_value);
+                            }
                             state = GET_HEADER_FIRST_BYTE;
                         } else {
                             fwrite(&buffer[buffer_readpointer], 1, 1, houtput);
-                            if (is_idm)
+                            if (is_idm) {
                                 fwrite(&buffer[buffer_readpointer], 1, 1, moutput);
+                            }
                         }
                         buffer_readpointer++;
                         break;
@@ -158,11 +160,10 @@ int is_idm = 0;
     }
 }
 
-
 int main(int argc, char **argv)
 {
-FILE *houtput, *moutput;
-int i;
+    FILE *houtput, *moutput;
+    int i;
 
     if (argc < 4) {
         printf("Usage: genwinres header-houtput menuid-houtput source-filename [source-filenames]\n");
@@ -254,4 +255,3 @@ int i;
         fclose(moutput);
     }
 }
-

@@ -43,27 +43,25 @@
 
 static LPDIRECTINPUT di = NULL;
 
-LPDIRECTINPUT get_directinput_handle()
+LPDIRECTINPUT get_directinput_handle(void)
 {
 #ifndef HAVE_DINPUT_LIB
     HRESULT res;
 #endif
 
-    if (di == NULL)
-    {
+    if (di == NULL) {
 #ifdef HAVE_DINPUT_LIB
-        if (DirectInputCreate(winmain_instance, 0x0500, &di, NULL) != DI_OK)
+        if (DirectInputCreate(winmain_instance, 0x0500, &di, NULL) != DI_OK) {
             di = NULL;
+        }
 #else
         CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
         res = CoCreateInstance(&CLSID_DirectInput, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectInput2A, (PVOID*)&di);
-        if (res != S_OK)
-        {
+        if (res != S_OK) {
             return NULL;
         }
-        if (IDirectInput_Initialize(di, winmain_instance, 0x0500) != S_OK)
-        {
+        if (IDirectInput_Initialize(di, winmain_instance, 0x0500) != S_OK) {
             IDirectInput_Release(di);
             di = NULL;
         }

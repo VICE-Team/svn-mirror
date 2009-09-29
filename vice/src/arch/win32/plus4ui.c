@@ -51,8 +51,8 @@
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_PLUS4ROM_RESOURCE_DIALOG,
     IDD_PLUS4ROMDRIVE_RESOURCE_DIALOG,
-    0 };
-
+    0
+};
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -110,9 +110,12 @@ static const uikeyboard_mapping_entry_t mapping_entry[PLUS4UI_KBD_NUM_MAP] = {
       IDC_PLUS4KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
 };
 
-static uikeyboard_config_t uikeyboard_config =
-   { IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG, PLUS4UI_KBD_NUM_MAP, mapping_entry,
-     IDC_PLUS4KBD_MAPPING_DUMP };
+static uikeyboard_config_t uikeyboard_config = {
+    IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG,
+    PLUS4UI_KBD_NUM_MAP,
+    mapping_entry,
+    IDC_PLUS4KBD_MAPPING_DUMP
+};
 
 ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
@@ -272,35 +275,33 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
     uiplus4cart_proc(wparam, hwnd);
 
     switch (wparam) {
-      case IDM_PLUS4_SETTINGS:
-        ui_plus4_memory_dialog(hwnd);
-        break;
-      case IDM_JOY_SETTINGS:
-        ui_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_EXTRA_JOY_SETTINGS:
-        ui_extra_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, translate_res(IDD_PLUS4ROM_SETTINGS_DIALOG),
-                              translate_res(IDD_PLUS4DRIVEROM_SETTINGS_DIALOG),
-                              romset_dialog_resources, uirom_settings);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidriveplus4_settings_dialog(hwnd);
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
-        break;
-      case IDM_SIDCART_SETTINGS:
-        ui_sidcart_settings_dialog(hwnd);
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_PLUS4_SETTINGS:
+            ui_plus4_memory_dialog(hwnd);
+            break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_EXTRA_JOY_SETTINGS:
+            ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_ROM_SETTINGS:
+            uirom_settings_dialog(hwnd, translate_res(IDD_PLUS4ROM_SETTINGS_DIALOG), translate_res(IDD_PLUS4DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidriveplus4_settings_dialog(hwnd);
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
+            break;
+        case IDM_SIDCART_SETTINGS:
+            ui_sidcart_settings_dialog(hwnd);
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 }
 
@@ -318,4 +319,3 @@ int plus4ui_init(void)
 void plus4ui_shutdown(void)
 {
 }
-

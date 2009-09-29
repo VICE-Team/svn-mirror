@@ -56,27 +56,22 @@
 // ----------------------------------------------
 
 #ifndef HAVE_GUIDLIB
-const GUID IID_IDirectDraw2 = { 0xB3A6F3E0, 0x2B43, 0x11CF,
-                              { 0xA2, 0xDE, 0x00, 0xAA, 0x00, 0xB9, 0x33, 0x56}
-                              };
+const GUID IID_IDirectDraw2 = { 0xB3A6F3E0, 0x2B43, 0x11CF, { 0xA2, 0xDE, 0x00, 0xAA, 0x00, 0xB9, 0x33, 0x56 } };
 #endif
 
 static LPDIRECTDRAW DirectDrawObject;
 static LPDIRECTDRAW2 DirectDrawObject2;
 static float fullscreen_refreshrate_buffer = -1.0f;
 
+#define CHECK_DDRESULT(ddresult)                                     \
+    {                                                                \
+        if (ddresult != DD_OK) {                                     \
+            ui_error(translate_text(IDS_DIRECTDRAW_ERROR), ddresult, \
+            dd_error(ddresult));                                     \
+        }                                                            \
+    }
 
-#define CHECK_DDRESULT(ddresult) \
-{                                \
-    if (ddresult != DD_OK) {     \
-        ui_error(translate_text(IDS_DIRECTDRAW_ERROR), ddresult, \
-        dd_error(ddresult));     \
-    }                            \
-}
-
-static BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID,
-                                          LPSTR lpDriverDescription,
-                                          LPSTR lpDriverName, LPVOID lpContext)
+static BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescription, LPSTR lpDriverName, LPVOID lpContext)
 {
     DirectDrawDeviceList *new_device;
     DirectDrawDeviceList *search_device;
@@ -103,12 +98,6 @@ static BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID,
         search_device->next = new_device;
     }
 
-/*
-    log_debug("--------- DirectDraw Device ---");
-    log_debug("GUID: %16x",lpGUID);
-    log_debug("Desc: %s",lpDriverDescription);
-    log_debug("Name: %s",lpDriverName);
-*/
     return DDENUMRET_OK;
 }
  
@@ -120,24 +109,17 @@ static HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
     new_mode=lib_malloc(sizeof(DirectDrawModeList));
     new_mode->next = NULL;
     new_mode->devicenumber = *(int *)context;
-    new_mode->width = new_mode->height = new_mode->bitdepth
-        = new_mode->refreshrate=0;
+    new_mode->width = new_mode->height = new_mode->bitdepth = new_mode->refreshrate = 0;
 
     if (desc->dwFlags & (DDSD_WIDTH)) {
-//        log_debug("Width:       %d", desc->dwWidth);
         new_mode->width=desc->dwWidth;
     }
 
     if (desc->dwFlags & (DDSD_HEIGHT)) {
-//        log_debug("Height:      %d", desc->dwHeight);
         new_mode->height = desc->dwHeight;
     }
 
     if (desc->dwFlags & (DDSD_PIXELFORMAT)) {
-//        log_debug("Bitdepth:    %d", desc->ddpfPixelFormat.dwRGBBitCount);
-//        log_debug("Red mask:    %04x", desc->ddpfPixelFormat.dwRBitMask);
-//        log_debug("Blue mask:   %04x", desc->ddpfPixelFormat.dwBBitMask);
-//        log_debug("Green mask:  %04x", desc->ddpfPixelFormat.dwGBitMask);
 #ifdef _ANONYMOUS_UNION
         new_mode->bitdepth = desc->ddpfPixelFormat.dwRGBBitCount;
 #else
@@ -146,7 +128,6 @@ static HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
     }
 
     if (desc->dwFlags & (DDSD_REFRESHRATE)) {
-//        log_debug("Refreshrate: %d", desc->dwRefreshRate);
 #ifdef _ANONYMOUS_UNION
         new_mode->refreshrate = desc->dwRefreshRate;
 #else
@@ -166,7 +147,6 @@ static HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
     return DDENUMRET_OK;
 }
 
-
 void fullscreen_getmodes_ddraw(void)
 {
     HRESULT ddresult;
@@ -180,30 +160,17 @@ void fullscreen_getmodes_ddraw(void)
     search_device = devices;
     i = 0;
     while (search_device != NULL) {
-//        log_debug("--- Video modes for device %s", search_device->desc);
-//        log_debug("MODEPROBE_Create");
         if (search_device->isNullGUID) {
             ddresult = DirectDrawCreate(NULL, &DirectDrawObject, NULL);
         } else {
-            ddresult = DirectDrawCreate(&search_device->guid,
-                                        &DirectDrawObject, NULL);
+            ddresult = DirectDrawCreate(&search_device->guid, &DirectDrawObject, NULL);
         }
         CHECK_DDRESULT(ddresult);
-//        log_debug("MODEPROBE_SetCooperativeLevel");
-        ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject,
-                                                   ui_get_main_hwnd(),
-                                                   DDSCL_EXCLUSIVE
-                                                   | DDSCL_FULLSCREEN);
+        ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject, ui_get_main_hwnd(), DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
         CHECK_DDRESULT(ddresult);
-//        log_debug("MODEPROBE_ObtainDirectDraw2");
-        ddresult = IDirectDraw_QueryInterface(DirectDrawObject,
-                                              (GUID *)&IID_IDirectDraw2,
-                                              (LPVOID *)&DirectDrawObject2);
+        ddresult = IDirectDraw_QueryInterface(DirectDrawObject, (GUID *)&IID_IDirectDraw2, (LPVOID *)&DirectDrawObject2);
         CHECK_DDRESULT(ddresult);
-//        log_debug("MODEPROBE_EnumDisplayModes");
-        ddresult = IDirectDraw2_EnumDisplayModes(DirectDrawObject2,
-                                                 DDEDM_REFRESHRATES, NULL, &i,
-                                                 ModeCallBack);
+        ddresult = IDirectDraw2_EnumDisplayModes(DirectDrawObject2, DDEDM_REFRESHRATES, NULL, &i, ModeCallBack);
         CHECK_DDRESULT(ddresult);
         IDirectDraw2_Release(DirectDrawObject2);
         DirectDrawObject2 = NULL;
@@ -217,7 +184,6 @@ void fullscreen_getmodes_ddraw(void)
         in its previous state */
     ShowWindow(ui_get_main_hwnd(), SW_HIDE);
 }
-
 
 static GUID *GetGUIDForActualDevice(int device)
 {
@@ -238,20 +204,18 @@ static GUID *GetGUIDForActualDevice(int device)
     return NULL;
 }
 
-
-static HMENU   old_menu;
-static RECT    old_rect;
-static DWORD   old_style;
-static int     old_width;
-static int     old_height;
-static int     old_bitdepth;
-static int     old_client_width;
-static int     old_client_height;
-static float   old_refreshrate;
+static HMENU old_menu;
+static RECT old_rect;
+static DWORD old_style;
+static int old_width;
+static int old_height;
+static int old_bitdepth;
+static int old_client_width;
+static int old_client_height;
+static float old_refreshrate;
 
 int fullscreen_active;
 int fullscreen_transition = 0;
-
 
 void SwitchToFullscreenModeDDraw(HWND hwnd)
 {
@@ -260,7 +224,7 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     int fullscreen_height;
     int bitdepth;
     int refreshrate;
-	int device;
+    int device;
     video_canvas_t *c;
     HRESULT ddresult;
     DDSURFACEDESC desc2;
@@ -269,9 +233,10 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     HDC hdc;
 
     fullscreen_transition = 1;
+
     //  Get fullscreen parameters
-    GetCurrentModeParameters(&device, &fullscreen_width, &fullscreen_height,
-							 &bitdepth, &refreshrate);
+    GetCurrentModeParameters(&device, &fullscreen_width, &fullscreen_height, &bitdepth, &refreshrate);
+
     //  Get the Canvas for this window
     c = video_canvas_for_hwnd(hwnd);
 
@@ -298,9 +263,11 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     old_style = GetWindowLong(hwnd, GWL_STYLE);
     GetWindowRect(hwnd, &old_rect);
     SetWindowLong(hwnd, GWL_STYLE, old_style & ~WS_SYSMENU & ~WS_CAPTION);
+
     //  Remove Menu
     old_menu = GetMenu(hwnd);
     SetMenu(hwnd, NULL);
+
     //  Cover screen with window
     wnow = GetSystemMetrics(SM_CXSCREEN);
     hnow = GetSystemMetrics(SM_CYSCREEN);
@@ -311,21 +278,15 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
 
     device_guid = GetGUIDForActualDevice(device);
     ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
-    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd,
-                                               DDSCL_EXCLUSIVE
-                                               | DDSCL_FULLSCREEN);
-    ddresult = IDirectDraw_QueryInterface(c->dd_object,
-                                          (GUID *)&IID_IDirectDraw2,
-                                          (LPVOID *)&c->dd_object2);
+    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+    ddresult = IDirectDraw_QueryInterface(c->dd_object, (GUID *)&IID_IDirectDraw2, (LPVOID *)&c->dd_object2);
 
     //  Set cooperative level
-    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd,
-                                               DDSCL_EXCLUSIVE
-                                               | DDSCL_FULLSCREEN);
+    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+
     //  Set Mode
-    ddresult = IDirectDraw2_SetDisplayMode(c->dd_object2, fullscreen_width,
-                                           fullscreen_height, bitdepth,
-                                           refreshrate,0);
+    ddresult = IDirectDraw2_SetDisplayMode(c->dd_object2, fullscreen_width, fullscreen_height, bitdepth, refreshrate, 0);
+
     //  Adjust window size
     old_client_width = c->client_width;
     old_client_height = c->client_height;
@@ -334,9 +295,9 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
 
     if (fullscreen_refreshrate_buffer < 0.0f) {
         /* if no refreshrate is buffered, recalculate (1 second) */
-        for (i = 0; i < 50; i++)
-            IDirectDraw2_WaitForVerticalBlank(c->dd_object2,
-                                              DDWAITVB_BLOCKBEGIN, 0);
+        for (i = 0; i < 50; i++) {
+            IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
+        }
         c->refreshrate = video_refresh_rate(c);
         fullscreen_refreshrate_buffer = c->refreshrate;
     } else {
@@ -354,18 +315,14 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
 
         init_palette(c->palette, ape);
 
-        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
-                                            ape, &c->dd_palette, NULL);
-        if (result != DD_OK) {
-        }
+        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT, ape, &c->dd_palette, NULL);
     }
 
     video_set_palette(c);
     video_set_physical_colors(c);
 
     IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
-    video_canvas_update(c->hwnd, hdc, 0, 0, fullscreen_width,
-                        fullscreen_height);
+    video_canvas_update(c->hwnd, hdc, 0, 0, fullscreen_width, fullscreen_height);
     IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
     fullscreen_active = 1;
 
@@ -376,7 +333,6 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
 {
     video_canvas_t *c;
     HRESULT ddresult;
-    /*DDSURFACEDESC desc;*/
     DDSURFACEDESC desc2;
     HDC hdc;
 
@@ -387,19 +343,17 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
 
     IDirectDrawSurface_Release(c->temporary_surface);
     IDirectDrawSurface_Release(c->primary_surface);
-    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL,
-                                               DDSCL_NORMAL);
+    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
     IDirectDraw_RestoreDisplayMode(c->dd_object);
     IDirectDraw_Release(c->dd_object2);
     IDirectDraw_Release(c->dd_object);
 
     LockWindowUpdate(hwnd);
     SetWindowLong(hwnd, GWL_STYLE, old_style);
+
     //  Restore Menu
     SetMenu(hwnd,old_menu);
-    SetWindowPos(hwnd, HWND_TOP, old_rect.left, old_rect.top,
-                 old_rect.right - old_rect.left, old_rect.bottom - old_rect.top,
-                 SWP_NOCOPYBITS);
+    SetWindowPos(hwnd, HWND_TOP, old_rect.left, old_rect.top, old_rect.right - old_rect.left, old_rect.bottom - old_rect.top, SWP_NOCOPYBITS);
     ShowCursor(TRUE);
     c->client_width = old_client_width;
     c->client_height = old_client_height;
@@ -408,20 +362,16 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
     statusbar_create(hwnd);
 
     ddresult = DirectDrawCreate(NULL, &c->dd_object, NULL);
-    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL,
-                                               DDSCL_NORMAL);
-    ddresult = IDirectDraw_QueryInterface(c->dd_object,
-                                          (GUID *)&IID_IDirectDraw2,
-                                          (LPVOID *)&c->dd_object2);
+    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
+    ddresult = IDirectDraw_QueryInterface(c->dd_object, (GUID *)&IID_IDirectDraw2, (LPVOID *)&c->dd_object2);
 
-    memset(&desc2,0,sizeof(desc2));
+    memset(&desc2, 0, sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
     ddresult = IDirectDraw2_GetDisplayMode(c->dd_object2, &desc2);
 
     video_create_single_surface(c, desc2.dwWidth, desc2.dwHeight);
 
     c->depth = old_bitdepth;
-
 
     /* Create palette.  */
     if (c->depth == 8) {
@@ -430,15 +380,11 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
 
         init_palette(c->palette, ape);
 
-        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
-                                            ape, &c->dd_palette, NULL);
-        if (result != DD_OK) {
-        }
+        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT, ape, &c->dd_palette, NULL);
     }
 
     video_set_palette(c);
     video_set_physical_colors(c);
-
 
     IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
     video_canvas_update(c->hwnd, hdc, 0, 0, c->client_width, c->client_height);
@@ -450,9 +396,7 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
     c->refreshrate = old_refreshrate;
 }
 
-
-void fullscreen_get_current_display_ddraw(int *bitdepth, int *width,
-                                          int *height, int *refreshrate)
+void fullscreen_get_current_display_ddraw(int *bitdepth, int *width, int *height, int *refreshrate)
 {
     /* Provide standard values for now (as the old code did it) */
     *bitdepth = 8;
@@ -461,9 +405,7 @@ void fullscreen_get_current_display_ddraw(int *bitdepth, int *width,
     *refreshrate = 0;
 }
 
-
 void fullscrn_invalidate_refreshrate(void)
 {
     fullscreen_refreshrate_buffer = -1.0f;
 }
-

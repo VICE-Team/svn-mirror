@@ -39,11 +39,10 @@
 
 #include <d3d9.h>
 
-
-static HMENU   old_menu;
-static RECT    old_rect;
-static DWORD   old_style;
-static float   old_refreshrate;
+static HMENU old_menu;
+static RECT old_rect;
+static DWORD old_style;
+static float old_refreshrate;
 
 void fullscreen_getmodes_dx9(void)
 {
@@ -56,8 +55,7 @@ void fullscreen_getmodes_dx9(void)
     DirectDrawModeList *search_mode;
 
     numAdapter = 0;
-    while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier))
-    {
+    while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
         new_device = lib_malloc(sizeof(DirectDrawDeviceList));
         new_device->next = NULL;
         new_device->desc = lib_stralloc(d3didentifier.Description);
@@ -74,14 +72,11 @@ void fullscreen_getmodes_dx9(void)
         numAdapter++;
     }
     
-    for (adapter = 0; adapter < numAdapter; adapter++)
-    {
+    for (adapter = 0; adapter < numAdapter; adapter++) {
         numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
     
         for (mode = 0; mode < numAdapterModes; mode++) {
-            if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, 
-                                                    D3DFMT_X8R8G8B8, mode, &displayMode))
-            {
+            if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, D3DFMT_X8R8G8B8, mode, &displayMode)) {
                 new_mode = lib_malloc(sizeof(DirectDrawModeList));
                 new_mode->next = NULL;
                 new_mode->devicenumber = adapter;
@@ -103,7 +98,6 @@ void fullscreen_getmodes_dx9(void)
         }
     }
 }
-
 
 void SwitchToFullscreenModeDx9(HWND hwnd)
 {
@@ -127,12 +121,11 @@ void SwitchToFullscreenModeDx9(HWND hwnd)
 
     ui_set_render_window(c, 1);
     video_device_create_dx9(c, 1);
-	video_canvas_refresh_all(c);
+    video_canvas_refresh_all(c);
 
     fullscreen_active = 1;
     fullscreen_transition = 0;
 }
-
 
 void SwitchToWindowedModeDx9(HWND hwnd)
 {
@@ -152,28 +145,22 @@ void SwitchToWindowedModeDx9(HWND hwnd)
     SetWindowLong(hwnd, GWL_STYLE, old_style);
     /* Restore  Menu */
     SetMenu(hwnd,old_menu);
-    SetWindowPos(hwnd, HWND_NOTOPMOST, old_rect.left, old_rect.top,
-                 old_rect.right - old_rect.left, old_rect.bottom - old_rect.top,
-                 SWP_NOCOPYBITS);
+    SetWindowPos(hwnd, HWND_NOTOPMOST, old_rect.left, old_rect.top, old_rect.right - old_rect.left, old_rect.bottom - old_rect.top, SWP_NOCOPYBITS);
     ShowCursor(TRUE);
     LockWindowUpdate(NULL);
 
     video_device_create_dx9(c, 0);
-	video_canvas_refresh_all(c);
+    video_canvas_refresh_all(c);
 
     fullscreen_transition = 0;
     c->refreshrate = old_refreshrate;
 }
 
-
-void fullscreen_get_current_display_dx9(int *bitdepth, int *width,
-                                          int *height, int *refreshrate)
+void fullscreen_get_current_display_dx9(int *bitdepth, int *width, int *height, int *refreshrate)
 {
     D3DDISPLAYMODE mode;
 
-    if (S_OK == IDirect3D9_GetAdapterDisplayMode(
-                            d3d, D3DADAPTER_DEFAULT , &mode))
-    {
+    if (S_OK == IDirect3D9_GetAdapterDisplayMode(d3d, D3DADAPTER_DEFAULT , &mode)) {
         *bitdepth = 32;
         *width = mode.Width;
         *height = mode.Height;
@@ -196,8 +183,7 @@ void fullscreen_getmodes_dx9(void)
 {
 }
 
-void fullscreen_get_current_display_dx9(int *bitdepth, int *width,
-                                          int *height, int *refreshrate)
+void fullscreen_get_current_display_dx9(int *bitdepth, int *width, int *height, int *refreshrate)
 {
 }
 

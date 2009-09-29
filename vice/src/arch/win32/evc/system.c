@@ -37,7 +37,6 @@
 #include "lib.h"
 #include "system.h"
 
-
 void system_init_dialog(HWND hwnd)
 {
 }
@@ -60,8 +59,9 @@ wchar_t *system_mbstowcs_alloc(const char *mbs)
 {
     wchar_t *wcs;
 
-    if (mbs == NULL)
+    if (mbs == NULL) {
         return NULL;
+    }
 
     wcs = lib_malloc((strlen(mbs) + 1) * sizeof(wchar_t));
     system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
@@ -78,8 +78,9 @@ char *system_wcstombs_alloc(const wchar_t *wcs)
 {
     char *mbs;
 
-    if (wcs == NULL)
+    if (wcs == NULL) {
         return NULL;
+    }
 
     mbs = lib_malloc((_tcsclen(wcs) + 1) * sizeof(char));
     system_wcstombs(mbs, wcs, _tcsclen(wcs) + 1);

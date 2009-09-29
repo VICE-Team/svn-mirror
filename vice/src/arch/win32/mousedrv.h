@@ -46,4 +46,3 @@ extern void mouse_set_cooperative_level(void);
 extern int _mouse_x, _mouse_y;
 
 #endif
-

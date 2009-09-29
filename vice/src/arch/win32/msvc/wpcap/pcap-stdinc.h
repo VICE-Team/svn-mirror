@@ -21,9 +21,9 @@
  * @(#) $Header: /usr/cvsroot/wpdpack/Include/pcap-stdinc.h,v 1.5 2003/04/04 11:15:08 degioanni Exp $ (LBL)
  */
 
-#define SIZEOF_CHAR 1
+#define SIZEOF_CHAR  1
 #define SIZEOF_SHORT 2
-#define SIZEOF_INT 4
+#define SIZEOF_INT   4
 
 #define _WINSOCKAPI_
 #include <fcntl.h>
@@ -40,4 +40,3 @@
 #define caddr_t char*
 
 #define snprintf _snprintf
-

@@ -47,12 +47,11 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_CBM2ROM_RESOURCE_DIALOG,
     IDD_CBM2ROMDRIVE_RESOURCE_DIALOG,
-    0 };
-
+    0
+};
 
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -123,9 +122,12 @@ static const uikeyboard_mapping_entry_t mapping_entry[CBM2UI_KBD_NUM_MAP] = {
       IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, "KeymapBusinessDEPosFile" }
 };
 
-static uikeyboard_config_t uikeyboard_config =
-    { IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG, CBM2UI_KBD_NUM_MAP, mapping_entry,
-      IDC_CBM2KBD_MAPPING_DUMP };
+static uikeyboard_config_t uikeyboard_config = {
+    IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG,
+    CBM2UI_KBD_NUM_MAP,
+    mapping_entry,
+    IDC_CBM2KBD_MAPPING_DUMP
+};
 
 ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
@@ -273,36 +275,34 @@ ui_popup_translation_table_t cbm2ui_popup_translation_table[] = {
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-      case IDM_CBM2_SETTINGS:
-        ui_cbm2_settings_dialog(hwnd);
-        break;
-      case IDM_JOY_SETTINGS:
-        if (machine_class == VICE_MACHINE_CBM5x0) {
-            ui_joystick_settings_dialog(hwnd);
-        } else {
-            ui_extra_joystick_settings_dialog(hwnd);
-        }
-        break;
-      case IDM_SID_SETTINGS:
-        ui_sid_settings_dialog(hwnd);
-        break;
-      case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, translate_res(IDD_CBM2ROM_SETTINGS_DIALOG),
-                              translate_res(IDD_CBM2DRIVEROM_SETTINGS_DIALOG),
-                              romset_dialog_resources, uirom_settings);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivepetcbm2_settings_dialog(hwnd);
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_CBM2_SETTINGS:
+            ui_cbm2_settings_dialog(hwnd);
+            break;
+        case IDM_JOY_SETTINGS:
+            if (machine_class == VICE_MACHINE_CBM5x0) {
+                ui_joystick_settings_dialog(hwnd);
+            } else {
+                ui_extra_joystick_settings_dialog(hwnd);
+            }
+            break;
+        case IDM_SID_SETTINGS:
+            ui_sid_settings_dialog(hwnd);
+            break;
+        case IDM_ROM_SETTINGS:
+            uirom_settings_dialog(hwnd, translate_res(IDD_CBM2ROM_SETTINGS_DIALOG), translate_res(IDD_CBM2DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivepetcbm2_settings_dialog(hwnd);
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 }
 

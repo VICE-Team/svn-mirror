@@ -29,12 +29,12 @@
 
 typedef int joystick_device_t;
 
-#define JOYDEV_NONE     0
-#define JOYDEV_NUMPAD   1
-#define JOYDEV_KEYSET1  2
-#define JOYDEV_KEYSET2  3
-#define JOYDEV_HW1      4
-#define JOYDEV_HW2      5
+#define JOYDEV_NONE    0
+#define JOYDEV_NUMPAD  1
+#define JOYDEV_KEYSET1 2
+#define JOYDEV_KEYSET2 3
+#define JOYDEV_HW1     4
+#define JOYDEV_HW2     5
 
 extern int joy_arch_init(void);
 extern int joystick_arch_init_resources(void);
@@ -44,4 +44,3 @@ extern void joystick_update(void);
 extern char joystick_uses_direct_input(void);
 
 #endif
-

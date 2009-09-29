@@ -47,7 +47,6 @@ void win32_lightpen_update(void)
     video_canvas_t *lp_canvas;
     int dx, dy, cx, cy, dx9;
 
-
     if (!lightpen_enabled) {
         return;
     }
@@ -79,7 +78,7 @@ void win32_lightpen_update(void)
     }
 
 #ifdef LP_DEBUG
-fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__func__, x, y, buttons, on_screen);
+    fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n", __func__, x, y, buttons, on_screen);
 #endif
 
     if (on_screen) {
@@ -111,7 +110,7 @@ fprintf(stderr,"%s pre : x = %i, y = %i, buttons = %02x, on_screen = %i\n",__fun
     }
 
 #ifdef LP_DEBUG
-fprintf(stderr,"%s post: x = %i, y = %i\n",__func__, x, y);
+    fprintf(stderr,"%s post: x = %i, y = %i\n", __func__, x, y);
 #endif
 
     lightpen_update(video_canvas_nr_for_hwnd(ui_active_window), x, y, (int)buttons);

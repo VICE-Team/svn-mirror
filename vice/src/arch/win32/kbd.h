@@ -94,4 +94,3 @@ extern int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
 extern int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
 
 #endif
-

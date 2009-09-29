@@ -49,8 +49,8 @@
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_PETROM_RESOURCE_DIALOG,
     IDD_PETROMDRIVE_RESOURCE_DIALOG,
-    0 };
-
+    0
+};
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -117,9 +117,12 @@ static const uikeyboard_mapping_entry_t mapping_entry[PETUI_KBD_NUM_MAP] = {
       IDC_PETKBD_MAPPING_DEPOS_BROWSE, "KeymapBusinessDEPosFile" }
 };
 
-static uikeyboard_config_t uikeyboard_config =
-    { IDD_PETKBD_MAPPING_SETTINGS_DIALOG, PETUI_KBD_NUM_MAP, mapping_entry,
-      IDC_PETKBD_MAPPING_DUMP };
+static uikeyboard_config_t uikeyboard_config = {
+    IDD_PETKBD_MAPPING_SETTINGS_DIALOG,
+    PETUI_KBD_NUM_MAP,
+    mapping_entry,
+    IDC_PETKBD_MAPPING_DUMP
+};
 
 ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
@@ -268,35 +271,33 @@ ui_popup_translation_table_t petui_popup_translation_table[] = {
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-      case IDM_PET_SETTINGS:
-        ui_pet_settings_dialog(hwnd);
-        break;
-      case IDM_PETREU_SETTINGS:
-        ui_petreu_settings_dialog(hwnd);
-        break;
-      case IDM_SIDCART_SETTINGS:
-        ui_sidcart_settings_dialog(hwnd);
-        break;
-      case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, translate_res(IDD_PETROM_SETTINGS_DIALOG),
-                              translate_res(IDD_PETDRIVEROM_SETTINGS_DIALOG),
-                              romset_dialog_resources, uirom_settings);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivepetcbm2_settings_dialog(hwnd);
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
-        break;
-      case IDM_EXTRA_JOY_SETTINGS:
-        ui_extra_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_PET_SETTINGS:
+            ui_pet_settings_dialog(hwnd);
+            break;
+        case IDM_PETREU_SETTINGS:
+            ui_petreu_settings_dialog(hwnd);
+            break;
+        case IDM_SIDCART_SETTINGS:
+            ui_sidcart_settings_dialog(hwnd);
+            break;
+        case IDM_ROM_SETTINGS:
+            uirom_settings_dialog(hwnd, translate_res(IDD_PETROM_SETTINGS_DIALOG), translate_res(IDD_PETDRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivepetcbm2_settings_dialog(hwnd);
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
+            break;
+        case IDM_EXTRA_JOY_SETTINGS:
+            ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 }
 
@@ -311,4 +312,3 @@ int petui_init(void)
 void petui_shutdown(void)
 {
 }
-

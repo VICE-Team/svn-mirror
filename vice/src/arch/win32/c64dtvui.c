@@ -51,8 +51,8 @@
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_C64ROM_RESOURCE_DIALOG,
     IDD_C64ROMDRIVE_RESOURCE_DIALOG,
-    0 };
-
+    0
+};
 
 static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -105,9 +105,12 @@ static const uikeyboard_mapping_entry_t mapping_entry[C64DTVUI_KBD_NUM_MAP] = {
       IDC_C64KBD_MAPPING_SYMDE_BROWSE, "KeymapSymDeFile" }
 };
 
-static uikeyboard_config_t uikeyboard_config =
-    { IDD_C64KBD_MAPPING_SETTINGS_DIALOG, C64DTVUI_KBD_NUM_MAP, mapping_entry,
-      IDC_C64KBD_MAPPING_DUMP };
+static uikeyboard_config_t uikeyboard_config = {
+    IDD_C64KBD_MAPPING_SETTINGS_DIALOG,
+    C64DTVUI_KBD_NUM_MAP,
+    mapping_entry,
+    IDC_C64KBD_MAPPING_DUMP
+};
 
 ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
@@ -253,44 +256,42 @@ ui_popup_translation_table_t c64dtvui_popup_translation_table[] = {
 static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-      case IDM_VICII_SETTINGS:
-        ui_vicii_settings_dialog(hwnd);
-        break;
-      case IDM_SID_SETTINGS:
-        ui_siddtv_settings_dialog(hwnd);
-        break;
-      case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, translate_res(IDD_C64ROM_SETTINGS_DIALOG),
-                              translate_res(IDD_C64DRIVEROM_SETTINGS_DIALOG),
-                              romset_dialog_resources, uirom_settings);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivec64_settings_dialog(hwnd);
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
-      case IDM_ATTACH_DTV_FLASH:
-        ui_c64dtv_attach_flash_dialog(hwnd);
-        break;
-      case IDM_DETACH_DTV_FLASH:
-        resources_set_string("c64dtvromfilename", "");
-        break;
-      case IDM_CREATE_DTV_FLASH:
-        ui_c64dtv_create_flash_dialog(hwnd);
-        break;
-      case IDM_JOY_SETTINGS:
-        ui_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_EXTRA_JOY_SETTINGS:
-        ui_extra_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_C64DTV_SETTINGS:
-        ui_c64dtv_settings_dialog(hwnd);
-        break;
+        case IDM_VICII_SETTINGS:
+            ui_vicii_settings_dialog(hwnd);
+            break;
+        case IDM_SID_SETTINGS:
+            ui_siddtv_settings_dialog(hwnd);
+            break;
+        case IDM_ROM_SETTINGS:
+            uirom_settings_dialog(hwnd, translate_res(IDD_C64ROM_SETTINGS_DIALOG), translate_res(IDD_C64DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivec64_settings_dialog(hwnd);
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_ATTACH_DTV_FLASH:
+            ui_c64dtv_attach_flash_dialog(hwnd);
+            break;
+        case IDM_DETACH_DTV_FLASH:
+            resources_set_string("c64dtvromfilename", "");
+            break;
+        case IDM_CREATE_DTV_FLASH:
+            ui_c64dtv_create_flash_dialog(hwnd);
+            break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_EXTRA_JOY_SETTINGS:
+            ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_C64DTV_SETTINGS:
+            ui_c64dtv_settings_dialog(hwnd);
+            break;
     }
 }
 

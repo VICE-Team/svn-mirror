@@ -3,7 +3,7 @@
 
 void main(int argc, char **argv)
 {
-FILE *output;
+    FILE *output;
 
     if (argc < 2) {
         printf("Usage: genmsvcver output-filename\n");
@@ -11,8 +11,7 @@ FILE *output;
     }
     output = fopen(argv[1], "wt");
     if (output) {
-		fprintf(output, "#define MSVC_VER %d\n", _MSC_VER);
+        fprintf(output, "#define MSVC_VER %d\n", _MSC_VER);
         fclose(output);
-	}
+    }
 }
-

@@ -35,8 +35,7 @@ struct dirent {
 };
 
 extern DIR *opendir(const char *path);
-struct dirent *readdir(DIR *dir);
+extern struct dirent *readdir(DIR *dir);
 extern void closedir(DIR *dir);
 
 #endif
-

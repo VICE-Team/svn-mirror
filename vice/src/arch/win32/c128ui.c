@@ -78,7 +78,8 @@ static const ui_res_value_list_t c128_ui_res_values[] = {
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_C128ROM_RESOURCE_DIALOG,
     IDD_C128ROMDRIVE_RESOURCE_DIALOG,
-    0 };
+    0
+};
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -190,10 +191,12 @@ static const uikeyboard_mapping_entry_t mapping_entry[C128UI_KBD_NUM_MAP] = {
       IDC_C128KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
 };
 
-static uikeyboard_config_t uikeyboard_config =
-    { IDD_C128KBD_MAPPING_SETTINGS_DIALOG, C128UI_KBD_NUM_MAP, mapping_entry,
-      IDC_C128KBD_MAPPING_DUMP };
-
+static uikeyboard_config_t uikeyboard_config = {
+    IDD_C128KBD_MAPPING_SETTINGS_DIALOG,
+    C128UI_KBD_NUM_MAP,
+    mapping_entry,
+    IDC_C128KBD_MAPPING_DUMP
+};
 
 ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
@@ -394,79 +397,77 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
     uic64cart_proc(wparam, hwnd);
 
     switch (wparam) {
-      case IDM_VICII_SETTINGS:
-        ui_vicii_settings_dialog(hwnd);
-        break;
-      case IDM_SID_SETTINGS:
-        ui_sid_settings_dialog(hwnd);
-        break;
-      case IDM_REU_SETTINGS:
-        ui_reu_settings_dialog(hwnd);
-        break;
-      case IDM_MIDI_SETTINGS:
-        ui_midi_settings_dialog(hwnd);
-        break;
-      case IDM_MMC64_SETTINGS:
-        ui_mmc64_settings_dialog(hwnd);
-        break;
-      case IDM_DIGIMAX_SETTINGS:
-        ui_digimax_settings_dialog(hwnd);
-        break;
-      case IDM_LIGHTPEN_SETTINGS:
-        ui_lightpen_settings_dialog(hwnd);
-        break;
-      case IDM_EASYFLASH_SETTINGS:
-        ui_easyflash_settings_dialog(hwnd);
-        break;
-      case IDM_SFX_SE_SETTINGS:
-        ui_soundexpander_settings_dialog(hwnd);
-        break;
-      case IDM_GEORAM_SETTINGS:
-        ui_georam_settings_dialog(hwnd);
-        break;
-      case IDM_RAMCART_SETTINGS:
-        ui_ramcart_settings_dialog(hwnd);
-        break;
-      case IDM_IDE64_SETTINGS:
-        uiide64_settings_dialog(hwnd);
-        break;
-      case IDM_JOY_SETTINGS:
-        ui_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_EXTRA_JOY_SETTINGS:
-        ui_extra_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, translate_res(IDD_C128ROM_SETTINGS_DIALOG),
-                              translate_res(IDD_C128DRIVEROM_SETTINGS_DIALOG),
-                              romset_dialog_resources, uirom_settings);
-        break;
+        case IDM_VICII_SETTINGS:
+            ui_vicii_settings_dialog(hwnd);
+            break;
+        case IDM_SID_SETTINGS:
+            ui_sid_settings_dialog(hwnd);
+            break;
+        case IDM_REU_SETTINGS:
+            ui_reu_settings_dialog(hwnd);
+            break;
+        case IDM_MIDI_SETTINGS:
+            ui_midi_settings_dialog(hwnd);
+            break;
+        case IDM_MMC64_SETTINGS:
+            ui_mmc64_settings_dialog(hwnd);
+            break;
+        case IDM_DIGIMAX_SETTINGS:
+            ui_digimax_settings_dialog(hwnd);
+            break;
+        case IDM_LIGHTPEN_SETTINGS:
+            ui_lightpen_settings_dialog(hwnd);
+            break;
+        case IDM_EASYFLASH_SETTINGS:
+            ui_easyflash_settings_dialog(hwnd);
+            break;
+        case IDM_SFX_SE_SETTINGS:
+            ui_soundexpander_settings_dialog(hwnd);
+            break;
+        case IDM_GEORAM_SETTINGS:
+            ui_georam_settings_dialog(hwnd);
+            break;
+        case IDM_RAMCART_SETTINGS:
+            ui_ramcart_settings_dialog(hwnd);
+            break;
+        case IDM_IDE64_SETTINGS:
+            uiide64_settings_dialog(hwnd);
+            break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_EXTRA_JOY_SETTINGS:
+            ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_ROM_SETTINGS:
+            uirom_settings_dialog(hwnd, translate_res(IDD_C128ROM_SETTINGS_DIALOG), translate_res(IDD_C128DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            break;
 #ifdef HAVE_TFE
-      case IDM_TFE_SETTINGS:
-        ui_tfe_settings_dialog(hwnd);
-        break;
+        case IDM_TFE_SETTINGS:
+            ui_tfe_settings_dialog(hwnd);
+            break;
 #endif
-      case IDM_C128_SETTINGS:
-        ui_c128_dialog(hwnd);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_VDC);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivec128_settings_dialog(hwnd);
-        break;
-      case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog(hwnd, 1, NULL, 1, 1);
-        break;
-      case IDM_RS232USER_SETTINGS:
-        ui_rs232user_settings_dialog(hwnd);
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
-      case IDM_MOUSE_SETTINGS:
-        ui_mouse_settings_dialog(hwnd);
-        break;
+        case IDM_C128_SETTINGS:
+            ui_c128_dialog(hwnd);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_VDC);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivec128_settings_dialog(hwnd);
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog(hwnd, 1, NULL, 1, 1);
+            break;
+        case IDM_RS232USER_SETTINGS:
+            ui_rs232user_settings_dialog(hwnd);
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_MOUSE_SETTINGS:
+            ui_mouse_settings_dialog(hwnd);
+            break;
     }
 }
 

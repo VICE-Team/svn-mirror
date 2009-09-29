@@ -31,6 +31,7 @@
 #ifdef HAVE_DINPUT
 #include "dinput_handle.h"
 #endif
+
 #include <stdio.h>
 
 #include "log.h"
@@ -38,7 +39,6 @@
 #include "mousedrv.h"
 #include "types.h"
 #include "ui.h"
-
 
 int _mouse_x, _mouse_y;
 
@@ -72,16 +72,14 @@ void mouse_update_mouse(void)
     DIMOUSESTATE state;
     HRESULT result;
 
-    if (di_mouse == NULL || !mouse_acquired)
+    if (di_mouse == NULL || !mouse_acquired) {
         return;
+    }
 
-    for (result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(state),
-                                                   &state);
-         result != DI_OK;
-         result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(state),
-                                                   &state)) {
-        if (result != DIERR_INPUTLOST)
+    for (result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(state), &state); result != DI_OK; result = IDirectInputDevice_GetDeviceState(di_mouse, sizeof(state), &state)) {
+        if (result != DIERR_INPUTLOST) {
             return;
+        }
         result = IDirectInputDevice_Acquire(di_mouse);
         if (result != DI_OK) {
             return;
@@ -125,11 +123,11 @@ void mousedrv_init(void)
 
     LPDIRECTINPUT di = get_directinput_handle();
 
-    if (di == NULL)
+    if (di == NULL) {
         return;
+    }
 
-    if (IDirectInput_CreateDevice(di, (GUID *)&GUID_SysMouse, &di_mouse,
-                                            NULL) == S_OK) {
+    if (IDirectInput_CreateDevice(di, (GUID *)&GUID_SysMouse, &di_mouse, NULL) == S_OK) {
         if (IDirectInputDevice_SetDataFormat(di_mouse, mouse_data_format_ptr) !=S_OK) {
             IDirectInput_Release(di_mouse);
             log_debug("Can't set Mouse DataFormat");
@@ -142,12 +140,12 @@ void mousedrv_init(void)
 void mouse_update_mouse_acquire(void)
 {
 #ifdef HAVE_DINPUT
-    if (di_mouse == NULL)
+    if (di_mouse == NULL) {
         return;
+    }
     if (_mouse_enabled) {
         if (ui_active) {
-            IDirectInputDevice_SetCooperativeLevel( 	 
-	              di_mouse, ui_active_window, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
+            IDirectInputDevice_SetCooperativeLevel(di_mouse, ui_active_window, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
             IDirectInputDevice_Acquire(di_mouse);
             mouse_acquired = 1;
         } else {
@@ -165,14 +163,16 @@ void mouse_update_mouse_acquire(void)
 
 BYTE mousedrv_get_x(void)
 {
-    if (!_mouse_enabled)
+    if (!_mouse_enabled) {
         return 0xff;
+    }
     return (BYTE)(_mouse_x >> 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
 {
-    if (!_mouse_enabled)
+    if (!_mouse_enabled) {
         return 0xff;
+    }
     return (BYTE)(~_mouse_y >> 1) & 0x7e;
 }

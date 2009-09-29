@@ -41,24 +41,20 @@
 #include "winlong.h"
 #include "winmain.h"
 
-
 static int fullscreen_nesting_level = 0;
 static int dx_primary;
 
 DirectDrawDeviceList *devices = NULL;
 DirectDrawModeList *modes = NULL;
 
-
 void fullscreen_set_res_from_current_display(void)
 {
     int bitdepth, width, height, refreshrate;
 
     if (video_dx9_enabled()) {
-        fullscreen_get_current_display_dx9(
-                &bitdepth, &width, &height, &refreshrate);
+        fullscreen_get_current_display_dx9(&bitdepth, &width, &height, &refreshrate);
     } else {
-        fullscreen_get_current_display_ddraw(
-                &bitdepth, &width, &height, &refreshrate);
+        fullscreen_get_current_display_ddraw(&bitdepth, &width, &height, &refreshrate);
     }
 
     resources_set_int("FullscreenBitdepth", bitdepth);
@@ -66,7 +62,6 @@ void fullscreen_set_res_from_current_display(void)
     resources_set_int("FullscreenHeight", height);
     resources_set_int("FullscreenRefreshRate", refreshrate);
 }
-
 
 /* check if the fullscreen resource values are valid */
 static int fullscrn_res_valid(void)
@@ -76,12 +71,12 @@ static int fullscrn_res_valid(void)
     GetCurrentModeParameters(&device, &width, &height, &bitdepth,&refreshrate);
     
     /* FIXME: May use modelist to check if combination is valid */
-    if (device < 0 || width <= 0 || height <= 0 || bitdepth <= 0 || refreshrate < 0)
+    if (device < 0 || width <= 0 || height <= 0 || bitdepth <= 0 || refreshrate < 0) {
         return -1;
+    }
 
     return 0;
 }
-
 
 void fullscreen_getmodes(void)
 {
@@ -92,7 +87,6 @@ void fullscreen_getmodes(void)
     }
 }
 
-
 void ui_fullscreen_init(void)
 {
     fullscreen_getmodes();
@@ -102,7 +96,6 @@ void ui_fullscreen_init(void)
         fullscreen_set_res_from_current_display();
     }
 }
-
 
 void ui_fullscreen_shutdown(void)
 {
@@ -125,9 +118,7 @@ void ui_fullscreen_shutdown(void)
     }
 }
 
-
-void GetCurrentModeParameters(int *device, int *width, int *height,
-							  int *bitdepth, int *refreshrate)
+void GetCurrentModeParameters(int *device, int *width, int *height, int *bitdepth, int *refreshrate)
 {
     resources_get_int("FullscreenDevice", device);
     resources_get_int("FullscreenBitdepth", bitdepth);
@@ -135,7 +126,6 @@ void GetCurrentModeParameters(int *device, int *width, int *height,
     resources_get_int("FullscreenHeight", height);
     resources_get_int("FullscreenRefreshRate", refreshrate);
 }
-
 
 int IsFullscreenEnabled(void)
 {
@@ -146,7 +136,6 @@ int IsFullscreenEnabled(void)
     return b;
 }
 
-
 void SwitchToFullscreenMode(HWND hwnd)
 {
     if (video_dx9_enabled()) {
@@ -155,7 +144,6 @@ void SwitchToFullscreenMode(HWND hwnd)
         SwitchToFullscreenModeDDraw(hwnd);
     }
 }
-
 
 void SwitchToWindowedMode(HWND hwnd)
 {
@@ -166,20 +154,17 @@ void SwitchToWindowedMode(HWND hwnd)
     }
 }
 
-
 void StartFullscreenMode(HWND hwnd)
 {
     SwitchToFullscreenMode(hwnd);
     resources_set_int("FullScreenEnabled", 1);
 }
 
-
 void EndFullscreenMode(HWND hwnd)
 {
     SwitchToWindowedMode(hwnd);
     resources_set_int("FullScreenEnabled", 0);
 }
-
 
 void SwitchFullscreenMode(HWND hwnd)
 {
@@ -189,7 +174,6 @@ void SwitchFullscreenMode(HWND hwnd)
         StartFullscreenMode(hwnd);
     }
 }
-
 
 void SuspendFullscreenMode(HWND hwnd)
 {
@@ -201,7 +185,6 @@ void SuspendFullscreenMode(HWND hwnd)
     }
 }
 
-
 void ResumeFullscreenMode(HWND hwnd)
 {
     if (IsFullscreenEnabled()) {
@@ -211,7 +194,6 @@ void ResumeFullscreenMode(HWND hwnd)
         }
     }
 }
-
 
 void SuspendFullscreenModeKeep(HWND hwnd)
 {
@@ -229,7 +211,6 @@ void SuspendFullscreenModeKeep(HWND hwnd)
     }
 }
 
-
 void ResumeFullscreenModeKeep(HWND hwnd)
 {
     int device, width, height, bitdepth, rate;
@@ -245,8 +226,6 @@ void ResumeFullscreenModeKeep(HWND hwnd)
         }
     }
 }
-
-
 
 /*---------------------------------------------------------------------------*/
 /*   Fullscreen settings UI stuff                                            */
@@ -269,28 +248,28 @@ int fullscreen_width = 0;
 int fullscreen_height = 0;
 int fullscreen_refreshrate = 0;
 
-
-static void validate_mode(int *device, int *width, int *height, int *bitdepth,
-                          int *rate)
+static void validate_mode(int *device, int *width, int *height, int *bitdepth, int *rate)
 {
     DirectDrawModeList  *mode;
 
-//  Validate devicenumber
+    // Validate devicenumber
     mode = modes;
     while (mode != NULL) {
-        if (mode->devicenumber == *device)
+        if (mode->devicenumber == *device) {
             break;
+        }
         mode = mode->next;
     }
     if (mode == NULL) {
         *device = modes->devicenumber;
     }
 
-//  Validate bitdepth
+    // Validate bitdepth
     mode = modes;
     while (mode != NULL) {
-        if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth))
+        if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth)) {
             break;
+        }
         mode = mode->next;
     }
     if (mode == NULL) {
@@ -304,19 +283,18 @@ static void validate_mode(int *device, int *width, int *height, int *bitdepth,
         }
     }
 
-//  Validate resolution
+    // Validate resolution
     mode = modes;
     while (mode != NULL) {
-        if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth)
-            && (mode->width == *width) && (mode->height == *height))
+        if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth) && (mode->width == *width) && (mode->height == *height)) {
             break;
+        }
         mode = mode->next;
     }
     if (mode == NULL) {
         mode = modes;
         while (mode != NULL) {
-            if ((mode->devicenumber == *device)
-                && (mode->bitdepth == *bitdepth)) {
+            if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth)) {
                 *width = mode->width;
                 *height = mode->height;
                 break;
@@ -325,20 +303,18 @@ static void validate_mode(int *device, int *width, int *height, int *bitdepth,
         }
     }
 
-//  Validate refreshrate
+    // Validate refreshrate
     mode = modes;
     while (mode != NULL) {
-        if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth)
-            && (mode->width == *width) && (mode->height == *height)
-            && (mode->refreshrate == *rate))
+        if ((mode->devicenumber == *device) && (mode->bitdepth == *bitdepth) && (mode->width == *width) && (mode->height == *height) && (mode->refreshrate == *rate)) {
             break;
+        }
         mode = mode->next;
     }
     if (mode == NULL) {
         *rate = 0;
     }
 }
-
 
 static int GetIndexFromList(ValueList *list, int value)
 {
@@ -348,8 +324,9 @@ static int GetIndexFromList(ValueList *list, int value)
     pos = 0;
     search = list;
     while (search != NULL) {
-        if (search->value == value)
+        if (search->value == value) {
             return pos;
+        }
         search = search->next;
         pos++;
     }
@@ -364,8 +341,9 @@ static int GetValueFromList(ValueList * list, int index)
     search = list;
     pos = 0;
     while (search != NULL) {
-        if (pos == index)
+        if (pos == index) {
             return search->value;
+        }
         pos++;
         search = search->next;
     }
@@ -431,10 +409,9 @@ static void get_refreshratelist(int device, int bitdepth, int width, int height)
     value->text = lib_stralloc("Default");
     InsertInto(&refresh_rates, value);
 
-    mode=modes;
-    while (mode!=NULL) {
-        if ((mode->devicenumber == device) && (mode->bitdepth == bitdepth)
-            && (mode->width == width) && (mode->height == height)) {
+    mode = modes;
+    while (mode != NULL) {
+        if ((mode->devicenumber == device) && (mode->bitdepth == bitdepth) && (mode->width == width) && (mode->height == height)) {
             if (GetIndexFromList(refresh_rates, mode->refreshrate) == -1) {
                 value = lib_malloc(sizeof(ValueList));
                 value->value = mode->refreshrate;
@@ -479,8 +456,7 @@ static void get_resolutionlist(int device, int bitdepth)
     mode = modes;
     while (mode != NULL) {
         if ((mode->devicenumber == device) && (mode->bitdepth == bitdepth)) {
-            if (GetIndexFromList(resolutionlist, ((mode->width << 16) +
-                mode->height)) == -1) {
+            if (GetIndexFromList(resolutionlist, ((mode->width << 16) + mode->height)) == -1) {
                 value = lib_malloc(sizeof(ValueList));
                 value->value = (mode->width << 16) + mode->height;
                 sprintf(buff, "%dx%d", mode->width, mode->height);
@@ -500,8 +476,7 @@ static void init_fullscreen_dialog(HWND hwnd)
     DirectDrawDeviceList *dev;
     ValueList *value;
 
-    validate_mode(&fullscreen_device, &fullscreen_width, &fullscreen_height,
-                  &fullscreen_bitdepth, &fullscreen_refreshrate);
+    validate_mode(&fullscreen_device, &fullscreen_width, &fullscreen_height, &fullscreen_bitdepth, &fullscreen_refreshrate);
     setting_hwnd = GetDlgItem(hwnd, IDC_FULLSCREEN_DEVICE);
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
     dev = devices;
@@ -519,8 +494,7 @@ static void init_fullscreen_dialog(HWND hwnd)
         SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)value->text);
         value = value->next;
     }
-    SendMessage(setting_hwnd, CB_SETCURSEL,
-                (WPARAM)GetIndexFromList(bitdepthlist, fullscreen_bitdepth), 0);
+    SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(bitdepthlist, fullscreen_bitdepth), 0);
 
     get_resolutionlist(fullscreen_device, fullscreen_bitdepth);
     setting_hwnd = GetDlgItem(hwnd, IDC_FULLSCREEN_RESOLUTION);
@@ -530,12 +504,9 @@ static void init_fullscreen_dialog(HWND hwnd)
         SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)value->text);
         value = value->next;
     }
-    SendMessage(setting_hwnd, CB_SETCURSEL,
-                (WPARAM)GetIndexFromList(resolutionlist,
-                (fullscreen_width << 16) + fullscreen_height), 0);
+    SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(resolutionlist, (fullscreen_width << 16) + fullscreen_height), 0);
 
-    get_refreshratelist(fullscreen_device, fullscreen_bitdepth,
-                        fullscreen_width, fullscreen_height);
+    get_refreshratelist(fullscreen_device, fullscreen_bitdepth, fullscreen_width, fullscreen_height);
     setting_hwnd = GetDlgItem(hwnd, IDC_FULLSCREEN_REFRESHRATE);
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
     value = refresh_rates;
@@ -543,15 +514,10 @@ static void init_fullscreen_dialog(HWND hwnd)
         SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)value->text);
         value = value->next;
     }
-    SendMessage(setting_hwnd, CB_SETCURSEL,
-                (WPARAM)GetIndexFromList(refresh_rates, fullscreen_refreshrate),
-                0);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync
-                   ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary
-                   ? BST_CHECKED : BST_UNCHECKED);
+    SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(refresh_rates, fullscreen_refreshrate), 0);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary ? BST_CHECKED : BST_UNCHECKED);
 }
-
 
 static void fullscreen_dialog_end(void)
 {
@@ -577,8 +543,7 @@ static void fullscreen_dialog_init(HWND hwnd)
     init_fullscreen_dialog(hwnd);
 }
 
-INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                        LPARAM lparam)
+INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int notifycode;
     int item;
@@ -587,64 +552,55 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
     int command;
 
     switch (msg) {
-      case WM_NOTIFY:
-        if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-            fullscreen_dialog_end();
-            SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
-            return TRUE;
-        }
-        return FALSE;
-      case WM_COMMAND:
-        notifycode = HIWORD(wparam);
-        item = LOWORD(wparam);
-        if (notifycode == CBN_SELENDOK) {
-            if (item == IDC_FULLSCREEN_DEVICE) { 
-                fullscreen_device = (int)SendMessage(GetDlgItem(hwnd,
-                                                     IDC_FULLSCREEN_DEVICE),
-                                                     CB_GETCURSEL, 0, 0);
-            } else if (item == IDC_FULLSCREEN_BITDEPTH) {
-                index = (int)SendMessage(GetDlgItem(hwnd,
-                                         IDC_FULLSCREEN_BITDEPTH),
-                                         CB_GETCURSEL, 0, 0);
-                fullscreen_bitdepth = GetValueFromList(bitdepthlist, index);
-            } else if (item == IDC_FULLSCREEN_RESOLUTION) {
-                index = (int)SendMessage(GetDlgItem(hwnd,
-                                         IDC_FULLSCREEN_RESOLUTION),
-                                         CB_GETCURSEL, 0, 0);
-                value = GetValueFromList(resolutionlist, index);
-                fullscreen_width = value >> 16;
-                fullscreen_height = value & 0xffff;
-            } else if (item == IDC_FULLSCREEN_REFRESHRATE) {
-                index = (int)SendMessage(GetDlgItem(hwnd,
-                                         IDC_FULLSCREEN_REFRESHRATE), 
-                                         CB_GETCURSEL, 0, 0);
-                fullscreen_refreshrate = GetValueFromList(refresh_rates,
-                                                          index);
-            }
-            init_fullscreen_dialog(hwnd);
-        } else {
-            command = LOWORD(wparam);
-            switch (command) {
-              case IDC_TOGGLE_VIDEO_VBLANK_SYNC:
-                vblank_sync ^= 1;
-                return FALSE;
-              case IDC_TOGGLE_VIDEO_DX_PRIMARY:
-                dx_primary ^= 1;
-                return FALSE;
-              case IDOK:
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 fullscreen_dialog_end();
-              case IDCANCEL:
-                EndDialog(hwnd,0);
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd,0);
-        return TRUE;
-      case WM_INITDIALOG:
-        fullscreen_dialog_init(hwnd);
-        return TRUE;
+            return FALSE;
+        case WM_COMMAND:
+            notifycode = HIWORD(wparam);
+            item = LOWORD(wparam);
+            if (notifycode == CBN_SELENDOK) {
+                if (item == IDC_FULLSCREEN_DEVICE) { 
+                    fullscreen_device = (int)SendMessage(GetDlgItem(hwnd, IDC_FULLSCREEN_DEVICE), CB_GETCURSEL, 0, 0);
+                } else if (item == IDC_FULLSCREEN_BITDEPTH) {
+                    index = (int)SendMessage(GetDlgItem(hwnd, IDC_FULLSCREEN_BITDEPTH), CB_GETCURSEL, 0, 0);
+                    fullscreen_bitdepth = GetValueFromList(bitdepthlist, index);
+                } else if (item == IDC_FULLSCREEN_RESOLUTION) {
+                    index = (int)SendMessage(GetDlgItem(hwnd, IDC_FULLSCREEN_RESOLUTION), CB_GETCURSEL, 0, 0);
+                    value = GetValueFromList(resolutionlist, index);
+                    fullscreen_width = value >> 16;
+                    fullscreen_height = value & 0xffff;
+                } else if (item == IDC_FULLSCREEN_REFRESHRATE) {
+                    index = (int)SendMessage(GetDlgItem(hwnd, IDC_FULLSCREEN_REFRESHRATE), CB_GETCURSEL, 0, 0);
+                    fullscreen_refreshrate = GetValueFromList(refresh_rates, index);
+                }
+                init_fullscreen_dialog(hwnd);
+            } else {
+                command = LOWORD(wparam);
+                switch (command) {
+                    case IDC_TOGGLE_VIDEO_VBLANK_SYNC:
+                        vblank_sync ^= 1;
+                        return FALSE;
+                    case IDC_TOGGLE_VIDEO_DX_PRIMARY:
+                        dx_primary ^= 1;
+                        return FALSE;
+                    case IDOK:
+                        fullscreen_dialog_end();
+                    case IDCANCEL:
+                        EndDialog(hwnd, 0);
+                        return TRUE;
+                }
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        case WM_INITDIALOG:
+            fullscreen_dialog_init(hwnd);
+            return TRUE;
     }
     return FALSE;
 }

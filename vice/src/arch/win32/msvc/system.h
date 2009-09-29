@@ -31,6 +31,7 @@
 #undef BYTE
 #undef WORD
 #undef DWORD
+
 #include <windows.h>
 #include <prsht.h>
 
@@ -45,4 +46,3 @@ extern char *system_wcstombs_alloc(const char *wcs);
 extern void system_wcstombs_free(char *mbs);
 
 #endif
-
