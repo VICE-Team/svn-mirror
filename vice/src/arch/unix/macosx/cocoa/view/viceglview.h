@@ -65,7 +65,7 @@
 - (void)drawRect:(NSRect)r;
 
 - (void)setupTexture:(NSSize)size;
-- (void)updateTexture;
+- (void)updateTextureAndDraw:(bool)async;
 
 - (BYTE *)getCanvasBuffer;
 - (int)getCanvasPitch;

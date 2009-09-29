@@ -187,7 +187,7 @@
                  textureData);
 }
 
-- (void)updateTexture
+- (void)updateTextureAndDraw:(bool)async
 {
     [[self openGLContext] makeCurrentContext];
 
@@ -197,7 +197,13 @@
                  GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, 
                  textureData);
 
-    [self setNeedsDisplay:YES];    
+    if(async) {
+        // trigger update
+        [self setNeedsDisplay:YES];
+    } else {
+        // display immediately:
+        [self display];
+    }
 }
 
 - (BYTE *)getCanvasBuffer

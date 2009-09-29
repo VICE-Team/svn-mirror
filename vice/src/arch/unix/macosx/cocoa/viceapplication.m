@@ -385,7 +385,7 @@ const float control_win_width = 200;
 -(void)updateCanvas:(NSData *)canvasPtr
 {
     video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
-    [[canvas->window getVICEGLView] updateTexture];
+    [[canvas->window getVICEGLView] updateTextureAndDraw:true];
 }
 
 - (void)setCurrentCanvasId:(int)c

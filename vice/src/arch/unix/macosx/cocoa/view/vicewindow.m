@@ -107,7 +107,12 @@
 
 - (void)updateCanvas:(id)sender
 {
-    [canvasView updateTexture];
+    [canvasView updateTextureAndDraw:true];
+}
+
+- (void)redrawCanvas:(id)sender
+{
+    [canvasView updateTextureAndDraw:false];
 }
 
 - (void)resizeCanvas:(NSSize)size

@@ -151,11 +151,25 @@ void video_canvas_refresh(video_canvas_t *canvas,
                         canvas->pitch, canvas->depth);
 
 #if 1
-    // call updateCanvas selector in main thread - non-blocking
     VICEWindow *window = canvas->window;
-    [window performSelectorOnMainThread:@selector(updateCanvas:) 
-                             withObject:nil 
-                          waitUntilDone:NO];
+    int warpMode = 0;
+    resources_get_int("WarpMode", &warpMode);
+
+    if(!warpMode) {
+#if 1
+        // call update directly from machine thread
+        [window redrawCanvas:nil];
+#else
+        [window performSelectorOnMainThread:@selector(redrawCanvas:) 
+                                 withObject:nil 
+                              waitUntilDone:NO];
+#endif
+    } else {
+        // call updateCanvas selector in main thread - non-blocking
+        [window performSelectorOnMainThread:@selector(updateCanvas:) 
+                                 withObject:nil 
+                              waitUntilDone:NO];
+    }
 #else
     // call updateCanvas via proxy object - blocks if main app blocks
     // encapsulate canvas ptr
