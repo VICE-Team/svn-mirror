@@ -640,270 +640,29 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_DATASETTE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Datasette Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX  "&Reset Datasette with CPU", IDC_DATASETTE_RESET_WITH_CPU,
+    AUTOCHECKBOX  "", IDC_DATASETTE_RESET_WITH_CPU,
                   7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Speed of motor while reading", IDC_STATIC,
+    GROUPBOX      " of motor while reading", IDC_DATASETTE_MOTOR_GROUP,
                   5, 25, 160, 60
-    LTEXT         "cycle(s) additional &delay each trigger", IDC_STATIC,
+    LTEXT         "", IDC_DATASETTE_DELAY_TRIGGER,
                   42, 42, 120, 8
     COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
                   9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "cycles delay at &zero-values", IDC_STATIC,
+    LTEXT         "", IDC_DATASETTE_DELAY_AT_ZERO,
                   60, 62, 100, 8
     COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
                   9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
+    DEFPUSHBUTTON "", IDOK,
                   30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Cancel", IDCANCEL,
+    PUSHBUTTON    "", IDCANCEL,
                   90, 90, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_DATASETTE_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Datasetteindstillinger"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Reset Datasette ved CPU-reset", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Datasettehastighed under læsning", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "klok ekstra &forsinkelse per puls", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "klok forsinkelse ved &nulværdier", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annullér", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_DATASETTE_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Datasette Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "Zu&rücksetzen des Bandlaufwerks bei CPU Reset", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Motorgeschwindigkeit beim Lesen", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "Zyklen zusätzliche Verzögerung bei je&dem Trigger", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "Zyklen Verzögerung bei &Zero-Werte", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Abbruch", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_DATASETTE_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Réglages datassette"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Réinitialiser la datassette avec l'UCT", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Vitesse du moteur lors de la lecture", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "cycle(s) additionnel(s) &délai après trigger", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "cycles délai aux valeurs-&zéro", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuler", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_DATASETTE_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Magnó beállításai"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Alaphelyzetbe hozás CPU Reset esetén", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Motor sebessége olvasás közben", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "ciklus többlet szünet minden jelzésnél", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "ciklus szünet &nulla értékeknél", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Mégsem", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_DATASETTE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni registratore"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Reset del registratore al reset della CPU", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Velocità del motore durante la lettura", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "ciclo/i addizionali di ritardo per ogni trigger", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "cicli di ritardo ai valori di &zero", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annulla", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_DATASETTE_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Datasetteinstellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Reset Datasette met CPU", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Snelheid van de motor tijdens lezen", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "Snelheidsinstellingen", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "&nul-waarden cycli vertraging", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuleren", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_DATASETTE_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia Datasette"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Resetuj Datasette razem z CPU", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Speed of motor while reading", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "Regulacja prê&dko¶ci Datasette", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "cycles delay at &zero-values", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Anuluj", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_DATASETTE_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Datasetteinställningar"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "&Nollställ Datasette med CPU", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Motorhastighet vid läsning", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "cykler ytterligare &fördröjning per puls", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "cykler fördröjning vid &nollvärden", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Avbryt", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_DATASETTE_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Teyp Ayarlarý"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX  "CPU ile birlikte Teyp'i &resetle", IDC_DATASETTE_RESET_WITH_CPU,
-                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      "Motorun okurkenki hýzý", IDC_STATIC,
-                  5, 25, 160, 60
-    LTEXT         "cycle(lar) her tetikleme&de eklenen gecikme", IDC_STATIC,
-                  42, 42, 120, 8
-    COMBOBOX      IDC_DATASETTE_SPEED_TUNING,
-                  9, 41, 30, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "cyclelar sýfýr &gecikme deðerinde", IDC_STATIC,
-                  60, 62, 100, 8
-    COMBOBOX      IDC_DATASETTE_ZERO_GAP_DELAY,
-                  9, 61, 48, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON "Tamam", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Ýptal", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -2662,11 +2421,12 @@ IDD_OPEN_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Contents ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Attach read only",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Image Contents ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Attach read only", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 
@@ -2676,11 +2436,12 @@ IDD_OPEN_TEMPLATE_DA DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Indhold i image ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Tilslut skrivebeskyttet",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Indhold i image ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Tilslut skrivebeskyttet", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 
@@ -2690,11 +2451,12 @@ IDD_OPEN_TEMPLATE_DE DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Datei Inhalt",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Schreibgeschützt einlegen",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Image Datei Inhalt", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Schreibgeschützt einlegen", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 
@@ -2704,11 +2466,12 @@ IDD_OPEN_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenu de l'image ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Insérer en lecture seule",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Contenu de l'image ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Insérer en lecture seule", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 
@@ -2719,11 +2482,12 @@ IDD_OPEN_TEMPLATE_HU DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Képmás tartalma",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Csatolás csak olvasható módon",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Képmás tartalma", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Csatolás csak olvasható módon", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -2734,11 +2498,12 @@ IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenuti ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Seleziona in sola lettura",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Contenuti ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Seleziona in sola lettura", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 
@@ -2748,11 +2513,12 @@ IDD_OPEN_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Bestandsinhoud ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Alleen lezen",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Bestandsinhoud ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Alleen lezen", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 
@@ -2763,12 +2529,14 @@ IDD_OPEN_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "zawarto¶ci obrazu ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    GROUPBOX        "zawarto¶ci obrazu ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image", IDC_STATIC,
+                    190, 25, 80, 90
 END
 #pragma code_page(28591)
 
@@ -2779,12 +2547,13 @@ IDD_OPEN_TEMPLATE_SV DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Innehåll i avbildning ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Anslut skrivskyddat",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Ny avbildning",IDC_STATIC,190,25,80,90
+    GROUPBOX        "Innehåll i avbildning ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Anslut skrivskyddat", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Ny avbildning", IDC_STATIC, 190, 25, 80, 90
 END
 
 
@@ -2795,11 +2564,12 @@ IDD_OPEN_TEMPLATE_TR DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Imaj Ýçeriði ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Salt okunur yerleþtir",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Imaj Ýçeriði ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Salt okunur yerleþtir", IDC_TOGGLE_ATTACH_READONLY,
+                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -2811,7 +2581,7 @@ IDD_OPENDISK_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Contents ",IDC_STATIC,3,0,185,138
+    GROUPBOX        "Image Contents ", IDC_STATIC, 3,0,185,138
     LISTBOX         IDC_PREVIEW,6,9,178,125,
                     WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
     AUTOCHECKBOX    "Attach read only",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
@@ -7281,6 +7051,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Specify MIDI-In device"
   IDS_SPECIFY_MIDI_OUT            "Specify MIDI-Out device"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_DATASETTE_CAPTION           "Datasette Settings"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Reset Datasette with CPU"
+  IDS_DATASETTE_MOTOR_GROUP       "Speed of motor while reading"
+  IDS_DATASETTE_DELAY_TRIGGER     "cycle(s) additional &delay each trigger"
+  IDS_DATASETTE_DELAY_AT_ZERO     "cycles delay at &zero-values"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Attach &disk image"
   IDS_MP_DETACH_DISK_IMAGE        "D&etach disk image"
@@ -7699,6 +7474,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Angiv enhed for MIDI-ind"
   IDS_SPECIFY_MIDI_OUT            "Angiv enhed for MIDI-ud"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_DATASETTE_CAPTION           "Datasetteindstillinger"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Reset Datasette ved CPU-reset"
+  IDS_DATASETTE_MOTOR_GROUP       "Datasettehastighed under læsning"
+  IDS_DATASETTE_DELAY_TRIGGER     "klok ekstra &forsinkelse per puls"
+  IDS_DATASETTE_DELAY_AT_ZERO     "klok forsinkelse ved &nulværdier"
   IDS_MP_FILE                     "&Fil"
   IDS_MP_ATTACH_DISK_IMAGE        "Tilslut &Disk-image"
   IDS_MP_DETACH_DISK_IMAGE        "&Frakobl disk-image"
@@ -8117,6 +7897,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "MIDI-In Gerät spezifieren"
   IDS_SPECIFY_MIDI_OUT            "MIDI-Out Gerät spezifieren"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Fehler beim Speichern der EasyFlash CRT Datei"
+  IDS_DATASETTE_CAPTION           "Datasette Einstellungen"
+  IDS_DATASETTE_RESET_WITH_CPU    "Zu&rücksetzen des Bandlaufwerks bei CPU Reset"
+  IDS_DATASETTE_MOTOR_GROUP       "Motorgeschwindigkeit beim Lesen"
+  IDS_DATASETTE_DELAY_TRIGGER     "Zyklen zusätzliche Verzögerung bei je&dem Trigger"
+  IDS_DATASETTE_DELAY_AT_ZERO     "Zyklen Verzögerung bei &Zero-Werte"
   IDS_MP_FILE                     "&Datei"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
   IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
@@ -8535,6 +8320,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Specify MIDI-In device"
   IDS_SPECIFY_MIDI_OUT            "Specify MIDI-Out device"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_DATASETTE_CAPTION           "Réglages datassette"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Réinitialiser la datassette avec l'UCT"
+  IDS_DATASETTE_MOTOR_GROUP       "Vitesse du moteur lors de la lecture"
+  IDS_DATASETTE_DELAY_TRIGGER     "cycle(s) additionnel(s) &délai après trigger"
+  IDS_DATASETTE_DELAY_AT_ZERO     "cycles délai aux valeurs-&zéro"
   IDS_MP_FILE                     "&Fichier"
   IDS_MP_ATTACH_DISK_IMAGE        "Insérer une image de &disque"
   IDS_MP_DETACH_DISK_IMAGE        "&Retirer une image de disque"
@@ -8954,6 +8744,12 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Adja meg a MIDI-In eszközöt"
   IDS_SPECIFY_MIDI_OUT            "Adja meg a MIDI-Out eszközöt"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+
+  IDS_DATASETTE_CAPTION           "Magnó beállításai"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Alaphelyzetbe hozás CPU Reset esetén"
+  IDS_DATASETTE_MOTOR_GROUP       "Motor sebessége olvasás közben"
+  IDS_DATASETTE_DELAY_TRIGGER     "ciklus többlet szünet minden jelzésnél"
+  IDS_DATASETTE_DELAY_AT_ZERO     "ciklus szünet &nulla értékeknél"
   IDS_MP_FILE                     "&Fájl"
   IDS_MP_ATTACH_DISK_IMAGE        "Lemezképmás csatolása"
   IDS_MP_DETACH_DISK_IMAGE        "Lemezképmás &leválasztása"
@@ -9373,6 +9169,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Specifica il device MIDI-In"
   IDS_SPECIFY_MIDI_OUT            "Specifica il device MIDI-Out"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_DATASETTE_CAPTION           "Impostazioni registratore"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Reset del registratore al reset della CPU"
+  IDS_DATASETTE_MOTOR_GROUP       "Velocità del motore durante la lettura"
+  IDS_DATASETTE_DELAY_TRIGGER     "ciclo/i addizionali di ritardo per ogni trigger"
+  IDS_DATASETTE_DELAY_AT_ZERO     "cicli di ritardo ai valori di &zero"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Seleziona l'immagine di un &disco"
   IDS_MP_DETACH_DISK_IMAGE        "&Rimuovi l'immagine di un disco"
@@ -9791,6 +9592,12 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "kies MIDI-In apparaat"
   IDS_SPECIFY_MIDI_OUT            "Kies MIDI-uit apparaat"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Kan het EasyFlash crt bestand niet opslaan"
+
+  IDS_DATASETTE_CAPTION           "Datasetteinstellingen"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Reset Datasette met CPU"
+  IDS_DATASETTE_MOTOR_GROUP       "Snelheid van de motor tijdens lezen"
+  IDS_DATASETTE_DELAY_TRIGGER     "Snelheidsinstellingen"
+  IDS_DATASETTE_DELAY_AT_ZERO     "&nul-waarden cycli vertraging"
   IDS_MP_FILE                     "&Bestand"
   IDS_MP_ATTACH_DISK_IMAGE        "Koppel &schijfbestand aan"
   IDS_MP_DETACH_DISK_IMAGE        "Ontkopp&el schijfbestand"
@@ -10210,6 +10017,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Specify MIDI-In device"
   IDS_SPECIFY_MIDI_OUT            "Specify MIDI-Out device"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_DATASETTE_CAPTION           "Ustawienia Datasette"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Resetuj Datasette razem z CPU"
+  IDS_DATASETTE_MOTOR_GROUP       "Speed of motor while reading"
+  IDS_DATASETTE_DELAY_TRIGGER     "Regulacja prê&dko¶ci Datasette"
+  IDS_DATASETTE_DELAY_AT_ZERO     "cycles delay at &zero-values"
   IDS_MP_FILE                     "&Plik"
   IDS_MP_ATTACH_DISK_IMAGE        "W³ó¿ obraz &dyskietki"
   IDS_MP_DETACH_DISK_IMAGE        "Wyjmij obraz dyski&etki"
@@ -10629,6 +10441,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Ange enhet för MIDI-in"
   IDS_SPECIFY_MIDI_OUT            "Ange enhet för MIDI-ut"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Fel vid skrivning av EasyFlash-crt-fil."
+  IDS_DATASETTE_CAPTION           "Datasetteinställningar"
+  IDS_DATASETTE_RESET_WITH_CPU    "&Nollställ Datasette med CPU"
+  IDS_DATASETTE_MOTOR_GROUP       "Motorhastighet vid läsning"
+  IDS_DATASETTE_DELAY_TRIGGER     "cykler ytterligare &fördröjning per puls"
+  IDS_DATASETTE_DELAY_AT_ZERO     "cykler fördröjning vid &nollvärden"
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
@@ -11048,6 +10865,11 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "Midi-In aygýtýný belirleyin"
   IDS_SPECIFY_MIDI_OUT            "Midi-Out aygýtýný belirleyin"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Error saving EasyFlash crt file"
+  IDS_DATASETTE_CAPTION           "Teyp Ayarlarý"
+  IDS_DATASETTE_RESET_WITH_CPU    "CPU ile birlikte Teyp'i &resetle"
+  IDS_DATASETTE_MOTOR_GROUP       "Motorun okurkenki hýzý"
+  IDS_DATASETTE_DELAY_TRIGGER     "cycle(lar) her tetikleme&de eklenen gecikme"
+  IDS_DATASETTE_DELAY_AT_ZERO     "cyclelar sýfýr &gecikme deðerinde"
   IDS_MP_FILE                     "&Dosya"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk imajý yerleþtir"
   IDS_MP_DETACH_DISK_IMAGE        "Disk imajý çýkar&t"

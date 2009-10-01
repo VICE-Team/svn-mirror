@@ -761,18 +761,6 @@ static int intl_table[][countof(language_table)] = {
 /* tr */   IDD_DISKDEVICE_DIALOG_TR },  /* fuzzy, size */
 
 /* res.rc */
-/* en */ { IDD_DATASETTE_SETTINGS_DIALOG,
-/* da */   IDD_DATASETTE_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_DATASETTE_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_DATASETTE_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_DATASETTE_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_DATASETTE_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_DATASETTE_SETTINGS_DIALOG_NL,
-/* pl */   IDD_DATASETTE_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_DATASETTE_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_DATASETTE_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* res.rc */
 /* en */ { IDD_JOY_SETTINGS_DIALOG,
 /* da */   IDD_JOY_SETTINGS_DIALOG_DA,    /* fuzzy, size */
 /* de */   IDD_JOY_SETTINGS_DIALOG_DE,    /* size */
