@@ -195,7 +195,34 @@ Note that normal text input via keyboard is not possible while the virtual
 keyboard is active.
 
 
-2.5 Settings
+2.5 Slider controls
+
+Several settings like volume and colour values are configured using the slider
+control. For example, the volume control is represented as follows:
+
+Select Volume:
+
+Step: 1
+********************....................
+50
+
+The slider value can be decremented/incremented by the Left/Right commands.
+
+The step value indicates how many units the slider will change by for each Left/
+Right command.
+
+Step values can be changed by the Up/Down command and will decrement/increment in
+units of 10. The maximum step value will always be 1 order of magnitude less than
+the maximum setting value e.g. volume ranges between 0 and 100, so valid step
+values are 1 and 10. For a larger maximum value e.g. 1000, valid step values
+would be 1, 10 and 100.
+
+Note that normal text input via keyboard is not possible while the slider is
+displayed. The Map command opens a text input dialog for editing the value
+directly.
+
+
+2.6 Settings
 
 The settings are saved separately into 4 files:
  - main settings (sdl-vicerc, sdl-vice.ini, "Load/Save settings")
