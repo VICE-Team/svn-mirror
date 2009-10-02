@@ -195,7 +195,9 @@ typedef struct monitor_cartridge_commands_s monitor_cartridge_commands_t;
 extern monitor_cartridge_commands_t mon_cart_cmd;
 
 /* CPU history/memmap prototypes */
-extern void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2);
+extern void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2,
+                                     BYTE reg_a, BYTE reg_x, BYTE reg_y, 
+                                     BYTE reg_sp, unsigned int reg_st);
 extern void monitor_memmap_store(unsigned int addr, unsigned int type);
 
 /* memmap defines */
