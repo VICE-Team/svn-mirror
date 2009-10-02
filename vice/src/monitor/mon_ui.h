@@ -33,7 +33,7 @@
 #include "montypes.h"
 
 typedef
-struct mon_disassembly_private_s
+struct mon_navigate_private_s
 {
     MEMSPACE memspace;
     WORD StartAddress;
@@ -41,6 +41,12 @@ struct mon_disassembly_private_s
     WORD CurrentAddress;
     int have_label;
     int Lines;
+} mon_navigate_private_t;
+
+typedef
+struct mon_disassembly_private_s
+{
+    mon_navigate_private_t navigate;
     MON_ADDR AddrClicked;
 } mon_disassembly_private_t;
 
@@ -62,12 +68,7 @@ struct mon_disassembly_s {
 
 typedef
 struct mon_memory_private_s {
-    MEMSPACE memspace;
-    WORD StartAddress;
-    WORD EndAddress;
-    WORD CurrentAddress;
-    int have_label;
-    int Lines;
+    mon_navigate_private_t navigate;
     MON_ADDR AddrClicked;
 } mon_memory_private_t;
 
@@ -88,12 +89,15 @@ extern void mon_disassembly_update(mon_disassembly_private_t *);
 extern mon_disassembly_t *mon_disassembly_get_lines(
     mon_disassembly_private_t *,
     int lines_visible, int lines_full_visible);
-extern void mon_disassembly_set_memspace(mon_disassembly_private_t *,
+extern mon_disassembly_t *mon_dump_get_lines(
+    mon_memory_private_t *pmmp, int lines_visible,
+    int lines_full_visible);
+extern void mon_navigate_set_memspace(mon_navigate_private_t *,
                                          MEMSPACE);
-extern MEMSPACE mon_disassembly_get_memspace(mon_disassembly_private_t *);
-extern WORD mon_disassembly_scroll(mon_disassembly_private_t *, 
-                                   MON_SCROLL_TYPE );
-extern WORD mon_disassembly_scroll_to(mon_disassembly_private_t *, WORD);
+extern MEMSPACE mon_navigate_get_memspace(mon_navigate_private_t *);
+extern WORD mon_navigate_scroll(mon_navigate_private_t *, 
+                                MON_SCROLL_TYPE );
+extern WORD mon_navigate_scroll_to(mon_navigate_private_t *, WORD);
 
 #define MDDPC_SET_BREAKPOINT      (1<< 0)
 #define MDDPC_UNSET_BREAKPOINT    (1<< 1)
@@ -116,10 +120,13 @@ extern void mon_disassembly_unset_breakpoint(mon_disassembly_private_t *);
 extern void mon_disassembly_enable_breakpoint(mon_disassembly_private_t *);
 extern void mon_disassembly_disable_breakpoint(mon_disassembly_private_t *);
 
-extern void mon_disassembly_goto_address(mon_disassembly_private_t *,
+extern void mon_navigate_goto_address(mon_navigate_private_t *,
                                          WORD addr);
-extern void mon_disassembly_goto_pc(mon_disassembly_private_t *);
-extern void mon_disassembly_goto_string(mon_disassembly_private_t *,
+extern void mon_navigate_goto_pc(mon_navigate_private_t *);
+extern WORD mon_navigate_get_startaddress(mon_navigate_private_t *mnp);
+extern void mon_navigate_set_startaddress(mon_navigate_private_t *mnp, WORD StartAddress);
+/* MPi: TODO. This would lookup a label or a hex address and then call mon_navigate_goto_address() */
+extern void mon_navigate_goto_string(mon_navigate_private_t *,
                                         char *addr);
 
 extern void mon_disassembly_set_next_instruction(mon_disassembly_private_t *pmdp);

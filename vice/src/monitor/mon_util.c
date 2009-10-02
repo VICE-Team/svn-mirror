@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <assert.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -168,6 +169,26 @@ char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
                                      opc_size_p);
 
     return lib_msprintf((hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
+}
+
+char *mon_dump_with_label(MEMSPACE memspace, WORD loc, int hex, unsigned *label_p)
+{
+    const char *p;
+    BYTE val;
+
+    if (*label_p == 0) {
+        /* process a label, if available */
+        p = mon_symbol_table_lookup_name(memspace, loc);
+        if (p) {
+            *label_p = 1;
+            return lib_msprintf("%s:",p);
+        }
+    } else {
+        *label_p = 0;
+    }
+
+    val = mon_get_mem_val(memspace, loc);
+    return lib_msprintf((hex ? "%04X: $%02X   %03u   '%c'" : "%05u: $%02X   %03u   '%c'"), loc, val, val, isprint(val)?val:' ');
 }
 
 #ifndef __OS2__
