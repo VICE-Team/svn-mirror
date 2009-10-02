@@ -1062,6 +1062,50 @@ int y;
     }
 }
 
+void uilib_get_group_max_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
+{
+    HWND element;
+    int x;
+    int y;
+    RECT element_rect;
+
+    if (xpos) {
+        *xpos = 0;
+        while (group->idc) {
+            element = GetDlgItem(hwnd, group->idc);
+            GetClientRect(element, &element_rect);
+            MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+
+            if (*xpos < element_rect.right) {
+                *xpos = element_rect.right;
+            }
+            group++;
+        }
+    }
+}
+
+void uilib_get_group_min_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
+{
+    HWND element;
+    int x;
+    int y;
+    RECT element_rect;
+
+    if (xpos) {
+        *xpos = 0xffffff;
+        while (group->idc) {
+            element = GetDlgItem(hwnd, group->idc);
+            GetClientRect(element, &element_rect);
+            MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+
+            if (*xpos > element_rect.left) {
+                *xpos = element_rect.left;
+            }
+            group++;
+        }
+    }
+}
+
 void uilib_move_and_adjust_group_width(HWND hwnd, uilib_dialog_group *group, int xpos)
 {
 HWND element;
@@ -1126,6 +1170,20 @@ int ysize;
     MoveWindow(element, xpos, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
 }
 
+void uilib_move_and_set_element_width(HWND hwnd, int idc, int xpos, int new_xsize)
+{
+    HWND element;
+    RECT element_rect;
+    int xsize;
+    int ysize;
+
+    element = GetDlgItem(hwnd, idc);
+    GetClientRect(element, &element_rect);
+    MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+    uilib_get_general_window_extents(element, &xsize, &ysize);
+    MoveWindow(element, xpos, element_rect.top, new_xsize, element_rect.bottom - element_rect.top, TRUE);
+}
+
 void uilib_adjust_element_width(HWND hwnd, int idc)
 {
 HWND element;
@@ -1137,7 +1195,7 @@ int ysize;
     GetClientRect(element, &element_rect);
     MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
     uilib_get_general_window_extents(element, &xsize, &ysize);
-    MoveWindow(element, element_rect.left, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+    MoveWindow(element, element_rect.left, element_rect.top, xsize + 20, element_rect.bottom - element_rect.top, TRUE);
 }
 
 void uilib_set_element_width(HWND hwnd, int idc, int xsize)
@@ -1149,6 +1207,33 @@ RECT element_rect;
     GetClientRect(element, &element_rect);
     MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
     MoveWindow(element, element_rect.left, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+}
+
+void uilib_get_element_width(HWND hwnd, int idc, int *width)
+{
+    HWND temp_hwnd;
+    RECT element_rect;
+    int xsize;
+    int ysize;
+
+    temp_hwnd = GetDlgItem(hwnd, idc);
+    GetClientRect(temp_hwnd, &element_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    *width = xsize;
+}
+
+void uilib_get_element_max_x(HWND hwnd, int idc, int *width)
+{
+    HWND temp_hwnd;
+    RECT element_rect;
+    int xsize;
+    int ysize;
+
+    temp_hwnd = GetDlgItem(hwnd, idc);
+    GetClientRect(temp_hwnd, &element_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
+    *width = element_rect.right;
 }
 
 void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param)

@@ -36,6 +36,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uidatasette.h"
+#include "uilib.h"
 #include "winmain.h"
 
 
@@ -49,6 +50,28 @@ static const int ui_datasette_zero_gap_delay[] = {
     100000
 };
 
+static uilib_localize_dialog_param datasette_dialog[] = {
+    {0, IDS_DATASETTE_CAPTION, -1},
+    {IDC_DATASETTE_RESET_WITH_CPU, IDS_DATASETTE_RESET_WITH_CPU, 0},
+    {IDC_DATASETTE_DELAY_TRIGGER, IDS_DATASETTE_DELAY_TRIGGER, 0},
+    {IDC_DATASETTE_DELAY_AT_ZERO, IDS_DATASETTE_DELAY_AT_ZERO, 0},
+    {IDC_DATASETTE_MOTOR_GROUP, IDS_DATASETTE_MOTOR_GROUP, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group datasette_main_group[] = {
+    {IDC_DATASETTE_RESET_WITH_CPU, 0},
+    {IDC_DATASETTE_MOTOR_GROUP, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group datasette_sub_group[] = {
+    {IDC_DATASETTE_DELAY_TRIGGER, 0},
+    {IDC_DATASETTE_DELAY_AT_ZERO, 0},
+    {0, 0}
+};
 
 static void init_datasette_dialog(HWND hwnd)
 {
@@ -57,68 +80,28 @@ static void init_datasette_dialog(HWND hwnd)
     int res_value;
     int res_value_loop;
     int active_value;
-    int min_width;
-    int min_group_width;
-    int xsize, ysize;
+    int xpos_max, xpos_min;
+    int group_max;
     RECT rect;
-    RECT child_rect;
 
-    SetWindowText(hwnd, translate_text(IDS_DATASETTE_CAPTION));
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_RESET_WITH_CPU);
-    SetWindowText(temp_hwnd, translate_text(IDS_DATASETTE_RESET_WITH_CPU));
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_DELAY_TRIGGER);
-    SetWindowText(temp_hwnd, translate_text(IDS_DATASETTE_DELAY_TRIGGER));
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_DELAY_AT_ZERO);
-    SetWindowText(temp_hwnd, translate_text(IDS_DATASETTE_DELAY_AT_ZERO));
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_MOTOR_GROUP);
-    SetWindowText(temp_hwnd, translate_text(IDS_DATASETTE_MOTOR_GROUP));
-    temp_hwnd = GetDlgItem(hwnd, IDOK);
-    SetWindowText(temp_hwnd, translate_text(IDS_OK));
-    temp_hwnd = GetDlgItem(hwnd, IDCANCEL);
-    SetWindowText(temp_hwnd, translate_text(IDS_CANCEL));
+    uilib_localize_dialog(hwnd, datasette_dialog);
 
-    GetClientRect(hwnd, &rect);
+    uilib_adjust_group_width(hwnd, datasette_sub_group);
+    uilib_adjust_element_width(hwnd, IDC_DATASETTE_RESET_WITH_CPU);
+    uilib_adjust_element_width(hwnd, IDC_DATASETTE_MOTOR_GROUP);
 
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_RESET_WITH_CPU);
-    GetClientRect(temp_hwnd, &child_rect);
-    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
-    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
-    xsize += 20;
-    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
-    min_width = child_rect.left + xsize + 10;
-
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_DELAY_TRIGGER);
-    GetClientRect(temp_hwnd, &child_rect);
-    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
-    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
-    xsize += 20;
-    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
-    min_group_width = child_rect.left + xsize + 10;
-
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_DELAY_AT_ZERO);
-    GetClientRect(temp_hwnd, &child_rect);
-    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
-    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
-    xsize += 20;
-    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
-    if (child_rect.left + xsize + 10 > min_group_width) {
-        min_group_width = child_rect.left + xsize + 10;
+    uilib_get_group_max_x(hwnd, datasette_sub_group, &xpos_max);
+    uilib_get_element_max_x(hwnd, IDC_DATASETTE_MOTOR_GROUP, &group_max);
+    if (group_max < xpos_max + 10) {
+        group_max = xpos_max + 10;
     }
 
-    temp_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_MOTOR_GROUP);
-    GetClientRect(temp_hwnd, &child_rect);
-    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
-    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
-    xsize += 20;
-    if (child_rect.left + xsize + 10 > min_group_width) {
-        min_group_width = child_rect.left + xsize + 10;
-    }
-    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, min_group_width, child_rect.bottom - child_rect.top, TRUE);
-    if (min_group_width + 20 > min_width) {
-        min_width = min_group_width + 20;
-    }
+    uilib_set_element_width(hwnd, IDC_DATASETTE_MOTOR_GROUP, group_max);
+
+    uilib_get_group_max_x(hwnd, datasette_main_group, &xpos_max);
+
     GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, min_width, rect.bottom - rect.top, TRUE);
+    MoveWindow(hwnd, rect.left, rect.top, xpos_max + 10, rect.bottom - rect.top, TRUE);
 
     resources_get_int("DatasetteResetWithCPU", &res_value);
     CheckDlgButton(hwnd, IDC_DATASETTE_RESET_WITH_CPU, res_value

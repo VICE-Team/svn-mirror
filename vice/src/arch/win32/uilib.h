@@ -100,11 +100,16 @@ typedef struct {
 } uilib_dialog_group;
 
 extern void uilib_get_group_extent(HWND hwnd, uilib_dialog_group *group, int *xsize, int *ysize);
+extern void uilib_get_group_max_x(HWND hwnd, uilib_dialog_group *group, int *xpos);
+extern void uilib_get_group_min_x(HWND hwnd, uilib_dialog_group *group, int *xpos);
 extern void uilib_move_and_adjust_group_width(HWND hwnd, uilib_dialog_group *group, int xpos);
 extern void uilib_move_group(HWND hwnd, uilib_dialog_group *group, int xpos);
 extern void uilib_adjust_group_width(HWND hwnd, uilib_dialog_group *group);
 extern void uilib_move_and_adjust_element_width(HWND hwnd, int idc, int xpos);
+extern void uilib_move_and_set_element_width(HWND hwnd, int idc, int xpos, int new_xsize);
 extern void uilib_adjust_element_width(HWND hwnd, int idc);
+extern void uilib_get_element_width(HWND hwnd, int idc, int *width);
+extern void uilib_get_element_max_x(HWND hwnd, int idc, int *width);
 extern void uilib_set_element_width(HWND hwnd, int idc, int xsize);
 
 typedef struct {
