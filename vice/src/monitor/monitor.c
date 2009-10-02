@@ -652,7 +652,13 @@ void mon_backtrace(void)
 cpuhistory_t cpuhistory[CPUHISTORY_SIZE];
 int cpuhistory_i;
 
-void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2)
+void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
+                              unsigned int p1, unsigned int p2,
+                              BYTE reg_a,
+                              BYTE reg_x,
+                              BYTE reg_y,
+                              BYTE reg_sp, 
+                              unsigned int reg_st)
 {
     ++cpuhistory_i;
     cpuhistory_i &= (CPUHISTORY_SIZE-1);
@@ -660,7 +666,14 @@ void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p
     cpuhistory[cpuhistory_i].op = op;
     cpuhistory[cpuhistory_i].p1 = p1;
     cpuhistory[cpuhistory_i].p2 = p2;
+    cpuhistory[cpuhistory_i].reg_a = reg_a;
+    cpuhistory[cpuhistory_i].reg_x = reg_x;
+    cpuhistory[cpuhistory_i].reg_y = reg_y;
+    cpuhistory[cpuhistory_i].reg_sp = reg_sp;
+    cpuhistory[cpuhistory_i].reg_st = reg_st;
 }
+
+/*#define TEST(x) ((x)!=0)*/
 
 void mon_cpuhistory(int count)
 {
@@ -672,6 +685,8 @@ void mon_cpuhistory(int count)
     const char *dis_inst;
     unsigned opc_size;
     int i, pos;
+    static const char padding[] = "                              ";
+    size_t padlen;              /* 0123456789012345678901234567890 */
 
     if ((count<1)||(count>CPUHISTORY_SIZE)) {
         count = CPUHISTORY_SIZE;
@@ -691,8 +706,24 @@ void mon_cpuhistory(int count)
         dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
                                                 &opc_size);
 
+
+        padlen = strlen(dis_inst);
+        if (padlen > 30) {
+            padlen = 30;
+        }
+
         /* Print the disassembled instruction */
-        mon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);
+        mon_out("%04x  %s%s :A$%02x X$%02x Y$%02x SP$%02x %c%c-%c%c%c%c%c\n", 
+            loc, dis_inst, &(padding[padlen]),
+            cpuhistory[pos].reg_a, cpuhistory[pos].reg_x, cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
+            ((cpuhistory[pos].reg_st & (1<<7))!=0)?'N':' ',
+            ((cpuhistory[pos].reg_st & (1<<6))!=0)?'V':' ',
+            ((cpuhistory[pos].reg_st & (1<<4))!=0)?'B':' ',
+            ((cpuhistory[pos].reg_st & (1<<3))!=0)?'D':' ',
+            ((cpuhistory[pos].reg_st & (1<<2))!=0)?'I':' ',
+            ((cpuhistory[pos].reg_st & (1<<1))!=0)?'Z':' ',
+            ((cpuhistory[pos].reg_st & (1<<0))!=0)?'C':' '
+		);
 
         pos = (pos+1) & (CPUHISTORY_SIZE-1);
     }

@@ -136,6 +136,11 @@ struct cpuhistory_s {
    BYTE op;
    BYTE p1;
    BYTE p2;
+   BYTE reg_a;
+   BYTE reg_x;
+   BYTE reg_y;
+   BYTE reg_sp;
+   WORD reg_st;
 };
 typedef struct cpuhistory_s cpuhistory_t;
 
