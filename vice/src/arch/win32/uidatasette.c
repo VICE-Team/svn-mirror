@@ -84,22 +84,38 @@ static void init_datasette_dialog(HWND hwnd)
     int group_max;
     RECT rect;
 
+    /* translate all dialog items */
     uilib_localize_dialog(hwnd, datasette_dialog);
 
+    /* adjust the size of the elements in the datasette_sub_group */
     uilib_adjust_group_width(hwnd, datasette_sub_group);
+
+    /* adjust the size of the  'reset with cpu' element */
     uilib_adjust_element_width(hwnd, IDC_DATASETTE_RESET_WITH_CPU);
+
+    /* adjust the size of the motor group element */
     uilib_adjust_element_width(hwnd, IDC_DATASETTE_MOTOR_GROUP);
 
+    /* get the max x of the datasette_sub_group */
     uilib_get_group_max_x(hwnd, datasette_sub_group, &xpos_max);
+
+    /* get the max x of the motor group element */
     uilib_get_element_max_x(hwnd, IDC_DATASETTE_MOTOR_GROUP, &group_max);
+
+    /* calculate the max x of the motor group element and the
+       datasette_sub_group elements */
     if (group_max < xpos_max + 10) {
         group_max = xpos_max + 10;
     }
 
+    /* set the width of the motor group element to 'surround' the
+       datasette_sub_group elements */
     uilib_set_element_width(hwnd, IDC_DATASETTE_MOTOR_GROUP, group_max);
 
+    /* get the max x of the datasette_main_group elements */
     uilib_get_group_max_x(hwnd, datasette_main_group, &xpos_max);
 
+    /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
     MoveWindow(hwnd, rect.left, rect.top, xpos_max + 10, rect.bottom - rect.top, TRUE);
 
