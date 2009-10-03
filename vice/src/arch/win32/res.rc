@@ -223,420 +223,46 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_DISKDEVICE_DIALOG DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Use IEC Device", IDC_TOGGLE_USEIECDEVICE,
+    AUTOCHECKBOX    "", IDC_TOGGLE_USEIECDEVICE,
                     15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Disk &image", IDC_SELECTDISK,
+    AUTORADIOBUTTON "", IDC_SELECTDISK,
                     15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Directory", IDC_SELECTDIR,
+    AUTORADIOBUTTON "", IDC_SELECTDIR,
                     15, 75, 44, 10, BS_AUTORADIOBUTTON
 #ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "Rea&l IEC device", IDC_SELECTREAL,
+    AUTORADIOBUTTON "", IDC_SELECTREAL,
                     15, 120, 70, 10, BS_AUTORADIOBUTTON
 #endif
-    AUTORADIOBUTTON "&None", IDC_SELECTNONE,
+    AUTORADIOBUTTON "", IDC_SELECTNONE,
                     15, 160, 33, 10, BS_AUTORADIOBUTTON
     COMBOBOX        IDC_DISKIMAGE,
                     81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Browse...", IDC_BROWSEDISK,
+    PUSHBUTTON      "", IDC_BROWSEDISK,
                     81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Autostart", IDC_AUTOSTART,
+    PUSHBUTTON      "", IDC_AUTOSTART,
                     141, 47, 50,  14, WS_GROUP
-    AUTOCHECKBOX    "Attach read only", IDC_TOGGLE_ATTACH_READONLY,
+    AUTOCHECKBOX    "", IDC_TOGGLE_ATTACH_READONLY,
                     201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_DIR,
                     81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Bro&wse...", IDC_BROWSEDIR,
+    PUSHBUTTON      "", IDC_BROWSEDIR,
                     81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Options", IDC_STATIC,
+    GROUPBOX        "", IDC_DISKDEVICE_OPTIONS,
                     175, 90, 95, 63
-    AUTOCHECKBOX    "&Read P00 files", IDC_TOGGLE_READP00,
+    AUTOCHECKBOX    "", IDC_TOGGLE_READP00,
                     185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Write P00 files", IDC_TOGGLE_WRITEP00,
+    AUTOCHECKBOX    "", IDC_TOGGLE_WRITEP00,
                     185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Hide non-P00 files", IDC_TOGGLE_HIDENONP00,
+    AUTOCHECKBOX    "", IDC_TOGGLE_HIDENONP00,
                     185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
-
-// DANISH version of dialog
-
-IDD_DISKDEVICE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Anvend IEC-enhed", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Disk&image", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Katalog", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "&Ægte IEC-enhed", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Ingen", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Gennemse...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "Start &Automatisk", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Tilslut skrivebeskyttet", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Gennemse...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Indstillinger", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "&Læs P00-filer", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Skriv P00-filer", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Gem ikke-P00-filer", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_DISKDEVICE_DIALOG_DE DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "IEC Gerät &aktivieren", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Disk &Image", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Directory", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "Rea&les IEC Gerät", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "Kei&n", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Stöbern...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Autostart", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Schreibgeschützt einlegen", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Stö&bern...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Optionen", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "P00 Datei &Laden", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "P00 Dateien &Schreiben", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Non-P00 Dateien &ausblenden", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_DISKDEVICE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Utiliser le périphérique IEC", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "&Image de disque", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Répertoire", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "Périphérique IEC Réel", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Aucun", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Parcourir...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Démarrage automatique", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Insérer en lecture seule", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Pa&rcourir...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Options", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "&Lire les fichier P00", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Écrire sur les fichier P00", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Cacher les fichiers non-P00",  IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_DISKDEVICE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&IEC eszköz &használata", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Lemez &képmás", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Kö&nyvtár", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "&Valódi IEC eszköz", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Nincs", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Tallózás...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Automatikus indítás", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Csatolás csak olvasható módon", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Tallózás...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Opciók", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "P00 fájlok &betöltése", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "P00 fájlok &mentése", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Nem P00 fájlok &elrejtése", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_DISKDEVICE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Usa la periferica IEC", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "&Immagine disco", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Directory", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "Periferica IEC rea&le", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Nessuno", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Sfoglia...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Avvio automatico", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Seleziona in sola lettura", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Sfoglia...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Opzioni", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "&Leggi file P00", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Scrivi file P00", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Nascondi i file non P00", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_DISKDEVICE_DIALOG_NL DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Gebruik IEC Apparaat", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Disk &bestand", IDC_SELECTDISK,
-                    15, 30, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Directory", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "echt IEC appa&raat", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "G&een", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Bladeren...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Autostart", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Alleen lezen", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Bla&deren...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Opties", IDC_STATIC,
-                    145, 90, 125, 63
-    AUTOCHECKBOX    "&Lees P00-bestanden", IDC_TOGGLE_READP00,
-                    155, 105, 92, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Schrijf P00-bestanden", IDC_TOGGLE_WRITEP00,
-                    155, 120, 91, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Verberg non-P00-bestanden", IDC_TOGGLE_HIDENONP00,
-                    155, 135, 103, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_DISKDEVICE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&U¿yj IEC urz¹dzenia", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "obraz dysk&ietki", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Katalog", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "Prawdzi&wy IEC urz¹dzenia", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Brak", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Przegl±daj...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "&Autostart", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Przegl±&daj...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Opcje", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "&Read P00 files", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Write P00 files", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Hide non-P00 files", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_DISKDEVICE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Använd IEC-enhet", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Disk&avbildning", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Katalog", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "&Äkta IEC-enhet", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Ingen", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Bläddra...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "Starta &automatiskt", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Anslut skrivskyddat", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Bläddra...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Alternativ", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "&Läs P00-filer", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Skriv P00-filer", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Göm icke-P00-filer", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_DISKDEVICE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 287, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "IEC Aygýtý K&ullan", IDC_TOGGLE_USEIECDEVICE,
-                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTORADIOBUTTON "Disk &imajý", IDC_SELECTDISK,
-                    15, 30, 51, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Dizin", IDC_SELECTDIR,
-                    15, 75, 44, 10, BS_AUTORADIOBUTTON
-#ifdef HAVE_OPENCBM
-    AUTORADIOBUTTON "Ge&rçek IEC aygýtý", IDC_SELECTREAL,
-                    15, 120, 70, 10, BS_AUTORADIOBUTTON
-#endif
-    AUTORADIOBUTTON "&Yok", IDC_SELECTNONE,
-                    15, 160, 33, 10, BS_AUTORADIOBUTTON
-    COMBOBOX        IDC_DISKIMAGE,
-                    81, 29, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Göz at...", IDC_BROWSEDISK,
-                    81, 47, 50, 14, WS_GROUP
-    PUSHBUTTON      "Otom&atik Baþlat", IDC_AUTOSTART,
-                    141, 47, 50, 14, WS_GROUP
-    AUTOCHECKBOX    "Salt okunur yerleþtir", IDC_TOGGLE_ATTACH_READONLY,
-                    201, 47, 80, 14, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX        IDC_DIR,
-                    81, 74, 190, 12, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "&Göz at...", IDC_BROWSEDIR,
-                    81, 92, 50, 14, WS_GROUP
-    GROUPBOX        "&Seçenekler", IDC_STATIC,
-                    175, 90, 95, 63
-    AUTOCHECKBOX    "P00 dosyala&rýný oku", IDC_TOGGLE_READP00,
-                    185, 105, 62, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "P00 dosyalarýný &yaz", IDC_TOGGLE_WRITEP00,
-                    185, 120, 61, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "P00 &harici dosyalarý gizle", IDC_TOGGLE_HIDENONP00,
-                    185, 135, 73, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -666,24 +292,23 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_JOY_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX      "Joystick in port #&1", IDC_STATIC,
+    GROUPBOX      "", IDC_JOYSTICK_IN_PORT_1,
                   7, 5, 102, 113
     COMBOBOX      IDC_JOY_DEV1,
                   12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
+    LTEXT         "", IDC_SELECT_FIRE_BUTTON_1,
                   12, 34, 70, 8
     COMBOBOX      IDC_JOY_FIRE1_BUTTON,
                   12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
+    LTEXT         "", IDC_AUTO_FIRE_BUTTON_SETTINGS_1,
                   12, 61, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
+    LTEXT         "", IDC_AUTOFIRE_SPEED_1,
                   12, 74, 70, 8
     EDITTEXT      IDC_JOY_FIRE1_SPEED,
                   87, 72, 18, 12, WS_TABSTOP | 0x2000L
@@ -691,17 +316,17 @@ BEGIN
                   12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
                   12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick in port #&2", IDC_STATIC,
+    GROUPBOX      "", IDC_JOYSTICK_IN_PORT_2,
                   117, 5, 102, 113
     COMBOBOX      IDC_JOY_DEV2,
                   122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
+    LTEXT         "", IDC_SELECT_FIRE_BUTTON_2,
                   122, 34, 70, 8
     COMBOBOX      IDC_JOY_FIRE2_BUTTON,
                   122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
+    LTEXT         "", IDC_AUTO_FIRE_BUTTON_SETTINGS_2,
                   122, 61, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
+    LTEXT         "", IDC_AUTOFIRE_SPEED_2,
                   122, 74, 70, 8
     EDITTEXT      IDC_JOY_FIRE2_SPEED,
                   197, 72, 18, 12, WS_TABSTOP | 0x2000L
@@ -709,527 +334,17 @@ BEGIN
                   122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
                   122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Config Keyset &A", IDC_JOY_CONFIG_A,
+    PUSHBUTTON    "", IDC_JOY_CONFIG_A,
                   8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Config Keyset &B", IDC_JOY_CONFIG_B,
+    PUSHBUTTON    "", IDC_JOY_CONFIG_B,
                   159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+    PUSHBUTTON    "", IDC_JOY_CALIBRATE,
                   78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
+    DEFPUSHBUTTON "", IDOK,
                   48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Cancel", IDCANCEL,
+    PUSHBUTTON    "", IDCANCEL,
                   129, 141, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_JOY_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystickindstillinger"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick i port &1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Vælg skydeknap", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofireindstillinger", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofire&hastighed (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick i port &2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Vælg skydeknap", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofireindstillinger", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofire&hastighed (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tastesæt &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tastesæt &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Kalibrér Joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annullér", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_JOY_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick in Port #&1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Feuerknopf auswählen", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Automatische Feuerknopf Einstellungen", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofeuer Ge&schwindigkeit (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick in Port #&2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Feuerknopf auswählen", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Automatische Feuerknopf Einstellungen", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofeuer Ge&schwindigkeit (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tastaturbelegung &A konfigurieren", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tastaturbelegung &B konfigurieren", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Joysticks &kalibrieren", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Abbruch", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_JOY_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres des joysticks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick dans le port #1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Sélectionner le bouton de feu", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Vitesse tir automatique (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick dans le port #2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Sélectionner le bouton de feu", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Vitesse tir automatique (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Configurer &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Configurer &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibration des joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuler", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_JOY_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Botkormány beállítása"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Botkormány az &1-es porton", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Válasszon tûz gombot", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Automatikus tûz beállításai", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Automatikus tûz &sebessége (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Botkormány a &2-es porton", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Válasszon tûz gombot", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Automatikus tûz beállításai", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Automatikus tûz &sebessége (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "'&A' gombkészlet beállítása", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "'&B' gombkészlet beállítása", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Botkormány(ok) &kalibrálása", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Mégsem", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni joystick"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick nella porta #&1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Seleziona pulsante di fuoco", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Impostazioni fuoco automatico", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "&Velocità autofire (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick nella porta #&2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Seleziona pulsante di fuoco", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Impostazioni fuoco automatico", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "&Velocità autofire (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Configura il keyset &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Configura il keyset &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibra Joystick", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annulla", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_JOY_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystickinstellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick in poort #&1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Selecteer vuur knop", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofire knop instellingen", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofire &snelheid (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick in poort #&2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Selecteer vuur knop", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofire knop instellingen", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofire &snelheid (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Configureer Keyset &A", IDC_JOY_CONFIG_A,
-                  1, 120, 74, 14, WS_TABSTOP
-    PUSHBUTTON    "Configureer Keyset &B", IDC_JOY_CONFIG_B,
-                  149, 120, 75, 14, WS_TABSTOP
-    PUSHBUTTON    "&Kalibreer Joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuleren", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_JOY_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia Joystick"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick w porcie #&1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick w porcie #&2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Config Keyset &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Config Keyset &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Anuluj", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_JOY_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Inställningar för styrspak"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Styrspak i spelport &1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Välj avtryckarknapp", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Inställningar för autofire", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "&Hastighet för autofire (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Styrspak i spelport &2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Välj avtryckarknapp", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Inställningar för autofire", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "&Hastighet för autofire (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tangentuppsättning &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tangentuppsättning &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Kalibrera styrspak(ar)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Avbryt", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_JOY_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Joystick Ayarlarý"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick port #&1'de", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Ateþ düðmesini seç", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Otomatik ateþ düðmesi ayarlarý", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Otomatik ateþ &hýzý (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick port #&2'de", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Ateþ düðmesini seç", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Otomatik ateþ düðmesi ayarlarý", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Otomatik ateþ &hýzý (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tuþ Seti &A'yý konfigüre et", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tuþ Seti &B'yý konfigüre et", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Joysti&ck(ler)i kalibre et", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "Tamam", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Ýptal", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -7056,6 +6171,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Speed of motor while reading"
   IDS_DATASETTE_DELAY_TRIGGER     "cycle(s) additional &delay each trigger"
   IDS_DATASETTE_DELAY_AT_ZERO     "cycles delay at &zero-values"
+  IDS_TOGGLE_USEIECDEVICE         "&Use IEC Device"
+  IDS_SELECTDISK                  "Disk &image"
+  IDS_SELECTDIR                   "&Directory"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "Rea&l IEC device"
+#endif
+  IDS_SELECTNONE                  "&None"
+  IDS_AUTOSTART                   "&Autostart"
+  IDS_BROWSEDIR                   "Bro&wse..."
+  IDS_TOGGLE_ATTACH_READONLY      "Attach read only"
+  IDS_TOGGLE_READP00              "&Read P00 files"
+  IDS_TOGGLE_WRITEP00             "&Write P00 files"
+  IDS_TOGGLE_HIDENONP00           "&Hide non-P00 files"
+  IDS_JOYSTICK_CAPTION            "Joystick settings"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick in port #&1"
+  IDS_SELECT_FIRE_BUTTON          "Select fire button"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Auto fire button settings"
+  IDS_AUTOFIRE_SPEED              "Autofire &speed (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick in port #&2"
+  IDS_JOY_CONFIG_A                "Config Keyset &A"
+  IDS_JOY_CONFIG_B                "Config Keyset &B"
+  IDS_JOY_CALIBRATE               "&Calibrate Joystick(s)"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Attach &disk image"
   IDS_MP_DETACH_DISK_IMAGE        "D&etach disk image"
@@ -7479,6 +6616,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Datasettehastighed under læsning"
   IDS_DATASETTE_DELAY_TRIGGER     "klok ekstra &forsinkelse per puls"
   IDS_DATASETTE_DELAY_AT_ZERO     "klok forsinkelse ved &nulværdier"
+  IDS_TOGGLE_USEIECDEVICE         "&Anvend IEC-enhed"
+  IDS_SELECTDISK                  "Disk&image"
+  IDS_SELECTDIR                   "&Katalog"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "&Ægte IEC-enhed"
+#endif
+  IDS_SELECTNONE                  "&Ingen"
+  IDS_AUTOSTART                   "Start &Automatisk"
+  IDS_BROWSEDIR                   "&Gennemse..."
+  IDS_TOGGLE_ATTACH_READONLY      "Tilslut skrivebeskyttet"
+  IDS_TOGGLE_READP00              "&Læs P00-filer"
+  IDS_TOGGLE_WRITEP00             "&Skriv P00-filer"
+  IDS_TOGGLE_HIDENONP00           "&Gem ikke-P00-filer"
+  IDS_JOYSTICK_CAPTION            "Joystickindstillinger"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick i port &1"
+  IDS_SELECT_FIRE_BUTTON          "Vælg skydeknap"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Autofireindstillinger"
+  IDS_AUTOFIRE_SPEED              "Autofire&hastighed (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick i port &2"
+  IDS_JOY_CONFIG_A                "Tastesæt &A"
+  IDS_JOY_CONFIG_B                "Tastesæt &B"
+  IDS_JOY_CALIBRATE               "&Kalibrér Joystick(s)"
   IDS_MP_FILE                     "&Fil"
   IDS_MP_ATTACH_DISK_IMAGE        "Tilslut &Disk-image"
   IDS_MP_DETACH_DISK_IMAGE        "&Frakobl disk-image"
@@ -7902,6 +7061,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Motorgeschwindigkeit beim Lesen"
   IDS_DATASETTE_DELAY_TRIGGER     "Zyklen zusätzliche Verzögerung bei je&dem Trigger"
   IDS_DATASETTE_DELAY_AT_ZERO     "Zyklen Verzögerung bei &Zero-Werte"
+  IDS_TOGGLE_USEIECDEVICE         "IEC Gerät &aktivieren"
+  IDS_SELECTDISK                  "Disk &Image"
+  IDS_SELECTDIR                   "&Directory"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "Rea&les IEC Gerät"
+#endif
+  IDS_SELECTNONE                  "Kei&n"
+  IDS_AUTOSTART                   "&Autostart"
+  IDS_BROWSEDIR                   "Stö&bern..."
+  IDS_TOGGLE_ATTACH_READONLY      "Schreibgeschützt einlegen"
+  IDS_TOGGLE_READP00              "P00 Datei &Laden"
+  IDS_TOGGLE_WRITEP00             "P00 Dateien &Schreiben"
+  IDS_TOGGLE_HIDENONP00           "Non-P00 Dateien &ausblenden"
+  IDS_JOYSTICK_CAPTION            "Joystick Einstellungen"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick in Port #&1"
+  IDS_SELECT_FIRE_BUTTON          "Feuerknopf auswählen"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Automatische Feuerknopf Einstellungen"
+  IDS_AUTOFIRE_SPEED              "Autofeuer Ge&schwindigkeit (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick in Port #&2"
+  IDS_JOY_CONFIG_A                "Tastaturbelegung &A konfigurieren"
+  IDS_JOY_CONFIG_B                "Tastaturbelegung &B konfigurieren"
+  IDS_JOY_CALIBRATE               "Joysticks &kalibrieren"
   IDS_MP_FILE                     "&Datei"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
   IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
@@ -8325,6 +7506,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Vitesse du moteur lors de la lecture"
   IDS_DATASETTE_DELAY_TRIGGER     "cycle(s) additionnel(s) &délai après trigger"
   IDS_DATASETTE_DELAY_AT_ZERO     "cycles délai aux valeurs-&zéro"
+  IDS_TOGGLE_USEIECDEVICE         "&Utiliser le périphérique IEC"
+  IDS_SELECTDISK                  "&Image de disque"
+  IDS_SELECTDIR                   "&Répertoire"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "Périphérique IEC Réel"
+#endif
+  IDS_SELECTNONE                  "&Aucun"
+  IDS_AUTOSTART                   "&Démarrage automatique"
+  IDS_BROWSEDIR                   "Pa&rcourir..."
+  IDS_TOGGLE_ATTACH_READONLY      "Insérer en lecture seule"
+  IDS_TOGGLE_READP00              "&Lire les fichier P00"
+  IDS_TOGGLE_WRITEP00             "&Écrire sur les fichier P00"
+  IDS_TOGGLE_HIDENONP00           "&Cacher les fichiers non-P00"
+  IDS_JOYSTICK_CAPTION            "Paramètres des joysticks"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick dans le port #1"
+  IDS_SELECT_FIRE_BUTTON          "Sélectionner le bouton de feu"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Auto fire button settings"
+  IDS_AUTOFIRE_SPEED              "Vitesse tir automatique (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick dans le port #2"
+  IDS_JOY_CONFIG_A                "Configurer &A"
+  IDS_JOY_CONFIG_B                "Configurer &B"
+  IDS_JOY_CALIBRATE               "&Calibration des joystick(s)"
   IDS_MP_FILE                     "&Fichier"
   IDS_MP_ATTACH_DISK_IMAGE        "Insérer une image de &disque"
   IDS_MP_DETACH_DISK_IMAGE        "&Retirer une image de disque"
@@ -8750,6 +7953,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Motor sebessége olvasás közben"
   IDS_DATASETTE_DELAY_TRIGGER     "ciklus többlet szünet minden jelzésnél"
   IDS_DATASETTE_DELAY_AT_ZERO     "ciklus szünet &nulla értékeknél"
+  IDS_TOGGLE_USEIECDEVICE         "&IEC eszköz &használata"
+  IDS_SELECTDISK                  "Lemez &képmás"
+  IDS_SELECTDIR                   "Kö&nyvtár"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "&Valódi IEC eszköz"
+#endif
+  IDS_SELECTNONE                  "&Nincs"
+  IDS_AUTOSTART                   "&Automatikus indítás"
+  IDS_BROWSEDIR                   "&Tallózás..."
+  IDS_TOGGLE_ATTACH_READONLY      "Csatolás csak olvasható módon"
+  IDS_TOGGLE_READP00              "P00 fájlok &betöltése"
+  IDS_TOGGLE_WRITEP00             "P00 fájlok &mentése"
+  IDS_TOGGLE_HIDENONP00           "Nem P00 fájlok &elrejtése"
+  IDS_JOYSTICK_CAPTION            "Botkormány beállítása"
+  IDS_JOYSTICK_IN_PORT_1          "Botkormány az &1-es porton"
+  IDS_SELECT_FIRE_BUTTON          "Válasszon tûz gombot"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Automatikus tûz beállításai"
+  IDS_AUTOFIRE_SPEED              "Automatikus tûz &sebessége (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Botkormány a &2-es porton"
+  IDS_JOY_CONFIG_A                "'&A' gombkészlet beállítása"
+  IDS_JOY_CONFIG_B                "'&B' gombkészlet beállítása"
+  IDS_JOY_CALIBRATE               "Botkormány(ok) &kalibrálása"
   IDS_MP_FILE                     "&Fájl"
   IDS_MP_ATTACH_DISK_IMAGE        "Lemezképmás csatolása"
   IDS_MP_DETACH_DISK_IMAGE        "Lemezképmás &leválasztása"
@@ -9174,6 +8399,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Velocità del motore durante la lettura"
   IDS_DATASETTE_DELAY_TRIGGER     "ciclo/i addizionali di ritardo per ogni trigger"
   IDS_DATASETTE_DELAY_AT_ZERO     "cicli di ritardo ai valori di &zero"
+  IDS_TOGGLE_USEIECDEVICE         "&Usa la periferica IEC"
+  IDS_SELECTDISK                  "&Immagine disco"
+  IDS_SELECTDIR                   "&Directory"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "Periferica IEC rea&le"
+#endif
+  IDS_SELECTNONE                  "&Nessuno"
+  IDS_AUTOSTART                   "&Avvio automatico"
+  IDS_BROWSEDIR                   "&Sfoglia..."
+  IDS_TOGGLE_ATTACH_READONLY      "Seleziona in sola lettura"
+  IDS_TOGGLE_READP00              "&Leggi file P00"
+  IDS_TOGGLE_WRITEP00             "&Scrivi file P00"
+  IDS_TOGGLE_HIDENONP00           "&Nascondi i file non P00"
+  IDS_JOYSTICK_CAPTION            "Impostazioni joystick"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick nella porta #&1"
+  IDS_SELECT_FIRE_BUTTON          "Seleziona pulsante di fuoco"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Impostazioni fuoco automatico"
+  IDS_AUTOFIRE_SPEED              "&Velocità autofire (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick nella porta #&2"
+  IDS_JOY_CONFIG_A                "Configura il keyset &A"
+  IDS_JOY_CONFIG_B                "Configura il keyset &B"
+  IDS_JOY_CALIBRATE               "&Calibra Joystick"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Seleziona l'immagine di un &disco"
   IDS_MP_DETACH_DISK_IMAGE        "&Rimuovi l'immagine di un disco"
@@ -9592,12 +8839,33 @@ BEGIN
   IDS_SPECIFY_MIDI_IN             "kies MIDI-In apparaat"
   IDS_SPECIFY_MIDI_OUT            "Kies MIDI-uit apparaat"
   IDS_ERROR_SAVING_EASYFLASH_CRT  "Kan het EasyFlash crt bestand niet opslaan"
-
   IDS_DATASETTE_CAPTION           "Datasetteinstellingen"
   IDS_DATASETTE_RESET_WITH_CPU    "&Reset Datasette met CPU"
   IDS_DATASETTE_MOTOR_GROUP       "Snelheid van de motor tijdens lezen"
   IDS_DATASETTE_DELAY_TRIGGER     "Snelheidsinstellingen"
   IDS_DATASETTE_DELAY_AT_ZERO     "&nul-waarden cycli vertraging"
+  IDS_TOGGLE_USEIECDEVICE         "&Gebruik IEC Apparaat"
+  IDS_SELECTDISK                  "Disk &bestand"
+  IDS_SELECTDIR                   "&Directory"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "echt IEC appa&raat"
+#endif
+  IDS_SELECTNONE                  "G&een"
+  IDS_AUTOSTART                   "&Autostart"
+  IDS_BROWSEDIR                   "Bla&deren..."
+  IDS_TOGGLE_ATTACH_READONLY      "Alleen lezen"
+  IDS_TOGGLE_READP00              "&Lees P00-bestanden"
+  IDS_TOGGLE_WRITEP00             "&Schrijf P00-bestanden"
+  IDS_TOGGLE_HIDENONP00           "&Verberg non-P00-bestanden"
+  IDS_JOYSTICK_CAPTION            "Joystickinstellingen"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick in poort #&1"
+  IDS_SELECT_FIRE_BUTTON          "Selecteer vuur knop"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Autofire knop instellingen"
+  IDS_AUTOFIRE_SPEED              "Autofire &snelheid (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick in poort #&2"
+  IDS_JOY_CONFIG_A                "Configureer Keyset &A"
+  IDS_JOY_CONFIG_B                "Configureer Keyset &B"
+  IDS_JOY_CALIBRATE               "&Kalibreer Joystick(s)"
   IDS_MP_FILE                     "&Bestand"
   IDS_MP_ATTACH_DISK_IMAGE        "Koppel &schijfbestand aan"
   IDS_MP_DETACH_DISK_IMAGE        "Ontkopp&el schijfbestand"
@@ -10022,6 +9290,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Speed of motor while reading"
   IDS_DATASETTE_DELAY_TRIGGER     "Regulacja prê&dko¶ci Datasette"
   IDS_DATASETTE_DELAY_AT_ZERO     "cycles delay at &zero-values"
+  IDS_TOGGLE_USEIECDEVICE         "&U¿yj IEC urz¹dzenia"
+  IDS_SELECTDISK                  "obraz dysk&ietki"
+  IDS_SELECTDIR                   "&Katalog"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "Prawdzi&wy IEC urz¹dzenia"
+#endif
+  IDS_SELECTNONE                  "&Brak"
+  IDS_AUTOSTART                   "&Autostart"
+  IDS_BROWSEDIR                   "Przegl±&daj..."
+  IDS_TOGGLE_ATTACH_READONLY      "W³ó¿ zabezpieczone przed zapisem"
+  IDS_TOGGLE_READP00              "&Read P00 files"
+  IDS_TOGGLE_WRITEP00             "&Write P00 files"
+  IDS_TOGGLE_HIDENONP00           "&Hide non-P00 files"
+  IDS_JOYSTICK_CAPTION            "Ustawienia Joystick"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick w porcie #&1"
+  IDS_SELECT_FIRE_BUTTON          "Select fire button"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Auto fire button settings"
+  IDS_AUTOFIRE_SPEED              "Autofire &speed (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick w porcie #&2"
+  IDS_JOY_CONFIG_A                "Config Keyset &A"
+  IDS_JOY_CONFIG_B                "Config Keyset &B"
+  IDS_JOY_CALIBRATE               "&Calibrate Joystick(s)"
   IDS_MP_FILE                     "&Plik"
   IDS_MP_ATTACH_DISK_IMAGE        "W³ó¿ obraz &dyskietki"
   IDS_MP_DETACH_DISK_IMAGE        "Wyjmij obraz dyski&etki"
@@ -10446,6 +9736,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Motorhastighet vid läsning"
   IDS_DATASETTE_DELAY_TRIGGER     "cykler ytterligare &fördröjning per puls"
   IDS_DATASETTE_DELAY_AT_ZERO     "cykler fördröjning vid &nollvärden"
+  IDS_TOGGLE_USEIECDEVICE         "&Använd IEC-enhet"
+  IDS_SELECTDISK                  "Disk&avbildning"
+  IDS_SELECTDIR                   "&Katalog"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "&Äkta IEC-enhet"
+#endif
+  IDS_SELECTNONE                  "&Ingen"
+  IDS_AUTOSTART                   "Starta &automatiskt"
+  IDS_BROWSEDIR                   "&Bläddra..."
+  IDS_TOGGLE_ATTACH_READONLY      "Anslut skrivskyddat"
+  IDS_TOGGLE_READP00              "&Läs P00-filer"
+  IDS_TOGGLE_WRITEP00             "&Skriv P00-filer"
+  IDS_TOGGLE_HIDENONP00           "&Göm icke-P00-filer"
+  IDS_JOYSTICK_CAPTION            "Inställningar för styrspak"
+  IDS_JOYSTICK_IN_PORT_1          "Styrspak i spelport &1"
+  IDS_SELECT_FIRE_BUTTON          "Välj avtryckarknapp"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Inställningar för autofire"
+  IDS_AUTOFIRE_SPEED              "&Hastighet för autofire (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Styrspak i spelport &2"
+  IDS_JOY_CONFIG_A                "Tangentuppsättning &A"
+  IDS_JOY_CONFIG_B                "Tangentuppsättning &B"
+  IDS_JOY_CALIBRATE               "&Kalibrera styrspak(ar)"
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
@@ -10870,6 +10182,28 @@ BEGIN
   IDS_DATASETTE_MOTOR_GROUP       "Motorun okurkenki hýzý"
   IDS_DATASETTE_DELAY_TRIGGER     "cycle(lar) her tetikleme&de eklenen gecikme"
   IDS_DATASETTE_DELAY_AT_ZERO     "cyclelar sýfýr &gecikme deðerinde"
+  IDS_TOGGLE_USEIECDEVICE         "IEC Aygýtý K&ullan"
+  IDS_SELECTDISK                  "Disk &imajý"
+  IDS_SELECTDIR                   "&Dizin"
+#ifdef HAVE_OPENCBM
+  IDS_SELECTREAL                  "Ge&rçek IEC aygýtý"
+#endif
+  IDS_SELECTNONE                  "&Yok"
+  IDS_AUTOSTART                   "Otom&atik Baþlat"
+  IDS_BROWSEDIR                   "&Göz at..."
+  IDS_TOGGLE_ATTACH_READONLY      "Salt okunur yerleþtir"
+  IDS_TOGGLE_READP00              "P00 dosyala&rýný oku"
+  IDS_TOGGLE_WRITEP00             "P00 dosyalarýný &yaz"
+  IDS_TOGGLE_HIDENONP00           "P00 &harici dosyalarý gizle"
+  IDS_JOYSTICK_CAPTION            "Joystick Ayarlarý"
+  IDS_JOYSTICK_IN_PORT_1          "Joystick port #&1'de"
+  IDS_SELECT_FIRE_BUTTON          "Ateþ düðmesini seç"
+  IDS_AUTO_FIRE_BUTTON_SETTINGS   "Otomatik ateþ düðmesi ayarlarý"
+  IDS_AUTOFIRE_SPEED              "Otomatik ateþ &hýzý (1..32)"
+  IDS_JOYSTICK_IN_PORT_2          "Joystick port #&2'de"
+  IDS_JOY_CONFIG_A                "Tuþ Seti &A'yý konfigüre et"
+  IDS_JOY_CONFIG_B                "Tuþ Seti &B'yý konfigüre et"
+  IDS_JOY_CALIBRATE               "Joysti&ck(ler)i kalibre et"
   IDS_MP_FILE                     "&Dosya"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk imajý yerleþtir"
   IDS_MP_DETACH_DISK_IMAGE        "Disk imajý çýkar&t"

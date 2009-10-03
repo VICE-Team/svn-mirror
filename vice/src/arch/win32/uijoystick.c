@@ -35,6 +35,7 @@
 #include "res.h"
 #include "resources.h"
 #include "translate.h"
+#include "uilib.h"
 #include "winjoy.h"
 #include "winkbd.h"
 #include "winlong.h"
@@ -271,11 +272,186 @@ static INT_PTR CALLBACK keyset_dialog(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
+static uilib_localize_dialog_param joystick_dialog[] = {
+    {0, IDS_JOYSTICK_CAPTION, -1},
+    {IDC_JOYSTICK_IN_PORT_1, IDS_JOYSTICK_IN_PORT_1, 0},
+    {IDC_SELECT_FIRE_BUTTON_1, IDS_SELECT_FIRE_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_1, IDS_AUTO_FIRE_BUTTON_SETTINGS, 0},
+    {IDC_AUTOFIRE_SPEED_1, IDS_AUTOFIRE_SPEED, 0},
+    {IDC_JOYSTICK_IN_PORT_2, IDS_JOYSTICK_IN_PORT_2, 0},
+    {IDC_SELECT_FIRE_BUTTON_2, IDS_SELECT_FIRE_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_2, IDS_AUTO_FIRE_BUTTON_SETTINGS, 0},
+    {IDC_AUTOFIRE_SPEED_2, IDS_AUTOFIRE_SPEED, 0},
+    {IDC_JOY_CONFIG_A, IDS_JOY_CONFIG_A, 0},
+    {IDC_JOY_CONFIG_B, IDS_JOY_CONFIG_B, 0},
+    {IDC_JOY_CALIBRATE, IDS_JOY_CALIBRATE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group joystick_left_group[] = {
+    {IDC_JOYSTICK_IN_PORT_1, 0},
+    {IDC_SELECT_FIRE_BUTTON_1, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_1, 0},
+    {IDC_AUTOFIRE_SPEED_1, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group joystick_left_size_group[] = {
+    {IDC_JOYSTICK_IN_PORT_1, 0},
+    {IDC_JOY_DEV1, 0},
+    {IDC_SELECT_FIRE_BUTTON_1, 0},
+    {IDC_JOY_FIRE1_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_1, 0},
+    {IDC_JOY_FIRE1_SPEED, 0},
+    {IDC_JOY_FIRE1_AXIS, 0},
+    {IDC_JOY_AUTOFIRE1_BUTTON, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group joystick_right_move_group[] = {
+    {IDC_JOY_DEV2, 0},
+    {IDC_SELECT_FIRE_BUTTON_2, 0},
+    {IDC_JOY_FIRE2_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_2, 0},
+    {IDC_AUTOFIRE_SPEED_2, 0},
+    {IDC_JOY_FIRE2_AXIS, 0},
+    {IDC_JOY_AUTOFIRE2_BUTTON, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group joystick_right_group[] = {
+    {IDC_JOYSTICK_IN_PORT_2, 0},
+    {IDC_SELECT_FIRE_BUTTON_2, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_2, 0},
+    {IDC_AUTOFIRE_SPEED_2, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group joystick_right_size_group[] = {
+    {IDC_JOYSTICK_IN_PORT_2, 0},
+    {IDC_JOY_DEV2, 0},
+    {IDC_SELECT_FIRE_BUTTON_2, 0},
+    {IDC_JOY_FIRE2_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_2, 0},
+    {IDC_JOY_FIRE2_SPEED, 0},
+    {IDC_JOY_FIRE2_AXIS, 0},
+    {IDC_JOY_AUTOFIRE2_BUTTON, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group joystick_button_group[] = {
+    {IDC_JOY_CONFIG_A, 1},
+    {IDC_JOY_CONFIG_B, 1},
+    {IDC_JOY_CALIBRATE, 1},
+    {0, 0}
+};
+
 static void init_joystick_dialog(HWND hwnd)
 {
     HWND joy_hwnd;
     int res_value;
     int device;
+    int xpos;
+    int xstart;
+    int xpos1, xpos2, xpos3;
+    int distance1, distance2;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, joystick_dialog);
+
+    /* adjust the size of the left group elements */
+    uilib_adjust_group_width(hwnd, joystick_left_group);
+
+    /* get the max x of the autofire speed 1 settings element */
+    uilib_get_element_max_x(hwnd, IDC_AUTOFIRE_SPEED_1, &xpos);
+
+    /* move the fire 1 speed item to the correct position */
+    uilib_move_element(hwnd, IDC_JOY_FIRE1_SPEED, xpos + 10);
+
+    /* get the max x of the left size group elements */
+    uilib_get_group_max_x(hwnd, joystick_left_size_group, &xpos);
+
+    /* get the min x of the joystick in port 1 element */
+    uilib_get_element_min_x(hwnd, IDC_JOYSTICK_IN_PORT_1, &xstart);
+
+    /* set the size of the joystick in port 1 element */
+    uilib_set_element_width(hwnd, IDC_JOYSTICK_IN_PORT_1, xpos - xstart + 10);
+
+    /* set the position of the joystick in port 2 element */
+    uilib_move_element(hwnd, IDC_JOYSTICK_IN_PORT_2, xpos + 10 + 15);
+
+    /* set the position of the right group move elements */
+    uilib_move_group(hwnd, joystick_right_move_group, xpos + 10 + 20);
+
+    /* adjust the size of the right group elements */
+    uilib_adjust_group_width(hwnd, joystick_right_group);
+
+    /* get the max x of the autofire speed 2 settings element */
+    uilib_get_element_max_x(hwnd, IDC_AUTOFIRE_SPEED_2, &xpos);
+
+    /* move the fire 2 speed item to the correct position */
+    uilib_move_element(hwnd, IDC_JOY_FIRE2_SPEED, xpos + 10);
+
+    /* get the max x of the right size group elements */
+    uilib_get_group_max_x(hwnd, joystick_right_size_group, &xpos);
+
+    /* get the min x of the joystick in port 2 element */
+    uilib_get_element_min_x(hwnd, IDC_JOYSTICK_IN_PORT_2, &xstart);
+
+    /* set the size of the joystick in port 2 element */
+    uilib_set_element_width(hwnd, IDC_JOYSTICK_IN_PORT_2, xpos - xstart + 10);
+
+    /* get the max x of the config keyset a button */
+    uilib_get_element_max_x(hwnd, IDC_JOY_CONFIG_A, &xpos1);
+
+    /* get the min x of the joy calibrate button */
+    uilib_get_element_min_x(hwnd, IDC_JOY_CALIBRATE, &xpos2);
+
+    /* get the min x of the config keyset b button */
+    uilib_get_element_min_x(hwnd, IDC_JOY_CONFIG_B, &xpos3);
+
+    /* calculate distance between config keyset a button and joy calibrate button */
+    distance1 = xpos2 - xpos1;
+
+    /* get the max x of the joy calibrate button */
+    uilib_get_element_min_x(hwnd, IDC_JOY_CALIBRATE, &xpos2);
+
+    /* calculate distance between config keyset b button and joy calibrate button */
+    distance2 = xpos3 - xpos2;
+
+    /* adjust the size of the button group */
+    uilib_adjust_group_width(hwnd, joystick_button_group);
+
+    /* get the max x of the config keyset a button */
+    uilib_get_element_max_x(hwnd, IDC_JOY_CONFIG_A, &xpos);
+    
+    /* move the joy calibrate button to the correct location */
+    uilib_move_element(hwnd, IDC_JOY_CALIBRATE, xpos + distance1);
+
+    /* get the max x of the joy calibrate botton */
+    uilib_get_element_max_x(hwnd, IDC_JOY_CALIBRATE, &xpos);
+    
+    /* move the config keyset b button to the correct location */
+    uilib_move_element(hwnd, IDC_JOY_CONFIG_B, xpos + distance1);
+
+    /* get the max x of the joystick in port 2 element */
+    uilib_get_element_max_x(hwnd, IDC_JOYSTICK_IN_PORT_2, &xpos1);
+
+    /* get the max_x of the config keyset b button */
+    uilib_get_element_max_x(hwnd, IDC_JOY_CONFIG_B, &xpos2);
+
+    if (xpos2 > xpos1) {
+        xpos = xpos2;
+    } else {
+        xpos = xpos1;
+    }
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
@@ -1036,7 +1212,7 @@ static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_joystick_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_JOY_SETTINGS_DIALOG),
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_JOY_SETTINGS_DIALOG,
               hwnd,dialog_proc);
 }
 

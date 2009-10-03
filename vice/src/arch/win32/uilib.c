@@ -1084,6 +1084,28 @@ void uilib_get_group_max_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
     }
 }
 
+void uilib_get_group_width(HWND hwnd, uilib_dialog_group *group, int *width)
+{
+    HWND element;
+    int x;
+    int y;
+    RECT element_rect;
+
+    if (width) {
+        *width = 0;
+        while (group->idc) {
+            element = GetDlgItem(hwnd, group->idc);
+            GetClientRect(element, &element_rect);
+            MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+
+            if (*width < element_rect.right - element_rect.left) {
+                *width = element_rect.right - element_rect.left;
+            }
+            group++;
+        }
+    }
+}
+
 void uilib_get_group_min_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
 {
     HWND element;
@@ -1184,6 +1206,17 @@ void uilib_move_and_set_element_width(HWND hwnd, int idc, int xpos, int new_xsiz
     MoveWindow(element, xpos, element_rect.top, new_xsize, element_rect.bottom - element_rect.top, TRUE);
 }
 
+void uilib_move_element(HWND hwnd, int idc, int xpos)
+{
+    HWND element;
+    RECT element_rect;
+
+    element = GetDlgItem(hwnd, idc);
+    GetClientRect(element, &element_rect);
+    MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+    MoveWindow(element, xpos, element_rect.top, element_rect.right - element_rect.left, element_rect.bottom - element_rect.top, TRUE);
+}
+
 void uilib_adjust_element_width(HWND hwnd, int idc)
 {
 HWND element;
@@ -1227,13 +1260,22 @@ void uilib_get_element_max_x(HWND hwnd, int idc, int *width)
 {
     HWND temp_hwnd;
     RECT element_rect;
-    int xsize;
-    int ysize;
 
     temp_hwnd = GetDlgItem(hwnd, idc);
     GetClientRect(temp_hwnd, &element_rect);
     MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
     *width = element_rect.right;
+}
+
+void uilib_get_element_min_x(HWND hwnd, int idc, int *width)
+{
+    HWND temp_hwnd;
+    RECT element_rect;
+
+    temp_hwnd = GetDlgItem(hwnd, idc);
+    GetClientRect(temp_hwnd, &element_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
+    *width = element_rect.left;
 }
 
 void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param)

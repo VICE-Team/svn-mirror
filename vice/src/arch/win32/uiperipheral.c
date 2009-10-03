@@ -119,13 +119,167 @@ static void enable_controls(HWND hwnd)
     }
 }
 
+static uilib_localize_dialog_param diskdevice_dialog[] = {
+    {IDC_TOGGLE_USEIECDEVICE, IDS_TOGGLE_USEIECDEVICE, 0},
+    {IDC_SELECTDISK, IDS_SELECTDISK, 0},
+    {IDC_SELECTDIR, IDS_SELECTDIR, 0},
+#ifdef HAVE_OPENCBM
+    {IDC_SELECTREAL, IDS_SELECTREAL, 0},
+#endif
+    {IDC_SELECTNONE, IDS_SELECTNONE, 0},
+    {IDC_BROWSEDISK, IDS_BROWSE, 0},
+    {IDC_AUTOSTART, IDS_AUTOSTART, 0},
+    {IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0},
+    {IDC_BROWSEDIR, IDS_BROWSEDIR, 0},
+    {IDC_DISKDEVICE_OPTIONS, IDS_MP_OPTIONS, 0},
+    {IDC_TOGGLE_READP00, IDS_TOGGLE_READP00, 0},
+    {IDC_TOGGLE_WRITEP00, IDS_TOGGLE_WRITEP00, 0},
+    {IDC_TOGGLE_HIDENONP00, IDS_TOGGLE_HIDENONP00, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group diskdevice_left_group[] = {
+    {IDC_SELECTDISK, 1},
+    {IDC_SELECTDIR, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group diskdevice_middle_group[] = {
+    {IDC_DISKIMAGE, 0},
+    {IDC_BROWSEDISK, 0},
+    {IDC_DIR, 0},
+    {IDC_BROWSEDIR, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group diskdevice_right_group[] = {
+    {IDC_TOGGLE_READP00, 1},
+    {IDC_TOGGLE_WRITEP00, 1},
+    {IDC_TOGGLE_HIDENONP00, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group diskdevice_filling_group[] = {
+    {IDC_TOGGLE_USEIECDEVICE, 0},
+    {IDC_DISKIMAGE, 0},
+    {IDC_DIR, 0},
+    {IDC_DISKDEVICE_OPTIONS, 0},
+    {IDC_SELECTNONE, 0},
+    {0, 0}
+};
+
 static void init_dialog(HWND hwnd, unsigned int num)
 {
     const char *disk_image, *dir;
     TCHAR *st_disk_image, *st_dir;
     int devtype, n;
+    int xpos, xpos1, xpos2, xpos3;
+    int distance1, distance2;
+    RECT rect;
 
     if (num >= 8 && num <= 11) {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, diskdevice_dialog);
+
+        /* adjust the size of the elements in the diskdevice_left_group */
+        uilib_adjust_group_width(hwnd, diskdevice_left_group);
+
+        /* get the min x of the read only element */
+        uilib_get_element_min_x(hwnd, IDC_TOGGLE_ATTACH_READONLY, &xpos3);
+
+        /* get the min x of the autostart element */
+        uilib_get_element_min_x(hwnd, IDC_AUTOSTART, &xpos2);
+
+        /* get the max x of the first browse element */
+        uilib_get_element_max_x(hwnd, IDC_BROWSEDISK, &xpos1);
+
+        /* calculate the distance between the browse button and the autostart button */
+        distance1 = xpos2 - xpos1;
+
+        /* get the max x of the autostart element */
+        uilib_get_element_max_x(hwnd, IDC_AUTOSTART, &xpos2);
+
+        /* calculate the distance between the browse button and the read only element */
+        distance2 = xpos3 - xpos2;
+
+        /* get the max x of the disk_device_left_group items */
+        uilib_get_group_max_x(hwnd, diskdevice_left_group, &xpos);
+
+        /* move the filename elements and browse buttons to the right position */
+        uilib_move_group(hwnd, diskdevice_middle_group, xpos + 10);
+        
+        /* get the max x of the first browse element */
+        uilib_get_element_max_x(hwnd, IDC_BROWSEDISK, &xpos);
+
+        /* move the autostart element to the right position */
+        uilib_move_element(hwnd, IDC_AUTOSTART, xpos + distance1);
+
+        /* get the max x of the autostart element */
+        uilib_get_element_max_x(hwnd, IDC_AUTOSTART, &xpos);
+
+        /* move the read only element to the right position */
+        uilib_move_element(hwnd, IDC_TOGGLE_ATTACH_READONLY, xpos + distance2);
+
+#ifdef HAVE_OPENCBM
+        /* adjust the size of the real iec element */
+        uilib_adjust_element_width(hwnd, IDC_SELECTREAL);
+
+        /* get the max x of the real iec element */
+        uilib_get_element_max_x(hwnd, IDC_SELECTREAL, &xpos1);
+#else
+        xpos1 = 0;
+#endif
+
+        /* get the max x of the second browse button */
+        uilib_get_element_max_x(hwnd, IDC_BROWSEDIR, &xpos2);
+
+        if (xpos2 > xpos1) {
+            xpos = xpos2 + 20;
+        } else {
+            xpos = xpos1 + 20;
+        }
+
+        /* move the diskdevice_right_group to the right position */
+        uilib_move_group(hwnd, diskdevice_right_group, xpos);
+        
+        /* move the p00 group element to the right position */
+        uilib_move_element(hwnd, IDC_DISKDEVICE_OPTIONS, xpos - 5);
+
+        /* adjust the diskdevice_right_group elements size */
+        uilib_adjust_group_width(hwnd, diskdevice_right_group);
+
+        /* adjust the p00 group element size */
+        uilib_adjust_element_width(hwnd, IDC_DISKDEVICE_OPTIONS);
+        
+        /* get the width of the disk_device_right_group items */
+        uilib_get_group_width(hwnd, diskdevice_right_group, &xpos1);
+
+        /* get the width of the p00 group element */
+        uilib_get_element_width(hwnd, IDC_DISKDEVICE_OPTIONS, &xpos2);
+
+        if (xpos2 + 5 > xpos1) {
+            xpos = xpos2 + 15;
+        } else {
+            xpos = xpos1 + 10;
+        }
+
+        /* set the width of the p00 group element */
+        uilib_set_element_width(hwnd, IDC_DISKDEVICE_OPTIONS, xpos);
+
+        /* adjust the none element size */
+        uilib_adjust_element_width(hwnd, IDC_SELECTNONE);
+
+        /* adjust the size of the use iec device element */
+        uilib_adjust_element_width(hwnd, IDC_TOGGLE_USEIECDEVICE);
+
+        /* get the max x of the window filling elements */
+        uilib_get_group_max_x(hwnd, diskdevice_filling_group, &xpos);
+
+        /* set the width of the dialog to 'surround' all the elements */
+        GetWindowRect(hwnd, &rect);
+        MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+
         disk_image = file_system_get_disk_name(num);
         st_disk_image = system_mbstowcs_alloc(disk_image);
         SetDlgItemText(hwnd, IDC_DISKIMAGE,
@@ -713,11 +867,11 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[no_of_printers + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
         psp[no_of_printers + i].pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_DISKDEVICE_DIALOG));
+            = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[no_of_printers + i].pszIcon = NULL;
 #else
         psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_DISKDEVICE_DIALOG));
+            = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[no_of_printers + i].u2.pszIcon = NULL;
 #endif
         psp[no_of_printers + i].lParam = 0;

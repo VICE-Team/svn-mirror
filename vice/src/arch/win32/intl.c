@@ -749,30 +749,6 @@ static int intl_table[][countof(language_table)] = {
 /* tr */   IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_TR },  /* fuzzy, size */
 
 /* res.rc */
-/* en */ { IDD_DISKDEVICE_DIALOG,
-/* da */   IDD_DISKDEVICE_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_DISKDEVICE_DIALOG_DE,    /* size */
-/* fr */   IDD_DISKDEVICE_DIALOG_FR,    /* size */
-/* hu */   IDD_DISKDEVICE_DIALOG_HU,    /* size */
-/* it */   IDD_DISKDEVICE_DIALOG_IT,    /* size */
-/* nl */   IDD_DISKDEVICE_DIALOG_NL,
-/* pl */   IDD_DISKDEVICE_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_DISKDEVICE_DIALOG_SV,    /* size */
-/* tr */   IDD_DISKDEVICE_DIALOG_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_JOY_SETTINGS_DIALOG,
-/* da */   IDD_JOY_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_JOY_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_JOY_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_JOY_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_JOY_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_JOY_SETTINGS_DIALOG_NL,
-/* pl */   IDD_JOY_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_JOY_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_JOY_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* res.rc */
 /* en */ { IDD_EXTRA_JOY_SETTINGS_DIALOG,
 /* da */   IDD_EXTRA_JOY_SETTINGS_DIALOG_DA,    /* fuzzy, size */
 /* de */   IDD_EXTRA_JOY_SETTINGS_DIALOG_DE,    /* size */
