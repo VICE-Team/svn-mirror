@@ -586,6 +586,10 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       (ui_callback_data_t)joystick_extra_joy_type_no_hit_menu },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
+    { "Joystick 1 mapping",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)define_joy1_menu },
     { "Extra joystick 1 mapping",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
