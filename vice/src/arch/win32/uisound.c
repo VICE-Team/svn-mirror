@@ -70,12 +70,93 @@ static int ui_sound_adjusting[] = {
     SOUND_ADJUST_EXACT
 };
 
+static uilib_localize_dialog_param sound_dialog[] = {
+    {0, IDS_SOUND_CAPTION, -1},
+    {IDC_SOUND_DIRECTX, IDS_SOUND_DIRECTX, 0},
+    {IDC_SOUND_WMM, IDS_SOUND_WMM, 0},
+    {IDC_SOUND_SAMPLE_FREQUENCY, IDS_SOUND_SAMPLE_FREQUENCY, 0},
+    {IDC_SOUND_BUFFER_SIZE, IDS_SOUND_BUFFER_SIZE, 0},
+    {IDC_SOUND_SYNCH_METHOD, IDS_SOUND_SYNCH_METHOD, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group sound_driver_group[] = {
+    {IDC_SOUND_DIRECTX, 1},
+    {IDC_SOUND_WMM, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group sound_left_group[] = {
+    {IDC_SOUND_SAMPLE_FREQUENCY, 0},
+    {IDC_SOUND_BUFFER_SIZE, 0},
+    {IDC_SOUND_SYNCH_METHOD, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sound_right_group[] = {
+    {IDC_SOUND_FREQ, 0},
+    {IDC_SOUND_BUFFER, 0},
+    {IDC_SOUND_SYNCH, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sound_filling_group[] = {
+    {IDC_SOUND_WMM, 0},
+    {IDC_SOUND_FREQ, 0},
+    {IDC_SOUND_BUFFER, 0},
+    {IDC_SOUND_SYNCH, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_sound_dialog(HWND hwnd)
 {
     HWND snd_hwnd;
     int i, res_value;
     const char *devicename;
     char tmp[20];
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, sound_dialog);
+
+    /* adjust the size of the elements in the driver group */
+    uilib_adjust_group_width(hwnd, sound_driver_group);
+
+    /* get the max x of the direct x driver element */
+    uilib_get_element_max_x(hwnd, IDC_SOUND_DIRECTX, &xpos);
+
+    /* move the wmm driver element to the correct location */
+    uilib_move_element(hwnd, IDC_SOUND_WMM, xpos + 10);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, sound_left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, sound_left_group, &xpos);
+
+    /* move the right group to the correct location */
+    uilib_move_group(hwnd, sound_right_group, xpos + 10);
+
+    /* get the max x of the window filling group */
+    uilib_get_group_max_x(hwnd, sound_filling_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
+
+
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
     resources_get_int("SoundSampleRate", &res_value);
@@ -179,7 +260,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_sound_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_SOUND_SETTINGS_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SOUND_SETTINGS_DIALOG),
               hwnd, dialog_proc);
 }
 

@@ -749,42 +749,6 @@ static int intl_table[][countof(language_table)] = {
 /* tr */   IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_TR },  /* fuzzy, size */
 
 /* res.rc */
-/* en */ { IDD_EXTRA_JOY_SETTINGS_DIALOG,
-/* da */   IDD_EXTRA_JOY_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_EXTRA_JOY_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_EXTRA_JOY_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_EXTRA_JOY_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_EXTRA_JOY_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_EXTRA_JOY_SETTINGS_DIALOG_NL,
-/* pl */   IDD_EXTRA_JOY_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_EXTRA_JOY_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_EXTRA_JOY_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_CONFIG_KEYSET_DIALOG,
-/* da */   IDD_CONFIG_KEYSET_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_CONFIG_KEYSET_DIALOG_DE,    /* size */
-/* fr */   IDD_CONFIG_KEYSET_DIALOG_FR,    /* size */
-/* hu */   IDD_CONFIG_KEYSET_DIALOG_HU,    /* size */
-/* it */   IDD_CONFIG_KEYSET_DIALOG_IT,    /* size */
-/* nl */   IDD_CONFIG_KEYSET_DIALOG_NL,
-/* pl */   IDD_CONFIG_KEYSET_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_CONFIG_KEYSET_DIALOG_SV,    /* size */
-/* tr */   IDD_CONFIG_KEYSET_DIALOG_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_SOUND_SETTINGS_DIALOG,
-/* da */   IDD_SOUND_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_SOUND_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_SOUND_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_SOUND_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_SOUND_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_SOUND_SETTINGS_DIALOG_NL,
-/* pl */   IDD_SOUND_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_SOUND_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_SOUND_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* res.rc */
 /* en */ { IDD_OPEN_TEMPLATE,
 /* da */   IDD_OPEN_TEMPLATE_DA,    /* fuzzy, size */
 /* de */   IDD_OPEN_TEMPLATE_DE,    /* size */
@@ -819,18 +783,6 @@ static int intl_table[][countof(language_table)] = {
 /* pl */   IDD_OPENTAPE_TEMPLATE_PL,    /* fuzzy, size */
 /* sv */   IDD_OPENTAPE_TEMPLATE_SV,    /* size */
 /* tr */   IDD_OPENTAPE_TEMPLATE_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_SNAPSHOT_SAVE_DIALOG,
-/* da */   IDD_SNAPSHOT_SAVE_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_SNAPSHOT_SAVE_DIALOG_DE,    /* size */
-/* fr */   IDD_SNAPSHOT_SAVE_DIALOG_FR,    /* size */
-/* hu */   IDD_SNAPSHOT_SAVE_DIALOG_HU,    /* size */
-/* it */   IDD_SNAPSHOT_SAVE_DIALOG_IT,    /* size */
-/* nl */   IDD_SNAPSHOT_SAVE_DIALOG_NL,
-/* pl */   IDD_SNAPSHOT_SAVE_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_SNAPSHOT_SAVE_DIALOG_SV,    /* size */
-/* tr */   IDD_SNAPSHOT_SAVE_DIALOG_TR },  /* fuzzy, size */
 
 /* res.rc */
 /* en */ { IDD_MEDIAFILE_DIALOG,

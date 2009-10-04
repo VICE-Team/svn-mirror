@@ -73,6 +73,12 @@ static uilib_dialog_group datasette_sub_group[] = {
     {0, 0}
 };
 
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_datasette_dialog(HWND hwnd)
 {
     HWND snd_hwnd;
@@ -118,6 +124,9 @@ static void init_datasette_dialog(HWND hwnd)
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
     MoveWindow(hwnd, rect.left, rect.top, xpos_max + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("DatasetteResetWithCPU", &res_value);
     CheckDlgButton(hwnd, IDC_DATASETTE_RESET_WITH_CPU, res_value

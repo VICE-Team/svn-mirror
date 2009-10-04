@@ -116,8 +116,100 @@ typedef enum {
     KEYSET_FIRE
 } joystick_direction_t;
 
+static uilib_localize_dialog_param keyset_dialog_trans[] = {
+    {IDC_KEYSET_SW, IDS_KEYSET_SW, 0},
+    {IDC_KEYSET_S, IDS_KEYSET_S, 0},
+    {IDC_KEYSET_SE, IDS_KEYSET_SE, 0},
+    {IDC_KEYSET_W, IDS_KEYSET_W, 0},
+    {IDC_KEYSET_E, IDS_KEYSET_E, 0},
+    {IDC_KEYSET_NW, IDS_KEYSET_NW, 0},
+    {IDC_KEYSET_N, IDS_KEYSET_N, 0},
+    {IDC_KEYSET_NE, IDS_KEYSET_NE, 0},
+    {IDC_KEYSET_FIRE, IDS_KEYSET_FIRE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group keyset_buttons_group[] = {
+    {IDC_KEYSET_SW, 1},
+    {IDC_KEYSET_S, 1},
+    {IDC_KEYSET_SE, 1},
+    {IDC_KEYSET_W, 1},
+    {IDC_KEYSET_E, 1},
+    {IDC_KEYSET_NW, 1},
+    {IDC_KEYSET_N, 1},
+    {IDC_KEYSET_NE, 1},
+    {IDC_KEYSET_FIRE, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group keyset_keys_group[] = {
+    {IDC_KEY_SW, 1},
+    {IDC_KEY_S, 1},
+    {IDC_KEY_SE, 1},
+    {IDC_KEY_W, 1},
+    {IDC_KEY_E, 1},
+    {IDC_KEY_NW, 1},
+    {IDC_KEY_N, 1},
+    {IDC_KEY_NE, 1},
+    {IDC_KEY_FIRE, 1},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_keyset_dialog(HWND hwnd)
 {
+    int button_size;
+    int new_size;
+    int extra_size;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, keyset_dialog_trans);
+
+    /* get the current max x of the buttons */
+    uilib_get_element_max_x(hwnd, IDC_KEYSET_SW, &button_size);
+
+    /* adjust the size of the elements in the buttons group */
+    uilib_adjust_group_width(hwnd, keyset_buttons_group);
+
+    /* get the max x of the buttons group */
+    uilib_get_group_max_x(hwnd, keyset_buttons_group, &new_size);
+
+    /* calculate the difference between old and new button max x */
+    extra_size = new_size - button_size;
+    if (extra_size < 0) {
+        extra_size = 0;
+    }
+
+    /* get the max width of the buttons group */
+    uilib_get_group_width(hwnd, keyset_buttons_group, &button_size);
+
+    /* set all buttons of the buttons group to the same size */
+    uilib_set_group_width(hwnd, keyset_buttons_group, button_size);
+
+    if (extra_size) {
+        /* get the min x of an element in the key group */
+        uilib_get_element_min_x(hwnd, IDC_KEY_SW, &xpos);
+
+        /* move the key group to the correct location */
+        uilib_move_group(hwnd, keyset_keys_group, xpos + extra_size);
+
+        /* resize the main window to surround all elements */
+        GetWindowRect(hwnd, &rect);
+        MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left + extra_size, rect.bottom - rect.top, TRUE);
+
+        /* recenter the buttons in the newly resized dialog window */
+        uilib_center_buttons(hwnd, move_buttons_group, 0);
+    }
+
     if (current_keyset_index == 0) {
         resources_get_int("KeySet1NorthWest", &keyset[KEYSET_NW]);
         resources_get_int("KeySet1North", &keyset[KEYSET_N]);
@@ -290,6 +382,24 @@ static uilib_localize_dialog_param joystick_dialog[] = {
     {0, 0, 0}
 };
 
+static uilib_localize_dialog_param extra_joystick_dialog[] = {
+    {0, IDS_EXTRA_JOYSTICK_CAPTION, -1},
+    {IDC_JOYSTICK_IN_PORT_1, IDS_JOYSTICK_IN_EXTRA_PORT_1, 0},
+    {IDC_SELECT_FIRE_BUTTON_1, IDS_SELECT_FIRE_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_1, IDS_AUTO_FIRE_BUTTON_SETTINGS, 0},
+    {IDC_AUTOFIRE_SPEED_1, IDS_AUTOFIRE_SPEED, 0},
+    {IDC_JOYSTICK_IN_PORT_2, IDS_JOYSTICK_IN_EXTRA_PORT_2, 0},
+    {IDC_SELECT_FIRE_BUTTON_2, IDS_SELECT_FIRE_BUTTON, 0},
+    {IDC_AUTO_FIRE_BUTTON_SETTINGS_2, IDS_AUTO_FIRE_BUTTON_SETTINGS, 0},
+    {IDC_AUTOFIRE_SPEED_2, IDS_AUTOFIRE_SPEED, 0},
+    {IDC_JOY_CONFIG_A, IDS_JOY_CONFIG_A, 0},
+    {IDC_JOY_CONFIG_B, IDS_JOY_CONFIG_B, 0},
+    {IDC_JOY_CALIBRATE, IDS_JOY_CALIBRATE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
 static uilib_dialog_group joystick_left_group[] = {
     {IDC_JOYSTICK_IN_PORT_1, 0},
     {IDC_SELECT_FIRE_BUTTON_1, 0},
@@ -348,19 +458,26 @@ static uilib_dialog_group joystick_button_group[] = {
     {0, 0}
 };
 
-static void init_joystick_dialog(HWND hwnd)
+static int center_config_calib_buttons[] = {
+    IDC_JOY_CONFIG_A,
+    IDC_JOY_CALIBRATE,
+    IDC_JOY_CONFIG_B,
+    0
+};
+
+static int center_ok_cancel_buttons[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
+static void resize_joystick_dialog_elements(HWND hwnd)
 {
-    HWND joy_hwnd;
-    int res_value;
-    int device;
     int xpos;
     int xstart;
     int xpos1, xpos2, xpos3;
     int distance1, distance2;
     RECT rect;
-
-    /* translate all dialog items */
-    uilib_localize_dialog(hwnd, joystick_dialog);
 
     /* adjust the size of the left group elements */
     uilib_adjust_group_width(hwnd, joystick_left_group);
@@ -452,6 +569,24 @@ static void init_joystick_dialog(HWND hwnd)
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
     MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the config/calibration buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, center_config_calib_buttons, 1);
+
+    /* recenter the ok/cancel buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, center_ok_cancel_buttons, 0);
+}
+
+static void init_joystick_dialog(HWND hwnd)
+{
+    HWND joy_hwnd;
+    int res_value;
+    int device;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, joystick_dialog);
+
+    resize_joystick_dialog_elements(hwnd);
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0,
@@ -606,6 +741,11 @@ static void init_extra_joystick_dialog(HWND hwnd)
     int res_value;
     int device;
     int joyamount;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, extra_joystick_dialog);
+
+    resize_joystick_dialog_elements(hwnd);
 
     joy_hwnd = GetDlgItem(hwnd, IDC_EXTRA_JOY_ADAPTER);
     if (machine_class == VICE_MACHINE_PLUS4) {
@@ -888,12 +1028,12 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 #endif
           case IDC_JOY_CONFIG_A:
             current_keyset_index = 0;
-            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_CONFIG_KEYSET_DIALOG,
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_CONFIG_B:
             current_keyset_index = 1;
-            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_CONFIG_KEYSET_DIALOG,
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_DEV1:
@@ -1042,12 +1182,12 @@ static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam,
 #endif
           case IDC_JOY_CONFIG_A:
             current_keyset_index = 0;
-            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_CONFIG_KEYSET_DIALOG,
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_CONFIG_B:
             current_keyset_index = 1;
-            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_CONFIG_KEYSET_DIALOG,
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_EXTRA_JOY_ADAPTER:
@@ -1218,7 +1358,7 @@ void ui_joystick_settings_dialog(HWND hwnd)
 
 void ui_extra_joystick_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_EXTRA_JOY_SETTINGS_DIALOG),
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_EXTRA_JOY_SETTINGS_DIALOG,
               hwnd,dialog_proc_2);
 }
 

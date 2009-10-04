@@ -47,16 +47,34 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uilib.h"
-#include "winlong.h"
-#include "winmain.h"
 #include "util.h"
 #include "vsync.h"
+#include "winlong.h"
+#include "winmain.h"
 
 static int save_roms = 0;
 static int save_disks = 0;
 
+static uilib_localize_dialog_param snapshot_dialog[] = {
+    {IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, IDS_TOGGLE_SNAPSHOT_SAVE_DISKS, 0},
+    {IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, IDS_TOGGLE_SNAPSHOT_SAVE_ROMS, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group snapshot_group[] = {
+    {IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, 1},
+    {IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, 1},
+    {0, 0}
+};
+
 static void init_snapshot_dialog(HWND hwnd)
 {
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, snapshot_dialog);
+    
+    /* adjust the size of the elements in the snapshot group */
+    uilib_adjust_group_width(hwnd, snapshot_group);
+
     CheckDlgButton(hwnd, IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, save_disks
                    ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, save_roms

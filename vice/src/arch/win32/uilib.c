@@ -1178,6 +1178,20 @@ int ysize;
     }
 }
 
+void uilib_set_group_width(HWND hwnd, uilib_dialog_group *group, int size)
+{
+    HWND element;
+    RECT element_rect;
+
+    while (group->idc) {
+        element = GetDlgItem(hwnd, group->idc);
+        GetClientRect(element, &element_rect);
+        MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+        MoveWindow(element, element_rect.left, element_rect.top, size, element_rect.bottom - element_rect.top, TRUE);
+        group++;
+    }
+}
+
 void uilib_move_and_adjust_element_width(HWND hwnd, int idc, int xpos)
 {
 HWND element;
@@ -1256,6 +1270,17 @@ void uilib_get_element_width(HWND hwnd, int idc, int *width)
     *width = xsize;
 }
 
+void uilib_get_element_size(HWND hwnd, int idc, int *width)
+{
+    HWND temp_hwnd;
+    RECT element_rect;
+
+    temp_hwnd = GetDlgItem(hwnd, idc);
+    GetClientRect(temp_hwnd, &element_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
+    *width = element_rect.right - element_rect.left;
+}
+
 void uilib_get_element_max_x(HWND hwnd, int idc, int *width)
 {
     HWND temp_hwnd;
@@ -1290,5 +1315,41 @@ HWND element;
             SetWindowText(element, translate_text(param->ids));
         }
         param++;
+    }
+}
+
+void uilib_center_buttons(HWND hwnd, int *buttons, int resize)
+{
+    int i;    
+    int size = 0;
+    HWND temp_hwnd;
+    RECT element_rect;
+    RECT rect;
+    int distance;
+    int xpos;
+
+    for (i = 0; buttons[i] != 0; i++) {
+        temp_hwnd = GetDlgItem(hwnd, buttons[i]);
+        GetClientRect(temp_hwnd, &element_rect);
+        MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
+        if (size < element_rect.right - element_rect.left) {
+            size = element_rect.right - element_rect.left;
+        }
+    }
+    GetWindowRect(hwnd, &rect);
+    distance = ((rect.right - rect.left) - (size * i)) / (i + 1);
+    if (distance < 10) {
+       distance = 10;
+       MoveWindow(hwnd, rect.left, rect.top, (distance * (i + 1)) + (size * i), rect.bottom - rect.top, TRUE);
+    }
+    xpos = distance;
+    for (i = 0; buttons[i] != 0; i++) {
+        if (resize) {
+            uilib_move_and_set_element_width(hwnd, buttons[i], xpos, size);
+        } else {
+            uilib_move_element(hwnd, buttons[i], xpos);
+        }
+
+        xpos += size + distance;
     }
 }

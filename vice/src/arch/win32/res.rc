@@ -192,7 +192,7 @@ IDI_ICON1               ICON    DISCARDABLE     "c64.ico"
 // Dialog
 //
 
-IDD_ABOUT DIALOG DISCARDABLE  0, 0, 195, 210
+IDD_ABOUT DIALOG DISCARDABLE 0, 0, 195, 210
 STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
 CAPTION "About VICE"
 FONT 8, "MS Sans Serif"
@@ -225,7 +225,7 @@ END
 
 // dialog template for all languages
 
-IDD_DISKDEVICE_DIALOG DIALOG DISCARDABLE  0, 0, 287, 190
+IDD_DISKDEVICE_DIALOG DIALOG DISCARDABLE 0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -268,7 +268,7 @@ END
 
 // dialog template for all languages
 
-IDD_DATASETTE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
+IDD_DATASETTE_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -348,26 +348,25 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_EXTRA_JOY_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 226, 181
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     COMBOBOX      IDC_EXTRA_JOY_ADAPTER,
                   9, 9, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX      "Joystick in port #&1", IDC_STATIC,
+    GROUPBOX      "", IDC_JOYSTICK_IN_PORT_1,
                   7, 25, 102, 113
     COMBOBOX      IDC_JOY_DEV1,
                   12, 36, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "Select fire button", IDC_STATIC,
+    LTEXT         "", IDC_SELECT_FIRE_BUTTON_1,
                   12, 54, 70, 8
     COMBOBOX      IDC_JOY_FIRE1_BUTTON,
                   12, 67, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
+    LTEXT         "", IDC_AUTO_FIRE_BUTTON_SETTINGS_1,
                   12, 81, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
+    LTEXT         "", IDC_AUTOFIRE_SPEED_1,
                   12, 94, 70, 8
     EDITTEXT      IDC_JOY_FIRE1_SPEED,
                   87, 92, 18, 12, WS_TABSTOP | 0x2000L
@@ -375,17 +374,17 @@ BEGIN
                   12, 107, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
                   12, 122, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick in port #&2", IDC_STATIC,
+    GROUPBOX      "", IDC_JOYSTICK_IN_PORT_2,
                   117, 25, 102, 113
     COMBOBOX      IDC_JOY_DEV2,
                   122, 36, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
+    LTEXT         "", IDC_SELECT_FIRE_BUTTON_2,
                   122, 54, 70, 8
     COMBOBOX      IDC_JOY_FIRE2_BUTTON,
                   122, 67, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
+    LTEXT         "", IDC_AUTO_FIRE_BUTTON_SETTINGS_2,
                   122, 81, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
+    LTEXT         "", IDC_AUTOFIRE_SPEED_2,
                   122, 94, 70, 8
     EDITTEXT      IDC_JOY_FIRE2_SPEED,
                   197, 92, 18, 12, WS_TABSTOP | 0x2000L
@@ -393,824 +392,49 @@ BEGIN
                   122, 107, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
                   122, 122, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Config Keyset &A", IDC_JOY_CONFIG_A,
+    PUSHBUTTON    "", IDC_JOY_CONFIG_A,
                   8, 140, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Config Keyset &B", IDC_JOY_CONFIG_B,
+    PUSHBUTTON    "", IDC_JOY_CONFIG_B,
                   159, 140, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+    PUSHBUTTON    "", IDC_JOY_CALIBRATE,
                   78, 140, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
+    DEFPUSHBUTTON "", IDOK,
                   48, 161, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Cancel", IDCANCEL,
+    PUSHBUTTON    "", IDCANCEL,
                   129, 161, 50, 14, WS_TABSTOP
 END
 
 
-// DANISH version of dialog
-
-IDD_EXTRA_JOY_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick i port &1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_VSCROLL |WS_TABSTOP
-    LTEXT         "Vælg skydeknap", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofireindstillinger", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofire&hastighed (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick i port &2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Vælg skydeknap", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofireindstillinger", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofire&hastighed (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tastesæt &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tastesæt &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Kalibrér Joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annullér", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_EXTRA_JOY_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra Joystick Adapter Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Joystick in Port #&1", IDC_STATIC,
-                    7, 5, 102, 113
-    COMBOBOX        IDC_JOY_DEV1,
-                    12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Feuerknopf auswählen", IDC_STATIC,
-                    12, 34, 70, 8
-    COMBOBOX        IDC_JOY_FIRE1_BUTTON,
-                    12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Automatische Feuerknopf Einstellungen", IDC_STATIC,
-                    12, 61, 93, 8
-    LTEXT           "Autofeuer Ge&schwindigkeit (1..32)", IDC_STATIC,
-                    12, 74, 70, 8
-    EDITTEXT        IDC_JOY_FIRE1_SPEED,
-                    87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX        IDC_JOY_FIRE1_AXIS,
-                    12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON,
-                    12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "Joystick in Port #&2", IDC_STATIC,
-                    117, 5, 102, 113
-    COMBOBOX        IDC_JOY_DEV2,
-                    122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Feuerknopf auswählen", IDC_STATIC,
-                    122, 34, 70, 8
-    COMBOBOX        IDC_JOY_FIRE2_BUTTON,
-                    122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Automatische Feuerknopf Einstellungen", IDC_STATIC,
-                    122, 61, 93, 8
-    LTEXT           "Autofeuer Ge&schwindigkeit (1..32)", IDC_STATIC,
-                    122, 74, 70, 8
-    EDITTEXT        IDC_JOY_FIRE2_SPEED,
-                    197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX        IDC_JOY_FIRE2_AXIS,
-                    122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON,
-                    122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Tastaturbelegung &A konfigurieren", IDC_JOY_CONFIG_A,
-                    8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON      "Tastaturbelegung &B konfigurieren", IDC_JOY_CONFIG_B,
-                    159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON      "Joysticks &kalibrieren", IDC_JOY_CALIBRATE,
-                    78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL,
-                    129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_EXTRA_JOY_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick dans le port #1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Sélectionner le bouton de feu", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Vitesse tir automatique (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick dans le port #2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Sélectionner le bouton de feu", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Vitesse tir automatique (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Configurer &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Configurer &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibration des joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuler", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_EXTRA_JOY_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Botkormány az &1-es porton", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Válasszon tûz gombot", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Automatikus tûz beállításai", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Automatikus tûz &sebessége (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Botkormány a &2-es porton", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Válasszon tûz gombot", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Automatikus tûz beállításai", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Automatikus tûz &sebessége (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "'&A' gombkészlet beállítása", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "'&B' gombkészlet beállítása", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Botkormány(ok) &kalibrálása", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Mégsem", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_EXTRA_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Joystick nella porta #&1", IDC_STATIC,
-                    7, 5, 102, 113
-    COMBOBOX        IDC_JOY_DEV1,
-                    12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Seleziona pulsante di fuoco", IDC_STATIC,
-                    12, 34, 70, 8
-    COMBOBOX        IDC_JOY_FIRE1_BUTTON,
-                    12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Impostazioni fuoco automatico", IDC_STATIC,
-                    12, 61, 93, 8
-    LTEXT           "&Velocità autofire (1..32)", IDC_STATIC,
-                    12, 74, 70, 8
-    EDITTEXT        IDC_JOY_FIRE1_SPEED,
-                    87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX        IDC_JOY_FIRE1_AXIS,
-                    12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON,
-                    12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "Joystick nella porta #&2", IDC_STATIC,
-                    117, 5, 102, 113
-    COMBOBOX        IDC_JOY_DEV2,
-                    122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Seleziona pulsante di fuoco", IDC_STATIC,
-                    122, 34, 70, 8
-    COMBOBOX        IDC_JOY_FIRE2_BUTTON,
-                    122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Impostazioni fuoco automatico", IDC_STATIC,
-                    122, 61, 93, 8
-    LTEXT           "&Velocità autofire (1..32)", IDC_STATIC,
-                    122, 74, 70, 8
-    EDITTEXT        IDC_JOY_FIRE2_SPEED,
-                    197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX        IDC_JOY_FIRE2_AXIS,
-                    122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON,
-                    122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON      "Configura il keyset &A", IDC_JOY_CONFIG_A,
-                    8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON      "Configura il keyset &B", IDC_JOY_CONFIG_B,
-                    159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON      "&Calibra Joystick", IDC_JOY_CALIBRATE,
-                    78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL,
-                    129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_EXTRA_JOY_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter instellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick in poort #&1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Selecteer vuur knop", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofire knop instellingen", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofire &snelheid (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick in poort #&2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Selecteer vuur knop", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Autofire knop instellingen", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofire &snelheid (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Configureer Keyset &A", IDC_JOY_CONFIG_A,
-                  1, 120, 74, 14, WS_TABSTOP
-    PUSHBUTTON    "Configureer Keyset &B", IDC_JOY_CONFIG_B,
-                  149, 120, 75, 14, WS_TABSTOP
-    PUSHBUTTON    "&Kalibreer Joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuleren", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_EXTRA_JOY_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick w porcie #&1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick w porcie #&2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Select fire button", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Auto fire button settings", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Autofire &speed (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Config Keyset &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Config Keyset &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Anuluj", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_EXTRA_JOY_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Inställningar för extra styrspaksadapter"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Styrspak i spelport &1", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Välj avtryckarknapp", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Inställningar för autofire", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "&Hastighet för autofire (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Styrspak i spelport &2", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Välj avtryckarknapp", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Inställningar för autofire", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "&Hastighet för autofire (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tangentuppsättning &A", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tangentuppsättning &B", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "&Kalibrera styrspak(ar)", IDC_JOY_CALIBRATE,
-                  78,120,70,14, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Avbryt", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_EXTRA_JOY_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 226, 161
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Extra joystick adapter settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "Joystick port #&1'de", IDC_STATIC,
-                  7, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV1,
-                  12, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Ateþ düðmesini seç", IDC_STATIC,
-                  12, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE1_BUTTON,
-                  12, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Otomatik ateþ düðmesi ayarlarý", IDC_STATIC,
-                  12, 61, 93, 8
-    LTEXT         "Otomatik ateþ &hýzý (1..32)", IDC_STATIC,
-                  12, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE1_AXIS,
-                  12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
-                  12, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX      "Joystick port #&2'de", IDC_STATIC,
-                  117, 5, 102, 113
-    COMBOBOX      IDC_JOY_DEV2,
-                  122, 16, 93, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Ateþ düðmesini seç", IDC_STATIC,
-                  122, 34, 70, 8
-    COMBOBOX      IDC_JOY_FIRE2_BUTTON,
-                  122, 47, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT         "Otomatik ateþ düðmesi ayarlarý", IDC_STATIC,
-                  122, 61, 93, 8
-    LTEXT         "Otomatik ateþ &hýzý (1..32)", IDC_STATIC,
-                  122, 74, 70, 8
-    EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 12, WS_TABSTOP | 0x2000L
-    COMBOBOX      IDC_JOY_FIRE2_AXIS,
-                  122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
-                  122, 102, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    PUSHBUTTON    "Tuþ Seti &A'yý konfigüre et", IDC_JOY_CONFIG_A,
-                  8, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Tuþ Seti &B'yý konfigüre et", IDC_JOY_CONFIG_B,
-                  159, 120, 60, 14, WS_TABSTOP
-    PUSHBUTTON    "Joysti&ck(ler)i kalibre et", IDC_JOY_CALIBRATE,
-                  78, 120, 70, 14, WS_TABSTOP
-    DEFPUSHBUTTON "Tamam", IDOK,
-                  48, 141, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Ýptal", IDCANCEL,
-                  129, 141, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_CONFIG_KEYSET_DIALOG DIALOG DISCARDABLE 0, 0, 130, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    PUSHBUTTON    "S&outh West",  IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&South",       IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "So&uth East",  IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&West",        IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&East",        IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "No&rth West",  IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&North",       IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Nor&th East",  IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Fire button", IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",           IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Cancel",       IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_SW,      80,   8, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_S,       80,  26, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_SE,      80,  44, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_W,       80,  62, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_E,       80,  80, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_NW,      80,  98, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_N,       80, 116, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_NE,      80, 134, 100,  8
+    PUSHBUTTON    "", IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
+    LTEXT         "", IDC_KEY_FIRE,    80, 152, 100,  8
+    DEFPUSHBUTTON "", IDOK,            15, 170,  50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
 END
 
-
-// DANISH version of dialog
-
-IDD_CONFIG_KEYSET_DIALOG_DA DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "S&ydvest",   IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Syd",       IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Sy&døst",    IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Vest",      IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Øst",       IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "No&rdvest",  IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Nord",      IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "N&ordøst",   IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "Skyde&knap", IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",           IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",         IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annullér",   IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_CONFIG_KEYSET_DIALOG_DE DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "Süd West",    IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Süden",      IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Süd Ost",     IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Westen",     IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Osten",      IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "Nord West",   IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Norden",     IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Nord Ost",    IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Feuerknopf", IDC_KEYSET_FIRE,  7, 149,  60, 14,WS_TABSTOP
-    LTEXT         "",            IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",          IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Abbruch",     IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_CONFIG_KEYSET_DIALOG_FR DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "Su&d Ouest",     IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Sud",           IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "S&ud Est",       IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Ouest",         IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Est",           IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "No&rd Ouest",    IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Nord",          IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "N&ord Est",      IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Bouton de tir", IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",               IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",             IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuler",        IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_CONFIG_KEYSET_DIALOG_HU DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "Déln&yugat",   IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Dél",         IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Délke&let",    IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Nyugat",      IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Kelet",       IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "Északnyu&gat", IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "É&szak",       IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Északk&elet",  IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Tûzgomb",     IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",           IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Mégsem",       IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_CONFIG_KEYSET_DIALOG_IT DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "S&ud ovest",         IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Sud",               IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Su&d Est",           IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Ovest",             IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Est",               IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "No&rd Ovest",        IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Nord",              IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Nor&d Est",          IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "Pulsante di &Fuoco", IDC_KEYSET_FIRE,  7, 149,  60, 14,WS_TABSTOP
-    LTEXT         "",                   IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",                 IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annulla",            IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_CONFIG_KEYSET_DIALOG_NL DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "Z&uid West",  IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Zuiden",     IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Z&uid Oost",  IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&West",       IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Oost",       IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "Noo&rd West", IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Noord",      IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Noord Oos&t", IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Vuur knop",  IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",            IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",          IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuleren",   IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_CONFIG_KEYSET_DIALOG_PL DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "S&outh West",  IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&South",       IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "So&uth East",  IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&West",        IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&East",        IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "No&rth West",  IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&North",       IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Nor&th East",  IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Fire button", IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",             IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",           IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Anuluj",       IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_CONFIG_KEYSET_DIALOG_SV DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "S&ydväst",        IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "&Syd",            IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Sy&döst",         IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Väst",           IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Öst",            IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "No&rdväst",       IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Nord",           IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "N&ordöst",        IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Avtryckarknapp", IDC_KEYSET_FIRE,  7, 149,  60, 14, WS_TABSTOP
-    LTEXT         "",                IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "OK",              IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Avbryt",          IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_CONFIG_KEYSET_DIALOG_TR DIALOG DISCARDABLE 0, 0, 130, 190
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    PUSHBUTTON    "Gü&ney Batý",   IDC_KEYSET_SW,    7,   5,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_SW,      80,   8, 100,  8
-    PUSHBUTTON    "Güne&y",        IDC_KEYSET_S,     7,  23,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_S,       80,  26, 100,  8
-    PUSHBUTTON    "Güney Doð&u",   IDC_KEYSET_SE,    7,  41,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_SE,      80,  44, 100,  8
-    PUSHBUTTON    "&Batý",         IDC_KEYSET_W,     7,  59,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_W,       80,  62, 100,  8
-    PUSHBUTTON    "&Doðu",         IDC_KEYSET_E,     7,  77,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_E,       80,  80, 100,  8
-    PUSHBUTTON    "Ku&zey Batý",   IDC_KEYSET_NW,    7,  95,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_NW,      80,  98, 100,  8
-    PUSHBUTTON    "&Kuzey",        IDC_KEYSET_N,     7, 113,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_N,       80, 116, 100,  8
-    PUSHBUTTON    "Kuz&ey Doðu",   IDC_KEYSET_NE,    7, 131,  60, 14, WS_TABSTOP
-    LTEXT         "",              IDC_KEY_NE,      80, 134, 100,  8
-    PUSHBUTTON    "&Ateþ düðmesi", IDC_KEYSET_FIRE,  7, 149,  60, 14,WS_TABSTOP
-    LTEXT         "",              IDC_KEY_FIRE,    80, 152, 100,  8
-    DEFPUSHBUTTON "Tamam",         IDOK,            15, 170,  50, 14, WS_TABSTOP
-    PUSHBUTTON    "Ýptal",         IDCANCEL,        70, 170,  50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1222,317 +446,40 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Configure Sound Device Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "DirectX driver", IDC_SOUND_DIRECTX,
+    AUTORADIOBUTTON "", IDC_SOUND_DIRECTX,
                     10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM driver", IDC_SOUND_WMM,
+    AUTORADIOBUTTON "", IDC_SOUND_WMM,
                     75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Sample &Frequency :", IDC_STATIC,
+    LTEXT           "", IDC_SOUND_SAMPLE_FREQUENCY,
                     7, 25, 118, 8
     COMBOBOX        IDC_SOUND_FREQ,
                     100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Sound Buffer &Size :", IDC_STATIC,
+    LTEXT           "", IDC_SOUND_BUFFER_SIZE,
                     7, 38, 118, 8
     COMBOBOX        IDC_SOUND_BUFFER,
                     100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Synchronization &Method :", IDC_STATIC,
+    LTEXT           "", IDC_SOUND_SYNCH_METHOD,
                     7, 64, 118, 8
     COMBOBOX        IDC_SOUND_SYNCH,
                     100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
+    DEFPUSHBUTTON   "", IDOK,
                     40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL,
+    PUSHBUTTON      "", IDCANCEL,
                     95, 80, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_SOUND_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Indstillinger for lydenheder"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "DirectX-driver", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM-driver", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Sampling&frekvens:", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Lydbuffer&størrelse:", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Synkroniserings&metode:", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_SOUND_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Sound Gerät Einstellungen konfigurieren"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "DirectX treiber", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM treiber", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Sample &Frequenz", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Sound Puffergröße", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Synchronisations&methode", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_SOUND_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Configurer les paramètres du périphérique son"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "Pilote DirectX", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Pilote WMM", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Fréquence d'échantillonage :", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Taille du &tampon son :", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "&Méthode de synchronisation :", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_SOUND_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Hang eszköz beállítása"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "DirectX meghajtó", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM meghajtó", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Mintavételezési &frekvencia:", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Hang puffer &méret:", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Szinkronizáció módja:", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_SOUND_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Configura le impostazioni della scheda audio"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "Driver DirectX", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Driver WMM", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "&Frequenza di campionamento :", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Dimensione del buffer del suono :", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "&Metodo di sincronizzazione :", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_SOUND_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 190, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Geluidsapparaatinstellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "DirectX stuurprogramma", IDC_SOUND_DIRECTX,
-                    10, 10, 87, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM stuurprogramma", IDC_SOUND_WMM,
-                    101, 10, 88, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Sample &Frequency :", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Geluidsbuffer&grootte :", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Synchronisatie&methode :", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_SOUND_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia d¼wiêku"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "Sterownik DirectX", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Sterownik WMM", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Prê&dko¶æ sampli :", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Ro&zmiar buffora :", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Synchronizac&ja d¼wiêku :", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Anuluj", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_SOUND_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Inställningar för ljudenheter"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "DirectX-drivrutiner", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM-drivrutiner", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Samplings&frekvens:", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Ljudbuffert&storlek:", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Synkroniserings&metod:", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_SOUND_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ses Aygýtý Ayarlarýný Konfigüre Et"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTORADIOBUTTON "DirectX sürücüsü", IDC_SOUND_DIRECTX,
-                    10, 10, 60, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "WMM sürücüsü", IDC_SOUND_WMM,
-                    75, 10, 60, 10, BS_AUTORADIOBUTTON
-    LTEXT           "Örnekleme &Frekansý :", IDC_STATIC,
-                    7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
-                    100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "&Ses Arabellek Boyutu :", IDC_STATIC,
-                    7, 38, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Senkronizasyon &Metodu :", IDC_STATIC,
-                    7, 64, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    DEFPUSHBUTTON   "Tamam", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
 
-IDD_OPEN_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1547,7 +494,7 @@ END
 
 // DANISH version of dialog
 
-IDD_OPEN_TEMPLATE_DA DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_DA DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1562,7 +509,7 @@ END
 
 // GERMAN version of dialog
 
-IDD_OPEN_TEMPLATE_DE DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_DE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1577,7 +524,7 @@ END
 
 // FRENCH version of dialog
 
-IDD_OPEN_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_FR DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1593,7 +540,7 @@ END
 // HUNGARIAN version of dialog
 
 #pragma code_page(28592)
-IDD_OPEN_TEMPLATE_HU DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_HU DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1609,7 +556,7 @@ END
 
 // ITALIAN version of dialog
 
-IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1624,7 +571,7 @@ END
 
 // DUTCH version of dialog
 
-IDD_OPEN_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_NL DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1640,7 +587,7 @@ END
 // POLISH version of dialog
 
 #pragma code_page(28592)
-IDD_OPEN_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_PL DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1650,15 +597,13 @@ BEGIN
                     6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
     AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem", IDC_TOGGLE_ATTACH_READONLY,
                     195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "New Image", IDC_STATIC,
-                    190, 25, 80, 90
 END
 #pragma code_page(28591)
 
 
 // SWEDISH version of dialog
 
-IDD_OPEN_TEMPLATE_SV DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_SV DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1668,14 +613,13 @@ BEGIN
                     6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
     AUTOCHECKBOX    "Anslut skrivskyddat", IDC_TOGGLE_ATTACH_READONLY,
                     195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Ny avbildning", IDC_STATIC, 190, 25, 80, 90
 END
 
 
 // TURKISH version of dialog
 
 #pragma code_page(28599)
-IDD_OPEN_TEMPLATE_TR DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPEN_TEMPLATE_TR DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -1692,236 +636,316 @@ END
 
 // original and default ENGLISH version of dialog
 
-IDD_OPENDISK_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Contents ", IDC_STATIC, 3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Attach read only",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
-    LTEXT           "Name",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Type",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Image Contents ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Attach read only", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "New Image", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Name", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Type", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Create Image", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 
 
 // DANISH version of dialog
 
-IDD_OPENDISK_TEMPLATE_DA DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_DA DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Indhold i image ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Tilslut skrivebeskyttet",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Nyt image",IDC_STATIC,190,25,80,90
-    LTEXT           "Navn",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Type",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Opret image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Indhold i image ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Tilslut skrivebeskyttet", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Nyt image", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Navn", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Type", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Opret image", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 
 
 // GERMAN version of dialog
 
-IDD_OPENDISK_TEMPLATE_DE DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_DE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Datei Inhalt",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Schreibgeschützt einlegen",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Neue Image Datei",IDC_STATIC,190,25,80,90
-    LTEXT           "Name",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Typ",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Image Datei erzeugen", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Image Datei Inhalt", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Schreibgeschützt einlegen", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Neue Image Datei", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Name", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Typ", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Image Datei erzeugen", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 
 
 // FRENCH version of dialog
 
-IDD_OPENDISK_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_FR DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenu de l'image ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Insérer en lecture seule",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Nouvelle image",IDC_STATIC,190,25,80,90
-    LTEXT           "Nom",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Type",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Création d'image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Contenu de l'image ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Insérer en lecture seule", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Nouvelle image", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Nom", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Type", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Création d'image", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 
 
 // HUNGARIAN version of dialog
 
 #pragma code_page(28592)
-IDD_OPENDISK_TEMPLATE_HU DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_HU DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Képmás tartalma",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Csatolás csak olvasható módon",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Új képmás",IDC_STATIC,190,25,80,90
-    LTEXT           "Név",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Típus",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Képmás létrehozása", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Képmás tartalma", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Csatolás csak olvasható módon", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Új képmás", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Név", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Típus", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Képmás létrehozása", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 
 // ITALIAN version of dialog
 
-IDD_OPENDISK_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_IT DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenuti ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Seleziona in sola lettura",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Nuova immagine",IDC_STATIC,190,25,80,90
-    LTEXT           "Nome",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Tipo",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Crea immagine", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Contenuti ",IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Seleziona in sola lettura", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Nuova immagine", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Nome", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Tipo", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Crea immagine", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 
 
 // DUTCH version of dialog
 
-IDD_OPENDISK_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_NL DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Bestandsinhoud ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Alleen lezen",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Nieuw Bestand",IDC_STATIC,190,25,80,90
-    LTEXT           "Naam",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Soort",IDC_STATIC,233,73,25,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Maak Bestand", IDC_BLANK_IMAGE, 203,93,52,14, WS_TABSTOP
+    GROUPBOX     "Bestandsinhoud ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Alleen lezen", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Nieuw Bestand", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Naam", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Soort", IDC_STATIC,
+                 233, 73, 25, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Maak Bestand", IDC_BLANK_IMAGE,
+                 203, 93, 52, 14, WS_TABSTOP
 END
 
 
 // POLISH version of dialog
 
 #pragma code_page(28592)
-IDD_OPENDISK_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_PL DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "zawarto¶ci obrazu ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
-    LTEXT           "Nazwa",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Typ",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Stwórz dyskietkê", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "zawarto¶ci obrazu ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "W³ó¿ zabezpieczone przed zapisem", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "New Image", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Nazwa", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Typ", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Stwórz dyskietkê", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 
 // SWEDISH version of dialog
 
-IDD_OPENDISK_TEMPLATE_SV DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_SV DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Innehåll i avbildning ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Anslut skrivskyddat",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Ny avbildning",IDC_STATIC,190,25,80,90
-    LTEXT           "Namn",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Typ",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Skapa avbildning", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Innehåll i avbildning ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Anslut skrivskyddat", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Ny avbildning", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Namn", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Typ", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Skapa avbildning", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 
 
 // TURKISH version of dialog
 
 #pragma code_page(28599)
-IDD_OPENDISK_TEMPLATE_TR DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENDISK_TEMPLATE_TR DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Imaj Ýçeriði ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Salt okunur yerleþtir",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Yeni Ýmaj",IDC_STATIC,190,25,80,90
-    LTEXT           "Ýsim",IDC_STATIC,198,40,20,8
-    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
-    LTEXT           "ID",IDC_STATIC,198,63,15,8
-    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
-    LTEXT           "Tip",IDC_STATIC,233,73,20,8
-    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    PUSHBUTTON      "Imaj Yarat", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+    GROUPBOX     "Imaj Ýçeriði ", IDC_STATIC,
+                 3, 0, 185, 138
+    LISTBOX      IDC_PREVIEW,
+                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX "Salt okunur yerleþtir", IDC_TOGGLE_ATTACH_READONLY,
+                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX     "Yeni Ýmaj", IDC_STATIC,
+                 190, 25, 80, 90
+    LTEXT        "Ýsim", IDC_STATIC,
+                 198, 40, 20, 8
+    EDITTEXT     IDC_BLANK_IMAGE_NAME,
+                 195, 48, 70, 12, WS_TABSTOP
+    LTEXT        "ID", IDC_STATIC,
+                 198, 63, 15, 8
+    EDITTEXT     IDC_BLANK_IMAGE_ID,
+                 195, 71, 20, 12, WS_TABSTOP
+    LTEXT        "Tip", IDC_STATIC,
+                 233, 73, 20, 8
+    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
+                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "Imaj Yarat", IDC_BLANK_IMAGE,
+                 205, 93, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -1929,305 +953,192 @@ END
 
 // original and default ENGLISH version of dialog
 
-IDD_OPENTAPE_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Contents ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "Image Contents ", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "New TAP Image", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Create Image", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 
 
 // DANISH version of dialog
 
-IDD_OPENTAPE_TEMPLATE_DA DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_DA DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Indhold i image ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Nyt TAP-image",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Opret image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "Indhold i image ", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "Nyt TAP-image", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Opret image", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 
 
 // GERMAN version of dialog
 
-IDD_OPENTAPE_TEMPLATE_DE DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_DE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Datei Inhalt",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Neue TAP Image Datei",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Image Datei erzeugen", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "Image Datei Inhalt", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "Neue TAP Image Datei", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Image Datei erzeugen", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 
 
 // FRENCH version of dialog
 
-IDD_OPENTAPE_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_FR DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenu de l'image ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Nouvelle image TAP",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Création d'image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "Contenu de l'image ", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "Nouvelle image TAP", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Création d'image", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 
 
 // HUNGARIAN version of dialog
 
 #pragma code_page(28592)
-IDD_OPENTAPE_TEMPLATE_HU DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_HU DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Képmás tartalma",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Új TAP képmás",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Képmás létrehozása", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "Képmás tartalma", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "Új TAP képmás", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Képmás létrehozása", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 
 // ITALIAN version of dialog
 
-IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Contenuti ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Nuova immagine TAP",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Crea immagine", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "Contenuti ", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER|WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "Nuova immagine TAP", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Crea immagine", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 
 
 // DUTCH version of dialog
 
-IDD_OPENTAPE_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_NL DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Bestandsinhoud ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Nieuw TAP-bestand",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Maak Bestand", IDC_BLANK_IMAGE, 203,20,52,14, WS_TABSTOP
+    GROUPBOX   "Bestandsinhoud ", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "Nieuw TAP-bestand", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Maak Bestand", IDC_BLANK_IMAGE,
+               203, 20, 52, 14, WS_TABSTOP
 END
 
 
 // POLISH version of dialog
 
 #pragma code_page(28592)
-IDD_OPENTAPE_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_PL DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "zawarto¶ci obrazu ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Stwórz obraz", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX   "zawarto¶ci obrazu ", IDC_STATIC,
+               3, 0, 185, 138
+    LISTBOX    IDC_PREVIEW,
+               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX   "New TAP Image", IDC_STATIC,
+               190, 0, 80, 40
+    PUSHBUTTON "Stwórz obraz", IDC_BLANK_IMAGE,
+               205, 20, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 
 // SWEDISH version of dialog
 
-IDD_OPENTAPE_TEMPLATE_SV DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_SV DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Innehåll i avbildning ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Ny TAP-avbildning",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Skapa avbildning", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX        "Innehåll i avbildning ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "Ny TAP-avbildning", IDC_STATIC,
+                    190, 0, 80, 40
+    PUSHBUTTON      "Skapa avbildning", IDC_BLANK_IMAGE,
+                    205, 20, 50, 14, WS_TABSTOP
 END
 
 
 // TURKISH version of dialog
 
 #pragma code_page(28599)
-IDD_OPENTAPE_TEMPLATE_TR DIALOG DISCARDABLE 0,0, 350, 140
+IDD_OPENTAPE_TEMPLATE_TR DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Imaj Ýçeriði ",IDC_STATIC,3,0,185,138
-    LISTBOX         IDC_PREVIEW,6,9,178,125,
-                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Yeni TAP Imajý",IDC_STATIC,190,0,80,40
-    PUSHBUTTON      "Imaj Yarat", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+    GROUPBOX        "Imaj Ýçeriði ", IDC_STATIC,
+                    3, 0, 185, 138
+    LISTBOX         IDC_PREVIEW,
+                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "Yeni TAP Imajý", IDC_STATIC,
+                    190, 0, 80, 40
+    PUSHBUTTON      "Imaj Yarat", IDC_BLANK_IMAGE,
+                    205, 20, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_SNAPSHOT_SAVE_DIALOG DIALOG DISCARDABLE 0,0, 250, 35
+IDD_SNAPSHOT_SAVE_DIALOG DIALOG DISCARDABLE 0, 0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Save currently attached &disks images",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Save currently loaded &ROM images",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                 10, 5, 135, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                 10, 18, 135, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_SNAPSHOT_SAVE_DIALOG_DA DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Gem tilsluttede &disk-images",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Gem tilsluttede &ROM-images",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_SNAPSHOT_SAVE_DIALOG_DE DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Aktuell eingelegte &Diskimages speichern",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Aktuelle ROMs speichern",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_SNAPSHOT_SAVE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Sauvegarder les &disques présentement insérés",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Sauvegarder les images &ROM présentement chargés",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_SNAPSHOT_SAVE_DIALOG_HU DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "A jelenleg csatolt lemezek &mentése",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "A jelenleg betöltött &ROM-ok mentése",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_SNAPSHOT_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Salva le immagini dei &dischi attualmente selezionati",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Salva le immagini delle &ROM attualmente caricate",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_SNAPSHOT_SAVE_DIALOG_NL DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Opslaan huidig gekoppelde &schijfbestanden",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Opslaan huidig gekoppelde &ROMs",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_SNAPSHOT_SAVE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Zapisz obecnie w³o¿ony &dysk",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Zapisz obecnie w³o¿ony &ROM",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_SNAPSHOT_SAVE_DIALOG_SV DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Spara anslutna disketter &diskettavbildningar",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Spara lästa &ROM-avbildningar",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_SNAPSHOT_SAVE_DIALOG_TR DIALOG DISCARDABLE 0,0, 250, 35
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Halihazýrda yerleþtirilmiþ &disk imajlarýný kaydet",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
-                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Halihazýrda yüklenmiþ &ROM imajlarýný kaydet",
-                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
-                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -6193,6 +5104,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Config Keyset &A"
   IDS_JOY_CONFIG_B                "Config Keyset &B"
   IDS_JOY_CALIBRATE               "&Calibrate Joystick(s)"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "S&outh West"
+  IDS_KEYSET_S                    "&South"
+  IDS_KEYSET_SE                   "So&uth East"
+  IDS_KEYSET_W                    "&West"
+  IDS_KEYSET_E                    "&East"
+  IDS_KEYSET_NW                   "No&rth West"
+  IDS_KEYSET_N                    "&North"
+  IDS_KEYSET_NE                   "Nor&th East"
+  IDS_KEYSET_FIRE                 "&Fire button"
+  IDS_SOUND_CAPTION               "Configure Sound Device Settings"
+  IDS_SOUND_DIRECTX               "DirectX driver"
+  IDS_SOUND_WMM                   "WMM driver"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Sample &Frequency :"
+  IDS_SOUND_BUFFER_SIZE           "Sound Buffer &Size :"
+  IDS_SOUND_SYNCH_METHOD          "Synchronization &Method :"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Save currently attached &disks images"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Save currently loaded &ROM images"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Attach &disk image"
   IDS_MP_DETACH_DISK_IMAGE        "D&etach disk image"
@@ -6638,6 +5569,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Tastesæt &A"
   IDS_JOY_CONFIG_B                "Tastesæt &B"
   IDS_JOY_CALIBRATE               "&Kalibrér Joystick(s)"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "S&ydvest"
+  IDS_KEYSET_S                    "&Syd"
+  IDS_KEYSET_SE                   "Sy&døst"
+  IDS_KEYSET_W                    "&Vest"
+  IDS_KEYSET_E                    "&Øst"
+  IDS_KEYSET_NW                   "No&rdvest"
+  IDS_KEYSET_N                    "&Nord"
+  IDS_KEYSET_NE                   "N&ordøst"
+  IDS_KEYSET_FIRE                 "Skyde&knap"
+  IDS_SOUND_CAPTION               "Indstillinger for lydenheder"
+  IDS_SOUND_DIRECTX               "DirectX-driver"
+  IDS_SOUND_WMM                   "WMM-driver"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Sampling&frekvens:"
+  IDS_SOUND_BUFFER_SIZE           "Lydbuffer&størrelse:"
+  IDS_SOUND_SYNCH_METHOD          "Synkroniserings&metode:"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Gem tilsluttede &disk-images"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Gem tilsluttede &ROM-images"
   IDS_MP_FILE                     "&Fil"
   IDS_MP_ATTACH_DISK_IMAGE        "Tilslut &Disk-image"
   IDS_MP_DETACH_DISK_IMAGE        "&Frakobl disk-image"
@@ -7083,6 +6034,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Tastaturbelegung &A konfigurieren"
   IDS_JOY_CONFIG_B                "Tastaturbelegung &B konfigurieren"
   IDS_JOY_CALIBRATE               "Joysticks &kalibrieren"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra Joystick Adapter Einstellungen"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "Süd West"
+  IDS_KEYSET_S                    "&Süden"
+  IDS_KEYSET_SE                   "Süd Ost"
+  IDS_KEYSET_W                    "&Westen"
+  IDS_KEYSET_E                    "&Osten"
+  IDS_KEYSET_NW                   "Nord West"
+  IDS_KEYSET_N                    "&Norden"
+  IDS_KEYSET_NE                   "Nord Ost"
+  IDS_KEYSET_FIRE                 "&Feuerknopf"
+  IDS_SOUND_CAPTION               "Sound Gerät Einstellungen konfigurieren"
+  IDS_SOUND_DIRECTX               "DirectX treiber"
+  IDS_SOUND_WMM                   "WMM treiber"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Sample &Frequenz"
+  IDS_SOUND_BUFFER_SIZE           "Sound Puffergröße"
+  IDS_SOUND_SYNCH_METHOD          "Synchronisations&methode"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Aktuell eingelegte &Diskimages speichern"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Aktuelle ROMs speichern"
   IDS_MP_FILE                     "&Datei"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
   IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
@@ -7528,6 +6499,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Configurer &A"
   IDS_JOY_CONFIG_B                "Configurer &B"
   IDS_JOY_CALIBRATE               "&Calibration des joystick(s)"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick adapter settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "Su&d Ouest"
+  IDS_KEYSET_S                    "&Sud"
+  IDS_KEYSET_SE                   "S&ud Est"
+  IDS_KEYSET_W                    "&Ouest"
+  IDS_KEYSET_E                    "&Est"
+  IDS_KEYSET_NW                   "No&rd Ouest"
+  IDS_KEYSET_N                    "&Nord"
+  IDS_KEYSET_NE                   "N&ord Est"
+  IDS_KEYSET_FIRE                 "&Bouton de tir"
+  IDS_SOUND_CAPTION               "Configurer les paramètres du périphérique son"
+  IDS_SOUND_DIRECTX               "Pilote DirectX"
+  IDS_SOUND_WMM                   "Pilote WMM"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Fréquence d'échantillonage :"
+  IDS_SOUND_BUFFER_SIZE           "Taille du &tampon son :"
+  IDS_SOUND_SYNCH_METHOD          "&Méthode de synchronisation :"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Sauvegarder les &disques présentement insérés"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Sauvegarder les images &ROM présentement chargés"
   IDS_MP_FILE                     "&Fichier"
   IDS_MP_ATTACH_DISK_IMAGE        "Insérer une image de &disque"
   IDS_MP_DETACH_DISK_IMAGE        "&Retirer une image de disque"
@@ -7975,6 +6966,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "'&A' gombkészlet beállítása"
   IDS_JOY_CONFIG_B                "'&B' gombkészlet beállítása"
   IDS_JOY_CALIBRATE               "Botkormány(ok) &kalibrálása"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick adapter settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "Déln&yugat"
+  IDS_KEYSET_S                    "&Dél"
+  IDS_KEYSET_SE                   "Délke&let"
+  IDS_KEYSET_W                    "&Nyugat"
+  IDS_KEYSET_E                    "&Kelet"
+  IDS_KEYSET_NW                   "Északnyu&gat"
+  IDS_KEYSET_N                    "É&szak"
+  IDS_KEYSET_NE                   "Északk&elet"
+  IDS_KEYSET_FIRE                 "&Tûzgomb"
+  IDS_SOUND_CAPTION               "Hang eszköz beállítása"
+  IDS_SOUND_DIRECTX               "DirectX meghajtó"
+  IDS_SOUND_WMM                   "WMM meghajtó"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Mintavételezési &frekvencia:"
+  IDS_SOUND_BUFFER_SIZE           "Hang puffer &méret:"
+  IDS_SOUND_SYNCH_METHOD          "Szinkronizáció módja:"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "A jelenleg csatolt lemezek &mentése"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "A jelenleg betöltött &ROM-ok mentése"
   IDS_MP_FILE                     "&Fájl"
   IDS_MP_ATTACH_DISK_IMAGE        "Lemezképmás csatolása"
   IDS_MP_DETACH_DISK_IMAGE        "Lemezképmás &leválasztása"
@@ -8421,6 +7432,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Configura il keyset &A"
   IDS_JOY_CONFIG_B                "Configura il keyset &B"
   IDS_JOY_CALIBRATE               "&Calibra Joystick"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick adapter settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "S&ud ovest"
+  IDS_KEYSET_S                    "&Sud"
+  IDS_KEYSET_SE                   "Su&d Est"
+  IDS_KEYSET_W                    "&Ovest"
+  IDS_KEYSET_E                    "&Est"
+  IDS_KEYSET_NW                   "No&rd Ovest"
+  IDS_KEYSET_N                    "&Nord"
+  IDS_KEYSET_NE                   "Nor&d Est"
+  IDS_KEYSET_FIRE                 "Pulsante di &Fuoco"
+  IDS_SOUND_CAPTION               "Configura le impostazioni della scheda audio"
+  IDS_SOUND_DIRECTX               "Driver DirectX"
+  IDS_SOUND_WMM                   "Driver WMM"
+  IDS_SOUND_SAMPLE_FREQUENCY      "&Frequenza di campionamento :"
+  IDS_SOUND_BUFFER_SIZE           "Dimensione del buffer del suono :"
+  IDS_SOUND_SYNCH_METHOD          "&Metodo di sincronizzazione :"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Salva le immagini dei &dischi attualmente selezionati"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Salva le immagini delle &ROM attualmente caricate"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Seleziona l'immagine di un &disco"
   IDS_MP_DETACH_DISK_IMAGE        "&Rimuovi l'immagine di un disco"
@@ -8866,6 +7897,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Configureer Keyset &A"
   IDS_JOY_CONFIG_B                "Configureer Keyset &B"
   IDS_JOY_CALIBRATE               "&Kalibreer Joystick(s)"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick adapter instellingen"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra poort #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra poort #&2"
+  IDS_KEYSET_SW                   "Z&uid West"
+  IDS_KEYSET_S                    "&Zuiden"
+  IDS_KEYSET_SE                   "Z&uid Oost"
+  IDS_KEYSET_W                    "&West"
+  IDS_KEYSET_E                    "&Oost"
+  IDS_KEYSET_NW                   "Noo&rd West"
+  IDS_KEYSET_N                    "&Noord"
+  IDS_KEYSET_NE                   "Noord Oos&t"
+  IDS_KEYSET_FIRE                 "&Vuur knop"
+  IDS_SOUND_CAPTION               "Geluidsapparaatinstellingen"
+  IDS_SOUND_DIRECTX               "DirectX stuurprogramma"
+  IDS_SOUND_WMM                   "WMM stuurprogramma"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Sample &Frequency :"
+  IDS_SOUND_BUFFER_SIZE           "Geluidsbuffer&grootte :"
+  IDS_SOUND_SYNCH_METHOD          "Synchronisatie&methode :"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Sla huidig gekoppelde &schijfbestanden op"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Sla huidig gekoppelde &ROMs op"
   IDS_MP_FILE                     "&Bestand"
   IDS_MP_ATTACH_DISK_IMAGE        "Koppel &schijfbestand aan"
   IDS_MP_DETACH_DISK_IMAGE        "Ontkopp&el schijfbestand"
@@ -9312,6 +8363,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Config Keyset &A"
   IDS_JOY_CONFIG_B                "Config Keyset &B"
   IDS_JOY_CALIBRATE               "&Calibrate Joystick(s)"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick adapter settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "S&outh West"
+  IDS_KEYSET_S                    "&South"
+  IDS_KEYSET_SE                   "So&uth East"
+  IDS_KEYSET_W                    "&West"
+  IDS_KEYSET_E                    "&East"
+  IDS_KEYSET_NW                   "No&rth West"
+  IDS_KEYSET_N                    "&North"
+  IDS_KEYSET_NE                   "Nor&th East"
+  IDS_KEYSET_FIRE                 "&Fire button"
+  IDS_SOUND_CAPTION               "Ustawienia d¼wiêku"
+  IDS_SOUND_DIRECTX               "Sterownik DirectX"
+  IDS_SOUND_WMM                   "Sterownik WMM"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Prê&dko¶æ sampli :"
+  IDS_SOUND_BUFFER_SIZE           "Ro&zmiar buffora :"
+  IDS_SOUND_SYNCH_METHOD          "Synchronizac&ja d¼wiêku :"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Zapisz obecnie w³o¿ony &dysk"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Zapisz obecnie w³o¿ony &ROM"
   IDS_MP_FILE                     "&Plik"
   IDS_MP_ATTACH_DISK_IMAGE        "W³ó¿ obraz &dyskietki"
   IDS_MP_DETACH_DISK_IMAGE        "Wyjmij obraz dyski&etki"
@@ -9758,6 +8829,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Tangentuppsättning &A"
   IDS_JOY_CONFIG_B                "Tangentuppsättning &B"
   IDS_JOY_CALIBRATE               "&Kalibrera styrspak(ar)"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Inställningar för extra styrspaksadapter"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "S&ydväst"
+  IDS_KEYSET_S                    "&Syd"
+  IDS_KEYSET_SE                   "Sy&döst"
+  IDS_KEYSET_W                    "&Väst"
+  IDS_KEYSET_E                    "&Öst"
+  IDS_KEYSET_NW                   "No&rdväst"
+  IDS_KEYSET_N                    "&Nord"
+  IDS_KEYSET_NE                   "N&ordöst"
+  IDS_KEYSET_FIRE                 "&Avtryckarknapp"
+  IDS_SOUND_CAPTION               "Inställningar för ljudenheter"
+  IDS_SOUND_DIRECTX               "DirectX-drivrutiner"
+  IDS_SOUND_WMM                   "WMM-drivrutiner"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Samplings&frekvens:"
+  IDS_SOUND_BUFFER_SIZE           "Ljudbuffert&storlek:"
+  IDS_SOUND_SYNCH_METHOD          "Synkroniserings&metod:"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Spara anslutna disketter &diskettavbildningar"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Spara lästa &ROM-avbildningar"
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
@@ -10204,6 +9295,26 @@ BEGIN
   IDS_JOY_CONFIG_A                "Tuþ Seti &A'yý konfigüre et"
   IDS_JOY_CONFIG_B                "Tuþ Seti &B'yý konfigüre et"
   IDS_JOY_CALIBRATE               "Joysti&ck(ler)i kalibre et"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra joystick adapter settings"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_KEYSET_SW                   "Gü&ney Batý"
+  IDS_KEYSET_S                    "Güne&y"
+  IDS_KEYSET_SE                   "Güney Doð&u"
+  IDS_KEYSET_W                    "&Batý"
+  IDS_KEYSET_E                    "&Doðu"
+  IDS_KEYSET_NW                   "Ku&zey Batý"
+  IDS_KEYSET_N                    "&Kuzey"
+  IDS_KEYSET_NE                   "Kuz&ey Doðu"
+  IDS_KEYSET_FIRE                 "&Ateþ düðmesi"
+  IDS_SOUND_CAPTION               "Ses Aygýtý Ayarlarýný Konfigüre Et"
+  IDS_SOUND_DIRECTX               "DirectX sürücüsü"
+  IDS_SOUND_WMM                   "WMM sürücüsü"
+  IDS_SOUND_SAMPLE_FREQUENCY      "Örnekleme &Frekansý :"
+  IDS_SOUND_BUFFER_SIZE           "&Ses Arabellek Boyutu :"
+  IDS_SOUND_SYNCH_METHOD          "Senkronizasyon &Metodu :"
+  IDS_TOGGLE_SNAPSHOT_SAVE_DISKS  "Halihazýrda yerleþtirilmiþ &disk imajlarýný kaydet"
+  IDS_TOGGLE_SNAPSHOT_SAVE_ROMS   "Halihazýrda yüklenmiþ &ROM imajlarýný kaydet"
   IDS_MP_FILE                     "&Dosya"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk imajý yerleþtir"
   IDS_MP_DETACH_DISK_IMAGE        "Disk imajý çýkar&t"

@@ -103,6 +103,7 @@ extern void uilib_get_group_extent(HWND hwnd, uilib_dialog_group *group, int *xs
 extern void uilib_get_group_max_x(HWND hwnd, uilib_dialog_group *group, int *xpos);
 extern void uilib_get_group_min_x(HWND hwnd, uilib_dialog_group *group, int *xpos);
 extern void uilib_get_group_width(HWND hwnd, uilib_dialog_group *group, int *width);
+extern void uilib_set_group_width(HWND hwnd, uilib_dialog_group *group, int size);
 extern void uilib_move_and_adjust_group_width(HWND hwnd, uilib_dialog_group *group, int xpos);
 extern void uilib_move_group(HWND hwnd, uilib_dialog_group *group, int xpos);
 extern void uilib_adjust_group_width(HWND hwnd, uilib_dialog_group *group);
@@ -111,9 +112,11 @@ extern void uilib_move_and_set_element_width(HWND hwnd, int idc, int xpos, int n
 extern void uilib_adjust_element_width(HWND hwnd, int idc);
 extern void uilib_move_element(HWND hwnd, int idc, int xpos);
 extern void uilib_get_element_width(HWND hwnd, int idc, int *width);
+extern void uilib_get_element_size(HWND hwnd, int idc, int *width);
 extern void uilib_get_element_max_x(HWND hwnd, int idc, int *width);
 extern void uilib_get_element_min_x(HWND hwnd, int idc, int *width);
 extern void uilib_set_element_width(HWND hwnd, int idc, int xsize);
+extern void uilib_center_buttons(HWND hwnd, int *bottons, int resize);
 
 typedef struct {
     unsigned int idc;
@@ -124,4 +127,3 @@ extern void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param)
 
 
 #endif
-
