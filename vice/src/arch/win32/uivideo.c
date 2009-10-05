@@ -135,11 +135,45 @@ static void enable_controls_for_video_settings(HWND hwnd, int type)
 }
 */
 
+static uilib_localize_dialog_param color_dialog_trans[] = {
+    {IDC_COLORS_SATURATION, IDS_COLORS_SATURATION, 0},
+    {IDC_COLORS_CONTRAST, IDS_COLORS_CONTRAST, 0},
+    {IDC_COLORS_BRIGHTNESS, IDS_COLORS_BRIGHTNESS, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group color_left_group[] = {
+    {IDC_COLORS_SATURATION, 0},
+    {IDC_COLORS_CONTRAST, 0},
+    {IDC_COLORS_BRIGHTNESS, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group color_right_group[] = {
+    {IDC_VIDEO_COLORS_SAT, 0},
+    {IDC_VIDEO_COLORS_CON, 0},
+    {IDC_VIDEO_COLORS_BRI, 0},
+    {0, 0}
+};
+
 static void init_color_dialog(HWND hwnd)
 {
     int val;
     double fval;
     TCHAR newval[64];
+    int xpos;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, color_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, color_left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, color_left_group, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, color_right_group, xpos + 10);
 
     resources_get_int("ColorSaturation", &val);
                       fval = ((double)val) / 1000.0;
@@ -158,11 +192,45 @@ static void init_color_dialog(HWND hwnd)
 
 }
 
+static uilib_localize_dialog_param new_pal_dialog_trans[] = {
+    {IDC_NEW_PAL_TINT, IDS_NEW_PAL_TINT, 0},
+    {IDC_NEW_PAL_ODD_LINES_PHASE, IDS_NEW_PAL_ODD_LINES_PHASE, 0},
+    {IDC_NEW_PAL_ODD_LINES_OFFSET, IDS_NEW_PAL_ODD_LINES_OFFSET, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group new_pal_left_group[] = {
+    {IDC_NEW_PAL_TINT, 0},
+    {IDC_NEW_PAL_ODD_LINES_PHASE, 0},
+    {IDC_NEW_PAL_ODD_LINES_OFFSET, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group new_pal_right_group[] = {
+    {IDC_VIDEO_NEW_PAL_TINT, 0},
+    {IDC_VIDEO_NEW_PAL_PHASE, 0},
+    {IDC_VIDEO_NEW_PAL_OFFSET, 0},
+    {0, 0}
+};
+
 static void init_new_pal_dialog(HWND hwnd)
 {
     int val;
     double fval;
     TCHAR newval[64];
+    int xpos;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, new_pal_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, new_pal_left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, new_pal_left_group, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, new_pal_right_group, xpos + 10);
 
     resources_get_int("ColorTint", &val);
                       fval = ((double)val) / 1000.0;
@@ -184,6 +252,32 @@ static void init_new_pal_dialog(HWND hwnd)
 static Chip_Parameters *current_chip;
 static Chip_Parameters *current_chip2;
 
+static uilib_localize_dialog_param advanced_dialog_trans[] = {
+    {IDC_VIDEO_GAMMA, IDS_VIDEO_GAMMA, 0},
+    {IDC_VIDEO_PHASE, IDS_VIDEO_PHASE, 0},
+    {IDC_VIDEO_PAL_SHADE, IDS_VIDEO_PAL_SHADE, 0},
+    {IDC_VIDEO_PAL_BLUR, IDS_VIDEO_PAL_BLUR, 0},
+    {IDC_TOGGLE_VIDEO_EXTPALETTE, IDS_TOGGLE_VIDEO_EXTPALETTE, 0},
+    {IDC_VIDEO_CUSTOM_BROWSE, IDS_BROWSE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group advanced_left_group[] = {
+    {IDC_VIDEO_GAMMA, 0},
+    {IDC_VIDEO_PHASE, 0},
+    {IDC_VIDEO_PAL_SHADE, 0},
+    {IDC_VIDEO_PAL_BLUR, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group advanced_right_group[] = {
+    {IDC_VIDEO_COLORS_GAM, 0},
+    {IDC_VIDEO_COLORS_PHA, 0},
+    {IDC_VIDEO_ADVANCED_SHADE, 0},
+    {IDC_VIDEO_ADVANCED_BLUR, 0},
+    {0, 0}
+};
+
 static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int n, val;
@@ -192,6 +286,38 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     const char *path;
     TCHAR *st_path;
     HWND filename_hwnd;
+    int xpos;
+    int xstart;
+    int size;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, advanced_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, advanced_left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, advanced_left_group, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, advanced_right_group, xpos + 10);
+
+    /* adjust the size of the external palette element */
+    uilib_adjust_element_width(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE);
+
+    /* get the min x of the palette combo element */
+    uilib_get_element_min_x(hwnd, IDC_VIDEO_CUSTOM_NAME, &xstart);
+
+    /* get the max x of the external palette element */
+    uilib_get_element_max_x(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, &xpos);
+
+    if (xpos + 10 > xstart) {
+        /* get the size of the palette combo element */
+        uilib_get_element_size(hwnd, IDC_VIDEO_CUSTOM_NAME, &size);
+
+        /* move and resize the palette combo element */
+        uilib_move_and_set_element_width(hwnd, IDC_VIDEO_CUSTOM_NAME, xpos + 10, size - (xstart - (xpos + 10)));
+    }
 
     current_chip = chip_type;
 
@@ -241,12 +367,20 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     system_mbstowcs_free(st_path);
 }
 
+static uilib_localize_dialog_param palette_dialog_trans[] = {
+    {IDC_VIDEO_CUSTOM_BROWSE, IDS_BROWSE, 0},
+    {0, 0, 0}
+};
+
 static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int n;
     const char *path;
     TCHAR *st_path;
     HWND filename_hwnd;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, palette_dialog_trans);
 
     current_chip2 = chip_type;
 
@@ -564,19 +698,19 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
-        psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_ADVANCED_DIALOG));
-        psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_NEW_PAL_DIALOG));
-        psp[3].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+        psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+        psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_NEW_PAL_DIALOG);
+        psp[3].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
         psp[1].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_ADVANCED_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
         psp[2].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_NEW_PAL_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_NEW_PAL_DIALOG);
         psp[3].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #endif
         psh.nPages = 4;
     } else {
@@ -588,14 +722,14 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
         psp[1].pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
         psp[1].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #endif
         psh.nPages = 2;
     }
@@ -611,10 +745,10 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[index].pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #else
         psp[index].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #endif
         psh.nPages++;
     }

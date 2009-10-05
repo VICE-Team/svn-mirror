@@ -37,6 +37,7 @@
 #include "statusbar.h"
 #include "translate.h"
 #include "ui.h"
+#include "uilib.h"
 #include "videoarch.h"
 #include "winlong.h"
 #include "winmain.h"
@@ -470,11 +471,82 @@ static void get_resolutionlist(int device, int bitdepth)
 
 static int vblank_sync;
 
+static uilib_localize_dialog_param fullscreen_dialog_trans[] = {
+    {IDC_FULLSCREEN_DRIVER, IDS_FULLSCREEN_DRIVER, 0},
+    {IDC_FULLSCREEN_DRIVER_BITDEPTH, IDS_FULLSCREEN_DRVR_BITDEPTH, 0},
+    {IDC_FULLSCREEN_DRIVER_RESOLUTION, IDS_FULLSCREEN_DRVR_RESOLUTION, 0},
+    {IDC_FULLSCREEN_DRIVER_REFRESHRATE, IDS_FULLSCREEN_DRVR_REFRESHRATE, 0},
+    {IDC_TOGGLE_VIDEO_VBLANK_SYNC, IDS_TOGGLE_VIDEO_VBLANK_SYNC, 0},
+    {IDC_TOGGLE_VIDEO_DX_PRIMARY, IDS_TOGGLE_VIDEO_DX_PRIMARY, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group fullscreen_left_group[] = {
+    {IDC_FULLSCREEN_DRIVER_BITDEPTH,  0},
+    {IDC_FULLSCREEN_DRIVER_RESOLUTION, 0},
+    {IDC_FULLSCREEN_DRIVER_REFRESHRATE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group fullscreen_right_group[] = {
+    {IDC_FULLSCREEN_BITDEPTH,  0},
+    {IDC_FULLSCREEN_RESOLUTION, 0},
+    {IDC_FULLSCREEN_REFRESHRATE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group fullscreen_rest_group[] = {
+    {IDC_FULLSCREEN_DRIVER, 0},
+    {IDC_TOGGLE_VIDEO_VBLANK_SYNC, 1},
+    {IDC_TOGGLE_VIDEO_DX_PRIMARY, 1},
+    {0, 0}
+};
+
 static void init_fullscreen_dialog(HWND hwnd)
 {
     HWND setting_hwnd;
     DirectDrawDeviceList *dev;
     ValueList *value;
+    int xpos;
+    int xstart;
+    int xend;
+    int distance;
+    int size;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, fullscreen_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, fullscreen_left_group);
+
+    /* adjust the size of the elements in the rest group */
+    uilib_adjust_group_width(hwnd, fullscreen_rest_group);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, fullscreen_right_group, &xend);
+
+    /* get the min x of the right group */
+    uilib_get_group_min_x(hwnd, fullscreen_right_group, &xstart);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, fullscreen_left_group, &xpos);
+
+    if (xpos + 10 > xstart) {
+        /* set the position of the right group */
+        uilib_move_group(hwnd, fullscreen_right_group, xpos + 10);
+
+        /* get the max x of the right group */
+        uilib_get_group_max_x(hwnd, fullscreen_right_group, &xpos);
+
+        /* calculate the distance between the old and new max x of the right group */
+        distance = xpos - xend;
+
+        /* get the size of the driver element */
+        uilib_get_element_size(hwnd, IDC_FULLSCREEN_DEVICE, &size);
+
+        /* set the size of the driver element */
+        uilib_set_element_width(hwnd, IDC_FULLSCREEN_DEVICE, size + distance);
+    }
 
     validate_mode(&fullscreen_device, &fullscreen_width, &fullscreen_height, &fullscreen_bitdepth, &fullscreen_refreshrate);
     setting_hwnd = GetDlgItem(hwnd, IDC_FULLSCREEN_DEVICE);

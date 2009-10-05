@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "uilib.h"
 #include "uiram.h"
 #include "winmain.h"
 
@@ -73,6 +74,37 @@ static void update_preview(HWND hwnd)
     lib_free(s_win);
 }
 
+static uilib_localize_dialog_param ram_dialog_trans[] = {
+    {0, IDS_RAM_CAPTION, -1},
+    {IDC_RAM_INIT_AT_POWERUP, IDS_RAM_INIT_AT_POWERUP, 0},
+    {IDC_RAM_VALUE_FIRST_BYTE, IDS_RAM_VALUE_FIRST_BYTE, 0},
+    {IDC_RAM_LENGTH_CONSTANT_VALUES, IDS_RAM_LENGTH_CONSTANT_VALUES, 0},
+    {IDC_RAM_LENGTH_CONSTANT_PATTERN, IDS_RAM_LENGTH_CONSTANT_PATTERN, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group ram_right_group[] = {
+    {IDC_RAM_VALUE_FIRST_BYTE, 0},
+    {IDC_RAM_LENGTH_CONSTANT_VALUES, 0},
+    {IDC_RAM_LENGTH_CONSTANT_PATTERN, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group ram_filling_group[] = {
+    {IDC_RAM_INIT_AT_POWERUP, 0},
+    {IDC_RAM_VALUE_FIRST_BYTE, 0},
+    {IDC_RAM_LENGTH_CONSTANT_VALUES, 0},
+    {IDC_RAM_LENGTH_CONSTANT_PATTERN, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
 
 static void init_ram_dialog(HWND hwnd)
 {
@@ -80,7 +112,44 @@ static void init_ram_dialog(HWND hwnd)
     int     i;
     LOGFONT logfont = { -12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
                       DRAFT_QUALITY, FIXED_PITCH|FF_MODERN, TEXT("") };
-    HFONT   hfont = CreateFontIndirect(&logfont);
+    HFONT hfont = CreateFontIndirect(&logfont);
+    int group_x;
+    int size;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, ram_dialog_trans);
+
+    /* get the max x of the group element */
+    uilib_get_element_max_x(hwnd, IDC_RAM_INIT_AT_POWERUP, &group_x);
+
+    /* get the size of the group element */
+    uilib_get_element_size(hwnd, IDC_RAM_INIT_AT_POWERUP, &size);
+
+    /* adjust the size of the right group elements */
+    uilib_adjust_group_width(hwnd, ram_right_group);
+
+    /* adjust the size of the group element */
+    uilib_adjust_element_width(hwnd, IDC_RAM_INIT_AT_POWERUP);
+
+    /* get the max x of the filling elements */
+    uilib_get_group_max_x(hwnd, ram_filling_group, &xpos);
+
+    if (xpos < group_x) {
+        /* restore the size of the group element */
+        uilib_set_element_width(hwnd, IDC_RAM_INIT_AT_POWERUP, size);
+    } else {
+        /* set the size of the group element */
+        uilib_set_element_width(hwnd, IDC_RAM_INIT_AT_POWERUP, size + xpos - group_x + 10);
+        
+        /* set the size of the dialog window */
+        GetWindowRect(hwnd, &rect);
+        MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+        /* recenter the buttons in the newly resized dialog window */
+        uilib_center_buttons(hwnd, move_buttons_group, 0);
+    }
 
     if (hfont)
         SendDlgItemMessage(hwnd, IDC_RAMINIT_PREVIEW, WM_SETFONT,
@@ -175,6 +244,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_ram_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_RAM_SETTINGS_DIALOG)), hwnd,
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_RAM_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
