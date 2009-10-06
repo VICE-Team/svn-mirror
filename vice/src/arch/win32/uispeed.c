@@ -49,69 +49,21 @@ int ui_speed_current(void)
 
     return res_value;
 }
-#if 0
-static void init_speed_dialog(HWND hwnd)
-{
-    int res_value;
-    char *speedstr;
-    TCHAR *st_speedstr;
-
-    resources_get_int("Speed", &res_value);
-
-    speedstr = lib_msprintf("%i", res_value);
-    st_speedstr = system_mbstowcs_alloc(speedstr);
-    SetDlgItemText(hwnd, IDC_CUSTOM_SPEED, st_speedstr);
-    system_mbstowcs_free(st_speedstr);
-    lib_free(speedstr);
-}
-
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
-{
-    int command;
-    int speed;
-    TCHAR st[20];
-
-    switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDOK:
-            GetDlgItemText(hwnd, IDC_CUSTOM_SPEED, st, 20);
-            speed = _ttoi(st);
-            if (speed > 0 && speed < 1000000)
-                resources_set_int("Speed", speed);
-          case IDCANCEL:
-            EndDialog(hwnd,0);
-            return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_speed_dialog(hwnd);
-        return TRUE;
-    }
-    return FALSE;
-}
-#endif
 
 void ui_speed_settings_dialog(HWND hwnd)
 {
-/*
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_CUSTOM_SPEED_DIALOG), hwnd,
-              dialog_proc);
-*/
     uilib_dialogbox_param_t param;
     int speed;
 
     resources_get_int("Speed", &speed);
 
     param.hwnd = hwnd;
-    param.idd_dialog = translate_res(IDD_CUSTOM_SPEED_DIALOG);
+    param.idd_dialog = IDD_CUSTOM_SPEED_DIALOG;
     param.idc_dialog = IDC_CUSTOM_SPEED;
     _itot(speed, param.string, 10);
+    param.idc_dialog_trans = IDC_ENTER_CUSTOM_SPEED;
+    param.idc_dialog_trans_text = translate_text(IDS_ENTER_CUSTOM_SPEED);
+    param.idd_dialog_caption = translate_text(IDS_CUSTOM_SPEED_CAPTION);
 
     uilib_dialogbox(&param);
 
@@ -122,4 +74,3 @@ void ui_speed_settings_dialog(HWND hwnd)
 
     }
 }
-

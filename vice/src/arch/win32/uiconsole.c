@@ -53,12 +53,22 @@
 static int append_log = 1;
 static char name[100];
 
+static uilib_localize_dialog_param save_as_console_dialog_trans[] = {
+    {IDC_TOGGLE_CONSOLE_APPEND, IDS_TOGGLE_CONSOLE_APPEND, 0},
+    {0, 0, 0}
+};
+
 static void init_dialog(HWND hwnd)
 {
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, save_as_console_dialog_trans);
+
+    /* adjust the size of the append element */
+    uilib_adjust_element_width(hwnd, IDC_TOGGLE_CONSOLE_APPEND);
+
     CheckDlgButton(hwnd, IDC_TOGGLE_CONSOLE_APPEND, append_log
                    ? BST_CHECKED : BST_UNCHECKED);
     name[0] = '\0';
-//    SetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, "");
 }
 
 static UINT_PTR APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
@@ -111,7 +121,7 @@ static char *ui_save_as_console(const TCHAR *title, const char *filter,
                  | OFN_SHAREAWARE
                  | OFN_ENABLESIZING);
     ofn.lpfnHook = hook_save_as_console;
-    ofn.lpTemplateName = MAKEINTRESOURCE(translate_res(IDD_CONSOLE_SAVE_DIALOG));
+    ofn.lpTemplateName = MAKEINTRESOURCE(IDD_CONSOLE_SAVE_DIALOG);
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;

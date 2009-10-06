@@ -40,9 +40,88 @@
 #include "system.h"
 #include "translate.h"
 #include "uiapi.h"
+#include "uilib.h"
 #include "vsync.h"
 #include "winmain.h"
 
+static uilib_localize_dialog_param network_dialog_trans[] = {
+    {0, IDS_NETWORK_CAPTION, -1},
+    {IDC_CURRENT_MODE, IDS_CURRENT_MODE, 0},
+    {IDC_SERVER_BIND, IDS_SERVER_BIND, 0},
+    {IDC_TCP_PORT, IDS_TCP_PORT, 0},
+    {IDC_NETWORK_SERVER, IDS_NETWORK_SERVER, 0},
+    {IDC_NETWORK_CLIENT, IDS_NETWORK_CLIENT, 0},
+    {IDC_NETWORK_DISCONNECT, IDS_NETWORK_DISCONNECT, 0},
+    {IDC_CONTROL, IDS_CONTROL, 0},
+    {IDC_SERVER, IDS_SERVER, 0},
+    {IDC_CLIENT, IDS_CLIENT, 0},
+    {IDC_KEYBOARD, IDS_KEYBOARD, 0},
+    {IDC_JOYSTICK_1, IDS_JOYSTICK_1, 0},
+    {IDC_JOYSTICK_2, IDS_JOYSTICK_2, 0},
+    {IDC_DEVICES, IDS_DEVICES, 0},
+    {IDC_SETTINGS, IDS_SETTINGS, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group network_left_group[] = {
+    {IDC_CURRENT_MODE, 0},
+    {IDC_SERVER_BIND, 0},
+    {IDC_TCP_PORT, 0},
+    {IDC_NETWORK_SERVER, 0},
+    {IDC_NETWORK_CLIENT, 0},
+    {IDC_NETWORK_DISCONNECT, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group network_bind_port_group[] = {
+    {IDC_SERVER_BIND, 0},
+    {IDC_TCP_PORT, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group network_bind_port_indicator_group[] = {
+    {IDC_NETWORK_SERVER_BIND, 0},
+    {IDC_NETWORK_PORT, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group network_left_filling_group[] = {
+    {IDC_NETWORK_MODE, 0},
+    {IDC_NETWORK_SERVER_BIND, 0},
+    {IDC_NETWORK_SERVER, 0},
+    {IDC_NETWORK_SERVERNAME, 0},
+    {IDC_NETWORK_DISCONNECT, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group network_middle_group[] = {
+    {IDC_KEYBOARD, 0},
+    {IDC_JOYSTICK_1, 0},
+    {IDC_JOYSTICK_2, 0},
+    {IDC_DEVICES, 0},
+    {IDC_SETTINGS, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group server_check_group[] = {
+    {IDC_SERVER, 0},
+    {IDC_NETWORK_KEYB_SERVER, 0},
+    {IDC_NETWORK_JOY1_SERVER, 0},
+    {IDC_NETWORK_JOY2_SERVER, 0},
+    {IDC_NETWORK_DEVC_SERVER, 0},
+    {IDC_NETWORK_RSRC_SERVER, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group client_check_group[] = {
+    {IDC_CLIENT, 0},
+    {IDC_NETWORK_KEYB_CLIENT, 0},
+    {IDC_NETWORK_JOY1_CLIENT, 0},
+    {IDC_NETWORK_JOY2_CLIENT, 0},
+    {IDC_NETWORK_DEVC_CLIENT, 0},
+    {IDC_NETWORK_RSRC_CLIENT, 0},
+    {0, 0}
+};
 
 static void init_network_dialog(HWND hwnd)
 {
@@ -52,6 +131,75 @@ static void init_network_dialog(HWND hwnd)
     int control;
     TCHAR st[256];
     int connected;
+    int xpos;
+    int xstart;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, network_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, network_left_group);
+
+    /* get the max x of the current mode element */
+    uilib_get_element_max_x(hwnd, IDC_CURRENT_MODE, &xpos);
+
+    /* move the mode indicator element */
+    uilib_move_element(hwnd, IDC_NETWORK_MODE, xpos + 10);
+    
+    /* get the max x of bind port group */
+    uilib_get_group_max_x(hwnd, network_bind_port_group, &xpos);
+
+    /* move the elements of the bind port indicator group */
+    uilib_move_group(hwnd, network_bind_port_indicator_group, xpos + 10);
+
+    /* get the max x of the port indicator element */
+    uilib_get_element_max_x(hwnd, IDC_NETWORK_PORT, &xpos);
+
+    /* move the start server button */
+    uilib_move_element(hwnd, IDC_NETWORK_SERVER, xpos + 10);
+
+    /* get the max x of the connect to element */
+    uilib_get_element_max_x(hwnd, IDC_NETWORK_CLIENT, &xpos);
+
+    /* move the server ip indicator */
+    uilib_move_element(hwnd, IDC_NETWORK_SERVERNAME, xpos + 10);
+
+    /* get the max x of the left filling group */
+    uilib_get_group_max_x(hwnd, network_left_filling_group, &xpos);
+
+    /* move and adjust the middle group */
+    uilib_move_and_adjust_group_width(hwnd, network_middle_group, xpos + 20);
+
+    xstart = xpos + 15;
+
+    /* adjust the server element */
+    uilib_adjust_element_width(hwnd, IDC_SERVER);
+
+    /* adjust the client element */
+    uilib_adjust_element_width(hwnd, IDC_CLIENT);
+
+    /* get the max x of the middle group */
+    uilib_get_group_max_x(hwnd, network_middle_group, &xpos);
+
+    /* move the server check group */
+    uilib_move_group(hwnd, server_check_group, xpos + 10);
+
+    /* get the max x of the server check group */
+    uilib_get_group_max_x(hwnd, server_check_group, &xpos);
+
+    /* move the client check group */
+    uilib_move_group(hwnd, client_check_group, xpos + 10);
+
+    /* get the max x of the client check group */
+    uilib_get_group_max_x(hwnd, client_check_group, &xpos);
+
+    /* move and resize the control group element */
+    uilib_move_and_set_element_width(hwnd, IDC_CONTROL, xstart, xpos - xstart + 5);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 15, rect.bottom - rect.top, TRUE);
 
     resources_get_int("NetworkServerPort", &port);
     resources_get_string("NetworkServerName", &server_name);
@@ -212,6 +360,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_network_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_NETWORK_SETTINGS_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_NETWORK_SETTINGS_DIALOG),
               hwnd, dialog_proc);
 }

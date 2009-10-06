@@ -85,6 +85,9 @@ struct uilib_dialogbox_param_s {
     HWND hwnd;
     unsigned int idd_dialog;
     unsigned int idc_dialog;
+    unsigned int idc_dialog_trans;
+    char *idc_dialog_trans_text;
+    char *idd_dialog_caption;
     TCHAR string[UILIB_DIALOGBOX_MAX];
     unsigned int updated;
 };

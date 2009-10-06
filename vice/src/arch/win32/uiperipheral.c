@@ -608,6 +608,55 @@ static void enable_printer_controls(unsigned int num, HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME), is_enabled);
 }
 
+static uilib_localize_dialog_param printer_dialog_trans[] = {
+    {IDC_PRINTER_EMULATION, IDS_PRINTER_EMULATION, 0},
+    {IDC_PRINTER_FORMFEED, IDS_PRINTER_FORMFEED, 0},
+    {IDC_FILESYSTEM_PRINTER, IDS_FILESYSTEM_PRINTER, 0},
+    {IDC_PRINTER_DRVR, IDS_PRINTER_DRVR, 0},
+    {IDC_OUTPUT, IDS_OUTPUT, 0},
+    {IDC_OUTPUT_TO_FILE, IDS_OUTPUT_TO_FILE, 0},
+    {IDC_OUTPUT_FILE1_NAME, IDS_OUTPUT_FILE1_NAME, 0},
+    {IDC_OUTPUT_FILE2_NAME, IDS_OUTPUT_FILE2_NAME, 0},
+    {IDC_OUTPUT_FILE3_NAME, IDS_OUTPUT_FILE3_NAME, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param printer_iec_dialog_trans[] = {
+    {IDC_PRINTER_USEIECDEVICE, IDS_TOGGLE_USEIECDEVICE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group printer_left_group[] = {
+    {IDC_PRINTER_EMULATION, 0},
+    {IDC_PRINTER_DRVR, 0},
+    {IDC_OUTPUT, 0},
+    {IDC_OUTPUT_TO_FILE, 0},
+    {IDC_OUTPUT_FILE1_NAME, 0},
+    {IDC_OUTPUT_FILE2_NAME, 0},
+    {IDC_OUTPUT_FILE3_NAME, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group printer_top_right_group[] = {
+    {IDC_PRINTER_TYPE, 0},
+    {IDC_PRINTER_DRIVER, 0},
+    {IDC_PRINTER_OUTPUT, 0},
+    {IDC_PRINTER_TEXTOUT, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group printer_bottom_right_group[] = {
+    {IDC_PRINTER_OUTPUT_FILE1_NAME, 0},
+    {IDC_PRINTER_OUTPUT_FILE2_NAME, 0},
+    {IDC_PRINTER_OUTPUT_FILE3_NAME, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group formfeed_group[] = {
+    {IDC_PRINTER_FORMFEED, 1},
+    {0, 0}
+};
+
 static void init_printer_dialog(unsigned int num, HWND hwnd)
 {
     HWND printer_hwnd;
@@ -615,6 +664,50 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     char  printer_name[30];
     const char *res_string;
     int current = 0;
+    int xmax;
+    int xpos;
+    int size;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, printer_dialog_trans);
+
+    if (num != 0) {
+        /* translate the iec dialog item(s) */
+        uilib_localize_dialog(hwnd, printer_iec_dialog_trans);
+    }
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, printer_left_group);
+
+    /* get the max x of the bottom right group */
+    uilib_get_group_max_x(hwnd, printer_bottom_right_group, &xmax);
+
+    /* get the size of one of the elements of the bottom right group */
+    uilib_get_element_size(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, &size);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, printer_left_group, &xpos);
+
+    /* move the top right group to the correct position */
+    uilib_move_group(hwnd, printer_top_right_group, xpos + 10);
+
+    /* move the bottom right group to the correct position */
+    uilib_move_group(hwnd, printer_bottom_right_group, xpos + 10);
+
+    /* get the max x of the bottom right group */
+    uilib_get_group_max_x(hwnd, printer_bottom_right_group, &xpos);
+
+    /* set the size of the bottom right group */
+    uilib_set_group_width(hwnd, printer_bottom_right_group, size + xpos - xmax);
+
+    /* get the max x of the printer emulation drop down element */
+    uilib_get_element_max_x(hwnd, IDC_PRINTER_TYPE, &xpos);
+
+    /* adjust the size of the elements in formfeed group */
+    uilib_adjust_group_width(hwnd, formfeed_group);
+
+    /* move the send formfeed button */
+    uilib_move_element(hwnd, IDC_PRINTER_FORMFEED, xpos + 10);
 
     if (num == 0)
         sprintf(printer_name, "PrinterUserport");
@@ -850,11 +943,11 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PRINTER_SETTINGS_DIALOG));
+        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
         psp[i].pszIcon = NULL;
 #else
         psp[i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_PRINTER_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;

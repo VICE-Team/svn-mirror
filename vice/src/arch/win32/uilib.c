@@ -982,6 +982,10 @@ static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg,
                                                     WPARAM wparam,
                                                     LPARAM lparam)
 {
+    HWND element;
+    int xpos;
+    RECT rect;
+
     switch (msg) {
       case WM_COMMAND:
         switch (LOWORD(wparam)) {
@@ -998,8 +1002,20 @@ static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg,
         EndDialog(hwnd, 0);
         return TRUE;
       case WM_INITDIALOG:
-        SetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog,
-                       uilib_dialogbox_param->string);
+        SetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog, uilib_dialogbox_param->string);
+        element = GetDlgItem(hwnd, uilib_dialogbox_param->idc_dialog_trans);
+        SetWindowText(element, uilib_dialogbox_param->idc_dialog_trans_text);
+        element = GetDlgItem(hwnd, IDOK);
+        SetWindowText(element, translate_text(IDS_OK));
+        element = GetDlgItem(hwnd, IDCANCEL);
+        SetWindowText(element, translate_text(IDS_CANCEL));
+        SetWindowText(hwnd, uilib_dialogbox_param->idd_dialog_caption);
+        uilib_adjust_element_width(hwnd, uilib_dialogbox_param->idc_dialog_trans);
+        uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog_trans, &xpos);
+        uilib_move_element(hwnd, uilib_dialogbox_param->idc_dialog, xpos + 10);
+        uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog, &xpos);
+        GetWindowRect(hwnd, &rect);
+        MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
         return TRUE;
     }
     return FALSE;

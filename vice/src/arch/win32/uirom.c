@@ -235,11 +235,52 @@ static void update_romset_dialog(HWND hwnd, int idc_active)
     }
 }
 
+static uilib_localize_dialog_param romset_dialog_trans[] = {
+    {IDC_ROMSET_SELECT_ARCHIVE, IDS_ROMSET_SELECT_ARCHIVE, 0},
+    {IDC_ROMSET_ARCHIVE_BROWSE, IDS_BROWSE, 0},
+    {IDC_ROMSET_ARCHIVE_LOAD, IDS_ROMSET_ARCHIVE_LOAD, 0},
+    {IDC_ROMSET_ARCHIVE_SAVE, IDS_ROMSET_ARCHIVE_SAVE, 0},
+    {IDC_ROMSET_CONFIGURATION, IDS_ROMSET_CONFIGURATION, 0},
+    {IDC_ROMSET_ARCHIVE_APPLY, IDS_ROMSET_ARCHIVE_APPLY, 0},
+    {IDC_ROMSET_ARCHIVE_NEW, IDS_ROMSET_ARCHIVE_NEW, 0},
+    {IDC_ROMSET_ARCHIVE_DELETE, IDS_ROMSET_ARCHIVE_DELETE, 0},
+    {IDC_ROMSET_SELECT_FILE, IDS_ROMSET_SELECT_FILE, 0},
+    {IDC_ROMSET_FILE_BROWSE, IDS_BROWSE, 0},
+    {IDC_ROMSET_FILE_LOAD, IDS_ROMSET_FILE_LOAD, 0},
+    {IDC_ROMSET_FILE_SAVE, IDS_ROMSET_FILE_SAVE, 0},
+    {IDC_ROMSET_RESOURCE_COMPUTER, IDS_COMPUTER, 0},
+    {IDC_ROMSET_RESOURCE_DRIVE, IDS_DRIVE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group romset_main_group[] = {
+    {IDC_ROMSET_SELECT_ARCHIVE, 1},
+    {IDC_ROMSET_ARCHIVE_BROWSE, 1},
+    {IDC_ROMSET_ARCHIVE_LOAD, 1},
+    {IDC_ROMSET_ARCHIVE_SAVE, 1},
+    {IDC_ROMSET_ARCHIVE_APPLY, 1},
+    {IDC_ROMSET_ARCHIVE_NEW, 1},
+    {IDC_ROMSET_ARCHIVE_DELETE, 1},
+    {IDC_ROMSET_SELECT_FILE, 1},
+    {IDC_ROMSET_FILE_BROWSE, 1},
+    {IDC_ROMSET_FILE_LOAD, 1},
+    {IDC_ROMSET_FILE_SAVE, 1},
+    {IDC_ROMSET_RESOURCE_COMPUTER, 1},
+    {IDC_ROMSET_RESOURCE_DRIVE, 1},
+    {0, 0}
+};
+
 static void init_romset_dialog(HWND hwnd)
 {
     int res_value, idc_active;
     const char *name;
     TCHAR *st_name;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, romset_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, romset_main_group);
 
     resources_get_int("RomsetSourceFile", &res_value);
     idc_active = IDC_ROMSET_SELECT_ARCHIVE + res_value;
@@ -342,9 +383,12 @@ static void new_archive_romset_dialog(HWND hwnd)
     uilib_dialogbox_param_t param;
 
     param.hwnd = hwnd;
-    param.idd_dialog = translate_res(IDD_ROMSET_ENTER_NAME_DIALOG);
+    param.idd_dialog = IDD_ROMSET_ENTER_NAME_DIALOG;
     param.idc_dialog = IDC_ROMSET_ENTER_NAME;
     _tcscpy(param.string, TEXT(""));
+    param.idc_dialog_trans = IDC_ENTER_CONFIGURATION_NAME;
+    param.idc_dialog_trans_text = translate_text(IDS_ENTER_CONFIGURATION_NAME);
+    param.idd_dialog_caption = translate_text(IDS_NEW_CONFIGURATION);
 
     uilib_dialogbox(&param);
 
@@ -586,11 +630,11 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_ROMSET_SETTINGS_DIALOG));
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_ROMSET_SETTINGS_DIALOG));
+        = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;

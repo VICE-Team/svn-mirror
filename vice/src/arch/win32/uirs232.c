@@ -35,15 +35,71 @@
 #include "rs232.h"
 #include "system.h"
 #include "translate.h"
+#include "uilib.h"
 #include "uirs232.h"
 #include "winmain.h"
 
+static uilib_localize_dialog_param rs232_dialog_trans[] = {
+    {0, IDS_RS232_CAPTION, -1},
+    {IDC_RS232_DEV_1, IDS_RS232_DEV_1, 0},
+    {IDC_RS232_DEV_2, IDS_RS232_DEV_2, 0},
+    {IDC_RS232_DEV_3, IDS_RS232_DEV_3, 0},
+    {IDC_RS232_DEV_4, IDS_RS232_DEV_4, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
 
+static uilib_dialog_group left_group[] = {
+    {IDC_RS232_DEV_1, 0},
+    {IDC_RS232_DEV_2, 0},
+    {IDC_RS232_DEV_3, 0},
+    {IDC_RS232_DEV_4, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group right_group[] = {
+    {IDC_RS232_DEVICE1, 0},
+    {IDC_RS232_DEVICE2, 0},
+    {IDC_RS232_DEVICE3, 0},
+    {IDC_RS232_DEVICE4, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
 
 static void init_rs232_dialog(HWND hwnd)
 {
     const char *device;
     TCHAR *st_device;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, rs232_dialog_trans);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, left_group, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, right_group, xpos + 10);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, right_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_string("RsDevice1", &device);
     st_device = system_mbstowcs_alloc(device);
@@ -120,6 +176,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_rs232_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_RS232_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_RS232_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
