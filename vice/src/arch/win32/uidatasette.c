@@ -82,11 +82,10 @@ static int move_buttons_group[] = {
 static void init_datasette_dialog(HWND hwnd)
 {
     HWND snd_hwnd;
-    HWND temp_hwnd;
     int res_value;
     int res_value_loop;
     int active_value;
-    int xpos_max, xpos_min;
+    int xpos_max;
     int group_max;
     RECT rect;
 

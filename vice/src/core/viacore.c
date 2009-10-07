@@ -836,7 +836,6 @@ static void viacore_intt2(CLOCK offset, void *data)
 
 static void viacore_clk_overflow_callback(CLOCK sub, void *data)
 {
-    unsigned int t;
     via_context_t *via_context;
 
     via_context = (via_context_t *)data;

@@ -1217,8 +1217,6 @@ int y;
 void uilib_get_group_max_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
 {
     HWND element;
-    int x;
-    int y;
     RECT element_rect;
 
     if (xpos) {
@@ -1239,8 +1237,6 @@ void uilib_get_group_max_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
 void uilib_get_group_width(HWND hwnd, uilib_dialog_group *group, int *width)
 {
     HWND element;
-    int x;
-    int y;
     RECT element_rect;
 
     if (width) {
@@ -1261,8 +1257,6 @@ void uilib_get_group_width(HWND hwnd, uilib_dialog_group *group, int *width)
 void uilib_get_group_min_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
 {
     HWND element;
-    int x;
-    int y;
     RECT element_rect;
 
     if (xpos) {
