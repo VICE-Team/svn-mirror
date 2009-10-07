@@ -748,54 +748,6 @@ static int intl_table[][countof(language_table)] = {
 /* sv */   IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_SV,    /* size */
 /* tr */   IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_TR },  /* fuzzy, size */
 
-/* res.rc */
-/* en */ { IDD_OPEN_TEMPLATE,
-/* da */   IDD_OPEN_TEMPLATE_DA,    /* fuzzy, size */
-/* de */   IDD_OPEN_TEMPLATE_DE,    /* size */
-/* fr */   IDD_OPEN_TEMPLATE_FR,    /* size */
-/* hu */   IDD_OPEN_TEMPLATE_HU,    /* size */
-/* it */   IDD_OPEN_TEMPLATE_IT,    /* size */
-/* nl */   IDD_OPEN_TEMPLATE_NL,
-/* pl */   IDD_OPEN_TEMPLATE_PL,    /* fuzzy, size */
-/* sv */   IDD_OPEN_TEMPLATE_SV,    /* size */
-/* tr */   IDD_OPEN_TEMPLATE_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_OPENDISK_TEMPLATE,
-/* da */   IDD_OPENDISK_TEMPLATE_DA,    /* fuzzy, size */
-/* de */   IDD_OPENDISK_TEMPLATE_DE,    /* size */
-/* fr */   IDD_OPENDISK_TEMPLATE_FR,    /* size */
-/* hu */   IDD_OPENDISK_TEMPLATE_HU,    /* size */
-/* it */   IDD_OPENDISK_TEMPLATE_IT,    /* size */
-/* nl */   IDD_OPENDISK_TEMPLATE_NL,
-/* pl */   IDD_OPENDISK_TEMPLATE_PL,    /* fuzzy, size */
-/* sv */   IDD_OPENDISK_TEMPLATE_SV,    /* size */
-/* tr */   IDD_OPENDISK_TEMPLATE_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_OPENTAPE_TEMPLATE,
-/* da */   IDD_OPENTAPE_TEMPLATE_DA,    /* fuzzy, size */
-/* de */   IDD_OPENTAPE_TEMPLATE_DE,    /* size */
-/* fr */   IDD_OPENTAPE_TEMPLATE_FR,    /* size */
-/* hu */   IDD_OPENTAPE_TEMPLATE_HU,    /* size */
-/* it */   IDD_OPENTAPE_TEMPLATE_IT,    /* size */
-/* nl */   IDD_OPENTAPE_TEMPLATE_NL,
-/* pl */   IDD_OPENTAPE_TEMPLATE_PL,    /* fuzzy, size */
-/* sv */   IDD_OPENTAPE_TEMPLATE_SV,    /* size */
-/* tr */   IDD_OPENTAPE_TEMPLATE_TR },  /* fuzzy, size */
-
-/* res.rc */
-/* en */ { IDD_MEDIAFILE_DIALOG,
-/* da */   IDD_MEDIAFILE_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_MEDIAFILE_DIALOG_DE,    /* size */
-/* fr */   IDD_MEDIAFILE_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_MEDIAFILE_DIALOG_HU,    /* size */
-/* it */   IDD_MEDIAFILE_DIALOG_IT,    /* size */
-/* nl */   IDD_MEDIAFILE_DIALOG_NL,    /* size */
-/* pl */   IDD_MEDIAFILE_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_MEDIAFILE_DIALOG_SV,    /* size */
-/* tr */   IDD_MEDIAFILE_DIALOG_TR },  /* fuzzy, size */
-
 /* ressidcart.rc */
 /* en */ { IDD_SIDCART_SETTINGS_DIALOG,
 /* da */   IDD_SIDCART_SETTINGS_DIALOG_DA,    /* fuzzy, size */

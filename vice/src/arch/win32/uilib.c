@@ -158,6 +158,24 @@ static void create_content_list(image_contents_t *contents, HWND list)
 
 static HFONT hfont;
 
+static uilib_localize_dialog_param select_tape_trans[] = {
+    {IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0},
+    {IDC_NEW_TAP_IMAGE, IDS_NEW_TAP_IMAGE, 0},
+    {IDC_BLANK_IMAGE, IDS_BLANK_IMAGE, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param select_tape_parent_trans[] = {
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group select_tape_button_group[] = {
+    {IDC_BLANK_IMAGE, 1},
+    {0, 0}
+};
+
 static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
                                                      WPARAM wparam,
                                                      LPARAM lparam)
@@ -168,11 +186,30 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
     int index;
     int append_extension = 0;
     char *extension;
+    HWND parent_hwnd;
+    int xpos;
+    int xstart;
 
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), translate_text(IDS_ATTACH));
+        parent_hwnd = GetParent(hwnd);
+
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, select_tape_trans);
+        uilib_localize_dialog(parent_hwnd, select_tape_parent_trans);
+
+        /* adjust the button group */
+        uilib_adjust_group_width(hwnd, select_tape_button_group);
+
+        /* get the max x of the button element */
+        uilib_get_element_max_x(hwnd, IDC_BLANK_IMAGE, &xpos);
+
+        /* get the min x of the button element */
+        uilib_get_element_min_x(hwnd, IDC_BLANK_IMAGE, &xstart);
+
+        /* move and resize the surrounding group element */
+        uilib_move_and_set_element_width(hwnd, IDC_NEW_TAP_IMAGE, xstart - 10, xpos - xstart + 20);
 
         if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -287,6 +324,46 @@ static int image_type[] = {
     DISK_IMAGE_TYPE_X64
 };
 
+static uilib_localize_dialog_param select_disk_hook_trans[] = {
+    {IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0},
+    {IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0},
+    {IDC_NEW_IMAGE, IDS_NEW_IMAGE, 0},
+    {IDC_NAME, IDS_NAME, 0},
+    {IDC_ID, IDS_ID, 0},
+    {IDC_TYPE, IDS_TYPE, 0},
+    {IDC_BLANK_IMAGE, IDS_BLANK_IMAGE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group select_disk_right_group[] = {
+    {IDC_TOGGLE_ATTACH_READONLY, 1},
+    {IDC_NAME, 0},
+    {IDC_ID, 0},
+    {IDC_TYPE, 0},
+    {IDC_BLANK_IMAGE, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group select_disk_id_group[] = {
+    {IDC_ID, 0},
+    {IDC_BLANK_IMAGE_ID, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group select_disk_type_group[] = {
+    {IDC_TYPE, 0},
+    {IDC_BLANK_IMAGE_TYPE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group select_disk_filling_group[] = {
+    {IDC_BLANK_IMAGE_NAME, 0},
+    {IDC_TYPE, 0},
+    {IDC_BLANK_IMAGE_TYPE, 0},
+    {IDC_BLANK_IMAGE, 0},
+    {0, 0}
+};
+
 static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
                                                      WPARAM wparam,
                                                      LPARAM lparam)
@@ -304,11 +381,49 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
   int index;
   LV_FINDINFO find;
   LV_ITEM item;
+  HWND parent_hwnd;
+  int xpos;
+  int xstart;
+  RECT rect;
 
   preview = GetDlgItem(hwnd, IDC_PREVIEW);
   switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), translate_text(IDS_ATTACH));
+        parent_hwnd = GetParent(hwnd);
+
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, select_disk_hook_trans);
+
+        SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
+        SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
+
+        /* adjust the size of the elements in the right group */
+        uilib_adjust_group_width(hwnd, select_disk_right_group);
+
+        /* get the max x of the ID group */
+        uilib_get_group_max_x(hwnd, select_disk_id_group, &xpos);
+
+        /* move the type group to the correct position */
+        uilib_move_group(hwnd, select_disk_type_group, xpos + 10);
+
+        /* get the max x of the type group */
+        uilib_get_group_max_x(hwnd, select_disk_filling_group, &xpos);
+
+        /* get the min x of the name element */
+        uilib_get_element_min_x(hwnd, IDC_BLANK_IMAGE_NAME, &xstart);
+
+        /* move and set the size of the new image group element */
+        uilib_move_and_set_element_width(hwnd, IDC_NEW_IMAGE, xstart - 10, xpos - xstart + 20);
+
+        /* get the max x of the new image group element */
+        uilib_get_element_min_x(hwnd, IDC_NEW_IMAGE, &xpos);
+
+        /* resize the dialog window to fit */
+        GetWindowRect(hwnd, &rect);
+        if (xpos + 10 > rect.right) {
+            MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+        }
+
         image_type_list = GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE);
         for (counter = 0; image_type_name[counter]; counter++) {
           SendMessage(image_type_list, CB_ADDSTRING, 0,
@@ -490,6 +605,12 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
   return 0;
 }
 
+static uilib_localize_dialog_param select_hook_trans[] = {
+    {IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0},
+    {IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0},
+    {0, 0, 0}
+};
+
 static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
                                                 WPARAM wparam, LPARAM lparam)
 {
@@ -499,11 +620,25 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
     TCHAR st_filename[256];
     int msg_type;
     int index;
+    HWND parent_hwnd;
+    int xpos;
+    RECT rect;
 
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), translate_text(IDS_ATTACH));
+        parent_hwnd = GetParent(hwnd);
+        uilib_localize_dialog(hwnd, select_hook_trans);
+        SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
+        SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
+        uilib_adjust_element_width(hwnd, IDC_TOGGLE_ATTACH_READONLY);
+        uilib_get_element_max_x(hwnd, IDC_TOGGLE_ATTACH_READONLY, &xpos);
+
+        /* set the width of the dialog to 'surround' all the elements */
+        GetWindowRect(parent_hwnd, &rect);
+        if (xpos + 10 > rect.right) {
+            MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+        }
 
         /* Try to use the cbm font */
         if (font_loaded)
@@ -738,7 +873,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     if (styles[style].TemplateID != 0) {
         ofn.Flags |= OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
         ofn.lpfnHook = styles[style].hook_proc;
-        ofn.lpTemplateName = MAKEINTRESOURCE(translate_res(styles[style].TemplateID));
+        ofn.lpTemplateName = MAKEINTRESOURCE(styles[style].TemplateID);
     } else {
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;

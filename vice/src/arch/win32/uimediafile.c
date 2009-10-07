@@ -123,6 +123,57 @@ static void enable_ffmpeg_settings(HWND hwnd, int enable)
         update_ffmpeg_codecs(hwnd);
 }
 
+static uilib_localize_dialog_param mediafile_parent_dialog_trans[] = {
+    {IDOK, IDS_SAVE, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param mediafile_dialog_trans[] = {
+    {IDC_SELECT_DRIVER, IDS_SELECT_DRIVER, 0},
+    {IDC_FFMPEG_SETTINGS, IDS_FFMPEG_SETTINGS, 0},
+    {IDC_FORMAT, IDS_FORMAT, 0},
+    {IDC_AUDIO_CODEC, IDS_AUDIO_CODEC, 0},
+    {IDC_AUDIO_BITRATE, IDS_BITRATE, 0},
+    {IDC_VIDEO_CODEC, IDS_VIDEO_CODEC, 0},
+    {IDC_VIDEO_BITRATE, IDS_BITRATE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group main_group[] = {
+    {IDC_SELECT_DRIVER, 0},
+    {IDC_FORMAT, 0},
+    {IDC_AUDIO_CODEC, 0},
+    {IDC_AUDIO_BITRATE, 0},
+    {IDC_VIDEO_CODEC, 0},
+    {IDC_VIDEO_BITRATE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group codec_group[] = {
+    {IDC_AUDIO_CODEC, 0},
+    {IDC_VIDEO_CODEC, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group codec_indicator_group[] = {
+    {IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 0},
+    {IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group bitrate_group[] = {
+    {IDC_AUDIO_BITRATE, 0},
+    {IDC_VIDEO_BITRATE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group bitrate_indicator_group[] = {
+    {IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 0},
+    {IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 0},
+    {0, 0}
+};
+
 static void init_mediafile_dialog(HWND hwnd)
 {
     HWND combo;
@@ -132,6 +183,69 @@ static void init_mediafile_dialog(HWND hwnd)
     int enable_ffmpeg = 0;
     int bitrate;
     TCHAR st[256];
+    HWND parent_hwnd;
+    int xpos;
+    int xstart;
+    RECT rect;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all parent dialog items */
+    uilib_localize_dialog(parent_hwnd, mediafile_parent_dialog_trans);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, mediafile_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, main_group);
+
+    /* get the max x of the select driver element */
+    uilib_get_element_max_x(hwnd, IDC_SELECT_DRIVER, &xpos);
+
+    /* move the driver indicator element */
+    uilib_move_element(hwnd, IDC_SCREENSHOT_DRIVER, xpos + 10);
+
+    /* get the max x of the format element */
+    uilib_get_element_max_x(hwnd, IDC_FORMAT, &xpos);
+
+    /* move the format indicator element */
+    uilib_move_element(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT, xpos + 10);
+
+    /* get the max x of the codec group */
+    uilib_get_group_max_x(hwnd, codec_group, &xpos);
+
+    /* move the codec indicator group */
+    uilib_move_group(hwnd, codec_indicator_group, xpos + 10);
+
+    /* get the max x of the codec indicator group */
+    uilib_get_group_max_x(hwnd, codec_indicator_group, &xpos);
+
+    /* move the bitrate group */
+    uilib_move_group(hwnd, bitrate_group, xpos + 20);
+
+    /* get the max x of the bitrate group */
+    uilib_get_group_max_x(hwnd, bitrate_group, &xpos);
+
+    /* move the bitrate indicator group */
+    uilib_move_group(hwnd, bitrate_indicator_group, xpos + 10);
+
+    /* get the max x of the bitrate indicator group */
+    uilib_get_element_max_x(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, &xpos);
+
+    /* get the min x of the format element */
+    uilib_get_element_min_x(hwnd, IDC_FORMAT, &xstart);
+
+    /* move and resize the ffmpeg settings group element */
+    uilib_move_and_set_element_width(hwnd, IDC_FFMPEG_SETTINGS, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the ffmpeg settings group element */
+    uilib_get_element_max_x(hwnd, IDC_FFMPEG_SETTINGS, &xpos);
+
+    /* resize the dialog window to fit */
+    GetWindowRect(parent_hwnd, &rect);
+    if (xpos + 10 > rect.right) {
+        MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+    }
 
     combo = GetDlgItem(hwnd, IDC_SCREENSHOT_DRIVER);
     driver = gfxoutput_drivers_iter_init();
@@ -308,7 +422,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
     s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE),
         filter,
         hwnd,
-        translate_res(IDD_MEDIAFILE_DIALOG));
+        IDD_MEDIAFILE_DIALOG);
 
     lib_free(filter);
 

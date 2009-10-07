@@ -477,654 +477,69 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_OPEN_TEMPLATE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Image Contents ", IDC_STATIC,
+    GROUPBOX        "", IDC_IMAGE_CONTENTS,
                     3, 0, 185, 138
     LISTBOX         IDC_PREVIEW,
                     6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Attach read only", IDC_TOGGLE_ATTACH_READONLY,
+    AUTOCHECKBOX    "", IDC_TOGGLE_ATTACH_READONLY,
                     195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_OPEN_TEMPLATE_DA DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Indhold i image ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Tilslut skrivebeskyttet", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_OPEN_TEMPLATE_DE DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Image Datei Inhalt", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Schreibgeschützt einlegen", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_OPEN_TEMPLATE_FR DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Contenu de l'image ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Insérer en lecture seule", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_OPEN_TEMPLATE_HU DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Képmás tartalma", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Csatolás csak olvasható módon", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Contenuti ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Seleziona in sola lettura", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_OPEN_TEMPLATE_NL DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Bestandsinhoud ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Alleen lezen", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_OPEN_TEMPLATE_PL DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "zawarto¶ci obrazu ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_OPEN_TEMPLATE_SV DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Innehåll i avbildning ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Anslut skrivskyddat", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_OPEN_TEMPLATE_TR DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Imaj Ýçeriði ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX    "Salt okunur yerleþtir", IDC_TOGGLE_ATTACH_READONLY,
-                    195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_OPENDISK_TEMPLATE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX     "Image Contents ", IDC_STATIC,
+    GROUPBOX     "", IDC_IMAGE_CONTENTS,
                  3, 0, 185, 138
     LISTBOX      IDC_PREVIEW,
                  6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Attach read only", IDC_TOGGLE_ATTACH_READONLY,
+    AUTOCHECKBOX "", IDC_TOGGLE_ATTACH_READONLY,
                  195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "New Image", IDC_STATIC,
+    GROUPBOX     "", IDC_NEW_IMAGE,
                  190, 25, 80, 90
-    LTEXT        "Name", IDC_STATIC,
+    LTEXT        "", IDC_NAME,
                  198, 40, 20, 8
     EDITTEXT     IDC_BLANK_IMAGE_NAME,
                  195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
+    LTEXT        "", IDC_ID,
                  198, 63, 15, 8
     EDITTEXT     IDC_BLANK_IMAGE_ID,
                  195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Type", IDC_STATIC,
-                 233, 73, 20, 8
+    LTEXT        "", IDC_TYPE,
+                 233, 63, 20, 8
     COMBOBOX     IDC_BLANK_IMAGE_TYPE,
                  230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Create Image", IDC_BLANK_IMAGE,
+    PUSHBUTTON   "", IDC_BLANK_IMAGE,
                  205, 93, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_OPENDISK_TEMPLATE_DA DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Indhold i image ", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Tilslut skrivebeskyttet", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Nyt image", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Navn", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Type", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Opret image", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_OPENDISK_TEMPLATE_DE DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Image Datei Inhalt", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Schreibgeschützt einlegen", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Neue Image Datei", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Name", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Typ", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Image Datei erzeugen", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_OPENDISK_TEMPLATE_FR DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Contenu de l'image ", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Insérer en lecture seule", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Nouvelle image", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Nom", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Type", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Création d'image", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_OPENDISK_TEMPLATE_HU DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Képmás tartalma", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Csatolás csak olvasható módon", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Új képmás", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Név", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Típus", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Képmás létrehozása", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_OPENDISK_TEMPLATE_IT DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Contenuti ",IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Seleziona in sola lettura", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Nuova immagine", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Nome", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Tipo", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Crea immagine", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_OPENDISK_TEMPLATE_NL DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Bestandsinhoud ", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Alleen lezen", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Nieuw Bestand", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Naam", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Soort", IDC_STATIC,
-                 233, 73, 25, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Maak Bestand", IDC_BLANK_IMAGE,
-                 203, 93, 52, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_OPENDISK_TEMPLATE_PL DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "zawarto¶ci obrazu ", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "W³ó¿ zabezpieczone przed zapisem", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "New Image", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Nazwa", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Typ", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Stwórz dyskietkê", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_OPENDISK_TEMPLATE_SV DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Innehåll i avbildning ", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Anslut skrivskyddat", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Ny avbildning", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Namn", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Typ", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Skapa avbildning", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_OPENDISK_TEMPLATE_TR DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX     "Imaj Ýçeriði ", IDC_STATIC,
-                 3, 0, 185, 138
-    LISTBOX      IDC_PREVIEW,
-                 6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    AUTOCHECKBOX "Salt okunur yerleþtir", IDC_TOGGLE_ATTACH_READONLY,
-                 195, 0, 80, 20, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX     "Yeni Ýmaj", IDC_STATIC,
-                 190, 25, 80, 90
-    LTEXT        "Ýsim", IDC_STATIC,
-                 198, 40, 20, 8
-    EDITTEXT     IDC_BLANK_IMAGE_NAME,
-                 195, 48, 70, 12, WS_TABSTOP
-    LTEXT        "ID", IDC_STATIC,
-                 198, 63, 15, 8
-    EDITTEXT     IDC_BLANK_IMAGE_ID,
-                 195, 71, 20, 12, WS_TABSTOP
-    LTEXT        "Tip", IDC_STATIC,
-                 233, 73, 20, 8
-    COMBOBOX     IDC_BLANK_IMAGE_TYPE,
-                 230, 71, 35, 80, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "Imaj Yarat", IDC_BLANK_IMAGE,
-                 205, 93, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_OPENTAPE_TEMPLATE DIALOG DISCARDABLE 0, 0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX   "Image Contents ", IDC_STATIC,
+    GROUPBOX   "", IDC_IMAGE_CONTENTS,
                3, 0, 185, 138
     LISTBOX    IDC_PREVIEW,
                6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "New TAP Image", IDC_STATIC,
+    GROUPBOX   "", IDC_NEW_TAP_IMAGE,
                190, 0, 80, 40
-    PUSHBUTTON "Create Image", IDC_BLANK_IMAGE,
+    PUSHBUTTON "", IDC_BLANK_IMAGE,
                205, 20, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_OPENTAPE_TEMPLATE_DA DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "Indhold i image ", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "Nyt TAP-image", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Opret image", IDC_BLANK_IMAGE,
-               205, 20, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_OPENTAPE_TEMPLATE_DE DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "Image Datei Inhalt", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "Neue TAP Image Datei", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Image Datei erzeugen", IDC_BLANK_IMAGE,
-               205, 20, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_OPENTAPE_TEMPLATE_FR DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "Contenu de l'image ", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "Nouvelle image TAP", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Création d'image", IDC_BLANK_IMAGE,
-               205, 20, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_OPENTAPE_TEMPLATE_HU DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "Képmás tartalma", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "Új TAP képmás", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Képmás létrehozása", IDC_BLANK_IMAGE,
-               205, 20, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "Contenuti ", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER|WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "Nuova immagine TAP", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Crea immagine", IDC_BLANK_IMAGE,
-               205, 20, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_OPENTAPE_TEMPLATE_NL DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "Bestandsinhoud ", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "Nieuw TAP-bestand", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Maak Bestand", IDC_BLANK_IMAGE,
-               203, 20, 52, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_OPENTAPE_TEMPLATE_PL DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX   "zawarto¶ci obrazu ", IDC_STATIC,
-               3, 0, 185, 138
-    LISTBOX    IDC_PREVIEW,
-               6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX   "New TAP Image", IDC_STATIC,
-               190, 0, 80, 40
-    PUSHBUTTON "Stwórz obraz", IDC_BLANK_IMAGE,
-               205, 20, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_OPENTAPE_TEMPLATE_SV DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Innehåll i avbildning ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Ny TAP-avbildning", IDC_STATIC,
-                    190, 0, 80, 40
-    PUSHBUTTON      "Skapa avbildning", IDC_BLANK_IMAGE,
-                    205, 20, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_OPENTAPE_TEMPLATE_TR DIALOG DISCARDABLE 0, 0, 350, 140
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Imaj Ýçeriði ", IDC_STATIC,
-                    3, 0, 185, 138
-    LISTBOX         IDC_PREVIEW,
-                    6, 9, 178, 125, WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT
-    GROUPBOX        "Yeni TAP Imajý", IDC_STATIC,
-                    190, 0, 80, 40
-    PUSHBUTTON      "Imaj Yarat", IDC_BLANK_IMAGE,
-                    205, 20, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1142,360 +557,39 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_MEDIAFILE_DIALOG DIALOG DISCARDABLE 0, 0, 300, 100
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT    "Select Driver:", IDC_STATIC,
+    LTEXT    "", IDC_SELECT_DRIVER,
              5, 0, 45, 20
     COMBOBOX IDC_SCREENSHOT_DRIVER,
              55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG settings", IDC_STATIC,
+    GROUPBOX "", IDC_FFMPEG_SETTINGS,
              5, 20, 250, 75
-    LTEXT    "Format:", IDC_STATIC,
+    LTEXT    "", IDC_FORMAT,
              15, 37, 40, 20
     COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
              50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Audio: codec", IDC_STATIC,
+    LTEXT    "", IDC_AUDIO_CODEC,
              15, 57, 45, 15
     COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
              65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
+    LTEXT    "", IDC_AUDIO_BITRATE,
              155, 57, 25, 15
     EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
              180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: codec", IDC_STATIC,
+    LTEXT    "", IDC_VIDEO_CODEC,
              15, 77, 45, 15
     COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
              65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
+    LTEXT    "", IDC_VIDEO_BITRATE,
              155, 77, 25, 15
     EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
              180, 75, 40, 12, WS_GROUP | WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_MEDIAFILE_DIALOG_DA DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Vælg driver:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG-indstillinger", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Format:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Lyd: kodeks", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: kodeks", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_MEDIAFILE_DIALOG_DE DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Treiber auswählen:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG Einstellungen", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Format:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Audio: Codec", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Bitrate", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: Codec", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Bitrate", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_MEDIAFILE_DIALOG_FR DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Select Driver:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG settings", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Format:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Audio: codec", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: codec", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_MEDIAFILE_DIALOG_HU DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Válasszon meghajtót:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG beállításai", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Formátum:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Audió: kodek", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitráta", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Videó: kodek", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitráta", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_MEDIAFILE_DIALOG_IT DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Seleziona Driver:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "Impostazioni FFMPEG", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Formato:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Audio: codec", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: codec", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_MEDIAFILE_DIALOG_NL DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Selecteer Stuurprogramma:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG-instellingen", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Formaat:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Audio: codec", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: codec", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bitrate", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_MEDIAFILE_DIALOG_PL DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Select Driver:", IDC_STATIC,
-                    5, 0, 45, 20
-    COMBOBOX        IDC_SCREENSHOT_DRIVER,
-                    55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX        "FFMPEG settings", IDC_STATIC,
-                    5, 20, 250, 75
-    LTEXT           "Format:", IDC_STATIC,
-                    15, 37, 40, 20
-    COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT,
-                    50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "Audio: codec", IDC_STATIC,
-                    15, 57, 45, 15
-    COMBOBOX        IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-                    65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "bitrate", IDC_STATIC,
-                    155, 57, 25, 15
-    EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-                    180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT           "Video: codec", IDC_STATIC,
-                    15, 77, 45, 15
-    COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-                    65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "bitrate", IDC_STATIC,
-                    155, 77, 25, 15
-    EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-                    180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_MEDIAFILE_DIALOG_SV DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Välj drivrutin:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG-inställningar", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Format:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Ljud: omkodare", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bithastighet", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Video: omkodare", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bithastighet", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_MEDIAFILE_DIALOG_TR DIALOG DISCARDABLE 0, 0, 300, 100
-STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT    "Sürücü Seç:", IDC_STATIC,
-             5, 0, 45, 20
-    COMBOBOX IDC_SCREENSHOT_DRIVER,
-             55, 0, 155, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    GROUPBOX "FFMPEG ayarlarý", IDC_STATIC,
-             5, 20, 250, 75
-    LTEXT    "Biçim:", IDC_STATIC,
-             15, 37, 40, 20
-    COMBOBOX IDC_SCREENSHOT_FFMPEGFORMAT,
-             50, 35, 60, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "Ses: kodek", IDC_STATIC,
-             15, 57, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-             65, 55, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bithýzý", IDC_STATIC,
-             155, 57, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-             180, 55, 40, 12, WS_GROUP | WS_TABSTOP
-    LTEXT    "Görüntü: kodek", IDC_STATIC,
-             15, 77, 45, 15
-    COMBOBOX IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-             65, 75, 80, 200, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT    "bithýzý", IDC_STATIC,
-             155, 77, 25, 15
-    EDITTEXT IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-             180, 75, 40, 12, WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1823,101 +917,226 @@ IDD_NETWORK_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 260, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "", IDC_CURRENT_MODE,
-                    9, 8, 45, 8
-    EDITTEXT        IDC_NETWORK_MODE,
-                    60, 7, 75, 12, WS_TABSTOP
-    LTEXT           "", IDC_SERVER_BIND,
-                    9, 27, 50, 8
-    EDITTEXT        IDC_NETWORK_SERVER_BIND,
-                    51, 26, 84, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    LTEXT           "", IDC_TCP_PORT,
-                    9, 42, 30, 8
-    EDITTEXT        IDC_NETWORK_PORT,
-                    51, 41, 30, 12, WS_TABSTOP
-    PUSHBUTTON      "", IDC_NETWORK_SERVER,
-                    85, 40, 51, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDC_NETWORK_CLIENT,
-                    9, 64, 50, 14, WS_TABSTOP
-    EDITTEXT        IDC_NETWORK_SERVERNAME,
-                    65, 65, 70, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON      "", IDC_NETWORK_DISCONNECT,
-                    27, 83, 70, 14, WS_TABSTOP
-    GROUPBOX        "", IDC_CONTROL,
-                    140, 5, 115, 100
-    LTEXT           "", IDC_SERVER,
-                    195, 15, 25, 10
-    LTEXT           "", IDC_CLIENT,
-                    225, 15, 25, 10
-    LTEXT           "", IDC_KEYBOARD,
-                    150, 30, 45, 10
-    AUTOCHECKBOX    "", IDC_NETWORK_KEYB_SERVER,
-                    200, 30, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_NETWORK_KEYB_CLIENT,
-                    230, 30, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_JOYSTICK_1,
-                    150, 42, 45, 10
-    AUTOCHECKBOX    "", IDC_NETWORK_JOY1_SERVER,
-                    200, 42, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_NETWORK_JOY1_CLIENT,
-                    230, 42, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_JOYSTICK_2,
-                    150, 54, 45, 10
-    AUTOCHECKBOX    "", IDC_NETWORK_JOY2_SERVER,
-                    200, 54, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_NETWORK_JOY2_CLIENT,
-                    230, 54, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_DEVICES,
-                    150, 66, 45, 10
-    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,
-                    200, 66, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_NETWORK_DEVC_CLIENT,
-                    230, 66, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_SETTINGS,
-                    150, 78, 45, 10
-    AUTOCHECKBOX    "", IDC_NETWORK_RSRC_SERVER,
-                    200, 78, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_NETWORK_RSRC_CLIENT,
-                    230, 78, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT        "", IDC_CURRENT_MODE,
+                 9, 8, 45, 8
+    EDITTEXT     IDC_NETWORK_MODE,
+                 60, 7, 75, 12, WS_TABSTOP
+    LTEXT        "", IDC_SERVER_BIND,
+                 9, 27, 50, 8
+    EDITTEXT     IDC_NETWORK_SERVER_BIND,
+                 51, 26, 84, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    LTEXT        "", IDC_TCP_PORT,
+                 9, 42, 30, 8
+    EDITTEXT     IDC_NETWORK_PORT,
+                 51, 41, 30, 12, WS_TABSTOP
+    PUSHBUTTON   "", IDC_NETWORK_SERVER,
+                 85, 40, 51, 14, WS_TABSTOP
+    PUSHBUTTON   "", IDC_NETWORK_CLIENT,
+                 9, 64, 50, 14, WS_TABSTOP
+    EDITTEXT     IDC_NETWORK_SERVERNAME,
+                 65, 65, 70, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON   "", IDC_NETWORK_DISCONNECT,
+                 27, 83, 70, 14, WS_TABSTOP
+    GROUPBOX     "", IDC_CONTROL,
+                 140, 5, 115, 100
+    LTEXT        "", IDC_SERVER,
+                 195, 15, 25, 10
+    LTEXT        "", IDC_CLIENT,
+                 225, 15, 25, 10
+    LTEXT        "", IDC_KEYBOARD,
+                 150, 30, 45, 10
+    AUTOCHECKBOX "", IDC_NETWORK_KEYB_SERVER,
+                 200, 30, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_NETWORK_KEYB_CLIENT,
+                 230, 30, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT        "", IDC_JOYSTICK_1,
+                 150, 42, 45, 10
+    AUTOCHECKBOX "", IDC_NETWORK_JOY1_SERVER,
+                 200, 42, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_NETWORK_JOY1_CLIENT,
+                 230, 42, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT        "", IDC_JOYSTICK_2,
+                 150, 54, 45, 10
+    AUTOCHECKBOX "", IDC_NETWORK_JOY2_SERVER,
+                 200, 54, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_NETWORK_JOY2_CLIENT,
+                 230, 54, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT        "", IDC_DEVICES,
+                 150, 66, 45, 10
+    AUTOCHECKBOX "",IDC_NETWORK_DEVC_SERVER,
+                 200, 66, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_NETWORK_DEVC_CLIENT,
+                 230, 66, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT        "", IDC_SETTINGS,
+                 150, 78, 45, 10
+    AUTOCHECKBOX "", IDC_NETWORK_RSRC_SERVER,
+                 200, 78, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_NETWORK_RSRC_CLIENT,
+                 230, 78, 10, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH version of dialog
 
-IDD_SOUND_RECORD_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_TEXTDLG DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// GERMAN version of dialog
+
+IDD_TEXTDLG_DE DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Lese:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// FRENCH version of dialog
+
+IDD_TEXTDLG_FR DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialogue"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Lisez bien ceci:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_TEXTDLG_HU DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Párbeszédablak"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Ezt olvassa:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+#pragma code_page(28591)
+
+
+// ITALIAN version of dialog
+
+IDD_TEXTDLG_IT DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialogo"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Leggi questo:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// DUTCH version of dialog
+
+IDD_TEXTDLG_NL DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Lees dit:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_TEXTDLG_PL DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_TEXTDLG_SV DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Läs detta:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Sound Record Format",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Sound Record File",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT         "Sound Record Format", IDC_SOUND_RECORD_FORMAT_LABEL,
+                  9, 9, 53, 8
+    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
+                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "&Sound Record File", IDC_SOUND_RECORD_FILE_LABEL,
+                  9, 24, 50, 8
+    PUSHBUTTON    "Browse...", IDC_SOUND_RECORD_BROWSE,
+                  66, 24, 50, 14, 0
+    EDITTEXT      IDC_SOUND_RECORD_FILE,
+                  9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON "OK", IDOK,
+                  30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "Cancel", IDCANCEL,
+                  90, 64, 50, 14, WS_TABSTOP
 END
 
 
 // DANISH version of dialog
 
-IDD_SOUND_RECORD_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Format for lydoptagelse",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Fil for lydoptagelse",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Gennemse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT         "Format for lydoptagelse", IDC_SOUND_RECORD_FORMAT_LABEL,
+                  9, 9, 53, 8
+    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
+                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "&Fil for lydoptagelse", IDC_SOUND_RECORD_FILE_LABEL,
+                  9, 24, 50, 8
+    PUSHBUTTON    "Gennemse...", IDC_SOUND_RECORD_BROWSE,
+                  66, 24, 50, 14, 0
+    EDITTEXT      IDC_SOUND_RECORD_FILE,
+                  9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON "OK", IDOK,
+                  30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "Annullér", IDCANCEL,
+                  90, 64, 50, 14, WS_TABSTOP
 END
 
 
@@ -1927,154 +1146,186 @@ IDD_SOUND_RECORD_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Tonaufnahmeformat",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Tonaufnahme Datei",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Stöbern...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT         "Tonaufnahmeformat", IDC_SOUND_RECORD_FORMAT_LABEL,
+                  9, 9, 53, 8
+    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
+                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "&Tonaufnahme Datei", IDC_SOUND_RECORD_FILE_LABEL,
+                  9, 24, 50, 8
+    PUSHBUTTON    "Stöbern...", IDC_SOUND_RECORD_BROWSE,
+                  66, 24, 50, 14, 0
+    EDITTEXT      IDC_SOUND_RECORD_FILE,
+                  9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON "OK", IDOK,
+                  30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "Abbruch", IDCANCEL,
+                  90, 64, 50, 14, WS_TABSTOP
 END
 
 
 // FRENCH version of dialog
 
-IDD_SOUND_RECORD_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Sound Record Format",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Sound Record File",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Parcourir...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT         "Sound Record Format", IDC_SOUND_RECORD_FORMAT_LABEL,
+                  9, 9, 53, 8
+    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
+                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "&Sound Record File", IDC_SOUND_RECORD_FILE_LABEL,
+                  9, 24, 50, 8
+    PUSHBUTTON    "Parcourir...", IDC_SOUND_RECORD_BROWSE,
+                  66, 24, 50, 14, 0
+    EDITTEXT      IDC_SOUND_RECORD_FILE,
+                  9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON "OK", IDOK,
+                  30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "Annuler", IDCANCEL,
+                  90, 64, 50, 14, WS_TABSTOP
 END
 
 
 // HUNGARIAN version of dialog
 
 #pragma code_page(28592)
-IDD_SOUND_RECORD_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Hangfelvétel formátuma",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Hangfelvétel fájl...",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Tallózás...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT           "Hangfelvétel formátuma", IDC_SOUND_RECORD_FORMAT_LABEL,
+                    9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
+                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Hangfelvétel fájl...", IDC_SOUND_RECORD_FILE_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "Tallózás...", IDC_SOUND_RECORD_BROWSE,
+                    66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE,
+                    9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK,
+                    30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL,
+                    90, 64, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 
 // ITALIAN version of dialog
 
-IDD_SOUND_RECORD_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Formato di registrazione dell'audio",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "File per la registrazione dell'&audio",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Sfoglia...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT           "Formato di registrazione dell'audio", IDC_SOUND_RECORD_FORMAT_LABEL,
+                    9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
+                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "File per la registrazione dell'&audio", IDC_SOUND_RECORD_FILE_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "Sfoglia...", IDC_SOUND_RECORD_BROWSE,
+                    66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE,
+                    9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK,
+                    30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL,
+                    90, 64, 50, 14, WS_TABSTOP
 END
 
 
 // DUTCH version of dialog
 
-IDD_SOUND_RECORD_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Geluid Opname Formaat",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Geluidsopnamebestand",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Bladeren...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT           "Geluid Opname Formaat", IDC_SOUND_RECORD_FORMAT_LABEL,
+                    9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
+                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Geluidsopnamebestand", IDC_SOUND_RECORD_FILE_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "Bladeren...", IDC_SOUND_RECORD_BROWSE,
+                    66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE,
+                    9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK,
+                    30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL,
+                    90, 64, 50, 14, WS_TABSTOP
 END
 
 
 // POLISH version of dialog
 
 #pragma code_page(28592)
-IDD_SOUND_RECORD_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Sound Record Format",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Sound Record File",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT           "Sound Record Format", IDC_SOUND_RECORD_FORMAT_LABEL,
+                    9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
+                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File", IDC_SOUND_RECORD_FILE_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE,
+                    66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE,
+                    9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK,
+                    30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL,
+                    90, 64, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
 
 // SWEDISH version of dialog
 
-IDD_SOUND_RECORD_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Format för ljudinspelning",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Fil för ljudinspelning",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Bläddra...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT           "Format för ljudinspelning", IDC_SOUND_RECORD_FORMAT_LABEL,
+                    9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
+                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Fil för ljudinspelning", IDC_SOUND_RECORD_FILE_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "Bläddra...", IDC_SOUND_RECORD_BROWSE,
+                    66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE,
+                    9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK,
+                    30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL,
+                    90, 64, 50, 14, WS_TABSTOP
 END
 
 
 // TURKISH version of dialog
 
 #pragma code_page(28599)
-IDD_SOUND_RECORD_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 90
+IDD_SOUND_RECORD_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Ses Kayýt Biçimi",
-                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Ses Kayýt Dosyasý",
-                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
-    PUSHBUTTON      "Göz at...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "Tamam", IDOK, 30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+    LTEXT           "Ses Kayýt Biçimi", IDC_SOUND_RECORD_FORMAT_LABEL,
+                    9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
+                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Ses Kayýt Dosyasý", IDC_SOUND_RECORD_FILE_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "Göz at...", IDC_SOUND_RECORD_BROWSE,
+                    66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE,
+                    9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "Tamam", IDOK,
+                    30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Ýptal", IDCANCEL,
+                    90, 64, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -2406,6 +1657,20 @@ BEGIN
   IDS_DEVICES                     "Devices"
   IDS_SETTINGS                    "Settings"
   IDS_TOGGLE_CONSOLE_APPEND       "&Append log to existing file"
+  IDS_IMAGE_CONTENTS              "Image Contents"
+  IDS_NEW_IMAGE                   "New Image"
+  IDS_NAME                        "Name"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Type"
+  IDS_BLANK_IMAGE                 "Create Image"
+  IDS_NEW_TAP_IMAGE               "New TAP Image"
+  IDS_SAVE                        "Save"
+  IDS_SELECT_DRIVER               "Select Driver"
+  IDS_FFMPEG_SETTINGS             "FFMPEG settings"
+  IDS_FORMAT                      "Format"
+  IDS_AUDIO_CODEC                 "Audio codec"
+  IDS_BITRATE                     "bitrate"
+  IDS_VIDEO_CODEC                 "Video codec"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Attach &disk image"
   IDS_MP_DETACH_DISK_IMAGE        "D&etach disk image"
@@ -2937,6 +2202,20 @@ BEGIN
   IDS_DEVICES                     "Enheder"
   IDS_SETTINGS                    "Indstillinger"
   IDS_TOGGLE_CONSOLE_APPEND       "&Tilføj log i eksisterende fil"
+  IDS_IMAGE_CONTENTS              "Indhold i image"
+  IDS_NEW_IMAGE                   "Nyt image"
+  IDS_NAME                        "Navn"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Type"
+  IDS_BLANK_IMAGE                 "Opret image"
+  IDS_NEW_TAP_IMAGE               "Nyt TAP-image"
+  IDS_SAVE                        "Gem"
+  IDS_SELECT_DRIVER               "Vælg driver"
+  IDS_FFMPEG_SETTINGS             "FFMPEG-indstillinger"
+  IDS_FORMAT                      "Format"
+  IDS_AUDIO_CODEC                 "Lyd kodeks"
+  IDS_BITRATE                     "bitrate"
+  IDS_VIDEO_CODEC                 "Video kodeks"
   IDS_MP_FILE                     "&Fil"
   IDS_MP_ATTACH_DISK_IMAGE        "Tilslut &Disk-image"
   IDS_MP_DETACH_DISK_IMAGE        "&Frakobl disk-image"
@@ -3468,6 +2747,20 @@ BEGIN
   IDS_DEVICES                     "Geräte"
   IDS_SETTINGS                    "Einstellungen"
   IDS_TOGGLE_CONSOLE_APPEND       "An bestehende Log Datei &anhängen"
+  IDS_IMAGE_CONTENTS              "Image Datei Inhalt"
+  IDS_NEW_IMAGE                   "Neue Image Datei"
+  IDS_NAME                        "Name"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Typ"
+  IDS_BLANK_IMAGE                 "Image Datei erzeugen"
+  IDS_NEW_TAP_IMAGE               "Neue TAP Image Datei"
+  IDS_SAVE                        "Speichern"
+  IDS_SELECT_DRIVER               "Treiber auswählen"
+  IDS_FFMPEG_SETTINGS             "FFMPEG Einstellungen"
+  IDS_FORMAT                      "Format"
+  IDS_AUDIO_CODEC                 "Audio Codec"
+  IDS_BITRATE                     "Bitrate"
+  IDS_VIDEO_CODEC                 "Video Codec"
   IDS_MP_FILE                     "&Datei"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
   IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
@@ -3999,6 +3292,20 @@ BEGIN
   IDS_DEVICES                     "Devices"
   IDS_SETTINGS                    "Settings"
   IDS_TOGGLE_CONSOLE_APPEND       "&Ajouter le log au fichier existant"
+  IDS_IMAGE_CONTENTS              "Contenu de l'image"
+  IDS_NEW_IMAGE                   "Nouvelle image"
+  IDS_NAME                        "Nom"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Type"
+  IDS_BLANK_IMAGE                 "Création d'image"
+  IDS_NEW_TAP_IMAGE               "Nouvelle image TAP"
+  IDS_SAVE                        "Enregistrer"
+  IDS_SELECT_DRIVER               "Select Driver"
+  IDS_FFMPEG_SETTINGS             "FFMPEG settings"
+  IDS_FORMAT                      "Format"
+  IDS_AUDIO_CODEC                 "Audio codec"
+  IDS_BITRATE                     "bitrate"
+  IDS_VIDEO_CODEC                 "Video codec"
   IDS_MP_FILE                     "&Fichier"
   IDS_MP_ATTACH_DISK_IMAGE        "Insérer une image de &disque"
   IDS_MP_DETACH_DISK_IMAGE        "&Retirer une image de disque"
@@ -4531,6 +3838,20 @@ BEGIN
   IDS_DEVICES                     "Eszközök"
   IDS_SETTINGS                    "Beállítások"
   IDS_TOGGLE_CONSOLE_APPEND       "N&aplófájl hozzáfûzése a meglévõhöz"
+  IDS_IMAGE_CONTENTS              "Képmás tartalma"
+  IDS_NEW_IMAGE                   "Új képmás"
+  IDS_NAME                        "Név"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Típus"
+  IDS_BLANK_IMAGE                 "Képmás létrehozása"
+  IDS_NEW_TAP_IMAGE               "Új TAP képmás"
+  IDS_SAVE                        "Mentés"
+  IDS_SELECT_DRIVER               "Válasszon meghajtót"
+  IDS_FFMPEG_SETTINGS             "FFMPEG beállításai"
+  IDS_FORMAT                      "Formátum"
+  IDS_AUDIO_CODEC                 "Audió kodek"
+  IDS_BITRATE                     "bitráta"
+  IDS_VIDEO_CODEC                 "Videó kodek"
   IDS_MP_FILE                     "&Fájl"
   IDS_MP_ATTACH_DISK_IMAGE        "Lemezképmás csatolása"
   IDS_MP_DETACH_DISK_IMAGE        "Lemezképmás &leválasztása"
@@ -5063,6 +4384,20 @@ BEGIN
   IDS_DEVICES                     "Devices"
   IDS_SETTINGS                    "Settings"
   IDS_TOGGLE_CONSOLE_APPEND       "&Accoda i log al file esistente"
+  IDS_IMAGE_CONTENTS              "Contenuti"
+  IDS_NEW_IMAGE                   "Nuova immagine"
+  IDS_NAME                        "Nome"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Tipo"
+  IDS_BLANK_IMAGE                 "Crea immagine"
+  IDS_NEW_TAP_IMAGE               "Nuova immagine TAP"
+  IDS_SAVE                        "Salva"
+  IDS_SELECT_DRIVER               "Seleziona Driver"
+  IDS_FFMPEG_SETTINGS             "Impostazioni FFMPEG"
+  IDS_FORMAT                      "Formato"
+  IDS_AUDIO_CODEC                 "Audio codec"
+  IDS_BITRATE                     "bitrate"
+  IDS_VIDEO_CODEC                 "Video codec"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Seleziona l'immagine di un &disco"
   IDS_MP_DETACH_DISK_IMAGE        "&Rimuovi l'immagine di un disco"
@@ -5594,6 +4929,20 @@ BEGIN
   IDS_DEVICES                     "Apparaten"
   IDS_SETTINGS                    "Instellingen"
   IDS_TOGGLE_CONSOLE_APPEND       "&Logboek aan bestaand bestand toevoegen"
+  IDS_IMAGE_CONTENTS              "Bestandsinhoud"
+  IDS_NEW_IMAGE                   "Nieuw Bestand"
+  IDS_NAME                        "Naam"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Soort"
+  IDS_BLANK_IMAGE                 "Maak Bestand"
+  IDS_NEW_TAP_IMAGE               "Nieuw TAP-bestand"
+  IDS_SAVE                        "Opslaan"
+  IDS_SELECT_DRIVER               "Selecteer Stuurprogramma"
+  IDS_FFMPEG_SETTINGS             "FFMPEG-instellingen"
+  IDS_FORMAT                      "Formaat"
+  IDS_AUDIO_CODEC                 "Audio codec"
+  IDS_BITRATE                     "bitrate"
+  IDS_VIDEO_CODEC                 "Video codec"
   IDS_MP_FILE                     "&Bestand"
   IDS_MP_ATTACH_DISK_IMAGE        "Koppel &schijfbestand aan"
   IDS_MP_DETACH_DISK_IMAGE        "Ontkopp&el schijfbestand"
@@ -6126,6 +5475,20 @@ BEGIN
   IDS_DEVICES                     "Devices"
   IDS_SETTINGS                    "Settings"
   IDS_TOGGLE_CONSOLE_APPEND       "&Append log to existing file"
+  IDS_IMAGE_CONTENTS              "zawarto¶ci obrazu"
+  IDS_NEW_IMAGE                   "New Image"
+  IDS_NAME                        "Nazwa"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Typ"
+  IDS_BLANK_IMAGE                 "Stwórz dyskietkê"
+  IDS_NEW_TAP_IMAGE               "New TAP Image"
+  IDS_SAVE                        "Zapisz"
+  IDS_SELECT_DRIVER               "Välj drivrutin"
+  IDS_FFMPEG_SETTINGS             "FFMPEG-inställningar"
+  IDS_FORMAT                      "Format"
+  IDS_AUDIO_CODEC                 "Ljud omkodare"
+  IDS_BITRATE                     "bithastighet"
+  IDS_VIDEO_CODEC                 "Video omkodare"
   IDS_MP_FILE                     "&Plik"
   IDS_MP_ATTACH_DISK_IMAGE        "W³ó¿ obraz &dyskietki"
   IDS_MP_DETACH_DISK_IMAGE        "Wyjmij obraz dyski&etki"
@@ -6658,6 +6021,20 @@ BEGIN
   IDS_DEVICES                     "Enheter"
   IDS_SETTINGS                    "Inställningar"
   IDS_TOGGLE_CONSOLE_APPEND       "&Lägg till log i existerande fil"
+  IDS_IMAGE_CONTENTS              "Innehåll i avbildning"
+  IDS_NEW_IMAGE                   "Ny avbildning"
+  IDS_NAME                        "Namn"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Typ"
+  IDS_BLANK_IMAGE                 "Skapa avbildning"
+  IDS_NEW_TAP_IMAGE               "Ny TAP-avbildning"
+  IDS_SAVE                        "Spara"
+  IDS_SELECT_DRIVER               "Välj drivrutin"
+  IDS_FFMPEG_SETTINGS             "FFMPEG-inställningar"
+  IDS_FORMAT                      "Format"
+  IDS_AUDIO_CODEC                 "Ljud omkodare"
+  IDS_BITRATE                     "bithastighet"
+  IDS_VIDEO_CODEC                 "Video omkodare"
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
@@ -7190,6 +6567,20 @@ BEGIN
   IDS_DEVICES                     "Aygýtlar"
   IDS_SETTINGS                    "Ayarlar"
   IDS_TOGGLE_CONSOLE_APPEND       "V&arolan dosyaya log ekle"
+  IDS_IMAGE_CONTENTS              "Imaj Ýçeriði"
+  IDS_NEW_IMAGE                   "Yeni Ýmaj"
+  IDS_NAME                        "Ýsim"
+  IDS_ID                          "ID"
+  IDS_TYPE                        "Tip"
+  IDS_BLANK_IMAGE                 "Imaj Yarat"
+  IDS_NEW_TAP_IMAGE               "Yeni TAP Imajý"
+  IDS_SAVE                        "Kaydet"
+  IDS_SELECT_DRIVER               "Sürücü Seç"
+  IDS_FFMPEG_SETTINGS             "FFMPEG ayarlarý"
+  IDS_FORMAT                      "Biçim"
+  IDS_AUDIO_CODEC                 "Ses kodek"
+  IDS_BITRATE                     "bithýzý"
+  IDS_VIDEO_CODEC                 "Görüntü kodek"
   IDS_MP_FILE                     "&Dosya"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk imajý yerleþtir"
   IDS_MP_DETACH_DISK_IMAGE        "Disk imajý çýkar&t"
@@ -7394,46 +6785,3 @@ BEGIN
   IDS_MI_MON_ARRANGE_ICONS        "&Simgeleri yerleþtir"
 END
 #pragma code_page(28591)
-
-// -----------------------------------------------------------------------------
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-//#ifdef APSTUDIO_INVOKED
-//GUIDELINES DESIGNINFO DISCARDABLE
-//BEGIN
-//    IDD_ABOUT, DIALOG
-//    BEGIN
-//        LEFTMARGIN, 6
-//        RIGHTMARGIN, 184
-//        TOPMARGIN, 7
-//        BOTTOMMARGIN, 81
-//    END
-
-//    IDD_DISKDEVICE_DIALOG, DIALOG
-//    BEGIN
-//        LEFTMARGIN, 7
-//        RIGHTMARGIN, 300
-//        TOPMARGIN, 7
-//        BOTTOMMARGIN, 203
-//    END
-//END
-//#endif    // APSTUDIO_INVOKED
-
-//#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-//#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-//#endif    // not APSTUDIO_INVOKED
