@@ -1002,7 +1002,7 @@ void ui_show_text(HWND hWnd,
 // of the executable that created the current process.
 // Win32: module handle == instance handle == task [Win3.1 legacy]
 
-                   MAKEINTRESOURCE(translate_res(IDD_TEXTDLG)),
+                   MAKEINTRESOURCE(IDD_TEXTDLG),
                    hWnd,
                    TextDlgProc,
                    (LPARAM)&info);
@@ -1043,6 +1043,7 @@ INT_PTR CALLBACK TextDlgProc(HWND hwndDlg,     // handle to dialog box
             struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
             SetWindowText(hwndDlg,pInfo->szCaption);
             SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
+            SetDlgItemText(hwndDlg, IDOK, translate_text(IDS_OK));
 
             SetDlgItemText(hwndDlg, IDC_TEXT, pInfo->szText);
             SendDlgItemMessage(hwndDlg,

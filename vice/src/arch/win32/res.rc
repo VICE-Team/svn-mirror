@@ -977,119 +977,18 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_TEXTDLG DIALOG DISCARDABLE  0, 0, 279, 242
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-
-
-// GERMAN version of dialog
-
-IDD_TEXTDLG_DE DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Lese:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-
-
-// FRENCH version of dialog
-
-IDD_TEXTDLG_FR DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialogue"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Lisez bien ceci:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_TEXTDLG_HU DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Párbeszédablak"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Ezt olvassa:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_TEXTDLG_IT DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialogo"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Leggi questo:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-
-
-// DUTCH version of dialog
-
-IDD_TEXTDLG_NL DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Lees dit:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_TEXTDLG_PL DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_TEXTDLG_SV DIALOG DISCARDABLE  0, 0, 279, 242
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
-    LTEXT           "Läs detta:",IDC_HEADER,7,7,156,10
-    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
-//                  ES_MULTILINE
+    DEFPUSHBUTTON   "", IDOK,
+                    118, 221, 50, 14
+    LTEXT           "", IDC_HEADER,
+                    7, 7, 156, 10
+    EDITTEXT        IDC_TEXT,
+                    7, 23, 265, 187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 END
 
 // -----------------------------------------------------------------------------
