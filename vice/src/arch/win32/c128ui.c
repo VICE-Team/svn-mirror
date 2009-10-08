@@ -46,6 +46,7 @@
 #include "uiide64.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uilib.h"
 #include "uilightpen.h"
 #include "uimidi.h"
 #include "uimmc64.h"
@@ -392,6 +393,157 @@ ui_popup_translation_table_t c128ui_popup_translation_table[] = {
     { 0, 0 }
 };
 
+static uilib_localize_dialog_param c128_main_trans[] = {
+    { IDC_KERNAL_INT, IDS_KERNAL_INT, 0 },
+    { IDC_C128ROM_KERNALINT_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_DE, IDS_KERNAL_DE, 0 },
+    { IDC_C128ROM_KERNALDE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_FI, IDS_KERNAL_FI, 0 },
+    { IDC_C128ROM_KERNALFI_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_FR, IDS_KERNAL_FR, 0 },
+    { IDC_C128ROM_KERNALFR_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_IT, IDS_KERNAL_IT, 0 },
+    { IDC_C128ROM_KERNALIT_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_NO, IDS_KERNAL_NO, 0 },
+    { IDC_C128ROM_KERNALNO_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_SE, IDS_KERNAL_SE, 0 },
+    { IDC_C128ROM_KERNALSE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_BASIC_LO, IDS_BASIC_LO, 0 },
+    { IDC_C128ROM_BASICLO_BROWSE, IDS_BROWSE, 0 },
+    { IDC_BASIC_HI, IDS_BASIC_HI, 0 },
+    { IDC_C128ROM_BASICHI_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CHAR_INT, IDS_CHAR_INT, 0 },
+    { IDC_C128ROM_CHARGENINT_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CHAR_DE, IDS_CHAR_DE, 0 },
+    { IDC_C128ROM_CHARGENDE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CHAR_FR, IDS_CHAR_FR, 0 },
+    { IDC_C128ROM_CHARGENFR_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CHAR_SE, IDS_CHAR_SE, 0 },
+    { IDC_C128ROM_CHARGENSE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_KERNAL_C64, IDS_KERNAL_C64, 0 },
+    { IDC_C128ROM_KERNAL64_BROWSE, IDS_BROWSE, 0 },
+    { IDC_BASIC_C64, IDS_BASIC_C64, 0 },
+    { IDC_C128ROM_BASIC64_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param c128_drive_trans[] = {
+    { IDC_DRIVEROM_1541_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1541II_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1570_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1571_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1571CR_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1581_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2031_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group c128_main_left_group[] = {
+    { IDC_KERNAL_INT, 0 },
+    { IDC_KERNAL_DE, 0 },
+    { IDC_KERNAL_FI, 0 },
+    { IDC_KERNAL_FR, 0 },
+    { IDC_KERNAL_IT, 0 },
+    { IDC_KERNAL_NO, 0 },
+    { IDC_KERNAL_SE, 0 },
+    { IDC_BASIC_LO, 0 },
+    { IDC_BASIC_HI, 0 },
+    { IDC_CHAR_INT, 0 },
+    { IDC_CHAR_DE, 0 },
+    { IDC_CHAR_FR, 0 },
+    { IDC_CHAR_SE, 0 },
+    { IDC_KERNAL_C64, 0 },
+    { IDC_BASIC_C64, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_main_middle_group[] = {
+    { IDC_C128ROM_KERNALINT_FILE, 0 },
+    { IDC_C128ROM_KERNALDE_FILE, 0} ,
+    { IDC_C128ROM_KERNALFI_FILE, 0 },
+    { IDC_C128ROM_KERNALFR_FILE, 0 },
+    { IDC_C128ROM_KERNALIT_FILE, 0 },
+    { IDC_C128ROM_KERNALNO_FILE, 0 },
+    { IDC_C128ROM_KERNALSE_FILE, 0 },
+    { IDC_C128ROM_BASICLO_FILE, 0 },
+    { IDC_C128ROM_BASICHI_FILE, 0 },
+    { IDC_C128ROM_CHARGENINT_FILE, 0 },
+    { IDC_C128ROM_CHARGENDE_FILE, 0 },
+    { IDC_C128ROM_CHARGENFR_FILE, 0 },
+    { IDC_C128ROM_CHARGENSE_FILE, 0 },
+    { IDC_C128ROM_KERNAL64_FILE, 0 },
+    { IDC_C128ROM_BASIC64_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_main_right_group[] = {
+    { IDC_C128ROM_KERNALINT_BROWSE, 0 },
+    { IDC_C128ROM_KERNALDE_BROWSE, 0} ,
+    { IDC_C128ROM_KERNALFI_BROWSE, 0 },
+    { IDC_C128ROM_KERNALFR_BROWSE, 0 },
+    { IDC_C128ROM_KERNALIT_BROWSE, 0 },
+    { IDC_C128ROM_KERNALNO_BROWSE, 0 },
+    { IDC_C128ROM_KERNALSE_BROWSE, 0 },
+    { IDC_C128ROM_BASICLO_BROWSE, 0 },
+    { IDC_C128ROM_BASICHI_BROWSE, 0 },
+    { IDC_C128ROM_CHARGENINT_BROWSE, 0 },
+    { IDC_C128ROM_CHARGENDE_BROWSE, 0 },
+    { IDC_C128ROM_CHARGENFR_BROWSE, 0 },
+    { IDC_C128ROM_CHARGENSE_BROWSE, 0 },
+    { IDC_C128ROM_KERNAL64_BROWSE, 0 },
+    { IDC_C128ROM_BASIC64_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_drive_left_group[] = {
+    { IDC_1541, 0 },
+    { IDC_1541_II, 0 },
+    { IDC_1570, 0 },
+    { IDC_1571, 0 },
+    { IDC_1571CR, 0 },
+    { IDC_1581, 0 },
+    { IDC_2031, 0 },
+    { IDC_2040, 0 },
+    { IDC_3040, 0 },
+    { IDC_4040, 0 },
+    { IDC_1001, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_drive_middle_group[] = {
+    { IDC_DRIVEROM_1541_FILE, 0 },
+    { IDC_DRIVEROM_1541II_FILE, 0 },
+    { IDC_DRIVEROM_1570_FILE, 0 },
+    { IDC_DRIVEROM_1571_FILE, 0 },
+    { IDC_DRIVEROM_1571CR_FILE, 0 },
+    { IDC_DRIVEROM_1581_FILE, 0 },
+    { IDC_DRIVEROM_2031_FILE, 0 },
+    { IDC_DRIVEROM_2040_FILE, 0 },
+    { IDC_DRIVEROM_3040_FILE, 0 },
+    { IDC_DRIVEROM_4040_FILE, 0 },
+    { IDC_DRIVEROM_1001_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_drive_right_group[] = {
+    { IDC_DRIVEROM_1541_BROWSE, 0 },
+    { IDC_DRIVEROM_1541II_BROWSE, 0 },
+    { IDC_DRIVEROM_1570_BROWSE, 0 },
+    { IDC_DRIVEROM_1571_BROWSE, 0 },
+    { IDC_DRIVEROM_1571CR_BROWSE, 0 },
+    { IDC_DRIVEROM_1581_BROWSE, 0 },
+    { IDC_DRIVEROM_2031_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, 0 },
+    { 0, 0 }
+};
+
 static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uic64cart_proc(wparam, hwnd);
@@ -440,7 +592,11 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             ui_extra_joystick_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
-            uirom_settings_dialog(hwnd, translate_res(IDD_C128ROM_SETTINGS_DIALOG), translate_res(IDD_C128DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            uirom_settings_dialog(hwnd, IDD_C128ROM_SETTINGS_DIALOG, IDD_C128DRIVEROM_SETTINGS_DIALOG,
+                                  romset_dialog_resources, uirom_settings,
+                                  c128_main_trans, c128_drive_trans,
+                                  c128_main_left_group, c128_main_middle_group, c128_main_right_group,
+                                  c128_drive_left_group, c128_drive_middle_group, c128_drive_right_group);
             break;
 #ifdef HAVE_TFE
         case IDM_TFE_SETTINGS:

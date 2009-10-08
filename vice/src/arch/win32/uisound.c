@@ -156,8 +156,6 @@ static void init_sound_dialog(HWND hwnd)
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
-
-
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
     resources_get_int("SoundSampleRate", &res_value);
     for (i = 0; i < sizeof(ui_sound_freq) / sizeof(*ui_sound_freq); i ++) {
@@ -271,11 +269,65 @@ static void enable_sound_record_controls(HWND hwnd)
   EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_FILE), 1);
 }
 
+static uilib_localize_dialog_param sound_record_dialog_trans[] = {
+    {0, IDS_SOUND_RECORD_CAPTION, -1},
+    {IDC_SOUND_RECORD_FORMAT_LABEL, IDS_SOUND_RECORD_FORMAT_LABEL, 0},
+    {IDC_SOUND_RECORD_FILE_LABEL, IDS_SOUND_RECORD_FILE_LABEL, 0},
+    {IDC_SOUND_RECORD_BROWSE, IDS_BROWSE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group sound_record_group[] = {
+    {IDC_SOUND_RECORD_FORMAT_LABEL, 0},
+    {IDC_SOUND_RECORD_FILE_LABEL, 0},
+    {IDC_SOUND_RECORD_BROWSE, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group sound_record_right_group[] = {
+    {IDC_SOUND_RECORD_FORMAT, 0},
+    {IDC_SOUND_RECORD_BROWSE, 0},
+    {IDC_SOUND_RECORD_FILE, 0},
+    {0, 0}
+};
+
 static void init_sound_record_dialog(HWND hwnd)
 {
   HWND temp_hwnd;
   const char *sound_record_file;
   TCHAR *st_sound_record_file;
+  int xpos;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, sound_record_dialog_trans);
+
+  /* adjust the size of the elements in the datasette_sub_group */
+  uilib_adjust_group_width(hwnd, sound_record_group);
+
+  /* get the max x of the sound record format element */
+  uilib_get_element_max_x(hwnd, IDC_SOUND_RECORD_FORMAT_LABEL, &xpos);
+
+  /* move the sound record format indicator element to the correct position */
+  uilib_move_element(hwnd, IDC_SOUND_RECORD_FORMAT, xpos + 10);
+
+  /* get the max x of the sound record file element */
+  uilib_get_element_max_x(hwnd, IDC_SOUND_RECORD_FILE_LABEL, &xpos);
+
+  /* move the browse button to the correct position */
+  uilib_move_element(hwnd, IDC_SOUND_RECORD_BROWSE, xpos + 10);
+
+  /* get the max x of the right group */
+  uilib_get_group_max_x(hwnd, sound_record_right_group, &xpos);
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
 
   temp_hwnd = GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT);
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AIFF");
@@ -371,6 +423,6 @@ static INT_PTR CALLBACK sound_record_dialog_proc(HWND hwnd, UINT msg,
 
 void ui_sound_record_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_SOUND_RECORD_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SOUND_RECORD_SETTINGS_DIALOG, hwnd,
             sound_record_dialog_proc);
 }

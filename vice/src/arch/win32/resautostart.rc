@@ -9,25 +9,29 @@
 
 // template of dialog for all languages
 
-IDD_AUTOSTART_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+IDD_AUTOSTART_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "", IDC_AUTOSTART_WARP,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_AUTOSTART_USE_COLON_WITH_RUN,
-                    87, 7, 50, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "",
-                    IDC_AUTOSTART_PRG_MODE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_AUTOSTART_PRG_MODE, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "",
-                    IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, 9, 44, 50, 8
-    PUSHBUTTON      "", IDC_AUTOSTART_DISK_IMAGE_BROWSE, 66, 42, 50, 14, 0
-    EDITTEXT        IDC_AUTOSTART_DISK_IMAGE_FILE, 9, 58, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_AUTOSTART_WARP,
+                  7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_AUTOSTART_USE_COLON_WITH_RUN,
+                  87, 7, 50, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT         "", IDC_AUTOSTART_PRG_MODE_LABEL,
+                  9, 24, 53, 8
+    COMBOBOX      IDC_AUTOSTART_PRG_MODE,
+                  66, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL,
+                  9, 44, 50, 8
+    PUSHBUTTON    "", IDC_AUTOSTART_DISK_IMAGE_BROWSE,
+                  66, 42, 50, 14, 0
+    EDITTEXT      IDC_AUTOSTART_DISK_IMAGE_FILE,
+                  9, 58, 160, 12, WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON "", IDOK,
+                  30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  90, 90, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -37,15 +41,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 
 
@@ -54,15 +58,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Autostart disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Autostart disk image"
 END
 
 
@@ -71,15 +75,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 
 
@@ -88,15 +92,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 
 
@@ -106,15 +110,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 #pragma code_page(28591)
 
@@ -124,15 +128,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 
 
@@ -141,15 +145,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Instellingen"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Gebruik ':' met run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart modus"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk bestand"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Selecteer bestand voor PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtueel Bestandssysteem"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk bestand"
+    IDS_AUTOSTART_CAPTION                    "Autostart Instellingen"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Gebruik ':' met run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart modus"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk bestand"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Selecteer bestand voor PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtueel Bestandssysteem"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk bestand"
 END
 
 
@@ -159,15 +163,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 #pragma code_page(28591)
 
@@ -177,15 +181,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 
 
@@ -195,14 +199,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                      "Autostart Settings"
-    IDS_AUTOSTART_WARP                         "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                    "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                     "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE               "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE   "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                   "Virtual FS"
-    IDS_AUTOSTART_INJECT                       "Inject"
-    IDS_AUTOSTART_DISK                         "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject"
+    IDS_AUTOSTART_DISK                       "Disk image"
 END
 #pragma code_page(28591)

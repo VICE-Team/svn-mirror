@@ -993,240 +993,27 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_SOUND_RECORD_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT         "Sound Record Format", IDC_SOUND_RECORD_FORMAT_LABEL,
+    LTEXT         "", IDC_SOUND_RECORD_FORMAT_LABEL,
                   9, 9, 53, 8
     COMBOBOX      IDC_SOUND_RECORD_FORMAT,
                   66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "&Sound Record File", IDC_SOUND_RECORD_FILE_LABEL,
+    LTEXT         "", IDC_SOUND_RECORD_FILE_LABEL,
                   9, 24, 50, 8
-    PUSHBUTTON    "Browse...", IDC_SOUND_RECORD_BROWSE,
+    PUSHBUTTON    "", IDC_SOUND_RECORD_BROWSE,
                   66, 24, 50, 14, 0
     EDITTEXT      IDC_SOUND_RECORD_FILE,
                   9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
+    DEFPUSHBUTTON "", IDOK,
                   30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Cancel", IDCANCEL,
+    PUSHBUTTON    "", IDCANCEL,
                   90, 64, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_SOUND_RECORD_SETTINGS_DIALOG_DA DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT         "Format for lydoptagelse", IDC_SOUND_RECORD_FORMAT_LABEL,
-                  9, 9, 53, 8
-    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
-                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "&Fil for lydoptagelse", IDC_SOUND_RECORD_FILE_LABEL,
-                  9, 24, 50, 8
-    PUSHBUTTON    "Gennemse...", IDC_SOUND_RECORD_BROWSE,
-                  66, 24, 50, 14, 0
-    EDITTEXT      IDC_SOUND_RECORD_FILE,
-                  9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annullér", IDCANCEL,
-                  90, 64, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_SOUND_RECORD_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT         "Tonaufnahmeformat", IDC_SOUND_RECORD_FORMAT_LABEL,
-                  9, 9, 53, 8
-    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
-                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "&Tonaufnahme Datei", IDC_SOUND_RECORD_FILE_LABEL,
-                  9, 24, 50, 8
-    PUSHBUTTON    "Stöbern...", IDC_SOUND_RECORD_BROWSE,
-                  66, 24, 50, 14, 0
-    EDITTEXT      IDC_SOUND_RECORD_FILE,
-                  9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Abbruch", IDCANCEL,
-                  90, 64, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_SOUND_RECORD_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT         "Sound Record Format", IDC_SOUND_RECORD_FORMAT_LABEL,
-                  9, 9, 53, 8
-    COMBOBOX      IDC_SOUND_RECORD_FORMAT,
-                  66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "&Sound Record File", IDC_SOUND_RECORD_FILE_LABEL,
-                  9, 24, 50, 8
-    PUSHBUTTON    "Parcourir...", IDC_SOUND_RECORD_BROWSE,
-                  66, 24, 50, 14, 0
-    EDITTEXT      IDC_SOUND_RECORD_FILE,
-                  9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON "OK", IDOK,
-                  30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "Annuler", IDCANCEL,
-                  90, 64, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_SOUND_RECORD_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Hangfelvétel formátuma", IDC_SOUND_RECORD_FORMAT_LABEL,
-                    9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
-                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Hangfelvétel fájl...", IDC_SOUND_RECORD_FILE_LABEL,
-                    9, 24, 50, 8
-    PUSHBUTTON      "Tallózás...", IDC_SOUND_RECORD_BROWSE,
-                    66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE,
-                    9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL,
-                    90, 64, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_SOUND_RECORD_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Formato di registrazione dell'audio", IDC_SOUND_RECORD_FORMAT_LABEL,
-                    9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
-                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "File per la registrazione dell'&audio", IDC_SOUND_RECORD_FILE_LABEL,
-                    9, 24, 50, 8
-    PUSHBUTTON      "Sfoglia...", IDC_SOUND_RECORD_BROWSE,
-                    66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE,
-                    9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL,
-                    90, 64, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_SOUND_RECORD_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Geluid Opname Formaat", IDC_SOUND_RECORD_FORMAT_LABEL,
-                    9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
-                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Geluidsopnamebestand", IDC_SOUND_RECORD_FILE_LABEL,
-                    9, 24, 50, 8
-    PUSHBUTTON      "Bladeren...", IDC_SOUND_RECORD_BROWSE,
-                    66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE,
-                    9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL,
-                    90, 64, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_SOUND_RECORD_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Sound Record Format", IDC_SOUND_RECORD_FORMAT_LABEL,
-                    9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
-                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Sound Record File", IDC_SOUND_RECORD_FILE_LABEL,
-                    9, 24, 50, 8
-    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE,
-                    66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE,
-                    9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL,
-                    90, 64, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_SOUND_RECORD_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Format för ljudinspelning", IDC_SOUND_RECORD_FORMAT_LABEL,
-                    9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
-                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Fil för ljudinspelning", IDC_SOUND_RECORD_FILE_LABEL,
-                    9, 24, 50, 8
-    PUSHBUTTON      "Bläddra...", IDC_SOUND_RECORD_BROWSE,
-                    66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE,
-                    9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK,
-                    30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL,
-                    90, 64, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_SOUND_RECORD_SETTINGS_DIALOG_TR DIALOG DISCARDABLE 0, 0, 180, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Ses Kayýt Biçimi", IDC_SOUND_RECORD_FORMAT_LABEL,
-                    9, 9, 53, 8
-    COMBOBOX        IDC_SOUND_RECORD_FORMAT,
-                    66, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Ses Kayýt Dosyasý", IDC_SOUND_RECORD_FILE_LABEL,
-                    9, 24, 50, 8
-    PUSHBUTTON      "Göz at...", IDC_SOUND_RECORD_BROWSE,
-                    66, 24, 50, 14, 0
-    EDITTEXT        IDC_SOUND_RECORD_FILE,
-                    9, 40, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "Tamam", IDOK,
-                    30, 64, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL,
-                    90, 64, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1570,6 +1357,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Audio codec"
   IDS_BITRATE                     "bitrate"
   IDS_VIDEO_CODEC                 "Video codec"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Sound Record Format"
+  IDS_SOUND_RECORD_FILE_LABEL     "Sound Record File"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Character"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Attach &disk image"
   IDS_MP_DETACH_DISK_IMAGE        "D&etach disk image"
@@ -2115,6 +1908,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Lyd kodeks"
   IDS_BITRATE                     "bitrate"
   IDS_VIDEO_CODEC                 "Video kodeks"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Format for lydoptagelse"
+  IDS_SOUND_RECORD_FILE_LABEL     "Fil for lydoptagelse"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Tegngenerator"
   IDS_MP_FILE                     "&Fil"
   IDS_MP_ATTACH_DISK_IMAGE        "Tilslut &Disk-image"
   IDS_MP_DETACH_DISK_IMAGE        "&Frakobl disk-image"
@@ -2660,6 +2459,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Audio Codec"
   IDS_BITRATE                     "Bitrate"
   IDS_VIDEO_CODEC                 "Video Codec"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Tonaufnahmeformat"
+  IDS_SOUND_RECORD_FILE_LABEL     "Tonaufnahme Datei"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Zeichensatz"
   IDS_MP_FILE                     "&Datei"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk Image einlegen"
   IDS_MP_DETACH_DISK_IMAGE        "Disk Image &entfernen"
@@ -3205,6 +3010,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Audio codec"
   IDS_BITRATE                     "bitrate"
   IDS_VIDEO_CODEC                 "Video codec"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Sound Record Format"
+  IDS_SOUND_RECORD_FILE_LABEL     "Sound Record File"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Caractère"
   IDS_MP_FILE                     "&Fichier"
   IDS_MP_ATTACH_DISK_IMAGE        "Insérer une image de &disque"
   IDS_MP_DETACH_DISK_IMAGE        "&Retirer une image de disque"
@@ -3751,6 +3562,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Audió kodek"
   IDS_BITRATE                     "bitráta"
   IDS_VIDEO_CODEC                 "Videó kodek"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Hangfelvétel formátuma"
+  IDS_SOUND_RECORD_FILE_LABEL     "Hangfelvétel fájl..."
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Karakter"
   IDS_MP_FILE                     "&Fájl"
   IDS_MP_ATTACH_DISK_IMAGE        "Lemezképmás csatolása"
   IDS_MP_DETACH_DISK_IMAGE        "Lemezképmás &leválasztása"
@@ -4297,6 +4114,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Audio codec"
   IDS_BITRATE                     "bitrate"
   IDS_VIDEO_CODEC                 "Video codec"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Formato di registrazione dell'audio"
+  IDS_SOUND_RECORD_FILE_LABEL     "File per la registrazione dell'audio"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Character"
   IDS_MP_FILE                     "&File"
   IDS_MP_ATTACH_DISK_IMAGE        "Seleziona l'immagine di un &disco"
   IDS_MP_DETACH_DISK_IMAGE        "&Rimuovi l'immagine di un disco"
@@ -4842,6 +4665,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Audio codec"
   IDS_BITRATE                     "bitrate"
   IDS_VIDEO_CODEC                 "Video codec"
+  IDS_SOUND_RECORD_CAPTION        "Geluidsopname instellingen"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Geluidsopname formaat"
+  IDS_SOUND_RECORD_FILE_LABEL     "Geluidsopnamebestand"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Character"
   IDS_MP_FILE                     "&Bestand"
   IDS_MP_ATTACH_DISK_IMAGE        "Koppel &schijfbestand aan"
   IDS_MP_DETACH_DISK_IMAGE        "Ontkopp&el schijfbestand"
@@ -5388,6 +5217,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Ljud omkodare"
   IDS_BITRATE                     "bithastighet"
   IDS_VIDEO_CODEC                 "Video omkodare"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Sound Record Format"
+  IDS_SOUND_RECORD_FILE_LABEL     "Sound Record File"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Character"
   IDS_MP_FILE                     "&Plik"
   IDS_MP_ATTACH_DISK_IMAGE        "W³ó¿ obraz &dyskietki"
   IDS_MP_DETACH_DISK_IMAGE        "Wyjmij obraz dyski&etki"
@@ -5934,6 +5769,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Ljud omkodare"
   IDS_BITRATE                     "bithastighet"
   IDS_VIDEO_CODEC                 "Video omkodare"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Format för ljudinspelning"
+  IDS_SOUND_RECORD_FILE_LABEL     "Fil för ljudinspelning"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Teckengenerator"
   IDS_MP_FILE                     "&Arkiv"
   IDS_MP_ATTACH_DISK_IMAGE        "Anslut &diskettavbildningsfil"
   IDS_MP_DETACH_DISK_IMAGE        "Koppla &från diskettavbildningsfil"
@@ -6480,6 +6321,12 @@ BEGIN
   IDS_AUDIO_CODEC                 "Ses kodek"
   IDS_BITRATE                     "bithýzý"
   IDS_VIDEO_CODEC                 "Görüntü kodek"
+  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_SOUND_RECORD_FORMAT_LABEL   "Ses Kayýt Biçimi"
+  IDS_SOUND_RECORD_FILE_LABEL     "&Ses Kayýt Dosyasý"
+  IDS_KERNAL                      "Kernal"
+  IDS_BASIC                       "Basic"
+  IDS_CHARACTER                   "Karakter"
   IDS_MP_FILE                     "&Dosya"
   IDS_MP_ATTACH_DISK_IMAGE        "&Disk imajý yerleþtir"
   IDS_MP_DETACH_DISK_IMAGE        "Disk imajý çýkar&t"

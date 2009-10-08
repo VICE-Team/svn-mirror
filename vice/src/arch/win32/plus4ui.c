@@ -41,6 +41,7 @@
 #include "uidriveplus4.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uilib.h"
 #include "uiplus4cart.h"
 #include "uiplus4mem.h"
 #include "uirom.h"
@@ -270,6 +271,82 @@ ui_popup_translation_table_t plus4ui_popup_translation_table[] = {
     { 0, 0 }
 };
 
+static uilib_localize_dialog_param plus4_main_trans[] = {
+    { IDC_KERNAL, IDS_KERNAL, 0 },
+    { IDC_PLUS4ROM_KERNAL_BROWSE, IDS_BROWSE, 0 },
+    { IDC_BASIC, IDS_BASIC, 0 },
+    { IDC_PLUS4ROM_BASIC_BROWSE, IDS_BROWSE, 0 },
+    { IDC_3_PLUS_1_LO, IDS_3_PLUS_1_LO, 0 },
+    { IDC_PLUS4ROM_3P1LO_BROWSE, IDS_BROWSE, 0 },
+    { IDC_3_PLUS_1_HI, IDS_3_PLUS_1_HI, 0 },
+    { IDC_PLUS4ROM_3P1HI_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param plus4_drive_trans[] = {
+    { IDC_DRIVEROM_1541_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1541II_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1551_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1570_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1571_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1581_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group plus4_main_left_group[] = {
+    { IDC_KERNAL, 0 },
+    { IDC_BASIC, 0 },
+    { IDC_3_PLUS_1_LO, 0 },
+    { IDC_3_PLUS_1_HI, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group plus4_main_middle_group[] = {
+    { IDC_PLUS4ROM_KERNAL_FILE, 0 },
+    { IDC_PLUS4ROM_BASIC_FILE, 0 },
+    { IDC_PLUS4ROM_3P1LO_FILE, 0 },
+    { IDC_PLUS4ROM_3P1HI_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group plus4_main_right_group[] = {
+    { IDC_PLUS4ROM_KERNAL_BROWSE, 0 },
+    { IDC_PLUS4ROM_BASIC_BROWSE, 0 },
+    { IDC_PLUS4ROM_3P1LO_BROWSE, 0 },
+    { IDC_PLUS4ROM_3P1HI_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group plus4_drive_left_group[] = {
+    { IDC_1541, 0 },
+    { IDC_1541_II, 0 },
+    { IDC_1551, 0 },
+    { IDC_1570, 0 },
+    { IDC_1571, 0 },
+    { IDC_1581, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group plus4_drive_middle_group[] = {
+    { IDC_DRIVEROM_1541_FILE, 0 },
+    { IDC_DRIVEROM_1541II_FILE, 0 },
+    { IDC_DRIVEROM_1551_FILE, 0 },
+    { IDC_DRIVEROM_1570_FILE, 0 },
+    { IDC_DRIVEROM_1571_FILE, 0 },
+    { IDC_DRIVEROM_1581_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group plus4_drive_right_group[] = {
+    { IDC_DRIVEROM_1541_BROWSE, 0 },
+    { IDC_DRIVEROM_1541II_BROWSE, 0 },
+    { IDC_DRIVEROM_1551_BROWSE, 0 },
+    { IDC_DRIVEROM_1570_BROWSE, 0 },
+    { IDC_DRIVEROM_1571_BROWSE, 0 },
+    { IDC_DRIVEROM_1581_BROWSE, 0 },
+    { 0, 0 }
+};
+
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uiplus4cart_proc(wparam, hwnd);
@@ -285,7 +362,11 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             ui_extra_joystick_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
-            uirom_settings_dialog(hwnd, translate_res(IDD_PLUS4ROM_SETTINGS_DIALOG), translate_res(IDD_PLUS4DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            uirom_settings_dialog(hwnd, IDD_PLUS4ROM_SETTINGS_DIALOG, IDD_PLUS4DRIVEROM_SETTINGS_DIALOG,
+                                  romset_dialog_resources, uirom_settings,
+                                  plus4_main_trans, plus4_drive_trans,
+                                  plus4_main_left_group, plus4_main_middle_group, plus4_main_right_group,
+                                  plus4_drive_left_group, plus4_drive_middle_group, plus4_drive_right_group);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);

@@ -57,10 +57,60 @@ static const uirom_settings_t *settings;
 
 static const unsigned int *romset_dialog_resources;
 
+static uilib_localize_dialog_param *main_trans;
+static uilib_localize_dialog_param *drive_trans;
+
+static uilib_dialog_group *main_left_group;
+static uilib_dialog_group *main_middle_group;
+static uilib_dialog_group *main_right_group;
+
+static uilib_dialog_group *drive_left_group;
+static uilib_dialog_group *drive_middle_group;
+static uilib_dialog_group *drive_right_group;
 
 static void init_rom_dialog(HWND hwnd, unsigned int type)
 {
     unsigned int n = 0;
+    int xpos;
+
+    if (type == UIROM_TYPE_MAIN) {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, main_trans);
+
+        /* adjust the size of the elements in the main left group */
+        uilib_adjust_group_width(hwnd, main_left_group);
+
+        /* get the max x of the main left group */
+        uilib_get_group_max_x(hwnd, main_left_group, &xpos);
+
+        /* move the main middle group to the correct position */
+        uilib_move_group(hwnd, main_middle_group, xpos + 10);
+
+        /* get the max x of the main middle group */
+        uilib_get_group_max_x(hwnd, main_middle_group, &xpos);
+
+        /* move the main right group to the correct position */
+        uilib_move_group(hwnd, main_right_group, xpos + 10);
+
+    } else if (type == UIROM_TYPE_DRIVE) {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, drive_trans);
+
+        /* adjust the size of the elements in the drive left group */
+        uilib_adjust_group_width(hwnd, drive_left_group);
+
+        /* get the max x of the drive left group */
+        uilib_get_group_max_x(hwnd, drive_left_group, &xpos);
+
+        /* move the drive middle group to the correct position */
+        uilib_move_group(hwnd, drive_middle_group, xpos + 10);
+
+        /* get the max x of the drive middle group */
+        uilib_get_group_max_x(hwnd, drive_middle_group, &xpos);
+
+        /* move the drive right group to the correct position */
+        uilib_move_group(hwnd, drive_right_group, xpos + 10);
+    }
 
     while (settings[n].realname != NULL) {
         if (settings[n].type == type) {
@@ -618,10 +668,27 @@ static INT_PTR CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
 void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                            unsigned int idd_dialog_drive,
                            const unsigned int *idd_dialog_resources,
-                           const uirom_settings_t *uirom_settings)
+                           const uirom_settings_t *uirom_settings,
+                           uilib_localize_dialog_param *uirom_main_trans,
+                           uilib_localize_dialog_param *uirom_drive_trans,
+                           uilib_dialog_group *uirom_main_left_group,
+                           uilib_dialog_group *uirom_main_middle_group,
+                           uilib_dialog_group *uirom_main_right_group,
+                           uilib_dialog_group *uirom_drive_left_group,
+                           uilib_dialog_group *uirom_drive_middle_group,
+                           uilib_dialog_group *uirom_drive_right_group)
 {
     PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
+
+    main_trans = uirom_main_trans;
+    drive_trans = uirom_drive_trans;
+    main_left_group = uirom_main_left_group;
+    main_middle_group = uirom_main_middle_group;
+    main_right_group = uirom_main_right_group;
+    drive_left_group = uirom_drive_left_group;
+    drive_middle_group = uirom_drive_middle_group;
+    drive_right_group = uirom_drive_right_group;
 
     settings = uirom_settings;
     romset_dialog_resources = idd_dialog_resources;

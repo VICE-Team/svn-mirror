@@ -326,6 +326,93 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
     { 0, 0 }
 };
 
+static uilib_localize_dialog_param vic20_main_trans[] = {
+    { IDC_VIC20ROM_KERNAL, IDS_KERNAL, 0 },
+    { IDC_VIC20ROM_KERNAL_BROWSE, IDS_BROWSE, 0 },
+    { IDC_VIC20ROM_BASIC, IDS_BASIC, 0 },
+    { IDC_VIC20ROM_BASIC_BROWSE, IDS_BROWSE, 0 },
+    { IDC_VIC20ROM_CHARGEN, IDS_CHARACTER, 0 },
+    { IDC_VIC20ROM_CHARGEN_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param vic20_drive_trans[] = {
+    { IDC_DRIVEROM_1541_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1541II_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1570_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1571_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1581_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2031_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group vic20_main_left_group[] = {
+    { IDC_KERNAL, 0 },
+    { IDC_BASIC, 0 },
+    { IDC_CHARACTER, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group vic20_main_middle_group[] = {
+    { IDC_VIC20ROM_KERNAL_FILE, 0 },
+    { IDC_VIC20ROM_BASIC_FILE, 0} ,
+    { IDC_VIC20ROM_CHARGEN_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group vic20_main_right_group[] = {
+    { IDC_VIC20ROM_KERNAL_BROWSE, 0 },
+    { IDC_VIC20ROM_BASIC_BROWSE, 0} ,
+    { IDC_VIC20ROM_CHARGEN_BROWSE, 0 },
+    { 0, 0}
+};
+
+static uilib_dialog_group vic20_drive_left_group[] = {
+    { IDC_1541, 0 },
+    { IDC_1541_II, 0 },
+    { IDC_1570, 0 },
+    { IDC_1571, 0 },
+    { IDC_1581, 0 },
+    { IDC_2031, 0 },
+    { IDC_2040, 0 },
+    { IDC_3040, 0 },
+    { IDC_4040, 0 },
+    { IDC_1001, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group vic20_drive_middle_group[] = {
+    { IDC_DRIVEROM_1541_FILE, 0 },
+    { IDC_DRIVEROM_1541II_FILE, 0 },
+    { IDC_DRIVEROM_1570_FILE, 0 },
+    { IDC_DRIVEROM_1571_FILE, 0 },
+    { IDC_DRIVEROM_1581_FILE, 0 },
+    { IDC_DRIVEROM_2031_FILE, 0 },
+    { IDC_DRIVEROM_2040_FILE, 0 },
+    { IDC_DRIVEROM_3040_FILE, 0 },
+    { IDC_DRIVEROM_4040_FILE, 0 },
+    { IDC_DRIVEROM_1001_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group vic20_drive_right_group[] = {
+    { IDC_DRIVEROM_1541_BROWSE, 0 },
+    { IDC_DRIVEROM_1541II_BROWSE, 0 },
+    { IDC_DRIVEROM_1570_BROWSE, 0 },
+    { IDC_DRIVEROM_1571_BROWSE, 0 },
+    { IDC_DRIVEROM_1581_BROWSE, 0 },
+    { IDC_DRIVEROM_2031_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, 0 },
+    { 0, 0 }
+};
+
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
@@ -378,9 +465,11 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         ui_extra_joystick_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, translate_res(IDD_VIC20ROM_SETTINGS_DIALOG),
-                              translate_res(IDD_VIC20DRIVEROM_SETTINGS_DIALOG),
-                              romset_dialog_resources, uirom_settings); 
+        uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG, IDD_VIC20DRIVEROM_SETTINGS_DIALOG,
+                              romset_dialog_resources, uirom_settings, 
+                              vic20_main_trans, vic20_drive_trans,
+                              vic20_main_left_group, vic20_main_middle_group, vic20_main_right_group,
+                              vic20_drive_left_group, vic20_drive_middle_group, vic20_drive_right_group);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);

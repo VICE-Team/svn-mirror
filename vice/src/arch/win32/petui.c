@@ -39,6 +39,7 @@
 #include "uidrivepetcbm2.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uilib.h"
 #include "uipetreu.h"
 #include "uipetset.h"
 #include "uirom.h"
@@ -268,6 +269,93 @@ ui_popup_translation_table_t petui_popup_translation_table[] = {
     { 0, 0 }
 };
 
+static uilib_localize_dialog_param pet_main_trans[] = {
+    { IDC_KERNAL, IDS_KERNAL, 0 },
+    { IDC_PETROM_KERNAL_BROWSE, IDS_BROWSE, 0 },
+    { IDC_BASIC, IDS_BASIC, 0 },
+    { IDC_PETROM_BASIC_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CHARACTER, IDS_CHARACTER, 0 },
+    { IDC_PETROM_CHARGEN_BROWSE, IDS_BROWSE, 0 },
+    { IDC_EDITOR, IDS_EDITOR, 0 },
+    { IDC_PETROM_EDITOR_BROWSE, IDS_BROWSE, 0 },
+    { IDC_ROM_9, IDS_ROM_9, 0 },
+    { IDC_PETROM_ROM9_BROWSE, IDS_BROWSE, 0 },
+    { IDC_ROM_A, IDS_ROM_A, 0 },
+    { IDC_PETROM_ROMA_BROWSE, IDS_BROWSE, 0 },
+    { IDC_ROM_B, IDS_ROM_B, 0 },
+    { IDC_PETROM_ROMB_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param pet_drive_trans[] = {
+    { IDC_DRIVEROM_2031_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group pet_main_left_group[] = {
+    { IDC_KERNAL, 0 },
+    { IDC_BASIC, 0 },
+    { IDC_CHARACTER, 0 },
+    { IDC_EDITOR, 0 },
+    { IDC_ROM_9, 0 },
+    { IDC_ROM_A, 0 },
+    { IDC_ROM_B, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group pet_main_middle_group[] = {
+    { IDC_PETROM_KERNAL_FILE, 0 },
+    { IDC_PETROM_BASIC_FILE, 0 },
+    { IDC_PETROM_CHARGEN_FILE, 0 },
+    { IDC_PETROM_EDITOR_FILE, 0 },
+    { IDC_PETROM_ROM9_FILE, 0 },
+    { IDC_PETROM_ROMA_FILE, 0 },
+    { IDC_PETROM_ROMB_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group pet_main_right_group[] = {
+    { IDC_PETROM_KERNAL_BROWSE, 0 },
+    { IDC_PETROM_BASIC_BROWSE, 0 },
+    { IDC_PETROM_CHARGEN_BROWSE, 0 },
+    { IDC_PETROM_EDITOR_BROWSE, 0 },
+    { IDC_PETROM_ROM9_BROWSE, 0 },
+    { IDC_PETROM_ROMA_BROWSE, 0 },
+    { IDC_PETROM_ROMB_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group pet_drive_left_group[] = {
+    { IDC_2031, 0 },
+    { IDC_2040, 0 },
+    { IDC_3040, 0 },
+    { IDC_4040, 0 },
+    { IDC_1001, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group pet_drive_middle_group[] = {
+    { IDC_DRIVEROM_2031_FILE, 0 },
+    { IDC_DRIVEROM_2040_FILE, 0 },
+    { IDC_DRIVEROM_3040_FILE, 0 },
+    { IDC_DRIVEROM_4040_FILE, 0 },
+    { IDC_DRIVEROM_1001_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group pet_drive_right_group[] = {
+    { IDC_DRIVEROM_2031_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, 0 },
+    { 0, 0 }
+};
+
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -281,7 +369,11 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
             ui_sidcart_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
-            uirom_settings_dialog(hwnd, translate_res(IDD_PETROM_SETTINGS_DIALOG), translate_res(IDD_PETDRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            uirom_settings_dialog(hwnd, IDD_PETROM_SETTINGS_DIALOG, IDD_PETDRIVEROM_SETTINGS_DIALOG,
+                                  romset_dialog_resources, uirom_settings,
+                                  pet_main_trans, pet_drive_trans,
+                                  pet_main_left_group, pet_main_middle_group, pet_main_right_group,
+                                  pet_drive_left_group, pet_drive_middle_group, pet_drive_right_group);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);

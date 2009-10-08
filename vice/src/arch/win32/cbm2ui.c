@@ -42,6 +42,7 @@
 #include "uidrivepetcbm2.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
+#include "uilib.h"
 #include "uirom.h"
 #include "uisid.h"
 #include "uivideo.h"
@@ -272,6 +273,93 @@ ui_popup_translation_table_t cbm2ui_popup_translation_table[] = {
     { 0, 0 }
 };
 
+static uilib_localize_dialog_param cbm2_main_trans[] = {
+    { IDC_KERNAL, IDS_KERNAL, 0 },
+    { IDC_CBM2ROM_KERNAL_BROWSE, IDS_BROWSE, 0 },
+    { IDC_BASIC, IDS_BASIC, 0 },
+    { IDC_CBM2ROM_BASIC_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CHARACTER, IDS_CHARACTER, 0 },
+    { IDC_CBM2ROM_CHARGEN_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CART_1, IDS_CART_1, 0 },
+    { IDC_CBM2ROM_CART1_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CART_2, IDS_CART_2, 0 },
+    { IDC_CBM2ROM_CART2_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CART_4, IDS_CART_4, 0 },
+    { IDC_CBM2ROM_CART4_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CART_6, IDS_CART_6, 0 },
+    { IDC_CBM2ROM_CART6_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param cbm2_drive_trans[] = {
+    { IDC_DRIVEROM_2031_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group cbm2_main_left_group[] = {
+    { IDC_KERNAL, 0 },
+    { IDC_BASIC, 0 },
+    { IDC_CHARACTER, 0 },
+    { IDC_CART_1, 0 },
+    { IDC_CART_2, 0 },
+    { IDC_CART_4, 0 },
+    { IDC_CART_6, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_main_middle_group[] = {
+    { IDC_CBM2ROM_KERNAL_FILE, 0 },
+    { IDC_CBM2ROM_BASIC_FILE, 0 },
+    { IDC_CBM2ROM_CHARGEN_FILE, 0 },
+    { IDC_CBM2ROM_CART1_FILE, 0 },
+    { IDC_CBM2ROM_CART2_FILE, 0 },
+    { IDC_CBM2ROM_CART4_FILE, 0 },
+    { IDC_CBM2ROM_CART6_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_main_right_group[] = {
+    { IDC_CBM2ROM_KERNAL_BROWSE, 0 },
+    { IDC_CBM2ROM_BASIC_BROWSE, 0 },
+    { IDC_CBM2ROM_CHARGEN_BROWSE, 0 },
+    { IDC_CBM2ROM_CART1_BROWSE, 0 },
+    { IDC_CBM2ROM_CART2_BROWSE, 0 },
+    { IDC_CBM2ROM_CART4_BROWSE, 0 },
+    { IDC_CBM2ROM_CART6_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_drive_left_group[] = {
+    { IDC_2031, 0 },
+    { IDC_2040, 0 },
+    { IDC_3040, 0 },
+    { IDC_4040, 0 },
+    { IDC_1001, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_drive_middle_group[] = {
+    { IDC_DRIVEROM_2031_FILE, 0 },
+    { IDC_DRIVEROM_2040_FILE, 0 },
+    { IDC_DRIVEROM_3040_FILE, 0 },
+    { IDC_DRIVEROM_4040_FILE, 0 },
+    { IDC_DRIVEROM_1001_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_drive_right_group[] = {
+    { IDC_DRIVEROM_2031_BROWSE, 0 },
+    { IDC_DRIVEROM_2040_BROWSE, 0 },
+    { IDC_DRIVEROM_3040_BROWSE, 0 },
+    { IDC_DRIVEROM_4040_BROWSE, 0 },
+    { IDC_DRIVEROM_1001_BROWSE, 0 },
+    { 0, 0 }
+};
+
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -289,7 +377,11 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             ui_sid_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
-            uirom_settings_dialog(hwnd, translate_res(IDD_CBM2ROM_SETTINGS_DIALOG), translate_res(IDD_CBM2DRIVEROM_SETTINGS_DIALOG), romset_dialog_resources, uirom_settings);
+            uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,
+                                  romset_dialog_resources, uirom_settings,
+                                  cbm2_main_trans, cbm2_drive_trans,
+                                  cbm2_main_left_group, cbm2_main_middle_group, cbm2_main_right_group,
+                                  cbm2_drive_left_group, cbm2_drive_middle_group, cbm2_drive_right_group);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);

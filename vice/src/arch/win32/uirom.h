@@ -47,7 +47,15 @@ typedef struct uirom_settings_s uirom_settings_t;
 extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                                   unsigned int idd_dialog_drive,
                                   const unsigned int *idd_dialog_resources,
-                                  const uirom_settings_t *uirom_settings);
+                                  const uirom_settings_t *uirom_settings,
+                                  uilib_localize_dialog_param *uirom_main_trans,
+                                  uilib_localize_dialog_param *uirom_drive_trans,
+                                  uilib_dialog_group *main_left_group,
+                                  uilib_dialog_group *main_middle_group,
+                                  uilib_dialog_group *main_right_group,
+                                  uilib_dialog_group *drive_left_group,
+                                  uilib_dialog_group *drive_middle_group,
+                                  uilib_dialog_group *drive_right_group);
 
 #endif
 
