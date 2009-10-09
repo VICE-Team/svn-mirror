@@ -309,243 +309,243 @@ IDD_C128ROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 310
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT       "", IDC_KERNAL_INT,
-                9, 8, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALINT_FILE,
-                55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALINT_BROWSE,
-                185, 7, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_INT,
+               9, 8, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALINT_FILE,
+               55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALINT_BROWSE,
+               185, 7, 50, 14, 0
 
-    LTEXT       "", IDC_KERNAL_DE,
-                9, 28, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALDE_FILE,
-                55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALDE_BROWSE,
-                185, 27, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_DE,
+               9, 28, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALDE_FILE,
+               55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALDE_BROWSE,
+               185, 27, 50, 14, 0
 
-    LTEXT       "", IDC_KERNAL_FI,
-                9, 48, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALFI_FILE,
-                55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALFI_BROWSE,
-                185, 47, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_FI,
+               9, 48, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALFI_FILE,
+               55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALFI_BROWSE,
+               185, 47, 50, 14, 0
 
-    LTEXT       "", IDC_KERNAL_FR,
-                9, 68, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALFR_FILE,
-                55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALFR_BROWSE,
-                185, 67, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_FR,
+               9, 68, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALFR_FILE,
+               55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALFR_BROWSE,
+               185, 67, 50, 14, 0
 
-    LTEXT       "", IDC_KERNAL_IT,
-                9, 88, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALIT_FILE,
-                55, 87, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALIT_BROWSE,
-                185, 87, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_IT,
+               9, 88, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALIT_FILE,
+               55, 87, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALIT_BROWSE,
+               185, 87, 50, 14, 0
 
-    LTEXT       "", IDC_KERNAL_NO,
-                9, 108, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALNO_FILE,
-                55, 107, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALNO_BROWSE,
-                185, 107, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_NO,
+               9, 108, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALNO_FILE,
+               55, 107, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALNO_BROWSE,
+               185, 107, 50, 14, 0
 
-    LTEXT       "", IDC_KERNAL_SE,
-                9, 128, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNALSE_FILE,
-                55, 127, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNALSE_BROWSE,
-                185, 127, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_SE,
+               9, 128, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNALSE_FILE,
+               55, 127, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNALSE_BROWSE,
+               185, 127, 50, 14, 0
 
-    LTEXT       "", IDC_BASIC_LO,
-                9, 148, 40, 8
-    EDITTEXT    IDC_C128ROM_BASICLO_FILE,
-                55, 147, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_BASICLO_BROWSE,
-                185, 147, 50, 14, 0
+    LTEXT      "", IDC_BASIC_LO,
+               9, 148, 40, 8
+    EDITTEXT   IDC_C128ROM_BASICLO_FILE,
+               55, 147, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_BASICLO_BROWSE,
+               185, 147, 50, 14, 0
 
-    LTEXT       "", IDC_BASIC_HI,
-                9, 168, 40, 8
-    EDITTEXT    IDC_C128ROM_BASICHI_FILE,
-                55, 167, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_BASICHI_BROWSE,
-                185, 167, 50, 14, 0
+    LTEXT      "", IDC_BASIC_HI,
+               9, 168, 40, 8
+    EDITTEXT   IDC_C128ROM_BASICHI_FILE,
+               55, 167, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_BASICHI_BROWSE,
+               185, 167, 50, 14, 0
 
-    LTEXT       "", IDC_CHAR_INT,
-                9, 188, 40, 8
-    EDITTEXT    IDC_C128ROM_CHARGENINT_FILE,
-                55, 187, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_CHARGENINT_BROWSE,
-                185, 187, 50, 14, 0
+    LTEXT      "", IDC_CHAR_INT,
+               9, 188, 40, 8
+    EDITTEXT   IDC_C128ROM_CHARGENINT_FILE,
+               55, 187, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_CHARGENINT_BROWSE,
+               185, 187, 50, 14, 0
 
-    LTEXT       "", IDC_CHAR_DE,
-                9, 208, 40, 8
-    EDITTEXT    IDC_C128ROM_CHARGENDE_FILE,
-                55, 207, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_CHARGENDE_BROWSE,
-                185, 207, 50, 14, 0
+    LTEXT      "", IDC_CHAR_DE,
+               9, 208, 40, 8
+    EDITTEXT   IDC_C128ROM_CHARGENDE_FILE,
+               55, 207, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_CHARGENDE_BROWSE,
+               185, 207, 50, 14, 0
 
-    LTEXT       "", IDC_CHAR_FR,
-                9, 228, 40, 8
-    EDITTEXT    IDC_C128ROM_CHARGENFR_FILE,
-                55, 227, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_CHARGENFR_BROWSE,
-                185, 227, 50, 14, 0
+    LTEXT      "", IDC_CHAR_FR,
+               9, 228, 40, 8
+    EDITTEXT   IDC_C128ROM_CHARGENFR_FILE,
+               55, 227, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_CHARGENFR_BROWSE,
+               185, 227, 50, 14, 0
 
-    LTEXT       "", IDC_CHAR_SE,
-                9, 248, 40, 8
-    EDITTEXT    IDC_C128ROM_CHARGENSE_FILE,
-                55, 247, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_CHARGENSE_BROWSE,
-                185, 247, 50, 14, 0
+    LTEXT      "", IDC_CHAR_SE,
+               9, 248, 40, 8
+    EDITTEXT   IDC_C128ROM_CHARGENSE_FILE,
+               55, 247, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_CHARGENSE_BROWSE,
+               185, 247, 50, 14, 0
 
-    LTEXT       "Kernal C64", IDC_KERNAL_C64,
-                9, 268, 40, 8
-    EDITTEXT    IDC_C128ROM_KERNAL64_FILE,
-                55, 267, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_KERNAL64_BROWSE,
-                185, 267, 50, 14, 0
+    LTEXT      "", IDC_KERNAL_C64,
+               9, 268, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNAL64_FILE,
+               55, 267, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNAL64_BROWSE,
+               185, 267, 50, 14, 0
 
-    LTEXT       "", IDC_BASIC_C64,
-                9, 288, 40, 8
-    EDITTEXT    IDC_C128ROM_BASIC64_FILE,
-                55, 287, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_C128ROM_BASIC64_BROWSE,
-                185, 287, 50, 14, 0
+    LTEXT      "", IDC_BASIC_C64,
+               9, 288, 40, 8
+    EDITTEXT   IDC_C128ROM_BASIC64_FILE,
+               55, 287, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_BASIC64_BROWSE,
+               185, 287, 50, 14, 0
 END
 
 // -----------------------------------------------------------------------------
 
 // dialog template for all languages
 
-IDD_C128DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 230
+IDD_C128DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 230
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT       "1541", IDC_1541,
-                9, 8, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1541_FILE,
-                55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1541_BROWSE,
-                185, 7, 50, 14, 0
+    LTEXT      "1541", IDC_1541,
+               9, 8, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1541_FILE,
+               55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1541_BROWSE,
+               185, 7, 50, 14, 0
 
-    LTEXT       "1541-II", IDC_1541_II,
-                9, 28, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1541II_FILE,
-                55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1541II_BROWSE,
-                185, 27, 50, 14, 0
+    LTEXT      "1541-II", IDC_1541_II,
+               9, 28, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1541II_FILE,
+               55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1541II_BROWSE,
+               185, 27, 50, 14, 0
 
-    LTEXT       "1570", IDC_1570,
-                9, 48, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1570_FILE,
-                55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1570_BROWSE,
-                185, 47, 50, 14, 0
+    LTEXT      "1570", IDC_1570,
+               9, 48, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1570_FILE,
+               55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1570_BROWSE,
+               185, 47, 50, 14, 0
 
-    LTEXT       "1571", IDC_1571,
-                9, 68, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1571_FILE,
-                55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1571_BROWSE,
-                185, 67, 50, 14, 0
+    LTEXT      "1571", IDC_1571,
+               9, 68, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1571_FILE,
+               55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1571_BROWSE,
+               185, 67, 50, 14, 0
 
-    LTEXT       "1571CR", IDC_1571CR,
-                9, 88, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1571CR_FILE,
-                55, 87, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1571CR_BROWSE,
-                185, 87, 50, 14, 0
+    LTEXT      "1571CR", IDC_1571CR,
+               9, 88, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1571CR_FILE,
+               55, 87, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1571CR_BROWSE,
+               185, 87, 50, 14, 0
 
-    LTEXT       "1581", IDC_1581,
-                9, 108, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1581_FILE,
-                55, 107, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1581_BROWSE,
-                185, 107, 50, 14, 0
+    LTEXT      "1581", IDC_1581,
+               9, 108, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1581_FILE,
+               55, 107, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1581_BROWSE,
+               185, 107, 50, 14, 0
 
-    LTEXT       "2031", IDC_2031,
-                9, 128, 40, 8
-    EDITTEXT    IDC_DRIVEROM_2031_FILE,
-                55, 127, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_2031_BROWSE,
-                185, 127, 50, 14, 0
+    LTEXT      "2031", IDC_2031,
+               9, 128, 40, 8
+    EDITTEXT   IDC_DRIVEROM_2031_FILE,
+               55, 127, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_2031_BROWSE,
+               185, 127, 50, 14, 0
 
-    LTEXT       "2040", IDC_2040,
-                9, 148, 40, 8
-    EDITTEXT    IDC_DRIVEROM_2040_FILE,
-                55, 147, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_2040_BROWSE,
-                185, 147, 50, 14, 0
+    LTEXT      "2040", IDC_2040,
+               9, 148, 40, 8
+    EDITTEXT   IDC_DRIVEROM_2040_FILE,
+               55, 147, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_2040_BROWSE,
+               185, 147, 50, 14, 0
 
-    LTEXT       "3040", IDC_3040,
-                9, 168, 40, 8
-    EDITTEXT    IDC_DRIVEROM_3040_FILE,
-                55, 167, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_3040_BROWSE,
-                185, 167, 50, 14, 0
+    LTEXT      "3040", IDC_3040,
+               9, 168, 40, 8
+    EDITTEXT   IDC_DRIVEROM_3040_FILE,
+               55, 167, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_3040_BROWSE,
+               185, 167, 50, 14, 0
 
-    LTEXT       "4040", IDC_4040,
-                9, 188, 40, 8
-    EDITTEXT    IDC_DRIVEROM_4040_FILE,
-                55, 187, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_4040_BROWSE,
-                185, 187, 50, 14, 0
+    LTEXT      "4040", IDC_4040,
+               9, 188, 40, 8
+    EDITTEXT   IDC_DRIVEROM_4040_FILE,
+               55, 187, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_4040_BROWSE,
+               185, 187, 50, 14, 0
 
-    LTEXT       "1001", IDC_1001,
-                9, 208, 40, 8
-    EDITTEXT    IDC_DRIVEROM_1001_FILE,
-                55, 207, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_DRIVEROM_1001_BROWSE,
-                185, 207, 50, 14, 0
+    LTEXT      "1001", IDC_1001,
+               9, 208, 40, 8
+    EDITTEXT   IDC_DRIVEROM_1001_FILE,
+               55, 207, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_1001_BROWSE,
+               185, 207, 50, 14, 0
 END
 
 // -----------------------------------------------------------------------------
 
 // dialog template for all languages
 
-IDD_C128ROM_RESOURCE_DIALOG DIALOG DISCARDABLE  0, 0, 160, 265
+IDD_C128ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "", IDC_COMPUTER_RESOURCES,
-                    4, 3, 151, 235
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALINT_RESOURCE,
-                    11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALDE_RESOURCE,
-                    11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALFI_RESOURCE,
-                    11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALFR_RESOURCE,
-                    11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALIT_RESOURCE,
-                    11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALNO_RESOURCE,
-                    11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNALSE_RESOURCE,
-                    11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_BASICLO_RESOURCE,
-                    11, 118, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_BASICHI_RESOURCE,
-                    11, 133, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_CHARGENINT_RESOURCE,
-                    11, 148, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_CHARGENDE_RESOURCE,
-                    11, 163, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_CHARGENFR_RESOURCE,
-                    11, 178, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_CHARGENSE_RESOURCE,
-                    11, 193, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_C128ROM_KERNAL64_RESOURCE,
-                    11, 208, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "",IDC_C128ROM_BASIC64_RESOURCE,
-                    11, 223, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX      "", IDC_COMPUTER_RESOURCES,
+                  4, 3, 151, 235
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALINT_RESOURCE,
+                  11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALDE_RESOURCE,
+                  11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALFI_RESOURCE,
+                  11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALFR_RESOURCE,
+                  11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALIT_RESOURCE,
+                  11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALNO_RESOURCE,
+                  11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALSE_RESOURCE,
+                  11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_BASICLO_RESOURCE,
+                  11, 118, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_BASICHI_RESOURCE,
+                  11, 133, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENINT_RESOURCE,
+                  11, 148, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENDE_RESOURCE,
+                  11, 163, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENFR_RESOURCE,
+                  11, 178, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENSE_RESOURCE,
+                  11, 193, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNAL64_RESOURCE,
+                  11, 208, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "",IDC_C128ROM_BASIC64_RESOURCE,
+                  11, 223, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK,
-                    20, 245, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL,
-                    80, 245, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON "", IDOK,
+                  20, 245, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  80, 245, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -556,173 +556,50 @@ IDD_C128ROMDRIVE_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 205
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "", IDC_DRIVE_RESOURCES,
-                    4, 3, 151, 175
-    AUTOCHECKBOX    "1541", IDC_DRIVEROM_1541_RESOURCE,
-                    11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "1541-II", IDC_DRIVEROM_1541II_RESOURCE,
-                    11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "1570", IDC_DRIVEROM_1570_RESOURCE,
-                    11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "1571", IDC_DRIVEROM_1571_RESOURCE,
-                    11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "1571CR", IDC_DRIVEROM_1571CR_RESOURCE,
-                    11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "1581", IDC_DRIVEROM_1581_RESOURCE,
-                    11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "2031", IDC_DRIVEROM_2031_RESOURCE,
-                    11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "2040", IDC_DRIVEROM_2040_RESOURCE,
-                    11, 118, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "3040", IDC_DRIVEROM_3040_RESOURCE,
-                    11, 133, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "4040", IDC_DRIVEROM_4040_RESOURCE,
-                    11, 148, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "1001", IDC_DRIVEROM_1001_RESOURCE,
-                    11, 163, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX      "", IDC_DRIVE_RESOURCES,
+                  4, 3, 151, 175
+    AUTOCHECKBOX  "1541", IDC_DRIVEROM_1541_RESOURCE,
+                  11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "1541-II", IDC_DRIVEROM_1541II_RESOURCE,
+                  11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "1570", IDC_DRIVEROM_1570_RESOURCE,
+                  11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "1571", IDC_DRIVEROM_1571_RESOURCE,
+                  11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "1571CR", IDC_DRIVEROM_1571CR_RESOURCE,
+                  11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "1581", IDC_DRIVEROM_1581_RESOURCE,
+                  11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "2031", IDC_DRIVEROM_2031_RESOURCE,
+                  11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "2040", IDC_DRIVEROM_2040_RESOURCE,
+                  11, 118, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "3040", IDC_DRIVEROM_3040_RESOURCE,
+                  11, 133, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "4040", IDC_DRIVEROM_4040_RESOURCE,
+                  11, 148, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "1001", IDC_DRIVEROM_1001_RESOURCE,
+                  11, 163, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK,
-                    20, 185, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL,
-                    80, 185, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON "", IDOK,
+                  20, 185, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  80, 185, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_C128_MACHINE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 220, 110
+IDD_C128_MACHINE_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 220, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Machine type"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Machine type", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT    "", IDC_MACHINE_TYPE,
+             10, 9, 50, 8
+    COMBOBOX IDC_C128_MACHINE_TYPE,
+             60, 7, 60, 50, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_C128_MACHINE_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Maskintype"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Maskintype", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_C128_MACHINE_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Maschinen Typ"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Maschinen Typ", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_C128_MACHINE_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Type de machine"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Type de machine", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_C128_MACHINE_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Gép típus"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Gép típus", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_C128_MACHINE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Tipo di macchina"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Tipo di macchina", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_C128_MACHINE_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Machinesoort"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Machinesoort", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_C128_MACHINE_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Typ maszyny"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Typ maszyny", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_C128_MACHINE_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Maskintyp"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Maskintyp", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_C128_MACHINE_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 220, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Makine tipi"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Makine tipi", IDC_STATIC, 10,9,50,8
-    COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
-                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1384,6 +1261,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Swedish Character"
   IDS_C64_MODE_KERNAL           "C64 mode Kernal"
   IDS_C64_MODE_BASIC            "C64 mode Basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "VDC settin&gs"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
@@ -1431,6 +1315,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Svensk tegngenerator"
   IDS_C64_MODE_KERNAL           "Kerne for C64-tilstand"
   IDS_C64_MODE_BASIC            "BASIC for C64-tilstand"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "&VDC-indstillinger"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikhuko&mmelse"
@@ -1478,6 +1369,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Schwedischer Zeichensatz"
   IDS_C64_MODE_KERNAL           "C64 modus Kernal"
   IDS_C64_MODE_BASIC            "C64 modus Basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
   IDS_MP_VDC_REVISION           "VDC Revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
@@ -1525,6 +1423,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Jeu de caractères suédois"
   IDS_C64_MODE_KERNAL           "Kernel mode C64"
   IDS_C64_MODE_BASIC            "Basic mode C64"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "Para&mètres VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Mémoire d'affichage de 64Ko"
@@ -1573,6 +1478,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Svéd karakterkészlet"
   IDS_C64_MODE_KERNAL           "C64 mód kernal"
   IDS_C64_MODE_BASIC            "C64 mód Basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ &memória"
@@ -1621,6 +1533,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Caratteri svedesi"
   IDS_C64_MODE_KERNAL           "Kernel in modalità C64"
   IDS_C64_MODE_BASIC            "Basic in modalità C64"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "Impostazio&ni del VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB di &memoria video"
@@ -1668,6 +1587,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Sweedse Karakters"
   IDS_C64_MODE_KERNAL           "C64-modus kernal"
   IDS_C64_MODE_BASIC            "C64-modus basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "VDC-instellin&gen"
   IDS_MP_VDC_REVISION           "VDC-revisie"
   IDS_MI_TOGGLE_VDC64KB         "64KB video&geheugen"
@@ -1716,6 +1642,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Swedish Character"
   IDS_C64_MODE_KERNAL           "C64 tryb Kernal"
   IDS_C64_MODE_BASIC            "C64 tryb Basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "Us&tawienia VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Wy¶wietl pa&miêæ 64KB"
@@ -1764,6 +1697,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Svensk teckengenerator"
   IDS_C64_MODE_KERNAL           "Kernal för C64-läge"
   IDS_C64_MODE_BASIC            "Basic för C64-läge"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "&VDC-inställningar"
   IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafik&minne"
@@ -1812,6 +1752,13 @@ BEGIN
   IDS_SWEDISH_CHARACTER         "Ýsveç Karakter"
   IDS_C64_MODE_KERNAL           "C64 modu Kernal"
   IDS_C64_MODE_BASIC            "C64 modu Basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB görüntü &belleði"

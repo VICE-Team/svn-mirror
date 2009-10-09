@@ -50,18 +50,16 @@
 #define _ANONYMOUS_UNION
 #endif
 
-static const TCHAR *ui_machine[] = 
-{
-    TEXT("International"),
-    TEXT("Finnish"),
-    TEXT("French"),
-    TEXT("German"),
-    TEXT("Italian"),
-    TEXT("Norwegian"),
-    TEXT("Swedish"),
-    NULL
+static const int ui_machine[] = {
+    IDS_INTERNATIONAL,
+    IDS_FINNISH,
+    IDS_FRENCH,
+    IDS_GERMAN,
+    IDS_ITALIAN,
+    IDS_NORWEGIAN,
+    IDS_SWEDISH,
+    0
 };
-
 
 static void enable_machine_controls(HWND hwnd)
 {
@@ -88,18 +86,36 @@ static void enable_functionrom_controls(HWND hwnd)
                  is_enabled);
 }
 
+static uilib_localize_dialog_param machine_dialog_trans[] = {
+    {IDC_MACHINE_TYPE, IDS_MACHINE_TYPE, 0},
+    {0, 0, 0}
+};
+
 static void init_machine_dialog(HWND hwnd)
 {
     HWND machine_hwnd;
     int res_value;
     int res_value_loop;
+    int xpos;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, machine_dialog_trans);
+
+    /* adjust the size of the  machine type element */
+    uilib_adjust_element_width(hwnd, IDC_MACHINE_TYPE);
+
+    /* get the max x of the machine type element */
+    uilib_get_element_max_x(hwnd, IDC_MACHINE_TYPE, &xpos);
+
+    /* move the machine type indicator element */
+    uilib_move_element(hwnd, IDC_C128_MACHINE_TYPE, xpos + 10);
 
     resources_get_int("MachineType", &res_value);
     machine_hwnd = GetDlgItem(hwnd, IDC_C128_MACHINE_TYPE);
-    for (res_value_loop = 0; ui_machine[res_value_loop];
+    for (res_value_loop = 0; ui_machine[res_value_loop] != 0;
         res_value_loop++) {
         SendMessage(machine_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)ui_machine[res_value_loop]);
+                    (LPARAM)translate_text(ui_machine[res_value_loop]));
     }
     SendMessage(machine_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -285,11 +301,11 @@ void ui_c128_dialog(HWND hwnd)
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_C128_MACHINE_SETTINGS_DIALOG));
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_C128_MACHINE_SETTINGS_DIALOG));
+        = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
