@@ -148,18 +148,6 @@ static int intl_table[][countof(language_table)] = {
 /* sv */   IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_SV,    /* fuzzy, size */
 /* tr */   IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_TR },  /* fuzzy, size */
 
-/* resc128.rc */
-/* en */ { IDD_C128_RAM_BANKS_DIALOG,
-/* da */   IDD_C128_RAM_BANKS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_C128_RAM_BANKS_DIALOG_DE,    /* fuzzy, size */
-/* fr */   IDD_C128_RAM_BANKS_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_C128_RAM_BANKS_DIALOG_HU,    /* fuzzy, size */
-/* it */   IDD_C128_RAM_BANKS_DIALOG_IT,    /* fuzzy, size */
-/* nl */   IDD_C128_RAM_BANKS_DIALOG_NL,
-/* pl */   IDD_C128_RAM_BANKS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_C128_RAM_BANKS_DIALOG_SV,    /* fuzzy, size */
-/* tr */   IDD_C128_RAM_BANKS_DIALOG_TR },  /* fuzzy, size */
-
 /* resdrivec128.rc */
 /* en */ { IDD_DRIVE_SETTINGS_DIALOG_C128,
 /* da */   IDD_DRIVE_SETTINGS_DIALOG_C128_DA,    /* fuzzy, size */

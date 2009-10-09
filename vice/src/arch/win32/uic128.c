@@ -212,9 +212,25 @@ static void init_functionrom_dialog(HWND hwnd)
     enable_functionrom_controls(hwnd);
 }
 
+static uilib_localize_dialog_param rambanks_dialog_trans[] = {
+    {IDC_C128_FULL_BANKS, IDS_C128_FULL_BANKS, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group rambanks_group[] = {
+    {IDC_C128_FULL_BANKS, 1},
+    {0, 0}
+};
+
 static void init_rambanks_dialog(HWND hwnd)
 {
     int res_value;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, rambanks_dialog_trans);
+
+    /* adjust the size of the elements in the datasette_sub_group */
+    uilib_adjust_group_width(hwnd, rambanks_group);
 
     resources_get_int("C128FullBanks", &res_value);
     CheckDlgButton(hwnd, IDC_C128_FULL_BANKS, res_value
@@ -390,11 +406,11 @@ void ui_c128_dialog(HWND hwnd)
     psp[2].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[2].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_C128_RAM_BANKS_DIALOG));
+    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_C128_RAM_BANKS_DIALOG);
     psp[2].pszIcon = NULL;
 #else
     psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_C128_RAM_BANKS_DIALOG));
+        = MAKEINTRESOURCE(IDD_C128_RAM_BANKS_DIALOG);
     psp[2].u2.pszIcon = NULL;
 #endif
     psp[2].lParam = 0;

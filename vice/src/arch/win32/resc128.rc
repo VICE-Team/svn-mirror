@@ -633,140 +633,15 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
 IDD_C128_RAM_BANKS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_C128_FULL_BANKS,
+                 15, 15, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_C128_RAM_BANKS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_C128_RAM_BANKS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM Bänke"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "RAM Bänke 2 und 3 aktivieren",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_C128_RAM_BANKS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_C128_RAM_BANKS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_C128_RAM_BANKS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_C128_RAM_BANKS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banken"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Aktiveer RAM bank 2 en 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_C128_RAM_BANKS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_C128_RAM_BANKS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM-bankar"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Aktivera RAM-bank 2 och 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_C128_RAM_BANKS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 240, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "RAM banks"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "Enable RAM banks 2 and 3",
-                    IDC_C128_FULL_BANKS, 15,15,120,10,
-                    BS_AUTOCHECKBOX | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1036,6 +911,7 @@ BEGIN
   IDS_FILE_NAME                 "File name"
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Enable external Function ROM"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "VDC settin&gs"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
@@ -1095,6 +971,7 @@ BEGIN
   IDS_FILE_NAME                 "Filnavn"
   IDS_EXT_FUNCTION_ROM          "Extern funktions-ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivér extern funktions-ROM"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "&VDC-indstillinger"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikhuko&mmelse"
@@ -1154,6 +1031,7 @@ BEGIN
   IDS_FILE_NAME                 "Dateiname"
   IDS_EXT_FUNCTION_ROM          "Externes Funktions ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Externes Funktions ROM aktivieren"
+  IDS_C128_FULL_BANKS           "RAM Bänke 2 und 3 aktivieren"
   IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
   IDS_MP_VDC_REVISION           "VDC Revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
@@ -1213,6 +1091,7 @@ BEGIN
   IDS_FILE_NAME                 "Nom de fichier"
   IDS_EXT_FUNCTION_ROM          "Image ROM Fonction externe"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Activer l'image ROM Fonction externe"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "Para&mètres VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Mémoire d'affichage de 64Ko"
@@ -1273,6 +1152,7 @@ BEGIN
   IDS_FILE_NAME                 "Fájlnév"
   IDS_EXT_FUNCTION_ROM          "Külsõ Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Külsõ Function ROM engedélyezése"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ &memória"
@@ -1333,6 +1213,7 @@ BEGIN
   IDS_FILE_NAME                 "Nome del file"
   IDS_EXT_FUNCTION_ROM          "Function ROM esterna"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Attiva la Function ROM esterna"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "Impostazio&ni del VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB di &memoria video"
@@ -1392,6 +1273,7 @@ BEGIN
   IDS_FILE_NAME                 "Bestandsnaam"
   IDS_EXT_FUNCTION_ROM          "Externe functie-ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Activeer externe functie-ROM"
+  IDS_C128_FULL_BANKS           "Aktiveer RAM bank 2 en 3"
   IDS_MP_VDC_SETTINGS           "VDC-instellin&gen"
   IDS_MP_VDC_REVISION           "VDC-revisie"
   IDS_MI_TOGGLE_VDC64KB         "64KB video&geheugen"
@@ -1452,6 +1334,7 @@ BEGIN
   IDS_FILE_NAME                 "Nazwa pliku"
   IDS_EXT_FUNCTION_ROM          "zewnêtrzn± funkcjê ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "W³±cz zewnêtrzn± funkcjê ROM"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "Us&tawienia VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Wy¶wietl pa&miêæ 64KB"
@@ -1512,6 +1395,7 @@ BEGIN
   IDS_FILE_NAME                 "Filnamn"
   IDS_EXT_FUNCTION_ROM          "Externt funktions-ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivera externt funktions-ROM"
+  IDS_C128_FULL_BANKS           "Aktivera RAM-bank 2 och 3"
   IDS_MP_VDC_SETTINGS           "&VDC-inställningar"
   IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafik&minne"
@@ -1572,6 +1456,7 @@ BEGIN
   IDS_FILE_NAME                 "Dosya ismi"
   IDS_EXT_FUNCTION_ROM          "Harici Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Harici Function ROM'u aktif et"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB görüntü &belleði"
