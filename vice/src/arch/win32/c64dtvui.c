@@ -273,6 +273,17 @@ static uilib_localize_dialog_param c64dtv_drive_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param c64dtv_main_res_trans[] = {
+    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
+    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
+    { IDC_C64ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
+    { IDC_C64ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
+    { IDC_C64ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group c64dtv_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -335,7 +346,8 @@ static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
                                   romset_dialog_resources, uirom_settings,
                                   c64dtv_main_trans, c64dtv_drive_trans,
                                   c64dtv_main_left_group, c64dtv_main_middle_group, c64dtv_main_right_group,
-                                  c64dtv_drive_left_group, c64dtv_drive_middle_group, c64dtv_drive_right_group);
+                                  c64dtv_drive_left_group, c64dtv_drive_middle_group, c64dtv_drive_right_group,
+                                  c64dtv_main_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);

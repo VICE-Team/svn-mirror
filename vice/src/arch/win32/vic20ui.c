@@ -350,6 +350,17 @@ static uilib_localize_dialog_param vic20_drive_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param vic20_main_res_trans[] = {
+    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
+    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
+    { IDC_VIC20ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
+    { IDC_VIC20ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
+    { IDC_VIC20ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group vic20_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -469,7 +480,8 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                               romset_dialog_resources, uirom_settings, 
                               vic20_main_trans, vic20_drive_trans,
                               vic20_main_left_group, vic20_main_middle_group, vic20_main_right_group,
-                              vic20_drive_left_group, vic20_drive_middle_group, vic20_drive_right_group);
+                              vic20_drive_left_group, vic20_drive_middle_group, vic20_drive_right_group,
+                              vic20_main_res_trans);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);

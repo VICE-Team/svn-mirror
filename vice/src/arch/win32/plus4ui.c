@@ -293,6 +293,18 @@ static uilib_localize_dialog_param plus4_drive_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param plus4_main_res_trans[] = {
+    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
+    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
+    { IDC_PLUS4ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
+    { IDC_PLUS4ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
+    { IDC_PLUS4ROM_3P1LO_RESOURCE, IDS_3_PLUS_1_LO, 0 },
+    { IDC_PLUS4ROM_3P1HI_RESOURCE, IDS_3_PLUS_1_HI, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group plus4_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -366,7 +378,8 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
                                   romset_dialog_resources, uirom_settings,
                                   plus4_main_trans, plus4_drive_trans,
                                   plus4_main_left_group, plus4_main_middle_group, plus4_main_right_group,
-                                  plus4_drive_left_group, plus4_drive_middle_group, plus4_drive_right_group);
+                                  plus4_drive_left_group, plus4_drive_middle_group, plus4_drive_right_group,
+                                  plus4_main_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);

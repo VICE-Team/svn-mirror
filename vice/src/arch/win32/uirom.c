@@ -59,6 +59,7 @@ static const unsigned int *romset_dialog_resources;
 
 static uilib_localize_dialog_param *main_trans;
 static uilib_localize_dialog_param *drive_trans;
+static uilib_localize_dialog_param *main_res_trans;
 
 static uilib_dialog_group *main_left_group;
 static uilib_dialog_group *main_middle_group;
@@ -487,9 +488,64 @@ static void save_file_romset_dialog(HWND hwnd)
         ui_error(translate_text(IDS_CANNOT_SAVE_ROMSET_FILE));
 }
 
+static uilib_localize_dialog_param drive_res_trans[] = {
+    {0, IDS_DRIVE_RESOURCES_CAPTION, -1},
+    {IDC_DRIVE_RESOURCES, IDS_DRIVE_RESOURCES, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_resources_dialog(HWND hwnd, unsigned int type)
 {
     unsigned int n = 0;
+    int xpos1, xpos2;
+    int size;
+    RECT rect;
+    int idc;
+
+    if (type == UIROM_TYPE_MAIN) {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, main_res_trans);
+
+        idc = IDC_COMPUTER_RESOURCES;
+    } else if (type == UIROM_TYPE_DRIVE) {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, drive_res_trans);
+
+        idc = IDC_DRIVE_RESOURCES;
+    }
+
+    /* get the max x of the group element */
+    uilib_get_element_max_x(hwnd, idc, &xpos1);
+
+    /* get the size of the group element */
+    uilib_get_element_size(hwnd, idc, &size);
+
+    /* adjust the size of the group element */
+    uilib_adjust_element_width(hwnd, idc);
+
+    /* get the max x of the group element */
+    uilib_get_element_max_x(hwnd, idc, &xpos2);
+
+    if (xpos2 < xpos1) {
+        /* restore the size of the group element */
+        uilib_set_element_width(hwnd, idc, size);
+    } else {
+        /* resize the dialog window */
+        GetWindowRect(hwnd, &rect);
+        MoveWindow(hwnd, rect.left, rect.top, xpos2 + 10, rect.bottom - rect.top, TRUE);
+
+        /* recenter the buttons in the newly resized dialog window */
+        uilib_center_buttons(hwnd, move_buttons_group, 0);
+    }
 
     while (settings[n].realname != NULL) {
         if (settings[n].type == type) {
@@ -572,7 +628,7 @@ static INT_PTR CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
 static void uirom_resources_computer(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)(UINT_PTR)translate_res(romset_dialog_resources[UIROM_TYPE_MAIN]), hwnd,
+              (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_MAIN], hwnd,
               resources_computer_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -580,7 +636,7 @@ static void uirom_resources_computer(HWND hwnd)
 static void uirom_resources_drive(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)(UINT_PTR)translate_res(romset_dialog_resources[UIROM_TYPE_DRIVE]), hwnd,
+              (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_DRIVE], hwnd,
               resources_drive_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -588,7 +644,7 @@ static void uirom_resources_drive(HWND hwnd)
 static void uirom_resources_other(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)(UINT_PTR)translate_res(romset_dialog_resources[UIROM_TYPE_OTHER]), hwnd,
+              (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_OTHER], hwnd,
               resources_other_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -676,7 +732,8 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                            uilib_dialog_group *uirom_main_right_group,
                            uilib_dialog_group *uirom_drive_left_group,
                            uilib_dialog_group *uirom_drive_middle_group,
-                           uilib_dialog_group *uirom_drive_right_group)
+                           uilib_dialog_group *uirom_drive_right_group,
+                           uilib_localize_dialog_param *uirom_main_res_trans)
 {
     PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
@@ -689,6 +746,7 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     drive_left_group = uirom_drive_left_group;
     drive_middle_group = uirom_drive_middle_group;
     drive_right_group = uirom_drive_right_group;
+    main_res_trans = uirom_main_res_trans;
 
     settings = uirom_settings;
     romset_dialog_resources = idd_dialog_resources;

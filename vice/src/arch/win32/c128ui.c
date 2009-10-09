@@ -442,6 +442,29 @@ static uilib_localize_dialog_param c128_drive_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param c128_main_res_trans[] = {
+    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
+    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
+    { IDC_C128ROM_KERNALINT_RESOURCE, IDS_INTERNATIONAL_KERNAL, 0 },
+    { IDC_C128ROM_KERNALDE_RESOURCE, IDS_GERMAN_KERNAL, 0 },
+    { IDC_C128ROM_KERNALFI_RESOURCE, IDS_FINNISH_KERNAL, 0 },
+    { IDC_C128ROM_KERNALFR_RESOURCE, IDS_FRENCH_KERNAL, 0 },
+    { IDC_C128ROM_KERNALIT_RESOURCE, IDS_ITALIAN_KERNAL, 0 },
+    { IDC_C128ROM_KERNALNO_RESOURCE, IDS_NORWEGIAN_KERNAL, 0 },
+    { IDC_C128ROM_KERNALSE_RESOURCE, IDS_SWEDISH_KERNAL, 0 },
+    { IDC_C128ROM_BASICLO_RESOURCE, IDS_BASIC_LO, 0 },
+    { IDC_C128ROM_BASICHI_RESOURCE, IDS_BASIC_HI, 0 },
+    { IDC_C128ROM_CHARGENINT_RESOURCE, IDS_INTERNATIONAL_CHARACTER, 0 },
+    { IDC_C128ROM_CHARGENDE_RESOURCE, IDS_GERMAN_CHARACTER, 0 },
+    { IDC_C128ROM_CHARGENFR_RESOURCE, IDS_FRENCH_CHARACTER, 0 },
+    { IDC_C128ROM_CHARGENSE_RESOURCE, IDS_SWEDISH_CHARACTER, 0 },
+    { IDC_C128ROM_KERNAL64_RESOURCE, IDS_C64_MODE_KERNAL, 0 },
+    { IDC_C128ROM_BASIC64_RESOURCE, IDS_C64_MODE_BASIC, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group c128_main_left_group[] = {
     { IDC_KERNAL_INT, 0 },
     { IDC_KERNAL_DE, 0 },
@@ -596,7 +619,8 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
                                   romset_dialog_resources, uirom_settings,
                                   c128_main_trans, c128_drive_trans,
                                   c128_main_left_group, c128_main_middle_group, c128_main_right_group,
-                                  c128_drive_left_group, c128_drive_middle_group, c128_drive_right_group);
+                                  c128_drive_left_group, c128_drive_middle_group, c128_drive_right_group,
+                                  c128_main_res_trans);
             break;
 #ifdef HAVE_TFE
         case IDM_TFE_SETTINGS:

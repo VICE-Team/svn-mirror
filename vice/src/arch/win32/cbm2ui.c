@@ -300,6 +300,21 @@ static uilib_localize_dialog_param cbm2_drive_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param cbm2_main_res_trans[] = {
+    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
+    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
+    { IDC_CBM2ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
+    { IDC_CBM2ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
+    { IDC_CBM2ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
+    { IDC_CBM2ROM_CART1_RESOURCE, IDS_CART_1, 0 },
+    { IDC_CBM2ROM_CART2_RESOURCE, IDS_CART_2, 0 },
+    { IDC_CBM2ROM_CART4_RESOURCE, IDS_CART_4, 0 },
+    { IDC_CBM2ROM_CART6_RESOURCE, IDS_CART_6, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group cbm2_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -381,7 +396,8 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
                                   romset_dialog_resources, uirom_settings,
                                   cbm2_main_trans, cbm2_drive_trans,
                                   cbm2_main_left_group, cbm2_main_middle_group, cbm2_main_right_group,
-                                  cbm2_drive_left_group, cbm2_drive_middle_group, cbm2_drive_right_group);
+                                  cbm2_drive_left_group, cbm2_drive_middle_group, cbm2_drive_right_group,
+                                  cbm2_main_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);

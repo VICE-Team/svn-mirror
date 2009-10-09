@@ -126,7 +126,7 @@ typedef struct {
     unsigned int ids;
     int element_type;
 } uilib_localize_dialog_param;
-extern void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param);
 
+extern void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param);
 
 #endif

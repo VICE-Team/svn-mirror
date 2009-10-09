@@ -55,7 +55,7 @@ extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                                   uilib_dialog_group *main_right_group,
                                   uilib_dialog_group *drive_left_group,
                                   uilib_dialog_group *drive_middle_group,
-                                  uilib_dialog_group *drive_right_group);
+                                  uilib_dialog_group *drive_right_group,
+                                  uilib_localize_dialog_param *uirom__main_res_trans);
 
 #endif
-
