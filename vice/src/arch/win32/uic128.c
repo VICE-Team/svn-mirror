@@ -122,11 +122,72 @@ static void init_machine_dialog(HWND hwnd)
     enable_machine_controls(hwnd);
 }
 
+static uilib_localize_dialog_param functionrom_dialog_trans[] = {
+    {IDC_INTERNAL_FUNCTION_ROM, IDS_INT_FUNCTION_ROM, 0},
+    {IDC_C128_FUNCTIONROM_INTERNAL, IDS_ENABLE_INT_FUNCTION_ROM, 0},
+    {IDC_FILE_NAME_1, IDS_FILE_NAME, 0},
+    {IDC_FILE_NAME_2, IDS_FILE_NAME, 0},
+    {IDC_C128_FUNCTIONROM_INTERNAL_BROWSE, IDS_BROWSE, 0},
+    {IDC_EXTERNAL_FUNCTION_ROM, IDS_EXT_FUNCTION_ROM, 0},
+    {IDC_C128_FUNCTIONROM_EXTERNAL, IDS_ENABLE_EXT_FUNCTION_ROM, 0},
+    {IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE, IDS_BROWSE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group enable_group[] = {
+    {IDC_C128_FUNCTIONROM_INTERNAL, 1},
+    {IDC_C128_FUNCTIONROM_EXTERNAL, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group file_name_group[] = {
+    {IDC_FILE_NAME_1, 0},
+    {IDC_FILE_NAME_2, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group file_name_indicator_group[] = {
+    {IDC_C128_FUNCTIONROM_INTERNAL_NAME, 0},
+    {IDC_C128_FUNCTIONROM_EXTERNAL_NAME, 0},
+    {0, 0}
+};
+
 static void init_functionrom_dialog(HWND hwnd)
 {
     int res_value;
     const char *romfile;
     TCHAR *st_romfile;
+    int xstart;
+    int xpos;
+    int size;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, functionrom_dialog_trans);
+
+    /* adjust the size of the enable group elements */
+    uilib_adjust_group_width(hwnd, enable_group);
+
+    /* adjust the size of the file name group elements */
+    uilib_adjust_group_width(hwnd, file_name_group);
+
+    /* get the max x of the file name indicator group */
+    uilib_get_group_max_x(hwnd, file_name_indicator_group, &xstart);
+
+    /* get the size of the file name indicator group elements */
+    uilib_get_group_width(hwnd, file_name_indicator_group, &size);
+
+    /* get the max x of the file name group */
+    uilib_get_group_max_x(hwnd, file_name_group, &xpos);
+
+    /* move the file name indicator group to the correct position */
+    uilib_move_group(hwnd, file_name_indicator_group, xpos + 10);
+
+    /* get the max x of the file name indicator group */
+    uilib_get_group_max_x(hwnd, file_name_indicator_group, &xpos);
+
+    /* set the size of the file name indicator group */
+    uilib_set_element_width(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME, size - (xpos - xstart));
+    uilib_set_element_width(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, size - (xpos - xstart));
 
     resources_get_int("InternalFunctionROM", &res_value);
     CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_INTERNAL, res_value
@@ -315,11 +376,11 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[1].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
     psp[1].pszIcon = NULL;
 #else
     psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
+        = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
