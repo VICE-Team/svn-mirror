@@ -123,11 +123,77 @@ static const uikeyboard_mapping_entry_t mapping_entry[CBM2UI_KBD_NUM_MAP] = {
       IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, "KeymapBusinessDEPosFile" }
 };
 
+static uilib_localize_dialog_param cbm2_kbd_trans[] = {
+    { IDC_CBM2KBD_MAPPING_SELECT_GRSYM, IDS_GR_SYM, 0 },
+    { IDC_CBM2KBD_MAPPING_SELECT_GRPOS, IDS_GR_POS, 0 },
+    { IDC_CBM2KBD_MAPPING_SELECT_UKSYM, IDS_UK_SYM, 0 },
+    { IDC_CBM2KBD_MAPPING_SELECT_UKPOS, IDS_UK_POS, 0 },
+    { IDC_CBM2KBD_MAPPING_SELECT_DESYM, IDS_DE_SYM, 0 },
+    { IDC_CBM2KBD_MAPPING_SELECT_DEPOS, IDS_DE_POS, 0 },
+    { IDC_CBM2KBD_MAPPING_GRSYM_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_GRPOS_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_UKSYM_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_UKPOS_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_DESYM_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, IDS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_DUMP, IDS_DUMP_KEYSET, 0 },
+    { IDC_KBD_SHORTCUT_DUMP, IDS_DUMP_SHORTCUTS, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group cbm2_kbd_left_group[] = {
+    { IDC_CBM2KBD_MAPPING_SELECT_GRSYM, 1 },
+    { IDC_CBM2KBD_MAPPING_SELECT_GRPOS, 1 },
+    { IDC_CBM2KBD_MAPPING_SELECT_UKSYM, 1 },
+    { IDC_CBM2KBD_MAPPING_SELECT_UKPOS, 1 },
+    { IDC_CBM2KBD_MAPPING_SELECT_DESYM, 1 },
+    { IDC_CBM2KBD_MAPPING_SELECT_DEPOS, 1 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_kbd_middle_group[] = {
+    { IDC_CBM2KBD_MAPPING_GRSYM, 0 },
+    { IDC_CBM2KBD_MAPPING_GRPOS, 0 },
+    { IDC_CBM2KBD_MAPPING_UKSYM, 0 },
+    { IDC_CBM2KBD_MAPPING_UKPOS, 0 },
+    { IDC_CBM2KBD_MAPPING_DESYM, 0 },
+    { IDC_CBM2KBD_MAPPING_DEPOS, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_kbd_right_group[] = {
+    { IDC_CBM2KBD_MAPPING_GRSYM_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_GRPOS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_UKSYM_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_UKPOS_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_DESYM_BROWSE, 0 },
+    { IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group cbm2_kbd_buttons_group[] = {
+    { IDC_CBM2KBD_MAPPING_DUMP, 1 },
+    { IDC_KBD_SHORTCUT_DUMP, 1 },
+    { 0, 0 }
+};
+
+static int cbm2_kbd_move_buttons_group[] = {
+    IDC_CBM2KBD_MAPPING_DUMP,
+    IDC_KBD_SHORTCUT_DUMP,
+    0
+};
+
 static uikeyboard_config_t uikeyboard_config = {
     IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG,
     CBM2UI_KBD_NUM_MAP,
     mapping_entry,
-    IDC_CBM2KBD_MAPPING_DUMP
+    IDC_CBM2KBD_MAPPING_DUMP,
+    cbm2_kbd_trans,
+    cbm2_kbd_left_group,
+    cbm2_kbd_middle_group,
+    cbm2_kbd_right_group,
+    cbm2_kbd_buttons_group,
+    cbm2_kbd_move_buttons_group
 };
 
 ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {

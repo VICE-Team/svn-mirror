@@ -70,6 +70,13 @@ static int menuitemmodifier_len;
 
 static void dump_shortcuts(void);
 
+static uilib_localize_dialog_param *mapping_dialog_trans;
+static uilib_dialog_group *mapping_left_group;
+static uilib_dialog_group *mapping_middle_group;
+static uilib_dialog_group *mapping_right_group;
+static uilib_dialog_group *mapping_buttons_group;
+static int *mapping_move_buttons_group;
+
 static int mapping_index_get(void)
 {
     int index;
@@ -94,9 +101,61 @@ static void enable_mapping_controls(HWND hwnd, int idc_index)
     }
 }
 
+static uilib_localize_dialog_param ok_cancel_trans[] = {
+    {0, IDS_KEYBOARD_SETTINGS, -1},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static int ok_cancel_move_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_mapping_dialog(HWND hwnd)
 {
     int idc_index, i;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, mapping_dialog_trans);
+
+    /* translate ok and cancel items */
+    uilib_localize_dialog(hwnd, ok_cancel_trans);
+
+    /* adjust the size of the elements in the buttons group */
+    uilib_adjust_group_width(hwnd, mapping_buttons_group);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, mapping_left_group);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, mapping_left_group, &xpos);
+
+    /* move the middle group to the correct position */
+    uilib_move_group(hwnd, mapping_middle_group, xpos + 10);
+
+    /* get the max x of the middle group */
+    uilib_get_group_max_x(hwnd, mapping_middle_group, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, mapping_right_group, xpos + 10);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, mapping_right_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, mapping_move_buttons_group, 0);
+
+    /* recenter the ok and cancel buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, ok_cancel_move_group, 0);
 
     idc_index = mapping_index_get();
 
@@ -187,6 +246,13 @@ static INT_PTR CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                 dump_mapping(hwnd);
             if (LOWORD(wparam) == IDC_KBD_SHORTCUT_DUMP)
                 dump_shortcuts();
+            if (LOWORD(wparam) == IDOK) {
+                end_mapping_dialog(hwnd);
+            }
+            if (LOWORD(wparam) == IDCANCEL || LOWORD(wparam) == IDOK) {
+                EndDialog(hwnd, 0);
+                return TRUE;
+            }
         }
         return FALSE;
       case WM_CLOSE:
@@ -203,48 +269,19 @@ static INT_PTR CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 void uikeyboard_settings_dialog(HWND hwnd,
                                 uikeyboard_config_t *uikeyboard_config)
 {
-    PROPSHEETPAGE psp[1];
-    PROPSHEETHEADER psh;
 
     uikeyboard_mapping_num = uikeyboard_config->num_mapping;
     mapping_entry = uikeyboard_config->mapping_entry;
     mapping_idc_dump = uikeyboard_config->idc_dump;
 
-    psp[0].dwSize = sizeof(PROPSHEETPAGE);
-    psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
-    psp[0].hInstance = winmain_instance;
-#ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(translate_res(uikeyboard_config->idd_mapping));
-    psp[0].pszIcon = NULL;
-#else
-    psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(uikeyboard_config->idd_mapping));
-    psp[0].u2.pszIcon = NULL;
-#endif
-    psp[0].lParam = 0;
-    psp[0].pfnCallback = NULL;
+    mapping_dialog_trans = uikeyboard_config->kbd_dialog_trans;
+    mapping_left_group = uikeyboard_config->kbd_left_group;
+    mapping_middle_group = uikeyboard_config->kbd_middle_group;
+    mapping_right_group = uikeyboard_config->kbd_right_group;
+    mapping_buttons_group = uikeyboard_config->kbd_buttons_group;
+    mapping_move_buttons_group = uikeyboard_config->kbd_move_buttons_group;
 
-    psp[0].pfnDlgProc = mapping_dialog_proc;
-    psp[0].pszTitle = translate_text(IDS_MAPPING);
-
-    psh.dwSize = sizeof(PROPSHEETHEADER);
-    psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
-    psh.hwndParent = hwnd;
-    psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_KEYBOARD_SETTINGS);
-    psh.nPages = 1;
-#ifdef _ANONYMOUS_UNION
-    psh.pszIcon = NULL;
-    psh.nStartPage = 0;
-    psh.ppsp = psp;
-#else
-    psh.DUMMYUNIONNAME.pszIcon = NULL;
-    psh.u2.nStartPage = 0;
-    psh.u3.ppsp = psp;
-#endif
-    psh.pfnCallback = NULL;
-
-    PropertySheet(&psh);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)uikeyboard_config->idd_mapping, hwnd, mapping_dialog_proc);
 }
 
 static void dump_shortcuts(void)

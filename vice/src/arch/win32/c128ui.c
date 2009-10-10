@@ -192,11 +192,57 @@ static const uikeyboard_mapping_entry_t mapping_entry[C128UI_KBD_NUM_MAP] = {
       IDC_C128KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
 };
 
+static uilib_localize_dialog_param c128_kbd_trans[] = {
+    { IDC_C128KBD_MAPPING_SELECT_SYM, IDS_SYMBOLIC, 0 },
+    { IDC_C128KBD_MAPPING_SELECT_POS, IDS_POSITIONAL, 0 },
+    { IDC_C128KBD_MAPPING_SYM_BROWSE, IDS_BROWSE, 0 },
+    { IDC_C128KBD_MAPPING_POS_BROWSE, IDS_BROWSE, 0 },
+    { IDC_C128KBD_MAPPING_DUMP, IDS_DUMP_KEYSET, 0 },
+    { IDC_KBD_SHORTCUT_DUMP, IDS_DUMP_SHORTCUTS, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group c128_kbd_left_group[] = {
+    { IDC_C128KBD_MAPPING_SELECT_SYM, 1 },
+    { IDC_C128KBD_MAPPING_SELECT_POS, 1 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_kbd_middle_group[] = {
+    { IDC_C128KBD_MAPPING_SYM, 0 },
+    { IDC_C128KBD_MAPPING_POS, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_kbd_right_group[] = {
+    { IDC_C128KBD_MAPPING_SYM_BROWSE, 0 },
+    { IDC_C128KBD_MAPPING_POS_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c128_kbd_buttons_group[] = {
+    { IDC_C128KBD_MAPPING_DUMP, 1 },
+    { IDC_KBD_SHORTCUT_DUMP, 1 },
+    { 0, 0 }
+};
+
+static int c128_kbd_move_buttons_group[] = {
+    IDC_C128KBD_MAPPING_DUMP,
+    IDC_KBD_SHORTCUT_DUMP,
+    0
+};
+
 static uikeyboard_config_t uikeyboard_config = {
     IDD_C128KBD_MAPPING_SETTINGS_DIALOG,
     C128UI_KBD_NUM_MAP,
     mapping_entry,
-    IDC_C128KBD_MAPPING_DUMP
+    IDC_C128KBD_MAPPING_DUMP,
+    c128_kbd_trans,
+    c128_kbd_left_group,
+    c128_kbd_middle_group,
+    c128_kbd_right_group,
+    c128_kbd_buttons_group,
+    c128_kbd_move_buttons_group
 };
 
 ui_menu_translation_table_t c128ui_menu_translation_table[] = {

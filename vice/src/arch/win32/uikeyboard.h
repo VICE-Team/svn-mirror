@@ -27,6 +27,8 @@
 #ifndef VICE_UIKEYBOARD_H
 #define VICE_UIKEYBOARD_H
 
+#include "uilib.h"
+
 struct uikeyboard_mapping_entry_s {
     int idc_select;
     int idc_filename;
@@ -40,6 +42,12 @@ struct uikeyboard_config_s {
     unsigned int num_mapping;
     const uikeyboard_mapping_entry_t *mapping_entry;
     int idc_dump;
+    uilib_localize_dialog_param *kbd_dialog_trans;
+    uilib_dialog_group *kbd_left_group;
+    uilib_dialog_group *kbd_middle_group;
+    uilib_dialog_group *kbd_right_group;
+    uilib_dialog_group *kbd_buttons_group;
+    int *kbd_move_buttons_group;
 };
 typedef struct uikeyboard_config_s uikeyboard_config_t;
 

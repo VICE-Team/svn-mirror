@@ -113,30 +113,6 @@ static int intl_table[][countof(language_table)] = {
 /* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
 
 /* resc64dtv.rc */
-/* en */ { IDD_C64DTV_SETTINGS_DIALOG,
-/* da */   IDD_C64DTV_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_C64DTV_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */   IDD_C64DTV_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_C64DTV_SETTINGS_DIALOG_HU,    /* fuzzy, size */
-/* it */   IDD_C64DTV_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */   IDD_C64DTV_SETTINGS_DIALOG_NL,
-/* pl */   IDD_C64DTV_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_C64DTV_SETTINGS_DIALOG_SV,    /* fuzzy, size */
-/* tr */   IDD_C64DTV_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* resc64dtv.rc */
-/* en */ { IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG,
-/* da */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_DE,    /* fuzzy, size */
-/* fr */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_HU,    /* fuzzy, size */
-/* it */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_IT,    /* fuzzy, size */
-/* nl */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_NL,
-/* pl */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_SV,    /* fuzzy, size */
-/* tr */   IDD_C64DTV_ATTACH_FLASH_IMAGE_DIALOG_TR },  /* fuzzy, size */
-
-/* resc64dtv.rc */
 /* en */ { IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG,
 /* da */   IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DA,    /* fuzzy, size */
 /* de */   IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DE,    /* fuzzy, size */
@@ -159,18 +135,6 @@ static int intl_table[][countof(language_table)] = {
 /* pl */   IDD_DRIVE_SETTINGS_DIALOG_C128_PL,    /* fuzzy, size */
 /* sv */   IDD_DRIVE_SETTINGS_DIALOG_C128_SV,    /* size */
 /* tr */   IDD_DRIVE_SETTINGS_DIALOG_C128_TR },  /* fuzzy, size */
-
-/* resc128.rc */
-/* en */ { IDD_C128KBD_MAPPING_SETTINGS_DIALOG,
-/* da */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_NL,
-/* pl */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_C128KBD_MAPPING_SETTINGS_DIALOG_TR },  /* fuzzy, size */
 
 /* resdrivec64.rc */
 /* en */ { IDD_DRIVE_SETTINGS_DIALOG_C64,
@@ -256,18 +220,6 @@ static int intl_table[][countof(language_table)] = {
 /* sv */   IDD_DQBB_SETTINGS_DIALOG_SV,    /* size */
 /* tr */   IDD_DQBB_SETTINGS_DIALOG_TR },  /* fuzzy, size */
 
-/* resc64.rc */
-/* en */ { IDD_C64KBD_MAPPING_SETTINGS_DIALOG,
-/* da */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_NL,
-/* pl */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_C64KBD_MAPPING_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
 /* rescbm2.rc */
 /* en */ { IDD_CBMII_SETTINGS_MODEL_DIALOG,
 /* da */   IDD_CBMII_SETTINGS_MODEL_DIALOG_DA,    /* fuzzy, size */
@@ -291,18 +243,6 @@ static int intl_table[][countof(language_table)] = {
 /* pl */   IDD_CBMII_SETTINGS_IO_DIALOG_PL,    /* fuzzy, size */
 /* sv */   IDD_CBMII_SETTINGS_IO_DIALOG_SV,    /* size */
 /* tr */   IDD_CBMII_SETTINGS_IO_DIALOG_TR },  /* fuzzy, size */
-
-/* rescbm2.rc */
-/* en */ { IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG,
-/* da */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_NL,
-/* pl */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_TR },  /* fuzzy, size */
 
 /* respet.rc */
 /* en */ { IDD_PET_SETTINGS_MODEL_DIALOG,
@@ -352,18 +292,6 @@ static int intl_table[][countof(language_table)] = {
 /* sv */   IDD_PET_SETTINGS_8296_DIALOG_SV,    /* size */
 /* tr */   IDD_PET_SETTINGS_8296_DIALOG_TR },  /* fuzzy, size */
 
-/* respet.rc */
-/* en */ { IDD_PETKBD_MAPPING_SETTINGS_DIALOG,
-/* da */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_NL,
-/* pl */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_PETKBD_MAPPING_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
 /* resplus4.rc */
 /* en */ { IDD_PLUS4_MEMORY_DIALOG,
 /* da */   IDD_PLUS4_MEMORY_DIALOG_DA,    /* fuzzy, size */
@@ -399,30 +327,6 @@ static int intl_table[][countof(language_table)] = {
 /* pl */   IDD_MMC64_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */   IDD_MMC64_SETTINGS_DIALOG_SV,    /* size */
 /* tr */   IDD_MMC64_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* resplus4.rc */
-/* en */ { IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG,
-/* da */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_NL,
-/* pl */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* resvic20.rc */
-/* en */ { IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG,
-/* da */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_DE,    /* size */
-/* fr */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_FR,    /* size */
-/* hu */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_NL,
-/* pl */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_TR },  /* fuzzy, size */
 
 /* ressidcart.rc */
 /* en */ { IDD_SIDCART_SETTINGS_DIALOG,
