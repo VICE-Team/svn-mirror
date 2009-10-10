@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-09-21 20:14+0200\n"
-"PO-Revision-Date: 2009-08-10 20:06+0200\n"
+"PO-Revision-Date: 2009-10-10 12:19+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1889,7 +1889,7 @@ msgstr "Keymap definieren"
 #: src/arch/unix/gui/uijoystick2.c:432 src/arch/unix/gui/uijoystick2.c:447
 #: src/arch/unix/gui/uijoystick2.c:474 src/arch/unix/gui/uijoystick2.c:503
 msgid "*Allow opposite directions"
-msgstr ""
+msgstr "*Gegnüberliegende Richtungen zulassen"
 
 #: src/arch/unix/gui/uijoystick2.c:372 src/arch/unix/gui/uijoystick2.c:403
 #: src/arch/unix/gui/uijoystick2.c:434 src/arch/unix/gui/uijoystick2.c:449
@@ -3019,17 +3019,16 @@ msgid "*0.02 sec"
 msgstr "*0.02 Sek"
 
 #: src/arch/unix/gui/uisound.c:92
-#, fuzzy
 msgid "*Small"
-msgstr "&Klein"
+msgstr "*Klein"
 
 #: src/arch/unix/gui/uisound.c:94
 msgid "*Medium"
-msgstr ""
+msgstr "*Mittel"
 
 #: src/arch/unix/gui/uisound.c:96
 msgid "*Large"
-msgstr ""
+msgstr "*Groß"
 
 #: src/arch/unix/gui/uisound.c:102
 msgid "*Keep going"
@@ -3085,9 +3084,8 @@ msgid "Buffer size"
 msgstr "Puffergröße"
 
 #: src/arch/unix/gui/uisound.c:146
-#, fuzzy
 msgid "Fragment size"
-msgstr "<RAM Größe>"
+msgstr "Fragmentgröße"
 
 #: src/arch/unix/gui/uisound.c:148
 msgid "Suspend time"
@@ -4270,9 +4268,8 @@ msgid "Copyright (c) 2007-2009 Daniel Kahlin"
 msgstr "Copyright (c) 2007-2009 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:247
-#, fuzzy
 msgid "Copyright (c) 2008-2009 Antti S. Lankila"
-msgstr "Copyright (c) 2007-2009 M. Kiesel"
+msgstr "Copyright (c) 2008-2009 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:248
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -6020,9 +6017,8 @@ msgid "&Grab mouse events"
 msgstr "Maus Ereignisse abfan&gen"
 
 #: src/arch/win32/res.rc.po.c:6702
-#, fuzzy
 msgid "&Autostart settings..."
-msgstr "Autostart Einstellungen"
+msgstr "&Autostart Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:6703
 msgid "&Video settings..."
@@ -12005,14 +12001,12 @@ msgid "Specify Final Expansion extension ROM name"
 msgstr "Name für Final Expansion Erweiterungs ROM definieren"
 
 #: src/translate.c.po.c:8447
-#, fuzzy
 msgid "Enable Final Expansion write back to ROM file"
-msgstr "Final Expansion Datei wählen"
+msgstr "Final Expansion ROM Schreibzugriff aktivieren"
 
 #: src/translate.c.po.c:8461
-#, fuzzy
 msgid "Disable Final Expansion write back to ROM file"
-msgstr "Final Expansion Datei wählen"
+msgstr "Final Expansion ROM Schreibzugriff deaktivieren"
 
 #: src/translate.c.po.c:8475
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
