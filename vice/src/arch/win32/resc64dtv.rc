@@ -392,270 +392,24 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_C64DTV_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+IDD_C64DTV_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "DTV Revision",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport device",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joyport mapped to userport",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
+    LTEXT         "", IDC_DTV_REVISION_LABEL,
+                  63, 6, 110, 8
+    COMBOBOX      IDC_DTV_REVISION,
+                  9, 5, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_ENABLE_HUMMER_ADC,
+                  11, 32, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON "", IDOK,
+                  30, 84, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  90, 84, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_C64DTV_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV-indstillinger"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV-revision",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Brugerport enhed",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joystick tilsluttet brugerport",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_C64DTV_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV Revision",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport device",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joystickport auf Userport zugeordnet",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_C64DTV_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV Revision",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport device",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joyport mapped to userport",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_C64DTV_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV beállításai"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV változat",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport device",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Botkormány port leképezve a userportra",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_C64DTV_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni C64DTV"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "Revisione DTV",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport device",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Porta joystick mappata su userport",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_C64DTV_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Instellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV Revisie",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport apparaat",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joystick poort omgeleidt naar userpoort",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_C64DTV_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Settings"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV Revision",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport device",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joyport mapped to userport",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Anuluj", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_C64DTV_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV-inställningar"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV-utgåva",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Användarportensenhet",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Spelport kopplad till användarport",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_C64DTV_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64DTV Ayarlarý"
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "DTV Revizyonu",
-                    IDC_DTV_REVISION_LABEL, 63, 6, 110, 8
-    COMBOBOX        IDC_DTV_REVISION, 9, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "HUMMER",
-                    IDC_STATIC,3,22,174,40
-    LTEXT           "Userport aygýtý",
-                    IDC_HUMMER_USERPORT_DEVICE_LABEL, 63, 32, 110, 8
-    COMBOBOX        IDC_HUMMER_USERPORT_DEVICE, 9, 32, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Joystick portu userportla eþleþtirildi",
-                    IDC_C64DTV_HUMMER_JOY_PORT_LABEL, 63, 45, 110, 8
-    COMBOBOX        IDC_C64DTV_HUMMER_JOY_PORT, 9, 44, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "Tamam", IDOK, 30, 84, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 84, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -899,6 +653,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
+  IDS_DTV_REVISION_LABEL          "DTV Revision"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
@@ -920,6 +677,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV-ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-&imagefil"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivér &skrivning til DTV-ROM-image"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-indstillinger"
+  IDS_DTV_REVISION_LABEL          "DTV-revision"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV-flash&rom image"
   IDS_MI_AUTOSTART_DISK           "&Autostart disketteimage..."
   IDS_MI_ATTACH_DTV_FLASH         "Tilslut &flash-rom-image"
@@ -941,6 +701,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &Image Name"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Erlaube &Schreibzugriff auf DTV ROM Datei"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Einstellungen"
+  IDS_DTV_REVISION_LABEL          "DTV Revision"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV Flash &Rom Datei"
   IDS_MI_AUTOSTART_DISK           "&Autostart Disk Image..."
   IDS_MI_ATTACH_DTV_FLASH         "&Flash ROM Image einlegen"
@@ -962,6 +725,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
+  IDS_DTV_REVISION_LABEL          "DTV Revision"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "Démarrage &automatique d'une image lecteur..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
@@ -984,6 +750,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &képmás fájl"
   IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM képmásba írás &engedélyezése"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV beállításai"
+  IDS_DTV_REVISION_LABEL          "DTV változat"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom képmás"
   IDS_MI_AUTOSTART_DISK           "Lemezképmás &automatikus indítása..."
   IDS_MI_ATTACH_DTV_FLASH         "&Flash ROM képmás csatolása"
@@ -1006,6 +775,9 @@ BEGIN
   IDS_DTV_ROM                     "ROM DTV"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "File &immagine ROM DTV"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Attiva &scrittura su immagini ROM DTV"
+  IDS_C64DTV_SETTINGS_CAPTION     "Impostazioni C64DTV"
+  IDS_DTV_REVISION_LABEL          "Revisione DTV"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "Avvia automaticamente l'immagine del disco"
   IDS_MI_ATTACH_DTV_FLASH         "Seleziona l'immagine di una rom &flash"
@@ -1027,6 +799,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &bestand"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Aktiveer &schrijven naar DTV ROM bestand"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Instellingen"
+  IDS_DTV_REVISION_LABEL          "DTV Revisie"
+  IDS_ENABLE_HUMMER_ADC           "Activeer Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom bestand"
   IDS_MI_AUTOSTART_DISK           "&Autostart diskbestand..."
   IDS_MI_ATTACH_DTV_FLASH         "Koppel &flash rom bestand"
@@ -1049,6 +824,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
+  IDS_DTV_REVISION_LABEL          "DTV Revision"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
@@ -1071,6 +849,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV-ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-&avbildningsfil"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivera &skrivning till DTV-ROM-avbildning"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-inställningar"
+  IDS_DTV_REVISION_LABEL          "DTV-utgåva"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Avbildningsfil för DTV-flash&rom"
   IDS_MI_AUTOSTART_DISK           "&Autostarta diskettavbildning..."
   IDS_MI_ATTACH_DTV_FLASH         "Anslut &flash-rom-avbildningsfil"
@@ -1093,6 +874,9 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &imaj Dosyasý"
   IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM imajýnda &yazmalarý aktif et"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Ayarlarý"
+  IDS_DTV_REVISION_LABEL          "DTV Revizyonu"
+  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom imajý"
   IDS_MI_AUTOSTART_DISK           "Disk imajýný otom&atik baþlat..."
   IDS_MI_ATTACH_DTV_FLASH         "&Flash rom imajý yerleþtir"

@@ -43,8 +43,6 @@
 static void enable_c64dtv_controls(HWND hwnd)
 {
   EnableWindow(GetDlgItem(hwnd, IDC_DTV_REVISION), 1);
-  EnableWindow(GetDlgItem(hwnd, IDC_HUMMER_USERPORT_DEVICE), 1);
-  EnableWindow(GetDlgItem(hwnd, IDC_C64DTV_HUMMER_JOY_PORT), 1);
 }
 
 static void enable_c64dtv_attach_flash_controls(HWND hwnd)
@@ -61,10 +59,49 @@ static void enable_c64dtv_create_flash_controls(HWND hwnd)
   EnableWindow(GetDlgItem(hwnd, IDC_C64DTV_ROM_IMAGE_FILE), 1);
 }
 
+static uilib_localize_dialog_param c64dtv_dialog_trans[] = {
+    {0, IDS_C64DTV_SETTINGS_CAPTION, -1},
+    {IDC_DTV_REVISION_LABEL, IDS_DTV_REVISION_LABEL, 0},
+    {IDC_ENABLE_HUMMER_ADC, IDS_ENABLE_HUMMER_ADC, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group c64dtv_settings_main_group[] = {
+    {IDC_DTV_REVISION_LABEL, 0},
+    {IDC_ENABLE_HUMMER_ADC, 1},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_c64dtv_dialog(HWND hwnd)
 {
   HWND temp_hwnd;
   int res_value;
+  int xpos;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, c64dtv_dialog_trans);
+
+  /* adjust the size of the elements in the main group */
+  uilib_adjust_group_width(hwnd, c64dtv_settings_main_group);
+
+  /* get the max x of the main group */
+  uilib_get_group_max_x(hwnd, c64dtv_settings_main_group, &xpos);
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
 
   temp_hwnd = GetDlgItem(hwnd, IDC_DTV_REVISION);
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"DTV2");
@@ -73,20 +110,9 @@ static void init_c64dtv_dialog(HWND hwnd)
   res_value-=2;
   SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-  temp_hwnd = GetDlgItem(hwnd, IDC_HUMMER_USERPORT_DEVICE);
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"ADC");
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_JOYSTICK));
-
-  resources_get_int("HummerUserportDevice", &res_value);
-  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
-  temp_hwnd = GetDlgItem(hwnd, IDC_C64DTV_HUMMER_JOY_PORT);
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Joy1");
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Joy2");
-  resources_get_int("HummerUserportJoyPort", &res_value);
-  res_value--;
-  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+  resources_get_int("HummerADC", &res_value);
+  CheckDlgButton(hwnd, IDC_ENABLE_HUMMER_ADC, 
+      res_value ? BST_CHECKED : BST_UNCHECKED);
 
   enable_c64dtv_controls(hwnd);
 }
@@ -113,12 +139,6 @@ static uilib_dialog_group c64dtv_attach_flash_right_group[] = {
     {IDC_C64DTV_ROM_IMAGE_FILE, 0},
     {IDC_C64DTV_ROM_WRITE_ENABLE, 0},
     {0, 0}
-};
-
-static int move_buttons_group[] = {
-    IDOK,
-    IDCANCEL,
-    0
 };
 
 static void init_c64dtv_attach_flash_dialog(HWND hwnd)
@@ -187,11 +207,8 @@ static void end_c64dtv_dialog(HWND hwnd)
   resources_set_int("DtvRevision",(int)SendMessage(GetDlgItem(
                     hwnd, IDC_DTV_REVISION), CB_GETCURSEL, 0, 0)+2);
 
-  resources_set_int("HummerUserportDevice",(int)SendMessage(GetDlgItem(
-                    hwnd, IDC_C64DTV_HUMMER_JOY_PORT), CB_GETCURSEL, 0, 0));
-
-  resources_set_int("HummerUserportJoyPort",(int)SendMessage(GetDlgItem(
-                    hwnd, IDC_C64DTV_HUMMER_JOY_PORT), CB_GETCURSEL, 0, 0)+1);
+  resources_set_int("HummerADC", (IsDlgButtonChecked(hwnd,
+                      IDC_ENABLE_HUMMER_ADC) == BST_CHECKED ? 1 : 0 ));
 }
 
 static void end_c64dtv_attach_flash_dialog(HWND hwnd)
@@ -239,12 +256,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       command = LOWORD(wparam);
       switch (command)
       {
-        case IDC_C64DTV_ROM_CREATE:
-          GetDlgItemText(hwnd, IDC_C64DTV_ROM_IMAGE_FILE, st, MAX_PATH);
-          system_wcstombs(s, st, MAX_PATH);
-          c64dtvflash_create_blank_image(s, (IsDlgButtonChecked(hwnd,
-                                             IDC_C64DTV_ROM_COPY_C64) == BST_CHECKED ? 1 : 0 ));
-          break;
         case IDOK:
           end_c64dtv_dialog(hwnd);
         case IDCANCEL:
