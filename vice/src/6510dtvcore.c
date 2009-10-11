@@ -259,8 +259,10 @@
                     monitor_check_icount_interrupt();                 \
                 }                                                     \
                 interrupt_ack_nmi(CPU_INT_STATUS);                    \
-                CLK_INC();                                            \
-                CLK_INC();                                            \
+                if (!SKIP_CYCLE) {                                    \
+                    CLK_INC();                                        \
+                    CLK_INC();                                        \
+                }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
                 PUSH(reg_pc >> 8);                                    \
                 CLK_INC();                                            \
@@ -285,8 +287,10 @@
                     monitor_check_icount_interrupt();                 \
                 }                                                     \
                 interrupt_ack_irq(CPU_INT_STATUS);                    \
-                CLK_INC();                                            \
-                CLK_INC();                                            \
+                if (!SKIP_CYCLE) {                                    \
+                    CLK_INC();                                        \
+                    CLK_INC();                                        \
+                }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
                 PUSH(reg_pc >> 8);                                    \
                 CLK_INC();                                            \
