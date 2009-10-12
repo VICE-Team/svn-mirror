@@ -106,6 +106,8 @@ HWND window_handles[2];
 int number_of_windows = 0;
 int window_canvas_xsize[2];
 int window_canvas_ysize[2];
+int window_padding_x[2];
+int window_padding_y[2];
 
 static HACCEL ui_accelerator;
 
@@ -577,6 +579,81 @@ void ui_make_resizable(video_canvas_t *canvas, int enable)
 }
 
 
+void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
+{
+    int keep_aspect_ratio;
+    int aspect_ratio;
+    double canvas_aspect_ratio;
+    RECT *rc = (RECT*) lparam;
+    HWND window = window_handles[window_index];
+    int dx = window_padding_x[window_index];
+    int dy = window_padding_y[window_index];
+    double size_x_desired = rc->right - rc->left - dx;
+    double size_y_desired = rc->bottom - rc->top - dy;
+    video_canvas_t *canvas;
+
+    resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+
+    if (keep_aspect_ratio == 0)
+        return;
+
+    resources_get_int("AspectRatio", &aspect_ratio);
+    canvas = video_canvas_for_hwnd(window);
+    canvas_aspect_ratio = aspect_ratio / 1000.0
+                                * canvas->width / canvas->height;
+    switch (wparam) {
+        case WMSZ_TOP:
+        case WMSZ_BOTTOM:
+            rc->right = (long)(rc->left + dx
+                            + size_y_desired * canvas_aspect_ratio);
+            break;
+        case WMSZ_BOTTOMLEFT:
+            if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
+                rc->bottom = (long)(rc->top + dy
+                            + size_x_desired / canvas_aspect_ratio);
+            } else {
+                rc->left = (long)(rc->right - dx
+                            - size_y_desired * canvas_aspect_ratio);
+            }
+            break;
+        case WMSZ_BOTTOMRIGHT:
+            if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
+                rc->bottom = (long)(rc->top + dy
+                            + size_x_desired / canvas_aspect_ratio);
+            } else {
+                rc->right = (long)(rc->left + dx
+                            + size_y_desired * canvas_aspect_ratio);
+            }
+            break;
+        case WMSZ_LEFT:
+        case WMSZ_RIGHT:
+            rc->bottom = (long)(rc->top + dy
+                            + size_x_desired / canvas_aspect_ratio);
+            break;
+        case WMSZ_TOPLEFT:
+            if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
+                rc->top = (long)(rc->bottom - dy
+                            - size_x_desired / canvas_aspect_ratio);
+            } else {
+                rc->left = (long)(rc->right - dx
+                            - size_y_desired * canvas_aspect_ratio);
+            }
+            break;
+        case WMSZ_TOPRIGHT:
+            if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
+                rc->top = (long)(rc->bottom - dy
+                            - size_x_desired / canvas_aspect_ratio);
+            } else {
+                rc->right = (long)(rc->left + dx
+                            + size_y_desired * canvas_aspect_ratio);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+
 /* Resize `w' so that the client rectangle is of the requested size.  */
 void ui_resize_canvas_window(video_canvas_t *canvas)
 {
@@ -620,6 +697,9 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
                     | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
 
     AdjustWindowRect(&wrect, adjust_style, TRUE);
+    window_padding_x[window_index] = wrect.right - wrect.left - width;
+    window_padding_y[window_index] = wrect.bottom - wrect.top - height;
+
     if (place.showCmd == SW_SHOWNORMAL) {
         MoveWindow(w,
                    wrect.left,
@@ -1828,6 +1908,9 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg,
         }
         ui_resize_render_window(video_canvas_for_hwnd(window));
         return 0;
+      case WM_SIZING:
+          ui_handle_aspect_ratio(window_index, wparam, lparam);
+          return 0;
       case WM_DRAWITEM:
         statusbar_handle_WMDRAWITEM(wparam,lparam);
         /* SRT: Make sure that all windows are repainted.

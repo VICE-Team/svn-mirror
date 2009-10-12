@@ -57,6 +57,8 @@ struct {
     char *monitor_dimensions;
     char *initialdir[UILIB_SELECTOR_STYLES_NUM];
     int alwaysontop;
+    int keep_aspect_ratio;
+    int aspect_ratio;
 } ui_resources;
 
 static int set_fullscreen_device(int val, void *param)
@@ -179,6 +181,22 @@ static int set_alwaysontop(int val, void *param)
     return 0;
 }
 
+static int set_keep_aspect_ratio(int val, void *param)
+{
+    ui_resources.keep_aspect_ratio = val;
+    return 0;
+}
+
+static int set_aspect_ratio(int val, void *param)
+{
+    if (val < 500)
+        val = 500;
+    if (val > 2000)
+        val = 2000;
+    ui_resources.aspect_ratio = val;
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "MonitorDimensions", "", RES_EVENT_NO, NULL,
       &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
@@ -228,6 +246,10 @@ static const resource_int_t resources_int[] = {
       &ui_resources.vblank_sync, set_vblank_sync, NULL },
     { "AlwaysOnTop", 0, RES_EVENT_NO, NULL,
       &ui_resources.alwaysontop, set_alwaysontop, NULL },
+    { "KeepAspectRatio", 0, RES_EVENT_NO, NULL,
+      &ui_resources.keep_aspect_ratio, set_keep_aspect_ratio, NULL },
+    { "AspectRatio", 1000, RES_EVENT_NO, NULL,
+      &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
     { NULL }
 };
 
