@@ -58,7 +58,7 @@
 #endif
 
 /* emulate Final Expansion v3.2 Super ROM write bug */
-#define FE3_2_SUPER_ROM_BUG
+//#define FE3_2_SUPER_ROM_BUG
 
 /* base addresses for the blocks */
 #define BLK0_BASE 0x0000
