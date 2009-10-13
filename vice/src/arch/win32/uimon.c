@@ -884,7 +884,7 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
     buffer = decode(dimensions,&len);
 
     do {
-        char *p = buffer;
+        BYTE *p = buffer;
 
         if (len <=0 ) {
             break;
@@ -1840,7 +1840,7 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
     return window_data->default_window_procedure(hwnd, msg, wParam, lParam);
 }
 
-ExecuteGenericPopup_callback_t ExecuteDisassemblyPopup_callback;
+static ExecuteGenericPopup_callback_t ExecuteDisassemblyPopup_callback;
 static int ExecuteDisassemblyPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int * nNewMenuCount)
 {
     int nMenuCount = 0;
