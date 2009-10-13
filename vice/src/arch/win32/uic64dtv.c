@@ -305,9 +305,6 @@ static void browse_c64dtv_bios_file(HWND hwnd)
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     LPARAM lparam)
 {
-  TCHAR st[MAX_PATH];
-  char s[MAX_PATH];
-
   int command;
 
   switch (msg)

@@ -231,7 +231,7 @@ static void init_io_dialog(HWND hwnd)
 
 static void init_superpet_io_dialog(HWND hwnd)
 {
-    int n, res;
+    int n;
 
     resources_get_int("SuperPET", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
@@ -240,7 +240,7 @@ static void init_superpet_io_dialog(HWND hwnd)
 
 static void init_pet8296_dialog(HWND hwnd)
 {
-    int n, res;
+    int n;
 
     resources_get_int("Ram9", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
