@@ -7,317 +7,194 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
-IDD_MMC64_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 175
+IDD_MMC64_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable MMC64", IDC_MMC64_ENABLE,
+    AUTOCHECKBOX    "", IDC_MMC64_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revision",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
+    LTEXT           "", IDC_MMC64_REVISION_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_MMC64_REVISION,
+                    66, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_MMC64_FLASHJUMPER,
                     7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Save BIOS when changed", IDC_MMC64_BIOS_SAVE,
+    AUTOCHECKBOX    "", IDC_MMC64_BIOS_SAVE,
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS File",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
+    LTEXT           "", IDC_MMC64_BIOS_FILE_LABEL,
+                    9, 62, 50, 8
+    PUSHBUTTON      "", IDC_MMC64_BIOS_BROWSE,
+                    66, 62, 50, 14, 0
+    EDITTEXT        IDC_MMC64_BIOS_FILE,
+                    9, 78, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Image File",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    LTEXT           "", IDC_MMC64_IMAGE_FILE_LABEL,
+                    9, 110, 56, 8
+    PUSHBUTTON      "", IDC_MMC64_IMAGE_BROWSE,
+                    66, 110, 50, 14, 0
+    EDITTEXT        IDC_MMC64_IMAGE_FILE,
+                    9, 126, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 150, 50, 14, WS_TABSTOP
 END
 
+// -----------------------------------------------------------------------------
 
-// DANISH version of dialog
+// original and default ENGLISH text
 
-IDD_MMC64_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Aktivér MMC64", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS-revision",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Aktivér BIOS-&flashjumper", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Gem BIOS ved ændringer", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS-fil",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Gennemse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD-image skrivebeskyttet", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD-&imagefil",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Gennemse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "&Enable MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS Revision"
+  IDS_MMC64_FLASHJUMPER      "Enable BIOS &Flash Jumper"
+  IDS_MMC64_BIOS_SAVE        "&Save BIOS when changed"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS File"
+  IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image File"
 END
 
+// DANISH text
 
-// GERMAN version of dialog
-
-IDD_MMC64_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "MMC64 aktivier&en", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revision",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "BIOS &Flashjumper aktivieren", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "BIOS bei Änderung &speichern", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS Datei",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Stöbern...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Image Schreibschutz", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Image Name",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Stöbern...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "&Aktivér MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS-revision"
+  IDS_MMC64_FLASHJUMPER      "Aktivér BIOS-&flashjumper"
+  IDS_MMC64_BIOS_SAVE        "&Gem BIOS ved ændringer"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-fil"
+  IDS_MMC64_IMAGE_RO         "MMC/SD-image skrivebeskyttet"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-&imagefil"
 END
 
 
-// FRENCH version of dialog
+// GERMAN text
 
-IDD_MMC64_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Enable MMC64", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revision",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Activer le BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Enregistrer le BIOS lorsque modifié", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Fichier du &BIOS",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Parcourir...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Image MMC/SD en lecture seule", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Nom de l’image de fichier MMC/SD",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Parcourir...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "MMC64 aktivier&en"
+  IDS_MMC64_REVISION_LABEL   "BIOS Revision"
+  IDS_MMC64_FLASHJUMPER      "BIOS &Flashjumper aktivieren"
+  IDS_MMC64_BIOS_SAVE        "BIOS bei Änderung &speichern"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS Datei"
+  IDS_MMC64_IMAGE_RO         "MMC/SD Image Schreibschutz"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image Name"
 END
 
 
-// HUNGARIAN version of dialog
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MMC64_ENABLE           "&Enable MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS Revision"
+  IDS_MMC64_FLASHJUMPER      "Activer le BIOS &Flash Jumper"
+  IDS_MMC64_BIOS_SAVE        "&Enregistrer le BIOS lorsque modifié"
+  IDS_MMC64_BIOS_FILE_LABEL  "Fichier du &BIOS"
+  IDS_MMC64_IMAGE_RO         "Image MMC/SD en lecture seule"
+  IDS_MMC64_IMAGE_FILE_LABEL "Nom de l’image de fichier MMC/SD"
+END
+
+
+// HUNGARIAN text
 
 #pragma code_page(28592)
-IDD_MMC64_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "MMC64 &engedélyezése", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS változat",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "BIOS &Flash jumper engedélyezése", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "BIOS &mentése változás után", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS fájl",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Tallózás...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD képmás csak olvasható", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &képmás fájl",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Tallózás...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "MMC64 &engedélyezése"
+  IDS_MMC64_REVISION_LABEL   "BIOS változat"
+  IDS_MMC64_FLASHJUMPER      "BIOS &Flash jumper engedélyezése"
+  IDS_MMC64_BIOS_SAVE        "BIOS &mentése változás után"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS fájl"
+  IDS_MMC64_IMAGE_RO         "MMC/SD képmás csak olvasható"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &képmás fájl"
 END
 #pragma code_page(28591)
 
 
-// ITALIAN version of dialog
+// ITALIAN text
 
-IDD_MMC64_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Attiva MMC64", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Revisione BIOS",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Attiva il &Flash Jumper del BIOS", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Salva il BIOS al cambio", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "File del &BIOS",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Sfoglia...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Immagine MMC/SD in sola lettura", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "File &immagine MMC/SD",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Sfoglia...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "&Attiva MMC64"
+  IDS_MMC64_REVISION_LABEL   "Revisione BIOS"
+  IDS_MMC64_FLASHJUMPER      "Attiva il &Flash Jumper del BIOS"
+  IDS_MMC64_BIOS_SAVE        "&Salva il BIOS al cambio"
+  IDS_MMC64_BIOS_FILE_LABEL  "File del &BIOS"
+  IDS_MMC64_IMAGE_RO         "Immagine MMC/SD in sola lettura"
+  IDS_MMC64_IMAGE_FILE_LABEL "File &immagine MMC/SD"
 END
 
 
-// DUTCH version of dialog
+// DUTCH text
 
-IDD_MMC64_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Activeer MMC64", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS-revisie",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Activeer BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "MMC64-BIOS Op&slaan indien gewijzigd", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS-bestand",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Bladeren...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD-bestand alleen-lezen", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD-b&estand",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Bladeren...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "&Activeer MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS-revisie"
+  IDS_MMC64_FLASHJUMPER      "Activeer BIOS &Flash Jumper"
+  IDS_MMC64_BIOS_SAVE        "MMC64-BIOS Op&slaan indien gewijzigd"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-bestand"
+  IDS_MMC64_IMAGE_RO         "MMC/SD-bestand alleen-lezen"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-b&estand"
 END
 
 
-// POLISH version of dialog
+// POLISH text
 
 #pragma code_page(28592)
-IDD_MMC64_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Enable MMC64", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revision",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Save BIOS when changed", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS File",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Image File",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "&Enable MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS Revision"
+  IDS_MMC64_FLASHJUMPER      "Enable BIOS &Flash Jumper"
+  IDS_MMC64_BIOS_SAVE        "&Save BIOS when changed"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS File"
+  IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image File"
 END
 #pragma code_page(28591)
 
 
-// SWEDISH version of dialog
+// SWEDISH text
 
-IDD_MMC64_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Aktivera MMC64", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS-utgåva",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Aktivera BIOS-&flashbygel", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Spara BIOS vid ändringar", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS-fil",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Bläddra...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD-avbildning skrivskyddad", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD-&avbildningsfil",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Bläddra...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "&Aktivera MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS-utgåva"
+  IDS_MMC64_FLASHJUMPER      "Aktivera BIOS-&flashbygel"
+  IDS_MMC64_BIOS_SAVE        "&Spara BIOS vid ändringar"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-fil"
+  IDS_MMC64_IMAGE_RO         "MMC/SD-avbildning skrivskyddad"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-&avbildningsfil"
 END
 
 
-// TURKISH version of dialog
+// TURKISH text
 
 #pragma code_page(28599)
-IDD_MMC64_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "MMC64'ý aktif et", IDC_MMC64_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revizyonu",
-                    IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "BIOS &Flash Jumper'ý aktif et", IDC_MMC64_FLASHJUMPER,
-                    7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "BIO&S deðiþtiðinde kaydet", IDC_MMC64_BIOS_SAVE,
-                    7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS Dosyasý",
-                    IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Göz at...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
-    EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Salt Okunur MMC/SD Imajý", IDC_MMC64_IMAGE_RO,
-                    7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Imaj Dosyasý",
-                    IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Göz at...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
-    EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
-    DEFPUSHBUTTON   "Tamam", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+  IDS_MMC64_ENABLE           "MMC64'ý aktif et"
+  IDS_MMC64_REVISION_LABEL   "BIOS Revizyonu"
+  IDS_MMC64_FLASHJUMPER      "BIOS &Flash Jumper'ý aktif et"
+  IDS_MMC64_BIOS_SAVE        "BIO&S deðiþtiðinde kaydet"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS Dosyasý"
+  IDS_MMC64_IMAGE_RO         "Salt Okunur MMC/SD Imajý"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Imaj Dosyasý"
 END
 #pragma code_page(28591)

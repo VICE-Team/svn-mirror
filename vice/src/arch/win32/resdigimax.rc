@@ -3,19 +3,21 @@
 
 // template of dialog for all languages
 
-IDD_DIGIMAX_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+IDD_DIGIMAX_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "", IDC_DIGIMAX_ENABLE,
                     7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "",
-                    IDC_DIGIMAX_BASE_LABEL, 9, 24, 30, 8
-    COMBOBOX        IDC_DIGIMAX_BASE, 45, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_DIGIMAX_BASE_LABEL,
+                    9, 24, 30, 8
+    COMBOBOX        IDC_DIGIMAX_BASE,
+                    45, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 90, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -25,9 +27,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+  IDS_DIGIMAX_CAPTION "Digimax Settings"
+  IDS_DIGIMAX_ENABLE  "&Enable digimax"
+  IDS_DIGIMAX_BASE    "Digimax base address"
 END
 
 
@@ -36,9 +38,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimaxindstillinger"
-    IDS_DIGIMAX_ENABLE              "&Aktivér Digimax"
-    IDS_DIGIMAX_BASE                "Digimax baseadresse"
+  IDS_DIGIMAX_CAPTION "Digimaxindstillinger"
+  IDS_DIGIMAX_ENABLE  "&Aktivér Digimax"
+  IDS_DIGIMAX_BASE    "Digimax baseadresse"
 END
 
 
@@ -47,9 +49,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Einstellungen"
-    IDS_DIGIMAX_ENABLE              "Digimax aktivi&eren"
-    IDS_DIGIMAX_BASE                "Digimax Basis Adresse"
+  IDS_DIGIMAX_CAPTION "Digimax Einstellungen"
+  IDS_DIGIMAX_ENABLE  "Digimax aktivi&eren"
+  IDS_DIGIMAX_BASE    "Digimax Basis Adresse"
 END
 
 
@@ -58,9 +60,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+  IDS_DIGIMAX_CAPTION "Digimax Settings"
+  IDS_DIGIMAX_ENABLE  "&Enable digimax"
+  IDS_DIGIMAX_BASE    "Digimax base address"
 END
 
 
@@ -70,9 +72,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax beállításai"
-    IDS_DIGIMAX_ENABLE              "Digimax &engedélyezése"
-    IDS_DIGIMAX_BASE                "Digimax báziscíme"
+  IDS_DIGIMAX_CAPTION "Digimax beállításai"
+  IDS_DIGIMAX_ENABLE  "Digimax &engedélyezése"
+  IDS_DIGIMAX_BASE    "Digimax báziscíme"
 END
 #pragma code_page(28591)
 
@@ -82,9 +84,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Impostazioni digimax"
-    IDS_DIGIMAX_ENABLE              "&Attiva digimax"
-    IDS_DIGIMAX_BASE                "Indirizzo base Digimax"
+  IDS_DIGIMAX_CAPTION "Impostazioni digimax"
+  IDS_DIGIMAX_ENABLE  "&Attiva digimax"
+  IDS_DIGIMAX_BASE    "Indirizzo base Digimax"
 END
 
 
@@ -93,9 +95,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimaxinstellingen"
-    IDS_DIGIMAX_ENABLE              "&Activeer digimax"
-    IDS_DIGIMAX_BASE                "Digimax-basisadres"
+  IDS_DIGIMAX_CAPTION "Digimaxinstellingen"
+  IDS_DIGIMAX_ENABLE  "&Activeer digimax"
+  IDS_DIGIMAX_BASE    "Digimax-basisadres"
 END
 
 
@@ -105,9 +107,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+  IDS_DIGIMAX_CAPTION "Digimax Settings"
+  IDS_DIGIMAX_ENABLE  "&Enable digimax"
+  IDS_DIGIMAX_BASE    "Digimax base address"
 END
 #pragma code_page(28591)
 
@@ -117,9 +119,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "Aktiverad"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+  IDS_DIGIMAX_CAPTION "Digimax Settings"
+  IDS_DIGIMAX_ENABLE  "Aktiverad"
+  IDS_DIGIMAX_BASE    "Digimax base address"
 END
 
 
@@ -129,8 +131,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Ayarlarý"
-    IDS_DIGIMAX_ENABLE              "Digimax'ý aktif &et"
-    IDS_DIGIMAX_BASE                "Digimax taban adresi"
+  IDS_DIGIMAX_CAPTION "Digimax Ayarlarý"
+  IDS_DIGIMAX_ENABLE  "Digimax'ý aktif &et"
+  IDS_DIGIMAX_BASE    "Digimax taban adresi"
 END
 #pragma code_page(28591)

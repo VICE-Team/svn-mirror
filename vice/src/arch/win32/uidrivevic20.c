@@ -118,10 +118,202 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
                  drive_check_expansionA000(drive_type));
 }
 
+static uilib_localize_dialog_param drive_dialog_trans[] = {
+    {IDC_DRIVE_TYPE, IDS_DRIVE_TYPE, 0},
+    {IDC_SELECT_DRIVE_TYPE_NONE, IDS_SELECTNONE, 0},
+    {IDC_40_TRACK_HANDLING, IDS_40_TRACK_HANDLING, 0},
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, IDS_SELECT_DRIVE_EXTEND_NEVER, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, IDS_SELECT_DRIVE_EXTEND_ASK, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, IDS_SELECT_DRIVE_EXTEND_ACCESS, 0},
+    {IDC_IDLE_METHOD, IDS_IDLE_METHOD, 0},
+    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, IDS_NONE, 0},
+    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, IDS_SELECT_DRIVE_IDLE_TRAP_IDLE, 0},
+    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, IDS_SELECT_DRIVE_IDLE_SKIP_CYC, 0},
+    {IDC_DRIVE_EXPANSION, IDS_DRIVE_EXPANSION, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_2000, IDS_TOGGLE_DRIVE_EXPANSION_2000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_4000, IDS_TOGGLE_DRIVE_EXPANSION_4000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_6000, IDS_TOGGLE_DRIVE_EXPANSION_6000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_8000, IDS_TOGGLE_DRIVE_EXPANSION_8000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_A000, IDS_TOGGLE_DRIVE_EXPANSION_A000, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param parent_dialog_trans[] = {
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+   {0, 0, 0}
+};
+
+static uilib_dialog_group drive_main_group[] = {
+    {IDC_DRIVE_TYPE, 1},
+    {IDC_SELECT_DRIVE_TYPE_NONE, 1},
+    {IDC_40_TRACK_HANDLING, 1},
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, 1},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, 1},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 1},
+    {IDC_IDLE_METHOD, 1},
+    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, 1},
+    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 1},
+    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 1},
+    {IDC_DRIVE_EXPANSION, 1},
+    {IDC_TOGGLE_DRIVE_EXPANSION_2000, 1},
+    {IDC_TOGGLE_DRIVE_EXPANSION_4000, 1},
+    {IDC_TOGGLE_DRIVE_EXPANSION_6000, 1},
+    {IDC_TOGGLE_DRIVE_EXPANSION_8000, 1},
+    {IDC_TOGGLE_DRIVE_EXPANSION_A000, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_left_group[] = {
+    {IDC_DRIVE_TYPE, 0},
+    {IDC_SELECT_DRIVE_TYPE_1541, 0},
+    {IDC_SELECT_DRIVE_TYPE_1541II, 0},
+    {IDC_SELECT_DRIVE_TYPE_1570, 0},
+    {IDC_SELECT_DRIVE_TYPE_1571, 0},
+    {IDC_SELECT_DRIVE_TYPE_1581, 0},
+    {IDC_SELECT_DRIVE_TYPE_2031, 0},
+    {IDC_SELECT_DRIVE_TYPE_2040, 0},
+    {IDC_SELECT_DRIVE_TYPE_3040, 0},
+    {IDC_SELECT_DRIVE_TYPE_4040, 0},
+    {IDC_SELECT_DRIVE_TYPE_1001, 0},
+    {IDC_SELECT_DRIVE_TYPE_8050, 0},
+    {IDC_SELECT_DRIVE_TYPE_8250, 0},
+    {IDC_SELECT_DRIVE_TYPE_NONE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_middle_group[] = {
+    {IDC_40_TRACK_HANDLING, 0},
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 0},
+    {IDC_DRIVE_EXPANSION, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_2000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_4000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_6000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_8000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_A000, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_middle_move_group[] = {
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_2000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_4000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_6000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_8000, 0},
+    {IDC_TOGGLE_DRIVE_EXPANSION_A000, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_right_group[] = {
+    {IDC_IDLE_METHOD, 0},
+    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0},
+    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0},
+    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_right_window_group[] = {
+    {IDC_IDLE_METHOD, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_right_move_group[] = {
+    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0},
+    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0},
+    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, drive_idle_method, n;
     int drive_true_emulation, iecdevice, enabled;
+    int xpos;
+    int xstart;
+    HWND parent_hwnd;
+    HWND tab_hwnd;
+    RECT rect;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, drive_dialog_trans);
+
+    /* translate the parent window items */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, drive_main_group);
+
+    /* get the max x of the elements in the left group */
+    uilib_get_group_max_x(hwnd, drive_left_group, &xpos);
+
+    /* get the min x of the none element of the left group */
+    uilib_get_element_min_x(hwnd, IDC_SELECT_DRIVE_TYPE_NONE, &xstart);
+
+    /* resize and move the left group element to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_DRIVE_TYPE, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the left group element */
+    uilib_get_element_max_x(hwnd, IDC_DRIVE_TYPE, &xpos);
+    
+    /* move the middle group elements to the correct position */
+    uilib_move_group(hwnd, drive_middle_move_group, xpos + 20);
+    uilib_move_element(hwnd, IDC_40_TRACK_HANDLING, xpos + 10);
+    uilib_move_element(hwnd, IDC_DRIVE_EXPANSION, xpos + 10);
+
+    xstart = xpos + 20;
+
+    /* get the max x of the middle group */
+    uilib_get_group_max_x(hwnd, drive_middle_group, &xpos);
+    
+    /* resize and move the middle group boxes to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_40_TRACK_HANDLING, xstart - 10, xpos - xstart + 20);
+    uilib_move_and_set_element_width(hwnd, IDC_DRIVE_EXPANSION, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the middle group element */
+    uilib_get_element_max_x(hwnd, IDC_DRIVE_EXPANSION, &xpos);
+
+    /* move the right group elements to the correct position */
+    uilib_move_group(hwnd, drive_right_move_group, xpos + 20);
+    uilib_move_element(hwnd, IDC_IDLE_METHOD, xpos + 10);
+
+    xstart = xpos + 20;
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, drive_right_group, &xpos);
+
+    /* resize and move the right group element to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_IDLE_METHOD, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the right window group */
+    uilib_get_group_max_x(hwnd, drive_right_window_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(parent_hwnd, &rect);
+    MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* set the width of the tab to 'surround' all the elements */
+    tab_hwnd = PropSheet_GetTabControl(hwnd);
+    GetWindowRect(tab_hwnd, &rect);
+    MoveWindow(tab_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
 
     resources_get_int_sprintf("IECDevice%i", &iecdevice, num);
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
@@ -399,11 +591,11 @@ void uidrivevic20_settings_dialog(HWND hwnd)
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
         psp[i].pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_DRIVE_SETTINGS_DIALOG_VIC20));
+            = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_VIC20);
         psp[i].pszIcon = NULL;
 #else
         psp[i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(translate_res(IDD_DRIVE_SETTINGS_DIALOG_VIC20));
+            = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_VIC20);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;

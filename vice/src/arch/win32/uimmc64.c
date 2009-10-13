@@ -59,6 +59,65 @@ static void enable_mmc64_controls(HWND hwnd)
   EnableWindow(GetDlgItem(hwnd, IDC_MMC64_IMAGE_FILE), is_enabled);
 }
 
+static uilib_localize_dialog_param mmc64_dialog_trans[] = {
+    {IDC_MMC64_ENABLE, IDS_MMC64_ENABLE, 0},
+    {IDC_MMC64_REVISION_LABEL, IDS_MMC64_REVISION_LABEL, 0},
+    {IDC_MMC64_FLASHJUMPER, IDS_MMC64_FLASHJUMPER, 0},
+    {IDC_MMC64_BIOS_SAVE, IDS_MMC64_BIOS_SAVE, 0},
+    {IDC_MMC64_BIOS_FILE_LABEL, IDS_MMC64_BIOS_FILE_LABEL, 0},
+    {IDC_MMC64_BIOS_BROWSE, IDS_BROWSE, 0},
+    {IDC_MMC64_IMAGE_RO, IDS_MMC64_IMAGE_RO, 0},
+    {IDC_MMC64_IMAGE_FILE_LABEL, IDS_MMC64_IMAGE_FILE_LABEL, 0},
+    {IDC_MMC64_IMAGE_BROWSE, IDS_BROWSE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group mmc64_main_group[] = {
+    {IDC_MMC64_ENABLE, 1},
+    {IDC_MMC64_REVISION_LABEL, 0},
+    {IDC_MMC64_FLASHJUMPER, 1},
+    {IDC_MMC64_BIOS_SAVE, 1},
+    {IDC_MMC64_BIOS_FILE_LABEL, 0},
+    {IDC_MMC64_IMAGE_RO, 1},
+    {IDC_MMC64_IMAGE_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group mmc64_left_group[] = {
+    {IDC_MMC64_REVISION_LABEL, 0},
+    {IDC_MMC64_BIOS_FILE_LABEL, 0},
+    {IDC_MMC64_IMAGE_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group mmc64_right_group[] = {
+    {IDC_MMC64_REVISION, 0},
+    {IDC_MMC64_BIOS_BROWSE, 0},
+    {IDC_MMC64_IMAGE_BROWSE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group mmc64_window_group[] = {
+    {IDC_MMC64_ENABLE, 0},
+    {IDC_MMC64_REVISION, 0},
+    {IDC_MMC64_FLASHJUMPER, 0},
+    {IDC_MMC64_BIOS_SAVE, 0},
+    {IDC_MMC64_BIOS_BROWSE, 0},
+    {IDC_MMC64_BIOS_FILE, 0},
+    {IDC_MMC64_IMAGE_RO, 0},
+    {IDC_MMC64_IMAGE_BROWSE, 0},
+    {IDC_MMC64_IMAGE_FILE, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_mmc64_dialog(HWND hwnd)
 {
   HWND temp_hwnd;
@@ -67,6 +126,30 @@ static void init_mmc64_dialog(HWND hwnd)
   TCHAR *st_mmc64_image_file;
   const char *mmc64_bios_file;
   TCHAR *st_mmc64_bios_file;
+  int xpos;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, mmc64_dialog_trans);
+
+  /* adjust the size of the elements in the main group */
+  uilib_adjust_group_width(hwnd, mmc64_main_group);
+
+  /* get the max x of the left group */
+  uilib_get_group_max_x(hwnd, mmc64_left_group, &xpos);
+
+  /* move the right group to the correct location */
+  uilib_move_group(hwnd, mmc64_right_group, xpos + 10);
+
+  /* get the max x of the window group */
+  uilib_get_group_max_x(hwnd, mmc64_window_group, &xpos);
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
 
   resources_get_int("MMC64", &res_value);
   CheckDlgButton(hwnd, IDC_MMC64_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
@@ -183,6 +266,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_mmc64_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_MMC64_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MMC64_SETTINGS_DIALOG, hwnd,
             dialog_proc);
 }

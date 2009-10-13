@@ -43,9 +43,50 @@
 #include "uilib.h"
 #include "winmain.h"
 
+static uilib_localize_dialog_param easyflash_dialog_trans[] = {
+    {0, IDS_EASYFLASH_CAPTION, -1},
+    {IDC_EASYFLASH_JUMPER, IDS_EASYFLASH_JUMPER, 0},
+    {IDC_EASYFLASH_AUTOSAVE, IDC_EASYFLASH_AUTOSAVE, 0},
+    {IDC_EASYFLASH_SAVE_NOW, IDS_EASYFLASH_SAVE_NOW, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group easyflash_group[] = {
+    {IDC_EASYFLASH_JUMPER, 1},
+    {IDC_EASYFLASH_AUTOSAVE, 1},
+    {IDC_EASYFLASH_SAVE_NOW, 1},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_easyflash_dialog(HWND hwnd)
 {
     int res_value;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, easyflash_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, easyflash_group);
+
+    /* get the max x of the main group */
+    uilib_get_group_max_x(hwnd, easyflash_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("EasyFlashJumper", &res_value);
     CheckDlgButton(hwnd, IDC_EASYFLASH_JUMPER, 
@@ -98,6 +139,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_easyflash_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_EASYFLASH_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_EASYFLASH_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }

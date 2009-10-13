@@ -437,210 +437,27 @@ END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 100
+IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "DTV ROM Creation",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Browse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
+    GROUPBOX        "", IDC_DTV_ROM_CREATION,
+                    3, 2, 174, 55
+    LTEXT           "", IDC_C64DTV_ROM_IMAGE_FILE_LABEL,
+                    9, 14, 100, 8
+    PUSHBUTTON      "", IDC_C64DTV_ROM_IMAGE_BROWSE,
+                    123, 10, 50, 14, 0
+    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE,
+                    9, 26, 164, 12, WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_C64DTV_ROM_COPY_C64,
                     7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 74, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 74, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Opret DTV-flashimage"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "DTV-ROM oprettelse",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM-&imagefil",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Gennemse...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Kopiér C64-ROM'mer til image", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Opret", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "DTV Image Datei erzeugen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "DTV ROM Erzeugung",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &Image Name",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Stöbern...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "C64 ROMS auf Image kopieren", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Erzeugen", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "DTV ROM Creation",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Parcourir...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "DTV Flash képmás létrehozása"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "DTV ROM létrehozás",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &képmás fájl",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Tallózás...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "C64 ROM-ok másolása a képmásba", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Létrehozás", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Crea l'immagine di una memoria flash DTV"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Creazione ROM DTV",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "File &immagine ROM DTV",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Sfoglia...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copia ROM C64 in un'immagine", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Crea", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Maak DTV Flash Bestand"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Maak DTV ROM",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &bestand",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Bladeren...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Kopieer C64 ROMS naar bestand", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Maak", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Create DTV Flash Image"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "DTV ROM Creation",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &image File",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Przegl±daj...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Copy C64 ROMS into image", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Create", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Anuluj", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Skapa DTV-flashavbildning"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Skapa DTV-ROM",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM-&avbildningsfil",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Bläddra...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "Kopiera C64-ROM:ar till avbild", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Skapa", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 100
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "DTV Flash Imajý Oluþtur"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "DTV ROM Yaratma",
-                    IDC_STATIC,3,2,174,55
-    LTEXT           "DTV ROM &imaj Dosyasý",
-                    IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 9, 14, 100, 8
-    PUSHBUTTON      "Göz at...", IDC_C64DTV_ROM_IMAGE_BROWSE, 123, 10, 50, 14, 0
-    EDITTEXT        IDC_C64DTV_ROM_IMAGE_FILE, 9, 26, 164, 12, WS_TABSTOP
-    AUTOCHECKBOX    "C64 ROMlarýný imaja kopyala", IDC_C64DTV_ROM_COPY_C64,
-                    7, 41, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    DEFPUSHBUTTON   "Yarat", IDOK, 30, 74, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 74, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -656,6 +473,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV Revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
+  IDS_DTV_ROM_CREATION            "DTV ROM Creation"
+  IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
+  IDS_CREATE                      "Create"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
@@ -680,6 +501,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-indstillinger"
   IDS_DTV_REVISION_LABEL          "DTV-revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Opret DTV-flashimage"
+  IDS_DTV_ROM_CREATION            "DTV-ROM oprettelse"
+  IDS_C64DTV_ROM_COPY_C64         "Kopiér C64-ROM'mer til image"
+  IDS_CREATE                      "Opret"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV-flash&rom image"
   IDS_MI_AUTOSTART_DISK           "&Autostart disketteimage..."
   IDS_MI_ATTACH_DTV_FLASH         "Tilslut &flash-rom-image"
@@ -704,6 +529,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Einstellungen"
   IDS_DTV_REVISION_LABEL          "DTV Revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "DTV Image Datei erzeugen"
+  IDS_DTV_ROM_CREATION            "DTV ROM Erzeugung"
+  IDS_C64DTV_ROM_COPY_C64         "C64 ROMS auf Image kopieren"
+  IDS_CREATE                      "Erzeugen"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV Flash &Rom Datei"
   IDS_MI_AUTOSTART_DISK           "&Autostart Disk Image..."
   IDS_MI_ATTACH_DTV_FLASH         "&Flash ROM Image einlegen"
@@ -728,6 +557,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV Revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
+  IDS_DTV_ROM_CREATION            "DTV ROM Creation"
+  IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
+  IDS_CREATE                      "Create"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "Démarrage &automatique d'une image lecteur..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
@@ -753,6 +586,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV beállításai"
   IDS_DTV_REVISION_LABEL          "DTV változat"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "DTV Flash képmás létrehozása"
+  IDS_DTV_ROM_CREATION            "DTV ROM létrehozás"
+  IDS_C64DTV_ROM_COPY_C64         "C64 ROM-ok másolása a képmásba"
+  IDS_CREATE                      "Létrehozás"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom képmás"
   IDS_MI_AUTOSTART_DISK           "Lemezképmás &automatikus indítása..."
   IDS_MI_ATTACH_DTV_FLASH         "&Flash ROM képmás csatolása"
@@ -778,6 +615,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "Impostazioni C64DTV"
   IDS_DTV_REVISION_LABEL          "Revisione DTV"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Crea l'immagine di una memoria flash DTV"
+  IDS_DTV_ROM_CREATION            "Creazione ROM DTV"
+  IDS_C64DTV_ROM_COPY_C64         "Copia ROM C64 in un'immagine"
+  IDS_CREATE                      "Crea"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "Avvia automaticamente l'immagine del disco"
   IDS_MI_ATTACH_DTV_FLASH         "Seleziona l'immagine di una rom &flash"
@@ -802,6 +643,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Instellingen"
   IDS_DTV_REVISION_LABEL          "DTV Revisie"
   IDS_ENABLE_HUMMER_ADC           "Activeer Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Maak DTV Flash Bestand"
+  IDS_DTV_ROM_CREATION            "Maak DTV ROM"
+  IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROMS naar bestand"
+  IDS_CREATE                      "Maak"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom bestand"
   IDS_MI_AUTOSTART_DISK           "&Autostart diskbestand..."
   IDS_MI_ATTACH_DTV_FLASH         "Koppel &flash rom bestand"
@@ -827,6 +672,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV Revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
+  IDS_DTV_ROM_CREATION            "DTV ROM Creation"
+  IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
+  IDS_CREATE                      "Create"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
   IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
@@ -852,6 +701,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-inställningar"
   IDS_DTV_REVISION_LABEL          "DTV-utgåva"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Skapa DTV-flashavbildning"
+  IDS_DTV_ROM_CREATION            "Skapa DTV-ROM"
+  IDS_C64DTV_ROM_COPY_C64         "Kopiera C64-ROM:ar till avbild"
+  IDS_CREATE                      "Skapa"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Avbildningsfil för DTV-flash&rom"
   IDS_MI_AUTOSTART_DISK           "&Autostarta diskettavbildning..."
   IDS_MI_ATTACH_DTV_FLASH         "Anslut &flash-rom-avbildningsfil"
@@ -877,6 +730,10 @@ BEGIN
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Ayarlarý"
   IDS_DTV_REVISION_LABEL          "DTV Revizyonu"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "DTV Flash Imajý Oluþtur"
+  IDS_DTV_ROM_CREATION            "DTV ROM Yaratma"
+  IDS_C64DTV_ROM_COPY_C64         "C64 ROMlarýný imaja kopyala"
+  IDS_CREATE                      "Yarat"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom imajý"
   IDS_MI_AUTOSTART_DISK           "Disk imajýný otom&atik baþlat..."
   IDS_MI_ATTACH_DTV_FLASH         "&Flash rom imajý yerleþtir"

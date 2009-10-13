@@ -47,22 +47,116 @@
 #define _ANONYMOUS_UNION
 #endif
 
-static void init_dialog(HWND hwnd)
+static uilib_localize_dialog_param model_dialog_trans[] = {
+    {IDC_PET_MACHINE_DEFAULTS, IDS_PET_MACHINE_DEFAULTS, 0},
+    {IDC_PET_MEMORY, IDS_PET_MEMORY, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param parent_dialog_trans[] = {
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group model_main_group[] = {
+    {IDC_PET_MACHINE_DEFAULTS, 1},
+    {IDC_PET_MEMORY, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group model_left_group[] = {
+    {IDC_PET_MACHINE_DEFAULTS, 0},
+    {IDC_SELECT_PET_2001_8N, 0},
+    {IDC_SELECT_PET_3008, 0},
+    {IDC_SELECT_PET_3032, 0},
+    {IDC_SELECT_PET_3032B, 0},
+    {IDC_SELECT_PET_4016, 0},
+    {IDC_SELECT_PET_4032, 0},
+    {IDC_SELECT_PET_4032B, 0},
+    {IDC_SELECT_PET_8032, 0},
+    {IDC_SELECT_PET_8096, 0},
+    {IDC_SELECT_PET_8296, 0},
+    {IDC_SELECT_PET_SUPER, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group model_left_move_group[] = {
+    {IDC_SELECT_PET_2001_8N, 0},
+    {IDC_SELECT_PET_3008, 0},
+    {IDC_SELECT_PET_3032, 0},
+    {IDC_SELECT_PET_3032B, 0},
+    {IDC_SELECT_PET_4016, 0},
+    {IDC_SELECT_PET_4032, 0},
+    {IDC_SELECT_PET_4032B, 0},
+    {IDC_SELECT_PET_8032, 0},
+    {IDC_SELECT_PET_8096, 0},
+    {IDC_SELECT_PET_8296, 0},
+    {IDC_SELECT_PET_SUPER, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group model_right_group[] = {
+    {IDC_PET_MEMORY, 0},
+    {IDC_SELECT_PET_MEM4K, 0},
+    {IDC_SELECT_PET_MEM8K, 0},
+    {IDC_SELECT_PET_MEM16K, 0},
+    {IDC_SELECT_PET_MEM32K, 0},
+    {IDC_SELECT_PET_MEM96K, 0},
+    {IDC_SELECT_PET_MEM128K, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group model_right_move_group[] = {
+    {IDC_SELECT_PET_MEM4K, 0},
+    {IDC_SELECT_PET_MEM8K, 0},
+    {IDC_SELECT_PET_MEM16K, 0},
+    {IDC_SELECT_PET_MEM32K, 0},
+    {IDC_SELECT_PET_MEM96K, 0},
+    {IDC_SELECT_PET_MEM128K, 0},
+    {0, 0}
+};
+
+static void init_model_dialog(HWND hwnd)
 {
     int n, res;
+    HWND parent_hwnd;
+    int xpos;
+    int xstart;
 
-    resources_get_int("Crtc", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC,
-                   n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_int("SuperPET", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
-                   n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_int("Ram9", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
-                   n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_int("RamA", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, model_dialog_trans);
+
+    /* translate all dialog items of the parent */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, model_main_group);
+
+    /* get the min x of the left move group */
+    uilib_get_group_min_x(hwnd, model_left_move_group, &xstart);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, model_left_group, &xpos);
+
+    /* move and resize the left group element */
+    uilib_move_and_set_element_width(hwnd, IDC_PET_MACHINE_DEFAULTS, xstart - 10, xpos - xstart + 20);
+
+    /* move the right group element */
+    uilib_move_element(hwnd, IDC_PET_MEMORY, xpos + 20);
+
+    /* move the right move group to the correct position */
+    uilib_move_group(hwnd, model_right_move_group, xpos + 30);
+
+    xstart = xpos + 30;
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, model_right_group, &xpos);
+
+    /* move and resize the right group element */
+    uilib_move_and_set_element_width(hwnd, IDC_PET_MEMORY, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("RamSize", &res);
     switch (res) {
@@ -86,6 +180,15 @@ static void init_dialog(HWND hwnd)
         break;
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_MEM4K, IDC_SELECT_PET_MEM128K, n);
+}
+
+static void init_io_dialog(HWND hwnd)
+{
+    int n, res;
+
+    resources_get_int("Crtc", &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC,
+                   n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int("VideoSize", &res);
     switch (res) {
@@ -126,14 +229,36 @@ static void init_dialog(HWND hwnd)
                      IDC_SELECT_PET_KEYB_BUSINESS, n);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
+static void init_superpet_io_dialog(HWND hwnd)
+{
+    int n, res;
+
+    resources_get_int("SuperPET", &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
+                   n ? BST_CHECKED : BST_UNCHECKED);
+}
+
+static void init_pet8296_dialog(HWND hwnd)
+{
+    int n, res;
+
+    resources_get_int("Ram9", &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
+                   n ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_int("RamA", &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA,
+                   n ? BST_CHECKED : BST_UNCHECKED);
+
+}
+
+static INT_PTR CALLBACK model_dialog_proc(HWND hwnd, UINT msg,
                                     WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
       case WM_INITDIALOG:
-        init_dialog(hwnd);
+        init_model_dialog(hwnd);
         return TRUE;
       case WM_COMMAND:
           type = LOWORD(wparam);
@@ -192,6 +317,24 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
             case IDC_SELECT_PET_MEM128K:
               resources_set_int("RamSize", 128);
               break;
+          }
+          return TRUE;
+    }
+    return FALSE;
+}
+
+static INT_PTR CALLBACK io_dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
+{
+    int type;
+
+    switch (msg) {
+      case WM_INITDIALOG:
+        init_io_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+          type = LOWORD(wparam);
+          switch (type) {
             case IDC_SELECT_PET_VIDEO_AUTO:
               resources_set_int("VideoSize", 0);
               break;
@@ -216,9 +359,45 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
             case IDC_TOGGLE_PET_CRTC:
               resources_toggle("Crtc", NULL);
               break;
+          }
+          return TRUE;
+    }
+    return FALSE;
+}
+
+static INT_PTR CALLBACK superpet_io_dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
+{
+    int type;
+
+    switch (msg) {
+      case WM_INITDIALOG:
+        init_superpet_io_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+          type = LOWORD(wparam);
+          switch (type) {
             case IDC_TOGGLE_PET_SUPER_IO_ENABLE:
               resources_toggle("SuperPET", NULL);
               break;
+          }
+          return TRUE;
+    }
+    return FALSE;
+}
+
+static INT_PTR CALLBACK pet8296_dialog_proc(HWND hwnd, UINT msg,
+                                    WPARAM wparam, LPARAM lparam)
+{
+    int type;
+
+    switch (msg) {
+      case WM_INITDIALOG:
+        init_pet8296_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+          type = LOWORD(wparam);
+          switch (type) {
             case IDC_TOGGLE_PET_8296_RAM9:
               resources_toggle("Ram9", NULL);
               break;
@@ -250,23 +429,23 @@ void ui_pet_settings_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = dialog_proc;
+    psp[0].pfnDlgProc = model_dialog_proc;
     psp[0].pszTitle = translate_text(IDS_MODEL);
-    psp[1].pfnDlgProc = dialog_proc;
+    psp[1].pfnDlgProc = io_dialog_proc;
     psp[1].pszTitle = translate_text(IDS_INPUT_OUTPUT);
-    psp[2].pfnDlgProc = dialog_proc;
+    psp[2].pfnDlgProc = superpet_io_dialog_proc;
     psp[2].pszTitle = TEXT("Super PET");
-    psp[3].pfnDlgProc = dialog_proc;
+    psp[3].pfnDlgProc = pet8296_dialog_proc;
     psp[3].pszTitle = TEXT("8296 PET");
 
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_MODEL_DIALOG));
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
     psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_IO_DIALOG));
     psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_SUPER_DIALOG));
     psp[3].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_8296_DIALOG));
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_MODEL_DIALOG));
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
     psp[1].DUMMYUNIONNAME.pszTemplate
         = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_IO_DIALOG));
     psp[2].DUMMYUNIONNAME.pszTemplate

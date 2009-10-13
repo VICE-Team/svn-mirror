@@ -46,10 +46,60 @@ static void enable_mouse_controls(HWND hwnd)
   EnableWindow(GetDlgItem(hwnd, IDC_MOUSE_PORT), 1);
 }
 
+static uilib_localize_dialog_param mouse_dialog_trans[] = {
+    {IDC_MOUSE_TYPE_LABEL, IDS_MOUSE_TYPE_LABEL, 0},
+    {IDC_MOUSE_PORT_LABEL, IDS_MOUSE_PORT_LABEL, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group mouse_left_group[] = {
+    {IDC_MOUSE_TYPE_LABEL, 0},
+    {IDC_MOUSE_PORT_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group mouse_right_group[] = {
+    {IDC_MOUSE_TYPE, 0},
+    {IDC_MOUSE_PORT, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_mouse_dialog(HWND hwnd)
 {
   HWND temp_hwnd;
   int res_value;
+  int xpos;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, mouse_dialog_trans);
+
+  /* adjust the size of the elements in the left group */
+  uilib_adjust_group_width(hwnd, mouse_left_group);
+
+  /* get the max x of the left group */
+  uilib_get_group_max_x(hwnd, mouse_left_group, &xpos);
+
+  /* move the right group to the correct position */
+  uilib_move_group(hwnd, mouse_right_group, xpos + 10);
+
+  /* get the max x of the right group */
+  uilib_get_group_max_x(hwnd, mouse_right_group, &xpos);
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
 
   temp_hwnd = GetDlgItem(hwnd, IDC_MOUSE_TYPE);
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"1351");
@@ -108,6 +158,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_mouse_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_MOUSE_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MOUSE_SETTINGS_DIALOG, hwnd,
             dialog_proc);
 }

@@ -9,30 +9,40 @@
 
 // template of dialog for all languages
 
-IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 170
+IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 170
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "", IDC_IDE64_FILE_LABEL, 9, 14, 50, 8
-    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_BROWSE, 60, 12, 50, 14, 0
-    EDITTEXT        IDC_IDE64_HDIMAGE_FILE, 9, 28, 160, 12, WS_TABSTOP
+    LTEXT           "", IDC_IDE64_FILE_LABEL,
+                    9, 14, 50, 8
+    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_BROWSE,
+                    60, 12, 50, 14, 0
+    EDITTEXT        IDC_IDE64_HDIMAGE_FILE,
+                    9, 28, 160, 12, WS_TABSTOP
 
-    GROUPBOX        "", IDC_IDE64_GEOMETRY, 5, 48, 120, 95
+    GROUPBOX        "", IDC_IDE64_GEOMETRY,
+                    5, 48, 120, 95
     AUTOCHECKBOX    "", IDC_TOGGLE_IDE64_SIZEAUTODETECT,
                     10, 60, 90, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_IDE64_CYLINDERS_LABEL, 10, 75, 50, 8
-    COMBOBOX        IDC_IDE64_CYLINDERS, 55, 73, 60, 50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "", IDC_IDE64_HEADS_LABEL, 10, 95, 55, 8
-    COMBOBOX        IDC_IDE64_HEADS, 55, 93, 60, 50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "", IDC_IDE64_SECTORS_LABEL, 10, 115, 50, 8
-    COMBOBOX        IDC_IDE64_SECTORS, 55, 113, 60, 50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "", IDC_IDE64_SIZE, 10, 130, 100, 8
+    LTEXT           "", IDC_IDE64_CYLINDERS_LABEL,
+                    10, 75, 50, 8
+    COMBOBOX        IDC_IDE64_CYLINDERS,
+                    55, 73, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "", IDC_IDE64_HEADS_LABEL,
+                    10, 95, 55, 8
+    COMBOBOX        IDC_IDE64_HEADS,
+                    55, 93, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "", IDC_IDE64_SECTORS_LABEL,
+                    10, 115, 50, 8
+    COMBOBOX        IDC_IDE64_SECTORS,
+                    55, 113, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "", IDC_IDE64_SIZE,
+                    10, 130, 100, 8
 
-    DEFPUSHBUTTON   "", IDOK, 60,150,50,14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 120,150,50,14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK,
+                    60, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    120, 150, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -42,15 +52,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64 Settings"
-    IDS_IDE64_IMAGE             "&HD image file"
-    IDS_IDE64_GEOMETRY          "&Geometry"
-    IDS_IDE64_AUTODETECT        "&Autodetect"
-    IDS_IDE64_CYLINDERS         "Cylinders"
-    IDS_IDE64_HEADS             "Heads"
-    IDS_IDE64_SECTORS           "Sectors"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_CAPTION      "IDE64 Settings"
+    IDS_IDE64_IMAGE        "&HD image file"
+    IDS_IDE64_GEOMETRY     "&Geometry"
+    IDS_IDE64_AUTODETECT   "&Autodetect"
+    IDS_IDE64_CYLINDERS    "Cylinders"
+    IDS_IDE64_HEADS        "Heads"
+    IDS_IDE64_SECTORS      "Sectors"
+    IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
 
 
@@ -59,15 +69,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64-indstilliinger"
-    IDS_IDE64_IMAGE             "&HD-imagefil"
-    IDS_IDE64_GEOMETRY          "&Geometri"
-    IDS_IDE64_AUTODETECT        "&Autodetektér"
-    IDS_IDE64_CYLINDERS         "Cylindrer"
-    IDS_IDE64_HEADS             "Hoveder"
-    IDS_IDE64_SECTORS           "Sektorer"
-    IDS_IDE64_TOTAL_SIZE        "Total størrelse: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Angiv HD-imagefil"
+    IDS_IDE64_CAPTION      "IDE64-indstilliinger"
+    IDS_IDE64_IMAGE        "&HD-imagefil"
+    IDS_IDE64_GEOMETRY     "&Geometri"
+    IDS_IDE64_AUTODETECT   "&Autodetektér"
+    IDS_IDE64_CYLINDERS    "Cylindrer"
+    IDS_IDE64_HEADS        "Hoveder"
+    IDS_IDE64_SECTORS      "Sektorer"
+    IDS_IDE64_TOTAL_SIZE   "Total størrelse: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Angiv HD-imagefil"
 END
 
 
@@ -76,15 +86,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64 Einstellungen"
-    IDS_IDE64_IMAGE             "&HD Image Name"
-    IDS_IDE64_GEOMETRY          "&Geometrie"
-    IDS_IDE64_AUTODETECT        "&Automatische Erkennung"
-    IDS_IDE64_CYLINDERS         "Zylinder"
-    IDS_IDE64_HEADS             "Köpfe"
-    IDS_IDE64_SECTORS           "Sektoren"
-    IDS_IDE64_TOTAL_SIZE        "Gesamtgröße: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "HD Image Datei auswählen"
+    IDS_IDE64_CAPTION      "IDE64 Einstellungen"
+    IDS_IDE64_IMAGE        "&HD Image Name"
+    IDS_IDE64_GEOMETRY     "&Geometrie"
+    IDS_IDE64_AUTODETECT   "&Automatische Erkennung"
+    IDS_IDE64_CYLINDERS    "Zylinder"
+    IDS_IDE64_HEADS        "Köpfe"
+    IDS_IDE64_SECTORS      "Sektoren"
+    IDS_IDE64_TOTAL_SIZE   "Gesamtgröße: %iKB"
+    IDS_IDE64_SELECT_IMAGE "HD Image Datei auswählen"
 END
 
 
@@ -93,15 +103,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "Paramètres IDE64"
-    IDS_IDE64_IMAGE             "Nom d'image &DD"
-    IDS_IDE64_GEOMETRY          "&Géométrie"
-    IDS_IDE64_AUTODETECT        "&Autodétection"
-    IDS_IDE64_CYLINDERS         "Cylindres"
-    IDS_IDE64_HEADS             "Têtes"
-    IDS_IDE64_SECTORS           "Secteurs"
-    IDS_IDE64_TOTAL_SIZE        "Taille totale: %iKo"
-    IDS_IDE64_SELECT_IMAGE      "Sélectionnez le fichier image du D.D."
+    IDS_IDE64_CAPTION      "Paramètres IDE64"
+    IDS_IDE64_IMAGE        "Nom d'image &DD"
+    IDS_IDE64_GEOMETRY     "&Géométrie"
+    IDS_IDE64_AUTODETECT   "&Autodétection"
+    IDS_IDE64_CYLINDERS    "Cylindres"
+    IDS_IDE64_HEADS        "Têtes"
+    IDS_IDE64_SECTORS      "Secteurs"
+    IDS_IDE64_TOTAL_SIZE   "Taille totale: %iKo"
+    IDS_IDE64_SELECT_IMAGE "Sélectionnez le fichier image du D.D."
 END
 
 
@@ -111,15 +121,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64 beállításai"
-    IDS_IDE64_IMAGE             "&Merevlemez képmás fájl"
-    IDS_IDE64_GEOMETRY          "&Geometria"
-    IDS_IDE64_AUTODETECT        "&Automatikus érzékelés"
-    IDS_IDE64_CYLINDERS         "Sávok"
-    IDS_IDE64_HEADS             "Fejek"
-    IDS_IDE64_SECTORS           "Szektorok"
-    IDS_IDE64_TOTAL_SIZE        "Teljes méret: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Válassza ki a merevlemez képmás fájlt"
+    IDS_IDE64_CAPTION      "IDE64 beállításai"
+    IDS_IDE64_IMAGE        "&Merevlemez képmás fájl"
+    IDS_IDE64_GEOMETRY     "&Geometria"
+    IDS_IDE64_AUTODETECT   "&Automatikus érzékelés"
+    IDS_IDE64_CYLINDERS    "Sávok"
+    IDS_IDE64_HEADS        "Fejek"
+    IDS_IDE64_SECTORS      "Szektorok"
+    IDS_IDE64_TOTAL_SIZE   "Teljes méret: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Válassza ki a merevlemez képmás fájlt"
 END
 #pragma code_page(28591)
 
@@ -129,15 +139,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "Impostazioni IDE64"
-    IDS_IDE64_IMAGE             "Nome dell'immagine dell'&HD"
-    IDS_IDE64_GEOMETRY          "&Geometria"
-    IDS_IDE64_AUTODETECT        "&Rileva automaticamente"
-    IDS_IDE64_CYLINDERS         "Cilindri"
-    IDS_IDE64_HEADS             "Testine"
-    IDS_IDE64_SECTORS           "Settori"
-    IDS_IDE64_TOTAL_SIZE        "Dimensione totale: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Seleziona il file immagine dell'HD"
+    IDS_IDE64_CAPTION      "Impostazioni IDE64"
+    IDS_IDE64_IMAGE        "Nome dell'immagine dell'&HD"
+    IDS_IDE64_GEOMETRY     "&Geometria"
+    IDS_IDE64_AUTODETECT   "&Rileva automaticamente"
+    IDS_IDE64_CYLINDERS    "Cilindri"
+    IDS_IDE64_HEADS        "Testine"
+    IDS_IDE64_SECTORS      "Settori"
+    IDS_IDE64_TOTAL_SIZE   "Dimensione totale: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Seleziona il file immagine dell'HD"
 END
 
 
@@ -146,15 +156,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64-instellingen"
-    IDS_IDE64_IMAGE             "&HD-bestand"
-    IDS_IDE64_GEOMETRY          "&Geometrie"
-    IDS_IDE64_AUTODETECT        "&Autodetectie"
-    IDS_IDE64_CYLINDERS         "Cylinders"
-    IDS_IDE64_HEADS             "Koppen"
-    IDS_IDE64_SECTORS           "Sectors"
-    IDS_IDE64_TOTAL_SIZE        "Totale grootte: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Selecteer HD-bestand"
+    IDS_IDE64_CAPTION      "IDE64-instellingen"
+    IDS_IDE64_IMAGE        "&HD-bestand"
+    IDS_IDE64_GEOMETRY     "&Geometrie"
+    IDS_IDE64_AUTODETECT   "&Autodetectie"
+    IDS_IDE64_CYLINDERS    "Cylinders"
+    IDS_IDE64_HEADS        "Koppen"
+    IDS_IDE64_SECTORS      "Sectors"
+    IDS_IDE64_TOTAL_SIZE   "Totale grootte: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Selecteer HD-bestand"
 END
 
 
@@ -164,15 +174,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "Ustawienia IDE64"
-    IDS_IDE64_IMAGE             "&Nazwa obrazu HD"
-    IDS_IDE64_GEOMETRY          "&Geometry"
-    IDS_IDE64_AUTODETECT        "&Autodetect"
-    IDS_IDE64_CYLINDERS         "Cylinders"
-    IDS_IDE64_HEADS             "Heads"
-    IDS_IDE64_SECTORS           "Sectors"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_CAPTION      "Ustawienia IDE64"
+    IDS_IDE64_IMAGE        "&Nazwa obrazu HD"
+    IDS_IDE64_GEOMETRY     "&Geometry"
+    IDS_IDE64_AUTODETECT   "&Autodetect"
+    IDS_IDE64_CYLINDERS    "Cylinders"
+    IDS_IDE64_HEADS        "Heads"
+    IDS_IDE64_SECTORS      "Sectors"
+    IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
 #pragma code_page(28591)
 
@@ -182,15 +192,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64-inställningar"
-    IDS_IDE64_IMAGE             "&HD-avbildningsfil"
-    IDS_IDE64_GEOMETRY          "&Geometri"
-    IDS_IDE64_AUTODETECT        "&Autodetektera"
-    IDS_IDE64_CYLINDERS         "Cylindrar"
-    IDS_IDE64_HEADS             "Huvuden"
-    IDS_IDE64_SECTORS           "Sektorer"
-    IDS_IDE64_TOTAL_SIZE        "Total storlek: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Ange HD-avbildningsfil"
+    IDS_IDE64_CAPTION      "IDE64-inställningar"
+    IDS_IDE64_IMAGE        "&HD-avbildningsfil"
+    IDS_IDE64_GEOMETRY     "&Geometri"
+    IDS_IDE64_AUTODETECT   "&Autodetektera"
+    IDS_IDE64_CYLINDERS    "Cylindrar"
+    IDS_IDE64_HEADS        "Huvuden"
+    IDS_IDE64_SECTORS      "Sektorer"
+    IDS_IDE64_TOTAL_SIZE   "Total storlek: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Ange HD-avbildningsfil"
 END
 
 
@@ -200,14 +210,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64 Ayarlarý"
-    IDS_IDE64_IMAGE             "&HD imaj dosyasý"
-    IDS_IDE64_GEOMETRY          "&Geometri"
-    IDS_IDE64_AUTODETECT        "Otom&atik algýla"
-    IDS_IDE64_CYLINDERS         "Silindirler"
-    IDS_IDE64_HEADS             "Kafalar"
-    IDS_IDE64_SECTORS           "Sektörler"
-    IDS_IDE64_TOTAL_SIZE        "Toplam boyut: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "HD imaj dosyasý seç"
+    IDS_IDE64_CAPTION      "IDE64 Ayarlarý"
+    IDS_IDE64_IMAGE        "&HD imaj dosyasý"
+    IDS_IDE64_GEOMETRY     "&Geometri"
+    IDS_IDE64_AUTODETECT   "Otom&atik algýla"
+    IDS_IDE64_CYLINDERS    "Silindirler"
+    IDS_IDE64_HEADS        "Kafalar"
+    IDS_IDE64_SECTORS      "Sektörler"
+    IDS_IDE64_TOTAL_SIZE   "Toplam boyut: %iKB"
+    IDS_IDE64_SELECT_IMAGE "HD imaj dosyasý seç"
 END
 #pragma code_page(28591)

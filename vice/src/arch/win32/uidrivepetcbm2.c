@@ -48,9 +48,128 @@
 #define _ANONYMOUS_UNION
 #endif
 
+static uilib_localize_dialog_param drive_dialog_trans[] = {
+    {IDC_DRIVE_TYPE, IDS_DRIVE_TYPE, 0},
+    {IDC_SELECT_DRIVE_TYPE_NONE, IDS_SELECTNONE, 0},
+    {IDC_40_TRACK_HANDLING, IDS_40_TRACK_HANDLING, 0},
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, IDS_SELECT_DRIVE_EXTEND_NEVER, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, IDS_SELECT_DRIVE_EXTEND_ASK, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, IDS_SELECT_DRIVE_EXTEND_ACCESS, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param parent_dialog_trans[] = {
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+   {0, 0, 0}
+};
+
+static uilib_dialog_group drive_main_group[] = {
+    {IDC_DRIVE_TYPE, 1},
+    {IDC_SELECT_DRIVE_TYPE_NONE, 1},
+    {IDC_40_TRACK_HANDLING, 1},
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, 1},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, 1},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_left_group[] = {
+    {IDC_DRIVE_TYPE, 0},
+    {IDC_SELECT_DRIVE_TYPE_2031, 0},
+    {IDC_SELECT_DRIVE_TYPE_2040, 0},
+    {IDC_SELECT_DRIVE_TYPE_3040, 0},
+    {IDC_SELECT_DRIVE_TYPE_4040, 0},
+    {IDC_SELECT_DRIVE_TYPE_1001, 0},
+    {IDC_SELECT_DRIVE_TYPE_8050, 0},
+    {IDC_SELECT_DRIVE_TYPE_8250, 0},
+    {IDC_SELECT_DRIVE_TYPE_NONE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_middle_group[] = {
+    {IDC_40_TRACK_HANDLING, 0},
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group drive_middle_move_group[] = {
+    {IDC_SELECT_DRIVE_EXTEND_NEVER, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ASK, 0},
+    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void enable_controls_for_drive_settings(HWND hwnd, int type)
 {
     int drive_type = 0;
+    int xpos;
+    int xstart;
+    HWND parent_hwnd;
+    HWND tab_hwnd;
+    RECT rect;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, drive_dialog_trans);
+
+    /* translate the parent window items */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, drive_main_group);
+
+    /* get the max x of the elements in the left group */
+    uilib_get_group_max_x(hwnd, drive_left_group, &xpos);
+
+    /* get the min x of the none element of the left group */
+    uilib_get_element_min_x(hwnd, IDC_SELECT_DRIVE_TYPE_NONE, &xstart);
+
+    /* resize and move the left group element to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_DRIVE_TYPE, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the left group element */
+    uilib_get_element_max_x(hwnd, IDC_DRIVE_TYPE, &xpos);
+    
+    /* move the middle group elements to the correct position */
+    uilib_move_group(hwnd, drive_middle_move_group, xpos + 20);
+    uilib_move_element(hwnd, IDC_40_TRACK_HANDLING, xpos + 10);
+
+    xstart = xpos + 20;
+
+    /* get the max x of the middle group */
+    uilib_get_group_max_x(hwnd, drive_middle_group, &xpos);
+    
+    /* resize and move the middle group boxes to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_40_TRACK_HANDLING, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the middle group element */
+    uilib_get_element_max_x(hwnd, IDC_DRIVE_EXPANSION, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(parent_hwnd, &rect);
+    MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* set the width of the tab to 'surround' all the elements */
+    tab_hwnd = PropSheet_GetTabControl(hwnd);
+    GetWindowRect(tab_hwnd, &rect);
+    MoveWindow(tab_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
 
     switch (type) {
       case IDC_SELECT_DRIVE_TYPE_2031:
@@ -237,10 +356,10 @@ void uidrivepetcbm2_settings_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_DRIVE_SETTINGS_DIALOG_PETCBM2));
+        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_PETCBM2);
         psp[i].pszIcon = NULL;
 #else
-        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_DRIVE_SETTINGS_DIALOG_PETCBM2));
+        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_PETCBM2);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;

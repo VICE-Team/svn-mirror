@@ -53,11 +53,64 @@ static void enable_dqbb_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_DQBB_FILE), is_enabled);
 }
 
+static uilib_localize_dialog_param dqbb_dialog_trans[] = {
+    {0, IDS_DQBB_CAPTION, -1},
+    {IDC_DQBB_ENABLE, IDS_DQBB_ENABLE, 0},
+    {IDC_DQBB_FILE_LABEL, IDS_DQBB_FILE_LABEL, 0},
+    {IDC_DQBB_BROWSE, IDS_BROWSE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group dqbb_main_group[] = {
+    {IDC_DQBB_ENABLE, 1},
+    {IDC_DQBB_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group dqbb_right_group[] = {
+    {IDC_DQBB_ENABLE, 0},
+    {IDC_DQBB_FILE, 0},
+    {IDC_DQBB_BROWSE, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_dqbb_dialog(HWND hwnd)
 {
     int res_value;
     const char *dqbbfile;
     TCHAR *st_dqbbfile;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, dqbb_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, dqbb_main_group);
+
+    /* get the max x of the file label element */
+    uilib_get_element_max_x(hwnd, IDC_DQBB_FILE_LABEL, &xpos);
+
+    /* move the browse button to the correct location */
+    uilib_move_element(hwnd, IDC_DQBB_BROWSE, xpos + 10);
+
+    /* get the max of the right group */
+    uilib_get_group_max_x(hwnd, dqbb_right_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("DQBB", &res_value);
     CheckDlgButton(hwnd, IDC_DQBB_ENABLE, 
@@ -127,6 +180,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_dqbb_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_DQBB_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_DQBB_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }

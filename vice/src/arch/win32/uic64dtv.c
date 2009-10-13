@@ -193,8 +193,68 @@ static void init_c64dtv_attach_flash_dialog(HWND hwnd)
   enable_c64dtv_attach_flash_controls(hwnd);
 }
 
+static uilib_localize_dialog_param c64dtv_create_flash_dialog_trans[] = {
+    {0, IDS_CREATE_FLASH_CAPTION, -1},
+    {IDC_DTV_ROM_CREATION, IDS_DTV_ROM_CREATION, 0},
+    {IDC_C64DTV_ROM_IMAGE_FILE_LABEL, IDS_C64DTV_ROM_IMAGE_FILE_LABEL, 0},
+    {IDC_C64DTV_ROM_IMAGE_BROWSE, IDS_BROWSE, 0},
+    {IDC_C64DTV_ROM_COPY_C64, IDS_C64DTV_ROM_COPY_C64, 0},
+    {IDOK, IDS_CREATE, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group c64dtv_create_flash_main_group[] = {
+    {IDC_C64DTV_ROM_IMAGE_FILE_LABEL, 0},
+    {IDC_C64DTV_ROM_COPY_C64, 1},
+    {IDOK, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group c64dtv_create_flash_right_group[] = {
+    {IDC_C64DTV_ROM_IMAGE_BROWSE, 0},
+    {IDC_C64DTV_ROM_COPY_C64, 0},
+    {IDC_C64DTV_ROM_IMAGE_FILE, 0},
+    {0, 0}
+};
+
 static void init_c64dtv_create_flash_dialog(HWND hwnd)
 {
+  int xpos;
+  int xstart;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, c64dtv_create_flash_dialog_trans);
+
+  /* adjust the size of the elements in the main group */
+  uilib_adjust_group_width(hwnd, c64dtv_create_flash_main_group);
+
+  /* get the max x of the image file name element */
+  uilib_get_element_max_x(hwnd, IDC_C64DTV_ROM_IMAGE_FILE_LABEL, &xpos);
+
+  /* move the browse button to the correct location */
+  uilib_move_element(hwnd, IDC_C64DTV_ROM_IMAGE_BROWSE, xpos + 10);
+
+  /* get the max x of the right group */
+  uilib_get_group_max_x(hwnd, c64dtv_create_flash_right_group, &xpos);
+
+  /* get the min x of the file name element */
+  uilib_get_element_min_x(hwnd, IDC_C64DTV_ROM_IMAGE_FILE_LABEL, &xstart);
+
+  /* move and resize the group element to surround all elements */
+  uilib_move_and_set_element_width(hwnd, IDC_DTV_ROM_CREATION, xstart - 10 , xpos - xstart + 20);
+
+  /* get the max x of the group element */
+  uilib_get_element_max_x(hwnd, IDC_DTV_ROM_CREATION, &xpos);
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
+
   SetDlgItemText(hwnd, IDC_C64DTV_ROM_IMAGE_FILE, TEXT(""));
 
   CheckDlgButton(hwnd, IDC_C64DTV_ROM_COPY_C64, BST_CHECKED);
@@ -349,6 +409,6 @@ void ui_c64dtv_attach_flash_dialog(HWND hwnd)
 
 void ui_c64dtv_create_flash_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_C64DTV_CREATE_FLASH_IMAGE_DIALOG, hwnd,
             dialog_create_flash_proc);
 }

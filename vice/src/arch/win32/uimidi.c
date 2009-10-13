@@ -56,6 +56,46 @@ static void enable_midi_controls(HWND hwnd)
   EnableWindow(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), is_enabled && (num_out != 0));
 }
 
+static uilib_localize_dialog_param midi_dialog_trans[] = {
+    {0, IDS_MIDI_CAPTION, -1},
+    {IDC_MIDI_ENABLE, IDS_MIDI_ENABLE, 0},
+    {IDC_MIDI_TYPE_LABEL, IDS_MIDI_TYPE_LABEL, 0},
+    {IDC_MIDI_IN_LABEL, IDS_MIDI_IN_LABEL, 0},
+    {IDC_MIDI_OUT_LABEL, IDS_MIDI_OUT_LABEL, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group midi_left_group[] = {
+    {IDC_MIDI_ENABLE, 1},
+    {IDC_MIDI_TYPE_LABEL, 0},
+    {IDC_MIDI_IN_LABEL, 0},
+    {IDC_MIDI_OUT_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group midi_right_group[] = {
+    {IDC_MIDI_TYPE, 0},
+    {IDC_MIDI_IN_DEVICE, 0},
+    {IDC_MIDI_OUT_DEVICE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group midi_window_group[] = {
+    {IDC_MIDI_ENABLE, 0},
+    {IDC_MIDI_TYPE, 0},
+    {IDC_MIDI_IN_DEVICE, 0},
+    {IDC_MIDI_OUT_DEVICE, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_midi_dialog(HWND hwnd)
 {
   HWND temp_hwnd;
@@ -65,6 +105,30 @@ static void init_midi_dialog(HWND hwnd)
   int num, i;
   int res_value;
   int number;
+  int xpos;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, midi_dialog_trans);
+
+  /* adjust the size of the elements in the left group */
+  uilib_adjust_group_width(hwnd, midi_left_group);
+
+  /* get the max x of the left group */
+  uilib_get_group_max_x(hwnd, midi_left_group, &xpos);
+
+  /* move the right group to the correct position */
+  uilib_move_group(hwnd, midi_right_group, xpos + 10);
+
+  /* get the max x of the window group */
+  uilib_get_group_max_x(hwnd, midi_window_group, &xpos);
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
 
   resources_get_int("MIDIEnable", &res_value);
   CheckDlgButton(hwnd, IDC_MIDI_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
@@ -168,6 +232,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_midi_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_MIDI_SETTINGS_DIALOG), hwnd,
+  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MIDI_SETTINGS_DIALOG, hwnd,
             dialog_proc);
 }

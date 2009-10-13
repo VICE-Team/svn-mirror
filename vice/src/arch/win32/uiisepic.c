@@ -52,9 +52,48 @@ static void enable_isepic_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_ISEPIC_SWITCH), is_enabled);
 }
 
+static uilib_localize_dialog_param isepic_dialog_trans[] = {
+    {0, IDS_ISEPIC_CAPTION, -1},
+    {IDC_ISEPIC_ENABLE, IDS_ISEPIC_ENABLE, 0},
+    {IDC_ISEPIC_SWITCH, IDS_ISEPIC_SWITCH, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group isepic_group[] = {
+    {IDC_ISEPIC_ENABLE, 1},
+    {IDC_ISEPIC_SWITCH, 1},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_isepic_dialog(HWND hwnd)
 {
     int res_value;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, isepic_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, isepic_group);
+
+    /* get the max x of the main group */
+    uilib_get_group_max_x(hwnd, isepic_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("Isepic", &res_value);
     CheckDlgButton(hwnd, IDC_ISEPIC_ENABLE, 
@@ -106,6 +145,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_isepic_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_ISEPIC_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_ISEPIC_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
