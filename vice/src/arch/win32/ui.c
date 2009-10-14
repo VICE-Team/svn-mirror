@@ -605,47 +605,47 @@ void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
         case WMSZ_TOP:
         case WMSZ_BOTTOM:
             rc->right = (long)(rc->left + dx
-                            + size_y_desired * canvas_aspect_ratio);
+                            + size_y_desired * canvas_aspect_ratio + 0.5);
             break;
         case WMSZ_BOTTOMLEFT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
                 rc->bottom = (long)(rc->top + dy
-                            + size_x_desired / canvas_aspect_ratio);
+                            + size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
                 rc->left = (long)(rc->right - dx
-                            - size_y_desired * canvas_aspect_ratio);
+                            - size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         case WMSZ_BOTTOMRIGHT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
                 rc->bottom = (long)(rc->top + dy
-                            + size_x_desired / canvas_aspect_ratio);
+                            + size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
                 rc->right = (long)(rc->left + dx
-                            + size_y_desired * canvas_aspect_ratio);
+                            + size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         case WMSZ_LEFT:
         case WMSZ_RIGHT:
             rc->bottom = (long)(rc->top + dy
-                            + size_x_desired / canvas_aspect_ratio);
+                            + size_x_desired / canvas_aspect_ratio + 0.5);
             break;
         case WMSZ_TOPLEFT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
                 rc->top = (long)(rc->bottom - dy
-                            - size_x_desired / canvas_aspect_ratio);
+                            - size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
                 rc->left = (long)(rc->right - dx
-                            - size_y_desired * canvas_aspect_ratio);
+                            - size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         case WMSZ_TOPRIGHT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
                 rc->top = (long)(rc->bottom - dy
-                            - size_x_desired / canvas_aspect_ratio);
+                            - size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
                 rc->right = (long)(rc->left + dx
-                            + size_y_desired * canvas_aspect_ratio);
+                            + size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         default:
@@ -663,11 +663,20 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     HWND w, cw;
     unsigned int width, height;
     DWORD adjust_style;
+    int aspect_ratio, keep_aspect_ratio;
 
     w = canvas->hwnd;
     cw = canvas->client_hwnd;
     width = canvas->width;
     height = canvas->height;
+
+    if (video_dx9_enabled()) {
+        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+        if (keep_aspect_ratio) {
+            resources_get_int("AspectRatio", &aspect_ratio);
+            width = (int)((double)width * aspect_ratio / 1000.0 + 0.5);
+        }
+    }
 
 /*  TODO:
     We should store the windowplacement when the window is

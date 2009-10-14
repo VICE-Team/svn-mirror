@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "uilib.h"
 #include "util.h"
+#include "videoarch.h"
 
 /* UI-related resources.  */
 
@@ -181,19 +182,43 @@ static int set_alwaysontop(int val, void *param)
     return 0;
 }
 
+void resize_every_canvas(void)
+{
+    video_canvas_t *canvas;
+    int window_index;
+
+    for (window_index = 0; window_index < number_of_windows; window_index++) {
+        canvas = video_canvas_for_hwnd(window_handles[window_index]);
+        if (canvas != NULL) {
+            ui_resize_canvas_window(canvas);
+        }
+    }
+}
+
 static int set_keep_aspect_ratio(int val, void *param)
 {
+    int old_val = ui_resources.keep_aspect_ratio;
+
     ui_resources.keep_aspect_ratio = val;
+    if (!old_val && val) {
+        resize_every_canvas();
+    }
     return 0;
 }
 
 static int set_aspect_ratio(int val, void *param)
 {
+    int old_val = ui_resources.aspect_ratio;
+
     if (val < 500)
         val = 500;
     if (val > 2000)
         val = 2000;
     ui_resources.aspect_ratio = val;
+
+    if (val != old_val) {
+        resize_every_canvas();
+    }
     return 0;
 }
 
