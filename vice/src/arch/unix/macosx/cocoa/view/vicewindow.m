@@ -105,16 +105,6 @@
     return canvasView;
 }
 
-- (void)updateCanvas:(id)sender
-{
-    [canvasView updateTextureAndDraw:true];
-}
-
-- (void)redrawCanvas:(id)sender
-{
-    [canvasView updateTextureAndDraw:false];
-}
-
 - (void)resizeCanvas:(NSSize)size
 {
     // do not resize if same size

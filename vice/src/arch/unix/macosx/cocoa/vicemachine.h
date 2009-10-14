@@ -78,6 +78,8 @@ struct video_canvas_s;
 -(int)registerCanvas:(struct video_canvas_s *)canvas;
 // get canvas for id
 -(struct video_canvas_s *)getCanvasForId:(int)canvasId;
+// get num canvases
+-(int)getNumCanvases;
 
 @end
 

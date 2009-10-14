@@ -54,6 +54,9 @@
     int mouseHideInterval;
     
     int canvasId;
+    
+    NSRecursiveLock *glLock;
+    BOOL isOpenGLReady;
 }
 
 - (id)initWithFrame:(NSRect)rect;
@@ -65,7 +68,7 @@
 - (void)drawRect:(NSRect)r;
 
 - (void)setupTexture:(NSSize)size;
-- (void)updateTextureAndDraw:(bool)async;
+- (void)updateTextureAndDraw:(id)sender;
 
 - (BYTE *)getCanvasBuffer;
 - (int)getCanvasPitch;

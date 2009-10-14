@@ -339,6 +339,7 @@ const float control_win_width = 200;
 
     // fill canvas structure
     canvas->window = window;
+    canvas->view   = glView;
     canvas->buffer = [glView getCanvasBuffer];
     canvas->pitch  = [glView getCanvasPitch];
     canvas->depth  = [glView getCanvasDepth];
@@ -380,12 +381,6 @@ const float control_win_width = 200;
     VICEGLView *glView = [canvas->window getVICEGLView];
     canvas->buffer = [glView getCanvasBuffer];
     canvas->pitch  = [glView getCanvasPitch];
-}
-
--(void)updateCanvas:(NSData *)canvasPtr
-{
-    video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
-    [[canvas->window getVICEGLView] updateTextureAndDraw:true];
 }
 
 - (void)setCurrentCanvasId:(int)c

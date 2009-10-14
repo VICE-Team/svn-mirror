@@ -73,11 +73,18 @@
                                                  name:VICEToggleMouseNotification
                                                object:nil];
     mouseHideTimer = nil;
+
+    // OpenGL locking and state
+    glLock = [[NSRecursiveLock alloc] init];
+    isOpenGLReady = false;
+
     return self;
 }
 
 - (void)dealloc
 {
+    [glLock release];
+
     lib_free(textureData);
     [super dealloc];
 }
@@ -95,6 +102,8 @@
 // prepare open gl
 - (void)prepareOpenGL
 {
+    [glLock lock];
+    
     // sync to VBlank
     GLint swapInt = 1;
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
@@ -104,11 +113,30 @@
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP);    
+
+    glDisable (GL_ALPHA_TEST);
+    glDisable (GL_DEPTH_TEST);
+    glDisable (GL_SCISSOR_TEST);
+    glDisable (GL_BLEND);
+    glDisable (GL_DITHER);
+    glDisable (GL_CULL_FACE);
+    glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glDepthMask (GL_FALSE);
+    glStencilMask (0);
+    glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
+    glHint (GL_TRANSFORM_HINT_APPLE, GL_FASTEST);
+
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+ 
+    [glLock unlock];
+    
+    isOpenGLReady = true;
 }
 
 // cocoa calls this if view resized
 - (void)reshape
 {
+    [glLock lock];
     [[self openGLContext] makeCurrentContext];
 
     NSRect rect = [self bounds];
@@ -132,18 +160,20 @@
     // adjust mouse scales
     mouseXScale = textureSize.width  / viewSize.width;
     mouseYScale = textureSize.height / viewSize.height;
+
+    [glLock unlock];
 }
 
 // redraw view
 - (void)drawRect:(NSRect)r
 {
+    [glLock lock];
     [[self openGLContext] makeCurrentContext];
 
     NSSize size = textureSize;
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBegin(GL_QUADS);
     {
         glTexCoord2i(0, size.height);          glVertex2i(-1, -1);
@@ -154,6 +184,7 @@
     glEnd();
     
     [[self openGLContext] flushBuffer];
+    [glLock unlock];
 }
 
 - (void)setupTexture:(NSSize)size
@@ -171,6 +202,7 @@
     memset(textureData,0,dataSize*sizeof(BYTE));
     
     // make canvas context current
+    [glLock lock];
     [[self openGLContext] makeCurrentContext];
 
     // bind texture
@@ -185,10 +217,12 @@
                  0, 
                  GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, 
                  textureData);
+    [glLock unlock];
 }
 
-- (void)updateTextureAndDraw:(bool)async
+- (void)updateTextureAndDraw:(id)sender
 {
+    [glLock lock];
     [[self openGLContext] makeCurrentContext];
 
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA,
@@ -196,14 +230,9 @@
                  0, 
                  GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, 
                  textureData);
-
-    if(async) {
-        // trigger update
-        [self setNeedsDisplay:YES];
-    } else {
-        // display immediately:
-        [self display];
-    }
+    [glLock unlock];
+    
+    [self setNeedsDisplay:YES];
 }
 
 - (BYTE *)getCanvasBuffer

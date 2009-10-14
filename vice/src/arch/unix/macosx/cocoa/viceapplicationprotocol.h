@@ -47,8 +47,6 @@ thread is passed through this protocol.
 -(void)destroyCanvas:(NSData *)canvasPtr;
 // resize a canvase
 -(void)resizeCanvas:(NSData *)canvasPtr withSize:(NSSize)size;
-// update canvas
--(void)updateCanvas:(NSData *)canvasPtr;
 
 // ----- monitor -----
 // open the monitor

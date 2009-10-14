@@ -250,7 +250,7 @@ VICEMachine *theVICEMachine = nil;
     int canvasId = canvasNum;
     canvasNum++;
     canvasArray[canvasId] = canvas;
-    return TRUE;
+    return canvasId;
 }
 
 -(struct video_canvas_s *)getCanvasForId:(int)canvasId

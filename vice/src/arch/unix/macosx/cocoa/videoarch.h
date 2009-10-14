@@ -34,6 +34,7 @@
 #import "vicewindow.h"
 #else
 typedef void VICEWindow;
+typedef void VICEGLView;
 #endif
 
 struct video_draw_buffer_callback_s;
@@ -55,6 +56,7 @@ struct video_canvas_s
     BYTE *buffer;
     int pitch;
     VICEWindow *window;
+    VICEGLView *view;
     int canvasId;
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;

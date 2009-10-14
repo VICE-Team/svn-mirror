@@ -55,12 +55,6 @@
 // resize to multiple size taken from [sender tag]
 - (void)resizeCanvasToMultipleSize:(id)sender;
 
-// update canvas with setNeedDisplay
--(void)updateCanvas:(id)sender;
-
-// directly draw canvas
--(void)redrawCanvas:(id)sender;
-
 // ----- copy & paste support -----
 // copy
 -(IBAction)copy:(id)sender;

@@ -62,6 +62,7 @@ void video_shutdown(void)
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
     canvas->window = nil;
+    canvas->view = nil;
     canvas->video_draw_buffer_callback = NULL;
 }
 
@@ -150,20 +151,11 @@ void video_canvas_refresh(video_canvas_t *canvas,
                         w, h, xs, ys, xi, yi, 
                         canvas->pitch, canvas->depth);
 
-#if 1
-    // call updateCanvas selector in main thread - non-blocking
-    VICEWindow *window = canvas->window;
-    [window performSelectorOnMainThread:@selector(updateCanvas:) 
-                             withObject:nil 
-                          waitUntilDone:NO];
-#else
-    // call updateCanvas via proxy object - blocks if main app blocks
-    // encapsulate canvas ptr
-    video_canvas_t *canvasPtr = canvas;    
-    NSData *data = [NSData dataWithBytes:&canvasPtr length:sizeof(video_canvas_t *)];
-    // call UI thread to resize canvas
-    [[theVICEMachine app] updateCanvas:data];
-#endif
+    // call updateTextureAndDraw selector in main thread - non-blocking
+    VICEGLView *view = canvas->view;
+    [view performSelectorOnMainThread:@selector(updateTextureAndDraw:) 
+                           withObject:nil 
+                        waitUntilDone:NO];
 }
 
 // ----- Palette Stuff -----
