@@ -329,20 +329,22 @@ const float control_win_width = 200;
     else
         title = [NSString stringWithFormat:@"%s #%d",canvas->viewport->title,canvasCount];
     
-    // create a new vice window
+    // create a new vice window (and a glView)
     VICEWindow *window = [[VICEWindow alloc] initWithContentRect:[self placeCanvas:size]
                                                            title:title];
 
-    // embedded gl view
+    // setup embedded gl view
     VICEGLView *glView = [window getVICEGLView];
     [glView setCanvasId:canvas->canvasId];
 
-    // fill canvas structure
+    // fill canvas structure for rendering
     canvas->window = window;
     canvas->view   = glView;
-    canvas->buffer = [glView getCanvasBuffer];
     canvas->pitch  = [glView getCanvasPitch];
     canvas->depth  = [glView getCanvasDepth];
+    
+    // (re)configure view for the first time
+    [glView reconfigure:canvas->video_param];
     
     // is visible?
     BOOL visible = [self isWindowVisible:window default:TRUE];
@@ -375,12 +377,19 @@ const float control_win_width = 200;
 {
     video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
 
+    // resize canvas window (and glView)
     [canvas->window resizeCanvas:size];
 
-    // fetch results
+    // update canvas parameters for rendering
     VICEGLView *glView = [canvas->window getVICEGLView];
-    canvas->buffer = [glView getCanvasBuffer];
-    canvas->pitch  = [glView getCanvasPitch];
+    canvas->pitch = [glView getCanvasPitch];
+}
+
+-(void)reconfigureCanvas:(NSData *)canvasPtr
+{
+    video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
+    VICEGLView *glView = [canvas->window getVICEGLView];
+    [glView reconfigure:canvas->video_param];
 }
 
 - (void)setCurrentCanvasId:(int)c

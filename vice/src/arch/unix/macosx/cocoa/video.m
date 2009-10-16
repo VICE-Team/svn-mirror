@@ -27,42 +27,126 @@
 
 #include "videoarch.h"
 #include "palette.h"
+#include "resources.h"
+#include "cmdline.h"
+#include "translate.h"
+#include "log.h"
 
 #import "vicemachinenotifier.h"
 #import "vicemachine.h"
 #import "vicewindow.h"
 
-// VICE Video Resources
+// Mac Video Log
+log_t video_log = LOG_ERR;
+
+// video parameter struct
+static video_param_t video_param;
+
+// ---------- VICE Video Resources ----------
+
+/* tell all canvases to reconfigure after setting new video_param resources */
+static void video_reconfigure()
+{
+    int numCanvases = [theVICEMachine getNumCanvases];
+    int i;
+    
+    for(i=0;i<numCanvases;i++) {
+        video_canvas_t *canvas = [theVICEMachine getCanvasForId:i];
+
+        NSData *data = [NSData dataWithBytes:&canvas length:sizeof(video_canvas_t *)];
+
+        // call UI thread to reconfigure canvas
+        [[theVICEMachine app] reconfigureCanvas:data];
+    }
+}
+
+static int set_sync_draw(int val, void *param)
+{
+    if(val != video_param.sync_draw) {
+        video_param.sync_draw = val;
+        video_reconfigure();
+    }
+}
+
+static int set_sync_draw_buffers(int val, void *param)
+{
+    if(val < 1)
+        val = 0;
+    else if(val > 16)
+        val = 16;
+
+    if(val != video_param.sync_draw_buffers) {            
+        video_param.sync_draw_buffers = val;
+        video_reconfigure();
+    }
+}
+
+static resource_int_t resources_int[] =
+{
+    { "SyncDraw", 0, RES_EVENT_NO, NULL,
+       &video_param.sync_draw, set_sync_draw, NULL },
+    { "SyncDrawBuffers", 2, RES_EVENT_NO, NULL,
+       &video_param.sync_draw_buffers, set_sync_draw_buffers, NULL },
+    { NULL }
+ };
 
 int video_arch_resources_init(void)
 {
-    return 0;
+    return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)
 {
 }
 
-// VICE interface:
+// ---------- VICE Video Command Line ----------
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-syncdraw", SET_RESOURCE, 0,
+      NULL, NULL, "SyncDraw", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable draw synchronization to vertical blank") },
+    { "+syncdraw", SET_RESOURCE, 0,
+      NULL, NULL, "SyncDraw", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable draw synchronization to vertical blank") },
+    { "-syncdrawbuffers", SET_RESOURCE, 1,
+      NULL, NULL, "SyncDrawBuffers", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<1-8>", T_("Set number of buffers used for sync draw") },
+    { NULL }
+};
 
 int video_init_cmdline_options(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
+
+// --------- init/exit MacVICE video ----------
 
 int video_init(void)
 {
-   return 0;
+    if (video_log == LOG_ERR)
+  	    video_log = log_open("MacVideo");
 }
 
 void video_shutdown(void)
 {
+    if (video_log != LOG_ERR)
+        log_close(video_log);
 }
 
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
+    canvas->pitch = 0;
     canvas->window = nil;
     canvas->view = nil;
+    canvas->canvasId = 0;
+    
+    canvas->video_param = &video_param;
     canvas->video_draw_buffer_callback = NULL;
 }
 
@@ -146,16 +230,21 @@ void video_canvas_refresh(video_canvas_t *canvas,
     w = MIN(w, canvas->width - xi);
     h = MIN(h, canvas->height - yi);
 
-    // render into texture buffer
-    video_canvas_render(canvas, canvas->buffer,
+    // get rendering buffer
+    VICEGLView *view = canvas->view;
+    BYTE *buffer = [view beginMachineDraw];
+    if(buffer == NULL) {
+        log_message(video_log, "no rendering buffer available!");
+        return;
+    }
+        
+    // update rendering buffer
+    video_canvas_render(canvas, buffer,
                         w, h, xs, ys, xi, yi, 
                         canvas->pitch, canvas->depth);
 
-    // call updateTextureAndDraw selector in main thread - non-blocking
-    VICEGLView *view = canvas->view;
-    [view performSelectorOnMainThread:@selector(updateTextureAndDraw:) 
-                           withObject:nil 
-                        waitUntilDone:NO];
+    // notify end rendering
+    [view endMachineDraw];
 }
 
 // ----- Palette Stuff -----
@@ -194,7 +283,8 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
         }
         col = (p->entries[i].red   >> rbits) << rshift
             | (p->entries[i].green >> gbits) << gshift
-            | (p->entries[i].blue  >> bbits) << bshift;
+            | (p->entries[i].blue  >> bbits) << bshift
+            | 0xff000000; // alpha
 
         video_render_setphysicalcolor(c->videoconfig, i, col, c->depth);
     }

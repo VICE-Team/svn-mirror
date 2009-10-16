@@ -260,6 +260,11 @@ VICEMachine *theVICEMachine = nil;
     return canvasArray[canvasId];
 }
 
+-(int)getNumCanvases
+{
+    return canvasNum;
+}
+
 // ---------- ViceMachineProtocol -------------------------------------------
 
 // ----- Machine Controller -----

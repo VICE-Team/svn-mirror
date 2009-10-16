@@ -280,6 +280,13 @@
 		<key>New Luminances</key>
 		<string>VICIINewLuminances,b</string>
 	</dict>
+	<key>Video</key>
+	<dict>
+		<key>Sync Draw</key>
+		<string>SyncDraw,b</string>
+		<key>Sync Draw Buffers</key>
+		<string>SyncDrawBuffers,i</string>
+	</dict>
 	<key>Remote Monitor</key>
 	<dict>
 		<key>Enable</key>

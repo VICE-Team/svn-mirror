@@ -26,7 +26,8 @@ noinst_HEADERS = \
 	vicemachinenotifier.h \
    vicemachineprotocol.h \
    vicenotifications.h \
-   videoarch.h
+   videoarch.h \
+   videoparam.h
    
 libarchmacosxcocoa_a_SOURCES = \
    ui-resources.c \

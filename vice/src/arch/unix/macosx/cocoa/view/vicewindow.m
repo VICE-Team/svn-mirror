@@ -76,8 +76,8 @@
     // canvasView: the OpenGL render canvas
     rect = NSMakeRect(0, 0, cw, ch);
     canvasView = [[VICEGLView alloc] initWithFrame:rect];
-    [canvasView setupTexture:size];
     [canvasView setAutoresizingMask: (NSViewWidthSizable | NSViewHeightSizable)];
+    [canvasView resize:NSMakeSize(canvas_width, canvas_height)];
     [canvasContainer addSubview:canvasView];
 
     isFullscreen = false;
@@ -109,12 +109,12 @@
 {
     // do not resize if same size
     if ((original_canvas_size.width  == size.width) && 
-       (original_canvas_size.height == size.height)) {
+        (original_canvas_size.height == size.height)) {
       return;
     }
     
     original_canvas_size = size;
-    [canvasView setupTexture:size];
+    [canvasView resize:size];
 
     [self setContentMinSize:NSMakeSize(size.width / 2, size.height / 2)];
     [self resizeCanvasToMultipleSize:nil];

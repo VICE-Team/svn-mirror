@@ -26,74 +26,111 @@
  */
 
 #include "video.h"
+#include "videoparam.h"
 
 #import <Cocoa/Cocoa.h>
+#import <CoreVideo/CVDisplayLink.h>
+
+#include <OpenGL/gl.h>
+#include <OpenGL/glext.h>
+
+struct video_param_s;
+
+#define MOUSE_HIDE_DELAY 4
+#define MOUSE_IS_HIDDEN  -1
+#define MOUSE_IS_SHOWN   -2
+
+#define MAX_BUFFERS     8
+
+#define NUM_KEY_MODIFIERS 32
+
+struct texture_s {
+    BYTE            *buffer;            /* raw data of texture */
+    GLuint           bindId;            /* GL ID for binding */
+    unsigned long    timeStamp;         /* when the machine rendered into buffer */
+    
+};
+typedef struct texture_s texture_t;
 
 @interface VICEGLView : NSOpenGLView
 {
-    NSSize  textureSize;
-    float   textureRatio;
-    BYTE   *textureData;
-    NSSize  viewSize;
-    NSPoint viewOrigin;
+    // Texture
+    int         numTextures;            /* how many textures are set up? */
+    NSSize      textureSize;            /* size of canvas/texture for machine drawing */
+    texture_t   texture[MAX_BUFFERS];   /* manage up to MAX_BUFFERS textures */
+
+    // View
+    NSSize      viewSize;               /* size of canvas view on screen (might be smaller than GL view) */
+    NSPoint     viewOrigin;             /* origin of canvas view inside GL view */
+    int         canvasId;               /* the canvas id assigned to this view */
     
+    // Keyboard
     unsigned int lastKeyModifierFlags;
-    #define NUM_MODIFIERS 32
-    unsigned int modifierKeyCode[NUM_MODIFIERS];
+    unsigned int modifierKeyCode[NUM_KEY_MODIFIERS];
     
-    BOOL trackMouse;
-    float mouseXScale;
-    float mouseYScale;
-    int oldX;
-    int oldY;
+    // Mouse
+    BOOL        trackMouse;
+    float       mouseXScale;
+    float       mouseYScale;
+    int         oldX;
+    int         oldY;
+    NSTimer *   mouseHideTimer;
+    int         mouseHideInterval;
     
-    #define MOUSE_HIDE_DELAY 4
-    #define MOUSE_IS_HIDDEN  -1
-    #define MOUSE_IS_SHOWN   -2
-    NSTimer *mouseHideTimer;
-    int mouseHideInterval;
-    
-    int canvasId;
-    
+    // OpenGL
     NSRecursiveLock *glLock;
-    BOOL isOpenGLReady;
+    BOOL             isOpenGLReady;
+    BOOL             postponedReconfigure;
+    struct video_param_s video_param;   /* a copy of the current params */
+
+    // DisplayLink
+    CVDisplayLinkRef displayLink;
+    BOOL             displayLinkEnabled;  /* display link is running */
+    BOOL             displayLinkLocked;   /* display link delivers valid refresh rate */
+    float            screenRefreshPeriod; /* refresh rate of screen */
 }
+
+// ----- interface -----
 
 - (id)initWithFrame:(NSRect)rect;
 - (void)dealloc;
-- (BOOL)isOpaque;
 
-- (void)prepareOpenGL;
-- (void)reshape;
-- (void)drawRect:(NSRect)r;
+// the canvas was reconfigured i.e. new parameters were set
+- (void)reconfigure:(struct video_param_s *)vieo_param;
 
-- (void)setupTexture:(NSSize)size;
-- (void)updateTextureAndDraw:(id)sender;
+// the size of the canvas changed -> adapt textures and resources to new size
+- (void)resize:(NSSize)size;
 
-- (BYTE *)getCanvasBuffer;
+// get next render buffer for drawing by emu. may return NULL if out of buffers
+- (BYTE *)beginMachineDraw;
+
+// end rendering into buffer
+- (void)endMachineDraw;
+
+// report current canvas pitch in bytes
 - (int)getCanvasPitch;
+
+// report current canvas depth in bits
 - (int)getCanvasDepth;
 
-- (void)keyDown:(NSEvent *)theEvent;
-- (void)keyUp:(NSEvent *)theEvent;
-- (void)flagsChanged:(NSEvent *)theEvent;
-
-- (BOOL)becomeFirstResponder;
-- (BOOL)resignFirstResponder;
-- (void)mouseMoved:(NSEvent *)theEvent;
-- (void)mouseDragged:(NSEvent *)theEvent;
-- (void)mouseDown:(NSEvent *)theEvent;
-- (void)mouseUp:(NSEvent *)theEvent;
-- (void)mouseMove:(NSPoint)pos;
-- (void)toggleMouse:(NSNotification *)notification;
-
-- (void)startHideTimer;
-- (void)stopHideTimer:(BOOL)shown;
-- (void)hideTimer:(NSTimer *)timer;
-- (void)ensureMouseShown;
-
+// register the id for this canvas
 - (void)setCanvasId:(int)canvasId;
+
+// return the current canvas id assigned to this view
 - (int)canvasId;
+
+// ----- local -----
+
+- (BOOL)setupDisplayLink;
+- (void)shutdownDisplayLink;
+- (float)getDisplayLinkRefreshPeriod;
+
+- (void)initTextures;
+- (void)deleteAllTextures;
+- (void)setupTextures:(int)num withSize:(NSSize)size;
+- (void)updateTexture:(int)i;
+
+- (void)mouseMove:(NSPoint)pos;
 
 @end
 

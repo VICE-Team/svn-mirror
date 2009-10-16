@@ -39,7 +39,9 @@ typedef void VICEGLView;
 
 struct video_draw_buffer_callback_s;
 struct video_resource_chip_s;
+struct video_param_s;
 
+/* custom canvas structure for MacVICE */
 struct video_canvas_s
 {
     unsigned int initialized;
@@ -51,15 +53,15 @@ struct video_canvas_s
     struct geometry_s *geometry;
     struct palette_s *palette;
     struct video_resource_chip_s *video_resource_chip;
-
-    /* MacVICE stuff: */
-    BYTE *buffer;
-    int pitch;
-    VICEWindow *window;
-    VICEGLView *view;
-    int canvasId;
-
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
+
+    /* MacVICE */
+    int pitch;                  /* pitch width of scanline in byte */
+    VICEWindow *window;         /* the associated window */
+    VICEGLView *view;           /* the associated view */
+    int canvasId;               /* canvas id as registered at the machine */
+
+    struct video_param_s *video_param; /* video parameters */
 };
 typedef struct video_canvas_s video_canvas_t;
 
