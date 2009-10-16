@@ -112,10 +112,8 @@ int window_padding_y[2];
 static HACCEL ui_accelerator;
 
 /* Forward prototypes.  */
-static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg,
-                                        WPARAM wparam, LPARAM lparam);
-static LRESULT CALLBACK window_proc(HWND window, UINT msg,
-                                    WPARAM wparam, LPARAM lparam);
+static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
+static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
 
 /* List of resources that can be grayed out from the menus.  */
 static const ui_menu_toggle_t grayed_list[] = {
@@ -284,32 +282,32 @@ int ui_init(int *argc, char **argv)
     WNDCLASS window_class;
 
     switch (machine_class) {
-      case VICE_MACHINE_C64:
-        emu_menu = IDR_MENUC64;
-        break;
-      case VICE_MACHINE_C64DTV:
-        emu_menu = IDR_MENUC64DTV;
-        break;
-      case VICE_MACHINE_C128:
-        emu_menu = IDR_MENUC128;
-        break;
-      case VICE_MACHINE_VIC20:
-        emu_menu = IDR_MENUVIC;
-        break;
-      case VICE_MACHINE_PET:
-        emu_menu = IDR_MENUPET;
-        break;
-      case VICE_MACHINE_PLUS4:
-        emu_menu = IDR_MENUPLUS4;
-        break;
-      case VICE_MACHINE_CBM5x0:
-      case VICE_MACHINE_CBM6x0:
-        emu_menu = IDR_MENUCBM2;
-        break;
-      default:
-        log_debug("UI: No menu entries for this machine defined!");
-        log_debug("UI: Using C64 type UI menues.");
-        emu_menu = IDR_MENUC64;
+        case VICE_MACHINE_C64:
+            emu_menu = IDR_MENUC64;
+            break;
+        case VICE_MACHINE_C64DTV:
+            emu_menu = IDR_MENUC64DTV;
+            break;
+        case VICE_MACHINE_C128:
+            emu_menu = IDR_MENUC128;
+            break;
+        case VICE_MACHINE_VIC20:
+            emu_menu = IDR_MENUVIC;
+            break;
+        case VICE_MACHINE_PET:
+            emu_menu = IDR_MENUPET;
+            break;
+        case VICE_MACHINE_PLUS4:
+            emu_menu = IDR_MENUPLUS4;
+            break;
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            emu_menu = IDR_MENUCBM2;
+            break;
+        default:
+            log_debug("UI: No menu entries for this machine defined!");
+            log_debug("UI: Using C64 type UI menues.");
+            emu_menu = IDR_MENUC64;
     }
 
     /* Register the window class.  */
@@ -318,8 +316,7 @@ int ui_init(int *argc, char **argv)
     window_class.cbClsExtra = 0;
     window_class.cbWndExtra = 0;
     window_class.hInstance = winmain_instance;
-    window_class.hIcon = LoadIcon(winmain_instance,
-                                  MAKEINTRESOURCE(IDI_ICON1));
+    window_class.hIcon = LoadIcon(winmain_instance, MAKEINTRESOURCE(IDI_ICON1));
     window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
     window_class.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0) + 1);
     window_class.lpszMenuName = MAKEINTRESOURCE(emu_menu);
@@ -332,8 +329,7 @@ int ui_init(int *argc, char **argv)
     window_class.cbClsExtra = 0;
     window_class.cbWndExtra = 0;
     window_class.hInstance = winmain_instance;
-    window_class.hIcon = LoadIcon(winmain_instance,
-                                  MAKEINTRESOURCE(IDI_ICON1));
+    window_class.hIcon = LoadIcon(winmain_instance, MAKEINTRESOURCE(IDI_ICON1));
     window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
     window_class.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0) + 1);
     window_class.lpszMenuName = NULL;
@@ -348,9 +344,7 @@ int ui_init(int *argc, char **argv)
        in the future.  */
     main_hwnd = CreateWindow(APPLICATION_CLASS_MAIN,
                              TEXT("No title"), /* (for now) */
-                             WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
-                             | WS_DLGFRAME| WS_SYSMENU | WS_MINIMIZEBOX
-                             | WS_MAXIMIZEBOX,
+                             WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER | WS_DLGFRAME| WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
                              CW_USEDEFAULT,
@@ -370,8 +364,8 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
-   statusbar_delete_brushes();
-   uikeyboard_shutdown();
+    statusbar_delete_brushes();
+    uikeyboard_shutdown();
 }
 
 /* Initialize the UI after setting all the resource values.  */
@@ -393,8 +387,9 @@ void ui_exit(void)
 {
     int i;
 
-    for (i = 0; i < number_of_windows; i++)
+    for (i = 0; i < number_of_windows; i++) {
         lib_free(hwnd_titles[i]);
+    }
 
     if (ui_accelerator) {
         DestroyAcceleratorTable(ui_accelerator);
@@ -416,29 +411,27 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
 
     int i = 0;
 
-    if (trans_table == NULL)
+    if (trans_table == NULL) {
         return;
+    }
 
-    while (trans_table[i].level != 0)
-    {
-        switch (trans_table[i].level)
-        {
+    while (trans_table[i].level != 0) {
+        switch (trans_table[i].level) {
             case 1:
                 menu1 = NULL;
-                while (menu1 == NULL)
-                {
+                while (menu1 == NULL) {
                     pos1++;
                     menu1 = GetSubMenu(menu, pos1);
                 }
-                if (trans_table[i].ids != 0)
+                if (trans_table[i].ids != 0) {
                     ModifyMenu(menu, (UINT)pos1, MF_BYPOSITION | MF_STRING | MF_POPUP, vice_ptr_to_uint(menu1), translate_text(trans_table[i].ids));
+                }
                 pos2 = -1;
                 pos3 = -1;
                 break;
             case 2:
                 menu2 = NULL;
-                while (menu2 == NULL)
-                {
+                while (menu2 == NULL) {
                     pos2++;
                     menu2 = GetSubMenu(menu1, pos2);
                 }
@@ -447,8 +440,7 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
                 break;
             case 3:
                 menu3 = NULL;
-                while (menu3 == NULL)
-                {
+                while (menu3 == NULL) {
                     pos3++;
                     menu3 = GetSubMenu(menu2, pos3);
                 }
@@ -463,11 +455,11 @@ static void ui_translate_menu_items(HMENU menu, ui_menu_translation_table_t *tra
 {
     int i = 0;
 
-    if (trans_table == NULL)
+    if (trans_table == NULL) {
         return;
+    }
 
-    while (trans_table[i].idm != 0)
-    {
+    while (trans_table[i].idm != 0) {
         ModifyMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING, trans_table[i].idm, translate_text(trans_table[i].ids));
         i++;
     }
@@ -475,20 +467,19 @@ static void ui_translate_menu_items(HMENU menu, ui_menu_translation_table_t *tra
 
 void ui_translate_monitor_menu(HMENU menu)
 {
-  ui_translate_menu_popups(menu, (ui_popup_translation_table_t *)monitor_trans_popup_table);
-  ui_translate_menu_items(menu, (ui_menu_translation_table_t *)monitor_trans_item_table);
+    ui_translate_menu_popups(menu, (ui_popup_translation_table_t *)monitor_trans_popup_table);
+    ui_translate_menu_items(menu, (ui_menu_translation_table_t *)monitor_trans_item_table);
 }
 
 
 void ui_set_render_window(video_canvas_t *canvas, int fullscreen)
 {
     if (fullscreen) {
-		canvas->render_hwnd = canvas->hwnd;
-	} else {
-		canvas->render_hwnd = canvas->client_hwnd;
-	}		
+        canvas->render_hwnd = canvas->hwnd;
+    } else {
+        canvas->render_hwnd = canvas->client_hwnd;
+    }
 }
-
 
 /*  Create a Window for the emulation.  */
 void ui_open_canvas_window(video_canvas_t *canvas)
@@ -502,21 +493,20 @@ void ui_open_canvas_window(video_canvas_t *canvas)
 
     hwnd_titles[number_of_windows] = system_mbstowcs_alloc(canvas->title);
     hwnd = CreateWindow(APPLICATION_CLASS,
-                            hwnd_titles[number_of_windows],
-                            WS_CAPTION | WS_CLIPCHILDREN | WS_BORDER
-                            | WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX
-                            | WS_MAXIMIZEBOX,
-                            xpos,
-                            ypos,
-                            CW_USEDEFAULT,
-                            CW_USEDEFAULT,
-                            NULL,
-                            NULL,
-                            winmain_instance,
-                            NULL);
+                        hwnd_titles[number_of_windows],
+                        WS_CAPTION | WS_CLIPCHILDREN | WS_BORDER | WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+                        xpos,
+                        ypos,
+                        CW_USEDEFAULT,
+                        CW_USEDEFAULT,
+                        NULL,
+                        NULL,
+                        winmain_instance,
+                        NULL);
 
-    if (hwnd == NULL)
+    if (hwnd == NULL) {
         log_debug("Window creation failed");
+    }
 
     window_handles[number_of_windows] = hwnd;
     window_canvas_xsize[number_of_windows] = canvas->width;
@@ -528,7 +518,7 @@ void ui_open_canvas_window(video_canvas_t *canvas)
 
     ui_resize_canvas_window(canvas);
 
-    menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
+    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
     ui_translate_menu_items(menu, menu_translation_table);
     ui_translate_menu_popups(menu, popup_translation_table);
     SetMenu(hwnd,menu);
@@ -537,23 +527,22 @@ void ui_open_canvas_window(video_canvas_t *canvas)
     canvas->client_hwnd = NULL; /* disabled for DDraw interface */
 }
 
-
 /*  Create a child Window for the DX9 rendering.  */
 void ui_canvas_child_window(video_canvas_t *canvas, int enable)
 {
     if (canvas->client_hwnd == NULL) {
         canvas->client_hwnd = CreateWindowEx(WS_EX_NOPARENTNOTIFY, 
-                            APPLICATION_CLASS,
-                            TEXT(""),
-                            WS_VISIBLE | WS_CHILD,
-                            0,
-                            0,
-                            CW_USEDEFAULT,
-                            CW_USEDEFAULT,
-                            canvas->hwnd,
-                            NULL,
-                            winmain_instance,
-                            NULL);
+                                             APPLICATION_CLASS,
+                                             TEXT(""),
+                                             WS_VISIBLE | WS_CHILD,
+                                             0,
+                                             0,
+                                             CW_USEDEFAULT,
+                                             CW_USEDEFAULT,
+                                             canvas->hwnd,
+                                             NULL,
+                                             winmain_instance,
+                                             NULL);
     }
 
     if (enable) {
@@ -563,7 +552,6 @@ void ui_canvas_child_window(video_canvas_t *canvas, int enable)
     }
     ui_set_render_window(canvas, 0);
 }
-
 
 void ui_make_resizable(video_canvas_t *canvas, int enable)
 {
@@ -578,13 +566,12 @@ void ui_make_resizable(video_canvas_t *canvas, int enable)
     SetWindowLong(canvas->hwnd, GWL_STYLE, style);
 }
 
-
 void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
 {
     int keep_aspect_ratio;
     int aspect_ratio;
     double canvas_aspect_ratio;
-    RECT *rc = (RECT*) lparam;
+    RECT *rc = (RECT *)lparam;
     HWND window = window_handles[window_index];
     int dx = window_padding_x[window_index];
     int dy = window_padding_y[window_index];
@@ -594,65 +581,54 @@ void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
 
     resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
 
-    if (keep_aspect_ratio == 0)
+    if (keep_aspect_ratio == 0) {
         return;
+    }
 
     resources_get_int("AspectRatio", &aspect_ratio);
     canvas = video_canvas_for_hwnd(window);
-    canvas_aspect_ratio = aspect_ratio / 1000.0
-                                * canvas->width / canvas->height;
+    canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->width / canvas->height;
     switch (wparam) {
         case WMSZ_TOP:
         case WMSZ_BOTTOM:
-            rc->right = (long)(rc->left + dx
-                            + size_y_desired * canvas_aspect_ratio + 0.5);
+            rc->right = (long)(rc->left + dx + size_y_desired * canvas_aspect_ratio + 0.5);
             break;
         case WMSZ_BOTTOMLEFT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
-                rc->bottom = (long)(rc->top + dy
-                            + size_x_desired / canvas_aspect_ratio + 0.5);
+                rc->bottom = (long)(rc->top + dy + size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
-                rc->left = (long)(rc->right - dx
-                            - size_y_desired * canvas_aspect_ratio + 0.5);
+                rc->left = (long)(rc->right - dx - size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         case WMSZ_BOTTOMRIGHT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
-                rc->bottom = (long)(rc->top + dy
-                            + size_x_desired / canvas_aspect_ratio + 0.5);
+                rc->bottom = (long)(rc->top + dy + size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
-                rc->right = (long)(rc->left + dx
-                            + size_y_desired * canvas_aspect_ratio + 0.5);
+                rc->right = (long)(rc->left + dx + size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         case WMSZ_LEFT:
         case WMSZ_RIGHT:
-            rc->bottom = (long)(rc->top + dy
-                            + size_x_desired / canvas_aspect_ratio + 0.5);
+            rc->bottom = (long)(rc->top + dy + size_x_desired / canvas_aspect_ratio + 0.5);
             break;
         case WMSZ_TOPLEFT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
-                rc->top = (long)(rc->bottom - dy
-                            - size_x_desired / canvas_aspect_ratio + 0.5);
+                rc->top = (long)(rc->bottom - dy - size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
-                rc->left = (long)(rc->right - dx
-                            - size_y_desired * canvas_aspect_ratio + 0.5);
+                rc->left = (long)(rc->right - dx - size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         case WMSZ_TOPRIGHT:
             if (size_x_desired / size_y_desired > canvas_aspect_ratio) {
-                rc->top = (long)(rc->bottom - dy
-                            - size_x_desired / canvas_aspect_ratio + 0.5);
+                rc->top = (long)(rc->bottom - dy - size_x_desired / canvas_aspect_ratio + 0.5);
             } else {
-                rc->right = (long)(rc->left + dx
-                            + size_y_desired * canvas_aspect_ratio + 0.5);
+                rc->right = (long)(rc->left + dx + size_y_desired * canvas_aspect_ratio + 0.5);
             }
             break;
         default:
             break;
     }
 }
-
 
 /* Resize `w' so that the client rectangle is of the requested size.  */
 void ui_resize_canvas_window(video_canvas_t *canvas)
@@ -685,11 +661,12 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     size should be changed while in fullscreen (mode changes whatever)
     then this cached data should be updated....
 */
-//    if (IsFullscreenEnabled()) return;
+//    if (IsFullscreenEnabled()) { return; }
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
-        if (window_handles[window_index] == w)
+        if (window_handles[window_index] == w) {
             break;
+        }
     }
     place.length = sizeof(WINDOWPLACEMENT);
     GetWindowPlacement(w, &place);
@@ -702,59 +679,45 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     ClientToScreen(w, ((LPPOINT)&wrect) + 1);
     wrect.right = wrect.left + width;
     wrect.bottom = wrect.top + height + statusbar_get_status_height();
-    adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME
-                    | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
+    adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
 
     AdjustWindowRect(&wrect, adjust_style, TRUE);
     window_padding_x[window_index] = wrect.right - wrect.left - width;
     window_padding_y[window_index] = wrect.bottom - wrect.top - height;
 
     if (place.showCmd == SW_SHOWNORMAL) {
-        MoveWindow(w,
-                   wrect.left,
-                   wrect.top,
-                   wrect.right - wrect.left,
-                   wrect.bottom - wrect.top,
-                   TRUE);
-        if (cw != 0)
+        MoveWindow(w, wrect.left, wrect.top, wrect.right - wrect.left, wrect.bottom - wrect.top, TRUE);
+        if (cw != 0) {
             MoveWindow(cw, 0, 0, width, height, TRUE);
-
+        }
     } else {
-        place.rcNormalPosition.right = place.rcNormalPosition.left
-                                       + wrect.right - wrect.left;
-        place.rcNormalPosition.bottom = place.rcNormalPosition.top
-                                        + wrect.bottom - wrect.top;
+        place.rcNormalPosition.right = place.rcNormalPosition.left + wrect.right - wrect.left;
+        place.rcNormalPosition.bottom = place.rcNormalPosition.top + wrect.bottom - wrect.top;
         SetWindowPlacement(w, &place);
         InvalidateRect(w, NULL, FALSE);
     }
 }
 
-
 static void ui_resize_render_window(video_canvas_t *canvas)
 {
     RECT wrect;
 
-    if (canvas == NULL || canvas->hwnd == NULL || canvas->render_hwnd == NULL)
+    if (canvas == NULL || canvas->hwnd == NULL || canvas->render_hwnd == NULL) {
         return;
+    }
 
     GetClientRect(canvas->hwnd, &wrect);
-    MoveWindow(canvas->render_hwnd, 0, 0, 
-               wrect.right - wrect.left, 
-               wrect.bottom - wrect.top - statusbar_get_status_height(),
-               TRUE);
-
+    MoveWindow(canvas->render_hwnd, 0, 0, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height(), TRUE);
 }
-
 
 void ui_set_alwaysontop(int alwaysontop)
 {
     int i;
 
-    for (i = 0; i < number_of_windows; i++)
-        SetWindowPos(window_handles[i], alwaysontop ? HWND_TOPMOST : HWND_NOTOPMOST,
-                        0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    for (i = 0; i < number_of_windows; i++) {
+        SetWindowPos(window_handles[i], alwaysontop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
 }
-
 
 static const ui_menu_toggle_t *machine_specific_toggles = NULL;
 static const ui_res_value_list_t *machine_specific_values = NULL;
@@ -764,15 +727,13 @@ void ui_update_menus(void)
 {
 }
 
-
-void ui_update_menu()
+void ui_update_menu(void)
 {
     HMENU menu;
-    int   i;
+    int i;
 
     menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
-    if (menu_translation_table != NULL)
-    {
+    if (menu_translation_table != NULL) {
         ui_translate_menu_items(menu, menu_translation_table);
         ui_translate_menu_popups(menu, popup_translation_table);
         uikeyboard_menu_shortcuts(menu);
@@ -803,21 +764,18 @@ static void update_menus(HWND hwnd)
 
     for (i = 0; grayed_list[i].name != NULL; i++) {
         resources_get_int(grayed_list[i].name, &value);
-        EnableMenuItem(menu, grayed_list[i].item_id,
-                      value ? MF_GRAYED : MF_ENABLED);
+        EnableMenuItem(menu, grayed_list[i].item_id, value ? MF_GRAYED : MF_ENABLED);
     }
     
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_int(toggle_list[i].name, &value);
-        CheckMenuItem(menu, toggle_list[i].item_id,
-                      value ? MF_CHECKED : MF_UNCHECKED);
+        CheckMenuItem(menu, toggle_list[i].item_id, value ? MF_CHECKED : MF_UNCHECKED);
     }
     
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
             resources_get_int(machine_specific_toggles[i].name, &value);
-            CheckMenuItem(menu, machine_specific_toggles[i].item_id,
-                          value ? MF_CHECKED : MF_UNCHECKED);
+            CheckMenuItem(menu, machine_specific_toggles[i].item_id, value ? MF_CHECKED : MF_UNCHECKED);
         }
     }
 
@@ -829,16 +787,15 @@ static void update_menus(HWND hwnd)
             CheckMenuItem(menu, value_list[i].default_item_id, MF_UNCHECKED);
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value && !checked) {
-                    CheckMenuItem(menu, value_list[i].vals[j].item_id,
-                                  MF_CHECKED);
+                    CheckMenuItem(menu, value_list[i].vals[j].item_id, MF_CHECKED);
                     checked = 1;
                 } else {
-                    CheckMenuItem(menu, value_list[i].vals[j].item_id,
-                                  MF_UNCHECKED);
+                    CheckMenuItem(menu, value_list[i].vals[j].item_id, MF_UNCHECKED);
                 }
             }
-            if (checked == 0 && value_list[i].default_item_id > 0)
+            if (checked == 0 && value_list[i].default_item_id > 0) {
                 CheckMenuItem(menu, value_list[i].default_item_id, MF_CHECKED);
+            }
         }
     }
 
@@ -846,42 +803,33 @@ static void update_menus(HWND hwnd)
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
             result = resources_get_int(machine_specific_values[i].name, &value);
             if (result == 0) {
-                for (j = 0; machine_specific_values[i].vals[j].item_id != 0;
-                    j++) {
+                for (j = 0; machine_specific_values[i].vals[j].item_id != 0; j++) {
                     if (value == machine_specific_values[i].vals[j].value) {
-                        CheckMenuItem(menu,
-                                      machine_specific_values[i].vals[j].item_id,
-                                      MF_CHECKED);
+                        CheckMenuItem(menu, machine_specific_values[i].vals[j].item_id, MF_CHECKED);
                     } else {
-                        CheckMenuItem(menu,
-                                      machine_specific_values[i].vals[j].item_id,
-                                      MF_UNCHECKED);
+                        CheckMenuItem(menu, machine_specific_values[i].vals[j].item_id, MF_UNCHECKED);
                     }
                 }
             }
         }
     }
-    CheckMenuItem(menu, IDM_PAUSE,
-                  ui_emulation_is_paused() ? MF_CHECKED : MF_UNCHECKED);
+    CheckMenuItem(menu, IDM_PAUSE, ui_emulation_is_paused() ? MF_CHECKED : MF_UNCHECKED);
 
     resources_get_string("Language", &lang);
-    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL)
-        && (i < countof(ui_lang_menu_entries)); i++) {
+    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL) && (i < countof(ui_lang_menu_entries)); i++) {
         if (strcmp(lang, ui_lang_menu_entries[i].lang_code) == 0) {
             CheckMenuItem(menu, ui_lang_menu_entries[i].item_id, MF_CHECKED);
         } else {
             CheckMenuItem(menu, ui_lang_menu_entries[i].item_id, MF_UNCHECKED);
         }
     }
-
 }
 
 static void ui_set_language(unsigned int lang_id)
 {
     unsigned int i;
 
-    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL)
-        && (i < countof(ui_lang_menu_entries)); i++) {
+    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL) && (i < countof(ui_lang_menu_entries)); i++) {
         if (ui_lang_menu_entries[i].item_id == lang_id) {
             resources_set_string("Language", ui_lang_menu_entries[i].lang_code);
             break;
@@ -959,9 +907,7 @@ char *ui_get_file(const char *format,...)
     tmp = lib_mvsprintf(format, args);
     va_end(args);
 
-    st = uilib_select_file(NULL, tmp, UILIB_FILTER_ALL,
-                                UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                UILIB_SELECTOR_STYLE_DISK);
+    st = uilib_select_file(NULL, tmp, UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK);
     lib_free(tmp);
 
     return st;
@@ -992,7 +938,6 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
             return UI_JAM_NONE;
     }
     return UI_JAM_NONE;
-//    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
 }
 
 /* Handle the "Do you want to extend the disk image to 40-track format"?
@@ -1001,8 +946,7 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = ui_messagebox(translate_text(IDS_EXTEND_TO_40_TRACKS),
-                        translate_text(IDS_VICE_QUESTION), MB_YESNO | MB_ICONQUESTION);
+    ret = ui_messagebox(translate_text(IDS_EXTEND_TO_40_TRACKS), translate_text(IDS_VICE_QUESTION), MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
 
@@ -1013,8 +957,7 @@ static void pause_trap(WORD addr, void *data)
 {
     ui_display_paused(1);
     vsync_suspend_speed_eval();
-    while (is_paused)
-    {
+    while (is_paused) {
         Sleep(10);
         ui_dispatch_next_event();
     }
@@ -1022,8 +965,9 @@ static void pause_trap(WORD addr, void *data)
 
 void ui_pause_emulation(void)
 {
-    if (network_connected())
+    if (network_connected()) {
         return;
+    }
 
     is_paused = is_paused ? 0 : 1;
     if (is_paused) {
@@ -1051,10 +995,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     for (index = 0; index < number_of_windows; index++) {
         title = system_wcstombs_alloc(hwnd_titles[index]);
 
-        buf = lib_msprintf(intl_speed_at_text,
-                           title, (int)(percent + .5),
-                           (int)(framerate + .5),
-                           warp_flag ? " (warp)" : "");
+        buf = lib_msprintf(intl_speed_at_text, title, (int)(percent + .5), (int)(framerate + .5), warp_flag ? " (warp)" : "");
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
@@ -1065,8 +1006,9 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     
     if (statustext_display_time > 0) {
         statustext_display_time--;
-        if (statustext_display_time == 0)
+        if (statustext_display_time == 0) {
             statusbar_setstatustext("");
+        }
     }
 }
 
@@ -1074,15 +1016,16 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 void ui_display_statustext(const char *text, int fade_out)
 {
     statusbar_setstatustext(text);
-    if (fade_out > 0)
+    if (fade_out > 0) {
         statustext_display_time = 5;
-    else
+    } else {
         statustext_display_time = 0;
+    }
 }
-
 
 /* ------------------------------------------------------------------------- */
 /* Dispay the drive status.  */
+
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     statusbar_enable_drive_status(enable,drive_led_color);
@@ -1091,8 +1034,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 /* Toggle displaying of the drive track.  */
 /* drive_base is either 8 or 0 depending on unit or drive display.
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
-void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
-                            unsigned int half_track_number)
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
 {
     double track_number = (double)half_track_number / 2.0;
 
@@ -1100,8 +1042,7 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
 }
 
 /* Toggle displaying of the drive LED.  */
-void ui_display_drive_led(int drivenum, unsigned int led_pwm1,
-                          unsigned int led_pwm2)
+void ui_display_drive_led(int drivenum, unsigned int led_pwm1, unsigned int led_pwm2)
 {
     statusbar_display_drive_led(drivenum, led_pwm1);
 }
@@ -1113,12 +1054,10 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
     char device_str[4];
 
     if (image == NULL || image[0] == 0) {
-        text = lib_msprintf(translate_text(IDS_DETACHED_DEVICE_S), 
-                           itoa(drivenum + 8, device_str, 10));
+        text = lib_msprintf(translate_text(IDS_DETACHED_DEVICE_S), itoa(drivenum + 8, device_str, 10));
     } else {
         util_fname_split(image, &directory_name, &image_name);
-        text = lib_msprintf(translate_text(IDS_ATTACHED_S_TO_DEVICE_S), image_name,
-            itoa(drivenum+8, device_str, 10));
+        text = lib_msprintf(translate_text(IDS_ATTACHED_S_TO_DEVICE_S), image_name, itoa(drivenum + 8, device_str, 10));
         lib_free(image_name);
         lib_free(directory_name);
     }
@@ -1127,8 +1066,8 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
     lib_free(text);
 }
 
-
 /* ------------------------------------------------------------------------- */
+
 /* Dispay the tape status.  */
 void ui_set_tape_status(int tape_status)
 {
@@ -1169,13 +1108,15 @@ void ui_display_tape_current_image(const char *image)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Dispay the recording/playback status.  */
+
+/* Display the recording/playback status.  */
 void ui_display_recording(int recording_status)
 {
-    if (recording_status)
+    if (recording_status) {
         statusbar_event_status(EVENT_RECORDING);
-    else
+    } else {
         statusbar_event_status(EVENT_OFF);
+    }
 }
 
 void ui_display_playback(int playback_status, char *version)
@@ -1184,10 +1125,11 @@ void ui_display_playback(int playback_status, char *version)
 
     if (playback_status) {
         statusbar_event_status(EVENT_PLAYBACK);
-        if (version == NULL || version[0] == 0)
+        if (version == NULL || version[0] == 0) {
             sprintf(st, translate_text(IDS_HISTORY_RECORDED_UNKNOWN));
-        else 
+        } else {
             sprintf(st, translate_text(IDS_HISTORY_RECORDED_VICE_S), version);
+        }
         ui_display_statustext(st, 1);
     } else {
         statusbar_event_status(EVENT_OFF);
@@ -1200,6 +1142,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 }
 
 /* ------------------------------------------------------------------------- */
+
 /* Dispay the joystick status.  */
 static BYTE ui_joyport[3] = { 0, 0, 0 };
 
@@ -1212,8 +1155,8 @@ void ui_display_joyport(BYTE *joyport)
     }
 }
 
-
 /* ------------------------------------------------------------------------- */
+
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {
@@ -1246,8 +1189,9 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
 /* Return the main window handler.  */
 HWND ui_get_main_hwnd(void)
 {
-    if (window_handles[0] == NULL)
+    if (window_handles[0] == NULL) {
         return main_hwnd;
+    }
 
     return window_handles[0];
 }
@@ -1257,8 +1201,9 @@ void ui_dispatch_next_event(void)
 {
     MSG msg;
 
-    if (!GetMessage(&msg, NULL, 0, 0))
+    if (!GetMessage(&msg, NULL, 0, 0)) {
         exit((int)msg.wParam);
+    }
     if (ui_accelerator) {
         if (!TranslateAccelerator(msg.hwnd, ui_accelerator, &msg)) {
             TranslateMessage(&msg);
@@ -1283,8 +1228,9 @@ void ui_dispatch_events(void)
         pause_pending = 0;
     }
 
-    while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
+    while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
         ui_dispatch_next_event();
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1292,18 +1238,10 @@ void ui_dispatch_events(void)
 static void reset_dialog_proc(WPARAM wparam)
 {
     vsync_suspend_speed_eval();
-/*
-    if (ui_messagebox("Do you really want to reset the emulated machine?",
-                      ((wparam & 0xffff) == IDM_RESET_HARD ? "Hard reset"
-                      : "Soft reset"),
-                      MB_YESNO | MB_ICONQUESTION) == IDYES)
-*/
-    {
-        if ((wparam & 0xffff) == IDM_RESET_HARD) {
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        } else {
-            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        }
+    if ((wparam & 0xffff) == IDM_RESET_HARD) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    } else {
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     }
 }
 
@@ -1359,8 +1297,8 @@ static void ui_paste_clipboard_text(HWND window)
 {
     HANDLE hdata;
     BOOL clipboard_is_open = FALSE;
-    char * text = NULL;
-    char * text_in_petscii = NULL;
+    char *text = NULL;
+    char *text_in_petscii = NULL;
     
     do {
         DWORD size;
@@ -1438,8 +1376,7 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     }
 
     if (machine_specific_toggles) {
-        for (i = 0; machine_specific_toggles[i].name != NULL
-            && !command_found; i++) {
+        for (i = 0; machine_specific_toggles[i].name != NULL && !command_found; i++) {
             if (machine_specific_toggles[i].item_id == wparam) {
                 resources_toggle(machine_specific_toggles[i].name, NULL);
                 command_found = 1;
@@ -1448,24 +1385,19 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     }
 
     for (i = 0; value_list[i].name != NULL && !command_found; i++) {
-        for (j = 0; value_list[i].vals[j].item_id != 0
-            && !command_found; j++) {
+        for (j = 0; value_list[i].vals[j].item_id != 0 && !command_found; j++) {
             if (value_list[i].vals[j].item_id == wparam) {
-                resources_set_int(value_list[i].name,
-                                  value_list[i].vals[j].value);
+                resources_set_int(value_list[i].name, value_list[i].vals[j].value);
                 command_found = 1;
             }
         }
     }
 
     if (machine_specific_values) {
-        for (i = 0; machine_specific_values[i].name != NULL
-            && !command_found; i++) {
-            for (j = 0; machine_specific_values[i].vals[j].item_id != 0
-                && !command_found; j++) {
+        for (i = 0; machine_specific_values[i].name != NULL && !command_found; i++) {
+            for (j = 0; machine_specific_values[i].vals[j].item_id != 0 && !command_found; j++) {
                 if (machine_specific_values[i].vals[j].item_id == wparam) {
-                    resources_set_int(machine_specific_values[i].name,
-                                      machine_specific_values[i].vals[j].value);
+                    resources_set_int(machine_specific_values[i].name, machine_specific_values[i].vals[j].value);
                     command_found = 1;
                 }
             }
@@ -1477,9 +1409,7 @@ static void handle_wm_initmenupopup(HMENU menu)
 {
     /* enable PASTE iff the clipboard contains "our" format: */
 
-    EnableMenuItem(menu, IDM_EDIT_PASTE, 
-        MF_BYCOMMAND 
-        | ( IsClipboardFormatAvailable(CF_TEXT) ? MF_ENABLED : MF_GRAYED));
+    EnableMenuItem(menu, IDM_EDIT_PASTE, MF_BYCOMMAND | ( IsClipboardFormatAvailable(CF_TEXT) ? MF_ENABLED : MF_GRAYED));
 }
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
@@ -1488,272 +1418,244 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
     wparam &= 0xffff;
     /* Handle machine specific commands first.  */
-    if (ui_machine_specific)
+    if (ui_machine_specific) {
         ui_machine_specific(wparam, hwnd);
+    }
 
     switch (wparam) {
-      case IDM_DEVICEMANAGER:
-      case IDM_FORMFEED_PRINTERIEC4:
-      case IDM_FORMFEED_PRINTERIEC5:
-        uiperipheral_command(hwnd, wparam);
-        break;
-      case IDM_EXIT:
-        PostMessage(hwnd, WM_CLOSE, wparam, lparam);
-        break;
-      case IDM_EDIT_COPY:
-        ui_copy_clipboard(hwnd);
-        break;
-      case IDM_EDIT_PASTE:
-        ui_paste_clipboard_text(hwnd);
-        break;
-      case IDM_ABOUT:
-      case IDM_HELP:
-      case IDM_CONTRIBUTORS:
-      case IDM_LICENSE:
-      case IDM_WARRANTY:
-      case IDM_CMDLINE:
-        uihelp_dialog(hwnd, wparam);
-        break;
-      case IDM_ATTACH_8:
-      case IDM_ATTACH_9:
-      case IDM_ATTACH_10:
-      case IDM_ATTACH_11:
-      case IDM_DETACH_8:
-      case IDM_DETACH_9:
-      case IDM_DETACH_10:
-      case IDM_DETACH_11:
-      case IDM_DETACH_ALL:
-      case IDM_ATTACH_TAPE:
-      case IDM_DETACH_TAPE:
-      case IDM_AUTOSTART:
-        uiattach_command(hwnd, wparam);
-        break;
-      case IDM_FLIP_ADD:
-      case IDM_FLIP_REMOVE:
-      case IDM_FLIP_NEXT:
-      case IDM_FLIP_PREVIOUS:
-      case IDM_FLIP_LOAD:
-      case IDM_FLIP_SAVE:
-        uifliplist_command(hwnd, wparam);
-        break;
-      case IDM_DATASETTE_SETTINGS:
-      case IDM_DATASETTE_CONTROL_STOP:
-      case IDM_DATASETTE_CONTROL_START:
-      case IDM_DATASETTE_CONTROL_FORWARD:
-      case IDM_DATASETTE_CONTROL_REWIND:
-      case IDM_DATASETTE_CONTROL_RECORD:
-      case IDM_DATASETTE_CONTROL_RESET:
-      case IDM_DATASETTE_RESET_COUNTER:
-        uidatasette_command(hwnd, wparam);
-        break;
-      case IDM_SNAPSHOT_LOAD:
-        ui_snapshot_load(hwnd);
-        break;
-      case IDM_SNAPSHOT_SAVE:
-        ui_snapshot_save(hwnd);
-        break;
-      case IDM_SAVEQUICK:
-        ui_quicksnapshot_save(hwnd);
-        break;
-      case IDM_LOADQUICK:
-        ui_quicksnapshot_load(hwnd);
-        break;
-      case IDM_MEDIAFILE:
-        SuspendFullscreenModeKeep(hwnd);
-        ui_mediafile_save_dialog(hwnd);
-        ResumeFullscreenModeKeep(hwnd);
-        break;
-      case IDM_SINGLE_FRAME_ADVANCE:
-        pause_pending = 1;
-        if (!is_paused) {
+        case IDM_DEVICEMANAGER:
+        case IDM_FORMFEED_PRINTERIEC4:
+        case IDM_FORMFEED_PRINTERIEC5:
+            uiperipheral_command(hwnd, wparam);
             break;
-        }
-        // fall through
-      case IDM_PAUSE:
-        ui_pause_emulation();
-        break;
-      case IDM_MONITOR:
-        if (!ui_emulation_is_paused())
-            monitor_startup_trap();
-/*
-        else
-            monitor_startup();
-*/
-        break;
-      case IDM_RESET_HARD:
-      case IDM_RESET_SOFT:
-        reset_dialog_proc(wparam);
-        break;
-      case IDM_RESET_DRIVE8:
-        vsync_suspend_speed_eval();
-        drivecpu_trigger_reset(0);
-        break;
-      case IDM_RESET_DRIVE9:
-        vsync_suspend_speed_eval();
-        drivecpu_trigger_reset(1);
-        break;
-      case IDM_RESET_DRIVE10:
-        vsync_suspend_speed_eval();
-        drivecpu_trigger_reset(2);
-        break;
-      case IDM_RESET_DRIVE11:
-        vsync_suspend_speed_eval();
-        drivecpu_trigger_reset(3);
-        break;
-      case IDM_MAXIMUM_SPEED_CUSTOM:
-        ui_speed_settings_dialog(hwnd);
-        break;
-      case IDM_SWAP_JOYSTICK:
-        if (machine_class == VICE_MACHINE_CBM6x0) {
+        case IDM_EXIT:
+            PostMessage(hwnd, WM_CLOSE, wparam, lparam);
+            break;
+        case IDM_EDIT_COPY:
+            ui_copy_clipboard(hwnd);
+            break;
+        case IDM_EDIT_PASTE:
+            ui_paste_clipboard_text(hwnd);
+            break;
+        case IDM_ABOUT:
+        case IDM_HELP:
+        case IDM_CONTRIBUTORS:
+        case IDM_LICENSE:
+        case IDM_WARRANTY:
+        case IDM_CMDLINE:
+            uihelp_dialog(hwnd, wparam);
+            break;
+        case IDM_ATTACH_8:
+        case IDM_ATTACH_9:
+        case IDM_ATTACH_10:
+        case IDM_ATTACH_11:
+        case IDM_DETACH_8:
+        case IDM_DETACH_9:
+        case IDM_DETACH_10:
+        case IDM_DETACH_11:
+        case IDM_DETACH_ALL:
+        case IDM_ATTACH_TAPE:
+        case IDM_DETACH_TAPE:
+        case IDM_AUTOSTART:
+            uiattach_command(hwnd, wparam);
+            break;
+        case IDM_FLIP_ADD:
+        case IDM_FLIP_REMOVE:
+        case IDM_FLIP_NEXT:
+        case IDM_FLIP_PREVIOUS:
+        case IDM_FLIP_LOAD:
+        case IDM_FLIP_SAVE:
+            uifliplist_command(hwnd, wparam);
+            break;
+        case IDM_DATASETTE_SETTINGS:
+        case IDM_DATASETTE_CONTROL_STOP:
+        case IDM_DATASETTE_CONTROL_START:
+        case IDM_DATASETTE_CONTROL_FORWARD:
+        case IDM_DATASETTE_CONTROL_REWIND:
+        case IDM_DATASETTE_CONTROL_RECORD:
+        case IDM_DATASETTE_CONTROL_RESET:
+        case IDM_DATASETTE_RESET_COUNTER:
+            uidatasette_command(hwnd, wparam);
+            break;
+        case IDM_SNAPSHOT_LOAD:
+            ui_snapshot_load(hwnd);
+            break;
+        case IDM_SNAPSHOT_SAVE:
+            ui_snapshot_save(hwnd);
+            break;
+        case IDM_SAVEQUICK:
+            ui_quicksnapshot_save(hwnd);
+            break;
+        case IDM_LOADQUICK:
+            ui_quicksnapshot_load(hwnd);
+            break;
+        case IDM_MEDIAFILE:
+            SuspendFullscreenModeKeep(hwnd);
+            ui_mediafile_save_dialog(hwnd);
+            ResumeFullscreenModeKeep(hwnd);
+            break;
+        case IDM_SINGLE_FRAME_ADVANCE:
+            pause_pending = 1;
+            if (!is_paused) {
+                break;
+            }
+            // fall through
+        case IDM_PAUSE:
+            ui_pause_emulation();
+            break;
+        case IDM_MONITOR:
+            if (!ui_emulation_is_paused()) {
+                monitor_startup_trap();
+            }
+            break;
+        case IDM_RESET_HARD:
+        case IDM_RESET_SOFT:
+            reset_dialog_proc(wparam);
+            break;
+        case IDM_RESET_DRIVE8:
+            vsync_suspend_speed_eval();
+            drivecpu_trigger_reset(0);
+            break;
+        case IDM_RESET_DRIVE9:
+            vsync_suspend_speed_eval();
+            drivecpu_trigger_reset(1);
+            break;
+        case IDM_RESET_DRIVE10:
+            vsync_suspend_speed_eval();
+            drivecpu_trigger_reset(2);
+            break;
+        case IDM_RESET_DRIVE11:
+            vsync_suspend_speed_eval();
+            drivecpu_trigger_reset(3);
+            break;
+        case IDM_MAXIMUM_SPEED_CUSTOM:
+            ui_speed_settings_dialog(hwnd);
+            break;
+        case IDM_SWAP_JOYSTICK:
+            if (machine_class == VICE_MACHINE_CBM6x0) {
+                ui_joystick_swap_extra_joystick();
+            } else {
+                ui_joystick_swap_joystick();
+            }
+            break;
+        case IDM_SWAP_EXTRA_JOYSTICK:
             ui_joystick_swap_extra_joystick();
-        } else {
-            ui_joystick_swap_joystick();
-        }
-        break;
-      case IDM_SWAP_EXTRA_JOYSTICK:
-        ui_joystick_swap_extra_joystick();
-        break;
-      case IDM_AUTOSTART_SETTINGS:
-        ui_autostart_settings_dialog(hwnd);
-        break;
-      case IDM_SOUND_SETTINGS:
-        ui_sound_settings_dialog(hwnd);
-        break;
-      case IDM_RAM_SETTINGS:
-        ui_ram_settings_dialog(hwnd);
-        break;
-      case IDM_TOGGLE_FULLSCREEN:
-        vsync_suspend_speed_eval();
-        SwitchFullscreenMode(hwnd);
-        break;
-      case IDM_SETTINGS_SAVE_FILE:
-          if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_CONFIG_FILE),
-              UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
-              UILIB_SELECTOR_STYLE_DEFAULT)) != NULL)
-          {
-              char *name;
+            break;
+        case IDM_AUTOSTART_SETTINGS:
+            ui_autostart_settings_dialog(hwnd);
+            break;
+        case IDM_SOUND_SETTINGS:
+            ui_sound_settings_dialog(hwnd);
+            break;
+        case IDM_RAM_SETTINGS:
+            ui_ram_settings_dialog(hwnd);
+            break;
+        case IDM_TOGGLE_FULLSCREEN:
+            vsync_suspend_speed_eval();
+            SwitchFullscreenMode(hwnd);
+            break;
+        case IDM_SETTINGS_SAVE_FILE:
+            if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                char *name;
 
-              name = system_wcstombs_alloc(st_name);
+                name = system_wcstombs_alloc(st_name);
 
-              if (resources_save(st_name) < 0)
-              {
-                  ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
-              }
-              else
-              {
-                  ui_message(translate_text(IDS_SETTINGS_SAVED_SUCCESS));
-              }
-              uifliplist_save_settings();
-              system_wcstombs_free(name);
-              lib_free(st_name);
-          }
-          break;
-      case IDM_SETTINGS_LOAD_FILE:
-          if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_CONFIG_FILE),
-              UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
-              UILIB_SELECTOR_STYLE_DEFAULT)) != NULL)
-          {
-              char *name;
+                if (resources_save(st_name) < 0) {
+                    ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
+                } else {
+                    ui_message(translate_text(IDS_SETTINGS_SAVED_SUCCESS));
+                }
+                uifliplist_save_settings();
+                system_wcstombs_free(name);
+                lib_free(st_name);
+            }
+            break;
+        case IDM_SETTINGS_LOAD_FILE:
+            if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                char *name;
 
-              name = system_wcstombs_alloc(st_name);
+                name = system_wcstombs_alloc(st_name);
 
-              if (resources_load(st_name) < 0)
-              {
-                  ui_error(translate_text(IDS_CANNOT_LOAD_SETTINGS));
-              }
-              else
-              {
-                  ui_message(translate_text(IDS_SETTINGS_LOADED_SUCCESS));
-              }
-              uifliplist_save_settings();
-              system_wcstombs_free(name);
-              lib_free(st_name);
-          }
-          break;
-      case IDM_SETTINGS_SAVE:
-        if (resources_save(NULL) < 0)
-            ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
-        else
-            ui_message(translate_text(IDS_SETTINGS_SAVED_SUCCESS));
-        uifliplist_save_settings();
-        break;
-      case IDM_SETTINGS_LOAD:
-        if (resources_load(NULL) < 0) {
-            ui_error(translate_text(IDS_CANNOT_LOAD_SETTINGS));
-        } else {
-            ui_message(translate_text(IDS_SETTINGS_LOADED_SUCCESS));
-        }
-        break;
-      case IDM_SETTINGS_DEFAULT:
-        resources_set_defaults();
-        ui_message(translate_text(IDS_DEFAULT_SETTINGS_RESTORED));
-        break;
-      case IDM_EVENT_DIRECTORY:
-      case IDM_EVENT_TOGGLE_RECORD:
-      case IDM_EVENT_TOGGLE_PLAYBACK:
-      case IDM_EVENT_SETMILESTONE:
-      case IDM_EVENT_RESETMILESTONE:
-        uievent_command(hwnd, wparam);
-        break;
-      case IDM_NETWORK_SETTINGS:
-        ui_network_dialog(hwnd);
-        break;
-      case IDM_RS232_SETTINGS:
-        ui_rs232_settings_dialog(hwnd);
-        break;
-      case IDM_LANG_EN:
-      case IDM_LANG_DA:
-      case IDM_LANG_DE:
-      case IDM_LANG_FR:
-      case IDM_LANG_HU:
-      case IDM_LANG_IT:
-      case IDM_LANG_NL:
-      case IDM_LANG_PL:
-      case IDM_LANG_SV:
-      case IDM_LANG_TR:
-        ui_set_language((unsigned int)wparam);
-        break;
-      case IDM_SOUND_RECORD_START:
-        ui_sound_record_settings_dialog(hwnd);
-        break;
-      case IDM_SOUND_RECORD_STOP:
-        resources_set_string("SoundRecordDeviceName", "");
-        ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STOPPED), 1);
-        break;
-      default:
-        handle_default_command(wparam, lparam, hwnd);
+                if (resources_load(st_name) < 0) {
+                    ui_error(translate_text(IDS_CANNOT_LOAD_SETTINGS));
+                } else {
+                    ui_message(translate_text(IDS_SETTINGS_LOADED_SUCCESS));
+                }
+                uifliplist_save_settings();
+                system_wcstombs_free(name);
+                lib_free(st_name);
+            }
+            break;
+        case IDM_SETTINGS_SAVE:
+            if (resources_save(NULL) < 0) {
+                ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
+            } else {
+                ui_message(translate_text(IDS_SETTINGS_SAVED_SUCCESS));
+            }
+            uifliplist_save_settings();
+            break;
+        case IDM_SETTINGS_LOAD:
+            if (resources_load(NULL) < 0) {
+                ui_error(translate_text(IDS_CANNOT_LOAD_SETTINGS));
+            } else {
+                ui_message(translate_text(IDS_SETTINGS_LOADED_SUCCESS));
+            }
+            break;
+        case IDM_SETTINGS_DEFAULT:
+            resources_set_defaults();
+            ui_message(translate_text(IDS_DEFAULT_SETTINGS_RESTORED));
+            break;
+        case IDM_EVENT_DIRECTORY:
+        case IDM_EVENT_TOGGLE_RECORD:
+        case IDM_EVENT_TOGGLE_PLAYBACK:
+        case IDM_EVENT_SETMILESTONE:
+        case IDM_EVENT_RESETMILESTONE:
+            uievent_command(hwnd, wparam);
+            break;
+        case IDM_NETWORK_SETTINGS:
+            ui_network_dialog(hwnd);
+            break;
+        case IDM_RS232_SETTINGS:
+            ui_rs232_settings_dialog(hwnd);
+            break;
+        case IDM_LANG_EN:
+        case IDM_LANG_DA:
+        case IDM_LANG_DE:
+        case IDM_LANG_FR:
+        case IDM_LANG_HU:
+        case IDM_LANG_IT:
+        case IDM_LANG_NL:
+        case IDM_LANG_PL:
+        case IDM_LANG_SV:
+        case IDM_LANG_TR:
+            ui_set_language((unsigned int)wparam);
+            break;
+        case IDM_SOUND_RECORD_START:
+            ui_sound_record_settings_dialog(hwnd);
+            break;
+        case IDM_SOUND_RECORD_STOP:
+            resources_set_string("SoundRecordDeviceName", "");
+            ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STOPPED), 1);
+            break;
+        default:
+            handle_default_command(wparam, lparam, hwnd);
     }
 }
-
 
 int ui_active = FALSE;
 HWND ui_active_window;
 
 /* Window procedure.  All messages are handled here.  */
-static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg,
-                                        WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
-      case WM_ENABLE:
-//      log_debug("DUMMY WM_ENABLE %s", wparam == TRUE ? "TRUE" : "FALSE");
-        break;
-      case WM_ACTIVATEAPP:
-//      log_debug("DUMMY WM_ACTIVATEAPP %s",
-//                wparam == TRUE ? "ACTIVATE" : "DEACTIVATE");
-        break;
-      case WM_ACTIVATE:
-//      log_debug("DUMMY WM_ACTIVATE %s", wparam == WA_ACTIVE ? "ACTIVATE"
-//                : wparam == WA_INACTIVE ?"DEACTIVATE" : "MOUSECLICK");
-        break;
-      case WM_KILLFOCUS:
-//      log_debug("DUMMY WM_KILLFOCUS");
-        break;
-      case WM_SETFOCUS:
-//      log_debug("DUMMY WM_SETFOCUS");
-        break;
-      case WM_SETREDRAW:
-//      log_debug("DUMMY WM_SETREDRAW %s",wparam==TRUE? "TRUE":"FALSE");
-        break;
+        case WM_ENABLE:
+        case WM_ACTIVATEAPP:
+        case WM_ACTIVATE:
+        case WM_KILLFOCUS:
+        case WM_SETFOCUS:
+        case WM_SETREDRAW:
+            break;
     }
     return DefWindowProc(window, msg, wparam, lparam);
 }
@@ -1768,10 +1670,8 @@ static void ui_wm_move(HWND window, int window_index)
         GetWindowPlacement(window, &place);
         GetWindowRect(window, &rect);
         if (place.showCmd == SW_SHOWNORMAL) {
-            resources_set_int_sprintf("Window%dXpos",
-                                      rect.left, window_index);
-            resources_set_int_sprintf("Window%dYpos",
-                                      rect.top, window_index);
+            resources_set_int_sprintf("Window%dXpos", rect.left, window_index);
+            resources_set_int_sprintf("Window%dYpos", rect.top, window_index);
         }
     }
 }
@@ -1787,11 +1687,7 @@ static void ui_wm_close(HWND window)
     SuspendFullscreenModeKeep(window);
     vsync_suspend_speed_eval();
     if (confirm_on_exit) {
-//      log_debug("Asking exit confirmation");
-        if (MessageBox(window,
-            translate_text(IDS_REALLY_EXIT),
-            TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2
-            | MB_TASKMODAL) == IDYES) {
+        if (MessageBox(window, translate_text(IDS_REALLY_EXIT), TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL) == IDYES) {
             quit = 1;
         } else {
             quit = 0;
@@ -1801,7 +1697,7 @@ static void ui_wm_close(HWND window)
     if (quit) {
         SuspendFullscreenMode(window);
         if (save_on_exit) {
-            if (resources_save(NULL)<0) {
+            if (resources_save(NULL) < 0) {
                 ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
             }
         }
@@ -1819,12 +1715,13 @@ static void ui_wm_dropfiles(HWND window, WPARAM wparam)
     hDrop = (HDROP)wparam;
     DragQueryFile(hDrop, 0, (char *)&szFile, 256);
     if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
-        if (file_system_attach_disk(8, szFile) < 0)
+        if (file_system_attach_disk(8, szFile) < 0) {
             ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
+        }
     } else {
-        if (autostart_autodetect(szFile, NULL, 0,
-            AUTOSTART_MODE_RUN) < 0)
+        if (autostart_autodetect(szFile, NULL, 0, AUTOSTART_MODE_RUN) < 0) {
             ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
+        }
     }
     DragFinish(hDrop);
 }
@@ -1839,206 +1736,195 @@ static void ui_redraw_all_windows(void)
 }
 
 /* Window procedure.  All messages are handled here.  */
-static LRESULT CALLBACK window_proc(HWND window, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int window_index;
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
-        if (window_handles[window_index] == window)
+        if (window_handles[window_index] == window) {
             break;
+        }
     }
 
     switch (msg) {
-      case WM_CREATE:
-        DragAcceptFiles(window, TRUE);
-        return 0;
-      case WM_WINDOWPOSCHANGED:
-        /* SRT: if focus is changed in full-screen mode, this message is sent 
-          Make sure that all windows are repainted.*/
-        ui_redraw_all_windows();
-        break;
-      case WM_SETREDRAW:
-//      log_debug("WM_SETREDRAW %s", wparam == TRUE? "TRUE" : "FALSE");
-        break;
-      case WM_KILLFOCUS:
-//      log_debug("WM_KILLFOCUS");
-        keyboard_key_clear();
-        break;
-      case WM_SETFOCUS:
-//      log_debug("WM_SETFOCUS");
-        break;
-      case WM_ENABLE:
-//      log_debug("WM_ENABLE %s %d %08x",
-//                wparam == TRUE ? "TRUE" : "FALSE", window_index, window);
-        break;
-      case WM_POWERBROADCAST:
-        switch (wparam) {
-          case PBT_APMSUSPEND:
-              log_debug("PBT_APMSUSPEND");
-              vsync_suspend_speed_eval();
-              break;
-          case PBT_APMRESUMESUSPEND:
-              log_debug("PBT_APMRESUMESUSPEND");
-              vsync_suspend_speed_eval();
-              break;
-          case PBT_APMRESUMECRITICAL:
-              log_debug("PBT_APMRESUMECRITICAL");
-              vsync_suspend_speed_eval();
-              break;
-          }
-        break;
-      case WM_ACTIVATEAPP:
-        if (wparam == TRUE) {
-//          log_debug("WM_ACTIVATEAPP activate %d %08x", window_index,window);
-        } else {
-//          log_debug("WM_ACTIVATEAPP deactivate %d %08x", window_index,window);
-        }
-//      return 0;
-        break;
-      case WM_ACTIVATE:
-        if (wparam == WA_INACTIVE) {
-//          log_debug("WM_ACTIVATE inactive %d %08x", window_index, window);
+        case WM_CREATE:
+            DragAcceptFiles(window, TRUE);
+            return 0;
+        case WM_WINDOWPOSCHANGED:
+            /* SRT: if focus is changed in full-screen mode, this message is sent 
+               Make sure that all windows are repainted.*/
+            ui_redraw_all_windows();
+            break;
+        case WM_SETREDRAW:
+            break;
+        case WM_KILLFOCUS:
+            keyboard_key_clear();
+            break;
+        case WM_SETFOCUS:
+            break;
+        case WM_ENABLE:
+            break;
+        case WM_POWERBROADCAST:
+            switch (wparam) {
+                case PBT_APMSUSPEND:
+                    log_debug("PBT_APMSUSPEND");
+                    vsync_suspend_speed_eval();
+                    break;
+                case PBT_APMRESUMESUSPEND:
+                    log_debug("PBT_APMRESUMESUSPEND");
+                    vsync_suspend_speed_eval();
+                    break;
+                case PBT_APMRESUMECRITICAL:
+                    log_debug("PBT_APMRESUMECRITICAL");
+                    vsync_suspend_speed_eval();
+                    break;
+            }
+            break;
+        case WM_ACTIVATEAPP:
+            break;
+        case WM_ACTIVATE:
+            if (wparam == WA_INACTIVE) {
+                ui_active = FALSE;
+            } else {
+                ui_active = TRUE;
+                ui_active_window = window;
+            }
+            mouse_update_mouse_acquire();
+            break;
+        case WM_SIZE:
+            if (window_index<number_of_windows) {
+                statusbar_handle_WMSIZE(msg, wparam, lparam, window_index);
+            }
+            ui_resize_render_window(video_canvas_for_hwnd(window));
+            return 0;
+        case WM_SIZING:
+            ui_handle_aspect_ratio(window_index, wparam, lparam);
+            return 0;
+        case WM_DRAWITEM:
+            statusbar_handle_WMDRAWITEM(wparam,lparam);
+            /* SRT: Make sure that all windows are repainted.
+               This message seems to be a good candidate for the remote desktop. */
+            ui_redraw_all_windows();
+            return 0;
+        case WM_INITMENUPOPUP:
+            handle_wm_initmenupopup((HMENU)wparam);
+            break;
+        case WM_COMMAND:
+            handle_wm_command(wparam, lparam, window);
+            return 0;
+        case WM_ENTERMENULOOP:
+            update_menus(window);
+        case WM_ENTERSIZEMOVE:
+            vsync_suspend_speed_eval();
             ui_active = FALSE;
-//          if (!fullscreen_transition)
-//              SuspendFullscreenMode(window);
-        } else {
-//          log_debug("WM_ACTIVATE active %d %08x", window_index, window);
-            ui_active = TRUE;
-            ui_active_window = window;
-//          if (!fullscreen_transition)
-//              ResumeFullscreenMode(window);
-        }
-        mouse_update_mouse_acquire();
-        break;
-      case WM_SIZE:
-        if (window_index<number_of_windows) {
-            statusbar_handle_WMSIZE(msg, wparam, lparam, window_index);
-        }
-        ui_resize_render_window(video_canvas_for_hwnd(window));
-        return 0;
-      case WM_SIZING:
-          ui_handle_aspect_ratio(window_index, wparam, lparam);
-          return 0;
-      case WM_DRAWITEM:
-        statusbar_handle_WMDRAWITEM(wparam,lparam);
-        /* SRT: Make sure that all windows are repainted.
-          This message seems to be a good candidate for the remote desktop. */
-        ui_redraw_all_windows();
-        return 0;
-      case WM_INITMENUPOPUP:
-        handle_wm_initmenupopup((HMENU)wparam);
-        break;
-      case WM_COMMAND:
-        handle_wm_command(wparam, lparam, window);
-        return 0;
-      case WM_ENTERMENULOOP:
-        update_menus(window);
-      case WM_ENTERSIZEMOVE:
-        vsync_suspend_speed_eval();
-        ui_active = FALSE;
-        mouse_update_mouse_acquire();
-        break;
-      case WM_EXITMENULOOP:
-      case WM_EXITSIZEMOVE:
-        if (GetActiveWindow() == window || !IsIconic(window)) {
-            ui_active = TRUE;
-        } else {
-            ui_active = FALSE;
-        }
-        mouse_update_mouse_acquire();
-        break;
-      case WM_MOVE:
-        ui_wm_move(window, window_index);
-        break;
-      case WM_SYSKEYDOWN:
-        if (wparam == VK_F10) {
+            mouse_update_mouse_acquire();
+            break;
+        case WM_EXITMENULOOP:
+        case WM_EXITSIZEMOVE:
+            if (GetActiveWindow() == window || !IsIconic(window)) {
+                ui_active = TRUE;
+            } else {
+                ui_active = FALSE;
+            }
+            mouse_update_mouse_acquire();
+            break;
+        case WM_MOVE:
+            ui_wm_move(window, window_index);
+            break;
+        case WM_SYSKEYDOWN:
+            if (wparam == VK_F10) {
+                kbd_handle_keydown((DWORD)wparam, (DWORD)lparam);
+                return 0;
+            }
+            break;
+        case WM_KEYDOWN:
             kbd_handle_keydown((DWORD)wparam, (DWORD)lparam);
             return 0;
-        }
-        break;
-      case WM_KEYDOWN:
-        kbd_handle_keydown((DWORD)wparam, (DWORD)lparam);
-        return 0;
-      case WM_SYSKEYUP:
-        kbd_handle_keyup((DWORD)wparam, (DWORD)lparam);
-        if (wparam == VK_F10)
-              return 0;
-        break;
-      case WM_KEYUP:
-        kbd_handle_keyup((DWORD)wparam, (DWORD)lparam);
-        return 0;
-      case WM_SYSCOLORCHANGE:
-        syscolorchanged = 1;
-        break;
-      case WM_DISPLAYCHANGE:
-//      log_debug("Display changed %d %d %d",
-//                LOWORD(lparam), HIWORD(lparam), wparam);
-        displaychanged = 1;
-        break;
-      case WM_QUERYNEWPALETTE:
-        querynewpalette = 1;
-        break;
-      case WM_PALETTECHANGED:
-        if ((HWND)wparam != window)
-            palettechanged = 1;
-        break;
-      case WM_CLOSE:
-        ui_wm_close(window);
-        return 0;
-      case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-      case WM_ERASEBKGND:
-        return 1;
-      case WM_DROPFILES:
-        ui_wm_dropfiles(window, wparam);
-        return 0;
-      case WM_PAINT:
-        {
-            RECT update_rect;
-
-            if (GetUpdateRect(window, &update_rect, FALSE)) {
-                PAINTSTRUCT ps;
-                HDC hdc;
-
-                hdc = BeginPaint(window, &ps);
-
-                video_canvas_update(window, hdc,
-                                    ps.rcPaint.left, ps.rcPaint.top,
-                                    ps.rcPaint.right - ps.rcPaint.left,
-                                    ps.rcPaint.bottom - ps.rcPaint.top);
-
-                EndPaint(window, &ps);
+        case WM_SYSKEYUP:
+            kbd_handle_keyup((DWORD)wparam, (DWORD)lparam);
+            if (wparam == VK_F10) {
                 return 0;
-            } else
-                break;
-        }
-      case WM_SYSCOMMAND:
-      case WM_NCLBUTTONDOWN:
-        vsync_suspend_speed_eval();
-        break;
-      case WM_MOUSEMOVE:
-        _mouse_x = (int)((lparam & 0xFFFF)*4);
-        _mouse_y = (int)(((lparam >> 16) & 0xFFFF)*4);
-        break;
-      case WM_LBUTTONDOWN:
-        if (_mouse_enabled) mouse_button_left(1);
-        break;
-      case WM_RBUTTONDOWN:
-        if (_mouse_enabled)
-            mouse_button_right(1);
-        else
-        ui_paste_clipboard_text(window);
-        break;
-      case WM_LBUTTONUP:
-        if (_mouse_enabled) mouse_button_left(0);
-        break;
-      case WM_RBUTTONUP:
-        if (_mouse_enabled) mouse_button_right(0);
-      case WM_NOTIFY:
-        statusbar_notify(window, window_index, wparam, lparam);
-        break;
+            }
+            break;
+        case WM_KEYUP:
+            kbd_handle_keyup((DWORD)wparam, (DWORD)lparam);
+            return 0;
+        case WM_SYSCOLORCHANGE:
+            syscolorchanged = 1;
+            break;
+        case WM_DISPLAYCHANGE:
+            displaychanged = 1;
+            break;
+        case WM_QUERYNEWPALETTE:
+            querynewpalette = 1;
+            break;
+        case WM_PALETTECHANGED:
+            if ((HWND)wparam != window) {
+                palettechanged = 1;
+            }
+            break;
+        case WM_CLOSE:
+            ui_wm_close(window);
+            return 0;
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+        case WM_ERASEBKGND:
+            return 1;
+        case WM_DROPFILES:
+            ui_wm_dropfiles(window, wparam);
+            return 0;
+        case WM_PAINT:
+            {
+                RECT update_rect;
+
+                if (GetUpdateRect(window, &update_rect, FALSE)) {
+                    PAINTSTRUCT ps;
+                    HDC hdc;
+
+                    hdc = BeginPaint(window, &ps);
+
+                    video_canvas_update(window, hdc, ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top);
+
+                    EndPaint(window, &ps);
+                    return 0;
+                } else {
+                    break;
+                }
+            }
+        case WM_SYSCOMMAND:
+        case WM_NCLBUTTONDOWN:
+            vsync_suspend_speed_eval();
+            break;
+        case WM_MOUSEMOVE:
+            _mouse_x = (int)((lparam & 0xFFFF) * 4);
+            _mouse_y = (int)(((lparam >> 16) & 0xFFFF) * 4);
+            break;
+        case WM_LBUTTONDOWN:
+            if (_mouse_enabled) {
+                mouse_button_left(1);
+            }
+            break;
+        case WM_RBUTTONDOWN:
+            if (_mouse_enabled) {
+                mouse_button_right(1);
+            } else {
+                ui_paste_clipboard_text(window);
+            }
+            break;
+        case WM_LBUTTONUP:
+            if (_mouse_enabled) {
+                mouse_button_left(0);
+            }
+            break;
+        case WM_RBUTTONUP:
+            if (_mouse_enabled) {
+                mouse_button_right(0);
+            }
+            break;
+        case WM_NOTIFY:
+            statusbar_notify(window, window_index, wparam, lparam);
+            break;
     }
 
     return DefWindowProc(window, msg, wparam, lparam);
@@ -2064,11 +1950,9 @@ int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
         hWnd = window_handles[0];
     } else {
         int window_index;
-
         HWND hWndActive = GetActiveWindow();
 
-        for (window_index = 0; window_index < number_of_windows;
-            window_index++) {
+        for (window_index = 0; window_index < number_of_windows; window_index++) {
             if (window_handles[window_index] == hWndActive) {
                 hWnd = hWndActive;
                 break;
@@ -2093,4 +1977,3 @@ void ui_display_volume(int vol)
 {
     statusbar_display_volume(vol);
 }
-

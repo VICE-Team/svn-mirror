@@ -396,648 +396,118 @@ END
 
 // dialog template for all languages
 
-IDD_PET_SETTINGS_MODEL_DIALOG DIALOG DISCARDABLE  0, 0, 180, 225
+IDD_PET_SETTINGS_MODEL_DIALOG DIALOG DISCARDABLE 0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Machine defaults",IDC_PET_MACHINE_DEFAULTS,5,15,70,201
-    PUSHBUTTON "PET 2001-8N",IDC_SELECT_PET_2001_8N,15,28,50,14, WS_GROUP
-    PUSHBUTTON "PET 3008",   IDC_SELECT_PET_3008,   15,43,50,14, WS_GROUP
-    PUSHBUTTON "PET 3016",   IDC_SELECT_PET_3016,   15,58,50,14, WS_GROUP
-    PUSHBUTTON "PET 3032",   IDC_SELECT_PET_3032,   15,73,50,14, WS_GROUP
-    PUSHBUTTON "PET 3032B",  IDC_SELECT_PET_3032B,  15,88,50,14, WS_GROUP
-    PUSHBUTTON "PET 4016",   IDC_SELECT_PET_4016,   15,103,50,14, WS_GROUP
-    PUSHBUTTON "PET 4032",   IDC_SELECT_PET_4032,   15,118,50,14, WS_GROUP
-    PUSHBUTTON "PET 4032B",  IDC_SELECT_PET_4032B,  15,133,50,14, WS_GROUP
-    PUSHBUTTON "PET 8032",   IDC_SELECT_PET_8032,   15,148,50,14, WS_GROUP
-    PUSHBUTTON "PET 8096",   IDC_SELECT_PET_8096,   15,163,50,14, WS_GROUP
-    PUSHBUTTON "PET 8296",   IDC_SELECT_PET_8296,   15,178,50,14, WS_GROUP
-    PUSHBUTTON "SuperPET",   IDC_SELECT_PET_SUPER,  15,193,50,14, WS_GROUP
-    GROUPBOX        "M&emory",IDC_PET_MEMORY,95,15,65,105
-    AUTORADIOBUTTON "4KB",  IDC_SELECT_PET_MEM4K,  105,30,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8KB",  IDC_SELECT_PET_MEM8K,  105,45,45,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "16KB", IDC_SELECT_PET_MEM16K, 105,60,45,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "32KB", IDC_SELECT_PET_MEM32K, 105,75,45,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "96KB", IDC_SELECT_PET_MEM96K, 105,90,45,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "128KB",IDC_SELECT_PET_MEM128K,105,105,45,10,
-                            BS_AUTORADIOBUTTON
+    GROUPBOX        "", IDC_PET_MACHINE_DEFAULTS,
+                    5, 15, 70, 201
+    PUSHBUTTON      "PET 2001-8N", IDC_SELECT_PET_2001_8N,
+                    15, 28, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 3008", IDC_SELECT_PET_3008,
+                    15, 43, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 3016", IDC_SELECT_PET_3016,
+                    15, 58, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 3032", IDC_SELECT_PET_3032,
+                    15, 73, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 3032B", IDC_SELECT_PET_3032B,
+                    15, 88, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 4016", IDC_SELECT_PET_4016,
+                    15, 103, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 4032", IDC_SELECT_PET_4032,
+                    15, 118, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 4032B", IDC_SELECT_PET_4032B,
+                    15, 133, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 8032", IDC_SELECT_PET_8032,
+                    15, 148, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 8096", IDC_SELECT_PET_8096,
+                    15, 163, 50, 14, WS_GROUP
+    PUSHBUTTON      "PET 8296", IDC_SELECT_PET_8296,
+                    15, 178, 50, 14, WS_GROUP
+    PUSHBUTTON      "SuperPET", IDC_SELECT_PET_SUPER,
+                    15, 193, 50, 14, WS_GROUP
+    GROUPBOX        "", IDC_PET_MEMORY,
+                    95, 15, 65, 105
+    AUTORADIOBUTTON "4KB", IDC_SELECT_PET_MEM4K,
+                    105, 30, 45, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "8KB", IDC_SELECT_PET_MEM8K,
+                    105, 45, 45, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "16KB", IDC_SELECT_PET_MEM16K,
+                    105, 60, 45, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "32KB", IDC_SELECT_PET_MEM32K,
+                    105, 75, 45, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "96KB", IDC_SELECT_PET_MEM96K,
+                    105, 90, 45, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "128KB", IDC_SELECT_PET_MEM128K,
+                    105, 105, 45, 10, BS_AUTORADIOBUTTON
 END
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_PET_SETTINGS_IO_DIALOG DIALOG DISCARDABLE  0, 0, 180, 225
+IDD_PET_SETTINGS_IO_DIALOG DIALOG DISCARDABLE 0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Video",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Auto (from ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Columns",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Columns",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
+    GROUPBOX        "", IDC_PET_VIDEO,
+                    5, 15, 80, 60
+    AUTORADIOBUTTON "", IDC_SELECT_PET_VIDEO_AUTO,
+                    15, 30, 65, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_SELECT_PET_VIDEO_40, 
+                    15, 45, 55, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "", IDC_SELECT_PET_VIDEO_80,
+                    15, 60, 55, 10, BS_AUTORADIOBUTTON
 
-    GROUPBOX        "&IO Size",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kByte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
+    GROUPBOX        "", IDC_PET_IO_SIZE,
+                    5, 85, 80, 60
+    AUTORADIOBUTTON "", IDC_SELECT_PET_IO256,
+                    15, 100, 45, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_SELECT_PET_IO2K ,
+                    15, 115, 45, 10, BS_AUTORADIOBUTTON
 
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "CRTC chip &enable",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "&CRTC", IDC_PET_CRTC,
+                    105, 15, 90, 60
+    AUTOCHECKBOX    "", IDC_TOGGLE_PET_CRTC,
+                    115, 30, 75, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
-    GROUPBOX        "&Keyboard",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Graphics",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
+    GROUPBOX        "", IDC_PET_KEYBOARD,
+                    105, 85, 90, 60
+    AUTORADIOBUTTON "", IDC_SELECT_PET_KEYB_GRAPHICS,
+                    115, 100, 75, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_SELECT_PET_KEYB_BUSINESS,
+                    115, 115, 75, 10, BS_AUTORADIOBUTTON
 END
-
-
-// DANISH version of dialog
-
-IDD_PET_SETTINGS_IO_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Grafik",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Auto (från ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 kolonner",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 kolonner",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&I/O-størrelse",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kbyte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "&Aktivér CRTC-kreds",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Tastatur",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafisk",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (Storbritannien)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-
-
-// GERMAN version of dialog
-
-IDD_PET_SETTINGS_IO_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Video",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Automatisch (von ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Spalten",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Spalten",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&I/O Größe",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kByte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "CRTC Chip aktivi&eren",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Tastaturtyp",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafik",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-
-
-// FRENCH version of dialog
-
-IDD_PET_SETTINGS_IO_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Vidéo",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Auto (depuis la ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Colonnes",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Colonnes",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "Taille d'&E/S",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "25&6 Octets",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2048 Octets", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "Activ&er la puce CRTC",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "Type de clavier",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Graphiques",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_PET_SETTINGS_IO_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Videó",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Automatikus (ROM-ból)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Oszlop",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Oszlop",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&I/O méret",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Bájt",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kBájt", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "CRTC csip &engedélyezése",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Billentyûzet",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafikus",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Hivatalos (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_PET_SETTINGS_IO_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Video",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Auto (dalla ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Colonne",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Colonne",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "Dimensione di &I/O",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kByte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "&Attiva chip CRTC",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Tastiera",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafica",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-
-
-// DUTCH version of dialog
-
-IDD_PET_SETTINGS_IO_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Video",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Auto (van ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Kolommen",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Kolommen",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&IO-grootte",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kByte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "CRTC-chip &activeren",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Toetsenbord",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafiek",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_PET_SETTINGS_IO_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Video",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Automatycznie (z ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 kolumn",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 kolumn",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "Rozmiar &I/O",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Bajty",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kBajty", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "W³±cz ch&ip CRTC",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Klawiatury",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafika",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Biznes",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_PET_SETTINGS_IO_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Grafik",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "&Auto (från ROM)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 kolumner",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 kolumner",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&I/O-utrymme",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kbyte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "&Aktivera CRTC-krets",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Tangentbord",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafisk",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (Storbritannien)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_PET_SETTINGS_IO_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&Görüntü",IDC_STATIC,5,15,80,60
-    AUTORADIOBUTTON "Otom&atik (ROM'dan)",IDC_SELECT_PET_VIDEO_AUTO,15,30,65,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&40 Sütun",IDC_SELECT_PET_VIDEO_40,       15,45,55,10,
-                            BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&80 Sütun",IDC_SELECT_PET_VIDEO_80,       15,60,55,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&GÇ Boyutu",IDC_STATIC,5,85,80,60
-    AUTORADIOBUTTON "2&56 Byte",IDC_SELECT_PET_IO256,15,100,45,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&2 kByte", IDC_SELECT_PET_IO2K ,15,115,45,10,
-                            BS_AUTORADIOBUTTON
-
-    GROUPBOX        "&CRTC",IDC_STATIC,105,15,90,60
-    AUTOCHECKBOX    "CRTC çipini aktif &et",IDC_TOGGLE_PET_CRTC, 115,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    GROUPBOX        "&Klavye",IDC_STATIC,105,85,90,60
-    AUTORADIOBUTTON "&Grafikler",     IDC_SELECT_PET_KEYB_GRAPHICS,115,100,75,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
-                            BS_AUTORADIOBUTTON
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_PET_SETTINGS_SUPER_DIALOG DIALOG DISCARDABLE  0, 0, 180, 225
+IDD_PET_SETTINGS_SUPER_DIALOG DIALOG DISCARDABLE 0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&IO Settings",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "SuperPET I/O &enable (disables 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX     "", IDC_PET_IO_SETTINGS,
+                 5, 15, 160, 30
+    AUTOCHECKBOX "", IDC_TOGGLE_PET_SUPER_IO_ENABLE,
+                 15, 30, 145, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_PET_SETTINGS_SUPER_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&I/O-indstillinger",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "&Aktivér SuperPET-I/O (deaktiverer 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_PET_SETTINGS_SUPER_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&IO Einstellungen",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "SuperPET I/O aktivi&eren (deaktiviert 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_PET_SETTINGS_SUPER_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Paramètres &E/S",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "Activer les E/S &SuperPET (ne fonctionne pas avec 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_PET_SETTINGS_SUPER_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&IO beállításai",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "SuperPET I/O &engedélyezése (8x96-on tiltva)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_PET_SETTINGS_SUPER_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Impostazioni &IO",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "&Attiva I/O del SuperPET (disattiva 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_PET_SETTINGS_SUPER_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&IO-instellingen",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "SuperPET-I/O activ&eren (schakelt 8x96 uit)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_PET_SETTINGS_SUPER_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Ustawienia &IO",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "W³±cz Sup&erPET I/O (wy³±czone 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_PET_SETTINGS_SUPER_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&I/O-Inställningar",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "&Aktivera SuperPET-I/O (inaktiverar 8x96)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_PET_SETTINGS_SUPER_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&GÇ Ayarlarý",IDC_STATIC,5,15,160,30
-    AUTOCHECKBOX    "SuperPET G/Ç aktif et (8x96'yý pasifleþtir)",
-                            IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// dialog template for all languages
 
-IDD_PET_SETTINGS_8296_DIALOG DIALOG DISCARDABLE  0, 0, 180, 225
+IDD_PET_SETTINGS_8296_DIALOG DIALOG DISCARDABLE 0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&RAM Settings",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** as RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** as RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
+    GROUPBOX     "", IDC_PET_RAM_SETTINGS,
+                 5, 15, 90, 45
+    AUTOCHECKBOX "", IDC_TOGGLE_PET_8296_RAM9,
+                 15, 30, 75, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_TOGGLE_PET_8296_RAMA,
+                 15, 45, 75, 10, BS_AUTOCHECKBOX
 END
-
-
-// DANISH version of dialog
-
-IDD_PET_SETTINGS_8296_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&RAM-indstillinger",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** som RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** som RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-
-
-// GERMAN version of dialog
-
-IDD_PET_SETTINGS_8296_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&RAM Einstellungen",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** als RAM (nur 8296)",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** als RAM (nur 8296)",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-
-
-// FRENCH version of dialog
-
-IDD_PET_SETTINGS_8296_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Paramètres &RAM",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$9*** comme RAM (8296 seulement)",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$A*** comme RAM (8296 seulement)",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_PET_SETTINGS_8296_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&RAM beállításai",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** RAM-ként",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** RAM-ként",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_PET_SETTINGS_8296_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Impostazioni &RAM",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** come RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** come RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-
-
-// DUTCH version of dialog
-
-IDD_PET_SETTINGS_8296_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&RAM-instellingen",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** als RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** als RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_PET_SETTINGS_8296_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Ustawienia &RAM",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** jako RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** jako RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_PET_SETTINGS_8296_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&RAM-inställningar",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "$&9*** som RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "$&A*** som RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_PET_SETTINGS_8296_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 225
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "&RAM Ayarlarý",IDC_STATIC,5,15,90,45
-    AUTOCHECKBOX "RAM olarak $9***",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
-                            BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX "RAM olarak $&A***",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
-                            BS_AUTOCHECKBOX
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------
 
@@ -1103,16 +573,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Input/Output"
-  IDS_PET_SETTINGS         "PET settings"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Machine defaults"
-  IDS_PET_MEMORY           "M&emory"
-  IDS_MI_PET_SETTINGS      "P&ET settings..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU settings..."
+  IDS_INPUT_OUTPUT               "Input/Output"
+  IDS_PET_SETTINGS               "PET settings"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
+  IDS_PET_MEMORY                 "M&emory"
+  IDS_PET_VIDEO                  "&Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
+  IDS_PET_IO_SIZE                "&IO Size"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
+  IDS_PET_KEYBOARD               "&Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "&IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "&RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
+  IDS_MI_PET_SETTINGS            "P&ET settings..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
 END
 
 
@@ -1121,16 +607,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Inddata/uddata"
-  IDS_PET_SETTINGS         "PET-indstillinger"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Maskinens standardindstillinger"
-  IDS_PET_MEMORY           "Huko&mmelse"
-  IDS_MI_PET_SETTINGS      "P&ET-indstillinger..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU-indstillinger..."
+  IDS_INPUT_OUTPUT               "Inddata/uddata"
+  IDS_PET_SETTINGS               "PET-indstillinger"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Maskinens standardindstillinger"
+  IDS_PET_MEMORY                 "Huko&mmelse"
+  IDS_PET_VIDEO                  "&Grafik"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (från ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 kolonner"
+  IDS_SELECT_PET_VIDEO_80        "&80 kolonner"
+  IDS_PET_IO_SIZE                "&I/O-størrelse"
+  IDS_SELECT_PET_IO256           "2&56 byte"
+  IDS_SELECT_PET_IO2K            "&2 kbyte"
+  IDS_TOGGLE_PET_CRTC            "&Aktivér CRTC-kreds"
+  IDS_PET_KEYBOARD               "&Tastatur"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafisk"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (Storbritannien)"
+  IDS_PET_IO_SETTINGS            "&I/O-indstillinger"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Aktivér SuperPET-I/O (deaktiverer 8x96)"
+  IDS_PET_RAM_SETTINGS           "&RAM-indstillinger"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** som RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
+  IDS_MI_PET_SETTINGS            "P&ET-indstillinger..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU-indstillinger..."
 END
 
 
@@ -1139,16 +641,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Ein/Ausgabe"
-  IDS_PET_SETTINGS         "PET Einstellungen"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Modell Standardeinstellungen"
-  IDS_PET_MEMORY           "Sp&eicher"
-  IDS_MI_PET_SETTINGS      "P&ET Einstellungen..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU Einstellungen..."
+  IDS_INPUT_OUTPUT               "Ein/Ausgabe"
+  IDS_PET_SETTINGS               "PET Einstellungen"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Modell Standardeinstellungen"
+  IDS_PET_MEMORY                 "Sp&eicher"
+  IDS_PET_VIDEO                  "&Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Automatisch (von ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Spalten"
+  IDS_SELECT_PET_VIDEO_80        "&80 Spalten"
+  IDS_PET_IO_SIZE                "&I/O Größe"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC Chip aktivi&eren"
+  IDS_PET_KEYBOARD               "&Tastaturtyp"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafik"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "&IO Einstellungen"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O aktivi&eren (deaktiviert 8x96)"
+  IDS_PET_RAM_SETTINGS           "&RAM Einstellungen"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM (nur 8296)"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM (nur 8296)"
+  IDS_MI_PET_SETTINGS            "P&ET Einstellungen..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU Einstellungen..."
 END
 
 
@@ -1157,16 +675,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Entrée/Sortie"
-  IDS_PET_SETTINGS         "Paramètres PET"
-  IDS_EDITOR               "Éditeur"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Valeurs par déf&aut du modèle"
-  IDS_PET_MEMORY           "Mémoir&e"
-  IDS_MI_PET_SETTINGS      "Paramètres P&ET..."
-  IDS_MI_PETREU_SETTINGS   "Paramètres PET &REU..."
+  IDS_INPUT_OUTPUT               "Entrée/Sortie"
+  IDS_PET_SETTINGS               "Paramètres PET"
+  IDS_EDITOR                     "Éditeur"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Valeurs par déf&aut du modèle"
+  IDS_PET_MEMORY                 "Mémoir&e"
+  IDS_PET_VIDEO                  "Vidéo"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (depuis la ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Colonnes"
+  IDS_SELECT_PET_VIDEO_80        "&80 Colonnes"
+  IDS_PET_IO_SIZE                "Taille d'&E/S"
+  IDS_SELECT_PET_IO256           "25&6 Octets"
+  IDS_SELECT_PET_IO2K            "&2048 Octets"
+  IDS_TOGGLE_PET_CRTC            "Activ&er la puce CRTC"
+  IDS_PET_KEYBOARD               "Type de clavier"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphiques"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "Paramètres &E/S"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "Activer les E/S &SuperPET (ne fonctionne pas avec 8x96)"
+  IDS_PET_RAM_SETTINGS           "Paramètres &RAM"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** comme RAM (8296 seulement)"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** comme RAM (8296 seulement)"
+  IDS_MI_PET_SETTINGS            "Paramètres P&ET..."
+  IDS_MI_PETREU_SETTINGS         "Paramètres PET &REU..."
 END
 
 
@@ -1176,16 +710,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Bemenet/Kimenet"
-  IDS_PET_SETTINGS         "PET beállításai"
-  IDS_EDITOR               "Szerkesztõ"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Modell alapértelmezései"
-  IDS_PET_MEMORY           "M&emória"
-  IDS_MI_PET_SETTINGS      "P&ET beállításai..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU beállításai..."
+  IDS_INPUT_OUTPUT               "Bemenet/Kimenet"
+  IDS_PET_SETTINGS               "PET beállításai"
+  IDS_EDITOR                     "Szerkesztõ"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Modell alapértelmezései"
+  IDS_PET_MEMORY                 "M&emória"
+  IDS_PET_VIDEO                  "&Videó"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Automatikus (ROM-ból)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Oszlop"
+  IDS_SELECT_PET_VIDEO_80        "&80 Oszlop"
+  IDS_PET_IO_SIZE                "&I/O méret"
+  IDS_SELECT_PET_IO256           "2&56 Bájt"
+  IDS_SELECT_PET_IO2K            "&2 kBájt"
+  IDS_TOGGLE_PET_CRTC            "CRTC csip &engedélyezése"
+  IDS_PET_KEYBOARD               "&Billentyûzet"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafikus"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Hivatalos (UK)"
+  IDS_PET_IO_SETTINGS            "&IO beállításai"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &engedélyezése (8x96-on tiltva)"
+  IDS_PET_RAM_SETTINGS           "&RAM beállításai"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** RAM-ként"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** RAM-ként"
+  IDS_MI_PET_SETTINGS            "P&ET beállításai..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU beállításai..."
 END
 #pragma code_page(28591)
 
@@ -1195,16 +745,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Input/Output"
-  IDS_PET_SETTINGS         "Impostazioni PET"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Impostazioni predefinite"
-  IDS_PET_MEMORY           "M&emoria"
-  IDS_MI_PET_SETTINGS      "Impostazioni P&ET..."
-  IDS_MI_PETREU_SETTINGS   "Impostazioni PET &REU..."
+  IDS_INPUT_OUTPUT               "Input/Output"
+  IDS_PET_SETTINGS               "Impostazioni PET"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Impostazioni predefinite"
+  IDS_PET_MEMORY                 "M&emoria"
+  IDS_PET_VIDEO                  "&Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (dalla ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Colonne"
+  IDS_SELECT_PET_VIDEO_80        "&80 Colonne"
+  IDS_PET_IO_SIZE                "Dimensione di &I/O"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "&Attiva chip CRTC"
+  IDS_PET_KEYBOARD               "&Tastiera"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafica"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "Impostazioni &IO"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Attiva I/O del SuperPET (disattiva 8x96)"
+  IDS_PET_RAM_SETTINGS           "Impostazioni &RAM"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** come RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** come RAM"
+  IDS_MI_PET_SETTINGS            "Impostazioni P&ET..."
+  IDS_MI_PETREU_SETTINGS         "Impostazioni PET &REU..."
 END
 
 
@@ -1213,16 +779,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Invoer/Uitvoer"
-  IDS_PET_SETTINGS         "PET-instellingen"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Machine standaards"
-  IDS_PET_MEMORY           "G&eheugen"
-  IDS_MI_PET_SETTINGS      "P&ET instellingen..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU-instellingen..."
+  IDS_INPUT_OUTPUT               "Invoer/Uitvoer"
+  IDS_PET_SETTINGS               "PET-instellingen"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Machine standaards"
+  IDS_PET_MEMORY                 "G&eheugen"
+  IDS_PET_VIDEO                  "&Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (van ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Kolommen"
+  IDS_SELECT_PET_VIDEO_80        "&80 Kolommen"
+  IDS_PET_IO_SIZE                "&IO-grootte"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC-chip &activeren"
+  IDS_PET_KEYBOARD               "&Toetsenbord"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafiek"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "&IO-instellingen"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET-I/O activ&eren (schakelt 8x96 uit)"
+  IDS_PET_RAM_SETTINGS           "&RAM-instellingen"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM"
+  IDS_MI_PET_SETTINGS            "P&ET instellingen..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU-instellingen..."
 END
 
 
@@ -1232,16 +814,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Input/Output"
-  IDS_PET_SETTINGS         "PET settings"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Model domy¶lny"
-  IDS_PET_MEMORY           "P&amiêæ"
-  IDS_MI_PET_SETTINGS      "Ustawienia P&ET..."
-  IDS_MI_PETREU_SETTINGS   "Ustawienia PET &REU..."
+  IDS_INPUT_OUTPUT               "Input/Output"
+  IDS_PET_SETTINGS               "PET settings"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Model domy¶lny"
+  IDS_PET_MEMORY                 "P&amiêæ"
+  IDS_PET_VIDEO                  "&Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Automatycznie (z ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 kolumn"
+  IDS_SELECT_PET_VIDEO_80        "&80 kolumn"
+  IDS_PET_IO_SIZE                "Rozmiar &I/O"
+  IDS_SELECT_PET_IO256           "2&56 Bajty"
+  IDS_SELECT_PET_IO2K            "&2 kBajty"
+  IDS_TOGGLE_PET_CRTC            "W³±cz ch&ip CRTC"
+  IDS_PET_KEYBOARD               "&Klawiatury"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafika"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Biznes"
+  IDS_PET_IO_SETTINGS            "Ustawienia &IO"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "W³±cz Sup&erPET I/O (wy³±czone 8x96)"
+  IDS_PET_RAM_SETTINGS           "Ustawienia &RAM"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** jako RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** jako RAM"
+  IDS_MI_PET_SETTINGS            "Ustawienia P&ET..."
+  IDS_MI_PETREU_SETTINGS         "Ustawienia PET &REU..."
 END
 #pragma code_page(28591)
 
@@ -1251,16 +849,32 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Indata/utdata"
-  IDS_PET_SETTINGS         "PET-inställningar"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Modellens förval"
-  IDS_PET_MEMORY           "M&inne"
-  IDS_MI_PET_SETTINGS      "P&ET-inställningar..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU-inställningar..."
+  IDS_INPUT_OUTPUT               "Indata/utdata"
+  IDS_PET_SETTINGS               "PET-inställningar"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Modellens förval"
+  IDS_PET_MEMORY                 "M&inne"
+  IDS_PET_VIDEO                  "&Grafik"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (från ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 kolumner"
+  IDS_SELECT_PET_VIDEO_80        "&80 kolumner"
+  IDS_PET_IO_SIZE                "&I/O-utrymme"
+  IDS_SELECT_PET_IO256           "2&56 byte"
+  IDS_SELECT_PET_IO2K            "&2 kbyte"
+  IDS_TOGGLE_PET_CRTC            "&Aktivera CRTC-krets"
+  IDS_PET_KEYBOARD               "&Tangentbord"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafisk"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (Storbritannien)"
+  IDS_PET_IO_SETTINGS            "&I/O-Inställningar"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Aktivera SuperPET-I/O (inaktiverar 8x96)"
+  IDS_PET_RAM_SETTINGS           "&RAM-inställningar"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** som RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
+  IDS_MI_PET_SETTINGS            "P&ET-inställningar..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU-inställningar..."
 END
 
 
@@ -1270,15 +884,31 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT         "Giriþ/Çýkýþ"
-  IDS_PET_SETTINGS         "PET ayarlarý"
-  IDS_EDITOR               "Editor"
-  IDS_ROM_9                "ROM 9"
-  IDS_ROM_A                "ROM A"
-  IDS_ROM_B                "ROM B"
-  IDS_PET_MACHINE_DEFAULTS "Makine varsayýlan ayarlarý"
-  IDS_PET_MEMORY           "B&ellek"
-  IDS_MI_PET_SETTINGS      "P&ET ayarlarý..."
-  IDS_MI_PETREU_SETTINGS   "PET &REU ayarlarý..."
+  IDS_INPUT_OUTPUT               "Giriþ/Çýkýþ"
+  IDS_PET_SETTINGS               "PET ayarlarý"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Makine varsayýlan ayarlarý"
+  IDS_PET_MEMORY                 "B&ellek"
+  IDS_PET_VIDEO                  "&Görüntü"
+  IDS_SELECT_PET_VIDEO_AUTO      "Otom&atik (ROM'dan)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Sütun"
+  IDS_SELECT_PET_VIDEO_80        "&80 Sütun"
+  IDS_PET_IO_SIZE                "&GÇ Boyutu"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC çipini aktif &et"
+  IDS_PET_KEYBOARD               "&Klavye"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafikler"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "&GÇ Ayarlarý"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET G/Ç aktif et (8x96'yý pasifleþtir)"
+  IDS_PET_RAM_SETTINGS           "&RAM Ayarlarý"
+  IDS_TOGGLE_PET_8296_RAM9       "RAM olarak $9***"
+  IDS_TOGGLE_PET_8296_RAMA       "RAM olarak $&A***"
+  IDS_MI_PET_SETTINGS            "P&ET ayarlarý..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU ayarlarý..."
 END
 #pragma code_page(28591)

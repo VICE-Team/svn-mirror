@@ -30,4 +30,3 @@
 extern void uidrivepetcbm2_settings_dialog(HWND hwnd);
 
 #endif
-

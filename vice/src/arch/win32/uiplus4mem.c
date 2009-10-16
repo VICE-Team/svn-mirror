@@ -40,9 +40,67 @@
 static int orig_ramsize;
 static int set_ramsize;
 
+static uilib_localize_dialog_param plus4_dialog_trans[] = {
+    {0, IDS_PLUS4_SETTINGS_CAPTION, -1},
+    {IDC_PLUS4_VIC20_MEMORY, IDS_PLUS4_VIC20_MEMORY, 0},
+    {IDC_SELECT_PLUS4_MEM_16, IDS_SELECT_PLUS4_MEM_16, 0},
+    {IDC_SELECT_PLUS4_MEM_32, IDS_SELECT_PLUS4_MEM_32, 0},
+    {IDC_SELECT_PLUS4_MEM_64, IDS_SELECT_PLUS4_MEM_64, 0},
+    {IDC_SELECT_PLUS4_MEM_256_CSORY, IDS_SELECT_PLUS4_MEM_256_CSORY, 0},
+    {IDC_SELECT_PLUS4_MEM_256_HANNES, IDS_SELECT_PLUS4_MEM_256_HANNES, 0},
+    {IDC_SELECT_PLUS4_MEM_1024_HANNES, IDS_SELECT_PLUS4_MEM_1M_HANNES, 0},
+    {IDC_SELECT_PLUS4_MEM_4096_HANNES, IDS_SELECT_PLUS4_MEM_4M_HANNES, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group plus4_main_group[] = {
+    {IDC_PLUS4_VIC20_MEMORY, 1},
+    {IDC_SELECT_PLUS4_MEM_16, 1},
+    {IDC_SELECT_PLUS4_MEM_32, 1},
+    {IDC_SELECT_PLUS4_MEM_64, 1},
+    {IDC_SELECT_PLUS4_MEM_256_CSORY, 1},
+    {IDC_SELECT_PLUS4_MEM_256_HANNES, 1},
+    {IDC_SELECT_PLUS4_MEM_1024_HANNES, 1},
+    {IDC_SELECT_PLUS4_MEM_4096_HANNES, 1},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_dialog(HWND hwnd)
 {
     int n, res, res256k;
+    int xstart;
+    int xpos;
+    RECT rect;
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, plus4_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, plus4_main_group);
+
+    /* get the min x of the 16kb element */
+    uilib_get_element_min_x(hwnd, IDC_SELECT_PLUS4_MEM_16, &xstart);
+
+    /* get the max x of the main group */
+    uilib_get_group_max_x(hwnd, plus4_main_group, &xpos);
+
+    /* resize and move the group box to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_PLUS4_VIC20_MEMORY, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the group box */
+    uilib_get_element_min_x(hwnd, IDC_PLUS4_VIC20_MEMORY, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
 
     resources_get_int("RamSize", &res);
     switch (res) {
@@ -141,6 +199,6 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_plus4_memory_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_PLUS4_MEMORY_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_PLUS4_MEMORY_DIALOG),
               hwnd, dialog_proc);
 }

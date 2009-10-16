@@ -112,66 +112,6 @@ static int intl_table[][countof(language_table)] = {
 
 /* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
 
-/* respet.rc */
-/* en */ { IDD_PET_SETTINGS_IO_DIALOG,
-/* da */   IDD_PET_SETTINGS_IO_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_PET_SETTINGS_IO_DIALOG_DE,    /* size */
-/* fr */   IDD_PET_SETTINGS_IO_DIALOG_FR,    /* size */
-/* hu */   IDD_PET_SETTINGS_IO_DIALOG_HU,    /* size */
-/* it */   IDD_PET_SETTINGS_IO_DIALOG_IT,    /* size */
-/* nl */   IDD_PET_SETTINGS_IO_DIALOG_NL,
-/* pl */   IDD_PET_SETTINGS_IO_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_PET_SETTINGS_IO_DIALOG_SV,    /* size */
-/* tr */   IDD_PET_SETTINGS_IO_DIALOG_TR },  /* fuzzy, size */
-
-/* respet.rc */
-/* en */ { IDD_PET_SETTINGS_SUPER_DIALOG,
-/* da */   IDD_PET_SETTINGS_SUPER_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_PET_SETTINGS_SUPER_DIALOG_DE,    /* size */
-/* fr */   IDD_PET_SETTINGS_SUPER_DIALOG_FR,    /* size */
-/* hu */   IDD_PET_SETTINGS_SUPER_DIALOG_HU,    /* size */
-/* it */   IDD_PET_SETTINGS_SUPER_DIALOG_IT,    /* size */
-/* nl */   IDD_PET_SETTINGS_SUPER_DIALOG_NL,
-/* pl */   IDD_PET_SETTINGS_SUPER_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_PET_SETTINGS_SUPER_DIALOG_SV,    /* size */
-/* tr */   IDD_PET_SETTINGS_SUPER_DIALOG_TR },  /* fuzzy, size */
-
-/* respet.rc */
-/* en */ { IDD_PET_SETTINGS_8296_DIALOG,
-/* da */   IDD_PET_SETTINGS_8296_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_PET_SETTINGS_8296_DIALOG_DE,    /* size */
-/* fr */   IDD_PET_SETTINGS_8296_DIALOG_FR,    /* size */
-/* hu */   IDD_PET_SETTINGS_8296_DIALOG_HU,    /* size */
-/* it */   IDD_PET_SETTINGS_8296_DIALOG_IT,    /* size */
-/* nl */   IDD_PET_SETTINGS_8296_DIALOG_NL,
-/* pl */   IDD_PET_SETTINGS_8296_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_PET_SETTINGS_8296_DIALOG_SV,    /* size */
-/* tr */   IDD_PET_SETTINGS_8296_DIALOG_TR },  /* fuzzy, size */
-
-/* resplus4.rc */
-/* en */ { IDD_PLUS4_MEMORY_DIALOG,
-/* da */   IDD_PLUS4_MEMORY_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_PLUS4_MEMORY_DIALOG_DE,    /* size */
-/* fr */   IDD_PLUS4_MEMORY_DIALOG_FR,    /* size */
-/* hu */   IDD_PLUS4_MEMORY_DIALOG_HU,    /* size */
-/* it */   IDD_PLUS4_MEMORY_DIALOG_IT,    /* size */
-/* nl */   IDD_PLUS4_MEMORY_DIALOG_NL,
-/* pl */   IDD_PLUS4_MEMORY_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_PLUS4_MEMORY_DIALOG_SV,    /* size */
-/* tr */   IDD_PLUS4_MEMORY_DIALOG_TR },  /* fuzzy, size */
-
-/* ressidcart.rc */
-/* en */ { IDD_SIDCART_SETTINGS_DIALOG,
-/* da */   IDD_SIDCART_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_SIDCART_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */   IDD_SIDCART_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_SIDCART_SETTINGS_DIALOG_HU,    /* size */
-/* it */   IDD_SIDCART_SETTINGS_DIALOG_IT,    /* size */
-/* nl */   IDD_SIDCART_SETTINGS_DIALOG_NL,    /* size */
-/* pl */   IDD_SIDCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_SIDCART_SETTINGS_DIALOG_SV,    /* size */
-/* tr */   IDD_SIDCART_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
 /* ressidcart.rc */
 /* en */ { IDD_SIDCARTPLUS4_SETTINGS_DIALOG,
 /* da */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DA,    /* fuzzy, size */

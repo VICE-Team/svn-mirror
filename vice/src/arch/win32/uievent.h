@@ -31,4 +31,3 @@
 extern void uievent_command(HWND hwnd, WPARAM wparam);
 
 #endif
-

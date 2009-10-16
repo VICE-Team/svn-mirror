@@ -41,19 +41,23 @@
 #include "uigeoram.h"
 #include "winmain.h"
 
-
 #define NUM_OF_GEORAM_SIZE 7
-static const int ui_georam_size[NUM_OF_GEORAM_SIZE] = {
-    64, 128, 256, 512, 1024, 2048, 4096
-};
 
+static const int ui_georam_size[NUM_OF_GEORAM_SIZE] = {
+    64,
+    128,
+    256,
+    512,
+    1024,
+    2048,
+    4096
+};
 
 static void enable_georam_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE)
-                 == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED) ? 1 : 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_SIZE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_BROWSE), is_enabled);
@@ -61,29 +65,29 @@ static void enable_georam_controls(HWND hwnd)
 }
 
 static uilib_localize_dialog_param georam_dialog_trans[] = {
-    {0, IDS_GEORAM_CAPTION, -1},
-    {IDC_GEORAM_ENABLE, IDS_GEORAM_ENABLE, 0},
-    {IDC_GEORAM_SIZE_LABEL, IDS_GEORAM_SIZE_LABEL, 0},
-    {IDC_GEORAM_FILE_LABEL, IDS_GEORAM_FILE_LABEL, 0},
-    {IDC_GEORAM_BROWSE, IDS_BROWSE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_GEORAM_CAPTION, -1 },
+    { IDC_GEORAM_ENABLE, IDS_GEORAM_ENABLE, 0 },
+    { IDC_GEORAM_SIZE_LABEL, IDS_GEORAM_SIZE_LABEL, 0 },
+    { IDC_GEORAM_FILE_LABEL, IDS_GEORAM_FILE_LABEL, 0 },
+    { IDC_GEORAM_BROWSE, IDS_BROWSE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group georam_main_group[] = {
-    {IDC_GEORAM_ENABLE, 1},
-    {IDC_GEORAM_SIZE_LABEL, 0},
-    {IDC_GEORAM_FILE_LABEL, 0},
-    {0, 0}
+    { IDC_GEORAM_ENABLE, 1 },
+    { IDC_GEORAM_SIZE_LABEL, 0 },
+    { IDC_GEORAM_FILE_LABEL, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group georam_right_group[] = {
-    {IDC_GEORAM_ENABLE, 0},
-    {IDC_GEORAM_SIZE, 0},
-    {IDC_GEORAM_BROWSE, 0},
-    {IDC_GEORAM_FILE, 0},
-    {0, 0}
+    { IDC_GEORAM_ENABLE, 0 },
+    { IDC_GEORAM_SIZE, 0 },
+    { IDC_GEORAM_BROWSE, 0 },
+    { IDC_GEORAM_FILE, 0 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -132,30 +136,28 @@ static void init_georam_dialog(HWND hwnd)
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("GEORAM", &res_value);
-    CheckDlgButton(hwnd, IDC_GEORAM_ENABLE, 
-        res_value ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_GEORAM_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     temp_hwnd = GetDlgItem(hwnd, IDC_GEORAM_SIZE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE;
-        res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE; res_value_loop++) {
         TCHAR st[10];
+
         _itot(ui_georam_size[res_value_loop], st, 10);
         _tcscat(st, translate_text(IDS_SPACE_KB));
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("GEORAMsize", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE;
-        res_value_loop++) {
-        if (ui_georam_size[res_value_loop] == res_value)
+    for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE; res_value_loop++) {
+        if (ui_georam_size[res_value_loop] == res_value) {
             active_value = res_value_loop;
+        }
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_string("GEORAMfilename", &georamfile);
     st_georamfile = system_mbstowcs_alloc(georamfile);
-    SetDlgItemText(hwnd, IDC_GEORAM_FILE,
-                   georamfile != NULL ? st_georamfile : TEXT(""));
+    SetDlgItemText(hwnd, IDC_GEORAM_FILE, georamfile != NULL ? st_georamfile : TEXT(""));
     system_mbstowcs_free(st_georamfile);
 
     enable_georam_controls(hwnd);
@@ -166,11 +168,8 @@ static void end_georam_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_int("GEORAM", (IsDlgButtonChecked(hwnd,
-                      IDC_GEORAM_ENABLE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("GEORAMsize",
-                      ui_georam_size[SendMessage(GetDlgItem(
-                      hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("GEORAM", (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("GEORAMsize", ui_georam_size[SendMessage(GetDlgItem(hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_GEORAM_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
@@ -179,39 +178,36 @@ static void end_georam_dialog(HWND hwnd)
 
 static void browse_georam_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_GEORAM),
-                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
-                        IDC_GEORAM_FILE);
+    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_GEORAM), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_GEORAM_FILE);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_GEORAM_BROWSE:
-            browse_georam_file(hwnd);
-            break;
-          case IDC_GEORAM_ENABLE:
-            enable_georam_controls(hwnd);
-            break;
-          case IDOK:
-            end_georam_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_GEORAM_BROWSE:
+                    browse_georam_file(hwnd);
+                    break;
+                case IDC_GEORAM_ENABLE:
+                    enable_georam_controls(hwnd);
+                    break;
+                case IDOK:
+                    end_georam_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_georam_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_georam_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
@@ -219,6 +215,5 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_georam_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_GEORAM_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_GEORAM_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

@@ -7,794 +7,231 @@
 
 #pragma code_page(28591)
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
-IDD_SIDCART_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 175
+IDD_SIDCART_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
+    AUTOCHECKBOX    "", IDC_SIDCART_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Engine",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filters", IDC_SIDCART_FILTERS,
+    LTEXT           "", IDC_SIDCART_ENGINE_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_SIDCART_ENGINE,
+                    70, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_MODEL_LABEL,
+                    9, 40, 53, 8
+    COMBOBOX        IDC_SIDCART_MODEL,
+                    70, 38, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID address",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID clock",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID device selection",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Main device",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_ADDRESS_LABEL,
+                    9, 70, 53, 8
+    COMBOBOX        IDC_SIDCART_ADDRESS,
+                    70, 68, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_CLOCK_LABEL,
+                    9, 86, 53, 8
+    COMBOBOX        IDC_SIDCART_CLOCK,
+                    70, 84, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL,
+                    9, 110, 90, 8
+    LTEXT           "", IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL,
+                    9, 122, 58, 8
+    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE,
+                    70, 120, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 150, 50, 14, WS_TABSTOP
 END
-
-
-// DANISH version of dialog
-
-IDD_SIDCART_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Aktivér SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-motor",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID-filter", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-adresse",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-klok",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID-enhedsvalg",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Hovedenhed",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_SIDCART_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "SID Aktivier&en", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Engine",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Modell",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filter", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Adresse",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Uhr",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Geräte Auswahl",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Haupt Gerät",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_SIDCART_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Engin SID",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Modèle SID",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Filtres SID", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Address",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Horloge SID",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Sélection des périphériques",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Périphérique principal",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-
-
-// HUNGARIAN version of dialog
-
-#pragma code_page(28592)
-IDD_SIDCART_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "SID &engedélyezése", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID motor",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID típus",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID szûrõk", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID cím",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID órajel",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID eszköz kiválasztása",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Fõ eszköz",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// ITALIAN version of dialog
-
-IDD_SIDCART_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Attiva SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Motore SID",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Modello di SID",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Filtri SID", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Indirizzo SID",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID clock",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Selezione dispositivo HardSID",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Dispositivo principale",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_SIDCART_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Activeer SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-kern",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID-filters", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-Adres",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-klok",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID-apparaatselectie",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Hoofdapparaat",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_SIDCART_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Engine",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filters", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Address",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Clock",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Device Selection",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Main Device",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_SIDCART_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Aktivera SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-motor",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-modell",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID-filter", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-adress",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-klocka",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID-enhetsval",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Huvudenhet",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-
-
-// TURKISH version of dialog
-
-#pragma code_page(28599)
-IDD_SIDCART_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "SID'i aktif &et", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID motoru",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Modeli",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filtreleri", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID adresi",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID saati",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID aygýt seçimi",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Ana aygýt",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "Tamam", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
-END
-#pragma code_page(28591)
 
 // -----------------------------------------------------------------------------------------
 
-// original and default ENGLISH version of dialog
+// template of dialog for all languages
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 199
+IDD_SIDCARTPLUS4_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 199
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
+    AUTOCHECKBOX    "", IDC_SIDCART_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Engine",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filters", IDC_SIDCART_FILTERS,
+    LTEXT           "", IDC_SIDCART_ENGINE_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_SIDCART_ENGINE,
+                    70, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_MODEL_LABEL,
+                    9, 40, 53, 8
+    COMBOBOX        IDC_SIDCART_MODEL,
+                    70, 38, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID address",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID clock",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID device selection",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Main device",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
+    LTEXT           "", IDC_SIDCART_ADDRESS_LABEL,
+                    9, 70, 53, 8
+    COMBOBOX        IDC_SIDCART_ADDRESS,
+                    70, 68, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_CLOCK_LABEL,
+                    9, 86, 53, 8
+    COMBOBOX        IDC_SIDCART_CLOCK,
+                    70, 84, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL,
+                    9, 110, 90, 8
+    LTEXT           "", IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL,
+                    9, 122, 58, 8
+    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE,
+                    70, 120, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 174, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 174, 50, 14, WS_TABSTOP
 END
 
+// -----------------------------------------------------------------------------
 
-// DANISH version of dialog
+// original and default ENGLISH text
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DA DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Aktivér SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-motor",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID-filter", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-adresse",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-klok",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID-enhedsvalg",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Hovedenhed",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annullér", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
+  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 
 
-// GERMAN version of dialog
+// DANISH text
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "SID Aktivier&en", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Engine",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Modell",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filter", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Adresse",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Uhr",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Geräte Auswahl",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Haupt Gerät",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Digiblaster add-on aktivieren", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "&Aktivér SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID-adresse"
+  IDS_SIDCART_CLOCK_LABEL                    "SID-klok"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhedsvalg"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Hovedenhed"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 
 
-// FRENCH version of dialog
+// GERMAN text
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Engin SID",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Modèle SID",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Filtres SID", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Address",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Horloge SID",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Sélection des périphériques",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Périphérique principal",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "SID Aktivier&en"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID Adresse"
+  IDS_SIDCART_CLOCK_LABEL                    "SID Uhr"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Geräte Auswahl"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Haupt Gerät"
+  IDS_DIGIBLASTER                            "Digiblaster add-on aktivieren"
 END
 
 
-// HUNGARIAN version of dialog
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID Address"
+  IDS_SIDCART_CLOCK_LABEL                    "Horloge SID"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Sélection des périphériques"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Périphérique principal"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
+END
+
+
+// HUNGARIAN text
 
 #pragma code_page(28592)
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "SID &engedélyezése", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID motor",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID típus",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID szûrõk", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID cím",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID órajel",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID eszköz kiválasztása",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Fõ eszköz",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "SID &engedélyezése"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID cím"
+  IDS_SIDCART_CLOCK_LABEL                    "SID órajel"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID eszköz kiválasztása"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Fõ eszköz"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 #pragma code_page(28591)
 
 
-// ITALIAN version of dialog
+// ITALIAN text
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Attiva SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Motore SID",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Modello di SID",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Filtri SID", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Indirizzo SID",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID clock",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Selezione dispositivo HardSID",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Dispositivo principale",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "&Attiva SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "Indirizzo SID"
+  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Selezione dispositivo HardSID"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Dispositivo principale"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 
 
-// DUTCH version of dialog
+// DUTCH text
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Activeer SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-kern",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID-filters", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-Adres",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-klok",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID-apparaatselectie",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Hoofdapparaat",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "&Activeer SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID-Adres"
+  IDS_SIDCART_CLOCK_LABEL                    "SID-klok"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-apparaatselectie"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Hoofdapparaat"
+  IDS_DIGIBLASTER                            "Activeer digiblaster module"
 END
 
 
-// POLISH version of dialog
+// POLISH text
 
 #pragma code_page(28592)
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Engine",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Model",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filters", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Address",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Clock",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Device Selection",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Main Device",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID Address"
+  IDS_SIDCART_CLOCK_LABEL                    "SID Clock"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Device Selection"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main Device"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 #pragma code_page(28591)
 
 
-// SWEDISH version of dialog
+// SWEDISH text
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "&Aktivera SID", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-motor",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-modell",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID-filter", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID-adress",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID-klocka",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID-enhetsval",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Huvudenhet",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Aktivera digiblaster-tillägg", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "&Aktivera SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID-adress"
+  IDS_SIDCART_CLOCK_LABEL                    "SID-klocka"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhetsval"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Huvudenhet"
+  IDS_DIGIBLASTER                            "Aktivera digiblaster-tillägg"
 END
 
 
-// TURKISH version of dialog
+// TURKISH text
 
 #pragma code_page(28599)
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG_TR DIALOG DISCARDABLE  0, 0, 180, 199
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    AUTOCHECKBOX    "SID'i aktif &et", IDC_SIDCART_ENABLE,
-                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID motoru",
-                    IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE, 70, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Modeli",
-                    IDC_SIDCART_MODEL_LABEL, 9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL, 70, 38, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "SID Filtreleri", IDC_SIDCART_FILTERS,
-                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID adresi",
-                    IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
-    COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID saati",
-                    IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
-    COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID aygýt seçimi",
-                    IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Ana aygýt",
-                    IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
-    COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable digiblaster add-on", IDC_DIGIBLASTER,
-                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    DEFPUSHBUTTON   "Tamam", IDOK, 30, 174, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Ýptal", IDCANCEL, 90, 174, 50, 14, WS_TABSTOP
+  IDS_SIDCART_ENABLE                         "SID'i aktif &et"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID adresi"
+  IDS_SIDCART_CLOCK_LABEL                    "SID saati"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID aygýt seçimi"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Ana aygýt"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 #pragma code_page(28591)

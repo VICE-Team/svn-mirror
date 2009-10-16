@@ -40,24 +40,24 @@
 
 #include "uiapi.h"
 
-void statusbar_create(HWND hwnd);
-void statusbar_destroy(HWND hwnd);
-void statusbar_create_brushes(void);
-void statusbar_delete_brushes(void);
-int statusbar_get_status_height(void);
-void statusbar_setstatustext(const char *text);
-void statusbar_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
-void statusbar_display_drive_track(int drivenum, int drive_base, double track_number);
-void statusbar_display_drive_led(int drivenum, int status);
-void statusbar_set_tape_status(int tape_status);
-void statusbar_display_tape_motor_status(int motor);
-void statusbar_display_tape_control_status(int control);
-void statusbar_display_tape_counter(int counter);
-void statusbar_display_joyport(BYTE *ui_joystick_status);
-void statusbar_event_status(int mode);
-void statusbar_event_time(unsigned int current, unsigned int total);
-void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_index);
-void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam);
-void statusbar_notify(HWND window, int window_index, WPARAM wparam, LPARAM lparam);
-void statusbar_display_volume(int vol);
+extern void statusbar_create(HWND hwnd);
+extern void statusbar_destroy(HWND hwnd);
+extern void statusbar_create_brushes(void);
+extern void statusbar_delete_brushes(void);
+extern int statusbar_get_status_height(void);
+extern void statusbar_setstatustext(const char *text);
+extern void statusbar_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
+extern void statusbar_display_drive_track(int drivenum, int drive_base, double track_number);
+extern void statusbar_display_drive_led(int drivenum, int status);
+extern void statusbar_set_tape_status(int tape_status);
+extern void statusbar_display_tape_motor_status(int motor);
+extern void statusbar_display_tape_control_status(int control);
+extern void statusbar_display_tape_counter(int counter);
+extern void statusbar_display_joyport(BYTE *ui_joystick_status);
+extern void statusbar_event_status(int mode);
+extern void statusbar_event_time(unsigned int current, unsigned int total);
+extern void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_index);
+extern void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam);
+extern void statusbar_notify(HWND window, int window_index, WPARAM wparam, LPARAM lparam);
+extern void statusbar_display_volume(int vol);
 #endif

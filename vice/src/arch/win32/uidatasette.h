@@ -30,4 +30,3 @@
 extern void uidatasette_command(HWND hwnd, WPARAM wparam);
 
 #endif
-

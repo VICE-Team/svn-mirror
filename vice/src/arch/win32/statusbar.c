@@ -44,16 +44,22 @@
 #include "statusbar.h"
 
 
+#ifndef CDIS_FOCUS
+#define CDIS_FOCUS 16
+#endif
+
 static HWND status_hwnd[2];
 static HWND slider_hwnd[2];
 static int number_of_status_windows = 0;
 static int status_height;
 
 static unsigned int enabled_drives;
-static ui_drive_enable_t    status_enabled;
+static ui_drive_enable_t status_enabled;
 static int status_led[DRIVE_NUM];
+
 /* Translate from window index -> drive index */
 static int status_map[DRIVE_NUM];
+
 /* Translate from drive index -> window index */
 static int status_partindex[DRIVE_NUM];
 static double status_track[DRIVE_NUM];
@@ -119,8 +125,7 @@ static void SetStatusWindowParts(HWND hwnd)
     width = rect.right-rect.left;
 
     /* Place the volume slider */
-    MoveWindow(FindWindowEx(hwnd, NULL,TRACKBAR_CLASS, "Volume"),
-                               width - 20, 3, 20, 36, 0);
+    MoveWindow(FindWindowEx(hwnd, NULL,TRACKBAR_CLASS, "Volume"), width - 20, 3, 20, 36, 0);
 
     posx[i--] = width;
     width -= 20;
@@ -138,9 +143,9 @@ static void SetStatusWindowParts(HWND hwnd)
     posx[0] = width - 20;
 
     SendMessage(hwnd, SB_SETPARTS, last_part, (LPARAM)posx);
-    SendMessage(hwnd, SB_SETTEXT, disk_update_part|SBT_OWNERDRAW,0);
+    SendMessage(hwnd, SB_SETTEXT, disk_update_part|SBT_OWNERDRAW, 0);
     SendMessage(hwnd, SB_SETTEXT, 1|SBT_OWNERDRAW, 0);
-    SendMessage(hwnd, SB_SETTEXT, (last_part - 1)|SBT_OWNERDRAW,0);
+    SendMessage(hwnd, SB_SETTEXT, (last_part - 1)|SBT_OWNERDRAW, 0);
 
     lib_free(posx);
 }
@@ -155,25 +160,15 @@ void statusbar_create(HWND hwnd)
     while (status_hwnd[i] != NULL) {
         i++;
     }
-    status_hwnd[i] =
-        CreateStatusWindow(WS_CHILD | WS_VISIBLE, TEXT(""), hwnd,
-                           IDM_STATUS_WINDOW);
-    SendMessage(status_hwnd[i], SB_SETMINHEIGHT, 40,
-                (LPARAM)0);
+    status_hwnd[i] = CreateStatusWindow(WS_CHILD | WS_VISIBLE, TEXT(""), hwnd, IDM_STATUS_WINDOW);
+    SendMessage(status_hwnd[i], SB_SETMINHEIGHT, 40, (LPARAM)0);
     SendMessage(status_hwnd[i], WM_SIZE, 0, (LPARAM)0);
     
     GetClientRect(status_hwnd[i], &rect);
     status_height = rect.bottom;
 
     /* the volume part */
-    slider_hwnd[i] = CreateWindow(
-                               TRACKBAR_CLASS,
-                               TEXT("Volume"),
-                               WS_CHILD|WS_VISIBLE|TBS_VERT|TBS_NOTICKS,
-                               0, 0, 0, 0,
-                               status_hwnd[i],
-                               (HMENU)IDC_SLIDER,
-                               NULL,NULL);
+    slider_hwnd[i] = CreateWindow(TRACKBAR_CLASS, TEXT("Volume"), WS_CHILD | WS_VISIBLE | TBS_VERT | TBS_NOTICKS, 0, 0, 0, 0, status_hwnd[i], (HMENU)IDC_SLIDER, NULL, NULL);
 
     resources_get_int("SoundVolume", &res_val);
     SendMessage(slider_hwnd[i], TBM_SETPOS, 1, 100 - res_val);
@@ -189,11 +184,9 @@ void statusbar_create(HWND hwnd)
     number_of_status_windows++;
 }
 
-
 void statusbar_destroy(HWND hwnd)
 {
     int i;
-
 
     for (i = 0; i < number_of_status_windows; i++) {
         if (IsChild(hwnd, status_hwnd[i])) {
@@ -239,8 +232,7 @@ void statusbar_setstatustext(const char *text)
     }
 }
 
-void statusbar_enable_drive_status(ui_drive_enable_t enable,
-                                   int *drive_led_color)
+void statusbar_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     int i;
 
@@ -251,15 +243,13 @@ void statusbar_enable_drive_status(ui_drive_enable_t enable,
     }
 }
 
-void statusbar_display_drive_track(int drivenum, int drive_base,
-                                   double track_number)
+void statusbar_display_drive_track(int drivenum, int drive_base, double track_number)
 {
     int i;
 
     status_track[drivenum] = track_number;
     for (i = 0; i < number_of_status_windows; i++) {
-        SendMessage(status_hwnd[i], SB_SETTEXT,
-                    (status_partindex[drivenum]) | SBT_OWNERDRAW, 0);
+        SendMessage(status_hwnd[i], SB_SETTEXT, (status_partindex[drivenum]) | SBT_OWNERDRAW, 0);
     }
 }
 
@@ -270,8 +260,7 @@ void statusbar_display_drive_led(int drivenum, int status)
 
     status_led[drivenum] = status;
     for (i = 0; i < number_of_status_windows; i++) {
-        SendMessage(status_hwnd[i], SB_SETTEXT,
-                    (status_partindex[drivenum]) | SBT_OWNERDRAW, 0);
+        SendMessage(status_hwnd[i], SB_SETTEXT, (status_partindex[drivenum]) | SBT_OWNERDRAW, 0);
     }
 }
 
@@ -323,8 +312,9 @@ void statusbar_display_joyport(BYTE *joystick_status)
 
     joyport[1] = joystick_status[1];
     joyport[2] = joystick_status[2];
-    for (i = 0; i < number_of_status_windows; i++)
+    for (i = 0; i < number_of_status_windows; i++) {
         SendMessage(status_hwnd[i], SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
+    }
 }
 
 void statusbar_event_status(int mode)
@@ -345,12 +335,12 @@ void statusbar_event_time(unsigned int current, unsigned int total)
 
     event_time_current = current;
     event_time_total = total;
-    for (i = 0; i < number_of_status_windows; i++)
+    for (i = 0; i < number_of_status_windows; i++) {
         SendMessage(status_hwnd[i], SB_SETTEXT, event_part | SBT_OWNERDRAW, 0);
+    }
 }
 
-void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam,
-                             int window_index)
+void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_index)
 {
     SendMessage(status_hwnd[window_index], msg, wparam, lparam);
     SetStatusWindowParts(status_hwnd[window_index]);
@@ -411,11 +401,11 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.left += 3;
                 led.right -= 3;
                 tape_control_sign[0].x = led.left;
-                tape_control_sign[1].x = led.left+4;
+                tape_control_sign[1].x = led.left + 4;
                 tape_control_sign[2].x = led.left;
                 tape_control_sign[0].y = led.top;
-                tape_control_sign[1].y = led.top+4;
-                tape_control_sign[2].y = led.top+8;
+                tape_control_sign[1].y = led.top + 4;
+                tape_control_sign[2].y = led.top + 8;
                 switch (tape_control) {
                 case DATASETTE_CONTROL_STOP:
                     FillRect(hDC, &led, b_black);
@@ -426,8 +416,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                     Polygon(hDC, tape_control_sign, 3);
                     if (tape_control == DATASETTE_CONTROL_RECORD) {
                         SelectObject(hDC, b_red);
-                        Ellipse(hDC, led.left + 16, led.top + 1,
-                                led.left + 23, led.top + 8);
+                        Ellipse(hDC, led.left + 16, led.top + 1, led.left + 23, led.top + 8);
                     }
                     break;
                 case DATASETTE_CONTROL_REWIND:
@@ -460,7 +449,6 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             DrawText(hDC, translate_text(IDS_JOYSTICK_C), -1, &led, 0);
 
             for (joynum = 1; joynum <= 2; joynum ++) {
-
                 led.top = part_top + 22;
                 led.left = part_left + (joynum - 1) * 18 + 52;
                 led.bottom = led.top + 3;
@@ -469,15 +457,15 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 for (dir_index = 0; dir_index < 5; dir_index++) {
                     HBRUSH brush;
 
-                    if (joyport[joynum] & (1 << dir_index))
+                    if (joyport[joynum] & (1 << dir_index)) {
                         brush = (dir_index < 4 ? b_green : b_red);
-                    else
+                    } else {
                         brush = b_grey;
+                    }
 
                     OffsetRect(&led, offset_x[dir_index], offset_y[dir_index]);
 
                     FillRect(hDC, &led, brush);
-
                 }
             }
             return;
@@ -486,13 +474,13 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             /* it's a disk part*/
             int y;
             int index = ((itemID - 2) << 1);
+
             for (y = 0; y < 2 && status_map[index] >= 0; y++, index++) {
                 led.top = part_top + 20 * y + 2 ;
                 led.bottom = led.top + 16;
                 led.left = part_left + 2;
                 led.right = part_left + 45;
-                _stprintf(text, TEXT("%2d: %.1f"), status_map[index] + 8,
-                          status_track[status_map[index]]);
+                _stprintf(text, TEXT("%2d: %.1f"), status_map[index] + 8, status_track[status_map[index]]);
                 DrawText(hDC, text, -1, &led, 0);
 
                 led.bottom = led.top + 12;
@@ -511,8 +499,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                             HBRUSH brush_led_shade;
                             int col;
 
-                            col = ( drive_active_led[status_map[index]] ? COLOR_SHADE_GREEN : COLOR_SHADE_RED )
-                                  * status_led[status_map[index]] * MAX_COLOR / MAX_PWM;
+                            col = (drive_active_led[status_map[index]] ? COLOR_SHADE_GREEN : COLOR_SHADE_RED) * status_led[status_map[index]] * MAX_COLOR / MAX_PWM;
                             brush_led_shade = CreateSolidBrush(col);
                             FillRect(hDC, &led, brush_led_shade);
                             DeleteBrush(brush_led_shade);
@@ -526,16 +513,10 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             /* it's the event history part */
             switch (event_mode) {
                 case EVENT_RECORDING:
-                    _stprintf(text, translate_text(IDS_RECORDING),
-                        event_time_current / 60,
-                        event_time_current % 60);
+                    _stprintf(text, translate_text(IDS_RECORDING), event_time_current / 60, event_time_current % 60);
                     break;
                 case EVENT_PLAYBACK:
-                    _stprintf(text, translate_text(IDS_PLAYBACK),
-                        event_time_current / 60,
-                        event_time_current % 60,
-                        event_time_total / 60,
-                        event_time_total % 60);
+                    _stprintf(text, translate_text(IDS_PLAYBACK), event_time_current / 60, event_time_current % 60, event_time_total / 60, event_time_total % 60);
                     break;
                 default:
                     _stprintf(text, translate_text(IDS_UNKNOWN));
@@ -560,14 +541,12 @@ void statusbar_notify(HWND window, int window_index, WPARAM wparam, LPARAM lpara
         slider_pos = (int)SendMessage(slider_hwnd[window_index], TBM_GETPOS, 0, 0);
         resources_set_int("SoundVolume", 100 - slider_pos);
 
-        if (nmhdr->code == (UINT)NM_RELEASEDCAPTURE)
+        if (nmhdr->code == (UINT)NM_RELEASEDCAPTURE) {
             SetFocus(window);
+        }
 
         if (nmhdr->code == (UINT)NM_CUSTOMDRAW) {
             NMCUSTOMDRAW *lpNMCustomDraw = (NMCUSTOMDRAW*)lparam;
-#ifndef CDIS_FOCUS
-#define CDIS_FOCUS 16
-#endif
             lpNMCustomDraw->uItemState &= ~CDIS_FOCUS;
         }
     }
@@ -578,6 +557,7 @@ void statusbar_display_volume(int vol)
 {
     int i;
 
-    for (i = 0; i < number_of_status_windows; i++)
+    for (i = 0; i < number_of_status_windows; i++) {
         SendMessage(slider_hwnd[i], TBM_SETPOS, 1, 100 - vol);
+    }
 }

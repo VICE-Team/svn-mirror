@@ -56,4 +56,5 @@ extern enum rs232handshake_in rs232net_get_status(int fd);
 extern int rs232net_resources_init(void);
 extern void rs232net_resources_shutdown(void);
 extern int rs232net_cmdline_options_init(void);
+
 #endif

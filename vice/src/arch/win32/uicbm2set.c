@@ -49,47 +49,47 @@
 #endif
 
 static uilib_localize_dialog_param cbm2_dialog_trans[] = {
-    {IDC_MACHINE_DEFAULTS, IDS_MACHINE_DEFAULTS, 0},
-    {IDC_MODEL_LINE, IDS_MODEL_LINE, 0},
-    {0, 0, 0}
+    { IDC_MACHINE_DEFAULTS, IDS_MACHINE_DEFAULTS, 0 },
+    { IDC_MODEL_LINE, IDS_MODEL_LINE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_localize_dialog_param ok_cancel_trans[] = {
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group cbm2_main_group[] = {
-    {IDC_MACHINE_DEFAULTS, 1},
-    {IDC_MODEL_LINE, 1},
-    {0, 0}
+    { IDC_MACHINE_DEFAULTS, 1 },
+    { IDC_MODEL_LINE, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group cbm2_left_group[] = {
-    {IDC_MACHINE_DEFAULTS, 0},
-    {IDC_SELECT_CBMII_610, 0},
-    {IDC_SELECT_CBMII_620, 0},
-    {IDC_SELECT_CBMII_620P, 0},
-    {IDC_SELECT_CBMII_710, 0},
-    {IDC_SELECT_CBMII_720, 0},
-    {IDC_SELECT_CBMII_720P, 0},
-    {0, 0}
+    { IDC_MACHINE_DEFAULTS, 0 },
+    { IDC_SELECT_CBMII_610, 0 },
+    { IDC_SELECT_CBMII_620, 0 },
+    { IDC_SELECT_CBMII_620P, 0 },
+    { IDC_SELECT_CBMII_710, 0 },
+    { IDC_SELECT_CBMII_720, 0 },
+    { IDC_SELECT_CBMII_720P, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group cbm2_move_right_group[] = {
-    {IDC_SELECT_CBMII_HW0, 0},
-    {IDC_SELECT_CBMII_HW1, 0},
-    {IDC_SELECT_CBMII_HW2, 0},
-    {0, 0}
+    { IDC_SELECT_CBMII_HW0, 0 },
+    { IDC_SELECT_CBMII_HW1, 0 },
+    { IDC_SELECT_CBMII_HW2, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group cbm2_right_group[] = {
-    {IDC_MODEL_LINE, 0},
-    {IDC_SELECT_CBMII_HW0, 0},
-    {IDC_SELECT_CBMII_HW1, 0},
-    {IDC_SELECT_CBMII_HW2, 0},
-    {0, 0}
+    { IDC_MODEL_LINE, 0 },
+    { IDC_SELECT_CBMII_HW0, 0 },
+    { IDC_SELECT_CBMII_HW1, 0 },
+    { IDC_SELECT_CBMII_HW2, 0 },
+    { 0, 0 }
 };
 
 static void init_dialog(HWND hwnd)
@@ -138,69 +138,69 @@ static void init_dialog(HWND hwnd)
 
     resources_get_int("ModelLine", &res);
     switch (res) {
-      case 0:
-        n = IDC_SELECT_CBMII_HW0;
-        break;
-      case 1:
-        n = IDC_SELECT_CBMII_HW1;
-        break;
-      case 2:
-        n = IDC_SELECT_CBMII_HW2;
-        break;
+        case 0:
+            n = IDC_SELECT_CBMII_HW0;
+            break;
+        case 1:
+            n = IDC_SELECT_CBMII_HW1;
+            break;
+        case 2:
+            n = IDC_SELECT_CBMII_HW2;
+            break;
     }
     CheckRadioButton(hwnd, IDC_SELECT_CBMII_HW0, IDC_SELECT_CBMII_HW2, n);
 }
 
 static uilib_localize_dialog_param cbm2_memory_dialog_trans[] = {
-    {IDC_CBM2_MEMORY, IDS_A_MEMORY, 0},
-    {IDC_SELECT_CBMII_MEM_128, IDS_SELECT_CBMII_MEM_128, 0},
-    {IDC_SELECT_CBMII_MEM_256, IDS_SELECT_CBMII_MEM_256, 0},
-    {IDC_SELECT_CBMII_MEM_512, IDS_SELECT_CBMII_MEM_512, 0},
-    {IDC_SELECT_CBMII_MEM_1024, IDS_SELECT_CBMII_MEM_1024, 0},
-    {IDC_RAM_BANKS, IDS_CBM2_RAM_BANKS, 0},
-    {IDC_TOGGLE_CBMII_RAM08, IDS_TOGGLE_CBMII_RAM08, 0},
-    {IDC_TOGGLE_CBMII_RAM1, IDS_TOGGLE_CBMII_RAM1, 0},
-    {IDC_TOGGLE_CBMII_RAM2, IDS_TOGGLE_CBMII_RAM2, 0},
-    {IDC_TOGGLE_CBMII_RAM4, IDS_TOGGLE_CBMII_RAM4, 0},
-    {IDC_TOGGLE_CBMII_RAM6, IDS_TOGGLE_CBMII_RAM6, 0},
-    {IDC_TOGGLE_CBMII_RAMC, IDS_TOGGLE_CBMII_RAMC, 0},
-    {0, 0, 0}
+    { IDC_CBM2_MEMORY, IDS_A_MEMORY, 0 },
+    { IDC_SELECT_CBMII_MEM_128, IDS_SELECT_CBMII_MEM_128, 0 },
+    { IDC_SELECT_CBMII_MEM_256, IDS_SELECT_CBMII_MEM_256, 0 },
+    { IDC_SELECT_CBMII_MEM_512, IDS_SELECT_CBMII_MEM_512, 0 },
+    { IDC_SELECT_CBMII_MEM_1024, IDS_SELECT_CBMII_MEM_1024, 0 },
+    { IDC_RAM_BANKS, IDS_CBM2_RAM_BANKS, 0 },
+    { IDC_TOGGLE_CBMII_RAM08, IDS_TOGGLE_CBMII_RAM08, 0 },
+    { IDC_TOGGLE_CBMII_RAM1, IDS_TOGGLE_CBMII_RAM1, 0 },
+    { IDC_TOGGLE_CBMII_RAM2, IDS_TOGGLE_CBMII_RAM2, 0 },
+    { IDC_TOGGLE_CBMII_RAM4, IDS_TOGGLE_CBMII_RAM4, 0 },
+    { IDC_TOGGLE_CBMII_RAM6, IDS_TOGGLE_CBMII_RAM6, 0 },
+    { IDC_TOGGLE_CBMII_RAMC, IDS_TOGGLE_CBMII_RAMC, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group cbm2_memory_main_group[] = {
-    {IDC_CBM2_MEMORY, 1},
-    {IDC_RAM_BANKS, 1},
-    {0, 0}
+    { IDC_CBM2_MEMORY, 1 },
+    { IDC_RAM_BANKS, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group cbm2_memory_left_group[] = {
-    {IDC_CBM2_MEMORY, 0},
-    {IDC_SELECT_CBMII_MEM_128, 0},
-    {IDC_SELECT_CBMII_MEM_256, 0},
-    {IDC_SELECT_CBMII_MEM_512, 0},
-    {IDC_SELECT_CBMII_MEM_1024, 0},
-    {0, 0}
+    { IDC_CBM2_MEMORY, 0 },
+    { IDC_SELECT_CBMII_MEM_128, 0 },
+    { IDC_SELECT_CBMII_MEM_256, 0 },
+    { IDC_SELECT_CBMII_MEM_512, 0 },
+    { IDC_SELECT_CBMII_MEM_1024, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group cbm2_memory_move_right_group[] = {
-    {IDC_TOGGLE_CBMII_RAM08, 0},
-    {IDC_TOGGLE_CBMII_RAM1, 0},
-    {IDC_TOGGLE_CBMII_RAM2, 0},
-    {IDC_TOGGLE_CBMII_RAM4, 0},
-    {IDC_TOGGLE_CBMII_RAM6, 0},
-    {IDC_TOGGLE_CBMII_RAMC, 0},
-    {0, 0}
+    { IDC_TOGGLE_CBMII_RAM08, 0 },
+    { IDC_TOGGLE_CBMII_RAM1, 0 },
+    { IDC_TOGGLE_CBMII_RAM2, 0 },
+    { IDC_TOGGLE_CBMII_RAM4, 0 },
+    { IDC_TOGGLE_CBMII_RAM6, 0 },
+    { IDC_TOGGLE_CBMII_RAMC, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group cbm2_memory_right_group[] = {
-    {IDC_RAM_BANKS, 0},
-    {IDC_TOGGLE_CBMII_RAM08, 0},
-    {IDC_TOGGLE_CBMII_RAM1, 0},
-    {IDC_TOGGLE_CBMII_RAM2, 0},
-    {IDC_TOGGLE_CBMII_RAM4, 0},
-    {IDC_TOGGLE_CBMII_RAM6, 0},
-    {IDC_TOGGLE_CBMII_RAMC, 0},
-    {0, 0}
+    { IDC_RAM_BANKS, 0 },
+    { IDC_TOGGLE_CBMII_RAM08, 0 },
+    { IDC_TOGGLE_CBMII_RAM1, 0 },
+    { IDC_TOGGLE_CBMII_RAM2, 0 },
+    { IDC_TOGGLE_CBMII_RAM4, 0 },
+    { IDC_TOGGLE_CBMII_RAM6, 0 },
+    { IDC_TOGGLE_CBMII_RAMC, 0 },
+    { 0, 0 }
 };
 
 static void init_memory_dialog(HWND hwnd)
@@ -248,133 +248,124 @@ static void init_memory_dialog(HWND hwnd)
     uilib_move_and_set_element_width(hwnd, IDC_RAM_BANKS, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("Ram08", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM08, 
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM08, n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_int("Ram1", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM1,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM1, n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_int("Ram2", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM2,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM2, n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_int("Ram4", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM4,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM4, n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_int("Ram6", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM6,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM6, n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_int("RamC", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAMC,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAMC, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int("RamSize", &res);
     switch (res) {
-      case 128:
-        n = IDC_SELECT_CBMII_MEM_128;
-        break;
-      case 256:
-        n = IDC_SELECT_CBMII_MEM_256;
-        break;
-      case 512:
-        n = IDC_SELECT_CBMII_MEM_512;
-        break;
-      case 1024:
-        n = IDC_SELECT_CBMII_MEM_1024;
-        break;
+        case 128:
+            n = IDC_SELECT_CBMII_MEM_128;
+            break;
+        case 256:
+            n = IDC_SELECT_CBMII_MEM_256;
+            break;
+        case 512:
+            n = IDC_SELECT_CBMII_MEM_512;
+            break;
+        case 1024:
+            n = IDC_SELECT_CBMII_MEM_1024;
+            break;
     }
-    CheckRadioButton(hwnd, IDC_SELECT_CBMII_MEM_128, IDC_SELECT_CBMII_MEM_1024,
-                     n);
+    CheckRadioButton(hwnd, IDC_SELECT_CBMII_MEM_128, IDC_SELECT_CBMII_MEM_1024, n);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_SELECT_CBMII_610:
-              cbm2_set_model("610", NULL);
-              break;
-            case IDC_SELECT_CBMII_620:
-              cbm2_set_model("620", NULL);
-              break;
-            case IDC_SELECT_CBMII_620P:
-              cbm2_set_model("620+", NULL);
-              break;
-            case IDC_SELECT_CBMII_710:
-              cbm2_set_model("710", NULL);
-              break;
-            case IDC_SELECT_CBMII_720:
-              cbm2_set_model("720", NULL);
-              break;
-            case IDC_SELECT_CBMII_720P:
-              cbm2_set_model("720+", NULL);
-              break;
+        case WM_INITDIALOG:
+            init_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_SELECT_CBMII_610:
+                    cbm2_set_model("610", NULL);
+                    break;
+                case IDC_SELECT_CBMII_620:
+                    cbm2_set_model("620", NULL);
+                    break;
+                case IDC_SELECT_CBMII_620P:
+                    cbm2_set_model("620+", NULL);
+                    break;
+                case IDC_SELECT_CBMII_710:
+                    cbm2_set_model("710", NULL);
+                    break;
+                case IDC_SELECT_CBMII_720:
+                    cbm2_set_model("720", NULL);
+                    break;
+                case IDC_SELECT_CBMII_720P:
+                    cbm2_set_model("720+", NULL);
+                    break;
 
-            case IDC_SELECT_CBMII_HW0:
-              resources_set_int("ModelLine", 0);
-              break;
-            case IDC_SELECT_CBMII_HW1:
-              resources_set_int("ModelLine", 1);
-              break;
-            case IDC_SELECT_CBMII_HW2:
-              resources_set_int("ModelLine", 2);
-              break;
-          }
-          return TRUE;
+                case IDC_SELECT_CBMII_HW0:
+                    resources_set_int("ModelLine", 0);
+                    break;
+                case IDC_SELECT_CBMII_HW1:
+                    resources_set_int("ModelLine", 1);
+                    break;
+                case IDC_SELECT_CBMII_HW2:
+                    resources_set_int("ModelLine", 2);
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
 
-static INT_PTR CALLBACK memory_dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK memory_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_memory_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_SELECT_CBMII_MEM_128:
-              resources_set_int("RamSize", 128);
-              break;
-            case IDC_SELECT_CBMII_MEM_256:
-              resources_set_int("RamSize", 256);
-              break;
-            case IDC_SELECT_CBMII_MEM_512:
-              resources_set_int("RamSize", 512);
-              break;
-            case IDC_SELECT_CBMII_MEM_1024:
-              resources_set_int("RamSize", 1024);
-              break;
-            case IDC_TOGGLE_CBMII_RAM08:
-              resources_toggle("Ram08", NULL);
-              break;
-            case IDC_TOGGLE_CBMII_RAM1:
-              resources_toggle("Ram1", NULL);
-              break;
-            case IDC_TOGGLE_CBMII_RAM2:
-              resources_toggle("Ram2", NULL);
-              break;
-            case IDC_TOGGLE_CBMII_RAM4:
-              resources_toggle("Ram4", NULL);
-              break;
-            case IDC_TOGGLE_CBMII_RAM6:
-              resources_toggle("Ram6", NULL);
-              break;
-            case IDC_TOGGLE_CBMII_RAMC:
-              resources_toggle("RamC", NULL);
-              break;
-          }
-          return TRUE;
+        case WM_INITDIALOG:
+            init_memory_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_SELECT_CBMII_MEM_128:
+                    resources_set_int("RamSize", 128);
+                    break;
+                case IDC_SELECT_CBMII_MEM_256:
+                    resources_set_int("RamSize", 256);
+                    break;
+                case IDC_SELECT_CBMII_MEM_512:
+                    resources_set_int("RamSize", 512);
+                    break;
+                case IDC_SELECT_CBMII_MEM_1024:
+                    resources_set_int("RamSize", 1024);
+                    break;
+                case IDC_TOGGLE_CBMII_RAM08:
+                    resources_toggle("Ram08", NULL);
+                    break;
+                case IDC_TOGGLE_CBMII_RAM1:
+                    resources_toggle("Ram1", NULL);
+                    break;
+                case IDC_TOGGLE_CBMII_RAM2:
+                    resources_toggle("Ram2", NULL);
+                    break;
+                case IDC_TOGGLE_CBMII_RAM4:
+                    resources_toggle("Ram4", NULL);
+                    break;
+                case IDC_TOGGLE_CBMII_RAM6:
+                    resources_toggle("Ram6", NULL);
+                    break;
+                case IDC_TOGGLE_CBMII_RAMC:
+                    resources_toggle("RamC", NULL);
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
@@ -431,4 +422,3 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     system_psh_settings(&psh);
     PropertySheet(&psh);
 }
-

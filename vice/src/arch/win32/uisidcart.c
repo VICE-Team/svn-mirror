@@ -91,12 +91,133 @@ static void enable_sidcart_controls(HWND hwnd)
   enable_sidcart_hardsid_controls(hwnd);
 }
 
+static uilib_localize_dialog_param sidcart_dialog_trans[] = {
+    {IDC_SIDCART_ENABLE, IDS_SIDCART_ENABLE, 0},
+    {IDC_SIDCART_ENGINE_LABEL, IDS_SID_GENGROUP1, 0},
+    {IDC_SIDCART_MODEL_LABEL, IDS_SID_GENGROUP2, 0},
+    {IDC_SIDCART_FILTERS, IDS_SID_FILTERS, 0},
+    {IDC_SIDCART_ADDRESS_LABEL, IDS_SIDCART_ADDRESS_LABEL, 0},
+    {IDC_SIDCART_CLOCK_LABEL, IDS_SIDCART_CLOCK_LABEL, 0},
+    {IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 0},
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_localize_dialog_param sidcart_plus4_dialog_trans[] = {
+    {IDC_DIGIBLASTER, IDS_DIGIBLASTER, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group sidcart_main_group[] = {
+    {IDC_SIDCART_ENABLE, 1},
+    {IDC_SIDCART_ENGINE_LABEL, 0},
+    {IDC_SIDCART_MODEL_LABEL, 0},
+    {IDC_SIDCART_FILTERS, 1},
+    {IDC_SIDCART_ADDRESS_LABEL, 0},
+    {IDC_SIDCART_CLOCK_LABEL, 0},
+    {IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 0},
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sidcart_plus4_main_group[] = {
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sidcart_left_group[] = {
+    {IDC_SIDCART_ENGINE_LABEL, 0},
+    {IDC_SIDCART_MODEL_LABEL, 0},
+    {IDC_SIDCART_ADDRESS_LABEL, 0},
+    {IDC_SIDCART_CLOCK_LABEL, 0},
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sidcart_right_group[] = {
+    {IDC_SIDCART_ENGINE, 0},
+    {IDC_SIDCART_MODEL, 0},
+    {IDC_SIDCART_ADDRESS, 0},
+    {IDC_SIDCART_CLOCK, 0},
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sidcart_window_group[] = {
+    {IDC_SIDCART_ENABLE, 0},
+    {IDC_SIDCART_ENGINE, 0},
+    {IDC_SIDCART_FILTERS, 0},
+    {IDC_SIDCART_MODEL, 0},
+    {IDC_SIDCART_ADDRESS, 0},
+    {IDC_SIDCART_CLOCK, 0},
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group sidcart_plus4_window_group[] = {
+    {IDC_SIDCART_ENABLE, 0},
+    {IDC_SIDCART_ENGINE, 0},
+    {IDC_SIDCART_FILTERS, 0},
+    {IDC_SIDCART_MODEL, 0},
+    {IDC_SIDCART_ADDRESS, 0},
+    {IDC_SIDCART_CLOCK, 0},
+    {IDC_SIDCART_HARDSID_MAIN_DEVICE, 0},
+    {0, 0}
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_sidcart_dialog(HWND hwnd)
 {
   HWND temp_hwnd;
   int res_value;
   int res_value_loop;
   unsigned int available, device;
+  int xstart;
+  int xpos;
+  RECT rect;
+
+  /* translate all dialog items */
+  uilib_localize_dialog(hwnd, sidcart_dialog_trans);
+
+  if (machine_class == VICE_MACHINE_PLUS4) {
+    /* translate the plus4 extra item */
+    uilib_localize_dialog(hwnd, sidcart_plus4_dialog_trans);
+  }
+
+  /* adjust the size of the elements in the main group */
+  uilib_adjust_group_width(hwnd, sidcart_main_group);
+  
+  if (machine_class == VICE_MACHINE_PLUS4) {
+    /* adjust the size of the elements in the plus4 main group */
+    uilib_adjust_group_width(hwnd, sidcart_plus4_main_group);
+  }
+
+  /* get the max x of the left group */
+  uilib_get_group_max_x(hwnd, sidcart_left_group, &xpos);
+
+  /* move the right group to the correct position */
+  uilib_move_group(hwnd, sidcart_right_group, xpos + 10);
+
+  /* get the max x of the left group */
+  if (machine_class == VICE_MACHINE_PLUS4) {
+    uilib_get_group_max_x(hwnd, sidcart_plus4_window_group, &xpos);
+  } else {
+    uilib_get_group_max_x(hwnd, sidcart_window_group, &xpos);
+  }
+
+  /* set the width of the dialog to 'surround' all the elements */
+  GetWindowRect(hwnd, &rect);
+  MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+  /* recenter the buttons in the newly resized dialog window */
+  uilib_center_buttons(hwnd, move_buttons_group, 0);
 
   switch (machine_class)
   {
@@ -248,7 +369,7 @@ void ui_sidcart_settings_dialog(HWND hwnd)
     DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_SIDCARTPLUS4_SETTINGS_DIALOG), hwnd,
               dialog_proc);
   } else {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)translate_res(IDD_SIDCART_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCART_SETTINGS_DIALOG, hwnd,
               dialog_proc);
   }
 }

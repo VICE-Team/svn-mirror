@@ -83,13 +83,13 @@ int rs232net_cmdline_options_init(void)
 typedef struct rs232net {
     int inuse; /*!< 0 if the connection has not been opened, 1 otherwise. */
     vice_network_socket_t * fd; /*!< the vice_network_socket_t for the connection.
-                    If fd is 0
+                                     If fd is 0
                     although inuse == 1, then the socket has been closed
                     because of a previous error. This prevents the error
                     log from being flooded with error messages. */
 } rs232net_t;
 
-static rs232net_t fds[RS232_NUM_DEVICES] = { { 0 } };
+static rs232net_t fds[RS232_NUM_DEVICES] = {{0}};
 
 static log_t rs232net_log = LOG_ERR;
 
@@ -126,9 +126,8 @@ int rs232net_open(int device)
 
         /* parse the address */
         ad = vice_network_address_generate(rs232_devfile[device], 0);
-        if ( ! ad ) {
-            log_error(rs232net_log, "Bad device name.  Should be ipaddr:port, but is '%s'.",
-                                    rs232_devfile[device]);
+        if (!ad) {
+            log_error(rs232net_log, "Bad device name.  Should be ipaddr:port, but is '%s'.", rs232_devfile[device]);
             break;
         }
 
@@ -147,7 +146,7 @@ int rs232net_open(int device)
 
         /* connect socket */
         fds[i].fd = vice_network_client(ad);
-        if ( ! fds[i].fd ) {
+        if (!fds[i].fd) {
             log_error(rs232net_log, "Cant open connection.");
             break;
         }
@@ -208,8 +207,9 @@ int rs232net_putc(int fd, BYTE b)
     }
 
     /* silently drop if socket is shut because of a previous error */
-    if ( ! fds[fd].fd )
+    if (!fds[fd].fd) {
         return 0;
+    }
 
     /* for the beginning... */
     DEBUG_LOG_MESSAGE((rs232net_log, "Output `%c'.", b));
@@ -246,7 +246,7 @@ int rs232net_getc(int fd, BYTE * b)
         no_of_read_byte = 0;
 
         /* silently drop if socket is shut because of a previous error  */
-        if ( ! fds[fd].fd ) {
+        if (!fds[fd].fd) {
             break;
         }
 
@@ -259,8 +259,7 @@ int rs232net_getc(int fd, BYTE * b)
             if ( no_of_read_byte != 1 ) {
                 if ( no_of_read_byte < 0 ) {
                     log_error(rs232net_log, "Error reading: %u.", vice_network_get_errorcode());
-                }
-                else {
+                } else {
                     log_error(rs232net_log, "EOF");
                 }
                 rs232net_closesocket(fd);

@@ -9,24 +9,26 @@
 
 // template of dialog for all languages
 
-IDD_TFE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 270, 100
+IDD_TFE_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 270, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "",
-                    IDC_TFE_SETTINGS_ENABLE_T, 9, 7, 30, 8
-    COMBOBOX        IDC_TFE_SETTINGS_ENABLE, 45, 5, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "",
-                    IDC_TFE_SETTINGS_INTERFACE_T, 9, 24, 30, 8
-    COMBOBOX        IDC_TFE_SETTINGS_INTERFACE, 45, 22, 200, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "",
-                    IDC_TFE_SETTINGS_INTERFACE_NAME, 9, 44, 250, 8
-    LTEXT           "",
-                    IDC_TFE_SETTINGS_INTERFACE_DESC, 9, 60, 250, 8
-    DEFPUSHBUTTON   "", IDOK, 20, 75, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 80, 75, 50, 14, WS_TABSTOP
+    LTEXT         "", IDC_TFE_SETTINGS_ENABLE_T,
+                  9, 7, 30, 8
+    COMBOBOX      IDC_TFE_SETTINGS_ENABLE,
+                  45, 5, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_TFE_SETTINGS_INTERFACE_T,
+                  9, 24, 30, 8
+    COMBOBOX      IDC_TFE_SETTINGS_INTERFACE,
+                  45, 22, 200, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_TFE_SETTINGS_INTERFACE_NAME,
+                  9, 44, 250, 8
+    LTEXT         "", IDC_TFE_SETTINGS_INTERFACE_DESC,
+                  9, 60, 250, 8
+    DEFPUSHBUTTON "", IDOK,
+                  20, 75, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  80, 75, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -36,9 +38,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet Settings"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interface"
+    IDS_TFE_CAPTION   "Ethernet Settings"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interface"
 END
 
 
@@ -47,9 +49,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernetindstillinger"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interface"
+    IDS_TFE_CAPTION   "Ethernetindstillinger"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interface"
 END
 
 
@@ -58,9 +60,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet Einstellungen"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "Schn&ittstelle"
+    IDS_TFE_CAPTION   "Ethernet Einstellungen"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "Schn&ittstelle"
 END
 
 
@@ -69,9 +71,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Paramètres Ethernet"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interface"
+    IDS_TFE_CAPTION   "Paramètres Ethernet"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interface"
 END
 
 
@@ -81,9 +83,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet beállításai"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interfész"
+    IDS_TFE_CAPTION   "Ethernet beállításai"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interfész"
 END
 #pragma code_page(28591)
 
@@ -93,9 +95,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Impostazioni Ethernet"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interfaccia"
+    IDS_TFE_CAPTION   "Impostazioni Ethernet"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interfaccia"
 END
 
 
@@ -104,9 +106,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet-instellingen"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interface"
+    IDS_TFE_CAPTION   "Ethernet-instellingen"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interface"
 END
 
 
@@ -116,9 +118,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ustawienia Ethernet"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interface"
+    IDS_TFE_CAPTION   "Ustawienia Ethernet"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Interface"
 END
 #pragma code_page(28591)
 
@@ -128,9 +130,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernetinställningar"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Gränssnitt"
+    IDS_TFE_CAPTION   "Ethernetinställningar"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "&Gränssnitt"
 END
 
 
@@ -140,8 +142,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet Ayarlarý"
-    IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "Arab&irim"
+    IDS_TFE_CAPTION   "Ethernet Ayarlarý"
+    IDS_TFE_ETHERNET  "&Ethernet"
+    IDS_TFE_INTERFACE "Arab&irim"
 END
 #pragma code_page(28591)

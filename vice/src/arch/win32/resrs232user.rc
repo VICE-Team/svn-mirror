@@ -9,20 +9,24 @@
 
 // template of dialog for all languages
 
-IDD_RS232USER_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 90
+IDD_RS232USER_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 170, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "", IDC_RS232USER_ENABLE,
-                    7, 7, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "", IDC_RS232USER_DEVICE_LABEL, 9, 24, 55, 8
-    COMBOBOX        IDC_RS232USER_DEVICE, 75, 22, 75, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "", IDC_RS232USER_BAUDRATE_LABEL, 9, 44, 60, 8
-    COMBOBOX        IDC_RS232USER_BAUDRATE, 75, 42, 75, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    DEFPUSHBUTTON   "", IDOK, 25, 70, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 85, 70, 50, 14, WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_RS232USER_ENABLE,
+                  7, 7, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT         "", IDC_RS232USER_DEVICE_LABEL,
+                  9, 24, 55, 8
+    COMBOBOX      IDC_RS232USER_DEVICE, 75, 22, 75, 80,
+                  CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_RS232USER_BAUDRATE_LABEL,
+                  9, 44, 60, 8
+    COMBOBOX      IDC_RS232USER_BAUDRATE,
+                  75, 42, 75, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON "", IDOK,
+                  25, 70, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  85, 70, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -32,10 +36,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 Userport Settings"
-    IDS_RS232USER_ENABLE        "&Enable RS232 userport"
-    IDS_RS232USER_DEVICE        "Userport device"
-    IDS_RS232USER_BAUD          "Userport baud rate"
+  IDS_RS232USER_CAPTION "RS232 Userport Settings"
+  IDS_RS232USER_ENABLE  "&Enable RS232 userport"
+  IDS_RS232USER_DEVICE  "Userport device"
+  IDS_RS232USER_BAUD    "Userport baud rate"
 END
 
 
@@ -44,10 +48,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232-brugerportindstillinger"
-    IDS_RS232USER_ENABLE        "&Aktivér RS232-brugerport"
-    IDS_RS232USER_DEVICE        "Brugerport enhed"
-    IDS_RS232USER_BAUD          "Brugerportens baudhastighet"
+  IDS_RS232USER_CAPTION "RS232-brugerportindstillinger"
+  IDS_RS232USER_ENABLE  "&Aktivér RS232-brugerport"
+  IDS_RS232USER_DEVICE  "Brugerport enhed"
+  IDS_RS232USER_BAUD    "Brugerportens baudhastighet"
 END
 
 
@@ -56,10 +60,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 Userport Einstellungen"
-    IDS_RS232USER_ENABLE        "RS232 Userport Emulation aktivi&eren"
-    IDS_RS232USER_DEVICE        "Userport Gerät"
-    IDS_RS232USER_BAUD          "Userport Baud Rate"
+  IDS_RS232USER_CAPTION "RS232 Userport Einstellungen"
+  IDS_RS232USER_ENABLE  "RS232 Userport Emulation aktivi&eren"
+  IDS_RS232USER_DEVICE  "Userport Gerät"
+  IDS_RS232USER_BAUD    "Userport Baud Rate"
 END
 
 
@@ -68,10 +72,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "Paramètres RS232 Userport"
-    IDS_RS232USER_ENABLE        "&Activer RS232 Userport"
-    IDS_RS232USER_DEVICE        "Périphérique Userport"
-    IDS_RS232USER_BAUD          "Vitesse du Userport"
+  IDS_RS232USER_CAPTION "Paramètres RS232 Userport"
+  IDS_RS232USER_ENABLE  "&Activer RS232 Userport"
+  IDS_RS232USER_DEVICE  "Périphérique Userport"
+  IDS_RS232USER_BAUD    "Vitesse du Userport"
 END
 
 
@@ -81,10 +85,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 Userport beállításai"
-    IDS_RS232USER_ENABLE        "RS232 userport &engedélyezése"
-    IDS_RS232USER_DEVICE        "Userport eszköz"
-    IDS_RS232USER_BAUD          "Userport átviteli ráta"
+  IDS_RS232USER_CAPTION "RS232 Userport beállításai"
+  IDS_RS232USER_ENABLE  "RS232 userport &engedélyezése"
+  IDS_RS232USER_DEVICE  "Userport eszköz"
+  IDS_RS232USER_BAUD    "Userport átviteli ráta"
 END
 #pragma code_page(28591)
 
@@ -94,10 +98,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "Impostazioni RS232 su userport"
-    IDS_RS232USER_ENABLE        "&Attiva la RS232 su userport"
-    IDS_RS232USER_DEVICE        "Dispositivo su userport"
-    IDS_RS232USER_BAUD          "Velocità Userport"
+  IDS_RS232USER_CAPTION "Impostazioni RS232 su userport"
+  IDS_RS232USER_ENABLE  "&Attiva la RS232 su userport"
+  IDS_RS232USER_DEVICE  "Dispositivo su userport"
+  IDS_RS232USER_BAUD    "Velocità Userport"
 END
 
 
@@ -106,10 +110,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 Userport-instellingen"
-    IDS_RS232USER_ENABLE        "&Activeer RS232-userport"
-    IDS_RS232USER_DEVICE        "Userport apparaat"
-    IDS_RS232USER_BAUD          "Userport baudrate"
+  IDS_RS232USER_CAPTION "RS232 Userport-instellingen"
+  IDS_RS232USER_ENABLE  "&Activeer RS232-userport"
+  IDS_RS232USER_DEVICE  "Userport apparaat"
+  IDS_RS232USER_BAUD    "Userport baudrate"
 END
 
 
@@ -119,10 +123,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "Ustawienia RS232 Userportu"
-    IDS_RS232USER_ENABLE        "&W³±cz RS232 userportu"
-    IDS_RS232USER_DEVICE        "Urz±dzenie portu RS232"
-    IDS_RS232USER_BAUD          "Urz±dzenie portu RS232"
+  IDS_RS232USER_CAPTION "Ustawienia RS232 Userportu"
+  IDS_RS232USER_ENABLE  "&W³±cz RS232 userportu"
+  IDS_RS232USER_DEVICE  "Urz±dzenie portu RS232"
+  IDS_RS232USER_BAUD    "Urz±dzenie portu RS232"
 END
 #pragma code_page(28591)
 
@@ -132,10 +136,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232-användarportinställningar"
-    IDS_RS232USER_ENABLE        "&Aktivera RS232-användarport"
-    IDS_RS232USER_DEVICE        "Användarportensenhet"
-    IDS_RS232USER_BAUD          "Användarportens baudhastighet"
+  IDS_RS232USER_CAPTION "RS232-användarportinställningar"
+  IDS_RS232USER_ENABLE  "&Aktivera RS232-användarport"
+  IDS_RS232USER_DEVICE  "Användarportensenhet"
+  IDS_RS232USER_BAUD    "Användarportens baudhastighet"
 END
 
 
@@ -145,9 +149,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 Userport Ayarlarý"
-    IDS_RS232USER_ENABLE        "RS232 userportu aktif &et"
-    IDS_RS232USER_DEVICE        "Userport aygýtý"
-    IDS_RS232USER_BAUD          "Userport baud rate"
+  IDS_RS232USER_CAPTION "RS232 Userport Ayarlarý"
+  IDS_RS232USER_ENABLE  "RS232 userportu aktif &et"
+  IDS_RS232USER_DEVICE  "Userport aygýtý"
+  IDS_RS232USER_BAUD    "Userport baud rate"
 END
 #pragma code_page(28591)

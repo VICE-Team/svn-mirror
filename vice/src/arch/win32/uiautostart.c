@@ -42,37 +42,37 @@
 #include "winmain.h"
 
 static uilib_localize_dialog_param autostart_dialog[] = {
-    {0, IDS_AUTOSTART_CAPTION, -1},
-    {IDC_AUTOSTART_WARP, IDS_AUTOSTART_WARP, 0},
-    {IDC_AUTOSTART_USE_COLON_WITH_RUN, IDS_AUTOSTART_COLON_RUN, 0},
-    {IDC_AUTOSTART_PRG_MODE_LABEL, IDS_AUTOSTART_PRG_MODE, 0},
-    {IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, IDS_AUTOSTART_PRG_DISK_IMAGE, 0},
-    {IDC_AUTOSTART_DISK_IMAGE_BROWSE, IDS_BROWSE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_AUTOSTART_CAPTION, -1 },
+    { IDC_AUTOSTART_WARP, IDS_AUTOSTART_WARP, 0 },
+    { IDC_AUTOSTART_USE_COLON_WITH_RUN, IDS_AUTOSTART_COLON_RUN, 0 },
+    { IDC_AUTOSTART_PRG_MODE_LABEL, IDS_AUTOSTART_PRG_MODE, 0 },
+    { IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, IDS_AUTOSTART_PRG_DISK_IMAGE, 0 },
+    { IDC_AUTOSTART_DISK_IMAGE_BROWSE, IDS_BROWSE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group autostart_leftgroup1[] = {
-    {IDC_AUTOSTART_WARP, 1},
-    {0, 0}
+    { IDC_AUTOSTART_WARP, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group autostart_rightgroup1[] = {
-    {IDC_AUTOSTART_USE_COLON_WITH_RUN, 1},
-    {0, 0}
+    { IDC_AUTOSTART_USE_COLON_WITH_RUN, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group autostart_leftgroup2[] = {
-    {IDC_AUTOSTART_PRG_MODE_LABEL, 0},
-    {IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, 0},
-    {0, 0}
+    { IDC_AUTOSTART_PRG_MODE_LABEL, 0 },
+    { IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group autostart_rightgroup2[] = {
-    {IDC_AUTOSTART_PRG_MODE, 0},
-    {IDC_AUTOSTART_DISK_IMAGE_BROWSE, 0},
-    {0, 0}
+    { IDC_AUTOSTART_PRG_MODE, 0 },
+    { IDC_AUTOSTART_DISK_IMAGE_BROWSE, 0 },
+    { 0, 0 }
 };
 
 static void init_autostart_dialog(HWND hwnd)
@@ -135,25 +135,25 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_AUTOSTART_DISK_IMAGE_BROWSE:
-            browse_autostart_file(hwnd);
-            break;
-          case IDOK:
-            end_autostart_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_AUTOSTART_DISK_IMAGE_BROWSE:
+                    browse_autostart_file(hwnd);
+                    break;
+                case IDOK:
+                    end_autostart_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_autostart_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_autostart_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }

@@ -9,23 +9,27 @@
 
 // template of dialog for all languages
 
-IDD_PETREU_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+IDD_PETREU_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "", IDC_PETREU_ENABLE,
-                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "",
-                    IDC_PETREU_SIZE_LABEL, 9, 24, 30, 8
-    COMBOBOX        IDC_PETREU_SIZE, 45, 22, 50, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "",
-                    IDC_PETREU_FILE_LABEL, 9, 44, 30, 8
-    PUSHBUTTON      "", IDC_PETREU_BROWSE, 45, 42, 50, 14, 0
-    EDITTEXT        IDC_PETREU_FILE, 9, 58, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_PETREU_ENABLE,
+                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT         "", IDC_PETREU_SIZE_LABEL,
+                  9, 24, 30, 8
+    COMBOBOX      IDC_PETREU_SIZE,
+                  45, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_PETREU_FILE_LABEL,
+                  9, 44, 30, 8
+    PUSHBUTTON    "", IDC_PETREU_BROWSE,
+                  45, 42, 50, 14, 0
+    EDITTEXT      IDC_PETREU_FILE,
+                  9, 58, 160, 12, WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON "", IDOK,
+                  30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  90, 90, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -35,11 +39,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU Settings"
-    IDS_PETREU_ENABLE              "&Enable PET REU"
-    IDS_PETREU_SIZE                "PET REU size"
-    IDS_PETREU_FILE                "PET REU file"
-    IDS_PETREU_SELECT_FILE         "Select file for PET REU"
+    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_ENABLE      "&Enable PET REU"
+    IDS_PETREU_SIZE        "PET REU size"
+    IDS_PETREU_FILE        "PET REU file"
+    IDS_PETREU_SELECT_FILE "Select file for PET REU"
 END
 
 
@@ -48,11 +52,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU-indstillinger"
-    IDS_PETREU_ENABLE              "&Aktivér PET REU"
-    IDS_PETREU_SIZE                "PET REU størrelse"
-    IDS_PETREU_FILE                "PET REU-fil"
-    IDS_PETREU_SELECT_FILE         "Vælg fil for PET REU"
+    IDS_PETREU_CAPTION     "PET REU-indstillinger"
+    IDS_PETREU_ENABLE      "&Aktivér PET REU"
+    IDS_PETREU_SIZE        "PET REU størrelse"
+    IDS_PETREU_FILE        "PET REU-fil"
+    IDS_PETREU_SELECT_FILE "Vælg fil for PET REU"
 END
 
 
@@ -61,11 +65,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU Einstellungen"
-    IDS_PETREU_ENABLE              "PET REU aktivi&eren"
-    IDS_PETREU_SIZE                "PET REU Größe"
-    IDS_PETREU_FILE                "PET REU Datei"
-    IDS_PETREU_SELECT_FILE         "Datei für PET REU auswählen"
+    IDS_PETREU_CAPTION     "PET REU Einstellungen"
+    IDS_PETREU_ENABLE      "PET REU aktivi&eren"
+    IDS_PETREU_SIZE        "PET REU Größe"
+    IDS_PETREU_FILE        "PET REU Datei"
+    IDS_PETREU_SELECT_FILE "Datei für PET REU auswählen"
 END
 
 
@@ -74,11 +78,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "Paramètres PET REU"
-    IDS_PETREU_ENABLE              "&Activer PET REU"
-    IDS_PETREU_SIZE                "Taille du PET REU"
-    IDS_PETREU_FILE                "Fichier PET REU"
-    IDS_PETREU_SELECT_FILE         "Sélectionner fichier pour PET REU"
+    IDS_PETREU_CAPTION     "Paramètres PET REU"
+    IDS_PETREU_ENABLE      "&Activer PET REU"
+    IDS_PETREU_SIZE        "Taille du PET REU"
+    IDS_PETREU_FILE        "Fichier PET REU"
+    IDS_PETREU_SELECT_FILE "Sélectionner fichier pour PET REU"
 END
 
 
@@ -88,11 +92,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU beállításai"
-    IDS_PETREU_ENABLE              "PET REU &engedélyezése"
-    IDS_PETREU_SIZE                "PET REU mérete"
-    IDS_PETREU_FILE                "PET REU fájl"
-    IDS_PETREU_SELECT_FILE         "Válasszon fájlt a PET REU-hoz"
+    IDS_PETREU_CAPTION     "PET REU beállításai"
+    IDS_PETREU_ENABLE      "PET REU &engedélyezése"
+    IDS_PETREU_SIZE        "PET REU mérete"
+    IDS_PETREU_FILE        "PET REU fájl"
+    IDS_PETREU_SELECT_FILE "Válasszon fájlt a PET REU-hoz"
 END
 #pragma code_page(28591)
 
@@ -102,11 +106,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "Impostazioni PET REU"
-    IDS_PETREU_ENABLE              "&Attiva PET REU"
-    IDS_PETREU_SIZE                "Dimensione"
-    IDS_PETREU_FILE                "File PET REU"
-    IDS_PETREU_SELECT_FILE         "Seleziona il file per il PET REU"
+    IDS_PETREU_CAPTION     "Impostazioni PET REU"
+    IDS_PETREU_ENABLE      "&Attiva PET REU"
+    IDS_PETREU_SIZE        "Dimensione"
+    IDS_PETREU_FILE        "File PET REU"
+    IDS_PETREU_SELECT_FILE "Seleziona il file per il PET REU"
 END
 
 
@@ -115,11 +119,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU-instellingen"
-    IDS_PETREU_ENABLE              "&Activeer PET REU"
-    IDS_PETREU_SIZE                "PET REU-grootte"
-    IDS_PETREU_FILE                "PET REU-bestand"
-    IDS_PETREU_SELECT_FILE         "Selecteer bestand voor PET REU"
+    IDS_PETREU_CAPTION     "PET REU-instellingen"
+    IDS_PETREU_ENABLE      "&Activeer PET REU"
+    IDS_PETREU_SIZE        "PET REU-grootte"
+    IDS_PETREU_FILE        "PET REU-bestand"
+    IDS_PETREU_SELECT_FILE "Selecteer bestand voor PET REU"
 END
 
 
@@ -129,11 +133,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "Ustawienia PET REU"
-    IDS_PETREU_ENABLE              "&W³±cz PET REU"
-    IDS_PETREU_SIZE                "Rozmiar PET REU"
-    IDS_PETREU_FILE                "PET REU pliku"
-    IDS_PETREU_SELECT_FILE         "Select file for PET REU"
+    IDS_PETREU_CAPTION     "Ustawienia PET REU"
+    IDS_PETREU_ENABLE      "&W³±cz PET REU"
+    IDS_PETREU_SIZE        "Rozmiar PET REU"
+    IDS_PETREU_FILE        "PET REU pliku"
+    IDS_PETREU_SELECT_FILE "Select file for PET REU"
 END
 #pragma code_page(28591)
 
@@ -143,11 +147,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU-Inställningar"
-    IDS_PETREU_ENABLE              "&Aktivera PET REU"
-    IDS_PETREU_SIZE                "Storlek på minnesexpansion"
-    IDS_PETREU_FILE                "PET REU-fil"
-    IDS_PETREU_SELECT_FILE         "Välj fil för PET REU"
+    IDS_PETREU_CAPTION     "PET REU-Inställningar"
+    IDS_PETREU_ENABLE      "&Aktivera PET REU"
+    IDS_PETREU_SIZE        "Storlek på minnesexpansion"
+    IDS_PETREU_FILE        "PET REU-fil"
+    IDS_PETREU_SELECT_FILE "Välj fil för PET REU"
 END
 
 
@@ -157,10 +161,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU Ayarlarý"
-    IDS_PETREU_ENABLE              "PET REU'yu aktif &et"
-    IDS_PETREU_SIZE                "PET REU boyutu"
-    IDS_PETREU_FILE                "PET REU dosyasý"
-    IDS_PETREU_SELECT_FILE         "PET REU için dosya seçin"
+    IDS_PETREU_CAPTION     "PET REU Ayarlarý"
+    IDS_PETREU_ENABLE      "PET REU'yu aktif &et"
+    IDS_PETREU_SIZE        "PET REU boyutu"
+    IDS_PETREU_FILE        "PET REU dosyasý"
+    IDS_PETREU_SELECT_FILE "PET REU için dosya seçin"
 END
 #pragma code_page(28591)

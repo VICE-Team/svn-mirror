@@ -54,8 +54,8 @@ static int append_log = 1;
 static char name[100];
 
 static uilib_localize_dialog_param save_as_console_dialog_trans[] = {
-    {IDC_TOGGLE_CONSOLE_APPEND, IDS_TOGGLE_CONSOLE_APPEND, 0},
-    {0, 0, 0}
+    { IDC_TOGGLE_CONSOLE_APPEND, IDS_TOGGLE_CONSOLE_APPEND, 0 },
+    { 0, 0, 0 }
 };
 
 static void init_dialog(HWND hwnd)
@@ -66,8 +66,7 @@ static void init_dialog(HWND hwnd)
     /* adjust the size of the append element */
     uilib_adjust_element_width(hwnd, IDC_TOGGLE_CONSOLE_APPEND);
 
-    CheckDlgButton(hwnd, IDC_TOGGLE_CONSOLE_APPEND, append_log
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_CONSOLE_APPEND, append_log ? BST_CHECKED : BST_UNCHECKED);
     name[0] = '\0';
 }
 
@@ -77,19 +76,14 @@ static UINT_PTR APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wpar
         case WM_INITDIALOG:
             init_dialog( hwnd );
             break;
-
         case WM_NOTIFY:
-          append_log =
-              IsDlgButtonChecked
-              (hwnd,IDC_TOGGLE_CONSOLE_APPEND)==BST_CHECKED ? 1 : 0;
+            append_log = IsDlgButtonChecked(hwnd, IDC_TOGGLE_CONSOLE_APPEND) == BST_CHECKED ? 1 : 0;
             break;
     }
     return 0;
 }
 
-
-static char *ui_save_as_console(const TCHAR *title, const char *filter,
-                                HWND hwnd)
+static char *ui_save_as_console(const TCHAR *title, const char *filter, HWND hwnd)
 {
     TCHAR name[MAX_PATH + 1] = TEXT("");
     OPENFILENAME ofn;
@@ -112,45 +106,38 @@ static char *ui_save_as_console(const TCHAR *title, const char *filter,
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
     ofn.lpstrTitle = title;
-    ofn.Flags = (OFN_EXPLORER
-                 | OFN_HIDEREADONLY
-                 | OFN_NOTESTFILECREATE
-                 | OFN_FILEMUSTEXIST
-                 | OFN_ENABLEHOOK
-                 | OFN_ENABLETEMPLATE
-                 | OFN_SHAREAWARE
-                 | OFN_ENABLESIZING);
+    ofn.Flags = (OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE | OFN_FILEMUSTEXIST | OFN_ENABLEHOOK | OFN_ENABLETEMPLATE | OFN_SHAREAWARE | OFN_ENABLESIZING);
     ofn.lpfnHook = hook_save_as_console;
     ofn.lpTemplateName = MAKEINTRESOURCE(IDD_CONSOLE_SAVE_DIALOG);
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
 
-    if (GetSaveFileName(&ofn))
+    if (GetSaveFileName(&ofn)) {
         ret = system_wcstombs_alloc(name);
+    }
 
     system_mbstowcs_free(st_filter);
 
     return ret;
 }
 
-
 FILE *ui_console_save_dialog(HWND hwnd)
 {
     FILE *pfile = NULL;
-    int filter_len,mask_len;
+    int filter_len, mask_len;
     char *s;
     char *filter;
-    char mask[]="*.dbg";
-    s=translate_text(IDS_LOG_FILES_TYPE);
-    filter_len=(int)strlen(s);
-    mask_len=(int)strlen(mask);
-    filter = util_concat(s, "0", mask, "0", NULL);
-    filter[filter_len]='\0';
-    filter[filter_len+mask_len+1]='\0';
+    char mask[] = "*.dbg";
 
-    s = ui_save_as_console(translate_text(IDS_LOG_CONSOLE_OUTPUT_IMAGE),
-        filter,hwnd);
+    s = translate_text(IDS_LOG_FILES_TYPE);
+    filter_len = (int)strlen(s);
+    mask_len = (int)strlen(mask);
+    filter = util_concat(s, "0", mask, "0", NULL);
+    filter[filter_len] = '\0';
+    filter[filter_len + mask_len + 1] = '\0';
+
+    s = ui_save_as_console(translate_text(IDS_LOG_CONSOLE_OUTPUT_IMAGE), filter, hwnd);
     lib_free(filter);
 
     if (s != NULL) {
@@ -158,8 +145,9 @@ FILE *ui_console_save_dialog(HWND hwnd)
 
         pfile = fopen(s, append_log ? "at+" : "wt");
 
-        if (!pfile)
+        if (!pfile) {
             ui_error(translate_text(IDS_CANNOT_WRITE_LOGFILE_S), s);
+        }
 
         lib_free(s);
     }

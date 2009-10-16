@@ -46,33 +46,32 @@
 #include "version.h"
 #include "winmain.h"
 
-
 int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
 {
     char *version;
     TCHAR *st_version;
 
     switch (msg) {
-      case WM_INITDIALOG:
+        case WM_INITDIALOG:
 #ifdef UNSTABLE
-        version = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION, PLATFORM);
+            version = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION, PLATFORM);
 #else /* #ifdef UNSTABLE */
-        version = lib_msprintf(translate_text(IDS_VERSION_S), VERSION, PLATFORM);
+            version = lib_msprintf(translate_text(IDS_VERSION_S), VERSION, PLATFORM);
 #endif /* #ifdef UNSTABLE */
-        st_version = system_mbstowcs_alloc(version);
-        SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);
-        system_mbstowcs_free(st_version);
-        lib_free(version);
-        return TRUE;
-      case WM_CLOSE:
-        EndDialog(dialog,0);
-        return TRUE;
-      case WM_COMMAND:
-        if ((wparam == IDOK) || (wparam == IDCANCEL)) {
+            st_version = system_mbstowcs_alloc(version);
+            SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);
+            system_mbstowcs_free(st_version);
+            lib_free(version);
+            return TRUE;
+        case WM_CLOSE:
             EndDialog(dialog, 0);
             return TRUE;
-        }
-        break;
+        case WM_COMMAND:
+            if ((wparam == IDOK) || (wparam == IDCANCEL)) {
+                EndDialog(dialog, 0);
+                return TRUE;
+            }
+            break;
     }
     return FALSE;
 }
@@ -89,58 +88,50 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
     si.cb = sizeof(si);
 
     switch (wparam) {
-      case IDM_ABOUT:
-        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd,
-                  (DLGPROC)about_dialog_proc);
-        break;
-      case IDM_HELP:
-        switch (machine_class)
-        {
-            case VICE_MACHINE_C128:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\x128.chm", NULL);
-                break;
-            case VICE_MACHINE_VIC20:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\xvic.chm", NULL);
-                break;
-            case VICE_MACHINE_PET:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\xpet.chm", NULL);
-                break;
-            case VICE_MACHINE_CBM5x0:
-            case VICE_MACHINE_CBM6x0:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\xcbm2.chm", NULL);
-                break;
-            case VICE_MACHINE_PLUS4:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\xplus4.chm", NULL);
-                break;
-            case VICE_MACHINE_C64DTV:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\x64dtv.chm", NULL);
-                break;
-            default:
-                fname = util_concat(archdep_boot_path(), "\\DOC\\x64.chm", NULL);
-                break;
-        }
-        dname = util_concat(archdep_boot_path(), "\\DOC", NULL);
-        ShellExecute(NULL, "open", fname, NULL, dname, SW_SHOWNORMAL);
-        lib_free(fname);
-        lib_free(dname);
-        break;
-      case IDM_CONTRIBUTORS:
-        ui_show_text(hwnd, translate_text(IDS_VICE_CONTRIBUTORS), translate_text(IDS_WHO_MADE_WHAT),
-                     info_contrib_text);
-        break;
-      case IDM_LICENSE:
-        ui_show_text(hwnd, translate_text(IDS_LICENSE),
-                     "VICE license (GNU General Public License)",
-                     info_license_text);
-        break;
-      case IDM_WARRANTY:
-        ui_show_text(hwnd, translate_text(IDS_NO_WARRANTY),
-                     translate_text(IDS_VICE_WITHOUT_WARRANTY),
-                     info_warranty_text);
-        break;
-      case IDM_CMDLINE:
-        uilib_show_options(hwnd);
-        break;
+        case IDM_ABOUT:
+            DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd, (DLGPROC)about_dialog_proc);
+            break;
+        case IDM_HELP:
+            switch (machine_class) {
+                case VICE_MACHINE_C128:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\x128.chm", NULL);
+                    break;
+                case VICE_MACHINE_VIC20:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\xvic.chm", NULL);
+                    break;
+                case VICE_MACHINE_PET:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\xpet.chm", NULL);
+                    break;
+                case VICE_MACHINE_CBM5x0:
+                case VICE_MACHINE_CBM6x0:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\xcbm2.chm", NULL);
+                    break;
+                case VICE_MACHINE_PLUS4:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\xplus4.chm", NULL);
+                    break;
+                case VICE_MACHINE_C64DTV:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\x64dtv.chm", NULL);
+                    break;
+                default:
+                    fname = util_concat(archdep_boot_path(), "\\DOC\\x64.chm", NULL);
+                    break;
+            }
+            dname = util_concat(archdep_boot_path(), "\\DOC", NULL);
+            ShellExecute(NULL, "open", fname, NULL, dname, SW_SHOWNORMAL);
+            lib_free(fname);
+            lib_free(dname);
+            break;
+        case IDM_CONTRIBUTORS:
+            ui_show_text(hwnd, translate_text(IDS_VICE_CONTRIBUTORS), translate_text(IDS_WHO_MADE_WHAT), info_contrib_text);
+            break;
+        case IDM_LICENSE:
+            ui_show_text(hwnd, translate_text(IDS_LICENSE), "VICE license (GNU General Public License)", info_license_text);
+            break;
+        case IDM_WARRANTY:
+            ui_show_text(hwnd, translate_text(IDS_NO_WARRANTY), translate_text(IDS_VICE_WITHOUT_WARRANTY), info_warranty_text);
+            break;
+        case IDM_CMDLINE:
+            uilib_show_options(hwnd);
+            break;
     }
 }
-

@@ -31,4 +31,3 @@ extern void uic64cart_init(void);
 extern void uic64cart_proc(WPARAM wparam, HWND hwnd);
 
 #endif
-

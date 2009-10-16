@@ -30,4 +30,3 @@
 extern void uiide64_settings_dialog(HWND hwnd);
 
 #endif
-

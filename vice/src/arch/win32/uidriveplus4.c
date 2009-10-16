@@ -31,7 +31,7 @@
 #include <prsht.h>
 
 #ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
+#define DUMMYUNIONNAME u1
 #endif
 
 #include "drive.h"
@@ -53,161 +53,149 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     int drive_type = 0;
 
     switch (type) {
-      case IDC_SELECT_DRIVE_TYPE_1541:
-        drive_type = DRIVE_TYPE_1541;
-        break;
-      case IDC_SELECT_DRIVE_TYPE_1541II:
-        drive_type = DRIVE_TYPE_1541II;
-        break;
-      case IDC_SELECT_DRIVE_TYPE_1551:
-        drive_type = DRIVE_TYPE_1551;
-        break;
-      case IDC_SELECT_DRIVE_TYPE_1570:
-        drive_type = DRIVE_TYPE_1570;
-        break;
-      case IDC_SELECT_DRIVE_TYPE_1571:
-        drive_type = DRIVE_TYPE_1571;
-        break;
-      case IDC_SELECT_DRIVE_TYPE_1581:
-        drive_type = DRIVE_TYPE_1581;
-        break;
+        case IDC_SELECT_DRIVE_TYPE_1541:
+            drive_type = DRIVE_TYPE_1541;
+            break;
+        case IDC_SELECT_DRIVE_TYPE_1541II:
+            drive_type = DRIVE_TYPE_1541II;
+            break;
+        case IDC_SELECT_DRIVE_TYPE_1551:
+            drive_type = DRIVE_TYPE_1551;
+            break;
+        case IDC_SELECT_DRIVE_TYPE_1570:
+            drive_type = DRIVE_TYPE_1570;
+            break;
+        case IDC_SELECT_DRIVE_TYPE_1571:
+            drive_type = DRIVE_TYPE_1571;
+            break;
+        case IDC_SELECT_DRIVE_TYPE_1581:
+            drive_type = DRIVE_TYPE_1581;
+            break;
     }
 
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER),
-                 drive_check_extend_policy(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ASK),
-                 drive_check_extend_policy(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ACCESS),
-                 drive_check_extend_policy(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE),
-                 drive_check_idle_method(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_TRAP_IDLE),
-                 drive_check_idle_method(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES),
-                 drive_check_idle_method(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER), drive_check_extend_policy(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ASK), drive_check_extend_policy(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ACCESS), drive_check_extend_policy(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE), drive_check_idle_method(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_TRAP_IDLE), drive_check_idle_method(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES), drive_check_idle_method(drive_type));
 
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE),
-                 drive_check_parallel_cable(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE), drive_check_parallel_cable(drive_type));
 
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000),
-                 drive_check_expansion2000(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000),
-                 drive_check_expansion4000(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000),
-                 drive_check_expansion6000(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000),
-                 drive_check_expansion8000(drive_type));
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000),
-                 drive_check_expansionA000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000), drive_check_expansion2000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000), drive_check_expansion4000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000), drive_check_expansion6000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000), drive_check_expansion8000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000), drive_check_expansionA000(drive_type));
 }
 
 static uilib_localize_dialog_param drive_dialog_trans[] = {
-    {IDC_DRIVE_TYPE, IDS_DRIVE_TYPE, 0},
-    {IDC_SELECT_DRIVE_TYPE_NONE, IDS_SELECTNONE, 0},
-    {IDC_40_TRACK_HANDLING, IDS_40_TRACK_HANDLING, 0},
-    {IDC_SELECT_DRIVE_EXTEND_NEVER, IDS_SELECT_DRIVE_EXTEND_NEVER, 0},
-    {IDC_SELECT_DRIVE_EXTEND_ASK, IDS_SELECT_DRIVE_EXTEND_ASK, 0},
-    {IDC_SELECT_DRIVE_EXTEND_ACCESS, IDS_SELECT_DRIVE_EXTEND_ACCESS, 0},
-    {IDC_IDLE_METHOD, IDS_IDLE_METHOD, 0},
-    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, IDS_NONE, 0},
-    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, IDS_SELECT_DRIVE_IDLE_TRAP_IDLE, 0},
-    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, IDS_SELECT_DRIVE_IDLE_SKIP_CYC, 0},
-    {IDC_TOGGLE_DRIVE_PARALLEL_CABLE, IDS_TOGGLE_DRIVE_PARALLEL_CABLE, 0},
-    {IDC_DRIVE_EXPANSION, IDS_DRIVE_EXPANSION, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_2000, IDS_TOGGLE_DRIVE_EXPANSION_2000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_4000, IDS_TOGGLE_DRIVE_EXPANSION_4000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_6000, IDS_TOGGLE_DRIVE_EXPANSION_6000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_8000, IDS_TOGGLE_DRIVE_EXPANSION_8000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_A000, IDS_TOGGLE_DRIVE_EXPANSION_A000, 0},
-    {0, 0, 0}
+    { IDC_DRIVE_TYPE, IDS_DRIVE_TYPE, 0 },
+    { IDC_SELECT_DRIVE_TYPE_NONE, IDS_SELECTNONE, 0 },
+    { IDC_40_TRACK_HANDLING, IDS_40_TRACK_HANDLING, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_NEVER, IDS_SELECT_DRIVE_EXTEND_NEVER, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_ASK, IDS_SELECT_DRIVE_EXTEND_ASK, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_ACCESS, IDS_SELECT_DRIVE_EXTEND_ACCESS, 0 },
+    { IDC_IDLE_METHOD, IDS_IDLE_METHOD, 0 },
+    { IDC_SELECT_DRIVE_IDLE_NO_IDLE, IDS_NONE, 0 },
+    { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, IDS_SELECT_DRIVE_IDLE_TRAP_IDLE, 0 },
+    { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, IDS_SELECT_DRIVE_IDLE_SKIP_CYC, 0 },
+    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, IDS_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { IDC_DRIVE_EXPANSION, IDS_DRIVE_EXPANSION, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_2000, IDS_TOGGLE_DRIVE_EXPANSION_2000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_4000, IDS_TOGGLE_DRIVE_EXPANSION_4000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_6000, IDS_TOGGLE_DRIVE_EXPANSION_6000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_8000, IDS_TOGGLE_DRIVE_EXPANSION_8000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_A000, IDS_TOGGLE_DRIVE_EXPANSION_A000, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_localize_dialog_param parent_dialog_trans[] = {
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-   {0, 0, 0}
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group drive_main_group[] = {
-    {IDC_DRIVE_TYPE, 1},
-    {IDC_SELECT_DRIVE_TYPE_NONE, 1},
-    {IDC_40_TRACK_HANDLING, 1},
-    {IDC_SELECT_DRIVE_EXTEND_NEVER, 1},
-    {IDC_SELECT_DRIVE_EXTEND_ASK, 1},
-    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 1},
-    {IDC_IDLE_METHOD, 1},
-    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, 1},
-    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 1},
-    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 1},
-    {IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 1},
-    {IDC_DRIVE_EXPANSION, 1},
-    {IDC_TOGGLE_DRIVE_EXPANSION_2000, 1},
-    {IDC_TOGGLE_DRIVE_EXPANSION_4000, 1},
-    {IDC_TOGGLE_DRIVE_EXPANSION_6000, 1},
-    {IDC_TOGGLE_DRIVE_EXPANSION_8000, 1},
-    {IDC_TOGGLE_DRIVE_EXPANSION_A000, 1},
-    {0, 0}
+    { IDC_DRIVE_TYPE, 1 },
+    { IDC_SELECT_DRIVE_TYPE_NONE, 1 },
+    { IDC_40_TRACK_HANDLING, 1 },
+    { IDC_SELECT_DRIVE_EXTEND_NEVER, 1 },
+    { IDC_SELECT_DRIVE_EXTEND_ASK, 1 },
+    { IDC_SELECT_DRIVE_EXTEND_ACCESS, 1 },
+    { IDC_IDLE_METHOD, 1 },
+    { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 1 },
+    { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 1 },
+    { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 1 },
+    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 1 },
+    { IDC_DRIVE_EXPANSION, 1 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_2000, 1 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_4000, 1 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_6000, 1 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_8000, 1 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_A000, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group drive_left_group[] = {
-    {IDC_DRIVE_TYPE, 0},
-    {IDC_SELECT_DRIVE_TYPE_1541, 0},
-    {IDC_SELECT_DRIVE_TYPE_1541II, 0},
-    {IDC_SELECT_DRIVE_TYPE_1551, 0},
-    {IDC_SELECT_DRIVE_TYPE_1570, 0},
-    {IDC_SELECT_DRIVE_TYPE_1571, 0},
-    {IDC_SELECT_DRIVE_TYPE_1581, 0},
-    {IDC_SELECT_DRIVE_TYPE_NONE, 0},
-    {0, 0}
+    { IDC_DRIVE_TYPE, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1541, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1541II, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1551, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1570, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1571, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1581, 0 },
+    { IDC_SELECT_DRIVE_TYPE_NONE, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group drive_middle_group[] = {
-    {IDC_40_TRACK_HANDLING, 0},
-    {IDC_SELECT_DRIVE_EXTEND_NEVER, 0},
-    {IDC_SELECT_DRIVE_EXTEND_ASK, 0},
-    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 0},
-    {IDC_DRIVE_EXPANSION, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_2000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_4000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_6000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_8000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_A000, 0},
-    {0, 0}
+    { IDC_40_TRACK_HANDLING, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_NEVER, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_ASK, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_ACCESS, 0 },
+    { IDC_DRIVE_EXPANSION, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_2000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_4000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_6000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_8000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_A000, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group drive_middle_move_group[] = {
-    {IDC_SELECT_DRIVE_EXTEND_NEVER, 0},
-    {IDC_SELECT_DRIVE_EXTEND_ASK, 0},
-    {IDC_SELECT_DRIVE_EXTEND_ACCESS, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_2000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_4000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_6000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_8000, 0},
-    {IDC_TOGGLE_DRIVE_EXPANSION_A000, 0},
-    {0, 0}
+    { IDC_SELECT_DRIVE_EXTEND_NEVER, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_ASK, 0 },
+    { IDC_SELECT_DRIVE_EXTEND_ACCESS, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_2000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_4000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_6000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_8000, 0 },
+    { IDC_TOGGLE_DRIVE_EXPANSION_A000, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group drive_right_group[] = {
-    {IDC_IDLE_METHOD, 0},
-    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0},
-    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0},
-    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0},
-    {IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0},
-    {0, 0}
+    { IDC_IDLE_METHOD, 0 },
+    { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0 },
+    { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0 },
+    { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0 },
+    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group drive_right_window_group[] = {
-    {IDC_IDLE_METHOD, 0},
-    {IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0},
-    {0, 0}
+    { IDC_IDLE_METHOD, 0 },
+    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group drive_right_move_group[] = {
-    {IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0},
-    {IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0},
-    {IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0},
-    {IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0},
-    {0, 0}
+    { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0 },
+    { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0 },
+    { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0 },
+    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -301,213 +289,189 @@ static void init_dialog(HWND hwnd, int num)
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
     enabled = drive_true_emulation && !iecdevice;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541),
-                 enabled && drive_check_type(DRIVE_TYPE_1541, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II),
-                 enabled && drive_check_type(DRIVE_TYPE_1541II, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1551),
-                 enabled && drive_check_type(DRIVE_TYPE_1551, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1570),
-                 enabled && drive_check_type(DRIVE_TYPE_1570, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571),
-                 enabled && drive_check_type(DRIVE_TYPE_1571, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581),
-                 enabled && drive_check_type(DRIVE_TYPE_1581, num - 8));
-    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_NONE),
-                 enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541), enabled && drive_check_type(DRIVE_TYPE_1541, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II), enabled && drive_check_type(DRIVE_TYPE_1541II, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1551), enabled && drive_check_type(DRIVE_TYPE_1551, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1570), enabled && drive_check_type(DRIVE_TYPE_1570, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571), enabled && drive_check_type(DRIVE_TYPE_1571, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581), enabled && drive_check_type(DRIVE_TYPE_1581, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_NONE), enabled);
 
     resources_get_int_sprintf("Drive%dType", &drive_type, num);
-    resources_get_int_sprintf("Drive%dExtendImagePolicy",
-                              &drive_extend_image_policy, num);
+    resources_get_int_sprintf("Drive%dExtendImagePolicy", &drive_extend_image_policy, num);
     resources_get_int_sprintf("Drive%dIdleMethod", &drive_idle_method, num);
 
     switch (drive_type) {
-      case DRIVE_TYPE_NONE:
-        n = IDC_SELECT_DRIVE_TYPE_NONE;
-        break;
-      case DRIVE_TYPE_1541:
-        n = IDC_SELECT_DRIVE_TYPE_1541;
-        break;
-      case DRIVE_TYPE_1541II:
-        n = IDC_SELECT_DRIVE_TYPE_1541II;
-        break;
-      case DRIVE_TYPE_1551:
-        n = IDC_SELECT_DRIVE_TYPE_1551;
-        break;
-      case DRIVE_TYPE_1570:
-        n = IDC_SELECT_DRIVE_TYPE_1570;
-        break;
-      case DRIVE_TYPE_1571:
-        n = IDC_SELECT_DRIVE_TYPE_1571;
-        break;
-      case DRIVE_TYPE_1581:
-        n = IDC_SELECT_DRIVE_TYPE_1581;
-        break;
+        case DRIVE_TYPE_NONE:
+            n = IDC_SELECT_DRIVE_TYPE_NONE;
+            break;
+        case DRIVE_TYPE_1541:
+            n = IDC_SELECT_DRIVE_TYPE_1541;
+            break;
+        case DRIVE_TYPE_1541II:
+            n = IDC_SELECT_DRIVE_TYPE_1541II;
+            break;
+        case DRIVE_TYPE_1551:
+            n = IDC_SELECT_DRIVE_TYPE_1551;
+            break;
+        case DRIVE_TYPE_1570:
+            n = IDC_SELECT_DRIVE_TYPE_1570;
+            break;
+        case DRIVE_TYPE_1571:
+            n = IDC_SELECT_DRIVE_TYPE_1571;
+            break;
+        case DRIVE_TYPE_1581:
+            n = IDC_SELECT_DRIVE_TYPE_1581;
+            break;
     }
 
-    if ( !enabled )
-      n = IDC_SELECT_DRIVE_TYPE_NONE;
+    if (!enabled) {
+        n = IDC_SELECT_DRIVE_TYPE_NONE;
+    }
 
-    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541,
-                     IDC_SELECT_DRIVE_TYPE_NONE, n);
+    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541, IDC_SELECT_DRIVE_TYPE_NONE, n);
 
     enable_controls_for_drive_settings(hwnd, n);
 
     switch (drive_extend_image_policy) {
-      case DRIVE_EXTEND_NEVER:
-        n = IDC_SELECT_DRIVE_EXTEND_NEVER;
-        break;
-      case DRIVE_EXTEND_ASK:
-        n = IDC_SELECT_DRIVE_EXTEND_ASK;
-        break;
-      case DRIVE_EXTEND_ACCESS:
-        n = IDC_SELECT_DRIVE_EXTEND_ACCESS;
-        break;
+        case DRIVE_EXTEND_NEVER:
+            n = IDC_SELECT_DRIVE_EXTEND_NEVER;
+            break;
+        case DRIVE_EXTEND_ASK:
+            n = IDC_SELECT_DRIVE_EXTEND_ASK;
+            break;
+        case DRIVE_EXTEND_ACCESS:
+            n = IDC_SELECT_DRIVE_EXTEND_ACCESS;
+            break;
     }
 
-    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER,
-                     IDC_SELECT_DRIVE_EXTEND_ACCESS, n);
+    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER, IDC_SELECT_DRIVE_EXTEND_ACCESS, n);
 
     switch (drive_idle_method) {
-      case DRIVE_IDLE_NO_IDLE:
-        n = IDC_SELECT_DRIVE_IDLE_NO_IDLE;
-        break;
-      case DRIVE_IDLE_TRAP_IDLE:
-        n = IDC_SELECT_DRIVE_IDLE_TRAP_IDLE;
-        break;
-      case DRIVE_IDLE_SKIP_CYCLES:
-        n = IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES;
-        break;
+        case DRIVE_IDLE_NO_IDLE:
+            n = IDC_SELECT_DRIVE_IDLE_NO_IDLE;
+            break;
+        case DRIVE_IDLE_TRAP_IDLE:
+            n = IDC_SELECT_DRIVE_IDLE_TRAP_IDLE;
+            break;
+        case DRIVE_IDLE_SKIP_CYCLES:
+            n = IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES;
+            break;
     }
 
-    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE,
-                     IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, n);
+    CheckRadioButton(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE, IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, n);
 
     resources_get_int_sprintf("Drive%dParallelCable", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int_sprintf("Drive%dRAM2000", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int_sprintf("Drive%dRAM4000", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000, n
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int_sprintf("Drive%dRAM6000", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000, n
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int_sprintf("Drive%dRAM8000", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000, n
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int_sprintf("Drive%dRAMA000", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000, n
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
-static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
-                                 WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     char tmp[256];
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_dialog(hwnd, num);
-        return TRUE;
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDC_SELECT_DRIVE_TYPE_NONE:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_NONE, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_TYPE_1541:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1541, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_TYPE_1541II:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1541II, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_TYPE_1551:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1551, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_TYPE_1570:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1570, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_TYPE_1571:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1571, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_TYPE_1581:
-            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1581, num);
-            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
-            break;
-          case IDC_SELECT_DRIVE_EXTEND_NEVER:
-            resources_set_int_sprintf("Drive%dExtendImagePolicy",
-                                      DRIVE_EXTEND_NEVER, num);
-            break;
-          case IDC_SELECT_DRIVE_EXTEND_ASK:
-            resources_set_int_sprintf("Drive%dExtendImagePolicy",
-                                      DRIVE_EXTEND_ASK, num);
-            break;
-          case IDC_SELECT_DRIVE_EXTEND_ACCESS:
-            resources_set_int_sprintf("Drive%dExtendImagePolicy",
-                                      DRIVE_EXTEND_ACCESS, num);
-            break;
-          case IDC_SELECT_DRIVE_IDLE_NO_IDLE:
-            resources_set_int_sprintf("Drive%dIdleMethod",
-                                      DRIVE_IDLE_NO_IDLE, num);
-            break;
-          case IDC_SELECT_DRIVE_IDLE_TRAP_IDLE:
-            resources_set_int_sprintf("Drive%dIdleMethod",
-                                      DRIVE_IDLE_TRAP_IDLE, num);
-            break;
-          case IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES:
-            resources_set_int_sprintf("Drive%dIdleMethod",
-                                      DRIVE_IDLE_SKIP_CYCLES, num);
-            break;
-          case IDC_TOGGLE_DRIVE_PARALLEL_CABLE:
-            sprintf(tmp, "Drive%dParallelCable", num);
-            resources_toggle(tmp, NULL);
-            break;
-          case IDC_TOGGLE_DRIVE_EXPANSION_2000:
-            sprintf(tmp, "Drive%dRAM2000", num);
-            resources_toggle(tmp, NULL);
-            break;
-          case IDC_TOGGLE_DRIVE_EXPANSION_4000:
-            sprintf(tmp, "Drive%dRAM4000", num);
-            resources_toggle(tmp, NULL);
-            break;
-          case IDC_TOGGLE_DRIVE_EXPANSION_6000:
-            sprintf(tmp, "Drive%dRAM6000", num);
-            resources_toggle(tmp, NULL);
-            break;
-          case IDC_TOGGLE_DRIVE_EXPANSION_8000:
-            sprintf(tmp, "Drive%dRAM8000", num);
-            resources_toggle(tmp, NULL);
-            break;
-          case IDC_TOGGLE_DRIVE_EXPANSION_A000:
-            sprintf(tmp, "Drive%dRAMA000", num);
-            resources_toggle(tmp, NULL);
-            break;
-          default:
-            return FALSE;
+        case WM_INITDIALOG:
+            init_dialog(hwnd, num);
+            return TRUE;
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDC_SELECT_DRIVE_TYPE_NONE:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_NONE, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1541:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1541, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1541II:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1541II, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1551:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1551, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1570:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1570, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1571:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1571, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1581:
+                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1581, num);
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_EXTEND_NEVER:
+                    resources_set_int_sprintf("Drive%dExtendImagePolicy", DRIVE_EXTEND_NEVER, num);
+                    break;
+                case IDC_SELECT_DRIVE_EXTEND_ASK:
+                    resources_set_int_sprintf("Drive%dExtendImagePolicy", DRIVE_EXTEND_ASK, num);
+                    break;
+                case IDC_SELECT_DRIVE_EXTEND_ACCESS:
+                    resources_set_int_sprintf("Drive%dExtendImagePolicy", DRIVE_EXTEND_ACCESS, num);
+                    break;
+                case IDC_SELECT_DRIVE_IDLE_NO_IDLE:
+                    resources_set_int_sprintf("Drive%dIdleMethod", DRIVE_IDLE_NO_IDLE, num);
+                    break;
+                case IDC_SELECT_DRIVE_IDLE_TRAP_IDLE:
+                    resources_set_int_sprintf("Drive%dIdleMethod", DRIVE_IDLE_TRAP_IDLE, num);
+                    break;
+                case IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES:
+                    resources_set_int_sprintf("Drive%dIdleMethod", DRIVE_IDLE_SKIP_CYCLES, num);
+                    break;
+                case IDC_TOGGLE_DRIVE_PARALLEL_CABLE:
+                    sprintf(tmp, "Drive%dParallelCable", num);
+                    resources_toggle(tmp, NULL);
+                    break;
+                case IDC_TOGGLE_DRIVE_EXPANSION_2000:
+                    sprintf(tmp, "Drive%dRAM2000", num);
+                    resources_toggle(tmp, NULL);
+                    break;
+                case IDC_TOGGLE_DRIVE_EXPANSION_4000:
+                    sprintf(tmp, "Drive%dRAM4000", num);
+                    resources_toggle(tmp, NULL);
+                    break;
+                case IDC_TOGGLE_DRIVE_EXPANSION_6000:
+                    sprintf(tmp, "Drive%dRAM6000", num);
+                    resources_toggle(tmp, NULL);
+                    break;
+                case IDC_TOGGLE_DRIVE_EXPANSION_8000:
+                    sprintf(tmp, "Drive%dRAM8000", num);
+                    resources_toggle(tmp, NULL);
+                    break;
+                case IDC_TOGGLE_DRIVE_EXPANSION_A000:
+                    sprintf(tmp, "Drive%dRAMA000", num);
+                    resources_toggle(tmp, NULL);
+                    break;
+                default:
+                    return FALSE;
         }
         return TRUE;
     }
     return FALSE;
 }
 
-#define _CALLBACK(num)                                               \
-static INT_PTR CALLBACK callback_##num(HWND dialog, UINT msg,        \
-                                       WPARAM wparam, LPARAM lparam) \
-{                                                                    \
-    return dialog_proc(num, dialog, msg, wparam, lparam);            \
+#define _CALLBACK(num)                                                                      \
+static INT_PTR CALLBACK callback_##num(HWND dialog, UINT msg, WPARAM wparam, LPARAM lparam) \
+{                                                                                           \
+    return dialog_proc(num, dialog, msg, wparam, lparam);                                   \
 }
 
 _CALLBACK(8)
@@ -565,4 +529,3 @@ void uidriveplus4_settings_dialog(HWND hwnd)
     system_psh_settings(&psh);
     PropertySheet(&psh);
 }
-

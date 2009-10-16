@@ -182,9 +182,110 @@ static void init_model_dialog(HWND hwnd)
     CheckRadioButton(hwnd, IDC_SELECT_PET_MEM4K, IDC_SELECT_PET_MEM128K, n);
 }
 
+static uilib_localize_dialog_param io_dialog_trans[] = {
+    {IDC_PET_VIDEO, IDS_PET_VIDEO, 0},
+    {IDC_SELECT_PET_VIDEO_AUTO, IDS_SELECT_PET_VIDEO_AUTO, 0},
+    {IDC_SELECT_PET_VIDEO_40, IDS_SELECT_PET_VIDEO_40, 0},
+    {IDC_SELECT_PET_VIDEO_80, IDS_SELECT_PET_VIDEO_80, 0},
+    {IDC_PET_IO_SIZE, IDS_PET_IO_SIZE, 0},
+    {IDC_SELECT_PET_IO256, IDS_SELECT_PET_IO256, 0},
+    {IDC_SELECT_PET_IO2K, IDS_SELECT_PET_IO2K, 0},
+    {IDC_TOGGLE_PET_CRTC, IDS_TOGGLE_PET_CRTC, 0},
+    {IDC_PET_KEYBOARD, IDS_PET_KEYBOARD, 0},
+    {IDC_SELECT_PET_KEYB_GRAPHICS, IDS_SELECT_PET_KEYB_GRAPHICS, 0},
+    {IDC_SELECT_PET_KEYB_BUSINESS, IDS_SELECT_PET_KEYB_BUSINESS, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group io_main_group[] = {
+    {IDC_PET_VIDEO, 1},
+    {IDC_SELECT_PET_VIDEO_AUTO, 1},
+    {IDC_SELECT_PET_VIDEO_40, 1},
+    {IDC_SELECT_PET_VIDEO_80, 1},
+    {IDC_PET_IO_SIZE, 1},
+    {IDC_SELECT_PET_IO256, 1},
+    {IDC_SELECT_PET_IO2K, 1},
+    {IDC_PET_CRTC, 1},
+    {IDC_TOGGLE_PET_CRTC, 1},
+    {IDC_PET_KEYBOARD, 1},
+    {IDC_SELECT_PET_KEYB_GRAPHICS, 1},
+    {IDC_SELECT_PET_KEYB_BUSINESS, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group io_left_group[] = {
+    {IDC_PET_VIDEO, 0},
+    {IDC_SELECT_PET_VIDEO_AUTO, 0},
+    {IDC_SELECT_PET_VIDEO_40, 0},
+    {IDC_SELECT_PET_VIDEO_80, 0},
+    {IDC_PET_IO_SIZE, 0},
+    {IDC_SELECT_PET_IO256, 0},
+    {IDC_SELECT_PET_IO2K, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group io_right_move_group[] = {
+    {IDC_TOGGLE_PET_CRTC, 0},
+    {IDC_SELECT_PET_KEYB_GRAPHICS, 0},
+    {IDC_SELECT_PET_KEYB_BUSINESS, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group io_right_group[] = {
+    {IDC_PET_CRTC, 0},
+    {IDC_TOGGLE_PET_CRTC, 0},
+    {IDC_PET_KEYBOARD, 0},
+    {IDC_SELECT_PET_KEYB_GRAPHICS, 0},
+    {IDC_SELECT_PET_KEYB_BUSINESS, 0},
+    {0, 0}
+};
+
 static void init_io_dialog(HWND hwnd)
 {
     int n, res;
+    HWND parent_hwnd;
+    int xpos;
+    int xstart;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, io_dialog_trans);
+
+    /* translate all dialog items of the parent */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, io_main_group);
+
+    /* get the min x of the video auto element */
+    uilib_get_element_min_x(hwnd, IDC_SELECT_PET_VIDEO_AUTO, &xstart);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, io_left_group, &xpos);
+
+    /* resize and move the left group boxes to the correct positions */
+    uilib_move_and_set_element_width(hwnd, IDC_PET_VIDEO, xstart - 10, xpos - xstart + 20);
+    uilib_move_and_set_element_width(hwnd, IDC_PET_IO_SIZE, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the video group element */
+    uilib_get_element_max_x(hwnd, IDC_PET_VIDEO, &xpos);
+
+    /* move the right move group to the correct position */
+    uilib_move_group(hwnd, io_right_move_group, xpos + 20);
+
+    /* move the right group boxes to the correct position */
+    uilib_move_element(hwnd, IDC_PET_CRTC, xpos + 10);
+    uilib_move_element(hwnd, IDC_PET_KEYBOARD, xpos + 10);
+
+    xstart = xpos + 20;
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, io_right_group, &xpos);
+
+    /* resize and move the right group boxes to the correct positions */
+    uilib_move_and_set_element_width(hwnd, IDC_PET_CRTC, xstart - 10, xpos - xstart + 20);
+    uilib_move_and_set_element_width(hwnd, IDC_PET_KEYBOARD, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("Crtc", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC,
@@ -229,18 +330,90 @@ static void init_io_dialog(HWND hwnd)
                      IDC_SELECT_PET_KEYB_BUSINESS, n);
 }
 
+static uilib_localize_dialog_param superpet_io_dialog_trans[] = {
+    {IDC_PET_IO_SETTINGS, IDS_PET_IO_SETTINGS, 0},
+    {IDC_TOGGLE_PET_SUPER_IO_ENABLE, IDS_TOGGLE_PET_SUPER_IO_ENABLE, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group superpet_io_main_group[] = {
+    {IDC_PET_IO_SETTINGS, 1},
+    {IDC_TOGGLE_PET_SUPER_IO_ENABLE, 1},
+    {0, 0}
+};
+
 static void init_superpet_io_dialog(HWND hwnd)
 {
     int n;
+    int xstart;
+    int xpos;
+    HWND parent_hwnd;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, superpet_io_dialog_trans);
+
+    /* translate all dialog items of the parent */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, superpet_io_main_group);
+
+    /* get the min x of the io enable element */
+    uilib_get_element_min_x(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE, &xstart);
+
+    /* get the max x of the main group */
+    uilib_get_group_max_x(hwnd, superpet_io_main_group, &xpos);
+
+    /* resize and move the group box to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_PET_IO_SETTINGS, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("SuperPET", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
                    n ? BST_CHECKED : BST_UNCHECKED);
 }
 
+static uilib_localize_dialog_param pet8296_dialog_trans[] = {
+    {IDC_PET_RAM_SETTINGS, IDS_PET_RAM_SETTINGS, 0},
+    {IDC_TOGGLE_PET_8296_RAM9, IDS_TOGGLE_PET_8296_RAM9, 0},
+    {IDC_TOGGLE_PET_8296_RAMA, IDS_TOGGLE_PET_8296_RAMA, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group pet8296_main_group[] = {
+    {IDC_PET_RAM_SETTINGS, 1},
+    {IDC_TOGGLE_PET_8296_RAM9, 1},
+    {IDC_TOGGLE_PET_8296_RAMA, 1},
+    {0, 0}
+};
+
 static void init_pet8296_dialog(HWND hwnd)
 {
     int n;
+    int xstart;
+    int xpos;
+    HWND parent_hwnd;
+
+    parent_hwnd = GetParent(hwnd);
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, pet8296_dialog_trans);
+
+    /* translate all dialog items of the parent */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, pet8296_main_group);
+
+    /* get the min x of the ram 9 element */
+    uilib_get_element_min_x(hwnd, IDC_TOGGLE_PET_8296_RAM9, &xstart);
+
+    /* get the max x of the main group */
+    uilib_get_group_max_x(hwnd, pet8296_main_group, &xpos);
+
+    /* resize and move the group box to the correct position */
+    uilib_move_and_set_element_width(hwnd, IDC_PET_RAM_SETTINGS, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("Ram9", &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
@@ -440,18 +613,18 @@ void ui_pet_settings_dialog(HWND hwnd)
 
 #ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
-    psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_IO_DIALOG));
-    psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_SUPER_DIALOG));
-    psp[3].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_8296_DIALOG));
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
+    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
         = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
     psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_IO_DIALOG));
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
     psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_SUPER_DIALOG));
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
     psp[3].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_PET_SETTINGS_8296_DIALOG));
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);

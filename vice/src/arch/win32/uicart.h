@@ -38,9 +38,7 @@ struct uicart_params_s {
 };
 typedef struct uicart_params_s uicart_params_t;
 
-extern void uicart_attach(WPARAM wparam, HWND hwnd,
-                          const uicart_params_t *cartridges);
+extern void uicart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *cartridges);
+extern void uicart_attach_special(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type);
 
-extern void uicart_attach_special(HWND hwnd, const TCHAR *title,
-                                  DWORD filterlist, unsigned int type);
 #endif

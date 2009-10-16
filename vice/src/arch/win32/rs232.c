@@ -60,7 +60,9 @@
 
 /* ------------------------------------------------------------------------- */
 
-enum { RS232_IS_PHYSICAL_DEVICE = 0x4000 };
+enum {
+    RS232_IS_PHYSICAL_DEVICE = 0x4000
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -109,8 +111,7 @@ static int rs232_is_physical_device(int device)
 {
     if (strnicmp(rs232_devfile[device], "\\\\.\\COM", (sizeof "\\\\.\\COM") - 1) == 0) {
         return 1;
-    }
-    else {
+    } else {
         return 0;
     }
 }
@@ -127,8 +128,7 @@ int rs232_open(int device)
         if (ret >= 0) {
             ret |= RS232_IS_PHYSICAL_DEVICE;
         }
-    }
-    else {
+    } else {
         ret = rs232net_open(device);
     }
     return ret;
@@ -137,51 +137,57 @@ int rs232_open(int device)
 /* closes the rs232 window again */
 void rs232_close(int fd)
 {
-    if (fd & RS232_IS_PHYSICAL_DEVICE)
+    if (fd & RS232_IS_PHYSICAL_DEVICE) {
         rs232dev_close(fd & ~RS232_IS_PHYSICAL_DEVICE);
-    else
+    } else {
         rs232net_close(fd);
+    }
 }
 
 /* sends a byte to the RS232 line */
 int rs232_putc(int fd, BYTE b)
 {
-    if (fd & RS232_IS_PHYSICAL_DEVICE)
+    if (fd & RS232_IS_PHYSICAL_DEVICE) {
         return rs232dev_putc(fd & ~RS232_IS_PHYSICAL_DEVICE, b);
-    else
+    } else {
         return rs232net_putc(fd, b);
+    }
 }
 
 /* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
 int rs232_getc(int fd, BYTE * b)
 {
-    if (fd & RS232_IS_PHYSICAL_DEVICE)
+    if (fd & RS232_IS_PHYSICAL_DEVICE) {
         return rs232dev_getc(fd & ~RS232_IS_PHYSICAL_DEVICE, b);
-    else
+    } else {
         return rs232net_getc(fd, b);
+    }
 }
 
 /* set the status lines of the RS232 device */
 int rs232_set_status(int fd, enum rs232handshake_out status)
 {
-    if (fd & RS232_IS_PHYSICAL_DEVICE)
+    if (fd & RS232_IS_PHYSICAL_DEVICE) {
         return rs232dev_set_status(fd & ~RS232_IS_PHYSICAL_DEVICE, status);
-    else
+    } else {
         return rs232net_set_status(fd, status);
+    }
 }
 
 /* get the status lines of the RS232 device */
 enum rs232handshake_in rs232_get_status(int fd)
 {
-    if (fd & RS232_IS_PHYSICAL_DEVICE)
+    if (fd & RS232_IS_PHYSICAL_DEVICE) {
         return rs232dev_get_status(fd & ~RS232_IS_PHYSICAL_DEVICE);
-    else
+    } else {
         return rs232net_get_status(fd);
+    }
 }
 
 /* set the bps rate of the physical device */
 void rs232_set_bps(int fd, unsigned int bps)
 {
-    if (fd & RS232_IS_PHYSICAL_DEVICE)
+    if (fd & RS232_IS_PHYSICAL_DEVICE) {
         rs232dev_set_bps(fd & ~RS232_IS_PHYSICAL_DEVICE, bps);
+    }
 }

@@ -62,8 +62,9 @@ char *system_mbstowcs_alloc(const char *mbs)
 {
     char *wcs;
 
-    if (mbs == NULL)
+    if (mbs == NULL) {
         return NULL;
+    }
 
     wcs = lib_malloc((strlen(mbs) + 1) * sizeof(char));
     system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
@@ -80,8 +81,9 @@ char *system_wcstombs_alloc(const char *wcs)
 {
     char *mbs;
 
-    if (wcs == NULL)
+    if (wcs == NULL) {
         return NULL;
+    }
 
     mbs = lib_malloc((strlen(wcs) + 1) * sizeof(char));
     system_wcstombs(mbs, wcs, strlen(wcs) + 1);

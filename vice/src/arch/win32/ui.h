@@ -44,14 +44,24 @@
 #define MONITOR_CLASS "VICE:Monitor"
 
 typedef enum {
-    UI_BUTTON_NONE, UI_BUTTON_CLOSE, UI_BUTTON_OK, UI_BUTTON_CANCEL,
-    UI_BUTTON_YES, UI_BUTTON_NO, UI_BUTTON_RESET, UI_BUTTON_HARDRESET,
-    UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
+    UI_BUTTON_NONE,
+    UI_BUTTON_CLOSE,
+    UI_BUTTON_OK,
+    UI_BUTTON_CANCEL,
+    UI_BUTTON_YES,
+    UI_BUTTON_NO,
+    UI_BUTTON_RESET,
+    UI_BUTTON_HARDRESET,
+    UI_BUTTON_MON,
+    UI_BUTTON_DEBUG,
+    UI_BUTTON_CONTENTS,
+    UI_BUTTON_AUTOSTART
 } ui_button_t;
 
 struct ui_menu_toggle_s {
     /* Name of resource.  */
     const char *name;
+
     /* ID of the corresponding menu item.  */
     UINT item_id;
 };
@@ -72,7 +82,7 @@ typedef struct ui_res_value_list_s ui_res_value_list_t;
 
 struct video_canvas_s;
 
-extern int  ui_active;
+extern int ui_active;
 extern HWND ui_active_window;
 
 /* ------------------------------------------------------------------------- */

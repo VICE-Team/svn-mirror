@@ -31,4 +31,3 @@ extern void uifliplist_command(HWND hwnd, WPARAM wparam);
 extern void uifliplist_save_settings(void);
 
 #endif
-

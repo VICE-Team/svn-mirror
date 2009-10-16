@@ -35,7 +35,7 @@
 #undef        DEBUG
 /* #define DEBUG */
 
-#define DEBUG_FAKE_INPUT_OUTPUT (5*80)
+#define DEBUG_FAKE_INPUT_OUTPUT (5 * 80)
 #undef DEBUG_FAKE_INPUT_OUTPUT
 
 #include "vice.h"
@@ -120,8 +120,9 @@ int rs232dev_open(int device)
     int i;
 
     for (i = 0; i < RS232_NUM_DEVICES; i++) {
-        if (!fds[i].inuse)
+        if (!fds[i].inuse) {
             break;
+        }
     }
     if (i >= RS232_NUM_DEVICES) {
         log_error(rs232dev_log, "No more devices available.");
@@ -133,14 +134,13 @@ int rs232dev_open(int device)
     do {
         DCB dcb;
         COMMTIMEOUTS comm_timeouts;
-        char * mode_string = strchr(rs232_devfile[device], ':');
+        char *mode_string = strchr(rs232_devfile[device], ':');
 
         if (mode_string != NULL) {
             *mode_string = 0;
         }
 
-        serial_port = CreateFile(rs232_devfile[device], GENERIC_READ | GENERIC_WRITE,
-                                 0, NULL, OPEN_EXISTING, 0, NULL);
+        serial_port = CreateFile(rs232_devfile[device], GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
         if (mode_string != NULL) {
             *mode_string = ':';
@@ -148,17 +148,15 @@ int rs232dev_open(int device)
 
 
         if (serial_port == INVALID_HANDLE_VALUE) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: CreateFile '%s' failed: %d.\n",
-                rs232_devfile[device], GetLastError()));
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: CreateFile '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
             break;
         }
 
         memset(&dcb, 0, sizeof dcb);
         dcb.DCBlength = sizeof dcb;
 
-        if ( ! GetCommState(serial_port, &dcb) ) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: GetCommState '%s' failed: %d.\n",
-                rs232_devfile[device], GetLastError()));
+        if (!GetCommState(serial_port, &dcb)) {
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: GetCommState '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
             break;
         }
 
@@ -172,16 +170,13 @@ int rs232dev_open(int device)
             }
 
             if ( ! BuildCommDCB(mode_string, &dcb) ) {
-                DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: BuildCommDCB '%s' for "
-                    "device '%s' failed: %d.\n",
-                    mode_string + 1, rs232_devfile[device], GetLastError()));
+                DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: BuildCommDCB '%s' for device '%s' failed: %d.\n", mode_string + 1, rs232_devfile[device], GetLastError()));
                 break;
             }
         }
 
-        if ( ! SetCommState(serial_port, &dcb) ) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommState '%s' failed: %d.\n",
-                rs232_devfile[device], GetLastError()));
+        if (! SetCommState(serial_port, &dcb)) {
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommState '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
             break;
         }
 
@@ -201,10 +196,8 @@ int rs232dev_open(int device)
         comm_timeouts.WriteTotalTimeoutConstant = 0;
         comm_timeouts.WriteTotalTimeoutMultiplier = 0;
 
-        if ( ! SetCommTimeouts(serial_port, &comm_timeouts) ) {
-            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommTimeouts '%s' "
-                "failed: %d.\n",
-                rs232_devfile[device], GetLastError()));
+        if (!SetCommTimeouts(serial_port, &comm_timeouts)) {
+            DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommTimeouts '%s' failed: %d.\n", rs232_devfile[device], GetLastError()));
             break;
         }
 
@@ -237,9 +230,8 @@ void rs232dev_close(int fd)
         return;
     }
 
-    if ( ! SetCommState(fds[fd].fd, &fds[fd].restore_dcb) ) {
-        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommState '%s' on close failed: %d.\n",
-            rs232_devfile[fd], GetLastError()));
+    if (!SetCommState(fds[fd].fd, &fds[fd].restore_dcb)) {
+        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: SetCommState '%s' on close failed: %d.\n", rs232_devfile[fd], GetLastError()));
     }
 
     CloseHandle(fds[fd].fd);
@@ -256,7 +248,7 @@ int rs232dev_putc(int fd, BYTE b)
 {
     DWORD number_of_bytes = 1;
 
-    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Output %u = `%c'.", (unsigned) b, b));
+    DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Output %u = `%c'.", (unsigned)b, b));
 
 #if DEBUG_FAKE_INPUT_OUTPUT
 
@@ -288,25 +280,23 @@ int rs232dev_getc(int fd, BYTE * b)
             --rs232_debug_fake_input_available;
         }
         *b = rs232_debug_fake_input;
-    }
-    else {
+    } else {
         number_of_bytes = 0;
     }
 
 #else
-    if ( fds[fd].rts && fds[fd].dtr ) {
-        if ( ReadFile(fds[fd].fd, b, number_of_bytes, &number_of_bytes, NULL) == 0 ) {
+    if (fds[fd].rts && fds[fd].dtr) {
+        if (ReadFile(fds[fd].fd, b, number_of_bytes, &number_of_bytes, NULL) == 0) {
             return -1;
         }
-    }
-    else {
+    } else {
         number_of_bytes = 0;
     }
 
 #endif
 
     if (number_of_bytes) {
-        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Input %u = `%c'.", (unsigned) *b, *b));
+        DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Input %u = `%c'.", (unsigned)*b, *b));
         return 1;
     }
 
@@ -341,7 +331,7 @@ enum rs232handshake_in rs232dev_get_status(int fd)
 
     do {
         DWORD modemstat = 0;
-        if ( GetCommModemStatus(fds[fd].fd, &modemstat) == 0) {
+        if (GetCommModemStatus(fds[fd].fd, &modemstat) == 0) {
             DEBUG_LOG_MESSAGE((rs232dev_log, "Could not get modem status for device %d.", device));
             break;
         }

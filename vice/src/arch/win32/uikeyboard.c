@@ -32,7 +32,7 @@
 #include <prsht.h>
 
 #ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
+#define DUMMYUNIONNAME u1
 #endif
 
 #include "archdep.h"
@@ -83,8 +83,9 @@ static int mapping_index_get(void)
 
     resources_get_int("KeymapIndex", &index);
 
-    if (index >= uikeyboard_mapping_num)
+    if (index >= uikeyboard_mapping_num) {
         return mapping_entry[0].idc_select;
+    }
 
     return mapping_entry[index].idc_select;
 }
@@ -94,18 +95,16 @@ static void enable_mapping_controls(HWND hwnd, int idc_index)
     int i;
 
     for (i = 0; i < uikeyboard_mapping_num; i++) {
-        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_filename),
-                     idc_index == mapping_entry[i].idc_select);
-        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_browse),
-                     idc_index == mapping_entry[i].idc_select);
+        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_filename), idc_index == mapping_entry[i].idc_select);
+        EnableWindow(GetDlgItem(hwnd, mapping_entry[i].idc_browse), idc_index == mapping_entry[i].idc_select);
     }
 }
 
 static uilib_localize_dialog_param ok_cancel_trans[] = {
-    {0, IDS_KEYBOARD_SETTINGS, -1},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_KEYBOARD_SETTINGS, -1 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static int ok_cancel_move_group[] = {
@@ -159,9 +158,7 @@ static void init_mapping_dialog(HWND hwnd)
 
     idc_index = mapping_index_get();
 
-    CheckRadioButton(hwnd, mapping_entry[0].idc_select,
-                     mapping_entry[uikeyboard_mapping_num - 1].idc_select,
-                     idc_index);
+    CheckRadioButton(hwnd, mapping_entry[0].idc_select, mapping_entry[uikeyboard_mapping_num - 1].idc_select, idc_index);
 
     for (i = 0; i < uikeyboard_mapping_num; i++) {
         const char *fname;
@@ -169,8 +166,7 @@ static void init_mapping_dialog(HWND hwnd)
 
         resources_get_string(mapping_entry[i].res_filename, &fname);
         st_fname = system_mbstowcs_alloc(fname);
-        SetDlgItemText(hwnd, mapping_entry[i].idc_filename,
-                       fname != NULL ? st_fname : TEXT(""));
+        SetDlgItemText(hwnd, mapping_entry[i].idc_filename, fname != NULL ? st_fname : TEXT(""));
         system_mbstowcs_free(st_fname);
     }
 
@@ -188,88 +184,86 @@ static void end_mapping_dialog(HWND hwnd)
         GetDlgItemText(hwnd, mapping_entry[i].idc_filename, st, MAX_PATH);
         system_wcstombs(s, st, MAX_PATH);
         resources_set_string(mapping_entry[i].res_filename, s);
-        if (IsDlgButtonChecked(hwnd, mapping_entry[i].idc_select)
-            == BST_CHECKED)
+        if (IsDlgButtonChecked(hwnd, mapping_entry[i].idc_select) == BST_CHECKED) {
             resources_set_int("KeymapIndex", i);
+        }
     }
 }
 
 static void browse_mapping(HWND hwnd, unsigned int index)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_KEYMAP_FILE),
-                        UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE,
-                        mapping_entry[index].idc_filename);
+    uilib_select_browse(hwnd, translate_text(IDS_SELECT_KEYMAP_FILE), UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE, mapping_entry[index].idc_filename);
 }
 
 static void dump_mapping(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_KEYMAP_FILE),
-        UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE,
-        UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+    if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_KEYMAP_FILE), UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
 
         util_add_extension(&name, "vkm");
 
-        if (keyboard_keymap_dump(name) != 0)
+        if (keyboard_keymap_dump(name) != 0) {
             ui_error(translate_text(IDS_CANNOT_WRITE_KEYMAP_FILE));
+        }
         system_wcstombs_free(name);
         lib_free(st_name);
     }
 }
 
-static INT_PTR CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                            LPARAM lparam)
+static INT_PTR CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            end_mapping_dialog(hwnd);
-            return TRUE;
-        }
-        return FALSE;
-      case WM_COMMAND:
-        {
-            int i;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    end_mapping_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_COMMAND:
+            {
+                int i;
 
-            for (i = 0; i < uikeyboard_mapping_num; i++) {
-                if (LOWORD(wparam) == mapping_entry[i].idc_select)
-                    enable_mapping_controls(hwnd, LOWORD(wparam));
-                if (LOWORD(wparam) == mapping_entry[i].idc_browse)
-                    browse_mapping(hwnd, i);
+                for (i = 0; i < uikeyboard_mapping_num; i++) {
+                    if (LOWORD(wparam) == mapping_entry[i].idc_select) {
+                        enable_mapping_controls(hwnd, LOWORD(wparam));
+                    }
+                    if (LOWORD(wparam) == mapping_entry[i].idc_browse) {
+                        browse_mapping(hwnd, i);
+                    }
+                }
+                if (LOWORD(wparam) == mapping_idc_dump) {
+                    dump_mapping(hwnd);
+                }
+                if (LOWORD(wparam) == IDC_KBD_SHORTCUT_DUMP) {
+                    dump_shortcuts();
+                }
+                if (LOWORD(wparam) == IDOK) {
+                    end_mapping_dialog(hwnd);
+                }
+                if (LOWORD(wparam) == IDCANCEL || LOWORD(wparam) == IDOK) {
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+                }
             }
-            if (LOWORD(wparam) == mapping_idc_dump)
-                dump_mapping(hwnd);
-            if (LOWORD(wparam) == IDC_KBD_SHORTCUT_DUMP)
-                dump_shortcuts();
-            if (LOWORD(wparam) == IDOK) {
-                end_mapping_dialog(hwnd);
-            }
-            if (LOWORD(wparam) == IDCANCEL || LOWORD(wparam) == IDOK) {
-                EndDialog(hwnd, 0);
-                return TRUE;
-            }
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_mapping_dialog(hwnd);
-        return TRUE;
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_mapping_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
 
-void uikeyboard_settings_dialog(HWND hwnd,
-                                uikeyboard_config_t *uikeyboard_config)
+void uikeyboard_settings_dialog(HWND hwnd, uikeyboard_config_t *uikeyboard_config)
 {
-
     uikeyboard_mapping_num = uikeyboard_config->num_mapping;
     mapping_entry = uikeyboard_config->mapping_entry;
     mapping_idc_dump = uikeyboard_config->idc_dump;
@@ -295,9 +289,9 @@ static void dump_shortcuts(void)
     int item_used[MAXACCEL];
 
     memset(item_used, 0, MAXACCEL * sizeof(int));
+
     /* adapted patch of iAN CooG */
-    complete_path = util_concat(archdep_boot_path(), "\\", machine_name, 
-                                "\\win_shortcuts.vsc", NULL);
+    complete_path = util_concat(archdep_boot_path(), "\\", machine_name, "\\win_shortcuts.vsc", NULL);
     fp = fopen(complete_path, "wt");
 
     if (fp == NULL) {
@@ -316,8 +310,7 @@ static void dump_shortcuts(void)
                 "#   Have a look at winuser.h for the list of virtual key codes (VK_..)\n"
                 "# Third column: command identifier that is executed with the shortcut\n"
                 "# Fourth column: text to display in the menu item; missing this lets\n"
-                "#   the keycode char be displayed.\n\n"
-        );
+                "#   the keycode char be displayed.\n\n");
 
     for (i = 0; i < accelnum; i++) {
         accel = accellist[i];
@@ -333,29 +326,34 @@ static void dump_shortcuts(void)
 
         sprintf(str, "%s", mod_keys & FCONTROL ? "CTRL" : "");
         mod_keys &= ~FCONTROL;
-        if (str[0] && (mod_keys & FALT))
+        if (str[0] && (mod_keys & FALT)) {
             sprintf(str, "%s%s", str, "|");
+        }
         sprintf(str, "%s%s", str, mod_keys & FALT ? "ALT" : "");
         mod_keys &= ~FALT;
-        if (str[0] && (mod_keys & FSHIFT))
+        if (str[0] && (mod_keys & FSHIFT)) {
             sprintf(str, "%s%s", str, "|");
+        }
         sprintf(str, "%s%s", str, mod_keys & FSHIFT ? "SHIFT" : "");
-        if (!str[0])
+        if (!str[0]) {
             sprintf(str, "KEY");
+        }
         fprintf(fp, "%-16s", str);
 
-        if (accel.key >= '0' && accel.key <= '9'
-            || accel.key >= 'A' && accel.key <= 'Z')
+        if (accel.key >= '0' && accel.key <= '9' || accel.key >= 'A' && accel.key <= 'Z') {
             fprintf(fp, "'%c'         %-34s", accel.key, idmlist[j].str);
-        else
+        } else {
             fprintf(fp, "0x%02X        %-34s", accel.key, idmlist[j].str);
+        }
 
         if (menuitemmodifier[idmlist[j].cmd] != NULL ) {
             p = strrchr(menuitemmodifier[idmlist[j].cmd], '\t');
-            if (strrchr(p, '+'))
+            if (strrchr(p, '+')) {
                 p = strrchr(p, '+');
-            if (*(p+1))
+            }
+            if (*(p + 1)) {
                 p++;
+            }
 
             fprintf(fp, "%s\n", p);
         } else {
@@ -369,10 +367,11 @@ static void dump_shortcuts(void)
     i = 0;
     for (j = 0; idmlist[j].str; j++) {
         if (item_used[j] == 0) {
-            if (++i & 1)
+            if (++i & 1) {
                 fprintf(fp, "# %-40s", idmlist[j].str);
-            else
+            } else {
                 fprintf(fp, "%s\n", idmlist[j].str);
+            }
         }
     }
 
@@ -393,9 +392,11 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
     accelnum = 0;
     menuitemmodifier_len = 0;
-    for (i = 0; idmlist[i].str != NULL; i++)
-        if (idmlist[i].cmd >= menuitemmodifier_len)
+    for (i = 0; idmlist[i].str != NULL; i++) {
+        if (idmlist[i].cmd >= menuitemmodifier_len) {
             menuitemmodifier_len = idmlist[i].cmd + 1;
+        }
+    }
 
     menuitemmodifier = lib_calloc(menuitemmodifier_len, sizeof(char*));
     memset(menuitemmodifier, 0, menuitemmodifier_len * sizeof(char*));
@@ -412,37 +413,45 @@ HACCEL uikeyboard_create_accelerator_table(void)
         buffer[0] = 0;
         if (fgets(buffer, 999, fshortcuts)) {
 
-            if (strlen(buffer) == 0)
+            if (strlen(buffer) == 0) {
                 break;
+            }
 
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
-	        /* remove comments */
-	        if ((p = strchr(buffer, '#')))
-	            *p=0;
+
+	      /* remove comments */
+	      if ((p = strchr(buffer, '#'))) {
+                *p = 0;
+            }
 
             metastr = strtok(buffer, " \t:");
             keystr = strtok(NULL, " \t:");
             menustr = strtok(NULL, " \t:");
             displaystr = strtok(NULL, " \t:");
-	        if (displaystr && (p = strchr(displaystr, '#')))
-	            *p=0;
+	      if (displaystr && (p = strchr(displaystr, '#'))) {
+	          *p = 0;
+            }
 
             if (metastr && keystr && menustr) {
                 for (i = 0; idmlist[i].str; i++) {
-                    if (strcmp(idmlist[i].str, menustr) == 0)
+                    if (strcmp(idmlist[i].str, menustr) == 0) {
                         break;
+                    }
                 }
 
                 if (idmlist[i].str) {
                     ACCEL accel;
 
                     accel.fVirt = FVIRTKEY | FNOINVERT;
-                    if (strstr(strlwr(metastr), "shift") != NULL)
+                    if (strstr(strlwr(metastr), "shift") != NULL) {
                         accel.fVirt |= FSHIFT;
-                    if (strstr(strlwr(metastr), "ctrl") != NULL)
+                    }
+                    if (strstr(strlwr(metastr), "ctrl") != NULL) {
                         accel.fVirt |= FCONTROL;
-                    if (strstr(strlwr(metastr), "alt") != NULL)
+                    }
+                    if (strstr(strlwr(metastr), "alt") != NULL) {
                         accel.fVirt |= FALT;
+                    }
 
                     if (keystr[0] == '\'' && keystr[2] == '\'') {
                         accel.key = keystr[1];
@@ -456,15 +465,16 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
                     accel.cmd = idmlist[i].cmd;
 
-                    if (accel.key > 0 && accel.cmd > 0 && accelnum < MAXACCEL)
+                    if (accel.key > 0 && accel.cmd > 0 && accelnum < MAXACCEL) {
                         accellist[accelnum++] = accel;
+                    }
 
                     if (displaystr != NULL && menuitemmodifier[accel.cmd] == NULL) {
                         p = util_concat("\t",
-                                    ((accel.fVirt & FSHIFT  ) ? "Shift+" : ""),
-                                    ((accel.fVirt & FCONTROL) ? "Ctrl+" : ""),
-                                    ((accel.fVirt & FALT) ? "Alt+" : ""),
-                                    displaystr, NULL);
+                                        ((accel.fVirt & FSHIFT  ) ? "Shift+" : ""),
+                                        ((accel.fVirt & FCONTROL) ? "Ctrl+" : ""),
+                                        ((accel.fVirt & FALT) ? "Alt+" : ""),
+                                        displaystr, NULL);
 
                         menuitemmodifier[accel.cmd] = p;
                     }
@@ -476,7 +486,6 @@ HACCEL uikeyboard_create_accelerator_table(void)
 
     return CreateAcceleratorTable(accellist, accelnum);
 }
-
 
 /* using MIIM_STRING doesn't work for win9x/winnt4, so trying an older way */
 void uikeyboard_menu_shortcuts(HMENU menu)
@@ -507,8 +516,8 @@ void uikeyboard_shutdown(void)
 {
     int i;
 
-    for (i = 0; i < menuitemmodifier_len; i++)
+    for (i = 0; i < menuitemmodifier_len; i++) {
         lib_free(menuitemmodifier[i]);
+    }
     lib_free(menuitemmodifier);
 }
-

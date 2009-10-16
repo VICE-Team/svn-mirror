@@ -13,19 +13,22 @@ IDD_SID_GENERAL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "", IDC_SID_GENGROUP1, 10, 5, 125, 25
-    COMBOBOX        IDC_SID_ENGINE, 15, 15, 70, 50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "", IDC_SID_GENGROUP2, 10, 35, 125, 25
-    COMBOBOX        IDC_SID_MODEL, 15, 45, 100, 50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "", IDC_SID_GENGROUP3, 10, 65, 125, 25
-    AUTOCHECKBOX    "", IDC_SID_STEREO,
-                    15, 75, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS, 85, 73, 45, 100, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "", IDC_SID_FILTERS,
-                    15, 105, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    GROUPBOX     "", IDC_SID_GENGROUP1,
+                 10, 5, 125, 25
+    COMBOBOX     IDC_SID_ENGINE,
+                 15, 15, 70, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX     "", IDC_SID_GENGROUP2,
+                 10, 35, 125, 25
+    COMBOBOX     IDC_SID_MODEL,
+                 15, 45, 100, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX     "", IDC_SID_GENGROUP3,
+                 10, 65, 125, 25
+    AUTOCHECKBOX "", IDC_SID_STEREO,
+                 15, 75, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    COMBOBOX     IDC_SID_STEREOADDRESS,
+                 85, 73, 45, 100, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    AUTOCHECKBOX "", IDC_SID_FILTERS,
+                 15, 105, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -36,12 +39,16 @@ IDD_SID_RESID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "", IDC_SID_RESID_GROUP, 10, 5, 125, 50
-    LTEXT           "", IDC_SID_RESID_SAMPLE, 15, 17, 50, 8
-    COMBOBOX        IDC_SID_RESID_SAMPLING, 70, 15, 60, 50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_SID_RESID_PASSBAND, 15, 37, 60, 8
-    EDITTEXT        IDC_SID_RESID_PASSBAND_VALUE, 80, 35, 20, 12, WS_TABSTOP
+    GROUPBOX "", IDC_SID_RESID_GROUP,
+             10, 5, 125, 50
+    LTEXT    "", IDC_SID_RESID_SAMPLE,
+             15, 17, 50, 8
+    COMBOBOX IDC_SID_RESID_SAMPLING,
+             70, 15, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+    LTEXT    "", IDC_SID_RESID_PASSBAND,
+             15, 37, 60, 8
+    EDITTEXT IDC_SID_RESID_PASSBAND_VALUE,
+             80, 35, 20, 12, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -52,13 +59,16 @@ IDD_SID_HARDSID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "", IDC_HARDSID_GROUP, 10, 5, 125, 50
-    LTEXT           "", IDC_HARDSID_LEFT_LABEL, 15, 17, 70, 8
-    COMBOBOX        IDC_SID_HARDSID_LEFT_ENGINE, 80, 15, 50, 50,
-                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "", IDC_HARDSID_RIGHT_LABEL, 15, 37, 70, 8
-    COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80, 35, 50, 50,
-                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX "", IDC_HARDSID_GROUP,
+             10, 5, 125, 50
+    LTEXT    "", IDC_HARDSID_LEFT_LABEL,
+             15, 17, 70, 8
+    COMBOBOX IDC_SID_HARDSID_LEFT_ENGINE,
+             80, 15, 50, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT    "", IDC_HARDSID_RIGHT_LABEL,
+             15, 37, 70, 8
+    COMBOBOX IDC_SID_HARDSID_RIGHT_ENGINE,
+             80, 35, 50, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
 END
 
 // -----------------------------------------------------------------------------
@@ -68,24 +78,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
-  IDS_GENERAL               "General"
-  IDS_SID_SETTINGS          "SID settings"
-  IDS_FAST                  "fast"
-  IDS_INTERPOLATING         "interpolating"
-  IDS_RESAMPLING            "resampling"
-  IDS_FAST_RESAMPLING       "fast resampling"
-  IDS_SID_GENGROUP1         "SID Engine"
-  IDS_SID_GENGROUP2         "SID Model"
-  IDS_SID_GENGROUP3         "SID Stereo"
-  IDS_SID_STEREO_AT         "Stereo SID at"
-  IDS_SID_FILTERS           "SID Filters"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp options"
-  IDS_SID_RESID_SAMPLE      "Sample method"
-  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
-  IDS_HARDSID_GROUP         "Device selection"
-  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
-  IDS_HARDSID_RIGHT_LABEL   "Right device"
+  IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
+  IDS_GENERAL             "General"
+  IDS_SID_SETTINGS        "SID settings"
+  IDS_FAST                "fast"
+  IDS_INTERPOLATING       "interpolating"
+  IDS_RESAMPLING          "resampling"
+  IDS_FAST_RESAMPLING     "fast resampling"
+  IDS_SID_GENGROUP3       "SID Stereo"
+  IDS_SID_STEREO_AT       "Stereo SID at"
+  IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
+  IDS_SID_RESID_SAMPLE    "Sample method"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Device selection"
+  IDS_HARDSID_LEFT_LABEL  "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL "Right device"
 END
 
 
@@ -94,24 +101,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Denne maskine kan ikke have en SID"
-  IDS_GENERAL               "Generelt"
-  IDS_SID_SETTINGS          "SID-indstillinger"
-  IDS_FAST                  "hurtig"
-  IDS_INTERPOLATING         "interpolerende"
-  IDS_RESAMPLING            "om-samplende"
-  IDS_FAST_RESAMPLING       "hurtig omsampling"
-  IDS_SID_GENGROUP1         "SID-motor"
-  IDS_SID_GENGROUP2         "SID-model"
-  IDS_SID_GENGROUP3         "SID-stereo"
-  IDS_SID_STEREO_AT         "Stereo-SID på"
-  IDS_SID_FILTERS           "SID-filter"
-  IDS_SID_RESID_GROUP       "reSID-/reSID-fp-indstillinger"
-  IDS_SID_RESID_SAMPLE      "Samplingmetode"
-  IDS_SID_RESID_PASSBAND    "Pasbånd (0-90%)"
-  IDS_HARDSID_GROUP         "Enhedsvalg"
-  IDS_HARDSID_LEFT_LABEL    "Venstre/hovedenhed"
-  IDS_HARDSID_RIGHT_LABEL   "Højre enhed"
+  IDS_THIS_MACHINE_NO_SID "Denne maskine kan ikke have en SID"
+  IDS_GENERAL             "Generelt"
+  IDS_SID_SETTINGS        "SID-indstillinger"
+  IDS_FAST                "hurtig"
+  IDS_INTERPOLATING       "interpolerende"
+  IDS_RESAMPLING          "om-samplende"
+  IDS_FAST_RESAMPLING     "hurtig omsampling"
+  IDS_SID_GENGROUP3       "SID-stereo"
+  IDS_SID_STEREO_AT       "Stereo-SID på"
+  IDS_SID_RESID_GROUP     "reSID-/reSID-fp-indstillinger"
+  IDS_SID_RESID_SAMPLE    "Samplingmetode"
+  IDS_SID_RESID_PASSBAND  "Pasbånd (0-90%)"
+  IDS_HARDSID_GROUP       "Enhedsvalg"
+  IDS_HARDSID_LEFT_LABEL  "Venstre/hovedenhed"
+  IDS_HARDSID_RIGHT_LABEL "Højre enhed"
 END
 
 
@@ -120,24 +124,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Diese Maschine hat möglicherweise keinen SID"
-  IDS_GENERAL               "Allgemein"
-  IDS_SID_SETTINGS          "SID Einstellungen"
-  IDS_FAST                  "Schnell"
-  IDS_INTERPOLATING         "Interpolierend"
-  IDS_RESAMPLING            "Resampling"
-  IDS_FAST_RESAMPLING       "Schnelles Resampling"
-  IDS_SID_GENGROUP1         "SID Engine"
-  IDS_SID_GENGROUP2         "SID Modell"
-  IDS_SID_GENGROUP3         "SID Stereo"
-  IDS_SID_STEREO_AT         "Stereo SID bei"
-  IDS_SID_FILTERS           "SID Filter"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp Optionen"
-  IDS_SID_RESID_SAMPLE      "Sample Methode"
-  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
-  IDS_HARDSID_GROUP         "Geräte Auswahl"
-  IDS_HARDSID_LEFT_LABEL    "Links/Haupt Gerät"
-  IDS_HARDSID_RIGHT_LABEL   "Rechtes Gerät"
+  IDS_THIS_MACHINE_NO_SID "Diese Maschine hat möglicherweise keinen SID"
+  IDS_GENERAL             "Allgemein"
+  IDS_SID_SETTINGS        "SID Einstellungen"
+  IDS_FAST                "Schnell"
+  IDS_INTERPOLATING       "Interpolierend"
+  IDS_RESAMPLING          "Resampling"
+  IDS_FAST_RESAMPLING     "Schnelles Resampling"
+  IDS_SID_GENGROUP3       "SID Stereo"
+  IDS_SID_STEREO_AT       "Stereo SID bei"
+  IDS_SID_RESID_GROUP     "reSID/reSID-fp Optionen"
+  IDS_SID_RESID_SAMPLE    "Sample Methode"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Geräte Auswahl"
+  IDS_HARDSID_LEFT_LABEL  "Links/Haupt Gerät"
+  IDS_HARDSID_RIGHT_LABEL "Rechtes Gerät"
 END
 
 
@@ -146,24 +147,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Cette machine n'a peut-être pas de SID"
-  IDS_GENERAL               "Général"
-  IDS_SID_SETTINGS          "Paramètres SID"
-  IDS_FAST                  "rapide"
-  IDS_INTERPOLATING         "par interpolation"
-  IDS_RESAMPLING            "rééchantillonage"
-  IDS_FAST_RESAMPLING       "rééchantillonage rapide"
-  IDS_SID_GENGROUP1         "Engin SID"
-  IDS_SID_GENGROUP2         "Modèle SID"
-  IDS_SID_GENGROUP3         "SID Stéréo"
-  IDS_SID_STEREO_AT         "SID Stéréo à"
-  IDS_SID_FILTERS           "Filtres SID"
-  IDS_SID_RESID_GROUP       "Options reSID/reSID-fp"
-  IDS_SID_RESID_SAMPLE      "Méthode d'échantillonnage"
-  IDS_SID_RESID_PASSBAND    "Bande passante (0-90%)"
-  IDS_HARDSID_GROUP         "Sélection des périphériques"
-  IDS_HARDSID_LEFT_LABEL    "Périphérique gauche/principal"
-  IDS_HARDSID_RIGHT_LABEL   "Périphérique droit"
+  IDS_THIS_MACHINE_NO_SID "Cette machine n'a peut-être pas de SID"
+  IDS_GENERAL             "Général"
+  IDS_SID_SETTINGS        "Paramètres SID"
+  IDS_FAST                "rapide"
+  IDS_INTERPOLATING       "par interpolation"
+  IDS_RESAMPLING          "rééchantillonage"
+  IDS_FAST_RESAMPLING     "rééchantillonage rapide"
+  IDS_SID_GENGROUP3       "SID Stéréo"
+  IDS_SID_STEREO_AT       "SID Stéréo à"
+  IDS_SID_RESID_GROUP     "Options reSID/reSID-fp"
+  IDS_SID_RESID_SAMPLE    "Méthode d'échantillonnage"
+  IDS_SID_RESID_PASSBAND  "Bande passante (0-90%)"
+  IDS_HARDSID_GROUP       "Sélection des périphériques"
+  IDS_HARDSID_LEFT_LABEL  "Périphérique gauche/principal"
+  IDS_HARDSID_RIGHT_LABEL "Périphérique droit"
 END
 
 
@@ -173,24 +171,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Ennek a gépnek nem lehet SIDje"
-  IDS_GENERAL               "Általános"
-  IDS_SID_SETTINGS          "SID beállításai"
-  IDS_FAST                  "gyors"
-  IDS_INTERPOLATING         "interpoláló"
-  IDS_RESAMPLING            "újramintavételezõ"
-  IDS_FAST_RESAMPLING       "gyors újramintavételezõ"
-  IDS_SID_GENGROUP1         "SID motor"
-  IDS_SID_GENGROUP2         "SID típus"
-  IDS_SID_GENGROUP3         "SID sztereó"
-  IDS_SID_STEREO_AT         "Sztereó SID itt:"
-  IDS_SID_FILTERS           "SID szûrõk"
-  IDS_SID_RESID_GROUP       "reSID/reSIP-fp opciók"
-  IDS_SID_RESID_SAMPLE      "Mintavételezés módja"
-  IDS_SID_RESID_PASSBAND    "Áteresztõság (0-90%)"
-  IDS_HARDSID_GROUP         "Eszközök kiválasztása"
-  IDS_HARDSID_LEFT_LABEL    "Bal oldali/fõ eszköz"
-  IDS_HARDSID_RIGHT_LABEL   "Jobb oldali eszköz"
+  IDS_THIS_MACHINE_NO_SID "Ennek a gépnek nem lehet SIDje"
+  IDS_GENERAL             "Általános"
+  IDS_SID_SETTINGS        "SID beállításai"
+  IDS_FAST                "gyors"
+  IDS_INTERPOLATING       "interpoláló"
+  IDS_RESAMPLING          "újramintavételezõ"
+  IDS_FAST_RESAMPLING     "gyors újramintavételezõ"
+  IDS_SID_GENGROUP3       "SID sztereó"
+  IDS_SID_STEREO_AT       "Sztereó SID itt:"
+  IDS_SID_RESID_GROUP     "reSID/reSIP-fp opciók"
+  IDS_SID_RESID_SAMPLE    "Mintavételezés módja"
+  IDS_SID_RESID_PASSBAND  "Áteresztõság (0-90%)"
+  IDS_HARDSID_GROUP       "Eszközök kiválasztása"
+  IDS_HARDSID_LEFT_LABEL  "Bal oldali/fõ eszköz"
+  IDS_HARDSID_RIGHT_LABEL "Jobb oldali eszköz"
 END
 #pragma code_page(28591)
 
@@ -200,24 +195,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Questa macchina potrebbe non avere un SID"
-  IDS_GENERAL               "Generale"
-  IDS_SID_SETTINGS          "Impostazioni SID"
-  IDS_FAST                  "veloce"
-  IDS_INTERPOLATING         "Interpolazione"
-  IDS_RESAMPLING            "ricampionamento"
-  IDS_FAST_RESAMPLING       "ricampionamento veloce"
-  IDS_SID_GENGROUP1         "Motore SID"
-  IDS_SID_GENGROUP2         "Modello di SID"
-  IDS_SID_GENGROUP3         "Stereo SID"
-  IDS_SID_STEREO_AT         "Stereo SID a"
-  IDS_SID_FILTERS           "Filtri SID"
-  IDS_SID_RESID_GROUP       "Opzioni reSID/reSID-fp"
-  IDS_SID_RESID_SAMPLE      "Metodo di campionamento"
-  IDS_SID_RESID_PASSBAND    "Passabanda (0-90%)"
-  IDS_HARDSID_GROUP         "Selezione dispositivo"
-  IDS_HARDSID_LEFT_LABEL    "Dispositivo sinistro/principale"
-  IDS_HARDSID_RIGHT_LABEL   "Dispositivo destro"
+  IDS_THIS_MACHINE_NO_SID "Questa macchina potrebbe non avere un SID"
+  IDS_GENERAL             "Generale"
+  IDS_SID_SETTINGS        "Impostazioni SID"
+  IDS_FAST                "veloce"
+  IDS_INTERPOLATING       "Interpolazione"
+  IDS_RESAMPLING          "ricampionamento"
+  IDS_FAST_RESAMPLING     "ricampionamento veloce"
+  IDS_SID_GENGROUP3       "Stereo SID"
+  IDS_SID_STEREO_AT       "Stereo SID a"
+  IDS_SID_RESID_GROUP     "Opzioni reSID/reSID-fp"
+  IDS_SID_RESID_SAMPLE    "Metodo di campionamento"
+  IDS_SID_RESID_PASSBAND  "Passabanda (0-90%)"
+  IDS_HARDSID_GROUP       "Selezione dispositivo"
+  IDS_HARDSID_LEFT_LABEL  "Dispositivo sinistro/principale"
+  IDS_HARDSID_RIGHT_LABEL "Dispositivo destro"
 END
 
 
@@ -226,24 +218,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Deze machine heeft mogelijk geen SID"
-  IDS_GENERAL               "Algemeen"
-  IDS_SID_SETTINGS          "SID-instellingen"
-  IDS_FAST                  "snel"
-  IDS_INTERPOLATING         "interpolating"
-  IDS_RESAMPLING            "resampling"
-  IDS_FAST_RESAMPLING       "snelle resampling"
-  IDS_SID_GENGROUP1         "SID-kern"
-  IDS_SID_GENGROUP2         "SID-model"
-  IDS_SID_GENGROUP3         "Stereo-SID"
-  IDS_SID_STEREO_AT         "Stereo-SID op"
-  IDS_SID_FILTERS           "SID-filters"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp-opties"
-  IDS_SID_RESID_SAMPLE      "Sample methode"
-  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
-  IDS_HARDSID_GROUP         "Apparaatselectie"
-  IDS_HARDSID_LEFT_LABEL    "Linker-/hoofdapparaat"
-  IDS_HARDSID_RIGHT_LABEL   "Rechterapparaat"
+  IDS_THIS_MACHINE_NO_SID "Deze machine heeft mogelijk geen SID"
+  IDS_GENERAL             "Algemeen"
+  IDS_SID_SETTINGS        "SID-instellingen"
+  IDS_FAST                "snel"
+  IDS_INTERPOLATING       "interpolating"
+  IDS_RESAMPLING          "resampling"
+  IDS_FAST_RESAMPLING     "snelle resampling"
+  IDS_SID_GENGROUP3       "Stereo-SID"
+  IDS_SID_STEREO_AT       "Stereo-SID op"
+  IDS_SID_RESID_GROUP     "reSID/reSID-fp-opties"
+  IDS_SID_RESID_SAMPLE    "Sample methode"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Apparaatselectie"
+  IDS_HARDSID_LEFT_LABEL  "Linker-/hoofdapparaat"
+  IDS_HARDSID_RIGHT_LABEL "Rechterapparaat"
 END
 
 
@@ -253,24 +242,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
-  IDS_GENERAL               "General"
-  IDS_SID_SETTINGS          "SID settings"
-  IDS_FAST                  "fast"
-  IDS_INTERPOLATING         "interpolating"
-  IDS_RESAMPLING            "resampling"
-  IDS_FAST_RESAMPLING       "fast resampling"
-  IDS_SID_GENGROUP1         "Ustawienia uk³adu SID"
-  IDS_SID_GENGROUP2         "Model SID"
-  IDS_SID_GENGROUP3         "Drugi SID"
-  IDS_SID_STEREO_AT         "Adres drugiego SID"
-  IDS_SID_FILTERS           "SID filtry"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp Opcje"
-  IDS_SID_RESID_SAMPLE      "Metoda samplowania"
-  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
-  IDS_HARDSID_GROUP         "Device selection"
-  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
-  IDS_HARDSID_RIGHT_LABEL   "Right device"
+  IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
+  IDS_GENERAL             "General"
+  IDS_SID_SETTINGS        "SID settings"
+  IDS_FAST                "fast"
+  IDS_INTERPOLATING       "interpolating"
+  IDS_RESAMPLING          "resampling"
+  IDS_FAST_RESAMPLING     "fast resampling"
+  IDS_SID_GENGROUP3       "Drugi SID"
+  IDS_SID_STEREO_AT       "Adres drugiego SID"
+  IDS_SID_RESID_GROUP     "reSID/reSID-fp Opcje"
+  IDS_SID_RESID_SAMPLE    "Metoda samplowania"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Device selection"
+  IDS_HARDSID_LEFT_LABEL  "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL "Right device"
 END
 #pragma code_page(28591)
 
@@ -280,24 +266,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Denna maskin kan inte ha en SID"
-  IDS_GENERAL               "Allmänt"
-  IDS_SID_SETTINGS          "SID-inställningar"
-  IDS_FAST                  "snabbt"
-  IDS_INTERPOLATING         "interpolerande"
-  IDS_RESAMPLING            "omsamplande"
-  IDS_FAST_RESAMPLING       "snabb omsampling"
-  IDS_SID_GENGROUP1         "SID-motor"
-  IDS_SID_GENGROUP2         "SID-modell"
-  IDS_SID_GENGROUP3         "SID Stereo"
-  IDS_SID_STEREO_AT         "Stereo-SID på"
-  IDS_SID_FILTERS           "SID-filter"
-  IDS_SID_RESID_GROUP       "reSID-/reSID-fp-inställningar"
-  IDS_SID_RESID_SAMPLE      "Samplingsmetod"
-  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
-  IDS_HARDSID_GROUP         "Välj enhet"
-  IDS_HARDSID_LEFT_LABEL    "Vänster/huvudenhet"
-  IDS_HARDSID_RIGHT_LABEL   "Höger enhet"
+  IDS_THIS_MACHINE_NO_SID "Denna maskin kan inte ha en SID"
+  IDS_GENERAL             "Allmänt"
+  IDS_SID_SETTINGS        "SID-inställningar"
+  IDS_FAST                "snabbt"
+  IDS_INTERPOLATING       "interpolerande"
+  IDS_RESAMPLING          "omsamplande"
+  IDS_FAST_RESAMPLING     "snabb omsampling"
+  IDS_SID_GENGROUP3       "SID Stereo"
+  IDS_SID_STEREO_AT       "Stereo-SID på"
+  IDS_SID_RESID_GROUP     "reSID-/reSID-fp-inställningar"
+  IDS_SID_RESID_SAMPLE    "Samplingsmetod"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Välj enhet"
+  IDS_HARDSID_LEFT_LABEL  "Vänster/huvudenhet"
+  IDS_HARDSID_RIGHT_LABEL "Höger enhet"
 END
 
 
@@ -307,23 +290,20 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID   "Bu makinede SID olmayabilir"
-  IDS_GENERAL               "Genel"
-  IDS_SID_SETTINGS          "SID Ayarlarý"
-  IDS_FAST                  "hýzlý"
-  IDS_INTERPOLATING         "ara deðer bulma"
-  IDS_RESAMPLING            "yeniden örnekleme"
-  IDS_FAST_RESAMPLING       "hýzlý yeniden örnekleme"
-  IDS_SID_GENGROUP1         "SID Motoru"
-  IDS_SID_GENGROUP2         "SID Modeli"
-  IDS_SID_GENGROUP3         "Stereo SID"
-  IDS_SID_STEREO_AT         "Stereo SID konumu"
-  IDS_SID_FILTERS           "SID Filtreleri"
-  IDS_SID_RESID_GROUP       "reSID/reSID-fp seçenekleri"
-  IDS_SID_RESID_SAMPLE      "Örnekleme metodu"
-  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
-  IDS_HARDSID_GROUP         "Aygýt seçimi"
-  IDS_HARDSID_LEFT_LABEL    "Sol/Ana aygýt"
-  IDS_HARDSID_RIGHT_LABEL   "Sað aygýt"
+  IDS_THIS_MACHINE_NO_SID "Bu makinede SID olmayabilir"
+  IDS_GENERAL             "Genel"
+  IDS_SID_SETTINGS        "SID Ayarlarý"
+  IDS_FAST                "hýzlý"
+  IDS_INTERPOLATING       "ara deðer bulma"
+  IDS_RESAMPLING          "yeniden örnekleme"
+  IDS_FAST_RESAMPLING     "hýzlý yeniden örnekleme"
+  IDS_SID_GENGROUP3       "Stereo SID"
+  IDS_SID_STEREO_AT       "Stereo SID konumu"
+  IDS_SID_RESID_GROUP     "reSID/reSID-fp seçenekleri"
+  IDS_SID_RESID_SAMPLE    "Örnekleme metodu"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Aygýt seçimi"
+  IDS_HARDSID_LEFT_LABEL  "Sol/Ana aygýt"
+  IDS_HARDSID_RIGHT_LABEL "Sað aygýt"
 END
 #pragma code_page(28591)

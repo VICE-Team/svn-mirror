@@ -39,7 +39,6 @@
 #include "uilib.h"
 #include "winmain.h"
 
-
 static const int ui_datasette_zero_gap_delay[] = {
     1000,
     2000,
@@ -51,26 +50,26 @@ static const int ui_datasette_zero_gap_delay[] = {
 };
 
 static uilib_localize_dialog_param datasette_dialog[] = {
-    {0, IDS_DATASETTE_CAPTION, -1},
-    {IDC_DATASETTE_RESET_WITH_CPU, IDS_DATASETTE_RESET_WITH_CPU, 0},
-    {IDC_DATASETTE_DELAY_TRIGGER, IDS_DATASETTE_DELAY_TRIGGER, 0},
-    {IDC_DATASETTE_DELAY_AT_ZERO, IDS_DATASETTE_DELAY_AT_ZERO, 0},
-    {IDC_DATASETTE_MOTOR_GROUP, IDS_DATASETTE_MOTOR_GROUP, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_DATASETTE_CAPTION, -1 },
+    { IDC_DATASETTE_RESET_WITH_CPU, IDS_DATASETTE_RESET_WITH_CPU, 0 },
+    { IDC_DATASETTE_DELAY_TRIGGER, IDS_DATASETTE_DELAY_TRIGGER, 0 },
+    { IDC_DATASETTE_DELAY_AT_ZERO, IDS_DATASETTE_DELAY_AT_ZERO, 0 },
+    { IDC_DATASETTE_MOTOR_GROUP, IDS_DATASETTE_MOTOR_GROUP, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group datasette_main_group[] = {
-    {IDC_DATASETTE_RESET_WITH_CPU, 0},
-    {IDC_DATASETTE_MOTOR_GROUP, 0},
-    {0, 0}
+    { IDC_DATASETTE_RESET_WITH_CPU, 0 },
+    { IDC_DATASETTE_MOTOR_GROUP, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group datasette_sub_group[] = {
-    {IDC_DATASETTE_DELAY_TRIGGER, 0},
-    {IDC_DATASETTE_DELAY_AT_ZERO, 0},
-    {0, 0}
+    { IDC_DATASETTE_DELAY_TRIGGER, 0 },
+    { IDC_DATASETTE_DELAY_AT_ZERO, 0 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -128,27 +127,28 @@ static void init_datasette_dialog(HWND hwnd)
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("DatasetteResetWithCPU", &res_value);
-    CheckDlgButton(hwnd, IDC_DATASETTE_RESET_WITH_CPU, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_DATASETTE_RESET_WITH_CPU, res_value ? BST_CHECKED : BST_UNCHECKED);
     
-    snd_hwnd=GetDlgItem(hwnd, IDC_DATASETTE_ZERO_GAP_DELAY);
+    snd_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_ZERO_GAP_DELAY);
     for (res_value_loop = 0; res_value_loop < 7; res_value_loop++) {
         TCHAR st[10];
+
         _stprintf(st, TEXT("%d"), ui_datasette_zero_gap_delay[res_value_loop]);
         SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("DatasetteZeroGapDelay", &res_value);
     active_value = 4; /* default */
     for (res_value_loop = 0; res_value_loop < 7; res_value_loop++) {
-        if (ui_datasette_zero_gap_delay[res_value_loop] == res_value)
+        if (ui_datasette_zero_gap_delay[res_value_loop] == res_value) {
             active_value = res_value_loop;
+        }
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd, IDC_DATASETTE_SPEED_TUNING);
+    snd_hwnd = GetDlgItem(hwnd, IDC_DATASETTE_SPEED_TUNING);
     for (res_value_loop = 0; res_value_loop < 8; res_value_loop++) {
         TCHAR st[10];
-        _stprintf(st,TEXT("%d"),res_value_loop);
+        _stprintf(st, TEXT("%d"), res_value_loop);
         SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("DatasetteSpeedTuning", &res_value);
@@ -157,38 +157,33 @@ static void init_datasette_dialog(HWND hwnd)
 
 static void end_datasette_dialog(HWND hwnd)
 {
-    resources_set_int("DatasetteResetWithCPU", (IsDlgButtonChecked(hwnd,
-                      IDC_DATASETTE_RESET_WITH_CPU) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("DatasetteSpeedTuning", (int)SendDlgItemMessage(hwnd,
-                      IDC_DATASETTE_SPEED_TUNING, CB_GETCURSEL, 0, 0));
-    resources_set_int("DatasetteZeroGapDelay",
-                      ui_datasette_zero_gap_delay[SendDlgItemMessage(hwnd,
-                      IDC_DATASETTE_ZERO_GAP_DELAY, CB_GETCURSEL, 0, 0)]);
+    resources_set_int("DatasetteResetWithCPU", (IsDlgButtonChecked(hwnd, IDC_DATASETTE_RESET_WITH_CPU) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("DatasetteSpeedTuning", (int)SendDlgItemMessage(hwnd, IDC_DATASETTE_SPEED_TUNING, CB_GETCURSEL, 0, 0));
+    resources_set_int("DatasetteZeroGapDelay", ui_datasette_zero_gap_delay[SendDlgItemMessage(hwnd, IDC_DATASETTE_ZERO_GAP_DELAY, CB_GETCURSEL, 0, 0)]);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command=LOWORD(wparam);
-        switch (command) {
-          case IDOK:
-            end_datasette_dialog(hwnd);
-          case IDCANCEL:
-            EndDialog(hwnd,0);
+        case WM_COMMAND:
+            command=LOWORD(wparam);
+            switch (command) {
+                case IDOK:
+                    end_datasette_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd,0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_datasette_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_datasette_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
@@ -196,36 +191,35 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void uidatasette_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_DATASETTE_SETTINGS_DIALOG),
-              hwnd, dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_DATASETTE_SETTINGS_DIALOG), hwnd, dialog_proc);
 }
 
 void uidatasette_command(HWND hwnd, WPARAM wparam)
 {
     switch (wparam) {
-      case IDM_DATASETTE_SETTINGS:
-        uidatasette_settings_dialog(hwnd);
-        break;
-      case IDM_DATASETTE_CONTROL_STOP:
-        datasette_control(DATASETTE_CONTROL_STOP);
-        break;
-      case IDM_DATASETTE_CONTROL_START:
-        datasette_control(DATASETTE_CONTROL_START);
-        break;
-      case IDM_DATASETTE_CONTROL_FORWARD:
-        datasette_control(DATASETTE_CONTROL_FORWARD);
-        break;
-      case IDM_DATASETTE_CONTROL_REWIND:
-        datasette_control(DATASETTE_CONTROL_REWIND);
-        break;
-      case IDM_DATASETTE_CONTROL_RECORD:
-        datasette_control(DATASETTE_CONTROL_RECORD);
-        break;
-      case IDM_DATASETTE_CONTROL_RESET:
-        datasette_control(DATASETTE_CONTROL_RESET);
-        break;
-      case IDM_DATASETTE_RESET_COUNTER:
-        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
-        break;
+        case IDM_DATASETTE_SETTINGS:
+            uidatasette_settings_dialog(hwnd);
+            break;
+        case IDM_DATASETTE_CONTROL_STOP:
+            datasette_control(DATASETTE_CONTROL_STOP);
+            break;
+        case IDM_DATASETTE_CONTROL_START:
+            datasette_control(DATASETTE_CONTROL_START);
+            break;
+        case IDM_DATASETTE_CONTROL_FORWARD:
+            datasette_control(DATASETTE_CONTROL_FORWARD);
+            break;
+        case IDM_DATASETTE_CONTROL_REWIND:
+            datasette_control(DATASETTE_CONTROL_REWIND);
+            break;
+        case IDM_DATASETTE_CONTROL_RECORD:
+            datasette_control(DATASETTE_CONTROL_RECORD);
+            break;
+        case IDM_DATASETTE_CONTROL_RESET:
+            datasette_control(DATASETTE_CONTROL_RESET);
+            break;
+        case IDM_DATASETTE_RESET_COUNTER:
+            datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
+            break;
     }
 }

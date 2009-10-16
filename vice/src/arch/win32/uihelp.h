@@ -31,4 +31,3 @@
 extern void uihelp_dialog(HWND hwnd, WPARAM wparam);
 
 #endif
-

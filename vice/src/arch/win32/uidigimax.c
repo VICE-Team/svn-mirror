@@ -44,39 +44,50 @@
 #define NUM_OF_DIGIMAX_BASE 17
 static const int ui_digimax_base[NUM_OF_DIGIMAX_BASE] = {
     0xdd00,   /* special case, userport interface */
-    0xde00, 0xde20, 0xde40, 0xde60,
-    0xde80, 0xdea0, 0xdec0, 0xdee0,
-    0xdf00, 0xdf20, 0xdf40, 0xdf60,
-    0xdf80, 0xdfa0, 0xdfc0, 0xdfe0
+    0xde00,
+    0xde20,
+    0xde40,
+    0xde60,
+    0xde80,
+    0xdea0,
+    0xdec0,
+    0xdee0,
+    0xdf00,
+    0xdf20,
+    0xdf40,
+    0xdf60,
+    0xdf80,
+    0xdfa0,
+    0xdfc0,
+    0xdfe0
 };
 
 static void enable_digimax_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_DIGIMAX_ENABLE)
-                 == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_DIGIMAX_ENABLE) == BST_CHECKED) ? 1 : 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_DIGIMAX_BASE), is_enabled);
 }
 
 static uilib_localize_dialog_param digimax_dialog[] = {
-    {0, IDS_DIGIMAX_CAPTION, -1},
-    {IDC_DIGIMAX_ENABLE, IDS_DIGIMAX_ENABLE, 0},
-    {IDC_DIGIMAX_BASE_LABEL, IDS_DIGIMAX_BASE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_DIGIMAX_CAPTION, -1 },
+    { IDC_DIGIMAX_ENABLE, IDS_DIGIMAX_ENABLE, 0 },
+    { IDC_DIGIMAX_BASE_LABEL, IDS_DIGIMAX_BASE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group digimax_leftgroup[] = {
-    {IDC_DIGIMAX_BASE_LABEL, 0},
-    {0, 0}
+    { IDC_DIGIMAX_BASE_LABEL, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group digimax_rightgroup[] = {
-    {IDC_DIGIMAX_BASE, 0},
-    {0, 0}
+    { IDC_DIGIMAX_BASE, 0 },
+    { 0, 0 }
 };
 
 static void init_digimax_dialog(HWND hwnd)
@@ -93,29 +104,25 @@ static void init_digimax_dialog(HWND hwnd)
     uilib_move_group(hwnd, digimax_rightgroup, xsize + 30);
 
     resources_get_int("DIGIMAX", &res_value);
-    CheckDlgButton(hwnd, IDC_DIGIMAX_ENABLE, 
-        res_value ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_DIGIMAX_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     temp_hwnd = GetDlgItem(hwnd, IDC_DIGIMAX_BASE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_DIGIMAX_BASE;
-        res_value_loop++) {
+    for (res_value_loop = 0; res_value_loop < NUM_OF_DIGIMAX_BASE; res_value_loop++) {
         TCHAR st[40];
-        if (ui_digimax_base[res_value_loop]==0xdd00)
-        {
-          _stprintf(st, "Userport");
-        }
-        else
-        {
-          _stprintf(st, "$%X", ui_digimax_base[res_value_loop]);
+
+        if (ui_digimax_base[res_value_loop] == 0xdd00) {
+            _stprintf(st, "Userport");
+        } else {
+            _stprintf(st, "$%X", ui_digimax_base[res_value_loop]);
         }
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_int("DIGIMAXbase", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < NUM_OF_DIGIMAX_BASE;
-        res_value_loop++) {
-        if (ui_digimax_base[res_value_loop] == res_value)
+    for (res_value_loop = 0; res_value_loop < NUM_OF_DIGIMAX_BASE; res_value_loop++) {
+        if (ui_digimax_base[res_value_loop] == res_value) {
             active_value = res_value_loop;
+        }
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
@@ -124,39 +131,34 @@ static void init_digimax_dialog(HWND hwnd)
 
 static void end_digimax_dialog(HWND hwnd)
 {
-    resources_set_int("DIGIMAX", (IsDlgButtonChecked(hwnd,
-                      IDC_DIGIMAX_ENABLE) == BST_CHECKED ? 1 : 0 ));
-
-    resources_set_int("DIGIMAXbase",
-                      ui_digimax_base[SendMessage(GetDlgItem(
-                      hwnd, IDC_DIGIMAX_BASE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("DIGIMAX", (IsDlgButtonChecked(hwnd, IDC_DIGIMAX_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("DIGIMAXbase", ui_digimax_base[SendMessage(GetDlgItem(hwnd, IDC_DIGIMAX_BASE), CB_GETCURSEL, 0, 0)]);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_DIGIMAX_ENABLE:
-            enable_digimax_controls(hwnd);
-            break;
-          case IDOK:
-            end_digimax_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_DIGIMAX_ENABLE:
+                    enable_digimax_controls(hwnd);
+                    break;
+                case IDOK:
+                    end_digimax_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_digimax_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_digimax_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
@@ -164,6 +166,5 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_digimax_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_DIGIMAX_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_DIGIMAX_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

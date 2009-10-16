@@ -30,4 +30,3 @@
 extern void uiattach_command(HWND hwnd, WPARAM wparam);
 
 #endif
-

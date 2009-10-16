@@ -43,8 +43,7 @@
 #include "translate.h"
 #include "uiapi.h"
 
-
-static const char * translated_text = "An unexpected error occurred. Received signal %d (%s).";
+static const char *translated_text = "An unexpected error occurred. Received signal %d (%s).";
 
 static void get_translated_text(void)
 {
@@ -108,4 +107,3 @@ void signals_abort_unset(void)
 {
     signal(SIGINT, old_handler);
 }
-

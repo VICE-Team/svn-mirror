@@ -39,14 +39,18 @@
 #include "winmain.h"
 #include "uilib.h"
 
-
-
 static const int interrupt_names[] = {
-    IDS_NONE, IDS_IRQ, IDS_NMI, 0
+    IDS_NONE,
+    IDS_IRQ,
+    IDS_NMI,
+    0
 };
 
 static const int mode_names[] = {
-    IDS_NORMAL, IDS_SWIFTLINK, IDS_TURBO232, 0
+    IDS_NORMAL,
+    IDS_SWIFTLINK,
+    IDS_TURBO232,
+    0
 };
 
 static unsigned int support_enable;
@@ -64,17 +68,21 @@ static void enable_acia_controls(HWND hwnd)
     acia_interrupt = 0;
     acia_mode = 0;
     
-    if (support_mode !=0)
+    if (support_mode != 0) {
         acia_mode = 1;
+    }
 
-    if (support_enable != 0)
+    if (support_enable != 0) {
         acia_enable = 1;
+    }
 
-    if (support_location != NULL)
+    if (support_location != NULL) {
         acia_location = 1;
+    }
 
-    if (support_interrupt != 0)
+    if (support_interrupt != 0) {
         acia_interrupt = 1;
+    }
 
     if (support_enable != 0) {
         if (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) != BST_CHECKED) {
@@ -200,8 +208,7 @@ static void init_acia_dialog(HWND hwnd)
 
     if (support_enable != 0) {
         resources_get_int("Acia1Enable", &res_value);
-        CheckDlgButton(hwnd, IDC_ACIA_ENABLE,
-                       res_value ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hwnd, IDC_ACIA_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     } else {
         CheckDlgButton(hwnd, IDC_ACIA_ENABLE, BST_CHECKED);
     }
@@ -222,8 +229,7 @@ static void init_acia_dialog(HWND hwnd)
         temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
         for (res_value_loop = 0; interrupt_names[res_value_loop];
             res_value_loop++) {
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0,
-                        (LPARAM)(TCHAR *)translate_text(interrupt_names[res_value_loop]));
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)(TCHAR *)translate_text(interrupt_names[res_value_loop]));
         }
         SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
@@ -233,10 +239,8 @@ static void init_acia_dialog(HWND hwnd)
 
         resources_get_int("Acia1Mode", &res_value);
         temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_MODE);
-        for (res_value_loop = 0; mode_names[res_value_loop];
-            res_value_loop++) {
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0,
-                        (LPARAM)(TCHAR *)translate_text(mode_names[res_value_loop]));
+        for (res_value_loop = 0; mode_names[res_value_loop]; res_value_loop++) {
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)(TCHAR *)translate_text(mode_names[res_value_loop]));
         }
         SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
@@ -247,26 +251,21 @@ static void init_acia_dialog(HWND hwnd)
 static void end_acia_dialog(HWND hwnd)
 {
     if (support_enable != 0) {
-        resources_set_int("Acia1Enable", (IsDlgButtonChecked
-                          (hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
+        resources_set_int("Acia1Enable", (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
     }
 
-    resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd,
-                      IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
+    resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
 
     if (support_interrupt != 0) {
-        resources_set_int("Acia1Irq", (int)SendMessage(GetDlgItem(hwnd,
-                          IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
+        resources_set_int("Acia1Irq", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
     }
 
     if (support_mode != 0) {
-        resources_set_int("Acia1Mode",(int)SendMessage(GetDlgItem(hwnd,
-                          IDC_ACIA_MODE), CB_GETCURSEL, 0, 0));
+        resources_set_int("Acia1Mode",(int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_MODE), CB_GETCURSEL, 0, 0));
     }
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
@@ -294,14 +293,12 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
-void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location,
-                             unsigned int irq, unsigned int mode)
+void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location, unsigned int irq, unsigned int mode)
 {
     support_enable = enable;
     support_location = location;
     support_interrupt = irq;
     support_mode = mode;
 
-    DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

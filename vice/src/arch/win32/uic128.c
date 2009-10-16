@@ -32,7 +32,7 @@
 #include <windows.h>
 
 #ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
+#define DUMMYUNIONNAME u1
 #endif
 
 #include "intl.h"
@@ -69,26 +69,20 @@ static void enable_functionrom_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_INTERNAL)
-                 == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_INTERNAL) == BST_CHECKED) ? 1 : 0;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME),
-                 is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_BROWSE),
-                 is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_BROWSE), is_enabled);
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL)
-                 == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL) == BST_CHECKED) ? 1 : 0;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME),
-                 is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE),
-                 is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE), is_enabled);
 }
 
 static uilib_localize_dialog_param machine_dialog_trans[] = {
-    {IDC_MACHINE_TYPE, IDS_MACHINE_TYPE, 0},
-    {0, 0, 0}
+    { IDC_MACHINE_TYPE, IDS_MACHINE_TYPE, 0 },
+    { 0, 0, 0 }
 };
 
 static void init_machine_dialog(HWND hwnd)
@@ -112,10 +106,8 @@ static void init_machine_dialog(HWND hwnd)
 
     resources_get_int("MachineType", &res_value);
     machine_hwnd = GetDlgItem(hwnd, IDC_C128_MACHINE_TYPE);
-    for (res_value_loop = 0; ui_machine[res_value_loop] != 0;
-        res_value_loop++) {
-        SendMessage(machine_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)translate_text(ui_machine[res_value_loop]));
+    for (res_value_loop = 0; ui_machine[res_value_loop] != 0; res_value_loop++) {
+        SendMessage(machine_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_machine[res_value_loop]));
     }
     SendMessage(machine_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -123,33 +115,33 @@ static void init_machine_dialog(HWND hwnd)
 }
 
 static uilib_localize_dialog_param functionrom_dialog_trans[] = {
-    {IDC_INTERNAL_FUNCTION_ROM, IDS_INT_FUNCTION_ROM, 0},
-    {IDC_C128_FUNCTIONROM_INTERNAL, IDS_ENABLE_INT_FUNCTION_ROM, 0},
-    {IDC_FILE_NAME_1, IDS_FILE_NAME, 0},
-    {IDC_FILE_NAME_2, IDS_FILE_NAME, 0},
-    {IDC_C128_FUNCTIONROM_INTERNAL_BROWSE, IDS_BROWSE, 0},
-    {IDC_EXTERNAL_FUNCTION_ROM, IDS_EXT_FUNCTION_ROM, 0},
-    {IDC_C128_FUNCTIONROM_EXTERNAL, IDS_ENABLE_EXT_FUNCTION_ROM, 0},
-    {IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE, IDS_BROWSE, 0},
-    {0, 0, 0}
+    { IDC_INTERNAL_FUNCTION_ROM, IDS_INT_FUNCTION_ROM, 0 },
+    { IDC_C128_FUNCTIONROM_INTERNAL, IDS_ENABLE_INT_FUNCTION_ROM, 0 },
+    { IDC_FILE_NAME_1, IDS_FILE_NAME, 0 },
+    { IDC_FILE_NAME_2, IDS_FILE_NAME, 0 },
+    { IDC_C128_FUNCTIONROM_INTERNAL_BROWSE, IDS_BROWSE, 0 },
+    { IDC_EXTERNAL_FUNCTION_ROM, IDS_EXT_FUNCTION_ROM, 0 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL, IDS_ENABLE_EXT_FUNCTION_ROM, 0 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE, IDS_BROWSE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group enable_group[] = {
-    {IDC_C128_FUNCTIONROM_INTERNAL, 1},
-    {IDC_C128_FUNCTIONROM_EXTERNAL, 1},
-    {0, 0}
+    { IDC_C128_FUNCTIONROM_INTERNAL, 1 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group file_name_group[] = {
-    {IDC_FILE_NAME_1, 0},
-    {IDC_FILE_NAME_2, 0},
-    {0, 0}
+    { IDC_FILE_NAME_1, 0 },
+    { IDC_FILE_NAME_2, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group file_name_indicator_group[] = {
-    {IDC_C128_FUNCTIONROM_INTERNAL_NAME, 0},
-    {IDC_C128_FUNCTIONROM_EXTERNAL_NAME, 0},
-    {0, 0}
+    { IDC_C128_FUNCTIONROM_INTERNAL_NAME, 0 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL_NAME, 0 },
+    { 0, 0 }
 };
 
 static void init_functionrom_dialog(HWND hwnd)
@@ -190,36 +182,32 @@ static void init_functionrom_dialog(HWND hwnd)
     uilib_set_element_width(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, size - (xpos - xstart));
 
     resources_get_int("InternalFunctionROM", &res_value);
-    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_INTERNAL, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_INTERNAL, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_string("InternalFunctionName", &romfile);
     st_romfile = system_mbstowcs_alloc(romfile);
-    SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                   st_romfile != NULL ? st_romfile : TEXT(""));
+    SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME, st_romfile != NULL ? st_romfile : TEXT(""));
     system_mbstowcs_free(st_romfile);
 
     resources_get_int("ExternalFunctionROM", &res_value);
-    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL, res_value ? BST_CHECKED : BST_UNCHECKED);
  
     resources_get_string("ExternalFunctionName", &romfile);
     st_romfile = system_mbstowcs_alloc(romfile);
-    SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                   st_romfile != NULL ? st_romfile : TEXT(""));
+    SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, st_romfile != NULL ? st_romfile : TEXT(""));
     system_mbstowcs_free(st_romfile);
 
     enable_functionrom_controls(hwnd);
 }
 
 static uilib_localize_dialog_param rambanks_dialog_trans[] = {
-    {IDC_C128_FULL_BANKS, IDS_C128_FULL_BANKS, 0},
-    {0, 0, 0}
+    { IDC_C128_FULL_BANKS, IDS_C128_FULL_BANKS, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group rambanks_group[] = {
-    {IDC_C128_FULL_BANKS, 1},
-    {0, 0}
+    { IDC_C128_FULL_BANKS, 1 },
+    { 0, 0 }
 };
 
 static void init_rambanks_dialog(HWND hwnd)
@@ -233,34 +221,31 @@ static void init_rambanks_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, rambanks_group);
 
     resources_get_int("C128FullBanks", &res_value);
-    CheckDlgButton(hwnd, IDC_C128_FULL_BANKS, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_C128_FULL_BANKS, res_value ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void end_machine_dialog(HWND hwnd)
 {
-    resources_set_int("MachineType", (int)SendMessage(GetDlgItem(hwnd,
-                      IDC_C128_MACHINE_TYPE), CB_GETCURSEL, 0, 0));
+    resources_set_int("MachineType", (int)SendMessage(GetDlgItem(hwnd, IDC_C128_MACHINE_TYPE), CB_GETCURSEL, 0, 0));
 }
 
-static INT_PTR CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                            LPARAM lparam)
+static INT_PTR CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            end_machine_dialog(hwnd);
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    end_machine_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_machine_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_machine_dialog(hwnd);
+            return TRUE;
     }
 
     return FALSE;
@@ -271,65 +256,51 @@ static void end_functionrom_dialog(HWND hwnd)
     char name[MAX_PATH];
     TCHAR st_name[MAX_PATH];
 
-    resources_set_int("InternalFunctionROM", (IsDlgButtonChecked(hwnd,
-                      IDC_C128_FUNCTIONROM_INTERNAL) == BST_CHECKED ? 1 : 0 ));
-    GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                   st_name, MAX_PATH);
+    resources_set_int("InternalFunctionROM", (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_INTERNAL) == BST_CHECKED ? 1 : 0 ));
+    GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME, st_name, MAX_PATH);
     system_wcstombs(name, st_name, MAX_PATH);
     resources_set_string("InternalFunctionName", name);
 
-    resources_set_int("ExternalFunctionROM", (IsDlgButtonChecked(hwnd,
-                        IDC_C128_FUNCTIONROM_EXTERNAL)
-                        == BST_CHECKED ? 1 : 0 ));
-    GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                   st_name, MAX_PATH);
+    resources_set_int("ExternalFunctionROM", (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL) == BST_CHECKED ? 1 : 0 ));
+    GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, st_name, MAX_PATH);
     system_wcstombs(name, st_name, MAX_PATH);
     resources_set_string("ExternalFunctionName", name);
 }
 
-static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                                LPARAM lparam)
+static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_C128_FUNCTIONROM_INTERNAL:
-          case IDC_C128_FUNCTIONROM_EXTERNAL:
-            enable_functionrom_controls(hwnd);
-            break;
-          case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
-            uilib_select_browse(hwnd,
-                                translate_text(IDS_SELECT_INT_FUNCTION_ROM),
-                                UILIB_FILTER_ALL,
-                                UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                IDC_C128_FUNCTIONROM_INTERNAL_NAME);
-            break;
-          case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
-            uilib_select_browse(hwnd,
-                                translate_text(IDS_SELECT_EXT_FUNCTION_ROM),
-                                UILIB_FILTER_ALL,
-                                UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                IDC_C128_FUNCTIONROM_EXTERNAL_NAME);
-            break;
-        }
-        return FALSE;
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            end_functionrom_dialog(hwnd);
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_C128_FUNCTIONROM_INTERNAL:
+                case IDC_C128_FUNCTIONROM_EXTERNAL:
+                    enable_functionrom_controls(hwnd);
+                    break;
+                case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_SELECT_INT_FUNCTION_ROM), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, IDC_C128_FUNCTIONROM_INTERNAL_NAME);
+                    break;
+                case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_SELECT_EXT_FUNCTION_ROM), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, IDC_C128_FUNCTIONROM_EXTERNAL_NAME);
+                    break;
+            }
+            return FALSE;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    end_functionrom_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_functionrom_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_functionrom_dialog(hwnd);
+            return TRUE;
     }
 
     return FALSE;
@@ -337,33 +308,31 @@ static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wpar
 
 static void end_rambanks_dialog(HWND hwnd)
 {
-    resources_set_int("C128FullBanks", (IsDlgButtonChecked(hwnd,
-                      IDC_C128_FULL_BANKS) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("C128FullBanks", (IsDlgButtonChecked(hwnd, IDC_C128_FULL_BANKS) == BST_CHECKED ? 1 : 0 ));
 }
 
-static INT_PTR CALLBACK rambanks_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                             LPARAM lparam)
+static INT_PTR CALLBACK rambanks_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        return FALSE;
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            end_rambanks_dialog(hwnd);
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            return FALSE;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    end_rambanks_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_rambanks_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_rambanks_dialog(hwnd);
+            return TRUE;
     }
 
     return FALSE;
@@ -381,8 +350,7 @@ void ui_c128_dialog(HWND hwnd)
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -395,8 +363,7 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
     psp[1].pszIcon = NULL;
 #else
-    psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
@@ -409,8 +376,7 @@ void ui_c128_dialog(HWND hwnd)
     psp[2].pszTemplate = MAKEINTRESOURCE(IDD_C128_RAM_BANKS_DIALOG);
     psp[2].pszIcon = NULL;
 #else
-    psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_C128_RAM_BANKS_DIALOG);
+    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_C128_RAM_BANKS_DIALOG);
     psp[2].u2.pszIcon = NULL;
 #endif
     psp[2].lParam = 0;
