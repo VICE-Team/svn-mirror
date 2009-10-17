@@ -44,6 +44,7 @@
 
 static int fullscreen_nesting_level = 0;
 static int dx_primary;
+static int keep_aspect_ratio, aspect_ratio;
 
 DirectDrawDeviceList *devices = NULL;
 DirectDrawModeList *modes = NULL;
@@ -478,6 +479,7 @@ static uilib_localize_dialog_param fullscreen_dialog_trans[] = {
     {IDC_FULLSCREEN_DRIVER_REFRESHRATE, IDS_FULLSCREEN_DRVR_REFRESHRATE, 0},
     {IDC_TOGGLE_VIDEO_VBLANK_SYNC, IDS_TOGGLE_VIDEO_VBLANK_SYNC, 0},
     {IDC_TOGGLE_VIDEO_DX_PRIMARY, IDS_TOGGLE_VIDEO_DX_PRIMARY, 0},
+    {IDC_TOGGLE_KEEP_ASPECT_RATIO, IDS_TOGGLE_KEEP_ASPECT_RATIO, 0},
     {0, 0, 0}
 };
 
@@ -485,6 +487,7 @@ static uilib_dialog_group fullscreen_left_group[] = {
     {IDC_FULLSCREEN_DRIVER_BITDEPTH,  0},
     {IDC_FULLSCREEN_DRIVER_RESOLUTION, 0},
     {IDC_FULLSCREEN_DRIVER_REFRESHRATE, 0},
+    {IDC_TOGGLE_KEEP_ASPECT_RATIO, 1},
     {0, 0}
 };
 
@@ -492,6 +495,7 @@ static uilib_dialog_group fullscreen_right_group[] = {
     {IDC_FULLSCREEN_BITDEPTH,  0},
     {IDC_FULLSCREEN_RESOLUTION, 0},
     {IDC_FULLSCREEN_REFRESHRATE, 0},
+    {IDC_ASPECT_RATIO, 0},
     {0, 0}
 };
 
@@ -501,6 +505,11 @@ static uilib_dialog_group fullscreen_rest_group[] = {
     {IDC_TOGGLE_VIDEO_DX_PRIMARY, 1},
     {0, 0}
 };
+
+void enable_aspect_ratio(HWND hwnd)
+{
+    EnableWindow(GetDlgItem(hwnd, IDC_ASPECT_RATIO), keep_aspect_ratio);
+}
 
 static void init_fullscreen_dialog(HWND hwnd)
 {
@@ -512,6 +521,8 @@ static void init_fullscreen_dialog(HWND hwnd)
     int xend;
     int distance;
     int size;
+    double fval;
+    TCHAR newval[64];
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, fullscreen_dialog_trans);
@@ -589,6 +600,11 @@ static void init_fullscreen_dialog(HWND hwnd)
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(refresh_rates, fullscreen_refreshrate), 0);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_KEEP_ASPECT_RATIO, keep_aspect_ratio ? BST_CHECKED : BST_UNCHECKED);
+    enable_aspect_ratio(hwnd);
+    fval = ((double)aspect_ratio) / 1000.0;
+    _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_ASPECT_RATIO, newval);
 }
 
 static void fullscreen_dialog_end(void)
@@ -600,6 +616,8 @@ static void fullscreen_dialog_end(void)
     resources_set_int("FullScreenRefreshRate", fullscreen_refreshrate);
     resources_set_int("VBLANKSync", vblank_sync);
     resources_set_int("DXPrimarySurfaceRendering", dx_primary);
+    resources_set_int("KeepAspectRatio", keep_aspect_ratio);
+    resources_set_int("AspectRatio", aspect_ratio);
     fullscrn_invalidate_refreshrate();
 }
 
@@ -612,6 +630,8 @@ static void fullscreen_dialog_init(HWND hwnd)
     resources_get_int("FullscreenRefreshRate", &fullscreen_refreshrate);
     resources_get_int("VBLANKSync", &vblank_sync);
     resources_get_int("DXPrimarySurfaceRendering", &dx_primary);
+    resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+    resources_get_int("AspectRatio", &aspect_ratio);
     init_fullscreen_dialog(hwnd);
 }
 
@@ -622,10 +642,15 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
     int index;
     int value;
     int command;
+    TCHAR s[100];
+    float tf;
 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+                GetDlgItemText(hwnd, IDC_ASPECT_RATIO, s, 100);
+                _stscanf(s, TEXT("%f"), &tf);
+                aspect_ratio = (int)(tf * 1000.0 + 0.5);
                 fullscreen_dialog_end();
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
@@ -658,6 +683,10 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
                         return FALSE;
                     case IDC_TOGGLE_VIDEO_DX_PRIMARY:
                         dx_primary ^= 1;
+                        return FALSE;
+                    case IDC_TOGGLE_KEEP_ASPECT_RATIO:
+                        keep_aspect_ratio ^= 1;
+                        enable_aspect_ratio(hwnd);
                         return FALSE;
                     case IDOK:
                         fullscreen_dialog_end();
