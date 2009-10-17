@@ -25,6 +25,8 @@
  *
  */
 
+#include <libkern/OSAtomic.h>
+
 #include "lib.h"
 #include "log.h"
 #include "videoarch.h"
@@ -35,6 +37,8 @@
 
 // import video log
 extern log_t video_log;
+
+//#define DEBUG_SYNC
 
 @implementation VICEGLView
 
@@ -131,19 +135,31 @@ extern log_t video_log;
     }
     
     log_message(video_log, "reconfiguring display");
-    
+
     // do sync draw
     if(video_param.sync_draw) {
-        [self setupTextures:video_param.sync_draw_buffers withSize:textureSize];
+        
+        int numDrawBuffers = video_param.sync_draw_buffers;
+        
+        [self setupTextures:numDrawBuffers withSize:textureSize];
+        
+        multiBufferEnabled = (numDrawBuffers > 1);
+        
+        // enable display link
         if(displayLink == nil) {
-            displayLinkLocked = NO;
+            displayLinkSynced = NO;
             displayLinkEnabled = [self setupDisplayLink];
             log_message(video_log, "display link enabled: %s", (displayLinkEnabled ? "ok":"ERROR"));
         }
     } 
     // no sync draw
     else {
+        
         [self setupTextures:1 withSize:textureSize];
+        
+        multiBufferEnabled = NO;
+        
+        // disable display link
         if(displayLink != nil) {
             [self shutdownDisplayLink];
             displayLinkEnabled = NO;
@@ -151,6 +167,24 @@ extern log_t video_log;
         }
     }
     
+    // init buffer setup
+    numDrawn = 0;
+    writePos = 0;
+    displayPos = multiBufferEnabled ? 1 : 0;
+    lockTime = 0;
+    blendAlpha = 1.0f;
+    syncWritePos = 0;
+    firstDrawTime = 0;
+    lastDrawTime = 0;
+    
+    int i;
+    for(i=0;i<MAX_BUFFERS;i++) {
+        texture[i].timeStamp = 0;
+        texture[i].frameNo = -1;
+    }
+    
+    // configure GL blending
+    [self toggleBlending:multiBufferEnabled];
 }
 
 // called if the canvas size was changed by the machine (not the user!)
@@ -166,20 +200,86 @@ extern log_t video_log;
     [self setupTextures:numTextures withSize:size];
 }
 
-// the emulation wants to draw a new frame
-- (BYTE *)beginMachineDraw
+// the emulation wants to draw a new frame (called from machine thread!)
+- (BYTE *)beginMachineDraw:(unsigned long)timeStamp frame:(int)frameNo
 {
-    if(numTextures == 0)
-        return NULL;
+    if(firstDrawTime == 0) {
+        firstDrawTime = timeStamp;
+    }
     
-    return texture[0].buffer;
+    // no drawing possible right now
+    if(numTextures == 0) {
+        log_message(video_log, "FATAL: no textures to draw...");
+        return NULL;
+    }
+    
+    if(multiBufferEnabled) {
+
+        // same frame
+        if(texture[writePos].frameNo == frameNo) {
+#ifdef DEBUG_SYNC
+            printf("COMPENSATE: %d\n", frameNo);
+#endif
+            overwriteBuffer = YES;
+        }
+        // delta too small
+        if((timeStamp - lastDrawTime) < 1000) {
+#ifdef DEBUG_SYNC
+            printf("COMPENSATE2: %d\n", frameNo);
+#endif
+            overwriteBuffer = YES;            
+        }
+        // no buffer free - need to overwrite the last one
+        else if(numDrawn == numTextures) {
+#ifdef DEBUG_SYNC
+            printf("OVERWRITE: %d -> #%d\n", frameNo, writePos);
+#endif
+            overwriteBuffer = YES;
+        } 
+        // use next free buffer
+        else {
+            int oldPos = writePos;
+            overwriteBuffer = NO;
+            writePos++;
+            if(writePos == numTextures)
+                writePos = 0;
+            
+            // copy current image as base for next buffer (VICE does partial updates)
+            memcpy(texture[writePos].buffer, texture[oldPos].buffer, textureByteSize);      
+        }
+    }
+    
+    // store time stamp
+    texture[writePos].timeStamp = timeStamp;
+    texture[writePos].frameNo   = frameNo;
+    lastDrawTime = timeStamp;
+    
+    return texture[writePos].buffer;
 }
 
-// the emulation did finish drawing a new frame
+// the emulation did finish drawing a new frame (called from machine thread!)
 - (void)endMachineDraw
 {
-    [self updateTexture:0];
+    // update drawn texture
+    [self updateTexture:writePos];
     
+    if(multiBufferEnabled) {    
+        // count written buffer
+        if(!overwriteBuffer) {
+            OSAtomicIncrement32(&numDrawn);
+        }
+
+        unsigned long ltime = 0;
+        if(lockTime != 0) {
+            ltime = texture[writePos].timeStamp - firstDrawTime;
+            ltime /= 1000;
+        }    
+#ifdef DEBUG_SYNC
+        printf("D %lu:  - draw #%d (total %d, frame %d)\n", ltime, writePos, numDrawn, texture[writePos].frameNo);
+#endif
+    }
+    
+    // if no display link then trigger redraw here
     if(!displayLinkEnabled) {
         [self setNeedsDisplay:YES];
     }
@@ -225,10 +325,10 @@ extern log_t video_log;
     glDepthMask (GL_FALSE);
     glStencilMask (0);
     glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
+    glDisable (GL_BLEND);
     glHint (GL_TRANSFORM_HINT_APPLE, GL_FASTEST);
 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
-    glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
  
     [glLock unlock];
@@ -239,6 +339,19 @@ extern log_t video_log;
     if(postponedReconfigure) {
         [self reconfigure:NULL];
     }
+}
+
+- (void)toggleBlending:(BOOL)on
+{
+    [glLock lock];
+    [[self openGLContext] makeCurrentContext];
+
+    if(on)
+        glEnable(GL_BLEND);
+    else
+        glDisable(GL_BLEND);
+        
+    [glLock unlock];
 }
 
 // cocoa calls this if view resized
@@ -274,33 +387,163 @@ extern log_t video_log;
     [glLock unlock];
 }
 
+- (void)drawQuad:(float)alpha
+{
+    glBegin(GL_QUADS);
+    {
+        glColor4f(1.0f,1.0f,1.0f,alpha);
+        glTexCoord2i(0, textureSize.height);          glVertex2i(-1, -1);
+        glTexCoord2i(0, 0);                           glVertex2i(-1, 1);
+        glTexCoord2i(textureSize.width, 0);           glVertex2i(1, 1);
+        glTexCoord2i(textureSize.width, textureSize.height); glVertex2i(1, -1);
+    }
+    glEnd();
+}
+
 // redraw view
 - (void)drawRect:(NSRect)r
 {
     [glLock lock];
     [[self openGLContext] makeCurrentContext];
 
-    NSSize size = textureSize;
-
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // anything to draw?
     if(numTextures > 0) {
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[0].bindId);
-        glBegin(GL_QUADS);
-        {
-            float alpha = 1.0;
-            glColor4f(1.0f,1.0f,1.0f,alpha);
-            glTexCoord2i(0, size.height);          glVertex2i(-1, -1);
-            glTexCoord2i(0, 0);                    glVertex2i(-1, 1);
-            glTexCoord2i(size.width, 0);           glVertex2i(1, 1);
-            glTexCoord2i(size.width, size.height); glVertex2i(1, -1);
+        // multi buffer blends two textures
+        if(multiBufferEnabled) {
+
+            // calc blend position and determine weights
+            int pos = [self calcBlend:vsyncarch_gettime()];
+            //printf("\tdisplay #%d (alpha=%g)\n", pos, blendAlpha);
+
+            if(blendAlpha > 0.0f) {
+                glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[pos].bindId);
+                [self drawQuad:blendAlpha];
+            }
+
+            float beta = 1.0f - blendAlpha;
+            if(beta > 0.0f) {
+                pos++;
+                if(pos == numTextures)
+                    pos = 0;
+                glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[pos].bindId);
+                [self drawQuad:1.0 - blendAlpha];
+            }
         }
-        glEnd();
+        // non-multi normal draw
+        else {
+            glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[0].bindId);
+            [self drawQuad:1.0f];
+        }
     }
     
-    //glFlush();
     [[self openGLContext] flushBuffer];
     [glLock unlock];
+}
+
+// ---------- Multi Buffer Blending -----------------------------------------
+
+- (int)calcBlend:(unsigned long)now
+{
+    // need a lock?
+    if(lockTime == 0) {
+        // nothing to do yet
+        if((numDrawn==0)||(firstDrawTime==0)||(screenRefreshPeriod==0.0f)) {
+            blendAlpha = 1.0f;
+            return displayPos;
+        }
+    
+        // set lock time and determine display vs draw time delta
+        lockTime = firstDrawTime;
+        drawDisplayDelta = (unsigned long)(screenRefreshPeriod * 500.0f);
+        
+#ifdef DEBUG_SYNC
+        printf("locked with delta: %lu ns\n", drawDisplayDelta);
+#endif
+    }
+    
+    // convert now render time to frame time
+    unsigned long frameNow = now - drawDisplayDelta;
+    
+    // find display frame interval where we fit in
+    int np = displayPos;
+    int nd = numDrawn;    
+    int i = 0;
+
+    for(i=0;i<nd;i++) {
+        // next timestamp is larger -> keep i
+        if(texture[np].timeStamp > frameNow)
+            break;
+        
+        // next slot in ring buffer
+        np++;
+        if(np == numTextures)
+            np = 0;            
+    }
+    
+    // display is beyond current frame
+    BOOL beyond = NO;
+    BOOL before = NO;    
+    if(i==0) {
+        before = YES;
+    } else {
+        if(i == nd) {
+            beyond = YES;
+        }
+        i--;
+    }
+    
+    unsigned long ltime = frameNow - firstDrawTime;
+    ltime /= 1000;
+    
+    // skip now unused frames... make room for drawing
+    if(i>0) {
+        OSAtomicAdd32(-i, &numDrawn);
+        //printf("R %lu: skipping %d -> numDrawn: %d\n", ltime, i, numDrawn);
+    }
+    
+    // before first frame
+    if(before) {
+        displayPos = (displayPos + i) % numTextures;
+        blendAlpha = 1.0f;
+        
+#ifdef DEBUG_SYNC
+        unsigned long delta = texture[displayPos].timeStamp - frameNow; 
+        printf("R %lu: BEFORE: #%d delta=%lu skip=%d\n", ltime, displayPos, delta, i);
+#endif
+    }
+    // beyond last frame
+    else if(beyond) {
+        displayPos = (displayPos + i) % numTextures;
+        blendAlpha = 1.0f;
+        
+#ifdef DEBUG_SYNC
+        unsigned long delta = frameNow - texture[displayPos].timeStamp;        
+        printf("R %lu: BEYOND: #%d delta=%lu skip=%d\n", ltime, displayPos, delta, i);
+#endif
+    } 
+    // between two frames
+    else {
+        int a = (displayPos + i) % numTextures;
+        int b = (displayPos + i + 1) % numTextures;
+        
+        displayPos = a;
+        unsigned long frameDelta = texture[b].timeStamp - texture[a].timeStamp;
+        unsigned long dispDelta  = texture[b].timeStamp - frameNow;
+        blendAlpha = (float)dispDelta / (float)frameDelta;
+
+#ifdef DEBUG_SYNC
+        printf("R %lu: between: #%d [%d=-%lu,%d=%lu] skip=%d -> alpha=%g\n", 
+               ltime, displayPos,
+               a, frameNow - texture[a].timeStamp,
+               b, texture[b].timeStamp - frameNow,
+               i,
+               blendAlpha);
+#endif
+    }
+    
+    return displayPos;
 }
 
 // ---------- Texture Management --------------------------------------------
@@ -358,14 +601,14 @@ extern log_t video_log;
     // now adopt values
     textureSize = size;
     numTextures = num;    
-    unsigned int dataSize = size.width * size.height * 4;
+    textureByteSize = size.width * size.height * 4;
 
     // setup texture memory
     for(i=start;i<numTextures;i++) {
         if (texture[i].buffer==NULL)
-            texture[i].buffer = lib_malloc(dataSize * sizeof(BYTE));
+            texture[i].buffer = lib_malloc(textureByteSize);
         else
-            texture[i].buffer = lib_realloc(texture[i].buffer, dataSize * sizeof(BYTE));
+            texture[i].buffer = lib_realloc(texture[i].buffer, textureByteSize);
     
         // memory error
         if(texture[i].buffer == NULL) {
@@ -374,7 +617,7 @@ extern log_t video_log;
         }
     
         // clear new texture - make sure alpha is set
-        memset(texture[i].buffer,0,dataSize*sizeof(BYTE));
+        memset(texture[i].buffer, 0, textureByteSize);
     }
     
     // make GL context current
@@ -387,7 +630,7 @@ extern log_t video_log;
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[i].bindId);
         BYTE *data = texture[i].buffer;
         
-        glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, dataSize, data);
+        glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, textureByteSize, data);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,
                         GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
@@ -664,18 +907,15 @@ extern log_t video_log;
 
 // ---------- display link stuff --------------------------------------------
 
-unsigned long last = 0;
-unsigned long last_delta = 0;
-
 - (CVReturn)displayLinkCallback
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    // not locked yet?
-    if(!displayLinkLocked) {
+    // not synced yet?
+    if(!displayLinkSynced) {
         screenRefreshPeriod = [self getDisplayLinkRefreshPeriod];
         if(screenRefreshPeriod != 0.0) {
-            displayLinkLocked = YES;
+            displayLinkSynced = YES;
             float rate = 1000.0f / screenRefreshPeriod;
             log_message(video_log, "locked to screen refresh period=%g ms, rate=%g Hz",
                         screenRefreshPeriod, rate);

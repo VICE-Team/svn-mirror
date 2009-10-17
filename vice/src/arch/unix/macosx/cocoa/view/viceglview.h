@@ -47,8 +47,8 @@ struct video_param_s;
 struct texture_s {
     BYTE            *buffer;            /* raw data of texture */
     GLuint           bindId;            /* GL ID for binding */
-    unsigned long    timeStamp;         /* when the machine rendered into buffer */
-    
+    unsigned long    timeStamp;         /* when the machine wrote into buffer */
+    int              frameNo;
 };
 typedef struct texture_s texture_t;
 
@@ -57,6 +57,7 @@ typedef struct texture_s texture_t;
     // Texture
     int         numTextures;            /* how many textures are set up? */
     NSSize      textureSize;            /* size of canvas/texture for machine drawing */
+    int         textureByteSize;        /* size of texture in bytes */
     texture_t   texture[MAX_BUFFERS];   /* manage up to MAX_BUFFERS textures */
 
     // View
@@ -86,8 +87,21 @@ typedef struct texture_s texture_t;
     // DisplayLink
     CVDisplayLinkRef displayLink;
     BOOL             displayLinkEnabled;  /* display link is running */
-    BOOL             displayLinkLocked;   /* display link delivers valid refresh rate */
+    BOOL             displayLinkSynced;   /* display link delivers valid refresh rate */
     float            screenRefreshPeriod; /* refresh rate of screen */
+
+    // MultiBuffer (size is "numTextures")
+    BOOL             multiBufferEnabled;/* flag to enable multi buffer */
+    BOOL             overwriteBuffer;
+    int              syncWritePos;
+    int              writePos;          /* position in ring buffer where to write to */ 
+    int              displayPos;        /* position in ring buffer where to display from */
+    int              numDrawn;
+    unsigned long    lockTime;
+    unsigned long    drawDisplayDelta; 
+    float            blendAlpha;
+    unsigned long    firstDrawTime;
+    unsigned long    lastDrawTime;
 }
 
 // ----- interface -----
@@ -102,7 +116,7 @@ typedef struct texture_s texture_t;
 - (void)resize:(NSSize)size;
 
 // get next render buffer for drawing by emu. may return NULL if out of buffers
-- (BYTE *)beginMachineDraw;
+- (BYTE *)beginMachineDraw:(unsigned long)timeStamp frame:(int)frameNo;
 
 // end rendering into buffer
 - (void)endMachineDraw;
@@ -120,6 +134,9 @@ typedef struct texture_s texture_t;
 - (int)canvasId;
 
 // ----- local -----
+
+- (int)calcBlend:(unsigned long)now;
+- (void)toggleBlending:(BOOL)on;
 
 - (BOOL)setupDisplayLink;
 - (void)shutdownDisplayLink;

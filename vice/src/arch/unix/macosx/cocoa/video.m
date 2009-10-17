@@ -85,7 +85,7 @@ static resource_int_t resources_int[] =
 {
     { "SyncDraw", 0, RES_EVENT_NO, NULL,
        &video_param.sync_draw, set_sync_draw, NULL },
-    { "SyncDrawBuffers", 2, RES_EVENT_NO, NULL,
+    { "SyncDrawBuffers", 4, RES_EVENT_NO, NULL,
        &video_param.sync_draw_buffers, set_sync_draw_buffers, NULL },
     { NULL }
  };
@@ -214,6 +214,8 @@ void video_canvas_resize(video_canvas_t * canvas,
     [[theVICEMachine app] resizeCanvas:data withSize:NSMakeSize(width,height)];
 }
 
+extern int vsync_frame_counter;
+
 void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
@@ -230,20 +232,22 @@ void video_canvas_refresh(video_canvas_t *canvas,
     w = MIN(w, canvas->width - xi);
     h = MIN(h, canvas->height - yi);
 
-    // get rendering buffer
+    // get current time
+    unsigned long timeStamp = vsyncarch_gettime();
+
+    // get drawing buffer
     VICEGLView *view = canvas->view;
-    BYTE *buffer = [view beginMachineDraw];
+    BYTE *buffer = [view beginMachineDraw:timeStamp frame:vsync_frame_counter];
     if(buffer == NULL) {
-        log_message(video_log, "no rendering buffer available!");
         return;
     }
         
-    // update rendering buffer
+    // draw into buffer
     video_canvas_render(canvas, buffer,
                         w, h, xs, ys, xi, yi, 
                         canvas->pitch, canvas->depth);
 
-    // notify end rendering
+    // notify end drawing
     [view endMachineDraw];
 }
 
@@ -263,24 +267,16 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
     DWORD bmask = 0;
 
     c->palette = p;
+    
+    // set 32bit palette
     for (i = 0; i < p->num_entries; i++)
     {
         DWORD col;
 
-        switch (c->depth)
-        {
-            case 16:    /* RGB 5:5:5 */
-                /* TODO */
-                rbits = 3; rshift = 10; rmask = 0x1f;
-                gbits = 3; gshift = 5; gmask = 0x1f;
-                bbits = 3; bshift = 0; bmask = 0x1f;
-                break;
-            case 32:    /* RGB 8:8:8 */
-            default:
-                rbits = 0; rshift = 16; rmask = 0xff;
-                gbits = 0; gshift = 8; gmask = 0xff;
-                bbits = 0; bshift = 0; bmask = 0xff;
-        }
+        rbits = 0; rshift = 16; rmask = 0xff;
+        gbits = 0; gshift = 8; gmask = 0xff;
+        bbits = 0; bshift = 0; bmask = 0xff;
+
         col = (p->entries[i].red   >> rbits) << rshift
             | (p->entries[i].green >> gbits) << gshift
             | (p->entries[i].blue  >> bbits) << bshift
@@ -288,17 +284,17 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 
         video_render_setphysicalcolor(c->videoconfig, i, col, c->depth);
     }
-    if (c->depth > 8)
+
+    // set colors for palemu
+    for (i = 0; i < 256; i++)
     {
-        for (i = 0; i < 256; i++)
-        {
-            video_render_setrawrgb(i,
-                                   ((i & (rmask << rbits)) >> rbits) << rshift,
-                                   ((i & (gmask << gbits)) >> gbits) << gshift,
-                                   ((i & (bmask << bbits)) >> bbits) << bshift);
-        }
-        video_render_initraw();
+        video_render_setrawrgb(i,
+                               ((i & (rmask << rbits)) >> rbits) << rshift,
+                               ((i & (gmask << gbits)) >> gbits) << gshift,
+                               ((i & (bmask << bbits)) >> bbits) << bshift);
     }
+    video_render_setrawalpha(0xff000000);
+    video_render_initraw();
 
     return 0;
 }
