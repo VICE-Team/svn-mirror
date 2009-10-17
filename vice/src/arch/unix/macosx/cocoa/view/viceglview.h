@@ -80,6 +80,7 @@ typedef struct texture_s texture_t;
     
     // OpenGL
     NSRecursiveLock *glLock;
+    NSOpenGLContext *glContext;
     BOOL             isOpenGLReady;
     BOOL             postponedReconfigure;
     struct video_param_s video_param;   /* a copy of the current params */

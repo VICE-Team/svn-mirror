@@ -78,8 +78,9 @@ extern log_t video_log;
     // ----- OpenGL -----
     // OpenGL locking and state
     glLock = [[NSRecursiveLock alloc] init];
+    glContext = nil;
     isOpenGLReady = NO;
-    postponedReconfigure = NO; 
+    postponedReconfigure = NO;
     
     // ----- DisplayLink -----
     displayLink = nil;
@@ -100,7 +101,8 @@ extern log_t video_log;
     
     // ----- OpenGL -----
     [glLock lock];
-    [[self openGLContext] makeCurrentContext];
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
     [self deleteAllTextures];
     [glLock unlock];    
     [glLock release];
@@ -311,10 +313,11 @@ extern log_t video_log;
 - (void)prepareOpenGL
 {
     [glLock lock];
+    glContext = [self openGLContext];
     
     // sync to VBlank
     GLint swapInt = 1;
-    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    [glContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
     
     glDisable (GL_ALPHA_TEST);
     glDisable (GL_DEPTH_TEST);
@@ -344,7 +347,8 @@ extern log_t video_log;
 - (void)toggleBlending:(BOOL)on
 {
     [glLock lock];
-    [[self openGLContext] makeCurrentContext];
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
 
     if(on)
         glEnable(GL_BLEND);
@@ -361,7 +365,8 @@ extern log_t video_log;
     NSSize size = rect.size;
 
     [glLock lock];
-    [[self openGLContext] makeCurrentContext];
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
     
     // reshape viewport so that the texture size fits in without ratio distortion
     float ratio = size.width / size.height;
@@ -404,7 +409,8 @@ extern log_t video_log;
 - (void)drawRect:(NSRect)r
 {
     [glLock lock];
-    [[self openGLContext] makeCurrentContext];
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
 
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -585,9 +591,14 @@ extern log_t video_log;
 
     // clean up old textures
     if(numTextures > num) {
+        [glLock lock];
+        if([NSOpenGLContext currentContext] != glContext)
+            [glContext makeCurrentContext];
+
         for(i=num;i<numTextures;i++) {
             [self deleteTexture:i];
         }
+        [glLock unlock];
     }
     
     // if size differs then reallocate all otherwise only missing
@@ -622,7 +633,8 @@ extern log_t video_log;
     
     // make GL context current
     [glLock lock];
-    [[self openGLContext] makeCurrentContext];
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
 
     // bind textures and initialize them
     for(i=start;i<numTextures;i++) {
@@ -655,7 +667,8 @@ extern log_t video_log;
 - (void)updateTexture:(int)i
 {
     [glLock lock];
-    [[self openGLContext] makeCurrentContext];
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
 
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[i].bindId);
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA,
