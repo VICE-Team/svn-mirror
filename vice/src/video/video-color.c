@@ -47,6 +47,8 @@ DWORD gamma_red_fac[256 * 3 * 2];
 DWORD gamma_grn_fac[256 * 3 * 2];
 DWORD gamma_blu_fac[256 * 3 * 2];
 
+DWORD alpha = 0;
+
 static DWORD color_red[256];
 static DWORD color_grn[256];
 static DWORD color_blu[256];
@@ -56,6 +58,11 @@ void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g, DWORD b)
     color_red[index] = r;
     color_grn[index] = g;
     color_blu[index] = b;
+}
+
+void video_render_setrawalpha(DWORD a)
+{
+    alpha = a;
 }
 
 /*

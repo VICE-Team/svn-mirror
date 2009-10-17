@@ -91,10 +91,10 @@ void store_pixel_4(BYTE *trg, SDWORD y1, SDWORD u1, SDWORD v1, SDWORD y2, SDWORD
 
     rgb_to_yuv(y1, u1, v1, &red, &grn, &blu);
     tmp = (DWORD *) trg;
-    tmp[0] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
+    tmp[0] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu] | alpha;
     
     rgb_to_yuv(y2, u2, v2, &red, &grn, &blu);
-    tmp[1] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
+    tmp[1] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu] | alpha;
 }
 
 static inline

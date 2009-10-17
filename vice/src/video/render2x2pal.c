@@ -125,8 +125,10 @@ void store_line_and_scanline_4(
     tmp2 = (DWORD *) line;
     *tmp1 = gamma_red_fac[512 + red + prevline[0]]
           | gamma_grn_fac[512 + grn + prevline[1]]
-          | gamma_blu_fac[512 + blu + prevline[2]];
-    *tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
+          | gamma_blu_fac[512 + blu + prevline[2]]
+          | alpha;
+    *tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]
+          | alpha;
 
     prevline[0] = red;
     prevline[1] = grn;
