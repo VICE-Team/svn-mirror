@@ -60,7 +60,6 @@ static char screendrivername[MAXSCRNDRVLEN];
 static OPENFILENAME ofn;
 static gfxoutputdrv_t *selected_driver;
 
-
 static void update_ffmpeg_codecs(HWND hwnd)
 {
     HWND audio_codec_combo, video_codec_combo;
@@ -70,25 +69,25 @@ static void update_ffmpeg_codecs(HWND hwnd)
 
     resources_get_int("FFMPEGAudioCodec", &ac);
     resources_get_int("FFMPEGVideoCodec", &vc);
-    GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT,
-                   st_selection, MAXSCRNDRVLEN);
-    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++)
-        if (strcmp(ffmpegdrv_formatlist[i].name, st_selection) == 0)
-                current_format = &ffmpegdrv_formatlist[i];
+    GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT, st_selection, MAXSCRNDRVLEN);
+    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
+        if (strcmp(ffmpegdrv_formatlist[i].name, st_selection) == 0) {
+            current_format = &ffmpegdrv_formatlist[i];
+        }
+    }
     if (current_format != NULL) {
         audio_codec_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC);
         SendMessage(audio_codec_combo,CB_RESETCONTENT, 0, 0);
         if (current_format->audio_codecs != NULL) {
             for (i = 0; current_format->audio_codecs[i].name != NULL; i++) {
-                SendMessage(audio_codec_combo,CB_ADDSTRING, 0,
-                            (LPARAM)current_format->audio_codecs[i].name);
-                if (current_format->audio_codecs[i].id == ac)
+                SendMessage(audio_codec_combo,CB_ADDSTRING, 0, (LPARAM)current_format->audio_codecs[i].name);
+                if (current_format->audio_codecs[i].id == ac) {
                     SendMessage(audio_codec_combo,CB_SETCURSEL, i, 0);
+                }
             }
             EnableWindow(audio_codec_combo, 1);
         } else {
-            SendMessage(audio_codec_combo,CB_ADDSTRING, 0,
-                        (LPARAM)"(default)");
+            SendMessage(audio_codec_combo,CB_ADDSTRING, 0, (LPARAM)"(default)");
             SendMessage(audio_codec_combo,CB_SETCURSEL,0 , 0);
             EnableWindow(audio_codec_combo, 0);
         }
@@ -97,15 +96,14 @@ static void update_ffmpeg_codecs(HWND hwnd)
         SendMessage(video_codec_combo,CB_RESETCONTENT, 0, 0);
         if (current_format->video_codecs != NULL) {
             for (i = 0; current_format->video_codecs[i].name != NULL; i++) {
-                SendMessage(video_codec_combo,CB_ADDSTRING, 0,
-                            (LPARAM)current_format->video_codecs[i].name);
-                if (current_format->video_codecs[i].id == vc)
+                SendMessage(video_codec_combo,CB_ADDSTRING, 0, (LPARAM)current_format->video_codecs[i].name);
+                if (current_format->video_codecs[i].id == vc) {
                     SendMessage(video_codec_combo,CB_SETCURSEL, i, 0);
+                }
             }
             EnableWindow(video_codec_combo, 1);
         } else {
-            SendMessage(video_codec_combo,CB_ADDSTRING, 0,
-                        (LPARAM)"(default)");
+            SendMessage(video_codec_combo,CB_ADDSTRING, 0, (LPARAM)"(default)");
             SendMessage(video_codec_combo,CB_SETCURSEL,0 , 0);
             EnableWindow(video_codec_combo, 0);
         }
@@ -119,59 +117,60 @@ static void enable_ffmpeg_settings(HWND hwnd, int enable)
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOBITRATE), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOBITRATE), enable);
-    if ( enable )
+    if (enable) {
         update_ffmpeg_codecs(hwnd);
+    }
 }
 
 static uilib_localize_dialog_param mediafile_parent_dialog_trans[] = {
-    {IDOK, IDS_SAVE, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { IDOK, IDS_SAVE, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_localize_dialog_param mediafile_dialog_trans[] = {
-    {IDC_SELECT_DRIVER, IDS_SELECT_DRIVER, 0},
-    {IDC_FFMPEG_SETTINGS, IDS_FFMPEG_SETTINGS, 0},
-    {IDC_FORMAT, IDS_FORMAT, 0},
-    {IDC_AUDIO_CODEC, IDS_AUDIO_CODEC, 0},
-    {IDC_AUDIO_BITRATE, IDS_BITRATE, 0},
-    {IDC_VIDEO_CODEC, IDS_VIDEO_CODEC, 0},
-    {IDC_VIDEO_BITRATE, IDS_BITRATE, 0},
-    {0, 0, 0}
+    { IDC_SELECT_DRIVER, IDS_SELECT_DRIVER, 0 },
+    { IDC_FFMPEG_SETTINGS, IDS_FFMPEG_SETTINGS, 0 },
+    { IDC_FORMAT, IDS_FORMAT, 0 },
+    { IDC_AUDIO_CODEC, IDS_AUDIO_CODEC, 0 },
+    { IDC_AUDIO_BITRATE, IDS_BITRATE, 0 },
+    { IDC_VIDEO_CODEC, IDS_VIDEO_CODEC, 0 },
+    { IDC_VIDEO_BITRATE, IDS_BITRATE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group main_group[] = {
-    {IDC_SELECT_DRIVER, 0},
-    {IDC_FORMAT, 0},
-    {IDC_AUDIO_CODEC, 0},
-    {IDC_AUDIO_BITRATE, 0},
-    {IDC_VIDEO_CODEC, 0},
-    {IDC_VIDEO_BITRATE, 0},
-    {0, 0}
+    { IDC_SELECT_DRIVER, 0 },
+    { IDC_FORMAT, 0 },
+    { IDC_AUDIO_CODEC, 0 },
+    { IDC_AUDIO_BITRATE, 0 },
+    { IDC_VIDEO_CODEC, 0 },
+    { IDC_VIDEO_BITRATE, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group codec_group[] = {
-    {IDC_AUDIO_CODEC, 0},
-    {IDC_VIDEO_CODEC, 0},
-    {0, 0}
+    { IDC_AUDIO_CODEC, 0 },
+    { IDC_VIDEO_CODEC, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group codec_indicator_group[] = {
-    {IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 0},
-    {IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 0},
-    {0, 0}
+    { IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 0 },
+    { IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group bitrate_group[] = {
-    {IDC_AUDIO_BITRATE, 0},
-    {IDC_VIDEO_BITRATE, 0},
-    {0, 0}
+    { IDC_AUDIO_BITRATE, 0 },
+    { IDC_VIDEO_BITRATE, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group bitrate_indicator_group[] = {
-    {IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 0},
-    {IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 0},
-    {0, 0}
+    { IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 0 },
+    { IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 0 },
+    { 0, 0 }
 };
 
 static void init_mediafile_dialog(HWND hwnd)
@@ -250,15 +249,14 @@ static void init_mediafile_dialog(HWND hwnd)
     combo = GetDlgItem(hwnd, IDC_SCREENSHOT_DRIVER);
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < gfxoutput_num_drivers(); i++) {
-        SendMessage(combo,CB_ADDSTRING, 0,
-                    (LPARAM)driver->displayname);
+        SendMessage(combo,CB_ADDSTRING, 0, (LPARAM)driver->displayname);
         if (driver == selected_driver) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
-            if (strcmp(driver->name, "FFMPEG") == 0)
+            if (strcmp(driver->name, "FFMPEG") == 0) {
                 enable_ffmpeg = 1;
+            }
         }
-        if (selected_driver == NULL && strcmp(driver->name, DEFAULT_DRIVER) == 0)
-        {
+        if (selected_driver == NULL && strcmp(driver->name, DEFAULT_DRIVER) == 0) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
             system_wcstombs(screendrivername, driver->name, MAXSCRNDRVLEN);
         }
@@ -266,15 +264,14 @@ static void init_mediafile_dialog(HWND hwnd)
         driver = gfxoutput_drivers_iter_next();
     }
 
-    if (enable_ffmpeg == 1)
-    {
+    if (enable_ffmpeg == 1) {
         resources_get_string("FFMPEGFormat", &ffmpeg_format);
         combo = GetDlgItem(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT);
         for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
-            SendMessage(combo,CB_ADDSTRING, 0,
-                (LPARAM)ffmpegdrv_formatlist[i].name);
-            if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
+            SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)ffmpegdrv_formatlist[i].name);
+            if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0) {
                 SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
+            }
         }
 
         resources_get_int("FFMPEGAudioBitrate", &bitrate);
@@ -288,8 +285,7 @@ static void init_mediafile_dialog(HWND hwnd)
     enable_ffmpeg_settings(hwnd, enable_ffmpeg);
 }
 
-static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg,
-                                             WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     TCHAR st_selection[MAXSCRNDRVLEN];
     char s_selection[MAXSCRNDRVLEN];
@@ -297,66 +293,54 @@ static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg,
     int i, j;
 
     switch (uimsg) {
-      case WM_INITDIALOG:
-        init_mediafile_dialog(hwnd);
-        break;
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDC_SCREENSHOT_DRIVER:
-            GetDlgItemText(hwnd, IDC_SCREENSHOT_DRIVER,
-                           st_selection, MAXSCRNDRVLEN);
-            system_wcstombs(screendrivername, st_selection, MAXSCRNDRVLEN);
-            enable_ffmpeg_settings(hwnd, strcmp(screendrivername, 
-                                                "FFMPEG") == 0 ? 1 : 0);
-            /* could be shortened this way */
-            //enable_ffmpeg_settings(hwnd, (strcmp(screendrivername, "FFMPEG") == 0) );
+        case WM_INITDIALOG:
+            init_mediafile_dialog(hwnd);
             break;
-          case IDC_SCREENSHOT_FFMPEGFORMAT:
-            GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT,
-                       st_selection, MAXSCRNDRVLEN);
-            resources_get_string("FFMPEGFormat", &ffmpeg_format);
-            if (strcmp(st_selection, ffmpeg_format) != 0) {
-                system_wcstombs(s_selection, st_selection, MAXSCRNDRVLEN);
-                resources_set_string("FFMPEGFormat", s_selection);
-                update_ffmpeg_codecs(hwnd);
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDC_SCREENSHOT_DRIVER:
+                    GetDlgItemText(hwnd, IDC_SCREENSHOT_DRIVER, st_selection, MAXSCRNDRVLEN);
+                    system_wcstombs(screendrivername, st_selection, MAXSCRNDRVLEN);
+                    enable_ffmpeg_settings(hwnd, strcmp(screendrivername, "FFMPEG") == 0 ? 1 : 0);
+                    /* could be shortened this way */
+                    //enable_ffmpeg_settings(hwnd, (strcmp(screendrivername, "FFMPEG") == 0) );
+                    break;
+                case IDC_SCREENSHOT_FFMPEGFORMAT:
+                    GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT, st_selection, MAXSCRNDRVLEN);
+                    resources_get_string("FFMPEGFormat", &ffmpeg_format);
+                    if (strcmp(st_selection, ffmpeg_format) != 0) {
+                        system_wcstombs(s_selection, st_selection, MAXSCRNDRVLEN);
+                        resources_set_string("FFMPEGFormat", s_selection);
+                        update_ffmpeg_codecs(hwnd);
+                    }
+                    break;
+                case IDC_SCREENSHOT_FFMPEGAUDIOCODEC:
+                    i = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT, CB_GETCURSEL, 0, 0);
+                    j = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOCODEC, CB_GETCURSEL, 0, 0);
+                    resources_set_int("FFMPEGAudioCodec", ffmpegdrv_formatlist[i].audio_codecs[j].id);
+                    break;
+                case IDC_SCREENSHOT_FFMPEGVIDEOCODEC:
+                    i = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT, CB_GETCURSEL, 0, 0);
+                    j = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOCODEC, CB_GETCURSEL, 0, 0);
+                    resources_set_int("FFMPEGVideoCodec", ffmpegdrv_formatlist[i].video_codecs[j].id);
+                    break;
+                case IDC_SCREENSHOT_FFMPEGAUDIOBITRATE:
+                    GetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, st_selection, MAXSCRNDRVLEN);
+                    _stscanf(st_selection, TEXT("%d"), &i);
+                    resources_set_int("FFMPEGAudioBitrate", i);
+                    break;
+                case IDC_SCREENSHOT_FFMPEGVIDEOBITRATE:
+                    GetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, st_selection, MAXSCRNDRVLEN);
+                    _stscanf(st_selection, TEXT("%d"), &i);
+                    resources_set_int("FFMPEGVideoBitrate", i);
+                    break;
             }
-            break;
-          case IDC_SCREENSHOT_FFMPEGAUDIOCODEC:
-            i = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
-                                        CB_GETCURSEL, 0, 0);
-            j = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOCODEC,
-                                        CB_GETCURSEL, 0, 0);
-            resources_set_int("FFMPEGAudioCodec", 
-                              ffmpegdrv_formatlist[i].audio_codecs[j].id);
-            break;            
-          case IDC_SCREENSHOT_FFMPEGVIDEOCODEC:
-            i = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT,
-                                        CB_GETCURSEL, 0, 0);
-            j = (int)SendDlgItemMessage(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOCODEC,
-                                        CB_GETCURSEL, 0, 0);
-            resources_set_int("FFMPEGVideoCodec",
-                              ffmpegdrv_formatlist[i].video_codecs[j].id);
-            break;            
-          case IDC_SCREENSHOT_FFMPEGAUDIOBITRATE:
-            GetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGAUDIOBITRATE,
-                            st_selection, MAXSCRNDRVLEN);
-            _stscanf(st_selection, TEXT("%d"), &i);
-            resources_set_int("FFMPEGAudioBitrate", i); 
-            break;
-          case IDC_SCREENSHOT_FFMPEGVIDEOBITRATE:
-            GetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE,
-                            st_selection, MAXSCRNDRVLEN);
-            _stscanf(st_selection, TEXT("%d"), &i);
-            resources_set_int("FFMPEGVideoBitrate", i);
-            break;
-        }
     }
     return 0;
 }
 
 
-static char *ui_save_mediafile(const TCHAR *title, const TCHAR *filter, 
-                       HWND hwnd, int dialog_template)
+static char *ui_save_mediafile(const TCHAR *title, const TCHAR *filter, HWND hwnd, int dialog_template)
 {
     TCHAR name[1024] = TEXT("");
     char *ret = NULL;
@@ -375,30 +359,23 @@ static char *ui_save_mediafile(const TCHAR *title, const TCHAR *filter,
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
     ofn.lpstrTitle = title;
-    ofn.Flags = (OFN_EXPLORER
-                 | OFN_HIDEREADONLY
-                 | OFN_NOTESTFILECREATE
-                 | OFN_FILEMUSTEXIST
-                 | OFN_SHAREAWARE);
+    ofn.Flags = (OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE | OFN_FILEMUSTEXIST | OFN_SHAREAWARE);
     if (dialog_template) {
         ofn.lpfnHook = hook_save_mediafile;
         ofn.lpTemplateName = MAKEINTRESOURCE(dialog_template);
-        ofn.Flags = (ofn.Flags
-                 | OFN_ENABLEHOOK
-                 | OFN_ENABLETEMPLATE);
+        ofn.Flags = (ofn.Flags | OFN_ENABLEHOOK | OFN_ENABLETEMPLATE);
     }
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
     vsync_suspend_speed_eval();
 
-    if (GetSaveFileName(&ofn))
+    if (GetSaveFileName(&ofn)) {
         ret = system_wcstombs_alloc(name);
+    }
 
     return ret;
 }
-
-
 
 void ui_mediafile_save_dialog(HWND hwnd)
 {
@@ -413,16 +390,13 @@ void ui_mediafile_save_dialog(HWND hwnd)
         ui_display_statustext("", 0);
         return;
     }
-    s=translate_text(IDS_MEDIA_FILES_FILTER);
-    filter_len=(int)strlen(s);
-    mask_len=(int)strlen(mask);
+    s = translate_text(IDS_MEDIA_FILES_FILTER);
+    filter_len = (int)strlen(s);
+    mask_len = (int)strlen(mask);
     filter = util_concat(s, "0", mask, "0", NULL);
-    filter[filter_len]='\0';
-    filter[filter_len+mask_len+1]='\0';
-    s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE),
-        filter,
-        hwnd,
-        IDD_MEDIAFILE_DIALOG);
+    filter[filter_len] = '\0';
+    filter[filter_len + mask_len + 1] = '\0';
+    s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE), filter, hwnd, IDD_MEDIAFILE_DIALOG);
 
     lib_free(filter);
 
@@ -440,4 +414,3 @@ void ui_mediafile_save_dialog(HWND hwnd)
         lib_free(s);
     }
 }
-

@@ -96,14 +96,9 @@ typedef struct uilib_fs_style_type_s {
     char *file_resource;
 } uilib_fs_style_type_t;
 
-static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
-                                                     WPARAM wparam,
-                                                     LPARAM lparam);
-static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
-                                                     WPARAM wparam,
-                                                     LPARAM lparam);
-static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
-                                                WPARAM wparam, LPARAM lparam);
+static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
+static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
+static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
 
 static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
     /* UILIB_SELECTOR_STYLE_DEFAULT */
@@ -129,56 +124,51 @@ static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
 
 static TCHAR *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];
 
-
 static void create_content_list(image_contents_t *contents, HWND list)
 {
     char *start;
     image_contents_file_list_t *p = contents->file_list;
-
 
     start = image_contents_to_string(contents, 0);
     SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
     lib_free(start);
 
     if (p == NULL) {
-      SendMessage(list, LB_ADDSTRING, 0, (LPARAM)"(EMPTY IMAGE.)");
-    }
-    else do {
+        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)"(EMPTY IMAGE.)");
+    } else do {
         start = image_contents_file_to_string(p, 0);
         SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
         lib_free(start);
-    } while ( (p = p->next) != NULL);
+    } while ((p = p->next) != NULL);
 
     if (contents->blocks_free >= 0) {
-      start = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
-      SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
-      lib_free(start);
+        start = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+        SendMessage(list, LB_ADDSTRING, 0, (LPARAM)start);
+        lib_free(start);
     }
 }
 
 static HFONT hfont;
 
 static uilib_localize_dialog_param select_tape_trans[] = {
-    {IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0},
-    {IDC_NEW_TAP_IMAGE, IDS_NEW_TAP_IMAGE, 0},
-    {IDC_BLANK_IMAGE, IDS_BLANK_IMAGE, 0},
-    {0, 0, 0}
+    { IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0 },
+    { IDC_NEW_TAP_IMAGE, IDS_NEW_TAP_IMAGE, 0 },
+    { IDC_BLANK_IMAGE, IDS_BLANK_IMAGE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_localize_dialog_param select_tape_parent_trans[] = {
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group select_tape_button_group[] = {
-    {IDC_BLANK_IMAGE, 1},
-    {0, 0}
+    { IDC_BLANK_IMAGE, 1 },
+    { 0, 0 }
 };
 
-static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
-                                                     WPARAM wparam,
-                                                     LPARAM lparam)
+static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     HWND preview;
     image_contents_t *contents;
@@ -192,127 +182,124 @@ static UINT_PTR APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
 
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
-      case WM_INITDIALOG:
-        parent_hwnd = GetParent(hwnd);
+        case WM_INITDIALOG:
+            parent_hwnd = GetParent(hwnd);
 
-        /* translate all dialog items */
-        uilib_localize_dialog(hwnd, select_tape_trans);
-        uilib_localize_dialog(parent_hwnd, select_tape_parent_trans);
+            /* translate all dialog items */
+            uilib_localize_dialog(hwnd, select_tape_trans);
+            uilib_localize_dialog(parent_hwnd, select_tape_parent_trans);
 
-        /* adjust the button group */
-        uilib_adjust_group_width(hwnd, select_tape_button_group);
+            /* adjust the button group */
+            uilib_adjust_group_width(hwnd, select_tape_button_group);
 
-        /* get the max x of the button element */
-        uilib_get_element_max_x(hwnd, IDC_BLANK_IMAGE, &xpos);
+            /* get the max x of the button element */
+            uilib_get_element_max_x(hwnd, IDC_BLANK_IMAGE, &xpos);
 
-        /* get the min x of the button element */
-        uilib_get_element_min_x(hwnd, IDC_BLANK_IMAGE, &xstart);
+            /* get the min x of the button element */
+            uilib_get_element_min_x(hwnd, IDC_BLANK_IMAGE, &xstart);
 
-        /* move and resize the surrounding group element */
-        uilib_move_and_set_element_width(hwnd, IDC_NEW_TAP_IMAGE, xstart - 10, xpos - xstart + 20);
+            /* move and resize the surrounding group element */
+            uilib_move_and_set_element_width(hwnd, IDC_NEW_TAP_IMAGE, xstart - 10, xpos - xstart + 20);
 
-        if (font_loaded)
-            hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, "cbm-directory-charset/ck!");
-        else
-            /*  maybe there's a better font-definition (FIXME) */
-            /*  I think it's OK now (Tibor) */
-            hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
-                DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
+            if (font_loaded) {
+                hfont = CreateFont(-12,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "cbm-directory-charset/ck!");
+            } else {
+                /*  maybe there's a better font-definition (FIXME) */
+                /*  I think it's OK now (Tibor) */
+                hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0, DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
+            }
 
-        if (hfont)
-            SendDlgItemMessage(hwnd, IDC_PREVIEW,WM_SETFONT,
-                (WPARAM)hfont, MAKELPARAM(TRUE, 0));
-        break;
-      case WM_NOTIFY:
-        if (((OFNOTIFY*)lparam)->hdr.code == CDN_SELCHANGE) {
-            SendMessage(preview, LB_RESETCONTENT, 0, 0);
-            if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
-                CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                if (!(GetFileAttributes(filename)
-                    & FILE_ATTRIBUTE_DIRECTORY)) {
-                    contents = tapecontents_read(filename);
-                    if (contents != NULL)
-                    {
-                        create_content_list(contents, preview);
-                        image_contents_destroy(contents);
+            if (hfont) {
+                SendDlgItemMessage(hwnd, IDC_PREVIEW,WM_SETFONT, (WPARAM)hfont, MAKELPARAM(TRUE, 0));
+            }
+            break;
+        case WM_NOTIFY:
+            if (((OFNOTIFY*)lparam)->hdr.code == CDN_SELCHANGE) {
+                SendMessage(preview, LB_RESETCONTENT, 0, 0);
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom, CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                    if (!(GetFileAttributes(filename) & FILE_ATTRIBUTE_DIRECTORY)) {
+                        contents = tapecontents_read(filename);
+                        if (contents != NULL) {
+                            create_content_list(contents, preview);
+                            image_contents_destroy(contents);
+                        }
                     }
                 }
+            } else if (((OFNOTIFY*)lparam)->hdr.code == CDN_FOLDERCHANGE) {
+                SendMessage(preview, LB_RESETCONTENT, 0, 0);
+                SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), TEXT(""));
             }
-        } else if (((OFNOTIFY*)lparam)->hdr.code == CDN_FOLDERCHANGE) {
-            SendMessage(preview, LB_RESETCONTENT, 0, 0);
-            SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), TEXT(""));
-        }
-        break;
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDC_BLANK_IMAGE:
-            if (SendMessage(GetParent(hwnd),
-                CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
-                ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
-                return -1;
-            }
-            if (strchr(filename,'.') == NULL) {
-                append_extension = 1;
-            } else {
-                /*  Find last dot in name */
-                extension = strrchr(filename,'.');
-                /*  Skip dot */
-                extension++;
-                /*  Figure out if it's a standard extension */
-                if (strncasecmp(extension, "tap", 3) == 0) {
-                }
-            }
-            if (SendMessage(GetParent(hwnd),
-                CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                if (append_extension) {
-                    strcat(filename, ".");
-                    strcat(filename, "tap");
-                }
-                if (util_file_exists(filename)) {
-                    int ret;
-                    ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE),
-                                        translate_text(IDS_VICE_QUESTION),
-                                        MB_YESNO | MB_ICONQUESTION);
-                    if (ret != IDYES)
+            break;
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDC_BLANK_IMAGE:
+                    if (SendMessage(GetParent(hwnd), CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
+                        ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
                         return -1;
-                }
-                if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
-                    ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
-                    return -1;
-                }
-            }
-            break;
-        }
+                    }
+                    if (strchr(filename,'.') == NULL) {
+                        append_extension = 1;
+                    } else {
+                        /*  Find last dot in name */
+                        extension = strrchr(filename, '.');
+                        /*  Skip dot */
+                        extension++;
+                        /*  Figure out if it's a standard extension */
+                        if (strncasecmp(extension, "tap", 3) == 0) {
+                        }
+                    }
+                    if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                        if (append_extension) {
+                            strcat(filename, ".");
+                            strcat(filename, "tap");
+                        }
+                        if (util_file_exists(filename)) {
+                            int ret;
 
-        switch (HIWORD(wparam)) {
-          case LBN_DBLCLK:
-            if (autostart_result != NULL) {
-                index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
-                if (SendMessage(GetParent(hwnd),
-                    CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                    *autostart_result = index;
-                    SendMessage(GetParent(hwnd), WM_COMMAND,
-                                MAKELONG(IDOK, BN_CLICKED),
-                                (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
-                }
+                            ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE), translate_text(IDS_VICE_QUESTION), MB_YESNO | MB_ICONQUESTION);
+                            if (ret != IDYES) {
+                                return -1;
+                            }
+                        }
+                        if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
+                            ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
+                            return -1;
+                        }
+                    }
+                    break;
+            }
+            switch (HIWORD(wparam)) {
+                case LBN_DBLCLK:
+                    if (autostart_result != NULL) {
+                        index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+                        if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                            *autostart_result = index;
+                            SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
+                        }
+                    }
+                    break;
             }
             break;
-        }
-        break;
-      case WM_DESTROY:
-        if (hfont != NULL) {
-            DeleteObject(hfont);
-            hfont = NULL;
-        }
-        break;
+        case WM_DESTROY:
+            if (hfont != NULL) {
+                DeleteObject(hfont);
+                hfont = NULL;
+            }
+            break;
     }
     return 0;
 }
 
-static TCHAR *image_type_name[] = 
-    { TEXT("d64"), TEXT("d71"), TEXT("d80"), TEXT("d81"), TEXT("d82"),
-      TEXT("g64"), TEXT("x64"), NULL };
+static TCHAR *image_type_name[] = {
+    TEXT("d64"),
+    TEXT("d71"),
+    TEXT("d80"),
+    TEXT("d81"),
+    TEXT("d82"),
+    TEXT("g64"),
+    TEXT("x64"),
+    NULL
+};
 
 static int image_type[] = {
     DISK_IMAGE_TYPE_D64,
@@ -325,294 +312,266 @@ static int image_type[] = {
 };
 
 static uilib_localize_dialog_param select_disk_hook_trans[] = {
-    {IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0},
-    {IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0},
-    {IDC_NEW_IMAGE, IDS_NEW_IMAGE, 0},
-    {IDC_NAME, IDS_NAME, 0},
-    {IDC_ID, IDS_ID, 0},
-    {IDC_TYPE, IDS_TYPE, 0},
-    {IDC_BLANK_IMAGE, IDS_BLANK_IMAGE, 0},
-    {0, 0, 0}
+    { IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0 },
+    { IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0 },
+    { IDC_NEW_IMAGE, IDS_NEW_IMAGE, 0 },
+    { IDC_NAME, IDS_NAME, 0 },
+    { IDC_ID, IDS_ID, 0 },
+    { IDC_TYPE, IDS_TYPE, 0 },
+    { IDC_BLANK_IMAGE, IDS_BLANK_IMAGE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group select_disk_right_group[] = {
-    {IDC_TOGGLE_ATTACH_READONLY, 1},
-    {IDC_NAME, 0},
-    {IDC_ID, 0},
-    {IDC_TYPE, 0},
-    {IDC_BLANK_IMAGE, 1},
-    {0, 0}
+    { IDC_TOGGLE_ATTACH_READONLY, 1 },
+    { IDC_NAME, 0 },
+    { IDC_ID, 0 },
+    { IDC_TYPE, 0 },
+    { IDC_BLANK_IMAGE, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group select_disk_id_group[] = {
-    {IDC_ID, 0},
-    {IDC_BLANK_IMAGE_ID, 0},
-    {0, 0}
+    { IDC_ID, 0 },
+    { IDC_BLANK_IMAGE_ID, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group select_disk_type_group[] = {
-    {IDC_TYPE, 0},
-    {IDC_BLANK_IMAGE_TYPE, 0},
-    {0, 0}
+    { IDC_TYPE, 0 },
+    { IDC_BLANK_IMAGE_TYPE, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group select_disk_filling_group[] = {
-    {IDC_BLANK_IMAGE_NAME, 0},
-    {IDC_TYPE, 0},
-    {IDC_BLANK_IMAGE_TYPE, 0},
-    {IDC_BLANK_IMAGE, 0},
-    {0, 0}
+    { IDC_BLANK_IMAGE_NAME, 0 },
+    { IDC_TYPE, 0 },
+    { IDC_BLANK_IMAGE_TYPE, 0 },
+    { IDC_BLANK_IMAGE, 0 },
+    { 0, 0 }
 };
 
-static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg,
-                                                     WPARAM wparam,
-                                                     LPARAM lparam)
+static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
-  HWND preview;
-  HWND image_type_list;
-  image_contents_t *contents;
-  char filename[256];
-  TCHAR st_filename[256];
-  int counter;
-  int msg_type;
-  int append_extension = 0;
-  int is_it_standard_extension = 0;
-  char *extension;
-  int index;
-  LV_FINDINFO find;
-  LV_ITEM item;
-  HWND parent_hwnd;
-  int xpos;
-  int xstart;
-  RECT rect;
+    HWND preview;
+    HWND image_type_list;
+    image_contents_t *contents;
+    char filename[256];
+    TCHAR st_filename[256];
+    int counter;
+    int msg_type;
+    int append_extension = 0;
+    int is_it_standard_extension = 0;
+    char *extension;
+    int index;
+    LV_FINDINFO find;
+    LV_ITEM item;
+    HWND parent_hwnd;
+    int xpos;
+    int xstart;
+    RECT rect;
 
-  preview = GetDlgItem(hwnd, IDC_PREVIEW);
-  switch (uimsg) {
-      case WM_INITDIALOG:
-        parent_hwnd = GetParent(hwnd);
+    preview = GetDlgItem(hwnd, IDC_PREVIEW);
+    switch (uimsg) {
+        case WM_INITDIALOG:
+            parent_hwnd = GetParent(hwnd);
 
-        /* translate all dialog items */
-        uilib_localize_dialog(hwnd, select_disk_hook_trans);
+            /* translate all dialog items */
+            uilib_localize_dialog(hwnd, select_disk_hook_trans);
 
-        SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
-        SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
+            SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
+            SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
 
-        /* adjust the size of the elements in the right group */
-        uilib_adjust_group_width(hwnd, select_disk_right_group);
+            /* adjust the size of the elements in the right group */
+            uilib_adjust_group_width(hwnd, select_disk_right_group);
 
-        /* get the max x of the ID group */
-        uilib_get_group_max_x(hwnd, select_disk_id_group, &xpos);
+            /* get the max x of the ID group */
+            uilib_get_group_max_x(hwnd, select_disk_id_group, &xpos);
 
-        /* move the type group to the correct position */
-        uilib_move_group(hwnd, select_disk_type_group, xpos + 10);
+            /* move the type group to the correct position */
+            uilib_move_group(hwnd, select_disk_type_group, xpos + 10);
 
-        /* get the max x of the type group */
-        uilib_get_group_max_x(hwnd, select_disk_filling_group, &xpos);
+            /* get the max x of the type group */
+            uilib_get_group_max_x(hwnd, select_disk_filling_group, &xpos);
 
-        /* get the min x of the name element */
-        uilib_get_element_min_x(hwnd, IDC_BLANK_IMAGE_NAME, &xstart);
+            /* get the min x of the name element */
+            uilib_get_element_min_x(hwnd, IDC_BLANK_IMAGE_NAME, &xstart);
 
-        /* move and set the size of the new image group element */
-        uilib_move_and_set_element_width(hwnd, IDC_NEW_IMAGE, xstart - 10, xpos - xstart + 20);
+            /* move and set the size of the new image group element */
+            uilib_move_and_set_element_width(hwnd, IDC_NEW_IMAGE, xstart - 10, xpos - xstart + 20);
 
-        /* get the max x of the new image group element */
-        uilib_get_element_min_x(hwnd, IDC_NEW_IMAGE, &xpos);
+            /* get the max x of the new image group element */
+            uilib_get_element_min_x(hwnd, IDC_NEW_IMAGE, &xpos);
 
-        /* resize the dialog window to fit */
-        GetWindowRect(hwnd, &rect);
-        if (xpos + 10 > rect.right) {
-            MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
-        }
-
-        image_type_list = GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE);
-        for (counter = 0; image_type_name[counter]; counter++) {
-          SendMessage(image_type_list, CB_ADDSTRING, 0,
-            (LPARAM)image_type_name[counter]);
-        }
-        SendMessage(image_type_list, CB_SETCURSEL, (WPARAM)0, 0);
-
-        /* Try to use the cbm font */
-        if (font_loaded)
-          hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, "cbm-directory-charset/ck!");
-        else
-          /*  maybe there's a better font-definition (FIXME) */
-          /*  I think it's OK now (Tibor) */
-          hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
-          DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
-
-        if (hfont) {
-          SendDlgItemMessage(hwnd, IDC_PREVIEW, WM_SETFONT,
-            (WPARAM)hfont, MAKELPARAM(TRUE, 0));
-        }
-        SetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, TEXT("vice"));
-        SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, TEXT("1a"));
-        if (res_readonly != NULL) {
-          int ro;
-          resources_get_int(res_readonly, &ro);
-          CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
-            ro ? BST_CHECKED : BST_UNCHECKED);
-        } else {
-          EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_ATTACH_READONLY),  FALSE);
-        }
-        break;
-      case WM_NOTIFY:
-        if (((OFNOTIFY *)lparam)->hdr.code == CDN_SELCHANGE) {
-          SendMessage(preview, LB_RESETCONTENT, 0, 0);
-          if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
-            CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
-              if (!(GetFileAttributes(st_filename)
-                & FILE_ATTRIBUTE_DIRECTORY)) {
-                  system_wcstombs(filename, st_filename, 256);
-                  contents = diskcontents_filesystem_read(filename);
-                  if (contents != NULL)
-                  {
-                      create_content_list(contents, preview);
-                      image_contents_destroy(contents);
-                  }
-              }
-          } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
-            SendMessage(preview, LB_RESETCONTENT, 0, 0);
-            SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
-          }
-        }
-        break;
-      case WM_COMMAND:
-        msg_type = LOWORD(wparam);
-        switch (msg_type) {
-      case IDC_TOGGLE_ATTACH_READONLY:
-        if (res_readonly)
-          resources_set_int(res_readonly, (IsDlgButtonChecked(hwnd,
-          IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED));
-        break;
-      case IDC_BLANK_IMAGE:
-        if (SendMessage(GetParent(hwnd),
-          CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
-            ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
-            return -1;
-        }
-        if (_tcschr(st_filename, '.') == NULL) {
-          append_extension = 1;
-          is_it_standard_extension = 1;
-        } else {
-          /*  Find last dot in name */
-          extension = _tcsrchr(st_filename, '.');
-          /*  Skip dot */
-          extension++;
-          /*  Figure out if it's a standard extension */
-          for (counter = 0; image_type_name[counter]; counter++) {
-            if (strncasecmp(extension, image_type_name[counter],
-              (int)strlen(image_type_name[counter])) == 0) {
-                is_it_standard_extension = 1;
-                break;
+            /* resize the dialog window to fit */
+            GetWindowRect(hwnd, &rect);
+            if (xpos + 10 > rect.right) {
+                MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
             }
-          }
-        }
-        if (SendMessage(GetParent(hwnd),
-          CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
-            char disk_name[32];
-            char disk_id[3];
-            char *format_name;
 
-            counter = (int)SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE),
-                                       CB_GETCURSEL, 0, 0);
-            if (append_extension) {
-              _tcscat(st_filename, TEXT("."));
-              _tcscat(st_filename, image_type_name[counter]);
+            image_type_list = GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE);
+            for (counter = 0; image_type_name[counter]; counter++) {
+                SendMessage(image_type_list, CB_ADDSTRING, 0, (LPARAM)image_type_name[counter]);
             }
-            system_wcstombs(filename, st_filename, 256);
-            if (util_file_exists(st_filename)) {
-              int ret;
-              ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE),
-                translate_text(IDS_VICE_QUESTION),
-                MB_YESNO | MB_ICONQUESTION);
-              if (ret != IDYES)
-                return -1;
-            }
-            GetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, disk_name, 17);
-            GetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, disk_id, 3);
-            format_name = lib_msprintf("%s,%s", disk_name, disk_id);
-            if (vdrive_internal_create_format_disk_image(st_filename,
-              format_name, image_type[counter]) < 0) {
-                ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
-                lib_free(format_name);
-                return -1;
-            }
-            lib_free(format_name);
-            /*  Select filter:
-            If we have a standard extension, select the disk filters,
-            but leave at 'All files' if it was already there, otherwise
-            select 'All files'
-            */
-            index = (int)SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
-                                     CB_GETCOUNT, 0, 0);
-            if (is_it_standard_extension) {
-              if (index - 1 != SendMessage(GetDlgItem(GetParent(hwnd),
-                0x470), CB_GETCURSEL, 0, 0)) {
-                  SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
-                    CB_SETCURSEL, 0, 0);
-              }
+            SendMessage(image_type_list, CB_SETCURSEL, (WPARAM)0, 0);
+
+            /* Try to use the cbm font */
+            if (font_loaded) {
+                hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "cbm-directory-charset/ck!");
             } else {
-              SendMessage(GetDlgItem(GetParent(hwnd), 0x470),
-                CB_SETCURSEL, index - 1, 0);
+                /*  maybe there's a better font-definition (FIXME) */
+                /*  I think it's OK now (Tibor) */
+                hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0, DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
             }
-            /*  Notify main window about filter change */
-            SendMessage(GetParent(hwnd), WM_COMMAND,
-              MAKELONG(0x470, CBN_SELENDOK),
-              (LPARAM)GetDlgItem(GetParent(hwnd), 0x470));
+            if (hfont) {
+                SendDlgItemMessage(hwnd, IDC_PREVIEW, WM_SETFONT, (WPARAM)hfont, MAKELPARAM(TRUE, 0));
+            }
+            SetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, TEXT("vice"));
+            SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, TEXT("1a"));
+            if (res_readonly != NULL) {
+                int ro;
 
-            /*  Now find filename in ListView & select it */
-            SendMessage(GetParent(hwnd), CDM_GETSPEC, 256,
-              (LPARAM)st_filename);
-            if (append_extension) {
-              _tcscat(st_filename, TEXT("."));
-              _tcscat(st_filename, image_type_name[counter]);
+                resources_get_int(res_readonly, &ro);
+                CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY, ro ? BST_CHECKED : BST_UNCHECKED);
+            } else {
+                EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_ATTACH_READONLY),  FALSE);
             }
-            find.flags = LVFI_STRING;
-            find.psz = st_filename;
-            index = (int)SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),
-                                     0x461), 1), LVM_FINDITEM, -1,
-                                     (LPARAM)&find);
-            item.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
-            item.state = LVIS_SELECTED | LVIS_FOCUSED;
-            SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd), 0x461), 1),
-              LVM_SETITEMSTATE, index, (LPARAM)&item);
-        }
-        break;
-        }
-        switch (HIWORD(wparam)) {
-      case LBN_DBLCLK:
-        if (autostart_result != NULL) {
-          index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
-          if (SendMessage(GetParent(hwnd),
-            CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
-              *autostart_result = index;
-              SendMessage(GetParent(hwnd), WM_COMMAND,
-                MAKELONG(IDOK,BN_CLICKED),
-                (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
-          }
-        }
-        break;
-        }
-        break;
-      case WM_DESTROY:
-        if (hfont != NULL) {
-          DeleteObject(hfont);
-          hfont = NULL;
-        }
-        break;
-  }
-  return 0;
+            break;
+        case WM_NOTIFY:
+            if (((OFNOTIFY *)lparam)->hdr.code == CDN_SELCHANGE) {
+                SendMessage(preview, LB_RESETCONTENT, 0, 0);
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom, CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                    if (!(GetFileAttributes(st_filename) & FILE_ATTRIBUTE_DIRECTORY)) {
+                        system_wcstombs(filename, st_filename, 256);
+                        contents = diskcontents_filesystem_read(filename);
+                        if (contents != NULL) {
+                            create_content_list(contents, preview);
+                            image_contents_destroy(contents);
+                        }
+                    }
+                } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
+                    SendMessage(preview, LB_RESETCONTENT, 0, 0);
+                    SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
+                }
+            }
+            break;
+        case WM_COMMAND:
+            msg_type = LOWORD(wparam);
+            switch (msg_type) {
+                case IDC_TOGGLE_ATTACH_READONLY:
+                    if (res_readonly) {
+                        resources_set_int(res_readonly, (IsDlgButtonChecked(hwnd, IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED));
+                    }
+                    break;
+                case IDC_BLANK_IMAGE:
+                    if (SendMessage(GetParent(hwnd), CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
+                        ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
+                        return -1;
+                    }
+                    if (_tcschr(st_filename, '.') == NULL) {
+                        append_extension = 1;
+                        is_it_standard_extension = 1;
+                    } else {
+                        /*  Find last dot in name */
+                        extension = _tcsrchr(st_filename, '.');
+                        /*  Skip dot */
+                        extension++;
+                        /*  Figure out if it's a standard extension */
+                        for (counter = 0; image_type_name[counter]; counter++) {
+                            if (strncasecmp(extension, image_type_name[counter], (int)strlen(image_type_name[counter])) == 0) {
+                                is_it_standard_extension = 1;
+                                break;
+                            }
+                        }
+                    }
+                    if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                        char disk_name[32];
+                        char disk_id[3];
+                        char *format_name;
+
+                        counter = (int)SendMessage(GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE), CB_GETCURSEL, 0, 0);
+                        if (append_extension) {
+                            _tcscat(st_filename, TEXT("."));
+                            _tcscat(st_filename, image_type_name[counter]);
+                        }
+                        system_wcstombs(filename, st_filename, 256);
+                        if (util_file_exists(st_filename)) {
+                            int ret;
+
+                            ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE), translate_text(IDS_VICE_QUESTION), MB_YESNO | MB_ICONQUESTION);
+                            if (ret != IDYES) {
+                                return -1;
+                            }
+                        }
+                        GetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, disk_name, 17);
+                        GetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, disk_id, 3);
+                        format_name = lib_msprintf("%s,%s", disk_name, disk_id);
+                        if (vdrive_internal_create_format_disk_image(st_filename, format_name, image_type[counter]) < 0) {
+                            ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
+                            lib_free(format_name);
+                            return -1;
+                        }
+                        lib_free(format_name);
+                        /*  Select filter:
+                            If we have a standard extension, select the disk filters,
+                            but leave at 'All files' if it was already there, otherwise
+                            select 'All files'
+                         */
+                        index = (int)SendMessage(GetDlgItem(GetParent(hwnd), 0x470), CB_GETCOUNT, 0, 0);
+                        if (is_it_standard_extension) {
+                            if (index - 1 != SendMessage(GetDlgItem(GetParent(hwnd), 0x470), CB_GETCURSEL, 0, 0)) {
+                                SendMessage(GetDlgItem(GetParent(hwnd), 0x470), CB_SETCURSEL, 0, 0);
+                            }
+                        } else {
+                            SendMessage(GetDlgItem(GetParent(hwnd), 0x470), CB_SETCURSEL, index - 1, 0);
+                        }
+                        /*  Notify main window about filter change */
+                        SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(0x470, CBN_SELENDOK), (LPARAM)GetDlgItem(GetParent(hwnd), 0x470));
+
+                        /*  Now find filename in ListView & select it */
+                        SendMessage(GetParent(hwnd), CDM_GETSPEC, 256, (LPARAM)st_filename);
+                        if (append_extension) {
+                            _tcscat(st_filename, TEXT("."));
+                            _tcscat(st_filename, image_type_name[counter]);
+                        }
+                        find.flags = LVFI_STRING;
+                        find.psz = st_filename;
+                        index = (int)SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd), 0x461), 1), LVM_FINDITEM, -1, (LPARAM)&find);
+                        item.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
+                        item.state = LVIS_SELECTED | LVIS_FOCUSED;
+                        SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd), 0x461), 1), LVM_SETITEMSTATE, index, (LPARAM)&item);
+                    }
+                    break;
+            }
+            switch (HIWORD(wparam)) {
+                case LBN_DBLCLK:
+                    if (autostart_result != NULL) {
+                        index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+                        if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                            *autostart_result = index;
+                            SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDOK,BN_CLICKED), (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
+                        }
+                    }
+                    break;
+            }
+            break;
+        case WM_DESTROY:
+            if (hfont != NULL) {
+                DeleteObject(hfont);
+                hfont = NULL;
+            }
+            break;
+    }
+    return 0;
 }
 
 static uilib_localize_dialog_param select_hook_trans[] = {
-    {IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0},
-    {IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0},
-    {0, 0, 0}
+    { IDC_IMAGE_CONTENTS, IDS_IMAGE_CONTENTS, 0 },
+    { IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0 },
+    { 0, 0, 0 }
 };
 
-static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
-                                                WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     HWND preview;
     image_contents_t *contents;
@@ -626,96 +585,89 @@ static UINT_PTR APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
 
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
-      case WM_INITDIALOG:
-        parent_hwnd = GetParent(hwnd);
-        uilib_localize_dialog(hwnd, select_hook_trans);
-        SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
-        SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
-        uilib_adjust_element_width(hwnd, IDC_TOGGLE_ATTACH_READONLY);
-        uilib_get_element_max_x(hwnd, IDC_TOGGLE_ATTACH_READONLY, &xpos);
+        case WM_INITDIALOG:
+            parent_hwnd = GetParent(hwnd);
+            uilib_localize_dialog(hwnd, select_hook_trans);
+            SetWindowText(GetDlgItem(parent_hwnd, IDOK), translate_text(IDS_ATTACH));
+            SetWindowText(GetDlgItem(parent_hwnd, IDCANCEL), translate_text(IDS_CANCEL));
+            uilib_adjust_element_width(hwnd, IDC_TOGGLE_ATTACH_READONLY);
+            uilib_get_element_max_x(hwnd, IDC_TOGGLE_ATTACH_READONLY, &xpos);
 
-        /* set the width of the dialog to 'surround' all the elements */
-        GetWindowRect(parent_hwnd, &rect);
-        if (xpos + 10 > rect.right) {
-            MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
-        }
-
-        /* Try to use the cbm font */
-        if (font_loaded)
-            hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                               0, 0, "cbm-directory-charset/ck!");
-        else
-            /*  maybe there's a better font-definition (FIXME) */
-            /*  I think it's OK now (Tibor) */
-            hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
-                               DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
-
-        if (hfont) {
-            SendDlgItemMessage(hwnd, IDC_PREVIEW, WM_SETFONT,
-                (WPARAM)hfont, MAKELPARAM(TRUE, 0));
-        }
-        if (res_readonly != NULL) {
-            int ro;
-            resources_get_int(res_readonly, &ro);
-            CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
-                       ro ? BST_CHECKED : BST_UNCHECKED);
-        } else {
-            EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_ATTACH_READONLY),  FALSE);
-        }
-        break;
-      case WM_NOTIFY:
-        if (((OFNOTIFY *)lparam)->hdr.code == CDN_SELCHANGE) {
-            SendMessage(preview, LB_RESETCONTENT, 0, 0);
-            if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
-                CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
-                     if (!(GetFileAttributes(st_filename)
-                         & FILE_ATTRIBUTE_DIRECTORY)) {
-                         system_wcstombs(filename, st_filename, 256);
-                         contents = diskcontents_filesystem_read(filename);
-                         if (contents == NULL) {
-                             contents = tapecontents_read(filename);
-                         }
-                         if (contents != NULL) {
-                             create_content_list(contents, preview);
-                             image_contents_destroy(contents);
-                         }
-                     }
-            } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
-                SendMessage(preview, LB_RESETCONTENT, 0, 0);
-                SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
+            /* set the width of the dialog to 'surround' all the elements */
+            GetWindowRect(parent_hwnd, &rect);
+            if (xpos + 10 > rect.right) {
+                MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
             }
-        }
-        break;
-      case WM_COMMAND:
-        msg_type = LOWORD(wparam);
-        switch (msg_type) {
-          case IDC_TOGGLE_ATTACH_READONLY:
-            if (res_readonly)
-                resources_set_int(res_readonly, (IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED));
+
+            /* Try to use the cbm font */
+            if (font_loaded) {
+                hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "cbm-directory-charset/ck!");
+            } else {
+                /*  maybe there's a better font-definition (FIXME) */
+                /*  I think it's OK now (Tibor) */
+                hfont = CreateFont(-12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0, DRAFT_QUALITY, FIXED_PITCH | FF_MODERN, NULL);
+            }
+
+            if (hfont) {
+                SendDlgItemMessage(hwnd, IDC_PREVIEW, WM_SETFONT, (WPARAM)hfont, MAKELPARAM(TRUE, 0));
+            }
+            if (res_readonly != NULL) {
+                int ro;
+
+                resources_get_int(res_readonly, &ro);
+                CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY, ro ? BST_CHECKED : BST_UNCHECKED);
+            } else {
+                EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_ATTACH_READONLY),  FALSE);
+            }
             break;
-        }
-        switch (HIWORD(wparam)) {
-          case LBN_DBLCLK:
-            if (autostart_result != NULL) {
-                index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
-                if (SendMessage(GetParent(hwnd),
-                    CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
-                    *autostart_result = index;
-                    SendMessage(GetParent(hwnd), WM_COMMAND,
-                                MAKELONG(IDOK,BN_CLICKED),
-                                (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
+        case WM_NOTIFY:
+            if (((OFNOTIFY *)lparam)->hdr.code == CDN_SELCHANGE) {
+                SendMessage(preview, LB_RESETCONTENT, 0, 0);
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom, CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                    if (!(GetFileAttributes(st_filename) & FILE_ATTRIBUTE_DIRECTORY)) {
+                        system_wcstombs(filename, st_filename, 256);
+                        contents = diskcontents_filesystem_read(filename);
+                        if (contents == NULL) {
+                            contents = tapecontents_read(filename);
+                        }
+                        if (contents != NULL) {
+                            create_content_list(contents, preview);
+                            image_contents_destroy(contents);
+                        }
+                    }
+                } else if (((OFNOTIFY *)lparam)->hdr.code == CDN_FOLDERCHANGE) {
+                    SendMessage(preview, LB_RESETCONTENT, 0, 0);
+                    SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
                 }
             }
             break;
-        }
-        break;
-      case WM_DESTROY:
-        if (hfont != NULL) {
-            DeleteObject(hfont);
-            hfont = NULL;
-        }
-        break;
+        case WM_COMMAND:
+            msg_type = LOWORD(wparam);
+            switch (msg_type) {
+                case IDC_TOGGLE_ATTACH_READONLY:
+                    if (res_readonly) {
+                        resources_set_int(res_readonly, (IsDlgButtonChecked(hwnd, IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED));
+                    }
+                    break;
+            }
+            switch (HIWORD(wparam)) {
+                case LBN_DBLCLK:
+                    if (autostart_result != NULL) {
+                        index = (int)SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+                        if (SendMessage(GetParent(hwnd), CDM_GETFILEPATH, 256, (LPARAM)st_filename) >= 0) {
+                            *autostart_result = index;
+                            SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDOK,BN_CLICKED), (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
+                        }
+                    }
+                    break;
+            }
+            break;
+        case WM_DESTROY:
+            if (hfont != NULL) {
+                DeleteObject(hfont);
+                hfont = NULL;
+            }
+            break;
     }
     return 0;
 }
@@ -733,11 +685,13 @@ static void update_filter_history(DWORD current_filter, DWORD last_filterlist)
 {
     filter_per_list_t *fl = filter_history.next;
 
-    if (filter_history_last == NULL)
+    if (filter_history_last == NULL) {
         filter_history_last = &filter_history;
+    }
 
-    while (fl && fl->filterlist != last_filterlist)
+    while (fl && fl->filterlist != last_filterlist) {
         fl = fl->next;
+    }
 
     if (fl) {
         fl->active_filter = current_filter;
@@ -755,13 +709,15 @@ static DWORD get_last_active_filter(DWORD last_filterlist)
 {
     filter_per_list_t *fl = filter_history.next;
 
-    while (fl && fl->filterlist != last_filterlist)
+    while (fl && fl->filterlist != last_filterlist) {
         fl = fl->next;
+    }
 
-    if (fl)
+    if (fl) {
         return fl->active_filter;
-    else
+    } else {
         return 0;
+    }
 }
 
 static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
@@ -793,28 +749,25 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     /* search for the most recent file filter */
     *filterindex = get_last_active_filter(filterlist);
 
-    if (*filterindex == 0)
+    if (*filterindex == 0) {
         *filterindex = 1;    /* not in history: choose first filter */
+    }
 
     return filter;
 }
 
-static int CALLBACK EnumFontProc(
-  ENUMLOGFONT *lpelf,    // logical-font data
-  NEWTEXTMETRIC *lpntm,  // physical-font data
-  DWORD FontType,        // type of font
-  LPARAM lParam          // application-defined data
-)
+/* ENUMLOGFONT *lpelf   - logical-font data */
+/* NEWTEXTMETRIC *lpntm - physical-font data */
+/* DWORD FontType       - type of font */
+/* LPARAM lParam        - application-defined data */
+
+static int CALLBACK EnumFontProc(ENUMLOGFONT *lpelf, NEWTEXTMETRIC *lpntm, DWORD FontType, LPARAM lParam)
 {
     (*(int *)lParam)++;
     return 1;
 }
 
-
-TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
-                                   DWORD filterlist, unsigned int type,
-                                   int style, int *autostart,
-                                   char *resource_readonly)
+TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style, int *autostart, char *resource_readonly)
 {
     TCHAR st_name[MAX_PATH];
     char name[MAX_PATH];
@@ -826,27 +779,29 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     BOOL result;
     char *ret = NULL;
 
-    if (styles[style].initialdir_resource != NULL)
+    if (styles[style].initialdir_resource != NULL) {
         resources_get_string(styles[style].initialdir_resource, &initialdir);
+    }
 
-    if (type == UILIB_SELECTOR_TYPE_DIR_EXIST)
+    if (type == UILIB_SELECTOR_TYPE_DIR_EXIST) {
         _tcscpy(st_name, TEXT("FilenameNotUsed"));
-    else
+    } else {
         _tcscpy(st_name, TEXT(""));
+    }
 
     initialfile = ui_file_selector_initialfile[style];
-    if (styles[style].file_resource != NULL)
+    if (styles[style].file_resource != NULL) {
         resources_get_string(styles[style].file_resource, &initialfile);
+    }
 
-    if (initialfile != NULL)
+    if (initialfile != NULL) {
         _tcscpy(st_name, initialfile);
+    }
 
     if (fontfile == NULL) {
-        fontfile = util_concat(archdep_boot_path(), 
-                               "\\fonts\\cbm-directory-charset.fon", NULL);
+        fontfile = util_concat(archdep_boot_path(), "\\fonts\\cbm-directory-charset.fon", NULL);
         font_loaded = 0;
-        EnumFontFamilies(GetDC(NULL), "cbm-directory-charset/ck!",
-            (FONTENUMPROC)EnumFontProc, (LPARAM)&font_loaded);
+        EnumFontFamilies(GetDC(NULL), "cbm-directory-charset/ck!", (FONTENUMPROC)EnumFontProc, (LPARAM)&font_loaded);
         if (font_loaded == 0) {
             font_loaded = AddFontResource(fontfile);
         }
@@ -868,8 +823,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = initialdir;
     ofn.lpstrTitle = title;
-    ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE
-                | OFN_SHAREAWARE | OFN_ENABLESIZING;
+    ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE | OFN_SHAREAWARE | OFN_ENABLESIZING;
     if (styles[style].TemplateID != 0) {
         ofn.Flags |= OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
         ofn.lpfnHook = styles[style].hook_proc;
@@ -878,8 +832,9 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;
     }
-    if (type == UILIB_SELECTOR_TYPE_FILE_LOAD)
+    if (type == UILIB_SELECTOR_TYPE_FILE_LOAD) {
         ofn.Flags |= OFN_FILEMUSTEXIST;
+    }
 
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
@@ -889,11 +844,11 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     res_readonly = resource_readonly;
     vsync_suspend_speed_eval();
 
-    if (type == UILIB_SELECTOR_TYPE_FILE_SAVE)
+    if (type == UILIB_SELECTOR_TYPE_FILE_SAVE) {
         result = GetSaveFileName(&ofn);
-    else
+    } else {
         result = GetOpenFileName(&ofn);
-    
+    }
 
     update_filter_history(ofn.nFilterIndex, filterlist);
 
@@ -903,8 +858,9 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
         lib_free(ui_file_selector_initialfile[style]);
         system_wcstombs(name, st_name, MAX_PATH);
         util_fname_split(name, &tmpdir, &tmpfile);
-        if (styles[style].file_resource != NULL)
+        if (styles[style].file_resource != NULL) {
             resources_set_string(styles[style].file_resource, tmpfile);
+        }
         ui_file_selector_initialfile[style] = system_mbstowcs_alloc(tmpfile);
         resources_set_string(styles[style].initialdir_resource, tmpdir);
         ret = system_wcstombs_alloc(st_name);
@@ -918,20 +874,16 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     return ret;
 }
 
-TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
-                         unsigned int type, int style)
+TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style)
 {
-    return uilib_select_file_autostart(hwnd, title, filterlist, type, style,
-                                       NULL, NULL);
+    return uilib_select_file_autostart(hwnd, title, filterlist, type, style, NULL, NULL);
 }
 
-void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist,
-                         unsigned int type, int idc)
+void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int idc)
 {
     TCHAR *st_name;
 
-    st_name = uilib_select_file(hwnd, title, filterlist, type,
-                                UILIB_SELECTOR_STYLE_DEFAULT);
+    st_name = uilib_select_file(hwnd, title, filterlist, type, UILIB_SELECTOR_STYLE_DEFAULT);
     if (st_name != NULL) {
         SetDlgItemText(hwnd, idc, st_name);
         lib_free(st_name);
@@ -956,26 +908,27 @@ HWND GetParentHWND()
 
     EnumWindows(GetParentEnumProc, (LPARAM)&hwndOut);
 
-    if (hwndOut == NULL)
+    if (hwndOut == NULL) {
         return NULL;
+    }
 
     return GetLastActivePopup(hwndOut);
 }
 
-INT_PTR CALLBACK TextDlgProc(HWND hwndDlg,	// handle to dialog box
-                             UINT uMsg,		// message
-                             WPARAM wParam,	// first message parameter
-                             LPARAM lParam);	// second message parameter
+/* HWND hwndDlg  - handle to dialog box */
+/* UINT uMsg     - message */
+/* WPARAM wParam - first message parameter */
+/* LPARAM lParam - second message parameter */
+
+INT_PTR CALLBACK TextDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 struct TEXTDLGDATA {
     char *szCaption;
     char *szHeader;
     char *szText;
 };
 
-void ui_show_text(HWND hWnd,
-		const char* szCaption,
-		const char* szHeader,
-		const char* szText)
+void ui_show_text(HWND hWnd, const char* szCaption, const char* szHeader, const char* szText)
 {
     struct TEXTDLGDATA info;
     char * szRNText;
@@ -984,8 +937,9 @@ void ui_show_text(HWND hWnd,
     szRNText = (char*)HeapAlloc(GetProcessHeap(), 0, 2 * lstrlen(szText) + 1);
     i = j =0;
     while (szText[i] != '\0') {
-        if (szText[i] == '\n')
+        if (szText[i] == '\n') {
             szRNText[j++] = '\r';
+        }
         szRNText[j++] = szText[i++];
     }
     szRNText[j] = '\0';
@@ -994,19 +948,8 @@ void ui_show_text(HWND hWnd,
     info.szHeader = (char *)szHeader;
     info.szText = szRNText;
 
-//  if (hWnd == HWND_AUTO)
-//      hWnd = GetParentHWND();
-    DialogBoxParam(GetModuleHandle(NULL),
-
-// GetModuleHandle(NULL) returns the instance handle
-// of the executable that created the current process.
-// Win32: module handle == instance handle == task [Win3.1 legacy]
-
-                   MAKEINTRESOURCE(IDD_TEXTDLG),
-                   hWnd,
-                   TextDlgProc,
-                   (LPARAM)&info);
-                   HeapFree(GetProcessHeap(), 0, szRNText);
+    DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_TEXTDLG), hWnd, TextDlgProc, (LPARAM)&info);
+    HeapFree(GetProcessHeap(), 0, szRNText);
 }
 
 // FIXME: the client area with the scroll bars 
@@ -1022,63 +965,56 @@ void AutoHideScrollBar(HWND hWnd, int fnBar)
     scInfo.fMask = SIF_RANGE | SIF_PAGE;
     bResult = GetScrollInfo(hWnd, fnBar, &scInfo);
 
-    if (!bResult)
+    if (!bResult) {
         return;
+    }
 
     uiDiff = scInfo.nMax-scInfo.nMin;
-    if (scInfo.nPage > uiDiff)
+    if (scInfo.nPage > uiDiff) {
         ShowScrollBar(hWnd, fnBar, 0);
+    }
 }
 
-
-
-INT_PTR CALLBACK TextDlgProc(HWND hwndDlg,     // handle to dialog box
-                             UINT uMsg,        // message
-                             WPARAM wParam,    // first message parameter
-                             LPARAM lParam)    // second message parameter
+INT_PTR CALLBACK TextDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
-      case WM_INITDIALOG:
-        {
-            struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
-            SetWindowText(hwndDlg,pInfo->szCaption);
-            SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
-            SetDlgItemText(hwndDlg, IDOK, translate_text(IDS_OK));
+        case WM_INITDIALOG:
+            {
+                struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
 
-            SetDlgItemText(hwndDlg, IDC_TEXT, pInfo->szText);
-            SendDlgItemMessage(hwndDlg,
-                               IDC_TEXT,
-                               EM_SETREADONLY,
-                               1,	// wParam: read-only flag
-                               0);	// lParam: unused.
-            AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_HORZ);
-            AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_VERT);
+                SetWindowText(hwndDlg,pInfo->szCaption);
+                SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
+                SetDlgItemText(hwndDlg, IDOK, translate_text(IDS_OK));
+
+                SetDlgItemText(hwndDlg, IDC_TEXT, pInfo->szText);
+                SendDlgItemMessage(hwndDlg, IDC_TEXT, EM_SETREADONLY, 1, 0);
+                AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_HORZ);
+                AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT), SB_VERT);
+                return TRUE;
+            }
+        case WM_CTLCOLORSTATIC:
+            // The text box should use the normal colors, but the contents must
+            // be read-only.
+            // A read-only text box uses WM_CTLCOLORSTATIC, but a read-write
+            // text box uses WM_CTLCOLOREDIT.
+            if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_TEXT)) {
+                // the return value is passed directly,
+                // SetWindowLong(DWL_MSGRESULT) is ignored.
+                return DefDlgProc(hwndDlg, WM_CTLCOLOREDIT, wParam, lParam);
+            } else {
+                return FALSE;
+            }
+        case WM_CLOSE:
+            EndDialog(hwndDlg,0);
             return TRUE;
-        }
-      case WM_CTLCOLORSTATIC:
-        // The text box should use the normal colors, but the contents must
-        // be read-only.
-        // A read-only text box uses WM_CTLCOLORSTATIC, but a read-write
-        // text box uses WM_CTLCOLOREDIT.
-        if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_TEXT)) {
-            // the return value is passed directly,
-            // SetWindowLong(DWL_MSGRESULT) is ignored.
-            return DefDlgProc(hwndDlg, WM_CTLCOLOREDIT, wParam, lParam);
-        } else {
-            return FALSE;
-        }
-			
-      case WM_CLOSE:
-        EndDialog(hwndDlg,0);
-        return TRUE;
-      case WM_COMMAND:
-        switch (LOWORD(wParam)) {
-          case IDCANCEL:
-          case IDOK:
-            EndDialog(hwndDlg, 0);
-            return TRUE;
-        }
-        break;
+        case WM_COMMAND:
+            switch (LOWORD(wParam)) {
+                case IDCANCEL:
+                case IDOK:
+                    EndDialog(hwndDlg, 0);
+                    return TRUE;
+            }
+            break;
     }
     return FALSE;
 }
@@ -1088,8 +1024,7 @@ void uilib_show_options(HWND param)
     char *options;
 
     options = cmdline_options_string();
-    ui_show_text(param, translate_text(IDS_COMMAND_LINE_OPTIONS),
-                 translate_text(IDS_COMMAND_OPTIONS_AVAIL), options);
+    ui_show_text(param, translate_text(IDS_COMMAND_LINE_OPTIONS), translate_text(IDS_COMMAND_OPTIONS_AVAIL), options);
     lib_free(options);
 }
 
@@ -1098,8 +1033,9 @@ void uilib_shutdown(void)
     int i;
     filter_per_list_t *f1, *f2;
 
-    for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
+    for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++) {
         lib_free(ui_file_selector_initialfile[i]);
+    }
 
     lib_free(fontfile);
 
@@ -1114,56 +1050,51 @@ void uilib_shutdown(void)
 
 static uilib_dialogbox_param_t *uilib_dialogbox_param;
 
-static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg,
-                                                    WPARAM wparam,
-                                                    LPARAM lparam)
+static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     HWND element;
     int xpos;
     RECT rect;
 
     switch (msg) {
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDOK:
-            GetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog,
-                           uilib_dialogbox_param->string, UILIB_DIALOGBOX_MAX);
-            uilib_dialogbox_param->updated = 1;
-          case IDCANCEL:
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDOK:
+                    GetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog, uilib_dialogbox_param->string, UILIB_DIALOGBOX_MAX);
+                    uilib_dialogbox_param->updated = 1;
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        SetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog, uilib_dialogbox_param->string);
-        element = GetDlgItem(hwnd, uilib_dialogbox_param->idc_dialog_trans);
-        SetWindowText(element, uilib_dialogbox_param->idc_dialog_trans_text);
-        element = GetDlgItem(hwnd, IDOK);
-        SetWindowText(element, translate_text(IDS_OK));
-        element = GetDlgItem(hwnd, IDCANCEL);
-        SetWindowText(element, translate_text(IDS_CANCEL));
-        SetWindowText(hwnd, uilib_dialogbox_param->idd_dialog_caption);
-        uilib_adjust_element_width(hwnd, uilib_dialogbox_param->idc_dialog_trans);
-        uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog_trans, &xpos);
-        uilib_move_element(hwnd, uilib_dialogbox_param->idc_dialog, xpos + 10);
-        uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog, &xpos);
-        GetWindowRect(hwnd, &rect);
-        MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
-        return TRUE;
+        case WM_INITDIALOG:
+            SetDlgItemText(hwnd, uilib_dialogbox_param->idc_dialog, uilib_dialogbox_param->string);
+            element = GetDlgItem(hwnd, uilib_dialogbox_param->idc_dialog_trans);
+            SetWindowText(element, uilib_dialogbox_param->idc_dialog_trans_text);
+            element = GetDlgItem(hwnd, IDOK);
+            SetWindowText(element, translate_text(IDS_OK));
+            element = GetDlgItem(hwnd, IDCANCEL);
+            SetWindowText(element, translate_text(IDS_CANCEL));
+            SetWindowText(hwnd, uilib_dialogbox_param->idd_dialog_caption);
+            uilib_adjust_element_width(hwnd, uilib_dialogbox_param->idc_dialog_trans);
+            uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog_trans, &xpos);
+            uilib_move_element(hwnd, uilib_dialogbox_param->idc_dialog, xpos + 10);
+            uilib_get_element_max_x(hwnd, uilib_dialogbox_param->idc_dialog, &xpos);
+            GetWindowRect(hwnd, &rect);
+            MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+            return TRUE;
     }
     return FALSE;
 }
-
 
 void uilib_dialogbox(uilib_dialogbox_param_t *param)
 {
     uilib_dialogbox_param = param;
     uilib_dialogbox_param->updated = 0;
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)(uilib_dialogbox_param->idd_dialog),
-              uilib_dialogbox_param->hwnd, uilib_dialogbox_dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)(uilib_dialogbox_param->idd_dialog), uilib_dialogbox_param->hwnd, uilib_dialogbox_dialog_proc);
 }
 
 void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
@@ -1196,9 +1127,9 @@ void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
 
 void uilib_get_group_extent(HWND hwnd, uilib_dialog_group *group, int *xsize, int *ysize)
 {
-HWND element;
-int x;
-int y;
+    HWND element;
+    int x;
+    int y;
 
     if (xsize && ysize) {
         *xsize = 0;
@@ -1206,8 +1137,12 @@ int y;
         while (group->idc) {
             element = GetDlgItem(hwnd, group->idc);
             uilib_get_general_window_extents(element, &x, &y);
-            if (group->element_type == 1) x += 20;
-            if (*xsize < x) *xsize = x;
+            if (group->element_type == 1) {
+                x += 20;
+            }
+            if (*xsize < x) {
+                *xsize = x;
+            }
             *ysize += y;
             group++;
         }
@@ -1276,17 +1211,19 @@ void uilib_get_group_min_x(HWND hwnd, uilib_dialog_group *group, int *xpos)
 
 void uilib_move_and_adjust_group_width(HWND hwnd, uilib_dialog_group *group, int xpos)
 {
-HWND element;
-RECT element_rect;
-int xsize;
-int ysize;
+    HWND element;
+    RECT element_rect;
+    int xsize;
+    int ysize;
 
     while (group->idc) {
         element = GetDlgItem(hwnd, group->idc);
         GetClientRect(element, &element_rect);
         MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
         uilib_get_general_window_extents(element, &xsize, &ysize);
-        if (group->element_type == 1) xsize += 20;
+        if (group->element_type == 1) {
+            xsize += 20;
+        }
         MoveWindow(element, xpos, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
         group++;
     }
@@ -1294,8 +1231,8 @@ int ysize;
 
 void uilib_move_group(HWND hwnd, uilib_dialog_group *group, int xpos)
 {
-HWND element;
-RECT element_rect;
+    HWND element;
+    RECT element_rect;
 
     while (group->idc) {
         element = GetDlgItem(hwnd, group->idc);
@@ -1308,17 +1245,19 @@ RECT element_rect;
 
 void uilib_adjust_group_width(HWND hwnd, uilib_dialog_group *group)
 {
-HWND element;
-RECT element_rect;
-int xsize;
-int ysize;
+    HWND element;
+    RECT element_rect;
+    int xsize;
+    int ysize;
 
     while (group->idc) {
         element = GetDlgItem(hwnd, group->idc);
         GetClientRect(element, &element_rect);
         MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
         uilib_get_general_window_extents(element, &xsize, &ysize);
-        if (group->element_type == 1) xsize += 20;
+        if (group->element_type == 1) {
+            xsize += 20;
+        }
         MoveWindow(element, element_rect.left, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
         group++;
     }
@@ -1340,10 +1279,10 @@ void uilib_set_group_width(HWND hwnd, uilib_dialog_group *group, int size)
 
 void uilib_move_and_adjust_element_width(HWND hwnd, int idc, int xpos)
 {
-HWND element;
-RECT element_rect;
-int xsize;
-int ysize;
+    HWND element;
+    RECT element_rect;
+    int xsize;
+    int ysize;
 
     element = GetDlgItem(hwnd, idc);
     GetClientRect(element, &element_rect);
@@ -1379,10 +1318,10 @@ void uilib_move_element(HWND hwnd, int idc, int xpos)
 
 void uilib_adjust_element_width(HWND hwnd, int idc)
 {
-HWND element;
-RECT element_rect;
-int xsize;
-int ysize;
+    HWND element;
+    RECT element_rect;
+    int xsize;
+    int ysize;
 
     element = GetDlgItem(hwnd, idc);
     GetClientRect(element, &element_rect);
@@ -1393,8 +1332,8 @@ int ysize;
 
 void uilib_set_element_width(HWND hwnd, int idc, int xsize)
 {
-HWND element;
-RECT element_rect;
+    HWND element;
+    RECT element_rect;
 
     element = GetDlgItem(hwnd, idc);
     GetClientRect(element, &element_rect);
@@ -1451,7 +1390,7 @@ void uilib_get_element_min_x(HWND hwnd, int idc, int *width)
 
 void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param)
 {
-HWND element;
+    HWND element;
 
     while (param->idc || param->ids) {
         if (param->element_type == -1) {
@@ -1485,8 +1424,8 @@ void uilib_center_buttons(HWND hwnd, int *buttons, int resize)
     GetWindowRect(hwnd, &rect);
     distance = ((rect.right - rect.left) - (size * i)) / (i + 1);
     if (distance < 10) {
-       distance = 10;
-       MoveWindow(hwnd, rect.left, rect.top, (distance * (i + 1)) + (size * i), rect.bottom - rect.top, TRUE);
+        distance = 10;
+        MoveWindow(hwnd, rect.left, rect.top, (distance * (i + 1)) + (size * i), rect.bottom - rect.top, TRUE);
     }
     xpos = distance;
     for (i = 0; buttons[i] != 0; i++) {
