@@ -100,7 +100,7 @@
 #57 -1 -1 0          /*           (no key)           */
 58 7 5 8            /*       Option -> CBM          */
 59 7 2 8            /*    Left Ctrl -> CBM          */
-#60 -1 -1 0          /*           (no key)           */
+60 6 4 4            /*   Right Shift -> Right Shift */
 #61 -1 -1 0          /*           (no key)           */
 #62 -1 -1 0          /*           (no key)           */
 #63 -1 -1 0          /*           (no key)           */
@@ -145,6 +145,7 @@
 120 0 4 1           /*           F2 -> F2           */
 121 6 0 8           /*       PgDown -> Pound        */
 122 0 4 8           /*           F1 -> F1           */
+
 123 0 2 257         /*         Left -> CRSR LEFT    */
 123 10 5 8          /*         Left -> CRSR LEFT    */
 124 0 2 264         /*        Right -> CRSR RIGHT   */
@@ -153,34 +154,6 @@
 125 10 4 8          /*         Down -> CRSR DOWN    */
 126 0 7 257         /*           Up -> CRSR UP      */
 126 10 3 8          /*           Up -> CRSR UP      */
-
-#
-# Joystick 1
-#
-#KP_0 -1 0
-#KP_1 -1 1
-#KP_2 -1 2
-#KP_3 -1 3
-#KP_4 -1 4
-#KP_5 -1 5
-#KP_6 -1 6
-#KP_7 -1 7
-#KP_8 -1 8
-#KP_9 -1 9
-
-#
-# Joystick 2
-#
-#w -2 7
-#e -2 8
-#r -2 9
-#s -2 4
-#d -2 5
-#f -2 6
-#x -2 1
-#c -2 2
-#v -2 3
-#space -2 0
 
 # Restore key mappings
 117 -3 0             /*         Del -> RESTORE      */

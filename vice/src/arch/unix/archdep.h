@@ -108,7 +108,11 @@
 #define ARCHDEP_SOUND_FRAGMENT_SIZE 1
 
 /* No key symcode.  */
+#ifdef MACOSX_COCOA
+#define ARCHDEP_KEYBOARD_SYM_NONE -1
+#else
 #define ARCHDEP_KEYBOARD_SYM_NONE 0
+#endif
 
 extern const char *archdep_home_path(void);
 
