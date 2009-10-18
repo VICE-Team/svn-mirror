@@ -51,8 +51,9 @@ if [ ! -d "$DIR" ]; then
   fi
   
   # patch source
-  mv "$DIR/HID_Utilities_External.h" "$DIR/t"
-  sed -e 's,^extern long HIDCalibrateValue,//,g' -e 's,^extern long HIDScale,//,g' < "$DIR/t" > "$DIR/HID_Utilities_External.h" 
+  sed -i bak -e 's,^extern long HIDCalibrateValue,//,g' -e 's,^extern long HIDScale,//,g' "$DIR/HID_Utilities_External.h"
+  sed -i bak -e 's,#define kVerboseErrors,//,' "$DIR/HID_Error_Handler.c"
+  
 fi
 
 # compile files
