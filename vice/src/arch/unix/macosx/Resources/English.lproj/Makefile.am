@@ -1,50 +1,35 @@
 EXTRA_DIST = \
-	x128.nib/classes.nib \
-	x128.nib/info.nib \
+	x128.nib/designable.nib \
 	x128.nib/keyedobjects.nib \
 	x128-ResourceTree.plist \
-	x64.nib/classes.nib \
-	x64.nib/info.nib \
+	x64.nib/designable.nib \
 	x64.nib/keyedobjects.nib \
 	x64-ResourceTree.plist \
-	x64dtv.nib/classes.nib \
-	x64dtv.nib/info.nib \
+	x64dtv.nib/designable.nib \
 	x64dtv.nib/keyedobjects.nib \
 	x64dtv-ResourceTree.plist \
-	VICEInformation.nib/classes.nib \
-	VICEInformation.nib/info.nib \
+	VICEInformation.nib/designable.nib \
 	VICEInformation.nib/keyedobjects.nib \
-	DriveSettings.nib/classes.nib \
-	DriveSettings.nib/info.nib \
+	DriveSettings.nib/designable.nib \
 	DriveSettings.nib/keyedobjects.nib \
-	IECDriveSettings.nib/classes.nib \
-	IECDriveSettings.nib/info.nib \
+	IECDriveSettings.nib/designable.nib \
 	IECDriveSettings.nib/keyedobjects.nib \
-	NetplayControl.nib/classes.nib \
-	NetplayControl.nib/info.nib \
+	NetplayControl.nib/designable.nib \
 	NetplayControl.nib/keyedobjects.nib \
-	PrinterSettings.nib/classes.nib \
-	PrinterSettings.nib/info.nib \
+	PrinterSettings.nib/designable.nib \
 	PrinterSettings.nib/keyedobjects.nib \
-	KeyboardSettings.nib/classes.nib \
-	KeyboardSettings.nib/info.nib \
+	KeyboardSettings.nib/designable.nib \
 	KeyboardSettings.nib/keyedobjects.nib \
-	JoystickSettings.nib/classes.nib \
-	JoystickSettings.nib/info.nib \
+	JoystickSettings.nib/designable.nib \
 	JoystickSettings.nib/keyedobjects.nib \
-	RecordMedia.nib/classes.nib \
-	RecordMedia.nib/info.nib \
+	RecordMedia.nib/designable.nib \
 	RecordMedia.nib/keyedobjects.nib \
-	RecordHistory.nib/classes.nib \
-	RecordHistory.nib/info.nib \
+	RecordHistory.nib/designable.nib \
 	RecordHistory.nib/keyedobjects.nib \
-	ResourceEditor.nib/classes.nib \
-	ResourceEditor.nib/info.nib \
+	ResourceEditor.nib/designable.nib \
 	ResourceEditor.nib/keyedobjects.nib \
-	SoundSettings.nib/classes.nib \
-	SoundSettings.nib/info.nib \
+	SoundSettings.nib/designable.nib \
 	SoundSettings.nib/keyedobjects.nib \
-	VideoSettings.nib/classes.nib \
-	VideoSettings.nib/info.nib \
+	VideoSettings.nib/designable.nib \
 	VideoSettings.nib/keyedobjects.nib
 
