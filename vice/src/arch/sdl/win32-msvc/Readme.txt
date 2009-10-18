@@ -28,4 +28,7 @@ the headers and libraries.
 
 Now you can open the vice.dsw file and compile VICE.
 
+To make a binary distribution directory after a compile of VICE you can
+use the 'make-bindist.bat' file.
+
 Have fun!
