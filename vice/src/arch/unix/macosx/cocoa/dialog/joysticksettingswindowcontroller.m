@@ -24,6 +24,9 @@
  *
  */
 
+#include "vice.h"
+#include "archdep.h"
+
 #import "joysticksettingswindowcontroller.h"
 #import "viceapplication.h"
 #import "vicenotifications.h"
@@ -148,7 +151,7 @@ static char *keyNames[KEYSET_SIZE] = {
                           keySetNum + 1, keyNames[i]];
         int keyCode1 = [self getIntResource:res1];
         NSString *val1;
-        if (keyCode1 == -1) {
+        if (keyCode1 == ARCHDEP_KEYBOARD_SYM_NONE) {
             val1 = @"N/A";
         } else {
             val1 = [NSString stringWithFormat:@"%04x",keyCode1];
@@ -180,7 +183,6 @@ static char *keyNames[KEYSET_SIZE] = {
             [hidName selectItemAtIndex:pos];
         } else {
             // reset to automatic
-            NSLog(@"Reset Joy Device");
             [hidName selectItemAtIndex:0];
             [self setStringResource:
                  [NSString stringWithFormat:@"Joy%cDevice",'A'+hidDeviceNum] toValue:@""];
@@ -288,6 +290,19 @@ static char *keyNames[KEYSET_SIZE] = {
 
 -(IBAction)toggleKeyset:(id)sender
 {
+    [self updateKeysetDisplay];
+}
+
+-(IBAction)clearKeyset:(id)sender
+{
+    int keySetNum = [keySetSelect indexOfSelectedItem];
+
+    int i;
+    for (i = 0; i < KEYSET_SIZE; i++) {
+        NSString *res = [NSString stringWithFormat:@"KeySet%d%s", keySetNum + 1, keyNames[i]];
+        [self setIntResource:res toValue:ARCHDEP_KEYBOARD_SYM_NONE];
+    }
+    
     [self updateKeysetDisplay];
 }
 

@@ -307,6 +307,11 @@ for bundle in $BUNDLES ; do
         
         echo -n "]"
       done
+      
+      # clean up nibs and remove developer files
+      echo -n "[clean nib] "
+      find "$APP_RESOURCES" \( -name "info.nib" -o -name "classes.nib" -o -name "designable.nib" \) -exec rm {} \;
+      
     fi
   fi
 

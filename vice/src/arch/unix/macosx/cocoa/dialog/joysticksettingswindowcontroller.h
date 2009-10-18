@@ -102,6 +102,7 @@ enum {
 // for all buttons:
 -(IBAction)toggleKeyset:(id)sender;
 -(IBAction)defineKeysetButton:(id)sender;
+-(IBAction)clearKeyset:(id)sender;
 
 // HID Actions
 -(IBAction)toggleHidDevice:(id)sender;
