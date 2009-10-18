@@ -48,7 +48,6 @@ struct texture_s {
     BYTE            *buffer;            /* raw data of texture */
     GLuint           bindId;            /* GL ID for binding */
     unsigned long    timeStamp;         /* when the machine wrote into buffer */
-    int              frameNo;
 };
 typedef struct texture_s texture_t;
 
@@ -89,20 +88,23 @@ typedef struct texture_s texture_t;
     CVDisplayLinkRef displayLink;
     BOOL             displayLinkEnabled;  /* display link is running */
     BOOL             displayLinkSynced;   /* display link delivers valid refresh rate */
-    float            screenRefreshPeriod; /* refresh rate of screen */
+    float            screenRefreshPeriod; /* refresh rate of screen (in ms) */
 
     // MultiBuffer (size is "numTextures")
-    BOOL             multiBufferEnabled;/* flag to enable multi buffer */
-    BOOL             overwriteBuffer;
-    int              syncWritePos;
-    int              writePos;          /* position in ring buffer where to write to */ 
+    float            machineRefreshPeriod; /* refresh rate of the machine (in ms) */
+    BOOL             multiBufferEnabled;   /* flag to enable multi buffer */
+    BOOL             overwriteBuffer;      /* needed to overwrite most recent buffer */
+
+    int              drawPos;           /* position in ring buffer where to write to */ 
     int              displayPos;        /* position in ring buffer where to display from */
-    int              numDrawn;
-    unsigned long    lockTime;
-    unsigned long    drawDisplayDelta; 
-    float            blendAlpha;
-    unsigned long    firstDrawTime;
-    unsigned long    lastDrawTime;
+    int              numDrawn;          /* number of drawn buffers available */
+    float            blendAlpha;        /* blend factor for the first frame. other has 1-alpha */
+    
+    unsigned long    hostToMsFactor;    /* factor to convert gettime() to ms */
+    unsigned long    displayDelta;      /* delta to convert real time to interpol time for display */
+    unsigned long    firstDrawTime;     /* when the first frame was rendered */
+    unsigned long    lastDrawTime;      /* when the most recent frame was drawn */
+    unsigned long    lastDisplayTime;   /* when the most recent diplay update happened */
 }
 
 // ----- interface -----
@@ -117,7 +119,7 @@ typedef struct texture_s texture_t;
 - (void)resize:(NSSize)size;
 
 // get next render buffer for drawing by emu. may return NULL if out of buffers
-- (BYTE *)beginMachineDraw:(unsigned long)timeStamp frame:(int)frameNo;
+- (BYTE *)beginMachineDraw;
 
 // end rendering into buffer
 - (void)endMachineDraw;
@@ -136,7 +138,7 @@ typedef struct texture_s texture_t;
 
 // ----- local -----
 
-- (int)calcBlend:(unsigned long)now;
+- (int)calcBlend;
 - (void)toggleBlending:(BOOL)on;
 
 - (BOOL)setupDisplayLink;

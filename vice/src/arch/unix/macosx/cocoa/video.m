@@ -232,12 +232,9 @@ void video_canvas_refresh(video_canvas_t *canvas,
     w = MIN(w, canvas->width - xi);
     h = MIN(h, canvas->height - yi);
 
-    // get current time
-    unsigned long timeStamp = vsyncarch_gettime();
-
     // get drawing buffer
     VICEGLView *view = canvas->view;
-    BYTE *buffer = [view beginMachineDraw:timeStamp frame:vsync_frame_counter];
+    BYTE *buffer = [view beginMachineDraw];
     if(buffer == NULL) {
         return;
     }

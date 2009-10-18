@@ -30,6 +30,7 @@
 #include "lib.h"
 #include "log.h"
 #include "videoarch.h"
+#include "vsync.h"
 
 #import "viceglview.h"
 #import "viceapplication.h"
@@ -85,7 +86,12 @@ extern log_t video_log;
     // ----- DisplayLink -----
     displayLink = nil;
     displayLinkEnabled = NO;
-
+    
+    // ----- Multi Buffer -----
+    machineRefreshPeriod = 0.0f;
+    hostToMsFactor = 1000UL;
+    displayDelta = 0;
+    
     // ----- Texture -----
     [self initTextures];
 
@@ -151,7 +157,9 @@ extern log_t video_log;
         if(displayLink == nil) {
             displayLinkSynced = NO;
             displayLinkEnabled = [self setupDisplayLink];
-            log_message(video_log, "display link enabled: %s", (displayLinkEnabled ? "ok":"ERROR"));
+            log_message(video_log, "display link enabled: %s, multi buffer enabled: %s", 
+                        (displayLinkEnabled ? "ok":"ERROR"),
+                        (multiBufferEnabled ? "yes":"no"));
         }
     } 
     // no sync draw
@@ -171,18 +179,16 @@ extern log_t video_log;
     
     // init buffer setup
     numDrawn = 0;
-    writePos = 0;
+    drawPos = 0;
     displayPos = multiBufferEnabled ? 1 : 0;
-    lockTime = 0;
     blendAlpha = 1.0f;
-    syncWritePos = 0;
     firstDrawTime = 0;
     lastDrawTime = 0;
+    lastDisplayTime = 0;
     
     int i;
     for(i=0;i<MAX_BUFFERS;i++) {
         texture[i].timeStamp = 0;
-        texture[i].frameNo = -1;
     }
     
     // configure GL blending
@@ -192,6 +198,17 @@ extern log_t video_log;
 // called if the canvas size was changed by the machine (not the user!)
 - (void)resize:(NSSize)size
 {
+    // a resize might happen if the emulation video standard changes
+    // so update the machine video parameters here
+    float mrp = 1000.0f / (float)vsync_get_refresh_frequency();
+    if(mrp != machineRefreshPeriod) {
+        machineRefreshPeriod = mrp;
+        log_message(video_log, "machine refresh period=%g ms", machineRefreshPeriod);
+        
+        // the display delta for multi buffer is a machine refresh
+        displayDelta = (unsigned long)((machineRefreshPeriod * (float)hostToMsFactor)+0.5f);
+    }
+
     // if OpenGL is not initialized then keep size and return
     if(!isOpenGLReady) {
         textureSize = size;
@@ -203,12 +220,10 @@ extern log_t video_log;
 }
 
 // the emulation wants to draw a new frame (called from machine thread!)
-- (BYTE *)beginMachineDraw:(unsigned long)timeStamp frame:(int)frameNo
+- (BYTE *)beginMachineDraw
 {
-    if(firstDrawTime == 0) {
-        firstDrawTime = timeStamp;
-    }
-    
+    unsigned long timeStamp = vsyncarch_gettime();
+
     // no drawing possible right now
     if(numTextures == 0) {
         log_message(video_log, "FATAL: no textures to draw...");
@@ -217,53 +232,49 @@ extern log_t video_log;
     
     if(multiBufferEnabled) {
 
-        // same frame
-        if(texture[writePos].frameNo == frameNo) {
+        // delta too small: frames arrive in < 1ms!
+        // mainly needed on startup...
+        if((timeStamp - lastDrawTime) < hostToMsFactor) {
 #ifdef DEBUG_SYNC
-            printf("COMPENSATE: %d\n", frameNo);
-#endif
-            overwriteBuffer = YES;
-        }
-        // delta too small
-        if((timeStamp - lastDrawTime) < 1000) {
-#ifdef DEBUG_SYNC
-            printf("COMPENSATE2: %d\n", frameNo);
+            printf("COMPENSATE: #%d\n", drawPos);
 #endif
             overwriteBuffer = YES;            
         }
         // no buffer free - need to overwrite the last one
         else if(numDrawn == numTextures) {
 #ifdef DEBUG_SYNC
-            printf("OVERWRITE: %d -> #%d\n", frameNo, writePos);
+            printf("OVERWRITE: #%d\n", drawPos);
 #endif
             overwriteBuffer = YES;
         } 
         // use next free buffer
         else {
-            int oldPos = writePos;
+            int oldPos = drawPos;
             overwriteBuffer = NO;
-            writePos++;
-            if(writePos == numTextures)
-                writePos = 0;
+            drawPos++;
+            if(drawPos == numTextures)
+                drawPos = 0;
             
             // copy current image as base for next buffer (VICE does partial updates)
-            memcpy(texture[writePos].buffer, texture[oldPos].buffer, textureByteSize);      
+            memcpy(texture[drawPos].buffer, texture[oldPos].buffer, textureByteSize);      
         }
     }
     
     // store time stamp
-    texture[writePos].timeStamp = timeStamp;
-    texture[writePos].frameNo   = frameNo;
+    texture[drawPos].timeStamp = timeStamp;
     lastDrawTime = timeStamp;
+    if(firstDrawTime == 0) {
+        firstDrawTime = timeStamp;
+    }
     
-    return texture[writePos].buffer;
+    return texture[drawPos].buffer;
 }
 
 // the emulation did finish drawing a new frame (called from machine thread!)
 - (void)endMachineDraw
 {
     // update drawn texture
-    [self updateTexture:writePos];
+    [self updateTexture:drawPos];
     
     if(multiBufferEnabled) {    
         // count written buffer
@@ -271,13 +282,17 @@ extern log_t video_log;
             OSAtomicIncrement32(&numDrawn);
         }
 
-        unsigned long ltime = 0;
-        if(lockTime != 0) {
-            ltime = texture[writePos].timeStamp - firstDrawTime;
-            ltime /= 1000;
-        }    
 #ifdef DEBUG_SYNC
-        printf("D %lu:  - draw #%d (total %d, frame %d)\n", ltime, writePos, numDrawn, texture[writePos].frameNo);
+        unsigned long ltime = 0;
+        ltime = texture[drawPos].timeStamp - firstDrawTime;
+        ltime /= hostToMsFactor;
+        unsigned long ddelta = 0;
+        if(numDrawn > 1) {
+            int lastPos = (drawPos + numTextures - 1) % numTextures;
+            ddelta = texture[drawPos].timeStamp - texture[lastPos].timeStamp;
+            ddelta /= hostToMsFactor;
+        }
+        printf("D %lu: +%lu  - draw #%d (total %d)\n", ltime, ddelta, drawPos, numDrawn);
 #endif
     }
     
@@ -420,7 +435,7 @@ extern log_t video_log;
         if(multiBufferEnabled) {
 
             // calc blend position and determine weights
-            int pos = [self calcBlend:vsyncarch_gettime()];
+            int pos = [self calcBlend];
             //printf("\tdisplay #%d (alpha=%g)\n", pos, blendAlpha);
 
             if(blendAlpha > 0.0f) {
@@ -450,27 +465,17 @@ extern log_t video_log;
 
 // ---------- Multi Buffer Blending -----------------------------------------
 
-- (int)calcBlend:(unsigned long)now
+- (int)calcBlend
 {
-    // need a lock?
-    if(lockTime == 0) {
-        // nothing to do yet
-        if((numDrawn==0)||(firstDrawTime==0)||(screenRefreshPeriod==0.0f)) {
-            blendAlpha = 1.0f;
-            return displayPos;
-        }
-    
-        // set lock time and determine display vs draw time delta
-        lockTime = firstDrawTime;
-        drawDisplayDelta = (unsigned long)(screenRefreshPeriod * 500.0f);
-        
-#ifdef DEBUG_SYNC
-        printf("locked with delta: %lu ns\n", drawDisplayDelta);
-#endif
+    // nothing to do yet
+    if((firstDrawTime==0)||(displayDelta==0)) {
+        blendAlpha = 1.0f;
+        return displayPos;
     }
     
     // convert now render time to frame time
-    unsigned long frameNow = now - drawDisplayDelta;
+    unsigned long now = vsyncarch_gettime();
+    unsigned long frameNow = now - displayDelta;
     
     // find display frame interval where we fit in
     int np = displayPos;
@@ -488,7 +493,7 @@ extern log_t video_log;
             np = 0;            
     }
     
-    // display is beyond current frame
+    // display is beyond or before current frame
     BOOL beyond = NO;
     BOOL before = NO;    
     if(i==0) {
@@ -499,24 +504,30 @@ extern log_t video_log;
         }
         i--;
     }
-    
-    unsigned long ltime = frameNow - firstDrawTime;
-    ltime /= 1000;
-    
+
+#ifdef DEBUG_SYNC
+    unsigned long ltime = 0;
+    if(frameNow > firstDrawTime)
+        ltime = frameNow - firstDrawTime;
+    unsigned long ddelta = ltime - lastDisplayTime;
+    lastDisplayTime = ltime;
+    ltime /= hostToMsFactor;
+    ddelta /= hostToMsFactor;
+#endif
+
     // skip now unused frames... make room for drawing
     if(i>0) {
         OSAtomicAdd32(-i, &numDrawn);
-        //printf("R %lu: skipping %d -> numDrawn: %d\n", ltime, i, numDrawn);
     }
     
     // before first frame
     if(before) {
-        displayPos = (displayPos + i) % numTextures;
         blendAlpha = 1.0f;
         
 #ifdef DEBUG_SYNC
         unsigned long delta = texture[displayPos].timeStamp - frameNow; 
-        printf("R %lu: BEFORE: #%d delta=%lu skip=%d\n", ltime, displayPos, delta, i);
+        delta /= hostToMsFactor;
+        printf("R %lu: +%lu BEFORE: #%d delta=%lu skip=%d\n", ltime, ddelta, displayPos, delta, i);
 #endif
     }
     // beyond last frame
@@ -525,8 +536,9 @@ extern log_t video_log;
         blendAlpha = 1.0f;
         
 #ifdef DEBUG_SYNC
-        unsigned long delta = frameNow - texture[displayPos].timeStamp;        
-        printf("R %lu: BEYOND: #%d delta=%lu skip=%d\n", ltime, displayPos, delta, i);
+        unsigned long delta = frameNow - texture[displayPos].timeStamp;  
+        delta /= hostToMsFactor;
+        printf("R %lu: +%lu BEYOND: #%d delta=%lu skip=%d\n", ltime, ddelta, displayPos, delta, i);
 #endif
     } 
     // between two frames
@@ -540,15 +552,15 @@ extern log_t video_log;
         blendAlpha = (float)dispDelta / (float)frameDelta;
 
 #ifdef DEBUG_SYNC
-        printf("R %lu: between: #%d [%d=-%lu,%d=%lu] skip=%d -> alpha=%g\n", 
-               ltime, displayPos,
+        printf("R %lu: +%lu between: #%d [%d=-%lu,%d=%lu] skip=%d -> alpha=%g\n", 
+               ltime, ddelta, displayPos,
                a, frameNow - texture[a].timeStamp,
                b, texture[b].timeStamp - frameNow,
                i,
                blendAlpha);
 #endif
     }
-    
+        
     return displayPos;
 }
 
