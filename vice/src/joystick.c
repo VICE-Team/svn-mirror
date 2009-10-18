@@ -7,7 +7,7 @@
  * Based on old code by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Jouko Valta <jopi@stekt.oulu.fi>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  AndrÃ© Fachat <fachat@physik.tu-chemnitz.de>
  *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -35,6 +35,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "alarm.h"
 #include "event.h"
 #include "keyboard.h"
@@ -346,41 +347,41 @@ DEFINE_SET_KEYSET(1)
 DEFINE_SET_KEYSET(2)
 
 static const resource_int_t resources_int[] = {
-    { "KeySet1NorthWest", 0, RES_EVENT_NO, NULL,
+    { "KeySet1NorthWest", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_NW], set_keyset1, (void *)KEYSET_NW },
-    { "KeySet1North", 0, RES_EVENT_NO, NULL,
+    { "KeySet1North", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_N], set_keyset1, (void *)KEYSET_N },
-    { "KeySet1NorthEast", 0, RES_EVENT_NO, NULL,
+    { "KeySet1NorthEast", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_NE], set_keyset1, (void *)KEYSET_NE },
-    { "KeySet1East", 0, RES_EVENT_NO, NULL,
+    { "KeySet1East", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_E], set_keyset1, (void *)KEYSET_E },
-    { "KeySet1SouthEast", 0, RES_EVENT_NO, NULL,
+    { "KeySet1SouthEast", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_SE], set_keyset1, (void *)KEYSET_SE },
-    { "KeySet1South", 0, RES_EVENT_NO, NULL,
+    { "KeySet1South", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_S], set_keyset1, (void *)KEYSET_S },
-    { "KeySet1SouthWest", 0, RES_EVENT_NO, NULL,
+    { "KeySet1SouthWest", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_SW], set_keyset1, (void *)KEYSET_SW },
-    { "KeySet1West", 0, RES_EVENT_NO, NULL,
+    { "KeySet1West", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_W], set_keyset1, (void *)KEYSET_W },
-    { "KeySet1Fire", 0, RES_EVENT_NO, NULL,
+    { "KeySet1Fire", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_FIRE], set_keyset1, (void *)KEYSET_FIRE },
-    { "KeySet2NorthWest", 0, RES_EVENT_NO, NULL,
+    { "KeySet2NorthWest", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_NW], set_keyset2, (void *)KEYSET_NW },
-    { "KeySet2North", 0, RES_EVENT_NO, NULL,
+    { "KeySet2North", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_N], set_keyset2, (void *)KEYSET_N },
-    { "KeySet2NorthEast", 0, RES_EVENT_NO, NULL,
+    { "KeySet2NorthEast", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_NE], set_keyset2, (void *)KEYSET_NE },
-    { "KeySet2East", 0, RES_EVENT_NO, NULL,
+    { "KeySet2East", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_E], set_keyset2, (void *)KEYSET_E },
-    { "KeySet2SouthEast", 0, RES_EVENT_NO, NULL,
+    { "KeySet2SouthEast", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_SE], set_keyset2, (void *)KEYSET_SE },
-    { "KeySet2South", 0, RES_EVENT_NO, NULL,
+    { "KeySet2South", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_S], set_keyset2, (void *)KEYSET_S },
-    { "KeySet2SouthWest", 0, RES_EVENT_NO, NULL,
+    { "KeySet2SouthWest", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_SW], set_keyset2, (void *)KEYSET_SW },
-    { "KeySet2West", 0, RES_EVENT_NO, NULL,
+    { "KeySet2West", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_W], set_keyset2, (void *)KEYSET_W },
-    { "KeySet2Fire", 0, RES_EVENT_NO, NULL,
+    { "KeySet2Fire", ARCHDEP_KEYBOARD_SYM_NONE, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_FIRE], set_keyset2, (void *)KEYSET_FIRE },
     { "KeySetEnable", 1, RES_EVENT_NO, NULL,
       &joykeys_enable, set_joykeys_enable, NULL },
