@@ -30,4 +30,3 @@
 extern void ui_rs232user_settings_dialog(HWND hwnd);
 
 #endif
-

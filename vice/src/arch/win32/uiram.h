@@ -30,4 +30,3 @@
 void ui_ram_settings_dialog(HWND hwnd);
 
 #endif
-

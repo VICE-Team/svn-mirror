@@ -45,82 +45,82 @@
 #include "winmain.h"
 
 static uilib_localize_dialog_param network_dialog_trans[] = {
-    {0, IDS_NETWORK_CAPTION, -1},
-    {IDC_CURRENT_MODE, IDS_CURRENT_MODE, 0},
-    {IDC_SERVER_BIND, IDS_SERVER_BIND, 0},
-    {IDC_TCP_PORT, IDS_TCP_PORT, 0},
-    {IDC_NETWORK_SERVER, IDS_NETWORK_SERVER, 0},
-    {IDC_NETWORK_CLIENT, IDS_NETWORK_CLIENT, 0},
-    {IDC_NETWORK_DISCONNECT, IDS_NETWORK_DISCONNECT, 0},
-    {IDC_CONTROL, IDS_CONTROL, 0},
-    {IDC_SERVER, IDS_SERVER, 0},
-    {IDC_CLIENT, IDS_CLIENT, 0},
-    {IDC_KEYBOARD, IDS_KEYBOARD, 0},
-    {IDC_JOYSTICK_1, IDS_JOYSTICK_1, 0},
-    {IDC_JOYSTICK_2, IDS_JOYSTICK_2, 0},
-    {IDC_DEVICES, IDS_DEVICES, 0},
-    {IDC_SETTINGS, IDS_SETTINGS, 0},
-    {0, 0, 0}
+    { 0, IDS_NETWORK_CAPTION, -1 },
+    { IDC_CURRENT_MODE, IDS_CURRENT_MODE, 0 },
+    { IDC_SERVER_BIND, IDS_SERVER_BIND, 0 },
+    { IDC_TCP_PORT, IDS_TCP_PORT, 0 },
+    { IDC_NETWORK_SERVER, IDS_NETWORK_SERVER, 0 },
+    { IDC_NETWORK_CLIENT, IDS_NETWORK_CLIENT, 0 },
+    { IDC_NETWORK_DISCONNECT, IDS_NETWORK_DISCONNECT, 0 },
+    { IDC_CONTROL, IDS_CONTROL, 0 },
+    { IDC_SERVER, IDS_SERVER, 0 },
+    { IDC_CLIENT, IDS_CLIENT, 0 },
+    { IDC_KEYBOARD, IDS_KEYBOARD, 0 },
+    { IDC_JOYSTICK_1, IDS_JOYSTICK_1, 0 },
+    { IDC_JOYSTICK_2, IDS_JOYSTICK_2, 0 },
+    { IDC_DEVICES, IDS_DEVICES, 0 },
+    { IDC_SETTINGS, IDS_SETTINGS, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group network_left_group[] = {
-    {IDC_CURRENT_MODE, 0},
-    {IDC_SERVER_BIND, 0},
-    {IDC_TCP_PORT, 0},
-    {IDC_NETWORK_SERVER, 0},
-    {IDC_NETWORK_CLIENT, 0},
-    {IDC_NETWORK_DISCONNECT, 0},
-    {0, 0}
+    { IDC_CURRENT_MODE, 0 },
+    { IDC_SERVER_BIND, 0 },
+    { IDC_TCP_PORT, 0 },
+    { IDC_NETWORK_SERVER, 0 },
+    { IDC_NETWORK_CLIENT, 0 },
+    { IDC_NETWORK_DISCONNECT, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group network_bind_port_group[] = {
-    {IDC_SERVER_BIND, 0},
-    {IDC_TCP_PORT, 0},
-    {0, 0}
+    { IDC_SERVER_BIND, 0 },
+    { IDC_TCP_PORT, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group network_bind_port_indicator_group[] = {
-    {IDC_NETWORK_SERVER_BIND, 0},
-    {IDC_NETWORK_PORT, 0},
-    {0, 0}
+    { IDC_NETWORK_SERVER_BIND, 0 },
+    { IDC_NETWORK_PORT, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group network_left_filling_group[] = {
-    {IDC_NETWORK_MODE, 0},
-    {IDC_NETWORK_SERVER_BIND, 0},
-    {IDC_NETWORK_SERVER, 0},
-    {IDC_NETWORK_SERVERNAME, 0},
-    {IDC_NETWORK_DISCONNECT, 0},
-    {0, 0}
+    { IDC_NETWORK_MODE, 0 },
+    { IDC_NETWORK_SERVER_BIND, 0 },
+    { IDC_NETWORK_SERVER, 0 },
+    { IDC_NETWORK_SERVERNAME, 0 },
+    { IDC_NETWORK_DISCONNECT, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group network_middle_group[] = {
-    {IDC_KEYBOARD, 0},
-    {IDC_JOYSTICK_1, 0},
-    {IDC_JOYSTICK_2, 0},
-    {IDC_DEVICES, 0},
-    {IDC_SETTINGS, 0},
-    {0, 0}
+    { IDC_KEYBOARD, 0 },
+    { IDC_JOYSTICK_1, 0 },
+    { IDC_JOYSTICK_2, 0 },
+    { IDC_DEVICES, 0 },
+    { IDC_SETTINGS, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group server_check_group[] = {
-    {IDC_SERVER, 0},
-    {IDC_NETWORK_KEYB_SERVER, 0},
-    {IDC_NETWORK_JOY1_SERVER, 0},
-    {IDC_NETWORK_JOY2_SERVER, 0},
-    {IDC_NETWORK_DEVC_SERVER, 0},
-    {IDC_NETWORK_RSRC_SERVER, 0},
-    {0, 0}
+    { IDC_SERVER, 0 },
+    { IDC_NETWORK_KEYB_SERVER, 0 },
+    { IDC_NETWORK_JOY1_SERVER, 0 },
+    { IDC_NETWORK_JOY2_SERVER, 0 },
+    { IDC_NETWORK_DEVC_SERVER, 0 },
+    { IDC_NETWORK_RSRC_SERVER, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group client_check_group[] = {
-    {IDC_CLIENT, 0},
-    {IDC_NETWORK_KEYB_CLIENT, 0},
-    {IDC_NETWORK_JOY1_CLIENT, 0},
-    {IDC_NETWORK_JOY2_CLIENT, 0},
-    {IDC_NETWORK_DEVC_CLIENT, 0},
-    {IDC_NETWORK_RSRC_CLIENT, 0},
-    {0, 0}
+    { IDC_CLIENT, 0 },
+    { IDC_NETWORK_KEYB_CLIENT, 0 },
+    { IDC_NETWORK_JOY1_CLIENT, 0 },
+    { IDC_NETWORK_JOY2_CLIENT, 0 },
+    { IDC_NETWORK_DEVC_CLIENT, 0 },
+    { IDC_NETWORK_RSRC_CLIENT, 0 },
+    { 0, 0 }
 };
 
 static void init_network_dialog(HWND hwnd)
@@ -212,48 +212,30 @@ static void init_network_dialog(HWND hwnd)
     SetDlgItemText(hwnd, IDC_NETWORK_SERVER_BIND, TEXT(server_bind_address));
 
     switch(network_get_mode()) {
-      case NETWORK_IDLE:
-        SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_IDLE));
-        break;
-      case NETWORK_SERVER:
-        SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
-                       translate_text(IDS_SERVER_LISTENING));
-        break;
-      case NETWORK_SERVER_CONNECTED:
-        SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
-                       translate_text(IDS_CONNECTED_SERVER));
-        break;
-      case NETWORK_CLIENT:
-        SetDlgItemText(hwnd, IDC_NETWORK_MODE, 
-                       translate_text(IDS_CONNECTED_CLIENT));
-        break;
+        case NETWORK_IDLE:
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_IDLE));
+            break;
+        case NETWORK_SERVER:
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_SERVER_LISTENING));
+            break;
+        case NETWORK_SERVER_CONNECTED:
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_CONNECTED_SERVER));
+            break;
+        case NETWORK_CLIENT:
+            SetDlgItemText(hwnd, IDC_NETWORK_MODE, translate_text(IDS_CONNECTED_CLIENT));
+            break;
     }
 
-    CheckDlgButton(hwnd, IDC_NETWORK_KEYB_SERVER,
-        control & NETWORK_CONTROL_KEYB ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_KEYB_CLIENT,
-        control & NETWORK_CONTROL_KEYB << NETWORK_CONTROL_CLIENTOFFSET ?
-                                            BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_JOY1_SERVER,
-        control & NETWORK_CONTROL_JOY1 ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_JOY1_CLIENT,
-        control & NETWORK_CONTROL_JOY1 << NETWORK_CONTROL_CLIENTOFFSET ? 
-                                            BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_JOY2_SERVER,
-        control & NETWORK_CONTROL_JOY2 ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_JOY2_CLIENT,
-        control & NETWORK_CONTROL_JOY2 << NETWORK_CONTROL_CLIENTOFFSET ? 
-                                            BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_DEVC_SERVER,
-        control & NETWORK_CONTROL_DEVC ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_DEVC_CLIENT,
-        control & NETWORK_CONTROL_DEVC << NETWORK_CONTROL_CLIENTOFFSET ? 
-                                            BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_RSRC_SERVER,
-        control & NETWORK_CONTROL_RSRC ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_NETWORK_RSRC_CLIENT,
-        control & NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET ? 
-                                            BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_KEYB_SERVER, control & NETWORK_CONTROL_KEYB ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_KEYB_CLIENT, control & NETWORK_CONTROL_KEYB << NETWORK_CONTROL_CLIENTOFFSET ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_JOY1_SERVER, control & NETWORK_CONTROL_JOY1 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_JOY1_CLIENT, control & NETWORK_CONTROL_JOY1 << NETWORK_CONTROL_CLIENTOFFSET ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_JOY2_SERVER, control & NETWORK_CONTROL_JOY2 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_JOY2_CLIENT, control & NETWORK_CONTROL_JOY2 << NETWORK_CONTROL_CLIENTOFFSET ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_DEVC_SERVER, control & NETWORK_CONTROL_DEVC ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_DEVC_CLIENT, control & NETWORK_CONTROL_DEVC << NETWORK_CONTROL_CLIENTOFFSET ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_RSRC_SERVER, control & NETWORK_CONTROL_RSRC ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_NETWORK_RSRC_CLIENT, control & NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET ? BST_CHECKED : BST_UNCHECKED);
 
     connected = ((network_get_mode() != NETWORK_IDLE) ? 1 : 0);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_PORT), !connected);
@@ -264,8 +246,7 @@ static void init_network_dialog(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT), connected);
     EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_MODE), 0);
 
-    SetFocus(connected ? GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT)
-             : GetDlgItem(hwnd, IDC_NETWORK_SERVER));
+    SetFocus(connected ? GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT) : GetDlgItem(hwnd, IDC_NETWORK_SERVER));
 }
 
 static int set_resources(HWND hwnd)
@@ -274,26 +255,36 @@ static int set_resources(HWND hwnd)
     int port;
     unsigned int control = 0;
 
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_KEYB_SERVER)==BST_CHECKED)
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_KEYB_SERVER) == BST_CHECKED) {
         control |= NETWORK_CONTROL_KEYB;
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_KEYB_CLIENT)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_KEYB_CLIENT) == BST_CHECKED) {
         control |= (NETWORK_CONTROL_KEYB << NETWORK_CONTROL_CLIENTOFFSET);
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_JOY1_SERVER)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_JOY1_SERVER) == BST_CHECKED) {
         control |= NETWORK_CONTROL_JOY1;
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_JOY1_CLIENT)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_JOY1_CLIENT) == BST_CHECKED) {
         control |= (NETWORK_CONTROL_JOY1 << NETWORK_CONTROL_CLIENTOFFSET);
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_JOY2_SERVER)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_JOY2_SERVER) == BST_CHECKED) {
         control |= NETWORK_CONTROL_JOY2;
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_JOY2_CLIENT)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_JOY2_CLIENT) == BST_CHECKED) {
         control |= (NETWORK_CONTROL_JOY2 << NETWORK_CONTROL_CLIENTOFFSET);
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_DEVC_SERVER)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_DEVC_SERVER) == BST_CHECKED) {
         control |= NETWORK_CONTROL_DEVC;
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_DEVC_CLIENT)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_DEVC_CLIENT) == BST_CHECKED) {
         control |= (NETWORK_CONTROL_DEVC << NETWORK_CONTROL_CLIENTOFFSET);
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_RSRC_SERVER)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_RSRC_SERVER) == BST_CHECKED) {
         control |= NETWORK_CONTROL_RSRC;
-    if (IsDlgButtonChecked(hwnd,IDC_NETWORK_RSRC_CLIENT)==BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_NETWORK_RSRC_CLIENT) == BST_CHECKED) {
         control |= (NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET);
+    }
 
     resources_set_int("NetworkControl", control);
 
@@ -315,44 +306,47 @@ static int set_resources(HWND hwnd)
     return 0;
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command=LOWORD(wparam);
-        switch (command) {
-          case IDCANCEL:
+        case WM_COMMAND:
+            command=LOWORD(wparam);
+            switch (command) {
+                case IDCANCEL:
+                    EndDialog(hwnd,0);
+                    return TRUE;
+                case IDC_NETWORK_SERVER:
+                    if (set_resources(hwnd) == 0) {
+                        if (network_start_server() < 0) {
+                            ui_error(translate_text(IDS_ERROR_STARTING_SERVER));
+                        }
+                    }
+                    EndDialog(hwnd,0);
+                    return TRUE;
+                case IDC_NETWORK_CLIENT:
+                    if (set_resources(hwnd) == 0) {
+                        if (network_connect_client() < 0) {
+                            ui_error(translate_text(IDS_ERROR_CONNECTING_CLIENT));
+                        }
+                    }
+                    EndDialog(hwnd,0);
+                    return TRUE;
+                case IDC_NETWORK_DISCONNECT:
+                    network_disconnect();
+                    EndDialog(hwnd,0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            set_resources(hwnd);
             EndDialog(hwnd,0);
             return TRUE;
-          case IDC_NETWORK_SERVER:
-            if (set_resources(hwnd) == 0)
-                if (network_start_server() < 0)
-                    ui_error(translate_text(IDS_ERROR_STARTING_SERVER));
-            EndDialog(hwnd,0);
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_network_dialog(hwnd);
             return TRUE;
-          case IDC_NETWORK_CLIENT:
-            if (set_resources(hwnd) == 0)
-                if (network_connect_client() < 0)
-                    ui_error(translate_text(IDS_ERROR_CONNECTING_CLIENT));
-            EndDialog(hwnd,0);
-            return TRUE;
-          case IDC_NETWORK_DISCONNECT:
-            network_disconnect();
-            EndDialog(hwnd,0);
-            return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        set_resources(hwnd);
-        EndDialog(hwnd,0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_network_dialog(hwnd);
-        return TRUE;
     }
     return FALSE;
 }
@@ -360,6 +354,5 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_network_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_NETWORK_SETTINGS_DIALOG),
-              hwnd, dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_NETWORK_SETTINGS_DIALOG), hwnd, dialog_proc);
 }

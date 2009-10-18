@@ -31,4 +31,3 @@ extern void uiplus4cart_init(void);
 extern void uiplus4cart_proc(WPARAM wparam, HWND hwnd);
 
 #endif
-

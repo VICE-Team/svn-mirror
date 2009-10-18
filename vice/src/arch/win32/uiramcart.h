@@ -30,4 +30,3 @@
 extern void ui_ramcart_settings_dialog(HWND hwnd);
 
 #endif
-

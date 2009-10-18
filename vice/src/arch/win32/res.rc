@@ -633,7 +633,7 @@ BEGIN
                  9, 89, 120, 8, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX "", IDC_TOGGLE_KEEP_ASPECT_RATIO,
                  9, 101, 115, 8, BS_AUTOCHECKBOX | WS_TABSTOP
-    EDITTEXT IDC_ASPECT_RATIO
+    EDITTEXT     IDC_ASPECT_RATIO,
                  127, 99, 32, 12, WS_TABSTOP
 END
 
@@ -4817,7 +4817,7 @@ BEGIN
   IDS_FULLSCREEN_DRVR_REFRESHRATE "Vernieuwingssnelheid:"
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK synchronisatie"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render naar DX Primaire oppervlakte"
-  IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
+  IDS_TOGGLE_KEEP_ASPECT_RATIO    "Aspect ratio gebruiken (0,5..2)"
   IDS_COLORS_SATURATION           "Verzadiging (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Helderheid (0..2)"

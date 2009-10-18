@@ -39,7 +39,6 @@
 #include "uiram.h"
 #include "winmain.h"
 
-
 static int ui_ram_startvalue[] = {
     0, 255, -1
 };
@@ -52,7 +51,6 @@ static int orig_startvalue;
 static int orig_valueinvert;
 static int orig_patterninvert;
 
-
 static void update_preview(HWND hwnd)
 {
     const char *s;
@@ -64,8 +62,9 @@ static void update_preview(HWND hwnd)
     s_win = lib_malloc((2 * strlen(s) + 1) * sizeof(TCHAR));
     i = j =0;
     while (s[i] != '\0') {
-        if (s[i] == '\n')
+        if (s[i] == '\n') {
             s_win[j++] = TEXT('\r');
+        }
         s_win[j++] = (TCHAR)s[i++];
     }
     s_win[j] = TEXT('\0');
@@ -75,29 +74,29 @@ static void update_preview(HWND hwnd)
 }
 
 static uilib_localize_dialog_param ram_dialog_trans[] = {
-    {0, IDS_RAM_CAPTION, -1},
-    {IDC_RAM_INIT_AT_POWERUP, IDS_RAM_INIT_AT_POWERUP, 0},
-    {IDC_RAM_VALUE_FIRST_BYTE, IDS_RAM_VALUE_FIRST_BYTE, 0},
-    {IDC_RAM_LENGTH_CONSTANT_VALUES, IDS_RAM_LENGTH_CONSTANT_VALUES, 0},
-    {IDC_RAM_LENGTH_CONSTANT_PATTERN, IDS_RAM_LENGTH_CONSTANT_PATTERN, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_RAM_CAPTION, -1 },
+    { IDC_RAM_INIT_AT_POWERUP, IDS_RAM_INIT_AT_POWERUP, 0 },
+    { IDC_RAM_VALUE_FIRST_BYTE, IDS_RAM_VALUE_FIRST_BYTE, 0 },
+    { IDC_RAM_LENGTH_CONSTANT_VALUES, IDS_RAM_LENGTH_CONSTANT_VALUES, 0 },
+    { IDC_RAM_LENGTH_CONSTANT_PATTERN, IDS_RAM_LENGTH_CONSTANT_PATTERN, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group ram_right_group[] = {
-    {IDC_RAM_VALUE_FIRST_BYTE, 0},
-    {IDC_RAM_LENGTH_CONSTANT_VALUES, 0},
-    {IDC_RAM_LENGTH_CONSTANT_PATTERN, 0},
-    {0, 0}
+    { IDC_RAM_VALUE_FIRST_BYTE, 0 },
+    { IDC_RAM_LENGTH_CONSTANT_VALUES, 0 },
+    { IDC_RAM_LENGTH_CONSTANT_PATTERN, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group ram_filling_group[] = {
-    {IDC_RAM_INIT_AT_POWERUP, 0},
-    {IDC_RAM_VALUE_FIRST_BYTE, 0},
-    {IDC_RAM_LENGTH_CONSTANT_VALUES, 0},
-    {IDC_RAM_LENGTH_CONSTANT_PATTERN, 0},
-    {0, 0}
+    { IDC_RAM_INIT_AT_POWERUP, 0 },
+    { IDC_RAM_VALUE_FIRST_BYTE, 0 },
+    { IDC_RAM_LENGTH_CONSTANT_VALUES, 0 },
+    { IDC_RAM_LENGTH_CONSTANT_PATTERN, 0 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -108,10 +107,9 @@ static int move_buttons_group[] = {
 
 static void init_ram_dialog(HWND hwnd)
 {
-    HWND    temp_hwnd, temp_hwnd2;
-    int     i;
-    LOGFONT logfont = { -12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0,
-                      DRAFT_QUALITY, FIXED_PITCH|FF_MODERN, TEXT("") };
+    HWND temp_hwnd, temp_hwnd2;
+    int i;
+    LOGFONT logfont = { -12, -7, 0, 0, 400, 0, 0, 0, 0, 0, 0, DRAFT_QUALITY, FIXED_PITCH|FF_MODERN, TEXT("") };
     HFONT hfont = CreateFontIndirect(&logfont);
     int group_x;
     int size;
@@ -151,9 +149,9 @@ static void init_ram_dialog(HWND hwnd)
         uilib_center_buttons(hwnd, move_buttons_group, 0);
     }
 
-    if (hfont)
-        SendDlgItemMessage(hwnd, IDC_RAMINIT_PREVIEW, WM_SETFONT,
-            (WPARAM)hfont, MAKELPARAM(TRUE, 0));
+    if (hfont) {
+        SendDlgItemMessage(hwnd, IDC_RAMINIT_PREVIEW, WM_SETFONT, (WPARAM)hfont, MAKELPARAM(TRUE, 0));
+    }
 
     resources_get_int("RAMInitStartValue", &orig_startvalue);
     temp_hwnd = GetDlgItem(hwnd,IDC_RAMINIT_STARTVALUE);
@@ -163,8 +161,9 @@ static void init_ram_dialog(HWND hwnd)
 
         _stprintf(s, TEXT("%d"), ui_ram_startvalue[i]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)s);
-        if (orig_startvalue == ui_ram_startvalue[i])
+        if (orig_startvalue == ui_ram_startvalue[i]) {
             SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i, 0);
+        }
     }
 
     resources_get_int("RAMInitValueInvert", &orig_valueinvert);
@@ -178,60 +177,54 @@ static void init_ram_dialog(HWND hwnd)
         _stprintf(s, TEXT("%d"), ui_ram_invertvalue[i]);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)s);
         SendMessage(temp_hwnd2, CB_ADDSTRING, 0, (LPARAM)s);
-        if (ui_ram_invertvalue[i] == orig_valueinvert)
+        if (ui_ram_invertvalue[i] == orig_valueinvert) {
             SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i, 0);
-        if (ui_ram_invertvalue[i] == orig_patterninvert)
+        }
+        if (ui_ram_invertvalue[i] == orig_patterninvert) {
             SendMessage(temp_hwnd2, CB_SETCURSEL, (WPARAM)i, 0);
+        }
     }
 
     update_preview(hwnd);
 }
 
-
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
     int rv;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_RAMINIT_STARTVALUE:
-           rv = (int)SendMessage(GetDlgItem(hwnd,
-                                 IDC_RAMINIT_STARTVALUE), CB_GETCURSEL, 0, 0);
-           resources_set_int("RAMInitStartValue", ui_ram_startvalue[rv]);
-           update_preview(hwnd);
-           break;
-         case IDC_RAMINIT_VALUEINVERT:
-           rv = (int)SendMessage(GetDlgItem(
-                                 hwnd, IDC_RAMINIT_VALUEINVERT), CB_GETCURSEL,
-                                 0, 0);
-           resources_set_int("RAMInitValueInvert", ui_ram_invertvalue[rv]);
-           update_preview(hwnd);
-           break;
-         case IDC_RAMINIT_PATTERNINVERT:
-           rv = (int)SendMessage(GetDlgItem(hwnd,
-                                 IDC_RAMINIT_PATTERNINVERT), CB_GETCURSEL,
-                                 0, 0);
-           resources_set_int("RAMInitPatternInvert", ui_ram_invertvalue[rv]);
-           update_preview(hwnd);
-           break;
-
-         case IDOK:
-           EndDialog(hwnd,0);
-           return TRUE;
-         case IDCANCEL:
-           resources_set_int("RAMInitStartValue", orig_startvalue);
-           resources_set_int("RAMInitValueInvert", orig_valueinvert);
-           resources_set_int("RAMInitPatternInvert", orig_patterninvert);
-           EndDialog(hwnd,0);
-           return TRUE;
-       }
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_RAMINIT_STARTVALUE:
+                    rv = (int)SendMessage(GetDlgItem(hwnd, IDC_RAMINIT_STARTVALUE), CB_GETCURSEL, 0, 0);
+                    resources_set_int("RAMInitStartValue", ui_ram_startvalue[rv]);
+                    update_preview(hwnd);
+                    break;
+                case IDC_RAMINIT_VALUEINVERT:
+                    rv = (int)SendMessage(GetDlgItem(hwnd, IDC_RAMINIT_VALUEINVERT), CB_GETCURSEL, 0, 0);
+                    resources_set_int("RAMInitValueInvert", ui_ram_invertvalue[rv]);
+                    update_preview(hwnd);
+                    break;
+                case IDC_RAMINIT_PATTERNINVERT:
+                    rv = (int)SendMessage(GetDlgItem(hwnd, IDC_RAMINIT_PATTERNINVERT), CB_GETCURSEL, 0, 0);
+                    resources_set_int("RAMInitPatternInvert", ui_ram_invertvalue[rv]);
+                    update_preview(hwnd);
+                    break;
+                case IDOK:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+                case IDCANCEL:
+                    resources_set_int("RAMInitStartValue", orig_startvalue);
+                    resources_set_int("RAMInitValueInvert", orig_valueinvert);
+                    resources_set_int("RAMInitPatternInvert", orig_patterninvert);
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
             return FALSE;
         case WM_CLOSE:
-            EndDialog(hwnd,0);
+            EndDialog(hwnd, 0);
             return TRUE;
         case WM_INITDIALOG:
             system_init_dialog(hwnd);
@@ -241,9 +234,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
-
 void ui_ram_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_RAM_SETTINGS_DIALOG), hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_RAM_SETTINGS_DIALOG), hwnd, dialog_proc);
 }

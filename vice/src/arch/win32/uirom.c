@@ -120,8 +120,7 @@ static void init_rom_dialog(HWND hwnd, unsigned int type)
 
             resources_get_string(settings[n].resname, &filename);
             st_filename = system_mbstowcs_alloc(filename);
-            SetDlgItemText(hwnd, settings[n].idc_filename,
-                           st_filename != NULL ? st_filename : TEXT(""));
+            SetDlgItemText(hwnd, settings[n].idc_filename, st_filename != NULL ? st_filename : TEXT(""));
             system_mbstowcs_free(st_filename);
         }
         n++;
@@ -137,8 +136,7 @@ static void set_dialog_proc(HWND hwnd, unsigned int type)
             char filename[MAX_PATH];
             TCHAR st_filename[MAX_PATH];
 
-            GetDlgItemText(hwnd, settings[n].idc_filename, st_filename,
-                           MAX_PATH);
+            GetDlgItemText(hwnd, settings[n].idc_filename, st_filename, MAX_PATH);
             system_wcstombs(filename, st_filename, MAX_PATH);
             resources_set_string(settings[n].resname, filename);
         }
@@ -154,13 +152,9 @@ static BOOL browse_command(HWND hwnd, unsigned int command)
         if ((unsigned int)command == settings[n].idc_browse) {
             TCHAR st_realname[100];
 
-            _stprintf(st_realname, translate_text(IDS_LOAD_S_ROM_IMAGE),
-                      settings[n].realname);
+            _stprintf(st_realname, translate_text(IDS_LOAD_S_ROM_IMAGE), settings[n].realname);
 
-            uilib_select_browse(hwnd, st_realname,
-                                UILIB_FILTER_ALL,
-                                UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                settings[n].idc_filename);
+            uilib_select_browse(hwnd, st_realname, UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, settings[n].idc_filename);
             return TRUE;
         }
         n++;
@@ -169,41 +163,38 @@ static BOOL browse_command(HWND hwnd, unsigned int command)
     return FALSE;
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam, unsigned int type)
+static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, unsigned int type)
 {
     int command;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_rom_dialog(hwnd, type);
-        return TRUE;
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            set_dialog_proc(hwnd, type);
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_rom_dialog(hwnd, type);
             return TRUE;
-        }
-        return FALSE;
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        return browse_command(hwnd, command);
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    set_dialog_proc(hwnd, type);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            return browse_command(hwnd, command);
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
     }
     return FALSE;
 }
 
-static INT_PTR CALLBACK dialog_proc_main(HWND hwnd, UINT msg, WPARAM wparam,
-                                         LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc_main(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     return dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_MAIN);
 }
 
-static INT_PTR CALLBACK dialog_proc_drive(HWND hwnd, UINT msg, WPARAM wparam,
-                                          LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc_drive(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     return dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_DRIVE);
 }
@@ -233,10 +224,11 @@ static void update_romset_list(HWND hwnd)
     char *list;
     TCHAR *st_list;
 
-    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED) {
         list = romset_archive_list();
-    else
+    } else {
         list = machine_romset_file_list();
+    }
 
     st_list = system_mbstowcs_alloc(list);
     SetDlgItemText(hwnd, IDC_ROMSET_PREVIEW, st_list);
@@ -263,8 +255,9 @@ static void update_romset_archive(HWND hwnd)
         char *name;
 
         name = romset_archive_get_item(index);
-        if (!strcmp(conf, name))
+        if (!strcmp(conf, name)) {
             active = index;
+        }
         st_name = system_mbstowcs_alloc(name);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st_name);
         system_mbstowcs_free(st_name);
@@ -276,10 +269,8 @@ static void update_romset_archive(HWND hwnd)
 
 static void update_romset_dialog(HWND hwnd, int idc_active)
 {
-    if (idc_active == IDC_ROMSET_SELECT_ARCHIVE
-        || idc_active == IDC_ROMSET_SELECT_FILE) {
-        CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE,
-                         IDC_ROMSET_SELECT_FILE, idc_active);
+    if (idc_active == IDC_ROMSET_SELECT_ARCHIVE || idc_active == IDC_ROMSET_SELECT_FILE) {
+        CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE, IDC_ROMSET_SELECT_FILE, idc_active);
         enable_controls_for_romset(hwnd, idc_active);
 
         update_romset_archive(hwnd);
@@ -287,38 +278,38 @@ static void update_romset_dialog(HWND hwnd, int idc_active)
 }
 
 static uilib_localize_dialog_param romset_dialog_trans[] = {
-    {IDC_ROMSET_SELECT_ARCHIVE, IDS_ROMSET_SELECT_ARCHIVE, 0},
-    {IDC_ROMSET_ARCHIVE_BROWSE, IDS_BROWSE, 0},
-    {IDC_ROMSET_ARCHIVE_LOAD, IDS_ROMSET_ARCHIVE_LOAD, 0},
-    {IDC_ROMSET_ARCHIVE_SAVE, IDS_ROMSET_ARCHIVE_SAVE, 0},
-    {IDC_ROMSET_CONFIGURATION, IDS_ROMSET_CONFIGURATION, 0},
-    {IDC_ROMSET_ARCHIVE_APPLY, IDS_ROMSET_ARCHIVE_APPLY, 0},
-    {IDC_ROMSET_ARCHIVE_NEW, IDS_ROMSET_ARCHIVE_NEW, 0},
-    {IDC_ROMSET_ARCHIVE_DELETE, IDS_ROMSET_ARCHIVE_DELETE, 0},
-    {IDC_ROMSET_SELECT_FILE, IDS_ROMSET_SELECT_FILE, 0},
-    {IDC_ROMSET_FILE_BROWSE, IDS_BROWSE, 0},
-    {IDC_ROMSET_FILE_LOAD, IDS_ROMSET_FILE_LOAD, 0},
-    {IDC_ROMSET_FILE_SAVE, IDS_ROMSET_FILE_SAVE, 0},
-    {IDC_ROMSET_RESOURCE_COMPUTER, IDS_COMPUTER, 0},
-    {IDC_ROMSET_RESOURCE_DRIVE, IDS_DRIVE, 0},
-    {0, 0, 0}
+    { IDC_ROMSET_SELECT_ARCHIVE, IDS_ROMSET_SELECT_ARCHIVE, 0 },
+    { IDC_ROMSET_ARCHIVE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_ROMSET_ARCHIVE_LOAD, IDS_ROMSET_ARCHIVE_LOAD, 0 },
+    { IDC_ROMSET_ARCHIVE_SAVE, IDS_ROMSET_ARCHIVE_SAVE, 0 },
+    { IDC_ROMSET_CONFIGURATION, IDS_ROMSET_CONFIGURATION, 0 },
+    { IDC_ROMSET_ARCHIVE_APPLY, IDS_ROMSET_ARCHIVE_APPLY, 0 },
+    { IDC_ROMSET_ARCHIVE_NEW, IDS_ROMSET_ARCHIVE_NEW, 0 },
+    { IDC_ROMSET_ARCHIVE_DELETE, IDS_ROMSET_ARCHIVE_DELETE, 0 },
+    { IDC_ROMSET_SELECT_FILE, IDS_ROMSET_SELECT_FILE, 0 },
+    { IDC_ROMSET_FILE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_ROMSET_FILE_LOAD, IDS_ROMSET_FILE_LOAD, 0 },
+    { IDC_ROMSET_FILE_SAVE, IDS_ROMSET_FILE_SAVE, 0 },
+    { IDC_ROMSET_RESOURCE_COMPUTER, IDS_COMPUTER, 0 },
+    { IDC_ROMSET_RESOURCE_DRIVE, IDS_DRIVE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group romset_main_group[] = {
-    {IDC_ROMSET_SELECT_ARCHIVE, 1},
-    {IDC_ROMSET_ARCHIVE_BROWSE, 1},
-    {IDC_ROMSET_ARCHIVE_LOAD, 1},
-    {IDC_ROMSET_ARCHIVE_SAVE, 1},
-    {IDC_ROMSET_ARCHIVE_APPLY, 1},
-    {IDC_ROMSET_ARCHIVE_NEW, 1},
-    {IDC_ROMSET_ARCHIVE_DELETE, 1},
-    {IDC_ROMSET_SELECT_FILE, 1},
-    {IDC_ROMSET_FILE_BROWSE, 1},
-    {IDC_ROMSET_FILE_LOAD, 1},
-    {IDC_ROMSET_FILE_SAVE, 1},
-    {IDC_ROMSET_RESOURCE_COMPUTER, 1},
-    {IDC_ROMSET_RESOURCE_DRIVE, 1},
-    {0, 0}
+    { IDC_ROMSET_SELECT_ARCHIVE, 1 },
+    { IDC_ROMSET_ARCHIVE_BROWSE, 1 },
+    { IDC_ROMSET_ARCHIVE_LOAD, 1 },
+    { IDC_ROMSET_ARCHIVE_SAVE, 1 },
+    { IDC_ROMSET_ARCHIVE_APPLY, 1 },
+    { IDC_ROMSET_ARCHIVE_NEW, 1 },
+    { IDC_ROMSET_ARCHIVE_DELETE, 1 },
+    { IDC_ROMSET_SELECT_FILE, 1 },
+    { IDC_ROMSET_FILE_BROWSE, 1 },
+    { IDC_ROMSET_FILE_LOAD, 1 },
+    { IDC_ROMSET_FILE_SAVE, 1 },
+    { IDC_ROMSET_RESOURCE_COMPUTER, 1 },
+    { IDC_ROMSET_RESOURCE_DRIVE, 1 },
+    { 0, 0 }
 };
 
 static void init_romset_dialog(HWND hwnd)
@@ -339,14 +330,12 @@ static void init_romset_dialog(HWND hwnd)
 
     resources_get_string("RomsetArchiveName", &name);
     st_name = system_mbstowcs_alloc(name);
-    SetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME,
-                   name != NULL ? st_name : TEXT(""));
+    SetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, name != NULL ? st_name : TEXT(""));
     system_mbstowcs_free(st_name);
 
     resources_get_string("RomsetFileName", &name);
     st_name = system_mbstowcs_alloc(name);
-    SetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME,
-                   name != NULL ? st_name : TEXT(""));
+    SetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, name != NULL ? st_name : TEXT(""));
     system_mbstowcs_free(st_name);
 }
 
@@ -355,10 +344,12 @@ static void end_romset_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED) {
         resources_set_int("RomsetSourceFile", 0);
-    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_FILE) == BST_CHECKED)
+    }
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_FILE) == BST_CHECKED) {
         resources_set_int("RomsetSourceFile", 1);
+    }
 
     GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
@@ -369,15 +360,6 @@ static void end_romset_dialog(HWND hwnd)
     resources_set_string("RomsetFileName", s);
 }
 
-/*
-static void browse_archive_romset_dialog(HWND hwnd)
-{
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_ROMSET_ARCHIVE),
-                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
-                        IDC_ROMSET_ARCHIVE_NAME);
-}
-*/
-
 static void load_archive_romset_dialog(HWND hwnd)
 {
     TCHAR st[MAX_PATH];
@@ -385,8 +367,9 @@ static void load_archive_romset_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    if (romset_archive_load(s, 0) < 0)
+    if (romset_archive_load(s, 0) < 0) {
         ui_error(translate_text(IDS_CANNOT_LOAD_ROMSET_ARCH));
+    }
 
     update_romset_archive(hwnd);
 }
@@ -398,8 +381,9 @@ static void save_archive_romset_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    if (romset_archive_save(s) < 0)
+    if (romset_archive_save(s) < 0) {
         ui_error(translate_text(IDS_CANNOT_SAVE_ROMSET_ARCH));
+    }
 }
 
 static TCHAR *active_archive_name(HWND hwnd)
@@ -471,8 +455,9 @@ static void load_file_romset_dialog(HWND hwnd)
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
 
-    if (machine_romset_file_load(s) < 0)
+    if (machine_romset_file_load(s) < 0) {
         ui_error(translate_text(IDS_CANNOT_LOAD_ROMSET_FILE));
+    }
 
     update_romset_list(hwnd);
 }
@@ -484,16 +469,17 @@ static void save_file_romset_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    if (machine_romset_file_save(s) < 0)
+    if (machine_romset_file_save(s) < 0) {
         ui_error(translate_text(IDS_CANNOT_SAVE_ROMSET_FILE));
+    }
 }
 
 static uilib_localize_dialog_param drive_res_trans[] = {
-    {0, IDS_DRIVE_RESOURCES_CAPTION, -1},
-    {IDC_DRIVE_RESOURCES, IDS_DRIVE_RESOURCES, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_DRIVE_RESOURCES_CAPTION, -1 },
+    { IDC_DRIVE_RESOURCES, IDS_DRIVE_RESOURCES, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 
@@ -551,11 +537,9 @@ static void init_resources_dialog(HWND hwnd, unsigned int type)
         if (settings[n].type == type) {
             int enable;
 
-            resources_get_int_sprintf("Romset%s", &enable,
-                                      settings[n].resname);
+            resources_get_int_sprintf("Romset%s", &enable, settings[n].resname);
 
-            CheckDlgButton(hwnd, settings[n].idc_resource,
-                           enable ? BST_CHECKED : BST_UNCHECKED);
+            CheckDlgButton(hwnd, settings[n].idc_resource, enable ? BST_CHECKED : BST_UNCHECKED);
         }
         n++;
     }
@@ -569,8 +553,7 @@ static void end_resources_dialog(HWND hwnd, unsigned int type)
         if (settings[n].type == type) {
             int enable;
 
-            enable = (IsDlgButtonChecked(hwnd, settings[n].idc_resource)
-                     == BST_CHECKED) ? 1 : 0;
+            enable = (IsDlgButtonChecked(hwnd, settings[n].idc_resource) == BST_CHECKED) ? 1 : 0;
 
             resources_set_int_sprintf("Romset%s", enable, settings[n].resname);
         }
@@ -578,145 +561,125 @@ static void end_resources_dialog(HWND hwnd, unsigned int type)
     }
 }
 
-static BOOL CALLBACK resources_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                           LPARAM lparam, unsigned int type)
+static BOOL CALLBACK resources_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, unsigned int type)
 {
     int command;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_resources_dialog(hwnd, type);
-        return TRUE;
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDOK:
-            end_resources_dialog(hwnd, type);
-          case IDCANCEL:
+        case WM_INITDIALOG:
+            init_resources_dialog(hwnd, type);
+            return TRUE;
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDOK:
+                    end_resources_dialog(hwnd, type);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
     }
     return FALSE;
 }
 
-static INT_PTR CALLBACK resources_computer_dialog_proc(HWND hwnd, UINT msg,
-                                                       WPARAM wparam,
-                                                       LPARAM lparam)
+static INT_PTR CALLBACK resources_computer_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_MAIN);
 }
 
-static INT_PTR CALLBACK resources_drive_dialog_proc(HWND hwnd, UINT msg,
-                                                    WPARAM wparam,
-                                                    LPARAM lparam)
+static INT_PTR CALLBACK resources_drive_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_DRIVE);
 }
 
-static INT_PTR CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
-                                                    WPARAM wparam,
-                                                    LPARAM lparam)
+static INT_PTR CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     return resources_dialog_proc(hwnd, msg, wparam, lparam, UIROM_TYPE_OTHER);
 }
 
 static void uirom_resources_computer(HWND hwnd)
 {
-    DialogBox(winmain_instance,
-              (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_MAIN], hwnd,
-              resources_computer_dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_MAIN], hwnd, resources_computer_dialog_proc);
     update_romset_list(hwnd);
 }
 
 static void uirom_resources_drive(HWND hwnd)
 {
-    DialogBox(winmain_instance,
-              (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_DRIVE], hwnd,
-              resources_drive_dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_DRIVE], hwnd, resources_drive_dialog_proc);
     update_romset_list(hwnd);
 }
 
 static void uirom_resources_other(HWND hwnd)
 {
-    DialogBox(winmain_instance,
-              (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_OTHER], hwnd,
-              resources_other_dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)romset_dialog_resources[UIROM_TYPE_OTHER], hwnd, resources_other_dialog_proc);
     update_romset_list(hwnd);
 }
 
-static INT_PTR CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
-                                           LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_romset_dialog(hwnd);
-        return TRUE;
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            end_romset_dialog(hwnd);
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_romset_dialog(hwnd);
             return TRUE;
-        }
-        return FALSE;
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDC_ROMSET_SELECT_ARCHIVE:
-          case IDC_ROMSET_SELECT_FILE:
-            update_romset_dialog(hwnd, LOWORD(wparam));
-            break;
-          case IDC_ROMSET_ARCHIVE_BROWSE:
-            uilib_select_browse(hwnd, translate_text(IDS_SELECT_ROMSET_ARCHIVE),
-                                UILIB_FILTER_ROMSET_ARCHIVE,
-                                UILIB_SELECTOR_TYPE_FILE_SAVE,
-                                IDC_ROMSET_ARCHIVE_NAME);
-            break;
-          case IDC_ROMSET_ARCHIVE_LOAD:
-            load_archive_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_ARCHIVE_SAVE:
-            save_archive_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_ARCHIVE_APPLY:
-            apply_archive_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_ARCHIVE_NEW:
-            new_archive_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_ARCHIVE_DELETE:
-            delete_archive_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_FILE_BROWSE:
-            uilib_select_browse(hwnd, translate_text(IDS_SELECT_ROMSET_FILE),
-                                UILIB_FILTER_ROMSET_FILE,
-                                UILIB_SELECTOR_TYPE_FILE_SAVE,
-                                IDC_ROMSET_FILE_NAME);
-            break;
-          case IDC_ROMSET_FILE_LOAD:
-            load_file_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_FILE_SAVE:
-            save_file_romset_dialog(hwnd);
-            break;
-          case IDC_ROMSET_RESOURCE_COMPUTER:
-            uirom_resources_computer(hwnd);
-            break;
-          case IDC_ROMSET_RESOURCE_DRIVE:
-            uirom_resources_drive(hwnd);
-            break;
-          case IDC_ROMSET_RESOURCE_OTHER:
-            uirom_resources_other(hwnd);
-            break;
-        }
-        return TRUE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    end_romset_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDC_ROMSET_SELECT_ARCHIVE:
+                case IDC_ROMSET_SELECT_FILE:
+                    update_romset_dialog(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_ROMSET_ARCHIVE_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_SELECT_ROMSET_ARCHIVE), UILIB_FILTER_ROMSET_ARCHIVE, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_ROMSET_ARCHIVE_NAME);
+                    break;
+                case IDC_ROMSET_ARCHIVE_LOAD:
+                    load_archive_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_ARCHIVE_SAVE:
+                    save_archive_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_ARCHIVE_APPLY:
+                    apply_archive_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_ARCHIVE_NEW:
+                    new_archive_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_ARCHIVE_DELETE:
+                    delete_archive_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_FILE_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_SELECT_ROMSET_FILE), UILIB_FILTER_ROMSET_FILE, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_ROMSET_FILE_NAME);
+                    break;
+                case IDC_ROMSET_FILE_LOAD:
+                    load_file_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_FILE_SAVE:
+                    save_file_romset_dialog(hwnd);
+                    break;
+                case IDC_ROMSET_RESOURCE_COMPUTER:
+                    uirom_resources_computer(hwnd);
+                    break;
+                case IDC_ROMSET_RESOURCE_DRIVE:
+                    uirom_resources_drive(hwnd);
+                    break;
+                case IDC_ROMSET_RESOURCE_OTHER:
+                    uirom_resources_other(hwnd);
+                    break;
+            }
+            return TRUE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
     }
     return FALSE;
 }
@@ -758,8 +721,7 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -817,4 +779,3 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
 
     PropertySheet(&psh);
 }
-

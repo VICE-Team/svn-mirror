@@ -36,35 +36,34 @@
 #include "uilib.h"
 #include "winmain.h"
 
-
 static int orig_ramsize;
 static int set_ramsize;
 
 static uilib_localize_dialog_param plus4_dialog_trans[] = {
-    {0, IDS_PLUS4_SETTINGS_CAPTION, -1},
-    {IDC_PLUS4_VIC20_MEMORY, IDS_PLUS4_VIC20_MEMORY, 0},
-    {IDC_SELECT_PLUS4_MEM_16, IDS_SELECT_PLUS4_MEM_16, 0},
-    {IDC_SELECT_PLUS4_MEM_32, IDS_SELECT_PLUS4_MEM_32, 0},
-    {IDC_SELECT_PLUS4_MEM_64, IDS_SELECT_PLUS4_MEM_64, 0},
-    {IDC_SELECT_PLUS4_MEM_256_CSORY, IDS_SELECT_PLUS4_MEM_256_CSORY, 0},
-    {IDC_SELECT_PLUS4_MEM_256_HANNES, IDS_SELECT_PLUS4_MEM_256_HANNES, 0},
-    {IDC_SELECT_PLUS4_MEM_1024_HANNES, IDS_SELECT_PLUS4_MEM_1M_HANNES, 0},
-    {IDC_SELECT_PLUS4_MEM_4096_HANNES, IDS_SELECT_PLUS4_MEM_4M_HANNES, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_PLUS4_SETTINGS_CAPTION, -1 },
+    { IDC_PLUS4_VIC20_MEMORY, IDS_PLUS4_VIC20_MEMORY, 0 },
+    { IDC_SELECT_PLUS4_MEM_16, IDS_SELECT_PLUS4_MEM_16, 0 },
+    { IDC_SELECT_PLUS4_MEM_32, IDS_SELECT_PLUS4_MEM_32, 0 },
+    { IDC_SELECT_PLUS4_MEM_64, IDS_SELECT_PLUS4_MEM_64, 0 },
+    { IDC_SELECT_PLUS4_MEM_256_CSORY, IDS_SELECT_PLUS4_MEM_256_CSORY, 0 },
+    { IDC_SELECT_PLUS4_MEM_256_HANNES, IDS_SELECT_PLUS4_MEM_256_HANNES, 0 },
+    { IDC_SELECT_PLUS4_MEM_1024_HANNES, IDS_SELECT_PLUS4_MEM_1M_HANNES, 0 },
+    { IDC_SELECT_PLUS4_MEM_4096_HANNES, IDS_SELECT_PLUS4_MEM_4M_HANNES, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group plus4_main_group[] = {
-    {IDC_PLUS4_VIC20_MEMORY, 1},
-    {IDC_SELECT_PLUS4_MEM_16, 1},
-    {IDC_SELECT_PLUS4_MEM_32, 1},
-    {IDC_SELECT_PLUS4_MEM_64, 1},
-    {IDC_SELECT_PLUS4_MEM_256_CSORY, 1},
-    {IDC_SELECT_PLUS4_MEM_256_HANNES, 1},
-    {IDC_SELECT_PLUS4_MEM_1024_HANNES, 1},
-    {IDC_SELECT_PLUS4_MEM_4096_HANNES, 1},
-    {0, 0}
+    { IDC_PLUS4_VIC20_MEMORY, 1 },
+    { IDC_SELECT_PLUS4_MEM_16, 1 },
+    { IDC_SELECT_PLUS4_MEM_32, 1 },
+    { IDC_SELECT_PLUS4_MEM_64, 1 },
+    { IDC_SELECT_PLUS4_MEM_256_CSORY, 1 },
+    { IDC_SELECT_PLUS4_MEM_256_HANNES, 1 },
+    { IDC_SELECT_PLUS4_MEM_1024_HANNES, 1 },
+    { IDC_SELECT_PLUS4_MEM_4096_HANNES, 1 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -104,101 +103,105 @@ static void init_dialog(HWND hwnd)
 
     resources_get_int("RamSize", &res);
     switch (res) {
-      case 16:
-        n = IDC_SELECT_PLUS4_MEM_16;
-        break;
-      case 32:
-        n = IDC_SELECT_PLUS4_MEM_32;
-        break;
-      case 4096:
-        n = IDC_SELECT_PLUS4_MEM_4096_HANNES;
-        break;
-      case 1024:
-        n = IDC_SELECT_PLUS4_MEM_1024_HANNES;
-        break;
-      case 256:
-        resources_get_int("H256K", &res256k);
-        if (res256k == 0)
-            n = IDC_SELECT_PLUS4_MEM_256_CSORY;
-        else
-            n = IDC_SELECT_PLUS4_MEM_256_HANNES;
-        break;
-      case 64:
-      default:
-        n = IDC_SELECT_PLUS4_MEM_64;
-        break;
+        case 16:
+            n = IDC_SELECT_PLUS4_MEM_16;
+            break;
+        case 32:
+            n = IDC_SELECT_PLUS4_MEM_32;
+            break;
+        case 4096:
+            n = IDC_SELECT_PLUS4_MEM_4096_HANNES;
+            break;
+        case 1024:
+            n = IDC_SELECT_PLUS4_MEM_1024_HANNES;
+            break;
+        case 256:
+            resources_get_int("H256K", &res256k);
+            if (res256k == 0) {
+                n = IDC_SELECT_PLUS4_MEM_256_CSORY;
+            } else {
+                n = IDC_SELECT_PLUS4_MEM_256_HANNES;
+            }
+            break;
+        case 64:
+        default:
+            n = IDC_SELECT_PLUS4_MEM_64;
+            break;
     }
-    if (res==256 && res256k==0)
+    if (res == 256 && res256k == 0) {
         res++;
+    }
     orig_ramsize = set_ramsize = res;
 
-    CheckRadioButton(hwnd, IDC_SELECT_PLUS4_MEM_16, IDC_SELECT_PLUS4_MEM_4096_HANNES,
-                     n);
+    CheckRadioButton(hwnd, IDC_SELECT_PLUS4_MEM_16, IDC_SELECT_PLUS4_MEM_4096_HANNES, n);
 }
 
 static void end_dialog(void)
 {
     if (orig_ramsize != set_ramsize) {
-        if (set_ramsize == 257)
+        if (set_ramsize == 257) {
             resources_set_int("CS256K", 1);
-        if (set_ramsize == 256)
+        }
+        if (set_ramsize == 256) {
             resources_set_int("H256K", 1);
-        if (set_ramsize == 1024)
+        }
+        if (set_ramsize == 1024) {
             resources_set_int("H256K", 2);
-        if (set_ramsize == 4096)
+        }
+        if (set_ramsize == 4096) {
             resources_set_int("H256K", 3);
-        if (set_ramsize < 256)
+        }
+        if (set_ramsize < 256) {
             resources_set_int("RamSize", set_ramsize);
+        }
     }
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-        type = LOWORD(wparam);
-        switch (type) {
-          case IDC_SELECT_PLUS4_MEM_16:
-            set_ramsize=16;
-            break;
-          case IDC_SELECT_PLUS4_MEM_32:
-            set_ramsize=32;
-            break;
-          case IDC_SELECT_PLUS4_MEM_64:
-            set_ramsize=64;
-            break;
-          case IDC_SELECT_PLUS4_MEM_256_HANNES:
-            set_ramsize=256;
-            break;
-          case IDC_SELECT_PLUS4_MEM_1024_HANNES:
-            set_ramsize=1024;
-            break;
-          case IDC_SELECT_PLUS4_MEM_4096_HANNES:
-            set_ramsize=4096;
-            break;
-          case IDC_SELECT_PLUS4_MEM_256_CSORY:
-            set_ramsize=257;
-            break;
-          case IDOK:
-            end_dialog();
-          case IDCANCEL:
-            EndDialog(hwnd,0);
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_dialog(hwnd);
             return TRUE;
-        }
-        break;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_SELECT_PLUS4_MEM_16:
+                    set_ramsize = 16;
+                    break;
+                case IDC_SELECT_PLUS4_MEM_32:
+                    set_ramsize = 32;
+                    break;
+                case IDC_SELECT_PLUS4_MEM_64:
+                    set_ramsize = 64;
+                    break;
+                case IDC_SELECT_PLUS4_MEM_256_HANNES:
+                    set_ramsize = 256;
+                    break;
+                case IDC_SELECT_PLUS4_MEM_1024_HANNES:
+                    set_ramsize = 1024;
+                    break;
+                case IDC_SELECT_PLUS4_MEM_4096_HANNES:
+                    set_ramsize = 4096;
+                    break;
+                case IDC_SELECT_PLUS4_MEM_256_CSORY:
+                    set_ramsize = 257;
+                    break;
+                case IDOK:
+                    end_dialog();
+                case IDCANCEL:
+                    EndDialog(hwnd,0);
+                    return TRUE;
+            }
+            break;
     }
     return FALSE;
 }
 
 void ui_plus4_memory_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_PLUS4_MEMORY_DIALOG),
-              hwnd, dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_PLUS4_MEMORY_DIALOG), hwnd, dialog_proc);
 }

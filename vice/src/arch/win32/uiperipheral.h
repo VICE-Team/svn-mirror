@@ -31,4 +31,3 @@
 extern void uiperipheral_command(HWND hwnd, WPARAM wparam);
 
 #endif
-

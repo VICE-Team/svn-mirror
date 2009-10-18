@@ -30,4 +30,3 @@
 void ui_sid_settings_dialog(HWND hwnd);
 
 #endif
-

@@ -34,7 +34,7 @@
 #include <prsht.h>
 
 #ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
+#define DUMMYUNIONNAME u1
 #endif
 
 #include "hardsid.h"
@@ -54,8 +54,7 @@
 #define _ANONYMOUS_UNION
 #endif
 
-static const TCHAR *ui_sid_engine[] = 
-{
+static const TCHAR *ui_sid_engine[] = {
     TEXT("Fast SID"),
 #ifdef HAVE_RESID
     TEXT("reSID-DTV"),
@@ -77,8 +76,7 @@ static const TCHAR *ui_sid_engine[] =
     NULL
 };
 
-static const int ui_sid_engine_values[] =
-{
+static const int ui_sid_engine_values[] = {
     SID_ENGINE_FASTSID,
 #ifdef HAVE_RESID
     SID_ENGINE_RESID,
@@ -100,8 +98,7 @@ static const int ui_sid_engine_values[] =
     -1
 };
 
-static const TCHAR *ui_sid_model[] = 
-{
+static const TCHAR *ui_sid_model[] = {
 #ifdef HAVE_RESID
     TEXT("DTVSID (reSID-DTV)"),
 #endif
@@ -122,8 +119,7 @@ static const TCHAR *ui_sid_model[] =
     NULL
 };
 
-static const int ui_sid_model_values[] =
-{
+static const int ui_sid_model_values[] = {
 #ifdef HAVE_RESID
     SID_MODEL_DTVSID,
 #endif
@@ -144,10 +140,12 @@ static const int ui_sid_model_values[] =
     -1
 };
 
-static const int ui_sid_samplemethod[] = 
-{
-    IDS_FAST, IDS_INTERPOLATING, IDS_RESAMPLING,
-    IDS_FAST_RESAMPLING, 0
+static const int ui_sid_samplemethod[] = {
+    IDS_FAST,
+    IDS_INTERPOLATING,
+    IDS_RESAMPLING,
+    IDS_FAST_RESAMPLING,
+    0
 };
 
 static void enable_resid_sid_controls(HWND hwnd)
@@ -188,38 +186,33 @@ static void init_general_sid_dialog(HWND hwnd)
 //  Setup status
 
     resources_get_int("SidFilters", &res_value);
-    CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     resources_get_int("SidEngine", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE);
-    for (res_value_loop = 0; ui_sid_engine[res_value_loop];
-        res_value_loop++) {
-        SendMessage(sid_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)ui_sid_engine[res_value_loop]);
+    for (res_value_loop = 0; ui_sid_engine[res_value_loop]; res_value_loop++) {
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine[res_value_loop]);
     }
 
     active_value = 0;
-    for (res_value_loop = 0; ui_sid_engine_values[res_value_loop] != -1;
-        res_value_loop++) {
-        if (ui_sid_engine_values[res_value_loop] == res_value)
+    for (res_value_loop = 0; ui_sid_engine_values[res_value_loop] != -1; res_value_loop++) {
+        if (ui_sid_engine_values[res_value_loop] == res_value) {
             active_value = res_value_loop;
+        }
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_int("SidModel", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_MODEL);
-    for (res_value_loop = 0; ui_sid_model[res_value_loop];
-        res_value_loop++) {
-        SendMessage(sid_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)ui_sid_model[res_value_loop]);
+    for (res_value_loop = 0; ui_sid_model[res_value_loop]; res_value_loop++) {
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_model[res_value_loop]);
     }
 
     active_value = 0;
-    for (res_value_loop = 0; ui_sid_model_values[res_value_loop] != -1;
-        res_value_loop++) {
-        if (ui_sid_model_values[res_value_loop] == res_value)
+    for (res_value_loop = 0; ui_sid_model_values[res_value_loop] != -1; res_value_loop++) {
+        if (ui_sid_model_values[res_value_loop] == res_value) {
             active_value = res_value_loop;
+        }
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 }
@@ -232,33 +225,28 @@ typedef union rect_point_s rect_point_u;
 
 static void resize_general_sid_dialog(HWND hwnd)
 {
-int xsize, ysize;
-HWND child_hwnd;
-RECT rect;
-rect_point_u child_rect;
+    int xsize, ysize;
+    HWND child_hwnd;
+    RECT rect;
+    rect_point_u child_rect;
 
     GetClientRect(hwnd, &rect);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
-    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
-               rect.right - 2 * child_rect.rect.left,
-               child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, rect.right - 2 * child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP2);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
-    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
-               rect.right - 2 * child_rect.rect.left,
-               child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, rect.right - 2 * child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
-               xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 }
 
 static void init_resid_sid_dialog(HWND hwnd)
@@ -277,10 +265,8 @@ static void init_resid_sid_dialog(HWND hwnd)
 
     resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
-    for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop];
-        res_value_loop++) {
-        SendMessage(sid_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)translate_text(ui_sid_samplemethod[res_value_loop]));
+    for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop]; res_value_loop++) {
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_sid_samplemethod[res_value_loop]));
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -293,11 +279,11 @@ static void init_resid_sid_dialog(HWND hwnd)
 
 static void resize_resid_sid_dialog(HWND hwnd)
 {
-int xsize, ysize;
-HWND child_hwnd;
-RECT rect;
-RECT child_rect;
-int xpos;
+    int xsize, ysize;
+    HWND child_hwnd;
+    RECT rect;
+    RECT child_rect;
+    int xpos;
 
     GetClientRect(hwnd, &rect);
 
@@ -365,11 +351,11 @@ static void init_hardsid_sid_dialog(HWND hwnd)
 
 static void resize_hardsid_sid_dialog(HWND hwnd)
 {
-int xsize, ysize;
-HWND child_hwnd;
-RECT rect;
-RECT child_rect;
-int xpos;
+    int xsize, ysize;
+    HWND child_hwnd;
+    RECT rect;
+    RECT child_rect;
+    int xpos;
 
     GetClientRect(hwnd, &rect);
 
@@ -393,48 +379,42 @@ int xpos;
 
 static void end_general_dialog(HWND hwnd)
 {
-    resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd,
-                      IDC_SID_FILTERS) == BST_CHECKED ? 1 : 0));
+    resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS) == BST_CHECKED ? 1 : 0));
 }
 
-static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                            LPARAM lparam)
+static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_SID_MODEL:
-            resources_set_int("SidModel",
-                              ui_sid_model_values[SendMessage(GetDlgItem(
-                              hwnd, IDC_SID_MODEL), CB_GETCURSEL, 0, 0)]);
-            break;
-          case IDC_SID_ENGINE:
-            resources_set_int("SidEngine",
-                              ui_sid_engine_values[SendMessage(GetDlgItem(
-                              hwnd, IDC_SID_ENGINE), CB_GETCURSEL, 0, 0)]);
-            break;
-        }
-        return FALSE;
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_KILLACTIVE:
-            end_general_dialog(hwnd);
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_SID_MODEL:
+                    resources_set_int("SidModel", ui_sid_model_values[SendMessage(GetDlgItem(hwnd, IDC_SID_MODEL), CB_GETCURSEL, 0, 0)]);
+                    break;
+                case IDC_SID_ENGINE:
+                    resources_set_int("SidEngine", ui_sid_engine_values[SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE), CB_GETCURSEL, 0, 0)]);
+                    break;
+            }
+            return FALSE;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_KILLACTIVE:
+                    end_general_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_general_sid_dialog(hwnd);
-        return TRUE;
-      case WM_SIZE:
-        resize_general_sid_dialog(hwnd);
-        break;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_general_sid_dialog(hwnd);
+            return TRUE;
+        case WM_SIZE:
+            resize_general_sid_dialog(hwnd);
+            break;
     }
     return FALSE;
 }
@@ -443,85 +423,72 @@ static void end_resid_dialog(HWND hwnd)
 {
     TCHAR st[4];
 
-    resources_set_int("SidResidSampling", (int)SendMessage(GetDlgItem(hwnd,
-                      IDC_SID_RESID_SAMPLING), CB_GETCURSEL, 0, 0));
+    resources_set_int("SidResidSampling", (int)SendMessage(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st, 4);
     resources_set_int("SidResidPassband", _ttoi(st));
 }
 
-static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                          LPARAM lparam)
+static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_SETACTIVE:
-            enable_resid_sid_controls(hwnd);
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_SETACTIVE:
+                    enable_resid_sid_controls(hwnd);
+                    return TRUE;
+                case PSN_KILLACTIVE:
+                    end_resid_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-          case PSN_KILLACTIVE:
-            end_resid_dialog(hwnd);
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_resid_sid_dialog(hwnd);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_resid_sid_dialog(hwnd);
-        return TRUE;
-      case WM_SIZE:
-        resize_resid_sid_dialog(hwnd);
-        break;
+        case WM_SIZE:
+            resize_resid_sid_dialog(hwnd);
+            break;
     }
     return FALSE;
 }
 
 static void end_hardsid_dialog(HWND hwnd)
 {
-    resources_set_int("SidHardSIDMain", (int)SendMessage(GetDlgItem(hwnd,
-                      IDC_SID_HARDSID_LEFT_ENGINE), CB_GETCURSEL, 0, 0));
+    resources_set_int("SidHardSIDMain", (int)SendMessage(GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE), CB_GETCURSEL, 0, 0));
 }
 
-static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                            LPARAM lparam)
+static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-/*
-        switch (command) {
-          case IDC_SID_HARDSID_LEFT_ENGINE:
-            resources_set_int("SidHardSIDMain", SendMessage(GetDlgItem(hwnd,
-                              IDC_SID_HARDSID_LEFT_ENGINE),
-                              CB_GETCURSEL, 0, 0));
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            return FALSE;
+        case WM_NOTIFY:
+            switch (((NMHDR FAR *)lparam)->code) {
+                case PSN_SETACTIVE:
+                    enable_hardsid_sid_controls(hwnd);
+                    return TRUE;
+                case PSN_KILLACTIVE:
+                    end_hardsid_dialog(hwnd);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_hardsid_sid_dialog(hwnd);
+            return TRUE;
+        case WM_SIZE:
+            resize_hardsid_sid_dialog(hwnd);
             break;
-        }
-*/
-        return FALSE;
-      case WM_NOTIFY:
-        switch (((NMHDR FAR *)lparam)->code) {
-          case PSN_SETACTIVE:
-            enable_hardsid_sid_controls(hwnd);
-            return TRUE;
-          case PSN_KILLACTIVE:
-            end_hardsid_dialog(hwnd);
-            return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_hardsid_sid_dialog(hwnd);
-        return TRUE;
-      case WM_SIZE:
-        resize_hardsid_sid_dialog(hwnd);
-        break;
     }
     return FALSE;
 }
@@ -538,8 +505,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
     psp[0].pszIcon = NULL;
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -552,8 +518,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
     psp[1].pszIcon = NULL;
 #else
-    psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
@@ -566,15 +531,13 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
     psp[2].pszIcon = NULL;
 #else
-    psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
+    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
     psp[2].u2.pszIcon = NULL;
 #endif
     psp[2].lParam = 0;
     psp[2].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = general_dialog_proc;
-//    psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
     psp[1].pszTitle = TEXT("ReSID-DTV/ReSID-fp");
@@ -585,7 +548,6 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-//    psh.pszCaption = translate_text(IDS_SID_SETTINGS);
     psh.pszCaption = translate_text(IDS_SID_SETTINGS);
     psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION

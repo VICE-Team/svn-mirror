@@ -30,4 +30,3 @@
 extern void ui_reu_settings_dialog(HWND hwnd);
 
 #endif
-

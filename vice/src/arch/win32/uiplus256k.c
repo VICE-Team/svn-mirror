@@ -45,36 +45,35 @@ static void enable_plus256k_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_PLUS256K_ENABLE)
-                 == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_PLUS256K_ENABLE) == BST_CHECKED) ? 1 : 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_PLUS256K_BROWSE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_PLUS256K_FILE), is_enabled);
 }
 
 static uilib_localize_dialog_param plus256k_dialog[] = {
-    {0, IDS_PLUS256K_CAPTION, -1},
-    {IDC_PLUS256K_ENABLE, IDS_PLUS256K_ENABLE, 0},
-    {IDC_PLUS256K_FILE_LABEL, IDS_PLUS256K_FILE, 0},
-    {IDC_PLUS256K_BROWSE, IDS_BROWSE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_PLUS256K_CAPTION, -1 },
+    { IDC_PLUS256K_ENABLE, IDS_PLUS256K_ENABLE, 0 },
+    { IDC_PLUS256K_FILE_LABEL, IDS_PLUS256K_FILE, 0 },
+    { IDC_PLUS256K_BROWSE, IDS_BROWSE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group plus256k_group1[] = {
-    {IDC_PLUS256K_ENABLE, 1},
-    {0, 0}
+    { IDC_PLUS256K_ENABLE, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group plus256k_leftgroup[] = {
-    {IDC_PLUS256K_FILE_LABEL, 0},
-    {0, 0}
+    { IDC_PLUS256K_FILE_LABEL, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group plus256k_rightgroup[] = {
-    {IDC_PLUS256K_BROWSE, 0},
-    {0, 0}
+    { IDC_PLUS256K_BROWSE, 0 },
+    { 0, 0 }
 };
 
 static void init_plus256k_dialog(HWND hwnd)
@@ -91,13 +90,11 @@ static void init_plus256k_dialog(HWND hwnd)
     uilib_move_group(hwnd, plus256k_rightgroup, xsize + 30);
 
     resources_get_int("PLUS256K", &res_value);
-    CheckDlgButton(hwnd, IDC_PLUS256K_ENABLE, 
-        res_value ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_PLUS256K_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     resources_get_string("PLUS256Kfilename", &plus256kfile);
     st_plus256kfile = system_mbstowcs_alloc(plus256kfile);
-    SetDlgItemText(hwnd, IDC_PLUS256K_FILE,
-                   plus256kfile != NULL ? st_plus256kfile : TEXT(""));
+    SetDlgItemText(hwnd, IDC_PLUS256K_FILE, plus256kfile != NULL ? st_plus256kfile : TEXT(""));
     system_mbstowcs_free(st_plus256kfile);
 
     enable_plus256k_controls(hwnd);
@@ -108,8 +105,7 @@ static void end_plus256k_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_int("PLUS256K", (IsDlgButtonChecked(hwnd,
-                      IDC_PLUS256K_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("PLUS256K", (IsDlgButtonChecked(hwnd, IDC_PLUS256K_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
     GetDlgItemText(hwnd, IDC_PLUS256K_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
@@ -118,45 +114,41 @@ static void end_plus256k_dialog(HWND hwnd)
 
 static void browse_plus256k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_PLUS256K_SELECT_FILE),
-                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
-                        IDC_PLUS256K_FILE);
+    uilib_select_browse(hwnd, translate_text(IDS_PLUS256K_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_PLUS256K_FILE);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_PLUS256K_BROWSE:
-            browse_plus256k_file(hwnd);
-            break;
-          case IDC_PLUS256K_ENABLE:
-            enable_plus256k_controls(hwnd);
-            break;
-          case IDOK:
-            end_plus256k_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_PLUS256K_BROWSE:
+                    browse_plus256k_file(hwnd);
+                    break;
+                case IDC_PLUS256K_ENABLE:
+                    enable_plus256k_controls(hwnd);
+                    break;
+                case IDOK:
+                    end_plus256k_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_plus256k_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_plus256k_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
 
 void ui_plus256k_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_PLUS256K_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_PLUS256K_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

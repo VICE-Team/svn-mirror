@@ -43,17 +43,14 @@
 #include "uiquicksnapshot.h"
 #include "util.h"
 
-
 typedef struct {
     char name[MAX_PATH];
     int valid;
 } snapfiles;
 
-
 static snapfiles files[10];
 static int lastindex;
 static int snapcounter;
-
 
 static void scan_files(void)
 {
@@ -63,8 +60,7 @@ static void scan_files(void)
     char *dirname;
     TCHAR *st_dirname;
 
-    dirname = util_concat(archdep_boot_path(), "\\", machine_name,
-                          "\\quicksnap?.vsf", NULL);
+    dirname = util_concat(archdep_boot_path(), "\\", machine_name, "\\quicksnap?.vsf", NULL);
     st_dirname = system_mbstowcs_alloc(dirname);
     search_handle = FindFirstFile(st_dirname, &file_info);
     system_mbstowcs_free(st_dirname);
@@ -76,6 +72,7 @@ static void scan_files(void)
     if (search_handle != INVALID_HANDLE_VALUE) {
         do {
             TCHAR c;
+
             c = file_info.cFileName[_tcslen(file_info.cFileName) - 5];
             if ((c >= '0') && (c <= '9')) {
                 strcpy(files[c - '0'].name, file_info.cFileName);
@@ -103,19 +100,14 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     } else {
         if (lastindex == 9) {
             if (snapcounter == 10) {
-                fullname = util_concat(archdep_boot_path(), "\\", machine_name,
-                                       "\\", files[0].name, NULL);
+                fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[0].name, NULL);
                 st_fullname = system_mbstowcs_alloc(fullname);
                 DeleteFile(st_fullname);
                 system_mbstowcs_free(st_fullname);
                 lib_free(fullname);
                 for (i = 1; i < 10; i++) {
-                    fullname = util_concat(archdep_boot_path(), "\\",
-                                           machine_name,
-                                           "\\", files[i].name, NULL);
-                    fullname2 = util_concat(archdep_boot_path(), "\\",
-                                            machine_name,
-                                            "\\", files[i-1].name, NULL);
+                    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[i].name, NULL);
+                    fullname2 = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[i - 1].name, NULL);
                     st_fullname = system_mbstowcs_alloc(fullname);
                     st_fullname2 = system_mbstowcs_alloc(fullname2);
                     MoveFile(st_fullname, st_fullname2);
@@ -126,18 +118,16 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                 }
             } else {
                 for (i = 0; i < 10; i++) {
-                    if (files[i].valid == 0) break;
+                    if (files[i].valid == 0) {
+                        break;
+                    }
                 }
                 for (j = i + 1; j < 10; j++) {
                     if (files[j].valid) {
                         strcpy(files[i].name,files[j].name);
                         files[i].name[strlen(files[i].name) - 5] = '0' + i;
-                        fullname = util_concat(archdep_boot_path(), "\\",
-                                               machine_name, "\\",
-                                               files[j].name, NULL);
-                        fullname2 = util_concat(archdep_boot_path(), "\\",
-                                                machine_name, "\\",
-                                                files[i].name, NULL);
+                        fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[j].name, NULL);
+                        fullname2 = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[i].name, NULL);
                         st_fullname = system_mbstowcs_alloc(fullname);
                         st_fullname2 = system_mbstowcs_alloc(fullname2);
                         MoveFile(st_fullname, st_fullname2);
@@ -149,19 +139,17 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
                     }
                 }
                 strcpy(files[i].name,files[0].name);
-                files[i].name[strlen(files[i].name) - 5]= '0' + i;
+                files[i].name[strlen(files[i].name) - 5] = '0' + i;
                 lastindex = i;
             }
         } else {
             strcpy(files[lastindex + 1].name,files[lastindex].name);
             lastindex++;
-            files[lastindex].name[strlen(files[lastindex].name) - 5]
-                = '0' + lastindex;
+            files[lastindex].name[strlen(files[lastindex].name) - 5] = '0' + lastindex;
         }
     }
 
-    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
-                      files[lastindex].name, NULL);
+    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[lastindex].name, NULL);
     if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
         ui_error(translate_text(IDS_CANT_WRITE_SNAPSHOT_FILE));
     }
@@ -172,8 +160,7 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
 {
     char *fullname;
 
-    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
-                           files[lastindex].name, NULL);
+    fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\", files[lastindex].name, NULL);
     if (machine_read_snapshot(fullname, 0) < 0) {
         ui_error(translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
     }
@@ -193,4 +180,3 @@ void ui_quicksnapshot_save(HWND hwnd)
     scan_files();
     interrupt_maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
 }
-

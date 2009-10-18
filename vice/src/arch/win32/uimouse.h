@@ -30,4 +30,3 @@
 extern void ui_mouse_settings_dialog(HWND hwnd);
 
 #endif
-

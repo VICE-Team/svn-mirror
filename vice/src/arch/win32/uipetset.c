@@ -48,73 +48,73 @@
 #endif
 
 static uilib_localize_dialog_param model_dialog_trans[] = {
-    {IDC_PET_MACHINE_DEFAULTS, IDS_PET_MACHINE_DEFAULTS, 0},
-    {IDC_PET_MEMORY, IDS_PET_MEMORY, 0},
-    {0, 0, 0}
+    { IDC_PET_MACHINE_DEFAULTS, IDS_PET_MACHINE_DEFAULTS, 0 },
+    { IDC_PET_MEMORY, IDS_PET_MEMORY, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_localize_dialog_param parent_dialog_trans[] = {
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group model_main_group[] = {
-    {IDC_PET_MACHINE_DEFAULTS, 1},
-    {IDC_PET_MEMORY, 1},
-    {0, 0}
+    { IDC_PET_MACHINE_DEFAULTS, 1 },
+    { IDC_PET_MEMORY, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group model_left_group[] = {
-    {IDC_PET_MACHINE_DEFAULTS, 0},
-    {IDC_SELECT_PET_2001_8N, 0},
-    {IDC_SELECT_PET_3008, 0},
-    {IDC_SELECT_PET_3032, 0},
-    {IDC_SELECT_PET_3032B, 0},
-    {IDC_SELECT_PET_4016, 0},
-    {IDC_SELECT_PET_4032, 0},
-    {IDC_SELECT_PET_4032B, 0},
-    {IDC_SELECT_PET_8032, 0},
-    {IDC_SELECT_PET_8096, 0},
-    {IDC_SELECT_PET_8296, 0},
-    {IDC_SELECT_PET_SUPER, 0},
-    {0, 0}
+    { IDC_PET_MACHINE_DEFAULTS, 0 },
+    { IDC_SELECT_PET_2001_8N, 0 },
+    { IDC_SELECT_PET_3008, 0 },
+    { IDC_SELECT_PET_3032, 0 },
+    { IDC_SELECT_PET_3032B, 0 },
+    { IDC_SELECT_PET_4016, 0 },
+    { IDC_SELECT_PET_4032, 0 },
+    { IDC_SELECT_PET_4032B, 0 },
+    { IDC_SELECT_PET_8032, 0 },
+    { IDC_SELECT_PET_8096, 0 },
+    { IDC_SELECT_PET_8296, 0 },
+    { IDC_SELECT_PET_SUPER, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group model_left_move_group[] = {
-    {IDC_SELECT_PET_2001_8N, 0},
-    {IDC_SELECT_PET_3008, 0},
-    {IDC_SELECT_PET_3032, 0},
-    {IDC_SELECT_PET_3032B, 0},
-    {IDC_SELECT_PET_4016, 0},
-    {IDC_SELECT_PET_4032, 0},
-    {IDC_SELECT_PET_4032B, 0},
-    {IDC_SELECT_PET_8032, 0},
-    {IDC_SELECT_PET_8096, 0},
-    {IDC_SELECT_PET_8296, 0},
-    {IDC_SELECT_PET_SUPER, 0},
-    {0, 0}
+    { IDC_SELECT_PET_2001_8N, 0 },
+    { IDC_SELECT_PET_3008, 0 },
+    { IDC_SELECT_PET_3032, 0 },
+    { IDC_SELECT_PET_3032B, 0 },
+    { IDC_SELECT_PET_4016, 0 },
+    { IDC_SELECT_PET_4032, 0 },
+    { IDC_SELECT_PET_4032B, 0 },
+    { IDC_SELECT_PET_8032, 0 },
+    { IDC_SELECT_PET_8096, 0 },
+    { IDC_SELECT_PET_8296, 0 },
+    { IDC_SELECT_PET_SUPER, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group model_right_group[] = {
-    {IDC_PET_MEMORY, 0},
-    {IDC_SELECT_PET_MEM4K, 0},
-    {IDC_SELECT_PET_MEM8K, 0},
-    {IDC_SELECT_PET_MEM16K, 0},
-    {IDC_SELECT_PET_MEM32K, 0},
-    {IDC_SELECT_PET_MEM96K, 0},
-    {IDC_SELECT_PET_MEM128K, 0},
-    {0, 0}
+    { IDC_PET_MEMORY, 0 },
+    { IDC_SELECT_PET_MEM4K, 0 },
+    { IDC_SELECT_PET_MEM8K, 0 },
+    { IDC_SELECT_PET_MEM16K, 0 },
+    { IDC_SELECT_PET_MEM32K, 0 },
+    { IDC_SELECT_PET_MEM96K, 0 },
+    { IDC_SELECT_PET_MEM128K, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group model_right_move_group[] = {
-    {IDC_SELECT_PET_MEM4K, 0},
-    {IDC_SELECT_PET_MEM8K, 0},
-    {IDC_SELECT_PET_MEM16K, 0},
-    {IDC_SELECT_PET_MEM32K, 0},
-    {IDC_SELECT_PET_MEM96K, 0},
-    {IDC_SELECT_PET_MEM128K, 0},
-    {0, 0}
+    { IDC_SELECT_PET_MEM4K, 0 },
+    { IDC_SELECT_PET_MEM8K, 0 },
+    { IDC_SELECT_PET_MEM16K, 0 },
+    { IDC_SELECT_PET_MEM32K, 0 },
+    { IDC_SELECT_PET_MEM96K, 0 },
+    { IDC_SELECT_PET_MEM128K, 0 },
+    { 0, 0 }
 };
 
 static void init_model_dialog(HWND hwnd)
@@ -160,84 +160,84 @@ static void init_model_dialog(HWND hwnd)
 
     resources_get_int("RamSize", &res);
     switch (res) {
-      case 4:
-        n = IDC_SELECT_PET_MEM4K;
-        break;
-      case 8:
-        n = IDC_SELECT_PET_MEM8K;
-        break;
-      case 16:
-        n = IDC_SELECT_PET_MEM16K;
-        break;
-      case 32:
-        n = IDC_SELECT_PET_MEM32K;
-        break;
-      case 96:
-        n = IDC_SELECT_PET_MEM96K;
-        break;
-      case 128:
-        n = IDC_SELECT_PET_MEM128K;
-        break;
+        case 4:
+            n = IDC_SELECT_PET_MEM4K;
+            break;
+        case 8:
+            n = IDC_SELECT_PET_MEM8K;
+            break;
+        case 16:
+            n = IDC_SELECT_PET_MEM16K;
+            break;
+        case 32:
+            n = IDC_SELECT_PET_MEM32K;
+            break;
+        case 96:
+            n = IDC_SELECT_PET_MEM96K;
+            break;
+        case 128:
+            n = IDC_SELECT_PET_MEM128K;
+            break;
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_MEM4K, IDC_SELECT_PET_MEM128K, n);
 }
 
 static uilib_localize_dialog_param io_dialog_trans[] = {
-    {IDC_PET_VIDEO, IDS_PET_VIDEO, 0},
-    {IDC_SELECT_PET_VIDEO_AUTO, IDS_SELECT_PET_VIDEO_AUTO, 0},
-    {IDC_SELECT_PET_VIDEO_40, IDS_SELECT_PET_VIDEO_40, 0},
-    {IDC_SELECT_PET_VIDEO_80, IDS_SELECT_PET_VIDEO_80, 0},
-    {IDC_PET_IO_SIZE, IDS_PET_IO_SIZE, 0},
-    {IDC_SELECT_PET_IO256, IDS_SELECT_PET_IO256, 0},
-    {IDC_SELECT_PET_IO2K, IDS_SELECT_PET_IO2K, 0},
-    {IDC_TOGGLE_PET_CRTC, IDS_TOGGLE_PET_CRTC, 0},
-    {IDC_PET_KEYBOARD, IDS_PET_KEYBOARD, 0},
-    {IDC_SELECT_PET_KEYB_GRAPHICS, IDS_SELECT_PET_KEYB_GRAPHICS, 0},
-    {IDC_SELECT_PET_KEYB_BUSINESS, IDS_SELECT_PET_KEYB_BUSINESS, 0},
-    {0, 0, 0}
+    { IDC_PET_VIDEO, IDS_PET_VIDEO, 0 },
+    { IDC_SELECT_PET_VIDEO_AUTO, IDS_SELECT_PET_VIDEO_AUTO, 0 },
+    { IDC_SELECT_PET_VIDEO_40, IDS_SELECT_PET_VIDEO_40, 0 },
+    { IDC_SELECT_PET_VIDEO_80, IDS_SELECT_PET_VIDEO_80, 0 },
+    { IDC_PET_IO_SIZE, IDS_PET_IO_SIZE, 0 },
+    { IDC_SELECT_PET_IO256, IDS_SELECT_PET_IO256, 0 },
+    { IDC_SELECT_PET_IO2K, IDS_SELECT_PET_IO2K, 0 },
+    { IDC_TOGGLE_PET_CRTC, IDS_TOGGLE_PET_CRTC, 0 },
+    { IDC_PET_KEYBOARD, IDS_PET_KEYBOARD, 0 },
+    { IDC_SELECT_PET_KEYB_GRAPHICS, IDS_SELECT_PET_KEYB_GRAPHICS, 0 },
+    { IDC_SELECT_PET_KEYB_BUSINESS, IDS_SELECT_PET_KEYB_BUSINESS, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group io_main_group[] = {
-    {IDC_PET_VIDEO, 1},
-    {IDC_SELECT_PET_VIDEO_AUTO, 1},
-    {IDC_SELECT_PET_VIDEO_40, 1},
-    {IDC_SELECT_PET_VIDEO_80, 1},
-    {IDC_PET_IO_SIZE, 1},
-    {IDC_SELECT_PET_IO256, 1},
-    {IDC_SELECT_PET_IO2K, 1},
-    {IDC_PET_CRTC, 1},
-    {IDC_TOGGLE_PET_CRTC, 1},
-    {IDC_PET_KEYBOARD, 1},
-    {IDC_SELECT_PET_KEYB_GRAPHICS, 1},
-    {IDC_SELECT_PET_KEYB_BUSINESS, 1},
-    {0, 0}
+    { IDC_PET_VIDEO, 1 },
+    { IDC_SELECT_PET_VIDEO_AUTO, 1 },
+    { IDC_SELECT_PET_VIDEO_40, 1 },
+    { IDC_SELECT_PET_VIDEO_80, 1 },
+    { IDC_PET_IO_SIZE, 1 },
+    { IDC_SELECT_PET_IO256, 1 },
+    { IDC_SELECT_PET_IO2K, 1 },
+    { IDC_PET_CRTC, 1 },
+    { IDC_TOGGLE_PET_CRTC, 1 },
+    { IDC_PET_KEYBOARD, 1 },
+    { IDC_SELECT_PET_KEYB_GRAPHICS, 1 },
+    { IDC_SELECT_PET_KEYB_BUSINESS, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group io_left_group[] = {
-    {IDC_PET_VIDEO, 0},
-    {IDC_SELECT_PET_VIDEO_AUTO, 0},
-    {IDC_SELECT_PET_VIDEO_40, 0},
-    {IDC_SELECT_PET_VIDEO_80, 0},
-    {IDC_PET_IO_SIZE, 0},
-    {IDC_SELECT_PET_IO256, 0},
-    {IDC_SELECT_PET_IO2K, 0},
-    {0, 0}
+    { IDC_PET_VIDEO, 0 },
+    { IDC_SELECT_PET_VIDEO_AUTO, 0 },
+    { IDC_SELECT_PET_VIDEO_40, 0 },
+    { IDC_SELECT_PET_VIDEO_80, 0 },
+    { IDC_PET_IO_SIZE, 0 },
+    { IDC_SELECT_PET_IO256, 0 },
+    { IDC_SELECT_PET_IO2K, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group io_right_move_group[] = {
-    {IDC_TOGGLE_PET_CRTC, 0},
-    {IDC_SELECT_PET_KEYB_GRAPHICS, 0},
-    {IDC_SELECT_PET_KEYB_BUSINESS, 0},
-    {0, 0}
+    { IDC_TOGGLE_PET_CRTC, 0 },
+    { IDC_SELECT_PET_KEYB_GRAPHICS, 0 },
+    { IDC_SELECT_PET_KEYB_BUSINESS, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group io_right_group[] = {
-    {IDC_PET_CRTC, 0},
-    {IDC_TOGGLE_PET_CRTC, 0},
-    {IDC_PET_KEYBOARD, 0},
-    {IDC_SELECT_PET_KEYB_GRAPHICS, 0},
-    {IDC_SELECT_PET_KEYB_BUSINESS, 0},
-    {0, 0}
+    { IDC_PET_CRTC, 0 },
+    { IDC_TOGGLE_PET_CRTC, 0 },
+    { IDC_PET_KEYBOARD, 0 },
+    { IDC_SELECT_PET_KEYB_GRAPHICS, 0 },
+    { IDC_SELECT_PET_KEYB_BUSINESS, 0 },
+    { 0, 0 }
 };
 
 static void init_io_dialog(HWND hwnd)
@@ -293,53 +293,51 @@ static void init_io_dialog(HWND hwnd)
 
     resources_get_int("VideoSize", &res);
     switch (res) {
-      case 0:
-        n = IDC_SELECT_PET_VIDEO_AUTO;
-        break;
-      case 40:
-        n = IDC_SELECT_PET_VIDEO_40;
-        break;
-      case 80:
-        n = IDC_SELECT_PET_VIDEO_80;
-        break;
+        case 0:
+            n = IDC_SELECT_PET_VIDEO_AUTO;
+            break;
+        case 40:
+            n = IDC_SELECT_PET_VIDEO_40;
+            break;
+        case 80:
+            n = IDC_SELECT_PET_VIDEO_80;
+            break;
     }
-    CheckRadioButton(hwnd, IDC_SELECT_PET_VIDEO_AUTO, IDC_SELECT_PET_VIDEO_80,
-                     n);
+    CheckRadioButton(hwnd, IDC_SELECT_PET_VIDEO_AUTO, IDC_SELECT_PET_VIDEO_80, n);
 
     resources_get_int("IOSize", &res);
     switch (res) {
-      case 0x100:
-        n = IDC_SELECT_PET_IO256;
-        break;
-      case 0x800:
-        n = IDC_SELECT_PET_IO2K;
-        break;
+        case 0x100:
+            n = IDC_SELECT_PET_IO256;
+            break;
+        case 0x800:
+            n = IDC_SELECT_PET_IO2K;
+            break;
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_IO2K, IDC_SELECT_PET_IO256, n);
 
     resources_get_int("KeymapIndex", &res);
     switch (res) {
-      case 2:
-        n = IDC_SELECT_PET_KEYB_GRAPHICS;
-        break;
-      case 0:
-        n = IDC_SELECT_PET_KEYB_BUSINESS;
-        break;
+        case 2:
+            n = IDC_SELECT_PET_KEYB_GRAPHICS;
+            break;
+        case 0:
+            n = IDC_SELECT_PET_KEYB_BUSINESS;
+            break;
     }
-    CheckRadioButton(hwnd, IDC_SELECT_PET_KEYB_GRAPHICS,
-                     IDC_SELECT_PET_KEYB_BUSINESS, n);
+    CheckRadioButton(hwnd, IDC_SELECT_PET_KEYB_GRAPHICS, IDC_SELECT_PET_KEYB_BUSINESS, n);
 }
 
 static uilib_localize_dialog_param superpet_io_dialog_trans[] = {
-    {IDC_PET_IO_SETTINGS, IDS_PET_IO_SETTINGS, 0},
-    {IDC_TOGGLE_PET_SUPER_IO_ENABLE, IDS_TOGGLE_PET_SUPER_IO_ENABLE, 0},
-    {0, 0, 0}
+    { IDC_PET_IO_SETTINGS, IDS_PET_IO_SETTINGS, 0 },
+    { IDC_TOGGLE_PET_SUPER_IO_ENABLE, IDS_TOGGLE_PET_SUPER_IO_ENABLE, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group superpet_io_main_group[] = {
-    {IDC_PET_IO_SETTINGS, 1},
-    {IDC_TOGGLE_PET_SUPER_IO_ENABLE, 1},
-    {0, 0}
+    { IDC_PET_IO_SETTINGS, 1 },
+    { IDC_TOGGLE_PET_SUPER_IO_ENABLE, 1 },
+    { 0, 0 }
 };
 
 static void init_superpet_io_dialog(HWND hwnd)
@@ -370,22 +368,21 @@ static void init_superpet_io_dialog(HWND hwnd)
     uilib_move_and_set_element_width(hwnd, IDC_PET_IO_SETTINGS, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("SuperPET", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static uilib_localize_dialog_param pet8296_dialog_trans[] = {
-    {IDC_PET_RAM_SETTINGS, IDS_PET_RAM_SETTINGS, 0},
-    {IDC_TOGGLE_PET_8296_RAM9, IDS_TOGGLE_PET_8296_RAM9, 0},
-    {IDC_TOGGLE_PET_8296_RAMA, IDS_TOGGLE_PET_8296_RAMA, 0},
-    {0, 0, 0}
+    { IDC_PET_RAM_SETTINGS, IDS_PET_RAM_SETTINGS, 0 },
+    { IDC_TOGGLE_PET_8296_RAM9, IDS_TOGGLE_PET_8296_RAM9, 0 },
+    { IDC_TOGGLE_PET_8296_RAMA, IDS_TOGGLE_PET_8296_RAMA, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group pet8296_main_group[] = {
-    {IDC_PET_RAM_SETTINGS, 1},
-    {IDC_TOGGLE_PET_8296_RAM9, 1},
-    {IDC_TOGGLE_PET_8296_RAMA, 1},
-    {0, 0}
+    { IDC_PET_RAM_SETTINGS, 1 },
+    { IDC_TOGGLE_PET_8296_RAM9, 1 },
+    { IDC_TOGGLE_PET_8296_RAMA, 1 },
+    { 0, 0 }
 };
 
 static void init_pet8296_dialog(HWND hwnd)
@@ -416,169 +413,162 @@ static void init_pet8296_dialog(HWND hwnd)
     uilib_move_and_set_element_width(hwnd, IDC_PET_RAM_SETTINGS, xstart - 10, xpos - xstart + 20);
 
     resources_get_int("Ram9", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9, n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_int("RamA", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA,
-                   n ? BST_CHECKED : BST_UNCHECKED);
-
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
-static INT_PTR CALLBACK model_dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK model_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_model_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_SELECT_PET_2001_8N:
-              pet_set_model("2001", NULL);
-              break;
-            case IDC_SELECT_PET_3008:
-              pet_set_model("3008", NULL);
-              break;
-            case IDC_SELECT_PET_3016:
-              pet_set_model("3016", NULL);
-              break;
-            case IDC_SELECT_PET_3032:
-              pet_set_model("3032", NULL);
-              break;
-            case IDC_SELECT_PET_3032B:
-              pet_set_model("3032B", NULL);
-              break;
-            case IDC_SELECT_PET_4016:
-              pet_set_model("4016", NULL);
-              break;
-            case IDC_SELECT_PET_4032:
-              pet_set_model("4032", NULL);
-              break;
-            case IDC_SELECT_PET_4032B:
-              pet_set_model("4032B", NULL);
-              break;
-            case IDC_SELECT_PET_8032:
-              pet_set_model("8032", NULL);
-              break;
-            case IDC_SELECT_PET_8096:
-              pet_set_model("8096", NULL);
-              break;
-            case IDC_SELECT_PET_8296:
-              pet_set_model("8296", NULL);
-              break;
-            case IDC_SELECT_PET_SUPER:
-              pet_set_model("SuperPET", NULL);
-              break;
-            case IDC_SELECT_PET_MEM4K:
-              resources_set_int("RamSize", 4);
-              break;
-            case IDC_SELECT_PET_MEM8K:
-              resources_set_int("RamSize", 8);
-              break;
-            case IDC_SELECT_PET_MEM16K:
-              resources_set_int("RamSize", 16);
-              break;
-            case IDC_SELECT_PET_MEM32K:
-              resources_set_int("RamSize", 32);
-              break;
-            case IDC_SELECT_PET_MEM96K:
-              resources_set_int("RamSize", 96);
-              break;
-            case IDC_SELECT_PET_MEM128K:
-              resources_set_int("RamSize", 128);
-              break;
-          }
-          return TRUE;
+        case WM_INITDIALOG:
+            init_model_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_SELECT_PET_2001_8N:
+                    pet_set_model("2001", NULL);
+                    break;
+                case IDC_SELECT_PET_3008:
+                    pet_set_model("3008", NULL);
+                    break;
+                case IDC_SELECT_PET_3016:
+                    pet_set_model("3016", NULL);
+                    break;
+                case IDC_SELECT_PET_3032:
+                    pet_set_model("3032", NULL);
+                    break;
+                case IDC_SELECT_PET_3032B:
+                    pet_set_model("3032B", NULL);
+                    break;
+                case IDC_SELECT_PET_4016:
+                    pet_set_model("4016", NULL);
+                    break;
+                case IDC_SELECT_PET_4032:
+                    pet_set_model("4032", NULL);
+                    break;
+                case IDC_SELECT_PET_4032B:
+                    pet_set_model("4032B", NULL);
+                    break;
+                case IDC_SELECT_PET_8032:
+                    pet_set_model("8032", NULL);
+                    break;
+                case IDC_SELECT_PET_8096:
+                    pet_set_model("8096", NULL);
+                    break;
+                case IDC_SELECT_PET_8296:
+                    pet_set_model("8296", NULL);
+                    break;
+                case IDC_SELECT_PET_SUPER:
+                    pet_set_model("SuperPET", NULL);
+                    break;
+                case IDC_SELECT_PET_MEM4K:
+                    resources_set_int("RamSize", 4);
+                    break;
+                case IDC_SELECT_PET_MEM8K:
+                    resources_set_int("RamSize", 8);
+                    break;
+                case IDC_SELECT_PET_MEM16K:
+                    resources_set_int("RamSize", 16);
+                    break;
+                case IDC_SELECT_PET_MEM32K:
+                    resources_set_int("RamSize", 32);
+                    break;
+                case IDC_SELECT_PET_MEM96K:
+                    resources_set_int("RamSize", 96);
+                    break;
+                case IDC_SELECT_PET_MEM128K:
+                    resources_set_int("RamSize", 128);
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
 
-static INT_PTR CALLBACK io_dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK io_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_io_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_SELECT_PET_VIDEO_AUTO:
-              resources_set_int("VideoSize", 0);
-              break;
-            case IDC_SELECT_PET_VIDEO_40:
-              resources_set_int("VideoSize", 40);
-              break;
-            case IDC_SELECT_PET_VIDEO_80:
-              resources_set_int("VideoSize", 80);
-              break;
-            case IDC_SELECT_PET_IO256:
-              resources_set_int("IOSize", 0x100);
-              break;
-            case IDC_SELECT_PET_IO2K:
-              resources_set_int("IOSize", 0x800);
-              break;
-            case IDC_SELECT_PET_KEYB_GRAPHICS:
-              resources_set_int("KeymapIndex", 2);
-              break;
-            case IDC_SELECT_PET_KEYB_BUSINESS:
-              resources_set_int("KeymapIndex", 0);
-              break;
-            case IDC_TOGGLE_PET_CRTC:
-              resources_toggle("Crtc", NULL);
-              break;
-          }
-          return TRUE;
+        case WM_INITDIALOG:
+            init_io_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_SELECT_PET_VIDEO_AUTO:
+                    resources_set_int("VideoSize", 0);
+                    break;
+                case IDC_SELECT_PET_VIDEO_40:
+                    resources_set_int("VideoSize", 40);
+                    break;
+                case IDC_SELECT_PET_VIDEO_80:
+                    resources_set_int("VideoSize", 80);
+                    break;
+                case IDC_SELECT_PET_IO256:
+                    resources_set_int("IOSize", 0x100);
+                    break;
+                case IDC_SELECT_PET_IO2K:
+                    resources_set_int("IOSize", 0x800);
+                    break;
+                case IDC_SELECT_PET_KEYB_GRAPHICS:
+                    resources_set_int("KeymapIndex", 2);
+                    break;
+                case IDC_SELECT_PET_KEYB_BUSINESS:
+                    resources_set_int("KeymapIndex", 0);
+                    break;
+                case IDC_TOGGLE_PET_CRTC:
+                    resources_toggle("Crtc", NULL);
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
 
-static INT_PTR CALLBACK superpet_io_dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK superpet_io_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_superpet_io_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_TOGGLE_PET_SUPER_IO_ENABLE:
-              resources_toggle("SuperPET", NULL);
-              break;
-          }
-          return TRUE;
+        case WM_INITDIALOG:
+            init_superpet_io_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_TOGGLE_PET_SUPER_IO_ENABLE:
+                    resources_toggle("SuperPET", NULL);
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
 
-static INT_PTR CALLBACK pet8296_dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK pet8296_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        init_pet8296_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-          type = LOWORD(wparam);
-          switch (type) {
-            case IDC_TOGGLE_PET_8296_RAM9:
-              resources_toggle("Ram9", NULL);
-              break;
-            case IDC_TOGGLE_PET_8296_RAMA:
-              resources_toggle("RamA", NULL);
-              break;
-          }
-          return TRUE;
+        case WM_INITDIALOG:
+            init_pet8296_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_TOGGLE_PET_8296_RAM9:
+                    resources_toggle("Ram9", NULL);
+                    break;
+                case IDC_TOGGLE_PET_8296_RAMA:
+                    resources_toggle("RamA", NULL);
+                    break;
+            }
+            return TRUE;
     }
     return FALSE;
 }
@@ -617,14 +607,10 @@ void ui_pet_settings_dialog(HWND hwnd)
     psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
     psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
-    psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
-    psp[3].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
+    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
+    psp[3].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
@@ -647,4 +633,3 @@ void ui_pet_settings_dialog(HWND hwnd)
     system_psh_settings(&psh);
     PropertySheet(&psh);
 }
-

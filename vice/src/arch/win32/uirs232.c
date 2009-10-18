@@ -40,30 +40,30 @@
 #include "winmain.h"
 
 static uilib_localize_dialog_param rs232_dialog_trans[] = {
-    {0, IDS_RS232_CAPTION, -1},
-    {IDC_RS232_DEV_1, IDS_RS232_DEV_1, 0},
-    {IDC_RS232_DEV_2, IDS_RS232_DEV_2, 0},
-    {IDC_RS232_DEV_3, IDS_RS232_DEV_3, 0},
-    {IDC_RS232_DEV_4, IDS_RS232_DEV_4, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_RS232_CAPTION, -1 },
+    { IDC_RS232_DEV_1, IDS_RS232_DEV_1, 0 },
+    { IDC_RS232_DEV_2, IDS_RS232_DEV_2, 0 },
+    { IDC_RS232_DEV_3, IDS_RS232_DEV_3, 0 },
+    { IDC_RS232_DEV_4, IDS_RS232_DEV_4, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group left_group[] = {
-    {IDC_RS232_DEV_1, 0},
-    {IDC_RS232_DEV_2, 0},
-    {IDC_RS232_DEV_3, 0},
-    {IDC_RS232_DEV_4, 0},
-    {0, 0}
+    { IDC_RS232_DEV_1, 0 },
+    { IDC_RS232_DEV_2, 0 },
+    { IDC_RS232_DEV_3, 0 },
+    { IDC_RS232_DEV_4, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group right_group[] = {
-    {IDC_RS232_DEVICE1, 0},
-    {IDC_RS232_DEVICE2, 0},
-    {IDC_RS232_DEVICE3, 0},
-    {IDC_RS232_DEVICE4, 0},
-    {0, 0}
+    { IDC_RS232_DEVICE1, 0 },
+    { IDC_RS232_DEVICE2, 0 },
+    { IDC_RS232_DEVICE3, 0 },
+    { IDC_RS232_DEVICE4, 0 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -103,26 +103,22 @@ static void init_rs232_dialog(HWND hwnd)
 
     resources_get_string("RsDevice1", &device);
     st_device = system_mbstowcs_alloc(device);
-    SetDlgItemText(hwnd, IDC_RS232_DEVICE1,
-                   device != NULL ? st_device : TEXT(""));
+    SetDlgItemText(hwnd, IDC_RS232_DEVICE1, device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 
     resources_get_string("RsDevice2", &device);
     st_device = system_mbstowcs_alloc(device);
-    SetDlgItemText(hwnd, IDC_RS232_DEVICE2,
-                   device != NULL ? st_device : TEXT(""));
+    SetDlgItemText(hwnd, IDC_RS232_DEVICE2, device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 
     resources_get_string("RsDevice3", &device);
     st_device = system_mbstowcs_alloc(device);
-    SetDlgItemText(hwnd, IDC_RS232_DEVICE3,
-                   device != NULL ? st_device : TEXT(""));
+    SetDlgItemText(hwnd, IDC_RS232_DEVICE3, device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 
     resources_get_string("RsDevice4", &device);
     st_device = system_mbstowcs_alloc(device);
-    SetDlgItemText(hwnd, IDC_RS232_DEVICE4,
-                   device != NULL ? st_device : TEXT(""));
+    SetDlgItemText(hwnd, IDC_RS232_DEVICE4, device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 }
 
@@ -148,34 +144,32 @@ static void end_rs232_dialog(HWND hwnd)
     resources_set_string("RsDevice4", s);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDOK:
-            end_rs232_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDOK:
+                    end_rs232_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_rs232_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_rs232_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
 
 void ui_rs232_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_RS232_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_RS232_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

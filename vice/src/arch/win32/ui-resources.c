@@ -117,13 +117,12 @@ static int set_single_cpu(int val, void *param)
 
     ui_resources.single_cpu = (int)val;
 
-    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity,
-        &system_affinity)) {
+    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
         /* Check if multi CPU system or not */
         if ((system_affinity & (system_affinity - 1))) {
             if (ui_resources.single_cpu == 1) {
                 //  Set it to first CPU
-                SetThreadAffinityMask(GetCurrentThread(),system_affinity ^ (system_affinity & (system_affinity - 1)));
+                SetThreadAffinityMask(GetCurrentThread(), system_affinity ^ (system_affinity & (system_affinity - 1)));
             } else {
                 //  Set it to all CPU
                 SetThreadAffinityMask(GetCurrentThread(),system_affinity);
@@ -135,9 +134,11 @@ static int set_single_cpu(int val, void *param)
 
 static int set_monitor_dimensions(const char *name, void *param)
 {
-    if (ui_resources.monitor_dimensions != NULL && name != NULL)
-        if (strcmp(name, ui_resources.monitor_dimensions) == 0)
+    if (ui_resources.monitor_dimensions != NULL && name != NULL) {
+        if (strcmp(name, ui_resources.monitor_dimensions) == 0) {
             return 0;
+        }
+    }
 
     util_string_set(&ui_resources.monitor_dimensions, name ? name : "");
 
@@ -148,9 +149,11 @@ static int set_initial_dir(const char *name, void *param)
 {
     int index = vice_ptr_to_int(param);
 
-    if (ui_resources.initialdir[index] != NULL && name != NULL)
-        if (strcmp(name, ui_resources.initialdir[index]) == 0)
+    if (ui_resources.initialdir[index] != NULL && name != NULL) {
+        if (strcmp(name, ui_resources.initialdir[index]) == 0) {
             return 0;
+        }
+    }
 
     util_string_set(&ui_resources.initialdir[index], name ? name : "");
 
@@ -210,10 +213,12 @@ static int set_aspect_ratio(int val, void *param)
 {
     int old_val = ui_resources.aspect_ratio;
 
-    if (val < 500)
+    if (val < 500) {
         val = 500;
-    if (val > 2000)
+    }
+    if (val > 2000) {
         val = 2000;
+    }
     ui_resources.aspect_ratio = val;
 
     if (val != old_val) {
@@ -282,8 +287,9 @@ int ui_resources_init(void)
 {
     translate_resources_init();
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -296,9 +302,10 @@ void ui_resources_shutdown(void)
     lib_free(ui_resources.monitor_dimensions);
     ui_resources.monitor_dimensions = NULL;
 
-    for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
+    for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++) {
         lib_free(ui_resources.initialdir[i]);
         ui_resources.initialdir[i] = NULL;
+    }
 }
 
 int ui_vblank_sync_enabled()
