@@ -39,20 +39,19 @@
 #include "vicii.h"
 #include "winmain.h"
 
-
 static uilib_localize_dialog_param vicii_dialog[] = {
-    {0, IDS_VICII_CAPTION, -1},
-    {IDC_VICII_BORDERSGROUP, IDS_VICII_BORDERSGROUP, 0},
-    {IDC_TOGGLE_VICII_NORMALBORDERS, IDS_VICII_NORMALBORDERS, 0},
-    {IDC_TOGGLE_VICII_FULLBORDERS, IDS_VICII_FULLBORDERS, 0},
-    {IDC_TOGGLE_VICII_DEBUGBORDERS, IDS_VICII_DEBUGBORDERS, 0},
-    {IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0},
-    {IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0},
-    {IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0},
-    {IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_VICII_CAPTION, -1 },
+    { IDC_VICII_BORDERSGROUP, IDS_VICII_BORDERSGROUP, 0 },
+    { IDC_TOGGLE_VICII_NORMALBORDERS, IDS_VICII_NORMALBORDERS, 0 },
+    { IDC_TOGGLE_VICII_FULLBORDERS, IDS_VICII_FULLBORDERS, 0 },
+    { IDC_TOGGLE_VICII_DEBUGBORDERS, IDS_VICII_DEBUGBORDERS, 0 },
+    { IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0 },
+    { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
+    { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
+    { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static void init_vicii_dialog(HWND hwnd)
@@ -63,58 +62,48 @@ static void init_vicii_dialog(HWND hwnd)
 
     resources_get_int("VICIIBorderMode", &n);
     switch (n) {
-     default:
-      case VICII_NORMAL_BORDERS:
-        n = IDC_TOGGLE_VICII_NORMALBORDERS;
-        break;
-      case VICII_FULL_BORDERS:
-        n = IDC_TOGGLE_VICII_FULLBORDERS;
-        break;
-      case VICII_DEBUG_BORDERS:
-        n = IDC_TOGGLE_VICII_DEBUGBORDERS;
-        break;
+        default:
+        case VICII_NORMAL_BORDERS:
+            n = IDC_TOGGLE_VICII_NORMALBORDERS;
+            break;
+        case VICII_FULL_BORDERS:
+            n = IDC_TOGGLE_VICII_FULLBORDERS;
+            break;
+        case VICII_DEBUG_BORDERS:
+            n = IDC_TOGGLE_VICII_DEBUGBORDERS;
+            break;
     }
-    CheckRadioButton(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS, IDC_TOGGLE_VICII_DEBUGBORDERS,
-                    n);
+    CheckRadioButton(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS, IDC_TOGGLE_VICII_DEBUGBORDERS, n);
 
     resources_get_int("VICIICheckSsColl", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int("VICIICheckSbColl", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC, n ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_int("VICIINewLuminances", &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM,
-                   n ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void end_vicii_dialog(HWND hwnd)
 {
-    resources_set_int("VICIIBorderMode", (IsDlgButtonChecked(hwnd,
-                      IDC_TOGGLE_VICII_DEBUGBORDERS) == BST_CHECKED ? VICII_DEBUG_BORDERS :      
-                      IsDlgButtonChecked(hwnd,
-                      IDC_TOGGLE_VICII_FULLBORDERS) == BST_CHECKED ? VICII_FULL_BORDERS : VICII_NORMAL_BORDERS));
+    resources_set_int("VICIIBorderMode", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_DEBUGBORDERS) == BST_CHECKED ? VICII_DEBUG_BORDERS : 
+                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_FULLBORDERS) == BST_CHECKED ? VICII_FULL_BORDERS : VICII_NORMAL_BORDERS));
 
-    resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd,
-                      IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_int("VICIICheckSbColl", (IsDlgButtonChecked(hwnd,
-                      IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("VICIICheckSbColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_int("VICIINewLuminances", (IsDlgButtonChecked(hwnd,
-                      IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("VICIINewLuminances", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
 
     switch (msg) {
         case WM_CLOSE:
-            EndDialog(hwnd,0);
+            EndDialog(hwnd, 0);
             return TRUE;
         case WM_INITDIALOG:
             init_vicii_dialog(hwnd);
@@ -137,7 +126,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
                 case IDOK:
                     end_vicii_dialog(hwnd);
                 case IDCANCEL:
-                    EndDialog(hwnd,0);
+                    EndDialog(hwnd, 0);
                     return TRUE;
             }
             return TRUE;
@@ -147,6 +136,5 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_vicii_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd, dialog_proc);
 }

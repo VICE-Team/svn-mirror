@@ -41,7 +41,6 @@
 #include "videoarch.h"
 #include "viewport.h"
 
-
 static int video_number_of_canvases;
 static video_canvas_t *video_canvases[2];
 static int dx9_available;
@@ -61,8 +60,9 @@ static int set_dx_primary_surface_rendering(int val, void *param)
     dx_primary_surface_rendering = val;
 
     if (video_dx9_enabled()) {
-        for (i = 0; i < video_number_of_canvases; i++)
+        for (i = 0; i < video_number_of_canvases; i++) {
             video_canvas_reset_dx9(video_canvases[i]);
+        }
     }
 
     return 0;
@@ -71,8 +71,7 @@ static int set_dx_primary_surface_rendering(int val, void *param)
 static int set_dx9_disable(int val, void *param)
 {
     if (dx9_disable != val && video_number_of_canvases > 0) {
-        ui_error("Sorry. Cannot change video engine on the fly. " \
-                 "Please restart emulator to change engine.");
+        ui_error("Sorry. Cannot change video engine on the fly. Please restart emulator to change engine.");
         return 0;
     }
 
@@ -119,7 +118,6 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-
 int video_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
@@ -154,8 +152,8 @@ int video_dx9_enabled(void)
 {
     return (dx9_available && !dx9_disable);
 }
-/* ------------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------------ */
 
 video_canvas_t *video_canvas_for_hwnd(HWND hwnd)
 {
@@ -188,9 +186,7 @@ void video_canvas_add(video_canvas_t *canvas)
     video_canvases[video_number_of_canvases++] = canvas;
 }
 
-
-video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
-                                    unsigned int *height, int mapped)
+video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     video_canvas_t *canvas_temp;
 
@@ -200,11 +196,13 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     canvas->width = *width;
     canvas->height = *height;
 
-    if (canvas->videoconfig->doublesizex)
+    if (canvas->videoconfig->doublesizex) {
         canvas->width *= 2;
+    }
 
-    if (canvas->videoconfig->doublesizey)
+    if (canvas->videoconfig->doublesizey) {
         canvas->height *= 2;
+    }
 
     ui_open_canvas_window(canvas);
 
@@ -222,7 +220,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     return video_canvas_create_ddraw(canvas, width, height);
 }
 
-
 void video_canvas_destroy(video_canvas_t *canvas)
 {
     if (video_dx9_enabled()) {
@@ -239,7 +236,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
     }
 }
 
-
 int video_canvas_set_palette(video_canvas_t *canvas, palette_t *p)
 {
     canvas->palette = p;
@@ -251,7 +247,6 @@ int video_canvas_set_palette(video_canvas_t *canvas, palette_t *p)
     video_set_physical_colors(canvas);
     return 0;
 }
-
 
 int video_set_physical_colors(video_canvas_t *c)
 {
@@ -280,17 +275,12 @@ int video_set_physical_colors(video_canvas_t *c)
         bmask = 0xff;
         bbits = 0;
     } else {
-        video_set_physical_colors_get_format_ddraw(c, &rshift, &rbits, &rmask,
-                                                      &gshift, &gbits, &gmask,
-                                                      &bshift, &bbits, &bmask);
+        video_set_physical_colors_get_format_ddraw(c, &rshift, &rbits, &rmask, &gshift, &gbits, &gmask, &bshift, &bbits, &bmask);
     }
 
     if (c->depth > 8) {
         for (i = 0; i < 256; i++) {
-            video_render_setrawrgb(i,
-                ((i & (rmask << rbits)) >> rbits) << rshift,
-                ((i & (gmask << gbits)) >> gbits) << gshift,
-                ((i & (bmask << bbits)) >> bbits) << bshift);
+            video_render_setrawrgb(i, ((i & (rmask << rbits)) >> rbits) << rshift, ((i & (gmask << gbits)) >> gbits) << gshift, ((i & (bmask << bbits)) >> bbits) << bshift);
         }
         video_render_initraw();
     }
@@ -301,40 +291,36 @@ int video_set_physical_colors(video_canvas_t *c)
         if (c->depth == 8 /*&& !dx9_enabled*/) {
             p = video_get_color_from_palette_ddraw(c, i);
         } else {
-            p = (((c->palette->entries[i].red&(rmask << rbits)) >> rbits)
-                << rshift) +
-                (((c->palette->entries[i].green&(gmask << gbits)) >> gbits)
-                << gshift) +
-                (((c->palette->entries[i].blue&(bmask << bbits)) >> bbits)
-                << bshift);
+            p = (((c->palette->entries[i].red&(rmask << rbits)) >> rbits) << rshift) +
+                (((c->palette->entries[i].green&(gmask << gbits)) >> gbits) << gshift) +
+                (((c->palette->entries[i].blue&(bmask << bbits)) >> bbits) << bshift);
         }
         video_render_setphysicalcolor(c->videoconfig, i, p, c->depth);
     }
     return 0;
 }
 
-
 /* Change the size of `s' to `width' * `height' pixels.  */
-void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
-                         unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
-	int device;
+    int device;
     int fullscreen_width;
     int fullscreen_height;
     int bitdepth;
     int refreshrate;
 
-    if (canvas->videoconfig->doublesizex)
+    if (canvas->videoconfig->doublesizex) {
         width *= 2;
+    }
 
-    if (canvas->videoconfig->doublesizey)
+    if (canvas->videoconfig->doublesizey) {
         height *= 2;
+    }
 
     canvas->width = width;
     canvas->height = height;
     if (IsFullscreenEnabled()) {
-        GetCurrentModeParameters(&device, &fullscreen_width,
-								 &fullscreen_height, &bitdepth, &refreshrate);
+        GetCurrentModeParameters(&device, &fullscreen_width, &fullscreen_height, &bitdepth, &refreshrate);
     } else {
         canvas->client_width = width;
         canvas->client_height = height;
@@ -348,10 +334,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
 
 
 /* Raster code has updated display */
-void video_canvas_refresh(video_canvas_t *canvas,
-                          unsigned int xs, unsigned int ys,
-                          unsigned int xi, unsigned int yi,
-                          unsigned int w, unsigned int h)
+void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
     if (video_dx9_enabled()) {
         video_canvas_refresh_dx9(canvas, xs, ys, xi, yi, w, h);
@@ -360,10 +343,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
     }
 }
 
-
 /* Window got a WM_PAINT and needs a refresh */
-void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient,
-                               int w, int h)
+void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 {
     if (video_dx9_enabled()) {
         video_canvas_update_dx9(hwnd, hdc, xclient, yclient, w, h);

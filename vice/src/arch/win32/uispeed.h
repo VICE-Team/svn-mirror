@@ -31,4 +31,3 @@ extern void ui_speed_settings_dialog(HWND hwnd);
 extern int ui_speed_current(void);
 
 #endif
-

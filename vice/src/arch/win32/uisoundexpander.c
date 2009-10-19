@@ -45,29 +45,28 @@ static void enable_soundexpander_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE)
-                 == BST_CHECKED) ? 1 : 0;
+    is_enabled = (IsDlgButtonChecked(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE) == BST_CHECKED) ? 1 : 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_TYPE), is_enabled);
 }
 
 static uilib_localize_dialog_param soundexpander_dialog[] = {
-    {0, IDS_SFX_SOUNDEXPANDER_CAPTION, -1},
-    {IDC_SFX_SOUNDEXPANDER_ENABLE, IDS_SFX_SOUNDEXPANDER_ENABLE, 0},
-    {IDC_SFX_SOUNDEXPANDER_TYPE_LABEL, IDS_SFX_SOUNDEXPANDER_TYPE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_SFX_SOUNDEXPANDER_CAPTION, -1 },
+    { IDC_SFX_SOUNDEXPANDER_ENABLE, IDS_SFX_SOUNDEXPANDER_ENABLE, 0 },
+    { IDC_SFX_SOUNDEXPANDER_TYPE_LABEL, IDS_SFX_SOUNDEXPANDER_TYPE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group soundexpander_leftgroup[] = {
-    {IDC_SFX_SOUNDEXPANDER_TYPE_LABEL, 0},
-    {0, 0}
+    { IDC_SFX_SOUNDEXPANDER_TYPE_LABEL, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group soundexpander_rightgroup[] = {
-    {IDC_SFX_SOUNDEXPANDER_TYPE, 0},
-    {0, 0}
+    { IDC_SFX_SOUNDEXPANDER_TYPE, 0 },
+    { 0, 0 }
 };
 
 static void init_soundexpander_dialog(HWND hwnd)
@@ -82,8 +81,7 @@ static void init_soundexpander_dialog(HWND hwnd)
     uilib_move_group(hwnd, soundexpander_rightgroup, xsize + 30);
 
     resources_get_int("SFXSoundExpander", &res_value);
-    CheckDlgButton(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE, 
-        res_value ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     temp_hwnd = GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_TYPE);
 
@@ -100,37 +98,35 @@ static void init_soundexpander_dialog(HWND hwnd)
 
 static void end_soundexpander_dialog(HWND hwnd)
 {
-    resources_set_int("SFXSoundExpander", (IsDlgButtonChecked(hwnd,
-                      IDC_SFX_SOUNDEXPANDER_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("SFXSoundExpander", (IsDlgButtonChecked(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
     resources_set_int("SFXSoundExpanderChip", (SendMessage(GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_TYPE), CB_GETCURSEL, 0, 0) == 0) ? 3526 : 3812);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_SFX_SOUNDEXPANDER_ENABLE:
-            enable_soundexpander_controls(hwnd);
-            break;
-          case IDOK:
-            end_soundexpander_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_SFX_SOUNDEXPANDER_ENABLE:
+                    enable_soundexpander_controls(hwnd);
+                    break;
+                case IDOK:
+                    end_soundexpander_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_soundexpander_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_soundexpander_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
@@ -138,6 +134,5 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_soundexpander_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_SFX_SOUNDEXPANDER_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_SFX_SOUNDEXPANDER_SETTINGS_DIALOG, hwnd, dialog_proc);
 }

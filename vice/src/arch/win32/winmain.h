@@ -35,4 +35,3 @@ extern HINSTANCE winmain_prev_instance;
 extern int winmain_cmd_show;
 
 #endif
-

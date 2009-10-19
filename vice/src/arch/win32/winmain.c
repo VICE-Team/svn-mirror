@@ -47,13 +47,11 @@
 #include "winmain.h"
 #include "video.h"
 
-
 HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
 int winmain_cmd_show;
 
-int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
-                   TCHAR *cmd_line, int cmd_show)
+int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line, int cmd_show)
 {
     winmain_instance = instance;
     winmain_prev_instance = prev_instance;
@@ -96,4 +94,3 @@ void main_exit(void)
 
     machine_shutdown();
 }
-

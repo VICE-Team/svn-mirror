@@ -33,4 +33,3 @@ extern void ui_tfe_settings_dialog(HWND hwnd);
 #endif // #ifdef HAVE_TFE
 
 #endif
-

@@ -38,13 +38,11 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-
 static const c64export_resource_t export_res = {
     "Action Replay", 1, 1
 };
 
 static unsigned int ar_active;
-
 
 BYTE REGPARM1 actionreplay_io1_read(WORD addr)
 {
@@ -56,30 +54,33 @@ void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
     if (ar_active) {
         cartridge_config_changed((BYTE)(value & 3), value, CMODE_WRITE);
 
-        if (value & 4)
+        if (value & 4) {
             ar_active = 0;
+        }
     }
 }
 
 BYTE REGPARM1 actionreplay_io2_read(WORD addr)
 {
-    if (!ar_active)
+    if (!ar_active) {
         return vicii_read_phi1();
+    }
 
     io_source = IO_SOURCE_ACTION_REPLAY;
 
-    if (export_ram)
+    if (export_ram) {
         return export_ram0[0x1f00 + (addr & 0xff)];
+    }
 
     switch (roml_bank) {
-      case 0:
-        return roml_banks[addr & 0x1fff];
-      case 1:
-        return roml_banks[(addr & 0x1fff) + 0x2000];
-      case 2:
-        return roml_banks[(addr & 0x1fff) + 0x4000];
-      case 3:
-        return roml_banks[(addr & 0x1fff) + 0x6000];
+        case 0:
+            return roml_banks[addr & 0x1fff];
+        case 1:
+            return roml_banks[(addr & 0x1fff) + 0x2000];
+        case 2:
+            return roml_banks[(addr & 0x1fff) + 0x4000];
+        case 3:
+            return roml_banks[(addr & 0x1fff) + 0x6000];
     }
 
     io_source = IO_SOURCE_NONE;
@@ -89,23 +90,27 @@ BYTE REGPARM1 actionreplay_io2_read(WORD addr)
 
 void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
 {
-    if (ar_active)
-        if (export_ram)
+    if (ar_active) {
+        if (export_ram) {
             export_ram0[0x1f00 + (addr & 0xff)] = value;
+        }
+    }
 }
 
 BYTE REGPARM1 actionreplay_roml_read(WORD addr)
 {
-    if (export_ram)
+    if (export_ram) {
         return export_ram0[addr & 0x1fff];
+    }
 
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
 {
-    if (export_ram)
+    if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
+    }
 }
 
 void actionreplay_freeze(void)
@@ -134,12 +139,13 @@ void actionreplay_config_setup(BYTE *rawcart)
 
 int actionreplay_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x8000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -150,18 +156,22 @@ int actionreplay_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     for (i = 0; i <= 3; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
+        }
 
-        if (chipheader[0xb] > 3)
+        if (chipheader[0xb] > 3) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -170,4 +180,3 @@ void actionreplay_detach(void)
 {
     c64export_remove(&export_res);
 }
-

@@ -40,7 +40,6 @@
 #include "winmain.h"
 #include "uilib.h"
 
-
 static BOOL get_tfename(int number, char **ppname, char **ppdescription)
 {
     if (tfe_enumadapter_open()) {
@@ -48,8 +47,9 @@ static BOOL get_tfename(int number, char **ppname, char **ppdescription)
         char *pdescription = NULL;
 
         while (number--) {
-            if (!tfe_enumadapter(&pname, &pdescription))
+            if (!tfe_enumadapter(&pname, &pdescription)) {
                 break;
+            }
 
             lib_free(pname);
             lib_free(pdescription);
@@ -84,8 +84,7 @@ static int gray_ungray_items(HWND hwnd)
         SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_DESC), "");
         enable = 0;
     } else {
-        enable = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE),
-                             CB_GETCURSEL, 0, 0) ? 1 : 0;
+        enable = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), CB_GETCURSEL, 0, 0) ? 1 : 0;
     }
 
     EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_T), enable);
@@ -95,14 +94,11 @@ static int gray_ungray_items(HWND hwnd)
         char *pname = NULL;
         char *pdescription = NULL;
 
-        number = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE),
-                                  CB_GETCURSEL, 0, 0);
+        number = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE), CB_GETCURSEL, 0, 0);
 
         if (get_tfename(number, &pname, &pdescription)) {
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME),
-                          pname);
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC),
-                          pdescription);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), pname);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), pdescription);
             lib_free(pname);
             lib_free(pdescription);
         }
@@ -115,24 +111,24 @@ static int gray_ungray_items(HWND hwnd)
 }
 
 static uilib_localize_dialog_param tfe_dialog[] = {
-    {0, IDS_TFE_CAPTION, -1},
-    {IDC_TFE_SETTINGS_ENABLE_T, IDS_TFE_ETHERNET, 0},
-    {IDC_TFE_SETTINGS_INTERFACE_T, IDS_TFE_INTERFACE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_TFE_CAPTION, -1 },
+    { IDC_TFE_SETTINGS_ENABLE_T, IDS_TFE_ETHERNET, 0 },
+    { IDC_TFE_SETTINGS_INTERFACE_T, IDS_TFE_INTERFACE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group tfe_leftgroup[] = {
-    {IDC_TFE_SETTINGS_ENABLE_T, 0},
-    {IDC_TFE_SETTINGS_INTERFACE_T, 0},
-    {0, 0}
+    { IDC_TFE_SETTINGS_ENABLE_T, 0 },
+    { IDC_TFE_SETTINGS_INTERFACE_T, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group tfe_rightgroup[] = {
-    {IDC_TFE_SETTINGS_ENABLE, 0},
-    {IDC_TFE_SETTINGS_INTERFACE, 0},
-    {0, 0}
+    { IDC_TFE_SETTINGS_ENABLE, 0 },
+    { IDC_TFE_SETTINGS_INTERFACE, 0 },
+    { 0, 0 }
 };
 
 static void init_tfe_dialog(HWND hwnd)
@@ -178,17 +174,14 @@ static void init_tfe_dialog(HWND hwnd)
                 this_entry = TRUE;
             }
 
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME),
-                          pname);
-            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC),
-                          pdescription);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_NAME), pname);
+            SetWindowText(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_DESC), pdescription);
             SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)pname);
             lib_free(pname);
             lib_free(pdescription);
 
             if (this_entry) {
-                SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE),
-                            CB_SETCURSEL, (WPARAM)cnt, 0);
+                SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE), CB_SETCURSEL, (WPARAM)cnt, 0);
             }
         }
 
@@ -197,19 +190,18 @@ static void init_tfe_dialog(HWND hwnd)
 
     if (gray_ungray_items(hwnd)) {
         /* we have a problem: TFE is disabled. Give a message to the user */
-        MessageBox( hwnd,
-            "TFE/RR-Net support is not available on your system,\n"
-            "there is some important part missing. Please have a\n"
-            "look at the VICE knowledge base support page\n"
-            "\n      http://vicekb.trikaliotis.net/13-005\n\n"
-            "for possible reasons and to activate networking with VICE.",
-            "TFE/RR-Net support", MB_ICONINFORMATION|MB_OK);
+        MessageBox(hwnd,
+                   "TFE/RR-Net support is not available on your system,\n"
+                   "there is some important part missing. Please have a\n"
+                   "look at the VICE knowledge base support page\n"
+                   "\n      http://vicekb.trikaliotis.net/13-005\n\n"
+                   "for possible reasons and to activate networking with VICE.",
+                   "TFE/RR-Net support", MB_ICONINFORMATION | MB_OK);
 
         /* just quit the dialog before it is open */
         SendMessage( hwnd, WM_COMMAND, IDCANCEL, 0);
     }
 }
-
 
 static void save_tfe_dialog(HWND hwnd)
 {
@@ -218,8 +210,7 @@ static void save_tfe_dialog(HWND hwnd)
     int tfe_as_rr_net;
     char buffer[256];
 
-    active_value = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE),
-                                    CB_GETCURSEL, 0, 0);
+    active_value = (int)SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), CB_GETCURSEL, 0, 0);
 
     tfe_enabled = active_value >= 1 ? 1 : 0;
     tfe_as_rr_net = active_value == 2 ? 1 : 0;
@@ -232,45 +223,37 @@ static void save_tfe_dialog(HWND hwnd)
     resources_set_string("ETHERNET_INTERFACE", buffer);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg) {
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDOK:
-            save_tfe_dialog(hwnd);
-            /* FALL THROUGH */
-
-          case IDCANCEL:
-            EndDialog(hwnd,0);
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDOK:
+                    save_tfe_dialog(hwnd);
+                    /* FALL THROUGH */
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+                case IDC_TFE_SETTINGS_INTERFACE:
+                    /* FALL THROUGH */
+                case IDC_TFE_SETTINGS_ENABLE:
+                    gray_ungray_items(hwnd);
+                    break;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
             return TRUE;
-
-          case IDC_TFE_SETTINGS_INTERFACE:
-            /* FALL THROUGH */
-
-          case IDC_TFE_SETTINGS_ENABLE:
-            gray_ungray_items(hwnd);
-            break;
-        }
-        return FALSE;
-
-      case WM_CLOSE:
-        EndDialog(hwnd,0);
-        return TRUE;
-
-      case WM_INITDIALOG:
-        init_tfe_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_tfe_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
 
-
 void ui_tfe_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_TFE_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_TFE_SETTINGS_DIALOG, hwnd, dialog_proc);
 }
 
 #endif // #ifdef HAVE_TFE

@@ -37,7 +37,6 @@
 #include "uivicset.h"
 #include "winmain.h"
 
-
 enum {
     BLOCK_0 = 1,
     BLOCK_1 = 1 << 1,
@@ -45,7 +44,6 @@ enum {
     BLOCK_3 = 1 << 3,
     BLOCK_5 = 1 << 5
 };
-
 enum {
     MEM_NONE = 0,
     MEM_3K = BLOCK_0,
@@ -55,24 +53,17 @@ enum {
     MEM_ALL = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5
 };
 
-
 int block0, block1, block2, block3, block5;
 int current_config;
 
 static void update_block_checkboxes(HWND hwnd)
 {
-    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK0,
-                   block0 ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK1,
-                   block1 ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK2,
-                   block2 ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK3,
-                   block3 ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK5,
-                   block5 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK0, block0 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK1, block1 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK2, block2 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK3, block3 ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(hwnd, IDC_VIC_MEMORY_BLOCK5, block5 ? BST_CHECKED : BST_UNCHECKED);
 }
-
 
 static void update_blocks(int mem_model)
 {
@@ -83,88 +74,80 @@ static void update_blocks(int mem_model)
     block5 = (mem_model & BLOCK_5) ? 1 : 0;
 }
 
-
 static void update_config(HWND hwnd)
 {
     int memory_model;
 
-    current_config =
-        (block0 ? BLOCK_0 : 0) |
-        (block1 ? BLOCK_1 : 0) |
-        (block2 ? BLOCK_2 : 0) |
-        (block3 ? BLOCK_3 : 0) |
-        (block5 ? BLOCK_5 : 0);
+    current_config = (block0 ? BLOCK_0 : 0) | (block1 ? BLOCK_1 : 0) | (block2 ? BLOCK_2 : 0) | (block3 ? BLOCK_3 : 0) | (block5 ? BLOCK_5 : 0);
 
     switch (current_config) {
-      case MEM_NONE:
-        memory_model = IDC_VIC_NOEXPANSION;
-        break;
-      case MEM_3K:
-        memory_model = IDC_VIC_3KEXPANSION;
-        break;
-      case MEM_8K:
-        memory_model = IDC_VIC_8KEXPANSION;
-        break;
-      case MEM_16K:
-        memory_model = IDC_VIC_16KEXPANSION;
-        break;
-      case MEM_24K:
-        memory_model = IDC_VIC_24KEXPANSION;
-        break;
-      case MEM_ALL:
-        memory_model = IDC_VIC_FULLEXPANSION;
-        break;
-      default:
-        memory_model = IDC_VIC_CUSTOMEXPANSION;
+        case MEM_NONE:
+            memory_model = IDC_VIC_NOEXPANSION;
+            break;
+        case MEM_3K:
+            memory_model = IDC_VIC_3KEXPANSION;
+            break;
+        case MEM_8K:
+            memory_model = IDC_VIC_8KEXPANSION;
+            break;
+        case MEM_16K:
+            memory_model = IDC_VIC_16KEXPANSION;
+            break;
+        case MEM_24K:
+            memory_model = IDC_VIC_24KEXPANSION;
+            break;
+        case MEM_ALL:
+            memory_model = IDC_VIC_FULLEXPANSION;
+            break;
+        default:
+            memory_model = IDC_VIC_CUSTOMEXPANSION;
     }
-    CheckRadioButton(hwnd,IDC_VIC_NOEXPANSION,
-                     IDC_VIC_CUSTOMEXPANSION,memory_model);
+    CheckRadioButton(hwnd,IDC_VIC_NOEXPANSION, IDC_VIC_CUSTOMEXPANSION,memory_model);
     update_block_checkboxes(hwnd);
-
 }
 
 static uilib_localize_dialog_param vic_settings_dialog[] = {
-    {0, IDS_VIC_CAPTION, -1},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {IDC_VIC_MEMORY, IDS_A_MEMORY, 0},
-    {IDC_VIC_NOEXPANSION, IDS_VIC_NOEXPANSION, 0},
-    {IDC_VIC_3KEXPANSION, IDS_VIC_3KEXPANSION, 0},
-    {IDC_VIC_8KEXPANSION, IDS_VIC_8KEXPANSION, 0},
-    {IDC_VIC_16KEXPANSION, IDS_VIC_16KEXPANSION, 0},
-    {IDC_VIC_24KEXPANSION, IDS_VIC_24KEXPANSION, 0},
-    {IDC_VIC_FULLEXPANSION, IDS_VIC_FULLEXPANSION, 0},
-    {IDC_VIC_CUSTOMEXPANSION, IDS_VIC_CUSTOMEXPANSION, 0},
-    {IDC_VIC_MEMORY_BLOCK0, IDS_VIC_BLOCK0, 0},
-    {IDC_VIC_MEMORY_BLOCK1, IDS_VIC_BLOCK1, 0},
-    {IDC_VIC_MEMORY_BLOCK2, IDS_VIC_BLOCK2, 0},
-    {IDC_VIC_MEMORY_BLOCK3, IDS_VIC_BLOCK3, 0},
-    {IDC_VIC_MEMORY_BLOCK5, IDS_VIC_BLOCK5, 0},
-    {0, 0, 0}
+    { 0, IDS_VIC_CAPTION, -1 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { IDC_VIC_MEMORY, IDS_A_MEMORY, 0 },
+    { IDC_VIC_NOEXPANSION, IDS_VIC_NOEXPANSION, 0 },
+    { IDC_VIC_3KEXPANSION, IDS_VIC_3KEXPANSION, 0 },
+    { IDC_VIC_8KEXPANSION, IDS_VIC_8KEXPANSION, 0 },
+    { IDC_VIC_16KEXPANSION, IDS_VIC_16KEXPANSION, 0 },
+    { IDC_VIC_24KEXPANSION, IDS_VIC_24KEXPANSION, 0 },
+    { IDC_VIC_FULLEXPANSION, IDS_VIC_FULLEXPANSION, 0 },
+    { IDC_VIC_CUSTOMEXPANSION, IDS_VIC_CUSTOMEXPANSION, 0 },
+    { IDC_VIC_MEMORY_BLOCK0, IDS_VIC_BLOCK0, 0 },
+    { IDC_VIC_MEMORY_BLOCK1, IDS_VIC_BLOCK1, 0 },
+    { IDC_VIC_MEMORY_BLOCK2, IDS_VIC_BLOCK2, 0 },
+    { IDC_VIC_MEMORY_BLOCK3, IDS_VIC_BLOCK3, 0 },
+    { IDC_VIC_MEMORY_BLOCK5, IDS_VIC_BLOCK5, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group vic_settings_leftgroup[] = {
-    {IDC_VIC_NOEXPANSION, 1},
-    {IDC_VIC_3KEXPANSION, 1},
-    {IDC_VIC_8KEXPANSION, 1},
-    {IDC_VIC_16KEXPANSION, 1},
-    {IDC_VIC_24KEXPANSION, 1},
-    {IDC_VIC_FULLEXPANSION, 1},
-    {0, 0}
+    { IDC_VIC_NOEXPANSION, 1 },
+    { IDC_VIC_3KEXPANSION, 1 },
+    { IDC_VIC_8KEXPANSION, 1 },
+    { IDC_VIC_16KEXPANSION, 1 },
+    { IDC_VIC_24KEXPANSION, 1 },
+    { IDC_VIC_FULLEXPANSION, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group vic_settings_rightgroup[] = {
-    {IDC_VIC_MEMORY_BLOCK0, 1},
-    {IDC_VIC_MEMORY_BLOCK1, 1},
-    {IDC_VIC_MEMORY_BLOCK2, 1},
-    {IDC_VIC_MEMORY_BLOCK3, 1},
-    {IDC_VIC_MEMORY_BLOCK5, 1},
-    {0, 0}
+    { IDC_VIC_MEMORY_BLOCK0, 1 },
+    { IDC_VIC_MEMORY_BLOCK1, 1 },
+    { IDC_VIC_MEMORY_BLOCK2, 1 },
+    { IDC_VIC_MEMORY_BLOCK3, 1 },
+    { IDC_VIC_MEMORY_BLOCK5, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group vic_settings_rightgroup2[] = {
-    {IDC_VIC_CUSTOMEXPANSION, 1},
-    {0, 0}
+    { IDC_VIC_CUSTOMEXPANSION, 1 },
+    { 0, 0 }
 };
 
 static void init_dialog(HWND hwnd)
@@ -185,14 +168,11 @@ static void init_dialog(HWND hwnd)
 
     uilib_set_element_width(hwnd, IDC_VIC_MEMORY, xsize);
     uilib_adjust_group_width(hwnd, vic_settings_leftgroup);
-    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup,
-                                      left_xsize + 32);
-    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup2,
-                                      left_xsize + 16);
+    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup, left_xsize + 32);
+    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup2, left_xsize + 16);
 
     GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, xsize + 28, rect.bottom - rect.top,
-               TRUE);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 28, rect.bottom - rect.top, TRUE);
 
     resources_get_int("RAMBlock0", &block0);
     resources_get_int("RAMBlock1", &block1);
@@ -203,73 +183,71 @@ static void init_dialog(HWND hwnd)
     update_config(hwnd);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg,
-                                    WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDOK:
-            resources_set_int("RAMBlock0", block0);
-            resources_set_int("RAMBlock1", block1);
-            resources_set_int("RAMBlock2", block2);
-            resources_set_int("RAMBlock3", block3);
-            resources_set_int("RAMBlock5", block5);
-          case IDCANCEL:
-            EndDialog(hwnd, 0);
-            break;
-          case IDC_VIC_NOEXPANSION:
-            update_blocks(MEM_NONE);
-            break;
-          case IDC_VIC_3KEXPANSION:
-            update_blocks(MEM_3K);
-            break;
-          case IDC_VIC_8KEXPANSION:
-            update_blocks(MEM_8K);
-            break;
-          case IDC_VIC_16KEXPANSION:
-            update_blocks(MEM_16K);
-            break;
-          case IDC_VIC_24KEXPANSION:
-            update_blocks(MEM_24K);
-            break;
-          case IDC_VIC_FULLEXPANSION:
-            update_blocks(MEM_ALL);
-            break;
-          case IDC_VIC_MEMORY_BLOCK0:
-            block0 = 1 - block0;
-            break;
-          case IDC_VIC_MEMORY_BLOCK1:
-            block1 = 1 - block1;
-            break;
-          case IDC_VIC_MEMORY_BLOCK2:
-            block2 = 1 - block2;
-            break;
-          case IDC_VIC_MEMORY_BLOCK3:
-            block3 = 1 - block3;
-            break;
-          case IDC_VIC_MEMORY_BLOCK5:
-            block5 = 1 - block5;
-            break;
-          default:
-            return FALSE;
-        }
-        update_config(hwnd);
-        return TRUE;
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDOK:
+                    resources_set_int("RAMBlock0", block0);
+                    resources_set_int("RAMBlock1", block1);
+                    resources_set_int("RAMBlock2", block2);
+                    resources_set_int("RAMBlock3", block3);
+                    resources_set_int("RAMBlock5", block5);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    break;
+                case IDC_VIC_NOEXPANSION:
+                    update_blocks(MEM_NONE);
+                    break;
+                case IDC_VIC_3KEXPANSION:
+                    update_blocks(MEM_3K);
+                    break;
+                case IDC_VIC_8KEXPANSION:
+                    update_blocks(MEM_8K);
+                    break;
+                case IDC_VIC_16KEXPANSION:
+                    update_blocks(MEM_16K);
+                    break;
+                case IDC_VIC_24KEXPANSION:
+                    update_blocks(MEM_24K);
+                    break;
+                case IDC_VIC_FULLEXPANSION:
+                    update_blocks(MEM_ALL);
+                    break;
+                case IDC_VIC_MEMORY_BLOCK0:
+                    block0 = 1 - block0;
+                    break;
+                case IDC_VIC_MEMORY_BLOCK1:
+                    block1 = 1 - block1;
+                    break;
+                case IDC_VIC_MEMORY_BLOCK2:
+                    block2 = 1 - block2;
+                    break;
+                case IDC_VIC_MEMORY_BLOCK3:
+                    block3 = 1 - block3;
+                    break;
+                case IDC_VIC_MEMORY_BLOCK5:
+                    block5 = 1 - block5;
+                    break;
+                default:
+                    return FALSE;
+            }
+            update_config(hwnd);
+            return TRUE;
 
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
 
 void ui_vic_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC_SETTINGS_DIALOG), hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC_SETTINGS_DIALOG), hwnd, dialog_proc);
 }

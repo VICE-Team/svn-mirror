@@ -56,15 +56,15 @@ static int save_roms = 0;
 static int save_disks = 0;
 
 static uilib_localize_dialog_param snapshot_dialog[] = {
-    {IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, IDS_TOGGLE_SNAPSHOT_SAVE_DISKS, 0},
-    {IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, IDS_TOGGLE_SNAPSHOT_SAVE_ROMS, 0},
-    {0, 0, 0}
+    { IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, IDS_TOGGLE_SNAPSHOT_SAVE_DISKS, 0 },
+    { IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, IDS_TOGGLE_SNAPSHOT_SAVE_ROMS, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group snapshot_group[] = {
-    {IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, 1},
-    {IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, 1},
-    {0, 0}
+    { IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, 1 },
+    { IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, 1 },
+    { 0, 0 }
 };
 
 static void init_snapshot_dialog(HWND hwnd)
@@ -83,26 +83,22 @@ static void init_snapshot_dialog(HWND hwnd)
 }
 
 
-static UINT_PTR APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg,
-                                            WPARAM wparam, LPARAM lparam)
+static UINT_PTR APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     switch (uimsg) {
-      case WM_INITDIALOG:
-        init_snapshot_dialog(hwnd);
-        break;
-      case WM_NOTIFY:
-        save_disks = IsDlgButtonChecked(hwnd,
-                         IDC_TOGGLE_SNAPSHOT_SAVE_DISKS) == BST_CHECKED ? 1 : 0;
-        save_roms = IsDlgButtonChecked(hwnd,
-                        IDC_TOGGLE_SNAPSHOT_SAVE_ROMS) == BST_CHECKED ? 1 : 0;
-        break;
+        case WM_INITDIALOG:
+            init_snapshot_dialog(hwnd);
+            break;
+        case WM_NOTIFY:
+            save_disks = IsDlgButtonChecked(hwnd, IDC_TOGGLE_SNAPSHOT_SAVE_DISKS) == BST_CHECKED ? 1 : 0;
+            save_roms = IsDlgButtonChecked(hwnd, IDC_TOGGLE_SNAPSHOT_SAVE_ROMS) == BST_CHECKED ? 1 : 0;
+            break;
     }
     return 0;
 }
 
 
-static char *ui_save_snapshot(const TCHAR *title, const char *filter, 
-                              HWND hwnd, int dialog_template)
+static char *ui_save_snapshot(const TCHAR *title, const char *filter, HWND hwnd, int dialog_template)
 {
     TCHAR name[1024] = TEXT("");
     OPENFILENAME ofn;
@@ -126,71 +122,60 @@ static char *ui_save_snapshot(const TCHAR *title, const char *filter,
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
     ofn.lpstrTitle = title;
-    ofn.Flags = (OFN_EXPLORER
-                 | OFN_HIDEREADONLY
-                 | OFN_NOTESTFILECREATE
-                 | OFN_FILEMUSTEXIST
-                 | OFN_SHAREAWARE
-                 | OFN_ENABLESIZING);
+    ofn.Flags = (OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE | OFN_FILEMUSTEXIST | OFN_SHAREAWARE | OFN_ENABLESIZING);
     if (dialog_template) {
         ofn.lpfnHook = hook_save_snapshot;
         ofn.lpTemplateName = MAKEINTRESOURCE(dialog_template);
-        ofn.Flags = (ofn.Flags
-                 | OFN_ENABLEHOOK
-                 | OFN_ENABLETEMPLATE);
+        ofn.Flags = (ofn.Flags | OFN_ENABLEHOOK | OFN_ENABLETEMPLATE);
     }
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
     vsync_suspend_speed_eval();
 
-    if (GetSaveFileName(&ofn))
+    if (GetSaveFileName(&ofn)) {
         ret = system_wcstombs_alloc(name);
+    }
 
     return ret;
 }
-
 
 static void ui_snapshot_save_dialog(HWND hwnd)
 {
     int filter_len,mask_len;
     char *s;
     char *filter;
-    char mask[]="*.vsf";
+    char mask[] = "*.vsf";
     s=translate_text(IDS_SNAPSHOT_FILES_FILTER);
-    filter_len=strlen(s);
-    mask_len=(int)strlen(mask);
+    filter_len = strlen(s);
+    mask_len = (int)strlen(mask);
     filter = util_concat(s, "0", mask, "0", NULL);
-    filter[filter_len]='\0';
-    filter[filter_len+mask_len+1]='\0';
+    filter[filter_len] = '\0';
+    filter[filter_len+mask_len + 1] = '\0';
 
-    s = ui_save_snapshot(translate_text(IDS_SAVE_SNAPSHOT_IMAGE),
-                         filter,
-                         hwnd, translate_res(IDD_SNAPSHOT_SAVE_DIALOG));
+    s = ui_save_snapshot(translate_text(IDS_SAVE_SNAPSHOT_IMAGE), filter, hwnd, translate_res(IDD_SNAPSHOT_SAVE_DIALOG));
     lib_free(filter);
     if (s != NULL) {
         util_add_extension(&s, "vsf");
 
-        if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0)
+        if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0) {
             ui_error(translate_text(IDS_CANNOT_WRITE_SNAPSHOT_S), s);
+        }
         lib_free(s);
     }
 }
-
 
 static void ui_snapshot_load_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_SNAPSHOT_IMAGE),
-        UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
-        UILIB_SELECTOR_TYPE_FILE_LOAD,
-        UILIB_SELECTOR_STYLE_SNAPSHOT)) != NULL) {
+    if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_SNAPSHOT_IMAGE), UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT, UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_SNAPSHOT)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
-        if (machine_read_snapshot(name, 0) < 0)
+        if (machine_read_snapshot(name, 0) < 0) {
             ui_error(translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
+        }
         system_wcstombs_free(name);
         lib_free(st_name);
     }
@@ -212,14 +197,14 @@ static void load_snapshot_trap(WORD unused_addr, void *hwnd)
 
 void ui_snapshot_load(HWND hwnd)
 {
-    if (!ui_emulation_is_paused())
+    if (!ui_emulation_is_paused()) {
         interrupt_maincpu_trigger_trap(load_snapshot_trap, hwnd);
-    else
+    } else {
         load_snapshot_trap(0, 0);
+    }
 }
 
 void ui_snapshot_save(HWND hwnd)
 {
     interrupt_maincpu_trigger_trap(save_snapshot_trap, hwnd);
 }
-

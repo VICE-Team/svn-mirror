@@ -31,4 +31,3 @@ extern void ui_snapshot_load(HWND hwnd);
 extern void ui_snapshot_save(HWND hwnd);
 
 #endif
-

@@ -49,4 +49,3 @@ extern int actionreplay_crt_attach(FILE *fd, BYTE *rawcart);
 extern void actionreplay_detach(void);
 
 #endif
-

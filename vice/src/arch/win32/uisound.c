@@ -38,7 +38,6 @@
 #include "util.h"
 #include "winmain.h"
 
-
 static int ui_sound_freq[] = {
     8000,
     11025,
@@ -71,43 +70,43 @@ static int ui_sound_adjusting[] = {
 };
 
 static uilib_localize_dialog_param sound_dialog[] = {
-    {0, IDS_SOUND_CAPTION, -1},
-    {IDC_SOUND_DIRECTX, IDS_SOUND_DIRECTX, 0},
-    {IDC_SOUND_WMM, IDS_SOUND_WMM, 0},
-    {IDC_SOUND_SAMPLE_FREQUENCY, IDS_SOUND_SAMPLE_FREQUENCY, 0},
-    {IDC_SOUND_BUFFER_SIZE, IDS_SOUND_BUFFER_SIZE, 0},
-    {IDC_SOUND_SYNCH_METHOD, IDS_SOUND_SYNCH_METHOD, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_SOUND_CAPTION, -1 },
+    { IDC_SOUND_DIRECTX, IDS_SOUND_DIRECTX, 0 },
+    { IDC_SOUND_WMM, IDS_SOUND_WMM, 0 },
+    { IDC_SOUND_SAMPLE_FREQUENCY, IDS_SOUND_SAMPLE_FREQUENCY, 0 },
+    { IDC_SOUND_BUFFER_SIZE, IDS_SOUND_BUFFER_SIZE, 0 },
+    { IDC_SOUND_SYNCH_METHOD, IDS_SOUND_SYNCH_METHOD, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group sound_driver_group[] = {
-    {IDC_SOUND_DIRECTX, 1},
-    {IDC_SOUND_WMM, 1},
-    {0, 0}
+    { IDC_SOUND_DIRECTX, 1 },
+    { IDC_SOUND_WMM, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group sound_left_group[] = {
-    {IDC_SOUND_SAMPLE_FREQUENCY, 0},
-    {IDC_SOUND_BUFFER_SIZE, 0},
-    {IDC_SOUND_SYNCH_METHOD, 0},
-    {0, 0}
+    { IDC_SOUND_SAMPLE_FREQUENCY, 0 },
+    { IDC_SOUND_BUFFER_SIZE, 0 },
+    { IDC_SOUND_SYNCH_METHOD, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group sound_right_group[] = {
-    {IDC_SOUND_FREQ, 0},
-    {IDC_SOUND_BUFFER, 0},
-    {IDC_SOUND_SYNCH, 0},
-    {0, 0}
+    { IDC_SOUND_FREQ, 0 },
+    { IDC_SOUND_BUFFER, 0 },
+    { IDC_SOUND_SYNCH, 0 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group sound_filling_group[] = {
-    {IDC_SOUND_WMM, 0},
-    {IDC_SOUND_FREQ, 0},
-    {IDC_SOUND_BUFFER, 0},
-    {IDC_SOUND_SYNCH, 0},
-    {0, 0}
+    { IDC_SOUND_WMM, 0 },
+    { IDC_SOUND_FREQ, 0 },
+    { IDC_SOUND_BUFFER, 0 },
+    { IDC_SOUND_SYNCH, 0 },
+    { 0, 0 }
 };
 
 static int move_buttons_group[] = {
@@ -176,42 +175,40 @@ static void init_sound_dialog(HWND hwnd)
         }
     }
 
-    snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
+    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_SYNCH);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_FLEXIBLE));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ADJUSTING));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_EXACT));
     resources_get_int("SoundSpeedAdjustment", &res_value);
     switch (res_value) {
-      case SOUND_ADJUST_FLEXIBLE:
-      default:
-        res_value = 0;
-        break;
-      case SOUND_ADJUST_ADJUSTING:
-        res_value = 1;
-        break;
-      case SOUND_ADJUST_EXACT:
-        res_value = 2;
-        break;
+        case SOUND_ADJUST_FLEXIBLE:
+        default:
+            res_value = 0;
+            break;
+        case SOUND_ADJUST_ADJUSTING:
+            res_value = 1;
+            break;
+        case SOUND_ADJUST_EXACT:
+            res_value = 2;
+            break;
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     resources_get_string("SoundDeviceName", (void *)&devicename);
-    if (devicename && !strcasecmp("wmm", devicename))
+    if (devicename && !strcasecmp("wmm", devicename)) {
         res_value = IDC_SOUND_WMM;
-    else
+    } else {
         res_value = IDC_SOUND_DIRECTX;
+    }
         
     CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
 }
 
 static void end_sound_dialog(HWND hwnd)
 {
-    resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(
-                      GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
-    resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(
-                      GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
-    resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(
-                      GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 
 static void select_dx(void)
@@ -226,203 +223,193 @@ static void select_wmm(void)
     ui_display_statustext(translate_text(IDS_SOUND_DRIVER_WMM), 1);
 }
 
-static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                    LPARAM lparam)
+static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
 
     switch (msg) {
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_sound_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_SOUND_DIRECTX:
-            select_dx();
-            break;
-          case IDC_SOUND_WMM:
-            select_wmm();
-            break;
-          case IDOK:
-            end_sound_dialog(hwnd);
-          case IDCANCEL:
-            EndDialog(hwnd,0);
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_sound_dialog(hwnd);
             return TRUE;
-        }
-        break;
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+                switch (command) {
+                    case IDC_SOUND_DIRECTX:
+                    select_dx();
+                    break;
+                case IDC_SOUND_WMM:
+                    select_wmm();
+                    break;
+                case IDOK:
+                    end_sound_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            break;
     }
     return FALSE;
 }
 
 void ui_sound_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SOUND_SETTINGS_DIALOG),
-              hwnd, dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SOUND_SETTINGS_DIALOG), hwnd, dialog_proc);
 }
 
 static void enable_sound_record_controls(HWND hwnd)
 {
-  EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT), 1);
-  EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_BROWSE), 1);
-  EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_FILE), 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT), 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_BROWSE), 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_SOUND_RECORD_FILE), 1);
 }
 
 static uilib_localize_dialog_param sound_record_dialog_trans[] = {
-    {0, IDS_SOUND_RECORD_CAPTION, -1},
-    {IDC_SOUND_RECORD_FORMAT_LABEL, IDS_SOUND_RECORD_FORMAT_LABEL, 0},
-    {IDC_SOUND_RECORD_FILE_LABEL, IDS_SOUND_RECORD_FILE_LABEL, 0},
-    {IDC_SOUND_RECORD_BROWSE, IDS_BROWSE, 0},
-    {IDOK, IDS_OK, 0},
-    {IDCANCEL, IDS_CANCEL, 0},
-    {0, 0, 0}
+    { 0, IDS_SOUND_RECORD_CAPTION, -1 },
+    { IDC_SOUND_RECORD_FORMAT_LABEL, IDS_SOUND_RECORD_FORMAT_LABEL, 0 },
+    { IDC_SOUND_RECORD_FILE_LABEL, IDS_SOUND_RECORD_FILE_LABEL, 0 },
+    { IDC_SOUND_RECORD_BROWSE, IDS_BROWSE, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
 };
 
 static uilib_dialog_group sound_record_group[] = {
-    {IDC_SOUND_RECORD_FORMAT_LABEL, 0},
-    {IDC_SOUND_RECORD_FILE_LABEL, 0},
-    {IDC_SOUND_RECORD_BROWSE, 1},
-    {0, 0}
+    { IDC_SOUND_RECORD_FORMAT_LABEL, 0 },
+    { IDC_SOUND_RECORD_FILE_LABEL, 0 },
+    { IDC_SOUND_RECORD_BROWSE, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group sound_record_right_group[] = {
-    {IDC_SOUND_RECORD_FORMAT, 0},
-    {IDC_SOUND_RECORD_BROWSE, 0},
-    {IDC_SOUND_RECORD_FILE, 0},
-    {0, 0}
+    { IDC_SOUND_RECORD_FORMAT, 0 },
+    { IDC_SOUND_RECORD_BROWSE, 0 },
+    { IDC_SOUND_RECORD_FILE, 0 },
+    { 0, 0 }
 };
 
 static void init_sound_record_dialog(HWND hwnd)
 {
-  HWND temp_hwnd;
-  const char *sound_record_file;
-  TCHAR *st_sound_record_file;
-  int xpos;
-  RECT rect;
+    HWND temp_hwnd;
+    const char *sound_record_file;
+    TCHAR *st_sound_record_file;
+    int xpos;
+    RECT rect;
 
-  /* translate all dialog items */
-  uilib_localize_dialog(hwnd, sound_record_dialog_trans);
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, sound_record_dialog_trans);
 
-  /* adjust the size of the elements in the datasette_sub_group */
-  uilib_adjust_group_width(hwnd, sound_record_group);
+    /* adjust the size of the elements in the datasette_sub_group */
+    uilib_adjust_group_width(hwnd, sound_record_group);
 
-  /* get the max x of the sound record format element */
-  uilib_get_element_max_x(hwnd, IDC_SOUND_RECORD_FORMAT_LABEL, &xpos);
+    /* get the max x of the sound record format element */
+    uilib_get_element_max_x(hwnd, IDC_SOUND_RECORD_FORMAT_LABEL, &xpos);
 
-  /* move the sound record format indicator element to the correct position */
-  uilib_move_element(hwnd, IDC_SOUND_RECORD_FORMAT, xpos + 10);
+    /* move the sound record format indicator element to the correct position */
+    uilib_move_element(hwnd, IDC_SOUND_RECORD_FORMAT, xpos + 10);
 
-  /* get the max x of the sound record file element */
-  uilib_get_element_max_x(hwnd, IDC_SOUND_RECORD_FILE_LABEL, &xpos);
+    /* get the max x of the sound record file element */
+    uilib_get_element_max_x(hwnd, IDC_SOUND_RECORD_FILE_LABEL, &xpos);
 
-  /* move the browse button to the correct position */
-  uilib_move_element(hwnd, IDC_SOUND_RECORD_BROWSE, xpos + 10);
+    /* move the browse button to the correct position */
+    uilib_move_element(hwnd, IDC_SOUND_RECORD_BROWSE, xpos + 10);
 
-  /* get the max x of the right group */
-  uilib_get_group_max_x(hwnd, sound_record_right_group, &xpos);
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, sound_record_right_group, &xpos);
 
-  /* set the width of the dialog to 'surround' all the elements */
-  GetWindowRect(hwnd, &rect);
-  MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
 
-  /* recenter the buttons in the newly resized dialog window */
-  uilib_center_buttons(hwnd, move_buttons_group, 0);
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
-  temp_hwnd = GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT);
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AIFF");
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"IFF");
+    temp_hwnd = GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"AIFF");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"IFF");
 #ifdef USE_LAMEMP3
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"MP3");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"MP3");
 #endif
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"VOC");
-  SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"WAV");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"VOC");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"WAV");
 #ifdef USE_LAMEMP3
-  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)4, 0);
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)4, 0);
 #else
-  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)3, 0);
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)3, 0);
 #endif
 
-  resources_get_string("SoundRecordDeviceArg", &sound_record_file);
-  st_sound_record_file = system_mbstowcs_alloc(sound_record_file);
-  SetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE,
-                 sound_record_file != NULL ? st_sound_record_file : TEXT(""));
-  system_mbstowcs_free(st_sound_record_file);
+    resources_get_string("SoundRecordDeviceArg", &sound_record_file);
+    st_sound_record_file = system_mbstowcs_alloc(sound_record_file);
+    SetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE, sound_record_file != NULL ? st_sound_record_file : TEXT(""));
+    system_mbstowcs_free(st_sound_record_file);
 
-  enable_sound_record_controls(hwnd);
+    enable_sound_record_controls(hwnd);
 }
 
 static char *sound_format[] = {
-  "aiff",
-  "iff",
+    "aiff",
+    "iff",
 #ifdef USE_LAMEMP3
-  "mp3",
+    "mp3",
 #endif
-  "voc",
-  "wav"
+    "voc",
+    "wav"
 };
 
 static void end_sound_record_dialog(HWND hwnd)
 {
-  TCHAR st[MAX_PATH];
-  char s[MAX_PATH];
-  int i;
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+    int i;
 
-  i = (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT),
-                       CB_GETCURSEL, 0, 0);
+    i = (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_RECORD_FORMAT), CB_GETCURSEL, 0, 0);
 
-  GetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE, st, MAX_PATH);
-  system_wcstombs(s, st, MAX_PATH);
+    GetDlgItemText(hwnd, IDC_SOUND_RECORD_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
 
-  util_add_extension_maxpath(s, sound_format[i], MAX_PATH);
+    util_add_extension_maxpath(s, sound_format[i], MAX_PATH);
 
-  resources_set_string("SoundRecordDeviceName", "");
-  resources_set_string("SoundRecordDeviceArg", s);
-  resources_set_string("SoundRecordDeviceName", sound_format[i]);
-  resources_set_int("Sound", 1);
-  ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STARTED), 1);
+    resources_set_string("SoundRecordDeviceName", "");
+    resources_set_string("SoundRecordDeviceArg", s);
+    resources_set_string("SoundRecordDeviceName", sound_format[i]);
+    resources_set_int("Sound", 1);
+    ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STARTED), 1);
 }
 
 static void browse_sound_record_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select Sound Record File"),
-                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
-                        IDC_SOUND_RECORD_FILE);
+    uilib_select_browse(hwnd, TEXT("Select Sound Record File"), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_SOUND_RECORD_FILE);
 }
 
-static INT_PTR CALLBACK sound_record_dialog_proc(HWND hwnd, UINT msg,
-                                                 WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK sound_record_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-  int command;
+    int command;
 
-  switch (msg)
-  {
-    case WM_COMMAND:
-      command = LOWORD(wparam);
-      switch (command)
-      {
-        case IDC_SOUND_RECORD_BROWSE:
-          browse_sound_record_file(hwnd);
-          break;
-        case IDOK:
-          end_sound_record_dialog(hwnd);
-        case IDCANCEL:
-          EndDialog(hwnd, 0);
-          return TRUE;
-      }
-      return FALSE;
-    case WM_CLOSE:
-      EndDialog(hwnd, 0);
-      return TRUE;
-    case WM_INITDIALOG:
-      init_sound_record_dialog(hwnd);
-      return TRUE;
-  }
-  return FALSE;
+    switch (msg) {
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_SOUND_RECORD_BROWSE:
+                    browse_sound_record_file(hwnd);
+                    break;
+                case IDOK:
+                    end_sound_record_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        case WM_INITDIALOG:
+            init_sound_record_dialog(hwnd);
+            return TRUE;
+    }
+    return FALSE;
 }
 
 void ui_sound_record_settings_dialog(HWND hwnd)
 {
-  DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SOUND_RECORD_SETTINGS_DIALOG, hwnd,
-            sound_record_dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SOUND_RECORD_SETTINGS_DIALOG, hwnd, sound_record_dialog_proc);
 }

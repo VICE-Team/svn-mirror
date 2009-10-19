@@ -64,7 +64,7 @@ signed long vsyncarch_frequency(void)
         }
 #ifdef HAS_LONGLONG_INTEGER
         li.QuadPart >>= perf_rotate;
-            frequency = (signed long)li.QuadPart;
+        frequency = (signed long)li.QuadPart;
 #else
         for (i = 0; i < perf_rotate; i++) {
             li.LowPart >>= 1;
@@ -94,7 +94,7 @@ unsigned long vsyncarch_gettime(void)
 
 #ifdef HAS_LONGLONG_INTEGER
     li.QuadPart >>= perf_rotate;
-        return (unsigned long)li.QuadPart;
+    return (unsigned long)li.QuadPart;
 #else
     for (i = 0; i < perf_rotate; i++) {
         li.LowPart >>= 1;
@@ -145,16 +145,16 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 
 void vsyncarch_sync_with_raster(video_canvas_t *c)
 {
-    IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN,
-				      0);
+    IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
 }
 
 void vsyncarch_sleep(signed long delay)
 {
     unsigned long start, now;
 
-    if (delay <= vsyncarch_frequency() / 1000)
+    if (delay <= vsyncarch_frequency() / 1000) {
         return;
+    }
 
     start = vsyncarch_gettime();
     do {
@@ -186,4 +186,3 @@ int vsyncarch_vbl_sync_enabled(void)
 {
     return ui_vblank_sync_enabled();
 }
-

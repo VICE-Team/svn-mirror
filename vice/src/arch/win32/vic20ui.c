@@ -55,7 +55,8 @@
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_VIC20ROM_RESOURCE_DIALOG,
     IDD_VIC20ROMDRIVE_RESOURCE_DIALOG,
-    0 };
+    0
+};
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
@@ -176,39 +177,12 @@ static uikeyboard_config_t uikeyboard_config = {
 };
 
 static const uicart_params_t vic20_ui_cartridges[] = {
-    {
-        IDM_CART_VIC20_8KB_2000,
-        CARTRIDGE_VIC20_16KB_2000,
-        IDS_ATTACH_4_8_16_CART_2000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_16KB_4000,
-        CARTRIDGE_VIC20_16KB_4000,
-        IDS_ATTACH_4_8_16_CART_4000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_8KB_6000,
-        CARTRIDGE_VIC20_16KB_6000,
-        IDS_ATTACH_4_8_16_CART_6000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_8KB_A000,
-        CARTRIDGE_VIC20_8KB_A000,
-        IDS_ATTACH_4_8_CART_A000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_4KB_B000,
-        CARTRIDGE_VIC20_4KB_B000,
-        IDS_ATTACH_4_CART_B000,
-        UILIB_FILTER_ALL
-    },
-    {
-        0, 0, 0, 0
-    }
+    { IDM_CART_VIC20_8KB_2000, CARTRIDGE_VIC20_16KB_2000, IDS_ATTACH_4_8_16_CART_2000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_16KB_4000, CARTRIDGE_VIC20_16KB_4000, IDS_ATTACH_4_8_16_CART_4000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_8KB_6000, CARTRIDGE_VIC20_16KB_6000, IDS_ATTACH_4_8_16_CART_6000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_8KB_A000, CARTRIDGE_VIC20_8KB_A000, IDS_ATTACH_4_8_CART_A000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_4KB_B000, CARTRIDGE_VIC20_4KB_B000, IDS_ATTACH_4_CART_B000, UILIB_FILTER_ALL },
+    { 0, 0, 0, 0 }
 };
 
 ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
@@ -477,73 +451,69 @@ static uilib_dialog_group vic20_drive_right_group[] = {
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-      case IDM_CART_VIC20_GENERIC:
-        uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
-        break;
-      case IDM_CART_VIC20_MEGACART:
-        uicart_attach_special(hwnd, translate_text(IDS_SELECT_MEGACART),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
-        break;
-      case IDM_CART_VIC20_FINAL_EXPANSION:
-        uicart_attach_special(hwnd, translate_text(IDS_SELECT_FINAL_EXPANSION),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
-        break;
-      case IDM_CART_VIC20_SMART_ATTACH:
-        uicart_attach_special(hwnd, translate_text(IDS_SELECT_CARTRIDGE_IMAGE),
-                              UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
-        break;
-      case IDM_CART_VIC20_8KB_2000:
-      case IDM_CART_VIC20_16KB_4000:
-      case IDM_CART_VIC20_8KB_6000:
-      case IDM_CART_VIC20_8KB_A000:
-      case IDM_CART_VIC20_4KB_B000:
-        uicart_attach(wparam, hwnd, vic20_ui_cartridges);
-        break;
-      case IDM_CART_SET_DEFAULT:
-        cartridge_set_default();
-        break;
-      case IDM_CART_DETACH:
-        cartridge_detach_image();
-        break;
-      case IDM_VIC_SETTINGS:
-        ui_vic_settings_dialog(hwnd);
-        break;
-      case IDM_SIDCART_SETTINGS:
-        ui_sidcart_settings_dialog(hwnd);
-        break;
-      case IDM_MIDI_SETTINGS:
-        ui_midi_settings_dialog(hwnd);
-        break;
-      case IDM_JOY_SETTINGS:
-        ui_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_LIGHTPEN_SETTINGS:
-        ui_lightpen_settings_dialog(hwnd);
-        break;
-      case IDM_EXTRA_JOY_SETTINGS:
-        ui_extra_joystick_settings_dialog(hwnd);
-        break;
-      case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG, IDD_VIC20DRIVEROM_SETTINGS_DIALOG,
-                              romset_dialog_resources, uirom_settings, 
-                              vic20_main_trans, vic20_drive_trans,
-                              vic20_main_left_group, vic20_main_middle_group, vic20_main_right_group,
-                              vic20_drive_left_group, vic20_drive_middle_group, vic20_drive_right_group,
-                              vic20_main_res_trans);
-        break;
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        uidrivevic20_settings_dialog(hwnd);
-        break;
-      case IDM_RS232USER_SETTINGS:
-        ui_rs232user_settings_dialog(hwnd);
-        break;
-      case IDM_KEYBOARD_SETTINGS:
-        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
-        break;
+        case IDM_CART_VIC20_GENERIC:
+            uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
+            break;
+        case IDM_CART_VIC20_MEGACART:
+            uicart_attach_special(hwnd, translate_text(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);
+            break;
+        case IDM_CART_VIC20_FINAL_EXPANSION:
+            uicart_attach_special(hwnd, translate_text(IDS_SELECT_FINAL_EXPANSION), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FINAL_EXPANSION);
+            break;
+        case IDM_CART_VIC20_SMART_ATTACH:
+            uicart_attach_special(hwnd, translate_text(IDS_SELECT_CARTRIDGE_IMAGE), UILIB_FILTER_ALL, CARTRIDGE_VIC20_DETECT);
+            break;
+        case IDM_CART_VIC20_8KB_2000:
+        case IDM_CART_VIC20_16KB_4000:
+        case IDM_CART_VIC20_8KB_6000:
+        case IDM_CART_VIC20_8KB_A000:
+        case IDM_CART_VIC20_4KB_B000:
+            uicart_attach(wparam, hwnd, vic20_ui_cartridges);
+            break;
+        case IDM_CART_SET_DEFAULT:
+            cartridge_set_default();
+            break;
+        case IDM_CART_DETACH:
+            cartridge_detach_image();
+            break;
+        case IDM_VIC_SETTINGS:
+            ui_vic_settings_dialog(hwnd);
+            break;
+        case IDM_SIDCART_SETTINGS:
+            ui_sidcart_settings_dialog(hwnd);
+            break;
+        case IDM_MIDI_SETTINGS:
+            ui_midi_settings_dialog(hwnd);
+            break;
+        case IDM_JOY_SETTINGS:
+            ui_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_LIGHTPEN_SETTINGS:
+            ui_lightpen_settings_dialog(hwnd);
+            break;
+        case IDM_EXTRA_JOY_SETTINGS:
+            ui_extra_joystick_settings_dialog(hwnd);
+            break;
+        case IDM_ROM_SETTINGS:
+            uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG, IDD_VIC20DRIVEROM_SETTINGS_DIALOG,
+                                  romset_dialog_resources, uirom_settings, 
+                                  vic20_main_trans, vic20_drive_trans,
+                                  vic20_main_left_group, vic20_main_middle_group, vic20_main_right_group,
+                                  vic20_drive_left_group, vic20_drive_middle_group, vic20_drive_right_group,
+                                  vic20_main_res_trans);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);
+            break;
+        case IDM_DRIVE_SETTINGS:
+            uidrivevic20_settings_dialog(hwnd);
+            break;
+        case IDM_RS232USER_SETTINGS:
+            ui_rs232user_settings_dialog(hwnd);
+            break;
+        case IDM_KEYBOARD_SETTINGS:
+            uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
     }
 }
 
@@ -559,4 +529,3 @@ int vic20ui_init(void)
 void vic20ui_shutdown(void)
 {
 }
-

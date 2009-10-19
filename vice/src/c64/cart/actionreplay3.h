@@ -45,4 +45,3 @@ extern int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart);
 extern void actionreplay3_detach(void);
 
 #endif
-

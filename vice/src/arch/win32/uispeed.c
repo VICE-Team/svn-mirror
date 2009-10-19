@@ -69,8 +69,8 @@ void ui_speed_settings_dialog(HWND hwnd)
 
     if (param.updated > 0) {
         speed = _ttoi(param.string);
-        if (speed > 0 && speed < 1000000)
+        if (speed > 0 && speed < 1000000) {
             resources_set_int("Speed", speed);
-
+        }
     }
 }

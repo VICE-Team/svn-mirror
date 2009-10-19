@@ -31,36 +31,36 @@
 #include <winuser.h>
 
 #if !defined(_WIN64) && !defined(GetWindowLongPtr)
-#define GetWindowLongPtr GetWindowLong
+# define GetWindowLongPtr GetWindowLong
 #endif
 
 #if !defined(_WIN64) && !defined(SetWindowLongPtr)
-#define SetWindowLongPtr SetWindowLong
+# define SetWindowLongPtr SetWindowLong
 #endif
 
 #ifndef GWLP_HWNDPARENT
-#define GWLP_HWNDPARENT GWL_HWNDPARENT
+# define GWLP_HWNDPARENT GWL_HWNDPARENT
 #endif
 
 #ifndef GWLP_USERDATA
-#define GWLP_USERDATA GWL_USERDATA
+# define GWLP_USERDATA GWL_USERDATA
 #endif
 
 #ifndef DWLP_MSGRESULT
-#define DWLP_MSGRESULT DWL_MSGRESULT
+# define DWLP_MSGRESULT DWL_MSGRESULT
 #endif
 
 #ifndef GWLP_WNDPROC
-#define GWLP_WNDPROC GWL_WNDPROC
+# define GWLP_WNDPROC GWL_WNDPROC
 #endif
 
 #ifndef SIF_TRACKPOS
-#define SIF_TRACKPOS        0x0010
+# define SIF_TRACKPOS 0x0010
 #endif
 
 #if defined _MSC_VER && _MSC_VER < 1300 
 # ifndef InterlockedExchangePointer
-#  define InterlockedExchangePointer(_address, _what) ((void*)InterlockedExchange((LPLONG) _address, (LONG) _what))
+#  define InterlockedExchangePointer(_address, _what) ((void*)InterlockedExchange((LPLONG)_address, (LONG)_what))
 # endif
 #endif
 
@@ -72,7 +72,7 @@
 
 
 #ifndef PBT_APMSUSPEND
-# define PBT_APMSUSPEND        4
+# define PBT_APMSUSPEND 4
 #endif
 
 #ifndef PBT_APMRESUMECRITICAL
@@ -84,12 +84,12 @@
 #endif
 
 #ifndef VK_OEM_PLUS
-#define VK_OEM_PLUS 0xbb
+# define VK_OEM_PLUS 0xbb
 #endif
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
 #ifndef OFN_ENABLESIZING
-#define OFN_ENABLESIZING    0x00800000
+# define OFN_ENABLESIZING 0x00800000
 #endif
 
 #if !defined(_WIN64) && defined _MSC_VER && _MSC_VER < 1500 && defined WINVER && WINVER < 0x0500 && !defined(WATCOM_COMPILE)
