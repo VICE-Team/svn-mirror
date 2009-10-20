@@ -46,15 +46,16 @@ static const c64export_resource_t export_res_rex = {
     "REX", 0, 0
 };
 
-
 BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_EPYX_FASTLOAD;
+    io_source = IO_SOURCE_EPYX_FASTLOAD;
 
-    if (addr == 0xdf18)
+    if (addr == 0xdf18) {
         cartridge_config_changed(0, 0, CMODE_READ);
-    if (addr == 0xdf38)
+    }
+    if (addr == 0xdf38) {
         cartridge_config_changed(2, 2, CMODE_READ);
+    }
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
@@ -73,33 +74,39 @@ static int generic_epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
 
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    if (fread(rawcart, 0x2000, 1, fd) < 1)
+    if (fread(rawcart, 0x2000, 1, fd) < 1) {
         return -1;
+    }
 
     return 0;
 }
 
 int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    if (generic_epyxfastload_crt_attach(fd,rawcart) < 0)
+    if (generic_epyxfastload_crt_attach(fd,rawcart) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res_epyx) < 0)
+    if (c64export_add(&export_res_epyx) < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 int rex_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    if (generic_epyxfastload_crt_attach(fd,rawcart) < 0)
+    if (generic_epyxfastload_crt_attach(fd,rawcart) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res_rex) < 0)
+    if (c64export_add(&export_res_rex) < 0) {
         return -1;
+    }
 
     return 0;
 }

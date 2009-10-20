@@ -59,10 +59,11 @@ static void delaep64_io1(BYTE value, unsigned int mode)
      * bank 7-11: 2nd 27256 (right socket)
      */
     bank = ((value & 0x30) >> 4) + ((value & 0x03) << 2);
-    if (bank < 4 || bank > 11)
+    if (bank < 4 || bank > 11) {
         bank = 0;
-    else
-        bank = bank -3;  /* turning the banks into 0-8 */
+    } else {
+        bank = bank - 3;  /* turning the banks into 0-8 */
+    }
     cartridge_romlbank_set(bank);
 }
 
@@ -92,7 +93,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
     WORD size;
-    WORD rom_size=0;
+    WORD rom_size = 0;
     BYTE chipheader[0x10];
 
     /*
@@ -102,52 +103,59 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
      */
     memset(roml_banks, 0xff, 0x12000);
 
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    chip    = (chipheader[0x0a] << 8) + chipheader[0x0b];
-    size    = (chipheader[0x0e] << 8) + chipheader[0x0f];
+    chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
+    size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
     /* First handle the base image */
-    if (size!=0x2000)
-       return -1;
-
-    if (fread(roml_banks, 0x2000, 1, fd) < 1)
+    if (size != 0x2000) {
         return -1;
+    }
 
-    while (1)
-    {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(roml_banks, 0x2000, 1, fd) < 1) {
+        return -1;
+    }
+
+    while (1) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
+        }
 
-        chip    = (chipheader[0x0a] << 8) + chipheader[0x0b];
-        size    = (chipheader[0x0e] << 8) + chipheader[0x0f];
+        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
+        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
         /* check for the size of the following rom images,
            they can be of either 0x2000 or 0x8000 */
-        if (size!=0x2000 && size!=0x8000)
-          return -1;
-
-        /* make sure all rom images are of the same size */
-        if (rom_size==0)
-            rom_size=size;
-        else
-        {
-          if (size!=rom_size)
+        if (size != 0x2000 && size != 0x8000) {
             return -1;
         }
 
+        /* make sure all rom images are of the same size */
+        if (rom_size == 0) {
+            rom_size = size;
+        } else {
+            if (size != rom_size) {
+                return -1;
+            }
+        }
+
         /* maximum of 2 32kb or 8 8kb images allowed */
-        if ((rom_size==0x8000 && chip > 2) || (rom_size==0x2000 && chip > 8))
+        if ((rom_size == 0x8000 && chip > 2) || (rom_size == 0x2000 && chip > 8)) {
             return -1;
+        }
 
         /* put the images in the right place */
-        if (fread(roml_banks + 0x2000 + ((chip - 1) * rom_size), size , 1, fd) < 1)
+        if (fread(roml_banks + 0x2000 + ((chip - 1) * rom_size), size , 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }

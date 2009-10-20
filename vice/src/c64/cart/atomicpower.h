@@ -51,4 +51,3 @@ extern int atomicpower_crt_attach(FILE *fd, BYTE *rawcart);
 extern void atomicpower_detach(void);
 
 #endif
-

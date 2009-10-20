@@ -39,4 +39,3 @@ extern int zaxxon_crt_attach(FILE *fd, BYTE *rawcart);
 extern void zaxxon_detach(void);
 
 #endif
-

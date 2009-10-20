@@ -37,7 +37,6 @@
 #include "types.h"
 #include "util.h"
 
-
 static const c64export_resource_t export_res_8kb = {
     "Generic 8KB", 1, 0
 };
@@ -49,7 +48,6 @@ static const c64export_resource_t export_res_16kb = {
 static c64export_resource_t export_res_ultimax = {
     "Generic Ultimax", 0, 1
 };
-
 
 void generic_8kb_config_init(void)
 {
@@ -88,24 +86,26 @@ void generic_ultimax_config_setup(BYTE *rawcart)
 
 int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x2000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res_8kb) < 0)
+    if (c64export_add(&export_res_8kb) < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x4000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res_16kb) < 0)
+    if (c64export_add(&export_res_16kb) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -116,24 +116,26 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
 
     export_res_ultimax.use_roml = 0;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0
-        && chipheader[0xe] <= 0x40) {
-        if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1)
+    if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0 && chipheader[0xe] <= 0x40) {
+        if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
             return -1;
+        }
 
-        crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
-                  : CARTRIDGE_GENERIC_16KB;
+        crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB : CARTRIDGE_GENERIC_16KB;
         /* try to read next CHIP header in case of 16k Ultimax cart */
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             if (crttype == CARTRIDGE_GENERIC_8KB) {
-                if (c64export_add(&export_res_8kb) < 0)
+                if (c64export_add(&export_res_8kb) < 0) {
                     return -1;
+                }
             } else {
-                if (c64export_add(&export_res_16kb) < 0)
+                if (c64export_add(&export_res_16kb) < 0) {
                     return -1;
+                }
             }
             return 0;
         } else {
@@ -141,16 +143,16 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0
-        && (chipheader[0xe] + chipheader[0xc]) == 0x100) {
-        if (fread(rawcart + ((chipheader[0xc] << 8) & 0x3fff),
-            chipheader[0xe] << 8, 1, fd) < 1)
+    if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0 && (chipheader[0xe] + chipheader[0xc]) == 0x100) {
+        if (fread(rawcart + ((chipheader[0xc] << 8) & 0x3fff), chipheader[0xe] << 8, 1, fd) < 1) {
             return -1;
+        }
 
         crttype = CARTRIDGE_ULTIMAX;
 
-        if (c64export_add(&export_res_ultimax) < 0)
+        if (c64export_add(&export_res_ultimax) < 0) {
             return -1;
+        }
 
         return 0;
     }
@@ -172,4 +174,3 @@ void generic_ultimax_detach(void)
 {
     c64export_remove(&export_res_ultimax);
 }
-

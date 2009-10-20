@@ -63,70 +63,74 @@ static const c64export_resource_t export_res = {
 
 void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
 {
-  BYTE bank, config, test_value;
+    BYTE bank, config, test_value;
 
-  /* Each bit of the register set to low activates a
-     respective EPROM, $FF switches off EXROM */
-  config = (value==0xff) ? 2 : 0;
+    /* Each bit of the register set to low activates a
+       respective EPROM, $FF switches off EXROM */
+    config = (value == 0xff) ? 2 : 0;
 
-  cartridge_config_changed(config, config, CMODE_WRITE);
+    cartridge_config_changed(config, config, CMODE_WRITE);
 
-  bank = 0;
-  test_value = (~value);
-  while (test_value!=0)
-  {
-    bank++;
-    test_value=(test_value>>1);
-  }
-  if (bank!=0)
-    cartridge_romlbank_set(bank-1);
+    bank = 0;
+    test_value = (~value);
+    while (test_value != 0) {
+        bank++;
+        test_value = (test_value >> 1);
+    }
+    if (bank != 0) {
+        cartridge_romlbank_set(bank - 1);
+    }
 }
 
 void delaep7x8_config_init(void)
 {
-  cartridge_config_changed(0, 0, CMODE_READ);
-  cartridge_romlbank_set(0);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
 }
 
 void delaep7x8_config_setup(BYTE *rawcart)
 {
-  cartridge_config_changed(0, 0, CMODE_READ);
-  cartridge_romlbank_set(0);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
 }
 
 int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
 {
-  WORD chip;
-  WORD size;
-  BYTE chipheader[0x10];
+    WORD chip;
+    WORD size;
+    BYTE chipheader[0x10];
 
-  memset(roml_banks, 0xff, 0x10000);
+    memset(roml_banks, 0xff, 0x10000);
 
-  while (1)
-  {
-    if (fread(chipheader, 0x10, 1, fd)<1)
-      break;
+    while (1) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            break;
+        }
 
-    chip=(chipheader[0x0a]<<8)+chipheader[0x0b];
-    size=(chipheader[0x0e]<<8)+chipheader[0x0f];
+        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
+        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
-    if (size!=0x2000)
-      return -1;
+        if (size != 0x2000) {
+            return -1;
+        }
 
-    if (chip > 7)
-      return -1;
+        if (chip > 7) {
+            return -1;
+        }
 
-    if (fread(roml_banks + (chip<<13), 0x2000, 1, fd)<1)
-      return -1;
-  }
+        if (fread(roml_banks + (chip<<13), 0x2000, 1, fd)<1) {
+            return -1;
+        }
+    }
 
-  if (c64export_add(&export_res) < 0)
-    return -1;
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
 
-  return 0;
+    return 0;
 }
 
 void delaep7x8_detach(void)
 {
-  c64export_remove(&export_res);
+    c64export_remove(&export_res);
 }

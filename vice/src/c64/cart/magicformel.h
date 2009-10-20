@@ -57,4 +57,3 @@ extern int magicformel_crt_attach(FILE *fd, BYTE *rawcart);
 extern void magicformel_detach(void);
 
 #endif
-

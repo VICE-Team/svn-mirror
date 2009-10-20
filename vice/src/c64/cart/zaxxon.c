@@ -37,11 +37,9 @@
 #include "types.h"
 #include "zaxxon.h"
 
-
 static const c64export_resource_t export_res = {
     "Zaxxon", 1, 1
 };
-
 
 BYTE REGPARM1 zaxxon_roml_read(WORD addr)
 {
@@ -67,31 +65,33 @@ int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     /* first CHIP header holds $8000-$a000 data */
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    if (chipheader[0xc] != 0x80
-        || (chipheader[0xe] != 0x10 && chipheader[0xe] != 0x20)
-        || fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1)
+    if (chipheader[0xc] != 0x80 || (chipheader[0xe] != 0x10 && chipheader[0xe] != 0x20) || fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
         return -1;
+    }
 
     /* 4kB ROM is mirrored to $9000 */
-    if (chipheader[0xe] == 0x10)
+    if (chipheader[0xe] == 0x10) {
         memcpy(&rawcart[0x1000], &rawcart[0x0000], 0x1000);
+    }
 
     /* second/third CHIP headers hold $a000-$c000 banked data */
     for (i = 0; i <= 1; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
+        }
 
-        if (chipheader[0xc] != 0xa0 || chipheader[0xe] != 0x20
-            || fread(&rawcart[0x2000+(chipheader[0xb] << 13)],
-                     0x2000, 1, fd) < 1)
+        if (chipheader[0xc] != 0xa0 || chipheader[0xe] != 0x20 || fread(&rawcart[0x2000+(chipheader[0xb] << 13)], 0x2000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -100,4 +100,3 @@ void zaxxon_detach(void)
 {
     c64export_remove(&export_res);
 }
-

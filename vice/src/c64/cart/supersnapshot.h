@@ -57,4 +57,3 @@ extern void supersnapshot_v4_detach(void);
 extern void supersnapshot_v5_detach(void);
 
 #endif
-

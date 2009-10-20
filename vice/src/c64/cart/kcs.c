@@ -37,7 +37,6 @@
 #include "kcs.h"
 #include "types.h"
 
-
 static const c64export_resource_t export_res_kcs = {
     "KCS Power", 1, 1
 };
@@ -46,12 +45,11 @@ static const c64export_resource_t export_res_simon = {
     "Simon's Basic", 1, 1
 };
 
-
 BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
     BYTE config;
 
-    io_source=IO_SOURCE_KCS;
+    io_source = IO_SOURCE_KCS;
 
     /* A1 switches off roml/romh banks */
     config = (addr & 2) ? 2 : 0;
@@ -67,17 +65,19 @@ void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_KCS;
+    io_source = IO_SOURCE_KCS;
 
-    if (addr & 0x80)
+    if (addr & 0x80) {
         cartridge_config_changed(0x43, 0x43, CMODE_READ);
+    }
     return export_ram0[0x1f00 + (addr & 0xff)];
 }
 
 void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 {
-    if (!cart_ultimax_phi2)
+    if (!cart_ultimax_phi2) {
         cartridge_config_changed(1, 1, CMODE_WRITE);
+    }
     export_ram0[0x1f00 + (addr & 0xff)] = value;
 }
 
@@ -104,14 +104,17 @@ static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     for (i = 0; i <= 1; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
+        }
 
-        if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0)
+        if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
             return -1;
+        }
         
-        if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000, 1, fd) < 1)
+        if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000, 1, fd) < 1) {
             return -1;
+        }
     }
 
     return 0;
@@ -119,22 +122,26 @@ static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
 
 int kcs_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    if (generic_kcs_crt_attach(fd,rawcart) < 0)
-      return -1;
-
-    if (c64export_add(&export_res_kcs) < 0)
+    if (generic_kcs_crt_attach(fd,rawcart) < 0) {
         return -1;
+    }
+
+    if (c64export_add(&export_res_kcs) < 0) {
+        return -1;
+    }
 
     return 0;
 }
 
 int simon_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    if (generic_kcs_crt_attach(fd,rawcart) < 0)
-      return -1;
-
-    if (c64export_add(&export_res_simon) < 0)
+    if (generic_kcs_crt_attach(fd,rawcart) < 0) {
         return -1;
+    }
+
+    if (c64export_add(&export_res_simon) < 0) {
+        return -1;
+    }
 
     return 0;
 }

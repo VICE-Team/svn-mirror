@@ -40,4 +40,3 @@ extern int delaep64_crt_attach(FILE *fd, BYTE *rawcart);
 extern void delaep64_detach(void);
 
 #endif
-

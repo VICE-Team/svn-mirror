@@ -37,11 +37,9 @@
 #include "ross.h"
 #include "types.h"
 
-
 static const c64export_resource_t export_res = {
     "Ross", 1, 1
 };
-
 
 BYTE REGPARM1 ross_io1_read(WORD addr)
 {
@@ -79,24 +77,28 @@ int ross_crt_attach(FILE *fd, BYTE *rawcart)
     int amount=0;
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
+        }
 
         amount++;
 
-        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40
-            && chipheader[0xb] > 1)
+        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40 && chipheader[0xb] > 1) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (amount==1)
-      memcpy(&rawcart[0x4000], &rawcart[0x0000], 0x4000);
+    if (amount == 1) {
+        memcpy(&rawcart[0x4000], &rawcart[0x0000], 0x4000);
+    }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }

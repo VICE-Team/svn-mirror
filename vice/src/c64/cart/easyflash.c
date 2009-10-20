@@ -160,7 +160,6 @@ int easyflash_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
-
 /* ---------------------------------------------------------------------*/
 
 void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)

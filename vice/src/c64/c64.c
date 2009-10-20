@@ -114,13 +114,14 @@
 #include "tfe.h"
 #endif
 
-
 machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 3
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
-    "KeymapSymFile", "KeymapPosFile", "KeymapSymDeFile"
+    "KeymapSymFile",
+    "KeymapPosFile",
+    "KeymapSymDeFile"
 };
 
 char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -135,91 +136,19 @@ static void machine_vsync_hook(void);
 /* ------------------------------------------------------------------------- */
 
 static const trap_t c64_serial_traps[] = {
-    {
-        "SerialListen",
-        0xED24,
-        0xEDAB,
-        { 0x20, 0x97, 0xEE },
-        serial_trap_attention,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        "SerialSaListen",
-        0xED37,
-        0xEDAB,
-        { 0x20, 0x8E, 0xEE },
-        serial_trap_attention,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        "SerialSendByte",
-        0xED41,
-        0xEDAB,
-        { 0x20, 0x97, 0xEE },
-        serial_trap_send,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        "SerialReceiveByte",
-        0xEE14,
-        0xEDAB,
-        { 0xA9, 0x00, 0x85 },
-        serial_trap_receive,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        "SerialReady",
-        0xEEA9,
-        0xEDAB,
-        { 0xAD, 0x00, 0xDD },
-        serial_trap_ready,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        NULL,
-        0,
-        0,
-        { 0, 0, 0 },
-        NULL,
-        NULL,
-        NULL
-    }
+    { "SerialListen", 0xED24, 0xEDAB, { 0x20, 0x97, 0xEE }, serial_trap_attention, c64memrom_trap_read, c64memrom_trap_store },
+    { "SerialSaListen", 0xED37, 0xEDAB, { 0x20, 0x8E, 0xEE }, serial_trap_attention, c64memrom_trap_read, c64memrom_trap_store },
+    { "SerialSendByte", 0xED41, 0xEDAB, { 0x20, 0x97, 0xEE }, serial_trap_send, c64memrom_trap_read, c64memrom_trap_store },
+    { "SerialReceiveByte", 0xEE14, 0xEDAB, { 0xA9, 0x00, 0x85 }, serial_trap_receive, c64memrom_trap_read, c64memrom_trap_store },
+    { "SerialReady", 0xEEA9, 0xEDAB, { 0xAD, 0x00, 0xDD }, serial_trap_ready, c64memrom_trap_read, c64memrom_trap_store },
+    { NULL, 0, 0, { 0, 0, 0 }, NULL, NULL, NULL }
 };
 
 /* Tape traps.  */
 static const trap_t c64_tape_traps[] = {
-    {
-        "TapeFindHeader",
-        0xF72F,
-        0xF732,
-        { 0x20, 0x41, 0xF8 },
-        tape_find_header_trap,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        "TapeReceive",
-        0xF8A1,
-        0xFC93,
-        { 0x20, 0xBD, 0xFC },
-        tape_receive_trap,
-        c64memrom_trap_read,
-        c64memrom_trap_store
-    },
-    {
-        NULL,
-        0,
-        0,
-        { 0, 0, 0 },
-        NULL,
-        NULL,
-        NULL
-    }
+    { "TapeFindHeader", 0xF72F, 0xF732, { 0x20, 0x41, 0xF8 }, tape_find_header_trap, c64memrom_trap_read, c64memrom_trap_store },
+    { "TapeReceive", 0xF8A1, 0xFC93, { 0x20, 0xBD, 0xFC }, tape_receive_trap, c64memrom_trap_read, c64memrom_trap_store },
+    { NULL, 0, 0, { 0, 0, 0 }, NULL, NULL, NULL }
 };
 
 static const tape_init_t tapeinit = {
@@ -288,15 +217,15 @@ int machine_resources_init(void)
 #endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
-        || cartridge_resources_init() < 0
 #ifdef HAVE_MIDI
         || c64_midi_resources_init() < 0
 #endif
-        )
+        || cartridge_resources_init() < 0) {
         return -1;
-
-    if (vsid_mode && psid_init_resources() < 0)
+    }
+    if (vsid_mode && psid_init_resources() < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -330,9 +259,9 @@ int machine_cmdline_options_init(void)
     if (vsid_mode) {
         if (sound_cmdline_options_init() < 0
             || sid_cmdline_options_init() < 0
-            || psid_init_cmdline_options() < 0
-            )
+            || psid_init_cmdline_options() < 0) {
             return -1;
+        }
 
         return 0;
     }
@@ -374,12 +303,12 @@ int machine_cmdline_options_init(void)
 #endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
-        || cartridge_cmdline_options_init() < 0
 #ifdef HAVE_MIDI
         || c64_midi_cmdline_options_init() < 0
 #endif
-        )
+        || cartridge_cmdline_options_init() < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -396,12 +325,12 @@ static void c64_monitor_init(void)
 
     asm6502_init(&asm6502);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+    }
 
     /* Initialize the monitor.  */
-    monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
-                 asmarray);
+    monitor_init(maincpu_monitor_interface_get(), drive_interface_init, asmarray);
 }
 
 void machine_setup_context(void)
@@ -417,8 +346,9 @@ int machine_specific_init(void)
 {
     c64_log = log_open("C64");
 
-    if (mem_load() < 0)
+    if (mem_load() < 0) {
         return -1;
+    }
 
     if (vsid_mode) {
         psid_init_driver();
@@ -429,8 +359,9 @@ int machine_specific_init(void)
         traps_init();
 
         /* Initialize serial traps.  */
-        if (serial_init(c64_serial_traps) < 0)
+        if (serial_init(c64_serial_traps) < 0) {
             return -1;
+        }
 
         serial_trap_init(0xa4);
         serial_iec_bus_init();
@@ -452,9 +383,7 @@ int machine_specific_init(void)
         drive_init();
 
         /* Initialize autostart.  */
-        autostart_init((CLOCK)(3 * C64_PAL_RFSH_PER_SEC
-                       * C64_PAL_CYCLES_PER_RFSH),
-                       1, 0xcc, 0xd1, 0xd3, 0xd5);
+        autostart_init((CLOCK)(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH), 1, 0xcc, 0xd1, 0xd3, 0xd5);
     }
 
     if (vicii_init(VICII_STANDARD) == NULL && !video_disabled_mode) {
@@ -473,8 +402,9 @@ int machine_specific_init(void)
 
 #ifndef COMMON_KBD
         /* Initialize the keyboard.  */
-        if (c64_kbd_init() < 0)
+        if (c64_kbd_init() < 0) {
             return -1;
+        }
 #endif
 
         c64keyboard_init();
@@ -484,28 +414,26 @@ int machine_specific_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(machine_vsync_hook);
-    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
-                                machine_timing.cycles_per_sec);
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec, machine_timing.cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec
-                * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
 
-        if (vsid_mode)
+        if (vsid_mode) {
             vsid_ui_init();
-        else
+        } else {
             c64ui_init();
+        }
     }
 
-    if (!vsid_mode)
-    {
+    if (!vsid_mode) {
         /* Initialize the REU.  */
         reu_init();
 
@@ -552,8 +480,7 @@ int machine_specific_init(void)
     }
 
     machine_drive_stub();
-#if defined (USE_XF86_EXTENSIONS) && \
-    (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
@@ -670,8 +597,7 @@ static void machine_vsync_hook(void)
         unsigned int playtime;
         static unsigned int time = 0;
 
-        playtime = (psid_increment_frames() * machine_timing.cycles_per_rfsh)
-                   / machine_timing.cycles_per_sec;
+        playtime = (psid_increment_frames() * machine_timing.cycles_per_rfsh) / machine_timing.cycles_per_sec;
         if (playtime != time) {
             vsid_ui_display_time(playtime);
             time = playtime;
@@ -714,72 +640,66 @@ long machine_get_cycles_per_second(void)
 
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
-    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
-            % machine_timing.screen_lines);
-
+    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
-
     *half_cycle = (int)-1;
 }
 
 void machine_change_timing(int timeval)
 {
-   int border_mode;
+    int border_mode;
 
     switch (timeval) {
-      default:
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-      case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
-        border_mode = VICII_NORMAL_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-      case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
-        border_mode = VICII_FULL_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-      case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
-        border_mode = VICII_DEBUG_BORDERS;
-        break;
-   }
-
-    switch (timeval) {
-      case MACHINE_SYNC_PAL:
-        machine_timing.cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C64_PAL_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C64_PAL_SCREEN_LINES;
-        break;
-      case MACHINE_SYNC_NTSC:
-        machine_timing.cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C64_NTSC_SCREEN_LINES;
-        break;
-      case MACHINE_SYNC_NTSCOLD:
-        machine_timing.cycles_per_sec = C64_NTSCOLD_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C64_NTSCOLD_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C64_NTSCOLD_SCREEN_LINES;
-        break;
-      default:
-        log_error(c64_log, "Unknown machine timing.");
+        default:
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
+            border_mode = VICII_NORMAL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
+            border_mode = VICII_FULL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
+            border_mode = VICII_DEBUG_BORDERS;
+            break;
     }
 
-    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
-                                machine_timing.cycles_per_sec);
-    sound_set_machine_parameter(machine_timing.cycles_per_sec,
-                                machine_timing.cycles_per_rfsh);
-    debug_set_machine_parameter(machine_timing.cycles_per_line,
-                                machine_timing.screen_lines);
+    switch (timeval) {
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C64_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C64_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C64_NTSC_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            machine_timing.cycles_per_sec = C64_NTSCOLD_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C64_NTSCOLD_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C64_NTSCOLD_SCREEN_LINES;
+            break;
+        default:
+            log_error(c64_log, "Unknown machine timing.");
+    }
+
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec, machine_timing.cycles_per_sec);
+    sound_set_machine_parameter(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
+    debug_set_machine_parameter(machine_timing.cycles_per_line, machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
@@ -792,8 +712,7 @@ void machine_change_timing(int timeval)
 
 /* ------------------------------------------------------------------------- */
 
-int machine_write_snapshot(const char *name, int save_roms, int save_disks,
-                           int event_mode)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks, int event_mode)
 {
     return c64_snapshot_write(name, save_roms, save_disks, event_mode);
 }
@@ -821,18 +740,19 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas != vicii_get_canvas())
+    if (canvas != vicii_get_canvas()) {
         return -1;
+    }
 
     vicii_screenshot(screenshot);
     return 0;
 }
 
-int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
-                                 struct video_canvas_s *canvas)
+int machine_canvas_async_refresh(struct canvas_refresh_s *refresh, struct video_canvas_s *canvas)
 {
-    if (canvas != vicii_get_canvas())
+    if (canvas != vicii_get_canvas()) {
         return -1;
+    }
 
     vicii_async_refresh(refresh);
     return 0;
@@ -857,4 +777,3 @@ BYTE machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_BAS;
 }
-

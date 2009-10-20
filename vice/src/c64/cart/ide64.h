@@ -42,4 +42,3 @@ extern char *ide64_image_file;
 extern void ide64_detach(void);
 
 #endif
-

@@ -56,66 +56,71 @@ static const c64export_resource_t export_res = {
 
 void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
 {
-  BYTE bank, config;
+    BYTE bank, config;
 
-  /* D7 switches off EXROM */
-  config = (value & 0x80) ? 2 : 0;
+    /* D7 switches off EXROM */
+    config = (value & 0x80) ? 2 : 0;
 
-  cartridge_config_changed(config, config, CMODE_WRITE);
+    cartridge_config_changed(config, config, CMODE_WRITE);
 
-  bank=((0x30-(value&0x30))>>1)+(value&7)+1;
+    bank = ((0x30 - (value & 0x30)) >> 1) + (value & 7) + 1;
 
-  if (bank<1 || bank>32)
-    bank=0;
+    if (bank < 1 || bank > 32) {
+        bank = 0;
+    }
 
-  cartridge_romlbank_set(bank);
+    cartridge_romlbank_set(bank);
 }
 
 void delaep256_config_init(void)
 {
-  cartridge_config_changed(0, 0, CMODE_READ);
-  cartridge_romlbank_set(0);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
 }
 
 void delaep256_config_setup(BYTE *rawcart)
 {
-  cartridge_config_changed(0, 0, CMODE_READ);
-  cartridge_romlbank_set(0);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
 }
 
 int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
-  WORD chip;
-  WORD size;
-  BYTE chipheader[0x10];
+    WORD chip;
+    WORD size;
+    BYTE chipheader[0x10];
 
-  memset(roml_banks, 0xff, 0x42000);
+    memset(roml_banks, 0xff, 0x42000);
 
-  while (1)
-  {
-    if (fread(chipheader, 0x10, 1, fd)<1)
-      break;
+    while (1) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            break;
+        }
 
-    chip=(chipheader[0x0a]<<8)+chipheader[0x0b];
-    size=(chipheader[0x0e]<<8)+chipheader[0x0f];
+        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
+        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
-    if (size!=0x2000)
-      return -1;
+        if (size != 0x2000) {
+            return -1;
+        }
 
-    if (chip > 32)
-      return -1;
+        if (chip > 32) {
+            return -1;
+        }
 
-    if (fread(roml_banks + (chip<<13), 0x2000, 1, fd)<1)
-      return -1;
-  }
+        if (fread(roml_banks + (chip << 13), 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+    }
 
-  if (c64export_add(&export_res) < 0)
-    return -1;
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
 
-  return 0;
+    return 0;
 }
 
 void delaep256_detach(void)
 {
-  c64export_remove(&export_res);
+    c64export_remove(&export_res);
 }

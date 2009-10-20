@@ -48,8 +48,7 @@ extern void retroreplay_config_setup(BYTE *rawcart);
 extern int retroreplay_bin_attach(const char *filename, BYTE *rawcart);
 extern void retroreplay_detach(void);
 
-extern unsigned int  rr_active;
-extern unsigned int  rr_clockport_enabled;
+extern unsigned int rr_active;
+extern unsigned int rr_clockport_enabled;
 
 #endif
-

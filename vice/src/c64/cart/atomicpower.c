@@ -38,7 +38,6 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-
 static const c64export_resource_t export_res = {
     "Action Power", 1, 1
 };
@@ -64,63 +63,71 @@ void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 atomicpower_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_ATOMIC_POWER;
-    if (export_ram)
+    io_source = IO_SOURCE_ATOMIC_POWER;
+
+    if (export_ram) {
         return export_ram0[0x1f00 + (addr & 0xff)];
+    }
 
     switch (roml_bank) {
-      case 0:
-        return roml_banks[addr & 0x1fff];
-      case 1:
-        return roml_banks[(addr & 0x1fff) + 0x2000];
-      case 2:
-        return roml_banks[(addr & 0x1fff) + 0x4000];
-      case 3:
-        return roml_banks[(addr & 0x1fff) + 0x6000];
+        case 0:
+            return roml_banks[addr & 0x1fff];
+        case 1:
+            return roml_banks[(addr & 0x1fff) + 0x2000];
+        case 2:
+            return roml_banks[(addr & 0x1fff) + 0x4000];
+        case 3:
+            return roml_banks[(addr & 0x1fff) + 0x6000];
     }
-    io_source=IO_SOURCE_NONE;
+    io_source = IO_SOURCE_NONE;
     return 0;
 }
 
 void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value)
 {
-    if (export_ram)
+    if (export_ram) {
         export_ram0[0x1f00 + (addr & 0xff)] = value;
+    }
 }
 
 BYTE REGPARM1 atomicpower_roml_read(WORD addr)
 {
-    if (export_ram)
+    if (export_ram) {
         return export_ram0[addr & 0x1fff];
+    }
 
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 void REGPARM2 atomicpower_roml_store(WORD addr, BYTE value)
 {
-    if (export_ram)
+    if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
+    }
 }
 
 BYTE REGPARM1 atomicpower_romh_read(WORD addr)
 {
-    if (export_ram_at_a000)
+    if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
+    }
 
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
 BYTE REGPARM1 atomicpower_a000_bfff_read(WORD addr)
 {
-    if (export_ram_at_a000)
+    if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
+    }
     return 0x55;
 }
 
 void REGPARM2 atomicpower_a000_bfff_store(WORD addr, BYTE value)
 {
-    if (export_ram_at_a000)
+    if (export_ram_at_a000) {
         export_ram0[addr & 0x1fff] = value;
+    }
     return;
 }
 
@@ -144,12 +151,13 @@ void atomicpower_config_setup(BYTE *rawcart)
 
 int atomicpower_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x8000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -160,18 +168,22 @@ int atomicpower_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     for (i = 0; i <= 3; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
+        }
 
-        if (chipheader[0xb] > 3)
+        if (chipheader[0xb] > 3) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -180,4 +192,3 @@ void atomicpower_detach(void)
 {
     c64export_remove(&export_res);
 }
-

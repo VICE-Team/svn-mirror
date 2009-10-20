@@ -38,17 +38,15 @@
 #include "types.h"
 #include "vicii-phi1.h"
 
-
 static const c64export_resource_t export_res = {
     "Magic Formel", 1, 1
 };
 
 static unsigned int ram_page = 0;
 
-
 BYTE REGPARM1 magicformel_io1_read(WORD addr)
 {
-    io_source=IO_SOURCE_MAGIC_FORMEL;
+    io_source = IO_SOURCE_MAGIC_FORMEL;
     return export_ram0[(ram_page << 8) + (addr & 0xff)];
 }
 
@@ -64,14 +62,16 @@ BYTE REGPARM1 magicformel_io2_read(WORD addr)
 
 void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
 {
-/*log_debug("IO2 WRITE ADDR %02x", addr & 0xff);*/
 
-    if ((addr & 0xf8) == 0)
+    if ((addr & 0xf8) == 0) {
         romh_bank = addr & 7;
-    if ((addr & 0xff) == 0x11)
+    }
+    if ((addr & 0xff) == 0x11) {
         cartridge_config_changed(2, 2, CMODE_READ);
-    if ((addr & 0xff) >= 0x80)
+    }
+    if ((addr & 0xff) >= 0x80) {
         ram_page = addr & 0x1f;
+    }
 }
 
 BYTE REGPARM1 magicformel_roml_read(WORD addr)
@@ -155,18 +155,22 @@ int magicformel_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     for (i = 0; i <= 7; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
+        }
 
-        if (chipheader[0xb] > 7)
+        if (chipheader[0xb] > 7) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -175,4 +179,3 @@ void magicformel_detach(void)
 {
     c64export_remove(&export_res);
 }
-

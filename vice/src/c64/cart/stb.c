@@ -37,7 +37,6 @@
 #include "types.h"
 #include "util.h"
 
-
 /* Stb cartridge uses io1 and roml */
 static const c64export_resource_t export_res = {
     "Structured Basic", 1, 0
@@ -50,25 +49,25 @@ static const c64export_resource_t export_res = {
 *  - bit 0 and bit 1 set deactivate EXROM and expose the RAM
 */
 
-static void stb_io (WORD addr)
+static void stb_io(WORD addr)
 {
     switch (addr & 0xff03) {
 
-      /* normal config: bank 0 visible */
-      case 0xde00:
-      case 0xde01:
-        cartridge_config_changed(0, 0, CMODE_READ);
-        break; 
+        /* normal config: bank 0 visible */
+        case 0xde00:
+        case 0xde01:
+            cartridge_config_changed(0, 0, CMODE_READ);
+            break;
 
-      /* bank 1 visible, gets copied to RAM during reset */
-      case 0xde02:
-        cartridge_config_changed(0x08, 0x08, CMODE_READ);
-        break;
+        /* bank 1 visible, gets copied to RAM during reset */
+        case 0xde02:
+            cartridge_config_changed(0x08, 0x08, CMODE_READ);
+            break;
 
-      /* RAM visible, which contains bank 1 */
-      case 0xde03:
-        cartridge_config_changed(2, 2, CMODE_READ);
-        break;
+        /* RAM visible, which contains bank 1 */
+        case 0xde03:
+            cartridge_config_changed(2, 2, CMODE_READ);
+            break;
     }
 }
 
@@ -101,13 +100,14 @@ void stb_config_setup(BYTE *rawcart)
 int stb_bin_attach(const char *filename, BYTE *rawcart)
 {
     /* load file into cartridge address space */
-    if (util_file_load(filename, rawcart, 0x4000,
-        UTIL_FILE_LOAD_RAW) < 0)
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_RAW) < 0) {
         return -1;
+    }
 
     /* add export */
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -117,27 +117,27 @@ int stb_crt_attach(FILE *fd, BYTE *rawcart)
     BYTE chipheader[0x10];
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
+        }
 
-        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x20
-            && chipheader[0xb] > 1)
+        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x20 && chipheader[0xb] > 1) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
-
-
 
 void stb_detach(void)
 {
     c64export_remove(&export_res);
 }
-

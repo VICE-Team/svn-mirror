@@ -45,4 +45,3 @@ extern void generic_16kb_detach(void);
 extern void generic_ultimax_detach(void);
 
 #endif
-

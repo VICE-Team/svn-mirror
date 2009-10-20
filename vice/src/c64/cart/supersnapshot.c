@@ -38,7 +38,6 @@
 #include "types.h"
 #include "util.h"
 
-
 static const c64export_resource_t export_res_v4 = {
     "Super Snapshot V4", 1, 1
 };
@@ -53,7 +52,7 @@ static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 
 BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr)
 {
-    io_source=IO_SOURCE_SS4;
+    io_source = IO_SOURCE_SS4;
     return export_ram0[0x1e00 + (addr & 0xff)];
 }
 
@@ -64,21 +63,22 @@ void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_SS4;
-    if ((addr & 0xff) == 1)
+    io_source = IO_SOURCE_SS4;
+    if ((addr & 0xff) == 1) {
         return ramconfig;
+    }
 
     switch (roml_bank) {
-      case 0:
-        return roml_banks[addr & 0x1fff];
-      case 1:
-        return roml_banks[(addr & 0x1fff) + 0x2000];
-      case 2:
-        return roml_banks[(addr & 0x1fff) + 0x4000];
-      case 3:
-        return roml_banks[(addr & 0x1fff) + 0x6000];
+        case 0:
+            return roml_banks[addr & 0x1fff];
+        case 1:
+            return roml_banks[(addr & 0x1fff) + 0x2000];
+        case 2:
+            return roml_banks[(addr & 0x1fff) + 0x4000];
+        case 3:
+            return roml_banks[(addr & 0x1fff) + 0x6000];
     }
-    io_source=IO_SOURCE_NONE;
+    io_source = IO_SOURCE_NONE;
     return 0;
 }
 
@@ -87,16 +87,19 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
     if ((addr & 0xff) == 0) {
         romconfig = (value == 2) ? 1 : 9;
         romconfig = (romconfig & 0xdf) | ((ramconfig == 0) ? 0x20 : 0);
-        if ((value & 0x7f) == 0)
+        if ((value & 0x7f) == 0) {
             romconfig = 35;
-        if ((value & 0x7f) == 1 || (value & 0x7f) == 3)
+        }
+        if ((value & 0x7f) == 1 || (value & 0x7f) == 3) {
             romconfig = 0;
+        }
         if ((value & 0x7f) == 6) {
             romconfig = 9;
             cartridge_release_freeze();
         }
-        if ((value & 0x7f) == 9)
+        if ((value & 0x7f) == 9) {
             romconfig = 6;
+        }
         cartridge_config_changed((BYTE)(romconfig & 3), romconfig, CMODE_WRITE);
     }
     if ((addr & 0xff) == 1) {
@@ -114,25 +117,24 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
 {
-    io_source=IO_SOURCE_SS5;
+    io_source = IO_SOURCE_SS5;
     switch (roml_bank) {
-      case 0:
-        return roml_banks[0x1e00 + (addr & 0xff)];
-      case 1:
-        return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
-      case 2:
-        return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
-      case 3:
-        return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
+        case 0:
+            return roml_banks[0x1e00 + (addr & 0xff)];
+        case 1:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
+        case 2:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
+        case 3:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
     }
-    io_source=IO_SOURCE_NONE;
+    io_source = IO_SOURCE_NONE;
     return 0;
 }
 
 void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
 {
-    if (((addr & 0xff) == 0)
-        || ((addr & 0xff) == 1)) {
+    if (((addr & 0xff) == 0) || ((addr & 0xff) == 1)) {
         int banknr;
 
         if ((value & 1) == 1) {
@@ -162,30 +164,34 @@ void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr)
 {
-    if (export_ram)
+    if (export_ram) {
         return export_ram0[addr & 0x1fff];
+    }
 
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 void REGPARM2 supersnapshot_v4_roml_store(WORD addr, BYTE value)
 {
-    if (export_ram)
+    if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
+    }
 }
 
 BYTE REGPARM1 supersnapshot_v5_roml_read(WORD addr)
 {
-    if (export_ram)
+    if (export_ram) {
         return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
+    }
 
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 void REGPARM2 supersnapshot_v5_roml_store(WORD addr, BYTE value)
 {
-    if (export_ram)
+    if (export_ram) {
         export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
+    }
 }
 
 void supersnapshot_v4_freeze(void)
@@ -232,24 +238,26 @@ void supersnapshot_v5_config_setup(BYTE *rawcart)
 
 int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x8000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res_v4) < 0)
+    if (c64export_add(&export_res_v4) < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x10000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res_v5) < 0)
+    if (c64export_add(&export_res_v5) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -260,18 +268,18 @@ int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
+        }
 
-    if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40
-        || chipheader[0xb] > 3
-        || fread(rawcart + 0x4000 * chipheader[0xb], chipheader[0xe] << 8, 1,
-        fd) < 1)
-        return -1;
+        if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40 || chipheader[0xb] > 3 || fread(rawcart + 0x4000 * chipheader[0xb], chipheader[0xe] << 8, 1, fd) < 1) {
+            return -1;
+        }
     }
 
-    if (c64export_add(&export_res_v5) < 0)
+    if (c64export_add(&export_res_v5) < 0) {
         return -1;
+    }
 
     return 0;
 }

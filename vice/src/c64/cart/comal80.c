@@ -43,8 +43,7 @@ static const c64export_resource_t export_res = {
 
 void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
 {
-    if (value >= 0x80 && value <= 0x83)
-    {
+    if (value >= 0x80 && value <= 0x83) {
         cartridge_romhbank_set(value & 3);
         cartridge_romlbank_set(value & 3);
     }
@@ -73,19 +72,22 @@ int comal80_crt_attach(FILE *fd, BYTE *rawcart)
     BYTE chipheader[0x10];
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
+        }
 
-        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40
-            && chipheader[0xb] > 3)
+        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40 && chipheader[0xb] > 3) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }

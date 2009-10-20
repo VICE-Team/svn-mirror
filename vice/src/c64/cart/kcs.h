@@ -46,4 +46,3 @@ extern void kcs_detach(void);
 extern void simon_detach(void);
 
 #endif
-

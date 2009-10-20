@@ -37,11 +37,9 @@
 #include "supergames.h"
 #include "types.h"
 
-
 static const c64export_resource_t export_res = {
     "Super Games", 1, 1
 };
-
 
 void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
 {
@@ -54,8 +52,9 @@ void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
     } else {
         export.game = export.exrom = 1;
     }
-    if (value == 0xc)
+    if (value == 0xc) {
         export.game = export.exrom = 0;
+    }
     mem_pla_config_changed();
 }
 
@@ -82,19 +81,22 @@ int supergames_crt_attach(FILE *fd, BYTE *rawcart)
     BYTE chipheader[0x10];
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1)
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
+        }
 
-        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40
-            && chipheader[0xb] > 3)
+        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40 && chipheader[0xb] > 3) {
             return -1;
+        }
 
-        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1)
+        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
             return -1;
+        }
     }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }

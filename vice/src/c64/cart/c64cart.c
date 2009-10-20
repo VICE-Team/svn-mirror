@@ -57,7 +57,6 @@
 #include "translate.h"
 #include "util.h"
 
-
 static int cartridge_type;
 static char *cartridge_file = NULL;
 static int cartridge_mode;
@@ -80,8 +79,9 @@ int try_cartridge_init(int c)
 {
     cartres ^= c;
 
-    if (cartres)
+    if (cartres) {
         return 0;
+    }
 
     trying_cart = 1;
     return cartridge_attach_image(c64cart_type, cartfile);
@@ -114,9 +114,9 @@ static int set_cartridge_mode(int val, void *param)
     cartmode = cartridge_mode;
 
     switch (type) {
-      case (CARTRIDGE_EXPERT):
-        expert_mode_changed(cartridge_mode);
-        break;
+        case (CARTRIDGE_EXPERT):
+            expert_mode_changed(cartridge_mode);
+            break;
     }
 
     return try_cartridge_init(4);
@@ -148,11 +148,13 @@ static const resource_int_t resources_int[] = {
 
 int cartridge_resources_init(void)
 {
-    if (ide64_resources_init() < 0)
+    if (ide64_resources_init() < 0) {
         return -1;
+    }
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -167,8 +169,7 @@ void cartridge_resources_shutdown(void)
 static int attach_cartridge_cmdline(const char *param, void *extra_param)
 {
     /* patch: iAN CooG */
-    if (!param)
-    {
+    if (!param) {
         cartridge_detach_image();
         return 0;
     }
@@ -286,8 +287,9 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
 
-    if (ide64_cmdline_options_init() < 0)
+    if (ide64_cmdline_options_init() < 0) {
         return -1;
+    }
 
     return cmdline_register_options(cmdline_options);
 }
@@ -304,8 +306,9 @@ int cartridge_attach_image(int type, const char *filename)
      */
     if (type != CARTRIDGE_EXPERT) {
         /* Attaching no cartridge always works. */
-        if (type == CARTRIDGE_NONE || *filename == '\0')
+        if (type == CARTRIDGE_NONE || *filename == '\0') {
             return 0;
+        }
     }
 
     /* allocate temporary array */
@@ -318,86 +321,103 @@ int cartridge_attach_image(int type, const char *filename)
     most obvious reason: attaching a different ROM (software) for the same
     cartridge (hardware) */
 
-    if (trying_cart == 0)
+    if (trying_cart == 0) {
       cartridge_detach_image();
-    else
+    } else {
       trying_cart = 0;
+    }
 
     switch(type) {
-      case CARTRIDGE_GENERIC_8KB:
-      case CARTRIDGE_EPYX_FASTLOAD:
-        if (generic_8kb_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_GENERIC_16KB:
-      case CARTRIDGE_WESTERMANN:
-      case CARTRIDGE_WARPSPEED:
-        if (generic_16kb_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_ACTION_REPLAY3:
-        if (actionreplay3_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_ACTION_REPLAY4:
-        if (actionreplay4_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_ACTION_REPLAY:
-        if (actionreplay_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_ATOMIC_POWER:
-        if (atomicpower_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_RETRO_REPLAY:
-        if (retroreplay_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_IDE64:
-        if (c64cart_type==CARTRIDGE_IDE64)
-            ide64_detach(); /* detach IDE64 if reattaching */
-        if (ide64_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_SUPER_SNAPSHOT:
-        if (supersnapshot_v4_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        if (supersnapshot_v5_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_EXPERT:
-        if (expert_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_IEEE488:
-        /* FIXME: ROM removed? */
-        fd = fopen(filename, MODE_READ);
-        if (!fd)
-            goto done;
-        if (fread(rawcart, 0x1000, 1, fd) < 1) {
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_EPYX_FASTLOAD:
+            if (generic_8kb_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_GENERIC_16KB:
+        case CARTRIDGE_WESTERMANN:
+        case CARTRIDGE_WARPSPEED:
+            if (generic_16kb_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_ACTION_REPLAY3:
+            if (actionreplay3_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_ACTION_REPLAY4:
+            if (actionreplay4_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_ACTION_REPLAY:
+            if (actionreplay_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            if (atomicpower_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            if (retroreplay_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_IDE64:
+            if (c64cart_type==CARTRIDGE_IDE64) {
+                ide64_detach(); /* detach IDE64 if reattaching */
+            }
+            if (ide64_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            if (supersnapshot_v4_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            if (supersnapshot_v5_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_EXPERT:
+            if (expert_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_IEEE488:
+            /* FIXME: ROM removed? */
+            fd = fopen(filename, MODE_READ);
+            if (!fd) {
+                goto done;
+            }
+            if (fread(rawcart, 0x1000, 1, fd) < 1) {
+                fclose(fd);
+                goto done;
+            }
             fclose(fd);
+            break;
+        case CARTRIDGE_CRT:
+            if (crt_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_STRUCTURED_BASIC:
+            if (stb_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_STARDOS:
+            if (stardos_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        default:
             goto done;
-        }
-        fclose(fd);
-        break;
-      case CARTRIDGE_CRT:
-        if (crt_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_STRUCTURED_BASIC:
-        if (stb_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      case CARTRIDGE_STARDOS:
-        if (stardos_bin_attach(filename, rawcart) < 0)
-            goto done;
-        break;
-      default:
-        goto done;
     }
 
     cartridge_type = c64cart_type = type;       /* Resource value updated! */
@@ -406,7 +426,7 @@ int cartridge_attach_image(int type, const char *filename)
     lib_free(rawcart);
     return 0;
 
-  done:
+done:
     lib_free(rawcart);
     return -1;
 }
@@ -414,8 +434,7 @@ int cartridge_attach_image(int type, const char *filename)
 void cartridge_detach_image(void)
 {
     if (c64cart_type != CARTRIDGE_NONE) {
-        cartridge_detach((c64cart_type == CARTRIDGE_CRT)
-                         ? crttype : c64cart_type);
+        cartridge_detach((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
         c64cart_type = CARTRIDGE_NONE;
         crttype = CARTRIDGE_NONE;
         cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
@@ -439,10 +458,8 @@ static void cartridge_change_mapping(CLOCK offset, void *data)
 
 void cartridge_init(void)
 {
-    cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge",
-                                cartridge_change_mapping, NULL);
-    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status,
-                                                     "Cartridge");
+    cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cartridge_change_mapping, NULL);
+    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
 
 void cartridge_trigger_freeze(void)
@@ -450,27 +467,26 @@ void cartridge_trigger_freeze(void)
     int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 
     switch (type) {
-      case CARTRIDGE_ACTION_REPLAY4:
-      case CARTRIDGE_ACTION_REPLAY3:
-      case CARTRIDGE_ACTION_REPLAY:
-      case CARTRIDGE_KCS_POWER:
-      case CARTRIDGE_FINAL_III:
-      case CARTRIDGE_SUPER_SNAPSHOT:
-      case CARTRIDGE_SUPER_SNAPSHOT_V5:
-      case CARTRIDGE_ATOMIC_POWER:
-      case CARTRIDGE_FINAL_I:
-        maincpu_set_nmi(cartridge_int_num, IK_NMI);
-        alarm_set(cartridge_alarm, maincpu_clk + 3);
-        break;
-      case CARTRIDGE_RETRO_REPLAY:
-        if (retroreplay_freeze_allowed()) {
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_ACTION_REPLAY3:
+        case CARTRIDGE_ACTION_REPLAY:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_SUPER_SNAPSHOT:
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_ATOMIC_POWER:
+        case CARTRIDGE_FINAL_I:
             maincpu_set_nmi(cartridge_int_num, IK_NMI);
             alarm_set(cartridge_alarm, maincpu_clk + 3);
-        }
-        break;
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            if (retroreplay_freeze_allowed()) {
+                maincpu_set_nmi(cartridge_int_num, IK_NMI);
+                alarm_set(cartridge_alarm, maincpu_clk + 3);
+            }
+            break;
     }
-    if (isepic_enabled && isepic_switch)
-    {
+    if (isepic_enabled && isepic_switch) {
         maincpu_set_nmi(cartridge_int_num, IK_NMI);
         alarm_set(cartridge_alarm, maincpu_clk + 3);
     }
@@ -490,4 +506,3 @@ const char *cartridge_get_file_name(WORD addr_ignored)
 {
     return cartfile;
 }
-

@@ -64,116 +64,124 @@ static const c64export_resource_t export_res = {
 
 void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
 {
-  BYTE eprom_bank, test_value, eprom_part = 0;
+    BYTE eprom_bank, test_value, eprom_part = 0;
 
-  if (addr==0xdfa0)
-  {
-    eprom_bank=(value&0xf);
-    if (eprom_bank>7)
-      return;
+    if (addr == 0xdfa0) {
+        eprom_bank = (value & 0xf);
+        if (eprom_bank > 7) {
+            return;
+        }
 
-    test_value=(value&0xf0)>>4;
-    if (test_value>3)
-      return;
+        test_value = (value & 0xf0) >> 4;
+        if (test_value > 3) {
+            return;
+        }
 
-    if (rexep256_eprom[eprom_bank]==0x2000)
-      eprom_part=0;
-    if (rexep256_eprom[eprom_bank]==0x4000)
-      eprom_part=test_value&1;
-    if (rexep256_eprom[eprom_bank]==0x8000)
-      eprom_part=test_value;
+        if (rexep256_eprom[eprom_bank] == 0x2000) {
+            eprom_part = 0;
+        }
+        if (rexep256_eprom[eprom_bank] == 0x4000) {
+            eprom_part = test_value & 1;
+        }
+        if (rexep256_eprom[eprom_bank] == 0x8000) {
+            eprom_part = test_value;
+        }
 
-    cartridge_romlbank_set(rexep256_eprom_roml_bank_offset[eprom_bank]+eprom_part+1);
-  }
+        cartridge_romlbank_set(rexep256_eprom_roml_bank_offset[eprom_bank]+eprom_part+1);
+    }
 }
 
 /* I'm unsure whether the register is write-only,
    but in this case it is assumed to be. */
 BYTE REGPARM1 rexep256_io2_read(WORD addr)
 {
-  if (addr==0xdfc0)
-  {
-    export.exrom = 0;
-    mem_pla_config_changed();
-  }
-  if (addr==0xdfe0)
-  {
-    export.exrom = 1;
-    mem_pla_config_changed();
-  }
-  return 0;
+    if (addr == 0xdfc0) {
+        export.exrom = 0;
+        mem_pla_config_changed();
+    }
+    if (addr == 0xdfe0) {
+        export.exrom = 1;
+        mem_pla_config_changed();
+    }
+    return 0;
 }
 
 void rexep256_config_init(void)
 {
-  cartridge_config_changed(0, 0, CMODE_READ);
-  cartridge_romlbank_set(0);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
 }
 
 void rexep256_config_setup(BYTE *rawcart)
 {
-  cartridge_config_changed(0, 0, CMODE_READ);
-  cartridge_romlbank_set(0);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
 }
 
 int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
-  WORD chip;
-  WORD size;
-  BYTE chipheader[0x10];
-  int rexep256_total_size=0;
-  int i;
+    WORD chip;
+    WORD size;
+    BYTE chipheader[0x10];
+    int rexep256_total_size = 0;
+    int i;
 
-  memset(roml_banks, 0xff, 0x42000);
+    memset(roml_banks, 0xff, 0x42000);
 
-  for (i=0; i<8; i++)
-  {
-    rexep256_eprom[i]=0x2000;
-    rexep256_eprom_roml_bank_offset[i]=0x1f;
-  }
+    for (i = 0; i < 8; i++) {
+        rexep256_eprom[i] = 0x2000;
+        rexep256_eprom_roml_bank_offset[i] = 0x1f;
+    }
 
-  if (fread(chipheader, 0x10, 1, fd)<1)
-    return -1;
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
+        return -1;
+    }
 
-  chip=(chipheader[0x0a]<<8)+chipheader[0x0b];
-  size=(chipheader[0x0e]<<8)+chipheader[0x0f];
+    chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
+    size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
-  if (size!=0x2000)
-    return -1;
+    if (size != 0x2000) {
+        return -1;
+    }
 
-  if (fread(roml_banks, 0x2000, 1, fd)<1)
-    return -1;
+    if (fread(roml_banks, 0x2000, 1, fd) < 1) {
+        return -1;
+    }
 
-  while (1)
-  {
-    if (fread(chipheader, 0x10, 1, fd)<1)
-      break;
+    while (1) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            break;
+        }
 
-    chip=(chipheader[0x0a]<<8)+chipheader[0x0b];
-    size=(chipheader[0x0e]<<8)+chipheader[0x0f];
+        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
+        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
-    if (size!=0x2000 && size!=0x4000 && size!=0x8000)
-      return -1;
+        if (size != 0x2000 && size != 0x4000 && size != 0x8000) {
+            return -1;
+        }
 
-    if (chip > 8)
-      return -1;
+        if (chip > 8) {
+            return -1;
+        }
 
-    rexep256_eprom[chip-1]=size;
-    rexep256_eprom_roml_bank_offset[chip-1]=rexep256_total_size>>13;
+        rexep256_eprom[chip - 1] = size;
+        rexep256_eprom_roml_bank_offset[chip - 1] = rexep256_total_size >> 13;
 
-    if (fread(roml_banks + 0x2000 + rexep256_total_size, size, 1, fd)<1)
-      return -1;
+        if (fread(roml_banks + 0x2000 + rexep256_total_size, size, 1, fd) < 1) {
+            return -1;
+        }
 
-    rexep256_total_size=rexep256_total_size+size;
-  }
+        rexep256_total_size=rexep256_total_size+size;
+    }
 
-  if (c64export_add(&export_res) < 0)
-    return -1;
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
 
-  return 0;
+    return 0;
 }
 
 void rexep256_detach(void)
 {
-  c64export_remove(&export_res);
+    c64export_remove(&export_res);
 }

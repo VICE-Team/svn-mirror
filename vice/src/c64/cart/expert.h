@@ -51,4 +51,3 @@ extern void expert_detach(void);
 extern void expert_mode_changed(int mode);
 
 #endif
-

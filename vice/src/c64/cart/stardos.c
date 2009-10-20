@@ -75,22 +75,20 @@ void stardos_remove_kernal(void)
 {
     const char *rom_name = NULL;
 
-    c64rom_cartkernal_active=0;
+    c64rom_cartkernal_active = 0;
     resources_get_string("KernalName", &rom_name);
     c64rom_load_kernal(rom_name, NULL);
 }
 
 BYTE REGPARM1 stardos_io1_read(WORD addr)
 {
-    if (addr==0xde61)
-    {
-	    ++cnt_de61;
-	    if (cnt_de61>0xff)
-	    {
-		    /* enable bank 0 at $8000 */
-		    cartridge_config_changed(0, 0, CMODE_READ);
-		    cnt_dfa1=0;
-	    }
+    if (addr == 0xde61) {
+        ++cnt_de61;
+        if (cnt_de61 > 0xff) {
+            /* enable bank 0 at $8000 */
+            cartridge_config_changed(0, 0, CMODE_READ);
+            cnt_dfa1 = 0;
+        }
     }
     
     return vicii_read_phi1();
@@ -98,15 +96,13 @@ BYTE REGPARM1 stardos_io1_read(WORD addr)
 
 BYTE REGPARM1 stardos_io2_read(WORD addr)
 {
-    if (addr==0xdfa1)
-    {
-	    ++cnt_dfa1;
-	    if (cnt_dfa1>0xff)
-	    {
-		    /* disable bank 0 at $8000 */
-		    cartridge_config_changed(2, 2, CMODE_READ);
-		    cnt_de61=0;
-	    }
+    if (addr == 0xdfa1) {
+        ++cnt_dfa1;
+        if (cnt_dfa1 > 0xff) {
+            /* disable bank 0 at $8000 */
+            cartridge_config_changed(2, 2, CMODE_READ);
+            cnt_de61 = 0;
+        }
     }
     
     return vicii_read_phi1();
@@ -120,8 +116,8 @@ BYTE REGPARM1 stardos_roml_read(WORD addr)
 void stardos_config_init(void)
 {
     stardos_install_kernal();
-    cnt_de61=0;
-    cnt_dfa1=0;
+    cnt_de61 = 0;
+    cnt_dfa1 = 0;
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
@@ -130,8 +126,8 @@ void stardos_config_init(void)
 #if 0
 void stardos_reset(void)
 {
-    cnt_de61=0;
-    cnt_dfa1=0;
+    cnt_de61 = 0;
+    cnt_dfa1 = 0;
 }
 #endif
 
@@ -145,12 +141,13 @@ void stardos_config_setup(BYTE *rawcart)
 
 int stardos_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x4000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -159,20 +156,25 @@ int stardos_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
 
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    if (fread(&rawcart[0x0000], 0x2000, 1, fd) < 1)
+    if (fread(&rawcart[0x0000], 0x2000, 1, fd) < 1) {
         return -1;
+    }
 
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    if (fread(&rawcart[0x2000], 0x2000, 1, fd) < 1)
+    if (fread(&rawcart[0x2000], 0x2000, 1, fd) < 1) {
         return -1;
+    }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }

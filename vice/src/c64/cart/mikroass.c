@@ -37,21 +37,20 @@
 #include "mikroass.h"
 #include "types.h"
 
-
 static const c64export_resource_t export_res = {
     "Mikro Assembler", 1, 0
 };
 
 BYTE REGPARM1 mikroass_io1_read(WORD addr)
 {
-    io_source=IO_SOURCE_MIKRO_ASSEMBLER;
+    io_source = IO_SOURCE_MIKRO_ASSEMBLER;
 
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
 BYTE REGPARM1 mikroass_io2_read(WORD addr)
 {
-    io_source=IO_SOURCE_MIKRO_ASSEMBLER;
+    io_source = IO_SOURCE_MIKRO_ASSEMBLER;
 
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
@@ -71,14 +70,17 @@ int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
 
-    if (fread(chipheader, 0x10, 1, fd) < 1)
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
+    }
 
-    if (fread(rawcart, 0x2000, 1, fd) < 1)
+    if (fread(rawcart, 0x2000, 1, fd) < 1) {
         return -1;
+    }
 
-    if (c64export_add(&export_res) < 0)
+    if (c64export_add(&export_res) < 0) {
         return -1;
+    }
 
     return 0;
 }
