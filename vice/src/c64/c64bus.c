@@ -32,21 +32,17 @@
 #include "serial.h"
 #include "types.h"
 
-
-int machine_bus_lib_directory(unsigned int unit, const char *pattern,
-                              BYTE **buf)
+int machine_bus_lib_directory(unsigned int unit, const char *pattern, BYTE **buf)
 {
     return serial_iec_lib_directory(unit, pattern, buf);
 }
 
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
-                                unsigned int sector, BYTE *buf)
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
 {
     return serial_iec_lib_read_sector(unit, track, sector, buf);
 }
 
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
-                                 unsigned int sector, BYTE *buf)
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
 {
     return serial_iec_lib_write_sector(unit, track, sector, buf);
 }
@@ -89,4 +85,3 @@ void machine_bus_init_machine(void)
 {
     iecbus_init();
 }
-

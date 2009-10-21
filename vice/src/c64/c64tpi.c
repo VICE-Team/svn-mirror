@@ -41,10 +41,8 @@
 #include "tpi.h"
 #include "types.h"
 
-
 #define mytpi_init tpi_init
 #define mytpi_set_int tpi_set_int
-
 
 void REGPARM2 tpi_store(WORD addr, BYTE data)
 {
@@ -53,7 +51,7 @@ void REGPARM2 tpi_store(WORD addr, BYTE data)
 
 BYTE REGPARM1 tpi_read(WORD addr)
 {
-    io_source=IO_SOURCE_IEEE488;
+    io_source = IO_SOURCE_IEEE488;
     return tpicore_read(machine_context.tpi1, addr);
 }
 
@@ -99,6 +97,7 @@ static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
     if (byte != tpi_context->oldpa) {
         BYTE tmp = ~byte;
+
         ieee_is_dev = byte & 0x01;
         ieee_is_out = byte & 0x02;
 
@@ -177,23 +176,27 @@ static BYTE read_pa(tpi_context_t *tpi_context)
 
     byte = 0xff;
     if (ieee_is_out) {
-        if (parallel_nrfd)
+        if (parallel_nrfd) {
             byte &= 0x7f;
-        if (parallel_ndac)
+        }
+        if (parallel_ndac) {
             byte &= 0xbf;
+        }
     } else {
-        if (parallel_dav)
+        if (parallel_dav) {
             byte &= 0xef;
-        if (parallel_eoi)
+        }
+        if (parallel_eoi) {
             byte &= 0xdf;
+        }
     }
     if (ieee_is_dev) {
-        if (parallel_atn)
+        if (parallel_atn) {
             byte &= 0xf7;
+        }
     }
 
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA])
-           | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA]) | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
 
     return byte;
 }
@@ -205,17 +208,15 @@ static BYTE read_pb(tpi_context_t *tpi_context)
     drivecpu_execute_all(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
-    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB])
-           | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB]) | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
 
     return byte;
 }
 
 static BYTE read_pc(tpi_context_t *tpi_context)
 {
-    BYTE byte;
-    byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC])
-           | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
+    BYTE byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
+
     return byte;
 }
 
@@ -257,4 +258,3 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->set_int = set_int;
     tpi_context->restore_int = restore_int;
 }
-

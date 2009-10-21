@@ -33,21 +33,19 @@
 #include "translate.h"
 #include "uiapi.h"
 
-
 static const char *usage_roml, *usage_romh;
-
 
 int c64export_query(const c64export_resource_t *export_res)
 {
     if (export_res->use_roml > 0) {
-        if (usage_roml != NULL && strcmp(usage_roml, export_res->name)!=0) {
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"ROML", usage_roml);
-           return -1;
+        if (usage_roml != NULL && strcmp(usage_roml, export_res->name) != 0) {
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S), "ROML", usage_roml);
+            return -1;
         }
     }
     if (export_res->use_romh > 0) {
         if (usage_romh != NULL && strcmp(usage_romh, export_res->name)!=0) {
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"ROMH", usage_romh);
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S), "ROMH", usage_romh);
             return -1;
         }
     }
@@ -57,13 +55,16 @@ int c64export_query(const c64export_resource_t *export_res)
 
 int c64export_add(const c64export_resource_t *export_res)
 {
-    if (c64export_query(export_res) < 0)
+    if (c64export_query(export_res) < 0) {
         return -1;
+    }
 
-    if (export_res->use_roml > 0)
+    if (export_res->use_roml > 0) {
         usage_roml = export_res->name;
-    if (export_res->use_romh > 0)
+    }
+    if (export_res->use_romh > 0) {
         usage_romh = export_res->name;
+    }
 
     return 0;
 }
@@ -71,18 +72,22 @@ int c64export_add(const c64export_resource_t *export_res)
 int c64export_remove(const c64export_resource_t *export_res)
 {
     if (export_res->use_roml > 0) {
-        if (usage_roml == NULL)
+        if (usage_roml == NULL) {
             return -1;
+        }
     }
     if (export_res->use_romh > 0) {
-        if (usage_romh == NULL)
+        if (usage_romh == NULL) {
             return -1;
+        }
     }
 
-    if (export_res->use_roml > 0)
+    if (export_res->use_roml > 0) {
         usage_roml = NULL;
-    if (export_res->use_romh > 0)
+    }
+    if (export_res->use_romh > 0) {
         usage_romh = NULL;
+    }
 
     return 0;
 }

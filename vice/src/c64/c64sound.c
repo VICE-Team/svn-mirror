@@ -90,16 +90,16 @@ void sound_machine_close(sound_t *psid)
 
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
-    if (addr>=0x20 && addr<=0x3f) {
-        return digimax_sound_machine_read(psid, (WORD)(addr-0x20));
+    if (addr >= 0x20 && addr <= 0x3f) {
+        return digimax_sound_machine_read(psid, (WORD)(addr - 0x20));
     }
 
-    if (addr>=0x40 && addr<=0x5f) {
-        return sfx_soundsampler_sound_machine_read(psid, (WORD)(addr-0x40));
+    if (addr >= 0x40 && addr <= 0x5f) {
+        return sfx_soundsampler_sound_machine_read(psid, (WORD)(addr - 0x40));
     }
 
-    if (addr>=0x60 && addr<=0x7f) {
-        return sfx_soundexpander_sound_machine_read(psid, (WORD)(addr-0x40));
+    if (addr >= 0x60 && addr <= 0x7f) {
+        return sfx_soundexpander_sound_machine_read(psid, (WORD)(addr - 0x40));
     }
 
     return sid_sound_machine_read(psid, addr);
@@ -107,16 +107,16 @@ BYTE sound_machine_read(sound_t *psid, WORD addr)
 
 void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    if (addr>=0x20 && addr<=0x3f) {
-        digimax_sound_machine_store(psid, (WORD)(addr-0x20), byte);
+    if (addr >= 0x20 && addr <= 0x3f) {
+        digimax_sound_machine_store(psid, (WORD)(addr - 0x20), byte);
     }
 
-    if (addr>=0x40 && addr<=0x5f) {
-        sfx_soundsampler_sound_machine_store(psid, (WORD)(addr-0x40), byte);
+    if (addr >= 0x40 && addr <= 0x5f) {
+        sfx_soundsampler_sound_machine_store(psid, (WORD)(addr - 0x40), byte);
     }
 
-    if (addr>=0x60 && addr<=0x7f) {
-        sfx_soundexpander_sound_machine_store(psid, (WORD)(addr-0x60), byte);
+    if (addr >= 0x60 && addr <= 0x7f) {
+        sfx_soundexpander_sound_machine_store(psid, (WORD)(addr - 0x60), byte);
     }
 
     sid_sound_machine_store(psid, addr, byte);
@@ -130,8 +130,7 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
     sid_sound_machine_reset(psid, cpu_clk);
 }
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int interleave, int *delta_t)
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int temp;
 

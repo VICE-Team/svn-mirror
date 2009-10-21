@@ -48,7 +48,7 @@ midi_interface_t midi_interface[] = {
     { "Namesoft", 0xde00, 0, 2, 1, 3, 0xff, 1, 2 },
     /* Electronics - Maplin magazine */
     { "Maplin", 0xdf00, 0, 0, 1, 1, 0xff, 2, 0 },
-    { NULL}
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {

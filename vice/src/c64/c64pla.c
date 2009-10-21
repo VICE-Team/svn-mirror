@@ -30,7 +30,6 @@
 #include "datasette.h"
 #include "mem.h"
 
-
 /* Processor port.  */
 pport_t pport;
 
@@ -40,22 +39,23 @@ static BYTE old_port_data_out = 0xff;
 /* Tape write line status.  */
 static BYTE old_port_write_bit = 0xff;
 
-
 void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup)
 {
-    pport.data_out = (pport.data_out & ~pport.dir)
-                     | (pport.data & pport.dir);
+    pport.data_out = (pport.data_out & ~pport.dir) | (pport.data & pport.dir);
 
     pport.data_read = (pport.data | ~pport.dir) & (pport.data_out | pullup);
 
-    if ((pullup & 0x40) && !caps_sense)
+    if ((pullup & 0x40) && !caps_sense) {
         pport.data_read &= 0xbf;
+    }
 
-    if (!(pport.dir & 0x20))
+    if (!(pport.dir & 0x20)) {
         pport.data_read &= 0xdf;
+    }
 
-    if (tape_sense && !(pport.dir & 0x10))
+    if (tape_sense && !(pport.dir & 0x10)) {
         pport.data_read &= 0xef;
+    }
 
     if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
         old_port_data_out = (pport.dir & pport.data) & 0x20;

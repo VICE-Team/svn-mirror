@@ -45,11 +45,9 @@
 #include "vicii-resources.h"
 #include "vicii.h"
 
-
 #define KBD_INDEX_C64_SYM   0
 #define KBD_INDEX_C64_POS   1
 #define KBD_INDEX_C64_SYMDE 2
-
 
 static int romset_firmware[3];
 
@@ -81,16 +79,18 @@ int acia_de_enabled;
 
 static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_rom_name, val))
+    if (util_string_set(&chargen_rom_name, val)) {
         return 0;
+    }
 
     return c64rom_load_chargen(chargen_rom_name);
 }
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, val))
+    if (util_string_set(&kernal_rom_name, val)) {
         return 0;
+    }
 
     /* load kernal without a kernal overriding buffer */
     return c64rom_load_kernal(kernal_rom_name, NULL);
@@ -98,8 +98,9 @@ static int set_kernal_rom_name(const char *val, void *param)
 
 static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, val))
+    if (util_string_set(&basic_rom_name, val)) {
         return 0;
+    }
 
     return c64rom_load_basic(basic_rom_name);
 }
@@ -123,13 +124,11 @@ static int set_kernal_revision(const char *val, void *param)
 }
 
 #ifdef HAVE_RS232
-
 static int set_acia_de_enabled(int val, void *param)
 {
     acia_de_enabled = val;
     return 0;
 }
-
 #endif
 
 static int set_sync_factor(int val, void *param)
@@ -137,27 +136,31 @@ static int set_sync_factor(int val, void *param)
     int change_timing = 0;
     int border_mode = VICII_BORDER_MODE(vicii_resources.border_mode);
 
-    if (sync_factor != val)
+    if (sync_factor != val) {
         change_timing = 1;
+    }
 
     switch (val) {
-      case MACHINE_SYNC_PAL:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
-        break;
-      case MACHINE_SYNC_NTSC:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
-        break;
-      case MACHINE_SYNC_NTSCOLD:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSCOLD ^ border_mode);
-        break;
-      default:
-        return -1;
+        case MACHINE_SYNC_PAL:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
+            }
+            break;
+        case MACHINE_SYNC_NTSC:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
+            }
+            break;
+        case MACHINE_SYNC_NTSCOLD:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_NTSCOLD ^ border_mode);
+            }
+            break;
+        default:
+            return -1;
     }
 
     return 0;
@@ -227,8 +230,9 @@ static const resource_int_t resources_int[] = {
 
 int c64_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -243,4 +247,3 @@ void c64_resources_shutdown(void)
     lib_free(machine_keymap_file_list[1]);
     lib_free(machine_keymap_file_list[2]);
 }
-

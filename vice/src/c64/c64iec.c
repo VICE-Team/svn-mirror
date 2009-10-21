@@ -40,12 +40,9 @@
 #include "maincpu.h"
 #include "types.h"
 
-
 void iec_update_cpu_bus(BYTE data)
 {
-    iecbus.cpu_bus = (((data << 2) & 0x80)
-                     | ((data << 2) & 0x40)
-                     | ((data << 1) & 0x10));
+    iecbus.cpu_bus = (((data << 2) & 0x80) | ((data << 2) & 0x40) | ((data << 1) & 0x10));
 }
 
 void iec_update_ports(void)
@@ -53,12 +50,11 @@ void iec_update_ports(void)
     unsigned int unit;
 
     iecbus.cpu_port = iecbus.cpu_bus;
-    for (unit = 4; unit < 8 + DRIVE_NUM; unit++)
+    for (unit = 4; unit < 8 + DRIVE_NUM; unit++) {
         iecbus.cpu_port &= iecbus.drv_bus[unit];
+    }
 
-    iecbus.drv_port = (((iecbus.cpu_port >> 4) & 0x4)
-                      | (iecbus.cpu_port >> 7)
-                      | ((iecbus.cpu_bus << 3) & 0x80));
+    iecbus.drv_port = (((iecbus.cpu_port >> 4) & 0x4) | (iecbus.cpu_port >> 7) | ((iecbus.cpu_bus << 3) & 0x80));
 }
 
 void iec_update_ports_embedded(void)
@@ -68,9 +64,7 @@ void iec_update_ports_embedded(void)
 
 void iec_drive_write(BYTE data, unsigned int dnr)
 {
-    iecbus.drv_bus[dnr + 8] = (((data << 3) & 0x40)
-                              | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3)
-                              & 0x80));
+    iecbus.drv_bus[dnr + 8] = (((data << 3) & 0x40) | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3) & 0x80));
     iecbus.drv_data[dnr + 8] = data;
     iec_update_ports();
 }
@@ -88,12 +82,10 @@ iecbus_t *iecbus_drive_port(void)
 /* This function is called from ui_update_menus() */
 int iec_available_busses(void)
 {
-    return IEC_BUS_IEC
-        | ((c64cart_type == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
+    return IEC_BUS_IEC | ((c64cart_type == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
 }
 
 void c64iec_init(void)
 {
-  iecbus_update_ports = iec_update_ports;
+    iecbus_update_ports = iec_update_ports;
 }
-

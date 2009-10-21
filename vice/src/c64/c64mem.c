@@ -66,7 +66,6 @@
 #include "tfe.h"
 #endif
 
-
 /* C64 memory-related resources.  */
 
 /* Adjust this pointer when the MMU changes banks.  */
@@ -78,6 +77,7 @@ unsigned int mem_old_reg_pc;
 
 /* Number of possible memory configurations.  */
 #define NUM_CONFIGS     32
+
 /* Number of possible video banks (16K each).  */
 #define NUM_VBANKS      4
 
@@ -150,21 +150,17 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
-    if (pport.data_falloff_bit6)
-    {
+    if (pport.data_falloff_bit6) {
         pport.data_falloff_bit6++;
-        if (pport.data_falloff_bit6==3)
-        {
+        if (pport.data_falloff_bit6 == 3) {
             pport.data_set_bit6 = 0;
             pport.data_falloff_bit6 = 0;
         }
     }
 
-    if (pport.data_falloff_bit7)
-    {
+    if (pport.data_falloff_bit7) {
         pport.data_falloff_bit7++;
-        if (pport.data_falloff_bit7==3)
-        {
+        if (pport.data_falloff_bit7 == 3) {
             pport.data_set_bit7 = 0;
             pport.data_falloff_bit7 = 0;
         }
@@ -176,14 +172,12 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 
 static void check_data_set_alarm(void)
 {
-    if (pport.data_set_clk_bit6 < maincpu_clk)
-    {
+    if (pport.data_set_clk_bit6 < maincpu_clk) {
         pport.data_falloff_bit6 = 0;
         pport.data_set_bit6 = 0;
     }
 
-    if (pport.data_set_clk_bit7 < maincpu_clk)
-    {
+    if (pport.data_set_clk_bit7 < maincpu_clk) {
         pport.data_set_bit7 = 0;
         pport.data_falloff_bit7 = 0;
     }
@@ -196,8 +190,7 @@ void c64_mem_init(void)
 
 void mem_pla_config_changed(void)
 {
-    mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
-                  | (export.game << 4));
+    mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3) | (export.game << 4));
 
     c64pla_config_changed(tape_sense, 1, 0x17);
 
@@ -214,9 +207,9 @@ void mem_pla_config_changed(void)
 
     if (bank_limit != NULL) {
         *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
-        if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8]
-                         - (mem_old_reg_pc & 0xff00);
+        if (*bank_base != 0) {
+            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8] - (mem_old_reg_pc & 0xff00);
+        }
         *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
     }
 }
@@ -226,27 +219,29 @@ BYTE REGPARM1 zero_read(WORD addr)
     addr &= 0xff;
 #ifdef FEATURE_CPUMEMHISTORY
     if (!(memmap_state & MEMMAP_STATE_IGNORE)) {
-        monitor_memmap_store(addr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
+        monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
         memmap_state &= ~(MEMMAP_STATE_OPCODE);
     }
 #endif
     switch ((BYTE)addr) {
-      case 0:
-        return pport.dir_read;
-      case 1:
-        if (pport.data_falloff_bit6 || pport.data_falloff_bit7)
-            check_data_set_alarm();
+        case 0:
+            return pport.dir_read;
+        case 1:
+            if (pport.data_falloff_bit6 || pport.data_falloff_bit7) {
+                check_data_set_alarm();
+            }
 
-        return (pport.data_read & (0xff - (((!pport.data_set_bit6)<<6)+((!pport.data_set_bit7)<<7))));
+            return (pport.data_read & (0xff - (((!pport.data_set_bit6) << 6) + ((!pport.data_set_bit7) << 7))));
     }
 
-    if (c64_256k_enabled)
+    if (c64_256k_enabled) {
         return c64_256k_ram_segment0_read(addr);
-    else {
-        if (plus256k_enabled)
+    } else {
+        if (plus256k_enabled) {
             return plus256k_ram_low_read(addr);
-        else
+        } else {
             return mem_ram[addr & 0xff];
+        }
     }
 }
 
@@ -257,84 +252,81 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     monitor_memmap_store(addr, MEMMAP_RAM_W);
 #endif
     switch ((BYTE)addr) {
-      case 0:
-        if (vbank == 0) {
-            if (c64_256k_enabled)
-               c64_256k_ram_segment0_store((WORD)0, vicii_read_phi1_lowlevel());
-            else {
-                if (plus256k_enabled)
-                    plus256k_ram_low_store((WORD)0, vicii_read_phi1_lowlevel());
-                else
-                    vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+        case 0:
+            if (vbank == 0) {
+                if (c64_256k_enabled) {
+                    c64_256k_ram_segment0_store((WORD)0, vicii_read_phi1_lowlevel());
+                } else {
+                    if (plus256k_enabled) {
+                        plus256k_ram_low_store((WORD)0, vicii_read_phi1_lowlevel());
+                    } else {
+                        vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+                    }
+                }
+            } else {
+                mem_ram[0] = vicii_read_phi1_lowlevel();
+                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             }
-        } else {
-            mem_ram[0] = vicii_read_phi1_lowlevel();
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-        }
-        if (pport.data_set_bit7 && ((value & 0x80) == 0) && pport.data_falloff_bit7 == 0)
-        {
-            pport.data_falloff_bit7 = 1;
-            pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
-        }
-        if (pport.data_set_bit6 && ((value & 0x40) == 0) && pport.data_falloff_bit6 == 0)
-        {
-            pport.data_falloff_bit6 = 1;
-            pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
-        }
-        if (pport.data_set_bit7 && (value & 0x80) && pport.data_falloff_bit7)
-        {
-            pport.data_falloff_bit7 = 0;
-        }
-        if (pport.data_set_bit6 && (value & 0x40) && pport.data_falloff_bit6)
-        {
-            pport.data_falloff_bit6 = 0;
-        }
-        if (pport.dir != value) {
-            pport.dir = value;
-            mem_pla_config_changed();
-        }
-        break;
-      case 1:
-        if (vbank == 0) {
-            if (c64_256k_enabled)
-                c64_256k_ram_segment0_store((WORD)1, vicii_read_phi1_lowlevel());
-            else {
-                if (plus256k_enabled)
-                    plus256k_ram_low_store((WORD)1, vicii_read_phi1_lowlevel());
-                else
-                    vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+            if (pport.data_set_bit7 && ((value & 0x80) == 0) && pport.data_falloff_bit7 == 0) {
+                pport.data_falloff_bit7 = 1;
+                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
             }
-        } else {
-            mem_ram[1] = vicii_read_phi1_lowlevel();
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-        }
-        if ((pport.dir & 0x80) && (value & 0x80))
-        {
-            pport.data_set_bit7 = 1;
-        }
-        if ((pport.dir & 0x40) && (value & 0x40))
-        {
-            pport.data_set_bit6 = 1;
-        }
+            if (pport.data_set_bit6 && ((value & 0x40) == 0) && pport.data_falloff_bit6 == 0) {
+                pport.data_falloff_bit6 = 1;
+                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+            }
+            if (pport.data_set_bit7 && (value & 0x80) && pport.data_falloff_bit7) {
+                pport.data_falloff_bit7 = 0;
+            }
+            if (pport.data_set_bit6 && (value & 0x40) && pport.data_falloff_bit6) {
+                pport.data_falloff_bit6 = 0;
+            }
+            if (pport.dir != value) {
+                pport.dir = value;
+                mem_pla_config_changed();
+            }
+            break;
+        case 1:
+            if (vbank == 0) {
+                if (c64_256k_enabled) {
+                    c64_256k_ram_segment0_store((WORD)1, vicii_read_phi1_lowlevel());
+                } else {
+                    if (plus256k_enabled) {
+                        plus256k_ram_low_store((WORD)1, vicii_read_phi1_lowlevel());
+                    } else {
+                        vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+                    }
+                }
+            } else {
+                mem_ram[1] = vicii_read_phi1_lowlevel();
+                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+            }
+            if ((pport.dir & 0x80) && (value & 0x80)) {
+                pport.data_set_bit7 = 1;
+            }
+            if ((pport.dir & 0x40) && (value & 0x40)) {
+                pport.data_set_bit6 = 1;
+            }
 
-        if (pport.data != value) {
-            pport.data = value;
-            mem_pla_config_changed();
-        }
-        break;
-      default:
-        if (vbank == 0) {
-            if (c64_256k_enabled)
-                c64_256k_ram_segment0_store(addr, value);
-            else {
-                if (plus256k_enabled)
-                    plus256k_ram_low_store(addr, value);
-                else
-                    vicii_mem_vbank_store(addr, value);
+            if (pport.data != value) {
+                pport.data = value;
+                mem_pla_config_changed();
             }
-        } else {
-            mem_ram[addr] = value;
-        }
+            break;
+        default:
+            if (vbank == 0) {
+                if (c64_256k_enabled) {
+                    c64_256k_ram_segment0_store(addr, value);
+                } else {
+                    if (plus256k_enabled) {
+                        plus256k_ram_low_store(addr, value);
+                    } else {
+                        vicii_mem_vbank_store(addr, value);
+                    }
+                }
+            } else {
+                mem_ram[addr] = value;
+            }
     }
 }
 
@@ -362,13 +354,15 @@ void REGPARM2 ram_store(WORD addr, BYTE value)
 
 void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 {
-    if (vbank == 3)
+    if (vbank == 3) {
         vicii_mem_vbank_3fxx_store(addr, value);
-    else
+    } else {
         mem_ram[addr] = value;
+    }
 
-    if (addr == 0xff00)
+    if (addr == 0xff00) {
         reu_dma(-1);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -431,55 +425,55 @@ BYTE REGPARM1 colorram_read(WORD addr)
 
 static int check_256k_ram_write(int k, int i, int j)
 {
-  if (mem_write_tab[k][i][j]==vicii_mem_vbank_39xx_store ||
-      mem_write_tab[k][i][j]==vicii_mem_vbank_3fxx_store ||
-      mem_write_tab[k][i][j]==vicii_mem_vbank_store ||
-      mem_write_tab[k][i][j]==ram_hi_store ||
-      mem_write_tab[k][i][j]==ram_store)
-    return 1;
-  else
-    return 0;
+    if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store || mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store ||
+        mem_write_tab[k][i][j] == vicii_mem_vbank_store || mem_write_tab[k][i][j] == ram_hi_store || mem_write_tab[k][i][j] == ram_store) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void c64_256k_init_config(void)
 {
-  int i,j,k;
+    int i, j, k;
 
-  if (c64_256k_enabled)
-  {
-    mem_limit_256k_init(mem_read_limit_tab);
-    for (i = 0; i < NUM_CONFIGS; i++)
-    {
-      for (j = 1; j <= 0xff; j++)
-      {
-        for (k = 0; k < NUM_VBANKS; k++)
-        {
-          if (check_256k_ram_write(k,i,j)==1)
-          {
-            if (j<0x40)
-              mem_write_tab[k][i][j]=c64_256k_ram_segment0_store;
-            if (j>0x3f && j<0x80)
-              mem_write_tab[k][i][j]=c64_256k_ram_segment1_store;
-            if (j>0x7f && j<0xc0)
-              mem_write_tab[k][i][j]=c64_256k_ram_segment2_store;
-            if (j>0xbf)
-              mem_write_tab[k][i][j]=c64_256k_ram_segment3_store;
-          }
+    if (c64_256k_enabled) {
+        mem_limit_256k_init(mem_read_limit_tab);
+        for (i = 0; i < NUM_CONFIGS; i++) {
+            for (j = 1; j <= 0xff; j++) {
+                for (k = 0; k < NUM_VBANKS; k++) {
+                    if (check_256k_ram_write(k, i, j) == 1) {
+                        if (j < 0x40) {
+                            mem_write_tab[k][i][j] = c64_256k_ram_segment0_store;
+                        }
+                        if (j > 0x3f && j < 0x80) {
+                            mem_write_tab[k][i][j] = c64_256k_ram_segment1_store;
+                        }
+                        if (j > 0x7f && j < 0xc0) {
+                            mem_write_tab[k][i][j] = c64_256k_ram_segment2_store;
+                        }
+                        if (j > 0xbf) {
+                            mem_write_tab[k][i][j] = c64_256k_ram_segment3_store;
+                        }
+                    }
+                }
+                if (mem_read_tab[i][j] == ram_read) {
+                    if (j < 0x40) {
+                        mem_read_tab[i][j] = c64_256k_ram_segment0_read;
+                    }
+                    if (j > 0x3f && j < 0x80) {
+                        mem_read_tab[i][j] = c64_256k_ram_segment1_read;
+                    }
+                    if (j > 0x7f && j < 0xc0) {
+                        mem_read_tab[i][j] = c64_256k_ram_segment2_read;
+                    }
+                    if (j > 0xbf) {
+                        mem_read_tab[i][j] = c64_256k_ram_segment3_read;
+                    }
+                }
+            }
         }
-        if (mem_read_tab[i][j]==ram_read)
-        {
-          if (j<0x40)
-            mem_read_tab[i][j]=c64_256k_ram_segment0_read;
-          if (j>0x3f && j<0x80)
-            mem_read_tab[i][j]=c64_256k_ram_segment1_read;
-          if (j>0x7f && j<0xc0)
-            mem_read_tab[i][j]=c64_256k_ram_segment2_read;
-          if (j>0xbf)
-            mem_read_tab[i][j]=c64_256k_ram_segment3_read;
-        }
-      }
     }
-  }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -488,92 +482,102 @@ void c64_256k_init_config(void)
 
 void plus256k_init_config(void)
 {
-  int i,j,k;
+    int i, j, k;
 
-  if (plus256k_enabled)
-  {
-    mem_limit_256k_init(mem_read_limit_tab);
-    for (i = 0; i < NUM_CONFIGS; i++)
-    {
-      for (j = 1; j <= 0xff; j++)
-      {
-        for (k = 0; k < NUM_VBANKS; k++)
-        {
-          if (check_256k_ram_write(k,i,j)==1)
-          {
-            if (j<0x10)
-              mem_write_tab[k][i][j]=plus256k_ram_low_store;
-            else
-              mem_write_tab[k][i][j]=plus256k_ram_high_store;
-          }
-          if (mem_write_tab[k][i][j]==vicii_store && j==0xd1)
-            mem_write_tab[k][i][j]=plus256k_vicii_store;
-          if (mem_write_tab[k][i][j]==vicii_store && j>0xd1)
-            mem_write_tab[k][i][j]=plus256k_vicii_store0;
+    if (plus256k_enabled) {
+        mem_limit_256k_init(mem_read_limit_tab);
+        for (i = 0; i < NUM_CONFIGS; i++) {
+            for (j = 1; j <= 0xff; j++) {
+                for (k = 0; k < NUM_VBANKS; k++) {
+                    if (check_256k_ram_write(k, i, j) == 1) {
+                        if (j < 0x10) {
+                            mem_write_tab[k][i][j] = plus256k_ram_low_store;
+                        } else {
+                            mem_write_tab[k][i][j] = plus256k_ram_high_store;
+                        }
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1) {
+                        mem_write_tab[k][i][j] = plus256k_vicii_store;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_store && j > 0xd1) {
+                        mem_write_tab[k][i][j] = plus256k_vicii_store0;
+                    }
+                }
+                if (mem_read_tab[i][j] == ram_read) {
+                    if (j < 0x10) {
+                        mem_read_tab[i][j] = plus256k_ram_low_read;
+                    } else {
+                        mem_read_tab[i][j] = plus256k_ram_high_read;
+                    }
+                }
+                if (mem_read_tab[i][j] == vicii_read && j == 0xd1) {
+                    mem_read_tab[i][j] = plus256k_vicii_read;
+                }
+                if (mem_read_tab[i][j] == vicii_read && j > 0xd1) {
+                    mem_read_tab[i][j] = plus256k_vicii_read0;
+                }
+            }
         }
-        if (mem_read_tab[i][j]==ram_read)
-        {
-          if (j<0x10)
-            mem_read_tab[i][j]=plus256k_ram_low_read;
-          else
-            mem_read_tab[i][j]=plus256k_ram_high_read;
-        }
-        if (mem_read_tab[i][j]==vicii_read && j==0xd1)
-          mem_read_tab[i][j]=plus256k_vicii_read;
-        if (mem_read_tab[i][j]==vicii_read && j>0xd1)
-          mem_read_tab[i][j]=plus256k_vicii_read0;
-      }
     }
-  }
 }
 
 /* init plus60k memory table changes */
 
 static void plus60k_init_config(void)
 {
-  int i,j,k;
+    int i, j, k;
 
-  if (plus60k_enabled)
-  {
-    mem_limit_plus60k_init(mem_read_limit_tab);
-    for (i = 0; i < NUM_CONFIGS; i++)
-    {
-      for (j = 0x10; j <= 0xff; j++)
-      {
-        for (k = 0; k < NUM_VBANKS; k++)
-        {
-          if (mem_write_tab[k][i][j]==vicii_mem_vbank_39xx_store)
-            mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_39xx_store;
-          if (mem_write_tab[k][i][j]==vicii_mem_vbank_3fxx_store)
-            mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_3fxx_store;
-          if (mem_write_tab[k][i][j]==vicii_mem_vbank_store)
-            mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_store;
-          if (mem_write_tab[k][i][j]==ram_hi_store)
-            mem_write_tab[k][i][j]=plus60k_ram_hi_store;
-          if (mem_write_tab[k][i][j]==vicii_store && j==0xd0 && plus60k_base==0xd040)
-            mem_write_tab[k][i][j]=plus60k_vicii_store_old;
-          if (mem_write_tab[k][i][j]==vicii_store && j==0xd1 && plus60k_base==0xd100)
-            mem_write_tab[k][i][j]=plus60k_vicii_store;
-          if (mem_write_tab[k][i][j]==vicii_store && j==0xd1 && plus60k_base==0xd040)
-            mem_write_tab[k][i][j]=plus60k_vicii_store0;
-          if (mem_write_tab[k][i][j]==vicii_store && j>0xd1)
-            mem_write_tab[k][i][j]=plus60k_vicii_store0;
-          if (mem_write_tab[k][i][j]==ram_store)
-            mem_write_tab[k][i][j]=plus60k_ram_store;
+    if (plus60k_enabled) {
+        mem_limit_plus60k_init(mem_read_limit_tab);
+        for (i = 0; i < NUM_CONFIGS; i++) {
+            for (j = 0x10; j <= 0xff; j++) {
+                for (k = 0; k < NUM_VBANKS; k++) {
+                    if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store) {
+                        mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_39xx_store;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store) {
+                        mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_3fxx_store;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_mem_vbank_store) {
+                        mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_store;
+                    }
+                    if (mem_write_tab[k][i][j] == ram_hi_store) {
+                        mem_write_tab[k][i][j] = plus60k_ram_hi_store;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd0 && plus60k_base == 0xd040) {
+                        mem_write_tab[k][i][j] = plus60k_vicii_store_old;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd100) {
+                        mem_write_tab[k][i][j] = plus60k_vicii_store;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd040) {
+                        mem_write_tab[k][i][j] = plus60k_vicii_store0;
+                    }
+                    if (mem_write_tab[k][i][j] == vicii_store && j > 0xd1) {
+                        mem_write_tab[k][i][j] = plus60k_vicii_store0;
+                    }
+                    if (mem_write_tab[k][i][j] == ram_store) {
+                        mem_write_tab[k][i][j] = plus60k_ram_store;
+                    }
+                }
+                if (mem_read_tab[i][j] == vicii_read && j == 0xd0 && plus60k_base == 0xd040) {
+                    mem_read_tab[i][j] = plus60k_vicii_read_old;
+                }
+                if (mem_read_tab[i][j] == vicii_read && j == 0xd1 && plus60k_base == 0xd100) {
+                    mem_read_tab[i][j] = plus60k_vicii_read;
+                }
+                if (mem_read_tab[i][j] == vicii_read && j == 0xd1 && plus60k_base == 0xd040) {
+                    mem_read_tab[i][j] = plus60k_vicii_read0;
+                }
+                if (mem_read_tab[i][j] == vicii_read && j > 0xd1) {
+                    mem_read_tab[i][j] = plus60k_vicii_read0;
+                }
+                if (mem_read_tab[i][j] == ram_read) {
+                    mem_read_tab[i][j] = plus60k_ram_read;
+                }
+            }
         }
-        if (mem_read_tab[i][j]==vicii_read && j==0xd0 && plus60k_base==0xd040)
-          mem_read_tab[i][j]=plus60k_vicii_read_old;
-        if (mem_read_tab[i][j]==vicii_read && j==0xd1 && plus60k_base==0xd100)
-          mem_read_tab[i][j]=plus60k_vicii_read;
-        if (mem_read_tab[i][j]==vicii_read && j==0xd1 && plus60k_base==0xd040)
-          mem_read_tab[i][j]=plus60k_vicii_read0;
-        if (mem_read_tab[i][j]==vicii_read && j>0xd1)
-          mem_read_tab[i][j]=plus60k_vicii_read0;
-        if (mem_read_tab[i][j]==ram_read)
-          mem_read_tab[i][j]=plus60k_ram_read;
-      }
     }
-  }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -582,23 +586,20 @@ static void plus60k_init_config(void)
 
 static void mmc64_init_config(void)
 {
-  int i,j,k;
+    int i, j, k;
 
-  if (mmc64_enabled)
-  {
-    for (i = 0; i < NUM_CONFIGS; i++)
-    {
-      for (j = 0x80; j <= 0x9f; j++)
-      {
-        for (k = 0; k < NUM_VBANKS; k++)
-        {
-          if (mem_read_tab[i][j]==roml_read)
-            mem_write_tab[k][i][j]=mmc64_roml_store;
+    if (mmc64_enabled) {
+        for (i = 0; i < NUM_CONFIGS; i++) {
+            for (j = 0x80; j <= 0x9f; j++) {
+                for (k = 0; k < NUM_VBANKS; k++) {
+                    if (mem_read_tab[i][j] == roml_read) {
+                        mem_write_tab[k][i][j] = mmc64_roml_store;
+                    }
+                }
+            }
         }
-      }
+        mmc64_init_card_config();
     }
-    mmc64_init_card_config();
-  }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -612,8 +613,7 @@ void mem_set_write_hook(int config, int page, store_func_t *f)
     }
 }
 
-void mem_read_tab_set(unsigned int base, unsigned int index,
-                      read_func_ptr_t read_func)
+void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func)
 {
     mem_read_tab[base][index] = read_func;
 }
@@ -655,14 +655,14 @@ void mem_initialize_memory(void)
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
-                      case 0x39:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
-                        break;
-                      case 0x3f:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
-                        break;
-                      default:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_store;
+                        case 0x39:
+                            mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
+                            break;
+                        case 0x3f:
+                            mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
+                            break;
+                        default:
+                            mem_write_tab[k][i][j] = vicii_mem_vbank_store;
                     }
                 } else {
                     mem_write_tab[k][i][j] = ram_store;
@@ -676,8 +676,7 @@ void mem_initialize_memory(void)
         mem_set_write_hook(i, 0xff, ram_hi_store);
     }
 
-    /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
-       3, 9, 10, 11, 25, 26, 27).  */
+    /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2, 3, 9, 10, 11, 25, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
         mem_read_tab[1][i] = chargen_read;
         mem_read_tab[2][i] = chargen_read;
@@ -825,10 +824,12 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 void mem_get_basic_text(WORD *start, WORD *end)
 {
-    if (start != NULL)
+    if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
-    if (end != NULL)
+    }
+    if (end != NULL) {
         *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
+    }
 }
 
 void mem_set_basic_text(WORD start, WORD end)
@@ -845,21 +846,21 @@ int mem_rom_trap_allowed(WORD addr)
 {
     if (addr >= 0xe000) {
         switch (mem_config) {
-          case 2:
-          case 3:
-          case 6:
-          case 7:
-          case 10:
-          case 11:
-          case 14:
-          case 15:
-          case 26:
-          case 27:
-          case 30:
-          case 31:
-            return 1;
-          default: 
-            return 0;
+            case 2:
+            case 3:
+            case 6:
+            case 7:
+            case 10:
+            case 11:
+            case 14:
+            case 15:
+            case 26:
+            case 27:
+            case 30:
+            case 31:
+                return 1;
+            default: 
+                return 0;
         }
     }
 
@@ -875,36 +876,36 @@ int mem_rom_trap_allowed(WORD addr)
 void REGPARM2 store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        vicii_store(addr, byte);
-        break;
-      case 0xd400:
-      case 0xd500:
-      case 0xd600:
-      case 0xd700:
-        sid_store(addr, byte);
-        break;
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        colorram_store(addr, byte);
-        break;
-      case 0xdc00:
-        cia1_store(addr, byte);
-        break;
-      case 0xdd00:
-        cia2_store(addr, byte);
-        break;
-      case 0xde00:
-        c64io1_store(addr, byte);
-        break;
-      case 0xdf00:
-        c64io2_store(addr, byte);
-        break;
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            vicii_store(addr, byte);
+            break;
+        case 0xd400:
+        case 0xd500:
+        case 0xd600:
+        case 0xd700:
+            sid_store(addr, byte);
+            break;
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            colorram_store(addr, byte);
+            break;
+        case 0xdc00:
+            cia1_store(addr, byte);
+            break;
+        case 0xdd00:
+            cia2_store(addr, byte);
+            break;
+        case 0xde00:
+            c64io1_store(addr, byte);
+            break;
+        case 0xdf00:
+            c64io2_store(addr, byte);
+            break;
     }
     return;
 }
@@ -912,29 +913,29 @@ void REGPARM2 store_bank_io(WORD addr, BYTE byte)
 BYTE REGPARM1 read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        return vicii_read(addr);
-      case 0xd400:
-      case 0xd500:
-      case 0xd600:
-      case 0xd700:
-        return sid_read(addr);
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        return colorram_read(addr);
-      case 0xdc00:
-        return cia1_read(addr);
-      case 0xdd00:
-        return cia2_read(addr);
-      case 0xde00:
-        return c64io1_read(addr);
-      case 0xdf00:
-        return c64io2_read(addr);
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            return vicii_read(addr);
+        case 0xd400:
+        case 0xd500:
+        case 0xd600:
+        case 0xd700:
+            return sid_read(addr);
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            return colorram_read(addr);
+        case 0xdc00:
+            return cia1_read(addr);
+        case 0xdd00:
+            return cia2_read(addr);
+        case 0xde00:
+            return c64io1_read(addr);
+        case 0xdf00:
+            return c64io2_read(addr);
     }
     return 0xff;
 }
@@ -942,29 +943,29 @@ BYTE REGPARM1 read_bank_io(WORD addr)
 static BYTE peek_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        return vicii_peek(addr);
-      case 0xd400:
-      case 0xd500:
-      case 0xd600:
-      case 0xd700:
-        return sid_read(addr);
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        return colorram_read(addr);
-      case 0xdc00:
-        return cia1_peek(addr);
-      case 0xdd00:
-        return cia2_peek(addr);
-      case 0xde00:
-        return c64io1_read(addr);  /* FIXME */
-      case 0xdf00:
-        return c64io2_read(addr);  /* FIXME */
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            return vicii_peek(addr);
+        case 0xd400:
+        case 0xd500:
+        case 0xd600:
+        case 0xd700:
+            return sid_read(addr);
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            return colorram_read(addr);
+        case 0xdc00:
+            return cia1_peek(addr);
+        case 0xdd00:
+            return cia2_peek(addr);
+        case 0xde00:
+            return c64io1_read(addr);  /* FIXME */
+        case 0xdf00:
+            return c64io2_read(addr);  /* FIXME */
     }
     return 0xff;
 }
@@ -973,9 +974,14 @@ static BYTE peek_bank_io(WORD addr)
 
 /* Exported banked memory access functions for the monitor.  */
 
-static const char *banknames[] =
-{
-    "default", "cpu", "ram", "rom", "io", "cart", NULL
+static const char *banknames[] = {
+    "default",
+    "cpu",
+    "ram",
+    "rom",
+    "io",
+    "cart",
+    NULL
 };
 
 static const int banknums[] = { 1, 0, 1, 2, 3, 4 };
@@ -1001,32 +1007,32 @@ int mem_bank_from_name(const char *name)
 BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);
-        break;
-      case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            return read_bank_io(addr);
-        }
-      case 4:                   /* cart */
-        if (addr >= 0x8000 && addr <= 0x9fff) {
-            return roml_banks[addr & 0x1fff];
-        }
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return romh_banks[addr & 0x1fff];
-        }
-      case 2:                   /* rom */
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return c64memrom_basic64_rom[addr & 0x1fff];
-        }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return mem_chargen_rom[addr & 0x0fff];
-        }
-        if (addr >= 0xe000) {
-            return c64memrom_kernal64_rom[addr & 0x1fff];
-        }
-      case 1:                   /* ram */
-        break;
+        case 0:                   /* current */
+            return mem_read(addr);
+            break;
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                return read_bank_io(addr);
+            }
+        case 4:                   /* cart */
+            if (addr >= 0x8000 && addr <= 0x9fff) {
+                return roml_banks[addr & 0x1fff];
+            }
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return romh_banks[addr & 0x1fff];
+            }
+        case 2:                   /* rom */
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return c64memrom_basic64_rom[addr & 0x1fff];
+            }
+            if (addr >= 0xd000 && addr <= 0xdfff) {
+                return mem_chargen_rom[addr & 0x0fff];
+            }
+            if (addr >= 0xe000) {
+                return c64memrom_kernal64_rom[addr & 0x1fff];
+            }
+        case 1:                   /* ram */
+            break;
     }
     return mem_ram[addr];
 }
@@ -1034,13 +1040,13 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
 BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);  /* FIXME */
-        break;
-      case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            return peek_bank_io(addr);
-        }
+        case 0:                   /* current */
+            return mem_read(addr);  /* FIXME */
+            break;
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                return peek_bank_io(addr);
+            }
     }
     return mem_bank_read(bank, addr, context);
 }
@@ -1048,26 +1054,26 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        mem_store(addr, byte);
-        return;
-      case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            store_bank_io(addr, byte);
+        case 0:                   /* current */
+            mem_store(addr, byte);
             return;
-        }
-      case 2:                   /* rom */
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return;
-        }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return;
-        }
-        if (addr >= 0xe000) {
-            return;
-        }
-      case 1:                   /* ram */
-        break;
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                store_bank_io(addr, byte);
+                return;
+            }
+        case 2:                   /* rom */
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return;
+            }
+            if (addr >= 0xd000 && addr <= 0xdfff) {
+                return;
+            }
+            if (addr >= 0xe000) {
+                return;
+            }
+        case 1:                   /* ram */
+            break;
     }
     mem_ram[addr] = byte;
 }
@@ -1088,8 +1094,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 
 void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
-    *base = ((vicii_peek(0xd018) & 0xf0) << 6)
-            | ((~cia2_peek(0xdd00) & 0x03) << 14);
+    *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
     *columns = 40;
     *bank = 0;
@@ -1113,4 +1118,3 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
 {
     memcpy(mem_color_ram, color_ram, 0x400);
 }
-

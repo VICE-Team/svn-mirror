@@ -35,4 +35,3 @@ extern int acia_de_enabled;
 extern char *kernal_revision;
 
 #endif
-

@@ -81,12 +81,10 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
 
 void cia1_set_extended_keyboard_rows_mask(BYTE value)
 {
-
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-
 }
 
 static void pre_store(void)
@@ -106,7 +104,6 @@ static void pre_peek(void)
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-
 }
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
@@ -114,8 +111,9 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
     unsigned int i, m;
 
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
-        if ((keyarr[i] & 0x10) && (!(b & m)))
+        if ((keyarr[i] & 0x10) && (!(b & m))) {
             vicii_trigger_light_pen(maincpu_clk);
+        }
     }
 
 #ifdef HAVE_MOUSE
@@ -131,18 +129,19 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
-
 }
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     /* Falling edge triggers light pen.  */
-    if ((byte ^ 0x10) & cia_context->old_pb & 0x10)
+    if ((byte ^ 0x10) & cia_context->old_pb & 0x10) {
         vicii_trigger_light_pen(rclk);
+    }
 
 #ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1))
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {
         neos_mouse_store(byte);
+    }
 #endif
 }
 
@@ -158,18 +157,21 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     BYTE m;
     int i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~rev_keyarr[i];
+        }
+    }
 
-    byte = (val & (cia_context->c_cia[CIA_PRA]
-           | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
+    byte = (val & (cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
 
 #ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2))
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2)) {
         byte &= neos_mouse_read();
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 2))
+    }
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 2)) {
         byte &= amiga_mouse_read();
+    }
 #endif
 
     return byte;
@@ -183,18 +185,21 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     BYTE m;
     int i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~keyarr[i];
+        }
+    }
 
-    byte = (val & (cia_context->c_cia[CIA_PRB]
-           | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
+    byte = (val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
 
 #ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1))
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {
         byte &= neos_mouse_read();
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 1))
+    }
+    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 1)) {
         byte &= amiga_mouse_read();
+    }
 #endif
 
     return byte;
@@ -222,8 +227,7 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 
 void cia1_init(cia_context_t *cia_context)
 {
-    ciacore_init(machine_context.cia1, maincpu_alarm_context,
-                 maincpu_int_status, maincpu_clk_guard);
+    ciacore_init(machine_context.cia1, maincpu_alarm_context, maincpu_int_status, maincpu_clk_guard);
 }
 
 void cia1_setup_context(machine_context_t *machine_context)
@@ -264,4 +268,3 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->pre_read = pre_read;
     cia->pre_peek = pre_peek;
 }
-

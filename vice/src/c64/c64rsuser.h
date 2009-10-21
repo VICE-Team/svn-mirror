@@ -30,4 +30,3 @@
 extern void c64_rsuser_init(void);
 
 #endif
-

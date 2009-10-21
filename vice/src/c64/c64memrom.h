@@ -42,4 +42,3 @@ extern BYTE REGPARM1 c64memrom_rom64_read(WORD addr);
 extern void REGPARM2 c64memrom_rom64_store(WORD addr, BYTE value);
 
 #endif
-

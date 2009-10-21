@@ -55,14 +55,13 @@
 #define mycpu_set_nmi maincpu_set_nmi
 #define mycpu_set_int_noclk maincpu_set_int
 
-
 #include "aciacore.c"
 
 BYTE REGPARM1 acia1_read(WORD addr)
 {
-  if (acia.mode==2 && (addr&7)>3 && (addr&7)!=7)
-      return 0;
-  io_source=IO_SOURCE_ACIA;
-  return myacia_read(addr);
+    if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
+        return 0;
+    }
+    io_source = IO_SOURCE_ACIA;
+    return myacia_read(addr);
 }
-

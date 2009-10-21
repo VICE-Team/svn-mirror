@@ -43,10 +43,7 @@
 #include "machine.h"
 #include "rsuser.h"
 
-
 void c64_rsuser_init(void)
 {
-    rsuser_init(machine_get_cycles_per_second(), cia2_set_flagx,
-                cia2_set_sdrx);
+    rsuser_init(machine_get_cycles_per_second(), cia2_set_flagx, cia2_set_sdrx);
 }
-

@@ -63,4 +63,3 @@ extern void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup);
 extern void c64pla_pport_reset(void);
 
 #endif
-

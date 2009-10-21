@@ -50,15 +50,12 @@
 #include "c64acia.h"
 #endif
 
-
 #define SNAP_ROM_MAJOR 0
 #define SNAP_ROM_MINOR 0
-
 
 static log_t c64_snapshot_log = LOG_ERR;
 
 static const char snap_rom_module_name[] = "C64ROM";
-
 
 static int c64_snapshot_write_rom_module(snapshot_t *s)
 {
@@ -67,10 +64,10 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
 
     /* Main memory module.  */
 
-    m = snapshot_module_create(s, snap_rom_module_name,
-                               SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-    if (m == NULL)
+    m = snapshot_module_create(s, snap_rom_module_name, SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+    if (m == NULL) {
         return -1;
+    }
 
     /* disable traps before saving the ROM */
     resources_get_int("VirtualDevices", &trapfl);
@@ -78,8 +75,9 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
 
     if (SMW_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
         || SMW_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
-        || SMW_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
+        || SMW_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
+    }
 
     /* FIXME: save cartridge ROM (& RAM?) areas:
        first write out the configuration, i.e.
@@ -91,16 +89,18 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
 
     ui_update_menus();
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
 
     resources_set_int("VirtualDevices", trapfl);
 
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
 
     resources_set_int("VirtualDevices", trapfl);
 
@@ -115,8 +115,7 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
 
     /* Main memory module.  */
 
-    m = snapshot_module_open(s, snap_rom_module_name,
-                             &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_rom_module_name, &major_version, &minor_version);
     if (m == NULL) {
         /* this module is optional */
         /* FIXME: reset all cartridge stuff to standard C64 behaviour */
@@ -124,10 +123,7 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     }
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        log_error(c64_snapshot_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+        log_error(c64_snapshot_log, "Snapshot module version (%d.%d) newer than %d.%d.", major_version, minor_version, SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
         snapshot_module_close(m);
         return -1;
     }
@@ -138,8 +134,9 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
 
     if (SMR_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
         || SMR_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
-        || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0)
+        || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
+    }
 
     /* FIXME: read cartridge ROM (& RAM?) areas:
        first read out the configuration, i.e.
@@ -150,26 +147,26 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
        - cartridge RAM areas
     */
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
 
-    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom,
-           C64_KERNAL_ROM_SIZE);
+    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
     c64rom_get_kernal_checksum();
     c64rom_get_basic_checksum();
+
     /* enable traps again when necessary */
     resources_set_int("VirtualDevices", trapfl);
-
 
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     resources_set_int("VirtualDevices", trapfl);
     return -1;
 }
-
 
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
@@ -182,8 +179,9 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
     /* Main memory module.  */
 
     m = snapshot_module_create(s, snap_mem_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (SMW_B(m, pport.data) < 0
         || SMW_B(m, pport.dir) < 0
@@ -192,35 +190,42 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
         || SMW_BA(m, mem_ram, C64_RAM_SIZE) < 0
         || SMW_B(m, pport.data_out) < 0
         || SMW_B(m, pport.data_read) < 0
-        || SMW_B(m, pport.dir_read) < 0)
+        || SMW_B(m, pport.dir_read) < 0) {
         goto fail;
+    }
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
     m = NULL;
 
-    if (save_roms && c64_snapshot_write_rom_module(s) < 0)
+    if (save_roms && c64_snapshot_write_rom_module(s) < 0) {
         goto fail;
+    }
 
     /* REU module.  */
-    if (reu_enabled && reu_write_snapshot_module(s) < 0)
+    if (reu_enabled && reu_write_snapshot_module(s) < 0) {
         goto fail;
+    }
 
     /* GEORAM module.  */
-    if (georam_enabled && georam_write_snapshot_module(s) < 0)
+    if (georam_enabled && georam_write_snapshot_module(s) < 0) {
         goto fail;
+    }
 
 #ifdef HAVE_RS232
     /* ACIA module.  */
-    if (acia_de_enabled && acia1_snapshot_write_module(s) < 0)
+    if (acia_de_enabled && acia1_snapshot_write_module(s) < 0) {
         goto fail;
+    }
 #endif
 
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -231,16 +236,13 @@ int c64_snapshot_read_module(snapshot_t *s)
 
     /* Main memory module.  */
 
-    m = snapshot_module_open(s, snap_mem_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
+    m = snapshot_module_open(s, snap_mem_module_name, &major_version, &minor_version);
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        log_error(c64_snapshot_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_MAJOR, SNAP_MINOR);
+        log_error(c64_snapshot_log, "Snapshot module version (%d.%d) newer than %d.%d.", major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 
@@ -248,8 +250,9 @@ int c64_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &pport.dir) < 0
         || SMR_B(m, &export.exrom) < 0
         || SMR_B(m, &export.game) < 0
-        || SMR_BA(m, mem_ram, C64_RAM_SIZE) < 0)
+        || SMR_BA(m, mem_ram, C64_RAM_SIZE) < 0) {
         goto fail;
+    }
     
     /* new since 1.15.x */
     SMR_B(m, &pport.data_out);
@@ -258,12 +261,14 @@ int c64_snapshot_read_module(snapshot_t *s)
 
     mem_pla_config_changed();
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
     m = NULL;
 
-    if (c64_snapshot_read_rom_module(s) < 0)
+    if (c64_snapshot_read_rom_module(s) < 0) {
         goto fail;
+    }
 
     /* REU module.  */
     if (reu_read_snapshot_module(s) < 0) {
@@ -295,8 +300,8 @@ int c64_snapshot_read_module(snapshot_t *s)
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
-

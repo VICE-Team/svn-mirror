@@ -41,4 +41,3 @@ extern BYTE REGPARM1 tpi_read(WORD addr);
 extern BYTE REGPARM1 tpi_peek(WORD addr);
 
 #endif
-

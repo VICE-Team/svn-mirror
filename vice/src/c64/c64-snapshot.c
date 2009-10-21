@@ -50,19 +50,17 @@
 #include "types.h"
 #include "vicii.h"
 
-
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
-int c64_snapshot_write(const char *name, int save_roms, int save_disks,
-                       int event_mode)
+int c64_snapshot_write(const char *name, int save_roms, int save_disks, int event_mode)
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
-                        machine_name);
-    if (s == NULL)
+    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)), machine_name);
+    if (s == NULL) {
         return -1;
+    }
 
     sound_snapshot_prepare();
 
@@ -95,13 +93,12 @@ int c64_snapshot_read(const char *name, int event_mode)
     BYTE minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_name);
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        log_error(LOG_DEFAULT,
-                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
-                  major, minor, SNAP_MAJOR, SNAP_MINOR);
+        log_error(LOG_DEFAULT, "Snapshot version (%d.%d) not valid: expecting %d.%d.", major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 
@@ -117,8 +114,9 @@ int c64_snapshot_read(const char *name, int event_mode)
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
-        || joystick_snapshot_read_module(s) < 0)
+        || joystick_snapshot_read_module(s) < 0) {
         goto fail;
+    }
 
     snapshot_close(s);
 
@@ -127,11 +125,11 @@ int c64_snapshot_read(const char *name, int event_mode)
     return 0;
 
 fail:
-    if (s != NULL)
+    if (s != NULL) {
         snapshot_close(s);
+    }
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 
     return -1;
 }
-

@@ -30,4 +30,3 @@
 extern int c64_cmdline_options_init(void);
 
 #endif
-

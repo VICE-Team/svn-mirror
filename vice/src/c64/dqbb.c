@@ -64,7 +64,6 @@
 #include "types.h"
 #include "util.h"
 
-
 /* DQBB register bits */
 static int dqbb_a000_mapped;
 static int dqbb_readwrite;
@@ -91,12 +90,9 @@ static char *dqbb_filename = NULL;
 
 static int set_dqbb_enabled(int val, void *param)
 {
-    if (!val)
-    {
-        if (dqbb_enabled)
-        {
-            if (dqbb_deactivate() < 0)
-            {
+    if (!val) {
+        if (dqbb_enabled) {
+            if (dqbb_deactivate() < 0) {
                 return -1;
             }
         }
@@ -104,17 +100,12 @@ static int set_dqbb_enabled(int val, void *param)
         dqbb_reset();
         dqbb_change_config();
         return 0;
-    }
-    else
-    {
-        if (!dqbb_enabled)
-        {
-            if (c64export_add(&export_res) < 0)
-            {
+    } else {
+        if (!dqbb_enabled) {
+            if (c64export_add(&export_res) < 0) {
                 return -1;
             }
-            if (dqbb_activate() < 0)
-            {
+            if (dqbb_activate() < 0) {
                 return -1;
             }
         }
@@ -127,23 +118,21 @@ static int set_dqbb_enabled(int val, void *param)
 
 static int set_dqbb_filename(const char *name, void *param)
 {
-    if (dqbb_filename != NULL && name != NULL
-        && strcmp(name, dqbb_filename) == 0)
+    if (dqbb_filename != NULL && name != NULL && strcmp(name, dqbb_filename) == 0) {
         return 0;
-
-    if (name != NULL && *name != '\0') {
-        if (util_check_filename_access(name) < 0)
-            return -1;
     }
 
-    if (dqbb_enabled)
-    {
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0) {
+            return -1;
+        }
+    }
+
+    if (dqbb_enabled) {
         dqbb_deactivate();
         util_string_set(&dqbb_filename, name);
         dqbb_activate();
-    }
-    else
-    {
+    } else {
         util_string_set(&dqbb_filename, name);
     }
 
@@ -164,8 +153,9 @@ static const resource_int_t resources_int[] = {
 
 int dqbb_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -206,26 +196,17 @@ int dqbb_cmdline_options_init(void)
 
 static void dqbb_change_config(void)
 {
-    if (dqbb_enabled)
-    {
-        if (dqbb_off)
-        {
+    if (dqbb_enabled) {
+        if (dqbb_off) {
             cartridge_config_changed(2, 2, 0);
-        }
-        else
-        {
-            if (dqbb_a000_mapped)
-            {
+        } else {
+            if (dqbb_a000_mapped) {
                 cartridge_config_changed(1, 1, 0);
-            }
-            else
-            {
+            } else {
                 cartridge_config_changed(0, 0, 0);
             }
         }
-    }
-    else
-    {
+    } else {
         cartridge_config_changed(2, 2, 0);
     }
 }
@@ -235,8 +216,7 @@ void dqbb_reset(void)
     dqbb_a000_mapped = 0;
     dqbb_readwrite = 0;
     dqbb_off = 0;
-    if (dqbb_enabled)
-    {
+    if (dqbb_enabled) {
         dqbb_change_config();
     }
 }
@@ -251,12 +231,9 @@ static int dqbb_activate(void)
     lib_free(dqbb_ram);
     dqbb_ram = lib_malloc(0x4000);
 
-    if (!util_check_null_string(dqbb_filename))
-    {
-        if (util_file_load(dqbb_filename, dqbb_ram, 0x4000, UTIL_FILE_LOAD_RAW) < 0)
-        {
-            if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0)
-            {
+    if (!util_check_null_string(dqbb_filename)) {
+        if (util_file_load(dqbb_filename, dqbb_ram, 0x4000, UTIL_FILE_LOAD_RAW) < 0) {
+            if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
                 return -1;
             }
             return 0;
@@ -267,13 +244,12 @@ static int dqbb_activate(void)
 
 static int dqbb_deactivate(void)
 {
-    if (dqbb_ram == NULL)
+    if (dqbb_ram == NULL) {
         return 0;
+    }
 
-    if (!util_check_null_string(dqbb_filename))
-    {
-        if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0)
-        {
+    if (!util_check_null_string(dqbb_filename)) {
+        if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
             return -1;
         }
     }
@@ -308,8 +284,7 @@ BYTE REGPARM1 dqbb_roml_read(WORD addr)
 
 void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte)
 {
-    if (dqbb_readwrite)
-    {
+    if (dqbb_readwrite) {
         dqbb_ram[addr & 0x1fff] = byte;
     }
     mem_store_without_romlh(addr, byte);
@@ -322,8 +297,7 @@ BYTE REGPARM1 dqbb_romh_read(WORD addr)
 
 void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte)
 {
-    if (dqbb_readwrite)
-    {
+    if (dqbb_readwrite) {
         dqbb_ram[(addr & 0x1fff) + 0x2000] = byte;
     }
     mem_store_without_romlh(addr, byte);

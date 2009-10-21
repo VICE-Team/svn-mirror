@@ -32,9 +32,7 @@
 #include "maincpu.h"
 #include "vicii.h"
 
-
 static unsigned int c64keyboard_int_num;
-
 
 static void c64keyboard_machine_func(int *keyarr)
 {
@@ -44,12 +42,14 @@ static void c64keyboard_machine_func(int *keyarr)
     lightpen = 1;
 
     for (i = 0; i < 8; i++) {
-        if (keyarr[i] & 0x10)
+        if (keyarr[i] & 0x10) {
             lightpen = 0;
+        }
     }
 
-    if (old_lightpen && !lightpen)
+    if (old_lightpen && !lightpen) {
         vicii_trigger_light_pen(maincpu_clk);
+    }
 
     old_lightpen = lightpen;
 }
@@ -60,6 +60,7 @@ void c64keyboard_restore_key(int v)
     if (v) {
         /* trigger the NMI */
         maincpu_set_nmi(c64keyboard_int_num, 1);
+
         /* ack the restore NMI, leaving global_pending_int active */
         maincpu_set_nmi(c64keyboard_int_num, 0);
     }
@@ -67,8 +68,6 @@ void c64keyboard_restore_key(int v)
 
 void c64keyboard_init(void)
 {
-    c64keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status,
-                                                       "RestoreKEY");
+    c64keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "RestoreKEY");
     keyboard_register_machine(c64keyboard_machine_func);
 }
-

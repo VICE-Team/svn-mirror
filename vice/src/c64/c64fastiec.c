@@ -45,4 +45,3 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 void iec_fast_drive_direction(int direction, unsigned int dnr)
 {
 }
-

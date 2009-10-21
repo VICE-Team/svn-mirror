@@ -30,4 +30,3 @@
 extern void c64fastiec_init(void);
 
 #endif
-

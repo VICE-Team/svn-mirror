@@ -32,18 +32,19 @@
 #include "types.h"
 
 #ifndef C64_RAM_SIZE
-#define C64_RAM_SIZE                    0x10000
+#define C64_RAM_SIZE 0x10000
 #endif
-#define C64_KERNAL_ROM_SIZE             0x2000
-#define C64_BASIC_ROM_SIZE              0x2000
-#define C64_CHARGEN_ROM_SIZE            0x1000
 
-#define C64_BASIC_CHECKSUM              15702
-#define C64_KERNAL_CHECKSUM_R00         50955
-#define C64_KERNAL_CHECKSUM_R03         50954
-#define C64_KERNAL_CHECKSUM_R03swe      50633
-#define C64_KERNAL_CHECKSUM_R43         50955
-#define C64_KERNAL_CHECKSUM_R64         49680
+#define C64_KERNAL_ROM_SIZE  0x2000
+#define C64_BASIC_ROM_SIZE   0x2000
+#define C64_CHARGEN_ROM_SIZE 0x1000
+
+#define C64_BASIC_CHECKSUM         15702
+#define C64_KERNAL_CHECKSUM_R00    50955
+#define C64_KERNAL_CHECKSUM_R03    50954
+#define C64_KERNAL_CHECKSUM_R03swe 50633
+#define C64_KERNAL_CHECKSUM_R43    50955
+#define C64_KERNAL_CHECKSUM_R64    49680
 
 extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);
@@ -67,10 +68,8 @@ extern void mem_set_exrom(int active);
 extern BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 extern void mem_set_write_hook(int config, int page, store_func_t *f);
-extern void mem_read_tab_set(unsigned int base, unsigned int index,
-                             read_func_ptr_t read_func);
-extern void mem_read_base_set(unsigned int base, unsigned int index,
-                              BYTE *mem_ptr);
+extern void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
+extern void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr);
 
 extern void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value);
 extern BYTE REGPARM1 mem_read_without_ultimax(WORD addr);
@@ -82,4 +81,3 @@ extern BYTE REGPARM1 read_bank_io(WORD addr);
 extern void c64_mem_init(void);
 
 #endif
-

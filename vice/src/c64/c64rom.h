@@ -37,4 +37,3 @@ extern int c64rom_get_basic_checksum(void);
 extern int c64rom_cartkernal_active;
 
 #endif
-

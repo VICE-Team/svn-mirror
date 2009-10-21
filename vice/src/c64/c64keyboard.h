@@ -31,4 +31,3 @@ extern void c64keyboard_init(void);
 extern void c64keyboard_restore_key(int v);
 
 #endif
-
