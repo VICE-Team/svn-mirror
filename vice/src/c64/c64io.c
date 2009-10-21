@@ -647,9 +647,12 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
                 if (rr_active) {
                     mon_ioreg_add_list(mem_ioreg_list, "RETRO REPLAY", 0xde00, 0xde01);
                     if (reu_mapping) {
+#ifdef HAVE_TFE
                         if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net) {
                             mon_ioreg_add_list(mem_ioreg_list, "RETRO REPLAY", 0xde10, 0xdeff);
-                        } else {
+                        } else 
+#endif                        
+                        {
                             mon_ioreg_add_list(mem_ioreg_list, "RETRO REPLAY", 0xde02, 0xdeff);
                         }
                     } else {
