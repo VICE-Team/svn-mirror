@@ -77,9 +77,8 @@ NSString *tags[3] = { @"KeymapSymFile", @"KeymapSymDeFile", @"KeymapPosFile" };
 
 -(IBAction)dumpKeymap:(id)sender
 {
-    NSArray *types = [NSArray arrayWithObjects:@"vkm", nil];
     VICEAppController *appCtrl = [VICEApplication theAppController];
-    NSString *path = [appCtrl pickSaveFileWithTitle:@"Dump Keymap" types:types];
+    NSString *path = [[appCtrl getFilePanel] pickSaveFileWithType:@"KeyMap"];
     if (path != nil) {
         BOOL ok = [[VICEApplication theMachineController] dumpKeymap:path];
         if (!ok) {
@@ -90,9 +89,8 @@ NSString *tags[3] = { @"KeymapSymFile", @"KeymapSymDeFile", @"KeymapPosFile" };
 
 -(IBAction)pickKeymap:(id)sender
 {
-    NSArray *types = [NSArray arrayWithObjects:@"vkm", nil];
     VICEAppController *appCtrl = [VICEApplication theAppController];
-    NSString *path = [appCtrl pickOpenFileWithTitle:@"Load Keymap" types:types];
+    NSString *path = [[appCtrl getFilePanel] pickOpenFileWithType:@"KeyMap"];
     if (path != nil) {
         int index = [sender tag];
         [self setStringResource:tags[index] toValue:path];

@@ -353,7 +353,7 @@
     switch (hint) {
         case ResourceTreeItemHintFileOpen:
             {
-                NSString *file = [controller pickOpenFileWithTitle:title types:nil];
+                NSString *file = [[controller getFilePanel] pickOpenFileWithTitle:title types:nil];
                 if (file != nil) {
                     [self setStringResourceToValue:file withController:ctl];
                 }
@@ -361,7 +361,7 @@
             }
         case ResourceTreeItemHintFileSave:
             {
-                NSString *file = [controller pickSaveFileWithTitle:title types:nil];
+                NSString *file = [[controller getFilePanel] pickSaveFileWithTitle:title types:nil];
                 if (file != nil) {
                     [self setStringResourceToValue:file withController:ctl];
                 }
@@ -369,7 +369,7 @@
             }
         case ResourceTreeItemHintFileDir:
             {
-                NSString *file = [controller pickDirectoryWithTitle:title];
+                NSString *file = [[controller getFilePanel] pickDirectoryWithTitle:title];
                 if (file != nil) {
                     [self setStringResourceToValue:file withController:ctl];
                 }

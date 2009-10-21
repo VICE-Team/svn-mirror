@@ -49,6 +49,9 @@
 #include "fliplist.h"
 #include "network.h"
 #include "event.h"
+#include "imagecontents/diskcontents.h"
+#include "imagecontents/tapecontents.h"
+#include "imagecontents.h"
 
 #import "vicemachinecontroller.h"
 #import "vicemachine.h"
@@ -495,10 +498,10 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 
 // ----- Drive -----
 
--(BOOL)smartAttachImage:(NSString *)path
+-(BOOL)smartAttachImage:(NSString *)path withProgNum:(int)num andRun:(BOOL)run
 {
     return autostart_autodetect([path fileSystemRepresentation],
-        NULL,0,AUTOSTART_MODE_RUN) == 0;
+        NULL, num, run ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD) == 0;
 }
 
 -(BOOL)attachDiskImage:(int)unit path:(NSString *)path
@@ -639,6 +642,91 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 -(int)getNetplayMode
 {
     return network_get_mode();
+}
+
+// ----- Image Contents -----
+
+// convert latin1 chars with special meaning to similar chars in CBM font
+-(void)fixChars:(unsigned char *)str
+{
+    while(*str != 0) {
+        unsigned char code = *str;
+        // non breaking space
+        if(code==0xa0)
+          *str=0x20;
+        // soft hyphen
+        if(code==0xad)
+          *str=0xed;
+        str++;
+    }
+}
+
+-(NSDictionary *)convertImageContentsToDictionary:(image_contents_t *)ic
+{
+    image_contents_file_list_t *list = ic->file_list;
+    int num_files = 0;
+    while(list!=NULL) {
+        num_files++;
+        list = list->next;
+    }
+    
+    NSMutableArray *files = [NSMutableArray arrayWithCapacity:num_files];
+    list = ic->file_list;
+    while(list!=NULL) {
+        char *file = image_contents_file_to_string(list, 0);
+        [self fixChars:(unsigned char *)file];
+        NSString *sfile = [NSString stringWithCString:file encoding:NSISOLatin1StringEncoding];
+        lib_free(file);
+        
+        NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
+            sfile, @"fileName",
+            nil, nil];
+        
+        [files addObject:entry];
+        list = list->next;
+    }
+    
+    [self fixChars:(unsigned char *)ic->name];
+    [self fixChars:(unsigned char *)ic->id];
+    NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithInt:ic->blocks_free], @"blocks_free",
+            [NSString stringWithCString:(char *)ic->name encoding:NSISOLatin1StringEncoding], @"name",
+            [NSString stringWithCString:(char *)ic->id encoding:NSISOLatin1StringEncoding], @"id",
+            files, @"files",
+            nil, nil];
+    
+    image_contents_destroy(ic);        
+    return result;
+}
+
+-(NSDictionary *)diskimageContents:(NSString *)path
+{
+    const char *cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
+
+    // HACK: temporarly disable logging. otherwise log window outputs block UI!
+    log_enable(0);
+    image_contents_t *ic = diskcontents_filesystem_read(cstr);
+    log_enable(1);
+
+    if(ic == NULL) {
+        return nil;
+    }
+    return [self convertImageContentsToDictionary:ic];
+}
+
+-(NSDictionary *)tapeimageContents:(NSString *)path
+{
+    const char *cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
+
+    // HACK: temporarly disable logging. otherwise log window outputs block UI!
+    log_enable(0);
+    image_contents_t *ic = tapecontents_read(cstr);
+    log_enable(1);
+    
+    if(ic == NULL) {
+        return nil;
+    }
+    return [self convertImageContentsToDictionary:ic];
 }
 
 @end

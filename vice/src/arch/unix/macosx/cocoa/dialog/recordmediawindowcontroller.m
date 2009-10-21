@@ -269,7 +269,7 @@
 -(IBAction)pickMediaFileName:(id)sender
 {
     NSString *title = [NSString stringWithFormat:@"Record %@ Media", currentDefaultExtension];
-    NSString *fileName = [self pickSaveFileWithTitle:title types:[NSArray arrayWithObjects:currentDefaultExtension,nil]];
+    NSString *fileName = [[self getFilePanel] pickSaveFileWithTitle:title types:[NSArray arrayWithObjects:currentDefaultExtension,nil]];
     if (fileName != nil) {
         [mediaFileName setStringValue:fileName];
     }

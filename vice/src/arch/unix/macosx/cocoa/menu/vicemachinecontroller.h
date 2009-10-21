@@ -119,7 +119,7 @@
 
 // ----- Drive Commands -----
 // disk image
--(BOOL)smartAttachImage:(NSString *)path;
+-(BOOL)smartAttachImage:(NSString *)path withProgNum:(int)num andRun:(BOOL)run;
 // attach disk image
 -(BOOL)attachDiskImage:(int)unit path:(NSString *)path;
 // detach disk image
@@ -169,6 +169,12 @@
 -(void)disconnectNetplay;
 //! netplay mode (see network.h: network_mode_t)
 -(int)getNetplayMode;
+
+// ----- ImageContents -----
+//! get disk image contents
+-(NSDictionary *)diskimageContents:(NSString *)path;
+//! get tape image contents
+-(NSDictionary *)tapeimageContents:(NSString *)path;
 
 @end
 

@@ -244,7 +244,7 @@
     int curDrive = [driveChooser selectedSegment] + driveOffset;
 
     // get directory
-    NSString *dir = [[VICEApplication theAppController] pickDirectoryWithTitle:@"Pick Directory to Mount"];
+    NSString *dir = [[[VICEApplication theAppController] getFilePanel] pickDirectoryWithTitle:@"Pick Directory to Mount"];
     if (dir == nil) {
         return;
     }

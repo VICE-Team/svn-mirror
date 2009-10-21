@@ -24,7 +24,8 @@ noinst_HEADERS = \
 	c64dtvmachinecontroller.h \
 	c128machinecontroller.h \
 	viceappcontroller.h \
-	vicemachinecontroller.h
+	vicemachinecontroller.h \
+	vicefilepanel.h
    
 libarchmacosxcocoamenu_a_SOURCES = \
 	c128ui.m \
@@ -41,4 +42,5 @@ libarchmacosxcocoamenu_a_SOURCES = \
 	c128controller.m \
 	c128machinecontroller.m \
 	viceappcontroller.m \
-	vicemachinecontroller.m
+	vicemachinecontroller.m \
+	vicefilepanel.m

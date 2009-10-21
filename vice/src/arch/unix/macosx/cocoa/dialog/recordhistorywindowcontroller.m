@@ -181,7 +181,7 @@
 -(IBAction)pickWorkDir:(id)sender
 {
     VICEAppController *appCtrl = [VICEApplication theAppController];
-    NSString *path = [appCtrl pickDirectoryWithTitle:@"Record History"];
+    NSString *path = [[appCtrl getFilePanel] pickDirectoryWithTitle:@"Record History"];
     if (path != nil) {
         [self setStringResource:@"EventSnapshotDir" toValue:path];
         [self updateResources:nil];

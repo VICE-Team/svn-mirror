@@ -96,7 +96,7 @@
     [panel setTitle:@"Attach Cartridge Image"];
     [panel setPrompt:@"Attach"];
 
-    if ([panel runModalForDirectory:nil file:nil] == NSOKButton) {
+    if ([panel runModal] == NSFileHandlingPanelOKButton) {
         int type = cartTypeIds[[type_button indexOfSelectedItem]];
         if ([(C64MachineController *)[VICEApplication theMachineController] 
                                       attachCartridge:type 

@@ -44,15 +44,21 @@
 
 -(void)dealloc
 {
-    // release dialog controllers
     [driveSettingsController release];
     [iecDriveSettingsController release];
     [printerSettingsController release];
     [keyboardSettingsController release];
     [joystickSettingsController release];
     [soundSettingsController release];
+    [videoSettingsController release];
+    
     [infoController release];
     [resourceEditorController release];
+    [recordHistoryController release];
+    [recordMediaController release];
+    [netplayController release];
+    
+    [filePanel release];
     
     [super dealloc];
 }
@@ -89,9 +95,14 @@
 
 - (IBAction)smartAttachImage:(id)sender
 {
-    NSString *path = [self pickOpenFileWithTitle:@"Smart Attach Image" types:nil];
+    NSString *path = [[self getFilePanel] pickOpenFileWithPreviewAndType:@"CBMImage" allowRun:YES];
     if (path!=nil) {
-        if (![[VICEApplication theMachineController] smartAttachImage:path])
+        int progNum = [filePanel selectedProgNum];
+        BOOL doRun  = [filePanel selectedAutostart];
+        if (![[VICEApplication theMachineController] 
+                smartAttachImage:path 
+                     withProgNum:progNum
+                          andRun:doRun])
             [VICEApplication runErrorMessage:@"Error attaching image!"];
     }
 }
@@ -104,9 +115,7 @@
 
 - (void)attachDiskImageForUnit:(int)unit
 {    
-    NSArray *types = [NSArray arrayWithObjects:
-      @"d64", @"d67", @"d71", @"d80", @"d81", @"d82", @"g64", @"x64", nil];
-    NSString *path = [self pickOpenFileWithTitle:@"Attach Disk Image" types:types];
+    NSString *path = [[self getFilePanel] pickOpenFileWithPreviewAndType:@"DiskImage" allowRun:NO];
     if (path!=nil) {
         if (![[VICEApplication theMachineController] attachDiskImage:unit 
                                                                path:path]) {
@@ -159,7 +168,7 @@
     [panel setTitle:@"Create Disk Image"];
     [panel setPrompt:@"Create"];
 
-    if ([panel runModalForDirectory:nil file:nil] == NSOKButton) {
+    if ([panel runModal] == NSFileHandlingPanelOKButton) {
         int type = [type_button indexOfSelectedItem];
         NSString * path = [[panel filename] stringByAppendingPathExtension:[extensions objectAtIndex:type]];
 
@@ -214,8 +223,7 @@
 - (IBAction)fliplistLoad:(id)sender
 {
     int unit = [sender tag];
-    NSArray *types = [NSArray arrayWithObject:@"vfl"];
-    NSString *path = [self pickOpenFileWithTitle:@"Loading Fliplist" types:types];
+    NSString *path = [[self getFilePanel] pickOpenFileWithType:@"FlipList"];
     if (path!=nil) {
         if (![[VICEApplication theMachineController] loadFliplist:unit path:path autoAttach:TRUE])
             [VICEApplication runErrorMessage:@"Error loading fliplist!"];
@@ -225,8 +233,7 @@
 - (IBAction)fliplistSave:(id)sender
 {
     int unit = [sender tag];
-    NSArray *types = [NSArray arrayWithObject:@"vfl"];
-    NSString *path = [self pickSaveFileWithTitle:@"Saving Fliplist" types:types];
+    NSString *path = [[self getFilePanel] pickSaveFileWithType:@"FlipList"];
     if (path!=nil) {
         if (![[VICEApplication theMachineController] saveFliplist:unit path:path])
             [VICEApplication runErrorMessage:@"Error saving fliplist!"];
@@ -237,8 +244,7 @@
 
 - (IBAction)attachTapeImage:(id)sender
 {
-    NSArray *types = [NSArray arrayWithObjects:@"t64",@"tap",nil];
-    NSString *path = [self pickOpenFileWithTitle:@"Open Tape Image" types:types];
+    NSString *path = [[self getFilePanel] pickOpenFileWithPreviewAndType:@"TapeImage" allowRun:NO];
     if (path!=nil) {
         [[VICEApplication theMachineController] attachTapeImage:path];
     }
@@ -253,8 +259,7 @@
 
 - (IBAction)loadSnapshot:(id)sender
 {
-    NSArray *types = [NSArray arrayWithObject:@"vsf"];
-    NSString *path = [self pickOpenFileWithTitle:@"Load Snapshot" types:types];
+    NSString *path = [[self getFilePanel] pickOpenFileWithType:@"Snapshot"];
     if (path!=nil) {
         [[VICEApplication theMachineController] loadSnapshot:path];
     }
@@ -286,7 +291,7 @@
     [panel setTitle:@"Save Snapshot"];
     [panel setAllowedFileTypes:types];
 
-    if ([panel runModalForDirectory:nil file:nil] == NSOKButton) {
+    if ([panel runModal] == NSFileHandlingPanelOKButton) {
         BOOL saveRoms  = ([saveRomsCheck state] == NSOnState);
         BOOL saveDisks = ([saveDisksCheck state] == NSOnState);
         NSString * path = [panel filename];
@@ -597,47 +602,10 @@
 
 // ----- Tools -----
 
-- (NSString *)pickOpenFileWithTitle:(NSString *)title types:(NSArray *)types
+- (VICEFilePanel *)getFilePanel
 {
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    [panel setAllowsMultipleSelection:NO];
-    [panel setCanChooseFiles:YES];
-    [panel setCanChooseDirectories:NO];
-    [panel setTitle:title];    
-    
-    int result = [panel runModalForDirectory:nil file:nil types:types];
-    if (result==NSOKButton) {
-        return [panel filename];
-    }    
-    return nil;
-}
-
-- (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types
-{
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setTitle:title];    
-    [panel setAllowedFileTypes:types];
-    
-    int result = [panel runModalForDirectory:nil file:nil];
-    if (result==NSOKButton) {
-        return [panel filename];
-    }    
-    return nil;
-}
-
-- (NSString *)pickDirectoryWithTitle:(NSString *)title
-{
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    [panel setAllowsMultipleSelection:NO];
-    [panel setCanChooseFiles:NO];
-    [panel setCanChooseDirectories:YES];
-    [panel setTitle:title];    
-    
-    int result = [panel runModalForDirectory:nil file:nil types:nil];
-    if (result==NSOKButton) {
-        return [panel filename];
-    }    
-    return nil;
+    if(filePanel == nil)
+        filePanel = [[VICEFilePanel alloc] init];
 }
 
 - (BOOL)setIntResource:(NSString *)name toValue:(int)value

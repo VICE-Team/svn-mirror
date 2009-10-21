@@ -25,6 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
 #import "drivesettingswindowcontroller.h"
 #import "iecdrivesettingswindowcontroller.h"
 #import "printersettingswindowcontroller.h"
@@ -38,6 +39,8 @@
 #import "recordhistorywindowcontroller.h"
 #import "recordmediawindowcontroller.h"
 #import "netplaycontrolwindowcontroller.h"
+
+#import "vicefilepanel.h"
 
 @interface VICEAppController : NSObject
 {
@@ -55,6 +58,8 @@
     RecordHistoryWindowController *recordHistoryController;
     RecordMediaWindowController *recordMediaController;
     NetplayControlWindowController *netplayController;
+    
+    VICEFilePanel *filePanel;
     
     // Options Outlets
     IBOutlet NSMenu *refreshRateMenu;
@@ -145,9 +150,7 @@
 - (IBAction)showInformation:(id)sender;
 
 // Tools
-- (NSString *)pickOpenFileWithTitle:(NSString *)title types:(NSArray *)types;
-- (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types;
-- (NSString *)pickDirectoryWithTitle:(NSString *)title;
+- (VICEFilePanel *)getFilePanel;
 
 - (void)attachDiskImageForUnit:(int)unit;
 

@@ -8,6 +8,8 @@ EXTRA_DIST = \
 	x64dtv.nib/designable.nib \
 	x64dtv.nib/keyedobjects.nib \
 	x64dtv-ResourceTree.plist \
+	FilePanelImageContents.nib/designable.nib \
+	FilePanelImageContents.nib/keyedobjects.nib \
 	VICEInformation.nib/designable.nib \
 	VICEInformation.nib/keyedobjects.nib \
 	DriveSettings.nib/designable.nib \

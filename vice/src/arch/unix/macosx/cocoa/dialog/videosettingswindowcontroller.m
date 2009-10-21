@@ -243,9 +243,8 @@ static const char *vicii_palettes[] = {
 
 -(IBAction)pickPalette1:(id)sender
 {
-    NSArray *types = [NSArray arrayWithObjects:@"vpl", nil];
     VICEAppController *appCtrl = [VICEApplication theAppController];
-    NSString *path = [appCtrl pickOpenFileWithTitle:@"Load Palette" types:types];
+    NSString *path = [[appCtrl getFilePanel] pickOpenFileWithType:@"Palette"];
     if (path != nil) {
         [self setStringResource:@"VICIIPaletteFile" toValue:path];
         [self updatePaletteResources];

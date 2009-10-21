@@ -706,7 +706,7 @@ extern log_t video_log;
 {
     id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     NSString * path = [files objectAtIndex:0];
-    return [[VICEApplication theMachineController] smartAttachImage:path];
+    return [[VICEApplication theMachineController] smartAttachImage:path withProgNum:0 andRun:YES];
 }
 
 // ----- Keyboard -----

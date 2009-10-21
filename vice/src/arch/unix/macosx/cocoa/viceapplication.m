@@ -296,7 +296,8 @@ const float control_win_width = 200;
         }
         return YES;
     } else {
-        return [[machine getMachineController] smartAttachImage:[NSString stringWithString:file]];
+        return [[machine getMachineController] smartAttachImage:[NSString stringWithString:file]
+                                                    withProgNum:0 andRun:YES];
     }
 }
 
