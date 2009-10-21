@@ -41,4 +41,6 @@ extern int ide64_bin_attach(const char *filename, BYTE *rawcart);
 extern char *ide64_image_file;
 extern void ide64_detach(void);
 
+extern BYTE ide64_get_killport(void);
+
 #endif

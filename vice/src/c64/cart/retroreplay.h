@@ -50,5 +50,6 @@ extern void retroreplay_detach(void);
 
 extern unsigned int rr_active;
 extern unsigned int rr_clockport_enabled;
+extern unsigned int reu_mapping;
 
 #endif

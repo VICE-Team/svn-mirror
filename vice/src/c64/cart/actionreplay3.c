@@ -65,6 +65,11 @@ void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
     }
 }
 
+unsigned int actionreplay3_get_active(void)
+{
+    return ar_active;
+}
+
 BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
 {
     if (!ar_active) {

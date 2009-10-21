@@ -336,12 +336,11 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
 {
     int i;
 
-    if ((addr >= 0xde20 && addr < 0xde38) || (addr >= 0xde5a)) {
-	io_source = IO_SOURCE_IDE64;
-    }
+    io_source = IO_SOURCE_IDE64;
 
     if (kill_port & 1) {
         if (addr >= 0xde5f) {
+            io_source = IO_SOURCE_NONE;
             return vicii_read_phi1();
         }
     }
@@ -448,6 +447,7 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
             clock_data >>= 1;
             return i;
     }
+    io_source = IO_SOURCE_NONE;
     return vicii_read_phi1();
 }
 
@@ -460,6 +460,11 @@ static BYTE REGPARM1 byte2bcd(unsigned int byte) {
     */
     unsigned int nybble = byte / 10u;
     return (BYTE)(nybble * 6u + byte);
+}
+
+BYTE ide64_get_killport(void)
+{
+    return kill_port;
 }
 
 void REGPARM2 ide64_io1_store(WORD addr, BYTE value)

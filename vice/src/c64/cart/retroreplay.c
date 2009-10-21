@@ -60,7 +60,7 @@ static unsigned int allow_bank;
 static int no_freeze;
 
 /* REU compatibility mapping.  */
-static unsigned int reu_mapping;
+unsigned int reu_mapping;
 
 BYTE REGPARM1 retroreplay_io1_read(WORD addr)
 {
@@ -72,14 +72,14 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                 return ((roml_bank & 3) << 3) | ((roml_bank & 4) << 5) | allow_bank | reu_mapping;
             default:
 #ifdef HAVE_TFE
-                if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net && (addr&0xff)<0x10) {
+                if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net && (addr & 0xff) < 0x10) {
                     return 0;
                 }
 #endif
                 if (reu_mapping) {
+                    io_source = IO_SOURCE_RR;
                     if (export_ram) {
                         if (allow_bank) {
-                            io_source = IO_SOURCE_RR;
                             switch (roml_bank & 3) {
                                 case 0:
                                     return export_ram0[0x1e00 + (addr & 0xff)];
@@ -91,11 +91,9 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                                     return export_ram0[0x7e00 + (addr & 0xff)];
                             }
                         } else {
-                            io_source = IO_SOURCE_RR;
                             return export_ram0[0x1e00 + (addr & 0xff)];
                         }
                     }
-                    io_source=IO_SOURCE_RR;
                     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
                 }
                 return 0;
@@ -164,9 +162,9 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
 {
     if (rr_active) {
         if (!reu_mapping) {
+            io_source = IO_SOURCE_RR;
             if (export_ram) {
                 if (allow_bank) {
-                    io_source = IO_SOURCE_RR;
                     switch (roml_bank & 3) {
                         case 0:
                             return export_ram0[0x1f00 + (addr & 0xff)];
@@ -178,11 +176,9 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
                             return export_ram0[0x7f00 + (addr & 0xff)];
                     }
                 } else {
-                    io_source = IO_SOURCE_RR;
                     return export_ram0[0x1f00 + (addr & 0xff)];
                 }
             }
-            io_source = IO_SOURCE_RR;
             return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
         }
         return 0;
