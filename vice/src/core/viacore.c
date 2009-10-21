@@ -843,14 +843,13 @@ static void viacore_clk_overflow_callback(CLOCK sub, void *data)
     if (via_context->enabled == 0)
         return;
 
-    /* TODO: test for regressions */
-    if (via_context->tau > sub) {
-        via_context->tau -= sub;
-    }
+    via_context->tau = via_context->tal + 2 - 
+						((*(via_context->clk_ptr) + sub - via_context->tau)
+								% (via_context->tal + 2));
 
-    if (via_context->tbu > sub) {
-        via_context->tbu -= sub;
-    }
+	via_context->tbu = via_context->tbl + 2 - 
+						((*(via_context->clk_ptr) + sub - via_context->tbu)
+								% (via_context->tbl + 2));
 
     if (via_context->tai)
         via_context->tai -= sub;
