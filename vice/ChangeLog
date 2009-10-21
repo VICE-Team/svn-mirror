@@ -1,3 +1,908 @@
+2009-10-21  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.18
+
+2009-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-cmdline-options.h, src/c64/c64-midi.c,
+	  src/c64/c64-midi.h, src/c64/c64-resources.c,
+	  src/c64/c64-resources.h, src/c64/c64-snapshot.c,
+	  src/c64/c64-snapshot.h, src/c64/c64acia1.c, src/c64/c64bus.c,
+	  src/c64/c64cart.h, src/c64/c64cia.h, src/c64/c64cia1.c,
+	  src/c64/c64cia2.c, src/c64/c64datasette.c, src/c64/c64drive.c,
+	  src/c64/c64embedded.c, src/c64/c64export.c,
+	  src/c64/c64export.h, src/c64/c64fastiec.c,
+	  src/c64/c64fastiec.h, src/c64/c64iec.c, src/c64/c64iec.h,
+	  src/c64/c64io.h, src/c64/c64keyboard.c, src/c64/c64keyboard.h,
+	  src/c64/c64mem.c, src/c64/c64mem.h, src/c64/c64meminit.c,
+	  src/c64/c64meminit.h, src/c64/c64memlimit.c,
+	  src/c64/c64memrom.c, src/c64/c64memrom.h,
+	  src/c64/c64memsnapshot.c, src/c64/c64memsnapshot.h,
+	  src/c64/c64parallel.c, src/c64/c64parallel.h,
+	  src/c64/c64pla.c, src/c64/c64pla.h, src/c64/c64printer.c,
+	  src/c64/c64rom.c, src/c64/c64rom.h, src/c64/c64romset.c,
+	  src/c64/c64rsuser.c, src/c64/c64rsuser.h, src/c64/c64sound.c,
+	  src/c64/c64tpi.c, src/c64/c64tpi.h, src/c64/c64video.c,
+	  src/c64/digimax.c, src/c64/dqbb.c, src/c64/fmopl.c: Did some
+	  more code cleanups.
+
+	* src/c64/c64io.c, src/c64/cart/actionreplay.c,
+	  src/c64/cart/actionreplay.h, src/c64/cart/actionreplay3.c,
+	  src/c64/cart/actionreplay3.h, src/c64/cart/actionreplay4.c,
+	  src/c64/cart/actionreplay4.h, src/c64/cart/ide64.c,
+	  src/c64/cart/ide64.h, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h: Added more I/O devices to the
+	  monitor I/O list.
+
+2009-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64.c, src/c64/c64.h, src/c64/c64_256k.c,
+	  src/c64/cart/atomicpower.c, src/c64/cart/atomicpower.h,
+	  src/c64/cart/c64cart.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64cartmem.h, src/c64/cart/comal80.c,
+	  src/c64/cart/crt.c, src/c64/cart/crt.h,
+	  src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	  src/c64/cart/delaep64.h, src/c64/cart/delaep7x8.c,
+	  src/c64/cart/easyflash.c, src/c64/cart/epyxfastload.c,
+	  src/c64/cart/epyxfastload.h, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h, src/c64/cart/final.c,
+	  src/c64/cart/final.h, src/c64/cart/generic.c,
+	  src/c64/cart/generic.h, src/c64/cart/ide64.c,
+	  src/c64/cart/ide64.h, src/c64/cart/kcs.c, src/c64/cart/kcs.h,
+	  src/c64/cart/magicformel.c, src/c64/cart/magicformel.h,
+	  src/c64/cart/mikroass.c, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h, src/c64/cart/rexep256.c,
+	  src/c64/cart/ross.c, src/c64/cart/stardos.c,
+	  src/c64/cart/stb.c, src/c64/cart/supergames.c,
+	  src/c64/cart/supergames.h, src/c64/cart/supersnapshot.c,
+	  src/c64/cart/supersnapshot.h, src/c64/cart/zaxxon.c,
+	  src/c64/cart/zaxxon.h: Did some more code cleanups.
+
+2009-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisnapshot.c, src/arch/win32/uisnapshot.h,
+	  src/arch/win32/uisound.c, src/arch/win32/uisoundexpander.c,
+	  src/arch/win32/uispeed.c, src/arch/win32/uispeed.h,
+	  src/arch/win32/uitfe.c, src/arch/win32/uitfe.h,
+	  src/arch/win32/uivicii.c, src/arch/win32/uivicset.c,
+	  src/arch/win32/uivideo.c, src/arch/win32/uivideo.h,
+	  src/arch/win32/vic20ui.c, src/arch/win32/video-ddraw.c,
+	  src/arch/win32/video-dx9.c, src/arch/win32/video.c,
+	  src/arch/win32/videoarch.h, src/arch/win32/vsidui.c,
+	  src/arch/win32/vsyncarch.c, src/arch/win32/winlong.h,
+	  src/arch/win32/winmain.c, src/arch/win32/winmain.h,
+	  src/c64/cart/actionreplay.c, src/c64/cart/actionreplay.h,
+	  src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay3.h,
+	  src/c64/cart/actionreplay4.c: Did some more code cleanups.
+
+2009-10-18  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am:
+	  adapted Makefile.am to resource changes
+
+	* src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/NetplayControl.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordHistory.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RecordMedia.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceEditor.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib:
+	  macosx: converted all nib resources to xml
+
+	* src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/classes.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/info.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
+	  src/arch/unix/macosx/make-bindist.sh: macosx: joykeys now
+	  support N/A in editor. added clear button to clear whole
+	  keyset
+
+	* src/joystick.c: joykeys are now preset to the keboard NONE
+	  symbol
+
+	* build/macosx/build-hidutils.sh: macosx: fixed HID utitilies
+	  for macos 10.6
+
+	* data/C128/osx_pos.vkm, data/C128/osx_sym.vkm,
+	  data/C64/osx_pos.vkm, data/C64/osx_sym_de.vkm,
+	  data/C64/osx_sym_us.vkm, src/arch/unix/archdep.h: macosx:
+	  fixed shifted cursor movement in x64
+
+	* src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: improved
+	  multi buffer blending
+
+2009-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Readme.txt: Added some info about the
+	  'make bindist' batch file in the win32 sdl dir to the readme
+	  file.
+
+	* src/arch/win32/res.rc, src/arch/win32/ui-resources.c,
+	  src/arch/win32/uimonmsg.h, src/arch/win32/uimouse.c,
+	  src/arch/win32/uimouse.h, src/arch/win32/uinetwork.c,
+	  src/arch/win32/uiperipheral.c, src/arch/win32/uiperipheral.h,
+	  src/arch/win32/uipetreu.c, src/arch/win32/uipetset.c,
+	  src/arch/win32/uiplus256k.c, src/arch/win32/uiplus4cart.c,
+	  src/arch/win32/uiplus4cart.h, src/arch/win32/uiplus4mem.c,
+	  src/arch/win32/uiplus60k.c, src/arch/win32/uiquicksnapshot.c,
+	  src/arch/win32/uiquicksnapshot.h, src/arch/win32/uiram.c,
+	  src/arch/win32/uiram.h, src/arch/win32/uiramcart.c,
+	  src/arch/win32/uiramcart.h, src/arch/win32/uireu.c,
+	  src/arch/win32/uireu.h, src/arch/win32/uirom.c,
+	  src/arch/win32/uirs232.c, src/arch/win32/uirs232.h,
+	  src/arch/win32/uirs232user.c, src/arch/win32/uirs232user.h,
+	  src/arch/win32/uisid.c, src/arch/win32/uisid.h,
+	  src/arch/win32/uisidcart.c, src/arch/win32/uisiddtv.c: Did
+	  some more code cleanups.
+
+2009-10-17  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt:
+	  Added aspect ratio control to the video settings UI.
+
+2009-10-17  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: cocoa: make gl
+	  context only current if its required. fixes problems on ppc
+
+	* src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: added
+	  experimental multi buffer temporal filtering for graphics
+	  output
+
+	* src/video/render1x1pal.c, src/video/render2x2pal.c,
+	  src/video/video-color.c, src/video/video-color.h: added
+	  optional alpha value support for PAL emulation rendering in 32
+	  bit RGBA
+
+2009-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uikeyboard.h, src/arch/win32/uilib.c,
+	  src/arch/win32/uilib.h, src/arch/win32/uilightpen.c,
+	  src/arch/win32/uimediafile.c, src/arch/win32/uimidi.c,
+	  src/arch/win32/uimmc64.c, src/arch/win32/uimon.c: Did some
+	  more code cleanups.
+
+2009-10-16  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in,
+	  src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	  src/arch/unix/macosx/cocoa/Makefile.am,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/viceapplicationprotocol.h,
+	  src/arch/unix/macosx/cocoa/vicemachine.m,
+	  src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/videoarch.h,
+	  src/arch/unix/macosx/cocoa/videoparam.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: macosx: more
+	  graphics output rewriting. added sync draw mode.
+
+2009-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/respetreu.rc, src/arch/win32/resplus256k.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resplus60k.rc,
+	  src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	  src/arch/win32/resrs232user.rc, src/arch/win32/ressid.rc,
+	  src/arch/win32/ressidcart.rc, src/arch/win32/ressiddtv.rc,
+	  src/arch/win32/ressoundexpander.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/restfe.rc,
+	  src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	  src/arch/win32/rs232.c, src/arch/win32/rs232dev.c,
+	  src/arch/win32/rs232dev.h, src/arch/win32/rs232net.c,
+	  src/arch/win32/rs232net.h, src/arch/win32/signals.c,
+	  src/arch/win32/statusbar.c, src/arch/win32/statusbar.h,
+	  src/arch/win32/system.c, src/arch/win32/tfearch.c,
+	  src/arch/win32/ui.c, src/arch/win32/ui.h,
+	  src/arch/win32/uiacia.c, src/arch/win32/uiacia.h,
+	  src/arch/win32/uiattach.c, src/arch/win32/uiattach.h,
+	  src/arch/win32/uiautostart.c, src/arch/win32/uic128.c,
+	  src/arch/win32/uic128.h, src/arch/win32/uic64_256k.c,
+	  src/arch/win32/uic64cart.c, src/arch/win32/uic64cart.h,
+	  src/arch/win32/uic64dtv.c, src/arch/win32/uicart.c,
+	  src/arch/win32/uicart.h, src/arch/win32/uicbm2set.c,
+	  src/arch/win32/uicmdline.c, src/arch/win32/uiconsole.c,
+	  src/arch/win32/uidatasette.c, src/arch/win32/uidatasette.h,
+	  src/arch/win32/uidigimax.c, src/arch/win32/uidqbb.c,
+	  src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec128.h,
+	  src/arch/win32/uidrivec64.c, src/arch/win32/uidrivec64.h,
+	  src/arch/win32/uidrivepetcbm2.c,
+	  src/arch/win32/uidrivepetcbm2.h,
+	  src/arch/win32/uidriveplus4.c, src/arch/win32/uidriveplus4.h,
+	  src/arch/win32/uidrivevic20.c, src/arch/win32/uidrivevic20.h,
+	  src/arch/win32/uieasyflash.c, src/arch/win32/uievent.c,
+	  src/arch/win32/uievent.h, src/arch/win32/uifliplist.c,
+	  src/arch/win32/uifliplist.h, src/arch/win32/uigeoram.c,
+	  src/arch/win32/uigeoram.h, src/arch/win32/uihelp.c,
+	  src/arch/win32/uihelp.h, src/arch/win32/uiide64.c,
+	  src/arch/win32/uiide64.h, src/arch/win32/uiisepic.c,
+	  src/arch/win32/uijoystick.c, src/arch/win32/uikeyboard.c,
+	  src/arch/win32/uipetset.c, src/arch/win32/uiplus4mem.c,
+	  src/arch/win32/uisidcart.c, src/arch/win32/uivicset.c: Did
+	  some more code cleanups.
+
+2009-10-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui-resources.c, src/arch/win32/ui.c: Handle
+	  changes of aspect ratio resources and canvas resizing.
+
+2009-10-14  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/viceapplicationprotocol.h,
+	  src/arch/unix/macosx/cocoa/vicemachine.h,
+	  src/arch/unix/macosx/cocoa/vicemachine.m,
+	  src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/videoarch.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.h,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: macosx: graphics
+	  output code clean ups
+
+2009-10-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uic64dtv.c, src/arch/win32/uipetset.c: Removed
+	  (now) unused variables.
+
+	* src/arch/win32/uimon.c: Fixed warnings.
+
+2009-10-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/rescbm2.rc, src/arch/win32/rescommon.h,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resdigimax.rc,
+	  src/arch/win32/resdqbb.rc, src/arch/win32/resdrivec128.rc,
+	  src/arch/win32/resdrivec64.rc,
+	  src/arch/win32/resdrivepetcbm2.rc,
+	  src/arch/win32/resdriveplus4.rc,
+	  src/arch/win32/resdrivevic20.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/resgeoram.rc,
+	  src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	  src/arch/win32/resmmc64.rc, src/arch/win32/resmouse.rc,
+	  src/arch/win32/respet.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uic64dtv.c, src/arch/win32/uicbm2set.c,
+	  src/arch/win32/uidqbb.c, src/arch/win32/uidrivec128.c,
+	  src/arch/win32/uidrivec64.c, src/arch/win32/uidrivepetcbm2.c,
+	  src/arch/win32/uidriveplus4.c, src/arch/win32/uidrivevic20.c,
+	  src/arch/win32/uieasyflash.c, src/arch/win32/uigeoram.c,
+	  src/arch/win32/uiisepic.c, src/arch/win32/uimidi.c,
+	  src/arch/win32/uimmc64.c, src/arch/win32/uimouse.c,
+	  src/arch/win32/uipetset.c: Made some more dialogs
+	  auto-(re)sizing.
+
+2009-10-12  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui-resources.c, src/arch/win32/ui.c:
+	  Implemented fixed aspect ratio (not yet complete).
+
+2009-10-12  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/cart/finalexpansion.c: Disabled emulation of the FE
+	  V3.2 pre-release Super ROM bug.
+
+2009-10-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/6510dtvcore.c: Skip interrupt sequence dummy cycles on
+	  skip cycle
+
+2009-10-10  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc64dtv.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uic64dtv.c: Made
+	  some more dialogs auto-(re)sizing.
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/intl.c, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/uic64dtv.c,
+	  src/arch/win32/uikeyboard.c, src/arch/win32/uikeyboard.h,
+	  src/arch/win32/vic20ui.c: Made some more dialogs
+	  auto-(re)sizing.
+
+2009-10-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/resc128.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uic128.c: Made some more dialogs
+	  auto-(re)sizing.
+
+	* src/arch/win32/intl.c, src/arch/win32/resc128.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uic128.c: Made some more dialogs
+	  auto-(re)sizing.
+
+	* src/arch/win32/intl.c, src/arch/win32/resc128.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uic128.c: Made some more dialogs
+	  auto-(re)sizing.
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/intl.c, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/uilib.h,
+	  src/arch/win32/uirom.c, src/arch/win32/uirom.h,
+	  src/arch/win32/vic20ui.c: Made some more dialogs
+	  auto-(re)sizing.
+
+2009-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/intl.c, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/uirom.c,
+	  src/arch/win32/uirom.h, src/arch/win32/uisound.c,
+	  src/arch/win32/vic20ui.c: Made some more dialogs
+	  auto-(re)sizing.
+
+2009-10-07  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uidatasette.c, src/arch/win32/uilib.c,
+	  src/core/viacore.c: Removed unused variables.
+
+2009-10-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/uilib.c: Made some more dialogs
+	  auto-(re)sizing.
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uilib.c, src/arch/win32/uimediafile.c: Made
+	  some more dialogs auto-(re)sizing.
+
+2009-10-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uiconsole.c, src/arch/win32/uilib.c,
+	  src/arch/win32/uilib.h, src/arch/win32/uinetwork.c,
+	  src/arch/win32/uiperipheral.c, src/arch/win32/uirom.c,
+	  src/arch/win32/uirs232.c, src/arch/win32/uispeed.c: Made some
+	  more dialogs auto-(re)sizing.
+
+2009-10-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/video.m: macosx: reverted graphics
+	  update strategy
+
+2009-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/intl.c,
+	  src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uiram.c,
+	  src/arch/win32/uivideo.c: Made some more dialogs
+	  auto-(re)sizing.
+
+2009-10-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_joystick.c: Add missing joystick 1 mapping
+	  submenu to xvic SDL UI
+
+2009-10-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uidatasette.c, src/arch/win32/uijoystick.c,
+	  src/arch/win32/uilib.c, src/arch/win32/uilib.h,
+	  src/arch/win32/uisnapshot.c, src/arch/win32/uisound.c: Made
+	  some more dialogs auto-(re)sizing and added a button centering
+	  routine.
+
+2009-10-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uijoystick.c, src/arch/win32/uilib.c,
+	  src/arch/win32/uilib.h, src/arch/win32/uiperipheral.c: Turned
+	  the joystick and disk device settings dialog into a dynamic
+	  size ones.
+
+2009-10-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c, src/monitor/mon_ui.c,
+	  src/monitor/mon_ui.h, src/monitor/mon_util.c,
+	  src/monitor/mon_util.h: Add memory window to Win32 monitor.
+	  Original patch by Martin Piper, but massively refactored.
+
+	* src/monitor.h: Add processor regs into CPU history. Patch
+	  provided by Martin Piper. (missing patch).
+
+	* src/6510core.c, src/6510dtvcore.c, src/monitor/monitor.c,
+	  src/monitor/montypes.h: Add processor regs into CPU history.
+	  Patch provided by Martin Piper.
+
+2009-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uidatasette.c: Added some comments to show how
+	  the dynamic resizing of the datasetter dialog works.
+
+	* src/arch/win32/uidatasette.c, src/arch/win32/uilib.c,
+	  src/arch/win32/uilib.h: Added some extra win32 dynamic size
+	  routines and 'groupified' the datasette dialog routine.
+
+2009-10-01  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt: SDL UI slider control documentation,
+	  contributed by Peter Edwards (slightly edited)
+
+2009-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uidatasette.c: Turned the datasette settings
+	  dialog into a dynamic size one.
+
+2009-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Added some more win32 arch code
+	  cleanups.
+
+2009-09-29  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.h,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: macosx: draw
+	  with machine thread if not warp enabled
+
+2009-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c, src/arch/win32/archdep.h,
+	  src/arch/win32/blockdev.c, src/arch/win32/c128ui.c,
+	  src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	  src/arch/win32/catweaselmkiii.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/console.c, src/arch/win32/dinput_handle.c,
+	  src/arch/win32/dinput_handle.h, src/arch/win32/dirent.c,
+	  src/arch/win32/evc/system.c, src/arch/win32/evc/system.h,
+	  src/arch/win32/fullscrn-ddraw.c,
+	  src/arch/win32/fullscrn-dx9.c, src/arch/win32/fullscrn.c,
+	  src/arch/win32/fullscrn.h, src/arch/win32/gifdrv.c,
+	  src/arch/win32/hardsid.c, src/arch/win32/intl.c,
+	  src/arch/win32/joy.c, src/arch/win32/joy.h,
+	  src/arch/win32/kbd.c, src/arch/win32/kbd.h,
+	  src/arch/win32/lightpendrv.c, src/arch/win32/mididrv.c,
+	  src/arch/win32/mingw32/system.h, src/arch/win32/mousedrv.c,
+	  src/arch/win32/mousedrv.h, src/arch/win32/msvc/dirent.h,
+	  src/arch/win32/msvc/inttypes.h,
+	  src/arch/win32/msvc/siddefs-fp.h,
+	  src/arch/win32/msvc/siddefs.h, src/arch/win32/msvc/stdint.h,
+	  src/arch/win32/msvc/system.h,
+	  src/arch/win32/msvc/wpcap/ip6_misc.h,
+	  src/arch/win32/msvc/wpcap/net/bpf.h,
+	  src/arch/win32/msvc/wpcap/pcap-stdinc.h,
+	  src/arch/win32/msvc/wpcap/pcap.h, src/arch/win32/parsid.c,
+	  src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	  src/arch/win32/utils/genmsvcver.c,
+	  src/arch/win32/utils/gentranslate.c,
+	  src/arch/win32/utils/genwinres.c: Started on the win32 arch
+	  code cleanups.
+
+2009-09-28  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/viacore.c: Fix broken clock overflow handling in VIA
+	  core
+
+2009-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.c, src/arch/unix/archdep.h,
+	  src/arch/unix/blockdev.c, src/arch/unix/catweaselmkiii.c,
+	  src/arch/unix/console.c, src/arch/unix/coproc.c,
+	  src/arch/unix/coproc.h, src/arch/unix/dynlib.c,
+	  src/arch/unix/fullscreenarch.h, src/arch/unix/hardsid.c,
+	  src/arch/unix/icon.h, src/arch/unix/joy.c,
+	  src/arch/unix/joy.h, src/arch/unix/joy_usb.c,
+	  src/arch/unix/kbd.h, src/arch/unix/mididrv.c,
+	  src/arch/unix/mousedrv.c, src/arch/unix/mousedrv.h,
+	  src/arch/unix/openGL_sync.h, src/arch/unix/parsid.c,
+	  src/arch/unix/rs232.c, src/arch/unix/signals.c,
+	  src/arch/unix/socketimpl.h, src/arch/unix/tfearch.c,
+	  src/arch/unix/ui.h, src/arch/unix/unixmain.c,
+	  src/arch/unix/videoarch.h, src/arch/unix/vmstermios.h,
+	  src/arch/unix/vsiduiunix.h, src/arch/unix/vsyncarch.c,
+	  src/arch/unix/x11/c128icon.c, src/arch/unix/x11/c64dtvicon.c,
+	  src/arch/unix/x11/c64icon.c, src/arch/unix/x11/cbm2icon.c,
+	  src/arch/unix/x11/fullscreen.c,
+	  src/arch/unix/x11/openGL_sync.c, src/arch/unix/x11/peticon.c,
+	  src/arch/unix/x11/plus4icon.c, src/arch/unix/x11/qnxipc.h,
+	  src/arch/unix/x11/qnxshm.c, src/arch/unix/x11/qnxshm.h,
+	  src/arch/unix/x11/renderxv.c, src/arch/unix/x11/renderxv.h,
+	  src/arch/unix/x11/ui-cmdline-options.c,
+	  src/arch/unix/x11/ui-resources.c,
+	  src/arch/unix/x11/vic20icon.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/vidmode.h, src/arch/unix/x11/x11menu.h,
+	  src/arch/unix/x11/x11ui.h, src/arch/unix/x11/xrandr.c,
+	  src/arch/unix/x11/xrandr.h: Finished the unix arch code
+	  cleanups.
+
+2009-09-27  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/cart/finalexpansion.c: Refactored Blk0 handling in
+	  the Final Expansion implementation.
+
+	* src/vic20/cart/finalexpansion.c: Implemented Final Expansion
+	  v3.2 features. Passes the current fe3diag.prg (which only
+	  tests the v3.1 subset).
+
+2009-09-27  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh,
+	  build/macosx/build-vice-release.sh,
+	  src/arch/unix/macosx/make-bindist.sh: macosx: updated build
+	  system to support clang compiler and x86_64 builds
+
+	* src/gfxoutputdrv/ffmpegdrv.c: removed obsolete format
+	  specifier in ffmpegdrv
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: added missing brace
+
+	* build/macosx/build-allext.sh,
+	  build/macosx/build-ffmpeglame.sh, build/macosx/build-gtk.sh,
+	  build/macosx/build-hidutils.sh, build/macosx/build-inc.sh,
+	  build/macosx/build-pcaplibnet.sh,
+	  build/macosx/build-sdlmain.sh: macosx: added extlib support
+	  for x86_64 and clang
+
+2009-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gp2x/uicmdline.c, src/arch/unix/x11/xaw/about.c,
+	  src/arch/unix/x11/xaw/uiarch.h,
+	  src/arch/unix/x11/xaw/uicartridge.c,
+	  src/arch/unix/x11/xaw/uicolor.c,
+	  src/arch/unix/x11/xaw/uiedisk.c,
+	  src/arch/unix/x11/xaw/uimenu.c,
+	  src/arch/unix/x11/xaw/uimenu.h,
+	  src/arch/unix/x11/xaw/uiscreenshot.c,
+	  src/arch/unix/x11/xaw/uisnapshot.c,
+	  src/arch/unix/x11/xaw/uivsidcontrol.c,
+	  src/arch/unix/x11/xaw/videoarch.h,
+	  src/arch/unix/x11/xaw/widgets/Canvas.c,
+	  src/arch/unix/x11/xaw/widgets/Canvas.h,
+	  src/arch/unix/x11/xaw/widgets/CanvasP.h,
+	  src/arch/unix/x11/xaw/widgets/DirMgr.c,
+	  src/arch/unix/x11/xaw/widgets/DirMgr.h,
+	  src/arch/unix/x11/xaw/widgets/Directory.c,
+	  src/arch/unix/x11/xaw/widgets/Directory.h,
+	  src/arch/unix/x11/xaw/widgets/DrawImageString.c,
+	  src/arch/unix/x11/xaw/widgets/DrawString.c,
+	  src/arch/unix/x11/xaw/widgets/FileSel.c,
+	  src/arch/unix/x11/xaw/widgets/FileSel.h,
+	  src/arch/unix/x11/xaw/widgets/FileSelP.h,
+	  src/arch/unix/x11/xaw/widgets/MultiList.c,
+	  src/arch/unix/x11/xaw/widgets/MultiList.h,
+	  src/arch/unix/x11/xaw/widgets/MultiListP.h,
+	  src/arch/unix/x11/xaw/widgets/RegExp.c,
+	  src/arch/unix/x11/xaw/widgets/RegExp.h,
+	  src/arch/unix/x11/xaw/widgets/ScrList.c,
+	  src/arch/unix/x11/xaw/widgets/ScrList.h,
+	  src/arch/unix/x11/xaw/widgets/ScrListP.h,
+	  src/arch/unix/x11/xaw/widgets/TabString.h,
+	  src/arch/unix/x11/xaw/widgets/Tablist2Tabs.c,
+	  src/arch/unix/x11/xaw/widgets/TextField.c,
+	  src/arch/unix/x11/xaw/widgets/TextField.h,
+	  src/arch/unix/x11/xaw/widgets/TextFieldP.h,
+	  src/arch/unix/x11/xaw/widgets/TextWidth.c,
+	  src/arch/unix/x11/xaw/widgets/strnchr.c,
+	  src/arch/unix/x11/xaw/x11kbd.c, src/arch/unix/x11/xaw/x11ui.c,
+	  src/arch/unix/x11/xaw/x11video.c: Added some more xaw arch
+	  code cleanups.
+
+	* po/POTFILES.in: Updated.
+
+2009-09-26  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/cart/finalexpansion.c: Refactored mode names
+	  according to Final Expansion v3.2 nomenclature.
+
+2009-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/x11/gnome/uimenu.c,
+	  src/arch/unix/x11/gnome/uimenu.h,
+	  src/arch/unix/x11/gnome/uinetplay.c,
+	  src/arch/unix/x11/gnome/uipalcontrol.c,
+	  src/arch/unix/x11/gnome/uiscreenshot.c,
+	  src/arch/unix/x11/gnome/uisnapshot.c,
+	  src/arch/unix/x11/gnome/uivsidcontrol.c,
+	  src/arch/unix/x11/gnome/videoarch.h,
+	  src/arch/unix/x11/gnome/x11ui.c: Finished the gnomeui arch
+	  code cleanups.
+
+2009-09-24  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/console.m,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/ui.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/view/consolewindow.m,
+	  src/arch/unix/macosx/cocoa/view/fullscreenwindow.h,
+	  src/arch/unix/macosx/cocoa/view/fullscreenwindow.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.h,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: macosx: fixed
+	  warnings and leaks
+
+2009-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/gnome/gnomekbd.c,
+	  src/arch/unix/x11/gnome/gnomevideo.c,
+	  src/arch/unix/x11/gnome/uiarch.h,
+	  src/arch/unix/x11/gnome/uicartridge.c,
+	  src/arch/unix/x11/gnome/uicolor.c,
+	  src/arch/unix/x11/gnome/uiedisk.c,
+	  src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/gnome/uifileentry.h,
+	  src/arch/unix/x11/gnome/uijoystickkeys.c: Started on the
+	  gnomeui arch code cleanups.
+
+	* src/arch/unix/qnx6/getlibs.c, src/arch/unix/qnx6/getsize.c,
+	  src/arch/unix/readline/complete.c,
+	  src/arch/unix/readline/editline.c,
+	  src/arch/unix/readline/editline.h,
+	  src/arch/unix/readline/editline2.c,
+	  src/arch/unix/readline/sysunix.c,
+	  src/arch/unix/readline/testit.c,
+	  src/arch/unix/readline/unix.h,
+	  src/arch/unix/readline/version.c,
+	  src/arch/unix/sco_sol/convertprototype.c: Added some more unix
+	  arch code cleanups.
+
+	* src/arch/unix/macosx/joy.h, src/arch/unix/macosx/mididrv.c:
+	  Finished the macosx arch code cleanups.
+
+2009-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/joy.c: Added some more macosx arch code
+	  cleanups.
+
+	* src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/iecdrivesettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/iecdrivesettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/keyboardsettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/netplaycontrolwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/netplaycontrolwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/recordhistorywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/recordmediawindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/recordmediawindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/resourceeditorcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m,
+	  src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.m:
+	  Started on the macosx arch code cleanup.
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/ui.c, src/arch/unix/gui/uiacia1.c,
+	  src/arch/unix/gui/uiacia1.h, src/arch/unix/gui/uiattach.c,
+	  src/arch/unix/gui/uiattach.h, src/arch/unix/gui/uiautostart.c,
+	  src/arch/unix/gui/uiautostart.h,
+	  src/arch/unix/gui/uic64_256k.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uic64cart.h, src/arch/unix/gui/uic64dtv.c,
+	  src/arch/unix/gui/uicartridge.h,
+	  src/arch/unix/gui/uicmdline.c, src/arch/unix/gui/uicommands.c,
+	  src/arch/unix/gui/uicommands.h, src/arch/unix/gui/uicrtc.c,
+	  src/arch/unix/gui/uicrtc.h, src/arch/unix/gui/uidatasette.c,
+	  src/arch/unix/gui/uidatasette.h,
+	  src/arch/unix/gui/uidigimax.c, src/arch/unix/gui/uidqbb.c,
+	  src/arch/unix/gui/uidrive.c, src/arch/unix/gui/uidrive.h,
+	  src/arch/unix/gui/uidrivec128.c,
+	  src/arch/unix/gui/uidrivec128.h,
+	  src/arch/unix/gui/uidrivec64.c,
+	  src/arch/unix/gui/uidrivec64.h,
+	  src/arch/unix/gui/uidrivec64c128.c,
+	  src/arch/unix/gui/uidrivec64c128.h,
+	  src/arch/unix/gui/uidrivec64dtv.c,
+	  src/arch/unix/gui/uidrivec64dtv.h,
+	  src/arch/unix/gui/uidrivec64vic20.c,
+	  src/arch/unix/gui/uidrivec64vic20.h,
+	  src/arch/unix/gui/uidriveiec.c,
+	  src/arch/unix/gui/uidriveiec.h,
+	  src/arch/unix/gui/uidrivepetcbm2.c,
+	  src/arch/unix/gui/uidrivepetcbm2.h,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uidriveplus4.h,
+	  src/arch/unix/gui/uidrivevic20.c,
+	  src/arch/unix/gui/uidrivevic20.h,
+	  src/arch/unix/gui/uieasyflash.c, src/arch/unix/gui/uiedisk.h,
+	  src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uifliplist.h,
+	  src/arch/unix/gui/uifullscreen-menu.h,
+	  src/arch/unix/gui/uigeoram.c, src/arch/unix/gui/uigeoram.h,
+	  src/arch/unix/gui/uihotkey.h, src/arch/unix/gui/uiide64.c,
+	  src/arch/unix/gui/uiide64.h, src/arch/unix/gui/uiisepic.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uijoystick2.h,
+	  src/arch/unix/gui/uikeyboard.c,
+	  src/arch/unix/gui/uikeyboard.h, src/arch/unix/gui/uilib.c,
+	  src/arch/unix/gui/uilib.h, src/arch/unix/gui/uimidi.c,
+	  src/arch/unix/gui/uimidi.h, src/arch/unix/gui/uimmc64.c,
+	  src/arch/unix/gui/uimmc64.h, src/arch/unix/gui/uimon.c,
+	  src/arch/unix/gui/uimouse.c, src/arch/unix/gui/uimouse.h,
+	  src/arch/unix/gui/uinetplay.c, src/arch/unix/gui/uinetplay.h,
+	  src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalemu.h,
+	  src/arch/unix/gui/uipalette.c, src/arch/unix/gui/uipalette.h,
+	  src/arch/unix/gui/uiperipheral.c,
+	  src/arch/unix/gui/uiperipheral.h,
+	  src/arch/unix/gui/uiperipheralieee.c,
+	  src/arch/unix/gui/uiperipheralieee.h,
+	  src/arch/unix/gui/uipetreu.c, src/arch/unix/gui/uiplus256k.c,
+	  src/arch/unix/gui/uiplus60k.c, src/arch/unix/gui/uiplus60k.h,
+	  src/arch/unix/gui/uiprinter.c,
+	  src/arch/unix/gui/uiprinteriec.c,
+	  src/arch/unix/gui/uiprinteriec.h,
+	  src/arch/unix/gui/uiprinteriecplus4.c,
+	  src/arch/unix/gui/uiprinterieee.c,
+	  src/arch/unix/gui/uiprinterieee.h,
+	  src/arch/unix/gui/uips2mouse.c, src/arch/unix/gui/uiramcart.c,
+	  src/arch/unix/gui/uiramcart.h, src/arch/unix/gui/uireu.c,
+	  src/arch/unix/gui/uireu.h, src/arch/unix/gui/uiromset.c,
+	  src/arch/unix/gui/uiromset.h, src/arch/unix/gui/uirs232.c,
+	  src/arch/unix/gui/uirs232.h,
+	  src/arch/unix/gui/uirs232c64c128.c,
+	  src/arch/unix/gui/uirs232c64c128.h,
+	  src/arch/unix/gui/uirs232petplus4cbm2.c,
+	  src/arch/unix/gui/uirs232petplus4cbm2.h,
+	  src/arch/unix/gui/uirs232user.c,
+	  src/arch/unix/gui/uirs232user.h,
+	  src/arch/unix/gui/uiscreenshot.h,
+	  src/arch/unix/gui/uisettings.c,
+	  src/arch/unix/gui/uisettings.h, src/arch/unix/gui/uisid.c,
+	  src/arch/unix/gui/uisid.h, src/arch/unix/gui/uisnapshot.h,
+	  src/arch/unix/gui/uisound.c, src/arch/unix/gui/uisound.h,
+	  src/arch/unix/gui/uited.c, src/arch/unix/gui/uited.h,
+	  src/arch/unix/gui/uitfe.c, src/arch/unix/gui/uitfe.h,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivdc.h,
+	  src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivic.h,
+	  src/arch/unix/gui/uivicii.c, src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/gui/vsidui.c: Started on the unix arch code
+	  cleanup.
+
+	* src/arch/unix/gp2x/minimal.c, src/arch/unix/gp2x/minimal.h,
+	  src/arch/unix/gp2x/prefs_gp2x.c, src/arch/unix/gp2x/ui_gp2x.c,
+	  src/arch/unix/gp2x/uiarch.h, src/arch/unix/gp2x/uicmdline.c,
+	  src/arch/unix/gp2x/uimenu.h, src/arch/unix/gp2x/uimon.c,
+	  src/arch/unix/gp2x/uitext_gp2x.c,
+	  src/arch/unix/gp2x/uitext_gp2x.h,
+	  src/arch/unix/gp2x/vic20ui.c, src/arch/unix/gp2x/video.c,
+	  src/arch/unix/gp2x/vkeyboard_gp2x.c,
+	  src/arch/unix/gp2x/vkeyboard_gp2x.h,
+	  src/arch/unix/gp2x/vsidui.c: Finished up the gp2x arch code
+	  cleanup.
+
+	* src/arch/riscos/c128ui.c, src/arch/riscos/c64ui.c,
+	  src/arch/riscos/cbm2ui.c, src/arch/riscos/joy.c,
+	  src/arch/riscos/kbd.c, src/arch/riscos/kbd.h,
+	  src/arch/riscos/petui.c, src/arch/riscos/plus4ui.c,
+	  src/arch/riscos/rs232.c, src/arch/riscos/spritedrv.c,
+	  src/arch/riscos/ui.c, src/arch/riscos/uiconfig.c,
+	  src/arch/riscos/uiconfig.h, src/arch/riscos/uihelp.c,
+	  src/arch/riscos/uimsgwin.c, src/arch/riscos/uisharedef.h,
+	  src/arch/riscos/vic20ui.c, src/arch/riscos/video.c,
+	  src/arch/riscos/vsidui.c, src/arch/riscos/vsync.c: Added
+	  spaces to struct definitions in the riscos arch.
+
+2009-09-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/uistatusbar.c: Style fixes
+
+2009-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.c,
+	  src/arch/os2/dialogs/dlg-create.c,
+	  src/arch/os2/dialogs/dlg-emulator.c,
+	  src/arch/os2/dialogs/dlg-fileio.c,
+	  src/arch/os2/dialogs/menubar.c, src/arch/os2/joy.c,
+	  src/arch/os2/joy.h, src/arch/os2/kbd.c,
+	  src/arch/os2/kbd/kmap-pet.c, src/arch/os2/kbd/kmap.c,
+	  src/arch/os2/mousedrv.c, src/arch/os2/rs232.c,
+	  src/arch/os2/siddefs.h, src/arch/os2/snippets/filedlg.h,
+	  src/arch/os2/snippets/isatty.c,
+	  src/arch/os2/snippets/pmwin2.c, src/arch/os2/ui.c,
+	  src/arch/os2/video.c, src/arch/os2/videoarch.h: Added spaces
+	  to struct definitions in the os/2 arch.
+
+2009-09-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, src/sounddrv/soundcoreaudio.c: macosx: rewrote
+	  CoreAudio driver to support AudioUnit and fixed sample rate
+	  issues
+
 2009-09-21  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.17
@@ -229,6 +1134,8 @@
 	  visible prototype.
 
 2009-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+@@@ merge @@@
 
 	* src/arch/sdl/menu_vic20cart.c, src/translate.c,
 	  src/translate.txt, src/vic20/cart/finalexpansion.c,
