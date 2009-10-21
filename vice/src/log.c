@@ -45,6 +45,8 @@ static FILE *log_file = NULL;
 static char **logs = NULL;
 static log_t num_logs = 0;
 
+static int log_enabled = 1; /* cv: this flag allows to temporarly disable all logging */
+
 /* ------------------------------------------------------------------------- */
 
 static char *log_file_name = NULL;
@@ -232,6 +234,9 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     int rc = 0;
     char *logtxt = NULL;
 
+    if (!log_enabled)
+        return 0;
+
     if (logi == LOG_ERR
         || (logi != LOG_DEFAULT && (logs == NULL || logs[logi] == NULL)))
         return -1;
@@ -288,5 +293,10 @@ int log_debug(const char *format, ...)
 
     va_start(ap, format);
     return log_helper(LOG_DEFAULT, 0, format, ap);
+}
+
+void log_enable(int on)
+{
+    log_enabled = on;
 }
 
