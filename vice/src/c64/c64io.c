@@ -28,6 +28,9 @@
 
 #include <string.h>
 
+#include "actionreplay.h"
+#include "actionreplay3.h"
+#include "actionreplay4.h"
 #include "c64-midi.h"
 #include "c64-resources.h"
 #include "c64_256k.h"
@@ -38,9 +41,10 @@
 #include "digimax.h"
 #include "dqbb.h"
 #include "emuid.h"
+#include "ide64.h"
 #include "lib.h"
 #include "mmc64.h"
-#include "cart/retroreplay.h"
+#include "retroreplay.h"
 #include "monitor.h"
 #include "reu.h"
 #include "georam.h"
