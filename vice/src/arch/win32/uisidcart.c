@@ -178,7 +178,6 @@ static void init_sidcart_dialog(HWND hwnd)
     int res_value;
     int res_value_loop;
     unsigned int available, device;
-    int xstart;
     int xpos;
     RECT rect;
 
