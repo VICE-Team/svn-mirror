@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-21 18:56+0200\n"
-"PO-Revision-Date: 2009-10-10 12:19+0200\n"
+"PO-Revision-Date: 2009-10-23 18:46+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -314,39 +314,32 @@ msgid "Screenshots..."
 msgstr "Screenshots..."
 
 #: src/arch/unix/gui/c128ui.c:384
-#, fuzzy
 msgid "*International"
-msgstr "International"
+msgstr "*International"
 
 #: src/arch/unix/gui/c128ui.c:386
-#, fuzzy
 msgid "*Finnish"
-msgstr "Finnisch"
+msgstr "*Finnisch"
 
 #: src/arch/unix/gui/c128ui.c:388
-#, fuzzy
 msgid "*French"
-msgstr "Französisch"
+msgstr "*Französisch"
 
 #: src/arch/unix/gui/c128ui.c:390
-#, fuzzy
 msgid "*German"
-msgstr "Deutsch"
+msgstr "*Deutsch"
 
 #: src/arch/unix/gui/c128ui.c:392
-#, fuzzy
 msgid "*Italian"
-msgstr "Italienisch"
+msgstr "*Italienisch"
 
 #: src/arch/unix/gui/c128ui.c:394
-#, fuzzy
 msgid "*Norwegian"
-msgstr "Norwegisch"
+msgstr "*Norwegisch"
 
 #: src/arch/unix/gui/c128ui.c:396
-#, fuzzy
 msgid "*Swedish"
-msgstr "Schwedisch"
+msgstr "*Schwedisch"
 
 #: src/arch/unix/gui/c128ui.c:404 src/arch/win32/resc128.rc.po.c:646
 #: src/arch/amigaos/intl.c.po.c:6229
@@ -435,9 +428,8 @@ msgid "RJHelp"
 msgstr "RJHilfe"
 
 #: src/arch/unix/gui/c64dtvui.c:109
-#, fuzzy
 msgid "*PS/2 Mouse Emulation"
-msgstr "PS/2 Mausemulation"
+msgstr "*PS/2 Mausemulation"
 
 #: src/arch/unix/gui/c64dtvui.c:118 src/arch/unix/gui/c64ui.c:324
 #: src/arch/unix/gui/petui.c:207 src/arch/unix/gui/plus4ui.c:126
@@ -466,7 +458,6 @@ msgid "ROM settings"
 msgstr "ROM Einstellungen"
 
 #: src/arch/unix/gui/c64dtvui.c:183
-#, fuzzy
 msgid "C64DTV settings"
 msgstr "C64DTV Einstellungen"
 
@@ -563,14 +554,12 @@ msgid "*128 kByte"
 msgstr "*128 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:158
-#, fuzzy
 msgid "*256 kByte"
-msgstr "*256 Byte"
+msgstr "*256 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:162
-#, fuzzy
 msgid "*1024 kByte"
-msgstr "1024 kByt&e"
+msgstr "*1024 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:212 src/arch/unix/gui/petui.c:157
 msgid "*Graphics"
@@ -702,39 +691,36 @@ msgid "SID cartridge"
 msgstr "SID Modul"
 
 #: src/arch/unix/gui/petui.c:232
-#, fuzzy
 msgid "Basic 1"
-msgstr "Basic"
+msgstr "Basic 1"
 
 #: src/arch/unix/gui/petui.c:234
-#, fuzzy
 msgid "Basic 2, graphics"
-msgstr "Basic 128k, obere Zeichen"
+msgstr "Basic 2, Graphik"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Basic 2, Business"
-msgstr ""
+msgstr "Basic 2, Business"
 
 #: src/arch/unix/gui/petui.c:238
 msgid "Basic 4, 40 cols, graphics"
-msgstr ""
+msgstr "Basic 4, 40 Spalten, Graphik"
 
 #: src/arch/unix/gui/petui.c:240
 msgid "Basic 4, 40 cols, business"
-msgstr ""
+msgstr "Basic 4, 40 Spalten, Business"
 
 #: src/arch/unix/gui/petui.c:242
 msgid "Basic 4, 80 cols, business"
-msgstr ""
+msgstr "Basic 4, 80 Spalten, Business"
 
 #: src/arch/unix/gui/petui.c:245
 msgid "*Basic 1 Patch (if loaded)"
-msgstr ""
+msgstr "*Basic 1 Patch (wenn geladen)"
 
 #: src/arch/unix/gui/petui.c:247
-#, fuzzy
 msgid "*Basic 1 character set"
-msgstr "*Deutschen Zeichensatz"
+msgstr "*Basic 1 Zeichensatz"
 
 #: src/arch/unix/gui/petui.c:261
 msgid "*Original character set"
@@ -971,9 +957,8 @@ msgid "Autostart settings"
 msgstr "Autostart Einstellungen"
 
 #: src/arch/unix/gui/uiautostart.c:43
-#, fuzzy
 msgid "Disk image for PRG autostart"
-msgstr "Disk Imagedatei für Autstart definieren"
+msgstr "Disk Imagedatei für PRG Autstart"
 
 #: src/arch/unix/gui/uiautostart.c:43 src/arch/unix/gui/uic64_256k.c:40
 #: src/arch/unix/gui/uidqbb.c:40 src/arch/unix/gui/uigeoram.c:40
@@ -987,41 +972,36 @@ msgstr "Name:"
 
 #: src/arch/unix/gui/uiautostart.c:47
 msgid "*VirtualFS"
-msgstr ""
+msgstr "*VirtualFS"
 
 #: src/arch/unix/gui/uiautostart.c:49
 #, fuzzy
 msgid "*Inject to RAM"
-msgstr "Verbinden mit "
+msgstr "*Inject to RAM"
 
 #: src/arch/unix/gui/uiautostart.c:51
-#, fuzzy
 msgid "*Disk image"
-msgstr "Disk &Image"
+msgstr "*Disk Image"
 
 #: src/arch/unix/gui/uiautostart.c:57
-#, fuzzy
 msgid "*Handle True Drive Emulation on autostart"
-msgstr "Präzise Floppy Emulation bei Autostart beachten"
+msgstr "*Präzise Floppy Emulation bei Autostart beachten"
 
 #: src/arch/unix/gui/uiautostart.c:59
-#, fuzzy
 msgid "*Autostart warp"
-msgstr "Autostart"
+msgstr "*Autostart Warp"
 
 #: src/arch/unix/gui/uiautostart.c:61
 msgid "*RUN with colon"
-msgstr ""
+msgstr "*RUN mit Doppelpunkt"
 
 #: src/arch/unix/gui/uiautostart.c:63
-#, fuzzy
 msgid "Autostart PRG mode"
-msgstr "Autostart Disk Image"
+msgstr "Autostart PRG Modus"
 
 #: src/arch/unix/gui/uiautostart.c:65
-#, fuzzy
 msgid "Autostart PRG disk image..."
-msgstr "&Autostart Disk Image..."
+msgstr "Autostart Disk Image..."
 
 #: src/arch/unix/gui/uic64_256k.c:40
 msgid "256K image name"
@@ -1048,19 +1028,16 @@ msgid "Attach cartridge image"
 msgstr "Erweiterungsmodul einlegen"
 
 #: src/arch/unix/gui/uic64cart.c:127
-#, fuzzy
 msgid "*Prg"
-msgstr "Prg"
+msgstr "*Prg"
 
 #: src/arch/unix/gui/uic64cart.c:129
-#, fuzzy
 msgid "*Off"
-msgstr "Aus"
+msgstr "*Aus"
 
 #: src/arch/unix/gui/uic64cart.c:131
-#, fuzzy
 msgid "*On"
-msgstr "Ein"
+msgstr "*Ein"
 
 #: src/arch/unix/gui/uic64cart.c:134
 msgid "Save cartridge image..."
@@ -1152,34 +1129,28 @@ msgid "*Cartridge control"
 msgstr "*Erweiterungsmodul Einstellungen"
 
 #: src/arch/unix/gui/uic64dtv.c:51
-#, fuzzy
 msgid "C64DTV ROM image name"
-msgstr "MMC64 Image Name"
+msgstr "C64DTV ROM Image Name"
 
 #: src/arch/unix/gui/uic64dtv.c:75
-#, fuzzy
 msgid "C64DTV ROM image name..."
-msgstr "MMC64 Image Name..."
+msgstr "C64DTV ROM Image Name..."
 
 #: src/arch/unix/gui/uic64dtv.c:78
-#, fuzzy
 msgid "*Enable writes to C64DTV ROM image"
-msgstr "Erlaube &Schreibzugriff auf DTV ROM Datei"
+msgstr "*Erlaube Schreibzugriff auf DTV ROM Datei"
 
 #: src/arch/unix/gui/uic64dtv.c:81
-#, fuzzy
 msgid "C64DTV blitter revision"
-msgstr "C64DTV Revision"
+msgstr "C64DTV Blitter Revision"
 
 #: src/arch/unix/gui/uic64dtv.c:84
-#, fuzzy
 msgid "*Enable Hummer ADC"
-msgstr "*Maus aktivieren"
+msgstr "*Hummer ADC aktivieren"
 
 #: src/arch/unix/gui/uic64dtv.c:86
-#, fuzzy
 msgid "PS/2 mouse on Userport"
-msgstr "PS/2 Userport Emulation aktivieren"
+msgstr "PS/2 Userport Mausemulation aktivieren"
 
 #: src/arch/unix/gui/uicmdline.c:37 src/arch/amigaos/intl.c.po.c:3320
 #, c-format
@@ -1510,9 +1481,8 @@ msgid "Datassette control"
 msgstr "Bandlaufwerk Kontrolle"
 
 #: src/arch/unix/gui/uidigimax.c:39
-#, fuzzy
 msgid "*Userport"
-msgstr "Userport RS232"
+msgstr "*Userport"
 
 #: src/arch/unix/gui/uidigimax.c:77
 msgid "*Enable digimax"
@@ -1523,19 +1493,16 @@ msgid "Digimax base"
 msgstr "Digimax Basis"
 
 #: src/arch/unix/gui/uidqbb.c:40
-#, fuzzy
 msgid "DQBB image name"
-msgstr "IDE64 Image Name"
+msgstr "DQBB Image Name"
 
 #: src/arch/unix/gui/uidqbb.c:44
-#, fuzzy
 msgid "*Enable DQBB"
-msgstr "DQBB Aktivier&en"
+msgstr "*DQBB Aktivieren"
 
 #: src/arch/unix/gui/uidqbb.c:46
-#, fuzzy
 msgid "DQBB image name..."
-msgstr "IDE64 Image Name..."
+msgstr "DQBB Image Name..."
 
 #: src/arch/unix/gui/uidrive.c:62 src/arch/unix/gui/uidrive.c:72
 #: src/arch/unix/gui/uidrive.c:82 src/arch/unix/gui/uidrive.c:92
@@ -1769,7 +1736,6 @@ msgid "*Enable Professional DOS"
 msgstr "*Professional DOS aktivieren"
 
 #: src/arch/unix/gui/uidrivec64dtv.c:45
-#, fuzzy
 msgid "*Enable true flash filesystem"
 msgstr "*Präzise Flash Dateisystem Emulation"
 
@@ -1839,24 +1805,20 @@ msgid "Load new 1551 ROM"
 msgstr "Neues 1551 ROM laden"
 
 #: src/arch/unix/gui/uieasyflash.c:44
-#, fuzzy
 msgid "Cannot save cartridge"
-msgstr "Kann Modul Image nicht einlegen"
+msgstr "Kann Erweiterungsmodul nicht speichern"
 
 #: src/arch/unix/gui/uieasyflash.c:49
-#, fuzzy
 msgid "*Jumper"
-msgstr "*Amber"
+msgstr "*Jumper"
 
 #: src/arch/unix/gui/uieasyflash.c:51
-#, fuzzy
 msgid "*Save CRT on detach"
-msgstr "EasyFlash CRT Imagedatei beim entfernen speichern"
+msgstr "*CRT Imagedatei beim entfernen speichern"
 
 #: src/arch/unix/gui/uieasyflash.c:53
-#, fuzzy
 msgid "Save CRT now"
-msgstr "EasyFlash CRT Imagedatei jetzt speichern"
+msgstr "CRT Imagedatei jetzt speichern"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2041,39 +2003,32 @@ msgid "*Sectors..."
 msgstr "*Sektoren..."
 
 #: src/arch/unix/gui/uiisepic.c:39
-#, fuzzy
 msgid "*Enable Isepic"
-msgstr "Isepic Aktivier&en"
+msgstr "*Isepic Aktivieren"
 
 #: src/arch/unix/gui/uiisepic.c:41
-#, fuzzy
 msgid "*Enable Isepic Switch"
-msgstr "Isepic Schalter"
+msgstr "*Isepic Schalter aktivieren"
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
-#, fuzzy
 msgid "*CGA userport joystick adapter"
-msgstr "CGA Userport Joystick Adapter"
+msgstr "*CGA Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:129 src/arch/unix/gui/uijoystick2.c:143
-#, fuzzy
 msgid "*PET userport joystick adapter"
-msgstr "PET Userport Joystick Adapter"
+msgstr "*PET Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:131 src/arch/unix/gui/uijoystick2.c:145
-#, fuzzy
 msgid "*Hummer userport joystick adapter"
-msgstr "Userport Joystick Adapter"
+msgstr "*Hummer Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:133 src/arch/unix/gui/uijoystick2.c:147
-#, fuzzy
 msgid "*OEM userport joystick adapter"
-msgstr "OEM Userport Joystick Adapter"
+msgstr "*OEM Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:135
-#, fuzzy
 msgid "*HIT userport joystick adapter"
-msgstr "HIT Userport Joystick Adapter"
+msgstr "*HIT Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:156 src/arch/unix/gui/uijoystick2.c:208
 #: src/arch/unix/gui/uijoystick2.c:260 src/arch/unix/gui/uijoystick2.c:312
@@ -2266,14 +2221,12 @@ msgid "MMC64 image name"
 msgstr "MMC64 Image Name"
 
 #: src/arch/unix/gui/uimmc64.c:52
-#, fuzzy
 msgid "*Rev. A"
-msgstr "Rev 0"
+msgstr "*Rev. A"
 
 #: src/arch/unix/gui/uimmc64.c:54
-#, fuzzy
 msgid "*Rev. B"
-msgstr "Rev 0"
+msgstr "*Rev. B"
 
 #: src/arch/unix/gui/uimmc64.c:60
 msgid "*Enable MMC64"
@@ -2304,19 +2257,16 @@ msgid "MMC64 image name..."
 msgstr "MMC64 Image Name..."
 
 #: src/arch/unix/gui/uimouse.c:46
-#, fuzzy
 msgid "*Paddles"
-msgstr "Paddle"
+msgstr "*Paddles"
 
 #: src/arch/unix/gui/uimouse.c:52
-#, fuzzy
 msgid "*Port 1"
-msgstr "Joystick Port 1"
+msgstr "*Port 1"
 
 #: src/arch/unix/gui/uimouse.c:54
-#, fuzzy
 msgid "*Port 2"
-msgstr "Joystick Port 2"
+msgstr "*Port 2"
 
 #: src/arch/unix/gui/uimouse.c:62
 msgid "*Enable mouse"
@@ -2753,14 +2703,12 @@ msgid "Printer text device 3..."
 msgstr "Drucker Text Gerät 3..."
 
 #: src/arch/unix/gui/uips2mouse.c:40
-#, fuzzy
 msgid "*Enable PS/2 mouse"
-msgstr "*Maus aktivieren"
+msgstr "*PS/2 Maus aktivieren"
 
 #: src/arch/unix/gui/uips2mouse.c:42
-#, fuzzy
 msgid "*Grab mouse events"
-msgstr "Maus Ereignisse abfangen"
+msgstr "*Maus Ereignisse abfangen"
 
 #: src/arch/unix/gui/uiramcart.c:41
 msgid "RAMCART image name"
@@ -2810,14 +2758,12 @@ msgid ""
 msgstr "Kann ROM Datei `%s' nicht laden."
 
 #: src/arch/unix/gui/uiromset.c:85
-#, fuzzy
 msgid "*Archive"
-msgstr "Laufwerk"
+msgstr "*Archiv"
 
 #: src/arch/unix/gui/uiromset.c:87
-#, fuzzy
 msgid "*File"
-msgstr "Datei"
+msgstr "*Datei"
 
 #: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
@@ -3418,15 +3364,13 @@ msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
 #: src/arch/unix/gui/uisoundexpander.c:47
-#, fuzzy
 msgid "*Enable SFX Sound Expander"
-msgstr "SFX Sound Sampler aktivieren"
+msgstr "*SFX Sound Sampler aktivieren"
 
 #: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/win32/ressoundexpander.rc.po.c:24
-#, fuzzy
 msgid "YM chip type"
-msgstr "Maschinen Typ"
+msgstr "YM Chip Typ"
 
 #: src/arch/unix/gui/uited.c:109 src/arch/unix/gui/uivic.c:131
 #: src/arch/unix/gui/uivicii.c:167
@@ -4413,29 +4357,27 @@ msgstr "Setze Schwellwert für Y Achse in Prozent für Gerät HID B"
 
 #: src/arch/unix/macosx/mididrv.c:118
 msgid "Name of MIDI Client"
-msgstr ""
+msgstr "Name des MIDI Clients"
 
 #: src/arch/unix/macosx/mididrv.c:123
 msgid "Name of MIDI-In Port"
-msgstr ""
+msgstr "Name des MIDI-In Ports"
 
 #: src/arch/unix/macosx/mididrv.c:128
 msgid "Name of MIDI-Out Port"
-msgstr ""
+msgstr "Name des MIDI-Out Ports"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:140
 msgid "VICE: Console"
-msgstr ""
+msgstr "VICE: Konsole"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:145
-#, fuzzy
 msgid "VICE: Monitor"
-msgstr "VICE Hackers"
+msgstr "VICE: Monitor"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:150
-#, fuzzy
 msgid "VICE: Control"
-msgstr "Kontrolle"
+msgstr "Vice: Kontrolle"
 
 #: src/arch/win32/res.rc.po.c:81 src/arch/win32/res.rc.po.c:1272
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
@@ -4556,9 +4498,8 @@ msgid " "
 msgstr " "
 
 #: src/arch/win32/res.rc.po.c:244
-#, fuzzy
 msgid " of motor while reading"
-msgstr "Motorgeschwindigkeit beim Lesen"
+msgstr " des Motors beim Lesen"
 
 #: src/arch/win32/res.rc.po.c:631 src/arch/win32/res.rc.po.c:1098
 msgid "&Browse..."
@@ -4882,9 +4823,8 @@ msgid "Load VICE palette file"
 msgstr "VICE Paletten Datei laden"
 
 #: src/arch/win32/res.rc.po.c:975
-#, fuzzy
 msgid "Fullscreen/DirectX"
-msgstr "Vollbild"
+msgstr "Vollbild/Direct X"
 
 #: src/arch/win32/res.rc.po.c:976
 msgid "Colors"
@@ -5409,19 +5349,16 @@ msgid "&Calibrate Joystick(s)"
 msgstr "Joysticks &kalibrieren"
 
 #: src/arch/win32/res.rc.po.c:1129
-#, fuzzy
 msgid "Extra joystick settings"
-msgstr "Extra Joystick Adapter Einstellungen"
+msgstr "Extra Joystick Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1130
-#, fuzzy
 msgid "Joystick in extra port #&1"
-msgstr "Joystick in Port #&1"
+msgstr "Joystick in extra Port #&1"
 
 #: src/arch/win32/res.rc.po.c:1131
-#, fuzzy
 msgid "Joystick in extra port #&2"
-msgstr "Joystick in Port #&2"
+msgstr "Joystick in extra Port #&2"
 
 #: src/arch/win32/res.rc.po.c:1132
 msgid "S&outh West"
@@ -5516,9 +5453,8 @@ msgid "Render to DX Primary surface"
 msgstr "DX Primary Oberflächenrendering"
 
 #: src/arch/win32/res.rc.po.c:1155
-#, fuzzy
 msgid "Keep aspect ratio (0,5..2)"
-msgstr "Seitenverhältnis (0.8 - 1.2)"
+msgstr "Seitenverhältnis beibehalten (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1156 src/arch/amigaos/intl.c.po.c:5921
 msgid "Saturation (0..2)"
@@ -5537,12 +5473,10 @@ msgid "Tint (0..2)"
 msgstr "Farbton (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1160
-#, fuzzy
 msgid "Odd lines phase (0..2)"
 msgstr "Ungerade Zeilenphase (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1161
-#, fuzzy
 msgid "Odd lines offset (0..2)"
 msgstr "Ungerader Zeilenoffset (0..2)"
 
@@ -5551,9 +5485,8 @@ msgid "Gamma (0..2)"
 msgstr "Gamma (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1163
-#, fuzzy
 msgid "Phase (0..2)"
-msgstr "PAL Schatten (0..1)"
+msgstr "Phase (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1164 src/arch/amigaos/intl.c.po.c:5844
 msgid "PAL Shade (0..1)"
@@ -5748,7 +5681,6 @@ msgid "New TAP Image"
 msgstr "Neue TAP Image Datei"
 
 #: src/arch/win32/res.rc.po.c:1224
-#, fuzzy
 msgid "Select Driver"
 msgstr "Treiber auswählen:"
 
@@ -5757,21 +5689,18 @@ msgid "FFMPEG settings"
 msgstr "FFMPEG Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1227
-#, fuzzy
 msgid "Audio codec"
-msgstr "Audio: Codec"
+msgstr "Audiocodec"
 
 #: src/arch/win32/res.rc.po.c:1228
 msgid "bitrate"
 msgstr "Bitrate"
 
 #: src/arch/win32/res.rc.po.c:1229
-#, fuzzy
 msgid "Video codec"
-msgstr "Video: Codec"
+msgstr "Videocodec"
 
 #: src/arch/win32/res.rc.po.c:1230
-#, fuzzy
 msgid "Sound record settings"
 msgstr "Tonaufnahme Einstellungen"
 
@@ -6770,46 +6699,40 @@ msgid "ACIA mode"
 msgstr "ACIA Modus"
 
 #: src/arch/win32/resautostart.rc.po.c:36
-#, fuzzy
 msgid "Autostart Settings"
 msgstr "Autostart Einstellungen"
 
 #: src/arch/win32/resautostart.rc.po.c:37
-#, fuzzy
 msgid "Autostart warp"
-msgstr "Autostart"
+msgstr "Autostart Warp"
 
 #: src/arch/win32/resautostart.rc.po.c:38
 msgid "Use ':' with run"
-msgstr ""
+msgstr "Verwende ':' mit RUN"
 
 #: src/arch/win32/resautostart.rc.po.c:39
-#, fuzzy
 msgid "PRG autostart mode"
-msgstr "Aufnahme Start Modus"
+msgstr "PRG Autostartmodus"
 
 #: src/arch/win32/resautostart.rc.po.c:40
-#, fuzzy
 msgid "PRG autostart disk image"
-msgstr "Autostart Disk Image"
+msgstr "PRGF Autostart Disk Image"
 
 #: src/arch/win32/resautostart.rc.po.c:41
-#, fuzzy
 msgid "Select file for PRG autostart disk"
-msgstr "Datei für REU auswählen"
+msgstr "Datei für PRG Autostart auswählen"
 
 #: src/arch/win32/resautostart.rc.po.c:42
 msgid "Virtual FS"
-msgstr ""
+msgstr "Virtual FS"
 
 #: src/arch/win32/resautostart.rc.po.c:43
 msgid "Inject"
-msgstr ""
+msgstr "Inject"
 
 #: src/arch/win32/resautostart.rc.po.c:44
-#, fuzzy
 msgid "Disk image"
-msgstr "Disk &Image"
+msgstr "Disk Image"
 
 #: src/arch/win32/resc128.rc.po.c:83 src/arch/win32/resc64.rc.po.c:83
 #: src/arch/amigaos/intl.c.po.c:783
@@ -7307,9 +7230,8 @@ msgid "DTV Revision"
 msgstr "DTV Revision"
 
 #: src/arch/win32/resc64dtv.rc.po.c:433
-#, fuzzy
 msgid "Enable Hummer ADC"
-msgstr "ACIA Aktivier&en"
+msgstr "Hummer ADC Aktivieren"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "Create DTV Flash Image"
@@ -7618,21 +7540,18 @@ msgstr "EasyFlash Einstellungen"
 
 #: src/arch/win32/reseasyflash.rc.po.c:12
 #: src/arch/win32/reseasyflash.rc.po.c:28
-#, fuzzy
 msgid "EasyFlash &Jumper"
-msgstr "EasyFlash Jumper"
+msgstr "EasyFlash &Jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:14
 #: src/arch/win32/reseasyflash.rc.po.c:29
-#, fuzzy
 msgid "&Save CRT on detach"
-msgstr "EasyFlash CRT Imagedatei beim entfernen speichern"
+msgstr "CRT Imagedatei beim entfernen &speichern"
 
 #: src/arch/win32/reseasyflash.rc.po.c:16
 #: src/arch/win32/reseasyflash.rc.po.c:30
-#, fuzzy
 msgid "Save CRT &now"
-msgstr "EasyFlash CRT Imagedatei jetzt speichern"
+msgstr "CRT Imagedatei jetzt speicher&n"
 
 #: src/arch/win32/resgeoram.rc.po.c:34 src/arch/amigaos/intl.c.po.c:4123
 msgid "Select file for GEORAM"
@@ -7700,24 +7619,20 @@ msgid "&Isepic switch"
 msgstr "&Isepic Schalter"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
-#, fuzzy
 msgid "lightpen Settings"
-msgstr "&Lichtgriffel Einstellungen..."
+msgstr "Lichtgriffel Einstellungen..."
 
 #: src/arch/win32/reslightpen.rc.po.c:23
-#, fuzzy
 msgid "&Enable lightpen"
-msgstr "Lichtgriffel Emulation aktivieren"
+msgstr "Lichtgriffel &Emulation aktivieren"
 
 #: src/arch/win32/reslightpen.rc.po.c:24
-#, fuzzy
 msgid "Lightpen type"
-msgstr "Lichtgriffel Type bestimmen"
+msgstr "Lichtgriffel Type"
 
 #: src/arch/win32/resmidi.rc.po.c:35
-#, fuzzy
 msgid "Midi Settings"
-msgstr "RAM Einstellungen"
+msgstr "Midi Einstellungen"
 
 #: src/arch/win32/resmidi.rc.po.c:36
 msgid "&Enable midi"
@@ -8223,9 +8138,8 @@ msgid "SFX Sound Expander Settings"
 msgstr "SFX Sound Expander Einstellungen"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23
-#, fuzzy
 msgid "&Enable SFX Sound Expander"
-msgstr "SFX Sound Sampler aktivieren"
+msgstr "SFX Sound Sampler aktivier&en"
 
 #: src/arch/win32/restfe.rc.po.c:33
 msgid "Ethernet Settings"
