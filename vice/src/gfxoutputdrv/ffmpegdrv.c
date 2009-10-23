@@ -475,13 +475,17 @@ static void ffmpegdrv_close_video(void)
     video_is_open = 0;
     lib_free(video_outbuf);
     video_outbuf = NULL;
-    lib_free(picture->data[0]);
-    lib_free(picture);
-    picture = NULL;
-    lib_free(tmp_picture->data[0]);
-    lib_free(tmp_picture);
-    tmp_picture = NULL;
-
+    if (picture) {
+	lib_free(picture->data[0]);
+	lib_free(picture);
+	picture = NULL;
+    }
+    if (tmp_picture) {
+	lib_free(tmp_picture->data[0]);
+	lib_free(tmp_picture);
+	tmp_picture = NULL;
+    }
+    
 #ifdef HAVE_FFMPEG_SWSCALE
     if (sws_ctx != NULL) {
         (*ffmpeglib.p_sws_freeContext)(sws_ctx);

@@ -96,6 +96,8 @@ libarchgui_a_SOURCES = \
 	uimon.c \
 	uimouse.c \
 	uimouse.h \
+	uilightpen.c \
+	uilightpen.h \
 	uinetplay.c \
 	uinetplay.h \
 	uipalemu.c \

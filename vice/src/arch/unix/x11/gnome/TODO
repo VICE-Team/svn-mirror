@@ -2,7 +2,7 @@
 #
 # Vice/Gnome
 #
-# maintained by pottendo@utanet.at
+# maintained by pottendo@gmx.net
 #
 # This is a list for me to gather already identified problems. It's not 
 # systematic and probably not complete! 
@@ -15,6 +15,7 @@ Missing features
 
 Known Bugs (help is appreciated !):
 - Gnome/GTK+ commandline is ignored.
+- Lightpen support ignores C128's two windows
 
 Things, which will change (don't ask when!):
 - Tape status widget (.TAP vs .t64) handling is lousy.

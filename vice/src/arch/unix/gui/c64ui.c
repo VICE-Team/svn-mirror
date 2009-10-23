@@ -57,6 +57,7 @@
 #include "uimidi.h"
 #include "uimmc64.h"
 #include "uimouse.h"
+#include "uilightpen.h"
 #include "uiperipheraliec.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
@@ -306,6 +307,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #ifdef HAVE_MOUSE
     { N_("*Mouse Emulation"),
       NULL, NULL, mouse_submenu },
+    { N_("*Lightpen Emulation"),
+      NULL, NULL, lightpen_submenu },
 #endif
 #ifdef HAVE_MIDI
     { N_("MIDI Emulation"),

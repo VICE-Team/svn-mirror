@@ -26,5 +26,7 @@ libgnomeui_a_SOURCES = \
 	uivsidcontrol.c \
 	uifileentry.c \
 	uifileentry.h \
+	lightpendrv.c \
+	lightpendrv.h \
 	videoarch.h \
 	x11ui.c

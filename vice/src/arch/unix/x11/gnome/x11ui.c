@@ -96,6 +96,8 @@
 #include "event.h"
 #include "uifliplist.h"
 #include "c128/c128.h"
+#include "lightpen.h"
+#include "lightpendrv.h"
 
 /* FIXME: We want these to be static.  */
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
@@ -154,7 +156,7 @@ static char *fixedfontname="CBM 10";
 static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
-static video_canvas_t *ui_cached_video_canvas;
+/* static */ video_canvas_t *ui_cached_video_canvas;
 static int statustext_display_time = 0;
 static int popped_up_count = 0;
 
@@ -301,9 +303,10 @@ void initBlankCursor(void)
     GdkBitmap *source = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
     GdkBitmap *mask = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
 
-    blankCursor = gdk_cursor_new_from_pixmap (source, mask, &fg, &bg, 1, 1);
+    blankCursor = gdk_cursor_new_from_pixmap (source, mask, &fg, &bg, 1, 1); 
+    
     g_object_unref (source);
-    g_object_unref (mask);
+    g_object_unref (mask); 
 }
 
 /* ------------------------------------------------------------------------- */
@@ -375,8 +378,9 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 {
    if (event->type == GDK_BUTTON_PRESS) {
       GdkEventButton *bevent = (GdkEventButton*)event;
-      if (_mouse_enabled) {
+      if (_mouse_enabled || lightpen_enabled) {
           mouse_button(bevent->button-1, TRUE);
+	  gtk_lightpen_setbutton(bevent->button, TRUE);
       } else {
           if (bevent->button == 1) {
               ui_menu_update_all_GTK();
@@ -386,9 +390,10 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
               gtk_menu_popup(GTK_MENU(right_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
           }
       }
-   } else if (event->type == GDK_BUTTON_RELEASE && _mouse_enabled) {
+   } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
        GdkEventButton *bevent = (GdkEventButton*)event;
        mouse_button(bevent->button-1, FALSE);
+       gtk_lightpen_setbutton(bevent->button, FALSE);
    } else if (event->type == GDK_MOTION_NOTIFY && _mouse_enabled) {
        GdkEventMotion *mevent = (GdkEventMotion*)event;
        mouse_move((int)mevent->x, (int)mevent->y);
@@ -1005,6 +1010,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
 
     initBlankCursor();
+    gtk_init_lightpen();
 
     ui_cached_video_canvas = c;
     

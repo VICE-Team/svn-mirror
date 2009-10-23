@@ -99,6 +99,12 @@ void vsyncarch_presync(void)
 #ifdef GP2X
     (*ui_dispatch_hook)();
 #endif
+#if defined(HAVE_MOUSE) && defined (USE_GNOMEUI)
+    {
+	extern void gtk_lightpen_udate(void);
+	gtk_lightpen_udate();
+    }
+#endif
     kbdbuf_flush();
 #ifdef HAS_JOYSTICK
     joystick();
