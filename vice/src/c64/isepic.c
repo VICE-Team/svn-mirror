@@ -96,23 +96,19 @@ static unsigned int isepic_page = 0;
 
 static int set_isepic_enabled(int val, void *param)
 {
-    if (isepic_enabled && !val)
-    {
+    if (isepic_enabled && !val) {
         lib_free(isepic_ram);
         isepic_enabled = 0;
-        if (isepic_switch)
-        {
+        if (isepic_switch) {
             cartridge_config_changed(2, 2, 0);
             cartridge_release_freeze();
         }
     }
 
-    if (!isepic_enabled && val)
-    {
+    if (!isepic_enabled && val) {
         isepic_ram = lib_malloc(2048);
         isepic_enabled = 1;
-        if (isepic_switch)
-        {
+        if (isepic_switch) {
             cartridge_config_changed(2, 3, 0);
         }
     }
@@ -121,21 +117,17 @@ static int set_isepic_enabled(int val, void *param)
 
 static int set_isepic_switch(int val, void *param)
 {
-    if (isepic_switch && !val)
-    {
+    if (isepic_switch && !val) {
         isepic_switch = 0;
-        if (isepic_enabled)
-        {
+        if (isepic_enabled) {
             cartridge_config_changed(2, 2, 0);
             cartridge_release_freeze();
         }
     }
 
-    if (!isepic_switch && val)
-    {
+    if (!isepic_switch && val) {
         isepic_switch = 1;
-        if (isepic_enabled)
-        {
+        if (isepic_enabled) {
             cartridge_trigger_freeze();
         }
     }
@@ -186,8 +178,7 @@ int isepic_cmdline_options_init(void)
 
 BYTE REGPARM1 isepic_reg_read(WORD addr)
 {
-    if (isepic_switch)
-    {
+    if (isepic_switch) {
         isepic_page = ((addr & 4) >> 2) | (addr & 2) | ((addr & 1) << 2);
     }
     return 0;
@@ -195,16 +186,14 @@ BYTE REGPARM1 isepic_reg_read(WORD addr)
 
 void REGPARM2 isepic_reg_store(WORD addr, BYTE byte)
 {
-    if (isepic_switch)
-    {
+    if (isepic_switch) {
         isepic_page = ((addr & 4) >> 2) | (addr & 2) | ((addr & 1) << 2);
     }
 }
 
 BYTE REGPARM1 isepic_romh_read(WORD addr)
 {
-    switch (addr)
-    {
+    switch (addr) {
         case 0xfffa:
         case 0xfffb:
             return isepic_ram[(isepic_page * 256) + (addr & 0xff)];
@@ -217,8 +206,7 @@ BYTE REGPARM1 isepic_romh_read(WORD addr)
 
 void REGPARM2 isepic_romh_store(WORD addr, BYTE byte)
 {
-    switch (addr)
-    {
+    switch (addr) {
         case 0xfffa:
         case 0xfffb:
             isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
@@ -233,9 +221,8 @@ BYTE REGPARM1 isepic_window_read(WORD addr)
 {
     BYTE retval = 0;
 
-    if (isepic_switch)
-    {
-        io_source=IO_SOURCE_ISEPIC;
+    if (isepic_switch) {
+        io_source = IO_SOURCE_ISEPIC;
         retval=isepic_ram[(isepic_page * 256) + (addr & 0xff)];
     }
 
@@ -244,8 +231,7 @@ BYTE REGPARM1 isepic_window_read(WORD addr)
 
 void REGPARM2 isepic_window_store(WORD addr, BYTE byte)
 {
-    if (isepic_switch)
-    {
+    if (isepic_switch) {
         isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
     }
 }

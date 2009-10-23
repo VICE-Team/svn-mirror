@@ -57,7 +57,7 @@
  *  2048k   | $00-$7f
  *  2048k   | $00-$ff
  *
- * The unused bits in both registers are ignore and using them in
+ * The unused bits in both registers are ignored and using them in
  * software will cause a wrap-around.
  *
  * The two registers are write-only. Attempting to read them will
@@ -96,12 +96,11 @@
 #include "types.h"
 #include "util.h"
 
-
 /*
  Offsets of the different GEORAM registers
 */
-#define GEORAM_REG_PAGE_LOW      0xfe
-#define GEORAM_REG_PAGE_HIGH     0xff
+#define GEORAM_REG_PAGE_LOW  0xfe
+#define GEORAM_REG_PAGE_HIGH 0xff
 
 /* GEORAM registers */
 static BYTE georam[2];
@@ -153,21 +152,22 @@ static int set_georam_enabled(int val, void *param)
 
 static int set_georam_size(int val, void *param)
 {
-    if (val == georam_size_kb)
+    if (val == georam_size_kb) {
         return 0;
+    }
 
     switch (val) {
-      case 64:
-      case 128:
-      case 256:
-      case 512:
-      case 1024:
-      case 2048:
-      case 4096:
-        break;
-      default:
-        log_message(georam_log, "Unknown GEORAM size %d.", val);
-        return -1;
+        case 64:
+        case 128:
+        case 256:
+        case 512:
+        case 1024:
+        case 2048:
+        case 4096:
+            break;
+        default:
+            log_message(georam_log, "Unknown GEORAM size %d.", val);
+            return -1;
     }
 
     if (georam_enabled) {
@@ -185,13 +185,14 @@ static int set_georam_size(int val, void *param)
 
 static int set_georam_filename(const char *name, void *param)
 {
-    if (georam_filename != NULL && name != NULL
-        && strcmp(name, georam_filename) == 0)
+    if (georam_filename != NULL && name != NULL && strcmp(name, georam_filename) == 0) {
         return 0;
+    }
 
     if (name != NULL && *name != '\0') {
-        if (util_check_filename_access(name) < 0)
+        if (util_check_filename_access(name) < 0) {
             return -1;
+        }
     }
 
     if (georam_enabled) {
@@ -221,8 +222,9 @@ static const resource_int_t resources_int[] = {
 
 int georam_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -273,33 +275,32 @@ void georam_init(void)
 
 void georam_reset(void)
 {
-    georam[0]=0;
-    georam[1]=0;
+    georam[0] = 0;
+    georam[1] = 0;
 }
 
 static int georam_activate(void)
 {
-    if (!georam_size)
+    if (!georam_size) {
         return 0;
+    }
 
     georam_ram = lib_realloc((void *)georam_ram, (size_t)georam_size);
 
     /* Clear newly allocated RAM.  */
-    if (georam_size > old_georam_ram_size)
+    if (georam_size > old_georam_ram_size) {
         memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size));
+    }
 
     old_georam_ram_size = georam_size;
 
     log_message(georam_log, "%dKB unit installed.", georam_size >> 10);
 
     if (!util_check_null_string(georam_filename)) {
-        if (util_file_load(georam_filename, georam_ram, (size_t)georam_size,
-                           UTIL_FILE_LOAD_RAW) < 0) {
-            log_message(georam_log,
-                        "Reading GEORAM image %s failed.", georam_filename);
+        if (util_file_load(georam_filename, georam_ram, (size_t)georam_size, UTIL_FILE_LOAD_RAW) < 0) {
+            log_message(georam_log, "Reading GEORAM image %s failed.", georam_filename);
             if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
-                log_message(georam_log,
-                            "Creating GEORAM image %s failed.", georam_filename);
+                log_message(georam_log, "Creating GEORAM image %s failed.", georam_filename);
                 return -1;
             }
             log_message(georam_log, "Creating GEORAM image %s.", georam_filename);
@@ -314,13 +315,13 @@ static int georam_activate(void)
 
 static int georam_deactivate(void)
 {
-    if (georam_ram == NULL)
+    if (georam_ram == NULL) {
         return 0;
+    }
 
     if (!util_check_null_string(georam_filename)) {
         if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
-            log_message(georam_log,
-                        "Writing GEORAM image %s failed.", georam_filename);
+            log_message(georam_log, "Writing GEORAM image %s failed.", georam_filename);
             return -1;
         }
         log_message(georam_log, "Writing GEORAM image %s.", georam_filename);
@@ -344,12 +345,11 @@ BYTE REGPARM1 georam_window_read(WORD addr)
 {
     BYTE retval;
 
-    io_source=IO_SOURCE_GEORAM;
-    retval=georam_ram[(georam[1]*16384)+(georam[0]*256)+addr];
+    io_source = IO_SOURCE_GEORAM;
+    retval = georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr];
 
     return retval;
 }
-
 
 void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
 {
@@ -383,12 +383,11 @@ int georam_write_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
-    if (SMW_DW(m, (georam_size >> 10)) < 0
-        || SMW_BA(m, georam, sizeof(georam)) < 0
-        || SMW_BA(m, georam_ram, georam_size) < 0) {
+    if (SMW_DW(m, (georam_size >> 10)) < 0 || SMW_BA(m, georam, sizeof(georam)) < 0 || SMW_BA(m, georam_ram, georam_size) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -403,20 +402,20 @@ int georam_read_snapshot_module(snapshot_t *s)
     snapshot_module_t *m;
     DWORD size;
 
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
+    m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version != SNAP_MAJOR) {
-        log_error(georam_log, "Major version %d not valid; should be %d.",
-                major_version, SNAP_MAJOR);
+        log_error(georam_log, "Major version %d not valid; should be %d.", major_version, SNAP_MAJOR);
         goto fail;
     }
 
     /* Read RAM size.  */
-    if (SMR_DW(m, &size) < 0)
+    if (SMR_DW(m, &size) < 0) {
         goto fail;
+    }
 
     if (size > 4096) {
         log_error(georam_log, "Size %d in snapshot not supported.", (int)size);
@@ -425,11 +424,13 @@ int georam_read_snapshot_module(snapshot_t *s)
 
     set_georam_size((int)size, NULL);
 
-    if (!georam_enabled)
+    if (!georam_enabled) {
         set_georam_enabled(1, NULL);
+    }
 
-    if (SMR_BA(m, georam, sizeof(georam)) < 0 || SMR_BA(m, georam_ram, georam_size) < 0)
+    if (SMR_BA(m, georam, sizeof(georam)) < 0 || SMR_BA(m, georam_ram, georam_size) < 0) {
         goto fail;
+    }
 
     snapshot_module_close(m);
     return 0;

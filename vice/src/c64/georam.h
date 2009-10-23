@@ -47,4 +47,3 @@ extern int georam_write_snapshot_module(struct snapshot_s *s);
 extern int georam_enabled;
 
 #endif
-
