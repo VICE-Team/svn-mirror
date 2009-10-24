@@ -110,7 +110,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     x_pos = 0;
 
     x_off = sdl_ui_print(prompt, 0, y);
-    input = sdl_ui_readline(NULL, x_off, y, 1);
+    input = sdl_ui_readline(NULL, x_off, y);
     sdl_ui_scroll_screen_up();
 
     if (input == NULL) {

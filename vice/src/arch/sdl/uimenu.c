@@ -924,7 +924,7 @@ int sdl_ui_hotkey(ui_menu_entry_t *item)
 }
 
 
-char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is_null)
+char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
 {
     int i = 0, prev = -1, done = 0, got_key = 0, string_changed = 0, screen_dirty = 1, escaped = 0;
     int pc_vkbd_state = 0, screen_redraw = 0;
@@ -1079,7 +1079,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y, int escaped_is
 
     SDL_EnableUNICODE(0);
 
-    if ((!string_changed && previous) || (escaped && escaped_is_null)) {
+    if ((!string_changed && previous) || escaped) {
         lib_free(new_string);
         new_string = NULL;
     }
@@ -1092,7 +1092,7 @@ char* sdl_ui_text_input_dialog(const char* title, const char* previous)
 
     sdl_ui_clear();
     i = sdl_ui_display_title(title) / menu_draw.max_text_x;
-    return sdl_ui_readline(previous, 0, i + MENU_FIRST_Y, 0);
+    return sdl_ui_readline(previous, 0, i + MENU_FIRST_Y);
 }
 
 int sdl_ui_slider_input_dialog(const char* title, const int cur, const int min, const int max)
