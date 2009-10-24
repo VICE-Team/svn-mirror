@@ -461,6 +461,16 @@ copy_tree "$TOP_DIR/doc" "$BUILD_DIR/doc"
 (cd $BUILD_DIR/doc && eval "rm -f $DOC_REMOVE")
 mv $BUILD_DIR/doc/ReadmeMacOSX.txt $BUILD_DIR/
 
+# --- copy fonts ---
+FONTS="CBM.ttf"
+if [ "$UI_TYPE" = "cocoa" ]; then
+  echo "  copying fonts"
+  mkdir "$BUILD_DIR/fonts"
+  for FONT in $FONTS ; do
+    cp "$TOP_DIR/data/fonts/$FONT" "$BUILD_DIR/fonts/"
+  done
+fi
+
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then
   echo "ready. created dist directory: $BUILD_DIR"
