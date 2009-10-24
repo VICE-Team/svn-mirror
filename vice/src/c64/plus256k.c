@@ -73,8 +73,9 @@ BYTE *plus256k_ram = NULL;
 
 static int set_plus256k_enabled(int val, void *param)
 {
-    if (val == plus256k_enabled)
+    if (val == plus256k_enabled) {
         return 0;
+    }
 
     if (!val) {
         if (plus256k_deactivate() < 0) {
@@ -100,13 +101,14 @@ static int set_plus256k_enabled(int val, void *param)
 
 static int set_plus256k_filename(const char *name, void *param)
 {
-    if (plus256k_filename != NULL && name != NULL
-       && strcmp(name, plus256k_filename) == 0)
+    if (plus256k_filename != NULL && name != NULL && strcmp(name, plus256k_filename) == 0) {
        return 0;
+    }
 
     if (name != NULL && *name != '\0') {
-        if (util_check_filename_access(name) < 0)
+        if (util_check_filename_access(name) < 0) {
             return -1;
+        }
     }
 
     if (plus256k_enabled) {
@@ -134,15 +136,16 @@ static const resource_int_t resources_int[] = {
 
 int plus256k_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
 
 void plus256k_resources_shutdown(void)
 {
-  lib_free(plus256k_filename);
+    lib_free(plus256k_filename);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -169,106 +172,99 @@ static const cmdline_option_t cmdline_options[] =
 
 int plus256k_cmdline_options_init(void)
 {
-  return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
 
 void plus256k_init(void)
 {
-  plus256k_log = log_open("PLUS256K");
+    plus256k_log = log_open("PLUS256K");
 }
 
 void plus256k_reset(void)
 {
-  plus256k_reg=0;
-  plus256k_video_bank=0;
-  plus256k_low_bank=0;
-  plus256k_high_bank=0;
-  plus256k_protected=0;
-  if (plus256k_enabled)
-  {
-    vicii_set_ram_base(plus256k_ram);
-  }
+    plus256k_reg = 0;
+    plus256k_video_bank = 0;
+    plus256k_low_bank = 0;
+    plus256k_high_bank = 0;
+    plus256k_protected = 0;
+    if (plus256k_enabled) {
+        vicii_set_ram_base(plus256k_ram);
+    }
 }
 
 static int plus256k_activate(void)
 {
-  plus256k_ram = lib_realloc((void *)plus256k_ram, (size_t)0x40000);
+    plus256k_ram = lib_realloc((void *)plus256k_ram, (size_t)0x40000);
 
-  log_message(plus256k_log, "PLUS256K hack installed.");
+    log_message(plus256k_log, "PLUS256K hack installed.");
 
-  if (!util_check_null_string(plus256k_filename))
-  {
-    if (util_file_load(plus256k_filename, plus256k_ram, (size_t)0x40000, UTIL_FILE_LOAD_RAW) < 0)
-    {
-      log_message(plus256k_log, "Reading PLUS256K image %s failed.", plus256k_filename);
-      if (util_file_save(plus256k_filename, plus256k_ram, 0x40000) < 0)
-      {
-        log_message(plus256k_log, "Creating PLUS256K image %s failed.", plus256k_filename);
-        return -1;
-      }
-      log_message(plus256k_log, "Creating PLUS256K image %s.", plus256k_filename);
-      return 0;
+    if (!util_check_null_string(plus256k_filename)) {
+        if (util_file_load(plus256k_filename, plus256k_ram, (size_t)0x40000, UTIL_FILE_LOAD_RAW) < 0) {
+            log_message(plus256k_log, "Reading PLUS256K image %s failed.", plus256k_filename);
+            if (util_file_save(plus256k_filename, plus256k_ram, 0x40000) < 0) {
+                log_message(plus256k_log, "Creating PLUS256K image %s failed.", plus256k_filename);
+                return -1;
+            }
+            log_message(plus256k_log, "Creating PLUS256K image %s.", plus256k_filename);
+            return 0;
+        }
+        log_message(plus256k_log, "Reading PLUS256K image %s.", plus256k_filename);
     }
-    log_message(plus256k_log, "Reading PLUS256K image %s.", plus256k_filename);
-  }
-  plus256k_reset();
-  return 0;
+    plus256k_reset();
+    return 0;
 }
 
 static int plus256k_deactivate(void)
 {
-  if (!util_check_null_string(plus256k_filename))
-  {
-    if (util_file_save(plus256k_filename, plus256k_ram, 0x40000) < 0)
-    {
-      log_message(plus256k_log, "Writing PLUS256K image %s failed.", plus256k_filename);
+    if (!util_check_null_string(plus256k_filename)) {
+        if (util_file_save(plus256k_filename, plus256k_ram, 0x40000) < 0) {
+            log_message(plus256k_log, "Writing PLUS256K image %s failed.", plus256k_filename);
             return -1;
+        }
+        log_message(plus256k_log, "Writing PLUS256K image %s.", plus256k_filename);
     }
-    log_message(plus256k_log, "Writing PLUS256K image %s.", plus256k_filename);
-  }
-  vicii_set_ram_base(mem_ram);
-  lib_free(plus256k_ram);
-  plus256k_ram = NULL;
-  return 0;
+    vicii_set_ram_base(mem_ram);
+    lib_free(plus256k_ram);
+    plus256k_ram = NULL;
+    return 0;
 }
 
 void plus256k_shutdown(void)
 {
-  if (plus256k_enabled)
-    plus256k_deactivate();
+    if (plus256k_enabled) {
+        plus256k_deactivate();
+    }
 }
 
 /* ------------------------------------------------------------------------- */
 
 BYTE REGPARM1 plus256k_vicii_read(WORD addr)
 {
-  return 0xff;
+    return 0xff;
 }
 
 BYTE REGPARM1 plus256k_vicii_read0(WORD addr)
 {
-  return addr>>8;
+    return addr >> 8;
 }
 
 void REGPARM2 plus256k_vicii_store(WORD addr, BYTE value)
 {
-  int new_bank;
+    int new_bank;
 
-  if (plus256k_protected==0)
-  {
-    plus256k_reg=value;
-    plus256k_high_bank=(value&0xc0)>>6;
-    plus256k_low_bank=value&3;
-    plus256k_protected=(value&0x10)>>4;
-    new_bank=(value&0xc)>>2;
-    if (new_bank!=plus256k_video_bank)
-    {
-      vicii_set_ram_base(plus256k_ram+(new_bank*0x10000));
-      plus256k_video_bank=new_bank;
+    if (plus256k_protected == 0) {
+        plus256k_reg = value;
+        plus256k_high_bank = (value & 0xc0) >> 6;
+        plus256k_low_bank = value & 3;
+        plus256k_protected = (value & 0x10) >> 4;
+        new_bank = (value & 0xc) >> 2;
+        if (new_bank != plus256k_video_bank) {
+            vicii_set_ram_base(plus256k_ram + (new_bank * 0x10000));
+            plus256k_video_bank = new_bank;
+        }
     }
-  }
 }
 
 void REGPARM2 plus256k_vicii_store0(WORD addr, BYTE value)
@@ -277,22 +273,23 @@ void REGPARM2 plus256k_vicii_store0(WORD addr, BYTE value)
 
 void REGPARM2 plus256k_ram_low_store(WORD addr, BYTE value)
 {
-  plus256k_ram[(plus256k_low_bank*0x10000)+addr]=value;
+    plus256k_ram[(plus256k_low_bank << 16) + addr] = value;
 }
 
 void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE value)
 {
-  plus256k_ram[(plus256k_high_bank*0x10000)+addr]=value;
-  if (addr == 0xff00)
-    reu_dma(-1);
+    plus256k_ram[(plus256k_high_bank << 16) + addr] = value;
+    if (addr == 0xff00) {
+        reu_dma(-1);
+    }
 }
 
 BYTE REGPARM1 plus256k_ram_low_read(WORD addr)
 {
-  return plus256k_ram[(plus256k_low_bank*0x10000)+addr];
+    return plus256k_ram[(plus256k_low_bank << 16) + addr];
 }
 
 BYTE REGPARM1 plus256k_ram_high_read(WORD addr)
 {
-  return plus256k_ram[(plus256k_high_bank*0x10000)+addr];
+    return plus256k_ram[(plus256k_high_bank * 0x10000) + addr];
 }

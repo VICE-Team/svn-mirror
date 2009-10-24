@@ -40,4 +40,3 @@ extern int reloc65(char** buf, int* fsize, int addr);
 extern const char * csidmodel[];
 
 #endif
-

@@ -30,31 +30,29 @@
 
 #include "psid.h"
 
-#define BUF     (9 * 2 + 8)         /* 16 bit header */
+#define BUF (9 * 2 + 8)         /* 16 bit header */
 
 typedef struct {
-    char            *fname;
-    size_t          fsize;
-    unsigned char   *buf;
-    int             tbase, tlen, dbase, dlen, bbase, blen, zbase, zlen;
-    int             tdiff, ddiff, bdiff, zdiff;
-    unsigned char   *segt;
-    unsigned char   *segd;
-    unsigned char   *utab;
-    unsigned char   *rttab;
-    unsigned char   *rdtab;
-    unsigned char   *extab;
+    char *fname;
+    size_t fsize;
+    unsigned char *buf;
+    int tbase, tlen, dbase, dlen, bbase, blen, zbase, zlen;
+    int tdiff, ddiff, bdiff, zdiff;
+    unsigned char *segt;
+    unsigned char *segd;
+    unsigned char *utab;
+    unsigned char *rttab;
+    unsigned char *rdtab;
+    unsigned char *extab;
 } file65;
-
 
 static int read_options(unsigned char *f);
 static int read_undef(unsigned char *f);
-static unsigned char *reloc_seg(unsigned char *f, int len, unsigned char *rtab,
-                                file65 *fp);
+static unsigned char *reloc_seg(unsigned char *f, int len, unsigned char *rtab, file65 *fp);
 static unsigned char *reloc_globals(unsigned char *, file65 *fp);
 
 static file65 file;
-static const unsigned char cmp[] = { 1, 0, 'o', '6', '5' };
+static const unsigned char cmp[] = {1, 0, 'o', '6', '5'};
 
 int reloc65(char **buf, int *fsize, int addr)
 {
@@ -125,21 +123,20 @@ int reloc65(char **buf, int *fsize, int addr)
     }
 
     switch (extract) {
-      case 0: /* whole file */
-        return 1;
-      case 1: /* text segment */
-        *buf = (char *)(file.segt);
-        *fsize = file.tlen;
-        return 1;
-      case 2:
-        *buf = (char *)(file.segd);
-        *fsize = file.dlen;
-        return 1;
-      default:
-        return 0;
+        case 0: /* whole file */
+            return 1;
+        case 1: /* text segment */
+            *buf = (char *)(file.segt);
+            *fsize = file.tlen;
+            return 1;
+        case 2:
+            *buf = (char *)(file.segd);
+            *fsize = file.dlen;
+            return 1;
+        default:
+            return 0;
     }
 }
-
 
 static int read_options(unsigned char *buf)
 {
@@ -159,24 +156,19 @@ static int read_undef(unsigned char *buf)
     int n, l = 2;
 
     n = buf[0] + 256 * buf[1];
-    while (n){
+    while (n) {
         n--;
         while (!buf[l++]);
     }
     return l;
 }
 
-#define reldiff(s) \
-    (((s) == 2) ? fp->tdiff : (((s) == 3) ? fp->ddiff : (((s) == 4) \
-    ? fp->bdiff : (((s) == 5) ? fp->zdiff : 0))))
+#define reldiff(s) (((s) == 2) ? fp->tdiff : (((s) == 3) ? fp->ddiff : (((s) == 4) ? fp->bdiff : (((s) == 5) ? fp->zdiff : 0))))
 
-static unsigned char *reloc_seg(unsigned char *buf, int len,
-                                unsigned char *rtab, file65 *fp)
+static unsigned char *reloc_seg(unsigned char *buf, int len, unsigned char *rtab, file65 *fp)
 {
     int adr = -1;
     int type, seg, old, new;
-/*printf("tdiff=%04x, ddiff=%04x, bdiff=%04x, zdiff=%04x\n",
-            fp->tdiff, fp->ddiff, fp->bdiff, fp->zdiff);*/
     while (*rtab) {
         if ((*rtab & 255) == 255) {
             adr += 254;
@@ -186,38 +178,31 @@ static unsigned char *reloc_seg(unsigned char *buf, int len,
             rtab++;
             type = *rtab & 0xe0;
             seg = *rtab & 0x07;
-/*printf("reloc entry @ rtab=%p (offset=%d), adr=%04x, type=%02x, seg=%d\n",rtab-1, *(rtab-1), adr, type, seg);*/
             rtab++;
             switch(type) {
-              case 0x80:
-                old = buf[adr] + 256 * buf[adr+1];
-                new = old + reldiff(seg);
-                buf[adr] = new & 255;
-                buf[adr+1] = (new >> 8)&255;
-                break;
-              case 0x40:
-                old = buf[adr] * 256 + *rtab;
-                new = old + reldiff(seg);
-                buf[adr] = (new >> 8)&255;
-                *rtab = new & 255;
-                rtab++;
-                break;
-              case 0x20:
-                old = buf[adr];
-                new = old + reldiff(seg);
-                buf[adr] = new & 255;
-                break;
+                case 0x80:
+                    old = buf[adr] + 256 * buf[adr+1];
+                    new = old + reldiff(seg);
+                    buf[adr] = new & 255;
+                    buf[adr + 1] = (new >> 8) & 255;
+                    break;
+                case 0x40:
+                    old = buf[adr] * 256 + *rtab;
+                    new = old + reldiff(seg);
+                    buf[adr] = (new >> 8) & 255;
+                    *rtab = new & 255;
+                    rtab++;
+                    break;
+                case 0x20:
+                    old = buf[adr];
+                    new = old + reldiff(seg);
+                    buf[adr] = new & 255;
+                    break;
             }
-            if (seg == 0)
+            if (seg == 0) {
                 rtab += 2;
+            }
         }
-    }
-    if (adr > len) {
-/*
-        fprintf(stderr,
-                "reloc65: %s: Warning: relocation table entries past segment end!\n",
-                fp->fname);
-*/
     }
     return ++rtab;
 }
@@ -230,12 +215,11 @@ static unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
     buf +=2;
 
     while (n) {
-/*printf("relocating %s, ", buf);*/
-        while (*(buf++));
+        while (*(buf++)) {
+        }
         seg = *buf;
         old = buf[1] + 256 * buf[2];
         new = old + reldiff(seg);
-/*printf("old=%04x, seg=%d, rel=%04x, new=%04x\n", old, seg, reldiff(seg), new);*/
         buf[1] = new & 255;
         buf[2] = (new >> 8) & 255;
         buf +=3;
@@ -243,4 +227,3 @@ static unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
     }
     return buf;
 }
-

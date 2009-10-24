@@ -72,7 +72,6 @@
  *
  */
 
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -118,12 +117,14 @@ static BYTE *plus60k_ram;
 
 static int set_plus60k_enabled(int val, void *param)
 {
-    if (val == plus60k_enabled)
+    if (val == plus60k_enabled) {
         return 0;
+    }
 
     if (!val) {
-        if (plus60k_deactivate() < 0)
+        if (plus60k_deactivate() < 0) {
             return -1;
+        }
 
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         plus60k_enabled = 0;
@@ -145,13 +146,14 @@ static int set_plus60k_enabled(int val, void *param)
 
 static int set_plus60k_filename(const char *name, void *param)
 {
-    if (plus60k_filename != NULL && name != NULL
-        && strcmp(name, plus60k_filename) == 0)
+    if (plus60k_filename != NULL && name != NULL && strcmp(name, plus60k_filename) == 0) {
         return 0;
+    }
 
     if (name != NULL && *name != '\0') {
-        if (util_check_filename_access(name) < 0)
+        if (util_check_filename_access(name) < 0) {
             return -1;
+        }
     }
 
     if (plus60k_enabled) {
@@ -167,16 +169,17 @@ static int set_plus60k_filename(const char *name, void *param)
 
 static int set_plus60k_base(int val, void *param)
 {
-    if (val == plus60k_base)
+    if (val == plus60k_base) {
         return 0;
+    }
 
     switch (val) {
-      case 0xd040:
-      case 0xd100:
-        break;
-      default:
-        log_message(plus60k_log, "Unknown PLUS60K base address $%X.", val);
-        return -1;
+        case 0xd040:
+        case 0xd100:
+            break;
+        default:
+            log_message(plus60k_log, "Unknown PLUS60K base address $%X.", val);
+            return -1;
     }
 
     if (plus60k_enabled) {
@@ -206,8 +209,9 @@ static const resource_int_t resources_int[] = {
 
 int plus60k_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -258,7 +262,7 @@ void plus60k_init(void)
 
 void plus60k_reset(void)
 {
-  plus60k_reg=0;
+  plus60k_reg = 0;
 }
 
 static int plus60k_activate(void)
@@ -268,13 +272,10 @@ static int plus60k_activate(void)
     log_message(plus60k_log, "PLUS60K expansion installed.");
 
     if (!util_check_null_string(plus60k_filename)) {
-        if (util_file_load(plus60k_filename, plus60k_ram, (size_t)0xf000,
-                           UTIL_FILE_LOAD_RAW) < 0) {
-            log_message(plus60k_log,
-                        "Reading PLUS60K image %s failed.", plus60k_filename);
+        if (util_file_load(plus60k_filename, plus60k_ram, (size_t)0xf000, UTIL_FILE_LOAD_RAW) < 0) {
+            log_message(plus60k_log, "Reading PLUS60K image %s failed.", plus60k_filename);
             if (util_file_save(plus60k_filename, plus60k_ram, 0xf000) < 0) {
-                log_message(plus60k_log,
-                            "Creating PLUS60K image %s failed.", plus60k_filename);
+                log_message(plus60k_log, "Creating PLUS60K image %s failed.", plus60k_filename);
                 return -1;
             }
             log_message(plus60k_log, "Creating PLUS60K image %s.", plus60k_filename);
@@ -291,8 +292,7 @@ static int plus60k_deactivate(void)
 {
     if (!util_check_null_string(plus60k_filename)) {
         if (util_file_save(plus60k_filename, plus60k_ram, 0xf000) < 0) {
-            log_message(plus60k_log,
-                        "Writing PLUS60K image %s failed.", plus60k_filename);
+            log_message(plus60k_log, "Writing PLUS60K image %s failed.", plus60k_filename);
             return -1;
         }
         log_message(plus60k_log, "Writing PLUS60K image %s.", plus60k_filename);
@@ -304,8 +304,9 @@ static int plus60k_deactivate(void)
 
 void plus60k_shutdown(void)
 {
-    if (plus60k_enabled)
-      plus60k_deactivate();
+    if (plus60k_enabled) {
+        plus60k_deactivate();
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -335,73 +336,84 @@ static void REGPARM2 ram_hi_store_wrapper(WORD addr, BYTE value)
     ram_hi_store(addr,value);
 }
 
-static store_func_ptr_t plus60k_mem_write_tab[] =
-{ vicii_mem_vbank_store_wrapper, plus60k_memory_store,
-  vicii_mem_vbank_39xx_store_wrapper, plus60k_memory_store,
-  vicii_mem_vbank_3fxx_store_wrapper, plus60k_memory_store,
-  ram_hi_store_wrapper, plus60k_memory_store };
+static store_func_ptr_t plus60k_mem_write_tab[] = {
+    vicii_mem_vbank_store_wrapper,
+    plus60k_memory_store,
+    vicii_mem_vbank_39xx_store_wrapper,
+    plus60k_memory_store,
+    vicii_mem_vbank_3fxx_store_wrapper,
+    plus60k_memory_store,
+    ram_hi_store_wrapper,
+    plus60k_memory_store
+};
 
 void REGPARM2 plus60k_vicii_mem_vbank_store(WORD addr, BYTE value)
 {
-  plus60k_mem_write_tab[plus60k_reg](addr, value);
+    plus60k_mem_write_tab[plus60k_reg](addr, value);
 }
 
 void REGPARM2 plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
-  plus60k_mem_write_tab[plus60k_reg+2](addr, value);
+    plus60k_mem_write_tab[plus60k_reg+2](addr, value);
 }
 
 void REGPARM2 plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
-  plus60k_mem_write_tab[plus60k_reg+4](addr, value);
+    plus60k_mem_write_tab[plus60k_reg+4](addr, value);
 }
 
 void REGPARM2 plus60k_ram_hi_store(WORD addr, BYTE value)
 {
-  plus60k_mem_write_tab[plus60k_reg+6](addr, value);
+    plus60k_mem_write_tab[plus60k_reg+6](addr, value);
 }
 
 static BYTE REGPARM1 vicii_read_wrapper(WORD addr)
 {
-  return vicii_read(addr);
+    return vicii_read(addr);
 }
 
 static void REGPARM2 vicii_store_wrapper(WORD addr, BYTE value)
 {
-  vicii_store(addr, value);
+    vicii_store(addr, value);
 }
 
-static read_func_ptr_t plus60k_partial_vicii_read_tab[] =
-{ vicii_read_wrapper, plus60k_vicii_read,
-  plus60k_vicii_read0, plus60k_vicii_read0 };
+static read_func_ptr_t plus60k_partial_vicii_read_tab[] = {
+    vicii_read_wrapper,
+    plus60k_vicii_read,
+    plus60k_vicii_read0,
+    plus60k_vicii_read0
+};
 
-static store_func_ptr_t plus60k_partial_vicii_write_tab[] =
-{ vicii_store_wrapper, plus60k_vicii_store,
-  plus60k_vicii_store0, plus60k_vicii_store0 };
+static store_func_ptr_t plus60k_partial_vicii_write_tab[] = {
+    vicii_store_wrapper,
+    plus60k_vicii_store,
+    plus60k_vicii_store0,
+    plus60k_vicii_store0
+};
 
 BYTE REGPARM1 plus60k_vicii_read_old(WORD addr)
 {
-  return plus60k_partial_vicii_read_tab[(addr&0x3f)>>6](addr);
+    return plus60k_partial_vicii_read_tab[(addr&0x3f)>>6](addr);
 }
 
 void REGPARM2 plus60k_vicii_store_old(WORD addr, BYTE value)
 {
-  plus60k_partial_vicii_write_tab[(addr&0x3f)>>6](addr, value);
+    plus60k_partial_vicii_write_tab[(addr & 0x3f) >> 6](addr, value);
 }
 
 BYTE REGPARM1 plus60k_vicii_read(WORD addr)
 {
-  return 0xff;
+    return 0xff;
 }
 
 BYTE REGPARM1 plus60k_vicii_read0(WORD addr)
 {
-  return addr>>8;
+    return addr >> 8;
 }
 
 void REGPARM2 plus60k_vicii_store(WORD addr, BYTE value)
 {
-  plus60k_reg=(value&0x80)>>7;
+    plus60k_reg = (value & 0x80) >> 7;
 }
 
 void REGPARM2 plus60k_vicii_store0(WORD addr, BYTE value)
@@ -410,16 +422,18 @@ void REGPARM2 plus60k_vicii_store0(WORD addr, BYTE value)
 
 BYTE REGPARM1 plus60k_ram_read(WORD addr)
 {
-  if (plus60k_enabled && addr>=0x1000 && plus60k_reg==1)
-    return plus60k_ram[addr-0x1000];
-  else
-    return mem_ram[addr];
+    if (plus60k_enabled && addr >= 0x1000 && plus60k_reg == 1) {
+        return plus60k_ram[addr - 0x1000];
+    } else {
+        return mem_ram[addr];
+    }
 }
 
 void REGPARM2 plus60k_ram_store(WORD addr, BYTE value)
 {
-  if (plus60k_enabled && addr>=0x1000 && plus60k_reg==1)
-    plus60k_ram[addr-0x1000] = value;
-  else
-    mem_ram[addr] = value;
+    if (plus60k_enabled && addr >= 0x1000 && plus60k_reg == 1) {
+        plus60k_ram[addr - 0x1000] = value;
+    } else {
+        mem_ram[addr] = value;
+    }
 }

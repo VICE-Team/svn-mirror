@@ -53,8 +53,7 @@ static FM_OPL *YM3812_chip = NULL;
 
 static int set_sfx_soundexpander_enabled(int val, void *param)
 {
-    if (sid_sound_machine_cycle_based() == 1 && val)
-    {
+    if (sid_sound_machine_cycle_based() == 1 && val) {
         ui_error(translate_text(IDGS_SFX_SE_NOT_WITH_RESID));
         return -1;
     }
@@ -127,14 +126,12 @@ struct sfx_soundexpander_sound_s
 
 static struct sfx_soundexpander_sound_s snd;
 
-int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                                      int interleave, int *delta_t)
+int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
     SWORD *buffer;
 
-    if (sid_sound_machine_cycle_based() == 0 && sfx_soundexpander_enabled)
-    {
+    if (sid_sound_machine_cycle_based() == 0 && sfx_soundexpander_enabled) {
         buffer = lib_malloc(nr * 2);
         if (sfx_soundexpander_chip == 3812) {
             ym3812_update_one(YM3812_chip, buffer, nr);
@@ -142,8 +139,7 @@ int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
             ym3526_update_one(YM3526_chip, buffer, nr);
         }
 
-        for (i = 0; i < nr; i++)
-        {
+        for (i = 0; i < nr; i++) {
             pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
         }
         lib_free(buffer);

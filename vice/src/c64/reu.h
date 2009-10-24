@@ -52,4 +52,3 @@ extern int reu_write_snapshot_module(struct snapshot_s *s);
 extern int reu_enabled;
 
 #endif
-

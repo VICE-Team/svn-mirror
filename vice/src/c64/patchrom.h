@@ -34,4 +34,3 @@
 extern int patch_rom(const char *s);
 
 #endif
-

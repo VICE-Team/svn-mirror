@@ -46,8 +46,7 @@ int sfx_soundsampler_enabled;
 
 static int set_sfx_soundsampler_enabled(int val, void *param)
 {
-    if (sid_sound_machine_cycle_based() == 1 && val)
-    {
+    if (sid_sound_machine_cycle_based() == 1 && val) {
         ui_error(translate_text(IDGS_SFX_SS_NOT_WITH_RESID));
         return -1;
     }
@@ -97,15 +96,12 @@ struct sfx_soundsampler_sound_s
 
 static struct sfx_soundsampler_sound_s snd;
 
-int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                                     int interleave, int *delta_t)
+int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
 
-    if (sid_sound_machine_cycle_based() == 0 && sfx_soundsampler_enabled)
-    {
-        for (i = 0; i < nr; i++)
-        {
+    if (sid_sound_machine_cycle_based() == 0 && sfx_soundsampler_enabled) {
+        for (i = 0; i < nr; i++) {
             pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], snd.voice0 << 8);
         }
     }
@@ -131,8 +127,8 @@ BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr)
 
 void sfx_soundsampler_sound_reset(void)
 {
-  snd.voice0 = 0;
-  sfx_soundsampler_sound_data = 0;
+    snd.voice0 = 0;
+    sfx_soundsampler_sound_data = 0;
 }
 
 /* ---------------------------------------------------------------------*/

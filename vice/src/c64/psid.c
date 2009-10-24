@@ -45,7 +45,6 @@
 #include "vsync.h"
 #include "zfile.h"
 
-
 static log_t vlog = LOG_ERR;
 
 typedef struct psid_s {
@@ -72,33 +71,31 @@ typedef struct psid_s {
     DWORD frames_played;
 } psid_t;
 
-const char * csidmodel[] = { "6581"
-                           , "8580"
-                           , "8580D"
-                           , "6581R4"
-                           , "DTVSID"
+const char * csidmodel[] = {
+    "6581",
+    "8580",
+    "8580D",
+    "6581R4",
+    "DTVSID",
+    "?",
+    "?",
+    "?",
+    "6581R3_4885",
+    "6581R3_0486S",   /* this is the default one if an invalid model has been specified */
+    "6581R3_3984",
+    "6581R4AR_3789",
+    "6581R3_4485",
+    "6581R4_1986S",
+    "?",
+    "?",
+    "8580R5_3691",
+    "8580R5_3691D",
+    "8580R5_1489",
+    "8580R5_1489D"
+};
 
-                           , "?"
-                           , "?"
-                           , "?"
-                           , "6581R3_4885"
-                           , "6581R3_0486S"   /* this is the default one if an invalid model has been specified */
-
-                           , "6581R3_3984"
-                           , "6581R4AR_3789"
-                           , "6581R3_4485"
-                           , "6581R4_1986S"
-                           , "?"
-
-                           , "?"
-                           , "8580R5_3691"
-                           , "8580R5_3691D"
-                           , "8580R5_1489"
-                           , "8580R5_1489D"
-                           };
-
-#define NO_OF_SIDMODELS ( sizeof csidmodel / sizeof csidmodel[0] )
-#define MAX_SIDMODEL ( NO_OF_SIDMODELS - 1 )
+#define NO_OF_SIDMODELS  (sizeof csidmodel / sizeof csidmodel[0])
+#define MAX_SIDMODEL     (NO_OF_SIDMODELS - 1)
 #define DEFAULT_SIDMODEL 9   /* defines the default as "6581R3_0486S" */
 
 #define PSID_V1_DATA_OFFSET 0x76
@@ -189,14 +186,12 @@ int psid_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-
 static WORD psid_extract_word(BYTE** buf)
 {
     WORD word = (*buf)[0] << 8 | (*buf)[1];
     *buf += 2;
     return word;
 }
-
 
 int psid_load_file(const char* filename)
 {
@@ -205,17 +200,18 @@ int psid_load_file(const char* filename)
     BYTE* ptr = buf;
     unsigned int length;
 
-    if (vlog == LOG_ERR)
+    if (vlog == LOG_ERR) {
         vlog = log_open("Vsid");
+    }
 
-    if (!(f = zfile_fopen(filename, MODE_READ)))
+    if (!(f = zfile_fopen(filename, MODE_READ))) {
         return -1;
+    }
 
     lib_free(psid);
     psid = lib_malloc(sizeof(psid_t));
 
-    if (fread(ptr, 1, 6, f) != 6
-        || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
+    if (fread(ptr, 1, 6, f) != 6 || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
         goto fail;
     }
 
@@ -223,13 +219,11 @@ int psid_load_file(const char* filename)
     psid->version = psid_extract_word(&ptr);
 
     if (psid->version < 1 || psid->version > 2) {
-        log_error(vlog, "Unknown PSID version number: %d.",
-                  (int)psid->version);
+        log_error(vlog, "Unknown PSID version number: %d.", (int)psid->version);
         goto fail;
     }
 
-    length = (unsigned int)((psid->version == 1
-             ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
+    length = (unsigned int)((psid->version == 1 ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
     if (fread(ptr, 1, length, f) != length) {
         log_error(vlog, "Reading PSID header.");
@@ -307,10 +301,17 @@ int psid_load_file(const char* filename)
         int endp = (psid->load_addr + psid->data_size - 1) >> 8;
 
         /* Used memory ranges. */
-        unsigned int used[] = { 0x00, 0x03,
-                                0xa0, 0xbf,
-                                0xd0, 0xff,
-                                0x00, 0x00 };        /* calculated below */
+        unsigned int used[] = {
+            0x00,
+            0x03,
+            0xa0,
+            0xbf,
+            0xd0,
+            0xff,
+            0x00,
+            0x00
+        };        /* calculated below */
+
         unsigned int pages[256];
         unsigned int last_page = 0;
         unsigned int i, page, tmp;
@@ -329,8 +330,9 @@ int psid_load_file(const char* filename)
         /* Find largest free range. */
         psid->max_pages = 0x00;
         for (page = 0; page < sizeof(pages) / sizeof(*pages); page++) {
-            if (!pages[page])
+            if (!pages[page]) {
                 continue;
+            }
             tmp = page - last_page;
             if (tmp > psid->max_pages) {
                 psid->start_page = last_page;
@@ -360,7 +362,6 @@ fail:
     return -1;
 }
 
-
 /* Use CBM80 vector to start PSID driver. This is a simple method to
    transfer control to the PSID driver while running in a pure C64
    environment. */
@@ -380,7 +381,6 @@ static int psid_set_cbm80(WORD vec, WORD addr)
     return i;
 }
 
-
 void psid_init_tune(void)
 {
     int start_song = psid_tune;
@@ -391,7 +391,7 @@ void psid_init_tune(void)
     int speedbit;
     char* irq;
     char irq_str[20];
-    const char csidflag[4][8]={"UNKNOWN","6581","8580","ANY"};
+    const char csidflag[4][8] = { "UNKNOWN", "6581", "8580", "ANY"};
 
     if (!psid) {
         return;
@@ -401,10 +401,7 @@ void psid_init_tune(void)
 
     reloc_addr = psid->start_page << 8;
 
-    log_message(vlog, "Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
-                reloc_addr,
-                psid->load_addr, psid->load_addr + psid->data_size - 1,
-                psid->init_addr, psid->play_addr);
+    log_message(vlog, "Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X", reloc_addr, psid->load_addr, psid->load_addr + psid->data_size - 1, psid->init_addr, psid->play_addr);
 
     /* PAL/NTSC. */
     resources_get_int("MachineVideoStandard", &sync);
@@ -415,8 +412,7 @@ void psid_init_tune(void)
     /* Check tune number. */
     if (start_song == 0) {
         start_song = psid->start_song;
-    }
-    else if (start_song < 1 || start_song > psid->songs) {
+    } else if (start_song < 1 || start_song > psid->songs) {
         log_warning(vlog, "Tune out of range.");
         start_song = psid->start_song;
     }
@@ -444,24 +440,15 @@ void psid_init_tune(void)
         log_message(vlog, "   Title: %s", (char *) psid->name);
         log_message(vlog, "  Author: %s", (char *) psid->author);
         log_message(vlog, "Released: %s", (char *) psid->copyright);
-        log_message(vlog, "Using %s sync",
-                    sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-        log_message(vlog, "SID model: %s  (Using %s)",
-                    csidflag[ (psid->flags>>4)&3 ],
-                    csidmodel[ sid_model > (int)MAX_SIDMODEL ? DEFAULT_SIDMODEL : sid_model ] );
+        log_message(vlog, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+        log_message(vlog, "SID model: %s  (Using %s)", csidflag[(psid->flags >> 4) & 3], csidmodel[sid_model > (int)MAX_SIDMODEL ? DEFAULT_SIDMODEL : sid_model]);
         log_message(vlog, "Using %s interrupt", irq_str);
-        log_message(vlog, "Playing tune %d out of %d (default=%d)",
-                    start_song, psid->songs, psid->start_song);
-    }
-    else {
-        if (vsid_mode)
-        {
+        log_message(vlog, "Playing tune %d out of %d (default=%d)", start_song, psid->songs, psid->start_song);
+    } else {
+        if (vsid_mode) {
             char * driver_info_text;
-            driver_info_text =
-                lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X",
-                    reloc_addr,
-                    psid->load_addr, psid->load_addr + psid->data_size - 1,
-                    psid->init_addr, psid->play_addr);
+            driver_info_text = lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X", reloc_addr, psid->load_addr,
+                                            psid->load_addr + psid->data_size - 1, psid->init_addr, psid->play_addr);
             vsid_ui_setdrv(driver_info_text);
             lib_free(driver_info_text);
         }
@@ -492,11 +479,11 @@ void psid_init_tune(void)
 void psid_set_tune(int tune)
 {
     if (tune == -1) {
-      psid_tune = 0;
-      lib_free(psid);
-      psid = NULL;
+        psid_tune = 0;
+        lib_free(psid);
+        psid = NULL;
     } else {
-      psid_tune = tune;
+        psid_tune = tune;
     }
 }
 
@@ -518,7 +505,6 @@ int psid_tunes(int* default_tune)
     return psid ? psid->songs : 0;
 }
 
-
 void psid_init_driver(void)
 {
     BYTE psid_driver[] = {
@@ -532,39 +518,40 @@ void psid_init_driver(void)
     int i;
     int sync;
 
-    if (!psid)
+    if (!psid) {
         return;
+    }
 
     /* C64 PAL/NTSC flag. */
     resources_get_int("MachineVideoStandard", &sync);
     if (!keepenv) {
         switch ((psid->flags >> 2) & 0x03) {
-          case 0x01:
-            sync = MACHINE_SYNC_PAL;
-            resources_set_int("MachineVideoStandard", sync);
-            break;
-          case 0x02:
-            sync = MACHINE_SYNC_NTSC;
-            resources_set_int("MachineVideoStandard", sync);
-            break;
-          default:
-            /* Keep settings (00 = unknown, 11 = any) */
-            break;
+            case 0x01:
+                sync = MACHINE_SYNC_PAL;
+                resources_set_int("MachineVideoStandard", sync);
+                break;
+            case 0x02:
+                sync = MACHINE_SYNC_NTSC;
+                resources_set_int("MachineVideoStandard", sync);
+                break;
+            default:
+                /* Keep settings (00 = unknown, 11 = any) */
+                break;
         }
     }
 
     /* MOS6581/MOS8580 flag. */
     if (!keepenv) {
         switch ((psid->flags >> 4) & 0x03) {
-          case 0x01:
-            resources_set_int("SidModel", 0);
-            break;
-          case 0x02:
-            resources_set_int("SidModel", 1);
-            break;
-          default:
-            /* Keep settings (00 = unknown, 11 = any) */
-            break;
+            case 0x01:
+                resources_set_int("SidModel", 0);
+                break;
+            case 0x02:
+                resources_set_int("SidModel", 1);
+                break;
+            default:
+                /* Keep settings (00 = unknown, 11 = any) */
+                break;
         }
     }
 
@@ -611,14 +598,13 @@ void psid_init_driver(void)
     ram_store(addr++, (BYTE)((int)sync == MACHINE_SYNC_PAL ? 1 : 0));
 }
 
-
 unsigned int psid_increment_frames(void)
 {
-    if (!psid)
+    if (!psid) {
         return 0;
+    }
 
     (psid->frames_played)++;
 
     return (unsigned int)(psid->frames_played);
 }
-
