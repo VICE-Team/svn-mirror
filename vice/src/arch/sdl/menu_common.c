@@ -122,7 +122,14 @@ UI_MENU_CALLBACK(pause_callback)
 UI_MENU_CALLBACK(monitor_callback)
 {
     if (activated) {
-        monitor_startup();
+        if (sdl_menu_state) {
+            monitor_startup();
+        } else {
+            /* The monitor was activated with a hotkey.
+               In this case, the trap is needed for the machine state to be
+               properly imported. */
+            monitor_startup_trap();
+        }
         return sdl_menu_text_exit_ui;
     }
     return NULL;

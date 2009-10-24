@@ -84,6 +84,10 @@ void ui_dispatch_next_event(void)
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
         ui_handle_misc_sdl_event(e);
+    } else {
+        /* Add a small delay to not hog the host CPU when remote
+           monitor is being used. */
+        SDL_Delay(10);
     }
 }
 
