@@ -95,11 +95,14 @@ static void init_dialog(HWND hwnd)
     uilib_move_and_set_element_width(hwnd, IDC_PLUS4_VIC20_MEMORY, xstart - 10, xpos - xstart + 20);
 
     /* get the max x of the group box */
-    uilib_get_element_min_x(hwnd, IDC_PLUS4_VIC20_MEMORY, &xpos);
+    uilib_get_element_max_x(hwnd, IDC_PLUS4_VIC20_MEMORY, &xpos);
 
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
     MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("RamSize", &res);
     switch (res) {
