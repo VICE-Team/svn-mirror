@@ -283,7 +283,9 @@
 	<key>Video</key>
 	<dict>
 		<key>Sync Draw</key>
-		<string>SyncDraw,b</string>
+		<string>SyncDrawMode,e,Off,Nearest,Blend</string>
+		<key>Sync Draw Flicker Fix</key>
+		<string>SyncDrawFlickerFix,b</string>
 		<key>Sync Draw Buffers</key>
 		<string>SyncDrawBuffers,i</string>
 	</dict>

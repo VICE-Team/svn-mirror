@@ -60,10 +60,13 @@ static void video_reconfigure()
     }
 }
 
-static int set_sync_draw(int val, void *param)
+static int set_sync_draw_mode(int val, void *param)
 {
-    if(val != video_param.sync_draw) {
-        video_param.sync_draw = val;
+    if((val < 0) || (val > SYNC_DRAW_LAST))
+        return;
+    
+    if(val != video_param.sync_draw_mode) {
+        video_param.sync_draw_mode = val;
         video_reconfigure();
     }
 }
@@ -81,12 +84,27 @@ static int set_sync_draw_buffers(int val, void *param)
     }
 }
 
+static int set_sync_draw_flicker_fix(int val, void *param)
+{
+    if(val)
+        val = 1;
+    else
+        val = 0;
+
+    if(val != video_param.sync_draw_flicker_fix) {            
+        video_param.sync_draw_flicker_fix = val;
+        video_reconfigure();
+    }
+}
+
 static resource_int_t resources_int[] =
 {
-    { "SyncDraw", 0, RES_EVENT_NO, NULL,
-       &video_param.sync_draw, set_sync_draw, NULL },
-    { "SyncDrawBuffers", 4, RES_EVENT_NO, NULL,
+    { "SyncDrawMode", 0, RES_EVENT_NO, NULL,
+       &video_param.sync_draw_mode, set_sync_draw_mode, NULL },
+    { "SyncDrawBuffers", 0, RES_EVENT_NO, NULL,
        &video_param.sync_draw_buffers, set_sync_draw_buffers, NULL },
+    { "SyncDrawFlickerFix", 0, RES_EVENT_NO, NULL,
+       &video_param.sync_draw_flicker_fix, set_sync_draw_flicker_fix, NULL },
     { NULL }
  };
 
@@ -102,21 +120,26 @@ void video_arch_resources_shutdown(void)
 // ---------- VICE Video Command Line ----------
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-syncdraw", SET_RESOURCE, 0,
-      NULL, NULL, "SyncDraw", (resource_value_t)1,
+    { "-syncdrawmode", SET_RESOURCE, 1,
+      NULL, NULL, "SyncDrawMode", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable draw synchronization to vertical blank") },
-    { "+syncdraw", SET_RESOURCE, 0,
-      NULL, NULL, "SyncDraw", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Disable draw synchronization to vertical blank") },
+      "<0-3>", T_("Enable draw synchronization to vertical blank") },
     { "-syncdrawbuffers", SET_RESOURCE, 1,
       NULL, NULL, "SyncDrawBuffers", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<1-8>", T_("Set number of buffers used for sync draw") },
+      "<0-8>", T_("Set number of buffers used for sync draw (0=use default)") },
+    { "-syncdrawflickerfix", SET_RESOURCE, 0,
+      NULL, NULL, "SyncDrawFlickerFix", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable flicker fixing in sync draw") },
+    { "+syncdrawflickerfix", SET_RESOURCE, 0,
+      NULL, NULL, "SyncDrawFlickerFix", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable flicker fixing in sync draw") },
     { NULL }
 };
 
@@ -234,7 +257,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
     // get drawing buffer
     VICEGLView *view = canvas->view;
-    BYTE *buffer = [view beginMachineDraw];
+    BYTE *buffer = [view beginMachineDraw:vsync_frame_counter];
     if(buffer == NULL) {
         return;
     }

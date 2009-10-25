@@ -27,11 +27,18 @@
 #ifndef VICE_VIDEOPARAM_H
 #define VICE_VIDEOPARAM_H
 
+#define SYNC_DRAW_OFF       0
+#define SYNC_DRAW_NEAREST   1
+#define SYNC_DRAW_BLEND     2
+
+#define SYNC_DRAW_LAST      2
+
 /* video parameter settings are defined as resources */
 struct video_param_s
 {
-    int sync_draw;
+    int sync_draw_mode;
     int sync_draw_buffers;
+    int sync_draw_flicker_fix;
 };
 typedef struct video_param_s video_param_t;
 

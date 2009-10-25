@@ -48,6 +48,7 @@ struct texture_s {
     BYTE            *buffer;            /* raw data of texture */
     GLuint           bindId;            /* GL ID for binding */
     unsigned long    timeStamp;         /* when the machine wrote into buffer */
+    int              frameNo;           /* frame number of emulation */
 };
 typedef struct texture_s texture_t;
 
@@ -92,19 +93,27 @@ typedef struct texture_s texture_t;
 
     // MultiBuffer (size is "numTextures")
     float            machineRefreshPeriod; /* refresh rate of the machine (in ms) */
-    BOOL             multiBufferEnabled;   /* flag to enable multi buffer */
+    BOOL             blendingEnabled;      /* flag to enable blending */
     BOOL             overwriteBuffer;      /* needed to overwrite most recent buffer */
+    BOOL             handleFullFrames;     /* do flicker fixing? i.e. handle full frames */
 
     int              drawPos;           /* position in ring buffer where to write to */ 
     int              displayPos;        /* position in ring buffer where to display from */
     int              numDrawn;          /* number of drawn buffers available */
-    float            blendAlpha;        /* blend factor for the first frame. other has 1-alpha */
     
     unsigned long    hostToMsFactor;    /* factor to convert gettime() to ms */
     unsigned long    displayDelta;      /* delta to convert real time to interpol time for display */
     unsigned long    firstDrawTime;     /* when the first frame was rendered */
     unsigned long    lastDrawTime;      /* when the most recent frame was drawn */
     unsigned long    lastDisplayTime;   /* when the most recent diplay update happened */
+
+    float            blendAlpha;        /* weight of left buffer */
+
+    // Pixel Buffer
+    NSOpenGLPixelBuffer *pixelBuffer;
+    NSOpenGLContext     *glPixelBufferContext;
+    BOOL                 pixelBufferValid;
+    GLuint               pixelBufferTextureId;
 }
 
 // ----- interface -----
@@ -119,7 +128,7 @@ typedef struct texture_s texture_t;
 - (void)resize:(NSSize)size;
 
 // get next render buffer for drawing by emu. may return NULL if out of buffers
-- (BYTE *)beginMachineDraw;
+- (BYTE *)beginMachineDraw:(int)frameNo;
 
 // end rendering into buffer
 - (void)endMachineDraw;
@@ -138,12 +147,16 @@ typedef struct texture_s texture_t;
 
 // ----- local -----
 
+- (void)initBlend;
 - (int)calcBlend;
 - (void)toggleBlending:(BOOL)on;
 
 - (BOOL)setupDisplayLink;
 - (void)shutdownDisplayLink;
 - (float)getDisplayLinkRefreshPeriod;
+
+- (BOOL)setupPixelBufferWithSize:(NSSize)size;
+- (void)deletePixelBuffer;
 
 - (void)initTextures;
 - (void)deleteAllTextures;
