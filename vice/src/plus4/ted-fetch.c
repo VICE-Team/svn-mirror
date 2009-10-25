@@ -45,11 +45,13 @@ void ted_fetch_matrix(int offs, int num)
     BYTE *p;
     int start_char;
     int c;
+	int dma_offset = (ted.ted_raster_counter & 7)
+		== (unsigned int)((ted.raster.ysmooth + 1) & 7) ? 0x0400 : 0;
 
     /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
     p = ted.screen_ptr;
 
-    start_char = (ted.mem_counter + offs) & 0x3ff;
+    start_char = (ted.memptr_col + offs + dma_offset) & 0x3ff;
     c = 0x3ff - start_char + 1;
 
     if (c >= num) {
@@ -58,7 +60,7 @@ void ted_fetch_matrix(int offs, int num)
         memcpy(ted.vbuf + offs, p + start_char, c);
         memcpy(ted.vbuf + offs + c, p, num - c);
     }
-    memcpy(ted.cbuf, ted.cbuf_tmp, TED_SCREEN_TEXTCOLS);
+    /*memcpy(ted.cbuf, ted.cbuf_tmp, TED_SCREEN_TEXTCOLS);*/
 
 /*    log_debug("Fetch line  : %03x, %03x", ted.ted_raster_counter, start_char);*/
 }
@@ -84,23 +86,27 @@ inline void ted_fetch_color(int offs, int num)
    stolen.  */
 inline static int do_matrix_fetch(CLOCK sub)
 {
+	int reval = 0;
+
     if (!ted.memory_fetch_done) {
         raster_t *raster;
 
         raster = &ted.raster;
 
         ted.memory_fetch_done = 1;
-        ted.mem_counter = ted.memptr;
+        ted.mem_counter = ted.memptr_col;
+		ted.chr_pos_count = ted.memptr; /* FIXME this is not here */
 
         if ((ted.ted_raster_counter & 7)
             == (unsigned int)((raster->ysmooth + 1) & 7)
             && ted.allow_bad_lines
             && ted.ted_raster_counter > ted.first_dma_line
+			//&& ted.bad_line 
             && ted.ted_raster_counter <= ted.last_dma_line) {
             ted_fetch_matrix(0, TED_SCREEN_TEXTCOLS);
 
             raster->draw_idle_state = 0;
-            raster->ycounter = 0;
+            //raster->ycounter = 0;
 
             ted.idle_state = 0;
             ted.idle_data_location = IDLE_NONE;
@@ -111,7 +117,7 @@ inline static int do_matrix_fetch(CLOCK sub)
                                      (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
             ted_delay_oldclk((TED_SCREEN_TEXTCOLS + 3) * 2 - sub);
             ted.bad_line = 1;
-            return 1;
+            reval = 1;
         }
 
         if ((ted.ted_raster_counter & 7) == (unsigned int)raster->ysmooth
@@ -132,13 +138,13 @@ inline static int do_matrix_fetch(CLOCK sub)
                                      (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
             ted_delay_oldclk((TED_SCREEN_TEXTCOLS + 3) * 2 - sub);
 
-/*            ted.bad_line = 1;*/
-            return 1;
+            ted.bad_line = 1;
+            reval = 1;
         }
 
     }
 
-    return 0;
+    return reval;
 }
 
 inline static void handle_fetch_matrix(long offset, CLOCK sub,

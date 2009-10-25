@@ -284,8 +284,10 @@ inline static void ted06_store(const BYTE value)
 
     /* This is the funniest part... handle bad line tricks.  */
 
-    if (line == ted.first_dma_line && (value & 0x10) != 0)
+    if (line == ted.first_dma_line && (value & 0x10) != 0) {
         ted.allow_bad_lines = 1;
+		ted.raster.ycounter = 0; /* should be 7 actually */
+	}
 
     if (ted.raster.ysmooth != (value & 7)
         && line >= ted.first_dma_line
@@ -630,6 +632,19 @@ int x_pos;
         value);
 }
 
+inline static void ted1a1b_store(WORD addr, BYTE value)
+{
+	unsigned int new_counter;
+
+    ted.regs[addr] = value;
+    if (addr == 0x1a) {
+        new_counter = ((value & 1) << 8) + (ted.mem_counter & 0xff);
+    } else {
+        new_counter = (ted.mem_counter & 0x100) | value;
+    }
+	ted.mem_counter = new_counter;
+}
+
 inline static void ted1c1d_store(WORD addr, BYTE value)
 {
 unsigned int new_raster;
@@ -666,8 +681,8 @@ int diff;
 
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
         /* FIXME this needs to be checked */
-        if (ted.raster_irq_line == 0)
-            ted.raster_irq_clk++;
+        /*if (ted.raster_irq_line == 0)
+            ted.raster_irq_clk++;*/
 
         if (ted.raster_irq_line <= new_raster)
             ted.raster_irq_clk += ((new_raster >= ted.screen_height ? 512 : ted.screen_height)
@@ -693,6 +708,28 @@ int diff;
     }
 
     ted.ted_raster_counter = new_raster;
+}
+
+inline static void ted1e_store(BYTE value)
+{
+	/* FIXME */
+	int new_hcount = (~value & 0xfc) >> 1;
+}
+
+inline static void ted1f_store(BYTE value)
+{
+	int current_cursor_phase;
+	int new_cursor_count;
+	
+	new_cursor_count = (value >> 3) & 0x0f;
+	current_cursor_phase = ted.cursor_phase & 0x10;
+
+	if ((ted.cursor_phase & 0x0f == 0x0f) && (new_cursor_count & 0x0f) != 0x0f) {
+		current_cursor_phase ^= 0x10;
+	}
+	ted.cursor_phase = current_cursor_phase | new_cursor_count;
+	ted.cursor_visible = ted.cursor_phase & 0x10;
+	ted.raster.ycounter = value & 7;
 }
 
 inline static void ted3e_store(void)
@@ -782,10 +819,20 @@ void REGPARM2 ted_store(WORD addr, BYTE value)
       case 0x19:
         ted19_store(value);
         break;
+      case 0x1a:
+      case 0x1b:
+		ted1a1b_store(addr, value);
+		break;
       case 0x1c:
       case 0x1d:
         ted1c1d_store(addr, value);
         break;
+      case 0x1e:
+		ted1e_store(value);
+		break;
+      case 0x1f:
+		ted1f_store(value);
+		break;
       case 0x3e:
         ted3e_store();
         break;
@@ -824,11 +871,11 @@ inline static BYTE ted09_read(void)
         && ted.raster_irq_clk != CLOCK_MAX
         && maincpu_clk >= ted.raster_irq_clk) {
         if (ted.regs[0x0a] & 0x2)
-            ted.last_read = ted.irq_status | 0xa3;
+            ted.last_read = ted.irq_status | 0xa7;
         else
-            ted.last_read = ted.irq_status | 0x23;
+            ted.last_read = ted.irq_status | 0x27;
     } else {
-        ted.last_read = ted.irq_status | 0x21;
+        ted.last_read = ted.irq_status | 0x25;
     }
 
     return ted.last_read;
@@ -847,7 +894,7 @@ inline static BYTE ted12_read(void)
 inline static BYTE ted1a1b_read(WORD addr)
 {
     if (addr == 0x1a)
-        return (ted.mem_counter & 0x100) >> 8;
+        return ((ted.mem_counter & 0x100) >> 8) | 0xfc;
     else
         return ted.mem_counter & 0xff;
 }
@@ -936,9 +983,11 @@ inline static BYTE ted09_peek(void)
             return ted.irq_status | 0xa3;
         else
             return ted.irq_status | 0x23;
+    } else {
+        return ted.irq_status | 0x21;
     }
 
-    return ted.irq_status | 0x21;
+    return ted.irq_status;
 }
 
 BYTE REGPARM1 ted_peek(WORD addr)

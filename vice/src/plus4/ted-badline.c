@@ -36,6 +36,7 @@
 #include "tedtypes.h"
 #include "types.h"
 
+
 inline static void line_becomes_good(int cycle)
 {
     /* Bad line becomes good.  */
@@ -51,7 +52,7 @@ inline static void line_becomes_good(int cycle)
         ted.idle_data_location = IDLE_NONE;
         if (cycle > TED_FETCH_CYCLE + 2
             && !ted.ycounter_reset_checked) {
-            ted.raster.ycounter = 0;
+            /*ted.raster.ycounter = 0;*/
             ted.ycounter_reset_checked = 1;
         }
     }
@@ -68,8 +69,8 @@ inline static void line_becomes_bad(int cycle)
 
         ted.bad_line = 1;
 
-        if (cycle <= TED_FETCH_CYCLE + 2)
-            ted.raster.ycounter = 0;
+        /*if (cycle <= TED_FETCH_CYCLE + 2)
+            ted.raster.ycounter = 0;*/
 
         ted.ycounter_reset_checked = 1;
 
@@ -105,28 +106,30 @@ inline static void line_becomes_bad(int cycle)
             num_0xff_fetches = cycle - TED_FETCH_CYCLE;
         }
         /* This is normally done at cycle `TED_FETCH_CYCLE + 2'.  */
-        ted.mem_counter = ted.memptr;
+        /*ted.mem_counter = ted.memptr;*/
+		/*ted.memptr_col = ted.mem_counter;*/
 
         /* Force the DMA.  */
         /* Note that `ted.cbuf' is loaded from the value of
            the next opcode as the VIC-II is not the bus master yet.  */
         if (num_chars <= num_0xff_fetches) {
-            memset(ted.vbuf + pos, 0xff, num_chars);
-            memset(ted.cbuf + pos, mem_ram[reg_pc] & 0xf,
+            /*memset(ted.vbuf + pos, 0xff, num_chars);*/
+            memset(ted.cbuf_tmp + pos, mem_ram[reg_pc] & 0x7f,
                    num_chars);
         } else {
-            memset(ted.vbuf + pos, 0xff, num_0xff_fetches);
-            memset(ted.cbuf + pos, mem_ram[reg_pc] & 0xf,
+            /*memset(ted.vbuf + pos, 0xff, num_0xff_fetches);*/
+			memset(ted.cbuf_tmp, ted.cbuf, pos);
+            memset(ted.cbuf_tmp + pos, mem_ram[reg_pc] & 0x7f,
                    num_0xff_fetches);
-            ted_fetch_matrix(pos + num_0xff_fetches,
-                             num_chars - num_0xff_fetches);
+            /*ted_fetch_matrix(pos + num_0xff_fetches,
+                             num_chars - num_0xff_fetches);*/
             ted_fetch_color(pos + num_0xff_fetches,
                             num_chars - num_0xff_fetches);
         }
 
         /* Set the value by which `ted.mem_counter' is incremented on
            this line.  */
-        ted.mem_counter_inc = inc;
+        ted.mem_counter_inc = TED_SCREEN_TEXTCOLS; /*inc;*/
 
         /* Remember we have done a DMA.  */
         ted.memory_fetch_done = 2;
@@ -170,16 +173,21 @@ void ted_badline_check_state(BYTE value, const int cycle,
     int was_bad_line, now_bad_line;
 
     /* Check whether bad line state has changed.  */
-    was_bad_line = (ted.allow_bad_lines
-                    && (ted.raster.ysmooth == (int)(line & 7)));
+    /*was_bad_line = (ted.allow_bad_lines
+                    && (ted.raster.ysmooth == (int)(line & 7)));*/
+	was_bad_line = ted.bad_line;
     now_bad_line = (ted.allow_bad_lines
-                    && ((int)(value & 7) == (int)(line & 7)));
+                    && ( ((int)(value & 7) == (int)(line & 7))
+					/*|| (ted.bad_line &&
+					 ((int)((value + 1) & 7) == (int)(line & 7) ))*/) )
+					;
 
     if (was_bad_line && !now_bad_line) {
         line_becomes_good(cycle);
     } else {
-        if (!was_bad_line && now_bad_line)
-            line_becomes_bad(cycle);
+        /*if (!was_bad_line && now_bad_line)
+			ted.raster_irq_clk++;*/
+            /*line_becomes_bad(cycle);*/
     }
 }
 
