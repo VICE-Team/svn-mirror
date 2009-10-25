@@ -94,8 +94,16 @@ typedef BYTE VIC_PIXEL;
 
 #define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4 * VIC_PIXEL_WIDTH)
 
+/* char affected by a change in this cycle rounded to whole chars */
 #define VIC_RASTER_CHAR(cycle)   ((int)((cycle) \
                                  - vic.raster.display_xstart / (VIC_PIXEL_WIDTH * 4) - 6) / 2)
+
+/* char affected by a change in this cycle */
+#define VIC_RASTER_CHAR_INT(cycle)   ((int)((cycle) \
+                                 - vic.raster.display_xstart / (VIC_PIXEL_WIDTH * 4) - 7) / 2)
+/* half of the char affected by a change in this cycle */
+#define VIC_RASTER_CHAR_FRAC(cycle)   ((int)((cycle) \
+                                 - vic.raster.display_xstart / (VIC_PIXEL_WIDTH * 4) - 7) % 2)
 
 /* Video mode definitions. */
 
@@ -171,6 +179,7 @@ struct vic_s
     int old_auxiliary_color;
     int old_mc_border_color;
     int old_reverse;
+    int half_char_flag;
 
     unsigned int char_height;   /* changes immediately for memory fetch */
     unsigned int row_increase_line; /* may change next line for row count */

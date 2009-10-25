@@ -214,6 +214,7 @@ raster_t *vic_init(void)
     vic.old_mc_border_color = 0;
     vic.reverse = 0;
     vic.old_reverse = 0;
+    vic.half_char_flag = 0;
 
     /* FIXME: Where do these values come from? */
     vic.light_pen.triggered = 0;

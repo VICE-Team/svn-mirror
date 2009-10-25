@@ -134,23 +134,44 @@ inline static void draw(BYTE *p, unsigned int xs, unsigned int xe,
 
         c[2] = VIC_PIXEL(b & 0x7);
 
-        /* put the first pixel to handle border or auxiliary color
-           changes */
-        c[1] = VIC_PIXEL(vic.old_mc_border_color);
-        c[3] = VIC_PIXEL(vic.old_auxiliary_color);
-        dr = (vic.old_reverse & !(b & 0x8)) ? ~d : d;
-        PUT_PIXEL(p, dr, c, b, 0, transparent);
+        if (!vic.half_char_flag) {
+            /* put the first pixel to handle border or auxiliary color
+               changes */
+            c[1] = VIC_PIXEL(vic.old_mc_border_color);
+            c[3] = VIC_PIXEL(vic.old_auxiliary_color);
+            dr = (vic.old_reverse & !(b & 0x8)) ? ~d : d;
+            PUT_PIXEL(p, dr, c, b, 0, transparent);
 
-        /* put two more pixels to handle reverse changes */
-        c[1] = VIC_PIXEL(vic.mc_border_color);
-        c[3] = VIC_PIXEL(vic.auxiliary_color);
-        PUT_PIXEL(p, dr, c, b, 1, transparent);
-        PUT_PIXEL(p, dr, c, b, 2, transparent);
+            /* put two more pixels to handle reverse changes */
+            c[1] = VIC_PIXEL(vic.mc_border_color);
+            c[3] = VIC_PIXEL(vic.auxiliary_color);
+            PUT_PIXEL(p, dr, c, b, 1, transparent);
+            PUT_PIXEL(p, dr, c, b, 2, transparent);
 
-        /* put the last 5 pixels normally to complete the char */
-        dr = (vic.reverse & !(b & 0x8)) ? ~d : d;
-        for (x = 3; x < 8; x++) {
-            PUT_PIXEL(p, dr, c, b, x, transparent);
+            /* put the last 5 pixels normally to complete the char */
+            dr = (vic.reverse & !(b & 0x8)) ? ~d : d;
+            for (x = 3; x < 8; x++) {
+                PUT_PIXEL(p, dr, c, b, x, transparent);
+            }
+        } else {
+            /* put the first 5 pixels to handle border or auxiliary color
+               changes */
+            c[1] = VIC_PIXEL(vic.old_mc_border_color);
+            c[3] = VIC_PIXEL(vic.old_auxiliary_color);
+            dr = (vic.old_reverse & !(b & 0x8)) ? ~d : d;
+            for (x = 0; x < 5; x++) {
+                PUT_PIXEL(p, dr, c, b, x, transparent);
+            }
+
+            /* put two more pixels to handle reverse changes */
+            c[1] = VIC_PIXEL(vic.mc_border_color);
+            c[3] = VIC_PIXEL(vic.auxiliary_color);
+            PUT_PIXEL(p, dr, c, b, 5, transparent);
+            PUT_PIXEL(p, dr, c, b, 6, transparent);
+
+            /* put the last pixel normally to complete the char */
+            dr = (vic.reverse & !(b & 0x8)) ? ~d : d;
+            PUT_PIXEL(p, dr, c, b, 7, transparent);
         }
 
         /* mark this char as processed */

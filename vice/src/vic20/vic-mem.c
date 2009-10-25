@@ -106,10 +106,16 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
             int new_aux_color = value>>4;
 
             if (new_aux_color != old_aux_color) {
+                /* integer part */
                 raster_changes_foreground_add_int(&vic.raster,
-                    VIC_RASTER_CHAR(vic.raster_cycle+1),
+                    VIC_RASTER_CHAR_INT(vic.raster_cycle+1),
                     &vic.auxiliary_color,
                     new_aux_color);
+                /* fractional part (half chars) */
+                raster_changes_foreground_add_int(&vic.raster,
+                    VIC_RASTER_CHAR_INT(vic.raster_cycle+1),
+                    &vic.half_char_flag,
+                    VIC_RASTER_CHAR_FRAC(vic.raster_cycle+1));
                 /* old_mc_auxilary_color is used by vic-draw.c to handle the
                    one hires vic pixel lateness of change */
                 raster_changes_foreground_add_int(&vic.raster,
@@ -157,18 +163,29 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
 
                 /* we also need the border color in multicolor mode,
                    so we duplicate it */
+                /* integer part */
                 raster_changes_foreground_add_int(&vic.raster,
-                    VIC_RASTER_CHAR(vic.raster_cycle+1),
+                    VIC_RASTER_CHAR_INT(vic.raster_cycle+1),
                     &vic.mc_border_color,
                     new_border_color);
+                /* fractional part (half chars) */
+                raster_changes_foreground_add_int(&vic.raster,
+                    VIC_RASTER_CHAR_INT(vic.raster_cycle+1),
+                    &vic.half_char_flag,
+                    VIC_RASTER_CHAR_FRAC(vic.raster_cycle+1));
             }
 
             if (new_reverse != old_reverse) {
-
+                /* integer part */
                 raster_changes_foreground_add_int(&vic.raster,
-                    VIC_RASTER_CHAR(vic.raster_cycle+1),
+                    VIC_RASTER_CHAR_INT(vic.raster_cycle+1),
                     &vic.reverse,
                     new_reverse);
+                /* fractional part (half chars) */
+                raster_changes_foreground_add_int(&vic.raster,
+                    VIC_RASTER_CHAR_INT(vic.raster_cycle+1),
+                    &vic.half_char_flag,
+                    VIC_RASTER_CHAR_FRAC(vic.raster_cycle+1));
             }
 
 
