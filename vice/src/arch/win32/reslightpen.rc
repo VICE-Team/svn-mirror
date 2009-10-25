@@ -49,9 +49,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
-    IDS_LIGHTPEN_ENABLE  "&Enable lightpen"
-    IDS_LIGHTPEN_TYPE    "Lightpen type"
+    IDS_LIGHTPEN_CAPTION "Lichtgriffel Einstellungen"
+    IDS_LIGHTPEN_ENABLE  "Lichtgriffel &Emulation aktivieren"
+    IDS_LIGHTPEN_TYPE    "Lichtgriffel Type"
 END
 
 

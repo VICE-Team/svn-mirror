@@ -274,7 +274,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX  "", IDC_DATASETTE_RESET_WITH_CPU,
                   7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX      " of motor while reading", IDC_DATASETTE_MOTOR_GROUP,
+    GROUPBOX      "", IDC_DATASETTE_MOTOR_GROUP,
                   5, 25, 160, 60
     LTEXT         "", IDC_DATASETTE_DELAY_TRIGGER,
                   42, 42, 120, 8
@@ -2283,7 +2283,7 @@ BEGIN
   IDS_LOAD_SNAPSHOT_IMAGE         "Snapshot Laden"
   IDS_COULD_NOT_LOAD_PALETTE      "Kann Paletten Datei nicht laden."
   IDS_LOAD_VICE_PALETTE_FILE      "VICE Paletten Datei laden"
-  IDS_FULLSCREEN                  "Vollbild/DirectX"
+  IDS_FULLSCREEN                  "Vollbild/Direct X"
   IDS_COLORS                      "Farben"
   IDS_NEW_PAL                     "PAL Emulation"
   IDS_VIDEO_SETTINGS              "Video Einstellungen"
@@ -2437,9 +2437,9 @@ BEGIN
   IDS_JOY_CONFIG_A                "Tastaturbelegung &A konfigurieren"
   IDS_JOY_CONFIG_B                "Tastaturbelegung &B konfigurieren"
   IDS_JOY_CALIBRATE               "Joysticks &kalibrieren"
-  IDS_EXTRA_JOYSTICK_CAPTION      "Extra Joystick Adapter Einstellungen"
-  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra port #&1"
-  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra port #&2"
+  IDS_EXTRA_JOYSTICK_CAPTION      "Extra Joystick Einstellungen"
+  IDS_JOYSTICK_IN_EXTRA_PORT_1    "Joystick in extra Port #&1"
+  IDS_JOYSTICK_IN_EXTRA_PORT_2    "Joystick in extra Port #&2"
   IDS_KEYSET_SW                   "Süd West"
   IDS_KEYSET_S                    "&Süden"
   IDS_KEYSET_SE                   "Süd Ost"
@@ -2463,7 +2463,7 @@ BEGIN
   IDS_FULLSCREEN_DRVR_REFRESHRATE "Wiederholrate:"
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK Synchronisation"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "DX Primary Oberflächenrendering"
-  IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
+  IDS_TOGGLE_KEEP_ASPECT_RATIO    "Seitenverhältnis beibehalten (0,5..2)"
   IDS_COLORS_SATURATION           "Sättigung (0..2)"
   IDS_COLORS_CONTRAST             "Kontrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Helligkeit (0..2)"
@@ -2535,10 +2535,10 @@ BEGIN
   IDS_SELECT_DRIVER               "Treiber auswählen"
   IDS_FFMPEG_SETTINGS             "FFMPEG Einstellungen"
   IDS_FORMAT                      "Format"
-  IDS_AUDIO_CODEC                 "Audio Codec"
+  IDS_AUDIO_CODEC                 "Audiocodec"
   IDS_BITRATE                     "Bitrate"
-  IDS_VIDEO_CODEC                 "Video Codec"
-  IDS_SOUND_RECORD_CAPTION        "Sound record settings"
+  IDS_VIDEO_CODEC                 "Videocodec"
+  IDS_SOUND_RECORD_CAPTION        "Tonaufnahme Einstellungen"
   IDS_SOUND_RECORD_FORMAT_LABEL   "Tonaufnahmeformat"
   IDS_SOUND_RECORD_FILE_LABEL     "Tonaufnahme Datei"
   IDS_KERNAL                      "Kernal"

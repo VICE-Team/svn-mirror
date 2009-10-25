@@ -5682,7 +5682,7 @@ msgstr "Neue TAP Image Datei"
 
 #: src/arch/win32/res.rc.po.c:1224
 msgid "Select Driver"
-msgstr "Treiber auswählen:"
+msgstr "Treiber auswählen"
 
 #: src/arch/win32/res.rc.po.c:1225
 msgid "FFMPEG settings"
@@ -6716,7 +6716,7 @@ msgstr "PRG Autostartmodus"
 
 #: src/arch/win32/resautostart.rc.po.c:40
 msgid "PRG autostart disk image"
-msgstr "PRGF Autostart Disk Image"
+msgstr "PRG Autostart Disk Image"
 
 #: src/arch/win32/resautostart.rc.po.c:41
 msgid "Select file for PRG autostart disk"
@@ -7620,7 +7620,7 @@ msgstr "&Isepic Schalter"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
 msgid "lightpen Settings"
-msgstr "Lichtgriffel Einstellungen..."
+msgstr "Lichtgriffel Einstellungen"
 
 #: src/arch/win32/reslightpen.rc.po.c:23
 msgid "&Enable lightpen"

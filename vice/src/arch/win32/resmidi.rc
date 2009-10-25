@@ -66,7 +66,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Settings"
+  IDS_MIDI_CAPTION    "Midi Einstellungen"
   IDS_MIDI_ENABLE     "Midi aktivi&eren"
   IDS_MIDI_TYPE_LABEL "Midi Modul Type"
   IDS_MIDI_IN_LABEL   "Midi-Eingang Gerät"

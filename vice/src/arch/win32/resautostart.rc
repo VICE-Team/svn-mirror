@@ -75,15 +75,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
-    IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_CAPTION                    "Autostart Einstellungen"
+    IDS_AUTOSTART_WARP                       "Autostart Warp"
+    IDS_AUTOSTART_COLON_RUN                  "Verwende ':' mit RUN"
+    IDS_AUTOSTART_PRG_MODE                   "PRG Autostartmodus"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG Autostart Disk Image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Datei für PRG Autostart auswählen"
     IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
     IDS_AUTOSTART_INJECT                     "Inject"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_DISK                       "Disk Image"
 END
 
 
