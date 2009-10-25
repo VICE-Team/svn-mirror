@@ -29,6 +29,7 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -1294,10 +1295,15 @@ void mon_display_io_regs(void)
 }
 
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
-                        WORD start, WORD end)
+                        int start_, int end_)
 {
     mem_ioreg_list_t *base;
     unsigned int n;
+    WORD start = start_ & 0xFFFFu;
+    WORD end = end_ & 0xFFFFu;
+
+    assert(start == start_);
+    assert(end == end_);
 
     base = *list;
     n = 0;
