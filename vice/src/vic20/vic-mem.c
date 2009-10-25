@@ -107,13 +107,13 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
 
             if (new_aux_color != old_aux_color) {
                 raster_changes_foreground_add_int(&vic.raster,
-                    VIC_RASTER_CHAR(vic.raster_cycle),
+                    VIC_RASTER_CHAR(vic.raster_cycle+1),
                     &vic.auxiliary_color,
                     new_aux_color);
                 /* old_mc_auxilary_color is used by vic-draw.c to handle the
                    one hires vic pixel lateness of change */
                 raster_changes_foreground_add_int(&vic.raster,
-                    VIC_RASTER_CHAR(vic.raster_cycle+1),
+                    VIC_RASTER_CHAR(vic.raster_cycle+2),
                     &vic.old_auxiliary_color,
                     new_aux_color);
 
