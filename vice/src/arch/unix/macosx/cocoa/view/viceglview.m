@@ -1222,7 +1222,7 @@ extern log_t video_log;
         int h = (int)textureSize.height;
         int px = (int)((pos.x-viewOrigin.x) * mouseXScale);
         int py = (int)((pos.y-viewOrigin.y) * mouseYScale);
-        py = h - 1 - py;
+        //py = h - 1 - py;
         if ((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
             [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
         }

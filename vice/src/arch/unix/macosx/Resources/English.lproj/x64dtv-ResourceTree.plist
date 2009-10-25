@@ -46,6 +46,10 @@
 	<dict>
 		<key>PS2 Mouse on Userport</key>
 		<string>PS2Mouse,b</string>
+		<key>Scale X</key>
+		<string>MouseScaleX,i</string>
+		<key>Scale Y</key>
+		<string>MouseScaleY,i</string>
 	</dict>
 	<key>RAM</key>
 	<dict>

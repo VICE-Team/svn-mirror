@@ -24,22 +24,65 @@
  *
  */
 
+#include "cmdline.h"
 #include "mousedrv.h"
+#include "resources.h"
+#include "translate.h"
 #include "vicemachine.h"
 
 // mouse.c
 extern int _mouse_enabled;
-static int ptr_x=0,ptr_y=0;
-static int hw_x=0,hw_y=0;
+
+static BOOL firstMove;
+static int  pointerX;
+static int  pointerY;
+static int  emuX;
+static int  emuY;
+
+static int  scaleX;
+static int  scaleY;
+
+static int set_scale_x(int val, void *param)
+{
+    scaleX = val;
+}
+
+static int set_scale_y(int val, void *param)
+{
+    scaleY = val;
+}
+
+static resource_int_t resources_int[] =
+{
+    { "MouseScaleX", 4, RES_EVENT_NO, NULL,
+       &scaleX, set_scale_x, NULL },
+    { "MouseScaleY", 4, RES_EVENT_NO, NULL,
+       &scaleY, set_scale_y, NULL },
+    { NULL }
+ };
 
 int mousedrv_resources_init(void)
 {
-    return 0;
+    return resources_register_int(resources_int);
 }
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-mousescalex", SET_RESOURCE, 1,
+      NULL, NULL, "MouseScaleX", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<1-8>", T_("Set scaling factor for mouse movement along X") },
+    { "-mousescaley", SET_RESOURCE, 1,
+      NULL, NULL, "MouseScaleY", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<1-8>", T_("Set scaling factor for mouse movement along Y") },
+    { NULL }
+};
 
 int mousedrv_cmdline_options_init(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 void mousedrv_init(void)
@@ -49,34 +92,52 @@ void mousedrv_init(void)
 void mousedrv_mouse_changed(void)
 {
     [[theVICEMachine machineNotifier] postToggleMouseNotification:_mouse_enabled];
+
+    if(_mouse_enabled) {
+        firstMove = YES;
+    }
 }
 
 #define MAX_DELTA  16
 
+// the HW polls the position
 BYTE mousedrv_get_x(void)
 {
-    int dx = ptr_x - hw_x;
-    if (dx < -MAX_DELTA)
-        dx = -MAX_DELTA;
-    else if (dx > MAX_DELTA)
-        dx = MAX_DELTA;
-    hw_x += dx;
-    return (BYTE)((hw_x&0x3f) << 1);
+    int delta = pointerX - emuX;
+    
+    if (delta > MAX_DELTA) {
+        delta = MAX_DELTA;
+    }
+    else if (delta < -MAX_DELTA) {
+        delta = -MAX_DELTA;
+    }
+
+    emuX += delta;
+    return (BYTE)((emuX & 63) << 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
 {
-    int dy = ptr_y - hw_y;
-    if (dy < -MAX_DELTA)
-        dy = -MAX_DELTA;
-    else if (dy > MAX_DELTA)
-        dy = MAX_DELTA;
-    hw_y += dy;
-    return (BYTE)((hw_y&0x3f) << 1);
+    int delta = pointerY - emuY;
+    
+    if (delta > MAX_DELTA) {
+        delta = MAX_DELTA;
+    }
+    else if (delta < -MAX_DELTA) {
+        delta = -MAX_DELTA;
+    }
+
+    emuY += delta;
+    return (BYTE)((emuY & 63) << 1) & 0x7e;
 }
 
 void mouse_move(int x, int y)
 {
-    ptr_x = x;
-    ptr_y = y;
+    pointerX = x * scaleX;
+    pointerY = y * scaleY;
+    if(firstMove) {
+        firstMove = NO;
+        emuX = x * scaleX;
+        emuY = y * scaleY;
+    }
 }

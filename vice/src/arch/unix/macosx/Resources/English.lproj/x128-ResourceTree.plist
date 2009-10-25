@@ -176,6 +176,10 @@
 	<dict>
 		<key>Port</key>
 		<string>Mouseport,m,Joy1=1,Joy2=2</string>
+		<key>Scale X</key>
+		<string>MouseScaleX,i</string>
+		<key>Scale Y</key>
+		<string>MouseScaleY,i</string>
 		<key>Type</key>
 		<string>Mousetype,e,1351,NEOS,AMIGA,Paddles</string>
 	</dict>
