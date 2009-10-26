@@ -79,7 +79,6 @@ extern log_t video_log;
 
     // ----- OpenGL -----
     // OpenGL locking and state
-    glLock = [[NSRecursiveLock alloc] init];
     glContext = nil;
     isOpenGLReady = NO;
     postponedReconfigure = NO;
@@ -116,12 +115,7 @@ extern log_t video_log;
     }
     
     // ----- OpenGL -----
-    [glLock lock];
-    if([NSOpenGLContext currentContext] != glContext)
-        [glContext makeCurrentContext];
     [self deleteAllTextures];
-    [glLock unlock];    
-    [glLock release];
     
     [super dealloc];
 }
@@ -409,8 +403,10 @@ extern log_t video_log;
 // prepare open gl: called by view
 - (void)prepareOpenGL
 {
-    [glLock lock];
     glContext = [self openGLContext];
+    cglContext = [glContext CGLContextObj];
+    
+    CGLLockContext(cglContext);
     
     // sync to VBlank
     GLint swapInt = 1;
@@ -418,7 +414,7 @@ extern log_t video_log;
  
     [self commonGLSetup];
  
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
     
     isOpenGLReady = true;
 
@@ -430,7 +426,7 @@ extern log_t video_log;
 
 - (void)toggleBlending:(BOOL)on
 {
-    [glLock lock];
+    CGLLockContext(cglContext);
     if([NSOpenGLContext currentContext] != glContext)
         [glContext makeCurrentContext];
 
@@ -439,7 +435,7 @@ extern log_t video_log;
     else
         glDisable(GL_BLEND);
         
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
 }
 
 // cocoa calls this if view resized
@@ -448,7 +444,7 @@ extern log_t video_log;
     NSRect rect = [self bounds];
     NSSize size = rect.size;
 
-    [glLock lock];
+    CGLLockContext(cglContext);
     if([NSOpenGLContext currentContext] != glContext)
         [glContext makeCurrentContext];
     
@@ -473,7 +469,7 @@ extern log_t video_log;
     mouseXScale = textureSize.width  / viewSize.width;
     mouseYScale = textureSize.height / viewSize.height;
 
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
 }
 
 - (void)drawQuad:(float)alpha
@@ -505,7 +501,8 @@ extern log_t video_log;
 // redraw view
 - (void)drawRect:(NSRect)r
 {
-    [glLock lock];
+    CGLLockContext(cglContext);
+    
     if([NSOpenGLContext currentContext] != glContext)
         [glContext makeCurrentContext];
 
@@ -541,6 +538,8 @@ extern log_t video_log;
             }
             // blend four buffers (2 x with blending into pixel buffer)
             else {
+                CGLLockContext(cglPixelBufferContext);
+                
                 // draw on pixel buffer
                 [glPixelBufferContext makeCurrentContext];
                 glClear(GL_COLOR_BUFFER_BIT);
@@ -577,6 +576,8 @@ extern log_t video_log;
                 glBindTexture(GL_TEXTURE_RECTANGLE_EXT, pixelBufferTextureId);
                 [glContext setTextureImageToPixelBuffer:pixelBuffer colorBuffer:GL_FRONT];
                 [self drawFlipQuad:blendAlpha];
+                
+                CGLUnlockContext(cglPixelBufferContext);
             }
         }
         // non-multi normal draw
@@ -587,7 +588,7 @@ extern log_t video_log;
     }
     
     [[self openGLContext] flushBuffer];
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
 }
 
 // ---------- Multi Buffer Blending -----------------------------------------
@@ -839,6 +840,7 @@ extern log_t video_log;
         log_message(video_log, "ERROR creating pixel buffer context!");
         return NO;
     }
+    cglPixelBufferContext = [glPixelBufferContext CGLContextObj];
     
     [glPixelBufferContext setPixelBuffer:pixelBuffer 
                              cubeMapFace:0
@@ -849,16 +851,19 @@ extern log_t video_log;
                 size.width, size.height);
                 
     // init pixel buffer
-    [glLock lock];
+    CGLLockContext(cglPixelBufferContext);
     if([NSOpenGLContext currentContext] != glPixelBufferContext)
         [glPixelBufferContext makeCurrentContext];
     
     glViewport(0,0,size.width,size.height);
     [self commonGLSetup];
     glEnable(GL_BLEND);
+    CGLUnlockContext(cglPixelBufferContext);
     
     // configure texture in main context to attach the pixel buffer to
+    CGLLockContext(cglContext);
     [glContext makeCurrentContext];
+
     glGenTextures(1,&pixelBufferTextureId);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, pixelBufferTextureId);
     
@@ -869,7 +874,7 @@ extern log_t video_log;
 
     glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_DECAL);
     
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
                 
     return YES;
 }
@@ -891,7 +896,11 @@ extern log_t video_log;
         done = YES;
     }
     
+    CGLLockContext(cglContext);
+    if([NSOpenGLContext currentContext] != glPixelBufferContext)
+        [glPixelBufferContext makeCurrentContext];
     glDeleteTextures(1, &pixelBufferTextureId);
+    CGLUnlockContext(cglContext);
     
     if(done)
         log_message(video_log, "deleted pixel buffer");
@@ -919,11 +928,16 @@ extern log_t video_log;
 
 - (void)deleteAllTextures
 {
+    CGLLockContext(cglContext);
+    if([NSOpenGLContext currentContext] != glContext)
+        [glContext makeCurrentContext];
+
     int i;
     for(i=0;i<numTextures;i++) {
         [self deleteTexture:i];
     }
     numTextures = 0;
+    CGLUnlockContext(cglContext);
 }
 
 - (void)setupTextures:(int)num withSize:(NSSize)size
@@ -936,14 +950,15 @@ extern log_t video_log;
 
     // clean up old textures
     if(numTextures > num) {
-        [glLock lock];
+        CGLLockContext(cglContext);
         if([NSOpenGLContext currentContext] != glContext)
             [glContext makeCurrentContext];
 
         for(i=num;i<numTextures;i++) {
             [self deleteTexture:i];
         }
-        [glLock unlock];
+        
+        CGLUnlockContext(cglContext);
     }
     
     // if size differs then reallocate all otherwise only missing
@@ -977,7 +992,7 @@ extern log_t video_log;
     }
     
     // make GL context current
-    [glLock lock];
+    CGLLockContext(cglContext);
     if([NSOpenGLContext currentContext] != glContext)
         [glContext makeCurrentContext];
 
@@ -1006,12 +1021,12 @@ extern log_t video_log;
                      data);
     }
 
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
 }
 
 - (void)updateTexture:(int)i
 {
-    [glLock lock];
+    CGLLockContext(cglContext);
     if([NSOpenGLContext currentContext] != glContext)
         [glContext makeCurrentContext];
 
@@ -1022,7 +1037,7 @@ extern log_t video_log;
                  GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, 
                  texture[i].buffer);
 
-    [glLock unlock];
+    CGLUnlockContext(cglContext);
 }
 
 // ----- Drag & Drop -----
@@ -1315,7 +1330,6 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
         return NO;
 
     // Set the display link for the current renderer
-    CGLContextObj cglContext = [[self openGLContext] CGLContextObj];
     CGLPixelFormatObj cglPixelFormat = [[self pixelFormat] CGLPixelFormatObj];
     r = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, cglContext, cglPixelFormat);
     if( r != kCVReturnSuccess )

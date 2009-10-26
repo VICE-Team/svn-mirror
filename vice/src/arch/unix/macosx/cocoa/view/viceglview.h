@@ -79,8 +79,8 @@ typedef struct texture_s texture_t;
     int         mouseHideInterval;
     
     // OpenGL
-    NSRecursiveLock *glLock;
     NSOpenGLContext *glContext;
+    CGLContextObj    cglContext;
     BOOL             isOpenGLReady;
     BOOL             postponedReconfigure;
     struct video_param_s video_param;   /* a copy of the current params */
@@ -112,6 +112,7 @@ typedef struct texture_s texture_t;
     // Pixel Buffer
     NSOpenGLPixelBuffer *pixelBuffer;
     NSOpenGLContext     *glPixelBufferContext;
+    CGLContextObj        cglPixelBufferContext;
     BOOL                 pixelBufferValid;
     GLuint               pixelBufferTextureId;
 }
