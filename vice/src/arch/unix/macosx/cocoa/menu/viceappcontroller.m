@@ -604,8 +604,10 @@
 
 - (VICEFilePanel *)getFilePanel
 {
-    if(filePanel == nil)
+    if(filePanel == nil) {
         filePanel = [[VICEFilePanel alloc] init];
+    }
+    return filePanel;
 }
 
 - (BOOL)setIntResource:(NSString *)name toValue:(int)value
