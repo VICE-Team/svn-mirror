@@ -938,6 +938,8 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
     /* restrict maximum length to screen size, leaving room for the prompt and the cursor*/
     max = menu_draw.max_text_y * menu_draw.max_text_x - pos_x - 1;
 
+    pc_vkbd_state = archdep_require_vkbd();
+
     if (previous) {
         new_string = lib_stralloc(previous);
         size = strlen(new_string) + 1;
@@ -1031,6 +1033,11 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
                 if (!pc_vkbd_state) {
                     sdl_ui_readline_vkbd_erase();
                     screen_redraw = 1;
+                    if (archdep_require_vkbd()) {
+                        string_changed = 0;
+                        escaped = 1;
+                        done = 1;
+                    }
                 }
                 break;
             case SDLK_BACKSPACE:

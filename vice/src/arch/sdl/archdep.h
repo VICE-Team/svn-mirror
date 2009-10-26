@@ -34,6 +34,8 @@
 /* Extra functions for SDL UI */
 extern char *archdep_default_hotkey_file_name(void);
 extern char *archdep_default_joymap_file_name(void);
+/* Virtual keyboard handling */
+extern int archdep_require_vkbd(void);
 
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1

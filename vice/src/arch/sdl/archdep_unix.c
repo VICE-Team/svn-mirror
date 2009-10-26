@@ -68,6 +68,11 @@ static char *boot_path = NULL;
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
+#if defined(DINGUX) || defined(DINGUX_SDL) || defined(GP2X) || defined(GP2X_SDL)
+#define USE_PROC_SELF_EXE
+#define USE_EXE_RELATIVE_TMP
+#endif
+
 int archdep_network_init(void)
 {
     return 0;
@@ -79,8 +84,24 @@ void archdep_network_shutdown(void)
 
 static int archdep_init_extra(int *argc, char **argv)
 {
-    argv0 = lib_stralloc(argv[0]);
+#ifdef USE_PROC_SELF_EXE
+    ssize_t read;
 
+    argv0 = lib_malloc(ioutil_maxpathlen());
+    read = readlink("/proc/self/exe", argv0, ioutil_maxpathlen() - 1);
+
+    if (read == -1) {
+        return 1;
+    }
+    else {
+        argv0[read] = '\0';
+    }
+    /* set this up now to remove extra .vice directory */
+    archdep_pref_path = archdep_boot_path();
+
+#else
+    argv0 = lib_stralloc(argv[0]);
+#endif
     archdep_ui_init(*argc, argv);
     return 0;
 }
@@ -106,7 +127,12 @@ char *archdep_program_name(void)
 const char *archdep_boot_path(void)
 {
     if (boot_path == NULL) {
+#ifdef USE_PROC_SELF_EXE
+        /* known from setup in archdep_init_extra() so just reuse it */
+        boot_path = lib_stralloc(argv0);
+#else
         boot_path = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
+#endif
 
         /* Remove the program name.  */
         *strrchr(boot_path, '/') = '\0';
@@ -117,12 +143,10 @@ const char *archdep_boot_path(void)
 
 const char *archdep_home_path(void)
 {
-#if defined(GP2X) || defined(GP2X_SDL)
-    char *home;
-
-    home = ".";
-
-    return home;
+#ifdef USE_PROC_SELF_EXE
+    /* everything is relative to the location of the exe which is already known 
+       from archdep_init_bootpath() so just reuse it */
+    return (archdep_boot_path());
 #else
     char *home;
 
@@ -436,13 +460,6 @@ char *archdep_quote_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-#if defined(GP2X) || defined(GP2X_SDL)
-    static unsigned int tmp_string_counter=0;
-    char tmp_string[32];
-
-    sprintf(tmp_string,"vice%d.tmp",tmp_string_counter++);
-    return lib_stralloc(tmp_string);
-#else
 #ifdef HAVE_MKSTEMP
     char *tmpName;
     const char mkstempTemplate[] = "/vice.XXXXXX";
@@ -450,12 +467,17 @@ char *archdep_tmpnam(void)
     char* tmp;
 
     tmpName = lib_malloc(ioutil_maxpathlen());
+#ifdef USE_EXE_RELATIVE_TMP
+    strcpy(tmpName, archdep_boot_path());
+    strcat(tmpName, "/tmp");
+#else
     if ((tmp = getenv("TMPDIR")) != NULL ) {
         strncpy(tmpName, tmp, ioutil_maxpathlen());
         tmpName[ioutil_maxpathlen() - sizeof(mkstempTemplate)] = '\0';
     } else {
         strcpy(tmpName, "/tmp" );
     }
+#endif
     strcat(tmpName, mkstempTemplate );
     if ((fd = mkstemp(tmpName)) < 0 ) {
         tmpName[0] = '\0';
@@ -468,41 +490,27 @@ char *archdep_tmpnam(void)
 #else
     return lib_stralloc(tmpnam(NULL));
 #endif
-#endif
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
  {
-#if defined(GP2X) || defined(GP2X_SDL)
-    static unsigned int tmp_string_counter = 0;
-    char *tmp;
-    FILE *fd;
-
-    tmp = lib_msprintf("vice%d.tmp", tmp_string_counter++);
-
-    fd = fopen(tmp, mode);
-
-    if (fd == NULL) {
-        lib_free(tmp);
-        return NULL;
-    }
-
-    *filename = tmp;
-
-    return fd;
-#elif defined HAVE_MKSTEMP
+#if defined HAVE_MKSTEMP
     char *tmp;
     const char template[] = "/vice.XXXXXX";
     int fildes;
     FILE *fd;
     char *tmpdir;
 
+#ifdef USE_EXE_RELATIVE_TMP
+    tmp = lib_msprintf("%s/tmp%s", archdep_boot_path(), template);
+#else
     tmpdir = getenv("TMPDIR");
 
     if (tmpdir != NULL ) 
         tmp = util_concat(tmpdir, template, NULL);
     else
         tmp = util_concat("/tmp", template, NULL);
+#endif
 
     fildes = mkstemp(tmp);
 
@@ -610,6 +618,14 @@ int archdep_file_is_chardev(const char *name)
         return 1;
     }
 
+    return 0;
+}
+
+int archdep_require_vkbd(void)
+{
+#if defined(DINGUX) || defined(DINGUX_SDL)
+    return 1;
+#endif
     return 0;
 }
 

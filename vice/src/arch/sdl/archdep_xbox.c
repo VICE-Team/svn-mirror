@@ -354,6 +354,11 @@ int archdep_file_is_chardev(const char *name)
     return 0;
 }
 
+int archdep_require_vkbd(void)
+{
+    return 0;
+}
+
 static void archdep_shutdown_extra(void)
 {
     lib_free(argv0);
