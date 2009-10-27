@@ -30,4 +30,3 @@
 extern int c128_cmdline_options_init(void);
 
 #endif
-

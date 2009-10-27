@@ -34,29 +34,29 @@
 #include "mem.h"
 #include "types.h"
 
-#define C128_RAM_SIZE                   0x40000
+#define C128_RAM_SIZE               0x40000
 
-#define C128_KERNAL_ROM_SIZE            0x2000
-#define C128_BASIC_ROM_SIZE             0x8000
-#define C128_EDITOR_ROM_SIZE            0x1000
-#define C128_Z80BIOS_ROM_SIZE           0x1000
-#define C128_CHARGEN_ROM_SIZE           0x2000
+#define C128_KERNAL_ROM_SIZE        0x2000
+#define C128_BASIC_ROM_SIZE         0x8000
+#define C128_EDITOR_ROM_SIZE        0x1000
+#define C128_Z80BIOS_ROM_SIZE       0x1000
+#define C128_CHARGEN_ROM_SIZE       0x2000
 
-#define C128_BASIC_ROM_IMAGELO_SIZE     0x4000
-#define C128_BASIC_ROM_IMAGEHI_SIZE     0x4000
-#define C128_KERNAL_ROM_IMAGE_SIZE      0x4000
+#define C128_BASIC_ROM_IMAGELO_SIZE 0x4000
+#define C128_BASIC_ROM_IMAGEHI_SIZE 0x4000
+#define C128_KERNAL_ROM_IMAGE_SIZE  0x4000
 
-#define C128_KERNAL64_ROM_SIZE          0x2000
-#define C128_BASIC64_ROM_SIZE           0x2000
+#define C128_KERNAL64_ROM_SIZE      0x2000
+#define C128_BASIC64_ROM_SIZE       0x2000
 
-#define C128_BASIC_CHECKSUM_85          38592
-#define C128_BASIC_CHECKSUM_86          2496
-#define C128_EDITOR_CHECKSUM_R01        56682
-#define C128_EDITOR_CHECKSUM_R01SWE     9364
-#define C128_EDITOR_CHECKSUM_R01GER     9619
-#define C128_KERNAL_CHECKSUM_R01        22353
-#define C128_KERNAL_CHECKSUM_R01SWE     24139
-#define C128_KERNAL_CHECKSUM_R01GER     22098
+#define C128_BASIC_CHECKSUM_85      38592
+#define C128_BASIC_CHECKSUM_86      2496
+#define C128_EDITOR_CHECKSUM_R01    56682
+#define C128_EDITOR_CHECKSUM_R01SWE 9364
+#define C128_EDITOR_CHECKSUM_R01GER 9619
+#define C128_KERNAL_CHECKSUM_R01    22353
+#define C128_KERNAL_CHECKSUM_R01SWE 24139
+#define C128_KERNAL_CHECKSUM_R01GER 22098
 
 extern int c128_mem_init_resources(void);
 extern int c128_mem_init_cmdline_options(void);
@@ -71,10 +71,8 @@ extern void mem_set_exrom(int active);
 extern void mem_pla_config_changed(void);
 
 extern void mem_set_write_hook(int config, int page, store_func_t *f);
-extern void mem_read_tab_set(unsigned int base, unsigned int index,
-                             read_func_ptr_t read_func);
-extern void mem_read_base_set(unsigned int base, unsigned int index,
-                              BYTE *mem_ptr);
+extern void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
+extern void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr);
 
 extern BYTE REGPARM1 ram_read(WORD addr);
 extern void REGPARM2 ram_store(WORD addr, BYTE value);

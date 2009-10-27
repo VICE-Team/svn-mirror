@@ -65,7 +65,7 @@
 static int opcode_cycle[2];
 
 /* 8502 cycle stretch indicator */
-int maincpu_stretch=0;
+int maincpu_stretch = 0;
 
 /* 8502 memory refresh alarm counter */
 CLOCK c128cpu_memory_refresh_clk;
@@ -74,26 +74,27 @@ CLOCK c128cpu_memory_refresh_clk;
 
 #define PAGE_ONE mem_page_one
 
-#define DMA_FUNC \
-    z80_mainloop(CPU_INT_STATUS, ALARM_CONTEXT)
+#define DMA_FUNC z80_mainloop(CPU_INT_STATUS, ALARM_CONTEXT)
 
-#define DMA_ON_RESET \
-                EXPORT_REGISTERS();                \
-                DMA_FUNC;                          \
-                interrupt_ack_dma(CPU_INT_STATUS); \
-                IMPORT_REGISTERS();                \
-                JUMP(LOAD_ADDR(0xfffc));
+#define DMA_ON_RESET                   \
+    EXPORT_REGISTERS();                \
+    DMA_FUNC;                          \
+    interrupt_ack_dma(CPU_INT_STATUS); \
+    IMPORT_REGISTERS();                \
+    JUMP(LOAD_ADDR(0xfffc));
 
 inline static void c128cpu_clock_add(CLOCK *clock, int amount)
 {
-    if (amount)
-        *clock=vicii_clock_add(*clock, amount);
+    if (amount) {
+        *clock = vicii_clock_add(*clock, amount);
+    }
 }
 
 inline static void c128cpu_memory_refresh_alarm_handler(void)
 {
-    if (maincpu_clk>=c128cpu_memory_refresh_clk)
+    if (maincpu_clk >= c128cpu_memory_refresh_clk) {
         vicii_memory_refresh_alarm_handler();
+    }
 }
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -103,14 +104,13 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 
 #define CLK_ADD(clock, amount) c128cpu_clock_add(&clock, amount)
 
-#define REWIND_FETCH_OPCODE(clock) vicii_clock_add(clock, -(2+opcode_cycle[0]+opcode_cycle[1]))
-
+#define REWIND_FETCH_OPCODE(clock) vicii_clock_add(clock, -(2 + opcode_cycle[0] + opcode_cycle[1]))
 
 #define CPU_DELAY_CLK vicii_delay_clk();
 
 #define CPU_REFRESH_CLK c128cpu_memory_refresh_alarm_handler();
 
-#define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk=11
+#define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk = 11
 
 #define CPU_ADDITIONAL_INIT() clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL)
 

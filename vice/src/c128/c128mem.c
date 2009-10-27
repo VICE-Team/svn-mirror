@@ -49,6 +49,7 @@
 #include "c64pla.h"
 #include "c64tpi.h"
 #include "functionrom.h"
+#include "georam.h"
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"
@@ -56,7 +57,6 @@
 #include "monitor.h"
 #include "ram.h"
 #include "reu.h"
-#include "georam.h"
 #include "sid.h"
 #include "sid-resources.h"
 #include "types.h"
@@ -82,7 +82,7 @@
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible video banks (16K each).  */
-#define NUM_VBANKS      4
+#define NUM_VBANKS 4
 
 /* The C128 memory.  */
 BYTE mem_ram[C128_RAM_SIZE];
@@ -205,33 +205,38 @@ void mem_update_config(int config)
 
     if (bank_limit != NULL) {
         *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
-        if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8]
-                         - (mem_old_reg_pc & 0xff00);
+        if (*bank_base != 0) {
+            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8] - (mem_old_reg_pc & 0xff00);
+        }
         *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
     }
 
     if (config >= 0x80) {
-        if (mem_machine_type == C128_MACHINE_INT)
+        if (mem_machine_type == C128_MACHINE_INT) {
             mem_update_chargen(0);
+        }
         mem_color_ram_cpu = mem_color_ram;
         mem_color_ram_vicii = mem_color_ram;
         vicii_set_chargen_addr_options(0x7000, 0x1000);
     } else {
-        if (mem_machine_type == C128_MACHINE_INT)
+        if (mem_machine_type == C128_MACHINE_INT) {
             mem_update_chargen(1);
-        if (pport.data_read & 1)
+        }
+        if (pport.data_read & 1) {
             mem_color_ram_cpu = mem_color_ram;
-        else
+        } else {
             mem_color_ram_cpu = &mem_color_ram[0x400];
-        if (pport.data_read & 2)
+        }
+        if (pport.data_read & 2) {
             mem_color_ram_vicii = mem_color_ram;
-        else
+        } else {
             mem_color_ram_vicii = &mem_color_ram[0x400];
-        if (pport.data_read & 4)
+        }
+        if (pport.data_read & 4) {
             vicii_set_chargen_addr_options(0xffff, 0xffff);
-        else
+        } else {
             vicii_set_chargen_addr_options(0x3000, 0x1000);
+        }
     }
 }
 
@@ -254,34 +259,26 @@ void mem_set_vbank(int new_vbank)
     vicii_set_vbank(new_vbank & 3);
 }
 
-/*
-static void mem_set_vbank_extended(int new_ext_vbank)
-{
-    vbank = (vbank & 3) | new_ext_vbank << 2;
-}
-*/
-
 void mem_set_ram_config(BYTE value)
 {
     unsigned int shared_size;
 
     /* XXX: We only support 128K here.  */
     vicii_set_ram_base(mem_ram + ((value & 0x40) << 10));
-    /*mem_set_vbank_extended((value & 0x40) >> 6);*/
 
     DEBUG_PRINT(("MMU: Store RCR = $%02x\n", value));
     DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
-    if ((value & 0x3) == 0)
+    if ((value & 0x3) == 0) {
         shared_size = 1024;
-    else
+    } else {
         shared_size = 0x1000 << ((value & 0x3) - 1);
+    }
 
     /* Share high memory?  */
     if (value & 0x8) {
         top_shared_limit = 0xffff - shared_size;
-        DEBUG_PRINT(("MMU: Sharing high RAM from $%04X\n",
-                    top_shared_limit + 1));
+        DEBUG_PRINT(("MMU: Sharing high RAM from $%04X\n", top_shared_limit + 1));
     } else {
         top_shared_limit = 0xffff;
         DEBUG_PRINT(("MMU: No high shared RAM\n"));
@@ -290,8 +287,7 @@ void mem_set_ram_config(BYTE value)
     /* Share low memory?  */
     if (value & 0x4) {
         bottom_shared_limit = shared_size;
-        DEBUG_PRINT(("MMU: Sharing low RAM up to $%04X\n",
-                    bottom_shared_limit - 1));
+        DEBUG_PRINT(("MMU: Sharing low RAM up to $%04X\n", bottom_shared_limit - 1));
     } else {
         bottom_shared_limit = 0;
         DEBUG_PRINT(("MMU: No low shared RAM\n"));
@@ -304,19 +300,18 @@ void mem_pla_config_changed(void)
 {
     c64pla_config_changed(tape_sense, caps_sense, 0x57);
 
-    mmu_set_config64(((~pport.dir | pport.data) & 0x7)
-                     | (export.exrom << 3) | (export.game << 4));
+    mmu_set_config64(((~pport.dir | pport.data) & 0x7) | (export.exrom << 3) | (export.game << 4));
 
-    if (mem_machine_type != C128_MACHINE_INT)
+    if (mem_machine_type != C128_MACHINE_INT) {
         mem_update_chargen(pport.data_read & 0x40);
+    }
 }
 
 static void mem_toggle_caps_key(void)
 {
     caps_sense = (caps_sense) ? 0 : 1;
     mem_pla_config_changed();
-    log_message(c128_mem_log, "CAPS key (ASCII/DIN) %s.",
-                (caps_sense) ? "released" : "pressed");
+    log_message(c128_mem_log, "CAPS key (ASCII/DIN) %s.", (caps_sense) ? "released" : "pressed");
 }
 
 /* ------------------------------------------------------------------------- */
@@ -326,10 +321,10 @@ BYTE REGPARM1 zero_read(WORD addr)
     addr &= 0xff;
 
     switch ((BYTE)addr) {
-      case 0:
-        return pport.dir_read;
-      case 1:
-        return pport.data_read;
+        case 0:
+            return pport.dir_read;
+        case 1:
+            return pport.data_read;
     }
 
     return mem_page_zero[addr];
@@ -340,45 +335,48 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     addr &= 0xff;
 
     switch ((BYTE)addr) {
-      case 0:
+        case 0:
 #if 0
-        if (vbank == 0) {
-            vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
-        } else {
+            if (vbank == 0) {
+                vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+            } else {
 #endif
-            mem_page_zero[0] = vicii_read_phi1_lowlevel();
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+                mem_page_zero[0] = vicii_read_phi1_lowlevel();
+                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 #if 0
-        }
+            }
 #endif
-        if (pport.dir != value) {
-            pport.dir = value;
-            mem_pla_config_changed();
-        }
-        break;
-      case 1:
+            if (pport.dir != value) {
+                pport.dir = value;
+                mem_pla_config_changed();
+            }
+            break;
+        case 1:
 #if 0
-        if (vbank == 0) {
-            vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
-        } else {
+            if (vbank == 0) {
+                vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+            } else {
 #endif
-            mem_page_zero[1] = vicii_read_phi1_lowlevel();
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+                mem_page_zero[1] = vicii_read_phi1_lowlevel();
+                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 #if 0
-        }
+            }
 #endif
-        if (pport.data != value) {
-            pport.data = value;
-            mem_pla_config_changed();
-        }
-        break;
-      default:
+            if (pport.data != value) {
+                pport.data = value;
+                mem_pla_config_changed();
+            }
+            break;
+        default:
 #if 0
-        if (vbank == 0)
-            vicii_mem_vbank_store(addr, value);
-        else
+            if (vbank == 0) {
+                vicii_mem_vbank_store(addr, value);
+            } else {
 #endif
-            mem_page_zero[addr] = value;
+                mem_page_zero[addr] = value;
+#if 0
+            }
+#endif
     }
 }
 
@@ -466,21 +464,13 @@ void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
 
    - move pages 0 and 1 to any physical address.  */
 
-#define READ_TOP_SHARED(addr)                     \
-    ((addr) > top_shared_limit ? mem_ram[(addr)]  \
-                               : ram_bank[(addr)])
+#define READ_TOP_SHARED(addr) ((addr) > top_shared_limit ? mem_ram[(addr)] : ram_bank[(addr)])
 
-#define STORE_TOP_SHARED(addr, value)                        \
-    ((addr) > top_shared_limit ? (mem_ram[(addr)] = (value)) \
-                               : (ram_bank[(addr)] = (value)))
+#define STORE_TOP_SHARED(addr, value) ((addr) > top_shared_limit ? (mem_ram[(addr)] = (value)) : (ram_bank[(addr)] = (value)))
 
-#define READ_BOTTOM_SHARED(addr)                     \
-    ((addr) < bottom_shared_limit ? mem_ram[(addr)]  \
-                                  : ram_bank[(addr)])
+#define READ_BOTTOM_SHARED(addr) ((addr) < bottom_shared_limit ? mem_ram[(addr)] : ram_bank[(addr)])
 
-#define STORE_BOTTOM_SHARED(addr, value)                         \
-    ((addr) < bottom_shared_limit ? (mem_ram[(addr)] = (value))  \
-                                  : (ram_bank[(addr)] = (value)))
+#define STORE_BOTTOM_SHARED(addr, value) ((addr) < bottom_shared_limit ? (mem_ram[(addr)] = (value)) : (ram_bank[(addr)] = (value)))
 
 /* $0200 - $3FFF: RAM (normal or shared).  */
 BYTE REGPARM1 lo_read(WORD addr)
@@ -505,13 +495,15 @@ void REGPARM2 ram_store(WORD addr, BYTE value)
 
 void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 {
-    if (vbank == 3)
+    if (vbank == 3) {
         vicii_mem_vbank_3fxx_store(addr, value);
-    else
+    } else {
         ram_bank[addr] = value;
+    }
 
-    if (addr == 0xff00)
+    if (addr == 0xff00) {
         reu_dma(-1);
+    }
 }
 
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
@@ -525,7 +517,6 @@ void REGPARM2 basic_lo_store(WORD addr, BYTE value)
     ram_bank[addr] = value;
 }
 
-
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
 BYTE REGPARM1 basic_hi_read(WORD addr)
 {
@@ -536,7 +527,6 @@ void REGPARM2 basic_hi_store(WORD addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
-
 
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
 BYTE REGPARM1 editor_read(WORD addr)
@@ -560,9 +550,7 @@ static void REGPARM2 d5xx_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 d7xx_read(WORD addr)
 {
-    if (sid_stereo
-        && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end) {
+    if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
         return sid2_read(addr);
     }
     return vicii_read_phi1();
@@ -570,9 +558,7 @@ BYTE REGPARM1 d7xx_read(WORD addr)
 
 void REGPARM2 d7xx_store(WORD addr, BYTE value)
 {
-    if (sid_stereo
-        && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end) {
+    if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
         sid2_store(addr, value);
     }
 }
@@ -621,8 +607,7 @@ void mem_set_write_hook(int config, int page, store_func_t *f)
     }
 }
 
-void mem_read_tab_set(unsigned int base, unsigned int index,
-                      read_func_ptr_t read_func)
+void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func)
 {
     mem_read_tab[base][index] = read_func;
 }
@@ -668,17 +653,17 @@ void mem_initialize_memory(void)
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
-                      case 0x39:
-                        mem_write_tab[k][128+i][j] = vicii_mem_vbank_39xx_store;
-                        break;
-                      case 0x3f:
-                        mem_write_tab[k][128+i][j] = vicii_mem_vbank_3fxx_store;
-                        break;
-                      default:
-                        mem_write_tab[k][128+i][j] = vicii_mem_vbank_store;
+                        case 0x39:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_39xx_store;
+                            break;
+                        case 0x3f:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_3fxx_store;
+                            break;
+                        default:
+                            mem_write_tab[k][128 + i][j] = vicii_mem_vbank_store;
                     }
                 } else {
-                    mem_write_tab[k][128+i][j] = ram_store;
+                    mem_write_tab[k][128 + i][j] = ram_store;
                 }
             }
         }
@@ -807,10 +792,12 @@ void mem_set_tape_sense(int sense)
 
 void mem_get_basic_text(WORD *start, WORD *end)
 {
-    if (start != NULL)
+    if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
-    if (end != NULL)
+    }
+    if (end != NULL) {
         *end = mem_ram[0x1210] | (mem_ram[0x1211] << 8);
+    }
 }
 
 void mem_set_basic_text(WORD start, WORD end)
@@ -828,21 +815,21 @@ int mem_rom_trap_allowed(WORD addr)
     if (addr >= 0xe000) {
         if (mem_config >= 128) {
             switch (mem_config - 128) {
-              case 2:
-              case 3:
-              case 6:
-              case 7:
-              case 10:
-              case 11:
-              case 14:
-              case 15:
-              case 26:
-              case 27:
-              case 30:
-              case 31:
-                return 1;
-              default:
-                return 0;
+                case 2:
+                case 3:
+                case 6:
+                case 7:
+                case 10:
+                case 11:
+                case 14:
+                case 15:
+                case 26:
+                case 27:
+                case 30:
+                case 31:
+                    return 1;
+                default:
+                    return 0;
             }
         }
         return 1;
@@ -860,42 +847,42 @@ int mem_rom_trap_allowed(WORD addr)
 void store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        vicii_store(addr, byte);
-        break;
-      case 0xd400:
-        sid_store(addr, byte);
-        break;
-      case 0xd500:
-        mmu_store(addr, byte);
-        break;
-      case 0xd600:
-        vdc_store(addr, byte);
-        break;
-      case 0xd700:
-        d7xx_store(addr, byte);
-        break;
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        colorram_store(addr, byte);
-        break;
-      case 0xdc00:
-        cia1_store(addr, byte);
-        break;
-      case 0xdd00:
-        cia2_store(addr, byte);
-        break;
-      case 0xde00:
-        c64io1_store(addr, byte);
-        break;
-      case 0xdf00:
-        c64io2_store(addr, byte);
-        break;
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            vicii_store(addr, byte);
+            break;
+        case 0xd400:
+            sid_store(addr, byte);
+            break;
+        case 0xd500:
+            mmu_store(addr, byte);
+            break;
+        case 0xd600:
+            vdc_store(addr, byte);
+            break;
+        case 0xd700:
+            d7xx_store(addr, byte);
+            break;
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            colorram_store(addr, byte);
+            break;
+        case 0xdc00:
+            cia1_store(addr, byte);
+            break;
+        case 0xdd00:
+            cia2_store(addr, byte);
+            break;
+        case 0xde00:
+            c64io1_store(addr, byte);
+            break;
+        case 0xdf00:
+            c64io2_store(addr, byte);
+            break;
     }
     return;
 }
@@ -903,32 +890,32 @@ void store_bank_io(WORD addr, BYTE byte)
 BYTE read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        return vicii_read(addr);
-      case 0xd400:
-        return sid_read(addr);
-      case 0xd500:
-        return mmu_read(addr);
-      case 0xd600:
-        return vdc_read(addr);
-      case 0xd700:
-        return d7xx_read(addr);
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        return colorram_read(addr);
-      case 0xdc00:
-        return cia1_read(addr);
-      case 0xdd00:
-        return cia2_read(addr);
-      case 0xde00:
-        return c64io1_read(addr);
-      case 0xdf00:
-        return c64io2_read(addr);
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            return vicii_read(addr);
+        case 0xd400:
+            return sid_read(addr);
+        case 0xd500:
+            return mmu_read(addr);
+        case 0xd600:
+            return vdc_read(addr);
+        case 0xd700:
+            return d7xx_read(addr);
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            return colorram_read(addr);
+        case 0xdc00:
+            return cia1_read(addr);
+        case 0xdd00:
+            return cia2_read(addr);
+        case 0xde00:
+            return c64io1_read(addr);
+        case 0xdf00:
+            return c64io2_read(addr);
     }
     return 0xff;
 }
@@ -936,32 +923,32 @@ BYTE read_bank_io(WORD addr)
 static BYTE peek_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        return vicii_peek(addr);
-      case 0xd400:
-        return sid_read(addr); /* FIXME */
-      case 0xd500:
-        return mmu_read(addr);
-      case 0xd600:
-        return vdc_read(addr); /* FIXME */
-      case 0xd700:
-        return d7xx_read(addr); /* FIXME */
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        return colorram_read(addr);
-      case 0xdc00:
-        return cia1_peek(addr);
-      case 0xdd00:
-        return cia2_peek(addr);
-      case 0xde00:
-        return c64io1_read(addr);  /* FIXME */
-      case 0xdf00:
-        return c64io2_read(addr);  /* FIXME */
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            return vicii_peek(addr);
+        case 0xd400:
+            return sid_read(addr); /* FIXME */
+        case 0xd500:
+            return mmu_read(addr);
+        case 0xd600:
+            return vdc_read(addr); /* FIXME */
+        case 0xd700:
+            return d7xx_read(addr); /* FIXME */
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            return colorram_read(addr);
+        case 0xdc00:
+            return cia1_peek(addr);
+        case 0xdd00:
+            return cia2_peek(addr);
+        case 0xde00:
+            return c64io1_read(addr);  /* FIXME */
+        case 0xdf00:
+            return c64io2_read(addr);  /* FIXME */
     }
     return 0xff;
 }
@@ -969,12 +956,32 @@ static BYTE peek_bank_io(WORD addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram", "rom", "io", "ram1", "intfunc", "extfunc", "cart",
-    "c64rom", "vdc", NULL
+    "default",
+    "cpu",
+    "ram",
+    "rom",
+    "io",
+    "ram1",
+    "intfunc",
+    "extfunc",
+    "cart",
+    "c64rom",
+    "vdc",
+    NULL
 };
 
 static const int banknums[] = {
-    1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    1,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
 };
 
 const char **mem_bank_list(void)
@@ -998,60 +1005,60 @@ int mem_bank_from_name(const char *name)
 BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);
-        break;
-      case 4:                   /* ram1 */
-        return mem_ram[addr + 0x10000];
-      case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            return read_bank_io(addr);
-        }
-      case 2:                   /* rom */
-        if (addr <= 0x0fff) {
-            return bios_read(addr);
-        }
-        if (addr >= 0x4000 && addr <= 0xcfff) {
-            return c128memrom_basic_rom[addr - 0x4000];
-        }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return mem_chargen_rom[addr & 0x0fff];
-        }
-        if (addr >= 0xe000) {
-            return c128memrom_kernal_rom[addr & 0x1fff];
-        }
-      case 1:                   /* ram */
-        break;
-      case 5:
-        if (addr >= 0x8000) {
-            return int_function_rom[addr & 0x7fff];
-        }
-        break;
-      case 6:
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return ext_function_rom[addr & 0x3fff];
-        }
-        break;
-      case 7:
-        if (addr >= 0x8000 && addr <= 0x9fff) {
-            return roml_banks[addr & 0x1fff];
-        }
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return romh_banks[addr & 0x1fff];
-        }
-      case 8:
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return c64memrom_basic64_rom[addr & 0x1fff];
-        }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return mem_chargen_rom[addr & 0x0fff];
-        }
-        if (addr >= 0xe000) {
-            return c64memrom_kernal64_rom[addr & 0x1fff];
-        }
-        break;
-      case 9:
-        return vdc_ram_read(addr);
+        case 0:                   /* current */
+            return mem_read(addr);
+            break;
+        case 4:                   /* ram1 */
+            return mem_ram[addr + 0x10000];
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                return read_bank_io(addr);
+            }
+        case 2:                   /* rom */
+            if (addr <= 0x0fff) {
+                return bios_read(addr);
+            }
+            if (addr >= 0x4000 && addr <= 0xcfff) {
+                return c128memrom_basic_rom[addr - 0x4000];
+            }
+            if (addr >= 0xd000 && addr <= 0xdfff) {
+                return mem_chargen_rom[addr & 0x0fff];
+            }
+            if (addr >= 0xe000) {
+                return c128memrom_kernal_rom[addr & 0x1fff];
+            }
+        case 1:                   /* ram */
+            break;
+        case 5:
+            if (addr >= 0x8000) {
+                return int_function_rom[addr & 0x7fff];
+            }
+            break;
+        case 6:
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return ext_function_rom[addr & 0x3fff];
+            }
+            break;
+        case 7:
+            if (addr >= 0x8000 && addr <= 0x9fff) {
+                return roml_banks[addr & 0x1fff];
+            }
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return romh_banks[addr & 0x1fff];
+            }
+        case 8:
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return c64memrom_basic64_rom[addr & 0x1fff];
+            }
+            if (addr >= 0xd000 && addr <= 0xdfff) {
+                return mem_chargen_rom[addr & 0x0fff];
+            }
+            if (addr >= 0xe000) {
+                return c64memrom_kernal64_rom[addr & 0x1fff];
+            }
+            break;
+        case 9:
+            return vdc_ram_read(addr);
     }
     return mem_ram[addr];
 }
@@ -1059,13 +1066,13 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
 BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);  /* FIXME */
-        break;
-      case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            return peek_bank_io(addr);
-        }
+        case 0:                   /* current */
+            return mem_read(addr);  /* FIXME */
+            break;
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                return peek_bank_io(addr);
+            }
     }
     return mem_bank_read(bank, addr, context);
 }
@@ -1073,57 +1080,57 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        mem_store(addr, byte);
-        return;
-      case 4:                   /* ram1 */
-        mem_ram[addr + 0x10000] = byte;
-        return;
-      case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            store_bank_io(addr, byte);
+        case 0:                   /* current */
+            mem_store(addr, byte);
             return;
-        }
-      case 2:                   /* rom */
-        if (addr >= 0x4000 && addr <= 0xcfff) {
+        case 4:                   /* ram1 */
+            mem_ram[addr + 0x10000] = byte;
             return;
-        }
-        if (addr >= 0xe000) {
-            return;
-        }
-      case 1:                   /* ram */
-        break;
-      case 5:
-        if (addr >= 0x8000) {
-            return;
-        }
-        break;
-      case 6:
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return;
-        }
-        break;
-      case 7:
-        if (addr >= 0x8000 && addr <= 0x9fff) {
-            return;
-        }
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return;
-        }
-      case 8:
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return;
-        }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return;
-        }
-        if (addr >= 0xe000) {
-            return;
-        }
-        break;
-      case 9:
-        vdc_ram_store(addr, byte);
-        break;
+        case 3:                   /* io */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                store_bank_io(addr, byte);
+                return;
+            }
+        case 2:                   /* rom */
+            if (addr >= 0x4000 && addr <= 0xcfff) {
+                return;
+            }
+            if (addr >= 0xe000) {
+                return;
+            }
+        case 1:                   /* ram */
+            break;
+        case 5:
+            if (addr >= 0x8000) {
+                return;
+            }
+            break;
+        case 6:
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return;
+            }
+            break;
+        case 7:
+            if (addr >= 0x8000 && addr <= 0x9fff) {
+                return;
+            }
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return;
+            }
+        case 8:
+            if (addr >= 0xa000 && addr <= 0xbfff) {
+                return;
+            }
+            if (addr >= 0xd000 && addr <= 0xdfff) {
+                return;
+            }
+            if (addr >= 0xe000) {
+                return;
+            }
+            break;
+        case 9:
+            vdc_ram_store(addr, byte);
+            break;
     }
     mem_ram[addr] = byte;
 }
@@ -1146,8 +1153,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 
 void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
-    *base = ((vicii_peek(0xd018) & 0xf0) << 6)
-            | ((~cia2_peek(0xdd00) & 0x03) << 14);
+    *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
     *columns = 40;
     *bank = 0;
@@ -1164,9 +1170,9 @@ void mem_color_ram_to_snapshot(BYTE *color_ram)
 {
     unsigned int i;
 
-    for (i = 0; i < 0x400; i++)
-        color_ram[i] = (mem_color_ram[i] & 15)
-                       | (mem_color_ram[i + 0x400] << 4);
+    for (i = 0; i < 0x400; i++) {
+        color_ram[i] = (mem_color_ram[i] & 15) | (mem_color_ram[i + 0x400] << 4);
+    }
 }
 
 void mem_color_ram_from_snapshot(BYTE *color_ram)
@@ -1185,165 +1191,165 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
 
 BYTE REGPARM1 c128_vicii_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=vicii_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = vicii_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_vicii_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  vicii_store(addr, value);
+    vicii_clock_write_stretch();
+    vicii_store(addr, value);
 }
 
 BYTE REGPARM1 c128_sid_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=sid_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = sid_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_sid_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  sid_store(addr, value);
+    vicii_clock_write_stretch();
+    sid_store(addr, value);
 }
 
 BYTE REGPARM1 c128_mmu_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=mmu_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = mmu_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_mmu_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  mmu_store(addr, value);
+    vicii_clock_write_stretch();
+    mmu_store(addr, value);
 }
 
 BYTE REGPARM1 c128_d5xx_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=d5xx_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = d5xx_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_d5xx_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  d5xx_store(addr, value);
+    vicii_clock_write_stretch();
+    d5xx_store(addr, value);
 }
 
 BYTE REGPARM1 c128_vdc_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=vdc_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = vdc_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_vdc_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  vdc_store(addr, value);
+    vicii_clock_write_stretch();
+    vdc_store(addr, value);
 }
 
 BYTE REGPARM1 c128_d7xx_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=d7xx_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = d7xx_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_d7xx_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  d7xx_store(addr, value);
+    vicii_clock_write_stretch();
+    d7xx_store(addr, value);
 }
 
 BYTE REGPARM1 c128_colorram_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=colorram_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = colorram_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_colorram_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  colorram_store(addr, value);
+    vicii_clock_write_stretch();
+    colorram_store(addr, value);
 }
 
 BYTE REGPARM1 c128_cia1_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=cia1_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = cia1_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_cia1_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  cia1_store(addr, value);
+    vicii_clock_write_stretch();
+    cia1_store(addr, value);
 }
 
 BYTE REGPARM1 c128_cia2_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=cia2_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = cia2_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_cia2_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  cia2_store(addr, value);
+    vicii_clock_write_stretch();
+    cia2_store(addr, value);
 }
 
 BYTE REGPARM1 c128_c64io1_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=c64io1_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = c64io1_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_c64io1_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  c64io1_store(addr, value);
+    vicii_clock_write_stretch();
+    c64io1_store(addr, value);
 }
 
 BYTE REGPARM1 c128_c64io2_read(WORD addr)
 {
-  BYTE temp_value;
+    BYTE temp_value;
 
-  temp_value=c64io2_read(addr);
-  vicii_clock_read_stretch();
-  return temp_value;
+    temp_value = c64io2_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
 }
 
 void REGPARM2 c128_c64io2_store(WORD addr, BYTE value)
 {
-  vicii_clock_write_stretch();
-  c64io2_store(addr, value);
+    vicii_clock_write_stretch();
+    c64io2_store(addr, value);
 }

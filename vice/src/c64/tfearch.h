@@ -35,50 +35,21 @@
 
 #include "types.h"
 
-extern int  tfe_arch_init(void);
+extern int tfe_arch_init(void);
 extern void tfe_arch_pre_reset(void);
 extern void tfe_arch_post_reset(void);
-extern int  tfe_arch_activate(const char *interface_name);
+extern int tfe_arch_activate(const char *interface_name);
 extern void tfe_arch_deactivate(void);
 extern void tfe_arch_set_mac(const BYTE mac[6]);
 extern void tfe_arch_set_hashfilter(const DWORD hash_mask[2]);
 
-/* extern void tfe_arch_receive_remove_committed_frame(void); */
+extern void tfe_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash);
 
-extern
-void tfe_arch_recv_ctl( int bBroadcast,   /* broadcast */
-                        int bIA,          /* individual address (IA) */
-                        int bMulticast,   /* multicast if address passes the hash filter */
-                        int bCorrect,     /* accept correct frames */
-                        int bPromiscuous, /* promiscuous mode */
-                        int bIAHash       /* accept if IA passes the hash filter */
-                      );
+extern void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver);
 
-extern
-void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver);
+extern void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe);
 
-extern
-void tfe_arch_transmit(int force,       /* FORCE: Delete waiting frames in transmit buffer */
-                       int onecoll,     /* ONECOLL: Terminate after just one collision */
-                       int inhibit_crc, /* INHIBITCRC: Do not append CRC to the transmission */
-                       int tx_pad_dis,  /* TXPADDIS: Disable padding to 60 Bytes */
-                       int txlength,    /* Frame length */
-                       BYTE *txframe    /* Pointer to the frame to be transmitted */
-                      );
-
-extern
-int tfe_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
-                     int  *plen,         /* IN: maximum length of frame to copy; 
-                                            OUT: length of received frame 
-                                            OUT can be bigger than IN if received frame was
-                                                longer than supplied buffer */
-                     int  *phashed,      /* set if the dest. address is accepted by the hash filter */
-                     int  *phash_index,  /* hash table index if hashed == TRUE */   
-                     int  *prx_ok,       /* set if good CRC and valid length */
-                     int  *pcorrect_mac, /* set if dest. address is exactly our IA */
-                     int  *pbroadcast,   /* set if dest. address is a broadcast address */
-                     int  *pcrc_error    /* set if received frame had a CRC error */
-                     );
+extern int tfe_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error);
 
 /*
  This is a helper for tfe_receive() to determine if the received frame should be accepted
@@ -87,9 +58,7 @@ int tfe_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
  This function is even allowed to be called in tfearch.c from tfe_arch_receive() if 
  necessary, which is the reason why its prototype is included here in tfearch.h.
 */
-extern 
-int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phash_index, 
-                      int *pcorrect_mac, int *pbroadcast, int *pmulticast);
+extern int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phash_index, int *pcorrect_mac, int *pbroadcast, int *pmulticast);
 
 extern int tfe_arch_enumadapter_open(void);
 extern int tfe_arch_enumadapter(char **ppname, char **ppdescription);
