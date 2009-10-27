@@ -356,7 +356,7 @@ int archdep_file_is_chardev(const char *name)
 
 int archdep_require_vkbd(void)
 {
-    return 0;
+    return 1;
 }
 
 static void archdep_shutdown_extra(void)
