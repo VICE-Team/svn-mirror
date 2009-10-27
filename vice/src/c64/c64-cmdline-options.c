@@ -34,8 +34,7 @@
 #include "machine.h"
 #include "translate.h"
 
-static const cmdline_option_t cmdline_options[] =
-{
+static const cmdline_option_t cmdline_options[] = {
     { "-pal", SET_RESOURCE, 0,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

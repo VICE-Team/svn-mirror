@@ -44,10 +44,8 @@
 #include "vicii.h"
 #include "util.h"
 
-
-#define KBD_INDEX_C128_SYM  0
-#define KBD_INDEX_C128_POS  1
-
+#define KBD_INDEX_C128_SYM 0
+#define KBD_INDEX_C128_POS 1
 
 static int romset_firmware[15];
 
@@ -138,204 +136,244 @@ static int set_machine_type(int val, void *param)
     if (type != C128_MACHINE_INT && type != C128_MACHINE_FINNISH
         && type != C128_MACHINE_FRENCH && type != C128_MACHINE_GERMAN
         && type != C128_MACHINE_ITALIAN && type != C128_MACHINE_NORWEGIAN
-        && type != C128_MACHINE_SWEDISH)
+        && type != C128_MACHINE_SWEDISH) {
         return -1;
+    }
 
     machine_type = type;
 
     mem_set_machine_type(type);
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
-    if (c128rom_chargen_setup() < 0)
+    if (c128rom_chargen_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_chargen_int_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_int_rom_name, val))
+    if (util_string_set(&chargen_int_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_chargen_int(chargen_int_rom_name) < 0)
+    if (c128rom_load_chargen_int(chargen_int_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_chargen_setup() < 0)
+    if (c128rom_chargen_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_chargen_de_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_de_rom_name, val))
+    if (util_string_set(&chargen_de_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_chargen_de(chargen_de_rom_name) < 0)
+    if (c128rom_load_chargen_de(chargen_de_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_chargen_setup() < 0)
+    if (c128rom_chargen_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_chargen_fr_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_fr_rom_name, val))
+    if (util_string_set(&chargen_fr_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_chargen_fr(chargen_fr_rom_name) < 0)
+    if (c128rom_load_chargen_fr(chargen_fr_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_chargen_setup() < 0)
+    if (c128rom_chargen_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_chargen_se_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_se_rom_name, val))
+    if (util_string_set(&chargen_se_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_chargen_se(chargen_se_rom_name) < 0)
+    if (c128rom_load_chargen_se(chargen_se_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_chargen_setup() < 0)
+    if (c128rom_chargen_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_int_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_int_rom_name, val))
+    if (util_string_set(&kernal_int_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_int(kernal_int_rom_name) < 0)
+    if (c128rom_load_kernal_int(kernal_int_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_de_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_de_rom_name, val))
+    if (util_string_set(&kernal_de_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_de(kernal_de_rom_name) < 0)
+    if (c128rom_load_kernal_de(kernal_de_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_fi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_fi_rom_name, val))
+    if (util_string_set(&kernal_fi_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_fi(kernal_fi_rom_name) < 0)
+    if (c128rom_load_kernal_fi(kernal_fi_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_fr_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_fr_rom_name, val))
+    if (util_string_set(&kernal_fr_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_fr(kernal_fr_rom_name) < 0)
+    if (c128rom_load_kernal_fr(kernal_fr_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_it_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_it_rom_name, val))
+    if (util_string_set(&kernal_it_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_it(kernal_it_rom_name) < 0)
+    if (c128rom_load_kernal_it(kernal_it_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_no_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_no_rom_name, val))
+    if (util_string_set(&kernal_no_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_no(kernal_no_rom_name) < 0)
+    if (c128rom_load_kernal_no(kernal_no_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_kernal_se_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_se_rom_name, val))
+    if (util_string_set(&kernal_se_rom_name, val)) {
         return 0;
+    }
 
-    if (c128rom_load_kernal_se(kernal_se_rom_name) < 0)
+    if (c128rom_load_kernal_se(kernal_se_rom_name) < 0) {
         return -1;
+    }
 
-    if (c128rom_kernal_setup() < 0)
+    if (c128rom_kernal_setup() < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 static int set_basiclo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basiclo_rom_name, val))
+    if (util_string_set(&basiclo_rom_name, val)) {
         return 0;
+    }
 
     return c128rom_load_basiclo(basiclo_rom_name);
 }
 
 static int set_basichi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basichi_rom_name, val))
+    if (util_string_set(&basichi_rom_name, val)) {
         return 0;
+    }
 
     return c128rom_load_basichi(basichi_rom_name);
 }
 
 static int set_kernal64_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal64_rom_name, val))
+    if (util_string_set(&kernal64_rom_name, val)) {
         return 0;
+    }
 
     return c128rom_load_kernal64(kernal64_rom_name, NULL);
 }
 
 static int set_basic64_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic64_rom_name, val))
+    if (util_string_set(&basic64_rom_name, val)) {
         return 0;
+    }
 
     return c128rom_load_basic64(basic64_rom_name);
 }
@@ -393,22 +431,25 @@ static int set_sync_factor(int val, void *param)
     int change_timing = 0;
     int border_mode = VICII_BORDER_MODE(vicii_resources.border_mode);
 
-    if (sync_factor != val)
+    if (sync_factor != val) {
         change_timing = 1;
+    }
 
     switch (val) {
-      case MACHINE_SYNC_PAL:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
-        break;
-      case MACHINE_SYNC_NTSC:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
-        break;
-      default:
-        return -1;
+        case MACHINE_SYNC_PAL:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
+            }
+            break;
+        case MACHINE_SYNC_NTSC:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
+            }
+            break;
+        default:
+            return -1;
     }
 
     return 0;
@@ -423,8 +464,7 @@ static int set_romset_firmware(int val, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] =
-{
+static const resource_string_t resources_string[] = {
     { "ChargenIntName", "chargen", RES_EVENT_NO, NULL,
       &chargen_int_rom_name, set_chargen_int_rom_name, NULL },
     { "ChargenDEName", "chargde", RES_EVENT_NO, NULL,
@@ -464,8 +504,7 @@ static const resource_string_t resources_string[] =
     { NULL }
 };
 
-static const resource_int_t resources_int[] =
-{
+static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
     { "MachineType", C128_MACHINE_INT, RES_EVENT_SAME, NULL,
@@ -521,8 +560,9 @@ static const resource_int_t resources_int[] =
 
 int c128_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }

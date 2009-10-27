@@ -50,20 +50,18 @@
 #include "types.h"
 #include "vicii.h"
 
+#define SNAP_MACHINE_NAME "C128"
+#define SNAP_MAJOR        0
+#define SNAP_MINOR        0
 
-#define SNAP_MACHINE_NAME   "C128"
-#define SNAP_MAJOR          0
-#define SNAP_MINOR          0
-
-int c128_snapshot_write(const char *name, int save_roms, int save_disks,
-                        int event_mode)
+int c128_snapshot_write(const char *name, int save_roms, int save_disks, int event_mode)
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
-                        SNAP_MACHINE_NAME);
-    if (s == NULL)
+    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)), SNAP_MACHINE_NAME);
+    if (s == NULL) {
         return -1;
+    }
 
     sound_snapshot_prepare();
 
@@ -93,13 +91,12 @@ int c128_snapshot_read(const char *name, int event_mode)
     BYTE minor, major;
 
     s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        log_message(LOG_DEFAULT,
-                    "Snapshot version (%d.%d) not valid: expecting %d.%d.",
-                    major, minor, SNAP_MAJOR, SNAP_MINOR);
+        log_message(LOG_DEFAULT, "Snapshot version (%d.%d) not valid: expecting %d.%d.", major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 
@@ -115,8 +112,9 @@ int c128_snapshot_read(const char *name, int event_mode)
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
-        || joystick_snapshot_read_module(s) < 0)
+        || joystick_snapshot_read_module(s) < 0) {
        goto fail;
+    }
 
     snapshot_close(s);
 
@@ -125,11 +123,11 @@ int c128_snapshot_read(const char *name, int event_mode)
     return 0;
 
 fail:
-    if (s != NULL)
+    if (s != NULL) {
         snapshot_close(s);
+    }
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 
     return -1;
 }
-

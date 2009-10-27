@@ -51,7 +51,6 @@
 #include "z80.h"
 #include "z80mem.h"
 
-
 /* #define MMU_DEBUG */
 
 /* MMU register.  */
@@ -136,8 +135,7 @@ static void mmu_toggle_column4080_key(void)
 {
     mmu_column4080_key = !mmu_column4080_key;
     resources_set_int("40/80ColumnKey", mmu_column4080_key);
-    log_message(mmu_log, "40/80 column key %s.",
-                (mmu_column4080_key) ? "released" : "pressed");
+    log_message(mmu_log, "40/80 column key %s.", (mmu_column4080_key) ? "released" : "pressed");
 }
 
 static void mmu_switch_cpu(int value)
@@ -184,14 +182,12 @@ static void mmu_switch_to_c64mode(void)
 
 static void mmu_switch_to_c128mode(void)
 {
-    mem_update_config(((mmu[0] & 0x2) ? 0 : 1)
-                      | ((mmu[0] & 0x0c) >> 1)
-                      | ((mmu[0] & 0x30) >> 1)
-                      | ((mmu[0] & 0x40) ? 32 : 0)
-                      | ((mmu[0] & 0x1) ? 0 : 64));
-    z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1)
-                      | ((mmu[0] & 0x40) ? 2 : 0)
-                      | ((mmu[0] & 0x80) ? 4 : 0));
+    mem_update_config(((mmu[0] & 0x2) ? 0 : 1) |
+                      ((mmu[0] & 0x0c) >> 1) |
+                      ((mmu[0] & 0x30) >> 1) |
+                      ((mmu[0] & 0x40) ? 32 : 0) |
+                      ((mmu[0] & 0x1) ? 0 : 64));
+    z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1) | ((mmu[0] & 0x40) ? 2 : 0) | ((mmu[0] & 0x80) ? 4 : 0));
 #if !defined(__OS2__) && !defined(RISCOS)
     keyboard_alternative_set(0);
 #endif
@@ -202,14 +198,14 @@ static void mmu_switch_to_c128mode(void)
 static void mmu_update_config(void)
 {
 #ifdef MMU_DEBUG
-    log_message(mmu_log, "MMU5 %02x, MMU0 %02x, MMUC %02x\n",
-                mmu[5] & 0x40, mmu[0], mmu_config64);
+    log_message(mmu_log, "MMU5 %02x, MMU0 %02x, MMUC %02x\n", mmu[5] & 0x40, mmu[0], mmu_config64);
 #endif
 
-    if (mmu[5] & 0x40)
+    if (mmu[5] & 0x40) {
         mmu_switch_to_c64mode();
-    else
+    } else {
         mmu_switch_to_c128mode();
+    }
 }
 
 void mmu_set_config64(int config)
@@ -234,12 +230,12 @@ BYTE REGPARM1 mmu_read(WORD addr)
         if (addr == 5) {
             BYTE exrom = export.exrom;
 
-            if (force_c64_mode)
+            if (force_c64_mode) {
                 exrom = 1;
+            }
 
             /* 0x80 = 40/80 key released.  */
-            return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0)
-                   | ((export.game ^ 1) << 4) | ((exrom ^ 1) << 5);
+            return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0) | ((export.game ^ 1) << 4) | ((exrom ^ 1) << 5);
         } else {
             return mmu[addr];
         }
@@ -247,7 +243,6 @@ BYTE REGPARM1 mmu_read(WORD addr)
         return 0xff;
     }
 }
-
 
 void REGPARM2 mmu_store(WORD address, BYTE value)
 {
@@ -266,44 +261,45 @@ void REGPARM2 mmu_store(WORD address, BYTE value)
         mmu[address] = value;
 
         switch (address) {
-          case 0: /* Configuration register (CR).  */
-            mmu_set_ram_bank(value);
+            case 0: /* Configuration register (CR).  */
+                mmu_set_ram_bank(value);
 #ifdef MMU_DEBUG
-            log_message(mmu_log,
-                        "IO: %s BASLO: %s BASHI: %s KERNAL %s FUNCLO %s.",
-                        !(value & 0x1) ? "on" : "off",
-                        !(value & 0x2) ? "on" : "off",
-                        !(value & 0xc) ? "on" : "off",
-                        !(value & 0x30) ? "on" : "off",
-                        ((value & 0xc) == 0x4) ? "on" : "off");
+                log_message(mmu_log,
+                            "IO: %s BASLO: %s BASHI: %s KERNAL %s FUNCLO %s.",
+                            !(value & 0x1) ? "on" : "off",
+                            !(value & 0x2) ? "on" : "off",
+                            !(value & 0xc) ? "on" : "off",
+                            !(value & 0x30) ? "on" : "off",
+                            ((value & 0xc) == 0x4) ? "on" : "off");
 #endif
-            break;
-          case 5: /* Mode configuration register (MCR).  */
-            value = (value & 0x7f) | 0x30;
-            if ((value & 1) ^ (oldvalue & 1))
-                mmu_switch_cpu(value & 1);
-            c128fastiec_fast_cpu_direction(value & 8);
-            break;
-          case 6: /* RAM configuration register (RCR).  */
-            mem_set_ram_config(value);
-            break;
-          case 7:
-          case 8:
-          case 9:
-          case 10:
-            if (c128_full_banks) {
-                mem_page_zero = mem_ram + ((mmu[0x8] & 0x3) * 0x10000) + (mmu[0x7] << 8);
-                mem_page_one = mem_ram + ((mmu[0xa] & 0x3) * 0x10000) + (mmu[0x9] << 8);
-            } else {
-                mem_page_zero = mem_ram + ((mmu[0x8] & 0x1) * 0x10000) + (mmu[0x7] << 8);
-                mem_page_one = mem_ram + ((mmu[0xa] & 0x1) * 0x10000) + (mmu[0x9] << 8);
-            }
+                break;
+            case 5: /* Mode configuration register (MCR).  */
+                value = (value & 0x7f) | 0x30;
+                if ((value & 1) ^ (oldvalue & 1)) {
+                    mmu_switch_cpu(value & 1);
+                }
+                c128fastiec_fast_cpu_direction(value & 8);
+                break;
+            case 6: /* RAM configuration register (RCR).  */
+                mem_set_ram_config(value);
+                break;
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                if (c128_full_banks) {
+                    mem_page_zero = mem_ram + ((mmu[0x8] & 0x3) * 0x10000) + (mmu[0x7] << 8);
+                    mem_page_one = mem_ram + ((mmu[0xa] & 0x3) * 0x10000) + (mmu[0x9] << 8);
+                } else {
+                    mem_page_zero = mem_ram + ((mmu[0x8] & 0x1) * 0x10000) + (mmu[0x7] << 8);
+                    mem_page_one = mem_ram + ((mmu[0xa] & 0x1) * 0x10000) + (mmu[0x9] << 8);
+                }
 #ifdef MMU_DEBUG
-            log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
-                (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
-                (mmu[0xa] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x9] << 8));
+                log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
+                            (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),
+                            (mmu[0xa] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x9] << 8));
 #endif
-            break;
+                break;
         }
 
         mmu_update_config();
@@ -314,21 +310,25 @@ void REGPARM2 mmu_store(WORD address, BYTE value)
    $FF00 - $FF04.  */
 BYTE REGPARM1 mmu_ffxx_read(WORD addr)
 {
-    if (addr >= 0xff00 && addr <= 0xff04)
+    if (addr >= 0xff00 && addr <= 0xff04) {
         return mmu[addr & 0xf];
+    }
 
-    if ((mmu[0] & 0x30) == 0x00)
+    if ((mmu[0] & 0x30) == 0x00) {
         return c128memrom_kernal_read(addr);
-    if ((mmu[0] & 0x30) == 0x10)
+    }
+    if ((mmu[0] & 0x30) == 0x10) {
         return internal_function_rom_read(addr);
+    }
  
     return top_shared_read(addr);
 }
 
 BYTE REGPARM1 mmu_ffxx_read_z80(WORD addr)
 {
-    if (addr >= 0xff00 && addr <= 0xff04)
+    if (addr >= 0xff00 && addr <= 0xff04) {
         return mmu[addr & 0xf];
+    }
 
     return top_shared_read(addr);
 }
@@ -341,10 +341,11 @@ void REGPARM2 mmu_ffxx_store(WORD addr, BYTE value)
         it be deferred until later? */
         reu_dma(-1);
     } else {
-        if (addr <= 0xff04)
+        if (addr <= 0xff04) {
             mmu_store(0, mmu[addr & 0xf]);
-        else
+        } else {
             top_shared_store(addr, value);
+        }
     }
 }
 
@@ -364,11 +365,11 @@ void mmu_reset(void)
 {
     WORD i;
 
-    for (i = 0; i < 0xb; i++)
+    for (i = 0; i < 0xb; i++) {
         mmu[i] = 0;
+    }
 
     keyboard_register_column4080_key(mmu_toggle_column4080_key);
 
     force_c64_mode = force_c64_mode_res;
 }
-

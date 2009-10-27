@@ -42,4 +42,3 @@ extern void functionrom_resources_shutdown(void);
 extern int functionrom_cmdline_options_init(void);
 
 #endif
-

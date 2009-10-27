@@ -44,4 +44,3 @@ extern BYTE REGPARM1 c128memrom_rom_read(WORD addr);
 extern void REGPARM2 c128memrom_rom_store(WORD addr, BYTE value);
 
 #endif
-

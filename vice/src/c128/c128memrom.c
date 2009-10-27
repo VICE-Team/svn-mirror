@@ -31,11 +31,9 @@
 #include "types.h"
 #include "z80mem.h"
 
-
 BYTE c128memrom_basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
 BYTE c128memrom_kernal_rom[C128_KERNAL_ROM_SIZE];
 BYTE c128memrom_kernal_trap_rom[C128_KERNAL_ROM_SIZE];
-
 
 BYTE REGPARM1 c128memrom_basic_read(WORD addr)
 {
@@ -60,9 +58,9 @@ void REGPARM2 c128memrom_kernal_store(WORD addr, BYTE value)
 BYTE REGPARM1 c128memrom_trap_read(WORD addr)
 {
     switch (addr & 0xf000) {
-      case 0xe000:
-      case 0xf000:
-        return c128memrom_kernal_trap_rom[addr & 0x1fff];
+        case 0xe000:
+        case 0xf000:
+            return c128memrom_kernal_trap_rom[addr & 0x1fff];
     }
 
     return 0;
@@ -71,30 +69,30 @@ BYTE REGPARM1 c128memrom_trap_read(WORD addr)
 void REGPARM2 c128memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
-      case 0xe000:
-      case 0xf000:
-        c128memrom_kernal_trap_rom[addr & 0x1fff] = value;
-        break;
+        case 0xe000:
+        case 0xf000:
+            c128memrom_kernal_trap_rom[addr & 0x1fff] = value;
+            break;
     }
 }
 
 BYTE REGPARM1 c128memrom_rom_read(WORD addr)
 {
     switch (addr & 0xf000) {
-      case 0x0000:
-        return bios_read(addr);
-      case 0x4000:
-      case 0x5000:
-      case 0x6000:
-      case 0x7000:
-      case 0x8000:
-      case 0x9000:
-      case 0xa000:
-      case 0xb000:
-        return c128memrom_basic_read(addr);
-      case 0xe000:
-      case 0xf000:
-        return c128memrom_kernal_read(addr);
+        case 0x0000:
+            return bios_read(addr);
+        case 0x4000:
+        case 0x5000:
+        case 0x6000:
+        case 0x7000:
+        case 0x8000:
+        case 0x9000:
+        case 0xa000:
+        case 0xb000:
+            return c128memrom_basic_read(addr);
+        case 0xe000:
+        case 0xf000:
+            return c128memrom_kernal_read(addr);
     }
 
     return 0;
@@ -103,23 +101,22 @@ BYTE REGPARM1 c128memrom_rom_read(WORD addr)
 void REGPARM2 c128memrom_rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
-      case 0x0000:
-        bios_store(addr, value);
-        break;
-      case 0x4000:
-      case 0x5000:
-      case 0x6000:
-      case 0x7000:
-      case 0x8000:
-      case 0x9000:
-      case 0xa000:
-      case 0xb000:
-        c128memrom_basic_store(addr, value);
-        break;
-      case 0xe000:
-      case 0xf000:
-        c128memrom_kernal_store(addr, value);
-        break;
+        case 0x0000:
+            bios_store(addr, value);
+            break;
+        case 0x4000:
+        case 0x5000:
+        case 0x6000:
+        case 0x7000:
+        case 0x8000:
+        case 0x9000:
+        case 0xa000:
+        case 0xb000:
+            c128memrom_basic_store(addr, value);
+            break;
+        case 0xe000:
+        case 0xf000:
+            c128memrom_kernal_store(addr, value);
+            break;
     }
 }
-
