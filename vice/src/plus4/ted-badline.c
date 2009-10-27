@@ -118,7 +118,7 @@ inline static void line_becomes_bad(int cycle)
                    num_chars);
         } else {
             /*memset(ted.vbuf + pos, 0xff, num_0xff_fetches);*/
-			memset(ted.cbuf_tmp, ted.cbuf, pos);
+			memcpy(ted.cbuf_tmp, ted.cbuf, pos);
             memset(ted.cbuf_tmp + pos, mem_ram[reg_pc] & 0x7f,
                    num_0xff_fetches);
             /*ted_fetch_matrix(pos + num_0xff_fetches,
