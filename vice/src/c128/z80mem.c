@@ -46,7 +46,6 @@
 #include "vicii.h"
 #include "z80mem.h"
 
-
 /* Z80 boot BIOS.  */
 BYTE z80bios_rom[0x1000];
 
@@ -173,7 +172,7 @@ void z80mem_initialize(void)
     mem_write_tab[6][0] = z80_store_zero;
     mem_read_tab[7][0] = z80_read_zero;
     mem_write_tab[7][0] = z80_store_zero;
- 
+
     mem_read_tab[0][1] = bios_read;
     mem_write_tab[0][1] = one_store;
     mem_read_tab[1][1] = bios_read;
@@ -332,16 +331,6 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_unconnected_io;
         io_write_tab[i] = store_unconnected_io;
     }
-/*
-    io_read_tab[0x10] = colorram_read;
-    io_write_tab[0x10] = colorram_store;
-    io_read_tab[0x11] = colorram_read;
-    io_write_tab[0x11] = colorram_store;
-    io_read_tab[0x12] = colorram_read;
-    io_write_tab[0x12] = colorram_store;
-    io_read_tab[0x13] = colorram_read;
-    io_write_tab[0x13] = colorram_store;
-*/
     io_read_tab[0xd0] = vicii_read;
     io_write_tab[0xd0] = vicii_store;
     io_read_tab[0xd1] = vicii_read;
@@ -398,15 +387,6 @@ void z80mem_update_config(int config)
     _z80mem_write_tab_ptr = mem_write_tab[config];
     _z80mem_read_base_tab_ptr = mem_read_base_tab[config];
     z80mem_read_limit_tab_ptr = mem_read_limit_tab[config];
-/*
-    if (bank_limit != NULL) {
-        *bank_base = _z80mem_read_base_tab_ptr[z80_old_reg_pc >> 8];
-        if (*bank_base != 0)
-            *bank_base = _z80mem_read_base_tab_ptr[z80_old_reg_pc >> 8]
-                         - (z80_old_reg_pc & 0xff00);
-        *bank_limit = z80mem_read_limit_tab_ptr[z80_old_reg_pc >> 8];
-    }
-*/
 }
 
 int z80mem_load(void)
@@ -418,4 +398,3 @@ int z80mem_load(void)
 
     return 0;
 }
-

@@ -56,4 +56,3 @@ extern read_func_ptr_t io_read_tab[];
 extern unsigned int z80_old_reg_pc;
 
 #endif
-
