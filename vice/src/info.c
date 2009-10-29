@@ -974,7 +974,7 @@ const char info_contrib_text[] =
 "  Czirkos Zoltan <cirix@fw.hu> and Karai Csaba <cskarai@freemail.hu>\n"
 "  provided the Hungarian user interface translations.\n"
 "\n"
-"  Emir Akaydin (aka: Skate/Glance) <emir@akaydin.com> provided the\n"
+"  Emir Akaydin (aka: Skate) <emir@akaydin.com> provided the\n"
 "  Turkish user interface translations (in world record time).\n"
 "\n"
 "  Mikkel Holm Olsen <vice-dk@symlink.dk> provided the Danish\n"
