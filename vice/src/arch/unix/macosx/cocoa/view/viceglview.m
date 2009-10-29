@@ -226,6 +226,7 @@ extern log_t video_log;
     lastDrawTime = 0;
     lastDisplayTime = 0;
     blendAlpha = 1.0f;
+    lastWasFullFrame = NO;
     
     int i;
     for(i=0;i<MAX_BUFFERS;i++) {
@@ -642,6 +643,9 @@ extern log_t video_log;
     } else {
         if(i == nd) {
             beyond = YES;
+            if(lastWasFullFrame && (i > 0)) {
+                i--; // keep full frame
+            }
         }
         i--;
     }
@@ -738,6 +742,7 @@ extern log_t video_log;
     // before first frame
     if(before) {
         count = 1;
+        lastWasFullFrame = NO;
 #ifdef DEBUG_SYNC
         unsigned long delta = texture[displayPos].timeStamp - frameNow; 
         delta /= hostToMsFactor;
@@ -746,15 +751,30 @@ extern log_t video_log;
     }
     // beyond last frame
     else if(beyond) {
-        count = 1;
+        // hold last full frame
+        if(lastWasFullFrame) {
+            count = 2;
+            blendAlpha = 0.5f;
 #ifdef DEBUG_SYNC
-        unsigned long delta = frameNow - texture[displayPos].timeStamp;  
-        delta /= hostToMsFactor;
-        printf("R %lu: +%lu BEYOND: #%d delta=%lu skip=%d\n", ltime, ddelta, displayPos, delta, i);
+            unsigned long delta = frameNow - texture[displayPos].timeStamp;  
+            delta /= hostToMsFactor;
+            printf("R %lu: +%lu HOLD LAST FF: #%d delta=%lu skip=%d avail=%d\n", ltime, ddelta, displayPos, delta, i, nd);
+#endif            
+        } 
+        // show last frame
+        else {
+            count = 1;
+#ifdef DEBUG_SYNC
+            unsigned long delta = frameNow - texture[displayPos].timeStamp;  
+            delta /= hostToMsFactor;
+            printf("R %lu: +%lu BEYOND: #%d delta=%lu skip=%d\n", ltime, ddelta, displayPos, delta, i);
 #endif
+        }
     } 
-    // FF: inside full frame but no right frame
+    // full frame (flicker fixer) handling
     else if(leftFullFrame) {
+        lastWasFullFrame = YES;
+        // two full frame pairs available: blend between them
         if(rightFullFrame) {
             unsigned long frameDelta = texture[r1].timeStamp - texture[l1].timeStamp;
             unsigned long dispDelta  = texture[r1].timeStamp - frameNow;
@@ -770,7 +790,9 @@ extern log_t video_log;
 #endif
             
             count = 4;
-        } else {
+        } 
+        // only a single full frame available: show it
+        else {
             blendAlpha = 0.5f;
             count = 2;
 #ifdef DEBUG_SYNC
@@ -784,12 +806,13 @@ extern log_t video_log;
 #endif        
         }
     }
-    // between two frames (or between to FF/HF in flicker fixer)
+    // between two frames
     else {
         unsigned long frameDelta = texture[b].timeStamp - texture[a].timeStamp;
         unsigned long dispDelta  = texture[b].timeStamp - frameNow;
         blendAlpha = (float)dispDelta / (float)frameDelta;
         count = 2;
+        lastWasFullFrame = NO;
 #ifdef DEBUG_SYNC
         printf("R %lu: +%lu between: #%d [%d=-%lu ; %d=%lu] skip=%d -> alpha=%g\n", 
                ltime, ddelta, 

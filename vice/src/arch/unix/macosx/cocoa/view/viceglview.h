@@ -96,6 +96,7 @@ typedef struct texture_s texture_t;
     BOOL             blendingEnabled;      /* flag to enable blending */
     BOOL             overwriteBuffer;      /* needed to overwrite most recent buffer */
     BOOL             handleFullFrames;     /* do flicker fixing? i.e. handle full frames */
+    BOOL             lastWasFullFrame;     /* if last blend was a full frame */
 
     int              drawPos;           /* position in ring buffer where to write to */ 
     int              displayPos;        /* position in ring buffer where to display from */
