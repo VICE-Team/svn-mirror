@@ -220,6 +220,7 @@ raster_t *vic_init(void)
     vic.light_pen.triggered = 0;
     vic.light_pen.x = 87;
     vic.light_pen.y = 234;
+    vic.light_pen.x_extra_bits = 1;
 
     /* FIXME */
     vic.char_height = 8;
@@ -281,8 +282,9 @@ void vic_trigger_light_pen(CLOCK mclk)
 {
     if (!vic.light_pen.triggered) {
         vic.light_pen.triggered = 1;
-        vic.light_pen.x = 2 * ((mclk + 1) % vic.cycles_per_line) + 1;
+        vic.light_pen.x = 2 * ((mclk + 1) % vic.cycles_per_line) + vic.light_pen.x_extra_bits;
         vic.light_pen.y = VIC_RASTER_Y(mclk) / 2;
+        vic.light_pen.x_extra_bits = 1;
     }
 }
 
@@ -302,6 +304,9 @@ CLOCK vic_lightpen_timing(int x, int y)
         pulse_time += (x / 8) + (y * vic.cycles_per_line);
         /* Remove frame alarm jitter */
         pulse_time -= maincpu_clk - VIC_LINE_START_CLK(maincpu_clk);
+
+        /* Store x extra bits for sub CLK precision */
+        vic.light_pen.x_extra_bits = (x >> 2) & 0x1;
     }
 
     return pulse_time;

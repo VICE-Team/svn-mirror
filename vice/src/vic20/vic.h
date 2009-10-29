@@ -123,7 +123,7 @@ struct canvas_refresh_s;
 
 struct vic_light_pen_s {
     int triggered;
-    int x, y;
+    int x, y, x_extra_bits;
 };
 typedef struct vic_light_pen_s vic_light_pen_t;
 
