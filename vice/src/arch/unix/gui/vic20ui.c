@@ -50,6 +50,7 @@
 #include "uimenu.h"
 #include "uimidi.h"
 #include "uimouse.h"
+#include "uilightpen.h"
 #include "uiperipheraliec.h"
 #include "uiromset.h"
 #include "uirs232.h"
@@ -474,6 +475,10 @@ static ui_menu_entry_t vic20_menu[] = {
       NULL, NULL, sidcart_submenu },
     { N_("Paddle emulation"),
       NULL, NULL, mouse_vic20_submenu },
+#if defined(HAVE_MOUSE) && defined(USE_GNOMEUI)
+    { N_("*Lightpen Emulation"),
+      NULL, NULL, lightpen_submenu },
+#endif
 #ifdef HAVE_MIDI
     { N_("MIDI emulation"),
       NULL, NULL, midi_vic20_submenu },

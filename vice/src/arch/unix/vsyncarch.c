@@ -101,8 +101,8 @@ void vsyncarch_presync(void)
 #endif
 #if defined(HAVE_MOUSE) && defined (USE_GNOMEUI)
     {
-	extern void gtk_lightpen_udate(void);
-	gtk_lightpen_udate();
+	extern void gtk_lightpen_update(void);
+	gtk_lightpen_update();
     }
 #endif
     kbdbuf_flush();

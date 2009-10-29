@@ -35,6 +35,7 @@
 
 static GdkCursor *cursor;
 static int buttons;
+static struct video_canvas_s *c;
 
 void gtk_init_lightpen(void) {
     cursor = gdk_cursor_new(GDK_PENCIL);
@@ -54,39 +55,43 @@ void gtk_lightpen_setbutton(int b, int set)
 /*
 #define LP_DEBUG 1
 */
-void gtk_lightpen_udate(void) 
+void gtk_lightpen_update(void) 
 {
     int x, y;
     int h, w;
     float fx, fy;
     
-    if (lightpen_enabled)  {
-	
-        gdk_pointer_grab(ui_cached_video_canvas->emuwindow->window, 1, 
+    if (c && lightpen_enabled)  {
+
+        gdk_pointer_grab(c->emuwindow->window, 1, 
 			 GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | 
 			 GDK_BUTTON_RELEASE_MASK, 
-			 ui_cached_video_canvas->emuwindow->window, cursor, GDK_CURRENT_TIME);
+			 c->emuwindow->window, cursor, GDK_CURRENT_TIME);
 	gdk_display_get_window_at_pointer(
-	    gtk_widget_get_display(ui_cached_video_canvas->emuwindow), &x, &y);
-	gdk_drawable_get_size(ui_cached_video_canvas->emuwindow->window, &w, &h);
-	fx = w / (float) ui_cached_video_canvas->geometry->screen_size.width;
-	fy = h / (float) (ui_cached_video_canvas->geometry->last_displayed_line - 
-			  ui_cached_video_canvas->geometry->first_displayed_line + 1);
-	
-	x /= fx;
-	y /= fy;
+	    gtk_widget_get_display(c->emuwindow), &x, &y);
+	gdk_drawable_get_size(c->emuwindow->window, &w, &h);
+	fx = w / (float) (c->geometry->screen_size.width - c->offx);
+	fy = h / (float) (c->geometry->last_displayed_line - 
+			  c->geometry->first_displayed_line + 1);
 	
 #ifdef LP_DEBUG
 	fprintf(stderr,"pre : x = %i, y = %i, b = %02x, w: %d, h:%d, fx = %f, fy = %f\n", 
 		x, y, buttons, w, h, fx, fy); 
 #endif
+	x /= fx;
+	y /= fy;
     
 	/* fixme for X128/VICII, first parameter to select canvas */
-	lightpen_update(0, x, y, buttons);
+	lightpen_update(c->app_shell, x, y, buttons);
     } else {
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
 	buttons = 0;
     }
+}
+
+void gtk_lightpen_update_canvas(struct video_canvas_s *p, int enter) 
+{
+    c = enter ? p : NULL;
 }
 
 #endif /* HAVE_MOUSE */

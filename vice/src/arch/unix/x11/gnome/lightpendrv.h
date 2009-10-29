@@ -28,6 +28,7 @@
 
 extern void gtk_init_lightpen(void);
 extern void gtk_lightpen_setbutton(int b, int s);
-extern void gtk_lightpen_udate(void);
+extern void gtk_lightpen_update(void);
+extern void gtk_lightpen_update_canvas(struct video_canvas_s *p, int enter);
 
 #endif /* __lightpendrv_h__ */

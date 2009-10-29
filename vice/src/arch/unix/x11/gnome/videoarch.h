@@ -63,6 +63,8 @@ struct video_canvas_s {
     unsigned char *hwscale_image;
     GLuint screen_texture;
 #endif
+    int offx;
+    int app_shell;
 };
 typedef struct video_canvas_s video_canvas_t;
 

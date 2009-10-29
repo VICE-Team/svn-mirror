@@ -848,7 +848,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     /* XVideo must be refreshed when the application window is moved. */
     g_signal_connect(G_OBJECT(new_canvas), "configure-event", G_CALLBACK(configure_callback_canvas), (void*)c);
     g_signal_connect(G_OBJECT(new_canvas), "expose-event", G_CALLBACK(exposure_callback_canvas), (void*)c);
-    g_signal_connect(G_OBJECT(new_canvas), "enter-notify-event", G_CALLBACK(enter_window_callback), NULL);
+    g_signal_connect(G_OBJECT(new_canvas), "enter-notify-event", G_CALLBACK(enter_window_callback), (void *)c);
     g_signal_connect(G_OBJECT(new_canvas), "map-event", G_CALLBACK(map_callback), NULL);
     g_signal_connect(G_OBJECT(new_canvas), "button-press-event", G_CALLBACK(mouse_handler), NULL);
     g_signal_connect(G_OBJECT(new_canvas), "button-release-event", G_CALLBACK(mouse_handler), NULL);
@@ -936,6 +936,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         gtk_widget_show(new_canvas);
     } else {
         build_screen_canvas_widget(c);
+	c->app_shell = num_app_shells - 1;
     }
 
     sb = ui_create_status_bar(panelcontainer);
@@ -1012,6 +1013,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     initBlankCursor();
     gtk_init_lightpen();
 
+    c->offx = c->geometry->screen_size.width - w;
     ui_cached_video_canvas = c;
     
     return 0;
@@ -2361,6 +2363,7 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 
     /* cv: ensure focus after dialogs were opened */
     gtk_widget_grab_focus(w);
+    gtk_lightpen_update_canvas(p, TRUE);
 
     return 0;
 }
