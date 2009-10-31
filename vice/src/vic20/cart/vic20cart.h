@@ -34,4 +34,9 @@ extern int try_cartridge_attach(int c);
 #define TRY_RESOURCE_CARTNAME (1<<1)
 #define TRY_RESOURCE_CARTRESET (1<<2)
 
+struct snapshot_s;
+
+extern int vic20cart_snapshot_write_module(struct snapshot_s *s);
+extern int vic20cart_snapshot_read_module(struct snapshot_s *s);
+
 #endif

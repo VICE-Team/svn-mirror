@@ -58,6 +58,11 @@ extern void generic_detach(void);
 extern int generic_resources_init(void);
 extern void generic_resources_shutdown(void);
 
+struct snapshot_s;
+
+extern int generic_snapshot_write_module(struct snapshot_s *s);
+extern int generic_snapshot_read_module(struct snapshot_s *s);
+
 /* special case handling need for multiple file generic carts */
 extern int generic_attach_from_resource(int type, const char *filename);
 extern void generic_set_default(void);

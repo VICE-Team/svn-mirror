@@ -53,7 +53,7 @@
 #include "vic20memsnapshot.h"
 
 
-#define SNAP_MAJOR          0
+#define SNAP_MAJOR          2
 #define SNAP_MINOR          0
 
 

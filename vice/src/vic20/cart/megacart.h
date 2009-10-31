@@ -55,4 +55,9 @@ extern int megacart_resources_init(void);
 extern void megacart_resources_shutdown(void);
 extern int megacart_cmdline_options_init(void);
 
+struct snapshot_s;
+
+extern int megacart_snapshot_write_module(struct snapshot_s *s);
+extern int megacart_snapshot_read_module(struct snapshot_s *s);
+
 #endif

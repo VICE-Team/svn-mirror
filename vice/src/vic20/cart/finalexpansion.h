@@ -57,4 +57,9 @@ extern int finalexpansion_resources_init(void);
 extern void finalexpansion_resources_shutdown(void);
 extern int finalexpansion_cmdline_options_init(void);
 
+struct snapshot_s;
+
+extern int finalexpansion_snapshot_write_module(struct snapshot_s *s);
+extern int finalexpansion_snapshot_read_module(struct snapshot_s *s);
+
 #endif

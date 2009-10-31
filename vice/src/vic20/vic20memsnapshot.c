@@ -38,6 +38,7 @@
 #include <memory.h>
 #endif
 
+#include "cart/vic20cart.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
@@ -303,7 +304,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 int vic20_snapshot_write_module(snapshot_t *m, int save_roms)
 {
     if (mem_write_ram_snapshot_module(m) < 0
-        || mem_write_rom_snapshot_module(m, save_roms) < 0 ) {
+        || mem_write_rom_snapshot_module(m, save_roms) < 0
+        || vic20cart_snapshot_write_module(m) < 0) {
         return -1;
     }
     return 0;
@@ -312,7 +314,8 @@ int vic20_snapshot_write_module(snapshot_t *m, int save_roms)
 int vic20_snapshot_read_module(snapshot_t *m)
 {
     if (mem_read_ram_snapshot_module(m) < 0
-        || mem_read_rom_snapshot_module(m) < 0 ) {
+        || mem_read_rom_snapshot_module(m) < 0
+        || vic20cart_snapshot_read_module(m) < 0) {
         return -1;
     }
     return 0;

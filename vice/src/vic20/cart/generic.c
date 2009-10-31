@@ -39,6 +39,7 @@
 #include "generic.h"
 #include "mem.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 #include "vic20cart.h"
@@ -493,3 +494,73 @@ const char *generic_get_file_name(WORD addr)
 }
 
 /* ------------------------------------------------------------------------- */
+
+#define VIC20CART_DUMP_VER_MAJOR   2
+#define VIC20CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "GENERICCART"
+
+int generic_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_DW(m, (DWORD)generic_ram_blocks) < 0) 
+        || (SMW_DW(m, (DWORD)generic_rom_blocks) < 0) 
+        || (SMW_BA(m, cart_ram, CART_RAM_SIZE) < 0)
+        || (SMW_BA(m, cart_rom, CART_ROM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+    
+int generic_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (vmajor != VIC20CART_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (!cart_ram) {
+        cart_ram = lib_malloc(CART_RAM_SIZE);
+    }
+    if (!cart_rom) {
+        cart_rom = lib_malloc(CART_ROM_SIZE);
+    }
+
+    if (0
+        || (SMR_DW_INT(m, &generic_ram_blocks) < 0) 
+        || (SMR_DW_INT(m, &generic_rom_blocks) < 0) 
+        || (SMR_BA(m, cart_ram, CART_RAM_SIZE) < 0)
+        || (SMR_BA(m, cart_rom, CART_ROM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        lib_free(cart_ram);
+        cart_ram = NULL;
+        lib_free(cart_rom);
+        cart_rom = NULL;
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    mem_cart_blocks = generic_ram_blocks | generic_rom_blocks;
+    mem_initialize_memory();
+
+    return 0;
+}

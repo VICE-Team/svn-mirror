@@ -39,6 +39,7 @@
 #include "megacart.h"
 #include "mem.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
@@ -279,7 +280,7 @@ void REGPARM2 megacart_io3_store(WORD addr, BYTE value)
     }
 
     if ((addr & 0x200) == 0x200) { /* $9e00 */
-        /* peform reset */
+        /* perform reset */
         reset_mode = SOFTWARE_RESET;
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     }
@@ -494,3 +495,90 @@ int megacart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+#define VIC20CART_DUMP_VER_MAJOR   2
+#define VIC20CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "MEGACART"
+ 
+int megacart_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+ 
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+ 
+    if (0
+        || (SMW_B(m, bank_low_reg) < 0)
+        || (SMW_B(m, bank_high_reg) < 0)
+        || (SMW_B(m, (BYTE)oe_flop) < 0)
+        || (SMW_B(m, (BYTE)nvram_en_flop) < 0)
+        || (SMW_BA(m, cart_ram, CART_RAM_SIZE) < 0)
+        || (SMW_BA(m, cart_rom, CART_ROM_SIZE) < 0)
+        || (SMW_BA(m, cart_nvram, CART_NVRAM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int megacart_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (vmajor != VIC20CART_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (!cart_ram) {
+        cart_ram = lib_malloc(CART_RAM_SIZE);
+    }
+    if (!cart_nvram) {
+        cart_nvram = lib_malloc(CART_NVRAM_SIZE);
+    }
+    if (!cart_rom) {
+        cart_rom = lib_malloc(CART_ROM_SIZE);
+    }
+
+    if (0
+        || (SMR_B(m, &bank_low_reg) < 0)
+        || (SMR_B(m, &bank_high_reg) < 0)
+        || (SMR_B_INT(m, &oe_flop) < 0)
+        || (SMR_B_INT(m, &nvram_en_flop) < 0)
+        || (SMR_BA(m, cart_ram, CART_RAM_SIZE) < 0)
+        || (SMR_BA(m, cart_rom, CART_ROM_SIZE) < 0)
+        || (SMR_BA(m, cart_nvram, CART_NVRAM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        lib_free(cart_ram);
+        lib_free(cart_nvram);
+        lib_free(cart_rom);
+        cart_ram = NULL;
+        cart_nvram = NULL;
+        cart_rom = NULL;
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    cart_rom_low = cart_rom;
+    cart_rom_high = cart_rom + 0x100000;
+
+    reset_mode = BUTTON_RESET;
+
+    mem_cart_blocks = VIC_CART_RAM123 |
+        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+        VIC_CART_IO2 | VIC_CART_IO3;
+    mem_initialize_memory();
+
+    return 0;
+}

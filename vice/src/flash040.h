@@ -76,5 +76,13 @@ extern BYTE REGPARM2 flash040core_read(struct flash040_context_s *flash040_conte
 extern BYTE REGPARM2 flash040core_peek(struct flash040_context_s *flash040_context,
                                        unsigned int addr);
 
-#endif
+struct snapshot_s;
 
+extern int flash040core_snapshot_write_module(struct snapshot_s *s, 
+                                              struct flash040_context_s *flash040_context,
+                                              const char *name);
+extern int flash040core_snapshot_read_module(struct snapshot_s *s,
+                                             struct flash040_context_s *flash040_context,
+                                             const char *name);
+
+#endif

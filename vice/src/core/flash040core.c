@@ -33,6 +33,7 @@
 #include "lib.h"
 #include "log.h"
 #include "maincpu.h"
+#include "snapshot.h"
 #include "types.h"
 
 /* -------------------------------------------------------------------------- */
@@ -313,4 +314,62 @@ void flash040core_init(struct flash040_context_s *flash040_context,
 void flash040core_shutdown(flash040_context_t *flash040_context)
 {
     FLASH_DEBUG(("Shutdown"));
+}
+
+/* -------------------------------------------------------------------------- */
+
+#define FLASH040_DUMP_VER_MAJOR   0
+#define FLASH040_DUMP_VER_MINOR   0
+
+int flash040core_snapshot_write_module(snapshot_t *s, flash040_context_t *flash040_context, const char *name)
+{
+    snapshot_module_t *m;
+    BYTE state;
+
+    m = snapshot_module_create(s, name, FLASH040_DUMP_VER_MAJOR, FLASH040_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    state = (BYTE)(flash040_context->flash_state);
+
+    if (0
+        || (SMW_B(m, state) < 0)
+        || (SMW_B(m, flash040_context->program_byte) < 0)
+        || (SMW_B(m, flash040_context->last_read) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int flash040core_snapshot_read_module(snapshot_t *s, flash040_context_t *flash040_context, const char *name)
+{
+    BYTE vmajor, vminor, state;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, name, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (vmajor != FLASH040_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B(m, &state) < 0)
+        || (SMR_B(m, &(flash040_context->program_byte)) < 0)
+        || (SMR_B(m, &(flash040_context->last_read)) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    flash040_context->flash_state = (flash040_state_t)state;
+    return 0;
 }
