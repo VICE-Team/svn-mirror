@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.1.16\n"
+"Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-21 18:56+0200\n"
 "PO-Revision-Date: 2009-08-10 19:57+0100\n"

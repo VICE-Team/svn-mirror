@@ -9,7 +9,6 @@ doc_DATA = \
 	images/new.gif \
 	images/vice-logo.jpg \
 	index.html \
-	hpux.html \
 	macosx.html \
 	plain/64doc.txt \
 	plain/BUGS \

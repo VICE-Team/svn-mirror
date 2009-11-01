@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VICEVERSION="2.1"
+VICEVERSION="2.2"
 
 if [ ! "$OPENXDK" ]; then
   echo "Set environment variable OPENXDK first"
