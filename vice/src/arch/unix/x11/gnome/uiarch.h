@@ -86,7 +86,6 @@ typedef enum ui_keysym_s ui_keysym_t;
 
 extern GtkWidget *_ui_top_level;
 extern GdkVisual *visual;
-extern struct video_canvas_s *ui_cached_video_canvas;
 
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int heigth, int no_autorepeat);
 extern void ui_resize_canvas_window(struct video_canvas_s *c, int height, int width);

@@ -156,7 +156,7 @@ static char *fixedfontname="CBM 10";
 static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
-/* static */ video_canvas_t *ui_cached_video_canvas;
+static video_canvas_t *ui_cached_video_canvas;
 static int statustext_display_time = 0;
 static int popped_up_count = 0;
 
