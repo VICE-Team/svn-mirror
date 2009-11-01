@@ -53,4 +53,6 @@
 - (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types;
 - (NSString *)pickDirectoryWithTitle:(NSString *)title;
 
+- (NSArray *)pickAttachFileWithTitle:(NSString *)title andTypeDictionary:(NSDictionary *)types;
+
 @end

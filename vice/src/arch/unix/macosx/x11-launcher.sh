@@ -98,6 +98,7 @@ LIB_DIR="$RESOURCES_DIR/lib"
 if [ -d "$LIB_DIR" ]; then
   PROGRAM_PREFIX="env DYLD_LIBRARY_PATH=\"$LIB_DIR\""
 fi
+dbgecho "PROGRAM_PREFIX=$PROGRAM_PREFIX"
 # setup path
 BIN_DIR="$RESOURCES_DIR/bin"
 if [ ! -d "$BIN_DIR" ]; then

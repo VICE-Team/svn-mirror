@@ -29,17 +29,30 @@
 #import "vicenotifications.h"
 #import "viceappcontroller.h"
 
+#include "machine.h"
+
 @implementation KeyboardSettingsWindowController
 
 -(id)init
 {
     self = [super initWithWindowNibName:@"KeyboardSettings"];
+    
+    hasDE = (machine_class == VICE_MACHINE_C64) ||
+            (machine_class == VICE_MACHINE_C64DTV);
+    
     [self registerForResourceUpdate:@selector(updateResources:)];
+        
     return self;
 }
 
 -(void)windowDidLoad
 {
+    [symDEFile setEnabled:hasDE];
+    [symDEPickButton setEnabled:hasDE];
+    if(!hasDE) {
+        [keymapSelector removeRow:2];
+    }
+    
     [self updateResources:nil];
     [super windowDidLoad];
 }
@@ -52,11 +65,14 @@
 
     // files
     NSString *symUSFileStr = [self getStringResource:@"KeymapSymFile"];
-    NSString *symDEFileStr = [self getStringResource:@"KeymapSymDeFile"];
     NSString *posFileStr = [self getStringResource:@"KeymapPosFile"];
     [symUSFile setStringValue:symUSFileStr];
-    [symDEFile setStringValue:symDEFileStr];
     [posFile setStringValue:posFileStr];
+
+    if(hasDE) {
+        NSString *symDEFileStr = [self getStringResource:@"KeymapSymDeFile"];
+        [symDEFile setStringValue:symDEFileStr];
+    }
 }
 
 // ----- Actions -----

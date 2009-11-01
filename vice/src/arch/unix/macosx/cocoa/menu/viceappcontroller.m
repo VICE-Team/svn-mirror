@@ -411,6 +411,84 @@
     [self updateOptionsResources];
 }
 
+// Mouse
+
+- (IBAction)toggleMouseEmulation:(id)sender
+{
+    [self setIntResource:@"Mouse" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+- (IBAction)toggleLightPenEmulation:(id)sender
+{
+    [self setIntResource:@"Lightpen" toValue:![sender state]];
+    [self updateOptionsResources];
+}
+
+// Video Rendering
+
+- (IBAction)toggleVideo0VideoCache:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@VideoCache", [video0Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo0Resources];
+}
+
+- (IBAction)toggleVideo0DoubleSize:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@DoubleSize", [video0Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo0Resources];
+}
+
+- (IBAction)toggleVideo0DoubleScan:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@DoubleScan", [video0Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo0Resources];
+}
+
+- (IBAction)toggleVideo0Scale2x:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@Scale2x", [video0Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo0Resources];
+}
+
+- (IBAction)toggleVideo1VideoCache:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@VideoCache", [video1Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo1Resources];
+}
+
+- (IBAction)toggleVideo1DoubleSize:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@DoubleSize", [video1Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo1Resources];
+}
+
+- (IBAction)toggleVideo1DoubleScan:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@DoubleScan", [video1Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo1Resources];
+}
+
+- (IBAction)toggleVideo1Scale2x:(id)sender
+{
+    NSString *res = [NSString stringWithFormat:@"%@Scale2x", [video1Menu title]];
+    [self setIntResource:res toValue:![sender state]];
+    [self updateVideo1Resources];
+}
+
+- (IBAction)togglePALEmulation:(id)sender
+{
+    [self setIntResource:@"PALEmulation" toValue:![sender state]];
+    [self updateVideo0Resources];
+}
+
 // ----- Settings -----
 
 - (IBAction)showDriveSettings:(id)sender
@@ -537,6 +615,12 @@
     [self updateMachineResources];
     [self updateOptionsResources];
     [self updateSettingsResources];
+    if(video0Menu != nil) {
+        [self updateVideo0Resources];
+    }
+    if(video1Menu != nil) {
+        [self updateVideo1Resources];
+    }
 }
 
 - (void)updateMachineResources
@@ -587,6 +671,53 @@
     [emuIDMenuItem setState:[self getIntResource:@"EmuID"]];
     // KeySetEnable
     [keySetEnableMenuItem setState:[self getIntResource:@"KeySetEnable"]];
+
+    // Mouse
+    if(mouseEmulationMenuItem != nil) {
+        [mouseEmulationMenuItem setState:[self getIntResource:@"Mouse"]];
+    }
+    // Lightpen
+    if(lightPenEmulationMenuItem != nil) {
+        [lightPenEmulationMenuItem setState:[self getIntResource:@"LightPen"]];
+    }
+}
+
+- (void)updateVideo0Resources
+{
+    NSString *name = [video0Menu title];
+    
+    NSString *res1 = [NSString stringWithFormat:@"%@VideoCache", name];    
+    [video0VideoCacheMenuItem setState:[self getIntResource:res1]];
+
+    NSString *res2 = [NSString stringWithFormat:@"%@DoubleSize", name];    
+    [video0DoubleSizeMenuItem setState:[self getIntResource:res2]];
+    
+    NSString *res3 = [NSString stringWithFormat:@"%@DoubleScan", name];        
+    [video0DoubleScanMenuItem setState:[self getIntResource:res3]];
+    
+    NSString *res4 = [NSString stringWithFormat:@"%@Scale2x", name];    
+    [video0Scale2xMenuItem setState:[self getIntResource:res4]];
+    
+    if(palEmulationMenuItem != nil) {
+        [palEmulationMenuItem setState:[self getIntResource:@"PALEmulation"]];
+    }
+}
+
+- (void)updateVideo1Resources
+{
+    NSString *name = [video1Menu title];
+    
+    NSString *res1 = [NSString stringWithFormat:@"%@VideoCache", name];    
+    [video1VideoCacheMenuItem setState:[self getIntResource:res1]];
+
+    NSString *res2 = [NSString stringWithFormat:@"%@DoubleSize", name];    
+    [video1DoubleSizeMenuItem setState:[self getIntResource:res2]];
+    
+    NSString *res3 = [NSString stringWithFormat:@"%@DoubleScan", name];        
+    [video1DoubleScanMenuItem setState:[self getIntResource:res3]];
+    
+    NSString *res4 = [NSString stringWithFormat:@"%@Scale2x", name];    
+    [video1Scale2xMenuItem setState:[self getIntResource:res4]];
 }
 
 - (void)updateSettingsResources

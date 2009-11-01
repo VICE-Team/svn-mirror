@@ -8,6 +8,9 @@ EXTRA_DIST = \
 	x64dtv.nib/designable.nib \
 	x64dtv.nib/keyedobjects.nib \
 	x64dtv-ResourceTree.plist \
+	xvic.nib/designable.nib \
+	xvic.nib/keyedobjects.nib \
+	xvic-ResourceTree.plist \
 	FilePanelImageContents.nib/designable.nib \
 	FilePanelImageContents.nib/keyedobjects.nib \
 	VICEInformation.nib/designable.nib \

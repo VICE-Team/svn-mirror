@@ -34,6 +34,9 @@
     IBOutlet NSTextField *symUSFile;
     IBOutlet NSTextField *symDEFile;
     IBOutlet NSTextField *posFile;
+    IBOutlet NSButton    *symDEPickButton;
+    
+    BOOL hasDE;
 }
 
 -(void)updateResources:(NSNotification *)notification;

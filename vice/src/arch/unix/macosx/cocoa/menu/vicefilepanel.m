@@ -342,4 +342,42 @@
     return nil;
 }
 
+- (NSArray *)pickAttachFileWithTitle:(NSString *)title andTypeDictionary:(NSDictionary *)types
+{
+    NSOpenPanel * panel = [NSOpenPanel openPanel];
+    
+    NSView * accessories = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 280, 49)];
+    [accessories autorelease];
+
+    NSTextField * type_label = [[NSTextField alloc] initWithFrame:NSMakeRect(4, 18, 80, 17)];
+    [type_label autorelease];
+    [type_label setAlignment:NSRightTextAlignment];
+    [type_label setEditable:NO];
+    [type_label setBordered:NO];
+    [type_label setDrawsBackground:NO];
+    [type_label setStringValue:@"Type:"];
+
+    NSPopUpButton * type_button = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(86, 12, 180, 26)];
+    NSArray *sortedKeys = [[types allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    [type_button addItemsWithTitles:sortedKeys];
+    [type_button autorelease];
+
+    [accessories addSubview:type_button];
+    [accessories addSubview:type_label];
+
+    [panel setAccessoryView:accessories];
+    [panel setTitle:title];
+    [panel setPrompt:@"Attach"];
+
+    NSArray *result = nil;
+    if ([panel runModal] == NSFileHandlingPanelOKButton) {
+        NSString *item = [type_button titleOfSelectedItem];
+        NSNumber *number = [types valueForKey:item];
+        NSString *filename = [panel filename];
+        result = [NSArray arrayWithObjects:filename, number, nil];
+    }
+    return result;
+}
+
+
 @end

@@ -33,14 +33,6 @@
     // Machine Outlets
     IBOutlet NSMenuItem *cartridgeFreezeMenuItem;
     IBOutlet NSMenu *expertCartridgeModeMenu;
-    // Option Outlets
-    IBOutlet NSMenuItem *mouseEmulationMenuItem;
-    
-    IBOutlet NSMenuItem *vicIIVideoCacheMenuItem;
-    IBOutlet NSMenuItem *vicIIDoubleSizeMenuItem;
-    IBOutlet NSMenuItem *vicIIDoubleScanMenuItem;
-    IBOutlet NSMenuItem *vicIIScale2xMenuItem;
-    IBOutlet NSMenuItem *palEmulationMenuItem;
 }
 
 // Cartridge
@@ -49,14 +41,5 @@
 -(IBAction)detachCartridge:(id)sender;
 -(IBAction)freezeCartridge:(id)sender;
 -(IBAction)controlExpertCartridge:(id)sender;
-
-// Options
-- (IBAction)toggleMouseEmulation:(id)sender;
-
-- (IBAction)toggleVICIIVideoCache:(id)sender;
-- (IBAction)toggleVICIIDoubleSize:(id)sender;
-- (IBAction)toggleVICIIDoubleScan:(id)sender;
-- (IBAction)toggleVICIIScale2x:(id)sender;
-- (IBAction)togglePALEmulation:(id)sender;
 
 @end

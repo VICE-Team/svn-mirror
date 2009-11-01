@@ -1,5 +1,5 @@
 /*
- * vic20ui.m - Vic20 ui interface
+ * vic20controller.m - VIC20 app controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -25,17 +25,7 @@
  */
 
 #import "vic20controller.h"
-#import "vic20machinecontroller.h"
-#import "vicemachine.h"
 
-int vic20ui_init(void)
-{
-    // ensure that the VIC20Controller gets compiled in
-    [VIC20Controller class];
-    [theVICEMachine setMachineController:[[VIC20MachineController alloc] init]];
-    return 0;
-}
+@implementation VIC20Controller
 
-void vic20ui_shutdown(void)
-{
-}
+@end

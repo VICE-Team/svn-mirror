@@ -73,10 +73,28 @@
     IBOutlet NSMenuItem *virtualDevicesMenuItem;
     IBOutlet NSMenuItem *emuIDMenuItem;
     IBOutlet NSMenuItem *keySetEnableMenuItem;
+
+    IBOutlet NSMenuItem *mouseEmulationMenuItem;  // opt
+    IBOutlet NSMenuItem *lightPenEmulationMenuItem; // opt
     
     // Settings Outlets
     IBOutlet NSMenuItem *saveResourcesOnExitMenuItem;
     IBOutlet NSMenuItem *confirmOnExitMenuItem;
+
+    // Video 0
+    IBOutlet NSMenu     *video0Menu;
+    IBOutlet NSMenuItem *video0VideoCacheMenuItem;
+    IBOutlet NSMenuItem *video0DoubleSizeMenuItem;
+    IBOutlet NSMenuItem *video0DoubleScanMenuItem;
+    IBOutlet NSMenuItem *video0Scale2xMenuItem;
+    IBOutlet NSMenuItem *palEmulationMenuItem;
+
+    // Video 1
+    IBOutlet NSMenu     *video1Menu;
+    IBOutlet NSMenuItem *video1VideoCacheMenuItem;
+    IBOutlet NSMenuItem *video1DoubleSizeMenuItem;
+    IBOutlet NSMenuItem *video1DoubleScanMenuItem;
+    IBOutlet NSMenuItem *video1Scale2xMenuItem;
 }
 
 // File
@@ -129,6 +147,22 @@
 - (IBAction)toggleKeySetEnable:(id)sender;
 - (IBAction)toggleEmuID:(id)sender;
 
+- (IBAction)toggleMouseEmulation:(id)sender;
+- (IBAction)toggleLightPenEmulation:(id)sender;
+
+// Video
+- (IBAction)toggleVideo0VideoCache:(id)sender;
+- (IBAction)toggleVideo0DoubleSize:(id)sender;
+- (IBAction)toggleVideo0DoubleScan:(id)sender;
+- (IBAction)toggleVideo0Scale2x:(id)sender;
+
+- (IBAction)toggleVideo1VideoCache:(id)sender;
+- (IBAction)toggleVideo1DoubleSize:(id)sender;
+- (IBAction)toggleVideo1DoubleScan:(id)sender;
+- (IBAction)toggleVideo1Scale2x:(id)sender;
+
+- (IBAction)togglePALEmulation:(id)sender;
+
 // Settings
 - (IBAction)showDriveSettings:(id)sender;
 - (IBAction)showIECDriveSettings:(id)sender;
@@ -158,6 +192,8 @@
 - (void)updateSettingsResources;
 - (void)updateOptionsResources;
 - (void)updateMachineResources;
+- (void)updateVideo0Resources;
+- (void)updateVideo1Resources;
 
 - (BOOL)updateSubMenuCheckState:(NSMenu *)menu withTag:(int)tagValue;
 

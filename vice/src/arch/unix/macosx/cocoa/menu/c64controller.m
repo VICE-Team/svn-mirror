@@ -36,79 +36,42 @@
 
 -(IBAction)attachCartridge:(id)sender
 {
-    NSArray *cartTypes = [NSArray arrayWithObjects:
-        @"CRT",
-        @"Generic 8KB",
-        @"Generic 16KB",
-        @"Action Replay",
-        @"Action Replay III",
+    NSDictionary *cartTypes = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSNumber numberWithInt:CARTRIDGE_CRT], @"CRT",
+        [NSNumber numberWithInt:CARTRIDGE_GENERIC_8KB], @"Generic 8KB",
+        [NSNumber numberWithInt:CARTRIDGE_GENERIC_16KB], @"Generic 16KB",
+        [NSNumber numberWithInt:CARTRIDGE_ACTION_REPLAY], @"Action Replay",
+        [NSNumber numberWithInt:CARTRIDGE_ACTION_REPLAY3], @"Action Replay III",
         
-        @"Atomic Power",
-        @"Epyx Fastload",
-        @"IEEE488",
-        @"Retro Replay",
-        @"IDE64",
+        [NSNumber numberWithInt:CARTRIDGE_ATOMIC_POWER], @"Atomic Power",
+        [NSNumber numberWithInt:CARTRIDGE_EPYX_FASTLOAD], @"Epyx Fastload",
+        [NSNumber numberWithInt:CARTRIDGE_IEEE488], @"IEEE488",
+        [NSNumber numberWithInt:CARTRIDGE_RETRO_REPLAY], @"Retro Replay",
+        [NSNumber numberWithInt:CARTRIDGE_IDE64], @"IDE64",
         
-        @"Super Snapshot 4",
-        @"Super Snapshot 5",
-        @"Structured Basic",
+        [NSNumber numberWithInt:CARTRIDGE_SUPER_SNAPSHOT], @"Super Snapshot 4",
+        [NSNumber numberWithInt:CARTRIDGE_SUPER_SNAPSHOT_V5], @"Super Snapshot 5",
+        [NSNumber numberWithInt:CARTRIDGE_STRUCTURED_BASIC], @"Structured Basic",
         
-        nil];
-    int cartTypeIds[] = {
-        CARTRIDGE_CRT,
-        CARTRIDGE_GENERIC_8KB,
-        CARTRIDGE_GENERIC_16KB,
-        CARTRIDGE_ACTION_REPLAY,
-        CARTRIDGE_ACTION_REPLAY3,
+        nil, nil];
+
+    NSArray *result = [[self getFilePanel] pickAttachFileWithTitle:@"Attach Cartridge Image"
+                                                 andTypeDictionary:cartTypes];
+    if(result != nil) {
+        NSString *filename   = [result objectAtIndex:0];
+        NSNumber *typeNumber = [result objectAtIndex:1];
+        int type = [typeNumber intValue];
         
-        CARTRIDGE_ATOMIC_POWER,
-        CARTRIDGE_EPYX_FASTLOAD,
-        CARTRIDGE_IEEE488,
-        CARTRIDGE_RETRO_REPLAY,
-        CARTRIDGE_IDE64,
-        
-        CARTRIDGE_SUPER_SNAPSHOT,
-        CARTRIDGE_SUPER_SNAPSHOT_V5,
-        CARTRIDGE_STRUCTURED_BASIC
-    };
-
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    NSOpenPanel * panel = [NSOpenPanel openPanel];
-    NSView * accessories = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 310, 49)];
-    [accessories autorelease];
-
-    NSTextField * type_label = [[NSTextField alloc] initWithFrame:NSMakeRect(4, 18, 80, 17)];
-    [type_label autorelease];
-    [type_label setAlignment:NSRightTextAlignment];
-    [type_label setEditable:NO];
-    [type_label setBordered:NO];
-    [type_label setDrawsBackground:NO];
-    [type_label setStringValue:@"Type:"];
-
-    NSPopUpButton * type_button = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(86, 12, 98, 26)];
-    [type_button addItemsWithTitles:cartTypes];
-    [type_button autorelease];
-
-    [accessories addSubview:type_button];
-    [accessories addSubview:type_label];
-
-    [panel setAccessoryView:accessories];
-    [panel setTitle:@"Attach Cartridge Image"];
-    [panel setPrompt:@"Attach"];
-
-    if ([panel runModal] == NSFileHandlingPanelOKButton) {
-        int type = cartTypeIds[[type_button indexOfSelectedItem]];
         if ([(C64MachineController *)[VICEApplication theMachineController] 
                                       attachCartridge:type 
-                                                image:[panel filename]]) {
+                                                image:filename]) {
             [(C64MachineController *)[VICEApplication theMachineController] 
                 setDefaultCartridge];                
             [self updateMachineResources];
         } else {
             [VICEApplication runErrorMessage:@"Error attaching image!"];
-        }
+        }        
     }
-    [pool release];
 }
 
 // ----- Cartridge -----
@@ -165,65 +128,6 @@
         return [self getIntResource:@"CartridgeType"] == CARTRIDGE_EXPERT;
     }
     return YES;
-}
-
-// ----- Options -----
-
-// Mouse
-
-- (IBAction)toggleMouseEmulation:(id)sender
-{
-    [self setIntResource:@"Mouse" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
-// Video Rendering
-
-- (IBAction)toggleVICIIVideoCache:(id)sender
-{
-    [self setIntResource:@"VICIIVideoCache" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
-- (IBAction)toggleVICIIDoubleSize:(id)sender
-{
-    [self setIntResource:@"VICIIDoubleSize" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
-- (IBAction)toggleVICIIDoubleScan:(id)sender
-{
-    [self setIntResource:@"VICIIDoubleScan" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
-- (IBAction)toggleVICIIScale2x:(id)sender
-{
-    [self setIntResource:@"VICIIScale2x" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
-- (IBAction)togglePALEmulation:(id)sender
-{
-    [self setIntResource:@"PALEmulation" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
-// ----- Update Resources -----
-
-- (void)updateOptionsResources
-{
-    // Mouse
-    [mouseEmulationMenuItem setState:[self getIntResource:@"Mouse"]];
-    
-    // Video Rendering
-    [vicIIVideoCacheMenuItem setState:[self getIntResource:@"VICIIVideoCache"]];
-    [vicIIDoubleSizeMenuItem setState:[self getIntResource:@"VICIIDoubleSize"]];
-    [vicIIDoubleScanMenuItem setState:[self getIntResource:@"VICIIDoubleScan"]];
-    [vicIIScale2xMenuItem setState:[self getIntResource:@"VICIIScale2x"]];
-    [palEmulationMenuItem setState:[self getIntResource:@"PALEmulation"]];
-        
-    [super updateOptionsResources];
 }
 
 @end

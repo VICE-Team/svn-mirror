@@ -26,6 +26,8 @@ extra_keymaps = \
 	dos_pos.vkm \
 	dos_sym.vkm \
 	os2.vkm \
+	osx_pos.vkm \
+	osx_sym.vkm \
 	ROdflt.vkm \
 	win_sym.vkm \
 	win_pos.vkm
