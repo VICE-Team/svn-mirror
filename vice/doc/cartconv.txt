@@ -76,6 +76,9 @@ dep64         Dela EP64 .crt file, eprom type cartridge  (1)
 dep7x8        Dela EP7x8 .crt file, eprom type cartridge (1)(2)(3)
 dep256        Dela EP256 .crt file, eprom type cartridge (1)(2)
 rep256        Rex EP256 .crt file, eprom type cartridge (1)(2)(3)
+ar4           Action Replay 4 .crt file
+star          StarDOS .crt file
+easy          EasyFlash .crt file
 
 (1) insertion of 32kb eprom files supported.
 (2) insertion of 8kb .crt/binary files supported.
