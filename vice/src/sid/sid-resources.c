@@ -365,9 +365,6 @@ static int sid_check_engine_model(int engine, int model)
         case SID_RESID_8580:
         case SID_RESID_8580D:
 #endif
-#ifdef HAVE_RESID_DTV
-        case SID_RESID_DTVSID:
-#endif
 #ifdef HAVE_RESID_FP
         case SID_RESIDFP_6581R3_4885:
         case SID_RESIDFP_6581R3_0486S:
@@ -381,6 +378,14 @@ static int sid_check_engine_model(int engine, int model)
         case SID_RESIDFP_8580R5_1489D:
 #endif
             return 0;
+#ifdef HAVE_RESID_DTV
+        case SID_RESID_DTVSID:
+            if (machine_class == VICE_MACHINE_C64DTV) {
+                return 0;
+            } else {
+                return -1;
+            }
+#endif
         default:
             return -1;
     }
