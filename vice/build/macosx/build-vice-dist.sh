@@ -315,12 +315,13 @@ copy_dylib () {
 
 fix_ref () {
   local exe="$1"
+  local newpath="$2"
   local base="`basename \"$exe\"`"
-  local LIBS=`otool -L "$exe" | grep .dylib | grep -v /usr/lib | awk '{ print $1 }'`
+  local LIBS=`otool -L "$exe" | grep .dylib | grep -v /usr | grep -v /System | awk '{ print $1 }'`
   echo -n "  fixing lib ref in '$1'"
   for lib in $LIBS ; do
     baselib="`basename \"$lib\"`"
-    newlib="@executable_path/$baselib"
+    newlib="$newpath/$baselib"
     install_name_tool -change "$lib" "$newlib" "$exe"
     echo -n "."
   done
@@ -376,22 +377,25 @@ done
 APPS="c1541 cartconv petcat x128 x64 x64dtv xcbm2 xpet xplus4 xvic"
 
 # ----- Fixin Lib Refs -----
-if [ "$UI_TYPE" = "cocoa" ]; then
-  echo "----- Fixing Library References -----"
-  # in all apps
-  for app in $APPS ; do
-    for A in $MULTI_ARCH ; do
-      fix_ref "$BUILD_DIR/$A/src/$app"
-    done
-  done
-  # and all libs
-  for lib in $EXTLIB ; do
-    LIBNAME="`basename \"$lib\"`"
-    for A in $MULTI_ARCH ; do
-      fix_ref "$BUILD_DIR/$A/lib/$LIBNAME"
-    done
-  done
+echo "----- Fixing Library References -----"
+if [ "$UI_TYPE" = "x11" -o "$UI_TYPE" = "gtk" ]; then
+  FIX_LIB_PATH="@executable_path/../lib"
+else
+  FIX_LIB_PATH="@executable_path"
 fi
+# in all apps
+for app in $APPS ; do
+  for A in $MULTI_ARCH ; do
+    fix_ref "$BUILD_DIR/$A/src/$app" "$FIX_LIB_PATH"
+  done
+done
+# and all libs
+for lib in $EXTLIB ; do
+  LIBNAME="`basename \"$lib\"`"
+  for A in $MULTI_ARCH ; do
+    fix_ref "$BUILD_DIR/$A/lib/$LIBNAME" "$FIX_LIB_PATH"
+  done
+done
 
 # ----- Create Universal Binary -----
 if [ "$ARCH" != "$MULTI_ARCH" ]; then
