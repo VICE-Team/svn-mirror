@@ -38,7 +38,7 @@
 #include "sysfile.h"
 
 
-#define DRIVE_ROM1541_CHECKSUM      1988651
+#define DRIVE_ROM1541_CHECKSUM      1991711
 
 
 /* Logging goes here.  */
