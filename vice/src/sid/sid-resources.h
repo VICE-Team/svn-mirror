@@ -31,6 +31,7 @@ extern int sid_resources_init(void);
 extern int sidcart_resources_init(void);
 
 extern int sid_set_sid_stereo_address(int val, void *param);
+extern int sid_set_engine_model(int engine, int model);
 
 extern int sid_stereo;
 extern int checking_sid_stereo;

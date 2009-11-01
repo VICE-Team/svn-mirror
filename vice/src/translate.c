@@ -7399,700 +7399,1129 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_P_ENGINE,    N_("<engine>")},
+/* en */ {IDCLS_P_ENGINE_MODEL,    N_("<engine and model>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_ENGINE_DA, "<motor>"},
-/* de */ {IDCLS_P_ENGINE_DE, "<Engine>"},
-/* fr */ {IDCLS_P_ENGINE_FR, "<engin>"},
-/* hu */ {IDCLS_P_ENGINE_HU, "<motor>"},
-/* it */ {IDCLS_P_ENGINE_IT, "<motore>"},
-/* nl */ {IDCLS_P_ENGINE_NL, "<kern>"},
-/* pl */ {IDCLS_P_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_ENGINE_SV, "<motor>"},
-/* tr */ {IDCLS_P_ENGINE_TR, "<motor>"},
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID)"},
-#endif
+/* da */ {IDCLS_P_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ENGINE_MODEL_NL, "<kern en model>"},
+/* pl */ {IDCLS_P_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 3: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 3: HardSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 3: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 3: HardSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 4: ParSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 4: ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 3: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 4: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 1024: ParSID in par poort 1, 1280: ParSID in par "
+                                                "poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 7: ParSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 3: HardSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, "
-                                       "3: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 3: HardSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 4:ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, "
-                                       "4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 4: ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, "
-                                       "7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 3: HardSID, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: HardSID, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 3: HardSID, 4: ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 3: HardSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 3: HardSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 3: HardSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: HardSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: HardSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 3: HardSID, "
-                                       "7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: HardSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 3: HardSID, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 4: ParSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 4: ParSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 4: ParSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 4: ParSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 4: ParSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
+                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "3: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8680 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par poort 1, "
+                                                "1280: ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, "
+                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
+                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
+                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
+                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID, "
-                                       "4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
+                                                "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID, "
-                                       "7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 3: HardSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                                "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
+                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
+                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
+                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 4: ParSID, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-                                       "HardSID, 4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-                                       "HardSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: "
-                                       "ParSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: "
-                                       "ParSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
+                                                "1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
+                                                "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                                "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                                "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
-                                       "ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
-                                       "ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "3: HardSID, 4: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in "
+                                                "par poort 1, 1280: ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID, "
-                                       "7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, "
-                                       "7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "3: HardSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP "
+                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
+                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
+                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+                                                "8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "4: ParSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par poort 1, "
+                                                "1280: ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP "
+                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
+                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
+                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
+                                                "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
+                                                "+ digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID, "
-                                       "4: ParSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-                                       "HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
+                                                "ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP "
+                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
+                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
+                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
+                                                "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
+                                                "+ digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE,    N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                          "7: ReSID-FP)")},
+/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-"7: ReSID-FP)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
-                                       "ParSID, 7: ReSID-FP)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
-                                       "ParSID, 7: ReSID-FP)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, "
-                                       "3: HardSID, 4: ParSID, 7: ReSID-FP)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-                                       "7: ReSID-FP)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in "
+                                                "par poort 1, 1280: ParSID in par poort 2, 1536: ParSID in par poort 3, "
+                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+                                                "8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
+                                             "1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
+                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789. 1804: ReSID-FP "
+                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, "
+                                             "1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
+                                             "1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
+                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID "
+                                             "in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789 "
+                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
+                                             "8580R5 1489, ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1:"
+                                             "FastSID 8580, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in "
+                                             "par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
+                                             "1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8680 + "
+                                             "digiboost, 512: Catweasel, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID in par "
+                                             "poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in par "
+                                             "poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
+                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, 1536: "
+                                             "ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
+                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, "
+                                             "1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, "
+                                             "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
+                                             "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
+                                             "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID in "
+                                             "par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
+                                             "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in "
+                                             "par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
+                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
+                                             "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
+                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID in par "
+                                             "poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
+                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in par "
+                                             "poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
+                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par poort 1, "
+                                             "1280: ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP "
+                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
+                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
+                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
+                                             "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+                                             "digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
+                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
+                                             "digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
+                                             "ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 "
+                                             "4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
+                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
+                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
+                                             "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 1: Catweasel)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: Catweasel)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: Catweasel)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 512: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 2: HardSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: HardSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 3: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 3: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 3: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 3: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 3: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 1024: ParSID in par poort 1, 1280: ParSID in par poort "
+                                                 "2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: Catweasel, 2: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: Catweasel, 2: HardSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 2: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 2: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: "
-                                           "HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: Catweasel, 2: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 1: Catweasel, 3: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: Catweasel, 3: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel, 3: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: Catweasel, 3: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 3: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 3: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: Catweasel, 3: "
-                                           "ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel, 3: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: Catweasel, 3: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 512: Catweasel, 1024: ParSID in par poort 1, 1280: "
+                                                 "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 2: HardSID, 3: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 2: HardSID, 3: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: HardSID, 3: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 2: HardSID, 3: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: HardSID, 3: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: HardSID, 3: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 2: HardSID, 3: "
-                                           "ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: HardSID, 3: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 2: HardSID, 3: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
+                                                 "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},
 #endif
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    N_("Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)")},
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_DA, "Vælg SID-motor (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, "Spécifier l’engin SID (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: "
-                                           "HardSID, 3: ParSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_TR, "SID motorunu belirt (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
+                                                 "1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par "
+                                                 "poort 1, 1280: ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
@@ -8164,34 +8593,6 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_SID_2_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_2_ADDRESS_SV, "Ange basadress för andra SID"},
 /* tr */ {IDCLS_SPECIFY_SID_2_ADDRESS_TR, "2nci SID için taban adresini belirt"},
-#endif
-
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_P_MODEL,    N_("<model>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_MODEL_DA, "<model>"},
-/* de */ {IDCLS_P_MODEL_DE, "<Modell>"},
-/* fr */ {IDCLS_P_MODEL_FR, "<modèle>"},
-/* hu */ {IDCLS_P_MODEL_HU, "<modell>"},
-/* it */ {IDCLS_P_MODEL_IT, "<modello>"},
-/* nl */ {IDCLS_P_MODEL_NL, "<model>"},
-/* pl */ {IDCLS_P_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_MODEL_SV, "<modell>"},
-/* tr */ {IDCLS_P_MODEL_TR, "<model>"},
-#endif
-
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_MODEL,    N_("Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_MODEL_DA, "Angiv SID-model (0: 6581, 1: 8580, 2: 8580 + digitalforstærkning, 4: DTV)"},
-/* de */ {IDCLS_SPECIFY_SID_MODEL_DE, "SID Modell definieren (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"},
-/* fr */ {IDCLS_SPECIFY_SID_MODEL_FR, "Spécifier le modèle SID (0: 6581, 1: 8580, 2: 8580 + Boost digital, 4: DTV)"},
-/* hu */ {IDCLS_SPECIFY_SID_MODEL_HU, "Adja meg a SID típusát (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"},
-/* it */ {IDCLS_SPECIFY_SID_MODEL_IT, "Specifica il modello di SID (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"},
-/* nl */ {IDCLS_SPECIFY_SID_MODEL_NL, "Geef het SID model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"},
-/* pl */ {IDCLS_SPECIFY_SID_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_MODEL_SV, "Ange SID-modell (0: 6581, 1: 8580, 2: 8580 + digiförstärkning, 4: DTV)"},
-/* tr */ {IDCLS_SPECIFY_SID_MODEL_TR, "SID modelini belirt (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"},
 #endif
 
 /* sid/sid-cmdline-options.c */

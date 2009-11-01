@@ -1007,13 +1007,16 @@ IDCLS_ENABLE_IEC_11
 IDCLS_DISABLE_IEC_11
 
 /* sid/sid-cmdline-options.c */
-IDCLS_P_ENGINE
+IDCLS_P_ENGINE_MODEL
 
 /* sid/sid-cmdline-options.c */
-IDCLS_SPECIFY_SID_ENGINE
+IDCLS_SPECIFY_SID_ENGINE_MODEL
 
 /* sid/sid-cmdline-options.c */
-IDCLS_SPECIFY_SIDCART_ENGINE
+IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL
+
+/* sid/sid-cmdline-options.c */
+IDCLS_SPECIFY_SIDCART_ENGINE_MODEL
 
 /* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SECOND_SID
@@ -1029,12 +1032,6 @@ IDCLS_P_BASE_ADDRESS
 
 /* sid/sid-cmdline-options.c */
 IDCLS_SPECIFY_SID_2_ADDRESS
-
-/* sid/sid-cmdline-options.c */
-IDCLS_P_MODEL
-
-/* sid/sid-cmdline-options.c */
-IDCLS_SPECIFY_SID_MODEL
 
 /* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SID_FILTERS

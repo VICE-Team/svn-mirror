@@ -31,15 +31,29 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "sid.h"
 #include "sid-cmdline-options.h"
+#include "sid-resources.h"
 #include "translate.h"
 
+static int sid_common_set_engine_model(const char *param, void *extra_param)
+{
+    int engine;
+    int model;
+    int temp = atoi(param);
+
+    engine = (temp >> 8) & 0xff;
+    model = temp & 0xff;
+
+    return sid_set_engine_model(engine, model);
+}
+
 static const cmdline_option_t sidcart_cmdline_options[] = {
-    { "-sidengine", SET_RESOURCE, 1,
-      NULL, NULL, "SidEngine", NULL,
+    { "-sidenginemodel", CALL_FUNCTION, 1,
+      sid_common_set_engine_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_ENGINE, IDCLS_SPECIFY_SIDCART_ENGINE,
+      IDCLS_P_ENGINE_MODEL, IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,
       NULL, NULL },
     { "-sidcart", SET_RESOURCE, 1,
       NULL, NULL, "SidCart", NULL,
@@ -55,15 +69,24 @@ static const cmdline_option_t sidcart_cmdline_options[] = {
 };
 
 static const cmdline_option_t sidengine_cmdline_options[] = {
-    { "-sidengine", SET_RESOURCE, 1,
-      NULL, NULL, "SidEngine", NULL,
+    { "-sidenginemodel", CALL_FUNCTION, 1,
+      sid_common_set_engine_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_ENGINE, IDCLS_SPECIFY_SID_ENGINE,
+      IDCLS_P_ENGINE_MODEL, IDCLS_SPECIFY_SID_ENGINE_MODEL,
       NULL, NULL },
     { NULL }
 };
 
 #ifdef HAVE_RESID
+static const cmdline_option_t siddtvengine_cmdline_options[] = {
+    { "-sidenginemodel", CALL_FUNCTION, 1,
+      sid_common_set_engine_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_ENGINE_MODEL, IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,
+      NULL, NULL },
+    { NULL }
+};
+
 static const cmdline_option_t resid_cmdline_options[] = {
     { "-residsamp", SET_RESOURCE, 1,
       NULL, NULL, "SidResidSampling", (void *)0,
@@ -95,11 +118,6 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_SPECIFY_SID_2_ADDRESS,
       NULL, NULL },
-    { "-sidmodel", SET_RESOURCE, 1,
-      NULL, NULL, "SidModel", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SPECIFY_SID_MODEL,
-      NULL, NULL },
     { "-sidfilters", SET_RESOURCE, 0,
       NULL, NULL, "SidFilters", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -123,8 +141,21 @@ int sidcart_cmdline_options_init(void)
 
 int sid_cmdline_options_init(void)
 {
-    if (cmdline_register_options(sidengine_cmdline_options)<0)
+#ifdef HAVE_RESID
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        if (cmdline_register_options(siddtvengine_cmdline_options) < 0) {
+            return -1;
+        }
+    } else {
+        if (cmdline_register_options(sidengine_cmdline_options) < 0) {
+            return -1;
+        }
+    }
+#else
+    if (cmdline_register_options(sidengine_cmdline_options) < 0) {
         return -1;
+    }
+#endif
 
 #ifdef HAVE_RESID
     if (cmdline_register_options(resid_cmdline_options)<0)
