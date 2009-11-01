@@ -933,7 +933,7 @@ static WORD SwitchOffUnavailableDrives(WORD ulMask)
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     if (!drive_true_emulation) {
-        ulMask = 0;
+        ulMask &= ~(MDDPC_SET_DRIVE8|MDDPC_SET_DRIVE9|MDDPC_SET_DRIVE10|MDDPC_SET_DRIVE11);
     } else {
         resources_get_int("Drive8Type", &drive_type);
         if (drive_type == 0) {
