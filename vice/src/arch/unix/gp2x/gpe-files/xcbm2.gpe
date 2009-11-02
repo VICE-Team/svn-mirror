@@ -2,9 +2,8 @@
 
 export PATH=.:$PATH
 mount /mnt/sd -o remount,sync
-./xcbm2 -directory data/cbm-ii:data/drives -refresh 2 &>vice_log.txt
+./xcbm2 -directory data/cbm-ii:data/drives -sidenginemodel 0 -refresh 2 &>vice_log.txt
 mount /mnt/sd -o remount,async
 
 cd /usr/gp2x
 exec ./gp2xmenu
-
