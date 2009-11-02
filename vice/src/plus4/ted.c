@@ -744,8 +744,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
                               + ted.mem_counter_inc) & 0x3ff;
 			ted.chr_pos_count = (ted.chr_pos_count
                               + ted.mem_counter_inc) & 0x3ff;				
-			if (ted.bad_line)
-				memcpy(ted.cbuf, ted.cbuf_tmp, ted.mem_counter_inc);
+
         }
 
         ted.mem_counter_inc = TED_SCREEN_TEXTCOLS;
@@ -775,7 +774,11 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     if (ted.ted_raster_counter == ted.first_dma_line)
         ted.allow_bad_lines = !ted.raster.blank;
-
+	if (ted.allow_bad_lines 
+		&& (ted.ted_raster_counter & 7) == (unsigned int)((ted.raster.ysmooth + 1) & 7)) {
+		
+		memcpy(ted.cbuf, ted.cbuf_tmp, ted.mem_counter_inc);
+	}
     /* FIXME */
     if (ted.idle_state) {
         if (ted.regs[0x6] & 0x40) {
