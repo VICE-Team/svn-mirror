@@ -697,33 +697,37 @@ int finalexpansion_cmdline_options_init(void)
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "FINALEXPANSION"
-#define FLASH_SNAP_MODULE_NAME  "FLASH040FINALEXPANSION"
+#define FLASH_SNAP_MODULE_NAME  "FLASH040FE"
 
 int finalexpansion_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
- 
+
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
                           VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
- 
+
     if (0
         || (SMW_B(m, register_a) < 0)
         || (SMW_B(m, register_b) < 0)
         || (SMW_B(m, lock_bit) < 0)
         || (SMW_BA(m, cart_ram, CART_RAM_SIZE) < 0)
-        || (SMW_BA(m, flash_state.flash_data, CART_ROM_SIZE) < 0)
-        || (flash040core_snapshot_write_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        || (SMW_BA(m, flash_state.flash_data, CART_ROM_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
- 
+
     snapshot_module_close(m);
+
+    if ((flash040core_snapshot_write_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        return -1;
+    }
+
     return 0;
 }
- 
+
 int finalexpansion_snapshot_read_module(snapshot_t *s)
 {
     BYTE vmajor, vminor;
@@ -754,8 +758,7 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
         || (SMR_B(m, &register_b) < 0)
         || (SMR_B(m, &lock_bit) < 0)
         || (SMR_BA(m, cart_ram, CART_RAM_SIZE) < 0)
-        || (SMR_BA(m, flash_state.flash_data, CART_ROM_SIZE) < 0)
-        || (flash040core_snapshot_read_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        || (SMR_BA(m, flash_state.flash_data, CART_ROM_SIZE) < 0)) {
         snapshot_module_close(m);
         lib_free(flash_state.flash_data);
         flash040core_shutdown(&flash_state);
@@ -763,13 +766,21 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
         cart_ram = NULL;
         return -1;
     }
- 
+
     snapshot_module_close(m);
+
+    if ((flash040core_snapshot_read_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        lib_free(flash_state.flash_data);
+        flash040core_shutdown(&flash_state);
+        lib_free(cart_ram);
+        cart_ram = NULL;
+        return -1;
+    }
 
     mem_cart_blocks = VIC_CART_RAM123 |
         VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
         VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
- 
+
     return 0;
 }
