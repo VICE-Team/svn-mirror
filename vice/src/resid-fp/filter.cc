@@ -53,7 +53,7 @@ FilterFP::FilterFP()
   /* approximate; sid.cc calls us when set_sampling_parameters() occurs. */
   set_clock_frequency(1e6f);
   /* these parameters are a work-in-progress. */
-  set_distortion_properties(0.5f, -5.0e-7, 3.0e-4f);
+  set_distortion_properties(0.5f, -5.0e-7f, 3.0e-4f);
   /* sound similar to alankila6581r4ar3789 */
   set_type3_properties(1299501.5675945764f, 284015710.29875594f, 1.0065089724604026f, 18741.324073610594f);
   /* sound similar to trurl8580r5_3691 */
