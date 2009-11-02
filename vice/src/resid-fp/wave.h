@@ -65,7 +65,7 @@ protected:
   // Tell whether the accumulator MSB was set high on this cycle.
   bool msb_rising;
 
-  reg24 accumulator; /* shifted left by 8 for optimization */
+  reg24 accumulator;
   reg24 shift_register;
   reg12 noise_output_cached;
   reg8 previous;
@@ -87,7 +87,7 @@ protected:
   // zero level offset of waveform (< 0)
   float wave_zero;
 
-  float previous_dac, noise_output_cached_dac;
+  float previous_dac;
 
 friend class SIDFP;
 };
@@ -148,14 +148,8 @@ void WaveformGeneratorFP::synchronize(WaveformGeneratorFP& sync_dest, WaveformGe
 RESID_INLINE
 float WaveformGeneratorFP::output(WaveformGeneratorFP& sync_source)
 {
-  if (waveform == 0) {
+  if (waveform == 0 || waveform > 7) {
     return previous_dac;
-  }
-  if (waveform == 8) {
-    return noise_output_cached_dac;
-  }
-  if (waveform > 8) {
-    return wave_zero;
   }
   /* waveforms 1 .. 7 left */
 

@@ -272,7 +272,7 @@ float SIDFP::output()
    *
    * Output range is -32768 to 32767. */
   const float range = 1 << 15;
-  return extfilt.output() / (4095.f * 255.f * 3.f * 1.5f / range);
+  return extfilt.output() / (2047.f * 255.f * 3.f * 2.0f / range);
 }
 
 // ----------------------------------------------------------------------------

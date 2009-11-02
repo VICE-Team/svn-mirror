@@ -149,6 +149,8 @@ private:
   float type4_w0();
   void calculate_helpers();
   void nuke_denormals();
+  float waveshaper1(float value);
+  float waveshaper2(float value);
 
   // Filter enabled.
   bool enabled;
@@ -179,7 +181,7 @@ private:
   float clock_frequency;
 
   /* Distortion params for Type3 */
-  float distortion_rate, distortion_point, distortion_cf_threshold;
+  float attenuation, distortion_nonlinearity, intermixing_leaks;
 
   /* Type3 params. */
   float type3_baseresistance, type3_offset, type3_steepness, type3_minimumfetresistance;
@@ -191,8 +193,7 @@ private:
   float Vhp, Vbp, Vlp;
 
   /* Resonance/Distortion/Type3/Type4 helpers. */
-  float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, distortion_CT,
-        type3_fc_distortion_offset;
+  float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, distortion_CT;
 
   float nonlinearity;
 friend class SIDFP;
@@ -205,7 +206,6 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 const float sidcaps_6581 = 470e-12f;
-const float outputleveldifference = 1.2f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -238,36 +238,6 @@ static float fastexp(float val) {
 RESID_INLINE
 float FilterFP::type3_w0(const float dist)
 {
-    /* The distortion appears to be the result of MOSFET entering saturation
-     * mode. The conductance of a FET is proportional to:
-     *
-     * ohmic = 2 * (Vgs - Vt) * Vds - Vds^2
-     * saturation = (Vgs - Vt)^2
-     *
-     * The FET switches to saturation mode when Vgs - Vt < Vds.
-     *
-     * In the circuit, the Vgs is mixed with the Vds signal, which gives
-     * (Vgs + Vds) / 2 as the gate voltage. Doing the substitutions we get:
-     *
-     * ohmic = 2 * ((Vgs + Vds) / 2 - Vt) * Vds - Vds^2 = (Vgs - Vt) * Vds
-     * saturation = ((Vgs + Vds) / 2 - Vt)^2
-     *
-     * Therefore: once the Vds crosses a threshold given by the gate and
-     * threshold FET conductance begins to increase faster. The exact shape
-     * for this effect is a parabola.
-     *
-     * The scaling term here tries to match the FC control level with
-     * the signal level in simulation. On the chip, the FC control is
-     * biased by forcing its highest DAC bit in the 1 position, thus
-     * limiting the electrical range to half. Therefore one can guess that
-     * the real FC range is half of the full voice range.
-     *
-     * On the simulation, FC goes to 2047 and the voices to 4095 * 255.
-     * If the FC control was intact, then the scaling factor would be
-     * 1/512. (Simulation voices are 512 times "louder" intrinsically.)
-     * As the real chip's FC has reduced range, the scaling required to
-     * match levels is 1/256. */
-
     float fetresistance = type3_fc_kink_exp;
     if (dist > 0) {
         fetresistance *= fastexp(dist * type3_steepness);
@@ -285,6 +255,21 @@ float FilterFP::type4_w0()
 {
     const float freq = type4_k * fc + type4_b;
     return 2.f * static_cast<float>(M_PI) * freq / clock_frequency;
+}
+
+RESID_INLINE
+float FilterFP::waveshaper1(float value)
+{
+    if (value > 3.2e6f) {
+        value -= (value - 3.2e6f) * 0.5f;
+    }
+    return value;
+}
+
+RESID_INLINE
+float FilterFP::waveshaper2(float value)
+{
+    return value * fastexp(value * distortion_nonlinearity);
 }
 
 // ----------------------------------------------------------------------------
@@ -321,43 +306,26 @@ float FilterFP::clock(float voice1,
     }
     
     if (model == MOS6581FP) {
+        Vlp -= Vbp * type3_w0(Vbp);
+        Vbp -= Vhp * type3_w0(Vhp);
+        float Vhp_construction = waveshaper2(Vbp * _1_div_Q) - Vlp - Vi;
+        Vhp = waveshaper2(Vhp_construction * attenuation);
+
         /* output strip mixing to filter state */
-        if (hp_bp_lp & 2) {
-            Vf -= Vi * distortion_rate + Vhp + Vlp - Vbp * _1_div_Q;
-            Vbp += (Vf - Vbp) * distortion_cf_threshold;
-        }
         if (hp_bp_lp & 1) {
-            Vlp += (Vf - Vlp) * distortion_cf_threshold;
+            Vlp += (Vf - Vlp) * intermixing_leaks;
+        }
+        if (hp_bp_lp & 2) {
+            Vbp += (Vf - Vbp) * intermixing_leaks;
         }
         if (hp_bp_lp & 4) {
-            Vhp += (Vf - Vhp) * distortion_cf_threshold;
-        }
-        
-	Vlp -= Vbp * type3_w0(Vbp - type3_fc_distortion_offset) * outputleveldifference;
-        if (Vlp > 3.3e6f) {
-            Vlp -= (Vlp - 3.3e6f) * 0.5f;
-        }
-	Vbp -= Vhp * type3_w0(Vhp - type3_fc_distortion_offset) * outputleveldifference;
-        if (Vbp > 3.3e6f) {
-            Vbp -= (Vbp - 3.3e6f) * 0.5f;
-        }
-	Vhp = Vbp * _1_div_Q * (1.f/outputleveldifference)
-            - Vlp * (1.f/outputleveldifference/outputleveldifference)
-        /* the loss of level by about half is likely due to feedback
-         * between Vhp amp input and output. */
-            - Vi * distortion_rate;
-        if (Vhp > 3.3e6f) {
-            Vhp -= (Vhp - 3.3e6f) * 0.5f;
+            Vhp += (Vf - Vhp) * intermixing_leaks;
         }
 
-        if (Vf > 3.3e6f) {
-            Vf -= (Vf - 3.3e6f) * 0.5f;
-        }
+        /* saturate. This is likely the output inverter saturation. */
+        Vf = waveshaper1(Vf);
         Vf *= volf;
-
-        if (Vf > 3.3e6f) {
-            Vf -= (Vf - 3.3e6f) * 0.5f;
-        }
+        Vf = waveshaper1(Vf);
     } else {
         /* On the 8580, BP appears mixed in phase with the rest. */
         Vlp += Vbp * type4_w0_cache;

@@ -53,7 +53,7 @@ FilterFP::FilterFP()
   /* approximate; sid.cc calls us when set_sampling_parameters() occurs. */
   set_clock_frequency(1e6f);
   /* these parameters are a work-in-progress. */
-  set_distortion_properties(0.5f, 2048.f, 2.0e-4f);
+  set_distortion_properties(0.5f, -5.0e-7, 3.0e-4f);
   /* sound similar to alankila6581r4ar3789 */
   set_type3_properties(1299501.5675945764f, 284015710.29875594f, 1.0065089724604026f, 18741.324073610594f);
   /* sound similar to trurl8580r5_3691 */
@@ -96,11 +96,11 @@ void FilterFP::set_clock_frequency(float clock) {
     set_w0();
 }
 
-void FilterFP::set_distortion_properties(float r, float p, float cft)
+void FilterFP::set_distortion_properties(float a, float nl, float il)
 {
-    distortion_rate = r;
-    distortion_point = p;
-    distortion_cf_threshold = cft;
+    attenuation = a;
+    distortion_nonlinearity = nl;
+    intermixing_leaks = il;
     set_w0();
 }
 
@@ -115,7 +115,7 @@ void FilterFP::set_type3_properties(float br, float o, float s, float mfr)
 {
     type3_baseresistance = br;
     type3_offset = o;
-    type3_steepness = -logf(s) / 256.f; /* s^x to e^(x*ln(s)), 1/e^x == e^-x. */
+    type3_steepness = -logf(s) / 512.f; /* s^x to e^(x*ln(s)), 1/e^x == e^-x. */
     type3_minimumfetresistance = mfr;
     set_w0();
 }
@@ -129,7 +129,6 @@ void FilterFP::reset()
   res = filt = voice3off = hp_bp_lp = 0; 
   vol = 0;
   volf = Vhp = Vbp = Vlp = 0;
-  type3_fc_distortion_offset = 9e9f;
   type3_fc_kink_exp = 0;
   type4_w0_cache = 0;
   set_w0();
@@ -174,13 +173,7 @@ void FilterFP::set_w0()
   if (model == MOS6581FP) {
     /* div once by extra nonlinearity because I fitted the type3 eq with that variant. */
     float type3_fc_kink = SIDFP::kinked_dac(fc, nonlinearity, 11) / nonlinearity;
-    type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 256.f);
-    if (distortion_point != 0.f) {
-	type3_fc_distortion_offset = (distortion_point - type3_fc_kink) * 256.f * distortion_rate;
-    }
-    else {
-	type3_fc_distortion_offset = 9e9f;
-    }
+    type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 512.f);
   }
   if (model == MOS8580FP) {
     type4_w0_cache = type4_w0();
@@ -191,8 +184,5 @@ void FilterFP::set_w0()
 void FilterFP::set_Q()
 {
   float Q = res / 15.f;
-  if (model == MOS6581FP)
-      _1_div_Q = 1.f / (0.707f + Q);
-  if (model == MOS8580FP)
-      _1_div_Q = 1.f / (0.707f + Q * 1.6f);
+  _1_div_Q = 1.f / (0.707f + Q);
 }

@@ -28,29 +28,23 @@ typedef struct {
     float stmix;
 } waveformconfig_t;
 
-const float sharpness = 32.f;
-const waveformconfig_t wfconfig[3][5] = {
-  { /* kevtris chip D (6581r2/r3) */
-    {0.9321273f, 0.0f, 0.0f, 0.8860587f, 0.5655726f},
-    {0.8931507f, 2.483499f, 0.0f, 0.03339716f, 0.0f},
-    {0.8869214f, 2.440879f, 1.680824f, 0.02267573f, 0.0f},
-    {0.9266459f, 0.7393153f, 0.0f, 0.0598464f, 0.1851717f},
+const float sharpness = 512.f;
+const waveformconfig_t wfconfig[2][5] = {
+{
+    /* kevtris chip G (6581) */
+    { 0.880815f, 0.f, 0.f, 0.3279614f, 0.5999545f }, // error 1795
+    { 0.8924618f, 2.014781f, 1.003332f, 0.02992322f, 0.0f }, // error 11610
+    { 0.8646501f, 1.712586f, 1.137704f, 0.02845423f, 0.f }, // error 21307
+    { 0.9527834f, 1.794777f, 0.f, 0.09806272f, 0.7752482f }, // error 196
+    { 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, },
+}, {
+    /* kevtris chip V (8580) */
+    { 0.9781665f, 0.f, 0.9899469f, 8.087667f, 0.8226412f }, // error 5546
+    { 0.9097769f, 2.039997f, 0.9584096f, 0.1765447f, 0.f }, // error 18763
+    { 0.9231212f, 2.084788f, 0.9493895f, 0.1712518f, 0.f }, // error 17103
+    { 0.9845552f, 1.415612f, 0.9703883f, 3.68829f, 0.8265008f }, // error 3319
     { 0.5f, 0.0f, 1.0f, 0.0f, 0.0f },
-  },
-  { /* kevtris chip G (6581r2/r3) */
-    {0.9393118f, 0.0f, 0.0f, 1.038816f, 0.5292149f},
-    {0.8924618f, 2.01122f, 0.0f, 0.03133072f, 0.0f},
-    {0.8952018f, 2.213601f, 1.705941f, 0.01260567f, 0.0f},
-    {0.9322878f, 0.9076391f, 0.0f, 0.05378763f, 0.5269188f},
-    { 0.5f, 0.0f, 1.0f, 0.0f, 0.0f },
-  },
-  { /* kevtris chip V (8580) */
-    {0.9738218f, 0.0f, 0.992848f, 2.547508f, 0.9599405f},
-    {0.9236207f, 2.19129f, 0.0f, 0.1108298f, 0.0f},
-    {0.9248214f, 2.232846f, 0.9491023f, 0.1313893f, 0.0f},
-    {0.9845552f, 1.380867f, 0.9621406f, 1.592066f, 0.9472086f},
-    { 0.5f, 0.0f, 1.0f, 0.0f, 0.0f },
-  },
+}
 };
 
 /* render output from bitstate */
@@ -112,7 +106,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float o[12])
   }
 
   const waveformconfig_t config = wfconfig[
-    model == MOS6581FP ? 1 : 2
+    model == MOS6581FP ? 0 : 1
   ][
     waveform == 3 ? 0 :
     waveform == 5 ? 1 :
@@ -123,7 +117,6 @@ void WaveformGeneratorFP::calculate_waveform_sample(float o[12])
 
   /* S with strong top bit for 6581 */
   populate(accumulator >> 12, o);
-  o[11] *= config.topbit;
 
   /* convert to T */
   if ((waveform & 3) == 1) {
@@ -140,12 +133,14 @@ void WaveformGeneratorFP::calculate_waveform_sample(float o[12])
 
   /* convert to ST */
   if ((waveform & 3) == 3) {
-    for (i = 11; i > 0; i --) {
-      o[i] = o[i - 1] * (1.f - config.stmix) + o[i] * config.stmix;
-    }
     /* bottom bit is grounded via T waveform selector */
     o[0] *= config.stmix;
+    for (i = 1; i > 12; i ++) {
+      o[i] = o[i - 1] * (1.f - config.stmix) + o[i] * config.stmix;
+    }
   }
+
+  o[11] *= config.topbit;
 
   /* ST, P* waveform? */
   if (waveform == 3 || waveform > 4) {
@@ -249,12 +244,13 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
 {
   /* when selecting the 0 waveform, the previous output is held for
    * a time in the DAC MOSFET gates. We keep on holding forever, though... */
-  if (waveform != 0 && (control & 0x10) == 0) {
+  reg4 waveform_next = (control >> 4) & 0x0f;
+  if (waveform_next == 0 && waveform >= 1 && waveform <= 7) {
     previous = readOSC(source);
     previous_dac = output(source);
   }
 
-  waveform = (control >> 4) & 0x0f;
+  waveform = waveform_next;
   ring_mod = (control & 0x04) != 0;
   sync = (control & 0x02) != 0;
   bool test_next = (control & 0x08) != 0;
@@ -265,11 +261,13 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
     reg24 bit19 = (shift_register >> 18) & 2;
     shift_register = (shift_register & 0x7ffffd) | (bit19^2);
     noise_overwrite_delay = 200000; /* 200 ms, probably too generous? */
+  } else {
+    // Test bit falling? clock noise once,
+    // otherwise just emulate noise's combined waveforms.
+    if (! test_next) {
+      clock_noise(test);
+    }
   }
-
-  // Test bit falling? clock noise once,
-  // otherwise just emulate noise's combined waveforms.
-  clock_noise(!test_next && test);
  
   test = test_next;
 }
@@ -278,14 +276,8 @@ reg8 WaveformGeneratorFP::readOSC(WaveformGeneratorFP& source)
 {
   float o[12];
 
-  if (waveform == 0) {
+  if (waveform == 0 || waveform > 7) {
     return previous;
-  }
-  if (waveform == 8) {
-    return (reg8) (noise_output_cached >> 4);
-  }
-  if (waveform > 8) {
-    return 0;
   }
 
   /* Include effects of the test bit & ring mod */
@@ -324,11 +316,13 @@ void WaveformGeneratorFP::clock_noise(const bool clock)
     shift_register &= 0x7fffff^(1<<22)^(1<<20)^(1<<16)^(1<<13)^(1<<11)^(1<<7)^(1<<4)^(1<<2);
   }
 
-  noise_output_cached = outputN___();
-  noise_output_cached_dac = wave_zero;
-  for (int i = 4; i < 12; i ++) {
-    if (noise_output_cached & (1 << i)) {
-      noise_output_cached_dac += dac[i];
+  if (waveform >= 8) {
+    previous = outputN___() >> 4;
+    previous_dac = wave_zero;
+    for (int i = 0; i < 8; i ++) {
+      if (previous & (1 << i)) {
+        previous_dac += dac[i+4];
+      }
     }
   }
 }
@@ -354,8 +348,6 @@ void WaveformGeneratorFP::reset()
   accumulator = 0;
   previous = 0;
   previous_dac = 0;
-  noise_output_cached = 0;
-  noise_output_cached_dac = 0;
   shift_register = 0x7ffffc;
   freq = 0;
   pw = 0;
