@@ -370,7 +370,7 @@ static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
     bufferoffset = screenshot->x_offset 
                     + screenshot->y_offset * screenshot->draw_buffer_line_size;
 
-    pix = 3 * ((video_width - x_dim) / 2 + (video_height - y_dim) / 2 * x_dim);
+    pix = 3 * ((video_width - x_dim) / 2 + (video_height - y_dim) / 2 * video_width);
 
     for (y = 0; y < y_dim; y++) {
         for (x=0; x < x_dim; x++) {
@@ -379,6 +379,7 @@ static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
             pic->data[0][pix++] = screenshot->palette->entries[colnum].green;
             pic->data[0][pix++] = screenshot->palette->entries[colnum].blue;
         }
+        pix += (3 * (video_width - x_dim));
 
         bufferoffset += screenshot->draw_buffer_line_size;
     }
