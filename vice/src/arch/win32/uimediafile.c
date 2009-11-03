@@ -250,11 +250,11 @@ static void init_mediafile_dialog(HWND hwnd)
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < gfxoutput_num_drivers(); i++) {
         SendMessage(combo,CB_ADDSTRING, 0, (LPARAM)driver->displayname);
+        if (strcmp(driver->name, "FFMPEG") == 0) {
+            enable_ffmpeg = 1;
+        }
         if (driver == selected_driver) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
-            if (strcmp(driver->name, "FFMPEG") == 0) {
-                enable_ffmpeg = 1;
-            }
         }
         if (selected_driver == NULL && strcmp(driver->name, DEFAULT_DRIVER) == 0) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
