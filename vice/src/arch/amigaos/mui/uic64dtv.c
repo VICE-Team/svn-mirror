@@ -51,22 +51,6 @@ static const int ui_c64dtv_enable_values[] = {
     -1
 };
 
-static int ui_c64dtv_userport_device_translate[] = {
-    IDS_NONE,
-    IDS_ADC,
-    IDS_JOYSTICK,
-    0
-};
-
-static char *ui_c64dtv_userport_device[countof(ui_c64dtv_userport_device_translate)];
-
-static const int ui_c64dtv_userport_device_values[] = {
-    HUMMER_USERPORT_NONE,
-    HUMMER_USERPORT_ADC,
-    HUMMER_USERPORT_JOY,
-    -1
-};
-
 static char *ui_c64dtv_revision[] = {
     "DTV2",
     "DTV3",
@@ -79,24 +63,11 @@ static const int ui_c64dtv_revision_values[] = {
     -1
 };
 
-static char *ui_c64dtv_hummer_joy_port[] = {
-    "Joy1",
-    "Joy2",
-    NULL
-};
-
-static const int ui_c64dtv_hummer_joy_port_values[] = {
-    1,
-    2,
-    -1
-};
-
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values },
     { NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "HummerUserportDevice", ui_c64dtv_userport_device, ui_c64dtv_userport_device_values },
-    { NULL, MUI_TYPE_CYCLE, "HummerUserportJoyPort", ui_c64dtv_hummer_joy_port, ui_c64dtv_hummer_joy_port_values },
+    { NULL, MUI_TYPE_CYCLE, "HummerADC", ui_c64dtv_enable, ui_c64dtv_enable_values },
     UI_END /* mandatory */
 };
 
@@ -129,8 +100,7 @@ static APTR build_gui(void)
            FILENAME(ui_to_from[0].object, translate_text(IDS_C64DTV_ROM_FILENAME), browse_button)
            CYCLE(ui_to_from[1].object, translate_text(IDS_C64DTV_REVISION), ui_c64dtv_revision)
            CYCLE(ui_to_from[2].object, translate_text(IDS_C64DTV_WRITE_ENABLE), ui_c64dtv_enable)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_C64DTV_HUMMER_USERPORT_DEVICE), ui_c64dtv_userport_device)
-           CYCLE(ui_to_from[4].object, translate_text(IDS_C64DTV_HUMMER_JOY_PORT), ui_c64dtv_hummer_joy_port)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_C64DTV_HUMMER_ADC), ui_c64dtv_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -154,7 +124,6 @@ void ui_c64dtv_settings_dialog(video_canvas_t *canvas)
 
     c64dtv_canvas = canvas;
     intl_convert_mui_table(ui_c64dtv_enable_translate, ui_c64dtv_enable);
-    intl_convert_mui_table(ui_c64dtv_userport_device_translate, ui_c64dtv_userport_device);
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_C64DTV_SETTINGS));
 

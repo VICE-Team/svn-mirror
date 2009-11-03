@@ -214,6 +214,7 @@ static int open_mui(void)
         return -1;
     }
 #endif
+#endif
 }
 
 static int open_lowlevel(void)
@@ -420,9 +421,6 @@ void video_shutdown(void)
         video_canvas_destroy(canvas);
     }
 
-    if (CyberGfxBase) {
-        CloseLibrary(CyberGfxBase);
-    }
     close_cgx();
     close_xvideo();
     close_p96();
@@ -1259,7 +1257,7 @@ static const struct {
     { RGBFB_A8R8G8B8, makecol_ARGB32 }, /* 4 Byte TrueColor ARGB (A unused alpha channel) */
     { RGBFB_A8B8G8R8, makecol_ABGR32 }, /* 4 Byte TrueColor ABGR (A unused alpha channel) */
     { RGBFB_R8G8B8A8, makecol_RGBA32 }, /* 4 Byte TrueColor RGBA (A unused alpha channel) */
-    { GBFB_B8G8R8A8, makecol_BGRA32 }, /* 4 Byte TrueColor BGRA (A unused alpha channel) */
+    { RGBFB_B8G8R8A8, makecol_BGRA32 }, /* 4 Byte TrueColor BGRA (A unused alpha channel) */
     { RGBFB_R5G6B5, makecol_RGB565BE }, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: rrrrrggggggbbbbb */
     { RGBFB_R5G5B5, makecol_RGB555BE }, /* HiColor15 (5 bit each), format: 0rrrrrgggggbbbbb */
     { RGBFB_B5G6R5PC, makecol_BGR565LE }, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: gggrrrrrbbbbbggg */

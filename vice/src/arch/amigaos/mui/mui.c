@@ -97,6 +97,22 @@ static void cycle_get_to_ui(ui_to_from_t *data)
     }
 }
 
+static void cycle_sid_get_to_ui(ui_to_from_t *data)
+{
+    int n, temp = 0, val = 0;
+
+    resources_get_value("SidModel", (void *)&temp);
+    resources_get_value("SidEngine", (void *)&val);
+    val <<= 8;
+    val |= temp;
+    for (n = 0; data->values[n] != -1; n++) {
+        if (data->values[n] == val) {
+            set(data->object, MUIA_Cycle_Active, n);
+            break;
+        }
+    }
+}
+
 static void cycle_get_from_ui(ui_to_from_t *data)
 {
     int n, val = 0;
@@ -104,6 +120,19 @@ static void cycle_get_from_ui(ui_to_from_t *data)
     get(data->object, MUIA_Cycle_Active, (APTR)&n);
     val = data->values[n];
     resources_set_value(data->resource, (resource_value_t *)val);
+}
+
+static void cycle_sid_get_from_ui(ui_to_from_t *data)
+{
+    int n, val = 0;
+    int engine, model;
+
+    get(data->object, MUIA_Cycle_Active, (APTR)&n);
+    val = data->values[n];
+    engine = val >> 8;
+    model = val & 0xff;
+    resources_set_value("SidEngine", (resource_value_t *)engine);
+    resources_set_value("SidModel", (resource_value_t *)model);
 }
 
 static void integer_get_to_ui(ui_to_from_t *data)
@@ -199,6 +228,9 @@ void ui_get_from(ui_to_from_t *data)
                 case MUI_TYPE_CYCLE:
                     cycle_get_from_ui(data);
                     break;
+                case MUI_TYPE_CYCLE_SID:
+                    cycle_sid_get_from_ui(data);
+                    break;
                 case MUI_TYPE_INTEGER:
                     integer_get_from_ui(data);
                     break;
@@ -235,6 +267,9 @@ void ui_get_to(ui_to_from_t *data)
                     break;
                 case MUI_TYPE_CYCLE:
                     cycle_get_to_ui(data);
+                    break;
+                case MUI_TYPE_CYCLE_SID:
+                    cycle_sid_get_to_ui(data);
                     break;
                 case MUI_TYPE_INTEGER:
                     integer_get_to_ui(data);

@@ -52,14 +52,16 @@ static char *ui_sid_pages[] =
     NULL
 };
 
-static char *ui_sid_engine[] =
-{
-    "Fast SID",
+static char *ui_siddtv_engine_model[] = {
 #ifdef HAVE_RESID
-    "reSID-DTV",
+    "DTVSID (ReSID)",
 #endif
-#ifdef HAVE_RESID_FP
-    "reSID-fp",
+    "6581 (Fast SID)",
+    "8580 (Fast SID)",
+#ifdef HAVE_RESID
+    "6581 (ReSID)",
+    "8580 (ReSID)",
+    "8580 + digiboost (ReSID)",
 #endif
 #ifdef HAVE_CATWEASELMKIII
     "Catweasel MK3",
@@ -67,25 +69,51 @@ static char *ui_sid_engine[] =
 #ifdef HAVE_HARDSID
     "HardSID",
 #endif
-    NULL
+#ifdef HAVE_RESID_FP
+    "6581R3 4885 (ReSID-fp)",
+    "6581R3 0486S (ReSID-fp)",
+    "6581R3 3984 (ReSID-fp)",
+    "6581R4AR 3789 (ReSID-fp)",
+    "6581R3 4485 (ReSID-fp)",
+    "6581R4 1986S (ReSID-fp)",
+    "8580R5 3691 (ReSID-fp)",
+    "8580R5 3691 + digiboost (ReSID-fp)",
+    "8580R5 1489 (ReSID-fp)",
+    "8580R5 1489 + digiboost (ReSID-fp)",
+#endif
+    0
 };
 
-static const int ui_sid_engine_values[] =
-{
-    SID_ENGINE_FASTSID,
+static const int ui_siddtv_engine_model_values[] = {
 #ifdef HAVE_RESID
-    SID_ENGINE_RESID,
+    SID_RESID_DTVSID,
 #endif
-#ifdef HAVE_RESID_FP
-    SID_ENGINE_RESID_FP,
+    SID_FASTSID_6581,
+    SID_FASTSID_8580,
+#ifdef HAVE_RESID
+    SID_RESID_6581,
+    SID_RESID_8580,
+    SID_RESID_8580D,
 #endif
 #ifdef HAVE_CATWEASELMKIII
-    SID_ENGINE_CATWEASELMKIII,
+    SID_ENGINE_CATWEASELMKIII << 8,
 #endif
 #ifdef HAVE_HARDSID
-    SID_ENGINE_HARDSID,
+    SID_ENGINE_HARDSID << 8,
 #endif
-  -1
+#ifdef HAVE_RESID_FP
+    SID_RESIDFP_6581R3_4885,
+    SID_RESIDFP_6581R3_0486S,
+    SID_RESIDFP_6581R3_3984,
+    SID_RESIDFP_6581R4AR_3789,
+    SID_RESIDFP_6581R3_4485,
+    SID_RESIDFP_6581R4_1986S,
+    SID_RESIDFP_8580R5_3691,
+    SID_RESIDFP_8580R5_3691D,
+    SID_RESIDFP_8580R5_1489,
+    SID_RESIDFP_8580R5_1489D,
+#endif
+    -1
 };
 
 static int ui_sid_samplemethod_translate[] =
@@ -108,53 +136,8 @@ static const int ui_sid_samplemethod_values[] =
     -1
 };
 
-static char *ui_sid_model[] =
-{
-#ifdef HAVE_RESID
-    "DTVSID (ReSID-DTV)",
-#endif
-    "6581",
-    "8580",
-#ifdef HAVE_RESID_FP
-    "6581R3 4885 (ReSID-fp)",
-    "6581R3 0486S (ReSID-fp)",
-    "6581R3 3984 (ReSID-fp)",
-    "6581R4AR 3789 (ReSID-fp)",
-    "6581R3 4485 (ReSID-fp)",
-    "6581R4 1986S (ReSID-fp)",
-    "8580R5 3691 (ReSID-fp)",
-    "8580R5 3691 + digiboost (ReSID-fp)",
-    "8580R5 1489 (ReSID-fp)",
-    "8580R5 1489 + digiboost (ReSID-fp)",
-#endif
-    0
-};
-
-static const int ui_sid_model_values[] =
-{
-#ifdef HAVE_RESID
-    SID_MODEL_DTVSID,
-#endif
-    SID_MODEL_6581,
-    SID_MODEL_8580,
-#ifdef HAVE_RESID_FP
-    SID_MODEL_6581R3_4885,
-    SID_MODEL_6581R3_0486S,
-    SID_MODEL_6581R3_3984,
-    SID_MODEL_6581R4AR_3789,
-    SID_MODEL_6581R3_4485,
-    SID_MODEL_6581R4_1986S,
-    SID_MODEL_8580R5_3691,
-    SID_MODEL_8580R5_3691D,
-    SID_MODEL_8580R5_1489,
-    SID_MODEL_8580R5_1489D,
-#endif
-    -1
-};
-
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sid_engine, ui_sid_engine_values },
-    { NULL, MUI_TYPE_CYCLE, "SidModel", ui_sid_model, ui_sid_model_values },
+    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_siddtv_engine_model, ui_siddtv_engine_model_values },
     { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values },
@@ -168,14 +151,13 @@ static APTR build_gui(void)
     return RegisterObject,
              MUIA_Register_Titles, ui_sid_pages,
              Child, GroupObject,
-               CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE), ui_sid_engine)
-               CYCLE(ui_to_from[1].object, translate_text(IDS_SID_MODEL), ui_sid_model)
-               CHECK(ui_to_from[2].object, translate_text(IDS_SID_FILTERS))
+               CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE_MODEL), ui_siddtv_engine_model)
+               CHECK(ui_to_from[1].object, translate_text(IDS_SID_FILTERS))
              End,
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
              Child, GroupObject,
-               CYCLE(ui_to_from[3].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-               Child, ui_to_from[4].object = StringObject,
+               CYCLE(ui_to_from[2].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+               Child, ui_to_from[3].object = StringObject,
                  MUIA_Frame, MUIV_Frame_String,
                  MUIA_FrameTitle, translate_text(IDS_PASSBAND_0_90),
                  MUIA_String_Accept, "0123456789",

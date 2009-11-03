@@ -197,14 +197,15 @@
   static const struct Hook hook_function = { { NULL,NULL },(VOID *)function,NULL,NULL };
 #endif
 
-#define MUI_TYPE_NONE     (0)
-#define MUI_TYPE_RADIO    (1)
-#define MUI_TYPE_CHECK    (2)
-#define MUI_TYPE_CYCLE    (3)
-#define MUI_TYPE_INTEGER  (4)
-#define MUI_TYPE_FLOAT    (5)
-#define MUI_TYPE_TEXT     (6)
-#define MUI_TYPE_FILENAME (7)
+#define MUI_TYPE_NONE      (0)
+#define MUI_TYPE_RADIO     (1)
+#define MUI_TYPE_CHECK     (2)
+#define MUI_TYPE_CYCLE     (3)
+#define MUI_TYPE_CYCLE_SID (4)
+#define MUI_TYPE_INTEGER   (5)
+#define MUI_TYPE_FLOAT     (6)
+#define MUI_TYPE_TEXT      (7)
+#define MUI_TYPE_FILENAME  (8)
 
 typedef struct {
     APTR object;

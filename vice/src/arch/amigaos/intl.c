@@ -3794,27 +3794,16 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_C64DTV_WRITE_ENABLE_SV, "Skrivningar till C64DTV-ROM" },
 /* tr */ { IDS_C64DTV_WRITE_ENABLE_TR, "C64DTV ROM'una yazar" },
 
-/* en */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE,    "Hummer Userport device" },
-/* da */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_DA, "Hummer brugerportenhed" },
-/* de */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät" },
-/* fr */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_HU, "Hummer Userport eszköz" },
-/* it */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_IT, "Dispositivo sulla userport dell'Humme" },
-/* nl */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_NL, "Hummer Userport apparaat" },
-/* pl */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_PL, "" },  /* fuzzy */
-/* sv */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_SV, "Hummeranvändarportsenhet" },
-/* tr */ { IDS_C64DTV_HUMMER_USERPORT_DEVICE_TR, "Hummer Userport aygýtý" },
-
-/* en */ { IDS_C64DTV_HUMMER_JOY_PORT,    "Joystick port mapped to Hummer Userport" },
-/* da */ { IDS_C64DTV_HUMMER_JOY_PORT_DA, "Joystick tilsluttet brugerport" },
-/* de */ { IDS_C64DTV_HUMMER_JOY_PORT_DE, "Joystick Port auf Hummer Userport zugeordnet" },
-/* fr */ { IDS_C64DTV_HUMMER_JOY_PORT_FR, "" },  /* fuzzy */
-/* hu */ { IDS_C64DTV_HUMMER_JOY_PORT_HU, "Botkormány port leképezve a Hummer userportra" },
-/* it */ { IDS_C64DTV_HUMMER_JOY_PORT_IT, "Porta joystick mappata sulla userport dell'Hummer" },
-/* nl */ { IDS_C64DTV_HUMMER_JOY_PORT_NL, "Joystick omgeleidt naar Hummer Userport" },
-/* pl */ { IDS_C64DTV_HUMMER_JOY_PORT_PL, "" },  /* fuzzy */
-/* sv */ { IDS_C64DTV_HUMMER_JOY_PORT_SV, "Spelport kopplad till Hummeranvändarport" },
-/* tr */ { IDS_C64DTV_HUMMER_JOY_PORT_TR, "Joystick portu Hummer Userportu ile eþleþtirildi" },
+/* en */ { IDS_C64DTV_HUMMER_ADC,    "Hummer ADC" },
+/* da */ { IDS_C64DTV_HUMMER_ADC_DA, "" },  /* fuzzy */
+/* de */ { IDS_C64DTV_HUMMER_ADC_DE, "" },  /* fuzzy */
+/* fr */ { IDS_C64DTV_HUMMER_ADC_FR, "" },  /* fuzzy */
+/* hu */ { IDS_C64DTV_HUMMER_ADC_HU, "" },  /* fuzzy */
+/* it */ { IDS_C64DTV_HUMMER_ADC_IT, "" },  /* fuzzy */
+/* nl */ { IDS_C64DTV_HUMMER_ADC_NL, "Hummer ADC" },
+/* pl */ { IDS_C64DTV_HUMMER_ADC_PL, "" },  /* fuzzy */
+/* sv */ { IDS_C64DTV_HUMMER_ADC_SV, "" },  /* fuzzy */
+/* tr */ { IDS_C64DTV_HUMMER_ADC_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_C64DTV_SETTINGS,    "C64DTV Settings" },
 /* da */ { IDS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger" },
@@ -5097,17 +5086,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_8580_NEW_SV, "8580 (ny)" },
 /* tr */ { IDS_8580_NEW_TR, "8580 (yeni)" },
 
-/* en */ { IDS_SID_MODEL,    "SID Model" },
-/* da */ { IDS_SID_MODEL_DA, "SID-model" },
-/* de */ { IDS_SID_MODEL_DE, "SID Modell" },
-/* fr */ { IDS_SID_MODEL_FR, "Modele SID" },
-/* hu */ { IDS_SID_MODEL_HU, "SID típus" },
-/* it */ { IDS_SID_MODEL_IT, "Modello SID" },
-/* nl */ { IDS_SID_MODEL_NL, "SID-model" },
-/* pl */ { IDS_SID_MODEL_PL, "" },  /* fuzzy */
-/* sv */ { IDS_SID_MODEL_SV, "SID-modell" },
-/* tr */ { IDS_SID_MODEL_TR, "SID Modeli" },
-
 /* en */ { IDS_SID_STEREO,    "SID Stereo" },
 /* da */ { IDS_SID_STEREO_DA, "SID-stereo" },
 /* de */ { IDS_SID_STEREO_DE, "SID Stereo" },
@@ -5581,16 +5559,16 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SID_CART_SV, "SID-modul" },
 /* tr */ { IDS_SID_CART_TR, "SID Kartuþu" },
 
-/* en */ { IDS_SID_ENGINE,    "SID engine" },
-/* da */ { IDS_SID_ENGINE_DA, "SID-motor" },
-/* de */ { IDS_SID_ENGINE_DE, "SID Engine" },
-/* fr */ { IDS_SID_ENGINE_FR, "Engin SID" },
-/* hu */ { IDS_SID_ENGINE_HU, "SID Engine" },
-/* it */ { IDS_SID_ENGINE_IT, "Motore SID" },
-/* nl */ { IDS_SID_ENGINE_NL, "SID-kern" },
-/* pl */ { IDS_SID_ENGINE_PL, "" },  /* fuzzy */
-/* sv */ { IDS_SID_ENGINE_SV, "SID-motor" },
-/* tr */ { IDS_SID_ENGINE_TR, "SID Motoru" },
+/* en */ { IDS_SID_ENGINE_MODEL,    "SID engine/model" },
+/* da */ { IDS_SID_ENGINE_MODEL_DA, "" },  /* fuzzy */
+/* de */ { IDS_SID_ENGINE_MODEL_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SID_ENGINE_MODEL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SID_ENGINE_MODEL_HU, "" },  /* fuzzy */
+/* it */ { IDS_SID_ENGINE_MODEL_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID-kern/model" },
+/* pl */ { IDS_SID_ENGINE_MODEL_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SID_ENGINE_MODEL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SID_ENGINE_MODEL_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SID_ADDRESS,    "SID address" },
 /* da */ { IDS_SID_ADDRESS_DA, "SID-adresse" },
@@ -6667,8 +6645,8 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SAVE_EASYFLASH_CRT_NOW_IT, "" },  /* fuzzy */
 /* nl */ { IDS_SAVE_EASYFLASH_CRT_NOW_NL, "Sla nu op naar het EasyFlash CRT bestand" },
 /* pl */ { IDS_SAVE_EASYFLASH_CRT_NOW_PL, "" },  /* fuzzy */
-/* sv */ { IDS_SAVE_EASYFLASH_CRT_NOW_SV, "Spara till EasyFlash-CRT nu" }
-/* tr */ { IDS_SAVE_EASYFLASH_CRT_NOW_TR, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_EASYFLASH_CRT_NOW_SV, "Spara till EasyFlash-CRT nu" },
+/* tr */ { IDS_SAVE_EASYFLASH_CRT_NOW_TR, "" }  /* fuzzy */
 
 };
 
