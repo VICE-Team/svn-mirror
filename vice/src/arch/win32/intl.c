@@ -110,22 +110,6 @@ static char *language_table[] = {
 
 static int intl_table[][countof(language_table)] = {
 
-/* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
-
-/* ressidcart.rc */
-/* en */ { IDD_SIDCARTPLUS4_SETTINGS_DIALOG,
-/* da */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DA,    /* fuzzy, size */
-/* de */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_HU,    /* fuzzy, size */
-/* it */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_NL,    /* fuzzy, size */
-/* pl */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_SV,    /* fuzzy, size */
-/* tr */   IDD_SIDCARTPLUS4_SETTINGS_DIALOG_TR },  /* fuzzy, size */
-
-/* ------------------------------ MENU RESOURCES ------------------------------ */ 
-
 /* res.rc */
 /* en */ { IDR_MENUMONITOR,
 /* da */   IDR_MENUMONITOR_DA,    /* fuzzy */

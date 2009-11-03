@@ -15,30 +15,26 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "", IDC_SIDCART_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "", IDC_SIDCART_ENGINE_LABEL,
+    LTEXT           "", IDC_SIDCART_ENGINE_MODEL_LABEL,
                     9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE,
-                    70, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "", IDC_SIDCART_MODEL_LABEL,
-                    9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL,
-                    70, 38, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SIDCART_ENGINE_MODEL,
+                    70, 22, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "", IDC_SIDCART_ADDRESS_LABEL,
                     9, 70, 53, 8
     COMBOBOX        IDC_SIDCART_ADDRESS,
-                    70, 68, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    70, 68, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "", IDC_SIDCART_CLOCK_LABEL,
                     9, 86, 53, 8
     COMBOBOX        IDC_SIDCART_CLOCK,
-                    70, 84, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    70, 84, 150, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "", IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL,
                     9, 110, 90, 8
     LTEXT           "", IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL,
                     9, 122, 58, 8
     COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE,
-                    70, 120, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    70, 120, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
                     30, 150, 50, 14, WS_TABSTOP
@@ -56,30 +52,26 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "", IDC_SIDCART_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "", IDC_SIDCART_ENGINE_LABEL,
+    LTEXT           "", IDC_SIDCART_ENGINE_MODEL_LABEL,
                     9, 24, 53, 8
-    COMBOBOX        IDC_SIDCART_ENGINE,
-                    70, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "", IDC_SIDCART_MODEL_LABEL,
-                    9, 40, 53, 8
-    COMBOBOX        IDC_SIDCART_MODEL,
-                    70, 38, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SIDCART_ENGINE_MODEL,
+                    70, 22, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "", IDC_SIDCART_ADDRESS_LABEL,
                     9, 70, 53, 8
     COMBOBOX        IDC_SIDCART_ADDRESS,
-                    70, 68, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    70, 68, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "", IDC_SIDCART_CLOCK_LABEL,
                     9, 86, 53, 8
     COMBOBOX        IDC_SIDCART_CLOCK,
-                    70, 84, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    70, 84, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "", IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL,
                     9, 110, 90, 8
     LTEXT           "", IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL,
                     9, 122, 58, 8
     COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE,
-                    70, 120, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    70, 120, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
