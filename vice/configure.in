@@ -2240,10 +2240,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     fi
 
     if test x"$MISSING_X_LIBS" != "x"; then
-      echo
-      echo "+++ Warning: the following important X11 libraries were not found: $MISSING_X_LIBS"
-      echo "+++ You might have to edit the Makefile by hand to compile properly"
-      echo
+      AC_MSG_ERROR([The following important X11 libraries were not found: $MISSING_X_LIBS])
     fi
 
     AC_CHECK_HEADERS(X11/Sunkeysym.h X11/xpm.h xpm.h)
