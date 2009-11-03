@@ -1162,6 +1162,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 void monitor_shutdown(void)
 {
     monitor_cpu_type_list_t *list, *list_next;
+    supported_cpu_type_list_t *slist, *slist_next;
+    int i;
 
     list = monitor_cpu_type_list;
 
@@ -1170,6 +1172,15 @@ void monitor_shutdown(void)
         montor_list_destroy(list);
         list = list_next;
     }
+    for (i=0; i < NUM_MEMSPACES; i++) {
+        slist = monitor_cpu_type_supported[i];
+        while (slist != NULL) {
+            slist_next = slist->next;
+            lib_free(slist);
+            slist = slist_next;
+        }
+    }
+
 #ifdef FEATURE_CPUMEMHISTORY                                                                                                                                                                         
    lib_free(mon_memmap);                                                                                                                                                                            
 #endif
