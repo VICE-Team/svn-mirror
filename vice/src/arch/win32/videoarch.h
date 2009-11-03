@@ -86,6 +86,8 @@ typedef struct video_canvas_s {
 #ifdef HAVE_D3D9_H
     LPDIRECT3DDEVICE9 d3ddev;
     LPDIRECT3DSURFACE9 d3dsurface;
+    RECT *dest_rect_ptr;
+    RECT dest_rect;
 #endif
     int client_width;
     int client_height;

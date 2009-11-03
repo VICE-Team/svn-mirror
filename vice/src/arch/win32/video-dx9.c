@@ -27,7 +27,9 @@
 #include "vice.h"
 
 #include "fullscrn.h"
+#include "lib.h"
 #include "log.h"
+#include "resources.h"
 #include "ui.h"
 #include "video.h"
 #include "videoarch.h"
@@ -89,12 +91,41 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
 
     if (fullscreen) {
         int width, height, bitdepth, refreshrate;
-
+        int keep_aspect_ratio, aspect_ratio;
+        int shrinked_width, shrinked_height;
+        double canvas_aspect_ratio;
+  
         GetCurrentModeParameters(&device, &width, &height, &bitdepth, &refreshrate);
+        if (height <= 0)
+            return -1;
+
+        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+        if (keep_aspect_ratio == 0) {
+            canvas->dest_rect_ptr = NULL;
+        } else {
+            canvas->dest_rect_ptr = &canvas->dest_rect;
+            resources_get_int("AspectRatio", &aspect_ratio);
+            canvas_aspect_ratio = aspect_ratio / 1000.0 
+                                    * canvas->width / canvas->height;
+            if (canvas_aspect_ratio < (double) width / height) {
+                shrinked_width = (int)(height / canvas_aspect_ratio);
+                canvas->dest_rect.top = 0;
+                canvas->dest_rect.bottom = height - 1;
+                canvas->dest_rect.left = (width - shrinked_width) / 2;
+                canvas->dest_rect.right = canvas->dest_rect.left + shrinked_width - 1;
+            } else {
+                shrinked_height = (int)(width / canvas_aspect_ratio);
+                canvas->dest_rect.left = 0;
+                canvas->dest_rect.right = width - 1;
+                canvas->dest_rect.top = (height - shrinked_height) / 2;
+                canvas->dest_rect.bottom = canvas->dest_rect.top + shrinked_height - 1;
+            }
+        }
         d3dpp.Windowed = FALSE;
         d3dpp.BackBufferWidth = width;
         d3dpp.BackBufferHeight = height;
     } else {
+        canvas->dest_rect_ptr = NULL;
         d3dpp.Windowed = TRUE;
         d3dpp.BackBufferWidth = canvas->width;
         d3dpp.BackBufferHeight = canvas->height;
@@ -238,7 +269,8 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
         return -1;
     }
 
-    if (S_OK != IDirect3DDevice9_BeginScene(canvas->d3ddev) ||
+    if (S_OK != IDirect3DDevice9_Clear(canvas->d3ddev, 0, NULL, D3DCLEAR_TARGET, 0, 0, 0) ||
+        S_OK != IDirect3DDevice9_BeginScene(canvas->d3ddev) ||
         S_OK != IDirect3DDevice9_GetBackBuffer(canvas->d3ddev, 0, 0, D3DBACKBUFFER_TYPE_MONO, &d3dbackbuffer) ||
         S_OK != IDirect3DSurface9_LockRect(canvas->d3dsurface, &lockedrect, NULL, 0)) {
         log_debug("video_dx9: Failed to prepare for rendering!");
@@ -253,7 +285,7 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
     }
 
     do {
-        stretchresult = IDirect3DDevice9_StretchRect(canvas->d3ddev, canvas->d3dsurface, NULL, d3dbackbuffer, NULL, d3dpreffilter);
+        stretchresult = IDirect3DDevice9_StretchRect(canvas->d3ddev, canvas->d3dsurface, NULL, d3dbackbuffer, canvas->dest_rect_ptr, d3dpreffilter);
 
         if (d3dpreffilter == D3DTEXF_NONE) {
             break;
