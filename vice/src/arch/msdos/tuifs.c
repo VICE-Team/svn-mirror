@@ -261,7 +261,7 @@ static struct file_list *file_list_read(const char *path, const char *pattern)
 #ifdef HAVE_ALLEGRO_H
     if ((os_type == OSTYPE_WIN95)
 #ifdef OSTYPE_WIN98
-        || (os_type == OSTYPE_WIN98) {
+        || (os_type == OSTYPE_WIN98)
 #endif
         || (os_type == OSTYPE_WINNT)) {
         return file_list_read_lfn(path, pattern);

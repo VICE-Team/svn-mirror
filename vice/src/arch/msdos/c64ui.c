@@ -272,6 +272,7 @@ static void add_palette_submenu(tui_menu_t parent)
                           palette_callback,
                           (void *)palette_items[i].name, 0,
                           TUI_MENU_BEH_RESUME);
+    }
 
     tui_menu_add_item(palette_menu, "C_ustom",
                       "Load a custom palette",

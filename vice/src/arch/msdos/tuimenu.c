@@ -518,7 +518,7 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
                     do {
                         item_ptr = item_ptr->prev;
                         current_item--;
-                    } while (item_ptr != NULL item_ptr->type == TUI_MENU_SEPARATOR);
+                    } while (item_ptr != NULL && item_ptr->type == TUI_MENU_SEPARATOR);
                     if (item_ptr == NULL) {
                         current_item = menu->num_items - 1;
                         item_ptr = tui_menu_find_last_item(menu);

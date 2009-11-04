@@ -45,7 +45,7 @@ static TUI_MENU_CALLBACK(dqbb_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change DQBB image name", "New image name:", s, 255) == -1)
+        if (tui_input_string("Change DQBB image name", "New image name:", s, 255) == -1) {
             return NULL;
         }
 
