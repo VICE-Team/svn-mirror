@@ -131,8 +131,8 @@ static void cycle_sid_get_from_ui(ui_to_from_t *data)
     val = data->values[n];
     engine = val >> 8;
     model = val & 0xff;
-    resources_set_value("SidEngine", (resource_value_t *)engine);
-    resources_set_value("SidModel", (resource_value_t *)model);
+    
+    sid_set_engine_model(engine, model);
 }
 
 static void integer_get_to_ui(ui_to_from_t *data)
