@@ -179,6 +179,7 @@ static void init_mediafile_dialog(HWND hwnd)
     gfxoutputdrv_t *driver;
     const char *ffmpeg_format;
     int i;
+    int have_ffmpeg = 0;
     int enable_ffmpeg = 0;
     int bitrate;
     TCHAR st[256];
@@ -251,7 +252,7 @@ static void init_mediafile_dialog(HWND hwnd)
     for (i = 0; i < gfxoutput_num_drivers(); i++) {
         SendMessage(combo,CB_ADDSTRING, 0, (LPARAM)driver->displayname);
         if (strcmp(driver->name, "FFMPEG") == 0) {
-            enable_ffmpeg = 1;
+            have_ffmpeg = 1;
         }
         if (driver == selected_driver) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
@@ -259,12 +260,15 @@ static void init_mediafile_dialog(HWND hwnd)
         if (selected_driver == NULL && strcmp(driver->name, DEFAULT_DRIVER) == 0) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
             system_wcstombs(screendrivername, driver->name, MAXSCRNDRVLEN);
+            selected_driver = driver;
         }
 
         driver = gfxoutput_drivers_iter_next();
     }
 
-    if (enable_ffmpeg == 1) {
+    enable_ffmpeg = (strcmp(selected_driver->name, "FFMPEG") == 0);
+
+    if (have_ffmpeg == 1) {
         resources_get_string("FFMPEGFormat", &ffmpeg_format);
         combo = GetDlgItem(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT);
         for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
