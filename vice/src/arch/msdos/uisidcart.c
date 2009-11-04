@@ -39,93 +39,89 @@ static char *sidcart_secondary_address;
 static char *sidcart_clock;
 
 TUI_MENU_DEFINE_TOGGLE(SidCart)
-TUI_MENU_DEFINE_RADIO(SidModel)
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
-TUI_MENU_DEFINE_RADIO(SidEngine)
 TUI_MENU_DEFINE_RADIO(SidAddress)
 TUI_MENU_DEFINE_RADIO(SidClock)
 
-static TUI_MENU_CALLBACK(sid_model_submenu_callback)
+
+static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
 {
     static char s[256];
+    int temp;
     int value;
 
-    resources_get_int("SidModel", &value);
-
+    resources_get_int("SidModel", &temp);
+    resources_get_int("SidEngine", &value);
+    value <<= 8;
+    value |= temp;
     switch (value) {
-        case SID_MODEL_6581:
-            sprintf(s, "6581");
+        case SID_FASTSID_6581:
+            sprintf(s, "6581 (Fast SID)");
             break;
-        case SID_MODEL_8580:
-            sprintf(s, "8580");
+        case SID_FASTSID_8580:
+            sprintf(s, "8580 (Fast SID)");
             break;
-        case SID_MODEL_8580D:
-            sprintf(s, "8580 + digi boost");
+#ifdef HAVE_PARSID
+        case SID_PARSID_PORT1:
+            sprintf(s, "ParSID in Port 1");
             break;
+        case SID_PARSID_PORT2:
+            sprintf(s, "ParSID in Port 2");
+            break;
+        case SID_PARSID_PORT3:
+            sprintf(s, "ParSID in Port 3");
+            break;
+#endif
     }
-
     return s;
 }
 
-static tui_menu_item_def_t sid_model_submenu[] = {
-    { "_6581",
-      "SID 6581 emulation",
-      radio_SidModel_callback, (void *)SID_MODEL_6581, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8580",
-      "SID 8580 emulation",
-      radio_SidModel_callback, (void *)SID_MODEL_8580, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "8580 + _digi boost",
-      "SID 8580 + digi boost emulation",
-      radio_SidModel_callback, (void *)SID_MODEL_8580D, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static TUI_MENU_CALLBACK(sid_engine_submenu_callback)
+static TUI_MENU_CALLBACK(sid_radio_engine_model_callback)
 {
-    int value;
+    int engine;
+    int model;
 
-    resources_get_int("SidEngine", &value);
-
-    switch (value) {
-        case SID_ENGINE_FASTSID:
-            return "FastSID";
-            break;
-#ifdef HAVE_PARSID
-        case SID_ENGINE_PARSID_PORT1:
-            return "ParSID Port 1";
-            break;
-        case SID_ENGINE_PARSID_PORT2:
-            return "ParSID Port 2";
-            break;
-        case SID_ENGINE_PARSID_PORT3:
-            return "ParSID Port 3";
-            break;
-#endif
-        default:
-            return "Unknown";
+    if (been_activated) {
+        engine = (int)param;
+        engine >>= 8;
+        model = (int)param;
+        model &= 0xff;
+        sid_set_engine_model(engine, model);
+        *become_default = 1;
+    } else {
+        resource_value_t v;
+        resources_get_int("SidEngine", &engine);
+        resources_get_int("SidModel", &model);
+        engine <<= 8;
+        engine |= model;
+        if (engine == (int)param) {
+            *become_default = 1;
+        }
     }
+    return NULL;
 }
 
-static tui_menu_item_def_t sid_engine_submenu[] = {
-    { "_FastSID",
-      "Fast SID emulation",
-      radio_SidEngine_callback, (void *)SID_ENGINE_FASTSID, 0,
+static tui_menu_item_def_t sid_engine_model_submenu[] = {
+    { "_6581 (Fast SID)",
+      "Fast SID 6581 emulation",
+      sid_radio_engine_model_callback, (void *)SID_FASTSID_6581, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_8580 (Fast SID)",
+      "Fast SID 8580 emulation",
+      sid_radio_engine_model_callback, (void *)SID_FASTSID_8580, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #ifdef HAVE_PARSID
-    { "ParSID Port _1",
-      "Parallel Port 1 SID adapter",
-      radio_SidEngine_callback, (void *)SID_ENGINE_PARSID_PORT1, 0,
+    { "ParSID in Port 1",
+      "ParSID emulation",
+      sid_radio_engine_model_callback, (void *)SID_PARSID_PORT1, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "ParSID Port _2",
-      "Parallel Port 2 SID adapter",
-      radio_SidEngine_callback, (void *)SID_ENGINE_PARSID_PORT2, 0,
+    { "ParSID in Port 2",
+      "ParSID emulation",
+      sid_radio_engine_model_callback, (void *)SID_PARSID_PORT2, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "ParSID Port _3",
-      "Parallel Port 3 SID adapter",
-      radio_SidEngine_callback, (void *)SID_ENGINE_PARSID_PORT3, 0,
+    { "ParSID in Port 3",
+      "ParSID emulation",
+      sid_radio_engine_model_callback, (void *)SID_PARSID_PORT3, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #endif
     { NULL }
@@ -182,14 +178,10 @@ tui_menu_item_def_t sidcart_ui_menu_items[] = {
       "Enable/disable emulation of the SID cartridge",
       toggle_SidCart_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "SID _Engine:",
-      "Select the SID engine",
-      sid_engine_submenu_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, sid_engine_submenu, "SID engine" },
-    { "SID _Model:",
-      "Select the SID model to emulate",
-      sid_model_submenu_callback, NULL, 16,
-      TUI_MENU_BEH_CONTINUE, sid_model_submenu, "SID model" },
+    { "SID _Engine/Model:",
+      "Select the SID engine and model",
+      sid_engine_model_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, sid_engine_model_submenu, "SID engine/model" },
     { "SID _Filters:",
       "Enable/disable emulation of the SID built-in programmable filters",
       toggle_SidFilters_callback, NULL, 4,
@@ -212,14 +204,10 @@ tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
       "Enable/disable emulation of the SID cartridge",
       toggle_SidCart_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "SID _Engine:",
-      "Select the SID engine",
-      sid_engine_submenu_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, sid_engine_submenu, "SID engine" },
-    { "SID _Model:",
-      "Select the SID model to emulate",
-      sid_model_submenu_callback, NULL, 16,
-      TUI_MENU_BEH_CONTINUE, sid_model_submenu, "SID model" },
+    { "SID _Engine/Model:",
+      "Select the SID engine and model",
+      sid_engine_model_submenu_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, sid_engine_model_submenu, "SID engine/model" },
     { "SID _Filters:",
       "Enable/disable emulation of the SID built-in programmable filters",
       toggle_SidFilters_callback, NULL, 4,
