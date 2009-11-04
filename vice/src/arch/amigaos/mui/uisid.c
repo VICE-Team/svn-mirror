@@ -107,10 +107,10 @@ static const int ui_sid_engine_model_values[] = {
     SID_RESID_8580D,
 #endif
 #ifdef HAVE_CATWEASELMKIII
-    SID_ENGINE_CATWEASELMKIII << 8,
+    SID_CATWEASELMKIII,
 #endif
 #ifdef HAVE_HARDSID
-    SID_ENGINE_HARDSID << 8,
+    SID_HARDSID,
 #endif
 #ifdef HAVE_RESID_FP
     SID_RESIDFP_6581R3_4885,

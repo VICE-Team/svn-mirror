@@ -67,15 +67,15 @@ static const int ui_sid_engine_model_values[] = {
     SID_FASTSID_6581,
     SID_FASTSID_8580,
 #ifdef HAVE_CATWEASELMKIII
-    SID_ENGINE_CATWEASELMKIII << 8,
+    SID_CATWEASELMKIII,
 #endif
 #ifdef HAVE_HARDSID
-    SID_ENGINE_HARDSID << 8,
+    SID_HARDSID,
 #endif
 #ifdef HAVE_PARSID
-    SID_ENGINE_PARSID_PORT1 << 8,
-    SID_ENGINE_PARSID_PORT1 << 8,
-    SID_ENGINE_PARSID_PORT1 << 8,
+    SID_PARSID_PORT1,
+    SID_PARSID_PORT2,
+    SID_PARSID_PORT3,
 #endif
     -1
 };
