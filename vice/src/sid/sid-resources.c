@@ -398,4 +398,6 @@ int sid_set_engine_model(int engine, int model)
     }
     resources_set_int("SidEngine", engine);
     resources_set_int("SidModel", model);
+
+    return 0;
 }

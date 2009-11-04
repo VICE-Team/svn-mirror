@@ -724,7 +724,7 @@ inline static void ted1f_store(BYTE value)
 	new_cursor_count = (value >> 3) & 0x0f;
 	current_cursor_phase = ted.cursor_phase & 0x10;
 
-	if ((ted.cursor_phase & 0x0f == 0x0f) && (new_cursor_count & 0x0f) != 0x0f) {
+	if ((ted.cursor_phase & 0x0f) == 0x0f && (new_cursor_count & 0x0f) != 0x0f) {
 		current_cursor_phase ^= 0x10;
 	}
 	ted.cursor_phase = current_cursor_phase | new_cursor_count;
