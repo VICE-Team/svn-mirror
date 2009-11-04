@@ -56,6 +56,7 @@ static gfxoutputdrv_codec_t avi_video_codeclist[] = {
     { CODEC_ID_MPEG4, "MPEG4 (DivX)" },
     { CODEC_ID_MPEG1VIDEO, "MPEG1" },
     { CODEC_ID_FFV1, "FFV1 (lossless)" },
+    { CODEC_ID_H264, "H264" },
     { 0, NULL }
 };
 
@@ -529,10 +530,9 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
     c->pix_fmt = PIX_FMT_YUV420P;
 
-    /* FFV1 isn't strict standard compliant */
+    /* Avoid format conversion which would lead to loss of quality */
     if (c->codec_id == CODEC_ID_FFV1) {
-        c->strict_std_compliance = -1;
-        c->pix_fmt = PIX_FMT_RGBA;
+        c->pix_fmt = PIX_FMT_RGB32;
     }
 
 #ifdef HAVE_FFMPEG_SWSCALE
