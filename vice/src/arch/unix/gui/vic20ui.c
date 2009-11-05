@@ -332,14 +332,34 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
+
+UI_CALLBACK(set_mc_nvram_image_name)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Mega-Cart NvRAM image name"), _("Name:"));
+}
+
+static ui_menu_entry_t cartridge_options_submenu[] = {
+    { N_("*Reset on cartridge change"),
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
+    { N_("*Final Expansion write back"),
+      (ui_callback_t)toggle_FinalExpansionWriteBack, NULL, NULL },
+    { N_("*Mega-Cart NvRAM write back"),
+      (ui_callback_t)toggle_MegaCartNvRAMWriteBack, NULL, NULL },
+    { N_("Mega-Cart NvRAM file..."),
+      (ui_callback_t)set_mc_nvram_image_name,
+      (ui_callback_data_t)"MegaCartNvRAMfilename", NULL },
+    { NULL }
+};
 
 static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
     { N_("Attach a cartridge image"),
       NULL, NULL, attach_cartridge_image_submenu },
     { N_("Detach cartridge image(s)"),
       (ui_callback_t)detach_cartridge, NULL, NULL },
-    { N_("*Reset on cartridge change"),
-      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
+    { N_("Cartridge options"),
+      NULL, NULL, cartridge_options_submenu },
     { NULL }
 };
 
