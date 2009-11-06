@@ -34,140 +34,169 @@
 #include "resources.h"
 #include "sid.h"
 #include "uiapi.h"
+#include "uilib.h"
 #include "uimenu.h"
 #include "vsync.h"
 
-UI_MENU_DEFINE_RADIO(SidEngine)
+static UI_CALLBACK(radio_SidModel)
+{
+    int engine, model, selected;
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
 
-ui_menu_entry_t sid_engine_submenu[] = {
-    { N_("*Fast SID"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_FASTSID, NULL },
-#ifdef HAVE_RESID
-    { N_("*ReSID"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_RESID, NULL },
-#endif
-#ifdef HAVE_RESID_FP
-    { N_("*ReSID-FP"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_RESID_FP, NULL },
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    { N_("*Catweasel MKIII"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII, NULL },
-#endif
-#ifdef HAVE_HARDSID
-    { N_("*HardSID"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_HARDSID, NULL },
-#endif
-#ifdef HAVE_PARSID
-    { N_("*ParSID Port 1"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_PARSID_PORT1, NULL },
-    { N_("*ParSID Port 2"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_PARSID_PORT2, NULL },
-    { N_("*ParSID Port 3"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_PARSID_PORT3, NULL },
-#endif
-    { NULL }
-};
+    if (!CHECK_MENUS) {
+        engine = selected >> 8;
+        model = selected & 0xff;
+        sid_set_engine_model(engine, model);
+        ui_update_menus();
+    } else {
+        resources_get_int("SidEngine", &engine);
+        resources_get_int("SidModel", &model);
 
-ui_menu_entry_t sid_dtv_engine_submenu[] = {
-    { N_("*Fast SID"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_FASTSID, NULL },
-#ifdef HAVE_RESID
-    { N_("*ReSID-DTV"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_RESID, NULL },
-#endif
-#ifdef HAVE_RESID_FP
-    { N_("*ReSID-FP"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_RESID_FP, NULL },
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    { N_("*Catweasel MKIII"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII, NULL },
-#endif
-#ifdef HAVE_HARDSID
-    { N_("*HardSID"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_HARDSID, NULL },
-#endif
-#ifdef HAVE_PARSID
-    { N_("*ParSID Port 1"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_PARSID_PORT1, NULL },
-    { N_("*ParSID Port 2"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_PARSID_PORT2, NULL },
-    { N_("*ParSID Port 3"), (ui_callback_t)radio_SidEngine,
-      (ui_callback_data_t)SID_ENGINE_PARSID_PORT3, NULL },
-#endif
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(SidModel)
+        if (selected == ((engine << 8) | model)) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
 
 ui_menu_entry_t sid_model_submenu[] = {
-    { N_("*6581 (old)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581, NULL },
-    { N_("*8580 (new)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580, NULL },
-    { N_("*8580 + digi boost"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580D, NULL },
-/*
-    { N_("*6581R4 (not yet implemented)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4, NULL },
-*/
+    { N_("*6581 (FastSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_6581, NULL },
+    { N_("*8580 (FastSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_8580, NULL },
+#ifdef HAVE_RESID
+    { "--" },
+    { N_("*6581 (ReSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_6581, NULL },
+    { N_("*8580 (ReSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_8580, NULL },
+    { N_("*8580 + digi boost (ReSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_8580D, NULL },
+#endif
 #ifdef HAVE_RESID_FP
     { "--" },
     { N_("*6581R3 4885 (very light)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_4885, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_4885, NULL },
     { N_("*6581R3 0486S (light)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_0486S, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_0486S, NULL },
     { N_("*6581R3 3984 (light avg)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_3984, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_3984, NULL },
     { N_("*6581R4AR 3789 (avg)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4AR_3789, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R4AR_3789, NULL },
     { N_("*6581R3 4485 (dark)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_4485, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_4485, NULL },
     { N_("*6581R4 1986S (very dark)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4_1986S, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R4_1986S, NULL },
     { N_("*8580 3691 (light)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_3691, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_3691, NULL },
     { N_("*8580 3691 + digi boost"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_3691D, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_3691D, NULL },
     { N_("*8580 1489 (dark)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_1489, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_1489, NULL },
     { N_("*8580 1489 + digi boost"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_1489D, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_1489D, NULL },
+#endif
+#if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
+    { "--" },
+#ifdef HAVE_CATWEASELMKIII
+    { N_("*Catweasel MKIII"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_CATWEASELMKIII, NULL },
+#endif
+#ifdef HAVE_HARDSID
+    { N_("*HardSID"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_HARDSID, NULL },
+#endif
+#ifdef HAVE_PARSID
+    { N_("*ParSID Port 1"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT1, NULL },
+    { N_("*ParSID Port 2"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT2, NULL },
+    { N_("*ParSID Port 3"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT3, NULL },
+#endif
 #endif
     { NULL }
 };
 
 ui_menu_entry_t sid_dtv_model_submenu[] = {
+#ifdef HAVE_RESID
     { N_("*DTVSID"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_DTVSID, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESID_DTVSID, NULL },
     { "--" },
-    { N_("*6581 (old)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581, NULL },
-    { N_("*8580 (new)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580, NULL },
+#endif
+    { N_("*6581 (FastSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_6581, NULL },
+    { N_("*8580 (FastSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_8580, NULL },
 #ifdef HAVE_RESID_FP
     { "--" },
     { N_("*6581R3 4885 (very light)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_4885, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_4885, NULL },
     { N_("*6581R3 0486S (light)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_0486S, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_0486S, NULL },
     { N_("*6581R3 3984 (light avg)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_3984, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_3984, NULL },
     { N_("*6581R4AR 3789 (avg)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4AR_3789, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R4AR_3789, NULL },
     { N_("*6581R3 4485 (dark)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R3_4485, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R3_4485, NULL },
     { N_("*6581R4 1986S (very dark)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_6581R4_1986S, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_6581R4_1986S, NULL },
     { N_("*8580 3691 (light)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_3691, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_3691, NULL },
     { N_("*8580 3691 + digi boost"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_3691D, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_3691D, NULL },
     { N_("*8580 1489 (dark)"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_1489, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_1489, NULL },
     { N_("*8580 1489 + digi boost"),
-      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_MODEL_8580R5_1489D, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_RESIDFP_8580R5_1489D, NULL },
+#endif
+#if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
+    { "--" },
+#ifdef HAVE_CATWEASELMKIII
+    { N_("*Catweasel MKIII"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_CATWEASELMKIII, NULL },
+#endif
+#ifdef HAVE_HARDSID
+    { N_("*HardSID"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_HARDSID, NULL },
+#endif
+#ifdef HAVE_PARSID
+    { N_("*ParSID Port 1"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT1, NULL },
+    { N_("*ParSID Port 2"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT2, NULL },
+    { N_("*ParSID Port 3"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT3, NULL },
+#endif
+#endif
+    { NULL }
+};
+
+ui_menu_entry_t sid_model_noresid_submenu[] = {
+    { N_("*6581 (FastSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_6581, NULL },
+    { N_("*8580 (FastSID)"),
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_8580, NULL },
+#if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
+    { "--" },
+#ifdef HAVE_CATWEASELMKIII
+    { N_("*Catweasel MKIII"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_CATWEASELMKIII, NULL },
+#endif
+#ifdef HAVE_HARDSID
+    { N_("*HardSID"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_HARDSID, NULL },
+#endif
+#ifdef HAVE_PARSID
+    { N_("*ParSID Port 1"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT1, NULL },
+    { N_("*ParSID Port 2"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT2, NULL },
+    { N_("*ParSID Port 3"), (ui_callback_t)radio_SidModel,
+      (ui_callback_data_t)SID_PARSID_PORT3, NULL },
+#endif
 #endif
     { NULL }
 };

@@ -290,8 +290,8 @@ UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("SID engine"),
-      NULL, NULL, sid_engine_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
     { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
@@ -300,8 +300,6 @@ static ui_menu_entry_t sid_submenu[] = {
     { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
-    { N_("Chip model"),
-      NULL, NULL, sid_model_submenu },
 #ifdef HAVE_RESID
     { "--" },
     { N_("reSID sampling method"),
@@ -315,8 +313,8 @@ static ui_menu_entry_t sid_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(Sound)
 
 static ui_menu_entry_t sid_options_submenu[] = {
-    { N_("SID engine"),
-      NULL, NULL, sid_engine_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
     { N_("*Enable sound playback"),
       (ui_callback_t)toggle_Sound, NULL, NULL },
     { N_("*Second SID"),
@@ -326,8 +324,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
     { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
-    { N_("Chip model"),
-      NULL, NULL, sid_model_submenu },
     { NULL }
 };
 

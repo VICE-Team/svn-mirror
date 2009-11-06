@@ -67,7 +67,6 @@ src/arch/unix/gui/uirs232petplus4cbm2.c
 src/arch/unix/gui/uirs232user.c
 src/arch/unix/gui/uisettings.c
 src/arch/unix/gui/uisid.c
-src/arch/unix/gui/uisidcart.c
 src/arch/unix/gui/uisound.c
 src/arch/unix/gui/uisoundexpander.c
 src/arch/unix/gui/uited.c

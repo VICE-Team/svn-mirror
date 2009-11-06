@@ -145,8 +145,6 @@ libarchgui_a_SOURCES = \
 	uisettings.h \
 	uisid.c \
 	uisid.h \
-	uisidcart.c \
-	uisidcart.h \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \

@@ -52,7 +52,7 @@
 #include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
-#include "uisidcart.h"
+#include "uisid.h"
 #include "uisound.h"
 #include "vsync.h"
 
@@ -116,10 +116,8 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
 static ui_menu_entry_t sidcart_submenu[] = {
     { N_("*Enable SID cart"),
       (ui_callback_t)toggle_SidCart, NULL, NULL },
-    { N_("SID engine"),
-      NULL, NULL, sidcart_engine_submenu },
-    { N_("Chip model"),
-      NULL, NULL, sidcart_model_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_noresid_submenu },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"),
