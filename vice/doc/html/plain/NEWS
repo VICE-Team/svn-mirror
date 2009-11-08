@@ -79,9 +79,11 @@ list of all the changes in the code.
   address space and in-line graphics data changes correctly.
   (fixes "Impossiblator 3" and others)
 
+- Improved VIC emulation (in-line color/reverse mode changes on half-chars).
+
 - Cartridge handling rewritten.
 
-- Added Mega-Cart emulation.
+- Added Mega-Cart cartridge emulation.
 
 - Added Final Expansion cartridge emulation.
 
