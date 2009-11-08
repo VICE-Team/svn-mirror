@@ -108,7 +108,7 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
             canvas_aspect_ratio = aspect_ratio / 1000.0 
                                     * canvas->width / canvas->height;
             if (canvas_aspect_ratio < (double) width / height) {
-                shrinked_width = (int)(height / canvas_aspect_ratio);
+                shrinked_width = (int)(height * canvas_aspect_ratio);
                 canvas->dest_rect.top = 0;
                 canvas->dest_rect.bottom = height - 1;
                 canvas->dest_rect.left = (width - shrinked_width) / 2;
