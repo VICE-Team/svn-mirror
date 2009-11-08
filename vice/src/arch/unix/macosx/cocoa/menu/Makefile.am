@@ -23,6 +23,12 @@ noinst_HEADERS = \
 	c64machinecontroller.h \
 	c64dtvmachinecontroller.h \
 	c128machinecontroller.h \
+	cbm2controller.h \
+	cbm2machinecontroller.h \
+	petcontroller.h \
+	petmachinecontroller.h \
+	plus4controller.h \
+	plus4machinecontroller.h \
 	vic20controller.h \
 	vic20machinecontroller.h \
 	viceappcontroller.h \
@@ -43,6 +49,12 @@ libarchmacosxcocoamenu_a_SOURCES = \
 	c64dtvmachinecontroller.m \
 	c128controller.m \
 	c128machinecontroller.m \
+	cbm2controller.m \
+	cbm2machinecontroller.m \
+	petcontroller.m \
+	petmachinecontroller.m \
+	plus4controller.m \
+	plus4machinecontroller.m \
 	vic20controller.m \
 	vic20machinecontroller.m \
 	viceappcontroller.m \

@@ -1,5 +1,5 @@
 /*
- * cbm2ui.m - CBM-II ui interface
+ * cbm2controller.h - CBM2 app controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -24,18 +24,11 @@
  *
  */
 
-#import "cbm2controller.h"
-#import "cbm2machinecontroller.h"
-#import "vicemachine.h"
 
-int cbm2ui_init(void)
-{
-    // ensure that the CBM2Controller gets compiled in
-    [CBM2Controller class];
-    [theVICEMachine setMachineController:[[CBM2MachineController alloc] init]];
-    return 0;
-}
+#import <Cocoa/Cocoa.h>
+#import "viceappcontroller.h"
 
-void cbm2ui_shutdown(void)
+@interface CBM2Controller : VICEAppController
 {
 }
+@end

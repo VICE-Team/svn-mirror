@@ -11,6 +11,15 @@ EXTRA_DIST = \
 	xvic.nib/designable.nib \
 	xvic.nib/keyedobjects.nib \
 	xvic-ResourceTree.plist \
+	xcbm2.nib/designable.nib \
+	xcbm2.nib/keyedobjects.nib \
+	xcbm2-ResourceTree.plist \
+	xpet.nib/designable.nib \
+	xpet.nib/keyedobjects.nib \
+	xpet-ResourceTree.plist \
+	xplus4.nib/designable.nib \
+	xplus4.nib/keyedobjects.nib \
+	xplus4-ResourceTree.plist \
 	FilePanelImageContents.nib/designable.nib \
 	FilePanelImageContents.nib/keyedobjects.nib \
 	VICEInformation.nib/designable.nib \

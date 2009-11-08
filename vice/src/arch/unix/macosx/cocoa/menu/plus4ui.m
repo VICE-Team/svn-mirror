@@ -24,13 +24,15 @@
  *
  */
 
-#import "vicemachinecontroller.h"
+#import "plus4controller.h"
+#import "plus4machinecontroller.h"
 #import "vicemachine.h"
 
 int plus4ui_init(void)
 {
-    // TODO: use PLUS4MachineController
-    [theVICEMachine setMachineController:[[VICEMachineController alloc] init]];
+    // ensure that the Plus4Controller gets compiled in
+    [Plus4Controller class];
+    [theVICEMachine setMachineController:[[Plus4MachineController alloc] init]];
     return 0;
 }
 

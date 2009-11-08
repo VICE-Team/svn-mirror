@@ -24,13 +24,15 @@
  *
  */
 
-#import "vicemachinecontroller.h"
+#import "petcontroller.h"
+#import "petmachinecontroller.h"
 #import "vicemachine.h"
 
 int petui_init(void)
 {
-    // TODO: use PETMachineController
-    [theVICEMachine setMachineController:[[VICEMachineController alloc] init]];
+    // ensure that the PETController gets compiled in
+    [PETController class];
+    [theVICEMachine setMachineController:[[PETMachineController alloc] init]];
     return 0;
 }
 

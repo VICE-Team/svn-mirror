@@ -43,6 +43,8 @@ extra_keymaps = \
 	dos_bukp.vkm \
 	dos_buks.vkm \
 	os2.vkm \
+	osx_pos_uk.vkm \
+	osx_sym_uk.vkm \
 	ROdflt.vkm \
 	win_pos_uk.vkm \
 	win_sym_uk.vkm

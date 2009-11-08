@@ -48,6 +48,8 @@ extra_keymaps = \
 	dos_buks.vkm \
 	os2.vkm \
 	os2_40.vkm \
+	osx_sym_gr.vkm \
+	osx_sym_uk.vkm \
 	RObusi.vkm \
 	ROgrph.vkm \
 	win_sym_gr.vkm \
