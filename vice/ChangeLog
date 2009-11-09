@@ -1,3 +1,542 @@
+2009-11-09  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.19
+
+2009-11-08  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* data/CBM-II/Makefile.am, data/CBM-II/osx_pos_uk.vkm,
+	  data/CBM-II/osx_sym_uk.vkm, data/PET/Makefile.am,
+	  data/PET/osx_sym_gr.vkm, data/PET/osx_sym_uk.vkm,
+	  data/PLUS4/Makefile.am, data/PLUS4/osx_pos.vkm,
+	  data/PLUS4/osx_sym.vkm, data/VIC20/osx_pos.vkm,
+	  data/VIC20/osx_sym.vkm,
+	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/kbd.h,
+	  src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	  src/arch/unix/macosx/cocoa/menu/cbm2controller.h,
+	  src/arch/unix/macosx/cocoa/menu/cbm2controller.m,
+	  src/arch/unix/macosx/cocoa/menu/cbm2machinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/cbm2machinecontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/cbm2ui.m,
+	  src/arch/unix/macosx/cocoa/menu/petcontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/petcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/petmachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/petmachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/petui.m,
+	  src/arch/unix/macosx/cocoa/menu/plus4controller.h,
+	  src/arch/unix/macosx/cocoa/menu/plus4controller.m,
+	  src/arch/unix/macosx/cocoa/menu/plus4machinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/plus4machinecontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/plus4ui.m: macosx: added cocoa
+	  xcbm2, xpet and xplus4
+
+2009-11-08  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/info.c: Updated with some recent additions. (xvic
+	  cartridges + resid-dtv)
+
+	* doc/html/plain/NEWS: Added an entry about half-char splits in
+	  xvic.
+
+2009-11-08  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/video-dx9.c: Fixed calculation of
+	  shrinked_width in fixed aspect ratio mode.
+
+2009-11-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* po/POTFILES.in, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uisid.c, src/arch/unix/gui/uisid.h,
+	  src/arch/unix/gui/uisidcart.c, src/arch/unix/gui/uisidcart.h,
+	  src/arch/unix/gui/vic20ui.c: SID engine/model menu combination
+	  for *nix UI
+
+2009-11-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/vic20ui.c: Add xvic cartridge extra options
+	  to *nix UIs
+
+2009-11-04  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/uimediafile.c: Fixed handling of the ffmpeg
+	  controls again.
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Enable H264 codec and fix some
+	  parameters for the FFV1 codec.
+
+2009-11-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_sid.c: SID engine/model menu combination for
+	  SDL UI
+
+2009-11-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/plus4/ted-mem.c, src/sid/sid-cmdline-options.c,
+	  src/sid/sid-resources.c: Remove some Visual Studio warnings
+
+2009-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisidcart.c,
+	  src/arch/amigaos/mui/uisiddtv.c, src/arch/msdos/uisid.c,
+	  src/arch/msdos/uisidcart.c, src/arch/msdos/uisiddtv.c: Changed
+	  the sid dialogs of the msdos ui to the engine/model
+	  combination type, only valid combinations are shown in the ui.
+
+	* src/arch/amigaos/mui/uisid.c, src/arch/win32/uisid.c,
+	  src/arch/win32/uisidcart.c, src/arch/win32/uisiddtv.c,
+	  src/sid/sid.h: Added definitions for the parsid, hardsid and
+	  cw engine/models and made the win32 and amiga ui use them.
+
+	* src/arch/msdos/c64ui.c, src/arch/msdos/tuifs.c,
+	  src/arch/msdos/tuimenu.c, src/arch/msdos/uic64dtv.c,
+	  src/arch/msdos/uidqbb.c: Fixed some errors.
+
+	* src/arch/amigaos/mui/mui.c: Fixed the amiga ui to use the new
+	  sid engine/model setting function.
+
+2009-11-03  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fixed for viewports not a
+	  multiple of 16.
+
+	* src/arch/win32/uimediafile.c: Fill FFMPEG settings controls
+	  even if FFMPEG driver is not selected.
+
+	* src/monitor/monitor.c: Fixed memory leak.
+
+	* src/arch/win32/video-dx9.c, src/arch/win32/videoarch.h: Keep
+	  aspect ratio implemented for fullscreen mode.
+
+2009-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/mui/mui.c, src/arch/amigaos/mui/mui.h,
+	  src/arch/amigaos/mui/uic64dtv.c, src/arch/amigaos/mui/uisid.c,
+	  src/arch/amigaos/mui/uisidcart.c,
+	  src/arch/amigaos/mui/uisiddtv.c, src/arch/amigaos/video.c:
+	  Changed the amiga ui sid dialogs to the engine/model
+	  combination type, only valid combinations are shown in the ui,
+	  and fixed some errors.
+
+	* configure.in: Changed the xaw lib checking to where configure
+	  will stop with an error if needed X11 libs are missing.
+
+	* src/arch/win32/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/ressid.rc,
+	  src/arch/win32/ressidcart.rc, src/arch/win32/ressiddtv.rc,
+	  src/arch/win32/uisid.c, src/arch/win32/uisidcart.c,
+	  src/arch/win32/uisiddtv.c, src/sid/sid-resources.h,
+	  src/sid/sid.h: Changed the sid dialogs to the engine/model
+	  combination type, only valid combinations are shown in the ui.
+
+	* configure.in: Fixed the commctrl.h shlobj.h winioctl.h header
+	  checks.
+
+2009-11-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/resid-fp/filter.cc: Changed constant from type double to
+	  float to prevent warning.
+
+2009-11-02  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c: Fix FE3 snapshot by moving
+	  flash040 module handling after closing the main FE3 module and
+	  shortening the flash040 module name
+
+2009-11-02  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc: Reduce clearly excessive filter
+	  resonance on 6581 side.
+
+2009-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/ted.c: Applied plus4 ted patch as contributed by
+	  Attila Grosz.
+
+	* src/arch/unix/gp2x/gpe-files/x128.gpe,
+	  src/arch/unix/gp2x/gpe-files/x64.gpe,
+	  src/arch/unix/gp2x/gpe-files/x64dtv.gpe,
+	  src/arch/unix/gp2x/gpe-files/xcbm2.gpe: Fixed the sid
+	  engine/model selection command line of the gp2x .gpe files.
+
+2009-11-02  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc, src/resid-fp/wave.cc,
+	  src/resid-fp/wave.h, src/sid/resid-fp.cc: New analog filter
+	  based on slightly nonlinear amplifier simulation. The filter
+	  is a bit glitchy right now, but the glitches can probably be
+	  tweaked away. Updated combined waveforms after some
+	  modifications to fitting algorithm and the calculation
+	  algorithm yielded improved fitness. Made the SID sound
+	  slightly louder. Reduced 8580 resonance.
+
+2009-11-01  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/drive/iec/iecrom.c: Fixed 1541 drive ROM checksum for
+	  901229-05 ROM.
+
+2009-11-01  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* data/VIC20/Makefile.am, data/VIC20/osx_pos.vkm,
+	  data/VIC20/osx_sym.vkm,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/KeyboardSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/keyboardsettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/keyboardsettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	  src/arch/unix/macosx/cocoa/menu/c64controller.h,
+	  src/arch/unix/macosx/cocoa/menu/c64controller.m,
+	  src/arch/unix/macosx/cocoa/menu/vic20controller.h,
+	  src/arch/unix/macosx/cocoa/menu/vic20controller.m,
+	  src/arch/unix/macosx/cocoa/menu/vic20machinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vic20machinecontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vic20ui.m,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicefilepanel.h,
+	  src/arch/unix/macosx/cocoa/menu/vicefilepanel.m,
+	  src/arch/unix/macosx/x11-launcher.sh: macosx: added cocoa xvic
+
+2009-11-01  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uiarch.h,
+	  src/arch/unix/x11/gnome/x11ui.c: made `ui_cached_video_canvas'
+	  static again.
+
+2009-11-01  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: macosx: fixed references of
+	  embedded libraries
+
+2009-11-01  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Allow settings breakpoints in monitor
+	  when TDE is off. Patch by iAN_CooG. (#2865640)
+
+2009-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/cartconv.txt: Updated cartconv.txt.
+
+	* README, build/xbox-sdl/build.sh, doc/html/Makefile.am,
+	  doc/html/amigaos.html, doc/html/beos.html, doc/html/hpux.html,
+	  doc/html/index.html, doc/html/macosx.html, doc/html/qnx.html,
+	  doc/html/sco.html, doc/html/solaris.html, doc/vice.texi,
+	  po/da.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	  po/sv.po, po/tr.po, vice-mint.spec, vice.spec: Changed the
+	  html pages and some other files in preparation of the 2.2
+	  release.
+
+	* src/sid/sid-resources.c: Fixed the DTVSID command-line
+	  selection.
+
+	* src/sid/sid-cmdline-options.c, src/sid/sid-resources.c,
+	  src/sid/sid-resources.h, src/sid/sid.h, src/translate.c,
+	  src/translate.txt: Changed the sid engine and model
+	  command-line selection to a combined SID engine/model
+	  selection, that way only valid combinations can be used from
+	  the command line.
+
+2009-10-31  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/flash040core.c, src/flash040.h,
+	  src/vic20/cart/finalexpansion.c,
+	  src/vic20/cart/finalexpansion.h, src/vic20/cart/generic.c,
+	  src/vic20/cart/generic.h, src/vic20/cart/megacart.c,
+	  src/vic20/cart/megacart.h, src/vic20/cart/vic20cart.c,
+	  src/vic20/cart/vic20cart.h, src/vic20/vic20-snapshot.c,
+	  src/vic20/vic20memsnapshot.c: Implement xvic cart snapshots
+	  (including flash040), bump xvic snapshot revision number
+
+2009-10-29  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/vsyncarch.c,
+	  src/arch/unix/x11/gnome/lightpendrv.c,
+	  src/arch/unix/x11/gnome/lightpendrv.h,
+	  src/arch/unix/x11/gnome/videoarch.h,
+	  src/arch/unix/x11/gnome/x11ui.c: * arch/unix/x11/gnome/x11ui.c
+	  (ui_open_canvas_window): remember app_shell index for
+	  distinction of canvas for lightpen. (ui_open_canvas_window):
+	  Remember offx correction offset. (enter_window_callback):
+	  update canvas to use for lightpendrv.
+	  
+	  * arch/unix/x11/gnome/videoarch.h (struct video_canvas_s): new
+	  fields `offx' and `app_shell' to make lightpendrv happy.
+	  `offx' is a kludge to pass over the correction offset to the
+	  lightpendrv.
+	  
+	  * arch/unix/x11/gnome/lightpendrv.c (gtk_lightpen_update):
+	  Reworked to handle multi-canvas and add kludge to correct
+	  x-size of screen.
+	  
+	  * arch/unix/vsyncarch.c (vsyncarch_presync): fixed typo.
+	  
+	  * arch/unix/gui/vic20ui.c: Added lightpen menu.
+	  
+	  * arch/unix/gui/c128ui.c (io_extensions_submenu): Lightpen
+	  only for GTK gui. * arch/unix/gui/c64ui.c: Likewise.
+
+2009-10-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/vic.c, src/vic20/vic.h: Add extra bit to xvic
+	  lightpen x resolution
+
+2009-10-29  pottendo <pottendo@aon.at>
+
+	* src/info.c: Removed `/Glance' from Emirs credits on request.
+
+2009-10-29  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: hold
+	  flicker fixed frame if emulator is paused
+
+2009-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/z80.c, src/c128/z80.h, src/c128/z80mem.c,
+	  src/c128/z80mem.h: Did some more code cleanups.
+
+2009-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-resources.c, src/c128/c128-snapshot.c,
+	  src/c128/c128-snapshot.h, src/c128/c128memlimit.h,
+	  src/c128/c128memrom.c, src/c128/c128memrom.h,
+	  src/c128/c128memsnapshot.h, src/c128/c128mmu.c,
+	  src/c128/c128mmu.h, src/c128/c128rom.c, src/c128/c128romset.c,
+	  src/c128/c128video.c, src/c128/daa.c, src/c128/daa.h,
+	  src/c128/functionrom.h, src/c64/c64-cmdline-options.c: Did
+	  some more code cleanups.
+
+	* src/c128/c128-cmdline-options.h, src/c128/c128.c,
+	  src/c128/c128.h, src/c128/c128cia1.c, src/c128/c128cpu.c,
+	  src/c128/c128drive.c, src/c128/c128embedded.c,
+	  src/c128/c128fastiec.c, src/c128/c128fastiec.h,
+	  src/c128/c128mem.c, src/c128/c128mem.h,
+	  src/c128/c128meminit.c, src/c128/c128meminit.h,
+	  src/c128/c128memlimit.c, src/c64/tfearch.h: Did some more code
+	  cleanups.
+
+	* src/arch/sdl/archdep_xbox.c: Changed the xbox
+	  archdep_require_vkbd() to return 1.
+
+	* src/plus4/ted-badline.c: Corrected a memset that was supposed
+	  to be a memcpy.
+
+2009-10-26  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: macosx:
+	  fixed missing return value
+
+2009-10-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/archdep.h, src/arch/sdl/archdep_amiga.c,
+	  src/arch/sdl/archdep_beos.c, src/arch/sdl/archdep_cegcc.c,
+	  src/arch/sdl/archdep_riscos.c, src/arch/sdl/archdep_unix.c,
+	  src/arch/sdl/archdep_win32.c, src/arch/sdl/archdep_xbox.c,
+	  src/arch/sdl/uimenu.c: Improved path handling for Dingoo/GP2X,
+	  added archdep vkbd preference for UI text input dialogs. Patch
+	  provided by Peter Edwards.
+
+2009-10-26  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: improved
+	  OpenGL locking
+
+2009-10-26  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-10-25  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/vic-draw.c, src/vic20/vic-mem.c, src/vic20/vic.c,
+	  src/vic20/vic.h: Implemented rendering of half char splits for
+	  foreground colors and reverse mode.
+
+2009-10-25  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	  src/arch/unix/macosx/cocoa/mousedrv.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: improved
+	  mouse handling and corrected y flip
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	  src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/videoparam.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: added
+	  flicker fixer to sync draw
+
+2009-10-25  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/vic-mem.c: Corrected the timing of auxiliary color
+	  changes. (was one cycle early)
+
+2009-10-25  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/monitor.h, src/monitor/monitor.c: mon_ioreg_add_list() now
+	  has ints as 3rd and 4th parameter (instead of WORD),
+	  eliminating warnings.
+
+2009-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/ted-badline.c, src/plus4/ted-fetch.c,
+	  src/plus4/ted-mem.c, src/plus4/ted.c, src/plus4/tedtypes.h:
+	  Applied plus4 ted patches as contributed by Attila Grosz.
+
+	* po/de.po, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/reslightpen.rc,
+	  src/arch/win32/resmidi.rc, src/arch/win32/ressoundexpander.rc:
+	  Updated german translations.
+
+2009-10-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/html/plain/NEWS: Updated.
+
+	* src/arch/sdl/uimenu.c, src/arch/sdl/uimenu.h,
+	  src/arch/sdl/uimon.c: Always use escaped_is_null in
+	  sdl_ui_readline, remove as redundant. Fixes canceling text
+	  input dialogs.
+
+	* src/arch/sdl/menu_common.c, src/arch/sdl/ui.c: Fix small SDL
+	  UI monitor bugs
+
+2009-10-24  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/make-bindist.sh: macosx: added CBM font
+	  to cocoa releases
+
+2009-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiplus4mem.c: Fixed the win32 plus4 memory
+	  settings dialog.
+
+	* src/c64/patchrom.c, src/c64/patchrom.h, src/c64/plus256k.c,
+	  src/c64/plus60k.c, src/c64/psid.c, src/c64/psid.h,
+	  src/c64/psiddrv.h, src/c64/ramcart.c, src/c64/reloc65.c,
+	  src/c64/reu.c, src/c64/reu.h, src/c64/sfx_soundexpander.c,
+	  src/c64/sfx_soundsampler.c, src/c64/tfe.c: Did some more code
+	  cleanups.
+
+2009-10-23  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uilightpen.c,
+	  src/arch/unix/gui/uilightpen.h, src/arch/unix/vsyncarch.c,
+	  src/arch/unix/x11/gnome/Makefile.am,
+	  src/arch/unix/x11/gnome/TODO,
+	  src/arch/unix/x11/gnome/lightpendrv.c,
+	  src/arch/unix/x11/gnome/lightpendrv.h,
+	  src/arch/unix/x11/gnome/uiarch.h,
+	  src/arch/unix/x11/gnome/x11ui.c,
+	  src/arch/unix/x11/xaw/uiarch.h, src/gfxoutputdrv/ffmpegdrv.c:
+	  * arch/unix/x11/gnome/x11ui.c (mouse_handler): hook lightpen.
+	  (ui_open_canvas_window): Likewise.
+	  
+	  * arch/unix/x11/gnome/uiarch.h (enum ui_keysym_s): Added
+	  KEYSYM_g as shortcut for lightpen toggle. made
+	  `ui_cached_video_canvas' global (this is a hack and should be
+	  fixed one day).
+	  
+	  * arch/unix/x11/xaw/uiarch.h (enum ui_keysym_s): Added
+	  KEYSYM_g as shortcut for lightpen toggle.
+	  
+	  * arch/unix/x11/gnome/lightpendrv.[ch]: new files.
+	  
+	  * arch/unix/vsyncarch.c (vsyncarch_presync): hook lightpen
+	  update.
+	  
+	  * arch/unix/gui/uilightpen.[ch]: new files.
+	  
+	  * arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES):
+	  Added `lightpen*'. * arch/unix/gui/Makefile.am
+	  (libarchgui_a_SOURCES): Likewise.
+	  
+	  * gfxoutputdrv/ffmpegdrv.c (ffmpegdrv_close_video): check
+	  `picture' and `tmp_picture' before freeing.
+
+	* po/de.po: Updated.
+
+2009-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/fmopl.h, src/c64/georam.c, src/c64/georam.h,
+	  src/c64/isepic.c, src/c64/mmc64.c: Did some more code
+	  cleanups.
+
+2009-10-22  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/c64c128.dsp, src/c64/c64io.c: Added missing
+	  includes and missing include directory src/c64/cart
+
+	* src/arch/win32/uisidcart.c: Removed unused variable.
+
+2009-10-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/FilePanelImageContents.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/FilePanelImageContents.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/FilePanelImageContents.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/iecdrivesettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/keyboardsettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/recordhistorywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/recordmediawindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m,
+	  src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/viceresourcewindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	  src/arch/unix/macosx/cocoa/menu/c64controller.m,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicefilepanel.h,
+	  src/arch/unix/macosx/cocoa/menu/vicefilepanel.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: added
+	  disk/tape image contents preview in open panel.
+
+	* src/log.c, src/log.h: added log_enable() to temporarly
+	  disable/enable logging
+
+	* src/c64/c64io.c: added missing HAVE_TFE
+
+2009-10-21  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/core/viacore.c: This should fix the timer wrap bug.
+
 2009-10-21  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.18

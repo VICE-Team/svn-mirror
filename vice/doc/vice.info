@@ -18,7 +18,7 @@ permission notice identical to this one.
 
 File: vice.info,  Node: Top,  Next: License,  Prev: (dir),  Up: (dir)
 
-   This is the documentation for version 2.1 of VICE, the Versatile
+   This is the documentation for version 2.2 of VICE, the Versatile
 Commodore Emulator.
 
 * Menu:
@@ -6824,6 +6824,8 @@ File: vice.info,  Node: Copyright,  Next: Contacts,  Prev: Acknowledgments,  Up:
 
    * Copyright (C) 2007-2009 Daniel Kahlin
 
+   * Copyright (C) 2008-2009 Antti S. Lankila
+
    * Copyright (C) 1999-2007 Andreas Dehmel
 
    * Copyright (C) 2003-2005 David Hansel
@@ -7679,13 +7681,13 @@ Node: T64 file record234742
 Node: G64236002
 Node: Acknowledgments249996
 Node: Copyright263088
-Node: Contacts264887
-Node: Home page265399
-Node: Sending feedback266105
-Node: Contributing269426
-Node: Newsgroups271173
-Node: FAQs you should read271812
-Node: Concept Index272134
-Node: Resource Index294047
+Node: Contacts264934
+Node: Home page265446
+Node: Sending feedback266152
+Node: Contributing269473
+Node: Newsgroups271220
+Node: FAQs you should read271859
+Node: Concept Index272181
+Node: Resource Index294094
 
 End Tag Table
