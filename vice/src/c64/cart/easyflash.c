@@ -60,25 +60,25 @@ static BYTE easyflash_register_00, easyflash_register_02;
 
 /* decoding table of the modes */
 static const BYTE easyflash_memconfig[] = {
-           /* bit3 = jumper, bit2 = mode, bit1 = exrom, bit0 = game */
+       /* bit3 = jumper, bit2 = mode, bit1 = !exrom, bit0 = game */
 
-           /* jumper off, mode 0, trough 00,01,10,11 in game/exrom bits */
-    4 + 3, /* exrom high, game = jumper = low */
-    8 + 3, /* Reserved, don't use this */
-    4 + 1, /* exrom high, game = jumper = high */
-    8 + 1, /* Reserved, don't use this */
+       /* jumper off, mode 0, trough 00,01,10,11 in game/exrom bits */
+    3, /* exrom high, game low, jumper off */
+    3, /* Reserved, don't use this */
+    1, /* exrom low, game low, jumper off */
+    1, /* Reserved, don't use this */
 
-           /* jumper off, mode 1, trough 00,01,10,11 in game/exrom bits */
-    0 + 2, 0 + 3, 0 + 0, 0 + 1,
+       /* jumper off, mode 1, trough 00,01,10,11 in game/exrom bits */
+    2, 3, 0, 1,
 
-           /* jumper on, mode 0, trough 00,01,10,11 in game/exrom bits */
-    4 + 2, /* exrom high, game = jumper = low */
-    8 + 3, /* Reserved, don't use this */
-    4 + 0, /* exrom low, game = jumper = low */
-    8 + 1, /* Reserved, don't use this */
+       /* jumper on, mode 0, trough 00,01,10,11 in game/exrom bits */
+    2, /* exrom high, game low, jumper on */
+    3, /* Reserved, don't use this */
+    0, /* exrom low, game low, jumper on */
+    1, /* Reserved, don't use this */
 
-           /* jumper on, mode 1, trough 00,01,10,11 in game/exrom bits */
-    0 + 2, 0 + 3, 0 + 0, 0 + 1,
+       /* jumper on, mode 1, trough 00,01,10,11 in game/exrom bits */
+    2, 3, 0, 1,
 };
 
 /* extra RAM */
@@ -236,16 +236,37 @@ void easyflash_config_setup(BYTE *rawcart)
 int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
 {
     BYTE chipheader[0x10];
+    WORD bank, offset, length;
 
     memset(rawcart, 0xff, 0x100000);
+
     while (1) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
         }
-        if (chipheader[0xb] >= 64 || (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0)) {
-            return -1;
-        }
-        if (fread(&rawcart[(chipheader[0xb] << 13) | (chipheader[0xc] == 0x80 ? 0 : 1<<19)], 0x2000, 1, fd) < 1) {
+
+        bank = (chipheader[0xa] << 8) | chipheader[0xb];
+        offset = (chipheader[0xc] << 8) | chipheader[0xd];
+        length = (chipheader[0xe] << 8) | chipheader[0xf];
+
+        if (length == 0x2000) {
+            if (bank >= 64 || !(offset == 0x8000 || offset == 0xa000 || offset == 0xe000)) {
+                return -1;
+            }
+            if (fread(&rawcart[(bank << 13) | (offset == 0x8000 ? 0<<19 : 1<<19)], 0x2000, 1, fd) < 1) {
+                return -1;
+            }
+        } else if (length == 0x4000) {
+            if (bank >= 64 || offset != 0x8000) {
+                return -1;
+            }
+            if (fread(&rawcart[(bank << 13) | (0<<19)], 0x2000, 1, fd) < 1) {
+                return -1;
+            }
+            if (fread(&rawcart[(bank << 13) | (1<<19)], 0x2000, 1, fd) < 1) {
+                return -1;
+            }
+        } else {
             return -1;
         }
     }
