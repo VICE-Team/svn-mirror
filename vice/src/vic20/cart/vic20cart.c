@@ -62,8 +62,9 @@
 #include "vic20mem.h"
 #include "zfile.h"
 
-/* flag for disabling "set as default" after snapshot load */
-static int disable_set_as_default = 0;
+/* flag for indicating if cartridge is from snapshot, used for
+   disabling "set as default" and write back */
+int cartridge_is_from_snapshot = 0;
 
 /* actual resources */
 static char *cartridge_file = NULL;
@@ -324,12 +325,12 @@ void cartridge_detach_image(void)
 {
     cartridge_detach(vic20cart_type);
     vic20cart_type = CARTRIDGE_NONE;
-    disable_set_as_default = 0;
+    cartridge_is_from_snapshot = 0;
 }
 
 void cartridge_set_default(void)
 {
-    if (disable_set_as_default) {
+    if (cartridge_is_from_snapshot) {
         /* TODO replace with ui_error */
         log_warning(LOG_DEFAULT, "Set as default disabled");
         return;
@@ -410,12 +411,12 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-    
+
     if (vmajor != VIC20CART_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
         return -1;
     }
-    
+
     if (SMR_DW_INT(m, &new_cart_type) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -429,8 +430,8 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     cartridge_detach_image();
     resources_set_int("CartridgeReset", cartridge_reset);
 
-    /* disallow "set as default" */
-    disable_set_as_default = 1;
+    /* disallow "set as default" and write back */
+    cartridge_is_from_snapshot = 1;
 
     vic20cart_type = new_cart_type;
     mem_cartridge_type = new_cart_type;

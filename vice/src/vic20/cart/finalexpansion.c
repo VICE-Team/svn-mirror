@@ -44,6 +44,7 @@
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+#include "vic20cart.h"
 #include "vic20cartmem.h"
 #include "vic20mem.h"
 #include "zfile.h"
@@ -561,7 +562,7 @@ static int zfile_load(const char *filename, BYTE *dest)
         tsize=(fsize+0x0fff) & 0xfffff000;
         offs = 0x8000 - tsize;
         dest += offs;
-        log_message(fe_log, "Size less than 32Kb.  Aligning as close as possible to the 32Kb boundary in 4Kb blocks. (0x%06X-0x%06X)",offs, offs+tsize);    
+        log_message(fe_log, "Size less than 32Kb.  Aligning as close as possible to the 32Kb boundary in 4Kb blocks. (0x%06X-0x%06X)", (unsigned int)offs, (unsigned int)(offs+tsize));
     } else if (fsize < (size_t)CART_ROM_SIZE) {
         log_message(fe_log, "Size less than 512Kb, padding.");
     } else if (fsize > (size_t)CART_ROM_SIZE) {
@@ -614,8 +615,9 @@ int finalexpansion_bin_attach(const char *filename)
 
 void finalexpansion_detach(void)
 {
-    /* try to write back cartridge contents if write back is enabled */
-    if (finalexpansion_writeback) {
+    /* try to write back cartridge contents if write back is enabled
+       and cartridge wasn't from a snapshot */
+    if (finalexpansion_writeback && !cartridge_is_from_snapshot) {
         if (flash_state.flash_dirty) {
             int n;
             FILE *fd;

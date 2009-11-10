@@ -43,6 +43,7 @@
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+#include "vic20cart.h"
 #include "vic20cartmem.h"
 #include "vic20mem.h"
 #include "zfile.h"
@@ -401,8 +402,9 @@ int megacart_bin_attach(const char *filename)
 
 void megacart_detach(void)
 {
-    /* try to write back NvRAM contents if write back is enabled */
-    if (nvram_writeback) {
+    /* try to write back NvRAM contents if write back is enabled 
+       and cartridge is not from a snapshot */
+    if (nvram_writeback && !cartridge_is_from_snapshot) {
         try_nvram_save(nvram_filename);
     }
 
@@ -424,8 +426,9 @@ static int set_nvram_filename(const char *name, void *param)
         return 0;
     }
 
-    /* try to write back NvRAM contents to the old file if write back is enabled */
-    if (nvram_writeback) {
+    /* try to write back NvRAM contents to the old file if write back is enabled
+       and NvRAM wasn't from a snapshot */
+    if (nvram_writeback && !cartridge_is_from_snapshot) {
         try_nvram_save(nvram_filename);
     }
 
