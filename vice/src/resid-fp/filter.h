@@ -323,7 +323,7 @@ float FilterFP::clock(float voice1,
         }
 
         /* saturate. This is likely the output inverter saturation. */
-        Vf = waveshaper1(Vf);
+        //Vf = waveshaper1(Vf);
         Vf *= volf;
         Vf = waveshaper1(Vf);
     } else {
