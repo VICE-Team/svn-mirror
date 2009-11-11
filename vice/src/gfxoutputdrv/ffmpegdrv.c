@@ -280,7 +280,7 @@ static void ffmpegdrv_close_audio(void)
 }
 
 
-static int ffmpegdrv_init_audio(int speed, int channels,
+static int ffmpegmovie_init_audio(int speed, int channels,
                                  soundmovie_buffer_t ** audio_in)
 {
     AVCodecContext *c;
@@ -324,7 +324,7 @@ static int ffmpegdrv_init_audio(int speed, int channels,
 
 
 /* triggered by soundffmpegaudio->write */
-static int ffmpegdrv_encode_audio(soundmovie_buffer_t *audio_in)
+static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
 {
     if (audio_st) {
         AVPacket pkt;
@@ -349,10 +349,16 @@ static int ffmpegdrv_encode_audio(soundmovie_buffer_t *audio_in)
     return 0;
 }
 
+static void ffmpegmovie_close(void)
+{
+    /* just stop the whole recording */
+    screenshot_stop_recording();
+}
+
 static soundmovie_funcs_t ffmpegdrv_soundmovie_funcs = {
-    ffmpegdrv_init_audio,
-    ffmpegdrv_encode_audio,
-    NULL
+    ffmpegmovie_init_audio,
+    ffmpegmovie_encode_audio,
+    ffmpegmovie_close
 };
 
 /*-----------------------*/
