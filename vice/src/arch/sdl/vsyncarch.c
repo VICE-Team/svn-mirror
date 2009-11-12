@@ -56,7 +56,7 @@ signed long vsyncarch_frequency(void)
 /* Get time in timer units. */
 unsigned long vsyncarch_gettime(void)
 {
-    return SDL_GetTicks() * VICE_SDL_TICKS_SCALE;
+    return SDL_GetTicks() * (unsigned long)VICE_SDL_TICKS_SCALE;
 }
 
 void vsyncarch_init(void)
