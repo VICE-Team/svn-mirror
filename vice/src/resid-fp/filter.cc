@@ -174,6 +174,7 @@ void FilterFP::set_w0()
     /* div once by extra nonlinearity because I fitted the type3 eq with that variant. */
     float type3_fc_kink = SIDFP::kinked_dac(fc, nonlinearity, 11) / nonlinearity;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 512.f);
+    distortion_offset = (1024.f - type3_fc_kink) * 512.f * 0.5f;
   }
   if (model == MOS8580FP) {
     type4_w0_cache = type4_w0();
