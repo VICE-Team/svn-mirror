@@ -119,9 +119,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
-    IDS_LIGHTPEN_ENABLE  "&Enable lightpen"
-    IDS_LIGHTPEN_TYPE    "Lightpen type"
+    IDS_LIGHTPEN_CAPTION "Inställningar för ljuspenna"
+    IDS_LIGHTPEN_ENABLE  "Aktivera &ljuspenna"
+    IDS_LIGHTPEN_TYPE    "Typ av ljuspenna"
 END
 
 

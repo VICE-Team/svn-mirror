@@ -148,7 +148,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Settings"
+  IDS_MIDI_CAPTION    "Midi-inställningar"
   IDS_MIDI_ENABLE     "&Aktivera midi"
   IDS_MIDI_TYPE_LABEL "Midimodultyp"
   IDS_MIDI_IN_LABEL   "Inenhet för Midi"

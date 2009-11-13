@@ -181,15 +181,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
-    IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
-    IDS_AUTOSTART_INJECT                     "Inject"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_CAPTION                    "Autostartinställningar"
+    IDS_AUTOSTART_WARP                       "Starta warp automatiskt"
+    IDS_AUTOSTART_COLON_RUN                  "Använd ':' med run"
+    IDS_AUTOSTART_PRG_MODE                   "Autostartläge för PRG"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "Autostartdiskavbildning för PRG"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Välj fil för PRG-autostartdisk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtuellt FS"
+    IDS_AUTOSTART_INJECT                     "Sätt in"
+    IDS_AUTOSTART_DISK                       "Diskavbildning"
 END
 
 

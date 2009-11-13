@@ -701,7 +701,7 @@ BEGIN
   IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivera &skrivning till DTV-ROM-avbildning"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-inställningar"
   IDS_DTV_REVISION_LABEL          "DTV-utgåva"
-  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_ENABLE_HUMMER_ADC           "Aktivera Hummer-A/D-omvandlare"
   IDS_CREATE_FLASH_CAPTION        "Skapa DTV-flashavbildning"
   IDS_DTV_ROM_CREATION            "Skapa DTV-ROM"
   IDS_C64DTV_ROM_COPY_C64         "Kopiera C64-ROM:ar till avbild"

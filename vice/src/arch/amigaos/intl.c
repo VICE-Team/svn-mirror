@@ -3802,7 +3802,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_C64DTV_HUMMER_ADC_IT, "" },  /* fuzzy */
 /* nl */ { IDS_C64DTV_HUMMER_ADC_NL, "Hummer ADC" },
 /* pl */ { IDS_C64DTV_HUMMER_ADC_PL, "" },  /* fuzzy */
-/* sv */ { IDS_C64DTV_HUMMER_ADC_SV, "" },  /* fuzzy */
+/* sv */ { IDS_C64DTV_HUMMER_ADC_SV, "Hummer A/D-omvandlare" },
 /* tr */ { IDS_C64DTV_HUMMER_ADC_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_C64DTV_SETTINGS,    "C64DTV Settings" },
@@ -4984,7 +4984,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_USERPORT_RS232_IT, "Userport RS232" },
 /* nl */ { IDS_USERPORT_RS232_NL, "Userport RS232" },
 /* pl */ { IDS_USERPORT_RS232_PL, "" },  /* fuzzy */
-/* sv */ { IDS_USERPORT_RS232_SV, "Användarportens RS232" },
+/* sv */ { IDS_USERPORT_RS232_SV, "Användarport-RS232" },
 /* tr */ { IDS_USERPORT_RS232_TR, "Userport RS232" },
 
 /* en */ { IDS_USERPORT_DEVICE,    "Userport RS232 Device" },
@@ -5567,7 +5567,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SID_ENGINE_MODEL_IT, "" },  /* fuzzy */
 /* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID-kern/model" },
 /* pl */ { IDS_SID_ENGINE_MODEL_PL, "" },  /* fuzzy */
-/* sv */ { IDS_SID_ENGINE_MODEL_SV, "" },  /* fuzzy */
+/* sv */ { IDS_SID_ENGINE_MODEL_SV, "SID-motor/-modell" },
 /* tr */ { IDS_SID_ENGINE_MODEL_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SID_ADDRESS,    "SID address" },
