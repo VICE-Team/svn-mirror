@@ -421,8 +421,17 @@
 
 - (IBAction)toggleLightPenEmulation:(id)sender
 {
-    [self setIntResource:@"Lightpen" toValue:![sender state]];
+    int state = ![sender state];
+    [self setIntResource:@"Lightpen" toValue:state];
     [self updateOptionsResources];
+    
+    // directly post a notification here as lightpen driver has no callback
+    NSDictionary * dict =
+        [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:state]
+                                    forKey: @"lightpen"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:VICEToggleLightpenNotification
+                                                        object:self
+                                                      userInfo:dict];
 }
 
 // Video Rendering

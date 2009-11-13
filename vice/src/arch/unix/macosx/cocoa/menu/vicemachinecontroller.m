@@ -34,6 +34,7 @@
 #include "keyboard.h"
 #include "diskimage.h"
 #include "mousedrv.h"
+#include "lightpen.h"
 #include "printer.h"
 #include "archdep.h"
 #include "log.h"
@@ -479,21 +480,31 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
     return (keyboard_keymap_dump([path fileSystemRepresentation]) == 0);
 }
 
-// ----- Mouse -----
+// ----- Mouse & Lightpen -----
 
 -(void)mouseMoveToX:(int)x andY:(int)y
 {
     mouse_move(x,y);
 }
 
--(void)mousePressed
+-(void)mouseButton:(BOOL)left withState:(BOOL)pressed
 {
-    mouse_button_left(1);
+    if(left)
+        mouse_button_left(pressed);
+    else
+        mouse_button_right(pressed);
 }
 
--(void)mouseReleased
+-(void)lightpenUpdateOnScreen:(int)screen toX:(int)x andY:(int)y 
+                  withButton1:(BOOL)b1 andButton2:(BOOL)b2
 {
-    mouse_button_left(0);
+    int buttons = 0;
+    if(b1)
+        buttons |= LP_HOST_BUTTON_1;
+    if(b2)
+        buttons |= LP_HOST_BUTTON_2;
+    
+    lightpen_update(screen, x, y, buttons);
 }
 
 // ----- Drive -----

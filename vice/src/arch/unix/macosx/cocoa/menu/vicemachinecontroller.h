@@ -109,13 +109,13 @@
 // dump keymap
 -(BOOL)dumpKeymap:(NSString *)path;
 
-// ----- Mouse -----
+// ----- Mouse & Lightpen -----
 // mouse moved
--(void)mouseMoveToX:(int)deltaX andY:(int)deltaY;
+-(void)mouseMoveToX:(int)x andY:(int)y;
 // mouse pressed
--(void)mousePressed;
-// mouse release
--(void)mouseReleased;
+-(void)mouseButton:(BOOL)left withState:(BOOL)pressed;
+// lightpen update
+-(void)lightpenUpdateOnScreen:(int)screen toX:(int)x andY:(int)y withButton1:(BOOL)b1 andButton2:(BOOL)b2;
 
 // ----- Drive Commands -----
 // disk image

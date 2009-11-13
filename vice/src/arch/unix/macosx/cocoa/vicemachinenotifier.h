@@ -35,6 +35,7 @@
     int driveEnableMask;
     int driveEnableColorMask;
     BOOL mouseEnabled;
+    BOOL lightpenEnabled;
 }
 
 -(id)init;
@@ -97,6 +98,9 @@
 
 // post a toggle mouse notification
 - (void)postToggleMouseNotification:(BOOL)on;
+
+// post a toggle lightpen notification
+- (void)postToggleLightpenNotification:(BOOL)on;
 
 // post a volume change
 - (void)postVolumeChangeNotification:(int)volume;

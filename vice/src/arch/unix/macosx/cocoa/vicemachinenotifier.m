@@ -36,6 +36,7 @@
     driveEnableMask = 0;
     driveEnableColorMask = 0;
     mouseEnabled = NO;
+    lightpenEnabled = NO;
     return self;
 }
 
@@ -222,7 +223,7 @@
                       userInfo:dict];
 }
 
-// ----- Mouse -----
+// ----- Mouse & Lightpen -----
 
 - (void)postToggleMouseNotification:(BOOL)on
 {
@@ -232,6 +233,17 @@
                                     forKey: @"mouse"];
 
     [self postNotificationName:VICEToggleMouseNotification
+                      userInfo:dict];
+}
+
+- (void)postToggleLightpenNotification:(BOOL)on
+{
+    lightpenEnabled = on;
+    NSDictionary * dict =
+        [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:on]
+                                    forKey: @"lightpen"];
+
+    [self postNotificationName:VICEToggleLightpenNotification
                       userInfo:dict];
 }
 
@@ -284,6 +296,8 @@
     [self postEnableDriveStatusNotification];
     // repost mouse enable state
     [self postToggleMouseNotification:mouseEnabled];
+    // repost lightpen enable state
+    [self postToggleLightpenNotification:lightpenEnabled];
 }
 
 @end

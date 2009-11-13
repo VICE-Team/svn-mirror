@@ -73,10 +73,14 @@ typedef struct texture_s texture_t;
     BOOL        trackMouse;
     float       mouseXScale;
     float       mouseYScale;
-    int         oldX;
-    int         oldY;
+    int         mouseX;
+    int         mouseY;
+    BOOL        mouseLeftButtonPressed;
+    BOOL        mouseRightButtonPressed;
     NSTimer *   mouseHideTimer;
     int         mouseHideInterval;
+    BOOL        mouseEmuEnabled;
+    BOOL        lightpenEmuEnabled;
     
     // OpenGL
     NSOpenGLContext *glContext;

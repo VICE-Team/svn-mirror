@@ -48,8 +48,9 @@
 // Pause State
 #define VICETogglePauseNotification               @"VICETogglePauseNotification"
 
-// Mouse
+// Mouse & Lightpen
 #define VICEToggleMouseNotification               @"VICEToggleMouseNotification"
+#define VICEToggleLightpenNotification            @"VICEToggleLightpenNotification"
 
 // Resource Updates
 #define VICEChangedResourcesNotification          @"VICEResourcesChanged"

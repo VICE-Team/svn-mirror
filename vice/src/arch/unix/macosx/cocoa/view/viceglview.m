@@ -71,11 +71,21 @@ extern log_t video_log;
     lastKeyModifierFlags = 0;
     // setup mouse
     trackMouse = NO;
+    mouseHideTimer = nil;
+    mouseEmuEnabled = NO;
+    lightpenEmuEnabled = NO;
+    mouseX = 0;
+    mouseY = 0;
+    mouseLeftButtonPressed = NO;
+    mouseRightButtonPressed = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(toggleMouse:)
+                                             selector:@selector(toggleMouseEmu:)
                                                  name:VICEToggleMouseNotification
                                                object:nil];
-    mouseHideTimer = nil;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(toggleLightpenEmu:)
+                                                name:VICEToggleLightpenNotification
+                                              object:nil];
 
     // ----- OpenGL -----
     // OpenGL locking and state
@@ -1260,45 +1270,109 @@ extern log_t video_log;
         int h = (int)textureSize.height;
         int px = (int)((pos.x-viewOrigin.x) * mouseXScale);
         int py = (int)((pos.y-viewOrigin.y) * mouseYScale);
-        //py = h - 1 - py;
         if ((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
-            [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
+            if(mouseEmuEnabled) {
+                [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
+            }
+            if(lightpenEmuEnabled) {
+                mouseX = px;
+                mouseY = h - 1 - py;
+                [[VICEApplication theMachineController]
+                    lightpenUpdateOnScreen:canvasId 
+                    toX:mouseX andY:mouseY 
+                    withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+            }
+        } else {
+            if(lightpenEmuEnabled) {
+                mouseX = -1;
+                mouseY = -1;
+                [[VICEApplication theMachineController]
+                    lightpenUpdateOnScreen:canvasId 
+                    toX:mouseX andY:mouseY 
+                    withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+            }
         }
     }
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if ([theEvent type]==NSLeftMouseDown) {
-        if (trackMouse) {
-            [[VICEApplication theMachineController] mousePressed];
-        } else {
-            [self stopHideTimer:TRUE];
+    if (trackMouse) {
+        if(mouseEmuEnabled) {
+            if ([theEvent type]==NSLeftMouseDown) {
+                [[VICEApplication theMachineController] mouseButton:YES withState:YES];
+            }
+            else if ([theEvent type]==NSRightMouseDown) {
+                [[VICEApplication theMachineController] mouseButton:NO withState:YES];
+            }
         }
+        if(lightpenEmuEnabled) {
+            if ([theEvent type]==NSLeftMouseDown) {
+                mouseLeftButtonPressed = YES;
+            }
+            else if ([theEvent type]==NSRightMouseDown) {
+                mouseRightButtonPressed = YES;
+            }
+            [[VICEApplication theMachineController]
+                lightpenUpdateOnScreen:canvasId 
+                toX:mouseX andY:mouseY 
+                withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+        }
+    } else {
+        [self stopHideTimer:TRUE];
     }
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if ([theEvent type]==NSLeftMouseUp) {
-        if (trackMouse) {
-            [[VICEApplication theMachineController] mouseReleased];
-        } else {
-            [self startHideTimer];
+    if (trackMouse) {
+        if(mouseEmuEnabled) {
+            if ([theEvent type]==NSLeftMouseUp) {
+                [[VICEApplication theMachineController] mouseButton:YES withState:NO];
+            }
+            else if ([theEvent type]==NSRightMouseUp) {
+                [[VICEApplication theMachineController] mouseButton:NO withState:NO];
+            }
         }
+        if(lightpenEmuEnabled) {
+            if ([theEvent type]==NSLeftMouseUp) {
+                mouseLeftButtonPressed = NO;
+            }
+            else if ([theEvent type]==NSRightMouseUp) {
+                mouseRightButtonPressed = NO;
+            }
+            [[VICEApplication theMachineController]
+                lightpenUpdateOnScreen:canvasId 
+                toX:mouseX andY:mouseY 
+                withButton1:mouseLeftButtonPressed andButton2:mouseRightButtonPressed];
+        }
+    } else {
+        [self startHideTimer];
     }
 }
 
-- (void)toggleMouse:(NSNotification *)notification
+- (void)toggleMouseTracking
 {
-    NSDictionary *dict = [notification userInfo];
-    trackMouse = [[dict objectForKey:@"mouse"] boolValue];
-
+    trackMouse = mouseEmuEnabled || lightpenEmuEnabled;
     if (trackMouse) {
         [self stopHideTimer:TRUE];
     } else {
         [self startHideTimer];
     }
+}
+
+- (void)toggleMouseEmu:(NSNotification *)notification
+{
+    NSDictionary *dict = [notification userInfo];
+    mouseEmuEnabled = [[dict objectForKey:@"mouse"] boolValue];
+    [self toggleMouseTracking];
+}
+
+- (void)toggleLightpenEmu:(NSNotification *)notification
+{
+    NSDictionary *dict = [notification userInfo];
+    lightpenEmuEnabled = [[dict objectForKey:@"lightpen"] boolValue];
+    [self toggleMouseTracking];
 }
 
 // ---------- display link stuff --------------------------------------------
