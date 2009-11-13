@@ -187,14 +187,14 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
     video_canvas_t *canvasPtr = canvas;
     NSData *data = [NSData dataWithBytes:&canvasPtr length:sizeof(video_canvas_t *)];
 
+    // register canvas in machine controller and return Id for it
+    canvas->canvasId = [theVICEMachine registerCanvas:canvas];
+
     // call UI thread to create canvas
     [[theVICEMachine app] createCanvas:data withSize:NSMakeSize(w,h)];
 
     // init rendering
     video_canvas_set_palette(canvas,canvas->palette);
-
-    // register canvas in machine controller (to allow access via id)
-    canvas->canvasId = [theVICEMachine registerCanvas:canvas];
 
     // re-post all required notifications for new window
     [[theVICEMachine machineNotifier] notifyNewWindow];

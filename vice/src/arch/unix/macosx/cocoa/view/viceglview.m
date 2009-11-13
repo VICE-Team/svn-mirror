@@ -156,7 +156,7 @@ extern log_t video_log;
         return;
     }
     
-    log_message(video_log, "reconfiguring display");
+    log_message(video_log, "reconfiguring canvas [%d]", canvasId);
     BOOL usePixelBuffer = NO;
 
     // do sync draw
@@ -272,7 +272,7 @@ extern log_t video_log;
         return;
     }
     
-    log_message(video_log, "resize canvas %g x %g", size.width, size.height);
+    log_message(video_log, "resize canvas [%d] to %g x %g", canvasId, size.width, size.height);
 
     // re-adjust textures
     [self setupTextures:numTextures withSize:size];
@@ -282,6 +282,9 @@ extern log_t video_log;
         [self deletePixelBuffer];
         [self setupPixelBufferWithSize:size];
     }
+    
+    // make sure viewport is setup correcty
+    [self reshape];
 }
 
 // the emulation wants to draw a new frame (called from machine thread!)
