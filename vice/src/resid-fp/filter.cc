@@ -174,7 +174,7 @@ void FilterFP::set_w0()
     /* div once by extra nonlinearity because I fitted the type3 eq with that variant. */
     float type3_fc_kink = SIDFP::kinked_dac(fc, nonlinearity, 11) / nonlinearity;
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 512.f);
-    distortion_offset = (1024.f - type3_fc_kink) * 512.f * 0.5f;
+    distortion_offset = (SIDFP::kinked_dac(0x400, nonlinearity, 11) / nonlinearity - type3_fc_kink) * 512.f * 0.5f;
   }
   if (model == MOS8580FP) {
     type4_w0_cache = type4_w0();
@@ -184,10 +184,15 @@ void FilterFP::set_w0()
 // Set filter resonance.
 void FilterFP::set_Q()
 {
-  float Q = res / 15.f;
-  if (model == MOS6581FP) {
-      _1_div_Q = 1.f / (0.5f + Q);
+    if (model == MOS6581FP) {
+    /* These are handfitted approximations for algorithm that reduces hp by 6 dB.
+     * For res=0, the desired behavior of filter is a 2 dB notch at the center frequency
+     * followed by continuation of 6 dB lower when the energy is on hp output.
+     * 
+     * The filter hump must be about 8 dB when subtracting res=0 behavior from res=f.
+     */
+    _1_div_Q = 1.f / (0.5f + res / 20.f);
   } else {
-      _1_div_Q = 1.f / (0.707f + Q);
+    _1_div_Q = 1.f / (0.707f + res / 15.f);
   }
 }
