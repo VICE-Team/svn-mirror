@@ -1,3 +1,95 @@
+2009-11-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/info.c: Added (some) new contributors, updated own info
+
+	* README: Update the other version number too
+
+2009-11-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/video.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: fixed
+	  reconfiguring of multiple canvases
+
+	* src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/vicemachinenotifier.h,
+	  src/arch/unix/macosx/cocoa/vicemachinenotifier.m,
+	  src/arch/unix/macosx/cocoa/vicenotifications.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: added
+	  lightpen support
+
+2009-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/reslightpen.rc,
+	  src/arch/win32/resmidi.rc, src/arch/win32/ressoundexpander.rc,
+	  src/translate.c: Updated the swedish translations.
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/rescbm2.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/ui.c, src/arch/win32/vic20ui.c: Added the allow
+	  opposite joystick directions menu item to the win32 ui.
+
+	* po/tr.po: Updated tr.po file.
+
+2009-11-13  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc: Reduce resonance control from 10 dB to
+	  about 8 dB. The control range is tricky to see because of the
+	  simultaneous 6 dB adjustment between lp and hp.
+
+2009-11-12  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/sid/resid-fp.cc: Tom Roger (SLC) convinced me to change
+	  the output amp clipping slightly and to reinstate the
+	  distortion threshold. These changes seem to fix the
+	  problematic songs. The changes necessiate a parameter tweak in
+	  reduction of nonlinearity that had similar effects as
+	  adjusting the distortion threshold.
+
+2009-11-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/vsyncarch.c: Fix a freeze-after-some-hours bug
+
+2009-11-12  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation to 2.2 (2904t0f0u).
+
+2009-11-11  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fixed restart of movie recording
+	  when a snapshot/history is loaded. This was introduced with
+	  the soundmovie abstraction layer.
+
+2009-11-11  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h: SLC reported excessive distortion on
+	  some filterless tunes. I agree.
+
+2009-11-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/easyflash.c: EasyFlash: clean up unused debug
+	  code, improved CHIP header handling. Patch by ALeX Kazik.
+
+	* src/vic20/cart/finalexpansion.c, src/vic20/cart/megacart.c,
+	  src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cart.h:
+	  Disable FE3/Mega-Cart write back if cartridge was from a
+	  snapshot, cast away few 64bit-only warnings
+
+2009-11-10  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* doc/html/plain/NEWS: Updated NEWS with DX9 stuff.
+
 2009-11-09  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.19
