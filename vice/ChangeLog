@@ -1,3 +1,35 @@
+2009-11-15  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.1.20
+
+2009-11-15  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c: Added
+	  the vic20 FE & MC win32 write-back ui elements.
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uisound.c: Added
+	  a sound fragment size element to the win32 ui.
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/reseasyflash.rc,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	  src/arch/win32/ressidcart.rc,
+	  src/arch/win32/ressoundexpander.rc,
+	  src/arch/win32/resvic20.rc, src/translate.c: Updated turkish
+	  translations.
+
+	* data/C64/Makefile.am, data/C64/win_sym_it.vkm: Added italian
+	  x64 win32 vkm file as provided by Thomas Mazzi.
+
+	* Makefile.am: 'Fixed' the tar and more than 99 chars issue.
+
 2009-11-14  Hannu Nuotio <hannu.nuotio@tut.fi>
 
 	* src/info.c: Added (some) new contributors, updated own info
