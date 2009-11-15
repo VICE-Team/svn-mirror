@@ -75,6 +75,7 @@ static uilib_localize_dialog_param sound_dialog[] = {
     { IDC_SOUND_WMM, IDS_SOUND_WMM, 0 },
     { IDC_SOUND_SAMPLE_FREQUENCY, IDS_SOUND_SAMPLE_FREQUENCY, 0 },
     { IDC_SOUND_BUFFER_SIZE, IDS_SOUND_BUFFER_SIZE, 0 },
+    { IDC_SOUND_FRAGMENT_SIZE_LABEL, IDS_SOUND_FRAGMENT_SIZE_LABEL, 0 },
     { IDC_SOUND_SYNCH_METHOD, IDS_SOUND_SYNCH_METHOD, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
@@ -90,6 +91,7 @@ static uilib_dialog_group sound_driver_group[] = {
 static uilib_dialog_group sound_left_group[] = {
     { IDC_SOUND_SAMPLE_FREQUENCY, 0 },
     { IDC_SOUND_BUFFER_SIZE, 0 },
+    { IDC_SOUND_FRAGMENT_SIZE_LABEL, 0 },
     { IDC_SOUND_SYNCH_METHOD, 0 },
     { 0, 0 }
 };
@@ -97,6 +99,7 @@ static uilib_dialog_group sound_left_group[] = {
 static uilib_dialog_group sound_right_group[] = {
     { IDC_SOUND_FREQ, 0 },
     { IDC_SOUND_BUFFER, 0 },
+    { IDC_SOUND_FRAGMENT_SIZE, 0 },
     { IDC_SOUND_SYNCH, 0 },
     { 0, 0 }
 };
@@ -105,6 +108,7 @@ static uilib_dialog_group sound_filling_group[] = {
     { IDC_SOUND_WMM, 0 },
     { IDC_SOUND_FREQ, 0 },
     { IDC_SOUND_BUFFER, 0 },
+    { IDC_SOUND_FRAGMENT_SIZE, 0 },
     { IDC_SOUND_SYNCH, 0 },
     { 0, 0 }
 };
@@ -201,6 +205,13 @@ static void init_sound_dialog(HWND hwnd)
         res_value = IDC_SOUND_DIRECTX;
     }
         
+    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE);
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_SMALL));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_MEDIUM));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_LARGE));
+    resources_get_int("SoundFragmentSize", &res_value);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
     CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
 }
 
@@ -208,6 +219,7 @@ static void end_sound_dialog(HWND hwnd)
 {
     resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("SoundFragmentSize", SendMessage(GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE), CB_GETCURSEL, 0, 0));
     resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 
