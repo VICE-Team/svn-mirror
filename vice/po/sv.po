@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-15 12:16+0100\n"
-"PO-Revision-Date: 2009-11-12 13:26+0100\n"
+"PO-Revision-Date: 2009-11-15 16:03+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -5441,24 +5441,20 @@ msgid "Sound Buffer &Size :"
 msgstr "Ljudbuffert&storlek:"
 
 #: src/arch/win32/res.rc.po.c:1150
-#, fuzzy
 msgid "Sound Fragment Size :"
-msgstr "Fragmentstorlek"
+msgstr "Storlek på ljudfragment:"
 
 #: src/arch/win32/res.rc.po.c:1151
-#, fuzzy
 msgid "Small"
-msgstr "*Liten"
+msgstr "Liten"
 
 #: src/arch/win32/res.rc.po.c:1152
-#, fuzzy
 msgid "Medium"
-msgstr "*Medium"
+msgstr "Medium"
 
 #: src/arch/win32/res.rc.po.c:1153
-#, fuzzy
 msgid "Large"
-msgstr "*Stor"
+msgstr "Stor"
 
 #: src/arch/win32/res.rc.po.c:1154
 msgid "Synchronization &Method :"
@@ -6379,9 +6375,8 @@ msgid "Swap &Userport joysticks"
 msgstr "Växla &användarportstyrspakar"
 
 #: src/arch/win32/res.rc.po.c:1397
-#, fuzzy
 msgid "Allow opposite joystick directions"
-msgstr "*Tillåt motsatta riktningar"
+msgstr "Tillåt motsatta riktningar på styrspak"
 
 #: src/arch/win32/res.rc.po.c:1398 src/arch/amigaos/intl.c.po.c:1498
 msgid "Enable Joy Keys"
@@ -8336,19 +8331,16 @@ msgid "V&IC settings..."
 msgstr "V&IC-inställningar..."
 
 #: src/arch/win32/resvic20.rc.po.c:519
-#, fuzzy
 msgid "Enable Final Expansion write-back"
-msgstr "*Final Expansion-återskrivning"
+msgstr "Aktivera Final Expansion-återskrivning"
 
 #: src/arch/win32/resvic20.rc.po.c:520
-#, fuzzy
 msgid "Enable Mega-Cart non-volatile RAM write-back"
-msgstr "*Mega-Cart NvRAM-återskrivning"
+msgstr "Aktivera Mega-Cart NvRAM-återskrivning"
 
 #: src/arch/win32/resvic20.rc.po.c:521
-#, fuzzy
 msgid "Select Mega-Cart non-volatile RAM file"
-msgstr "Välj Mega-Cart-fil"
+msgstr "Välj NvRAM-fil för Mega-Cart"
 
 #: src/arch/win32/resvicii.rc.po.c:35 src/arch/amigaos/intl.c.po.c:5292
 msgid "VIC-II Settings"
@@ -9328,19 +9320,17 @@ msgstr ""
 "AI, 3: tangentuppsättning B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4585
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 msgstr ""
 "Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2: "
-"tangentuppsättning A/AI, 3: tangentuppsättning B/AI)"
+"tangentuppsättning A/AI, 3: tangentuppsättning "
 
 #: src/arch/amigaos/intl.c.po.c:4601
-#, fuzzy
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: "
 msgstr ""
 "Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2: "
-"tangentuppsättning A/AI, 3: tangentuppsättning B/AI)"
+"tangentuppsättning A/AI, 3: "
 
 #: src/arch/amigaos/intl.c.po.c:4617
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -13325,3 +13315,4 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate.c.po.c:11626
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
+
