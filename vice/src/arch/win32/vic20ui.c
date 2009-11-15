@@ -68,7 +68,9 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_PADDLES },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
-     { NULL, 0 }
+    { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
+    { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
+    { NULL, 0 }
 };
 
 static const uirom_settings_t uirom_settings[] = {
@@ -309,6 +311,9 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
+    { IDM_FINAL_EXPANSION_WRITEBACK, IDS_MI_FINAL_EXPANSION_WRITEBACK },
+    { IDM_MEGACART_WRITEBACK, IDS_MI_MEGACART_WRITEBACK },
+    { IDM_MEGACART_WRITEBACK_FILE, IDS_MI_MEGACART_WRITEBACK_FILE },
     { IDM_CART_VIC20_GENERIC, IDS_MI_CART_VIC20_GENERIC },
     { IDM_CART_VIC20_MEGACART, IDS_MI_CART_VIC20_MEGACART },
     { IDM_CART_VIC20_FINAL_EXPANSION, IDS_MI_CART_VIC20_FINAL_EXPANSION },
@@ -451,6 +456,8 @@ static uilib_dialog_group vic20_drive_right_group[] = {
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
+    TCHAR *st_name;
+
     switch (wparam) {
         case IDM_CART_VIC20_GENERIC:
             uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
@@ -514,6 +521,17 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_KEYBOARD_SETTINGS:
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
+            break;
+        case IDM_MEGACART_WRITEBACK_FILE:
+            if ((st_name = uilib_select_file(hwnd, translate_text(IDS_MI_MEGACART_WRITEBACK_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                char *name;
+
+                name = system_wcstombs_alloc(st_name);
+
+                resources_set_string("MegaCartNvRAMfilename", name);
+                system_wcstombs_free(name);
+                lib_free(st_name);
+            }
             break;
     }
 }
