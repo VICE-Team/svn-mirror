@@ -199,6 +199,13 @@
 		</dict>
 		<key>_C128_C64_C64DTV_VIC20_</key>
 		<dict>
+			<key>Mouse</key>
+			<dict>
+				<key>Scale X</key>
+				<string>MouseScaleX,r,1,10</string>
+				<key>Scale Y</key>
+				<string>MouseScaleY,r,1,10</string>
+			</dict>
 			<key>Cartridges</key>
 			<dict>
 				<key>Userport RS232</key>
