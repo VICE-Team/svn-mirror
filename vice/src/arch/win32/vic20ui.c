@@ -35,6 +35,8 @@
 #include "debug.h"
 #include "lib.h"
 #include "res.h"
+#include "resources.h"
+#include "system.h"
 #include "translate.h"
 #include "ui.h"
 #include "uicart.h"
