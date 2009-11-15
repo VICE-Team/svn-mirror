@@ -131,8 +131,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
-    IDS_LIGHTPEN_ENABLE  "&Enable lightpen"
-    IDS_LIGHTPEN_TYPE    "Lightpen type"
+    IDS_LIGHTPEN_CAPTION "Iþýklý Kalem Ayarlarý"
+    IDS_LIGHTPEN_ENABLE  "Iþýklý Kalem'i aktif et"
+    IDS_LIGHTPEN_TYPE    "Iþýklý Kalem tipi"
 END
 #pragma code_page(28591)

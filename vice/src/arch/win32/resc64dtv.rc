@@ -730,7 +730,7 @@ BEGIN
   IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM imajýnda &yazmalarý aktif et"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Ayarlarý"
   IDS_DTV_REVISION_LABEL          "DTV Revizyonu"
-  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_ENABLE_HUMMER_ADC           "Hummer ADC'yi aktif et"
   IDS_CREATE_FLASH_CAPTION        "DTV Flash Imajý Oluþtur"
   IDS_DTV_ROM_CREATION            "DTV ROM Yaratma"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROMlarýný imaja kopyala"

@@ -224,6 +224,6 @@ BEGIN
   IDS_SIDCART_CLOCK_LABEL                    "SID saati"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID aygýt seçimi"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Ana aygýt"
-  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
+  IDS_DIGIBLASTER                            "Digiblaster eklentisini aktif et"
 END
 #pragma code_page(28591)
