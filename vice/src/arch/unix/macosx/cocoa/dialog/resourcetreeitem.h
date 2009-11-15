@@ -45,6 +45,7 @@
     NSString *title;
     NSString *resource;
     NSArray *children;
+    NSMutableArray *buildChildren;
     int type;
     int hint;
     id cacheValue;

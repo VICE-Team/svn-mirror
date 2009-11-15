@@ -95,9 +95,13 @@
 
 -(NSString *)getStringResource:(NSString *)name
 {
-    const char *value;
+    const char *value = NULL;
     if (resources_get_string([name cStringUsingEncoding:NSUTF8StringEncoding],&value)==0) {
-        return [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
+        if(value != NULL) {
+            return [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
+        } else {
+            return nil;
+        }
     }
     return nil;
 }

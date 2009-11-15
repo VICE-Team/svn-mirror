@@ -292,19 +292,7 @@ for bundle in $BUNDLES ; do
         fi
         # remove unwanted emu nibs
         find -d "$RES_DIR" -name "x*.nib" -exec rm -rf {} \;
-        
-        # make ResourceTree for emu
-        EMU_RT="$RES_DIR/$bundle-ResourceTree.plist"
-        if [ -e "$EMU_RT" ]; then
-          echo -n " res"
-          MAIN_RT="$RES_DIR/ResourceTree.plist"
-          mv "$EMU_RT" "$MAIN_RT"
-        else
-          echo -n " **MISSING:res"
-        fi
-        # remove unwanted resource trees
-        find "$RES_DIR" -name "*-ResourceTree.plist" -exec rm -f {} \;
-        
+                
         echo -n "]"
       done
       

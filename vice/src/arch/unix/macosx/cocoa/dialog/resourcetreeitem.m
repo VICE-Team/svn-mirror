@@ -24,6 +24,8 @@
  *
  */
 
+#include "machine.h"
+
 #import "resourcetreeitem.h"
 #import "resourceeditorcontroller.h"
 
@@ -39,6 +41,7 @@
     title = [t retain];
     resource = nil;
     children = nil;
+    buildChildren = nil;
     cacheValue = nil;
     dataCell = nil;
     extraCell = nil;
@@ -77,26 +80,76 @@
     }
 }
 
--(BOOL)addFromDictionary:(NSDictionary *)dict
+-(void)addChild:(ResourceTreeItem *)item
 {
-    NSMutableArray *a = [[NSMutableArray alloc] init];
-    NSEnumerator *enumerator = [dict keyEnumerator];
-    id key;
-    while ((key = [enumerator nextObject])) {
-        ResourceTreeItem *item = [[ResourceTreeItem alloc] initWithTitle:key];
-        [a addObject:item];
+    if(buildChildren == nil) {
+        buildChildren = [[NSMutableArray alloc] init];
+    }
+    [buildChildren addObject:item];
+}
 
+-(ResourceTreeItem *)hasChildWithTitle:(NSString *)name
+{
+    if(buildChildren == nil)
+        return nil;
+    
+    int numChilds = [buildChildren count];
+    int i;
+    for(i=0;i<numChilds;i++) {
+        ResourceTreeItem *child = [buildChildren objectAtIndex:i];
+        if([[child title] compare:name] == NSOrderedSame) {
+            return child;
+        }
+    }
+    return nil;
+}
+
+-(BOOL)addFromDictionaryLoop:(NSDictionary *)dict
+{
+    NSEnumerator *enumerator = [dict keyEnumerator];
+    NSString *key;
+    while ((key = [enumerator nextObject])) {
+        
         id value = [dict objectForKey:key];
 
         // its a dictionary itself
         if ([value isKindOfClass:[NSDictionary class]]) {
-            if (![item addFromDictionary:value]) {
-                return FALSE;
+            // is it a machine class dictionary?
+            if([key hasPrefix:@"_"]) {
+                // valid for this machine?
+                NSString *machineName = [NSString stringWithFormat:@"_%s_", machine_name];
+                NSRange range = [key rangeOfString:machineName];
+                if(range.location != NSNotFound) {
+                    // add machine dependent entries to this item
+                    if(![self addFromDictionaryLoop:value]) {
+                        return FALSE;
+                    }
+                }
+            }
+            // normal dictionary with contents
+            else {
+                ResourceTreeItem *item = [self hasChildWithTitle:key];
+                if(item == nil) {
+                    item = [[ResourceTreeItem alloc] initWithTitle:key];
+                    [self addChild:item];
+                }
+                if (![item addFromDictionaryLoop:value]) {
+                    return FALSE;
+                }
             }
         }
         // its a string
         else if ([value isKindOfClass:[NSString class]]) {
-            if (![item parseResourceString:(NSString *)value]) {
+            NSString *param = (NSString *)value;
+            if(param == nil) {
+                NSLog(@"Invalid param string for '%@'",key);
+                return FALSE;
+            }
+            
+            ResourceTreeItem *item = [[ResourceTreeItem alloc] initWithTitle:key];
+            [self addChild:item];
+            
+            if (![item parseResourceString:param]) {
                 return FALSE;
             }
         }
@@ -106,12 +159,29 @@
             return FALSE;
         }
     }
+    return TRUE;
+}
+
+-(void)finalizeChildren
+{
+    int numChilds = [buildChildren count];
+    int i;
+    for(i=0;i<numChilds;i++) {
+        ResourceTreeItem *child = [buildChildren objectAtIndex:i];
+        [child finalizeChildren];
+    }
     
     // sort array and keep
-    children = [a sortedArrayUsingSelector:@selector(compare:)];
+    children = [buildChildren sortedArrayUsingSelector:@selector(compare:)];
     [children retain];
-    [a release];
-    return TRUE;
+    [buildChildren release];    
+}
+
+-(BOOL)addFromDictionary:(NSDictionary *)dict
+{
+    BOOL result = [self addFromDictionaryLoop:dict];
+    [self finalizeChildren];
+    return result;
 }
 
 -(BOOL)parseResourceString:(NSString *)string
@@ -125,6 +195,10 @@
     }
 
     resource = (NSString *)[args objectAtIndex:0];
+    if(resource == nil) {
+        NSLog(@"ERROR: invalid resource in %@: ",string);
+        return FALSE;
+    }
     [resource retain];
 
     NSString *typeStr = (NSString *)[args objectAtIndex:1];
@@ -256,6 +330,11 @@
                     cacheValue = [[NSNumber alloc] initWithInt:value];
                 }
             } else {
+                if(resource == nil) {
+                    NSLog(@"NIL resource in %@",title);
+                    return @"";
+                }
+                
                 NSString *value = [controller getStringResource:resource];
 //                NSLog(@"read string: %@ %@",resource,value);
                 cacheValue = [value retain];
