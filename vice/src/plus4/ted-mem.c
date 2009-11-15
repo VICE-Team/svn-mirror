@@ -713,7 +713,7 @@ int diff;
 inline static void ted1e_store(BYTE value)
 {
 	/* FIXME */
-	int new_hcount = (~value & 0xfc) >> 1;
+	/* int new_hcount = (~value & 0xfc) >> 1; */
 }
 
 inline static void ted1f_store(BYTE value)
