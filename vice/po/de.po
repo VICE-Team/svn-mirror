@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-15 12:16+0100\n"
-"PO-Revision-Date: 2009-11-15 10:03+0100\n"
+"PO-Revision-Date: 2009-11-15 16:08+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5427,24 +5427,20 @@ msgid "Sound Buffer &Size :"
 msgstr "Sound Puffergröße"
 
 #: src/arch/win32/res.rc.po.c:1150
-#, fuzzy
 msgid "Sound Fragment Size :"
-msgstr "Fragmentgröße"
+msgstr "Sound Fragmentgröße :"
 
 #: src/arch/win32/res.rc.po.c:1151
-#, fuzzy
 msgid "Small"
-msgstr "*Klein"
+msgstr "Klein"
 
 #: src/arch/win32/res.rc.po.c:1152
-#, fuzzy
 msgid "Medium"
-msgstr "*Mittel"
+msgstr "Mittel"
 
 #: src/arch/win32/res.rc.po.c:1153
-#, fuzzy
 msgid "Large"
-msgstr "*Groß"
+msgstr "Groß"
 
 #: src/arch/win32/res.rc.po.c:1154
 msgid "Synchronization &Method :"
@@ -6365,9 +6361,8 @@ msgid "Swap &Userport joysticks"
 msgstr "&Userport Joystick ports austauschen"
 
 #: src/arch/win32/res.rc.po.c:1397
-#, fuzzy
 msgid "Allow opposite joystick directions"
-msgstr "*Gegnüberliegende Richtungen zulassen"
+msgstr "Gegnüberliegende Richtungen zulassen"
 
 #: src/arch/win32/res.rc.po.c:1398 src/arch/amigaos/intl.c.po.c:1498
 msgid "Enable Joy Keys"
@@ -8322,19 +8317,16 @@ msgid "V&IC settings..."
 msgstr "V&IC Einstellungen"
 
 #: src/arch/win32/resvic20.rc.po.c:519
-#, fuzzy
 msgid "Enable Final Expansion write-back"
-msgstr "*Final Expansion rückschreiben"
+msgstr "Final Expansion rückschreiben aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:520
-#, fuzzy
 msgid "Enable Mega-Cart non-volatile RAM write-back"
-msgstr "*Mega-Cart NvRAM rückschreiben"
+msgstr "Mega-Cart nicht-flüchtiges RAM rückschreiben aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:521
-#, fuzzy
 msgid "Select Mega-Cart non-volatile RAM file"
-msgstr "Mega-Cart Image Datei wählen"
+msgstr "Mega-Cart nicht-flüchtiges RAM Datei wählen"
 
 #: src/arch/win32/resvicii.rc.po.c:35 src/arch/amigaos/intl.c.po.c:5292
 msgid "VIC-II Settings"
@@ -9316,9 +9308,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4601
 #, fuzzy
