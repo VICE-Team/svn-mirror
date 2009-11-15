@@ -232,6 +232,13 @@ for bundle in $BUNDLES ; do
     echo -n "[icon=$ICON_BASE] "
     cp $ICON $APP_RESOURCES/
 
+    # add VICE.icns
+    if [ "$bundle" != "VICE" ]; then
+      ICON="$RUN_PATH/Resources/VICE.icns"
+      cp $ICON $APP_RESOURCES/
+      echo -n "[icon=VICE] "
+    fi
+
     # setup Info.plist
     echo -n "[Info.plist] "
     create_info_plist "$RUN_PATH/Info.plist" "$APP_CONTENTS/Info.plist"
