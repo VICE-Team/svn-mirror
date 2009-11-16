@@ -52,6 +52,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
+#include "vic.h"
 #include "vic20memrom.h"
 #include "videoarch.h"
 #include "vkbd.h"
@@ -152,13 +153,20 @@ void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 
     resources_get_int("MachineVideoStandard", &videostandard);
 
+#ifdef VIC_DUPLICATES_PIXELS
     menu_draw->max_text_x = 48;
+#else
+    /* FIXME some functions assume max_text_x to be at least 40 */
+    menu_draw->max_text_x = (videostandard == MACHINE_SYNC_PAL) ? 28 : 25;
+#endif
     menu_draw->max_text_y = 26;
 
     menu_draw->extra_x = sdl_active_canvas->viewport->first_x - sdl_active_canvas->geometry->gfx_position.x;
     menu_draw->extra_y = sdl_active_canvas->geometry->first_displayed_line - sdl_active_canvas->geometry->gfx_position.y;
 
+#ifdef VIC_DUPLICATES_PIXELS
     menu_draw->extra_x += (videostandard == MACHINE_SYNC_PAL) ? 36 : 8;
+#endif
     menu_draw->extra_y += (videostandard == MACHINE_SYNC_PAL) ? 40 : 24;
 }
 
