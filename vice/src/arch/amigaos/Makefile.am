@@ -116,6 +116,8 @@ libarch_a_SOURCES = \
 	mui/mui.h \
 	mui/uiacia.c \
 	mui/uiacia.h \
+	mui/uiautostart.c \
+	mui/uiautostart.h \
 	mui/uic64_256k.c \
 	mui/uic64_256k.h \
 	mui/uic64dtv.c \

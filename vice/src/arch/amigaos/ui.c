@@ -60,6 +60,7 @@
 
 #include "mui/filereq.h"
 #include "mui/mui.h"
+#include "mui/uiautostart.h"
 #include "mui/uidatasette.h"
 #include "mui/uifliplist.h"
 
@@ -804,6 +805,9 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
 #endif
         case IDM_SOUND_RECORD_START:
             ui_sound_record_settings_dialog(canvas);
+            break;
+        case IDM_AUTOSTART_SETTINGS:
+            ui_autostart_settings_dialog(canvas);
             break;
         case IDM_SOUND_RECORD_STOP:
             resources_set_string("SoundRecordDeviceName", "");

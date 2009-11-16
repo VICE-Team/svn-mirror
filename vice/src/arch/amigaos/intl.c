@@ -1730,6 +1730,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SETTINGS_SV, "Inställningar" },
 /* tr */ { IDMS_SETTINGS_TR, "Ayarlar" },
 
+/* en */ { IDMS_AUTOSTART_SETTINGS,    "Autostart settings..." },
+/* da */ { IDMS_AUTOSTART_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_AUTOSTART_SETTINGS_DE, "Autostart Einstellungen..." },
+/* fr */ { IDMS_AUTOSTART_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_AUTOSTART_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_AUTOSTART_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_AUTOSTART_SETTINGS_NL, "Autostart instellingen..." },
+/* pl */ { IDMS_AUTOSTART_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_AUTOSTART_SETTINGS_SV, "Autostartinställningar..." },
+/* tr */ { IDMS_AUTOSTART_SETTINGS_TR, "Otomatik baþlatma ayarlarý..." },
+
 /* en */ { IDMS_VIDEO_SETTINGS,    "Video settings..." },
 /* da */ { IDMS_VIDEO_SETTINGS_DA, "Grafikindstillinger..." },
 /* de */ { IDMS_VIDEO_SETTINGS_DE, "Video Einstellungen..." },
@@ -4608,8 +4619,7 @@ intl_translate_t intl_string_table[] = {
                                         "A/AI, 3: Teckenuppsättning B/AI)" },
 /* tr */ { IDS_SET_INPUT_JOYSTICK_2_TR, "Joystick #2 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: Tuþ Seti B/AI)" },
 
-/* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1,    "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
-                                              "B/AI)" },
+/* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1,    "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DA, "" },  /* fuzzy */
 /* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
                                               "Keysatz B/AI)" },
@@ -4624,8 +4634,7 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_TR, "Ekstra joystick #1 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: "
                                               "Tuþ Seti B/AI)" },
 
-/* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: "
-                                              "Keyset B/AI)" },
+/* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2,    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_DA, "" },  /* fuzzy */
 /* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_DE, "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
                                               "Keysatz B/AI)" },
@@ -6623,6 +6632,105 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_MOUSE_PADDLES_PL, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_PADDLES_SV, "Paddel" },
 /* tr */ { IDS_MOUSE_PADDLES_TR, "Paddle" },
+
+/* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
+/* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_VIRTUAL_FS_DE, "Virtual FS" },
+/* fr */ { IDS_AUTOSTART_VIRTUAL_FS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_VIRTUAL_FS_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_VIRTUAL_FS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_VIRTUAL_FS_NL, "Virtueel Bestandssysteem" },
+/* pl */ { IDS_AUTOSTART_VIRTUAL_FS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_VIRTUAL_FS_SV, "Virtuellt FS" },
+/* tr */ { IDS_AUTOSTART_VIRTUAL_FS_TR, "Sanal FS" },
+
+/* en */ { IDS_AUTOSTART_INJECT,    "Inject" },
+/* da */ { IDS_AUTOSTART_INJECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_INJECT_DE, "Inject" },
+/* fr */ { IDS_AUTOSTART_INJECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_INJECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_INJECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_INJECT_NL, "Inject" },
+/* pl */ { IDS_AUTOSTART_INJECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_INJECT_SV, "Sätt in" },
+/* tr */ { IDS_AUTOSTART_INJECT_TR, "Enjekte et" },
+
+/* en */ { IDS_AUTOSTART_DISK,    "Disk image" },
+/* da */ { IDS_AUTOSTART_DISK_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_DISK_DE, "Disk Image" },
+/* fr */ { IDS_AUTOSTART_DISK_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_DISK_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DISK_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_DISK_NL, "Disk bestand" },
+/* pl */ { IDS_AUTOSTART_DISK_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_DISK_SV, "Diskavbildning" },
+/* tr */ { IDS_AUTOSTART_DISK_TR, "Disk imajý" },
+
+/* en */ { IDS_AUTOSTART_DISK_IMAGE_SELECT,    "Select file for PRG autostart disk" },
+/* da */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_DE, "Datei für PRG Autostart auswählen" },
+/* fr */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_NL, "Selecteer bestand voor PRG autostart disk" },
+/* pl */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_SV, "Välj fil för PRG-autostartdisk" },
+/* tr */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_TR, "PRG otomatik baþlatma için dosya seçin" },
+
+/* en */ { IDS_WARP_ON_AUTOSTART,    "Autostart warp" },
+/* da */ { IDS_WARP_ON_AUTOSTART_DA, "" },  /* fuzzy */
+/* de */ { IDS_WARP_ON_AUTOSTART_DE, "Autostart Warp" },
+/* fr */ { IDS_WARP_ON_AUTOSTART_FR, "" },  /* fuzzy */
+/* hu */ { IDS_WARP_ON_AUTOSTART_HU, "" },  /* fuzzy */
+/* it */ { IDS_WARP_ON_AUTOSTART_IT, "" },  /* fuzzy */
+/* nl */ { IDS_WARP_ON_AUTOSTART_NL, "Autostart warp" },
+/* pl */ { IDS_WARP_ON_AUTOSTART_PL, "" },  /* fuzzy */
+/* sv */ { IDS_WARP_ON_AUTOSTART_SV, "Starta warp automatiskt" },
+/* tr */ { IDS_WARP_ON_AUTOSTART_TR, "Warp modunda otomatik baþlat" },
+
+/* en */ { IDS_RUN_WITH_COLON,    "Use ':' with run" },
+/* da */ { IDS_RUN_WITH_COLON_DA, "" },  /* fuzzy */
+/* de */ { IDS_RUN_WITH_COLON_DE, "Verwende ':' mit RUN" },
+/* fr */ { IDS_RUN_WITH_COLON_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RUN_WITH_COLON_HU, "" },  /* fuzzy */
+/* it */ { IDS_RUN_WITH_COLON_IT, "" },  /* fuzzy */
+/* nl */ { IDS_RUN_WITH_COLON_NL, "Gebruik ':' met run" },
+/* pl */ { IDS_RUN_WITH_COLON_PL, "" },  /* fuzzy */
+/* sv */ { IDS_RUN_WITH_COLON_SV, "Använd ':' med run" },
+/* tr */ { IDS_RUN_WITH_COLON_TR, "Çalýþtýr ile ':' kullan" },
+
+/* en */ { IDS_AUTOSTART_PRG_MODE,    "PRG autostart mode" },
+/* da */ { IDS_AUTOSTART_PRG_MODE_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_PRG_MODE_DE, "PRG Autostartmodus" },
+/* fr */ { IDS_AUTOSTART_PRG_MODE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_PRG_MODE_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_PRG_MODE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_PRG_MODE_NL, "PRG autostart modus" },
+/* pl */ { IDS_AUTOSTART_PRG_MODE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_PRG_MODE_SV, "Autostartläge för PRG" },
+/* tr */ { IDS_AUTOSTART_PRG_MODE_TR, "PRG otomatik baþlatma modu" },
+
+/* en */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME,    "PRG autostart disk image" },
+/* da */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_DE, "PRG Autostart Disk Image" },
+/* fr */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_NL, "PRG autostart disk bestand" },
+/* pl */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_SV, "Autostartdiskavbildning för PRG" },
+/* tr */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_TR, "PRG otomatik baþlatma disk imajý" },
+
+/* en */ { IDS_AUTOSTART_SETTINGS,    "Autostart Settings" },
+/* da */ { IDS_AUTOSTART_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_SETTINGS_DE, "Autostart Einstellungen" },
+/* fr */ { IDS_AUTOSTART_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_SETTINGS_NL, "Autostart Instellingen" },
+/* pl */ { IDS_AUTOSTART_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_SETTINGS_SV, "Autostartinställningar" },
+/* tr */ { IDS_AUTOSTART_SETTINGS_TR, "Otomatik baþlatma ayarlarý" },
 
 /* en */ { IDS_ERROR_SAVING_EASYFLASH_CRT,    "Error saving EasyFlash crt file" },
 /* da */ { IDS_ERROR_SAVING_EASYFLASH_CRT_DA, "" },  /* fuzzy */
