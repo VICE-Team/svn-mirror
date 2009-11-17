@@ -193,7 +193,7 @@ private:
   float Vhp, Vbp, Vlp;
 
   /* Resonance/Distortion/Type3/Type4 helpers. */
-  float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, distortion_CT, distortion_offset;
+  float type4_w0_cache, _1_div_Q, type3_fc_kink_exp, distortion_CT;
 
   float nonlinearity;
 friend class SIDFP;
@@ -206,7 +206,6 @@ friend class SIDFP;
 // ----------------------------------------------------------------------------
 
 const float sidcaps_6581 = 470e-12f;
-const float OUTPUTCLIP = 3.3e6f;
 
 RESID_INLINE
 static float fastexp(float val) {
@@ -261,16 +260,10 @@ float FilterFP::type4_w0()
 RESID_INLINE
 float FilterFP::waveshaper1(float value)
 {
-    if (value > OUTPUTCLIP) {
-        value -= (value - OUTPUTCLIP) * 0.5f;
+    if (value > distortion_nonlinearity) {
+        value -= (value - distortion_nonlinearity) * 0.5f;
     }
     return value;
-}
-
-RESID_INLINE
-float FilterFP::waveshaper2(float value)
-{
-    return value * fastexp(value * distortion_nonlinearity);
 }
 
 // ----------------------------------------------------------------------------
@@ -307,10 +300,9 @@ float FilterFP::clock(float voice1,
     }
     
     if (model == MOS6581FP) {
-        Vlp -= Vbp * type3_w0(Vbp - distortion_offset);
-        Vbp -= Vhp * type3_w0(Vhp - distortion_offset);
-        float Vhp_construction = waveshaper2(Vbp * _1_div_Q) - Vlp - Vi;
-        Vhp = waveshaper2(Vhp_construction * attenuation);
+        Vlp -= Vbp * type3_w0(Vbp);
+        Vbp -= Vhp * type3_w0(Vhp);
+        Vhp = (Vbp * _1_div_Q - Vlp - Vi * 0.75f) * attenuation;
 
         /* output strip mixing to filter state */
         if (hp_bp_lp & 1) {
@@ -323,7 +315,6 @@ float FilterFP::clock(float voice1,
             Vhp += (Vf - Vhp) * intermixing_leaks;
         }
 
-        //Vf = waveshaper2(Vf);
         Vf *= volf;
         Vf = waveshaper1(Vf);
     } else {

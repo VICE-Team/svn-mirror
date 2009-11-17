@@ -103,7 +103,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
     } else {
       psid->sid->set_chip_model(MOS6581FP);
       psid->sid->set_voice_nonlinearity(0.96f);
-      psid->sid->get_filter().set_distortion_properties(0.50f, -2.0e-7f, 3.0e-4f);
+      psid->sid->get_filter().set_distortion_properties(0.50f, 3.3e6f, 3.0e-4f);
     }
 
     switch (model) {
@@ -137,20 +137,20 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
       strcpy(model_text, "6581R3 0486S");
       break;
     case SID_MODEL_6581R3_3984:
-      psid->sid->get_filter().set_type3_properties(1791818.499169074f, 35564657.77812113f, 1.0051916772894813f, 16797.553721476484f);
+      psid->sid->get_filter().set_type3_properties(1522171.922983084f, 21729926.667291082f, 1.004994802537475f, 14299.149638099827f);
       strcpy(model_text, "6581R3 3984");
       break;
     default:
     case SID_MODEL_6581R4AR_3789:
-      psid->sid->get_filter().set_type3_properties(1299501.5675945764f, 284015710.29875594f, 1.0065089724604026f, 18741.324073610594f);
+      psid->sid->get_filter().set_type3_properties(1141069.9277645703f, 276016753.85303545f, 1.0066634233403395f, 16402.86712485317f);
       strcpy(model_text, "6581R4AR 3789");
       break;
     case SID_MODEL_6581R3_4485:
-      psid->sid->get_filter().set_type3_properties(1319746.6334817847f, 325484805.5228794f, 1.0049967859070095f, 8865.676531378584f);
+      psid->sid->get_filter().set_type3_properties(1399768.3253307983f, 553018906.8926692f, 1.0051493199361266f, 11961.908870403166f);
       strcpy(model_text, "6581R3 4485");
       break;
     case SID_MODEL_6581R4_1986S:
-      psid->sid->get_filter().set_type3_properties(1326141.6346824165f, 2059653512.4261823f, 1.0055788469632323f, 7591.487542582334f);
+      psid->sid->get_filter().set_type3_properties(1250736.2235895505f, 1521187976.8735676f, 1.005543646897986f, 8581.78418415723f);
       strcpy(model_text, "6581R4 1986S");
       break;
     }

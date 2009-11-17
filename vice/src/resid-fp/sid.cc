@@ -315,7 +315,7 @@ reg8 SIDFP::read(reg8 offset)
 void SIDFP::write(reg8 offset, reg8 value)
 {
   bus_value = value;
-  bus_value_ttl = 0x4000;
+  bus_value_ttl = 34000;
 
   switch (offset) {
   case 0x00:
