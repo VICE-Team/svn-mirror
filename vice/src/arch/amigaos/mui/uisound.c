@@ -89,6 +89,22 @@ static const int ui_sound_adjusting_values[] = {
     -1
 };
 
+static int ui_sound_fragment_size_translate[] = {
+    IDS_SMALL,
+    IDS_MEDIUM,
+    IDS_LARGE,
+    0
+};
+
+static char *ui_sound_fragment_size[countof(ui_sound_fragment_size_translate)];
+
+static const int ui_sound_fragment_size_values[] = {
+    SOUND_FRAGMENT_SMALL,
+    SOUND_FRAGMENT_MEDIUM,
+    SOUND_FRAGMENT_LARGE,
+    -1
+};
+
 static char *ui_sound_formats[] = {
     "aiff",
     "iff",
@@ -103,6 +119,7 @@ static char *ui_sound_formats[] = {
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "SoundSampleRate", ui_sound_freq, ui_sound_freq_values },
     { NULL, MUI_TYPE_CYCLE, "SoundBufferSize", ui_sound_buffer, ui_sound_buffer_values },
+    { NULL, MUI_TYPE_CYCLE, "SoundFragmentSize", ui_sound_fragment_size, ui_sound_fragment_size_values },
     { NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values },
     { NULL, MUI_TYPE_INTEGER, "SoundVolume", NULL, NULL },
     UI_END /* mandatory */
@@ -131,8 +148,9 @@ static APTR build_gui(void)
     return GroupObject,
              CYCLE(ui_to_from[0].object, translate_text(IDS_SAMPLE_RATE), ui_sound_freq)
              CYCLE(ui_to_from[1].object, translate_text(IDS_BUFFER_SIZE), ui_sound_buffer)
-             CYCLE(ui_to_from[2].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
-             STRING(ui_to_from[3].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
+             CYCLE(ui_to_from[2].object, translate_text(IDS_FRAGMENT_SIZE), ui_sound_fragment_size)
+             CYCLE(ui_to_from[3].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
+             STRING(ui_to_from[4].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
            End;
 }
 
