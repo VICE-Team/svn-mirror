@@ -317,7 +317,7 @@ int mui_show_dialog(APTR gui, char *title, ui_to_from_t *data)
                        MUIA_Frame, MUIV_Frame_ReadList,     \
                        MUIA_Background, MUII_ReadListBack,  \
                        MUIA_Floattext_Text, ftxt,           \
-                       MUIA_Floattext_TabSize, 4,           \  
+                       MUIA_Floattext_TabSize, 4,           \
                        MUIA_Floattext_Justify, TRUE,        \
                      End,                                   \
                    End
