@@ -3810,7 +3810,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_C64DTV_HUMMER_ADC,    "Hummer ADC" },
 /* da */ { IDS_C64DTV_HUMMER_ADC_DA, "" },  /* fuzzy */
-/* de */ { IDS_C64DTV_HUMMER_ADC_DE, "" },  /* fuzzy */
+/* de */ { IDS_C64DTV_HUMMER_ADC_DE, "Hummer ADC" },
 /* fr */ { IDS_C64DTV_HUMMER_ADC_FR, "" },  /* fuzzy */
 /* hu */ { IDS_C64DTV_HUMMER_ADC_HU, "" },  /* fuzzy */
 /* it */ { IDS_C64DTV_HUMMER_ADC_IT, "" },  /* fuzzy */
@@ -5247,6 +5247,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_BUFFER_SIZE_SV, "Buffertstorlek" },
 /* tr */ { IDS_BUFFER_SIZE_TR, "Arabellek Boyutu" },
 
+/* en */ { IDS_FRAGMENT_SIZE,    "Fragment Size" },
+/* da */ { IDS_FRAGMENT_SIZE_DA, "" },  /* fuzzy */
+/* de */ { IDS_FRAGMENT_SIZE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_FRAGMENT_SIZE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_FRAGMENT_SIZE_HU, "" },  /* fuzzy */
+/* it */ { IDS_FRAGMENT_SIZE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_FRAGMENT_SIZE_NL, "Fragment grootte" },
+/* pl */ { IDS_FRAGMENT_SIZE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_FRAGMENT_SIZE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_FRAGMENT_SIZE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_OVERSAMPLE,    "Oversample" },
 /* da */ { IDS_OVERSAMPLE_DA, "Oversampling" },
 /* de */ { IDS_OVERSAMPLE_DE, "Oversample" },
@@ -5590,7 +5601,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SID_ENGINE_MODEL,    "SID engine/model" },
 /* da */ { IDS_SID_ENGINE_MODEL_DA, "" },  /* fuzzy */
-/* de */ { IDS_SID_ENGINE_MODEL_DE, "" },  /* fuzzy */
+/* de */ { IDS_SID_ENGINE_MODEL_DE, "SID Engine/Modell" },
 /* fr */ { IDS_SID_ENGINE_MODEL_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SID_ENGINE_MODEL_HU, "" },  /* fuzzy */
 /* it */ { IDS_SID_ENGINE_MODEL_IT, "" },  /* fuzzy */
@@ -6500,6 +6511,39 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_SOUND_RECORD_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SOUND_RECORD_SETTINGS_SV, "Inställningar för ljudinspelning" },
 /* tr */ { IDS_SOUND_RECORD_SETTINGS_TR, "Ses Kayýt Ayarlarý" },
+
+/* en */ { IDS_SMALL,    "Small" },
+/* da */ { IDS_SMALL_DA, "" },  /* fuzzy */
+/* de */ { IDS_SMALL_DE, "Klein" },
+/* fr */ { IDS_SMALL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SMALL_HU, "" },  /* fuzzy */
+/* it */ { IDS_SMALL_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SMALL_NL, "Klein" },
+/* pl */ { IDS_SMALL_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SMALL_SV, "Liten" },
+/* tr */ { IDS_SMALL_TR, "Küçük" },
+
+/* en */ { IDS_MEDIUM,    "Medium" },
+/* da */ { IDS_MEDIUM_DA, "" },  /* fuzzy */
+/* de */ { IDS_MEDIUM_DE, "Mittel" },
+/* fr */ { IDS_MEDIUM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MEDIUM_HU, "" },  /* fuzzy */
+/* it */ { IDS_MEDIUM_IT, "" },  /* fuzzy */
+/* nl */ { IDS_MEDIUM_NL, "Medium" },
+/* pl */ { IDS_MEDIUM_PL, "" },  /* fuzzy */
+/* sv */ { IDS_MEDIUM_SV, "Medium" },
+/* tr */ { IDS_MEDIUM_TR, "Orta" },
+
+/* en */ { IDS_LARGE,    "Large" },
+/* da */ { IDS_LARGE_DA, "" },  /* fuzzy */
+/* de */ { IDS_LARGE_DE, "Groß" },
+/* fr */ { IDS_LARGE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_LARGE_HU, "" },  /* fuzzy */
+/* it */ { IDS_LARGE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_LARGE_NL, "Groot" },
+/* pl */ { IDS_LARGE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_LARGE_SV, "Stor" },
+/* tr */ { IDS_LARGE_TR, "Büyük" },
 
 /* en */ { IDS_BORDER_MODE,    "Border mode" },
 /* da */ { IDS_BORDER_MODE_DA, "Ramme-tilstand" },

@@ -646,9 +646,9 @@ BEGIN
     IDS_MI_CART_VIC20_8KB_A000        "4/8KB Modul Image bei $A000..."
     IDS_MI_CART_VIC20_4KB_B000        "4KB Modul Image bei $B000..."
     IDS_MI_VIC_SETTINGS               "V&IC Einstellungen..."
-    IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
-    IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
-    IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
+    IDS_MI_FINAL_EXPANSION_WRITEBACK  "Final Expansion rückschreiben aktivieren"
+    IDS_MI_MEGACART_WRITEBACK         "Mega-Cart nicht-flüchtiges RAM rückschreiben aktivieren"
+    IDS_MI_MEGACART_WRITEBACK_FILE    "Mega-Cart nicht-flüchtiges RAM Datei wählen"
 END
 
 

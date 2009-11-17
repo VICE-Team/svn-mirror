@@ -7407,7 +7407,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_ENGINE_MODEL,    N_("<engine and model>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_ENGINE_MODEL_DE, "<Engine und Modell>"},
 /* fr */ {IDCLS_P_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7422,7 +7422,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7442,7 +7443,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell + Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7464,7 +7467,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7486,7 +7491,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
+                                                "par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7511,7 +7519,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+                                                "8580R5 1489D)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7545,7 +7559,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7567,7 +7583,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
+                                                "1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7592,7 +7611,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
+                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7626,7 +7651,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
+                                                "1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7651,7 +7679,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
+                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7685,7 +7719,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
+                                                "par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
+                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7722,7 +7763,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
+                                                "in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7747,7 +7791,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
+                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7782,7 +7832,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
+                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
+                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7820,7 +7877,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
+                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
+                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
+                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7858,7 +7922,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8680, 256: "
+                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
+                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
+                                                "in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, "
+                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
+                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
+                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
+                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7897,7 +7968,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7914,7 +7985,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7934,7 +8006,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7953,7 +8026,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
+                                             "HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7972,7 +8046,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: "
+                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
+                                             "3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -7993,7 +8069,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1800: "
+                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
+                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
+                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
+                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+                                             "digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8024,7 +8105,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8044,7 +8126,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8064,7 +8147,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in "
+                                             "par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8087,7 +8172,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP "
+                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
+                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
+                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
+                                             "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8119,7 +8209,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8138,7 +8229,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
+                                             "ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8160,7 +8253,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
+                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8191,7 +8289,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
+                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
+                                             "ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8213,7 +8313,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
+                                             "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
+                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8244,7 +8349,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: "
+                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
+                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+                                             "1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+                                             "1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8278,7 +8389,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8300,7 +8413,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
+                                             "port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8325,7 +8441,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+                                             "1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8359,7 +8481,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
+                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
+                                             "port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8384,7 +8509,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
+                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+                                             "1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8418,7 +8549,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in "
+                                             "par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: "
+                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
+                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
+                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
+                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+                                             "digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8455,7 +8593,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
+                                             "port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8477,7 +8617,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
+                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8508,7 +8653,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
+                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
+                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8542,7 +8693,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
+                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
+                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
+                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8576,7 +8733,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
+                                             "ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8601,7 +8761,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
+                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
+                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
+                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8635,7 +8801,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
+                                             "port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
+                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8672,7 +8845,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
+                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
+                                             "port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
+                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
+                                             "ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8709,7 +8889,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
+                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
+                                             "port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: "
+                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
+                                             "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
+                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
+                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8744,7 +8930,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8680, 256: "
+                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
+                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
+                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
+                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8781,7 +8974,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8798,7 +8991,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
+                                                 "512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8817,7 +9011,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
+                                                 "768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8836,7 +9031,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: "
+                                                 "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
+                                                 "port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8858,7 +9055,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
+                                                 "512: Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8877,7 +9075,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8680, "
+                                                 "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port "
+                                                 "2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8899,7 +9099,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
+                                                 "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
+                                                 "1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -8921,7 +9123,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
+                                                 "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
+                                                 "in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, ""},  /* fuzzy */
@@ -9322,7 +9526,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK,    N_("Enable Final Expansion write back to ROM file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_DE, "Final Expansion ROM Schreibzugriff aktivieren"},
 /* fr */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK_IT, ""},  /* fuzzy */
@@ -9336,7 +9540,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK,    N_("Disable Final Expansion write back to ROM file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_DE, "Final Expansion ROM Schreibzugriff deaktivieren"},
 /* fr */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_IT, ""},  /* fuzzy */
