@@ -41,6 +41,7 @@
 #include "cmdline.h"
 #include "joy.h"
 #include "joystick.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -267,7 +268,6 @@ static const cmdline_option_t joydev4cmdline_options[] = {
 
 int joystick_arch_init_resources(void)
 {
-
 #ifdef HAVE_SDL_NUMJOYSTICKS
     resources_string[0].factory_value = archdep_default_joymap_file_name();
 
@@ -275,6 +275,10 @@ int joystick_arch_init_resources(void)
         return -1;
     }
 #endif
+    /* Init the keyboard resources here before resources_set_defaults is called */
+    if (sdlkbd_init_resources() < 0) {
+        return -1;
+    }
     return resources_register_int(resources_int);
 }
 

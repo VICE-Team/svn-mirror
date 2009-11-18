@@ -275,7 +275,6 @@ int ui_init(int *argc, char **argv)
     fprintf(stderr,"%s\n",__func__);
 #endif
     /* TODO move somewhere else */
-    sdlkbd_init_resources();
     uistatusbar_init_resources();
 
     return 0;
