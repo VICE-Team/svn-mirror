@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = win32-msvc win64-msvc win32-watcom
+SUBDIRS = win32-msvc win64-msvc win32-watcom dingoo-files
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \

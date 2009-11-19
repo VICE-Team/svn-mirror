@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export PATH=.:$PATH
+./x64dtv & >vice_log.txt
+rm -f tmp/*
+sync
