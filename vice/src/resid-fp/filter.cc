@@ -171,8 +171,7 @@ void FilterFP::writeMODE_VOL(reg8 mode_vol)
 void FilterFP::set_w0()
 {
   if (model == MOS6581FP) {
-    /* div once by extra nonlinearity because I fitted the type3 eq with that variant. */
-    float type3_fc_kink = SIDFP::kinked_dac(fc, nonlinearity, 11) / nonlinearity;
+    float type3_fc_kink = SIDFP::kinked_dac(fc, nonlinearity, 11);
     type3_fc_kink_exp = type3_offset * expf(type3_fc_kink * type3_steepness * 512.f);
   }
   if (model == MOS8580FP) {
