@@ -165,7 +165,7 @@ BEGIN
   IDS_SIDCART_CLOCK_LABEL                    "SID clock"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Selezione dispositivo HardSID"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Dispositivo principale"
-  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
+  IDS_DIGIBLASTER                            "Attiva estensione digiblaster"
 END
 
 

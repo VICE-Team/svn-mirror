@@ -615,7 +615,7 @@ BEGIN
   IDS_C64DTV_ROM_WRITE_ENABLE     "Attiva &scrittura su immagini ROM DTV"
   IDS_C64DTV_SETTINGS_CAPTION     "Impostazioni C64DTV"
   IDS_DTV_REVISION_LABEL          "Revisione DTV"
-  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_ENABLE_HUMMER_ADC           "Attiva Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Crea l'immagine di una memoria flash DTV"
   IDS_DTV_ROM_CREATION            "Creazione ROM DTV"
   IDS_C64DTV_ROM_COPY_C64         "Copia ROM C64 in un'immagine"

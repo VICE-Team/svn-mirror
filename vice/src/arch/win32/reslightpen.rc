@@ -84,9 +84,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
-    IDS_LIGHTPEN_ENABLE  "&Enable lightpen"
-    IDS_LIGHTPEN_TYPE    "Lightpen type"
+    IDS_LIGHTPEN_CAPTION "Impostazioni penna ottica"
+    IDS_LIGHTPEN_ENABLE  "&Attiva penna ottica"
+    IDS_LIGHTPEN_TYPE    "Tipo di penna ottica"
 END
 
 

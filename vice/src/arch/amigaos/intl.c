@@ -426,7 +426,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_GENERIC_IMAGE_DE, "Generisches Image..." },
 /* fr */ { IDMS_GENERIC_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_GENERIC_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_GENERIC_IMAGE_IT, "" },  /* fuzzy */
+/* it */ { IDMS_GENERIC_IMAGE_IT, "Immagine generica..." },
 /* nl */ { IDMS_GENERIC_IMAGE_NL, "Algemeen bestand..." },
 /* pl */ { IDMS_GENERIC_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_GENERIC_IMAGE_SV, "Generisk avbild..." },
@@ -437,7 +437,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_MEGA_CART_IMAGE_DE, "Mega-Cart Image..." },
 /* fr */ { IDMS_MEGA_CART_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_MEGA_CART_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_MEGA_CART_IMAGE_IT, "" },  /* fuzzy */
+/* it */ { IDMS_MEGA_CART_IMAGE_IT, "Immagine Mega-Cart..." },
 /* nl */ { IDMS_MEGA_CART_IMAGE_NL, "Mega-Cart bestand..." },
 /* pl */ { IDMS_MEGA_CART_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_MEGA_CART_IMAGE_SV, "Mega-Cart-avbildning..." },
@@ -448,7 +448,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_FINAL_EXPANSION_IMAGE_DE, "Final Expansion Image..." },
 /* fr */ { IDMS_FINAL_EXPANSION_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_FINAL_EXPANSION_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_FINAL_EXPANSION_IMAGE_IT, "" },  /* fuzzy */
+/* it */ { IDMS_FINAL_EXPANSION_IMAGE_IT, "Immagine Final Expansion..." },
 /* nl */ { IDMS_FINAL_EXPANSION_IMAGE_NL, "Final Expansion bestand..." },
 /* pl */ { IDMS_FINAL_EXPANSION_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_FINAL_EXPANSION_IMAGE_SV, "Final Expansion-fil..." },
@@ -459,7 +459,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_ADD_TO_GENERIC_DE, "Zu Universal Image hinzufügen..." },
 /* fr */ { IDMS_ADD_TO_GENERIC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ADD_TO_GENERIC_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ADD_TO_GENERIC_IT, "" },  /* fuzzy */
+/* it */ { IDMS_ADD_TO_GENERIC_IT, "Aggiungi a generica..." },
 /* nl */ { IDMS_ADD_TO_GENERIC_NL, "Voeg toe aan algemeen..." },
 /* pl */ { IDMS_ADD_TO_GENERIC_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ADD_TO_GENERIC_SV, "Lägg till generisk.." },
@@ -470,7 +470,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_SMART_ATTACH_IMAGE_DE, "Smart-Einlegen Image Date..." },
 /* fr */ { IDMS_SMART_ATTACH_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SMART_ATTACH_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SMART_ATTACH_IMAGE_IT, "" },  /* fuzzy */
+/* it */ { IDMS_SMART_ATTACH_IMAGE_IT, "Immagine Smart-attach..." },
 /* nl */ { IDMS_SMART_ATTACH_IMAGE_NL, "Slimme koppeling van bestand..." },
 /* pl */ { IDMS_SMART_ATTACH_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_SMART_ATTACH_IMAGE_SV, "Smartanslut avbildning..." },
@@ -712,7 +712,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_IEEE488_INTERFACE_IMAGE_DE, "IEEE 488 Schnittstellenmodul..." },
 /* fr */ { IDMS_IEEE488_INTERFACE_IMAGE_FR, "Insérer une cartouche interface IEEE488..." },
 /* hu */ { IDMS_IEEE488_INTERFACE_IMAGE_HU, "IEEE488 interfész képmás..." },
-/* it */ { IDMS_IEEE488_INTERFACE_IMAGE_IT, "Immagine dell'interfaccia IEEE488..." },
+/* it */ { IDMS_IEEE488_INTERFACE_IMAGE_IT, "Immagine interfaccia IEEE488..." },
 /* nl */ { IDMS_IEEE488_INTERFACE_IMAGE_NL, "IEEE488-interfacebestand..." },
 /* pl */ { IDMS_IEEE488_INTERFACE_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_IEEE488_INTERFACE_IMAGE_SV, "IEEE488-gränssnittsfil..." },
@@ -734,7 +734,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_IDE64_INTERFACE_IMAGE_DE, "IDE64 Schnittstellenmodul..." },
 /* fr */ { IDMS_IDE64_INTERFACE_IMAGE_FR, "Insérer une cartouche interface IDE64..." },
 /* hu */ { IDMS_IDE64_INTERFACE_IMAGE_HU, "IDE64 interfész képmás..." },
-/* it */ { IDMS_IDE64_INTERFACE_IMAGE_IT, "Immagine dell'interfaccia IDE64..." },
+/* it */ { IDMS_IDE64_INTERFACE_IMAGE_IT, "Immagine interfaccia IDE64..." },
 /* nl */ { IDMS_IDE64_INTERFACE_IMAGE_NL, "IDE64-interfacebestand..." },
 /* pl */ { IDMS_IDE64_INTERFACE_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_IDE64_INTERFACE_IMAGE_SV, "IDE64-gränssnittsfil..." },
@@ -1459,7 +1459,7 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDMS_VDC_REVISION_PL, "" },  /* fuzzy */
 /* de */ { IDMS_VDC_REVISION_DE, "VDC Revision" },
 /* fr */ { IDMS_VDC_REVISION_FR, "" },  /* fuzzy */
-/* it */ { IDMS_VDC_REVISION_IT, "" },  /* fuzzy */
+/* it */ { IDMS_VDC_REVISION_IT, "Revisione VDC" },
 /* hu */ { IDMS_VDC_REVISION_HU, "" },  /* fuzzy */
 /* nl */ { IDMS_VDC_REVISION_NL, "VDC-revisie" },
 /* pl */ { IDMS_VDC_REVISION_PL, "" },  /* fuzzy */
@@ -1470,7 +1470,7 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDMS_VDC_REV_0_PL, "" },  /* fuzzy */
 /* de */ { IDMS_VDC_REV_0_DE, "Rev 0" },
 /* fr */ { IDMS_VDC_REV_0_FR, "" },  /* fuzzy */
-/* it */ { IDMS_VDC_REV_0_IT, "" },  /* fuzzy */
+/* it */ { IDMS_VDC_REV_0_IT, "Rev 0" },
 /* hu */ { IDMS_VDC_REV_0_HU, "" },  /* fuzzy */
 /* nl */ { IDMS_VDC_REV_0_NL, "Rev 0" },
 /* pl */ { IDMS_VDC_REV_0_PL, "" },  /* fuzzy */
@@ -1481,7 +1481,7 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDMS_VDC_REV_1_PL, "" },  /* fuzzy */
 /* de */ { IDMS_VDC_REV_1_DE, "Rev 1" },
 /* fr */ { IDMS_VDC_REV_1_FR, "" },  /* fuzzy */
-/* it */ { IDMS_VDC_REV_1_IT, "" },  /* fuzzy */
+/* it */ { IDMS_VDC_REV_1_IT, "Rev 1" },
 /* hu */ { IDMS_VDC_REV_1_HU, "" },  /* fuzzy */
 /* nl */ { IDMS_VDC_REV_1_NL, "Rev 1" },
 /* pl */ { IDMS_VDC_REV_1_PL, "" },  /* fuzzy */
@@ -1492,7 +1492,7 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDMS_VDC_REV_2_PL, "" },  /* fuzzy */
 /* de */ { IDMS_VDC_REV_2_DE, "Rev 2" },
 /* fr */ { IDMS_VDC_REV_2_FR, "" },  /* fuzzy */
-/* it */ { IDMS_VDC_REV_2_IT, "" },  /* fuzzy */
+/* it */ { IDMS_VDC_REV_2_IT, "Rev 2" },
 /* hu */ { IDMS_VDC_REV_2_HU, "" },  /* fuzzy */
 /* nl */ { IDMS_VDC_REV_2_NL, "Rev 2" },
 /* pl */ { IDMS_VDC_REV_2_PL, "" },  /* fuzzy */
@@ -1515,7 +1515,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_SWAP_USERPORT_JOYSTICKS_DE, "Userport Joystick Ports austauschen" },
 /* fr */ { IDMS_SWAP_USERPORT_JOYSTICKS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SWAP_USERPORT_JOYSTICKS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SWAP_USERPORT_JOYSTICKS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_SWAP_USERPORT_JOYSTICKS_IT, "Scambia joystick su userport" },
 /* nl */ { IDMS_SWAP_USERPORT_JOYSTICKS_NL, "Verwissel userport joysticks" },
 /* pl */ { IDMS_SWAP_USERPORT_JOYSTICKS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_SWAP_USERPORT_JOYSTICKS_SV, "Växla användarportspelportarna" },
@@ -1559,7 +1559,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_AUTOSTART_HANDLE_TDE_DE, "Autostart mit TDE" },
 /* fr */ { IDMS_AUTOSTART_HANDLE_TDE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_AUTOSTART_HANDLE_TDE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_AUTOSTART_HANDLE_TDE_IT, "" },  /* fuzzy */
+/* it */ { IDMS_AUTOSTART_HANDLE_TDE_IT, "Emulazione hardware dei drive all'avvio automatico" },
 /* nl */ { IDMS_AUTOSTART_HANDLE_TDE_NL, "Manipuleer hardwarematige drive emulatie bij autostarten" },
 /* pl */ { IDMS_AUTOSTART_HANDLE_TDE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_AUTOSTART_HANDLE_TDE_SV, "Hantera ÄDE för autostart" },
@@ -1680,7 +1680,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_ENABLE_PADDLES_DE, "Paddles aktivieren" },
 /* fr */ { IDMS_ENABLE_PADDLES_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_PADDLES_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_PADDLES_IT, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_PADDLES_IT, "Attiva paddle" },
 /* nl */ { IDMS_ENABLE_PADDLES_NL, "Aktiveer Paddles" },
 /* pl */ { IDMS_ENABLE_PADDLES_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_PADDLES_SV, "Aktivera paddlar" },
@@ -2142,7 +2142,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen..." },
 /* fr */ { IDMS_SFX_SE_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SFX_SE_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SFX_SE_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_SFX_SE_SETTINGS_IT, "Impostazioni SFX Sound Expander..." },
 /* nl */ { IDMS_SFX_SE_SETTINGS_NL, "SFX Sound Expander instellingen..." },
 /* pl */ { IDMS_SFX_SE_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_SFX_SE_SETTINGS_SV, "Inställningar för SFX Sound Expander..." },
@@ -2153,7 +2153,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen..." },
 /* fr */ { IDMS_EASYFLASH_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_EASYFLASH_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_EASYFLASH_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_EASYFLASH_SETTINGS_IT, "Impostazioni EasyFlash..." },
 /* nl */ { IDMS_EASYFLASH_SETTINGS_NL, "EasyFlash instellingen..." },
 /* pl */ { IDMS_EASYFLASH_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_EASYFLASH_SETTINGS_SV, "EasyFlash-inställningar..." },
@@ -2164,7 +2164,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_ENABLE_SFX_SS_DE, "SFX Sound Sampler aktivieren" },
 /* fr */ { IDMS_ENABLE_SFX_SS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_SFX_SS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_SFX_SS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_SFX_SS_IT, "Attiva SFX Sound Sampler" },
 /* nl */ { IDMS_ENABLE_SFX_SS_NL, "Activeer SFX Sound Sampler" },
 /* pl */ { IDMS_ENABLE_SFX_SS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler" },
@@ -2406,7 +2406,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_LANGUAGE_DANISH_DE, "Dänisch" },
 /* fr */ { IDMS_LANGUAGE_DANISH_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_LANGUAGE_DANISH_HU, "" },  /* fuzzy */
-/* it */ { IDMS_LANGUAGE_DANISH_IT, "" },  /* fuzzy */
+/* it */ { IDMS_LANGUAGE_DANISH_IT, "Danese" },
 /* nl */ { IDMS_LANGUAGE_DANISH_NL, "Deens" },
 /* pl */ { IDMS_LANGUAGE_DANISH_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_LANGUAGE_DANISH_SV, "Danska" },
@@ -2516,7 +2516,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMS_LANGUAGE_TURKISH_DE, "Türkisch" },
 /* fr */ { IDMS_LANGUAGE_TURKISH_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_LANGUAGE_TURKISH_HU, "" },  /* fuzzy */
-/* it */ { IDMS_LANGUAGE_TURKISH_IT, "" },  /* fuzzy */
+/* it */ { IDMS_LANGUAGE_TURKISH_IT, "Turco" },
 /* nl */ { IDMS_LANGUAGE_TURKISH_NL, "Turks" },
 /* pl */ { IDMS_LANGUAGE_TURKISH_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_LANGUAGE_TURKISH_SV, "Turkiska" },
@@ -2883,7 +2883,8 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_PRESS_KEY_BUTTON_DE, "Gewünschte Taste/Knopf drücken, Knüppel bewegen oder ESC für keine Taste drücken." },
 /* fr */ { IDS_PRESS_KEY_BUTTON_FR, "Appuyez sur la touche/bouton desire(e), déplacez le stick ou appuyez sur ESC pour "
                                     "effacer cette touche." },
-/* hu */ { IDS_PRESS_KEY_BUTTON_HU, "Nyomja meg a választott gombot, mozdítsa a botkormányt, vagy nyomjon ESC-et üreshez" },
+/* hu */ { IDS_PRESS_KEY_BUTTON_HU, "Nyomja meg a választott gombot, mozdítsa a botkormányt, vagy nyomjon ESC-et "
+                                    "üreshez" },
 /* it */ { IDS_PRESS_KEY_BUTTON_IT, "Premi il tasto/bottone desiderato, muovi la leva o premi ESC per non selezionare "
                                     "alcun tasto." },
 /* nl */ { IDS_PRESS_KEY_BUTTON_NL, "Druk de toets/knop, beweeg de joystick of druk op ESC voor geen toets." },
@@ -2953,7 +2954,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SERVER_BIND_DE, "Server Bind" },
 /* fr */ { IDS_SERVER_BIND_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SERVER_BIND_HU, "" },  /* fuzzy */
-/* it */ { IDS_SERVER_BIND_IT, "" },  /* fuzzy */
+/* it */ { IDS_SERVER_BIND_IT, "Server Bind" },
 /* nl */ { IDS_SERVER_BIND_NL, "Server binding" },
 /* pl */ { IDS_SERVER_BIND_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SERVER_BIND_SV, "Serverbindning" },
@@ -3813,7 +3814,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_C64DTV_HUMMER_ADC_DE, "Hummer ADC" },
 /* fr */ { IDS_C64DTV_HUMMER_ADC_FR, "" },  /* fuzzy */
 /* hu */ { IDS_C64DTV_HUMMER_ADC_HU, "" },  /* fuzzy */
-/* it */ { IDS_C64DTV_HUMMER_ADC_IT, "" },  /* fuzzy */
+/* it */ { IDS_C64DTV_HUMMER_ADC_IT, "Hummer ADC" },
 /* nl */ { IDS_C64DTV_HUMMER_ADC_NL, "Hummer ADC" },
 /* pl */ { IDS_C64DTV_HUMMER_ADC_PL, "" },  /* fuzzy */
 /* sv */ { IDS_C64DTV_HUMMER_ADC_SV, "Hummer A/D-omvandlare" },
@@ -4231,7 +4232,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen" },
 /* fr */ { IDS_EASYFLASH_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_EASYFLASH_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_EASYFLASH_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_EASYFLASH_SETTINGS_IT, "Impostazioni EasyFlash" },
 /* nl */ { IDS_EASYFLASH_SETTINGS_NL, "EasyFlash instellingen" },
 /* pl */ { IDS_EASYFLASH_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_EASYFLASH_SETTINGS_SV, "EasyFlash-inställningar" },
@@ -4275,7 +4276,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USERPORT_ADAPTER_DE, "Userport Joystick Adapter" },
 /* fr */ { IDS_USERPORT_ADAPTER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USERPORT_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDS_USERPORT_ADAPTER_IT, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_ADAPTER_IT, "Adattatore joystick su userport" },
 /* nl */ { IDS_USERPORT_ADAPTER_NL, "Userport joystick adapter" },
 /* pl */ { IDS_USERPORT_ADAPTER_PL, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_ADAPTER_SV, "Adapter för användarportstyrspakar" },
@@ -4286,7 +4287,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USERPORT_ADAPTER_TYPE_DE, "Userport Joystick Adadptertype" },
 /* fr */ { IDS_USERPORT_ADAPTER_TYPE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USERPORT_ADAPTER_TYPE_HU, "" },  /* fuzzy */
-/* it */ { IDS_USERPORT_ADAPTER_TYPE_IT, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_ADAPTER_TYPE_IT, "Tipo adattatore joystick su userport" },
 /* nl */ { IDS_USERPORT_ADAPTER_TYPE_NL, "Userport joystick adapter model" },
 /* pl */ { IDS_USERPORT_ADAPTER_TYPE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_ADAPTER_TYPE_SV, "Typ av adapter för användarportstyrspakar" },
@@ -4297,7 +4298,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_DE, "Joystick in Userport Adapter Port #1" },
 /* fr */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_IT, "" },  /* fuzzy */
+/* it */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_IT, "Joystick su adattatore su userport porta #1" },
 /* nl */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_NL, "Joystick in userport adapter poort #1" },
 /* pl */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_SV, "Styrspak i användarportsadapterport 1" },
@@ -4308,7 +4309,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_DE, "Joystick in Userport Adapter Port #2" },
 /* fr */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_IT, "" },  /* fuzzy */
+/* it */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_IT, "Joystick su adattatore su userport porta #2" },
 /* nl */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_NL, "Joystick in userport adapter poort #2" },
 /* pl */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_SV, "Styrspak i användarportsadapterport 1" },
@@ -4319,7 +4320,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SIDCART_JOY_DE, "SIDcart Joystick" },
 /* fr */ { IDS_SIDCART_JOY_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SIDCART_JOY_HU, "" },  /* fuzzy */
-/* it */ { IDS_SIDCART_JOY_IT, "" },  /* fuzzy */
+/* it */ { IDS_SIDCART_JOY_IT, "Joystick SIDcart" },
 /* nl */ { IDS_SIDCART_JOY_NL, "SIDcart joystick" },
 /* pl */ { IDS_SIDCART_JOY_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SIDCART_JOY_SV, "SIDcart-styrspak" },
@@ -4330,7 +4331,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOYSTICK_IN_SIDCART_PORT_DE, "Joystick in SIDcart Joystick Port" },
 /* fr */ { IDS_JOYSTICK_IN_SIDCART_PORT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_JOYSTICK_IN_SIDCART_PORT_HU, "" },  /* fuzzy */
-/* it */ { IDS_JOYSTICK_IN_SIDCART_PORT_IT, "" },  /* fuzzy */
+/* it */ { IDS_JOYSTICK_IN_SIDCART_PORT_IT, "Joystick nella porta joystick su SIDcart" },
 /* nl */ { IDS_JOYSTICK_IN_SIDCART_PORT_NL, "Joystick in SIDcart joystick poort" },
 /* pl */ { IDS_JOYSTICK_IN_SIDCART_PORT_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOYSTICK_IN_SIDCART_PORT_SV, "Styrspak i SIDcart-spelport" },
@@ -4484,7 +4485,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOY_1_DEVICE_DE, "Joystick 1 Gerät" },
 /* fr */ { IDS_JOY_1_DEVICE_FR, "Périphérique joystick 1" },
 /* hu */ { IDS_JOY_1_DEVICE_HU, "1-es botkormány eszköz" },
-/* it */ { IDS_JOY_1_DEVICE_IT, "Dispositivo Joy 1" },
+/* it */ { IDS_JOY_1_DEVICE_IT, "Dispositivo Joystick 1" },
 /* nl */ { IDS_JOY_1_DEVICE_NL, "Joy 1-apparaat" },
 /* pl */ { IDS_JOY_1_DEVICE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOY_1_DEVICE_SV, "Joy 1-enhet" },
@@ -4495,7 +4496,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOY_2_DEVICE_DE, "Joystick 2 Gerät" },
 /* fr */ { IDS_JOY_2_DEVICE_FR, "Périphérique joystick 2" },
 /* hu */ { IDS_JOY_2_DEVICE_HU, "2-es botkormány eszköz" },
-/* it */ { IDS_JOY_2_DEVICE_IT, "Dispositivo Joy 2" },
+/* it */ { IDS_JOY_2_DEVICE_IT, "Dispositivo Joystick 2" },
 /* nl */ { IDS_JOY_2_DEVICE_NL, "Joy 2-apparaat" },
 /* pl */ { IDS_JOY_2_DEVICE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOY_2_DEVICE_SV, "Joy 2-enhet" },
@@ -4506,7 +4507,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USERPORT_JOY_1_DEVICE_DE, "Userport Joystick 1 Gerät" },
 /* fr */ { IDS_USERPORT_JOY_1_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USERPORT_JOY_1_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_USERPORT_JOY_1_DEVICE_IT, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_JOY_1_DEVICE_IT, "Dispositivo joystick 1 su userport" },
 /* nl */ { IDS_USERPORT_JOY_1_DEVICE_NL, "Userport Joy 1-apparaat" },
 /* pl */ { IDS_USERPORT_JOY_1_DEVICE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_JOY_1_DEVICE_SV, "Användarportspak 1 enhet" },
@@ -4517,7 +4518,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USERPORT_JOY_2_DEVICE_DE, "Userport Joystick 2 Gerät" },
 /* fr */ { IDS_USERPORT_JOY_2_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USERPORT_JOY_2_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_USERPORT_JOY_2_DEVICE_IT, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_JOY_2_DEVICE_IT, "Dispositivo joystick 2 su userport" },
 /* nl */ { IDS_USERPORT_JOY_2_DEVICE_NL, "Userport Joy 2-apparaat" },
 /* pl */ { IDS_USERPORT_JOY_2_DEVICE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_JOY_2_DEVICE_SV, "Användarportspak 2 enhet" },
@@ -4528,7 +4529,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SIDCART_JOY_DEVICE_DE, "SIDcart Joystick Gerät" },
 /* fr */ { IDS_SIDCART_JOY_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SIDCART_JOY_DEVICE_HU, "" },  /* fuzzy */
-/* it */ { IDS_SIDCART_JOY_DEVICE_IT, "" },  /* fuzzy */
+/* it */ { IDS_SIDCART_JOY_DEVICE_IT, "Dispositivo Joystick SIDcart" },
 /* nl */ { IDS_SIDCART_JOY_DEVICE_NL, "SIDcart Joy apparaat" },
 /* pl */ { IDS_SIDCART_JOY_DEVICE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SIDCART_JOY_DEVICE_SV, "SIDcart-spakenhet" },
@@ -4539,7 +4540,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOY_1_FIRE_DE, "Joystick 1 Feuer" },
 /* fr */ { IDS_JOY_1_FIRE_FR, "Jeu joystick 1" },
 /* hu */ { IDS_JOY_1_FIRE_HU, "1-es botkormány tûz" },
-/* it */ { IDS_JOY_1_FIRE_IT, "Fuoco Joy 1" },
+/* it */ { IDS_JOY_1_FIRE_IT, "Fuoco Joystick 1" },
 /* nl */ { IDS_JOY_1_FIRE_NL, "Joy 1 Vuur" },
 /* pl */ { IDS_JOY_1_FIRE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOY_1_FIRE_SV, "Joy 1 Fire" },
@@ -4550,7 +4551,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_JOY_2_FIRE_DE, "Joystick 2 Feuer" },
 /* fr */ { IDS_JOY_2_FIRE_FR, "Jeu joystick 2" },
 /* hu */ { IDS_JOY_2_FIRE_HU, "2-es botkormány tûz" },
-/* it */ { IDS_JOY_2_FIRE_IT, "Fuoco Joy 2" },
+/* it */ { IDS_JOY_2_FIRE_IT, "Fuoco Joystick 2" },
 /* nl */ { IDS_JOY_2_FIRE_NL, "Joy 2 Vuur" },
 /* pl */ { IDS_JOY_2_FIRE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_JOY_2_FIRE_SV, "Joy 2 Fire" },
@@ -4561,7 +4562,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USERPORT_JOY_1_FIRE_DE, "Userport Joystick 1 Feuer" },
 /* fr */ { IDS_USERPORT_JOY_1_FIRE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USERPORT_JOY_1_FIRE_HU, "" },  /* fuzzy */
-/* it */ { IDS_USERPORT_JOY_1_FIRE_IT, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_JOY_1_FIRE_IT, "Fuoco joystick 1 su userport" },
 /* nl */ { IDS_USERPORT_JOY_1_FIRE_NL, "Userport Joy 1 Vuur" },
 /* pl */ { IDS_USERPORT_JOY_1_FIRE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_JOY_1_FIRE_SV, "Användarportspak 1 fire" },
@@ -4572,7 +4573,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_USERPORT_JOY_2_FIRE_DE, "Userport Joystick 1 Feuer" },
 /* fr */ { IDS_USERPORT_JOY_2_FIRE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USERPORT_JOY_2_FIRE_HU, "" },  /* fuzzy */
-/* it */ { IDS_USERPORT_JOY_2_FIRE_IT, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_JOY_2_FIRE_IT, "Fuoco joystick 1 su userport" },
 /* nl */ { IDS_USERPORT_JOY_2_FIRE_NL, "Userport Joy 2 Vuur" },
 /* pl */ { IDS_USERPORT_JOY_2_FIRE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_USERPORT_JOY_2_FIRE_SV, "Användarportspak 2 fire" },
@@ -4583,7 +4584,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SIDCART_JOY_FIRE_DE, "SIDcart Joystick Feuer" },
 /* fr */ { IDS_SIDCART_JOY_FIRE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SIDCART_JOY_FIRE_HU, "" },  /* fuzzy */
-/* it */ { IDS_SIDCART_JOY_FIRE_IT, "" },  /* fuzzy */
+/* it */ { IDS_SIDCART_JOY_FIRE_IT, "Fuoco joystick su SIDcart" },
 /* nl */ { IDS_SIDCART_JOY_FIRE_NL, "SIDcart Joy Vuur" },
 /* pl */ { IDS_SIDCART_JOY_FIRE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SIDCART_JOY_FIRE_SV, "SIDcart-spak fire" },
@@ -4596,8 +4597,8 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SET_INPUT_JOYSTICK_1_FR, "Émulation Joystick #1: (0:Aucun, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* hu */ { IDS_SET_INPUT_JOYSTICK_1_HU, "#1-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' "
                                        "gombkészlet)" },
-/* it */ { IDS_SET_INPUT_JOYSTICK_1_IT, "Emulazione Joystick #1: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: "
-                                       "Keyset B/AI)" },
+/* it */ { IDS_SET_INPUT_JOYSTICK_1_IT, "Emulazione joystick #1: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: "
+                                        "Keyset B/AI)" },
 /* nl */ { IDS_SET_INPUT_JOYSTICK_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* pl */ { IDS_SET_INPUT_JOYSTICK_1_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_JOYSTICK_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning "
@@ -4611,7 +4612,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SET_INPUT_JOYSTICK_2_FR, "Émulation Joystick #2: (0:Aucun, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* hu */ { IDS_SET_INPUT_JOYSTICK_2_HU, "#2-es botkormány emuláció: (0: Nincs, 1: numerikus, 2: 'A' gombkészlet, 3: 'B' "
                                         "gombkészlet)" },
-/* it */ { IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: "
+/* it */ { IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione joystick #2: (0: Nessuna, 1: Tastierino numerico, 2: Keyset A/AI, 3: "
                                         "Keyset B/AI)" },
 /* nl */ { IDS_SET_INPUT_JOYSTICK_2_NL, "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* pl */ { IDS_SET_INPUT_JOYSTICK_2_PL, "" },  /* fuzzy */
@@ -4625,7 +4626,8 @@ intl_translate_t intl_string_table[] = {
                                               "Keysatz B/AI)" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_HU, "" },  /* fuzzy */
-/* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_IT, "" },  /* fuzzy */
+/* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_IT, "Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, "
+                                              "2: Keyset A/AI, 3: Keyset B/AI)" },
 /* nl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_NL, "Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
                                               "B/AI)" },
 /* pl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_PL, "" },  /* fuzzy */
@@ -4640,7 +4642,8 @@ intl_translate_t intl_string_table[] = {
                                               "Keysatz B/AI)" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_HU, "" },  /* fuzzy */
-/* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_IT, "" },  /* fuzzy */
+/* it */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_IT, "Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, "
+                                              "2: Keyset A/AI, 3: Keyset B/AI)" },
 /* nl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_NL, "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
                                               "B/AI)" },
 /* pl */ { IDS_SET_INPUT_EXTRA_JOYSTICK_2_PL, "" },  /* fuzzy */
@@ -4655,7 +4658,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SET_INPUT_JOYLL_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_JOYLL_1_HU, "#1-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga "
                                      "botkormány 0-3)" },
-/* it */ { IDS_SET_INPUT_JOYLL_1_IT, "Emulazione Joystick #1: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
+/* it */ { IDS_SET_INPUT_JOYLL_1_IT, "Emulazione joystick #1: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
 /* nl */ { IDS_SET_INPUT_JOYLL_1_NL, "Emulatie joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* pl */ { IDS_SET_INPUT_JOYLL_1_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_JOYLL_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3)" },
@@ -4667,7 +4670,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SET_INPUT_JOYLL_2_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_JOYLL_2_HU, "#2-es botkormány emuláció: (0: nincs, 1: numerikus billentyûk, 2-5: amiga "
                                      "botkormány 0-3)" },
-/* it */ { IDS_SET_INPUT_JOYLL_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
+/* it */ { IDS_SET_INPUT_JOYLL_2_IT, "Emulazione joystick #2: (0: Nessuna, 1: Tastierino numerico, 2-5: Joy Amiga 0-3)" },
 /* nl */ { IDS_SET_INPUT_JOYLL_2_NL, "Emulatie Joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* pl */ { IDS_SET_INPUT_JOYLL_2_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_JOYLL_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3)" },
@@ -4678,7 +4681,8 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SET_INPUT_EXTRA_JOYLL_1_DE, "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYLL_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_1_HU, "" },  /* fuzzy */
-/* it */ { IDS_SET_INPUT_EXTRA_JOYLL_1_IT, "" },  /* fuzzy */
+/* it */ { IDS_SET_INPUT_EXTRA_JOYLL_1_IT, "Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, "
+                                           "2-5: Joy Amiga 0-3)" },
 /* nl */ { IDS_SET_INPUT_EXTRA_JOYLL_1_NL, "Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* pl */ { IDS_SET_INPUT_EXTRA_JOYLL_1_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYLL_1_SV, "Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak "
@@ -4690,7 +4694,8 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SET_INPUT_EXTRA_JOYLL_2_DE, "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3)" },
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYLL_2_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYLL_2_HU, "" },  /* fuzzy */
-/* it */ { IDS_SET_INPUT_EXTRA_JOYLL_2_IT, "" },  /* fuzzy */
+/* it */ { IDS_SET_INPUT_EXTRA_JOYLL_2_IT, "Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, "
+                                           "2-5: Joy Amiga 0-3)" },
 /* nl */ { IDS_SET_INPUT_EXTRA_JOYLL_2_NL, "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 /* pl */ { IDS_SET_INPUT_EXTRA_JOYLL_2_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYLL_2_SV, "Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak "
@@ -5249,14 +5254,14 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_FRAGMENT_SIZE,    "Fragment Size" },
 /* da */ { IDS_FRAGMENT_SIZE_DA, "" },  /* fuzzy */
-/* de */ { IDS_FRAGMENT_SIZE_DE, "" },  /* fuzzy */
+/* de */ { IDS_FRAGMENT_SIZE_DE, "Fragmentgröße" },
 /* fr */ { IDS_FRAGMENT_SIZE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_FRAGMENT_SIZE_HU, "" },  /* fuzzy */
-/* it */ { IDS_FRAGMENT_SIZE_IT, "" },  /* fuzzy */
+/* it */ { IDS_FRAGMENT_SIZE_IT, "Dimensione del frammento" },
 /* nl */ { IDS_FRAGMENT_SIZE_NL, "Fragment grootte" },
 /* pl */ { IDS_FRAGMENT_SIZE_PL, "" },  /* fuzzy */
-/* sv */ { IDS_FRAGMENT_SIZE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_FRAGMENT_SIZE_TR, "" },  /* fuzzy */
+/* sv */ { IDS_FRAGMENT_SIZE_SV, "Fragmentstorlek" },
+/* tr */ { IDS_FRAGMENT_SIZE_TR, "Parça boyutu" },
 
 /* en */ { IDS_OVERSAMPLE,    "Oversample" },
 /* da */ { IDS_OVERSAMPLE_DA, "Oversampling" },
@@ -5549,7 +5554,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SELECT_GENERIC_DE, "Unverselles Erweiterungsmodul Image Datei wählen" },
 /* fr */ { IDS_SELECT_GENERIC_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_GENERIC_HU, "" },  /* fuzzy */
-/* it */ { IDS_SELECT_GENERIC_IT, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_GENERIC_IT, "Seleziona file cartuccia generica" },
 /* nl */ { IDS_SELECT_GENERIC_NL, "Selecteer algemeen cartridge bestand" },
 /* pl */ { IDS_SELECT_GENERIC_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SELECT_GENERIC_SV, "Välj generisk insticksmodulfil" },
@@ -5560,7 +5565,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SELECT_MEGACART_DE, "Mega-Cart Image Datei wählen" },
 /* fr */ { IDS_SELECT_MEGACART_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_MEGACART_HU, "" },  /* fuzzy */
-/* it */ { IDS_SELECT_MEGACART_IT, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_MEGACART_IT, "Seleziona file Mega-Cart" },
 /* nl */ { IDS_SELECT_MEGACART_NL, "Selecteer Mega-Cart bestand" },
 /* pl */ { IDS_SELECT_MEGACART_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SELECT_MEGACART_SV, "Välj Mega-Cart-fil" },
@@ -5571,7 +5576,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SELECT_FINAL_EXPANSION_DE, "Final Expansion Datei wählen" },
 /* fr */ { IDS_SELECT_FINAL_EXPANSION_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_FINAL_EXPANSION_HU, "" },  /* fuzzy */
-/* it */ { IDS_SELECT_FINAL_EXPANSION_IT, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_FINAL_EXPANSION_IT, "Seleziona file Final Expansion" },
 /* nl */ { IDS_SELECT_FINAL_EXPANSION_NL, "Selecteer Final Expansion bestand" },
 /* pl */ { IDS_SELECT_FINAL_EXPANSION_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SELECT_FINAL_EXPANSION_SV, "Välj Final Expansion-fil" },
@@ -5582,7 +5587,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SELECT_CARTRIDGE_IMAGE_DE, "Erweiterungsmodul Image Datei wählen" },
 /* fr */ { IDS_SELECT_CARTRIDGE_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_CARTRIDGE_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_SELECT_CARTRIDGE_IMAGE_IT, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_CARTRIDGE_IMAGE_IT, "Seleziona file cartuccia" },
 /* nl */ { IDS_SELECT_CARTRIDGE_IMAGE_NL, "Selecteer cartridge bestand" },
 /* pl */ { IDS_SELECT_CARTRIDGE_IMAGE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SELECT_CARTRIDGE_IMAGE_SV, "Välj insticksmodulfil" },
@@ -5604,7 +5609,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SID_ENGINE_MODEL_DE, "SID Engine/Modell" },
 /* fr */ { IDS_SID_ENGINE_MODEL_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SID_ENGINE_MODEL_HU, "" },  /* fuzzy */
-/* it */ { IDS_SID_ENGINE_MODEL_IT, "" },  /* fuzzy */
+/* it */ { IDS_SID_ENGINE_MODEL_IT, "Motore/modello SID" },
 /* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID-kern/model" },
 /* pl */ { IDS_SID_ENGINE_MODEL_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SID_ENGINE_MODEL_SV, "SID-motor/-modell" },
@@ -5637,7 +5642,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SID_JOY_DE, "SIDcart Joystick" },
 /* fr */ { IDS_SID_JOY_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SID_JOY_HU, "" },  /* fuzzy */
-/* it */ { IDS_SID_JOY_IT, "" },  /* fuzzy */
+/* it */ { IDS_SID_JOY_IT, "Joystick SID Cart" },
 /* nl */ { IDS_SID_JOY_NL, "SID-cart joystick" },
 /* pl */ { IDS_SID_JOY_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SID_JOY_SV, "SIDcart-styrspak" },
@@ -5648,7 +5653,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SID_DIGIBLASTER_DE, "Digiblaster add-on" },
 /* fr */ { IDS_SID_DIGIBLASTER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SID_DIGIBLASTER_HU, "" },  /* fuzzy */
-/* it */ { IDS_SID_DIGIBLASTER_IT, "" },  /* fuzzy */
+/* it */ { IDS_SID_DIGIBLASTER_IT, "Estensione digiblaster" },
 /* nl */ { IDS_SID_DIGIBLASTER_NL, "Digiblaster add-on" },
 /* pl */ { IDS_SID_DIGIBLASTER_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SID_DIGIBLASTER_SV, "Digiblaster-tillägg" },
@@ -6330,7 +6335,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_RAM_BANKS_2_AND_3_DE, "RAM Bänkte 2 & 3" },
 /* fr */ { IDS_RAM_BANKS_2_AND_3_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RAM_BANKS_2_AND_3_HU, "" },  /* fuzzy */
-/* it */ { IDS_RAM_BANKS_2_AND_3_IT, "" },  /* fuzzy */
+/* it */ { IDS_RAM_BANKS_2_AND_3_IT, "Banchi di RAM 2 & 3" },
 /* nl */ { IDS_RAM_BANKS_2_AND_3_NL, "RAM bank 2 & 3" },
 /* pl */ { IDS_RAM_BANKS_2_AND_3_PL, "" },  /* fuzzy */
 /* sv */ { IDS_RAM_BANKS_2_AND_3_SV, "RAM-bank 2 & 3" },
@@ -6418,7 +6423,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SFX_SE_ENABLED_DE, "SFX Sound Expander aktiviert" },
 /* fr */ { IDS_SFX_SE_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SFX_SE_ENABLED_HU, "" },  /* fuzzy */
-/* it */ { IDS_SFX_SE_ENABLED_IT, "" },  /* fuzzy */
+/* it */ { IDS_SFX_SE_ENABLED_IT, "Attiva SFX Sound Expander" },
 /* nl */ { IDS_SFX_SE_ENABLED_NL, "SFX Sound Expander Aan/Uit" },
 /* pl */ { IDS_SFX_SE_ENABLED_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SFX_SE_ENABLED_SV, "SFX Sound Expander aktiverad" },
@@ -6429,7 +6434,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SFX_SE_CHIP_DE, "SFX Sound Expander Chip" },
 /* fr */ { IDS_SFX_SE_CHIP_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SFX_SE_CHIP_HU, "" },  /* fuzzy */
-/* it */ { IDS_SFX_SE_CHIP_IT, "" },  /* fuzzy */
+/* it */ { IDS_SFX_SE_CHIP_IT, "Chip SFX Sound Expander" },
 /* nl */ { IDS_SFX_SE_CHIP_NL, "SFX Sound Expander Chip" },
 /* pl */ { IDS_SFX_SE_CHIP_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SFX_SE_CHIP_SV, "SFX Sound Expander-krets" },
@@ -6440,7 +6445,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen" },
 /* fr */ { IDS_SFX_SE_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SFX_SE_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_SFX_SE_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_SFX_SE_SETTINGS_IT, "Impostazioni SFX Sound Expander" },
 /* nl */ { IDS_SFX_SE_SETTINGS_NL, "SFX Sound Expander instellingen" },
 /* pl */ { IDS_SFX_SE_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SFX_SE_SETTINGS_SV, "Inställningar för SFX Sound Expander" },
@@ -6671,7 +6676,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_MOUSE_PADDLES_DE, "Paddle" },
 /* fr */ { IDS_MOUSE_PADDLES_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MOUSE_PADDLES_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_PADDLES_IT, "" },  /* fuzzy */
+/* it */ { IDS_MOUSE_PADDLES_IT, "Paddle" },
 /* nl */ { IDS_MOUSE_PADDLES_NL, "Paddle" },
 /* pl */ { IDS_MOUSE_PADDLES_PL, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_PADDLES_SV, "Paddel" },
@@ -6682,7 +6687,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_VIRTUAL_FS_DE, "Virtual FS" },
 /* fr */ { IDS_AUTOSTART_VIRTUAL_FS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_VIRTUAL_FS_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_VIRTUAL_FS_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_VIRTUAL_FS_IT, "Virtual FS" },
 /* nl */ { IDS_AUTOSTART_VIRTUAL_FS_NL, "Virtueel Bestandssysteem" },
 /* pl */ { IDS_AUTOSTART_VIRTUAL_FS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_VIRTUAL_FS_SV, "Virtuellt FS" },
@@ -6693,7 +6698,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_INJECT_DE, "Inject" },
 /* fr */ { IDS_AUTOSTART_INJECT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_INJECT_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_INJECT_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_INJECT_IT, "Immettere" },
 /* nl */ { IDS_AUTOSTART_INJECT_NL, "Inject" },
 /* pl */ { IDS_AUTOSTART_INJECT_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_INJECT_SV, "Sätt in" },
@@ -6704,7 +6709,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_DISK_DE, "Disk Image" },
 /* fr */ { IDS_AUTOSTART_DISK_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_DISK_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_DISK_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DISK_IT, "Immagine disco" },
 /* nl */ { IDS_AUTOSTART_DISK_NL, "Disk bestand" },
 /* pl */ { IDS_AUTOSTART_DISK_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_DISK_SV, "Diskavbildning" },
@@ -6715,7 +6720,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_DE, "Datei für PRG Autostart auswählen" },
 /* fr */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_IT, "Seleziona file per avvio automatico PRG" },
 /* nl */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_NL, "Selecteer bestand voor PRG autostart disk" },
 /* pl */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_DISK_IMAGE_SELECT_SV, "Välj fil för PRG-autostartdisk" },
@@ -6726,7 +6731,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_WARP_ON_AUTOSTART_DE, "Autostart Warp" },
 /* fr */ { IDS_WARP_ON_AUTOSTART_FR, "" },  /* fuzzy */
 /* hu */ { IDS_WARP_ON_AUTOSTART_HU, "" },  /* fuzzy */
-/* it */ { IDS_WARP_ON_AUTOSTART_IT, "" },  /* fuzzy */
+/* it */ { IDS_WARP_ON_AUTOSTART_IT, "Avvio automatico in turbo" },
 /* nl */ { IDS_WARP_ON_AUTOSTART_NL, "Autostart warp" },
 /* pl */ { IDS_WARP_ON_AUTOSTART_PL, "" },  /* fuzzy */
 /* sv */ { IDS_WARP_ON_AUTOSTART_SV, "Starta warp automatiskt" },
@@ -6737,7 +6742,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_RUN_WITH_COLON_DE, "Verwende ':' mit RUN" },
 /* fr */ { IDS_RUN_WITH_COLON_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RUN_WITH_COLON_HU, "" },  /* fuzzy */
-/* it */ { IDS_RUN_WITH_COLON_IT, "" },  /* fuzzy */
+/* it */ { IDS_RUN_WITH_COLON_IT, "Usa ':' con run" },
 /* nl */ { IDS_RUN_WITH_COLON_NL, "Gebruik ':' met run" },
 /* pl */ { IDS_RUN_WITH_COLON_PL, "" },  /* fuzzy */
 /* sv */ { IDS_RUN_WITH_COLON_SV, "Använd ':' med run" },
@@ -6748,7 +6753,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_PRG_MODE_DE, "PRG Autostartmodus" },
 /* fr */ { IDS_AUTOSTART_PRG_MODE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_PRG_MODE_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_PRG_MODE_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_PRG_MODE_IT, "Avvio automatico PRG" },
 /* nl */ { IDS_AUTOSTART_PRG_MODE_NL, "PRG autostart modus" },
 /* pl */ { IDS_AUTOSTART_PRG_MODE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_PRG_MODE_SV, "Autostartläge för PRG" },
@@ -6759,7 +6764,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_DE, "PRG Autostart Disk Image" },
 /* fr */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_IT, "Immagine disco avvio automatico PRG" },
 /* nl */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_NL, "PRG autostart disk bestand" },
 /* pl */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_SV, "Autostartdiskavbildning för PRG" },
@@ -6770,7 +6775,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_AUTOSTART_SETTINGS_DE, "Autostart Einstellungen" },
 /* fr */ { IDS_AUTOSTART_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_SETTINGS_IT, "Impostazioni avvio automatico" },
 /* nl */ { IDS_AUTOSTART_SETTINGS_NL, "Autostart Instellingen" },
 /* pl */ { IDS_AUTOSTART_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_SETTINGS_SV, "Autostartinställningar" },
@@ -6781,7 +6786,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_ERROR_SAVING_EASYFLASH_CRT_DE, "Fehler beim Speichern der EasyFlash CRT Datei" },
 /* fr */ { IDS_ERROR_SAVING_EASYFLASH_CRT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ERROR_SAVING_EASYFLASH_CRT_HU, "" },  /* fuzzy */
-/* it */ { IDS_ERROR_SAVING_EASYFLASH_CRT_IT, "" },  /* fuzzy */
+/* it */ { IDS_ERROR_SAVING_EASYFLASH_CRT_IT, "Errore durante il salvataggio del file crt EasyFlash" },
 /* nl */ { IDS_ERROR_SAVING_EASYFLASH_CRT_NL, "Kan het EasyFlash crt bestand niet opslaan" },
 /* pl */ { IDS_ERROR_SAVING_EASYFLASH_CRT_PL, "" },  /* fuzzy */
 /* sv */ { IDS_ERROR_SAVING_EASYFLASH_CRT_SV, "Fel vid skrivning av EasyFlash-crt-fil." },
@@ -6792,7 +6797,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_EASYFLASH_JUMPER_DE, "EasyFlash Jumper" },
 /* fr */ { IDS_EASYFLASH_JUMPER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_EASYFLASH_JUMPER_HU, "" },  /* fuzzy */
-/* it */ { IDS_EASYFLASH_JUMPER_IT, "" },  /* fuzzy */
+/* it */ { IDS_EASYFLASH_JUMPER_IT, "Ponticello EasyFlash" },
 /* nl */ { IDS_EASYFLASH_JUMPER_NL, "EasyFlash jumper" },
 /* pl */ { IDS_EASYFLASH_JUMPER_PL, "" },  /* fuzzy */
 /* sv */ { IDS_EASYFLASH_JUMPER_SV, "EasyFlash-bygel" },
@@ -6803,7 +6808,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_DE, "EasyFlash CRT Imagedatei beim entfernen speichern" },
 /* fr */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_HU, "" },  /* fuzzy */
-/* it */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_IT, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_IT, "Salva su file CRT EasyFlash alla rimozione" },
 /* nl */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_NL, "Sla op naar het EasyFlash CRT bestand bij ontkoppelen" },
 /* pl */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_EASYFLASH_CRT_ON_DETACH_SV, "Spara till EasyFlash-CRT-fil vid frånkoppling" },
@@ -6814,7 +6819,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDS_SAVE_EASYFLASH_CRT_NOW_DE, "EasyFlash CRT Imagedatei jetzt speichern" },
 /* fr */ { IDS_SAVE_EASYFLASH_CRT_NOW_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAVE_EASYFLASH_CRT_NOW_HU, "" },  /* fuzzy */
-/* it */ { IDS_SAVE_EASYFLASH_CRT_NOW_IT, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_EASYFLASH_CRT_NOW_IT, "Salva su CRT EasyFlash ora" },
 /* nl */ { IDS_SAVE_EASYFLASH_CRT_NOW_NL, "Sla nu op naar het EasyFlash CRT bestand" },
 /* pl */ { IDS_SAVE_EASYFLASH_CRT_NOW_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_EASYFLASH_CRT_NOW_SV, "Spara till EasyFlash-CRT nu" },

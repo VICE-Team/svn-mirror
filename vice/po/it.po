@@ -11670,7 +11670,7 @@ msgstr "All'avvio automatico, non usare il comando 'RUN' con i due punti; cioè '
 
 #: src/translate.c.po.c:3610
 msgid "Handle True Drive Emulation on autostart"
-msgstr "*Emulazione hardware dei drive all'avvio automatico"
+msgstr "Emulazione hardware dei drive all'avvio automatico"
 
 #: src/translate.c.po.c:3624
 msgid "Do not handle True Drive Emulation on autostart"
