@@ -1521,7 +1521,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SWAP_USERPORT_JOYSTICKS_SV, "Växla användarportspelportarna" },
 /* tr */ { IDMS_SWAP_USERPORT_JOYSTICKS_TR, "Userport Joysticklerinin Yerlerini Deðiþtir" },
 
-/* en */ { IDMS_ENABLE_JOY_KEYS,   "Enable Joy Keys" },
+/* en */ { IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys" },
 /* da */ { IDMS_ENABLE_JOY_KEYS_DA, "Aktivér joystick via keyboard" },
 /* de */ { IDMS_ENABLE_JOY_KEYS_DE, "Joystick Tasten aktivieren" },
 /* fr */ { IDMS_ENABLE_JOY_KEYS_FR, "" },  /* fuzzy */
@@ -1531,6 +1531,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDMS_ENABLE_JOY_KEYS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_JOY_KEYS_SV, "Aktivera styrspak via tangenter" },
 /* tr */ { IDMS_ENABLE_JOY_KEYS_TR, "Joy Tuþlarýný Aktif Et" },
+
+/* en */ { IDMS_ENABLE_JOY_KEYS,    "Allow opposite joystick directions" },
+/* da */ { IDMS_ENABLE_JOY_KEYS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_JOY_KEYS_DE, "Gegnüberliegende Richtungen zulassen" },
+/* fr */ { IDMS_ENABLE_JOY_KEYS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_JOY_KEYS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_JOY_KEYS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_JOY_KEYS_NL, "Tegenovergestelde joystick richtingen toestaan" },
+/* pl */ { IDMS_ENABLE_JOY_KEYS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_JOY_KEYS_SV, "Tillåt motsatta riktningar på styrspak" },
+/* tr */ { IDMS_ENABLE_JOY_KEYS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_SOUND_PLAYBACK,    "Sound playback" },
 /* da */ { IDMS_SOUND_PLAYBACK_DA, "Slå lydemulering til" },

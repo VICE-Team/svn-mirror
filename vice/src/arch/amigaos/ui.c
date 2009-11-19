@@ -144,6 +144,7 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
     { "StatusbarEnabled", IDM_TOGGLE_STATUSBAR },
     { "KeySetEnable", IDM_JOYKEYS_TOGGLE },
+    { "JoyOpposite", IDM_OPPOSITE_JOY_DIR },
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
     { "VideoOverlayEnabled", IDM_TOGGLE_OVERLAY },
 #endif
