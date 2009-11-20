@@ -55,7 +55,7 @@ static const char *tag[3] = { "Userport", "4", "5" };
     // IEC Device
     [useIECDevice setHidden:(printerId == 0)];
     if (printerId>0) {
-        int doUse = [self getIntResource:@"IECDevice%d" withNumber:printerId];
+        int doUse = [self getIntResource:@"IECDevice%d" withNumber:printerId+3];
         [useIECDevice setState:doUse];
     }
 
@@ -89,6 +89,10 @@ static const char *tag[3] = { "Userport", "4", "5" };
     [printerTextDevice2 setStringValue:textDevice2];
     NSString *textDevice3 = [self getStringResource:@"PrinterTextDevice3"];
     [printerTextDevice3 setStringValue:textDevice3];
+    
+    [printerTextDevice1 setEnabled:hasFileOutput];
+    [printerTextDevice2 setEnabled:hasFileOutput];
+    [printerTextDevice3 setEnabled:hasFileOutput];
 }
 
 // ----- Actions -----
