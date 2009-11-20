@@ -53,48 +53,25 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "IEEE488", IDM_IEEE488 },
     { "EmuID", IDM_TOGGLE_EMUID },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
+    { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
     { NULL, 0 }
 };
 
 static const uicart_params_t vic20_ui_cartridges[] = {
-    {
-        IDM_CART_VIC20_8KB_2000,
-        CARTRIDGE_VIC20_16KB_2000,
-        IDS_ATTACH_4_8_16KB_AT_2000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_16KB_4000,
-        CARTRIDGE_VIC20_16KB_4000,
-        IDS_ATTACH_4_8_16KB_AT_4000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_8KB_6000,
-        CARTRIDGE_VIC20_16KB_6000,
-        IDS_ATTACH_4_8_16KB_AT_6000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_8KB_A000,
-        CARTRIDGE_VIC20_8KB_A000,
-        IDS_ATTACH_4_8KB_AT_A000,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_VIC20_4KB_B000,
-        CARTRIDGE_VIC20_4KB_B000,
-        IDS_ATTACH_4KB_AT_B000,
-        UILIB_FILTER_ALL
-    },
-    {
-        0, 0, 0, 0
-    }
+    { IDM_CART_VIC20_8KB_2000, CARTRIDGE_VIC20_16KB_2000, IDS_ATTACH_4_8_16KB_AT_2000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_16KB_4000, CARTRIDGE_VIC20_16KB_4000, IDS_ATTACH_4_8_16KB_AT_4000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_8KB_6000, CARTRIDGE_VIC20_16KB_6000, IDS_ATTACH_4_8_16KB_AT_6000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_8KB_A000, CARTRIDGE_VIC20_8KB_A000, IDS_ATTACH_4_8KB_AT_A000, UILIB_FILTER_ALL },
+    { IDM_CART_VIC20_4KB_B000, CARTRIDGE_VIC20_4KB_B000, IDS_ATTACH_4KB_AT_B000, UILIB_FILTER_ALL },
+    { 0, 0, 0, 0 }
 };
 
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static int vic20_ui_specific(video_canvas_t *canvas, int idm)
 {
+    char *fname = NULL;
+
     switch (idm) {
         case IDM_CART_VIC20_8KB_2000:
         case IDM_CART_VIC20_16KB_4000:
@@ -154,6 +131,12 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             ui_joystick_fire_vic20_dialog();
             break;
 #endif
+        case IDM_MEGACART_WRITEBACK_FILE:
+            fname = BrowseFile(translate_text(IDMS_MEGACART_WRITEBACK_FILE), "#?", canvas);
+            if (fname != NULL) {
+                resources_set_string("MegaCartNvRAMfilename", fname);
+            }
+            break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
             break;

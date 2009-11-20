@@ -2225,6 +2225,39 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..." },
 /* tr */ { IDMS_SIDCART_SETTINGS_TR, "SID kartuþ ayarlarý..." },
 
+/* en */ { IDMS_FINAL_EXPANSION_WRITEBACK,    "Enable Final Expansion write-back" },
+/* da */ { IDMS_FINAL_EXPANSION_WRITEBACK_DA, "" },  /* fuzzy */
+/* de */ { IDMS_FINAL_EXPANSION_WRITEBACK_DE, "Final Expansion rückschreiben aktivieren" },
+/* fr */ { IDMS_FINAL_EXPANSION_WRITEBACK_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_FINAL_EXPANSION_WRITEBACK_HU, "" },  /* fuzzy */
+/* it */ { IDMS_FINAL_EXPANSION_WRITEBACK_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_FINAL_EXPANSION_WRITEBACK_NL, "Activeer terug schrijven van Final Expansion" },
+/* pl */ { IDMS_FINAL_EXPANSION_WRITEBACK_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_FINAL_EXPANSION_WRITEBACK_SV, "Aktivera Final Expansion-återskrivning" },
+/* tr */ { IDMS_FINAL_EXPANSION_WRITEBACK_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_MEGACART_WRITEBACK,    "Enable Mega-Cart non-volatile RAM write-back" },
+/* da */ { IDMS_MEGACART_WRITEBACK_DA, "" },  /* fuzzy */
+/* de */ { IDMS_MEGACART_WRITEBACK_DE, "Mega-Cart nicht-flüchtiges RAM rückschreiben aktivieren" },
+/* fr */ { IDMS_MEGACART_WRITEBACK_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_MEGACART_WRITEBACK_HU, "" },  /* fuzzy */
+/* it */ { IDMS_MEGACART_WRITEBACK_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_MEGACART_WRITEBACK_NL, "Activeer terug schrijven van Mega-Cart non-volatile RAM" },
+/* pl */ { IDMS_MEGACART_WRITEBACK_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_MEGACART_WRITEBACK_SV, "Aktivera Mega-Cart NvRAM-återskrivning" },
+/* tr */ { IDMS_MEGACART_WRITEBACK_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_MEGACART_WRITEBACK_FILE,    "Select Mega-Cart non-volatile RAM file" },
+/* da */ { IDMS_MEGACART_WRITEBACK_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_MEGACART_WRITEBACK_FILE_DE, "Mega-Cart nicht-flüchtiges RAM Datei wählen" },
+/* fr */ { IDMS_MEGACART_WRITEBACK_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_MEGACART_WRITEBACK_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_MEGACART_WRITEBACK_FILE_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_MEGACART_WRITEBACK_FILE_NL, "Selecteer Mega-Cart non-volatile RAM bestand" },
+/* pl */ { IDMS_MEGACART_WRITEBACK_FILE_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_MEGACART_WRITEBACK_FILE_SV, "Välj NvRAM-fil för Mega-Cart" },
+/* tr */ { IDMS_MEGACART_WRITEBACK_FILE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_C64DTV_SETTINGS,    "C64DTV settings..." },
 /* da */ { IDMS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger..." },
 /* de */ { IDMS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen..." },
