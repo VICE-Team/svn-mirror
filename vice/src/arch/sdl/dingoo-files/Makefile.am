@@ -1,7 +1,6 @@
 # Makefile.am for the extra dingoo files
 
 EXTRA_DIST = \
-	vsid.dge \
 	x128.dge \
 	x64.dge \
 	x64dtv.dge \

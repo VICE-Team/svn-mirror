@@ -1,6 +1,0 @@
-#!/bin/sh
-
-export PATH=.:$PATH
-./x64 -vsid >vice_log.txt 2>&1
-rm -f tmp/*
-sync
