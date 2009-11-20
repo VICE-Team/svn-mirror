@@ -1,10 +1,7 @@
 #!/bin/bash
 
 export PATH=.:$PATH
-mount /mnt/sd -o remount,sync
-./xplus4 -directory data/plus4:data/drives -refresh 2 &>vice_log.txt
-mount /mnt/sd -o remount,async
-
-cd /usr/gp2x
-exec ./gp2xmenu
+./xplus4 >vice_log.txt 2>&1
+rm -f tmp/*
+sync
 

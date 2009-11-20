@@ -1,6 +1,6 @@
 #!/bin/sh
 
 export PATH=.:$PATH
-./xcbm2 -model 510 & >vice_log.txt
+./xcbm2 -model 510 >vice_log.txt 2>&1
 rm -f tmp/*
 sync
