@@ -205,6 +205,7 @@ noinst_HEADERS = \
 	via.h \
 	vic20ui.h \
 	vice.h \
+	vicesocket.h \
 	vicii.h \
 	video.h \
 	viewport.h \
