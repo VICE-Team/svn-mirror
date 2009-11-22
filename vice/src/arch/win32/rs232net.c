@@ -52,7 +52,7 @@
 #include "lib.h"
 #include "log.h"
 #include "rs232.h"
-#include "socket.h"
+#include "vicesocket.h"
 #include "types.h"
 #include "util.h"
 
