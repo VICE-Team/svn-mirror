@@ -42,6 +42,7 @@ extern "C" {
 #include "attach.h"
 #include "autostart.h"
 #include "c64ui.h"
+#include "cartridge.h"
 #include "constants.h"
 #include "diskcontents.h"
 #include "imagecontents.h"
@@ -74,7 +75,6 @@ static image_contents_t *read_disk_or_tape_image_contents(const char *name)
     }
     return contents;
 }
-
 
 static void create_content_list(BListView *contentlist, image_contents_t *contents)
 {
@@ -138,7 +138,7 @@ VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
     Hide();
 }
 
-void VicePreview::DisplayContent(char* content)
+void VicePreview::DisplayContent(image_contents_t *content)
 {
     Lock();
     if (content) {
@@ -262,6 +262,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == AUTOSTART_FILE) {
         sprintf(title, "Autostart");
     }
+    if (filetype == AUTOSTART_DISK_IMAGE_FILE) {
+        sprintf(title, "Autostart Disk Image");
+    }
     if (filetype == SNAPSHOTSAVE_FILE) {
         sprintf(title, "Save snapshot");
     }
@@ -302,7 +305,7 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == C64_256K_FILE) {
         sprintf(title, "Select C64_256K file");
     }
-    if (filetype == PETREU_FILE)
+    if (filetype == PETREU_FILE) {
         sprintf(title, "Select PET REU file");
     }
     if (filetype == MMC64_BIOS_FILE) {
@@ -336,6 +339,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     }
     if (filetype == VIC20_MEGACART_FILE) {
         sprintf(title,"Select Mega-Cart file");
+    }
+    if (filetype == VIC20_MEGACART_NVRAM_FILE) {
+        sprintf(title,"Select Mega-Cart nvram file");
     }
     if (filetype == VIC20_FINAL_EXPANSION_FILE) {
         sprintf(title,"Select Final Expansion file");
@@ -415,6 +421,10 @@ void ui_select_file_action(BMessage *msg)
         } else if (last_filetype[0] == AUTOSTART_FILE) {
             if (autostart_autodetect(path->Path(), NULL, 0, AUTOSTART_MODE_RUN) < 0) {
                 ui_error("Cannot autostart specified file.");
+            }
+        } else if (last_filetype[0] == AUTOSTART_DISK_IMAGE_FILE) {
+            if (path->Path() != NULL) {
+                resources_set_string("AutostartPrgDiskImage", path->Path());
             }
         } else if (last_filetype[0] == SNAPSHOTLOAD_FILE) {
             /* we need a copy of the path that won't be deleted here */
@@ -513,6 +523,10 @@ void ui_select_file_action(BMessage *msg)
         } else if (last_filetype[1] == VIC20_MEGACART_FILE) {
             if (cartridge_attach_image(CARTRIDGE_VIC20_MEGACART, fullpath) < 0) {
                 ui_error("Invalid cartridge image");
+            }
+        } else if (last_filetype[1] == VIC20_MEGACART_NVRAM_FILE) {
+            if (fullpath != NULL) {
+                resources_set_string("MegaCartNvRAMfilename", fullpath);
             }
         } else if (last_filetype[1] == VIC20_FINAL_EXPANSION_FILE) {
             if (cartridge_attach_image(CARTRIDGE_VIC20_FINAL_EXPANSION, fullpath) < 0) {

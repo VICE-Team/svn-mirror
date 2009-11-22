@@ -225,6 +225,7 @@ void ui_vic20()
 
     if (vic20window != NULL) {
         return;
+    }
 
     vic20window = new Vic20Window;
 

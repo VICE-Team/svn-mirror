@@ -81,6 +81,14 @@
 
 int io_source;
 
+/* beos dummy for the generally used cart function in ui_file.cc */
+#ifdef __BEOS__
+int cartridge_attach_image(int type, const char *filename)
+{
+    return 0;
+}
+#endif
+
 machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 2

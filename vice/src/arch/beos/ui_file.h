@@ -30,10 +30,13 @@
 #include <FilePanel.h>
 #include <ListView.h>
 
+#include "imagecontents.h"
+
 const uint32 AUTOSTART_MESSAGE = 'AS01';
 
 enum filetype_t {
     AUTOSTART_FILE,
+    AUTOSTART_DISK_IMAGE_FILE,
     DISK_FILE,
     TAPE_FILE,
     SNAPSHOTSAVE_FILE,
@@ -61,6 +64,7 @@ enum filetype_t {
     WAV_FILE,
     VIC20_GENERIC_CART_FILE,
     VIC20_MEGACART_FILE,
+    VIC20_MEGACART_NVRAM_FILE,
     VIC20_FINAL_EXPANSION_FILE,
     VIC20_SMART_CART_ATTACH_FILE
 };
@@ -70,7 +74,7 @@ class ViceFilePanel;
 class VicePreview : public BWindow {
     public :
         VicePreview(BPoint origin, ViceFilePanel *f);
-        void DisplayContent(char *content);
+        void DisplayContent(image_contents_t *content);
         void MessageReceived(BMessage *msg);
         BListView *contentlist;
         char image_name[256];

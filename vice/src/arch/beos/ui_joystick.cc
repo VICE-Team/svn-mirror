@@ -175,21 +175,21 @@ JoystickWindow::JoystickWindow()
         background->AddChild(new JoyView(r, 1));
     }
 
-    if (port_2_present) {
+    if (port2_present) {
         r = Bounds();
         r.left += r.Width() / 2;
         r.bottom -= 70;
         background->AddChild(new JoyView(r, 2));
     }
 
-    if (port_3_present) {
+    if (port3_present) {
         r = Bounds();
         r.left += r.Width() / 2;
         r.bottom -= 70;
         background->AddChild(new JoyView(r, 3));
     }
 
-    if (port_4_present) {
+    if (port4_present) {
         r = Bounds();
         r.left += r.Width() / 2;
         r.bottom -= 70;

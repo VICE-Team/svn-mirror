@@ -72,25 +72,13 @@ ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { "ps2mouse", MENU_TOGGLE_PS2MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
+    { "HummerADC", MENU_HUMMER_USERPORT_ADC },
     { NULL, 0 }
 };
 
 ui_res_possible_values C64DTVRevision[] = {
     { 2, MENU_C64DTV_REVISION_2 },
     { 3, MENU_C64DTV_REVISION_3 },
-    { -1, 0 }
-};
-
-ui_res_possible_values HummerJoyPort[] = {
-    { 1, MENU_HUMMER_JOY_PORT_1 },
-    { 2, MENU_HUMMER_JOY_PORT_2 },
-    { -1, 0 }
-};
-
-ui_res_possible_values HummerUserportDevice[] = {
-    { HUMMER_USERPORT_NONE, MENU_HUMMER_USERPORT_NONE },
-    { HUMMER_USERPORT_ADC, MENU_HUMMER_USERPORT_ADC },
-    { HUMMER_USERPORT_JOY, MENU_HUMMER_USERPORT_JOY },
     { -1, 0 }
 };
 
@@ -103,8 +91,6 @@ ui_res_possible_values c64dtvviciiBorders[] = {
 
 ui_res_value_list c64dtv_ui_res_values[] = {
     { "DtvRevision", C64DTVRevision },
-    { "HummerUserportJoyPort", HummerJoyPort },
-    { "HummerUserportDevice", HummerUserportDevice },
     { "VICIIBorderMode", c64dtvviciiBorders },
     { NULL, NULL }
 };

@@ -52,7 +52,7 @@ extern "C" {
 static int keyset1[9], keyset2[9];
 
 #ifdef COMMON_KBD
-int joystick_port_map[4];
+int arch_joystick_port_map[4];
 #endif
 /* ------------------------------------------------------------------------ */
 
@@ -92,7 +92,7 @@ static void joystick_close_device(int dev_index)
 {
     int device_num;
     int used_by;
-    int joy_dev = joystick_port_map[dev_index];
+    int joy_dev = arch_joystick_port_map[dev_index];
 	
     if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
         /* it's a hardware-stick; close the device if necessary */
@@ -113,7 +113,7 @@ static void joystick_close_device(int dev_index)
 static void joystick_open_device(int dev_index)
 {
     int used_by;
-    int joy_dev = joystick_port_map[dev_index];
+    int joy_dev = arch_joystick_port_map[dev_index];
 
     if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
         /* is the needed device already open? */
@@ -132,7 +132,7 @@ static void joystick_open_device(int dev_index)
             }
             axes[dev_index] = (int16*) malloc(sizeof(int16) * bjoystick[dev_index]->CountAxes());
         }
-        device_used_by[device_num] |= (1 < <dev_index);
+        device_used_by[device_num] |= (1 << dev_index);
 
         stick_nr[dev_index] = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].stick; 
         axes_nr[dev_index] = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].axes;
@@ -146,7 +146,7 @@ static int set_joystick_device(int val, void *param)
         joystick_close_device((int)param);
     }
 
-    joystick_port_map[(int)param] = (joystick_device_t)val;
+    arch_joystick_port_map[(int)param] = (joystick_device_t)val;
 	
     if (joystick_initialized) {
         joystick_open_device((int)param);
@@ -158,13 +158,13 @@ static int set_joystick_device(int val, void *param)
 
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[0], set_joystick_device, (void *)0 },
+      (int *)&arch_joystick_port_map[0], set_joystick_device, (void *)0 },
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[1], set_joystick_device, (void *)1 },
+      (int *)&arch_joystick_port_map[1], set_joystick_device, (void *)1 },
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[2], set_joystick_device, (void *)2 },
+      (int *)&arch_joystick_port_map[2], set_joystick_device, (void *)2 },
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&joystick_port_map[3], set_joystick_device, (void *)3 },
+      (int *)&arch_joystick_port_map[3], set_joystick_device, (void *)3 },
     { NULL }
 };
 
@@ -227,20 +227,20 @@ int joystick_init_cmdline_options(void)
             if (cmdline_register_options(joydev3cmdline_options) < 0) {
                 return -1;
             }
-            return cmdline_register_options(joydev4cmdline_options;
+            return cmdline_register_options(joydev4cmdline_options);
             break;
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM6x0:
             if (cmdline_register_options(joydev3cmdline_options) < 0) {
                 return -1;
             }
-            return cmdline_register_options(joydev4cmdline_options;
+            return cmdline_register_options(joydev4cmdline_options);
             break;
         case VICE_MACHINE_CBM5x0:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {
                 return -1;
             }
-            return cmdline_register_options(joydev2cmdline_options;
+            return cmdline_register_options(joydev2cmdline_options);
             break;
         case VICE_MACHINE_PLUS4:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -249,7 +249,7 @@ int joystick_init_cmdline_options(void)
             if (cmdline_register_options(joydev2cmdline_options) < 0) {
                 return -1;
             }
-            return cmdline_register_options(joydev3cmdline_options;
+            return cmdline_register_options(joydev3cmdline_options);
             break;
         case VICE_MACHINE_VIC20:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -258,7 +258,7 @@ int joystick_init_cmdline_options(void)
             if (cmdline_register_options(joydev3cmdline_options) < 0) {
                 return -1;
             }
-            return cmdline_register_options(joydev4cmdline_options;
+            return cmdline_register_options(joydev4cmdline_options);
             break;
     }
 }
@@ -330,7 +330,7 @@ void joystick_update(void)
 	
     for (dev_index = 0; dev_index < 4; dev_index++) {
     	  value = 0;
-    	  joy_dev = joystick_port_map[dev_index];
+    	  joy_dev = arch_joystick_port_map[dev_index];
  
         if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {	
     		if (!last_joy) {
@@ -369,8 +369,8 @@ void joystick_update(void)
 int handle_keyset_mapping(joystick_device_t device, int *set,
                           kbd_code_t kcode, int pressed)
 {
-    if (joystick_port_map[0] == device || joystick_port_map[1] == device ||
-        joystick_port_map[2] == device || joystick_port_map[3] == device) {
+    if (arch_joystick_port_map[0] == device || arch_joystick_port_map[1] == device ||
+        arch_joystick_port_map[2] == device || arch_joystick_port_map[3] == device) {
         BYTE value = 0;
 
         if (kcode == set[KEYSET_NW]) {    /* North-West */
@@ -396,29 +396,29 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
         }
 
         if (pressed) {
-            if (joystick_port_map[0] == device) {
+            if (arch_joystick_port_map[0] == device) {
                 joystick_set_value_or(1, value);
             }
-            if (joystick_port_map[1] == device) {
+            if (arch_joystick_port_map[1] == device) {
                 joystick_set_value_or(2, value);
             }
-            if (joystick_port_map[2] == device) {
+            if (arch_joystick_port_map[2] == device) {
                 joystick_set_value_or(3, value);
             }
-            if (joystick_port_map[3] == device) {
+            if (arch_joystick_port_map[3] == device) {
                 joystick_set_value_or(4, value);
             }
         } else {
-            if (joystick_port_map[0] == device) {
+            if (arch_joystick_port_map[0] == device) {
                 joystick_set_value_and(1, ~value);
             }
-            if (joystick_port_map[1] == device) {
+            if (arch_joystick_port_map[1] == device) {
                 joystick_set_value_and(2, ~value);
             }
-            if (joystick_port_map[2] == device) {
+            if (arch_joystick_port_map[2] == device) {
                 joystick_set_value_and(3, ~value);
             }
-            if (joystick_port_map[3] == device) {
+            if (arch_joystick_port_map[3] == device) {
                 joystick_set_value_and(4, ~value);
             }
         }
@@ -433,8 +433,8 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (joystick_port_map[0] == JOYDEV_NUMPAD || joystick_port_map[1] == JOYDEV_NUMPAD ||
-        joystick_port_map[2] == JOYDEV_NUMPAD || joystick_port_map[3] == JOYDEV_NUMPAD) {
+    if (arch_joystick_port_map[0] == JOYDEV_NUMPAD || arch_joystick_port_map[1] == JOYDEV_NUMPAD ||
+        arch_joystick_port_map[2] == JOYDEV_NUMPAD || arch_joystick_port_map[3] == JOYDEV_NUMPAD) {
 
         switch (kcode) {
             case K_KP7:               /* North-West */
@@ -472,29 +472,29 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         }
 
         if (pressed) {
-            if (joystick_port_map[0] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(1, value);
             }
-            if (joystick_port_map[1] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(2, value);
             }
-            if (joystick_port_map[2] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[2] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(3, value);
             }
-            if (joystick_port_map[3] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[3] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(4, value);
             }
         } else {
-            if (joystick_port_map[0] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(1, ~value);
             }
-            if (joystick_port_map[1] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(2, ~value);
             }
-            if (joystick_port_map[2] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[2] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(3, ~value);
             }
-            if (joystick_port_map[3] == JOYDEV_NUMPAD) {
+            if (arch_joystick_port_map[3] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(4, ~value);
             }
         }

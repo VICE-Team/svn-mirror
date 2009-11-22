@@ -46,6 +46,7 @@
 extern "C" {
 #include "attach.h"
 #include "autostart.h"
+#include "autostart-prg.h"
 #include "archdep.h"
 #include "charset.h"
 #include "cmdline.h"
@@ -117,6 +118,9 @@ ui_menu_toggle  toggle_list[] = {
     { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT },
     { "ExtraJoy", MENU_TOGGLE_USERPORT_JOY },
+    { "AutostartWarp", MENU_AUTOSTART_WARP },
+    { "AutostartRunWithColon", MENU_USE_COLON_WITH_RUN },
+    { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
     { NULL, 0 }
 };
 
@@ -170,12 +174,20 @@ ui_res_possible_values UserportJoyType[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values AutostartPrgMode[] = {
+    { AUTOSTART_PRG_MODE_VFS, MENU_AUYOSTART_PRG_VIRTUAL_FS },
+    { AUTOSTART_PRG_MODE_INJECT, MENU_AUYOSTART_PRG_INJECT },
+    { AUTOSTART_PRG_MODE_DISK, MENU_AUYOSTART_PRG_DISK_IMAGE },
+    { -1, 0 }
+};
+
 ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
     { "MachineVideoStandard", SyncFactor },
     { "EventStartMode", RecordingOptions },
     { "ExtraJoyType", UserportJoyType },
+    { "AutostartPrgMode", AutostartPrgMode },
     { NULL, NULL }
 };
 
@@ -184,12 +196,12 @@ ui_res_value_list *machine_specific_values = NULL;
 
 void ui_register_menu_toggles(ui_menu_toggle *toggles)
 {
-    machine_specific_toggles=toggles;
+    machine_specific_toggles = toggles;
 }
 
 void ui_register_res_values(ui_res_value_list *valuelist)
 {
-    machine_specific_values=valuelist;
+    machine_specific_values = valuelist;
 }
 
 ui_machine_specific_t ui_machine_specific = NULL;
@@ -468,7 +480,7 @@ static void ui_paste_clipboard_text(void)
             clippy->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &textlen);
 
             if (textlen != 0) {
-                text_in_petscii = lib_malloc(textlen + 1);
+                text_in_petscii = (char *)lib_malloc(textlen + 1);
                 memcpy(text_in_petscii, text, textlen);
                 text_in_petscii[textlen] = 0;
                 charset_petconvstring((unsigned char *)text_in_petscii, 0);
@@ -561,6 +573,9 @@ void ui_dispatch_events(void)
                 break;
             case MENU_RESET_HARD:
                 machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+                break;
+            case MENU_AUYOSTART_PRG_DISK_IMAGE_SELECT:
+                ui_select_file(filepanel, AUTOSTART_DISK_IMAGE_FILE, (void*)0);
                 break;
             case MENU_AUTOSTART:
                 ui_select_file(filepanel, AUTOSTART_FILE, (void*)0);
@@ -944,7 +959,7 @@ TextWindow::TextWindow(
 
     scrollview = new BScrollView("vice scroller", textview, B_FOLLOW_NONE, 0, false, true);
     textview->SetText(text);
-    extview->Insert("\n\n");
+    textview->Insert("\n\n");
     textview->Insert(0, header, strlen(header));
     AddChild(scrollview);
     MoveTo(50, 50);

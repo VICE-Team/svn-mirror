@@ -60,6 +60,8 @@ extern "C" {
 #include "vicewindow.h"
 }
 
+extern ViceWindow *windowlist[];
+
 ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
@@ -70,10 +72,12 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "Mouse", MENU_TOGGLE_MOUSE },
+    { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
+    { "MegaCartNvRAMWriteBack", MENU_TOGGLE_MC_NVRAM_WRITE_BACK },
     { NULL, 0 }
 };
 
-static ui_cartridge_t vic20_ui_cartridges[]={
+static ui_cartridge_t vic20_ui_cartridges[] = {
     { MENU_CART_VIC20_16KB_2000, CARTRIDGE_VIC20_16KB_2000, "4/8/16KB at $2000" },
     { MENU_CART_VIC20_16KB_4000, CARTRIDGE_VIC20_16KB_4000, "4/8/16KB at $4000" },
     { MENU_CART_VIC20_16KB_6000, CARTRIDGE_VIC20_16KB_6000, "4/8/16KB at $6000" },
@@ -112,16 +116,19 @@ void vic20_ui_specific(void *msg, void *window)
             vic20_ui_attach_cartridge(msg, window);
             break;
         case MENU_CART_VIC20_GENERIC:
-            ui_select_file(windowlist[0]->savepanel,VIC20_GENERIC_CART_FILE,(void*)0);
+            ui_select_file(windowlist[0]->savepanel, VIC20_GENERIC_CART_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_MEGACART:
-            ui_select_file(windowlist[0]->savepanel,VIC20_MEGACART_FILE,(void*)0);
+            ui_select_file(windowlist[0]->savepanel, VIC20_MEGACART_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_FINAL_EXPANSION:
-            ui_select_file(windowlist[0]->savepanel,VIC20_FINAL_EXPANSION_FILE,(void*)0);
+            ui_select_file(windowlist[0]->savepanel, VIC20_FINAL_EXPANSION_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_SMART_ATTACH:
-            ui_select_file(windowlist[0]->savepanel,VIC20_SMART_CART_ATTACH_FILE,(void*)0);
+            ui_select_file(windowlist[0]->savepanel, VIC20_SMART_CART_ATTACH_FILE, (void*)0);
+            break;
+        case MENU_MC_NVRAM_FILE:
+            ui_select_file(windowlist[0]->savepanel, VIC20_MEGACART_NVRAM_FILE, (void*)0);
             break;
         case MENU_CART_SET_DEFAULT:
             cartridge_set_default();

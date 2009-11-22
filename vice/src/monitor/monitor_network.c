@@ -39,10 +39,10 @@
 #include "monitor.h"
 #include "monitor_network.h"
 #include "resources.h"
-#include "socket.h"
 #include "translate.h"
 #include "uiapi.h"
 #include "util.h"
+#include "vicesocket.h"
 
 #ifdef HAVE_NETWORK
 

@@ -48,11 +48,11 @@
 #include "mos6510.h"
 #include "network.h"
 #include "resources.h"
-#include "socket.h"
 #include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
+#include "vicesocket.h"
 #include "vsync.h"
 #include "vsyncapi.h"
 

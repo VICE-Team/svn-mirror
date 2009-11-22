@@ -55,14 +55,6 @@ static int ui_sound_buffer[] = {
     350
 };
 
-static int ui_sound_oversample_count = 4;
-static char *ui_sound_oversample[] = {
-    "None",
-    "2x",
-    "4x",
-    "8x"
-};
-
 static int ui_sound_adjusting_count = 3;
 static int ui_sound_adjusting[] = {
     SOUND_ADJUST_FLEXIBLE,
@@ -76,6 +68,18 @@ static char *ui_sound_adjusting_text[] = {
     "Exact"
 };
 
+static int ui_sound_fragment_size_count = 3;
+static int ui_sound_fragment_size[] = {
+    SOUND_FRAGMENT_SMALL,
+    SOUND_FRAGMENT_MEDIUM,
+    SOUND_FRAGMENT_LARGE
+};
+
+static char *ui_sound_fragment_size_text[] = {
+    "Small",
+    "Medium",
+    "Large"
+};
 
 class SoundWindow : public BWindow {
     public:
@@ -144,6 +148,27 @@ SoundWindow::SoundWindow()
     }
     background->AddChild(box);
 
+    /* Fragment size */
+    r = Bounds();
+    r.right = r.left + r.Width() / 4;
+    r.OffsetBy(2 * r.Width(), 0);
+    r.InsetBy(5, 5);
+    r.bottom -= 20;
+    box = new BBox(r, "Fragment Size");
+    box->SetViewColor(220, 220, 220, 0);
+    box->SetLabel("Fragment Size");
+
+    resources_get_int("SoundFragmentSize", &res_value);
+
+    for (i = 0; i < ui_sound_fragment_size_count; i++) {
+        msg = new BMessage(MESSAGE_SOUND_FRAG);
+        msg->AddInt32("fragment", i);
+        radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), ui_sound_fragment_size_text[i], ui_sound_fragment_size_text[i], msg);
+        radiobutton->SetValue(res_value == ui_sound_fragment_size[i]);
+        box->AddChild(radiobutton); 	 
+    }
+    background->AddChild(box);
+
     /* Sync method */
     r = Bounds();
     r.right = r.left + r.Width() / 4;
@@ -189,6 +214,10 @@ void SoundWindow::MessageReceived(BMessage *msg)
         case MESSAGE_SOUND_SYNC:
             msg->FindInt32("sync", &res_value);
             resources_set_int("SoundSpeedAdjustment", res_value);
+            break;
+        case MESSAGE_SOUND_FRAG:
+            msg->FindInt32("fragment", &res_value);
+            resources_set_int("SoundFragmentSize", res_value);
             break;
         default:
             BWindow::MessageReceived(msg);

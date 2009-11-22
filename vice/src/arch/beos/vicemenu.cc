@@ -86,6 +86,16 @@ BMenuBar *menu_create(int machine_class)
     menubar->AddItem(uppermenu);
 
     if (!vsid_mode) {
+        uppermenu->AddItem(menu = new BMenu("Autostart Settings"));
+            menu->AddItem(new BMenuItem("Autostart warp", new BMessage(MENU_AUTOSTART_WARP)));
+            menu->AddItem(new BMenuItem("Use ':' with run", new BMessage(MENU_USE_COLON_WITH_RUN)));
+            menu->AddItem(submenu = new BMenu("PRG autostart mode"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("Virtual FS", new BMessage(MENU_AUYOSTART_PRG_VIRTUAL_FS)));
+                submenu->AddItem(new BMenuItem("Inject", new BMessage(MENU_AUYOSTART_PRG_INJECT)));
+                submenu->AddItem(new BMenuItem("Disk image", new BMessage(MENU_AUYOSTART_PRG_DISK_IMAGE)));
+            menu->AddItem(new BMenuItem("Select file for PRG autostart disk", new BMessage(MENU_AUYOSTART_PRG_DISK_IMAGE_SELECT)));
+        uppermenu->AddSeparatorItem();
         uppermenu->AddItem(new BMenuItem("Autostart", new BMessage(MENU_AUTOSTART), 'A'));
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(menu = new BMenu("Attach Disk"));
@@ -336,13 +346,13 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C128 && !vsid_mode) {
+         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("Emulator ID", new BMessage(MENU_TOGGLE_EMUID)));
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
          machine_class == VICE_MACHINE_C64DTV ||
-         machine_class == VICE_MACHINE_C128 && !vsid_mode) {
+         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
@@ -361,15 +371,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("DTV2", new BMessage(MENU_C64DTV_REVISION_2)));
                 submenu->AddItem(new BMenuItem("DTV3", new BMessage(MENU_C64DTV_REVISION_3)));
             menu->AddItem(new BMenuItem("C64DTV ROM writable", new BMessage(MENU_TOGGLE_C64DTV_WRITE_ENABLE)));
-            menu->AddItem(submenu = new BMenu("Hummer Userport device"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("None", new BMessage(MENU_HUMMER_USERPORT_NONE)));
-                submenu->AddItem(new BMenuItem("ADC", new BMessage(MENU_HUMMER_USERPORT_ADC)));
-                submenu->AddItem(new BMenuItem("Joystick", new BMessage(MENU_HUMMER_USERPORT_JOY)));
-            menu->AddItem(submenu = new BMenu("Joystick port mapped to Hummer Userport"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_HUMMER_JOY_PORT_1)));
-                submenu->AddItem(new BMenuItem("Joy2", new BMessage(MENU_HUMMER_JOY_PORT_2)));
+            menu->AddItem(new BMenuItem("Enable Hummer ADC", new BMessage(MENU_HUMMER_USERPORT_ADC)));
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
@@ -523,6 +525,14 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("VIC20 ...", new BMessage(MENU_VIC20_SETTINGS)));
     }
 
+    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
+        uppermenu->AddItem(menu = new BMenu("Final Expansion Options"));
+            menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_FE_WRITE_BACK)));
+        uppermenu->AddItem(menu = new BMenu("Mega-Cart Options"));
+            menu->AddItem(new BMenuItem("Write back to nvram file", new BMessage(MENU_TOGGLE_MC_NVRAM_WRITE_BACK)));
+            menu->AddItem(new BMenuItem("Select nvram file", new BMessage(MENU_MC_NVRAM_FILE)));
+    }
+
     if ((machine_class == VICE_MACHINE_VIC20 ||
          machine_class == VICE_MACHINE_PLUS4 ||
          machine_class == VICE_MACHINE_PET) && !vsid_mode) {
@@ -591,6 +601,7 @@ BMenuBar *menu_create(int machine_class)
     if (!vsid_mode) {
         uppermenu->AddItem(menu = new BMenu("Joystick..."));
             menu->AddItem(new BMenuItem("Joystick/Keyset settings...", new BMessage(MENU_JOYSTICK_SETTINGS)));
+            menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
     }
 
     if (machine_class == VICE_MACHINE_PLUS4 && !vsid_mode) {

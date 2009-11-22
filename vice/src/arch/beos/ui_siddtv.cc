@@ -98,19 +98,19 @@ static int sidmodel_values[] = {
     -1
 };
 
-class SidWindow : public BWindow {
+class SiddtvWindow : public BWindow {
         BScrollView *scrollview;
         BSlider *passbandslider;
         BBox *residbox;
     public:
-        SidWindow();
-        ~SidWindow();
+        SiddtvWindow();
+        ~SiddtvWindow();
         virtual void MessageReceived(BMessage *msg);
 };
 
-static SidWindow *sidwindow = NULL;
+static SiddtvWindow *sidwindow = NULL;
 
-SidWindow::SidWindow() 
+SiddtvWindow::SiddtvWindow() 
     : BWindow(BRect(250, 50, 500, 250), "Sid settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BMessage *msg;
@@ -189,12 +189,12 @@ SidWindow::SidWindow()
     Show();
 }
 
-SidWindow::~SidWindow() 
+SiddtvWindow::~SiddtvWindow() 
 {
     sidwindow = NULL;	
 }
 
-void SidWindow::MessageReceived(BMessage *msg)
+void SiddtvWindow::MessageReceived(BMessage *msg)
 {
     int32 val;	
     resource_value_t dummy;
@@ -233,7 +233,7 @@ void ui_siddtv()
         return;
     }
 
-    sidwindow = new SidWindow;
+    sidwindow = new SiddtvWindow;
 
     vsync_suspend_speed_eval();
 

@@ -41,11 +41,16 @@
 
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
+typedef unsigned long in_addr_t;
 
 #define PF_INET AF_INET
 #define INVALID_SOCKET (SOCKET)(~0)
 #define HAVE_HTONS
 #define HAVE_HTONL
+
+#ifndef INADDR_NONE
+#define INADDR_NONE ((unsigned long)-1)
+#endif
 
 #define SOCKET_IS_INVALID(_x) ((_x) < 0)
 
