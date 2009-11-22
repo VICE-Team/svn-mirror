@@ -13,6 +13,7 @@ COMMON_EXTRA_DIST = AUTHORS \
 	INSTALL \
 	NEWS \
 	vice.spec \
+	vice-gtk.spec \
 	vice-mint.spec
 
 

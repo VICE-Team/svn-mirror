@@ -14,8 +14,8 @@ BuildRoot: /var/tmp/vice-build-root
 
 %description
 VICE is a set of accurate emulators for the Commodore 64, 128, VIC20,
-PET, Plus4 and CBM-II 8-bit computers, all of which run under the X
-Window System.
+PET, Plus4, CBM-II 8-bit computers and the C64DTV, all of which run under
+the X Window System.
 
 %prep
 %setup -q
@@ -40,6 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS FEEDBACK INSTALL README
 
 %{prefix}/bin/x64
+%{prefix}/bin/x64dtv
 %{prefix}/bin/x128
 %{prefix}/bin/xplus4
 %{prefix}/bin/xvic
