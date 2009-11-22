@@ -2,17 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1030</int>
-		<string key="IBDocument.SystemVersion">10B504</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">732</string>
-		<string key="IBDocument.AppKitVersion">1038.2</string>
-		<string key="IBDocument.HIToolboxVersion">437.00</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">732</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="57"/>
+			<integer value="405"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1310,15 +1310,6 @@
 							<string key="NSTitle">Settings</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMenuItem" id="275897824">
-									<reference key="NSMenu" ref="938823288"/>
-									<string key="NSTitle">Keyboard...</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
 								<object class="NSMenuItem" id="260241393">
 									<reference key="NSMenu" ref="938823288"/>
 									<string key="NSTitle">Joystick...</string>
@@ -2406,14 +2397,6 @@
 						<reference key="destination" ref="260241393"/>
 					</object>
 					<int key="connectionID">608</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">showKeyboardSettings:</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="275897824"/>
-					</object>
-					<int key="connectionID">610</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3761,7 +3744,6 @@
 							<reference ref="817049217"/>
 							<reference ref="232267405"/>
 							<reference ref="260241393"/>
-							<reference ref="275897824"/>
 							<reference ref="120006201"/>
 							<reference ref="921928978"/>
 							<reference ref="246153749"/>
@@ -3802,11 +3784,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">490</int>
 						<reference key="object" ref="260241393"/>
-						<reference key="parent" ref="938823288"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">491</int>
-						<reference key="object" ref="275897824"/>
 						<reference key="parent" ref="938823288"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -4241,8 +4218,6 @@
 					<string>486.ImportedFromIB2</string>
 					<string>490.IBPluginDependency</string>
 					<string>490.ImportedFromIB2</string>
-					<string>491.IBPluginDependency</string>
-					<string>491.ImportedFromIB2</string>
 					<string>500.IBPluginDependency</string>
 					<string>500.ImportedFromIB2</string>
 					<string>501.IBPluginDependency</string>
@@ -4506,7 +4481,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{415, 464}, {238, 293}}</string>
+					<string>{{418, 484}, {238, 273}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4586,8 +4561,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>{{576, 584}, {163, 103}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
