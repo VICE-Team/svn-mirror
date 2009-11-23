@@ -33,6 +33,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "autostart-prg.h"
 #include "diskimage.h"
 #include "fliplist.h"
 #include "imagecontents.h"
@@ -150,6 +151,86 @@ static tui_menu_item_def_t ui_flip_menu_def[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
+TUI_MENU_DEFINE_TOGGLE(AutostartWarp)
+TUI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
+TUI_MENU_DEFINE_RADIO(AutostartPrgMode)
+
+static TUI_MENU_CALLBACK(autostart_prg_mode_submenu_callback)
+{
+    int value;
+    static char s[100];
+
+    resources_get_int("AutostartPrgMode", &value);
+    switch (value) {
+        default:
+        case AUTOSTART_PRG_MODE_VFS:
+            return "Virtual FS";
+            break;
+        case AUTOSTART_PRG_MODE_INJECT:
+            return "Inject";
+            break;
+        case AUTOSTART_PRG_MODE_DISK:
+            return "Disk Image";
+            break;
+    }
+    return s;
+}
+
+static tui_menu_item_def_t autostart_prg_mode_submenu[] = {
+    { "Virtual FS", NULL, radio_AutostartPrgMode_callback,
+      (void *)AUTOSTART_PRG_MODE_VFS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Inject", NULL, radio_AutostartPrgMode_callback,
+      (void *)AUTOSTART_PRG_MODE_INJECT, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Disk Image", NULL, radio_AutostartPrgMode_callback,
+      (void *)AUTOSTART_PRG_MODE_DISK, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static TUI_MENU_CALLBACK(autostart_prg_disk_image_file_callback)
+{
+    char s[256];
+    const char *v;
+
+    if (been_activated) {
+
+        *s = '\0';
+
+        if (tui_input_string("Change autostart PRG disk image name", "New image name:", s, 255) == -1) {
+            return NULL;
+        }
+
+        if (*s == '\0') {
+            return NULL;
+        }
+
+        resources_set_string("AutostartPrgDiskImage", s);
+    }
+
+    resources_get_string("AutostartPrgDiskImage", &v);
+
+    return v;
+}
+
+static tui_menu_item_def_t ui_autostart_menu_def[] = {
+    { "Handle TDE on autostart:", "Handle TDE on autostart",
+      toggle_AutostartHandleTrueDriveEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Warp on autostart:", "Warp on autostart",
+      toggle_AutostartWarp_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Use ':' with RUN:", "Use ':' with RUN",
+      toggle_AutostartRunWithColon_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Autostart PRG mode:", "Select the mode of the autostart PRG",
+      autostart_prg_mode_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, autostart_prg_mode_submenu, "Autostart PRG mode" },
+    { "Autostart PRG disk image file:", "Select the autostart PRG disk image file",
+      autostart_prg_disk_image_file_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 tui_menu_item_def_t ui_attach_menu_def[] = {
     { "Drive #_8:",
       "Attach disk image for disk drive #8",
@@ -167,6 +248,10 @@ tui_menu_item_def_t ui_attach_menu_def[] = {
       "Attach disk image for disk drive #11",
       attach_disk_callback, (void *)11, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Autostart _Settings...",
+      "Autostart Settings", 
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, ui_autostart_menu_def, NULL },
     { "Autostart _Drive #8",
       "Reset the emulator and run the first program in the disk in drive 8",
       autostart_callback, (void *)8, 0,
