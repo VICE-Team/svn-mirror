@@ -1,6 +1,4 @@
 #!/bin/sh
 
-export PATH=.:$PATH
 ./xcbm2 >vice_log.txt 2>&1
-rm -f tmp/*
 sync

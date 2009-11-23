@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export PATH=.:$PATH
 ./xplus4 >vice_log.txt 2>&1
-rm -f tmp/*
 sync
 

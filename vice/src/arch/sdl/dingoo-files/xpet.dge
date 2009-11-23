@@ -1,6 +1,4 @@
 #!/bin/bash
 
-export PATH=.:$PATH
 ./xpet >vice_log.txt 2>&1
-rm -f tmp/*
 sync

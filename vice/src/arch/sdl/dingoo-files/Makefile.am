@@ -9,4 +9,6 @@ EXTRA_DIST = \
 	xpet.dge \
 	xplus4.dge \
 	xvic.dge \
-	sdl-vicerc
+	sdl-vicerc \
+	sdl-vicerc-cbm25x0
+
