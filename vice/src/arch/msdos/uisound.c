@@ -84,6 +84,26 @@ static TUI_MENU_CALLBACK(sound_synchronization_submenu_callback)
     }
 }
 
+TUI_MENU_DEFINE_RADIO(SoundFragmentSize)
+
+static TUI_MENU_CALLBACK(sound_fragment_size_submenu_callback)
+{
+    int value;
+
+    resources_get_int("SoundFragmentSize", &value);
+
+    switch (value) {
+        case SOUND_FRAGMENT_SMALL:
+            return "Small";
+        case SOUND_FRAGMENT_MEDIUM:
+            return "Medium";
+        case SOUND_FRAGMENT_LARGE:
+            return "Large";
+        default:
+            return "Unknown";
+    }
+}
+
 static tui_menu_item_def_t sample_rate_submenu[] = {
     { "_0: 8000 Hz",
       "Set sampling rate to 8000 Hz",
@@ -152,6 +172,22 @@ static tui_menu_item_def_t sound_synchronization_submenu[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t sound_fragment_size_submenu[] = {
+    { "_Small",
+      "Use a small fragment size",
+      radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_SMALL, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Medium",
+      "Use a medium fragment size",
+      radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_MEDIUM, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Large",
+      "Use a large fragment size",
+      radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_LARGE, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t sound_submenu[] = {
     { "Sound _Playback:",
       "Enable sound output",
@@ -165,6 +201,10 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Specify playback latency",
       sound_buffer_size_submenu_callback, NULL, 10,
       TUI_MENU_BEH_CONTINUE, sound_buffer_size_submenu, "Latency" },
+    { "Sound _Fragment Size:",
+      "Specify fragment size",
+      sound_fragment_size_submenu_callback, NULL, 10,
+      TUI_MENU_BEH_CONTINUE, sound_fragment_size_submenu, "Fragment Size" },
     { "S_ynchronization Method:",
       "Specify method used to synchronize the sound playback with the emulator",
       sound_synchronization_submenu_callback, NULL, 9,
