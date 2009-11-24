@@ -24,7 +24,7 @@ $STRIP src/xcbm2
 cp src/x64 src/x64dtv src/x128 src/xvic SDLVICE-dingoo-$VICEVERSION
 cp src/xpet src/xplus4 src/xcbm2 SDLVICE-dingoo-$VICEVERSION
 cp $TOPSRCDIR/src/arch/sdl/dingoo-files/*.dge SDLVICE-dingoo-$VICEVERSION
-cp $TOPSRCDIR/src/arch/sdl/dingoo-files/sdl-vicerc SDLVICE-dingoo-$VICEVERSION
+cp $TOPSRCDIR/src/arch/sdl/dingoo-files/sdl-vicerc* SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/C64DTV SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/CBM-II SDLVICE-dingoo-$VICEVERSION
