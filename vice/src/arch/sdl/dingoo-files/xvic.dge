@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ./xvic >vice_log.txt 2>&1
 sync
