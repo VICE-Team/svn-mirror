@@ -1,4 +1,4 @@
 #!/bin/sh
 
-./xcbm2 -model 510 -config sdl-vicerc-cbm25x0 >vice_log.txt 2>&1
+./xcbm2 -model 510 -config sdl-vicerc-cbm5x0 >vice_log.txt 2>&1
 sync
