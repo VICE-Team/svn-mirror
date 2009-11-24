@@ -401,9 +401,10 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     int max = WinDlgLboxQueryCount(hwnd, CBS_IMAGE);
                     int pos = -1;
 
-                    do WinLboxQueryItem(hwnd, CBS_IMAGE, ++pos, tmp, CCHMAXPATH);
-                    while (pos<max && strcmp(ui_status.lastImage[drive], tmp)) {
+                    do {
+                        WinLboxQueryItem(hwnd, CBS_IMAGE, ++pos, tmp, CCHMAXPATH);
                     }
+                    while (pos < max && strcmp(ui_status.lastImage[drive], tmp));
                     WinDlgLboxSelectItem(hwnd, CBS_IMAGE, pos);
                 }
                 {

@@ -882,8 +882,7 @@ void WmVrnEnabled(HWND hwnd)
                 c->divesetup.pVisDstRects[0].yBottom = 0;
                 c->divesetup.pVisDstRects[0].yTop = h;
                 c->divesetup.lScreenPosY = (h - c->stretch * c->height) / 2;
-                c->divesetup.lScreenPosX = (w - c->stretch * c->width
-#if defined __XVIC__
+#ifdef __XVIC__
                 c->divesetup.lScreenPosX = (w - c->stretch * c->width * 2) / 2;
 #else
                 c->divesetup.lScreenPosX = (w - c->stretch * c->width) / 2;
@@ -1817,7 +1816,6 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src)
                 log_error(vidlog, "VideoConvertPalette - DiveSetupBlitter failed, rc=0x%x", rc);
             } else {
                 int bytes = c->bDepth / 8;
-            }
 
                 rc = DiveBlitImage(inst, ulSrc, ulTrg);
                 if (rc) {

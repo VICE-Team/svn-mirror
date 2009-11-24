@@ -644,21 +644,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
        case IDM_DTV3:
             resources_set_int("DtvRevision", 3);
             return;
-        case IDM_HUMMER_USERPORT_NONE:
-            resources_set_int("HummerUserportDevice", HUMMER_USERPORT_NONE);
-            return;
-        case IDM_HUMMER_USERPORT_ADC:
-            resources_set_int("HummerUserportDevice", HUMMER_USERPORT_ADC);
-            return;
-        case IDM_HUMMER_USERPORT_JOY:
-            resources_set_int("HummerUserportDevice", HUMMER_USERPORT_JOY);
-            return;
-        case IDM_HUMMER_JOY1:
-            resources_set_int("HummerUserportJoyPort", 1);
-            return;
-        case IDM_HUMMER_JOY2:
-            resources_set_int("HummerUserportJoyPort", 2);
-            return;
 #endif
 
 #ifdef __XPET__
@@ -1415,17 +1400,6 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("DtvRevision", &val);
             WinCheckMenuItem(hwnd, IDM_DTV2, val == 2);
             WinCheckMenuItem(hwnd, IDM_DTV3, val == 3);
-            return;
-        case IDM_C64DTV_HUMMER_MAPPED_JOY:
-            resources_get_int("HummerUserportJoyPort", &val);
-            WinCheckMenuItem(hwnd, IDM_HUMMER_JOY1, val == 1);
-            WinCheckMenuItem(hwnd, IDM_HUMMER_JOY2, val == 2);
-            return;
-        case IDM_HUMMER_USERPORT_DEVICE:
-            resources_get_int("HummerUserportDevice", &val);
-            WinCheckMenuItem(hwnd, IDM_HUMMER_USERPORT_NONE, val == HUMMER_USERPORT_NONE);
-            WinCheckMenuItem(hwnd, IDM_HUMMER_USERPORT_ADC, val == HUMMER_USERPORT_ADC);
-            WinCheckMenuItem(hwnd, IDM_HUMMER_USERPORT_JOY, val == HUMMER_USERPORT_JOY);
             return;
 #endif
 

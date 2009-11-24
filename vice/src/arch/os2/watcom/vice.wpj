@@ -954,7 +954,7 @@ WRect
 WFileName
 11
 mainsrc.tgt
-0
+16
 0
 200
 VComponent
@@ -1371,7 +1371,7 @@ WFileName
 8
 xvic.tgt
 0
-0
+2
 278
 VComponent
 279
@@ -1500,4 +1500,4 @@ WFileName
 gentr.tgt
 0
 1
-149
+275

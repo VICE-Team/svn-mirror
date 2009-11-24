@@ -219,7 +219,6 @@ EXTRA_DIST = \
 	watcom/xplus4.tgt \
 	watcom/xvic-dlg-fileio.c \
 	watcom/xvic-main.c \
-	watcom/xvic-maincpu.c \
 	watcom/xvic-menubar.c \
 	watcom/xvic-specific.tgt \
 	watcom/xvic-video.c \
