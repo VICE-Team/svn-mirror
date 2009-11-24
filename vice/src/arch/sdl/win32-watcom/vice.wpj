@@ -252,8 +252,8 @@ WVList
 VComponent
 64
 WRect
-250
-240
+2460
+4186
 5700
 4280
 1
@@ -263,7 +263,7 @@ WFileName
 8
 arch.tgt
 0
-0
+15
 66
 VComponent
 67
@@ -918,8 +918,8 @@ WRect
 WFileName
 9
 vic20.tgt
-11
-13
+0
+0
 189
 VComponent
 190
@@ -1094,8 +1094,8 @@ WRect
 WFileName
 8
 xvic.tgt
-0
-2
+11
+15
 222
 VComponent
 223
@@ -1160,4 +1160,4 @@ WFileName
 vic20cart.tgt
 0
 0
-231
+219

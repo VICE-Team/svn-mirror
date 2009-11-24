@@ -355,9 +355,11 @@ int archdep_path_is_relative(const char *path)
 #ifndef _S_IWRITE
 #define _S_IWRITE S_IWRITE
 #endif
+#endif
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
+#ifndef WATCOM_COMPILE
     int new_stdout, new_stderr;
     int old_stdout_mode, old_stderr_mode;
     int old_stdout, old_stderr;
