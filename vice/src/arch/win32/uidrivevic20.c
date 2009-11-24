@@ -296,11 +296,6 @@ static void init_dialog(HWND hwnd, int num)
     GetWindowRect(parent_hwnd, &rect);
     MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
 
-    /* set the width of the tab to 'surround' all the elements */
-    tab_hwnd = PropSheet_GetTabControl(hwnd);
-    GetWindowRect(tab_hwnd, &rect);
-    MoveWindow(tab_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
-
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
 
