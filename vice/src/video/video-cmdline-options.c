@@ -162,12 +162,28 @@ static cmdline_option_t cmdline_options_chip_palette[] =
 
 static const char *cname_chip_fullscreen[] =
 {
+#ifdef USE_SDLUI
+   "-", "full", "Fullscreen",
+   "+", "full", "Fullscreen",
+#endif
    "-", "fulldevice", "FullscreenDevice",
    NULL
 };
 
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
+#ifdef USE_SDLUI
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable fullscreen" },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable fullscreen" },
+#endif
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
