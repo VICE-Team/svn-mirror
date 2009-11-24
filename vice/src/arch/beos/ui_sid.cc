@@ -55,40 +55,48 @@ static char *samplingmode[] = {
     NULL
 };
 
-static char *sidmodel[] = {
-    "6581 (old)",
-    "8580 (new)",
-    "8580 (new+digiboost)",
+static char *sidmodelengine[] = {
+    "6581 (Fast SID)",
+    "8580 (Fast SID)",
+#ifdef HAVE_RESID
+    "6581 (ReSID)",
+    "8580 (ReSID)",
+    "8580 + digiboost (ReSID)",
+#endif
 #ifdef HAVE_RESID_FP
-    "6581R3 4885 (reSID-fp)",
-    "6581R3 0486S (reSID-fp)",
-    "6581R3 3984 (reSID-fp)",
-    "6581R4AR 3789 (reSID-fp)",
-    "6581R3 4485 (reSID-fp)",
-    "6581R4 1986S (reSID-fp)",
-    "8580R5 3691 (reSID-fp)",
-    "8580R5 3691 + digiboost (reSID-fp)",
+    "6581R3 4885 (ReSID-fp)",
+    "6581R3 0486S (ReSID-fp)",
+    "6581R3 3984 (ReSID-fp)",
+    "6581R4AR 3789 (ReSID-fp)",
+    "6581R3 4485 (ReSID-fp)",
+    "6581R4 1986S (ReSID-fp)",
+    "8580R5 3691 (ReSID-fp)",
+    "8580R5 3691 + digiboost (ReSID-fp)",
     "8580R5 1489",
-    "8580R5 1489 + digiboost (reSID-fp)",
+    "8580R5 1489 + digiboost (ReSID-fp)",
 #endif
     NULL
 };
 
-static int sidmodel_values[] = {
-    SID_MODEL_6581,
-    SID_MODEL_8580,
-    SID_MODEL_8580D,
+static int sidmodelengine_values[] = {
+    SID_FASTSID_6581,
+    SID_FASTSID_8580,
+#ifdef HAVE_RESID
+    SID_RESID_6581,
+    SID_RESID_8580,
+    SID_RESID_8580D,
+#endif
 #ifdef HAVE_RESID_FP
-    SID_MODEL_6581R3_4885,
-    SID_MODEL_6581R3_0486S,
-    SID_MODEL_6581R3_3984,
-    SID_MODEL_6581R4AR_3789,
-    SID_MODEL_6581R3_4485,
-    SID_MODEL_6581R4_1986S,
-    SID_MODEL_8580R5_3691,
-    SID_MODEL_8580R5_3691D,
-    SID_MODEL_8580R5_1489,
-    SID_MODEL_8580R5_1489D,
+    SID_RESIDFP_6581R3_4885,
+    SID_RESIDFP_6581R3_0486S,
+    SID_RESIDFP_6581R3_3984,
+    SID_RESIDFP_6581R4AR_3789,
+    SID_RESIDFP_6581R3_4485,
+    SID_RESIDFP_6581R4_1986S,
+    SID_RESIDFP_8580R5_3691,
+    SID_RESIDFP_8580R5_3691D,
+    SID_RESIDFP_8580R5_1489,
+    SID_RESIDFP_8580R5_1489D,
 #endif
     -1
 };
@@ -174,19 +182,22 @@ SidWindow::SidWindow()
     AddChild(background);
 
     /* SID model */
-    resources_get_int("SidModel", &res_val);
+    resources_get_int("SidModel", &i);
+    resources_get_int("SidEngine", &res_val);
+    res_val <<= 8;
+    res_val |= i;
     r = Bounds();
     r.bottom = r.top + 50;
     r.InsetBy(10, 5);
-    box = new BBox(r, "SID Model");
+    box = new BBox(r, "SID Engine/Model");
     box->SetViewColor(220, 220, 220, 0);
-    box->SetLabel("SID Model");
+    box->SetLabel("SID Engine/Model");
 
-    for (i = 0; sidmodel[i] != NULL; i++) {
+    for (i = 0; sidmodelengine[i] != NULL; i++) {
         msg = new BMessage(MESSAGE_SID_MODEL);
         msg->AddInt32("model", i);
-        radiobutton = new BRadioButton(BRect(10 + i * r.Width() / 2, 15, (i + 1) * r.Width() / 2 - 10, 30), sidmodel[i], sidmodel[i], msg);
-        radiobutton->SetValue(res_val == sidmodel_values[i]);
+        radiobutton = new BRadioButton(BRect(10 + i * r.Width() / 2, 15, (i + 1) * r.Width() / 2 - 10, 30), sidmodelengine[i], sidmodelengine[i], msg);
+        radiobutton->SetValue(res_val == sidmodelengine_values[i]);
         box->AddChild(radiobutton);
     }
     background->AddChild(box);
@@ -214,12 +225,6 @@ SidWindow::SidWindow()
         scrollview->Hide();
     }
 	
-    /* ReSID */
-    resources_get_int("SidEngine", &res_val);
-    checkbox = new BCheckBox(BRect(10, 90, r.Width() / 2 - 20, 105), "Enable reSID", "Enable reSID", new BMessage(MESSAGE_SID_RESID));
-    checkbox->SetValue(res_val == SID_ENGINE_RESID);
-    background->AddChild(checkbox);
-
     /* reSID settings */
     residbox = new BBox(BRect(10, 110, r.Width() - 10, 190), "reSID/reSID-fp settings");
     residbox->SetViewColor(220, 220, 220, 0);
@@ -263,11 +268,14 @@ void SidWindow::MessageReceived(BMessage *msg)
     int32 val;	
     resource_value_t dummy;
     BListItem *item;
+    int32 temp;
 
     switch (msg->what) {
         case MESSAGE_SID_MODEL:
             val = msg->FindInt32("model");
-            resources_set_int("SidModel", sidmodel_values[val]);
+            temp = val >> 8;
+            val &= 0xff;
+            sid_set_engine_model(temp, val);
             break;
         case MESSAGE_SID_FILTERS:
             resources_toggle("SidFilters", (int *)&dummy);
