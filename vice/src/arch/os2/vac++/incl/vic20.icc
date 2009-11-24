@@ -1,6 +1,7 @@
 source type(c)
 	"vic-cmdline-options.c",
 	"vic-color.c",
+	"vic-cycle.c",
 	"vic-draw.c",
 	"vic-mem.c",
 	"vic-resources.c",
@@ -11,6 +12,7 @@ source type(c)
 	"vic20-snapshot.c",
 	"vic20.c",
 	"vic20bus.c",
+	"vic20cpu.c",
 	"vic20datasette.c",
 	"vic20drive.c",
 	"vic20iec.c",

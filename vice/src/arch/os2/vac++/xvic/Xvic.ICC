@@ -49,7 +49,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "..\\..\\..\\..\\..\\data\\vice2.lib"
 
         source type(c)
-            "maincpu.c",
             "rs232.c",
             "mouse.c",
             "mousedrv.c",
