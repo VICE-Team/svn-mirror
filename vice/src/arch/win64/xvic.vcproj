@@ -439,54 +439,6 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\maincpu.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					Optimization="4"
-					EnableIntrinsicFunctions="true"
-					FavorSizeOrSpeed="0"
-					OmitFramePointers="true"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					Optimization="4"
-					EnableIntrinsicFunctions="true"
-					FavorSizeOrSpeed="0"
-					OmitFramePointers="true"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
 			RelativePath="..\win32\resvic20.rc"
 			>
 			<FileConfiguration
