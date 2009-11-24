@@ -508,7 +508,7 @@ static uilib_dialog_group fullscreen_rest_group[] = {
 
 void enable_aspect_ratio(HWND hwnd)
 {
-    EnableWindow(GetDlgItem(hwnd, IDC_ASPECT_RATIO), keep_aspect_ratio);
+    EnableWindow(GetDlgItem(hwnd, IDC_ASPECT_RATIO), keep_aspect_ratio && video_dx9_enabled());
 }
 
 static void init_fullscreen_dialog(HWND hwnd)
@@ -598,8 +598,10 @@ static void init_fullscreen_dialog(HWND hwnd)
         value = value->next;
     }
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(refresh_rates, fullscreen_refreshrate), 0);
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC), !video_dx9_enabled());
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary ? BST_CHECKED : BST_UNCHECKED);
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_KEEP_ASPECT_RATIO), video_dx9_enabled());
     CheckDlgButton(hwnd, IDC_TOGGLE_KEEP_ASPECT_RATIO, keep_aspect_ratio ? BST_CHECKED : BST_UNCHECKED);
     enable_aspect_ratio(hwnd);
     fval = ((double)aspect_ratio) / 1000.0;
