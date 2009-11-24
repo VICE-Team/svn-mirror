@@ -566,70 +566,45 @@ static tui_menu_item_def_t reset_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+/* this is getting too big for a static dialog, so it's been
+   turned into a scrolling text view. */
 static TUI_MENU_CALLBACK(show_copyright_callback)
 {
     if (been_activated) {
-        static char *str_list[] = {
-            "",
-            "V I C E",
-            "Version " VERSION,
+        const char *str_list = "\n"
+                               "                               V I C E\n"
+                               "                             Version " VERSION "\n"
 #ifdef UNSTABLE
-            "(unstable)",
+                               "                              (unstable)\n"
 #endif
-            "",
-            "Copyright (c) 1998-2009 Andreas Boose",
-            "Copyright (c) 1998-2009 Tibor Biczo",
-            "Copyright (c) 1998-2009 Dag Lem",
-            "Copyright (c) 1999-2009 Andreas Matthies",
-            "Copyright (c) 1999-2009 Martin Pottendorfer",
-            "Copyright (c) 2000-2009 Spiro Trikaliotis",
-            "Copyright (c) 2005-2009 Marco van den Heuvel",
-            "Copyright (c) 2006-2009 Christian Vogelgsang",
-            "Copyright (c) 2007-2009 Fabrizio Gennari",
-            "Copyright (c) 2007-2009 M. Kiesel",
-            "Copyright (c) 2007-2009 Hannu Nuotio",
-            "Copyright (c) 2007-2009 Daniel Kahlin",
-            "Copyright (c) 2008-2009 Antti S. Lankila",
-            "Copyright (c) 1999-2007 Andreas Dehmel",
-            "Copyright (c) 1999-2005 Thomas Bretz",
-            "Copyright (c) 2003-2005 David Hansel",
-            "Copyright (c) 2000-2004 Markus Brenner",
-            "",
-            "Official VICE homepage:",
-            "http://www.viceteam.org/",
+                               "\n"
+                               "                Copyright (c) 1998-2009 Andreas Boose\n"
+                               "                 Copyright (c) 1998-2009 Tibor Biczo\n"
+                               "                   Copyright (c) 1998-2009 Dag Lem\n"
+                               "               Copyright (c) 1999-2009 Andreas Matthies\n"
+                               "             Copyright (c) 1999-2009 Martin Pottendorfer\n"
+                               "              Copyright (c) 2000-2009 Spiro Trikaliotis\n"
+                               "             Copyright (c) 2005-2009 Marco van den Heuvel\n"
+                               "             Copyright (c) 2006-2009 Christian Vogelgsang\n"
+                               "               Copyright (c) 2007-2009 Fabrizio Gennari\n"
+                               "                  Copyright (c) 2007-2009 M. Kiesel\n"
+                               "                 Copyright (c) 2007-2009 Hannu Nuotio\n"
+                               "                Copyright (c) 2007-2009 Daniel Kahlin\n"
+                               "               Copyright (c) 2008-2009 Antti S. Lankila\n"
+                               "                Copyright (c) 1999-2007 Andreas Dehmel\n"
+                               "                 Copyright (c) 1999-2005 Thomas Bretz\n"
+                               "                 Copyright (c) 2003-2005 David Hansel\n"
+                               "                Copyright (c) 2000-2004 Markus Brenner\n"
+                               "\n"
+                               "                       Official VICE homepage:\n"
+                               "                       http://www.viceteam.org/\n"
 #ifdef UNSTABLE
-            "",
-            "WARNING: this is an *unstable* test version!",
-            "Please check out the homepage for the latest updates.",
+                               "\n"
+                               "             WARNING: this is an *unstable* test version!\n"
+                               "        Please check out the homepage for the latest updates.\n"
 #endif
-            ""
-        };
-        int num_items = sizeof(str_list) / sizeof(*str_list);
-        tui_area_t backing_store = NULL;
-        int height, width;
-        int y, x, i;
-
-        for (width = i = 0; i < num_items; i++) {
-            int l = strlen(str_list[i]);
-            if (l > width) {
-                width = l;
-            }
-        }
-        width += 4;
-        height = num_items + 2;
-        x = CENTER_X(width);
-        y = CENTER_Y(height);
-
-        tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK, "About VICE", &backing_store);
-        tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
-        for (i = 0; i < num_items; i++) {
-            tui_display(CENTER_X(strlen(str_list[i])), y + i + 1, 0, "%s", str_list[i]);
-        }
-
-        getkey();
-
-        tui_area_put(backing_store, x, y);
-        tui_area_free(backing_store);
+                               "\n";
+        tui_view_text(70, 20, NULL, str_list);
     }
     return NULL;
 }
