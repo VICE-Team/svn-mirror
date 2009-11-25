@@ -352,6 +352,7 @@ static tui_menu_item_def_t special_menu_items[] = {
       "Enable RAM expansion block at address $A000-$BFFF",
       toggle_RAMBlock5_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
     { NULL }
 };
 
@@ -415,18 +416,95 @@ static tui_menu_item_def_t rom_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+
+static tui_menu_item_def_t final_expansion_menu_items[] = {
+    { "_Enable write-back to cart file:", "Enable write-back to cart file",
+      toggle_FinalExpansionWriteBack_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+TUI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
+
+static TUI_MENU_CALLBACK(megacart_nvram_image_file_callback)
+{
+    char s[256];
+    const char *v;
+
+    if (been_activated) {
+
+        *s = '\0';
+
+        if (tui_input_string("Change Mega-Cart nvram image name", "New image name:", s, 255) == -1) {
+            return NULL;
+        }
+
+        if (*s == '\0') {
+            return NULL;
+        }
+
+        resources_set_string("MegaCartNvRAMfilename", s);
+    }
+
+    resources_get_string("MegaCartNvRAMfilename", &v);
+    return v;
+}
+
+static tui_menu_item_def_t megacart_menu_items[] = {
+    { "_Enable write-back to Mega-Cart nvram:", "Enable write-back to nvram file",
+      toggle_MegaCartNvRAMWriteBack_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Mega-Cart nvram _image file:", "Select the Mega-Cart nvram image file",
+      megacart_nvram_image_file_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 int vic20ui_init(void)
 {
+    tui_menu_t ui_ioextensions_submenu;
+    tui_menu_t ui_final_expansion_submenu;
+    tui_menu_t ui_megacart_submenu;
+
     ui_create_main_menu(1, 1, 1, 1, 1);
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
 
-    uilightpen_init(ui_special_submenu);
-    uisidcart_init(ui_special_submenu, "$9800", "$9C00", "VIC20");
+    ui_ioextensions_submenu = tui_menu_create("I/O Extensions", 1);
+
+    tui_menu_add_submenu(ui_special_submenu, "_I/O Extensions...",
+                         "I/O Extensions",
+                         ui_ioextensions_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    uilightpen_init(ui_ioextensions_submenu);
+    uisidcart_init(ui_ioextensions_submenu, "$9800", "$9C00", "VIC20");
+
+    ui_final_expansion_submenu = tui_menu_create("Final Expansion settings", 1);
+
+    tui_menu_add(ui_final_expansion_submenu, final_expansion_menu_items);
+
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_Final Expansions settings...",
+                         "Final Expansion settings",
+                         ui_final_expansion_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    ui_megacart_submenu = tui_menu_create("Mega-Cart settings", 1);
+
+    tui_menu_add(ui_megacart_submenu, megacart_menu_items);
+
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_Mega-Cart settings...",
+                         "Mega-Cart settings",
+                         ui_megacart_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
     tui_menu_add(ui_video_submenu, vic_menu_items);
