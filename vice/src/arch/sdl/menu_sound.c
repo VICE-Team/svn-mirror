@@ -229,6 +229,12 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"midas" },
 #endif
+#ifdef USE_PULSE
+    { "PulseAudio",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundDeviceName_callback,
+      (ui_callback_data_t)"pulse" },
+#endif
 #ifdef USE_SDL_AUDIO
     { "SDL",
       MENU_ENTRY_RESOURCE_RADIO,
