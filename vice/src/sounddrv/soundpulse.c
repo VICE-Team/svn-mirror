@@ -49,7 +49,7 @@ static int pulsedrv_init(const char *param, int *speed,
 
     const pa_buffer_attr attr = {
         .maxlength = (uint32_t) -1,
-        .tlength = *fragsize * *fragnr,
+        .tlength = *fragsize * *fragnr * 2,
         .prebuf = (uint32_t) -1,
         .minreq = (uint32_t) -1,
         .fragsize = (uint32_t) -1,
