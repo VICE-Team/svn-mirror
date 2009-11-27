@@ -306,13 +306,13 @@ float FilterFP::clock(float voice1,
 
         /* output strip mixing to filter state */
         if (hp_bp_lp & 1) {
-            Vlp += (Vf - Vlp) * intermixing_leaks;
+            Vlp += Vf * intermixing_leaks;
         }
         if (hp_bp_lp & 2) {
-            Vbp += (Vf - Vbp) * intermixing_leaks;
+            Vbp += Vf * intermixing_leaks;
         }
         if (hp_bp_lp & 4) {
-            Vhp += (Vf - Vhp) * intermixing_leaks;
+            Vhp += Vf * intermixing_leaks;
         }
 
         Vf *= volf;
