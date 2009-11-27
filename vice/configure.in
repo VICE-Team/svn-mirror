@@ -60,6 +60,7 @@ AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain
 AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
 AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
 AC_ARG_WITH(arts, [  --with-arts             use aRts sound system])
+AC_ARG_WITH(pulse, [  --with-pulse            use pulseaudio sound system])
 AC_ARG_WITH(esd, [  --without-esd           do not use the Enlightened Sound Daemon system])
 AC_ARG_WITH(alsa, [  --without-alsa          do not use the ALSA sound system])
 AC_ARG_WITH(oss, [  --without-oss           do not use the OSS sound system])
@@ -1655,6 +1656,13 @@ dnl ----- Sound Drivers -----
 if test x"$is_unix" = "xyes"; then
   AC_CHECK_HEADERS(cwsid.h, AC_DEFINE(HAVE_CATWEASELMKIII,,
                    [Support for Catweasel MKIII.]), )
+
+  if test x"$with_pulse" == "xyes"; then
+    AC_CHECK_HEADERS(pulse/simple.h,[AC_CHECK_LIB(pulse-simple, pa_simple_new,
+                     [SOUND_DRIVERS="$SOUND_DRIVERS soundpulse.o";
+                      SOUND_LIBS="$SOUND_LIBS -lpulse-simple";
+                      AC_DEFINE(USE_PULSE,,[Enable pulseaudio support.])],,$SOUND_LIBS)])
+  fi
 
   if test x"$with_arts" = "xyes"; then
     old_cflags=$CFLAGS

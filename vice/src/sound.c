@@ -1177,6 +1177,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef USE_SDL_AUDIO
     sound_init_sdl_device();
 #endif
+#ifdef USE_PULSE
+    sound_init_pulse_device();
+#endif
 #ifdef USE_ARTS
     sound_init_arts_device();
 #endif
