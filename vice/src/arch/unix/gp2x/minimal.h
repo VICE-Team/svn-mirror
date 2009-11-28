@@ -37,19 +37,19 @@
 #define MINILIB_VERSION  "GP2X minimal library v0.A by rlyeh, (c) 2005."
 
 typedef struct gp2x_queue {
-    volatile unsigned long head,
-    volatile unsigned long tail,
-    volatile unsigned long items,
+    volatile unsigned long head;
+    volatile unsigned long tail;
+    volatile unsigned long items;
     volatile unsigned long max_items;
-    unsigned long *place920t,
+    unsigned long *place920t;
     unsigned long *place940t;
 } gp2x_queue;
 
 typedef struct gp2x_rect {
-    int x,
-    int y,
-    int w,
-    int h,
+    int x;
+    int y;
+    int w;
+    int h;
     int solid;
     unsigned short *data15;
     unsigned char *data8;

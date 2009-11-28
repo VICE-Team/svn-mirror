@@ -518,6 +518,7 @@ void gp2x_dualcore_pause(int yes)
     } else {
         gp2x_memregs[0x0904 >> 1] |= 1;
     }
+}
 
 static void gp2x_940t_reset(int yes)
 {
