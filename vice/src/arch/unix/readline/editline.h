@@ -64,7 +64,7 @@ extern void rl_initialize(void);
 extern char *readline(CONST char *prompt);
 extern void add_history(const char *p);
 
-#ifndef HAVE_STDLIB_H
+#ifndef HAVE_STDLIB
 extern char *getenv();
 extern char *malloc();
 extern char *realloc();
@@ -77,4 +77,4 @@ extern char *strdup();
 extern int strcmp();
 extern int strlen();
 extern int strncmp();
-#endif  /* !defined(HAVE_STDLIB_H) */
+#endif  /* !defined(HAVE_STDLIB) */
