@@ -40,7 +40,7 @@
 #define USE_MITSHM 1
 
 /* Do we want to enable the ReSID code support?  */
-#if defined(__X64___ || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64___) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
 #define HAVE_RESID 1
 #endif
 
@@ -112,3 +112,4 @@
 #define HAVE_REGEXP_H   1   /* Define if you have the <regexp.h> header file.   */
 #define HAVE_SYS_TIME_H 1   /* Define if you have the <sys/time.h> header file. */
 #define HAVE_GETCWD     1
+

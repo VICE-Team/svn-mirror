@@ -29,7 +29,6 @@
 #include <limits.h>
 
 #ifdef __IBMC__
-#define inline _Inline  // This means only a possible inline. See doku.
 #define getcwd _getcwd
 #define F_OK 0
 #define W_OK 2

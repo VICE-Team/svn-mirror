@@ -25,6 +25,8 @@
  *
  */
 
+#include "vice.h"
+
 #define mycpu           maincpu
 #define myclk           maincpu_clk
 #define mycpu_rmw_flag  maincpu_rmw_flag

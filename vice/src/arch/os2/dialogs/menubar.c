@@ -644,7 +644,29 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
        case IDM_DTV3:
             resources_set_int("DtvRevision", 3);
             return;
+        case IDM_C64DTV_HUMMER_ADC:
+            toggle("HummerADC");
+            return;
 #endif
+
+        case IDM_AUTOSTART_WARP:
+            toggle("AutostartWarp");
+            return;
+        case IDM_RUN_WITH_COLON:
+            toggle("AutostartRunWithColon");
+            return;
+        case IDM_AUTOSTART_PRG_VIRTUAL_FS:
+            resources_set_int("AutostartPrgMode", 0);
+            return;
+        case IDM_AUTOSTART_PRG_INJECT:
+            resources_set_int("AutostartPrgMode", 1);
+            return;
+        case IDM_AUTOSTART_PRG_DISK_IMAGE:
+            resources_set_int("AutostartPrgMode", 2);
+            return;
+        case IDM_AUTOSTART_DISK_FILE:
+            resources_set_string("AutostartPrgDiskImage", ViceFileSelect(hwnd, 1));
+            return;
 
 #ifdef __XPET__
         case IDM_PETREU:
@@ -896,6 +918,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SYNCEXACT:
             resources_set_int("SoundSpeedAdjustment", idm - IDM_SYNCFLEX);
             return;
+        case IDM_FRAGSMALL:
+            resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_SMALL);
+            return;
+        case IDM_FRAGMEDIUM:
+            resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_MEDIUM);
+            return;
+        case IDM_FRAGLARGE:
+            resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_LARGE);
+            return;
         case IDM_SR8000:
             resources_set_int("SoundSampleRate", 8000);
             return;
@@ -1073,6 +1104,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #ifdef HAS_JOYSTICK
         case IDM_JOYSTICK:
             joystick_dialog(hwnd);
+            return;
+        case IDM_ALLOW_OPPOSITE_JOY:
+            toggle("JoyOpposite");
             return;
 #endif
 
@@ -1328,6 +1362,12 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_CRTC, "Crtc");
 #endif // __XPET__
 
+            WinCheckRes(hwnd, IDM_AUTOSTART_WARP, "AutostartWarp");
+            WinCheckRes(hwnd, IDM_RUN_WITH_COLON, "AutostartRunWithColon");
+            resources_get_int("AutostartPrgMode", &val);
+            WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_VIRTUAL_FS, val == 0);
+            WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_INJECT, val == 1);
+            WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_DISK_IMAGE, val == 2);
             return;
 
 #if defined(HAVE_MOUSE) && (defined(__X64__) || defined(__X128__))
@@ -1590,6 +1630,12 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_SYNCFLEX, val == SOUND_ADJUST_FLEXIBLE);
             WinCheckMenuItem(hwnd, IDM_SYNCADJUST, val == SOUND_ADJUST_ADJUSTING);
             WinCheckMenuItem(hwnd, IDM_SYNCEXACT,  val == SOUND_ADJUST_EXACT);
+            return;
+        case IDM_SOUNDFRAG:
+            resources_get_int("SoundFragmentSize", &val);
+            WinCheckMenuItem(hwnd, IDM_FRAGSMALL, val == SOUND_FRAGMENT_SMALL);
+            WinCheckMenuItem(hwnd, IDM_FRAGMEDIUM, val == SOUND_FRAGMENT_MEDIUM);
+            WinCheckMenuItem(hwnd, IDM_FRAGLARGE,  val == SOUND_FRAGMENT_LARGE);
             return;
         case IDM_SAMPLINGRATE:
             resources_get_int("SoundSampleRate", &val);

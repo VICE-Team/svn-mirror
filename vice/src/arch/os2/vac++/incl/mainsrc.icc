@@ -2,6 +2,7 @@ source type(c)
     "alarm.c",
     "attach.c",
     "autostart.c",
+    "autostart-prg.c",
     "cbmdos.c",
     "cbmimage.c",
     "clkguard.c",

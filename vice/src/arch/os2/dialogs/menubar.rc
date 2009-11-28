@@ -91,6 +91,7 @@ BEGIN
             MENUITEM "DTV~2",                             IDM_DTV2,                     MIS_TEXT
             MENUITEM "DTV~3",                             IDM_DTV3,                     MIS_TEXT
         END
+        MENUITEM "Enable Hummer ADC",                     IDM_C64DTV_HUMMER_ADC,        MIS_TEXT
 #endif
 
         SUBMENU "~Fliplist",                              IDM_FLIPLIST,                 MIS_TEXT
@@ -133,7 +134,7 @@ BEGIN
 #endif
 
         MENUITEM "~Joystick Setup\tAlt-J",                IDM_JOYSTICK,                 MIS_TEXT
-
+        MENUITEM "Allow opposite joystick directions",    IDM_ALLOW_OPPOSITE_JOY,       MIS_TEXT
 #if !defined __X64DTV__
         MENUITEM "Datasette ~Control\tAlt-C",             IDM_DATASETTE,                MIS_TEXT
 #endif
@@ -230,6 +231,18 @@ BEGIN
 #endif // __X64__ || __X128__
 
         MENUITEM SEPARATOR
+        SUBMENU "Autostart settings",                     IDM_AUTOSTART_SETTINGS,       MIS_TEXT
+        BEGIN
+            MENUITEM "Autostart warp",                    IDM_AUTOSTART_WARP,           MIS_TEXT
+            MENUITEM "Run with ':'",                      IDM_RUN_WITH_COLON,           MIS_TEXT
+                SUBMENU "Autostart PRG mode",             IDM_AUTOSTART_PRG_MODE,       MIS_TEXT
+                BEGIN
+                    MENUITEM "Virtual FS",                IDM_AUTOSTART_PRG_VIRTUAL_FS, MIS_TEXT
+                    MENUITEM "Inject",                    IDM_AUTOSTART_PRG_INJECT,     MIS_TEXT
+                    MENUITEM "Disk Image",                IDM_AUTOSTART_PRG_DISK_IMAGE, MIS_TEXT
+                END
+            MENUITEM "Autostart Disk Image Filename",     IDM_AUTOSTART_DISK_FILE,      MIS_TEXT
+        END
         SUBMENU "Printer ~Emulation",                     IDM_PRINTER,                  MIS_TEXT
         BEGIN
             SUBMENU "IEC Device #~4",                     IDM_PRINTER4,                 MIS_TEXT
@@ -617,6 +630,12 @@ BEGIN
             MENUITEM "~Flexible",                         IDM_SYNCFLEX,                 MIS_TEXT
             MENUITEM "~Adjusting",                        IDM_SYNCADJUST,               MIS_TEXT
             MENUITEM "~Exact",                            IDM_SYNCEXACT,                MIS_TEXT
+        END
+        SUBMENU "~Fragment Size",                         IDM_SOUNDFRAG,                MIS_TEXT
+        BEGIN
+            MENUITEM "~Flexible",                         IDM_FRAGSMALL,                MIS_TEXT
+            MENUITEM "~Adjusting",                        IDM_FRAGMEDIUM,               MIS_TEXT
+            MENUITEM "~Exact",                            IDM_FRAGLARGE,                MIS_TEXT
         END
         SUBMENU "Output ~Device",                         IDM_SOUNDDEV,                 MIS_TEXT
         BEGIN

@@ -148,7 +148,7 @@ int yyparse (void);
 #undef vfork
 #endif
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#if (defined(__BEOS__) && defined(WORDS_BIGENDIAN)) || defined(__OS2__)
 #ifndef __cplusplus
 #undef inline
 #define inline

@@ -41,6 +41,7 @@
 #define IDM_EMULATOR                 0x109
 #define IDM_DRIVE                    0x10a
 #define IDM_JOYSTICK                 0x10b
+#define IDM_ALLOW_OPPOSITE_JOY       0x1ca
 #define IDM_DATASETTE                0x10c
 #define IDM_LOGWIN                   0x10d
 #define IDM_COLOR                    0x10e
@@ -50,6 +51,7 @@
 #define IDM_SIDCHIP                  0x111
 #define IDM_SAMPLINGRATE             0x113
 #define IDM_SOUNDSYNC                0x114
+#define IDM_SOUNDFRAG                0x1c6
 #define IDM_SOUNDDEV                 0x115
 #define IDM_VDCMEMORY                0x116
 #define IDM_VIDEOSTD                 0x117
@@ -109,6 +111,15 @@
 #define IDM_NTSC                     0x147
 #define IDM_NTSCOLD                  0x148
 
+#define IDM_AUTOSTART_SETTINGS       0x1aa
+#define IDM_AUTOSTART_WARP           0x1ab
+#define IDM_RUN_WITH_COLON           0x1ac
+#define IDM_AUTOSTART_PRG_MODE       0x1ad
+#define IDM_AUTOSTART_PRG_VIRTUAL_FS 0x1ae
+#define IDM_AUTOSTART_PRG_INJECT     0x1af
+#define IDM_AUTOSTART_PRG_DISK_IMAGE 0x1b0
+#define IDM_AUTOSTART_DISK_FILE      0x1c5
+
 #define IDM_C64DTV_FLASHROM_ATTACH   0x1a4
 #define IDM_C64DTV_FLASHROM_DETACH   0x1a5
 #define IDM_C64DTV_FLASHROM_RW       0x1a6
@@ -116,6 +127,8 @@
 #define IDM_C64DTV_REVISION          0x1a7
 #define IDM_DTV2                     0x1a8
 #define IDM_DTV3                     0x1a9
+
+#define IDM_C64DTV_HUMMER_ADC        0x1cb
 
 #define IDM_REU                      0x149
 #define IDM_REUSIZE                  0x150
@@ -286,6 +299,10 @@
 #define IDM_SYNCFLEX                 0x198
 #define IDM_SYNCADJUST               0x199
 #define IDM_SYNCEXACT                0x19a
+
+#define IDM_FRAGSMALL                0x1c7
+#define IDM_FRAGMEDIUM               0x1c8
+#define IDM_FRAGLARGE                0x1c9
 
 #define IDM_BUF010                   0x202
 #define IDM_BUF025                   0x205
