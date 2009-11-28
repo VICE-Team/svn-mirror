@@ -63,10 +63,10 @@ void gtk_lightpen_update(void)
     
     if (c && lightpen_enabled)  {
 
-        gdk_pointer_grab(c->emuwindow->window, 1, 
-			 GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | 
-			 GDK_BUTTON_RELEASE_MASK, 
-			 c->emuwindow->window, cursor, GDK_CURRENT_TIME);
+        //gdk_pointer_grab(c->emuwindow->window, 1, 
+	//		 GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | 
+	//		 GDK_BUTTON_RELEASE_MASK, 
+	//		 c->emuwindow->window, cursor, GDK_CURRENT_TIME);
 	gdk_display_get_window_at_pointer(
 	    gtk_widget_get_display(c->emuwindow), &x, &y);
 	gdk_drawable_get_size(c->emuwindow->window, &w, &h);
@@ -84,7 +84,7 @@ void gtk_lightpen_update(void)
 	/* fixme for X128/VICII, first parameter to select canvas */
 	lightpen_update(c->app_shell, x, y, buttons);
     } else {
-        gdk_pointer_ungrab(GDK_CURRENT_TIME);
+        //gdk_pointer_ungrab(GDK_CURRENT_TIME);
 	buttons = 0;
     }
 }
