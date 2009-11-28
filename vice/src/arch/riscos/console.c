@@ -144,9 +144,7 @@ char *console_in(console_t *log, const char *prompt)
         do {
             ui_poll_core(WimpCmdBlock);
             cmd = ui_message_window_get_last_command(msg_win_monitor);
-        }
-        while (cmd == NULL) {
-        }
+        } while (cmd == NULL);
         p = lib_malloc(wimp_strlen(cmd) + 1);
         wimp_strcpy(p, cmd);
         ui_message_window_busy(msg_win_monitor, 1);

@@ -62,7 +62,7 @@ extern void rl_add_slash(char *path, char *p);
 extern void rl_reset_terminal(char *p);
 extern void rl_initialize(void);
 extern char *readline(CONST char *prompt);
-extern void add_history(char *p);
+extern void add_history(const char *p);
 
 #ifndef HAVE_STDLIB_H
 extern char *getenv();

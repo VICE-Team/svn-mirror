@@ -1487,7 +1487,7 @@ void canvas_next_active(int moveCaret)
     }
 
     while (clist != NULL) {
-        if (clist->canvas == ActiveCanvas) [
+        if (clist->canvas == ActiveCanvas) {
             break;
         }
         clist = clist->next;

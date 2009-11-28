@@ -977,7 +977,7 @@ static void ui_display_sound_enable(int state)
     wimp_window_set_icon_state(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_SoundOn, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
 
     ui_set_icons_grey(NULL, SoundDependentIcons, state);
-    if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C128) || (machine_class == VICE_MACHINE_CBM5x0) || (machine_class == VICE_MACHINE_CBM6x0) {
+    if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C128) || (machine_class == VICE_MACHINE_CBM5x0) || (machine_class == VICE_MACHINE_CBM6x0)) {
         ui_set_icons_grey(NULL, SidDependentIcons, state);
     }
 
@@ -1944,7 +1944,7 @@ static void ui_safe_exit(void)
         }
     }
 
-    sound_close();*/
+    sound_close();
 
     archdep_closedown();
 }
@@ -2608,7 +2608,7 @@ static int ui_set_resource_select(const char *name, conf_iconid_t *id)
 
 void ui_show_emu_scale(void)
 {
-    if (ActiveCanvas == NULL) 
+    if (ActiveCanvas == NULL) {
         return;
     }
 
@@ -3920,68 +3920,68 @@ static void ui_menu_selection(int *b)
 
     if ((LastMenu == Menu_IBar) || (LastMenu == Menu_Emulator) || (LastMenu == Menu_Images) || (LastMenu == Menu_CreateDisc)) {
         int confWindow = -1;
-    }
 
-    if (LastMenu == Menu_IBar) {
-        confWindow = ui_menu_select_ibar(b, &menu);
-    } else if (LastMenu == Menu_Emulator) {
-        confWindow = ui_menu_select_emuwin(b, &menu);
-    } else if (LastMenu == Menu_Images) {
-        menu = (MenuFlipImages == NULL) ? (int*)&MenuFlipImageTmpl : (int*)MenuFlipImages;
-        ui_images_menu_selection(b);
-    } else if (LastMenu == Menu_CreateDisc) {
-        menu = (int*)&MenuCreateDiscType;
-        ui_set_create_image_type(b[0]);
-    }
-
-    if (confWindow >= 0) {
-        confWindow = -1;
-        switch (b[1]) {
-            case Menu_Config_Drives:
-                confWindow = CONF_WIN_DRIVES;
-                break;
-            case Menu_Config_Tape:
-                confWindow = CONF_WIN_TAPE;
-                break;
-            case Menu_Config_Devices:
-                confWindow = CONF_WIN_DEVICES;
-                break;
-            case Menu_Config_Sound:
-                confWindow = CONF_WIN_SOUND;
-                break;
-            case Menu_Config_System:
-                confWindow = CONF_WIN_SYSTEM;
-                break;
-            case Menu_Config_Video:
-                confWindow = CONF_WIN_VIDEO;
-                break;
-            case Menu_Config_Joystick:
-                confWindow = CONF_WIN_JOY;
-                break;
-            case Menu_Config_Machine:
-                if (machine_class == VICE_MACHINE_PET) {
-                    confWindow = CONF_WIN_PET;
-                } else if (machine_class == VICE_MACHINE_VIC20) {
-                    confWindow = CONF_WIN_VIC;
-                } else if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
-                    confWindow = CONF_WIN_CBM2;
-                } else if (machine_class == VICE_MACHINE_C128) {
-                    confWindow = CONF_WIN_C128;
-                }
-                break;
-            case Menu_Config_Save:
-                resources_save(NULL);
-                break;
-            case Menu_Config_Reload:
-                resources_load(NULL);
-                ui_update_config_windows();
-                break;
-            default:
-                break;
+        if (LastMenu == Menu_IBar) {
+            confWindow = ui_menu_select_ibar(b, &menu);
+        } else if (LastMenu == Menu_Emulator) {
+            confWindow = ui_menu_select_emuwin(b, &menu);
+        } else if (LastMenu == Menu_Images) {
+            menu = (MenuFlipImages == NULL) ? (int*)&MenuFlipImageTmpl : (int*)MenuFlipImages;
+            ui_images_menu_selection(b);
+        } else if (LastMenu == Menu_CreateDisc) {
+            menu = (int*)&MenuCreateDiscType;
+            ui_set_create_image_type(b[0]);
         }
 
         if (confWindow >= 0) {
-            ui_open_config_window(confWindow);
+            confWindow = -1;
+            switch (b[1]) {
+                case Menu_Config_Drives:
+                    confWindow = CONF_WIN_DRIVES;
+                    break;
+                case Menu_Config_Tape:
+                    confWindow = CONF_WIN_TAPE;
+                    break;
+                case Menu_Config_Devices:
+                    confWindow = CONF_WIN_DEVICES;
+                    break;
+                case Menu_Config_Sound:
+                    confWindow = CONF_WIN_SOUND;
+                    break;
+                case Menu_Config_System:
+                    confWindow = CONF_WIN_SYSTEM;
+                    break;
+                case Menu_Config_Video:
+                    confWindow = CONF_WIN_VIDEO;
+                    break;
+                case Menu_Config_Joystick:
+                    confWindow = CONF_WIN_JOY;
+                    break;
+                case Menu_Config_Machine:
+                    if (machine_class == VICE_MACHINE_PET) {
+                        confWindow = CONF_WIN_PET;
+                    } else if (machine_class == VICE_MACHINE_VIC20) {
+                        confWindow = CONF_WIN_VIC;
+                    } else if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
+                        confWindow = CONF_WIN_CBM2;
+                    } else if (machine_class == VICE_MACHINE_C128) {
+                        confWindow = CONF_WIN_C128;
+                    }
+                    break;
+                case Menu_Config_Save:
+                    resources_save(NULL);
+                    break;
+                case Menu_Config_Reload:
+                    resources_load(NULL);
+                    ui_update_config_windows();
+                    break;
+                default:
+                    break;
+            }
+
+            if (confWindow >= 0) {
+                ui_open_config_window(confWindow);
+            }
         }
     }
 

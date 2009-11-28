@@ -235,7 +235,7 @@ int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
     }
 
     /* always pass the actual speed unless in reSID mode */
-    frame_delay = sound_flush(RelativeSpeed);
+    frame_delay = sound_flush();
 
     if (frame_counter >= refresh_frequency * 2) {
         num_skipped_frames = 0;

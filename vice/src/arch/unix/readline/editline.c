@@ -966,7 +966,7 @@ char *readline(CONST char *prompt)
     return (char *)line;
 }
 
-void add_history(char *p)
+void add_history(const char *p)
 {
     if (p == NULL || *p == '\0') {
         return;
