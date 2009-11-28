@@ -935,7 +935,6 @@ double sound_flush()
     }
 
     if (warp_mode_enabled 
-        && snddata.playdev->bufferspace != NULL
         && snddata.recdev == NULL) {
         snddata.bufptr = 0;
         return 0;
