@@ -688,7 +688,9 @@
     // VirtaulDevices
     [virtualDevicesMenuItem setState:[self getIntResource:@"VirtualDevices"]];
     // EmuID
-    [emuIDMenuItem setState:[self getIntResource:@"EmuID"]];
+    if(emuIDMenuItem != nil) {
+        [emuIDMenuItem setState:[self getIntResource:@"EmuID"]];
+    }
     // KeySetEnable
     [keySetEnableMenuItem setState:[self getIntResource:@"KeySetEnable"]];
 

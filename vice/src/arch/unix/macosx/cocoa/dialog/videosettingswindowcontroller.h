@@ -30,6 +30,10 @@
 
 @interface VideoSettingsWindowController : VICEResourceWindowController
 {
+    IBOutlet NSTabViewItem *colorTab;
+    IBOutlet NSTabViewItem *palEmuTab;
+    IBOutlet NSTabViewItem *paletteTab;
+    
     IBOutlet NSSlider *saturationSlider;
     IBOutlet NSSlider *contrastSlider;
     IBOutlet NSSlider *brightnessSlider;
@@ -51,8 +55,26 @@
     IBOutlet NSTextField *oddLineOffsetText;
 
     IBOutlet NSButton      *palette1Toggle;
+    IBOutlet NSTextField   *palette1Label;
     IBOutlet NSPopUpButton *palette1Popup;
     IBOutlet NSButton      *palette1Pick;
+
+    IBOutlet NSButton      *palette2Toggle;
+    IBOutlet NSTextField   *palette2Label;
+    IBOutlet NSPopUpButton *palette2Popup;
+    IBOutlet NSButton      *palette2Pick;
+    
+    BOOL hasColorTab;
+    BOOL hasPALEmuTab;
+    
+    const char **palette1Entries;
+    const char **palette2Entries;
+    NSString *chip1Title;
+    NSString *chip1File;
+    NSString *chip1Ext;
+    NSString *chip2Title;
+    NSString *chip2File;
+    NSString *chip2Ext;
 }
 
 -(void)updateResources:(NSNotification *)notification;
@@ -81,5 +103,9 @@
 -(IBAction)togglePalette1:(id)sender;
 -(IBAction)popupPalette1:(id)sender;
 -(IBAction)pickPalette1:(id)sender;
+
+-(IBAction)togglePalette2:(id)sender;
+-(IBAction)popupPalette2:(id)sender;
+-(IBAction)pickPalette2:(id)sender;
 
 @end

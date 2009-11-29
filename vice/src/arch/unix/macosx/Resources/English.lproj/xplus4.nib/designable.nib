@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="467"/>
+			<integer value="402"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1073,7 +1073,7 @@
 								</object>
 								<object class="NSMenuItem" id="78481690">
 									<reference key="NSMenu" ref="484288457"/>
-									<string key="NSTitle">VIC</string>
+									<string key="NSTitle">TED</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1081,7 +1081,7 @@
 									<reference key="NSMixedImage" ref="550278490"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="242262938">
-										<string key="NSTitle">VIC</string>
+										<string key="NSTitle">TED</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSMenuItem" id="95178317">
@@ -1242,43 +1242,6 @@
 									<reference key="NSMenu" ref="484288457"/>
 									<string key="NSTitle">Allow Keyset Joystick</string>
 									<string key="NSKeyEquiv">k</string>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
-								<object class="NSMenuItem" id="816355159">
-									<reference key="NSMenu" ref="484288457"/>
-									<string key="NSTitle">Paddle Emulation</string>
-									<string key="NSKeyEquiv">m</string>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
-								<object class="NSMenuItem" id="1055230954">
-									<reference key="NSMenu" ref="484288457"/>
-									<string key="NSTitle">Lightpen Emulation</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
-								<object class="NSMenuItem" id="694700599">
-									<reference key="NSMenu" ref="484288457"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
-								<object class="NSMenuItem" id="700203116">
-									<reference key="NSMenu" ref="484288457"/>
-									<string key="NSTitle">Emulator Identification</string>
-									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="645750970"/>
@@ -2343,38 +2306,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleMouseEmulation:</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="816355159"/>
-					</object>
-					<int key="connectionID">586</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">mouseEmulationMenuItem</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="816355159"/>
-					</object>
-					<int key="connectionID">587</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">emuIDMenuItem</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="700203116"/>
-					</object>
-					<int key="connectionID">588</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleEmuID:</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="700203116"/>
-					</object>
-					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">showIECDriveSettings:</string>
 						<reference key="source" ref="44981142"/>
 						<reference key="destination" ref="846139232"/>
@@ -2708,22 +2639,6 @@
 						<reference key="destination" ref="95178317"/>
 					</object>
 					<int key="connectionID">742</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">lightPenEmulationMenuItem</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="1055230954"/>
-					</object>
-					<int key="connectionID">745</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleLightPenEmulation:</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="1055230954"/>
-					</object>
-					<int key="connectionID">746</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3413,18 +3328,14 @@
 							<reference ref="838435639"/>
 							<reference ref="380733673"/>
 							<reference ref="766022957"/>
-							<reference ref="694700599"/>
 							<reference ref="58463376"/>
 							<reference ref="550494636"/>
 							<reference ref="581805058"/>
 							<reference ref="781856874"/>
 							<reference ref="773341808"/>
 							<reference ref="347283401"/>
-							<reference ref="700203116"/>
-							<reference ref="816355159"/>
 							<reference ref="78481690"/>
 							<reference ref="835367572"/>
-							<reference ref="1055230954"/>
 						</object>
 						<reference key="parent" ref="514097385"/>
 					</object>
@@ -3597,11 +3508,6 @@
 						<reference key="parent" ref="484288457"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">460</int>
-						<reference key="object" ref="694700599"/>
-						<reference key="parent" ref="484288457"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">461</int>
 						<reference key="object" ref="58463376"/>
 						<reference key="parent" ref="484288457"/>
@@ -3653,16 +3559,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">469</int>
 						<reference key="object" ref="347283401"/>
-						<reference key="parent" ref="484288457"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">470</int>
-						<reference key="object" ref="700203116"/>
-						<reference key="parent" ref="484288457"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">471</int>
-						<reference key="object" ref="816355159"/>
 						<reference key="parent" ref="484288457"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3936,11 +3832,6 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Plus4Controller</string>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">743</int>
-						<reference key="object" ref="1055230954"/>
-						<reference key="parent" ref="484288457"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4166,8 +4057,6 @@
 					<string>458.ImportedFromIB2</string>
 					<string>459.IBPluginDependency</string>
 					<string>459.ImportedFromIB2</string>
-					<string>460.IBPluginDependency</string>
-					<string>460.ImportedFromIB2</string>
 					<string>461.IBPluginDependency</string>
 					<string>461.ImportedFromIB2</string>
 					<string>462.IBPluginDependency</string>
@@ -4185,10 +4074,6 @@
 					<string>468.ImportedFromIB2</string>
 					<string>469.IBPluginDependency</string>
 					<string>469.ImportedFromIB2</string>
-					<string>470.IBPluginDependency</string>
-					<string>470.ImportedFromIB2</string>
-					<string>471.IBPluginDependency</string>
-					<string>471.ImportedFromIB2</string>
 					<string>472.IBPluginDependency</string>
 					<string>472.ImportedFromIB2</string>
 					<string>473.IBEditorWindowLastContentRect</string>
@@ -4312,8 +4197,6 @@
 					<string>717.ImportedFromIB2</string>
 					<string>725.IBPluginDependency</string>
 					<string>725.ImportedFromIB2</string>
-					<string>743.IBPluginDependency</string>
-					<string>743.ImportedFromIB2</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4474,7 +4357,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{363, 444}, {233, 313}}</string>
+					<string>{{363, 514}, {220, 243}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4482,8 +4365,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>{{435, 464}, {238, 293}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4557,11 +4438,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>{{576, 584}, {163, 103}}</string>
+					<string>{{596, 584}, {163, 103}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4652,8 +4529,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>{{143, 654}, {137, 103}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
