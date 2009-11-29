@@ -32,6 +32,9 @@
 {
     IBOutlet NSSegmentedControl *driveChooser;
 
+    IBOutlet NSBox *idleBox;
+    IBOutlet NSBox *expansionBox;
+
     IBOutlet NSMatrix *driveType;
     IBOutlet NSMatrix *trackHandling;
     IBOutlet NSMatrix *idleMethod;
@@ -46,6 +49,11 @@
     int numDriveTypes;
     int driveOffset;
     int driveCount;
+
+    BOOL hasIEC;
+    BOOL hasParallel;
+    BOOL hasExpansion;
+    BOOL hasIdle;
 }
 
 -(void)updateResources:(NSNotification *)notification;

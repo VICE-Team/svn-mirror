@@ -24,11 +24,13 @@
  *
  */
 
+#include "vice.h"
+#include "drive.h"
+#include "machine.h"
+
 #import "drivesettingswindowcontroller.h"
 #import "viceapplication.h"
 #import "vicenotifications.h"
-
-#include "drive.h"
 
 @implementation DriveSettingsWindowController
 
@@ -50,10 +52,28 @@
         driveTypeMap[i] = map[i];
     }
 
-    // TODO: set emulator dependent
+    // set machine drive setup
     driveOffset = 8;
     driveCount = 4;
-
+    hasIEC = YES;
+    hasParallel = YES;
+    hasExpansion = YES;
+    hasIdle = YES;
+    switch(machine_class) {
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            driveCount = 2;
+            hasIEC = NO;
+            hasParallel = NO;
+            hasExpansion = NO;
+            hasIdle = NO;
+            break;
+        case VICE_MACHINE_VIC20:
+            hasParallel = NO;
+            break;
+    }
+    
     return self;
 }
 
@@ -68,6 +88,17 @@
     }
     [driveChooser setSelectedSegment:0];
     
+    // disable unused UI
+    if(!hasParallel) {
+        [parallelCable removeFromSuperview];
+    }
+    if(!hasExpansion) {
+        [expansionBox removeFromSuperview];
+    }
+    if(!hasIdle) {
+        [idleBox removeFromSuperview];
+    }
+    
     [self updateResources:nil];
     [super windowDidLoad];
 }
@@ -77,8 +108,13 @@
     int trueEmu = [self getIntResource:@"DriveTrueEmulation"];
     int driveId  = [driveChooser selectedSegment];
     int driveNum = driveId + driveOffset;
-    int isIecDrive = [self getIntResource:@"IECDevice%d" withNumber:driveNum];
-    int driveEnabled = trueEmu && !isIecDrive;
+    int driveEnabled;
+    if(hasIEC) {
+        int isIecDrive = [self getIntResource:@"IECDevice%d" withNumber:driveNum];
+        driveEnabled = trueEmu && !isIecDrive;
+    } else {
+        driveEnabled = trueEmu;
+    }
         
     // drive is enabled
     if (driveEnabled) {
@@ -105,55 +141,67 @@
         [trackHandling selectCellAtRow:extendPolicyVal column:0];
 
         // idle method
-        int canIdleMethod = drive_check_idle_method(driveTypeVal);
-        [idleMethod setEnabled:canIdleMethod];
-        int idleMethodVal = [self getIntResource:@"Drive%dIdleMethod" withNumber:driveNum];
-        [idleMethod selectCellAtRow:idleMethodVal column:0];
+        if(hasIdle) {
+            int canIdleMethod = drive_check_idle_method(driveTypeVal);
+            [idleMethod setEnabled:canIdleMethod];
+            int idleMethodVal = [self getIntResource:@"Drive%dIdleMethod" withNumber:driveNum];
+            [idleMethod selectCellAtRow:idleMethodVal column:0];
+        }
 
         // expansion ram
-        int canRam,hasRam;
-        canRam = drive_check_expansion2000(driveTypeVal);
-        [driveExpansion_2000 setEnabled:canRam];
-        hasRam = [self getIntResource:@"Drive%dRAM2000" withNumber:driveNum];
-        [driveExpansion_2000 setState:hasRam];
+        if(hasExpansion) {
+            int canRam,hasRam;
+            canRam = drive_check_expansion2000(driveTypeVal);
+            [driveExpansion_2000 setEnabled:canRam];
+            hasRam = [self getIntResource:@"Drive%dRAM2000" withNumber:driveNum];
+            [driveExpansion_2000 setState:hasRam];
 
-        canRam = drive_check_expansion4000(driveTypeVal);
-        [driveExpansion_4000 setEnabled:canRam];
-        hasRam = [self getIntResource:@"Drive%dRAM4000" withNumber:driveNum];
-        [driveExpansion_4000 setState:hasRam];
+            canRam = drive_check_expansion4000(driveTypeVal);
+            [driveExpansion_4000 setEnabled:canRam];
+            hasRam = [self getIntResource:@"Drive%dRAM4000" withNumber:driveNum];
+            [driveExpansion_4000 setState:hasRam];
 
-        canRam = drive_check_expansion6000(driveTypeVal);
-        [driveExpansion_6000 setEnabled:canRam];
-        hasRam = [self getIntResource:@"Drive%dRAM6000" withNumber:driveNum];
-        [driveExpansion_6000 setState:hasRam];
+            canRam = drive_check_expansion6000(driveTypeVal);
+            [driveExpansion_6000 setEnabled:canRam];
+            hasRam = [self getIntResource:@"Drive%dRAM6000" withNumber:driveNum];
+            [driveExpansion_6000 setState:hasRam];
 
-        canRam = drive_check_expansion8000(driveTypeVal);
-        [driveExpansion_8000 setEnabled:canRam];
-        hasRam = [self getIntResource:@"Drive%dRAM8000" withNumber:driveNum];
-        [driveExpansion_8000 setState:hasRam];
+            canRam = drive_check_expansion8000(driveTypeVal);
+            [driveExpansion_8000 setEnabled:canRam];
+            hasRam = [self getIntResource:@"Drive%dRAM8000" withNumber:driveNum];
+            [driveExpansion_8000 setState:hasRam];
 
-        canRam = drive_check_expansionA000(driveTypeVal);
-        [driveExpansion_A000 setEnabled:canRam];
-        hasRam = [self getIntResource:@"Drive%dRAMA000" withNumber:driveNum];
-        [driveExpansion_A000 setState:hasRam];
+            canRam = drive_check_expansionA000(driveTypeVal);
+            [driveExpansion_A000 setEnabled:canRam];
+            hasRam = [self getIntResource:@"Drive%dRAMA000" withNumber:driveNum];
+            [driveExpansion_A000 setState:hasRam];
+        }
 
-        // select current driv
-        int canParallel = drive_check_parallel_cable(driveTypeVal);
-        [parallelCable setEnabled:canParallel];
-        int parallelCableVal = [self getIntResource:@"Drive%dParallelCable" withNumber:driveNum];
-        [parallelCable setState:parallelCableVal];
+        // select parallel cable
+        if(hasParallel) {
+            int canParallel = drive_check_parallel_cable(driveTypeVal);
+            [parallelCable setEnabled:canParallel];
+            int parallelCableVal = [self getIntResource:@"Drive%dParallelCable" withNumber:driveNum];
+            [parallelCable setState:parallelCableVal];
+        }
 
     } else {
         // disable all controls
         [driveType setEnabled:false];
         [trackHandling setEnabled:false];
-        [driveExpansion_2000 setEnabled:false];
-        [driveExpansion_4000 setEnabled:false];
-        [driveExpansion_6000 setEnabled:false];
-        [driveExpansion_8000 setEnabled:false];
-        [driveExpansion_A000 setEnabled:false];
-        [idleMethod setEnabled:false];
-        [parallelCable setEnabled:false];
+        if(hasIdle) {
+            [idleMethod setEnabled:false];
+        }
+        if(hasExpansion) {
+            [driveExpansion_2000 setEnabled:false];
+            [driveExpansion_4000 setEnabled:false];
+            [driveExpansion_6000 setEnabled:false];
+            [driveExpansion_8000 setEnabled:false];
+            [driveExpansion_A000 setEnabled:false];
+        }
+        if(hasParallel) {
+            [parallelCable setEnabled:false];
+        }
     }
 }
 
