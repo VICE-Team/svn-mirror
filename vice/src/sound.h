@@ -149,7 +149,6 @@ extern int sound_init_midas_device(void);
 extern int sound_init_sdl_device(void);
 extern int sound_init_sgi_device(void);
 extern int sound_init_sun_device(void);
-extern int sound_init_test_device(void); /* XXX: missing */
 extern int sound_init_uss_device(void);
 extern int sound_init_dx_device(void);
 extern int sound_init_ce_device(void);
@@ -168,6 +167,7 @@ extern int sound_init_voc_device(void);
 extern int sound_init_iff_device(void);
 extern int sound_init_aiff_device(void);
 extern int sound_init_mp3_device(void);
+extern int sound_init_pulse_device(void);
 
 /* internal function for sound device registration */
 extern int sound_register_device(sound_device_t *pdevice);
