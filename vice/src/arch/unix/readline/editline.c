@@ -19,7 +19,7 @@
 #define ISMETA(x)    ((x) & 0x80)
 #define UNMETA(x)    ((x) & 0x7F)
 
-#ifdef HIST_SIZE
+#ifndef HIST_SIZE
 #define HIST_SIZE    20
 #endif  /* !defined(HIST_SIZE) */
 

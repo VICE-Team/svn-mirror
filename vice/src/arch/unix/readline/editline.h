@@ -22,6 +22,8 @@
 #include "unix.h"
 #endif  /* defined(SYS_UNIX) */
 
+#define SIZE_T size_t
+
 typedef unsigned char CHAR;
 
 #ifdef HIDE
