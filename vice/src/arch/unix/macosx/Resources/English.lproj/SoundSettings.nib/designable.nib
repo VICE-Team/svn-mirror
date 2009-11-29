@@ -369,9 +369,9 @@
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<object class="NSMenuItem" key="NSMenuItem" id="712440070">
+								<object class="NSMenuItem" key="NSMenuItem" id="15148060">
 									<reference key="NSMenu" ref="367630075"/>
-									<string key="NSTitle">Medium</string>
+									<string key="NSTitle">Small</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -379,7 +379,6 @@
 									<reference key="NSOnImage" ref="191440045"/>
 									<reference key="NSMixedImage" ref="437915816"/>
 									<string key="NSAction">_popUpItemAction:</string>
-									<int key="NSTag">1</int>
 									<reference key="NSTarget" ref="135858947"/>
 								</object>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
@@ -387,18 +386,19 @@
 									<string key="NSTitle">OtherViews</string>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="NSMenuItem" id="15148060">
+										<reference ref="15148060"/>
+										<object class="NSMenuItem" id="712440070">
 											<reference key="NSMenu" ref="367630075"/>
-											<string key="NSTitle">Small</string>
+											<string key="NSTitle">Medium</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
 											<reference key="NSOnImage" ref="191440045"/>
 											<reference key="NSMixedImage" ref="437915816"/>
 											<string key="NSAction">_popUpItemAction:</string>
+											<int key="NSTag">1</int>
 											<reference key="NSTarget" ref="135858947"/>
 										</object>
-										<reference ref="712440070"/>
 										<object class="NSMenuItem" id="362993693">
 											<reference key="NSMenu" ref="367630075"/>
 											<string key="NSTitle">Large</string>
@@ -413,7 +413,6 @@
 										</object>
 									</object>
 								</object>
-								<int key="NSSelectedIndex">1</int>
 								<int key="NSPreferredEdge">1</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
 								<bool key="NSAltersState">YES</bool>
@@ -1025,7 +1024,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{372, 296}, {132, 63}}</string>
+					<string>{{380, 322}, {122, 63}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
