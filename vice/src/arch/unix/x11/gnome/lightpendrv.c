@@ -33,8 +33,8 @@
 #include "uiarch.h"
 #include "videoarch.h"
 
-static GdkCursor *cursor;
-static int buttons;
+static GdkCursor *cursor, *saved_cursor;
+static int buttons, toggle;
 static struct video_canvas_s *c;
 
 void gtk_init_lightpen(void) {
@@ -60,32 +60,34 @@ void gtk_lightpen_update(void)
     int x, y;
     int h, w;
     float fx, fy;
-    
-    if (c && lightpen_enabled)  {
 
-        //gdk_pointer_grab(c->emuwindow->window, 1, 
-	//		 GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | 
-	//		 GDK_BUTTON_RELEASE_MASK, 
-	//		 c->emuwindow->window, cursor, GDK_CURRENT_TIME);
-	gdk_display_get_window_at_pointer(
-	    gtk_widget_get_display(c->emuwindow), &x, &y);
-	gdk_drawable_get_size(c->emuwindow->window, &w, &h);
-	fx = w / (float) (c->geometry->screen_size.width - c->offx);
-	fy = h / (float) (c->geometry->last_displayed_line - 
-			  c->geometry->first_displayed_line + 1);
-	
+    if (c && lightpen_enabled)  {
+        if (!toggle) {
+            saved_cursor = gdk_window_get_cursor(c->emuwindow->window);
+            toggle = 1;
+        }
+        gdk_window_set_cursor(c->emuwindow->window, cursor);
+        gdk_display_get_window_at_pointer(
+                gtk_widget_get_display(c->emuwindow), &x, &y);
+        gdk_drawable_get_size(c->emuwindow->window, &w, &h);
+        fx = w / (float) (c->geometry->screen_size.width - c->offx);
+        fy = h / (float) (c->geometry->last_displayed_line -
+                c->geometry->first_displayed_line + 1);
+
 #ifdef LP_DEBUG
-	fprintf(stderr,"pre : x = %i, y = %i, b = %02x, w: %d, h:%d, fx = %f, fy = %f\n", 
-		x, y, buttons, w, h, fx, fy); 
+        fprintf(stderr,"pre : x = %i, y = %i, b = %02x, w: %d, h:%d, fx = %f, fy = %f\n",
+                x, y, buttons, w, h, fx, fy);
 #endif
-	x /= fx;
-	y /= fy;
-    
-	/* fixme for X128/VICII, first parameter to select canvas */
-	lightpen_update(c->app_shell, x, y, buttons);
+        x /= fx;
+        y /= fy;
+
+        lightpen_update(c->app_shell, x, y, buttons);
     } else {
-        //gdk_pointer_ungrab(GDK_CURRENT_TIME);
-	buttons = 0;
+        if (toggle) {
+            gdk_window_set_cursor(c->emuwindow->window, saved_cursor);
+            toggle = 0;
+        }
+        buttons = 0;
     }
 }
 
