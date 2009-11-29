@@ -52,9 +52,11 @@
 {
     int sampleRate = [self getIntResource:@"SoundSampleRate"];
     int bufferSize = [self getIntResource:@"SoundBufferSize"];
+    int fragmentSize = [self getIntResource:@"SoundFragmentSize"];
     int speedAdjustment = [self getIntResource:@"SoundSpeedAdjustment"];
     [sampleRateButton selectItemWithTag:sampleRate];
     [bufferSizeButton selectItemWithTag:bufferSize];
+    [fragmentSizeButton selectItemWithTag:fragmentSize];
     [speedAdjustmentButton selectItemWithTag:speedAdjustment];
 }
 
@@ -79,6 +81,13 @@
     int speedAdjustment = [[speedAdjustmentButton selectedItem] tag];
     [self setIntResource:@"SoundSpeedAdjustment" 
                  toValue:speedAdjustment];
+}
+
+-(IBAction)changeFragmentSize:(id)sender
+{
+    int fragmentSize = [[fragmentSizeButton selectedItem] tag];
+    [self setIntResource:@"SoundFragmentSize" 
+                 toValue:fragmentSize];
 }
 
 @end

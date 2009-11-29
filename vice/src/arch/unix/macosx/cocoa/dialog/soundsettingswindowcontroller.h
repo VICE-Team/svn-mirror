@@ -33,6 +33,7 @@
     IBOutlet NSPopUpButton *sampleRateButton;
     IBOutlet NSPopUpButton *bufferSizeButton;
     IBOutlet NSPopUpButton *speedAdjustmentButton;
+    IBOutlet NSPopUpButton *fragmentSizeButton;
 }
 
 -(void)updateResources:(NSNotification *)notification;
@@ -40,5 +41,6 @@
 -(IBAction)changeSampleRate:(id)sender;
 -(IBAction)changeBufferSize:(id)sender;
 -(IBAction)changeSpeedAdjustment:(id)sender;
+-(IBAction)changeFragmentSize:(id)sender;
 
 @end
