@@ -26,6 +26,8 @@ fi
 echo Generating SkyOS port binary distribution.
 rm -f -r VICE-$VERSION
 mkdir -p VICE-$VERSION/programs/VICE
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/da/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/da/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/da/LC_MESSAGES
 mkdir -p VICE-$VERSION/programs/VICE/lib/locale/de/LC_MESSAGES
 mv /boot/programs/VICE/lib/locale/de/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/de/LC_MESSAGES
 mkdir -p VICE-$VERSION/programs/VICE/lib/locale/fr/LC_MESSAGES
@@ -40,6 +42,8 @@ mkdir -p VICE-$VERSION/programs/VICE/lib/locale/nl/LC_MESSAGES
 mv /boot/programs/VICE/lib/locale/nl/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/nl/LC_MESSAGES
 mkdir -p VICE-$VERSION/programs/VICE/lib/locale/hu/LC_MESSAGES
 mv /boot/programs/VICE/lib/locale/hu/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/hu/LC_MESSAGES
+mkdir -p VICE-$VERSION/programs/VICE/lib/locale/tr/LC_MESSAGES
+mv /boot/programs/VICE/lib/locale/tr/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/tr/LC_MESSAGES
 mkdir VICE-$VERSION/programs/VICE/bin
 mv /boot/programs/VICE/bin/vsid VICE-$VERSION/programs/VICE/bin
 mv /boot/programs/VICE/bin/x64 VICE-$VERSION/programs/VICE/bin/x64.app

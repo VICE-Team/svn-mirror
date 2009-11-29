@@ -26,6 +26,8 @@ fi
 echo Generating SkyOS SDL port binary distribution.
 rm -f -r SDLVICE-$VERSION
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE
+mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/da/LC_MESSAGES
+mv /boot/programs/SDLVICE/lib/locale/da/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/da/LC_MESSAGES
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/de/LC_MESSAGES
 mv /boot/programs/SDLVICE/lib/locale/de/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/de/LC_MESSAGES
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/fr/LC_MESSAGES
@@ -40,6 +42,8 @@ mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/nl/LC_MESSAGES
 mv /boot/programs/SDLVICE/lib/locale/nl/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/nl/LC_MESSAGES
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/hu/LC_MESSAGES
 mv /boot/programs/SDLVICE/lib/locale/hu/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/hu/LC_MESSAGES
+mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/tr/LC_MESSAGES
+mv /boot/programs/SDLVICE/lib/locale/tr/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/tr/LC_MESSAGES
 mkdir SDLVICE-$VERSION/programs/SDLVICE/bin
 mv /boot/programs/SDLVICE/bin/vsid SDLVICE-$VERSION/programs/SDLVICE/bin
 mv /boot/programs/SDLVICE/bin/x64 SDLVICE-$VERSION/programs/SDLVICE/bin/x64.app
