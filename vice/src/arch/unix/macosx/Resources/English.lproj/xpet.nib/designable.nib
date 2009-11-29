@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="402"/>
+			<integer value="405"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1265,15 +1265,6 @@
 									<reference key="NSOnImage" ref="645750970"/>
 									<reference key="NSMixedImage" ref="550278490"/>
 								</object>
-								<object class="NSMenuItem" id="846139232">
-									<reference key="NSMenu" ref="938823288"/>
-									<string key="NSTitle">Peripheral Drives...</string>
-									<string key="NSKeyEquiv">d</string>
-									<int key="NSKeyEquivModMask">1048840</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
 								<object class="NSMenuItem" id="1024954767">
 									<reference key="NSMenu" ref="938823288"/>
 									<string key="NSTitle">Peripheral Printers...</string>
@@ -2285,14 +2276,6 @@
 						<reference key="destination" ref="700203116"/>
 					</object>
 					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">showIECDriveSettings:</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="846139232"/>
-					</object>
-					<int key="connectionID">602</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -3538,7 +3521,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="443350420"/>
-							<reference ref="846139232"/>
 							<reference ref="415662616"/>
 							<reference ref="817049217"/>
 							<reference ref="232267405"/>
@@ -3558,11 +3540,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">406</int>
 						<reference key="object" ref="443350420"/>
-						<reference key="parent" ref="938823288"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">481</int>
-						<reference key="object" ref="846139232"/>
 						<reference key="parent" ref="938823288"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3988,8 +3965,6 @@
 					<string>478.ImportedFromIB2</string>
 					<string>480.IBPluginDependency</string>
 					<string>480.ImportedFromIB2</string>
-					<string>481.IBPluginDependency</string>
-					<string>481.ImportedFromIB2</string>
 					<string>482.IBPluginDependency</string>
 					<string>482.ImportedFromIB2</string>
 					<string>485.IBPluginDependency</string>
@@ -4259,7 +4234,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{418, 484}, {238, 273}}</string>
+					<string>{{418, 504}, {238, 253}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4331,8 +4306,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>{{579, 604}, {150, 83}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
