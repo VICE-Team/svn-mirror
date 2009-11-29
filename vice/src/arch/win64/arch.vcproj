@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64cart,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -118,7 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64cart,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\arch\Debug/arch.pch"
@@ -191,7 +191,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64cart,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -264,7 +264,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive,..\..\c64,..\..\c64cart,..\..\c64dtv,..\..\c128,..\..\vic20,..\..\pet,..\..\cbm2,..\..\raster,..\..\monitor,..\..\lib\libffmpeg,..\..\plus4,..\..\rs232drv,..\..\sid,..\..\imagecontents,..\win32\msvc\wpcap"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\arch\Debug/arch.pch"
@@ -713,7 +713,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\win32\ffmpeglib.c"
+			RelativePath="..\win32\dynlib.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"
@@ -1073,7 +1073,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\win32\lighpendrv.c"
+			RelativePath="..\win32\lightpendrv.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"
@@ -1154,46 +1154,6 @@
 		</File>
 		<File
 			RelativePath="..\win32\mousedrv.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\win32\opencbmlib.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"
