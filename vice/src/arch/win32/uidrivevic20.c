@@ -230,7 +230,6 @@ static void init_dialog(HWND hwnd, int num)
     int xpos;
     int xstart;
     HWND parent_hwnd;
-    HWND tab_hwnd;
     RECT rect;
 
     parent_hwnd = GetParent(hwnd);

@@ -114,7 +114,6 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     int xpos;
     int xstart;
     HWND parent_hwnd;
-    HWND tab_hwnd;
     RECT rect;
 
     parent_hwnd = GetParent(hwnd);
