@@ -24,6 +24,9 @@
  *
  */
 
+#include "vice.h"
+#include "machine.h"
+
 #import "printersettingswindowcontroller.h"
 #import "viceapplication.h"
 #import "vicenotifications.h"
@@ -43,7 +46,32 @@ static const char *tag[3] = { "Userport", "4", "5" };
 
 -(void)windowDidLoad
 {
-    [printerChooser setSelectedSegment:0];
+    // determine machine setup
+    hasIECPrinter = YES;
+    hasUserportPrinter = YES;
+    switch(machine_class) {
+        case VICE_MACHINE_PLUS4:
+            hasUserportPrinter = NO;
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+            hasIECPrinter = NO;
+            break;
+    }
+    
+    // setup printer selector
+    if(!hasUserportPrinter) {
+        [printerChooser setEnabled:NO forSegment:0];
+        [printerChooser setSelectedSegment:1];
+    }
+    
+    if(!hasIECPrinter) {
+        [printerChooser setEnabled:NO forSegment:1];
+        [printerChooser setEnabled:NO forSegment:2];
+        [printerChooser setSelectedSegment:0];
+    }
+    
     [self updateResources:nil];
     [super windowDidLoad];
 }

@@ -43,6 +43,9 @@
     IBOutlet NSTextField *printerTextDevice1;
     IBOutlet NSTextField *printerTextDevice2;
     IBOutlet NSTextField *printerTextDevice3;
+    
+    BOOL hasUserportPrinter;
+    BOOL hasIECPrinter;
 }
 
 -(void)updateResources:(NSNotification *)notification;
