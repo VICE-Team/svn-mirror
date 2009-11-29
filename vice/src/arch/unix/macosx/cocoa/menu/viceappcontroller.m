@@ -49,6 +49,7 @@
     [printerSettingsController release];
     [keyboardSettingsController release];
     [joystickSettingsController release];
+    [sidSettingsController release];
     [soundSettingsController release];
     [videoSettingsController release];
     
@@ -540,6 +541,14 @@
     }
     [joystickSettingsController showWindow:self];
 #endif
+}
+
+- (IBAction)showSIDSettings:(id)sender
+{
+    if (!sidSettingsController) {
+        sidSettingsController = [[SIDSettingsWindowController alloc] init];
+    }
+    [sidSettingsController showWindow:self];
 }
 
 - (IBAction)showSoundSettings:(id)sender

@@ -31,6 +31,7 @@
 #import "printersettingswindowcontroller.h"
 #import "keyboardsettingswindowcontroller.h"
 #import "joysticksettingswindowcontroller.h"
+#import "sidsettingswindowcontroller.h"
 #import "soundsettingswindowcontroller.h"
 #import "videosettingswindowcontroller.h"
 
@@ -50,6 +51,7 @@
     PrinterSettingsWindowController *printerSettingsController;
     KeyboardSettingsWindowController *keyboardSettingsController;
     JoystickSettingsWindowController *joystickSettingsController;
+    SIDSettingsWindowController *sidSettingsController;
     SoundSettingsWindowController *soundSettingsController;
     VideoSettingsWindowController *videoSettingsController;
 
@@ -170,6 +172,7 @@
 - (IBAction)showKeyboardSettings:(id)sender;
 - (IBAction)showJoystickSettings:(id)sender;
 - (IBAction)showSoundSettings:(id)sender;
+- (IBAction)showSIDSettings:(id)sender;
 - (IBAction)showVideoSettings:(id)sender;
 
 // Resources

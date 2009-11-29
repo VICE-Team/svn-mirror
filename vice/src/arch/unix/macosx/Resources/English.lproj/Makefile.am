@@ -36,6 +36,8 @@ EXTRA_DIST = \
 	RecordHistory.nib/keyedobjects.nib \
 	ResourceEditor.nib/designable.nib \
 	ResourceEditor.nib/keyedobjects.nib \
+	SIDSettings.nib/designable.nib \
+	SIDSettings.nib/keyedobjects.nib \
 	SoundSettings.nib/designable.nib \
 	SoundSettings.nib/keyedobjects.nib \
 	VideoSettings.nib/designable.nib \

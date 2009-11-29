@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="402"/>
+			<integer value="405"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1392,6 +1392,15 @@
 								<object class="NSMenuItem" id="232267405">
 									<reference key="NSMenu" ref="938823288"/>
 									<string key="NSTitle">Sound...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="645750970"/>
+									<reference key="NSMixedImage" ref="550278490"/>
+								</object>
+								<object class="NSMenuItem" id="453458181">
+									<reference key="NSMenu" ref="938823288"/>
+									<string key="NSTitle">SID Settings...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -2867,6 +2876,14 @@
 					</object>
 					<int key="connectionID">763</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showSIDSettings:</string>
+						<reference key="source" ref="44981142"/>
+						<reference key="destination" ref="453458181"/>
+					</object>
+					<int key="connectionID">765</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3895,6 +3912,7 @@
 							<reference ref="654419783"/>
 							<reference ref="1024954767"/>
 							<reference ref="180948789"/>
+							<reference ref="453458181"/>
 						</object>
 						<reference key="parent" ref="1017165058"/>
 					</object>
@@ -4130,6 +4148,11 @@
 						<int key="objectID">753</int>
 						<reference key="object" ref="137540346"/>
 						<reference key="parent" ref="1050317054"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">764</int>
+						<reference key="object" ref="453458181"/>
+						<reference key="parent" ref="938823288"/>
 					</object>
 				</object>
 			</object>
@@ -4518,6 +4541,8 @@
 					<string>752.ImportedFromIB2</string>
 					<string>753.IBPluginDependency</string>
 					<string>753.ImportedFromIB2</string>
+					<string>764.IBPluginDependency</string>
+					<string>764.ImportedFromIB2</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4685,7 +4710,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{434, 484}, {238, 273}}</string>
+					<string>{{434, 464}, {238, 293}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4902,6 +4927,8 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<boolean value="YES"/>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -4920,7 +4947,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">763</int>
+			<int key="maxID">765</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5048,6 +5075,7 @@
 							<string>showRecordHistory:</string>
 							<string>showRecordMedia:</string>
 							<string>showResourceEditor:</string>
+							<string>showSIDSettings:</string>
 							<string>showSoundSettings:</string>
 							<string>showVideoSettings:</string>
 							<string>smartAttachImage:</string>
@@ -5077,6 +5105,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
