@@ -66,6 +66,10 @@
     [self setReleasedWhenClosed:NO];
     [self setFloatingPanel:TRUE];
 
+    // keep panel visible if another application activates
+    // helps dropping images onto drive slots from finder
+    [self setHidesOnDeactivate:NO];
+    
     // set title
     [self setTitle:title];
     [self setFrameAutosaveName:[self title]];
