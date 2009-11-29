@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="405"/>
+			<integer value="467"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1270,16 +1270,6 @@
 												<reference key="NSOnImage" ref="228195826"/>
 												<reference key="NSMixedImage" ref="77633858"/>
 												<int key="NSTag">-2</int>
-											</object>
-											<object class="NSMenuItem" id="431812354">
-												<reference key="NSMenu" ref="784134551"/>
-												<string key="NSTitle">Old NTSC-M</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSKeyEquivModMask">1048576</int>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="228195826"/>
-												<reference key="NSMixedImage" ref="77633858"/>
-												<int key="NSTag">-3</int>
 											</object>
 										</object>
 									</object>
@@ -2627,14 +2617,6 @@
 					<int key="connectionID">621</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleMachineVideoStandard:</string>
-						<reference key="source" ref="577634827"/>
-						<reference key="destination" ref="431812354"/>
-					</object>
-					<int key="connectionID">622</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">machineVideoStandardMenu</string>
 						<reference key="source" ref="577634827"/>
@@ -3965,7 +3947,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="903915551"/>
 							<reference ref="251994113"/>
-							<reference ref="431812354"/>
 						</object>
 						<reference key="parent" ref="934686441"/>
 					</object>
@@ -3977,11 +3958,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">475</int>
 						<reference key="object" ref="251994113"/>
-						<reference key="parent" ref="784134551"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">476</int>
-						<reference key="object" ref="431812354"/>
 						<reference key="parent" ref="784134551"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -4556,6 +4532,7 @@
 					<string>464.ImportedFromIB2</string>
 					<string>466.IBPluginDependency</string>
 					<string>466.ImportedFromIB2</string>
+					<string>467.IBEditorWindowLastContentRect</string>
 					<string>467.IBPluginDependency</string>
 					<string>467.ImportedFromIB2</string>
 					<string>468.IBPluginDependency</string>
@@ -4568,8 +4545,6 @@
 					<string>471.ImportedFromIB2</string>
 					<string>475.IBPluginDependency</string>
 					<string>475.ImportedFromIB2</string>
-					<string>476.IBPluginDependency</string>
-					<string>476.ImportedFromIB2</string>
 					<string>481.IBPluginDependency</string>
 					<string>481.ImportedFromIB2</string>
 					<string>482.IBPluginDependency</string>
@@ -4950,8 +4925,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
+					<string>{{615, 646}, {123, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

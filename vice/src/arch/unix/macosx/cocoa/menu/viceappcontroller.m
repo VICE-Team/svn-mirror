@@ -676,8 +676,10 @@
     [warpModeMenuItem setState:[self getIntResource:@"WarpMode"]];
     
     // Machine Video Standard
-    [self updateSubMenuCheckState:machineVideoStandardMenu 
-        withTag:[self getIntResource:@"MachineVideoStandard"]];
+    if(machineVideoStandardMenu != nil) {
+        [self updateSubMenuCheckState:machineVideoStandardMenu 
+            withTag:[self getIntResource:@"MachineVideoStandard"]];
+    }
     
     // Sound
     [soundPlaybackMenuItem setState:[self getIntResource:@"Sound"]];
