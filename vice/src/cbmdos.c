@@ -168,19 +168,33 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     if (cmd_parse->cmd == NULL || cmd_parse->cmdlength == 0)
         return CBMDOS_IPE_NO_NAME;
 
-    p = (BYTE *)memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
+    p = memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
 
     if (p) {
         p++;
     } else {      /* no colon found */
-        if (*(cmd_parse->cmd) != '$')
+        if (cmd_parse->cmd[0] != '$') {
             p = cmd_parse->cmd;
-        else
-            p = cmd_parse->cmd + cmd_parse->cmdlength; /* set to null byte */
+        } else {
+            /* Directory listings are special - see $da55 in the 1541 for reference*/
+            if (cmd_parse->cmdlength > 1) {
+                if (cmd_parse->cmdlength == 2 &&
+                    (cmd_parse->cmd[1] == '0' || cmd_parse->cmd[1] == '1')) {
+                    /* A single 0/1 digit is a drive number, ignore it */
+                    p = cmd_parse->cmd + cmd_parse->cmdlength; /* set to null byte */
+                } else {
+                    /* no colon: everything after $ is the pattern */
+                    p = cmd_parse->cmd + 1;
+                }
+            } else {
+                /* Just a single $, set pointer to null byte */
+                p = cmd_parse->cmd + cmd_parse->cmdlength;
+            }
+        }
     }
 
 #if 0
-    if (*(cmd_parse->cmd) == '@' && p == cmd_parse->cmd)
+    if (cmd_parse->cmd[0] == '@' && p == cmd_parse->cmd)
         p++;
 #endif
 
