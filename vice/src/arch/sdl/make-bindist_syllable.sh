@@ -31,11 +31,11 @@ mv /usr/VICE/lib/locale/de/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/loca
 mkdir -p SDLVICE-syllable-$VERSION/lib/locale/fr/LC_MESSAGES
 mv /usr/VICE/lib/locale/fr/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/fr/LC_MESSAGES
 mkdir -p SDLVICE-syllable-$VERSION/lib/locale/it/LC_MESSAGES
-mv /usr/VICE/lib/locale/it/LC_MESSAGES/vice.* SDLVICE-syllable/lib/locale/it/LC_MESSAGES
+mv /usr/VICE/lib/locale/it/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/it/LC_MESSAGES
 mkdir -p SDLVICE-syllable-$VERSION/lib/locale/sv/LC_MESSAGES
 mv /usr/VICE/lib/locale/sv/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/sv/LC_MESSAGES
 mkdir -p SDLVICE-syllable-$VERSION/lib/locale/pl/LC_MESSAGES
-mv /usr/VICE/lib/locale/pl/LC_MESSAGES/vice.* SDLVICE-syllable/$VERSION/lib/locale/pl/LC_MESSAGES
+mv /usr/VICE/lib/locale/pl/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/pl/LC_MESSAGES
 mkdir -p SDLVICE-syllable-$VERSION/lib/locale/nl/LC_MESSAGES
 mv /usr/VICE/lib/locale/nl/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/nl/LC_MESSAGES
 mkdir -p SDLVICE-syllable-$VERSION/lib/locale/hu/LC_MESSAGES
