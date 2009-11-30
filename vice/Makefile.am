@@ -295,6 +295,14 @@ bindistzip:
 endif
 endif
 
+if SYLLABLE_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_syllable.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_syllable.sh $(STRIP) $(VICE_VERSION) $(prefix) zip $(top_srcdir)
+endif
+
 @MAKE_BINDIST_TRUE@installvice:
 @MAKE_BINDIST_TRUE@	@echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
 

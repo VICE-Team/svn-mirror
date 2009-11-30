@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = win32-msvc win64-msvc win32-watcom dingoo-files
+SUBDIRS = win32-msvc win64-msvc win32-watcom dingoo-files syllable-files
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -188,4 +188,5 @@ EXTRA_DIST = \
 	make-bindist_riscos.sh \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
+	make-bindist_syllable.sh \
 	make-bindist_win32.sh
