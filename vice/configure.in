@@ -2531,6 +2531,7 @@ if test x"$is_unix" = "xyes"; then
   solariscompile=no
   hpuxcompile=no
   skyoscompile=no
+  syllablecompile=no
   case "$host_os" in
     skyos*)
       skyoscompile=yes
