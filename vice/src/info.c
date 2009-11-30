@@ -887,7 +887,7 @@ const char info_contrib_text[] =
 "  and paste support to the amiga and beos ports. Added DQBB and\n"
 "  Isepic cartridge support. Added SFX soundsampler and\n"
 "  soundexpander support. Added digiblaster support. And lots of\n"
-"  other fixes and improvements.
+"  other fixes and improvements.\n"
 "\n"
 "  Christian Vogelgsang <chris@vogelgsang.org> maintains the\n"
 "  Mac OS X port. Added Intel Mac support and universal binary\n"
