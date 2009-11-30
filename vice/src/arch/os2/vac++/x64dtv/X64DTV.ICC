@@ -77,7 +77,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/monitor.icc"
         include "../incl/parallel.icc"
         include "../incl/printerdrv.icc"
-        include "../incl/resid.icc"
+        include "../incl/residdtv.icc"
         include "../incl/serial.icc"
         include "../incl/tape.icc"
         include "../incl/resources.icc"

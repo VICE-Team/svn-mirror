@@ -15,6 +15,7 @@ EXTRA_DIST = \
 	gentransfiles.icc \
 	PETcat.ICC \
 	RESID.ICC \
+	RESIDDTV.ICC \
 	VICE_INF.ICC \
 	VICE_HLP.ICC \
 	vicedll.ICC \
@@ -52,6 +53,7 @@ EXTRA_DIST = \
 	incl/printerdrv.icc \
 	incl/raster.icc \
 	incl/resid.icc \
+	incl/residdtv.icc \
 	incl/resources.icc \
 	incl/rs232drv.icc \
 	incl/serial.icc \
