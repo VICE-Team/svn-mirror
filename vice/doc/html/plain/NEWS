@@ -52,21 +52,19 @@ list of all the changes in the code.
 
 - New SDL port. See ReadmeSDL.txt for details.
 
-- Added paddle emulation. (x64/x128/xvic)
+- New win64 ports, both amd64/x64 and ia64 are supported (msvc compile only).
 
-- Added lightpen/lightgun emulation. (x64/x128/xvic)
+- New SDL based armle, mipsle, ppcbe and shle QNX 6.x ports.
 
-- Added support for various extra joystick adapters.
+- New SDL based M68k and sparc SunOS ports.
+
+- New SDL based Syllable port.
+
+- New SDL based Dingoo port.
 
 - Remote monitor (in other words: TCP/IP interface to VICE monitor) added.
 
 - Fixed non-6502/6510 CPU handling in monitor.
-
-- Added Danish translations.
-
-- Added Turkish translations.
-
-- Rudimentary PulseAudio sound driver has been added.
 
 ** C64/C128 changes
 -------------------
@@ -80,6 +78,15 @@ list of all the changes in the code.
 - Added SFX Sound Sampler and SFX Sound Expander emulation.
 
 - Added EasyFlash cartridge emulation.
+
+- Added paddle emulation.
+
+- Added lightpen/lightgun emulation, currently only available for the following
+  ports: SDL, *nix, win32/win64 and msdos.
+
+- Added support for the following userport joystick adapters: CGA/Protovision,
+  DXS/HIT, PET (normally only used on the PET/CBM2), Hummer (normally only
+  used on the C64DTV) and OEM (normally only used on the VIC20).
 
 ** C64 changes
 --------------
@@ -112,6 +119,18 @@ list of all the changes in the code.
 
 - Default memory configuration changed from full to unexpanded.
 
+- Added paddle emulation.
+
+- Added lightpen/lightgun emulation, currently only available for the following
+  ports: SDL, *nix, win32/win64 and msdos.
+
+- Corrected the joystick support, since the VIC20 can only have one joystick
+  attached on the joystick port.
+
+- Added support for the following userport joystick adapters: CGA/Protovision
+  (normally only used on the C64/C128), PET (normally only used on the
+  PET/CBM2), Hummer (normally only used on the C64DTV) and OEM.
+
 ** PLUS4 changes
 ----------------
 
@@ -128,10 +147,36 @@ list of all the changes in the code.
 
 - Minor bug fixes and emulation improvements.
 
+- Added support for the following userport joystick adapters: CGA/Protovision
+  (normally only used on the C64/C128), PET (normally only used for the PET),
+  Hummer and OEM (normally only used on the VIC20).
+
+** PET changes
+--------------
+
+- Corrected the joystick support, since the only way a PET can use a joystick
+  is by a userport joystick adapter, the following userport joystick adapters
+  are currently supported: CGA/Protovision (normally only used on the
+  C64/C128), PET, Hummer (normally only used on the C64DTV) and OEM (normally
+  only used on the VIC20).
+
+** CBM2 changes
+---------------
+
+- Corrected the joystick support, since the only way a CBM2 can use a joystick
+  is by a userport joystick adapter, the following userport joystick adapters
+  are currently supported: CGA/Protovision (normally only used on the
+  C64/C128), PET, Hummer (normally only used on the C64DTV) and OEM (normally
+  only used on the VIC20).
+
 ** Unix changes
 ---------------
 
-- 
+- Rudimentary PulseAudio sound driver has been added.
+
+- Added support for dynamic loading of FFMPEG libraries.
+
+- Added support for dynamic loading of OpenCBM and Lame library
 
 ** MS-Windows changes
 ---------------------
@@ -140,20 +185,21 @@ list of all the changes in the code.
   and fullscreen mode covering the whole screen. Using a fixed aspect ratio
   is optional.
 
+- New Danish and Turkish translations of the UI elements and command-line options.
+
+- Added support for dynamic loading of FFMPEG libraries.
+
+- Added support for dynamic loading of OpenCBM and Lame library
+
 ** AmigaOS changes
 ------------------
 
-- 
+- New Danish and Turkish translations of the UI elements and command-line options.
 
-** OS/2 changes
----------------
+- Added experimental PCI HardSID and Catweasel support.
 
-- 
-
-** GP2X changes
----------------
-
-- 
+- Used AROS (x86, ppc, amd64) new lowlevel libraries which should make USB
+  joysticks and joypads usable.
 
 ** Mac OS X changes
 -------------------
@@ -331,9 +377,6 @@ list of all the changes in the code.
   * changed colors
 
 - fixed copy function from the VICE monitor window.
-
-** AmigaOS changes
-------------------
 
 ** OS/2 changes
 ---------------
