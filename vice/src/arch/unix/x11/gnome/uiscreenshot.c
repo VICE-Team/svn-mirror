@@ -273,7 +273,7 @@ static GtkWidget *build_screenshot_dialog(void)
 
         gtk_list_store_set(drv_store, &iter, DRV_ACMENU, ac_store, DRV_VCMENU, vc_store, -1);
     }
-
+    
     ffmpeg_omenu = omenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(drv_store));    
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(ffmpeg_details), (gpointer) omenu);
     renderer = gtk_cell_renderer_text_new();
@@ -316,7 +316,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(hbox);
 
     resources_get_int("FFMPEGAudioBitrate", &audio_bitrate);
-    adj = gtk_adjustment_new((gfloat)audio_bitrate, (gfloat)16000, (gfloat)128000, (gfloat)1000, (gfloat)10000, (gfloat)10000);
+    adj = gtk_adjustment_new((gfloat)audio_bitrate, (gfloat)16000, (gfloat)128000, (gfloat)1000, (gfloat)10000, (gfloat)00000);
     ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)1000, 0);
     gtk_widget_set_size_request(ffmpg_audio, 100, -1);
     l = gtk_label_new(_("Audio Bitrate"));
@@ -326,7 +326,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
 
     resources_get_int("FFMPEGVideoBitrate", &video_bitrate);
-    adj = gtk_adjustment_new((gfloat)video_bitrate, (gfloat)100000, (gfloat)10000000, (gfloat)10000, (gfloat)100000, (gfloat)100000);
+    adj = gtk_adjustment_new((gfloat)video_bitrate, (gfloat)100000, (gfloat)10000000, (gfloat)10000, (gfloat)100000, (gfloat)000000);
     ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)10000, 0);
     gtk_widget_set_size_request(ffmpg_video, 100, -1);
     l = gtk_label_new(_("Video Bitrate"));
