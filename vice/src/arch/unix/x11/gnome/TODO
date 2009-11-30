@@ -15,13 +15,11 @@ Missing features
 
 Known Bugs (help is appreciated !):
 - Gnome/GTK+ commandline is ignored.
-- Lightpen support ignores C128's two windows
 
 Things, which will change (don't ask when!):
 - Tape status widget (.TAP vs .t64) handling is lousy.
 - Monitor GUI
 - VIC20 Cartridge attach heuristic for image pairs
-- More standard Gnome'ish menus.
 
 - Gnome 1 - NOT supported anymore (starting with VICE-1.20).
 	    Vice-1.19 the last officially supported Gnome1/Gtk1 version.
