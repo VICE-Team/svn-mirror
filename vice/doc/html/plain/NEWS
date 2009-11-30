@@ -140,6 +140,8 @@ list of all the changes in the code.
 
 - Fixed bug in tape recording.
 
+- Improved graphics handling.
+
 ** C64DTV changes
 -----------------
 
@@ -190,6 +192,8 @@ list of all the changes in the code.
 - Added support for dynamic loading of FFMPEG libraries.
 
 - Added support for dynamic loading of OpenCBM and Lame library
+
+- New Italian kaymap.
 
 ** AmigaOS changes
 ------------------
