@@ -54,4 +54,8 @@ run "$SCRIPT_DIR/build-ffmpeglame.sh" "$1" x86_64 10.6 clang $2
 run "$SCRIPT_DIR/build-gtk.sh" "$1" ppc 10.4 gcc40 $2
 run "$SCRIPT_DIR/build-gtk.sh" "$1" i386 10.4 gcc40 $2
 
+# SDLmain
+run "$SCRIPT_DIR/build-sdlmain.sh" "$1" ppc 10.4 gcc40 $2
+run "$SCRIPT_DIR/build-sdlmain.sh" "$1" i386 10.4 gcc40 $2
+
 echo "========== build-allext: ready =========="
