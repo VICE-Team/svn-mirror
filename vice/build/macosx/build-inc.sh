@@ -94,7 +94,12 @@ parse_args () {
   fi
   
   # number of cpus
-  export NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
+  if [ "x$MULTI_CPU" != "x" ]; then
+    NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
+  else
+    NUM_CPUS=1
+  fi
+  export NUM_CPUS
   
   # build tag
   export BUILD_TAG="[$ARCH-$SDK_VERSION-$COMPILER,force=$FORCE_BUILD,cpus=$NUM_CPUS]"

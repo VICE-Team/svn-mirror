@@ -40,12 +40,10 @@ configure_make_install pkg-config-0.23.tar.gz pkg-config-0.23 bin/pkg-config ins
 # jpeg
 configure_make_install jpegsrc.v6b.tar.gz jpeg-6b lib/libjpeg.a install-lib \
                        "http://www.ijg.org/files/"
-
 # png
 configure_make_install libpng-1.2.24.tar.bz2 libpng-1.2.24 lib/libpng12.a install \
                        "http://www.libpng.org/pub/png/libpng.html" \
                        "--disable-shared"
-
 # tiff
 configure_make_install tiff-3.8.2.tar.gz tiff-3.8.2 lib/libtiff.a install \
                        "http://www.libtiff.org/" \
@@ -54,44 +52,34 @@ configure_make_install tiff-3.8.2.tar.gz tiff-3.8.2 lib/libtiff.a install \
 # freetype
 configure_make_install freetype-2.3.5.tar.bz2 freetype-2.3.5 lib/libfreetype.a install \
                        "http://www.freetype.org/"
-
 # libxml2
 configure_make_install libxml2-2.6.31.tar.gz libxml2-2.6.31 lib/libxml2.a install \
                        "http://xmlsoft.org/" \
                        "--without-python"
-
 # fontconfig
 configure_make_install fontconfig-2.5.0.tar.gz fontconfig-2.5.0 lib/libfontconfig.a install \
                        "http://www.fontconfig.org/wiki/"
 
 # ----- Gtk+ Libs -----
 # glib
-configure_make_install glib-2.22.2.tar.bz2 glib-2.22.2 lib/libglib-2.0.dylib install \
+configure_make_install glib-2.14.5.tar.bz2 glib-2.14.5 lib/libglib-2.0.dylib install \
                        "http://www.gtk.org/"
-
-# pixman
-configure_make_install pixman-0.17.2.tar.gz pixman-0.17.2 lib/libpixman-1.a install \
-                       "http://cairographics.org/"
 
 # cairo
-configure_make_install cairo-1.8.8.tar.gz cairo-1.8.8 lib/libcairo.dylib install \
-                       "http://cairographics.org/" \
-                       "--enable-quartz=no"
-
+configure_make_install cairo-1.4.14.tar.gz cairo-1.4.14 lib/libcairo.dylib install \
+                       "http://cairographics.org/"
 # pango
-configure_make_install pango-1.26.1.tar.bz2 pango-1.26.1 lib/libpango-1.0.dylib install \
+configure_make_install pango-1.18.4.tar.bz2 pango-1.18.4 lib/libpango-1.0.dylib install \
                        "http://www.gtk.org/" \
                        "--with-included-modules=yes --with-dynamic-modules=no"
-
 # atk
-configure_make_install atk-1.28.0.tar.bz2 atk-1.28.0 lib/libatk-1.0.dylib install \
+configure_make_install atk-1.9.1.tar.bz2 atk-1.9.1 lib/libatk-1.0.dylib install \
                        "http://www.gtk.org/"
-
 # gtk+
 export ac_cv_path_CUPS_CONFIG=no # cups does not cross-compile
-configure_make_install gtk+-2.18.3.tar.bz2 gtk+-2.18.3 lib/libgtk-x11-2.0.dylib install \
+configure_make_install gtk+-2.12.7.tar.bz2 gtk+-2.12.7 lib/libgtk-x11-2.0.dylib install \
                        "http://www.gtk.org/" \
-                       "--disable-modules --with-included-loaders=yes --without-libjasper"
+                       "--disable-modules --with-included-loaders=yes"
 
 # gtkglext
 configure_make_install gtkglext-1.2.0.tar.bz2 gtkglext-1.2.0 lib/libgtkglext-x11-1.0.dylib install \
@@ -100,3 +88,4 @@ configure_make_install gtkglext-1.2.0.tar.bz2 gtkglext-1.2.0 lib/libgtkglext-x11
 
 echo "===== gtk+ ready $BUILD_TAG ====="
 
+                       
