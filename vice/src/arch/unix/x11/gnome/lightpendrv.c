@@ -33,8 +33,8 @@
 #include "uiarch.h"
 #include "videoarch.h"
 
-static GdkCursor *cursor, *saved_cursor;
-static int buttons, toggle;
+static GdkCursor *cursor;
+static int buttons;
 static struct video_canvas_s *c;
 
 void gtk_init_lightpen(void) {
@@ -62,10 +62,6 @@ void gtk_lightpen_update(void)
     float fx, fy;
 
     if (c && lightpen_enabled)  {
-        if (!toggle) {
-            saved_cursor = gdk_window_get_cursor(c->emuwindow->window);
-            toggle = 1;
-        }
         gdk_window_set_cursor(c->emuwindow->window, cursor);
         gdk_display_get_window_at_pointer(
                 gtk_widget_get_display(c->emuwindow), &x, &y);
@@ -83,9 +79,8 @@ void gtk_lightpen_update(void)
 
         lightpen_update(c->app_shell, x, y, buttons);
     } else {
-        if (toggle) {
-            gdk_window_set_cursor(c->emuwindow->window, saved_cursor);
-            toggle = 0;
+        if (c) {
+            gdk_window_set_cursor(c->emuwindow->window, NULL);
         }
         buttons = 0;
     }
