@@ -1798,17 +1798,13 @@
 
 2009-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-@@@ merge @@@
-
 	* src/arch/sdl/menu_vic20cart.c, src/translate.c,
 	  src/translate.txt, src/vic20/cart/finalexpansion.c,
 	  src/vic20/cart/finalexpansion.h, src/vic20/cart/generic.c,
 	  src/vic20/cart/megacart.c, src/vic20/cart/megacart.h,
 	  src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cartmem.c,
-	  src/vic20/cart/vic20cartmem.h, src/vic20/vic20.c: Merged the
-	  vic20 cart branch (svn merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.16
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/tlr/v2.1.16-xvic-cartridge).
+	  src/vic20/cart/vic20cartmem.h, src/vic20/vic20.c: Rewritten cart
+	  handling, and added vic20 carts.
 
 	* src/Makefile.am, src/arch/Makefile.am, src/arch/platform.h,
 	  src/arch/platform_aix_version.h, src/arch/platform_cpu_type.h,
@@ -3072,8 +3068,6 @@
 	  src/arch/win32/x128.dsp, src/arch/win32/x64.dsp: Updated the
 	  win32 project files.
 
-@@@ merge @@@
-
 	* src/Makefile.am, src/arch/amigaos/Makefile.am,
 	  src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
 	  src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
@@ -3119,10 +3113,7 @@
 	  src/translate.c, src/translate.txt,
 	  src/vic20/cart/Makefile.am, src/vic20/cart/finalexpansion.c,
 	  src/vic20/cart/finalexpansion.h, src/vic20/cart/vic20cart.c,
-	  src/vic20/cart/vic20cartmem.c: Merged the fe-ef branch (svn
-	  merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.15
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.1.15-fe-easyflash).
+	  src/vic20/cart/vic20cartmem.c: Final expansion/easy flash additions. 
 
 2009-08-04  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -3177,9 +3168,7 @@
 
 	* src/autostart-prg.c, src/vdc/vdc.c: Fixed some warnings.
 
-@@@ merge @@@
-
-	* ., src/6510dtvcore.c, src/Makefile.am,
+	* src/6510dtvcore.c, src/Makefile.am,
 	  src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
 	  src/arch/sdl/menu_network.c, src/arch/sdl/menu_network.h,
 	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
@@ -3196,10 +3185,7 @@
 	  src/vic20/vic20ieeevia2.c, src/vic20/vic20mem.c,
 	  src/vic20/vic20mem.h, src/vic20/vic20memrom.c,
 	  src/vic20/vic20rom.c, src/vic20/vic20via1.c,
-	  src/vic20/vic20via2.c: Merged the xvic rewrite branch (svn
-	  merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.15
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.1.15-xvic).
+	  src/vic20/vic20via2.c: VIC-I (xvic) largely rewritten.
 
 2009-07-26  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -3380,8 +3366,6 @@
 	  src/arch/sdl/win32-watcom/xvic.tgt: Fixed the misnamed
 	  rs232drv.tgt issue for the win32 sdl watcom project files.
 
-@@@ merge @@@
-
 2009-07-17  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.1.15
@@ -3436,8 +3420,6 @@
 
 2009-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-@@@ merge @@@
-
 	* configure.in, src/Makefile.am, src/arch/sdl/menu_vic20cart.c,
 	  src/arch/win32/Makefile.am, src/arch/win32/resmenu.txt,
 	  src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
@@ -3453,11 +3435,8 @@
 	  src/vic20/cart/vic20cartmem.h, src/vic20/vic20-resources.c,
 	  src/vic20/vic20-resources.h, src/vic20/vic20.c,
 	  src/vic20/vic20cartridge.c, src/vic20/vic20mem.c,
-	  src/vic20/vic20mem.h, src/vic20/vic20memsnapshot.c: Merged the
-	  xvic cart branch (svn merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.14
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/tlr/v2.1.14-xvic-cartridge)
-	  and fixed conflicts and updated win32 msvc project files.
+	  src/vic20/vic20mem.h, src/vic20/vic20memsnapshot.c: xvic cart
+	  handling rewritten and carts added.
 
 	* src/arch/sdl/win32-watcom/Makefile.am,
 	  src/arch/sdl/win32-watcom/c1541.tgt,
@@ -3824,8 +3803,6 @@
 
 2009-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-@@@ merge @@@
-
 	* src/Makefile.am, src/arch/os2/vac++/incl/mainsrc.icc,
 	  src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/vice.wpj,
 	  src/arch/sdl/Makefile.am, src/arch/sdl/lightpendrv.c,
@@ -3847,10 +3824,7 @@
 	  src/c128/c128.c, src/c64/c64.c, src/lightpen.c,
 	  src/lightpen.h, src/sid/sid.c, src/vic20/vic-mem.c,
 	  src/vic20/vic.c, src/vic20/vic.h, src/vic20/vic20.c,
-	  src/vicii.h, src/vicii/vicii.c: Merged the lightpen branch
-	  (svn merge
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.1/v2.1.14
-	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.1.14-lightpen)
+	  src/vicii.h, src/vicii/vicii.c: Lightpen support rewritten.
 
 2009-07-04  Christian Vogelgsang <chris@vogelgsang.org>
 
@@ -4127,7 +4101,7 @@
 	  archdep_default_autostart_disk_image_file_name(), fixing the
 	  typo.
 
-	* ., src/Makefile.am, src/arch/amigaos/archdep.c,
+	* src/Makefile.am, src/arch/amigaos/archdep.c,
 	  src/arch/beos/archdep.c, src/arch/msdos/archdep.c,
 	  src/arch/os2/archdep.c, src/arch/riscos/archdep.c,
 	  src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
@@ -13051,7 +13025,7 @@
 
 2008-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
 
-	* ., src/arch/unix/gp2x, src/arch/unix/x11/xaw,
+	* src/arch/unix/gp2x, src/arch/unix/x11/xaw,
 	  src/arch/unix/x11/xaw/widgets: Added some more svn ignores.
 
 2008-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
