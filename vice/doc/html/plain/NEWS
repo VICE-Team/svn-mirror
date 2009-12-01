@@ -88,11 +88,6 @@ list of all the changes in the code.
   DXS/HIT, PET (normally only used on the PET/CBM2), Hummer (normally only
   used on the C64DTV) and OEM (normally only used on the VIC20).
 
-** C64 changes
---------------
-
--
-
 ** C128 changes
 ---------------
 
@@ -122,7 +117,7 @@ list of all the changes in the code.
 - Added paddle emulation.
 
 - Added lightpen/lightgun emulation, currently only available for the following
-  ports: SDL, *GTK+, cocoa, win32/win64 and msdos.
+  ports: SDL, GTK+, cocoa, win32/win64 and msdos.
 
 - Corrected the joystick support, since the VIC20 can only have one joystick
   attached on the joystick port.
@@ -213,7 +208,7 @@ list of all the changes in the code.
 - Support for Mac OS X versions 10.4, 10.5, and 10.6 and PowerPC, Intel 32,
   and 64 Bit Support.
 
-- Coca UI redesign. Emulator window is reduced to emulation display only.
+- Cocoa UI redesign. Emulator window is reduced to emulation display only.
   Emulator is controlled with the new control window. There disk and tape
   images can be attached by clicking on the image or dragging files there.
   Added the tape controls for the datasette and the status bar.
