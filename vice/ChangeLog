@@ -1,4 +1,623 @@
-2009-11-15  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+2009-12-01  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/vice.texi, src/info.c: Mention Mikkel's monitor fixes
+
+	* po/da.po: Danish translation updates by Mikkel Holm Olsen
+
+	* doc/html/plain/NEWS: Fix typos, remove empty C64 section
+
+2009-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Changed the lightpen entries a bit.
+
+2009-11-30  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c:
+	  arch/unix/x11/gnome/uiscreenshot.c (build_screenshot_dialog):
+	  Fixed runtime warning: GtkSpinButton: setting an adjustment
+	  with non-zero page size is deprecated
+
+2009-11-30  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-allext.sh: macosx: added SDLmain to extlib
+
+	* build/macosx/build-allext.sh, build/macosx/build-gtk.sh,
+	  build/macosx/build-inc.sh: macosx: reverted extlib changes.
+	  added some more checkings
+
+2009-11-30  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/TODO: Updated
+
+	* src/arch/unix/x11/gnome/lightpendrv.c: Removed obfuscated
+	  cursor handling to get rid of gdk 2.18 dependency.
+
+2009-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/info.c: Fixed info.c
+
+	* configure.in: Fixed configure.
+
+	* doc/vice.texi, src/info.c: Updated.
+
+	* doc/html/plain/NEWS: Added some more items.
+
+	* doc/html/plain/NEWS: Changed some items around, added new
+	  items and added some more detail.
+
+	* src/arch/sdl/make-bindist_syllable.sh: Corrected some typos.
+
+	* src/arch/os2/vac++/Makefile.am,
+	  src/arch/os2/vac++/RESIDDTV.ICC,
+	  src/arch/os2/vac++/incl/residdtv.icc,
+	  src/arch/os2/vac++/x64dtv/X64DTV.ICC: Added the resid-dtv
+	  engine to the os/2 vac++ project files and made x64dtv link
+	  with it.
+
+	* Makefile.am, configure.in, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/make-bindist_syllable.sh,
+	  src/arch/sdl/syllable-files,
+	  src/arch/sdl/syllable-files/Makefile.am,
+	  src/arch/sdl/syllable-files/README,
+	  src/arch/sdl/syllable-files/install.sh,
+	  src/arch/sdl/syllable-files/uninstall.sh,
+	  src/arch/sdl/syllable-files/x128.sh,
+	  src/arch/sdl/syllable-files/x64.sh,
+	  src/arch/sdl/syllable-files/x64dtv.sh,
+	  src/arch/sdl/syllable-files/xcbm2.sh,
+	  src/arch/sdl/syllable-files/xpet.sh,
+	  src/arch/sdl/syllable-files/xplus4.sh,
+	  src/arch/sdl/syllable-files/xvic.sh: Added syllable make
+	  bindist(zip) support.
+
+2009-11-29  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-gtk.sh: macosx: updated extlib to gtk+ 2.18
+
+2009-11-29  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sound.h: Add pulse init hook declaration, remove
+	  declaration of obsolete test driver.
+
+2009-11-29  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/cbmdos.c: Handle "$", "$0", "$1" and "$pattern" cases
+	  correctly. Slightly modified patch by Ingo Korb.
+
+2009-11-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/info.c: Update contributor info, patch by Ingo Korb
+
+2009-11-29  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.m:
+	  macosx: adapted more cocoa drive settings for different
+	  machines
+
+	* src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib:
+	  macosx: adapted cocoa drive settings for different machines
+
+	* src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.m:
+	  macosx: adapted cocoa printer settings for different machines
+
+	* src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: macosx:
+	  adapted video settings menu in cocoa
+
+2009-11-29  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/lightpendrv.c: Removed grabing (as
+	  suggested by Alankila), added cursor change.
+
+2009-11-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/readline/editline.c,
+	  src/arch/unix/readline/editline.h,
+	  src/arch/unix/readline/editline2.c: readline: readd SIZE_T
+	  define, fix HIST_SIZE ifdef<->ifndef typo, update add_history
+	  parameter also in editline2. Fixes bug #2902007.
+
+2009-11-29  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: macosx:
+	  corrected video standards for all machines
+
+	* src/arch/unix/macosx/cocoa/view/controlwindow.m: macosx: keep
+	  control panel visible if application deactivates
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/SIDSettings.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SIDSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SIDSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: macosx:
+	  added cocoa SID settings
+
+	* src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib:
+	  macosx: updated sound nib
+
+	* src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/soundsettingswindowcontroller.m:
+	  macosx: added ui for sound fragment size
+
+2009-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/arch.vcproj: Win64 project files fixes.
+
+	* src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/vic20.vcproj: SDL win64 project file
+	  fixes.
+
+	* doc/html/index.html: Added win64-ia64 sdl vice to the download
+	  page.
+
+	* src/arch/win64/arch.vcproj, src/arch/win64/base.vcproj,
+	  src/arch/win64/gfxoutputdrv.vcproj,
+	  src/arch/win64/plus4.vcproj, src/arch/win64/vic20.vcproj:
+	  Fixed win64 project files.
+
+	* src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	  src/arch/win32/uidrivepetcbm2.c,
+	  src/arch/win32/uidriveplus4.c, src/arch/win32/uidrivevic20.c:
+	  Removed obsolete variables.
+
+	* doc/html/index.html: Added a space to the 'solaris / sunos'
+	  download item.
+
+	* src/arch/sdl/make-bindist_skyos.sh,
+	  src/arch/unix/skyos/make-bindist.sh: Added danish and turkish
+	  po files to the SkyOS bindist.
+
+2009-11-28  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sound.c: Make warp mode work also for drivers that don't
+	  implement bufferspace().
+
+	* src/arch/unix/x11/gnome/lightpendrv.c: Drop pointer
+	  grabs/ungrabs: forcibly ungrabbing the pointer confuses window
+	  manager and makes GTK+ menus hard to dismiss by clicking on
+	  desktop outside VICE window. Pottendo can figure out a way to
+	  put them back, but it seems to me that there's no point to
+	  grab the pointer in the first place.
+
+	* src/arch/unix/readline/editline.h: It seems that HAVE_STDLIB_H
+	  and HAVE_STDLIB are both used, and HAVE_STDLIB is even
+	  declared in config.h. Thus, I suspect now that my earlier
+	  change is bogus.
+
+2009-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gp2x/minimal.c, src/arch/unix/gp2x/minimal.h:
+	  Fixed for gp2x compile.
+
+	* src/arch/riscos/console.c, src/arch/riscos/ui.c,
+	  src/arch/riscos/video.c, src/arch/riscos/vsync.c,
+	  src/arch/unix/readline/editline.c,
+	  src/arch/unix/readline/editline.h: Fixed for riscos compile.
+
+	* src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/os2/types.h,
+	  src/arch/os2/vac++/config.h,
+	  src/arch/os2/vac++/incl/mainsrc.icc,
+	  src/arch/os2/vac++/incl/sounddrv.icc, src/c64/c64acia1.c,
+	  src/cbm2/cbm2acia1.c, src/core/ciacore.c, src/pet/petacia1.c,
+	  src/plus4/plus4acia.c, src/vice.h: Fixed for vac++ os/2
+	  compile.
+
+	* src/sounddrv/Makefile.am: Added soundpulse.c to the makefile.
+
+2009-11-27  Antti S. Lankila <alankila@bel.fi>
+
+	* doc/html/plain/NEWS: Mention that we now support PulseAudio.
+
+2009-11-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_sound.c: Add PulseAudio item to SDL UI
+
+2009-11-27  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Update
+	  intermixing/leaks-parameter and calculation.
+
+	* src/sounddrv/soundpulse.c: tlength is bytes, not samples, so
+	  multiply by two.
+
+	* configure.in, src/sound.c, src/sounddrv/soundpulse.c: Add
+	  pulseaudio support.
+
+2009-11-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/dingoo-files/sdl-vicerc,
+	  src/arch/sdl/dingoo-files/sdl-vicerc-cbm5x0: SDL-Dingoo: fix
+	  xpet keymap index, default to OSS
+
+2009-11-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/vic20ui.c: Added the FE & MC settings to the
+	  msdos ui.
+
+	* doc/html/index.html: Updated the screenshots link, even though
+	  the actual screemshots won't get done till after the release
+	  of 2.2
+
+	* doc/html/index.html: Added SDL win32/64 download links to the
+	  2.2 download page.
+
+2009-11-24  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c: Disable items in the settings
+	  dialog depending on the driver that is used.
+
+2009-11-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/dingoo-files/sdl-vicerc,
+	  src/arch/sdl/dingoo-files/sdl-vicerc-cbm5x0,
+	  src/arch/sdl/dingoo-files/x128.dge,
+	  src/arch/sdl/dingoo-files/x64.dge,
+	  src/arch/sdl/dingoo-files/x64dtv.dge,
+	  src/arch/sdl/dingoo-files/xcbm5x0.dge,
+	  src/arch/sdl/dingoo-files/xcbm6x0.dge,
+	  src/arch/sdl/dingoo-files/xpet.dge,
+	  src/arch/sdl/dingoo-files/xplus4.dge,
+	  src/arch/sdl/dingoo-files/xvic.dge: Fix svn properties for
+	  SDL-Dingoo files
+
+	* src/video/video-cmdline-options.c: Readd -/+CHIPfull for SDL
+	  UI
+
+	* src/arch/sdl/ui.c: SDL UI: added cmdline switches for menukeys
+	  and misc. resources. Patch by Peter Edwards.
+
+2009-11-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/vic20.icc,
+	  src/arch/os2/vac++/xvic/Xvic.ICC: Fixed the os/2 vac++ project
+	  files.
+
+	* src/arch/os2/Makefile.am, src/arch/os2/dialogs/dlg-drive.c,
+	  src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc, src/arch/os2/video.c,
+	  src/arch/os2/watcom/c128c64.tgt,
+	  src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
+	  src/arch/os2/watcom/xvic-maincpu.c,
+	  src/arch/os2/watcom/xvic.tgt: Fixed the os/2 watcom project
+	  files.
+
+	* src/arch/sdl/dingoo-files/xpet.dge,
+	  src/arch/sdl/dingoo-files/xplus4.dge,
+	  src/arch/sdl/dingoo-files/xvic.dge: Changed #!/bin/bash to
+	  #!/bin/sh
+
+	* src/arch/beos/ui_sid.cc: Changed the beos ui to use the SID
+	  engine/model combination method.
+
+	* src/arch/win64/c64c128.vcproj, src/arch/win64/vic20.vcproj,
+	  src/arch/win64/xvic.vcproj: Fixed the win64 msvc project
+	  files.
+
+	* src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	  src/arch/win32/uidrivepetcbm2.c,
+	  src/arch/win32/uidriveplus4.c, src/arch/win32/uidrivevic20.c,
+	  src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/vic20.tgt,
+	  src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/xvic.tgt: Fixed the win32 watcom project
+	  files.
+
+	* src/arch/sdl/archdep_win32.c,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/vic20.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/xvic.tgt: Fixed the sdl win32 watcom
+	  project files.
+
+	* src/arch/sdl/win64-msvc/c64c128.vcproj,
+	  src/arch/sdl/win64-msvc/vic20.vcproj,
+	  src/arch/sdl/win64-msvc/xvic.vcproj: Fixed the sdl win64 msvc
+	  project files.
+
+	* src/arch/sdl/win32-msvc/c64c128.dsp,
+	  src/arch/sdl/win32-msvc/vic20.dsp,
+	  src/arch/sdl/win32-msvc/xvic.dsp: Fixed the sdl win32 msvc
+	  project files.
+
+	* src/arch/msdos/menudefs.c: Changed the msdos ui copyright
+	  dialog to a scrolling text dialog.
+
+	* src/arch/sdl/make-bindist_dingoo.sh: Added the 5x0 sdl ini
+	  file to the dingoo make bindist script.
+
+	* src/arch/sdl/dingoo-files/Makefile.am,
+	  src/arch/sdl/dingoo-files/sdl-vicerc-cbm25x0,
+	  src/arch/sdl/dingoo-files/sdl-vicerc-cbm5x0,
+	  src/arch/sdl/dingoo-files/xcbm5x0.dge: Renamed
+	  sdl-vicerc-cbm25x0 to sdl-vicerc-cbm5x0.
+
+	* doc/ReadmeSDL.txt: Corrected a typo.
+
+2009-11-23  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/dingoo-files/Makefile.am,
+	  src/arch/sdl/dingoo-files/sdl-vicerc,
+	  src/arch/sdl/dingoo-files/sdl-vicerc-cbm25x0,
+	  src/arch/sdl/dingoo-files/x128.dge,
+	  src/arch/sdl/dingoo-files/x64.dge,
+	  src/arch/sdl/dingoo-files/x64dtv.dge,
+	  src/arch/sdl/dingoo-files/xcbm5x0.dge,
+	  src/arch/sdl/dingoo-files/xcbm6x0.dge,
+	  src/arch/sdl/dingoo-files/xpet.dge,
+	  src/arch/sdl/dingoo-files/xplus4.dge,
+	  src/arch/sdl/dingoo-files/xvic.dge: SDL-Dingoo: fix dge files,
+	  add default configs, add Dingoo to ReadmeSDL.txt port list
+
+2009-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uijoystick.c: Added allow opposite joystick
+	  directions to the msdos ui.
+
+	* src/arch/msdos/uisound.c: Added sound fragment size to the
+	  msdos ui.
+
+	* src/arch/msdos/uiattach.c: Added autostart settings to the
+	  msdos ui.
+
+2009-11-22  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib:
+	  macosx: fixed keymap indices for new machines
+
+2009-11-22  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/arch/win32/rs232net.c: Fixed a problem making builds fail
+	  on mingw32/msys.
+
+2009-11-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, vice-gtk.spec, vice-mint.spec, vice.spec: Updated
+	  xaw and mint spec files and added gtk spec file.
+
+	* src/Makefile.am: Added the new vicesocket.h file to the src
+	  Makefile.am file.
+
+	* src/arch/beos/c64dtvui.cc, src/arch/beos/constants.h,
+	  src/arch/beos/joy.cc, src/arch/beos/socketimpl.h,
+	  src/arch/beos/ui.cc, src/arch/beos/ui_file.cc,
+	  src/arch/beos/ui_file.h, src/arch/beos/ui_joystick.cc,
+	  src/arch/beos/ui_siddtv.cc, src/arch/beos/ui_sound.cc,
+	  src/arch/beos/ui_sound.h, src/arch/beos/ui_vic20.cc,
+	  src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc,
+	  src/arch/beos/vicewindow.cc, src/cbm2/cbm2.c,
+	  src/monitor/monitor_network.c, src/network.c, src/pet/pet.c,
+	  src/plus4/plus4.c, src/socket.c, src/socket.h,
+	  src/vicesocket.h: Added missing beos ui elements and did some
+	  fixes to get the beos compile working again.
+
+2009-11-20  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/printersettingswindowcontroller.m:
+	  macosx: printer dialog fixes
+
+2009-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	  src/arch/amigaos/vic20uires.h: Added vic20 cart write-back
+	  items to the amiga ui.
+
+2009-11-20  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/dingoo-files,
+	  src/arch/sdl/dingoo-files/Makefile.am,
+	  src/arch/sdl/dingoo-files/vsid.dge: SDL-Dingoo: remove
+	  vsid.dge since a config file is needed, but vsid doesn't
+	  support those
+
+	* src/arch/sdl/dingoo-files/Makefile.am,
+	  src/arch/sdl/dingoo-files/vsid.dge,
+	  src/arch/sdl/dingoo-files/x128.dge,
+	  src/arch/sdl/dingoo-files/x64.dge,
+	  src/arch/sdl/dingoo-files/x64dtv.dge,
+	  src/arch/sdl/dingoo-files/xcbm5x0.dge,
+	  src/arch/sdl/dingoo-files/xcbm6x0.dge,
+	  src/arch/sdl/dingoo-files/xpet.dge,
+	  src/arch/sdl/dingoo-files/xplus4.dge,
+	  src/arch/sdl/dingoo-files/xvic.dge: SDL-Dingoo: fix
+	  redirection, add vsid launcher
+
+2009-11-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc: Fix ancient bug with kinked_dac,
+	  resulting in systematic bias at filter center frequency.
+	  Remove a kludge which probably compensated for this bug.
+
+2009-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	  src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	  src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20uires.h: Added the amiga allow opposite
+	  joystick directions ui item.
+
+	* po/it.po: Removed obsolete entries.
+
+	* Makefile.am, configure.in, doc/html/index.html,
+	  src/arch/sdl/Makefile.am, src/arch/sdl/dingoo-files,
+	  src/arch/sdl/dingoo-files/Makefile.am,
+	  src/arch/sdl/dingoo-files/sdl-vicerc,
+	  src/arch/sdl/dingoo-files/x128.dge,
+	  src/arch/sdl/dingoo-files/x64.dge,
+	  src/arch/sdl/dingoo-files/x64dtv.dge,
+	  src/arch/sdl/dingoo-files/xcbm5x0.dge,
+	  src/arch/sdl/dingoo-files/xcbm6x0.dge,
+	  src/arch/sdl/dingoo-files/xpet.dge,
+	  src/arch/sdl/dingoo-files/xplus4.dge,
+	  src/arch/sdl/dingoo-files/xvic.dge,
+	  src/arch/sdl/make-bindist_dingoo.sh: Added sdl dingoo bindist
+	  generation support.
+
+	* po/it.po, src/arch/amigaos/intl.c, src/arch/amigaos/intl.txt,
+	  src/arch/win32/res.rc, src/arch/win32/resautostart.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/reslightpen.rc,
+	  src/arch/win32/resmidi.rc, src/arch/win32/ressidcart.rc,
+	  src/arch/win32/ressoundexpander.rc,
+	  src/arch/win32/resvic20.rc, src/translate.c: Updated the
+	  italian translations.
+
+2009-11-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/joy.c, src/arch/sdl/ui.c: SDL UI: move keyboard
+	  resource init earlier in the init order. Fixes bug with config
+	  files without any HotkeyFile specification.
+
+2009-11-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc, src/sid/resid-fp.cc: Remove some old
+	  cruft from filter algorithm, use the simplest version that
+	  still seems to work. Update SID register fade delay to 34000
+	  clocks from about 8000 clocks, as this somewhat improves
+	  rendition of Dunn's Theatre Europe. The 6581 chips 3984, 3789,
+	  4486, 1986S have been refitted, yielding slightly lighter
+	  overall sound.
+
+2009-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/it.po: Updated italian po file.
+
+	* src/arch/amigaos/mui/mui.c: Corrected a typo.
+
+	* src/arch/amigaos/mui/uisound.c: Added amiga sound fragment
+	  size dialog.
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resvic20.rc, src/translate.c: Updated the
+	  german translations.
+
+2009-11-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/xvic_ui.c, src/vic20/vic.h: Disable xvic pixel
+	  duplication for Dingux SDL, reposition and resize xvic SDL UI
+	  for non-duplicated case
+
+2009-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resvic20.rc: Updated the
+	  swedish translations.
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/tr.po: Removed obsolete entries.
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128uires.h,
+	  src/arch/amigaos/c64dtvuires.h, src/arch/amigaos/c64uires.h,
+	  src/arch/amigaos/cbm2uires.h, src/arch/amigaos/intl.c,
+	  src/arch/amigaos/intl.txt, src/arch/amigaos/mui/uiautostart.c,
+	  src/arch/amigaos/mui/uiautostart.h,
+	  src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	  src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20uires.h: Added amiga autostart settings
+	  ui elements.
+
+2009-11-15  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am:
+	  macosx: fixed Makefile.am
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	  macosx: added missing mouse scale
+
+	* src/arch/unix/macosx/make-bindist.sh: macosx: add VICE.icns to
+	  cocoa apps for info dialogs
+
+	* doc/ReadmeSDL.txt, doc/html/plain/NEWS: addded Mac OS X NEWS.
+	  added Mac OS X to SDL ports.
+
+2009-11-15  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-11-15  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2912t0f0u).
+
+2009-11-15  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* doc/MacOSX-ResourceTree.txt,
+	  src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x128-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4-ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic-ResourceTree.plist,
+	  src/arch/unix/macosx/analyze-vicerc.pl,
+	  src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.h,
+	  src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/make-bindist.sh: macosx: unified
+	  resources into a single resource tree for all machines. added
+	  a lot of machine resources.
+
+2009-11-15  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/vic20ui.c: Added missing includes system.h and
+	  resources.h
+
+	* src/plus4/ted-mem.c: Commented out unused variable and
+	  calculation.
 
 	* Version 2.1.20
 
@@ -3113,7 +3732,7 @@
 	  src/translate.c, src/translate.txt,
 	  src/vic20/cart/Makefile.am, src/vic20/cart/finalexpansion.c,
 	  src/vic20/cart/finalexpansion.h, src/vic20/cart/vic20cart.c,
-	  src/vic20/cart/vic20cartmem.c: Final expansion/easy flash additions. 
+	  src/vic20/cart/vic20cartmem.c: Final expansion/EasyFlash additions. 
 
 2009-08-04  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -3185,7 +3804,7 @@
 	  src/vic20/vic20ieeevia2.c, src/vic20/vic20mem.c,
 	  src/vic20/vic20mem.h, src/vic20/vic20memrom.c,
 	  src/vic20/vic20rom.c, src/vic20/vic20via1.c,
-	  src/vic20/vic20via2.c: VIC-I (xvic) largely rewritten.
+	  src/vic20/vic20via2.c: VIC-I and CPU for xvic largely rewritten.
 
 2009-07-26  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
@@ -3824,7 +4443,7 @@
 	  src/c128/c128.c, src/c64/c64.c, src/lightpen.c,
 	  src/lightpen.h, src/sid/sid.c, src/vic20/vic-mem.c,
 	  src/vic20/vic.c, src/vic20/vic.h, src/vic20/vic20.c,
-	  src/vicii.h, src/vicii/vicii.c: Lightpen support rewritten.
+	  src/vicii.h, src/vicii/vicii.c: Added lightpen support.
 
 2009-07-04  Christian Vogelgsang <chris@vogelgsang.org>
 
