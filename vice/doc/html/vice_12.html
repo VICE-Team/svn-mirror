@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 9 November 2009 -->
+     from ../vice.texi on 1 December 2009 -->
 
 <TITLE>VICE Manual - 12  Acknowledgments</TITLE>
 </HEAD>
@@ -98,13 +98,15 @@ the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K and
 memory expansions code. Made the ethernet support for the Msdos port.
 Maintains the RiscOS, QNX 4.x, QNX 6.x, SkyOS, Solaris, Openserver,
 Unixware, HPUX, GP2X, Minix 3.x, Amiga, ppc-BeOS and newly
-resurrected OS/2 binary ports. Added new .crt support. Added new
-screenshot formats. Added new sound recording support. Added SIDcart
-support for pet, plus4 and vic20. Improved the MMC64 emulation. Added
-2 MHz mode for x128. Added the Hummer userport joystick emulation.
-Added text copy and paste support to the amiga and beos ports. Added
-DQBB and Isepic cartridge support. And lots of other fixes and
-improvements.
+resurrected OS/2 binary ports. Maintains the win64 and watcom project
+files. Co-maintains the SDL port(s). Added new .crt support. Added
+new screenshot formats. Added new sound recording support. Added
+SIDcart support for pet, plus4 and vic20. Improved the MMC64 emulation.
+Added 2 MHz mode and banks 2/3 support for x128. Added the various
+userport joystick emulations. Added text copy and paste support to the
+amiga and beos ports. Added DQBB and Isepic cartridge support. Added
+SFX soundsampler and soundexpander support. Added digiblaster support.
+And lots of other fixes and improvements.
 
 <LI>
 
@@ -122,11 +124,11 @@ port.
 
 <B>Hannu Nuotio</B> implemented DTV flash emulation, DTV support in the
 monitor, large parts of the DTV VIC emulation, burst mode and skip
-cycle emulation as well as many other things. Added experimental NEOS
-and Amiga mouse support. Fixed mouse support for single size in unix.
-Fixed mouse grab and menu popup for xaw. Added new monitor commands
-and features. Added the memmap feature. Made MIDI support and MIDI
-driver code for *nix.
+cycle emulation as well as many other things. Added NEOS and Amiga
+mouse, paddle and light pen support. Added new monitor commands and
+features, including memmap. Made MIDI support and OSS MIDI driver.
+Implemented most of the SDL UI. Rewrote xvic CPU/VIC-I core for
+cycle based emulation.
 
 <LI>
 
@@ -139,7 +141,14 @@ by him. Added new monitor commands and features.
 <B>Daniel Kahlin</B> Worked on DTV VIC emulation, palette, DTV SID support
 in resid, better DMA/Blitter support and did lots of refactoring. Added
 new monitor commands and features. Improved the VIC emulation for xvic.
-Made MIDI driver code for win32.
+Made MIDI driver code for win32. Rewrote the xvic cartridge system.
+Added Mega-Cart and Final Expansion V3.2 support to xvic.
+
+<LI>
+
+<B>Antti S. Lankila</B> Made the ReSID-fp engine, rewrote the PAL
+emulation code and fixed the sound core for lower latency. Rewrote DTV
+SID support (ReSID-dtv).
 
 </UL>
 
@@ -206,6 +215,33 @@ Copyright (C) 1993-1994
 He was the founder of the project, wrote the old version of the
 6502 emulation and the XDebugger, and retired from the project
 after x64 0.2.1.
+
+</UL>
+
+<P>
+Internationalization Team:
+
+</P>
+
+<UL>
+
+<LI>
+
+<B>Peter Krefting</B> provided the Swedish user interface translations.
+
+<B>Andrea Musuruane</B> provided the Italian user interface translations.
+
+<B>Czirkos Zoltan</B> and <B>Karai Csaba</B> provided the Hungarian user
+interface translations.
+
+<B>Emir Akaydin</B> provided the Turkish user interface translations (in world record time).
+
+<B>Mikkel Holm Olsen</B> provided the Danish user interface translations and fixed a few monitor bugs.
+
+<B>Paul Dubé</B> from Rivière-du-Loup, Québec, provided the French user interface
+translations.
+
+<B>Flooder</B> provided parts of the Polish user interface translations.
 
 </UL>
 
@@ -524,8 +560,11 @@ for the Action Replay 4 and StarDos cartridges. Provided several fixes.
 
 <LI>
 
-<B>Ingo Korb</B> Corrected block allocation and interleave for
-c1541/vdrive.
+<B>Ingo Korb</B> Corrected block allocation and interleave for c1541/vdrive,
+added rudimentary xplus4 tape recording support, corrected a case of
+missing Pi symbols in petcat, changed the trap opcode byte, stopped the
+high-level serial drive code from responding to addresses 16-30 and was
+forced to update this entry himself.
 
 <LI>
 
@@ -548,16 +587,20 @@ the BeOS port.
 
 <LI>
 
-<B>Antti Lankila</B> Made the ReSID-fp engine and rewrote the PAL emulation
-code.
-
-<LI>
-
 <B>Mustafa 'GnoStiC' Tufan</B> Made improvements to the gp2x port.
 
 <LI>
 
 <B>Ville-Matias Heikkila</B> Rewrote the vic20 sound code.
+
+<LI>
+
+<B>Errol Smith</B> improved VDC emulation.
+
+<LI>
+
+<B>Peter Edwards</B> implemented the SDL UI slider control and fixed
+some GP2X/Dingoo SDL UI issues.
 
 </UL>
 

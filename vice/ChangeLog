@@ -1,3 +1,7 @@
+2009-12-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2
+
 2009-12-01  Hannu Nuotio <hannu.nuotio@tut.fi>
 
 	* doc/vice.texi, src/info.c: Mention Mikkel's monitor fixes
