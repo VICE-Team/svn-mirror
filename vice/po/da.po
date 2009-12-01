@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-15 12:16+0100\n"
-"PO-Revision-Date: 2009-01-16 22:10+0100\n"
+"PO-Revision-Date: 2009-12-01 15:25+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice-dk@symlink.dk>\n"
 "Language-Team: Danish <vice-dk@symlink.dk>\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +23,12 @@ msgid "Set device for joystick port 2"
 msgstr "Vælg enhed for joystick port 2"
 
 #: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:333
-#, fuzzy
 msgid "Set device for extra joystick port 1"
-msgstr "Vælg enhed for joystick port 1"
+msgstr "Vælg enhed for ekstra joystick port 1"
 
 #: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:342
-#, fuzzy
 msgid "Set device for extra joystick port 2"
-msgstr "Vælg enhed for joystick port 2"
+msgstr "Vælg enhed for ekstra joystick port 2"
 
 #: src/arch/unix/mididrv.c:663 src/arch/unix/mididrv.c:668
 #: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
@@ -47,14 +45,12 @@ msgid "Specify MIDI-Out device"
 msgstr "Angiv enhed for MIDI-ud"
 
 #: src/arch/unix/mididrv.c:674
-#, fuzzy
 msgid "<driver>"
-msgstr "WMM-driver"
+msgstr "<driver>"
 
 #: src/arch/unix/mididrv.c:674
-#, fuzzy
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
-msgstr "Vælg SID-motor (0: FastSID, 1: ReSID)"
+msgstr "Vælg MIDI-driver (0 = OSS, 1 = ALSA)"
 
 #: src/arch/unix/rs232.c:159 src/arch/unix/rs232.c:164
 #: src/arch/unix/rs232.c:169 src/arch/unix/rs232.c:174
@@ -97,7 +93,6 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:316
 #: src/arch/unix/gui/petui.c:119 src/arch/unix/gui/plus4ui.c:109
 #: src/arch/unix/gui/vic20ui.c:146
-#, fuzzy
 msgid "SID model"
 msgstr "SID-model"
 
@@ -188,9 +183,8 @@ msgid "RAM Expansion Cart"
 msgstr "RAM-udviddelsescartridge"
 
 #: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64ui.c:283
-#, fuzzy
 msgid "EasyFlash cartridge"
-msgstr "Ugyldigt cartridge"
+msgstr "EasyFlash cartridge"
 
 #: src/arch/unix/gui/c128ui.c:272 src/arch/unix/gui/c64ui.c:291
 msgid "MMC64 emulation"
@@ -223,27 +217,24 @@ msgstr "*Emulér mus"
 
 #: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:307
 #: src/arch/unix/gui/vic20ui.c:497
-#, fuzzy
 msgid "*Lightpen Emulation"
-msgstr "Aktivér MIDI-emulering"
+msgstr "*Lyspen-emulering"
 
 #: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:312
 msgid "MIDI Emulation"
 msgstr "MIDI-emulering"
 
 #: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:315
-#, fuzzy
 msgid "*SFX Sound Expander emulation"
-msgstr "Emulering af PS/2-mus"
+msgstr "*SFX Sound Expander emulering"
 
 #: src/arch/unix/gui/c128ui.c:300 src/arch/unix/gui/c64ui.c:317
-#, fuzzy
 msgid "*SFX Sound Sampler emulation"
-msgstr "Emulering af PS/2-mus"
+msgstr "*SFX Sound Sampler emulering"
 
 #: src/arch/unix/gui/c128ui.c:302
 msgid "*Banks 2 & 3"
-msgstr ""
+msgstr "*Bank 1 & 2"
 
 #: src/arch/unix/gui/c128ui.c:310
 msgid "Load new Int. Kernal ROM"
@@ -319,39 +310,32 @@ msgid "Screenshots..."
 msgstr "Skærmdump..."
 
 #: src/arch/unix/gui/c128ui.c:385
-#, fuzzy
 msgid "*International"
-msgstr "International"
+msgstr "*International"
 
 #: src/arch/unix/gui/c128ui.c:387
-#, fuzzy
 msgid "*Finnish"
-msgstr "Finsk"
+msgstr "*Finsk"
 
 #: src/arch/unix/gui/c128ui.c:389
-#, fuzzy
 msgid "*French"
-msgstr "Fransk"
+msgstr "*Fransk"
 
 #: src/arch/unix/gui/c128ui.c:391
-#, fuzzy
 msgid "*German"
-msgstr "Tysk"
+msgstr "*Tysk"
 
 #: src/arch/unix/gui/c128ui.c:393
-#, fuzzy
 msgid "*Italian"
-msgstr "Italiensk"
+msgstr "*Italiensk"
 
 #: src/arch/unix/gui/c128ui.c:395
-#, fuzzy
 msgid "*Norwegian"
-msgstr "Norsk"
+msgstr "*Norsk"
 
 #: src/arch/unix/gui/c128ui.c:397
-#, fuzzy
 msgid "*Swedish"
-msgstr "Svensk"
+msgstr "*Svensk"
 
 #: src/arch/unix/gui/c128ui.c:405 src/arch/win32/resc128.rc.po.c:647
 #: src/arch/amigaos/intl.c.po.c:6227
@@ -444,9 +428,8 @@ msgid "Chip model"
 msgstr "Chipmodel"
 
 #: src/arch/unix/gui/c64dtvui.c:107
-#, fuzzy
 msgid "*PS/2 Mouse Emulation"
-msgstr "Emulering af PS/2-mus"
+msgstr "*Emulering af PS/2-mus"
 
 #: src/arch/unix/gui/c64dtvui.c:116 src/arch/unix/gui/c64ui.c:325
 #: src/arch/unix/gui/petui.c:205 src/arch/unix/gui/plus4ui.c:124
@@ -456,7 +439,7 @@ msgstr "Indlæs ny kerne-ROM"
 #: src/arch/unix/gui/c64dtvui.c:119 src/arch/unix/gui/c64ui.c:328
 #: src/arch/unix/gui/petui.c:211 src/arch/unix/gui/plus4ui.c:127
 msgid "Load new BASIC ROM"
-msgstr "Indlæs ny BASIC-ROM"
+msgstr "Indlæs ny BASIC ROM"
 
 #: src/arch/unix/gui/c64dtvui.c:122 src/arch/unix/gui/c64ui.c:331
 #: src/arch/unix/gui/petui.c:256
@@ -475,7 +458,6 @@ msgid "ROM settings"
 msgstr "ROM-indstillinger"
 
 #: src/arch/unix/gui/c64dtvui.c:181
-#, fuzzy
 msgid "C64DTV settings"
 msgstr "C64DTV-indstillinger"
 
@@ -572,14 +554,12 @@ msgid "*128 kByte"
 msgstr "*128 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:158
-#, fuzzy
 msgid "*256 kByte"
-msgstr "*256 Byte"
+msgstr "*256 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:162
-#, fuzzy
 msgid "*1024 kByte"
-msgstr "1024 kByt&e"
+msgstr "*1024 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:212 src/arch/unix/gui/petui.c:155
 msgid "*Graphics"
@@ -711,39 +691,36 @@ msgid "SID cartridge"
 msgstr "SID-cartridge"
 
 #: src/arch/unix/gui/petui.c:230
-#, fuzzy
 msgid "Basic 1"
-msgstr "Basic"
+msgstr "Basic 1"
 
 #: src/arch/unix/gui/petui.c:232
-#, fuzzy
 msgid "Basic 2, graphics"
-msgstr "Basic 128k, høje tegn"
+msgstr "Basic 2, grafik"
 
 #: src/arch/unix/gui/petui.c:234
 msgid "Basic 2, Business"
-msgstr ""
+msgstr "Basic 2, business"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Basic 4, 40 cols, graphics"
-msgstr ""
+msgstr "Basic 4, 40 kolonner, grafik"
 
 #: src/arch/unix/gui/petui.c:238
 msgid "Basic 4, 40 cols, business"
-msgstr ""
+msgstr "Basic 4, 40 kolonner, business"
 
 #: src/arch/unix/gui/petui.c:240
 msgid "Basic 4, 80 cols, business"
-msgstr ""
+msgstr "Basic 4, 80 kolonner, business"
 
 #: src/arch/unix/gui/petui.c:243
 msgid "*Basic 1 Patch (if loaded)"
-msgstr ""
+msgstr "*Basic 1 Patch (hvis indlæst)"
 
 #: src/arch/unix/gui/petui.c:245
-#, fuzzy
 msgid "*Basic 1 character set"
-msgstr "*Tysk tegnsæt"
+msgstr "*Basic 1 tegnsæt"
 
 #: src/arch/unix/gui/petui.c:259
 msgid "*Original character set"
@@ -787,7 +764,7 @@ msgstr "I/O-størrelse"
 
 #: src/arch/unix/gui/petui.c:309
 msgid "*CRTC chip enable"
-msgstr "*Akrivér CRTC-kreds"
+msgstr "*Aktivér CRTC-kreds"
 
 #: src/arch/unix/gui/petui.c:312
 msgid "*SuperPET I/O enable (disables 8x96)"
@@ -814,9 +791,8 @@ msgid "*PET userport diagnostic pin"
 msgstr "*PET-diagnostik på brugerporten"
 
 #: src/arch/unix/gui/plus4ui.c:118
-#, fuzzy
 msgid "*Enable digiblaster add-on"
-msgstr "Aktivér dobbelt-skan"
+msgstr "*Aktivér digiblaster-udviddelse"
 
 #: src/arch/unix/gui/plus4ui.c:130
 msgid "Load new 3 plus 1 LO ROM"
@@ -977,14 +953,12 @@ msgid "Smart-attach disk/tape..."
 msgstr "Smart-tilslut diskette/bånd..."
 
 #: src/arch/unix/gui/uiattach.c:303
-#, fuzzy
 msgid "Autostart settings"
-msgstr "Crtc-indstillinger"
+msgstr "Autostart-indstillinger"
 
 #: src/arch/unix/gui/uiautostart.c:43
-#, fuzzy
 msgid "Disk image for PRG autostart"
-msgstr "Angiv bitrate for lydstrøm i mediefil"
+msgstr "Disk-image til PRG autostart"
 
 #: src/arch/unix/gui/uiautostart.c:43 src/arch/unix/gui/uic64_256k.c:40
 #: src/arch/unix/gui/uidqbb.c:40 src/arch/unix/gui/uigeoram.c:40
@@ -999,41 +973,35 @@ msgstr "Navn:"
 
 #: src/arch/unix/gui/uiautostart.c:47
 msgid "*VirtualFS"
-msgstr ""
+msgstr "*VitrualFS"
 
 #: src/arch/unix/gui/uiautostart.c:49
-#, fuzzy
 msgid "*Inject to RAM"
-msgstr "Forbind til "
+msgstr "*Indskyd til RAM"
 
 #: src/arch/unix/gui/uiautostart.c:51
-#, fuzzy
 msgid "*Disk image"
-msgstr "Disk&image"
+msgstr "*Disk-image"
 
 #: src/arch/unix/gui/uiautostart.c:57
-#, fuzzy
 msgid "*Handle True Drive Emulation on autostart"
-msgstr "*Brug ægte drev-emulering"
+msgstr "*Håndtér ægte drev-emulering ved autostart"
 
 #: src/arch/unix/gui/uiautostart.c:59
-#, fuzzy
 msgid "*Autostart warp"
-msgstr "Start automatisk"
+msgstr "*Autostart warp-tilstand"
 
 #: src/arch/unix/gui/uiautostart.c:61
 msgid "*RUN with colon"
-msgstr ""
+msgstr "*RUN med kolon"
 
 #: src/arch/unix/gui/uiautostart.c:63
-#, fuzzy
 msgid "Autostart PRG mode"
-msgstr "Autostart disk-image"
+msgstr "Autostart PRG-tilstand"
 
 #: src/arch/unix/gui/uiautostart.c:65
-#, fuzzy
 msgid "Autostart PRG disk image..."
-msgstr "&Autostart disketteimage..."
+msgstr "Autostart PRG disketteimage..."
 
 #: src/arch/unix/gui/uic64_256k.c:40
 msgid "256K image name"
@@ -1060,19 +1028,16 @@ msgid "Attach cartridge image"
 msgstr "Tilslut cartridge-image"
 
 #: src/arch/unix/gui/uic64cart.c:127
-#, fuzzy
 msgid "*Prg"
-msgstr "Prg"
+msgstr "*Prg"
 
 #: src/arch/unix/gui/uic64cart.c:129
-#, fuzzy
 msgid "*Off"
-msgstr "Slukket"
+msgstr "*Slukket"
 
 #: src/arch/unix/gui/uic64cart.c:131
-#, fuzzy
 msgid "*On"
-msgstr "Tændt"
+msgstr "*Tændt"
 
 #: src/arch/unix/gui/uic64cart.c:134
 msgid "Save cartridge image..."
@@ -1164,34 +1129,28 @@ msgid "*Cartridge control"
 msgstr "*Styring af cartridge"
 
 #: src/arch/unix/gui/uic64dtv.c:51
-#, fuzzy
 msgid "C64DTV ROM image name"
-msgstr "MMC64 image-navn"
+msgstr "C64DTV ROM image-navn"
 
 #: src/arch/unix/gui/uic64dtv.c:75
-#, fuzzy
 msgid "C64DTV ROM image name..."
-msgstr "Navn på MMC64-image..."
+msgstr "C64DTV ROM image-navn..."
 
 #: src/arch/unix/gui/uic64dtv.c:78
-#, fuzzy
 msgid "*Enable writes to C64DTV ROM image"
-msgstr "Aktivér &skrivning til DTV-ROM-image"
+msgstr "*Aktivér skrivning til DTV-ROM-image"
 
 #: src/arch/unix/gui/uic64dtv.c:81
-#, fuzzy
 msgid "C64DTV blitter revision"
-msgstr "C64DTV-revision"
+msgstr "C64DTV-blitterrevision"
 
 #: src/arch/unix/gui/uic64dtv.c:84
-#, fuzzy
 msgid "*Enable Hummer ADC"
-msgstr "*Aktivér mus"
+msgstr "*Aktivér Hummer ADC"
 
 #: src/arch/unix/gui/uic64dtv.c:86
-#, fuzzy
 msgid "PS/2 mouse on Userport"
-msgstr "Aktivér PS/2-mus på brugerporten"
+msgstr "PS/2-mus på brugerporten"
 
 #: src/arch/unix/gui/uicmdline.c:37 src/arch/amigaos/intl.c.po.c:3323
 #, c-format
@@ -1526,9 +1485,8 @@ msgid "Datassette control"
 msgstr "Datasettestyring"
 
 #: src/arch/unix/gui/uidigimax.c:39
-#, fuzzy
 msgid "*Userport"
-msgstr "Brugerport RS232"
+msgstr "*Brugerport"
 
 #: src/arch/unix/gui/uidigimax.c:77
 msgid "*Enable digimax"
@@ -1539,19 +1497,16 @@ msgid "Digimax base"
 msgstr "Digimax-base"
 
 #: src/arch/unix/gui/uidqbb.c:40
-#, fuzzy
 msgid "DQBB image name"
-msgstr "IDE64 image-navn"
+msgstr "DQBB image-navn"
 
 #: src/arch/unix/gui/uidqbb.c:44
-#, fuzzy
 msgid "*Enable DQBB"
-msgstr "&Aktivér DQBB"
+msgstr "*Aktivér DQBB"
 
 #: src/arch/unix/gui/uidqbb.c:46
-#, fuzzy
 msgid "DQBB image name..."
-msgstr "IDE64 image-navn..."
+msgstr "DQBB image-navn..."
 
 #: src/arch/unix/gui/uidrive.c:62 src/arch/unix/gui/uidrive.c:72
 #: src/arch/unix/gui/uidrive.c:82 src/arch/unix/gui/uidrive.c:92
@@ -1785,7 +1740,6 @@ msgid "*Enable Professional DOS"
 msgstr "*Aktivér Professional DOS"
 
 #: src/arch/unix/gui/uidrivec64dtv.c:45
-#, fuzzy
 msgid "*Enable true flash filesystem"
 msgstr "*Brug ægte flash-filsystememulering"
 
@@ -1855,23 +1809,20 @@ msgid "Load new 1551 ROM"
 msgstr "Indlæs ny 1551-ROM"
 
 #: src/arch/unix/gui/uieasyflash.c:44
-#, fuzzy
 msgid "Cannot save cartridge"
 msgstr "Kan ikke tilslutte cartridge"
 
 #: src/arch/unix/gui/uieasyflash.c:49
-#, fuzzy
 msgid "*Jumper"
-msgstr "*Rav-farvet"
+msgstr "*Jumper"
 
 #: src/arch/unix/gui/uieasyflash.c:51
-#, fuzzy
 msgid "*Save CRT on detach"
-msgstr "Gem ROM-set arkiv"
+msgstr "*Gem CRT ved afbrydelse"
 
 #: src/arch/unix/gui/uieasyflash.c:53
 msgid "Save CRT now"
-msgstr ""
+msgstr "Gem CRT nu"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2056,39 +2007,32 @@ msgid "*Sectors..."
 msgstr "*Sektorer..."
 
 #: src/arch/unix/gui/uiisepic.c:39
-#, fuzzy
 msgid "*Enable Isepic"
-msgstr "&Aktivér Isepic"
+msgstr "*Aktivér Isepic"
 
 #: src/arch/unix/gui/uiisepic.c:41
-#, fuzzy
 msgid "*Enable Isepic Switch"
-msgstr "Isepic-kontakt"
+msgstr "*Aktivér Isepic-kontakt"
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
-#, fuzzy
 msgid "*CGA userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "*CGA brugerport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:129 src/arch/unix/gui/uijoystick2.c:143
-#, fuzzy
 msgid "*PET userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "*PET brugerport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:131 src/arch/unix/gui/uijoystick2.c:145
-#, fuzzy
 msgid "*Hummer userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "*Hummer brugerport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:133 src/arch/unix/gui/uijoystick2.c:147
-#, fuzzy
 msgid "*OEM userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "*OEM brugerport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:135
-#, fuzzy
 msgid "*HIT userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "*HIT brugerport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:156 src/arch/unix/gui/uijoystick2.c:208
 #: src/arch/unix/gui/uijoystick2.c:260 src/arch/unix/gui/uijoystick2.c:312
@@ -2185,7 +2129,7 @@ msgstr "Definér taster"
 #: src/arch/unix/gui/uijoystick2.c:433 src/arch/unix/gui/uijoystick2.c:448
 #: src/arch/unix/gui/uijoystick2.c:475 src/arch/unix/gui/uijoystick2.c:504
 msgid "*Allow opposite directions"
-msgstr ""
+msgstr "*Tillad modsatte retninger"
 
 #: src/arch/unix/gui/uijoystick2.c:373 src/arch/unix/gui/uijoystick2.c:404
 #: src/arch/unix/gui/uijoystick2.c:435 src/arch/unix/gui/uijoystick2.c:450
@@ -2201,38 +2145,33 @@ msgstr "Byt om på joystickportene"
 
 #: src/arch/unix/gui/uijoystick2.c:378 src/arch/unix/gui/uijoystick2.c:409
 #: src/arch/unix/gui/uijoystick2.c:453 src/arch/unix/gui/uijoystick2.c:480
-#, fuzzy
 msgid "*Userport Joystick Interface"
-msgstr "*PET-diagnostik på brugerporten"
+msgstr "*Brugerport joystick interface"
 
 #: src/arch/unix/gui/uijoystick2.c:380 src/arch/unix/gui/uijoystick2.c:411
 #: src/arch/unix/gui/uijoystick2.c:455 src/arch/unix/gui/uijoystick2.c:482
 msgid "*Userport Joystick Interface Type"
-msgstr ""
+msgstr "*Brugerport joystick interfacetype"
 
 #: src/arch/unix/gui/uijoystick2.c:382 src/arch/unix/gui/uijoystick2.c:413
 #: src/arch/unix/gui/uijoystick2.c:457 src/arch/unix/gui/uijoystick2.c:484
 #: src/arch/unix/gui/uijoystick2.c:513
-#, fuzzy
 msgid "Joystick device in extra port 1"
-msgstr "Joystick i port 1"
+msgstr "Joystick i ekstra port 1"
 
 #: src/arch/unix/gui/uijoystick2.c:384 src/arch/unix/gui/uijoystick2.c:415
 #: src/arch/unix/gui/uijoystick2.c:459 src/arch/unix/gui/uijoystick2.c:486
-#, fuzzy
 msgid "Joystick device in extra port 2"
-msgstr "Joystick i port 2"
+msgstr "Joystick i ekstra port 2"
 
 #: src/arch/unix/gui/uijoystick2.c:386 src/arch/unix/gui/uijoystick2.c:417
 #: src/arch/unix/gui/uijoystick2.c:461 src/arch/unix/gui/uijoystick2.c:488
-#, fuzzy
 msgid "Swap userport joystick ports"
-msgstr "Byt om på joystickportene"
+msgstr "Byt om på joysticks på brugerporten"
 
 #: src/arch/unix/gui/uijoystick2.c:511
-#, fuzzy
 msgid "*SIDcart Joystick"
-msgstr "SID-cartridgeindstillinger"
+msgstr "*SID-cartridge joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:525 src/arch/unix/gui/uijoystick2.c:531
 #: src/arch/unix/gui/uijoystick2.c:537 src/arch/unix/gui/uijoystick2.c:543
@@ -2286,14 +2225,12 @@ msgid "MMC64 image name"
 msgstr "MMC64 image-navn"
 
 #: src/arch/unix/gui/uimmc64.c:52
-#, fuzzy
 msgid "*Rev. A"
-msgstr "*Udgave 0"
+msgstr "*Udgave A"
 
 #: src/arch/unix/gui/uimmc64.c:54
-#, fuzzy
 msgid "*Rev. B"
-msgstr "*Udgave 0"
+msgstr "*Udgave B"
 
 #: src/arch/unix/gui/uimmc64.c:60
 msgid "*Enable MMC64"
@@ -2324,19 +2261,16 @@ msgid "MMC64 image name..."
 msgstr "Navn på MMC64-image..."
 
 #: src/arch/unix/gui/uimouse.c:46
-#, fuzzy
 msgid "*Paddles"
-msgstr "Venter"
+msgstr "*Paddles"
 
 #: src/arch/unix/gui/uimouse.c:52
-#, fuzzy
 msgid "*Port 1"
-msgstr "Joystickport 1"
+msgstr "*Port 1"
 
 #: src/arch/unix/gui/uimouse.c:54
-#, fuzzy
 msgid "*Port 2"
-msgstr "Joystickport 2"
+msgstr "*Port 2"
 
 #: src/arch/unix/gui/uimouse.c:62
 msgid "*Enable mouse"
@@ -2353,9 +2287,8 @@ msgid "Mouse port"
 msgstr "Musseport"
 
 #: src/arch/unix/gui/uimouse.c:72
-#, fuzzy
 msgid "*Enable paddles"
-msgstr "Aktivér Scale2x"
+msgstr "*Aktivér paddles"
 
 #: src/arch/unix/gui/uinetplay.c:67
 msgid "Enter port"
@@ -2776,14 +2709,12 @@ msgid "Printer text device 3..."
 msgstr "Printer tekst enhed 3..."
 
 #: src/arch/unix/gui/uips2mouse.c:40
-#, fuzzy
 msgid "*Enable PS/2 mouse"
-msgstr "*Aktivér mus"
+msgstr "*Aktivér PS/2-mus"
 
 #: src/arch/unix/gui/uips2mouse.c:42
-#, fuzzy
 msgid "*Grab mouse events"
-msgstr "Fang mussehændelser"
+msgstr "*Fang mussehændelser"
 
 #: src/arch/unix/gui/uiramcart.c:41
 msgid "RAMCART image name"
@@ -2835,14 +2766,12 @@ msgstr ""
 "\"%s\""
 
 #: src/arch/unix/gui/uiromset.c:85
-#, fuzzy
 msgid "*Archive"
-msgstr "Drev"
+msgstr "*Arkiv"
 
 #: src/arch/unix/gui/uiromset.c:87
-#, fuzzy
 msgid "*File"
-msgstr "Fil"
+msgstr "*Fil"
 
 #: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
@@ -3126,7 +3055,7 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
-"Kunne ikke læsa indstillinger:\n"
+"Kunne ikke læse indstillinger:\n"
 "filen er ugyldig."
 
 #: src/arch/unix/gui/uisettings.c:244 src/arch/unix/gui/uisettings.c:320
@@ -3195,30 +3124,25 @@ msgstr "*Bekræft programafslutning"
 
 #: src/arch/unix/gui/uisid.c:64 src/arch/unix/gui/uisid.c:128
 #: src/arch/unix/gui/uisid.c:178
-#, fuzzy
 msgid "*6581 (FastSID)"
-msgstr "*Fast SID"
+msgstr "*6581 (FastSID)"
 
 #: src/arch/unix/gui/uisid.c:66 src/arch/unix/gui/uisid.c:130
 #: src/arch/unix/gui/uisid.c:180
-#, fuzzy
 msgid "*8580 (FastSID)"
-msgstr "*Fast SID"
+msgstr "*8580 (FastSID)"
 
 #: src/arch/unix/gui/uisid.c:70
-#, fuzzy
 msgid "*6581 (ReSID)"
-msgstr "*6581 (gammel)"
+msgstr "*6581 (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:72
-#, fuzzy
 msgid "*8580 (ReSID)"
-msgstr "*8580 (ny)"
+msgstr "*8580 (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:74
-#, fuzzy
 msgid "*8580 + digi boost (ReSID)"
-msgstr "*8580 + digiboost"
+msgstr "*8580 + digitalforstærkning (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisid.c:134
 msgid "*6581R3 4885 (very light)"
@@ -3342,47 +3266,40 @@ msgid "*0.10 sec"
 msgstr "*0,10 s"
 
 #: src/arch/unix/gui/uisound.c:74
-#, fuzzy
 msgid "*0.075 sec"
-msgstr "*0,75 s"
+msgstr "*0,075 s"
 
 #: src/arch/unix/gui/uisound.c:76
-#, fuzzy
 msgid "*0.05 sec"
-msgstr "*0,75 s"
+msgstr "*0,05 s"
 
 #: src/arch/unix/gui/uisound.c:78
-#, fuzzy
 msgid "*0.04 sec"
-msgstr "*0,50 s"
+msgstr "*0,04 s"
 
 #: src/arch/unix/gui/uisound.c:80
-#, fuzzy
 msgid "*0.03 sec"
-msgstr "*0,50 s"
+msgstr "*0,03 s"
 
 #: src/arch/unix/gui/uisound.c:82
-#, fuzzy
 msgid "*0.025 sec"
-msgstr "*0,25 s"
+msgstr "*0,025 s"
 
 #: src/arch/unix/gui/uisound.c:84
-#, fuzzy
 msgid "*0.02 sec"
-msgstr "*0,50 s"
+msgstr "*0,02 s"
 
 #: src/arch/unix/gui/uisound.c:90
-#, fuzzy
 msgid "*Small"
-msgstr "&Lille"
+msgstr "*Lille"
 
 #: src/arch/unix/gui/uisound.c:92
 msgid "*Medium"
-msgstr ""
+msgstr "*Normal"
 
 #: src/arch/unix/gui/uisound.c:94
 msgid "*Large"
-msgstr ""
+msgstr "*Stor"
 
 #: src/arch/unix/gui/uisound.c:100
 msgid "*Keep going"
@@ -3438,9 +3355,8 @@ msgid "Buffer size"
 msgstr "Bufferstørrelse"
 
 #: src/arch/unix/gui/uisound.c:144
-#, fuzzy
 msgid "Fragment size"
-msgstr "<ramstørrelse>"
+msgstr "Fragmentstørrelse"
 
 #: src/arch/unix/gui/uisound.c:146
 msgid "Suspend time"
@@ -3451,15 +3367,13 @@ msgid "Sound settings"
 msgstr "Lydindstillinger"
 
 #: src/arch/unix/gui/uisoundexpander.c:47
-#, fuzzy
 msgid "*Enable SFX Sound Expander"
-msgstr "Slå lydemulering til"
+msgstr "*Aktivér SFX Sound Expander"
 
 #: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/win32/ressoundexpander.rc.po.c:24
-#, fuzzy
 msgid "YM chip type"
-msgstr "Maskintype"
+msgstr "YM chiptype"
 
 #: src/arch/unix/gui/uited.c:109 src/arch/unix/gui/uivic.c:131
 #: src/arch/unix/gui/uivicii.c:167
@@ -3513,9 +3427,8 @@ msgid "*Default"
 msgstr "*Standard"
 
 #: src/arch/unix/gui/uivdc.c:45
-#, fuzzy
 msgid "*Composite"
-msgstr "Computer"
+msgstr "*Composite"
 
 #: src/arch/unix/gui/uivdc.c:56
 msgid "*Revison 0"
@@ -3693,66 +3606,56 @@ msgid "Attach 4KB image at $B000..."
 msgstr "Tilslut 4KB-fil på $B000..."
 
 #: src/arch/unix/gui/vic20ui.c:314
-#, fuzzy
 msgid "Attach generic image..."
-msgstr "Tilslut standard 8KB-image..."
+msgstr "Tilslut standardimage..."
 
 #: src/arch/unix/gui/vic20ui.c:317
-#, fuzzy
 msgid "Attach Mega-Cart image..."
-msgstr "Tilslut et bånd-image..."
+msgstr "Tilslut Mega-Cart-image..."
 
 #: src/arch/unix/gui/vic20ui.c:320
-#, fuzzy
 msgid "Attach Final Expansion image..."
-msgstr "Tilslut et bånd-image..."
+msgstr "Tilslut Final Expansion-image..."
 
 #: src/arch/unix/gui/vic20ui.c:324
-#, fuzzy
 msgid "Add to generic cartridge"
-msgstr "Tilslut standard 8KB-cartridge image"
+msgstr "Tilføj til standardcartridge"
 
 #: src/arch/unix/gui/vic20ui.c:338
-#, fuzzy
 msgid "Mega-Cart NvRAM image name"
-msgstr "CRT-fil..."
+msgstr "Mega-Cart NvRAM imagenavn"
 
 #: src/arch/unix/gui/vic20ui.c:342
-#, fuzzy
 msgid "*Reset on cartridge change"
-msgstr "Reset ved cartridge-skift"
+msgstr "*Reset ved cartridge-skift"
 
 #: src/arch/unix/gui/vic20ui.c:344
-#, fuzzy
 msgid "*Final Expansion write back"
-msgstr "Vælg snapshot-fil"
+msgstr "*Final Expansion tilbageskrivning"
 
 #: src/arch/unix/gui/vic20ui.c:346
 msgid "*Mega-Cart NvRAM write back"
-msgstr ""
+msgstr "*Mega-Cart NvRAM tilbageskrivning"
 
 #: src/arch/unix/gui/vic20ui.c:348
-#, fuzzy
 msgid "Mega-Cart NvRAM file..."
-msgstr "CRT-fil..."
+msgstr "Mega-Cart NvRAM-fil..."
 
 #: src/arch/unix/gui/vic20ui.c:357
 msgid "Detach cartridge image(s)"
 msgstr "Frakobl cartridge-image"
 
 #: src/arch/unix/gui/vic20ui.c:359
-#, fuzzy
 msgid "Cartridge options"
-msgstr "&Cartridgeindstillinger..."
+msgstr "Cartridgeindstillinger"
 
 #: src/arch/unix/gui/vic20ui.c:488
 msgid "VIC settings"
 msgstr "VIC-indstillinger"
 
 #: src/arch/unix/gui/vic20ui.c:494
-#, fuzzy
 msgid "Paddle emulation"
-msgstr "Printeremulering"
+msgstr "Paddleemulering"
 
 #: src/arch/unix/gui/vic20ui.c:501
 msgid "MIDI emulation"
@@ -3831,9 +3734,8 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - ungersk\n"
 
 #: src/arch/unix/x11/gnome/about.c:114
-#, fuzzy
 msgid "(c) 1998 - 2009 The Vice Team"
-msgstr "(c) 1998 - 2008 Vice-teamet"
+msgstr "(c) 1998 - 2009 Vice-teamet"
 
 #: src/arch/unix/x11/gnome/about.c:121 src/arch/win32/res.rc.po.c:1014
 #: src/arch/amigaos/intl.c.po.c:2323
@@ -4273,7 +4175,7 @@ msgstr "Aktivér fuldskærmstilstand (standardkreds)"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:84
 msgid "Disable fullscreen (default Chip)"
-msgstr "Deaktiver fuldskærmstilstand (standardkreds)"
+msgstr "Deaktivér fuldskærmstilstand (standardkreds)"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate.c.po.c:5234
 msgid "<value>"
@@ -4426,11 +4328,11 @@ msgstr "Anmod om YUV FOURCC-format"
 
 #: src/arch/unix/x11/xaw/x11video.c:251
 msgid "<aspect ratio>"
-msgstr "<aspect ratio>"
+msgstr "<aspektforhold>"
 
 #: src/arch/unix/x11/xaw/x11video.c:251
 msgid "Set aspect ratio (0.8 - 1.2)"
-msgstr "Vælg aspect ratio (0.8 - 1.2)"
+msgstr "Vælg aspektforhold (0.8 - 1.2)"
 
 #: src/arch/unix/x11/xaw/x11video.c:324
 #, c-format
@@ -4483,29 +4385,27 @@ msgstr "Vælg Y-akse tærskel i procent for HID-enhed B"
 
 #: src/arch/unix/macosx/mididrv.c:118
 msgid "Name of MIDI Client"
-msgstr ""
+msgstr "Navn på MIDI-klient"
 
 #: src/arch/unix/macosx/mididrv.c:123
 msgid "Name of MIDI-In Port"
-msgstr ""
+msgstr "Navn på MIDI-ind port"
 
 #: src/arch/unix/macosx/mididrv.c:128
 msgid "Name of MIDI-Out Port"
-msgstr ""
+msgstr "Navn på MIDI-ud port"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:140
 msgid "VICE: Console"
-msgstr ""
+msgstr "VICE: Konsol"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:145
-#, fuzzy
 msgid "VICE: Monitor"
-msgstr "VICE bidragsydere"
+msgstr "VICE: Monitor"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:150
-#, fuzzy
 msgid "VICE: Control"
-msgstr "Styring"
+msgstr "VICE: Styring"
 
 #: src/arch/win32/res.rc.po.c:81 src/arch/win32/res.rc.po.c:1279
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
@@ -4554,69 +4454,56 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:179
-#, fuzzy
 msgid "Copyright (c) 1998-2009 Andreas Boose"
-msgstr "Copyright (c) 1998-2008 Andreas Boose"
+msgstr "Copyright (c) 1998-2009 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:180
-#, fuzzy
 msgid "Copyright (c) 1998-2009 Dag Lem"
-msgstr "Copyright (c) 1998-2008 Dag Lem"
+msgstr "Copyright (c) 1998-2009 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:181
-#, fuzzy
 msgid "Copyright (c) 1998-2009 Tibor Biczo"
-msgstr "Copyright (c) 1998-2008 Tibor Biczo"
+msgstr "Copyright (c) 1998-2009 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1999-2009 Andreas Matthies"
-msgstr "Copyright (c) 1999-2008 Andreas Matthies"
+msgstr "Copyright (c) 1999-2009 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2009 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2008 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2009 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 2000-2009 Spiro Trikaliotis"
 msgstr "Copyright (c) 2000-2008 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2009 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2008 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2009 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2009 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2008 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2009 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2009 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2008 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2009 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2009 M. Kiesel"
-msgstr "Copyright (c) 2007-2008 M. Kiesel"
+msgstr "Copyright (c) 2007-2009 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2007-2009 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2008 Hannu Nuotio"
+msgstr "Copyright (c) 2007-2009 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2007-2009 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2008 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2009 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2008-2009 Antti S. Lankila"
-msgstr "Copyright (c) 2007-2008 M. Kiesel"
+msgstr "Copyright (c) 2008-2009 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:192
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -4961,9 +4848,8 @@ msgid "Load VICE palette file"
 msgstr "Indlæs VICE-palette"
 
 #: src/arch/win32/res.rc.po.c:979
-#, fuzzy
 msgid "Fullscreen/DirectX"
-msgstr "Fuldskærm"
+msgstr "Fuldskærm/DirectX"
 
 #: src/arch/win32/res.rc.po.c:980
 msgid "Colors"
@@ -5068,14 +4954,14 @@ msgid "Select end snapshot for event history"
 msgstr "Vælg slut-snapshot for hændelseshistorik"
 
 #: src/arch/win32/res.rc.po.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s *UNSTABLE* (%s)"
-msgstr "Version %s *USTABIL*"
+msgstr "Version %s *USTABIL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1010
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s (%s)"
-msgstr "Version %s"
+msgstr "Version %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1012 src/arch/amigaos/intl.c.po.c:2611
 msgid "VICE contributors"
@@ -5126,44 +5012,36 @@ msgid "Press key for Fire"
 msgstr "Tryk tast for skyd"
 
 #: src/arch/win32/res.rc.po.c:1026
-#, fuzzy
 msgid "No userport joy adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "Ingen brugerportjoystickadapter"
 
 #: src/arch/win32/res.rc.po.c:1027
-#, fuzzy
 msgid "CGA userport joy adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "CGA brugerportjoystickadapter"
 
 #: src/arch/win32/res.rc.po.c:1028
-#, fuzzy
 msgid "PET userport joy adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "PET brugerportjoystickadapter"
 
 #: src/arch/win32/res.rc.po.c:1029
-#, fuzzy
 msgid "HUMMER userport joy adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "Hummer brugerportjoystickadapter"
 
 #: src/arch/win32/res.rc.po.c:1030
-#, fuzzy
 msgid "OEM userport joy adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "OEM brugerportjoystickadapter"
 
 #: src/arch/win32/res.rc.po.c:1031
-#, fuzzy
 msgid "HIT userport joy adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "HIT brugerportjoystickadapter"
 
 #: src/arch/win32/res.rc.po.c:1032
-#, fuzzy
 msgid "Disable SIDcart joy"
-msgstr "Deaktiver SID-cartridge"
+msgstr "Deaktivér SIDcart joystick"
 
 #: src/arch/win32/res.rc.po.c:1033
-#, fuzzy
 msgid "Enable SIDcart joy"
-msgstr "*Aktivér SID-cartridge"
+msgstr "Aktivér SIDcart joystick"
 
 #: src/arch/win32/res.rc.po.c:1034
 msgid "Numpad + RCtrl"
@@ -5341,14 +5219,12 @@ msgid "Set input device for joystick #2"
 msgstr "Vælg inddataenhed for joystick 2"
 
 #: src/arch/win32/res.rc.po.c:1073
-#, fuzzy
 msgid "Set input device for extra joystick #1"
-msgstr "Vælg inddataenhed for joystick 1"
+msgstr "Vælg inddataenhed for ekstra joystick 1"
 
 #: src/arch/win32/res.rc.po.c:1074
-#, fuzzy
 msgid "Set input device for extra joystick #2"
-msgstr "Vælg inddataenhed for joystick 2"
+msgstr "Vælg inddataenhed for ekstra joystick 2"
 
 #: src/arch/win32/res.rc.po.c:1079
 msgid "Use all CPU on SMP systems"
@@ -5363,9 +5239,8 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Start VICE i fullscreen-tilstand"
 
 #: src/arch/win32/res.rc.po.c:1082
-#, fuzzy
 msgid "Disable DirectX9 video driver"
-msgstr "Deaktiver videocache"
+msgstr "Deaktivér DirectX9 videodriver"
 
 #: src/arch/win32/res.rc.po.c:1084
 #, c-format
@@ -5398,9 +5273,8 @@ msgid "None"
 msgstr "Ingen"
 
 #: src/arch/win32/res.rc.po.c:1105 src/arch/amigaos/intl.c.po.c:6601
-#, fuzzy
 msgid "Error saving EasyFlash crt file"
-msgstr "Fejl under læsning af start-snapshot."
+msgstr "Fejl under skrivning af EasyFlash CRT-fil"
 
 #: src/arch/win32/res.rc.po.c:1106 src/arch/amigaos/intl.c.po.c:3950
 msgid "Datasette Settings"
@@ -5499,19 +5373,16 @@ msgid "&Calibrate Joystick(s)"
 msgstr "&Kalibrér Joystick(s)"
 
 #: src/arch/win32/res.rc.po.c:1133
-#, fuzzy
 msgid "Extra joystick settings"
-msgstr "Joystick indstillinger"
+msgstr "Ekstra joystickindstillinger"
 
 #: src/arch/win32/res.rc.po.c:1134
-#, fuzzy
 msgid "Joystick in extra port #&1"
-msgstr "Joystick i port &1"
+msgstr "Joystick i ekstra port &1"
 
 #: src/arch/win32/res.rc.po.c:1135
-#, fuzzy
 msgid "Joystick in extra port #&2"
-msgstr "Joystick i port &2"
+msgstr "Joystick i ekstra port &2"
 
 #: src/arch/win32/res.rc.po.c:1136
 msgid "S&outh West"
@@ -5570,23 +5441,20 @@ msgid "Sound Buffer &Size :"
 msgstr "Lydbuffer&størrelse:"
 
 #: src/arch/win32/res.rc.po.c:1150
-#, fuzzy
 msgid "Sound Fragment Size :"
-msgstr "<ramstørrelse>"
+msgstr "lydfragmentstørrelse :"
 
 #: src/arch/win32/res.rc.po.c:1151
-#, fuzzy
 msgid "Small"
-msgstr "&Lille"
+msgstr "Lille"
 
 #: src/arch/win32/res.rc.po.c:1152
 msgid "Medium"
-msgstr ""
+msgstr "Medium"
 
 #: src/arch/win32/res.rc.po.c:1153
-#, fuzzy
 msgid "Large"
-msgstr "Sprog"
+msgstr "Stor"
 
 #: src/arch/win32/res.rc.po.c:1154
 msgid "Synchronization &Method :"
@@ -5625,9 +5493,8 @@ msgid "Render to DX Primary surface"
 msgstr "Rendér til DXs primære overflade"
 
 #: src/arch/win32/res.rc.po.c:1163
-#, fuzzy
 msgid "Keep aspect ratio (0,5..2)"
-msgstr "Vælg aspect ratio (0.8 - 1.2)"
+msgstr "Vælg aspektforhold (0,5-2)"
 
 #: src/arch/win32/res.rc.po.c:1164 src/arch/amigaos/intl.c.po.c:5919
 msgid "Saturation (0..2)"
@@ -5646,12 +5513,10 @@ msgid "Tint (0..2)"
 msgstr "Farvetone (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1168
-#, fuzzy
 msgid "Odd lines phase (0..2)"
 msgstr "Fase for ulige linjer (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1169
-#, fuzzy
 msgid "Odd lines offset (0..2)"
 msgstr "Offset for ulige linjer (0..2)"
 
@@ -5660,9 +5525,8 @@ msgid "Gamma (0..2)"
 msgstr "Gamma (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1171
-#, fuzzy
 msgid "Phase (0..2)"
-msgstr "Skanlinjeskygge (0..1)"
+msgstr "Fase (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1172 src/arch/amigaos/intl.c.po.c:5842
 msgid "PAL Shade (0..1)"
@@ -5813,7 +5677,6 @@ msgid "Current mode"
 msgstr "Nuværende tilstand"
 
 #: src/arch/win32/res.rc.po.c:1210 src/arch/amigaos/intl.c.po.c:2914
-#, fuzzy
 msgid "Server Bind"
 msgstr "Server"
 
@@ -5858,30 +5721,26 @@ msgid "New TAP Image"
 msgstr "Nyt TAP-image"
 
 #: src/arch/win32/res.rc.po.c:1232
-#, fuzzy
 msgid "Select Driver"
-msgstr "Vælg driver:"
+msgstr "Vælg driver"
 
 #: src/arch/win32/res.rc.po.c:1233
 msgid "FFMPEG settings"
 msgstr "FFMPEG-indstillinger"
 
 #: src/arch/win32/res.rc.po.c:1235
-#, fuzzy
 msgid "Audio codec"
-msgstr "Lyd: kodeks"
+msgstr "Lydkodeks"
 
 #: src/arch/win32/res.rc.po.c:1236
 msgid "bitrate"
 msgstr "bitrate"
 
 #: src/arch/win32/res.rc.po.c:1237
-#, fuzzy
 msgid "Video codec"
-msgstr "Video: kodeks"
+msgstr "Videokodeks"
 
 #: src/arch/win32/res.rc.po.c:1238
-#, fuzzy
 msgid "Sound record settings"
 msgstr "Lydoptagelsesindstillinger"
 
@@ -6034,9 +5893,8 @@ msgid "$&A000-$BFFF RAM"
 msgstr "$&A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1277
-#, fuzzy
 msgid "SID Engine/Model"
-msgstr "SID-motor"
+msgstr "SID-motor/model"
 
 #: src/arch/win32/res.rc.po.c:1278 src/arch/amigaos/intl.c.po.c:5105
 msgid "SID Filters"
@@ -6246,7 +6104,7 @@ msgstr "Æg&te drev-emulering"
 
 #: src/arch/win32/res.rc.po.c:1324
 msgid "Ha&ndle TDE for autostart"
-msgstr "Brug TDE ved autostart"
+msgstr "Hå&ndtér TDE ved autostart"
 
 #: src/arch/win32/res.rc.po.c:1325
 msgid "Video &cache"
@@ -6509,19 +6367,16 @@ msgid "Scale2x"
 msgstr "Scale2x"
 
 #: src/arch/win32/res.rc.po.c:1395
-#, fuzzy
 msgid "Swap &Joysticks"
-msgstr "Byt om på &joystickportene"
+msgstr "Byt om på &joysticks"
 
 #: src/arch/win32/res.rc.po.c:1396
-#, fuzzy
 msgid "Swap &Userport joysticks"
-msgstr "*PET-diagnostik på brugerporten"
+msgstr "Byt om på br&ugerportjoysticks"
 
 #: src/arch/win32/res.rc.po.c:1397
-#, fuzzy
 msgid "Allow opposite joystick directions"
-msgstr "*Tillad tastaturjoystick"
+msgstr "Tillad modsatte joystickretninger"
 
 #: src/arch/win32/res.rc.po.c:1398 src/arch/amigaos/intl.c.po.c:1498
 msgid "Enable Joy Keys"
@@ -6540,9 +6395,8 @@ msgid "&Grab mouse events"
 msgstr "Fan&g mussehændelser"
 
 #: src/arch/win32/res.rc.po.c:1402
-#, fuzzy
 msgid "&Autostart settings..."
-msgstr "Crtc-indstillinger"
+msgstr "&Autostart-indstillinger"
 
 #: src/arch/win32/res.rc.po.c:1403
 msgid "&Video settings..."
@@ -6557,14 +6411,12 @@ msgid "&Joystick settings..."
 msgstr "&Joystick indstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1406
-#, fuzzy
 msgid "&Userport joystick settings..."
-msgstr "&Joystick indstillinger..."
+msgstr "&Brugerportjoystickindstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1407
-#, fuzzy
 msgid "&Sidcart joystick settings..."
-msgstr "&Joystick indstillinger..."
+msgstr "&SidCart joystickindstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1408
 msgid "&Keyboard settings..."
@@ -6635,9 +6487,8 @@ msgid "&DIGIMAX settings..."
 msgstr "&DIGIMAX-indstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1425
-#, fuzzy
 msgid "&Lightpen settings..."
-msgstr "&Diskettedrevsindstillinger..."
+msgstr "&Lyspenindstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1426
 msgid "&IDE64 settings..."
@@ -6656,19 +6507,16 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232-brugerportsindstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1432 src/arch/amigaos/intl.c.po.c:2114
-#, fuzzy
 msgid "EasyFlash settings..."
-msgstr "Plus4-indstillinger..."
+msgstr "EasyFlash-indstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl.c.po.c:2103
-#, fuzzy
 msgid "SFX Sound Expander settings..."
-msgstr "Emulering af PS/2-mus"
+msgstr "SFX Sound Expander-indstillinger..."
 
 #: src/arch/win32/res.rc.po.c:1434 src/arch/amigaos/intl.c.po.c:2125
-#, fuzzy
 msgid "Enable SFX Sound Sampler"
-msgstr "Slå lydemulering til"
+msgstr "Aktivér SFX Sound Sampler"
 
 #: src/arch/win32/res.rc.po.c:1435 src/arch/amigaos/intl.c.po.c:2202
 msgid "Save current settings to specified file"
@@ -6703,9 +6551,8 @@ msgid "&English"
 msgstr "&Engelsk"
 
 #: src/arch/win32/res.rc.po.c:1443
-#, fuzzy
 msgid "D&anish"
-msgstr "&Engelsk"
+msgstr "D&ansk"
 
 #: src/arch/win32/res.rc.po.c:1444
 msgid "&German"
@@ -6717,7 +6564,7 @@ msgstr "&Fransk"
 
 #: src/arch/win32/res.rc.po.c:1446
 msgid "&Hungarian"
-msgstr "&Ungersk"
+msgstr "&Ungarsk"
 
 #: src/arch/win32/res.rc.po.c:1447
 msgid "&Italian"
@@ -6737,7 +6584,7 @@ msgstr "&Svensk"
 
 #: src/arch/win32/res.rc.po.c:1451
 msgid "&Turkish"
-msgstr ""
+msgstr "&Tyrkisk"
 
 #: src/arch/win32/res.rc.po.c:1452
 msgid "Command line &options"
@@ -6892,46 +6739,40 @@ msgid "ACIA mode"
 msgstr "ACIA-tilstand"
 
 #: src/arch/win32/resautostart.rc.po.c:36
-#, fuzzy
 msgid "Autostart Settings"
-msgstr "Crtc-indstillinger"
+msgstr "Autostartindstillinger"
 
 #: src/arch/win32/resautostart.rc.po.c:37
-#, fuzzy
 msgid "Autostart warp"
-msgstr "Start automatisk"
+msgstr "Autostart i warp-tilstand"
 
 #: src/arch/win32/resautostart.rc.po.c:38
 msgid "Use ':' with run"
-msgstr ""
+msgstr "Brug \":\" med RUN"
 
 #: src/arch/win32/resautostart.rc.po.c:39
-#, fuzzy
 msgid "PRG autostart mode"
-msgstr "Start-tilstand for optagelse"
+msgstr "PRG-autostarttilstand"
 
 #: src/arch/win32/resautostart.rc.po.c:40
-#, fuzzy
 msgid "PRG autostart disk image"
-msgstr "Autostart disk-image"
+msgstr "PRG Autostart disk-image"
 
 #: src/arch/win32/resautostart.rc.po.c:41
-#, fuzzy
 msgid "Select file for PRG autostart disk"
-msgstr "Vælg fil for REU"
+msgstr "Vælg fil for PRG autostartdiskette"
 
 #: src/arch/win32/resautostart.rc.po.c:42
 msgid "Virtual FS"
-msgstr ""
+msgstr "Virtuelt FS"
 
 #: src/arch/win32/resautostart.rc.po.c:43
 msgid "Inject"
-msgstr ""
+msgstr "Indskyd"
 
 #: src/arch/win32/resautostart.rc.po.c:44
-#, fuzzy
 msgid "Disk image"
-msgstr "Disk&image"
+msgstr "Diskimage"
 
 #: src/arch/win32/resc128.rc.po.c:83 src/arch/win32/resc64.rc.po.c:83
 #: src/arch/amigaos/intl.c.po.c:783
@@ -7049,24 +6890,20 @@ msgstr "&VDC-indstillinger"
 
 #: src/arch/win32/resc128.rc.po.c:195 src/arch/win32/resc128.rc.po.c:693
 #: src/arch/amigaos/intl.c.po.c:1432
-#, fuzzy
 msgid "VDC revision"
-msgstr "DTV-revision"
+msgstr "VDC-revision"
 
 #: src/arch/win32/resc128.rc.po.c:197 src/arch/amigaos/intl.c.po.c:1443
-#, fuzzy
 msgid "Rev 0"
-msgstr "*Udgave 0"
+msgstr "Udgave 0"
 
 #: src/arch/win32/resc128.rc.po.c:198 src/arch/amigaos/intl.c.po.c:1454
-#, fuzzy
 msgid "Rev 1"
-msgstr "*Udgave 1"
+msgstr "Udgave 1"
 
 #: src/arch/win32/resc128.rc.po.c:199 src/arch/amigaos/intl.c.po.c:1465
-#, fuzzy
 msgid "Rev 2"
-msgstr "*Udgave 2"
+msgstr "Udgave 2"
 
 #: src/arch/win32/resc128.rc.po.c:216 src/arch/win32/resc64.rc.po.c:206
 #: src/arch/win32/resc64dtv.rc.po.c:165 src/arch/win32/resplus4.rc.po.c:181
@@ -7181,9 +7018,8 @@ msgid "Select external function ROM image"
 msgstr "Vælg image for extern funktions-ROM"
 
 #: src/arch/win32/resc128.rc.po.c:649
-#, fuzzy
 msgid "RAM banks"
-msgstr "&RAM-banker"
+msgstr "RAM-banke"
 
 #: src/arch/win32/resc128.rc.po.c:650 src/arch/amigaos/intl.c.po.c:6293
 msgid "C128 settings"
@@ -7350,9 +7186,8 @@ msgid "Enable external Function ROM"
 msgstr "Aktivér extern funktions-ROM"
 
 #: src/arch/win32/resc128.rc.po.c:691
-#, fuzzy
 msgid "Enable RAM banks 2 and 3"
-msgstr "Aktivér RAM-udviddelsesenhed"
+msgstr "Aktivér RAM-bank 2 og 3"
 
 #: src/arch/win32/resc128.rc.po.c:694
 msgid "64KB video &memory"
@@ -7435,9 +7270,8 @@ msgid "DTV Revision"
 msgstr "DTV-revision"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
-#, fuzzy
 msgid "Enable Hummer ADC"
-msgstr "&Aktivér ACIA"
+msgstr "Aktivér Hummer ADC"
 
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "Create DTV Flash Image"
@@ -7473,7 +7307,7 @@ msgstr "&Opret nyt flash-rom-image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:444
 msgid "&True flash filesystem"
-msgstr "&Ægte flash-filsystem"
+msgstr "Æg&te flash-filsystem"
 
 #: src/arch/win32/resc64dtv.rc.po.c:445
 msgid "&PS/2 mouse emulation"
@@ -7740,23 +7574,20 @@ msgid "15&81"
 msgstr "15&81"
 
 #: src/arch/win32/reseasyflash.rc.po.c:26 src/arch/amigaos/intl.c.po.c:4192
-#, fuzzy
 msgid "EasyFlash Settings"
-msgstr "Datasetteindstillinger"
+msgstr "EasyFlash-indstillinger"
 
 #: src/arch/win32/reseasyflash.rc.po.c:27
-#, fuzzy
 msgid "EasyFlash &Jumper"
-msgstr "BIOS-flashjumper"
+msgstr "EasyFlash-&Jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:28
-#, fuzzy
 msgid "&Save CRT on detach"
-msgstr "Gem ROM-set arkiv"
+msgstr "&Gem CRT ved afbrydelse"
 
 #: src/arch/win32/reseasyflash.rc.po.c:29
 msgid "Save CRT &now"
-msgstr ""
+msgstr "Gem CRT &nu"
 
 #: src/arch/win32/resgeoram.rc.po.c:34 src/arch/amigaos/intl.c.po.c:4115
 msgid "Select file for GEORAM"
@@ -7824,44 +7655,36 @@ msgid "&Isepic switch"
 msgstr "&Isepic-kontakt"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
-#, fuzzy
 msgid "lightpen Settings"
-msgstr "&Diskettedrevsindstillinger..."
+msgstr "Lyspenindstillinger"
 
 #: src/arch/win32/reslightpen.rc.po.c:23
-#, fuzzy
 msgid "&Enable lightpen"
-msgstr "Aktivér MIDI-emulering"
+msgstr "Aktivér lysp&en"
 
 #: src/arch/win32/reslightpen.rc.po.c:24
-#, fuzzy
 msgid "Lightpen type"
-msgstr "Drevtype"
+msgstr "Lyspentype"
 
 #: src/arch/win32/resmidi.rc.po.c:35
-#, fuzzy
 msgid "Midi Settings"
-msgstr "RAM-indstillinger"
+msgstr "MIDI-indstillinger"
 
 #: src/arch/win32/resmidi.rc.po.c:36
-#, fuzzy
 msgid "&Enable midi"
-msgstr "&Aktivér Digimax"
+msgstr "&Aktivér MIDI"
 
 #: src/arch/win32/resmidi.rc.po.c:37
-#, fuzzy
 msgid "Midi cart type"
-msgstr "ROM-sæt type"
+msgstr "MIDI-cartridgetype"
 
 #: src/arch/win32/resmidi.rc.po.c:38
-#, fuzzy
 msgid "Midi-in device"
-msgstr "Hovedenhed"
+msgstr "MIDI-inddataenhed"
 
 #: src/arch/win32/resmidi.rc.po.c:39
-#, fuzzy
 msgid "Midi-out device"
-msgstr "Hovedenhed"
+msgstr "MIDI-uddataenhed"
 
 #: src/arch/win32/resmmc64.rc.po.c:45
 msgid "&Enable MMC64"
@@ -8342,20 +8165,17 @@ msgid "Main device"
 msgstr "Hovedenhed"
 
 #: src/arch/win32/ressidcart.rc.po.c:84
-#, fuzzy
 msgid "Enable digiblaster add-on"
-msgstr "Aktivér dobbelt-skan"
+msgstr "Aktivér digiblaster tilføjelse"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:22
 #: src/arch/amigaos/intl.c.po.c:6392
-#, fuzzy
 msgid "SFX Sound Expander Settings"
-msgstr "Emulering af PS/2-mus"
+msgstr "SFX Sound Expander-indstillinger"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23
-#, fuzzy
 msgid "&Enable SFX Sound Expander"
-msgstr "Slå lydemulering til"
+msgstr "&Aktivér SFX Sound Expander"
 
 #: src/arch/win32/restfe.rc.po.c:33
 msgid "Ethernet Settings"
@@ -8371,9 +8191,8 @@ msgstr "&Interface"
 
 #: src/arch/win32/resvic20.rc.po.c:65 src/arch/win32/resvic20.rc.po.c:511
 #: src/arch/amigaos/intl.c.po.c:431
-#, fuzzy
 msgid "Add to generic..."
-msgstr "Tilslut standard 8KB-image..."
+msgstr "Tilføj til standard..."
 
 #: src/arch/win32/resvic20.rc.po.c:484 src/arch/amigaos/intl.c.po.c:5248
 msgid "VIC Settings"
@@ -8428,24 +8247,20 @@ msgid "Block &5"
 msgstr "Block &5"
 
 #: src/arch/win32/resvic20.rc.po.c:497
-#, fuzzy
 msgid "Select Generic image"
-msgstr "Angiv HD-imagefil"
+msgstr "Vælg standard-imagefil"
 
 #: src/arch/win32/resvic20.rc.po.c:498
-#, fuzzy
 msgid "Select Mega-Cart image"
-msgstr "Vælg MMC/SD-image"
+msgstr "Vælg MegaCart-imagefil"
 
 #: src/arch/win32/resvic20.rc.po.c:499
-#, fuzzy
 msgid "Select Final Expansion image"
-msgstr "Vælg image for intern funktions-ROM"
+msgstr "Vælg Final Expansion-imagefil"
 
 #: src/arch/win32/resvic20.rc.po.c:500
-#, fuzzy
 msgid "Select cartridge image"
-msgstr "Gem cartridge-image"
+msgstr "Vælg cartridge-image"
 
 #: src/arch/win32/resvic20.rc.po.c:501 src/arch/amigaos/intl.c.po.c:3334
 msgid "Attach 4/8/16KB cartridge image at $2000"
@@ -8472,29 +8287,24 @@ msgid "VIC-1112 IEEE &488 module"
 msgstr "VIC-1112 IEEE &488-modul"
 
 #: src/arch/win32/resvic20.rc.po.c:507 src/arch/amigaos/intl.c.po.c:1652
-#, fuzzy
 msgid "Enable Paddles"
-msgstr "Aktivér Scale2x"
+msgstr "Aktivér Paddles"
 
 #: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl.c.po.c:398
-#, fuzzy
 msgid "Generic image..."
-msgstr "Standard 8KB-image..."
+msgstr "Standard-image..."
 
 #: src/arch/win32/resvic20.rc.po.c:509 src/arch/amigaos/intl.c.po.c:409
-#, fuzzy
 msgid "Mega-Cart image..."
-msgstr "CRT-fil..."
+msgstr "Mega-Cart image..."
 
 #: src/arch/win32/resvic20.rc.po.c:510 src/arch/amigaos/intl.c.po.c:420
-#, fuzzy
 msgid "Final Expansion image..."
-msgstr "Action Replay-image..."
+msgstr "Final Expansion-image..."
 
 #: src/arch/win32/resvic20.rc.po.c:512 src/arch/amigaos/intl.c.po.c:442
-#, fuzzy
 msgid "Smart-attach image..."
-msgstr "Smart-tilslut CRT-image..."
+msgstr "Smart-tilslut image..."
 
 #: src/arch/win32/resvic20.rc.po.c:513
 msgid "4/8/16KB image at $&2000..."
@@ -8521,18 +8331,16 @@ msgid "V&IC settings..."
 msgstr "V&IC-indstillinger..."
 
 #: src/arch/win32/resvic20.rc.po.c:519
-#, fuzzy
 msgid "Enable Final Expansion write-back"
-msgstr "Vælg snapshot-fil"
+msgstr "Aktivér Final Expansion tilbageskrivning"
 
 #: src/arch/win32/resvic20.rc.po.c:520
 msgid "Enable Mega-Cart non-volatile RAM write-back"
-msgstr ""
+msgstr "Aktivér Mega-Cart NVRAM tilbageskrivning"
 
 #: src/arch/win32/resvic20.rc.po.c:521
-#, fuzzy
 msgid "Select Mega-Cart non-volatile RAM file"
-msgstr "Vælg MMC/SD-image"
+msgstr "Vælg Mega-Cart NVRAM-fil"
 
 #: src/arch/win32/resvicii.rc.po.c:35 src/arch/amigaos/intl.c.po.c:5292
 msgid "VIC-II Settings"
@@ -8851,9 +8659,8 @@ msgid "Swap Joysticks"
 msgstr "Byt om på joystickportene"
 
 #: src/arch/amigaos/intl.c.po.c:1487
-#, fuzzy
 msgid "Swap Userport Joysticks"
-msgstr "Byt om på joystickportene"
+msgstr "Byt om på brugerportjoysticks"
 
 #: src/arch/amigaos/intl.c.po.c:1509
 msgid "Sound playback"
@@ -9125,7 +8932,7 @@ msgstr "Polsk"
 
 #: src/arch/amigaos/intl.c.po.c:2477
 msgid "Turkish"
-msgstr ""
+msgstr "Tyrkisk"
 
 #: src/arch/amigaos/intl.c.po.c:2488
 msgid "Language"
@@ -9281,9 +9088,8 @@ msgid "Writes to C64DTV ROM"
 msgstr "Skrivning til C64DTV-ROM"
 
 #: src/arch/amigaos/intl.c.po.c:3774
-#, fuzzy
 msgid "Hummer ADC"
-msgstr "&Aktivér ACIA"
+msgstr "Hummer ADC"
 
 #: src/arch/amigaos/intl.c.po.c:3796
 msgid "model line"
@@ -9382,34 +9188,28 @@ msgid "Joystick in port #2"
 msgstr "Joystick i port 2"
 
 #: src/arch/amigaos/intl.c.po.c:4236
-#, fuzzy
 msgid "Userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "Brugerportjoystickadapter"
 
 #: src/arch/amigaos/intl.c.po.c:4247
-#, fuzzy
 msgid "Userport joystick adapter type"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "Brugerportjoystickadapter-type"
 
 #: src/arch/amigaos/intl.c.po.c:4258
-#, fuzzy
 msgid "Joystick in userport adapter port #1"
-msgstr "Joystick i port 1"
+msgstr "Joystick på brugerport adapter port 1"
 
 #: src/arch/amigaos/intl.c.po.c:4269
-#, fuzzy
 msgid "Joystick in userport adapter port #2"
-msgstr "Joystick i port 2"
+msgstr "Joystick på brugerport adapter port 1"
 
 #: src/arch/amigaos/intl.c.po.c:4280
-#, fuzzy
 msgid "SIDcart joystick"
-msgstr "SID-cartridgeindstillinger"
+msgstr "SIDcart joystick"
 
 #: src/arch/amigaos/intl.c.po.c:4291
-#, fuzzy
 msgid "Joystick in SIDcart joystick port"
-msgstr "*Aktivér SID-cartridge"
+msgstr "Joystick i SIDcart joystickport"
 
 #: src/arch/amigaos/intl.c.po.c:4302
 msgid "Joystick Settings"
@@ -9472,19 +9272,16 @@ msgid "Joy 2 Device"
 msgstr "Joystick 2 enhed"
 
 #: src/arch/amigaos/intl.c.po.c:4467
-#, fuzzy
 msgid "Userport Joy 1 Device"
-msgstr "Brugerport enhed"
+msgstr "Brugerport Joystick 1 enhed"
 
 #: src/arch/amigaos/intl.c.po.c:4478
-#, fuzzy
 msgid "Userport Joy 2 Device"
-msgstr "Brugerportens RS232-enhed"
+msgstr "Brugerport Joystick 2 enhed"
 
 #: src/arch/amigaos/intl.c.po.c:4489
-#, fuzzy
 msgid "SIDcart Joy Device"
-msgstr "Joystick 1 enhed"
+msgstr "SIDcart joystick-enhed"
 
 #: src/arch/amigaos/intl.c.po.c:4500
 msgid "Joy 1 Fire"
@@ -9495,19 +9292,16 @@ msgid "Joy 2 Fire"
 msgstr "Joystick 2 skydeknap"
 
 #: src/arch/amigaos/intl.c.po.c:4522
-#, fuzzy
 msgid "Userport Joy 1 Fire"
-msgstr "Joystick 1 skydeknap"
+msgstr "Brugerport joystick 1 skydeknap"
 
 #: src/arch/amigaos/intl.c.po.c:4533
-#, fuzzy
 msgid "Userport Joy 2 Fire"
-msgstr "Joystick 2 skydeknap"
+msgstr "Brugerport joystick 2 skydeknap"
 
 #: src/arch/amigaos/intl.c.po.c:4544
-#, fuzzy
 msgid "SIDcart Joy Fire"
-msgstr "SID-cartridge"
+msgstr "SIDcart joystick skydeknap"
 
 #: src/arch/amigaos/intl.c.po.c:4555
 msgid ""
@@ -9547,14 +9341,12 @@ msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr "Joystick 2 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4641
-#, fuzzy
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Joystick 1 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)"
+msgstr "Ekstra joystick 1 emulering: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4653
-#, fuzzy
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Joystick 2 emularing: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)"
+msgstr "Ekstra joystick 2 emulering: (0: ingen, 1: numerisk, 2-5: Amigajoystick 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4764
 msgid "PLUS60K Base"
@@ -9677,43 +9469,36 @@ msgid "MMC64 settings"
 msgstr "MMC64-indstillinger"
 
 #: src/arch/amigaos/intl.c.po.c:5501
-#, fuzzy
 msgid "Select generic cartridge file"
-msgstr "Gem cartridge-image"
+msgstr "Vælg standardcartridgefil"
 
 #: src/arch/amigaos/intl.c.po.c:5512
-#, fuzzy
 msgid "Select Mega-Cart file"
-msgstr "Vælg MMC/SD-image"
+msgstr "Vælg MegaCart-fil"
 
 #: src/arch/amigaos/intl.c.po.c:5523
-#, fuzzy
 msgid "Select Final Expansion file"
-msgstr "Vælg snapshot-fil"
+msgstr "Vælg Final Expansion-fil"
 
 #: src/arch/amigaos/intl.c.po.c:5534
-#, fuzzy
 msgid "Select cartridge file"
-msgstr "Gem cartridge-image"
+msgstr "Vælg cartridge-fil"
 
 #: src/arch/amigaos/intl.c.po.c:5545
 msgid "SID Cart"
 msgstr "SID-cartridge"
 
 #: src/arch/amigaos/intl.c.po.c:5556
-#, fuzzy
 msgid "SID engine/model"
-msgstr "SID-motor"
+msgstr "SID-motor/-model"
 
 #: src/arch/amigaos/intl.c.po.c:5589
-#, fuzzy
 msgid "SID Cart joystick"
-msgstr "SID-cartridgeindstillinger"
+msgstr "SIDcart joystick"
 
 #: src/arch/amigaos/intl.c.po.c:5600
-#, fuzzy
 msgid "Digiblaster add-on"
-msgstr "Digimax baseadresse"
+msgstr "Digiblaster udviddelse"
 
 #: src/arch/amigaos/intl.c.po.c:5611
 msgid "SID cart settings"
@@ -9801,7 +9586,7 @@ msgstr "CRTC-kreds"
 
 #: src/arch/amigaos/intl.c.po.c:6128
 msgid "SuperPET I/O enable (disables 8x96)"
-msgstr "Aktivér SuperPET-I/O (ideaktiverer 8x96)"
+msgstr "Aktivér SuperPET-I/O (deaktiverer 8x96)"
 
 #: src/arch/amigaos/intl.c.po.c:6139
 msgid "$9*** as RAM"
@@ -9841,7 +9626,7 @@ msgstr "Extern funktions-ROM"
 
 #: src/arch/amigaos/intl.c.po.c:6282
 msgid "RAM banks 2 & 3"
-msgstr ""
+msgstr "RAM bank 2 & 3"
 
 #: src/arch/amigaos/intl.c.po.c:6304
 msgid "Select ROM file"
@@ -9864,14 +9649,12 @@ msgid "Digimax Base"
 msgstr "Digimaxbase"
 
 #: src/arch/amigaos/intl.c.po.c:6370
-#, fuzzy
 msgid "SFX Sound Expander Enabled"
-msgstr "Emulering af PS/2-mus"
+msgstr "SFX Sound Expander Aktiveret"
 
 #: src/arch/amigaos/intl.c.po.c:6381
-#, fuzzy
 msgid "SFX Sound Expander Chip"
-msgstr "Emulering af PS/2-mus"
+msgstr "SFX Sound Expander chip"
 
 #: src/arch/amigaos/intl.c.po.c:6425
 msgid "Select Sound Record File"
@@ -9914,22 +9697,20 @@ msgid "Amiga mouse"
 msgstr "Amigamus"
 
 #: src/arch/amigaos/intl.c.po.c:6590
-#, fuzzy
 msgid "Paddle"
-msgstr "Venter"
+msgstr "Paddle"
 
 #: src/arch/amigaos/intl.c.po.c:6612
-#, fuzzy
 msgid "EasyFlash jumper"
-msgstr "BIOS-flashjumper"
+msgstr "EasyFlashjumper"
 
 #: src/arch/amigaos/intl.c.po.c:6623
 msgid "Save to EasyFlash CRT file on detach"
-msgstr ""
+msgstr "Gem til EasyFlash CRT-fil ved afbrydelse"
 
 #: src/arch/amigaos/intl.c.po.c:6634
 msgid "Save to EasyFlash CRT now"
-msgstr ""
+msgstr "Gem til EasyFlash CRT nu"
 
 #: src/translate.c.po.c:112
 msgid "Cannot load snapshot file."
@@ -10168,21 +9949,19 @@ msgstr ""
 "Skift SID-motor til FastSID"
 
 #: src/translate.c.po.c:861
-#, fuzzy
 msgid ""
 "SFX Sound Expander cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digimax kan ikke bruges med ReSID\n"
+"SFX Sound Expander kan ikke bruges med ReSID\n"
 "Skift SID-motor til FastSID"
 
 #: src/translate.c.po.c:878
-#, fuzzy
 msgid ""
 "SFX Sound Sampler cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digimax kan ikke bruges med ReSID\n"
+"SFX Sound Sampler kan ikke bruges med ReSID\n"
 "Skift SID-motor til FastSID"
 
 #: src/translate.c.po.c:895
@@ -11027,32 +10806,28 @@ msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 msgstr "Brug ikke \"RUN\"-kommando med kolon ved autostart, dvs. \"RUN\""
 
 #: src/translate.c.po.c:3615
-#, fuzzy
 msgid "Handle True Drive Emulation on autostart"
-msgstr "*Brug ægte drev-emulering"
+msgstr "Anvend ægte drev-emulering ved autostart"
 
 #: src/translate.c.po.c:3629
 msgid "Do not handle True Drive Emulation on autostart"
-msgstr ""
+msgstr "Anvend ikke ægte drev-emulering ved autostart"
 
 #: src/translate.c.po.c:3643
-#, fuzzy
 msgid "Enable warp mode during autostart"
-msgstr "Aktivér warp-tilstand"
+msgstr "Aktivér warp-tilstand under autostart"
 
 #: src/translate.c.po.c:3657
-#, fuzzy
 msgid "Disable warp mode during autostart"
-msgstr "Deaktiver warp-tilstand"
+msgstr "Deaktivér warp-tilstand under autostart"
 
 #: src/translate.c.po.c:3671
 msgid "Set autostart mode for PRG files"
-msgstr ""
+msgstr "Vælg autostart-tilstand for PRG-filer"
 
 #: src/translate.c.po.c:3685
-#, fuzzy
 msgid "Set disk image for autostart of PRG files"
-msgstr "Angiv bitrate for lydstrøm i mediefil"
+msgstr "Vælg diskimage for autostart af PRG-filer"
 
 #: src/translate.c.po.c:3699
 msgid "Use PAL sync factor"
@@ -11131,14 +10906,12 @@ msgid "Disable emulator identification"
 msgstr "Deaktivér emulatoridentifikation"
 
 #: src/translate.c.po.c:3983
-#, fuzzy
 msgid "Enable the OEM userport joystick adapter"
-msgstr "Aktivér diagnostik på brugerporten"
+msgstr "Aktivér OEM brugerportjoystickadapter"
 
 #: src/translate.c.po.c:3997
-#, fuzzy
 msgid "Disable the OEM userport joystick adapter"
-msgstr "Deaktiver diagnostik på brugerporten"
+msgstr "Deaktivér OEM brugerportjoystickadapter"
 
 #: src/translate.c.po.c:4011
 msgid "Enable the IEEE488 interface emulation"
@@ -11146,7 +10919,7 @@ msgstr "Aktivér emulering af IEEE488-interface"
 
 #: src/translate.c.po.c:4025
 msgid "Disable the IEEE488 interface emulation"
-msgstr "Deaktiver emulering af IEEE488-interface"
+msgstr "Deaktivér emulering af IEEE488-interface"
 
 #: src/translate.c.po.c:4039
 msgid "<revision>"
@@ -11162,7 +10935,7 @@ msgstr "Aktivér $DE** ACIA RS232-interface emulering"
 
 #: src/translate.c.po.c:4082
 msgid "Disable the $DE** ACIA RS232 interface emulation"
-msgstr "Deaktiver $DE** ACIA-RS232-interface emulering"
+msgstr "Deaktivér $DE** ACIA-RS232-interface emulering"
 
 #: src/translate.c.po.c:4112
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -11207,7 +10980,7 @@ msgstr "Aktivér intern funktions-ROM"
 
 #: src/translate.c.po.c:4256
 msgid "Disable the internal Function ROM"
-msgstr "Deaktiver intern funktions-ROM"
+msgstr "Deaktivér intern funktions-ROM"
 
 #: src/translate.c.po.c:4270
 msgid "Enable the external Function ROM"
@@ -11215,7 +10988,7 @@ msgstr "Aktivér extern funktions-ROM"
 
 #: src/translate.c.po.c:4284
 msgid "Disable the external Function ROM"
-msgstr "Deaktiver externt funktions-ROM"
+msgstr "Deaktivér extern funktions-ROM"
 
 #: src/translate.c.po.c:4298
 msgid "Use old NTSC sync factor"
@@ -11261,7 +11034,7 @@ msgstr "Aktivér GEORAM-udviddelsesenhed"
 
 #: src/translate.c.po.c:4446
 msgid "Disable the GEORAM expansion unit"
-msgstr "Deaktiver GEORAM-udviddelsesenhed"
+msgstr "Deaktivér GEORAM-udviddelsesenhed"
 
 #: src/translate.c.po.c:4460
 msgid "Specify name of GEORAM image"
@@ -11281,7 +11054,7 @@ msgstr "Aktivér PET REU"
 
 #: src/translate.c.po.c:4516
 msgid "Disable the PET Ram and Expansion Unit"
-msgstr "Deaktiver PET REU"
+msgstr "Deaktivér PET REU"
 
 #: src/translate.c.po.c:4530
 msgid "Specify name of PET Ram and Expansion Unit image"
@@ -11309,7 +11082,7 @@ msgstr "Aktivér RAMCART-udviddelse"
 
 #: src/translate.c.po.c:4615
 msgid "Disable the RAMCART expansion"
-msgstr "Deaktiver RAMCART-udviddelse"
+msgstr "Deaktivér RAMCART-udviddelse"
 
 #: src/translate.c.po.c:4629
 msgid "Specify name of RAMCART image"
@@ -11325,7 +11098,7 @@ msgstr "Aktivér Double Quick Brown Box"
 
 #: src/translate.c.po.c:4671
 msgid "Disable Double Quick Brown Box"
-msgstr "Deaktiver Double Quick Brown Box"
+msgstr "Deaktivér Double Quick Brown Box"
 
 #: src/translate.c.po.c:4685
 msgid "Specify Double Quick Brown Box filename"
@@ -11337,7 +11110,7 @@ msgstr "Aktivér isepic-cartridge"
 
 #: src/translate.c.po.c:4713
 msgid "Disable the isepic cart"
-msgstr "Deaktiver isepic-cartridge"
+msgstr "Deaktivér isepic-cartridge"
 
 #: src/translate.c.po.c:4727
 msgid "Enable the MMC64 expansion"
@@ -11345,7 +11118,7 @@ msgstr "Aktivér MMC64-udviddelse"
 
 #: src/translate.c.po.c:4741
 msgid "Disable the MMC64 expansion"
-msgstr "Deaktiver MMC64-udviddelse"
+msgstr "Deaktivér MMC64-udviddelse"
 
 #: src/translate.c.po.c:4755
 msgid "Specify name of MMC64 BIOS image"
@@ -11373,7 +11146,7 @@ msgstr "Aktivér RAM-udviddelsesenhed"
 
 #: src/translate.c.po.c:4839
 msgid "Disable the RAM expansion unit"
-msgstr "Deaktiver RAM-udviddelsesenhed"
+msgstr "Deaktivér RAM-udviddelsesenhed"
 
 #: src/translate.c.po.c:4853
 msgid "Specify name of REU image"
@@ -11389,7 +11162,7 @@ msgstr "Aktivér TFE-enhed (\"The Final Ethernet\")"
 
 #: src/translate.c.po.c:4896
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
-msgstr "Deaktiver TFE-enhed (\"The Final Ethernet\")"
+msgstr "Deaktivér TFE-enhed (\"The Final Ethernet\")"
 
 #: src/translate.c.po.c:4910
 msgid "Set the system ethernet interface for TFE emulation"
@@ -11401,7 +11174,7 @@ msgstr "Aktivér RRNet-tilstand af TFE-emulering"
 
 #: src/translate.c.po.c:4938
 msgid "Disable RRNet mode of TFE emulation"
-msgstr "Deaktiver RRNet-läge af TFE-emulering"
+msgstr "Deaktivér RRNet-läge af TFE-emulering"
 
 #: src/translate.c.po.c:4953
 msgid "Reset machine if a cartridge is attached or detached"
@@ -11473,7 +11246,7 @@ msgstr "Aktivér Expert Cartridge"
 
 #: src/translate.c.po.c:5206
 msgid "Disable default cartridge"
-msgstr "Deaktiver standard cartridge"
+msgstr "Deaktivér standard cartridge"
 
 #: src/translate.c.po.c:5220
 msgid "Specify name of IDE64 image file"
@@ -11553,7 +11326,7 @@ msgstr "Aktivér RAM-mappning på $0800-$0FFF"
 
 #: src/translate.c.po.c:5503
 msgid "Disable RAM mapping in $0800-$0FFF"
-msgstr "Deaktiver RAM-mappning på $0800-$0FFF"
+msgstr "Deaktivér RAM-mappning på $0800-$0FFF"
 
 #: src/translate.c.po.c:5517
 msgid "Enable RAM mapping in $1000-$1FFF"
@@ -11561,7 +11334,7 @@ msgstr "Aktivér RAM-mappning på $1000-$1FFF"
 
 #: src/translate.c.po.c:5531
 msgid "Disable RAM mapping in $1000-$1FFF"
-msgstr "Deaktiver RAM-mappning på $1000-$1FFF"
+msgstr "Deaktivér RAM-mappning på $1000-$1FFF"
 
 #: src/translate.c.po.c:5545
 msgid "Enable RAM mapping in $2000-$3FFF"
@@ -11569,7 +11342,7 @@ msgstr "Aktivér RAM-mappning på $2000-$3FFF"
 
 #: src/translate.c.po.c:5559
 msgid "Disable RAM mapping in $2000-$3FFF"
-msgstr "Deaktiver RAM-mappning på $2000-$3FFF"
+msgstr "Deaktivér RAM-mappning på $2000-$3FFF"
 
 #: src/translate.c.po.c:5573
 msgid "Enable RAM mapping in $4000-$5FFF"
@@ -11577,7 +11350,7 @@ msgstr "Aktivér RAM-mappning på $4000-$5FFF"
 
 #: src/translate.c.po.c:5587
 msgid "Disable RAM mapping in $4000-$5FFF"
-msgstr "Deaktiver RAM-mappning på $4000-$5FFF"
+msgstr "Deaktivér RAM-mappning på $4000-$5FFF"
 
 #: src/translate.c.po.c:5601
 msgid "Enable RAM mapping in $6000-$7FFF"
@@ -11585,7 +11358,7 @@ msgstr "Aktivér RAM-mappning på $6000-$7FFF"
 
 #: src/translate.c.po.c:5615
 msgid "Disable RAM mapping in $6000-$7FFF"
-msgstr "Deaktiver RAM-mappning på $6000-$7FFF"
+msgstr "Deaktivér RAM-mappning på $6000-$7FFF"
 
 #: src/translate.c.po.c:5629
 msgid "Enable RAM mapping in $C000-$CFFF"
@@ -11593,7 +11366,7 @@ msgstr "Aktivér RAM-mappning på $C000-$CFFF"
 
 #: src/translate.c.po.c:5643
 msgid "Disable RAM mapping in $C000-$CFFF"
-msgstr "Deaktiver RAM-mappning på $C000-$CFFF"
+msgstr "Deaktivér RAM-mappning på $C000-$CFFF"
 
 #: src/translate.c.po.c:5658
 msgid "Specify index of keymap file"
@@ -11688,7 +11461,7 @@ msgstr "Aktivér 8KB RAM-udviddelse på $2000-$3FFF"
 
 #: src/translate.c.po.c:5975
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
-msgstr "Deaktiver 8KB RAM-udviddelse på $2000-$3FFF"
+msgstr "Deaktivér 8KB RAM-udviddelse på $2000-$3FFF"
 
 #: src/translate.c.po.c:5989
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
@@ -11696,7 +11469,7 @@ msgstr "Aktivér 8KB RAM-udviddelse på $4000-$5FFF"
 
 #: src/translate.c.po.c:6003
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
-msgstr "Deaktiver 8KB RAM-udviddelse på $4000-$5FFF"
+msgstr "Deaktivér 8KB RAM-udviddelse på $4000-$5FFF"
 
 #: src/translate.c.po.c:6017
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
@@ -11704,7 +11477,7 @@ msgstr "Aktivér 8KB RAM-udviddelse på $6000-$7FFF"
 
 #: src/translate.c.po.c:6031
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
-msgstr "Deaktiver 8KB RAM-udviddelse på $6000-$7FFF"
+msgstr "Deaktivér 8KB RAM-udviddelse på $6000-$7FFF"
 
 #: src/translate.c.po.c:6045
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
@@ -11712,7 +11485,7 @@ msgstr "Aktivér 8KB RAM-udviddelse på $8000-$9FFF"
 
 #: src/translate.c.po.c:6059
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
-msgstr "Deaktiver 8KB RAM-udviddelse på $8000-$9FFF"
+msgstr "Deaktivér 8KB RAM-udviddelse på $8000-$9FFF"
 
 #: src/translate.c.po.c:6073
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
@@ -11720,7 +11493,7 @@ msgstr "Aktivér 8KB RAM-udviddelse på $A000-$BFFF"
 
 #: src/translate.c.po.c:6087
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
-msgstr "Deaktiver 8KB RAM-udviddelse på $A000-$BFFF"
+msgstr "Deaktivér 8KB RAM-udviddelse på $A000-$BFFF"
 
 #: src/translate.c.po.c:6101
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
@@ -11732,7 +11505,7 @@ msgstr "Aktivér Professional DOS"
 
 #: src/translate.c.po.c:6129
 msgid "Disable Professional DOS"
-msgstr "Deaktiver Professional DOS"
+msgstr "Deaktivér Professional DOS"
 
 #: src/translate.c.po.c:6143
 msgid "Specify name of Professional DOS 1571 ROM image"
@@ -11820,7 +11593,7 @@ msgstr "Aktivér PET8296 4K-RAM-mapping på $9***"
 
 #: src/translate.c.po.c:6443
 msgid "Disable PET8296 4K RAM mapping at $9***"
-msgstr "Deaktiver PET8296 4K-RAM-mapping på $9***"
+msgstr "Deaktivér PET8296 4K-RAM-mapping på $9***"
 
 #: src/translate.c.po.c:6457
 msgid "Enable PET8296 4K RAM mapping at $A***"
@@ -11828,7 +11601,7 @@ msgstr "Aktivér PET8296 4K-RAM-mapping på $A***"
 
 #: src/translate.c.po.c:6471
 msgid "Disable PET8296 4K RAM mapping at $A***"
-msgstr "Deaktiver PET8296 4K-RAM-mapping på $A***"
+msgstr "Deaktivér PET8296 4K-RAM-mapping på $A***"
 
 #: src/translate.c.po.c:6485
 msgid "Enable SuperPET I/O"
@@ -11836,7 +11609,7 @@ msgstr "Aktivér SuperPET-I/O"
 
 #: src/translate.c.po.c:6499
 msgid "Disable SuperPET I/O"
-msgstr "Deaktiver SuperPET-I/O"
+msgstr "Deaktivér SuperPET-I/O"
 
 #: src/translate.c.po.c:6513
 msgid "Enable ROM 1 Kernal patches"
@@ -11844,7 +11617,7 @@ msgstr "Aktivér ROM 1 kerneændringer"
 
 #: src/translate.c.po.c:6527
 msgid "Disable ROM 1 Kernal patches"
-msgstr "Deaktiver ROM 1 kerneændringer"
+msgstr "Deaktivér ROM 1 kerneændringer"
 
 #: src/translate.c.po.c:6541
 msgid "Switch upper/lower case charset"
@@ -11868,7 +11641,7 @@ msgstr "Aktivér diagnostik på brugerporten"
 
 #: src/translate.c.po.c:6611
 msgid "Disable userport diagnostic pin"
-msgstr "Deaktiver diagnostik på brugerporten"
+msgstr "Deaktivér diagnostik på brugerporten"
 
 #: src/translate.c.po.c:6625
 msgid "Specify name of Function low ROM image"
@@ -11988,7 +11761,7 @@ msgstr "Aktivér videocache"
 
 #: src/translate.c.po.c:7036
 msgid "Disable the video cache"
-msgstr "Deaktiver videocache"
+msgstr "Deaktivér videocache"
 
 #: src/translate.c.po.c:7051
 msgid "Specify name of first RS232 device"
@@ -12012,7 +11785,7 @@ msgstr "Aktivér RS232-emulering på brugerporten"
 
 #: src/translate.c.po.c:7122
 msgid "Disable RS232 userport emulation"
-msgstr "Deaktiver RS232-emulering på brugerporten"
+msgstr "Deaktivér RS232-emulering på brugerporten"
 
 #: src/translate.c.po.c:7136
 msgid "<baud>"
@@ -12032,7 +11805,7 @@ msgstr "Aktivér IEC-enhedsemulering for enhed #4"
 
 #: src/translate.c.po.c:7192
 msgid "Disable IEC device emulation for device #4"
-msgstr "Deaktiver IEC-enhedsemulering for enhed #4"
+msgstr "Deaktivér IEC-enhedsemulering for enhed #4"
 
 #: src/translate.c.po.c:7206
 msgid "Enable IEC device emulation for device #5"
@@ -12040,7 +11813,7 @@ msgstr "Aktivér IEC-enhedsemulering for enhed #5"
 
 #: src/translate.c.po.c:7220
 msgid "Disable IEC device emulation for device #5"
-msgstr "Deaktiver IEC-enhedsemulering for enhed #5"
+msgstr "Deaktivér IEC-enhedsemulering for enhed #5"
 
 #: src/translate.c.po.c:7234
 msgid "Enable IEC device emulation for device #8"
@@ -12048,7 +11821,7 @@ msgstr "Aktivér IEC-enhedsemulering for enhed #8"
 
 #: src/translate.c.po.c:7248
 msgid "Disable IEC device emulation for device #8"
-msgstr "Deaktiver IEC-enhedsemulering for enhed #8"
+msgstr "Deaktivér IEC-enhedsemulering for enhed #8"
 
 #: src/translate.c.po.c:7262
 msgid "Enable IEC device emulation for device #9"
@@ -12056,7 +11829,7 @@ msgstr "Aktivér IEC-enhedsemulering for enhed #9"
 
 #: src/translate.c.po.c:7276
 msgid "Disable IEC device emulation for device #9"
-msgstr "Deaktiver IEC-enhedsemulering for enhed #9"
+msgstr "Deaktivér IEC-enhedsemulering for enhed #9"
 
 #: src/translate.c.po.c:7290
 msgid "Enable IEC device emulation for device #10"
@@ -12064,7 +11837,7 @@ msgstr "Aktivér IEC-enhedsemulering for enhed #10"
 
 #: src/translate.c.po.c:7304
 msgid "Disable IEC device emulation for device #10"
-msgstr "Deaktiver IEC-enhedsemulering for enhed #10"
+msgstr "Deaktivér IEC-enhedsemulering for enhed #10"
 
 #: src/translate.c.po.c:7318
 msgid "Enable IEC device emulation for device #11"
@@ -12072,20 +11845,19 @@ msgstr "Aktivér IEC-enhedsemulering for enhed #11"
 
 #: src/translate.c.po.c:7332
 msgid "Disable IEC device emulation for device #11"
-msgstr "Deaktiver IEC-enhedsemulering for enhed #11"
+msgstr "Deaktivér IEC-enhedsemulering for enhed #11"
 
 #: src/translate.c.po.c:7346
-#, fuzzy
 msgid "<engine and model>"
-msgstr "<motor>"
+msgstr "<motor og model>"
 
 #: src/translate.c.po.c:7361
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"
 msgstr ""
-"Angiv SID-model (0: 6581, 1: 8580, 2: 8580 + digitalforstærkning, 4: DTV)"
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID)"
 
 #: src/translate.c.po.c:7381
 msgid ""
@@ -12093,6 +11865,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
 "Catweasel)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel)"
 
 #: src/translate.c.po.c:7403
 msgid ""
@@ -12100,6 +11875,9 @@ msgid ""
 "6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
 "HardSID)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: "
+"HardSID)"
 
 #: src/translate.c.po.c:7425
 msgid ""
@@ -12107,6 +11885,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: "
 "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1024: "
+"ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:7450
 msgid ""
@@ -12117,6 +11898,12 @@ msgid ""
 "6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
 "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1800: ReSID-"
+"FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
+"1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP "
+"6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
+"digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
 
 #: src/translate.c.po.c:7484
 msgid ""
@@ -12124,6 +11911,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
 "Catweasel, 768: HardSID)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel, 768: HardSID)"
 
 #: src/translate.c.po.c:7506
 msgid ""
@@ -12132,6 +11922,10 @@ msgid ""
 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:7531
 msgid ""
@@ -12143,6 +11937,13 @@ msgid ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
+"FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+"8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7565
 msgid ""
@@ -12151,6 +11952,10 @@ msgid ""
 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: "
+"HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:7590
 msgid ""
@@ -12162,6 +11967,13 @@ msgid ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: "
+"HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
+"FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+"8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7624
 msgid ""
@@ -12174,6 +11986,14 @@ msgid ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1024: "
+"ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport "
+"3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+"8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+"1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7661
 msgid ""
@@ -12182,6 +12002,10 @@ msgid ""
 "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
 "port 2, 1536: ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallel"
+"port 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:7686
 msgid ""
@@ -12193,6 +12017,13 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7721
 msgid ""
@@ -12205,6 +12036,14 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: "
+"Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7759
 msgid ""
@@ -12217,6 +12056,14 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: "
+"HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7797
 msgid ""
@@ -12229,38 +12076,48 @@ msgid ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
+"Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
+"port 2, 1536: ParSID på parallel port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-"
+"FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+"1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+"8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
+"1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7836 src/translate.c.po.c:8720
-#, fuzzy
 msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)"
-msgstr "Vælg SID-motor (0: FastSID, 1: ReSID)"
+msgstr "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580)"
 
 #: src/translate.c.po.c:7853
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
 msgstr ""
-"Vælg SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
+"Angiv SID-motor og -model  (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
 
 #: src/translate.c.po.c:7873 src/translate.c.po.c:8737
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel)"
-msgstr "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel)"
+msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel)"
 
 #: src/translate.c.po.c:7892 src/translate.c.po.c:8756
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"
-msgstr "Vælg SID-motor (0: FastSID, 1: ReSID, 3: HardSID)"
+msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"
 
 #: src/translate.c.po.c:7911 src/translate.c.po.c:8775
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
 "in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
+"på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:7932
 msgid ""
@@ -12271,20 +12128,28 @@ msgid ""
 "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
 "digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-"
+"FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
+"1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP "
+"6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
+"digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+"digitalforstærkning)"
 
 #: src/translate.c.po.c:7963
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel)"
 
 #: src/translate.c.po.c:7983
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"
 msgstr ""
-"Angiv SID-model (0: 6581, 1: 8580, 2: 8580 + digitalforstærkning, 4: DTV)"
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID)"
 
 #: src/translate.c.po.c:8003
 msgid ""
@@ -12292,6 +12157,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port "
 "1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID på parallelport "
+"1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8026
 msgid ""
@@ -12302,23 +12170,30 @@ msgid ""
 "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
 "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1800: ReSID-FP 6581R3 "
+"4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-"
+"FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
+"1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: "
+"ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
 
 #: src/translate.c.po.c:8058 src/translate.c.po.c:8797
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 768: HardSID)"
-msgstr "Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
+msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 768: HardSID)"
 
 #: src/translate.c.po.c:8077
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 msgstr ""
-"Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-"7: ReSID-FP)"
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8099
 msgid ""
@@ -12329,6 +12204,12 @@ msgid ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
+"FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+"8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8130 src/translate.c.po.c:8838
 msgid ""
@@ -12336,6 +12217,9 @@ msgid ""
 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: "
+"HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8152
 msgid ""
@@ -12346,6 +12230,12 @@ msgid ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: "
+"HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
+"FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+"8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8183
 msgid ""
@@ -12357,6 +12247,13 @@ msgid ""
 "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
 "digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
+"på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: "
+"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
+"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
+"FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
+"digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+"digitalforstærkning)"
 
 #: src/translate.c.po.c:8217
 msgid ""
@@ -12364,6 +12261,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
 "HardSID)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: "
+"HardSID)"
 
 #: src/translate.c.po.c:8239
 msgid ""
@@ -12371,6 +12271,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
 "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1024: "
+"ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8264
 msgid ""
@@ -12382,6 +12285,13 @@ msgid ""
 "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
 "digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1800: "
+"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
+"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
+"FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
+"digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+"digitalforstærkning)"
 
 #: src/translate.c.po.c:8298
 msgid ""
@@ -12389,6 +12299,9 @@ msgid ""
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
 "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1024: "
+"ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8323
 msgid ""
@@ -12400,6 +12313,13 @@ msgid ""
 "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
 "digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1800: "
+"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
+"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
+"FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
+"digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
+"digitalforstærkning)"
 
 #: src/translate.c.po.c:8357
 msgid ""
@@ -12411,16 +12331,23 @@ msgid ""
 "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
 "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID på parallelport "
+"1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP "
+"6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
+"ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
+"1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, "
+"1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8394 src/translate.c.po.c:8860
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
 "port 2, 1536: ParSID in par port 3)"
 msgstr ""
-"Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-"7: ReSID-FP)"
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallel"
+"port 2, 1536: ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8416
 msgid ""
@@ -12431,6 +12358,12 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8447
 msgid ""
@@ -12442,6 +12375,13 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8481
 msgid ""
@@ -12453,6 +12393,13 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: "
+"HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8515
 msgid ""
@@ -12461,6 +12408,10 @@ msgid ""
 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: "
+"HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8540
 msgid ""
@@ -12472,6 +12423,13 @@ msgid ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: "
+"HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
+"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
+"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
+"FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+"8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8574
 msgid ""
@@ -12484,6 +12442,14 @@ msgid ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1024: "
+"ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport "
+"3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+"8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+"1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8611
 msgid ""
@@ -12496,6 +12462,14 @@ msgid ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1024: "
+"ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport "
+"3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+"8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+"1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8648
 msgid ""
@@ -12507,6 +12481,13 @@ msgid ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
+"Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallel"
+"port 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-"
+"FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
+"1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
+"8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 "
+"1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8683
 msgid ""
@@ -12519,16 +12500,24 @@ msgid ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 msgstr ""
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID "
+"6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: "
+"HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
+"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
+"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
+"3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
+"1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:8816
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 512: "
 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 msgstr ""
-"Vælg SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID, "
-"7: ReSID-FP)"
+"Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 512: "
+"Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
+"ParSID på parallelport 3)"
 
 #: src/translate.c.po.c:8881
 msgid "Enable second SID"
@@ -12540,7 +12529,7 @@ msgstr "Aktivér SID-cartridge"
 
 #: src/translate.c.po.c:8909
 msgid "Disable SID Cartridge"
-msgstr "Deaktiver SID-cartridge"
+msgstr "Deaktivér SID-cartridge"
 
 #: src/translate.c.po.c:8923
 msgid "<base address>"
@@ -12604,7 +12593,7 @@ msgstr "Aktivér VIC-1112-IEEE488-interface"
 
 #: src/translate.c.po.c:9135
 msgid "Disable VIC-1112 IEEE488 interface"
-msgstr "Deaktiver VIC-1112-IEEE488-interface"
+msgstr "Deaktivér VIC-1112-IEEE488-interface"
 
 #: src/translate.c.po.c:9149
 msgid "Specify 4/8/16K extension ROM name at $2000"
@@ -12627,29 +12616,24 @@ msgid "Specify 4K extension ROM name at $B000"
 msgstr "Angiv navn for 4K-udviddelses-ROM på $B000"
 
 #: src/translate.c.po.c:9219
-#, fuzzy
 msgid "Specify generic extension ROM name"
-msgstr "Angiv navn på 4K-udviddelses-ROM på $9***"
+msgstr "Angiv navn på standard-udviddelses-ROM"
 
 #: src/translate.c.po.c:9233
-#, fuzzy
 msgid "Specify Mega-Cart extension ROM name"
-msgstr "Angiv navn på 4K-udviddelses-ROM på $9***"
+msgstr "Angiv navn på MegaCart-udviddelses-ROM"
 
 #: src/translate.c.po.c:9247
-#, fuzzy
 msgid "Specify Final Expansion extension ROM name"
-msgstr "Angiv navn på 4K-udviddelses-ROM på $9***"
+msgstr "Angiv navn på Final Expansion udviddelses-ROM"
 
 #: src/translate.c.po.c:9261
-#, fuzzy
 msgid "Enable Final Expansion write back to ROM file"
-msgstr "Vælg snapshot-fil"
+msgstr "Aktivér Final Expansion tilbageskrivning til ROM-fil"
 
 #: src/translate.c.po.c:9275
-#, fuzzy
 msgid "Disable Final Expansion write back to ROM file"
-msgstr "Vælg snapshot-fil"
+msgstr "Deaktivér Final Expansion tilbageskrivning til ROM-fil"
 
 #: src/translate.c.po.c:9289
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12661,7 +12645,7 @@ msgstr "Aktivér sprite-til-baggrunds-kollisionsregistre"
 
 #: src/translate.c.po.c:9318
 msgid "Disable sprite-background collision registers"
-msgstr "Deaktiver sprite-til-baggrunds-kollisionsregistre"
+msgstr "Deaktivér sprite-til-baggrunds-kollisionsregistre"
 
 #: src/translate.c.po.c:9332
 msgid "Enable sprite-sprite collision registers"
@@ -12669,7 +12653,7 @@ msgstr "Aktivér sprite-til-sprite-kollisionsregistre"
 
 #: src/translate.c.po.c:9346
 msgid "Disable sprite-sprite collision registers"
-msgstr "Deaktiver sprite-til-sprite-kollisionsregistre"
+msgstr "Deaktivér sprite-til-sprite-kollisionsregistre"
 
 #: src/translate.c.po.c:9360
 msgid "Use new luminances"
@@ -12685,7 +12669,7 @@ msgstr "Aktivér dobbelt størrelse"
 
 #: src/translate.c.po.c:9402
 msgid "Disable double size"
-msgstr "Deaktiver dobbelt størrelse"
+msgstr "Deaktivér dobbelt størrelse"
 
 #: src/translate.c.po.c:9416
 msgid "Enable double scan"
@@ -12693,7 +12677,7 @@ msgstr "Aktivér dobbelt-skan"
 
 #: src/translate.c.po.c:9430
 msgid "Disable double scan"
-msgstr "Deaktiver dobbelt-skan"
+msgstr "Deaktivér dobbelt-skan"
 
 #: src/translate.c.po.c:9444
 msgid "Enable hardware scaling"
@@ -12701,7 +12685,7 @@ msgstr "Aktivér hardware-skalering"
 
 #: src/translate.c.po.c:9458
 msgid "Disable hardware scaling"
-msgstr "Deaktiver hardware-skalering"
+msgstr "Deaktivér hardware-skalering"
 
 #: src/translate.c.po.c:9472
 msgid "Enable Scale2x"
@@ -12709,7 +12693,7 @@ msgstr "Aktivér Scale2x"
 
 #: src/translate.c.po.c:9486
 msgid "Disable Scale2x"
-msgstr "Deaktiver Scale2x"
+msgstr "Deaktivér Scale2x"
 
 #: src/translate.c.po.c:9500
 msgid "Use an internal calculated palette"
@@ -12729,7 +12713,7 @@ msgstr "Aktivér fuldskærmstilstand"
 
 #: src/translate.c.po.c:9556
 msgid "Disable fullscreen mode"
-msgstr "Deaktiver fuldskærmstilstand"
+msgstr "Deaktivér fuldskærmstilstand"
 
 #: src/translate.c.po.c:9570
 msgid "<device>"
@@ -12745,7 +12729,7 @@ msgstr "Aktivér dobbelt størrelse i fuldskærms-tilstand"
 
 #: src/translate.c.po.c:9612
 msgid "Disable double size in fullscreen mode"
-msgstr "Deaktiver dobbelt størrelse i fuldskærms-tilstand"
+msgstr "Deaktivér dobbelt størrelse i fuldskærms-tilstand"
 
 #: src/translate.c.po.c:9626
 msgid "Enable double scan in fullscreen mode"
@@ -12753,7 +12737,7 @@ msgstr "Aktivér dobbelt-skan i fuldskærms-tilstand"
 
 #: src/translate.c.po.c:9640
 msgid "Disable double scan in fullscreen mode"
-msgstr "Deaktiver dobbelt-skan i fuldskærms-tilstand"
+msgstr "Deaktivér dobbelt-skan i fuldskærms-tilstand"
 
 #: src/translate.c.po.c:9654
 msgid "<mode>"
@@ -12833,7 +12817,7 @@ msgstr "Aktivér automatisk Datasette-reset"
 
 #: src/translate.c.po.c:9907
 msgid "Disable automatic Datasette-Reset"
-msgstr "Deaktiver automatisk Datasette-reset"
+msgstr "Deaktivér automatisk Datasette-reset"
 
 #: src/translate.c.po.c:9921
 msgid "Set delay in cycles for a zero in the tap"
@@ -12900,14 +12884,12 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Sæt et initielt breakpoint for monitoren"
 
 #: src/translate.c.po.c:10151
-#, fuzzy
 msgid "Enable remote monitor"
 msgstr "Aktivér overtagelse af mus"
 
 #: src/translate.c.po.c:10165
-#, fuzzy
 msgid "Disable remote monitor"
-msgstr "Deaktiver overtagelse af mus"
+msgstr "Deaktivér overtagelse af mus"
 
 #: src/translate.c.po.c:10179
 msgid "The local address the remote monitor should bind to"
@@ -12995,14 +12977,13 @@ msgstr "Aktivér overtagelse af mus"
 
 #: src/translate.c.po.c:10489
 msgid "Disable mouse grab"
-msgstr "Deaktiver overtagelse af mus"
+msgstr "Deaktivér overtagelse af mus"
 
 #: src/translate.c.po.c:10503
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Vælg hvilken joystickport musen er tilsluttet"
 
 #: src/translate.c.po.c:10517
-#, fuzzy
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 msgstr "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga)"
 
@@ -13012,7 +12993,7 @@ msgstr "Aktivér PS/2-mus på brugerporten"
 
 #: src/translate.c.po.c:10545
 msgid "Disable PS/2 mouse on userport"
-msgstr "Deaktiver PS/2-mus på brugerporten"
+msgstr "Deaktivér PS/2-mus på brugerporten"
 
 #: src/translate.c.po.c:10559
 msgid "Set the value for the very first RAM address after powerup"
@@ -13089,7 +13070,7 @@ msgstr "Aktivér generelle mekanismer for hurtig disk-/båndemulering"
 
 #: src/translate.c.po.c:10817
 msgid "Disable general mechanisms for fast disk/tape emulation"
-msgstr "Deaktiver generelle mekanismer for hurtig disk-/båndemulering"
+msgstr "Deaktivér generelle mekanismer for hurtig disk-/båndemulering"
 
 #: src/translate.c.po.c:10833
 msgid "Limit emulation speed to specified value"
@@ -13105,7 +13086,7 @@ msgstr "Aktivér warp-tilstand"
 
 #: src/translate.c.po.c:10875
 msgid "Disable warp mode"
-msgstr "Deaktiver warp-tilstand"
+msgstr "Deaktivér warp-tilstand"
 
 #: src/translate.c.po.c:10889
 msgid "<iso language code>"
@@ -13121,7 +13102,7 @@ msgstr "Aktivér PLUS256K RAM-udviddelse"
 
 #: src/translate.c.po.c:10931
 msgid "Disable the PLUS256K RAM expansion"
-msgstr "Deaktiver PLUS256K RAM-udviddelse"
+msgstr "Deaktivér PLUS256K RAM-udviddelse"
 
 #: src/translate.c.po.c:10945
 msgid "Specify name of PLUS256K image"
@@ -13133,7 +13114,7 @@ msgstr "Aktivér PLUS60K RAM-udviddelse"
 
 #: src/translate.c.po.c:10973
 msgid "Disable the PLUS60K RAM expansion"
-msgstr "Deaktiver PLUS60K RAM-udviddelse"
+msgstr "Deaktivér PLUS60K RAM-udviddelse"
 
 #: src/translate.c.po.c:10987
 msgid "Specify name of PLUS60K image"
@@ -13149,7 +13130,7 @@ msgstr "Aktivér 256K RAM-udviddelse"
 
 #: src/translate.c.po.c:11029
 msgid "Disable the 256K RAM expansion"
-msgstr "Deaktiver 256K RAM-udviddelse"
+msgstr "Deaktivér 256K RAM-udviddelse"
 
 #: src/translate.c.po.c:11043
 msgid "Specify name of 256K image"
@@ -13189,7 +13170,7 @@ msgstr "Aktivér DTV-blitterlog."
 
 #: src/translate.c.po.c:11169
 msgid "Disable DTV blitter logs."
-msgstr "Deaktiver DTV-blitterlog."
+msgstr "Deaktivér DTV-blitterlog."
 
 #: src/translate.c.po.c:11183
 msgid "Enable DTV DMA logs."
@@ -13197,7 +13178,7 @@ msgstr "Aktivér DTV DMA-log."
 
 #: src/translate.c.po.c:11197
 msgid "Disable DTV DMA logs."
-msgstr "Deaktiver DTV DMA-log."
+msgstr "Deaktivér DTV DMA-log."
 
 #: src/translate.c.po.c:11211
 msgid "Specify name of C64DTV ROM image"
@@ -13217,7 +13198,7 @@ msgstr "Aktivér logs for DTV-flashkreds."
 
 #: src/translate.c.po.c:11267
 msgid "Disable DTV flash chip logs."
-msgstr "Deaktiver logs for DTV-flashkreds."
+msgstr "Deaktivér logs for DTV-flashkreds."
 
 #: src/translate.c.po.c:11281
 msgid "Use <name> as directory for flash file system device"
@@ -13229,7 +13210,7 @@ msgstr "Aktivér ægte hardwareemulering af flashfilsystem"
 
 #: src/translate.c.po.c:11309
 msgid "Disable true hardware flash file system"
-msgstr "Deaktiver ægte hardwareemulering af flashfilsystem"
+msgstr "Deaktivér ægte hardwareemulering af flashfilsystem"
 
 #: src/translate.c.po.c:11324
 msgid "Enable MIDI emulation"
@@ -13237,7 +13218,7 @@ msgstr "Aktivér MIDI-emulering"
 
 #: src/translate.c.po.c:11338
 msgid "Disable MIDI emulation"
-msgstr "Deaktiver MIDI-emulering"
+msgstr "Deaktivér MIDI-emulering"
 
 #: src/translate.c.po.c:11352
 msgid ""
@@ -13248,79 +13229,65 @@ msgstr ""
 "Maplin)"
 
 #: src/translate.c.po.c:11374
-#, fuzzy
 msgid "Enable the digiblaster add-on"
 msgstr "Aktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11388
-#, fuzzy
 msgid "Disable the digiblaster add-on"
-msgstr "Deaktiver Digimax-cartridge"
+msgstr "Deaktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11402
-#, fuzzy
 msgid "Enable SID cartridge joystick"
 msgstr "Aktivér SID-cartridge"
 
 #: src/translate.c.po.c:11416
-#, fuzzy
 msgid "Disable SID cartridge joystick"
-msgstr "Deaktiver SID-cartridge"
+msgstr "Deaktivér SID-cartridge"
 
 #: src/translate.c.po.c:11430
-#, fuzzy
 msgid "Enable the SFX soundexpander cartridge"
 msgstr "Aktivér Expert Cartridge"
 
 #: src/translate.c.po.c:11444
-#, fuzzy
 msgid "Disable the SFX soundexpander cartridge"
-msgstr "Deaktiver Digimax-cartridge"
+msgstr "Deaktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11458
 msgid "Set YM chip type (3526 / 3812)"
 msgstr ""
 
 #: src/translate.c.po.c:11472
-#, fuzzy
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Aktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11486
-#, fuzzy
 msgid "Disable the SFX Sound Sampler cartridge"
-msgstr "Deaktiver Digimax-cartridge"
+msgstr "Deaktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11500
-#, fuzzy
 msgid "Enable lightpen emulation"
-msgstr "Aktivér MIDI-emulering"
+msgstr "Aktivér lyspen-emulering"
 
 #: src/translate.c.po.c:11514
-#, fuzzy
 msgid "Disable lightpen emulation"
-msgstr "Deaktiver MIDI-emulering"
+msgstr "Deaktivér lyspen-emulering"
 
 #: src/translate.c.po.c:11528
 msgid "Set lightpen type"
 msgstr ""
 
 #: src/translate.c.po.c:11542
-#, fuzzy
 msgid "Enable EasyFlash jumper"
-msgstr "Aktivér BIOS-&flashjumper"
+msgstr "Aktivér EasyFlash-jumper"
 
 #: src/translate.c.po.c:11556
-#, fuzzy
 msgid "Disable EasyFlash jumper"
-msgstr "Aktivér BIOS-&flashjumper"
+msgstr "Deaktivér EasyFlash-jumper"
 
 #: src/translate.c.po.c:11570
-#, fuzzy
 msgid "Enable writing to EasyFlash .crt image"
-msgstr "Tillad skrivning til C64DTV-ROM-image."
+msgstr "Tillad skrivning til EasyFlash CRT-image."
 
 #: src/translate.c.po.c:11584
-#, fuzzy
 msgid "Disable writing to EasyFlash .crt image"
-msgstr "Forbyd skrivning til C64DTV-ROM-image."
+msgstr "Forbyd skrivning til EasyFlash CRT-image."
