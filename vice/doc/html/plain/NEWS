@@ -82,7 +82,7 @@ list of all the changes in the code.
 - Added paddle emulation.
 
 - Added lightpen/lightgun emulation, currently only available for the following
-  ports: SDL, *nix, win32/win64 and msdos.
+  ports: SDL, GTK+, cocoa, win32/win64 and msdos.
 
 - Added support for the following userport joystick adapters: CGA/Protovision,
   DXS/HIT, PET (normally only used on the PET/CBM2), Hummer (normally only
@@ -122,7 +122,7 @@ list of all the changes in the code.
 - Added paddle emulation.
 
 - Added lightpen/lightgun emulation, currently only available for the following
-  ports: SDL, *nix, win32/win64 and msdos.
+  ports: SDL, *GTK+, cocoa, win32/win64 and msdos.
 
 - Corrected the joystick support, since the VIC20 can only have one joystick
   attached on the joystick port.
