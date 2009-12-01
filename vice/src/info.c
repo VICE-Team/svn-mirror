@@ -983,7 +983,7 @@ const char info_contrib_text[] =
 "  Turkish user interface translations (in world record time).\n"
 "\n"
 "  Mikkel Holm Olsen <vice-dk@symlink.dk> provided the Danish\n"
-"  user interface translations.\n"
+"  user interface translations and fixed a few monitor bugs.\n"
 "\n"
 "  Paul Dubé from Rivière-du-Loup, Québec, provided the French\n"
 "  user interface translations.\n"

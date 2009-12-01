@@ -7835,7 +7835,7 @@ interface translations.
 
 @b{Emir Akaydin} provided the Turkish user interface translations (in world record time).
 
-@b{Mikkel Holm Olsen} provided the Danish user interface translations.
+@b{Mikkel Holm Olsen} provided the Danish user interface translations and fixed a few monitor bugs.
 
 @b{Paul Dubé} from Rivière-du-Loup, Québec, provided the French user interface
 translations.
