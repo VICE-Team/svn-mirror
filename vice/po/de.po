@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-01 20:51+0100\n"
-"PO-Revision-Date: 2009-11-15 16:08+0100\n"
+"PO-Revision-Date: 2009-12-08 19:54+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8709,9 +8709,8 @@ msgid "PS/2 mouse emulation"
 msgstr "PS/2 Mausemulation"
 
 #: src/arch/amigaos/intl.c.po.c:1718
-#, fuzzy
 msgid "Autostart settings..."
-msgstr "&Autostart Einstellungen"
+msgstr "Autostart Einstellungen"
 
 #: src/arch/amigaos/intl.c.po.c:1729
 msgid "Video settings..."
@@ -9310,7 +9309,6 @@ msgstr ""
 "AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4641
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
@@ -9319,13 +9317,10 @@ msgstr ""
 "Keysatz B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4657
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
-msgstr ""
-"Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/"
-"AI)"
+msgstr "Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4673
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -9402,7 +9397,6 @@ msgid "Buffer Size"
 msgstr "Puffergröße"
 
 #: src/arch/amigaos/intl.c.po.c:5273
-#, fuzzy
 msgid "Fragment Size"
 msgstr "Fragmentgröße"
 
@@ -12077,7 +12071,6 @@ msgstr ""
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7928
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12087,15 +12080,7 @@ msgid ""
 "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
-"SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8680, 256: "
-"ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-"port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-"
-"FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-"1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-"8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-"1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "SID Modell und Engin definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7982 src/translate.c.po.c:9112
 msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)"
@@ -12506,7 +12491,6 @@ msgstr ""
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:9061
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
@@ -12516,15 +12500,7 @@ msgid ""
 "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
-"SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8680, 256: "
-"ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-"768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:9296
 msgid "Enable second SID"
