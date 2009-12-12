@@ -158,6 +158,8 @@ noinst_HEADERS = \
 	machine.h \
 	main.h \
 	maincpu.h \
+	mainviccpu.c \
+	mainviccpu.h \
 	mc6821.h \
 	mem.h \
 	midi.h \
@@ -167,6 +169,7 @@ noinst_HEADERS = \
 	mos6510dtv.h \
 	mouse.h \
 	network.h \
+	opencbm.h \
 	opencbmlib.h \
 	palette.h \
 	parallel.h \

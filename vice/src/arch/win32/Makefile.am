@@ -261,6 +261,8 @@ EXTRA_DIST = \
 	evc/system.h \
 	msvc/config.h \
 	msvc/dirent.h \
+	msvc/inttypes.h \
+	msvc/stdint.h \
 	msvc/system.h \
 	msvc/siddefs.h \
 	msvc/siddefs-fp.h \

@@ -2935,6 +2935,7 @@ if false ; then
     mkdir -p arch/sdl/win64-msvc
     mkdir -p arch/sdl/dingoo-files
     mkdir -p arch/sdl/syllable-files
+    mkdir -p arch/sdl/xbox
     mkdir -p arch/unix
     mkdir -p arch/unix/gp2x
     mkdir -p arch/unix/gui
@@ -3041,6 +3042,7 @@ AC_OUTPUT([Makefile
            src/arch/sdl/win64-msvc/Makefile
            src/arch/sdl/dingoo-files/Makefile
            src/arch/sdl/syllable-files/Makefile
+           src/arch/sdl/xbox/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
            src/arch/unix/gui/Makefile

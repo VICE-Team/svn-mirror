@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = win32-msvc win64-msvc win32-watcom dingoo-files syllable-files
+SUBDIRS = win32-msvc win64-msvc win32-watcom dingoo-files syllable-files xbox
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -183,6 +183,7 @@ EXTRA_DIST = \
 	archdep_xbox.h \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
+	make-bindist_dingoo.sh \
 	make-bindist_gp2x.sh \
 	make-bindist_qnx6.sh \
 	make-bindist_riscos.sh \

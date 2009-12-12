@@ -22,9 +22,10 @@ libc64dtv_a_SOURCES = \
 	c64dtvmem.h \
 	c64dtvmem.c \
 	c64dtvmemrom.c \
-	c64dtvcpu.c \
 	c64dtvblitter.c \
 	c64dtvblitter.h \
+	c64dtvcpu.c \
+	c64dtvcpu.h \
 	c64dtvdma.c \
 	c64dtvdma.h \
 	c64dtvflash.c \

@@ -32,6 +32,7 @@ EXTRA_DIST = \
 	iecieee.vcproj \
 	ieee.vcproj \
 	imagecontents.vcproj \
+	make-bindist.bat \
 	monitor.vcproj \
 	parallel.vcproj \
 	pet.vcproj \

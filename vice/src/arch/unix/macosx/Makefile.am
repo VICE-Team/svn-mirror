@@ -24,6 +24,7 @@ libarchmacosx_a_SOURCES = \
 	mididrv.c
 
 EXTRA_DIST = \
+	analyze-vicerc.pl \
 	Info.plist \
 	make-bindist.sh \
 	x11-launcher.sh \

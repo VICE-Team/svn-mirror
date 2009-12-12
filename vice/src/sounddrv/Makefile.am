@@ -58,4 +58,5 @@ libsounddrv_a_DEPENDENCIES = \
 
 libsounddrv_a_LIBADD = @SOUND_DRIVERS@
 
-EXTRA_DIST =
+EXTRA_DIST = \
+	lamelib.h

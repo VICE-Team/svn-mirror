@@ -4,6 +4,7 @@
 docdir = $(realdocdir)
 
 doc_DATA = \
+	MacOSX-ResourceTree.txt \
 	Minix-Howto.txt \
 	MSDOS-Ethernet-Howto.txt \
 	MSDOS-Howto.txt \
