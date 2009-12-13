@@ -874,7 +874,7 @@ vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 
     initialize_socket_address( & sockfd->address );
 
-    newsocket = accept(sockfd->sockfd, & sockfd->address.address.generic, & sockfd->address.len);
+    newsocket = accept(sockfd->sockfd, & sockfd->address.address.generic, (int *)& sockfd->address.len);
 
     return SOCKET_IS_INVALID(newsocket) ? NULL : vice_network_alloc_new_socket(newsocket);
 }

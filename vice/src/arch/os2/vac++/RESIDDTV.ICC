@@ -12,7 +12,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\resid-dtv"),
     incl(searchpathfirst, "yes")
 {
-    target type(lib) "resid"
+    target type(lib) "residdtv"
     {
         option reSiddtv = define("PACKAGE","\"residdtv\""), define("VERSION","\"0.16\""), define("SIZEOF_INT", "\"4\"")
         {

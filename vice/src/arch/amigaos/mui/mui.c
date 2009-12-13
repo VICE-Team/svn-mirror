@@ -30,6 +30,10 @@
 #define ASL_PRE_V38_NAMES
 #endif
 
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
+
 #include "mui.h"
 #include "private.h"
 #include "intl.h"

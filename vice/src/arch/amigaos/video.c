@@ -144,9 +144,11 @@ struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
 }
 #endif
 
-#ifdef AMIGA_AROS
+#ifndef AMIGA_OS4
 struct Library *LowLevelBase;
+#endif
 
+#ifdef AMIGA_AROS
 /* Use these on ALL amiga platforms not just AROS */
 UBYTE *unlockable_buffer = NULL;            /* Used to render the vice-buffer so we can WPA it into our backbuffer if we cant lock a bitmap! */
 
@@ -1237,7 +1239,7 @@ static const struct {
     { PIXFMT_BGR16, makecol_BGR565BE },
     { PIXFMT_RGB16PC, makecol_RGB565LE },
     { PIXFMT_BGR16PC, makecol_BGR565LE },
-    { IXFMT_RGB24, makecol_RGB24 },
+    { PIXFMT_RGB24, makecol_RGB24 },
     { PIXFMT_BGR24, makecol_BGR24 },
     { PIXFMT_ARGB32, makecol_ARGB32 },
     { PIXFMT_BGRA32, makecol_BGRA32 },
