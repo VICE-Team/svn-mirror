@@ -27,7 +27,7 @@ The VICE Emulators for Macs are distributed in three versions that use
 different UI front ends: native Cocoa, X11/Xaw, Gtk+, and SDL. The first one
 directly uses the well known Mac user interface. The other ones are based on
 the X11 Window System that is available additionally for Mac OS X. The SDL 
-port uses the Simple DirectMedial Layer library.
+port uses the Simple DirectMedia Layer library.
 
 X11/Xaw is based on the original X11 interface of VICE and is very light but
 with limited UI interface. The second one is based on the Gtk+ widget library
@@ -36,10 +36,10 @@ no non-system extra libraries, Gtk+ requires a large set of external libs and
 thus is quite large. The SDL port has the full user-interface presented on the
 emulator screen (see ReadmeSDL.txt for more details).
 
-The ports are named with *-cocoa-*, *-x11-*, or *-gtk-* in the distribution
-archive name. The minimal supported Mac OS X version is embedded in the name,
-too. Please choose the highest version that is suitable for your installation
-as it contains most features.
+The ports are named with *-cocoa-*, *-x11-*, *-gtk-*, or *-sdl-* in the
+distribution archive name. The minimal supported Mac OS X version is embedded
+in the name, too. Please choose the highest version that is suitable for your
+installation as it contains most features.
 
 All ports are complete ports, i.e. all features available on other systems are
 available and all emulators are included.
