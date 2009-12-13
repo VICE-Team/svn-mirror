@@ -14,8 +14,7 @@ This official Mac OS X Port is maintained by
   2. Usage of Gtk+/X11 Port
   3. Usage of Cocoa Port
   4. Joystick Support
-  5. Building VICE
-  6. Feedback
+  5. Feedback
 
 
 1. Installation
@@ -25,23 +24,25 @@ This official Mac OS X Port is maintained by
 1.1 Choose Port
 
 The VICE Emulators for Macs are distributed in three versions that use
-different UI front ends: native Cocoa, X11/Xaw, and, Gtk+. The first one
+different UI front ends: native Cocoa, X11/Xaw, Gtk+, and SDL. The first one
 directly uses the well known Mac user interface. The other ones are based on
-the X11 Window System that is available additionally for Mac OS X.
+the X11 Window System that is available additionally for Mac OS X. The SDL 
+port uses the Simple DirectMedial Layer library.
 
 X11/Xaw is based on the original X11 interface of VICE and is very light but
 with limited UI interface. The second one is based on the Gtk+ widget library
 and has a feature rich UI with pull-down menus. Xaw is a slim port that needs
 no non-system extra libraries, Gtk+ requires a large set of external libs and
-thus is quite large.
+thus is quite large. The SDL port has the full user-interface presented on the
+emulator screen (see ReadmeSDL.txt for more details).
 
 The ports are named with *-cocoa-*, *-x11-*, or *-gtk-* in the distribution
-archive name.
+archive name. The minimal supported Mac OS X version is embedded in the name,
+too. Please choose the highest version that is suitable for your installation
+as it contains most features.
 
-The X11/Xaw and Gtk+ are complete ports, i.e. all features available on other
-systems are available and all emulators are included. The Cocoa port is still
-under construction and thus considered "experimental". It does not include all
-features available and some emulators are not complete.
+All ports are complete ports, i.e. all features available on other systems are
+available and all emulators are included.
 
 
 1.2 Install X11 (Only for X11/Xaw and Gtk+ Port)
@@ -65,8 +66,9 @@ If you like, you can move the Application binaries anywhere you want.
 
 1.4 Create Bundles for each Emulator (Optional; Only for X11/Xaw and Gtk+ Port)
 
-The VICE distribution contains a single application bundle called VICE. If you
-run this one by double clicking on it then it will ask which emulator to run.
+For some ports (namely X11 and Gtk+) the VICE distribution contains only a
+single application bundle called VICE. If you run this one by double clicking
+on it then it will ask which emulator to run.
 
 If you want to have own bundles for each emulator then simply copy the VICE
 bundle to a new one and name this after one of the emulators (e.g. x64). If
@@ -121,6 +123,12 @@ Unfortunately, the WLAN adapter (usually device en1) on portable Macs does not
 support libpcap packet capturing (as of 10.4 and 10.5). So TFE emulation on a
 wireless network adapter may not work. Use the ethernet port instead.
 
+
+1.7 Install SDL Framework (optional; only SDL port)
+
+The SDL port of VICE requires the SDL.framework installed on your Mac.
+Download it from http://www.libsdl.org/ and place the SDL.framework in
+/Library/Frameworks.
 
 
 2. Usage of Gtk+ and X11/Xaw Ports
@@ -256,30 +264,22 @@ pressing F1-F12 + Fn key.
 3. Usage of Cocoa Port
 ----------------------
 
-Note: The Cocoa port is still "experimental", i.e. it is not full featured and
-some things may be missing. This holds for the documentation as well ;)
-
 3.1 Features
 
  * native Mac OS X user interface with modeless dialogs
  * any-size/fullscreen OpenGL accelerated rendering
  * multi-threaded emulation core
-
+ 
 
 3.2 Current State
 
- * x64 90% complete, runs with UI and most menus and dialogs.
- 
- * All other emus: binaries are available, no menus and dialogs.
-   Use CMD+Q to quit such an emulator and drag&drop to attach disk images.
-   Some keyboard mappings already work, others not.
+ * all emulators are supported
 
 
 3.3 Known Issues
 
- * The Resource Inspector lacks correct input cells. All values have to
-   be entered as strings.
- * Some Menu entries are not greyed out but still do nothing.
+ * On 10.4 only: The Resource Inspector lacks correct input cells. All values
+   have to be entered as strings.
 
 
 3.4 Key Mapping
@@ -321,169 +321,7 @@ Joystick support was tested with the USB version of the Competition Pro but
 should work with other models as well.
 
 
-5. Building VICE
-----------------
-
-This section is only relevant if you want to compile an own distribution of
-VICE from the source code.
-
-
-5.1 XCode
-
-If you wan to compile VICE yourself then you first need to install Apple's
-XCode Development kit. It is available on your Mac OS X Installation DVD or
-can be downloaded for free (after registration) from the Apple Developer
-Network (connect.apple.com). Make sure to install the "Universal SDK 10.4"
-from the "Cross Development" section if you want to create a universal binary
-of VICE.
-
-XCode itself is not required but the command line tools (compiler, linker...)
-and other development files (SDKs).
-
-
-5.2 Required Tools
-
-The following tools are required or optional for a successful VICE build:
-
- - Platypus  (Optional)
-   
-     http://www.sveinbjorn.org/platypus
-   
-   This script bundler is used to embed the launcher script of VICE into
-   an application bundle. Additionally, Platypus supports simple drag and
-   drop on application start up.
-
-   If Platypus is not available then a launcher replacement is installed. This
-   script does not support drag and drop and quits immediately afert start up
-   (i.e. the VICE application icon disappears after the launch)!
-
-
-5.3 Required Library Sources
-
-VICE for Macs relies on a number of external libraries. You have to get their
-source code as they are missing on a default Mac system. Some libs are
-optional, i.e. if they are available then some extra features of VICE are
-available.
-
-- readline library  (required only for Mac OS X < 10.4)
-
-    http://tiswww.tis.case.edu/~chet/readline/rltop.html
-
-- HID Utilities  (optional) (Joystick support)
-
-    http://developer.apple.com/samplecode/HID_Utilities_Source/index.html
- 
-- Gtk+ Libraries  (required only for Gtk+ port)
-
-	gettext-0.16.tar.gz      http://www.gnu.org/software/gettext/
-	pkg-config-0.21.tar.gz   http://pkgconfig.freedesktop.org/wiki/
-	jpegsrc.v6b.tar.gz       http://www.ijg.org/files/
-	libpng-1.0.20.tar.bz2    http://www.libpng.org/pub/png/libpng.html
-	tiff-3.8.2.tar.gz        http://www.libtiff.org/
-	freetype-2.1.10.tar.bz2  http://www.freetype.org/
-	libxml2-2.6.27.tar.gz    http://xmlsoft.org/
-	fontconfig-2.4.1.tar.gz  http://www.fontconfig.org/wiki/
-	glib-2.12.4.tar.bz2      http://www.gtk.org/
-	cairo-1.2.6.tar.gz       http://cairographics.org/
-	pango-1.14.7.tar.bz2     http://www.gtk.org/
-	atk-1.9.0.tar.bz2        http://www.gtk.org/
-	gtk+-2.10.6.tar.gz       http://www.gtk.org/
-
-- Network Libraries  (optional) (Ethernet Emulation)
-
-    libpcap-0.9.5.tar.gz        http://www.tcpdump.org/
-    libnet0_1.0.2a.orig.tar.gz  http://ftp.debian.org/debian/pool/main/libn/libnet0/libnet0_1.0.2a.orig.tar.gz
-
-- FFMPEG  (optional) (Video and Sound Capture)
-
-    lame-3.97.tar.gz            http://lame.sourceforge.net/
-    svn tree at                 svn checkout svn://svn.mplayerhq.hu/ffmpeg/trunk ffmpeg-svn
-
-
-5.4 Building Required Libraries
-
-First, build all external libraries. The VICE source distribution contains
-build scripts to automatically perform this step.
-
-Copy all library source archives into a single directory and call a build
-script found in "build/macosx/" of the VICE source tree. The scripts usually
-take two arguments: target directory and compile architecture (i386 or ppc).
-
-The convenience script "build-allext.sh" builds all external libs given in
-section 3.3 for both architectures: intel (i386) and power pc (ppc). This is
-required for a universal binary build of VICE. The script takes only a single
-argument: the library installation directory.
-
-Example:
-
- > mkdir extlib-src
- > mkdir extlib
- > cp <all lib source archives> extlib-src/
- > cd extlib-src
- > sh <VICE srcdir>/build/macosx/build-allext.sh ../extlib
-
-If all went well then the libraries are compiled and installed in the "extlib"
-directory. The libraries are now ready for the VICE build.
-
-
-5.5 Building VICE
-
-The build process of VICE contains the following steps: Call "configure" in
-the source tree to determine the required "make" system setup and find
-available libs. Then compile the source tree to get binaries of all emulators
-and tools.
-
-A release is started by creating a distribution directory. Then the emulator
-binaries are embedded in the VICE application bundle. Furthermore, the tools,
-external libraries and documentation is added and finally, a release disk
-image (dmg) is created.
-
-If you want to create a universal binary of VICE then the "configure" and
-"make" stages are repeated two times: for i386 and ppc. The resulting binaries
-are then united into single universal binaries. This is also done for all
-external libraries.
-
-All the necessary steps for a successfull build are integrated in the build
-script "build/macosx/build-vice-dist.sh". It has the following usage and must
-be run from the VICE source base directory:
-
-Usage: 
-
-  build/macosx/build-vice-dist.sh <arch> <ui-type> <dist-type> <extlib-dir> <build-dir>
-
-   arch        Build architecture       ub,i386,ppc
-   ui-type     User Interface Type      x11,gtk
-   dist-type   Type of Distribution     dmg,dir
-   extlib-dir  External Libraries
-   build-dir   Where VICE is built
-
-arch: Choose the target architecture. Make sure the external libs are compiled
-similar! (ub=universal binary, i386=Intel Mac, ppc=PowerPC Mac)
-
-ui-type: Select the User Interface: either X11 (x11) or Gtk+ (gtk) based. Gtk+
-requires the external Gtk+ libraries.
-
-dist-type: Either create a disk image with the everthing embedded inside (dmg)
-or create a directory with all files (dir) for direct access.
-
-ext-lib: Where are the external libraries installed? Use same path as in
-section 3.4.
-
-build-dir: The newly created directory where all compilation takes place. The
-created distribution is found inside this directory and all intermediate
-files.
-
-Example:
-
-  > cd [VICE src dir]
-  > sh build/macosx/build-vice-dist.sh ub x11 dmg ../extlib TEMP
-
-This creates the TEMP directory in the VICE source tree and builds a universal
-binary VICE distribution with X11 interface. The result is a *.dmg release
-disk image found in the "TEMP/x11/ub/" directory.
-
-
-6. Feedback
+5. Feedback
 -----------
 
 If you discover problems not listed above or just want to tell us your
