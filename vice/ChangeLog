@@ -1,6 +1,39 @@
-2009-12-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+2009-12-13  Christian Vogelgsang <chris@vogelgsang.org>
 
-	* Version 2.2
+	* data/PLUS4/osx_pos.vkm, data/PLUS4/osx_sym.vkm: macosx: fixed
+	  plus4 shift on keymap
+
+	* doc/ReadmeMacOSX.txt: fixed typos
+
+	* doc/MacOSX-Build.txt, doc/Makefile.am, doc/ReadmeMacOSX.txt:
+	  updated and cleaned up Mac OS X docs for 2.2
+
+2009-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/mui/mui.c,
+	  src/arch/amigaos/video.c, src/arch/os2/vac++/RESIDDTV.ICC,
+	  src/arch/os2/vac++/incl/residdtv.icc, src/socket.c: Build
+	  problem fixes, need to generate a new src with these fixes
+	  included.
+
+2009-12-12  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* build/Makefile.am, configure.in, doc/Makefile.am,
+	  doc/html/Makefile.am, src/Makefile.am,
+	  src/arch/sdl/Makefile.am, src/arch/sdl/syllable-files,
+	  src/arch/sdl/win64-msvc/Makefile.am, src/arch/sdl/xbox,
+	  src/arch/sdl/xbox/Makefile.am,
+	  src/arch/unix/macosx/Makefile.am, src/arch/win32/Makefile.am,
+	  src/c64dtv/Makefile.am, src/sounddrv/Makefile.am: Make sure to
+	  include some files that were missing with 'make dist'.
+
+2009-12-08  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2009-12-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* doc/html/macosx.html: fixed links in macosx download page
 
 2009-12-01  Hannu Nuotio <hannu.nuotio@tut.fi>
 
