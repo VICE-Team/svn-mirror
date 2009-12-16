@@ -56,10 +56,6 @@ static BYTE digimax_userport_direction_B;
 
 static int set_digimax_enabled(int val, void *param)
 {
-    if (sid_sound_machine_cycle_based() == 1 && val) {
-        ui_error(translate_text(IDGS_DIGIMAX_NOT_WITH_RESID));
-        return -1;
-    }
     digimax_enabled = val;
     return 0;
 }
@@ -153,7 +149,10 @@ int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, 
 {
     int i;
 
-    if (sid_sound_machine_cycle_based() == 0 && digimax_enabled) {
+    /* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
+     * have an easy-to-use infrastructure for blep generation. We should write
+     * this code. */
+    if (digimax_enabled) {
         for (i = 0; i < nr; i++) {
             pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],(snd.voice0 + snd.voice1 + snd.voice2 + snd.voice3) << 6);
         }
