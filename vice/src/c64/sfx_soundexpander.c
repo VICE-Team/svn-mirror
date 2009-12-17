@@ -53,12 +53,7 @@ static FM_OPL *YM3812_chip = NULL;
 
 static int set_sfx_soundexpander_enabled(int val, void *param)
 {
-    if (sid_sound_machine_cycle_based() == 1 && val) {
-        ui_error(translate_text(IDGS_SFX_SE_NOT_WITH_RESID));
-        return -1;
-    }
     sfx_soundexpander_enabled=val;
-
     return 0;
 }
 
@@ -131,7 +126,7 @@ int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
     int i;
     SWORD *buffer;
 
-    if (sid_sound_machine_cycle_based() == 0 && sfx_soundexpander_enabled) {
+    if (sfx_soundexpander_enabled) {
         buffer = lib_malloc(nr * 2);
         if (sfx_soundexpander_chip == 3812) {
             ym3812_update_one(YM3812_chip, buffer, nr);

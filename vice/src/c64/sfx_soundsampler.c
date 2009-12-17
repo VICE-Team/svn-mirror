@@ -46,10 +46,6 @@ int sfx_soundsampler_enabled;
 
 static int set_sfx_soundsampler_enabled(int val, void *param)
 {
-    if (sid_sound_machine_cycle_based() == 1 && val) {
-        ui_error(translate_text(IDGS_SFX_SS_NOT_WITH_RESID));
-        return -1;
-    }
     sfx_soundsampler_enabled = val;
     return 0;
 }
@@ -100,7 +96,7 @@ int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
 {
     int i;
 
-    if (sid_sound_machine_cycle_based() == 0 && sfx_soundsampler_enabled) {
+    if (sfx_soundsampler_enabled) {
         for (i = 0; i < nr; i++) {
             pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], snd.voice0 << 8);
         }

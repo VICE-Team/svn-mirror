@@ -135,10 +135,11 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int inte
     int temp;
 
     temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    /* tell digimax how many samples to generate to keep in sync with resid */
+    /* tell digimax & others how many samples to generate to keep in sync with
+     * resid's unpredictable sample generation. */
     digimax_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
-    sfx_soundexpander_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    sfx_soundsampler_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    sfx_soundexpander_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
+    sfx_soundsampler_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
 
     return temp;
 }
