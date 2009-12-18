@@ -49,8 +49,10 @@
 #include "menu_tape.h"
 #include "menu_tfe.h"
 #include "menu_video.h"
+#include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
+#include "videoarch.h"
 #include "vkbd.h"
 
 static const ui_menu_entry_t x128_main_menu[] = {
@@ -154,9 +156,13 @@ void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)
 
 int c128ui_init(void)
 {
+    int columns_key;
+
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
+    resources_get_int("40/80ColumnKey", &columns_key);
+    sdl_video_canvas_switch(columns_key ^ 1);
 
     sdl_ui_set_menu_params = c128ui_set_menu_params;
 
