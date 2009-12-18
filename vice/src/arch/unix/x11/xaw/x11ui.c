@@ -1707,7 +1707,7 @@ static const char* file_filters[] = {
 /* palette */ "*.vpl",
 /* snapshot */ "*.vsf",
 /* disk */ "*.[gdxGDX]*",
-/* tape */ "*.[tT]",
+/* tape */ "*.[tT][aA6][pP4]",
 /* cartridge */ "*.[cCbB][rRiI][tTnN]",
 /* crt filter */ "*.[cC][rR][tT]",
 /* flip_list */ "*.vfl",
@@ -1723,7 +1723,8 @@ static const char* file_filters[] = {
 /* serial */ "ttyS*",
 /* vic20cart */ "*.prg",
 /* sid */ "*.[psPS]*",
-/* dtvrom */ ".[bB][iI][nN]"
+/* dtvrom */ ".[bB][iI][nN]",
+/* compressed */ "*"
 };
 
 /* File browser. */

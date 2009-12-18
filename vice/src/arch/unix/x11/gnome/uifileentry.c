@@ -74,6 +74,12 @@ static uilib_file_filter_t serial_filter[] = { { "ttyS*", 1 }, { NULL } };
 static uilib_file_filter_t vic20cart_filter[] = { { "*.prg", 0 }, { NULL } };
 static uilib_file_filter_t sid_filter[] = { { "*.psid", 0 }, { "*.sid", 0 }, { NULL } };
 static uilib_file_filter_t dtvrom_filter[] = { { "*.bin", 0 }, { NULL } };
+static uilib_file_filter_t compressed_filter[] = {
+    { "*.zip", 0 },
+    { "*.gz", 0 },
+    { "*.bz2", 0 },
+    { NULL }
+};
 
 /* this must be in sync with uilib_file_filter_enum_t */
 struct {
@@ -100,7 +106,8 @@ struct {
     { "Serial ports", serial_filter },
     { "VIC20 cartridges", vic20cart_filter },
     { "SID files", sid_filter },
-    { "C64DTV ROM images", dtvrom_filter }
+    { "C64DTV ROM images", dtvrom_filter },
+    { "Compressed files", compressed_filter }
 };
 
 GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const char *default_dir, uilib_file_filter_enum_t* patterns, int num_patterns, ui_filechooser_t action)

@@ -51,6 +51,7 @@ typedef enum uilib_file_filter_enum_s {
     UILIB_FILTER_VIC20CART,
     UILIB_FILTER_SID,
     UILIB_FILTER_DTVROM,
+    UILIB_FILTER_COMPRESSED
 } uilib_file_filter_enum_t;
 
 #endif

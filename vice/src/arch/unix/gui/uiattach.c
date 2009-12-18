@@ -71,7 +71,7 @@ UI_CALLBACK(attach_disk)
     char *filename, *title;
     ui_button_t button;
     int attach_wp = 0;
-    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DISK, UILIB_FILTER_ALL };
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DISK, UILIB_FILTER_COMPRESSED, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
@@ -197,7 +197,7 @@ static UI_CALLBACK(attach_tape)
 {
     char *filename;
     ui_button_t button;
-    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_TAPE, UILIB_FILTER_ALL };
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_TAPE, UILIB_FILTER_COMPRESSED, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
 
@@ -258,7 +258,7 @@ static UI_CALLBACK(smart_attach)
     ui_button_t button;
     int do_free_dir;
     char *dir;
-    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_TAPE, UILIB_FILTER_DISK, UILIB_FILTER_PRGP00, UILIB_FILTER_ALL };
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_ALL, UILIB_FILTER_TAPE, UILIB_FILTER_DISK, UILIB_FILTER_PRGP00, UILIB_FILTER_COMPRESSED };
 
     vsync_suspend_speed_eval();
 
