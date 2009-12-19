@@ -83,13 +83,10 @@ static int sdl_init(const char *param, int *speed,
 {
     SDL_AudioSpec spec;
 
-    /* No stereo capability. */
-    *channels = 1;
-
     memset(&spec, 0, sizeof(spec));
     spec.freq = *speed;
     spec.format = AUDIO_S16;
-    spec.channels = 1;
+    spec.channels = *channels;
     spec.samples = *fragsize;
     spec.callback = sdl_callback;
 
@@ -97,7 +94,7 @@ static int sdl_init(const char *param, int *speed,
         return 1;
     }
 
-    if (sdl_spec.format != AUDIO_S16 || sdl_spec.channels != 1) {
+    if (sdl_spec.format != AUDIO_S16 || sdl_spec.channels != *channels) {
         SDL_CloseAudio();
         return 1;
     }
