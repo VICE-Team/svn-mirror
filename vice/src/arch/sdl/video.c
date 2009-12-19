@@ -542,6 +542,13 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         }
 #endif
     } else {
+#ifdef HAVE_HWSCALE
+        /* free the old hwscale screen when hwscaled screen is switched away */
+        if (canvas->hwscale_screen) {
+            SDL_FreeSurface(canvas->hwscale_screen);
+            canvas->hwscale_screen = NULL;
+        }
+#endif
         if (canvas->screen) {
             SDL_FreeSurface(canvas->screen);
         }
@@ -590,6 +597,10 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
+    if ((canvas == NULL) || (canvas->screen == NULL)) {
+        return;
+    }
+
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
         sdl_vkbd_draw();
     }
@@ -630,6 +641,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
+        if (canvas != sdl_active_canvas) {
+            return;
+        }
+
         if (!(canvas->hwscale_screen)) {
 #ifdef SDL_DEBUG
             fprintf(stderr, "%s: hwscale refresh without hwscale screen, ignoring\n", __func__);
@@ -856,6 +871,7 @@ void sdl_video_canvas_switch(int index)
 
     sdl_forced_resize = 1;
     video_canvas_create(canvas, &w, &h, 0);
+    video_canvas_refresh_all(sdl_active_canvas);
 }
 
 void video_arch_canvas_init(struct video_canvas_s *canvas)
