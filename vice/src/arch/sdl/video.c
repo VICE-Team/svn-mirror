@@ -590,7 +590,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         sdl_lightpen_adjust.scale_y = (canvas->dsizey) ? 0.5f : 1.0f;
     }
 
-    video_canvas_set_palette(canvas, canvas->palette);
+    if (canvas == sdl_active_canvas) {
+        video_canvas_set_palette(canvas, canvas->palette);
+    }
 
     return canvas;
 }
