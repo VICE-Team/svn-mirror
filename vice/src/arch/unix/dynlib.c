@@ -28,6 +28,7 @@
 
 #ifdef HAVE_DYNLIB_SUPPORT
 
+#include <stdlib.h>
 #include <dlfcn.h>
 
 #ifndef RTLD_LOCAL
