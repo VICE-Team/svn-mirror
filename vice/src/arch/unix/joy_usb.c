@@ -179,9 +179,9 @@ int usb_joystick_init(void)
         found = 0;
         is_joy = 0;
 #if !defined(HAVE_USBHID_H) && !defined(HAVE_LIBUSB_H) && defined(HAVE_LIBUSBHID)
-        for (d = hid_start_parse(report, id)
+        for (d = hid_start_parse(report, id);
 #else
-        for (d = hid_start_parse(report, 1 << hid_input, id)
+        for (d = hid_start_parse(report, 1 << hid_input, id);
 #endif
         hid_get_item(d, &h);) {
             if (h.kind == hid_collection && HID_PAGE(h.usage) == HUP_GENERIC_DESKTOP && (HID_USAGE(h.usage) == HUG_JOYSTICK || HID_USAGE(h.usage) == HUG_GAME_PAD)) {
