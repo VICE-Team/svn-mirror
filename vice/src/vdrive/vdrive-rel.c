@@ -1361,8 +1361,8 @@ int vdrive_rel_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
             if (p->mode == BUFFER_COMMAND_CHANNEL)
                 log_error(vdrive_rel_log,
                     "Disk read  %d [%02d %02d] data %02x (%c).",
-                    p->mode, 0, 0, *data, (isprint(*data)
-                    ? *data : '.'));
+                    p->mode, 0, 0, data, (isprint(data)
+                    ? data : '.'));
 #endif
             if (vdrive_rel_grow(vdrive, secondary, p->record) < 0)
             {

@@ -347,8 +347,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     }
 
 #ifdef DEBUG_DRIVE
-    log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
-              vdrive->unit, vdrive->image->fd, name, length, secondary);
+    log_debug("VDRIVE#%i: OPEN: Name '%s' (%d) on ch %d.",
+              vdrive->unit, name, length, secondary);
 #endif
 #ifdef __riscos
     archdep_set_drive_leds(vdrive->unit - 8, 1);
