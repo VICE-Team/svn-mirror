@@ -125,6 +125,11 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
         *(((DWORD *)p) + i * 2) = dwg_table_0[d];
         *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
     }
+
+    if (crtc.hires_draw_callback) {
+        (crtc.hires_draw_callback)(p, xs, xc, scr_rel + xs, crtc.raster.ycounter);
+    }
+
 }
 
 static void draw_standard_line(void)

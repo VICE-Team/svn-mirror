@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "mem.h"
 #include "types.h"
 
 #define PET_RAM_SIZE            0x8000
@@ -58,6 +59,7 @@ extern int pet_mem_init_resources(void);
 extern int pet_mem_init_cmdline_options(void);
 
 extern void mem_initialize_memory(void);
+extern void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write);
 extern void petmem_check_info(struct petres_s *pi);
 
 extern void petmem_reset(void);

@@ -147,6 +147,25 @@ static const ui_menu_entry_t petreu_menu[] = {
     { NULL }
 };
 
+/* PETDWW */
+
+UI_MENU_DEFINE_TOGGLE(PETDWW)
+UI_MENU_DEFINE_FILE_STRING(PETDWWfilename)
+
+static const ui_menu_entry_t petdww_menu[] = {
+    { "Enable PET DWW",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_PETDWW_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "PET DWW image file",
+      MENU_ENTRY_DIALOG,
+      file_string_PETDWWfilename_callback,
+      (ui_callback_data_t)"Select PET DWW image" },
+    { NULL }
+};
+
 /* PET MODEL SELECTION */
 
 enum {
@@ -314,6 +333,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)petreu_menu },
+    { "PET DWW settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)petdww_menu },
     { "Memory and I/O settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -37,6 +37,7 @@
 #include "types.h"
 
 typedef void (*machine_crtc_retrace_signal_t)(unsigned int);
+typedef void (*crtc_hires_draw_t)(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 
 struct snapshot_s;
 struct screenshot_s;
@@ -60,6 +61,7 @@ extern void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
                                                                 int vrevmask);
 extern void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
 extern void crtc_set_retrace_type(int type);
+extern void crtc_set_hires_draw_callback(crtc_hires_draw_t);
 extern void crtc_enable_hw_screen_blank(int enable);
 extern void crtc_screenshot(struct screenshot_s *screenshot);
 extern void crtc_async_refresh(struct canvas_refresh_s *refresh);

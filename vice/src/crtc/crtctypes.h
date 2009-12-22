@@ -143,6 +143,7 @@ struct crtc_s
        Also used by crtc_offscreen() */
 
     machine_crtc_retrace_signal_t retrace_callback;
+    crtc_hires_draw_t hires_draw_callback;
 
     int retrace_type;
 

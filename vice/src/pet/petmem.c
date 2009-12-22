@@ -39,6 +39,7 @@
 #include "monitor.h"
 #include "pet.h"
 #include "petacia.h"
+#include "petdww.h"
 #include "petmem.h"
 #include "petpia.h"
 #include "petreu.h"
@@ -191,6 +192,14 @@ static BYTE REGPARM1 read_unused(WORD addr)
 
     if (petreu_enabled && addr>=0x8a00 && addr<0x8b00)
       return read_petreu2_reg(addr);
+
+    if (petdww_enabled) {
+        if (addr>=0xeb00 && addr<0xec00) {
+            return read_petdww_reg(addr);
+        } else if (addr>=0xec00 && addr<0xf000 && !petdww_mem_at_9000()) {
+            return read_petdww_ec00_ram(addr);
+        }
+    }
 
     if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<=0xe91f)
       return sid_read(addr);
@@ -420,6 +429,14 @@ static void REGPARM2 store_dummy(WORD addr, BYTE value)
     if (petreu_enabled && addr>=0x8a00 && addr<0x8b00)
       store_petreu2_reg(addr,value);
 
+    if (petdww_enabled) {
+        if (addr>=0xeb00 && addr<0xec00) {
+            store_petdww_reg(addr, value);
+        } else if (addr>=0xec00 && addr<0xf000 && !petdww_mem_at_9000()) {
+            store_petdww_ec00_ram(addr, value);
+        }
+    }
+
     if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<0xe91f)
       sid_store(addr,value);
 
@@ -467,7 +484,11 @@ static void set_std_9tof(void)
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rama ? mem_ram + (i << 8)
                                      : mem_rom + ((i & 0x7f) << 8);
-        mem_read_limit_tab[i] = 0x9ffd;
+        mem_read_limit_tab[i] = 0xaffd;
+    }
+
+    if (petdww_enabled && petdww_mem_at_9000()) {
+        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab);
     }
 
     /* Setup ROM at $B000 - $E7FF. */
@@ -518,6 +539,12 @@ static void set_std_9tof(void)
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
     mem_read_limit_tab_ptr = mem_read_limit_tab;
+}
+
+void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write)
+{
+    *read = _mem_read_tab;
+    *write = _mem_write_tab;
 }
 
 void mem_set_bank_pointer(BYTE **base, int *limit)
@@ -871,14 +898,18 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
     switch (bank) {
       case 0:                   /* current */
         return mem_read(addr);
-         break;
+        break;
       case 4:                   /* extended RAM area (8x96) */
         return mem_ram[addr + 0x10000];
         break;
       case 3:                   /* io */
-        if (addr >= 0xe000 && addr <= 0xe0ff) {
+        if (addr >= 0xe800 && addr < 0xe900) {
             return read_io(addr);
         }
+        if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+            return read_unused(addr);
+        }
+        /* fallthrough to rom */
       case 2:                   /* rom */
         if (addr >= 0x9000) {
             return mem_rom[addr & 0x7fff];
@@ -896,8 +927,15 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
         return mem_read(addr);  /* FIXME */
         break;
       case 3:                   /* io */
-        if (addr >= 0xe000 && addr <= 0xe0ff) {
+        if (addr >= 0xe800 && addr < 0xe900) {
             return peek_bank_io(addr);
+        }
+        if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+            BYTE result;
+            /* is_peek_access = 1; FIXME */
+            result = read_unused(addr);
+            /* is_peek_access = 0; FIXME */
+            return result;
         }
     }
     return mem_bank_read(bank, addr, context);
@@ -913,8 +951,12 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
         mem_ram[addr + 0x10000] = byte;
         return;
       case 3:                   /* io */
-        if (addr >= 0xe000 && addr <= 0xe0ff) {
+        if (addr >= 0xe800 && addr < 0xe900) {
             store_io(addr, byte);
+            return;
+        }
+        if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+            store_dummy(addr, byte);
             return;
         }
       case 2:                   /* rom */
@@ -931,11 +973,15 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0x0010, 0x001f);
-    mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0x0020, 0x002f);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0x0040, 0x004f);
-    if (petres.crtc)
-        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0x0080, 0x0093);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0xe810, 0xe81f);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0xe820, 0xe82f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f);
+    if (petres.crtc) {
+        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe801);
+    }
+    if (petdww_enabled) {
+        mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f);
+    }
 
     return mem_ioreg_list;
 }

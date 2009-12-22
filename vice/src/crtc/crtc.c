@@ -317,6 +317,11 @@ void crtc_set_retrace_type(int type)
     crtc.retrace_type = type;
 }
 
+void crtc_set_hires_draw_callback(crtc_hires_draw_t callback)
+{
+    crtc.hires_draw_callback = callback;
+}
+
 /*--------------------------------------------------------------------*/
 
 static void clk_overflow_callback(CLOCK sub, void *data)
@@ -375,6 +380,7 @@ raster_t *crtc_init(void)
     crtc.screen_xoffset = 0;
     crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
     crtc.retrace_callback = NULL;
+    crtc.hires_draw_callback = NULL;
 
 #if 0
     log_debug("scr_width=%d, scr_height=%d",

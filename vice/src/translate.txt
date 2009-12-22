@@ -1495,6 +1495,15 @@ IDCLS_SPECIFY_PETREU_NAME
 /* pet/petreu.c */
 IDCLS_PETREU_SIZE
 
+/* pet/petdww.c */
+IDCLS_ENABLE_PETDWW
+
+/* pet/petdww.c */
+IDCLS_DISABLE_PETDWW
+
+/* pet/petdww.c */
+IDCLS_SPECIFY_PETDWW_NAME
+
 /* c64/plus256k.c */
 IDCLS_ENABLE_PLUS256K_EXPANSION
 

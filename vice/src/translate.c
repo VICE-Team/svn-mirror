@@ -4614,6 +4614,47 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_PETREU_SIZE_TR, "PET Ram ve Geniþletme Birimi'nin boyutu"},
 #endif
 
+/* pet/petdww.c */
+/* en */ {IDCLS_SPECIFY_PETDWW_NAME,    N_("Specify name of PET DWW image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_PETREU_NAME_DA, "Angiv navn på PET DWW-image"},
+/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, "Namen für PET DWW modul definieren"},
+/* fr */ {IDCLS_SPECIFY_PETDWW_NAME_FR, "Spécifier le nom de l'image de DWW"},
+/* hu */ {IDCLS_SPECIFY_PETDWW_NAME_HU, "Adja meg a PET DWW"},
+/* it */ {IDCLS_SPECIFY_PETDWW_NAME_IT, "Specifica il nome dell'immagine del DWW del PET"},
+/* nl */ {IDCLS_SPECIFY_PETDWW_NAME_NL, "Geef de naam van het PET-DWWbestand"},
+/* pl */ {IDCLS_SPECIFY_PETDWW_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PETDWW_NAME_SV, "Ange namn på PET DWW"},
+/* tr */ {IDCLS_SPECIFY_PETREU_NAME_TR, "PET DWW ismini belirt"},
+#endif
+/* pet/petdww.c */
+/* da */ {IDCLS_ENABLE_PETDWW_DA, "Aktivér PET DWW"},
+/* en */ {IDCLS_ENABLE_PETDWW,    N_("Enable the PET DWW hi-res board")},
+#ifdef HAS_TRANSLATION
+/* de */ {IDCLS_ENABLE_PETDWW_DE, "PET DWW aktivieren"},
+/* fr */ {IDCLS_ENABLE_PETDWW_FR, "Activer DWW du PET"},
+/* hu */ {IDCLS_ENABLE_PETDWW_HU, "PET DWW engedélyezése"},
+/* it */ {IDCLS_ENABLE_PETDWW_IT, "Attiva DWW del PET"},
+/* nl */ {IDCLS_ENABLE_PETDWW_NL, "Activeer de PET-DWW hi-res graphicseenheid"},
+/* pl */ {IDCLS_ENABLE_PETDWW_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PETDWW_SV, "Aktivera PET DWW"},
+/* tr */ {IDCLS_ENABLE_PETDWW_TR, "PET DWW aktif et"},
+#endif
+
+/* pet/petdww.c */
+/* en */ {IDCLS_DISABLE_PETDWW,    N_("Disable the PET DWW hi-res board")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_PETDWW_DA, "Deaktiver PET DWW"},
+/* de */ {IDCLS_DISABLE_PETDWW_DE, "PET RAM DWW dektivieren"},
+/* fr */ {IDCLS_DISABLE_PETDWW_FR, "Désactiver DWW du PET"},
+/* hu */ {IDCLS_DISABLE_PETDWW_HU, "PET DWW tiltása"},
+/* it */ {IDCLS_DISABLE_PETDWW_IT, "Disattiva DWW del PET"},
+/* nl */ {IDCLS_DISABLE_PETDWW_NL, "De PET-DWW hi-res graphics uitschakelen"},
+/* pl */ {IDCLS_DISABLE_PETDWW_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PETDWW_SV, "Inaktivera PET DWW"},
+/* tr */ {IDCLS_DISABLE_PETDWW_TR, "PET DWW pasifleþtir"},
+#endif
+
 /* c64/psid.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,    N_("SID player mode")},
 #ifdef HAS_TRANSLATION

@@ -47,6 +47,7 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheralieee.h"
+#include "uipetdww.h"
 #include "uipetreu.h"
 #include "uiromset.h"
 #include "uirs232petplus4cbm2.h"
@@ -219,6 +220,8 @@ UI_MENU_DEFINE_TOGGLE(EmuID)
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("PET RAM and Expansion Unit"),
       NULL, NULL, petreu_submenu },
+    { N_("PET DWW hi-res graphics"),
+      NULL, NULL, petdww_submenu },
     { N_("SID cartridge"),
       NULL, NULL, sidcart_submenu },
     { N_("*Emulator identification"),

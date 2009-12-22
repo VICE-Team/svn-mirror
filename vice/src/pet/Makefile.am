@@ -23,6 +23,8 @@ libpet_a_SOURCES = \
 	petbus.c \
 	petdatasette.c \
 	petdrive.c \
+	petdww.c \
+	petdww.h \
 	petembedded.c \
 	petiec.c \
 	petiec.h \
