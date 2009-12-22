@@ -1,5 +1,5 @@
 /*
- * epyxfastload.h - Cartridge handling, EPYX Fastload cart.
+ * rexutility.h - Cartridge handling, REX Utility cart.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,23 +24,18 @@
  *
  */
 
-#ifndef VICE_EPYXFASTLOAD_H
-#define VICE_EPYXFASTLOAD_H
+#ifndef VICE_REXUTILITY_H
+#define VICE_REXUTILITY_H
 
 #include <stdio.h>
 
 #include "types.h"
 
-extern void epyxfastload_io1_read(void);
+extern BYTE REGPARM1 rex_io2_read(WORD addr);
 
-extern BYTE REGPARM1 epyxfastload_io2_read(WORD addr);
-extern BYTE REGPARM1 epyxfastload_roml_read(WORD addr);
-
-extern void epyxfastload_reset(void);
-
-extern void epyxfastload_config_init(void);
-extern void epyxfastload_config_setup(BYTE *rawcart);
-extern int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart);
-extern void epyxfastload_detach(void);
+extern void rex_config_init(void);
+extern void rex_config_setup(BYTE *rawcart);
+extern int rex_crt_attach(FILE *fd, BYTE *rawbyte);
+extern void rex_detach(void);
 
 #endif

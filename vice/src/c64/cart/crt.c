@@ -51,6 +51,7 @@
 #include "mikroass.h"
 #include "resources.h"
 #include "rexep256.h"
+#include "rexutility.h"
 #include "ross.h"
 #include "stardos.h"
 #include "stb.h"

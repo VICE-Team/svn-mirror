@@ -119,6 +119,7 @@ static io_source_t io_source_table[] = {
     { IO_SOURCE_ISEPIC, "ISEPIC", IO_DETACH_RESOURCE, "Isepic" },
     { IO_SOURCE_SFX_SE, "SFX SOUND EXPANDER", IO_DETACH_RESOURCE, "SFXSoundExpander" },
     { IO_SOURCE_EASYFLASH, "EASYFLASH", IO_DETACH_CART, NULL },
+    { IO_SOURCE_REX, "REX", IO_DETACH_CART, NULL },
     { -1, NULL, 0, NULL }
 };
 
@@ -683,6 +684,9 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
                 break;
             case CARTRIDGE_EPYX_FASTLOAD:
                 mon_ioreg_add_list(mem_ioreg_list, "EPYX FASTLOAD", 0xdf00, 0xdfff);
+                break;
+            case CARTRIDGE_REX:
+                mon_ioreg_add_list(mem_ioreg_list, "REX", 0xdf00, 0xdfff);
                 break;
             case CARTRIDGE_FINAL_I:
                 mon_ioreg_add_list(mem_ioreg_list, "FINAL CARTRIDGE I", 0xde00, 0xdfff);

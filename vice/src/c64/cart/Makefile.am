@@ -51,6 +51,8 @@ libc64cart_a_SOURCES = \
 	retroreplay.h \
 	rexep256.c \
 	rexep256.h \
+	rexutility.c \
+	rexutility.h \
 	ross.c \
 	ross.h \
 	stardos.c \

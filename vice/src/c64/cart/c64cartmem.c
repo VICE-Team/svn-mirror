@@ -63,6 +63,7 @@
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
+#include "rexutility.h"
 #include "ramcart.h"
 #include "ross.h"
 #include "stardos.h"
@@ -172,6 +173,9 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
             return stb_io1_read(addr);
         case CARTRIDGE_DELA_EP64:
             return delaep64_io1_read(addr);
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_io1_read();
+            return vicii_read_phi1();
     }
     return vicii_read_phi1();
 }
@@ -318,12 +322,7 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
             cartridge_config_changed(0, 0, CMODE_READ);
             return vicii_read_phi1();
         case CARTRIDGE_REX:
-            if ((addr & 0xff) < 0xc0) {
-                cartridge_config_changed(2, 2, CMODE_READ);
-            } else {
-                cartridge_config_changed(0, 0, CMODE_READ);
-            }
-            return 0;
+            return rex_io2_read(addr);
         case CARTRIDGE_WARPSPEED:
             io_source = IO_SOURCE_WARPSPEED;
             return roml_banks[0x1f00 + (addr & 0xff)];
@@ -426,6 +425,8 @@ BYTE REGPARM1 roml_read(WORD addr)
             return magicformel_roml_read(addr);
         case CARTRIDGE_EASYFLASH:
             return easyflash_roml_read(addr);
+        case CARTRIDGE_EPYX_FASTLOAD:
+            return epyxfastload_roml_read(addr);
     }
     if (dqbb_enabled) {
         return dqbb_roml_read(addr);
@@ -782,6 +783,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_reset();
+            break;
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_reset();
             break;
     }
 }

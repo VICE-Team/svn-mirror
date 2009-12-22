@@ -60,6 +60,7 @@
 #define IO_SOURCE_ISEPIC          28
 #define IO_SOURCE_SFX_SE          29
 #define IO_SOURCE_EASYFLASH       30
+#define IO_SOURCE_REX             31
 
 #define IO_DETACH_CART     0
 #define IO_DETACH_RESOURCE 1
