@@ -331,4 +331,16 @@
 
 #endif /* FIND_X86_CPU */
 
+
+/* Fallbacks for unidentified systems */
+#ifndef PLATFORM_CPU
+#define PLATFORM_CPU "CPU?"
+#endif
+#ifndef PLATFORM_OS
+#define PLATFORM_OS "OS?"
+#endif
+#ifndef PLATFORM_COMPILER
+#define PLATFORM_COMPILER "CC?"
+#endif
+
 #endif
