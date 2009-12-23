@@ -977,7 +977,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0xe820, 0xe82f);
     mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f);
     if (petres.crtc) {
-        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe801);
+        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe881);
     }
     if (petdww_enabled) {
         mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f);
