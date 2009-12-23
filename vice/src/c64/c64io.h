@@ -65,6 +65,10 @@
 #define IO_DETACH_CART     0
 #define IO_DETACH_RESOURCE 1
 
+#define CPU_LINES_C64_256K 1
+#define CPU_LINES_PLUS60K  2
+#define CPU_LINES_PLUS256K 3
+
 extern BYTE REGPARM1 c64io1_read(WORD addr);
 extern void REGPARM2 c64io1_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 c64io2_read(WORD addr);
@@ -74,5 +78,10 @@ struct mem_ioreg_list_s;
 extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
 
 extern int io_source;
+
+extern int get_cpu_lines_lock(void);
+extern void set_cpu_lines_lock(int device, char *name);
+extern void remove_cpu_lines_lock(void);
+extern char *get_cpu_lines_lock_name(void);
 
 #endif

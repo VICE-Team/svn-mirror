@@ -33,6 +33,7 @@
 #include "c64_256k.h"
 #include "c64cart.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -85,8 +86,8 @@ static int set_plus256k_enabled(int val, void *param)
         plus256k_enabled = 0;
         return 0;
     } else {
-        if (plus60k_enabled || c64_256k_enabled) {
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "256K");
+        if (get_cpu_lines_lock() != 0) {
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S), "CPU-LINES", get_cpu_lines_lock_name());
             return -1;
         } else {
             if (plus256k_activate() < 0) {
@@ -213,6 +214,7 @@ static int plus256k_activate(void)
         log_message(plus256k_log, "Reading PLUS256K image %s.", plus256k_filename);
     }
     plus256k_reset();
+    set_cpu_lines_lock(CPU_LINES_PLUS256K, "PLUS256K");
     return 0;
 }
 
@@ -228,6 +230,7 @@ static int plus256k_deactivate(void)
     vicii_set_ram_base(mem_ram);
     lib_free(plus256k_ram);
     plus256k_ram = NULL;
+    remove_cpu_lines_lock();
     return 0;
 }
 

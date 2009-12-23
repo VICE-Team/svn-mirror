@@ -95,8 +95,8 @@ static int set_c64_256k_enabled(int val, void *param)
         c64_256k_enabled = 0;
         return 0;
     } else {
-        if (plus60k_enabled || plus256k_enabled) {
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
+        if (get_cpu_lines_lock() != 0) {
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S), "CPU-LINES", get_cpu_lines_lock_name());
             return -1;
         } else {
             if (c64_256k_activate() < 0) {
@@ -275,6 +275,7 @@ static int c64_256k_activate(void)
         log_message(c64_256k_log, "Reading 256K image %s.", c64_256k_filename);
     }
     c64_256k_reset();
+    set_cpu_lines_lock(CPU_LINES_C64_256K, "C64 256K");
     return 0;
 }
 
@@ -290,6 +291,7 @@ static int c64_256k_deactivate(void)
     vicii_set_ram_base(mem_ram);
     lib_free(c64_256k_ram);
     c64_256k_ram = NULL;
+    remove_cpu_lines_lock();
     return 0;
 }
 

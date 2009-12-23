@@ -714,3 +714,30 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
         }
     }
 }
+
+/* ---------------------------------------------------------------------------------------------------------- */
+
+static int cpu_lines;
+static char *cpu_lines_lock_name;
+
+int get_cpu_lines_lock(void)
+{
+    return cpu_lines;
+}
+
+void set_cpu_lines_lock(int device, char *name)
+{
+    cpu_lines = device;
+    cpu_lines_lock_name = name;
+}
+
+void remove_cpu_lines_lock(void)
+{
+    cpu_lines = 0;
+    cpu_lines_lock_name = NULL;
+}
+
+char *get_cpu_lines_lock_name(void)
+{
+    return cpu_lines_lock_name;
+}
