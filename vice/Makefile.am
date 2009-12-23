@@ -5,10 +5,12 @@ SUBDIRS = $(POSUB) src build data man doc
 # COMMON_EXTRA_DIST is what used to be the EXTRA_DIST, when adding dist
 # files, please add them to the COMMON_EXTRA_DIST list.
 
-COMMON_EXTRA_DIST = AUTHORS \
+COMMON_EXTRA_DIST = .descr \
+	AUTHORS \
+	build.minix \
 	ChangeLog.1 \
-	FEEDBACK \
 	COPYING \
+	FEEDBACK \
 	Doxyfile \
 	INSTALL \
 	NEWS \

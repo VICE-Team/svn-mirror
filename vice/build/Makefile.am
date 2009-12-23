@@ -8,12 +8,11 @@ EXTRA_DIST = \
 	macosx/build-hidutils.sh \
 	macosx/build-inc.sh \
 	macosx/build-pcaplibnet.sh \
-	macosx/build-sdlmain.sh \
 	macosx/build-vice-dist.sh \
 	macosx/build-ffmpeglame.sh \
 	macosx/build-vice-release.sh \
-	minix3/build.sh \
 	minix3/build-package.sh \
+	minix3/build-sdl-package.sh \
 	qnx4/build.sh \
 	riscos/build-cross.sh \
 	riscos/build-cross-sdl.sh \

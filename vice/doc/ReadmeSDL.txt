@@ -55,6 +55,7 @@ The SDL port has been tested to work on:
            mipsel, mips64, mips64el, ppc, ppc64, s390, s390x, sh3, sh4, sparc,
            sparc64, x86
  - Mac OS X / ppc, amd64/x86_64, x86
+ - Minix 3.x / x86
  - MorphOS / ppc
  - NetBSD / alpha, amd64/x86_64, arm, hppa, m68010 (libaa only), m68k, mipseb,
             mipsel, ns32k, ppc, sh3eb, sh3le, sparc, sparc64, vax, x86

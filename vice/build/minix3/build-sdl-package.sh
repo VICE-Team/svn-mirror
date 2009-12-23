@@ -1,12 +1,12 @@
 #!/bin/sh
 #
-# build a minix 3.x binary package
+# build a minix 3.x SDL based binary package
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
 # this script needs to be run from the top of the vice tree
 
-echo "Generating Minix-3.x binary archive"
+echo "Generating Minix-3.x SDL binary archive"
 
 # see if we are in the top of the tree
 if [ ! -f configure.in ]; then
@@ -20,10 +20,11 @@ fi
 
 curdir=`pwd`
 curdirbase=`basename $curdir`
-rm -f SDL.build
+echo >SDL.build "SDL"
 
 cd ..
 
 binpackage $curdirbase .
+mv $curdirbase.tar.bz2 SDL-$curdirbase.tar.bz2
 
-echo Minix-3.x package generated as ../$curdirbase.tar.bz2
+echo SDL Minix-3.x package generated as ../SDL-$curdirbase.tar.bz2
