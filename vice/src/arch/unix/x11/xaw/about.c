@@ -138,7 +138,7 @@ UI_CALLBACK(ui_about)
                                         "",
                                         "V I C E",
                                         "",
-                                        "Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILE ")",
+                                        "Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
 #ifdef UNSTABLE
                                         "(unstable)",
 #endif
