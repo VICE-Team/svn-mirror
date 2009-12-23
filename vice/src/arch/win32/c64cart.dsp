@@ -170,6 +170,10 @@ SOURCE="..\..\c64\cart\rexep256.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\rexutility.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\ross.c"
 # End Source File
 # Begin Source File
