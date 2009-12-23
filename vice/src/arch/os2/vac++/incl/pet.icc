@@ -7,6 +7,7 @@ source type (c)
     "petacia1.c",
     "petdatasette.c",
     "petdrive.c",
+    "petdww.c",
     "petiec.c",
     "petmem.c",
     "petmemsnapshot.c",

@@ -21,6 +21,7 @@ source type(c)
     "cart\\mikroass.c",
     "cart\\retroreplay.c",
     "cart\\rexep256.c",
+    "cart\\rexutility.c",
     "cart\\ross.c",
     "cart\\stardos.c",
     "cart\\stb.c",
