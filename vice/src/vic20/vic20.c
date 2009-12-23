@@ -637,3 +637,7 @@ BYTE machine_tape_type_default(void)
     return TAPE_CAS_TYPE_BAS;
 }
 
+int machine_addr_in_ram(unsigned int addr)
+{
+    return (addr < 0xc000) ? 1 : 0;
+}

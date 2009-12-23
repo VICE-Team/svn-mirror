@@ -637,3 +637,8 @@ BYTE machine_tape_type_default(void)
     return TAPE_CAS_TYPE_PRG;
 }
 
+int machine_addr_in_ram(unsigned int addr)
+{
+    /* FIXME are these correct? */
+    return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
+}

@@ -442,7 +442,7 @@ static void check_rom_area(void)
         /* special case for auto-starters: ROM left. We also consider
          * BASIC area to be ROM, because it's responsible for writing "READY."
          */
-        if (reg_pc < 0xe000 && !(reg_pc >= 0xa000 && reg_pc < 0xc000)) {
+        if (machine_addr_in_ram(reg_pc)) {
             log_message(autostart_log, "Left ROM for $%04x", reg_pc);
             disable_warp_if_was_requested();
             autostartmode = AUTOSTART_DONE;
