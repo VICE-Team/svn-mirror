@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_help.h"
+#include "platform.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "util.h"
@@ -255,7 +256,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_clear();
         sdl_ui_print_center("VICE", 0);
         sdl_ui_print_center("Versatile Commodore Emulator", 1);
-        sdl_ui_print_center("Version " VERSION, 2);
+        sdl_ui_print_center("Version " VERSION " (SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")", 2);
         sdl_ui_print_center("The VICE Team", 4);
         sdl_ui_print_center("(C) 1998-2009 Andreas Boose", 5);
         sdl_ui_print_center("(C) 1998-2009 Tibor Biczo", 6);

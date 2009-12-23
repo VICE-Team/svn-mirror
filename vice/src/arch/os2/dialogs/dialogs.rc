@@ -27,6 +27,7 @@
 #include "../../../version.h"
 
 #include "dialogs.h"
+#include "platform.h"
 
 #ifdef WATCOM_COMPILE
 #include <pmwin.h>
@@ -106,7 +107,7 @@ BEGIN
         TEXT("V I C E", 15, 244, 180, 7)
         TEXT("the Versatile Commodore Emulator", 15, 237, 180, 7)
         TEXT("Version ", 65, 223,  35, 7)
-        TEXT(VERSION, 100, 223,  25, 7)
+        TEXT(VERSION " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")", 100, 223,  25, 7)
         TEXT("Copyright (c) 1993-1999 Teemu Rantanen", 15, 209, 180, 7)
         TEXT("Copyright (c) 1993-1996 Jouko Valta", 15, 202, 180, 7)
         TEXT("Copyright (c) 1993-1994 Jarkko Sonninen", 15, 195, 180, 7)

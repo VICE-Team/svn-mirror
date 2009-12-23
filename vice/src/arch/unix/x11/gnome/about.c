@@ -26,9 +26,10 @@
 
 #include "vice.h"
 
-#include "version.h"
 #include "info.h"
+#include "platform.h"
 #include "uiarch.h"
+#include "version.h"
 
 GtkWidget *about;
 
@@ -110,8 +111,8 @@ void ui_about(gpointer data)
 	/* GdkPixbuf *logo = gdk_pixbuf_new_from_file ("logo.png", NULL); */
         about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
                              "name", "V I C E",
-                             "version", VERSION, 
-                             "copyright", _("(c) 1998 - 2009 The Vice Team"), 
+                             "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+                             "copyright", _("(c) 1998 - 2009 The Vice Team"),
                              "comments", "Versatile Commodore Emulator",
                              "authors", authors, 
                              "documenters", docs, 

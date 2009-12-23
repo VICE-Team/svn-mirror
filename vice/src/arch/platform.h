@@ -29,6 +29,32 @@
 
 #include "vice.h"
 
+/* win32/64 discovery */
+#ifdef WIN32_COMPILE
+#  ifdef _WIN64
+#    ifdef WINIA64
+#      define PLATFORM_CPU "IA64"
+#    else
+#      define PLATFORM_CPU "X64"
+#    endif
+#    define PLATFORM_OS "WIN64"
+#    define PLATFORM_COMPILER "MSVC"
+#  else
+#    ifdef MSVC_RC
+#      ifdef WATCOM_COMPILE
+#        define PLATFORM_COMPILER "WATCOM"
+#      else
+#        define PLATFORM_COMPILER "MSVC"
+#      endif
+#    else
+#      define PLATFORM_COMPILER "GCC"
+#    endif
+#    define PLATFORM_OS "WIN32"
+#    define FIND_X86_CPU
+#  endif
+#endif
+
+
 /* AIX discovery */
 
 #ifdef _AIX

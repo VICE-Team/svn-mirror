@@ -19,6 +19,7 @@ xpetns_SOURCES = xpetns.c
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src/arch \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64/cart \

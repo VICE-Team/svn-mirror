@@ -73,6 +73,7 @@ extern "C" {
 #include "mos6510.h"
 #include "mouse.h"
 #include "network.h"
+#include "platform.h"
 #include "resources.h"
 #include "sound.h"
 #include "statusbar.h"
@@ -786,7 +787,7 @@ void ui_dispatch_events(void)
             case MENU_ABOUT:
                 char *abouttext;
 
-                abouttext = util_concat("BeVICE Version ", VERSION, "\n",
+                abouttext = util_concat("BeVICE Version ", VERSION, " (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n",
                                         "(c) 1998-2009 Andreas Boose\n",
                                         "(c) 1998-2009 Dag Lem\n",
                                         "(c) 1998-2009 Tibor Biczo\n",

@@ -30,10 +30,7 @@
 #define ASL_PRE_V38_NAMES
 #endif
 
-#ifdef AMIGA_M68K
-#define _INLINE_MUIMASTER_H
-#endif
-
+#include "platform.h"
 #include "mui.h"
 #include "private.h"
 #include "intl.h"
@@ -345,7 +342,7 @@ void ui_about(void)
         "",
         "Versatile Commodore Emulator",
         "",
-        "Version " VERSION,
+        "Version " VERSION " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
         "",
         "The VICE Team",
         "Copyright @ 1998-2009 Andreas Boose",

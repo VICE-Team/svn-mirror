@@ -45,6 +45,7 @@
 #include <X11/Xaw/Command.h>
 
 #include "info.h"
+#include "platform.h"
 #include "uiapi.h"
 #include "version.h"
 #include "videoarch.h"
@@ -137,7 +138,7 @@ UI_CALLBACK(ui_about)
                                         "",
                                         "V I C E",
                                         "",
-                                        "Version " VERSION,
+                                        "Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILE ")",
 #ifdef UNSTABLE
                                         "(unstable)",
 #endif

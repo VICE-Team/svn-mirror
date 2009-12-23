@@ -58,6 +58,10 @@
 #define PLATFORM_OS "QNX 6.3.3"
 #endif
 
+#if (_NTO_VERSION==640)
+#define PLATFORM_OS "QNX 6.4.0"
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "QNX 6.x"
 #endif
