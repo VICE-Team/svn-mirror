@@ -35,7 +35,7 @@
 #undef BYTE
 #undef WORD
 #undef DWORD
-#include <ddraw.h>
+#include <wtypes.h>
 
 #define APPLICATION_CLASS TEXT("VICE")
 #define APPLICATION_CLASS_MAIN TEXT("VICE:Main")
