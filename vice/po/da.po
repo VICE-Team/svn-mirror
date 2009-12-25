@@ -9323,7 +9323,6 @@ msgstr ""
 "tastesæt B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4641
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
@@ -9332,7 +9331,6 @@ msgstr ""
 "tastesæt B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4657
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
@@ -9415,7 +9413,6 @@ msgid "Buffer Size"
 msgstr "Bufferstørrelse"
 
 #: src/arch/amigaos/intl.c.po.c:5273
-#, fuzzy
 msgid "Fragment Size"
 msgstr "Fragmentstørrelse"
 
@@ -12083,7 +12080,6 @@ msgstr ""
 "FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:7928
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12512,7 +12508,6 @@ msgstr ""
 "FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"
 
 #: src/translate.c.po.c:9061
-#, fuzzy
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
@@ -12999,7 +12994,7 @@ msgstr "Vælg hvilken joystickport musen er tilsluttet"
 
 #: src/translate.c.po.c:10927
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
-msgstr "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga)"
+msgstr "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 
 #: src/translate.c.po.c:10941
 msgid "Enable PS/2 mouse on userport"
@@ -13243,26 +13238,32 @@ msgstr ""
 "Maplin)"
 
 #: src/translate.c.po.c:11783
+#, fuzzy
 msgid "Enable the digiblaster add-on"
 msgstr "Aktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11797
+#, fuzzy
 msgid "Disable the digiblaster add-on"
 msgstr "Deaktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11811
+#, fuzzy
 msgid "Enable SID cartridge joystick"
 msgstr "Aktivér SID-cartridge"
 
 #: src/translate.c.po.c:11825
+#, fuzzy
 msgid "Disable SID cartridge joystick"
 msgstr "Deaktivér SID-cartridge"
 
 #: src/translate.c.po.c:11839
+#, fuzzy
 msgid "Enable the SFX soundexpander cartridge"
 msgstr "Aktivér Expert Cartridge"
 
 #: src/translate.c.po.c:11853
+#, fuzzy
 msgid "Disable the SFX soundexpander cartridge"
 msgstr "Deaktivér Digimax-cartridge"
 
@@ -13271,10 +13272,12 @@ msgid "Set YM chip type (3526 / 3812)"
 msgstr ""
 
 #: src/translate.c.po.c:11881
+#, fuzzy
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Aktivér Digimax-cartridge"
 
 #: src/translate.c.po.c:11895
+#, fuzzy
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Deaktivér Digimax-cartridge"
 
@@ -13300,11 +13303,11 @@ msgstr "Deaktivér EasyFlash-jumper"
 
 #: src/translate.c.po.c:11979
 msgid "Enable writing to EasyFlash .crt image"
-msgstr "Tillad skrivning til EasyFlash CRT-image."
+msgstr "Tillad skrivning til EasyFlash CRT-image"
 
 #: src/translate.c.po.c:11993
 msgid "Disable writing to EasyFlash .crt image"
-msgstr "Forbyd skrivning til EasyFlash CRT-image."
+msgstr "Forbyd skrivning til EasyFlash CRT-image"
 
 #: src/translate.c.po.c:12007
 #, fuzzy

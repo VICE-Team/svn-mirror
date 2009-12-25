@@ -107,7 +107,7 @@ BEGIN
   IDS_SIDCART_CLOCK_LABEL                    "SID-klok"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhedsvalg"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Hovedenhed"
-  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
+  IDS_DIGIBLASTER                            "Aktivér digiblaster tilføjelse"
 END
 
 

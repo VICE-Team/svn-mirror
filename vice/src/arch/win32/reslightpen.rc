@@ -38,9 +38,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
-    IDS_LIGHTPEN_ENABLE  "&Enable lightpen"
-    IDS_LIGHTPEN_TYPE    "Lightpen type"
+    IDS_LIGHTPEN_CAPTION "Lyspenindstillinger"
+    IDS_LIGHTPEN_ENABLE  "Aktivér lysp&en"
+    IDS_LIGHTPEN_TYPE    "Lyspentype"
 END
 
 
