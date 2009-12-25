@@ -157,15 +157,6 @@ IDGS_AND
 /* c64/c64io.c */
 IDGS_ALL_DEVICES_DETACHED
 
-/* c64/digimax.c */
-IDGS_DIGIMAX_NOT_WITH_RESID
-
-/* c64/sfx_soundexpander.c */
-IDGS_SFX_SE_NOT_WITH_RESID
-
-/* c64/sfx_soundsampler.c */
-IDGS_SFX_SS_NOT_WITH_RESID
-
 /* c64dtv/c64dtvflash.c */
 IDGS_NO_FILENAME
 

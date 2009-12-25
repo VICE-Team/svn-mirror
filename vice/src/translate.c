@@ -866,60 +866,6 @@ translate_t string_table[] = {
 /* tr */ {IDGS_ALL_DEVICES_DETACHED_TR, ".\nTüm isimlendirilmiþ aygýtlar çýkartýlacaktýr."},
 #endif
 
-/* c64/digimax.c */
-/* en */ {IDGS_DIGIMAX_NOT_WITH_RESID,    N_("Digimax cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_DIGIMAX_NOT_WITH_RESID_DA, "Digimax kan ikke bruges med ReSID\nSkift SID-motor til FastSID"},
-/* de */ {IDGS_DIGIMAX_NOT_WITH_RESID_DE, "Digimax kann mit ReSID nicht benutzt werden\nBitte SID Engine auf FastSID "
-                                          "setzen"},
-/* fr */ {IDGS_DIGIMAX_NOT_WITH_RESID_FR, "Digimax ne peut être utilisé avec ReSID\nVeuillez utiliser l’engin SID "
-                                          "FastSID"},
-/* hu */ {IDGS_DIGIMAX_NOT_WITH_RESID_HU, "A Digimax nem használható ReSID-del\nKérem váltsa a SID motort FastSID-re"},
-/* it */ {IDGS_DIGIMAX_NOT_WITH_RESID_IT, "Digimax non può essere usato con il ReSID\nCambia il motore SID in FastSID"},
-/* nl */ {IDGS_DIGIMAX_NOT_WITH_RESID_NL, "Digimax kan niet gebruikt worden met ReSID\nschakel de SID-kern over naar "
-                                          "FastSID"},
-/* pl */ {IDGS_DIGIMAX_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_DIGIMAX_NOT_WITH_RESID_SV, "Digimax kan inte användas med ReSID\nByt SID-motor till FastSID"},
-/* tr */ {IDGS_DIGIMAX_NOT_WITH_RESID_TR, "Digimax ReSID ile birlikte kullanýlamaz\nLütfen SID Motoru'nu FastSID'e "
-                                          "çevirin"},
-#endif
-
-/* c64/sfx_soundexpander.c */
-/* en */ {IDGS_SFX_SE_NOT_WITH_RESID,    N_("SFX Sound Expander cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_SFX_SE_NOT_WITH_RESID_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SFX_SE_NOT_WITH_RESID_DE, "SFX Sound Expander kann mit ReSID nicht benutzt werden\nBitte SID Engine auf "
-                                         "FastSID setzen"},
-/* fr */ {IDGS_SFX_SE_NOT_WITH_RESID_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_SFX_SE_NOT_WITH_RESID_HU, ""},  /* fuzzy */
-/* it */ {IDGS_SFX_SE_NOT_WITH_RESID_IT, "SFX Sound Expander non può essere usato con il ReSID\nCambia il motore SID in "
-                                         "FastSID"},
-/* nl */ {IDGS_SFX_SE_NOT_WITH_RESID_NL, "SFX Sound Expander kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
-                                          "naar FastSID"},
-/* pl */ {IDGS_SFX_SE_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_SFX_SE_NOT_WITH_RESID_SV, "SFX Sound Expander kan inte användas med ReSID\nByt SID-motor till FastSID"},
-/* tr */ {IDGS_SFX_SE_NOT_WITH_RESID_TR, "SFX Sound Expander ReSID ile birlikte kullanýlamaz\nLütfen SID Motoru'nu "
-                                         "FastSID'e çevirin"},
-#endif
-
-/* c64/sfx_soundsampler.c */
-/* en */ {IDGS_SFX_SS_NOT_WITH_RESID,    N_("SFX Sound Sampler cannot be used with ReSID\nPlease switch SID Engine to FastSID")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_SFX_SS_NOT_WITH_RESID_DA, ""},  /* fuzzy */
-/* de */ {IDGS_SFX_SS_NOT_WITH_RESID_DE, "SFX Sound Sampler kann mit ReSID nicht benutzt werden\nBitte SID Engine auf "
-                                         "FastSID setzen"},
-/* fr */ {IDGS_SFX_SS_NOT_WITH_RESID_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_SFX_SS_NOT_WITH_RESID_HU, ""},  /* fuzzy */
-/* it */ {IDGS_SFX_SS_NOT_WITH_RESID_IT, "SFX Sound Sampler non può essere usato con il ReSID\nCambia il motore SID in "
-                                         "FastSID"},
-/* nl */ {IDGS_SFX_SS_NOT_WITH_RESID_NL, "SFX Sound Sampler kan niet gebruikt worden met ReSID\nschakel de SID-kern over "
-                                          "naar FastSID"},
-/* pl */ {IDGS_SFX_SS_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_SFX_SS_NOT_WITH_RESID_SV, "SFX Sound Sampler kan inte användas med ReSID\nByt SID-motor till FastSID"},
-/* tr */ {IDGS_SFX_SS_NOT_WITH_RESID_TR, "SFX Sound Sampler ReSID ile birlikte kullanýlamaz\nLütfen SID Motoru'nu "
-                                         "FastSID'e çevirin"},
-#endif
-
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDGS_NO_FILENAME,    N_("No filename!")},
 #ifdef HAS_TRANSLATION
