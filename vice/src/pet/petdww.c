@@ -73,7 +73,9 @@ static int petdww_deactivate(void);
 static void petdwwpia_reset(void);
 static void pia_reset(void);
 static void init_drawing_tables(void);
-static void petdww_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
+static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
+static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
+static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 
 /* ------------------------------------------------------------------------- */
 
@@ -413,8 +415,8 @@ $EB2x 0 = RAM is visible from $9000 - $AFFF
 
 Typical initialisation sequence:
 
-    poke 60201,0	poke 60200,255		(all outputs)
-    poke 60201,4	poke 60200,24 or 25 (16 + 8 + 1)
+    poke 60201,0        poke 60200,255          (all outputs)
+    poke 60201,4        poke 60200,24 or 25 (16 + 8 + 1)
 
 Demo programs on disk PBE-110A, 110B, 111A, and 111B.
 (PBE = PET Benelux Exchange, the Dutch PET user group)
@@ -429,8 +431,8 @@ byte in a KB and the char ROM offset selects which KB of graphics RAM).
 
 My notes say: to set a pixel:
 
-RE = INT(Y/8): LY = Y - 8*RE	(or Y AND 7)
-BY = INT(X/8): BI = X - 8*BY	(or X AND 7)
+RE = INT(Y/8): LY = Y - 8*RE    (or Y AND 7)
+BY = INT(X/8): BI = X - 8*BY    (or X AND 7)
 
 when memory mapped to $9000:
 
@@ -443,6 +445,8 @@ when memory mapped to $EC00:
     L = 60416 + RE * 40 + BY
     POKE L, PEEK(L) OR 2^BI
 
+Unfortunately there is no logical means of expanding the memory
+to 16 K, so even in a 80 columns PET the resolution will be the same.
 
 [1] Dubbel-W bord, designed by Ben de Winter and Pieter Wolvekamp
 */
@@ -522,9 +526,17 @@ static void store_pa(BYTE byte)
     log_message(petdww_log, "charrom_on  = %04x", charrom_on);
 #endif
     if (hires_off) {
-        crtc_set_hires_draw_callback(NULL);
+        if (charrom_on) {
+            crtc_set_hires_draw_callback(NULL);
+        } else {
+            crtc_set_hires_draw_callback(petdww_DRAW_blank);
+        }
     } else {
-        crtc_set_hires_draw_callback(petdww_DRAW);
+        if (petres.video == 80) {
+            crtc_set_hires_draw_callback(petdww_DRAW_80);
+        } else {
+            crtc_set_hires_draw_callback(petdww_DRAW_40);
+        }
     }
 }
 
@@ -609,33 +621,67 @@ static void pia_reset(void)
  * displays the lsb on the left.
  * The difference is that the shifting of msk is the other direction,
  * and correspondingly the initial set bit is on the other side.
+ *
+ * Effectively, they expand 4 bits to 4 full bytes, e.g.:
+ *
+ *  0x0B -> 0100 0101
+ *
+ * You don't really need 2 tables of 256 entries,
+ * you can use 1 table of 16 entries, twice;
+ * once for each of the 2 nybbles.
+ *
+ * This costs some extra shifting and masking but is likely to win by
+ * wasting less CPU/L2 cache (the whole table will easily fit in
+ * a couple of cache lines).
+ *
+ * The "w" tables expand each input bit into double-wide bytes:
+ * every 4 bits expand to 8 bytes (hence 2 tables are needed).
  */
-static DWORD dwg_table_0[256], dwg_table_1[256];
+static DWORD dwg_table[16];
+static DWORD dwg_table_w0[16], dwg_table_w1[16];
 
 static void init_drawing_tables(void)
 {
     int byte, p;
     BYTE msk;
 
-    for (byte = 0; byte < 0x0100; byte++) {
-        for (msk = 0x01, p = 0; p < 4; msk <<= 1, p++)
-            *((BYTE *)(dwg_table_0 + byte) + p)
+    for (byte = 0; byte < 0x10; byte++) {
+        for (msk = 0x01, p = 0; p < 4; msk <<= 1, p++) {
+            *((BYTE *)(dwg_table + byte) + p)
                 = (byte & msk ? 1 : 0);
-        for (p = 0; p < 4; msk <<= 1, p++)
-            *((BYTE *)(dwg_table_1 + byte) + p)
-                = (byte & msk ? 1 : 0);
+        }
 #if DWW_DEBUG_GFX
-        log_message(petdww_log, "init_drawing_tables: %02x -> %08x, %08x", byte, dwg_table_0[byte], dwg_table_1[byte]);
+        log_message(petdww_log, "init_drawing_tables: %02x -> %08x", byte, dwg_table[byte]);
+#endif
+    }
+
+    for (byte = 0; byte < 0x10; byte++) {
+        for (msk = 0x01, p = 0; p < 4; msk <<= 1, p++) {
+            int bit = (byte & msk) ? 1 : 0;
+            *((BYTE *)(dwg_table_w0 + byte) + p) = bit;
+            p++;
+            *((BYTE *)(dwg_table_w0 + byte) + p) = bit;
+        }
+        for (p = 0; p < 8; msk <<= 1, p++) {
+            int bit = (byte & msk) ? 1 : 0;
+            *((BYTE *)(dwg_table_w1 + byte) + p) = bit;
+            p++;
+            *((BYTE *)(dwg_table_w1 + byte) + p) = bit;
+        }
+#if DWW_DEBUG_GFX
+        log_message(petdww_log, "init_drawing_tables: %02x -> %08x %08x", byte, dwg_table_w1[byte], dwg_table_w0[byte]);
+
 #endif
     }
 
 }
 
-static void petdww_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
+static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 {
-    if (!hires_off) {
-        int k = (ymod8 & 0x07) * 1024;
+    if (ymod8 < 8) {
+        int k = ymod8 * 1024;
         BYTE *screen_rel = petdww_ram + k + scr_rel;
+        DWORD *pw = (DWORD *)p;
         int i;
         int d;
 
@@ -645,34 +691,101 @@ static void petdww_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
         /*
          * The DWW board can turn off the normal character ROM.
          * Implement that here by (optionally) overwriting the character
-         * bits by the graphics, instead of ORing it.
-         *
-         * This is a bit inefficient, and it doesn't implement
-         * the combination where both charrom and graphics are turned off.
+         * bits by the graphics, instead of ORing it,
+         * which is slightly inefficient.
          *
          * (The "extra charrom" option isn't implemented at all,
          * since I have no idea how it worked.)
          */
+
         if (charrom_on) {
             for (i = xstart; i < xend; i++) {
                 d = *screen_rel++;
 
 #if DWW_DEBUG_GFX
-                log_message(petdww_log, "%2d -> %02x -> %08x, %08x", i, d, dwg_table_0[d], dwg_table_1[d]);
+                log_message(petdww_log, "%2d -> %02x -> %08x", i, d, dwg_table[d]);
 #endif
-                *(((DWORD *)p) + i * 2 + 0) |= dwg_table_0[d];
-                *(((DWORD *)p) + i * 2 + 1) |= dwg_table_1[d];
+                *pw++ |= dwg_table[d & 0x0f];
+                *pw++ |= dwg_table[d >> 4];
             }
         } else {
             for (i = xstart; i < xend; i++) {
                 d = *screen_rel++;
 
-                *(((DWORD *)p) + i * 2 + 0)  = dwg_table_0[d];
-                *(((DWORD *)p) + i * 2 + 1)  = dwg_table_1[d];
+                *pw++  = dwg_table[d & 0x0f];
+                *pw++  = dwg_table[d >> 4];
             }
         }
-        return;
     }
+}
 
-    return;
+static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
+{
+    if (ymod8 < 8) {
+        int k = ymod8 * 1024;
+        BYTE *screen_rel = petdww_ram + k + scr_rel / 2;
+        DWORD *pw = (DWORD *)p;
+        int i;
+        int d;
+
+#if DWW_DEBUG_GFX
+        log_message(petdww_log, "petdww_DRAW: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x", xstart, xend, ymod8, scr_rel);
+#endif
+        xstart /= 2;
+        xend   /= 2;
+
+        /*
+         * The DWW board can turn off the normal character ROM.
+         * Implement that here by (optionally) overwriting the character
+         * bits by the graphics, instead of ORing it,
+         * which is slightly inefficient.
+         *
+         * (The "extra charrom" option isn't implemented at all,
+         * since I have no idea how it worked.)
+         */
+
+        if (charrom_on) {
+            for (i = xstart; i < xend; i++) {
+                d = *screen_rel++;
+
+#if DWW_DEBUG_GFX
+                log_message(petdww_log, "%2d -> %02x -> %08x", i, d, dwg_table[d]);
+#endif
+                *pw++ |= dwg_table_w0[d & 0x0f];
+                *pw++ |= dwg_table_w1[d & 0x0f];
+                *pw++ |= dwg_table_w0[d >> 4];
+                *pw++ |= dwg_table_w1[d >> 4];
+            }
+        } else {
+            for (i = xstart; i < xend; i++) {
+                d = *screen_rel++;
+
+                *pw++  = dwg_table_w0[d & 0x0f];
+                *pw++  = dwg_table_w1[d & 0x0f];
+                *pw++  = dwg_table_w0[d >> 4];
+                *pw++  = dwg_table_w1[d >> 4];
+            }
+        }
+    }
+}
+
+static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
+{
+    DWORD *pw = (DWORD *)p;
+    int i;
+
+#if DWW_DEBUG_GFX
+    log_message(petdww_log, "petdww_DRAW_blank: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x", xstart, xend, ymod8, scr_rel);
+#endif
+    /*
+     * Implement the combination where both text and gfx are
+     * turned off, by overwriting the text pixels.
+     *
+     * This is slightly inefficient.
+     */
+
+    for (i = xstart; i < xend; i++) {
+        *pw++  = 0;
+        *pw++  = 0;
+    }
 }

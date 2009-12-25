@@ -37,20 +37,27 @@
 #include "types.h"
 
 
-static DWORD dwg_table_0[256], dwg_table_1[256];
+/*
+ * Bit expansion table: expands 4 bits to 4 bytes,
+ * placing each bit in the lsb of the bytes.
+ * The msb of the input is mapped to the lowest-address byte.
+ *
+ * The table maps nybbles at a time, since mapping a whole byte
+ * would take 2 tables, each 16 times as big, and that would
+ * not be so nice on the cpu cache.
+ */
+static DWORD dwg_table[16];
 
 static void init_drawing_tables(void)
 {
     int byte, p;
     BYTE msk;
 
-    for (byte = 0; byte < 0x0100; byte++) {
-        for (msk = 0x80, p = 0; p < 4; msk >>= 1, p++)
-            *((BYTE *)(dwg_table_0 + byte) + p)
+    for (byte = 0; byte < 0x10; byte++) {
+        for (msk = 0x08, p = 0; p < 4; msk >>= 1, p++) {
+            *((BYTE *)(dwg_table + byte) + p)
                 = (byte & msk ? 1 : 0);
-        for (p = 0; p < 4; msk >>= 1, p++)
-            *((BYTE *)(dwg_table_1 + byte) + p)
-                = (byte & msk ? 1 : 0);
+        }
     }
 }
 
@@ -74,6 +81,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
     /* FIXME: `p' has to be aligned on a 4 byte boundary!
               Is there a better way than masking `offset'?  */
     BYTE *p = crtc.raster.draw_buffer_ptr + (offset & ~3);
+    DWORD *pw = (DWORD *)p;
     BYTE *chargen_ptr, *screen_ptr;
     int screen_rel;
     int i, d;
@@ -101,8 +109,8 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
             if ((reverse_flag))
                 d ^= 0xff;
 
-            *(((DWORD *)p) + i * 2) = dwg_table_0[d];
-            *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
+            *pw++ = dwg_table[d >> 4];
+            *pw++ = dwg_table[d & 0x0f];
         }
     } else {
         for (i = (xs); i < (xc); i++) {
@@ -114,16 +122,15 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
             if ((reverse_flag))
                 d ^= 0xff;
 
-            *(((DWORD *)p) + i * 2) = dwg_table_0[d];
-            *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
+            *pw++ = dwg_table[d >> 4];
+            *pw++ = dwg_table[d & 0x0f];
         }
     }
 
+    /* blank the rest */
     for (; i < (xe); i++) {
-        d = 0;      /* blank */
-
-        *(((DWORD *)p) + i * 2) = dwg_table_0[d];
-        *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
+        *pw++ = 0;
+        *pw++ = 0;
     }
 
     if (crtc.hires_draw_callback) {
