@@ -227,6 +227,8 @@ SIDFP::~SIDFP()
 // ----------------------------------------------------------------------------
 void SIDFP::set_chip_model(chip_model model)
 {
+  this->model = model;
+
   for (int i = 0; i < 3; i++) {
     voice[i].set_chip_model(model);
   }
@@ -300,7 +302,9 @@ reg8 SIDFP::read(reg8 offset)
   case 0x1a:
     return poty.readPOT();
   case 0x1b:
-    return voice[2].wave.readOSC(voice[0].wave);
+    return model == MOS6581FP
+        ? voice[2].wave.readOSC6581(voice[0].wave)
+        : voice[2].wave.readOSC8580(voice[0].wave);
   case 0x1c:
     return voice[2].envelope.readENV();
   default:

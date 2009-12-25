@@ -126,6 +126,8 @@ protected:
   /* analog parts are run at half the rate of digital ones. */
   float lastsample[3];
   unsigned char filtercyclegate;
+
+  chip_model model;
 };
 
 #endif // not __SID_H__

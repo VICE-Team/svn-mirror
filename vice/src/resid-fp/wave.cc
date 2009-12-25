@@ -246,7 +246,8 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
    * a time in the DAC MOSFET gates. We keep on holding forever, though... */
   reg4 waveform_next = (control >> 4) & 0x0f;
   if (waveform_next == 0 && waveform >= 1 && waveform <= 7) {
-    previous = readOSC(source);
+    /* NB: "6581" version is the undelayed variant. We want that. */
+    previous = readOSC6581(source);
     previous_dac = output(source);
   }
 
@@ -272,7 +273,15 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
   test = test_next;
 }
 
-reg8 WaveformGeneratorFP::readOSC(WaveformGeneratorFP& source)
+reg8 WaveformGeneratorFP::readOSC6581(WaveformGeneratorFP& source) {
+    return readOSC(source.accumulator, accumulator);
+}
+
+reg8 WaveformGeneratorFP::readOSC8580(WaveformGeneratorFP& source) {
+    return readOSC(source.accumulator_prev, accumulator_prev);
+}
+
+reg8 WaveformGeneratorFP::readOSC(reg24 ring_accumulator, reg24 my_accumulator)
 {
   float o[12];
 
@@ -286,7 +295,7 @@ reg8 WaveformGeneratorFP::readOSC(WaveformGeneratorFP& source)
     pw = 0;
   }
   reg24 oldaccumulator = accumulator;
-  accumulator ^= (waveform & 3) == 1 && ring_mod && (source.accumulator & 0x800000) ? 0x800000 : 0;
+  accumulator = my_accumulator ^ ((waveform & 3) == 1 && ring_mod && (ring_accumulator & 0x800000) ? 0x800000 : 0);
   calculate_waveform_sample(o);
   pw = oldpw;
   accumulator = oldaccumulator;
@@ -345,7 +354,7 @@ reg12 WaveformGeneratorFP::outputN___()
 // ----------------------------------------------------------------------------
 void WaveformGeneratorFP::reset()
 {
-  accumulator = 0;
+  accumulator_prev = accumulator = 0;
   previous = 0;
   previous_dac = 0;
   shift_register = 0x7ffffc;

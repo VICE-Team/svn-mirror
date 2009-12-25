@@ -49,11 +49,14 @@ public:
   void writePW_LO(reg8 value);
   void writePW_HI(reg8 value);
   void writeCONTROL_REG(WaveformGeneratorFP& source, reg8 value);
-  reg8 readOSC(WaveformGeneratorFP& source);
+  reg8 readOSC6581(WaveformGeneratorFP& source);
+  reg8 readOSC8580(WaveformGeneratorFP& source);
 
   RESID_INLINE float output(WaveformGeneratorFP& source);
 
 protected:
+  reg8 readOSC(reg24 ring_accumulator, reg24 my_accumulator);
+
   void clock_noise(const bool clock);
   reg12 outputN___();
   void set_nonlinearity(float nl);
@@ -65,7 +68,7 @@ protected:
   // Tell whether the accumulator MSB was set high on this cycle.
   bool msb_rising;
 
-  reg24 accumulator;
+  reg24 accumulator, accumulator_prev;
   reg24 shift_register;
   reg12 noise_output_cached;
   reg8 previous;
@@ -109,7 +112,7 @@ void WaveformGeneratorFP::clock()
     return;
   }
 
-  reg24 accumulator_prev = accumulator;
+  accumulator_prev = accumulator;
 
   // Calculate new accumulator value;
   accumulator += freq;
