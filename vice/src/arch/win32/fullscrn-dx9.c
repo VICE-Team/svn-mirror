@@ -145,6 +145,7 @@ void SwitchToWindowedModeDx9(HWND hwnd)
     SetWindowLong(hwnd, GWL_STYLE, old_style);
     /* Restore  Menu */
     SetMenu(hwnd,old_menu);
+    ui_show_menu();
     SetWindowPos(hwnd, HWND_NOTOPMOST, old_rect.left, old_rect.top, old_rect.right - old_rect.left, old_rect.bottom - old_rect.top, SWP_NOCOPYBITS);
     ShowCursor(TRUE);
     LockWindowUpdate(NULL);

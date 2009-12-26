@@ -108,6 +108,7 @@ extern void ui_register_res_values(const ui_res_value_list_t *valuelist);
 /* Windows-specific functions.  */
 
 extern void ui_update_menu();
+extern void ui_show_menu();
 extern HWND ui_get_main_hwnd(void);
 extern void ui_open_canvas_window(struct video_canvas_s *canvas);
 extern void ui_canvas_child_window(struct video_canvas_s *canvas, int enable);

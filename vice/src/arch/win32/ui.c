@@ -103,6 +103,7 @@ static TCHAR *hwnd_titles[2];
 
 /* Exposure handler.  */
 HWND window_handles[2];
+HMENU translated_menu;
 int number_of_windows = 0;
 int window_canvas_xsize[2];
 int window_canvas_ysize[2];
@@ -730,17 +731,24 @@ void ui_update_menus(void)
 
 void ui_update_menu(void)
 {
-    HMENU menu;
+    translated_menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
+    if (menu_translation_table != NULL) {
+        ui_translate_menu_items(translated_menu, menu_translation_table);
+        ui_translate_menu_popups(translated_menu, popup_translation_table);
+        uikeyboard_menu_shortcuts(translated_menu);
+    }
+    ui_show_menu();
+}
+
+void ui_show_menu(void)
+{
     int i;
 
-    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
-    if (menu_translation_table != NULL) {
-        ui_translate_menu_items(menu, menu_translation_table);
-        ui_translate_menu_popups(menu, popup_translation_table);
-        uikeyboard_menu_shortcuts(menu);
-    }
     for (i = 0; i < number_of_windows; i++) {
-        SetMenu(window_handles[i], menu);
+        /* Avoid to create a menu in fullscreen mode */
+        if (GetMenu(window_handles[i]) != NULL) {
+            SetMenu(window_handles[i], translated_menu);
+        }
     }
 }
 

@@ -353,6 +353,7 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
 
     //  Restore Menu
     SetMenu(hwnd,old_menu);
+    ui_show_menu();
     SetWindowPos(hwnd, HWND_TOP, old_rect.left, old_rect.top, old_rect.right - old_rect.left, old_rect.bottom - old_rect.top, SWP_NOCOPYBITS);
     ShowCursor(TRUE);
     c->client_width = old_client_width;
