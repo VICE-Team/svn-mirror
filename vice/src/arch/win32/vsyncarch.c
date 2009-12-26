@@ -59,7 +59,7 @@ signed long vsyncarch_frequency(void)
 
 unsigned long vsyncarch_gettime(void)
 {
-    return timeGetTime() << EXTRA_PRECISION;
+    return (unsigned long) timeGetTime() << EXTRA_PRECISION;
 }
 
 void vsyncarch_init(void)
