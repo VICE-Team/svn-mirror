@@ -150,7 +150,7 @@ BEGIN
   IDS_SIDCART_CLOCK_LABEL                    "SID órajel"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID eszköz kiválasztása"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Fõ eszköz"
-  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
+  IDS_DIGIBLASTER                            "Digiblaster engedélyezése"
 END
 #pragma code_page(28591)
 

@@ -60,7 +60,7 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostartindstillinger"
     IDS_AUTOSTART_WARP                       "Autostart i warp-tilstand"
-    IDS_AUTOSTART_COLON_RUN                  "Brug \":\" med RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Brug ':' med RUN"
     IDS_AUTOSTART_PRG_MODE                   "PRG-autostarttilstand"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG Autostart disk-image"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Vælg fil for PRG autostartdiskette"
@@ -110,15 +110,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart Settings"
-    IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with run"
-    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_CAPTION                    "Autostart beállításai"
+    IDS_AUTOSTART_WARP                       "Automatikus indítás hipergyors"
+    IDS_AUTOSTART_COLON_RUN                  "':' használata a run-hoz"
+    IDS_AUTOSTART_PRG_MODE                   "PRG automatikus indítás mód"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG automatikus indítás képmás"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Válasszon lemezfájlt a PRG automatikus indításhoz"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtuális fájlrendszer"
     IDS_AUTOSTART_INJECT                     "Inject"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_DISK                       "Lemez képmás"
 END
 #pragma code_page(28591)
 

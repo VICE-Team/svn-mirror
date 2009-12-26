@@ -586,7 +586,7 @@ BEGIN
   IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM képmásba írás &engedélyezése"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV beállításai"
   IDS_DTV_REVISION_LABEL          "DTV változat"
-  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
+  IDS_ENABLE_HUMMER_ADC           "Hummer ADC engedélyezése"
   IDS_CREATE_FLASH_CAPTION        "DTV Flash képmás létrehozása"
   IDS_DTV_ROM_CREATION            "DTV ROM létrehozás"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROM-ok másolása a képmásba"

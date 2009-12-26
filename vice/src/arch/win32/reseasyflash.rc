@@ -80,10 +80,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash Settings"
-  IDS_EASYFLASH_JUMPER   "EasyFlash &Jumper"
-  IDS_EASYFLASH_AUTOSAVE "&Save CRT on detach"
-  IDS_EASYFLASH_SAVE_NOW "Save CRT &now"
+  IDS_EASYFLASH_CAPTION  "EasyFlash beállításai"
+  IDS_EASYFLASH_JUMPER   "EasyFlash &jumper"
+  IDS_EASYFLASH_AUTOSAVE "CRT mentése &leválasztáskor"
+  IDS_EASYFLASH_SAVE_NOW "CRT mentése &most"
 END
 #pragma code_page(28591)
 
