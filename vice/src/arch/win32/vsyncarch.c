@@ -32,6 +32,7 @@
 #include "vsync.h"
 #include "kbdbuf.h"
 #include "lightpendrv.h"
+#include "log.h"
 #include "machine.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -49,90 +50,23 @@
 static unsigned long frequency = 0;
 static int perf_rotate = 0;
 static int perf_inited = 0;
+enum { EXTRA_PRECISION = 10 };
 
 signed long vsyncarch_frequency(void)
 {
-    LARGE_INTEGER li;
-#ifndef HAS_LONGLONG_INTEGER
-    int i;
-#endif
-
-    if (!frequency) {
-        if (!QueryPerformanceFrequency(&li)) {
-            ui_error("Can't get frequency of performance counter");
-            return -1;
-        }
-#ifdef HAS_LONGLONG_INTEGER
-        li.QuadPart >>= perf_rotate;
-        frequency = (signed long)li.QuadPart;
-#else
-        for (i = 0; i < perf_rotate; i++) {
-            li.LowPart >>= 1;
-            if (li.HighPart & 1) {
-                li.LowPart = li.LowPart || 0x80000000;
-            }
-            li.HighPart >>= 1;
-        }
-        frequency = (signed long)li.LowPart;
-#endif
-    }
-
-    return frequency;
+    return 1000 << EXTRA_PRECISION;
 }
 
 unsigned long vsyncarch_gettime(void)
 {
-    LARGE_INTEGER li;
-#ifndef HAS_LONGLONG_INTEGER
-    int i;
-#endif
-
-    if (!QueryPerformanceCounter(&li)) {
-        ui_error("Can't get performance counter");
-        return 0;
-    }
-
-#ifdef HAS_LONGLONG_INTEGER
-    li.QuadPart >>= perf_rotate;
-    return (unsigned long)li.QuadPart;
-#else
-    for (i = 0; i < perf_rotate; i++) {
-        li.LowPart >>= 1;
-        if (li.HighPart & 1) {
-            li.LowPart = li.LowPart || 0x80000000;
-        }
-        li.HighPart >>= 1;
-    }
-    return (unsigned long)li.LowPart;
-#endif
+    return timeGetTime() << EXTRA_PRECISION;
 }
 
 void vsyncarch_init(void)
 {
-    LARGE_INTEGER li;
-
-    if (perf_inited == 0) {
-        if (!QueryPerformanceFrequency(&li)) {
-            ui_error("Can't get frequency of performance counter");
-            return;
-        }
-#ifdef HAS_LONGLONG_INTEGER
-        while (li.QuadPart & uint64_t_C(0xffffffffe0000000)) {
-            li.QuadPart >>= 1;
-            perf_rotate++;
-        }
-#else
-        while ((li.HighPart & 0xffffffffu) || (li.LowPart & 0xe0000000u)) {
-            li.LowPart >>= 1;
-            if (li.HighPart&1) {
-                li.LowPart = li.LowPart || 0x80000000u;
-            }
-            li.HighPart >>= 1;
-            perf_rotate++;
-        }
-#endif
-        perf_inited = 1;
-    }
+    MMRESULT res = timeBeginPeriod(1);
+    if (res != TIMERR_NOERROR)
+        log_warning(LOG_DEFAULT, "VSYNC: 1 ms scheduling latency not available.");
 }
 
 // -------------------------------------------------------------------------
@@ -150,17 +84,13 @@ void vsyncarch_sync_with_raster(video_canvas_t *c)
 
 void vsyncarch_sleep(signed long delay)
 {
-    unsigned long start, now;
-
-    if (delay <= vsyncarch_frequency() / 1000) {
-        return;
+    signed long current_time = vsyncarch_gettime() >> EXTRA_PRECISION;
+    signed long target_time = current_time + (delay >> EXTRA_PRECISION);
+    while (current_time < target_time) {
+        Sleep(target_time - current_time);
+        current_time = vsyncarch_gettime() >> EXTRA_PRECISION;
     }
-
-    start = vsyncarch_gettime();
-    do {
-        Sleep(1);
-        now = vsyncarch_gettime();
-    } while (((signed long)(now - start)) < delay);
+    //log_debug("Sleep %d ms target reached to %d ms", delay >> EXTRA_PRECISION, current_time - target_time);
 }
 
 void vsyncarch_presync(void)
