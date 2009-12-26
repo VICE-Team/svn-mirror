@@ -204,6 +204,7 @@ static void init_sound_dialog(HWND hwnd)
     } else {
         res_value = IDC_SOUND_DIRECTX;
     }
+    CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
         
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_SMALL));
@@ -212,7 +213,6 @@ static void init_sound_dialog(HWND hwnd)
     resources_get_int("SoundFragmentSize", &res_value);
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
 }
 
 static void end_sound_dialog(HWND hwnd)
