@@ -59,7 +59,7 @@ signed long vsyncarch_frequency(void)
 
 unsigned long vsyncarch_gettime(void)
 {
-    return (unsigned long) timeGetTime() << EXTRA_PRECISION;
+    return timeGetTime() << EXTRA_PRECISION;
 }
 
 void vsyncarch_init(void)
@@ -84,11 +84,11 @@ void vsyncarch_sync_with_raster(video_canvas_t *c)
 
 void vsyncarch_sleep(signed long delay)
 {
-    signed long current_time = vsyncarch_gettime() >> EXTRA_PRECISION;
-    signed long target_time = current_time + (delay >> EXTRA_PRECISION);
+    SDWORD current_time = (SDWORD) timeGetTime();
+    SDWORD target_time = current_time + (delay >> EXTRA_PRECISION);
     while (current_time < target_time) {
         Sleep(target_time - current_time);
-        current_time = vsyncarch_gettime() >> EXTRA_PRECISION;
+        current_time = timeGetTime();
     }
     //log_debug("Sleep %d ms target reached to %d ms", delay >> EXTRA_PRECISION, current_time - target_time);
 }
