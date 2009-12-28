@@ -66,7 +66,7 @@ void fullscreen_getmodes_dx9(void)
         EnumDisplayDevices(d3didentifier.DeviceName, 0, &DisplayDevice, EDD_GET_DEVICE_INTERFACE_NAME);
         new_device = lib_malloc(sizeof(DirectDrawDeviceList));
         new_device->next = NULL;
-        new_device->desc = util_concat(DisplayDevice.DeviceString, " at ", d3didentifier.Description, NULL);
+        new_device->desc = util_concat(DisplayDevice.DeviceString, " - ", d3didentifier.Description, NULL);
         if (devices == NULL) {
             devices = new_device;
         } else {
