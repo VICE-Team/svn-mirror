@@ -186,6 +186,7 @@ noinst_HEADERS = \
 	romset.h \
 	rs232drv.h \
 	rsuser.h \
+	rtc.h \
 	screenshot.h \
 	serial.h \
 	signals.h \
@@ -263,6 +264,7 @@ base_sources = \
 	rawfile.c \
 	resources.c \
 	romset.c \
+	rtc.c \
 	screenshot.c \
 	snapshot.c \
 	socket.c \
