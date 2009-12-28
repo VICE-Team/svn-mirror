@@ -149,6 +149,9 @@ static int fragment_size;
 /* Channels */
 static int num_of_channels;
 
+/* Expected buffer fill state: maximum amount. */
+static int earlier_bufferspace;
+
 /* Flag: are we in exclusive mode?  */
 /* static int is_exclusive; */
 
@@ -397,7 +400,7 @@ static void dx_close(void)
 static int dx_bufferspace(void)
 {
     DWORD play_cursor;
-    int free_samples;
+    int free_samples, buffer_samples;
 
     IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor, NULL);
     /* We should properly distinguish between buffer empty and buffer fill
@@ -410,7 +413,24 @@ static int dx_bufferspace(void)
 
     DEBUG(("play=%d, ourwrite=%d, free=%d", play_cursor, buffer_offset, free_samples));
 
-    return free_samples / (is16bit ? 2 : 1) / num_of_channels;
+    free_samples /= (is16bit ? 2 : 1) * num_of_channels;
+
+    /* test for underrun condition. It generally looks like we suddenly we have
+     * a filled buffer instead of nearly empty one, because the play cursor
+     * stepped over the write cursor. We generally have sound core calling
+     * bufferspace() with every write, so we can rely on frequent calls here.
+     */
+    buffer_samples = buffer_size / (is16bit ? 2 : 1) / num_of_channels;
+    if (free_samples < fragment_size
+        && earlier_bufferspace > buffer_samples - fragment_size) {
+        /* don't trigger again */
+        earlier_bufferspace = 0;
+        /* report underrun */
+        return buffer_samples;
+    }
+    earlier_bufferspace = free_samples;
+
+    return free_samples;
 }
 
 static int dx_write(SWORD *pbuf, size_t nr)
