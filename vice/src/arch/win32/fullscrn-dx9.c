@@ -37,8 +37,12 @@
 #include "videoarch.h"
 
 #ifdef HAVE_D3D9_H
-
 #include <d3d9.h>
+
+/* Missing in the mingw headers */
+#ifndef EDD_GET_DEVICE_INTERFACE_NAME
+#define EDD_GET_DEVICE_INTERFACE_NAME 0x00000001
+#endif
 
 static HMENU old_menu;
 static RECT old_rect;
