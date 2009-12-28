@@ -131,7 +131,7 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
         d3dpp.BackBufferHeight = canvas->height;
     }
 
-    if (S_OK != IDirect3D9_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &canvas->d3ddev)) {
+    if (S_OK != IDirect3D9_CreateDevice(d3d, device, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &canvas->d3ddev)) {
         log_debug("video_dx9: Failed to create the DirectX9 device!");
         return -1;
     }

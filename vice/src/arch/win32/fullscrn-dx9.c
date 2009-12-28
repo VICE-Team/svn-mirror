@@ -33,6 +33,7 @@
 #include "log.h"
 #include "statusbar.h"
 #include "ui.h"
+#include "util.h"
 #include "videoarch.h"
 
 #ifdef HAVE_D3D9_H
@@ -53,13 +54,15 @@ void fullscreen_getmodes_dx9(void)
     DirectDrawDeviceList *search_device;
     DirectDrawModeList *new_mode;
     DirectDrawModeList *search_mode;
+    DISPLAY_DEVICE DisplayDevice;
 
     numAdapter = 0;
     while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
+        DisplayDevice.cb = sizeof(DISPLAY_DEVICE);
+        EnumDisplayDevices(d3didentifier.DeviceName, 0, &DisplayDevice, EDD_GET_DEVICE_INTERFACE_NAME);
         new_device = lib_malloc(sizeof(DirectDrawDeviceList));
         new_device->next = NULL;
-        new_device->desc = lib_stralloc(d3didentifier.Description);
-
+        new_device->desc = util_concat(DisplayDevice.DeviceString, " at ", d3didentifier.Description, NULL);
         if (devices == NULL) {
             devices = new_device;
         } else {
