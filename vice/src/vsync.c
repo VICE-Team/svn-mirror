@@ -479,9 +479,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     /*
      * Check whether the hardware can keep up.
-     * Allow up to one second lag.
+     * Allow up to 0,5 second error before forcing a correction.
      */
-    if ((signed long)(now - next_frame_start) >= vsyncarch_freq) {
+    if ((signed long)(now - next_frame_start) >= vsyncarch_freq / 2) {
 #if !defined(__OS2__) && !defined(DEBUG)
         if (!warp_mode_enabled && relative_speed) {
             log_warning(LOG_DEFAULT, "Your machine is too slow for current settings!");
