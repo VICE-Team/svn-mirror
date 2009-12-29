@@ -434,6 +434,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      *
      * We could optimize by sleeping only if a frame is to be output.
      */
+    /*log_debug("vsync_do_vsync: sound_delay=%f  frame_ticks=%d  delay=%d", sound_delay, frame_ticks, delay);*/
     if (!warp_mode_enabled && timer_speed && delay < 0) {
         vsyncarch_sleep(-delay);
     }
@@ -479,9 +480,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
     /*
      * Check whether the hardware can keep up.
-     * Allow up to 0,5 second error before forcing a correction.
+     * Allow up to 0,25 second error before forcing a correction.
      */
-    if ((signed long)(now - next_frame_start) >= vsyncarch_freq / 2) {
+    if ((signed long)(now - next_frame_start) >= vsyncarch_freq / 4) {
 #if !defined(__OS2__) && !defined(DEBUG)
         if (!warp_mode_enabled && relative_speed) {
             log_warning(LOG_DEFAULT, "Your machine is too slow for current settings!");
