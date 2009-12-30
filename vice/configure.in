@@ -61,7 +61,6 @@ AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's 
 AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
 AC_ARG_WITH(arts, [  --with-arts             use aRts sound system])
 AC_ARG_WITH(pulse, [  --with-pulse            use pulseaudio sound system])
-AC_ARG_WITH(esd, [  --without-esd           do not use the Enlightened Sound Daemon system])
 AC_ARG_WITH(alsa, [  --without-alsa          do not use the ALSA sound system])
 AC_ARG_WITH(oss, [  --without-oss           do not use the OSS sound system])
 AC_ARG_WITH(sdlsound, [  --with-sdlsound         use SDL sound system])
