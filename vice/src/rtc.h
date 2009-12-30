@@ -29,27 +29,45 @@
 
 #include "types.h"
 
-extern int rtc_get_second(int offset);			/* 0 - 61 (leap seconds would be 60 and 61) */
-extern int rtc_get_minute(int offset);			/* 0 - 59 */
-extern int rtc_get_hour(int offset);			/* 0 - 23 */
-extern int rtc_get_day_of_month(int offset);		/* 1 - 31 */
-extern int rtc_get_month(int offset);			/* 0 - 11 (0 = January, 1 = Febuary ...etc) */
-extern int rtc_get_year(int offset);			/* 0 - 99 */
-extern int rtc_get_century(int offset);			/* 19 - 20 */
-extern int rtc_get_weekday(int offset);			/* 0 - 6 (sunday 0, monday 1 ...etc) */
-extern int rtc_get_day_of_year(int offset);		/* 0 - 365 */
-extern int rtc_get_dst(int offset);				/* 0 - >0 (0 no dst, >0 dst) */
+#define RTC_DEVICE_IDE64		0
+#define RTC_DEVICE_SMARTMOUSE		1
+#define RTC_DEVICE_BBRTC		2
+#define RTC_DEVICE_RTC64		3
+#define RTC_DEVICE_YTM			4
+#define RTC_DEVICE_FE3			5
+#define RTC_DEVICE_C64_CASSETTE	6
+#define RTC_DEVICE_PET_OPTION_ROM	7
+#define RTC_DEVICE_VIC20_CART_PORT	8
 
-/* these functions all return a new offset based on what is changed and the old offset */
+typedef struct rtc_devices_s {
+    char *name;
+    int offset;
+} rtc_devices_t;
 
-extern int rtc_set_second(int seconds, int offset);			/* 0 - 61 (leap seconds would be 60 and 61) */
-extern int rtc_set_minute(int minutes, int offset);			/* 0 - 59 */
-extern int rtc_set_hour(int hours, int offset);				/* 0 - 23 */
-extern int rtc_set_day_of_month(int day, int offset);			/* 1 - 31 */
-extern int rtc_set_month(int month, int offset);			/* 0 - 11 */
-extern int rtc_set_year(int year, int offset);				/* 0 - 99 */
-extern int rtc_set_century(int year, int offset);			/* 0 - 99 */
-extern int rtc_set_weekday(int day, int offset);			/* 0 - 6 (sunday 0, monday 1 ...etc) */
-extern int rtc_set_day_of_year(int day, int offset);			/* 0 - 365 */
+extern int rtc_load_offsets(void);
+
+extern int rtc_get_second(int device);			/* 0 - 61 (leap seconds would be 60 and 61) */
+extern int rtc_get_minute(int device);			/* 0 - 59 */
+extern int rtc_get_hour(int device);			/* 0 - 23 */
+extern int rtc_get_day_of_month(int device);		/* 1 - 31 */
+extern int rtc_get_month(int device);			/* 0 - 11 (0 = January, 1 = Febuary ...etc) */
+extern int rtc_get_year(int device);			/* 0 - 99 */
+extern int rtc_get_century(int device);			/* 19 - 20 */
+extern int rtc_get_weekday(int device);			/* 0 - 6 (sunday 0, monday 1 ...etc) */
+extern int rtc_get_day_of_year(int device);		/* 0 - 365 */
+extern int rtc_get_dst(int device);				/* 0 - >0 (0 no dst, >0 dst) */
+
+/* these functions all set a new offset based on what is changed and the old offset
+   they return -1 for failure and 0 for success. */
+
+extern int rtc_set_second(int seconds, int device);			/* 0 - 61 (leap seconds would be 60 and 61) */
+extern int rtc_set_minute(int minutes, int device);			/* 0 - 59 */
+extern int rtc_set_hour(int hours, int device);				/* 0 - 23 */
+extern int rtc_set_day_of_month(int day, int device);			/* 1 - 31 */
+extern int rtc_set_month(int month, int device);			/* 0 - 11 */
+extern int rtc_set_year(int year, int device);				/* 0 - 99 */
+extern int rtc_set_century(int year, int device);			/* 0 - 99 */
+extern int rtc_set_weekday(int day, int device);			/* 0 - 6 (sunday 0, monday 1 ...etc) */
+extern int rtc_set_day_of_year(int day, int device);			/* 0 - 365 */
 
 #endif
