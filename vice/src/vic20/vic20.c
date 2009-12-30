@@ -57,6 +57,7 @@
 #include "printer.h"
 #include "rs232drv.h"
 #include "rsuser.h"
+#include "rtc.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
@@ -426,6 +427,8 @@ int machine_specific_init(void)
 #ifdef HAVE_MIDI
     midi_init();
 #endif
+
+    rtc_load_offsets();
 
     machine_drive_stub();
 
