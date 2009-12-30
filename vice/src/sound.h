@@ -158,7 +158,6 @@ extern int sound_init_dart_device(void);
 extern int sound_init_dart2_device(void);
 extern int sound_init_beos_device(void);
 extern int sound_init_arts_device(void);
-extern int sound_init_esd_device(void);
 extern int sound_init_wmm_device(void);
 extern int sound_init_movie_device(void);
 extern int sound_init_coreaudio_device(void);
