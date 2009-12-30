@@ -1105,6 +1105,7 @@ const char info_contrib_text[] =
 "\n"
 "  Michael Klein <nip@c64.org> contributed the ESD sound driver,\n"
 "  basic support for the OPENCBM library and some other patches.\n"
+"  ESD sound driver has been removed, though.\n"
 "\n"
 "  David Holz <whiteflame52@yahoo.com> provided a label file which\n"
 "  gives the built-in monitor the labels for the C64.\n"

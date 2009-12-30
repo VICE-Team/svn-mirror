@@ -1196,9 +1196,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_uss_device();
 #endif
 #endif
-#ifdef USE_ESD
-    sound_init_esd_device();
-#endif
 #ifdef USE_DMEDIA
     sound_init_sgi_device();
 #endif

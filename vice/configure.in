@@ -1703,13 +1703,6 @@ if test x"$is_unix" = "xyes"; then
   AC_CHECK_HEADERS(sys/audioio.h,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
 
-  if test x"$with_esd" != "xno"; then
-    AC_CHECK_HEADERS(esd.h,[AC_CHECK_LIB(esd, esd_open_sound,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundesd.o";
-                      SOUND_LIBS="$SOUND_LIBS -lesd";
-                      AC_DEFINE(USE_ESD,,[Enable esd sound support.])],,$SOUND_LIBS)])
-  fi
-
   case "$host_os" in
     hpux*)
       AC_CHECK_HEADERS(sys/audio.h,
