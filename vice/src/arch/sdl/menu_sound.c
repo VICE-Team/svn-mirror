@@ -211,12 +211,6 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"dx" },
 #endif
-#ifdef USE_ESD
-    { "ESD",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"esd" },
-#endif
 #ifdef HAVE_SYS_AUDIO_H
     { "HPUX",
       MENU_ENTRY_RESOURCE_RADIO,
