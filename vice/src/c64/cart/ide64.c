@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 #include "archdep.h"
 #include "c64cart.h"
@@ -43,6 +42,7 @@
 #include "ide64.h"
 #include "log.h"
 #include "resources.h"
+#include "rtc.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
@@ -74,6 +74,9 @@ static unsigned int current_bank;
 
 /* Current memory config */
 static unsigned int current_cfg;
+
+/* RTC offset */
+static int rtc_offset = 0;
 
 /*  */
 static BYTE kill_port;
@@ -432,7 +435,31 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
                         i = (clock_burst & 0x1f) * 2;
                         clock_data = (ide64_DS1302[i] << 4) | (ide64_DS1302[i + 1] & 0xf);    /* data */
                     } else {
-                        clock_data = export_ram0[clock_burst & 0x1f];    /* clock */
+                        switch (clock_burst & 0x1f) {
+                            case 0:
+                                clock_data = rtc_get_second(rtc_offset, 1);
+                                break;
+                            case 1:
+                                clock_data = rtc_get_minute(rtc_offset, 1);
+                                break;
+                            case 2:
+                                clock_data = rtc_get_hour(rtc_offset, 1);
+                                break;
+                            case 3:
+                                clock_data = rtc_get_day_of_month(rtc_offset, 1);
+                                break;
+                            case 4:
+                                clock_data = rtc_get_month(rtc_offset, 1);
+                                break;
+                            case 5:
+                                clock_data = rtc_get_weekday(rtc_offset);
+                                break;
+                            case 6:
+                                clock_data = rtc_get_year(rtc_offset, 1);
+                                break;
+                            default:
+                                clock_data = export_ram0[clock_burst & 0x1f];    /* clock */
+                        }
                     }
 
                     if (clock_burst & 0x20) {
@@ -690,20 +717,6 @@ aborted_command:
 
                 if (clock_address & 0x01) {	/* read from chip? */
                     clock_tick = 16 - 1;
-
-                    if ((clock_address & 0x40) == 0) {  /* read clock? */
-    	                  /* Preset the clock with the current host system time. */
-                        time_t now = time(NULL);
-                        struct tm *local = localtime(&now);
-
-                        export_ram0[0] = byte2bcd(local->tm_sec);
-                        export_ram0[1] = byte2bcd(local->tm_min);
-                        export_ram0[2] = byte2bcd(local->tm_hour);
-                        export_ram0[3] = byte2bcd(local->tm_mday);
-                        export_ram0[4] = byte2bcd(local->tm_mon + 1);
-                        export_ram0[5] = local->tm_wday + 1;
-                        export_ram0[6] = byte2bcd(local->tm_year % 100);
-                    }
                 }
             } else {
 
@@ -718,7 +731,31 @@ aborted_command:
                         ide64_DS1302[i] = (clock_data >> 4) | 0x40;/* data */
                         ide64_DS1302[i + 1] = (clock_data & 0xf) | 0x40;/* data */
                     } else {
-                        export_ram0[clock_burst & 0x1f] = clock_data; /* clock */
+                        switch (clock_burst & 0x1f) {
+                            case 0:
+                                rtc_offset = rtc_set_second(clock_data, rtc_offset, 1);
+                                break;
+                            case 1:
+                                rtc_offset = rtc_set_minute(clock_data, rtc_offset, 1);
+                                break;
+                            case 2:
+                                rtc_offset = rtc_set_hour(clock_data, rtc_offset, 1);
+                                break;
+                            case 3:
+                                rtc_offset = rtc_set_day_of_month(clock_data, rtc_offset, 1);
+                                break;
+                            case 4:
+                                rtc_offset = rtc_set_month(clock_data, rtc_offset, 1);
+                                break;
+                            case 5:
+                                rtc_offset = rtc_set_weekday(clock_data, rtc_offset);
+                                break;
+                            case 6:
+                                rtc_offset = rtc_set_year(clock_data, rtc_offset, 1);
+                                break;
+                            default:
+                                export_ram0[clock_burst & 0x1f] = clock_data; /* clock */
+                        }
                     }
 
                     if (clock_burst & 0x20) {	/* is it burst mode? */
@@ -765,17 +802,6 @@ void ide64_config_init(void)
     kill_port = 0;
     clock_data = 0;
     ide64_reset();
-
-#if 0
-    /* Set an initial time for the Real-Time-Clock. */
-    export_ram0[0x0000] = 0x80;
-    export_ram0[0x0001] = 0x00;
-    export_ram0[0x0002] = 0x00;
-    export_ram0[0x0003] = 0x15;
-    export_ram0[0x0004] = 0x08;
-    export_ram0[0x0005] = 0x06;
-    export_ram0[0x0006] = 0x03;
-#endif
 }
 
 void ide64_config_setup(BYTE *rawcart)
