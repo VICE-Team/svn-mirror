@@ -74,7 +74,6 @@
 #include "printer.h"
 #include "resources.h"
 #include "rs232drv.h"
-#include "rtc.h"
 #include "screenshot.h"
 #include "sid.h"
 #include "sid-cmdline-options.h"
@@ -319,8 +318,6 @@ int machine_specific_init(void)
 
     /* Initialize the PET Double-W Hi-Res graphics card. */
     petdww_init();
-
-    rtc_load_offsets();
 
     petiec_init();
 
