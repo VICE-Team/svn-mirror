@@ -58,19 +58,19 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2009 Andreas Boose
-Copyright @copyright{} 1998-2009 Dag Lem
-Copyright @copyright{} 1998-2009 Tibor Biczo
-Copyright @copyright{} 1999-2009 Andreas Matthies
-Copyright @copyright{} 1999-2009 Martin Pottendorfer
-Copyright @copyright{} 2000-2009 Spiro Trikaliotis
-Copyright @copyright{} 2005-2009 Marco van den Heuvel
-Copyright @copyright{} 2006-2009 Christian Vogelgsang
-Copyright @copyright{} 2007-2009 Fabrizio Gennari
-Copyright @copyright{} 2007-2009 M. Kiesel
-Copyright @copyright{} 2007-2009 Hannu Nuotio
-Copyright @copyright{} 2007-2009 Daniel Kahlin
-Copyright @copyright{} 2008-2009 Antti S. Lankila
+Copyright @copyright{} 1998-2010 Andreas Boose
+Copyright @copyright{} 1998-2010 Dag Lem
+Copyright @copyright{} 1998-2010 Tibor Biczo
+Copyright @copyright{} 1999-2010 Andreas Matthies
+Copyright @copyright{} 1999-2010 Martin Pottendorfer
+Copyright @copyright{} 2000-2010 Spiro Trikaliotis
+Copyright @copyright{} 2005-2010 Marco van den Heuvel
+Copyright @copyright{} 2006-2010 Christian Vogelgsang
+Copyright @copyright{} 2007-2010 Fabrizio Gennari
+Copyright @copyright{} 2007-2010 M. Kiesel
+Copyright @copyright{} 2007-2010 Hannu Nuotio
+Copyright @copyright{} 2007-2010 Daniel Kahlin
+Copyright @copyright{} 2008-2010 Antti S. Lankila
 
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
@@ -8167,31 +8167,31 @@ Håkan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2009 Andreas Boose
+Copyright @copyright{} 1998-2010 Andreas Boose
 @item
-Copyright @copyright{} 1998-2009 Dag Lem
+Copyright @copyright{} 1998-2010 Dag Lem
 @item
-Copyright @copyright{} 1998-2009 Tibor Biczo
+Copyright @copyright{} 1998-2010 Tibor Biczo
 @item
-Copyright @copyright{} 1999-2009 Andreas Matthies
+Copyright @copyright{} 1999-2010 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2009 Martin Pottendorfer
+Copyright @copyright{} 1999-2010 Martin Pottendorfer
 @item
-Copyright @copyright{} 2000-2009 Spiro Trikaliotis
+Copyright @copyright{} 2000-2010 Spiro Trikaliotis
 @item
-Copyright @copyright{} 2005-2009 Marco van den Heuvel
+Copyright @copyright{} 2005-2010 Marco van den Heuvel
 @item
-Copyright @copyright{} 2006-2009 Christian Vogelgsang
+Copyright @copyright{} 2006-2010 Christian Vogelgsang
 @item
-Copyright @copyright{} 2007-2009 Fabrizio Gennari
+Copyright @copyright{} 2007-2010 Fabrizio Gennari
 @item
-Copyright @copyright{} 2007-2009 M. Kiesel
+Copyright @copyright{} 2007-2010 M. Kiesel
 @item
-Copyright @copyright{} 2007-2009 Hannu Nuotio
+Copyright @copyright{} 2007-2010 Hannu Nuotio
 @item
-Copyright @copyright{} 2007-2009 Daniel Kahlin
+Copyright @copyright{} 2007-2010 Daniel Kahlin
 @item
-Copyright @copyright{} 2008-2009 Antti S. Lankila
+Copyright @copyright{} 2008-2010 Antti S. Lankila
 
 @item
 Copyright @copyright{} 1999-2007 Andreas Dehmel

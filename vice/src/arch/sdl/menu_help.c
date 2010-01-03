@@ -259,19 +259,19 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("Version " VERSION, 2);
         sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, 3);
         sdl_ui_print_center("The VICE Team", 5);
-        sdl_ui_print_center("(C) 1998-2009 Andreas Boose", 6);
-        sdl_ui_print_center("(C) 1998-2009 Tibor Biczo", 7);
-        sdl_ui_print_center("(C) 1999-2009 Andreas Matthies", 8);
-        sdl_ui_print_center("(C) 1999-2009 Martin Pottendorfer", 9);
-        sdl_ui_print_center("(C) 1998-2009 Dag Lem", 10);
-        sdl_ui_print_center("(C) 2000-2009 Spiro Trikaliotis", 11);
-        sdl_ui_print_center("(C) 2005-2009 Marco van den Heuvel", 12);
-        sdl_ui_print_center("(C) 2006-2009 Christian Vogelgsang", 13);
-        sdl_ui_print_center("(C) 2007-2009 Fabrizio Gennari", 14);
-        sdl_ui_print_center("(C) 2007-2009 M. Kiesel", 15);
-        sdl_ui_print_center("(C) 2007-2009 Hannu Nuotio", 16);
-        sdl_ui_print_center("(C) 2007-2009 Daniel Kahlin", 17);
-        sdl_ui_print_center("(C) 2008-2009 Antti S. Lankila", 18);
+        sdl_ui_print_center("(C) 1998-2010 Andreas Boose", 6);
+        sdl_ui_print_center("(C) 1998-2010 Tibor Biczo", 7);
+        sdl_ui_print_center("(C) 1999-2010 Andreas Matthies", 8);
+        sdl_ui_print_center("(C) 1999-2010 Martin Pottendorfer", 9);
+        sdl_ui_print_center("(C) 1998-2010 Dag Lem", 10);
+        sdl_ui_print_center("(C) 2000-2010 Spiro Trikaliotis", 11);
+        sdl_ui_print_center("(C) 2005-2010 Marco van den Heuvel", 12);
+        sdl_ui_print_center("(C) 2006-2010 Christian Vogelgsang", 13);
+        sdl_ui_print_center("(C) 2007-2010 Fabrizio Gennari", 14);
+        sdl_ui_print_center("(C) 2007-2010 M. Kiesel", 15);
+        sdl_ui_print_center("(C) 2007-2010 Hannu Nuotio", 16);
+        sdl_ui_print_center("(C) 2007-2010 Daniel Kahlin", 17);
+        sdl_ui_print_center("(C) 2008-2010 Antti S. Lankila", 18);
         sdl_ui_refresh();
         while (active) {
             switch(sdl_ui_menu_poll_input()) {

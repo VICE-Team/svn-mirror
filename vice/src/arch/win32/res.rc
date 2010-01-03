@@ -201,19 +201,19 @@ BEGIN
     CTEXT         "VICE",                                         IDC_STATIC,          7,   5, 118,  8
     CTEXT         "Versatile Commodore Emulator",                 IDC_STATIC,          7,  18, 118,  8
     CTEXT         "Version 0.0",                                  IDC_ABOUT_VERSION,   7,  31, 180,  8
-    LTEXT         "Copyright (c) 1998-2009 Andreas Boose",        IDC_STATIC,          5,  50, 158,  8
-    LTEXT         "Copyright (c) 1998-2009 Dag Lem",              IDC_STATIC,          5,  59, 158,  8
-    LTEXT         "Copyright (c) 1998-2009 Tibor Biczo",          IDC_STATIC,          5,  68, 158,  8
-    LTEXT         "Copyright (c) 1999-2009 Andreas Matthies",     IDC_STATIC,          5,  77, 180,  8
-    LTEXT         "Copyright (c) 1999-2009 Martin Pottendorfer",  IDC_STATIC,          5,  86, 180,  8
-    LTEXT         "Copyright (c) 2000-2009 Spiro Trikaliotis",    IDC_STATIC,          5,  95, 180,  8
-    LTEXT         "Copyright (c) 2005-2009 Marco van den Heuvel", IDC_STATIC,          5, 104, 180,  8
-    LTEXT         "Copyright (c) 2006-2009 Christian Vogelgsang", IDC_STATIC,          5, 113, 180,  8
-    LTEXT         "Copyright (c) 2007-2009 Fabrizio Gennari",     IDC_STATIC,          5, 122, 180,  8
-    LTEXT         "Copyright (c) 2007-2009 M. Kiesel",            IDC_STATIC,          5, 131, 180,  8
-    LTEXT         "Copyright (c) 2007-2009 Hannu Nuotio",         IDC_STATIC,          5, 140, 180,  8
-    LTEXT         "Copyright (c) 2007-2009 Daniel Kahlin",        IDC_STATIC,          5, 149, 180,  8
-    LTEXT         "Copyright (c) 2008-2009 Antti S. Lankila",     IDC_STATIC,          5, 158, 180,  8
+    LTEXT         "Copyright (c) 1998-2010 Andreas Boose",        IDC_STATIC,          5,  50, 158,  8
+    LTEXT         "Copyright (c) 1998-2010 Dag Lem",              IDC_STATIC,          5,  59, 158,  8
+    LTEXT         "Copyright (c) 1998-2010 Tibor Biczo",          IDC_STATIC,          5,  68, 158,  8
+    LTEXT         "Copyright (c) 1999-2010 Andreas Matthies",     IDC_STATIC,          5,  77, 180,  8
+    LTEXT         "Copyright (c) 1999-2010 Martin Pottendorfer",  IDC_STATIC,          5,  86, 180,  8
+    LTEXT         "Copyright (c) 2000-2010 Spiro Trikaliotis",    IDC_STATIC,          5,  95, 180,  8
+    LTEXT         "Copyright (c) 2005-2010 Marco van den Heuvel", IDC_STATIC,          5, 104, 180,  8
+    LTEXT         "Copyright (c) 2006-2010 Christian Vogelgsang", IDC_STATIC,          5, 113, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 Fabrizio Gennari",     IDC_STATIC,          5, 122, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 M. Kiesel",            IDC_STATIC,          5, 131, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 Hannu Nuotio",         IDC_STATIC,          5, 140, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 Daniel Kahlin",        IDC_STATIC,          5, 149, 180,  8
+    LTEXT         "Copyright (c) 2008-2010 Antti S. Lankila",     IDC_STATIC,          5, 158, 180,  8
     LTEXT         "Copyright (c) 1999-2007 Andreas Dehmel",       IDC_STATIC,          5, 167, 158,  8
     LTEXT         "Copyright (c) 1999-2005 Thomas Bretz",         IDC_STATIC,          5, 176, 180,  8
     LTEXT         "Copyright (c) 2003-2005 David Hansel",         IDC_STATIC,          5, 185, 180,  8
