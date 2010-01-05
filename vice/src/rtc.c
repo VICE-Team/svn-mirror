@@ -40,91 +40,93 @@ inline static int bcd_to_int(int bcd)
 	return ((bcd >> 4) * 10) + bcd % 16;
 }
 
-/* get seconds from current time + offset
+/* ---------------------------------------------------------------------- */
+
+/* get seconds from current time + offset or latch
    0 - 61 (leap seconds would be 60 and 61) */
-int rtc_get_second(int offset, int bcd)
+inline static int rtc_get_second(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_sec) : local->tm_sec;
 }
 
-/* get minutes from current time + offset
+/* get minutes from current time + offset or latch
    0 - 59 */
-int rtc_get_minute(int offset, int bcd)
+int rtc_get_minute(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_min) : local->tm_min;
 }
 
-/* get hours from current time + offset
+/* get hours from current time + offset or latch
    0 - 23 */
-int rtc_get_hour(int offset, int bcd)
+int rtc_get_hour(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_hour) : local->tm_hour;
 }
 
-/* get day of month from current time + offset
+/* get day of month from current time + offset or latch
    1 - 31 */
-int rtc_get_day_of_month(int offset, int bcd)
+int rtc_get_day_of_month(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_mday) : local->tm_mday;
 }
 
-/* get month from current time + offset
+/* get month from current time + offset or latch
    0 - 11 */
-int rtc_get_month(int offset, int bcd)
+int rtc_get_month(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_mon) : local->tm_mon;
 }
 
-/* get year of the century from current time + offset
+/* get year of the century from current time + offset or latch
    0 - 99 */
-int rtc_get_year(int offset, int bcd)
+int rtc_get_year(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_year % 100) : local->tm_year & 100;
 }
 
-/* get the century from current time + offset
+/* get the century from current time + offset or latch
    19 - 20 */
-int rtc_get_century(int offset, int bcd)
+int rtc_get_century(int offset_latch, int bcd, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd((int)(local->tm_year / 100) + 19) : (int)(local->tm_year / 100) + 19;
 }
 
-/* get the day of the week from current time + offset
+/* get the day of the week from current time + offset or latch
    0 - 6 (sunday 0, monday 1 ...etc) */
-int rtc_get_weekday(int offset)
+int rtc_get_weekday(int offset_latch, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return local->tm_wday;
 }
 
-/* get the day of the year from current time + offset
+/* get the day of the year from current time + offset or latch
    0 - 365 */
-int rtc_get_day_of_year(int offset)
+int rtc_get_day_of_year(int offset_latch, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return local->tm_yday;
@@ -132,13 +134,21 @@ int rtc_get_day_of_year(int offset)
 
 /* get the DST from current time + offset
    0 - >0 (0 no dst, >0 dst) */
-int rtc_get_dst(int offset)
+int rtc_get_dst(int offset_latch, int latched)
 {
-    time_t now = time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
 
     return local->tm_isdst;
 }
+
+/* get the current clock based on time + offset so the value can be latched */
+int rtc_get_latch(int offset)
+{
+    return time(NULL) + offset;
+}
+
+/* ---------------------------------------------------------------------- */
 
 /* set seconds and returns new offset
    0 - 59 */

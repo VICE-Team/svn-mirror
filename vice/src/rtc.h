@@ -29,17 +29,17 @@
 
 #include "types.h"
 
-extern int rtc_get_second(int offset, int bcd);         /* 0 - 61 (leap seconds would be 60 and 61) */
-extern int rtc_get_minute(int offset, int bcd);         /* 0 - 59 */
-extern int rtc_get_hour(int offset, int bcd);           /* 0 - 23 */
-extern int rtc_get_day_of_month(int offset, int bcd);   /* 1 - 31 */
-extern int rtc_get_month(int offset, int bcd);          /* 0 - 11 (0 = January, 1 = Febuary ...etc) */
-extern int rtc_get_year(int offset, int bcd);           /* 0 - 99 */
-extern int rtc_get_century(int offset, int bcd);        /* 19 - 20 */
-extern int rtc_get_weekday(int offset);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
-extern int rtc_get_day_of_year(int offset);             /* 0 - 365 */
-extern int rtc_get_dst(int offset);                     /* 0 - >0 (0 no dst, >0 dst) */
-
+extern int rtc_get_second(int offset_latch, int bcd, int latched);         /* 0 - 61 (leap seconds would be 60 and 61) */
+extern int rtc_get_minute(int offset_latch, int bcd, int latched);         /* 0 - 59 */
+extern int rtc_get_hour(int offset_latch, int bcd, int latched);           /* 0 - 23 */
+extern int rtc_get_day_of_month(int offset_latch, int bcd, int latched);   /* 1 - 31 */
+extern int rtc_get_month(int offset_latch, int bcd, int latched);          /* 0 - 11 (0 = January, 1 = Febuary ...etc) */
+extern int rtc_get_year(int offset_latch, int bcd, int latched);           /* 0 - 99 */
+extern int rtc_get_century(int offset_latch, int bcd, int latched);        /* 19 - 20 */
+extern int rtc_get_weekday(int offset_latch, int latched);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
+extern int rtc_get_day_of_year(int offset_latch, int latched);             /* 0 - 365 */
+extern int rtc_get_dst(int offset);                                        /* 0 - >0 (0 no dst, >0 dst) */
+extern int rtc_get_latch(int offset);
 
 /* these functions all return a new offset based on what is changed and the old offset */
 
