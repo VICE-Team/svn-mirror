@@ -1934,6 +1934,9 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_NOTIFY:
             statusbar_notify(window, window_index, wparam, lparam);
             break;
+        case WM_NCACTIVATE:
+            if (IsFullscreenEnabled() && fullscreen_get_nesting_level() == 0)
+                return 0;
     }
 
     return DefWindowProc(window, msg, wparam, lparam);

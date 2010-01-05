@@ -56,6 +56,7 @@ extern void ui_fullscreen_init(void);
 extern void ui_fullscreen_shutdown(void);
 extern void fullscreen_set_res_from_current_display(void);
 extern int IsFullscreenEnabled(void);
+extern int fullscreen_get_nesting_level(void);
 extern void SuspendFullscreenMode(HWND hwnd);
 extern void ResumeFullscreenMode(HWND hwnd);
 extern void SuspendFullscreenModeKeep(HWND hwnd);

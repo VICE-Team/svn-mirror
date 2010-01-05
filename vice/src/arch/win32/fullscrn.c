@@ -49,6 +49,11 @@ static int keep_aspect_ratio, aspect_ratio;
 DirectDrawDeviceList *devices = NULL;
 DirectDrawModeList *modes = NULL;
 
+int fullscreen_get_nesting_level(void)
+{
+    return fullscreen_nesting_level;
+}
+
 void fullscreen_set_res_from_current_display(void)
 {
     int bitdepth, width, height, refreshrate;
