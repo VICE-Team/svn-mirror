@@ -44,7 +44,7 @@ inline static int bcd_to_int(int bcd)
 
 /* get seconds from current time + offset or latch
    0 - 61 (leap seconds would be 60 and 61) */
-inline static int rtc_get_second(int offset_latch, int bcd, int latched)
+int rtc_get_second(int offset_latch, int bcd, int latched)
 {
     time_t now = (latched) ? offset_latch : time(NULL) + offset;
     struct tm *local = localtime(&now);
