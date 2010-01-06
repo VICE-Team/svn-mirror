@@ -3,7 +3,7 @@
 current_dir=`pwd`
 
 echo "Installing VICE as an Applaction collection."
-if text x"$current_dir" != "x/usr/VICE"; then
+if test x"$current_dir" != "x/usr/VICE"; then
   rm -f -r /usr/VICE
   mkdir /usr/VICE
   mkdir /usr/VICE/bin
