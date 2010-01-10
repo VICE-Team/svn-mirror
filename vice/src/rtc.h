@@ -38,7 +38,7 @@ extern int rtc_get_year(int offset_latch, int bcd, int latched);           /* 0 
 extern int rtc_get_century(int offset_latch, int bcd, int latched);        /* 19 - 20 */
 extern int rtc_get_weekday(int offset_latch, int latched);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
 extern int rtc_get_day_of_year(int offset_latch, int latched);             /* 0 - 365 */
-extern int rtc_get_dst(int offset);                                        /* 0 - >0 (0 no dst, >0 dst) */
+extern int rtc_get_dst(int offset_latch, int latched);                                        /* 0 - >0 (0 no dst, >0 dst) */
 extern int rtc_get_latch(int offset);
 
 /* these functions all return a new offset based on what is changed and the old offset */

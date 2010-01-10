@@ -46,7 +46,7 @@ inline static int bcd_to_int(int bcd)
    0 - 61 (leap seconds would be 60 and 61) */
 int rtc_get_second(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_sec) : local->tm_sec;
@@ -56,7 +56,7 @@ int rtc_get_second(int offset_latch, int bcd, int latched)
    0 - 59 */
 int rtc_get_minute(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_min) : local->tm_min;
@@ -66,7 +66,7 @@ int rtc_get_minute(int offset_latch, int bcd, int latched)
    0 - 23 */
 int rtc_get_hour(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_hour) : local->tm_hour;
@@ -76,7 +76,7 @@ int rtc_get_hour(int offset_latch, int bcd, int latched)
    1 - 31 */
 int rtc_get_day_of_month(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_mday) : local->tm_mday;
@@ -86,7 +86,7 @@ int rtc_get_day_of_month(int offset_latch, int bcd, int latched)
    0 - 11 */
 int rtc_get_month(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_mon) : local->tm_mon;
@@ -96,7 +96,7 @@ int rtc_get_month(int offset_latch, int bcd, int latched)
    0 - 99 */
 int rtc_get_year(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd(local->tm_year % 100) : local->tm_year & 100;
@@ -106,7 +106,7 @@ int rtc_get_year(int offset_latch, int bcd, int latched)
    19 - 20 */
 int rtc_get_century(int offset_latch, int bcd, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return (bcd) ? int_to_bcd((int)(local->tm_year / 100) + 19) : (int)(local->tm_year / 100) + 19;
@@ -116,7 +116,7 @@ int rtc_get_century(int offset_latch, int bcd, int latched)
    0 - 6 (sunday 0, monday 1 ...etc) */
 int rtc_get_weekday(int offset_latch, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return local->tm_wday;
@@ -126,7 +126,7 @@ int rtc_get_weekday(int offset_latch, int latched)
    0 - 365 */
 int rtc_get_day_of_year(int offset_latch, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return local->tm_yday;
@@ -136,7 +136,7 @@ int rtc_get_day_of_year(int offset_latch, int latched)
    0 - >0 (0 no dst, >0 dst) */
 int rtc_get_dst(int offset_latch, int latched)
 {
-    time_t now = (latched) ? offset_latch : time(NULL) + offset;
+    time_t now = (latched) ? offset_latch : time(NULL) + offset_latch;
     struct tm *local = localtime(&now);
 
     return local->tm_isdst;
