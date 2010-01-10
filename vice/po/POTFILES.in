@@ -151,7 +151,7 @@ src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c
 
 #amiga files
-src/arch/amigaos/intl.c.po.c
+src/arch/amigaos/intl_text.c.po.c
 
 #translate file
-src/translate.c.po.c
+src/translate_text.c.po.c

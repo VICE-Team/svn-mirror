@@ -47,7 +47,9 @@ SOURCES = cat-id-tbl.c
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog ChangeLog.1 Makefile.in.in POTFILES.in $(PACKAGE).pot \
-stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c
+stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c \
+gen_amiga_intl_c.c gen_translate_c.c gen_win32_rc.c po2table.c \
+gen_win32_files.sh
 
 POTFILES = \
 
@@ -116,16 +118,16 @@ install-data: install-data-@USE_NLS@
 install-data-no: all
 install-data-yes: all
 	if test -r "$(MKINSTALLDIRS)"; then \
-	  $(MKINSTALLDIRS) ${DESTDIR}$(datadir); \
+	  $(MKINSTALLDIRS) $(datadir); \
 	else \
-	  $(SHELL) $(top_srcdir)/mkinstalldirs ${DESTDIR}$(datadir); \
+	  $(SHELL) $(top_srcdir)/mkinstalldirs $(datadir); \
 	fi
 	@catalogs='$(CATALOGS)'; \
 	for cat in $$catalogs; do \
 	  cat=`basename $$cat`; \
 	  case "$$cat" in \
-	    *.gmo) destdir=${DESTDIR}$(gnulocaledir);; \
-	    *)     destdir=${DESTDIR}$(localedir);; \
+	    *.gmo) destdir=$(gnulocaledir);; \
+	    *)     destdir=$(localedir);; \
 	  esac; \
 	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
 	  dir=$$destdir/$$lang/LC_MESSAGES; \
@@ -233,6 +235,41 @@ update-po: Makefile intl2po $(POTFILES)
 intl2po: intl2po.c
 @CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/intl2po.c -o intl2po
 @CROSS_TRUE@	gcc $(srcdir)/intl2po.c -o intl2po
+
+po2table: po2table.c
+@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/po2table.c -o po2table
+@CROSS_TRUE@	gcc $(srcdir)/po2table.c -o po2table
+
+gen_amiga_intl_c: po2table po2table.c gen_amiga_intl_c.c
+@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_amiga_intl_c.c -o gen_amiga_intl_c
+@CROSS_TRUE@	gcc $(srcdir)/gen_amiga_intl_c.c -o gen_amiga_intl_c
+
+gen_translate_c: po2table po2table.c gen_translate_c.c
+@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_translate_c.c -o gen_translate_c
+@CROSS_TRUE@	gcc $(srcdir)/gen_translate_c.c -o gen_translate_c
+
+gen_win32_rc: po2table po2table.c gen_win32_rc.c
+@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_win32_rc.c -o gen_win32_rc
+@CROSS_TRUE@	gcc $(srcdir)/gen_win32_rc.c -o gen_win32_rc
+
+po_table.h: da.po de.po fr.po hu.po it.po nl.po pl.po sv.po tr.po po2table
+	./po2table
+
+trans-update:
+	( if test 'x$(srcdir)' != 'x.'; then echo "make trans-update can only be done from the source tree"; exit; fi )
+	$(MAKE) update-po
+	rm -f po_table.h
+	$(MAKE) po_table.h
+	$(MAKE) gen_translate_c
+	./gen_translate_c 
+	rm -f ../src/translate_text.c
+	mv ../src/temp_translate.h ../src/translate_text.c
+	$(MAKE) gen_amiga_intl_c
+	./gen_amiga_intl_c
+	rm -f ../src/arch/amigaos/intl_text.c
+	mv ../src/arch/amigaos/temp_intl.h ../src/arch/amigaos/intl_text.c
+	$(MAKE) gen_win32_rc
+	./gen_win32_files.sh $(POTFILES)
 
 POTFILES: POTFILES.in intl2po
 	( if test 'x$(srcdir)' != 'x.'; then \

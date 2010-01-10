@@ -213,6 +213,7 @@ libarch_a_SOURCES = \
 	mui/uivideocbm2pet.h
 
 EXTRA_DIST = \
+	intl_text.c \
 	info-files/VICE.info \
 	info-files/x128.exe.info \
 	info-files/x64.exe.info \
