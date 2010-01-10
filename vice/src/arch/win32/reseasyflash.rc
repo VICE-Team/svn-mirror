@@ -150,3 +150,5 @@ BEGIN
   IDS_EASYFLASH_SAVE_NOW "CRT'yi heme&n kaydet"
 END
 #pragma code_page(28591)
+
+

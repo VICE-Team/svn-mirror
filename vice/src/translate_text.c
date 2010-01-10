@@ -26,6 +26,7 @@
 
 translate_t string_table[] = {
 
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -36,7 +37,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_IT, "Non è possibile caricare il file di snapshot."},
 /* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_NL, "Kan momentopnamebestand niet laden."},
 /* pl */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_SV, "Kan inte ladda ögonblicksbildfil."},
+/* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_SV, "Kan inte läsa in ögonblicksbildfil."},
 /* tr */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_TR, "Anlýk görüntü dosyasý yüklenemedi."},
 #endif
 
@@ -47,13 +48,11 @@ translate_t string_table[] = {
 /* de */ {IDGS_PLAYBACK_ERROR_DIFFERENT_DE, "Wiedergabe Fehler: %s ist unterschiedlich von Zeile %d in Datei debug%06d"},
 /* fr */ {IDGS_PLAYBACK_ERROR_DIFFERENT_FR, "Erreur de lecture: %s différent de la ligne %d du fichier debug%06d"},
 /* hu */ {IDGS_PLAYBACK_ERROR_DIFFERENT_HU, "Visszajátszási hiba: %s különbözik a %d. sorban a debug%06d fájl esetén"},
-/* it */ {IDGS_PLAYBACK_ERROR_DIFFERENT_IT, "Errore di riproduzione: %s è differente dalla linea %d del file di debug "
-                                            "%06d"},
+/* it */ {IDGS_PLAYBACK_ERROR_DIFFERENT_IT, "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"},
 /* nl */ {IDGS_PLAYBACK_ERROR_DIFFERENT_NL, "Afspeelfout: %s is anders dan regel %d van bestand debug%06d"},
 /* pl */ {IDGS_PLAYBACK_ERROR_DIFFERENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_PLAYBACK_ERROR_DIFFERENT_SV, "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"},
-/* tr */ {IDGS_PLAYBACK_ERROR_DIFFERENT_TR, "Kayýttan yürütme hatasý: %s dosyanýn %d satýrýndan farklý (hata "
-                                            "ayýklama%06d)"},
+/* tr */ {IDGS_PLAYBACK_ERROR_DIFFERENT_TR, "Kayýttan yürütme hatasý: %s dosyanýn %d satýrýndan farklý (hata ayýklama%06d)"},
 #endif
 
 /* event.c */
@@ -172,14 +171,11 @@ translate_t string_table[] = {
 /* en */ {IDGS_ERROR_READING_START_SNAP_TRIED,    N_("Error reading start snapshot file. Tried %s and %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ERROR_READING_START_SNAP_TRIED_DA, "Fejl under læsning af start-snapshot. Prøvede %s og %s"},
-/* de */ {IDGS_ERROR_READING_START_SNAP_TRIED_DE, "Fehler beim Lesen der Start Snapshot Datei."
-                                                  " Versuch gescheitert bei %s und %s."},
+/* de */ {IDGS_ERROR_READING_START_SNAP_TRIED_DE, "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %s."},
 /* fr */ {IDGS_ERROR_READING_START_SNAP_TRIED_FR, "Erreur de lecture de l'instantané de départ. Essayé %s et %s"},
 /* hu */ {IDGS_ERROR_READING_START_SNAP_TRIED_HU, "Nem sikerült az elsõ pillanatkép fájl olvasása. Kipróbálva: %s és %s"},
-/* it */ {IDGS_ERROR_READING_START_SNAP_TRIED_IT, "Errore durante la lettura del file di inizio snapshot. Ho provato %s e "
-                                                  "%s"},
-/* nl */ {IDGS_ERROR_READING_START_SNAP_TRIED_NL, "Fout bij het lezen van het start momentopnamebestand. Heb %s en %s "
-                                                  "geprobeerd"},
+/* it */ {IDGS_ERROR_READING_START_SNAP_TRIED_IT, "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s"},
+/* nl */ {IDGS_ERROR_READING_START_SNAP_TRIED_NL, "Fout bij het lezen van het start momentopnamebestand. Heb %s en %s geprobeerd"},
 /* pl */ {IDGS_ERROR_READING_START_SNAP_TRIED_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_ERROR_READING_START_SNAP_TRIED_SV, "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"},
 /* tr */ {IDGS_ERROR_READING_START_SNAP_TRIED_TR, "Baþlangýç anlýk görüntü dosyasý okuma hatasý. %s ve %s denendi"},
@@ -217,8 +213,8 @@ translate_t string_table[] = {
 /* en */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED,    N_("write to sound device failed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_DA, "Kunne ikke skrive til lydenhed."},
-/* de */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_DE, "Schreiben auf Gerät Sound ist fehlgeschlagen."},
-/* fr */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_FR, "Impossible d'écriture sur le périphérique de son."},
+/* de */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_DE, "Schreiben auf Sound Gerät ist fehlgeschlagen."},
+/* fr */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_FR, "impossible d'écrire sur le périphérique son."},
 /* hu */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_HU, "Nem sikerült a hangeszközre írni"},
 /* it */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_IT, "scrittura sulla scheda audio fallita."},
 /* nl */ {IDGS_WRITE_TO_SOUND_DEVICE_FAILED_NL, "schrijfactie naar geluidsapparaat is mislukt."},
@@ -232,7 +228,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_OPEN_SID_ENGINE_DA, "Kunne ikke åbne SID-motor"},
 /* de */ {IDGS_CANNOT_OPEN_SID_ENGINE_DE, "Kann SID Engine nicht öffnen"},
-/* fr */ {IDGS_CANNOT_OPEN_SID_ENGINE_FR, "Erreur de chargement de l'engin de son SID"},
+/* fr */ {IDGS_CANNOT_OPEN_SID_ENGINE_FR, "Erreur d'ouverture de l'engin SID"},
 /* hu */ {IDGS_CANNOT_OPEN_SID_ENGINE_HU, "Nem sikerült a SID motort megnyitni"},
 /* it */ {IDGS_CANNOT_OPEN_SID_ENGINE_IT, "Non è possibile aprire il motore SID"},
 /* nl */ {IDGS_CANNOT_OPEN_SID_ENGINE_NL, "Kan de SID-kern niet openen"},
@@ -246,7 +242,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_INIT_SID_ENGINE_DA, "Kunne ikke initialisere SID-motor"},
 /* de */ {IDGS_CANNOT_INIT_SID_ENGINE_DE, "Kann SID Engine nicht initialisieren"},
-/* fr */ {IDGS_CANNOT_INIT_SID_ENGINE_FR, "Erreur d'initialisation de l'engin de son SID"},
+/* fr */ {IDGS_CANNOT_INIT_SID_ENGINE_FR, "Erreur d'initialisation de l'engin SID"},
 /* hu */ {IDGS_CANNOT_INIT_SID_ENGINE_HU, "Nem sikerült a SID motort elindítani"},
 /* it */ {IDGS_CANNOT_INIT_SID_ENGINE_IT, "Non è possibile inizializzare il motore SID"},
 /* nl */ {IDGS_CANNOT_INIT_SID_ENGINE_NL, "Kan de SID-kern niet initialiseren"},
@@ -304,8 +300,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_RECORD_DIFFERENT_PLAYBACK_DE, "Aufnahmegerät muß unteschiedlich vom Abspielgerät sein"},
 /* fr */ {IDGS_RECORD_DIFFERENT_PLAYBACK_FR, "Le périphérique de son d'enregistrement doivent être différents"},
 /* hu */ {IDGS_RECORD_DIFFERENT_PLAYBACK_HU, "A felvevõ és lejátszó eszközöknek különböznie kell"},
-/* it */ {IDGS_RECORD_DIFFERENT_PLAYBACK_IT, "Il device di registrazione deve essere differente da quello di "
-                                             "riproduzione"},
+/* it */ {IDGS_RECORD_DIFFERENT_PLAYBACK_IT, "Il device di registrazione deve essere differente da quello di riproduzione"},
 /* nl */ {IDGS_RECORD_DIFFERENT_PLAYBACK_NL, "Opnameapparaat moet anders zijn dan afspeelapparaat"},
 /* pl */ {IDGS_RECORD_DIFFERENT_PLAYBACK_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RECORD_DIFFERENT_PLAYBACK_SV, "Inspelningsenhet och återspelningsenhet kan inte vara samma"},
@@ -317,11 +312,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_WARNING_RECORDING_REALTIME_DA, "Advarsel! Optageenheden %s synes at være en realtidsenhed!"},
 /* de */ {IDGS_WARNING_RECORDING_REALTIME_DE, "Warnung! Aufnahmegerät %s scheint ein Echtzeitgerät zu sein!"},
-/* fr */ {IDGS_WARNING_RECORDING_REALTIME_FR, "Attention! Le périphérique d'enregistrement %s semble être un "
-                                              "périphérique en temps réel"},
+/* fr */ {IDGS_WARNING_RECORDING_REALTIME_FR, "Attention! Le périphérique d'enregistrement %s semble être un périphérique temps réel"},
 /* hu */ {IDGS_WARNING_RECORDING_REALTIME_HU, "Figyelem! A %s felvevõ eszköz úgy tûnik, valós idejû eszköz!"},
-/* it */ {IDGS_WARNING_RECORDING_REALTIME_IT, "Attenzione! Il device di registrazione %s sembra essere un dispositivo "
-                                              "realtime!"},
+/* it */ {IDGS_WARNING_RECORDING_REALTIME_IT, "Attenzione! Il device di registrazione %s sembra essere un dispositivo realtime!"},
 /* nl */ {IDGS_WARNING_RECORDING_REALTIME_NL, "Waarschuwing! Opnameapparaat %s lijkt een realtime apparaat te zijn!"},
 /* pl */ {IDGS_WARNING_RECORDING_REALTIME_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_WARNING_RECORDING_REALTIME_SV, "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"},
@@ -332,7 +325,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR,    N_("The recording device doesn't support current sound parameters")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_DA, "Optageenheden understøtter ikke de valgte lydparametre"},
-/* de */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_DE, "Aufnahmegerät unterstütz derzeitige Soundeinstellungen nicht"},
+/* de */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_DE, "Aufnahmegerät unterstützt derzeitige Soundeinstellungen nicht"},
 /* fr */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_FR, "Le périphérique d'enregistrement ne supporte pas les paramètres actuels"},
 /* hu */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_HU, "A felvevõ eszköz nem támogatja az aktuális hangbeállításokat"},
 /* it */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_IT, "Il device di registrazione non supporta i parametri attuali"},
@@ -349,7 +342,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_DE, "Sound Puffer Überlauf (Zyklus basiert)"},
 /* fr */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_FR, "Erreur de dépassement de tampon son (cycle based)"},
 /* hu */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_HU, "Hangpuffer túlcsordulás (ciklus alapú)"},
-/* it */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_IT, "Overflow del buffer sonoro (cycle based)"},
+/* it */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_IT, "Overflow del buffer audio (cycle based)"},
 /* nl */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_NL, "Geluidsbuffer overloop (cyclus gebaseerd)"},
 /* pl */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SOUND_BUFFER_OVERFLOW_CYCLE_SV, "För mycket data i ljudbufferten (cykelbaserad)"},
@@ -363,7 +356,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_SOUND_BUFFER_OVERFLOW_DE, "Sound Puffer Überlauf."},
 /* fr */ {IDGS_SOUND_BUFFER_OVERFLOW_FR, "Erreur de dépassement de tampon son."},
 /* hu */ {IDGS_SOUND_BUFFER_OVERFLOW_HU, "Hangpuffer túlcsordulás."},
-/* it */ {IDGS_SOUND_BUFFER_OVERFLOW_IT, "Overflow del buffer sonoro."},
+/* it */ {IDGS_SOUND_BUFFER_OVERFLOW_IT, "Overflow del buffer audio."},
 /* nl */ {IDGS_SOUND_BUFFER_OVERFLOW_NL, "Geluidsbuffer overloop."},
 /* pl */ {IDGS_SOUND_BUFFER_OVERFLOW_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SOUND_BUFFER_OVERFLOW_SV, "För mycket data i ljudbufferten."},
@@ -403,7 +396,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RUNNING_TOO_SLOW_DA, "Kører for langsomt."},
 /* de */ {IDGS_RUNNING_TOO_SLOW_DE, "Ablauf zu langsam."},
-/* fr */ {IDGS_RUNNING_TOO_SLOW_FR, "l'exécution est trop lente."},
+/* fr */ {IDGS_RUNNING_TOO_SLOW_FR, "exécution trop lente."},
 /* hu */ {IDGS_RUNNING_TOO_SLOW_HU, "túl lassan megy."},
 /* it */ {IDGS_RUNNING_TOO_SLOW_IT, "esecuzione troppo lenta."},
 /* nl */ {IDGS_RUNNING_TOO_SLOW_NL, "draait te langzaam."},
@@ -417,7 +410,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_STORE_SOUNDDEVICE_FAILED_DA, "skrivning til lydenhed fejlede."},
 /* de */ {IDGS_STORE_SOUNDDEVICE_FAILED_DE, "Speichern auf Sound Gerät ist fehlgeschlagen."},
-/* fr */ {IDGS_STORE_SOUNDDEVICE_FAILED_FR, "erreur d'enregistrement sur le périphérique de son."},
+/* fr */ {IDGS_STORE_SOUNDDEVICE_FAILED_FR, "erreur d'enregistrement sur le périphérique son."},
 /* hu */ {IDGS_STORE_SOUNDDEVICE_FAILED_HU, "a hangeszközön történõ tárolás nem sikerült."},
 /* it */ {IDGS_STORE_SOUNDDEVICE_FAILED_IT, "memorizzazione sulla scheda audio fallita."},
 /* nl */ {IDGS_STORE_SOUNDDEVICE_FAILED_NL, "opslag naar geluidsapparaat is mislukt."},
@@ -476,7 +469,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE, "Kann Snapshot Datei für Transfer nicht laden"},
 /* fr */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR, "Impossible de charger l'instantané pour le transfer"},
 /* hu */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_HU, "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"},
-/* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, "Non à possibile caricare il file di snapshot per il trasferimento"},
+/* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, "Non è possibile caricare il file di snapshot per il trasferimento"},
 /* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL, "Kan het momentopnamebestand voor versturen niet laden"},
 /* pl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV, "Kan inte läsa in ögonblicksbildfil för överföring."},
@@ -504,7 +497,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE, "Kann Snapshot Datei nicht senden"},
 /* fr */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_FR, "Impossible d'envoyer l'instantané au client"},
 /* hu */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_HU, "Nem sikerült pillanatképet elküldeni a klienshez"},
-/* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, "Non à possibile inviare lo snapshot al client"},
+/* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, "Non è possibile inviare lo snapshot al client"},
 /* nl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_NL, "Kan de momentopname niet naar de andere computer versturen"},
 /* pl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV, "Kan inte sända ögonblicksbild till klient"},
@@ -518,7 +511,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht erzeugen"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR, "Impossible de créer l'instantané %s"},
 /* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_HU, "Nem sikerült a pillanatképfájlt létrehozni (%s)"},
-/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, "Non à possibile creare il file di snapshot %s"},
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, "Non è possibile creare il file di snapshot %s"},
 /* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopnamebestand %s niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV, "Kan inte skapa ögonblicksbildfil %s"},
@@ -529,10 +522,10 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S,    N_("Cannot open snapshot file %s")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DA, "Kunne ikke åbne snapshot-fil %s"},
-/* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht öffnen"},
+/* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht öffnen."},
 /* fr */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_FR, "Impossible d'ouvrir le fichier %s"},
 /* hu */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_HU, "Nem sikerült a pillanatképfájlt megnyitni (%s)"},
-/* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, "Non à possibile aprire il file di snapshot %s"},
+/* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, "Non è possibile aprire il file di snapshot %s"},
 /* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_NL, "Kan het momentopnamebestand %s niet openen"},
 /* pl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV, "Kan inte öppna ögonblicksbildfil %s"},
@@ -546,7 +539,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE, "Server wartet auf Client..."},
 /* fr */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR, "Le serveur attend la connexion d'un client..."},
 /* hu */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_HU, "A kiszolgáló kliensre vár..."},
-/* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, "Il server à in attesa di un client..."},
+/* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, "Il server è in attesa di un client..."},
 /* nl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL, "De server wacht op de andere computer..."},
 /* pl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV, "Servern väntar på en klient..."},
@@ -557,16 +550,11 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,    N_("Cannot create snapshot file. Select different history directory!")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DA, "Kunne ikke oprette snapshot-fil. Vælg et andet historik-katalog!"},
-/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei nicht erzeugen. Verwende ein anderes "
-                                                   "Verzeichnis!"},
-/* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, "Impossible de créer le fichier d'instantané. Sélectionnez un "
-                                                   "répertoire d'historique différent"},
-/* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_HU, "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más "
-                                                   "könyvtárat!"},
-/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non è possibile creare il file di snapshot. Seleziona una directory "
-                                                   "diversa per la cronologia."},
-/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopnamebestand niet maken. Selecteer een andere "
-                                                   "geschiedenisdirectory!"},
+/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei nicht erzeugen. Verwende ein anderes Verzeichnis!"},
+/* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, "Impossible de créer le fichier d'instantané. Sélectionnez un répertoire d'historique différent"},
+/* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_HU, "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"},
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non è possibile creare il file di snapshot. Seleziona una directory diversa per la cronologia."},
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopnamebestand niet maken. Selecteer een andere geschiedenisdirectory!"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV, "Kan inte skapa ögonblicksbildfil. Välj en annan historikkatalog!"},
 /* tr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_TR, "Anlýk görüntü dosyasý yaratýlamadý. Farklý bir tarihçe dizini seçin!"},
@@ -579,7 +567,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_RESOLVE_S_DE, "Kann %s nicht auflösen"},
 /* fr */ {IDGS_CANNOT_RESOLVE_S_FR, "Impossible de résoudre %s"},
 /* hu */ {IDGS_CANNOT_RESOLVE_S_HU, "Nem sikerült %s-t feloldani"},
-/* it */ {IDGS_CANNOT_RESOLVE_S_IT, "Non à possibile risolvere %s"},
+/* it */ {IDGS_CANNOT_RESOLVE_S_IT, "Non è possibile risolvere %s"},
 /* nl */ {IDGS_CANNOT_RESOLVE_S_NL, "Onbekende host %s"},
 /* pl */ {IDGS_CANNOT_RESOLVE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_RESOLVE_S_SV, "Kan inte slå upp %s"},
@@ -664,7 +652,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_DE, "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."},
 /* fr */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_FR, "Ne peut alterner IPV4/IPV6 pendant que netplay est actif."},
 /* hu */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_HU, "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"},
-/* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, "Non à possibile commutare tra IPV4 e IPV6 mentre netplay à attivo."},
+/* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."},
 /* nl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_NL, "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."},
 /* pl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_SV, "Kan inte växla mellan IPV4/IPV6 medan nätverksspel är aktivt."},
@@ -680,7 +668,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE, "ffmpegdrv: Kann video stream nicht öffnen"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR, "ffmpegdrv: Impossible d'ouvrir le flux vidéo"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_HU, "ffmpegdrv: Nem sikerült megnyitni a videó adatfolyamot"},
-/* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, "ffmpegdrv: Non à possibile aprire il flusso video"},
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, "ffmpegdrv: Non è possibile aprire il flusso video"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL, "ffmpegdrv: Kan de videostroom niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV, "ffmpegdrv: Kan inte öppna videoström"},
@@ -694,7 +682,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE, "ffmpegdrv: Kann audio stream nicht öffnen"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR, "ffmpegdrv: Impossible d'ouvrir le flux audio"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_HU, "ffmpegdrv: Nem sikerült megnyitni a audió adatfolyamot"},
-/* it */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT, "ffmpegdrv: Non à possibile aprire il flusso audio"},
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT, "ffmpegdrv: Non è possibile aprire il flusso audio"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL, "ffmpegdrv: Kan de audiostroom niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV, "ffmpegdrv: Kan inte öppna ljudström"},
@@ -708,7 +696,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_S_DE, "ffmpegdrv: Öffnen von %s fehlgeschlagen"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_S_FR, "ffmpegdrv: Impossible d'ouvrir %s"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_S_HU, "ffmpegdrv: Nem sikerült megnyitni: %s"},
-/* it */ {IDGS_FFMPEG_CANNOT_OPEN_S_IT, "ffmpegdrv: Non à possibile aprire %s"},
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_S_IT, "ffmpegdrv: Non è possibile aprire %s"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_S_NL, "ffmpegdrv: Kan %s niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_S_SV, "ffmpegdrv: Kan inte öppna %s"},
@@ -905,7 +893,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MACHINE_STATE_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MACHINE_STATE_COMMANDS_HU, "Gép állapot parancsok:"},
 /* it */ {IDGS_MACHINE_STATE_COMMANDS_IT, "Comandi di stato del computer:"},
-/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, "Machine staat commandos:"},
+/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, "Machine status commandos"},
 /* pl */ {IDGS_MACHINE_STATE_COMMANDS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MACHINE_STATE_COMMANDS_SV, "Kommandon för maskinstatus:"},
 /* tr */ {IDGS_MACHINE_STATE_COMMANDS_TR, "Makine durum komutlarý:"},
@@ -928,56 +916,29 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BANK_DESCRIPTION,    N_("If bankname is not given, print the possible banks for the memspace.\nIf bankname is given set the current bank in the memspace to the given\nbank.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BANK_DESCRIPTION_DA, "Hvis banknavn ikke angives vises mulige banker for hukommelsesområdet.\n"
-                                        "Hvis banknavn angives sættes aktuel bank i hukommelsesområdet til den\n"
-                                        "angivne bank."},
-/* de */ {IDGS_MON_BANK_DESCRIPTION_DE, "Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in `memspace'.\n"
-                                        "Falls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit angegebener Bank."},
+/* da */ {IDGS_MON_BANK_DESCRIPTION_DA, "Hvis banknavn ikke angives vises mulige banker for hukommelsesområdet.\nHvis banknavn angives sættes aktuel bank i hukommelsesområdet til den\nangivne bank."},
+/* de */ {IDGS_MON_BANK_DESCRIPTION_DE, "Falls `bankname' nicht angegeben wird, Ausgabe der möglichen Bänke in `memspace'.\nFalls `bankname' angegeben wird, setze aktuelle Bank in `memspace' mit angegebener Bank."},
 /* fr */ {IDGS_MON_BANK_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BANK_DESCRIPTION_HU, "Ha a lap száma nincs megadva, kiírja a lehetséges lapokat a memória térbõl.\n"
-                                        "Ha meg van adva, az aktuális lap számot a memória térben a megadott lapra állítja."},
-/* it */ {IDGS_MON_BANK_DESCRIPTION_IT, "Se non viene specificato il nome del banco, stampa tutti i banchi\n"
-                                        "possibili per lo spazio di memoria.\n"
-                                        "Se viene specificato il nome del banco, imposta il banco attuale nello\n"
-                                        "spazio di memoria specificato."},
-/* nl */ {IDGS_MON_BANK_DESCRIPTION_NL, "Wanneer de banknaam niet is opgegeven, toon de mogelijke banken voor de geheugen-\n"
-                                        "ruimte. Wanneer de banknaam is opgegeven, zet de huidige bank in de geheugen-\n"
-                                        "ruimte naar de opgegeven bank."},
+/* hu */ {IDGS_MON_BANK_DESCRIPTION_HU, "Ha a lap száma nincs megadva, kiírja a lehetséges lapokat a memória térbõl.\nHa meg van adva, az aktuális lap számot a memória térben a megadott lapra állítja."},
+/* it */ {IDGS_MON_BANK_DESCRIPTION_IT, "Se non viene specificato il nome del banco, stampa tutti i banchi\npossibili per lo spazio di memoria.\nSe viene specificato il nome del banco, imposta il banco attuale nello\nspazio di memoria specificato."},
+/* nl */ {IDGS_MON_BANK_DESCRIPTION_NL, "Als de banknaam niet is opgegeven worden de mogelijke banken voor de\ngeheugenruimte weergegeven. Als de banknaam is opgegeven dan wordt de\nhuidige bank in de geheugenruimte gezet volgens de opgegeven banknaam."},
 /* pl */ {IDGS_MON_BANK_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BANK_DESCRIPTION_SV, "Om banknamn inte anges, skriv ut möjliga bankar för minnesområdet.\n"
-                                        "Om banknamn anges, sätt aktuell bank i minnesområdet till den givna\n"
-                                        "banken."},
-/* tr */ {IDGS_MON_BANK_DESCRIPTION_TR, "Eðer bank ismi verilmemiþse, bellek alaný için uygun banklar yazdýrýlýr.\n"
-                                        "Eðer bank ismi verilmiþse, geçerli bank bellek alaný içinde verilen\n"
-                                        "banka eþitlenir."},
+/* sv */ {IDGS_MON_BANK_DESCRIPTION_SV, "Om banknamn inte anges, skriv ut möjliga bankar för minnesområdet.\nOm banknamn anges, sätt aktuell bank i minnesområdet till den givna\nbanken."},
+/* tr */ {IDGS_MON_BANK_DESCRIPTION_TR, "Eðer bank ismi verilmemiþse, bellek alaný için uygun banklar yazdýrýlýr.\nEðer bank ismi verilmiþse, geçerli bank bellek alaný içinde verilen\nbanka eþitlenir."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BACKTRACE_DESCRIPTION,    N_("Print JSR call chain (most recent call first). Stack offset\nrelative to SP+1 is printed in parentheses. This is a best guess\nonly.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BACKTRACE_DESCRIPTION_DA, "Vis JSR-kaldekæde (seneste kald øverst). Stakafstand\n"
-                                             "relativ til SP+1 vises i parantes. Dette er kun et\n"
-                                             "gæt."},
-/* de */ {IDGS_MON_BACKTRACE_DESCRIPTION_DE, "Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\n"
-                                             "wird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\n"
-                                             "eine Schätzung."},
+/* da */ {IDGS_MON_BACKTRACE_DESCRIPTION_DA, "Vis JSR-kaldekæde (seneste kald øverst). Stakafstand\nrelativ til SP+1 vises i parantes. Dette er kun et\ngæt."},
+/* de */ {IDGS_MON_BACKTRACE_DESCRIPTION_DE, "Zeige JSR Aufrufkette (letzter Aufruf zuerst). Stack offset\nwird relative zu SP+1 in Klammern gezeigt. Dies ist jedoch nur\neine Schätzung."},
 /* fr */ {IDGS_MON_BACKTRACE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BACKTRACE_DESCRIPTION_HU, "JSR hívás lista kiírása (legutóbbi elõször). A verem SP+1\n"
-                                             "helyen lévõ tartalma zárójelben. Ez csak\n"
-                                             "egy legjobb becslés."},
-/* it */ {IDGS_MON_BACKTRACE_DESCRIPTION_IT, "Stampa la catena di chiamate JSR (la chiamata più recente per prima).\n"
-                                             "L'offset dello stack relativo a SP+1 è stampato tra parentesi. Questo è\n"
-                                             "solo l'ipotesi migliore."},
-/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, "Toon JSR aanvraag ketting (meest recente aanvraag eerst). De stack offset\n"
-                                             "relatief ten opzichte van SP+1 zal binnen aanhalingstekens worden getoond.\n"
-                                             "Dit is alleen de beste schatting"},
+/* hu */ {IDGS_MON_BACKTRACE_DESCRIPTION_HU, "JSR hívás lista kiírása (legutóbbi elõször). A verem SP+1\nhelyen lévõ tartalma zárójelben. Ez csak\negy legjobb becslés."},
+/* it */ {IDGS_MON_BACKTRACE_DESCRIPTION_IT, "Stampa la catena di chiamate JSR (la chiamata più recente per prima).\nL'offset dello stack relativo a SP+1 è stampato tra parentesi. Questo è\nsolo l'ipotesi migliore."},
+/* nl */ {IDGS_MON_BACKTRACE_DESCRIPTION_NL, "Toon JSR gebruik (meest recent gebruikt eerst). De stack\ncompensatie relatief ten opzichte van SP+1 zal worden getoont\nbinnen de aanhalingtekens. Dit is op basis van de beste gok."},
 /* pl */ {IDGS_MON_BACKTRACE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BACKTRACE_DESCRIPTION_SV, "Skriv JSR-anropskedja (senaste anrop först). Stackavstånd\n"
-                                             "relativt till SP+1 visas inom parantes. Detta är bara en\n"
-                                             "gissning."},
-/* tr */ {IDGS_MON_BACKTRACE_DESCRIPTION_TR, "JSR çaðrý zincirini yazdýr (en son çaðrýlar öncelikli). Yýðýt ofseti\n"
-                                             "SP+1'e baðlý olarak parantez içersinde yazdýrýlýr. Bu yalnýzca en iyi\n"
-                                             "tahmindir."},
+/* sv */ {IDGS_MON_BACKTRACE_DESCRIPTION_SV, "Skriv JSR-anropskedja (senaste anrop först). Stackavstånd\nrelativt till SP+1 visas inom parantes. Detta är bara en\ngissning."},
+/* tr */ {IDGS_MON_BACKTRACE_DESCRIPTION_TR, "JSR çaðrý zincirini yazdýr (en son çaðrýlar öncelikli). Yýðýt ofseti\nSP+1'e baðlý olarak parantez içersinde yazdýrýlýr. Bu yalnýzca en iyi\ntahmindir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -988,7 +949,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_CPU_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CPU_DESCRIPTION_HU, "A processzor típusának megadása (6502/z80)."},
 /* it */ {IDGS_MON_CPU_DESCRIPTION_IT, "Specifica il tipo di CPU utilizzata al momento (6502/z80)."},
-/* nl */ {IDGS_MON_CPU_DESCRIPTION_NL, "Geef het soort van de huidige CPU (6502/z80)."},
+/* nl */ {IDGS_MON_CPU_DESCRIPTION_NL, "Geef de soort CPU die op dit moment in gebruik is (6502/z80)."},
 /* pl */ {IDGS_MON_CPU_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_CPU_DESCRIPTION_SV, "Ange typ av CPU som används för närvarande (6502/z80)."},
 /* tr */ {IDGS_MON_CPU_DESCRIPTION_TR, "Þu anda kullanýlmakta olan CPU tipini belirleyin (6502/z80)."},
@@ -1002,7 +963,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_RP_COUNT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RP_COUNT_HU, "[<darab>]"},
 /* it */ {IDGS_RP_COUNT_IT, "[<contatore>]"},
-/* nl */ {IDGS_RP_COUNT_NL, "[<aantal>]"},
+/* nl */ {IDGS_RP_COUNT_NL, "[<hoeveelheid>]"},
 /* pl */ {IDGS_RP_COUNT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RP_COUNT_SV, "[<antal>]"},
 /* tr */ {IDGS_RP_COUNT_TR, "[<adet>]"},
@@ -1016,7 +977,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_MON_CPUHISTORY_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CPUHISTORY_DESCRIPTION_HU, "<darab> utoljára végrehajtott utasítás mutatása."},
 /* it */ {IDGS_MON_CPUHISTORY_DESCRIPTION_IT, "Mostra gli ultimi <contatore> comandi eseguiti."},
-/* nl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_NL, "Toon laatst <aantal> uitgevoerde commandos."},
+/* nl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_NL, "Toon <hoeveelheid> laatst uitgevoerde commandos."},
 /* pl */ {IDGS_MON_CPUHISTORY_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_CPUHISTORY_DESCRIPTION_SV, "Visa <antal> senast exekverade kommandon."},
 /* tr */ {IDGS_MON_CPUHISTORY_DESCRIPTION_TR, "<adet> son çalýþtýrýlan komutlarý göster."},
@@ -1039,30 +1000,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_DUMP_DESCRIPTION,    N_("Write a snapshot of the machine into the file specified.\nThis snapshot is compatible with a snapshot written out by the UI.\nNote: No ROM images are included into the dump.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_DUMP_DESCRIPTION_DA, "Skriv et snapshot til den angivne fil.\n"
-                                        "Dette snapshot er kompatibelt med dem, der oprettes fra menuen.\n"
-                                        "OBS: ROM-images inkluderes ikke i snapshot."},
-/* de */ {IDGS_MON_DUMP_DESCRIPTION_DE, "Schreibe eine Snapsho Datei der Maschine auf die angebene Datei.\n"
-                                        "Dieser Snapshot ist kompatible zu einem Snapshot initiiert aus dem Menü.\n"
-                                        "Hinweis: Die ROM Images werden im Snapshot nicht inkludiert."},
+/* da */ {IDGS_MON_DUMP_DESCRIPTION_DA, "Skriv et snapshot til den angivne fil.\nDette snapshot er kompatibelt med dem, der oprettes fra menuen.\nOBS: ROM-images inkluderes ikke i snapshot."},
+/* de */ {IDGS_MON_DUMP_DESCRIPTION_DE, "Schreibe eine Snapsho Datei der Maschine auf die angebene Datei.\nDieser Snapshot ist kompatible zu einem Snapshot initiiert aus dem Menü.\nHinweis: Die ROM Images werden im Snapshot nicht inkludiert."},
 /* fr */ {IDGS_MON_DUMP_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_DUMP_DESCRIPTION_HU, "Pillanatkép írása a géprõl a megadott fájlba. A pillanatkép\n"
-                                        "kompatibilis azzal, amelyet a grafikus felület hoz létre.\n"
-                                        "Megjegyzés: a ROM képmások nem kerülnek bele."},
-/* it */ {IDGS_MON_DUMP_DESCRIPTION_IT, "Scrive uno snapshot del computer sul file specificato.\n"
-                                        "Questo snapshot è compatibile con uno snapshot scritto dall'IU.\n"
-                                        "Nota: Le immagini ROM non sono incluse nel dump."},
-/* nl */ {IDGS_MON_DUMP_DESCRIPTION_NL, "Schrijf een momentopname van de machine naar de opgegeven bestand.\n"
-                                        "Deze momentopname is compatibel met een momentopname zoals geschreven van\n"
-                                        "uit het menu.\n"
-                                        "NB: ROM bestanden zijn niet opgenomen in de momentopname."},
+/* hu */ {IDGS_MON_DUMP_DESCRIPTION_HU, "Pillanatkép írása a géprõl a megadott fájlba. A pillanatkép\nkompatibilis azzal, amelyet a grafikus felület hoz létre.\nMegjegyzés: a ROM képmások nem kerülnek bele."},
+/* it */ {IDGS_MON_DUMP_DESCRIPTION_IT, "Scrive uno snapshot del computer sul file specificato.\nQuesto snapshot è compatibile con uno snapshot scritto dall'IU.\nNota: Le immagini ROM non sono incluse nel dump."},
+/* nl */ {IDGS_MON_DUMP_DESCRIPTION_NL, "Schrijf een momentopname van de machine naar de opgegeven bestand.\nDeze momentopname is compatibel met een momentopname zoals geschreven van\nuit het menu.\nNB: ROM bestanden zijn niet opgenomen in de momentopname."},
 /* pl */ {IDGS_MON_DUMP_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_DUMP_DESCRIPTION_SV, "Skriv en ögonblicksbild av maskinen till den angivna filen.\n"
-                                        "Ögonblicksbilden är kompatibel med de som skapas från menyn.\n"
-                                        "Observera: ROM-avbildningar inkluderas inte i bilden."},
-/* tr */ {IDGS_MON_DUMP_DESCRIPTION_TR, "Belirtilen dosya içersine makinenin anlýk görüntüsünü yaz.\n"
-                                        "Bu anlýk görüntü UI dýþýndan yazdýrýlan anlýk görüntü ile uyumludur.\n"
-                                        "Not: Hiçbir ROM imajý döküm içersinde yer almaz."},
+/* sv */ {IDGS_MON_DUMP_DESCRIPTION_SV, "Skriv en ögonblicksbild av maskinen till den angivna filen.\nÖgonblicksbilden är kompatibel med de som skapas från menyn.\nObservera: ROM-avbildningar inkluderas inte i bilden."},
+/* tr */ {IDGS_MON_DUMP_DESCRIPTION_TR, "Belirtilen dosya içersine makinenin anlýk görüntüsünü yaz.\nBu anlýk görüntü UI dýþýndan yazdýrýlan anlýk görüntü ile uyumludur.\nNot: Hiçbir ROM imajý döküm içersinde yer almaz."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1073,7 +1019,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_HU, "<cím>"},
 /* it */ {IDGS_P_ADDRESS_IT, "<indirizzo>"},
-/* nl */ {IDGS_P_ADDRESS_NL, "<Adres"},
+/* nl */ {IDGS_P_ADDRESS_NL, "<adres>"},
 /* pl */ {IDGS_P_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_SV, "<adress>"},
 /* tr */ {IDGS_P_ADDRESS_TR, "<adres>"},
@@ -1110,22 +1056,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_NEXT_DESCRIPTION,    N_("Advance to the next instruction.  Subroutines are treated as\na single instruction.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_NEXT_DESCRIPTION_DA, "Gå frem til næste instruktion. Subrutiner bliver behandlet som\n"
-                                        "en enkelt instruktion."},
-/* de */ {IDGS_MON_NEXT_DESCRIPTION_DE, "Fahre bis zur nächsten Instruktion fort.\n"
-                                        "Unterroutinen werden wie eine einzelne Instruktion behandelt."},
+/* da */ {IDGS_MON_NEXT_DESCRIPTION_DA, "Gå frem til næste instruktion. Subrutiner bliver behandlet som\nen enkelt instruktion."},
+/* de */ {IDGS_MON_NEXT_DESCRIPTION_DE, "Fahre bis zur nächsten Instruktion fort.\nUnterroutinen werden wie eine einzelne Instruktion behandelt."},
 /* fr */ {IDGS_MON_NEXT_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_NEXT_DESCRIPTION_HU, "A következõ utasításra lépés.  A szubrutinokat egy\n"
-                                        "utasításnak tekinti."},
-/* it */ {IDGS_MON_NEXT_DESCRIPTION_IT, "Passa alla prossima istruzione. Le subrutine sono trattate come\n"
-                                        "una singola istruzione."},
-/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, "Ga naar de volgende instructie. Subroutines worden behandled als een\n"
-                                        "enkele instructie."},
+/* hu */ {IDGS_MON_NEXT_DESCRIPTION_HU, "A következõ utasításra lépés.  A szubrutinokat egy\nutasításnak tekinti."},
+/* it */ {IDGS_MON_NEXT_DESCRIPTION_IT, "Passa alla prossima istruzione. Le subrutine sono trattate come\nuna singola istruzione."},
+/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, "Ga naar de volgende instructie. Subroutines worden behandled als een\nenkele instructie."},
 /* pl */ {IDGS_MON_NEXT_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_NEXT_DESCRIPTION_SV, "Gå till nästa instruktion. Underrutiner hanteras som en\n"
-                                        "enda instruktion."},
-/* tr */ {IDGS_MON_NEXT_DESCRIPTION_TR, "Sonraki komuta ilerle.  Altrutinler tek bir komutmuþ\n"
-                                        "gibi iþlendi."},
+/* sv */ {IDGS_MON_NEXT_DESCRIPTION_SV, "Gå till nästa instruktion. Underrutiner hanteras som en\nenda instruktion."},
+/* tr */ {IDGS_MON_NEXT_DESCRIPTION_TR, "Sonraki komuta ilerle.  Altrutinler tek bir komutmuþ\ngibi iþlendi."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1145,21 +1084,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_REGISTERS_DESCRIPTION,    N_("Assign respective registers.  With no parameters, display register\nvalues.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_REGISTERS_DESCRIPTION_DA, "Tildel værdi til registre. Uden parametre vises nuværende værdier\n"
-                                             "i registrene."},
+/* da */ {IDGS_MON_REGISTERS_DESCRIPTION_DA, "Tildel værdi til registre. Uden parametre vises nuværende værdier\ni registrene."},
 /* de */ {IDGS_MON_REGISTERS_DESCRIPTION_DE, "Zuweisung auf entsprechende Register. Ohne Parameter, zeige Register Werte."},
 /* fr */ {IDGS_MON_REGISTERS_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_REGISTERS_DESCRIPTION_HU, "Megadott regiszterek beállítása. Paraméterek nélkül, a regiszterek\n"
-                                             "tartalmának kiírása."},
-/* it */ {IDGS_MON_REGISTERS_DESCRIPTION_IT, "Assegna i rispettivi registri. Senza parametri, mostra i valori dei\n"
-                                             "registri."},
-/* nl */ {IDGS_MON_REGISTERS_DESCRIPTION_NL, "Vul opgegeven registers met de toebehorende waarde. Zonder parameter, toon\n"
-                                             "de huidige waarden in de registers."},
+/* hu */ {IDGS_MON_REGISTERS_DESCRIPTION_HU, "Megadott regiszterek beállítása. Paraméterek nélkül, a regiszterek\ntartalmának kiírása."},
+/* it */ {IDGS_MON_REGISTERS_DESCRIPTION_IT, "Assegna i rispettivi registri. Senza parametri, mostra i valori dei\nregistri."},
+/* nl */ {IDGS_MON_REGISTERS_DESCRIPTION_NL, "Vul opgegeven registers met de toebehorende waarde. Zonder parameter, toon\nde huidige waarden in de registers."},
 /* pl */ {IDGS_MON_REGISTERS_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_REGISTERS_DESCRIPTION_SV, "Tilldela respektive register. Utan parametrar visas innehållet\n"
-                                             "i registren."},
-/* tr */ {IDGS_MON_REGISTERS_DESCRIPTION_TR, "Sýrayla registerlara ata.  parametreler olmadan, register deðerlerini\n"
-                                             "görüntüle."},
+/* sv */ {IDGS_MON_REGISTERS_DESCRIPTION_SV, "Tilldela respektive register. Utan parametrar visas innehållet\ni registren."},
+/* tr */ {IDGS_MON_REGISTERS_DESCRIPTION_TR, "Sýrayla registerlara ata.  parametreler olmadan, register deðerlerini\ngörüntüle."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1179,37 +1112,29 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_RESET_DESCRIPTION,    N_("Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_RESET_DESCRIPTION_DA, "Reset maskine eller diskettedrev. Type: 0 = blød, 1 = hård,\n"
-                                         "8-11 = diskettedrev."},
+/* da */ {IDGS_MON_RESET_DESCRIPTION_DA, "Reset maskine eller diskettedrev. Type: 0 = blød, 1 = hård,\n8-11 = diskettedrev."},
 /* de */ {IDGS_MON_RESET_DESCRIPTION_DE, "Reset der Maschine oder des Laufwerks. Typ: 0 = soft, 1 = hart, 8-11 = Laufwerk."},
 /* fr */ {IDGS_MON_RESET_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_RESET_DESCRIPTION_HU, "A számítógép vagy meghajtó újraindítása. Típus: 0 = meleg, 1 = hideg, 8-11 = meghajtó."},
 /* it */ {IDGS_MON_RESET_DESCRIPTION_IT, "Resetta il computer o il drive. Tipo: 0 = soft, 1 = hard, 8-11 = drive."},
 /* nl */ {IDGS_MON_RESET_DESCRIPTION_NL, "Reset de machine of drive. Soort: 0 = zacht, 1 = hard, 8-11 = drive."},
 /* pl */ {IDGS_MON_RESET_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_RESET_DESCRIPTION_SV, "Återställ maskinen eller diskettstationen. Typ: 0 = mjuk, 1 = hård,\n"
-                                         "8-11 = diskettstation."},
+/* sv */ {IDGS_MON_RESET_DESCRIPTION_SV, "Återställ maskinen eller diskettstationen. Typ: 0 = mjuk, 1 = hård,\n8-11 = diskettstation."},
 /* tr */ {IDGS_MON_RESET_DESCRIPTION_TR, "Makine ya da sürücüyü resetle. Tip: 0 = soft, 1 = hard, 8-11 = drive."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_RETURN_DESCRIPTION,    N_("Continues execution and returns to the monitor just before the next\nRTS or RTI is executed.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_RETURN_DESCRIPTION_DA, "Fortsæt eksekveringen og vend tilbage til monitoren lige inden næste\n"
-                                          "RTS eller RTI udføres."},
+/* da */ {IDGS_MON_RETURN_DESCRIPTION_DA, "Fortsæt eksekveringen og vend tilbage til monitoren lige inden næste\nRTS eller RTI udføres."},
 /* de */ {IDGS_MON_RETURN_DESCRIPTION_DE, "Setzt Ausführung fort und retourniert bevor der nächsten RTS oder RTI instruction."},
 /* fr */ {IDGS_MON_RETURN_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_RETURN_DESCRIPTION_HU, "Folytatja a végrehajtást és visszatér a monitorba a következõ\n"
-                                          "RTS vagy RTI utasítás elõtt."},
-/* it */ {IDGS_MON_RETURN_DESCRIPTION_IT, "Continua l'esecuzione e ritorna al monitor subito prima della prossima\n"
-                                          "esecuzione di RTS o RTI."},
-/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, "Ga door met uitvoeren van instructies en kom terug naar de monitor net voor de\n"
-                                          "volgende RTS of RTI wordt uitgevoerd."},
+/* hu */ {IDGS_MON_RETURN_DESCRIPTION_HU, "Folytatja a végrehajtást és visszatér a monitorba a következõ\nRTS vagy RTI utasítás elõtt."},
+/* it */ {IDGS_MON_RETURN_DESCRIPTION_IT, "Continua l'esecuzione e ritorna al monitor subito prima della prossima\nesecuzione di RTS o RTI."},
+/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, "Ga door met uitvoeren van instructies en kom terug naar de monitor net voor de\nvolgende RTS of RTI wordt uitgevoerd."},
 /* pl */ {IDGS_MON_RETURN_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_RETURN_DESCRIPTION_SV, "Fortsätt exekveringen och återgå till monitorn precis innan nästa\n"
-                                          "RTS eller RTI exekveras."},
-/* tr */ {IDGS_MON_RETURN_DESCRIPTION_TR, "Çalýþmaya devam eder ve sonraki RTS ya da RTI çalýþtýrýlmadan hemen önce\n"
-                                          "monitöre geri döner."},
+/* sv */ {IDGS_MON_RETURN_DESCRIPTION_SV, "Fortsätt exekveringen och återgå till monitorn precis innan nästa\nRTS eller RTI exekveras."},
+/* tr */ {IDGS_MON_RETURN_DESCRIPTION_TR, "Çalýþmaya devam eder ve sonraki RTS ya da RTI çalýþtýrýlmadan hemen önce\nmonitöre geri döner."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1229,22 +1154,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_STEP_DESCRIPTION,    N_("Single-step through instructions.  COUNT allows stepping\nmore than a single instruction at a time.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_STEP_DESCRIPTION_DA, "Gå skridtvis gennem instruktioner. Hvis ANTAL angives kan\n"
-                                        "flere instruktioner udføres i hvert skridt."},
-/* de */ {IDGS_MON_STEP_DESCRIPTION_DE, "Einzelschritt Ausführung durch Instruktionen. COUNT erlaubt die Ausführung\n"
-                                        "mehrerer Instruktionen auf einmal."},
+/* da */ {IDGS_MON_STEP_DESCRIPTION_DA, "Gå skridtvis gennem instruktioner. Hvis ANTAL angives kan\nflere instruktioner udføres i hvert skridt."},
+/* de */ {IDGS_MON_STEP_DESCRIPTION_DE, "Einzelschritt Ausführung durch Instruktionen. COUNT erlaubt die Ausführung\nmehrerer Instruktionen auf einmal."},
 /* fr */ {IDGS_MON_STEP_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_STEP_DESCRIPTION_HU, "Lépkedés egyesével az utasításokon.  A DARAB-bal beállítható,\n"
-                                        "ha több utasítást kell ugrani egyszerre."},
-/* it */ {IDGS_MON_STEP_DESCRIPTION_IT, "Modalità single step attraverso le istruzioni. Il CONTATORE permette\n"
-                                        "di attraversare più di una singola istruzione per volta."},
-/* nl */ {IDGS_MON_STEP_DESCRIPTION_NL, "Enkel-stap door de instructies. AANTAL zorgt ervoor dat er meerdere\n"
-                                        "instructies worden uitgevoerd in een keer."},
+/* hu */ {IDGS_MON_STEP_DESCRIPTION_HU, "Lépkedés egyesével az utasításokon.  A DARAB-bal beállítható,\nha több utasítást kell ugrani egyszerre."},
+/* it */ {IDGS_MON_STEP_DESCRIPTION_IT, "Modalità single step attraverso le istruzioni. Il CONTATORE permette\ndi attraversare più di una singola istruzione per volta."},
+/* nl */ {IDGS_MON_STEP_DESCRIPTION_NL, "Enkel-stap door de instructies. AANTAL zorgt ervoor dat er meerdere\ninstructies worden uitgevoerd in een keer."},
 /* pl */ {IDGS_MON_STEP_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_STEP_DESCRIPTION_SV, "Stega genom instruktioner. ANTAL gör det möjligt att stega\n"
-                                        "genom mer än en enkel instruktion i varje steg."},
-/* tr */ {IDGS_MON_STEP_DESCRIPTION_TR, "Komutlara doðru tek-adým.  COUNT bir defada birden fazla\n"
-                                        "komutu adýmlamaya izin verir."},
+/* sv */ {IDGS_MON_STEP_DESCRIPTION_SV, "Stega genom instruktioner. ANTAL gör det möjligt att stega\ngenom mer än en enkel instruktion i varje steg."},
+/* tr */ {IDGS_MON_STEP_DESCRIPTION_TR, "Komutlara doðru tek-adým.  COUNT bir defada birden fazla\nkomutu adýmlamaya izin verir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1292,59 +1210,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_ADD_LABEL_DESCRIPTION,    N_("<memspace> is one of: C: 8: 9: 10: 11:\n<address>  is the address which should get the label.\n<label>    is the name of the label; it must start with a dot (\".\").\n\nMap a given address to a label.  This label can be used when entering\nassembly code and is shown during disassembly.  Additionally, it can\nbe used whenever an address must be specified.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n"
-                                             "<adresse>      Er adressen som skal have etiketten.\n"
-                                             "<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n"
-                                             "\n"
-                                             "Sæt en etiket for en adresse. Etiketten kan angives når der indtastes\n"
-                                             "assemblerkode, og vises ved disassemblering. Desuden kan den bruges\n"
-                                             "hvor en adresse skal angives."},
-/* de */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
-                                             "<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert werden soll.\n"
-                                             "<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") starten.\n"
-                                             "\n"
-                                             "Assoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \n"
-                                             "bei der Eingabe von Asssmblercode benutzt werden und wird auch beim\n"
-                                             "Disassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\n"
-                                             "dort genutzt werden, wo eine Adresseingabe nötig ist."},
+/* da */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<adresse>      Er adressen som skal have etiketten.\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nSæt en etiket for en adresse. Etiketten kan angives når der indtastes\nassemblerkode, og vises ved disassemblering. Desuden kan den bruges\nhvor en adresse skal angives."},
+/* de */ {IDGS_MON_ADD_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert werden soll.\n<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") starten.\n\nAssoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \nbei der Eingabe von Asssmblercode benutzt werden und wird auch beim\nDisassemblieren gezeigt. Darüber hinaus kann der Bezeichner überall\ndort genutzt werden, wo eine Adresseingabe nötig ist."},
 /* fr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_ADD_LABEL_DESCRIPTION_HU, "A <memória tér> ezek közül: C: 8: 9: 10: 11:\n"
-                                             "<cím>  amelyik címhez a címkét rendelje.\n"
-                                             "<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n"
-                                             "\n"
-                                             "Az adott cím rendelése a címkéhez.  Ez a címke használható assembly\n"
-                                             "program beírásakor, és visszafejtéskor megjelenik.  Mindig használható,\n"
-                                             "amikor valamilyen címet kell megadni."},
-/* it */ {IDGS_MON_ADD_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n"
-                                             "<indirizzo> è l'indirizzo a cui deve essere associata l'etichettal.\n"
-                                             "<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n"
-                                             "\n"
-                                             "Associa l'indirizzo specificato all'etichetta. Questa etichetta può\n"
-                                             "essere usata quando si inserisce codice assembly ed è mostrata\n"
-                                             "nella disassemblazione. In aggiunta, può essere usata ogni volta che\n"
-                                             "deve essere specificato un indirizzo."},
-/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
-                                             "<adres>          is het adres waaraan de label gekoppelt moet worden.\n"
-                                             "<label>          is de naam van de label; de naam moet beginnen met een punt\n"
-                                             "                 (\".\").\n\n"
-                                             "Koppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\n"
-                                             "het invoeren van assembleer code en wordt getoont bij een disassemblering.\n"
-                                             "Tevens kan de label gebruikt worden in plaats van het adres."},
+/* hu */ {IDGS_MON_ADD_LABEL_DESCRIPTION_HU, "A <memória tér> ezek közül: C: 8: 9: 10: 11:\n<cím>  amelyik címhez a címkét rendelje.\n<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n\nAz adott cím rendelése a címkéhez.  Ez a címke használható assembly\nprogram beírásakor, és visszafejtéskor megjelenik.  Mindig használható,\namikor valamilyen címet kell megadni."},
+/* it */ {IDGS_MON_ADD_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n<indirizzo> è l'indirizzo a cui deve essere associata l'etichettal.\n<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n\nAssocia l'indirizzo specificato all'etichetta. Questa etichetta può\nessere usata quando si inserisce codice assembly ed è mostrata\nnella disassemblazione. In aggiunta, può essere usata ogni volta che\ndeve essere specificato un indirizzo."},
+/* nl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n<adres>          is het adres waaraan de label gekoppelt moet worden.\n<label>          is de naam van de label; de naam moet beginnen met een punt\n                 (\".\").\n\nKoppel een opgegeven adres aan een label. Dit label kan worden gebruikt bij\nhet invoeren van assembleer code en wordt getoont bij een disassemblering.\nTevens kan de label gebruikt worden in plaats van het adres."},
 /* pl */ {IDGS_MON_ADD_LABEL_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_ADD_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n"
-                                             "<adress>       är adressen som ska få etiketten.\n"
-                                             "<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n"
-                                             "\n"
-                                             "Koppla en adress till en etikett. Etiketten kan anges när assemblerkod\n"
-                                             "matas in och visas vid disassemblering. I tillägg kan den användas\n"
-                                             "närhelst en adress måste anges."},
-/* tr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n"
-                                             "<adres>       etiketin duracaðý adresi belirler.\n"
-                                             "<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n"
-                                             "\n"
-                                             "Etiketi verilen adrese eþleþtir.  Bu etiket assembly kod girilirken kullanýlýr\n"
-                                             "ve disassembly sýrasýnda gösterilir.  Ek olarak, ne zaman bir adres\n"
-                                             "belirtilmesi gerekse kullanýlabilir."},
+/* sv */ {IDGS_MON_ADD_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n<adress>       är adressen som ska få etiketten.\n<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n\nKoppla en adress till en etikett. Etiketten kan anges när assemblerkod\nmatas in och visas vid disassemblering. I tillägg kan den användas\nnärhelst en adress måste anges."},
+/* tr */ {IDGS_MON_ADD_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n<adres>       etiketin duracaðý adresi belirler.\n<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n\nEtiketi verilen adrese eþleþtir.  Bu etiket assembly kod girilirken kullanýlýr\nve disassembly sýrasýnda gösterilir.  Ek olarak, ne zaman bir adres\nbelirtilmesi gerekse kullanýlabilir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1364,36 +1238,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_DELETE_LABEL_DESCRIPTION,    N_("<memspace> is one of: C: 8: 9: 10: 11:\n<label>    is the name of the label; it must start with a dot (\".\").\n\nDelete a previously defined label.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n"
-                                                "<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n"
-                                                "\n"
-                                                "Fjern en tidligere oprettet etiket."},
-/* de */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
-                                                "<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") starten.\n"
-                                                "\n"
-                                                "Löscht einen zuvor definierten Bezeichner."},
+/* da */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nFjern en tidligere oprettet etiket."},
+/* de */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DE, "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") starten.\n\nLöscht einen zuvor definierten Bezeichner."},
 /* fr */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_HU, "<memória tér> egy ezek közül: C: 8: 9: 10: 11:\n"
-                                                "<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n"
-                                                "\n"
-                                                "Elõzõleg megadott címke törlése."},
-/* it */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n"
-                                                "<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n"
-                                                "\n"
-                                                "Cancella una etichetta definita precedentemente."},
-/* nl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n"
-                                                "<label>          is de naam van de label; de naam moet beginnen met een\n"
-                                                "punt (\".\").\n\n"
-                                                "Verwijder een gekoppelde label."},
+/* hu */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_HU, "<memória tér> egy ezek közül: C: 8: 9: 10: 11:\n<címke>    a címke neve; ponttal kell kezdõdjön (\".\").\n\nElõzõleg megadott címke törlése."},
+/* it */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_IT, "<spazio di memoria> è uno tra: C: 8: 9: 10: 11:\n<etichetta> è il nome dell'etichetta; deve iniziare con un punto (\".\").\n\nCancella una etichetta definita precedentemente."},
+/* nl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_NL, "<geheugenruimte> is een van: C: 8: 9: 10: 11:\n<label>          is de naam van de label; de naam moet beginnen met een\npunt (\".\").\n\nVerwijder een gekoppelde label."},
 /* pl */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n"
-                                                "<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n"
-                                                "\n"
-                                                "Ta bort en tidigare angiven etikett."},
-/* tr */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n"
-                                                "<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n"
-                                                "\n"
-                                                "Önceden tanýmlanmýþ bir etiketi sil."},
+/* sv */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n\nTa bort en tidigare angiven etikett."},
+/* tr */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n\nÖnceden tanýmlanmýþ bir etiketi sil."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1413,64 +1266,29 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_LOAD_LABELS_DESCRIPTION,    N_("Load a file containing a mapping of labels to addresses.  If no memory\nspace is specified, the default readspace is used.\n\nThe format of the file is the one written out by the `save_labels' command;\nit consists of some `add_label' commands, written one after the other.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DA, "Indlæs en fil som indeholder mapning fra labels til adresser.\n"
-                                               "Hvis der ikke angives hukommelsesområde, anvendes det normale læseområde.\n"
-                                               "\n"
-                                               "Formatet på filen er det, som skrives af \"save_labels\"-kommandoen;\n"
-                                               "det består af \"add_label\"-kommandoer efter hinanden."},
-/* de */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DE, "Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \n"
-                                               "Speicherbereich angegeben wurde, wird der Standard Speicherplatz\n"
-                                               "verwendet.  Das Format der Datei wird durch das Kommande `save_lables'\n"
-                                               "definiert.  Es besteht aus eine Reihe von `add_label' Kommandos,\n"
-                                               "hintereinander angeordnet."},
+/* da */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DA, "Indlæs en fil som indeholder mapning fra labels til adresser.\nHvis der ikke angives hukommelsesområde, anvendes det normale læseområde.\n\nFormatet på filen er det, som skrives af \"save_labels\"-kommandoen;\ndet består af \"add_label\"-kommandoer efter hinanden."},
+/* de */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DE, "Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \nSpeicherbereich angegeben wurde, wird der Standard Speicherplatz\nverwendet.  Das Format der Datei wird durch das Kommande `save_lables'\ndefiniert.  Es besteht aus eine Reihe von `add_label' Kommandos,\nhintereinander angeordnet."},
 /* fr */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_HU, "Címkékrõl címekre leképezéseket tartalmazó fájl betöltése.  Ha nincs memória\n"
-                                               "tér megadva, az alap tér lesz használva.\n"
-                                               "\n"
-                                               "A fájl formátuma megegyezik a `save_labels' parancs által kiírtéval;\n"
-                                               "néhány egymás után írt `add_label' parancsból áll."},
-/* it */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_IT, "Carica un file che contiente l'associazione tra le etichette e gli indirizzi.\n"
-                                               "Se non è specificato alcuno spazio di memoria, viene usato lo spazio\n"
-                                               "di lettura predefinito.\n"
-                                               "\n"
-                                               "Il formato del file è quello dato in output dal comando `save_labels';\n"
-                                               "è composto da alcuni comandi `add_label', scritti uno di seguito all'altro."},
-/* nl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_NL, "Laad een bestand met de koppelingen tussen labels en adressen. Als er geen\n"
-                                               "geheugenruimte is opgegeven zal de standaard geheugenruimte worden gebruikt.\n"
-                                               "Het formaat van het bestand is die door het commando 'save_labels' wordt\n"
-                                               "geschreven; het bestaat uit een aantal 'add_label' commandos na elkaar."},
+/* hu */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_HU, "Címkékrõl címekre leképezéseket tartalmazó fájl betöltése.  Ha nincs memória\ntér megadva, az alap tér lesz használva.\n\nA fájl formátuma megegyezik a `save_labels' parancs által kiírtéval;\nnéhány egymás után írt `add_label' parancsból áll."},
+/* it */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_IT, "Carica un file che contiente l'associazione tra le etichette e gli indirizzi.\nSe non è specificato alcuno spazio di memoria, viene usato lo spazio\ndi lettura predefinito.\n\nIl formato del file è quello dato in output dal comando `save_labels';\nè composto da alcuni comandi `add_label', scritti uno di seguito all'altro."},
+/* nl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_NL, "Laad een bestand met de koppelingen tussen labels en adressen. Als er geen\ngeheugenruimte is opgegeven zal de standaard geheugenruimte worden gebruikt.\nHet formaat van het bestand is die door het commando 'save_labels' wordt\ngeschreven; het bestaat uit een aantal 'add_label' commandos na elkaar."},
 /* pl */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_SV, "Läs in en fil som innehåller koppling från etiketter till adresser.\n"
-                                               "Om inget minnesområde anges användas standard-läsadressen.\n"
-                                               "\n"
-                                               "Formatet på filen är samma som skrivs av \"save_labels\"-kommandot;\n"
-                                               "det består av några \"add_label\"-kommandon efter varandra."},
-/* tr */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_TR, "Etiketleri adreslerle eþleþtirilmiþ bir dosya yükleyin.  Eðer bellek\n"
-                                               "alaný belirtilmemiþse, varsayýlan okuma alaný kullanýlýr.\n"
-                                               "\n"
-                                               "Dosyanýn biçimi `save_labels' komutu ile yazýlmýþ olandýr;\n"
-                                               "bu peþ peþe yazýlmýþ `add_label' komutlarýndan ibarettir."},
+/* sv */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_SV, "Läs in en fil som innehåller koppling från etiketter till adresser.\nOm inget minnesområde anges användas standard-läsadressen.\n\nFormatet på filen är samma som skrivs av \"save_labels\"-kommandot;\ndet består av några \"add_label\"-kommandon efter varandra."},
+/* tr */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_TR, "Etiketleri adreslerle eþleþtirilmiþ bir dosya yükleyin.  Eðer bellek\nalaný belirtilmemiþse, varsayýlan okuma alaný kullanýlýr.\n\nDosyanýn biçimi `save_labels' komutu ile yazýlmýþ olandýr;\nbu peþ peþe yazýlmýþ `add_label' komutlarýndan ibarettir."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SAVE_LABELS_DESCRIPTION,    N_("Save labels to a file.  If no memory space is specified, all of the\nlabels are saved.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_DA, "Gem etiketter til fil. Hvis der ikke angives et hukommelsesområde\n"
-                                               "gemmes alle etiketter."},
-/* de */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_DE, "Speichere Bezeichner in eine Datei. Wenn kein Speicherbereich\n"
-                                               "angegeben wurde, werden alle Bezeichner gespeichert."},
+/* da */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_DA, "Gem etiketter til fil. Hvis der ikke angives et hukommelsesområde\ngemmes alle etiketter."},
+/* de */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_DE, "Speichere Bezeichner in eine Datei. Wenn kein Speicherbereich\nangegeben wurde, werden alle Bezeichner gespeichert."},
 /* fr */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_HU, "Címkék mentése fájlba.  Ha nincs memória tartomány megadva, az\n"
-                                               "összes címkét menti."},
-/* it */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_IT, "Salva le etichette su file. Se non è specificato alcuno spazio di memoria,\n"
-                                               "vengono salvate tutte le etichette."},
-/* nl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_NL, "Sla de labels op in een bestand. Als er geen geheugenruimte is opgegeven\n"
-                                               "worden alle labels opgeslagen."},
+/* hu */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_HU, "Címkék mentése fájlba.  Ha nincs memória tartomány megadva, az\nösszes címkét menti."},
+/* it */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_IT, "Salva le etichette su file. Se non è specificato alcuno spazio di memoria,\nvengono salvate tutte le etichette."},
+/* nl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_NL, "Sla de labels op in een bestand. Als er geen geheugenruimte is opgegeven\nworden alle labels opgeslagen."},
 /* pl */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_SV, "Spara etiketter till en fil. Om inget minnesområde anges sparas alla\n"
-                                               "etiketterna."},
-/* tr */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_TR, "Etiketleri bir dosyaya kaydet.  Eðer bellek alaný belirtilmemiþse, tüm\n"
-                                               "etiketler kaydedilir."},
+/* sv */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_SV, "Spara etiketter till en fil. Om inget minnesområde anges sparas alla\netiketterna."},
+/* tr */ {IDGS_MON_SAVE_LABELS_DESCRIPTION_TR, "Etiketleri bir dosyaya kaydet.  Eðer bellek alaný belirtilmemiþse, tüm\netiketler kaydedilir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1490,22 +1308,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SHOW_LABELS_DESCRIPTION,    N_("Display current label mappings.  If no memory space is specified, show\nall labels.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DA, "Vis aktuelle etiketter. Hvis der ikke angives et hukommelsesområde vises\n"
-                                               "alle etiketter."},
-/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, "Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\n"
-                                               "wurde, werden alle Bezeichner gezeigt."},
+/* da */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DA, "Vis aktuelle etiketter. Hvis der ikke angives et hukommelsesområde vises\nalle etiketter."},
+/* de */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DE, "Zeige aktuelle Bezeichner Zuordnungen. Wenn kein Speicherbereich angegeben\nwurde, werden alle Bezeichner gezeigt."},
 /* fr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\n"
-                                               "összeset mutatja."},
-/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcun\n"
-                                               "spazio di memoria, verranno mostrate tutte le etichette."},
-/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\n"
-                                               "worden all labels getoont."},
+/* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\nösszeset mutatja."},
+/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcun\nspazio di memoria, verranno mostrate tutte le etichette."},
+/* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\nworden all labels getoont."},
 /* pl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, "Visar aktuella etiketter. Om inget minnesområde anges visas alla\n"
-                                               "etiketter."},
-/* tr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_TR, "Geçerli etiket eþleþmelerini görüntüle.  Eðer bellek alaný belirtilmemiþse,\n"
-                                               "tüm etiketleri göster."},
+/* sv */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_SV, "Visar aktuella etiketter. Om inget minnesområde anges visas alla\netiketter."},
+/* tr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_TR, "Geçerli etiket eþleþmelerini görüntüle.  Eðer bellek alaný belirtilmemiþse,\ntüm etiketleri göster."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1567,28 +1378,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_ASSEMBLE_DESCRIPTION,    N_("Assemble instructions to the specified address.  If only one\ninstruction is specified, enter assembly mode (enter an empty line to\nexit assembly mode).")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DA, "Skriv assemblerinstruktioner til adresse. Hvis kun en instruktion\n"
-                                            "angives, skiftes til assembler-tilstand (indtast en tom linje for\n"
-                                            "at afslutte assembler-tilstanden)."},
-/* de */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DE, "Assmbler Instruktionen zur angebenen Adresse. Wenn nur eine Instruktion\n"
-                                            "angegeben wurde, wird der assemblier Modus aktiviert (Eingabe einer leeren\n"
-                                            "Zeile beendet den assemblier Modus)."},
+/* da */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DA, "Skriv assemblerinstruktioner til adresse. Hvis kun en instruktion\nangives, skiftes til assembler-tilstand (indtast en tom linje for\nat afslutte assembler-tilstanden)."},
+/* de */ {IDGS_MON_ASSEMBLE_DESCRIPTION_DE, "Assmbler Instruktionen zur angebenen Adresse. Wenn nur eine Instruktion\nangegeben wurde, wird der assemblier Modus aktiviert (Eingabe einer leeren\nZeile beendet den assemblier Modus)."},
 /* fr */ {IDGS_MON_ASSEMBLE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_ASSEMBLE_DESCRIPTION_HU, "Utasítások fordítása a megadott címre. Ha csak egy utasítás\n"
-                                            "van, fordító módba lép (üres sort kell beírni a kilépéshez)."},
-/* it */ {IDGS_MON_ASSEMBLE_DESCRIPTION_IT, "Assembla le istruzioni a partire dall'indirizzo specificato. Se solo una\n"
-                                            "istruzione è specificata, entra in modalità assembly (inserire una\n"
-                                            "linea vuota per uscire da questa modalità)."},
-/* nl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_NL, "Assembleer instructies naar het opgegeven adres. Als er alleen een instructie\n"
-                                            "is opgegeven dan wordt de assembleer modus ingeschakelt (geef een lege regel\n"
-                                            "in om de assembleer modus te verlaten)."},
+/* hu */ {IDGS_MON_ASSEMBLE_DESCRIPTION_HU, "Utasítások fordítása a megadott címre. Ha csak egy utasítás\nvan, fordító módba lép (üres sort kell beírni a kilépéshez)."},
+/* it */ {IDGS_MON_ASSEMBLE_DESCRIPTION_IT, "Assembla le istruzioni a partire dall'indirizzo specificato. Se solo una\nistruzione è specificata, entra in modalità assembly (inserire una\nlinea vuota per uscire da questa modalità)."},
+/* nl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_NL, "Assembleer instructies naar het opgegeven adres. Als er alleen een instructie\nis opgegeven dan wordt de assembleer modus ingeschakelt (geef een lege regel\nin om de assembleer modus te verlaten)."},
 /* pl */ {IDGS_MON_ASSEMBLE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_ASSEMBLE_DESCRIPTION_SV, "Assemblera instruktioner till angiven adress. Om endast en\n"
-                                            "instruktion angavs, aktivera assemblerläge (mata in en tom rad\n"
-                                            "för att avsluta assemblerläget)."},
-/* tr */ {IDGS_MON_ASSEMBLE_DESCRIPTION_TR, "Komutlarý belirlenmiþ adrese çevir.  Eðer yalnýzca bir\n"
-                                            "komut belirlenmiþse, assembly moduna gir (assembly modundan çýkmak için\n"
-                                            "boþ bir satýr girin)."},
+/* sv */ {IDGS_MON_ASSEMBLE_DESCRIPTION_SV, "Assemblera instruktioner till angiven adress. Om endast en\ninstruktion angavs, aktivera assemblerläge (mata in en tom rad\nför att avsluta assemblerläget)."},
+/* tr */ {IDGS_MON_ASSEMBLE_DESCRIPTION_TR, "Komutlarý belirlenmiþ adrese çevir.  Eðer yalnýzca bir\nkomut belirlenmiþse, assembly moduna gir (assembly modundan çýkmak için\nboþ bir satýr girin)."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1599,7 +1397,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_HU, "<címtartomány> <cím>"},
 /* it */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_IT, "<intervallo indirizzi> <indirizzo>"},
-/* nl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_NL, "<adres_reeks> <adres>"},
+/* nl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_NL, "<adres_bereik> <adres>"},
 /* pl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_SV, "<adressområde> <adress>"},
 /* tr */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_TR, "<adres_aralýðý> <adres>"},
@@ -1608,30 +1406,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_COMPARE_DESCRIPTION,    N_("Compare memory from the source specified by the address range to the\ndestination specified by the address.  The regions may overlap.  Any\nvalues that miscompare are displayed using the default displaytype.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_COMPARE_DESCRIPTION_DA, "Sammenlign hukommelse fra kilden, angivet ved adresseområdet med\n"
-                                           "målet, angivet ved adresse. Områderne kan overlappe. Alle værdier\n"
-                                           "som er forskellige vil blive vist med standard visning."},
-/* de */ {IDGS_MON_COMPARE_DESCRIPTION_DE, "Vergleiche angegebenen Adressbereich mit der Zieladresse.\n"
-                                           "Die Bereiche können überlappen. Ungleiche Werte werden mit dem\n"
-                                           "Standardanzeigetyp gezeigt."},
+/* da */ {IDGS_MON_COMPARE_DESCRIPTION_DA, "Sammenlign hukommelse fra kilden, angivet ved adresseområdet med\nmålet, angivet ved adresse. Områderne kan overlappe. Alle værdier\nsom er forskellige vil blive vist med standard visning."},
+/* de */ {IDGS_MON_COMPARE_DESCRIPTION_DE, "Vergleiche angegebenen Adressbereich mit der Zieladresse.\nDie Bereiche können überlappen. Ungleiche Werte werden mit dem\nStandardanzeigetyp gezeigt."},
 /* fr */ {IDGS_MON_COMPARE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_COMPARE_DESCRIPTION_HU, "A forrás memóriatartomány összehasonlítása a céllal megadott\n"
-                                           "memóriatartománnyal. A tartományok átfedése megengedett.  Minden\n"
-                                           "meg nem egyezõ értéket kiír az alap adat típussal."},
-/* it */ {IDGS_MON_COMPARE_DESCRIPTION_IT, "Confronta la memoria della sorgente specificata dall'intervallo di\n"
-                                           "indirizzi con la destinazione specificata dall'indirizzo. Le regioni possono\n"
-                                           "sovrapporsi. Qualsiasi valore che non corrisponde è visualizzato\n"
-                                           "utilizzando il tipo di dato predefinito."},
-/* nl */ {IDGS_MON_COMPARE_DESCRIPTION_NL, "Vergelijk geheugen van de bron opgegeven door de adres reeks met het doel\n"
-                                           "opgegeven door het adres. De reeksen mogen overlappen. De data die niet\n"
-                                           "gelijk is zal worden getoont volgens de huidige toon soort."},
+/* hu */ {IDGS_MON_COMPARE_DESCRIPTION_HU, "A forrás memóriatartomány összehasonlítása a céllal megadott\nmemóriatartománnyal. A tartományok átfedése megengedett.  Minden\nmeg nem egyezõ értéket kiír az alap adat típussal."},
+/* it */ {IDGS_MON_COMPARE_DESCRIPTION_IT, "Confronta la memoria della sorgente specificata dall'intervallo di\nindirizzi con la destinazione specificata dall'indirizzo. Le regioni possono\nsovrapporsi. Qualsiasi valore che non corrisponde è visualizzato\nutilizzando il tipo di dato predefinito."},
+/* nl */ {IDGS_MON_COMPARE_DESCRIPTION_NL, "Vergelijk geheugen van de bron opgegeven door de adres reeks met het doel\nopgegeven door het adres. De reeksen mogen overlappen. De data die niet\ngelijk is zal worden getoont volgens de huidige toon soort."},
 /* pl */ {IDGS_MON_COMPARE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_COMPARE_DESCRIPTION_SV, "Jämför minne från källan som anges av adressområdet mot destinationen\n"
-                                           "som anges av adressen. Områdena kan vara överlappande. Alla värden\n"
-                                           "som skiljer sig vid jämförelsen visas med standardvisningssättet."},
-/* tr */ {IDGS_MON_COMPARE_DESCRIPTION_TR, "Belleði adresle belirtilen kaynaktan adresle belirtilen hedefin bulunduðu\n"
-                                           "aralýkta karþýlaþtýr.  Bölgeler belki üst üste binebilir.  Uyuþmayan\n"
-                                           "herhangi bir deðer varsayýlan görüntüleme tipine baðlý olarak görüntülenir."},
+/* sv */ {IDGS_MON_COMPARE_DESCRIPTION_SV, "Jämför minne från källan som anges av adressområdet mot destinationen\nsom anges av adressen. Områdena kan vara överlappande. Alla värden\nsom skiljer sig vid jämförelsen visas med standardvisningssättet."},
+/* tr */ {IDGS_MON_COMPARE_DESCRIPTION_TR, "Belleði adresle belirtilen kaynaktan adresle belirtilen hedefin bulunduðu\naralýkta karþýlaþtýr.  Bölgeler belki üst üste binebilir.  Uyuþmayan\nherhangi bir deðer varsayýlan görüntüleme tipine baðlý olarak görüntülenir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1679,42 +1462,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_DISASS_DESCRIPTION,    N_("Disassemble instructions.  If two addresses are specified, they are\nused as a start and end address.  If only one is specified, it is\ntreated as the start address and a default number of instructions are\ndisassembled.  If no addresses are specified, a default number of\ninstructions are disassembled from the dot address.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_DISASS_DESCRIPTION_DA, "Disassemblér instruktioner. Hvis der angives to adresser anvendes disse\n"
-                                          "som start- og slutadresse. Angives kun en adresse bruges denne som startadresse\n"
-                                          "og et standard antal instruktioner disassembleres. Hvis ingen adresse\n"
-                                          "angives disassembleres et standard antal instruktioner fra den aktuelle\nadresse."},
-/* de */ {IDGS_MON_DISASS_DESCRIPTION_DE, "Disassembliere Instruktionen. Wenn zwei Adressen angegeben werden,\n"
-                                          "werden diese als Start- und Zieladresse interpretiert. Wenn nur eine\n"
-                                          "Adress angegeben wird, wird diese asl Startadresse interpretiert und\n"
-                                          "die Standardanzahl an Instruktionen werden disassembliert. Wenn keine\n"
-                                          "Adresse angegeben wird, wird von der aktuellen Adresse disassembliert."},
+/* da */ {IDGS_MON_DISASS_DESCRIPTION_DA, "Disassemblér instruktioner. Hvis der angives to adresser anvendes disse\nsom start- og slutadresse. Angives kun en adresse bruges denne som startadresse\nog et standard antal instruktioner disassembleres. Hvis ingen adresse\nangives disassembleres et standard antal instruktioner fra den aktuelle\nadresse."},
+/* de */ {IDGS_MON_DISASS_DESCRIPTION_DE, "Disassembliere Instruktionen. Wenn zwei Adressen angegeben werden,\nwerden diese als Start- und Zieladresse interpretiert. Wenn nur eine\nAdress angegeben wird, wird diese asl Startadresse interpretiert und\ndie Standardanzahl an Instruktionen werden disassembliert. Wenn keine\nAdresse angegeben wird, wird von der aktuellen Adresse disassembliert."},
 /* fr */ {IDGS_MON_DISASS_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_DISASS_DESCRIPTION_HU, "Utasítások visszafejtése. Ha két cím van megadva, elsõ és utolsó\n"
-                                          "címként értelmezi õket. Ha csak egy, akkor elsõ címként, és az alap\n"
-                                          "számú utasítás kerül visszafejtésre. Ha nincs cím megadva, az aktuális\n"
-                                          "címtõl kezdi a visszafejtést, és a szokásos számú utasítást ír ki."},
-/* it */ {IDGS_MON_DISASS_DESCRIPTION_IT, "Disassembla le istruzioni. Se sono specificati due indirizzi, questi\n"
-                                          "sono utilizzati come indirizzo di inizio e fine. Se ne viene specificato\n"
-                                          "solo uno, è usato come indirizzo di partenza e viene disassemblato\n"
-                                          "il numero di istruzioni predefinito. Se non viene specificato nessun\n"
-                                          "indirizzo, viene disassemblato il numero di istruzioni predefinito\n"
-                                          "dall'indirizzo dot."},
-/* nl */ {IDGS_MON_DISASS_DESCRIPTION_NL, "Disassembleer instructies. Als er twee adressen zijn opgegeven dan worden\n"
-                                          "deze gebruikt als een start en eind adres. Als er maar een adres is\n"
-                                          "opgegeven dan wordt deze gebruikt als het start adres en een standaard\n"
-                                          "aantal instructies zal worden gedisassembleerd. Als er geen adressen zijn\n"
-                                          "opgegeven dan wordt een standaard aantal instructies gedisassembleerd vanaf\n"
-                                          "het huidige adres."},
+/* hu */ {IDGS_MON_DISASS_DESCRIPTION_HU, "Utasítások visszafejtése. Ha két cím van megadva, elsõ és utolsó\ncímként értelmezi õket. Ha csak egy, akkor elsõ címként, és az alap\nszámú utasítás kerül visszafejtésre. Ha nincs cím megadva, az aktuális\ncímtõl kezdi a visszafejtést, és a szokásos számú utasítást ír ki."},
+/* it */ {IDGS_MON_DISASS_DESCRIPTION_IT, "Disassembla le istruzioni. Se sono specificati due indirizzi, questi\nsono utilizzati come indirizzo di inizio e fine. Se ne viene specificato\nsolo uno, è usato come indirizzo di partenza e viene disassemblato\nil numero di istruzioni predefinito. Se non viene specificato nessun\nindirizzo, viene disassemblato il numero di istruzioni predefinito\ndall'indirizzo dot."},
+/* nl */ {IDGS_MON_DISASS_DESCRIPTION_NL, "Disassembleer instructies. Als er twee adressen zijn opgegeven dan worden\ndeze gebruikt als een start en eind adres. Als er maar een adres is\nopgegeven dan wordt deze gebruikt als het start adres en een standaard\naantal instructies zal worden gedisassembleerd. Als er geen adressen zijn\nopgegeven dan wordt een standaard aantal instructies gedisassembleerd vanaf\nhet huidige adres."},
 /* pl */ {IDGS_MON_DISASS_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_DISASS_DESCRIPTION_SV, "Disassemblera instruktioner. Om två adresser anges används de som\n"
-                                          "start- och slutadress. Om endast en anges används den som startadress\n"
-                                          "och ett standardantal instruktioner disassembleras. Om ingen adress\n"
-                                          "anges disassembleras ett standardantal instruktioner från punktadressen."},
-/* tr */ {IDGS_MON_DISASS_DESCRIPTION_TR, "Komutlarý disassemble et.  Eðer iki adres girildiyse, bunlar baþlangýç\n"
-                                          "ve bitiþ adresleri olarak kullanýlýr.  Eðer tek adres girildiyse, bu\n"
-                                          "adres baþlangýç adresi olarak kabul edilir ve varsayýlan sayýda komutlar\n"
-                                          "disassemble edilir.  Eðer hiç adres girilmediyse, varsayýlan sayýda\n"
-                                          "komutlar nokta baþlangýç adresinden itibaren disassemble edilir."},
+/* sv */ {IDGS_MON_DISASS_DESCRIPTION_SV, "Disassemblera instruktioner. Om två adresser anges används de som\nstart- och slutadress. Om endast en anges används den som startadress\noch ett standardantal instruktioner disassembleras. Om ingen adress\nanges disassembleras ett standardantal instruktioner från punktadressen."},
+/* tr */ {IDGS_MON_DISASS_DESCRIPTION_TR, "Komutlarý disassemble et.  Eðer iki adres girildiyse, bunlar baþlangýç\nve bitiþ adresleri olarak kullanýlýr.  Eðer tek adres girildiyse, bu\nadres baþlangýç adresi olarak kabul edilir ve varsayýlan sayýda komutlar\ndisassemble edilir.  Eðer hiç adres girilmediyse, varsayýlan sayýda\nkomutlar nokta baþlangýç adresinden itibaren disassemble edilir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1734,56 +1490,29 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_FILL_DESCRIPTION,    N_("Fill memory in the specified address range with the data in\n<data_list>.  If the size of the address range is greater than the size\nof the data_list, the data_list is repeated.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_FILL_DESCRIPTION_DA, "Fyld hukommelsen i det angivne adresseområde med data fra <dataliste>.\n"
-                                        "Hvis størrelsen på adresseområdet er større end størrelsen af dataliste\n"
-                                        "gentages indholdet i dataliste."},
-/* de */ {IDGS_MON_FILL_DESCRIPTION_DE, "Fülle den angegebenen Adressbereich mit den Daten aus <Datenliste>.\n"
-                                        "Wenn die Größe des Adressbereichs größer als <Datenliste> ist, werden\n"
-                                        "die Daten wiederholt."},
+/* da */ {IDGS_MON_FILL_DESCRIPTION_DA, "Fyld hukommelsen i det angivne adresseområde med data fra <dataliste>.\nHvis størrelsen på adresseområdet er større end størrelsen af dataliste\ngentages indholdet i dataliste."},
+/* de */ {IDGS_MON_FILL_DESCRIPTION_DE, "Fülle den angegebenen Adressbereich mit den Daten aus <Datenliste>.\nWenn die Größe des Adressbereichs größer als <Datenliste> ist, werden\ndie Daten wiederholt."},
 /* fr */ {IDGS_MON_FILL_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_FILL_DESCRIPTION_HU, "A memória kitöltése az <adat_lista> paraméterben megadott adatokkal.\n"
-                                        "Ha a címtartomány nagyobb, mint a lista, ismételni fogja azt."},
-/* it */ {IDGS_MON_FILL_DESCRIPTION_IT, "Riempe la memoria nell'intervallo di indirizzi specificato con i dati\n"
-                                        "presenti in <lista di dati>. Se la dimensione dell'intervallo è maggiore\n"
-                                        "della dimensione della lista di dati, la lista di dati è ripetuta."},
-/* nl */ {IDGS_MON_FILL_DESCRIPTION_NL, "Vul het geheugen van de opgegeven adres reeks op met de data in <data_lijst>.\n"
-                                        "Als de grootte van de adres reeks groter is dan de grootte van de data_lijst\n"
-                                        "dan zal de data_lijst worder herhaald."},
+/* hu */ {IDGS_MON_FILL_DESCRIPTION_HU, "A memória kitöltése az <adat_lista> paraméterben megadott adatokkal.\nHa a címtartomány nagyobb, mint a lista, ismételni fogja azt."},
+/* it */ {IDGS_MON_FILL_DESCRIPTION_IT, "Riempe la memoria nell'intervallo di indirizzi specificato con i dati\npresenti in <lista di dati>. Se la dimensione dell'intervallo è maggiore\ndella dimensione della lista di dati, la lista di dati è ripetuta."},
+/* nl */ {IDGS_MON_FILL_DESCRIPTION_NL, "Vul het geheugen van de opgegeven adres reeks op met de data in <data_lijst>.\nAls de grootte van de adres reeks groter is dan de grootte van de data_lijst\ndan zal de data_lijst worder herhaald."},
 /* pl */ {IDGS_MON_FILL_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_FILL_DESCRIPTION_SV, "Fyll minnet i det angivna området med data i <datalista>.\n"
-                                        "Om storleken på adressområdet är större än storleken på datalistan\n"
-                                        "repeteras innehållet i datalistan."},
-/* tr */ {IDGS_MON_FILL_DESCRIPTION_TR, "<veri_listesi>'nde bulunan verilerle belirtilen bellek aralýðýný doldur.\n"
-                                        "Eðer verilen adres aralýðý veri_listesi'nden büyükse, veri_listesi'nde\n"
-                                        "yer alan veriler tekrar ettirilir."},
+/* sv */ {IDGS_MON_FILL_DESCRIPTION_SV, "Fyll minnet i det angivna området med data i <datalista>.\nOm storleken på adressområdet är större än storleken på datalistan\nrepeteras innehållet i datalistan."},
+/* tr */ {IDGS_MON_FILL_DESCRIPTION_TR, "<veri_listesi>'nde bulunan verilerle belirtilen bellek aralýðýný doldur.\nEðer verilen adres aralýðý veri_listesi'nden büyükse, veri_listesi'nde\nyer alan veriler tekrar ettirilir."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_HUNT_DESCRIPTION,    N_("Hunt memory in the specified address range for the data in\n<data_list>.  If the data is found, the starting address of the match\nis displayed.  The entire range is searched for all possible matches.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_HUNT_DESCRIPTION_DA, "Søg i hukommelsen i det angivne dataområde efter <dataliste>.\n"
-                                        "Om data findes vises startadressen for matchet. Hele\n"
-                                        "området gennemsøges for at finde alle mulige match."},
-/* de */ {IDGS_MON_HUNT_DESCRIPTION_DE, "Suche in angebenen Adressbereich nach <Datenliste>. Wenn die Daten gefunden\n"
-                                        "wurden, wird die Startadresse gezeigt. Der komplette Bereich wird alle\n"
-                                        "Vorkommnisse von <Datenliste> untersucht."},
+/* da */ {IDGS_MON_HUNT_DESCRIPTION_DA, "Søg i hukommelsen i det angivne dataområde efter <dataliste>.\nOm data findes vises startadressen for matchet. Hele\nområdet gennemsøges for at finde alle mulige match."},
+/* de */ {IDGS_MON_HUNT_DESCRIPTION_DE, "Suche in angebenen Adressbereich nach <Datenliste>. Wenn die Daten gefunden\nwurden, wird die Startadresse gezeigt. Der komplette Bereich wird alle\nVorkommnisse von <Datenliste> untersucht."},
 /* fr */ {IDGS_MON_HUNT_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_HUNT_DESCRIPTION_HU, "Az <adat_lista> adat keresése a memóriában. Ha megtalálja a sorozatot,\n"
-                                        "a kezdõcímét kiírja. Az egész tartományt végignézi az összes lehetséges\n"
-                                        "találat felfedezéséhez."},
-/* it */ {IDGS_MON_HUNT_DESCRIPTION_IT, "Cerca nell'intervallo di indirizzi specificato i dati nella <lista di dati>.\n"
-                                        "Se il dato è trovato, viene visualizzato l'indirizzo iniziale della\n"
-                                        "corrispondenza. Tutto l'intervallo viene ricercato per tutte le possibili\n"
-                                        "corrispondenze."},
-/* nl */ {IDGS_MON_HUNT_DESCRIPTION_NL, "Zoek het adres bereik voor de data in <data_lijst>. Als de data is gevonden\n"
-                                        "dan wordt het start adres getoont. Er zal door de hele reeks worden gezocht."},
+/* hu */ {IDGS_MON_HUNT_DESCRIPTION_HU, "Az <adat_lista> adat keresése a memóriában. Ha megtalálja a sorozatot,\na kezdõcímét kiírja. Az egész tartományt végignézi az összes lehetséges\ntalálat felfedezéséhez."},
+/* it */ {IDGS_MON_HUNT_DESCRIPTION_IT, "Cerca nell'intervallo di indirizzi specificato i dati nella <lista di dati>.\nSe il dato è trovato, viene visualizzato l'indirizzo iniziale della\ncorrispondenza. Tutto l'intervallo viene ricercato per tutte le possibili\ncorrispondenze."},
+/* nl */ {IDGS_MON_HUNT_DESCRIPTION_NL, "Zoek het adres bereik voor de data in <data_lijst>. Als de data is gevonden\ndan wordt het start adres getoont. Er zal door de hele reeks worden gezocht."},
 /* pl */ {IDGS_MON_HUNT_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_HUNT_DESCRIPTION_SV, "Sök i minnet i det angivna området med data efter <datalista>.\n"
-                                        "Om data påträffas visas startadressen för träffen. Hela\n"
-                                        "området genomsöks för att hitta alla möjliga träffar."},
-/* tr */ {IDGS_MON_HUNT_DESCRIPTION_TR, "<veri_listesi>'nde bulunan veriler için belirtilen bellek aralýðýnda\n"
-                                        "arama yap.  Eðer veri bulunursa, eþleþen adres aralýðýnýn baþlangýç\n"
-                                        "adresi görüntülenir.  Tüm alan mümkün olan eþleþmeler için aranacaktýr."},
+/* sv */ {IDGS_MON_HUNT_DESCRIPTION_SV, "Sök i minnet i det angivna området med data efter <datalista>.\nOm data påträffas visas startadressen för träffen. Hela\nområdet genomsöks för att hitta alla möjliga träffar."},
+/* tr */ {IDGS_MON_HUNT_DESCRIPTION_TR, "<veri_listesi>'nde bulunan veriler için belirtilen bellek aralýðýnda\narama yap.  Eðer veri bulunursa, eþleþen adres aralýðýnýn baþlangýç\nadresi görüntülenir.  Tüm alan mümkün olan eþleþmeler için aranacaktýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1845,61 +1574,29 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_MEM_DESCRIPTION,    N_("Display the contents of memory.  If no datatype is given, the default\nis used.  If only one address is specified, the length of data\ndisplayed is based on the datatype.  If no addresses are given, the\n'dot' address is used.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_MEM_DESCRIPTION_DA, "Vis hukommelsens indhold. Hvis datatype ikke angives, bruges standard.\n"
-                                       "Hvis kun en adresse angives, justeres længden på visningen baseret\n"
-                                       "på datatypen. Hvis der ikke angives nogen adresse anvendes \"punktum\"-adressen."},
-/* de */ {IDGS_MON_MEM_DESCRIPTION_DE, "Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\n"
-                                       "Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
-                                       "die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
-                                       "wird die aktuelle Adresse verwendet."},
+/* da */ {IDGS_MON_MEM_DESCRIPTION_DA, "Vis hukommelsens indhold. Hvis datatype ikke angives, bruges standard.\nHvis kun en adresse angives, justeres længden på visningen baseret\npå datatypen. Hvis der ikke angives nogen adresse anvendes \"punktum\"-adressen."},
+/* de */ {IDGS_MON_MEM_DESCRIPTION_DE, "Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\nStandarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\ndie Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \nwird die aktuelle Adresse verwendet."},
 /* fr */ {IDGS_MON_MEM_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_MEM_DESCRIPTION_HU, "A memória tartalmának megjelenítése. Ha nincs adat típus megadva,\n"
-                                       "az alapbeállításthasználja. Ha egy cím van megadva, a megjelenített adat\n"
-                                       "mérete az adat típustól függ. Ha nincs cím megadva, a 'pont' címet használja."},
-/* it */ {IDGS_MON_MEM_DESCRIPTION_IT, "Mostra il contenuto della memoria. Se non è specificato alcun tipo di\n"
-                                       "dato, verrà utilizzato quello predefinito. Se è specificato solo un indirizzo,\n"
-                                       "la lunghezza del dato visualizato è basato sul tipo. Se non è specificato\n"
-                                       "nessun indirizzo, varrà utilizzato l'indirizzo 'dot'."},
-/* nl */ {IDGS_MON_MEM_DESCRIPTION_NL, "Toon de geheugen inhoud. Als er geen datasoort is opgegeven dan zal de standaard\n"
-                                       "worden gebruikt. Als er maar een adres is opgegeven dan zal de lengte van de\n"
-                                       "getoonde data gebaseerd worden op de datasoort. Als er geen adres is opgegeven\n"
-                                       "dan zal het huidige adres worden gebruikt."},
+/* hu */ {IDGS_MON_MEM_DESCRIPTION_HU, "A memória tartalmának megjelenítése. Ha nincs adat típus megadva,\naz alapbeállításthasználja. Ha egy cím van megadva, a megjelenített adat\nmérete az adat típustól függ. Ha nincs cím megadva, a 'pont' címet használja."},
+/* it */ {IDGS_MON_MEM_DESCRIPTION_IT, "Mostra il contenuto della memoria. Se non è specificato alcun tipo di\ndato, verrà utilizzato quello predefinito. Se è specificato solo un indirizzo,\nla lunghezza del dato visualizato è basato sul tipo. Se non è specificato\nnessun indirizzo, varrà utilizzato l'indirizzo 'dot'."},
+/* nl */ {IDGS_MON_MEM_DESCRIPTION_NL, "Toon de geheugen inhoud. Als er geen datasoort is opgegeven dan zal de standaard\nworden gebruikt. Als er maar een adres is opgegeven dan zal de lengte van de\ngetoonde data gebaseerd worden op de datasoort. Als er geen adres is opgegeven\ndan zal het huidige adres worden gebruikt."},
 /* pl */ {IDGS_MON_MEM_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_MEM_DESCRIPTION_SV, "Visa minnets innehåll. Om ingen datatyp anges, används standard.\n"
-                                       "Om endast en adress anges, justeras längden på visad data baserat\n"
-                                       "på datatypen. Om ingen adress anges används \"punkt\"-adressen."},
-/* tr */ {IDGS_MON_MEM_DESCRIPTION_TR, "Bellek içeriðini göster.  Eðer veri tipi girilmemiþse, varsayýlan\n"
-                                       "kullanýlýr.  Yalnýzca bir adres belirtilmiþse, gösterilen verinin\n"
-                                       "uzunluðu veri tipine baðlýdýr.  Eðer hiç adres girilmemiþse, 'nokta'\n"
-                                       "adresi kullanýlýr."},
+/* sv */ {IDGS_MON_MEM_DESCRIPTION_SV, "Visa minnets innehåll. Om ingen datatyp anges, används standard.\nOm endast en adress anges, justeras längden på visad data baserat\npå datatypen. Om ingen adress anges används \"punkt\"-adressen."},
+/* tr */ {IDGS_MON_MEM_DESCRIPTION_TR, "Bellek içeriðini göster.  Eðer veri tipi girilmemiþse, varsayýlan\nkullanýlýr.  Yalnýzca bir adres belirtilmiþse, gösterilen verinin\nuzunluðu veri tipine baðlýdýr.  Eðer hiç adres girilmemiþse, 'nokta'\nadresi kullanýlýr."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_MEMCHAR_DESCRIPTION,    N_("Display the contents of memory as character data.  If only one address\nis specified, only one character is displayed.  If no addresses are\ngiven, the ``dot'' address is used.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_MEMCHAR_DESCRIPTION_DA, "Vis hukommelsens indhold som tegndata. Hvis kun en adresse\n"
-                                           "angives, vises kun et tegn. Hvis ingen adresse angives benyttes\n"
-                                           "\"punktum\"-adressen."},
-/* de */ {IDGS_MON_MEMCHAR_DESCRIPTION_DE, "Zeige den Inhalt von Speicher als Character Daten. Wenn nur eine Adresse\n"
-                                           "angegeben wurde, wird nur ein Zeichen gezeigt. Wenn keine Adresse angegeben\n"
-                                           "wurde, wird die aktuelle Adresse verwendet."},
+/* da */ {IDGS_MON_MEMCHAR_DESCRIPTION_DA, "Vis hukommelsens indhold som tegndata. Hvis kun en adresse\nangives, vises kun et tegn. Hvis ingen adresse angives benyttes\n\"punktum\"-adressen."},
+/* de */ {IDGS_MON_MEMCHAR_DESCRIPTION_DE, "Zeige den Inhalt von Speicher als Character Daten. Wenn nur eine Adresse\nangegeben wurde, wird nur ein Zeichen gezeigt. Wenn keine Adresse angegeben\nwurde, wird die aktuelle Adresse verwendet."},
 /* fr */ {IDGS_MON_MEMCHAR_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_MEMCHAR_DESCRIPTION_HU, "A memória tartalmának megjelenítése karakter grafikaként.  Ha csak egy cím\n"
-                                           "adott, egyetlen karakter rajzolódik ki.  Ha nincs cím megadva,\n"
-                                           "a ``pont'' címet használja."},
-/* it */ {IDGS_MON_MEMCHAR_DESCRIPTION_IT, "Mosta il contenuto della memoria come dati caratteri. Se è specificato\n"
-                                           "solo un indirizzo, verrà visualizzato solo un carattere. Se non è\n"
-                                           "specificato alcun indirizzo, varrà utilizzato l'indirizzo ``dot'' ."},
-/* nl */ {IDGS_MON_MEMCHAR_DESCRIPTION_NL, "Toon de geheugen inhoud als karakter data. Als er maar een adres is\n"
-                                           "opgegeven dan zal er maar een karakter worden weergegeven. Als er geen\n"
-                                           "adres is opgegeven dan zal het huidige adres gebruikt worden."},
+/* hu */ {IDGS_MON_MEMCHAR_DESCRIPTION_HU, "A memória tartalmának megjelenítése karakter grafikaként.  Ha csak egy cím\nadott, egyetlen karakter rajzolódik ki.  Ha nincs cím megadva,\na ``pont'' címet használja."},
+/* it */ {IDGS_MON_MEMCHAR_DESCRIPTION_IT, "Mosta il contenuto della memoria come dati caratteri. Se è specificato\nsolo un indirizzo, verrà visualizzato solo un carattere. Se non è\nspecificato alcun indirizzo, varrà utilizzato l'indirizzo ``dot'' ."},
+/* nl */ {IDGS_MON_MEMCHAR_DESCRIPTION_NL, "Toon de geheugen inhoud als karakter data. Als er maar een adres is\nopgegeven dan zal er maar een karakter worden weergegeven. Als er geen\nadres is opgegeven dan zal het huidige adres gebruikt worden."},
 /* pl */ {IDGS_MON_MEMCHAR_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_MEMCHAR_DESCRIPTION_SV, "Visa minnets innehåll som teckendata. Om endast en adress\n"
-                                           "anges, visas endast ett tecken. Om ingen adress anges används\n"
-                                           "\"punkt\"-adressen."},
-/* tr */ {IDGS_MON_MEMCHAR_DESCRIPTION_TR, "Bellek içeriðini karakter verisi olarak göster.  Yalnýzca bir adres\n"
-                                           "belirtilmiþse, yalnýzca tek karakter görüntülenir.  Eðer hiç adres\n"
-                                           "girilmemiþse, 'nokta' adresi kullanýlýr."},
+/* sv */ {IDGS_MON_MEMCHAR_DESCRIPTION_SV, "Visa minnets innehåll som teckendata. Om endast en adress\nanges, visas endast ett tecken. Om ingen adress anges används\n\"punkt\"-adressen."},
+/* tr */ {IDGS_MON_MEMCHAR_DESCRIPTION_TR, "Bellek içeriðini karakter verisi olarak göster.  Yalnýzca bir adres\nbelirtilmiþse, yalnýzca tek karakter görüntülenir.  Eðer hiç adres\ngirilmemiþse, 'nokta' adresi kullanýlýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1919,22 +1616,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION,    N_("Save the memmap as a picture. Format is:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_DA, "Gem memmap som billede. Format:\n"
-                                              "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* de */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_DE, "Speicher die memmap als Bilddaten. Formate:\n"
-                                              "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* da */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_DA, "Gem memmap som billede. Format:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* de */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_DE, "Speicher die memmap als Bilddaten. Formate:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* fr */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_HU, "Memória térkép mentése képként. A formátum:\n"
-                                              "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* it */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_IT, "Salva la mappa di memoria come immagine. I Formati sono:\n"
-                                              "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* nl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_NL, "Sla de memmap op als een afbeelding. Formaat is:\n"
-                                                 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* hu */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_HU, "Memória térkép mentése képként. A formátum:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* it */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_IT, "Salva la mappa di memoria come immagine. I Formati sono:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* nl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_NL, "Sla de memmap op als een afbeelding. Formaat is:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* pl */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_SV, "Sparar minneskartan som en bild. Format:\n"
-                                              "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* tr */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_TR, "Bellek haritasýný resim olarak kaydet. Biçim:\n"
-                                              "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* sv */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_SV, "Sparar minneskartan som en bild. Format:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* tr */ {IDGS_MON_MEMMAPSAVE_DESCRIPTION_TR, "Bellek haritasýný resim olarak kaydet. Biçim:\n0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 #endif
 
 /* monitor/mon_command.c */
@@ -1954,37 +1644,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION,    N_("Show the memmap. The mask can be specified to show only those\nlocations with accesses of certain type(s). The mask is a number\nwith the bits \"ioRWXrwx\", where RWX are for ROM and rwx for RAM.\nOptionally, an address range can be specified.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_DA, "Vis memmap. Masken kan angives for kun at vise de celler, som\n"
-                                              "er tilgået med valgte typer tilgang. Masken er et tal med\n"
-                                              "bitsne \"ioRWXrwx\", hvor RWX er ROM og rwx er RAM.\n"
-                                              "Et adresseområde kan eventuelt angives."},
-/* de */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_DE, "Zeige die memmap. Die Maske kann so definiert werden, dass nur jene Orte\n"
-                                              "mit Zugriff auf spezifische Typ(en) gezeigt werden. Die Maske ist eine Nummer\n"
-                                              "mit Bits \"ioRWXrwx\", wobei RWX für ROM und rwx für RAM steht.\n"
-                                              "Optional kann ein Adressbereich definiert werden."},
+/* da */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_DA, "Vis memmap. Masken kan angives for kun at vise de celler, som\ner tilgået med valgte typer tilgang. Masken er et tal med\nbitsne \"ioRWXrwx\", hvor RWX er ROM og rwx er RAM.\nEt adresseområde kan eventuelt angives."},
+/* de */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_DE, "Zeige die memmap. Die Maske kann so definiert werden, dass nur jene Orte\nmit Zugriff auf spezifische Typ(en) gezeigt werden. Die Maske ist eine Nummer\nmit Bits \"ioRWXrwx\", wobei RWX für ROM und rwx für RAM steht.\nOptional kann ein Adressbereich definiert werden."},
 /* fr */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_HU, "A memória térkép mutatása. A maszk úgy állítható, hogy csak azokat a\n"
-                                              "helyeket mutassa, amelyek a megadott eléréssel rendelkeznek. A maszk\n"
-                                              "egy szám az \"ioRWXrwx\" bitekkel, ahol az RWX a ROM-ra, az rwx a RAM-ra\n"
-                                              "vonatkozik. Tetszés szerint egy címtartomány is megadható."},
-/* it */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_IT, "Mostra la mappa di memoria. La maschera può essere specificata per\n"
-                                              "mostrare solo quelle locazioni con accessi un un certo tipo. La maschera\n"
-                                              "è un numero con i bit \"ioRWXrwx\", dove RWX sono per la ROM e\n"
-                                              "rwx per la RAM.\n"
-                                              "Opzionalmente, può essere specificato anche un intervallo di indirizzi."},
-/* nl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_NL, "Toon de memmap. Het masker kan worden opgegeven zodat er alleen de\n"
-                                              "adressen met toegrijpingen van een bepaalde soort(en) zal worden getoond.\n"
-                                              "Het masker is een nummer met de bits \"ioRWXrwx\", waar RWX is voor ROM,\n"
-                                              "en rwx voor RAM. Er kan optioneel een adres bereik worden opgegeven."},
+/* hu */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_HU, "A memória térkép mutatása. A maszk úgy állítható, hogy csak azokat a\nhelyeket mutassa, amelyek a megadott eléréssel rendelkeznek. A maszk\negy szám az \"ioRWXrwx\" bitekkel, ahol az RWX a ROM-ra, az rwx a RAM-ra\nvonatkozik. Tetszés szerint egy címtartomány is megadható."},
+/* it */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_IT, "Mostra la mappa di memoria. La maschera può essere specificata per\nmostrare solo quelle locazioni con accessi un un certo tipo. La maschera\nè un numero con i bit \"ioRWXrwx\", dove RWX sono per la ROM e\nrwx per la RAM.\nOpzionalmente, può essere specificato anche un intervallo di indirizzi."},
+/* nl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_NL, "Toon de memmap. Het masker kan worden opgegeven zodat er alleen de\nadressen met toegrijpingen van een bepaalde soort(en) zal worden getoond.\nHet masker is een nummer met de bits \"ioRWXrwx\", waar RWX is voor ROM,\nen rwx voor RAM. Er kan optioneel een adres bereik worden opgegeven."},
 /* pl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_SV, "Visa minneskartan. Masken kan anges för att endast visa de\n"
-                                              "celler som gäller specifik(a) typ(er). Masken är ett tal\n"
-                                              "med bitarna \"ioRWXrwx\", där RWX är för ROM och rwx är för\n"
-                                              "RAM. Ett minnesområde kan eventuellt anges."},
-/* tr */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_TR, "Bellek haritasýný göster. Maske, yalnýzca belirli tiplerce eriþilebilen\n"
-                                              "konumlarda belirtilebilir. Maske \"ioRWXrwx\" bitlerinden oluþan bir\n"
-                                              "sayýdýr. RWX ROM'u, rwx RAM'i ifade eder. Opsiyonel olarak bir adres\n"
-                                              "aralýðý belirtilebilir."},
+/* sv */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_SV, "Visa minneskartan. Masken kan anges för att endast visa de\nceller som gäller specifik(a) typ(er). Masken är ett tal\nmed bitarna \"ioRWXrwx\", där RWX är för ROM och rwx är för\nRAM. Ett minnesområde kan eventuellt anges."},
+/* tr */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_TR, "Bellek haritasýný göster. Maske, yalnýzca belirli tiplerce eriþilebilen\nkonumlarda belirtilebilir. Maske \"ioRWXrwx\" bitlerinden oluþan bir\nsayýdýr. RWX ROM'u, rwx RAM'i ifade eder. Opsiyonel olarak bir adres\naralýðý belirtilebilir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2004,59 +1672,36 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_MEMSPRITE_DESCRIPTION,    N_("Display the contents of memory as sprite data.  If only one address is\nspecified, only one sprite is displayed.  If no addresses are given,\nthe ``dot'' address is used.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_MEMSPRITE_DESCRIPTION_DA, "Vis hukommelsens indhold som spritedata. Hvis kun en adresse\n"
-                                             "angives, vises kun en sprite. Hvis ingen adresse angives bruges\n"
-                                             "\"punktum\"-adressen."},
-/* de */ {IDGS_MON_MEMSPRITE_DESCRIPTION_DE, "Zeige den Speicher als Sprite Daten. Wenn nur eine Adresse angegeben wurde,\n"
-                                             "wird nur ein Sprite gezeitg. Wenn keine Adresse angegeben wurde, wird\n"
-                                             "die aktuelle Adresse verwendet."},
+/* da */ {IDGS_MON_MEMSPRITE_DESCRIPTION_DA, "Vis hukommelsens indhold som spritedata. Hvis kun en adresse\nangives, vises kun en sprite. Hvis ingen adresse angives bruges\n\"punktum\"-adressen."},
+/* de */ {IDGS_MON_MEMSPRITE_DESCRIPTION_DE, "Zeige den Speicher als Sprite Daten. Wenn nur eine Adresse angegeben wurde,\nwird nur ein Sprite gezeitg. Wenn keine Adresse angegeben wurde, wird\ndie aktuelle Adresse verwendet."},
 /* fr */ {IDGS_MON_MEMSPRITE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_MEMSPRITE_DESCRIPTION_HU, "A memória tartalmának megjelenítése sprite adatkéne. Ha csak egy cím\n"
-                                             "van megadva, egyetlen sprite-ot mutat.  Ha egyáltalán nincs cím megadva,\n"
-                                             "az aktuális címet használja."},
-/* it */ {IDGS_MON_MEMSPRITE_DESCRIPTION_IT, "Mostra il contenuto della memoria come dati sprite. Se è specificato\n"
-                                             "solo un indirizzo, verrà mostrato solo uno sprite. Se non è specificato\n"
-                                             "alcun indirizzo, varrà utilizzato l'indirizzo ``dot''."},
-/* nl */ {IDGS_MON_MEMSPRITE_DESCRIPTION_NL, "Toon de geheugen inhoud als sprite data. Als er maar een adres is opgegeven\n"
-                                             "dan zal er maar een sprite worden getoond. Als er geen adres is opgegeven\n"
-                                             "dan zal het huidige adres worden gebruikt."},
+/* hu */ {IDGS_MON_MEMSPRITE_DESCRIPTION_HU, "A memória tartalmának megjelenítése sprite adatkéne. Ha csak egy cím\nvan megadva, egyetlen sprite-ot mutat.  Ha egyáltalán nincs cím megadva,\naz aktuális címet használja."},
+/* it */ {IDGS_MON_MEMSPRITE_DESCRIPTION_IT, "Mostra il contenuto della memoria come dati sprite. Se è specificato\nsolo un indirizzo, verrà mostrato solo uno sprite. Se non è specificato\nalcun indirizzo, varrà utilizzato l'indirizzo ``dot''."},
+/* nl */ {IDGS_MON_MEMSPRITE_DESCRIPTION_NL, "Toon de geheugen inhoud als sprite data. Als er maar een adres is opgegeven\ndan zal er maar een sprite worden getoond. Als er geen adres is opgegeven\ndan zal het huidige adres worden gebruikt."},
 /* pl */ {IDGS_MON_MEMSPRITE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_MEMSPRITE_DESCRIPTION_SV, "Visa minnets innehåll som spritedata. Om endast en adress\n"
-                                             "anges, visas endast en sprite. Om ingen adress anges används\n"
-                                             "\"punkt\"-adressen."},
-/* tr */ {IDGS_MON_MEMSPRITE_DESCRIPTION_TR, "Bellek içeriðini yaratýk verisi olarak göster.  Yalnýzca bir adres\n"
-                                             "belirtilmiþse, yalnýzca tek yaratýk görüntülenir.  Eðer hiç adres\n"
-                                             "girilmemiþse, 'nokta' adresi kullanýlýr."},
+/* sv */ {IDGS_MON_MEMSPRITE_DESCRIPTION_SV, "Visa minnets innehåll som spritedata. Om endast en adress\nanges, visas endast en sprite. Om ingen adress anges används\n\"punkt\"-adressen."},
+/* tr */ {IDGS_MON_MEMSPRITE_DESCRIPTION_TR, "Bellek içeriðini yaratýk verisi olarak göster.  Yalnýzca bir adres\nbelirtilmiþse, yalnýzca tek yaratýk görüntülenir.  Eðer hiç adres\ngirilmemiþse, 'nokta' adresi kullanýlýr."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_MOVE_DESCRIPTION,    N_("Move memory from the source specified by the address range to\nthe destination specified by the address.  The regions may overlap.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_MOVE_DESCRIPTION_DA, "Kopiér data fra kilden angivet af hukommelsesområdet til destinationen\n"
-                                        "som angives af adressen. Regionerne kan overlappe."},
-/* de */ {IDGS_MON_MOVE_DESCRIPTION_DE, "Verschiebe Speicher von Startadresse definiert durch den Adressbereich zum\n"
-                                        "Zielbereich definiert durch die Adresse. Die Bereiche können überlappend sein."},
+/* da */ {IDGS_MON_MOVE_DESCRIPTION_DA, "Kopiér data fra kilden angivet af hukommelsesområdet til destinationen\nsom angives af adressen. Regionerne kan overlappe."},
+/* de */ {IDGS_MON_MOVE_DESCRIPTION_DE, "Verschiebe Speicher von Startadresse definiert durch den Adressbereich zum\nZielbereich definiert durch die Adresse. Die Bereiche können überlappend sein."},
 /* fr */ {IDGS_MON_MOVE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_MOVE_DESCRIPTION_HU, "Memória másolása a forrás területrõl a cél cím által meghatározott\n"
-                                        "területre. A tartományok átfedése megengedett."},
-/* it */ {IDGS_MON_MOVE_DESCRIPTION_IT, "Sposta la memoria dalla sorgente specificata dall'intervallo di indirizzi\n"
-                                        "alla destinazione specificata dall'indirizzo. Le regioni possono\n"
-                                        "sovrapporsi."},
-/* nl */ {IDGS_MON_MOVE_DESCRIPTION_NL, "Verplaats data van de opgegeven bron adres reeks naar het doel adres. De\n"
-                                        "reeksen kunnen overlappen."},
+/* hu */ {IDGS_MON_MOVE_DESCRIPTION_HU, "Memória másolása a forrás területrõl a cél cím által meghatározott\nterületre. A tartományok átfedése megengedett."},
+/* it */ {IDGS_MON_MOVE_DESCRIPTION_IT, "Sposta la memoria dalla sorgente specificata dall'intervallo di indirizzi\nalla destinazione specificata dall'indirizzo. Le regioni possono\nsovrapporsi."},
+/* nl */ {IDGS_MON_MOVE_DESCRIPTION_NL, "Verplaats data van de opgegeven bron adres reeks naar het doel adres. De\nreeksen kunnen overlappen."},
 /* pl */ {IDGS_MON_MOVE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_MOVE_DESCRIPTION_SV, "Flytta minne från källadressen som anges av minnesområdet\n"
-                                        "till destinationen som anges av adressen. Regionerna kan vara\n"
-                                        "överlappande."},
-/* tr */ {IDGS_MON_MOVE_DESCRIPTION_TR, "Belleði belirtilmiþ kaynak adres aralýðýndan belirtilmiþ hedef\n"
-                                        "adresine taþý.  Alanlar üst üste binebilir."},
+/* sv */ {IDGS_MON_MOVE_DESCRIPTION_SV, "Flytta minne från källadressen som anges av minnesområdet\ntill destinationen som anges av adressen. Regionerna kan vara\növerlappande."},
+/* tr */ {IDGS_MON_MOVE_DESCRIPTION_TR, "Belleði belirtilmiþ kaynak adres aralýðýndan belirtilmiþ hedef\nadresine taþý.  Alanlar üst üste binebilir."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_CHECKPOINT_COMMANDS,    N_("Checkpoint commands:")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CHECKPOINT_COMMANDS_DA, "Checkpoint-kommandoer:"},
-/* de */ {IDGS_CHECKPOINT_COMMANDS_DE, "Checkpoint Kommandos:"},
+/* de */ {IDGS_CHECKPOINT_COMMANDS_DE, "Checkpoint Kommandos"},
 /* fr */ {IDGS_CHECKPOINT_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_CHECKPOINT_COMMANDS_HU, "Ellenõrzési pont parancsok:"},
 /* it */ {IDGS_CHECKPOINT_COMMANDS_IT, "Comandi punti di controllo:"},
@@ -2083,40 +1728,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BREAK_DESCRIPTION,    N_("If no address is given, the currently valid watchpoints are printed.\nIf an address is given, a breakpoint is set for that address and the\nbreakpoint number is printed.  A conditional expression can also be\nspecified for the breakpoint.  For more information on conditions, see\nthe CONDITION command.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BREAK_DESCRIPTION_DA, "Hvis ingen adresse angives vises nuværende watchpoints. Hvis en\n"
-                                         "adresse angives sættes et watchpoint på denne och watchpointets\n"
-                                         "nummer vises. En betingelse kan også angives for et watchpoint.\n"
-                                         "For mere information om betingelser, se kommandoen CONDITION."},
-/* de */ {IDGS_MON_BREAK_DESCRIPTION_DE, "Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints gezeigt.\n"
-                                         "Wenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\n"
-                                         "gesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\n"
-                                         "can zu dem breakpoint zugeordnet werden. Für mehr Informations über \n"
-                                         "bedingte Ausdrücke, bitte Kommando CONDITION ansehen."},
+/* da */ {IDGS_MON_BREAK_DESCRIPTION_DA, "Hvis ingen adresse angives vises nuværende watchpoints. Hvis en\nadresse angives sættes et watchpoint på denne och watchpointets\nnummer vises. En betingelse kan også angives for et watchpoint.\nFor mere information om betingelser, se kommandoen CONDITION."},
+/* de */ {IDGS_MON_BREAK_DESCRIPTION_DE, "Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints gezeigt.\nWenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\ngesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\ncan zu dem breakpoint zugeordnet werden. Für mehr Informations über \nbedingte Ausdrücke, bitte Kommando CONDITION ansehen."},
 /* fr */ {IDGS_MON_BREAK_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BREAK_DESCRIPTION_HU, "Ha nincs cím megadva, az aktuálisan érvényes figyelési pontokat\n"
-                                         "listázza. Ha van cím a paraméterben, töréspontot helyez el az adott\n"
-                                         "címre, és a számát kiírja. Egy feltétel kifejezés is megadható a törésponthoz.\n"
-                                         "A feltételekrõl több információhoz lásd a CONDITION parancs súgóját!"},
-/* it */ {IDGS_MON_BREAK_DESCRIPTION_IT, "Se non viene specificato alcun indirizzo, i watchpoint attuali vengono\n"
-                                         "stampati.Se viene specificato un indirizzo, viene impostato un breakpoint\n"
-                                         "per tale indirizzo e viene stampato il suo numero. Può anche essere\n"
-                                         "specificata una condizione per il breakpoint. Per ulteriori informazioni,\n"
-                                         "vedere il comando CONDITION."},
-/* nl */ {IDGS_MON_BREAK_DESCRIPTION_NL, "Als er geen adres is opgegeven dan zullen de huidige geldige kijkpunten\n"
-                                         "geprint. Als er een adres is opgegeven dan zal er een breekpunt gezet worden\n"
-                                         "voor dat adres en de nummer van het breekpunt zal worden getoond. Een\n"
-                                         "conditie kan worden opgegeven voor het breekpunt. Voor meer informatie over\n"
-                                         "condities zie het CONDITION commando."},
+/* hu */ {IDGS_MON_BREAK_DESCRIPTION_HU, "Ha nincs cím megadva, az aktuálisan érvényes figyelési pontokat\nlistázza. Ha van cím a paraméterben, töréspontot helyez el az adott\ncímre, és a számát kiírja. Egy feltétel kifejezés is megadható a törésponthoz.\nA feltételekrõl több információhoz lásd a CONDITION parancs súgóját!"},
+/* it */ {IDGS_MON_BREAK_DESCRIPTION_IT, "Se non viene specificato alcun indirizzo, i watchpoint attuali vengono\nstampati.Se viene specificato un indirizzo, viene impostato un breakpoint\nper tale indirizzo e viene stampato il suo numero. Può anche essere\nspecificata una condizione per il breakpoint. Per ulteriori informazioni,\nvedere il comando CONDITION."},
+/* nl */ {IDGS_MON_BREAK_DESCRIPTION_NL, "Als er geen adres is opgegeven dan zullen de huidige geldige kijkpunten\ngeprint. Als er een adres is opgegeven dan zal er een breekpunt gezet worden\nvoor dat adres en de nummer van het breekpunt zal worden getoond. Een\nconditie kan worden opgegeven voor het breekpunt. Voor meer informatie over\ncondities zie het CONDITION commando."},
 /* pl */ {IDGS_MON_BREAK_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BREAK_DESCRIPTION_SV, "Om ingen adress anges visas de övervakningspunkter som är giltiga.\n"
-                                         "Om en adress anges sätts en brytpunkt på den adressen och dess\n"
-                                         "nummer visas. Ett villkorsuttryck kan också anges för brytpunkten.\n"
-                                         "För mer information om villkor, se kommandot CONDITION."},
-/* tr */ {IDGS_MON_BREAK_DESCRIPTION_TR, "Eðer adres girilmemiþse, geçerli mevcut izleme noktalarý yazdýrýlýr.\n"
-                                         "Eðer bir adres girilmiþse, o adres için bir kesme noktasý iþaretlenir\n"
-                                         "ve kesme noktasý sayýsý yazdýrýlýr.  Ayný zamanda kesme noktasý için bir\n"
-                                         "koþul ifadesi de belirtilebilir.  Koþullar ile ilgili daha çok bilgi almak\n"
-                                         "için, CONDITION komutuna bakabilirsiniz."},
+/* sv */ {IDGS_MON_BREAK_DESCRIPTION_SV, "Om ingen adress anges visas de övervakningspunkter som är giltiga.\nOm en adress anges sätts en brytpunkt på den adressen och dess\nnummer visas. Ett villkorsuttryck kan också anges för brytpunkten.\nFör mer information om villkor, se kommandot CONDITION."},
+/* tr */ {IDGS_MON_BREAK_DESCRIPTION_TR, "Eðer adres girilmemiþse, geçerli mevcut izleme noktalarý yazdýrýlýr.\nEðer bir adres girilmiþse, o adres için bir kesme noktasý iþaretlenir\nve kesme noktasý sayýsý yazdýrýlýr.  Ayný zamanda kesme noktasý için bir\nkoþul ifadesi de belirtilebilir.  Koþullar ile ilgili daha çok bilgi almak\niçin, CONDITION komutuna bakabilirsiniz."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2136,29 +1756,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_COMMAND_DESCRIPTION,    N_("Specify `command' as the command to execute when checkpoint `checknum'\nis hit.  Note that the `x' command is not yet supported as a\ncommand argument.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_COMMAND_DESCRIPTION_DA, "Angiv \"kommando\" som kommando der skal eksekveres når ckeckpoint\n"
-                                           "\"checknum\" nås. Vær opmærksom på at kommandoen \"x\" endnu ikke\n"
-                                           "er understøttet som parameter."},
-/* de */ {IDGS_MON_COMMAND_DESCRIPTION_DE, "Definiere `Kommando', welches bei Checkpoint `Checknum' ausgeführt wird.\n"
-                                           "Achtung Kommando `x' wird zurzeit noch nicht als Kommando Argument\n"
-                                           "unterstützt."},
+/* da */ {IDGS_MON_COMMAND_DESCRIPTION_DA, "Angiv \"kommando\" som kommando der skal eksekveres når ckeckpoint\n\"checknum\" nås. Vær opmærksom på at kommandoen \"x\" endnu ikke\ner understøttet som parameter."},
+/* de */ {IDGS_MON_COMMAND_DESCRIPTION_DE, "Definiere `Kommando', welches bei Checkpoint `Checknum' ausgeführt wird.\nAchtung Kommando `x' wird zurzeit noch nicht als Kommando Argument\nunterstützt."},
 /* fr */ {IDGS_MON_COMMAND_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_COMMAND_DESCRIPTION_HU, "`parancs' megadása egy `ell_pont_szám' sorszámával adott ellenõrzési pont\n"
-                                           "elérésekor történõ végrehajtásra.  Az `x' parancs egyelõre nem használható\n"
-                                           "itt paraméterként."},
-/* it */ {IDGS_MON_COMMAND_DESCRIPTION_IT, "Specifica `comando' come il comando da eseguire quando\n"
-                                           "viene incontrato il punto di controllo `checknum'. Nota che \n"
-                                           "il comando `x' non è ancora supportato come parametro."},
-/* nl */ {IDGS_MON_COMMAND_DESCRIPTION_NL, "Geef `commando' als het command om uit te voeren wanneer checkpunt `checknum'\n"
-                                           "wordt uitgevoerd. NB: het `x' commando is op dit moment geen geldige\n"
-                                           "parameter."},
+/* hu */ {IDGS_MON_COMMAND_DESCRIPTION_HU, "`parancs' megadása egy `ell_pont_szám' sorszámával adott ellenõrzési pont\nelérésekor történõ végrehajtásra.  Az `x' parancs egyelõre nem használható\nitt paraméterként."},
+/* it */ {IDGS_MON_COMMAND_DESCRIPTION_IT, "Specifica `comando' come il comando da eseguire quando\nviene incontrato il punto di controllo `checknum'. Nota che \nil comando `x' non è ancora supportato come parametro."},
+/* nl */ {IDGS_MON_COMMAND_DESCRIPTION_NL, "Geef `commando' als het command om uit te voeren wanneer checkpunt `checknum'\nwordt uitgevoerd. NB: het `x' commando is op dit moment geen geldige\nparameter."},
 /* pl */ {IDGS_MON_COMMAND_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_COMMAND_DESCRIPTION_SV, "Ange \"kommando\" som kommando att exekvera när vid träff på\n"
-                                           "kontrollpunkten·\"kontrollnr\". Observera att kommandot \"x\" ännu\n"
-                                           "inte stöds som kommandoparameter."},
-/* tr */ {IDGS_MON_COMMAND_DESCRIPTION_TR, "Kontrol noktasý `kontrolnumarasý'na ulaþýldýðýnda `komut' olarak\n"
-                                           "çalýþtýrýlacak komutu belirt.  Henüz `x' komutunun bir komut argümaný\n"
-                                           "olarak desteklenmediðini not edin."},
+/* sv */ {IDGS_MON_COMMAND_DESCRIPTION_SV, "Ange \"kommando\" som kommando att exekvera när vid träff på\nkontrollpunkten·\"kontrollnr\". Observera att kommandot \"x\" ännu\ninte stöds som kommandoparameter."},
+/* tr */ {IDGS_MON_COMMAND_DESCRIPTION_TR, "Kontrol noktasý `kontrolnumarasý'na ulaþýldýðýnda `komut' olarak\nçalýþtýrýlacak komutu belirt.  Henüz `x' komutunun bir komut argümaný\nolarak desteklenmediðini not edin."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2178,77 +1784,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_CONDITION_DESCRIPTION,    N_("Each time the specified checkpoint is examined, the condition is\nevaluated.  If it evalutes to true, the checkpoint is activated.\nOtherwise, it is ignored.  If registers are specified in the expression,\nthe values used are those at the time the checkpoint is examined, not\nwhen the condition is set.\nThe condition can make use of registers (.A, .X, .Y, .PC, .SP) and\ncompare them (==, !=, <, >, <=, >=) again other registers or constants.\nRegisters can be the registers of other devices; this is denoted by\na memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\nExamples: .A == 0, .X == .Y, 8:.X == .X\n")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_CONDITION_DESCRIPTION_DA, "Betingelsen evalueres hver gang det angivne checkpoint undersøges.\n"
-                                             "Hvis evalueres til sand aktiveres checkpointet, allers ignoreres\n"
-                                             "det. Hvis betingelsen indeholder registre, anvendes de værdier,\n"
-                                             "registrene har når betingelsen evalueres, ikke når betingelsen\n"
-                                             "oprettes.\n"
-                                             "Betingelsen kan anvende registrene (.A, .X, .Y, .PC, .SP) og\n"
-                                             "sammenligne dem (==, !=, <, >, <=, >=) med andre registre eller\n"
-                                             "konstanter. Registre kan være i andre enheder, og dette angives\n"
-                                             "som et hukommelsesområdeprefix (dvs., c:, 8:, 9:, 10:, 11:)\n"
-                                             "Eksempel: .A == 0, .X == .Y, 8:.X == .X\n"},
-/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\n"
-                                             "Ist das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\n"
-                                             "Wenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \n"
-                                             "Überprüfung herangezogen.\n"
-                                             "Die Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \n"
-                                             "Register oder Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
-                                             "Register können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \n"
-                                             "verwendet: c:, 8:, 9:, 10:, 11:\n"
-                                             "Beispiel: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* da */ {IDGS_MON_CONDITION_DESCRIPTION_DA, "Betingelsen evalueres hver gang det angivne checkpoint undersøges.\nHvis evalueres til sand aktiveres checkpointet, allers ignoreres\ndet. Hvis betingelsen indeholder registre, anvendes de værdier,\nregistrene har når betingelsen evalueres, ikke når betingelsen\noprettes.\nBetingelsen kan anvende registrene (.A, .X, .Y, .PC, .SP) og\nsammenligne dem (==, !=, <, >, <=, >=) med andre registre eller\nkonstanter. Registre kan være i andre enheder, og dette angives\nsom et hukommelsesområdeprefix (dvs., c:, 8:, 9:, 10:, 11:)\nEksempel: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\nIst das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\nWenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \nÜberprüfung herangezogen.\nDie Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \nRegister oder Konstanten vergleichen (==, !=, <, >, <=, >=).\nRegister können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \nverwendet: c:, 8:, 9:, 10:, 11:\nBeispiel: .A == 0, .X == .Y, 8:.X == .X\n"},
 /* fr */ {IDGS_MON_CONDITION_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, "Minden alkalommal, amikor egy adott ellenõrzési pontot megvizsgál, a\n"
-                                             "feltételt kiértékeli. Ha az eredmény igaz, a töréspont aktiválódik.\n"
-                                             "Egyébként, figyelmen kívül hagyja. Ha regiszterek szerepelnek a kifejezésben,\n"
-                                             "az ellenõrzés pillanatában vett értékük számít, nem pedig a beállításkori.\n"
-                                             "A feltétel használhatja a regisztereket ( .A, .X, .Y, .PC, .SP) és össze is\n"
-                                             "hasonlíthatja õket (==, !=, <, >, <=, >=) más regiszterekkel.\n"
-                                             "A regiszterek lehetnek más eszközök regiszterei is; azokat egy memória tér\n"
-                                             "elõtaggal kell ellátni (vagyis c:, 8:, 9:, 10:, 11:).\n"
-                                             "Példák: .A == 0, .X == .Y, 8:.X == .X\n"},
-/* it */ {IDGS_MON_CONDITION_DESCRIPTION_IT, "Ogni volta che si esamina il punto di controllo specificato, viene valutata\n"
-                                             "la condizione. Se è vera, il punto di controllo è attivato.\n"
-                                             "Altrimenti viene ignorato. Se nell'espressione sono specificati i registri,\n"
-                                             "questi valori sono quelli usati quando viene esaminato il punto di controllo,\n"
-                                             "non quando viene impostata la condizione.\n"
-                                             "La condizione può fare uso dei registri (.A, .X, .Y, .PC, .SP) e confontarli\n"
-                                             "(==, !=, <, >, <=, >=) con altri registri o costanti.\n"
-                                             "I registri possono essere registri di altre periferiche; questo è denotato da\n"
-                                             "un prefisso che specifica lo spazio di memoria (cioé, c:, 8:, 9:, 10:, 11:)\n"
-                                             "Alcuni esempi: .A == 0, .X == .Y, 8:.X == .X\n"},
-/* nl */ {IDGS_MON_CONDITION_DESCRIPTION_NL, "Elke keer de opgegeven checkpunt wordt onderzocht zal de conditie worden\n"
-                                             "geevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\n"
-                                             "worden, bij negatief zal er niets worden gedaan. Als er registers zijn\n"
-                                             "opgegeven in de expressie dan zullen de waarden in die registers gebruikt\n"
-                                             "worden op het moment dat de checkpunt wordt onderzocht, niet op het moment\n"
-                                             "dat de conditie is opgegeven.\n"
-                                             "De conditie kan gebruik maken van registers (.A, .X, .Y, .PC, .SP) en\n"
-                                             "kan ze vergelijken (==, !=, <, >, <=, >=) met andere registers of constanten\n"
-                                             "Registers kunnen de registers van andere apparaten zijn; de manier van opgeven\n"
-                                             "is door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\n"
-                                             "Voorbeelden: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, "Minden alkalommal, amikor egy adott ellenõrzési pontot megvizsgál, a\nfeltételt kiértékeli. Ha az eredmény igaz, a töréspont aktiválódik.\nEgyébként, figyelmen kívül hagyja. Ha regiszterek szerepelnek a kifejezésben,\naz ellenõrzés pillanatában vett értékük számít, nem pedig a beállításkori.\nA feltétel használhatja a regisztereket ( .A, .X, .Y, .PC, .SP) és össze is\nhasonlíthatja õket (==, !=, <, >, <=, >=) más regiszterekkel.\nA regiszterek lehetnek más eszközök regiszterei is; azokat egy memória tér\nelõtaggal kell ellátni (vagyis c:, 8:, 9:, 10:, 11:).\nPéldák: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* it */ {IDGS_MON_CONDITION_DESCRIPTION_IT, "Ogni volta che si esamina il punto di controllo specificato, viene valutata\nla condizione. Se è vera, il punto di controllo è attivato.\nAltrimenti viene ignorato. Se nell'espressione sono specificati i registri,\nquesti valori sono quelli usati quando viene esaminato il punto di controllo,\nnon quando viene impostata la condizione.\nLa condizione può fare uso dei registri (.A, .X, .Y, .PC, .SP) e confontarli\n(==, !=, <, >, <=, >=) con altri registri o costanti.\nI registri possono essere registri di altre periferiche; questo è denotato da\nun prefisso che specifica lo spazio di memoria (cioé, c:, 8:, 9:, 10:, 11:)\nAlcuni esempi: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* nl */ {IDGS_MON_CONDITION_DESCRIPTION_NL, "Elke keer de opgegeven checkpunt wordt onderzocht zal de conditie worden\ngeevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\nworden, bij negatief zal er niets worden gedaan. Als er registers zijn\nopgegeven in de expressie dan zullen de waarden in die registers gebruikt\nworden op het moment dat de checkpunt wordt onderzocht, niet op het moment\ndat de conditie is opgegeven.\nDe conditie kan gebruik maken van registers (.A, .X, .Y, .PC, .SP) en\nkan ze vergelijken (==, !=, <, >, <=, >=) met andere registers of constanten\nRegisters kunnen de registers van andere apparaten zijn; de manier van opgeven\nis door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\nVoorbeelden: .A == 0, .X == .Y, 8:.X == .X\n"},
 /* pl */ {IDGS_MON_CONDITION_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_CONDITION_DESCRIPTION_SV, "Villkoret utvärderas varje gång den givna kontrollpunkten\n"
-                                             "undersöks. Om det utvärderas till sant aktiveras kontrollpunkten.\n"
-                                             "I annat fall ignoreras den. Om uttrycket innehåller register\n"
-                                             "används de värden de har då kontrollpunkten utvärderas, inte\n"
-                                             "när villkoret sattes.\n"
-                                             "Villkoret kan använda register (.A, .X, .Y, .PC, .SP) och\n"
-                                             "jämföra dem (==, !=, <, >, <=, >=) mot andra register eller\n"
-                                             "konstanter. Register kan vara register i andra enheter, detta\n"
-                                             "anges som ett minnesområdesprefix (dvs., c:, 8:, 9:, 10:, 11:)\n"
-                                             "Exempel: .A == 0, .X == .Y, 8:.X == .X\n"},
-/* tr */ {IDGS_MON_CONDITION_DESCRIPTION_TR, "Her defasýnda belirtilmiþ bir kontrol noktasý incelendiðinde, koþul\n"
-                                             "deðerlendirilir.  Koþul doðru sonuç verirse, kontrol noktasý aktive edilir.\n"
-                                             "Aksi taktirde göz ardý edilir.  Eðer ifadede registerlar tanýmlanmýþsa,\n"
-                                             "bu deðerler ifade tanýmlandýðýnda deðil kontrol noktasý incelendiðinde\n"
-                                             "kullanýlýrlar.\n"
-                                             "Ýfadelerde (.A, .X, .Y, .PC, .SP) registerlarý kullanýlabilir ve\n"
-                                             "(==, !=, <, >, <=, >=) opertatörleriyle diðer register ve sabit deðerlerle.\n"
-                                             "karþýlaþtýrýlabilirler. Registerlar baþka aygýtlarýn registerlarý da olabilir;\n"
-                                             "bu bir bellek alaný ön ekiyle ifade edilir (yani, c:, 8:, 9:, 10:, 11:\n"
-                                             "Örnekler: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* sv */ {IDGS_MON_CONDITION_DESCRIPTION_SV, "Villkoret utvärderas varje gång den givna kontrollpunkten\nundersöks. Om det utvärderas till sant aktiveras kontrollpunkten.\nI annat fall ignoreras den. Om uttrycket innehåller register\nanvänds de värden de har då kontrollpunkten utvärderas, inte\nnär villkoret sattes.\nVillkoret kan använda register (.A, .X, .Y, .PC, .SP) och\njämföra dem (==, !=, <, >, <=, >=) mot andra register eller\nkonstanter. Register kan vara register i andra enheter, detta\nanges som ett minnesområdesprefix (dvs., c:, 8:, 9:, 10:, 11:)\nExempel: .A == 0, .X == .Y, 8:.X == .X\n"},
+/* tr */ {IDGS_MON_CONDITION_DESCRIPTION_TR, "Her defasýnda belirtilmiþ bir kontrol noktasý incelendiðinde, koþul\ndeðerlendirilir.  Koþul doðru sonuç verirse, kontrol noktasý aktive edilir.\nAksi taktirde göz ardý edilir.  Eðer ifadede registerlar tanýmlanmýþsa,\nbu deðerler ifade tanýmlandýðýnda deðil kontrol noktasý incelendiðinde\nkullanýlýrlar.\nÝfadelerde (.A, .X, .Y, .PC, .SP) registerlarý kullanýlabilir ve\n(==, !=, <, >, <=, >=) opertatörleriyle diðer register ve sabit deðerlerle.\nkarþýlaþtýrýlabilirler. Registerlar baþka aygýtlarýn registerlarý da olabilir;\nbu bir bellek alaný ön ekiyle ifade edilir (yani, c:, 8:, 9:, 10:, 11:\nÖrnekler: .A == 0, .X == .Y, 8:.X == .X\n"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2296,22 +1840,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_IGNORE_DESCRIPTION,    N_("Ignore a checkpoint a given number of crossings.  If no count is given,\nthe default value is 1.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_IGNORE_DESCRIPTION_DA, "Ignorér et checkpoint det angivne antal gange. Hvis antal ikke angives\n"
-                                          "bruges standardværdien 1."},
-/* de */ {IDGS_MON_IGNORE_DESCRIPTION_DE, "Ignoriere den Checkpoint für die angegebene Anzahl an Aktivierungen.\n"
-                                          "Wenn kein `Zähler' angegeben wurde, wird der Standardwert 1 verwendet."},
+/* da */ {IDGS_MON_IGNORE_DESCRIPTION_DA, "Ignorér et checkpoint det angivne antal gange. Hvis antal ikke angives\nbruges standardværdien 1."},
+/* de */ {IDGS_MON_IGNORE_DESCRIPTION_DE, "Ignoriere den Checkpoint für die angegebene Anzahl an Aktivierungen.\nWenn kein `Zähler' angegeben wurde, wird der Standardwert 1 verwendet."},
 /* fr */ {IDGS_MON_IGNORE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_IGNORE_DESCRIPTION_HU, "Az ellenõrzési pont figyelmen kívül hagyása megadott számú áthaladáskor.  Ha nincs\n"
-                                          "szám megadva, az alapértelmezett érték 1."},
-/* it */ {IDGS_MON_IGNORE_DESCRIPTION_IT, "Ignora un punto di controllo un numero specificato di occorrenze. Se\n"
-                                          "non è specificato alcun valore, quello predefinito è 1."},
-/* nl */ {IDGS_MON_IGNORE_DESCRIPTION_NL, "Negeer een checkpunt een opgegeven aantal keer. Als er geen aantal is\n"
-                                          "opgegeven dan wordt de standaard waarde van 1 worden gebruikt."},
+/* hu */ {IDGS_MON_IGNORE_DESCRIPTION_HU, "Az ellenõrzési pont figyelmen kívül hagyása megadott számú áthaladáskor.  Ha nincs\nszám megadva, az alapértelmezett érték 1."},
+/* it */ {IDGS_MON_IGNORE_DESCRIPTION_IT, "Ignora un punto di controllo un numero specificato di occorrenze. Se\nnon è specificato alcun valore, quello predefinito è 1."},
+/* nl */ {IDGS_MON_IGNORE_DESCRIPTION_NL, "Negeer een checkpunt een opgegeven aantal keer. Als er geen aantal is\nopgegeven dan wordt de standaard waarde van 1 worden gebruikt."},
 /* pl */ {IDGS_MON_IGNORE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_IGNORE_DESCRIPTION_SV, "Ignorera en kontrollpunkt det givna antalet gånger. Om inget antal ges\n"
-                                          "är standardvärdet 1."},
-/* tr */ {IDGS_MON_IGNORE_DESCRIPTION_TR, "Bir kontrol noktasýný verilen adette geçiþ için yoksay.  Eðer adet verilmemiþse,\n"
-                                          "varsayýlan deðer 1'dir."},
+/* sv */ {IDGS_MON_IGNORE_DESCRIPTION_SV, "Ignorera en kontrollpunkt det givna antalet gånger. Om inget antal ges\när standardvärdet 1."},
+/* tr */ {IDGS_MON_IGNORE_DESCRIPTION_TR, "Bir kontrol noktasýný verilen adette geçiþ için yoksay.  Eðer adet verilmemiþse,\nvarsayýlan deðer 1'dir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2331,41 +1868,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_UNTIL_DESCRIPTION,    N_("If no address is given, the currently valid breakpoints are printed.\nIf an address is given, a temporary breakpoint is set for that address\nand the breakpoint number is printed.  Control is returned to the\nemulator by this command.  The breakpoint is deleted once it is hit.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_UNTIL_DESCRIPTION_DA, "Hvis ingen adresse angives vises de aktuelle breakpoints. Hvis en\n"
-                                         "adresse angives sættes et midlertidigt breakpoint, og nummeret på\n"
-                                         "breakpointet vises. Kontrollen returneres til emulatoren af denne\n"
-                                         "kommando. Breakpointet fjernes når det nås."},
-/* de */ {IDGS_MON_UNTIL_DESCRIPTION_DE, "Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \n"
-                                         "Breakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \n"
-                                         "temporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer wird\n"
-                                         "angezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation gegeben.\n"
-                                         "Der Breakpoint wird gelöscht, wenn er einmal getroffen wurde."},
+/* da */ {IDGS_MON_UNTIL_DESCRIPTION_DA, "Hvis ingen adresse angives vises de aktuelle breakpoints. Hvis en\nadresse angives sættes et midlertidigt breakpoint, og nummeret på\nbreakpointet vises. Kontrollen returneres til emulatoren af denne\nkommando. Breakpointet fjernes når det nås."},
+/* de */ {IDGS_MON_UNTIL_DESCRIPTION_DE, "Wenn keine Adresse angegeben wurde, werden die aktuell gültigen \nBreakpoints angezeigt. Wenn eine Adresse angegeben wurde, wird ein \ntemporärer Breakpoint auf dieser Adresse gesetzt und die Breakpoint Nummer wird\nangezeigt. Die Kontrolle wirdd bei diesem Kommando an die Emulation gegeben.\nDer Breakpoint wird gelöscht, wenn er einmal getroffen wurde."},
 /* fr */ {IDGS_MON_UNTIL_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_UNTIL_DESCRIPTION_HU, "Ha nincs cím megadva, a jelenleg érvényes töréspontokat írja ki.\n"
-                                         "Ha van adott cím, egy ideiglenes töréspontot helyez el az adott címre,\n"
-                                         "és a töréspont száma kiíródik.  A vezérlés visszakerül az emulátorhoz\n"
-                                         "e parancs által. A töréspont elérésekor törlõdik."},
-/* it */ {IDGS_MON_UNTIL_DESCRIPTION_IT, "Se non viene specificato alcun indirizzo, vengono stampati i\n"
-                                         "breakpoint attualmente validi. Se viene specificato un indirizzo,\n"
-                                         "viene impostato un breakpoint temporaneo per tale indirizzo e\n"
-                                         "viene stampato il suo numero. Il controllo ritorna all'emulatore\n"
-                                         "per mezzo di questo comando. Il breakpoint è cancellato quando\n"
-                                         "viene incontrato."},
-/* nl */ {IDGS_MON_UNTIL_DESCRIPTION_NL, "Als er geen adres is opgegeven dan zullen de huidig geldige breekpunten\n"
-                                         "worden geprint. Als er een adres is opgegeven dan wordt er een tijdelijk\n"
-                                         "breekpunt worden gezet voor dat adres en het breekpunt nummer zal worden\n"
-                                         "getoond. Na het geven van dit commando zal er terug worden gegaan naar de\n"
-                                         "emulator. Het breekpunt zal worden verwijdert na het uitvoeren."},
+/* hu */ {IDGS_MON_UNTIL_DESCRIPTION_HU, "Ha nincs cím megadva, a jelenleg érvényes töréspontokat írja ki.\nHa van adott cím, egy ideiglenes töréspontot helyez el az adott címre,\nés a töréspont száma kiíródik.  A vezérlés visszakerül az emulátorhoz\ne parancs által. A töréspont elérésekor törlõdik."},
+/* it */ {IDGS_MON_UNTIL_DESCRIPTION_IT, "Se non viene specificato alcun indirizzo, vengono stampati i\nbreakpoint attualmente validi. Se viene specificato un indirizzo,\nviene impostato un breakpoint temporaneo per tale indirizzo e\nviene stampato il suo numero. Il controllo ritorna all'emulatore\nper mezzo di questo comando. Il breakpoint è cancellato quando\nviene incontrato."},
+/* nl */ {IDGS_MON_UNTIL_DESCRIPTION_NL, "Als er geen adres is opgegeven dan zullen de huidig geldige breekpunten\nworden geprint. Als er een adres is opgegeven dan wordt er een tijdelijk\nbreekpunt worden gezet voor dat adres en het breekpunt nummer zal worden\ngetoond. Na het geven van dit commando zal er terug worden gegaan naar de\nemulator. Het breekpunt zal worden verwijdert na het uitvoeren."},
 /* pl */ {IDGS_MON_UNTIL_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_UNTIL_DESCRIPTION_SV, "Om du inte anger någon adress visas de för närvarande giltiga\n"
-                                         "brytpunkterna. Om en adress anges sätts en temporär brytpunkt för\n"
-                                         "den adressen och numret på den nya brytpunkten visas. Styrningen\n"
-                                         "återlämnas till emulatorn för det här kommandot. Brytpunkten\n"
-                                         "tas bort när den har nåtts."},
-/* tr */ {IDGS_MON_UNTIL_DESCRIPTION_TR, "Eðer adres girilmemiþse, geçerli mevcut kesme noktalarý yazdýrýlýr.\n"
-                                         "Eðer bir adres girilmiþse, o adres için geçici bir kesme noktasý\n"
-                                         "iþaretlenir ve kesme noktasý sayýsý yazdýrýlýr.  Kontrol bu komutla\n"
-                                         "emülatöre döndürülür.  Bir kere eriþildiði zaman kesme noktasý silinir."},
+/* sv */ {IDGS_MON_UNTIL_DESCRIPTION_SV, "Om du inte anger någon adress visas de för närvarande giltiga\nbrytpunkterna. Om en adress anges sätts en temporär brytpunkt för\nden adressen och numret på den nya brytpunkten visas. Styrningen\nåterlämnas till emulatorn för det här kommandot. Brytpunkten\ntas bort när den har nåtts."},
+/* tr */ {IDGS_MON_UNTIL_DESCRIPTION_TR, "Eðer adres girilmemiþse, geçerli mevcut kesme noktalarý yazdýrýlýr.\nEðer bir adres girilmiþse, o adres için geçici bir kesme noktasý\niþaretlenir ve kesme noktasý sayýsý yazdýrýlýr.  Kontrol bu komutla\nemülatöre döndürülür.  Bir kere eriþildiði zaman kesme noktasý silinir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2385,52 +1896,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_WATCH_DESCRIPTION,    N_("Set a watchpoint.  If a single address is specified, set a watchpoint\nfor that address.  If two addresses are specified, set a watchpoint\nfor the memory locations between the two addresses.\n`loadstore' is either `load' or `store' to specify on which operation\nthe monitor breaks. If not specified, the monitor breaks on both\noperations.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_WATCH_DESCRIPTION_DA, "Sæt et watchpoint. Hvis der angives en enkelt adresse sættes et\n"
-                                         "watchpoint for adressen. Hvis der angives to adresser sættes et\n"
-                                         "watchpoint for hukommelsesområdet mellem adresserne.\n"
-                                         "\"loadstore\" er enten \"load\" eller \"store\" og angiver hvilken\n"
-                                         "operation emulatoren skal stoppe ved. Hvis loadstore ikke angives\n"
-                                         "stopper emulatoren på begge operationer."},
-/* de */ {IDGS_MON_WATCH_DESCRIPTION_DE, "Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \n"
-                                         "den Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
-                                         "setze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n"
-                                         "`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \n"
-                                         "bei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \n"
-                                         "hält der Monitor bei beiden Operationen an."},
+/* da */ {IDGS_MON_WATCH_DESCRIPTION_DA, "Sæt et watchpoint. Hvis der angives en enkelt adresse sættes et\nwatchpoint for adressen. Hvis der angives to adresser sættes et\nwatchpoint for hukommelsesområdet mellem adresserne.\n\"loadstore\" er enten \"load\" eller \"store\" og angiver hvilken\noperation emulatoren skal stoppe ved. Hvis loadstore ikke angives\nstopper emulatoren på begge operationer."},
+/* de */ {IDGS_MON_WATCH_DESCRIPTION_DE, "Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \nden Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \nsetze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \nbei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \nhält der Monitor bei beiden Operationen an."},
 /* fr */ {IDGS_MON_WATCH_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_WATCH_DESCRIPTION_HU, "Figyelési pont megadása.  Ha egy cím van a paraméterben, az adott\n"
-                                         "címre állítbe figyelési pontot. Ha két cím adott, akkor a kettõ közötti\n"
-                                         "összes memória helyre beállítja.\n"
-                                         "A `loadstore' vagy `load' vagy `store' lehet, azt adja meg, hogy olvasás\n"
-                                         "vagy írás hatására áll meg a monitor program. Ha nincs megadva,\n"
-                                         "mindkét mûvelet hatására megáll."},
-/* it */ {IDGS_MON_WATCH_DESCRIPTION_IT, "Imposta un watchpoint. Se viene specificato solo un indirizzo, imposta\n"
-                                         "un watchpoint per tale indirizzo. Se vengono specificati due indirizzi,\n"
-                                         "imposta un watchpoint per le locazioni di memoria comprese tra i due\n"
-                                         "indirizzi.\n"
-                                         "`loadstore' può essere `load' o `store' per specificare su quale\n"
-                                         "operazione il monitor si interrompe. Se non viene specificato, il monitor\n"
-                                         "si interrompe su entrambe le operazioni."},
-/* nl */ {IDGS_MON_WATCH_DESCRIPTION_NL, "Zet een kijkpunt. Als er een enkel adres is opgegeven dan zal er een\n"
-                                         "kijkpunt worden gezet voor dat adres. Als er twee adressen zijn opgegeven\n"
-                                         "dan zal er een kijkpunt worden gezet voor de adressen tussen de twee\n"
-                                         "adressen.\n"
-                                         "laad/opslaan is 'load' of 'store' om aan te geven bij welke operatie de\n"
-                                         "monitor zou moeten starten. Als deze niet opgegeven is dan zal de monitor\n"
-                                         "starten bij beide operaties."},
+/* hu */ {IDGS_MON_WATCH_DESCRIPTION_HU, "Figyelési pont megadása.  Ha egy cím van a paraméterben, az adott\ncímre állítbe figyelési pontot. Ha két cím adott, akkor a kettõ közötti\nösszes memória helyre beállítja.\nA `loadstore' vagy `load' vagy `store' lehet, azt adja meg, hogy olvasás\nvagy írás hatására áll meg a monitor program. Ha nincs megadva,\nmindkét mûvelet hatására megáll."},
+/* it */ {IDGS_MON_WATCH_DESCRIPTION_IT, "Imposta un watchpoint. Se viene specificato solo un indirizzo, imposta\nun watchpoint per tale indirizzo. Se vengono specificati due indirizzi,\nimposta un watchpoint per le locazioni di memoria comprese tra i due\nindirizzi.\n`loadstore' può essere `load' o `store' per specificare su quale\noperazione il monitor si interrompe. Se non viene specificato, il monitor\nsi interrompe su entrambe le operazioni."},
+/* nl */ {IDGS_MON_WATCH_DESCRIPTION_NL, "Zet een kijkpunt. Als er een enkel adres is opgegeven dan zal er een\nkijkpunt worden gezet voor dat adres. Als er twee adressen zijn opgegeven\ndan zal er een kijkpunt worden gezet voor de adressen tussen de twee\nadressen.\nlaad/opslaan is 'load' of 'store' om aan te geven bij welke operatie de\nmonitor zou moeten starten. Als deze niet opgegeven is dan zal de monitor\nstarten bij beide operaties."},
 /* pl */ {IDGS_MON_WATCH_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_WATCH_DESCRIPTION_SV, "Sätt en övervakningspunkt. Om du anger en ensam adress sätts en\n"
-                                         "övervakningspunkt för adressen. Om två adresser anges sätts en\n"
-                                         "övervakningspunkt för minnesområdet mellan adresserna.\n"
-                                         "\"loadstore\" är antingen \"load\" eller \"store\" och anger vilken\n"
-                                         "operation emulatorn skall stoppa för. Om den inte anges stoppar\n"
-                                         "emulatorn på bägge operationerna."},
-/* tr */ {IDGS_MON_WATCH_DESCRIPTION_TR, "Bir izleme noktasý koy.  Eðer tek bir adres belirtilmiþse, izleme\n"
-                                         "noktasýný o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\n"
-                                         "o iki adres arasýnda kalan adreslere koy.\n"
-                                         "`yükle/depola' monitörün kesildiði operatöre baðlý olarak `yükle' ya da\n"
-                                         "`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\n"
-                                         "monitör kesilecektir."},
+/* sv */ {IDGS_MON_WATCH_DESCRIPTION_SV, "Sätt en övervakningspunkt. Om du anger en ensam adress sätts en\növervakningspunkt för adressen. Om två adresser anges sätts en\növervakningspunkt för minnesområdet mellan adresserna.\n\"loadstore\" är antingen \"load\" eller \"store\" och anger vilken\noperation emulatorn skall stoppa för. Om den inte anges stoppar\nemulatorn på bägge operationerna."},
+/* tr */ {IDGS_MON_WATCH_DESCRIPTION_TR, "Bir izleme noktasý koy.  Eðer tek bir adres belirtilmiþse, izleme\nnoktasýný o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\no iki adres arasýnda kalan adreslere koy.\n`yükle/depola' monitörün kesildiði operatöre baðlý olarak `yükle' ya da\n`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\nmonitör kesilecektir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2450,31 +1924,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_TRACE_DESCRIPTION,    N_("Set a tracepoint.  If a single address is specified, set a tracepoint\nfor that address.  If two addresses are specified, set a tracepoint\nfor the memory locations between the two addresses.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_TRACE_DESCRIPTION_DA, "Sæt et tracepoint. Hvis der angives en enkelt adresse sættes et\n"
-                                         "tracepoint for adressen. Hvis der angives to adresser sættes et\n"
-                                         "tracepoint for hukommelsesområdet mellem adresserne."},
-/* de */ {IDGS_MON_TRACE_DESCRIPTION_DE, "Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze eine\n"
-                                         "Tracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
-                                         "setze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."},
+/* da */ {IDGS_MON_TRACE_DESCRIPTION_DA, "Sæt et tracepoint. Hvis der angives en enkelt adresse sættes et\ntracepoint for adressen. Hvis der angives to adresser sættes et\ntracepoint for hukommelsesområdet mellem adresserne."},
+/* de */ {IDGS_MON_TRACE_DESCRIPTION_DE, "Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze eine\nTracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \nsetze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."},
 /* fr */ {IDGS_MON_TRACE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_TRACE_DESCRIPTION_HU, "Követési pont beállítása.  Ha egyetlen cím van megadva, a követési pontot\n"
-                                         "ahhoz állítja be.  Ha két cím van megadva, a követési pontot\n"
-                                         "az adott tartományra állítja be."},
-/* it */ {IDGS_MON_TRACE_DESCRIPTION_IT, "Imposta un tracepoint. Se viene specificato solo un indirizzo, imposta\n"
-                                         "un tracepoint per tale indirizzo. Se vengono specificati due indirizzi,\n"
-                                         "imposta un tracepoint per le locazioni di memoria comprese tra i\n"
-                                         "due indirizzi."},
-/* nl */ {IDGS_MON_TRACE_DESCRIPTION_NL, "Zet een traceerpunt. Als er een enkel adres is opgegeven dan zal er een\n"
-                                         "traceerpunt worden gezet voor het adres. Als er twee adressen zijn\n"
-                                         "opgegeven dan zal er een traceerpunt worden gezet voor de adressen tussen\n"
-                                         "de twee adressen."},
+/* hu */ {IDGS_MON_TRACE_DESCRIPTION_HU, "Követési pont beállítása.  Ha egyetlen cím van megadva, a követési pontot\nahhoz állítja be.  Ha két cím van megadva, a követési pontot\naz adott tartományra állítja be."},
+/* it */ {IDGS_MON_TRACE_DESCRIPTION_IT, "Imposta un tracepoint. Se viene specificato solo un indirizzo, imposta\nun tracepoint per tale indirizzo. Se vengono specificati due indirizzi,\nimposta un tracepoint per le locazioni di memoria comprese tra i\ndue indirizzi."},
+/* nl */ {IDGS_MON_TRACE_DESCRIPTION_NL, "Zet een traceerpunt. Als er een enkel adres is opgegeven dan zal er een\ntraceerpunt worden gezet voor het adres. Als er twee adressen zijn\nopgegeven dan zal er een traceerpunt worden gezet voor de adressen tussen\nde twee adressen."},
 /* pl */ {IDGS_MON_TRACE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_TRACE_DESCRIPTION_SV, "Sätt en spårningspunkt. Om du anger en ensam adress sätts en\n"
-                                         "spårningspunkt för adressen. Om två adresser anges sätts en\n"
-                                         "spårningspunkt för minnesområdet mellan adresserna."},
-/* tr */ {IDGS_MON_TRACE_DESCRIPTION_TR, "Takip noktasý koy.  Eðer tek bir adres belirtilmiþse, takip nokasýný\n"
-                                         "o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\n"
-                                         "o iki adres arasýnda kalan adreslere koy."},
+/* sv */ {IDGS_MON_TRACE_DESCRIPTION_SV, "Sätt en spårningspunkt. Om du anger en ensam adress sätts en\nspårningspunkt för adressen. Om två adresser anges sätts en\nspårningspunkt för minnesområdet mellan adresserna."},
+/* tr */ {IDGS_MON_TRACE_DESCRIPTION_TR, "Takip noktasý koy.  Eðer tek bir adres belirtilmiþse, takip nokasýný\no adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\no iki adres arasýnda kalan adreslere koy."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2494,22 +1952,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_DEVICE_DESCRIPTION,    N_("Set the default memory device to either the computer `c:' or the\nspecified disk drive (`8:', `9:').")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_DEVICE_DESCRIPTION_DA, "Sæt det valgte hukommelses område til enten computeren \"c:\" eller\n"
-                                          "det angivne diskettedrev (\"8:\", \"9:\")."},
-/* de */ {IDGS_MON_DEVICE_DESCRIPTION_DE, "Setze das aktuelle Speichergerät entweder auf `c:' \n"
-                                          "oder das angegebene Laufwerk (`8:', `9:')."},
+/* da */ {IDGS_MON_DEVICE_DESCRIPTION_DA, "Sæt det valgte hukommelses område til enten computeren \"c:\" eller\ndet angivne diskettedrev (\"8:\", \"9:\")."},
+/* de */ {IDGS_MON_DEVICE_DESCRIPTION_DE, "Setze das aktuelle Speichergerät entweder auf `c:' \noder das angegebene Laufwerk (`8:', `9:')."},
 /* fr */ {IDGS_MON_DEVICE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_DEVICE_DESCRIPTION_HU, "Az alapértelmezett memória eszköz beállítása a számítógépre `c:' vagy\n"
-                                          "a megadott lemezmeghajtóra (`8:', `9:')."},
-/* it */ {IDGS_MON_DEVICE_DESCRIPTION_IT, "Imposta la periferica di memoria predefinita o sul computer `c:'\n"
-                                          "oppure sul disk drive specificato (`8:', `9:')."},
-/* nl */ {IDGS_MON_DEVICE_DESCRIPTION_NL, "Zet de standaard geheugen apparaat naar of de computer `c:' of de\n"
-                                          "opgegeven disk drive (`8:', `9:')."},
+/* hu */ {IDGS_MON_DEVICE_DESCRIPTION_HU, "Az alapértelmezett memória eszköz beállítása a számítógépre `c:' vagy\na megadott lemezmeghajtóra (`8:', `9:')."},
+/* it */ {IDGS_MON_DEVICE_DESCRIPTION_IT, "Imposta la periferica di memoria predefinita o sul computer `c:'\noppure sul disk drive specificato (`8:', `9:')."},
+/* nl */ {IDGS_MON_DEVICE_DESCRIPTION_NL, "Zet de standaard geheugen apparaat naar of de computer `c:' of de\nopgegeven disk drive (`8:', `9:')."},
 /* pl */ {IDGS_MON_DEVICE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_DEVICE_DESCRIPTION_SV, "Sätt förvald minnesenhet antingen till datorn \"c:\" eller\n"
-                                          "den angivna diskettenheten (\"8:\", \"9:\")."},
-/* tr */ {IDGS_MON_DEVICE_DESCRIPTION_TR, "Varsayýlan bellek aygýtýný bilgisayar `c:' ya da (`8:', `9:') ile\n"
-                                          "belirtilmiþ disket dürücü olarak belirle."},
+/* sv */ {IDGS_MON_DEVICE_DESCRIPTION_SV, "Sätt förvald minnesenhet antingen till datorn \"c:\" eller\nden angivna diskettenheten (\"8:\", \"9:\")."},
+/* tr */ {IDGS_MON_DEVICE_DESCRIPTION_TR, "Varsayýlan bellek aygýtýný bilgisayar `c:' ya da (`8:', `9:') ile\nbelirtilmiþ disket dürücü olarak belirle."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2543,22 +1994,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_RADIX_DESCRIPTION,    N_("Set the default radix to hex, decimal, octal, or binary.  With no\nargument, the current radix is printed.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_RADIX_DESCRIPTION_DA, "Sæt standardradix til hex, decimal, oktal eller binær. Hvis der\n"
-                                         "ikke angives et argument vises det aktuelle radix."},
-/* de */ {IDGS_MON_RADIX_DESCRIPTION_DE, "Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär.\n"
-                                         "Bei keinem Argument wird die akteulle Zahlenbasis ausgegeben."},
+/* da */ {IDGS_MON_RADIX_DESCRIPTION_DA, "Sæt standardradix til hex, decimal, oktal eller binær. Hvis der\nikke angives et argument vises det aktuelle radix."},
+/* de */ {IDGS_MON_RADIX_DESCRIPTION_DE, "Setze die Standardzahlenbasis auf Hexadezimal, Dezimal, Oktal oder Binär.\nBei keinem Argument wird die akteulle Zahlenbasis ausgegeben."},
 /* fr */ {IDGS_MON_RADIX_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_RADIX_DESCRIPTION_HU, "Az alap számrendszer hexadecimális, decimális, oktális vagy bináris.\n"
-                                         "Paraméter nélkül az aktuálisat mutatja."},
-/* it */ {IDGS_MON_RADIX_DESCRIPTION_IT, "Imposta la radice predefinita a esadecimale, decimale, ottale o\n"
-                                         "binaria. Senza parametro viene stampata la radice attuale."},
-/* nl */ {IDGS_MON_RADIX_DESCRIPTION_NL, "Zet de standaard radix naar hex, decimaal, octaal of binair. Als er\n"
-                                         "geen parameter is opgegeven dan zal de huidige radix worden getoond."},
+/* hu */ {IDGS_MON_RADIX_DESCRIPTION_HU, "Az alap számrendszer hexadecimális, decimális, oktális vagy bináris.\nParaméter nélkül az aktuálisat mutatja."},
+/* it */ {IDGS_MON_RADIX_DESCRIPTION_IT, "Imposta la radice predefinita a esadecimale, decimale, ottale o\nbinaria. Senza parametro viene stampata la radice attuale."},
+/* nl */ {IDGS_MON_RADIX_DESCRIPTION_NL, "Zet de standaard radix naar hex, decimaal, octaal of binair. Als er\ngeen parameter is opgegeven dan zal de huidige radix worden getoond."},
 /* pl */ {IDGS_MON_RADIX_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_RADIX_DESCRIPTION_SV, "Sätt standardradix till hex, decimal, oktal eller binär. Om du\n"
-                                         "inte ger något argument visas nuvarande radix."},
-/* tr */ {IDGS_MON_RADIX_DESCRIPTION_TR, "Varsayýlan sayý tabanýný 16'lý, 10'lu, 8'li ya da 2'li yap.\n"
-                                         "Argümansýz olarak geçerli sayý tabaný yazdýrýlýr."},
+/* sv */ {IDGS_MON_RADIX_DESCRIPTION_SV, "Sätt standardradix till hex, decimal, oktal eller binär. Om du\ninte ger något argument visas nuvarande radix."},
+/* tr */ {IDGS_MON_RADIX_DESCRIPTION_TR, "Varsayýlan sayý tabanýný 16'lý, 10'lu, 8'li ya da 2'li yap.\nArgümansýz olarak geçerli sayý tabaný yazdýrýlýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2578,48 +2022,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SIDEFX_DESCRIPTION,    N_("Control how monitor generated reads affect memory locations that have\nread side-effects.  If the argument is 'on' then reads may cause\nside-effects.  If the argument is 'off' then reads don't cause\nside-effects.  If the argument is 'toggle' then the current mode is\nswitched.  No argument displays the current state.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_SIDEFX_DESCRIPTION_DA, "Bestemmer hvordan læsninger i monitoren påvirker hukommelsesområder,\n"
-                                          "der har sedeeffekter ved læsning. Hvis argumentet er \"on\" kan læsninger\n"
-                                          "foresage sideeffekter. Hvis argumentet er \"off\" vil læsninger ikke\n"
-                                          "foresage sideeffekter. Hvis argumentet er \"toggle\" skiftes\n"
-                                          "den nuværende tilstand. Hvis der ikke angives noget argument vises\n"
-                                          "den nuværende tilstand."},
-/* de */ {IDGS_MON_SIDEFX_DESCRIPTION_DE, "Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\n"
-                                          "mit Lese-Seiteneffekten betreffen.\n"
-                                          "Bei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\n"
-                                          "Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\n"
-                                          "Bei Argumenrt \"toggle\" wird das Verhalten vertauscht.\n"
-                                          "Bei keinem Argument wird das aktuelle Verhalten ausgegebene."},
+/* da */ {IDGS_MON_SIDEFX_DESCRIPTION_DA, "Bestemmer hvordan læsninger i monitoren påvirker hukommelsesområder,\nder har sedeeffekter ved læsning. Hvis argumentet er \"on\" kan læsninger\nforesage sideeffekter. Hvis argumentet er \"off\" vil læsninger ikke\nforesage sideeffekter. Hvis argumentet er \"toggle\" skiftes\nden nuværende tilstand. Hvis der ikke angives noget argument vises\nden nuværende tilstand."},
+/* de */ {IDGS_MON_SIDEFX_DESCRIPTION_DE, "Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\nmit Lese-Seiteneffekten betreffen.\nBei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\nBei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\nBei Argumenrt \"toggle\" wird das Verhalten vertauscht.\nBei keinem Argument wird das aktuelle Verhalten ausgegebene."},
 /* fr */ {IDGS_MON_SIDEFX_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_SIDEFX_DESCRIPTION_HU, "Beállítja, hogyan hatnak a monitorprogram memória olvasásai azokra a\n"
-                                          "memóriahelyekre, amelyeknek olvasás-mellékhatásai vannak. Ha a paraméter\n"
-                                          "'on', az olvasások okozhatnak mellékhatásokat. Ha a paraméter 'off', akkor pedig\n"
-                                          "nem okoznak. Ha a paraméter 'toggle', az aktuális módot átkapcsolja.\n"
-                                          "Paraméter nélküli hívás kiírja az aktuális módot."},
-/* it */ {IDGS_MON_SIDEFX_DESCRIPTION_IT, "Controlla come le letture generate dal monitor affliggono le locazioni\n"
-                                          "di memoria che hanno degli effetti collaterali sulla lettura.\n"
-                                          "Se il paremetro è 'on', le letture possono causare effetti collaterali.\n"
-                                          "Se il parametro è 'off', le letture non causano effetti collaterali.\n"
-                                          "Se il parametro è 'scambia', la modalità attuale viene invertita.\n"
-                                          "Nessun parametro mostra lo stato attuale."},
-/* nl */ {IDGS_MON_SIDEFX_DESCRIPTION_NL, "Geef aan hoe de lees acties van de monitor de geheugen locaties met lees\n"
-                                          "bij-effecten beinvloed. Als de parameter 'off' is dan zullen lees acties\n"
-                                          "geen bij-effecten vertonen. Als de parameter 'on' is dan zullen lees\n"
-                                          "acties bij-effecten vertonen. Als de parameter 'toggle' is dan zal de\n"
-                                          "huidige modus worden geschakeld. Als er geen parameter is dan zal de\n"
-                                          "huidige modus worden getoond."},
+/* hu */ {IDGS_MON_SIDEFX_DESCRIPTION_HU, "Beállítja, hogyan hatnak a monitorprogram memória olvasásai azokra a\nmemóriahelyekre, amelyeknek olvasás-mellékhatásai vannak. Ha a paraméter\n'on', az olvasások okozhatnak mellékhatásokat. Ha a paraméter 'off', akkor pedig\nnem okoznak. Ha a paraméter 'toggle', az aktuális módot átkapcsolja.\nParaméter nélküli hívás kiírja az aktuális módot."},
+/* it */ {IDGS_MON_SIDEFX_DESCRIPTION_IT, "Controlla come le letture generate dal monitor affliggono le locazioni\ndi memoria che hanno degli effetti collaterali sulla lettura.\nSe il paremetro è 'on', le letture possono causare effetti collaterali.\nSe il parametro è 'off', le letture non causano effetti collaterali.\nSe il parametro è 'scambia', la modalità attuale viene invertita.\nNessun parametro mostra lo stato attuale."},
+/* nl */ {IDGS_MON_SIDEFX_DESCRIPTION_NL, "Geef aan hoe de lees acties van de monitor de geheugen locaties met lees\nbij-effecten beinvloed. Als de parameter 'off' is dan zullen lees acties\ngeen bij-effecten vertonen. Als de parameter 'on' is dan zullen lees\nacties bij-effecten vertonen. Als de parameter 'toggle' is dan zal de\nhuidige modus worden geschakeld. Als er geen parameter is dan zal de\nhuidige modus worden getoond."},
 /* pl */ {IDGS_MON_SIDEFX_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_SIDEFX_DESCRIPTION_SV, "Styr hur läsningar i monitorn påverkar minnesområden som har\n"
-                                          "sidoeffekter vid läsning. Om argumentet är \"on\" tillåts läsningar\n"
-                                          "att orsaka sidoeffekter. Om argumentet är \"off\" tillåts inte\n"
-                                          "läsningar att orsaka sidoeffekter. Om argumentet är \"toggle\" byts\n"
-                                          "det nuvarande läget. Om du inte anger några argument visas\n"
-                                          "nuvarande läge."},
-/* tr */ {IDGS_MON_SIDEFX_DESCRIPTION_TR, "Okuma yan etkileri bulunan bellek konumlarýný monitör tarafýndan oluþturulan\n"
-                                          "okumalarýn nasýl etkilediðini kontrol et.  Argüman 'on' ise, okumalar yan\n"
-                                          "etkiye neden olabilir.  Argüman 'off' ise okumalarýn bir yan etkisi\n"
-                                          "olmayacaktýr.  Eðer argüman 'toggle' ise geçerli mod deðiþtirilecektir.\n"
-                                          "Argüman verilmemesi o anki durumu görüntüler."},
+/* sv */ {IDGS_MON_SIDEFX_DESCRIPTION_SV, "Styr hur läsningar i monitorn påverkar minnesområden som har\nsidoeffekter vid läsning. Om argumentet är \"on\" tillåts läsningar\natt orsaka sidoeffekter. Om argumentet är \"off\" tillåts inte\nläsningar att orsaka sidoeffekter. Om argumentet är \"toggle\" byts\ndet nuvarande läget. Om du inte anger några argument visas\nnuvarande läge."},
+/* tr */ {IDGS_MON_SIDEFX_DESCRIPTION_TR, "Okuma yan etkileri bulunan bellek konumlarýný monitör tarafýndan oluþturulan\nokumalarýn nasýl etkilediðini kontrol et.  Argüman 'on' ise, okumalar yan\netkiye neden olabilir.  Argüman 'off' ise okumalarýn bir yan etkisi\nolmayacaktýr.  Eðer argüman 'toggle' ise geçerli mod deðiþtirilecektir.\nArgüman verilmemesi o anki durumu görüntüler."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2653,24 +2064,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_AT_DESCRIPTION,    N_("Perform a disk command on the currently attached disk image on drive 8.\nThe specified disk command is sent to the drive's channel #15.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_AT_DESCRIPTION_DA, "Udfører en diskkommando på det diskette-image, der er tilsluttet\n"
-                                      "drev 8. Diskkommandoen sendes til drevets kanal #15."},
-/* de */ {IDGS_MON_AT_DESCRIPTION_DE, "Führe ein Diskkommando auf dem aktuell eingelegtem Diskimage auf Laufwerk 8\n"
-                                      "aus.\n"
-                                      "Das angegebene Kommando wird auf dem Laufwerks Kommandokanal #15 geschickt."},
+/* da */ {IDGS_MON_AT_DESCRIPTION_DA, "Udfører en diskkommando på det diskette-image, der er tilsluttet\ndrev 8. Diskkommandoen sendes til drevets kanal #15."},
+/* de */ {IDGS_MON_AT_DESCRIPTION_DE, "Führe ein Diskkommando auf dem aktuell eingelegtem Diskimage auf Laufwerk 8\naus.\nDas angegebene Kommando wird auf dem Laufwerks Kommandokanal #15 geschickt."},
 /* fr */ {IDGS_MON_AT_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_AT_DESCRIPTION_HU, "Lemez parancs végrehajtása az aktuálisan csatolt lemezen, a 8-as egységen.\n"
-                                      "A megadott lemez parancsot a meghajtó #15-ös csatornájára küldi."},
-/* it */ {IDGS_MON_AT_DESCRIPTION_IT, "Esegue un comando disco sull'immagine disco attualmente presente nel\n"
-                                      "drive 8. Il comando specificato è inviato al canale #15 del drive."},
-/* nl */ {IDGS_MON_AT_DESCRIPTION_NL, "Doe een disk commando operatie op de huidig gekoppelde disk bestand in drive\n"
-                                      "8, Het opgegeven disk commando zal worden gestuurt naar kanaal #15 van de\n"
-                                      "drive."},
+/* hu */ {IDGS_MON_AT_DESCRIPTION_HU, "Lemez parancs végrehajtása az aktuálisan csatolt lemezen, a 8-as egységen.\nA megadott lemez parancsot a meghajtó #15-ös csatornájára küldi."},
+/* it */ {IDGS_MON_AT_DESCRIPTION_IT, "Esegue un comando disco sull'immagine disco attualmente presente nel\ndrive 8. Il comando specificato è inviato al canale #15 del drive."},
+/* nl */ {IDGS_MON_AT_DESCRIPTION_NL, "Doe een disk commando operatie op de huidig gekoppelde disk bestand in drive\n8, Het opgegeven disk commando zal worden gestuurt naar kanaal #15 van de\ndrive."},
 /* pl */ {IDGS_MON_AT_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_AT_DESCRIPTION_SV, "Utför ett diskkommando på den diskettavbildning som är ansluten till\n"
-                                      "enhet 8. Diskkommandot sänds på diskettenhetens kanal nummer 15."},
-/* tr */ {IDGS_MON_AT_DESCRIPTION_TR, "8 nolu sürücüde takýlý disk imajý üzerinde bir disk komutu çalýþtýr.\n"
-                                      "Belirtilen disk komutu sürücünün 15 numaralý kanalýna gönderilir."},
+/* sv */ {IDGS_MON_AT_DESCRIPTION_SV, "Utför ett diskkommando på den diskettavbildning som är ansluten till\nenhet 8. Diskkommandot sänds på diskettenhetens kanal nummer 15."},
+/* tr */ {IDGS_MON_AT_DESCRIPTION_TR, "8 nolu sürücüde takýlý disk imajý üzerinde bir disk komutu çalýþtýr.\nBelirtilen disk komutu sürücünün 15 numaralý kanalýna gönderilir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2718,23 +2120,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BLOAD_DESCRIPTION,    N_("Load the specified file into memory at the specified address.\nIf device is 0, the file is read from the file system.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BLOAD_DESCRIPTION_DA, "Indlæs den angivne fil til hukommelsen på den angivne adresse.\n"
-                                         "Hvis enhed er 0 læses fra filsystemet."},
-/* de */ {IDGS_MON_BLOAD_DESCRIPTION_DE, "Lade angegebene Datei in den Speicher an die angegebene Adresse.\n"
-                                         "Bei Gerät 0, wird die Datei vom Dateisystem gelesen."},
+/* da */ {IDGS_MON_BLOAD_DESCRIPTION_DA, "Indlæs den angivne fil til hukommelsen på den angivne adresse.\nHvis enhed er 0 læses fra filsystemet."},
+/* de */ {IDGS_MON_BLOAD_DESCRIPTION_DE, "Lade angegebene Datei in den Speicher an die angegebene Adresse.\nBei Gerät 0, wird die Datei vom Dateisystem gelesen."},
 /* fr */ {IDGS_MON_BLOAD_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BLOAD_DESCRIPTION_HU, "A megadott fájl betöltése a memóriába a megadott címre.\n"
-                                         "Ha az eszköz 0, a fájlt a fájlrendszerbõl olvassa."},
-/* it */ {IDGS_MON_BLOAD_DESCRIPTION_IT, "Carica il file specificato in memoria all'indirizzo specificato.\n"
-                                         "Se la periferica è 0, il file è letto dal file system."},
-/* nl */ {IDGS_MON_BLOAD_DESCRIPTION_NL, "Laad het opgegeven bestand naar het geheugen met het opgegeven adres.\n"
-                                         "Als het apparaat 0 is dan zal het bestand van het bestandssysteem\n"
-                                         "worden geladen."},
+/* hu */ {IDGS_MON_BLOAD_DESCRIPTION_HU, "A megadott fájl betöltése a memóriába a megadott címre.\nHa az eszköz 0, a fájlt a fájlrendszerbõl olvassa."},
+/* it */ {IDGS_MON_BLOAD_DESCRIPTION_IT, "Carica il file specificato in memoria all'indirizzo specificato.\nSe la periferica è 0, il file è letto dal file system."},
+/* nl */ {IDGS_MON_BLOAD_DESCRIPTION_NL, "Laad het opgegeven bestand naar het geheugen met het opgegeven adres.\nAls het apparaat 0 is dan zal het bestand van het bestandssysteem\nworden geladen."},
 /* pl */ {IDGS_MON_BLOAD_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BLOAD_DESCRIPTION_SV, "Läs den angivna filen till minnet på den angivna adressen.\n"
-                                         "Om enheten är 0 läses filen från filsystemet."},
-/* tr */ {IDGS_MON_BLOAD_DESCRIPTION_TR, "Belirtilmiþ dosyayý belirtilen adresten itibaren belleðe yükle.\n"
-                                         "Aygýt 0 ise, dosya dosya sistemi üzerinden okunur."},
+/* sv */ {IDGS_MON_BLOAD_DESCRIPTION_SV, "Läs den angivna filen till minnet på den angivna adressen.\nOm enheten är 0 läses filen från filsystemet."},
+/* tr */ {IDGS_MON_BLOAD_DESCRIPTION_TR, "Belirtilmiþ dosyayý belirtilen adresten itibaren belleðe yükle.\nAygýt 0 ise, dosya dosya sistemi üzerinden okunur."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2754,30 +2148,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BLOCK_READ_DESCRIPTION,    N_("Read the block at the specified track and sector.  If an address is\nspecified, the data is loaded into memory.  If no address is given, the\ndata is displayed using the default datatype.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BLOCK_READ_DESCRIPTION_DA, "Læser en blok fra det angivne spor og sektor. Hvis en adresse angives\n"
-                                              "indlæses data til hukommelsen. Hvis der ikke angives nogen adresse vises\n"
-                                              "indholdet med standarddatatypen."},
-/* de */ {IDGS_MON_BLOCK_READ_DESCRIPTION_DE, "Lese den Block von angegebener Spur und Sektor. Wenn eine Adresse\n"
-                                              "angegeben wurde, lade in auf die entsprechende Adresse. Wenn keine Adresse\n"
-                                              "angegeben ist, zeige die Daten im aktuellen Anzeigemodus für Daten."},
+/* da */ {IDGS_MON_BLOCK_READ_DESCRIPTION_DA, "Læser en blok fra det angivne spor og sektor. Hvis en adresse angives\nindlæses data til hukommelsen. Hvis der ikke angives nogen adresse vises\nindholdet med standarddatatypen."},
+/* de */ {IDGS_MON_BLOCK_READ_DESCRIPTION_DE, "Lese den Block von angegebener Spur und Sektor. Wenn eine Adresse\nangegeben wurde, lade in auf die entsprechende Adresse. Wenn keine Adresse\nangegeben ist, zeige die Daten im aktuellen Anzeigemodus für Daten."},
 /* fr */ {IDGS_MON_BLOCK_READ_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BLOCK_READ_DESCRIPTION_HU, "Blokk beolvasása a megadott sávból és szektorból.,  Ha egy cím is meg\n"
-                                              "van adva, az adatot a memóriába tölti.  Ha az nincs, az\n"
-                                              "adatot az alapbeállítás szerinti formában mutatja."},
-/* it */ {IDGS_MON_BLOCK_READ_DESCRIPTION_IT, "Legge il blocco dalla traccia e settore specificati. Se è specificato\n"
-                                              "un indirizzo, il dato è caricato in memoria. Se non è specificato alcun\n"
-                                              "indirizzo, il dato è mostrato usando il tipo di dato predefinito."},
-/* nl */ {IDGS_MON_BLOCK_READ_DESCRIPTION_NL, "Lees het blok van de opgegeven spoor en sector. Als er een adres is\n"
-                                              "opgegeven dan zal de data naar dat adres in geheugen worden geladen.\n"
-                                              "Als er geen adres is opgegeven dan zal de data worder getoond met de\n"
-                                              "huidige datasoort."},
+/* hu */ {IDGS_MON_BLOCK_READ_DESCRIPTION_HU, "Blokk beolvasása a megadott sávból és szektorból.,  Ha egy cím is meg\nvan adva, az adatot a memóriába tölti.  Ha az nincs, az\nadatot az alapbeállítás szerinti formában mutatja."},
+/* it */ {IDGS_MON_BLOCK_READ_DESCRIPTION_IT, "Legge il blocco dalla traccia e settore specificati. Se è specificato\nun indirizzo, il dato è caricato in memoria. Se non è specificato alcun\nindirizzo, il dato è mostrato usando il tipo di dato predefinito."},
+/* nl */ {IDGS_MON_BLOCK_READ_DESCRIPTION_NL, "Lees het blok van de opgegeven spoor en sector. Als er een adres is\nopgegeven dan zal de data naar dat adres in geheugen worden geladen.\nAls er geen adres is opgegeven dan zal de data worder getoond met de\nhuidige datasoort."},
 /* pl */ {IDGS_MON_BLOCK_READ_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BLOCK_READ_DESCRIPTION_SV, "Läser blocket på det angivna spåret och sektorn. Om du anger en\n"
-                                              "adress läses data till minnet. Om du inte anger någon adress visas\n"
-                                              "innehållet enligt standarddatatypen."},
-/* tr */ {IDGS_MON_BLOCK_READ_DESCRIPTION_TR, "Belirtilmiþ track ve sektördeki bloðu oku.  Eðer bir adres belirtilmiþse,\n"
-                                              "veri belleðe yüklenir.  Eðer adres belirtilmemiþse, veri varsayýlan veri\n"
-                                              "tipi kullanýlarak görüntülenir."},
+/* sv */ {IDGS_MON_BLOCK_READ_DESCRIPTION_SV, "Läser blocket på det angivna spåret och sektorn. Om du anger en\nadress läses data till minnet. Om du inte anger någon adress visas\ninnehållet enligt standarddatatypen."},
+/* tr */ {IDGS_MON_BLOCK_READ_DESCRIPTION_TR, "Belirtilmiþ track ve sektördeki bloðu oku.  Eðer bir adres belirtilmiþse,\nveri belleðe yüklenir.  Eðer adres belirtilmemiþse, veri varsayýlan veri\ntipi kullanýlarak görüntülenir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2797,23 +2176,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BSAVE_DESCRIPTION,    N_("Save the memory from address1 to address2 to the specified file.\nIf device is 0, the file is written to the file system.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BSAVE_DESCRIPTION_DA, "Gem hukommelsen fra adresse1 til adresse2 til den angivne fil.\n"
-                                         "Hvis enhed er 0 skrives til filsystemet."},
-/* de */ {IDGS_MON_BSAVE_DESCRIPTION_DE, "Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene Datei.\n"
-                                         "Wenn das Gerät 0 angegeben wurde, speichere im Dateisystem."},
+/* da */ {IDGS_MON_BSAVE_DESCRIPTION_DA, "Gem hukommelsen fra adresse1 til adresse2 til den angivne fil.\nHvis enhed er 0 skrives til filsystemet."},
+/* de */ {IDGS_MON_BSAVE_DESCRIPTION_DE, "Speichere den Speicherinhalt von Adresse1 zu Adresse2 in die angegebene Datei.\nWenn das Gerät 0 angegeben wurde, speichere im Dateisystem."},
 /* fr */ {IDGS_MON_BSAVE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BSAVE_DESCRIPTION_HU, "A memória cím1 és cím2 közötti részének fájlba mentése.\n"
-                                         "Ha az eszköz 0, a fájl a fájlrendszerbe kerül."},
-/* it */ {IDGS_MON_BSAVE_DESCRIPTION_IT, "Salva la memoria compresa tra indirizzo1 e indirizzo2 sul file specificato.\n"
-                                         "Se la periferica è 0, il file è scritto sul file system."},
-/* nl */ {IDGS_MON_BSAVE_DESCRIPTION_NL, "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\n"
-                                         "Als het apparaat 0 is dan zal het bestand naar het bestandssysteem worden\n"
-                                         "geschreven."},
+/* hu */ {IDGS_MON_BSAVE_DESCRIPTION_HU, "A memória cím1 és cím2 közötti részének fájlba mentése.\nHa az eszköz 0, a fájl a fájlrendszerbe kerül."},
+/* it */ {IDGS_MON_BSAVE_DESCRIPTION_IT, "Salva la memoria compresa tra indirizzo1 e indirizzo2 sul file specificato.\nSe la periferica è 0, il file è scritto sul file system."},
+/* nl */ {IDGS_MON_BSAVE_DESCRIPTION_NL, "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\nAls het apparaat 0 is dan zal het bestand naar het bestandssysteem worden\ngeschreven."},
 /* pl */ {IDGS_MON_BSAVE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BSAVE_DESCRIPTION_SV, "Spara minnet från adress1 till adress2 till den angivna filen.\n"
-                                         "Om enheten är 0 skrivs filen till filsystemet."},
-/* tr */ {IDGS_MON_BSAVE_DESCRIPTION_TR, "Adres1'den adres2'ye kadar olan belleði belirtilen dosyaya kaydet.\n"
-                                         "Eðer aygýt 0 ise, dosya dosya sistemine yazýlýr."},
+/* sv */ {IDGS_MON_BSAVE_DESCRIPTION_SV, "Spara minnet från adress1 till adress2 till den angivna filen.\nOm enheten är 0 skrivs filen till filsystemet."},
+/* tr */ {IDGS_MON_BSAVE_DESCRIPTION_TR, "Adres1'den adres2'ye kadar olan belleði belirtilen dosyaya kaydet.\nEðer aygýt 0 ise, dosya dosya sistemine yazýlýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2833,22 +2204,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION,    N_("Write a block of data at `address' on the specified track and sector\nof disk in drive 8.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_DA, "Skriv datablok på \"adresse\" til det angivne spor og sektor\n"
-                                               "på disken i drev 8."},
-/* de */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_DE, "Schreibe einen Datenblock von `Adresse' auf die angegebene Spure und Sektor\n"
-                                               "in die Imagedatei von Laufwerk 8."},
+/* da */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_DA, "Skriv datablok på \"adresse\" til det angivne spor og sektor\npå disken i drev 8."},
+/* de */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_DE, "Schreibe einen Datenblock von `Adresse' auf die angegebene Spure und Sektor\nin die Imagedatei von Laufwerk 8."},
 /* fr */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_HU, "Egy adat blokk írása `cím' helyrõl a megadott sávba és szektorba\n"
-                                               "a 8-as meghajtón."},
-/* it */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_IT, "Scrive il blocco di dati all'indirizzo sulla traccia e settore specificati\n"
-                                               "del disco nel drive 8."},
-/* nl */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_NL, "Schrijf een data blok van `adres' naar de opgegeven spoor en sector van\n"
-                                               "de disk in drive 8."},
+/* hu */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_HU, "Egy adat blokk írása `cím' helyrõl a megadott sávba és szektorba\na 8-as meghajtón."},
+/* it */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_IT, "Scrive il blocco di dati all'indirizzo sulla traccia e settore specificati\ndel disco nel drive 8."},
+/* nl */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_NL, "Schrijf een data blok van `adres' naar de opgegeven spoor en sector van\nde disk in drive 8."},
 /* pl */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_SV, "Skriv ett datablock på \"adress\" till det angivna spåret och sektorn\n"
-                                               "på disken i enhet 8."},
-/* tr */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_TR, "Belirtilmiþ track ve sektörlerde `adres'te yer alan veri bloðunu 8\n"
-                                               "numaralý sürücüdeki diske yaz."},
+/* sv */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_SV, "Skriv ett datablock på \"adress\" till det angivna spåret och sektorn\npå disken i enhet 8."},
+/* tr */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_TR, "Belirtilmiþ track ve sektörlerde `adres'te yer alan veri bloðunu 8\nnumaralý sürücüdeki diske yaz."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2938,43 +2302,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_LOAD_DESCRIPTION,    N_("Load the specified file into memory at the specified address. Set BASIC\npointers appropriately if loaded into computer memory (not all emulators).\nUse (otherwise ignored) two-byte load address from file if no address\nspecified.\nIf device is 0, the file is read from the file system.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_LOAD_DESCRIPTION_DA, "Indlæs filen i hukommelsen på den angivne adresse. Opdaterer\n"
-                                        "BASIC-pointers ved læsning til computerens hukommelse (ikke alle\n"
-                                        "emulatorer). Hvis ingen adresse angives bruges load-adressen fra (som ellers ignoreres).\n"
-                                        "Hvis enhed er 0 læses fra filsystemet."},
-/* de */ {IDGS_MON_LOAD_DESCRIPTION_DE, "Lade die angegebene Datei in den Speicher auf die angegebene Adresse.\n"
-                                        "Setze den BASIC Zeiger entsprechend, wenn in den Rechnerspeicher geladen \n"
-                                        "wurde (nicht bei allen Emulatoren!).\n"
-                                        "Verwende (sonst ignoriert) die zwei-Byte Lade-Adresse aus der Datei, wenn\n"
-                                        "keine Adresse angegeben wurde.\n"
-                                        "Bei Gerät 0, wird die Datei vom Dateisystem gelade."},
+/* da */ {IDGS_MON_LOAD_DESCRIPTION_DA, "Indlæs filen i hukommelsen på den angivne adresse. Opdaterer\nBASIC-pointers ved læsning til computerens hukommelse (ikke alle\nemulatorer). Hvis ingen adresse angives bruges load-adressen fra(som ellers ignoreres).\nHvis enhed er 0 læses fra filsystemet."},
+/* de */ {IDGS_MON_LOAD_DESCRIPTION_DE, "Lade die angegebene Datei in den Speicher auf die angegebene Adresse.\nSetze den BASIC Zeiger entsprechend, wenn in den Rechnerspeicher geladen \nwurde (nicht bei allen Emulatoren!).\nVerwende (sonst ignoriert) die zwei-Byte Lade-Adresse aus der Datei, wenn\nkeine Adresse angegeben wurde.\nBei Gerät 0, wird die Datei vom Dateisystem gelade."},
 /* fr */ {IDGS_MON_LOAD_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_LOAD_DESCRIPTION_HU, "A megadott fájl betöltése a megadott címre. A BASIC mutatókat\n"
-                                        "a megfelelõ módon beállítja, ha a számítógép memóriába tölti az adatot\n"
-                                        "(nem minden emulátornál). Ha nincs cím megadva, az amúgy figyelmen hagyott\n"
-                                        "két bájtos betöltési címet használja a fájlból.\n"
-                                        "Ha az eszköz 0, a fájlt a fájlrendszerrõl olvassa."},
-/* it */ {IDGS_MON_LOAD_DESCRIPTION_IT, "Carica il file specificato in memroia all'indirizzo specificato. Imposta\n"
-                                        "i puntatori del BASIC in modo appropriato se caricato nella memoria\n"
-                                        "del computer (non su tutti gli emulatori).\n"
-                                        "Usa (altrimenti ignora) l'indirizzo di caricamento su due byte del file\n"
-                                        "se non viene specificato alcun indirizzo.\n"
-                                        "Se la periferica è 0, il file viene letto dal file system."},
-/* nl */ {IDGS_MON_LOAD_DESCRIPTION_NL, "Laad het opgegeven bestand naar geheugen op het opgegeven adres. Zet de BASIC\n"
-                                        "start en eind indicators correct als het bestand naar het computer geheugen\n"
-                                        "geladen wordt (niet alle emulatoren). De eerste twee bytes van het bestand\n"
-                                        "zullen als laad adres worden gebruikt als er geen adres is opgegeven. Als\n"
-                                        "het apparaat 0 is dan zal het bestand van het bestandssysteem worden geladen."},
+/* hu */ {IDGS_MON_LOAD_DESCRIPTION_HU, "A megadott fájl betöltése a megadott címre. A BASIC mutatókat\na megfelelõ módon beállítja, ha a számítógép memóriába tölti az adatot\n(nem minden emulátornál). Ha nincs cím megadva, az amúgy figyelmen hagyott\nkét bájtos betöltési címet használja a fájlból.\nHa az eszköz 0, a fájlt a fájlrendszerrõl olvassa."},
+/* it */ {IDGS_MON_LOAD_DESCRIPTION_IT, "Carica il file specificato in memroia all'indirizzo specificato. Imposta\ni puntatori del BASIC in modo appropriato se caricato nella memoria\ndel computer (non su tutti gli emulatori).\nUsa (altrimenti ignora) l'indirizzo di caricamento su due byte del file\nse non viene specificato alcun indirizzo.\nSe la periferica è 0, il file viene letto dal file system."},
+/* nl */ {IDGS_MON_LOAD_DESCRIPTION_NL, "Laad het opgegeven bestand naar geheugen op het opgegeven adres. Zet de BASIC\nstart en eind indicators correct als het bestand naar het computer geheugen\ngeladen wordt (niet alle emulatoren). De eerste twee bytes van het bestand\nzullen als laad adres worden gebruikt als er geen adres is opgegeven. Als\nhet apparaat 0 is dan zal het bestand van het bestandssysteem worden geladen."},
 /* pl */ {IDGS_MON_LOAD_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_LOAD_DESCRIPTION_SV, "Läs in den angivna filen i minnet på den angivna adressen. Sätter\n"
-                                        "motsvarande BASIC-pekare vid läsning till datorminnet (inte alla\n"
-                                        "emulatorer). Om ingen adress anges används tvåbytesadressen i filen (ignoreras annars).\n"
-                                        "Om enheten är 0 läses filen från filsystemet."},
-/* tr */ {IDGS_MON_LOAD_DESCRIPTION_TR, "Belirtilmiþ dosyayý belirtilen adresten itibaren belleðe yükle. Eðer\n"
-                                        "bilgisayar belleðine yüklenmiþse BASIC imleçlerini uygun bir biçimde\n"
-                                        "ayarla (tüm emülatörlerde deðil). Eðer adres belirtilmemiþse iki bytelýk\n"
-                                        "dosya yükleme adresini kullan (diðer ihtimalde yoksay).\n"
-                                        "Eðer aygýt 0 ise, dosya dosya sisteminden okunur."},
+/* sv */ {IDGS_MON_LOAD_DESCRIPTION_SV, "Läs in den angivna filen i minnet på den angivna adressen. Sätter\nmotsvarande BASIC-pekare vid läsning till datorminnet (inte alla\nemulatorer). Om ingen adress anges används tvåbytesadressen i filen(ignoreras annars).\nOm enheten är 0 läses filen från filsystemet."},
+/* tr */ {IDGS_MON_LOAD_DESCRIPTION_TR, "Belirtilmiþ dosyayý belirtilen adresten itibaren belleðe yükle. Eðer\nbilgisayar belleðine yüklenmiþse BASIC imleçlerini uygun bir biçimde\nayarla (tüm emülatörlerde deðil). Eðer adres belirtilmemiþse iki bytelýk\ndosya yükleme adresini kullan (diðer ihtimalde yoksay).\nEðer aygýt 0 ise, dosya dosya sisteminden okunur."},
 #endif
 
 /* monitor/mon_command.c */
@@ -2994,31 +2330,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SAVE_DESCRIPTION,    N_("Save the memory from address1 to address2 to the specified file.\nWrite two-byte load address.\nIf device is 0, the file is written to the file system.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_SAVE_DESCRIPTION_DA, "Gem hukommelsen fra  adresse1 til adresse2 til den angivne fil.\n"
-                                        "Skriv 2-byte loadadresse i starten af filen.\n"
-                                        "Hvis enhed er 0 skrives til filsystemet."},
-/* de */ {IDGS_MON_SAVE_DESCRIPTION_DE, "Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\n"
-                                        "Schreibe eine zwei-Byte Lade Adresse.\n"
-                                        "Bei Gerät 0, wird dei Datei in das Dateisystem geschrieben."},
+/* da */ {IDGS_MON_SAVE_DESCRIPTION_DA, "Gem hukommelsen fra  adresse1 til adresse2 til den angivne fil.\nSkriv 2-byte loadadresse i starten af filen.\nHvis enhed er 0 skrives til filsystemet."},
+/* de */ {IDGS_MON_SAVE_DESCRIPTION_DE, "Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\nSchreibe eine zwei-Byte Lade Adresse.\nBei Gerät 0, wird dei Datei in das Dateisystem geschrieben."},
 /* fr */ {IDGS_MON_SAVE_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_SAVE_DESCRIPTION_HU, "A memória cím1 és cím2 közötti tartományának fájlba mentése.\n"
-                                        "A kétbájtos betöltési címet is kiírja.\n"
-                                        "Ha az eszköz 0, a fájlt a fájlrendszeren hozza létre."},
-/* it */ {IDGS_MON_SAVE_DESCRIPTION_IT, "Salva la memoria compresa tra indirizzo1 e indirizzo2 sul file\n"
-                                        "specificato.\n"
-                                        "Scrive l'indirizzo di caricamento su due byte.\n"
-                                        "Se la periferica è 0, il file è scritto sul file system."},
-/* nl */ {IDGS_MON_SAVE_DESCRIPTION_NL, "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\n"
-                                        "Schrijf een load adres van twee bytes.\n"
-                                        "Als het apparaat 0 is dan zal het bestand geschreven worden naar het\n"
-                                        "bestandssysteem."},
+/* hu */ {IDGS_MON_SAVE_DESCRIPTION_HU, "A memória cím1 és cím2 közötti tartományának fájlba mentése.\nA kétbájtos betöltési címet is kiírja.\nHa az eszköz 0, a fájlt a fájlrendszeren hozza létre."},
+/* it */ {IDGS_MON_SAVE_DESCRIPTION_IT, "Salva la memoria compresa tra indirizzo1 e indirizzo2 sul file\nspecificato.\nScrive l'indirizzo di caricamento su due byte.\nSe la periferica è 0, il file è scritto sul file system."},
+/* nl */ {IDGS_MON_SAVE_DESCRIPTION_NL, "Sla het geheugen tussen adres1 en adres2 op naar het opgegeven bestand.\nSchrijf een load adres van twee bytes.\nAls het apparaat 0 is dan zal het bestand geschreven worden naar het\nbestandssysteem."},
 /* pl */ {IDGS_MON_SAVE_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_SAVE_DESCRIPTION_SV, "Spara minnet från adress1 till adress2 till den angivna filen.\n"
-                                        "Skriv tvåbytes inläsningsadress.\n"
-                                        "Om enheten är 0 skrivs filen till filsystemet."},
-/* tr */ {IDGS_MON_SAVE_DESCRIPTION_TR, "Adres1'den adres2'ye kadar olan belleði belirtilen dosyaya kaydet.\n"
-                                        "Ýki bytelýk yükeme adresini yaz.\n"
-                                        "Eðer aygýt 0 ise, dosya dosya sistemine yazýlýr."},
+/* sv */ {IDGS_MON_SAVE_DESCRIPTION_SV, "Spara minnet från adress1 till adress2 till den angivna filen.\nSkriv tvåbytes inläsningsadress.\nOm enheten är 0 skrivs filen till filsystemet."},
+/* tr */ {IDGS_MON_SAVE_DESCRIPTION_TR, "Adres1'den adres2'ye kadar olan belleði belirtilen dosyaya kaydet.\nÝki bytelýk yükeme adresini yaz.\nEðer aygýt 0 ise, dosya dosya sistemine yazýlýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -3080,25 +2400,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_HELP_DESCRIPTION,    N_("If no argument is given, prints out a list of all available commands\nIf an argument is given, prints out specific help for that command.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_HELP_DESCRIPTION_DA, "Hvis der ikke angives et argument vises en liste over mulige kommandoer.\n"
-                                        "Angives et argument vises hjælp for denne kommando."},
-/* de */ {IDGS_MON_HELP_DESCRIPTION_DE, "Wenn kein Argement angegeben wurde, werden alle Kommandos ausgegeben.\n"
-                                        "Mit Argument, zeige die Hilfe für das angegebene Kommand."},
+/* da */ {IDGS_MON_HELP_DESCRIPTION_DA, "Hvis der ikke angives et argument vises en liste over mulige kommandoer.\nAngives et argument vises hjælp for denne kommando."},
+/* de */ {IDGS_MON_HELP_DESCRIPTION_DE, "Wenn kein Argement angegeben wurde, werden alle Kommandos ausgegeben.\nMit Argument, zeige die Hilfe für das angegebene Kommand."},
 /* fr */ {IDGS_MON_HELP_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_HELP_DESCRIPTION_HU, "Ha nincs paraméter, az összes létezõ parancs listáját mutatja.\n"
-                                        "Ha van, az adott parancshoz mutatja a súgót."},
-/* it */ {IDGS_MON_HELP_DESCRIPTION_IT, "Se non viene specificato alcun argomeno, stamapa la lista di tutti i\n"
-                                        "comandi disponibili.\n"
-                                        "Se viene specificato un argomento, stampa l'aiuto relativo a quel\n"
-                                        "comando."},
-/* nl */ {IDGS_MON_HELP_DESCRIPTION_NL, "Als er geen parameter is opgegeven dan zal een lijst van alle commandos\n"
-                                        "worden weergegeven. Als er een parameter is opgegeven dan zal de help voor\n"
-                                        "het opgegeven command worden weergegeven."},
+/* hu */ {IDGS_MON_HELP_DESCRIPTION_HU, "Ha nincs paraméter, az összes létezõ parancs listáját mutatja.\nHa van, az adott parancshoz mutatja a súgót."},
+/* it */ {IDGS_MON_HELP_DESCRIPTION_IT, "Se non viene specificato alcun argomeno, stamapa la lista di tutti i\ncomandi disponibili.\nSe viene specificato un argomento, stampa l'aiuto relativo a quel\ncomando."},
+/* nl */ {IDGS_MON_HELP_DESCRIPTION_NL, "Als er geen parameter is opgegeven dan zal een lijst van alle commandos\nworden weergegeven. Als er een parameter is opgegeven dan zal de help voor\nhet opgegeven command worden weergegeven."},
 /* pl */ {IDGS_MON_HELP_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_HELP_DESCRIPTION_SV, "Om du inte anger några argument visas alla tillgängliga kommandon.\n"
-                                        "Om du anger ett argument visas hjälp för det specifika kommandot."},
-/* tr */ {IDGS_MON_HELP_DESCRIPTION_TR, "Eðer hiç argüman verilmemiþse, tüm mevcut komutlarýn listesi yazdýrýlýr\n"
-                                        "Eðer bir argüman verilmiþse, o komuta özel yardým bilgisi yazdýrýlýr."},
+/* sv */ {IDGS_MON_HELP_DESCRIPTION_SV, "Om du inte anger några argument visas alla tillgängliga kommandon.\nOm du anger ett argument visas hjälp för det specifika kommandot."},
+/* tr */ {IDGS_MON_HELP_DESCRIPTION_TR, "Eðer hiç argüman verilmemiþse, tüm mevcut komutlarýn listesi yazdýrýlýr\nEðer bir argüman verilmiþse, o komuta özel yardým bilgisi yazdýrýlýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -3132,25 +2442,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_PLAYBACK_DESCRIPTION,    N_("Monitor commands from the specified file are read and executed.  This\ncommand stops at the end of file or when a STOP command is read.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_PLAYBACK_DESCRIPTION_DA, "Monitorkommandoer indlæses fra den angivne fil og udføres. Kommandoen\n"
-                                            "stopper når slutningen af filen nås, eller når der opdages en STOP-kommando."},
-/* de */ {IDGS_MON_PLAYBACK_DESCRIPTION_DE, "Monitor Kommandos aus der angegebenen Datei werden gelesen und ausgeführt.\n"
-                                            "Dieses Kommando stoppt, wenn das Ende der Datei erreicht wurde, oder das\n"
-                                            "Kommando STOP gelesen wurde."},
+/* da */ {IDGS_MON_PLAYBACK_DESCRIPTION_DA, "Monitorkommandoer indlæses fra den angivne fil og udføres. Kommandoen\nstopper når slutningen af filen nås, eller når der opdages en STOP-kommando."},
+/* de */ {IDGS_MON_PLAYBACK_DESCRIPTION_DE, "Monitor Kommandos aus der angegebenen Datei werden gelesen und ausgeführt.\nDieses Kommando stoppt, wenn das Ende der Datei erreicht wurde, oder das\nKommando STOP gelesen wurde."},
 /* fr */ {IDGS_MON_PLAYBACK_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_PLAYBACK_DESCRIPTION_HU, "A monitor parancsokat beolvassa és végrehajtja a megadott fájlból.\n"
-                                            "A fájl végéig halad, vagy egy beolvasott STOP parancsig."},
-/* it */ {IDGS_MON_PLAYBACK_DESCRIPTION_IT, "I comandi del monitor sono letti ed eseguiti dal file specificato. Questo\n"
-                                            "comando si arresta alla fine del file o quando viene letto il comando\n"
-                                            "STOP."},
-/* nl */ {IDGS_MON_PLAYBACK_DESCRIPTION_NL, "Monitor commandos van het opgegeven bestand zullen worden gelezen en\n"
-                                            "uitgevoerd. Dit commando stopt aan het einde van het bestand of wanneer\n"
-                                            "een STOP commando wordt gelezen."},
+/* hu */ {IDGS_MON_PLAYBACK_DESCRIPTION_HU, "A monitor parancsokat beolvassa és végrehajtja a megadott fájlból.\nA fájl végéig halad, vagy egy beolvasott STOP parancsig."},
+/* it */ {IDGS_MON_PLAYBACK_DESCRIPTION_IT, "I comandi del monitor sono letti ed eseguiti dal file specificato. Questo\ncomando si arresta alla fine del file o quando viene letto il comando\nSTOP."},
+/* nl */ {IDGS_MON_PLAYBACK_DESCRIPTION_NL, "Monitor commandos van het opgegeven bestand zullen worden gelezen en\nuitgevoerd. Dit commando stopt aan het einde van het bestand of wanneer\neen STOP commando wordt gelezen."},
 /* pl */ {IDGS_MON_PLAYBACK_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_PLAYBACK_DESCRIPTION_SV, "Monitorkommandon läses in och körs från den angivna filen. Kommandot\n"
-                                            "stoppar vid filslut eller när ett STOP-kommando läses."},
-/* tr */ {IDGS_MON_PLAYBACK_DESCRIPTION_TR, "Belirtilen dosyadaki monitör komutlarý okundu ve çalýþtýrýldý.  Bu\n"
-                                            "komut dosya sonunda ya da STOP komutu okunduðunda sonlanýr."},
+/* sv */ {IDGS_MON_PLAYBACK_DESCRIPTION_SV, "Monitorkommandon läses in och körs från den angivna filen. Kommandot\nstoppar vid filslut eller när ett STOP-kommando läses."},
+/* tr */ {IDGS_MON_PLAYBACK_DESCRIPTION_TR, "Belirtilen dosyadaki monitör komutlarý okundu ve çalýþtýrýldý.  Bu\nkomut dosya sonunda ya da STOP komutu okunduðunda sonlanýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -3184,22 +2484,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_RECORD_DESCRIPTION,    N_("After this command, all commands entered are written to the specified\nfile until the STOP command is entered.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_RECORD_DESCRIPTION_DA, "Efter denne kommando skrives alle kommandoer til den angivne fil,\n"
-                                          "indtil der angives en STOP-kommando."},
-/* de */ {IDGS_MON_RECORD_DESCRIPTION_DE, "Nach diesem Kommando werden alle eingebenen Kommands in die angegebene\n"
-                                          "Datei gespeicher solang bis das Kommando STOP eingegeben wurde."},
+/* da */ {IDGS_MON_RECORD_DESCRIPTION_DA, "Efter denne kommando skrives alle kommandoer til den angivne fil,\nindtil der angives en STOP-kommando."},
+/* de */ {IDGS_MON_RECORD_DESCRIPTION_DE, "Nach diesem Kommando werden alle eingebenen Kommands in die angegebene\nDatei gespeicher solang bis das Kommando STOP eingegeben wurde."},
 /* fr */ {IDGS_MON_RECORD_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_RECORD_DESCRIPTION_HU, "Ezután a parancs után az összes parancsot a megadott fájlba\n"
-                                          "írja, amíg STOP parancs nem érkezik."},
-/* it */ {IDGS_MON_RECORD_DESCRIPTION_IT, "Dopo questo comando, tutti i comandi inseriti saranno scritti sul file\n"
-                                          "specificato fino a quando verrà inserito il comando STOP."},
-/* nl */ {IDGS_MON_RECORD_DESCRIPTION_NL, "Na dit commando zullen alle opgegeven commandos worden geschreven naar\n"
-                                          "het opgegeven bestand totdat het STOP command wordt opgegeven."},
+/* hu */ {IDGS_MON_RECORD_DESCRIPTION_HU, "Ezután a parancs után az összes parancsot a megadott fájlba\nírja, amíg STOP parancs nem érkezik."},
+/* it */ {IDGS_MON_RECORD_DESCRIPTION_IT, "Dopo questo comando, tutti i comandi inseriti saranno scritti sul file\nspecificato fino a quando verrà inserito il comando STOP."},
+/* nl */ {IDGS_MON_RECORD_DESCRIPTION_NL, "Na dit commando zullen alle opgegeven commandos worden geschreven naar\nhet opgegeven bestand totdat het STOP command wordt opgegeven."},
 /* pl */ {IDGS_MON_RECORD_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_RECORD_DESCRIPTION_SV, "Efter detta kommando kommer alla kommandon som anges att skrivas till\n"
-                                          "den angivna filen tills ett STOP-kommando anges."},
-/* tr */ {IDGS_MON_RECORD_DESCRIPTION_TR, "Bu komuttan sonra, tüm girilen komutlar ve STOP komutunu görene dek\n"
-                                          "belirtilen dosyaya yazýlacaktýr."},
+/* sv */ {IDGS_MON_RECORD_DESCRIPTION_SV, "Efter detta kommando kommer alla kommandon som anges att skrivas till\nden angivna filen tills ett STOP-kommando anges."},
+/* tr */ {IDGS_MON_RECORD_DESCRIPTION_TR, "Bu komuttan sonra, tüm girilen komutlar ve STOP komutunu görene dek\nbelirtilen dosyaya yazýlacaktýr."},
 #endif
 
 /* monitor/mon_command.c */
@@ -3289,22 +2582,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SCREENSHOT_DESCRIPTION,    N_("Take a screenshot. Format is:\ndefault = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_SCREENSHOT_DESCRIPTION_DA, "Gem et screenshot. Format er:\n"
-                                              "standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* de */ {IDGS_MON_SCREENSHOT_DESCRIPTION_DE, "Erzeuge Screenshot. Format ist:\n"
-                                              "Standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* da */ {IDGS_MON_SCREENSHOT_DESCRIPTION_DA, "Gem et screenshot. Format er:\nstandard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* de */ {IDGS_MON_SCREENSHOT_DESCRIPTION_DE, "Erzeuge Screenshot. Format ist:\nStandard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* fr */ {IDGS_MON_SCREENSHOT_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_SCREENSHOT_DESCRIPTION_HU, "Képernyõkép készítése. A formátum lehet:\n"
-                                              "alap = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* it */ {IDGS_MON_SCREENSHOT_DESCRIPTION_IT, "Cattura schermo. Il formato è:\n"
-                                              "predefinito = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* nl */ {IDGS_MON_SCREENSHOT_DESCRIPTION_NL, "Sla een schermafdruk op. Formaat is:\n"
-                                              "standaard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* hu */ {IDGS_MON_SCREENSHOT_DESCRIPTION_HU, "Képernyõkép készítése. A formátum lehet:\nalap = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* it */ {IDGS_MON_SCREENSHOT_DESCRIPTION_IT, "Cattura schermo. Il formato è:\npredefinito = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* nl */ {IDGS_MON_SCREENSHOT_DESCRIPTION_NL, "Sla een schermafdruk op. Formaat is:\nstandaard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* pl */ {IDGS_MON_SCREENSHOT_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_SCREENSHOT_DESCRIPTION_SV, "Ta en skärmbild. Format är:\n"
-                                              "standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-/* tr */ {IDGS_MON_SCREENSHOT_DESCRIPTION_TR, "Ekran görüntüsü al. Biçim:\n"
-                                              "varsayýlan = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* sv */ {IDGS_MON_SCREENSHOT_DESCRIPTION_SV, "Ta en skärmbild. Format är:\nstandard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
+/* tr */ {IDGS_MON_SCREENSHOT_DESCRIPTION_TR, "Ekran görüntüsü al. Biçim:\nvarsayýlan = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 #endif
 
 /* monitor/mon_command.c */
@@ -3324,29 +2610,15 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_TAPECTRL_DESCRIPTION,    N_("Control the datasette. Valid commands:\n0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n5 = reset, 6 = reset counter.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_TAPECTRL_DESCRIPTION_DA, "Styr datasette. Lovlige kommandoer:\n"
-                                            "0 = stop, 1 = start, 2 = spol frem, 3 = spol tilbage,\n"
-                                            "4 = optag, 5 = reset, 6 = nulstil tæller."},
-/* de */ {IDGS_MON_TAPECTRL_DESCRIPTION_DE, "Steuere die Datasette. Gültige Kommandos sind:\n"
-                                            "0 = Stop, 1 = Start, 2 = Forwärts, 3 = Rückwärts, 4 = Aufnahme,\n"
-                                            "5 = Reset, 6 = Reset Zähler."},
+/* da */ {IDGS_MON_TAPECTRL_DESCRIPTION_DA, "Styr datasette. Lovlige kommandoer:\n0 = stop, 1 = start, 2 = spol frem, 3 = spol tilbage,\n4 = optag, 5 = reset, 6 = nulstil tæller."},
+/* de */ {IDGS_MON_TAPECTRL_DESCRIPTION_DE, "Steuere die Datasette. Gültige Kommandos sind:\n0 = Stop, 1 = Start, 2 = Forwärts, 3 = Rückwärts, 4 = Aufnahme,\n5 = Reset, 6 = Reset Zähler."},
 /* fr */ {IDGS_MON_TAPECTRL_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_TAPECTRL_DESCRIPTION_HU, "Szalagos egység vezérlése. Érvényes parancsok:\n"
-                                            "0 = start, 1 = indít, 2 = elõre, 3 = vissza, 4 = felvétel,\n"
-                                            "5 = újraindít, 6 = számlálót nulláz"},
-/* it */ {IDGS_MON_TAPECTRL_DESCRIPTION_IT, "Controlla il registratore. Comandi validi:\n"
-                                            "0 = ferma, 1 = avvia, 2 = avanti, 3 = indietro, 4 = registra,\n"
-                                            "5 = reset, 6 = reset contatore."},
-/* nl */ {IDGS_MON_TAPECTRL_DESCRIPTION_NL, "Geef datasetta commandos. Geldige commandos:\n"
-                                            "0 = stop, 1 = start, 2 = vooruit, 3 = terug, 4 = opnemen,\n"
-                                            "5 = reset, 6 = reset teller."},
+/* hu */ {IDGS_MON_TAPECTRL_DESCRIPTION_HU, "Szalagos egység vezérlése. Érvényes parancsok:\n0 = start, 1 = indít, 2 = elõre, 3 = vissza, 4 = felvétel,\n5 = újraindít, 6 = számlálót nulláz"},
+/* it */ {IDGS_MON_TAPECTRL_DESCRIPTION_IT, "Controlla il registratore. Comandi validi:\n0 = ferma, 1 = avvia, 2 = avanti, 3 = indietro, 4 = registra,\n5 = reset, 6 = reset contatore."},
+/* nl */ {IDGS_MON_TAPECTRL_DESCRIPTION_NL, "Geef datasetta commandos. Geldige commandos:\n0 = stop, 1 = start, 2 = vooruit, 3 = terug, 4 = opnemen,\n5 = reset, 6 = reset teller."},
 /* pl */ {IDGS_MON_TAPECTRL_DESCRIPTION_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_TAPECTRL_DESCRIPTION_SV, "Styr bandspelaren. Giltiga kommandon:\n"
-                                            "0 = stoppa, 1 = starta, 2 = spola framåt, 3 = spola bakåt,\n"
-                                            "4 = spela in, 5 = återställ, 6 = nollställ räknare."},
-/* tr */ {IDGS_MON_TAPECTRL_DESCRIPTION_TR, "Teybi kontrol et. Geçerli komutlar:\n"
-                                            "0 = durdur, 1 = baþlat, 2 = ileri, 3 = geri, 4 = kayýt,\n"
-                                            "5 = reset, 6 = reset sayacý."},
+/* sv */ {IDGS_MON_TAPECTRL_DESCRIPTION_SV, "Styr bandspelaren. Giltiga kommandon:\n0 = stoppa, 1 = starta, 2 = spola framåt, 3 = spola bakåt,\n4 = spela in, 5 = återställ, 6 = nollställ räknare."},
+/* tr */ {IDGS_MON_TAPECTRL_DESCRIPTION_TR, "Teybi kontrol et. Geçerli komutlar:\n0 = durdur, 1 = baþlat, 2 = ileri, 3 = geri, 4 = kayýt,\n5 = reset, 6 = reset sayacý."},
 #endif
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
@@ -3359,8 +2631,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_HU, "Automatikus indításnál a 'RUN' parancs kettõsponttal, vagyis 'RUN:'"},
 /* it */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_IT, "All'avvio automatico, usa il comando 'RUN' con i due punti; cioè 'RUN:'"},
-/* nl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus "
-                                              "'RUN:'"},
+/* nl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando met een dubbele punt, dus 'RUN:'"},
 /* pl */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_SV, "Vid autostart, använd \"RUN\"-kommando med kolon, dvs. \"RUN:\""},
 /* tr */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_TR, "Otomatik baþlatýldýðýnda, 'RUN' komutunu ':' ile kullan, yani, 'RUN:'"},
@@ -3374,8 +2645,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_HU, "Automatikus indításnak a 'RUN' parancs kettõspont nélkül, vagyis 'RUN'"},
 /* it */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_IT, "All'avvio automatico, non usare il comando 'RUN' con i due punti; cioè 'RUN'"},
-/* nl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele "
-                                               "punt, dus 'RUN'"},
+/* nl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_NL, "Bij het autostarten, gebruik het 'RUN' commando niet met een dubbele punt, dus 'RUN'"},
 /* pl */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_SV, "Vid autostart, använd inte \"RUN\"-kommando med kolon, dvs. \"RUN\""},
 /* tr */ {IDCLS_DISABLE_AUTOSTARTWITHCOLON_TR, "Otomatik baþlatýldýðýnda, 'RUN' komutunu ':' ile kullanma, yani, 'RUN'"},
@@ -3413,7 +2683,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART,    N_("Enable warp mode during autostart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DA, "Aktivér warp-tilstand under autostart"},
-/* de */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DE, "Warp Mode w\xE4hrend Autostart aktivieren"},
+/* de */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_DE, "Warp Mode während Autostart aktivieren"},
 /* fr */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_HU, "Hipergyors mód engedélyezése autostartnál"},
 /* it */ {IDCLS_ENABLE_WARP_MODE_AUTOSTART_IT, "Attiva la modalità turbo all'avvio automatico"},
@@ -3471,7 +2741,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,    N_("Use PAL sync factor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_PAL_SYNC_FACTOR_DA, "Anvend PAL-synkfaktor"},
-/* de */ {IDCLS_USE_PAL_SYNC_FACTOR_DE, "PAL Faktor zum Synchronisieren benutzen"},
+/* de */ {IDCLS_USE_PAL_SYNC_FACTOR_DE, "PAL Sync Faktor benutzen"},
 /* fr */ {IDCLS_USE_PAL_SYNC_FACTOR_FR, "Utiliser PAL"},
 /* hu */ {IDCLS_USE_PAL_SYNC_FACTOR_HU, "PAL szinkron faktor használata"},
 /* it */ {IDCLS_USE_PAL_SYNC_FACTOR_IT, "Usa il fattore di sincronizzazione PAL"},
@@ -3527,7 +2797,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INT_KERNEL_NAME,    N_("Specify name of international Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DA, "Angiv navn på internationalt kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, "Dateiname des internationalen Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, "Bitte Namen für internationale Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_INT_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal internationale"},
 /* hu */ {IDCLS_SPECIFY_INT_KERNEL_NAME_HU, "Adja meg a nemzetközi Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_INT_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal internazionale"},
@@ -3541,7 +2811,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_DE_KERNEL_NAME,    N_("Specify name of German Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DA, "Angiv navn på tysk kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, "Dateiname des deutschen Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, "Name für deutsche Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_DE_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal allemande"},
 /* hu */ {IDCLS_SPECIFY_DE_KERNEL_NAME_HU, "Adja meg a német Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_DE_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal tedesca"},
@@ -3555,11 +2825,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FI_KERNEL_NAME,    N_("Specify name of Finnish Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DA, "Angiv navn på finsk kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, "Dateiname des finnischen Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, "Name für finnische Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal finlandaise"},
 /* hu */ {IDCLS_SPECIFY_FI_KERNEL_NAME_HU, "Adja meg a finn Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_FI_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal finlandese"},
-/* nl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_NL, "Geef de naam van het Fins Kernal-ROM-bestand"},
+/* nl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_NL, "Geef de naam van het Finse Kernal-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_FI_KERNEL_NAME_SV, "Ange namn på finsk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_TR, "Finlandiya Kernal ROM imajýnýn ismini belirt"},
@@ -3569,11 +2839,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FR_KERNEL_NAME,    N_("Specify name of French Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DA, "Angiv navn på fransk kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DE, "Dateiname des französischen Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_FR_KERNEL_NAME_DE, "Name für französische Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_FR_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal française"},
 /* hu */ {IDCLS_SPECIFY_FR_KERNEL_NAME_HU, "Adja meg a francia Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_FR_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal francese"},
-/* nl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_NL, "Geef de naam van het Frans Kernal-ROM-bestand"},
+/* nl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_NL, "Geef de naam van het Franse Kernal-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_FR_KERNEL_NAME_SV, "Ange namn på fransk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_FR_KERNEL_NAME_TR, "Fransýz Kernal ROM imajýnýn ismini belirt"},
@@ -3583,11 +2853,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_IT_KERNEL_NAME,    N_("Specify name of Italian Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DA, "Angiv navn på italiensk kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DE, "Dateiname des italienischen Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_IT_KERNEL_NAME_DE, "Name für italienische Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_IT_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal italienne"},
 /* hu */ {IDCLS_SPECIFY_IT_KERNEL_NAME_HU, "Adja meg az olasz Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_IT_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal italiana"},
-/* nl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_NL, "Geef de naam van het Italiaans Kernal-ROM-bestand"},
+/* nl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_NL, "Geef de naam van het Italiaanse Kernal-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_IT_KERNEL_NAME_SV, "Ange namn på italiensk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_IT_KERNEL_NAME_TR, "Ýtalyan Kernal ROM imajýnýn ismini belirt"},
@@ -3597,11 +2867,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_NO_KERNEL_NAME,    N_("Specify name of Norwegian Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DA, "Angiv navn på norsk kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DE, "Dateiname des norwegischen Kernal ROMs"},
-/* fr */ {IDCLS_SPECIFY_NO_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal norvégienne"},
+/* de */ {IDCLS_SPECIFY_NO_KERNEL_NAME_DE, "Name für norwegische Kernal ROM Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_NO_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_NO_KERNEL_NAME_HU, "Adja meg a norvég Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_NO_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal norvegese"},
-/* nl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_NL, "Geef de naam van het Noors Kernal-ROM-bestand"},
+/* nl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_NL, "Geef de naam van het Noorse Kernal-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_NO_KERNEL_NAME_SV, "Ange namn på norsk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_NO_KERNEL_NAME_TR, "Norveç Kernal ROM imajýnýn ismini belirt"},
@@ -3611,11 +2881,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SV_KERNEL_NAME,    N_("Specify name of Swedish Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DA, "Angiv navn på svensk kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DE, "Dateiname des schwedischen Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_SV_KERNEL_NAME_DE, "Name für schwedische Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_SV_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal suédoise"},
 /* hu */ {IDCLS_SPECIFY_SV_KERNEL_NAME_HU, "Adja meg s svéd Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_SV_KERNEL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal svedese"},
-/* nl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_NL, "Geef de naam van het Zweeds Kernal-ROM-bestand"},
+/* nl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_NL, "Geef de naam van het Zweedse Kernal-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SV_KERNEL_NAME_SV, "Ange namn på svensk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_SV_KERNEL_NAME_TR, "Ýsveç Kernal ROM imajýnýn ismini belirt"},
@@ -3625,7 +2895,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW,    N_("Specify name of BASIC ROM image (lower part)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_DA, "Angiv navn på BASIC ROM-image (lav del)"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_DE, "Dateiname des Basic ROMs (oberer Adressbereich"},
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_DE, "Namen für Basic ROM Datei spezifizieren (unterer Teil)"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_FR, "Spécifier le nom de l'image BASIC ROM (partie basse)"},
 /* hu */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_HU, "Adja meg a BASIC ROM képmás nevét (alsó rész)"},
 /* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_IT, "Specifica il nome dell'immagine della ROM del BASIC (parte inferiore)"},
@@ -3639,7 +2909,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH,    N_("Specify name of BASIC ROM image (higher part)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_DA, "Angiv navn på BASIC ROM-image (høj del)"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_DE, "Dateiname des Basic ROMs (unterer Adressbereich)"},
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_DE, "Namen für Basic ROM Datei spezifizieren (oberer Teil)"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_FR, "Spécifier le nom de l'image BASIC ROM (partie haute)"},
 /* hu */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_HU, "Adja meg a BASIC ROM képmás nevét (felsõ rész)"},
 /* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH_IT, "Specifica il nome dell'immagine della ROM del BASIC (parte superiore)"},
@@ -3653,11 +2923,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME,    N_("Specify name of international character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DA, "Angiv navn på internationalt tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DE, "Dateiname des internationalen Zeichensatz ROMs"},
+/* de */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_DE, "Name für internationale Charakter ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères internationaux"},
 /* hu */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_HU, "Adja meg a nemzetközi karaktergenerátor ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri "
-                                                 "internazionale"},
+/* it */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri internazionale"},
 /* nl */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_NL, "Geef de naam van het internationaal CHARGEN-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME_SV, "Ange namn på internationell teckengenerator-ROM-avbildning"},
@@ -3668,11 +2937,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME,    N_("Specify name of German character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DA, "Angiv navn på tysk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DE, "Dateiname des deutschen Zeichensatz ROMs"},
+/* de */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_DE, "Name für deutsche Charakter ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères allemands"},
 /* hu */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_HU, "Adja meg a német karaktergenerátor ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri "
-                                                "tedesco"},
+/* it */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri tedesco"},
 /* nl */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_NL, "Geef de naam van het Duitse CHARGEN-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME_SV, "Ange namn på tysk teckengenerator-ROM-avbildning"},
@@ -3683,11 +2951,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME,    N_("Specify name of French character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DA, "Angiv navn på fransk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DE, "Dateiname des französischen Zeichensatz ROMs"},
+/* de */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_DE, "Name für französische Charakter ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères français"},
 /* hu */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_HU, "Adja meg a francia karaktergenerátor ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri "
-                                                "francese"},
+/* it */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri francese"},
 /* nl */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_NL, "Geef de naam van het Franse CHARGEN-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME_SV, "Ange namn på fransk teckengenerator-ROM-avbildning"},
@@ -3698,11 +2965,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME,    N_("Specify name of Swedish character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DA, "Angiv navn på svensk tegngenerator-ROM-image"},
-/* de */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DE, "Dateiname des swedischen Zeichensatz ROMs"},
+/* de */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_DE, "Name für schwedische Charakter ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères suédois"},
 /* hu */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_HU, "Adja meg a svéd karaktergenerátor ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri "
-                                                "svedese"},
+/* it */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del generatore di caratteri svedese"},
 /* nl */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_NL, "Geef de naam van het Zweedse CHARGEN-ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_SV, "Ange namn på svensk teckengenerator-ROM-avbildning"},
@@ -3713,7 +2979,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME,    N_("Specify name of C64 mode Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DA, "Angiv navn på C64-kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, "Dateiname des Kernal ROMs im C64 Modus"},
+/* de */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_DE, "Name für C64 Modus Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_FR, "Spécifier le nom de l'image Kernal du mode C64"},
 /* hu */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_HU, "Adja meg a C64 módú Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_C64_MODE_KERNAL_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal in modalità C64"},
@@ -3727,7 +2993,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME,    N_("Specify name of C64 mode BASIC ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_DA, "Angiv navn på C64-BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_DE, "Dateiname des Basic ROMs im C64 Modus"}, 
+/* de */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_DE, "Name für C64 Modus Basic ROM Datei spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_FR, "Spécifier le nom de l'image BASIC ROM du mode C64"},
 /* hu */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_HU, "Adja meg a C64 módú BASIC ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_IT, "Specifica il nome dell'immagine della ROM in modalità C64"},
@@ -3743,7 +3009,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_EMULATOR_ID,    N_("Enable emulator identification")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EMULATOR_ID_DA, "Aktivér emulatoridentifikation"},
-/* de */ {IDCLS_ENABLE_EMULATOR_ID_DE, "Emulatoridentifikation aktivieren"},
+/* de */ {IDCLS_ENABLE_EMULATOR_ID_DE, "Emulator Identifikation aktivieren"},
 /* fr */ {IDCLS_ENABLE_EMULATOR_ID_FR, "Activer l'identification de l'émulateur"},
 /* hu */ {IDCLS_ENABLE_EMULATOR_ID_HU, "Emulátor azonosító engedélyezése"},
 /* it */ {IDCLS_ENABLE_EMULATOR_ID_IT, "Attiva l'identificazione dell'emulatore"},
@@ -3759,7 +3025,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_EMULATOR_ID,    N_("Disable emulator identification")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_EMULATOR_ID_DA, "Deaktivér emulatoridentifikation"},
-/* de */ {IDCLS_DISABLE_EMULATOR_ID_DE, "Emulatoridentifikation deaktivieren"},
+/* de */ {IDCLS_DISABLE_EMULATOR_ID_DE, "Emulator Identifikation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_EMULATOR_ID_FR, "Désactiver l'identification de l'émulateur"},
 /* hu */ {IDCLS_DISABLE_EMULATOR_ID_HU, "Emulátor azonosító tiltása"},
 /* it */ {IDCLS_DISABLE_EMULATOR_ID_IT, "Disattiva l'identificazione dell'emulatore"},
@@ -3801,7 +3067,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IEE488,    N_("Enable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEE488_DA, "Aktivér emulering af IEEE488-interface"},
-/* de */ {IDCLS_ENABLE_IEE488_DE, "IEEE488 Schnittstellenemulation aktivieren"},
+/* de */ {IDCLS_ENABLE_IEE488_DE, "IEEE488 Schnittstellen-Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_IEE488_FR, "Activer l'interface d'émulation IEEE488"},
 /* hu */ {IDCLS_ENABLE_IEE488_HU, "IEEE488 interfész emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_IEE488_IT, "Attiva l'emulazione dell'interfaccia IEEE488"},
@@ -3814,8 +3080,8 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_IEE488,    N_("Disable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEE488_DA, "Deaktiver emulering af IEEE488-interface"},
-/* de */ {IDCLS_DISABLE_IEE488_DE, "IEEE488 Schnittstellenemulation deaktivieren"},
+/* da */ {IDCLS_DISABLE_IEE488_DA, "Deaktivér emulering af IEEE488-interface"},
+/* de */ {IDCLS_DISABLE_IEE488_DE, "IEEE488 Schnittstellen-Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_IEE488_FR, "Désactiver l'interface d'émulation IEEE488"},
 /* hu */ {IDCLS_DISABLE_IEE488_HU, "IEEE488 interfész emuláció tiltása"},
 /* it */ {IDCLS_DISABLE_IEE488_IT, "Disattiva l'emulazione dell'interfaccia IEEE488"},
@@ -3843,7 +3109,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PATCH_KERNAL_TO_REVISION,    N_("Patch the Kernal ROM to the specified <revision>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PATCH_KERNAL_TO_REVISION_DA, "Patch kerne-ROM til den angivne <revision>"},
-/* de */ {IDCLS_PATCH_KERNAL_TO_REVISION_DE, "Kernal ROM auf angegenbene Revision ändern"},
+/* de */ {IDCLS_PATCH_KERNAL_TO_REVISION_DE, "Kernal ROM auf spezifizierte <Revision> verändern"},
 /* fr */ {IDCLS_PATCH_KERNAL_TO_REVISION_FR, "Mettre à jour le ROM Kernal à la <revision> spécifiée"},
 /* hu */ {IDCLS_PATCH_KERNAL_TO_REVISION_HU, "A Kernal ROM átírása adott <változatra>"},
 /* it */ {IDCLS_PATCH_KERNAL_TO_REVISION_IT, "Fai il patch della ROM del Kernal alla <revisione> specificata"},
@@ -3858,7 +3124,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    N_("Enable the $DE** ACIA RS232 interface emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, "Aktivér $DE** ACIA RS232-interface emulering"},
-/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "$DE** ACIA RS232 Schnittstellenemulation aktivieren"},
+/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, "Activer l'émulation de l'interface $DE** ACIA RS232"},
 /* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, "$DE** ACIA RS232 interfész emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, "Attiva l'emulazione dell'interfaccia RS232 su ACIA a $DE**"},
@@ -3871,12 +3137,12 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    N_("Disable the $DE** ACIA RS232 interface emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, "Deaktiver $DE** ACIA-RS232-interface emulering"},
-/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "$DE** ACIA RS232 Schnittstellenemulation deaktivieren"},
+/* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, "Deaktivér $DE** ACIA-RS232-interface emulering"},
+/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA $DExx RS232 Schnittstellen-Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, "Désactiver l'émulation de l'interface $DE** ACIA RS232"},
 /* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, "$DE** ACIA RS232 interfész emuláció tiltása"},
 /* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, "Disattiva l'emulazione dell'interfaccia RS232 su ACIA a $DE**"},
-/* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De $DE** ACIA RS232 interface emulatie afsluiten"},
+/* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De $DE** ACIA RS232-interface-emulatie aflsuiten"},
 /* pl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, "Inaktivera $DE** ACIA-RS232-gränssnittsemulering"},
 /* tr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_TR, "$DE** ACIA RS232 arabirim emülasyonunu pasifleþtir"},
@@ -3906,16 +3172,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    N_("Specify index of keymap file (0=symbol, 1=positional)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DA, "Angiv indeks for tastaturindstillingsfil (0=symbolsk, 1=positionsbestemt)"},
-/* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, "Aktive Tastaturbelegung (0=symbolisch) (1=positionell)"},
+/* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, "Index für Kymap Datei festlegen (0=symbol, 1=positional)"},
 /* fr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR, "Spécifier l'index du fichier keymap (0=symboles, 1=position)"},
-/* hu */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_HU, "Adja meg a billentyûzet leképzési módot (0=szimbolikus, 1=pozíció "
-                                              "szerinti)"},
-/* it */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_IT, "Specifica l'indice del file della mappa della tastiera (0=simbolico, "
-                                              "1=posizionale)"},
+/* hu */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_HU, "Adja meg a billentyûzet leképzési módot (0=szimbolikus, 1=pozíció szerinti)"},
+/* it */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_IT, "Specifica l'indice del file della mappa della tastiera (0=simbolica, 1=posizionale)"},
 /* nl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_NL, "Geef index van het keymapbestand (0=symbool, 1=positioneel)"},
-/* pl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV, "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
-                                              "1=positionsriktig)"},
+/* pl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_PL, "Podaj indeks dla mapy klawiatury (0=symbol, 1=pozycja)"},
+/* sv */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV, "Ange index för för tangentbordsinställningsfil (0=symbolisk, 1=positionsriktig)"},
 /* tr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_TR, "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=konumsal)"},
 #endif
 
@@ -3924,12 +3187,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,    N_("Specify name of symbolic keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DA, "Angiv filnavn for symbolsk tastatur"},
-/* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, "Dateiname für symbolische Tastaturbelegung"},
+/* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, "Bitte Namen für symbolische Keymap Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique"},
 /* hu */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_HU, "Adja meg a szimbolikus leképzésfájl nevét"},
 /* it */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera"},
 /* nl */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_NL, "Geef naam van het symbolisch keymapbestand"},
-/* pl */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_PL, "Okre¶l nazwê pliku symbolicznej mapy klawiatury"},
 /* sv */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_SV, "Ange fil för symbolisk tangentbordsemulering"},
 /* tr */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_TR, "Sembolik tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
@@ -3939,12 +3202,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,    N_("Specify name of positional keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DA, "Angiv fil for positionsbestemt tastatur"},
-/* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, "Dateiname für positionelle Tastaturbelegung"},
+/* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, "Bitte Namen für positions Keymap Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel"},
 /* hu */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_HU, "Adja meg a pozíció szerinti leképzésfájl nevét"},
 /* it */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera"},
 /* nl */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_NL, "Geef naam van het positioneel keymapbestand"},
-/* pl */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_PL, "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"},
 /* sv */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering"},
 /* tr */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_TR, "Konumsal tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
@@ -3954,7 +3217,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ACTIVATE_40_COL_MODE,    N_("Activate 40 column mode")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ACTIVATE_40_COL_MODE_DA, "Aktivér 40-kolonners tilstand"},
-/* de */ {IDCLS_ACTIVATE_40_COL_MODE_DE, "40 Zeichen Modus"},
+/* de */ {IDCLS_ACTIVATE_40_COL_MODE_DE, "40 Spalten Modus aktivieren"},
 /* fr */ {IDCLS_ACTIVATE_40_COL_MODE_FR, "Activer le mode 40 colonnes"},
 /* hu */ {IDCLS_ACTIVATE_40_COL_MODE_HU, "40 oszlopos mód aktiválása"},
 /* it */ {IDCLS_ACTIVATE_40_COL_MODE_IT, "Attiva la modalità a 40 colonne"},
@@ -3968,7 +3231,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ACTIVATE_80_COL_MODE,    N_("Activate 80 column mode")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ACTIVATE_80_COL_MODE_DA, "Aktivér 80-kolonners tilstand"},
-/* de */ {IDCLS_ACTIVATE_80_COL_MODE_DE, "80 Zeichen Modus"},
+/* de */ {IDCLS_ACTIVATE_80_COL_MODE_DE, "80 Spalten Modus aktivieren"},
 /* fr */ {IDCLS_ACTIVATE_80_COL_MODE_FR, "Activer le mode 80 colonnes"},
 /* hu */ {IDCLS_ACTIVATE_80_COL_MODE_HU, "80 oszlopos mód aktiválása"},
 /* it */ {IDCLS_ACTIVATE_80_COL_MODE_IT, "Attiva la modalità a 80 colonne"},
@@ -4010,7 +3273,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME,    N_("Specify name of internal Function ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DA, "Angiv navn på internt funktions-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, "Dateiname des internen Funktions ROMs"},
+/* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, "Name der internen Funktions ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_FR, "Spécifier le nom de l'image ROM des fonctions internes"},
 /* hu */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_HU, "Adja meg a belsõ Function ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_IT, "Specifica il nome dell'immagine della Function ROM interna"},
@@ -4024,7 +3287,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME,    N_("Specify name of external Function ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DA, "Angiv navn på externt funktions-ROM-image"},
-/* de */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DE, "Dateiname des externen Funktions ROMs"},
+/* de */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_DE, "Name der externen Funktions ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_FR, "Spécifier le nom de l'image ROM des fonctions externes"},
 /* hu */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_HU, "Adja meg a külsõ Function ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_IT, "Specifica il nome dell'immagine della Function ROM esterna"},
@@ -4051,7 +3314,7 @@ translate_t string_table[] = {
 /* c128/functionrom.c */
 /* en */ {IDCLS_DISABLE_INT_FUNC_ROM,    N_("Disable the internal Function ROM")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_INT_FUNC_ROM_DA, "Deaktiver intern funktions-ROM"},
+/* da */ {IDCLS_DISABLE_INT_FUNC_ROM_DA, "Deaktivér intern funktions-ROM"},
 /* de */ {IDCLS_DISABLE_INT_FUNC_ROM_DE, "Internes Funktions ROM deaktivieren"},
 /* fr */ {IDCLS_DISABLE_INT_FUNC_ROM_FR, "Désactiver l'image ROM des fonctions internes"},
 /* hu */ {IDCLS_DISABLE_INT_FUNC_ROM_HU, "Belsõ Function ROM tiltása"},
@@ -4079,7 +3342,7 @@ translate_t string_table[] = {
 /* c128/functionrom.c */
 /* en */ {IDCLS_DISABLE_EXT_FUNC_ROM,    N_("Disable the external Function ROM")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_EXT_FUNC_ROM_DA, "Deaktiver externt funktions-ROM"},
+/* da */ {IDCLS_DISABLE_EXT_FUNC_ROM_DA, "Deaktivér extern funktions-ROM"},
 /* de */ {IDCLS_DISABLE_EXT_FUNC_ROM_DE, "Externes Funktions ROM deaktivieren"},
 /* fr */ {IDCLS_DISABLE_EXT_FUNC_ROM_FR, "Désactiver l'image ROM des fonctions externes"},
 /* hu */ {IDCLS_DISABLE_EXT_FUNC_ROM_HU, "Külsõ Function ROM tiltása"},
@@ -4094,7 +3357,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR,    N_("Use old NTSC sync factor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_DA, "Anvend gammel NTSC-synkfaktor"},
-/* de */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_DE, "NTSC (alt) Faktor zum Synchronisieren benutzen"},
+/* de */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_DE, "Alten NTSC Sync Faktor verwenden"},
 /* fr */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_FR, "Utiliser l'ancien mode NTSC"},
 /* hu */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_HU, "Régi NTSC szinkron faktor használata"},
 /* it */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_IT, "Usa il vecchio fattore di sincronizzazione NTSC"},
@@ -4111,8 +3374,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät auswählen (0: Kein, 1: ADC, 2: Joystick)"},
 /* fr */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_HU, "Hummer Userport eszköz megadása (0: nincs, 1: ADC, 2: Joystick)"},
-/* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, "Seleziona il dispositivo sulla userport dell'Hummer (0: Nessuno, 1:"
-                                                  " ADC, 2: Joystick)"},
+/* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, "Seleziona il dispositivo sulla userport dell'Hummer (0: Nessuno, 1: ADC, 2: Joystick)"},
 /* nl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_NL, "Selecteer Hummer Userport apparaat (0: Geen, 1: ADC, 2: Joystick"},
 /* pl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_SV, "Välj enhet för Hummeranvändarport (0: ingen, 1: ADC, 2: styrspak)"},
@@ -4153,7 +3415,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KERNAL_ROM_NAME,    N_("Specify name of Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DA, "Angiv navn på kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, "Dateiname des Kernal ROMs"},
+/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, "Name von Kernal ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_FR, "Spécifier le nom de l'image ROM Kernal"},
 /* hu */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_HU, "Adja meg a Kernal ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del Kernal"},
@@ -4169,7 +3431,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME,    N_("Specify name of BASIC ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, "Dateiname des Basic ROMs"},
+/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, "Name von Basic ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_FR, "Spécifier le nom de l'image BASIC ROM"},
 /* hu */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HU, "Adja meg a BASIC ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del BASIC"},
@@ -4184,7 +3446,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    N_("Specify name of character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Dateiname des Zeichensatz ROMs"},
+/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Name von Druckerausgabe Datei definieren (print.dump)"},
 /* fr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères"},
 /* hu */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_HU, "Adja meg a karaktergenerátor ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_IT, "Specifica il nome della ROM del generatore di caratteri"},
@@ -4198,20 +3460,15 @@ translate_t string_table[] = {
 /* c64/c64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2,    N_("Specify index of keymap file (0=sym, 1=symDE, 2=pos)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_DA, "Angiv indeks for tastaturindstillingsfil (0=symbolsk, 1=symbolsk "
-                                                  "tysk, 2=positionsbestemt)"},
+/* da */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_DA, "Angiv indeks for tastaturindstillingsfil (0=symbolsk, 1=symbolsk tysk, 2=positionsbestemt)"},
 /* de */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_DE, "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"},
 /* fr */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_FR, "Spécifier l'index du fichier keymap (0=sym, 1=symDE, 2=pos)"},
-/* hu */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_HU, "Adja meg a billentyûzet leképzési fájl típusát (0=szimbolikus, "
-                                                  "1=német szimbolikus, 2=pozíció szerinti)"},
-/* it */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_IT, "Specifica l'indice del file della mappa della tastiera (0=sim, "
-                                                  "1=simGER, 2=pos)"},
+/* hu */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_HU, "Adja meg a billentyûzet leképzési fájl típusát (0=szimbolikus, 1=német szimbolikus, 2=pozíció szerinti)"},
+/* it */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_IT, "Specifica l'indice del file della mappa della tastiera (0=sim, 1=simGER, 2=pos)"},
 /* nl */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_NL, "Geef de index van het keymapbestand (0=sym, 1=symDE, 2=pos)"},
 /* pl */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_SV, "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
-                                                  "1=symbolisk tysk, 2=positionsriktig)"},
-/* tr */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_TR, "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=sembol Almanca, "
-                                                  "2=konumsal)"},
+/* sv */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_SV, "Ange index för för tangentbordsinställningsfil (0=symbolisk, 1=symbolisk tysk, 2=positionsriktig)"},
+/* tr */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_TR, "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=sembol Almanca, 2=konumsal)"},
 #endif
 
 /* c64/c64-cmdline-options.c */
@@ -4246,7 +3503,7 @@ translate_t string_table[] = {
 /* c64/georam.c */
 /* en */ {IDCLS_DISABLE_GEORAM,    N_("Disable the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_GEORAM_DA, "Deaktiver GEORAM-udviddelsesenhed"},
+/* da */ {IDCLS_DISABLE_GEORAM_DA, "Deaktivér GEORAM-udviddelsesenhed"},
 /* de */ {IDCLS_DISABLE_GEORAM_DE, "GEORAM Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_GEORAM_FR, "Désactiver l'unité d'expansion GEORAM"},
 /* hu */ {IDCLS_DISABLE_GEORAM_HU, "GEORAM Expansion Unit tiltása"},
@@ -4261,7 +3518,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_GEORAM_NAME,    N_("Specify name of GEORAM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GEORAM_NAME_DA, "Angiv navn på GEORAM-image"},
-/* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, "Dateiname für GEORAM Erweiterung"},
+/* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, "GEORAM Image Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_GEORAM_NAME_FR, "Spécifier le nom de l'image GEORAM"},
 /* hu */ {IDCLS_SPECIFY_GEORAM_NAME_HU, "Adja meg a GEORAM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_GEORAM_NAME_IT, "Specifica il nome dell'immagine GEORAM"},
@@ -4275,7 +3532,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_SIZE_IN_KB,    N_("<size in KB>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SIZE_IN_KB_DA, "<størrelse i KB>"},
-/* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Grösse in KB>"},
+/* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Größe in KB>"},
 /* fr */ {IDCLS_P_SIZE_IN_KB_FR, "<taille en KO>"},
 /* hu */ {IDCLS_P_SIZE_IN_KB_HU, "<méret KB-ban>"},
 /* it */ {IDCLS_P_SIZE_IN_KB_IT, "<dimensione in KB>"},
@@ -4289,7 +3546,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_GEORAM_SIZE,    N_("Size of the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_GEORAM_SIZE_DA, "Størrelse af GEORAM-udviddelsesenhed"},
-/* de */ {IDCLS_GEORAM_SIZE_DE, "Grösse der GEORAM Erweiterung"},
+/* de */ {IDCLS_GEORAM_SIZE_DE, "Größe der GEORAM Erweiterung"},
 /* fr */ {IDCLS_GEORAM_SIZE_FR, "Taille de l'unité d'expansion GEORAM"},
 /* hu */ {IDCLS_GEORAM_SIZE_HU, "GEORAM Expansion Unit mérete"},
 /* it */ {IDCLS_GEORAM_SIZE_IT, "Dimensione dell'espansione GEORAM"},
@@ -4307,7 +3564,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_PETREU_FR, "Activer l'expansion d'unité et de RAM du PET"},
 /* hu */ {IDCLS_ENABLE_PETREU_HU, "PET RAM and Expansion Unit engedélyezése"},
 /* it */ {IDCLS_ENABLE_PETREU_IT, "Attiva l'unità di espansione e della RAM del PET"},
-/* nl */ {IDCLS_ENABLE_PETREU_NL, "Activeer de PET-Ram en uitbreidingseenheid"},
+/* nl */ {IDCLS_ENABLE_PETREU_NL, "Activeer de PET-RAM en uitbreidingseenheid"},
 /* pl */ {IDCLS_ENABLE_PETREU_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PETREU_SV, "Aktivera PET Ram- och -expansionsenhet"},
 /* tr */ {IDCLS_ENABLE_PETREU_TR, "PET Ram ve Geniþletme Birimi'ni aktif et"},
@@ -4316,7 +3573,7 @@ translate_t string_table[] = {
 /* pet/petreu.c */
 /* en */ {IDCLS_DISABLE_PETREU,    N_("Disable the PET Ram and Expansion Unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PETREU_DA, "Deaktiver PET REU"},
+/* da */ {IDCLS_DISABLE_PETREU_DA, "Deaktivér PET REU"},
 /* de */ {IDCLS_DISABLE_PETREU_DE, "PET RAM Speicher und Erweiterungsmodul dektivieren"},
 /* fr */ {IDCLS_DISABLE_PETREU_FR, "Désactiver l'expansion d'unité et de RAM du PET"},
 /* hu */ {IDCLS_DISABLE_PETREU_HU, "PET RAM and Expansion Unit tiltása"},
@@ -4358,49 +3615,36 @@ translate_t string_table[] = {
 /* pet/petdww.c */
 /* en */ {IDCLS_SPECIFY_PETDWW_NAME,    N_("Specify name of PET DWW image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_PETREU_NAME_DA, "Angiv navn på PET DWW-image"},
-/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, "Namen für PET DWW modul definieren"},
-/* fr */ {IDCLS_SPECIFY_PETDWW_NAME_FR, "Spécifier le nom de l'image de DWW"},
-/* hu */ {IDCLS_SPECIFY_PETDWW_NAME_HU, "Adja meg a PET DWW"},
-/* it */ {IDCLS_SPECIFY_PETDWW_NAME_IT, "Specifica il nome dell'immagine del DWW del PET"},
-/* nl */ {IDCLS_SPECIFY_PETDWW_NAME_NL, "Geef de naam van het PET-DWWbestand"},
+/* da */ {IDCLS_SPECIFY_PETDWW_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PETDWW_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PETDWW_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PETDWW_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PETDWW_NAME_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_SPECIFY_PETDWW_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_PETDWW_NAME_SV, "Ange namn på PET DWW"},
-/* tr */ {IDCLS_SPECIFY_PETREU_NAME_TR, "PET DWW ismini belirt"},
-#endif
-/* pet/petdww.c */
-/* da */ {IDCLS_ENABLE_PETDWW_DA, "Aktivér PET DWW"},
-/* en */ {IDCLS_ENABLE_PETDWW,    N_("Enable the PET DWW hi-res board")},
-#ifdef HAS_TRANSLATION
-/* de */ {IDCLS_ENABLE_PETDWW_DE, "PET DWW aktivieren"},
-/* fr */ {IDCLS_ENABLE_PETDWW_FR, "Activer DWW du PET"},
-/* hu */ {IDCLS_ENABLE_PETDWW_HU, "PET DWW engedélyezése"},
-/* it */ {IDCLS_ENABLE_PETDWW_IT, "Attiva DWW del PET"},
-/* nl */ {IDCLS_ENABLE_PETDWW_NL, "Activeer de PET-DWW hi-res graphicseenheid"},
-/* pl */ {IDCLS_ENABLE_PETDWW_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_PETDWW_SV, "Aktivera PET DWW"},
-/* tr */ {IDCLS_ENABLE_PETDWW_TR, "PET DWW aktif et"},
+/* sv */ {IDCLS_SPECIFY_PETDWW_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_PETDWW_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* pet/petdww.c */
 /* en */ {IDCLS_DISABLE_PETDWW,    N_("Disable the PET DWW hi-res board")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PETDWW_DA, "Deaktiver PET DWW"},
-/* de */ {IDCLS_DISABLE_PETDWW_DE, "PET RAM DWW dektivieren"},
-/* fr */ {IDCLS_DISABLE_PETDWW_FR, "Désactiver DWW du PET"},
-/* hu */ {IDCLS_DISABLE_PETDWW_HU, "PET DWW tiltása"},
-/* it */ {IDCLS_DISABLE_PETDWW_IT, "Disattiva DWW del PET"},
-/* nl */ {IDCLS_DISABLE_PETDWW_NL, "De PET-DWW hi-res graphics uitschakelen"},
+/* da */ {IDCLS_DISABLE_PETDWW_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_PETDWW_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_PETDWW_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_PETDWW_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_PETDWW_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_PETDWW_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_DISABLE_PETDWW_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_PETDWW_SV, "Inaktivera PET DWW"},
-/* tr */ {IDCLS_DISABLE_PETDWW_TR, "PET DWW pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_PETDWW_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_PETDWW_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/psid.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,    N_("SID player mode")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SID_PLAYER_MODE_DA, "SID-afspiller tilstand"},
-/* de */ {IDCLS_SID_PLAYER_MODE_DE, "SID player Modus"},
+/* de */ {IDCLS_SID_PLAYER_MODE_DE, "SID Player Modus"},
 /* fr */ {IDCLS_SID_PLAYER_MODE_FR, "Mode jukebox SID"},
 /* hu */ {IDCLS_SID_PLAYER_MODE_HU, "SID lejátszó mód"},
 /* it */ {IDCLS_SID_PLAYER_MODE_IT, "Modalità del SID player"},
@@ -4414,11 +3658,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_OVERWRITE_PSID_SETTINGS,    N_("Override PSID settings for Video standard and SID model")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_OVERWRITE_PSID_SETTINGS_DA, "Overstyr PSID-indstillinger for Video-standard og SID-model"},
-/* de */ {IDCLS_OVERWRITE_PSID_SETTINGS_DE, "Überschreiben der PSID Einstellungen bezüglich Videostandard und SID Modell"},
+/* de */ {IDCLS_OVERWRITE_PSID_SETTINGS_DE, "PSID Einstellung für Video Standard und SID Modell verändern"},
 /* fr */ {IDCLS_OVERWRITE_PSID_SETTINGS_FR, "Écraser les paramètres PSID pour le standard vidéo et le modèle SID"},
 /* hu */ {IDCLS_OVERWRITE_PSID_SETTINGS_HU, "A videó szabvány és a SID modell PSID beállításainak felülbírálása"},
-/* it */ {IDCLS_OVERWRITE_PSID_SETTINGS_IT, "Non tener conto delle impostazioni del PSID per lo standard video e il "
-                                            "modello di SID"},
+/* it */ {IDCLS_OVERWRITE_PSID_SETTINGS_IT, "Non tener conto delle impostazioni del PSID per lo standard video e il modello di SID"},
 /* nl */ {IDCLS_OVERWRITE_PSID_SETTINGS_NL, "Overschrijf PSID-instellingen voor videostandaard en SID-model"},
 /* pl */ {IDCLS_OVERWRITE_PSID_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_OVERWRITE_PSID_SETTINGS_SV, "Ersätt PSID-inställningar för videostandard och SID-modell"},
@@ -4456,7 +3699,7 @@ translate_t string_table[] = {
 /* c64/ramcart.c */
 /* en */ {IDCLS_DISABLE_RAMCART,    N_("Disable the RAMCART expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAMCART_DA, "Deaktiver RAMCART-udviddelse"},
+/* da */ {IDCLS_DISABLE_RAMCART_DA, "Deaktivér RAMCART-udviddelse"},
 /* de */ {IDCLS_DISABLE_RAMCART_DE, "RAMCART Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAMCART_FR, "Désactiver l'expansion RAMCART"},
 /* hu */ {IDCLS_DISABLE_RAMCART_HU, "RAMCART bõvítés tiltása"},
@@ -4471,7 +3714,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_RAMCART_NAME,    N_("Specify name of RAMCART image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RAMCART_NAME_DA, "Angiv navn på RAMCART-image"},
-/* de */ {IDCLS_SPECIFY_RAMCART_NAME_DE, "Dateiname für RAMCART Erweiterung"},
+/* de */ {IDCLS_SPECIFY_RAMCART_NAME_DE, "Name für RAMCART Image Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_RAMCART_NAME_FR, "Spécifier le nom de l'image RAMCART"},
 /* hu */ {IDCLS_SPECIFY_RAMCART_NAME_HU, "Adja meg a RAMCART képmás nevét"},
 /* it */ {IDCLS_SPECIFY_RAMCART_NAME_IT, "Specifica il nome dell'immagine RAMCART"},
@@ -4485,7 +3728,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_RAMCART_SIZE,    N_("Size of the RAMCART expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RAMCART_SIZE_DA, "Størrelse på RAMCART-udviddelse"},
-/* de */ {IDCLS_RAMCART_SIZE_DE, "Grösse der RAMCART Erweiterung"},
+/* de */ {IDCLS_RAMCART_SIZE_DE, "Größe der RAMCART Erweiterung"},
 /* fr */ {IDCLS_RAMCART_SIZE_FR, "Taille de l'expansion RAMCART"},
 /* hu */ {IDCLS_RAMCART_SIZE_HU, "RAMCART bõvítés mérete"},
 /* it */ {IDCLS_RAMCART_SIZE_IT, "Dimensione dell'espansione RAMCART"},
@@ -4512,7 +3755,7 @@ translate_t string_table[] = {
 /* c64/dqbb.c */
 /* en */ {IDCLS_DISABLE_DQBB,    N_("Disable Double Quick Brown Box")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DQBB_DA, "Deaktiver Double Quick Brown Box"},
+/* da */ {IDCLS_DISABLE_DQBB_DA, "Deaktivér Double Quick Brown Box"},
 /* de */ {IDCLS_DISABLE_DQBB_DE, "Double Quick Brown Box Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DQBB_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DQBB_HU, "Double Quick Brown Box tiltása"},
@@ -4554,7 +3797,7 @@ translate_t string_table[] = {
 /* c64/isepic.c */
 /* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the isepic cart")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_ISEPIC_DA, "Deaktiver isepic-cartridge"},
+/* da */ {IDCLS_DISABLE_ISEPIC_DA, "Deaktivér isepic-cartridge"},
 /* de */ {IDCLS_DISABLE_ISEPIC_DE, "Isepic Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_ISEPIC_HU, "Isepic cartridge tiltása"},
@@ -4582,7 +3825,7 @@ translate_t string_table[] = {
 /* c64/mmc64.c */
 /* en */ {IDCLS_DISABLE_MMC64,    N_("Disable the MMC64 expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_MMC64_DA, "Deaktiver MMC64-udviddelse"},
+/* da */ {IDCLS_DISABLE_MMC64_DA, "Deaktivér MMC64-udviddelse"},
 /* de */ {IDCLS_DISABLE_MMC64_DE, "MMC64 Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MMC64_FR, "Désactiver l'expansion MMC64"},
 /* hu */ {IDCLS_DISABLE_MMC64_HU, "MMC64 bõvítés tiltása"},
@@ -4629,7 +3872,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_MMC64_READONLY_FR, "Définir la carte MMC64 en lecture seule"},
 /* hu */ {IDCLS_MMC64_READONLY_HU, "MMC64 kártya csak olvasható"},
 /* it */ {IDCLS_MMC64_READONLY_IT, "Imposta la cartuccia MMC64 in sola lettura"},
-/* nl */ {IDCLS_MMC64_READONLY_NL, "Zet de MMC64 card als alleen lezen"},
+/* nl */ {IDCLS_MMC64_READONLY_NL, "Zet de MMC64 als alleen-lezen"},
 /* pl */ {IDCLS_MMC64_READONLY_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_READONLY_SV, "Skrivskydda MMC64-kort"},
 /* tr */ {IDCLS_MMC64_READONLY_TR, "MMC64 kartýný salt okunura çevir"},
@@ -4643,7 +3886,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_MMC64_READWRITE_FR, "Définir la carte MMC64 en lecture/écriture"},
 /* hu */ {IDCLS_MMC64_READWRITE_HU, "MMC64 kártya írható/olvasható"},
 /* it */ {IDCLS_MMC64_READWRITE_IT, "Imposta la cartuccia MMC64 in lettura/scrittura"},
-/* nl */ {IDCLS_MMC64_READWRITE_NL, "Zet de MMC64 card als lezen/schrijven"},
+/* nl */ {IDCLS_MMC64_READWRITE_NL, "Zet de MMC64 als lezen/schrijven"},
 /* pl */ {IDCLS_MMC64_READWRITE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_READWRITE_SV, "Tillåt skrivning på MMC64-kort"},
 /* tr */ {IDCLS_MMC64_READWRITE_TR, "MMC64 kartýný okunur/yazýlýra çevir"},
@@ -4667,7 +3910,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_REU,    N_("Enable the RAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_REU_DA, "Aktivér RAM-udviddelsesenhed"},
-/* de */ {IDCLS_ENABLE_REU_DE, "REU Speichererweiterung aktivieren"},
+/* de */ {IDCLS_ENABLE_REU_DE, "RAM Speichererweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_REU_FR, "Activer l'unité d'expansion RAM"},
 /* hu */ {IDCLS_ENABLE_REU_HU, "RAM Expansion Unit engedélyezése"},
 /* it */ {IDCLS_ENABLE_REU_IT, "Attiva l'espansione di RAM"},
@@ -4680,8 +3923,8 @@ translate_t string_table[] = {
 /* c64/reu.c */
 /* en */ {IDCLS_DISABLE_REU,    N_("Disable the RAM expansion unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_REU_DA, "Deaktiver RAM-udviddelsesenhed"},
-/* de */ {IDCLS_DISABLE_REU_DE, "REU Speichererweiterung deaktivieren"}, 
+/* da */ {IDCLS_DISABLE_REU_DA, "Deaktivér RAM-udviddelsesenhed"},
+/* de */ {IDCLS_DISABLE_REU_DE, "RAM Speichererweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_REU_FR, "Désactiver l'unité d'expansion RAM"},
 /* hu */ {IDCLS_DISABLE_REU_HU, "RAM Expansion Unit tiltása"},
 /* it */ {IDCLS_DISABLE_REU_IT, "Disattiva l'espansione di RAM"},
@@ -4695,7 +3938,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_REU_NAME,    N_("Specify name of REU image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_REU_NAME_DA, "Angiv navn på REU-image"},
-/* de */ {IDCLS_SPECIFY_REU_NAME_DE, "Dateiname für REU Speichererweiterung"},
+/* de */ {IDCLS_SPECIFY_REU_NAME_DE, "Namen für REU Image Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_REU_NAME_FR, "Spécifier le nom de l'image REU"},
 /* hu */ {IDCLS_SPECIFY_REU_NAME_HU, "Adja meg a REU képmás nevét"},
 /* it */ {IDCLS_SPECIFY_REU_NAME_IT, "Specifica il nome dell'immagine REU"},
@@ -4709,7 +3952,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_REU_SIZE,    N_("Size of the RAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_REU_SIZE_DA, "Størrelse på RAM-udviddelsesenhed"},
-/* de */ {IDCLS_REU_SIZE_DE, "Grösse der REU Speichererweiterung"},
+/* de */ {IDCLS_REU_SIZE_DE, "Größe der RAM Speichererweiterung"},
 /* fr */ {IDCLS_REU_SIZE_FR, "Taille de l'unité d'expansion RAM"},
 /* hu */ {IDCLS_REU_SIZE_HU, "RAM Expansion Unit mérete"},
 /* it */ {IDCLS_REU_SIZE_IT, "Dimensione dell'espansione di RAM"},
@@ -4724,8 +3967,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TFE,    N_("Enable the TFE (\"The Final Ethernet\") unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TFE_DA, "Aktivér TFE-enhed (\"The Final Ethernet\")"},
-/* de */ {IDCLS_ENABLE_TFE_DE, "TFE Ethernetemulation aktivieren"},
-/* fr */ {IDCLS_ENABLE_TFE_FR, "Activer l'unité TFE (\"The Final Ethernet\")"},
+/* de */ {IDCLS_ENABLE_TFE_DE, "TFE (\"the final ethernet\") Erweiterung aktivitieren"},
+/* fr */ {IDCLS_ENABLE_TFE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TFE_HU, "TFE (\"the final ethernet\") egység engedélyezése"},
 /* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Activeer de TFE (\"The Final Ethernet\")-eenheid"},
@@ -4737,9 +3980,9 @@ translate_t string_table[] = {
 /* c64/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE,    N_("Disable the TFE (\"The Final Ethernet\") unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TFE_DA, "Deaktiver TFE-enhed (\"The Final Ethernet\")"},
-/* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
-/* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE"},
+/* da */ {IDCLS_DISABLE_TFE_DA, "Deaktivér TFE-enhed (\"The Final Ethernet\")"},
+/* de */ {IDCLS_DISABLE_TFE_DE, "TFE (\"the final ethernet\") Erweiterung deaktivitieren"},
+/* fr */ {IDCLS_DISABLE_TFE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"The Final Ethernet\") egység tiltása"},
 /* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\")-eenheid uitschakelen"},
@@ -4779,7 +4022,7 @@ translate_t string_table[] = {
 /* c64/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE_AS_RRNET,    N_("Disable RRNet mode of TFE emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TFE_AS_RRNET_DA, "Deaktiver RRNet-läge af TFE-emulering"},
+/* da */ {IDCLS_DISABLE_TFE_AS_RRNET_DA, "Deaktivér RRNet-läge af TFE-emulering"},
 /* de */ {IDCLS_DISABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_AS_RRNET_FR, "Désactiver le mode RRNet de l’émulation TFE"},
 /* hu */ {IDCLS_DISABLE_TFE_AS_RRNET_HU, "RRNet mód tiltása TFE emulációhoz"},
@@ -4809,8 +4052,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_CART_ATTACH_DETACH_NO_RESET,    N_("Do not reset machine if a cartridge is attached or detached")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_DA, "Reset ikke maskinen hvis et cartridge tilsluttes eller frakobles"},
-/* de */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_DE, "Kein Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder "
-                                                "entfernt wird"},
+/* de */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_DE, "Kein Reset der Maschine wenn ein Erweiterungsmodul eingelegt oder entfernt wird"},
 /* fr */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_FR, "Ne pas réinitialiser si une cartouche est insérée ou retirée"},
 /* hu */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_HU, "Nincs reset a cartridge csatolásakorgy leválasztásakor"},
 /* it */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_IT, "Non fare il reset della macchina se una cartuccia è collegata o rimossa"},
@@ -4853,7 +4095,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_GENERIC_16KB_CART_DA, "Tilslut standard 16KB-cartridge image"},
 /* de */ {IDCLS_ATTACH_GENERIC_16KB_CART_DE, "Generisches 16K Erweiterungsmodul Image einlegen"},
-/* fr */ {IDCLS_ATTACH_GENERIC_16KB_CART_FR, "Insérer une cartouche générique 16KO"},
+/* fr */ {IDCLS_ATTACH_GENERIC_16KB_CART_FR, "Insérer une cartouche générique de 16KO"},
 /* hu */ {IDCLS_ATTACH_GENERIC_16KB_CART_HU, "Általános 16KB cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_GENERIC_16KB_CART_IT, "Seleziona l'immagine di una cartuccia generica di 16KB"},
 /* nl */ {IDCLS_ATTACH_GENERIC_16KB_CART_NL, "Koppel generiek 16KB-cartridgebestand aan"},
@@ -4870,7 +4112,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ATTACH_RAW_STARDOS_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_STARDOS_CART_HU, "Nyers 16KB-os StarDOS cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_STARDOS_CART_IT, "Seleziona l'immagine di una cartuccia StarDOS di 16KB"},
-/* nl */ {IDCLS_ATTACH_RAW_STARDOS_CART_NL, "Koppel binair 16KB StarDOS-cartridgebestand aan"},
+/* nl */ {IDCLS_ATTACH_RAW_STARDOS_CART_NL, "Koppel binair 16KB StarDOS cartridgebestand"},
 /* pl */ {IDCLS_ATTACH_RAW_STARDOS_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_STARDOS_CART_SV, "Anslut rå 16KB StarDOS-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_STARDOS_CART_TR, "Düz 16KB StarDOS kartuþ imajý yerleþtir"},
@@ -4884,7 +4126,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_HU, "32KB-os Action Replay IV cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_IT, "Seleziona l'immagine di una cartuccia Action Replay IV di 32KB"},
-/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_NL, "Koppel binair 32KB Action-Replay-IV-cartridgebestand aan"},
+/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_NL, "Koppel binair 32KB Action-Replay-cartridgebestand aan"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_SV, "Anslut rå 32KB-Action Replay IV-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_TR, "Düz 32KB Action Replay IV kartuþ imajý yerleþtir"},
@@ -5047,7 +4289,7 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_DISABLE_CART,    N_("Disable default cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_CART_DA, "Deaktiver standard cartridge"},
+/* da */ {IDCLS_DISABLE_CART_DA, "Deaktivér standard cartridge"},
 /* de */ {IDCLS_DISABLE_CART_DE, "Standard Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_CART_HU, "Alap cartridge tiltása"},
@@ -5290,11 +4532,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_DE, "Name für ROM Module Image Datei ($2000-3fff)"},
 /* fr */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_FR, "Spécifier le nom de l’image de cartouche ROM pour $2000-$3fff"},
 /* hu */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_HU, "Adja meg a $2000-$3fff címû cartridge ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_IT, "Specifica il nome dell'immagine della ROM della cartuccia per "
-                                               "$2000-$3fff"},
+/* it */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_IT, "Specifica il nome dell'immagine della ROM della cartuccia per $2000-$3fff"},
 /* nl */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_NL, "Geef de naam van het cartridge-ROM-bestand voor $2000-$3fff"},
 /* pl */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_SV, "Ange namn på insticksmodul-ROM-avbildning för $2000-$3fff"},
+/* sv */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_SV, "Ange namn på insticksmodul-ROM-avbildning för $2000-3fff"},
 /* tr */ {IDCLS_SPECIFY_CART_ROM_2000_NAME_TR, "$2000-$3fff adres aralýðý için kartuþ ROM imaj ismini belirt"},
 #endif
 
@@ -5305,8 +4546,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_DE, "Name für ROM Module Image Datei ($4000-5fff)"},
 /* fr */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_FR, "Spécifier le nom de l’image de cartouche ROM pour $4000-$5fff"},
 /* hu */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_HU, "Adja meg a $4000-$5fff címû cartridge ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_IT, "Specifica il nome dell'immagine della ROM della cartuccia per "
-                                               "$4000-$5fff"},
+/* it */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_IT, "Specifica il nome dell'immagine della ROM della cartuccia per $4000-$5fff"},
 /* nl */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_NL, "Geef de naam van het cartridge-ROM-bestand voor $4000-$5fff"},
 /* pl */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CART_ROM_4000_NAME_SV, "Ange namn på insticksmodul-ROM-avbildning för $4000-$5fff"},
@@ -5320,8 +4560,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_DE, "Name für ROM Module Image Datei ($6000-7fff)"},
 /* fr */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_FR, "Spécifier le nom de l’image de cartouche ROM pour $6000-$7fff"},
 /* hu */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_HU, "Adja meg a $6000-$7fff címû cartridge ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_IT, "Specifica il nome dell'immagine della ROM della cartuccia per "
-                                               "$6000-$7fff"},
+/* it */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_IT, "Specifica il nome dell'immagine della ROM della cartuccia per $6000-$7fff"},
 /* nl */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_NL, "Geef de naam van het cartridge-ROM-bestand voor $6000-$7fff"},
 /* pl */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CART_ROM_6000_NAME_SV, "Ange namn på insticksmodul-ROM-avbildning för $6000-$7fff"},
@@ -5335,7 +4574,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_DE, "RAM Zuordnung in $0800-$0FFF aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_FR, "Activer le mappage RAM dans $0800-$0FFF"},
 /* hu */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_HU, "$0800-$0FFF RAM leképzés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_IT, "Attiva il mappaggio della RAM a $0800-$0FFF"},
+/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_IT, "Attiva la mappatura della RAM a $0800-$0FFF"},
 /* nl */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_NL, "Activeer RAM op adres $0800-$0FFF"},
 /* pl */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_RAM_MAPPING_IN_0800_SV, "Aktivera RAM-mappning på $0800-$0FFF"},
@@ -5345,11 +4584,11 @@ translate_t string_table[] = {
 /* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800,    N_("Disable RAM mapping in $0800-$0FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_DA, "Deaktiver RAM-mappning på $0800-$0FFF"},
+/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_DA, "Deaktivér RAM-mappning på $0800-$0FFF"},
 /* de */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_DE, "RAM Zuordnung in $0800-$0FFF deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_FR, "Désactiver le mappage RAM dans $0800-$0FFF"},
 /* hu */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_HU, "$0800-$0FFF RAM leképzés tiltása"},
-/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_IT, "Disattiva il mappaggio della RAM a $0800-$0FFF"},
+/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_IT, "Disattiva la mappatura della RAM a $0800-$0FFF"},
 /* nl */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_NL, "RAM op adres $0800-$0FFF uitschakelen"},
 /* pl */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAM_MAPPING_IN_0800_SV, "Inaktivera RAM-mappning på $0800-$0FFF"},
@@ -5363,7 +4602,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_DE, "RAM Zuordnung in $1000-$1FFF aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_FR, "Activer le mappage RAM dans $1000-$1FFF"},
 /* hu */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_HU, "$1000-$1FFF RAM leképzés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_IT, "Attiva il mappaggio della RAM a $1000-$1FFF"},
+/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_IT, "Attiva la mappatura della RAM a $1000-$1FFF"},
 /* nl */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_NL, "Activeer RAM op adres $1000-$1FFF"},
 /* pl */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_RAM_MAPPING_IN_1000_SV, "Aktivera RAM-mappning på $1000-$1FFF"},
@@ -5373,11 +4612,11 @@ translate_t string_table[] = {
 /* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000,    N_("Disable RAM mapping in $1000-$1FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_DA, "Deaktiver RAM-mappning på $1000-$1FFF"},
+/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_DA, "Deaktivér RAM-mappning på $1000-$1FFF"},
 /* de */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_DE, "RAM Zuordnung in $1000-$1FFF deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_FR, "Désactiver le mappage RAM dans $1000-$1FFF"},
 /* hu */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_HU, "$1000-$1FFF RAM leképzés tiltása"},
-/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_IT, "Disattiva il mappaggio della RAM a $1000-$1FFF"},
+/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_IT, "Disattiva la mappatura della RAM a $1000-$1FFF"},
 /* nl */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_NL, "RAM op adres $1000-$1FFF uitschakelen"},
 /* pl */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAM_MAPPING_IN_1000_SV, "Inaktivera RAM-mappning på $1000-$1FFF"},
@@ -5388,10 +4627,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000,    N_("Enable RAM mapping in $2000-$3FFF")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_DA, "Aktivér RAM-mappning på $2000-$3FFF"},
-/* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_DE, "RAM Zuordnung in $2000-$3FFF aktivieren"},
+/* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_DE, "RAM Zuordnung in $2000-3FFF aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_FR, "Activer le mappage RAM dans $2000-$3FFF"},
 /* hu */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_HU, "$2000-$3FFF RAM leképzés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_IT, "Attiva il mappaggio della RAM a $2000-$3FFF"},
+/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_IT, "Attiva la mappatura della RAM a $2000-$3FFF"},
 /* nl */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_NL, "Activeer RAM op adres $2000-$3FFF"},
 /* pl */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_RAM_MAPPING_IN_2000_SV, "Aktivera RAM-mappning på $2000-$3FFF"},
@@ -5401,11 +4640,11 @@ translate_t string_table[] = {
 /* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000,    N_("Disable RAM mapping in $2000-$3FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_DA, "Deaktiver RAM-mappning på $2000-$3FFF"},
+/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_DA, "Deaktivér RAM-mappning på $2000-$3FFF"},
 /* de */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_DE, "RAM Zuordnung in $2000-$3FFF deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_FR, "Désactiver le mappage RAM dans $2000-$3FFF"},
 /* hu */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_HU, "$2000-$3FFF RAM leképzés tiltása"},
-/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_IT, "Disattiva il mappaggio della RAM a $2000-$3FFF"},
+/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_IT, "Disattiva la mappatura della RAM a $2000-$3FFF"},
 /* nl */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_NL, "RAM op adres $2000-$3FFF uitschakelen"},
 /* pl */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAM_MAPPING_IN_2000_SV, "Inaktivera RAM-mappning på $2000-$3FFF"},
@@ -5419,7 +4658,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_DE, "RAM Zuordnung in $4000-$5FFF aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_FR, "Activer le mappage RAM dans $4000-$5FFF"},
 /* hu */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_HU, "$4000-$5FFF RAM leképzés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_IT, "Attiva il mappaggio della RAM a $4000-$5FFF"},
+/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_IT, "Attiva la mappatura della RAM a $4000-$5FFF"},
 /* nl */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_NL, "Activeer RAM op adres $4000-$5FFF"},
 /* pl */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_RAM_MAPPING_IN_4000_SV, "Aktivera RAM-mappning på $4000-$5FFF"},
@@ -5429,11 +4668,11 @@ translate_t string_table[] = {
 /* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000,    N_("Disable RAM mapping in $4000-$5FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_DA, "Deaktiver RAM-mappning på $4000-$5FFF"},
+/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_DA, "Deaktivér RAM-mappning på $4000-$5FFF"},
 /* de */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_DE, "RAM Zuordnung in $4000-$5FFF deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_FR, "Désactiver le mappage RAM dans $4000-$5FFF"},
 /* hu */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_HU, "$4000-$5FFF RAM leképzés tiltása"},
-/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_IT, "Disattiva il mappaggio della RAM a $4000-$5FFF"},
+/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_IT, "Disattiva la mappatura della RAM a $4000-$5FFF"},
 /* nl */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_NL, "RAM op adres $4000-$5FFF uitchakelen"},
 /* pl */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAM_MAPPING_IN_4000_SV, "Inaktivera RAM-mappning på $4000-$5FFF"},
@@ -5447,7 +4686,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_DE, "RAM Zuordnung in $6000-$7FFF aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_FR, "Activer le mappage RAM dans $6000-$7FFF"},
 /* hu */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_HU, "$6000-$7FFF RAM leképzés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_IT, "Attiva il mappaggio della RAM a $6000-$7FFF"},
+/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_IT, "Attiva la mappatura della RAM a $6000-$7FFF"},
 /* nl */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_NL, "Activeer RAM op adres $6000-$7FFF"},
 /* pl */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_RAM_MAPPING_IN_6000_SV, "Aktivera RAM-mappning på $6000-$7FFF"},
@@ -5457,11 +4696,11 @@ translate_t string_table[] = {
 /* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000,    N_("Disable RAM mapping in $6000-$7FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_DA, "Deaktiver RAM-mappning på $6000-$7FFF"},
+/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_DA, "Deaktivér RAM-mappning på $6000-$7FFF"},
 /* de */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_DE, "RAM Zuordnung in $6000-$7FFF deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_FR, "Désactiver le mappage RAM dans $6000-$7FFF"},
 /* hu */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_HU, "$6000-$7FFF RAM leképzés tiltása"},
-/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_IT, "Disattiva il mappaggio della RAM a $6000-$7FFF"},
+/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_IT, "Disattiva la mappatura della RAM a $6000-$7FFF"},
 /* nl */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_NL, "RAM op adres $6000-$7FFF uitschakelen"},
 /* pl */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAM_MAPPING_IN_6000_SV, "Inaktivera RAM-mappning på $6000-$7FFF"},
@@ -5475,7 +4714,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_DE, "RAM Zuordnung in $C000-$CFFF aktivieren"},
 /* fr */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_FR, "Activer le mappage RAM dans $C000-$CFFF"},
 /* hu */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_HU, "$C000-$CFFF RAM leképzés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_IT, "Attiva il mappaggio della RAM a $C000-$CFFF"},
+/* it */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_IT, "Attiva la mappatura della RAM a $C000-$CFFF"},
 /* nl */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_NL, "Activeer RAM op adres $C000-$CFFF"},
 /* pl */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_RAM_MAPPING_IN_C000_SV, "Aktivera RAM-mappning på $C000-$CFFF"},
@@ -5485,11 +4724,11 @@ translate_t string_table[] = {
 /* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000,    N_("Disable RAM mapping in $C000-$CFFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_DA, "Deaktiver RAM-mappning på $C000-$CFFF"},
+/* da */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_DA, "Deaktivér RAM-mappning på $C000-$CFFF"},
 /* de */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_DE, "RAM Zuordnung in $C000-$CFFF deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_FR, "Désactiver le mappage RAM dans $C000-$CFFF"},
 /* hu */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_HU, "$C000-$CFFF RAM leképzés tiltása"},
-/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_IT, "Disattiva il mappaggio della RAM a $C000-$CFFF"},
+/* it */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_IT, "Disattiva la mappatura della RAM a $C000-$CFFF"},
 /* nl */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_NL, "RAM op adres $C000-$CFFF uitschakelen"},
 /* pl */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAM_MAPPING_IN_C000_SV, "Inaktivera RAM-mappning på $C000-$CFFF"},
@@ -5519,68 +4758,51 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique"},
 /* hu */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_HU, "Adja meg a grafikus és szimbolikus billentyûzet leképzési fájl nevét."},
 /* it */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera grafica"},
-/* nl */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymapbestand voor het grafische "
-                                                "toetsenbord"},
-/* pl */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_SV, "Ange fil för symbolisk tangentbordsemulering för "
-                                                "\"graphics\"-tangentbord"},
+/* nl */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymapbestand voor het grafische toetsenbord"},
+/* pl */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_PL, "Okre¶l nazwê pliku symbolicznej mapy klawiatury graficznej"},
+/* sv */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_SV, "Ange fil för symbolisk tangentbordsemulering för \"graphics\"-tangentbord"},
 /* tr */ {IDCLS_SPECIFY_GFX_SYM_KEYMAP_NAME_TR, "Grafik klavyesi sembolik tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME,    N_("Specify name of graphics keyboard positional keymap file")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for \"graphics\"-"
-                                                "tastatur"},
+/* da */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for \"graphics\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_DE, "Keymap Datei für graphics keyboard positional definieren"},
 /* fr */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel"},
-/* hu */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_HU, "Adja meg a grafikus és pozíció szerinti billentyûzet leképzési fájl "
-                                                "nevét."},
-/* it */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera "
-                                                "grafica"},
-/* nl */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymapbestand voor het grafische "
-                                                "toetsenbord"},
-/* pl */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för "
-                                                "\"graphics\"-tangentbord"},
+/* hu */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_HU, "Adja meg a grafikus és pozíció szerinti billentyûzet leképzési fájl nevét."},
+/* it */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera grafica"},
+/* nl */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymapbestand voor het grafische toetsenbord"},
+/* pl */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_PL, "Okre¶l nazwê pozycyjnej mapy klawiatury graficznej"},
+/* sv */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för \"graphics\"-tangentbord"},
 /* tr */ {IDCLS_SPECIFY_GFX_POS_KEYMAP_NAME_TR, "Grafik klavyesi konumsal tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME,    N_("Specify name of UK business keyboard symbolic keymap file")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for Britisk \"business\"-"
-                                                "tastatur"},
+/* da */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for Britisk \"business\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard symbolic definieren"},
 /* fr */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique UK"},
-/* hu */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_HU, "Adja meg az angol, hivatalos, szimbolikus billentyûzet leképzési fájl "
-                                                "nevét."},
-/* it */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera UK "
-                                                "business"},
-/* nl */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymapbestand voor het "
-                                                "UK-businesstoetsenbord"},
-/* pl */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_SV, "Ange fil för symbolisk tangentbordsemulering för brittiskt "
-                                                "\"business\"-tangentbord"},
+/* hu */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_HU, "Adja meg az angol, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."},
+/* it */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera UK business"},
+/* nl */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymapbestand voor het UK-businesstoetsenbord"},
+/* pl */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_PL, "Okre¶l nazwê klawiatury pozycjonalnej UK pliku symbolicznej mapy klawiatury"},
+/* sv */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_SV, "Ange fil för symbolisk tangentbordsemulering för brittiskt \"business\"-tangentbord"},
 /* tr */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_TR, "UK business klavyesi sembolik tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME,    N_("Specify name of UK business keyboard positional keymap file")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for Britisk "
-                                                "\"business\"-tastatur"},
+/* da */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for Britisk \"business\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard positional definieren"},
 /* fr */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel UK"},
-/* hu */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_HU, "Adja meg a UK hivatalos pozíció szerinti billentyûzet leképzési fájl "
-                                                "nevét."},
-/* it */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_IT, "Adja meg az angol, hivatalos, pozíció szerinti billentyûzet leképzési "
-                                                "fájl nevét."},
-/* nl */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymapbestand voor het "
-                                                "UK-businesstoetsenbord"},
-/* pl */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för brittiskt "
-                                                "\"business\"-tangentbord"},
+/* hu */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_HU, "Adja meg az angol, hivatalos, pozíció szerinti billentyûzet leképzési fájl nevét."},
+/* it */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera UK business"},
+/* nl */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymapbestand voor het UK-businesstoetsenbord"},
+/* pl */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_PL, "Okre¶l nazwê UK klawiatury pozycjonalnej pliku mapy klawiatury"},
+/* sv */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för brittiskt \"business\"-tangentbord"},
 /* tr */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_TR, "UK business klavyesi konumsal tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
 
@@ -5590,34 +4812,25 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_DA, "Angiv fil for symbolsk tastaturemulering for Tysk \"business\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard symbolic definieren"},
 /* fr */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique allemand"},
-/* hu */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, szimbolikus billentyûzet leképzési fájl "
-                                                "nevét."},
-/* it */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera "
-                                                "business tedesca"},
-/* nl */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymapbestand voor het Duitse "
-                                                "businesstoetsenbord"},
-/* pl */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_SV, "Ange fil för symbolisk tangentbordsemulering för tyskt "
-                                                "\"business\"-tangentbord"},
+/* hu */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."},
+/* it */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera business tedesca"},
+/* nl */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymapbestand voor het Duitse businesstoetsenbord"},
+/* pl */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_PL, "Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku symbolicznej mapy klawiatury"},
+/* sv */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_SV, "Ange fil för symbolisk tangentbordsemulering för tyskt \"business\"-tangentbord"},
 /* tr */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_TR, "Alman business klavyesi sembolik tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME,    N_("Specify name of German business keyboard positional keymap file")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for Tysk "
-                                                "\"business\"-tastatur"},
+/* da */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DA, "Angiv fil for positionsbestemt tastaturemulering for Tysk \"business\"-tastatur"},
 /* de */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard positional definieren"},
 /* fr */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel allemand"},
-/* hu */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, pozíció szerinti billentyûzet leképzési "
-                                                "fájl nevét."},
-/* it */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera "
-                                                "business tedesca"},
-/* nl */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymapbestand voor het Duitse "
-                                                "businesstoetsenbord"},
-/* pl */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för tyskt "
-                                                "\"business\"-tangentbord"},
+/* hu */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, pozíció szerinti billentyûzet leképzési fájl nevét."},
+/* it */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera business tedesca"},
+/* nl */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymapbestand voor het Duitse businesstoetsenbord"},
+/* pl */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_PL, "Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku mapy klawiatury"},
+/* sv */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för tyskt \"business\"-tangentbord"},
 /* tr */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_TR, "Alman business klavyesi konumsal tuþ haritasý dosyasýnýn ismini belirt"},
 #endif
 #endif
@@ -5697,17 +4910,12 @@ translate_t string_table[] = {
 /* drive/drive-cmdline-options.c */
 /* en */ {IDCLS_SET_DRIVE_EXTENSION_POLICY,    N_("Set drive 40 track extension policy (0: never, 1: ask, 2: on access)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_DA, "Angiv drevets regel for 40-spors udviddelse (0: aldrig, 1: spørg, 2: ved "
-                                               "tilgang)"},
+/* da */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_DA, "Angiv drevets regel for 40-spors udviddelse (0: aldrig, 1: spørg, 2: ved tilgang)"},
 /* de */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_DE, "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"},
-/* fr */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_FR, "Spécifier la règle d'extention 40 pistes (0: jamais, 1: demander, 2: à "
-                                               "l'accès)"},
-/* hu */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_HU, "Adja meg a 40 sávra kiterjesztés terjesztés módját (0: soha, 1: kérdés, "
-                                               "2: hozzáféréskor)"},
-/* it */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_IT, "Imposta la politica di estensione a 40 tracce del drive (0: mai, 1: a "
-                                               "richiesta, 2: all'accesso)"},
-/* nl */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_NL, "Stel beleid voor 40-sporenuitbreiding drive in (0: nooit, 1: vraag, 2: "
-                                               "bij toegang)"},
+/* fr */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_FR, "Spécifier la règle d'extention 40 pistes (0: jamais, 1: demander, 2: à l'accès)"},
+/* hu */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_HU, "Adja meg a 40 sávra kiterjesztés terjesztés módját (0: soha, 1: kérdés, 2: hozzáféréskor)"},
+/* it */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_IT, "Imposta la politica di estensione a 40 tracce del drive (0: mai, 1: a richiesta, 2: all'accesso)"},
+/* nl */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_NL, "Stel beleid voor 40-sporenuitbreiding drive in (0: nooit, 1: vraag, 2: bij toegang)"},
 /* pl */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_SV, "Ange regel för 40-spårsutökning (0: aldrig, 1: fråga, 2: vid åtkomst)"},
 /* tr */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_TR, "Sürücü 40 track büyüme kuralýný ayarla (0: asla, 1: sor, 2: eriþildiðinde)"},
@@ -5786,20 +4994,15 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SET_IDLE_METHOD,    N_("Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_IDLE_METHOD_DA, "Vælg pausemetode for diskettedrev (0: ingen traps, 1: spring over cykler, 2: "
-                                    "trap ledig)"},
+/* da */ {IDCLS_SET_IDLE_METHOD_DA, "Vælg pausemetode for diskettedrev (0: ingen traps, 1: spring over cykler, 2: trap ledig)"},
 /* de */ {IDCLS_SET_IDLE_METHOD_DE, "Laufwerks idling Methode (0: kein Traps, 1: Zyklen verwerfen, 2: trap idle)"},
 /* fr */ {IDCLS_SET_IDLE_METHOD_FR, "Spécifier la méthode d'idle (0: pas de traps, 1: sauter des cycles, 2: trap idle)"},
-/* hu */ {IDCLS_SET_IDLE_METHOD_HU, "Lemezegység üresjárási módja (0: folytonos emuláció, 1: ciklusok kihagyása, 2: üres "
-                                    "DOS ciklusok kihagyása)"},
-/* it */ {IDCLS_SET_IDLE_METHOD_IT, "Imposta il metodo per rilevare l'inattività del drive (0: non rilevare, 1: "
-                                    "salta cicli, 2: rileva inattività)"},
+/* hu */ {IDCLS_SET_IDLE_METHOD_HU, "Lemezegység üresjárási módja (0: folytonos emuláció, 1: ciklusok kihagyása, 2: üres DOS ciklusok kihagyása)"},
+/* it */ {IDCLS_SET_IDLE_METHOD_IT, "Imposta il metodo per rilevare l'inattività del drive (0: non rilevare, 1: salta cicli, 2: rileva inattività)"},
 /* nl */ {IDCLS_SET_IDLE_METHOD_NL, "Stel de drive-idlemethode in (0: geen traps, 1: sla cycli over, 2: trap idle)"},
 /* pl */ {IDCLS_SET_IDLE_METHOD_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_IDLE_METHOD_SV, "Ställ in väntemetod för diskettstation (0: fånta inge, 1: hoppa cykler, 2: fånga "
-                                    "väntan)"},
-/* tr */ {IDCLS_SET_IDLE_METHOD_TR, "Sürücü boþa vakit geçirme metodunu ayarlayýn (0: trap yok, 1: cyclelarý atla, 2: "
-                                    "trap boþa vakit geçirme)"},
+/* sv */ {IDCLS_SET_IDLE_METHOD_SV, "Ställ in väntemetod för diskettstation (0: fånta inge, 1: hoppa cykler, 2: fånga väntan)"},
+/* tr */ {IDCLS_SET_IDLE_METHOD_TR, "Sürücü boþa vakit geçirme metodunu ayarlayýn (0: trap yok, 1: cyclelarý atla, 2: trap boþa vakit geçirme)"},
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
@@ -5807,7 +5010,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DRIVE_RAM_2000_DA, "Aktivér 8KB RAM-udviddelse på $2000-$3FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_2000_DE, "8KB RAM Erweiterung bei $2000-3fff aktivieren"},
-/* fr */ {IDCLS_ENABLE_DRIVE_RAM_2000_FR, "Enable 8KB RAM expansion at $2000-$3FFF"},
+/* fr */ {IDCLS_ENABLE_DRIVE_RAM_2000_FR, "Activer l'exansion de 8KB RAM à $2000-$3FFF"},
 /* hu */ {IDCLS_ENABLE_DRIVE_RAM_2000_HU, "8KB RAM kiterjeszés engedélyezése a $2000-$3FFF címen"},
 /* it */ {IDCLS_ENABLE_DRIVE_RAM_2000_IT, "Attiva l'espansione di RAM di 8KB a $2000-$3FFF"},
 /* nl */ {IDCLS_ENABLE_DRIVE_RAM_2000_NL, "Activeer 8KB RAM-uitbreiding op adres $2000-$3FFF"},
@@ -5819,7 +5022,7 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_2000,    N_("Disable 8KB RAM expansion at $2000-$3FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DRIVE_RAM_2000_DA, "Deaktiver 8KB RAM-udviddelse på $2000-$3FFF"},
+/* da */ {IDCLS_DISABLE_DRIVE_RAM_2000_DA, "Deaktivér 8KB RAM-udviddelse på $2000-$3FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_2000_DE, "8KB RAM Erweiterung bei $2000-3fff deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_2000_FR, "Désactiver l'exansion de 8KB RAM à $2000-$3FFF"},
 /* hu */ {IDCLS_DISABLE_DRIVE_RAM_2000_HU, "8KB RAM kiterjeszés tiltása a $2000-$3FFF címen"},
@@ -5835,7 +5038,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DRIVE_RAM_4000_DA, "Aktivér 8KB RAM-udviddelse på $4000-$5FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_4000_DE, "8KB RAM Erweiterung bei $4000-5fff aktivieren"},
-/* fr */ {IDCLS_ENABLE_DRIVE_RAM_4000_FR, "Enable 8KB RAM expansion at $4000-$5FFF"},
+/* fr */ {IDCLS_ENABLE_DRIVE_RAM_4000_FR, "Activer l'exansion de 8KB RAM à $4000-$5FFF"},
 /* hu */ {IDCLS_ENABLE_DRIVE_RAM_4000_HU, "8KB RAM kiterjeszés engedélyezése a $4000-$5FFF címen"},
 /* it */ {IDCLS_ENABLE_DRIVE_RAM_4000_IT, "Attiva l'espansione di RAM di 8KB a $4000-$5FFF"},
 /* nl */ {IDCLS_ENABLE_DRIVE_RAM_4000_NL, "Activeer 8KB RAM-uitbreiding op adres $4000-$5FFF"},
@@ -5847,7 +5050,7 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_4000,    N_("Disable 8KB RAM expansion at $4000-$5FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DRIVE_RAM_4000_DA, "Deaktiver 8KB RAM-udviddelse på $4000-$5FFF"},
+/* da */ {IDCLS_DISABLE_DRIVE_RAM_4000_DA, "Deaktivér 8KB RAM-udviddelse på $4000-$5FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_4000_DE, "8KB RAM Erweiterung bei $4000-5fff deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_4000_FR, "Désactiver l'exansion de 8KB RAM à $4000-$5FFF"},
 /* hu */ {IDCLS_DISABLE_DRIVE_RAM_4000_HU, "8KB RAM kiterjeszés tiltása a $4000-$5FFF címen"},
@@ -5863,7 +5066,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DRIVE_RAM_6000_DA, "Aktivér 8KB RAM-udviddelse på $6000-$7FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_6000_DE, "8KB RAM Erweiterung bei $6000-7fff aktivieren"},
-/* fr */ {IDCLS_ENABLE_DRIVE_RAM_6000_FR, "Enable 8KB RAM expansion at $6000-$7FFF"},
+/* fr */ {IDCLS_ENABLE_DRIVE_RAM_6000_FR, "Activer l'exansion de 8KB RAM à $6000-$7FFF"},
 /* hu */ {IDCLS_ENABLE_DRIVE_RAM_6000_HU, "8KB RAM kiterjeszés engedélyezése a $6000-$7FFF címen"},
 /* it */ {IDCLS_ENABLE_DRIVE_RAM_6000_IT, "Attiva l'espansione di RAM di 8KB a $6000-$7FFF"},
 /* nl */ {IDCLS_ENABLE_DRIVE_RAM_6000_NL, "Activeer 8KB RAM-uitbreiding op adres $6000-$7FFF"},
@@ -5875,7 +5078,7 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_6000,    N_("Disable 8KB RAM expansion at $6000-$7FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DRIVE_RAM_6000_DA, "Deaktiver 8KB RAM-udviddelse på $6000-$7FFF"},
+/* da */ {IDCLS_DISABLE_DRIVE_RAM_6000_DA, "Deaktivér 8KB RAM-udviddelse på $6000-$7FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_6000_DE, "8KB RAM Erweiterung bei $6000-7fff deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_6000_FR, "Désactiver l'exansion de 8KB RAM à $6000-$7FFF"},
 /* hu */ {IDCLS_DISABLE_DRIVE_RAM_6000_HU, "8KB RAM kiterjeszés tiltása a $6000-$7FFF címen"},
@@ -5891,7 +5094,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DRIVE_RAM_8000_DA, "Aktivér 8KB RAM-udviddelse på $8000-$9FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_8000_DE, "8KB RAM Erweiterung bei $8000-9fff aktivieren"},
-/* fr */ {IDCLS_ENABLE_DRIVE_RAM_8000_FR, "Enable 8KB RAM expansion at $8000-$9FFF"},
+/* fr */ {IDCLS_ENABLE_DRIVE_RAM_8000_FR, "Activer l'exansion de 8KB RAM à $8000-$9FFF"},
 /* hu */ {IDCLS_ENABLE_DRIVE_RAM_8000_HU, "8KB RAM kiterjeszés engedélyezése a $8000-$9FFF címen"},
 /* it */ {IDCLS_ENABLE_DRIVE_RAM_8000_IT, "Attiva l'espansione di RAM di 8KB a $8000-$9FFF"},
 /* nl */ {IDCLS_ENABLE_DRIVE_RAM_8000_NL, "Activeer 8KB RAM-uitbreiding op adres $8000-$9FFF"},
@@ -5903,7 +5106,7 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_8000,    N_("Disable 8KB RAM expansion at $8000-$9FFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DRIVE_RAM_8000_DA, "Deaktiver 8KB RAM-udviddelse på $8000-$9FFF"},
+/* da */ {IDCLS_DISABLE_DRIVE_RAM_8000_DA, "Deaktivér 8KB RAM-udviddelse på $8000-$9FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_8000_DE, "8KB RAM Erweiterung bei $8000-9fff deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_8000_FR, "Désactiver l'exansion de 8KB RAM à $8000-$9FFF"},
 /* hu */ {IDCLS_DISABLE_DRIVE_RAM_8000_HU, "8KB RAM kiterjeszés tiltása a $8000-$9FFF címen"},
@@ -5918,8 +5121,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_A000,    N_("Enable 8KB RAM expansion at $A000-$BFFF")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DRIVE_RAM_A000_DA, "Aktivér 8KB RAM-udviddelse på $A000-$BFFF"},
-/* de */ {IDCLS_ENABLE_DRIVE_RAM_A000_DE, "8KB RAM Erweiterung bei $a000-bfff aktivieren"},
-/* fr */ {IDCLS_ENABLE_DRIVE_RAM_A000_FR, "Enable 8KB RAM expansion at $A000-$BFFF"},
+/* de */ {IDCLS_ENABLE_DRIVE_RAM_A000_DE, "8KB RAM Erweiterung bei $A000-Bfff aktivieren"},
+/* fr */ {IDCLS_ENABLE_DRIVE_RAM_A000_FR, "Activer l'exansion de 8KB RAM à $A000-$BFFF"},
 /* hu */ {IDCLS_ENABLE_DRIVE_RAM_A000_HU, "8KB RAM kiterjeszés engedélyezése a $A000-$BFFF címen"},
 /* it */ {IDCLS_ENABLE_DRIVE_RAM_A000_IT, "Attiva l'espansione di RAM di 8KB a $A000-$BFFF"},
 /* nl */ {IDCLS_ENABLE_DRIVE_RAM_A000_NL, "Activeer 8KB RAM-uitbreiding op adres $A000-$BFFF"},
@@ -5931,8 +5134,8 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_A000,    N_("Disable 8KB RAM expansion at $A000-$BFFF")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DRIVE_RAM_A000_DA, "Deaktiver 8KB RAM-udviddelse på $A000-$BFFF"},
-/* de */ {IDCLS_DISABLE_DRIVE_RAM_A000_DE, "8KB RAM Erweiterung bei $a000-bfff deaktivieren"},
+/* da */ {IDCLS_DISABLE_DRIVE_RAM_A000_DA, "Deaktivér 8KB RAM-udviddelse på $A000-$BFFF"},
+/* de */ {IDCLS_DISABLE_DRIVE_RAM_A000_DE, "8KB RAM Erweiterung bei $A000-Bfff deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_A000_FR, "Désactiver l'exansion de 8KB RAM à $A000-$BFFF"},
 /* hu */ {IDCLS_DISABLE_DRIVE_RAM_A000_HU, "8KB RAM kiterjeszés tiltása a $A000-$BFFF címen"},
 /* it */ {IDCLS_DISABLE_DRIVE_RAM_A000_IT, "Disattiva l'espansione di RAM di 8KB a $A000-$BFFF"},
@@ -5973,7 +5176,7 @@ translate_t string_table[] = {
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_PROFDOS,    N_("Disable Professional DOS")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PROFDOS_DA, "Deaktiver Professional DOS"},
+/* da */ {IDCLS_DISABLE_PROFDOS_DA, "Deaktivér Professional DOS"},
 /* de */ {IDCLS_DISABLE_PROFDOS_DE, "Professional DOS deaktivieren"},
 /* fr */ {IDCLS_DISABLE_PROFDOS_FR, "Désactiver le DOS Professionnel"},
 /* hu */ {IDCLS_DISABLE_PROFDOS_HU, "Professional DOS tiltása"},
@@ -6100,7 +5303,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME,    N_("Specify name of 1551 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DA, "Angiv navn på 1551-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE, "Name der 4040 DOS ROM Datei definieren"},
+/* de */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE, "Name der 1551 DOS ROM Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1551 DOS ROM"},
 /* hu */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_HU, "Adja meg az 1551 DOS ROM képmás nevét"},
 /* it */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del DOS del 1551"},
@@ -6115,14 +5318,13 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_DA, "Brug <navn> som katalog for filsystembaseret drev #8"},
 /* de */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_DE, "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #8"},
-/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur "
-                                                "#8"},
+/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #8"},
 /* hu */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_HU, "<név> könyvtár használata az #8-as egység fájlrendszerének"},
 /* it */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_IT, "Una <nome> come direcory per il file system della periferica #8"},
 /* nl */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_NL, "Gebruik <naam> als directory voor bestandssysteemapparaat #8"},
 /* pl */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_SV, "Ange <namn> som katalog för filsystemsbaserad enhet 8"},
-/* tr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_PL, "<isim>'i aygýt #8'in dosya sistemi dizini olarak kullan"},
+/* tr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_8_TR, "<isim>'i aygýt #8'in dosya sistemi dizini olarak kullan"},
 #endif
 
 /* fsdevice/fsdevice-cmdline-options.c */
@@ -6130,8 +5332,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_DA, "Brug <navn> som katalog for filsystembaseret drev #9"},
 /* de */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_DE, "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #9"},
-/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur "
-                                                "#9"},
+/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #9"},
 /* hu */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_HU, "<név> könyvtár használata az #9-es egység fájlrendszerének"},
 /* it */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_IT, "Una <nome> come direcory per il file system della periferica #9"},
 /* nl */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_9_NL, "Gebruik <naam> als directory voor bestandssysteemapparaat #9"},
@@ -6145,8 +5346,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_DA, "Brug <navn> som katalog for filsystembaseret drev #10"},
 /* de */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_DE, "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #10"},
-/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur "
-                                                 "#10"},
+/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #10"},
 /* hu */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_HU, "<név> könyvtár használata az #10-es egység fájlrendszerének"},
 /* it */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_IT, "Una <nome> come direcory per il file system della periferica #10"},
 /* nl */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_10_NL, "Gebruik <naam> als directory voor bestandssysteemapparaat #10"},
@@ -6160,8 +5360,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_DA, "Brug <navn> som katalog for filsystembaseret drev #11"},
 /* de */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_DE, "Benutze <Name> für Verzeichnis beim Verzeichniszugriff für Gerät #11"},
-/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur "
-                                                 "#11"},
+/* fr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_FR, "Utiliser le répertoire <nom> comme système de fichiers pour le lecteur #11"},
 /* hu */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_HU, "<név> könyvtár használata az #11-es egység fájlrendszerének"},
 /* it */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_IT, "Una <nome> come direcory per il file system della periferica #11"},
 /* nl */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_NL, "Gebruik <naam> als directory voor bestandssysteemapparaat #11"},
@@ -6191,8 +5390,8 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_VIDEO_STREAM_BITRATE_DA, "Angiv bitrate for videostrøm i mediefil"},
 /* de */ {IDCLS_SET_VIDEO_STREAM_BITRATE_DE, "Bitrate für Video Stream für Media Datei setzen"},
 /* fr */ {IDCLS_SET_VIDEO_STREAM_BITRATE_FR, "Régler le bitrate vidéo du fichier média"},
-/* it */ {IDCLS_SET_VIDEO_STREAM_BITRATE_IT, "Imposta il bitrate per il flusso video nel file multimediale"},
 /* hu */ {IDCLS_SET_VIDEO_STREAM_BITRATE_HU, "Adja meg az videó bitrátát a média fájlhoz"},
+/* it */ {IDCLS_SET_VIDEO_STREAM_BITRATE_IT, "Imposta il bitrate per il flusso video nel file multimediale"},
 /* nl */ {IDCLS_SET_VIDEO_STREAM_BITRATE_NL, "Zet de bitrate voor het videogedeelte van het mediabestand"},
 /* pl */ {IDCLS_SET_VIDEO_STREAM_BITRATE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_VIDEO_STREAM_BITRATE_SV, "Ange bithastighet för videoström i mediafil"},
@@ -6277,7 +5476,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_DE, "PET8296 4K RAM Zuordnung bei $9*** aktivieren"},
 /* fr */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_FR, "Activer l'extension PET8296 4K à $9***"},
 /* hu */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_HU, "PET8296 4K RAM engedélyezése a $9*** címen"},
-/* it */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_IT, "Attiva il mapping della RAM di 4K del PET8296 a $9***"},
+/* it */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_IT, "Attiva la mappatura della RAM di 4K del PET8296 a $9***"},
 /* nl */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_NL, "Activeer PET8296 4K RAM op adres $9***"},
 /* pl */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_9000_SV, "Aktivera PET8296 4K-RAM-mappning på $9***"},
@@ -6287,11 +5486,11 @@ translate_t string_table[] = {
 /* pet/pet-cmdline-options.c */
 /* en */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000,    N_("Disable PET8296 4K RAM mapping at $9***")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_DA, "Deaktiver PET8296 4K-RAM-mapping på $9***"},
+/* da */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_DA, "Deaktivér PET8296 4K-RAM-mapping på $9***"},
 /* de */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_DE, "PET8296 4K RAM Zuordnung bei $9*** deaktivieren"},
 /* fr */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_FR, "Désactiver l'extension PET8296 4K à $9***"},
 /* hu */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_HU, "PET8296 4K RAM tiltása a $9*** címen"},
-/* it */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_IT, "Disattiva il mapping della RAM di 4K del PET8296 a $9***"},
+/* it */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_IT, "Disattiva la mappatura della RAM di 4K del PET8296 a $9***"},
 /* nl */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_NL, "PET8296 4K RAM op adres $9*** uitschakelen"},
 /* pl */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_9000_SV, "Inaktivera PET8296 4K-RAM-mappning på $9***"},
@@ -6305,7 +5504,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_DE, "PET8296 4K RAM Zuordnung bei $A*** aktivieren"},
 /* fr */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_FR, "Activer l'extension PET8296 4K à $A***"},
 /* hu */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_HU, "PET8296 4K RAM engedélyezése a $A*** címen"},
-/* it */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_IT, "Attiva il mapping della RAM di 4K del PET8296 a $A***"},
+/* it */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_IT, "Attiva la mappatura della RAM di 4K del PET8296 a $A***"},
 /* nl */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_NL, "Activeer PET8296 4K RAM op adres $A***"},
 /* pl */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET8296_ENABLE_4K_RAM_AT_A000_SV, "Aktivera PET8296 4K-RAM-mappning på $A***"},
@@ -6315,11 +5514,11 @@ translate_t string_table[] = {
 /* pet/pet-cmdline-options.c */
 /* en */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000,    N_("Disable PET8296 4K RAM mapping at $A***")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_DA, "Deaktiver PET8296 4K-RAM-mapping på $A***"},
+/* da */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_DA, "Deaktivér PET8296 4K-RAM-mapping på $A***"},
 /* de */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_DE, "PET8296 4K RAM Zuordnung bei $A*** deaktivieren"},
 /* fr */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_FR, "Désactiver l'extension PET8296 4K à $A***"},
 /* hu */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_HU, "PET8296 4K RAM tiltása a $A*** címen"},
-/* it */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_IT, "Disattiva il mapping della RAM di 4K del PET8296 a $9***"},
+/* it */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_IT, "Disattiva la mappatura della RAM di 4K del PET8296 a $A***"},
 /* nl */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_NL, "PET8296 4K RAM op adres $A*** uitschakelen"},
 /* pl */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET8296_DISABLE_4K_RAM_AT_A000_SV, "Inaktivera PET8296 4K-RAM-mappning på $A***"},
@@ -6343,7 +5542,7 @@ translate_t string_table[] = {
 /* pet/pet-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SUPERPET_IO,    N_("Disable SuperPET I/O")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SUPERPET_IO_DA, "Deaktiver SuperPET-I/O"},
+/* da */ {IDCLS_DISABLE_SUPERPET_IO_DA, "Deaktivér SuperPET-I/O"},
 /* de */ {IDCLS_DISABLE_SUPERPET_IO_DE, "SuperPET I/O deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SUPERPET_IO_FR, "Désactiver les E/S SuperPET"},
 /* hu */ {IDCLS_DISABLE_SUPERPET_IO_HU, "SuperPET I/O tiltása"},
@@ -6371,7 +5570,7 @@ translate_t string_table[] = {
 /* pet/pet-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_ROM_1_KERNAL_PATCHES,    N_("Disable ROM 1 Kernal patches")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_ROM_1_KERNAL_PATCHES_DA, "Deaktiver ROM 1 kerneændringer"},
+/* da */ {IDCLS_DISABLE_ROM_1_KERNAL_PATCHES_DA, "Deaktivér ROM 1 kerneændringer"},
 /* de */ {IDCLS_DISABLE_ROM_1_KERNAL_PATCHES_DE, "ROM 1 Kernal patches deaktivieren"},
 /* fr */ {IDCLS_DISABLE_ROM_1_KERNAL_PATCHES_FR, "Désactiver les patches ROM 1 Kernal"},
 /* hu */ {IDCLS_DISABLE_ROM_1_KERNAL_PATCHES_HU, "ROM 1 Kernal foltozás tiltása"},
@@ -6432,7 +5631,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_FR, "EOI ne vide pas l'écran"},
 /* hu */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_HU, "EOI nem törli a képernyõt"},
 /* it */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_IT, "EOI non oscura lo schermo"},
-/* nl */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_NL, "EOI maakt niet het scherm leeg"},
+/* nl */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_NL, "EOI maakt het scherm niet leeg"},
 /* pl */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_SV, "EOI tömmer inte skärmen"},
 /* tr */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_TR, "EOI ekraný boþaltmaz"},
@@ -6446,7 +5645,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_FR, "Activer la pin de diagnostique userport"},
 /* hu */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_HU, "Userport diagnosztikai láb engedélyezése"},
 /* it */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_IT, "Attiva il pin diagnostico della userport"},
-/* nl */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_NL, "Activeer userport diagnostische pin"},
+/* nl */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_NL, "Activeer userport diagnostic pin"},
 /* pl */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_SV, "Aktivera diagnostik på användarporten"},
 /* tr */ {IDCLS_ENABLE_USERPORT_DIAG_PIN_TR, "Userport diyagnostik pinini aktif et"},
@@ -6455,12 +5654,12 @@ translate_t string_table[] = {
 /* pet/petpia1.c */
 /* en */ {IDCLS_DISABLE_USERPORT_DIAG_PIN,    N_("Disable userport diagnostic pin")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_DA, "Deaktiver diagnostik på brugerporten"},
+/* da */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_DA, "Deaktivér diagnostik på brugerporten"},
 /* de */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_DE, "Userport Diagnose Pin deaktivieren"},
 /* fr */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_FR, "Désactiver la pin de diagnostique userport"},
 /* hu */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_HU, "Userport diagnosztikai láb tiltása"},
 /* it */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_IT, "Disattiva il pin diagnostico della userport"},
-/* nl */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_NL, "Userport diagnostische pin uitschakelen"},
+/* nl */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_NL, "Userport diagnostic pin uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_SV, "Inaktivera diagnostik på användarporten"},
 /* tr */ {IDCLS_DISABLE_USERPORT_DIAG_PIN_TR, "Userport diyagnostik pinini pasifleþtir"},
@@ -6529,7 +5728,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_DE, "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"},
 /* fr */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_FR, "Spécifier le nom de l'image basse ROM Cartouche 2"},
 /* hu */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_HU, "Adja meg az alsó Cartridge 2 ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM Cartridge 2 bassa"},
+/* it */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_IT, "Specifica il nomer dell'immagine della ROM Cartridge 2 bassa"},
 /* nl */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_NL, "Geef de naam van het Cartridge 2 low ROM-bestand"},
 /* pl */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CART_2_LOW_ROM_NAME_SV, "Ange namn på ROM-avbildning för lågt insticksmodul 2-ROM"},
@@ -6687,7 +5886,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #5"},
 /* pl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV, "Ange namn på skrivardrivrutin för enhet 5"},
-/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DA, "Aygýt #5 için yazýcý sürücüsü ismini belirt"},
+/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_TR, "Aygýt #5 için yazýcý sürücüsü ismini belirt"},
 #endif
 
 /* printerdrv/driver-select.c */
@@ -6725,7 +5924,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SET_DEVICE_TYPE_5_DE, "Geräte Typ für Gerät #5 (0: NONE, 1: FS, 2: REAL) setzen"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_5_FR, "Spécifier le type de périphérique pour #5 (0: AUCUN, 1: SF, 2: RÉEL)"},
 /* hu */ {IDCLS_SET_DEVICE_TYPE_5_HU, "Adja meg a #5-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, "Specifica il tipo di periferica #4 (0 NESSUNA, 1 FS, 2 REALE)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, "Specifica il tipo di periferica #5 (0 NESSUNA, 1 FS, 2 REALE)"},
 /* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, "Zet apparaat soort voor apparaat #5 (0: GEEN, 1: FS, 2: ECHT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_5_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_5_SV, "Ange enhetstyp för enhet 5 (0: INGEN, 1: FS, 2: ÄKTA)"},
@@ -6740,7 +5939,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_USERPORT_PRINTER_FR, "Acviver l'émulation de l'imprimante userport"},
 /* hu */ {IDCLS_ENABLE_USERPORT_PRINTER_HU, "Userport nyomtató emulációjának engedélyezése"},
 /* it */ {IDCLS_ENABLE_USERPORT_PRINTER_IT, "Attiva l'emulazione della stampante su userport"},
-/* nl */ {IDCLS_ENABLE_USERPORT_PRINTER_NL, "Activeer de userport printeremulatie"},
+/* nl */ {IDCLS_ENABLE_USERPORT_PRINTER_NL, "Activeer userport printeremulatie"},
 /* pl */ {IDCLS_ENABLE_USERPORT_PRINTER_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_PRINTER_SV, "Aktivera emulering av skrivare på användarporten"},
 /* tr */ {IDCLS_ENABLE_USERPORT_PRINTER_TR, "Userport yazýcý emülasyonunu aktif et"},
@@ -6793,11 +5992,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DA, "Angiv navn på uddataenhed for brugerports-printer"},
 /* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DE, "Name für Druckerausgabe Datei Userport definieren"},
-/* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_FR, "Spécifiez le nom du périphérique de sortie pour l'imprimante "
-                                                   "userport"},
+/* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_FR, "Spécifiez le nom du périphérique de sortie pour l'imprimante userport"},
 /* hu */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_HU, "Adja meg a kimeneti eszköz nevét a userport nyomtatóhoz"},
-/* it */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_IT, "Specifica il nome del dispositivo di output per la stampante su "
-                                                   "userport"},
+/* it */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_IT, "Specifica il nome del dispositivo di output per la stampante su userport"},
 /* nl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_NL, "Geef de naam van het uitvoer apparaat voor de userport printer"},
 /* pl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_SV, "Ange namn på utskriftsenhet för användarporten"},
@@ -6825,8 +6022,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, "IEC Drucker #4 Gerät für Textausgabe definieren"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_4_FR, "Spécifier le périphérique de sortie text pour l'imprimante IEC #4"},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_4_HU, "Adja meg a szövegnyomtató eszközt a #4-es IEC nyomtatóhoz"},
-/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_4_IT, "Specifica il nome del dispositivo di output testuale di stampa per la "
-                                          "stampante IEC #4"},
+/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_4_IT, "Specifica il nome del dispositivo di output testuale di stampa per la stampante IEC #4"},
 /* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_4_NL, "Geef het text uitvoer apparaat voor IEC printer #4"},
 /* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_4_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_4_SV, "Ange skrivartextutenhet för IEC-skrivare 4"},
@@ -6840,8 +6036,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, "IEC Drucker #5 Gerät für Textausgabe definieren"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_5_FR, "Spécifier le périphérique de sortie text pour l'imprimante IEC #5"},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_5_HU, "Adja meg a szövegnyomtató eszközt a #5-es IEC nyomtatóhoz"},
-/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_5_IT, "Specifica il nome del dispositivo di output testuale di stampa per la "
-                                          "stampante IEC #5"},
+/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_5_IT, "Specifica il nome del dispositivo di output testuale di stampa per la stampante IEC #5"},
 /* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_5_NL, "Geef het text uitvoer apparaat voor IEC printer #5"},
 /* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_5_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_5_SV, "Ange skrivartextutenhet för IEC-skrivare 5"},
@@ -6855,8 +6050,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_TEXT_USERPORT_DE, "IEC Userport Drucker Gerät für Textausgabe definieren"},
 /* fr */ {IDCLS_SPECIFY_TEXT_USERPORT_FR, "Spécifier le périphérique de sortie text pour l'imprimante userport"},
 /* hu */ {IDCLS_SPECIFY_TEXT_USERPORT_HU, "Adja meg a szövegnyomtató eszközt a userport nyomtatóhoz"},
-/* it */ {IDCLS_SPECIFY_TEXT_USERPORT_IT, "Specifica il nome del dispositivo di output testuale di stampa per la "
-                                          "stampante su userport"},
+/* it */ {IDCLS_SPECIFY_TEXT_USERPORT_IT, "Specifica il nome del dispositivo di output testuale di stampa per la stampante su userport"},
 /* nl */ {IDCLS_SPECIFY_TEXT_USERPORT_NL, "Geef het text uitvoer apparaat voor de userport printer"},
 /* pl */ {IDCLS_SPECIFY_TEXT_USERPORT_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_TEXT_USERPORT_SV, "Ange skrivartextutenhet för användarportsskrivare"},
@@ -6880,7 +6074,7 @@ translate_t string_table[] = {
 /* raster/raster-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_VIDEO_CACHE,    N_("Disable the video cache")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_VIDEO_CACHE_DA, "Deaktiver videocache"},
+/* da */ {IDCLS_DISABLE_VIDEO_CACHE_DA, "Deaktivér videocache"},
 /* de */ {IDCLS_DISABLE_VIDEO_CACHE_DE, "Video Cache deaktivieren"},
 /* fr */ {IDCLS_DISABLE_VIDEO_CACHE_FR, "Désactiver le cache vidéo"},
 /* hu */ {IDCLS_DISABLE_VIDEO_CACHE_HU, "Videó gyorsítótár tiltása"},
@@ -6966,7 +6160,7 @@ translate_t string_table[] = {
 /* rs232drv/rsuser.c */
 /* en */ {IDCLS_DISABLE_RS232_USERPORT,    N_("Disable RS232 userport emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RS232_USERPORT_DA, "Deaktiver RS232-emulering på brugerporten"},
+/* da */ {IDCLS_DISABLE_RS232_USERPORT_DA, "Deaktivér RS232-emulering på brugerporten"},
 /* de */ {IDCLS_DISABLE_RS232_USERPORT_DE, "RS232 Userport Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RS232_USERPORT_FR, "Désactiver l'émulation de périphérique RS232 userport"},
 /* hu */ {IDCLS_DISABLE_RS232_USERPORT_HU, "RS232 userport emuláció tiltása"},
@@ -6980,13 +6174,13 @@ translate_t string_table[] = {
 /* rs232drv/rsuser.c */
 /* en */ {IDCLS_P_BAUD,    N_("<baud>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_BAUD_PL, "<baud>"},
+/* da */ {IDCLS_P_BAUD_DA, "<baud>"},
 /* de */ {IDCLS_P_BAUD_DE, "<Baud>"},
 /* fr */ {IDCLS_P_BAUD_FR, "<baud>"},
 /* hu */ {IDCLS_P_BAUD_HU, "<bitráta>"},
 /* it */ {IDCLS_P_BAUD_IT, "<baud>"},
 /* nl */ {IDCLS_P_BAUD_NL, "<baud>"},
-/* pl */ {IDCLS_P_BAUD_PL, "<baud>"},
+/* pl */ {IDCLS_P_BAUD_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_BAUD_SV, "<baud>"},
 /* tr */ {IDCLS_P_BAUD_TR, "<baud>"},
 #endif
@@ -7036,7 +6230,7 @@ translate_t string_table[] = {
 /* serial/serial-iec-device.c */
 /* en */ {IDCLS_DISABLE_IEC_4,    N_("Disable IEC device emulation for device #4")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEC_4_DA, "Deaktiver IEC-enhedsemulering for enhed #4"},
+/* da */ {IDCLS_DISABLE_IEC_4_DA, "Deaktivér IEC-enhedsemulering for enhed #4"},
 /* de */ {IDCLS_DISABLE_IEC_4_DE, "IEC Geräte Emulation für Gerät #4 deaktivieren"},
 /* fr */ {IDCLS_DISABLE_IEC_4_FR, "Désactiver l'émulation IEC pour le périphérique #4"},
 /* hu */ {IDCLS_DISABLE_IEC_4_HU, "IEC eszköz #4 emulációjának tiltása"},
@@ -7064,7 +6258,7 @@ translate_t string_table[] = {
 /* serial/serial-iec-device.c */
 /* en */ {IDCLS_DISABLE_IEC_5,    N_("Disable IEC device emulation for device #5")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEC_5_DA, "Deaktiver IEC-enhedsemulering for enhed #5"},
+/* da */ {IDCLS_DISABLE_IEC_5_DA, "Deaktivér IEC-enhedsemulering for enhed #5"},
 /* de */ {IDCLS_DISABLE_IEC_5_DE, "IEC Geräte Emulation für Gerät #5 deaktivieren"},
 /* fr */ {IDCLS_DISABLE_IEC_5_FR, "Désactiver l'émulation IEC pour le périphérique #5"},
 /* hu */ {IDCLS_DISABLE_IEC_5_HU, "IEC eszköz #5 emulációjának tiltása"},
@@ -7080,7 +6274,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEC_8_DA, "Aktivér IEC-enhedsemulering for enhed #8"},
 /* de */ {IDCLS_ENABLE_IEC_8_DE, "IEC Geräte Emulation für Gerät #8 aktivieren"},
-/* fr */ {IDCLS_ENABLE_IEC_8_FR, "Activer l'émulation IEC pour le périphérique #8"},
+/* fr */ {IDCLS_ENABLE_IEC_8_FR, "Activer l'émulation IEC pour le lecteur #8"},
 /* hu */ {IDCLS_ENABLE_IEC_8_HU, "IEC eszköz #8 emulációjának engedélyezése"},
 /* it */ {IDCLS_ENABLE_IEC_8_IT, "Attiva l'emulazione IEC per la periferica #8"},
 /* nl */ {IDCLS_ENABLE_IEC_8_NL, "Activeer IEC-apparaat emulatie voor apparaat #8"},
@@ -7092,9 +6286,9 @@ translate_t string_table[] = {
 /* serial/serial-iec-device.c */
 /* en */ {IDCLS_DISABLE_IEC_8,    N_("Disable IEC device emulation for device #8")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEC_8_DA, "Deaktiver IEC-enhedsemulering for enhed #8"},
+/* da */ {IDCLS_DISABLE_IEC_8_DA, "Deaktivér IEC-enhedsemulering for enhed #8"},
 /* de */ {IDCLS_DISABLE_IEC_8_DE, "IEC Geräte Emulation für Gerät #8 deaktivieren"},
-/* fr */ {IDCLS_DISABLE_IEC_8_FR, "Désactiver l'émulation IEC pour le périphérique #8"},
+/* fr */ {IDCLS_DISABLE_IEC_8_FR, "Désactiver l'émulation IEC pour le lecteur #8"},
 /* hu */ {IDCLS_DISABLE_IEC_8_HU, "IEC eszköz #8 emulációjának tiltása"},
 /* it */ {IDCLS_DISABLE_IEC_8_IT, "Disattiva l'emulazione IEC per la periferica #8"},
 /* nl */ {IDCLS_DISABLE_IEC_8_NL, "IEC-apparaat emulatie voor apparaat #8 uitschakelen"},
@@ -7108,7 +6302,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEC_9_DA, "Aktivér IEC-enhedsemulering for enhed #9"},
 /* de */ {IDCLS_ENABLE_IEC_9_DE, "IEC Geräte Emulation für Gerät #9 aktivieren"},
-/* fr */ {IDCLS_ENABLE_IEC_9_FR, "Activer l'émulation IEC pour le périphérique #9"},
+/* fr */ {IDCLS_ENABLE_IEC_9_FR, "Activer l'émulation IEC pour le lecteur #9"},
 /* hu */ {IDCLS_ENABLE_IEC_9_HU, "IEC eszköz #9 emulációjának engedélyezése"},
 /* it */ {IDCLS_ENABLE_IEC_9_IT, "Attiva l'emulazione IEC per la periferica #9"},
 /* nl */ {IDCLS_ENABLE_IEC_9_NL, "Activeer IEC-apparaat emulatie voor apparaat #9"},
@@ -7120,9 +6314,9 @@ translate_t string_table[] = {
 /* serial/serial-iec-device.c */
 /* en */ {IDCLS_DISABLE_IEC_9,    N_("Disable IEC device emulation for device #9")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEC_9_DA, "Deaktiver IEC-enhedsemulering for enhed #9"},
+/* da */ {IDCLS_DISABLE_IEC_9_DA, "Deaktivér IEC-enhedsemulering for enhed #9"},
 /* de */ {IDCLS_DISABLE_IEC_9_DE, "IEC Geräte Emulation für Gerät #9 deaktivieren"},
-/* fr */ {IDCLS_DISABLE_IEC_9_FR, "Désactiver l'émulation IEC pour le périphérique #9"},
+/* fr */ {IDCLS_DISABLE_IEC_9_FR, "Désactiver l'émulation IEC pour le lecteur #9"},
 /* hu */ {IDCLS_DISABLE_IEC_9_HU, "IEC eszköz #9 emulációjának tiltása"},
 /* it */ {IDCLS_DISABLE_IEC_9_IT, "Disattiva l'emulazione IEC per la periferica #9"},
 /* nl */ {IDCLS_DISABLE_IEC_9_NL, "IEC-apparaat emulatie voor apparaat #9 uitschakelen"},
@@ -7136,7 +6330,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEC_10_DA, "Aktivér IEC-enhedsemulering for enhed #10"},
 /* de */ {IDCLS_ENABLE_IEC_10_DE, "IEC Geräte Emulation für Gerät #10 aktivieren"},
-/* fr */ {IDCLS_ENABLE_IEC_10_FR, "Activer l'émulation IEC pour le périphérique #10"},
+/* fr */ {IDCLS_ENABLE_IEC_10_FR, "Activer l'émulation IEC pour le lecteur #10"},
 /* hu */ {IDCLS_ENABLE_IEC_10_HU, "IEC eszköz #10 emulációjának engedélyezése"},
 /* it */ {IDCLS_ENABLE_IEC_10_IT, "Attiva l'emulazione IEC per la periferica #10"},
 /* nl */ {IDCLS_ENABLE_IEC_10_NL, "Activeer IEC-apparaat emulatie voor apparaat #10"},
@@ -7148,9 +6342,9 @@ translate_t string_table[] = {
 /* serial/serial-iec-device.c */
 /* en */ {IDCLS_DISABLE_IEC_10,    N_("Disable IEC device emulation for device #10")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEC_10_DA, "Deaktiver IEC-enhedsemulering for enhed #10"},
+/* da */ {IDCLS_DISABLE_IEC_10_DA, "Deaktivér IEC-enhedsemulering for enhed #10"},
 /* de */ {IDCLS_DISABLE_IEC_10_DE, "IEC Geräte Emulation für Gerät #10 deaktivieren"},
-/* fr */ {IDCLS_DISABLE_IEC_10_FR, "Désactiver l'émulation IEC pour le périphérique #10"},
+/* fr */ {IDCLS_DISABLE_IEC_10_FR, "Désactiver l'émulation IEC pour le lecteur #10"},
 /* hu */ {IDCLS_DISABLE_IEC_10_HU, "IEC eszköz #10 emulációjának tiltása"},
 /* it */ {IDCLS_DISABLE_IEC_10_IT, "Disattiva l'emulazione IEC per la periferica #10"},
 /* nl */ {IDCLS_DISABLE_IEC_10_NL, "IEC-apparaat emulatie voor apparaat #10 uitschakelen"},
@@ -7164,7 +6358,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEC_11_DA, "Aktivér IEC-enhedsemulering for enhed #11"},
 /* de */ {IDCLS_ENABLE_IEC_11_DE, "IEC Geräte Emulation für Gerät #11 aktivieren"},
-/* fr */ {IDCLS_ENABLE_IEC_11_FR, "Activer l'émulation IEC pour le périphérique #11"},
+/* fr */ {IDCLS_ENABLE_IEC_11_FR, "Activer l'émulation IEC pour le lecteur #11"},
 /* hu */ {IDCLS_ENABLE_IEC_11_HU, "IEC eszköz #11 emulációjának engedélyezése"},
 /* it */ {IDCLS_ENABLE_IEC_11_IT, "Attiva l'emulazione IEC per la periferica #11"},
 /* nl */ {IDCLS_ENABLE_IEC_11_NL, "Activeer IEC-apparaat emulatie voor apparaat #11"},
@@ -7176,9 +6370,9 @@ translate_t string_table[] = {
 /* serial/serial-iec-device.c */
 /* en */ {IDCLS_DISABLE_IEC_11,    N_("Disable IEC device emulation for device #11")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEC_11_DA, "Deaktiver IEC-enhedsemulering for enhed #11"},
+/* da */ {IDCLS_DISABLE_IEC_11_DA, "Deaktivér IEC-enhedsemulering for enhed #11"},
 /* de */ {IDCLS_DISABLE_IEC_11_DE, "IEC Geräte Emulation für Gerät #11 deaktivieren"},
-/* fr */ {IDCLS_DISABLE_IEC_11_FR, "Désactiver l'émulation IEC pour le périphérique #11"},
+/* fr */ {IDCLS_DISABLE_IEC_11_FR, "Désactiver l'émulation IEC pour le lecteur #11"},
 /* hu */ {IDCLS_DISABLE_IEC_11_HU, "IEC eszköz #11 emulációjának tiltása"},
 /* it */ {IDCLS_DISABLE_IEC_11_IT, "Disattiva l'emulazione IEC per la periferica #11"},
 /* nl */ {IDCLS_DISABLE_IEC_11_NL, "IEC-apparaat emulatie voor apparaat #11 uitschakelen"},
@@ -7205,25 +6399,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
 #endif
 #endif
 
@@ -7231,29 +6415,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell + Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell + Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
 #endif
 #endif
 
@@ -7261,29 +6431,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581. 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
 #endif
 #endif
 
@@ -7291,36 +6447,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                                "1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                                "par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                                "par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 1024: ParSID in par poort 1, 1280: ParSID in par "
-                                                "poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i "
-                                                "parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port "
-                                                "3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -7328,57 +6463,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                                "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                                "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, "
-                                                "1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                                "8580R5 1489D)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                                "8580R5 1489D)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                                "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                                "ReSID-FP 8580R5 1489D)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                                "8580R5 1489D)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 #endif
 #endif
 
@@ -7386,29 +6479,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
 #endif
 #endif
 
@@ -7416,36 +6495,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                                "parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in "
-                                                "par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par poort 1, "
-                                                "1280: ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, "
-                                                "1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, "
-                                                "1536: Par port 3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -7453,57 +6511,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: "
-                                                "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definineren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -7511,36 +6527,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                                "parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in "
-                                                "par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
-                                                "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: "
-                                                "ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, "
-                                                "1536: Par port 3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -7548,57 +6543,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                                "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                                "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -7606,65 +6559,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                                "1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                                "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                                "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                                "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                                "digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                                "par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                                "par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
-                                                "1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
-                                                "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                                "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                                "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i "
-                                                "parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                                "par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                                "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                                "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -7672,36 +6575,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, "
-                                                "1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
-                                                "in par port 2, 1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
-                                                "in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, "
-                                                "1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in "
-                                                "par poort 1, 1280: ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i "
-                                                "parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port "
-                                                "2'de ParSID, 1536: Par port 3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -7709,59 +6591,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                                "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                                "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                                "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                                "digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP "
-                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
-                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                                "8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: "
-                                                "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                                "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                                "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                                "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                                "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -7769,66 +6607,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                                "parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 "
-                                                "4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                                "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP "
-                                                "6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                                "digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                                "1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in "
-                                                "par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par poort 1, "
-                                                "1280: ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP "
-                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
-                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                                "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                                "+ digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, "
-                                                "1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: "
-                                                "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -7836,66 +6623,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: "
-                                                "DTVSID, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                                "parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 "
-                                                "4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                                "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP "
-                                                "6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                                "digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                                "1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in "
-                                                "par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
-                                                "ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP "
-                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
-                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                                "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                                "+ digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: "
-                                                "ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                                "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                                "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                                "3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                                "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                                "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                                "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                                "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -7903,67 +6639,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-                                                "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                                "port 2, 1536: ParSID på parallel port 3, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
-                                                "in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID på parallel port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
-                                                "in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                "8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
-                                                "260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, "
-                                                "1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP "
-                                                "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
-                                                "1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                                "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                                "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                                "+ digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                "1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                                "digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in "
-                                                "par poort 1, 1280: ParSID in par poort 2, 1536: ParSID in par poort 3, "
-                                                "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                                "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                                "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                                "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                                "8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                                "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i "
-                                                "par port 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                                "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                                "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                                "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                                "digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                                "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, "
-                                                "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
-                                                "in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, "
-                                                "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                                "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                                "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                                "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
@@ -7976,8 +6660,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580)"},
 /* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580)"},
 /* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580)"},
@@ -7988,23 +6671,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model  (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model  (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
 #endif
 #endif
 
@@ -8012,22 +6687,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
 #endif
 #endif
 
@@ -8036,20 +6704,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
 #endif
 #endif
 
@@ -8057,28 +6719,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
-                                             "på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på "
-                                             "parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                             "port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
-                                             "1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
-                                             "i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                             "Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de "
-                                             "ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8086,50 +6735,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP "
-                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                             "digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                             "+ digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789. 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, "
-                                             "1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8137,25 +6751,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
 #endif
 #endif
 
@@ -8163,25 +6767,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: "
-                                             "HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: "
-                                             "HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581. 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
 #endif
 #endif
 
@@ -8189,31 +6783,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID "
-                                             "på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på "
-                                             "parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in "
-                                             "par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par "
-                                             "port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID "
-                                             "in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
-                                             "1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1024: ParSID i "
-                                             "parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: Par port "
-                                             "1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8221,52 +6799,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489D)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP "
-                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                             "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "Sid Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 "
-                                             "4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                             "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1800: ReSID-FP "
-                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                             "digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP "
-                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                             "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
 #endif
 #endif
 
@@ -8274,22 +6815,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
 #endif
 #endif
 
@@ -8297,29 +6831,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                             "1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                             "1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID "
-                                             "in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID "
-                                             "i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: "
-                                             "Par port 3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8327,50 +6847,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789 "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                             "8580R5 1489, ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8378,29 +6863,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, "
-                                             "1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
-                                             "ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1:"
-                                             "FastSID 8580, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in "
-                                             "par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, "
-                                             "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport "
-                                             "3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: "
-                                             "Par port 3'de ParSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8408,50 +6879,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-"
-                                             "FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8459,57 +6895,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
-                                             "på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på "
-                                             "parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                             "port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, "
-                                             "1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
-                                             "i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8517,29 +6911,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-                                             "HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
 #endif
 #endif
 
@@ -8547,36 +6927,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                             "1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                             "port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID in par "
-                                             "poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport "
-                                             "3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                             "par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8584,57 +6943,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
-                                             "FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8642,36 +6959,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, "
-                                             "1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
-                                             "ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                             "port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in par "
-                                             "poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, "
-                                             "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport "
-                                             "3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                             "par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8679,57 +6975,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-"
-                                             "FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: "
-                                             "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8737,64 +6991,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID "
-                                             "på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på "
-                                             "parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in "
-                                             "par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par "
-                                             "port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID "
-                                             "in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, "
-                                             "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 1024: ParSID in par poort 1, 1280: ParSID in par poort 2, 1536: "
-                                             "ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1024: ParSID i "
-                                             "parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in "
-                                             "par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: "
-                                             "ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-                                             "3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: "
-                                             "ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 "
-                                             "3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                             "+ digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8802,29 +7007,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                             "parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in "
-                                             "par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, "
-                                             "1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i par port "
-                                             "2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -8832,50 +7023,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP "
-                                             "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, "
-                                             "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                             "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                             "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8883,57 +7039,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                             "1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                             "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID in "
-                                             "par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
-                                             "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID "
-                                             "i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8941,57 +7055,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, "
-                                             "1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: "
-                                             "ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in "
-                                             "par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i "
-                                             "parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -8999,36 +7071,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                             "parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
-                                             "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: "
-                                             "ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                             "1536: ParSID in par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -9036,57 +7087,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP "
-                                             "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-                                             "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                             "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP "
-                                             "6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, "
-                                             "1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -9094,64 +7103,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                             "1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-"
-                                             "FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                             "port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 1024: ParSID in par poort 1, 1280: ParSID in par "
-                                             "poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                              "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                              "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                              "par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, "
-                                              "1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                              "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                              "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
-                                              "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -9159,64 +7119,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: "
-                                             "HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, "
-                                             "1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                             "port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
-                                             "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-                                             "1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 768: HardSID, 1024: ParSID in par poort 1, 1280: ParSID in par "
-                                             "poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, "
-                                             "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport "
-                                             "3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-                                             "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-                                             "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-                                             "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-                                             "8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, "
-                                             "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in "
-                                             "par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-                                             "ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-                                             "4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: "
-                                             "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: "
-                                             "ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -9224,59 +7135,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                             "parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, "
-                                             "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                             "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                             "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                             "digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                             "+ digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
-                                             "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in "
-                                             "par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR "
-                                             "3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par poort 1, "
-                                             "1280: ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP "
-                                             "6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                             "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-                                             "digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i par port "
-                                             "2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP "
-                                             "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 #endif
 #endif
 
@@ -9284,65 +7151,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på "
-                                             "parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, "
-                                             "1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP "
-                                             "6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-                                             "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-                                             "digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 "
-                                             "+ digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-                                             "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                             "ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-                                             "1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, "
-                                             "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: "
-                                             "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-                                             "port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: "
-                                             "ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 "
-                                             "AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: "
-                                             "ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-                                             "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
-                                             "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + "
-                                             "digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
-                                             "ParSID in par poort 2, 1536: ParSID in par poort 3, 1800: ReSID-FP 6581R3 "
-                                             "4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-                                             "ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-                                             "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-                                             "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-                                             "6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, "
-                                             "768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: "
-                                             "ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-                                             "0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-                                             "ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-                                             "3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-                                             "ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, "
-                                             "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                             "1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP "
-                                             "6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-                                             "1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-                                             "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-                                             "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
@@ -9354,10 +7171,8 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                 "8580)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580)"},
 /* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580)"},
@@ -9368,22 +7183,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "512: Catweasel)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 512: Catweasel)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
 #endif
 #endif
 
@@ -9391,22 +7199,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                 "8580, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
 #endif
 #endif
 
@@ -9414,29 +7215,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                                 "ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID "
-                                                 "på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                                 "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                                 "port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                                 "ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
-                                                 "port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                 "8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                                 "ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 1024: ParSID in par poort 1, 1280: ParSID in par poort "
-                                                 "2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: "
-                                                 "ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport "
-                                                 "3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID "
-                                                 "in par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -9444,22 +7231,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "512: Catweasel, 768: HardSID)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
 #endif
 #endif
 
@@ -9467,29 +7247,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport "
-                                                 "2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port "
-                                                 "2, 1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                 "1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                 "1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 512: Catweasel, 1024: ParSID in par poort 1, 1280: "
-                                                 "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: "
-                                                 "ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port "
-                                                 "2, 1536: ParSID in par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -9497,29 +7263,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport "
-                                                 "2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
-                                                 "1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                                 "ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-                                                 "ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 768: HardSID, 1024: ParSID in par poort 1, 1280: "
-                                                 "ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: "
-                                                 "HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: "
-                                                 "ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port "
-                                                 "2, 1536: ParSID in par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -9527,29 +7279,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID "
-                                                 "på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID "
-                                                 "in par port 2, 1536: ParSID in par port 3)"},
+/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in "
-                                                 "par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID "
-                                                 "8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: "
-                                                 "ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, "
-                                                 "1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par "
-                                                 "poort 1, 1280: ParSID in par poort 2, 1536: ParSID in par poort 3)"},
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: "
-                                                 "Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i par"
-                                                 "port 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, "
-                                                 "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: "
-                                                 "ParSID in par port 2, 1536: ParSID in par port 3)"},
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
+/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
 #endif
 #endif
 
@@ -9584,7 +7322,7 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SIDCART,    N_("Disable SID Cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SIDCART_DA, "Deaktiver SID-cartridge"},
+/* da */ {IDCLS_DISABLE_SIDCART_DA, "Deaktivér SID-cartridge"},
 /* de */ {IDCLS_DISABLE_SIDCART_DE, "SID Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SIDCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SIDCART_HU, "SID cartridge tiltása"},
@@ -9655,23 +7393,15 @@ translate_t string_table[] = {
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_RESID_SAMPLING_METHOD,    N_("reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_RESID_SAMPLING_METHOD_DA, "reSID-samplingmetode (0: hurtig, 1: interpolerende, 2: omsampling, 3: hurtig "
-                                          "omsampling)"},
-/* de */ {IDCLS_RESID_SAMPLING_METHOD_DE, "reSID Sample Methode (0: schnell, 1: interpolierend, 2: resampling, 3: "
-                                          "schnelles resampling)"},
-/* fr */ {IDCLS_RESID_SAMPLING_METHOD_FR, "Méthode reSID (0: rapide, 1: interpolation, 2: rééchantillonnage, 3: "
-                                          "rééchantillonnage rapide)"},
-/* hu */ {IDCLS_RESID_SAMPLING_METHOD_HU, "reSID mintavételezési mód (0: gyors, 1: interpoláló, 2: újramintavételezõ, 3: "
-                                          "gyors újramintavételezõ)"},
-/* it */ {IDCLS_RESID_SAMPLING_METHOD_IT, "Metodo di campionamento del reSID (0: veloce, 1: interpolato, 2: ricampionato "
-                                          "3: ricampionamento veloce)"},
-/* nl */ {IDCLS_RESID_SAMPLING_METHOD_NL, "reSID-sampling methode (0: snel, 1: interpoleren, 2: resampling, 3: snelle "
-                                          "resampling)"},
+/* da */ {IDCLS_RESID_SAMPLING_METHOD_DA, "reSID-samplingmetode (0: hurtig, 1: interpolerende, 2: omsampling, 3: hurtig omsampling)"},
+/* de */ {IDCLS_RESID_SAMPLING_METHOD_DE, "reSID Sample Methode (0: schnell, 1: interpolierend, 2: resampling, 3: schnelles resampling)"},
+/* fr */ {IDCLS_RESID_SAMPLING_METHOD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RESID_SAMPLING_METHOD_HU, "reSID mintavételezési mód (0: gyors, 1: interpoláló, 2: újramintavételezõ, 3: gyors újramintavételezõ)"},
+/* it */ {IDCLS_RESID_SAMPLING_METHOD_IT, "Metodo di campionamento del reSID (0: veloce, 1: interpolato, 2: ricampionato 3: ricampionamento veloce)"},
+/* nl */ {IDCLS_RESID_SAMPLING_METHOD_NL, "reSID-sampling methode (0: snel, 1: interpoleren, 2: resampling, 3: snelle resampling)"},
 /* pl */ {IDCLS_RESID_SAMPLING_METHOD_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_RESID_SAMPLING_METHOD_SV, "reSID-samplingsmetod (0: snabb, 1: interpolerande, 2: omsamplning, 3: snabb "
-                                          "omsampling)"},
-/* tr */ {IDCLS_RESID_SAMPLING_METHOD_TR, "reSID örnekleme metodu (0: hýzlý, 1: ara deðer bulma, 2: yeniden örnekleme, "
-                                          "3: hýzlý yeniden örnekleme)"},
+/* sv */ {IDCLS_RESID_SAMPLING_METHOD_SV, "reSID-samplingsmetod (0: snabb, 1: interpolerande, 2: omsampling, 3: snabb omsampling)"},
+/* tr */ {IDCLS_RESID_SAMPLING_METHOD_TR, "reSID örnekleme metodu (0: hýzlý, 1: ara deðer bulma, 2: yeniden örnekleme, 3: hýzlý yeniden örnekleme)"},
 #endif
 
 /* sid/sid-cmdline-options.c, vsync.c */
@@ -9692,19 +7422,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PASSBAND_PERCENTAGE,    N_("reSID resampling passband in percentage of total bandwidth (0 - 90)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PASSBAND_PERCENTAGE_DA, "Pasbånd for reSID-resampling i procent af total båndbredde (0 - 90)"},
-/* de */ {IDCLS_PASSBAND_PERCENTAGE_DE, "reSID Resampling Passband Prozentwert der gesamte Bandbreite (0 - 90)\n(0 - 90, "
-                                        "niedrig ist schneller, höher ist besser)"},
-/* fr */ {IDCLS_PASSBAND_PERCENTAGE_FR, "Bande passante pour le resampling reSID en pourcentage de la bande totale "
-                                        "(0 - 90)"},
-/* hu */ {IDCLS_PASSBAND_PERCENTAGE_HU, "reSID újramintavételezési sávnak a teljes sávszélességre vonatkoztatott aránya "
-                                        "(0 - 90)"},
-/* it */ {IDCLS_PASSBAND_PERCENTAGE_IT, "Banda passante di ricampionamento del reSID in percentuale di quella totale "
-                                        "(0 - 90)"},
+/* de */ {IDCLS_PASSBAND_PERCENTAGE_DE, "reSID Resampling Passband Prozentwert der gesamte Bandbreite (0 - 90)\n(0 - 90, niedrig ist schneller, höher ist besser)"},
+/* fr */ {IDCLS_PASSBAND_PERCENTAGE_FR, "Bande passante pour le resampling reSID en pourcentage de la bande totale (0 - 90)"},
+/* hu */ {IDCLS_PASSBAND_PERCENTAGE_HU, "reSID újramintavételezési sávnak a teljes sávszélességre vonatkoztatott aránya (0 - 90)"},
+/* it */ {IDCLS_PASSBAND_PERCENTAGE_IT, "Banda passante di ricampionamento del reSID in percentuale di quella totale (0 - 90)"},
 /* nl */ {IDCLS_PASSBAND_PERCENTAGE_NL, "reSID-resampling passband in percentage van de totale bandbreedte (0 - 90)"},
 /* pl */ {IDCLS_PASSBAND_PERCENTAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PASSBAND_PERCENTAGE_SV, "Passband för reSID-resampling i procent av total bandbredd (0 - 90)"},
-/* tr */ {IDCLS_PASSBAND_PERCENTAGE_TR, "reSID yeniden örnekleme passband'inin toplam bant geniþliðine yüzdesel oraný "
-                                        "(0 - 90)"},
+/* tr */ {IDCLS_PASSBAND_PERCENTAGE_TR, "reSID yeniden örnekleme passband'inin toplam bant geniþliðine yüzdesel oraný (0 - 90)"},
 #endif
 
 /* sid/sid-cmdline-options.c */
@@ -9773,7 +7498,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_P_SPEC_HU, "<spec>"},
 /* it */ {IDCLS_P_SPEC_IT, "<spec>"},
 /* nl */ {IDCLS_P_SPEC_NL, "<spec>"},
-/* pl */ {IDCLS_P_SPEC_PL, "<spec>"},
+/* pl */ {IDCLS_P_SPEC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_SPEC_SV, "<spec>"},
 /* tr */ {IDCLS_P_SPEC_TR, "<þart>"},
 #endif
@@ -9809,7 +7534,7 @@ translate_t string_table[] = {
 /* vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_VIC1112_IEEE488,    N_("Disable VIC-1112 IEEE488 interface")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_VIC1112_IEEE488_DA, "Deaktiver VIC-1112-IEEE488-interface"},
+/* da */ {IDCLS_DISABLE_VIC1112_IEEE488_DA, "Deaktivér VIC-1112-IEEE488-interface"},
 /* de */ {IDCLS_DISABLE_VIC1112_IEEE488_DE, "VIC-1112 IEEE488 Schnittstelle deaktivieren"},
 /* fr */ {IDCLS_DISABLE_VIC1112_IEEE488_FR, "Désactiver l'interface VIC-1112 IEEE488"},
 /* hu */ {IDCLS_DISABLE_VIC1112_IEEE488_HU, "VIC-1112 IEEE488 interfész tiltása"},
@@ -9866,7 +7591,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME,    N_("Specify 4/8K extension ROM name at $A000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DA, "Angiv navn for 4/8K-udviddelses-ROM på $A000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE, "4/8K Erweiterungs ROM Datei Name für $A000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $A000 definieren"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_FR, "Spécifier le nom de l'extension ROM 4/8K à $A000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_HU, "Adja meg a $A000 címû 4/8K ROM kiterjesztés nevét"},
 /* it */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_IT, "Specifica il nome della ROM di estensione di 4/8K a $A000"},
@@ -9880,10 +7605,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME,    N_("Specify 4K extension ROM name at $B000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DA, "Angiv navn for 4K-udviddelses-ROM på $B000"},
-/* de */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE, "4K Erweiterungs ROM Datei Name für $B000 definieren"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE, "4/8/16K Erweiterungs ROM Datei Name für $B000 definieren"},
 /* fr */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_FR, "Spécifier le nom de l'extension ROM 4K à $B000"},
 /* hu */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_HU, "Adja meg a $B000 címû 4K ROM kiterjesztés nevét"},
-/* it */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_IT, "Specifica il nome della ROM di estensione di 4K a $B000"},
+/* it */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_IT, "Specifica il nome della ROM di estensione di 4 a $B000"},
 /* nl */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_NL, "Geef de naam van het bestand voor de 4K-ROM op $B000"},
 /* pl */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_SV, "Ange namn för 4K-utöknings-ROM på $B000"},
@@ -9900,7 +7625,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_IT, "Specifica il nome dell'estensione ROM generica"},
 /* nl */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_NL, "Geef de naam van het bestand voor de algemene ROM"},
 /* pl */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_SV, "Ange namn för generiskt utöknings-ROM"},
+/* sv */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_SV, "Ange namn på generiskt utöknings-ROM"},
 /* tr */ {IDCLS_SPECIFY_GENERIC_ROM_NAME_TR, "Jenerik uzantý ROM ismini belirt"},
 #endif
 
@@ -9914,7 +7639,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_IT, "Specifica il nome dell'estensione ROM Mega-Cart"},
 /* nl */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_NL, "Geef de naam van het bestand voor de Mega-Cart ROM"},
 /* pl */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_SV, "Ange namn för Mega-Cart-utöknings-ROM"},
+/* sv */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_SV, "Ange namn på Mega-Cart-utöknings-ROM"},
 /* tr */ {IDCLS_SPECIFY_MEGA_CART_ROM_NAME_TR, "Mega-Cart uzantýsý ROM ismini belirt"},
 #endif
 
@@ -9967,10 +7692,9 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SET_BORDER_MODE_DE, "VIC-II Rahmen Darstellung Modus (0: normal, 1: full, 2: debug)"},
 /* fr */ {IDCLS_SET_BORDER_MODE_FR, "Régler le mode de bordure VIC-II (0: normal, 1: complet, 2: debug)"},
 /* hu */ {IDCLS_SET_BORDER_MODE_HU, "VIC-II keret megjelenítési mód (0: normál, 1: teljes, 2: hibakeresés)"},
-/* it */ {IDCLS_SET_BORDER_MODE_IT, "Imposta la modalità di visualizzazione del bordo del VIC-II (0: normale, 1: "
-                                    "intero, 2: debug)"},
+/* it */ {IDCLS_SET_BORDER_MODE_IT, "Imposta la modalità di visualizzazione del bordo del VIC-II (0: normale, 1: intero, 2: debug)"},
 /* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet VIC-II border weergavemodus (0: normaal, 1: volledig, 2: debug)"},
-/* pl */ {IDCLS_SET_BORDER_MODE_PL, ""}, /* fuzzy */
+/* pl */ {IDCLS_SET_BORDER_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BORDER_MODE_SV, "Välj VIC II-ramvisningsläge (0: normal, 1: full, 2: felsökning)"},
 /* tr */ {IDCLS_SET_BORDER_MODE_TR, "VIC-II çerçeve gösterim modunu ayarlayýn (0: normal, 1: tam, 2: hata ayýklama)"},
 #endif
@@ -9992,7 +7716,7 @@ translate_t string_table[] = {
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SPRITE_BACKGROUND,    N_("Disable sprite-background collision registers")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SPRITE_BACKGROUND_DA, "Deaktiver sprite-til-baggrunds-kollisionsregistre"},
+/* da */ {IDCLS_DISABLE_SPRITE_BACKGROUND_DA, "Deaktivér sprite-til-baggrunds-kollisionsregistre"},
 /* de */ {IDCLS_DISABLE_SPRITE_BACKGROUND_DE, "Sprite-Hintergrund Kollisionen deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SPRITE_BACKGROUND_FR, "Désactiver les registres de collisions de sprite avec arrière-plan"},
 /* hu */ {IDCLS_DISABLE_SPRITE_BACKGROUND_HU, "Sprite-háttér ütközési regiszterek tiltása"},
@@ -10020,7 +7744,7 @@ translate_t string_table[] = {
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SPRITE_SPRITE,    N_("Disable sprite-sprite collision registers")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SPRITE_SPRITE_DA, "Deaktiver sprite-til-sprite-kollisionsregistre"},
+/* da */ {IDCLS_DISABLE_SPRITE_SPRITE_DA, "Deaktivér sprite-til-sprite-kollisionsregistre"},
 /* de */ {IDCLS_DISABLE_SPRITE_SPRITE_DE, "Sprite-Sprite Kollisionen deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SPRITE_SPRITE_FR, "Désactiver les registres de collisions de sprite avec sprite"},
 /* hu */ {IDCLS_DISABLE_SPRITE_SPRITE_HU, "Sprite-sprite ütközési regiszterek tiltása"},
@@ -10076,7 +7800,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DOUBLE_SIZE,    N_("Disable double size")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DOUBLE_SIZE_DA, "Deaktiver dobbelt størrelse"},
+/* da */ {IDCLS_DISABLE_DOUBLE_SIZE_DA, "Deaktivér dobbelt størrelse"},
 /* de */ {IDCLS_DISABLE_DOUBLE_SIZE_DE, "Doppelte Größe deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DOUBLE_SIZE_FR, "Taille normale"},
 /* hu */ {IDCLS_DISABLE_DOUBLE_SIZE_HU, "Dupla méret tiltása"},
@@ -10104,7 +7828,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DOUBLE_SCAN,    N_("Disable double scan")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DOUBLE_SCAN_DA, "Deaktiver dobbelt-skan"},
+/* da */ {IDCLS_DISABLE_DOUBLE_SCAN_DA, "Deaktivér dobbelt-skan"},
 /* de */ {IDCLS_DISABLE_DOUBLE_SCAN_DE, "Doppelt Scan deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DOUBLE_SCAN_FR, "Désactiver le mode double scan"},
 /* hu */ {IDCLS_DISABLE_DOUBLE_SCAN_HU, "Dupla pásztázás tiltása"},
@@ -10132,7 +7856,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_HARDWARE_SCALING,    N_("Disable hardware scaling")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_HARDWARE_SCALING_DA, "Deaktiver hardware-skalering"},
+/* da */ {IDCLS_DISABLE_HARDWARE_SCALING_DA, "Deaktivér hardware-skalering"},
 /* de */ {IDCLS_DISABLE_HARDWARE_SCALING_DE, "Hardwareunterstützung für Skalierung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_HARDWARE_SCALING_FR, "Désactiver le \"scaling\" matériel"},
 /* hu */ {IDCLS_DISABLE_HARDWARE_SCALING_HU, "Hardver átméretezés tiltása"},
@@ -10160,7 +7884,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SCALE2X,    N_("Disable Scale2x")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SCALE2X_DA, "Deaktiver Scale2x"},
+/* da */ {IDCLS_DISABLE_SCALE2X_DA, "Deaktivér Scale2x"},
 /* de */ {IDCLS_DISABLE_SCALE2X_DE, "Scale2x deaktivieren"},
 /* fr */ {IDCLS_DISABLE_SCALE2X_FR, "Désactiver Scale2x"},
 /* hu */ {IDCLS_DISABLE_SCALE2X_HU, "Élsimítás tiltása"},
@@ -10230,7 +7954,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_FULLSCREEN_MODE,    N_("Disable fullscreen mode")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_FULLSCREEN_MODE_DA, "Deaktiver fuldskærmstilstand"},
+/* da */ {IDCLS_DISABLE_FULLSCREEN_MODE_DA, "Deaktivér fuldskærmstilstand"},
 /* de */ {IDCLS_DISABLE_FULLSCREEN_MODE_DE, "Vollbild Modus deaktivieren"},
 /* fr */ {IDCLS_DISABLE_FULLSCREEN_MODE_FR, "Désactiver le mode plein écran"},
 /* hu */ {IDCLS_DISABLE_FULLSCREEN_MODE_HU, "Teljesképernyõs mód tiltása"},
@@ -10286,7 +8010,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN,    N_("Disable double size in fullscreen mode")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DA, "Deaktiver dobbelt størrelse i fuldskærms-tilstand"},
+/* da */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DA, "Deaktivér dobbelt størrelse i fuldskærms-tilstand"},
 /* de */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DE, "Doppelte Große im Vollbild Modus deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_FR, "Désactiver \"Taille double\" en plein écran"},
 /* hu */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_HU, "Dupla méret tiltása teljesképernyõs módban"},
@@ -10314,7 +8038,7 @@ translate_t string_table[] = {
 /* video/video-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN,    N_("Disable double scan in fullscreen mode")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DA, "Deaktiver dobbelt-skan i fuldskærms-tilstand"},
+/* da */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DA, "Deaktivér dobbelt-skan i fuldskærms-tilstand"},
 /* de */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DE, "Doppelt Scan im Vollbild Modus deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_FR, "Désactiver \"Double scan\" en plein écran"},
 /* hu */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_HU, "Dupla pásztázás tiltása teljesképernyõs módban"},
@@ -10347,7 +8071,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SELECT_FULLSCREEN_MODE_FR, "Sélectionner le mode plein écran"},
 /* hu */ {IDCLS_SELECT_FULLSCREEN_MODE_HU, "Teljes képernyõs mód kiválasztása"},
 /* it */ {IDCLS_SELECT_FULLSCREEN_MODE_IT, "Seleziona la modalità di visualizzazione a tutto schermo"},
-/* nl */ {IDCLS_SELECT_FULLSCREEN_MODE_NL, "Selecteer volschermmodus"},
+/* nl */ {IDCLS_SELECT_FULLSCREEN_MODE_NL, "Activeer volschermmodus"},
 /* pl */ {IDCLS_SELECT_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_FULLSCREEN_MODE_SV, "Aktivera fullskärmsläge"},
 /* tr */ {IDCLS_SELECT_FULLSCREEN_MODE_TR, "Tam ekran modu seç"},
@@ -10360,8 +8084,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_DE, "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_FR, "Spécifier le périphérique RS232 sur lequel cet ACIA doit fonctionner"},
 /* hu */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_HU, "Adja meg az RS232-es egységet, amivel az ACIA mûködni fog"},
-/* it */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_IT, "Specifica il dispositivo RS232 con il quale questa ACIA dovrebbe "
-                                              "funzionare"},
+/* it */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_IT, "Specifica il dispositivo RS232 con il quale questa ACIA dovrebbe funzionare"},
 /* nl */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_NL, "Geef het RS232-apparaat waarmee deze ACIA moet werken"},
 /* pl */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_SV, "Ange RS232-enhet denna ACIA skall arbeta på"},
@@ -10374,16 +8097,12 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_DEVICE_TYPE_8_DA, "Vælg type for enhed #8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
 /* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, "Geräte Typ für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_8_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, "Adja meg a #8-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
-                                      "blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, "Imposta il tipo di periferica #8 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                      "DISPOSITIVO A BLOCCHI)"},
-/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                      "BLOCK APPARAAT)"},
+/* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, "Adja meg a #8-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, "Imposta il tipo di periferica #8 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_8_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_8_SV, "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_8_TR, "Aygýt #8 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
-                                      "BLOK AYIGTI)"},
+/* tr */ {IDCLS_SET_DEVICE_TYPE_8_TR, "Aygýt #8 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
 #endif
 
 /* attach.c */
@@ -10392,16 +8111,12 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_DEVICE_TYPE_9_DA, "Vælg type for enhed #9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
 /* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, "Geräte Typ für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_9_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, "Adja meg a #9-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
-                                      "blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, "Imposta il tipo di periferica #9 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                      "DISPOSITIVO A BLOCCHI)"},
-/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                      "BLOCK APPARAAT)"},
+/* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, "Adja meg a #9-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, "Imposta il tipo di periferica #9 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_9_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_9_SV, "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_9_TR, "Aygýt #9 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
-                                      "BLOK AYIGTI)"},
+/* tr */ {IDCLS_SET_DEVICE_TYPE_9_TR, "Aygýt #9 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
 #endif
 
 /* attach.c */
@@ -10410,16 +8125,12 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_DEVICE_TYPE_10_DA, "Vælg type for enhed #10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
 /* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, "Geräte Typ für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_10_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, "Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
-                                       "blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, "Imposta il tipo di periferica #10 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                       "DISPOSITIVO A BLOCCHI)"},
-/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, "Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                       "BLOCK APPARAAT)"},
+/* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, "Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENVMB, 3: blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, "Imposta il tipo di periferica #10 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, "Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_10_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_10_SV, "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_10_TR, "Aygýt #10 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
-                                       "BLOK AYIGTI)"},
+/* tr */ {IDCLS_SET_DEVICE_TYPE_10_TR, "Aygýt #10 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
 #endif
 
 /* attach.c */
@@ -10428,16 +8139,12 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_DEVICE_TYPE_11_DA, "Vælg type for enhed #11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
 /* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, "Geräte Typ für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
 /* fr */ {IDCLS_SET_DEVICE_TYPE_11_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, "Adja meg a #11-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
-                                       "blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, "Imposta il tipo di periferica #8 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                       "DISPOSITIVO A BLOCCHI)"},
-/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, "Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: "
-                                       "BLOCK APPARAAT)"},
+/* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, "Adja meg a #11-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: blokk eszköz)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, "Imposta il tipo di periferica #11 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, "Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_11_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_11_SV, "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_11_TR, "Aygýt #11 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
-                                       "BLOK AYIGTI)"},
+/* tr */ {IDCLS_SET_DEVICE_TYPE_11_TR, "Aygýt #11 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
 #endif
 
 /* attach.c */
@@ -10459,11 +8166,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_READ_WRITE_8_DA, "Tilslut disk-image til drev #8 skrivbar (hvis muligt)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_8_DE, "Disk Image als Laufwerk #8 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_8_FR, "Charger une image de disque pour le lecteur #8 en lecture-écriture (si "
-                                        "possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_8_FR, "Charger une image de disque pour le lecteur #8 en lecture-écriture (si possible)"},
 /* hu */ {IDCLS_ATTACH_READ_WRITE_8_HU, "Írható-olvasható képmás csatolása a #8-as lemezegységhez"},
-/* it */ {IDCLS_ATTACH_READ_WRITE_8_IT, "Seleziona l'immagine del disco per il drive #8 in lettura/scrittura (se "
-                                        "possibile)"},
+/* it */ {IDCLS_ATTACH_READ_WRITE_8_IT, "Seleziona l'immagine del disco per il drive #8 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_8_NL, "Koppel schijfbestand voor drive #8 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_8_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_READ_WRITE_8_SV, "Anslut diskettavbildningsfil för enhet 8 skrivbar (om möjligt)"},
@@ -10489,11 +8194,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_READ_WRITE_9_DA, "Tilslut disk-image til drev #9 skrivbar (hvis muligt)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_9_DE, "Disk Image als Laufwerk #9 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_9_FR, "Charger une image de disque pour le lecteur #9 en lecture-écriture (si "
-                                        "possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_9_FR, "Charger une image de disque pour le lecteur #9 en lecture-écriture (si possible)"},
 /* hu */ {IDCLS_ATTACH_READ_WRITE_9_HU, "Írható-olvasható képmás csatolása a #9-es lemezegységhez"},
-/* it */ {IDCLS_ATTACH_READ_WRITE_9_IT, "Seleziona l'immagine del disco per il drive #9 in lettura/scrittura (se "
-                                        "possibile)"},
+/* it */ {IDCLS_ATTACH_READ_WRITE_9_IT, "Seleziona l'immagine del disco per il drive #9 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_9_NL, "Koppel schijfbestand voor drive #9 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_9_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_READ_WRITE_9_SV, "Anslut diskettavbildningsfil för enhet 9 skrivbar (om möjligt)"},
@@ -10519,11 +8222,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_READ_WRITE_10_DA, "Tilslut disk-image til drev #10 skrivbar (hvis muligt)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_10_DE, "Disk Image als Laufwerk #10 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_10_FR, "Charger une image de disque pour le lecteur #10 en lecture-écriture (si "
-                                         "possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_10_FR, "Charger une image de disque pour le lecteur #10 en lecture-écriture (si possible)"},
 /* hu */ {IDCLS_ATTACH_READ_WRITE_10_HU, "Írható-olvasható képmás csatolása a #10-es lemezegységhez"},
-/* it */ {IDCLS_ATTACH_READ_WRITE_10_IT, "Seleziona l'immagine del disco per il drive #10 in lettura/scrittura (se "
-                                         "possibile)"},
+/* it */ {IDCLS_ATTACH_READ_WRITE_10_IT, "Seleziona l'immagine del disco per il drive #10 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_10_NL, "Koppel schijfbestand voor drive #10 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_10_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_READ_WRITE_10_SV, "Anslut diskettavbildningsfil för enhet 10 skrivbar (om möjligt)"},
@@ -10549,11 +8250,9 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_READ_WRITE_11_DA, "Tilslut disk-image til drev #11 skrivbar (hvis muligt)"},
 /* de */ {IDCLS_ATTACH_READ_WRITE_11_DE, "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"},
-/* fr */ {IDCLS_ATTACH_READ_WRITE_11_FR, "Charger une image de disque pour le lecteur #11 en lecture-écriture (si "
-                                         "possible)"},
+/* fr */ {IDCLS_ATTACH_READ_WRITE_11_FR, "Charger une image de disque pour le lecteur #11 en lecture-écriture (si possible)"},
 /* hu */ {IDCLS_ATTACH_READ_WRITE_11_HU, "Írható-olvasható képmás csatolása a #11-es lemezegységhez"},
-/* it */ {IDCLS_ATTACH_READ_WRITE_11_IT, "Seleziona l'immagine del disco per il drive #11 in lettura/scrittura (se "
-                                         "possibile)"},
+/* it */ {IDCLS_ATTACH_READ_WRITE_11_IT, "Seleziona l'immagine del disco per il drive #11 in lettura/scrittura (se possibile)"},
 /* nl */ {IDCLS_ATTACH_READ_WRITE_11_NL, "Koppel schijfbestand voor drive #11 als schrijfbaar (indien mogelijk)"},
 /* pl */ {IDCLS_ATTACH_READ_WRITE_11_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_READ_WRITE_11_SV, "Anslut diskettavbildningsfil för enhet 11 skrivbar (om möjligt)"},
@@ -10577,7 +8276,7 @@ translate_t string_table[] = {
 /* datasette.c */
 /* en */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET,    N_("Disable automatic Datasette-Reset")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_DA, "Deaktiver automatisk Datasette-reset"},
+/* da */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_DA, "Deaktivér automatisk Datasette-reset"},
 /* de */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_DE, "Automatisches Datasette-Reset deaktivieren"},
 /* fr */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_FR, "Désactiver le redémarrage automatique du Datasette"},
 /* hu */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_HU, "Automatikus magnó Reset tiltása"},
@@ -10756,7 +8455,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DONT_TRACE_DRIVE3_CPU_IT, "Non tracciare la CPU del drive3"},
 /* nl */ {IDCLS_DONT_TRACE_DRIVE3_CPU_NL, "Traceer de CPU van drive 3/11 niet"},
 /* pl */ {IDCLS_DONT_TRACE_DRIVE3_CPU_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DONT_TRACE_DRIVE3_CPU_SV, "Spåra inte processor i diskettstation 0"},
+/* sv */ {IDCLS_DONT_TRACE_DRIVE3_CPU_SV, "Spåra inte processor i diskettstation 3"},
 /* tr */ {IDCLS_DONT_TRACE_DRIVE3_CPU_TR, "Sürücü3 CPU'sunu izleme"},
 #endif
 #endif
@@ -10769,7 +8468,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_TRACE_MODE_FR, "Mode de trace (0=normal 1=petit 2=historique)"},
 /* hu */ {IDCLS_TRACE_MODE_HU, "Nyomkövetési mód (0=normál 1=kicsi 2=elõzmények)"},
 /* it */ {IDCLS_TRACE_MODE_IT, "Modalità di tracciamento (0=normale 1=piccola 2=storica)"},
-/* nl */ {IDCLS_TRACE_MODE_NL, "Traceermodus (0=normaal 1=klein 2=geschiedenis)"},
+/* nl */ {IDCLS_TRACE_MODE_NL, "Traceermodus (0=normaal 1=klein 2=geschiedenis"},
 /* pl */ {IDCLS_TRACE_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_TRACE_MODE_SV, "Spårningsläge (0=normal 1=liten 2=historik)"},
 /* tr */ {IDCLS_TRACE_MODE_TR, "Ýzleme modu (0=normal 1=küçük 2=tarihçe)"},
@@ -10799,7 +8498,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_HU, "Monitorprogram parancsok futtatása fájlból"},
 /* it */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_IT, "Esegui i comandi del monitor da un file"},
 /* nl */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_NL, "Uitvoeren van commandos uit bestand"},
-/* pl */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_PL, ""}, /* fuzzy */
+/* pl */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_SV, "Exekvera monitorkommandon från fil"},
 /* tr */ {IDCLS_EXECUTE_MONITOR_FROM_FILE_TR, "Dosyadan monitör komutlarý çalýþtýr"},
 #endif
@@ -10812,49 +8511,49 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SET_INITIAL_BREAKPOINT_FR, "Régler un point d’arrêt initial pour le moniteur"},
 /* hu */ {IDCLS_SET_INITIAL_BREAKPOINT_HU, "Kezdeti töréspont megadása a monitorprogramnak"},
 /* it */ {IDCLS_SET_INITIAL_BREAKPOINT_IT, "Imposta un breakpoint iniziale per il monitor"},
-/* nl */ {IDCLS_SET_INITIAL_BREAKPOINT_NL, "Zet een beginnende breekpunt voor de monitor"},
+/* nl */ {IDCLS_SET_INITIAL_BREAKPOINT_NL, "Zet een beginnende breakpunt voor de monitor"},
 /* pl */ {IDCLS_SET_INITIAL_BREAKPOINT_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_INITIAL_BREAKPOINT_SV, "Sätt en ursprunglig brytpunkt för monitorn"},
 /* tr */ {IDCLS_SET_INITIAL_BREAKPOINT_TR, "Monitör için dahili bir kesme noktasý ayarla"},
 #endif
 
 /* monitor_network.c */
-/* en */ {IDCLS_ENABLE_REMOTE_MONITOR,     N_("Enable remote monitor")},
+/* en */ {IDCLS_ENABLE_REMOTE_MONITOR,    N_("Enable remote monitor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_REMOTE_MONITOR_DA, "Aktivér overtagelse af mus"},
 /* de */ {IDCLS_ENABLE_REMOTE_MONITOR_DE, "Monitor Fernsteuerung aktivieren"},
 /* fr */ {IDCLS_ENABLE_REMOTE_MONITOR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_REMOTE_MONITOR_HU, "Távoli monitor engedélyezése"},
 /* it */ {IDCLS_ENABLE_REMOTE_MONITOR_IT, "Attiva monitor remoto"},
-/* nl */ {IDCLS_ENABLE_REMOTE_MONITOR_NL, "Activeer monitor afstandbediening"},
+/* nl */ {IDCLS_ENABLE_REMOTE_MONITOR_NL, "Activeer monitor afstandsbediening"},
 /* pl */ {IDCLS_ENABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_REMOTE_MONITOR_SV, "Aktivera fjärrmonitor"},
 /* tr */ {IDCLS_ENABLE_REMOTE_MONITOR_TR, "Uzak monitörü aktif et"},
 #endif
 
 /* monitor_network.c */
-/* en */ {IDCLS_DISABLE_REMOTE_MONITOR,     N_("Disable remote monitor")},
+/* en */ {IDCLS_DISABLE_REMOTE_MONITOR,    N_("Disable remote monitor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_REMOTE_MONITOR_DA, "Deaktivér overtagelse af mus"},
 /* de */ {IDCLS_DISABLE_REMOTE_MONITOR_DE, "Monitor Fernsteuerung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_REMOTE_MONITOR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_REMOTE_MONITOR_HU, "Távoli monitor tiltása"},
 /* it */ {IDCLS_DISABLE_REMOTE_MONITOR_IT, "Disattiva monitor remoto"},
-/* nl */ {IDCLS_DISABLE_REMOTE_MONITOR_NL, "afstandbediening monitor uitschakelen"},
+/* nl */ {IDCLS_DISABLE_REMOTE_MONITOR_NL, "afstandsbediening monitor uitschakelen"},
 /* pl */ {IDCLS_DISABLE_REMOTE_MONITOR_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_REMOTE_MONITOR_SV, "Inaktivera fjärrmonitor"},
 /* tr */ {IDCLS_DISABLE_REMOTE_MONITOR_TR, "Uzak monitörü pasifleþtir"},
 #endif
 
 /* monitor_network.c */
-/* en */ {IDCLS_REMOTE_MONITOR_ADDRESS,     N_("The local address the remote monitor should bind to")},
+/* en */ {IDCLS_REMOTE_MONITOR_ADDRESS,    N_("The local address the remote monitor should bind to")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_REMOTE_MONITOR_ADDRESS_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_REMOTE_MONITOR_ADDRESS_DE, "Lokale Adresse für die Monitorfernsteuerung"},
 /* fr */ {IDCLS_REMOTE_MONITOR_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_REMOTE_MONITOR_ADDRESS_HU, "A helyi cím, amelyet a monitorprogram lefoglal"},
 /* it */ {IDCLS_REMOTE_MONITOR_ADDRESS_IT, "Indirizzo locale a cui il monitor remoto dovrebbe collegarsi"},
-/* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, "Lokaal adres waar de afstanbediening voor de monitor aan gebonden moet worden"},
+/* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, "Lokaal adres waar de afstandsbediening voor de monitor aan gebonden moet worden"},
 /* pl */ {IDCLS_REMOTE_MONITOR_ADDRESS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_REMOTE_MONITOR_ADDRESS_SV, "Lokal adress för fjärrmonitor att ansluta till"},
 /* tr */ {IDCLS_REMOTE_MONITOR_ADDRESS_TR, "Uzak monitörün baðlanmasý gereken lokal adres"},
@@ -10969,8 +8668,8 @@ translate_t string_table[] = {
 /* de */ {IDCLS_RESTORE_DEFAULT_SETTINGS_DE, "Wiederherstellen Standard Einstellungen"},
 /* fr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_FR, "Rétablir les paramètres par défaut (usine)"},
 /* hu */ {IDCLS_RESTORE_DEFAULT_SETTINGS_HU, "Alap (gyári) beállítások visszaállítása"},
-/* it */ {IDCLS_RESTORE_DEFAULT_SETTINGS_IT, "Ripristina le impostazioni originarie"},
-/* nl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_NL, "Herstel standaardinstelling"},
+/* it */ {IDCLS_RESTORE_DEFAULT_SETTINGS_IT, "Ripristina le impostazioni predefinite"},
+/* nl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_NL, "Herstel standaardinstellingen"},
 /* pl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_RESTORE_DEFAULT_SETTINGS_SV, "Återställ förvalda inställningar"},
 /* tr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_TR, "Varsayýlan ayarlara (fabrika ayarlarý) geri dön"},
@@ -11121,8 +8820,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PUT_STRING_INTO_KEYBUF_DA, "Indsæt den angivne streng i tastatur-bufferen."},
 /* de */ {IDCLS_PUT_STRING_INTO_KEYBUF_DE, "Definierte Eingabe in Tastaturpuffer bereitstellen."},
-/* fr */ {IDCLS_PUT_STRING_INTO_KEYBUF_FR, "Placer la chaîne spécifiée dans le tampon clavier."},
-/* hu */ {IDCLS_PUT_STRING_INTO_KEYBUF_HU, "A megadott string bemásolása a billentyûzet pufferbe."},
+/* fr */ {IDCLS_PUT_STRING_INTO_KEYBUF_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PUT_STRING_INTO_KEYBUF_HU, "A megadott sztring elhelyezése a billentyûzet pufferben."},
 /* it */ {IDCLS_PUT_STRING_INTO_KEYBUF_IT, "Metti la stringa specificata nel buffer di tastiera."},
 /* nl */ {IDCLS_PUT_STRING_INTO_KEYBUF_NL, "Plaats de opgegeven string in de toetsenbordbuffer."},
 /* pl */ {IDCLS_PUT_STRING_INTO_KEYBUF_PL, ""},  /* fuzzy */
@@ -11161,7 +8860,7 @@ translate_t string_table[] = {
 /* mouse.c */
 /* en */ {IDCLS_DISABLE_MOUSE_GRAB,    N_("Disable mouse grab")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_MOUSE_GRAB_DA, "Deaktiver overtagelse af mus"},
+/* da */ {IDCLS_DISABLE_MOUSE_GRAB_DA, "Deaktivér overtagelse af mus"},
 /* de */ {IDCLS_DISABLE_MOUSE_GRAB_DE, "Maus deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MOUSE_GRAB_FR, "Ne pas saisir la souris"},
 /* hu */ {IDCLS_DISABLE_MOUSE_GRAB_HU, "Egér elkapás tiltása"},
@@ -11217,7 +8916,7 @@ translate_t string_table[] = {
 /* ps2mouse.c */
 /* en */ {IDCLS_DISABLE_PS2MOUSE,    N_("Disable PS/2 mouse on userport")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PS2MOUSE_DA, "Deaktiver PS/2-mus på brugerporten"},
+/* da */ {IDCLS_DISABLE_PS2MOUSE_DA, "Deaktivér PS/2-mus på brugerporten"},
 /* de */ {IDCLS_DISABLE_PS2MOUSE_DE, "PS/2 Userport Emulation deaktivieren\""},
 /* fr */ {IDCLS_DISABLE_PS2MOUSE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_PS2MOUSE_HU, "PS/2 egér tiltása a userporton"},
@@ -11233,8 +8932,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DA, "Angiv værdien for den allerførste RAM adresse efter power-up"},
 /* de */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DE, "Wert für erstes Byte im RAM nach Kaltstart setzen"},
-/* fr */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_FR, "Spécifier la valeur de la première adresse RAM après la mise sous "
-                                                "tension"},
+/* fr */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_FR, "Spécifier la valeur de la première adresse RAM après la mise sous tension"},
 /* hu */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_HU, "Adja meg a legelsõ RAM cím értékét bekapcsolás után"},
 /* it */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_IT, "Imposta il valore del primissimo indirizzo della RAM dopo l'accensione"},
 /* nl */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_NL, "Zet de waarde voor het allereerste RAM adres na koude start"},
@@ -11287,26 +8985,26 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_ENABLE_SOUND_PLAYBACK,    N_("Enable sound playback")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SOUND_PLAYBACK_DA, "Slå lydemulering til"},
 /* de */ {IDCLS_ENABLE_SOUND_PLAYBACK_DE, "Sound Wiedergaben einschalten"},
 /* fr */ {IDCLS_ENABLE_SOUND_PLAYBACK_FR, "Activer le son"},
 /* hu */ {IDCLS_ENABLE_SOUND_PLAYBACK_HU, "Hangok engedélyezése"},
-/* it */ {IDCLS_ENABLE_SOUND_PLAYBACK_IT, "Attiva la riproduzione del suono"},
+/* it */ {IDCLS_ENABLE_SOUND_PLAYBACK_IT, "Attiva la riproduzione dell'audio"},
 /* nl */ {IDCLS_ENABLE_SOUND_PLAYBACK_NL, "Activeer geluidsweergave"},
 /* pl */ {IDCLS_ENABLE_SOUND_PLAYBACK_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SOUND_PLAYBACK_SV, "Aktivera ljudåtergivning"},
-/* tr */ {IDCLS_ENABLE_SOUND_PLAYBACK_PL, "Sesi aktif et"},
+/* tr */ {IDCLS_ENABLE_SOUND_PLAYBACK_TR, "Sesi aktif et"},
 #endif
 
 /* sound.c */
 /* en */ {IDCLS_DISABLE_SOUND_PLAYBACK,    N_("Disable sound playback")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SOUND_PLAYBACK_DA, "Slå lydemulering fra"},
 /* de */ {IDCLS_DISABLE_SOUND_PLAYBACK_DE, "Sound Wiedergaben ausschalten"},
 /* fr */ {IDCLS_DISABLE_SOUND_PLAYBACK_FR, "Désactiver le son"},
 /* hu */ {IDCLS_DISABLE_SOUND_PLAYBACK_HU, "Hangok tiltása"},
-/* it */ {IDCLS_DISABLE_SOUND_PLAYBACK_IT, "Disattiva la riproduzione del suono"},
+/* it */ {IDCLS_DISABLE_SOUND_PLAYBACK_IT, "Disattiva la riproduzione dell'audio"},
 /* nl */ {IDCLS_DISABLE_SOUND_PLAYBACK_NL, "Geluid uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SOUND_PLAYBACK_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SOUND_PLAYBACK_SV, "Inaktivera ljudåtergivning"},
@@ -11315,12 +9013,12 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ,    N_("Set sound sample rate to <value> Hz")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_DA, "Sæt lydsamplefrekvens til <værdi> Hz"},
 /* de */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_DE, "Setze Sound Sample Rate zu <Wert> Hz"},
 /* fr */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_FR, "Régler le taux d'échantillonage à <valeur> Hz"},
 /* hu */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_HU, "Hang mintavételezési ráta beállítása <érték> Hz-re"},
-/* it */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT, "Imposta la velocità di campionamento del suono a <valore> Hz"},
+/* it */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT, "Imposta la velocità di campionamento dell'audio a <valore> Hz"},
 /* nl */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_NL, "Zet de geluid sample rate naar <waarde> Hz"},
 /* pl */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_SV, "Sätt ljudsamplingshastighet till <värde> Hz"},
@@ -11329,12 +9027,12 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC,    N_("Set sound buffer size to <value> msec")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DA, "Sæt lydbufferstørrelse til <værdi> ms"},
 /* de */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DE, "Setze Source Buffer Größe zu <Wert> msek"},
 /* fr */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_FR, "Régler la taille du tampon son à <valeur> ms"},
 /* hu */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_HU, "A hangpuffer méretét <érték> mp-re állítja"},
-/* it */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_IT, "Imposta la dimensione del buffer del suono a <valore> msec"},
+/* it */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_IT, "Imposta la dimensione del buffer dell'audio a <valore> msec"},
 /* nl */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_NL, "Zet de geluidsbuffergrootte naar <waarde> msec"},
 /* pl */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_SV, "Sätt ljudbuffertstorlek till <värde> ms"},
@@ -11343,7 +9041,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SPECIFY_SOUND_DRIVER,    N_("Specify sound driver")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SOUND_DRIVER_DA, "Angiv lyddriver"},
 /* de */ {IDCLS_SPECIFY_SOUND_DRIVER_DE, "Sound Treiber spezifieren"},
 /* fr */ {IDCLS_SPECIFY_SOUND_DRIVER_FR, "Spécifier le pilote de son"},
@@ -11357,7 +9055,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_P_ARGS,    N_("<args>")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ARGS_DA, "<argumenter>"},
 /* de */ {IDCLS_P_ARGS_DE, "<Argumente>"},
 /* fr */ {IDCLS_P_ARGS_FR, "<args>"},
@@ -11371,7 +9069,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM,    N_("Specify initialization parameters for sound driver")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DA, "Angiv initialiseringsparametre for lyddriver"},
 /* de */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DE, "Initialisierungsparameter des Sound Treibers spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_FR, "Spécifier les paramètres d'initialisation pour le pilote son"},
@@ -11385,12 +9083,12 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER,    N_("Specify recording sound driver")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_DA, "Angiv driver til lydoptagelse"},
 /* de */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_DE, "Sound Treiber für Aufnahme spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_FR, "Spécifier le pilote d'enregistrement"},
 /* hu */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_HU, "Adja meg a felvételhez használt hangmodult"},
-/* it */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_IT, "Specifica il driver di registrazione del suono"},
+/* it */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_IT, "Specifica il driver audio di registrazione"},
 /* nl */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_NL, "Geef geluidsstuurprogramma voor opname"},
 /* pl */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_SV, "Ange ljuddrivrutin för inspelning"},
@@ -11399,16 +9097,13 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM,    N_("Specify initialization parameters for recording sound driver")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DA, "Angiv initialiseringsparametre for driver til lydoptagelse"},
 /* de */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DE, "Initialisierungsparameter für Aufnahme Sound Treiber spezifieren"},
-/* fr */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_FR, "Spécifier les paramètres d'initialisation pour le pilote "
-                                                   "d'enregistrement"},
+/* fr */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_FR, "Spécifier les paramètres d'initialisation pour le pilote d'enregistrement"},
 /* hu */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_HU, "Adja meg a felvételhez használt hangmodul indulási paramétereit"},
-/* it */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_IT, "Specifica i parametri di inizializzazione per il driver audio di "
-                                                   "registrazione"},
-/* nl */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_NL, "Geef initialisatieparameters voor het geluidsstuurprogramma voor "
-                                                   "opname"},
+/* it */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_IT, "Specifica i parametri di inizializzazione per il driver audio di registrazione"},
+/* nl */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_NL, "Geef initialisatieparameters voor het geluidsstuurprogramma voor opname"},
 /* pl */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_SV, "Ange initieringsflaggor för ljuddrivrutin för inspelning"},
 /* tr */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_TR, "Ses kayýt sürücüsü için baþlangýç parametrelerini belirt"},
@@ -11416,7 +9111,7 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_P_SYNC,    N_("<sync>")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SYNC_DA, "<sync>"},
 /* de */ {IDCLS_P_SYNC_DE, "<Sync>"},
 /* fr */ {IDCLS_P_SYNC_FR, "<sync>"},
@@ -11430,13 +9125,12 @@ translate_t string_table[] = {
 
 /* sound.c */
 /* en */ {IDCLS_SET_SOUND_SPEED_ADJUST,    N_("Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SOUND_SPEED_ADJUST_DA, "Indstil lydjusteringshastighed (0: fleksibel, 1: justerende, 2: nøjagtig)"},
 /* de */ {IDCLS_SET_SOUND_SPEED_ADJUST_DE, "Setze Sound Geschwindigkeit Anpassung (0: flexibel, 1: anpassend, 2: exakt)"},
 /* fr */ {IDCLS_SET_SOUND_SPEED_ADJUST_FR, "Choisir la méthode d'ajustement du son (0: flexible, 1: ajusté 2: exact)"},
 /* hu */ {IDCLS_SET_SOUND_SPEED_ADJUST_HU, "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"},
-/* it */ {IDCLS_SET_SOUND_SPEED_ADJUST_IT, "Imposta il tipo di adattamento della velocità dell'audio (0: flessibile, "
-                                           "1: adattabile, 2: esatta)"},
+/* it */ {IDCLS_SET_SOUND_SPEED_ADJUST_IT, "Imposta il tipo di adattamento della velocità dell'audio (0: flessibile, 1: adattabile, 2: esatta)"},
 /* nl */ {IDCLS_SET_SOUND_SPEED_ADJUST_NL, "Zet geluidssnelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"},
 /* pl */ {IDCLS_SET_SOUND_SPEED_ADJUST_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SOUND_SPEED_ADJUST_SV, "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"},
@@ -11445,7 +9139,7 @@ translate_t string_table[] = {
 
 /* sysfile.c */
 /* en */ {IDCLS_P_PATH,    N_("<path>")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_PATH_DA, "<sti>"},
 /* de */ {IDCLS_P_PATH_DE, "<Pfad>"},
 /* fr */ {IDCLS_P_PATH_FR, "<chemin>"},
@@ -11459,7 +9153,7 @@ translate_t string_table[] = {
 
 /* sysfile.c */
 /* en */ {IDCLS_DEFINE_SYSTEM_FILES_PATH,    N_("Define search path to locate system files")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DA, "Angiv sti til systemfiler"},
 /* de */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DE, "Suchpfad für Systemdateien definieren"},
 /* fr */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_FR, "Définir le chemin de recherche pour trouver les fichiers systèmes"},
@@ -11473,11 +9167,10 @@ translate_t string_table[] = {
 
 /* traps.c */
 /* en */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION,    N_("Enable general mechanisms for fast disk/tape emulation")},
-#ifdef HAS_TRANSLATE
+#ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_DA, "Aktivér generelle mekanismer for hurtig disk-/båndemulering"},
 /* de */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_DE, "Allgemeine Mechanismen für schnelle Disk/Band Emulation aktivieren"},
-/* fr */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_FR, "Activer les méchanismes généraux pour l'émulation disque/datassette "
-                                                "rapide"},
+/* fr */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_FR, "Activer les méchanismes généraux pour l'émulation disque/datassette rapide"},
 /* hu */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_HU, "A lemez/szalag emulációt gyorsító mechanizmusok engedélyezése"},
 /* it */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_IT, "Attiva meccanismo generale per l'emulazione veloce del disco/cassetta"},
 /* nl */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_NL, "Activeer algemene methoden voor snelle disk/tape emulatie"},
@@ -11488,14 +9181,12 @@ translate_t string_table[] = {
 
 /* traps.c */
 /* en */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION,    N_("Disable general mechanisms for fast disk/tape emulation")},
-#ifdef HAS_TRANSLATE
-/* da */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_DA, "Deaktiver generelle mekanismer for hurtig disk-/båndemulering"},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_DA, "Deaktivér generelle mekanismer for hurtig disk-/båndemulering"},
 /* de */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_DE, "Allgemeine Mechanismen für schnelle Disk/Band Emulation deaktivieren"},
-/* fr */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_FR, "Désactiver les méchanismes généraux pour l'émulation disque/datassette "
-                                                 "rapide"},
+/* fr */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_FR, "Désactiver les méchanismes généraux pour l'émulation disque/datassette rapide"},
 /* hu */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_HU, "A lemez/szalag emulációt gyorsító mechanizmusok tiltása"},
-/* it */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_IT, "Disattiva meccanismo generale per l'emulazione veloce del "
-                                                 "disco/cassetta"},
+/* it */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_IT, "Disattiva meccanismo generale per l'emulazione veloce del disco/cassetta"},
 /* nl */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_NL, "Algemene methoden voor snelle disk/tape emulatie uitschakelen"},
 /* pl */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_SV, "Inaktivera generella mekanismer för snabb disk-/bandemulering"},
@@ -11511,7 +9202,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_LIMIT_SPEED_TO_VALUE_HU, "Emulációs sebesség lehatárolása adott értékre"},
 /* it */ {IDCLS_LIMIT_SPEED_TO_VALUE_IT, "Limita la velocità di emulazione al valore specificato"},
 /* nl */ {IDCLS_LIMIT_SPEED_TO_VALUE_NL, "Beperk emulatiesnelheid tot de opgegeven waarde"},
-/* pl */ {IDCLS_LIMIT_SPEED_TO_VALUE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_LIMIT_SPEED_TO_VALUE_PL, "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"},
 /* sv */ {IDCLS_LIMIT_SPEED_TO_VALUE_SV, "Begränsa emuleringshastighet till angivet värde"},
 /* tr */ {IDCLS_LIMIT_SPEED_TO_VALUE_TR, "Emülasyon hýzýný belirtilmiþ deðer ile limitle"},
 #endif
@@ -11524,8 +9215,8 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_FR, "Mise à jour toutes les <valeur> images (`0' pour auto.)"},
 /* hu */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_HU, "Frissítsen minden <érték> képkocka elteltével (0 automatikust jelent)"},
 /* it */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_IT, "Aggiorna ogni <valore> frame (`0' per automatico)"},
-/* nl */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_NL, "Scherm opbouw elke <waarde> frames (`0' voor automatisch)"},
-/* pl */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_NL, "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"},
+/* pl */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_PL, "Aktualizuj co <warto¶æ> klatek (`0' - automatycznie)"},
 /* sv */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_SV, "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"},
 /* tr */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_TR, "Her <deðer> framede bir güncelle (otomatik için `0')"},
 #endif
@@ -11534,12 +9225,12 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_WARP_MODE,    N_("Enable warp mode")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_WARP_MODE_DA, "Aktivér warp-tilstand"},
-/* de */ {IDCLS_ENABLE_WARP_MODE_DE, "Warp Mode Aktivieren"},
+/* de */ {IDCLS_ENABLE_WARP_MODE_DE, "Warp Mode aktivieren"},
 /* fr */ {IDCLS_ENABLE_WARP_MODE_FR, "Activer Turbo"},
 /* hu */ {IDCLS_ENABLE_WARP_MODE_HU, "Hipergyors mód engedélyezése"},
 /* it */ {IDCLS_ENABLE_WARP_MODE_IT, "Attiva la modalità turbo"},
 /* nl */ {IDCLS_ENABLE_WARP_MODE_NL, "Activeer warpmodus"},
-/* pl */ {IDCLS_ENABLE_WARP_MODE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_WARP_MODE_PL, "W³±cz tryb przy¶pieszony (Turbo)"},
 /* sv */ {IDCLS_ENABLE_WARP_MODE_SV, "Aktivera warpläge"},
 /* tr */ {IDCLS_ENABLE_WARP_MODE_TR, "Warp modu aktif et"},
 #endif
@@ -11547,13 +9238,13 @@ translate_t string_table[] = {
 /* vsync.c */
 /* en */ {IDCLS_DISABLE_WARP_MODE,    N_("Disable warp mode")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_WARP_MODE_DA, "Deaktiver warp-tilstand"},
-/* de */ {IDCLS_DISABLE_WARP_MODE_DE, "*Warp Mode Deaktivieren"},
+/* da */ {IDCLS_DISABLE_WARP_MODE_DA, "Deaktivér warp-tilstand"},
+/* de */ {IDCLS_DISABLE_WARP_MODE_DE, "Warp Mode deaktivieren"},
 /* fr */ {IDCLS_DISABLE_WARP_MODE_FR, "Désactiver Turbo"},
 /* hu */ {IDCLS_DISABLE_WARP_MODE_HU, "Hipergyors mód tiltása"},
 /* it */ {IDCLS_DISABLE_WARP_MODE_IT, "Disattiva la modalità turbo"},
 /* nl */ {IDCLS_DISABLE_WARP_MODE_NL, "Warpmodus uitschakelen"},
-/* pl */ {IDCLS_DISABLE_WARP_MODE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_WARP_MODE_PL, "Wy³±cz tryb przy¶pieszony (Turbo)"},
 /* sv */ {IDCLS_DISABLE_WARP_MODE_SV, "Inaktivera warpläge"},
 /* tr */ {IDCLS_DISABLE_WARP_MODE_TR, "Warp modu pasifleþtir"},
 #endif
@@ -11593,7 +9284,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_PLUS256K_EXPANSION_FR, "Activer l'expansion PLUS256K RAM"},
 /* hu */ {IDCLS_ENABLE_PLUS256K_EXPANSION_HU, "PLUS256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_PLUS256K_EXPANSION_IT, "Attiva l'espansione PLUS256K RAM"},
+/* it */ {IDCLS_ENABLE_PLUS256K_EXPANSION_IT, "Attiva l'espansione RAM PLUS256K"},
 /* nl */ {IDCLS_ENABLE_PLUS256K_EXPANSION_NL, "Activeer de PLUS256K-geheugenuitbreiding"},
 /* pl */ {IDCLS_ENABLE_PLUS256K_EXPANSION_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PLUS256K_EXPANSION_SV, "Aktivera PLUS256K RAM-expansion"},
@@ -11603,11 +9294,11 @@ translate_t string_table[] = {
 /* c64/plus256k.c */
 /* en */ {IDCLS_DISABLE_PLUS256K_EXPANSION,    N_("Disable the PLUS256K RAM expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PLUS256K_EXPANSION_DA, "Deaktiver PLUS256K RAM-udviddelse"},
+/* da */ {IDCLS_DISABLE_PLUS256K_EXPANSION_DA, "Deaktivér PLUS256K RAM-udviddelse"},
 /* de */ {IDCLS_DISABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_PLUS256K_EXPANSION_FR, "Désactiver l'expansion PLUS256K RAM"},
 /* hu */ {IDCLS_DISABLE_PLUS256K_EXPANSION_HU, "PLUS256K RAM kiterjesztés tiltása"},
-/* it */ {IDCLS_DISABLE_PLUS256K_EXPANSION_IT, "Disattiva l'espansione PLUS256K RAM"},
+/* it */ {IDCLS_DISABLE_PLUS256K_EXPANSION_IT, "Disattiva l'espansione RAM PLUS256K"},
 /* nl */ {IDCLS_DISABLE_PLUS256K_EXPANSION_NL, "De PLUS256K-geheugenuitbreiding uitschakelen"},
 /* pl */ {IDCLS_DISABLE_PLUS256K_EXPANSION_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_PLUS256K_EXPANSION_SV, "Inaktivera PLUS256K RAM-expansion"},
@@ -11635,21 +9326,21 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_PLUS60K_EXPANSION_DE, "PLUS60K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_FR, "Activer l'expansion PLUS60K RAM"},
 /* hu */ {IDCLS_ENABLE_PLUS60K_EXPANSION_HU, "PLUS60K RAM bõvítés engedélyezése"},
-/* it */ {IDCLS_ENABLE_PLUS60K_EXPANSION_IT, "Attiva l'espansione PLUS60K RAM"},
+/* it */ {IDCLS_ENABLE_PLUS60K_EXPANSION_IT, "Attiva l'espansione RAM PLUS60K"},
 /* nl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_NL, "Activeer de PLUS60K-geheugenuitbreiding"},
 /* pl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_PLUS60K_EXPANSION_SV, "Aktivera PLUS60K RAM-expansion"},
+/* sv */ {IDCLS_ENABLE_PLUS60K_EXPANSION_SV, "Aktivera PLUS60K RAM-expansionen"},
 /* tr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_TR, "PLUS60K RAM geniþletmesini aktif et"},
 #endif
 
 /* c64/plus60k.c */
 /* en */ {IDCLS_DISABLE_PLUS60K_EXPANSION,    N_("Disable the PLUS60K RAM expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DA, "Deaktiver PLUS60K RAM-udviddelse"},
+/* da */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DA, "Deaktivér PLUS60K RAM-udviddelse"},
 /* de */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DE, "PLUS60K RAM Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_PLUS60K_EXPANSION_FR, "Désactiver l'expansion PLUS60K RAM"},
 /* hu */ {IDCLS_DISABLE_PLUS60K_EXPANSION_HU, "PLUS60K RAM bõvítés tiltása"},
-/* it */ {IDCLS_DISABLE_PLUS60K_EXPANSION_IT, "Disattiva l'espansione PLUS60K RAM"},
+/* it */ {IDCLS_DISABLE_PLUS60K_EXPANSION_IT, "Disattiva l'espansione RAM PLUS60K"},
 /* nl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_NL, "De PLUS60K-geheugenuitbreiding uitschakelen"},
 /* pl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_PLUS60K_EXPANSION_SV, "Inaktivera PLUS60K RAM-expansion"},
@@ -11666,7 +9357,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_PLUS60K_NAME_IT, "Specifica il nome dell'immagine PLUS60K"},
 /* nl */ {IDCLS_SPECIFY_PLUS60K_NAME_NL, "Geef de naam van het PLUS60K-bestand"},
 /* pl */ {IDCLS_SPECIFY_PLUS60K_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på PLUS60K-avbildning"},
+/* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på plUS60K-avbildning"},
 /* tr */ {IDCLS_SPECIFY_PLUS60K_NAME_TR, "PLUS60K imajýnýn ismini belirt"},
 #endif
 
@@ -11701,7 +9392,7 @@ translate_t string_table[] = {
 /* c64/c64_256k.c */
 /* en */ {IDCLS_DISABLE_C64_256K_EXPANSION,    N_("Disable the 256K RAM expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_C64_256K_EXPANSION_DA, "Deaktiver 256K RAM-udviddelse"},
+/* da */ {IDCLS_DISABLE_C64_256K_EXPANSION_DA, "Deaktivér 256K RAM-udviddelse"},
 /* de */ {IDCLS_DISABLE_C64_256K_EXPANSION_DE, "256K RAM Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_C64_256K_EXPANSION_FR, "Désactiver l'expansion RAM 256K"},
 /* hu */ {IDCLS_DISABLE_C64_256K_EXPANSION_HU, "256K RAM kiterjesztés tiltása"},
@@ -11744,7 +9435,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,    N_("Attach raw Structured Basic cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_STB_CART_DA, "Tilslut rå Strucured BASIC-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Erweiterungsmodul Structured Basic (raw) Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_STB_CART_FR, "Insérer une cartouche Raw Structured Basic"},
 /* hu */ {IDCLS_ATTACH_RAW_STB_CART_HU, "Structured Basic cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
@@ -11831,7 +9522,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_DTV_BLITTER_LOG_DE, "DTV Blitter Log aktivieren."},
 /* fr */ {IDCLS_ENABLE_DTV_BLITTER_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók engedélyezése."},
-/* it */ {IDCLS_ENABLE_DTV_BLITTER_LOG_IT, "Attiva log blitter DTV."},
+/* it */ {IDCLS_ENABLE_DTV_BLITTER_LOG_IT, "Attiva i log del blitter DTV."},
 /* nl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_NL, "Aktiveer DTV blitter logs."},
 /* pl */ {IDCLS_ENABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DTV_BLITTER_LOG_SV, "Aktivera DTV-blitterloggar."},
@@ -11841,11 +9532,11 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvblitter.c */
 /* en */ {IDCLS_DISABLE_DTV_BLITTER_LOG,    N_("Disable DTV blitter logs.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DTV_BLITTER_LOG_DA, "Deaktiver DTV-blitterlog."},
+/* da */ {IDCLS_DISABLE_DTV_BLITTER_LOG_DA, "Deaktivér DTV-blitterlog."},
 /* de */ {IDCLS_DISABLE_DTV_BLITTER_LOG_DE, "DTV Blitter Log deaktivieren."},
 /* fr */ {IDCLS_DISABLE_DTV_BLITTER_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DTV_BLITTER_LOG_HU, "DTV blit naplók tiltása."},
-/* it */ {IDCLS_DISABLE_DTV_BLITTER_LOG_IT, "Disattiva log blitter DTV."},
+/* it */ {IDCLS_DISABLE_DTV_BLITTER_LOG_IT, "Disattiva i log del blitter DTV."},
 /* nl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_NL, "DTV Blitter logs afsluiten."},
 /* pl */ {IDCLS_DISABLE_DTV_BLITTER_LOG_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DTV_BLITTER_LOG_SV, "Inaktivera DTV-blitterloggar."},
@@ -11862,21 +9553,21 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_DTV_DMA_LOG_IT, "Attiva log DMA DTV."},
 /* nl */ {IDCLS_ENABLE_DTV_DMA_LOG_NL, "Aktiveer DTV DMA logs."},
 /* pl */ {IDCLS_ENABLE_DTV_DMA_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DTV_DMA_LOG_SV, "Aktivera DTV-dma-loggar."},
+/* sv */ {IDCLS_ENABLE_DTV_DMA_LOG_SV, "Aktivera DTV DMA-loggning."},
 /* tr */ {IDCLS_ENABLE_DTV_DMA_LOG_TR, "DTV DMA loglarýný aktif et"},
 #endif
 
 /* c64dtv/c64dtvdma.c */
 /* en */ {IDCLS_DISABLE_DTV_DMA_LOG,    N_("Disable DTV DMA logs.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DTV_DMA_LOG_DA, "Deaktiver DTV DMA-log."},
+/* da */ {IDCLS_DISABLE_DTV_DMA_LOG_DA, "Deaktivér DTV DMA-log."},
 /* de */ {IDCLS_DISABLE_DTV_DMA_LOG_DE, "DTV DMA Logs deaktivieren."},
 /* fr */ {IDCLS_DISABLE_DTV_DMA_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DTV_DMA_LOG_HU, "DTV dma naplók tiltása."},
+/* hu */ {IDCLS_DISABLE_DTV_DMA_LOG_HU, "DTV DMA naplók tiltása."},
 /* it */ {IDCLS_DISABLE_DTV_DMA_LOG_IT, "Disattiva log DMA DTV."},
 /* nl */ {IDCLS_DISABLE_DTV_DMA_LOG_NL, "DTV DMA logs afsluiten."},
 /* pl */ {IDCLS_DISABLE_DTV_DMA_LOG_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DTV_DMA_LOG_SV, "Inaktivera DTV-dma-loggar."},
+/* sv */ {IDCLS_DISABLE_DTV_DMA_LOG_SV, "Inaktivera DTV DMA-loggning."},
 /* tr */ {IDCLS_DISABLE_DTV_DMA_LOG_TR, "DTV DMA loglarýný pasifleþtir"},
 #endif
 
@@ -11939,7 +9630,7 @@ translate_t string_table[] = {
 /* c64dtv/c64dtvflash.c */
 /* en */ {IDCLS_DISABLE_DTV_FLASH_LOG,    N_("Disable DTV flash chip logs.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DTV_FLASH_LOG_DA, "Deaktiver logs for DTV-flashkreds."},
+/* da */ {IDCLS_DISABLE_DTV_FLASH_LOG_DA, "Deaktivér logs for DTV-flashkreds."},
 /* de */ {IDCLS_DISABLE_DTV_FLASH_LOG_DE, "DTV Flashchip Log deaktivieren."},
 /* fr */ {IDCLS_DISABLE_DTV_FLASH_LOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók tiltása."},
@@ -11974,14 +9665,14 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_TRUE_FLASH_FS_IT, "Attiva l'emulazione hardware del file system flash"},
 /* nl */ {IDCLS_ENABLE_TRUE_FLASH_FS_NL, "Activeer hardwarmatige flash bestandssysteem"},
 /* pl */ {IDCLS_ENABLE_TRUE_FLASH_FS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TRUE_FLASH_FS_SV, "Aktivera maskinvarubaserat flash-filsystem"},
+/* sv */ {IDCLS_ENABLE_TRUE_FLASH_FS_SV, "Aktivera äkta maskinvaru-flashfilsystem"},
 /* tr */ {IDCLS_ENABLE_TRUE_FLASH_FS_TR, "Gerçek donaným flash dosya sistemini aktif et"},
 #endif
 
 /* c64dtv/flash-trap.c */
 /* en */ {IDCLS_DISABLE_TRUE_FLASH_FS,    N_("Disable true hardware flash file system")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TRUE_FLASH_FS_DA, "Deaktiver ægte hardwareemulering af flashfilsystem"},
+/* da */ {IDCLS_DISABLE_TRUE_FLASH_FS_DA, "Deaktivér ægte hardwareemulering af flashfilsystem"},
 /* de */ {IDCLS_DISABLE_TRUE_FLASH_FS_DE, "Präzises Hardware Flashdateisystem deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TRUE_FLASH_FS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TRUE_FLASH_FS_HU, "Igazi hardver flash fájlrendszer tiltása"},
@@ -12010,7 +9701,7 @@ translate_t string_table[] = {
 /* midi.c */
 /* en */ {IDCLS_DISABLE_MIDI_EMU,    N_("Disable MIDI emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_MIDI_EMU_DA, "Deaktiver MIDI-emulering"},
+/* da */ {IDCLS_DISABLE_MIDI_EMU_DA, "Deaktivér MIDI-emulering"},
 /* de */ {IDCLS_DISABLE_MIDI_EMU_DE, "MIDI Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MIDI_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_MIDI_EMU_HU, "MIDI emuláció tiltása"},
@@ -12024,21 +9715,15 @@ translate_t string_table[] = {
 /* c64/c64-midi.c */
 /* en */ {IDCLS_SPECIFY_C64_MIDI_TYPE,    N_("MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DA, "MIDI-interfacetype (0: Sekventiel, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
-                                          "Maplin)"},
-/* de */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DE, "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
-                                          "Maplin)"},
+/* da */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DA, "MIDI-interfacetype (0: Sekventiel, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
+/* de */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DE, "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
 /* fr */ {IDCLS_SPECIFY_C64_MIDI_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_C64_MIDI_TYPE_HU, "MIDI interfész típus (0: soros, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
-/* it */ {IDCLS_SPECIFY_C64_MIDI_TYPE_IT, "Tipo interfaccia MIDI (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
-                                          "Maplin)"},
-/* nl */ {IDCLS_SPECIFY_C64_MIDI_TYPE_NL, "MIDI interface soort (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
-                                          "Maplin)"},
+/* it */ {IDCLS_SPECIFY_C64_MIDI_TYPE_IT, "Tipo interfaccia MIDI (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
+/* nl */ {IDCLS_SPECIFY_C64_MIDI_TYPE_NL, "MIDI interface soort (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
 /* pl */ {IDCLS_SPECIFY_C64_MIDI_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_C64_MIDI_TYPE_SV, "Typ av MIDI-gränssnitt (0: sekventiell, 1: Passport, 2: DATEL, 3: Namesoft, "
-                                          "4: Maplin)"},
-/* tr */ {IDCLS_SPECIFY_C64_MIDI_TYPE_TR, "MIDI arabirim tipi (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
-                                          "Maplin)"},
+/* sv */ {IDCLS_SPECIFY_C64_MIDI_TYPE_SV, "Typ av MIDI-gränssnitt (0: sekventiell, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
+/* tr */ {IDCLS_SPECIFY_C64_MIDI_TYPE_TR, "MIDI arabirim tipi (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
 #endif
 #endif
 
@@ -12269,7 +9954,7 @@ translate_t string_table[] = {
 /* c64/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the digimax cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DIGIMAX_DA, "Aktivér Digimax-cartridge"},
+/* da */ {IDCLS_ENABLE_DIGIMAX_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_DIGIMAX_DE, "Digimax Cartridge aktivieren"},
 /* fr */ {IDCLS_ENABLE_DIGIMAX_FR, "Activer la cartouche Digimax"},
 /* hu */ {IDCLS_ENABLE_DIGIMAX_HU, "Digimax cartridge engedélyezése"},
@@ -12283,7 +9968,7 @@ translate_t string_table[] = {
 /* c64/digimax.c */
 /* en */ {IDCLS_DISABLE_DIGIMAX,    N_("Disable the digimax cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DIGIMAX_DA, "Deaktiver Digimax-cartridge"},
+/* da */ {IDCLS_DISABLE_DIGIMAX_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_DIGIMAX_DE, "Digimax Cartridge deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DIGIMAX_FR, "Désactiver la cartouche Digimax"},
 /* hu */ {IDCLS_DISABLE_DIGIMAX_HU, "Digimax cartridge tiltása"},
@@ -12297,7 +9982,7 @@ translate_t string_table[] = {
 /* c64/digimax.c */
 /* en */ {IDCLS_DIGIMAX_BASE,    N_("Base address of the digimax cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DIGIMAX_BASE_DA, "Baseadresse for Digimax-cartridge"},
+/* da */ {IDCLS_DIGIMAX_BASE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DIGIMAX_BASE_DE, "Basis Adresse für Digimax Erweiterung"},
 /* fr */ {IDCLS_DIGIMAX_BASE_FR, "Adresse de base de la cartouche Digimax"},
 /* hu */ {IDCLS_DIGIMAX_BASE_HU, "A digimax cartridge báziscíme"},
@@ -12305,7 +9990,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basisadres van de digimaxcartridge"},
 /* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för Digimax-cartridge"},
-/* tr */ {IDCLS_DIGIMAX_BASE_PL, "Digimax kartuþunun taban adresi"}
+/* tr */ {IDCLS_DIGIMAX_BASE_TR, "Digimax kartuþunun taban adresi"},
 #endif
 
 };

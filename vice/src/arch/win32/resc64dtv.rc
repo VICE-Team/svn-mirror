@@ -563,7 +563,7 @@ BEGIN
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "Démarrage &automatique d'une image lecteur..."
+  IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
   IDS_MI_DETACH_DTV_FLASH         "&Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
@@ -620,8 +620,8 @@ BEGIN
   IDS_DTV_ROM_CREATION            "Creazione ROM DTV"
   IDS_C64DTV_ROM_COPY_C64         "Copia ROM C64 in un'immagine"
   IDS_CREATE                      "Crea"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "Avvia automaticamente l'immagine del disco"
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "Immagine flash &rom DTV"
+  IDS_MI_AUTOSTART_DISK           "&Avvia automaticamente l'immagine del disco..."
   IDS_MI_ATTACH_DTV_FLASH         "Seleziona l'immagine di una rom &flash"
   IDS_MI_DETACH_DTV_FLASH         "&Rimuovi l'immagine di una rom flash"
   IDS_MI_CREATE_DTV_FLASH         "&Crea una nuova immagine di una rom flash"
@@ -645,7 +645,7 @@ BEGIN
   IDS_DTV_REVISION_LABEL          "DTV Revisie"
   IDS_ENABLE_HUMMER_ADC           "Activeer Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Maak DTV Flash Bestand"
-  IDS_DTV_ROM_CREATION            "Maak DTV ROM"
+  IDS_DTV_ROM_CREATION            "Maak DTV Flash Bestand"
   IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROMS naar bestand"
   IDS_CREATE                      "Maak"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom bestand"
@@ -709,10 +709,10 @@ BEGIN
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Avbildningsfil för DTV-flash&rom"
   IDS_MI_AUTOSTART_DISK           "&Autostarta diskettavbildning..."
   IDS_MI_ATTACH_DTV_FLASH         "Anslut &flash-rom-avbildningsfil"
-  IDS_MI_DETACH_DTV_FLASH         "&Skapa ny flash-rom-avbildningsfil"
-  IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
+  IDS_MI_DETACH_DTV_FLASH         "&Koppla från flash-rom-avbildningsfil"
+  IDS_MI_CREATE_DTV_FLASH         "*Skapa ny flash-rom-avbildningsfil"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "&Äkta flash-filsystem"
-  IDS_MI_PS2MOUSE                 "&PS/2-musemulering"
+  IDS_MI_PS2MOUSE                 "*PS/2-musemulering"
   IDS_MI_C64DTV_SETTINGS          "&C64DTV-inställningar..."
   IDS_JOYSTICK                    "Styrspak"
 END
@@ -746,3 +746,5 @@ BEGIN
   IDS_JOYSTICK                    "Joystick"
 END
 #pragma code_page(28591)
+
+

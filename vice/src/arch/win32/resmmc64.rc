@@ -59,6 +59,7 @@ BEGIN
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image File"
 END
 
+
 // DANISH text
 
 STRINGTABLE
@@ -198,3 +199,5 @@ BEGIN
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Imaj Dosyasý"
 END
 #pragma code_page(28591)
+
+

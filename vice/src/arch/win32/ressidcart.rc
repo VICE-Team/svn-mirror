@@ -131,10 +131,10 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SIDCART_ENABLE                         "&Enable SID"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID Address"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
   IDS_SIDCART_CLOCK_LABEL                    "Horloge SID"
-  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Sélection des périphériques"
-  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Périphérique principal"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
   IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 
@@ -175,7 +175,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SIDCART_ENABLE                         "&Activeer SID"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID-Adres"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID-adres"
   IDS_SIDCART_CLOCK_LABEL                    "SID-klok"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-apparaatselectie"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Hoofdapparaat"
@@ -190,10 +190,10 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SIDCART_ENABLE                         "&Enable SID"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID Address"
-  IDS_SIDCART_CLOCK_LABEL                    "SID Clock"
-  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Device Selection"
-  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main Device"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
+  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
   IDS_DIGIBLASTER                            "Enable digiblaster add-on"
 END
 #pragma code_page(28591)
@@ -227,3 +227,5 @@ BEGIN
   IDS_DIGIBLASTER                            "Digiblaster eklentisini aktif et"
 END
 #pragma code_page(28591)
+
+

@@ -169,3 +169,5 @@ BEGIN
   IDS_MIDI_OUT_LABEL  "Midi-out aygýtý"
 END
 #pragma code_page(28591)
+
+

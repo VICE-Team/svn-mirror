@@ -123,10 +123,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "Ustawienia RS232 Userportu"
-  IDS_RS232USER_ENABLE  "&W³±cz RS232 userportu"
-  IDS_RS232USER_DEVICE  "Urz±dzenie portu RS232"
-  IDS_RS232USER_BAUD    "Urz±dzenie portu RS232"
+  IDS_RS232USER_CAPTION "RS232 Userport Settings"
+  IDS_RS232USER_ENABLE  "&Enable RS232 userport"
+  IDS_RS232USER_DEVICE  "Userport device"
+  IDS_RS232USER_BAUD    "Userport baud rate"
 END
 #pragma code_page(28591)
 
@@ -155,3 +155,5 @@ BEGIN
   IDS_RS232USER_BAUD    "Userport baud rate"
 END
 #pragma code_page(28591)
+
+

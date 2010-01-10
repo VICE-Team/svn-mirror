@@ -92,7 +92,7 @@ BEGIN
   IDS_ACIA_DEVICE    "ACIA Gerät"
   IDS_ACIA_LOCATION  "ACIA Adresse"
   IDS_ACIA_INTERRUPT "ACIA Interrupt"
-  IDS_ACIA_MODE      "ACIA-modus"
+  IDS_ACIA_MODE      "ACIA Modus"
 END
 
 
@@ -185,11 +185,11 @@ BEGIN
   IDS_NORMAL         "Normal"
   IDS_SWIFTLINK      "Swiftlink"
   IDS_TURBO232       "Turbo232"
-  IDS_ACIA_CAPTION   "Ustawienia ACIA"
-  IDS_ACIA_ENABLE    "&W³±cz ACIA"
-  IDS_ACIA_DEVICE    "ACIA urz±dzenia"
-  IDS_ACIA_LOCATION  "Adres ACIA"
-  IDS_ACIA_INTERRUPT "Przerwanie ACIA"
+  IDS_ACIA_CAPTION   "ACIA Settings"
+  IDS_ACIA_ENABLE    "&Enable ACIA"
+  IDS_ACIA_DEVICE    "Urz±dzenia ACIA"
+  IDS_ACIA_LOCATION  "ACIA location"
+  IDS_ACIA_INTERRUPT "ACIA interrupt"
   IDS_ACIA_MODE      "ACIA mode"
 END
 #pragma code_page(28591)
@@ -233,3 +233,5 @@ BEGIN
   IDS_ACIA_MODE      "ACIA modu"
 END
 #pragma code_page(28591)
+
+

@@ -658,10 +658,10 @@ BEGIN
   IDS_SELECT_PET_IO256           "2&56 Byte"
   IDS_SELECT_PET_IO2K            "&2 kByte"
   IDS_TOGGLE_PET_CRTC            "CRTC Chip aktivi&eren"
-  IDS_PET_KEYBOARD               "&Tastaturtyp"
+  IDS_PET_KEYBOARD               "&Tastatur"
   IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafik"
   IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&IO Einstellungen"
+  IDS_PET_IO_SETTINGS            "&I/O Einstellungen"
   IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O aktivi&eren (deaktiviert 8x96)"
   IDS_PET_RAM_SETTINGS           "&RAM Einstellungen"
   IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM (nur 8296)"
@@ -684,7 +684,7 @@ BEGIN
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Valeurs par déf&aut du modèle"
   IDS_PET_MEMORY                 "Mémoir&e"
-  IDS_PET_VIDEO                  "Vidéo"
+  IDS_PET_VIDEO                  "&Vidéo"
   IDS_SELECT_PET_VIDEO_AUTO      "&Auto (depuis la ROM)"
   IDS_SELECT_PET_VIDEO_40        "&40 Colonnes"
   IDS_SELECT_PET_VIDEO_80        "&80 Colonnes"
@@ -699,9 +699,9 @@ BEGIN
   IDS_TOGGLE_PET_SUPER_IO_ENABLE "Activer les E/S &SuperPET (ne fonctionne pas avec 8x96)"
   IDS_PET_RAM_SETTINGS           "Paramètres &RAM"
   IDS_TOGGLE_PET_8296_RAM9       "$9*** comme RAM (8296 seulement)"
-  IDS_TOGGLE_PET_8296_RAMA       "$A*** comme RAM (8296 seulement)"
+  IDS_TOGGLE_PET_8296_RAMA       "*$A*** comme RAM (8296 seulement)"
   IDS_MI_PET_SETTINGS            "Paramètres P&ET..."
-  IDS_MI_PETREU_SETTINGS         "Paramètres PET &REU..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
 END
 
 
@@ -804,8 +804,8 @@ BEGIN
   IDS_PET_RAM_SETTINGS           "&RAM-instellingen"
   IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM"
-  IDS_MI_PET_SETTINGS            "P&ET instellingen..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU-instellingen..."
+  IDS_MI_PET_SETTINGS            "P&ET-instellingen..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU-iinstellingen..."
 END
 
 
@@ -821,26 +821,26 @@ BEGIN
   IDS_ROM_9                      "ROM 9"
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
-  IDS_PET_MACHINE_DEFAULTS       "Model domy¶lny"
-  IDS_PET_MEMORY                 "P&amiêæ"
+  IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
+  IDS_PET_MEMORY                 "M&emory"
   IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Automatycznie (z ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 kolumn"
-  IDS_SELECT_PET_VIDEO_80        "&80 kolumn"
-  IDS_PET_IO_SIZE                "Rozmiar &I/O"
-  IDS_SELECT_PET_IO256           "2&56 Bajty"
-  IDS_SELECT_PET_IO2K            "&2 kBajty"
-  IDS_TOGGLE_PET_CRTC            "W³±cz ch&ip CRTC"
-  IDS_PET_KEYBOARD               "&Klawiatury"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafika"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Biznes"
-  IDS_PET_IO_SETTINGS            "Ustawienia &IO"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "W³±cz Sup&erPET I/O (wy³±czone 8x96)"
-  IDS_PET_RAM_SETTINGS           "Ustawienia &RAM"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** jako RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** jako RAM"
-  IDS_MI_PET_SETTINGS            "Ustawienia P&ET..."
-  IDS_MI_PETREU_SETTINGS         "Ustawienia PET &REU..."
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
+  IDS_PET_IO_SIZE                "&IO Size"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
+  IDS_PET_KEYBOARD               "&Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "&IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "&RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
+  IDS_MI_PET_SETTINGS            "P&ET settings..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
 END
 #pragma code_page(28591)
 
@@ -887,7 +887,7 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_INPUT_OUTPUT               "Giriþ/Çýkýþ"
   IDS_PET_SETTINGS               "PET ayarlarý"
-  IDS_EDITOR                     "Editor"
+  IDS_EDITOR                     "Editör"
   IDS_ROM_9                      "ROM 9"
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
@@ -913,3 +913,5 @@ BEGIN
   IDS_MI_PETREU_SETTINGS         "PET &REU ayarlarý..."
 END
 #pragma code_page(28591)
+
+

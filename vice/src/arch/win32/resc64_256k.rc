@@ -60,7 +60,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_C64_256K_CAPTION     "256K Einstellungen"
-    IDS_C64_256K_ENABLE      "256K aktivi&eren"
+    IDS_C64_256K_ENABLE      "256K &aktivieren"
     IDS_C64_256K_BASE        "256K Basis Adresse"
     IDS_C64_256K_FILE        "256K Datei"
     IDS_C64_256K_SELECT_FILE "Datei für 256K auswählen"
@@ -102,7 +102,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_C64_256K_CAPTION     "Impostazioni 256K"
     IDS_C64_256K_ENABLE      "&Attiva 256K"
-    IDS_C64_256K_BASE        "256K base address"
+    IDS_C64_256K_BASE        "indirizzo base 256K"
     IDS_C64_256K_FILE        "File 256K"
     IDS_C64_256K_SELECT_FILE "Seleziona file per 256K"
 END
@@ -127,10 +127,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_C64_256K_CAPTION     "Ustawienia 256K"
-    IDS_C64_256K_ENABLE      "&W³±cz 256K"
+    IDS_C64_256K_CAPTION     "256K Settings"
+    IDS_C64_256K_ENABLE      "&Enable 256K"
     IDS_C64_256K_BASE        "256K base address"
-    IDS_C64_256K_FILE        "256K pliku"
+    IDS_C64_256K_FILE        "256K file"
     IDS_C64_256K_SELECT_FILE "Select file for 256K"
 END
 #pragma code_page(28591)
@@ -162,3 +162,5 @@ BEGIN
     IDS_C64_256K_SELECT_FILE "256K için dosya seçin"
 END
 #pragma code_page(28591)
+
+

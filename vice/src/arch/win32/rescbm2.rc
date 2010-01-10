@@ -559,7 +559,7 @@ BEGIN
   IDS_MACHINE_DEFAULTS      "Maskinens stan&dardindstillinger"
   IDS_MODEL_LINE            "&Modelltyp"
   IDS_SELECT_CBMII_MEM_128  "12&8 kByte"
-  IDS_SELECT_CBMII_MEM_256  "2&56 kByte"
+  IDS_SELECT_CBMII_MEM_256  "2&56 byte"
   IDS_SELECT_CBMII_MEM_512  "512 &kByte"
   IDS_SELECT_CBMII_MEM_1024 "1024 kByt&e"
   IDS_CBM2_RAM_BANKS        "&RAM-banker"
@@ -615,16 +615,16 @@ BEGIN
   IDS_MACHINE_DEFAULTS      "Valeurs par dé&faut du modèle"
   IDS_MODEL_LINE            "Ligne du &modèle"
   IDS_SELECT_CBMII_MEM_128  "12&8 kOctets"
-  IDS_SELECT_CBMII_MEM_256  "2&56 kOctets"
-  IDS_SELECT_CBMII_MEM_512  "512 &kOctets"
+  IDS_SELECT_CBMII_MEM_256  "2&56 Octets"
+  IDS_SELECT_CBMII_MEM_512  "51&2 kOctets"
   IDS_SELECT_CBMII_MEM_1024 "102&4 kOctets"
   IDS_CBM2_RAM_BANKS        "Banques de &RAM"
-  IDS_TOGGLE_CBMII_RAM08    "Banque 15 $&0800-$0FFF RAM"
-  IDS_TOGGLE_CBMII_RAM1     "Banque 15 $&1000-$1FFF RAM"
-  IDS_TOGGLE_CBMII_RAM2     "Banque 15 $&2000-$3FFF RAM"
-  IDS_TOGGLE_CBMII_RAM4     "Banque 15 $&4000-$5FFF RAM"
-  IDS_TOGGLE_CBMII_RAM6     "Banque 15 $&6000-$7FFF RAM"
-  IDS_TOGGLE_CBMII_RAMC     "Banque 15 $&C000-$CFFF RAM"
+  IDS_TOGGLE_CBMII_RAM08    "Banque 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Banque 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Banque 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Banque 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Banque 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Banque 15 $C000-$CFFF RAM"
   IDS_MI_CBM2_SETTINGS      "Paramètres &CBM2..."
 END
 
@@ -677,12 +677,12 @@ BEGIN
   IDS_SELECT_CBMII_MEM_512  "512 &kByte"
   IDS_SELECT_CBMII_MEM_1024 "1024 kByt&e"
   IDS_CBM2_RAM_BANKS        "Banchi di &Ram"
-  IDS_TOGGLE_CBMII_RAM08    "RAM del banco 15 a $&0800-$0FFF"
-  IDS_TOGGLE_CBMII_RAM1     "RAM del banco 15 a $&1000-$1FFF"
-  IDS_TOGGLE_CBMII_RAM2     "RAM del banco 15 a $&2000-$3FFF"
-  IDS_TOGGLE_CBMII_RAM4     "RAM del banco 15 a $&4000-$5FFF"
-  IDS_TOGGLE_CBMII_RAM6     "RAM del banco 15 a $&6000-$7FFF"
-  IDS_TOGGLE_CBMII_RAMC     "RAM del banco 15 a $&C000-$CFFF"
+  IDS_TOGGLE_CBMII_RAM08    "RAM del banco 15 a $0800-$0FFF"
+  IDS_TOGGLE_CBMII_RAM1     "RAM del banco 15 a $1000-$1FFF"
+  IDS_TOGGLE_CBMII_RAM2     "RAM del banco 15 a $2000-$3FFF"
+  IDS_TOGGLE_CBMII_RAM4     "RAM del banco 15 a $4000-$5FFF"
+  IDS_TOGGLE_CBMII_RAM6     "RAM del banco 15 a $6000-$7FFF"
+  IDS_TOGGLE_CBMII_RAMC     "RAM del banco 15 a $C000-$CFFF"
   IDS_MI_CBM2_SETTINGS      "Impostazioni &CBM2..."
 END
 
@@ -693,7 +693,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MEMORY                "Geheugen"
-  IDS_CBM2_SETTINGS         "CBM2 instellingen"
+  IDS_CBM2_SETTINGS         "CBM2-instellingen"
   IDS_CART_1                "Cart 1"
   IDS_CART_2                "Cart 2"
   IDS_CART_4                "Cart 4"
@@ -711,7 +711,7 @@ BEGIN
   IDS_TOGGLE_CBMII_RAM4     "Bank 15 $&4000-$5FFF RAM"
   IDS_TOGGLE_CBMII_RAM6     "Bank 15 $&6000-$7FFF RAM"
   IDS_TOGGLE_CBMII_RAMC     "Bank 15 $&C000-$CFFF RAM"
-  IDS_MI_CBM2_SETTINGS      "&CBM2 instellingen..."
+  IDS_MI_CBM2_SETTINGS      "&CBM2-instellingen..."
 END
 
 
@@ -723,16 +723,16 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MEMORY                "Memory"
   IDS_CBM2_SETTINGS         "CBM2 settings"
-  IDS_CART_1                "Kartrid¿ 1"
-  IDS_CART_2                "Kartrid¿ 2"
-  IDS_CART_4                "Kartrid¿ 4"
-  IDS_CART_6                "Kartrid¿ 6"
-  IDS_MACHINE_DEFAULTS      "Model &domy¶lny"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MACHINE_DEFAULTS      "Machine &defaults"
   IDS_MODEL_LINE            "&Model line"
-  IDS_SELECT_CBMII_MEM_128  "12&8 kBajty"
-  IDS_SELECT_CBMII_MEM_256  "2&56 kBajty"
-  IDS_SELECT_CBMII_MEM_512  "512 &kBajty"
-  IDS_SELECT_CBMII_MEM_1024 "1024 kBajt&y"
+  IDS_SELECT_CBMII_MEM_128  "12&8 kByte"
+  IDS_SELECT_CBMII_MEM_256  "2&56 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 &kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByt&e"
   IDS_CBM2_RAM_BANKS        "&Ram banks"
   IDS_TOGGLE_CBMII_RAM08    "Bank 15 $&0800-$0FFF RAM"
   IDS_TOGGLE_CBMII_RAM1     "Bank 15 $&1000-$1FFF RAM"
@@ -740,7 +740,7 @@ BEGIN
   IDS_TOGGLE_CBMII_RAM4     "Bank 15 $&4000-$5FFF RAM"
   IDS_TOGGLE_CBMII_RAM6     "Bank 15 $&6000-$7FFF RAM"
   IDS_TOGGLE_CBMII_RAMC     "Bank 15 $&C000-$CFFF RAM"
-  IDS_MI_CBM2_SETTINGS      "Ustawienia &CBM2..."
+  IDS_MI_CBM2_SETTINGS      "&CBM2 settings..."
 END
 #pragma code_page(28591)
 
@@ -758,8 +758,8 @@ BEGIN
   IDS_CART_6                "Modul 6"
   IDS_MACHINE_DEFAULTS      "Modellens &förval"
   IDS_MODEL_LINE            "&Modelltyp"
-  IDS_SELECT_CBMII_MEM_128  "12&8 kByte"
-  IDS_SELECT_CBMII_MEM_256  "2&56 kByte"
+  IDS_SELECT_CBMII_MEM_128  "12&8 kbyte"
+  IDS_SELECT_CBMII_MEM_256  "2&56 byte"
   IDS_SELECT_CBMII_MEM_512  "512 &kByte"
   IDS_SELECT_CBMII_MEM_1024 "1024 kByt&e"
   IDS_CBM2_RAM_BANKS        "&Ram-bankar"
@@ -801,3 +801,5 @@ BEGIN
   IDS_MI_CBM2_SETTINGS      "&CBM2 ayarlarý..."
 END
 #pragma code_page(28591)
+
+

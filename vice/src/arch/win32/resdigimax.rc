@@ -119,9 +119,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_DIGIMAX_CAPTION "Digimax Settings"
-  IDS_DIGIMAX_ENABLE  "Aktiverad"
-  IDS_DIGIMAX_BASE    "Digimax base address"
+  IDS_DIGIMAX_CAPTION "Digimaxinställningar"
+  IDS_DIGIMAX_ENABLE  "&Aktivera Digimax"
+  IDS_DIGIMAX_BASE    "Basadress för Digimax"
 END
 
 
@@ -136,3 +136,5 @@ BEGIN
   IDS_DIGIMAX_BASE    "Digimax taban adresi"
 END
 #pragma code_page(28591)
+
+

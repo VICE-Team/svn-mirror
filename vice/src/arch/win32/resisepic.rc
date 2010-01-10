@@ -123,7 +123,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ISEPIC_CAPTION "Isepic Settings"
+  IDS_ISEPIC_CAPTION "Isepic-inställningar"
   IDS_ISEPIC_ENABLE  "&Aktivera Isepic"
   IDS_ISEPIC_SWITCH  "&Isepic-omkopplare"
 END
@@ -140,3 +140,5 @@ BEGIN
   IDS_ISEPIC_SWITCH  "Isepic anahtarý"
 END
 #pragma code_page(28591)
+
+

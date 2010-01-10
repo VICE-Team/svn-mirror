@@ -127,11 +127,11 @@ BEGIN
   IDS_INTERPOLATING      "par interpolation"
   IDS_RESAMPLING         "rééchantillonage"
   IDS_FAST_RESAMPLING    "rééchantillonage rapide"
-  IDS_SID_RESID_GROUP    "Options reSID/reSID-fp"
+  IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Méthode d'échantillonnage"
   IDS_SID_RESID_PASSBAND "Bande passante (0-90%)"
   IDS_HARDSID_GROUP      "Sélection des périphériques"
-  IDS_HARDSID_LEFT_LABEL "Périphérique principal"
+  IDS_HARDSID_LEFT_LABEL "Main device"
 END
 
 
@@ -149,7 +149,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "gyors újramintavételezõ"
   IDS_SID_RESID_GROUP    "reSID/reSIP-fp opciók"
   IDS_SID_RESID_SAMPLE   "Mintavételezés módja"
-  IDS_SID_RESID_PASSBAND "teresztõság (0-90%)"
+  IDS_SID_RESID_PASSBAND "Áteresztõság (0-90%)"
   IDS_HARDSID_GROUP      "Eszközök kiválasztása"
   IDS_HARDSID_LEFT_LABEL "Fõ eszköz"
 END
@@ -201,13 +201,13 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_GENERAL            "General"
-  IDS_SID_SETTINGS       "SID settings"
+  IDS_SID_SETTINGS       "Ustawienia uk³adu SID"
   IDS_FAST               "fast"
   IDS_INTERPOLATING      "interpolating"
   IDS_RESAMPLING         "resampling"
   IDS_FAST_RESAMPLING    "fast resampling"
-  IDS_SID_RESID_GROUP    "reSID/reSID-fp Opcje"
-  IDS_SID_RESID_SAMPLE   "Metoda samplowania"
+  IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
+  IDS_SID_RESID_SAMPLE   "Sample method"
   IDS_SID_RESID_PASSBAND "Passband (0-90%)"
   IDS_HARDSID_GROUP      "Device selection"
   IDS_HARDSID_LEFT_LABEL "Main device"
@@ -241,7 +241,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_GENERAL            "Genel"
-  IDS_SID_SETTINGS       "SID Ayarlarý"
+  IDS_SID_SETTINGS       "SID ayarlarý"
   IDS_FAST               "hýzlý"
   IDS_INTERPOLATING      "ara deðer bulma"
   IDS_RESAMPLING         "yeniden örnekleme"
@@ -253,3 +253,5 @@ BEGIN
   IDS_HARDSID_LEFT_LABEL "Ana aygýt"
 END
 #pragma code_page(28591)
+
+

@@ -573,7 +573,7 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (sperimentale)..."
   IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS&60K..."
   IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS2&56K..."
-  IDS_MI_C64_256K_SETTINGS "Impostazioni &256K..."
+  IDS_MI_C64_256K_SETTINGS "Impostazioni 256K..."
 END
 
 
@@ -596,9 +596,9 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "Ustawienia PLUS&60K..."
-  IDS_MI_PLUS256K_SETTINGS "Ustawienia PLUS2&56K..."
-  IDS_MI_C64_256K_SETTINGS "Ustawienia &256K..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
+  IDS_MI_C64_256K_SETTINGS "&256K settings..."
 END
 #pragma code_page(28591)
 
@@ -627,3 +627,5 @@ BEGIN
   IDS_MI_C64_256K_SETTINGS "&256K ayarlarý..."
 END
 #pragma code_page(28591)
+
+

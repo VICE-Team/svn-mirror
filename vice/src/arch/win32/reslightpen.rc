@@ -72,7 +72,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_CAPTION "fényceruza beállításai..."
     IDS_LIGHTPEN_ENABLE  "&Fényceruza engedélyezése"
     IDS_LIGHTPEN_TYPE    "Fényceruza típusa"
 END
@@ -136,3 +136,5 @@ BEGIN
     IDS_LIGHTPEN_TYPE    "Iþýklý Kalem tipi"
 END
 #pragma code_page(28591)
+
+
