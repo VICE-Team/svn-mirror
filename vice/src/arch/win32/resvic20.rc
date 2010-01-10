@@ -820,7 +820,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000          "Koppel 4/8KB-cartridgebestand op $&A000"
     IDS_ATTACH_4_CART_B000            "Koppel 4KB-cartridgebestand op $&B000"
     IDS_MI_IEEE488                    "VIC-1112 IEEE &488 module"
-    IDS_MI_PADDLES                    "Aktiveer Paddles"
+    IDS_MI_PADDLES                    "Activeer Paddles"
     IDS_MI_CART_VIC20_GENERIC         "Algemeen bestand..."
     IDS_MI_CART_VIC20_MEGACART        "Mega-Cart bestand..."
     IDS_MI_CART_VIC20_FINAL_EXPANSION "Final Expansion bestand..."

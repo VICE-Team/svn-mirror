@@ -24,14 +24,12 @@ msgid "Set device for joystick port 2"
 msgstr "Zet apparaat voor joystickpoort 2"
 
 #: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:333
-#, fuzzy
 msgid "Set device for extra joystick port 1"
-msgstr "Zet apparaat voor joystickpoort 1"
+msgstr "Zet apparaat voor extra joystickpoort 1"
 
 #: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:342
-#, fuzzy
 msgid "Set device for extra joystick port 2"
-msgstr "Zet apparaat voor joystickpoort 2"
+msgstr "Zet apparaat voor extra joystickpoort 2"
 
 #: src/arch/unix/mididrv.c:663 src/arch/unix/mididrv.c:668
 #: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
@@ -48,14 +46,12 @@ msgid "Specify MIDI-Out device"
 msgstr "Kies MIDI-uit apparaat"
 
 #: src/arch/unix/mididrv.c:674
-#, fuzzy
 msgid "<driver>"
-msgstr "WMM stuurprogramma"
+msgstr "<stuurprogramma>"
 
 #: src/arch/unix/mididrv.c:674
-#, fuzzy
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
-msgstr "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID)"
+msgstr "Geef op welke MIDI stuurprogramma gebruikt moet worden (0 = OSS, 1 = ALSA)"
 
 #: src/arch/unix/rs232.c:159 src/arch/unix/rs232.c:164
 #: src/arch/unix/rs232.c:169 src/arch/unix/rs232.c:174
@@ -98,7 +94,6 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:316
 #: src/arch/unix/gui/petui.c:119 src/arch/unix/gui/plus4ui.c:109
 #: src/arch/unix/gui/vic20ui.c:146
-#, fuzzy
 msgid "SID model"
 msgstr "SID-model"
 
@@ -189,9 +184,8 @@ msgid "RAM Expansion Cart"
 msgstr "RAM-uitbreidingscart"
 
 #: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64ui.c:283
-#, fuzzy
 msgid "EasyFlash cartridge"
-msgstr "Ongeldige cartridge"
+msgstr "EasyFlash cartridge"
 
 #: src/arch/unix/gui/c128ui.c:272 src/arch/unix/gui/c64ui.c:291
 msgid "MMC64 emulation"
@@ -224,23 +218,20 @@ msgstr "*Muisemulatie"
 
 #: src/arch/unix/gui/c128ui.c:290 src/arch/unix/gui/c64ui.c:307
 #: src/arch/unix/gui/vic20ui.c:497
-#, fuzzy
 msgid "*Lightpen Emulation"
-msgstr "Activeer MIDI emulatie"
+msgstr "Lichtpen Emulatie"
 
 #: src/arch/unix/gui/c128ui.c:295 src/arch/unix/gui/c64ui.c:312
 msgid "MIDI Emulation"
 msgstr "MIDI-emulatie"
 
 #: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:315
-#, fuzzy
 msgid "*SFX Sound Expander emulation"
-msgstr "PS/2 muis emulatie"
+msgstr "*SFX Sound Expander emulatie"
 
 #: src/arch/unix/gui/c128ui.c:300 src/arch/unix/gui/c64ui.c:317
-#, fuzzy
 msgid "*SFX Sound Sampler emulation"
-msgstr "PS/2 muis emulatie"
+msgstr "*SFX Sound Sampler emulatie"
 
 #: src/arch/unix/gui/c128ui.c:302
 msgid "*Banks 2 & 3"
@@ -320,39 +311,32 @@ msgid "Screenshots..."
 msgstr "Schermopnamen..."
 
 #: src/arch/unix/gui/c128ui.c:385
-#, fuzzy
 msgid "*International"
-msgstr "Internationaal"
+msgstr "*Internationaal"
 
 #: src/arch/unix/gui/c128ui.c:387
-#, fuzzy
 msgid "*Finnish"
-msgstr "Fins"
+msgstr "*Fins"
 
 #: src/arch/unix/gui/c128ui.c:389
-#, fuzzy
 msgid "*French"
-msgstr "Frans"
+msgstr "*Frans"
 
 #: src/arch/unix/gui/c128ui.c:391
-#, fuzzy
 msgid "*German"
-msgstr "Duits"
+msgstr "*Duits"
 
 #: src/arch/unix/gui/c128ui.c:393
-#, fuzzy
 msgid "*Italian"
-msgstr "Italiaans"
+msgstr "*Italiaans"
 
 #: src/arch/unix/gui/c128ui.c:395
-#, fuzzy
 msgid "*Norwegian"
-msgstr "Noors"
+msgstr "*Noors"
 
 #: src/arch/unix/gui/c128ui.c:397
-#, fuzzy
 msgid "*Swedish"
-msgstr "Zweeds"
+msgstr "*Zweeds"
 
 #: src/arch/unix/gui/c128ui.c:405 src/arch/win32/resc128.rc.po.c:647
 #: src/arch/amigaos/intl.c.po.c:6296
@@ -445,9 +429,8 @@ msgid "Chip model"
 msgstr "Chipmodel"
 
 #: src/arch/unix/gui/c64dtvui.c:107
-#, fuzzy
 msgid "*PS/2 Mouse Emulation"
-msgstr "PS/2 muis emulatie"
+msgstr "*PS/2 muis emulatie"
 
 #: src/arch/unix/gui/c64dtvui.c:116 src/arch/unix/gui/c64ui.c:325
 #: src/arch/unix/gui/petui.c:205 src/arch/unix/gui/plus4ui.c:124
@@ -476,9 +459,8 @@ msgid "ROM settings"
 msgstr "ROM-instellingen"
 
 #: src/arch/unix/gui/c64dtvui.c:181
-#, fuzzy
 msgid "C64DTV settings"
-msgstr "C64DTV Instellingen"
+msgstr "C64DTV instellingen"
 
 #: src/arch/unix/gui/c64ui.c:84 src/arch/unix/gui/vsidui.c:295
 msgid "*Old NTSC-M"
@@ -573,14 +555,12 @@ msgid "*128 kByte"
 msgstr "*128 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:158
-#, fuzzy
 msgid "*256 kByte"
-msgstr "*256 Byte"
+msgstr "*256 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:162
-#, fuzzy
 msgid "*1024 kByte"
-msgstr "1024 kByt&e"
+msgstr "1024 kByte"
 
 #: src/arch/unix/gui/cbm2ui.c:212 src/arch/unix/gui/petui.c:155
 msgid "*Graphics"
@@ -712,39 +692,36 @@ msgid "SID cartridge"
 msgstr "SID-cartridge"
 
 #: src/arch/unix/gui/petui.c:230
-#, fuzzy
 msgid "Basic 1"
-msgstr "Basic"
+msgstr "Basic 1"
 
 #: src/arch/unix/gui/petui.c:232
-#, fuzzy
 msgid "Basic 2, graphics"
-msgstr "Basic 128k, hoofd letters"
+msgstr "Basic 2, grafisch"
 
 #: src/arch/unix/gui/petui.c:234
 msgid "Basic 2, Business"
-msgstr ""
+msgstr "Basic 2, Zakelijk"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Basic 4, 40 cols, graphics"
-msgstr ""
+msgstr "Basic 4, 40 colommen, grafisch"
 
 #: src/arch/unix/gui/petui.c:238
 msgid "Basic 4, 40 cols, business"
-msgstr ""
+msgstr "Basic 4, 40 colommen, zakelijk"
 
 #: src/arch/unix/gui/petui.c:240
 msgid "Basic 4, 80 cols, business"
-msgstr ""
+msgstr "Basic 4, 80 colommen, zakelijk"
 
 #: src/arch/unix/gui/petui.c:243
 msgid "*Basic 1 Patch (if loaded)"
-msgstr ""
+msgstr "*Basic 1 Patch (indien geladen)"
 
 #: src/arch/unix/gui/petui.c:245
-#, fuzzy
 msgid "*Basic 1 character set"
-msgstr "*Duitse karakterset"
+msgstr "*Basic 1 karakterset"
 
 #: src/arch/unix/gui/petui.c:259
 msgid "*Original character set"
@@ -815,9 +792,8 @@ msgid "*PET userport diagnostic pin"
 msgstr "*PET-userport diagnostic pin"
 
 #: src/arch/unix/gui/plus4ui.c:118
-#, fuzzy
 msgid "*Enable digiblaster add-on"
-msgstr "Activeer dubbele scan"
+msgstr "Activeer digiblaster add-on"
 
 #: src/arch/unix/gui/plus4ui.c:130
 msgid "Load new 3 plus 1 LO ROM"
@@ -978,14 +954,12 @@ msgid "Smart-attach disk/tape..."
 msgstr "Slim-koppel disk/tape..."
 
 #: src/arch/unix/gui/uiattach.c:303
-#, fuzzy
 msgid "Autostart settings"
-msgstr "Crtc-instellingen"
+msgstr "Autostart instellingen"
 
 #: src/arch/unix/gui/uiautostart.c:43
-#, fuzzy
 msgid "Disk image for PRG autostart"
-msgstr "Zet de bitrate voor het audiogedeelte van het mediabestand"
+msgstr "Disk bestand voor PRG autostart"
 
 #: src/arch/unix/gui/uiautostart.c:43 src/arch/unix/gui/uic64_256k.c:40
 #: src/arch/unix/gui/uidqbb.c:40 src/arch/unix/gui/uigeoram.c:40
@@ -1000,41 +974,35 @@ msgstr "Naam:"
 
 #: src/arch/unix/gui/uiautostart.c:47
 msgid "*VirtualFS"
-msgstr ""
+msgstr "*Virtueel Bestandssysteem"
 
 #: src/arch/unix/gui/uiautostart.c:49
-#, fuzzy
 msgid "*Inject to RAM"
-msgstr "Maak verbinding naar "
+msgstr "*injecteer in RAM "
 
 #: src/arch/unix/gui/uiautostart.c:51
-#, fuzzy
 msgid "*Disk image"
-msgstr "Disk &bestand"
+msgstr "*Disk bestand"
 
 #: src/arch/unix/gui/uiautostart.c:57
-#, fuzzy
 msgid "*Handle True Drive Emulation on autostart"
-msgstr "Manipuleer hardwarematige drive emulatie bij autostarten"
+msgstr "*Manipuleer hardwarematige drive emulatie bij autostarten"
 
 #: src/arch/unix/gui/uiautostart.c:59
-#, fuzzy
 msgid "*Autostart warp"
-msgstr "Autostarten"
+msgstr "Autostarten met warp"
 
 #: src/arch/unix/gui/uiautostart.c:61
 msgid "*RUN with colon"
-msgstr ""
+msgstr "*RUN met dubbele punt"
 
 #: src/arch/unix/gui/uiautostart.c:63
-#, fuzzy
 msgid "Autostart PRG mode"
-msgstr "Autostart schijfbestand"
+msgstr "Autostart PRG modus"
 
 #: src/arch/unix/gui/uiautostart.c:65
-#, fuzzy
 msgid "Autostart PRG disk image..."
-msgstr "&Autostart diskbestand..."
+msgstr "Autostart PRG diskbestand..."
 
 #: src/arch/unix/gui/uic64_256k.c:40
 msgid "256K image name"
@@ -1061,19 +1029,16 @@ msgid "Attach cartridge image"
 msgstr "Koppel cartridgebestand"
 
 #: src/arch/unix/gui/uic64cart.c:127
-#, fuzzy
 msgid "*Prg"
-msgstr "Prg"
+msgstr "*Prg"
 
 #: src/arch/unix/gui/uic64cart.c:129
-#, fuzzy
 msgid "*Off"
-msgstr "Uit"
+msgstr "*Uit"
 
 #: src/arch/unix/gui/uic64cart.c:131
-#, fuzzy
 msgid "*On"
-msgstr "Aan"
+msgstr "*Aan"
 
 #: src/arch/unix/gui/uic64cart.c:134
 msgid "Save cartridge image..."
@@ -1165,32 +1130,26 @@ msgid "*Cartridge control"
 msgstr "*Cartridge bediening"
 
 #: src/arch/unix/gui/uic64dtv.c:51
-#, fuzzy
 msgid "C64DTV ROM image name"
-msgstr "MMC64-bestandsnaam"
+msgstr "C64DTV ROM bestandsnaam"
 
 #: src/arch/unix/gui/uic64dtv.c:75
-#, fuzzy
 msgid "C64DTV ROM image name..."
-msgstr "MMC64-bestandsnaam..."
+msgstr "C64DTV ROM bestandsnaam..."
 
 #: src/arch/unix/gui/uic64dtv.c:78
-#, fuzzy
 msgid "*Enable writes to C64DTV ROM image"
-msgstr "Aktiveer &schrijven naar DTV ROM bestand"
+msgstr "*Aktiveer schrijven naar DTV ROM bestand"
 
 #: src/arch/unix/gui/uic64dtv.c:81
-#, fuzzy
 msgid "C64DTV blitter revision"
-msgstr "C64DTV revisie"
+msgstr "C64DTV blitter revisie"
 
 #: src/arch/unix/gui/uic64dtv.c:84
-#, fuzzy
 msgid "*Enable Hummer ADC"
-msgstr "*Activeer muis"
+msgstr "*Activeer Hummer ADC"
 
 #: src/arch/unix/gui/uic64dtv.c:86
-#, fuzzy
 msgid "PS/2 mouse on Userport"
 msgstr "Aktiveer emulatie van een PS/2 muis op de userport"
 
@@ -1527,9 +1486,8 @@ msgid "Datassette control"
 msgstr "Datasette regeling"
 
 #: src/arch/unix/gui/uidigimax.c:39
-#, fuzzy
 msgid "*Userport"
-msgstr "Userport RS232"
+msgstr "*Userport"
 
 #: src/arch/unix/gui/uidigimax.c:77
 msgid "*Enable digimax"
@@ -1540,19 +1498,16 @@ msgid "Digimax base"
 msgstr "Digimax basisadres"
 
 #: src/arch/unix/gui/uidqbb.c:40
-#, fuzzy
 msgid "DQBB image name"
-msgstr "IDE64-bestandsnaam"
+msgstr "DQBB bestandsnaam"
 
 #: src/arch/unix/gui/uidqbb.c:44
-#, fuzzy
 msgid "*Enable DQBB"
-msgstr "&Activeer DQBB"
+msgstr "*Activeer DQBB"
 
 #: src/arch/unix/gui/uidqbb.c:46
-#, fuzzy
 msgid "DQBB image name..."
-msgstr "IDE64-bestandsnaam..."
+msgstr "DQBB bestandsnaam..."
 
 #: src/arch/unix/gui/uidrive.c:62 src/arch/unix/gui/uidrive.c:72
 #: src/arch/unix/gui/uidrive.c:82 src/arch/unix/gui/uidrive.c:92
@@ -1786,7 +1741,6 @@ msgid "*Enable Professional DOS"
 msgstr "*Activeer Professional DOS"
 
 #: src/arch/unix/gui/uidrivec64dtv.c:45
-#, fuzzy
 msgid "*Enable true flash filesystem"
 msgstr "*Activeer echte flash bestandssysteem emulatie"
 
@@ -1856,23 +1810,20 @@ msgid "Load new 1551 ROM"
 msgstr "Laad nieuw 1551-ROM"
 
 #: src/arch/unix/gui/uieasyflash.c:44
-#, fuzzy
 msgid "Cannot save cartridge"
-msgstr "Kan cartridge niet koppelen"
+msgstr "Kan cartridge niet opslaan"
 
 #: src/arch/unix/gui/uieasyflash.c:49
-#, fuzzy
 msgid "*Jumper"
-msgstr "*Amber"
+msgstr "*Jumper"
 
 #: src/arch/unix/gui/uieasyflash.c:51
-#, fuzzy
 msgid "*Save CRT on detach"
-msgstr "Opslaan ROM-set archief"
+msgstr "Sla CRT op bij ontkoppelen"
 
 #: src/arch/unix/gui/uieasyflash.c:53
 msgid "Save CRT now"
-msgstr ""
+msgstr "Sla CRT nu op"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2057,39 +2008,32 @@ msgid "*Sectors..."
 msgstr "*Sectors..."
 
 #: src/arch/unix/gui/uiisepic.c:39
-#, fuzzy
 msgid "*Enable Isepic"
-msgstr "&Activeer Isepic"
+msgstr "*Activeer Isepic"
 
 #: src/arch/unix/gui/uiisepic.c:41
-#, fuzzy
 msgid "*Enable Isepic Switch"
-msgstr "Isepic schakelaar"
+msgstr "*Activeer Isepic schakelaar"
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
-#, fuzzy
 msgid "*CGA userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "*CGA userport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:129 src/arch/unix/gui/uijoystick2.c:143
-#, fuzzy
 msgid "*PET userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "*PET userport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:131 src/arch/unix/gui/uijoystick2.c:145
-#, fuzzy
 msgid "*Hummer userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "*Hummer userport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:133 src/arch/unix/gui/uijoystick2.c:147
-#, fuzzy
 msgid "*OEM userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "*OEM userport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:135
-#, fuzzy
 msgid "*HIT userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "*HIT userport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:156 src/arch/unix/gui/uijoystick2.c:208
 #: src/arch/unix/gui/uijoystick2.c:260 src/arch/unix/gui/uijoystick2.c:312
@@ -2202,38 +2146,33 @@ msgstr "Verwissel joystick poorten"
 
 #: src/arch/unix/gui/uijoystick2.c:378 src/arch/unix/gui/uijoystick2.c:409
 #: src/arch/unix/gui/uijoystick2.c:453 src/arch/unix/gui/uijoystick2.c:480
-#, fuzzy
 msgid "*Userport Joystick Interface"
-msgstr "*PET-userport diagnostic pin"
+msgstr "*Userport Joystick Interface"
 
 #: src/arch/unix/gui/uijoystick2.c:380 src/arch/unix/gui/uijoystick2.c:411
 #: src/arch/unix/gui/uijoystick2.c:455 src/arch/unix/gui/uijoystick2.c:482
 msgid "*Userport Joystick Interface Type"
-msgstr ""
+msgstr "*Userport Joystick Interface Soort"
 
 #: src/arch/unix/gui/uijoystick2.c:382 src/arch/unix/gui/uijoystick2.c:413
 #: src/arch/unix/gui/uijoystick2.c:457 src/arch/unix/gui/uijoystick2.c:484
 #: src/arch/unix/gui/uijoystick2.c:513
-#, fuzzy
 msgid "Joystick device in extra port 1"
-msgstr "Joystick apparaat in poort 1"
+msgstr "Joystick apparaat in extra poort 1"
 
 #: src/arch/unix/gui/uijoystick2.c:384 src/arch/unix/gui/uijoystick2.c:415
 #: src/arch/unix/gui/uijoystick2.c:459 src/arch/unix/gui/uijoystick2.c:486
-#, fuzzy
 msgid "Joystick device in extra port 2"
-msgstr "Joystick apparaat in poort 2"
+msgstr "Joystick apparaat in extra poort 2"
 
 #: src/arch/unix/gui/uijoystick2.c:386 src/arch/unix/gui/uijoystick2.c:417
 #: src/arch/unix/gui/uijoystick2.c:461 src/arch/unix/gui/uijoystick2.c:488
-#, fuzzy
 msgid "Swap userport joystick ports"
-msgstr "Verwissel joystick poorten"
+msgstr "Verwissel userport joystick poorten"
 
 #: src/arch/unix/gui/uijoystick2.c:511
-#, fuzzy
 msgid "*SIDcart Joystick"
-msgstr "SID-cartinstellingen"
+msgstr "*SIDcart Joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:525 src/arch/unix/gui/uijoystick2.c:531
 #: src/arch/unix/gui/uijoystick2.c:537 src/arch/unix/gui/uijoystick2.c:543
@@ -2287,14 +2226,12 @@ msgid "MMC64 image name"
 msgstr "MMC64-bestandsnaam"
 
 #: src/arch/unix/gui/uimmc64.c:52
-#, fuzzy
 msgid "*Rev. A"
-msgstr "*Revisie 0"
+msgstr "*Revisie A"
 
 #: src/arch/unix/gui/uimmc64.c:54
-#, fuzzy
 msgid "*Rev. B"
-msgstr "*Revisie 0"
+msgstr "*Revisie B"
 
 #: src/arch/unix/gui/uimmc64.c:60
 msgid "*Enable MMC64"
@@ -2326,19 +2263,16 @@ msgid "MMC64 image name..."
 msgstr "MMC64-bestandsnaam..."
 
 #: src/arch/unix/gui/uimouse.c:46
-#, fuzzy
 msgid "*Paddles"
-msgstr "Idle"
+msgstr "*Paddles"
 
 #: src/arch/unix/gui/uimouse.c:52
-#, fuzzy
 msgid "*Port 1"
-msgstr "Joy Poort 1"
+msgstr "*Poort 1"
 
 #: src/arch/unix/gui/uimouse.c:54
-#, fuzzy
 msgid "*Port 2"
-msgstr "Joy Poort 2"
+msgstr "*Poort 2"
 
 #: src/arch/unix/gui/uimouse.c:62
 msgid "*Enable mouse"
@@ -2355,9 +2289,8 @@ msgid "Mouse port"
 msgstr "Muis poort"
 
 #: src/arch/unix/gui/uimouse.c:72
-#, fuzzy
 msgid "*Enable paddles"
-msgstr "Activeer Schaal2x"
+msgstr "*Activeer paddles"
 
 #: src/arch/unix/gui/uinetplay.c:67
 msgid "Enter port"
@@ -2778,14 +2711,12 @@ msgid "Printer text device 3..."
 msgstr "Printer tekst apparaat 3..."
 
 #: src/arch/unix/gui/uips2mouse.c:40
-#, fuzzy
 msgid "*Enable PS/2 mouse"
-msgstr "*Activeer muis"
+msgstr "*Activeer PS/2 muis"
 
 #: src/arch/unix/gui/uips2mouse.c:42
-#, fuzzy
 msgid "*Grab mouse events"
-msgstr "Gebruik de muis"
+msgstr "*Gebruik de muis"
 
 #: src/arch/unix/gui/uiramcart.c:41
 msgid "RAMCART image name"
@@ -2837,14 +2768,12 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/uiromset.c:85
-#, fuzzy
 msgid "*Archive"
-msgstr "Drive"
+msgstr "*Archief"
 
 #: src/arch/unix/gui/uiromset.c:87
-#, fuzzy
 msgid "*File"
-msgstr "Bestand"
+msgstr "*Bestand"
 
 #: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
@@ -3197,30 +3126,25 @@ msgstr "*Bevestigen bij afsluiten"
 
 #: src/arch/unix/gui/uisid.c:64 src/arch/unix/gui/uisid.c:128
 #: src/arch/unix/gui/uisid.c:178
-#, fuzzy
 msgid "*6581 (FastSID)"
-msgstr "*Fast SID"
+msgstr "*6581 (FastSID)"
 
 #: src/arch/unix/gui/uisid.c:66 src/arch/unix/gui/uisid.c:130
 #: src/arch/unix/gui/uisid.c:180
-#, fuzzy
 msgid "*8580 (FastSID)"
-msgstr "*Fast SID"
+msgstr "*8580 (FastSID)"
 
 #: src/arch/unix/gui/uisid.c:70
-#, fuzzy
 msgid "*6581 (ReSID)"
-msgstr "*6581 (oud)"
+msgstr "*6581 (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:72
-#, fuzzy
 msgid "*8580 (ReSID)"
-msgstr "*8580 (nieuw)"
+msgstr "*8580 (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:74
-#, fuzzy
 msgid "*8580 + digi boost (ReSID)"
-msgstr "*8500 + digi boost"
+msgstr "*8580 + digi boost (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisid.c:134
 msgid "*6581R3 4885 (very light)"
@@ -3344,47 +3268,40 @@ msgid "*0.10 sec"
 msgstr "*0.10 sec"
 
 #: src/arch/unix/gui/uisound.c:74
-#, fuzzy
 msgid "*0.075 sec"
-msgstr "*0.75 sec"
+msgstr "*0.075 sec"
 
 #: src/arch/unix/gui/uisound.c:76
-#, fuzzy
 msgid "*0.05 sec"
-msgstr "*0.75 sec"
+msgstr "*0.05 sec"
 
 #: src/arch/unix/gui/uisound.c:78
-#, fuzzy
 msgid "*0.04 sec"
-msgstr "*0.50 sec"
+msgstr "*0.04 sec"
 
 #: src/arch/unix/gui/uisound.c:80
-#, fuzzy
 msgid "*0.03 sec"
-msgstr "*0.50 sec"
+msgstr "*0.03 sec"
 
 #: src/arch/unix/gui/uisound.c:82
-#, fuzzy
 msgid "*0.025 sec"
-msgstr "*0.25 sec"
+msgstr "*0.025 sec"
 
 #: src/arch/unix/gui/uisound.c:84
-#, fuzzy
 msgid "*0.02 sec"
-msgstr "*0.50 sec"
+msgstr "*0.02 sec"
 
 #: src/arch/unix/gui/uisound.c:90
-#, fuzzy
 msgid "*Small"
-msgstr "&Klein"
+msgstr "*Klein"
 
 #: src/arch/unix/gui/uisound.c:92
 msgid "*Medium"
-msgstr ""
+msgstr "*Middelmatig"
 
 #: src/arch/unix/gui/uisound.c:94
 msgid "*Large"
-msgstr ""
+msgstr "*Groot"
 
 #: src/arch/unix/gui/uisound.c:100
 msgid "*Keep going"
@@ -3440,9 +3357,8 @@ msgid "Buffer size"
 msgstr "Buffergrootte"
 
 #: src/arch/unix/gui/uisound.c:144
-#, fuzzy
 msgid "Fragment size"
-msgstr "<geheugengrootte>"
+msgstr "Fragment grootte"
 
 #: src/arch/unix/gui/uisound.c:146
 msgid "Suspend time"
@@ -3453,15 +3369,13 @@ msgid "Sound settings"
 msgstr "Geluidsinstellingen"
 
 #: src/arch/unix/gui/uisoundexpander.c:47
-#, fuzzy
 msgid "*Enable SFX Sound Expander"
-msgstr "Activeer geluidsweergave"
+msgstr "*Activeer SFX Sound Expander"
 
 #: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/win32/ressoundexpander.rc.po.c:24
-#, fuzzy
 msgid "YM chip type"
-msgstr "Machinesoort"
+msgstr "YM chip model"
 
 #: src/arch/unix/gui/uited.c:109 src/arch/unix/gui/uivic.c:131
 #: src/arch/unix/gui/uivicii.c:167
@@ -3515,9 +3429,8 @@ msgid "*Default"
 msgstr "*Standaard"
 
 #: src/arch/unix/gui/uivdc.c:45
-#, fuzzy
 msgid "*Composite"
-msgstr "Computer"
+msgstr "*Composiet"
 
 #: src/arch/unix/gui/uivdc.c:56
 msgid "*Revison 0"
@@ -3695,66 +3608,56 @@ msgid "Attach 4KB image at $B000..."
 msgstr "Koppel 4KB-bestand in $B000..."
 
 #: src/arch/unix/gui/vic20ui.c:314
-#, fuzzy
 msgid "Attach generic image..."
-msgstr "Koppel 8KB-bestand..."
+msgstr "Koppel algemeen bestand..."
 
 #: src/arch/unix/gui/vic20ui.c:317
-#, fuzzy
 msgid "Attach Mega-Cart image..."
-msgstr "Koppel een tapebestand..."
+msgstr "Koppel Mega-Cart bestand..."
 
 #: src/arch/unix/gui/vic20ui.c:320
-#, fuzzy
 msgid "Attach Final Expansion image..."
-msgstr "Koppel een tapebestand..."
+msgstr "Koppel Final Expansion bestand..."
 
 #: src/arch/unix/gui/vic20ui.c:324
-#, fuzzy
 msgid "Add to generic cartridge"
-msgstr "Koppel generiek 8KB-cartridgebestand aan"
+msgstr "Voeg toe aan algemeen cartridge"
 
 #: src/arch/unix/gui/vic20ui.c:338
-#, fuzzy
 msgid "Mega-Cart NvRAM image name"
-msgstr "CRT-bestand..."
+msgstr "Mega-Cart NvRAM bestandsnaam"
 
 #: src/arch/unix/gui/vic20ui.c:342
-#, fuzzy
 msgid "*Reset on cartridge change"
-msgstr "Reset bij cartwisseling"
+msgstr "*Reset bij cartwisseling"
 
 #: src/arch/unix/gui/vic20ui.c:344
-#, fuzzy
 msgid "*Final Expansion write back"
-msgstr "Selecteer momentopnamebestand"
+msgstr "*Final Expansion terug schrijven"
 
 #: src/arch/unix/gui/vic20ui.c:346
 msgid "*Mega-Cart NvRAM write back"
-msgstr ""
+msgstr "*Mega-Cart NvRAM terug schrijven"
 
 #: src/arch/unix/gui/vic20ui.c:348
-#, fuzzy
 msgid "Mega-Cart NvRAM file..."
-msgstr "CRT-bestand..."
+msgstr "Mega-Cart NvRAM bestand..."
 
 #: src/arch/unix/gui/vic20ui.c:357
 msgid "Detach cartridge image(s)"
 msgstr "Ontkoppel cartridgebestand(en)"
 
 #: src/arch/unix/gui/vic20ui.c:359
-#, fuzzy
 msgid "Cartridge options"
-msgstr "&Cartridgeinstellingen"
+msgstr "Cartridgeinstellingen"
 
 #: src/arch/unix/gui/vic20ui.c:488
 msgid "VIC settings"
 msgstr "VIC-instellingen"
 
 #: src/arch/unix/gui/vic20ui.c:494
-#, fuzzy
 msgid "Paddle emulation"
-msgstr "Printer emulatie"
+msgstr "Paddle emulatie"
 
 #: src/arch/unix/gui/vic20ui.c:501
 msgid "MIDI emulation"
@@ -4499,14 +4402,12 @@ msgid "VICE: Console"
 msgstr ""
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:145
-#, fuzzy
 msgid "VICE: Monitor"
-msgstr "VICE medewerkers"
+msgstr "VICE: Monitor"
 
 #: src/arch/unix/macosx/cocoa/viceapplication.m:150
-#, fuzzy
 msgid "VICE: Control"
-msgstr "Bediening"
+msgstr "VICE: Bediening"
 
 #: src/arch/win32/res.rc.po.c:81 src/arch/win32/res.rc.po.c:1279
 #: src/arch/win32/resc128.rc.po.c:16 src/arch/win32/resc64.rc.po.c:16
@@ -4603,9 +4504,8 @@ msgid "Copyright (c) 2007-2009 Daniel Kahlin"
 msgstr "Copyright (c) 2007-2009 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2008-2009 Antti S. Lankila"
-msgstr "Copyright (c) 2007-2009 M. Kiesel"
+msgstr "Copyright (c) 2008-2009 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:192
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -4952,9 +4852,8 @@ msgid "Load VICE palette file"
 msgstr "Laad VICE paletbestand"
 
 #: src/arch/win32/res.rc.po.c:979
-#, fuzzy
 msgid "Fullscreen/DirectX"
-msgstr "Volscherm"
+msgstr "Volscherm/DirectX"
 
 #: src/arch/win32/res.rc.po.c:980
 msgid "Colors"
@@ -5059,14 +4958,14 @@ msgid "Select end snapshot for event history"
 msgstr "Selecteer eind momentopname voor gebeurtenis geschiedenis"
 
 #: src/arch/win32/res.rc.po.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s *UNSTABLE* (%s)"
-msgstr "Versie %s *ONSTABIEL*"
+msgstr "Versie %s *ONSTABIEL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1010
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s (%s)"
-msgstr "Versie %s"
+msgstr "Versie %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1012 src/arch/amigaos/intl.c.po.c:2666
 msgid "VICE contributors"
@@ -5119,42 +5018,35 @@ msgstr "Druk toets voor Vuur"
 #: src/arch/win32/res.rc.po.c:1026
 #, fuzzy
 msgid "No userport joy adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "Geen userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1027
-#, fuzzy
 msgid "CGA userport joy adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "CGA userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1028
-#, fuzzy
 msgid "PET userport joy adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "PET userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1029
-#, fuzzy
 msgid "HUMMER userport joy adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "HUMMER userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1030
-#, fuzzy
 msgid "OEM userport joy adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "OEM userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1031
-#, fuzzy
 msgid "HIT userport joy adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "HIT userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1032
-#, fuzzy
 msgid "Disable SIDcart joy"
-msgstr "SID-Cartridge uitschakelen"
+msgstr "SIDcart joy uitschakelen"
 
 #: src/arch/win32/res.rc.po.c:1033
-#, fuzzy
 msgid "Enable SIDcart joy"
-msgstr "*Activeer SID-cart"
+msgstr "Activeer SIDcart joy"
 
 #: src/arch/win32/res.rc.po.c:1034
 msgid "Numpad + RCtrl"
@@ -5333,14 +5225,12 @@ msgid "Set input device for joystick #2"
 msgstr "Zet invoer apparaat voor joystick #2"
 
 #: src/arch/win32/res.rc.po.c:1073
-#, fuzzy
 msgid "Set input device for extra joystick #1"
-msgstr "Zet invoer apparaat voor joystick #1"
+msgstr "Zet invoer apparaat voor extra joystick #1"
 
 #: src/arch/win32/res.rc.po.c:1074
-#, fuzzy
 msgid "Set input device for extra joystick #2"
-msgstr "Zet invoer apparaat voor joystick #2"
+msgstr "Zet invoer apparaat voor extra joystick #2"
 
 #: src/arch/win32/res.rc.po.c:1079
 msgid "Use all CPU on SMP systems"
@@ -5355,9 +5245,8 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Start VICE in volschermmodus"
 
 #: src/arch/win32/res.rc.po.c:1082
-#, fuzzy
 msgid "Disable DirectX9 video driver"
-msgstr "De videocache uitschakelen"
+msgstr "DirectX9 video driver uitschakelen"
 
 #: src/arch/win32/res.rc.po.c:1084
 #, c-format
@@ -5390,9 +5279,8 @@ msgid "None"
 msgstr "Geen"
 
 #: src/arch/win32/res.rc.po.c:1105 src/arch/amigaos/intl.c.po.c:6802
-#, fuzzy
 msgid "Error saving EasyFlash crt file"
-msgstr "Fout bij het lezen van het start momentopnamebestand."
+msgstr "Kan het EasyFlash crt bestand niet opslaan"
 
 #: src/arch/win32/res.rc.po.c:1106 src/arch/amigaos/intl.c.po.c:4006
 msgid "Datasette Settings"
@@ -5491,19 +5379,16 @@ msgid "&Calibrate Joystick(s)"
 msgstr "&Kalibreer Joystick(s)"
 
 #: src/arch/win32/res.rc.po.c:1133
-#, fuzzy
 msgid "Extra joystick settings"
-msgstr "Joystickinstellingen"
+msgstr "Extra joystick adapter instellingen"
 
 #: src/arch/win32/res.rc.po.c:1134
-#, fuzzy
 msgid "Joystick in extra port #&1"
-msgstr "Joystick in poort #&1"
+msgstr "Joystick in extra poort #&1"
 
 #: src/arch/win32/res.rc.po.c:1135
-#, fuzzy
 msgid "Joystick in extra port #&2"
-msgstr "Joystick in poort #&2"
+msgstr "Joystick in extra poort #&2"
 
 #: src/arch/win32/res.rc.po.c:1136
 msgid "S&outh West"
@@ -5562,23 +5447,20 @@ msgid "Sound Buffer &Size :"
 msgstr "Geluidsbuffer&grootte"
 
 #: src/arch/win32/res.rc.po.c:1150
-#, fuzzy
 msgid "Sound Fragment Size :"
-msgstr "<geheugengrootte>"
+msgstr "Geluid fragment grootte :"
 
 #: src/arch/win32/res.rc.po.c:1151 src/arch/amigaos/intl.c.po.c:6538
-#, fuzzy
 msgid "Small"
-msgstr "&Klein"
+msgstr "Klein"
 
 #: src/arch/win32/res.rc.po.c:1152 src/arch/amigaos/intl.c.po.c:6549
 msgid "Medium"
-msgstr ""
+msgstr "Middelmatig"
 
 #: src/arch/win32/res.rc.po.c:1153 src/arch/amigaos/intl.c.po.c:6560
-#, fuzzy
 msgid "Large"
-msgstr "Taal"
+msgstr "Groot"
 
 #: src/arch/win32/res.rc.po.c:1154
 msgid "Synchronization &Method :"
@@ -5619,7 +5501,7 @@ msgstr "Render naar DX Primaire oppervlakte"
 #: src/arch/win32/res.rc.po.c:1163
 #, fuzzy
 msgid "Keep aspect ratio (0,5..2)"
-msgstr "Zet aspect ratio (0.8 - 1.2)"
+msgstr "Aspect ratio gebruiken (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1164 src/arch/amigaos/intl.c.po.c:5988
 msgid "Saturation (0..2)"
@@ -5638,12 +5520,10 @@ msgid "Tint (0..2)"
 msgstr "Tint (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1168
-#, fuzzy
 msgid "Odd lines phase (0..2)"
 msgstr "Oneven lijnen fase (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1169
-#, fuzzy
 msgid "Odd lines offset (0..2)"
 msgstr "Oneven lijnen compensatie (0..2)"
 
@@ -5652,9 +5532,8 @@ msgid "Gamma (0..2)"
 msgstr "Gamma (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1171
-#, fuzzy
 msgid "Phase (0..2)"
-msgstr "PAL-Schaduw (0..1)"
+msgstr "Fase (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1172 src/arch/amigaos/intl.c.po.c:5911
 msgid "PAL Shade (0..1)"
@@ -5805,9 +5684,8 @@ msgid "Current mode"
 msgstr "Huidige modus"
 
 #: src/arch/win32/res.rc.po.c:1210 src/arch/amigaos/intl.c.po.c:2970
-#, fuzzy
 msgid "Server Bind"
-msgstr "Server"
+msgstr "Server binding"
 
 #: src/arch/win32/res.rc.po.c:1211 src/arch/amigaos/intl.c.po.c:2948
 msgid "TCP-Port"
@@ -5850,36 +5728,32 @@ msgid "New TAP Image"
 msgstr "Nieuw TAP-bestand"
 
 #: src/arch/win32/res.rc.po.c:1232
-#, fuzzy
 msgid "Select Driver"
-msgstr "Selecteer Stuurprogramma:"
+msgstr "Selecteer Stuurprogramma"
 
 #: src/arch/win32/res.rc.po.c:1233
 msgid "FFMPEG settings"
 msgstr "FFMPEG-instellingen"
 
 #: src/arch/win32/res.rc.po.c:1235
-#, fuzzy
 msgid "Audio codec"
-msgstr "Audio: codec"
+msgstr "Audio codec"
 
 #: src/arch/win32/res.rc.po.c:1236
 msgid "bitrate"
 msgstr "bitrate"
 
 #: src/arch/win32/res.rc.po.c:1237
-#, fuzzy
 msgid "Video codec"
-msgstr "Video: codec"
+msgstr "Video codec"
 
 #: src/arch/win32/res.rc.po.c:1238
-#, fuzzy
 msgid "Sound record settings"
-msgstr "Geluidsopnameinstellingen"
+msgstr "Geluidsopname instellingen"
 
 #: src/arch/win32/res.rc.po.c:1239 src/arch/amigaos/intl.c.po.c:6505
 msgid "Sound Record Format"
-msgstr "Geluid Opname Formaat..."
+msgstr "Geluidsopname Formaat..."
 
 #: src/arch/win32/res.rc.po.c:1240 src/arch/amigaos/intl.c.po.c:6516
 msgid "Sound Record File"
@@ -6026,9 +5900,8 @@ msgid "$&A000-$BFFF RAM"
 msgstr "$&A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1277
-#, fuzzy
 msgid "SID Engine/Model"
-msgstr "SID-kern"
+msgstr "SID-kern/model"
 
 #: src/arch/win32/res.rc.po.c:1278 src/arch/amigaos/intl.c.po.c:5163
 msgid "SID Filters"
@@ -6501,19 +6374,16 @@ msgid "Scale2x"
 msgstr "Schaal2x"
 
 #: src/arch/win32/res.rc.po.c:1395
-#, fuzzy
 msgid "Swap &Joysticks"
-msgstr "Verwissel &joysticks"
+msgstr "Verwissel &Joysticks"
 
 #: src/arch/win32/res.rc.po.c:1396
-#, fuzzy
 msgid "Swap &Userport joysticks"
-msgstr "*PET-userport diagnostic pin"
+msgstr "Verwissel &Userport joysticks"
 
 #: src/arch/win32/res.rc.po.c:1397 src/arch/amigaos/intl.c.po.c:1509
-#, fuzzy
 msgid "Allow opposite joystick directions"
-msgstr "*Activeer keyset joystick"
+msgstr "Tegenovergestelde joystick richtingen toestaan"
 
 #: src/arch/win32/res.rc.po.c:1398 src/arch/amigaos/intl.c.po.c:1498
 msgid "Enable Joy Keys"
@@ -6549,14 +6419,12 @@ msgid "&Joystick settings..."
 msgstr "&Joystick-instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1406
-#, fuzzy
 msgid "&Userport joystick settings..."
-msgstr "&Joystick-instellingen..."
+msgstr "&Userport joystick instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1407
-#, fuzzy
 msgid "&Sidcart joystick settings..."
-msgstr "&Joystick-instellingen..."
+msgstr "&Sidcart joystick instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1408
 msgid "&Keyboard settings..."
@@ -6627,9 +6495,8 @@ msgid "&DIGIMAX settings..."
 msgstr "&DIGIMAX-instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1425
-#, fuzzy
 msgid "&Lightpen settings..."
-msgstr "&Drive-instellingen..."
+msgstr "&Lichtpen instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1426
 msgid "&IDE64 settings..."
@@ -6648,19 +6515,16 @@ msgid "RS&232 userport settings..."
 msgstr "RS&232-userportinstellingen..."
 
 #: src/arch/win32/res.rc.po.c:1432 src/arch/amigaos/intl.c.po.c:2136
-#, fuzzy
 msgid "EasyFlash settings..."
-msgstr "Plus4-instellingen..."
+msgstr "EasyFlash instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl.c.po.c:2125
-#, fuzzy
 msgid "SFX Sound Expander settings..."
-msgstr "PS/2 muis emulatie"
+msgstr "SFX Sound Expander instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1434 src/arch/amigaos/intl.c.po.c:2147
-#, fuzzy
 msgid "Enable SFX Sound Sampler"
-msgstr "Activeer geluidsweergave"
+msgstr "Activeer SFX Sound Sampler"
 
 #: src/arch/win32/res.rc.po.c:1435 src/arch/amigaos/intl.c.po.c:2257
 msgid "Save current settings to specified file"
@@ -6695,9 +6559,8 @@ msgid "&English"
 msgstr "&Engels"
 
 #: src/arch/win32/res.rc.po.c:1443
-#, fuzzy
 msgid "D&anish"
-msgstr "&Engels"
+msgstr "D&eens"
 
 #: src/arch/win32/res.rc.po.c:1444
 msgid "&German"
@@ -6729,7 +6592,7 @@ msgstr "&Zweeds"
 
 #: src/arch/win32/res.rc.po.c:1451
 msgid "&Turkish"
-msgstr ""
+msgstr "&Turks"
 
 #: src/arch/win32/res.rc.po.c:1452
 msgid "Command line &options"
@@ -6884,46 +6747,40 @@ msgid "ACIA mode"
 msgstr "ACIA-modus"
 
 #: src/arch/win32/resautostart.rc.po.c:36 src/arch/amigaos/intl.c.po.c:6791
-#, fuzzy
 msgid "Autostart Settings"
-msgstr "Crtc-instellingen"
+msgstr "Autostart Instellingen"
 
 #: src/arch/win32/resautostart.rc.po.c:37 src/arch/amigaos/intl.c.po.c:6747
-#, fuzzy
 msgid "Autostart warp"
-msgstr "Autostarten"
+msgstr "Autostart warp"
 
 #: src/arch/win32/resautostart.rc.po.c:38 src/arch/amigaos/intl.c.po.c:6758
 msgid "Use ':' with run"
-msgstr ""
+msgstr "Gebruik ':' met run"
 
 #: src/arch/win32/resautostart.rc.po.c:39 src/arch/amigaos/intl.c.po.c:6769
-#, fuzzy
 msgid "PRG autostart mode"
-msgstr "Opname start modus"
+msgstr "PRG autostart modus"
 
 #: src/arch/win32/resautostart.rc.po.c:40 src/arch/amigaos/intl.c.po.c:6780
-#, fuzzy
 msgid "PRG autostart disk image"
-msgstr "Autostart schijfbestand"
+msgstr "PRG autostart disk bestand"
 
 #: src/arch/win32/resautostart.rc.po.c:41 src/arch/amigaos/intl.c.po.c:6736
-#, fuzzy
 msgid "Select file for PRG autostart disk"
-msgstr "Selecteer bestand voor REU"
+msgstr "Selecteer bestand voor PRG autostart disk"
 
 #: src/arch/win32/resautostart.rc.po.c:42 src/arch/amigaos/intl.c.po.c:6703
 msgid "Virtual FS"
-msgstr ""
+msgstr "Virtueel Bestandssysteem"
 
 #: src/arch/win32/resautostart.rc.po.c:43 src/arch/amigaos/intl.c.po.c:6714
 msgid "Inject"
-msgstr ""
+msgstr "Injecteer"
 
 #: src/arch/win32/resautostart.rc.po.c:44 src/arch/amigaos/intl.c.po.c:6725
-#, fuzzy
 msgid "Disk image"
-msgstr "Disk &bestand"
+msgstr "Disk bestand"
 
 #: src/arch/win32/resc128.rc.po.c:83 src/arch/win32/resc64.rc.po.c:83
 #: src/arch/amigaos/intl.c.po.c:783
@@ -7041,22 +6898,18 @@ msgstr "VDC-instellin&gen"
 
 #: src/arch/win32/resc128.rc.po.c:195 src/arch/win32/resc128.rc.po.c:693
 #: src/arch/amigaos/intl.c.po.c:1432
-#, fuzzy
 msgid "VDC revision"
-msgstr "DTV Revisie"
+msgstr "VDC revisie"
 
 #: src/arch/win32/resc128.rc.po.c:197 src/arch/amigaos/intl.c.po.c:1443
-#, fuzzy
 msgid "Rev 0"
-msgstr "*Revisie 0"
+msgstr "Revisie 0"
 
 #: src/arch/win32/resc128.rc.po.c:198 src/arch/amigaos/intl.c.po.c:1454
-#, fuzzy
 msgid "Rev 1"
-msgstr "*Revisie 1"
+msgstr "Revisie 1"
 
 #: src/arch/win32/resc128.rc.po.c:199 src/arch/amigaos/intl.c.po.c:1465
-#, fuzzy
 msgid "Rev 2"
 msgstr "Revisie 2"
 
@@ -7173,9 +7026,8 @@ msgid "Select external function ROM image"
 msgstr "Selecteer extern functie-ROM-bestand"
 
 #: src/arch/win32/resc128.rc.po.c:649
-#, fuzzy
 msgid "RAM banks"
-msgstr "&Ram banken"
+msgstr "Ram banken"
 
 #: src/arch/win32/resc128.rc.po.c:650 src/arch/amigaos/intl.c.po.c:6362
 msgid "C128 settings"
@@ -7342,9 +7194,8 @@ msgid "Enable external Function ROM"
 msgstr "Activeer externe functie-ROM"
 
 #: src/arch/win32/resc128.rc.po.c:691
-#, fuzzy
 msgid "Enable RAM banks 2 and 3"
-msgstr "Activeer de RAM-uitbreidingseenheid (REU)"
+msgstr "Aktiveer RAM bank 2 en 3"
 
 #: src/arch/win32/resc128.rc.po.c:694
 msgid "64KB video &memory"
@@ -7427,9 +7278,8 @@ msgid "DTV Revision"
 msgstr "DTV Revisie"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
-#, fuzzy
 msgid "Enable Hummer ADC"
-msgstr "&Activeer ACIA"
+msgstr "Activeer Hummer ADC"
 
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "Create DTV Flash Image"
@@ -7732,23 +7582,20 @@ msgid "15&81"
 msgstr "15&81"
 
 #: src/arch/win32/reseasyflash.rc.po.c:26 src/arch/amigaos/intl.c.po.c:4248
-#, fuzzy
 msgid "EasyFlash Settings"
-msgstr "Datasetteinstellingen"
+msgstr "EasyFlash Instellingen"
 
 #: src/arch/win32/reseasyflash.rc.po.c:27
-#, fuzzy
 msgid "EasyFlash &Jumper"
-msgstr "BIOS Flash Jumper"
+msgstr "EasyFlash &Jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:28
-#, fuzzy
 msgid "&Save CRT on detach"
-msgstr "Opslaan ROM-set archief"
+msgstr "CRT bij ontkoppelen op&slaan"
 
 #: src/arch/win32/reseasyflash.rc.po.c:29
 msgid "Save CRT &now"
-msgstr ""
+msgstr "Sla CRT &nu op"
 
 #: src/arch/win32/resgeoram.rc.po.c:34 src/arch/amigaos/intl.c.po.c:4171
 msgid "Select file for GEORAM"
@@ -7816,44 +7663,36 @@ msgid "&Isepic switch"
 msgstr "&Isepic schakelaar"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
-#, fuzzy
 msgid "lightpen Settings"
-msgstr "&Drive-instellingen..."
+msgstr "lichtpen instellingen"
 
 #: src/arch/win32/reslightpen.rc.po.c:23
-#, fuzzy
 msgid "&Enable lightpen"
-msgstr "Activeer MIDI emulatie"
+msgstr "&Activeer lichtpen"
 
 #: src/arch/win32/reslightpen.rc.po.c:24
-#, fuzzy
 msgid "Lightpen type"
-msgstr "Drivesoort"
+msgstr "Lichtpen model"
 
 #: src/arch/win32/resmidi.rc.po.c:35
-#, fuzzy
 msgid "Midi Settings"
-msgstr "RAM-instellingen"
+msgstr "Midi Instellingen"
 
 #: src/arch/win32/resmidi.rc.po.c:36
-#, fuzzy
 msgid "&Enable midi"
-msgstr "&Activeer digimax"
+msgstr "&Activeer midi"
 
 #: src/arch/win32/resmidi.rc.po.c:37
-#, fuzzy
 msgid "Midi cart type"
-msgstr "ROM set type"
+msgstr "Midi cartridge soort"
 
 #: src/arch/win32/resmidi.rc.po.c:38
-#, fuzzy
 msgid "Midi-in device"
-msgstr "Hoofdapparaat"
+msgstr "Midi-in apparaat"
 
 #: src/arch/win32/resmidi.rc.po.c:39
-#, fuzzy
 msgid "Midi-out device"
-msgstr "Hoofdapparaat"
+msgstr "Midi-out apparaat"
 
 #: src/arch/win32/resmmc64.rc.po.c:45
 msgid "&Enable MMC64"
@@ -8334,20 +8173,17 @@ msgid "Main device"
 msgstr "Hoofdapparaat"
 
 #: src/arch/win32/ressidcart.rc.po.c:84
-#, fuzzy
 msgid "Enable digiblaster add-on"
-msgstr "Activeer dubbele scan"
+msgstr "Activeer digiblaster module"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:22
 #: src/arch/amigaos/intl.c.po.c:6461
-#, fuzzy
 msgid "SFX Sound Expander Settings"
-msgstr "PS/2 muis emulatie"
+msgstr "SFX Sound Expander instellingen"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23
-#, fuzzy
 msgid "&Enable SFX Sound Expander"
-msgstr "Activeer geluidsweergave"
+msgstr "&Activeer SFX Sound Expander"
 
 #: src/arch/win32/restfe.rc.po.c:33
 msgid "Ethernet Settings"
@@ -8363,9 +8199,8 @@ msgstr "&Interface"
 
 #: src/arch/win32/resvic20.rc.po.c:65 src/arch/win32/resvic20.rc.po.c:511
 #: src/arch/amigaos/intl.c.po.c:431
-#, fuzzy
 msgid "Add to generic..."
-msgstr "Koppel 8KB-bestand..."
+msgstr "Voeg toe aan algemeen..."
 
 #: src/arch/win32/resvic20.rc.po.c:484 src/arch/amigaos/intl.c.po.c:5317
 msgid "VIC Settings"
@@ -8420,24 +8255,20 @@ msgid "Block &5"
 msgstr "Bblok &5"
 
 #: src/arch/win32/resvic20.rc.po.c:497
-#, fuzzy
 msgid "Select Generic image"
-msgstr "Selecteer HD-bestand"
+msgstr "Selecteer Algemeen bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:498
-#, fuzzy
 msgid "Select Mega-Cart image"
-msgstr "Selecteer MMC/SD-bestand"
+msgstr "Selecteer Mega-Cart bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:499
-#, fuzzy
 msgid "Select Final Expansion image"
-msgstr "Selecteer intern functie-ROM-bestand"
+msgstr "Selecteer Final Expansion bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:500
-#, fuzzy
 msgid "Select cartridge image"
-msgstr "Opslaan cartridgebestand"
+msgstr "Selecteer cartridge bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:501 src/arch/amigaos/intl.c.po.c:3390
 msgid "Attach 4/8/16KB cartridge image at $2000"
@@ -8464,29 +8295,24 @@ msgid "VIC-1112 IEEE &488 module"
 msgstr "VIC-1112 IEEE &488 module"
 
 #: src/arch/win32/resvic20.rc.po.c:507 src/arch/amigaos/intl.c.po.c:1663
-#, fuzzy
 msgid "Enable Paddles"
-msgstr "Activeer Schaal2x"
+msgstr "Activeer Paddles"
 
 #: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl.c.po.c:398
-#, fuzzy
 msgid "Generic image..."
-msgstr "Algemeen 8KB-bestand..."
+msgstr "Algemeen bestand..."
 
 #: src/arch/win32/resvic20.rc.po.c:509 src/arch/amigaos/intl.c.po.c:409
-#, fuzzy
 msgid "Mega-Cart image..."
-msgstr "CRT-bestand..."
+msgstr "Mega-Cart bestand..."
 
 #: src/arch/win32/resvic20.rc.po.c:510 src/arch/amigaos/intl.c.po.c:420
-#, fuzzy
 msgid "Final Expansion image..."
-msgstr "Action Replay-bestand..."
+msgstr "Final Expansion bestand..."
 
 #: src/arch/win32/resvic20.rc.po.c:512 src/arch/amigaos/intl.c.po.c:442
-#, fuzzy
 msgid "Smart-attach image..."
-msgstr "Slim koppel CRT-bestand..."
+msgstr "Slimme bestandskoppeling..."
 
 #: src/arch/win32/resvic20.rc.po.c:513
 msgid "4/8/16KB image at $&2000..."
@@ -8513,18 +8339,16 @@ msgid "V&IC settings..."
 msgstr "V&IC-instellingen..."
 
 #: src/arch/win32/resvic20.rc.po.c:519 src/arch/amigaos/intl.c.po.c:2202
-#, fuzzy
 msgid "Enable Final Expansion write-back"
-msgstr "Selecteer momentopnamebestand"
+msgstr "Activeer terug schrijven van Final Expansion"
 
 #: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl.c.po.c:2213
 msgid "Enable Mega-Cart non-volatile RAM write-back"
-msgstr ""
+msgstr "Activeer terug schrijven van Mega-Cart non-volatile RAM"
 
 #: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl.c.po.c:2224
-#, fuzzy
 msgid "Select Mega-Cart non-volatile RAM file"
-msgstr "Selecteer MMC/SD-bestand"
+msgstr "Selecteer Mega-Cart non-volatile RAM bestand"
 
 #: src/arch/win32/resvicii.rc.po.c:35 src/arch/amigaos/intl.c.po.c:5361
 msgid "VIC-II Settings"
@@ -8843,9 +8667,8 @@ msgid "Swap Joysticks"
 msgstr "Verwissel joysticks"
 
 #: src/arch/amigaos/intl.c.po.c:1487
-#, fuzzy
 msgid "Swap Userport Joysticks"
-msgstr "Verwissel joysticks"
+msgstr "Verwissel userport joysticks"
 
 #: src/arch/amigaos/intl.c.po.c:1520
 msgid "Sound playback"
@@ -8856,7 +8679,6 @@ msgid "True drive emulation"
 msgstr "Hardwarematige driveemulatie"
 
 #: src/arch/amigaos/intl.c.po.c:1542
-#, fuzzy
 msgid "Handle TDE for autostart"
 msgstr "Manipuleer hardwarematige drive emulatie bij autostarten"
 
@@ -8909,9 +8731,8 @@ msgid "PS/2 mouse emulation"
 msgstr "PS/2 muis emulatie"
 
 #: src/arch/amigaos/intl.c.po.c:1718
-#, fuzzy
 msgid "Autostart settings..."
-msgstr "Crtc-instellingen"
+msgstr "Autostart instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1729
 msgid "Video settings..."
@@ -9106,9 +8927,8 @@ msgid "English"
 msgstr "Engels"
 
 #: src/arch/amigaos/intl.c.po.c:2422
-#, fuzzy
 msgid "Danish"
-msgstr "Engels"
+msgstr "Deens"
 
 #: src/arch/amigaos/intl.c.po.c:2466
 msgid "Hungarian"
@@ -9124,7 +8944,7 @@ msgstr "Pools"
 
 #: src/arch/amigaos/intl.c.po.c:2532
 msgid "Turkish"
-msgstr ""
+msgstr "Turks"
 
 #: src/arch/amigaos/intl.c.po.c:2543
 msgid "Language"
@@ -9280,9 +9100,8 @@ msgid "Writes to C64DTV ROM"
 msgstr "Schrijven naar C64DTV ROM"
 
 #: src/arch/amigaos/intl.c.po.c:3830
-#, fuzzy
 msgid "Hummer ADC"
-msgstr "&Activeer ACIA"
+msgstr "Hummer ADC"
 
 #: src/arch/amigaos/intl.c.po.c:3852
 msgid "model line"
@@ -9381,34 +9200,28 @@ msgid "Joystick in port #2"
 msgstr "Joystick in poort #2"
 
 #: src/arch/amigaos/intl.c.po.c:4292
-#, fuzzy
 msgid "Userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "Userport joystick adapter"
 
 #: src/arch/amigaos/intl.c.po.c:4303
-#, fuzzy
 msgid "Userport joystick adapter type"
-msgstr "Activeer userport diagnostic pin"
+msgstr "Userport joystick adapter model"
 
 #: src/arch/amigaos/intl.c.po.c:4314
-#, fuzzy
 msgid "Joystick in userport adapter port #1"
-msgstr "Joystick in poort #1"
+msgstr "Joystick in userport adapter poort #1"
 
 #: src/arch/amigaos/intl.c.po.c:4325
-#, fuzzy
 msgid "Joystick in userport adapter port #2"
-msgstr "Joystick in poort #2"
+msgstr "Joystick in userport adapter poort #2"
 
 #: src/arch/amigaos/intl.c.po.c:4336
-#, fuzzy
 msgid "SIDcart joystick"
-msgstr "SID-cartinstellingen"
+msgstr "SIDcart joystick"
 
 #: src/arch/amigaos/intl.c.po.c:4347
-#, fuzzy
 msgid "Joystick in SIDcart joystick port"
-msgstr "*Activeer SID-cart"
+msgstr "Joystick in SIDcart joystick poort"
 
 #: src/arch/amigaos/intl.c.po.c:4358
 msgid "Joystick Settings"
@@ -9471,19 +9284,16 @@ msgid "Joy 2 Device"
 msgstr "Joy 2-apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:4523
-#, fuzzy
 msgid "Userport Joy 1 Device"
-msgstr "Userport apparaat"
+msgstr "Userport Joy 1-apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:4534
-#, fuzzy
 msgid "Userport Joy 2 Device"
-msgstr "Userport RS232-apparaat"
+msgstr "Userport Joy 2-apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:4545
-#, fuzzy
 msgid "SIDcart Joy Device"
-msgstr "Joy 1-apparaat"
+msgstr "SIDcart Joy apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:4556
 msgid "Joy 1 Fire"
@@ -9494,19 +9304,16 @@ msgid "Joy 2 Fire"
 msgstr "Joy 2 Vuur"
 
 #: src/arch/amigaos/intl.c.po.c:4578
-#, fuzzy
 msgid "Userport Joy 1 Fire"
-msgstr "Joy 1 Vuur"
+msgstr "Userport Joy 1 Vuur"
 
 #: src/arch/amigaos/intl.c.po.c:4589
-#, fuzzy
 msgid "Userport Joy 2 Fire"
-msgstr "Joy 2 Vuur"
+msgstr "Userport Joy 2 Vuur"
 
 #: src/arch/amigaos/intl.c.po.c:4600
-#, fuzzy
 msgid "SIDcart Joy Fire"
-msgstr "SID-cartridge"
+msgstr "SIDcart Joy Vuur"
 
 #: src/arch/amigaos/intl.c.po.c:4611
 msgid ""
@@ -9521,20 +9328,12 @@ msgstr ""
 "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4641
-#, fuzzy
-msgid ""
-"Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
-msgstr ""
-"Emulatie joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+msgid "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+msgstr "Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4657
-#, fuzzy
-msgid ""
-"Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
-"B/AI)"
-msgstr ""
-"Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+msgstr "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:4673
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -9545,14 +9344,12 @@ msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr "Emulatie joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4697
-#, fuzzy
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Emulatie joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"
+msgstr "Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4710
-#, fuzzy
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr "Emulatie joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"
+msgstr "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl.c.po.c:4822
 msgid "PLUS60K Base"
@@ -9611,9 +9408,8 @@ msgid "Buffer Size"
 msgstr "Buffergrootte"
 
 #: src/arch/amigaos/intl.c.po.c:5273
-#, fuzzy
 msgid "Fragment Size"
-msgstr "<geheugengrootte>"
+msgstr "Fragment grootte"
 
 #: src/arch/amigaos/intl.c.po.c:5284
 msgid "Oversample"
@@ -9680,43 +9476,36 @@ msgid "MMC64 settings"
 msgstr "MMC64-instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:5570
-#, fuzzy
 msgid "Select generic cartridge file"
-msgstr "Opslaan cartridgebestand"
+msgstr "Selecteer algemeen cartridge bestand"
 
 #: src/arch/amigaos/intl.c.po.c:5581
-#, fuzzy
 msgid "Select Mega-Cart file"
-msgstr "Selecteer MMC/SD-bestand"
+msgstr "Selecteer Mega-Cart bestand"
 
 #: src/arch/amigaos/intl.c.po.c:5592
-#, fuzzy
 msgid "Select Final Expansion file"
-msgstr "Selecteer momentopnamebestand"
+msgstr "Selecteer Final Expansion bestand"
 
 #: src/arch/amigaos/intl.c.po.c:5603
-#, fuzzy
 msgid "Select cartridge file"
-msgstr "Opslaan cartridgebestand"
+msgstr "Selecteer cartridge bestand"
 
 #: src/arch/amigaos/intl.c.po.c:5614
 msgid "SID Cart"
 msgstr "SID-cart"
 
 #: src/arch/amigaos/intl.c.po.c:5625
-#, fuzzy
 msgid "SID engine/model"
-msgstr "SID-kern"
+msgstr "SID-kern/model"
 
 #: src/arch/amigaos/intl.c.po.c:5658
-#, fuzzy
 msgid "SID Cart joystick"
-msgstr "SID-cartinstellingen"
+msgstr "SID-cart joystick"
 
 #: src/arch/amigaos/intl.c.po.c:5669
-#, fuzzy
 msgid "Digiblaster add-on"
-msgstr "Digimax-basisadres"
+msgstr "Digiblaster add-on"
 
 #: src/arch/amigaos/intl.c.po.c:5680
 msgid "SID cart settings"
@@ -9867,14 +9656,12 @@ msgid "Digimax Base"
 msgstr "Digimax basisadres"
 
 #: src/arch/amigaos/intl.c.po.c:6439
-#, fuzzy
 msgid "SFX Sound Expander Enabled"
-msgstr "PS/2 muis emulatie"
+msgstr "SFX Sound Expander Aan/Uit"
 
 #: src/arch/amigaos/intl.c.po.c:6450
-#, fuzzy
 msgid "SFX Sound Expander Chip"
-msgstr "PS/2 muis emulatie"
+msgstr "SFX Sound Expander Chip"
 
 #: src/arch/amigaos/intl.c.po.c:6494
 msgid "Select Sound Record File"
@@ -9917,22 +9704,20 @@ msgid "Amiga mouse"
 msgstr "Amiga muis"
 
 #: src/arch/amigaos/intl.c.po.c:6692
-#, fuzzy
 msgid "Paddle"
-msgstr "Idle"
+msgstr "Paddle"
 
 #: src/arch/amigaos/intl.c.po.c:6813
-#, fuzzy
 msgid "EasyFlash jumper"
-msgstr "BIOS Flash Jumper"
+msgstr "EasyFlash jumper"
 
 #: src/arch/amigaos/intl.c.po.c:6824
 msgid "Save to EasyFlash CRT file on detach"
-msgstr ""
+msgstr "Sla op naar het EasyFlash CRT bestand bij ontkoppelen"
 
 #: src/arch/amigaos/intl.c.po.c:6835
 msgid "Save to EasyFlash CRT now"
-msgstr ""
+msgstr "Sla nu op naar het EasyFlash CRT bestand"
 
 #: src/translate.c.po.c:112
 msgid "Cannot load snapshot file."
@@ -10175,22 +9960,15 @@ msgstr ""
 "Schakel de SID-kern over naar FastSID"
 
 #: src/translate.c.po.c:861
-#, fuzzy
-msgid ""
-"SFX Sound Expander cannot be used with ReSID\n"
+msgid "SFX Sound Expander cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digmax kan niet gebruikt worden met ReSID\n"
-"Schakel de SID-kern over naar FastSID"
 
 #: src/translate.c.po.c:879
-#, fuzzy
 msgid ""
 "SFX Sound Sampler cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
-"Digmax kan niet gebruikt worden met ReSID\n"
-"Schakel de SID-kern over naar FastSID"
 
 #: src/translate.c.po.c:897
 msgid "No filename!"
@@ -11073,23 +10851,20 @@ msgid "Do not handle True Drive Emulation on autostart"
 msgstr "Geen manipulatie van de hardwarematige drive emulatie bij autostarten"
 
 #: src/translate.c.po.c:3645
-#, fuzzy
 msgid "Enable warp mode during autostart"
-msgstr "Activeer warpmodus"
+msgstr "Activeer warp modus tijdens autostarten"
 
 #: src/translate.c.po.c:3659
-#, fuzzy
 msgid "Disable warp mode during autostart"
-msgstr "Warpmodus uitschakelen"
+msgstr "Warp modus tijdens autostarten uitschakelen"
 
 #: src/translate.c.po.c:3673
 msgid "Set autostart mode for PRG files"
-msgstr ""
+msgstr "Zet autostart modus voor PRG bestanden"
 
 #: src/translate.c.po.c:3687
-#, fuzzy
 msgid "Set disk image for autostart of PRG files"
-msgstr "Zet de bitrate voor het audiogedeelte van het mediabestand"
+msgstr "Zet disk bestand voor het autostarten van PRG bestanden"
 
 #: src/translate.c.po.c:3701
 msgid "Use PAL sync factor"
@@ -11168,14 +10943,12 @@ msgid "Disable emulator identification"
 msgstr "Emulatoridentificatie uitschakelen"
 
 #: src/translate.c.po.c:3985
-#, fuzzy
 msgid "Enable the OEM userport joystick adapter"
-msgstr "Activeer userport diagnostic pin"
+msgstr "Activeer de OEM userport joystick adapter"
 
 #: src/translate.c.po.c:3999
-#, fuzzy
 msgid "Disable the OEM userport joystick adapter"
-msgstr "Userport diagnostic pin uitschakelen"
+msgstr "De OEM userport joystick adapter uitschakelen"
 
 #: src/translate.c.po.c:4013
 msgid "Enable the IEEE488 interface emulation"
@@ -12110,455 +11883,200 @@ msgid "Disable IEC device emulation for device #11"
 msgstr "IEC-apparaat emulatie voor apparaat #11 uitschakelen"
 
 #: src/translate.c.po.c:7348
-#, fuzzy
 msgid "<engine and model>"
-msgstr "<kern>"
+msgstr "<kern en model>"
 
 #: src/translate.c.po.c:7363
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"
-msgstr "Geef het SID-model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"
 
 #: src/translate.c.po.c:7386
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"
 
 #: src/translate.c.po.c:7412
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
-"HardSID)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"
 
 #: src/translate.c.po.c:7438
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:7469
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-"
-"FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
-"1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP "
-"6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
 
 #: src/translate.c.po.c:7515
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 768: HardSID)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"
 
 #: src/translate.c.po.c:7541
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:7572
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
-"FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-"8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7618
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
-"HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:7649
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
-"HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
-"FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-"8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7695
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-"3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-"8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-"1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7746
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-"port 2, 1536: ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:7777
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7824
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7876
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
-"HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7928
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
-"Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-"port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-"
-"FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-"1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-"8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-"1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:7982 src/translate.c.po.c:9112
-#, fuzzy
 msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)"
-msgstr "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580)"
 
 #: src/translate.c.po.c:7999
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
-"HardSID, 4: ParSID, 7: ReSID-FP)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
 
 #: src/translate.c.po.c:8021 src/translate.c.po.c:9130
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-"Catweasel)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"
 
 #: src/translate.c.po.c:8042 src/translate.c.po.c:9151
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
-"HardSID)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"
 
 #: src/translate.c.po.c:8063 src/translate.c.po.c:9172
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
-"in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8088
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-"
-"FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
-"1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP "
-"6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-"digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8129
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"
 
 #: src/translate.c.po.c:8152
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"
-msgstr "Geef het SID-model (0: 6581, 1: 8580, 2: 8580 + digi boost, 4: DTV)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"
 
 #: src/translate.c.po.c:8175
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port "
-"1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8202
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 "
-"4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-"
-"FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, "
-"1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
-"ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"
 
 #: src/translate.c.po.c:8244 src/translate.c.po.c:9198
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 768: HardSID)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-"Catweasel, 3: HardSID)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"
 
 #: src/translate.c.po.c:8265 src/translate.c.po.c:9219
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-"Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8291
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
-"FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-"8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8332 src/translate.c.po.c:9245
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
-"HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8358
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
-"HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
-"FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-"8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8399
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
-"in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: "
-"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
-"FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-"digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8445
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-"HardSID)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"
 
 #: src/translate.c.po.c:8471
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8502
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: "
-"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
-"FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-"digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8548
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8579
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: "
-"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
-"FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-"digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8625
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port "
-"1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP "
-"6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: "
-"ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 "
-"1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
-"1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8676 src/translate.c.po.c:9271
-#, fuzzy
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-"port 2, 1536: ParSID in par port 3)"
-msgstr ""
-"Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-"Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8702
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8743
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8789
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
-"HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8835
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-"HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
 #: src/translate.c.po.c:8866
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-"HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
-"ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 "
-"4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-"
-"FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-"8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8912
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-"3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-"8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-"1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:8963
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port "
-"3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-"8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-"1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:9014
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
-"Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
-"port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-"
-"FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, "
-"1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP "
-"8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
-"1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:9061
-msgid ""
-"Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
-"6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
-"HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-"ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
-"0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: "
-"ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 "
-"3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
-"1811: ReSID-FP 8580R5 1489 + digiboost)"
-msgstr ""
+msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
+msgstr "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
 #: src/translate.c.po.c:9296
 msgid "Enable second SID"
@@ -12658,29 +12176,24 @@ msgid "Specify 4K extension ROM name at $B000"
 msgstr "Geef de naam van het bestand voor de 4K-ROM op $B000"
 
 #: src/translate.c.po.c:9633
-#, fuzzy
 msgid "Specify generic extension ROM name"
-msgstr "Geef naam van het 4K uitbreiding ROM-bestand op adres $9***"
+msgstr "Geef de naam van het bestand voor de algemene ROM"
 
 #: src/translate.c.po.c:9647
-#, fuzzy
 msgid "Specify Mega-Cart extension ROM name"
-msgstr "Geef naam van het 4K uitbreiding ROM-bestand op adres $9***"
+msgstr "Geef de naam van het bestand voor de Mega-Cart ROM"
 
 #: src/translate.c.po.c:9661
-#, fuzzy
 msgid "Specify Final Expansion extension ROM name"
-msgstr "Geef naam van het 4K uitbreiding ROM-bestand op adres $9***"
+msgstr "Geef de naam van het bestand voor de Final Expansion ROM"
 
 #: src/translate.c.po.c:9675
-#, fuzzy
 msgid "Enable Final Expansion write back to ROM file"
-msgstr "Selecteer momentopnamebestand"
+msgstr "Activeer terug schrijven naar ROM bestand voor Final Expansion"
 
 #: src/translate.c.po.c:9689
-#, fuzzy
 msgid "Disable Final Expansion write back to ROM file"
-msgstr "Selecteer momentopnamebestand"
+msgstr "Terug schrijven naar ROM bestand voor Final Expansion uischakelen"
 
 #: src/translate.c.po.c:9703
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12935,18 +12448,16 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Zet een beginnende breakpunt voor de monitor"
 
 #: src/translate.c.po.c:10561
-#, fuzzy
 msgid "Enable remote monitor"
-msgstr "Gebruiken van de muis inschakelen"
+msgstr "Activeer monitor afstandsbediening"
 
 #: src/translate.c.po.c:10575
-#, fuzzy
 msgid "Disable remote monitor"
-msgstr "Gebruiken van de muis uitschakelen"
+msgstr "afstandsbediening monitor uitschakelen"
 
 #: src/translate.c.po.c:10589
 msgid "The local address the remote monitor should bind to"
-msgstr ""
+msgstr "Lokaal adres waar de afstandsbediening voor de monitor aan gebonden moet worden"
 
 #: src/translate.c.po.c:10603
 msgid "Specify name of the flip list file image"
@@ -13037,9 +12548,8 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
 
 #: src/translate.c.po.c:10927
-#, fuzzy
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
-msgstr "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga)"
+msgstr "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 
 #: src/translate.c.po.c:10941
 msgid "Enable PS/2 mouse on userport"
@@ -13283,82 +12793,68 @@ msgstr ""
 "Maplin)"
 
 #: src/translate.c.po.c:11783
-#, fuzzy
 msgid "Enable the digiblaster add-on"
-msgstr "Activeer de digimaxcartridge"
+msgstr "Activeer de digiblaster add-on"
 
 #: src/translate.c.po.c:11797
-#, fuzzy
 msgid "Disable the digiblaster add-on"
-msgstr "De digimaxcartridge uitschakelen"
+msgstr "De digiblaster add-on uitschakelen"
 
 #: src/translate.c.po.c:11811
-#, fuzzy
 msgid "Enable SID cartridge joystick"
-msgstr "Activeer SID-Cartridge"
+msgstr "Activeer SID cartridge joystick"
 
 #: src/translate.c.po.c:11825
-#, fuzzy
 msgid "Disable SID cartridge joystick"
-msgstr "SID-Cartridge uitschakelen"
+msgstr "De SID cartridge joystick uitschakelen"
 
 #: src/translate.c.po.c:11839
-#, fuzzy
 msgid "Enable the SFX soundexpander cartridge"
-msgstr "Activeer expertcartridge"
+msgstr "Activeer de SFX soundexpander cartridge"
 
 #: src/translate.c.po.c:11853
-#, fuzzy
 msgid "Disable the SFX soundexpander cartridge"
-msgstr "De digimaxcartridge uitschakelen"
+msgstr "De SFX soundexpander cartridge uitschakelen"
 
 #: src/translate.c.po.c:11867
 msgid "Set YM chip type (3526 / 3812)"
-msgstr ""
+msgstr "Kies de YM chip soort (3526 / 3812)"
 
 #: src/translate.c.po.c:11881
-#, fuzzy
 msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "Activeer de digimaxcartridge"
+msgstr "Activeer de SFX Sound Sampler cartridge"
 
 #: src/translate.c.po.c:11895
-#, fuzzy
 msgid "Disable the SFX Sound Sampler cartridge"
-msgstr "De digimaxcartridge uitschakelen"
+msgstr "De SFX Sound Sampler cartridge uitschakelen"
 
 #: src/translate.c.po.c:11909
-#, fuzzy
 msgid "Enable lightpen emulation"
-msgstr "Activeer MIDI emulatie"
+msgstr "Activeer de lichtpen emulatie"
 
 #: src/translate.c.po.c:11923
-#, fuzzy
 msgid "Disable lightpen emulation"
-msgstr "MIDI emulatie uitschakelen"
+msgstr "De lichtpen emulatie uitschakelen"
 
 #: src/translate.c.po.c:11937
 msgid "Set lightpen type"
-msgstr ""
+msgstr "Geef de lichtpen soort op"
 
 #: src/translate.c.po.c:11951
-#, fuzzy
 msgid "Enable EasyFlash jumper"
-msgstr "Activeer BIOS &Flash Jumper"
+msgstr "Activeer de EasyFlash jumper"
 
 #: src/translate.c.po.c:11965
-#, fuzzy
 msgid "Disable EasyFlash jumper"
-msgstr "Activeer BIOS &Flash Jumper"
+msgstr "De EasyFlash jumper uitschakelen"
 
 #: src/translate.c.po.c:11979
-#, fuzzy
 msgid "Enable writing to EasyFlash .crt image"
-msgstr "Aktiveer schrijven naar C64DTV ROM bestand"
+msgstr "Activeer schrijven naar het EasyFlash .crt bestand"
 
 #: src/translate.c.po.c:11993
-#, fuzzy
 msgid "Disable writing to EasyFlash .crt image"
-msgstr "Schrijven naar C64DTV ROM bestand afsluiten"
+msgstr "Schrijven naar het EasyFlash .crt bestand uitschakelen"
 
 #: src/translate.c.po.c:12007
 msgid "Enable the digimax cartridge"
@@ -13371,18 +12867,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate.c.po.c:12035
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#, fuzzy
-#~ msgid ""
-#~ "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: "
-#~ msgstr ""
-#~ "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-
-#, fuzzy
-#~ msgid ""
-#~ "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8680, 512: "
-#~ "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
-#~ "ParSID in par port 3)"
-#~ msgstr ""
-#~ "Geef op welke SID-kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-#~ "Catweasel, 3: HardSID, 4: ParSID, 7: ReSID-FP)"
