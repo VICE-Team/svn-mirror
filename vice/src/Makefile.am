@@ -33,6 +33,7 @@ SUBDIRS = \
 	sid \
 	monitor \
 	core \
+	rtc \
 	c64 \
 	c64dtv \
 	c128 \
@@ -65,6 +66,7 @@ DIST_SUBDIRS = \
 	sid \
 	monitor \
 	core \
+	rtc \
 	c64 \
 	c64dtv \
 	c128 \
@@ -186,7 +188,6 @@ noinst_HEADERS = \
 	romset.h \
 	rs232drv.h \
 	rsuser.h \
-	rtc.h \
 	screenshot.h \
 	serial.h \
 	signals.h \
@@ -265,7 +266,6 @@ base_sources = \
 	rawfile.c \
 	resources.c \
 	romset.c \
-	rtc.c \
 	screenshot.c \
 	snapshot.c \
 	socket.c \
@@ -682,6 +682,7 @@ plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
+rtc_lib = $(top_builddir)/src/rtc/librtc.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
@@ -744,6 +745,7 @@ x64_libs =  \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -787,6 +789,7 @@ x64-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	x64$(EXEEXT)
 
 # x64dtv
@@ -875,6 +878,7 @@ x128_libs =  \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -917,6 +921,7 @@ x128-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	@VICE_LIBPNG_DEP@ \
@@ -938,6 +943,7 @@ xvic_libs =  \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -976,6 +982,7 @@ xvic-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	xvic$(EXEEXT)
@@ -992,7 +999,9 @@ xpet_libs =  \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
+	$(rtc_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(sid_lib) \
 	$(common_libs) \
@@ -1029,6 +1038,7 @@ xpet-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	xpet$(EXEEXT)
@@ -1048,6 +1058,7 @@ xplus4_libs =  \
 	$(driver_libs) \
 	$(sid_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -1084,6 +1095,7 @@ xplus4-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	@VICE_LIBPNG_DEP@ \
 	@VICE_ZLIB_DEP@ \
 	xplus4$(EXEEXT)
@@ -1278,6 +1290,8 @@ librs232drv:
 	(cd rs232drv && $(MAKE))
 libraster:
 	(cd raster && $(MAKE) libraster.a)
+librtc:
+	(cd rtc && $(MAKE) librtc.a)
 libresid:
 	(cd resid && $(MAKE) libresid.a)
 libresiddtv:
