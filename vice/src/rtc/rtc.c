@@ -32,12 +32,12 @@
 
 inline static int int_to_bcd(int dec)
 {
-	return ((dec / 10) << 4) + (dec % 10);
+    return ((dec / 10) << 4) + (dec % 10);
 }
 
 inline static int bcd_to_int(int bcd)
 {
-	return ((bcd >> 4) * 10) + bcd % 16;
+    return ((bcd >> 4) * 10) + bcd % 16;
 }
 
 /* ---------------------------------------------------------------------- */
