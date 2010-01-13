@@ -97,12 +97,13 @@ void ds1302_reset(rtc_ds1302_t *context)
     context->io_byte = 0;
 }
 
-rtc_ds1302_t *ds1302_init(void)
+rtc_ds1302_t *ds1302_init(BYTE *data)
 {
     int i;
     rtc_ds1302_t *retval = lib_malloc(sizeof(rtc_ds1302_t));
 
     memset(retval, 0, sizeof(rtc_ds1302_t));
+    retval->ram = data;
     return retval;
 }
 
@@ -256,7 +257,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
     if (read && !burst && !clock_reg) {
         context->state = DS1302_OUTPUT_SINGLE_DATA_BITS;
         context->bit = 0;
-        context->io_byte = context->ram[context->reg];
+        context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf);
     }
 
     /* check for DS1302_OUTPUT_BURST_DATA_BITS and clock */
@@ -277,7 +278,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
         context->state = DS1302_OUTPUT_BURST_DATA_BITS;
         context->reg = 0;
         context->bit = 0;
-        context->io_byte = context->ram[0];
+        context->io_byte = (context->ram[0] << 4) | (context->ram[1] & 0xf);
     }
 }
 
@@ -314,7 +315,7 @@ static BYTE ds1302_read_burst_data_bit(rtc_ds1302_t *context)
                 context->io_byte = 0;
             } else {
                 context->bit = 0;
-                context->io_byte = context->ram[context->reg];
+                context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf;
             }
         }
     }
@@ -405,7 +406,8 @@ static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, BYTE input_bit)
                 }
             }
         } else {
-            context->ram[context->reg] = context->io_byte;
+            context->ram[context->reg * 2] = (context->io_byte >> 4) | 0x40;
+            context->ram[(context->reg * 2) + 1] = (context->io_byte & 0xf) | 0x40;
             context->reg++;
             if (context->reg == 32) {
                 context->state = DS1302_INPUT_COMMAND_BITS;
@@ -519,7 +521,8 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, BYTE input_bit)
                     break;
             }
         } else {
-            context->ram[context->reg] = context->io_byte;
+            context->ram[context->reg * 2] = (context->io_byte >> 4) | 0x40;
+            context->ram[(context->reg * 2) + 1] = (context->io_byte & 0xf) | 0x40;
         }
         context->state = DS1302_INPUT_COMMAND_BITS;
         context->bit = 0;
