@@ -40,6 +40,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "cmdline.h"
+#include "ds1302.h"
 #include "ide64.h"
 #include "log.h"
 #include "resources.h"
@@ -75,20 +76,14 @@ static unsigned int current_bank;
 /* Current memory config */
 static unsigned int current_cfg;
 
+/* ds1302 context */
+static rtc_ds1302_t *ds1302_context = NULL;
+
 /*  */
 static BYTE kill_port;
 
 /*  */
-static BYTE clock_data;
-
-/*  */
 static unsigned int clock_address;
-
-/*  */
-static unsigned int clock_tick;
-
-/*  */
-static unsigned int clock_burst;
 
 /* IDE registers */
 static BYTE ide_error;
@@ -418,33 +413,13 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
         case 0x32:
             return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
         case 0x5f:
-            if ((kill_port & 0x02) == 0) {
-                return 1;
+            if ((kill_port & 2) == 0) {
+                io_source = IO_SOURCE_NONE;
+                return vicii_read_phi1();
             }
-
-            if (clock_tick < 17) {
-                clock_tick++;
-            }
-
-            if (clock_tick == 16) {
-                if (clock_address & 0x01) {
-                    if (clock_address & 0x40) {
-                        i = (clock_burst & 0x1f) * 2;
-                        clock_data = (ide64_DS1302[i] << 4) | (ide64_DS1302[i + 1] & 0xf);    /* data */
-                    } else {
-                        clock_data = export_ram0[clock_burst & 0x1f];    /* clock */
-                    }
-
-                    if (clock_burst & 0x20) {
-                        clock_burst++;
-                    }
-
-                }
-                clock_tick = 8;
-            }
-
-            i = clock_data;
-            clock_data >>= 1;
+            i = vicii_read_phi1() & 0xfe;
+            i |= ds1302_read(ds1302_context, 1, 0);
+            ds1302_read(ds1302_context, 1, 1);
             return i;
     }
     io_source = IO_SOURCE_NONE;
@@ -672,66 +647,15 @@ aborted_command:
             current_bank = 3;
             break;
         case 0x5f:
-            if ((kill_port & 0x02) == 0) {
+            if ((kill_port & 2) == 0) {
                 break;
             }
-            clock_data = (clock_data >> 1) | ((value & 1) << 7);
-            if (clock_tick < 17) {
-                clock_tick++;
-            }
-            if (clock_tick == 8) {		/* is it a chip command byte? */
-
-                clock_address=clock_data;
-
-                clock_burst=(clock_address >> 1) & 0x1f;
-                if (clock_burst == 0x1f) {	/* is it a burst command? */
-                    clock_burst = 0x20;	/* set burst mode */
-                }
-
-                if (clock_address & 0x01) {	/* read from chip? */
-                    clock_tick = 16 - 1;
-
-                    if ((clock_address & 0x40) == 0) {  /* read clock? */
-    	                  /* Preset the clock with the current host system time. */
-                        time_t now = time(NULL);
-                        struct tm *local = localtime(&now);
-
-                        export_ram0[0] = byte2bcd(local->tm_sec);
-                        export_ram0[1] = byte2bcd(local->tm_min);
-                        export_ram0[2] = byte2bcd(local->tm_hour);
-                        export_ram0[3] = byte2bcd(local->tm_mday);
-                        export_ram0[4] = byte2bcd(local->tm_mon + 1);
-                        export_ram0[5] = local->tm_wday + 1;
-                        export_ram0[6] = byte2bcd(local->tm_year % 100);
-                    }
-                }
-            } else {
-
-                if (clock_tick == 16) {	/* is it a chip data byte? */
-                    if (clock_address & 0x01) {
-                        break;
-                    }
-
-                    if (clock_address & 0x40) {
-                        i = (clock_burst & 0x1f) * 2;
-
-                        ide64_DS1302[i] = (clock_data >> 4) | 0x40;/* data */
-                        ide64_DS1302[i + 1] = (clock_data & 0xf) | 0x40;/* data */
-                    } else {
-                        export_ram0[clock_burst & 0x1f] = clock_data; /* clock */
-                    }
-
-                    if (clock_burst & 0x20) {	/* is it burst mode? */
-                        clock_burst++;
-                    }
-
-                    clock_tick = 8;
-                }
-            }
+            ds1302_store(ds1302_context, 1, 0, value & 1);
+            ds1302_store(ds1302_context, 1, 1, value & 1);
             return;
         case 0xfb:
             if (((kill_port & 0x02) == 0) && (value & 0x02)) {
-                clock_tick = 0;
+                ds1302_read(ds1302_context, 0, 1);
             }
             kill_port = value;
             if ((kill_port & 1) == 0) {
@@ -763,19 +687,10 @@ void ide64_config_init(void)
     current_bank = 0;
     current_cfg = 0;
     kill_port = 0;
-    clock_data = 0;
     ide64_reset();
-
-#if 0
-    /* Set an initial time for the Real-Time-Clock. */
-    export_ram0[0x0000] = 0x80;
-    export_ram0[0x0001] = 0x00;
-    export_ram0[0x0002] = 0x00;
-    export_ram0[0x0003] = 0x15;
-    export_ram0[0x0004] = 0x08;
-    export_ram0[0x0005] = 0x06;
-    export_ram0[0x0006] = 0x03;
-#endif
+    if (ds1302_context != NULL) {
+        ds1302_read(ds1302_context, 0, 1);
+    }
 }
 
 void ide64_config_setup(BYTE *rawcart)
@@ -788,6 +703,11 @@ void ide64_config_setup(BYTE *rawcart)
 void ide64_detach(void)
 {
     c64export_remove(&export_res);
+
+    if (ds1302_context != NULL) {
+        ds1302_destroy(ds1302_context);
+        ds1302_context = NULL;
+    }
 
     if (ide_disk) {
         fclose(ide_disk);
@@ -806,6 +726,12 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
+
+    if (ds1302_context != NULL) {
+        ds1302_destroy(ds1302_context);
+    }
+    ds1302_context = ds1302_init(ide64_DS1302);
+    ds1302_read(ds1302_context, 0, 1);
 
     ide_disk = fopen(ide64_image_file, MODE_READ_WRITE);
 

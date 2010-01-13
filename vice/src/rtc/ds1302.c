@@ -315,7 +315,7 @@ static BYTE ds1302_read_burst_data_bit(rtc_ds1302_t *context)
                 context->io_byte = 0;
             } else {
                 context->bit = 0;
-                context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf;
+                context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf);
             }
         }
     }
