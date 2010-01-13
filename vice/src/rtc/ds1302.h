@@ -74,3 +74,4 @@ extern void ds1302_store(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BY
 extern BYTE ds1302_read(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line);
 
 #endif
+

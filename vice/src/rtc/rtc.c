@@ -631,3 +631,4 @@ int rtc_set_latched_day_of_year(int day, int latch)
     }
     return latch + ((day - local->tm_yday) * 24 * 60 * 60);
 }
+

@@ -68,3 +68,4 @@ extern int rtc_set_latched_weekday(int day, int latch);                 /* 0 - 6
 extern int rtc_set_latched_day_of_year(int day, int latch);             /* 0 - 365 */
 
 #endif
+
