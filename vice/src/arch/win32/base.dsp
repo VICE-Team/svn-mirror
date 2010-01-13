@@ -250,10 +250,6 @@ SOURCE="..\..\romset.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\rtc.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\screenshot.c"
 # End Source File
 # Begin Source File

@@ -30,6 +30,8 @@
 #include "lib.h"
 #include "rtc.h"
 
+#include <string.h>
+
 /* The DS1302 is a serial line based RTC, it has the following features:
  * - Real-Time Clock Counts Seconds, Minutes, Hours, Date of the Month,
  *   Month, Day of the Week, and Year with Leap-Year,
@@ -99,7 +101,6 @@ void ds1302_reset(rtc_ds1302_t *context)
 
 rtc_ds1302_t *ds1302_init(BYTE *data)
 {
-    int i;
     rtc_ds1302_t *retval = lib_malloc(sizeof(rtc_ds1302_t));
 
     memset(retval, 0, sizeof(rtc_ds1302_t));
@@ -282,7 +283,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
     }
 }
 
-static void ds1302_write_command_bit(rtc_ds1302_t *context, BYTE input_bit)
+static void ds1302_write_command_bit(rtc_ds1302_t *context, unsigned int input_bit)
 {
     context->io_byte |= (input_bit << context->bit);
     context->bit++;
@@ -336,10 +337,9 @@ static BYTE ds1302_read_single_data_bit(rtc_ds1302_t *context)
     return retval;
 }
 
-static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, BYTE input_bit)
+static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, unsigned int input_bit)
 {
     BYTE val;
-    int i;
 
     context->io_byte |= (input_bit << context->bit);
     context->bit++;
@@ -418,7 +418,7 @@ static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, BYTE input_bit)
     }
 }
 
-static void ds1302_write_single_data_bit(rtc_ds1302_t *context, BYTE input_bit)
+static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int input_bit)
 {
     BYTE val;
 
@@ -562,13 +562,13 @@ void ds1302_store(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE inpu
             case DS1302_OUTPUT_BURST_DATA_BITS:
                 break;
             case DS1302_INPUT_COMMAND_BITS:
-                ds1302_write_command_bit(context, input_bit & 1);
+                ds1302_write_command_bit(context, input_bit & 1u);
                 break;
             case DS1302_INPUT_SINGLE_DATA_BITS:
-                ds1302_write_single_data_bit(context, input_bit & 1);
+                ds1302_write_single_data_bit(context, input_bit & 1u);
                 break;
             case DS1302_INPUT_BURST_DATA_BITS:
-                ds1302_write_burst_data_bit(context, input_bit & 1);
+                ds1302_write_burst_data_bit(context, input_bit & 1u);
                 break;
         }
     } else {
@@ -640,5 +640,7 @@ BYTE ds1302_read(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line)
                 return ds1302_read_burst_data_bit(context);
         }
     }
+
+    //! \todo: TODO RETURN?
 }
 

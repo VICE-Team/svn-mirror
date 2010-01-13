@@ -179,6 +179,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name base
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -675,6 +678,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "rtc"=".\rtc.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "serial"=".\serial.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -906,6 +921,9 @@ Package=<4>
     Project_Dep_Name rs232drv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name rtc
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name serial
     End Project Dependency
     Begin Project Dependency
@@ -1021,6 +1039,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rs232drv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name serial

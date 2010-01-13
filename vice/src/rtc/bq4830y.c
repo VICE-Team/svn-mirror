@@ -30,6 +30,8 @@
 #include "lib.h"
 #include "rtc.h"
 
+#include <string.h>
+
 /* The BQ4830Y is a ram + RTC module, it can be used in place of a ram
  * and the RTC registers can be accessed at $7FF8-$7FFF and it has the
  * following features:
@@ -86,6 +88,8 @@ rtc_bq4830y_t *bq4830y_init(void)
     rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
 
     memset(retval, 0, sizeof(rtc_bq4830y_t));
+
+    //! \todo: TODO RETURN?
 }
 
 void bq4830y_destroy(rtc_bq4830y_t *context)

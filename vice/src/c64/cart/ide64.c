@@ -444,8 +444,6 @@ BYTE ide64_get_killport(void)
 
 void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
 {
-    int i;
-
     if (kill_port & 1) {
         if (addr >= 0xde5f) {
             return;
@@ -650,8 +648,8 @@ aborted_command:
             if ((kill_port & 2) == 0) {
                 break;
             }
-            ds1302_store(ds1302_context, 1, 0, value & 1);
-            ds1302_store(ds1302_context, 1, 1, value & 1);
+            ds1302_store(ds1302_context, 1u, 0u, value & 1u);
+            ds1302_store(ds1302_context, 1u, 1u, value & 1u);
             return;
         case 0xfb:
             if (((kill_port & 0x02) == 0) && (value & 0x02)) {
