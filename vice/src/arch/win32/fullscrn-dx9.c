@@ -39,11 +39,6 @@
 #ifdef HAVE_D3D9_H
 #include <d3d9.h>
 
-/* Missing in the mingw headers */
-#ifndef EDD_GET_DEVICE_INTERFACE_NAME
-#define EDD_GET_DEVICE_INTERFACE_NAME 0x00000001
-#endif
-
 static HMENU old_menu;
 static RECT old_rect;
 static DWORD old_style;
@@ -58,15 +53,12 @@ void fullscreen_getmodes_dx9(void)
     DirectDrawDeviceList *search_device;
     DirectDrawModeList *new_mode;
     DirectDrawModeList *search_mode;
-    DISPLAY_DEVICE DisplayDevice;
 
     numAdapter = 0;
     while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
-        DisplayDevice.cb = sizeof(DISPLAY_DEVICE);
-        EnumDisplayDevices(d3didentifier.DeviceName, 0, &DisplayDevice, EDD_GET_DEVICE_INTERFACE_NAME);
         new_device = lib_malloc(sizeof(DirectDrawDeviceList));
         new_device->next = NULL;
-        new_device->desc = util_concat(DisplayDevice.DeviceString, " - ", d3didentifier.Description, NULL);
+        new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
         if (devices == NULL) {
             devices = new_device;
         } else {
