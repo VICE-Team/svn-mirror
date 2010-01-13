@@ -19,6 +19,7 @@
 #define USE_SDLUI              1
 #define WIN32_COMPILE          1
 #define HAVE_SDLMAIN           1
+#define HAVE_SDL_NUMJOYSTICKS  1
 #define HAVE_HWSCALE           1
 #define HAVE_CATWEASELMKIII    1
 #define HAVE_HARDSID           1

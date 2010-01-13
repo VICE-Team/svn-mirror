@@ -20,6 +20,7 @@
 #define HAVE_HARDSID          1
 #define HAVE_OPENCBM          1
 #define HAVE_DYNLIB_SUPPORT   1
+#define HAVE_SDL_NUMJOYSTICKS 1
 
 #define HAS_LONGLONG_INTEGER  1
 #define HAS_UNLOCKRESOURCE    1
