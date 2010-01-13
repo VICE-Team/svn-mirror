@@ -81,7 +81,7 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_ds1302_t *ds1302_init(void)
+rtc_bq4830y_t *ds1302_init(void)
 {
     rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
 
@@ -128,7 +128,7 @@ static void bq4830y_write_clock_data(rtc_bq4830y_t *context)
         val = (context->clock_regs[BQ4830Y_REG_MONTHS] & 0x1f) - 1;
         context->offset = rtc_set_month(val, context->offset, 1);
         val = context->clock_regs[BQ4830Y_REG_YEARS];
-        context->offset = rtc_set_year(val, offset, 1);
+        context->offset = rtc_set_year(val, context->offset, 1);
     }
 }
 
@@ -136,7 +136,7 @@ static void bq4830y_write_clock_data(rtc_bq4830y_t *context)
 
 void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
 {
-    int latch_state = context->read_latched | (context->write_latched << 1);
+    int latch_state = context->read_latch | (context->write_latch << 1);
 
     switch (address & 0x7fff) {
         case BQ4830Y_REG_MINUTES:
@@ -274,7 +274,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
 BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
 {
     BYTE retval;
-    int latch_state = context->read_latched | (context->write_latched << 1) | (context->clock_halt << 2);
+    int latch_state = context->read_latch | (context->write_latch << 1) | (context->clock_halt << 2);
     int latch;
 
     if (latch_state != LATCH_NONE) {

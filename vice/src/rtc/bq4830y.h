@@ -32,8 +32,8 @@
 typedef struct rtc_bq4830y_s {
     int clock_halt;
     int clock_halt_latch;
-    int read_latched;
-    int write_latched;
+    int read_latch;
+    int write_latch;
     int latch;
     int offset;
     BYTE clock_regs[8];
@@ -49,7 +49,7 @@ typedef struct rtc_bq4830y_s {
 #define BQ4830Y_REG_MONTHS          0x7FFE
 #define BQ4830Y_REG_YEARS           0x7FFF
 
-#define NO_LATCH                 0
+#define LATCH_NONE               0
 #define READ_LATCH               1
 #define WRITE_LATCH              2
 #define READ_WRITE_LATCH         3
