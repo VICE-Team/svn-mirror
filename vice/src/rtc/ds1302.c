@@ -99,12 +99,13 @@ void ds1302_reset(rtc_ds1302_t *context)
     context->io_byte = 0;
 }
 
-rtc_ds1302_t *ds1302_init(BYTE *data)
+rtc_ds1302_t *ds1302_init(BYTE *data, int *offset)
 {
     rtc_ds1302_t *retval = lib_malloc(sizeof(rtc_ds1302_t));
 
     memset(retval, 0, sizeof(rtc_ds1302_t));
     retval->ram = data;
+    retval->offset = offset;
     return retval;
 }
 
@@ -250,7 +251,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
         context->state = DS1302_OUTPUT_SINGLE_DATA_BITS;
         context->bit = 0;
         latched = context->clock_halt;
-        offset = (latched) ? context->clock_halt_latch : context->offset;
+        offset = (latched) ? context->clock_halt_latch : context->offset[0];
         context->io_byte = ds1302_get_clock_register(context, context->reg, offset, latched);
     }
 
@@ -269,7 +270,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
         if (context->clock_halt) {
             context->latch = context->clock_halt_latch;
         } else {
-            context->latch = rtc_get_latch(context->offset);
+            context->latch = rtc_get_latch(context->offset[0]);
         }
         context->io_byte = ds1302_get_clock_register(context, 0, context->latch, 1);
     }
@@ -373,34 +374,34 @@ static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, unsigned int inpu
                         val = context->clock_regs[DS1302_REG_SECONDS_CH];
                         context->clock_halt_latch = rtc_set_latched_second(val & 0x7f, context->clock_halt_latch, 1);
                         if (!(val & 0x80)) {
-                            context->offset = context->offset - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset));
+                            context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset[0]));
                             context->clock_halt = 0;
                         }
                     } else {
                         val = context->clock_regs[DS1302_REG_MINUTES];
-                        context->offset = rtc_set_minute(val, context->offset, 1);
+                        context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
                         val = context->clock_regs[DS1302_REG_DAYS_OF_MONTH];
-                        context->offset = rtc_set_day_of_month(val, context->offset, 1);
+                        context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
                         val = context->clock_regs[DS1302_REG_MONTHS] - 1;
                         if (val == 15) {
                             val = 9;
                         }
-                        context->offset = rtc_set_month(val, context->offset, 1);
+                        context->offset[0] = rtc_set_month(val, context->offset[0], 1);
                         val = context->clock_regs[DS1302_REG_DAYS_OF_WEEK];
-                        context->offset = rtc_set_weekday(val - 1, context->offset);
+                        context->offset[0] = rtc_set_weekday(val - 1, context->offset[0]);
                         val = context->clock_regs[DS1302_REG_YEARS];
-                        context->offset = rtc_set_year(val, context->offset, 1);
+                        context->offset[0] = rtc_set_year(val, context->offset[0], 1);
                         val = context->clock_regs[DS1302_REG_HOURS];
                         if (val & 0x80) {
-                            context->offset = rtc_set_hour_am_pm(val & 0x7f, context->offset, 1);
+                            context->offset[0] = rtc_set_hour_am_pm(val & 0x7f, context->offset[0], 1);
                         } else {
-                            context->offset = rtc_set_hour(val & 0x7f, context->offset, 1);
+                            context->offset[0] = rtc_set_hour(val & 0x7f, context->offset[0], 1);
                         }
                         val = context->clock_regs[DS1302_REG_SECONDS_CH];
-                        context->offset = rtc_set_second(val & 0x7f, context->offset, 1);
+                        context->offset[0] = rtc_set_second(val & 0x7f, context->offset[0], 1);
                         if (val & 0x80) {
                             context->clock_halt = 1;
-                            context->clock_halt_latch = rtc_get_latch(context->offset);
+                            context->clock_halt_latch = rtc_get_latch(context->offset[0]);
                         }
                     }
                 }
@@ -433,7 +434,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
                         } else {
-                            context->offset = rtc_set_minute(val, context->offset, 1);
+                            context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
                         }
                     }
                     break;
@@ -442,7 +443,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
                         } else {
-                            context->offset = rtc_set_day_of_month(val, context->offset, 1);
+                            context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
                         }
                     }
                     break;
@@ -455,7 +456,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
                         } else {
-                            context->offset = rtc_set_month(val, context->offset, 1);
+                            context->offset[0] = rtc_set_month(val, context->offset[0], 1);
                         }
                     }
                     break;
@@ -464,7 +465,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_weekday(val - 1, context->clock_halt_latch);
                         } else {
-                            context->offset = rtc_set_weekday(val - 1, context->offset);
+                            context->offset[0] = rtc_set_weekday(val - 1, context->offset[0]);
                         }
                     }
                     break;
@@ -473,7 +474,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_year(val, context->clock_halt_latch, 1);
                         } else {
-                            context->offset = rtc_set_year(val, context->offset, 1);
+                            context->offset[0] = rtc_set_year(val, context->offset[0], 1);
                         }
                     }
                     break;
@@ -489,14 +490,14 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                             if (context->clock_halt) {
                                 context->clock_halt_latch = rtc_set_latched_hour_am_pm(val & 0x7f, context->clock_halt_latch, 1);
                             } else {
-                                context->offset = rtc_set_hour_am_pm(val & 0x7f, context->offset, 1);
+                                context->offset[0] = rtc_set_hour_am_pm(val & 0x7f, context->offset[0], 1);
                             }
                             context->am_pm = 1;
                         } else {
                             if (context->clock_halt) {
                                 context->clock_halt_latch = rtc_set_latched_hour(val & 0x7f, context->clock_halt_latch, 1);
                             } else {
-                                context->offset = rtc_set_hour(val & 0x7f, context->offset, 1);
+                                context->offset[0] = rtc_set_hour(val & 0x7f, context->offset[0], 1);
                             }
                             context->am_pm = 0;
                         }
@@ -507,14 +508,14 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_second(val & 0x7f, context->clock_halt_latch, 1);
                             if (!(val & 0x80)) {
-                                context->offset = context->offset - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset));
+                                context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset[0]));
                                 context->clock_halt = 0;
                             }
                         } else {
-                            context->offset = rtc_set_second(val & 0x7f, context->offset, 1);
+                            context->offset[0] = rtc_set_second(val & 0x7f, context->offset[0], 1);
                             if (val & 0x80) {
                                 context->clock_halt = 1;
-                                context->clock_halt_latch = rtc_get_latch(context->offset);
+                                context->clock_halt_latch = rtc_get_latch(context->offset[0]);
                             }
                         }
                     }

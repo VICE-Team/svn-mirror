@@ -35,7 +35,7 @@ typedef struct rtc_ds1302_s {
     int am_pm;
     int write_protect;
     int latch;
-    int offset;
+    int *offset;
     BYTE clock_regs[8];
     BYTE trickle_charge;
     BYTE *ram;
@@ -68,7 +68,7 @@ typedef struct rtc_ds1302_s {
 
 
 extern void ds1302_reset(rtc_ds1302_t *context);
-extern rtc_ds1302_t *ds1302_init(BYTE *data);
+extern rtc_ds1302_t *ds1302_init(BYTE *data, int *offset);
 extern void ds1302_destroy(rtc_ds1302_t *context);
 
 extern void ds1302_set_lines(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit);

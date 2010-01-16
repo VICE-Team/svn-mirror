@@ -115,7 +115,7 @@ static char ide64_DS1302[65];
 static char *ide64_configuration_string = NULL;
 
 static unsigned int settings_cylinders, settings_heads, settings_sectors;
-static int settings_autodetect_size;
+static int settings_autodetect_size, rtc_offset;
 
 static BYTE ide_identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
@@ -220,6 +220,13 @@ static int set_autodetect_size(int val, void *param)
     return 0;
 }
 
+static int set_rtc_offset(int val, void *param)
+{
+    rtc_offset = val;
+
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "IDE64Image", "ide.hdd", RES_EVENT_NO, NULL,
       &ide64_image_file, set_ide64_image_file, NULL },
@@ -241,6 +248,9 @@ static const resource_int_t resources_int[] = {
     { "IDE64AutodetectSize", 1,
       RES_EVENT_NO, NULL,
       &settings_autodetect_size, set_autodetect_size, NULL },
+    { "IDE64RTCOffset", 0,
+      RES_EVENT_NO, NULL,
+      (int *)&rtc_offset, set_rtc_offset, NULL },
     { NULL }
 };
 
@@ -729,7 +739,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
     if (ds1302_context != NULL) {
         ds1302_destroy(ds1302_context);
     }
-    ds1302_context = ds1302_init(ide64_DS1302);
+    ds1302_context = ds1302_init(ide64_DS1302, &rtc_offset);
     ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
 
     ide_disk = fopen(ide64_image_file, MODE_READ_WRITE);
