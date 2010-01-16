@@ -418,8 +418,9 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
                 return vicii_read_phi1();
             }
             i = vicii_read_phi1() & 0xfe;
-            i |= ds1302_read(ds1302_context, 1, 0);
-            ds1302_read(ds1302_context, 1, 1);
+            ds1302_set_lines(ds1302_context, 1u, 0u, 1u);
+            i |= ds1302_read_data_line(ds1302_context);
+            ds1302_set_lines(ds1302_context, 1u, 1u, 1u);
             return i;
     }
     io_source = IO_SOURCE_NONE;
@@ -648,12 +649,12 @@ aborted_command:
             if ((kill_port & 2) == 0) {
                 break;
             }
-            ds1302_store(ds1302_context, 1u, 0u, value & 1u);
-            ds1302_store(ds1302_context, 1u, 1u, value & 1u);
+            ds1302_set_lines(ds1302_context, 1u, 0u, (BYTE)(value & 1u));
+            ds1302_set_lines(ds1302_context, 1u, 1u, (BYTE)(value & 1u));
             return;
         case 0xfb:
             if (((kill_port & 0x02) == 0) && (value & 0x02)) {
-                ds1302_read(ds1302_context, 0, 1);
+                ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
             }
             kill_port = value;
             if ((kill_port & 1) == 0) {
@@ -687,7 +688,7 @@ void ide64_config_init(void)
     kill_port = 0;
     ide64_reset();
     if (ds1302_context != NULL) {
-        ds1302_read(ds1302_context, 0, 1);
+        ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
     }
 }
 
@@ -729,7 +730,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         ds1302_destroy(ds1302_context);
     }
     ds1302_context = ds1302_init(ide64_DS1302);
-    ds1302_read(ds1302_context, 0, 1);
+    ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
 
     ide_disk = fopen(ide64_image_file, MODE_READ_WRITE);
 

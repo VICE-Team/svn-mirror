@@ -532,7 +532,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-void ds1302_store(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit)
+void ds1302_set_lines(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit)
 {
     int rising_edge = 0;
 
@@ -556,7 +556,7 @@ void ds1302_store(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE inpu
     context->sclk_line = sclk_line;
 
     if (rising_edge) {
-        /* handle writing */
+        /* handle writing state of rtc */
         switch (context->state) {
             case DS1302_OUTPUT_SINGLE_DATA_BITS:
             case DS1302_OUTPUT_BURST_DATA_BITS:
@@ -572,75 +572,24 @@ void ds1302_store(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE inpu
                 break;
         }
     } else {
-        /* handle reading */
+        /* handle reading state of rtc */
         switch (context->state) {
             case DS1302_INPUT_COMMAND_BITS:
             case DS1302_INPUT_SINGLE_DATA_BITS:
             case DS1302_INPUT_BURST_DATA_BITS:
+                context->output_bit = input_bit & 1u;
                 break;
             case DS1302_OUTPUT_SINGLE_DATA_BITS:
-                ds1302_read_single_data_bit(context);
+                context->output_bit = ds1302_read_single_data_bit(context);
                 break;
             case DS1302_OUTPUT_BURST_DATA_BITS:
-                ds1302_read_burst_data_bit(context);
+                context->output_bit = ds1302_read_burst_data_bit(context);
                 break;
         }
     }
 }
 
-BYTE ds1302_read(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line)
+BYTE ds1302_read_data_line(rtc_ds1302_t *context)
 {
-    int rising_edge = 0;
-
-    /* is the Chip Enable line low ? */
-    if (!ce_line) {
-        ds1302_reset(context);
-        context->sclk_line = sclk_line;
-        return 0;
-    }
-
-    /* has the sclk_line changed ? */
-    if (context->sclk_line == sclk_line) {
-        return 0;
-    }
-
-    /* is the sclk_line on the rising edge ? */
-    if (!context->sclk_line) {
-        rising_edge = 1;
-    }
-
-    context->sclk_line = sclk_line;
-
-    if (rising_edge) {
-        /* handle writing */
-        switch (context->state) {
-            case DS1302_OUTPUT_SINGLE_DATA_BITS:
-            case DS1302_OUTPUT_BURST_DATA_BITS:
-                return 0;
-            case DS1302_INPUT_COMMAND_BITS:
-                ds1302_write_command_bit(context, 0);
-                break;
-            case DS1302_INPUT_SINGLE_DATA_BITS:
-                ds1302_write_single_data_bit(context, 0);
-                break;
-            case DS1302_INPUT_BURST_DATA_BITS:
-                ds1302_write_burst_data_bit(context, 0);
-                break;
-        }
-    } else {
-        /* handle reading */
-        switch (context->state) {
-            case DS1302_INPUT_COMMAND_BITS:
-            case DS1302_INPUT_SINGLE_DATA_BITS:
-            case DS1302_INPUT_BURST_DATA_BITS:
-                return 0;
-            case DS1302_OUTPUT_SINGLE_DATA_BITS:
-                return ds1302_read_single_data_bit(context);
-            case DS1302_OUTPUT_BURST_DATA_BITS:
-                return ds1302_read_burst_data_bit(context);
-        }
-    }
-
-    //! \todo: TODO RETURN?
+    return context->output_bit;
 }
-

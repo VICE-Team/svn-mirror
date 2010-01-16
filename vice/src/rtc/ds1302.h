@@ -42,6 +42,7 @@ typedef struct rtc_ds1302_s {
     BYTE state;
     BYTE reg;
     BYTE bit;
+    BYTE output_bit;
     BYTE io_byte;
     BYTE sclk_line;
     BYTE clock_register;
@@ -70,8 +71,7 @@ extern void ds1302_reset(rtc_ds1302_t *context);
 extern rtc_ds1302_t *ds1302_init(BYTE *data);
 extern void ds1302_destroy(rtc_ds1302_t *context);
 
-extern void ds1302_store(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit);
-extern BYTE ds1302_read(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line);
+extern void ds1302_set_lines(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit);
+extern BYTE ds1302_read_data_line(rtc_ds1302_t *context);
 
 #endif
-

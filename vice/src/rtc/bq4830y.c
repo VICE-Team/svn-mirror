@@ -89,7 +89,7 @@ rtc_bq4830y_t *bq4830y_init(void)
 
     memset(retval, 0, sizeof(rtc_bq4830y_t));
 
-    //! \todo: TODO RETURN?
+    return retval;
 }
 
 void bq4830y_destroy(rtc_bq4830y_t *context)
