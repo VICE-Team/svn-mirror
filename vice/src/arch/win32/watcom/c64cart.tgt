@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-70
-.;..;..\..\..;..\..\..\c64;..\..\..\vicii;$(%watcom)\h;$(%watcom)\h\nt
+83
+.;..;..\..\..;..\..\..\c64;..\..\..\rtc;..\..\..\vicii;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MRState
