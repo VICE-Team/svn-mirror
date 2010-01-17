@@ -1438,7 +1438,7 @@ static VOID GetCursorPosAtMessageTime(LPPOINT point)
     POINTSTOPOINT(*point, tmp_points);
 }
 
-typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int * nMenuCount);
+typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int * nMenuCount, void * pContext);
 
 /* make shotcuts for defining menu entries */
 #define IMAKE_ENTRY(_FLAG_, _ID_, _TEXT_, _ENABLE_)                   \
@@ -1469,7 +1469,7 @@ typedef int ExecuteGenericPopup_callback_t(HMENU hPopupMenu, WORD ulDefault, WOR
     InsertMenuItem(hPopupMenu, nMenuCount++, 1, &mii); \
     mii.fType = MFT_STRING;
 
-static int ExecuteGenericPopup(HWND hwnd, LPARAM lParam, BOOL bExecuteDefault, ExecuteGenericPopup_callback_t * callback)
+static int ExecuteGenericPopup(HWND hwnd, LPARAM lParam, BOOL bExecuteDefault, ExecuteGenericPopup_callback_t * callback, void * context)
 {
     WORD ulDefault = 0;
     WORD ulMask = 0xffff;
@@ -1496,7 +1496,7 @@ static int ExecuteGenericPopup(HWND hwnd, LPARAM lParam, BOOL bExecuteDefault, E
             int nNewMenuCount = 0;
             int NewDefaultCommand;
 
-            NewDefaultCommand = callback(hPopupMenu, ulDefault, ulMask, &nNewMenuCount);
+            NewDefaultCommand = callback(hPopupMenu, ulDefault, ulMask, &nNewMenuCount, context);
             if (NewDefaultCommand >= 0) {
                 uDefaultCommand = NewDefaultCommand;
             }
@@ -1526,7 +1526,7 @@ static int ExecuteGenericPopup(HWND hwnd, LPARAM lParam, BOOL bExecuteDefault, E
 
 static int ExecuteRegistryPopup(HWND hwnd, reg_private_t *prp, LPARAM lParam, BOOL bExecuteDefault)
 {
-    return ExecuteGenericPopup(hwnd, lParam, bExecuteDefault, NULL);
+    return ExecuteGenericPopup(hwnd, lParam, bExecuteDefault, NULL, NULL);
 }
 
 /* window procedure */
@@ -1643,14 +1643,28 @@ static LRESULT CALLBACK reg_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
     return window_data->default_window_procedure(hwnd, msg, wParam, lParam);
 }
 
+struct ExecuteDisassemblyPopup_callback_context_s {
+    WORD xPos;
+    WORD yPos;
+    dis_private_t * pdp;
+};
+
 static ExecuteGenericPopup_callback_t ExecuteDisassemblyPopup_callback;
 
-static int ExecuteDisassemblyPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int *nNewMenuCount)
+static int ExecuteDisassemblyPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int *nNewMenuCount, void * pContext)
 {
     int nMenuCount = 0;
     int uDefaultCommand = -1;
 
+    struct ExecuteDisassemblyPopup_callback_context_s * context = pContext;
+
     MENUITEMINFO mii;
+
+    assert(context != NULL);
+
+    /* determine which commands should be visible, and which one is the default */
+    mon_disassembly_determine_popup_commands( &context->pdp->mdp, context->xPos, context->yPos, &ulMask, &ulDefault );
+
     mii.cbSize = sizeof(mii);
     mii.fMask = MIIM_STATE | MIIM_ID | MIIM_TYPE;
     mii.fType = MFT_STRING;
@@ -1676,12 +1690,18 @@ static int ExecuteDisassemblyPopup_callback(HMENU hPopupMenu, WORD ulDefault, WO
 
 static int ExecuteDisassemblyPopup(HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL bExecuteDefault)
 {
-    return ExecuteGenericPopup(hwnd, lParam, bExecuteDefault, ExecuteDisassemblyPopup_callback);
+    struct ExecuteDisassemblyPopup_callback_context_s context;
+
+    context.xPos = LOWORD(lParam) / pdp->charwidth;
+    context.yPos = HIWORD(lParam) / pdp->charheight;
+	context.pdp = pdp;
+
+    return ExecuteGenericPopup(hwnd, lParam, bExecuteDefault, ExecuteDisassemblyPopup_callback, &context);
 }
 
 static ExecuteGenericPopup_callback_t ExecuteMemoryPopup_callback;
 
-static int ExecuteMemoryPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int *nNewMenuCount)
+static int ExecuteMemoryPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ulMask, int *nNewMenuCount, void * pContext)
 {
     int nMenuCount = 0;
     int uDefaultCommand = -1;
@@ -1703,7 +1723,7 @@ static int ExecuteMemoryPopup_callback(HMENU hPopupMenu, WORD ulDefault, WORD ul
 
 static int ExecuteMemPopup(HWND hwnd, mem_private_t *pdp, LPARAM lParam, BOOL bExecuteDefault)
 {
-    return ExecuteGenericPopup(hwnd, lParam, bExecuteDefault, ExecuteMemoryPopup_callback);
+    return ExecuteGenericPopup(hwnd, lParam, bExecuteDefault, ExecuteMemoryPopup_callback, NULL);
 }
 
 typedef enum LINETYPE_S { 
