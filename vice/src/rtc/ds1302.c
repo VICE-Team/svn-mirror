@@ -165,7 +165,7 @@ static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, int offset
             } else {
                 retval = (BYTE)(rtc_get_month(rtc_get_latch(offset), 1) + 1);
             }
-            if (retval == 10) {
+            if (retval >= 10) {
                 retval += 7;
             }
             break;
