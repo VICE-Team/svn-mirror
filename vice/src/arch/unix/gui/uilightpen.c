@@ -54,9 +54,13 @@ UI_MENU_DEFINE_TOGGLE(Lightpen)
 
 static UI_CALLBACK(intercept_toggle_Lightpen)
 {
+#ifdef USE_GNOMEUI
+    toggle_Lightpen(w, event_data);
+#else
     toggle_Lightpen(w, client_data, call_data);
-#if !USE_GNOMEUI
-    ui_check_mouse_cursor();
+    if (!CHECK_MENUS) {
+        ui_check_mouse_cursor();
+    }
 #endif
 }
 

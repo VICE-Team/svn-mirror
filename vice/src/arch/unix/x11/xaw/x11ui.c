@@ -292,6 +292,10 @@ static void disable_mouse_menus(void)
 
 void ui_check_mouse_cursor()
 {
+    if (!ui_cached_video_canvas) {
+        return;
+    }
+
     if (_mouse_enabled) {
         if (ui_cached_video_canvas->videoconfig->doublesizex) {
             mouse_accelx = 2;   
