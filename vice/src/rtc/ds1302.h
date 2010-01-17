@@ -71,7 +71,7 @@ extern void ds1302_reset(rtc_ds1302_t *context);
 extern rtc_ds1302_t *ds1302_init(BYTE *data, int *offset);
 extern void ds1302_destroy(rtc_ds1302_t *context);
 
-extern void ds1302_set_lines(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit);
+extern void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit);
 extern BYTE ds1302_read_data_line(rtc_ds1302_t *context);
 
 #endif

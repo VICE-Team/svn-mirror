@@ -533,7 +533,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-void ds1302_set_lines(rtc_ds1302_t *context, BYTE ce_line, BYTE sclk_line, BYTE input_bit)
+void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit)
 {
     int rising_edge = 0;
 

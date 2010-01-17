@@ -659,8 +659,8 @@ aborted_command:
             if ((kill_port & 2) == 0) {
                 break;
             }
-            ds1302_set_lines(ds1302_context, 1u, 0u, (BYTE)(value & 1u));
-            ds1302_set_lines(ds1302_context, 1u, 1u, (BYTE)(value & 1u));
+            ds1302_set_lines(ds1302_context, 1u, 0u, value & 1u);
+            ds1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
             return;
         case 0xfb:
             if (((kill_port & 0x02) == 0) && (value & 0x02)) {
