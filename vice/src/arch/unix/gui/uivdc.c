@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "fullscreenarch.h"
+#include "resources.h"
 #include "uimenu.h"
 #include "uipalette.h"
 #include "uivdc.h"
@@ -62,9 +63,15 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
     { NULL }
 };
 
+#define NOTHING(x) x
+
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+
+#ifdef HAVE_HWSCALE
+UI_MENU_DEFINE_TOGGLE_COND(VDCHwScale, HwScalePossible, NOTHING)
+#endif
 
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
@@ -82,6 +89,10 @@ ui_menu_entry_t vdc_submenu[] = {
     { "--" },
 #ifdef HAVE_FULLSCREEN
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVDC },
+#endif
+#ifdef HAVE_HWSCALE
+    { N_("*Hardware scaling"),
+      (ui_callback_t)toggle_VDCHwScale, NULL, NULL },
 #endif
 #ifndef USE_GNOMEUI
     { N_("*Use XSync()"),

@@ -493,7 +493,7 @@ static ui_menu_entry_t vic20_menu[] = {
       NULL, NULL, sidcart_submenu },
     { N_("Paddle emulation"),
       NULL, NULL, mouse_vic20_submenu },
-#if defined(HAVE_MOUSE) && defined(USE_GNOMEUI)
+#if defined(HAVE_MOUSE)
     { N_("*Lightpen Emulation"),
       NULL, NULL, lightpen_submenu },
 #endif

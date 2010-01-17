@@ -1,8 +1,8 @@
 /*
- * lightpendrv.h - Gtk+ 
+ * lightpendrv.h - Xaw
  *
  * Written by
- *  pottendo <pottendo@gmx.net>
+ *  Olaf Seibert <rhialto@falu.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,12 +23,13 @@
  *  02111-1307  USA.
  *
  */
-#ifndef __lightpendrv_h__
-#define __lightpendrv_h__
+#ifndef VICE_UI_XAW_LIGHTPENDRV_H
+#define VICE_UI_XAW_LIGHTPENDRV_H
 
-extern void gtk_init_lightpen(void);
-extern void gtk_lightpen_setbutton(int b, int s);
+extern void xaw_init_lightpen(Display *disp);
+extern void xaw_lightpen_setbutton(int b, int s);
+extern void xaw_lightpen_update_xy(int x, int y);
 extern void x11_lightpen_update(void);
-extern void gtk_lightpen_update_canvas(struct video_canvas_s *p, int enter);
+extern void xaw_lightpen_update_canvas(struct video_canvas_s *p, int enter);
 
-#endif /* __lightpendrv_h__ */
+#endif /* VICE_UI_XAW_LIGHTPENDRV_H */

@@ -37,9 +37,9 @@
 UI_MENU_DEFINE_RADIO(Lightpentype)
 
 static ui_menu_entry_t lightpentype_submenu[] = {
-    { N_("*Pen wirh button Up"), (ui_callback_t)radio_Lightpentype,
+    { N_("*Pen with button Up"), (ui_callback_t)radio_Lightpentype,
       (ui_callback_data_t) LIGHTPEN_TYPE_PEN_U, NULL }, 
-    { N_("*Pen wirh button Left"), (ui_callback_t)radio_Lightpentype,
+    { N_("*Pen with button Left"), (ui_callback_t)radio_Lightpentype,
       (ui_callback_data_t) LIGHTPEN_TYPE_PEN_L, NULL }, 
     { N_("*Datel Pen"), (ui_callback_t)radio_Lightpentype,
       (ui_callback_data_t) LIGHTPEN_TYPE_PEN_DATEL, NULL }, 
@@ -52,9 +52,17 @@ static ui_menu_entry_t lightpentype_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(Lightpen)
 
+static UI_CALLBACK(intercept_toggle_Lightpen)
+{
+    toggle_Lightpen(w, client_data, call_data);
+#if !USE_GNOMEUI
+    ui_check_mouse_cursor();
+#endif
+}
+
 ui_menu_entry_t lightpen_submenu[] = {
     { N_("*Enable Lightpen"),
-      (ui_callback_t)toggle_Lightpen, NULL, NULL, KEYSYM_g, UI_HOTMOD_META },
+      (ui_callback_t)intercept_toggle_Lightpen, NULL, NULL, KEYSYM_g, UI_HOTMOD_META },
     { N_("Lightpen type"),
       NULL, NULL, lightpentype_submenu },
     { NULL }

@@ -263,10 +263,12 @@ void destroy_yuv_image(Display* display, XvImage* image, XShmSegmentInfo* shminf
 }
 
 void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc, XvImage* image, XShmSegmentInfo* shminfo,
-                       int src_x, int src_y, unsigned int src_w, unsigned int src_h, unsigned int dest_w, unsigned int dest_h,
+                       int src_x, int src_y, unsigned int src_w, unsigned int src_h, struct xywh_s *dest,
                        double aspect_ratio)
 {
     int dest_x = 0, dest_y = 0;
+    int dest_w = dest->w;
+    int dest_h = dest->h;
 
     /* Keep aspect ratio of src image. */
     if (dest_w * src_h < src_w * aspect_ratio * dest_h) {
@@ -278,6 +280,12 @@ void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc, XvIma
         dest_w = dest_h * src_w * aspect_ratio / src_h;
         dest_x = (dest_x - dest_w) / 2;
     }
+
+    /* Record (for the lightpen code) where the scaled screen ended up */
+    dest->x = dest_x;
+    dest->y = dest_y;
+    dest->w = dest_w;
+    dest->h = dest_h;
 
     if (shminfo) {
         XvShmPutImage(display, port, d, gc, image, src_x, src_y, src_w, src_h, dest_x, dest_y, dest_w, dest_h, False);

@@ -55,7 +55,7 @@ void gtk_lightpen_setbutton(int b, int set)
 /*
 #define LP_DEBUG 1
 */
-void gtk_lightpen_update(void) 
+void x11_lightpen_update(void) 
 {
     int x, y;
     int h, w;

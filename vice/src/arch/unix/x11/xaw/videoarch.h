@@ -81,6 +81,7 @@ struct video_canvas_s {
     XvPortID xv_port;
     fourcc_t xv_format;
     image_t yuv_image;  /* For architecture independent rendering. */
+    struct xywh_s xv_geometry;
 #endif
 
 #ifdef USE_MITSHM
@@ -93,6 +94,7 @@ struct video_canvas_s {
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
 #endif
+    int app_shell;
 };
 typedef struct video_canvas_s video_canvas_t;
 

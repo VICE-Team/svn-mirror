@@ -51,6 +51,8 @@
 #include "x11menu.h"
 #include "util.h"
 
+#define MENU_DEBUG      0
+
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
     { "--" },
@@ -72,6 +74,7 @@ static struct {
 static int num_submenus = 0;
 
 static Widget active_submenu, active_entry;
+static Widget active_keyboard_menu;
 
 static int submenu_popped_up = 0;
 
@@ -115,10 +118,14 @@ static void position_submenu(Widget w, Widget parent)
     XtPopup(w, XtGrabNonexclusive);
 }
 
+static int stay_up_menu_mode;
+
 static UI_CALLBACK(menu_popup_callback)
 {
     if (menu_popup == 0) {
         top_menu = w;
+        stay_up_menu_mode = -1;         /* unknown yet */
+        active_keyboard_menu = w;
     }
     menu_popup++;
 }
@@ -127,8 +134,10 @@ static UI_CALLBACK(menu_popdown_callback)
 {
     if (menu_popup > 0) {
         menu_popup--;
-    } else {
+    }
+    if (menu_popup == 0) {
         top_menu = NULL;
+        active_keyboard_menu = NULL;
     }
 }
 
@@ -140,9 +149,357 @@ static UI_CALLBACK(submenu_popup_callback)
 static UI_CALLBACK(submenu_popdown_callback)
 {
     submenu_popped_up--;
+#if 0   /* doesn't seem to be needed */
     if (XawSimpleMenuGetActiveEntry(w)) {
+#if MENU_DEBUG 
+        printf("calling XtPopdown(%p)\n", client_data);
+#endif
         XtPopdown((Widget)client_data);
     }
+#endif
+    active_submenu = 0;
+}
+
+/*
+ * Some helper functions for choosing between click-move-click,
+ * aka stay-up menus, and conventional Xaw press-drag-release menus.
+ * The stay-up menu can come in 2 flavours: select-on-press or -on-release.
+ * This can be chosen in the translation table.
+ *
+ * This is all stuff that really belongs in a subclass of SimpleMenu
+ * and/or SmeBSB.
+ *
+ * 1 small weirdness remains:
+ * - if you get a submenu to pop up under the mouse cursor, you have 2
+ *   highlighted items.
+ */
+
+void fake_button_action(Widget widget, XEvent *event, String *params, Cardinal *num_params)
+{
+    if (event->type == KeyPress) {
+        /*
+         * Lie about key presses, since XawSimpleMenus either don't know
+         * about them, or handle them annoyingly differently (keyword:
+         * spring loaded).
+         * Fortunately Button presses are a very similar XEvent.
+         */
+        event->type = ButtonPress;
+        event->xbutton.button = 1;
+    } else if (event->type == KeyRelease) {
+        event->type = ButtonRelease;
+        event->xbutton.button = 1;
+    }
+}
+
+static void menu_moved_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    /*
+     * If we move the mouse first, before a button up,
+     * we're in traditional press-drag-release mode.
+     */
+    if (stay_up_menu_mode == -1) {
+        stay_up_menu_mode = 0;
+    }
+    /*
+     * If the user moves the mouse around, adapt the keyboard focus too.
+     */
+    active_keyboard_menu = w;
+}
+
+/*
+ * Perform
+ * <some_event>: Popdownsubmenus() XtMenuPopdown() notify() unhighlight()\n
+ *
+ * It would be nicer if we could create a new event, say <MenuSelected>,
+ * and have its actions in the translation table.
+ */
+
+static void do_menu_select(Widget w, XEvent *event, int keep_menu_up)
+{
+    String empty = "";
+
+    if (!keep_menu_up) {
+        XtCallActionProc(w, "Popdownsubmenus", event, &empty, 0);
+        XtCallActionProc(w, "XtMenuPopdown", event, &empty, 0);
+    }
+    XtCallActionProc(w, "notify", event, &empty, 0);
+    if (!keep_menu_up) {
+        XtCallActionProc(w, "unhighlight", event, &empty, 0);
+    }
+}
+
+/*
+ * Usually called from a key press, but there is no reason it can't
+ * be called from a button event.
+ *
+ * Accepts 1 numeric parameter: if nonzero, the menu stays up instead
+ * of popping down.
+ */
+static void menu_select_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    int keep_menu_up = 0;
+
+    if (*num_params == 1) {
+        keep_menu_up = atoi(*params);
+    }
+
+    if (event->type == KeyPress || event->type == KeyRelease) {
+        XtWidgetGeometry geometry;
+        Widget old_active_entry;
+
+        /*
+         * Keyboard events bubble up to the top menu, because the top is
+         * "spring loaded", So we may get to see them multiple times for
+         * different widgets, if the mouse happens to be in a submenu. To
+         * put a stop to that: only listen to the top_menu.
+         */
+        if (w != top_menu) {
+#if MENU_DEBUG 
+            printf("menu_select_action: ignoring event, not top_menu\n");
+#endif
+            return;
+        }
+
+        /*
+         * Apparently, notify() looks at the event coordinates to know
+         * which item should be notify()d, instead of just doing the
+         * active one. So fake them.
+         * It also looks if the event's window matches the widget,
+         * presumably also because of spring-loaded menus.  Fake that too.
+         * To look at the coordinates, it checks the event type, and it
+         * doesn't know about keys. More faking.
+         */
+        old_active_entry = XawSimpleMenuGetActiveEntry(active_keyboard_menu);
+        if (!old_active_entry) {
+            return;
+        }
+
+        fake_button_action(w, event, NULL, NULL);       /* notify() cares */
+
+        XtQueryGeometry(old_active_entry, NULL, &geometry);
+        event->xbutton.x = geometry.x + 1;
+        event->xbutton.y = geometry.y + 1;
+
+        w = active_keyboard_menu;
+        event->xany.window = XtWindow(w);       /* notify() cares about this */
+    }
+
+    do_menu_select(w, event, keep_menu_up);
+}
+
+static void menu_buttonup_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    /*
+     * If we release the button first, before moving,
+     * we're in the new click-move-click mode:
+     * remember this, and ignore this first ButtonUp.
+     */
+    if (stay_up_menu_mode == -1) {
+        stay_up_menu_mode = 1;
+    } else {
+        /*
+         * Always select on ButtonUp, for stay-up in select-on-release mode.
+         * In select-on-click mode we won't even get here.
+         */
+        do_menu_select(w, event, 0);
+    }
+}
+
+static void menu_buttondown_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    /*
+     * In press-drag-release mode, we can't even get here, so there
+     * is no need to check for the mode.
+     *
+     * We can choose between select-on-press or select-on-release
+     * by including/excluding the translation "<BtnDown>: ButtonDown()"
+     * or even "<BtnDown>: Select()".
+     */
+    menu_select_action(w, event, params, num_params);
+}
+
+/*
+ * Fake a MotionNotify event to select the new menu item by
+ * emulating "<Motion>: highlight() PositionSubmenu()".
+ */
+static void do_fake_motion(Widget w, XEvent *event, int x, int y)
+{
+    String empty = "";
+    XEvent copy;
+
+    copy = *event;
+    copy.type = MotionNotify;
+    copy.xmotion.x = x;
+    copy.xmotion.y = y;
+
+    XtCallActionProc(w, "highlight", &copy, &empty, 0);
+    XtCallActionProc(w, "PositionSubmenu", &copy, &empty, 0);
+}
+
+static void menu_nextprev_item(Widget w, XEvent *event, int incr)
+{
+    Widget old_active_entry;
+    Widget new_active_entry = NULL;
+    WidgetList children;
+    Cardinal numChildren;
+    int i = 0, found = 0, wrapped = 0;
+
+    if (w != top_menu) {
+#if MENU_DEBUG 
+        printf("menu_nextprev_item_action: ignoring event, not top_menu\n");
+#endif
+        return;
+    }
+
+    /*
+     * Find which smeBSB object is the active one.
+     */
+    XtVaGetValues(active_keyboard_menu, XtNchildren, &children,
+                                        XtNnumChildren, &numChildren, NULL);
+
+    /*
+     * If there are not at least 2 children
+     * then there is no point in even trying to go up or down.
+     * Besides, might go out of the array's bounds.
+     */
+    if (numChildren < 2) {
+        return;
+    }
+
+    old_active_entry = XawSimpleMenuGetActiveEntry(active_keyboard_menu);
+
+    if (old_active_entry) {
+        for (i = 0; i < numChildren; i++) {
+            if (children[i] == old_active_entry) {
+                found = 1;
+                break;
+            }
+        }
+    }
+
+    /*
+     * If no item was active, start at the top or the bottom.
+     */
+    if (!found) {
+        i = (incr > 0) ? -incr : numChildren;
+    }
+
+    /*
+     * Find the next sensitive item, going either up or down.
+     * Note that we made the separator lines non-sensitive, just for this.
+     * Do wrap around, but no more than once, that would be an endless loop.
+     */
+    while (wrapped < 2) {
+        Boolean flag;
+
+        i += incr;
+
+        if (i < 0) {
+            i = numChildren - 1;
+            wrapped++;
+        } else if (i >= numChildren) {
+            i = 0;
+            wrapped++;
+        }
+
+        XtVaGetValues(children[i], XtNsensitive, &flag, NULL);
+        if (flag) {
+            new_active_entry = children[i];
+            break;
+        }
+    }
+
+    if (new_active_entry && new_active_entry != old_active_entry) {
+        XtWidgetGeometry geometry;
+        int x, y;
+
+        XtQueryGeometry(new_active_entry, NULL, &geometry);
+        x = geometry.x + 1;
+        y = geometry.y + 1;
+
+        do_fake_motion(active_keyboard_menu, event, x, y);
+    }
+}
+
+static void menu_prev_item_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    menu_nextprev_item(w, event, -1);
+}
+
+static void menu_next_item_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    menu_nextprev_item(w, event, +1);
+}
+
+static void menu_exit_submenu_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    int i;
+
+    if (w != top_menu) {
+#if MENU_DEBUG 
+        printf("menu_exit_submenu_action: ignoring event, not top_menu\n");
+#endif
+        return;
+    }
+
+    /*
+     * Try to find the parent menu.
+     */
+    for (i = 0; i < num_submenus; i++) {
+        if (submenus[i].widget == active_keyboard_menu) {
+            Widget parent_entry;
+            XtWidgetGeometry geometry;
+            int x, y;
+
+            /*
+             * Call this here, instead of in the translation table, since
+             * the widget must be adjusted.
+             */
+            XtCallActionProc(active_keyboard_menu, "unhighlight", event, params, *num_params);
+
+            parent_entry = submenus[i].parent;
+            /* get to its SimpleMenu: gleaned from Xaw's SimpleMenu.c */
+            active_keyboard_menu = XtParent(parent_entry);
+            XtQueryGeometry(parent_entry, NULL, &geometry);
+            /* The parent item is probably at this location. */
+            x = geometry.x + 1;
+            y = geometry.y + 1;
+
+            do_fake_motion(active_keyboard_menu, event, x, y);
+            break;
+        }
+    }
+}
+
+static void menu_enter_submenu_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    /*
+     * If there really is a submenu, position_submenu_action()
+     * has remembered its Widget.
+     */
+    if (!active_submenu) {
+        return;
+    }
+
+    if (w != top_menu) {
+#if MENU_DEBUG 
+        printf("menu_enter_submenu_action: ignoring event, not top_menu\n");
+#endif
+        return;
+    }
+    /*
+     * Call this here, instead of in the translation table, since
+     * the widget must be adjusted.
+     */
+    XtCallActionProc(active_keyboard_menu, "unhighlight", event, params, *num_params);
+
+    active_keyboard_menu = active_submenu;
+
+    /*
+     * What if the top item in the submenu isn't sensitive...
+     * Well, fortunately the current menus don't seem to be like that.
+     */
+    do_fake_motion(active_keyboard_menu, event, 3, 3);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -322,9 +679,18 @@ static char *make_menu_label(ui_menu_entry_t *e)
 int ui_menu_init(XtAppContext app_context, Display *d, int s)
 {
     static XtActionsRec actions[] = {
-	{ "PositionSubmenu", position_submenu_action },
-	{ "Popdownsubmenus", popdown_submenus_action },
-	{ "Unhighlight", menu_unhighlight_action }
+        { "PositionSubmenu", position_submenu_action },
+        { "Popdownsubmenus", popdown_submenus_action },
+        { "Unhighlight", menu_unhighlight_action },
+        { "Moved", menu_moved_action },
+        { "Select", menu_select_action },
+        { "ButtonDown", menu_buttondown_action },
+        { "ButtonUp", menu_buttonup_action },
+        { "PrevItem", menu_prev_item_action },
+        { "NextItem", menu_next_item_action },
+        { "ExitSubmenu", menu_exit_submenu_action },
+        { "EnterSubmenu", menu_enter_submenu_action },
+        { "FakeButton", fake_button_action },
     };
 
     my_display = d;
@@ -353,129 +719,150 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
     return 0;
 }
 
+static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list);
+static XtTranslations menu_translations;
+
 Widget ui_menu_create(const char *menu_name, ...)
 {
-    static int level = 0, menulevel = 0;
-    static Widget w;
-    unsigned int i, j;
+    Widget w;
     ui_menu_entry_t *list;
     va_list ap;
 
+    w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
+    XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
+    XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
 
-    level++;
-    if (level == 1) {
-        w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
-        menulevel++;
-        XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
-        XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
+    /*
+     * We want to be able to have either kind of menu:
+     * stay-up when we release the mouse button before moving
+     * (it starts on the edge of the menu).
+     */
+    if (!menu_translations) {
+        menu_translations = XtParseTranslationTable(
+            "<Motion>: Moved() highlight() PositionSubmenu()\n"
+            "<LeaveWindow>: Unhighlight()\n"
+            "<BtnUp>: ButtonUp()\n"     /* may do Select() depending on mode */
+            "<KeyDown>Down: NextItem()\n"
+            "<KeyDown>Up: PrevItem()\n"
+            "<KeyDown>Left: ExitSubmenu()\n"
+            "<KeyDown>Right: EnterSubmenu()\n"
+            "<KeyDown>Return: Select()\n"
+            "<KeyDown>space: Select(1)\n"
+            "<KeyDown>Escape: Popdownsubmenus() XtMenuPopdown() unhighlight()\n"
+          );
     }
-    XtOverrideTranslations(w, XtParseTranslationTable
-         ("<BtnMotion>: highlight() PositionSubmenu()\n"
-          "@Num_Lock<BtnMotion>: highlight() PositionSubmenu()\n"
-          "<LeaveWindow>: Unhighlight()\n"
-          "<BtnUp>: Popdownsubmenus() MenuPopdown() notify() unhighlight()"));
+    XtOverrideTranslations(w, menu_translations);
 
     va_start(ap, menu_name);
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
-        for (i = j = 0; list[i].string; i++) {
-            Widget new_item = NULL;
-            char *name;
-
-            name = lib_msprintf("MenuItem%d", j);
-            switch (*list[i].string) {
-                case '-':         /* line */
-                    new_item = XtCreateManagedWidget("separator",
-                                                     smeLineObjectClass, w,
-                                                     NULL, 0);
-                    break;
-                case '*':         /* toggle */
-                    {
-                        char *label = make_menu_label(&list[i]);
-
-                        new_item = XtVaCreateManagedWidget(name,
-                                                           smeBSBObjectClass, w,
-                                                           XtNrightMargin, 20,
-                                                           XtNleftMargin, 20,
-                                                           XtNlabel, label + 1,
-                                                           NULL);
-                        /* Add this item to the list of calls to perform to update
-                           the menu status. */
-                        if (list[i].callback) {
-                            if (num_checkmark_menu_items >= num_checkmark_menu_items_max) {
-                                num_checkmark_menu_items_max += 100;
-                                checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
-                            }
-                            checkmark_menu_items[num_checkmark_menu_items++] = new_item;
-                        }
-                        j++;
-
-                        lib_free(label);
-                    }
-                    break;
-                case 0:
-                    break;
-                default:
-                    {
-                        char *label = make_menu_label(&list[i]);
-
-                        new_item = XtVaCreateManagedWidget(name,
-                                                           smeBSBObjectClass, w,
-                                                           XtNleftMargin, 20,
-                                                           XtNrightMargin, 20,
-                                                           XtNlabel, label,
-                                                           NULL);
-                        lib_free(label);
-                        j++;
-                    }
-            }
-            lib_free(name);
-
-            if (list[i].callback) {
-                XtAddCallback(new_item, XtNcallback, (XtCallbackProc)list[i].callback, list[i].callback_data);
-            }
-            if (list[i].sub_menu) {
-                if (num_submenus > MAX_SUBMENUS) {
-                    fprintf(stderr, "Maximum number of sub menus reached! Please fix the code.\n");
-                    exit(-1);
-                }
-                if (new_item != NULL && *list[i].string != '-') {
-                    Widget oldw = w;
-
-                    XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap, NULL);
-                    w = ui_create_shell(_ui_top_level, "SUB", simpleMenuWidgetClass);
-                    menulevel++;
-
-                    ui_menu_create("SUB", list[i].sub_menu, NULL);
-                    submenus[num_submenus].widget = w;
-                    submenus[num_submenus].parent = new_item;
-                    submenus[num_submenus].level = menulevel;
-                    XtAddCallback(w, XtNpopupCallback, submenu_popup_callback, submenus + num_submenus);
-                    XtAddCallback(w, XtNpopdownCallback, submenu_popdown_callback, (XtPointer)w);
-                    num_submenus++;
-
-                    menulevel--;
-                    w = oldw;
-                } else {
-                    ui_menu_create("SUB", list[i].sub_menu, NULL);
-                }
-            } else {            /* no submenu */
-                if (list[i].hotkey_keysym != (KeySym)0 && list[i].callback != NULL) {
-                    ui_hotkey_register(list[i].hotkey_modifier, (signed long)list[i].hotkey_keysym, (ui_callback_t)list[i].callback, (ui_callback_data_t)list[i].callback_data);
-                }
-            }
-        }
+        ui_add_items_to_shell(w, 1, list);
     }
 
-    level--;
-    if (level == 0) {
-        menulevel = 0;
+    return w;
+}
+
+static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list)
+{
+    unsigned int i, j;
+
+    for (i = j = 0; list[i].string; i++) {
+        Widget new_item = NULL;
+        char *name;
+
+        name = lib_msprintf("MenuItem%d", j);
+        switch (*list[i].string) {
+            case '-':         /* line */
+                new_item = XtVaCreateManagedWidget("separator",
+                                                   smeLineObjectClass, w,
+                                                   XtNsensitive, 0,
+                                                   NULL);
+                break;
+            case '*':         /* toggle */
+                {
+                    char *label = make_menu_label(&list[i]);
+
+                    new_item = XtVaCreateManagedWidget(name,
+                                                       smeBSBObjectClass, w,
+                                                       XtNrightMargin, 20,
+                                                       XtNleftMargin, 20,
+                                                       XtNlabel, label + 1,
+                                                       NULL);
+                    /* Add this item to the list of calls to perform to update
+                       the menu status. */
+                    if (list[i].callback) {
+                        if (num_checkmark_menu_items >= num_checkmark_menu_items_max) {
+                            num_checkmark_menu_items_max += 100;
+                            checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
+                        }
+                        checkmark_menu_items[num_checkmark_menu_items++] = new_item;
+                    }
+                    j++;
+
+                    lib_free(label);
+                }
+                break;
+            case 0:
+                break;
+            default:
+                {
+                    char *label = make_menu_label(&list[i]);
+
+                    new_item = XtVaCreateManagedWidget(name,
+                                                       smeBSBObjectClass, w,
+                                                       XtNleftMargin, 20,
+                                                       XtNrightMargin, 20,
+                                                       XtNlabel, label,
+                                                       NULL);
+                    lib_free(label);
+                    j++;
+                }
+        }
+        lib_free(name);
+
+        if (list[i].callback) {
+            XtAddCallback(new_item, XtNcallback, (XtCallbackProc)list[i].callback, list[i].callback_data);
+        }
+        if (list[i].sub_menu) {
+            /*
+             * Apparently, the submenu support of Xaw is not used
+             * (it isn't documented in the specs document but exists since
+             * patch "#2716 24 Apr 1999"; see its old-doc/ChangeLog;
+             * see also the man page Xaw(3) which mentions it.)
+             * If the "menuName" resource (XtNmenuName) of a SmeBSB (item)
+             * contains a menu name, that is the submenu and it will
+             * pop up automatically.
+            */
+            if (num_submenus > MAX_SUBMENUS) {
+                fprintf(stderr, "Maximum number of sub menus reached! Please fix the code.\n");
+                exit(-1);
+            }
+            if (new_item != NULL && *list[i].string != '-') {
+                Widget subw;
+
+                XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap, NULL);
+                subw = ui_create_shell(_ui_top_level, "SUB", simpleMenuWidgetClass);
+                XtAddCallback(subw, XtNpopupCallback, submenu_popup_callback, submenus + num_submenus);
+                XtAddCallback(subw, XtNpopdownCallback, submenu_popdown_callback, (XtPointer)w);
+                XtOverrideTranslations(subw, menu_translations);
+
+                ui_add_items_to_shell(subw, menulevel + 1, list[i].sub_menu);
+                submenus[num_submenus].widget = subw;
+                submenus[num_submenus].parent = new_item;
+                submenus[num_submenus].level = menulevel;
+                num_submenus++;
+            } else {
+                ui_add_items_to_shell(w, menulevel, list[i].sub_menu);
+            }
+        } else {            /* no submenu */
+            if (list[i].hotkey_keysym != (KeySym)0 && list[i].callback != NULL) {
+                ui_hotkey_register(list[i].hotkey_modifier, (signed long)list[i].hotkey_keysym, (ui_callback_t)list[i].callback, (ui_callback_data_t)list[i].callback_data);
+            }
+        }
     }
 
 #ifdef UI_MENU_DEBUG
     fprintf(stderr, "num_checkmark_menu_items: %d\tnum_submenus = %d.\n", num_checkmark_menu_items, num_submenus);
 #endif
-    va_end(ap);
-    return w;
 }
 
 int ui_menu_any_open(void)

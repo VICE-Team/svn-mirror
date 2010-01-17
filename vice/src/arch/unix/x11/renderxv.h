@@ -48,6 +48,13 @@
 
 #include "video/renderyuv.h"
 
+struct xywh_s {
+    int x;
+    int y;
+    unsigned int w;
+    unsigned int h;
+};
+
 extern int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format);
 
 extern XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format, int width, int height, XShmSegmentInfo* shminfo);
@@ -55,7 +62,7 @@ extern XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t forma
 extern void destroy_yuv_image(Display* display, XvImage* image, XShmSegmentInfo* shminfo);
 
 extern void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc, XvImage* image, XShmSegmentInfo* shminfo,
-                              int src_x, int src_y, unsigned int src_w, unsigned int src_h, unsigned int dest_w, unsigned int dest_h,
+                              int src_x, int src_y, unsigned int src_w, unsigned int src_h, struct xywh_s *dest,
                               double aspect_ratio);
 
 #endif /* _RENDERXV_H */

@@ -303,10 +303,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #ifdef HAVE_MOUSE
     { N_("*Mouse Emulation"),
       NULL, NULL, mouse_submenu },
-#ifdef USE_GNOMEUI
     { N_("*Lightpen Emulation"),
       NULL, NULL, lightpen_submenu },
-#endif
 #endif
 #ifdef HAVE_MIDI
     { N_("MIDI Emulation"),

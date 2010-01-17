@@ -55,9 +55,14 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
     { NULL }
 };
 
+#define NOTHING(x) x
+
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
+#ifdef HAVE_HWSCALE
+UI_MENU_DEFINE_TOGGLE_COND(CrtcHwScale, HwScalePossible, NOTHING)
+#endif
 UI_MENU_DEFINE_TOGGLE(CrtcScale2x)
 
 #ifdef HAVE_OPENGL_SYNC
@@ -78,6 +83,10 @@ ui_menu_entry_t crtc_submenu[] = {
     { "--" },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_CrtcScale2x, NULL, NULL },
+#ifdef HAVE_HWSCALE
+    { N_("*Hardware scaling"),
+      (ui_callback_t)toggle_CrtcHwScale, NULL, NULL },
+#endif
     { "--" },
     { N_("*CRTC Screen color"),
       NULL, NULL, crtc_palette_submenu },

@@ -493,7 +493,7 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 #ifdef HAVE_XVIDEO
     canvas->xv_image = NULL;
 
-    if (canvas->videoconfig->hwscale && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1 || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)) {
+    if (canvas->videoconfig->hwscale) {
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
@@ -518,7 +518,7 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 
         return 0;
     }
-#endif
+#endif /* HAVE_XVIDEO */
 
     /* Round up to 32-bit boundary (used in XCreateImage). */
     width = (width + 3) & ~0x3;
@@ -834,7 +834,9 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 #endif
         Window root;
         int x, y;
-        unsigned int dest_w, dest_h, border_width, depth;
+        unsigned int border_width, depth;
+        unsigned int canvas_height;
+        double local_aspect_ratio;
 
         display = x11ui_get_display_ptr();
 
@@ -851,11 +853,24 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
                          xs, ys, w, h,
                          xi, yi);
 
-        XGetGeometry(display, canvas->drawable, &root, &x, &y, &dest_w, &dest_h, &border_width, &depth);
+        /*
+         * render_yuv_image() doesn't handle 1x2 drawing modes.
+         * So it mistakenly fills only half the canvas vertically.
+         * However, that is what we can use the hardware scaling for!
+         */
+        canvas_height = canvas->height;
+        local_aspect_ratio = aspect_ratio;
+
+        if (!doublesize && canvas->videoconfig->doublesizey) {
+            canvas_height /= 2;
+            local_aspect_ratio /= 2;
+        }
+
+        XGetGeometry(display, canvas->drawable, &root, &x, &y, &canvas->xv_geometry.w, &canvas->xv_geometry.h, &border_width, &depth);
 
         /* Xv does subpixel scaling. Since coordinates are in integers we
            refresh the entire image to get it right. */
-        display_yuv_image(display, canvas->xv_port, canvas->drawable, _video_gc, canvas->xv_image, shminfo, 0, 0, canvas->width, canvas->height, dest_w, dest_h, aspect_ratio);
+        display_yuv_image(display, canvas->xv_port, canvas->drawable, _video_gc, canvas->xv_image, shminfo, 0, 0, canvas->width, canvas_height, &canvas->xv_geometry, local_aspect_ratio);
 
         if (_video_use_xsync) {
             XSync(display, False);

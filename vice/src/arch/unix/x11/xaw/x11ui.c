@@ -97,6 +97,8 @@
 #include "screenshot.h"
 #include "event.h"
 #include "x11ui.h"
+#include "lightpen.h"
+#include "lightpendrv.h"
 
 /* FIXME: We want these to be static.  */
 Visual *visual;
@@ -110,11 +112,10 @@ static int depth;
 static log_t ui_log = LOG_ERR;
 extern log_t vsid_log;
 
-Widget canvas, pane;
-
 Cursor blankCursor;
 int cursor_is_blank = 0;
 static video_canvas_t *ui_cached_video_canvas;
+static Widget last_visited_canvas;
 
 static void ui_display_drive_current_image2(void);
 
@@ -128,39 +129,68 @@ void ui_restore_mouse(void)
     }
 #endif
     if (_mouse_enabled && cursor_is_blank) {
-        XUndefineCursor(display,XtWindow(canvas));
+        XUndefineCursor(display,XtWindow(last_visited_canvas));
         XUngrabPointer(display, CurrentTime);
         XUngrabKeyboard(display, CurrentTime);
         cursor_is_blank = 0; 
     }
 }
 
-static void initBlankCursor(void)
+static void initBlankCursor(Widget canvas)
 {
     static char no_data[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     static Pixmap blank;
     XColor trash, dummy;
 
+    if (blankCursor) {
+        return;
+    }
+
     XAllocNamedColor(display, DefaultColormapOfScreen(DefaultScreenOfDisplay(display)), "black", &trash, &dummy);
 
+    /*
+     * "The pixmaps can be freed immediately if no further explicit
+     * references to them are to be made." XCreateFontCursor(3)
+     */
     blank = XCreateBitmapFromData(display, XtWindow(canvas), no_data, 8, 8);
 
+    /* warning: must call XFreeCursor() when finished! */
     blankCursor = XCreatePixmapCursor(display, blank, blank, &trash, &trash, 0, 0);
+
+    XFreePixmap(display, blank);
 }
 
-static void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
+static void freeBlankCursor()
 {
-    if (!_mouse_enabled) {
+    if (blankCursor) {
+        XFreeCursor(display, blankCursor);
+        blankCursor = 0;
+    }
+}
+
+static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
+{
+    if (!_mouse_enabled && !lightpen_enabled) {
         return;
     }
 
     switch(report->type) {
         case MotionNotify:
-            mouse_move(report->xmotion.x, report->xmotion.y);
+            if (_mouse_enabled) {
+                mouse_move(report->xmotion.x, report->xmotion.y);
+            }
+            if (lightpen_enabled) {
+                xaw_lightpen_update_xy(report->xmotion.x, report->xmotion.y);
+            }
             break;
         case ButtonPress:
         case ButtonRelease:
-            mouse_button(report->xbutton.button - 1, (report->type == ButtonPress));
+            if (_mouse_enabled) {
+                mouse_button(report->xbutton.button - 1, (report->type == ButtonPress));
+            }
+            if (lightpen_enabled) {
+                xaw_lightpen_setbutton(report->xbutton.button, (report->type == ButtonPress));
+            }
             break;
     }
 }
@@ -240,16 +270,29 @@ static char *filesel_dir = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-void ui_check_mouse_cursor()
+static void enable_mouse_menus(void)
 {
     int i;
 
-    if (_mouse_enabled) {
-        for (i = 0; i < num_app_shells; i++) {
-            XtOverrideTranslations(app_shells[i].canvas, left_menu_disabled_translations);
-            XtOverrideTranslations(app_shells[i].canvas, right_menu_disabled_translations);
-        }
+    for (i = 0; i < num_app_shells; i++) {
+        XtOverrideTranslations(app_shells[i].canvas, left_menu_translations);
+        XtOverrideTranslations(app_shells[i].canvas, right_menu_translations);
+    }
+}
 
+static void disable_mouse_menus(void)
+{
+    int i;
+
+    for (i = 0; i < num_app_shells; i++) {
+        XtOverrideTranslations(app_shells[i].canvas, left_menu_disabled_translations);
+        XtOverrideTranslations(app_shells[i].canvas, right_menu_disabled_translations);
+    }
+}
+
+void ui_check_mouse_cursor()
+{
+    if (_mouse_enabled) {
         if (ui_cached_video_canvas->videoconfig->doublesizex) {
             mouse_accelx = 2;   
         } else {
@@ -262,19 +305,21 @@ void ui_check_mouse_cursor()
             mouse_accely = 4;
         }
 
-        XDefineCursor(display,XtWindow(canvas), blankCursor);
+        XDefineCursor(display,XtWindow(last_visited_canvas), blankCursor);
         cursor_is_blank = 1;
 
-        XGrabKeyboard(display, XtWindow(canvas), 1, GrabModeAsync, GrabModeAsync,  CurrentTime);
-        XGrabPointer(display, XtWindow(canvas), 1, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(canvas), None, CurrentTime);
+        XGrabKeyboard(display, XtWindow(last_visited_canvas), 1, GrabModeAsync, GrabModeAsync,  CurrentTime);
+        XGrabPointer(display, XtWindow(last_visited_canvas), 1, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), None, CurrentTime);
     } else if (cursor_is_blank) {
-        XUndefineCursor(display, XtWindow(canvas));
+        XUndefineCursor(display, XtWindow(last_visited_canvas));
         XUngrabPointer(display, CurrentTime);
         XUngrabKeyboard(display, CurrentTime);
-        for (i = 0; i < num_app_shells; i++) {
-            XtOverrideTranslations(app_shells[i].canvas, left_menu_translations);
-            XtOverrideTranslations(app_shells[i].canvas, right_menu_translations);
-        }
+    }
+
+    if (_mouse_enabled || lightpen_enabled) {
+        disable_mouse_menus();
+    } else {
+        enable_mouse_menus();
     }
 }
 
@@ -288,7 +333,7 @@ static Widget build_show_text(Widget parent, ui_button_t *button_return, const S
 static Widget build_confirm_dialog(Widget parent, ui_button_t *button_return, Widget *ConfirmDialogMessage);
 static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_params);
 
-UI_CALLBACK(enter_window_callback);
+UI_CALLBACK(enter_window_callback_shell);
 UI_CALLBACK(exposure_callback_shell);
 UI_CALLBACK(exposure_callback_canvas);
 
@@ -598,6 +643,8 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     Widget drive_track_label[NUM_DRIVES], drive_led[NUM_DRIVES];
     Widget drive_current_image[NUM_DRIVES];
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
+    Widget pane;
+    Widget canvas;
     XSetWindowAttributes attr;
     int i;
 
@@ -643,8 +690,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                      XtNborderWidth, 0,
                                      XtNbackground, BlackPixel(display, screen),
                                      NULL);
+    last_visited_canvas = canvas;
 
-    XtAddEventHandler(shell, EnterWindowMask, False, (XtEventHandler)enter_window_callback, NULL);
+    XtAddEventHandler(shell, EnterWindowMask, False, (XtEventHandler)enter_window_callback_shell, (XtPointer)c);
 
     /* XVideo must be refreshed when the shell window is moved. */
     if (!vsid_mode) {
@@ -652,7 +700,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
         XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
     }
-    XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler1351, NULL);
+    XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, NULL);
 
 
     /* Create the status bar on the bottom.  */
@@ -857,10 +905,13 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
        actually open the canvas window.  */
     ui_enable_drive_status(enabled_drives, drive_active_led);
 
-    initBlankCursor();
+    initBlankCursor(canvas);
+    c->app_shell = num_app_shells - 1;
+    xaw_init_lightpen(display);
 
     c->emuwindow = canvas;
     ui_cached_video_canvas = c;
+    xaw_lightpen_update_canvas(ui_cached_video_canvas, TRUE);
     
     return 0;
 }
@@ -873,19 +924,19 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
     char *name = XtName(w);
     int i;
 
-    translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                    "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                    "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                    "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+    /*
+     * Make sure to realise the widget, since the XawPositionSimpleMenu()
+     * action may want to look at its Window.
+     */
+    XtRealizeWidget(w);
+    translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n"
+                                    "Meta Shift <KeyDown>z: FakeButton(1) XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n",
                                     NULL);
 
     left_menu_translations = XtParseTranslationTable(translation_table);
     lib_free(translation_table);
 
     translation_table = util_concat("<Btn1Down>: \n",
-                                    "@Num_Lock<Btn1Down>: \n",
-                                    "Lock <Btn1Down>: \n",
-                                    "@Scroll_Lock <Btn1Down>: \n",
                                     NULL);
 
     left_menu_disabled_translations = XtParseTranslationTable(translation_table);
@@ -909,18 +960,14 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     char *name = XtName(w);
     int i;
 
-    translation_table = util_concat("<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                    "@Num_Lock<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                    "Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                    "@Scroll_Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+    XtRealizeWidget(w);
+    translation_table = util_concat("<Btn3Down>: XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n"
+                                    "Meta Shift <KeyDown>x: FakeButton(3) XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n",
                                     NULL);
     right_menu_translations = XtParseTranslationTable(translation_table);
     lib_free(translation_table);
 
     translation_table = util_concat("<Btn3Down>: \n",
-                                    "@Num_Lock<Btn3Down>: \n",
-                                    "Lock <Btn3Down>: \n",
-                                    "@Scroll_Lock <Btn3Down>: \n",
                                     NULL);
 
     right_menu_disabled_translations = XtParseTranslationTable(translation_table);
@@ -967,10 +1014,7 @@ void ui_set_drive8_menu(Widget w)
         char *translation_table;
         char *name = XtName(w);
 
-        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                        "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                        "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                        "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n",
                                         NULL);
         drive8_menu_translations = XtParseTranslationTable(translation_table);
         lib_free(translation_table);
@@ -998,10 +1042,7 @@ void ui_set_drive9_menu(Widget w)
         char *translation_table;
         char *name = XtName(w);
 
-        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                        "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                        "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-                                        "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n",
                                         NULL);
         drive9_menu_translations = XtParseTranslationTable(translation_table);
         lib_free(translation_table);
@@ -1789,7 +1830,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
 
                 tmp = image_contents_to_string(contents, 1);
 
-#define BUFCAT(s) util_bufcat(buf, &buf_size, &max_buf_size, ((BYTE *)s), strlen(s))
+#define BUFCAT(s) util_bufcat((BYTE *)buf, &buf_size, &max_buf_size, (BYTE *)(s), strlen(s))
 
                 BUFCAT(tmp);
                 lib_free(tmp);
@@ -2195,19 +2236,26 @@ static Widget build_confirm_dialog(Widget parent, ui_button_t *button_return, Wi
 
 /* Miscellaneous callbacks.  */
 
-UI_CALLBACK(enter_window_callback)
+UI_CALLBACK(enter_window_callback_shell)
 {
+    video_canvas_t *video_canvas = (video_canvas_t *)client_data;
+
     last_visited_app_shell = w;
+    last_visited_canvas = video_canvas->emuwindow;   /* keep global up to date */
+    ui_cached_video_canvas = video_canvas;
+    xaw_lightpen_update_canvas(video_canvas, TRUE);
 }
 
 UI_CALLBACK(exposure_callback_shell)
 {
+#ifdef HAVE_XVIDEO
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
     /* XVideo must be refreshed when the shell window is moved. */
-    if (canvas && canvas->videoconfig->hwscale && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1 || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)) {
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
         video_canvas_refresh_all(canvas);
     }
+#endif
 }
 
 UI_CALLBACK(exposure_callback_canvas)
@@ -2218,10 +2266,14 @@ UI_CALLBACK(exposure_callback_canvas)
         return;
     }
 
+#ifdef HAVE_XVIDEO
     /* No resize for XVideo. */
-    if (canvas->videoconfig->hwscale && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1 || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2)) {
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
         video_canvas_refresh_all(canvas);
-    } else {
+    }
+    else
+#endif
+    {
         Dimension width, height;
 
         XtVaGetValues(w, XtNwidth, (XtPointer)&width, XtNheight, (XtPointer)&height, NULL);
