@@ -24,16 +24,10 @@
  *
  */
 
-#if 0
 #include "vice.h"
-#else
-#define RTC_DEBUG
-#endif
 
 #include "ds12c887.h"
-#if 0
 #include "lib.h"
-#endif
 #include "rtc.h"
 
 #include <string.h>
@@ -223,11 +217,7 @@ void ds12c887_reset(rtc_ds12c887_t *context)
 
 rtc_ds12c887_t *ds12c887_init(BYTE *data, int *offset)
 {
-#if 0
     rtc_ds12c887_t *retval = lib_malloc(sizeof(rtc_ds12c887_t));
-#else
-    rtc_ds12c887_t *retval = malloc(sizeof(rtc_ds12c887_t));
-#endif
 
     memset(retval, 0, sizeof(rtc_ds12c887_t));
     retval->ram = data;
@@ -238,11 +228,7 @@ rtc_ds12c887_t *ds12c887_init(BYTE *data, int *offset)
 
 void ds12c887_destroy(rtc_ds12c887_t *context)
 {
-#if 0
     lib_free(context);
-#else
-    free(context);
-#endif
 }
 
 /* ---------------------------------------------------------------------------------------------------- */

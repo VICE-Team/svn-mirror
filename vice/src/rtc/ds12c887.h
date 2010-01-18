@@ -27,11 +27,7 @@
 #ifndef VICE_DS12C887_H
 #define VICE_DS12C887_H
 
-#if 0
 #include "types.h"
-#else
-#define BYTE unsigned char
-#endif
 
 typedef struct rtc_ds12c887_s {
     int clock_halt;
@@ -80,4 +76,3 @@ extern void ds12c887_store_data(rtc_ds12c887_t *context, BYTE data);
 extern BYTE ds12c887_read(rtc_ds12c887_t *context);
 
 #endif
-
