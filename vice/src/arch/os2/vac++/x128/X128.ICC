@@ -34,6 +34,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
+    incl(searchpath, "..\\..\\..\\..\\rtc"),
     incl(searchpath, "..\\..\\..\\..\\serial"),
     incl(searchpath, "..\\..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
@@ -116,6 +117,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/resid.icc"
         include "../incl/resources.icc"
         include "../incl/rs232drv.icc"
+        include "../incl/rtc.icc"
         include "../incl/serial.icc"
         include "../incl/sounddrv.icc"
         include "../incl/tape.icc"

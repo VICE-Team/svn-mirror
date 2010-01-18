@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-73
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../c64;../../../vicii"
+86
+"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../c64;../../../rtc;../../../vicii"
 0
 18
 WVList

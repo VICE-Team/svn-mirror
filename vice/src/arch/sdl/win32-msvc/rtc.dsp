@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\rtc\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\raster" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\rtc\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\raster" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -82,19 +82,19 @@ LIB32=link.exe -lib
 # Name "rtc - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\rtc\bq4830y.c"
+SOURCE="..\..\..\rtc\bq4830y.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\rtc\ds12c887.c"
+SOURCE="..\..\..\rtc\ds12c887.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\rtc\ds1302.c"
+SOURCE="..\..\..\rtc\ds1302.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\rtc\rtc.c"
+SOURCE="..\..\..\rtc\rtc.c"
 # End Source File
 # End Target
 # End Project

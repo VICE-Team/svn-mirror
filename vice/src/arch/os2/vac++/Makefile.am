@@ -56,6 +56,7 @@ EXTRA_DIST = \
 	incl/residdtv.icc \
 	incl/resources.icc \
 	incl/rs232drv.icc \
+	incl/rtc.icc \
 	incl/serial.icc \
 	incl/sounddrv.icc \
 	incl/tape.icc \

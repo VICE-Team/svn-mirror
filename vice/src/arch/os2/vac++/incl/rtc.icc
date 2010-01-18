@@ -1,0 +1,5 @@
+source type(c)
+    "bq4830y.c",
+    "ds12c887.c",
+    "ds1302.c",
+    "rtc.c"

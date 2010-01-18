@@ -46,6 +46,7 @@ EXTRA_DIST = \
 	residdtv.dsp \
 	residfp.dsp \
 	rs232drv.dsp \
+	rtc.dsp \
 	serial.dsp \
 	sid.dsp \
 	sounddrv.dsp \
