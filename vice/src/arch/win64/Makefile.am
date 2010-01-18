@@ -44,6 +44,7 @@ EXTRA_DIST = \
 	residdtv.vcproj \
 	residfp.vcproj \
 	rs232drv.vcproj \
+	rtc.vcproj \
 	serial.vcproj \
 	sid.vcproj \
 	sounddrv.vcproj \
