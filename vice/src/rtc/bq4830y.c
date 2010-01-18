@@ -83,11 +83,12 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_bq4830y_t *bq4830y_init(void)
+rtc_bq4830y_t *bq4830y_init(BYTE *ram, int *offset)
 {
     rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
-
     memset(retval, 0, sizeof(rtc_bq4830y_t));
+    retval->ram = ram;
+    retval->offset = offset;
 
     return retval;
 }
@@ -99,40 +100,103 @@ void bq4830y_destroy(rtc_bq4830y_t *context)
 
 /* ---------------------------------------------------------------------------------------------------- */
 
+static void bq4830y_latch_write_regs(rtc_bq4830y_t *context)
+{
+    BYTE val;
+    int i;
+
+    context->clock_regs[BQ4830Y_REG_SECONDS & 7] &= 0x80;
+    context->clock_regs[BQ4830Y_REG_SECONDS & 7] |= (BYTE)rtc_get_second(context->latch, 1);
+    context->clock_regs[BQ4830Y_REG_MINUTES & 7] &= 0x80;
+    context->clock_regs[BQ4830Y_REG_MINUTES & 7] |= (BYTE)rtc_get_minute(context->latch, 1);
+    context->clock_regs[BQ4830Y_REG_HOURS & 7] &= 0xc0;
+    context->clock_regs[BQ4830Y_REG_HOURS & 7] |= (BYTE)rtc_get_hour(context->latch, 1);
+    context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] &= 0xf8;
+    context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] |= (BYTE)rtc_get_weekday(context->latch) + 1;
+    context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] &= 0xc0;
+    context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] |= (BYTE)rtc_get_day_of_month(context->latch, 1);
+    context->clock_regs[BQ4830Y_REG_MONTHS & 7] &= 0xe0;
+    val = rtc_get_month(context->latch, 1);
+    if (val == 9) {
+        val += 7;
+    } else {
+        val++;
+    }
+    context->clock_regs[BQ4830Y_REG_MONTHS & 7] |= val;
+    context->clock_regs[BQ4830Y_REG_YEARS & 7] = (BYTE)rtc_get_year(context->latch, 1);
+    for (i = 0; i < 8; i++) {
+        context->clock_regs_changed[i] = 0;
+    }
+}
+
 static void bq4830y_write_clock_data(rtc_bq4830y_t *context)
 {
     int val;
 
     if (context->clock_halt) {
-        val = context->clock_regs[BQ4830Y_REG_SECONDS & 7] & 0x7f;
-        context->clock_halt_latch = rtc_set_latched_second(val, context->clock_halt_latch, 1);
-        val = context->clock_regs[BQ4830Y_REG_MINUTES & 7] & 0x7f;
-        context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
-        val = context->clock_regs[BQ4830Y_REG_HOURS & 7] & 0x3f;
-        context->clock_halt_latch = rtc_set_latched_hour(val, context->clock_halt_latch, 1);
-        val = (context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] & 7) - 1;
-        context->clock_halt_latch = rtc_set_latched_weekday(val, context->clock_halt_latch);
-        val = context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] & 0x3f;
-        context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
-        val = (context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f) - 1;
-        context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
-        val = context->clock_regs[BQ4830Y_REG_YEARS & 7];
-        context->clock_halt_latch = rtc_set_latched_year(val, context->clock_halt_latch, 1);
+        if (context->clock_regs_changed[BQ4830Y_REG_SECONDS & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_SECONDS & 7] & 0x7f;
+            context->clock_halt_latch = rtc_set_latched_second(val, context->clock_halt_latch, 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_MINUTES & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_MINUTES & 7] & 0x7f;
+            context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_HOURS & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_HOURS & 7] & 0x3f;
+            context->clock_halt_latch = rtc_set_latched_hour(val, context->clock_halt_latch, 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_DAYS_OF_WEEK & 7]) {
+            val = (context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] & 7) - 1;
+            context->clock_halt_latch = rtc_set_latched_weekday(val, context->clock_halt_latch);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_DAYS_OF_MONTH & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] & 0x3f;
+            context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_MONTHS & 7]) {
+            val = (context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f) - 1;
+            if (val == 0xf) {
+                val = 9;
+            }
+            context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_MONTHS & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_YEARS & 7];
+            context->clock_halt_latch = rtc_set_latched_year(val, context->clock_halt_latch, 1);
+        }
     } else {
-        val = context->clock_regs[BQ4830Y_REG_SECONDS & 7] & 0x7f;
-        context->offset = rtc_set_second(val, context->offset, 1);
-        val = context->clock_regs[BQ4830Y_REG_MINUTES & 7] & 0x7f;
-        context->offset = rtc_set_minute(val, context->offset, 1);
-        val = context->clock_regs[BQ4830Y_REG_HOURS & 7] & 0x3f;
-        context->offset = rtc_set_hour(val, context->offset, 1);
-        val = (context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] & 7) - 1;
-        context->offset = rtc_set_weekday(val, context->offset);
-        val = context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] & 0x3f;
-        context->offset = rtc_set_day_of_month(val, context->offset, 1);
-        val = (context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f) - 1;
-        context->offset = rtc_set_month(val, context->offset, 1);
-        val = context->clock_regs[BQ4830Y_REG_YEARS & 7];
-        context->offset = rtc_set_year(val, context->offset, 1);
+        if (context->clock_regs_changed[BQ4830Y_REG_SECONDS & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_SECONDS & 7] & 0x7f;
+            context->offset[0] = rtc_set_second(val, context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_MINUTES & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_MINUTES & 7] & 0x7f;
+            context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_HOURS & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_HOURS & 7] & 0x3f;
+            context->offset[0] = rtc_set_hour(val, context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_DAYS_OF_WEEK & 7]) {
+            val = (context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] & 7) - 1;
+            context->offset[0] = rtc_set_weekday(val, context->offset[0]);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_DAYS_OF_MONTH & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] & 0x3f;
+            context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_MONTHS & 7]) {
+            val = (context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f) -1;
+            if (val == 0xf) {
+                val = 9;
+            }
+            context->offset[0] = rtc_set_month(val, context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[BQ4830Y_REG_YEARS & 7]) {
+            val = context->clock_regs[BQ4830Y_REG_YEARS & 7];
+            context->offset[0] = rtc_set_year(val, context->offset[0], 1);
+        }
     }
 }
 
@@ -144,48 +208,64 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
 
     switch (address & 0x7fff) {
         case BQ4830Y_REG_MINUTES:
-            context->clock_regs[address & 7] &= 0x7f;
-            context->clock_regs[address & 7] |= val & 0x80;
             if (context->write_latch) {
-                context->clock_regs[address & 7] |= val & 0x7f;
+                context->clock_regs[address & 7] = val;
+                context->clock_regs_changed[address & 7] = 1;
+            } else {
+                context->clock_regs[address & 7] &= 0x7f;
+                context->clock_regs[address & 7] |= val & 0x80;
             }
             break;
         case BQ4830Y_REG_HOURS:
         case BQ4830Y_REG_DAYS_OF_MONTH:
-            context->clock_regs[address & 7] &= 0x3f;
-            context->clock_regs[address & 7] |= val & 0xc0;
             if (context->write_latch) {
-                context->clock_regs[address & 7] |= val & 0x3f;
+                context->clock_regs[address & 7] = val;
+                context->clock_regs_changed[address & 7] = 1;
+            } else {
+                context->clock_regs[address & 7] &= 0x3f;
+                context->clock_regs[address & 7] |= val & 0xc0;
             }
             break;
         case BQ4830Y_REG_DAYS_OF_WEEK:
-            context->clock_regs[address & 7] &= 7;
-            context->clock_regs[address & 7] |= val & 0xf8;
             if (context->write_latch) {
-                context->clock_regs[address & 7] |= val & 7;
+                context->clock_regs[address & 7] = val;
+                context->clock_regs_changed[address & 7] = 1;
+            } else {
+                context->clock_regs[address & 7] &= 7;
+                context->clock_regs[address & 7] |= val & 0xf8;
             }
             break;
         case BQ4830Y_REG_MONTHS:
-            context->clock_regs[address & 7] &= 0x1f;
-            context->clock_regs[address & 7] |= val & 0xe0;
             if (context->write_latch) {
-                context->clock_regs[address & 7] |= val & 0x1f;
+                context->clock_regs[address & 7] = val;
+                context->clock_regs_changed[address & 7] = 1;
+            } else {
+                context->clock_regs[address & 7] &= 0x1f;
+                context->clock_regs[address & 7] |= val & 0xe0;
             }
             break;
         case BQ4830Y_REG_YEARS:
             if (context->write_latch) {
                 context->clock_regs[address & 7] = val;
+                context->clock_regs_changed[address & 7] = 1;
             }
             break;
         case BQ4830Y_REG_SECONDS:
-            context->clock_regs[address & 7] &= 0x80;
-            context->clock_regs[address & 7] |= val & 0x7f;
+            context->clock_regs[address & 7] &= 0x7f;
+            context->clock_regs[address & 7] |= val & 0x80;
+            if (context->write_latch) {
+                context->clock_regs[address & 7] = val;
+                context->clock_regs_changed[address & 7] = 1;
+            } else {
+                context->clock_regs[address & 7] &= 0x7f;
+                context->clock_regs[address & 7] |= val & 0x80;
+            }
             if ((val >> 7) != context->clock_halt) {
                 if (val & 0x80) {
-                    context->clock_halt_latch = rtc_get_latch(context->offset);
+                    context->clock_halt_latch = rtc_get_latch(context->offset[0]);
                     context->clock_halt = 1;
                 } else {
-                    context->offset = context->offset - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset));
+                    context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset[0]));
                     context->clock_halt = 0;
                 }
             }
@@ -220,7 +300,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
                             } else {
-                                context->latch = rtc_get_latch(context->offset);
+                                context->latch = rtc_get_latch(context->offset[0]);
                             }
                             context->read_latch = 1;
                             break;
@@ -239,8 +319,9 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
                             } else {
-                                context->latch = rtc_get_latch(context->offset);
+                                context->latch = rtc_get_latch(context->offset[0]);
                             }
+                            bq4830y_latch_write_regs(context);
                             context->write_latch = 1;
                             break;
                         case READ_WRITE_LATCH:
@@ -254,12 +335,14 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
                             } else {
-                                context->latch = rtc_get_latch(context->offset);
+                                context->latch = rtc_get_latch(context->offset[0]);
                             }
                             context->read_latch = 1;
+                            bq4830y_latch_write_regs(context);
                             context->write_latch = 1;
                             break;
                         case READ_LATCH:
+                            bq4830y_latch_write_regs(context);
                             context->write_latch = 1;
                             break;
                         case WRITE_LATCH:
@@ -288,7 +371,7 @@ BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
             latch = context->clock_halt_latch;
         }
     } else {
-        latch = rtc_get_latch(context->offset);
+        latch = rtc_get_latch(context->offset[0]);
     }
 
     switch (address & 0x7fff) {

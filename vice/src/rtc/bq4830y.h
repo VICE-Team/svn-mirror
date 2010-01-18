@@ -35,9 +35,10 @@ typedef struct rtc_bq4830y_s {
     int read_latch;
     int write_latch;
     int latch;
-    int offset;
+    int *offset;
     BYTE clock_regs[8];
-    BYTE ram[32760];
+    BYTE clock_regs_changed[8];
+    BYTE *ram;
 } rtc_bq4830y_t;
 
 #define BQ4830Y_REG_CONTROL         0x7FF8
@@ -58,11 +59,7 @@ typedef struct rtc_bq4830y_s {
 #define CLOCK_WRITE_LATCH        6
 #define CLOCK_READ_WRITE_LATCH   7
 
-#define READ_LATCH_MASK    1
-#define WRITE_LATCH_MASK   2
-#define CLOCK_LATCH_MASK   4
-
-extern rtc_bq4830y_t *bq4830y_init(void);
+extern rtc_bq4830y_t *bq4830y_init(BYTE *ram, int *offset);
 extern void bq4830y_destroy(rtc_bq4830y_t *context);
 
 extern void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val);
