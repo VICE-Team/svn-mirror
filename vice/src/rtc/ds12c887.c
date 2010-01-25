@@ -510,7 +510,7 @@ int ds12c887_update_flags(rtc_ds12c887_t *context)
             irq_return = 1;
         }
     } else {
-        return;
+        return 0;
     }
 
     /* get current second */
@@ -701,7 +701,6 @@ void ds12c887_store_data(rtc_ds12c887_t *context, BYTE data)
 BYTE ds12c887_read(rtc_ds12c887_t *context)
 {
     BYTE retval;
-    BYTE hour;
     int latch;
 
     if (context->clock_halt || context->set) {
