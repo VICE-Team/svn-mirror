@@ -30,6 +30,7 @@
 #include "debug.h"
 #include "dma.h"
 #include "interrupt.h"
+#include "log.h"
 #include "types.h"
 
 
@@ -53,8 +54,12 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
     else
         cs->num_last_stolen_cycles = num;
 
-    /*log_debug("START %i NUM %i SUB %i MAIN %i DMAST %i",
-              start_clk, num, sub, maincpu_clk, dma_start);*/
+#ifdef DEBUG
+    if (debug.maincpu_traceflg) {
+        log_debug("START %i NUM %i SUB %i MAIN %i DMAST %i",
+              start_clk, num, sub, maincpu_clk, dma_start);
+    }
+#endif
 
     cs->num_cycles_left[cs->num_dma_per_opcode] = maincpu_clk - dma_start;
     cs->dma_start_clk[cs->num_dma_per_opcode] = dma_start;
@@ -70,21 +75,33 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
     if (cs->irq_clk >= start_clk
         && dma_start == (maincpu_clk - cycles_left_to_trigger_irq)
         && cs->num_dma_per_opcode == 1) {
-        /*log_debug("DECR");*/
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("DECR");
+    }
+#endif
         irq_sub = 1;
     }
     if (cs->nmi_clk >= start_clk
         && dma_start == (maincpu_clk - cycles_left_to_trigger_irq)
         && cs->num_dma_per_opcode == 1) {
-        /*log_debug("DECR");*/
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("DECR");
+    }
+#endif
         nmi_sub = 1;
     }
 
     maincpu_clk += num;
 
     cs->last_stolen_cycles_clk = dma_start + num;
-    /*log_debug("IRQCLK %i LASTSTOLEN %i",
-              cs->irq_clk, cs->last_stolen_cycles_clk);*/
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("IRQCLK %i LASTSTOLEN %i",
+              cs->irq_clk, cs->last_stolen_cycles_clk);
+    }
+#endif
 
     if (cs->irq_clk > dma_start)
         cs->irq_clk = cs->last_stolen_cycles_clk;
@@ -99,6 +116,10 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
     cs->irq_clk -= irq_sub;
     cs->nmi_clk -= nmi_sub;
    
-    /*log_debug("NEWIRQCLK %i", cs->irq_clk);*/
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("NEWIRQCLK %i", cs->irq_clk);
+    }
+#endif
 }
 

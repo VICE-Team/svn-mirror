@@ -243,8 +243,9 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
     unsigned int cycles_left_to_trigger_irq = 
         (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr) ? 2 : 1);
     CLOCK last_start_clk = CLOCK_MAX;
-/*
-    {
+
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
         unsigned int i;
         log_debug("INTREQ %ld NUMWR %i", (long)cpu_clk,
                   maincpu_num_write_cycles());
@@ -252,7 +253,7 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
             log_debug("%iCYLEFT %i STCLK %i", i, cs->num_cycles_left[i],
                       cs->dma_start_clk[i]);
     }
-*/
+#endif
 
     num_dma = cs->num_dma_per_opcode;
     while (num_dma != 0) {
@@ -267,13 +268,32 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
     if (num_cycles_left - last_num_cycles_left > last_start_clk - cpu_clk - 1)
         num_cycles_left = last_num_cycles_left + last_start_clk - cpu_clk - 1;
 
-    /*log_debug("TAKENLEFT %i", num_cycles_left);*/
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("TAKENLEFT %i   LASTSTOLENCYCLECLK %i", num_cycles_left,cs->last_stolen_cycles_clk);
+    }
+#endif
 
     *int_clk = cs->last_stolen_cycles_clk;
+    if (cs->num_dma_per_opcode > 0 && cs->dma_start_clk[0] > cpu_clk) {
+        /* interrupt was triggered before end of last opcode */
+        *int_clk -= (cs->dma_start_clk[0] - cpu_clk);
+    }
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("INTCLK dma shifted %i   (cs->dma_start_clk[0]=%i", *int_clk, cs->dma_start_clk[0]);
+    }
+#endif
+
     if (num_cycles_left >= cycles_left_to_trigger_irq)
         *int_clk -= (cycles_left_to_trigger_irq + 1);
 
-    /*log_debug("INTCLK %i", *int_clk);*/
+#ifdef DEBUGIRQDMA
+    if (debug.maincpu_traceflg) {
+        log_debug("INTCLK fixed %i", *int_clk);
+    }
+#endif
+
 }
 
 /* ------------------------------------------------------------------------- */

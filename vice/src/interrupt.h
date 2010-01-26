@@ -140,9 +140,6 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
 
             /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
-
-            /*log_debug("ICLK %i", cpu_clk);*/
-
             if (cs->last_stolen_cycles_clk <= cpu_clk)
                 cs->irq_clk = cpu_clk;
             else
