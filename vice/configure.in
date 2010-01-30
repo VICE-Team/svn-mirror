@@ -315,9 +315,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(AMIGA_AROS,,[Should we enable AROS support.])
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
-    if test x"$host_cpu" != "xpowerpc" -a x"$host_cpu" != "xppc" -a x"$host_cpu" != "xx86_64" -a x"$host_cpu" != "xamd64"; then
-      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-    fi
+    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     is_amigaos4=no
     is_amiga_aros=yes
   fi
