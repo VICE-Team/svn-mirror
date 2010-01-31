@@ -22,6 +22,8 @@ libc64cart_a_SOURCES = \
 	c64cartmem.h \
 	comal80.c \
 	comal80.h \
+	capture.c \
+	capture.h \
 	crt.c \
 	crt.h \
 	delaep256.c \

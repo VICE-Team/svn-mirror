@@ -94,6 +94,8 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_STARDOS            31
 #define CARTRIDGE_EASYFLASH          32
 
+#define CARTRIDGE_CAPTURE            123 /* FIXME */
+
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0
 #define CARTRIDGE_MODE_PRG                      1

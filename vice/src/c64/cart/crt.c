@@ -37,6 +37,7 @@
 #include "c64cartmem.h"
 #include "cartridge.h"
 #include "comal80.h"
+#include "capture.h"
 #include "crt.h"
 #include "delaep256.h"
 #include "delaep64.h"
@@ -283,6 +284,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             rc = magicformel_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_CAPTURE:
+            rc = capture_crt_attach(fd, rawcart);
             fclose(fd);
             if (rc < 0) {
                 return -1;

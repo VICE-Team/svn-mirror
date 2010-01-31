@@ -41,6 +41,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "comal80.h"
+#include "capture.h"
 #include "crt.h"
 #include "delaep256.h"
 #include "delaep64.h"
@@ -167,6 +168,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
             return expert_io1_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_io1_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_io1_read(addr);
         case CARTRIDGE_ROSS:
             return ross_io1_read(addr);
         case CARTRIDGE_STRUCTURED_BASIC:
@@ -267,6 +270,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_io1_store(addr, value);
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_io1_store(addr, value);
+            break;
         case CARTRIDGE_STRUCTURED_BASIC:
             stb_io1_store(addr, value);
             break;
@@ -328,6 +334,8 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
             return roml_banks[0x1f00 + (addr & 0xff)];
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_io2_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_io2_read(addr);
         case CARTRIDGE_ROSS:
             return ross_io2_read(addr);
         case CARTRIDGE_REX_EP256:
@@ -377,6 +385,9 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_io2_store(addr, value);
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_io2_store(addr, value);
+            break;
         case CARTRIDGE_REX_EP256:
             rexep256_io2_store(addr, value);
             break;
@@ -423,6 +434,8 @@ BYTE REGPARM1 roml_read(WORD addr)
             return final_v3_roml_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_roml_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_roml_read(addr);
         case CARTRIDGE_EASYFLASH:
             return easyflash_roml_read(addr);
         case CARTRIDGE_EPYX_FASTLOAD:
@@ -474,6 +487,9 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_roml_store(addr, value);
             return;
+        case CARTRIDGE_CAPTURE:
+            capture_roml_store(addr, value);
+            return;
         case CARTRIDGE_EASYFLASH:
             easyflash_roml_store(addr, value);
             return;
@@ -498,6 +514,8 @@ BYTE REGPARM1 romh_read(WORD addr)
             return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
         case CARTRIDGE_EASYFLASH:
             return easyflash_romh_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_romh_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_romh_read(addr);
@@ -516,6 +534,9 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_romh_store(addr, value);
+            break;
+        case CARTRIDGE_CAPTURE:
+            capture_romh_store(addr, value);
             break;
     }
     if (isepic_enabled && isepic_switch) {
@@ -548,6 +569,8 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
             return export_ram0[addr & 0x7fff];
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_1000_7fff_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_1000_7fff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_1000_7fff_read(addr);
@@ -564,6 +587,9 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_1000_7fff_store(addr, value);
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_1000_7fff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_1000_7fff_store(addr, value);
@@ -579,6 +605,8 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
             return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_a000_bfff_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_a000_bfff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_a000_bfff_read(addr);
@@ -595,6 +623,9 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_a000_bfff_store(addr, value);
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_a000_bfff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_a000_bfff_store(addr, value);
@@ -608,6 +639,8 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
             return export_ram0[addr & 0x7fff];
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_c000_cfff_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_c000_cfff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_c000_cfff_read(addr);
@@ -624,6 +657,9 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_c000_cfff_store(addr, value);
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_c000_cfff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_c000_cfff_store(addr, value);
@@ -635,6 +671,8 @@ BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_d000_dfff_read(addr);
+        case CARTRIDGE_CAPTURE:
+            return capture_d000_dfff_read(addr);
     }
     return read_bank_io(addr);
 }
@@ -645,6 +683,9 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_d000_dfff_store(addr, value);
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_d000_dfff_store(addr, value);
+            return;
     }
     store_bank_io(addr, value);
 }
@@ -746,6 +787,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_config_init();
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_config_init();
+            break;
         case CARTRIDGE_ROSS:
             ross_config_init();
             break;
@@ -786,6 +830,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_EPYX_FASTLOAD:
             epyxfastload_reset();
+            break;
+        case CARTRIDGE_CAPTURE:
+            capture_reset();
             break;
     }
 }
@@ -884,6 +931,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_config_setup(rawcart);
+            break;
+        case CARTRIDGE_CAPTURE:
+            capture_config_setup(rawcart);
             break;
         case CARTRIDGE_ROSS:
             ross_config_setup(rawcart);
@@ -985,6 +1035,9 @@ void cartridge_detach(int type)
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_detach();
             break;
+        case CARTRIDGE_CAPTURE:
+            capture_detach();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_detach();
             break;
@@ -1070,6 +1123,9 @@ void cartridge_freeze(int type)
             break;
         case CARTRIDGE_FINAL_III:
             final_v3_freeze();
+            break;
+        case CARTRIDGE_CAPTURE:
+            capture_freeze();
             break;
     }
     if (isepic_enabled && isepic_switch) {
