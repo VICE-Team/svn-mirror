@@ -1,5 +1,13 @@
 # Makefile.am for the GP2X version of `libarchgp2x.a'.
 
+if UNIX_WIZ_COMPILE
+SUBDIRS = wiz
+endif
+
+if UNIX_GP2X_COMPILE
+SUBDIRS = minimal
+endif
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -23,13 +31,11 @@ libarchgp2x_a_SOURCES = \
 	c64ui.c \
 	cbm2ui.c \
 	fullscreenarch.h \
+	gp2xsys.h \
 	gp2xui.h \
 	input_gp2x.c \
 	input_gp2x.h \
 	keycodes.h \
-	minimal.c \
-	minimal.h \
-	minimal_940t.h \
 	petui.c \
 	plus4ui.c \
 	prefs_gp2x.c \

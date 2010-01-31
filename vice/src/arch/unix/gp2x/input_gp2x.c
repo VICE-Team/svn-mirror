@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include "minimal.h"
+#include "gp2xsys.h"
 #include "joystick.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -246,82 +246,7 @@ void gp2x_poll_input(void)
         }
     }
 
-    //usb joysticks
-    if (gp2x_usbjoys > 0) {
-        joy_state = gp2x_joystick_read(1);
-
-        j = joystick_value[cur_portusb1];
-        if (joy_state & GP2X_UP) {
-            j |= 0x01;
-        } else {
-            j &= ~0x01;
-        }
-        if (joy_state & GP2X_DOWN) {
-            j |= 0x02;
-        } else {
-            j &= ~0x02;
-        }
-        if (joy_state & GP2X_LEFT) {
-            j |= 0x04;
-        } else {
-            j &= ~0x04;
-        }
-        if (joy_state & GP2X_RIGHT) {
-            j |= 0x08;
-        } else {
-            j &= ~0x08;
-        }
-        if (joy_state & (GP2X_B | GP2X_PUSH)) {
-            j |= 0x10;
-        } else {
-            j &= ~0x10;
-        }
-        joystick_value[cur_portusb1] = j;
-
-        if (gp2x_usbjoys > 1) {
-            joy_state = gp2x_joystick_read(2);
-
-            j = joystick_value[cur_portusb2];
-            if (joy_state & GP2X_UP) {
-                j |= 0x01;
-            } else {
-                j &= ~0x01;
-            }
-            if (joy_state & GP2X_DOWN) {
-                j |= 0x02;
-            } else {
-                j &= ~0x02;
-            }
-            if (joy_state & GP2X_LEFT) {
-                j |= 0x04;
-            } else {
-                j &= ~0x04;
-            }
-            if (joy_state & GP2X_RIGHT) {
-                j |= 0x08;
-            } else {
-                j &= ~0x08;
-            }
-            if (joy_state & (GP2X_B | GP2X_PUSH)) {
-                j |= 0x10;
-            } else {
-                j &= ~0x10;
-            }
-            joystick_value[cur_portusb2]=j;
-        }
-    }
-
-    //usb keyboard
-    for (i = 0; i < gp2x_keyboard_readext(); ++i) {
-        int keycode = keybuffer[i];
-
-        if (keycode & 0x80) {
-            keycode &= 0x7f; // Remove release bit
-            keyboard_key_released((signed long)keycode);
-        } else {
-            keyboard_key_pressed((signed long)keycode);
-        }
-    }
+    gp2x_poll_usb_input();
 }
 
 void kbd_initialize_numpad_joykeys(int* joykeys)

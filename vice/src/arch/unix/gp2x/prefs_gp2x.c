@@ -35,6 +35,8 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+#include "gp2xsys.h"
+
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
@@ -43,7 +45,6 @@
 #include "input_gp2x.h"
 #include "interrupt.h"
 #include "machine.h"
-#include "minimal.h"
 #include "prefs_gp2x.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -52,8 +53,6 @@
 #include "uiarch.h"
 #include "uitext_gp2x.h"
 #include "videoarch.h"
-
-extern volatile unsigned short *gp2x_memregs;
 
 int vkeyb_open = 0;
 int prefs_open = 0;
@@ -76,38 +75,7 @@ void (*ui_attach_cart)(char *,int);
 
 int vic20_mem = 5;
 
-int cpu_speed = 200;
-
-/* clock setting code from:
-  cpuctrl for GP2X
-    Copyright (C) 2005  Hermes/PS2Reality 
-	Modified by Vimacs using Robster's Code and god_at_hell(LCD)
-*/
-#define SYS_CLK_FREQ 7372800
-void set_FCLK(unsigned MHZ)
-{
-    unsigned v;
-    unsigned mdiv,pdiv = 3,scale = 0;
-
-    MHZ *= 1000000;
-    mdiv = (MHZ * pdiv) / SYS_CLK_FREQ;
-    mdiv = ((mdiv - 8) << 8) & 0xff00;
-    pdiv = ((pdiv - 2) << 2) & 0xfc;
-    scale &= 3;
-    v = mdiv | pdiv | scale;
-    gp2x_memregs[0x910 >> 1] = v;
-
-    //GnoStiC: (hopefully) prevent fast speed change crashes
-    asm volatile ("nop"::);
-    asm volatile ("nop"::);
-    asm volatile ("nop"::);
-    asm volatile ("nop"::);
-}
-
-#define MENU_HEIGHT 25
-#define MENU_X      32
-#define MENU_Y      16
-#define MENU_LS     MENU_Y + 8
+int cpu_speed = GP2X_SYS_CPU_SPEED;
 
 char *blank_line = "                                 ";
 
@@ -120,31 +88,9 @@ char *mapped_down_txt = "none";
 char *mapped_left_txt = "none";
 char *mapped_right_txt = "none";
 
-void display_set() {
-    if (hwscaling) {
-        display_width = 384; // 384*272
-        gp2x_memregs[0x290c >> 1] = display_width;		/* screen width */
-        if (tvout) {
-            gp2x_memregs[0x2906 >> 1] = 614;			/* scale horizontal */
-            if (tvout_pal) {
-                gp2x_memregs[0x2908 >> 1] = 384;	/* scale vertical PAL */
-            } else {
-                gp2x_memregs[0x2908>>1] = 460;		/* scale vertical NTSC */
-            }
-        } else {
-            gp2x_memregs[0x2906 >> 1] = 1228;			/* scale horizontal */
-            gp2x_memregs[0x2908>>1] = 430;			/* vertical */
-        }
-    } else {
-        display_width = 320; //320*240
-        gp2x_memregs[0x290c >> 1] = display_width;		/* screen width */
-        if (tvout) {
-            gp2x_memregs[0x2906 >> 1] = 420;			/* scale horizontal */
-        } else {
-            gp2x_memregs[0x2906 >> 1] = 1024;			/* scale horizontal */
-        }
-        gp2x_memregs[0x2908 >> 1] = 320;			/* scale vertical */
-    }
+void display_set()
+{
+    display_width = display_setting(hwscaling, display_width);
 }
 
 void write_snapshot(WORD unused_addr, void *filename)
@@ -751,7 +697,6 @@ char *file_req(unsigned char *screen, char *dir)
         char *command = (char *)malloc(1024);
 
         input_y = 0;
-        sprintf(command, "./unzip -o -d ./tmp %s/%s", cwd, dir_items[cursor_pos].name);
         system(command);
         free(command);
         num_items = 0;
@@ -958,15 +903,8 @@ void draw_prefs (unsigned char *screen)
         }
     } else if (input_left) {
         input_left = 0;
-        if (gp2x_usbjoys > 0) {
-            if (cursor_pos == USBJOYSTICK1) {
-                cur_portusb1 = 1;
-            }
-        } else if (gp2x_usbjoys > 1) {
-            if (cursor_pos == USBJOYSTICK2) {
-                cur_portusb2 = 1;
-            }
-        }
+        
+        gp2x_handle_usb_cursor_pos(cursor_pos, 1);
         if (cursor_pos == JOYSTICK) {
             cur_port = 1;
         } else if (cursor_pos == FRAMESKIP) {
@@ -993,8 +931,8 @@ void draw_prefs (unsigned char *screen)
             yoffset = yoffset_uncentred;
             centred=0;
         } else if (cursor_pos == CPUSPEED) {
-            if (cpu_speed > 150) {
-                cpu_speed -= 5;
+            if (cpu_speed > MIN_CPU_SPEED) {
+                cpu_speed -= CPU_DELTA;
                 set_FCLK(cpu_speed);
             }
         } else if (cursor_pos == X8) {
@@ -1004,15 +942,7 @@ void draw_prefs (unsigned char *screen)
         }
     } else if (input_right) {
         input_right = 0;
-        if (gp2x_usbjoys > 0) {
-            if (cursor_pos == USBJOYSTICK1) {
-                cur_portusb1 = 2;
-            }
-        } else if (gp2x_usbjoys > 1) {
-            if (cursor_pos == USBJOYSTICK2) {
-                cur_portusb2 = 2;
-            }
-        }
+        gp2x_handle_usb_cursor_pos(cursor_pos, 2);
         if (cursor_pos == JOYSTICK) {
             cur_port = 2;
         } else if (cursor_pos == FRAMESKIP) {
@@ -1039,8 +969,8 @@ void draw_prefs (unsigned char *screen)
             yoffset = yoffset_centred;
             centred = 1;
         } else if (cursor_pos == CPUSPEED) {
-            if (cpu_speed < 280) {
-                cpu_speed += 5;
+            if (cpu_speed < MAX_CPU_SPEED) {
+                cpu_speed += CPU_DELTA;
                 set_FCLK(cpu_speed);
             }
         } else if (cursor_pos == X8) {
@@ -1148,28 +1078,7 @@ void draw_prefs (unsigned char *screen)
         draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * JOYSTICK), "2", menu_fg, menu_bg);
     }
 
-    /* usb joystick 1 port */
-    if (gp2x_usbjoys > 0) {
-        if (cur_portusb1 == 1) {
-	      draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * USBJOYSTICK1), "1", menu_fg, menu_bg);
-        } else {
-            draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * USBJOYSTICK1), "2", menu_fg, menu_bg);
-        }
-
-    } else {
-        draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * USBJOYSTICK1), "none", menu_fg, menu_bg);
-    }
-
-    /* usb joystick 2 port */
-    if (gp2x_usbjoys > 1) {
-        if (cur_portusb2 == 1) {
-            draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * USBJOYSTICK2), "1", menu_fg, menu_bg);
-        } else {
-            draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * USBJOYSTICK2), "2", menu_fg, menu_bg);
-        }
-    } else {
-        draw_ascii_string(screen, display_width, MENU_X + (8 * 24), MENU_Y + (8 * USBJOYSTICK2), "none", menu_fg, menu_bg);
-    }
+    gp2x_draw_usb_strings(screen, display_width);
 
     /* frameskip */
     resources_get_int("RefreshRate", &cur_rrate);
@@ -1214,18 +1123,10 @@ void draw_prefs (unsigned char *screen)
     ui_draw_resid_string(screen, MENU_X + (8 * 21), MENU_Y + (8 * SIDENGINE));
 
     /* screen scaling */
-    if (hwscaling) {
-        draw_ascii_string(screen, display_width, MENU_X + (8 * 21), MENU_Y + (8 * SCALED), "scaled", menu_fg, menu_bg);
-    } else {
-        draw_ascii_string(screen, display_width, MENU_X + (8 * 21), MENU_Y + (8 * SCALED), "1:1", menu_fg, menu_bg);
-    }
+    gp2x_draw_scaling_string(screen, display_width, hwscaling);
 
     /* centre display */
-    if (centred) {
-        draw_ascii_string(screen, display_width, MENU_X + (8 * 21), MENU_Y + (8 * CENTRED), "on", menu_fg, menu_bg);
-    } else {
-        draw_ascii_string(screen, display_width, MENU_X + (8 * 21), MENU_Y + (8 * CENTRED), "off", menu_fg, menu_bg);
-    }
+    gp2x_draw_centred_string(screen, display_width, centred);
 
     ui_draw_memory_string(screen, MENU_X + (8 * 21), MENU_Y + (8 * X8), vic20_mem);
 

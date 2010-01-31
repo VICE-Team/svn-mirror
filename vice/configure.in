@@ -657,6 +657,7 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_YACC
 AM_PROG_LEX
+AM_PROG_AS
 
 dnl Extension for executable files in this system
 AC_EXEEXT
@@ -927,7 +928,7 @@ else
     if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
         disable_resid_fp=yes
     fi
-    if test x"$is_unix_gp2x" = "xyes"; then
+    if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
         disable_resid_fp=yes
     fi
 
@@ -1642,7 +1643,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
                             [AC_MSG_RESULT(no)])
             LIBS="$old_LIBS"
 
-            if test x"$is_unix_gp2x" = "xyes"; then
+            if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
                 LIBS="$LIBS -lpthread"
             fi
         fi
@@ -1676,7 +1677,7 @@ if test x"$is_unix" = "xyes"; then
     AC_DEFINE(USE_ARTS,,[Enable aRts support.])
   fi
 
-  if test x"$with_alsa" != "xno" -a x"$is_unix_gp2x" != "xyes"; then
+  if test x"$with_alsa" != "xno" -a x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes"; then
     AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
                       SOUND_LIBS="$SOUND_LIBS -lasound";
@@ -1876,7 +1877,7 @@ AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
 dnl Check for ParSID support
-if test x"$is_unix" = "xyes" -a x"is_unix_gp2x" != "xyes"; then
+if test x"$is_unix" = "xyes" -a x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes"; then
 
   if test x"$enable_parsid" = "xyes"; then
     dnl Check for needed parallel port io headers
@@ -2323,11 +2324,12 @@ elif test x"$is_beos" = "xyes"; then
   LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
   AC_SUBST(LDFLAGS)
 
-elif test x"$is_unix_gp2x" = "xyes"; then
+elif test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
 
-  dnl on GP2X we need static libs.
+  dnl on GP2X (and WIZ) we need static libs.
 
   LDFLAGS="$LDFLAGS -static"
+  LIBS="$LIBS -lpthread"
   AC_SUBST(LDFLAGS)
 
 elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes"; then
@@ -2419,7 +2421,7 @@ AC_SUBST(XPLUS4_WINRES)
 AC_SUBST(XCBM2_WINRES)
 
 
-if test x"$is_unix_gp2x" = "xyes" -a x"$enable_sdlui" != "xyes"; then
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   AM_CONDITIONAL(SUPPORT_X64DTV, false)
 else
   if test x"$is_riscos" = "xyes" -a x"$enable_sdlui" != "xyes"; then
@@ -2477,9 +2479,15 @@ if test x"$is_unix" = "xyes"; then
   fi
 
   if test x"$is_unix_gp2x" = "xyes" -a x"$enable_sdlui" != "xyes"; then
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a"
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR"
-    ARCH_EXTRA_SUBDIR="gp2x"
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a $ARCH_DIR/gp2x/minimal/libarchgp2xsys.a"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$ARCH_SRC_DIR/gp2x -I$ARCH_SRC_DIR/gp2x/minimal"
+    ARCH_EXTRA_SUBDIR="gp2x gp2x/minimal"
+  fi
+
+  if test x"$is_unix_wiz" = "xyes" -a x"$enable_sdlui" != "xyes"; then
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a $ARCH_DIR/gp2x/wiz/libarchwizsys.a"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$ARCH_SRC_DIR/gp2x -I$ARCH_SRC_DIR/gp2x/wiz"
+    ARCH_EXTRA_SUBDIR="gp2x gp2x/wiz"
   fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
@@ -2928,6 +2936,8 @@ if false ; then
     mkdir -p arch/sdl/xbox
     mkdir -p arch/unix
     mkdir -p arch/unix/gp2x
+    mkdir -p arch/unix/gp2x/minimal
+    mkdir -p arch/unix/gp2x/wiz
     mkdir -p arch/unix/gui
     mkdir -p arch/unix/readline
     mkdir -p arch/unix/x11
@@ -3036,6 +3046,8 @@ AC_OUTPUT([Makefile
            src/arch/sdl/xbox/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
+           src/arch/unix/gp2x/minimal/Makefile
+           src/arch/unix/gp2x/wiz/Makefile
            src/arch/unix/gui/Makefile
            src/arch/unix/readline/Makefile
            src/arch/unix/x11/Makefile

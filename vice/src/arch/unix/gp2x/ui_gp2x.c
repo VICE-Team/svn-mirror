@@ -28,12 +28,12 @@
 #include "vice.h"
 
 #include <stdio.h>
+
+#include "gp2xsys.h"
+
 #include "videoarch.h"
-#include "minimal.h"
 #include "machine.h"
 #include "ui_gp2x.h"
-
-extern volatile unsigned short *gp2x_memregs;
 
 int num_checkmark_menu_items;
 char *last_attached_images[8];
@@ -103,7 +103,7 @@ void ui_display_playback(void)
 
 void ui_init(void)
 {
-    gp2x_init(1000, 8, 11025, 16, 1, 60);
+    gp2xsys_init(1000, 8, 11025, 16, 1, 60);
 }
 
 void archdep_ui_init(void)
@@ -139,11 +139,7 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
 
     if (drive_number == 0) {
         drive8_status = status;
-        if (status) {
-            gp2x_memregs[0x106e >> 1] &= ~16; /* switch battery led on */
-        } else {
-            gp2x_memregs[0x106e >> 1] |= 16; /* switch battery led off */
-        }
+        gp2x_battery_led(status);
     }
     if (drive_number == 1) {
         drive9_status = status;

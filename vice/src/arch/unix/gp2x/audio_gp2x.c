@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include "minimal.h"
+#include "gp2xsys.h"
 
 static unsigned int volume = 100;
 

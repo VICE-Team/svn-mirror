@@ -27,8 +27,10 @@
 
 #include "vice.h"
 
+#include "gp2xsys.h"
+
 #include <stdio.h>
-#include "minimal.h"
+
 #include "ui_gp2x.h"
 #include "uitext_gp2x.h"
 #include "prefs_gp2x.h"
@@ -85,15 +87,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         vicii_setup = 1;
     }
 
-    tvout_pal = 1;
-    if (gp2x_memregs[0x2800 >> 1] & 0x100) {
-        tvout = 1;
-        hwscaling = 1;
-        if (gp2x_memregs[0x2818 >> 1] == 239) {
-            tvout_pal = 0;
-        }
-        display_set();
-    }
+    gp2x_tvout_pal();
 
     current_canvas = canvas;
     return canvas;
@@ -114,8 +108,8 @@ static void pause_trap(WORD addr, void *data)
     while (prefs_open) {
         usleep(20000);
         gp2x_poll_input();
-        draw_prefs(gp2x_screen8);
-        gp2x_video_flip();
+        draw_prefs(gp2x_video_RGB[0].screen);
+        gp2xsys_video_flip();
     }
 }
 
@@ -150,43 +144,27 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     source = canvas->draw_buffer->draw_buffer;
     buf_width = canvas->draw_buffer->draw_buffer_width / 4;
 
-    register unsigned long *source32 = (unsigned long *)source;
-    register unsigned long *screen32 = (unsigned long *)gp2x_screen8;
-
-    if (hwscaling) {
-        for (y = 272; y--;) {
-            for (x = 384 / 4; x--;) {
-                screen32[(y * (384 / 4)) + x] = source32[((y + (yoff - 16)) * (buf_width)) + x + ((xoff - 32) / 4)];
-            }
-        }
-    } else {
-        for (y = 240; y--;) {
-            for (x = 320 / 4; x--;) {
-                screen32[(y * (320 / 4)) + x] = source32[((y + yoff) * (buf_width)) + x + (xoff / 4)];
-            }
-        }
-    }
+    gp2x_screen_source((unsigned long *)source, (unsigned long *)gp2x_video_RGB[0].screen, xoff, yoff, buf_width, hwscaling);
 
     gp2x_poll_input();
 
     if (stats_open) {
-        draw_stats(gp2x_screen8);
+        draw_stats(gp2x_video_RGB[0].screen);
     }
     if (prefs_open) {
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else if (vkeyb_open) {
-        draw_vkeyb(gp2x_screen8);
+        draw_vkeyb(gp2x_video_RGB[0].screen);
     }
 	
-    gp2x_video_flip();
+    gp2xsys_video_flip();
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
 {
     unsigned int i;
     for (i = 0; i < palette->num_entries; i++) {
-        gp2x_palette[i * 2] = ((palette->entries[i].green) << 8) | (palette->entries[i].blue);
-        gp2x_palette[i * 2 + 1] = palette->entries[i].red;
+        gp2xsys_video_color8(i, palette->entries[i].red, palette->entries[i].green, palette->entries[i].blue);
     }
     gp2x_video_setpalette();
 
@@ -204,6 +182,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, unsigned int width, unsi
 
 void video_arch_resources_shutdown(void)
 {
+    gp2xsys_shutdown();
 }
 
 void video_add_handlers(void)
