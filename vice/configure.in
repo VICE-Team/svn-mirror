@@ -455,7 +455,7 @@ elif test x"$host_os" = "xwiz" -o x"$host_os" = "xlinux-wiz" -o x"$host_vendor" 
   is_unix=yes
   is_unix_wiz=yes
 
-  CFLAGS="$CFLAGS -fomit-frame-pointer -mcpu=arm920t -msoft-float"
+  CFLAGS="$CFLAGS -fomit-frame-pointer -msoft-float"
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])

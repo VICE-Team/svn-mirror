@@ -36,6 +36,7 @@
 #include "minimal.h"
 
 #define gp2x_video_setpalette gp2x_video_RGB_setpalette
+#define gp2x_screen8 gp2x_video_RGB[0].screen
 
 #define GP2X_SYS_CPU_SPEED 200
 #define MIN_CPU_SPEED 150

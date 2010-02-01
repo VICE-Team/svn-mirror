@@ -1,5 +1,17 @@
 #include "wiz_lib.h"
 
+#ifndef bool
+#define bool int
+#endif
+
+#ifndef false
+#define false 0
+#endif
+
+#ifndef true
+#define true 1
+#endif
+
 #define FB0_0 (0x2A00000)
 #define FB0_1 (0x2A00000+320*240*2)
 #define FB1_0 (0x2A00000+320*240*4)
@@ -33,11 +45,13 @@ static void lc_setfb(int layer, unsigned short *set_to);
 static void lc_flipfb(int layer,int single);
 static void lc_setlayer(int layer, bool onoff, bool alpha, bool invert, bool trans, unsigned int mode);
 static void lc_layerpos(int layer, int x1, int y1, int x2, int y2);
+
 /*
 static void lc_setalpha(int layer, int value);
 static void lc_settranscol(int layer, unsigned int colour);
 static void lc_setinvcol(int layer, unsigned int colour);
 */
+
 static void lc_dirtymlc(void);
 static void lc_dirtylayer(int layer);
 static void lc_screensize(int w, int h);
@@ -509,11 +523,12 @@ void wiz_video_flip_single(void)
 {
     const unsigned char* src = (unsigned char*)fb0_8bit;
     unsigned char* dst = (unsigned char*)fb1_8bit + WIDTH * HEIGHT;    
+    int i, j;
     
     if (wiz_rotated_video)
     {	  
-	  for(int i = HEIGHT; i--; dst += WIDTH * HEIGHT + 1) {
-	      for(int j = WIDTH; j--; ) {
+	  for(i = HEIGHT; i--; dst += WIDTH * HEIGHT + 1) {
+	      for(j = WIDTH; j--; ) {
 		  dst -= HEIGHT;
 		  *dst = *src++;
 	      }
@@ -959,8 +974,4 @@ void wiz_ptimer_cleanup(void)
     TIMER_REG(0x44) = 0;
     
     printf( "Wiz hardware timer stoped\n" );
-}
-
-void gp2x_poll_usb_input(void)
-{
 }

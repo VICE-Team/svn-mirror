@@ -96,15 +96,15 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
-#ifdef GP2X
+#if defined(GP2X) || defined(WIZ)
     (*ui_dispatch_hook)();
 #endif
-#if defined(HAVE_MOUSE) && !defined(GP2X) && !defined(MACOSX_COCOA)
+#if defined(HAVE_MOUSE) && !defined(GP2X) && !defined(WIZ) && !defined(MACOSX_COCOA)
     {
         extern void x11_lightpen_update(void);
         x11_lightpen_update();
     }
-#endif /* HAVE_MOUSE !GP2X !MACOSX_COCOA */
+#endif /* HAVE_MOUSE !GP2X !WIZ !MACOSX_COCOA */
     kbdbuf_flush();
 #ifdef HAS_JOYSTICK
     joystick();
@@ -121,7 +121,7 @@ void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 
 void vsyncarch_postsync(void)
 {
-#ifndef GP2X
+#if !defined(GP2X) && !defined(WIZ)
     (*ui_dispatch_hook)();
 #endif
 }

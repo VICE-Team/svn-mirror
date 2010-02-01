@@ -1,6 +1,6 @@
 #include "vice.h"
 
-#ifdef GP2X
+#if defined(GP2X) || defined(WIZ)
 #include "gp2x/videoarch.h"
 #else
 #ifdef USE_GNOMEUI

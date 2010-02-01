@@ -108,7 +108,7 @@ static void pause_trap(WORD addr, void *data)
     while (prefs_open) {
         usleep(20000);
         gp2x_poll_input();
-        draw_prefs(gp2x_video_RGB[0].screen);
+        draw_prefs(gp2x_screen8);
         gp2xsys_video_flip();
     }
 }
@@ -144,17 +144,17 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     source = canvas->draw_buffer->draw_buffer;
     buf_width = canvas->draw_buffer->draw_buffer_width / 4;
 
-    gp2x_screen_source((unsigned long *)source, (unsigned long *)gp2x_video_RGB[0].screen, xoff, yoff, buf_width, hwscaling);
+    gp2x_screen_source((unsigned long *)source, (unsigned long *)gp2x_screen8, xoff, yoff, buf_width, hwscaling);
 
     gp2x_poll_input();
 
     if (stats_open) {
-        draw_stats(gp2x_video_RGB[0].screen);
+        draw_stats(gp2x_screen8);
     }
     if (prefs_open) {
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else if (vkeyb_open) {
-        draw_vkeyb(gp2x_video_RGB[0].screen);
+        draw_vkeyb(gp2x_screen8);
     }
 	
     gp2xsys_video_flip();

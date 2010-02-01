@@ -13,10 +13,14 @@ else
 if UNIX_GP2X_COMPILE
 SUBDIRS = gp2x
 else
+if UNIX_WIZ_COMPILE
+SUBDIRS = gp2x
+else
 if NEED_READLINE
 SUBDIRS = gui x11 readline
 else
 SUBDIRS = gui x11
+endif
 endif
 endif
 endif

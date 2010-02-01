@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "gp2xsys.h"
+#include "gp2x_prefs.h"
 
 void gp2x_poll_usb_input(void)
 {
@@ -88,6 +89,8 @@ void gp2xsys_video_flip(void)
 
 void gp2x_screen_source(register unsigned long *source, register unsigned long *screen, register int xoff, register int yoff, register int buf_width, int hwscale)
 {
+    int x, y;
+
     for (y = 240; y--;) {
         for (x = 320 / 4; x--;) {
             screen[(y * (320 / 4)) + x] = source[((y + yoff) * (buf_width)) + x + (xoff / 4)];
