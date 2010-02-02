@@ -121,6 +121,9 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
     if ((byte ^ myoldpb) & 0x8)
         datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte)
                                    & 0x8);
+    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
+        extra_joystick_cga_store(byte);
+    }
 }
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)
