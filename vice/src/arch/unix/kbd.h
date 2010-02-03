@@ -33,7 +33,7 @@ extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
-#ifdef GP2X
+#if defined(GP2X) || defined(WIZ)
 #define KBD_C64_SYM_US  "gp2x_sym.vkm"
 #define KBD_C64_SYM_DE  "gp2x_sym.vkm"
 #define KBD_C64_POS     "gp2x_pos.vkm"

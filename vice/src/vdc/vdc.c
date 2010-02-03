@@ -52,7 +52,7 @@
 #include "vdctypes.h"
 #include "video.h"
 
-#if defined(__MSDOS__) || defined(GP2X)
+#if defined(__MSDOS__) || defined(GP2X) || defined(WIZ)
 #include "videoarch.h"
 #endif
 
@@ -183,7 +183,7 @@ raster_t *vdc_init(void)
 {
     vdc.initialized = 0;
 
-#ifdef GP2X
+#if defined(GP2X) || defined(WIZ)
     vicii_setup_delay=1;
 #endif
 

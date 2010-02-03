@@ -3,7 +3,7 @@
 #include "types.h"
 
 #ifndef MACOSX_COCOA
-#ifdef GP2X
+#if defined(GP2X) || defined(WIZ)
 #include "gp2x/uimenu.h"
 #else
 #ifdef USE_GNOMEUI
