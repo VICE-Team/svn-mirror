@@ -44,41 +44,49 @@
 #include <io.h>
 #endif
 
-#define GENERIC_CRT             0
-#define ACTION_REPLAY_CRT       1
-#define KCS_CRT                 2
-#define FINAL_CARTRIDGE_3_CRT   3
-#define SIMONS_BASIC_CRT        4
-#define OCEAN_CRT               5
-#define EXPERT_CRT              6
-#define FUN_PLAY_CRT            7
-#define SUPER_GAMES_CRT         8
-#define ATOMIC_POWER_CRT        9
-#define EPYX_CRT               10
-#define WESTERMANN_CRT         11
-#define REX_UTILITY_CRT        12
-#define FINAL_CARTRIDGE_1_CRT  13
-#define MAGIC_FORMEL_CRT       14
-#define C64GS_CRT              15
-#define WARPSPEED_CRT          16
-#define DINAMIC_CRT            17
-#define ZAXXON_CRT             18
-#define MAGIC_DESK_CRT         19
-#define SUPER_SNAPSHOT_5_CRT   20
-#define COMAL80_CRT            21
-#define STRUCTURED_BASIC_CRT   22
-#define ROSS_CRT               23
-#define DELA_EP64_CRT          24
-#define DELA_EP7x8_CRT         25
-#define DELA_EP256_CRT         26
-#define REX_EP256_CRT          27
-#define MIKRO_ASSEMBLER_CRT    28
+#define GENERIC_CRT                   0
+#define ACTION_REPLAY_CRT             1
+#define KCS_CRT                       2
+#define FINAL_CARTRIDGE_3_CRT         3
+#define SIMONS_BASIC_CRT              4
+#define OCEAN_CRT                     5
+#define EXPERT_CRT                    6
+#define FUN_PLAY_CRT                  7
+#define SUPER_GAMES_CRT               8
+#define ATOMIC_POWER_CRT              9
+#define EPYX_CRT                     10
+#define WESTERMANN_CRT               11
+#define REX_UTILITY_CRT              12
+#define FINAL_CARTRIDGE_1_CRT        13
+#define MAGIC_FORMEL_CRT             14
+#define C64GS_CRT                    15
+#define WARPSPEED_CRT                16
+#define DINAMIC_CRT                  17
+#define ZAXXON_CRT                   18
+#define MAGIC_DESK_CRT               19
+#define SUPER_SNAPSHOT_5_CRT         20
+#define COMAL80_CRT                  21
+#define STRUCTURED_BASIC_CRT         22
+#define ROSS_CRT                     23
+#define DELA_EP64_CRT                24
+#define DELA_EP7x8_CRT               25
+#define DELA_EP256_CRT               26
+#define REX_EP256_CRT                27
+#define MIKRO_ASSEMBLER_CRT          28
 /* 29 is reserved for the real
    fc1, the current fc1 will
    become fc2 */
-#define ACTION_REPLAY4_CRT     30
-#define STARDOS_CRT            31
-#define EASYFLASH_CRT          32
+#define ACTION_REPLAY4_CRT           30
+#define STARDOS_CRT                  31
+#define EASYFLASH_CRT                32
+#define CARTRIDGE_EASYFLASH_XBANK    33
+
+#define CARTRIDGE_CAPTURE            34
+#define CARTRIDGE_ACTION_REPLAY3     35
+#define CARTRIDGE_RETRO_REPLAY       36
+#define CARTRIDGE_MMC64              37
+#define CARTRIDGE_MMC_REPLAY         38
+#define CARTRIDGE_IDE64              39
 
 #define SIZE_4KB     0x1000
 #define SIZE_8KB     0x2000
@@ -158,7 +166,13 @@ static const cart_t cart_info[] = {
     {0, 0, 0, 0, 0, 0, "Dummy"},
     {1, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Action Replay 4"},
     {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"},
-    {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"}
+    {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"},
+    {0, 0, SIZE_8KB, 0x2000, 0, 1, "Capture"}, /* to be corrected once I have an actual crt */
+    {1, 0, SIZE_16KB, 0x2000, 0, 2, "Action Replay 3"},
+    {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
+    {0, 0, 0, 0, 0, 0, "MMC64"}, /* to be corrected once the code is rewritten */
+    {0, 0, 0, 0, 0, 0, "MMC Replay"}, /* to be corrected once the code is merged */
+    {0, 0, SIZE_64KB, 0x2000, 0, 8, "IDE64"}
 };
 
 #ifndef HAVE_STRDUP

@@ -49,11 +49,8 @@ extern void cartridge_detach(int type);
 extern void cartridge_freeze(int type);
 
 /* Known cartridge types.  */
-#define CARTRIDGE_ACTION_REPLAY3    -29
 #define CARTRIDGE_IEEE488           -11
-#define CARTRIDGE_IDE64             -7
 #define CARTRIDGE_ULTIMAX           -6
-#define CARTRIDGE_RETRO_REPLAY      -5
 #define CARTRIDGE_SUPER_SNAPSHOT    -4
 #define CARTRIDGE_GENERIC_8KB       -3
 #define CARTRIDGE_GENERIC_16KB      -2
@@ -93,8 +90,15 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_ACTION_REPLAY4     30
 #define CARTRIDGE_STARDOS            31
 #define CARTRIDGE_EASYFLASH          32
+#define CARTRIDGE_EASYFLASH_XBANK    33
+#define CARTRIDGE_CAPTURE            34
+#define CARTRIDGE_ACTION_REPLAY3     35
+#define CARTRIDGE_RETRO_REPLAY       36
+#define CARTRIDGE_MMC64              37
+#define CARTRIDGE_MMC_REPLAY         38
+#define CARTRIDGE_IDE64              39
 
-#define CARTRIDGE_CAPTURE            123 /* FIXME */
+
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0
