@@ -290,6 +290,7 @@ static void usage(void)
     printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
     printf("ocean    Ocean type 1/2 .crt file\n");
     printf("prg      Binary C64 .prg file with load-address\n");
+    printf("retro    Retro Replay .crt file\n");
     printf("rep256   Rex EP256 .crt file, extra files can be inserted\n");
     printf("ross     Ross .crt file\n");
     printf("ru       Rex Utility .crt file\n");
@@ -486,6 +487,9 @@ static void checkflag(char *flg, char *arg)
                         }
                         if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'p' && tolower(arg[3]) == 'l') {
                             cart_type = ACTION_REPLAY_CRT;
+                        }
+                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 't') {
+                            cart_type = RETRO_REPLAY_CRT;
                         }
                         if (tolower(arg[1]) == 'o') {
                             cart_type = ROSS_CRT;
@@ -1574,6 +1578,7 @@ int main(int argc, char *argv[])
             case ACTION_REPLAY_CRT:
             case ACTION_REPLAY3_CRT:
             case ACTION_REPLAY4_CRT:
+            case RETRO_REPLAY_CRT:
             case FINAL_CARTRIDGE_3_CRT:
             case SUPER_GAMES_CRT:
             case ATOMIC_POWER_CRT:

@@ -302,6 +302,32 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
     return 0;
 }
 
+int retroreplay_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+    int i;
+
+    for (i = 0; i <= 7; i++) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            return -1;
+        }
+
+        if (chipheader[0xb] > 7) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+    }
+
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
 void retroreplay_detach(void)
 {
     c64export_remove(&export_res);

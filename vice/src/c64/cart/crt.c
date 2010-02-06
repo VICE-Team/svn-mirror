@@ -52,6 +52,7 @@
 #include "magicformel.h"
 #include "mikroass.h"
 #include "resources.h"
+#include "retroreplay.h"
 #include "rexep256.h"
 #include "rexutility.h"
 #include "ross.h"
@@ -186,6 +187,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_FINAL_III:
             rc = final_v3_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            rc = retroreplay_crt_attach(fd, rawcart);
             fclose(fd);
             if (rc < 0) {
                 return -1;
