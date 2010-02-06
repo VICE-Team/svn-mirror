@@ -172,7 +172,7 @@ static const cart_t cart_info[] = {
     {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
     {0, 0, 0, 0, 0, 0, "MMC64"}, /* to be corrected once the code is rewritten */
     {0, 0, 0, 0, 0, 0, "MMC Replay"}, /* to be corrected once the code is merged */
-    {0, 0, SIZE_64KB, 0x2000, 0, 8, "IDE64"}
+    {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "IDE64"}
 };
 
 #ifndef HAVE_STRDUP
@@ -283,6 +283,7 @@ static void usage(void)
     printf("fc3      Final Cartridge 3 .crt file\n");
     printf("fp       Fun Play, Power Play .crt file\n");
     printf("gs       C64GS, System 3 .crt file\n");
+    printf("ide64    IDE64 .crt file\n");
     printf("kcs      KCS .crt file\n");
     printf("md       Magic Desk, Domark, Hes Australia .crt file\n");
     printf("mf       Magic Formel .crt file\n");
@@ -431,6 +432,9 @@ static void checkflag(char *flg, char *arg)
                         break;
                     case 'h':
                         cart_type = MAGIC_DESK_CRT;
+                        break;
+                    case 'i':
+                        cart_type = IDE64_CRT;
                         break;
                     case 'k':
                         cart_type = KCS_CRT;
@@ -1595,6 +1599,7 @@ int main(int argc, char *argv[])
             case COMAL80_CRT:
             case STRUCTURED_BASIC_CRT:
             case CAPTURE_CRT:
+            case IDE64_CRT:
                 save_regular_crt(cart_info[(unsigned char)cart_type].bank_size,
                                  cart_info[(unsigned char)cart_type].banks,
                                  cart_info[(unsigned char)cart_type].load_address,

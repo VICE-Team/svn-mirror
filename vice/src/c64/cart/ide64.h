@@ -38,6 +38,7 @@ extern int ide64_cmdline_options_init(void);
 extern void ide64_config_init(void);
 extern void ide64_config_setup(BYTE *rawcart);
 extern int ide64_bin_attach(const char *filename, BYTE *rawcart);
+extern int ide64_crt_attach(FILE *fd, BYTE *rawcart);
 extern char *ide64_image_file;
 extern void ide64_detach(void);
 

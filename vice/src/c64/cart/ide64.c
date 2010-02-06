@@ -726,12 +726,8 @@ void ide64_detach(void)
 #endif
 }
 
-int ide64_bin_attach(const char *filename, BYTE *rawcart)
+static int ide64_common_attach(void)
 {
-    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
-        return -1;
-    }
-
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
@@ -849,4 +845,34 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
     }
 
     return 0;
+}
+
+int ide64_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
+        return -1;
+    }
+
+    return ide64_common_attach();
+}
+
+int ide64_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+    int i;
+
+    for (i = 0; i <= 7; i++) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            return -1;
+        }
+
+        if (chipheader[0xb] > 7) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+    }
+    return ide64_common_attach();
 }

@@ -48,6 +48,7 @@
 #include "expert.h"
 #include "final.h"
 #include "generic.h"
+#include "ide64.h"
 #include "kcs.h"
 #include "magicformel.h"
 #include "mikroass.h"
@@ -145,6 +146,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             rc = actionreplay3_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_IDE64:
+            rc = ide64_crt_attach(fd, rawcart);
             fclose(fd);
             if (rc < 0) {
                 return -1;
