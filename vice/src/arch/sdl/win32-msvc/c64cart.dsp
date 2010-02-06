@@ -106,6 +106,10 @@ SOURCE="..\..\..\c64\cart\c64cartmem.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\capture.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\comal80.c"
 # End Source File
 # Begin Source File

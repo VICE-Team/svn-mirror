@@ -34,19 +34,16 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
-#include "magicformel.h"
-#include "types.h"
-#include "vicii-phi1.h"
-
-#include "machine.h"
-#include "maincpu.h"
-#include "c64tpi.h"
-#include "cartridge.h"
-
-
 #include "c64meminit.h"
 #include "c64memrom.h"
+#include "c64tpi.h"
+#include "capture.h"
+#include "cartridge.h"
+#include "machine.h"
+#include "maincpu.h"
+#include "types.h"
 #include "vicii-mem.h"
+#include "vicii-phi1.h"
 
 /*
     define 1 for alternative config that does not force ultimax mode all the time.
@@ -339,11 +336,7 @@ int capture_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (chipheader[0xb] > 7) {
-        return -1;
-    }
-
-    if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+    if (fread(rawcart, 0x2000, 1, fd) < 1) {
         return -1;
     }
 

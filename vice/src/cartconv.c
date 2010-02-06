@@ -79,13 +79,13 @@
 #define ACTION_REPLAY4_CRT           30
 #define STARDOS_CRT                  31
 #define EASYFLASH_CRT                32
-#define CARTRIDGE_EASYFLASH_XBANK    33
-#define CARTRIDGE_CAPTURE            34
-#define CARTRIDGE_ACTION_REPLAY3     35
-#define CARTRIDGE_RETRO_REPLAY       36
-#define CARTRIDGE_MMC64              37
-#define CARTRIDGE_MMC_REPLAY         38
-#define CARTRIDGE_IDE64              39
+#define EASYFLASH_XBANK_CRT          33
+#define CAPTURE_CRT                  34
+#define ACTION_REPLAY3_CRT           35
+#define RETRO_REPLAY_CRT             36
+#define MMC64_CRT                    37
+#define MMC_REPLAY_CRT               38
+#define IDE64_CRT                    39
 
 #define SIZE_4KB     0x1000
 #define SIZE_8KB     0x2000
@@ -166,8 +166,8 @@ static const cart_t cart_info[] = {
     {1, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Action Replay 4"},
     {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"},
     {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"},
-    {0, 0, 0, 0, 0, 0, "EasyFlasg xbank"},
-    {0, 0, SIZE_8KB, 0x2000, 0, 1, "Capture"}, /* to be corrected once I have an actual crt */
+    {0, 0, 0, 0, 0, 0, "EasyFlash xbank"},
+    {0, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Capture"},
     {1, 0, SIZE_16KB, 0x2000, 0, 2, "Action Replay 3"},
     {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
     {0, 0, 0, 0, 0, 0, "MMC64"}, /* to be corrected once the code is rewritten */
@@ -300,6 +300,7 @@ static void usage(void)
     printf("ar4      Action Replay 4 .crt file\n");
     printf("star     StarDOS .crt file\n");
     printf("easy     EasyFlash .crt file\n");
+    printf("cap      Capture .crt file\n");
     exit(1);
 }
 
@@ -352,6 +353,9 @@ static void checkflag(char *flg, char *arg)
                     case 'c':
                         if (tolower(arg[1]) == '6') {
                             cart_type = C64GS_CRT;
+                        }
+                        if (tolower(arg[1]) == 'a') {
+                            cart_type = CAPTURE_CRT;
                         }
                         if (tolower(arg[1]) == 'o') {
                             cart_type = COMAL80_CRT;
@@ -1580,6 +1584,7 @@ int main(int argc, char *argv[])
             case SUPER_SNAPSHOT_5_CRT:
             case COMAL80_CRT:
             case STRUCTURED_BASIC_CRT:
+            case CAPTURE_CRT:
                 save_regular_crt(cart_info[(unsigned char)cart_type].bank_size,
                                  cart_info[(unsigned char)cart_type].banks,
                                  cart_info[(unsigned char)cart_type].load_address,

@@ -5,6 +5,7 @@ source type(c)
     "cart\\atomicpower.c",
     "cart\\c64cart.c",
     "cart\\c64cartmem.c",
+    "cart\\capture.c",
     "cart\\comal80.c",
     "cart\\crt.c",
     "cart\\delaep256.c",
