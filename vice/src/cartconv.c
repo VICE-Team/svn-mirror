@@ -80,7 +80,6 @@
 #define STARDOS_CRT                  31
 #define EASYFLASH_CRT                32
 #define CARTRIDGE_EASYFLASH_XBANK    33
-
 #define CARTRIDGE_CAPTURE            34
 #define CARTRIDGE_ACTION_REPLAY3     35
 #define CARTRIDGE_RETRO_REPLAY       36
@@ -167,6 +166,7 @@ static const cart_t cart_info[] = {
     {1, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Action Replay 4"},
     {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"},
     {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"},
+    {0, 0, 0, 0, 0, 0, "EasyFlasg xbank"},
     {0, 0, SIZE_8KB, 0x2000, 0, 1, "Capture"}, /* to be corrected once I have an actual crt */
     {1, 0, SIZE_16KB, 0x2000, 0, 2, "Action Replay 3"},
     {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
