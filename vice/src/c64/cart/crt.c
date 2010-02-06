@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "actionreplay.h"
+#include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "atomicpower.h"
 #include "archdep.h"
@@ -136,6 +137,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_ACTION_REPLAY4:
             rc = actionreplay4_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_ACTION_REPLAY3:
+            rc = actionreplay3_crt_attach(fd, rawcart);
             fclose(fd);
             if (rc < 0) {
                 return -1;

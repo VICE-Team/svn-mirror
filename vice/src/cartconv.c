@@ -168,7 +168,7 @@ static const cart_t cart_info[] = {
     {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"},
     {0, 0, 0, 0, 0, 0, "EasyFlash xbank"},
     {0, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Capture"},
-    {1, 0, SIZE_16KB, 0x2000, 0, 2, "Action Replay 3"},
+    {1, 0, SIZE_16KB, 0x2000, 0x8000, 2, "Action Replay 3"},
     {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
     {0, 0, 0, 0, 0, 0, "MMC64"}, /* to be corrected once the code is rewritten */
     {0, 0, 0, 0, 0, 0, "MMC Replay"}, /* to be corrected once the code is merged */
@@ -265,42 +265,43 @@ static void usage(void)
     cleanup();
     printf("cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
     printf("carttypes:\n");
-    printf("bin      Binary .bin file (Default crt->bin\n");
-    printf("prg      Binary C64 .prg file with load-address\n");
-    printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
-    printf("ulti     Ultimax mode 4kb/16kb .crt file\n");
-    printf("ar1      Action Replay .crt file\n");
-    printf("kcs      KCS .crt file\n");
-    printf("fc3      Final Cartridge 3 .crt file\n");
-    printf("simon    Simons Basic .crt file\n");
-    printf("ocean    Ocean type 1/2 .crt file\n");
-    printf("expert   Expert Cartridge .crt file\n");
-    printf("fp       Fun Play, Power Play .crt file\n");
-    printf("sg       Super Games .crt file\n");
     printf("ap       Atomic Power .crt file\n");
-    printf("epyx     Epyx Fastload .crt file\n");
-    printf("wl       Westermann Learning .crt file\n");
-    printf("ru       Rex Utility .crt file\n");
-    printf("fc1      Final Cartridge 1 .crt file\n");
-    printf("mf       Magic Formel .crt file\n");
-    printf("gs       C64GS, System 3 .crt file\n");
-    printf("ws       WarpSpeed .crt file\n");
-    printf("din      Dinamic .crt file\n");
-    printf("zax      Zaxxon, Super Zaxxon .crt file\n");
-    printf("md       Magic Desk, Domark, Hes Australia .crt file\n");
-    printf("ss5      Super Snapshot 5 .crt file\n");
-    printf("comal    Comal-80 .crt file\n");
-    printf("sb       Structured Basic .crt file\n");
-    printf("ross     Ross .crt file\n");
-    printf("mikro    Mikro Assembler .crt file\n");
-    printf("dep64    Dela EP64 .crt file, extra files can be inserted\n");
-    printf("dep7x8   Dela EP7x8 .crt file, extra files can be inserted\n");
-    printf("dep256   Dela EP256 .crt file, extra files can be inserted\n");
-    printf("rep256   Rex EP256 .crt file, extra files can be inserted\n");
+    printf("ar1      Action Replay .crt file\n");
+    printf("ar3      Action Replay 3 .crt file\n");
     printf("ar4      Action Replay 4 .crt file\n");
-    printf("star     StarDOS .crt file\n");
-    printf("easy     EasyFlash .crt file\n");
+    printf("bin      Binary .bin file (Default crt->bin\n");
     printf("cap      Capture .crt file\n");
+    printf("comal    Comal-80 .crt file\n");
+    printf("dep7x8   Dela EP7x8 .crt file, extra files can be inserted\n");
+    printf("dep64    Dela EP64 .crt file, extra files can be inserted\n");
+    printf("dep256   Dela EP256 .crt file, extra files can be inserted\n");
+    printf("din      Dinamic .crt file\n");
+    printf("easy     EasyFlash .crt file\n");
+    printf("epyx     Epyx Fastload .crt file\n");
+    printf("expert   Expert Cartridge .crt file\n");
+    printf("fc1      Final Cartridge 1 .crt file\n");
+    printf("fc3      Final Cartridge 3 .crt file\n");
+    printf("fp       Fun Play, Power Play .crt file\n");
+    printf("gs       C64GS, System 3 .crt file\n");
+    printf("kcs      KCS .crt file\n");
+    printf("md       Magic Desk, Domark, Hes Australia .crt file\n");
+    printf("mf       Magic Formel .crt file\n");
+    printf("mikro    Mikro Assembler .crt file\n");
+    printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
+    printf("ocean    Ocean type 1/2 .crt file\n");
+    printf("prg      Binary C64 .prg file with load-address\n");
+    printf("rep256   Rex EP256 .crt file, extra files can be inserted\n");
+    printf("ross     Ross .crt file\n");
+    printf("ru       Rex Utility .crt file\n");
+    printf("sb       Structured Basic .crt file\n");
+    printf("sg       Super Games .crt file\n");
+    printf("simon    Simons Basic .crt file\n");
+    printf("ss5      Super Snapshot 5 .crt file\n");
+    printf("star     StarDOS .crt file\n");
+    printf("ulti     Ultimax mode 4kb/16kb .crt file\n");
+    printf("wl       Westermann Learning .crt file\n");
+    printf("ws       WarpSpeed .crt file\n");
+    printf("zax      Zaxxon, Super Zaxxon .crt file\n");
     exit(1);
 }
 
@@ -337,8 +338,11 @@ static void checkflag(char *flg, char *arg)
                         if (tolower(arg[1]) == 'p' || tolower(arg[1]) == 't') {
                             cart_type = ATOMIC_POWER_CRT;
                         }
-                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) != '4') {
+                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) != '4' && tolower(arg[2]) != '3') {
                             cart_type = ACTION_REPLAY_CRT;
+                        }
+                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) == '3') {
+                            cart_type = ACTION_REPLAY3_CRT;
                         }
                         if (tolower(arg[1]) == 'r' && tolower(arg[2]) == '4') {
                             cart_type = ACTION_REPLAY4_CRT;
@@ -1568,6 +1572,7 @@ int main(int argc, char *argv[])
                 }
                 break;
             case ACTION_REPLAY_CRT:
+            case ACTION_REPLAY3_CRT:
             case ACTION_REPLAY4_CRT:
             case FINAL_CARTRIDGE_3_CRT:
             case SUPER_GAMES_CRT:
