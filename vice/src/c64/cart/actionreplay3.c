@@ -133,12 +133,12 @@ int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart)
     BYTE chipheader[0x10];
     int i;
 
-    for (i = 0; i <= 3; i++) {
+    for (i = 0; i <= 1; i++) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
         }
 
-        if (chipheader[0xb] > 3) {
+        if (chipheader[0xb] > 1) {
             return -1;
         }
 
