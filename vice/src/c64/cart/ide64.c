@@ -474,6 +474,7 @@ void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
                             ide_error = IDE_UNC|IDE_ABRT;
                             goto aborted_command;
                         }
+                        fflush(ide_disk);
                         ide_sector_count_internal--;
                         if (!ide_sector_count_internal) {
                             ide_status = ide_status & (~IDE_DRQ);
