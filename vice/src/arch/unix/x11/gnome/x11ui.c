@@ -415,23 +415,24 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
             }
         } else if (bevent->button == 3) {
             if (strcmp(last_attached_images[d], "") == 0) {
-                if (last_drive_menus[d]) {
-                    gtk_widget_destroy(last_drive_menus[d]);
+                if (last_menus[d]) {
+                    if (last_drive_menus[d]) {
+                        gtk_widget_destroy(last_drive_menus[d]);
+                    }
+                    lib_free(last_menus[d]);
+                    last_menus[d] = NULL;
                 }
-                lib_free(last_menus[d]);
-                last_menus[d] = NULL;
                 return 0;
             }
 
-            if ((last_menus[d] == NULL) || (strcmp(last_menus[d], last_attached_images[d]) != 0)) {
-                if (last_drive_menus[d]) {
-                    gtk_widget_destroy(last_drive_menus[d]);
-                }
-                lib_free(last_menus[d]);
-                last_menus[d] = lib_stralloc(last_attached_images[d]);
-                last_drive_menus[d] = 
-                rebuild_contents_menu(d+8, last_menus[d]);
+            if (last_drive_menus[d]) {
+                gtk_widget_destroy(last_drive_menus[d]);
             }
+            lib_free(last_menus[d]);
+            last_menus[d] = lib_stralloc(last_attached_images[d]);
+            last_drive_menus[d] =
+                rebuild_contents_menu(d+8, last_menus[d]);
+
             if (last_drive_menus[d]) {
                 gtk_menu_popup(GTK_MENU(last_drive_menus[d]), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
             }
@@ -454,22 +455,23 @@ static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
             static GtkWidget *ltapemenu;
 
             if (last_attached_tape == NULL) {
-                if (ltapemenu) {
-                    gtk_widget_destroy(ltapemenu);
+                if (lasttapemenu) {
+                    if (ltapemenu) {
+                        gtk_widget_destroy(ltapemenu);
+                    }
+                    lib_free(lasttapemenu);
+                    lasttapemenu = NULL;
                 }
-                lib_free(lasttapemenu);
-                lasttapemenu = NULL;
                 return 0;
             }
 
-            if ((lasttapemenu == NULL) || (strcmp(lasttapemenu, last_attached_tape) != 0)) {
-                if (ltapemenu) {
-                    gtk_widget_destroy(ltapemenu);
-                }
-                lib_free(lasttapemenu);
-                lasttapemenu = lib_stralloc(last_attached_tape);
-                ltapemenu = rebuild_contents_menu(1, lasttapemenu);
+            if (ltapemenu) {
+                gtk_widget_destroy(ltapemenu);
             }
+            lib_free(lasttapemenu);
+            lasttapemenu = lib_stralloc(last_attached_tape);
+            ltapemenu = rebuild_contents_menu(1, lasttapemenu);
+
             if (ltapemenu) {
                 gtk_menu_popup(GTK_MENU(ltapemenu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
             }
