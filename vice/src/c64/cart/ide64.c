@@ -437,17 +437,6 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
     return vicii_read_phi1();
 }
 
-/* Convert an 8-bit binary number into two Binary-Coded Decimal digits.
-*/
-static BYTE REGPARM1 byte2bcd(unsigned int byte) {
-    /* Compilers are allowwed to re-arrange the operations in an expression; but,
-    ** this truncating division _must be done before_ the multiplication!  So,
-    ** we use two expressions.
-    */
-    unsigned int nybble = byte / 10u;
-    return (BYTE)(nybble * 6u + byte);
-}
-
 BYTE ide64_get_killport(void)
 {
     return kill_port;
