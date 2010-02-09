@@ -130,19 +130,11 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_gp2x.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 else
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh GP2X $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh GP2X $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 endif
-endif
-
-if UNIX_GP2X_COMPILE
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh WIZ $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh WIZ $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 endif
 
 if UNIX_DINGUX_COMPILE
@@ -217,11 +209,19 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 else
+if GNOMEUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+endif
 endif
 endif
 
@@ -233,11 +233,19 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 else
+if GNOMEUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+endif
 endif
 endif
 
@@ -249,11 +257,19 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 else
+if GNOMEUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+endif
 endif
 endif
 
@@ -265,11 +281,19 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_scosol.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 else
+if GNOMEUI
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 gtk $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 xaw $(infodir) $(mandir) $(top_srcdir) $(MAKE)
+endif
 endif
 endif
 

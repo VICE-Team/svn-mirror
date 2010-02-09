@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <system> <infodir> <mandir> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4      $5          $6       $7        $8       $9          $10
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <system> <gui> <infodir> <mandir> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4      $5          $6       $7    $7        $8       $9          $10
 
 STRIP=$1
 VICEVERSION=$2
@@ -12,8 +12,11 @@ PREFIX=$3
 CROSS=$4
 ZIPKIND=$5
 SYSTEM=$6
-INFODIR=$7
-MANDIR=$8
+GUI=$7
+INFODIR=$8
+MANDIR=$9
+
+shift
 TOPSRCDIR=$9
 
 shift
@@ -111,7 +114,7 @@ $STRIP VICE-$VICEVERSION/usr/local/bin/xcbm2
 $STRIP VICE-$VICEVERSION/usr/local/bin/c1541
 $STRIP VICE-$VICEVERSION/usr/local/bin/petcat
 $STRIP VICE-$VICEVERSION/usr/local/bin/cartconv
-mkdir -p VICE-$VICEVERSION$MANDIR/man1
+mkdir -p VICE-$VICEVERSION/$MANDIR/man1
 if test x"$ZIPKIND" = "xzip"; then
   rm -f -r /var/spool/pkg/UMCVICE
   gcc $TOPSRCDIR/src/arch/unix/sco_sol/convertprototype.c -o ./convertprototype
@@ -198,7 +201,7 @@ if test x"$ZIPKIND" = "xzip"; then
 
   cat >pkginfo <<_END
 PKG="UMCVICE"
-NAME="VICE"
+NAME="VICE-$GUI"
 ARCH="$arch_cpu"
 VERSION="$VICEVERSION"
 CATEGORY="emulator"
@@ -209,7 +212,7 @@ BASEDIR="/usr/local"
 CLASSES="none"
 _END
 
-  packagename=vice-$VICEVERSION-$arch_version-$arch_cpu-local
+  packagename=vice-$GUI-$VICEVERSION-$arch_version-$arch_cpu-local
 
   echo >$currentdir/input.txt all
 
