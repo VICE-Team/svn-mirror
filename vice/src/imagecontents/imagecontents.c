@@ -165,23 +165,38 @@ char *image_contents_to_string(image_contents_t * contents,
 char *image_contents_file_to_string(image_contents_file_list_t * p,
                                     char convert_to_ascii)
 {
-
     int i;
-    char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
+    char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 3] = { 0 };
     char* string;
     char encountered_a0 = 0;
 
-    memset(print_name, 0, sizeof(print_name));
+    memset(print_name, 0x20, sizeof(print_name)-1); /* redundant? better safe than sorry */
+    print_name[0] = '\"';
+
     for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++) {
-        if (p->name[i] == 0xa0)
-            encountered_a0 = 1;
-        print_name[i] = (encountered_a0 || p->name[i] == 0) ? ' ' : (char)p->name[i];
+        if (p->name[i] == 0) { /* a 0x00 would mess a dir on real thing anyway */
+            print_name[i+1] = '?'; /* better than showing a reversed @ */
+        } else if (p->name[i] == 0xa0) {
+            encountered_a0++;
+            if(encountered_a0 == 1) {
+                print_name[i+1] = '\"';
+            } else {
+                print_name[i+1] = 0x20;
+            }
+        } else {
+            print_name[i+1] = (char)p->name[i];
+        }
     }
 
-    string = lib_msprintf("%-5d \"%s\" %s", p->size, print_name, p->type);
+    if (!encountered_a0) {
+        print_name[i+1] = '\"';
+    }
 
-    if (convert_to_ascii)
+    string = lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
+
+    if (convert_to_ascii) {
         charset_petconvstring((unsigned char *)string, 1);
+    }
 
     return string;
 }
