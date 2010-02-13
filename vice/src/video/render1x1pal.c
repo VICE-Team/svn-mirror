@@ -32,7 +32,7 @@
 #include "video-color.h"
 
 static inline
-void rgb_to_yuv(SDWORD y, SDWORD u, SDWORD v,
+void yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v,
                 SDWORD *red, SDWORD *grn, SDWORD *blu)
 {
     *red = (y + v) >> 16;
@@ -48,11 +48,11 @@ void store_pixel_2(BYTE *trg, SDWORD y1, SDWORD u1, SDWORD v1, SDWORD y2, SDWORD
     SDWORD grn;
     SDWORD blu;
 
-    rgb_to_yuv(y1, u1, v1, &red, &grn, &blu);
+    yuv_to_rgb(y1, u1, v1, &red, &grn, &blu);
     tmp = (WORD *) trg;
     tmp[0] = (WORD) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
     
-    rgb_to_yuv(y2, u2, v2, &red, &grn, &blu);
+    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
     tmp[1] = (WORD) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
 }
 
@@ -64,7 +64,7 @@ void store_pixel_3(BYTE *trg, SDWORD y1, SDWORD u1, SDWORD v1, SDWORD y2, SDWORD
     SDWORD grn;
     SDWORD blu;
 
-    rgb_to_yuv(y1, u1, v1, &red, &grn, &blu);
+    yuv_to_rgb(y1, u1, v1, &red, &grn, &blu);
     tmp = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
     trg[0] = (BYTE) tmp;
     tmp >>= 8;
@@ -72,7 +72,7 @@ void store_pixel_3(BYTE *trg, SDWORD y1, SDWORD u1, SDWORD v1, SDWORD y2, SDWORD
     tmp >>= 8;
     trg[2] = (BYTE) tmp;
     
-    rgb_to_yuv(y2, u2, v2, &red, &grn, &blu);
+    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
     tmp = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu];
     trg[3] = (BYTE) tmp;
     tmp >>= 8;
@@ -89,11 +89,11 @@ void store_pixel_4(BYTE *trg, SDWORD y1, SDWORD u1, SDWORD v1, SDWORD y2, SDWORD
     SDWORD grn;
     SDWORD blu;
 
-    rgb_to_yuv(y1, u1, v1, &red, &grn, &blu);
+    yuv_to_rgb(y1, u1, v1, &red, &grn, &blu);
     tmp = (DWORD *) trg;
     tmp[0] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu] | alpha;
     
-    rgb_to_yuv(y2, u2, v2, &red, &grn, &blu);
+    yuv_to_rgb(y2, u2, v2, &red, &grn, &blu);
     tmp[1] = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu] | alpha;
 }
 

@@ -35,7 +35,7 @@
 #include "video-color.h"
 
 static inline
-void convert_yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu)
+void yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu)
 {
 #ifdef _MSC_VER
 # pragma warning( push )
@@ -64,7 +64,7 @@ void store_line_and_scanline_2(
 {
     SWORD red, grn, blu;
     WORD *tmp1, *tmp2;
-    convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
+    yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     tmp1 = (WORD *) scanline;
     tmp2 = (WORD *) line;
@@ -88,7 +88,7 @@ void store_line_and_scanline_3(
 {
     DWORD tmp1, tmp2;
     SWORD red, grn, blu;
-    convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
+    yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     tmp1 = gamma_red_fac[512 + red + prevline[0]]
            | gamma_grn_fac[512 + grn + prevline[1]]
@@ -119,7 +119,7 @@ void store_line_and_scanline_4(
 {
     SWORD red, grn, blu;
     DWORD *tmp1, *tmp2;
-    convert_yuv_to_rgb(y, u, v, &red, &grn, &blu);
+    yuv_to_rgb(y, u, v, &red, &grn, &blu);
 
     tmp1 = (DWORD *) scanline;
     tmp2 = (DWORD *) line;
