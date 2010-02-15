@@ -1,3 +1,709 @@
+2010-02-15  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.1
+
+2010-02-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/imagecontents/imagecontents.c: Remove padding from
+	  imagecontents. Patch by iAN CooG, with some guideline style
+	  fixes.
+
+	* src/video/render1x1pal.c, src/video/render2x2pal.c: Fix
+	  function naming mixup. Patch by Groepaz.
+
+2010-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, src/arch/unix/sco_sol/make-bindist.sh: Added gtk
+	  package creation support to the solaris, openserver and
+	  unixware ports.
+
+2010-02-07  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: (fliplist_popup_cb): rebuild
+	  popup menu every time, as disk write access might have
+	  happened since attaching. (tape_popup_cb): Likewise.
+
+2010-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: Removed obsolete bcd conversion
+	  function.
+
+	* src/c64/cart/ide64.c: Added a small fix for a buffering issue
+	  in the IDE64 emulation, patch by Kajtar Zsolt.
+
+2010-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/crt.c, src/c64/cart/ide64.c,
+	  src/c64/cart/ide64.h, src/cartconv.c: Added crt support for
+	  ide64 to cartconv and added crt loading of ide64 to x64/x128.
+
+	* src/c64/cart/crt.c, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h, src/cartconv.c: Added crt support
+	  for retro replay to cartconv and added crt loading of retro
+	  replay to x64/x128.
+
+	* src/c64/cart/actionreplay3.c: Fixed size in crt attach.
+
+	* src/c64/cart/actionreplay3.c, src/c64/cart/crt.c,
+	  src/cartconv.c: Added crt support for ar3 to cartconv and
+	  added crt loading of ar3 to x64/x128.
+
+	* src/arch/os2/vac++/incl/c64cart.icc,
+	  src/arch/os2/watcom/c64cart.tgt,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/win32/c64cart.dsp, src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win64/c64cart.vcproj, src/c64/cart/capture.c,
+	  src/cartconv.c: Fixed capture.c, added capture cart conversion
+	  to cartconv and added capture.c to the various project files.
+
+	* src/arch/win32/hardsid.c: Updated win32 hardsid code, patch by
+	  Teli Sandor.
+
+	* src/cartconv.c: Added missing easyflash xbank item.
+
+2010-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c, src/cartridge.h: Added defines for the new crt
+	  id's.
+
+	* src/raster/raster-canvas.c: Fixed the wiz def (again).
+
+2010-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/raster/raster-canvas.c: Fixed a wiz idef.
+
+2010-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.c, src/arch/unix/kbd.h,
+	  src/arch/unix/uimenu.h, src/raster/raster-canvas.c,
+	  src/vdc/vdc.c: Added wiz defines where needed.
+
+2010-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petvia.c: Fixed xpet cga userport joystick adapter.
+
+2010-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, src/arch/unix/gp2x/make-bindist.sh: Updated the
+	  gp2x make bindist script to also handle the creation of the
+	  wiz bindist.
+
+	* configure.in, src/arch/unix/Makefile.am,
+	  src/arch/unix/gp2x/gp2xsys.h, src/arch/unix/gp2x/video.c,
+	  src/arch/unix/gp2x/wiz/wiz_funcs.c,
+	  src/arch/unix/gp2x/wiz/wiz_lib.c, src/arch/unix/videoarch.h,
+	  src/arch/unix/vsyncarch.c: Fixed the wiz port compile.
+
+2010-01-31  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/capture.c,
+	  src/c64/cart/capture.h, src/c64/cart/crt.c, src/cartridge.h:
+	  Added support for Capture v1 and v2 Cartridges by Jason
+	  Ranheim. Patch by Groepaz.
+
+2010-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/gp2x/Makefile.am,
+	  src/arch/unix/gp2x/audio_gp2x.c, src/arch/unix/gp2x/gp2xsys.h,
+	  src/arch/unix/gp2x/input_gp2x.c, src/arch/unix/gp2x/minimal,
+	  src/arch/unix/gp2x/minimal.c, src/arch/unix/gp2x/minimal.h,
+	  src/arch/unix/gp2x/minimal/Makefile.am,
+	  src/arch/unix/gp2x/minimal/gp2x_funcs.c,
+	  src/arch/unix/gp2x/minimal/gp2x_usb.c,
+	  src/arch/unix/gp2x/minimal/minimal.c,
+	  src/arch/unix/gp2x/minimal/minimal.h,
+	  src/arch/unix/gp2x/minimal_940t.h,
+	  src/arch/unix/gp2x/prefs_gp2x.c, src/arch/unix/gp2x/ui_gp2x.c,
+	  src/arch/unix/gp2x/video.c, src/arch/unix/gp2x/wiz,
+	  src/arch/unix/gp2x/wiz/Makefile.am,
+	  src/arch/unix/gp2x/wiz/gp2xwiz.h,
+	  src/arch/unix/gp2x/wiz/pollux_set.c,
+	  src/arch/unix/gp2x/wiz/pollux_set.h,
+	  src/arch/unix/gp2x/wiz/polluxregs.h,
+	  src/arch/unix/gp2x/wiz/sys_cacheflush.S,
+	  src/arch/unix/gp2x/wiz/sys_cacheflush.h,
+	  src/arch/unix/gp2x/wiz/uppermem.c,
+	  src/arch/unix/gp2x/wiz/uppermem.h,
+	  src/arch/unix/gp2x/wiz/warm.c, src/arch/unix/gp2x/wiz/warm.h,
+	  src/arch/unix/gp2x/wiz/wiz_funcs.c,
+	  src/arch/unix/gp2x/wiz/wiz_lib.c,
+	  src/arch/unix/gp2x/wiz/wiz_lib.h: Merged wiz port and updated
+	  gp2x minimal lib version to 0.c
+
+2010-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added network support for aros.
+
+2010-01-26  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/dma.c, src/interrupt.c, src/interrupt.h: Fixes a bug in
+	  "IRQ while DMA" condition (testprog2b.prg).
+
+2010-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds12c887.c: Fixed ds12c887 warnings.
+
+2010-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/mui.c, src/arch/amigaos/video.c: Fixed
+	  the amiga port.
+
+2010-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/minix3/build-package.sh,
+	  build/minix3/build-sdl-package.sh: Added fix for minix
+	  packager including all changed files when only files in
+	  /usr/local should have been packaged.
+
+	* src/rtc/ds12c887.c, src/rtc/ds12c887.h: Removed 'testing' code
+	  from ds12c887.*
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/rtc.vcproj,
+	  src/arch/sdl/win64-msvc/vice.sln, src/arch/win64/Makefile.am,
+	  src/arch/win64/c64cart.vcproj, src/arch/win64/rtc.vcproj,
+	  src/arch/win64/vice.sln: Added the rtc source files to the
+	  win64 (sdl) project files.
+
+	* po, src/rtc: Added some svn ignores.
+
+	* src/arch/sdl/win32-msvc/vice.dsw: Added missing win32 sdl msvc
+	  project dependencies for the rtc.dsp project file.
+
+	* src/arch/os2/vac++/Makefile.am,
+	  src/arch/os2/vac++/incl/rtc.icc,
+	  src/arch/os2/vac++/x128/X128.ICC,
+	  src/arch/os2/vac++/x64/X64.ICC,
+	  src/arch/os2/watcom/c64cart.tgt,
+	  src/arch/os2/watcom/mainsrc.tgt,
+	  src/arch/sdl/win32-msvc/Makefile.am,
+	  src/arch/sdl/win32-msvc/rtc.dsp,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt, src/arch/win32/rtc.dsp,
+	  src/arch/win32/watcom/base.tgt: Added the new rtc source files
+	  to various project files.
+
+	* src/rtc/Makefile.am, src/rtc/ds12c887.c, src/rtc/ds12c887.h:
+	  Added ds12c887 rtc emulation.
+
+	* src/rtc/bq4830y.c, src/rtc/bq4830y.h: Updated the bq4830y code
+	  to working order.
+
+2010-01-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uilightpen.c, src/arch/unix/x11/xaw/x11ui.c:
+	  Fix gtk+ compilation. Fix apparently long standing crash from
+	  x64 -mouse. Patch by Olaf Seibert.
+
+2010-01-17  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/uimon.c: Allow to set breakpoints by clicking
+	  on the disassembly window. This closes #2919407 and #2930680.
+
+	* src/c64/cart/ide64.c, src/rtc/ds1302.c, src/rtc/ds1302.h:
+	  Changed prototype of ds1302_set_lines(). This way, no casts
+	  are necessary when calling it with boolean operations.
+
+2010-01-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/archdep.h, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uicrtc.c,
+	  src/arch/unix/gui/uilightpen.c, src/arch/unix/gui/uivdc.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/vsyncarch.c,
+	  src/arch/unix/x11/gnome/lightpendrv.c,
+	  src/arch/unix/x11/gnome/lightpendrv.h,
+	  src/arch/unix/x11/renderxv.c, src/arch/unix/x11/renderxv.h,
+	  src/arch/unix/x11/xaw/Makefile.am,
+	  src/arch/unix/x11/xaw/lightpendrv.c,
+	  src/arch/unix/x11/xaw/lightpendrv.h,
+	  src/arch/unix/x11/xaw/uimenu.c,
+	  src/arch/unix/x11/xaw/videoarch.h,
+	  src/arch/unix/x11/xaw/x11ui.c,
+	  src/arch/unix/x11/xaw/x11video.c, src/info.c: Big Xaw UI patch
+	  from Olaf Seibert: - Add a "stay-up" mode to the menus, as
+	  well as keyboard control (up down left right enter space
+	  escape). Also add Shift-Alt-Z and Shift-Alt-X to pop up the
+	  left and right menu. - Add lightpen support (VIC, VICII, VDC).
+	  - Add/enable hardware scaling (via XVideo) for CRTC and VDC.
+
+2010-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c: Corrected the indexing when writing the
+	  clock registers to the rtc.
+
+	* src/rtc/ds1302.c: Corrected the calculation of the months when
+	  adjusting from what it gets from rtc.c to what it needs for
+	  ds1302.c
+
+2010-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/c64cart.tgt: Updated the win32 watcom
+	  project files.
+
+	* src/c64/cart/ide64.c, src/rtc/ds1302.c, src/rtc/ds1302.h:
+	  Added the possibility of saving/loading the offset used for
+	  the ds1302 rtc.
+
+	* src/c64/cart/ide64.c, src/rtc/bq4830y.c, src/rtc/ds1302.c,
+	  src/rtc/ds1302.h: Updated to have a seperate function which is
+	  used for changing the state of the lines and a function to
+	  just read the data line, adapted ide64 rtc code for these
+	  changes.
+
+2010-01-13  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn-dx9.c: Removes EnumDisplayDevices as
+	  it raises more problems than it is useful for.
+
+2010-01-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/base.dsp, src/arch/win32/c64cart.dsp,
+	  src/arch/win32/rtc.dsp, src/arch/win32/vice.dsw,
+	  src/c64/cart/ide64.c, src/rtc/bq4830y.c, src/rtc/ds1302.c: Fix
+	  compilation problems (other than EnumDisplayAdapter(), which
+	  is not linkable) for MSVC6, add project "rtc".
+
+2010-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/ide64.c,
+	  src/rtc/bq4830y.c, src/rtc/ds1302.c: Changed the rtc support
+	  in the ide64 emulation to use the ds1302 module.
+
+	* src/rtc/ds1302.c, src/rtc/ds1302.h: Changed the ds1302 ram
+	  part around to where the caller allocates the memory for the
+	  ram array, and made the ram array an ascii based one as used
+	  in the ide64 source.
+
+	* src/rtc/bq4830y.c, src/rtc/bq4830y.h: bq4830y fixes.
+
+	* src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win64-msvc/config.h: Added HAVE_SDL_NUMJOYSTICKS
+	  to the config.h files.
+
+	* src/rtc/bq4830y.c, src/rtc/bq4830y.h, src/rtc/ds1302.c,
+	  src/rtc/ds1302.h, src/rtc/rtc.c, src/rtc/rtc.h: rtc fixes.
+
+2010-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/Makefile.am, src/rtc/bq4830y.c, src/rtc/bq4830y.h,
+	  src/rtc/ds1302.c, src/rtc/ds1302.h, src/rtc/rtc.c: Added
+	  prelimenary ds1302 and bq4830y rtc emulation.
+
+2010-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am, src/rtc, src/rtc.c, src/rtc.h,
+	  src/rtc/Makefile.am, src/rtc/rtc.c, src/rtc/rtc.h: Moved the
+	  rtc files into an rtc directory, meant for future specific rtc
+	  emulations as well.
+
+2010-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	  src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	  src/arch/win32/rescbm2.rc, src/arch/win32/resdigimax.rc,
+	  src/arch/win32/resdqbb.rc, src/arch/win32/reseasyflash.rc,
+	  src/arch/win32/resgeoram.rc, src/arch/win32/reside64.rc,
+	  src/arch/win32/resisepic.rc, src/arch/win32/reslightpen.rc,
+	  src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	  src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	  src/arch/win32/respetreu.rc, src/arch/win32/resplus256k.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resplus60k.rc,
+	  src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	  src/arch/win32/resrs232user.rc, src/arch/win32/ressid.rc,
+	  src/arch/win32/ressidcart.rc, src/arch/win32/ressiddtv.rc,
+	  src/arch/win32/ressoundexpander.rc, src/arch/win32/restfe.rc,
+	  src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	  src/translate_text.c: Automatic translations update.
+
+	* po/nl.po, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resvic20.rc,
+	  src/translate_text.c: Updated dutch translations.
+
+	* po/Makefile.in.in, po/POTFILES.in, po/de.po,
+	  po/gen_amiga_intl_c.c, po/gen_translate_c.c,
+	  po/gen_win32_files.sh, po/gen_win32_rc.c, po/po2table.c,
+	  src/Makefile.am, src/arch/amigaos/Makefile.am,
+	  src/arch/amigaos/intl.c, src/arch/amigaos/intl_text.c,
+	  src/arch/win32/res.rc, src/translate.c, src/translate_text.c:
+	  Added automatic translation (fill-in) system, usable by doing
+	  a 'make trans-update' in the po directory on a platform that
+	  support the *nix intl.
+
+	* src/rtc.c, src/rtc.h: Corrected.
+
+2010-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/syllable-files/install.sh: Corrected a typo.
+
+	* src/rtc.c: Corrected rtc.c
+
+2010-01-05  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/fullscrn.h,
+	  src/arch/win32/ui.c: Made fullscreen mode stay visible on a
+	  secondary screen if another task gets active.
+
+2010-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc.c, src/rtc.h: Added latching support.
+
+	* src/c64/cart/ide64.c: Reverter ide64 rtc emulation to what it
+	  was before the rtc.c changes.
+
+2010-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/amigaos/mui/mui.c,
+	  src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	  src/arch/os2/dialogs/dialogs.rc, src/arch/sdl/menu_help.c,
+	  src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc: Changed
+	  '2009' to '2010' where needed, happy new year.
+
+2009-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: Removed the bcd conversion routine in
+	  ide64.c
+
+	* src/c64/cart/ide64.c: Changed the ide64 code to use the rtc
+	  routines, no loading and saving of the offset yet.
+
+	* src/c128/c128.c, src/c64/c64.c, src/pet/pet.c, src/rtc.c,
+	  src/rtc.h, src/vic20/vic20.c: Reverted back to the offset as
+	  argument approach, removed saving/setting/loading of offsets
+	  and added a bcd flag argument to some of the calls.
+
+2009-12-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/pet/pet.c,
+	  src/vic20/vic20.c: Added init hooks for the loading of the rtc
+	  offsets file.
+
+	* src/rtc.c, src/rtc.h: Updated the rtc system to use device
+	  numbers and keep an offset table internally, and added save
+	  and load routines.
+
+2009-12-30  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sound.h: Remove unused esd init hook declaration.
+
+	* configure.in: Remove --with/--without-esd. (Sigh.)
+
+	* src/sounddrv/Makefile.am: Drop soundesd.c from source list.
+
+	* src/arch/sdl/menu_sound.c: ESD has been removed.
+
+	* configure.in, src/info.c, src/sound.c,
+	  src/sounddrv/soundesd.c: Drop ESD sound driver, which is
+	  replaced by PulseAudio on Linux.
+
+2009-12-29  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/vsync.c: Reduced allowed video sync drift again, this time
+	  to 0.125 seconds.
+
+	* src/vsync.c: Reduced allowed video sync drift again, this time
+	  to 0.25 seconds.
+
+2009-12-29  Antti S. Lankila <alankila@bel.fi>
+
+	* src/vsync.c: Shorten the period of allowed video sync drift
+	  before forcing a resync. Old value was 1 second, new value is
+	  0.5 seconds. This should help prevent the "sound buffer
+	  overflow". which usually occurs when sync drifts somewhere
+	  north of 0,5 seconds behind schedule, according to the data
+	  collected by Rubi.
+
+2009-12-28  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn-dx9.c: Avoid translation.
+
+	* src/arch/win32/fullscrn-dx9.c: Adding a define that is missing
+	  in mingw headers.
+
+	* src/arch/win32/fullscrn-dx9.c, src/arch/win32/video-dx9.c:
+	  Activated selection of monitor for fullscreen in DX9.
+
+2009-12-28  Antti S. Lankila <alankila@bel.fi>
+
+	* src/sounddrv/sounddx.c: Detect buffer underrun and report it
+	  to sound.c for handling.
+
+2009-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/os2/vac++/incl/mainsrc.icc,
+	  src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/vice.wpj,
+	  src/arch/sdl/win32-msvc/base.dsp,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win64-msvc/base.vcproj, src/arch/win32/base.dsp,
+	  src/arch/win32/watcom/base.tgt, src/arch/win64/base.vcproj,
+	  src/rtc.c, src/rtc.h: Added generic rtc get/set routines.
+
+2009-12-26  Antti S. Lankila <alankila@bel.fi>
+
+	* src/arch/win32/vsyncarch.c: My C is pretty rusty. So, long
+	  isn't 64-bit in C. Let's rewrite with 32-bit types.
+
+	* src/arch/win32/vsyncarch.c: Attempt to fix an overflow at
+	  handling result of timeGetTime().
+
+2009-12-26  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/uisound.c: Fixed active driver preselection.
+
+	* src/arch/win32/fullscrn-ddraw.c,
+	  src/arch/win32/fullscrn-dx9.c, src/arch/win32/ui.c,
+	  src/arch/win32/ui.h: Fixed menu issues in combination with
+	  fullscreen.
+
+	* src/arch/win32/vsyncarch.c: Patch by alankila to avoid buffer
+	  overflow condition.
+
+2009-12-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/reseasyflash.rc,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	  src/arch/win32/ressidcart.rc,
+	  src/arch/win32/ressoundexpander.rc,
+	  src/arch/win32/resvic20.rc, src/translate.c: Updated the
+	  hungarian translations.
+
+2009-12-25  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc, src/resid-fp/sid.h, src/resid-fp/wave.cc,
+	  src/resid-fp/wave.h: Support 6581/8580 autodetection based on
+	  assumed latching of 8580 read operations. (This has been
+	  tested by popping a 6581 chip into a 8xxx system and observing
+	  that the SID test still works, thus it is a difference in the
+	  SID and not difference in C64 system.)
+
+2009-12-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/crtc/crtc-draw.c, src/pet/petdww.c: Make DWW working in
+	  8032 (no higher resolution, unfortunately). Reduce table sizes
+	  in crtc drawing function, hopefully reducing cache misses.
+	  From Olaf Seibert.
+
+2009-12-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, src/arch/amigaos/intl.c, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/reseasyflash.rc,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	  src/arch/win32/ressidcart.rc,
+	  src/arch/win32/ressoundexpander.rc,
+	  src/arch/win32/resvic20.rc, src/translate.c: Updated the
+	  danish translations.
+
+	* src/translate.c, src/translate.txt: Removed some obsolete
+	  entries.
+
+	* po/de.po: Updated.
+
+	* po/hu.po: Updated.
+
+2009-12-24  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/ui.h: Fix one include file
+
+2009-12-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/pet/pet.c: Fix xpet autostart ROM check as suggested by
+	  Olaf Seibert
+
+2009-12-23  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/pet/petmem.c: Fix typo resultion in xpet monitor io
+	  command breakage
+
+	* src/arch/unix/x11/xaw/about.c: Fix typo resulting in xaw FTBFS
+
+	* src/autostart.c, src/c128/c128.c, src/c64/c64.c,
+	  src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/machine.h,
+	  src/pet/pet.c, src/plus4/plus4.c, src/vic20/vic20.c: Add
+	  machine specific routines for checking when ROM has been left
+	  in autostart
+
+	* src/arch/platform.h, src/arch/sdl/menu_help.c: Add fallbacks
+	  to platform discovery, split SDL UI version string to two
+	  lines
+
+2009-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* .descr, Makefile.am, build.minix, build/Makefile.am,
+	  build/minix3/build-package.sh,
+	  build/minix3/build-sdl-package.sh, build/minix3/build.sh,
+	  doc/ReadmeSDL.txt, src/arch/unix/Makefile.am,
+	  src/arch/unix/minix/descr, src/resid-fp/configure.in: Updated
+	  the minix compile to use gcc instead of the ack compiler, and
+	  added the possibility of building an sdl minix version as
+	  well.
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/mui/mui.c,
+	  src/arch/beos/Makefile.am, src/arch/beos/ui.cc,
+	  src/arch/os2/dialogs/dialogs.rc,
+	  src/arch/os2/vac++/x128/X128.ICC,
+	  src/arch/os2/vac++/x64/X64.ICC,
+	  src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	  src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	  src/arch/os2/vac++/xpet/Xpet.ICC,
+	  src/arch/os2/vac++/xplus4/Xplus4.ICC,
+	  src/arch/os2/vac++/xvic/Xvic.ICC,
+	  src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x128.tgt,
+	  src/arch/os2/watcom/x64.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	  src/arch/os2/watcom/xpet.tgt, src/arch/os2/watcom/xplus4.tgt,
+	  src/arch/os2/watcom/xvic.tgt, src/arch/platform.h,
+	  src/arch/platform_qnx6_version.h, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/menu_help.c, src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/unix/x11/gnome/Makefile.am,
+	  src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/xaw/Makefile.am,
+	  src/arch/unix/x11/xaw/about.c: Added platform specific info to
+	  the about dialogs, the information it gets for the os, the cpu
+	  and compiler comes from the platform*.h files at compile time.
+
+	* src/c64/c64_256k.c, src/c64/c64io.c, src/c64/c64io.h,
+	  src/c64/plus256k.c, src/c64/plus60k.c: Added a
+	  cpu-address-line handling system (currently for c64_256k,
+	  plus60k and plus256k memory expansion, but expandable for the
+	  future).
+
+	* src/arch/os2/vac++/incl/c64cart.icc,
+	  src/arch/os2/vac++/incl/pet.icc,
+	  src/arch/os2/watcom/c64cart.tgt, src/arch/os2/watcom/pet.tgt:
+	  Updated the os/2 vac++ and watcom project files for the rex
+	  utility cart and pet graphics board additions.
+
+	* src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/pet.dsp,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/pet.vcproj: Updated the sdl win32/64
+	  msvc project files and win32 watcom project files for the rex
+	  utility cart and pet graphics board additions.
+
+	* src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/pet.tgt: Updated the win32 watcom
+	  project files for the rex utility cart and pet graphics board
+	  additions.
+
+	* src/arch/win64/c64cart.vcproj, src/arch/win64/pet.vcproj:
+	  Updated the win64 msvc project files for the rex utility cart
+	  and pet graphics board additions.
+
+	* src/arch/win32/c64cart.dsp, src/arch/win32/pet.dsp: Updated
+	  the win32 msvc project files for the rex utility cart and pet
+	  graphics board additions.
+
+2009-12-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64io.c, src/c64/c64io.h, src/c64/cart/Makefile.am,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	  src/c64/cart/epyxfastload.c, src/c64/cart/epyxfastload.h,
+	  src/c64/cart/rexutility.c, src/c64/cart/rexutility.h: Fix Epyx
+	  FastLoad emulation, patch by Ingo Korb.
+
+	* src/arch/sdl/menu_pethw.c, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/uipetdww.c,
+	  src/arch/unix/gui/uipetdww.h, src/crtc/crtc-draw.c,
+	  src/crtc/crtc.c, src/crtc/crtc.h, src/crtc/crtctypes.h,
+	  src/pet/Makefile.am, src/pet/pet.c, src/pet/petdww.c,
+	  src/pet/petdww.h, src/pet/petmem.c, src/pet/petmem.h,
+	  src/translate.c, src/translate.txt: Add support for Double-W
+	  hi-res graphics board for PETs, patch by Olaf Seibert.
+
+2009-12-21  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/Makefile.in.in: Support $DESTDIR in po/. Patch by Rhialto
+	  (NetBSD port), provided there by joerg .at. NetBSD.org.
+
+2009-12-21  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vdrive/vdrive-iec.c, src/vdrive/vdrive-rel.c: vdrive debug
+	  message fixes (patch #2918685, anonymous contribution)
+
+2009-12-20  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/dynlib.c, src/arch/unix/joy_usb.c: Fix NetBSD
+	  FTBFS issues properly
+
+	* src/arch/unix/dynlib.c, src/arch/unix/joy_usb.c: Fix NetBSD
+	  FTBFS issues and dynlib.c EOLs
+
+	* data/VIC20/Makefile.am, data/VIC20/sdl_pos_fi.vkm: Positional
+	  fi(/se) xvic keymap for SDL UI
+
+	* data/VIC20/sdl_sym.vkm: Fix left shift in SDL xvic keymap
+
+2009-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated 2.2 download links, use these for
+	  the VICE 2.2 release.
+
+2009-12-19  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/video.c: SDL: update palette only for active
+	  canvas
+
+	* src/sounddrv/soundsdl.c: Add stereo support to SDL sound
+	  driver
+
+	* src/arch/sdl/video.c: SDL: more NULL checks, refresh canvas on
+	  screen switch, ignore hwscale updates targeted at inactive
+	  canvas
+
+2009-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/index.html, doc/html/qnx.html:
+	  Updated 2.2 download links, use these for the VICE 2.2
+	  release.
+
+2009-12-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* data/C64/Makefile.am, data/C64/sdl_sym_da.vkm,
+	  data/C64/sdl_sym_fi.vkm, data/C64/sdl_sym_no.vkm,
+	  data/C64DTV/Makefile.am, data/C64DTV/sdl_sym_da.vkm,
+	  data/C64DTV/sdl_sym_fi.vkm, data/C64DTV/sdl_sym_no.vkm: Added
+	  symbolic-ish x64(dtv) da/fi/no keymaps for SDL UI
+
+	* src/arch/sdl/x128_ui.c: SDL x128: select initially shown
+	  canvas based on 40/80 column key state (saved or set via
+	  -40col/-80col)
+
+	* src/arch/unix/gui/uiattach.c, src/arch/unix/gui/uilib.h,
+	  src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/xaw/x11ui.c: Add Compressed file filter to
+	  gnomeui, fix xaw tape filter, change Smart attach default
+	  filter back to All files
+
+	* src/arch/unix/gui/uivicii.c: Add vice.vpl to the *nix palette
+	  submenu, remove unnecessary N_()s
+
+2009-12-17  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/c64sound.c, src/c64/sfx_soundexpander.c,
+	  src/c64/sfx_soundsampler.c: Add resid support into
+	  soundexpander.
+
+2009-12-16  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/c64sound.c, src/c64/digimax.c: Make it possible to use
+	  ReSID with digimax cart emulation.
+
 2009-12-14  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2
