@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-15 11:10+0100\n"
-"PO-Revision-Date: 2009-12-08 19:54+0100\n"
+"PO-Revision-Date: 2010-02-17 20:40+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -687,7 +687,7 @@ msgstr "PET RAM Speicher und Erweiterungsmodul"
 
 #: src/arch/unix/gui/petui.c:223
 msgid "PET DWW hi-res graphics"
-msgstr ""
+msgstr "PET DWW Hi-Res Grafik"
 
 #: src/arch/unix/gui/petui.c:225
 msgid "SID cartridge"
@@ -3715,9 +3715,8 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:115
-#, fuzzy
 msgid "(c) 1998 - 2010 The Vice Team"
-msgstr "(c) 1998 - 2009 Das Vice Team"
+msgstr "(c) 1998 - 2010 Das Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:122 src/arch/win32/res.rc.po.c:1014
 #: src/arch/amigaos/intl_text.c.po.c:2283
@@ -4437,69 +4436,56 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:179
-#, fuzzy
 msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Copyright (c) 1998-2009 Andreas Boose"
+msgstr "Copyright (c) 1998-2010 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:180
-#, fuzzy
 msgid "Copyright (c) 1998-2010 Dag Lem"
-msgstr "Copyright (c) 1998-2009 Dag Lem"
+msgstr "Copyright (c) 1998-2010 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:181
-#, fuzzy
 msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Copyright (c) 1998-2009 Tibor Biczo"
+msgstr "Copyright (c) 1998-2010 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1999-2010 Andreas Matthies"
-msgstr "Copyright (c) 1999-2009 Andreas Matthies"
+msgstr "Copyright (c) 1999-2010 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2010 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2009 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2010 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 2000-2010 Spiro Trikaliotis"
-msgstr "Copyright (c) 2000-2009 Spiro Trikaliotis"
+msgstr "Copyright (c) 2000-2010 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2010 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2009 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2010 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2010 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2009 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2010 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2010 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2009 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2010 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2010 M. Kiesel"
-msgstr "Copyright (c) 2007-2009 M. Kiesel"
+msgstr "Copyright (c) 2007-2010 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2007-2010 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2009 Hannu Nuotio"
+msgstr "Copyright (c) 2007-2010 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2007-2010 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2009 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2010 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2008-2010 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2009 Antti S. Lankila"
+msgstr "Copyright (c) 2008-2010 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:192
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -11082,14 +11068,12 @@ msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Größe des PET RAM Speicher und Erweiterungsmodul"
 
 #: src/translate_text.c.po.c:3561
-#, fuzzy
 msgid "Specify name of PET DWW image"
-msgstr "Namen für REU Image Datei definieren"
+msgstr "Namen für PET DWW Image Datei definieren"
 
 #: src/translate_text.c.po.c:3575
-#, fuzzy
 msgid "Disable the PET DWW hi-res board"
-msgstr "Isepic Modul deaktivieren"
+msgstr "PET DWW Hi-Res Karte deaktivieren"
 
 #: src/translate_text.c.po.c:3589
 msgid "SID player mode"
