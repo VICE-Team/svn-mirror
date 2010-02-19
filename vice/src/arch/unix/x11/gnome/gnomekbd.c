@@ -56,6 +56,7 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
     return gdk_keyval_name((guint)keynum);
 }
 
+/* #define DEBUG_KBD */
 
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
@@ -64,9 +65,15 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     key = report->key.keyval;
     switch (report->type) {
         case GDK_KEY_PRESS:
+#ifdef DEBUG_KBD
+            log_debug("KeyPress`%d'.", key);
+#endif
             keyboard_key_pressed((signed long)key);
             return TRUE;
         case GDK_KEY_RELEASE:
+#ifdef DEBUG_KBD
+            log_debug("KeyRelese`%d'.", key);
+#endif
             if (key == GDK_Shift_L || key == GDK_Shift_R || key == GDK_ISO_Level3_Shift) {
                 keyboard_key_clear();
             }
