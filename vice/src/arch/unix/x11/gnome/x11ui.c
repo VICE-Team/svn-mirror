@@ -77,6 +77,7 @@
 #include "maincpu.h"
 #include "mouse.h"
 #include "mousedrv.h"
+#include "keyboard.h"
 #include "resources.h"
 #include "types.h"
 #include "uiapi.h"
@@ -2366,6 +2367,7 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     /* cv: ensure focus after dialogs were opened */
     gtk_widget_grab_focus(w);
     gtk_lightpen_update_canvas(p, TRUE);
+    keyboard_key_clear();
 
     return 0;
 }
