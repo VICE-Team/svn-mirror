@@ -3616,7 +3616,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PETDWW_NAME,    N_("Specify name of PET DWW image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PETDWW_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PETDWW_NAME_DE, "Namen für PET DWW Image Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_PETDWW_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PETDWW_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PETDWW_NAME_IT, ""},  /* fuzzy */
@@ -3630,7 +3630,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_PETDWW,    N_("Disable the PET DWW hi-res board")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_PETDWW_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_PETDWW_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_PETDWW_DE, "PET DWW Hi-Res Karte deaktivieren"},
 /* fr */ {IDCLS_DISABLE_PETDWW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_PETDWW_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_PETDWW_IT, ""},  /* fuzzy */
