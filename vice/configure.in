@@ -2439,7 +2439,7 @@ if test x"$enable_sdlui" = "xyes"; then
   if test x"$is_win32" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$(top_srcdir)/src/arch/win32/msvc/wpcap"
   else
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])

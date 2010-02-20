@@ -54,6 +54,24 @@
 #  endif
 #endif
 
+/* MacOS X discovery */
+#ifdef __APPLE__
+#   define PLATFORM_OS "Mac OS X"
+#   ifdef __llvm__
+#       define PLATFORM_COMPILER  "llvm"
+#   else
+#       define PLATFORM_COMPILER  "gcc"
+#   endif
+#   ifdef __POWERPC__
+#       define PLATFORM_CPU "ppc"
+#   else
+#       ifdef __x86_64
+#           define PLATFORM_CPU "x86_64"
+#       else
+#           define PLATFORM_CPU "i386"
+#       endif
+#   endif
+#endif
 
 /* AIX discovery */
 
