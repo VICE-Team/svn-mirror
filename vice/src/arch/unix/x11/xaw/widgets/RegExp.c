@@ -39,12 +39,10 @@
 
 void RegExpInit(fwf_regex_t *r)
 {
-    return;
 }
 
 void RegExpFree(fwf_regex_t *r)
 {
-    regfree(r);
 }
 
 void RegExpCompile(const char *regexp, fwf_regex_t *r)
@@ -88,8 +86,6 @@ void RegExpFree(fwf_regex_t *r)
 }
 
 void RegExpCompile(const char *regexp, fwf_regex_t *r)
-    ;
-    ;
 {
     char **s = (char **)r;
 
@@ -120,19 +116,15 @@ void _RegExpError(int val)
 /* Dummy for system that don't have neither <regex.h> and <regexp.h>.  */
 
 void RegExpInit(fwf_regex_t *r)
-    ;
 {
-    return;
 }
 
 void RegExpFree(fwf_regex_t *r)
 {
-    return;
 }
 
 void RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
-    return;
 }
 
 int RegExpMatch(const char *string, fwf_regex_t *r)

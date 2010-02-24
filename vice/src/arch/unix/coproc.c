@@ -52,7 +52,7 @@
 
 #include "vice.h"
 
-#ifndef MINIX_SUPPORT
+#if !defined(MINIX_SUPPORT) && !define(OPENSTEP_COMPILE)
 
 #include <sys/types.h>
 #include <stdio.h>
@@ -70,6 +70,10 @@
 #include "log.h"
 
 #define SHELL "/bin/sh"
+
+#ifndef sigset_t
+#define sigset_t int
+#endif
 
 /* HP-UX 9 fix */
 #ifndef SA_RESTART

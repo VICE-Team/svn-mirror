@@ -67,6 +67,10 @@
 #include <sys/select.h>
 #endif
 
+#ifdef OPENSTEP_COMPILE
+#define ssize_t int
+#endif
+
 #include "cmdline.h"
 #include "coproc.h"
 #include "log.h"
@@ -319,8 +323,8 @@ int rs232_open(int device)
 #endif
 
     if (rs232_devfile[device][0] == '|') {
-#ifdef MINIX_SUPPORT
-        log_error(rs232_log, "Forking not supported on minix.");
+#if defined(MINIX_SUPPORT) || defined(OPENSTEP_COMPILE)
+        log_error(rs232_log, "Forking not supported on this platform.");
         return -1;
 #else
         if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, rs232_devfile[device] + 1) < 0) {
@@ -332,6 +336,7 @@ int rs232_open(int device)
         fds[i].inuse = 1;
         fds[i].file = rs232_devfile[device];
     } else {
+#ifndef OPENSTEP_COMPILE
         fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
             log_error(rs232_log, "Cannot open file \"%s\": %s", rs232_devfile[device], strerror(errno));
@@ -347,6 +352,7 @@ int rs232_open(int device)
             fds[i].type = T_FILE;
         }
         fds[i].inuse = 1;
+#endif
     }
 
     return i;

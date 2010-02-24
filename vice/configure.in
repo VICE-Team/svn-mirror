@@ -1945,7 +1945,7 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir rewinddir dirname mkstemp swab getcwd)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir rewinddir dirname mkstemp swab getcwd getpwuid)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have strdup_func=no])
 
 if test x"$have_strdup_func" = "xno"; then
@@ -2530,7 +2530,13 @@ if test x"$is_unix" = "xyes"; then
   hpuxcompile=no
   skyoscompile=no
   syllablecompile=no
+  openstepcompile=no
   case "$host_os" in
+    openstep*)
+      openstepcompile=yes
+      AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, true)
+      AC_DEFINE(OPENSTEP_COMPILE,,[Enable SCO Openstep 4.x support])
+      ;;
     skyos*)
       skyoscompile=yes
       AM_CONDITIONAL(UNIX_SKYOS_COMPILE, true)
@@ -2588,6 +2594,10 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$qnx6compile" = "xno"; then
     AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
+  fi
+
+  if test x"$openstepcompile" = "xno"; then
+    AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   fi
 
   if test x"$solariscompile" = "xno"; then
@@ -2686,6 +2696,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -2714,6 +2725,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -2745,6 +2757,7 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -2772,6 +2785,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -2801,6 +2815,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)  
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)  
@@ -2830,6 +2845,7 @@ elif test x"$is_riscos" = "xyes"; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)

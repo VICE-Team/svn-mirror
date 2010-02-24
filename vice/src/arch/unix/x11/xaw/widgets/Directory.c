@@ -73,11 +73,18 @@ void seekdir(DIR *dirp,long loc)
 #endif
 
 #ifndef HAVE_REWINDDIR
+#ifdef OPENSTEP_COMPILE
+/* openstep needs the replacement function as a define */
+#define rewinddir(x) \
+    lseek((x)->dd_fd, 0, SEEK_SET); \
+    (x)->dd_size = 0
+#else
 void rewinddir(DIR *dir)
 {
     lseek(dir->dd_fd, 0, SEEK_SET);
     dir->dd_size = 0;
 }
+#endif
 #endif
 
 /*--------------------------------------------------------------------------*

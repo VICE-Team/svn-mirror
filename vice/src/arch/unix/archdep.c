@@ -61,6 +61,18 @@
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif
 
+#ifdef OPENSTEP_COMPILE
+#ifndef S_ISBLK
+#define S_ISBLK(mode)  (((mode) & (0170000)) == (0060000))
+#endif
+#ifndef S_ISCHR
+#define S_ISCHR(mode)  (((mode) & (0170000)) == (0020000))
+#endif
+#ifndef S_ISDIR
+#define S_ISDIR(mode)  (((mode) & (0170000)) == (0040000))
+#endif
+#endif
+
 static char *argv0 = NULL;
 static char *boot_path = NULL;
 
@@ -122,6 +134,7 @@ const char *archdep_home_path(void)
 #else
     home = getenv("HOME");
     if (home == NULL) {
+#ifdef HAVE_GETPWUID
         struct passwd *pwd;
 
         pwd = getpwuid(getuid());
@@ -129,6 +142,9 @@ const char *archdep_home_path(void)
             /* give up */
             home = ".";
         }
+#else
+        home = ".";
+#endif
     }
 #endif
 
@@ -331,6 +347,7 @@ int archdep_path_is_relative(const char *path)
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
+#ifndef OPENSTEP_COMPILE
     pid_t child_pid;
     int child_status;
     char *stdout_redir = NULL;
@@ -371,6 +388,9 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     } else {
         return -1;
     }
+#else
+    return -1;
+#endif
 }
 
 /* return malloc'd version of full pathname of orig_name */
