@@ -52,7 +52,7 @@
 
 #include "vice.h"
 
-#if !defined(MINIX_SUPPORT) && !define(OPENSTEP_COMPILE)
+#if !defined(MINIX_SUPPORT) && !defined(OPENSTEP_COMPILE)
 
 #include <sys/types.h>
 #include <stdio.h>
