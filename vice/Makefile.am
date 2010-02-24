@@ -225,6 +225,14 @@ endif
 endif
 endif
 
+if UNIX_OPENSTEP_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/openstep/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/openstep/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip $(top_srcdir) $(MAKE)
+endif
+
 if UNIX_OPENSERVER5_COMPILE
 if SDL_COMPILE
 bindist:

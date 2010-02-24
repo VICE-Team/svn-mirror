@@ -84,6 +84,8 @@ EXTRA_DIST = \
 	hpux/getnow.pl \
 	hpux/make-bindist.sh \
 	minix/minix-ar.sh \
+	openstep/make-bindist.sh \
+	openstep/vice.info \
 	qnx4/install_msg \
 	qnx4/make-bindist.sh \
 	qnx6/getlibs.c \
