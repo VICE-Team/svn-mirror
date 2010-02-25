@@ -194,38 +194,6 @@ char *archdep_program_name(void)
     return program_name;
 }
 
-static HANDLE   hkernel = NULL;
-static HANDLE   hpsapi = NULL;
-
-typedef HANDLE (WINAPI * _CreateToolhelp32Snapshot)(
-    DWORD dwFlags,
-    DWORD th32ProcessID
-);
-
-typedef BOOL (WINAPI * _Module32First)(
-    HANDLE hSnapshot,
-    LPMODULEENTRY32 lpme
-);
-
-typedef BOOL (WINAPI * _Module32Next)(
-    HANDLE hSnapshot,
-    LPMODULEENTRY32 lpme
-);
-
-typedef BOOL (WINAPI * _EnumProcessModules)(
-    HANDLE hProcess,      // handle to process
-    HMODULE *lphModule,   // array of module handles
-    DWORD cb,             // size of array
-    LPDWORD lpcbNeeded    // number of bytes required
-);
-
-typedef DWORD (WINAPI * _GetModuleFileNameEx)(
-    HANDLE hProcess,    // handle to process
-    HMODULE hModule,    // handle to module
-    LPTSTR lpFilename,  // path buffer
-    DWORD nSize         // maximum characters to retrieve
-);
-
 char boot_path[MAX_PATH];
 
 const char *archdep_boot_path(void)
@@ -282,7 +250,7 @@ char *archdep_default_resource_file_name(void)
 char *archdep_default_fliplist_file_name(void)
 {
     return util_concat(archdep_boot_path(), "\\fliplist-", 
-		       machine_name, ".vfl", NULL);
+                       machine_name, ".vfl", NULL);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
