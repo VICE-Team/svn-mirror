@@ -80,6 +80,22 @@ static GLint screen_texture;
 static int sdl_gl_aspect_mode;
 static char *aspect_ratio_s = NULL;
 static double aspect_ratio;
+
+static int sdl_gl_flipx;
+static int sdl_gl_flipy;
+
+static int sdl_gl_vertex_base = 0;
+
+static const float sdl_gl_vertex_coord[4*4] = {
+    /* Normal */
+    -1.0f, +1.0f, -1.0f, +1.0f,
+    /* Flip X */
+    +1.0f, +1.0f, -1.0f, -1.0f,
+    /* Flip Y */
+    -1.0f, -1.0f, +1.0f, +1.0f,
+    /* Flip X&Y */
+    +1.0f, -1.0f, +1.0f, -1.0f
+};
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -186,7 +202,29 @@ static int set_aspect_ratio(const char *val, void *param)
 
     return 0;
 }
-#endif
+
+static void update_vertex_base(void)
+{
+    sdl_gl_vertex_base = (sdl_gl_flipx << 2) | (sdl_gl_flipy << 3);
+}
+
+static int set_sdl_gl_flipx(int v, void *param)
+{
+    sdl_gl_flipx = (v != 0);
+    update_vertex_base();
+
+    return 0;
+}
+
+static int set_sdl_gl_flipy(int v, void *param)
+{
+    sdl_gl_flipy = (v != 0);
+    update_vertex_base();
+
+    return 0;
+}
+
+#endif /* HAVE_HWSCALE */
 
 static const resource_string_t resources_string[] = {
 #ifdef HAVE_HWSCALE
@@ -213,6 +251,10 @@ static const resource_int_t resources_int[] = {
 #ifdef HAVE_HWSCALE
     { "SDLGLAspectMode", 0, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
+    { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
+      &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
+    { "SDLGLFlipY", 0, RES_EVENT_NO, NULL,
+      &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
 #endif
     { NULL }
 };
@@ -261,6 +303,18 @@ static const cmdline_option_t cmdline_options[] = {
     { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)" },
+    { "-sdlflipx", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipX", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable X flip" },
+    { "+sdlflipx", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipX", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable X flip" },
+    { "-sdlflipy", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipY", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable Y flip" },
+    { "+sdlflipy", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipY", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable Y flip" },
 #endif
     { NULL }
 };
@@ -643,6 +697,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
+        const float *v = &(sdl_gl_vertex_coord[sdl_gl_vertex_base]);
+
         if (canvas != sdl_active_canvas) {
             return;
         }
@@ -681,19 +737,19 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
         /* Lower Right Of Texture */
         glTexCoord2f(0.0f, 0.0f);
-        glVertex2f(-1.0f, 1.0f);
+        glVertex2f(v[0], v[1]);
 
         /* Upper Right Of Texture */
         glTexCoord2f(0.0f, (float)(canvas->height));
-        glVertex2f(-1.0f, -1.0f);
+        glVertex2f(v[0], v[2]);
 
         /* Upper Left Of Texture */
         glTexCoord2f((float)(canvas->width), (float)(canvas->height));
-        glVertex2f(1.0f, -1.0f);
+        glVertex2f(v[3], v[2]);
 
         /* Lower Left Of Texture */
         glTexCoord2f((float)(canvas->width), 0.0f);
-        glVertex2f(1.0f, 1.0f);
+        glVertex2f(v[3], v[1]);
 
         glEnd();
 

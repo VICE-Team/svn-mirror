@@ -187,6 +187,8 @@ UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
 UI_MENU_DEFINE_TOGGLE(SDLGLAspectMode)
 UI_MENU_DEFINE_STRING(AspectRatio)
+UI_MENU_DEFINE_TOGGLE(SDLGLFlipX)
+UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 
 #define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)  \
     SDL_MENU_ITEM_SEPARATOR,                   \
@@ -202,7 +204,15 @@ UI_MENU_DEFINE_STRING(AspectRatio)
     { "Aspect ratio",                          \
       MENU_ENTRY_RESOURCE_STRING,              \
       string_AspectRatio_callback,             \
-      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" },
+      (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
+    { "Flip X",                                \
+      MENU_ENTRY_RESOURCE_TOGGLE,              \
+      toggle_SDLGLFlipX_callback,              \
+      NULL },                                  \
+    { "Flip Y",                                \
+      MENU_ENTRY_RESOURCE_TOGGLE,              \
+      toggle_SDLGLFlipY_callback,              \
+      NULL },
 #endif
 
 /* VICII size menu */
