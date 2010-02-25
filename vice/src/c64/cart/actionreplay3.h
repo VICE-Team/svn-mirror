@@ -31,10 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 actionreplay3_io1_read(WORD addr);
-extern void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 actionreplay3_io2_read(WORD addr);
-
 extern void actionreplay3_freeze(void);
 
 extern void actionreplay3_config_init(void);

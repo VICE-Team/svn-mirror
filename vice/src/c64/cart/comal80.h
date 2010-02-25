@@ -31,8 +31,6 @@
 
 #include "types.h"
 
-extern void REGPARM2 comal80_io1_store(WORD addr, BYTE value);
-
 extern void comal80_config_init(void);
 extern void comal80_config_setup(BYTE *rawcart);
 extern int comal80_crt_attach(FILE *fd, BYTE *rawcart);

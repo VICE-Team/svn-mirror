@@ -29,39 +29,6 @@
  
 #include "types.h"
 
-#define IO_SOURCE_NONE             0
-#define IO_SOURCE_ACIA             1
-#define IO_SOURCE_C64_256K         2
-#define IO_SOURCE_GEORAM           3
-#define IO_SOURCE_RAMCART          4
-#define IO_SOURCE_REU              5
-#define IO_SOURCE_TFE_RR_NET       6
-#define IO_SOURCE_STEREO_SID       7
-#define IO_SOURCE_ACTION_REPLAY    8
-#define IO_SOURCE_ATOMIC_POWER     9
-#define IO_SOURCE_EPYX_FASTLOAD   10
-#define IO_SOURCE_FINAL1          11
-#define IO_SOURCE_FINAL3          12
-#define IO_SOURCE_IDE64           13
-#define IO_SOURCE_IEEE488         14
-#define IO_SOURCE_KCS             15
-#define IO_SOURCE_MAGIC_FORMEL    16
-#define IO_SOURCE_RR              17
-#define IO_SOURCE_SS4             18
-#define IO_SOURCE_SS5             19
-#define IO_SOURCE_WARPSPEED       20
-#define IO_SOURCE_EMUID           21
-#define IO_SOURCE_MIKRO_ASSEMBLER 22
-#define IO_SOURCE_MMC64           23
-#define IO_SOURCE_DIGIMAX         24
-#define IO_SOURCE_ACTION_REPLAY4  25
-#define IO_SOURCE_STARDOS         26
-#define IO_SOURCE_MIDI            27
-#define IO_SOURCE_ISEPIC          28
-#define IO_SOURCE_SFX_SE          29
-#define IO_SOURCE_EASYFLASH       30
-#define IO_SOURCE_REX             31
-
 #define IO_DETACH_CART     0
 #define IO_DETACH_RESOURCE 1
 
@@ -77,11 +44,35 @@ extern void REGPARM2 c64io2_store(WORD addr, BYTE value);
 struct mem_ioreg_list_s;
 extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
 
-extern int io_source;
-
 extern int get_cpu_lines_lock(void);
 extern void set_cpu_lines_lock(int device, char *name);
 extern void remove_cpu_lines_lock(void);
 extern char *get_cpu_lines_lock_name(void);
+
+typedef struct io_source_s {
+    char *name;
+    int detach_id;
+    char *resource_name;
+    WORD start_address;
+    WORD end_address;
+    BYTE address_mask;
+    int  io_source_valid;
+    void REGPARM2 (*store)(WORD address, BYTE data);
+    BYTE REGPARM1 (*read)(WORD address);
+} io_source_t;
+
+typedef struct io_source_list_s {
+    struct io_source_list_s *previous;
+    io_source_t *device;
+    struct io_source_list_s *next;
+} io_source_list_t;
+
+typedef struct io_source_detach_s {
+    int det_id;
+    char *det_name;
+} io_source_detach_t;
+
+extern io_source_list_t *c64io_register(io_source_t *device);
+extern void c64io_unregister(io_source_list_t *device);
 
 #endif

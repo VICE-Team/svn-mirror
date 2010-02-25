@@ -89,8 +89,6 @@
 #include "mouse.h"
 #endif
 
-int io_source;
-
 machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 2

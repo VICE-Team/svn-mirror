@@ -37,15 +37,8 @@
 #include "rexutility.h"
 #include "types.h"
 
-
-static const c64export_resource_t export_res_rex = {
-    "REX", 0, 0
-};
-
-BYTE REGPARM1 rex_io2_read(WORD addr)
+static BYTE REGPARM1 rex_io2_read(WORD addr)
 {
-    io_source = IO_SOURCE_REX;
-
     if ((addr & 0xff) < 0xc0) {
         /* disable cartridge rom */
         cartridge_config_changed(2, 2, CMODE_READ);
@@ -55,6 +48,26 @@ BYTE REGPARM1 rex_io2_read(WORD addr)
     }
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t rex_device = {
+    "REX UTIL CART",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0, /* read is never valid */
+    NULL,
+    rex_io2_read
+};
+
+static io_source_list_t *rex_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res_rex = {
+    "REX", 0, 0
+};
 
 int rex_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -72,10 +85,14 @@ int rex_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    rex_list_item = c64io_register(&rex_device);
+
     return 0;
 }
 
 void rex_detach(void)
 {
     c64export_remove(&export_res_rex);
+    c64io_unregister(rex_list_item);
+    rex_list_item = NULL;
 }

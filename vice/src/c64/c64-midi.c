@@ -32,6 +32,7 @@
 #include "types.h"
 
 #include "c64-midi.h"
+#include "c64io.h"
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
@@ -51,9 +52,72 @@ midi_interface_t midi_interface[] = {
     { NULL }
 };
 
+/* ---------------------------------------------------------------------*/
+
+static BYTE REGPARM1 c64midi_read(WORD address)
+{
+    return midi_read(address);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t midi_device = {
+    "MIDI",
+    IO_DETACH_RESOURCE,
+    "MIDIEnable",
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    midi_store,
+    c64midi_read
+};
+
+static io_source_list_t *midi_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
+static int midi_set_c64mode(int new_mode, void *param)
+{
+    if (midi_mode != new_mode) {
+        switch (new_mode) {
+            case 4:
+                midi_device.start_address = 0xdf00;
+                midi_device.end_address = 0xdfff;
+                break;
+            default:
+                midi_device.start_address = 0xde00;
+                midi_device.end_address = 0xdeff;
+                break;
+        }
+        if (midi_enabled) {
+            c64io_unregister(midi_list_item);
+            midi_list_item = c64io_register(&midi_device);
+        }
+        return midi_set_mode(new_mode, param);
+    }
+    return 0;
+}
+
+static int set_midi_enabled(int val, void *param)
+{
+    if (midi_enabled != val) {
+        if (val) {
+            midi_list_item = c64io_register(&midi_device);
+        } else {
+            c64io_unregister(midi_list_item);
+            midi_list_item = NULL;
+        }
+    }
+    midi_enabled = val;
+    return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+
 static const resource_int_t resources_int[] = {
     { "MIDIMode", MIDI_MODE_SEQUENTIAL, RES_EVENT_NO, NULL,
-      &midi_mode, midi_set_mode, NULL },
+      &midi_mode, midi_set_c64mode, NULL },
+    { "MIDIEnable", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &midi_enabled, set_midi_enabled, NULL },
     { NULL }
 };
 
@@ -65,6 +129,8 @@ int c64_midi_resources_init(void)
 
     return midi_resources_init();
 }
+
+/* ---------------------------------------------------------------------*/
 
 static const cmdline_option_t cmdline_options[] = {
     { "-miditype", SET_RESOURCE, 1,
@@ -83,6 +149,8 @@ int c64_midi_cmdline_options_init(void)
 
     return midi_cmdline_options_init();
 }
+
+/* ---------------------------------------------------------------------*/
 
 int REGPARM1 c64_midi_base_de00(void)
 {

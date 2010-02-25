@@ -37,6 +37,7 @@
 #include "alarm.h"
 #include "archdep.h"
 #include "c64cart.h"
+#include "c64tpi.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
@@ -299,7 +300,6 @@ int cartridge_cmdline_options_init(void)
 int cartridge_attach_image(int type, const char *filename)
 {
     BYTE *rawcart;
-    FILE *fd;
 
     /* The expert cartridge does not have a filename.
      * It should only be enabled without loading an image.
@@ -390,16 +390,9 @@ int cartridge_attach_image(int type, const char *filename)
             }
             break;
         case CARTRIDGE_IEEE488:
-            /* FIXME: ROM removed? */
-            fd = fopen(filename, MODE_READ);
-            if (!fd) {
+            if (tpi_bin_attach(filename, rawcart) < 0) {
                 goto done;
             }
-            if (fread(rawcart, 0x1000, 1, fd) < 1) {
-                fclose(fd);
-                goto done;
-            }
-            fclose(fd);
             break;
         case CARTRIDGE_CRT:
             if (crt_attach(filename, rawcart) < 0) {

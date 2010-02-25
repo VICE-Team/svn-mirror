@@ -29,7 +29,9 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "c64.h"
+#include "c64cartmem.h"
 #include "c64io.h"
 #include "c64mem.h"
 #include "c64tpi.h"
@@ -44,15 +46,59 @@
 #define mytpi_init tpi_init
 #define mytpi_set_int tpi_set_int
 
-void REGPARM2 tpi_store(WORD addr, BYTE data)
+static void REGPARM2 tpi_store(WORD addr, BYTE data)
 {
     tpicore_store(machine_context.tpi1, addr, data);
 }
 
-BYTE REGPARM1 tpi_read(WORD addr)
+static BYTE REGPARM1 tpi_read(WORD addr)
 {
-    io_source = IO_SOURCE_IEEE488;
     return tpicore_read(machine_context.tpi1, addr);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t tpi_device = {
+    "IEEE488",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0x07,
+    1, /* read is always valid */
+    tpi_store,
+    tpi_read
+};
+
+static io_source_list_t *tpi_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
+void tpi_config_init(void)
+{
+    cartridge_config_changed(0, 0, CMODE_READ);
+}
+
+int tpi_bin_attach(const char *filename, BYTE *rawcart)
+{
+    FILE *fd;
+    
+    fd = fopen(filename, MODE_READ);
+    if (!fd) {
+        return -1;
+    }
+    if (fread(rawcart, 0x1000, 1, fd) < 1) {
+        fclose(fd);
+        return -1;
+    }
+    fclose(fd);
+
+    c64io_register(&tpi_device);
+    return 0;
+}
+
+void tpi_detach(void)
+{
+    c64io_unregister(tpi_list_item);
+    tpi_list_item = NULL;
 }
 
 BYTE REGPARM1 tpi_peek(WORD addr)

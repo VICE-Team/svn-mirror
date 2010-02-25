@@ -38,11 +38,43 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-static const c64export_resource_t export_res = {
-    "Action Replay 4", 1, 1
+static unsigned int ar_active;
+
+unsigned int actionreplay4_get_active(void)
+{
+    return ar_active;
+}
+
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 actionreplay4_io2_read(WORD addr);
+
+static io_source_t actionreplay4_io1_device = {
+    "ACTION REPLAY 4",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    actionreplay4_io1_store,
+    NULL
 };
 
-static unsigned int ar_active;
+static io_source_t actionreplay4_io2_device = {
+    "ACTION REPLAY 4",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    NULL,
+    actionreplay4_io2_read
+};
+
+static io_source_list_t *actionreplay4_io1_list_item = NULL;
+static io_source_list_t *actionreplay4_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 /* $de00 control register
    bit 0: Eprom banking bit 0 (bank address 13)
@@ -53,7 +85,9 @@ static unsigned int ar_active;
    bit 5 to 7: unused.
  */
 
-void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
+/* ---------------------------------------------------------------------*/
+
+static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
 {
     BYTE exrom, bank, conf, game, disable;
 
@@ -72,18 +106,15 @@ void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
     }
 }
 
-unsigned int actionreplay4_get_active(void)
+static BYTE REGPARM1 actionreplay4_io2_read(WORD addr)
 {
-    return ar_active;
-}
+    actionreplay4_io2_device.io_source_valid = 0;
 
-BYTE REGPARM1 actionreplay4_io2_read(WORD addr)
-{
     if (!ar_active) {
         return vicii_read_phi1();
     }
 
-    io_source = IO_SOURCE_ACTION_REPLAY4;
+    actionreplay4_io2_device.io_source_valid = 1;
 
     switch (roml_bank) {
         case 0:
@@ -96,10 +127,12 @@ BYTE REGPARM1 actionreplay4_io2_read(WORD addr)
             return roml_banks[(addr & 0x1fff) + 0x6000];
     }
 
-    io_source = IO_SOURCE_NONE;
+    actionreplay4_io2_device.io_source_valid = 0;
 
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 actionreplay4_roml_read(WORD addr)
 {
@@ -111,6 +144,8 @@ BYTE REGPARM1 actionreplay4_roml_read(WORD addr)
 
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
+
+/* ---------------------------------------------------------------------*/
 
 void actionreplay4_freeze(void)
 {
@@ -137,17 +172,31 @@ void actionreplay4_config_setup(BYTE *rawcart)
     cartridge_config_changed(8, 8, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Action Replay 4", 1, 1
+};
+
+static int actionreplay4_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    actionreplay4_io1_list_item = c64io_register(&actionreplay4_io1_device);
+    actionreplay4_io2_list_item = c64io_register(&actionreplay4_io2_device);
+
+    return 0;
+}
+
 int actionreplay4_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return actionreplay4_common_attach();
 }
 
 int actionreplay4_crt_attach(FILE *fd, BYTE *rawcart)
@@ -169,14 +218,14 @@ int actionreplay4_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return actionreplay4_common_attach();
 }
 
 void actionreplay4_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(actionreplay4_io1_list_item);
+    c64io_unregister(actionreplay4_io2_list_item);
+    actionreplay4_io1_list_item = NULL;
+    actionreplay4_io2_list_item = NULL;
 }

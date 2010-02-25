@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 rexep256_io2_read(WORD addr);
-extern void REGPARM2 rexep256_io2_store(WORD addr, BYTE value);
-
 extern void rexep256_config_init(void);
 extern void rexep256_config_setup(BYTE *rawcart);
 extern int rexep256_crt_attach(FILE *fd, BYTE *rawcart);

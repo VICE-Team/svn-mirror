@@ -33,13 +33,13 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "cartridge.h"
 #include "expert.h"
 #include "interrupt.h"
 #include "resources.h"
 #include "reu.h"
 #include "types.h"
-
 
 /* De-assert ~GAME */
 /* Assert ~EXROM */
@@ -56,11 +56,22 @@
 /* Disable export_ram */
 #define EXPERT_ON ((1 << 0) | (1 << 1))
 
-static const c64export_resource_t export_res = {
-    "Expert", 1, 1
-};
-
 static int ack_reset = 0;
+
+void expert_mode_changed(int mode)
+{
+    switch(mode) {
+        case(CARTRIDGE_MODE_PRG):
+            cartridge_config_changed(EXPERT_PRG, EXPERT_PRG, CMODE_READ);
+            break;
+        case(CARTRIDGE_MODE_OFF):
+        case(CARTRIDGE_MODE_ON):
+            cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
+            break;
+    }
+}
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 expert_io1_read(WORD addr)
 {
@@ -77,6 +88,22 @@ void REGPARM2 expert_io1_store(WORD addr, BYTE value)
     }
 }
 
+/* ---------------------------------------------------------------------*/
+
+static io_source_t expert_device = {
+    "EXPERT",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    expert_io1_store,
+    expert_io1_read
+};
+
+static io_source_list_t *expert_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 BYTE REGPARM1 expert_roml_read(WORD addr)
 {
     return roml_banks[addr & 0x1fff];
@@ -91,6 +118,8 @@ BYTE REGPARM1 expert_romh_read(WORD addr)
 {
     return roml_banks[addr & 0x1fff];
 }
+
+/* ---------------------------------------------------------------------*/
 
 void expert_ack_nmi(void)
 {
@@ -109,6 +138,8 @@ void expert_ack_reset(void)
 void expert_freeze(void)
 {
 }
+
+/* ---------------------------------------------------------------------*/
 
 void expert_config_init(void)
 {
@@ -137,15 +168,29 @@ void expert_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
 }
 
-int expert_bin_attach(const char *filename, BYTE *rawcart)
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Expert", 1, 1
+};
+
+static int expert_common_attach(void)
 {
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
 
+    expert_list_item = c64io_register(&expert_device);
+
+    return 0;
+}
+
+int expert_bin_attach(const char *filename, BYTE *rawcart)
+{
     /* Set default mode */
     resources_set_int("CartridgeMode", CARTRIDGE_MODE_PRG);
-    return 0;
+
+    return expert_common_attach();
 }
 
 int expert_crt_attach(FILE *fd, BYTE *rawcart)
@@ -160,29 +205,14 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
     resources_set_int("CartridgeMode", CARTRIDGE_MODE_ON);
 
-    return 0;
+    return expert_common_attach();
 }
 
 void expert_detach(void)
 {
     c64export_remove(&export_res);
-}
-
-void expert_mode_changed(int mode)
-{
-    switch(mode) {
-        case(CARTRIDGE_MODE_PRG):
-            cartridge_config_changed(EXPERT_PRG, EXPERT_PRG, CMODE_READ);
-            break;
-        case(CARTRIDGE_MODE_OFF):
-        case(CARTRIDGE_MODE_ON):
-            cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
-            break;
-    }
+    c64io_unregister(expert_list_item);
+    expert_list_item = NULL;
 }

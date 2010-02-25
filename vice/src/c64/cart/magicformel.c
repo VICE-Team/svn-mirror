@@ -38,29 +38,21 @@
 #include "types.h"
 #include "vicii-phi1.h"
 
-static const c64export_resource_t export_res = {
-    "Magic Formel", 1, 1
-};
-
 static unsigned int ram_page = 0;
 
-BYTE REGPARM1 magicformel_io1_read(WORD addr)
+/* ---------------------------------------------------------------------*/
+
+static BYTE REGPARM1 magicformel_io1_read(WORD addr)
 {
-    io_source = IO_SOURCE_MAGIC_FORMEL;
     return export_ram0[(ram_page << 8) + (addr & 0xff)];
 }
 
-void REGPARM2 magicformel_io1_store(WORD addr, BYTE value)
+static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value)
 {
     export_ram0[(ram_page << 8) + (addr & 0xff)] = value;
 }
 
-BYTE REGPARM1 magicformel_io2_read(WORD addr)
-{
-    return vicii_read_phi1();
-}
-
-void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
+static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
 {
 
     if ((addr & 0xf8) == 0) {
@@ -73,6 +65,33 @@ void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
         ram_page = addr & 0x1f;
     }
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t magicformel_io1_device = {
+    "MAGIC FORMEL",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    magicformel_io1_store,
+    magicformel_io1_read
+};
+
+static io_source_t magicformel_io2_device = {
+    "MAGIC FORMEL",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    magicformel_io2_store,
+    NULL
+};
+
+static io_source_list_t *magicformel_io1_list_item = NULL;
+static io_source_list_t *magicformel_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 magicformel_roml_read(WORD addr)
 {
@@ -129,6 +148,8 @@ void REGPARM2 magicformel_d000_dfff_store(WORD addr, BYTE value)
     mem_store_without_ultimax(addr, value);
 }
 
+/* ---------------------------------------------------------------------*/
+
 void magicformel_freeze(void)
 {
 }
@@ -148,6 +169,12 @@ void magicformel_config_setup(BYTE *rawcart)
     memcpy(romh_banks, rawcart, 0x10000);
     cartridge_config_changed(2, 3, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Magic Formel", 1, 1
+};
 
 int magicformel_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -172,10 +199,17 @@ int magicformel_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    magicformel_io1_list_item = c64io_register(&magicformel_io1_device);
+    magicformel_io2_list_item = c64io_register(&magicformel_io2_device);
+
     return 0;
 }
 
 void magicformel_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(magicformel_io1_list_item);
+    c64io_unregister(magicformel_io2_list_item);
+    magicformel_io1_list_item = NULL;
+    magicformel_io2_list_item = NULL;
 }

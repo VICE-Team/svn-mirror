@@ -87,34 +87,6 @@ static void capture_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int 
 }
 
 /*
-    when the cart is forced into ultimax mode all the time so we can do the memory
-    management completely here in the cart implementation, the io1 and io2 callbacks
-    are not called by the upper level memory management directly, but indirectly through
-    our own code (by calling *_without_ultimax in our d000-dfff functions). 
-
-    this means that io1/io2 functions, other than the rest, should always refer to
-    actual cart memory, and NOT call *_without_ultimax functions! (else they will be
-    called recursivly and make the emulator crash)
-*/
-BYTE REGPARM1 capture_io1_read(WORD addr)
-{
-    return vicii_read_phi1();
-}
-
-void REGPARM2 capture_io1_store(WORD addr, BYTE value)
-{
-}
-
-BYTE REGPARM1 capture_io2_read(WORD addr)
-{
-    return vicii_read_phi1();
-}
-
-void REGPARM2 capture_io2_store(WORD addr, BYTE value)
-{
-}
-
-/*
     the rest of the callbacks should map in cartridge memory or open i/o when 
     cart_enabled is 1, and wrap to the *_without_ultimax functions if the
     cartridge is disabled

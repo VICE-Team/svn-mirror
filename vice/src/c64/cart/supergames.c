@@ -33,15 +33,12 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "supergames.h"
 #include "types.h"
 
-static const c64export_resource_t export_res = {
-    "Super Games", 1, 1
-};
-
-void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
+static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
 {
     cartridge_romhbank_set(value & 3);
     cartridge_romlbank_set(value & 3);
@@ -57,6 +54,22 @@ void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
     }
     mem_pla_config_changed();
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t supergames_device = {
+    "SUPERGAMES",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    supergames_io2_store,
+    NULL
+};
+
+static io_source_list_t *supergames_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void supergames_config_init(void)
 {
@@ -75,6 +88,12 @@ void supergames_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Super Games", 1, 1
+};
 
 int supergames_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -98,10 +117,14 @@ int supergames_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    supergames_list_item = c64io_register(&supergames_device);
+
     return 0;
 }
 
 void supergames_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(supergames_list_item);
+    supergames_list_item = NULL;
 }

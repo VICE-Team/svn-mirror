@@ -114,8 +114,6 @@ static log_t georam_log = LOG_ERR;
 static int georam_activate(void);
 static int georam_deactivate(void);
 
-/* ------------------------------------------------------------------------- */
-
 /* Flag: Do we enable the external GEORAM?  */
 int georam_enabled;
 
@@ -128,6 +126,65 @@ static int georam_size_kb = 0;
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
 
+/* ------------------------------------------------------------------------- */
+
+static BYTE REGPARM1 georam_window_read(WORD addr)
+{
+    BYTE retval;
+
+    retval = georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr];
+
+    return retval;
+}
+
+static void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
+{
+    if ((addr & 1) == 1) {
+        while (byte > ((georam_size_kb / 16) - 1)) {
+            byte = byte - (unsigned char)(georam_size_kb / 16);
+        }
+        georam[1] = byte;
+    }
+    if ((addr & 1) == 0) {
+        while (byte > 63) {
+            byte = byte - 64;
+        }
+        georam[0] = byte;
+    }
+}
+
+static void REGPARM2 georam_window_store(WORD addr, BYTE byte)
+{
+    georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t georam_io1_device = {
+    "GEORAM",
+    IO_DETACH_RESOURCE,
+    "GEORAM",
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    georam_window_store,
+    georam_window_read
+};
+
+static io_source_t georam_io2_device = {
+    "GEORAM",
+    IO_DETACH_RESOURCE,
+    "GEORAM",
+    0xdf80, 0xdfff, 0x7f,
+    0,
+    georam_reg_store,
+    NULL
+};
+
+static io_source_list_t *georam_io1_list_item = NULL;
+static io_source_list_t *georam_io2_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
 static int set_georam_enabled(int val, void *param)
 {
     if (!val) {
@@ -135,6 +192,10 @@ static int set_georam_enabled(int val, void *param)
             if (georam_deactivate() < 0) {
                 return -1;
             }
+            c64io_unregister(georam_io1_list_item);
+            c64io_unregister(georam_io2_list_item);
+            georam_io1_list_item = NULL;
+            georam_io2_list_item = NULL;
         }
         georam_enabled = 0;
         return 0;
@@ -143,6 +204,8 @@ static int set_georam_enabled(int val, void *param)
             if (georam_activate() < 0) {
                 return -1;
             }
+            georam_io1_list_item = c64io_register(&georam_io1_device);
+            georam_io2_list_item = c64io_register(&georam_io2_device);
         }
 
         georam_enabled = 1;
@@ -337,39 +400,6 @@ static int georam_deactivate(void)
 void georam_shutdown(void)
 {
     georam_deactivate();
-}
-
-/* ------------------------------------------------------------------------- */
-
-BYTE REGPARM1 georam_window_read(WORD addr)
-{
-    BYTE retval;
-
-    io_source = IO_SOURCE_GEORAM;
-    retval = georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr];
-
-    return retval;
-}
-
-void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
-{
-    if ((addr & 1) == 1) {
-        while (byte > ((georam_size_kb / 16) - 1)) {
-            byte = byte - (unsigned char)(georam_size_kb / 16);
-        }
-        georam[1] = byte;
-    }
-    if ((addr & 1) == 0) {
-        while (byte > 63) {
-            byte = byte - 64;
-        }
-        georam[0] = byte;
-    }
-}
-
-void REGPARM2 georam_window_store(WORD addr, BYTE byte)
-{
-    georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
 }
 
 /* ------------------------------------------------------------------------- */

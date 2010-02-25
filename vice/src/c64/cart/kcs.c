@@ -37,19 +37,9 @@
 #include "kcs.h"
 #include "types.h"
 
-static const c64export_resource_t export_res_kcs = {
-    "KCS Power", 1, 1
-};
-
-static const c64export_resource_t export_res_simon = {
-    "Simon's Basic", 1, 1
-};
-
-BYTE REGPARM1 kcs_io1_read(WORD addr)
+static BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
     BYTE config;
-
-    io_source = IO_SOURCE_KCS;
 
     /* A1 switches off roml/romh banks */
     config = (addr & 2) ? 2 : 0;
@@ -58,28 +48,77 @@ BYTE REGPARM1 kcs_io1_read(WORD addr)
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
+static void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 {
     cartridge_config_changed(1, 1, CMODE_WRITE);
 }
 
-BYTE REGPARM1 kcs_io2_read(WORD addr)
+static BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
-    io_source = IO_SOURCE_KCS;
-
     if (addr & 0x80) {
         cartridge_config_changed(0x43, 0x43, CMODE_READ);
     }
     return export_ram0[0x1f00 + (addr & 0xff)];
 }
 
-void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
+static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 {
     if (!cart_ultimax_phi2) {
         cartridge_config_changed(1, 1, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0xff)] = value;
 }
+
+static BYTE REGPARM1 simon_io1_read(WORD addr)
+{
+    cartridge_config_changed(0, 0, CMODE_READ);
+
+    return 0;
+}
+
+static void REGPARM2 simon_io1_store(WORD addr, BYTE value)
+{
+    cartridge_config_changed(1, 1, CMODE_WRITE);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t kcs_io1_device = {
+    "KCS POWER",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    kcs_io1_store,
+    kcs_io1_read
+};
+
+static io_source_t kcs_io2_device = {
+    "KCS POWER",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    kcs_io2_store,
+    kcs_io2_read
+};
+
+static io_source_list_t *kcs_io1_list_item = NULL;
+static io_source_list_t *kcs_io2_list_item = NULL;
+
+static io_source_t simon_device = {
+    "SIMONS BASIC",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    simon_io1_store,
+    simon_io1_read
+};
+
+static io_source_list_t *simon_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void kcs_freeze(void)
 {
@@ -97,6 +136,16 @@ void kcs_config_setup(BYTE *rawcart)
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res_kcs = {
+    "KCS Power", 1, 1
+};
+
+static const c64export_resource_t export_res_simon = {
+    "Simon's Basic", 1, 1
+};
 
 static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -130,6 +179,9 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    kcs_io1_list_item = c64io_register(&kcs_io1_device);
+    kcs_io2_list_item = c64io_register(&kcs_io2_device);
+
     return 0;
 }
 
@@ -143,15 +195,23 @@ int simon_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    simon_list_item = c64io_register(&simon_device);
+
     return 0;
 }
 
 void kcs_detach(void)
 {
     c64export_remove(&export_res_kcs);
+    c64io_unregister(kcs_io1_list_item);
+    c64io_unregister(kcs_io2_list_item);
+    kcs_io1_list_item = NULL;
+    kcs_io2_list_item = NULL;
 }
 
 void simon_detach(void)
 {
     c64export_remove(&export_res_simon);
+    c64io_unregister(simon_list_item);
+    simon_list_item = NULL;
 }

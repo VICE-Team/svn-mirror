@@ -42,10 +42,6 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-static const c64export_resource_t export_res = {
-    "Retro Replay", 1, 1
-};
-
 /* Cart is activated.  */
 unsigned int rr_active;
 unsigned int rr_clockport_enabled;
@@ -62,13 +58,48 @@ static int no_freeze;
 /* REU compatibility mapping.  */
 unsigned int reu_mapping;
 
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static BYTE REGPARM1 retroreplay_io1_read(WORD addr);
+static void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 retroreplay_io2_read(WORD addr);
+static void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value);
+
+static io_source_t retroreplay_io1_device = {
+    "RETRO REPLAY",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    retroreplay_io1_store,
+    retroreplay_io1_read
+};
+
+static io_source_t retroreplay_io2_device = {
+    "RETRO REPLAY",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    retroreplay_io2_store,
+    retroreplay_io2_read
+};
+
+static io_source_list_t *retroreplay_io1_list_item = NULL;
+static io_source_list_t *retroreplay_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 BYTE REGPARM1 retroreplay_io1_read(WORD addr)
 {
+    retroreplay_io1_device.io_source_valid = 0;
+
     if (rr_active) {
         switch (addr & 0xff) {
             case 0:
             case 1:
-                io_source = IO_SOURCE_RR;
+                retroreplay_io1_device.io_source_valid = 1;
                 return ((roml_bank & 3) << 3) | ((roml_bank & 4) << 5) | allow_bank | reu_mapping;
             default:
 #ifdef HAVE_TFE
@@ -77,7 +108,7 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                 }
 #endif
                 if (reu_mapping) {
-                    io_source = IO_SOURCE_RR;
+                    retroreplay_io1_device.io_source_valid = 1;
                     if (export_ram) {
                         if (allow_bank) {
                             switch (roml_bank & 3) {
@@ -96,11 +127,9 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                     }
                     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
                 }
-                return 0;
         }
-    } else {
-        return vicii_read_phi1();
     }
+    return 0;
 }
 
 void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
@@ -122,7 +151,12 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                     allow_bank = value & 2;
                     no_freeze = value & 4;
                     reu_mapping = value & 0x40;
-                    rr_clockport_enabled = value & 1;
+                    if (rr_clockport_enabled != (unsigned int)(value & 1)) {
+                        rr_clockport_enabled = value & 1;
+#ifdef HAVE_TFE
+                        tfe_clockport_changed();
+#endif
+                    }
                     write_once = 1;
                 }
                 break;
@@ -160,9 +194,10 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 retroreplay_io2_read(WORD addr)
 {
+    retroreplay_io2_device.io_source_valid = 0;
     if (rr_active) {
         if (!reu_mapping) {
-            io_source = IO_SOURCE_RR;
+            retroreplay_io2_device.io_source_valid = 1;
             if (export_ram) {
                 if (allow_bank) {
                     switch (roml_bank & 3) {
@@ -181,10 +216,8 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
             }
             return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
         }
-        return 0;
-    } else {
-        return vicii_read_phi1();
     }
+    return 0;
 }
 
 void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value)
@@ -214,6 +247,8 @@ void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value)
         }
     }
 }
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 retroreplay_roml_read(WORD addr)
 {
@@ -253,6 +288,8 @@ void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
     }
 }
 
+/* ---------------------------------------------------------------------*/
+
 void retroreplay_freeze(void)
 {
     rr_active = 1;
@@ -289,17 +326,31 @@ void retroreplay_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Retro Replay", 1, 1
+};
+
+static int retroreplay_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    retroreplay_io1_list_item = c64io_register(&retroreplay_io1_device);
+    retroreplay_io2_list_item = c64io_register(&retroreplay_io2_device);
+
+    return 0;
+}
+
 int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return retroreplay_common_attach();
 }
 
 int retroreplay_crt_attach(FILE *fd, BYTE *rawcart)
@@ -321,14 +372,14 @@ int retroreplay_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return retroreplay_common_attach();
 }
 
 void retroreplay_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(retroreplay_io1_list_item);
+    c64io_unregister(retroreplay_io2_list_item);
+    retroreplay_io1_list_item = NULL;
+    retroreplay_io2_list_item = NULL;
 }

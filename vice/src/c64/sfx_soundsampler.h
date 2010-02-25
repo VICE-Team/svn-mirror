@@ -40,7 +40,5 @@ extern int sfx_soundsampler_sound_machine_init(sound_t *psid, int speed, int cyc
 extern void sfx_soundsampler_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr);
 extern void sfx_soundsampler_sound_reset(void);
-extern void REGPARM2 sfx_soundsampler_sound_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 sfx_soundsampler_sound_read(WORD addr);
 
 #endif

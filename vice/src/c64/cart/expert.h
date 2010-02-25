@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 expert_io1_read(WORD addr);
-extern void REGPARM2 expert_io1_store(WORD addr, BYTE value);
-
 extern BYTE REGPARM1 expert_roml_read(WORD addr);
 extern void REGPARM2 expert_roml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 expert_romh_read(WORD addr);

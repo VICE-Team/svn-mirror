@@ -33,12 +33,13 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "delaep7x8.h"
 #include "types.h"
 
 
 /* This eprom system by DELA seems to be a bit more advanced
-   than the EP64 and EP128. It can handle what the EP64 can
+   than the EP64 and EP256. It can handle what the EP64 can
    handle, plus the following features :
 
    - Alternate rom at $8000
@@ -57,11 +58,9 @@
    use them.
  */
 
-static const c64export_resource_t export_res = {
-    "Dela EP7x8", 1, 0
-};
+/* ---------------------------------------------------------------------*/
 
-void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
+static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
 {
     BYTE bank, config, test_value;
 
@@ -82,6 +81,22 @@ void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
     }
 }
 
+/* ---------------------------------------------------------------------*/
+
+static io_source_t delaep7x8_device = {
+    "DELA EP7x8",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    delaep7x8_io1_store,
+    NULL
+};
+
+static io_source_list_t *delaep7x8_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 void delaep7x8_config_init(void)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
@@ -93,6 +108,12 @@ void delaep7x8_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
     cartridge_romlbank_set(0);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Dela EP7x8", 1, 0
+};
 
 int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -127,10 +148,14 @@ int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    delaep7x8_list_item = c64io_register(&delaep7x8_device);
+
     return 0;
 }
 
 void delaep7x8_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(delaep7x8_list_item);
+    delaep7x8_list_item = NULL;
 }

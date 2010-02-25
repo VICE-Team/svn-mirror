@@ -33,15 +33,12 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "ross.h"
 #include "types.h"
 
-static const c64export_resource_t export_res = {
-    "Ross", 1, 1
-};
-
-BYTE REGPARM1 ross_io1_read(WORD addr)
+static BYTE REGPARM1 ross_io1_read(WORD addr)
 {
     cartridge_romhbank_set(1);
     cartridge_romlbank_set(1);
@@ -49,13 +46,40 @@ BYTE REGPARM1 ross_io1_read(WORD addr)
     return 0;
 }
 
-BYTE REGPARM1 ross_io2_read(WORD addr)
+static BYTE REGPARM1 ross_io2_read(WORD addr)
 {
     export.game = export.exrom = 0;
     mem_pla_config_changed();
 
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t ross_io1_device = {
+    "ROSS",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    NULL,
+    ross_io1_read
+};
+
+static io_source_t ross_io2_device = {
+    "ROSS",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0, /* read is never valid */
+    NULL,
+    ross_io2_read
+};
+
+static io_source_list_t *ross_io1_list_item = NULL;
+static io_source_list_t *ross_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void ross_config_init(void)
 {
@@ -70,6 +94,12 @@ void ross_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Ross", 1, 1
+};
 
 int ross_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -100,10 +130,17 @@ int ross_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    ross_io1_list_item = c64io_register(&ross_io1_device);
+    ross_io2_list_item = c64io_register(&ross_io2_device);
+
     return 0;
 }
 
 void ross_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(ross_io1_list_item);
+    c64io_unregister(ross_io2_list_item);
+    ross_io1_list_item = NULL;
+    ross_io2_list_item = NULL;
 }

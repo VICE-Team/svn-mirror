@@ -42,9 +42,4 @@ extern void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE
 extern BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr);
 extern void sfx_soundexpander_sound_reset(void);
 
-extern void REGPARM2 sfx_soundexpander_sound_address_store(WORD addr, BYTE value);
-extern void REGPARM2 sfx_soundexpander_sound_register_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr);
-extern BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr);
-
 #endif

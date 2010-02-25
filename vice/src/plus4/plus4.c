@@ -79,8 +79,6 @@
 #include "video.h"
 #include "vsync.h"
 
-int io_source;
-
 /* beos dummy for the generally used cart function in ui_file.cc */
 #ifdef __BEOS__
 int cartridge_attach_image(int type, const char *filename)

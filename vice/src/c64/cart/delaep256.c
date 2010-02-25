@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "delaep256.h"
 #include "types.h"
 
@@ -50,11 +51,9 @@
    to place other 8kb carts in the eproms and use them.
  */
 
-static const c64export_resource_t export_res = {
-    "Dela EP256", 1, 0
-};
+/* ---------------------------------------------------------------------*/
 
-void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
+static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
 {
     BYTE bank, config;
 
@@ -72,6 +71,22 @@ void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
     cartridge_romlbank_set(bank);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static io_source_t delaep256_device = {
+    "DELA EP256",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    delaep256_io1_store,
+    NULL
+};
+
+static io_source_list_t *delaep256_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 void delaep256_config_init(void)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
@@ -83,6 +98,12 @@ void delaep256_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
     cartridge_romlbank_set(0);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Dela EP256", 1, 0
+};
 
 int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -117,10 +138,14 @@ int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    delaep256_list_item = c64io_register(&delaep256_device);
+
     return 0;
 }
 
 void delaep256_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(delaep256_list_item);
+    delaep256_list_item = NULL;
 }

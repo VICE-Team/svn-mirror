@@ -46,14 +46,13 @@
 #include "plus256k.h"
 #include "plus60k.h"
 #include "resources.h"
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif
 #include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
-
-static const c64export_resource_t export_res = {
-    "MMC64", 1, 0
-};
 
 /* MMC64 enable */
 int mmc64_enabled;
@@ -103,14 +102,14 @@ static int mmc64_hw_writeprotect;
 
 /* Control Bits */
 /* $DF11 (R/W): MMC64 control register */
-#define MMC_ACTIVE  0x80	/* bit 7: 0 = MMC64 is active, 1 = MMC64 is completely disabled                   */
-#define MMC_SPIMODE 0x40	/* bit 6: 0 = SPI write trigger mode, 1 = SPI read trigger mode                   */
-#define MMC_EXTROM  0x20	/* bit 5: 0 = allow external rom when BIOS is disabled , 1 = disable external ROM */
-#define MMC_FLASH   0x10	/* bit 4: 0 = normal Operation, 1 = flash mode                                    */
-#define MMC_CPORT   0x08	/* bit 3: 0 = clock port @ $DE00, 1 = clock port @ $DF20                          */
-#define MMC_SPEED   0x04	/* bit 2: 0 = 250khz transfer, 1 = 8mhz transfer                                  */
-#define MMC_CARDSEL 0x02	/* bit 1: 0 = card selected, 1 = card not selected                                */
-#define MMC_BIOSSEL 0x01	/* bit 0: 0 = MMC64 BIOS active, 1 = external ROM active                          */
+#define MMC_ACTIVE  0x80        /* bit 7: 0 = MMC64 is active, 1 = MMC64 is completely disabled                   */
+#define MMC_SPIMODE 0x40        /* bit 6: 0 = SPI write trigger mode, 1 = SPI read trigger mode                   */
+#define MMC_EXTROM  0x20        /* bit 5: 0 = allow external rom when BIOS is disabled , 1 = disable external ROM */
+#define MMC_FLASH   0x10        /* bit 4: 0 = normal Operation, 1 = flash mode                                    */
+#define MMC_CPORT   0x08        /* bit 3: 0 = clock port @ $DE00, 1 = clock port @ $DF20                          */
+#define MMC_SPEED   0x04        /* bit 2: 0 = 250khz transfer, 1 = 8mhz transfer                                  */
+#define MMC_CARDSEL 0x02        /* bit 1: 0 = card selected, 1 = card not selected                                */
+#define MMC_BIOSSEL 0x01        /* bit 0: 0 = MMC64 BIOS active, 1 = external ROM active                          */
 
 /* Variables of the various control bits */
 static BYTE mmc64_active;
@@ -168,6 +167,46 @@ static int mmc64_bios_offset = 0;
 static int mmc64_activate(void);
 static int mmc64_deactivate(void);
 
+/* some prototypes are needed */
+static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value);
+static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value);
+static BYTE REGPARM1 mmc64_io2_read(WORD addr);
+
+static io_source_t mmc64_io1_clockport_device = {
+    "MMC64 CLOCKPORT ENABLE",
+    IO_DETACH_RESOURCE,
+    "MMC64",
+    0xde01, 0xde01, 0x01,
+    0,
+    mmc64_clockport_enable_store,
+    NULL
+};
+
+static io_source_t mmc64_io2_clockport_device = {
+    "MMC64 CLOCKPORT ENABLE",
+    IO_DETACH_RESOURCE,
+    "MMC64",
+    0xdf21, 0xdf21, 0x01,
+    0,
+    mmc64_clockport_enable_store,
+    NULL
+};
+
+static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device;
+
+static io_source_t mmc64_io2_device = {
+    "MMC64",
+    IO_DETACH_RESOURCE,
+    "MMC64",
+    0xdf10, 0xdf13, 0x03,
+    0,
+    mmc64_io2_store,
+    mmc64_io2_read
+};
+
+static io_source_list_t *mmc64_clockport_list_item = NULL;
+static io_source_list_t *mmc64_io_list_item = NULL;
+
 static void mmc64_clear_cmd_puffer(void)
 {
     int i;
@@ -193,7 +232,12 @@ static void mmc64_reset_card(void)
     mmc64_extexrom = 0x04;
     mmc64_extgame = 0x02;
     mmc64_spistatus = 0;
-    mmc64_clockport_enabled = 1;
+    if (mmc64_clockport_enabled != 1) {
+        mmc64_clockport_enabled = 1;
+#ifdef HAVE_TFE
+        tfe_clockport_changed();
+#endif
+    }
 
     mmc64_card_reset_count = 0;
     mmc64_image_pointer = 0;
@@ -219,8 +263,12 @@ void mmc64_reset(void)
     mmc64_extexrom = 0x04;
     mmc64_extgame = 0x02;
     mmc64_spistatus = 0;
-    mmc64_clockport_enabled = 1;
-
+    if (mmc64_clockport_enabled != 1) {
+        mmc64_clockport_enabled = 1;
+#ifdef HAVE_TFE
+        tfe_clockport_changed();
+#endif
+    }
     mmc64_card_reset_count = 0;
     mmc64_image_pointer = 0;
     mmc64_block_size = 512;
@@ -231,41 +279,50 @@ void mmc64_reset(void)
     }
 }
 
+static const c64export_resource_t export_res = {
+    "MMC64", 1, 0
+};
+
 static int set_mmc64_enabled(int val, void *param)
 {
-    if (!val) {
-        if (mmc64_enabled) {
+    if (val != mmc64_enabled) {
+        if (!val) {
             if (mmc64_deactivate() < 0) {
                 return -1;
             }
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        }
-        c64export_remove(&export_res);
-        mmc64_enabled = 0;
-        export.exrom = 0;
-        mem_pla_config_changed();
-        return 0;
-    } else {
-        if (c64export_query(&export_res) >= 0) {
-            if (!mmc64_enabled) {
+            c64export_remove(&export_res);
+            mmc64_enabled = 0;
+            export.exrom = 0;
+            mem_pla_config_changed();
+            c64io_unregister(mmc64_clockport_list_item);
+            c64io_unregister(mmc64_io_list_item);
+            mmc64_clockport_list_item = NULL;
+            mmc64_io_list_item = NULL;
+            return 0;
+        } else {
+            if (c64export_query(&export_res) >= 0) {
                 if (mmc64_activate() < 0) {
                     return -1;
                 }
                 machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-            }
 
-            if (c64export_add(&export_res) < 0) {
+                if (c64export_add(&export_res) < 0) {
+                    return -1;
+                }
+
+                mmc64_enabled = 1;
+                export.exrom = 1;
+                mem_pla_config_changed();
+                mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+                mmc64_io_list_item = c64io_register(&mmc64_io2_device);
+                return 0;
+            } else {
                 return -1;
             }
-
-            mmc64_enabled = 1;
-            export.exrom = 1;
-            mem_pla_config_changed();
-            return 0;
-        } else {
-            return -1;
         }
     }
+    return 0;
 }
 
 static int set_mmc64_readonly(int val, void *param)
@@ -486,16 +543,17 @@ static void mmc64_write_to_mmc(BYTE value)
   }
 }
 
-void mmc64_clockport_enable_store(BYTE value)
+static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value)
 {
-    if (value & 1) {
-        mmc64_clockport_enabled = 1;
-    } else {
-        mmc64_clockport_enabled = 0;
+    if ((value & 1) != mmc64_clockport_enabled) {
+        mmc64_clockport_enabled = value & 1;
+#ifdef HAVE_TFE
+        tfe_clockport_changed();
+#endif
     }
 }
 
-void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
+static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
 {
     switch(addr) {
         case 0xdf10:    /* MMC64 SPI transfer register */
@@ -537,10 +595,26 @@ void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
                 }
                 if (value & MMC_CPORT) {
                     mmc64_cport = MMC_CPORT;
-                    mmc64_hw_clockport = 0xdf22;
+                    if (mmc64_hw_clockport != 0xdf22) {
+                        mmc64_hw_clockport = 0xdf22;
+                        mmc64_current_clockport_device = &mmc64_io2_clockport_device;
+                        c64io_unregister(mmc64_clockport_list_item);
+                        mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+#ifdef HAVE_TFE
+                        tfe_clockport_changed();
+#endif
+                    }
                 } else {
                     mmc64_cport = 0;
-                    mmc64_hw_clockport = 0xde02;
+                    if (mmc64_hw_clockport != 0xde02) {
+                        mmc64_hw_clockport = 0xde02;
+                        mmc64_current_clockport_device = &mmc64_io1_clockport_device;
+                        c64io_unregister(mmc64_clockport_list_item);
+                        mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+#ifdef HAVE_TFE
+                        tfe_clockport_changed();
+#endif
+                    }
                 }
                 if (value & MMC_SPEED) {
                     mmc64_speed = MMC_SPEED;
@@ -583,13 +657,15 @@ void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 mmc64_io2_read(WORD addr)
+static BYTE REGPARM1 mmc64_io2_read(WORD addr)
 {
     BYTE mmc_readbyte;
 
+    mmc64_io2_device.io_source_valid = 0;
+
     switch(addr) {
         case 0xdf10:    /* MMC64 SPI transfer register */
-            io_source = IO_SOURCE_MMC64;
+            mmc64_io2_device.io_source_valid = 1;
             switch (mmc64_card_state) {
                 case MMC_CARD_RETURN_WRITE:
                     mmc64_card_state = MMC_CARD_IDLE;
@@ -631,13 +707,13 @@ BYTE REGPARM1 mmc64_io2_read(WORD addr)
                     }
                     break;
                 case MMC_CARD_INIT:
-                    io_source = IO_SOURCE_MMC64;
+                    mmc64_io2_device.io_source_valid = 1;
                     log_message(mmc64_log, "SPI Card Init Response!");
                     return 0x00;
                     break;
                 case MMC_CARD_READ:
                 case MMC_CARD_DUMMY_READ:
-                    io_source = IO_SOURCE_MMC64;
+                    mmc64_io2_device.io_source_valid = 1;
                     if (mmc64_spi_mode == MMC_SPIMODE) {
                         if (mmc64_read_firstbyte != mmc64_block_size + 5) {
                             mmc64_read_firstbyte++;
@@ -686,15 +762,15 @@ BYTE REGPARM1 mmc64_io2_read(WORD addr)
           return 0x00;
           break;
       case 0xdf11:    /* MMC64 control register */
-          io_source = IO_SOURCE_MMC64;
+          mmc64_io2_device.io_source_valid = 1;
           return (mmc64_biossel + mmc64_cardsel + mmc64_speed + mmc64_cport + mmc64_flashmode + mmc64_extrom + mmc64_spi_mode + mmc64_active);
           break;
       case 0xdf12:    /* MMC64 status register */
-          io_source = IO_SOURCE_MMC64;
+          mmc64_io2_device.io_source_valid = 1;
           return (mmc64_flashjumper + mmc64_writeprotect + mmc64_cardpresent + mmc64_extexrom + mmc64_extgame + mmc64_spistatus);
           break;
       case 0xdf13:    /* MMC64 identification register */
-          io_source = IO_SOURCE_MMC64;
+          mmc64_io2_device.io_source_valid = 1;
           if (!mmc64_cardsel) {
               return 0x64;
           } else {
@@ -872,11 +948,7 @@ static int mmc64_activate(void)
         return -1;
     }
 
-    if (amount_read == 0x2002) {
-        mmc64_bios_offset = 2;
-    } else {
-        mmc64_bios_offset = 0;
-    }
+    mmc64_bios_offset = amount_read & 3;
 
     mmc64_bios_changed = 0;
 

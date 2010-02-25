@@ -29,9 +29,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 ide64_io1_read(WORD addr);
-extern void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
-
 extern int ide64_resources_init(void);
 extern int ide64_cmdline_options_init(void);
 

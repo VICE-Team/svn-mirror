@@ -41,9 +41,6 @@ extern void c64_256k_reset(void);
 extern void c64_256k_cia_set_vbank(int ciabank);
 extern void c64_256k_shutdown(void);
 
-extern BYTE REGPARM1 c64_256k_read(WORD addr);
-extern void REGPARM2 c64_256k_store(WORD addr, BYTE byte);
-
 extern void REGPARM2 c64_256k_ram_segment0_store(WORD addr, BYTE value);
 extern void REGPARM2 c64_256k_ram_segment1_store(WORD addr, BYTE value);
 extern void REGPARM2 c64_256k_ram_segment2_store(WORD addr, BYTE value);

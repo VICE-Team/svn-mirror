@@ -45,10 +45,6 @@ extern void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr);
 extern void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 cartridge_read_io1(WORD addr);
-extern BYTE REGPARM1 cartridge_read_io2(WORD addr);
-extern void REGPARM2 cartridge_store_io1(WORD addr, BYTE value);
-extern void REGPARM2 cartridge_store_io2(WORD addr, BYTE value);
 extern void REGPARM1 cartridge_decode_address(WORD addr);
 
 extern void cartridge_init_config(void);

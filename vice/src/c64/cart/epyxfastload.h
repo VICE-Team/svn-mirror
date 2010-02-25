@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern void epyxfastload_io1_read(void);
-
-extern BYTE REGPARM1 epyxfastload_io2_read(WORD addr);
 extern BYTE REGPARM1 epyxfastload_roml_read(WORD addr);
 
 extern void epyxfastload_reset(void);

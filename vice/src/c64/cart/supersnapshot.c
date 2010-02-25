@@ -38,21 +38,59 @@
 #include "types.h"
 #include "util.h"
 
-static const c64export_resource_t export_res_v4 = {
-    "Super Snapshot V4", 1, 1
-};
-
-static const c64export_resource_t export_res_v5 = {
-    "Super Snapshot V5", 1, 1
-};
-
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
 static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr);
+static void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr);
+static void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value);
+static BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr);
+static void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value);
+
+static io_source_t ss4_io1_device = {
+    "SUPER SNAPSHOT 4",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    supersnapshot_v4_io1_store,
+    supersnapshot_v4_io1_read
+};
+
+static io_source_t ss4_io2_device = {
+    "SUPER SNAPSHOT 4",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    supersnapshot_v4_io2_store,
+    supersnapshot_v4_io2_read
+};
+
+static io_source_list_t *ss4_io1_list_item = NULL;
+static io_source_list_t *ss4_io2_list_item = NULL;
+
+static io_source_t ss5_device = {
+    "SUPER SNAPSHOT 5",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    supersnapshot_v5_io1_store,
+    supersnapshot_v5_io1_read
+};
+
+static io_source_list_t *ss5_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr)
 {
-    io_source = IO_SOURCE_SS4;
     return export_ram0[0x1e00 + (addr & 0xff)];
 }
 
@@ -63,7 +101,7 @@ void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
 {
-    io_source = IO_SOURCE_SS4;
+    ss4_io2_device.io_source_valid = 1;
     if ((addr & 0xff) == 1) {
         return ramconfig;
     }
@@ -78,7 +116,7 @@ BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
         case 3:
             return roml_banks[(addr & 0x1fff) + 0x6000];
     }
-    io_source = IO_SOURCE_NONE;
+    ss4_io2_device.io_source_valid = 0;
     return 0;
 }
 
@@ -117,7 +155,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
 {
-    io_source = IO_SOURCE_SS5;
+    ss5_device.io_source_valid = 1;
     switch (roml_bank) {
         case 0:
             return roml_banks[0x1e00 + (addr & 0xff)];
@@ -128,7 +166,7 @@ BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
         case 3:
             return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
     }
-    io_source = IO_SOURCE_NONE;
+    ss5_device.io_source_valid = 0;
     return 0;
 }
 
@@ -162,6 +200,8 @@ void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
     }
 }
 
+/* ---------------------------------------------------------------------*/
+
 BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr)
 {
     if (export_ram) {
@@ -194,6 +234,8 @@ void REGPARM2 supersnapshot_v5_roml_store(WORD addr, BYTE value)
     }
 }
 
+/* ---------------------------------------------------------------------*/
+
 void supersnapshot_v4_freeze(void)
 {
     cartridge_config_changed(35, 35, CMODE_READ);
@@ -211,7 +253,7 @@ void supersnapshot_v4_config_init(void)
 
 void supersnapshot_v5_config_init(void)
 {
-    cartridge_store_io1((WORD)0xde00, 2);
+    supersnapshot_v5_io1_store((WORD)0xde00, 2);
 }
 
 void supersnapshot_v4_config_setup(BYTE *rawcart)
@@ -233,8 +275,18 @@ void supersnapshot_v5_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cartridge_store_io1((WORD)0xde00, 2);
+    supersnapshot_v5_io1_store((WORD)0xde00, 2);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res_v4 = {
+    "Super Snapshot V4", 1, 1
+};
+
+static const c64export_resource_t export_res_v5 = {
+    "Super Snapshot V5", 1, 1
+};
 
 int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)
 {
@@ -246,6 +298,20 @@ int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
+    ss4_io1_list_item = c64io_register(&ss4_io1_device);
+    ss4_io2_list_item = c64io_register(&ss4_io2_device);
+
+    return 0;
+}
+
+static int supersnapshot_v5_common_attach(void)
+{
+    if (c64export_add(&export_res_v5) < 0) {
+        return -1;
+    }
+
+    ss5_list_item = c64io_register(&ss5_device);
+
     return 0;
 }
 
@@ -255,11 +321,7 @@ int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res_v5) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return supersnapshot_v5_common_attach();
 }
 
 int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
@@ -277,19 +339,21 @@ int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res_v5) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return supersnapshot_v5_common_attach();
 }
 
 void supersnapshot_v4_detach(void)
 {
     c64export_remove(&export_res_v4);
+    c64io_unregister(ss4_io1_list_item);
+    c64io_unregister(ss4_io2_list_item);
+    ss4_io1_list_item = NULL;
+    ss4_io2_list_item = NULL;
 }
 
 void supersnapshot_v5_detach(void)
 {
     c64export_remove(&export_res_v5);
+    c64io_unregister(ss5_list_item);
+    ss5_list_item = NULL;
 }

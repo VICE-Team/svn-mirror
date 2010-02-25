@@ -41,8 +41,6 @@ extern int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_s
 extern void digimax_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE digimax_sound_machine_read(sound_t *psid, WORD addr);
 extern void digimax_sound_reset(void);
-extern void REGPARM2 digimax_sound_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 digimax_sound_read(WORD addr);
 extern void digimax_userport_store(WORD addr, BYTE value);
 
 #endif

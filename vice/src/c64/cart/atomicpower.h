@@ -31,11 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 atomicpower_io1_read(WORD addr);
-extern void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 atomicpower_io2_read(WORD addr);
-extern void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value);
-
 extern BYTE REGPARM1 atomicpower_roml_read(WORD addr);
 extern void REGPARM2 atomicpower_roml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 atomicpower_romh_read(WORD addr);

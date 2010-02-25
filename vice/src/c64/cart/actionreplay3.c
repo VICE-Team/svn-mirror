@@ -38,18 +38,45 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-static const c64export_resource_t export_res = {
-    "Action Replay III", 1, 1
-};
-
 static unsigned int ar_active;
 
-BYTE REGPARM1 actionreplay3_io1_read(WORD addr)
+unsigned int actionreplay3_get_active(void)
 {
-    return vicii_read_phi1();
+    return ar_active;
 }
 
-void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 actionreplay3_io2_read(WORD addr);
+
+static io_source_t actionreplay3_io1_device = {
+    "ACTION REPLAY III",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    actionreplay3_io1_store,
+    NULL
+};
+
+static io_source_t actionreplay3_io2_device = {
+    "ACTION REPLAY III",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    NULL,
+    actionreplay3_io2_read
+};
+
+static io_source_list_t *actionreplay3_io1_list_item = NULL;
+static io_source_list_t *actionreplay3_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
+static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
 {
     int exrom, bank, conf;
 
@@ -65,18 +92,14 @@ void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
     }
 }
 
-unsigned int actionreplay3_get_active(void)
+static BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
 {
-    return ar_active;
-}
-
-BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
-{
+    actionreplay3_io2_device.io_source_valid = 0;
     if (!ar_active) {
         return vicii_read_phi1();
     }
 
-    io_source = IO_SOURCE_ACTION_REPLAY;
+    actionreplay3_io2_device.io_source_valid = 1;
 
     switch (roml_bank) {
         case 0:
@@ -85,10 +108,12 @@ BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
            return roml_banks[(addr & 0x1fff) + 0x2000];
     }
 
-    io_source = IO_SOURCE_NONE;
+    actionreplay3_io2_device.io_source_valid = 0;
 
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 void actionreplay3_freeze(void)
 {
@@ -115,17 +140,31 @@ void actionreplay3_config_setup(BYTE *rawcart)
     cartridge_config_changed(8, 8, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Action Replay III", 1, 1
+};
+
+static int actionreplay3_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    actionreplay3_io1_list_item = c64io_register(&actionreplay3_io1_device);
+    actionreplay3_io2_list_item = c64io_register(&actionreplay3_io2_device);
+
+    return 0;
+}
+
 int actionreplay3_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return actionreplay3_common_attach();
 }
 
 int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart)
@@ -147,14 +186,14 @@ int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return actionreplay3_common_attach();
 }
 
 void actionreplay3_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(actionreplay3_io1_list_item);
+    c64io_unregister(actionreplay3_io2_list_item);
+    actionreplay3_io1_list_item = NULL;
+    actionreplay3_io2_list_item = NULL;
 }

@@ -93,6 +93,65 @@ static const char STRING_EASYFLASH[] = "EasyFlash Cartridge";
 
 /* ---------------------------------------------------------------------*/
 
+static void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
+{
+    BYTE mem_mode;
+
+    switch (addr & 2) {
+        case 0:
+            /* bank register */
+            easyflash_register_00 = value & 0x3f; /* we only remember 6 bits */
+            break;
+        default:
+            /* mode register */
+            easyflash_register_02 = value & 0x87; /* we only remember led, mode, exrom, game */
+            mem_mode = easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)];
+            cartridge_config_changed(mem_mode, mem_mode, CMODE_READ);
+            /* TODO: change led */
+            /* (value & 0x80) -> led on if true, led off if false */
+    }
+    cartridge_romhbank_set(easyflash_register_00);
+    cartridge_romlbank_set(easyflash_register_00);
+    mem_pla_config_changed();
+}
+
+static BYTE REGPARM1 easyflash_io2_read(WORD addr)
+{
+    return easyflash_ram[addr & 0xff];
+}
+
+static void REGPARM2 easyflash_io2_store(WORD addr, BYTE value)
+{
+    easyflash_ram[addr & 0xff] = value;
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t easyflash_io1_device = {
+    "EASYFLASH",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    easyflash_io1_store,
+    NULL
+};
+
+static io_source_t easyflash_io2_device = {
+    "EASYFLASH",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    easyflash_io2_store,
+    easyflash_io2_read
+};
+
+static io_source_list_t *easyflash_io1_list_item = NULL;
+static io_source_list_t *easyflash_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 static int easyflash_check_empty(BYTE *data)
 {
     int i;
@@ -117,6 +176,8 @@ static int set_easyflash_crt_write(int val, void *param)
     return 0;
 }
 
+/* ---------------------------------------------------------------------*/
+
 static const resource_int_t resources_int[] = {
     { "EasyFlashJumper", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &easyflash_jumper, set_easyflash_jumper, NULL },
@@ -129,6 +190,8 @@ int easyflash_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
+
+/* ---------------------------------------------------------------------*/
 
 static const cmdline_option_t cmdline_options[] =
 {
@@ -162,39 +225,6 @@ int easyflash_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
-{
-    BYTE mem_mode;
-
-    switch (addr & 2) {
-        case 0:
-            /* bank register */
-            easyflash_register_00 = value & 0x3f; /* we only remember 6 bits */
-            break;
-        default:
-            /* mode register */
-            easyflash_register_02 = value & 0x87; /* we only remember led, mode, exrom, game */
-            mem_mode = easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)];
-            cartridge_config_changed(mem_mode, mem_mode, CMODE_READ);
-            /* TODO: change led */
-            /* (value & 0x80) -> led on if true, led off if false */
-    }
-    cartridge_romhbank_set(easyflash_register_00);
-    cartridge_romlbank_set(easyflash_register_00);
-    mem_pla_config_changed();
-}
-
-BYTE REGPARM1 easyflash_io2_read(WORD addr)
-{
-    io_source = IO_SOURCE_EASYFLASH;
-    return easyflash_ram[addr & 0xff];
-}
-
-void REGPARM2 easyflash_io2_store(WORD addr, BYTE value)
-{
-    easyflash_ram[addr & 0xff] = value;
-}
-
 BYTE REGPARM1 easyflash_roml_read(WORD addr)
 {
     return flash040core_read(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff));
@@ -215,10 +245,12 @@ void REGPARM2 easyflash_romh_store(WORD addr, BYTE value)
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
+/* ---------------------------------------------------------------------*/
+
 void easyflash_config_init(void)
 {
-    cartridge_store_io1((WORD)0xde00, 0);
-    cartridge_store_io1((WORD)0xde02, 0);
+    easyflash_io1_store((WORD)0xde00, 0);
+    easyflash_io1_store((WORD)0xde02, 0);
 }
 
 void easyflash_config_setup(BYTE *rawcart)
@@ -232,6 +264,8 @@ void easyflash_config_setup(BYTE *rawcart)
     flash040core_init(easyflash_state_high, FLASH040_TYPE_B, romh_banks);
     memcpy(easyflash_state_high->flash_data, rawcart + 0x80000, 0x80000);
 }
+
+/* ---------------------------------------------------------------------*/
 
 int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
 {
@@ -272,6 +306,9 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *file
     }
     easyflash_crt_filename = lib_stralloc(filename);
 
+    easyflash_io1_list_item = c64io_register(&easyflash_io1_device);
+    easyflash_io2_list_item = c64io_register(&easyflash_io2_device);
+
     return 0;
 }
 
@@ -286,6 +323,10 @@ void easyflash_detach(void)
     lib_free(easyflash_state_high);
     lib_free(easyflash_crt_filename);
     easyflash_crt_filename = NULL;
+    c64io_unregister(easyflash_io1_list_item);
+    c64io_unregister(easyflash_io2_list_item);
+    easyflash_io1_list_item = NULL;
+    easyflash_io2_list_item = NULL;
 }
 
 int easyflash_save_crt(void)

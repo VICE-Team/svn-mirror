@@ -38,18 +38,46 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-static const c64export_resource_t export_res = {
-    "Action Replay", 1, 1
-};
-
 static unsigned int ar_active;
 
-BYTE REGPARM1 actionreplay_io1_read(WORD addr)
+unsigned int actionreplay_get_active(void)
 {
-    return vicii_read_phi1();
+    return ar_active;
 }
 
-void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 actionreplay_io2_read(WORD addr);
+static void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value);
+
+static io_source_t action_replay_io1_device = {
+    "ACTION_REPLAY",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    actionreplay_io1_store,
+    NULL
+};
+
+static io_source_t action_replay_io2_device = {
+    "ACTION_REPLAY",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    actionreplay_io2_store,
+    actionreplay_io2_read
+};
+
+static io_source_list_t *action_replay_io1_list_item = NULL;
+static io_source_list_t *action_replay_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
+static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
 {
     if (ar_active) {
         cartridge_config_changed((BYTE)(value & 3), value, CMODE_WRITE);
@@ -60,18 +88,15 @@ void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
     }
 }
 
-unsigned int actionreplay_get_active(void)
+static BYTE REGPARM1 actionreplay_io2_read(WORD addr)
 {
-    return ar_active;
-}
+    action_replay_io2_device.io_source_valid = 0;
 
-BYTE REGPARM1 actionreplay_io2_read(WORD addr)
-{
     if (!ar_active) {
         return vicii_read_phi1();
     }
 
-    io_source = IO_SOURCE_ACTION_REPLAY;
+    action_replay_io2_device.io_source_valid = 1;
 
     if (export_ram) {
         return export_ram0[0x1f00 + (addr & 0xff)];
@@ -88,12 +113,12 @@ BYTE REGPARM1 actionreplay_io2_read(WORD addr)
             return roml_banks[(addr & 0x1fff) + 0x6000];
     }
 
-    io_source = IO_SOURCE_NONE;
+    action_replay_io2_device.io_source_valid = 0;
 
     return 0;
 }
 
-void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
+static void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
 {
     if (ar_active) {
         if (export_ram) {
@@ -101,6 +126,8 @@ void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
         }
     }
 }
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 actionreplay_roml_read(WORD addr)
 {
@@ -117,6 +144,8 @@ void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
         export_ram0[addr & 0x1fff] = value;
     }
 }
+
+/* ---------------------------------------------------------------------*/
 
 void actionreplay_freeze(void)
 {
@@ -142,17 +171,31 @@ void actionreplay_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Action Replay", 1, 1
+};
+
+static int actionreplay_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    action_replay_io1_list_item = c64io_register(&action_replay_io1_device);
+    action_replay_io2_list_item = c64io_register(&action_replay_io2_device);
+
+    return 0;
+}
+
 int actionreplay_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return actionreplay_common_attach();
 }
 
 int actionreplay_crt_attach(FILE *fd, BYTE *rawcart)
@@ -174,14 +217,14 @@ int actionreplay_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return actionreplay_common_attach();
 }
 
 void actionreplay_detach(void)
 {
+    c64io_unregister(action_replay_io1_list_item);
+    c64io_unregister(action_replay_io2_list_item);
+    action_replay_io1_list_item = NULL;
+    action_replay_io2_list_item = NULL;
     c64export_remove(&export_res);
 }

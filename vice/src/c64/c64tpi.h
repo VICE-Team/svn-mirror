@@ -33,11 +33,13 @@
 struct machine_context_s;
 struct tpi_context_s;
 
+extern void tpi_config_init(void);
+extern void tpi_detach(void);
+
 extern void tpi_setup_context(struct machine_context_s *machine_context);
+extern int tpi_bin_attach(const char *filename, BYTE *rawcart);
 
 extern void tpi_init(struct tpi_context_s *tpi_context);
-extern void REGPARM2 tpi_store(WORD addr, BYTE byte);
-extern BYTE REGPARM1 tpi_read(WORD addr);
 extern BYTE REGPARM1 tpi_peek(WORD addr);
 
 #endif

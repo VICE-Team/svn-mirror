@@ -49,8 +49,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cart/c64cartmem.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -76,17 +76,58 @@ static int dqbb_activate(void);
 static int dqbb_deactivate(void);
 static void dqbb_change_config(void);
 
-static const c64export_resource_t export_res = {
-    "Double Quick Brown Box", 1, 1
-};
+/* Flag: Do we enable the DQBB?  */
+int dqbb_enabled = 0;
+
+/* Filename of the DQBB image.  */
+static char *dqbb_filename = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-/* Flag: Do we enable the external GEORAM?  */
-int dqbb_enabled = 0;
+static void dqbb_change_config(void)
+{
+    if (dqbb_enabled) {
+        if (dqbb_off) {
+            cartridge_config_changed(2, 2, 0);
+        } else {
+            if (dqbb_a000_mapped) {
+                cartridge_config_changed(1, 1, 0);
+            } else {
+                cartridge_config_changed(0, 0, 0);
+            }
+        }
+    } else {
+        cartridge_config_changed(2, 2, 0);
+    }
+}
 
-/* Filename of the GEORAM image.  */
-static char *dqbb_filename = NULL;
+static void REGPARM2 dqbb_reg_store(WORD addr, BYTE byte)
+{
+    dqbb_a000_mapped = (byte & 4) >> 2;
+    dqbb_readwrite = (byte & 0x10) >> 4;
+    dqbb_off = (byte & 0x80) >> 7;
+    dqbb_change_config();
+}
+
+/* ------------------------------------------------------------------------- */
+
+static io_source_t dqbb_device = {
+    "DOUBLE QUICK BROWN BOX",
+    IO_DETACH_RESOURCE,
+    "DQBB",
+    0xde00, 0xdeff, 0x01,
+    0,
+    dqbb_reg_store,
+    NULL
+};
+
+static io_source_list_t *dqbb_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
+static const c64export_resource_t export_res = {
+    "Double Quick Brown Box", 1, 1
+};
 
 static int set_dqbb_enabled(int val, void *param)
 {
@@ -95,6 +136,8 @@ static int set_dqbb_enabled(int val, void *param)
             if (dqbb_deactivate() < 0) {
                 return -1;
             }
+            c64io_unregister(dqbb_list_item);
+            dqbb_list_item = NULL;
         }
         dqbb_enabled = 0;
         dqbb_reset();
@@ -108,6 +151,7 @@ static int set_dqbb_enabled(int val, void *param)
             if (dqbb_activate() < 0) {
                 return -1;
             }
+            dqbb_list_item = c64io_register(&dqbb_device);
         }
         dqbb_enabled = 1;
         dqbb_reset();
@@ -138,6 +182,8 @@ static int set_dqbb_filename(const char *name, void *param)
 
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
     { "DQBBfilename", "", RES_EVENT_NO, NULL,
@@ -194,23 +240,6 @@ int dqbb_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void dqbb_change_config(void)
-{
-    if (dqbb_enabled) {
-        if (dqbb_off) {
-            cartridge_config_changed(2, 2, 0);
-        } else {
-            if (dqbb_a000_mapped) {
-                cartridge_config_changed(1, 1, 0);
-            } else {
-                cartridge_config_changed(0, 0, 0);
-            }
-        }
-    } else {
-        cartridge_config_changed(2, 2, 0);
-    }
-}
-
 void dqbb_reset(void)
 {
     dqbb_a000_mapped = 0;
@@ -225,6 +254,8 @@ void dqbb_init_config(void)
 {
     dqbb_reset();
 }
+
+/* ------------------------------------------------------------------------- */
 
 static int dqbb_activate(void)
 {
@@ -268,14 +299,6 @@ void dqbb_shutdown(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-void REGPARM2 dqbb_reg_store(WORD addr, BYTE byte)
-{
-    dqbb_a000_mapped = (byte & 4) >> 2;
-    dqbb_readwrite = (byte & 0x10) >> 4;
-    dqbb_off = (byte & 0x80) >> 7;
-    dqbb_change_config();
-}
 
 BYTE REGPARM1 dqbb_roml_read(WORD addr)
 {

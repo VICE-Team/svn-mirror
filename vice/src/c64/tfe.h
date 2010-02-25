@@ -51,10 +51,10 @@ extern int tfe_cmdline_options_init(void);
 
 extern void tfe_reset(void);
 extern void tfe_shutdown(void);
-extern BYTE REGPARM1 tfe_read(WORD addr);
-extern void REGPARM2 tfe_store(WORD addr, BYTE byte);
 extern int tfe_read_snapshot_module(struct snapshot_s *s);
 extern int tfe_write_snapshot_module(struct snapshot_s *s);
+
+extern void tfe_clockport_changed(void);
 
 /*
  These functions let the UI enumerate the available interfaces.

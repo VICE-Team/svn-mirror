@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 ross_io1_read(WORD addr);
-extern BYTE REGPARM1 ross_io2_read(WORD addr);
-
 extern void ross_config_init(void);
 extern void ross_config_setup(BYTE *rawcart);
 extern int ross_crt_attach(FILE *fd, BYTE *rawcart);

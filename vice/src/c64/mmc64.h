@@ -35,9 +35,6 @@ extern int mmc64_clockport_enabled;
 extern int mmc64_hw_clockport;
 
 extern void mmc64_init_card_config(void);
-extern void mmc64_clockport_enable_store(BYTE value);
-extern void REGPARM2 mmc64_io2_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 mmc64_io2_read(WORD addr);
 extern BYTE REGPARM1 mmc64_roml_read(WORD addr);
 extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
 

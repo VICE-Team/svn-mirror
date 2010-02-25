@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "delaep64.h"
 #include "types.h"
 #include "vicii-phi1.h"
@@ -41,9 +42,7 @@
  * for cart schematics, see http://a98.shuttle.de/~michael/dela-ep64/
  */
 
-static const c64export_resource_t export_res = {
-    "Dela EP64", 1, 0
-};
+/* ---------------------------------------------------------------------*/
 
 static void delaep64_io1(BYTE value, unsigned int mode)
 {
@@ -67,17 +66,35 @@ static void delaep64_io1(BYTE value, unsigned int mode)
     cartridge_romlbank_set(bank);
 }
 
-BYTE REGPARM1 delaep64_io1_read(WORD addr)
+static BYTE REGPARM1 delaep64_io1_read(WORD addr)
 {
     BYTE value = vicii_read_phi1();
+
     delaep64_io1(value, CMODE_READ);
-    return value;
+
+    return 0;
 }
 
 void REGPARM2 delaep64_io1_store(WORD addr, BYTE value)
 {
     delaep64_io1(value, CMODE_WRITE);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t delaep64_device = {
+    "DELA EP64",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    delaep64_io1_store,
+    delaep64_io1_read
+};
+
+static io_source_list_t *delaep64_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void delaep64_config_init(void)
 {
@@ -88,6 +105,12 @@ void delaep64_config_setup(BYTE *rawcart)
 {
     delaep64_io1(0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Dela EP64", 1, 0
+};
 
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -157,10 +180,14 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    delaep64_list_item = c64io_register(&delaep64_device);
+
     return 0;
 }
 
 void delaep64_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(delaep64_list_item);
+    delaep64_list_item = NULL;
 }

@@ -20,10 +20,10 @@ libc64cart_a_SOURCES = \
 	c64cart.c \
 	c64cartmem.c \
 	c64cartmem.h \
-	comal80.c \
-	comal80.h \
 	capture.c \
 	capture.h \
+	comal80.c \
+	comal80.h \
 	crt.c \
 	crt.h \
 	delaep256.c \
@@ -32,6 +32,8 @@ libc64cart_a_SOURCES = \
 	delaep64.h \
 	delaep7x8.c \
 	delaep7x8.h \
+	dinamic.c \
+	dinamic.h \
 	easyflash.c \
 	easyflash.h \
 	epyxfastload.c \
@@ -40,16 +42,24 @@ libc64cart_a_SOURCES = \
 	expert.h \
 	final.c \
 	final.h \
+	funplay.c \
+	funplay.h \
 	generic.c \
 	generic.h \
+	gs.c \
+	gs.h \
 	ide64.c \
 	ide64.h \
 	kcs.c \
 	kcs.h \
+	magicdesk.c \
+	magicdesk.h \
 	magicformel.c \
 	magicformel.h \
 	mikroass.c \
 	mikroass.h \
+	ocean.c \
+	ocean.h \
 	retroreplay.c \
 	retroreplay.h \
 	rexep256.c \

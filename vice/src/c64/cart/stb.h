@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 stb_io1_read(WORD addr);
-extern void REGPARM2 stb_io1_store(WORD addr, BYTE value);
-
 extern void stb_config_init(void);
 extern void stb_config_setup(BYTE *rawcart);
 extern int stb_bin_attach(const char *filename, BYTE *rawcart);

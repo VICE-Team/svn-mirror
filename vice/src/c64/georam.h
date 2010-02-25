@@ -38,9 +38,6 @@ extern int georam_cmdline_options_init(void);
 
 extern void georam_reset(void);
 extern void georam_shutdown(void);
-extern BYTE REGPARM1 georam_window_read(WORD addr);
-extern void REGPARM2 georam_reg_store(WORD addr, BYTE byte);
-extern void REGPARM2 georam_window_store(WORD addr, BYTE byte);
 extern int georam_read_snapshot_module(struct snapshot_s *s);
 extern int georam_write_snapshot_module(struct snapshot_s *s);
 

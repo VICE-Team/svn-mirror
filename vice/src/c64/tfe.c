@@ -43,7 +43,9 @@
 #include "crc32.h"
 #include "lib.h"
 #include "log.h"
+#include "mmc64.h"
 #include "resources.h"
+#include "retroreplay.h"
 #include "snapshot.h"
 #include "translate.h"
 #include "tfe.h"
@@ -65,6 +67,68 @@
 /** #define TFE_DEBUG_RXTX_STATE 1 **/     /* enable to see tranceiver state changes */
 /** #define TFE_DEBUG_RXTX_DATA 1 **/      /* enable to see data in/out flow */
 /** #define TFE_DEBUG_FRAMES 1 **/         /* enable to see arch frame send/recv */
+
+/* ------------------------------------------------------------------------- */
+/*    resources support functions                                            */
+
+/* some prototypes are needed */
+static void REGPARM2 tfe_store(WORD io_address, BYTE byte);
+static BYTE REGPARM1 tfe_read(WORD io_address);
+
+static io_source_t rrnet_io1_mmc64_device = {
+    "RRNET on MMC64 CLOCKPORT",
+    IO_DETACH_RESOURCE,
+    "ETHERNET_ACTIVE",
+    0xde02, 0xde0f, 0x0f,
+    0,
+    tfe_store,
+    tfe_read
+};
+
+static io_source_t rrnet_io1_retroreplay_device = {
+    "RRNET on RETRO REPLAY CLOCKPORT",
+    IO_DETACH_RESOURCE,
+    "ETHERNET_ACTIVE",
+    0xde02, 0xde0f, 0x0f,
+    0,
+    tfe_store,
+    tfe_read
+};
+
+static io_source_t rrnet_io1_device = {
+    "RRNET",
+    IO_DETACH_RESOURCE,
+    "ETHERNET_ACTIVE",
+    0xde00, 0xde0f, 0x0f,
+    0,
+    tfe_store,
+    tfe_read
+};
+
+static io_source_t tfe_io1_device = {
+    "TFE",
+    IO_DETACH_RESOURCE,
+    "ETHERNET_ACTIVE",
+    0xde00, 0xdeff, 0x0f,
+    0,
+    tfe_store,
+    tfe_read
+};
+
+static io_source_t rrnet_io2_mmc64_device = {
+    "RRNET on MMC64 CLOCKPORT",
+    IO_DETACH_RESOURCE,
+    "ETHERNET_ACTIVE",
+    0xdf22, 0xdf2f, 0x0f,
+    0,
+    tfe_store,
+    tfe_read
+};
+
+
+/* current configurations */
+static io_source_t *tfe_current_device = &tfe_io1_device;
+static io_source_list_t *tfe_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
@@ -1409,6 +1473,44 @@ static void tfe_auto_incr_pp_ptr(void)
 }
 
 /* ------------------------------------------------------------------------- */
+/* retroreplay/mmc64 clockport changes helper function */
+
+void tfe_clockport_changed(void)
+{
+    if (!tfe_as_rr_net) {
+        tfe_current_device = &tfe_io1_device;
+
+        /* if adapter is already enabled then reset the LAN chip */
+        if (tfe) {
+            c64io_unregister(tfe_list_item);
+            tfe_list_item = c64io_register(tfe_current_device);
+            tfe_reset();
+        }
+    } else {
+        tfe_current_device = NULL;
+        if (mmc64_enabled && mmc64_hw_clockport == 0xde02 && mmc64_clockport_enabled) {
+            tfe_current_device = &rrnet_io1_mmc64_device;
+        }
+        if (mmc64_enabled && mmc64_hw_clockport == 0xdf12 && mmc64_clockport_enabled) {
+            tfe_current_device = &rrnet_io2_mmc64_device;
+        }
+        if (rr_active && rr_clockport_enabled) {
+            tfe_current_device = &rrnet_io1_retroreplay_device;
+        }
+        if (tfe_current_device == NULL) {
+            tfe_current_device = &tfe_io1_device;
+        }
+
+        /* if adapter is already enabled then reset the LAN chip */
+        if (tfe) {
+            c64io_unregister(tfe_list_item);
+            tfe_list_item = c64io_register(tfe_current_device);
+            tfe_reset();
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------- */
 /* read/write TFE registers from VICE */
 
 #define LO_BYTE(x)      (BYTE)((x) & 0xff)
@@ -1416,7 +1518,7 @@ static void tfe_auto_incr_pp_ptr(void)
 #define LOHI_WORD(x, y) ((WORD)(x) | (((WORD)(y)) << 8 ))
 
 /* ----- read byte from I/O range in VICE ----- */
-BYTE REGPARM1 tfe_read(WORD io_address)
+static BYTE REGPARM1 tfe_read(WORD io_address)
 {
     BYTE retval,lo,hi;
     WORD word_value;
@@ -1437,9 +1539,11 @@ BYTE REGPARM1 tfe_read(WORD io_address)
     /* register base addr */
     reg_base = io_address & ~1;
 
+    tfe_current_device->io_source_valid = 0;
+
     /* RX register is special as it reads from RX buffer directly */
     if ((reg_base == TFE_ADDR_RXTXDATA) || (reg_base == TFE_ADDR_RXTXDATA2)) {
-        io_source = IO_SOURCE_TFE_RR_NET;
+        tfe_current_device->io_source_valid = 1;
         return tfe_read_rx_buffer(io_address & 0x01);
     }
     
@@ -1507,12 +1611,12 @@ BYTE REGPARM1 tfe_read(WORD io_address)
     tfe[reg_base] = lo;
     tfe[reg_base + 1] = hi;
     
-    io_source = IO_SOURCE_TFE_RR_NET;
+    tfe_current_device->io_source_valid = 1;
     return retval;
 }
 
 /* ----- write byte to I/O range of VICE ----- */
-void REGPARM2 tfe_store(WORD io_address, BYTE byte)
+static void REGPARM2 tfe_store(WORD io_address, BYTE byte)
 {
     WORD reg_base;
     WORD word_value;
@@ -1619,8 +1723,6 @@ void REGPARM2 tfe_store(WORD io_address, BYTE byte)
     tfe[reg_base + 1] = HI_BYTE(word_value);
 }
 
-/* ------------------------------------------------------------------------- */
-/*    resources support functions                                            */
 static int set_tfe_disabled(int val, void *param)
 {
     /* dummy function since we don't want "disabled" to be stored on disk */
@@ -1635,8 +1737,12 @@ static int set_tfe_rr_net(int val, void *param)
             if (tfe_as_rr_net) {
                 tfe_as_rr_net = 0;
 
+                tfe_current_device = &tfe_io1_device;
+
                 /* if adapter is already enabled then reset the LAN chip */
                 if (tfe) {
+                    c64io_unregister(tfe_list_item);
+                    tfe_list_item = c64io_register(tfe_current_device);
                     tfe_reset();
                 }
             }
@@ -1645,8 +1751,24 @@ static int set_tfe_rr_net(int val, void *param)
             if (!tfe_as_rr_net) {
                 tfe_as_rr_net = 1;
             
+                tfe_current_device = NULL;
+                if (mmc64_enabled && mmc64_hw_clockport == 0xde02 && mmc64_clockport_enabled) {
+                    tfe_current_device = &rrnet_io1_mmc64_device;
+                }
+                if (mmc64_enabled && mmc64_hw_clockport == 0xdf12 && mmc64_clockport_enabled) {
+                    tfe_current_device = &rrnet_io2_mmc64_device;
+                }
+                if (rr_active && rr_clockport_enabled) {
+                    tfe_current_device = &rrnet_io1_retroreplay_device;
+                }
+                if (tfe_current_device == NULL) {
+                    tfe_current_device = &tfe_io1_device;
+                }
+
                 /* if adapter is already enabled then reset the LAN chip */
                 if (tfe) {
+                    c64io_unregister(tfe_list_item);
+                    tfe_list_item = c64io_register(tfe_current_device);
                     tfe_reset();
                 }
             }
@@ -1667,6 +1789,8 @@ static int set_tfe_enabled(int val, void *param)
                 if (tfe_deactivate() < 0) {
                     return -1;
                 }
+                c64io_unregister(tfe_list_item);
+                tfe_list_item = NULL;
             }
             return 0;
         } else {
@@ -1675,11 +1799,11 @@ static int set_tfe_enabled(int val, void *param)
                 if (tfe_activate() < 0) {
                     return -1;
                 }
+                tfe_list_item = c64io_register(tfe_current_device);
             }
 
             return 0;
         }
-
     }
     return 0;
 }

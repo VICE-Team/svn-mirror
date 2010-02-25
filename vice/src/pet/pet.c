@@ -87,8 +87,6 @@
 #include "video.h"
 #include "vsync.h"
 
-int io_source;
-
 machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 6

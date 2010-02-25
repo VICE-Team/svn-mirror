@@ -32,9 +32,6 @@
 
 extern int stardos_kernal_enabled;
 
-extern BYTE REGPARM1 stardos_io1_read(WORD addr);
-extern BYTE REGPARM1 stardos_io2_read(WORD addr);
-extern BYTE REGPARM1 stardos_kernal_read(WORD addr);
 extern BYTE REGPARM1 stardos_roml_read(WORD addr);
 
 extern void stardos_config_init(void);

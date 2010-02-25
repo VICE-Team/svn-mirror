@@ -54,9 +54,98 @@ static BYTE digimax_userport_address;
 static BYTE digimax_userport_direction_A;
 static BYTE digimax_userport_direction_B;
 
+/* ---------------------------------------------------------------------*/
+
+static BYTE digimax_sound_data[4];
+
+static void REGPARM2 digimax_sound_store(WORD addr, BYTE value)
+{
+    digimax_sound_data[addr] = value;
+    sound_store((WORD)(addr + 0x20), value, 0);
+}
+
+static BYTE REGPARM1 digimax_sound_read(WORD addr)
+{
+    BYTE value;
+
+    value = sound_read((WORD)(addr + 0x20), 0);
+
+    return value;
+}
+
+static void digimax_userport_sound_store(BYTE value)
+{
+    WORD addr = 0;
+
+    switch ((digimax_address & digimax_userport_direction_A) & 0xc) {
+        case 0:
+            addr = 2;
+            break;
+        case 4:
+            addr = 3;
+            break;
+        case 8:
+            addr = 0;
+            break;
+        case 12:
+            addr = 1;
+            break;
+    }
+
+    digimax_sound_store(addr,(BYTE)(value & digimax_userport_direction_B));
+}
+
+void digimax_userport_store(WORD addr, BYTE value)
+{
+    switch (addr & 0x1f) {
+        case 0:
+            digimax_userport_address = value;
+            break;
+        case 1:
+            if (digimax_enabled && digimax_address == 0xdd00) {
+                digimax_userport_sound_store(value);
+            }
+            break;
+        case 2:
+            digimax_userport_direction_A = value;
+            break;
+        case 3:
+            digimax_userport_direction_B = value;
+            break;
+    }
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t digimax_device = {
+    "DIGIMAX",
+    IO_DETACH_RESOURCE,
+    "DIGIMAX",
+    0xde00, 0xde03, 0x03,
+    1, /* read is always valid */
+    digimax_sound_store,
+    digimax_sound_read
+};
+
+static io_source_list_t * digimax_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 static int set_digimax_enabled(int val, void *param)
 {
-    digimax_enabled = val;
+    if (digimax_enabled != val) {
+        if (val) {
+            if (digimax_address != 0xdd00) {
+                digimax_list_item = c64io_register(&digimax_device);
+            }
+        } else {
+            if (digimax_list_item != NULL) {
+                c64io_unregister(digimax_list_item);
+                digimax_list_item = NULL;
+            }
+        }
+        digimax_enabled = val;
+    }
     return 0;
 }
 
@@ -68,6 +157,11 @@ static int set_digimax_base(int val, void *param)
 
     switch (val) {
         case 0xdd00:   /* special case, userport interface */
+            if (digimax_list_item != NULL) {
+                c64io_unregister(digimax_list_item);
+                digimax_list_item = NULL;
+            }
+            break;
         case 0xde00:
         case 0xde20:
         case 0xde40:
@@ -84,6 +178,14 @@ static int set_digimax_base(int val, void *param)
         case 0xdfa0:
         case 0xdfc0:
         case 0xdfe0:
+            digimax_device.start_address = (WORD)val;
+            digimax_device.end_address = (WORD)(val + 3);
+            if (digimax_enabled) {
+                if (digimax_list_item != NULL) {
+                    c64io_unregister(digimax_list_item);
+                }
+                digimax_list_item = c64io_register(&digimax_device);
+            }
             break;
         default:
             return -1;
@@ -93,6 +195,8 @@ static int set_digimax_base(int val, void *param)
 
   return 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 static const resource_int_t resources_int[] = {
   { "DIGIMAX", 0, RES_EVENT_STRICT, (resource_value_t)0,
@@ -106,6 +210,8 @@ int digimax_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
+
+/* ---------------------------------------------------------------------*/
 
 static const cmdline_option_t cmdline_options[] =
 {
@@ -133,8 +239,6 @@ int digimax_cmdline_options_init(void)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static BYTE digimax_sound_data[4];
 
 struct digimax_sound_s {
     BYTE voice0;
@@ -203,64 +307,4 @@ void digimax_sound_reset(void)
     digimax_sound_data[1] = 0;
     digimax_sound_data[2] = 0;
     digimax_sound_data[3] = 0;
-}
-
-/* ---------------------------------------------------------------------*/
-
-void REGPARM2 digimax_sound_store(WORD addr, BYTE value)
-{
-    digimax_sound_data[addr] = value;
-    sound_store((WORD)(addr + 0x20), value, 0);
-}
-
-BYTE REGPARM1 digimax_sound_read(WORD addr)
-{
-    BYTE value;
-
-    io_source = IO_SOURCE_DIGIMAX;
-    value = sound_read((WORD)(addr + 0x20), 0);
-
-    return value;
-}
-
-static void digimax_userport_sound_store(BYTE value)
-{
-    WORD addr = 0;
-
-    switch ((digimax_address & digimax_userport_direction_A) & 0xc) {
-        case 0:
-            addr = 2;
-            break;
-        case 4:
-            addr = 3;
-            break;
-        case 8:
-            addr = 0;
-            break;
-        case 12:
-            addr = 1;
-            break;
-    }
-
-    digimax_sound_store(addr,(BYTE)(value & digimax_userport_direction_B));
-}
-
-void digimax_userport_store(WORD addr, BYTE value)
-{
-    switch (addr & 0x1f) {
-        case 0:
-            digimax_userport_address = value;
-            break;
-        case 1:
-            if (digimax_enabled && digimax_address == 0xdd00) {
-                digimax_userport_sound_store(value);
-            }
-            break;
-        case 2:
-            digimax_userport_direction_A = value;
-            break;
-        case 3:
-            digimax_userport_direction_B = value;
-            break;
-    }
 }

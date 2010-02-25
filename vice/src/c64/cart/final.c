@@ -39,25 +39,105 @@
 #include "final.h"
 #include "types.h"
 
-static const c64export_resource_t export_res_v1 = {
-    "Final V1", 1, 0
+/* some prototypes are needed */
+static BYTE REGPARM1 final_v1_io1_read(WORD addr);
+static void REGPARM2 final_v1_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 final_v1_io2_read(WORD addr);
+static void REGPARM2 final_v1_io2_store(WORD addr, BYTE value);
+static BYTE REGPARM1 final_v3_io1_read(WORD addr);
+static BYTE REGPARM1 final_v3_io2_read(WORD addr);
+static void REGPARM2 final_v3_io2_store(WORD addr, BYTE value);
+static BYTE REGPARM1 westermann_io2_read(WORD addr);
+static BYTE REGPARM1 warpspeed_io1_read(WORD addr);
+static void REGPARM2 warpspeed_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 warpspeed_io2_read(WORD addr);
+static void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value);
+
+static io_source_t final1_io1_device = {
+    "FINAL I",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    final_v1_io1_store,
+    final_v1_io1_read
 };
 
-static const c64export_resource_t export_res_westermann = {
-    "Westermann", 1, 0
+static io_source_t final1_io2_device = {
+    "FINAL I",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    final_v1_io2_store,
+    final_v1_io2_read
 };
 
-static const c64export_resource_t export_res_warpspeed = {
-    "Warpspeed", 1, 0
+static io_source_list_t *final1_io1_list_item = NULL;
+static io_source_list_t *final1_io2_list_item = NULL;
+
+static io_source_t final3_io1_device = {
+    "FINAL III",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    NULL,
+    final_v3_io1_read
 };
 
-static const c64export_resource_t export_res_v3 = {
-    "Final V3", 1, 0
+static io_source_t final3_io2_device = {
+    "FINAL III",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    final_v3_io2_store,
+    final_v3_io2_read
 };
+
+static io_source_list_t *final3_io1_list_item = NULL;
+static io_source_list_t *final3_io2_list_item = NULL;
+
+static io_source_t westermann_device = {
+    "WESTERMANN",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0, /* read is never valid */
+    NULL,
+    westermann_io2_read
+};
+
+static io_source_list_t *westermann_list_item = NULL;
+
+static io_source_t warpspeed_io1_device = {
+    "WARPSPEED",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    warpspeed_io1_store,
+    warpspeed_io1_read
+};
+
+static io_source_t warpspeed_io2_device = {
+    "WARPSPEED",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    warpspeed_io2_store,
+    warpspeed_io2_read
+};
+
+static io_source_list_t *warpspeed_io1_list_item = NULL;
+static io_source_list_t *warpspeed_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
-    io_source = IO_SOURCE_FINAL1;
     cartridge_config_changed(0x42, 0x42, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
@@ -69,7 +149,6 @@ void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)
 {
-    io_source = IO_SOURCE_FINAL1;
     cartridge_config_changed(1, 1, CMODE_READ);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
@@ -81,17 +160,12 @@ void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v3_io1_read(WORD addr)
 {
-    io_source = IO_SOURCE_FINAL3;
     return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
-}
-
-void REGPARM2 final_v3_io1_store(WORD addr, BYTE value)
-{
 }
 
 BYTE REGPARM1 final_v3_io2_read(WORD addr)
 {
-    io_source = IO_SOURCE_FINAL3;
+    final3_io2_device.io_source_valid = 1;
     switch (roml_bank) {
         case 0:
             return roml_banks[addr & 0x1fff];
@@ -102,7 +176,7 @@ BYTE REGPARM1 final_v3_io2_read(WORD addr)
         case 3:
             return roml_banks[(addr & 0x1fff) + 0x6000];
     }
-    io_source = IO_SOURCE_NONE;
+    final3_io2_device.io_source_valid = 0;
     return 0;
 }
 
@@ -125,6 +199,34 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
         }
     }
 }
+
+BYTE REGPARM1 westermann_io2_read(WORD addr)
+{
+    cartridge_config_changed(0, 0, CMODE_READ);
+    return 0;
+}
+
+BYTE REGPARM1 warpspeed_io1_read(WORD addr)
+{
+    return roml_banks[0x1e00 + (addr & 0xff)];
+}
+
+void REGPARM2 warpspeed_io1_store(WORD addr, BYTE value)
+{
+    cartridge_config_changed(1, 1, CMODE_WRITE);
+}
+
+BYTE REGPARM1 warpspeed_io2_read(WORD addr)
+{
+    return roml_banks[0x1f00 + (addr & 0xff)];
+}
+
+void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value)
+{
+    cartridge_config_changed(2, 2, CMODE_WRITE);
+}
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 final_v1_roml_read(WORD addr)
 {
@@ -157,6 +259,8 @@ void REGPARM2 final_v3_roml_store(WORD addr, BYTE value)
         export_ram0[addr & 0x1fff] = value;
     }
 }
+
+/* ---------------------------------------------------------------------*/
 
 void final_v1_freeze(void)
 {
@@ -198,6 +302,24 @@ void final_v3_config_setup(BYTE *rawcart)
     cartridge_config_changed(1, 1, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res_v1 = {
+    "Final V1", 1, 0
+};
+
+static const c64export_resource_t export_res_westermann = {
+    "Westermann", 1, 0
+};
+
+static const c64export_resource_t export_res_warpspeed = {
+    "Warpspeed", 1, 0
+};
+
+static const c64export_resource_t export_res_v3 = {
+    "Final V3", 1, 0
+};
+
 static int generic_final_v1_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -227,6 +349,9 @@ int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    final1_io1_list_item = c64io_register(&final1_io1_device);
+    final1_io2_list_item = c64io_register(&final1_io2_device);
+
     return 0;
 }
 
@@ -240,6 +365,8 @@ int westermann_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    westermann_list_item = c64io_register(&westermann_device);
+
     return 0;
 }
 
@@ -252,6 +379,9 @@ int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)
     if (c64export_add(&export_res_warpspeed) < 0) {
         return -1;
     }
+
+    warpspeed_io1_list_item = c64io_register(&warpspeed_io1_device);
+    warpspeed_io2_list_item = c64io_register(&warpspeed_io2_device);
 
     return 0;
 }
@@ -279,25 +409,42 @@ int final_v3_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    final3_io1_list_item = c64io_register(&final3_io1_device);
+    final3_io2_list_item = c64io_register(&final3_io2_device);
+
     return 0;
 }
 
 void final_v1_detach(void)
 {
     c64export_remove(&export_res_v1);
+    c64io_unregister(final1_io1_list_item);
+    c64io_unregister(final1_io2_list_item);
+    final1_io1_list_item = NULL;
+    final1_io2_list_item = NULL;
 }
 
 void westermann_detach(void)
 {
     c64export_remove(&export_res_westermann);
+    c64io_unregister(westermann_list_item);
+    westermann_list_item = NULL;
 }
 
 void warpspeed_detach(void)
 {
     c64export_remove(&export_res_warpspeed);
+    c64io_unregister(warpspeed_io1_list_item);
+    c64io_unregister(warpspeed_io2_list_item);
+    warpspeed_io1_list_item = NULL;
+    warpspeed_io2_list_item = NULL;
 }
 
 void final_v3_detach(void)
 {
     c64export_remove(&export_res_v3);
+    c64io_unregister(final3_io1_list_item);
+    c64io_unregister(final3_io2_list_item);
+    final3_io1_list_item = NULL;
+    final3_io2_list_item = NULL;
 }

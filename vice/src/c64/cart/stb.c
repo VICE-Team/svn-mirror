@@ -33,14 +33,10 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "stb.h"
 #include "types.h"
 #include "util.h"
-
-/* Stb cartridge uses io1 and roml */
-static const c64export_resource_t export_res = {
-    "Structured Basic", 1, 0
-};
 
 /* Structured Basic IO1 logic for the roml range $8000-$9fff
 *
@@ -71,16 +67,32 @@ static void stb_io(WORD addr)
     }
 }
 
-BYTE REGPARM1 stb_io1_read(WORD addr)
+static BYTE REGPARM1 stb_io1_read(WORD addr)
 {
     stb_io(addr);
     return 0;
 }
 
-void REGPARM2 stb_io1_store(WORD addr, BYTE value)
+static void REGPARM2 stb_io1_store(WORD addr, BYTE value)
 {
     stb_io(addr);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t stb_device = {
+    "STRUCTURED BASIC",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    stb_io1_store,
+    stb_io1_read
+};
+
+static io_source_list_t *stb_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void stb_config_init(void)
 {
@@ -97,6 +109,24 @@ void stb_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Structured Basic", 1, 0
+};
+
+static int stb_common_attach(void)
+{
+    /* add export */
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    stb_list_item = c64io_register(&stb_device);
+
+    return 0;
+}
+
 int stb_bin_attach(const char *filename, BYTE *rawcart)
 {
     /* load file into cartridge address space */
@@ -104,12 +134,7 @@ int stb_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    /* add export */
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return stb_common_attach();
 }
 
 int stb_crt_attach(FILE *fd, BYTE *rawcart)
@@ -130,14 +155,12 @@ int stb_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return stb_common_attach();
 }
 
 void stb_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(stb_list_item);
+    stb_list_item = NULL;
 }

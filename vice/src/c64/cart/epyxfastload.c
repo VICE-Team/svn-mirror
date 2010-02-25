@@ -48,10 +48,6 @@
 
 struct alarm_s *epyxrom_alarm;
 
-static const c64export_resource_t export_res_epyx = {
-    "Epyx Fastload", 0, 0
-};
-
 static void epyxfastload_trigger_access(void)
 {
     /* Discharge virtual capacitor, enable rom */
@@ -67,22 +63,48 @@ static void epyxfastload_alarm_handler(CLOCK offset, void *data)
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
 
-void epyxfastload_io1_read(void)
+BYTE REGPARM1 epyxfastload_io1_read(WORD addr)
 {
     /* IO1 discharges the capacitor, but does nothing else */
-    io_source = IO_SOURCE_EPYX_FASTLOAD;
-
     epyxfastload_trigger_access();
+
+    return 0;
 }
 
 BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
 {
     /* IO2 allows access to the last 256 bytes of the rom */
-    io_source = IO_SOURCE_EPYX_FASTLOAD;
-
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t epyxfastload_io1_device = {
+    "EPYX FASTLOAD",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    NULL,
+    epyxfastload_io1_read
+};
+
+static io_source_t epyxfastload_io2_device = {
+    "EPYX FASTLOAD",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    NULL,
+    epyxfastload_io2_read
+};
+
+static io_source_list_t *epyxfastload_io1_list_item = NULL;
+static io_source_list_t *epyxfastload_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 epyxfastload_roml_read(WORD addr)
 {
@@ -91,6 +113,8 @@ BYTE REGPARM1 epyxfastload_roml_read(WORD addr)
 
     return roml_banks[(addr & 0x1fff)];
 }
+
+/* ---------------------------------------------------------------------*/
 
 void epyxfastload_reset(void)
 {
@@ -108,6 +132,12 @@ void epyxfastload_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res_epyx = {
+    "Epyx Fastload", 0, 0
+};
 
 int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -127,6 +157,9 @@ int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 
     epyxrom_alarm = alarm_new(maincpu_alarm_context, "EPYXCartRomAlarm", epyxfastload_alarm_handler, NULL);
 
+    epyxfastload_io1_list_item = c64io_register(&epyxfastload_io1_device);
+    epyxfastload_io2_list_item = c64io_register(&epyxfastload_io2_device);
+
     return 0;
 }
 
@@ -134,4 +167,8 @@ void epyxfastload_detach(void)
 {
     alarm_destroy(epyxrom_alarm);
     c64export_remove(&export_res_epyx);
+    c64io_unregister(epyxfastload_io1_list_item);
+    c64io_unregister(epyxfastload_io2_list_item);
+    epyxfastload_io1_list_item = NULL;
+    epyxfastload_io2_list_item = NULL;
 }

@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../c64/c64io.h"
 #include "catweaselmkiii.h"
 #include "fastsid.h"
 #include "hardsid.h"
@@ -181,7 +180,6 @@ BYTE REGPARM1 sid_read(WORD addr)
 
 BYTE REGPARM1 sid2_read(WORD addr)
 {
-    io_source=IO_SOURCE_STEREO_SID;
     return sid_read_chip(addr, 1);
 }
 

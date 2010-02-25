@@ -29,7 +29,7 @@
  *
  * It has 2KB of ram which is banked into a 256 byte page in the $DF00-$DFFF area.
  *
- * The page is selected by any kind of access to the I/O-2 area, as follows:
+ * The page is selected by any kind of access to the I/O-1 area, as follows:
  *
  * PAGE   ACCESS ADDRESS
  * ----   --------------
@@ -82,7 +82,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* Flag: Do we enable the external ISEPEC?  */
+/* Flag: Do we enable the ISEPIC?  */
 int isepic_enabled;
 
 /* Flag: what direction is the switch at, 0 = away, 1 = towards computer */
@@ -94,11 +94,48 @@ static BYTE *isepic_ram;
 /* current page */
 static unsigned int isepic_page = 0;
 
+/* ------------------------------------------------------------------------- */
+
+/* some prototypes are needed */
+static BYTE REGPARM1 isepic_reg_read(WORD addr);
+static void REGPARM2 isepic_reg_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 isepic_window_read(WORD addr);
+static void REGPARM2 isepic_window_store(WORD addr, BYTE byte);
+
+static io_source_t isepic_io1_device = {
+    "ISEPIC",
+    IO_DETACH_RESOURCE,
+    "Isepic",
+    0xde00, 0xdeff, 0x07,
+    0, /* read is never valid */
+    isepic_reg_store,
+    isepic_reg_read
+};
+
+static io_source_t isepic_io2_device = {
+    "ISEPIC",
+    IO_DETACH_RESOURCE,
+    "Isepic",
+    0xdf00, 0xdfff, 0xff,
+    0,
+    isepic_window_store,
+    isepic_window_read
+};
+
+static io_source_list_t *isepic_io1_list_item = NULL;
+static io_source_list_t *isepic_io2_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
 static int set_isepic_enabled(int val, void *param)
 {
     if (isepic_enabled && !val) {
         lib_free(isepic_ram);
         isepic_enabled = 0;
+        c64io_unregister(isepic_io1_list_item);
+        c64io_unregister(isepic_io2_list_item);
+        isepic_io1_list_item = NULL;
+        isepic_io2_list_item = NULL;
         if (isepic_switch) {
             cartridge_config_changed(2, 2, 0);
             cartridge_release_freeze();
@@ -108,6 +145,8 @@ static int set_isepic_enabled(int val, void *param)
     if (!isepic_enabled && val) {
         isepic_ram = lib_malloc(2048);
         isepic_enabled = 1;
+        isepic_io1_list_item = c64io_register(&isepic_io1_device);
+        isepic_io2_list_item = c64io_register(&isepic_io2_device);
         if (isepic_switch) {
             cartridge_config_changed(2, 3, 0);
         }
@@ -138,6 +177,8 @@ void isepic_freeze(void)
 {
     cartridge_config_changed(2, 3, 0);
 }
+
+/* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_int[] = {
     { "Isepic", 0, RES_EVENT_STRICT, (resource_value_t)0,
@@ -191,6 +232,29 @@ void REGPARM2 isepic_reg_store(WORD addr, BYTE byte)
     }
 }
 
+BYTE REGPARM1 isepic_window_read(WORD addr)
+{
+    BYTE retval = 0;
+
+    isepic_io1_device.io_source_valid = 0;
+
+    if (isepic_switch) {
+        isepic_io1_device.io_source_valid = 1;
+        retval = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+    }
+
+    return retval;
+}
+
+void REGPARM2 isepic_window_store(WORD addr, BYTE byte)
+{
+    if (isepic_switch) {
+        isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 BYTE REGPARM1 isepic_romh_read(WORD addr)
 {
     switch (addr) {
@@ -214,25 +278,6 @@ void REGPARM2 isepic_romh_store(WORD addr, BYTE byte)
         default:
             mem_store_without_ultimax(addr, byte);
             break;
-    }
-}
-
-BYTE REGPARM1 isepic_window_read(WORD addr)
-{
-    BYTE retval = 0;
-
-    if (isepic_switch) {
-        io_source = IO_SOURCE_ISEPIC;
-        retval=isepic_ram[(isepic_page * 256) + (addr & 0xff)];
-    }
-
-    return retval;
-}
-
-void REGPARM2 isepic_window_store(WORD addr, BYTE byte)
-{
-    if (isepic_switch) {
-        isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
     }
 }
 

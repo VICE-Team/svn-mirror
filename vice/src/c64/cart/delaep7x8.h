@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 delaep7x8_io1_read(WORD addr);
-extern void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value);
-
 extern void delaep7x8_config_init(void);
 extern void delaep7x8_config_setup(BYTE *rawcart);
 extern int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart);

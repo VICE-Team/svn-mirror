@@ -46,21 +46,26 @@
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
+#include "dinamic.h"
 #include "dqbb.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "funplay.h"
 #include "generic.h"
+#include "gs.h"
 #include "ide64.h"
 #include "isepic.h"
 #include "kcs.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "magicdesk.h"
 #include "magicformel.h"
 #include "mikroass.h"
 #include "mmc64.h"
+#include "ocean.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
@@ -122,279 +127,6 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
     cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
     cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~mode_phi1 >> 2) & 1);
     machine_update_memory_ptrs();
-}
-
-BYTE REGPARM1 cartridge_read_io1(WORD addr)
-{
-#ifdef DEBUG
-    log_debug("Read IO1 %02x.", addr);
-#endif
-    switch (mem_cartridge_type) {
-        case CARTRIDGE_STARDOS:
-            return stardos_io1_read(addr);
-        case CARTRIDGE_ACTION_REPLAY3:
-            return actionreplay3_io1_read(addr);
-        case CARTRIDGE_ACTION_REPLAY:
-            return actionreplay_io1_read(addr);
-        case CARTRIDGE_ATOMIC_POWER:
-            return atomicpower_io1_read(addr);
-        case CARTRIDGE_RETRO_REPLAY:
-            return retroreplay_io1_read(addr);
-        case CARTRIDGE_IDE64:
-            return ide64_io1_read(addr);
-        case CARTRIDGE_KCS_POWER:
-            return kcs_io1_read(addr);
-        case CARTRIDGE_FINAL_III:
-            return final_v3_io1_read(addr);
-        case CARTRIDGE_FINAL_I:
-            return final_v1_io1_read(addr);
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-            return mikroass_io1_read(addr);
-        case CARTRIDGE_SIMONS_BASIC:
-        case CARTRIDGE_GS:
-            cartridge_config_changed(0, 0, CMODE_READ);
-            return vicii_read_phi1();
-        case CARTRIDGE_WARPSPEED:
-            io_source = IO_SOURCE_WARPSPEED;
-            return roml_banks[0x1e00 + (addr & 0xff)];
-        case CARTRIDGE_DINAMIC:
-            cartridge_romlbank_set(addr & 0x0f);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            return supersnapshot_v4_io1_read(addr);
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            return supersnapshot_v5_io1_read(addr);
-        case CARTRIDGE_EXPERT:
-            return expert_io1_read(addr);
-        case CARTRIDGE_MAGIC_FORMEL:
-            return magicformel_io1_read(addr);
-        case CARTRIDGE_CAPTURE:
-            return capture_io1_read(addr);
-        case CARTRIDGE_ROSS:
-            return ross_io1_read(addr);
-        case CARTRIDGE_STRUCTURED_BASIC:
-            return stb_io1_read(addr);
-        case CARTRIDGE_DELA_EP64:
-            return delaep64_io1_read(addr);
-        case CARTRIDGE_EPYX_FASTLOAD:
-            epyxfastload_io1_read();
-            return vicii_read_phi1();
-    }
-    return vicii_read_phi1();
-}
-
-void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
-{
-#ifdef DEBUG
-    log_debug("Store IO1 %02x <- %02x.", addr, value);
-#endif
-
-    switch (mem_cartridge_type) {
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_io1_store(addr, value);
-            break;
-        case CARTRIDGE_ACTION_REPLAY3:
-            actionreplay3_io1_store(addr, value);
-            break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_io1_store(addr, value);
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_io1_store(addr, value);
-            break;
-        case CARTRIDGE_IDE64:
-            ide64_io1_store(addr, value);
-            break;
-        case CARTRIDGE_ATOMIC_POWER:
-            atomicpower_io1_store(addr, value);
-            break;
-        case CARTRIDGE_KCS_POWER:
-            kcs_io1_store(addr, value);
-            break;
-        case CARTRIDGE_FINAL_I:
-            final_v1_io1_store(addr, value);
-            break;
-        case CARTRIDGE_FINAL_III:
-            final_v3_io1_store(addr, value);
-            break;
-        case CARTRIDGE_COMAL80:
-            comal80_io1_store(addr, value);
-            break;
-        case CARTRIDGE_SIMONS_BASIC:
-            cartridge_config_changed(1, 1, CMODE_WRITE);
-            break;
-        case CARTRIDGE_WARPSPEED:
-            cartridge_config_changed(1, 1, CMODE_WRITE);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            supersnapshot_v4_io1_store(addr, value);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            supersnapshot_v5_io1_store(addr, value);
-            break;
-        case CARTRIDGE_OCEAN:
-        case CARTRIDGE_FUNPLAY:
-            switch (mem_cartridge_type) {
-                case CARTRIDGE_OCEAN:
-                    cartridge_romhbank_set(value & 0x3f);
-                    cartridge_romlbank_set(value & 0x3f);
-                    break;
-                case CARTRIDGE_FUNPLAY:
-                    cartridge_romhbank_set(((value >> 2) | (value & 1)) & 15);
-                    cartridge_romlbank_set(((value >> 2) | (value & 1)) & 15);
-                    break;
-            }
-            export.game = export.exrom = 1;
-            mem_pla_config_changed();
-            cart_ultimax_phi1 = 0;
-            cart_ultimax_phi2 = 0;
-            break;
-        case CARTRIDGE_GS:
-            cartridge_romlbank_set(addr & 0x3f);
-            export.game = 0;
-            export.exrom = 1;
-            break;
-        case CARTRIDGE_EXPERT:
-            expert_io1_store(addr, value);
-            break;
-        case CARTRIDGE_MAGIC_DESK:
-            cartridge_romlbank_set(value & 0x3f);
-            export.game = 0;
-            if (value & 0x80) {
-                export.exrom = 0;
-            } else {
-                export.exrom = 1;  /* turn off cart ROM */
-            }
-            mem_pla_config_changed();
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_io1_store(addr, value);
-            break;
-        case CARTRIDGE_CAPTURE:
-            capture_io1_store(addr, value);
-            break;
-        case CARTRIDGE_STRUCTURED_BASIC:
-            stb_io1_store(addr, value);
-            break;
-        case CARTRIDGE_DELA_EP64:
-            delaep64_io1_store(addr, value);
-            break;
-        case CARTRIDGE_DELA_EP7x8:
-            delaep7x8_io1_store(addr, value);
-            break;
-        case CARTRIDGE_DELA_EP256:
-            delaep256_io1_store(addr, value);
-            break;
-        case CARTRIDGE_EASYFLASH:
-            easyflash_io1_store(addr, value);
-            break;
-    }
-    return;
-}
-
-BYTE REGPARM1 cartridge_read_io2(WORD addr)
-{
-#ifdef DEBUG
-    log_debug("Read IO2 %02x.", addr);
-#endif
-    switch (mem_cartridge_type) {
-        case CARTRIDGE_STARDOS:
-            return stardos_io2_read(addr);
-        case CARTRIDGE_ACTION_REPLAY4:
-            return actionreplay4_io2_read(addr);
-        case CARTRIDGE_ACTION_REPLAY3:
-            return actionreplay3_io2_read(addr);
-        case CARTRIDGE_ACTION_REPLAY:
-            return actionreplay_io2_read(addr);
-        case CARTRIDGE_ATOMIC_POWER:
-            return atomicpower_io2_read(addr);
-        case CARTRIDGE_RETRO_REPLAY:
-            return retroreplay_io2_read(addr);
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            return supersnapshot_v4_io2_read(addr);
-        case CARTRIDGE_FINAL_III:
-            return final_v3_io2_read(addr);
-        case CARTRIDGE_FINAL_I:
-            return final_v1_io2_read(addr);
-        case CARTRIDGE_KCS_POWER:
-            return kcs_io2_read(addr);
-        case CARTRIDGE_IEEE488:
-            return tpi_read((WORD)(addr & 0x07));
-        case CARTRIDGE_EPYX_FASTLOAD:
-            return epyxfastload_io2_read(addr);
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-            return mikroass_io2_read(addr);
-        case CARTRIDGE_WESTERMANN:
-            cartridge_config_changed(0, 0, CMODE_READ);
-            return vicii_read_phi1();
-        case CARTRIDGE_REX:
-            return rex_io2_read(addr);
-        case CARTRIDGE_WARPSPEED:
-            io_source = IO_SOURCE_WARPSPEED;
-            return roml_banks[0x1f00 + (addr & 0xff)];
-        case CARTRIDGE_MAGIC_FORMEL:
-            return magicformel_io2_read(addr);
-        case CARTRIDGE_CAPTURE:
-            return capture_io2_read(addr);
-        case CARTRIDGE_ROSS:
-            return ross_io2_read(addr);
-        case CARTRIDGE_REX_EP256:
-            return rexep256_io2_read(addr);
-        case CARTRIDGE_EASYFLASH:
-            return easyflash_io2_read(addr);
-    }
-    return vicii_read_phi1();
-}
-
-void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
-{
-#ifdef DEBUG
-    log_debug("Store IO2 %02x <- %02x.", addr, value);
-#endif
-    switch (mem_cartridge_type) {
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_io2_store(addr, value);
-            break;
-        case CARTRIDGE_ATOMIC_POWER:
-            atomicpower_io2_store(addr, value);
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_io2_store(addr, value);
-            break;
-        case CARTRIDGE_FINAL_I:
-            final_v1_io2_store(addr, value);
-            break;
-        case CARTRIDGE_KCS_POWER:
-            kcs_io2_store(addr, value);
-            break;
-        case CARTRIDGE_WARPSPEED:
-            cartridge_config_changed(2, 2, CMODE_WRITE);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            supersnapshot_v4_io2_store(addr, value);
-            break;
-        case CARTRIDGE_FINAL_III:
-            final_v3_io2_store(addr, value);
-            break;
-        case CARTRIDGE_SUPER_GAMES:
-            supergames_io2_store(addr, value);
-            break;
-        case CARTRIDGE_IEEE488:
-            tpi_store((WORD)(addr & 0x07), value);
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_io2_store(addr, value);
-            break;
-        case CARTRIDGE_CAPTURE:
-            capture_io2_store(addr, value);
-            break;
-        case CARTRIDGE_REX_EP256:
-            rexep256_io2_store(addr, value);
-            break;
-        case CARTRIDGE_EASYFLASH:
-            easyflash_io2_store(addr, value);
-            break;
-    }
 }
 
 BYTE REGPARM1 roml_read(WORD addr)
@@ -758,31 +490,28 @@ void cartridge_init_config(void)
             supersnapshot_v5_config_init();
             break;
         case CARTRIDGE_OCEAN:
+            ocean_config_init();
+            break;
         case CARTRIDGE_FUNPLAY:
-            cartridge_config_changed(1, 1, CMODE_READ);
-            cartridge_store_io1((WORD)0xde00, 0);
+            funplay_config_init();
             break;
         case CARTRIDGE_EASYFLASH:
             easyflash_config_init();
             break;
         case CARTRIDGE_GS:
-            cartridge_config_changed(0, 0, CMODE_READ);
-            cartridge_store_io1((WORD)0xde00, 0);
+            gs_config_init();
             break;
         case CARTRIDGE_DINAMIC:
-            cartridge_config_changed(0, 0, CMODE_READ);
-            cartridge_read_io1((WORD)0xde00);
+            dinamic_config_init();
             break;
         case CARTRIDGE_IEEE488:
-            cartridge_config_changed(0, 0, CMODE_READ);
-            /* FIXME: Insert interface init here.  */
+            tpi_config_init();
             break;
         case CARTRIDGE_EXPERT:
             expert_config_init();
             break;
         case CARTRIDGE_MAGIC_DESK:
-            cartridge_config_changed(0, 0, CMODE_READ);
-            cartridge_store_io1((WORD)0xde00, 0);
+            magicdesk_config_init();
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_config_init();
@@ -898,14 +627,17 @@ void cartridge_attach(int type, BYTE *rawcart)
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             supersnapshot_v5_config_setup(rawcart);
             break;
-        case CARTRIDGE_OCEAN:
         case CARTRIDGE_FUNPLAY:
-        case CARTRIDGE_GS:
+            funplay_config_setup(rawcart);
+            break;
         case CARTRIDGE_DINAMIC:
-            memcpy(roml_banks, rawcart, 0x2000 * 64);
-            memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
-            /* Hack: using 16kB configuration, but some carts are 8kB only */
-            cartridge_config_changed(1, 1, CMODE_READ);
+            dinamic_config_setup(rawcart);
+            break;
+        case CARTRIDGE_OCEAN:
+            ocean_config_setup(rawcart);
+            break;
+        case CARTRIDGE_GS:
+            gs_config_setup(rawcart);
             break;
         case CARTRIDGE_EASYFLASH:
             easyflash_config_setup(rawcart);
@@ -926,8 +658,7 @@ void cartridge_attach(int type, BYTE *rawcart)
             zaxxon_config_setup(rawcart);
             break;
         case CARTRIDGE_MAGIC_DESK:
-            memcpy(roml_banks, rawcart, 0x2000 * 64);
-            cartridge_config_changed(0, 0, CMODE_READ);
+            magicdesk_config_setup(rawcart);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_config_setup(rawcart);
@@ -972,6 +703,21 @@ void cartridge_detach(int type)
     int cartridge_reset;
 
     switch (type) {
+        case CARTRIDGE_MAGIC_DESK:
+            magicdesk_detach();
+            break;
+        case CARTRIDGE_GS:
+            gs_detach();
+            break;
+        case CARTRIDGE_OCEAN:
+            ocean_detach();
+            break;
+        case CARTRIDGE_DINAMIC:
+            dinamic_detach();
+            break;
+        case CARTRIDGE_FUNPLAY:
+            funplay_detach();
+            break;
         case CARTRIDGE_STARDOS:
             stardos_detach();
             break;
@@ -1024,7 +770,7 @@ void cartridge_detach(int type)
             ide64_detach();
             break;
         case CARTRIDGE_IEEE488:
-            /* FIXME: Insert interface removal here.  */
+            tpi_detach();
             break;
         case CARTRIDGE_KCS_POWER:
             kcs_detach();

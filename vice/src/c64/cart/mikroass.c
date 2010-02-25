@@ -37,23 +37,42 @@
 #include "mikroass.h"
 #include "types.h"
 
-static const c64export_resource_t export_res = {
-    "Mikro Assembler", 1, 0
-};
-
-BYTE REGPARM1 mikroass_io1_read(WORD addr)
+static BYTE REGPARM1 mikroass_io1_read(WORD addr)
 {
-    io_source = IO_SOURCE_MIKRO_ASSEMBLER;
-
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-BYTE REGPARM1 mikroass_io2_read(WORD addr)
+static BYTE REGPARM1 mikroass_io2_read(WORD addr)
 {
-    io_source = IO_SOURCE_MIKRO_ASSEMBLER;
-
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t mikroass_io1_device = {
+    "MIKRO ASSEMBLER",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    NULL,
+    mikroass_io1_read
+};
+
+static io_source_t mikroass_io2_device = {
+    "MIKRO ASSEMBLER",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    NULL,
+    mikroass_io2_read
+};
+
+static io_source_list_t *mikroass_io1_list_item = NULL;
+static io_source_list_t *mikroass_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void mikroass_config_init(void)
 {
@@ -65,6 +84,12 @@ void mikroass_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Mikro Assembler", 1, 0
+};
 
 int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -82,10 +107,17 @@ int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    mikroass_io1_list_item = c64io_register(&mikroass_io1_device);
+    mikroass_io2_list_item = c64io_register(&mikroass_io2_device);
+
     return 0;
 }
 
 void mikroass_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(mikroass_io1_list_item);
+    c64io_unregister(mikroass_io2_list_item);
+    mikroass_io1_list_item = NULL;
+    mikroass_io2_list_item = NULL;
 }

@@ -31,11 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 kcs_io1_read(WORD addr);
-extern void REGPARM2 kcs_io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 kcs_io2_read(WORD addr);
-extern void REGPARM2 kcs_io2_store(WORD addr, BYTE value);
-
 extern void kcs_freeze(void);
 
 extern void kcs_config_init(void);

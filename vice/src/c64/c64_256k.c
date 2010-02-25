@@ -81,6 +81,93 @@ static char *c64_256k_filename = NULL;
 
 BYTE *c64_256k_ram = NULL;
 
+/* ---------------------------------------------------------------------*/
+
+void pia_set_vbank(void)
+{
+    video_bank_segment = ((c64_256k_PRB & 0xc0) >> 4) + cia_vbank;
+    vicii_set_ram_base(c64_256k_ram + (video_bank_segment * 0x4000));
+    mem_set_vbank(0);
+}
+
+static BYTE REGPARM1 c64_256k_read(WORD addr)
+{
+    BYTE retval = 0;
+
+    if (addr == 1) {
+        retval = c64_256k_CRA;
+    }
+    if (addr == 3) {
+        retval = c64_256k_CRB;
+    }
+    if (addr == 0 && (c64_256k_CRA & 4) == 4) {
+        retval = c64_256k_PRA;
+    }
+    if (addr == 0 && (c64_256k_CRA & 4) == 0) {
+        retval = c64_256k_DDA;
+    }
+    if (addr == 2 && (c64_256k_CRB & 4) == 4) {
+        retval = c64_256k_PRB;
+    }
+    if (addr == 2 && (c64_256k_CRB & 4) == 0) {
+      retval = c64_256k_DDB;
+    }
+
+  return retval;
+}
+
+static void REGPARM2 c64_256k_store(WORD addr, BYTE byte)
+{
+    BYTE old_prb;
+
+    if (addr == 1) {
+        c64_256k_CRA = byte & 0x3f;
+    }
+    if (addr == 3) {
+        c64_256k_CRB = byte & 0x3f;
+    }
+    if (addr == 0 && (c64_256k_CRA & 4) == 4) {
+        if (c64_256k_PRA != byte) {
+            c64_256k_PRA = byte;
+            c64_256k_segment0 = (c64_256k_PRA & 0xf);
+            c64_256k_segment1 = (c64_256k_PRA & 0xf0) >> 4;
+        }
+    }
+    if (addr == 0 && (c64_256k_CRA & 4) == 0) {
+        c64_256k_DDA = byte;
+    }
+    if (addr == 2 && (c64_256k_CRB & 4) == 4) {
+        if (c64_256k_PRB != byte) {
+            old_prb = c64_256k_PRB;
+            c64_256k_PRB = byte;
+            c64_256k_segment2 = (c64_256k_PRB & 0xf);
+            c64_256k_segment3 = (c64_256k_PRB & 0xf0) >> 4;
+            if ((old_prb & 0xc0) != (byte & 0xc0)) {
+                pia_set_vbank();
+            }
+        }
+    }
+    if (addr == 2 && (c64_256k_CRB & 4) == 0) {
+        c64_256k_DDB = byte;
+    }
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t c64_256k_device = {
+    "C64 256K",
+    IO_DETACH_RESOURCE,
+    "C64_256K",
+    0xdf80, 0xdfff, 0x7f,
+    1, /* read is always valid */
+    c64_256k_store,
+    c64_256k_read
+};
+
+static io_source_list_t *c64_256k_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 static int set_c64_256k_enabled(int val, void *param)
 {
     if (val == c64_256k_enabled) {
@@ -92,6 +179,8 @@ static int set_c64_256k_enabled(int val, void *param)
             return -1;
         }
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        c64io_unregister(c64_256k_list_item);
+        c64_256k_list_item = NULL;
         c64_256k_enabled = 0;
         return 0;
     } else {
@@ -104,6 +193,7 @@ static int set_c64_256k_enabled(int val, void *param)
             }
         }
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        c64_256k_list_item = c64io_register(&c64_256k_device);
         c64_256k_enabled = 1;
         return 0;
     }
@@ -143,16 +233,24 @@ static int set_c64_256k_base(int val, void *param)
         case 0xde80:
         case 0xdf00:
         case 0xdf80:
+            c64_256k_device.start_address = (WORD)val;
+            c64_256k_device.end_address = (WORD)(val + 0x7f);
             break;
         default:
             log_message(c64_256k_log, "Unknown 256K base %X.", val);
             return -1;
     }
 
+    if (c64_256k_enabled) {
+        c64io_unregister(c64_256k_list_item);
+        c64_256k_list_item = c64io_register(&c64_256k_device);
+    }
     c64_256k_start = val;
 
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
     { "C64_256Kfilename", "", RES_EVENT_NO, NULL,
@@ -249,13 +347,6 @@ void c64_256k_cia_set_vbank(int ciabank)
     mem_set_vbank(0);
 }
 
-void pia_set_vbank(void)
-{
-    video_bank_segment = ((c64_256k_PRB & 0xc0) >> 4) + cia_vbank;
-    vicii_set_ram_base(c64_256k_ram + (video_bank_segment * 0x4000));
-    mem_set_vbank(0);
-}
-
 static int c64_256k_activate(void)
 {
     c64_256k_ram = lib_realloc((void *)c64_256k_ram, (size_t)0x40000);
@@ -303,69 +394,6 @@ void c64_256k_shutdown(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-BYTE REGPARM1 c64_256k_read(WORD addr)
-{
-    BYTE retval = 0;
-
-    io_source = IO_SOURCE_C64_256K;
-    if (addr == 1) {
-        retval = c64_256k_CRA;
-    }
-    if (addr == 3) {
-        retval = c64_256k_CRB;
-    }
-    if (addr == 0 && (c64_256k_CRA & 4) == 4) {
-        retval = c64_256k_PRA;
-    }
-    if (addr == 0 && (c64_256k_CRA & 4) == 0) {
-        retval = c64_256k_DDA;
-    }
-    if (addr == 2 && (c64_256k_CRB & 4) == 4) {
-        retval = c64_256k_PRB;
-    }
-    if (addr == 2 && (c64_256k_CRB & 4) == 0) {
-      retval = c64_256k_DDB;
-    }
-
-  return retval;
-}
-
-void REGPARM2 c64_256k_store(WORD addr, BYTE byte)
-{
-    BYTE old_prb;
-
-    if (addr == 1) {
-        c64_256k_CRA = byte & 0x3f;
-    }
-    if (addr == 3) {
-        c64_256k_CRB = byte & 0x3f;
-    }
-    if (addr == 0 && (c64_256k_CRA & 4) == 4) {
-        if (c64_256k_PRA != byte) {
-            c64_256k_PRA = byte;
-            c64_256k_segment0 = (c64_256k_PRA & 0xf);
-            c64_256k_segment1 = (c64_256k_PRA & 0xf0) >> 4;
-        }
-    }
-    if (addr == 0 && (c64_256k_CRA & 4) == 0) {
-        c64_256k_DDA = byte;
-    }
-    if (addr == 2 && (c64_256k_CRB & 4) == 4) {
-        if (c64_256k_PRB != byte) {
-            old_prb = c64_256k_PRB;
-            c64_256k_PRB = byte;
-            c64_256k_segment2 = (c64_256k_PRB & 0xf);
-            c64_256k_segment3 = (c64_256k_PRB & 0xf0) >> 4;
-            if ((old_prb & 0xc0) != (byte & 0xc0)) {
-                pia_set_vbank();
-            }
-        }
-    }
-    if (addr == 2 && (c64_256k_CRB & 4) == 0) {
-        c64_256k_DDB = byte;
-    }
-}
 
 void REGPARM2 c64_256k_ram_segment0_store(WORD addr, BYTE value)
 {

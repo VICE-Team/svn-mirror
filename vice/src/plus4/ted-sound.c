@@ -48,6 +48,10 @@ int machine_sid2_check_range(unsigned int sid2_adr)
     return 0;
 }
 
+void machine_sid2_enable(int val)
+{
+}
+
 struct plus4_sound_s
 {
     /* Voice 0 collect number of cycles elapsed */

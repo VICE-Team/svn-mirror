@@ -33,21 +33,34 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "comal80.h"
 #include "types.h"
 
-static const c64export_resource_t export_res = {
-    "Comal-80", 1, 1
-};
-
-void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
+static void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
 {
     if (value >= 0x80 && value <= 0x83) {
         cartridge_romhbank_set(value & 3);
         cartridge_romlbank_set(value & 3);
     }
 }
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t comal80_device = {
+    "COMAL80",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    comal80_io1_store,
+    NULL
+};
+
+static io_source_list_t *comal80_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 void comal80_config_init(void)
 {
@@ -66,6 +79,12 @@ void comal80_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Comal-80", 1, 1
+};
 
 int comal80_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -89,10 +108,14 @@ int comal80_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    comal80_list_item = c64io_register(&comal80_device);
+
     return 0;
 }
 
 void comal80_detach(void)
 {
     c64export_remove(&export_res);
+    c64io_unregister(comal80_list_item);
+    comal80_list_item = NULL;
 }

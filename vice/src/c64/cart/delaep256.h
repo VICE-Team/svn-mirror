@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 delaep256_io1_read(WORD addr);
-extern void REGPARM2 delaep256_io1_store(WORD addr, BYTE value);
-
 extern void delaep256_config_init(void);
 extern void delaep256_config_setup(BYTE *rawcart);
 extern int delaep256_crt_attach(FILE *fd, BYTE *rawcart);

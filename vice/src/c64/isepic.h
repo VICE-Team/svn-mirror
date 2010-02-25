@@ -36,12 +36,8 @@ extern int isepic_resources_init(void);
 extern int isepic_cmdline_options_init(void);
 extern void isepic_freeze(void);
 
-extern BYTE REGPARM1 isepic_reg_read(WORD addr);
-extern void REGPARM2 isepic_reg_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 isepic_romh_read(WORD addr);
 extern void REGPARM2 isepic_romh_store(WORD addr, BYTE byte);
-extern BYTE REGPARM1 isepic_window_read(WORD addr);
-extern void REGPARM2 isepic_window_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 isepic_roml_read(WORD addr);
 extern void REGPARM2 isepic_roml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 isepic_1000_7fff_read(WORD addr);

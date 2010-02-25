@@ -43,15 +43,20 @@
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
+#include "dinamic.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "funplay.h"
 #include "generic.h"
+#include "gs.h"
 #include "ide64.h"
 #include "kcs.h"
+#include "magicdesk.h"
 #include "magicformel.h"
 #include "mikroass.h"
+#include "ocean.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
@@ -75,7 +80,7 @@ static const char STRING_EXPERT[] = "Expert Cartridge";
 
 int crt_attach(const char *filename, BYTE *rawcart)
 {
-    BYTE header[0x40], chipheader[0x10];
+    BYTE header[0x40];
     int rc, new_crttype;
     FILE *fd;
 
@@ -207,23 +212,32 @@ int crt_attach(const char *filename, BYTE *rawcart)
                 return -1;
             }
             break;
-        case CARTRIDGE_OCEAN:
-        case CARTRIDGE_GS:
         case CARTRIDGE_DINAMIC:
+            rc = dinamic_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_OCEAN:
+            rc = ocean_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_GS:
+            rc = gs_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
+            }
+            break;
         case CARTRIDGE_MAGIC_DESK:
-            while (1) {
-                if (fread(chipheader, 0x10, 1, fd) < 1) {
-                    fclose(fd);
-                    break;
-                }
-                if (chipheader[0xb] >= 64 || (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0)) {
-                    fclose(fd);
-                    return -1;
-                }
-                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-                    fclose(fd);
-                    return -1;
-                }
+            rc = magicdesk_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
             }
             break;
         case CARTRIDGE_EASYFLASH:
@@ -234,20 +248,10 @@ int crt_attach(const char *filename, BYTE *rawcart)
             }
             break;
         case CARTRIDGE_FUNPLAY:
-            while (1) {
-                if (fread(chipheader, 0x10, 1, fd) < 1) {
-                    fclose(fd);
-                    break;
-                }
-                if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
-                    fclose(fd);
-                    return -1;
-                }
-                if (fread(&rawcart[(((chipheader[0xb] >> 2) |
-                    (chipheader[0xb] & 1)) & 15) << 13], 0x2000, 1, fd) < 1) {
-                    fclose(fd);
-                    return -1;
-                }
+            rc = funplay_crt_attach(fd, rawcart);
+            fclose(fd);
+            if (rc < 0) {
+                return -1;
             }
             break;
         case CARTRIDGE_SUPER_GAMES:

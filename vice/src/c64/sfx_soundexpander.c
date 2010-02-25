@@ -51,9 +51,52 @@ int sfx_soundexpander_chip = 3526;
 static FM_OPL *YM3526_chip = NULL;
 static FM_OPL *YM3812_chip = NULL;
 
+/* ------------------------------------------------------------------------- */
+
+/* some prototypes are needed */
+static void REGPARM2 sfx_soundexpander_sound_store(WORD addr, BYTE value);
+static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr);
+static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr);
+
+static io_source_t sfx_soundexpander_sound_device = {
+    "SFX SOUND EXPANDER",
+    IO_DETACH_RESOURCE,
+    "SFXSoundExpander",
+    0xdf00, 0xdfff, 0x7f,
+    0,
+    sfx_soundexpander_sound_store,
+    sfx_soundexpander_sound_read
+};
+
+static io_source_t sfx_soundexpander_piano_device = {
+    "SFX SOUND EXPANDER",
+    IO_DETACH_RESOURCE,
+    "SFXSoundExpander",
+    0xdf00, 0xdfff, 0x1f,
+    0,
+    NULL,
+    sfx_soundexpander_piano_read
+};
+
+static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
+static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
 static int set_sfx_soundexpander_enabled(int val, void *param)
 {
-    sfx_soundexpander_enabled=val;
+    if (sfx_soundexpander_enabled != val) {
+        if (val) {
+            sfx_soundexpander_sound_list_item = c64io_register(&sfx_soundexpander_sound_device);
+            sfx_soundexpander_piano_list_item = c64io_register(&sfx_soundexpander_piano_device);
+        } else {
+            c64io_unregister(sfx_soundexpander_sound_list_item);
+            c64io_unregister(sfx_soundexpander_piano_list_item);
+            sfx_soundexpander_sound_list_item = NULL;
+            sfx_soundexpander_piano_list_item = NULL;
+        }
+    }
+    sfx_soundexpander_enabled = val;
     return 0;
 }
 
@@ -74,6 +117,8 @@ static int set_sfx_soundexpander_chip(int val, void *param)
     return 0;
 }
 
+/* ------------------------------------------------------------------------- */
+
 static const resource_int_t resources_int[] = {
     { "SFXSoundExpander", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sfx_soundexpander_enabled, set_sfx_soundexpander_enabled, NULL },
@@ -86,6 +131,8 @@ int sfx_soundexpander_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
+
+/* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] =
 {
@@ -202,34 +249,39 @@ void sfx_soundexpander_sound_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-void REGPARM2 sfx_soundexpander_sound_address_store(WORD addr, BYTE value)
+static void REGPARM2 sfx_soundexpander_sound_store(WORD addr, BYTE value)
 {
-    if (sfx_soundexpander_chip == 3812) {
-        ym3812_write(YM3812_chip, 0, value);
-    } else {
-        ym3526_write(YM3526_chip, 0, value);
+    if (addr == 0xdf40) {
+        if (sfx_soundexpander_chip == 3812) {
+            ym3812_write(YM3812_chip, 0, value);
+        } else {
+            ym3526_write(YM3526_chip, 0, value);
+        }
+    }
+    if (addr == 0xdf50) {
+        sound_store((WORD)0x60, value, 0);
     }
 }
 
-void REGPARM2 sfx_soundexpander_sound_register_store(WORD addr, BYTE value)
+static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr)
 {
-    sound_store((WORD)0x60, value, 0);
-}
+    BYTE value = 0;
 
-BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr)
-{
-  BYTE value;
+    sfx_soundexpander_sound_device.io_source_valid = 0;
 
-  io_source = IO_SOURCE_SFX_SE;
-  value=sound_read((WORD)0x60, 0);
-
-  return value;
+    if (addr == 0xdf60) {
+        sfx_soundexpander_sound_device.io_source_valid = 1;
+        value=sound_read((WORD)0x60, 0);
+    }
+    return value;
 }
 
 /* No piano keyboard is emulated currently, so we return 0xff */
-BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr)
+static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr)
 {
-  io_source = IO_SOURCE_SFX_SE;
-
+  sfx_soundexpander_piano_device.io_source_valid = 0;
+  if ((addr & 16) == 0 && (addr & 8) == 8) {
+      sfx_soundexpander_piano_device.io_source_valid = 1;
+  }
   return (BYTE)0xff;
 }

@@ -66,10 +66,6 @@
 #define IDE_TK0N 0x02
 #define IDE_AMNF 0x01
 
-static const c64export_resource_t export_res = {
-    "IDE64", 1, 1
-};
-
 /* Current IDE64 bank */
 static unsigned int current_bank;
 
@@ -138,6 +134,26 @@ static BYTE ide_identify[128] = {
     0x10, 0x00, 0x00, 0x40, 0x00, 0x00, 0x01, 0x01,
     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 ide64_io1_read(WORD addr);
+
+static io_source_t ide64_device = {
+    "IDE64",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    ide64_io1_store,
+    ide64_io1_read
+};
+
+static io_source_list_t *ide64_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 static void geometry_update(void)
 {
@@ -337,15 +353,15 @@ static int ide_seek_sector(void)
     return fseek(ide_disk, lba << 9, SEEK_SET);
 }
 
-BYTE REGPARM1 ide64_io1_read(WORD addr)
+static BYTE REGPARM1 ide64_io1_read(WORD addr)
 {
     int i;
 
-    io_source = IO_SOURCE_IDE64;
+    ide64_device.io_source_valid = 1;
 
     if (kill_port & 1) {
         if (addr >= 0xde5f) {
-            io_source = IO_SOURCE_NONE;
+            ide64_device.io_source_valid = 0;
             return vicii_read_phi1();
         }
     }
@@ -424,7 +440,7 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
             return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
         case 0x5f:
             if ((kill_port & 2) == 0) {
-                io_source = IO_SOURCE_NONE;
+                ide64_device.io_source_valid = 0;
                 return vicii_read_phi1();
             }
             i = vicii_read_phi1() & 0xfe;
@@ -433,7 +449,7 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
             ds1302_set_lines(ds1302_context, 1u, 1u, 1u);
             return i;
     }
-    io_source = IO_SOURCE_NONE;
+    ide64_device.io_source_valid = 0;
     return vicii_read_phi1();
 }
 
@@ -442,7 +458,7 @@ BYTE ide64_get_killport(void)
     return kill_port;
 }
 
-void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
+static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
 {
     if (kill_port & 1) {
         if (addr >= 0xde5f) {
@@ -699,6 +715,10 @@ void ide64_config_setup(BYTE *rawcart)
     cartridge_config_changed(4, 0, CMODE_READ);
 }
 
+static const c64export_resource_t export_res = {
+    "IDE64", 1, 1
+};
+
 void ide64_detach(void)
 {
     c64export_remove(&export_res);
@@ -711,6 +731,9 @@ void ide64_detach(void)
     if (ide_disk) {
         fclose(ide_disk);
     }
+
+    c64io_unregister(ide64_list_item);
+    ide64_list_item = NULL;
 #ifdef IDE64_DEBUG
     log_debug("IDE64 detached");
 #endif
@@ -843,7 +866,12 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    return ide64_common_attach();
+    if (ide64_common_attach() < 0) {
+        return -1;
+    }
+
+    c64io_register(&ide64_device);
+    return 0;
 }
 
 int ide64_crt_attach(FILE *fd, BYTE *rawcart)
@@ -864,5 +892,11 @@ int ide64_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-    return ide64_common_attach();
+
+    if (ide64_common_attach() < 0) {
+        return -1;
+    }
+
+    c64io_register(&ide64_device);
+    return 0;
 }

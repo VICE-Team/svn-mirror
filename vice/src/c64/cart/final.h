@@ -31,22 +31,13 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 final_v1_io1_read(WORD addr);
-extern void REGPARM2 final_v1_io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 final_v1_io2_read(WORD addr);
-extern void REGPARM2 final_v1_io2_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 final_v3_io1_read(WORD addr);
-extern void REGPARM2 final_v3_io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 final_v3_io2_read(WORD addr);
-extern void REGPARM2 final_v3_io2_store(WORD addr, BYTE value);
-
-extern BYTE REGPARM1 final_v1_roml_read(WORD addr);
-extern void REGPARM2 final_v1_roml_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 final_v3_roml_read(WORD addr);
-extern void REGPARM2 final_v3_roml_store(WORD addr, BYTE value);
-
 extern void final_v1_freeze(void);
 extern void final_v3_freeze(void);
+
+extern BYTE REGPARM1 final_v1_roml_read(WORD addr);
+extern BYTE REGPARM1 final_v3_roml_read(WORD addr);
+extern void REGPARM2 final_v1_roml_store(WORD addr, BYTE value);
+extern void REGPARM2 final_v3_roml_store(WORD addr, BYTE value);
 
 extern void final_v1_config_init(void);
 extern void final_v3_config_init(void);

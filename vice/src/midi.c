@@ -182,24 +182,8 @@ int midi_set_mode(int new_mode, void *param)
     return 0;
 }
 
-static int set_midi_enabled(int val, void *param)
-{
-    midi_enabled = val;
-    return 0;
-}
-
-static const resource_int_t resources_int[] = {
-    { "MIDIEnable", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &midi_enabled, set_midi_enabled, NULL },
-    { NULL }
-};
-
 int midi_resources_init(void)
 {
-    if (resources_register_int(resources_int) < 0) {
-        return -1;
-    }
-
     return mididrv_resources_init();
 }
 

@@ -33,21 +33,70 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
-#include "machine.h"
-#include "types.h"
-#include "util.h"
-#include "vicii-phi1.h"
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rom.h"
+#include "machine.h"
 #include "resources.h"
-
-static const c64export_resource_t export_res = {
-    "StarDOS", 1, 1
-};
+#include "types.h"
+#include "util.h"
+#include "vicii-phi1.h"
 
 static BYTE stardos_kernal[C64_KERNAL_ROM_SIZE];
 static int cnt_de61, cnt_dfa1;
+
+/* ---------------------------------------------------------------------*/
+
+static BYTE REGPARM1 stardos_io1_read(WORD addr)
+{
+    ++cnt_de61;
+    if (cnt_de61 > 0xff) {
+        /* enable bank 0 at $8000 */
+        cartridge_config_changed(0, 0, CMODE_READ);
+        cnt_dfa1 = 0;
+    }
+
+    return 0;
+} 
+
+static BYTE REGPARM1 stardos_io2_read(WORD addr)
+{
+    ++cnt_dfa1;
+    if (cnt_dfa1 > 0xff) {
+        /* disable bank 0 at $8000 */
+        cartridge_config_changed(2, 2, CMODE_READ);
+        cnt_de61 = 0;
+    }
+    
+    return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t stardos_io1_device = {
+    "STARDOS",
+    IO_DETACH_CART,
+    NULL,
+    0xde61, 0xde61, 0x01,
+    0, /* read is never valid */
+    NULL,
+    stardos_io1_read
+};
+
+static io_source_t stardos_io2_device = {
+    "STARDOS",
+    IO_DETACH_CART,
+    NULL,
+    0xdfa1, 0xdfa1, 0x01,
+    0, /* read is never valid */
+    NULL,
+    stardos_io2_read
+};
+
+static io_source_list_t *stardos_io1_list_item = NULL;
+static io_source_list_t *stardos_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 /*  the stardos hardware is kindof perverted. it has two "registers", which
     are nothing more than the IO1 and/or IO2 line connected to a capacitor.
@@ -80,33 +129,7 @@ void stardos_remove_kernal(void)
     c64rom_load_kernal(rom_name, NULL);
 }
 
-BYTE REGPARM1 stardos_io1_read(WORD addr)
-{
-    if (addr == 0xde61) {
-        ++cnt_de61;
-        if (cnt_de61 > 0xff) {
-            /* enable bank 0 at $8000 */
-            cartridge_config_changed(0, 0, CMODE_READ);
-            cnt_dfa1 = 0;
-        }
-    }
-    
-    return vicii_read_phi1();
-} 
-
-BYTE REGPARM1 stardos_io2_read(WORD addr)
-{
-    if (addr == 0xdfa1) {
-        ++cnt_dfa1;
-        if (cnt_dfa1 > 0xff) {
-            /* disable bank 0 at $8000 */
-            cartridge_config_changed(2, 2, CMODE_READ);
-            cnt_de61 = 0;
-        }
-    }
-    
-    return vicii_read_phi1();
-}
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 stardos_roml_read(WORD addr)
 {
@@ -120,6 +143,8 @@ void stardos_config_init(void)
     cnt_dfa1 = 0;
     cartridge_config_changed(2, 2, CMODE_READ);
 }
+
+/* ---------------------------------------------------------------------*/
 
 /* not sure, the original hardware doesn't work like this.
    should probably be left out unless it will cause problems */
@@ -139,17 +164,31 @@ void stardos_config_setup(BYTE *rawcart)
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "StarDOS", 1, 1
+};
+
+static int stardos_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    stardos_io1_list_item = c64io_register(&stardos_io1_device);
+    stardos_io2_list_item = c64io_register(&stardos_io2_device);
+
+    return 0;
+}
+
 int stardos_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return stardos_common_attach();
 }
 
 int stardos_crt_attach(FILE *fd, BYTE *rawcart)
@@ -172,15 +211,15 @@ int stardos_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return stardos_common_attach();
 }
 
 void stardos_detach(void)
 {
     stardos_remove_kernal();
     c64export_remove(&export_res);
+    c64io_unregister(stardos_io1_list_item);
+    c64io_unregister(stardos_io2_list_item);
+    stardos_io1_list_item = NULL;
+    stardos_io2_list_item = NULL;
 }

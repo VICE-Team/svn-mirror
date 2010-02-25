@@ -84,6 +84,8 @@ struct sid_snapshot_state_s;
 #define SID_RESIDFP_8580R5_1489   ((SID_ENGINE_RESID_FP << 8) | SID_MODEL_8580R5_1489)
 #define SID_RESIDFP_8580R5_1489D  ((SID_ENGINE_RESID_FP << 8) | SID_MODEL_8580R5_1489D)
 
+extern void machine_sid2_enable(int val);
+
 extern BYTE REGPARM1 sid_read(WORD address);
 extern BYTE REGPARM1 sid2_read(WORD address);
 extern void REGPARM2 sid_store(WORD address, BYTE byte);

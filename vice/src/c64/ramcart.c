@@ -112,8 +112,6 @@ static log_t ramcart_log = LOG_ERR;
 static int ramcart_activate(void);
 static int ramcart_deactivate(void);
 
-/* ------------------------------------------------------------------------- */
-
 /* Flag: Do we enable the external RAMCART?  */
 int ramcart_enabled;
 
@@ -129,6 +127,72 @@ static int ramcart_size_kb = 0;
 /* Filename of the RAMCART image.  */
 static char *ramcart_filename = NULL;
 
+/* ------------------------------------------------------------------------- */
+
+static BYTE REGPARM1 ramcart_reg_read(WORD addr)
+{
+    BYTE retval;
+
+    if (addr == 1 && ramcart_size_kb == 128) {
+        retval = vicii_read_phi1() & 0x7e;
+        retval += ramcart[addr];
+    } else {
+      retval = ramcart[addr];
+    }
+
+    return retval;
+}
+
+static void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
+{
+    if (addr == 1 && ramcart_size_kb == 128) {
+        ramcart[1] = byte & 0x81;
+    }
+    if (addr == 0) {
+        ramcart[0] = byte;
+    }
+}
+
+static BYTE REGPARM1 ramcart_window_read(WORD addr)
+{
+    BYTE retval;
+
+    retval = ramcart_ram[((ramcart[1] & 1) << 16) + (ramcart[0] * 256) + (addr & 0xff)];
+
+    return retval;
+}
+
+static void REGPARM2 ramcart_window_store(WORD addr, BYTE byte)
+{
+    ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)] = byte;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static io_source_t ramcart_io1_device = {
+    "RAMCART",
+    IO_DETACH_RESOURCE,
+    "RAMCART",
+    0xde00, 0xdeff, 0x01,
+    1, /* read is always valid */
+    ramcart_reg_store,
+    ramcart_reg_read
+};
+
+static io_source_t ramcart_io2_device = {
+    "RAMCART",
+    IO_DETACH_RESOURCE,
+    "RAMCART",
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    ramcart_window_store,
+    ramcart_window_read
+};
+
+static io_source_list_t *ramcart_io1_list_item = NULL;
+static io_source_list_t *ramcart_io2_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
 
 void ramcart_init_config(void)
 {
@@ -145,6 +209,10 @@ static int set_ramcart_enabled(int val, void *param)
             if (ramcart_deactivate() < 0) {
                 return -1;
             }
+            c64io_unregister(ramcart_io1_list_item);
+            c64io_unregister(ramcart_io2_list_item);
+            ramcart_io1_list_item = NULL;
+            ramcart_io2_list_item = NULL;
         }
         c64export_remove(&export_res);
         ramcart_enabled = 0;
@@ -157,6 +225,8 @@ static int set_ramcart_enabled(int val, void *param)
                 if (ramcart_activate() < 0) {
                     return -1;
                 }
+                ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
+                ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
             }
 
             if (c64export_add(&export_res) < 0) {
@@ -229,6 +299,8 @@ static int set_ramcart_filename(const char *name, void *param)
 
     return 0;
 }
+
+/* ------------------------------------------------------------------------- */
 
 static const resource_string_t resources_string[] = {
     { "RAMCARTfilename", "", RES_EVENT_NO, NULL,
@@ -367,32 +439,6 @@ void ramcart_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 ramcart_reg_read(WORD addr)
-{
-    BYTE retval;
-
-    io_source = IO_SOURCE_RAMCART;
-
-    if (addr == 1 && ramcart_size_kb == 128) {
-        retval = vicii_read_phi1() & 0x7e;
-        retval += ramcart[addr];
-    } else {
-      retval = ramcart[addr];
-    }
-
-    return retval;
-}
-
-void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
-{
-    if (addr == 1 && ramcart_size_kb == 128) {
-        ramcart[1] = byte & 0x81;
-    }
-    if (addr == 0) {
-        ramcart[0] = byte;
-    }
-}
-
 BYTE REGPARM1 ramcart_roml_read(WORD addr)
 {
     if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
@@ -426,19 +472,4 @@ void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
         return;
     }
     mem_ram[addr] = byte;
-}
-
-BYTE REGPARM1 ramcart_window_read(WORD addr)
-{
-    BYTE retval;
-
-    io_source = IO_SOURCE_RAMCART;
-    retval = ramcart_ram[((ramcart[1] & 1) << 16) + (ramcart[0] * 256) + (addr & 0xff)];
-
-    return retval;
-}
-
-void REGPARM2 ramcart_window_store(WORD addr, BYTE byte)
-{
-    ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)] = byte;
 }

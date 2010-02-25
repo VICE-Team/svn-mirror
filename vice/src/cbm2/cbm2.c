@@ -81,8 +81,6 @@
 #include "video.h"
 #include "vsync.h"
 
-int io_source;
-
 machine_context_t machine_context;
 
 /* beos dummy for the generally used cart function in ui_file.cc */

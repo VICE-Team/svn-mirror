@@ -31,9 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 mikroass_io1_read(WORD addr);
-extern BYTE REGPARM1 mikroass_io2_read(WORD addr);
-
 extern void mikroass_config_init(void);
 extern void mikroass_config_setup(BYTE *rawcart);
 extern int mikroass_crt_attach(FILE *fd, BYTE *rawcart);

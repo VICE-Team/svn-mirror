@@ -31,8 +31,6 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 rex_io2_read(WORD addr);
-
 extern void rex_config_init(void);
 extern void rex_config_setup(BYTE *rawcart);
 extern int rex_crt_attach(FILE *fd, BYTE *rawbyte);

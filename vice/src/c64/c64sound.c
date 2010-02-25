@@ -29,35 +29,107 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c64io.h"
 #include "digimax.h"
 #include "machine.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "sid.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "types.h"
+
+static BYTE REGPARM1 machine_sid2_read(WORD addr)
+{
+    return sid2_read(addr);
+}
+
+
+static void REGPARM2 machine_sid2_store(WORD addr, BYTE byte)
+{
+    sid2_store(addr, byte);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t stereo_sid_device = {
+    "STEREO SID",
+    IO_DETACH_RESOURCE,
+    "SidStereo",
+    0xde00, 0xde1f, 0x1f,
+    1, /* read is always valid */
+    machine_sid2_store,
+    machine_sid2_read
+};
+
+static io_source_list_t *stereo_sid_list_item = NULL;
+
+/* current config, NULL if not in the range of $de00-$dfff */
+static io_source_t *current_device = NULL;
+
+/* ---------------------------------------------------------------------*/
 
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
     if (machine_class == VICE_MACHINE_C128) {
         if (sid2_adr >= 0xd420 && sid2_adr <= 0xd4e0) {
+            if (stereo_sid_list_item != NULL) {
+                c64io_unregister(stereo_sid_list_item);
+                stereo_sid_list_item = NULL;
+            }
+            current_device = NULL;
             return 0;
         }
 
         if (sid2_adr >= 0xd700 && sid2_adr <= 0xd7e0) {
+            if (stereo_sid_list_item != NULL) {
+                c64io_unregister(stereo_sid_list_item);
+                stereo_sid_list_item = NULL;
+            }
+            current_device = NULL;
             return 0;
         }
     } else {
         if (sid2_adr >= 0xd420 && sid2_adr <= 0xd7e0) {
+            if (stereo_sid_list_item != NULL) {
+                c64io_unregister(stereo_sid_list_item);
+                stereo_sid_list_item = NULL;
+            }
+            current_device = NULL;
             return 0;
         }
     }
 
     if (sid2_adr >= 0xde00 && sid2_adr <= 0xdfe0) {
+        stereo_sid_device.start_address = sid2_adr;
+        stereo_sid_device.end_address = sid2_adr + 0x1f;
+        current_device = &stereo_sid_device;
+        if (stereo_sid_list_item != NULL) {
+            c64io_unregister(stereo_sid_list_item);
+            stereo_sid_list_item = c64io_register(&stereo_sid_device);
+        } else {
+            if (sid_stereo) {
+                stereo_sid_list_item = c64io_register(&stereo_sid_device);
+            }
+        }
         return 0;
     }
 
     return -1;
+}
+
+void machine_sid2_enable(int val)
+{
+    if (val) {
+        if (current_device != NULL) {
+            stereo_sid_list_item = c64io_register(&stereo_sid_device);
+        }
+    } else {
+        if (stereo_sid_list_item != NULL) {
+            c64io_unregister(stereo_sid_list_item);
+            stereo_sid_list_item = NULL;
+        }
+    }
 }
 
 sound_t *sound_machine_open(int chipno)

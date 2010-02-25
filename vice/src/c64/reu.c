@@ -229,6 +229,24 @@ static unsigned int reu_int_num;
 
 /* ------------------------------------------------------------------------- */
 
+/* some prototypes are needed */
+static void REGPARM2 reu_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 reu_read(WORD addr);
+
+static io_source_t reu_device = {
+    "REU",
+    IO_DETACH_RESOURCE,
+    "REU",
+    0xdf00, 0xdfff, 0xff,
+    0,
+    reu_store,
+    reu_read
+};
+
+static io_source_list_t *reu_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
 /*! \brief Flag: Is the external REU enabled?  */
 int reu_enabled;
 
@@ -260,6 +278,8 @@ static int set_reu_enabled(int val, void *param)
             if (reu_deactivate() < 0) {
                 return -1;
             }
+            c64io_unregister(reu_list_item);
+            reu_list_item = NULL;
         }
         reu_enabled = 0;
         return 0;
@@ -268,6 +288,7 @@ static int set_reu_enabled(int val, void *param)
             if (reu_activate() < 0) {
                 return -1;
             }
+            reu_list_item = c64io_register(&reu_device);
         }
 
         reu_enabled = 1;
@@ -716,14 +737,16 @@ static void reu_store_without_sideeffects(WORD addr, BYTE byte)
   \return
     The value the register has
 */
-BYTE REGPARM1 reu_read(WORD addr)
+static BYTE REGPARM1 reu_read(WORD addr)
 {
     BYTE retval = 0xff;
 
     addr &= 0xff;
 
+    reu_device.io_source_valid = 0;
+
     if (addr < rec_options.first_unused_register_address) {
-        io_source = IO_SOURCE_REU;
+        reu_device.io_source_valid = 1;
 
         retval = reu_read_without_sideeffects(addr);
 
@@ -754,7 +777,7 @@ BYTE REGPARM1 reu_read(WORD addr)
   \param byte
     The value to set the register to
 */
-void REGPARM2 reu_store(WORD addr, BYTE byte)
+static void REGPARM2 reu_store(WORD addr, BYTE byte)
 {
     addr &= 0xff;
 

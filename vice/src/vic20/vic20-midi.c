@@ -40,7 +40,15 @@ midi_interface_t midi_interface[] = {
     { NULL },
 };
 
+static int set_midi_enabled(int val, void *param)
+{
+    midi_enabled = val;
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
+    { "MIDIEnable", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &midi_enabled, set_midi_enabled, NULL },
     { "MIDIMode", MIDI_MODE_MAPLIN, RES_EVENT_NO, NULL,
       &midi_mode, midi_set_mode, NULL },
     { NULL }

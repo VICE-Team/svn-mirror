@@ -30,9 +30,12 @@
 #include <string.h>
 
 #include "c64-resources.h"
+#include "c64acia.h"
 #include "c64cart.h"
+#include "c64io.h"
 #include "c64rom.h"
 #include "cartridge.h"
+#include "emuid.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -77,6 +80,23 @@ int emu_id_enabled;
 int acia_de_enabled;
 #endif
 
+static BYTE REGPARM1 emu_id_read(WORD address)
+{
+    return emuid_read((WORD)(address - 0xdfa0));
+}
+
+static io_source_t emu_id_device = {
+    "EMU ID",
+    IO_DETACH_RESOURCE,
+    "EmuID",
+    0xdfa0, 0xdfff, 0xff,
+    1, /* read is always valid */
+    NULL,
+    emu_id_read
+};
+
+static io_source_list_t *emu_id_list_item = NULL;
+
 static int set_chargen_rom_name(const char *val, void *param)
 {
     if (util_string_set(&chargen_rom_name, val)) {
@@ -107,13 +127,16 @@ static int set_basic_rom_name(const char *val, void *param)
 
 static int set_emu_id_enabled(int val, void *param)
 {
-    if (!val) {
-        emu_id_enabled = 0;
-        return 0;
-    } else {
-        emu_id_enabled = 1;
-        return 0;
+    if (val != emu_id_enabled) {
+        if (!val) {
+            c64io_unregister(emu_id_list_item);
+            emu_id_list_item = NULL;
+        } else {
+            emu_id_list_item = c64io_register(&emu_id_device);
+        }
+        emu_id_enabled = val;
     }
+    return 0;
 }
 
 /* FIXME: Should patch the ROM on-the-fly.  */
@@ -126,7 +149,14 @@ static int set_kernal_revision(const char *val, void *param)
 #ifdef HAVE_RS232
 static int set_acia_de_enabled(int val, void *param)
 {
-    acia_de_enabled = val;
+    if (val != acia_de_enabled) {
+        if (val) {
+            acia1_enable();
+        } else {
+            acia1_disable();
+        }
+        acia_de_enabled = val;
+    }
     return 0;
 }
 #endif

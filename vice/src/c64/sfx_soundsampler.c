@@ -41,11 +41,43 @@
 #include "uiapi.h"
 #include "translate.h"
 
+static BYTE sfx_soundsampler_sound_data;
+
+static void REGPARM2 sfx_soundsampler_sound_store(WORD addr, BYTE value)
+{
+    sfx_soundsampler_sound_data = value;
+    sound_store((WORD)0x40, value, 0);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static io_source_t sfx_soundsampler_device = {
+    "SFX SOUND SAMPLER",
+    IO_DETACH_RESOURCE,
+    "SFXSoundSampler",
+    0xde00, 0xdeff, 0x01,
+    0,
+    sfx_soundsampler_sound_store,
+    NULL
+};
+
+static io_source_list_t *sfx_soundsampler_list_item = NULL;
+
+/* ------------------------------------------------------------------------- */
+
 /* Flag: Do we enable the SFX soundsampler cartridge?  */
 int sfx_soundsampler_enabled;
 
 static int set_sfx_soundsampler_enabled(int val, void *param)
 {
+    if (sfx_soundsampler_enabled != val) {
+        if (val) {
+            sfx_soundsampler_list_item = c64io_register(&sfx_soundsampler_device);
+        } else {
+            c64io_unregister(sfx_soundsampler_list_item);
+            sfx_soundsampler_list_item = NULL;
+        }
+    }
     sfx_soundsampler_enabled = val;
     return 0;
 }
@@ -82,8 +114,6 @@ int sfx_soundsampler_cmdline_options_init(void)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static BYTE sfx_soundsampler_sound_data;
 
 struct sfx_soundsampler_sound_s
 {
@@ -125,12 +155,4 @@ void sfx_soundsampler_sound_reset(void)
 {
     snd.voice0 = 0;
     sfx_soundsampler_sound_data = 0;
-}
-
-/* ---------------------------------------------------------------------*/
-
-void REGPARM2 sfx_soundsampler_sound_store(WORD addr, BYTE value)
-{
-    sfx_soundsampler_sound_data = value;
-    sound_store((WORD)0x40, value, 0);
 }

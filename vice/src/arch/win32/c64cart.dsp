@@ -130,6 +130,10 @@ SOURCE="..\..\c64\cart\delaep7x8.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\dinamic.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\easyflash.c"
 # End Source File
 # Begin Source File
@@ -146,7 +150,15 @@ SOURCE="..\..\c64\cart\final.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\funplay.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\generic.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\gs.c"
 # End Source File
 # Begin Source File
 
@@ -158,11 +170,19 @@ SOURCE="..\..\c64\cart\kcs.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\magicdesk.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\magicformel.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\c64\cart\mikroass.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\ocean.c"
 # End Source File
 # Begin Source File
 

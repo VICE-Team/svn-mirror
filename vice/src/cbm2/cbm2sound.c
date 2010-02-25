@@ -41,6 +41,10 @@ int machine_sid2_check_range(unsigned int sid2_adr)
     return -1;
 }
 
+void machine_sid2_enable(int val)
+{
+}
+
 sound_t *sound_machine_open(int chipno)
 {
     return sid_sound_machine_open(chipno);

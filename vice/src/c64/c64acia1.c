@@ -59,11 +59,38 @@
 
 #include "aciacore.c"
 
-BYTE REGPARM1 acia1_read(WORD addr)
+/* a prototype is needed */
+static BYTE REGPARM1 acia1_read(WORD addr);
+
+static io_source_t acia_de_device = {
+    "ACIA/SWIFTLINK/TURBO232",
+    IO_DETACH_RESOURCE,
+    "Acia1Enable",
+    0xde00, 0xde07, 0x07,
+    0,
+    acia1_store,
+    acia1_read
+};
+
+static io_source_list_t *acia_de_list_item = NULL;
+
+void acia1_enable(void)
 {
+    acia_de_list_item = c64io_register(&acia_de_device);
+}
+
+void acia1_disable(void)
+{
+    c64io_unregister(acia_de_list_item);
+    acia_de_list_item = NULL;
+}
+
+static BYTE REGPARM1 acia1_read(WORD addr)
+{
+    acia_de_device.io_source_valid = 0;
     if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
         return 0;
     }
-    io_source = IO_SOURCE_ACIA;
+    acia_de_device.io_source_valid = 1;
     return myacia_read(addr);
 }

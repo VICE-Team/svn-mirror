@@ -143,11 +143,14 @@ static int set_sid_filters_enabled(int val, void *param)
 
 static int set_sid_stereo(int val, void *param)
 {
-    if (machine_class != VICE_MACHINE_C64DTV) {
-        sid_stereo = val;
-        sound_state_changed = 1;
-    } else {
+    if (machine_class == VICE_MACHINE_C64DTV) {
         sid_stereo = 0;
+    } else {
+        if (val != sid_stereo) {
+            sid_stereo = val;
+            sound_state_changed = 1;
+            machine_sid2_enable(val);
+        }
     }
     return 0;
 }
