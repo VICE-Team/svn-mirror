@@ -861,8 +861,8 @@ x64dtv-all: \
 x128_libs =  \
 	@X128_WINRES@ \
 	$(c128_lib) \
-	$(c64c128_lib) \
 	$(c64cart_lib) \
+	$(c64c128_lib) \
 	$(driveiec_lib) \
 	$(driveiec128dcr_lib) \
 	$(driveiecieee_lib) \
