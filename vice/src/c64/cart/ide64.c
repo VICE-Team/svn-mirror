@@ -78,9 +78,6 @@ static rtc_ds1302_t *ds1302_context = NULL;
 /*  */
 static BYTE kill_port;
 
-/*  */
-static unsigned int clock_address;
-
 /* IDE registers */
 static BYTE ide_error;
 static BYTE ide_features;
