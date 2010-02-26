@@ -1498,7 +1498,7 @@ void tfe_clockport_changed(void)
             tfe_current_device = &rrnet_io1_retroreplay_device;
         }
         if (tfe_current_device == NULL) {
-            tfe_current_device = &tfe_io1_device;
+            tfe_current_device = &rrnet_io1_device;
         }
 
         /* if adapter is already enabled then reset the LAN chip */
@@ -1762,7 +1762,7 @@ static int set_tfe_rr_net(int val, void *param)
                     tfe_current_device = &rrnet_io1_retroreplay_device;
                 }
                 if (tfe_current_device == NULL) {
-                    tfe_current_device = &tfe_io1_device;
+                    tfe_current_device = &rrnet_io1_device;
                 }
 
                 /* if adapter is already enabled then reset the LAN chip */
