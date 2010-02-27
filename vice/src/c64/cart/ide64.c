@@ -745,7 +745,7 @@ static int ide64_common_attach(void)
     if (ds1302_context != NULL) {
         ds1302_destroy(ds1302_context);
     }
-    ds1302_context = ds1302_init(ide64_DS1302, &rtc_offset);
+    ds1302_context = ds1302_init((BYTE)ide64_DS1302, &rtc_offset);
     ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
 
     ide_disk = fopen(ide64_image_file, MODE_READ_WRITE);

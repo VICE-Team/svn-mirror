@@ -145,7 +145,7 @@ BYTE REGPARM1 c64io1_read(WORD addr)
     io_source_list_t *current = &c64io1_head;
     int io_source_counter = 0;
     BYTE real_retval;
-    BYTE retval;
+    BYTE retval = 0;
 
     vicii_handle_pending_alarms_external(0);
 
@@ -198,7 +198,7 @@ BYTE REGPARM1 c64io2_read(WORD addr)
     io_source_list_t *current = &c64io2_head;
     int io_source_counter = 0;
     BYTE real_retval;
-    BYTE retval;
+    BYTE retval = 0;
 
     vicii_handle_pending_alarms_external(0);
 
