@@ -149,13 +149,8 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 
     vicii_handle_pending_alarms_external(0);
 
-    if (current->next == NULL) {
-        return vicii_read_phi1();
-    }
-
-    current = current->next;
-
-    while (1) {
+    while (current->next) {
+        current = current->next;
         if (current->device->read != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
                 retval = current->device->read((WORD)(addr & current->device->address_mask));
@@ -167,10 +162,6 @@ BYTE REGPARM1 c64io1_read(WORD addr)
                 current->device->io_source_valid = 0;
             }
         }
-        if (current->next == NULL) {
-            break;
-        }
-        current = current->next;
     }
 
     if (io_source_counter == 0) {
@@ -192,21 +183,13 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
 
     vicii_handle_pending_alarms_external_write();
 
-    if (current->next == NULL) {
-        return;
-    }
-    current = current->next;
-
-    while (1) {
+    while (current->next) {
+        current = current->next;
         if (current->device->store != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
                 current->device->store((WORD)(addr & current->device->address_mask), value);
             }
         }
-        if (current->next == NULL) {
-            break;
-        }
-        current = current->next;
     }
 }
 
@@ -219,13 +202,8 @@ BYTE REGPARM1 c64io2_read(WORD addr)
 
     vicii_handle_pending_alarms_external(0);
 
-    if (current->next == NULL) {
-        return vicii_read_phi1();
-    }
-
-    current = current->next;
-
-    while (1) {
+    while (current->next) {
+        current = current->next;
         if (current->device->read != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
                 retval = current->device->read((WORD)(addr & current->device->address_mask));
@@ -237,10 +215,6 @@ BYTE REGPARM1 c64io2_read(WORD addr)
                 current->device->io_source_valid = 0;
             }
         }
-        if (current->next == NULL) {
-            break;
-        }
-        current = current->next;
     }
 
     if (io_source_counter == 0) {
@@ -262,21 +236,13 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
 
     vicii_handle_pending_alarms_external_write();
 
-    if (current->next == NULL) {
-        return;
-    }
-    current = current->next;
-
-    while (1) {
+    while (current->next) {
+        current = current->next;
         if (current->device->store != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
                 current->device->store((WORD)(addr & current->device->address_mask), value);
             }
         }
-        if (current->next == NULL) {
-            break;
-        }
-        current = current->next;
     }
 }
 
