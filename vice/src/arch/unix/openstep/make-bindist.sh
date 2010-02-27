@@ -24,10 +24,15 @@ then
   exit 1
 fi
 
+curdir=`pwd
+if [ ! -e VICE-$VICEVERSION ]
+then
+  echo "Error: no install directory is present, do the following:"
+  echo "gnumake -e prefix=$curdir/VICE-$VICEVERSION/usr/local  VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install"
+  exit 1
+fi
+
 echo Generating OpenStep port binary distribution.
-rm -f -r VICE-$VICEVERSION
-curdir=`pwd`
-gnumake -e prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install
 $STRIP VICE-$VICEVERSION/usr/local/bin/x64
 $STRIP VICE-$VICEVERSION/usr/local/bin/x64dtv
 $STRIP VICE-$VICEVERSION/usr/local/bin/x128
@@ -39,10 +44,10 @@ $STRIP VICE-$VICEVERSION/usr/local/bin/c1541
 $STRIP VICE-$VICEVERSION/usr/local/bin/petcat
 $STRIP VICE-$VICEVERSION/usr/local/bin/cartconv
 if test x"$ZIPKIND" = "xzip"; then
-  /NextAdmin/Installer.App/package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/openstep/vice.info
+  /NextAdmin/Installer.app/package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/openstep/vice.info
   file >/tmp/vice.tmp VICE-$VICEVERSION/usr/local/bin/x64
-  i386_found=`fgrep i386 /tmp/vice.tmp`
-  m68k_found='fgrep m68k /tmp/vice.tmp`
+  i386_found=`fgrep 86 /tmp/vice.tmp`
+  m68k_found=`fgrep m68k /tmp/vice.tmp`
   sparc_found=`fgrep sparc /tmp/vice.tmp`
   hppa_found=`fgrep hppa /tmp/vice.tmp`
 
@@ -52,16 +57,16 @@ if test x"$ZIPKIND" = "xzip"; then
     PLATFORMS="N"
   fi
 
-  if test x"$i386_found" != "x"; then
-    PLATFORMS="$PLATFORMSI"
+  if test x"$i386_found" != "x" -o x"$i486_found" != "x" -o x"$i586_found" != "x"; then
+    PLATFORMS="$PLATFORMS""I"
   fi
 
   if test x"$hppa_found" != "x"; then
-    PLATFORMS="$PLATFORMSH"
+    PLATFORMS="$PLATFORMS""H"
   fi
 
   if test x"$sparc_found" != "x"; then
-    PLATFORMS="$PLATFORMSS"
+    PLATFORMS="$PLATFORMS""S"
   fi
 
   tar -cvf - vice.pkg | gzip -9c > VICE-$VICEVERSION-OS-$PLATFORMS.tar.gz
