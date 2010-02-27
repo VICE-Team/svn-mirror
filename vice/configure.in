@@ -2081,7 +2081,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
               "-lcurses",)
     fi
 
-    if text "$ac_cv_lib_readline_readline" = "yes"; then
+    if test "$ac_cv_lib_readline_readline" = "yes"; then
       AC_CHECK_LIB(readline, rl_readline_name,
              [ AC_DEFINE(HAVE_RLNAME,,
              [Does the `readline' library support `rl_readline_name'?]) ],,)
