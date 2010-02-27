@@ -29,7 +29,7 @@
 
 #include "vice.h"
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 
 #include "mouse.h"
 #include "mousedrv.h"

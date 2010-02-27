@@ -33,7 +33,7 @@
 
 #include "types.h"
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 
 #include "uimenu.h"
 

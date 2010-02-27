@@ -27,7 +27,7 @@
 #ifndef VICE_KBD_H
 #define VICE_KBD_H
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 #include "uimenu.h"
 
 extern void kbd_arch_init(void);

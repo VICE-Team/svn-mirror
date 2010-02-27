@@ -189,6 +189,7 @@ noinst_HEADERS = \
 	rs232drv.h \
 	rsuser.h \
 	screenshot.h \
+	SDL_include.h \
 	serial.h \
 	signals.h \
 	snapshot.h \

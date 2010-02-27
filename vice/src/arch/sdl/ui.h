@@ -29,7 +29,7 @@
 
 #include "vice.h"
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 
 #include "types.h"
 #include "uiapi.h"

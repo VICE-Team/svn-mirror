@@ -35,7 +35,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <pwd.h>
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>

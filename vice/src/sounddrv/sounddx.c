@@ -39,7 +39,8 @@
 #include <dsound.h>
 
 #ifdef USE_SDLUI
-#include <SDL/SDL_syswm.h>
+#define INCLUDE_SDL_SYSWM_H
+#include "SDL_include.h"
 #endif
 
 #include "lib.h"

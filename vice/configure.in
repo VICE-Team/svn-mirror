@@ -1536,9 +1536,21 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
 
         AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                          [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
+                          use_sdl_prefix=yes;
+                          AC_DEFINE(USE_SDL_PREFIX,,[Enable sdl prefix for header inclusion.])
                           AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])],
                          [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
                          [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+
+        if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
+            unset ac_cv_lib_SDL_SDL_OpenAudio
+            AC_CHECK_HEADERS(SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
+                             [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
+                              use_sdl_prefix=no;
+                              AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])],
+                             [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
+                             [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+        fi
 
         if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes"; then
             with_sdlsound=no
@@ -1548,9 +1560,20 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
 
         if test x"$enable_sdlui" = "xyes"; then
             AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
-                             [AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])],
+                             [use_sdl_prefix=yes;
+                              AC_DEFINE(USE_SDL_PREFIX,,[Enable sdl prefix for header inclusion.])
+                              AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+
+            if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
+                unset ac_cv_lib_SDL_SDL_SetVideoMode
+                AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
+                                 [use_sdl_prefix=no;
+                                  AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])],
+                                 [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
+                                 [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
+            fi
 
             if test x"$ac_cv_lib_SDL_SDL_SetVideoMode" != "xyes"; then
                 AC_MSG_ERROR([SDL headers and/or libraries missing])
@@ -1569,18 +1592,15 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
 
             old_LIBS="$LIBS"
             LIBS="$LIBS -lGL"
-            AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
-                        [glViewport(1,2,3,4)],
-                        [AC_MSG_RESULT(yes);
-                         have_opengl_lib=yes],
-                        [AC_MSG_RESULT(no);
-                         LIBS="$old_LIBS"])
-
-            if test x"$have_opengl_lib" != "xyes"; then
-                AC_MSG_CHECKING(whether we can use the opengl32 library)
-                old_LIBS="$LIBS"
-                LIBS="$LIBS -lopengl32"
+            if test x"$use_sdl_prefix" = "xyes"; then
                 AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
+                            [glViewport(1,2,3,4)],
+                            [AC_MSG_RESULT(yes);
+                             have_opengl_lib=yes],
+                            [AC_MSG_RESULT(no);
+                             LIBS="$old_LIBS"])
+            else
+                AC_TRY_LINK([#include <SDL_opengl.h>],
                             [glViewport(1,2,3,4)],
                             [AC_MSG_RESULT(yes);
                              have_opengl_lib=yes],
@@ -1588,31 +1608,42 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
                              LIBS="$old_LIBS"])
             fi
 
+            if test x"$have_opengl_lib" != "xyes"; then
+                AC_MSG_CHECKING(whether we can use the opengl32 library)
+                old_LIBS="$LIBS"
+                LIBS="$LIBS -lopengl32"
+                if test x"$use_sdl_prefix" = "xyes"; then
+                    AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
+                                [glViewport(1,2,3,4)],
+                                [AC_MSG_RESULT(yes);
+                                 have_opengl_lib=yes],
+                                [AC_MSG_RESULT(no);
+                                 LIBS="$old_LIBS"])
+                else
+                    AC_TRY_LINK([#include <SDL_opengl.h>],
+                                [glViewport(1,2,3,4)],
+                                [AC_MSG_RESULT(yes);
+                                 have_opengl_lib=yes],
+                                [AC_MSG_RESULT(no);
+                                 LIBS="$old_LIBS"])
+                fi
+            fi
+
             if test x"$have_opengl_lib" = "xyes"; then
                 AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
             fi
 
-            dnl check for the SDL/SDL_main.h header
-            AC_CHECK_HEADERS(SDL/SDL_main.h)
+            dnl check for the SDL_main.h header
+            if test x"$use_sdl_prefix" = "xyes"; then
+                AC_CHECK_HEADERS(SDL/SDL_main.h)
+            else
+                AC_CHECK_HEADERS(SDL_main.h)
+            fi
 
             AC_MSG_CHECKING(whether we can use the SDLmain library)
             old_LIBS="$LIBS"
             LIBS="$LIBS -lSDLmain -lSDL $EXTRA_SDL_LIBS"
-            AC_TRY_LINK([#include <SDL/SDL_main.h>
-                         int main(int argc, char *argv[])
-                         { return 0; }
-                         #undef main
-                         #define main something_else],
-                        [return 0;],
-                        [AC_MSG_RESULT(yes);
-                         have_sdlmain=yes],
-                        [AC_MSG_RESULT(no);
-                         LIBS="$old_LIBS"])
-
-            if test x"$have_sdlmain" != "xyes"; then
-                AC_MSG_CHECKING(whether we can use the SDLmain library when adding -lmingw32)
-                old_LIBS="$LIBS"
-                LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
+            if test x"$use_sdl_prefix" = "xyes"; then
                 AC_TRY_LINK([#include <SDL/SDL_main.h>
                              int main(int argc, char *argv[])
                              { return 0; }
@@ -1623,6 +1654,46 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
                              have_sdlmain=yes],
                             [AC_MSG_RESULT(no);
                              LIBS="$old_LIBS"])
+            else
+                AC_TRY_LINK([#include <SDL_main.h>
+                             int main(int argc, char *argv[])
+                             { return 0; }
+                             #undef main
+                             #define main something_else],
+                            [return 0;],
+                            [AC_MSG_RESULT(yes);
+                             have_sdlmain=yes],
+                            [AC_MSG_RESULT(no);
+                             LIBS="$old_LIBS"])
+            fi
+
+            if test x"$have_sdlmain" != "xyes"; then
+                AC_MSG_CHECKING(whether we can use the SDLmain library when adding -lmingw32)
+                old_LIBS="$LIBS"
+                LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
+                if test x"$use_sdl_prefix" = "xyes"; then
+                    AC_TRY_LINK([#include <SDL/SDL_main.h>
+                                 int main(int argc, char *argv[])
+                                 { return 0; }
+                                 #undef main
+                                 #define main something_else],
+                                [return 0;],
+                                [AC_MSG_RESULT(yes);
+                                 have_sdlmain=yes],
+                                [AC_MSG_RESULT(no);
+                                 LIBS="$old_LIBS"])
+                else
+                    AC_TRY_LINK([#include <SDL_main.h>
+                                 int main(int argc, char *argv[])
+                                 { return 0; }
+                                 #undef main
+                                 #define main something_else],
+                                [return 0;],
+                                [AC_MSG_RESULT(yes);
+                                 have_sdlmain=yes],
+                                [AC_MSG_RESULT(no);
+                                 LIBS="$old_LIBS"])
+                fi
             fi
 
             if test x"$have_sdlmain" = "xyes"; then
@@ -2444,7 +2515,7 @@ if test x"$enable_sdlui" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$(top_srcdir)/src/arch/win32/msvc/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi

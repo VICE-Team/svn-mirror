@@ -71,7 +71,7 @@
 #include <unistd.h>
 #endif
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 
 #include "archdep.h"
 #include "lib.h"

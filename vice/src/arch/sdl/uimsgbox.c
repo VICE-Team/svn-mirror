@@ -29,7 +29,7 @@
 
 #include <assert.h>
 #include <string.h>
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 
 #include "lib.h"
 #include "resources.h"

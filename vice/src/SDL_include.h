@@ -1,8 +1,8 @@
 /*
- * sdlmain.c - SDL startup.
+ * SDL_include.h - Wrapper for the SDL header inclusion
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,39 +24,35 @@
  *
  */
 
+#ifndef VICE_SDL_INCLUDE
+#define VICE_SDL_INCLUDE
+
 #include "vice.h"
 
-#include <stdio.h>
-
-#include "log.h"
-#include "machine.h"
-#include "main.h"
-
-#include "SDL_include.h"
-
-#ifdef __XBOX__
-void XBoxStartup(void)
-{
-    int argc = 1;
-    char *argv[2];
-
-    argv[0] = "vice";
-    argv[1] = NULL;
-
-    main_program(argc, argv);
-}
+#ifdef USE_SDL_PREFIX
+#include <SDL/SDL.h>
+#include <SDL/SDL_keysym.h>
+#ifdef INCLUDE_SDL_SYSWM_H
+#include <SDL/SDL_syswm.h>
+#endif
+#ifdef HAVE_SDLMAIN
+#include <SDL/SDL_main.h>
+#endif
+#ifdef HAVE_HWSCALE
+#include <SDL/SDL_opengl.h>
+#endif
 #else
-int main(int argc, char **argv)
-{
-    return main_program(argc, argv);
-}
+#include <SDL.h>
+#include <SDL_keysym.h>
+#ifdef INCLUDE_SDL_SYSWM_H
+#include <SDL_syswm.h>
+#endif
+#ifdef HAVE_SDLMAIN
+#include <SDL_main.h>
+#endif
+#ifdef HAVE_HWSCALE
+#include <SDL_opengl.h>
+#endif
 #endif
 
-void main_exit(void)
-{
-    log_message(LOG_DEFAULT, "\nExiting...");
-
-    machine_shutdown();
-
-    putchar('\n');
-}
+#endif

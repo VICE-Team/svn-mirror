@@ -31,7 +31,7 @@
 #include "vice.h"
 #include "types.h"
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 #include <stdio.h>
 #include <string.h>
 

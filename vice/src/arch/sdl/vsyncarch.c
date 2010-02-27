@@ -39,7 +39,7 @@
 #include "vkbd.h"
 #include "vsyncapi.h"
 
-#include <SDL/SDL.h>
+#include "SDL_include.h"
 
 /* ------------------------------------------------------------------------- */
 

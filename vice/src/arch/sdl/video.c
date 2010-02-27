@@ -33,11 +33,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <SDL/SDL.h>
-
-#ifdef HAVE_HWSCALE
-#include <SDL/SDL_opengl.h>
-#endif
+#include "SDL_include.h"
 
 #include "cmdline.h"
 #include "fullscreen.h"
