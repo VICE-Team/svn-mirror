@@ -225,12 +225,28 @@ endif
 endif
 endif
 
-if UNIX_OPENSTEP_COMPILE
+if UNIX_RHAPSODY_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/openstep/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip rhapsody $(top_srcdir) $(MAKE)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/openstep/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip $(top_srcdir) $(MAKE)
+	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip rhapsody $(top_srcdir) $(MAKE)
+endif
+
+if UNIX_OPENSTEP_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip openstep $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip openstep $(top_srcdir) $(MAKE)
+endif
+
+if UNIX_OPENSTEP_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) nozip nextstep $(top_srcdir) $(MAKE)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/next_open_rhap/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) zip nextstep $(top_srcdir) $(MAKE)
 endif
 
 if UNIX_OPENSERVER5_COMPILE

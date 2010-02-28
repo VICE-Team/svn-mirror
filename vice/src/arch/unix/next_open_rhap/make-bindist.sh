@@ -3,15 +3,16 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4          $5          $6
+# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <platform> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4          $5         $6          $7
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 ZIPKIND=$4
-TOPSRCDIR=$5
-MAKECOMMAND=$6
+OPERATINGSYSTEM=$5
+TOPSRCDIR=$6
+MAKECOMMAND=$7
 
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
@@ -32,7 +33,22 @@ then
   exit 1
 fi
 
-echo Generating OpenStep port binary distribution.
+if test x"$OPERATINGSYSTEM" = "xopenstep"; then
+  OSNAME="OpenStep"
+  OSID="OS"
+fi
+
+if test x"$OPERATINGSYSTEM" = "xnextstep"; then
+  OSNAME="NextStep"
+  OSID="NS"
+fi
+
+if test x"$OPERATINGSYSTEM" = "xrhapsody"; then
+  OSNAME="Rhapsody"
+  OSID="RH"
+fi
+
+echo Generating $OSNAME port binary distribution.
 $STRIP VICE-$VICEVERSION/usr/local/bin/x64
 $STRIP VICE-$VICEVERSION/usr/local/bin/x64dtv
 $STRIP VICE-$VICEVERSION/usr/local/bin/x128
@@ -44,12 +60,14 @@ $STRIP VICE-$VICEVERSION/usr/local/bin/c1541
 $STRIP VICE-$VICEVERSION/usr/local/bin/petcat
 $STRIP VICE-$VICEVERSION/usr/local/bin/cartconv
 if test x"$ZIPKIND" = "xzip"; then
-  /NextAdmin/Installer.app/package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/openstep/vice.info
+  /NextAdmin/Installer.app/package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/next_open_rhap/vice.info
   file >/tmp/vice.tmp VICE-$VICEVERSION/usr/local/bin/x64
   i386_found=`fgrep 86 /tmp/vice.tmp`
   m68k_found=`fgrep m68k /tmp/vice.tmp`
   sparc_found=`fgrep sparc /tmp/vice.tmp`
   hppa_found=`fgrep hppa /tmp/vice.tmp`
+  ppc_found=`fgrep ppc /tmp/vice.tmp`
+  powerpc_found=`fgrep powerpc /tmp/vice.tmp`
 
   PLATFORMS=""
 
@@ -57,7 +75,11 @@ if test x"$ZIPKIND" = "xzip"; then
     PLATFORMS="N"
   fi
 
-  if test x"$i386_found" != "x" -o x"$i486_found" != "x" -o x"$i586_found" != "x"; then
+  if test x"$ppc_found" != "x" -o x"$powerpc_found" != "x"; then
+    PLATFORMS="$PLATFORMS""P"
+  fi
+
+  if test x"$i386_found" != "x"; then
     PLATFORMS="$PLATFORMS""I"
   fi
 
@@ -69,11 +91,11 @@ if test x"$ZIPKIND" = "xzip"; then
     PLATFORMS="$PLATFORMS""S"
   fi
 
-  tar -cvf - vice.pkg | gzip -9c > VICE-$VICEVERSION-OS-$PLATFORMS.tar.gz
+  tar -cvf - vice.pkg | gzip -9c > VICE-$VICEVERSION-$OSID-$PLATFORMS.tar.gz
 
   rm -f -r VICE-$VICEVERSION vice.pkg
 
-  echo OpenStep port binary package generated as VICE-$VICEVERSION-OS-$PLATFORMS.tar.gz
+  echo $OSNAME port binary package generated as VICE-$VICEVERSION-$OSID-$PLATFORMS.tar.gz
 else
-  echo OpenStep port binary distribution directory generated as VICE-$VICEVERSION
+  echo $OSNAME port binary distribution directory generated as VICE-$VICEVERSION
 fi
