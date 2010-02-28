@@ -27,7 +27,7 @@
 #include "vice.h"
 #include "types.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #include "machine.h"
 #include "lightpen.h"

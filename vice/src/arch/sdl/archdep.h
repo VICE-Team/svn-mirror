@@ -29,7 +29,7 @@
 
 #include "vice.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 /* Extra functions for SDL UI */
 extern char *archdep_default_hotkey_file_name(void);

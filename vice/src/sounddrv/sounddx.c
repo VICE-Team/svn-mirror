@@ -40,7 +40,7 @@
 
 #ifdef USE_SDLUI
 #define INCLUDE_SDL_SYSWM_H
-#include "SDL_include.h"
+#include "vice_sdl.h"
 #endif
 
 #include "lib.h"

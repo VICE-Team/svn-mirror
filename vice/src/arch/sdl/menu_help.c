@@ -28,7 +28,7 @@
 #include "types.h"
 
 #include <stdlib.h>
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #include "cmdline.h"
 #include "info.h"

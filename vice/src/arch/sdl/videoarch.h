@@ -31,7 +31,7 @@
 
 #include "vice.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #include "viewport.h"
 #include "video.h"

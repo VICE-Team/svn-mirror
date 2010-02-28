@@ -32,7 +32,7 @@
 
 #include "vice.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #ifdef WIN32_COMPILE
 typedef unsigned char BYTE;

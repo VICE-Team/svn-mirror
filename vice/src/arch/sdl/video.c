@@ -33,7 +33,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #include "cmdline.h"
 #include "fullscreen.h"

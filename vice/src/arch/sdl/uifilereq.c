@@ -27,7 +27,7 @@
 #include "vice.h"
 #include "types.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 #include <string.h>
 
 #include "archdep.h"

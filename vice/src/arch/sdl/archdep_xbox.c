@@ -71,7 +71,7 @@
 #include <unistd.h>
 #endif
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #include "archdep.h"
 #include "lib.h"

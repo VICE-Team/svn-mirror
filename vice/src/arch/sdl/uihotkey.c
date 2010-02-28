@@ -36,7 +36,7 @@
 #include "uipoll.h"
 #include "util.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 #include <string.h>
 
 /* ------------------------------------------------------------------ */

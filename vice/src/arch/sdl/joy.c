@@ -32,7 +32,7 @@
 #include "vice.h"
 #include "types.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

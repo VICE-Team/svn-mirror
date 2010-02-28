@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

@@ -32,7 +32,7 @@
 #include "machine.h"
 #include "main.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 
 #ifdef __XBOX__
 void XBoxStartup(void)

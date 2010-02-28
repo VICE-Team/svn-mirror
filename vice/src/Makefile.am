@@ -189,7 +189,6 @@ noinst_HEADERS = \
 	rs232drv.h \
 	rsuser.h \
 	screenshot.h \
-	SDL_include.h \
 	serial.h \
 	signals.h \
 	snapshot.h \
@@ -212,6 +211,7 @@ noinst_HEADERS = \
 	via.h \
 	vic20ui.h \
 	vice.h \
+	vice_sdl.h \
 	vicesocket.h \
 	vicii.h \
 	video.h \

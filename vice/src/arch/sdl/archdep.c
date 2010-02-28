@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include "SDL_include.h"
+#include "vice_sdl.h"
 #include <stdio.h>
 
 #ifdef AMIGA_SUPPORT
