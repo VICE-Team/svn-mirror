@@ -1361,6 +1361,54 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath="win64_id.bat"
+			>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating win64_id.bat"
+					CommandLine="copy win64_x64.bat win64_id.bat&#x0D;&#x0A;"
+					AdditionalDependencies="win64_x64.bat;"
+					Outputs="$(InputDir)win64_id.bat"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating win64_id.bat"
+					CommandLine="copy win64_x64.bat win64_id.bat&#x0D;&#x0A;"
+					AdditionalDependencies="win64_x64.bat;"
+					Outputs="$(InputDir)win64_id.bat"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating win64_id.bat"
+					CommandLine="copy win64_ia64.bat win64_id.bat&#x0D;&#x0A;"
+					AdditionalDependencies="win64_ia64.bat;"
+					Outputs="$(InputDir)win64_id.bat"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating win64_id.bat"
+					CommandLine="copy win64_ia64.bat win64_id.bat&#x0D;&#x0A;"
+					AdditionalDependencies="win64_ia64.bat;"
+					Outputs="$(InputDir)win64_id.bat"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath="..\win32\rs232.c"
 			>
 			<FileConfiguration

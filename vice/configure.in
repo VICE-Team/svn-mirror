@@ -584,7 +584,7 @@ dnl All other UN*X systems
     dnl Check for the type of compiler first.
     if test x"$GCC" = "xyes" ; then
 
-      warnings_cxx="-Wall"
+      warnings_cxx="-Wall -Winline"
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
@@ -3140,6 +3140,9 @@ if false ; then
 fi
 
 AC_OUTPUT([Makefile
+           vice.spec
+           vice-gtk.spec
+           vice-mint.spec
            build/Makefile
            data/Makefile
            data/C128/Makefile
@@ -3178,6 +3181,7 @@ AC_OUTPUT([Makefile
            src/arch/unix/gp2x/minimal/Makefile
            src/arch/unix/gp2x/wiz/Makefile
            src/arch/unix/gui/Makefile
+           src/arch/unix/next_open_rhap/vice.info
            src/arch/unix/readline/Makefile
            src/arch/unix/x11/Makefile
            src/arch/unix/x11/gnome/Makefile

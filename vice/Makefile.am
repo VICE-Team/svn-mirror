@@ -15,9 +15,11 @@ COMMON_EXTRA_DIST = .descr \
 	INSTALL \
 	NEWS \
 	vice.spec \
+	vice.spec.in \
 	vice-gtk.spec \
-	vice-mint.spec
-
+	vice-gtk.spec.in \
+	vice-mint.spec \
+	vice-gtk.spec.in
 
 # PO_EXTRA_DIST is a list of files in the po directory that need to be
 # included in the source archive, this list was added to fix the fact that

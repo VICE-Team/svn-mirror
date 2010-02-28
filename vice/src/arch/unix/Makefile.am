@@ -85,7 +85,7 @@ EXTRA_DIST = \
 	hpux/make-bindist.sh \
 	minix/minix-ar.sh \
 	next_open_rhap/make-bindist.sh \
-	next_open_rhap/vice.info \
+	next_open_rhap/vice.info.in \
 	qnx4/install_msg \
 	qnx4/make-bindist.sh \
 	qnx6/getlibs.c \

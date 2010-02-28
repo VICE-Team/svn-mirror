@@ -1,5 +1,5 @@
 Title          VICE
-Version        2.2
+Version        @VICE_VERSION@
 Description    Versatile Commodore 8bit emulator.
 
 DefaultLocation      /usr/local
