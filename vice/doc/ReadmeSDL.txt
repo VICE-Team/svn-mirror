@@ -71,7 +71,9 @@ The SDL port has been tested to work on:
  - Ultrix / mipsel, vax
  - UnixWare / x86
  - Uwin / x86
- - Win32 / x86
+ - Win32 / x86 (confirmed to work on 9x, ME, NT 3.5 (special SDL.dll),
+                NT 3.51 (other special SDL.dll), NT 4, 2000, XP, 2003,
+                HS, Vista, HS and 7)
  - Win64 / ia64, x64
  - Zaurus (qt) / arm
  - ...
