@@ -60,7 +60,11 @@ $STRIP VICE-$VICEVERSION/usr/local/bin/c1541
 $STRIP VICE-$VICEVERSION/usr/local/bin/petcat
 $STRIP VICE-$VICEVERSION/usr/local/bin/cartconv
 if test x"$ZIPKIND" = "xzip"; then
-  /NextAdmin/Installer.app/package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/next_open_rhap/vice.info
+  if test x"$OSID" = "xRH"; then
+    package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/next_open_rhap/vice.info
+  else
+    /NextAdmin/Installer.app/package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/next_open_rhap/vice.info
+  fi
   file >/tmp/vice.tmp VICE-$VICEVERSION/usr/local/bin/x64
   i386_found=`fgrep 86 /tmp/vice.tmp`
   m68k_found=`fgrep m68k /tmp/vice.tmp`

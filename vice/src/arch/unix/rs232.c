@@ -79,7 +79,7 @@
 #include "translate.h"
 #include "types.h"
 
-#ifdef __NeXT__
+#if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
 int cfsetispeed(struct termios *t, int speed)
 { 
     t->c_ispeed = speed; 
@@ -323,7 +323,7 @@ int rs232_open(int device)
 #endif
 
     if (rs232_devfile[device][0] == '|') {
-#if defined(MINIX_SUPPORT) || defined(OPENSTEP_COMPILE)
+#if defined(MINIX_SUPPORT) || defined(OPENSTEP_COMPILE) || defined(RHAPSODY_COMPILE)
         log_error(rs232_log, "Forking not supported on this platform.");
         return -1;
 #else

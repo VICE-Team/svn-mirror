@@ -84,7 +84,7 @@ typedef struct timeval TIMEVAL;
 #define INADDR_NONE ((unsigned long)-1)
 #endif
 
-#ifdef _UWIN
+#if defined(_UWIN) || defined(RHAPSODY_COMPILE)
 typedef unsigned long in_addr_t;
 #endif
 

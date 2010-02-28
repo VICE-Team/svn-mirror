@@ -94,7 +94,7 @@ extern struct dirent *readdir(DIR *dirp);
 
 #endif
 
-#ifdef __NeXT__
+#if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
 #  ifdef HAVE_SYS_DIR_H
 #    include <sys/dir.h>
 #  endif
