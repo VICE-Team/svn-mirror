@@ -778,8 +778,27 @@ BYTE machine_tape_type_default(void)
     return TAPE_CAS_TYPE_BAS;
 }
 
+static int get_cart_emulation_state(void)
+{
+    int value;
+
+    if (resources_get_int("CartridgeType", &value) < 0) {
+        return CARTRIDGE_NONE;
+    }
+
+    return value;
+}
+
+static int check_cart_range(unsigned int addr)
+{
+    if (get_cart_emulation_state() == CARTRIDGE_NONE) {
+        return 1;
+    }
+
+    return (!(addr >= 0x8000 && addr < 0xa000));
+}
+
 int machine_addr_in_ram(unsigned int addr)
 {
-    /* TODO check for carts */
-    return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
+    return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) && check_cart_range(addr));
 }
