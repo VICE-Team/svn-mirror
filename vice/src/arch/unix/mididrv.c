@@ -53,7 +53,7 @@
 #include <alsa/asoundlib.h>
 #endif
 
-#ifdef OPENSTEP_COMPILE
+#if defined(OPENSTEP_COMPILE) || defined(NEXTSTEP_COMPILE)
 #define ssize_t int
 #endif
 

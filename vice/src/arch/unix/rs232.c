@@ -67,7 +67,7 @@
 #include <sys/select.h>
 #endif
 
-#ifdef OPENSTEP_COMPILE
+#if defined(OPENSTEP_COMPILE) || defined(NEXTSTEP_COMPILE)
 #define ssize_t int
 #endif
 
@@ -323,7 +323,7 @@ int rs232_open(int device)
 #endif
 
     if (rs232_devfile[device][0] == '|') {
-#if defined(MINIX_SUPPORT) || defined(OPENSTEP_COMPILE) || defined(RHAPSODY_COMPILE)
+#if defined(MINIX_SUPPORT) || defined(OPENSTEP_COMPILE) || defined(RHAPSODY_COMPILE) || defined(NEXTSTEP_COMPILE)
         log_error(rs232_log, "Forking not supported on this platform.");
         return -1;
 #else
@@ -336,7 +336,7 @@ int rs232_open(int device)
         fds[i].inuse = 1;
         fds[i].file = rs232_devfile[device];
     } else {
-#ifndef OPENSTEP_COMPILE
+#if !defined(OPENSTEP_COMPILE) && !defined(NEXTSTEP_COMPILE)
         fd = open(rs232_devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if (fd < 0) {
             log_error(rs232_log, "Cannot open file \"%s\": %s", rs232_devfile[device], strerror(errno));

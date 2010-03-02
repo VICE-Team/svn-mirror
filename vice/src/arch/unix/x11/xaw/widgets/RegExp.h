@@ -36,7 +36,7 @@
 #endif
 
 /* it seems that for FreeBSD that HAVE_REGEX_H also needs to be worked around */
-#if defined __FreeBSD__ || defined OPENSTEP_COMPILE
+#if defined __FreeBSD__ || defined OPENSTEP_COMPILE || defined NEXTSTEP_COMPILE
 #undef HAVE_REGEX_H
 #endif
 

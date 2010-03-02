@@ -61,7 +61,7 @@
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif
 
-#ifdef OPENSTEP_COMPILE
+#if defined(OPENSTEP_COMPILE) || defined(NEXTSTEP_COMPILE)
 #ifndef S_ISBLK
 #define S_ISBLK(mode)  (((mode) & (0170000)) == (0060000))
 #endif
@@ -347,7 +347,7 @@ int archdep_path_is_relative(const char *path)
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
-#ifndef OPENSTEP_COMPILE
+#if !defined(OPENSTEP_COMPILE) && !defined(NEXTSTEP_COMPILE)
     pid_t child_pid;
     int child_status;
     char *stdout_redir = NULL;
