@@ -368,9 +368,6 @@
 /* Define to 1 if you have the <SDL/SDL_audio.h> header file. */
 #undef HAVE_SDL_SDL_AUDIO_H
 
-/* Define to 1 if you have the `seekdir' function. */
-#define HAVE_SEEKDIR
-
 /* Define to 1 if you have the `send' function. */
 #define HAVE_SEND
 
@@ -459,9 +456,6 @@
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H
-
-/* Define to 1 if you have the `telldir' function. */
-#define HAVE_TELLDIR
 
 /* Support for The Final Ethernet */
 #undef HAVE_TFE

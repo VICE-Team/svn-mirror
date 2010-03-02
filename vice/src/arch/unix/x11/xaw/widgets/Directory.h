@@ -80,8 +80,6 @@ struct dirent {
 
 extern DIR *opendir(char *dirname);
 extern int closedir(DIR *dirp);
-extern long telldir(DIR *dirp);
-extern void seekdir(DIR *dirp, int loc);
 extern struct dirent *readdir(DIR *dirp);
 #else
 
@@ -257,10 +255,7 @@ typedef DIR_ENTRY DirEntry;
 #if (!NeedFunctionPrototypes)
 
 int DirectoryOpen();
-void DirectoryRestart();
 void DirectoryClose();
-long DirectoryTellPosition();
-void DirectorySetPosition();
 int DirectoryReadNextEntry();
 char *DirectoryPathExpand();
 void DirEntryDump();
@@ -268,10 +263,7 @@ void DirEntryDump();
 #else
 
 int DirectoryOpen(char *dir_name, Directory *dp);
-void DirectoryRestart(Directory *dp);
 void DirectoryClose(Directory *dp);
-long DirectoryTellPosition(Directory *dp);
-void DirectorySetPosition(Directory *dp, long int pos);
 int DirectoryReadNextEntry(Directory *dp, DirEntry *de);
 char *DirectoryPathExpand(char *old_path, char *new_path);
 void DirEntryDump(FILE *fp, DirEntry *de);

@@ -60,17 +60,11 @@
 /* Define to 1 if you have the <process.h> header file. */
 #define HAVE_PROCESS_H 1
 
-/* Define to 1 if you have the `rewinddir' function. */
-#define HAVE_REWINDDIR 1
-
 /* Define to 1 if you have the <SDL/SDL_audio.h> header file. */
 #define HAVE_SDL_SDL_AUDIO_H 1
 
 /* Define to 1 if you have the <SDL/SDL.h> header file. */
 #define HAVE_SDL_SDL_H 1
-
-/* Define to 1 if you have the `seekdir' function. */
-#define HAVE_SEEKDIR 1
 
 /* Define to 1 if you have the <shlobj.h> header file. */
 #define HAVE_SHLOBJ_H 1
@@ -98,9 +92,6 @@
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
-
-/* Define to 1 if you have the `telldir' function. */
-#define HAVE_TELLDIR 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1

@@ -36,57 +36,6 @@
 #define lstat stat
 #endif
 
-#ifndef HAVE_TELLDIR
-long telldir(DIR *dirp)
-{
-    return lseek(dirp->dd_fd, 0L, 1) - (long)dirp->dd_size + (long)dirp->dd_loc;
-}
-#endif
-
-#ifndef HAVE_SEEKDIR
-
-#ifndef DIRBLKSIZ
-#define DIRBLKSIZ 1024
-#endif
-
-void seekdir(DIR *dirp,long loc)
-{
-    long base;
-    long offset;
-
-    if (telldir(dirp) == loc) {
-        return;
-    }
-
-    offset = loc % DIRBLKSIZ;
-    base = loc - offset;
-
-    lseek(dirp->dd_fd, base, 0);
-    dirp->dd_loc = dirp->dd_size = 0;
-
-    while (dirp->dd_loc < offset) {
-        if (readdir(dirp) == NULL) {
-            return;
-        }
-    }
-}
-#endif
-
-#ifndef HAVE_REWINDDIR
-#ifdef OPENSTEP_COMPILE
-/* openstep needs the replacement function as a define */
-#define rewinddir(x) \
-    lseek((x)->dd_fd, 0, SEEK_SET); \
-    (x)->dd_size = 0
-#else
-void rewinddir(DIR *dir)
-{
-    lseek(dir->dd_fd, 0, SEEK_SET);
-    dir->dd_size = 0;
-}
-#endif
-#endif
-
 /*--------------------------------------------------------------------------*
 
         L O W    L E V E L    D I R E C T O R Y    I N T E R F A C E
@@ -105,25 +54,10 @@ int DirectoryOpen(char *dir_name, Directory *dp)
     return TRUE;
 } /* End DirectoryOpen */
 
-void DirectoryRestart(Directory *dp)
-{
-    rewinddir(DirectoryDir(dp));
-} /* End DirectoryRestart */
-
 void DirectoryClose(Directory *dp)
 {
     closedir(DirectoryDir(dp));
 } /* End DirectoryClose */
-
-long DirectoryTellPosition(Directory *dp)
-{
-    return telldir(DirectoryDir(dp));
-} /* End DirectoryTellPosition */
-
-void DirectorySetPosition(Directory *dp, long pos)
-{
-    seekdir(dp->filep, pos);			/* BB, 8 Mar 95 */
-} /* End DirectorySetPosition */
 
 int DirectoryReadNextEntry(Directory *dp, DirEntry *de)
 {
