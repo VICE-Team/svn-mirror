@@ -117,9 +117,14 @@ fi
 SVN_REPO="`(cd \"$SVN_REPO\" && pwd -P)`"
 echo "SVN repository: $SVN_REPO"
 
-# get revision of build
-REVISION=`(cd "$SVN_REPO" && svn info | grep Revision | awk '{ print $2 }')`
+# get revision and branch of build
+SVN_INFO=`(cd "$SVN_REPO" && svn info)`
+REVISION=`echo "$SVN_INFO" | grep Revision | awk '{ print $2 }'`
+SVN_URL=`echo "$SVN_INFO" | grep URL | awk '{ print $2 }'`
+SVN_BRANCH=`echo "$SVN_URL" | sed -e 's,.*/vice-emu/,,' -e 's,/vice$,,' -e 's,branches/,,'`
+SVN_BRANCH=`basename "$SVN_BRANCH" | sed -e 's,-,_,g' -e 's,\.,,g'`
 echo "SVN revision:   $REVISION"
+echo "SVN branch:     $SVN_BRANCH"
 
 # check extlib directory
 if [ ! -d "$EXTLIB" ]; then
@@ -173,7 +178,7 @@ else
   if [ $SNAPSHOT = 1 ]; then
     # tag
     DATE=`date '+%Y%m%d'`
-    TAG="-r${REVISION}_$DATE"
+    TAG="-r${REVISION}_${DATE}_$SVN_BRANCH"
 
     # patch VICE_VERSION_BUILD
     echo "patching configure.in: $TAG"
