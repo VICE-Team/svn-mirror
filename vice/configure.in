@@ -2149,21 +2149,21 @@ if test x"$is_beos" != "xyes"; then
     dnl Check for the PNG library.
     AC_CHECK_HEADER(png.h,,)
     if test x"$ac_cv_header_png_h" = "xyes" ; then
-      unset ac_cv_lib_png_png_check_sig
-      AC_CHECK_LIB(png, png_check_sig,
+      unset ac_cv_lib_png_png_sig_cmp
+      AC_CHECK_LIB(png, png_sig_cmp,
                    [ GFXOUTPUT_LIBS="-lpng $GFXOUTPUT_LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
                      AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
-      if test "$ac_cv_lib_png_png_check_sig" = "no"; then
-        unset ac_cv_lib_png_png_check_sig
-        AC_CHECK_LIB(png, png_check_sig,
+      if test "$ac_cv_lib_png_png_sig_cmp" = "no"; then
+        unset ac_cv_lib_png_png_sig_cmp
+        AC_CHECK_LIB(png, png_sig_cmp,
                      [ GFXOUTPUT_LIBS="-lpng -lz $GFXOUTPUT_LIBS";
                        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
                        AC_DEFINE(HAVE_PNG,,
                                  [Can we use the PNG library?]) ],,"-lz")
       fi
     fi
-    if test x"$ac_cv_lib_png_png_check_sig" != "xyes"; then
+    if test x"$ac_cv_lib_png_png_sig_cmp" != "xyes"; then
       if test x"$with_zlib" != "xno" ; then
         AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
         VICE_LIBPNG="\$(top_builddir)/src/lib/lpng/libpng.a"
