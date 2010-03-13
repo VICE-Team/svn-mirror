@@ -165,6 +165,11 @@ if [ "$?" = "0" ]; then
   fi
 fi
 
+# clang flags
+if [ "$COMPILER" = "clang" ]; then
+  CONFIGURE_FLAGS="--disable-no-pic $CONFIGURE_FLAGS"
+fi
+
 # ----- setup build dir -----
 BUILD_DIR="$BUILD_DIR/$UI_TYPE-$SDK_VERSION-$COMPILER"
 if [ ! -d "$BUILD_DIR" ]; then
@@ -210,9 +215,6 @@ fi
 # HACK: extra flags for GL compile
 if [ "$UI_TYPE" != "cocoa" ]; then
   LDFLAGS_EXTRA="-dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib"
-fi
-if [ "$COMPILER" = "clang" ]; then
-  LDFLAGS_EXTRA="-read_only_relocs suppress"
 fi
 
 build_vice () {
