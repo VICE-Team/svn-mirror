@@ -37,7 +37,7 @@
 #include "viewport.h"
 
 
-inline void update_cached_sprite_collisions(raster_t *raster)
+inline static void update_cached_sprite_collisions(raster_t *raster)
 {
     if (raster->sprite_status != NULL
         && raster->sprite_status->cache_function != NULL)
