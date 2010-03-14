@@ -1533,6 +1533,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
     elif test x"$is_unix_macosx" = "xyes"; then
         LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL"
         CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
+        CXXFLAGS="$CXXFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
         AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
