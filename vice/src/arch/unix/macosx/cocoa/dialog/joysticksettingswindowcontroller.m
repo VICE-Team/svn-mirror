@@ -62,18 +62,17 @@ static char *keyNames[KEYSET_SIZE] = {
 
 -(void)setupHidAxis
 {
-    int i;
-
     [hidXAxis removeAllItems];
     [hidYAxis removeAllItems];
 
 #ifdef HAS_JOYSTICK
     // fetch axis map from joy driver
-    for (i = 0; i < JOYSTICK_DESCRIPTOR_MAX_AXIS; i++) {
-        axis_map_t *am = &joy_axis_map[i];
-        NSString *name = [NSString stringWithCString:am->name encoding:NSUTF8StringEncoding];
+    joy_hid_axis_info_t *ptr = joy_hid_axis_infos;
+    while(ptr->name != NULL) {
+        NSString *name = [NSString stringWithCString:ptr->name encoding:NSUTF8StringEncoding];
         [hidXAxis addItemWithTitle:name];
         [hidYAxis addItemWithTitle:name];
+        ptr++;
     }
 #endif
 
@@ -86,19 +85,18 @@ static char *keyNames[KEYSET_SIZE] = {
     [hidName removeAllItems];
     [hidName addItemWithTitle:@"Autodetect"];
 
-#ifdef HAS_JOYSTICK    
-    pRecDevice *devices = NULL;
-    int numDevices = build_device_list(&devices);
+#ifdef HAS_JOYSTICK
+    joy_hid_device_t *devices;
+    int numDevices = joy_hid_enumerate_devices(&devices);
     if (numDevices > 0) {
         int i;
         for (i = 0; i < numDevices; i++) {
-           pRecDevice dev = devices[i];
-           int serial = get_device_serial(dev);
+           joy_hid_device_t *dev = &devices[i];
            NSString *desc = [NSString stringWithFormat:@"%04x:%04x:%d %s",
-               dev->vendorID, dev->productID, serial, dev->product];
+               dev->vendor_id, dev->product_id, dev->serial, dev->product_name];
            [hidName addItemWithTitle:desc];
         }
-        free(devices);
+        joy_hid_free_devices(numDevices, devices);
     }
 #endif
 }
@@ -238,7 +236,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [self getHidButtons:ids];
     for (i = 0; i < 6; i++) {
         NSString *desc;
-        if (ids[i] == 0) {
+        if (ids[i] == HID_INVALID_BUTTON) {
             desc = @"N/A";
         } else {
             desc = [NSString stringWithFormat:@"%d", ids[i]];
@@ -338,7 +336,7 @@ static char *keyNames[KEYSET_SIZE] = {
 -(IBAction)refreshHidList:(id)sender
 {
 #ifdef HAS_JOYSTICK
-    reload_device_list();
+    joy_reload_device_list();
 #endif    
 
     [self setupHidDeviceList];
@@ -405,10 +403,10 @@ static char *keyNames[KEYSET_SIZE] = {
     int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
     NSString *axisName = @"";
 #ifdef HAS_JOYSTICK
-    int axisTag = detect_axis(hidDeviceNum ? &joy_b : &joy_a,1);
-    const char *axisNameC = find_axis_name(axisTag);
+    const char *axisNameC = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_X_AXIS);
     if (axisNameC != NULL) {
         axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", axisName);
     }
 #endif
 
@@ -423,8 +421,7 @@ static char *keyNames[KEYSET_SIZE] = {
     NSString *axisName = @"";
     int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
 #ifdef HAS_JOYSTICK
-    int axisTag = detect_axis(hidDeviceNum ? &joy_b : &joy_a,0);
-    const char *axisNameC = find_axis_name(axisTag);
+    const char *axisNameC = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_Y_AXIS);
     if (axisNameC != NULL) {
         axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
     }
@@ -465,7 +462,7 @@ static char *keyNames[KEYSET_SIZE] = {
     int buttonVal = 0;
 
 #ifdef HAS_JOYSTICK
-    buttonVal = detect_button(hidDeviceNum ? &joy_b : &joy_a);
+    buttonVal = joy_hid_detect_button(hidDeviceNum ? &joy_b : &joy_a);
 #endif
 
     int ids[HID_NUM_BUTTONS] = { 0, 0, 0, 0, 0, 0 };

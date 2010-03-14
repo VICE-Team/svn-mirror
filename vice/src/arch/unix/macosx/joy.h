@@ -53,69 +53,61 @@
 #define HID_DOWN        5
 #define HID_NUM_BUTTONS 6
 
+#define HID_INVALID_BUTTON  0 /* invalid USB HID button ID */
+
+#define HID_X_AXIS      0
+#define HID_Y_AXIS      1
+#define HID_NUM_AXIS    2
+
 #ifdef HAS_JOYSTICK
 
+#include "vice.h"
+#include "types.h"
+
 #ifndef JOY_INTERNAL
-typedef void *pRecDevice;
-typedef void *pRecElement;
+typedef void joy_hid_dev_t;
 #else
-/* NOTE: We use the HID Utilites Library provided by Apple for free
-
-   http://developer.apple.com/samplecode/HID_Utilities_Source/index.html
-
-   Make sure to install this (static) library first!
-*/
-#include <Carbon/Carbon.h>
-#include <IOKit/hid/IOHIDKeys.h>
-#include <IOKit/hid/IOHIDUsageTables.h>
-#include "HID_Utilities_External.h"
+#include "joy-hid.h"
 #endif
 
-/* axis map */
-struct axis_map {
-    const char *name;
-    int tag;
-};
-typedef struct axis_map axis_map_t;
+/* describe an axis */
+struct joy_axis {
+    char *name;             /* name from joy_hid_axis_map used in VICE */
+    int threshold;          /* threshold given in VICE */
 
-extern axis_map_t joy_axis_map[];
-
-/* calibration data for an axis */
-struct calibration {
-    int  min_threshold;
-    int  max_threshold;
+    int  min_threshold;     /* calculated internal value */
+    int  max_threshold;     /* calculated internal value */
+    
+    int  min_value;         /* filled in by HID driver during mapping */
+    int  max_value;         /* filled in by HID driver during mapping */
+    int  mapped;            /* is axis successfully mapped by HID driver? */
 };
-typedef struct calibration calibration_t;
+typedef struct joy_axis joy_axis_t;
+
+/* describe a button */
+struct joy_button {
+    int id;                 /* id of button in HID device */
+    
+    int mapped;             /* is button successfully mapped by HID driver? */
+};
+typedef struct joy_button joy_button_t;
 
 /* describe a joystick HID device */
 struct joystick_descriptor  {
-  /* resources/settings for joystick */
     char *device_name;      /* device name: vid:pid:num */
-
-    char *x_axis_name;      /* set x axis */
-    char *y_axis_name;      /* sety y axis */
-
     char *button_mapping;   /* set button mapping */
-    int x_threshold;
-    int y_threshold;
 
-    /* filled in from HID utils after setup */
-    pRecDevice device;
+    joy_axis_t axis[HID_NUM_AXIS];
+    joy_button_t buttons[HID_NUM_BUTTONS];
 
-    pRecElement x_axis;
-    pRecElement y_axis;
+    /* number of buttons and axis available in device */
+    int num_hid_buttons;
+    int num_hid_axis;
 
-    pRecElement mapped_buttons[HID_NUM_BUTTONS];
+    int mapped; /* is device mapped ? */
 
-    /* fill list of all buttons and axis */
-    int num_buttons;
-    pRecElement buttons[JOYSTICK_DESCRIPTOR_MAX_BUTTONS];
-    int num_axis;
-    pRecElement axis[JOYSTICK_DESCRIPTOR_MAX_AXIS];
-  
-    /* calibration */
-    calibration_t x_calib;
-    calibration_t y_calib;
+    /* pointer to HID API impl specific stuff */
+    joy_hid_dev_t *hid;
 };
 typedef struct joystick_descriptor joystick_descriptor_t;
 
@@ -132,24 +124,10 @@ extern int joy_arch_init(void);
 extern void joystick_close(void);
 extern void joystick(void);
 
-/* reload device list */
-extern void reload_device_list(void);
+extern void joy_reload_device_list(void);
 
-/* build device list */
-extern int build_device_list(pRecDevice **devices);
+extern void joy_calc_threshold(int min, int max, int threshold, int *min_t, int *max_t);
 
-/* get serial of device */
-extern int get_device_serial(pRecDevice last_device);
+#endif /* HAS_JOYSTICK */
 
-/* detect axis */
-extern int detect_axis(joystick_descriptor_t *joy, int x_axis);
-
-/* detect button */
-extern int detect_button(joystick_descriptor_t *joy);
-
-/* find axis name */
-extern const char *find_axis_name(int tag);
-
-#endif
-
-#endif
+#endif /* VICE_JOY_H */

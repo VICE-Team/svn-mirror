@@ -21,6 +21,8 @@ noinst_LIBRARIES = libarchmacosx.a
 libarchmacosx_a_SOURCES = \
 	joy.c \
 	joy.h \
+	joy-hid.c \
+	joy-hid.h \
 	mididrv.c
 
 EXTRA_DIST = \
