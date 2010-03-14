@@ -406,7 +406,6 @@ static char *keyNames[KEYSET_SIZE] = {
     const char *axisNameC = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_X_AXIS);
     if (axisNameC != NULL) {
         axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", axisName);
     }
 #endif
 

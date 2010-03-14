@@ -49,6 +49,9 @@ static int joy_done_init = 0;
 int joy_num_ports;
 int joy_num_extra_ports;
 
+static joy_hid_dev_t joy_hid_dev_a;
+static joy_hid_dev_t joy_hid_dev_b;
+
 /* the driver holds up to two USB joystick definitions */
 joystick_descriptor_t joy_a = { .hid = &joy_hid_dev_a };
 joystick_descriptor_t joy_b = { .hid = &joy_hid_dev_b };

@@ -1,5 +1,5 @@
 /*
- * joy-hid.h - Joystick support for Mac OS X using HID Utility Library.
+ * joy-hid.h - Joystick support for Mac OS X using USB HID devices.
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -27,7 +27,14 @@
 #ifndef VICE_JOY_HID_H
 #define VICE_JOY_HID_H
 
+#ifdef HAS_HIDMGR
+/* Use Leopard's IOHIDManager API */
+#include <IOKit/hid/IOHIDManager.h>
 
+typedef IOHIDDeviceRef  hid_device_ref_t;
+typedef IOHIDElementRef hid_element_ref_t;
+
+#else 
 /* NOTE: We use the HID Utilites Library provided by Apple for free
 
    http://developer.apple.com/samplecode/HID_Utilities_Source/index.html
@@ -42,7 +49,7 @@
 /* HID Mgr Types */
 typedef pRecDevice  hid_device_ref_t;
 typedef pRecElement hid_element_ref_t;
-
+#endif
 
 
 /* axis map: define names of available axis on a HID device */
@@ -61,7 +68,7 @@ struct joy_hid_device {
     int     product_id;
     int     serial;
     char    *product_name;
-    
+
     hid_device_ref_t device;
 };
 typedef struct joy_hid_device joy_hid_device_t;
@@ -75,11 +82,12 @@ struct joy_hid_dev  {
     
     hid_element_ref_t all_buttons[JOYSTICK_DESCRIPTOR_MAX_BUTTONS];
     hid_element_ref_t all_axis[JOYSTICK_DESCRIPTOR_MAX_AXIS];
+    
+#ifdef HAS_HIDMGR
+    CFArrayRef all_elements;
+#endif
 };
 typedef struct joy_hid_dev joy_hid_dev_t;
-
-extern joy_hid_dev_t joy_hid_dev_a;
-extern joy_hid_dev_t joy_hid_dev_b;
 
 /* forward declare descriptor */
 struct joystick_descriptor;
@@ -99,5 +107,10 @@ extern int  joy_hid_detect_button(struct joystick_descriptor *joy);
 
 extern int  joy_hid_read_button(struct joystick_descriptor *jd, int id);
 extern int  joy_hid_read_axis(struct joystick_descriptor *jd, int axis);
+
+/* shared functions */
+extern int joy_hid_get_device_serial(int size, joy_hid_device_t *devs, int vid, int pid);
+extern const char *joy_hid_find_axis_name(int tag);
+extern int joy_hid_find_axis_tag(const char *name,int def);
 
 #endif

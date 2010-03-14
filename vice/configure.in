@@ -88,6 +88,8 @@ AC_ARG_ENABLE(editline, [  --disable-editline      disable history in Cocoa UI's
 AC_ARG_ENABLE(lame, [  --disable-lame          disable MP3 export with LAME])
 AC_ARG_ENABLE(static-lame, [  --enable-static-lame    enable static LAME linking])
 AC_ARG_ENABLE(embedded,    [  --enable-embedded       enable embedding of emulation data files])
+AC_ARG_ENABLE(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
+AC_ARG_ENABLE(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 
 dnl gnomeui / sdlui sanity check
 if test x"$enable_gnomeui" = "xyes" -a x"$enable_sdlui" = "xyes"; then
@@ -1152,21 +1154,46 @@ fi
 
 if test x"$is_unix_macosx" = "xyes" ; then
   dnl --- Mac joystick support ---
+  
+  dnl check for HID Manager
+  if test x"$enable_hidmgr" != "xno" ; then
+    AC_CHECK_HEADER(IOKit/hid/IOHIDManager.h,,)
+    if test x"$ac_cv_header_IOKit_hid_IOHIDManager_h" = "xyes" ; then
+      AC_MSG_CHECKING(whether we can link the (mac) IOHIDManager)
+      old_LIBS="${LIBS}"
+      LIBS="$LIBS -framework IOKit -framework CoreServices"
+      AC_TRY_LINK([#include <IOKit/hid/IOHIDManager.h>],
+                  [IOHIDManagerCreate(NULL,0)],
+                  [AC_MSG_RESULT(yes);
+                   JOY_LIBS="-framework IOKit -framework CoreServices";
+                   AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
+                   AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])
+                   AC_DEFINE(HAS_HIDMGR,,[Enable Mac IOHIDManager Joystick driver.])
+                   enable_hidutils=no
+                   ],
+                  [AC_MSG_RESULT(no);
+                   LIBS=${old_LIBS}])
+      LIBS="${old_LIBS}"
+    fi
+  fi
+  
   dnl check for HID utility library
-  AC_CHECK_HEADER(HID_Utilities_External.h,,)
-  if test x"$ac_cv_header_HID_Utilities_External_h" = "xyes" ; then
-    AC_MSG_CHECKING(whether we can link the (mac) HIDUtilities library)
-    old_LIBS="${LIBS}"
-    LIBS="$LIBS -lHIDUtilities -framework IOKit -framework CoreServices"
-    AC_TRY_LINK([#include <HID_Utilities_External.h>],
-                [HIDCountDevices()],
-                [AC_MSG_RESULT(yes);
-                 JOY_LIBS="-lHIDUtilities -framework IOKit -framework CoreServices";
-                 AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
-                 AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
-                [AC_MSG_RESULT(no);
-                 LIBS=${old_LIBS}])
-    LIBS="${old_LIBS}"
+  if test x"$enable_hidutils" != "xno" ; then
+    AC_CHECK_HEADER(HID_Utilities_External.h,,)
+    if test x"$ac_cv_header_HID_Utilities_External_h" = "xyes" ; then
+      AC_MSG_CHECKING(whether we can link the (mac) HIDUtilities library)
+      old_LIBS="${LIBS}"
+      LIBS="$LIBS -lHIDUtilities -framework IOKit -framework CoreServices"
+      AC_TRY_LINK([#include <HID_Utilities_External.h>],
+                  [HIDCountDevices()],
+                  [AC_MSG_RESULT(yes);
+                   JOY_LIBS="-lHIDUtilities -framework IOKit -framework CoreServices";
+                   AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
+                   AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
+                  [AC_MSG_RESULT(no);
+                   LIBS=${old_LIBS}])
+      LIBS="${old_LIBS}"
+    fi
   fi
 fi
 AC_SUBST(JOY_LIBS)
