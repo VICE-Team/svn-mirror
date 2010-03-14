@@ -54,6 +54,11 @@ int DirectoryOpen(char *dir_name, Directory *dp)
     return TRUE;
 } /* End DirectoryOpen */
 
+void DirectoryRestart(Directory *dp)
+{
+    rewinddir(DirectoryDir(dp));
+} /* End DirectoryRestart */
+
 void DirectoryClose(Directory *dp)
 {
     closedir(DirectoryDir(dp));
