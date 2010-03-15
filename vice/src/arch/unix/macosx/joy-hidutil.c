@@ -74,6 +74,7 @@ static void build_button_axis_lists(joystick_descriptor_t *joy)
 
     joy->num_hid_buttons = 0;
     joy->num_hid_axis = 0;
+    joy->num_hid_hat_switches = 0;
 
     for (element = HIDGetFirstDeviceElement(joy->hid->device, kHIDElementTypeInput);
          element != NULL;

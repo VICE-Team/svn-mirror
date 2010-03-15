@@ -162,7 +162,9 @@ int  joy_hid_enumerate_devices(joy_hid_device_t **result)
                d->vendor_id = (int)vendor_id;
                d->product_id = (int)product_id;
                d->serial = joy_hid_get_device_serial(idx, devs, d->vendor_id, d->product_id);
-               d->product_name = product_name;               
+               d->product_name = product_name;
+               
+               d++;
         }
     }
     
@@ -189,20 +191,63 @@ int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *devic
     joy->num_hid_buttons = 0;
     
     /* get all elements of device */
-    joy->hid->all_elements = IOHIDDeviceCopyMatchingElements( dev, NULL, 0 );
-    if ( joy->hid->all_elements ) {
-        CFIndex idx, cnt = CFArrayGetCount( joy->hid->all_elements );
+    CFArrayRef elements = IOHIDDeviceCopyMatchingElements( dev, NULL, 0 );    
+    joy->hid->all_elements = elements;
+    if ( elements ) {
+        CFIndex idx;
+        CFIndex cnt = CFArrayGetCount( elements );
         for ( idx = 0; idx < cnt; idx++ ) {
-            IOHIDElementRef element = ( IOHIDElementRef ) CFArrayGetValueAtIndex( joy->hid->all_elements, idx );
+            IOHIDElementRef element = ( IOHIDElementRef ) CFArrayGetValueAtIndex( elements, idx );
             if ( element ) {
                 uint32_t usagePage = IOHIDElementGetUsagePage( element );
                 if(usagePage == kHIDPage_GenericDesktop) {
-                    joy->hid->all_axis[joy->num_hid_axis] = element;
-                    joy->num_hid_axis++;
+                    uint32_t usage = IOHIDElementGetUsage( element );
+                    switch(usage) {
+                    case kHIDUsage_GD_Pointer:
+                    case kHIDUsage_GD_GamePad:
+                    case kHIDUsage_GD_Joystick:
+                        /* ignore */
+                        break;
+                    case kHIDUsage_GD_X:
+                    case kHIDUsage_GD_Y:
+                    case kHIDUsage_GD_Z:
+                    case kHIDUsage_GD_Rx:
+                    case kHIDUsage_GD_Ry:
+                    case kHIDUsage_GD_Rz:
+                        /* axis found */
+                        if (joy->num_hid_axis == JOYSTICK_DESCRIPTOR_MAX_AXIS) {
+                            log_message(LOG_DEFAULT, "mac_joy: TOO MANY AXIS FOUND!");
+                        } else {
+                            joy->hid->all_axis[joy->num_hid_axis] = element;
+                            joy->num_hid_axis++;
+                        }
+                        break;
+                    case kHIDUsage_GD_Hatswitch:
+                        joy->num_hid_hat_switches++;
+                        break;
+                    case kHIDUsage_GD_Slider:
+                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported Slider found)");
+                        break;
+                    case kHIDUsage_GD_Wheel:
+                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported Wheel found)");
+                        break;
+                    case kHIDUsage_GD_Dial:
+                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported Dial found)");
+                        break;
+                    default:
+                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported HID element with Generic Desktip usage 0x%04x)",
+                                    usage);
+                        break;
+                    }
                 }
                 else if(usagePage == kHIDPage_Button) {
-                    joy->hid->all_buttons[joy->num_hid_buttons] = element;
-                    joy->num_hid_buttons++;
+                    /* buttons found */
+                    if (joy->num_hid_buttons == JOYSTICK_DESCRIPTOR_MAX_BUTTONS) {
+                        log_message(LOG_DEFAULT, "mac_joy: TOO MANY BUTTONS FOUND!");
+                    } else {
+                        joy->hid->all_buttons[joy->num_hid_buttons] = element;
+                        joy->num_hid_buttons++;
+                    }
                 }
             }
         }
@@ -213,7 +258,7 @@ int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *devic
             log_message(LOG_DEFAULT, "mac_hidmgr: error opening device!");
             return 0;
         }
-                
+        
         joy->hid->device = dev;
         joy->mapped = 1;
     } else {

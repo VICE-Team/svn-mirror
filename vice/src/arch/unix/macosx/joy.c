@@ -432,7 +432,7 @@ static void setup_axis_calibration(joy_axis_t *axis, const char *desc)
     joy_calc_threshold(axis->min_value, axis->max_value, axis->threshold,
                        &axis->min_threshold, &axis->max_threshold);
 
-    log_message(LOG_DEFAULT, "mac_joy: %s axis: mapped to %s with range=[%d;%d] and null=[%d;%d] from threshold=%d%%",
+    log_message(LOG_DEFAULT, "mac_joy:  %s axis: mapped to %s with range=[%d;%d] and null=[%d;%d] from threshold=%d%%",
         desc, axis->name, 
         axis->min_value, axis->max_value, 
         axis->min_threshold, axis->max_threshold,
@@ -449,12 +449,12 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
     if (x_ok) {
         setup_axis_calibration(&joy->axis[HID_X_AXIS], "horizontal");
     } else {
-        log_message(LOG_DEFAULT, "mac_joy: horizontal axis not mapped!");
+        log_message(LOG_DEFAULT, "mac_joy:  horizontal axis not mapped!");
     }
     if (y_ok) {
         setup_axis_calibration(&joy->axis[HID_Y_AXIS], "vertical");
     } else {
-        log_message(LOG_DEFAULT, "mac_joy: vertical axis not mapped!");
+        log_message(LOG_DEFAULT, "mac_joy:  vertical axis not mapped!");
     }
 }
 
@@ -480,13 +480,13 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
         joy->buttons[i].id = ids[i];
         if(ids[i] != HID_INVALID_BUTTON) {
             if( joy_hid_map_button(joy, i) == 0 ) {
-                log_message(LOG_DEFAULT, "mac_joy: can't map button %d!", i);
+                log_message(LOG_DEFAULT, "mac_joy:  can't map button %d!", i);
             }
         } 
     }
     
     /* show button mapping */
-    log_message(LOG_DEFAULT, "mac_joy: buttons: fire=%d alt_fire=%d left=%d right=%d up=%d down=%d",
+    log_message(LOG_DEFAULT, "mac_joy:  buttons: fire=%d alt_fire=%d left=%d right=%d up=%d down=%d",
         ids[HID_FIRE], ids[HID_ALT_FIRE], ids[HID_LEFT], ids[HID_RIGHT], ids[HID_UP], ids[HID_DOWN]);
 }
 
@@ -508,7 +508,8 @@ static int match_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev)
 static void setup_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev, const char *desc)
 {
     if(joy_hid_map_device(joy, dev) == 1) {
-        log_message(LOG_DEFAULT, "mac_joy: set up %s HID joystick", desc);
+        log_message(LOG_DEFAULT, "mac_joy: set up %s HID joystick (%d buttons, %d axis, %d hat switches)", 
+                    desc, joy->num_hid_buttons, joy->num_hid_axis, joy->num_hid_hat_switches);
         setup_axis_mapping(joy);
         setup_button_mapping(joy);
     } else {

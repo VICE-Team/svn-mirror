@@ -103,6 +103,7 @@ struct joystick_descriptor  {
     /* number of buttons and axis available in device */
     int num_hid_buttons;
     int num_hid_axis;
+    int num_hid_hat_switches;
 
     int mapped; /* is device mapped ? */
 
