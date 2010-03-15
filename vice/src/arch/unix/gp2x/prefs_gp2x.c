@@ -721,11 +721,9 @@ void draw_prefs (unsigned char *screen)
     static int manual_start = 0;
     static int attach_unit = 0;
     static int attach_cart = 0;
-    static int attach_cart_vic20_2000 = 0;
-    static int attach_cart_vic20_4000 = 0;
-    static int attach_cart_vic20_6000 = 0;
-    static int attach_cart_vic20_a000 = 0;
-    static int attach_cart_vic20_b000 = 0;
+    static int attach_cart_vic20_generic_add = 0;
+    static int attach_cart_vic20_megacart = 0;
+    static int attach_cart_vic20_fe3 = 0;
     static char *imagefile;
     int i;
     int cur_rrate;
@@ -759,7 +757,6 @@ void draw_prefs (unsigned char *screen)
     option_txt[CENTRED]         = "Display centred                  ";
     option_txt[CPUSPEED]        = "CPU speed                        ";
     option_txt[EXITVICE]        = "Exit VICE                        ";
-    option_txt[BLANK1]          = blank_line;
     option_txt[BLANK3]          = blank_line;
     option_txt[BLANK4]          = blank_line;
     option_txt[NUM_OPTIONS]     = blank_line;
@@ -860,29 +857,19 @@ void draw_prefs (unsigned char *screen)
                 attach_cart = 0;
                 getfilename = 0;
                 gotfilename = 0;
-            } else if (attach_cart_vic20_2000) {
-                ui_attach_cart(imagefile, 2);
-                attach_cart_vic20_2000 = 0;
+            } else if (attach_cart_vic20_generic_add) {
+                ui_attach_cart(imagefile, CARTRIDGE_VIC20_DETECT);
+                attach_cart_vic20_generic_add = 0;
                 getfilename = 0;
                 gotfilename = 0;
-            } else if (attach_cart_vic20_4000) {
-                ui_attach_cart(imagefile, 4);
-                attach_cart_vic20_4000 = 0;
+            } else if (attach_cart_vic20_megacart) {
+                ui_attach_cart(imagefile, CARTRIDGE_VIC20_MEGACART);
+                attach_cart_vic20_megacart = 0;
                 getfilename = 0;
                 gotfilename = 0;
-            } else if (attach_cart_vic20_6000) {
-                ui_attach_cart(imagefile, 6);
-                attach_cart_vic20_6000 = 0;
-                getfilename = 0;
-                gotfilename = 0;
-            } else if (attach_cart_vic20_a000) {
-                ui_attach_cart(imagefile, 0xa);
-                attach_cart = 0;
-                getfilename = 0;
-                gotfilename = 0;
-            } else if (attach_cart_vic20_b000) {
-                ui_attach_cart(imagefile, 0xb);
-                attach_cart_vic20_b000 = 0;
+            } else if (attach_cart_vic20_fe3) {
+                ui_attach_cart(imagefile, CARTRIDGE_VIC20_FINAL_EXPANSION);
+                attach_cart_vic20_fe3 = 0;
                 getfilename = 0;
                 gotfilename = 0;
             }
@@ -935,7 +922,7 @@ void draw_prefs (unsigned char *screen)
                 cpu_speed -= CPU_DELTA;
                 set_FCLK(cpu_speed);
             }
-        } else if (cursor_pos == X8) {
+        } else if (cursor_pos == X7) {
             if (ui_set_ramblocks(0) == 1) {
                 vic20_mem = 0;
             }
@@ -973,7 +960,7 @@ void draw_prefs (unsigned char *screen)
                 cpu_speed += CPU_DELTA;
                 set_FCLK(cpu_speed);
             }
-        } else if (cursor_pos == X8) {
+        } else if (cursor_pos == X7) {
             if (ui_set_ramblocks(1) == 1) {
                 vic20_mem = 5;
             }
@@ -992,28 +979,22 @@ void draw_prefs (unsigned char *screen)
         } else if (cursor_pos == X2) {
             if (ui_handle_X(2) == 1) {
                 getfilename = 1;
-                attach_cart_vic20_2000 = 1;
+                attach_cart_vic20_generic_add = 1;
             }
         } else if (cursor_pos == X3) {
             if (ui_handle_X(3) == 1) {
                 getfilename = 1;
-                attach_cart_vic20_4000 = 1;
+                attach_cart_vic20_megacart = 1;
             }
         } else if (cursor_pos == X4) {
             if (ui_handle_X(4) == 1) {
                 getfilename = 1;
-                attach_cart_vic20_6000 = 1;
+                attach_cart_vic20_fe3 = 1;
             }
         } else if (cursor_pos == X5) {
-            if (ui_handle_X(5) == 1) {
-                getfilename = 1;
-                attach_cart_vic20_a000 = 1;
-            }
+            ui_handle_X(5);
         } else if (cursor_pos == X6) {
-            if (ui_handle_X(6) == 1) {
-                getfilename = 1;
-                attach_cart_vic20_b000 = 1;
-            }
+            ui_handle_X(6);
         } else if (cursor_pos == X7) {
             ui_handle_X(7);
         } else if (cursor_pos == AUTOSTART) {
@@ -1067,7 +1048,7 @@ void draw_prefs (unsigned char *screen)
         draw_ascii_string(screen, display_width, MENU_X, MENU_Y + (i * 8), option_txt[i], menu_fg, bg);
     }
     while (i <= MENU_HEIGHT) {
-        draw_ascii_string(screen, display_width, MENU_X, MENU_Y + (i * 8), option_txt[BLANK1], menu_bg, bg);
+        draw_ascii_string(screen, display_width, MENU_X, MENU_Y + (i * 8), blank_line, menu_bg, bg);
         i++;
     }
 
@@ -1128,7 +1109,7 @@ void draw_prefs (unsigned char *screen)
     /* centre display */
     gp2x_draw_centred_string(screen, display_width, centred);
 
-    ui_draw_memory_string(screen, MENU_X + (8 * 21), MENU_Y + (8 * X8), vic20_mem);
+    ui_draw_memory_string(screen, MENU_X + (8 * 21), MENU_Y + (8 * X7), vic20_mem);
 
     /* cpu speed */
     sprintf(tmp_string, "%dmhz", cpu_speed);

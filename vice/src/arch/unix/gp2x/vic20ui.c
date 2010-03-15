@@ -47,9 +47,8 @@ void vic20ui_handle_sidengine_resource(int value)
 
 int vic20ui_handle_X(int Xvalue)
 {
-    if (Xvalue == 7) {
+    if (Xvalue == 5) {
         cartridge_detach_image();
-        return 1;
     }
     return 1;
 }
@@ -85,23 +84,9 @@ void vic20ui_draw_memory_string(unsigned char *screen, int menu_x, int menu_y, i
 void vic20ui_attach_cart(char *imagefile, int carttype)
 {
     if (carttype == 0) {
-        cartridge_attach_image(CARTRIDGE_VIC20_DETECT, imagefile);
+        carttype = CARTRIDGE_VIC20_GENERIC;
     }
-    if (carttype == 2) {
-        cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, imagefile);
-    }
-    if (carttype == 4) {
-        cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, imagefile);
-    }
-    if (carttype == 6) {
-        cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, imagefile);
-    }
-    if (carttype == 0xa) {
-        cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, imagefile);
-    }
-    if (carttype == 0xb) {
-        cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, imagefile);
-    }
+    cartridge_attach_image(carttype, imagefile);
 }
 
 #define C64KB_HEIGHT 8
@@ -228,14 +213,13 @@ int vic20ui_init(void)
     xoffset = xoffset_centred;
     yoffset = yoffset_centred;
 
-    option_txt[X1] = "Smart-attach cartridge...        ";
-    option_txt[X2] = "Attach cartridge $2000...        ";
-    option_txt[X3] = "Attach cartridge $4000...        ";
-    option_txt[X4] = "Attach cartridge $6000...        ";
-    option_txt[X5] = "Attach cartridge $A000...        ";
-    option_txt[X6] = "Attach cartridge $B000...        ";
-    option_txt[X7] = "Detach cartridge                 ";
-    option_txt[X8] = "Memory expansions                ";
+    option_txt[X1] = "Attach generic cartridge image...";
+    option_txt[X2] = "Add to generic cartridge...      ";
+    option_txt[X3] = "Attach Mega-Cart image...        ";
+    option_txt[X4] = "Attach Final Expansion image...  ";
+    option_txt[X5] = "Detach cartridge                 ";
+    option_txt[X6] = blank_line;
+    option_txt[X7] = "Memory expansions                ";
 
     ui_handle_sidengine_resource = vic20ui_handle_sidengine_resource;
     ui_handle_X = vic20ui_handle_X;

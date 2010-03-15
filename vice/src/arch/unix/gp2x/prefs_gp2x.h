@@ -66,9 +66,7 @@ extern void (*ui_attach_cart)(char *, int);
 #define X5           8
 #define X6           9
 #define X7           10
-#define X8           11
-#define RESET        9
-#define BLANK1       10
+#define RESET        11
 
 #define SAVE_SNAP    12
 #define KEYMAP       13

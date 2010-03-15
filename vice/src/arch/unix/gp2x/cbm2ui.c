@@ -176,7 +176,6 @@ int cbm2ui_init(void)
     option_txt[X5] = blank_line;
     option_txt[X6] = blank_line;
     option_txt[X7] = blank_line;
-    option_txt[X8] = blank_line;
 
     ui_handle_sidengine_resource = cbm2ui_handle_sidengine_resource;
     ui_handle_X = cbm2ui_handle_X;
