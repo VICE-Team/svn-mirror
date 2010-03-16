@@ -93,15 +93,12 @@ int gs_crt_attach(FILE *fd, BYTE *rawcart)
 
     while (1) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
-            fclose(fd);
             break;
         }
         if (chipheader[0xb] >= 64 || (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0)) {
-            fclose(fd);
             return -1;
         }
         if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-            fclose(fd);
             return -1;
         }
     }

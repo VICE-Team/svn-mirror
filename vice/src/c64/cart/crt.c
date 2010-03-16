@@ -116,261 +116,119 @@ int crt_attach(const char *filename, BYTE *rawcart)
     switch (crttype) {
         case CARTRIDGE_CRT:
             rc = generic_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_WESTERMANN:
             rc = westermann_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_WARPSPEED:
             rc = warpspeed_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_FINAL_I:
             rc = final_v1_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_ACTION_REPLAY4:
             rc = actionreplay4_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             rc = actionreplay3_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_IDE64:
             rc = ide64_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_STARDOS:
             rc = stardos_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_ACTION_REPLAY:
             rc = actionreplay_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_ATOMIC_POWER:
             rc = atomicpower_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_SIMONS_BASIC:
             rc = simon_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_KCS_POWER:
             rc = kcs_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_FINAL_III:
             rc = final_v3_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_RETRO_REPLAY:
             rc = retroreplay_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_DINAMIC:
             rc = dinamic_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_OCEAN:
             rc = ocean_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_GS:
             rc = gs_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_MAGIC_DESK:
             rc = magicdesk_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_EASYFLASH:
             rc = easyflash_crt_attach(fd, rawcart, header, filename);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_FUNPLAY:
             rc = funplay_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_SUPER_GAMES:
             rc = supergames_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_COMAL80:
             rc = comal80_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_EPYX_FASTLOAD:
             rc = epyxfastload_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_MIKRO_ASSEMBLER:
             rc = mikroass_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-               return -1;
-            }
             break;
         case CARTRIDGE_REX:
             rc = rex_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_EXPERT:
             rc = expert_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_ZAXXON:
             rc = zaxxon_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             rc = supersnapshot_v5_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             rc = magicformel_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_CAPTURE:
             rc = capture_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_STRUCTURED_BASIC:
             rc = stb_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_ROSS:
             rc = ross_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_DELA_EP64:
             rc = delaep64_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_DELA_EP7x8:
             rc = delaep7x8_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_DELA_EP256:
             rc = delaep256_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         case CARTRIDGE_REX_EP256:
             rc = rexep256_crt_attach(fd, rawcart);
-            fclose(fd);
-            if (rc < 0) {
-                return -1;
-            }
             break;
         default:
-            fclose(fd);
-            return -1;
+            rc = -1;
+            break;
     }
-    return 0;
+
+    fclose(fd);
+    return rc;
 }
 
 /*
