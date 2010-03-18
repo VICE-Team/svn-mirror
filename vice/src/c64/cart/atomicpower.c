@@ -92,6 +92,8 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
         return export_ram0[0x1f00 + (addr & 0xff)];
     }
 
+    addr |= 0xdf00;
+
     switch (roml_bank) {
         case 0:
             return roml_banks[addr & 0x1fff];

@@ -125,7 +125,7 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                             return export_ram0[0x1e00 + (addr & 0xff)];
                         }
                     }
-                    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+                    return roml_banks[((addr | 0xde00) & 0x1fff) + (roml_bank << 13)];
                 }
         }
     }
@@ -214,7 +214,7 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
                     return export_ram0[0x1f00 + (addr & 0xff)];
                 }
             }
-            return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+            return roml_banks[((addr | 0xdf00) & 0x1fff) + (roml_bank << 13)];
         }
     }
     return 0;
