@@ -118,7 +118,7 @@ io_source_list_t *c64io_register(io_source_t *device)
     } else {
         current = &c64io2_head;
     }
-    
+
     while (current->next != NULL) {
         current = current->next;
     }
@@ -135,6 +135,11 @@ void c64io_unregister(io_source_list_t *device)
     io_source_list_t *prev = device->previous;
 
     prev->next = device->next;
+
+    if (device->next) {
+        device->next->previous = prev;
+    }
+
     lib_free(device);
 }
 
