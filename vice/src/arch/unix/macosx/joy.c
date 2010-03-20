@@ -481,8 +481,8 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
         /* map axis name to HID usage */
         int usage = joy_hid_get_axis_usage(axis->name);
         if(usage == -1) {
-            log_message(LOG_DEFAULT, "mac_joy: ERROR %s axis name not found: %s", 
-                        desc[i], axis->name);
+            log_message(LOG_DEFAULT, "mac_joy:   %s axis not mapped", 
+                        desc[i]);
         } else {
             /* try to map axis with given HID usage */
             int err = joy_hid_assign_axis(joy, i, usage);
