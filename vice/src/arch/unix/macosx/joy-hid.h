@@ -27,90 +27,63 @@
 #ifndef VICE_JOY_HID_H
 #define VICE_JOY_HID_H
 
-#ifdef HAS_HIDMGR
-/* Use Leopard's IOHIDManager API */
-#include <IOKit/hid/IOHIDManager.h>
-
-typedef IOHIDDeviceRef  hid_device_ref_t;
-typedef IOHIDElementRef hid_element_ref_t;
-
-#else 
-/* NOTE: We use the HID Utilites Library provided by Apple for free
-
-   http://developer.apple.com/samplecode/HID_Utilities_Source/index.html
-
-   Make sure to install this (static) library first!
-*/
-#include <Carbon/Carbon.h>
-#include <IOKit/hid/IOHIDKeys.h>
-#include <IOKit/hid/IOHIDUsageTables.h>
-#include "HID_Utilities_External.h"
-
-/* HID Mgr Types */
-typedef pRecDevice  hid_device_ref_t;
-typedef pRecElement hid_element_ref_t;
-#endif
-
+#include "vice.h"
+#include "joy-hidlib.h"
 
 /* axis map: define names of available axis on a HID device */
 struct joy_hid_axis_info {
     const char *name;
-    int id;
+    int usage;
 };
 typedef struct joy_hid_axis_info joy_hid_axis_info_t;
 
 /* public list of axis names */
 extern joy_hid_axis_info_t joy_hid_axis_infos[];
 
-/* information on the HID device */
-struct joy_hid_device {
-    int     vendor_id;
-    int     product_id;
-    int     serial;
-    char    *product_name;
+/* describe the HID specific parts of the joystick */
+struct joy_hid_descriptor  {
+    joy_hid_device_ptr_t device; /* what HID device is mapped to this joy */
 
-    hid_device_ref_t device;
+    joy_hid_element_ptr_t mapped_axis[HID_NUM_AXIS];
+    joy_hid_element_ptr_t mapped_buttons[HID_NUM_BUTTONS];
+    joy_hid_element_ptr_t mapped_hat_switch;
+        
+    joy_hid_element_ptr_t all_buttons[JOYSTICK_DESCRIPTOR_MAX_BUTTONS];
+    joy_hid_element_ptr_t all_axis[JOYSTICK_DESCRIPTOR_MAX_AXIS];
+    joy_hid_element_ptr_t all_hat_switches[JOYSTICK_DESCRIPTOR_MAX_HAT_SWITCHES];
 };
-typedef struct joy_hid_device joy_hid_device_t;
+typedef struct joy_hid_descriptor joy_hid_descriptor_t;
 
-/* describe the HID Util dependent parts of the joystick device */
-struct joy_hid_dev  {
-    hid_device_ref_t device;
-
-    hid_element_ref_t mapped_axis[HID_NUM_AXIS];
-    hid_element_ref_t mapped_buttons[HID_NUM_BUTTONS];
-    
-    hid_element_ref_t all_buttons[JOYSTICK_DESCRIPTOR_MAX_BUTTONS];
-    hid_element_ref_t all_axis[JOYSTICK_DESCRIPTOR_MAX_AXIS];
-    
-#ifdef HAS_HIDMGR
-    CFArrayRef all_elements;
-#endif
-};
-typedef struct joy_hid_dev joy_hid_dev_t;
-
-/* forward declare descriptor */
 struct joystick_descriptor;
 
-/* functions */
-extern int  joy_hid_load_device_list(void);
-extern void joy_hid_unload_device_list(void);
-extern int  joy_hid_enumerate_devices(joy_hid_device_t **result);
-extern void joy_hid_free_devices(int num,joy_hid_device_t *devices);
+/* ----- API ----- */
 
+extern int  joy_hid_init(void); /* return number of total devices found. <0 error */
+extern void joy_hid_exit(void);
+extern int  joy_hid_reload(void); /* return number of total device found. <0 error */
+extern const joy_hid_device_array_t *joy_hid_get_devices(void);
+
+/* device functions */
 extern int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *device);
-extern int  joy_hid_map_axis(struct joystick_descriptor *joy, int axis);
-extern int  joy_hid_map_button(struct joystick_descriptor *joy, int id);
+extern void joy_hid_unmap_device(struct joystick_descriptor *joy);
 
-extern const char *joy_hid_detect_axis(struct joystick_descriptor *joy, int axis);
+/* axis functions */
+extern int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage);
+extern int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id);
+extern int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value);
+
+/* button functions */
+extern int  joy_hid_assign_button(struct joystick_descriptor *joy, int id, int usage);
 extern int  joy_hid_detect_button(struct joystick_descriptor *joy);
+extern int  joy_hid_read_button(struct joystick_descriptor *joy, int id, int *value);
 
-extern int  joy_hid_read_button(struct joystick_descriptor *jd, int id);
-extern int  joy_hid_read_axis(struct joystick_descriptor *jd, int axis);
+/* hat switch functions */
+extern int  joy_hid_assign_hat_switch(struct joystick_descriptor *joy, int serial);
+extern int  joy_hid_detect_hat_switch(struct joystick_descriptor *joy);
+extern int  joy_hid_read_hat_switch(struct joystick_descriptor *joy, int *value);
 
-/* shared functions */
-extern int joy_hid_get_device_serial(int size, joy_hid_device_t *devs, int vid, int pid);
-extern const char *joy_hid_find_axis_name(int tag);
-extern int joy_hid_find_axis_tag(const char *name,int def);
+/* axis map functions */
+extern const char *joy_hid_get_axis_name(int usage);
+extern int joy_hid_get_axis_usage(const char *name);
 
 #endif

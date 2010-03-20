@@ -30,6 +30,7 @@
 #include "joy.h"
 #include "log.h"
 #include "lib.h"
+#include "joy-hidlib.h"
 
 #ifdef HAS_JOYSTICK
 #ifdef HAS_HIDMGR
@@ -37,7 +38,6 @@
 /* ----- Statics ----- */
 
 static IOHIDManagerRef mgr;
-static CFMutableArrayRef devices;
 
 /* ----- Tools ----- */
 
@@ -65,7 +65,7 @@ static Boolean IOHIDDevice_GetLongProperty( IOHIDDeviceRef inIOHIDDeviceRef, CFS
 
 /* ----- API ----- */
 
-int  joy_hid_load_device_list(void)
+int  joy_hidlib_init(void)
 {
     if ( !mgr ) {
         // create the manager
@@ -75,346 +75,274 @@ int  joy_hid_load_device_list(void)
         // open it
         IOReturn tIOReturn = IOHIDManagerOpen( mgr, 0L);
         if ( kIOReturnSuccess != tIOReturn ) {
-            log_message(LOG_DEFAULT, "mac_hidmgr: error opening manager!");
-            return 0;
+            return -1;
         } else {
             IOHIDManagerSetDeviceMatching( mgr, NULL );
-            CFSetRef deviceSet = IOHIDManagerCopyDevices( mgr );
-            if ( deviceSet ) {
-                if ( devices ) {
-                    CFRelease( devices );
-                }
-                devices = CFArrayCreateMutable( kCFAllocatorDefault, 0, & kCFTypeArrayCallBacks );
-                CFSetApplyFunction( deviceSet, CFSetApplierFunctionCopyToCFArray, devices );
-                CFIndex cnt = CFArrayGetCount( devices );
-                CFRelease( deviceSet );
-                int num_devices = (int)cnt;
-                log_message(LOG_DEFAULT, "mac_joy: found %d devices (with IOHIDManager)", num_devices);
-                return num_devices;
-            }
-        }
+            return 0;
+        }    
     } else {
-        log_message(LOG_DEFAULT, "mac_hidmgr: can't create manager!");
-    }
-    return 0;
+        return -1;
+    }        
 }
 
-void joy_hid_unload_device_list(void)
+void joy_hidlib_exit(void)
 {
-    if(devices) {
-        CFRelease( devices );
-        devices = NULL;
-    }
     if(mgr) {
         IOHIDManagerClose( mgr, 0 );
         mgr = NULL;
     }
 }
 
-int  joy_hid_enumerate_devices(joy_hid_device_t **result)
+static int is_joystick(IOHIDDeviceRef ref)
 {
-    CFIndex cnt = CFArrayGetCount(devices);
+    return 
+        IOHIDDeviceConformsTo( ref, kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick ) ||
+        IOHIDDeviceConformsTo( ref, kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad );
+}
 
-    /* first count joystick/gamepad devices */
-    CFIndex idx;
-    int num_devices = 0;
-    for ( idx = 0; idx < cnt; idx++ ) {
-        IOHIDDeviceRef dev = ( IOHIDDeviceRef ) CFArrayGetValueAtIndex( devices, idx );
-        if(IOHIDDeviceConformsTo(dev, kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick) ||
-           IOHIDDeviceConformsTo(dev, kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad)) {
-            num_devices++;
-        }
-    }
-
-    if(num_devices == 0) {
-        return 0;
-    }
-
-    /* allocate devices */
-    joy_hid_device_t *devs = (joy_hid_device_t *)lib_malloc(sizeof(joy_hid_device_t) * num_devices);
-    if(devs == NULL) {
-        return 0;
-    }
-    *result = devs;
-
-    /* build joy_hid_device */
-    joy_hid_device_t *d = devs;
-    for ( idx = 0; idx < cnt; idx++ ) {
-        IOHIDDeviceRef dev = ( IOHIDDeviceRef ) CFArrayGetValueAtIndex( devices, idx );
-        if(IOHIDDeviceConformsTo(dev, kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick) ||
-           IOHIDDeviceConformsTo(dev, kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad)) {
-               
-               long vendor_id = 0;
-               IOHIDDevice_GetLongProperty( dev, CFSTR( kIOHIDVendorIDKey ), &vendor_id );
-               long product_id = 0;
-               IOHIDDevice_GetLongProperty( dev, CFSTR( kIOHIDProductIDKey ), &product_id );
-               CFStringRef product_key;
-               product_key = IOHIDDeviceGetProperty( dev, CFSTR( kIOHIDProductKey ) );
-               char *product_name = "N/A";
-               if(product_key) {
-                   char buffer[256];
-                   if(CFStringGetCString(product_key, buffer, 256, kCFStringEncodingUTF8)) {
-                       product_name = strdup(buffer);
-                   }
-               }
-               
-               d->device = dev;
-               d->vendor_id = (int)vendor_id;
-               d->product_id = (int)product_id;
-               d->serial = joy_hid_get_device_serial(idx, devs, d->vendor_id, d->product_id);
-               d->product_name = product_name;
-               
-               d++;
+static int count_joysticks(joy_hid_device_array_t *dev_array)
+{
+    int i;
+    int num_devices = dev_array->num_internal_devices;
+    int num_joys = 0;
+    CFArrayRef devices = dev_array->internal_devices;
+    for ( i = 0; i < num_devices ; i++ ) {
+        IOHIDDeviceRef dev = ( IOHIDDeviceRef ) CFArrayGetValueAtIndex( devices, i );
+        if(is_joystick(dev)) {
+               num_joys++;
         }
     }
     
-    return num_devices;
+    dev_array->num_devices = num_joys;
+    return num_joys;
 }
 
-int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *device)
+static void build_joystick_list(joy_hid_device_array_t *dev_array)
+{
+    int i;
+    int num_devices = dev_array->num_internal_devices;        
+    CFArrayRef devices = dev_array->internal_devices;
+    joy_hid_device_t *d = dev_array->devices;
+    for ( i = 0; i < num_devices ; i++ ) {
+        IOHIDDeviceRef dev = ( IOHIDDeviceRef ) CFArrayGetValueAtIndex( devices, i );
+        if(is_joystick(dev)) {
+               
+            long vendor_id = 0;
+            IOHIDDevice_GetLongProperty( dev, CFSTR( kIOHIDVendorIDKey ), &vendor_id );
+            long product_id = 0;
+            IOHIDDevice_GetLongProperty( dev, CFSTR( kIOHIDProductIDKey ), &product_id );
+            CFStringRef product_key;
+            product_key = IOHIDDeviceGetProperty( dev, CFSTR( kIOHIDProductKey ) );
+            char *product_name = "N/A";
+            if(product_key) {
+               char buffer[256];
+               if(CFStringGetCString(product_key, buffer, 256, kCFStringEncodingUTF8)) {
+                   product_name = strdup(buffer);
+               }
+            }
+
+            d->internal_device = dev;
+            d->vendor_id = (int)vendor_id;
+            d->product_id = (int)product_id;
+            d->serial = 0; /* will be filled in later */
+            d->product_name = product_name;
+
+            d++;
+        }
+    }
+}
+            
+joy_hid_device_array_t *joy_hidlib_enumerate_devices(void)
+{
+    if( !mgr ) {
+        return NULL;
+    }
+
+    /* create set of devices */
+    CFSetRef device_set = IOHIDManagerCopyDevices( mgr );
+    if ( !device_set ) {
+        return NULL;
+    }
+
+    /* create array of devices */
+    CFMutableArrayRef device_array = CFArrayCreateMutable( kCFAllocatorDefault, 0, 
+                                                    & kCFTypeArrayCallBacks );
+    if( ! device_array ) {
+        CFRelease( device_set );
+        return NULL;
+    }                                
+    CFSetApplyFunction( device_set, CFSetApplierFunctionCopyToCFArray, device_array );
+    CFRelease( device_set );
+
+    /* allocate result */
+    joy_hid_device_array_t *result = 
+        (joy_hid_device_array_t *)lib_malloc(sizeof(joy_hid_device_array_t));
+    if(result == NULL) {
+        CFRelease( device_array );
+        return NULL;
+    }
+
+    /* get size */
+    CFIndex cnt = CFArrayGetCount( device_array );
+
+    /* fill internal struct */
+    result->num_internal_devices = (int)cnt;
+    result->internal_devices = device_array;
+    result->num_devices = 0;
+    result->devices = NULL;
+    result->driver_name = "IOHIDManager";
+
+    /* count joysticks -> num devices */
+    count_joysticks(result);
+    if(result->num_devices == 0)
+        return result;
+    
+    /* allocate our device structs */
+    joy_hid_device_t *devices =
+        (joy_hid_device_t *)lib_malloc(sizeof(joy_hid_device_t) * result->num_devices);
+    if(devices == NULL) {
+        lib_free(result);
+        CFRelease( device_array );
+        return NULL;
+    }
+    result->devices = devices;
+    
+    build_joystick_list(result);
+    return result;
+}
+
+void joy_hidlib_free_devices(joy_hid_device_array_t *devices)
+{
+    if(devices == NULL) {
+        return;
+    }
+    
+    int num_devices = devices->num_devices;
+    int i;
+    for(i = 0; i<num_devices; i++) {
+        joy_hidlib_free_elements(&devices->devices[i]);
+    }
+    
+    if(devices->internal_devices) {
+        CFRelease( devices->internal_devices );
+        devices->internal_devices = NULL;
+    }
+
+    if(devices != NULL) {
+        free(devices);
+        devices = NULL;
+    }    
+}
+
+int  joy_hidlib_open_device(joy_hid_device_t *device)
+{
+    if( device->internal_device == NULL ) {
+        return -2;
+    }
+    IOReturn result = IOHIDDeviceOpen( device->internal_device, 0 );
+    if(result != kIOReturnSuccess) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+void joy_hidlib_close_device(joy_hid_device_t *device)
 {
     /* close old device */
-    if(joy->hid->device) {
-        IOHIDDeviceClose(joy->hid->device, 0);
+    if(device->internal_device != NULL) {
+        IOHIDDeviceClose(device->internal_device, 0);
     }
-    
-    /* release old elments array */
-    if(joy->hid->all_elements) {
-        CFRelease(joy->hid->all_elements);
+}
+
+int  joy_hidlib_enumerate_elements(joy_hid_device_t *device)
+{
+    IOHIDDeviceRef dev = device->internal_device;
+    if(dev == NULL) {
+        return -1;
     }
-    
-    /* store device */
-    IOHIDDeviceRef dev = device->device;    
-    
-    /* reset all axis and buttons */
-    joy->num_hid_axis = 0;
-    joy->num_hid_buttons = 0;
     
     /* get all elements of device */
-    CFArrayRef elements = IOHIDDeviceCopyMatchingElements( dev, NULL, 0 );    
-    joy->hid->all_elements = elements;
-    if ( elements ) {
-        CFIndex idx;
-        CFIndex cnt = CFArrayGetCount( elements );
-        for ( idx = 0; idx < cnt; idx++ ) {
-            IOHIDElementRef element = ( IOHIDElementRef ) CFArrayGetValueAtIndex( elements, idx );
-            if ( element ) {
-                uint32_t usagePage = IOHIDElementGetUsagePage( element );
-                if(usagePage == kHIDPage_GenericDesktop) {
-                    uint32_t usage = IOHIDElementGetUsage( element );
-                    switch(usage) {
-                    case kHIDUsage_GD_Pointer:
-                    case kHIDUsage_GD_GamePad:
-                    case kHIDUsage_GD_Joystick:
-                        /* ignore */
-                        break;
-                    case kHIDUsage_GD_X:
-                    case kHIDUsage_GD_Y:
-                    case kHIDUsage_GD_Z:
-                    case kHIDUsage_GD_Rx:
-                    case kHIDUsage_GD_Ry:
-                    case kHIDUsage_GD_Rz:
-                        /* axis found */
-                        if (joy->num_hid_axis == JOYSTICK_DESCRIPTOR_MAX_AXIS) {
-                            log_message(LOG_DEFAULT, "mac_joy: TOO MANY AXIS FOUND!");
-                        } else {
-                            joy->hid->all_axis[joy->num_hid_axis] = element;
-                            joy->num_hid_axis++;
-                        }
-                        break;
-                    case kHIDUsage_GD_Hatswitch:
-                        joy->num_hid_hat_switches++;
-                        break;
-                    case kHIDUsage_GD_Slider:
-                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported Slider found)");
-                        break;
-                    case kHIDUsage_GD_Wheel:
-                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported Wheel found)");
-                        break;
-                    case kHIDUsage_GD_Dial:
-                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported Dial found)");
-                        break;
-                    default:
-                        log_message(LOG_DEFAULT, "mac_joy:  (unsupported HID element with Generic Desktip usage 0x%04x)",
-                                    usage);
-                        break;
-                    }
-                }
-                else if(usagePage == kHIDPage_Button) {
-                    /* buttons found */
-                    if (joy->num_hid_buttons == JOYSTICK_DESCRIPTOR_MAX_BUTTONS) {
-                        log_message(LOG_DEFAULT, "mac_joy: TOO MANY BUTTONS FOUND!");
-                    } else {
-                        joy->hid->all_buttons[joy->num_hid_buttons] = element;
-                        joy->num_hid_buttons++;
-                    }
-                }
-            }
-        }
-        
-        /* open device */
-        IOReturn result = IOHIDDeviceOpen( dev, 0 );
-        if(result != kIOReturnSuccess) {
-            log_message(LOG_DEFAULT, "mac_hidmgr: error opening device!");
-            return 0;
-        }
-        
-        joy->hid->device = dev;
-        joy->mapped = 1;
-    } else {
-        joy->mapped = 0;
-    }
-    return joy->mapped;
-}
-
-int  joy_hid_map_axis(struct joystick_descriptor *joy, int id)
-{
-    joy_axis_t *axis = &joy->axis[id];
-    
-    /* default unmapped */
-    axis->mapped = 0;
-    
-    /* no name given */
-    if(axis->name == NULL) {
-        return 0;
+    CFArrayRef internal_elements = IOHIDDeviceCopyMatchingElements( dev, NULL, 0 );    
+    if(!internal_elements) {
+        return -1;
     }
     
-    /* map tag */
-    int tag = joy_hid_find_axis_tag(axis->name, -1);
-    if(tag == -1) {
-        return 0;
+    /* get number of elements */
+    CFIndex cnt = CFArrayGetCount( internal_elements );
+    device->num_elements = (int)cnt;
+    
+    /* create elements array */
+    joy_hid_element_t *elements = (joy_hid_element_t *)
+        lib_malloc(sizeof(joy_hid_element_t) * cnt);
+    if(elements == NULL) {
+        CFRelease(internal_elements);
+        internal_elements = NULL;
+        return -1;
     }
     
-    /* find all axis for tag */
-    int i;
-    for(i=0;i<joy->num_hid_axis;i++) {
-        IOHIDElementRef element = joy->hid->all_axis[i];
-        uint32_t usage = IOHIDElementGetUsage(element);
-        if(usage == tag) {
+    /* enumerate and convert all elements */
+    CFIndex i;
+    joy_hid_element_t *e = elements;
+    for(i=0;i<cnt;i++) { 
+        IOHIDElementRef internal_element = 
+            ( IOHIDElementRef ) CFArrayGetValueAtIndex( internal_elements, i );
+        if ( internal_element ) {
+            uint32_t usage_page = IOHIDElementGetUsagePage( internal_element );
+            uint32_t usage = IOHIDElementGetUsage( internal_element );
+            CFIndex min = IOHIDElementGetPhysicalMin( internal_element );
+            CFIndex max = IOHIDElementGetPhysicalMax( internal_element );
             
-            /* get range */
-            CFIndex min = IOHIDElementGetPhysicalMin(element);
-            CFIndex max = IOHIDElementGetPhysicalMax(element);
-            axis->min_value = (int)min;
-            axis->max_value = (int)max;
-            
-            /* found axis */
-            joy->hid->mapped_axis[id] = element;
-            axis->mapped = 1;
-            return 1;
-            
-        }
-    }
-    
-    return axis->mapped;
-}
-
-int  joy_hid_map_button(struct joystick_descriptor *joy, int id)
-{
-    int i;
-    IOHIDElementRef element;
-    int tag = joy->buttons[id].id;
-    for(i=0;i<joy->num_hid_buttons;i++) {
-        element = joy->hid->all_buttons[i];
-        uint32_t usage = IOHIDElementGetUsage(element);
-        if(usage == tag) {
-            
-            /* found button -> map it */
-            joy->hid->mapped_buttons[id] = element;
-            joy->buttons[id].mapped = 1;
-            return 1;
-            
-        }
-    }
-    
-    /* mapping failed */
-    joy->buttons[id].mapped = 0;
-    return 0;
-}
-
-const char *joy_hid_detect_axis(struct joystick_descriptor *joy, int id)
-{
-    int i;
-    for(i=0;i<joy->num_hid_axis;i++) {
-        IOHIDElementRef element = joy->hid->all_axis[i];
-            
-        /* find name */
-        uint32_t usage = IOHIDElementGetUsage(element);
-        const char *name = joy_hid_find_axis_name(usage);
-        if(name != NULL) {
-            
-            /* get range */
-            int min = (int)IOHIDElementGetPhysicalMin(element);
-            int max = (int)IOHIDElementGetPhysicalMax(element);
-            int t_min, t_max;
-            joy_calc_threshold(min, max, joy->axis[id].threshold, &t_min, &t_max);
-            
-            IOHIDValueRef value;
-            IOReturn result = IOHIDDeviceGetValue( joy->hid->device, 
-                                                   element,
-                                                   &value );
-            if(result == kIOReturnSuccess) {
-                int v = (int)IOHIDValueGetIntegerValue( value );
-                if((v < t_min)||(v > t_max)) {
-                    return name;
-                }
-            }
-        }
-    }
-    return NULL;
-}
-
-int  joy_hid_detect_button(struct joystick_descriptor *joy)
-{
-    int i;
-    for(i=0;i<joy->num_hid_buttons;i++) {
-        IOHIDElementRef element = joy->hid->all_buttons[i];
-        IOHIDValueRef value;
-        IOReturn result = IOHIDDeviceGetValue( joy->hid->device, 
-                                               element,
-                                               &value );
-        if(result == kIOReturnSuccess) {
-            CFIndex v = IOHIDValueGetIntegerValue( value );
-            if(v > 0) {
-                return (int)IOHIDElementGetUsage(element);
-            }
-        }
-    }
-    return HID_INVALID_BUTTON;
-}
-
-int  joy_hid_read_button(struct joystick_descriptor *joy, int id)
-{
-    IOHIDValueRef value;
-    IOReturn result = IOHIDDeviceGetValue( joy->hid->device, 
-                                           joy->hid->mapped_buttons[id],
-                                           &value );
-    if(result == kIOReturnSuccess) {
-        CFIndex v = IOHIDValueGetIntegerValue( value );
-        return (v > 0);
-    } else {
-        return 0;
-    }
-}
-
-int  joy_hid_read_axis(struct joystick_descriptor *joy, int id)
-{
-    IOHIDValueRef value;
-    IOReturn result = IOHIDDeviceGetValue( joy->hid->device, 
-                                           joy->hid->mapped_axis[id],
-                                           &value );
-    if(result == kIOReturnSuccess) {
-        CFIndex v = IOHIDValueGetIntegerValue( value );
-        joy_axis_t *axis = &joy->axis[id];
-        if(v < axis->min_threshold) {
-            return -1;
-        } else if(v > axis->max_threshold) {
-            return 1;
+            e->usage_page = (int)usage_page;
+            e->usage      = (int)usage;
+            e->min_value  = (int)min;
+            e->max_value  = (int)max;
+            e->internal_element = internal_element;
         } else {
-            return 0;
+            e->usage_page = -1;
+            e->usage      = -1;
+            e->min_value  = -1;
+            e->max_value  = -1;
+            e->internal_element = NULL;
         }
-    } else {
+        e++;
+    }
+    
+    /* keep the reference until the elements are free'ed again */
+    device->internal_elements = internal_elements;
+    device->elements = elements;
+    
+    return (int)cnt;
+}
+
+void joy_hidlib_free_elements(joy_hid_device_t *device)
+{
+    if(device == NULL) {
+        return;
+    }
+    if(device->elements) {
+        lib_free(device->elements);
+        device->elements = NULL;
+    }
+    if(device->internal_elements) {
+        CFRelease(device->internal_elements);
+        device->internal_elements = NULL;
+    }
+}
+
+int  joy_hidlib_get_value(joy_hid_device_t *device, 
+                          joy_hid_element_t *element,
+                          int *value)
+{
+    IOHIDValueRef value_ref;
+    IOReturn result = IOHIDDeviceGetValue( device->internal_device, 
+                                           element->internal_element,
+                                           &value_ref );
+    if(result == kIOReturnSuccess) {
+        *value = (int)IOHIDValueGetIntegerValue( value_ref );
         return 0;
+    } else {
+        return -1;
     }
 }
 

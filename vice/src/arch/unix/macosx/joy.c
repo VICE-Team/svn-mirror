@@ -49,17 +49,18 @@ static int joy_done_init = 0;
 int joy_num_ports;
 int joy_num_extra_ports;
 
-static joy_hid_dev_t joy_hid_dev_a;
-static joy_hid_dev_t joy_hid_dev_b;
+joy_hid_descriptor_t hid_a;
+joy_hid_descriptor_t hid_b;
 
 /* the driver holds up to two USB joystick definitions */
-joystick_descriptor_t joy_a = { .hid = &joy_hid_dev_a };
-joystick_descriptor_t joy_b = { .hid = &joy_hid_dev_b };
+joystick_descriptor_t joy_a = { .hid = &hid_a };
+joystick_descriptor_t joy_b = { .hid = &hid_b };
 
 /* ----- VICE Resources --------------------------------------------------- */
 
 static void setup_axis_mapping(joystick_descriptor_t *joy);
 static void setup_button_mapping(joystick_descriptor_t *joy);
+static void setup_hat_switch_mapping(joystick_descriptor_t *joy);
 static void setup_auto(void);
 
 static int joyport1select(int val, void *param)
@@ -85,6 +86,8 @@ static int joyport4select(int val, void *param)
     joystick_port_map[3] = val;
     return 0;
 }
+
+/* HID settings */
 
 static int set_joy_a_device_name(const char *val,void *param)
 {
@@ -124,18 +127,22 @@ static int set_joy_a_button_mapping(const char *val,void *param)
 
 static int set_joy_a_x_threshold(int val, void *param)
 {
-    joy_a.axis[HID_X_AXIS].threshold = val;
-    if (joy_done_init) {
-        setup_axis_mapping(&joy_a);
+    if(joy_a.axis[HID_X_AXIS].threshold != val) {
+        joy_a.axis[HID_X_AXIS].threshold = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_a);
+        }
     }
     return 0;
 }
 
 static int set_joy_a_y_threshold(int val, void *param)
 {
-    joy_a.axis[HID_Y_AXIS].threshold = val;
-    if (joy_done_init) {
-        setup_axis_mapping(&joy_a);
+    if(joy_a.axis[HID_Y_AXIS].threshold != val) {
+        joy_a.axis[HID_Y_AXIS].threshold = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_a);
+        }
     }
     return 0;
 }
@@ -178,18 +185,40 @@ static int set_joy_b_button_mapping(const char *val,void *param)
 
 static int set_joy_b_x_threshold(int val, void *param)
 {
-    joy_b.axis[HID_X_AXIS].threshold = val;
-    if (joy_done_init) {
-        setup_axis_mapping(&joy_b);
+    if(joy_b.axis[HID_X_AXIS].threshold != val) {
+        joy_b.axis[HID_X_AXIS].threshold = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_b);
+        }
     }
     return 0;
 }
 
 static int set_joy_b_y_threshold(int val, void *param)
 {
-    joy_b.axis[HID_Y_AXIS].threshold = val;
+    if(joy_b.axis[HID_Y_AXIS].threshold != val) {
+        joy_b.axis[HID_Y_AXIS].threshold = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_b);
+        }
+    }
+    return 0;
+}
+
+static int set_joy_a_hat_switch(int val, void *param)
+{
+    joy_a.hat_switch.id = val;
     if (joy_done_init) {
-        setup_axis_mapping(&joy_b);
+        setup_hat_switch_mapping(&joy_a);
+    }
+    return 0;
+}
+
+static int set_joy_b_hat_switch(int val, void *param)
+{
+    joy_b.hat_switch.id = val;
+    if (joy_done_init) {
+        setup_hat_switch_mapping(&joy_b);
     }
     return 0;
 }
@@ -231,6 +260,10 @@ static const resource_int_t resources_int[] = {
       &joy_b.axis[HID_X_AXIS].threshold, set_joy_b_x_threshold, NULL },
     { "JoyBYThreshold", 50, RES_EVENT_NO, NULL,
       &joy_b.axis[HID_Y_AXIS].threshold, set_joy_b_y_threshold, NULL },
+    { "JoyAHatSwitch", 1, RES_EVENT_NO, NULL,
+      &joy_a.hat_switch.id, set_joy_a_hat_switch, NULL },
+    { "JoyBHatSwitch", 1, RES_EVENT_NO, NULL,
+      &joy_b.hat_switch.id, set_joy_b_hat_switch, NULL },
     { NULL }
 };
 
@@ -297,6 +330,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-100>", N_("Set Y Axis Threshold in Percent of HID B device") },
+    { "-joyAhatswitch", SET_RESOURCE, 1,
+      NULL, NULL, "JoyAHatSwitch", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-n>", N_("Set Hat Switch for Joystick of HID A device") },
+    { "-joyBhatswitch", SET_RESOURCE, 1,
+      NULL, NULL, "JoyBHatSwitch", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-n>", N_("Set Hat Switch for Joystick of HID B device") },
     { NULL },
 };
 
@@ -427,34 +470,31 @@ void joy_calc_threshold(int min, int max, int threshold, int *t_min, int *t_max)
     *t_max = max - safe;
 }
 
-static void setup_axis_calibration(joy_axis_t *axis, const char *desc)
-{
-    joy_calc_threshold(axis->min_value, axis->max_value, axis->threshold,
-                       &axis->min_threshold, &axis->max_threshold);
-
-    log_message(LOG_DEFAULT, "mac_joy:  %s axis: mapped to %s with range=[%d;%d] and null=[%d;%d] from threshold=%d%%",
-        desc, axis->name, 
-        axis->min_value, axis->max_value, 
-        axis->min_threshold, axis->max_threshold,
-        axis->threshold);
-}
-
 static void setup_axis_mapping(joystick_descriptor_t *joy)
 {
-    /* extract tag from resource */
-    int x_ok = joy_hid_map_axis(joy, HID_X_AXIS);
-    int y_ok = joy_hid_map_axis(joy, HID_Y_AXIS);
+    static const char *desc[] = { "horizontal", "vertical" }; 
+    int i;
 
-    /* setup calibration for axis */
-    if (x_ok) {
-        setup_axis_calibration(&joy->axis[HID_X_AXIS], "horizontal");
-    } else {
-        log_message(LOG_DEFAULT, "mac_joy:  horizontal axis not mapped!");
-    }
-    if (y_ok) {
-        setup_axis_calibration(&joy->axis[HID_Y_AXIS], "vertical");
-    } else {
-        log_message(LOG_DEFAULT, "mac_joy:  vertical axis not mapped!");
+    for(i=0;i<2;i++) {
+        joy_axis_t *axis = &joy->axis[i];
+        
+        /* map axis name to HID usage */
+        int usage = joy_hid_get_axis_usage(axis->name);
+        if(usage == -1) {
+            log_message(LOG_DEFAULT, "mac_joy: ERROR %s axis name not found: %s", 
+                        desc[i], axis->name);
+        } else {
+            /* try to map axis with given HID usage */
+            int err = joy_hid_assign_axis(joy, i, usage);
+            if(err == 0) {
+                log_message(LOG_DEFAULT, "mac_joy:   %s axis mapped to HID '%s'. threshold=%d -> min=%d max=%d",
+                            desc[i], axis->name,
+                            axis->threshold, axis->min_threshold, axis->max_threshold);
+            } else {
+                log_message(LOG_DEFAULT, "mac_joy:   NO %s axis not found on HID device",
+                            axis->name);
+            }
+        }
     }
 }
 
@@ -479,15 +519,27 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
     for (i = 0; i < HID_NUM_BUTTONS; i++) {
         joy->buttons[i].id = ids[i];
         if(ids[i] != HID_INVALID_BUTTON) {
-            if( joy_hid_map_button(joy, i) == 0 ) {
-                log_message(LOG_DEFAULT, "mac_joy:  can't map button %d!", i);
+            if( joy_hid_assign_button(joy, i, ids[i]) != 0 ) {
+                log_message(LOG_DEFAULT, "mac_joy:   NO button %d on HID device!", ids[i]);
             }
         } 
     }
     
     /* show button mapping */
-    log_message(LOG_DEFAULT, "mac_joy:  buttons: fire=%d alt_fire=%d left=%d right=%d up=%d down=%d",
+    log_message(LOG_DEFAULT, "mac_joy:   buttons: fire=%d alt_fire=%d left=%d right=%d up=%d down=%d",
         ids[HID_FIRE], ids[HID_ALT_FIRE], ids[HID_LEFT], ids[HID_RIGHT], ids[HID_UP], ids[HID_DOWN]);
+}
+
+static void setup_hat_switch_mapping(joystick_descriptor_t *joy)
+{
+    int id = joy->hat_switch.id;
+    if(id != HID_INVALID_BUTTON) {
+        if( joy_hid_assign_hat_switch(joy, id) != 0) {
+            log_message(LOG_DEFAULT, "mac_joy:   NO hat switch %d on HID device!", id);
+        }
+    }
+    
+    log_message(LOG_DEFAULT, "mac_joy:   hat switch: %d", id);
 }
 
 /* determine if the given device matches the joystick descriptor */
@@ -507,11 +559,12 @@ static int match_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev)
 
 static void setup_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev, const char *desc)
 {
-    if(joy_hid_map_device(joy, dev) == 1) {
+    if(joy_hid_map_device(joy, dev) >= 0) {
         log_message(LOG_DEFAULT, "mac_joy: set up %s HID joystick (%d buttons, %d axis, %d hat switches)", 
                     desc, joy->num_hid_buttons, joy->num_hid_axis, joy->num_hid_hat_switches);
         setup_axis_mapping(joy);
         setup_button_mapping(joy);
+        setup_hat_switch_mapping(joy);
     } else {
         log_message(LOG_DEFAULT, "mac_joy: ERROR setting up %s HID joystick", desc);
     }
@@ -529,22 +582,23 @@ static void setup_auto(void)
     int auto_assign_b = do_auto_assign(&joy_b);
     int i;
     int num_devices;
-    joy_hid_device_t *devices;
+    const joy_hid_device_array_t *devices;
 
     /* unmap both joysticks */
     joy_a.mapped = 0;
     joy_b.mapped = 0;
     
     /* query device list */
-    num_devices = joy_hid_enumerate_devices(&devices);
-    if(num_devices == 0) {
+    devices = joy_hid_get_devices();
+    if(devices == NULL) {
         log_message(LOG_DEFAULT, "mac_joy: can't find any HID devices!");
         return;
     }
+    num_devices = devices->num_devices;
     
     /* walk through all enumerated devices */
     for(i=0;i<num_devices;i++) {
-        joy_hid_device_t *dev = &devices[i];
+        joy_hid_device_t *dev = &devices->devices[i];
         
         log_message(LOG_DEFAULT, "mac_joy: found #%d joystick/gamepad: %04x:%04x:%d %s",
                     i, dev->vendor_id, dev->product_id, dev->serial, dev->product_name);
@@ -567,8 +621,6 @@ static void setup_auto(void)
         }
     }
     
-    joy_hid_free_devices(num_devices, devices);
-
     /* check if matched */
     if (!auto_assign_a && (joy_a.mapped == 0)) {
         log_message(LOG_DEFAULT, "mac_joy: joystick A not matched!");
@@ -578,11 +630,18 @@ static void setup_auto(void)
     }   
 }
 
+/* ----- API ----- */
+
 /* helper for UI to reload device list */
 void joy_reload_device_list(void)
 {
-    joy_hid_unload_device_list();
-    if (joy_hid_load_device_list() > 0) {
+    if(joy_hid_reload()<0) {
+        joy_done_init = 0;
+        log_message(LOG_DEFAULT, "mac_joy: ERROR loading HID device list! Disabling devices. Try again!");
+    } else {
+        const joy_hid_device_array_t *devices = joy_hid_get_devices();
+        log_message(LOG_DEFAULT, "mac_joy: reloaded HID device list with %s. found %d devices",
+                    devices->driver_name, devices->num_devices);
         setup_auto();
     }
 }
@@ -590,14 +649,19 @@ void joy_reload_device_list(void)
 /* query for available joysticks and set them up */
 int joy_arch_init(void)
 {
-    if (joy_hid_load_device_list() == 0) {
+    if (joy_hid_init()<0) {
         return 0;
     }
 
+    joy_done_init = 1;
+
+    /* print initial device list info */
+    const joy_hid_device_array_t *devices = joy_hid_get_devices();
+    log_message(LOG_DEFAULT, "mac_joy: loaded HID device list with %s. found %d devices",
+                devices->driver_name, devices->num_devices);
+
     /* now assign HID joystick A,B if available */
     setup_auto();
-
-    joy_done_init = 1;
 
     return 0;
 }
@@ -605,7 +669,9 @@ int joy_arch_init(void)
 /* close the device */
 void joystick_close(void)
 {
-    joy_hid_unload_device_list();
+    joy_hid_unmap_device(&joy_a);
+    joy_hid_unmap_device(&joy_b);
+    joy_hid_exit();
 }
 
 /* ----- Read Joystick ----- */
@@ -615,22 +681,57 @@ static BYTE read_button(joystick_descriptor_t *joy, int id, BYTE resValue)
     /* button not mapped? */
     if(joy->buttons[id].mapped == 0)
         return 0;
+    
+    int value;
+    if(joy_hid_read_button(joy, id, &value)!=0)
+        return 0;
         
-    return joy_hid_read_button(joy, id) ? resValue : 0;
+    return value ? resValue : 0;
 }
 
-static BYTE read_axis(joystick_descriptor_t *joy, int axis, BYTE min, BYTE max)
+static BYTE read_axis(joystick_descriptor_t *joy, int id, BYTE min, BYTE max)
 {
-    if(joy->axis[axis].mapped == 0)
+    joy_axis_t *axis = &joy->axis[id];
+    if(axis->mapped == 0)
         return 0;
 
-    int value = joy_hid_read_axis(joy, axis);
-    if(value < 0)
+    int value;
+    if(joy_hid_read_axis(joy, id, &value)!=0)
+        return 0;
+    
+    if(value < axis->min_threshold)
         return min;
-    else if(value > 0)
+    else if(value > axis->max_threshold)
         return max;
     else
         return 0;
+}
+
+static BYTE read_hat_switch(joystick_descriptor_t *joy)
+{
+    static const int map_hid_to_joy[8] = {
+        1,   /* 1=N */
+        1+8, /* 2=NE */
+        8,   /* 3=E */
+        8+2, /* 4=SE */
+        2,   /* 5=S */
+        4+2, /* 6=SW */
+        4,   /* 7=W */
+        1+4, /* 8=NW */
+    };
+
+    if(joy->hat_switch.mapped == 0)
+        return 0;
+    
+    int value;
+    if(joy_hid_read_hat_switch(joy, &value)!=0)
+        return 0;
+
+    /* valid hat directions: 1..8 */
+    if((value < 1) || (value > 8))
+        return 0;
+    
+    return map_hid_to_joy[value-1];
 }
 
 static BYTE read_joystick(joystick_descriptor_t *joy)
@@ -646,6 +747,9 @@ static BYTE read_joystick(joystick_descriptor_t *joy)
     /* axis */
     joy_bits |= read_axis(joy, HID_X_AXIS, 4, 8) |
                 read_axis(joy, HID_Y_AXIS, 1, 2);
+
+    /* hat switch */
+    joy_bits |= read_hat_switch(joy);
 
     return joy_bits;
 }

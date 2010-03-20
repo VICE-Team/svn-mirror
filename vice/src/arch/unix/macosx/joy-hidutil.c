@@ -36,107 +36,13 @@
 
 /* ----- Helpers ----- */
 
-static pRecElement find_axis_element(joystick_descriptor_t *joy,const char *name)
+static int is_joystick(pRecDevice device)
 {
-    int tag = joy_hid_find_axis_tag(name, -1);
-    if(tag == -1)
-        return NULL;
-    
-    int i;
-    for (i = 0; i < joy->num_hid_axis; i++) {
-        pRecElement elem = joy->hid->all_axis[i];
-        if (elem->usage == tag) {
-            return elem;
-        }
-    }
-    return NULL;
+    return  (device->usage == kHIDUsage_GD_Joystick) || 
+            (device->usage == kHIDUsage_GD_GamePad);
 }
 
-static pRecElement find_button_element(joystick_descriptor_t *joy,int id)
-{
-    int tag = joy->buttons[id].id;
-    int i;
-
-    for (i = 0; i < joy->num_hid_buttons; i++) {
-      pRecElement elem = joy->hid->all_buttons[i];
-      if (elem->usage == tag) {
-          return elem;
-      }
-    }
-    return NULL;  
-}
-
-/* ----- Setup Joystick Descriptor ----- */
-
-static void build_button_axis_lists(joystick_descriptor_t *joy)
-{
-    pRecElement element;
-
-    joy->num_hid_buttons = 0;
-    joy->num_hid_axis = 0;
-    joy->num_hid_hat_switches = 0;
-
-    for (element = HIDGetFirstDeviceElement(joy->hid->device, kHIDElementTypeInput);
-         element != NULL;
-         element = HIDGetNextDeviceElement(element, kHIDElementTypeInput)) {
-        /* axis elements */
-        if (element->usagePage == kHIDPage_GenericDesktop) {
-            const char *name = joy_hid_find_axis_name(element->usage);
-
-            if (name != NULL) {
-                if (joy->num_hid_axis == JOYSTICK_DESCRIPTOR_MAX_AXIS) {
-                    log_message(LOG_DEFAULT, "mac_joy: TOO MANY AXIS FOUND!");
-                } else {
-                    joy->hid->all_axis[joy->num_hid_axis] = element;
-                    joy->num_hid_axis++;
-                }
-            }
-        }
-        /* button elements */
-        else if (element->usagePage == kHIDPage_Button) {
-            if (element->usage >= 1) {
-                if (joy->num_hid_buttons == JOYSTICK_DESCRIPTOR_MAX_BUTTONS) {
-                    log_message(LOG_DEFAULT, "mac_joy: TOO MANY BUTTONS FOUND!");
-                } else {
-                    joy->hid->all_buttons[joy->num_hid_buttons] = element;
-                    joy->num_hid_buttons++;
-                }
-            }
-        }
-    }
-}
-
-/* ----- API ----- */
-
-int  joy_hid_load_device_list(void)
-{
-    int num_devices;
-
-    /* build device list */
-    HIDBuildDeviceList(kHIDPage_GenericDesktop, 0);
-
-    /* no device list? -> no joysticks! */
-    if (!HIDHaveDeviceList()) {
-        return 0;
-    }
-
-    /* get number of devices */
-    num_devices = HIDCountDevices();
-    log_message(LOG_DEFAULT, "mac_joy: found %d devices (with HID Utils)", num_devices);
-    if (num_devices == 0) {
-        return 0;
-    }
-
-    return num_devices;    
-}
-
-void joy_hid_unload_device_list(void)
-{
-    /* cleanup device list */
-    HIDReleaseDeviceList();
-}
-
-int  joy_hid_enumerate_devices(joy_hid_device_t **result)
+static int count_joysticks(void)
 {
     pRecDevice device;
     int num_devices = 0;
@@ -146,173 +52,180 @@ int  joy_hid_enumerate_devices(joy_hid_device_t **result)
          device != NULL;
          device = HIDGetNextDevice(device)) {
         /* check if its a joystick or game pad device */
-        if ((device->usage == kHIDUsage_GD_Joystick) || 
-            (device->usage == kHIDUsage_GD_GamePad)) {
+        if (is_joystick(device)) {
             num_devices ++;       
         }
     }
-    
-    /* nothing found */
-    if(num_devices == 0) {
-        return 0;
-    }
-    
-    /* allocate devices */
-    joy_hid_device_t *devs = (joy_hid_device_t *)lib_malloc(sizeof(joy_hid_device_t) * num_devices);
-    if(devs == NULL) {
-        return 0;
-    }
-    *result = devs;
-    
-    /* iterate through all devices */
-    joy_hid_device_t *d = devs;
-    int num = 0;
-    for (device = HIDGetFirstDevice(); 
-         device != NULL; 
-         device = HIDGetNextDevice(device)) {
-        /* check if its a joystick or game pad device */
-        if ((device->usage == kHIDUsage_GD_Joystick) || 
-            (device->usage == kHIDUsage_GD_GamePad)) {
-    
-            devs->device = device;
-            devs->vendor_id  = device->vendorID;
-            devs->product_id = device->productID;
-            devs->serial = joy_hid_get_device_serial(num, devs, d->vendor_id, d->product_id);
-            devs->product_name = strdup(device->product);
-
-            d++;
-            num++;
-        }
-    }
-
     return num_devices;
 }
 
-int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *dev)
+static void build_device_list(joy_hid_device_array_t *array)
 {
-    joy->hid->device = dev->device;
+    pRecDevice device;
+    int num_devices = count_joysticks();
+
+    array->num_devices = num_devices;
+    array->devices = NULL;
     
-    build_button_axis_lists(joy);
+    if(num_devices == 0)
+        return;
     
-    joy->mapped = 1;
-    return joy->mapped;
-}
-
-int  joy_hid_map_axis(struct joystick_descriptor *joy, int id)
-{
-    joy_axis_t *axis = &joy->axis[id];
-    pRecElement element = find_axis_element(joy, axis->name);
-    if(element != NULL) {
-        joy->hid->mapped_axis[id] = element;
-        axis->min_value = element->min;
-        axis->max_value = element->max;
-        axis->mapped = 1;
-    } else {
-        axis->mapped = 0;
+    /* alloc dev array */
+    joy_hid_device_t *devices = lib_malloc(sizeof(joy_hid_device_t) * num_devices);
+    if(devices == NULL) {
+        array->num_devices = 0;
+        return;
     }
-    return axis->mapped;
-}
-
-int  joy_hid_map_button(struct joystick_descriptor *joy, int id)
-{
-    joy_button_t *button = &joy->buttons[id];
-    pRecElement element = find_button_element(joy, id);
-    if(element != NULL) {
-        joy->hid->mapped_buttons[id] = element;
-        button->mapped = 1;
-    } else {
-        button->mapped = 0;
+    array->devices = devices;
+    
+    /* iterate through all devices */
+    joy_hid_device_t *d = devices;
+    for (device = HIDGetFirstDevice(); 
+         device != NULL;
+         device = HIDGetNextDevice(device)) {
+        /* check if its a joystick or game pad device */
+        if (is_joystick(device)) {
+    
+            d->internal_device = device;
+            d->vendor_id = (int)device->vendorID;
+            d->product_id = (int)device->productID;
+            d->serial = 0; /* will be filled in later */
+            d->product_name = device->product;
+    
+            d++;
+        }
     }
-    return button->mapped;
 }
 
-const char *joy_hid_detect_axis(struct joystick_descriptor *joy, int id)
-{
-    pRecDevice device = joy->hid->device;
-    joy_axis_t *axis = &joy->axis[id];
-    int i;
+/* ----- API ----- */
 
-    if(device == NULL) {
+int  joy_hidlib_init(void)
+{
+    return 0;
+}
+
+void joy_hidlib_exit(void)
+{
+}
+
+joy_hid_device_array_t *joy_hidlib_enumerate_devices(void)
+{
+    /* build device list */
+    HIDBuildDeviceList(kHIDPage_GenericDesktop, 0);
+
+    /* no device list? -> no joysticks! */
+    if (!HIDHaveDeviceList()) {
         return NULL;
     }
-    
-    for (i = 0; i < joy->num_hid_axis; i++) {
-        pRecElement element = joy->hid->all_axis[i];
-        if (HIDIsValidElement(device, element)) {
-            int value = HIDGetElementValue(device, element);
-            
-            /* calc threshold for this element */
-            int min,max;
-            joy_calc_threshold(element->min, element->max, axis->threshold,
-                               &min, &max);
-            
-            if((value < min) || (value > max)) {
-                return joy_hid_find_axis_name(element->usage);
-            }
-        }
+
+    /* alloc device array */
+    joy_hid_device_array_t *array = lib_malloc(sizeof(joy_hid_device_array_t));
+    if(array == NULL) {
+        /* cleanup device list */
+        HIDReleaseDeviceList();
+        return NULL;
     }
-    return NULL;    
+
+    build_device_list(array);
+    
+    array->driver_name = "HIDUtils";
+    return array;
 }
 
-int  joy_hid_detect_button(struct joystick_descriptor *joy)
+void joy_hidlib_free_devices(joy_hid_device_array_t *devices)
 {
-    pRecDevice device = joy->hid->device;
+    if(devices == NULL) {
+        return;
+    }
+    
+    int num_devices = devices->num_devices;
     int i;
-
-    if(device == NULL) {
-        return HID_INVALID_BUTTON;
+    for(i = 0; i<num_devices; i++) {
+        joy_hidlib_free_elements(&devices->devices[i]);
     }
 
-    for (i = 0; i < joy->num_hid_buttons; i++) {
-        pRecElement element = joy->hid->all_buttons[i];
-        if (HIDIsValidElement(device, element)) {
-            int value = HIDGetElementValue(device, element);
-            if(value > 0) {
-                return element->usage;
-            }
-        }
-    }
-    return HID_INVALID_BUTTON;
+    if(devices != NULL) {
+        free(devices);
+        devices = NULL;
+    } 
+
+    HIDReleaseDeviceList();
 }
 
-int  joy_hid_read_button(struct joystick_descriptor *jd, int id)
+int  joy_hidlib_open_device(joy_hid_device_t *device)
 {
-    pRecDevice device = jd->hid->device;
-    pRecElement element = jd->hid->mapped_buttons[id];
-    
-    if((device == NULL) || (element == NULL)) {
-        return 0;
-    }
-    
-    if (!HIDIsValidElement(device, element)) {
-        return 0;
-    }
-
-    return (HIDGetElementValue(device, element) > 0);
+    return 0;
 }
 
-int  joy_hid_read_axis(struct joystick_descriptor *jd, int id)
+void joy_hidlib_close_device(joy_hid_device_t *device)
 {
-    pRecDevice device = jd->hid->device;
-    pRecElement element = jd->hid->mapped_axis[id];
-    int value;
-    
-    if((device == NULL) || (element == NULL)) {
+}
+
+int  joy_hidlib_enumerate_elements(joy_hid_device_t *device)
+{
+    pRecElement element;
+    int num_elements = 0;
+
+    pRecDevice d = device->internal_device;
+    for (element = HIDGetFirstDeviceElement(d, kHIDElementTypeInput);
+         element != NULL;
+         element = HIDGetNextDeviceElement(element, kHIDElementTypeInput)) {
+        num_elements++;
+    }
+
+    device->num_elements = num_elements;
+    if(num_elements == 0) {
+        device->elements = NULL;
         return 0;
     }
-    
-    if (!HIDIsValidElement(device, element)) {
-        return 0;
-    }
- 
-    value = HIDGetElementValue(device, element);
-    joy_axis_t *axis = &jd->axis[id];
-    if (value < axis->min_threshold) {
+
+    /* alloc my elements */
+    joy_hid_element_t *elements = lib_malloc(sizeof(joy_hid_element_t) * num_elements);
+    device->elements = elements;
+    if(elements == NULL) {
+        device->num_elements = 0;
         return -1;
-    } else if (value > axis->max_threshold) {
-        return 1;
-    } else {
+    }
+
+    /* fill my elements */
+    joy_hid_element_t *e = elements;
+    for (element = HIDGetFirstDeviceElement(d, kHIDElementTypeInput);
+         element != NULL;
+         element = HIDGetNextDeviceElement(element, kHIDElementTypeInput)) {
+
+        e->usage_page = (int)element->usagePage;
+        e->usage      = (int)element->usage;
+        e->min_value  = (int)element->min;
+        e->max_value  = (int)element->max;
+        e->internal_element = element;
+        
+        e++;
+    }
+    return 0;
+}
+
+void joy_hidlib_free_elements(joy_hid_device_t *device)
+{
+    if(device == NULL) {
+        return;
+    }
+    if(device->elements) {
+        lib_free(device->elements);
+        device->elements = NULL;
+    }    
+}
+
+int  joy_hidlib_get_value(joy_hid_device_t *device, 
+                          joy_hid_element_t *element,
+                          int *value)
+{
+    pRecDevice d = device->internal_device;
+    pRecElement e = element->internal_element;
+    if (HIDIsValidElement(d, e)) {
+        *value = HIDGetElementValue(d, e);
         return 0;
+    } else {
+        return -1;
     }
 }
 

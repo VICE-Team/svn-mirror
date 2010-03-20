@@ -19,12 +19,13 @@ INCLUDES = \
 noinst_LIBRARIES = libarchmacosx.a
 
 libarchmacosx_a_SOURCES = \
-	joy.c \
-	joy.h \
-	joy-hid.c \
-	joy-hid.h \
 	joy-hidmgr.c \
 	joy-hidutil.c \
+	joy-hidlib.h \
+	joy-hid.c \
+	joy-hid.h \
+	joy.c \
+	joy.h \
 	mididrv.c
 
 EXTRA_DIST = \

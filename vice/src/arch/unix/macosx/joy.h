@@ -44,6 +44,7 @@
 
 #define JOYSTICK_DESCRIPTOR_MAX_BUTTONS 32
 #define JOYSTICK_DESCRIPTOR_MAX_AXIS    6
+#define JOYSTICK_DESCRIPTOR_MAX_HAT_SWITCHES 4
 
 #define HID_FIRE        0
 #define HID_ALT_FIRE    1
@@ -65,7 +66,7 @@
 #include "types.h"
 
 #ifndef JOY_INTERNAL
-typedef void joy_hid_dev_t;
+typedef void joy_hid_descriptor_t;
 #else
 #include "joy-hid.h"
 #endif
@@ -78,8 +79,6 @@ struct joy_axis {
     int  min_threshold;     /* calculated internal value */
     int  max_threshold;     /* calculated internal value */
     
-    int  min_value;         /* filled in by HID driver during mapping */
-    int  max_value;         /* filled in by HID driver during mapping */
     int  mapped;            /* is axis successfully mapped by HID driver? */
 };
 typedef struct joy_axis joy_axis_t;
@@ -92,13 +91,22 @@ struct joy_button {
 };
 typedef struct joy_button joy_button_t;
 
-/* describe a joystick HID device */
+/* describe a hat switch */
+struct joy_hat_switch {
+    int id;
+    
+    int mapped;
+};
+typedef struct joy_hat_switch joy_hat_switch_t;
+
+/* describe a generic joystick HID device */
 struct joystick_descriptor  {
     char *device_name;      /* device name: vid:pid:num */
     char *button_mapping;   /* set button mapping */
 
     joy_axis_t axis[HID_NUM_AXIS];
     joy_button_t buttons[HID_NUM_BUTTONS];
+    joy_hat_switch_t hat_switch;
 
     /* number of buttons and axis available in device */
     int num_hid_buttons;
@@ -107,18 +115,17 @@ struct joystick_descriptor  {
 
     int mapped; /* is device mapped ? */
 
-    /* pointer to HID API impl specific stuff */
-    joy_hid_dev_t *hid;
+    joy_hid_descriptor_t *hid;
 };
 typedef struct joystick_descriptor joystick_descriptor_t;
-
-/* access HID joystick A,B */
-extern joystick_descriptor_t joy_a;
-extern joystick_descriptor_t joy_b;
 
 /* access number of joyports and extra joyports for machine */
 extern int joy_num_ports;
 extern int joy_num_extra_ports;
+
+/* UI accesses joy descriptors */
+extern joystick_descriptor_t joy_a;
+extern joystick_descriptor_t joy_b;
 
 /* functions */
 extern int joy_arch_init(void);
@@ -126,7 +133,6 @@ extern void joystick_close(void);
 extern void joystick(void);
 
 extern void joy_reload_device_list(void);
-
 extern void joy_calc_threshold(int min, int max, int threshold, int *min_t, int *max_t);
 
 #endif /* HAS_JOYSTICK */

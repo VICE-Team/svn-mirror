@@ -86,17 +86,16 @@ static char *keyNames[KEYSET_SIZE] = {
     [hidName addItemWithTitle:@"Autodetect"];
 
 #ifdef HAS_JOYSTICK
-    joy_hid_device_t *devices;
-    int numDevices = joy_hid_enumerate_devices(&devices);
-    if (numDevices > 0) {
+    joy_hid_device_array_t *devices = joy_hid_get_devices();
+    if (devices != NULL) {
+        int num_devices = devices->num_devices;
         int i;
-        for (i = 0; i < numDevices; i++) {
-           joy_hid_device_t *dev = &devices[i];
+        for (i = 0; i < num_devices; i++) {
+           joy_hid_device_t *dev = &devices->devices[i];
            NSString *desc = [NSString stringWithFormat:@"%04x:%04x:%d %s",
                dev->vendor_id, dev->product_id, dev->serial, dev->product_name];
            [hidName addItemWithTitle:desc];
         }
-        joy_hid_free_devices(numDevices, devices);
     }
 #endif
 }
@@ -328,6 +327,7 @@ static char *keyNames[KEYSET_SIZE] = {
 
 -(IBAction)toggleHidDevice:(id)sender
 {
+    [self updateHidName];
     [self updateHidXAxis];
     [self updateHidYAxis];
     [self updateHidButtons];
@@ -401,35 +401,45 @@ static char *keyNames[KEYSET_SIZE] = {
 -(IBAction)detectXAxis:(id)sender
 {
     int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
-    NSString *axisName = @"";
+    NSString *axisName = nil;
 #ifdef HAS_JOYSTICK
-    const char *axisNameC = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_X_AXIS);
-    if (axisNameC != NULL) {
-        axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
+    int usage = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_X_AXIS);
+    if(usage != -1) {
+        const char *axisNameC = joy_hid_get_axis_name(usage);
+        if (axisNameC != NULL) {
+            axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
+        }
     }
 #endif
 
-    [self setStringResource:[NSString stringWithFormat:@"Joy%cXAxis", 'A' + hidDeviceNum]
-         toValue:axisName];
+    if(axisName != nil) {
+        [self setStringResource:[NSString stringWithFormat:@"Joy%cXAxis", 'A' + hidDeviceNum]
+            toValue:axisName];
 
-    [self updateHidXAxis];
+        [self updateHidXAxis];
+    }
 }
 
 -(IBAction)detectYAxis:(id)sender
 {
-    NSString *axisName = @"";
     int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    NSString *axisName = nil;
 #ifdef HAS_JOYSTICK
-    const char *axisNameC = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_Y_AXIS);
-    if (axisNameC != NULL) {
-        axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
+    int usage = joy_hid_detect_axis(hidDeviceNum ? &joy_b : &joy_a, HID_Y_AXIS);
+    if(usage != -1) {
+        const char *axisNameC = joy_hid_get_axis_name(usage);
+        if (axisNameC != NULL) {
+            axisName = [NSString stringWithCString:axisNameC encoding:NSUTF8StringEncoding];
+        }
     }
 #endif
 
-    [self setStringResource:[NSString stringWithFormat:@"Joy%cYAxis", 'A' + hidDeviceNum]
-         toValue:axisName];
+    if(axisName != nil) {
+        [self setStringResource:[NSString stringWithFormat:@"Joy%cYAxis", 'A' + hidDeviceNum]
+            toValue:axisName];
 
-    [self updateHidYAxis];
+        [self updateHidYAxis];
+    }
 }
 
 -(IBAction)setXThreshold:(id)sender
@@ -462,6 +472,8 @@ static char *keyNames[KEYSET_SIZE] = {
 
 #ifdef HAS_JOYSTICK
     buttonVal = joy_hid_detect_button(hidDeviceNum ? &joy_b : &joy_a);
+    if(buttonVal == -1)
+        return;
 #endif
 
     int ids[HID_NUM_BUTTONS] = { 0, 0, 0, 0, 0, 0 };
