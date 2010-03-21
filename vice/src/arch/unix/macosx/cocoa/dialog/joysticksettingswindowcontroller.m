@@ -60,6 +60,20 @@ static char *keyNames[KEYSET_SIZE] = {
     return self;
 }
 
+-(void)setupHidHat
+{
+    [hidHat removeAllItems];
+
+#ifdef HAS_JOYSTICK
+    int i;
+    for(i=0;i<JOYSTICK_DESCRIPTOR_MAX_HAT_SWITCHES;i++) {
+        [hidHat addItemWithTitle:[NSString stringWithFormat:@"Hat Switch #%d",i+1]];
+    }
+#endif
+
+    [hidHat addItemWithTitle:@"Disabled"];
+}
+
 -(void)setupHidAxis
 {
     [hidXAxis removeAllItems];
@@ -86,7 +100,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [hidName addItemWithTitle:@"Autodetect"];
 
 #ifdef HAS_JOYSTICK
-    joy_hid_device_array_t *devices = joy_hid_get_devices();
+    const joy_hid_device_array_t *devices = joy_hid_get_devices();
     if (devices != NULL) {
         int num_devices = devices->num_devices;
         int i;
@@ -119,6 +133,13 @@ static char *keyNames[KEYSET_SIZE] = {
     hidButtons[HID_RIGHT] = hidEast;
     hidButtons[HID_UP] = hidNorth;
     hidButtons[HID_DOWN] = hidSouth;
+    
+    hidAutoButtons[0] = hidAFA;
+    hidAutoButtons[1] = hidAFB;
+    hidAutoPress[0]   = hidAFAPress;
+    hidAutoPress[1]   = hidAFBPress;
+    hidAutoRelease[0] = hidAFARelease;
+    hidAutoRelease[1] = hidAFBRelease;
 
 #ifdef HAS_JOYSTICK    
     // enable joy ports
@@ -129,6 +150,7 @@ static char *keyNames[KEYSET_SIZE] = {
 #endif
 
     [self setupHidAxis];
+    [self setupHidHat];
     [self setupHidDeviceList];
 
     [self updateResources:nil];
@@ -244,6 +266,61 @@ static char *keyNames[KEYSET_SIZE] = {
     }
 }
 
+-(void)getHidAutoButtons:(int *)ids
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    NSString *buttons = [self getStringResource:
+         [NSString stringWithFormat:@"Joy%cAutoButtons", 'A' + hidDeviceNum]];
+    const char *buttonsStr = [buttons cStringUsingEncoding:NSUTF8StringEncoding];
+    sscanf(buttonsStr,"%d:%d:%d:%d:%d:%d", &ids[0], &ids[1], &ids[2], &ids[3], &ids[4], &ids[5]);    
+}
+
+-(void)setHidAutoButtons:(int *)ids
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    NSString *value = [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d",
+        ids[0], ids[1], ids[2], ids[3], ids[4], ids[5]];
+    [self setStringResource:
+         [NSString stringWithFormat:@"Joy%cAutoButtons", 'A' + hidDeviceNum]
+         toValue:value];
+}
+
+-(void)updateHidAutoButtons
+{
+    int i;
+    int ids[6] = { 0, 0, 0, 0, 0, 0 };
+    [self getHidAutoButtons:ids];
+    
+    int offset = HID_NUM_AUTO_BUTTONS;
+    for(i=0;i<HID_NUM_AUTO_BUTTONS;i++) {
+        NSString *desc;
+        if (ids[i] == HID_INVALID_BUTTON) {
+            desc = @"N/A";
+        } else {
+            desc = [NSString stringWithFormat:@"%d", ids[i]];
+        }
+        [hidAutoButtons[i] setTitle:desc];        
+    
+        int pressTime = ids[offset++];
+        int releaseTime = ids[offset++];
+        [hidAutoPress[i] setIntValue:pressTime];
+        [hidAutoRelease[i] setIntValue:releaseTime];
+    }
+}
+
+-(void)updateHidHat
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+
+    int hat = [self getIntResource:
+        [NSString stringWithFormat:@"Joy%cHatSwitch", 'A' + hidDeviceNum]];
+    if(hat != 0) {
+        [hidHat selectItemAtIndex:hat - 1];
+    } else {
+        [hidHat selectItem:[hidHat lastItem]];
+    }
+}
+
 -(void)updateResources:(NSNotification *)notification
 {
     int joy1Mode = [self getIntResource:@"JoyDevice1"];
@@ -252,11 +329,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [joystick2Mode selectItemAtIndex:joy2Mode];
 
     [self updateKeysetDisplay];
-
-    [self updateHidName];
-    [self updateHidXAxis];
-    [self updateHidYAxis];
-    [self updateHidButtons];
+    [self toggleHidDevice:nil];
 }
 
 // ----- Actions -----
@@ -331,6 +404,8 @@ static char *keyNames[KEYSET_SIZE] = {
     [self updateHidXAxis];
     [self updateHidYAxis];
     [self updateHidButtons];
+    [self updateHidAutoButtons];
+    [self updateHidHat];
 }
 
 -(IBAction)refreshHidList:(id)sender
@@ -481,6 +556,71 @@ static char *keyNames[KEYSET_SIZE] = {
             ids[0], ids[1], ids[2], ids[3], ids[4], ids[5]]];
     
     [self updateHidButtons];
+}
+
+-(IBAction)pickHat:(id)sender
+{
+    int hat;
+    if ([hidHat selectedItem] == [hidHat lastItem]) {
+        hat = 0;
+    } else {
+        hat = [hidHat indexOfSelectedItem] + 1;
+    }
+
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];        
+    [self setIntResource:[NSString stringWithFormat:@"Joy%cHatSwitch", 'A' + hidDeviceNum]
+         toValue:hat];
+
+    [self updateHidHat];
+}
+
+-(IBAction)detectHat:(id)sender
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    int hat = 0;
+#ifdef HAS_JOYSTICK
+    hat = joy_hid_detect_hat_switch(hidDeviceNum ? &joy_b : &joy_a);
+    if(hat == -1)
+        hat = 0;
+#endif
+
+    [self setIntResource:[NSString stringWithFormat:@"Joy%cHatSwitch", 'A' + hidDeviceNum]
+        toValue:hat];
+
+    [self updateHidHat];
+}
+
+-(IBAction)defineAFButton:(id)sender
+{
+    int tag = [sender tag];
+ 
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    int button = 0;
+#ifdef HAS_JOYSTICK
+    button = joy_hid_detect_button(hidDeviceNum ? &joy_b : &joy_a);
+    if(button == -1)
+        button = 0;
+#endif
+
+    int ids[6];
+    [self getHidAutoButtons:ids];
+    ids[tag] = button;
+    [self setHidAutoButtons:ids];
+    
+    [self updateHidAutoButtons];
+}
+
+-(IBAction)setAFParam:(id)sender
+{
+    int value = [sender intValue];
+    int pos = [sender tag] + HID_NUM_AUTO_BUTTONS;
+    
+    int ids[6];
+    [self getHidAutoButtons:ids];
+    ids[pos] = value;
+    [self setHidAutoButtons:ids];
+    
+    [self updateHidAutoButtons];
 }
 
 @end

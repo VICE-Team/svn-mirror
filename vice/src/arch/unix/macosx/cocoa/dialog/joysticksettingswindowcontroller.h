@@ -86,9 +86,22 @@ enum {
     IBOutlet NSButton      *hidFire;
     IBOutlet NSButton      *hidAltFire;
 
+    IBOutlet NSButton      *hidAFA;
+    IBOutlet NSButton      *hidAFB;
+    IBOutlet NSTextField   *hidAFAPress;
+    IBOutlet NSTextField   *hidAFARelease;
+    IBOutlet NSTextField   *hidAFBPress;
+    IBOutlet NSTextField   *hidAFBRelease;
+    
+    IBOutlet NSPopUpButton *hidHat;
+    IBOutlet NSButton      *hidHatDetect;
+
     // Keep an array of buttons
     NSButton *keyButtons[KEYSET_SIZE];
     NSButton *hidButtons[HID_NUM_BUTTONS];
+    NSButton *hidAutoButtons[HID_NUM_AUTO_BUTTONS];
+    NSTextField *hidAutoPress[HID_NUM_AUTO_BUTTONS];
+    NSTextField *hidAutoRelease[HID_NUM_AUTO_BUTTONS];
 }
 
 -(void)updateResources:(NSNotification *)notification;
@@ -115,5 +128,10 @@ enum {
 -(IBAction)detectYAxis:(id)sender;
 -(IBAction)setYThreshold:(id)sender;
 -(IBAction)defineHidButton:(id)sender;
+
+-(IBAction)pickHat:(id)sender;
+-(IBAction)detectHat:(id)sender;
+-(IBAction)defineAFButton:(id)sender;
+-(IBAction)setAFParam:(id)sender;
 
 @end

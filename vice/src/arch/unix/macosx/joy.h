@@ -54,6 +54,12 @@
 #define HID_DOWN        5
 #define HID_NUM_BUTTONS 6
 
+#define HID_AUTO_FIRE   6
+#define HID_AUTO_ALT_FIRE 7
+#define HID_NUM_AUTO_BUTTONS 2
+
+#define HID_TOTAL_BUTTONS (HID_NUM_BUTTONS + HID_NUM_AUTO_BUTTONS)
+
 #define HID_INVALID_BUTTON  0 /* invalid USB HID button ID */
 
 #define HID_X_AXIS      0
@@ -85,8 +91,11 @@ typedef struct joy_axis joy_axis_t;
 
 /* describe a button */
 struct joy_button {
-    int id;                 /* id of button in HID device */
-    
+    int id;                 /* id of button in HID device */    
+    int press;              /* auto fire press delay */
+    int release;            /* auto fire release delay */
+    int counter;            /* counter for auto fire */
+
     int mapped;             /* is button successfully mapped by HID driver? */
 };
 typedef struct joy_button joy_button_t;
@@ -103,9 +112,10 @@ typedef struct joy_hat_switch joy_hat_switch_t;
 struct joystick_descriptor  {
     char *device_name;      /* device name: vid:pid:num */
     char *button_mapping;   /* set button mapping */
+    char *auto_button_mapping; /* auto fire button mapping */
 
     joy_axis_t axis[HID_NUM_AXIS];
-    joy_button_t buttons[HID_NUM_BUTTONS];
+    joy_button_t buttons[HID_TOTAL_BUTTONS];
     joy_hat_switch_t hat_switch;
 
     /* number of buttons and axis available in device */

@@ -45,7 +45,7 @@ struct joy_hid_descriptor  {
     joy_hid_device_ptr_t device; /* what HID device is mapped to this joy */
 
     joy_hid_element_ptr_t mapped_axis[HID_NUM_AXIS];
-    joy_hid_element_ptr_t mapped_buttons[HID_NUM_BUTTONS];
+    joy_hid_element_ptr_t mapped_buttons[HID_TOTAL_BUTTONS];
     joy_hid_element_ptr_t mapped_hat_switch;
         
     joy_hid_element_ptr_t all_buttons[JOYSTICK_DESCRIPTOR_MAX_BUTTONS];

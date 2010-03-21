@@ -60,6 +60,7 @@ joystick_descriptor_t joy_b = { .hid = &hid_b };
 
 static void setup_axis_mapping(joystick_descriptor_t *joy);
 static void setup_button_mapping(joystick_descriptor_t *joy);
+static void setup_auto_button_mapping(joystick_descriptor_t *joy);
 static void setup_hat_switch_mapping(joystick_descriptor_t *joy);
 static void setup_auto(void);
 
@@ -125,6 +126,15 @@ static int set_joy_a_button_mapping(const char *val,void *param)
     return 0;
 }
 
+static int set_joy_a_auto_button_mapping(const char *val,void *param)
+{
+    util_string_set(&joy_a.auto_button_mapping, val);
+    if (joy_done_init) {
+        setup_auto_button_mapping(&joy_a);
+    }
+    return 0;
+}
+
 static int set_joy_a_x_threshold(int val, void *param)
 {
     if(joy_a.axis[HID_X_AXIS].threshold != val) {
@@ -178,7 +188,16 @@ static int set_joy_b_button_mapping(const char *val,void *param)
 {
     util_string_set(&joy_b.button_mapping, val);
     if (joy_done_init) {
-        setup_button_mapping(&joy_a);
+        setup_button_mapping(&joy_b);
+    }
+    return 0;
+}
+
+static int set_joy_b_auto_button_mapping(const char *val,void *param)
+{
+    util_string_set(&joy_b.auto_button_mapping, val);
+    if (joy_done_init) {
+        setup_auto_button_mapping(&joy_b);
     }
     return 0;
 }
@@ -207,18 +226,22 @@ static int set_joy_b_y_threshold(int val, void *param)
 
 static int set_joy_a_hat_switch(int val, void *param)
 {
-    joy_a.hat_switch.id = val;
-    if (joy_done_init) {
-        setup_hat_switch_mapping(&joy_a);
+    if(val != joy_a.hat_switch.id) {
+        joy_a.hat_switch.id = val;
+        if (joy_done_init) {
+            setup_hat_switch_mapping(&joy_a);
+        }
     }
     return 0;
 }
 
 static int set_joy_b_hat_switch(int val, void *param)
 {
-    joy_b.hat_switch.id = val;
-    if (joy_done_init) {
-        setup_hat_switch_mapping(&joy_b);
+    if(val != joy_b.hat_switch.id) {
+        joy_b.hat_switch.id = val;
+        if (joy_done_init) {
+            setup_hat_switch_mapping(&joy_b);
+        }
     }
     return 0;
 }
@@ -232,6 +255,8 @@ static const resource_string_t resources_string[] = {
       &joy_a.axis[HID_Y_AXIS].name, set_joy_a_y_axis_name, NULL },
     { "JoyAButtons", "1:2:0:0:0:0", RES_EVENT_NO, NULL,
       &joy_a.button_mapping, set_joy_a_button_mapping, NULL },
+    { "JoyAAutoButtons", "3:4:2:2:4:4", RES_EVENT_NO, NULL,
+      &joy_a.auto_button_mapping, set_joy_a_auto_button_mapping, NULL },
     { "JoyBDevice", "", RES_EVENT_NO, NULL,
       &joy_b.device_name, set_joy_b_device_name, NULL },
     { "JoyBXAxis", "X", RES_EVENT_NO, NULL,
@@ -240,6 +265,8 @@ static const resource_string_t resources_string[] = {
       &joy_b.axis[HID_Y_AXIS].name, set_joy_b_y_axis_name, NULL },
     { "JoyBButtons", "1:2:0:0:0:0", RES_EVENT_NO, NULL,
       &joy_b.button_mapping, set_joy_b_button_mapping, NULL },
+    { "JoyBAutoButtons", "3:4:2:2:4:4", RES_EVENT_NO, NULL,
+      &joy_b.auto_button_mapping, set_joy_b_auto_button_mapping, NULL },
     { NULL }
 };
 
@@ -289,7 +316,12 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "JoyAButtons", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<f:af:l:r:u:d>", N_("Set Y Axis for HID A device") },
+      "<f:af:l:r:u:d>", N_("Set Buttons for HID A device") },
+    { "-joyAautobuttons", SET_RESOURCE, 1,
+      NULL, NULL, "JoyAAutoButtons", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<af1:af2:af1p:af1r:af2p:af2r>", N_("Set Auto Fire Buttons for HID A device") },
     { "-joyAxthreshold", SET_RESOURCE, 1,
       NULL, NULL, "JoyAXThreshold", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -319,7 +351,12 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "JoyBButtons", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<f:af:l:r:u:d>", N_("Set Y Axis for HID B device") },
+      "<f:af:l:r:u:d>", N_("Set Buttons for HID B device") },
+    { "-joyBautobuttons", SET_RESOURCE, 1,
+      NULL, NULL, "JoyBAutoButtons", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<af1:af2:af1p:af1r:af2p:af2r>", N_("Set Auto Fire Buttons for HID B device") },
     { "-joyBxthreshold", SET_RESOURCE, 1,
       NULL, NULL, "JoyBXThreshold", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -518,6 +555,8 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
     /* try to map buttons in HID device */
     for (i = 0; i < HID_NUM_BUTTONS; i++) {
         joy->buttons[i].id = ids[i];
+        joy->buttons[i].press = 0;
+        joy->buttons[i].release = 0;
         if(ids[i] != HID_INVALID_BUTTON) {
             if( joy_hid_assign_button(joy, i, ids[i]) != 0 ) {
                 log_message(LOG_DEFAULT, "mac_joy:   NO button %d on HID device!", ids[i]);
@@ -526,8 +565,47 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
     }
     
     /* show button mapping */
-    log_message(LOG_DEFAULT, "mac_joy:   buttons: fire=%d alt_fire=%d left=%d right=%d up=%d down=%d",
+    log_message(LOG_DEFAULT, "mac_joy:   buttons: fire_a=%d fire_b=%d left=%d right=%d up=%d down=%d",
         ids[HID_FIRE], ids[HID_ALT_FIRE], ids[HID_LEFT], ids[HID_RIGHT], ids[HID_UP], ids[HID_DOWN]);
+}
+
+static void setup_auto_button_mapping(joystick_descriptor_t *joy)
+{
+    int i;
+    int ids[HID_NUM_AUTO_BUTTONS * 3];
+    
+    /* preset button id */
+    int offset = HID_NUM_AUTO_BUTTONS;
+    for(i = 0 ; i < HID_NUM_AUTO_BUTTONS; i++) {
+        ids[i] = i+3;
+        ids[offset++] = 5 * (i+1);
+        ids[offset++] = 5 * (i+1);
+    }
+
+    /* decode auto button mapping resource */
+    if (joy->auto_button_mapping && strlen(joy->auto_button_mapping) > 0) {
+        if (sscanf(joy->auto_button_mapping, "%d:%d:%d:%d:%d:%d", &ids[0], &ids[1], &ids[2], &ids[3], &ids[4], &ids[5]) != 6) {
+            log_message(LOG_DEFAULT, "mac_joy: invalid auto button mapping!");
+        }
+    }
+ 
+    /* try to map auto buttons in HID device */
+    offset = HID_NUM_AUTO_BUTTONS;
+    for (i = 0; i < HID_NUM_AUTO_BUTTONS; i++) {
+        int b = i + HID_NUM_BUTTONS; /* auto buttons are behind buttons */
+        joy->buttons[b].id = ids[i];
+        joy->buttons[b].press = ids[offset++];
+        joy->buttons[b].release = ids[offset++];
+        if(ids[i] != HID_INVALID_BUTTON) {
+            if( joy_hid_assign_button(joy, b, ids[i]) != 0 ) {
+                log_message(LOG_DEFAULT, "mac_joy:   NO auto button %d on HID device!", ids[i]);
+            }
+        } 
+    }
+    
+    /* show button mapping */
+    log_message(LOG_DEFAULT, "mac_joy:   autofire buttons: autofire_a=%d [press=%d release=%d] autofire_b=%d [press=%d release=%d]",
+        ids[0], ids[2], ids[3], ids[1], ids[4], ids[5]);    
 }
 
 static void setup_hat_switch_mapping(joystick_descriptor_t *joy)
@@ -564,6 +642,7 @@ static void setup_joystick(joystick_descriptor_t *joy, joy_hid_device_t *dev, co
                     desc, joy->num_hid_buttons, joy->num_hid_axis, joy->num_hid_hat_switches);
         setup_axis_mapping(joy);
         setup_button_mapping(joy);
+        setup_auto_button_mapping(joy);
         setup_hat_switch_mapping(joy);
     } else {
         log_message(LOG_DEFAULT, "mac_joy: ERROR setting up %s HID joystick", desc);
@@ -689,6 +768,33 @@ static BYTE read_button(joystick_descriptor_t *joy, int id, BYTE resValue)
     return value ? resValue : 0;
 }
 
+static BYTE read_auto_button(joystick_descriptor_t *joy, int id, BYTE resValue)
+{
+    /* button not mapped? */
+    joy_button_t *button = &joy->buttons[id];
+    if(button->mapped == 0)
+        return 0;
+    
+    int value;
+    if(joy_hid_read_button(joy, id, &value)!=0)
+        return 0;
+
+    /* perform auto fire operation */
+    int result = 0;
+    if(value) {
+        if(button->counter < button->press) {
+            result = resValue;
+        }
+        button->counter ++;
+        if(button->counter == (button->press + button->release)) {
+            button->counter = 0;
+        }
+    } else {
+        button->counter = 0;
+    }
+    return result;
+}
+
 static BYTE read_axis(joystick_descriptor_t *joy, int id, BYTE min, BYTE max)
 {
     joy_axis_t *axis = &joy->axis[id];
@@ -742,7 +848,9 @@ static BYTE read_joystick(joystick_descriptor_t *joy)
                     read_button(joy, HID_LEFT, 4) |
                     read_button(joy, HID_RIGHT, 8) |
                     read_button(joy, HID_UP, 1) |
-                    read_button(joy, HID_DOWN, 2);
+                    read_button(joy, HID_DOWN, 2) |
+                    read_auto_button(joy, HID_AUTO_FIRE, 16) |
+                    read_auto_button(joy, HID_AUTO_ALT_FIRE, 16);
 
     /* axis */
     joy_bits |= read_axis(joy, HID_X_AXIS, 4, 8) |
