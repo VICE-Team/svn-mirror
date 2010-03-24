@@ -2497,6 +2497,11 @@ unsigned long test; ],
   AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
 fi
 
+dnl Handle the xextproto conditinal for the systems that don't use it
+if test x"$is_unix_x11" != "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_gnomeui" = "xyes"; then
+    AM_CONDITIONAL(HAVE_XEXTPROTO_71, false)
+fi
+
 dnl CBM4Linux/OpenCBM
 AC_MSG_CHECKING([for OpenCBM support])
 if test x"$enable_realdevice" != "xno"; then
