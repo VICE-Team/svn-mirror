@@ -163,6 +163,10 @@ static HWND hwndActive = NULL;
 
 static void update_shown(void);
 
+#if 0
+/* This section broke on gcc.exe (GCC) 3.4.2 (mingw-special)
+   commenting it out /tlr */
+
 #if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
 void *uimon_icep(void **dest, void *xchg, void *compare)
 {
@@ -194,6 +198,13 @@ void *uimon_iep(void **dest, void *val)
     return ret;
 }
 #else
+#define uimon_iep(x, y) InterlockedExchangePointer(x, y)
+#endif
+
+#else
+/* Fall back to fix above breakage  /tlr */
+
+#define uimon_icep(x, y, z) InterlockedCompareExchangePointer(x, y, z)
 #define uimon_iep(x, y) InterlockedExchangePointer(x, y)
 #endif
 
