@@ -2292,6 +2292,11 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
                  [ X_LIBS="-lXext $X_LIBS";
                    LINK_X_LIBS="-lXext $LINK_X_LIBS"],,$X_LIBS)
 
+    PKG_CHECK_MODULES(XEXT, [xextproto >= 7.0.99.1],
+                HAVE_XEXTPROTO_71="yes"; AC_DEFINE(HAVE_XEXTPROTO_71, 1, [xextproto 7.1 available]),
+                HAVE_XEXTPROTO_71="no")
+    AM_CONDITIONAL(HAVE_XEXTPROTO_71, [ test "$HAVE_XEXTPROTO_71" = "yes" ])
+
     AC_MSG_CHECKING(for X11/extensions/Xvlib.h)
     AC_TRY_LINK([#include <X11/Xlib.h>
                  #include <X11/extensions/Xvlib.h>],
