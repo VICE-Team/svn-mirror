@@ -1816,6 +1816,9 @@ static int set_tfe_interface(const char *name, void *param)
 
     util_string_set(&tfe_interface, name);
 
+    /* CV: if the last interface name was wrong then allow a retry with new name: */
+    tfe_cannot_use = 0;
+
     if (tfe_enabled) {
         /* ethernet is enabled, make sure that the new name is
            taken account of 
