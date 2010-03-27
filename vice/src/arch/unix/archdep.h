@@ -102,7 +102,11 @@
 #define ARCHDEP_LINE_DELIMITER "\n"
 
 /* Ethernet default device */
+#ifdef MACOSX_SUPPORT
+#define ARCHDEP_ETHERNET_DEFAULT_DEVICE "en0"
+#else
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE "eth0"
+#endif
 
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE 1
