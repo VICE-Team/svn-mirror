@@ -292,7 +292,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 0x40; i++)
-        if (SMR_B_INT(m, &vicii.regs[i]) < 0 /* Registers */ )
+        if (SMR_B(m, &vicii.regs[i]) < 0 /* Registers */ )
             goto fail;
 
     if (0
