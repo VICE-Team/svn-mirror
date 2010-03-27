@@ -34,6 +34,7 @@
 extern const ui_menu_entry_t c128_video_menu[];
 extern const ui_menu_entry_t c64_video_menu[];
 extern const ui_menu_entry_t c64dtv_video_menu[];
+extern const ui_menu_entry_t c64sc_video_menu[];
 extern const ui_menu_entry_t cbm5x0_video_menu[];
 extern const ui_menu_entry_t cbm6x0_7x0_video_menu[];
 extern const ui_menu_entry_t pet_video_menu[];

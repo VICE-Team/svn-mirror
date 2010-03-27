@@ -632,3 +632,15 @@ int machine_addr_in_ram(unsigned int addr)
        sufficient from autostart's perspective */
     return (addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) ? 1 : 0;
 }
+
+const char *machine_get_name(void)
+{
+    return machine_name;
+}
+
+#ifdef USE_SDLUI
+/* Kludges for vsid & linking issues */
+const char **csidmodel = NULL;
+void psid_init_driver(void) {}
+void machine_play_psid(int tune) {}
+#endif

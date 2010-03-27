@@ -202,6 +202,11 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 #endif
 }
 
+/* dummy function for c64keyboard.c */
+void cia1_check_lightpen(void)
+{
+}
+
 void cia1_init(cia_context_t *cia_context)
 {
     ciacore_init(machine_context.cia1, maincpu_alarm_context,

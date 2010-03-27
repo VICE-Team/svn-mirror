@@ -73,7 +73,7 @@ static void init_resource_fail(const char *module)
 
 int init_resources(void)
 {
-    if (resources_init(machine_name)) {
+    if (resources_init(machine_get_name())) {
         archdep_startup_log_error("Cannot initialize resource handling.\n");
         return -1;
     }

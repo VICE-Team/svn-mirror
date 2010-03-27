@@ -30,8 +30,12 @@
 extern int c64_resources_init(void);
 extern void c64_resources_shutdown(void);
 
+extern void c64_resources_update_cia_models(int model);
+
 extern int emu_id_enabled;
 extern int acia_de_enabled;
 extern char *kernal_revision;
+extern int cia1_model;
+extern int cia2_model;
 
 #endif

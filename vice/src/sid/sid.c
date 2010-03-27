@@ -124,11 +124,17 @@ static BYTE REGPARM2 sid_read_chip(WORD addr, int chipno)
     } else
 #endif
     {
-        /* Account for that read functions in VICE are called _before_
-           incrementing the clock. */
-        maincpu_clk++;
-        val = sid_read_func(addr, chipno);
-        maincpu_clk--;
+        if (machine_class == VICE_MACHINE_C64SC) {
+            /* On x64sc, the read/write calls both happen before incrementing
+               the clock, so don't mess with maincpu_clk here.  */
+            val = sid_read_func(addr, chipno);
+        } else {
+            /* Account for that read functions in VICE are called _before_
+               incrementing the clock. */
+            maincpu_clk++;
+            val = sid_read_func(addr, chipno);
+            maincpu_clk--;
+        }
     }
 
     /* Fallback when sound is switched off. */

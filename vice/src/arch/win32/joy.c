@@ -696,6 +696,7 @@ int joystick_init_cmdline_options(void)
 {
     switch (machine_class) {
         case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C128:
         case VICE_MACHINE_C64DTV:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {

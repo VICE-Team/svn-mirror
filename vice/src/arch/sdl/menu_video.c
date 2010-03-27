@@ -478,6 +478,52 @@ const ui_menu_entry_t c64_video_menu[] = {
     { NULL }
 };
 
+/* C64SC video menu */
+
+const ui_menu_entry_t c64sc_video_menu[] = {
+    { "Size settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vicii_size_menu },
+    { "Restore window size",
+      MENU_ENTRY_OTHER,
+      restore_size_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Video cache",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIVideoCache_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "VICII border mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_border_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Color controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)color_controls_menu },
+    { "PAL emulation controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)pal_controls_menu },
+    { "Scale2x",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIScale2x_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "External palette",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIExternalPalette_callback,
+      NULL },
+    { "External palette file",
+      MENU_ENTRY_DIALOG,
+      file_string_VICIIPaletteFile_callback,
+      (ui_callback_data_t)"Choose palette file" },
+    { NULL }
+};
+
 /* C64DTV video menu */
 
 const ui_menu_entry_t c64dtv_video_menu[] = {

@@ -45,6 +45,7 @@ extern const char machine_name[];
 #define VICE_MACHINE_CBM6x0    6
 #define VICE_MACHINE_PLUS4     7
 #define VICE_MACHINE_C64DTV    8
+#define VICE_MACHINE_C64SC     9
 
 /* Sync factors.  */
 #define MACHINE_SYNC_PAL     -1
@@ -172,6 +173,9 @@ extern BYTE machine_tape_type_default(void);
 
 /* Check if address is in RAM (for autostart) */
 extern int machine_addr_in_ram(unsigned int addr);
+
+/* Get "real" name for machine. May differ from machine_name.  */
+extern const char *machine_get_name(void);
 
 #endif
 

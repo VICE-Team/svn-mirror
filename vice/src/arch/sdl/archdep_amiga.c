@@ -156,7 +156,7 @@ char *archdep_default_fliplist_file_name(void)
     const char *home;
 
     home = archdep_boot_path();
-    return util_concat(home, "fliplist-", machine_name, ".vfl", NULL);
+    return util_concat(home, "fliplist-", machine_get_name(), ".vfl", NULL);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
@@ -164,7 +164,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
     const char *home;
 
     home = archdep_boot_path();
-    return util_concat(home, "autostart-", machine_name, ".d64", NULL);
+    return util_concat(home, "autostart-", machine_get_name(), ".d64", NULL);
 }
 
 char *archdep_default_hotkey_file_name(void)
@@ -172,7 +172,7 @@ char *archdep_default_hotkey_file_name(void)
     const char *home;
 
     home = archdep_boot_path();
-    return util_concat(home, "sdl-hotkey-", machine_name, ".vkm", NULL);
+    return util_concat(home, "sdl-hotkey-", machine_get_name(), ".vkm", NULL);
 }
 
 char *archdep_default_joymap_file_name(void)
@@ -180,7 +180,7 @@ char *archdep_default_joymap_file_name(void)
     const char *home;
 
     home = archdep_boot_path();
-    return util_concat(home, "sdl-joymap-", machine_name, ".vjm", NULL);
+    return util_concat(home, "sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
 char *archdep_default_save_resource_file_name(void)

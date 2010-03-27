@@ -50,6 +50,7 @@
 #include "util.h"
 #include "videoarch.h"
 #include "vkbd.h"
+#include "vsidui_sdl.h"
 #include "vsync.h"
 
 static log_t sdlvideo_log = LOG_ERR;
@@ -651,6 +652,10 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 {
     if ((canvas == NULL) || (canvas->screen == NULL)) {
         return;
+    }
+
+    if (sdl_vsid_state & SDL_VSID_ACTIVE) {
+        sdl_vsid_draw();
     }
 
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {

@@ -243,8 +243,6 @@
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
-/* FIXME: Dummy LOAD() cycles are missing!  */
-/* FIXME: Improper BRK handling!  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                        \
     do {                                                              \
@@ -260,7 +258,9 @@
                 }                                                     \
                 interrupt_ack_nmi(CPU_INT_STATUS);                    \
                 if (!SKIP_CYCLE) {                                    \
+                    LOAD(reg_pc);                                     \
                     CLK_INC();                                        \
+                    LOAD(reg_pc);                                     \
                     CLK_INC();                                        \
                 }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
@@ -288,7 +288,9 @@
                 }                                                     \
                 interrupt_ack_irq(CPU_INT_STATUS);                    \
                 if (!SKIP_CYCLE) {                                    \
+                    LOAD(reg_pc);                                     \
                     CLK_INC();                                        \
+                    LOAD(reg_pc);                                     \
                     CLK_INC();                                        \
                 }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
@@ -513,9 +515,9 @@
     CLK_INC();
 
 #define SET_IND_X(value) \
-    INT_IND_X            \
+{   INT_IND_X            \
     STORE(addr, value);  \
-    CLK_INC();
+    CLK_INC(); }
 
 #define INT_IND_Y_R()                                        \
     unsigned int tmpa, addr;                                 \
@@ -552,9 +554,9 @@
     CLK_INC();
 
 #define SET_IND_Y(value) \
-    INT_IND_Y_W()        \
+{   INT_IND_Y_W()        \
     STORE(addr, value);  \
-    CLK_INC();
+    CLK_INC(); }
 
 #define SET_IND_RMW(old_value, new_value) \
     if (!SKIP_CYCLE) {                    \
@@ -647,11 +649,22 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define ANE()                                                 \
-  do {                                                        \
-      reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
-      LOCAL_SET_NZ(reg_a_read);                               \
-      INC_PC(2);                                              \
+#define ANE()                                                     \
+  do {                                                            \
+      /* Set by viciinew to signal steal after first fetch */     \
+      if (OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {                 \
+          /* Remove the signal */                                 \
+          LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
+          /* TODO emulate the different behaviour */              \
+          reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
+      } else {                                                    \
+          reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
+      }                                                           \
+      LOCAL_SET_NZ(reg_a_read);                                   \
+      INC_PC(2);                                                  \
+      /* Pretend to be NOP #$nn to not trigger the special case   \
+         when cycles are stolen after the second fetch */         \
+      SET_LAST_OPCODE(0x80);                                      \
   } while (0)
 
 /* The fanciest opcode ever... ARR! */
@@ -777,28 +790,45 @@
 
 #endif
 
-/* The BRK opcode is also used to patch the ROM.  The function trap_handler()
-   returns nonzero if this is not a patch, but a `real' BRK instruction. */
-
-#define BRK()                                                    \
-  do {                                                           \
-      WORD addr;                                                 \
-      EXPORT_REGISTERS();                                        \
-      TRACE_BRK();                                               \
-      INC_PC(2);                                                 \
-      LOCAL_SET_BREAK(1);                                        \
-      PUSH(reg_pc >> 8);                                         \
-      CLK_INC();                                                 \
-      PUSH(reg_pc & 0xff);                                       \
-      CLK_INC();                                                 \
-      PUSH(LOCAL_STATUS());                                      \
-      CLK_INC();                                                 \
-      LOCAL_SET_INTERRUPT(1);                                    \
-      addr = LOAD(0xfffe);                                       \
-      CLK_INC();                                                 \
-      addr |= (LOAD(0xffff) << 8);                               \
-      CLK_INC();                                                 \
-      JUMP(addr);                                                \
+#define BRK() \
+ do { \
+      WORD addr;  \
+      /* Interrupt vector to use. Assume regular BRK. */  \
+      WORD handler_vector = 0xfffe;  \
+                                      \
+      EXPORT_REGISTERS();             \
+      TRACE_BRK();                    \
+      INC_PC(2);                      \
+      LOCAL_SET_BREAK(1);             \
+      PUSH(reg_pc >> 8);              \
+      CLK_INC();                      \
+      PUSH(reg_pc & 0xff);            \
+      CLK_INC();                      \
+      PUSH(LOCAL_STATUS());           \
+      CLK_INC();                      \
+                                      \
+      /* Process alarms up to this point to get nmi_clk updated. */  \
+      while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) { \
+          alarm_context_dispatch(ALARM_CONTEXT, CLK);                \
+      }                                                              \
+                                                                     \
+      /* If an NMI would occur at this cycle... */                   \
+      if ((CPU_INT_STATUS->global_pending_int & IK_NMI) && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) {  \
+          /* Transform the BRK into an NMI. */       \
+          handler_vector = 0xfffa;                   \
+          TRACE_NMI();                               \
+          if (monitor_mask[CALLER] & (MI_STEP)) {    \
+              monitor_check_icount_interrupt();      \
+          }                                          \
+          interrupt_ack_nmi(CPU_INT_STATUS);         \
+      }                                              \
+                                                     \
+      LOCAL_SET_INTERRUPT(1);                        \
+      addr = LOAD(handler_vector);                   \
+      CLK_INC();                                     \
+      addr |= (LOAD(handler_vector + 1) << 8);       \
+      CLK_INC();                                     \
+      JUMP(addr);                                    \
   } while (0)
 
 /* The JAM (0x02) opcode is also used to patch the ROM.  The function trap_handler()
@@ -836,6 +866,25 @@
       LOCAL_SET_DECIMAL(0);  \
   } while (0)
 
+#ifdef OPCODE_UPDATE_IN_FETCH
+
+#define CLI()                                           \
+  do {                                                  \
+      INC_PC(1);                                        \
+      /* Set by viciinew to signal steal during CLI */  \
+      if (!OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {      \
+          if (LOCAL_INTERRUPT()) {                      \
+              OPCODE_ENABLES_IRQ();                     \
+          }                                             \
+      } else {                                          \
+          /* Remove the signal and the related delay */ \
+          LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;  \
+      }                                                 \
+      LOCAL_SET_INTERRUPT(0);                           \
+  } while (0)
+
+#else /* !OPCODE_UPDATE_IN_FETCH */
+
 #define CLI()                    \
   do {                           \
       INC_PC(1);                 \
@@ -843,6 +892,8 @@
           OPCODE_ENABLES_IRQ();  \
       LOCAL_SET_INTERRUPT(0);    \
   } while (0)
+
+#endif
 
 #define CLV()                 \
   do {                        \
@@ -1321,8 +1372,8 @@
 
 #define ST(value, set_func, pc_inc) \
   do {                              \
-      set_func(value);              \
       INC_PC(pc_inc);               \
+      set_func(value);              \
   } while (0)
 
 #define TAX()               \
@@ -1417,7 +1468,6 @@ static const BYTE fetch_tab[] = {
     {
         opcode_t opcode;
 #ifdef DEBUG
-        CLOCK debug_clk;
         debug_clk = maincpu_clk;
 #endif
 
@@ -1428,11 +1478,8 @@ static const BYTE fetch_tab[] = {
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY
-        if (p0 == 0x20) {
-            monitor_cpuhistory_store(reg_pc, p0, p1, LOAD(reg_pc+2), reg_a_read, reg_x, reg_y, reg_sp, LOCAL_STATUS());
-        } else {
-            monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x, reg_y, reg_sp, LOCAL_STATUS());
-        }
+        /* FIXME JSR (0x20) hasn't load p2 yet. The earlier LOAD(reg_pc+2) hack can break stealing badly on x64sc. */
+        monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x, reg_y, reg_sp, LOCAL_STATUS());
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
 
@@ -1456,7 +1503,9 @@ static const BYTE fetch_tab[] = {
 #endif
 
 trap_skipped:
+#ifndef OPCODE_UPDATE_IN_FETCH
         SET_LAST_OPCODE(p0);
+#endif
 
         switch (p0) {
 

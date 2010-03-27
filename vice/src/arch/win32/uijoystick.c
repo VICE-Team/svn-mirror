@@ -706,7 +706,7 @@ static void init_extra_joystick_dialog(HWND hwnd)
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_PET_USERPORT_ADAPTER));
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_HUMMER_USERPORT_ADAPTER));
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_OEM_USERPORT_ADAPTER));
-        if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128) {
+        if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_C128) {
             SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_HIT_USERPORT_ADAPTER));
         }
         resources_get_int("ExtraJoy", &res_value);

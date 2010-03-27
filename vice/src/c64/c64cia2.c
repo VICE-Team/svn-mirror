@@ -31,11 +31,12 @@
 
 #include <stdio.h>
 
+#include "c64-resources.h"
 #include "c64.h"
-#include "c64_256k.h"
 #include "c64mem.h"
 #include "c64iec.h"
 #include "c64cia.h"
+#include "c64gluelogic.h"
 #include "c64parallel.h"
 #include "cia.h"
 #include "digimax.h"
@@ -45,6 +46,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
@@ -54,8 +56,17 @@
 #include "rsuser.h"
 #endif
 
+/* Flag for recording port A DDR changes (for c64gluelogic) */
+static int pa_ddr_change = 0;
+
 void REGPARM2 cia2_store(WORD addr, BYTE data)
 {
+    if (((addr & 0xf) == CIA_DDRA) && (machine_context.cia2->c_cia[CIA_DDRA] != data)) {
+        pa_ddr_change = 1;
+    } else {
+        pa_ddr_change = 0;
+    }
+
     digimax_userport_store(addr, data);
     ciacore_store(machine_context.cia2, addr, data);
 }
@@ -80,6 +91,13 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
     interrupt_restore_nmi(maincpu_int_status, cia_context->int_num, value);
 }
 
+void cia2_update_model(void)
+{
+    if (machine_context.cia2) {
+        machine_context.cia2->model = cia2_model;
+    }
+}
+
 #define MYCIA CIA2
 
 /*************************************************************************
@@ -99,11 +117,7 @@ static void do_reset_cia(cia_context_t *cia_context)
 #endif
 
     vbank = 0;
-    if (c64_256k_enabled) {
-        c64_256k_cia_set_vbank(vbank);
-    } else {
-        mem_set_vbank(vbank);
-    }
+    c64_glue_set_vbank(vbank, 0);
 }
 
 static void pre_store(void)
@@ -136,13 +150,9 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
         new_vbank = tmp & 3;
         if (new_vbank != vbank) {
             vbank = new_vbank;
-            if (c64_256k_enabled) {
-                c64_256k_cia_set_vbank(new_vbank);
-            } else {
-                mem_set_vbank(new_vbank);
-            }
+            c64_glue_set_vbank(new_vbank, pa_ddr_change);
         }
-        (*iecbus_callback_write)((BYTE)tmp, maincpu_clk);
+        (*iecbus_callback_write)((BYTE)tmp, maincpu_clk + !(cia_context->write_offset));
         printer_userport_write_strobe(tmp & 0x04);
     }
 }
@@ -155,11 +165,8 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     }
 #endif
     vbank = (byte ^ 3) & 3;
-    if (c64_256k_enabled) {
-        c64_256k_cia_set_vbank(vbank);
-    } else {
-        mem_set_vbank(vbank);
-    }
+    c64_glue_set_vbank(vbank, 0);
+
     iecbus_cpu_undump((BYTE)(byte ^ 0xff));
 }
 
@@ -294,6 +301,12 @@ void cia2_setup_context(machine_context_t *machine_context)
     cia->todticks = 100000;
 
     ciacore_setup_context(cia);
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        cia->write_offset = 0;
+    }
+
+    cia->model = cia2_model;
 
     cia->debugFlag = 0;
     cia->irq_line = IK_NMI;

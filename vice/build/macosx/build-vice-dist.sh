@@ -380,7 +380,7 @@ for A in $MULTI_ARCH ; do
   copy_dylib "$A"
 done
 
-APPS="c1541 cartconv petcat x128 x64 x64dtv xcbm2 xpet xplus4 xvic"
+APPS="c1541 cartconv petcat x128 x64 x64sc x64dtv xcbm2 xpet xplus4 xvic"
 
 # ----- Fixin Lib Refs -----
 echo "----- Fixing Library References -----"

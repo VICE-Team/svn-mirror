@@ -601,3 +601,10 @@ int c64ui_init(void)
 void c64ui_shutdown(void)
 {
 }
+
+int c64scui_init(void)
+{
+	c64ui_init();
+}
+
+extern void c64scui_shutdown(void);

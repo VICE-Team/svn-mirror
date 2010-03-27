@@ -19,6 +19,7 @@ noinst_LIBRARIES = libarchgui.a
 
 libarchgui_a_SOURCES = \
 	c128ui.c \
+	c64scui.c \
 	c64ui.c \
 	c64dtvui.c \
 	cbm2ui.c \

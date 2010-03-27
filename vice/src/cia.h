@@ -109,6 +109,8 @@ typedef struct cia_context_s {
 
     CLOCK *clk_ptr;
     int *rmw_flag;
+    int write_offset;             /* 1 if CPU core does CLK++ before store */
+    int model;                    /* 0 = 6526 (old), 1 = 6526A (new) */
 
     int enabled;
 

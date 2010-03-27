@@ -71,6 +71,8 @@ void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
     cs->num_last_stolen_cycles = 0;
     cs->last_stolen_cycles_clk = (CLOCK)0;
     cs->num_dma_per_opcode = 0;
+    cs->irq_delay_cycles = 0;
+    cs->nmi_delay_cycles = 0;
     cs->global_pending_int = IK_NONE;
     cs->nmi_trap_func = NULL;
     cs->reset_trap_func = NULL;

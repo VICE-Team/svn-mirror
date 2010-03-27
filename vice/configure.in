@@ -3161,6 +3161,7 @@ if false ; then
     mkdir -p vic20
     mkdir -p vic20/cart
     mkdir -p vicii
+    mkdir -p viciinew
     mkdir -p video 
 
     if test x"$srcdir" != "x." ; then
@@ -3277,6 +3278,7 @@ AC_OUTPUT([Makefile
            src/vic20/Makefile
            src/vic20/cart/Makefile
            src/vicii/Makefile
+           src/viciinew/Makefile
            src/video/Makefile
            src/version.h
            po/Makefile.in

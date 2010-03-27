@@ -193,7 +193,7 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
     if ((cia_context->rdi != rclk - 1) || (cia_context->irq_line == IK_NMI)) {
         if (cia_context->irqflags & cia_context->c_cia[CIA_ICR] & 0x7f) {
             if (cia_context->rdi != rclk) {
-                my_set_int(cia_context, cia_context->irq_line, rclk + 1);
+                my_set_int(cia_context, cia_context->irq_line, rclk + !cia_context->model);
                 cia_context->irqflags |= 0x80;
             }
         }
@@ -289,7 +289,8 @@ static void REGPARM3 ciacore_store_internal(cia_context_t *cia_context,
 
     addr &= 0xf;
 
-    rclk = *(cia_context->clk_ptr) - STORE_OFFSET;
+    /* stores have a one-cycle offset if CLK++ happens before store */
+    rclk = *(cia_context->clk_ptr) - cia_context->write_offset;
 
 #ifdef CIA_TIMER_DEBUG
     if (cia_context->debugFlag)
@@ -1066,6 +1067,8 @@ void ciacore_setup_context(cia_context_t *cia_context)
     cia_context->read_clk = 0;
     cia_context->read_offset = 0;
     cia_context->last_read = 0;
+    cia_context->write_offset = 1;
+    cia_context->model = 0;
 }
 
 void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,

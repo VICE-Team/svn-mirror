@@ -4,6 +4,8 @@ EXTRA_DIST = \
 	x128.nib/keyedobjects.nib \
 	x64.nib/designable.nib \
 	x64.nib/keyedobjects.nib \
+	x64sc.nib/designable.nib \
+	x64sc.nib/keyedobjects.nib \
 	x64dtv.nib/designable.nib \
 	x64dtv.nib/keyedobjects.nib \
 	xvic.nib/designable.nib \

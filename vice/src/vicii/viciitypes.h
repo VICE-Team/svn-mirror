@@ -154,6 +154,7 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
    *exclusively*!  */
 
 struct vicii_light_pen_s {
+    int state;
     int triggered;
     int x, y, x_extra_bits;
 };

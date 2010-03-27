@@ -35,6 +35,7 @@
 #include "ioutil.h"
 #include "joy.h"
 #include "lib.h"
+#include "machine.h"
 #include "menu_common.h"
 #include "raster.h"
 #include "resources.h"
@@ -47,6 +48,7 @@
 #include "video.h"
 #include "videoarch.h"
 #include "vkbd.h"
+#include "vsidui_sdl.h"
 #include "vsync.h"
 
 #include "vice_sdl.h"
@@ -717,6 +719,10 @@ void sdl_ui_activate_pre_action(void)
         sdl_vkbd_close();
     }
 
+    if (vsid_mode && (sdl_vsid_state & SDL_VSID_ACTIVE)) {
+        sdl_vsid_close();
+    }
+
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
     sdl_menu_state = 1;
     ui_check_mouse_cursor();
@@ -734,6 +740,10 @@ void sdl_ui_activate_post_action(void)
     resources_get_int("WarpMode", &warp_state);
     if (warp_state == 0) {
         sound_resume();
+    }
+
+    if (vsid_mode) {
+        sdl_vsid_activate();
     }
 
     /* Force a video refresh */

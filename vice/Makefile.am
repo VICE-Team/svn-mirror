@@ -50,9 +50,12 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST) $(PO_EXTRA_DIST)
 endif
 
 
-.PHONY: x64 x128 x64dtv xvic xpet xplus4 xcbm2
+.PHONY: x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2
 x64:
 	(cd src; $(MAKE) x64-all)
+
+x64sc:
+	(cd src; $(MAKE) x64sc-all)
 
 x128:
 	(cd src; $(MAKE) x128-all)

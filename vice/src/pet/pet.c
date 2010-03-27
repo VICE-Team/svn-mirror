@@ -580,3 +580,14 @@ int machine_addr_in_ram(unsigned int addr)
 {
     return addr < 0xb000;
 }
+
+const char *machine_get_name(void)
+{
+    return machine_name;
+}
+
+#ifdef USE_SDLUI
+/* Kludges for vsid & linking issues */
+const char **csidmodel = NULL;
+void psid_init_driver(void) {}
+#endif

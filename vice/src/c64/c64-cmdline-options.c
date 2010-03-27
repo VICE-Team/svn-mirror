@@ -28,25 +28,110 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#include "c64model.h"
 #include "c64-cmdline-options.h"
+#include "c64-resources.h"
 #include "cmdline.h"
 #include "machine.h"
+#include "resources.h"
 #include "translate.h"
 
+int set_cia_model(const char *value, void *extra_param)
+{
+    int model;
+
+    model = atoi(value);
+    c64_resources_update_cia_models(model);
+
+    return 0;
+}
+
+struct model_s {
+    const char *name;
+    int model;
+};
+
+static struct model_s model_match[] = {
+    { "c64", C64MODEL_C64_PAL },
+    { "breadbox", C64MODEL_C64_PAL },
+    { "pal", C64MODEL_C64_PAL },
+    { "c64c", C64MODEL_C64C_PAL },
+    { "c64new", C64MODEL_C64C_PAL },
+    { "newpal", C64MODEL_C64C_PAL },
+    { "c64old", C64MODEL_C64_OLD_PAL },
+    { "oldpal", C64MODEL_C64_OLD_PAL },
+    { "ntsc", C64MODEL_C64_NTSC },
+    { "c64ntsc", C64MODEL_C64_NTSC },
+    { "c64cntsc", C64MODEL_C64C_NTSC },
+    { "c64newntsc", C64MODEL_C64C_NTSC },
+    { "oldntsc", C64MODEL_C64_OLD_NTSC },
+    { "c64oldntsc", C64MODEL_C64_OLD_NTSC },
+    { NULL, C64MODEL_UNKNOWN }
+};
+
+static int set_c64_model(const char *param, void *extra_param)
+{
+    int model = C64MODEL_UNKNOWN;
+    int i = 0;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(model_match[i].name, param) == 0) {
+            model = model_match[i].model;
+        }
+        i++;
+    } while ((model == C64MODEL_UNKNOWN) && (model_match[i].name != NULL));
+
+    if (model == C64MODEL_UNKNOWN) {
+        return -1;
+    }
+
+    c64model_set(model);
+
+    return 0;
+}
+
+static int set_video_standard(const char *param, void *extra_param)
+{
+    int value = vice_ptr_to_int(extra_param);
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64SC:
+            switch (value) {
+                case MACHINE_SYNC_PAL:
+                default:
+                    return set_c64_model("pal", NULL);
+
+                case MACHINE_SYNC_NTSC:
+                    return set_c64_model("ntsc", NULL);
+
+                case MACHINE_SYNC_NTSCOLD:
+                    return set_c64_model("oldntsc", NULL);
+            }
+        default:
+            return resources_set_int("MachineVideoStandard", value);
+    }
+}
+
 static const cmdline_option_t cmdline_options[] = {
-    { "-pal", SET_RESOURCE, 0,
-      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
+    { "-pal", CALL_FUNCTION, 0,
+      set_video_standard, (void *)MACHINE_SYNC_PAL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_PAL_SYNC_FACTOR,
       NULL, NULL },
-    { "-ntsc", SET_RESOURCE, 0,
-      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
+    { "-ntsc", CALL_FUNCTION, 0,
+      set_video_standard, (void *)MACHINE_SYNC_NTSC, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
       NULL, NULL },
-    { "-ntscold", SET_RESOURCE, 0,
-      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSCOLD,
+    { "-ntscold", CALL_FUNCTION, 0,
+      set_video_standard, (void *)MACHINE_SYNC_NTSCOLD, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_OLD_NTSC_SYNC_FACTOR,
       NULL, NULL },
@@ -114,6 +199,26 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
 #endif
+    { "-ciamodel", CALL_FUNCTION, 1,
+      set_cia_model, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      T_("<model>"), T_("Set both CIA models (0 = old 6526, 1 = new 6526A)") },
+    { "-cia1model", SET_RESOURCE, 1,
+      NULL, NULL, "CIA1Model", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      T_("<model>"), T_("Set CIA 1 model (0 = old 6526, 1 = new 6526A)") },
+    { "-cia2model", SET_RESOURCE, 1,
+      NULL, NULL, "CIA2Model", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      T_("<model>"), T_("Set CIA 2 model (0 = old 6526, 1 = new 6526A)") },
+    { "-model", CALL_FUNCTION, 1,
+      set_c64_model, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      T_("<model>"), T_("Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc)") },
     { NULL }
 };
 

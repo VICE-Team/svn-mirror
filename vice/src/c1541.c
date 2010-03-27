@@ -3145,3 +3145,8 @@ void system_mbstowcs_free(char *wcs)
     lib_free(wcs);
 }
 #endif
+
+const char *machine_get_name(void)
+{
+    return machine_name;
+}

@@ -113,15 +113,32 @@ static void do_reset_cia(cia_context_t *cia_context)
 {
 }
 
-static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
+static void cia1_internal_lightpen_check(BYTE pa, BYTE pb)
 {
-    unsigned int i, m;
+    BYTE val = 0xff;
+    BYTE msk = pa & ~joystick_value[2];
+    BYTE m;
+    int i;
 
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
-        if ((keyarr[i] & 0x10) && (!(b & m))) {
-            vicii_trigger_light_pen(maincpu_clk);
+        if (!(msk & m)) {
+            val &= ~keyarr[i];
         }
     }
+
+    m = val & pb & ~joystick_value[1];
+
+    vicii_set_light_pen(maincpu_clk, !(m & 0x10));
+}
+
+void cia1_check_lightpen(void)
+{
+    cia1_internal_lightpen_check(machine_context.cia1->old_pa, machine_context.cia1->old_pb);
+}
+
+static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
+{
+    cia1_internal_lightpen_check(b,  machine_context.cia1->old_pb);
 
 #ifdef HAVE_MOUSE
     mouse_set_paddle_port((b >> 6) & 0x03);
@@ -140,10 +157,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    /* Falling edge triggers light pen.  */
-    if ((byte ^ 0x10) & cia_context->old_pb & 0x10) {
-        vicii_trigger_light_pen(rclk);
-    }
+    cia1_internal_lightpen_check(machine_context.cia1->old_pa, byte);
 
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {

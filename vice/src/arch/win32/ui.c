@@ -285,6 +285,7 @@ int ui_init(int *argc, char **argv)
 
     switch (machine_class) {
         case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
             emu_menu = IDR_MENUC64;
             break;
         case VICE_MACHINE_C64DTV:

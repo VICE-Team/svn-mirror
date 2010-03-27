@@ -428,6 +428,7 @@ void vicii_reset(void)
 
     vicii.force_display_state = 0;
 
+    vicii.light_pen.state = 0;
     vicii.light_pen.triggered = 0;
     vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = 0;
 
@@ -566,6 +567,7 @@ void vicii_powerup(void)
     vicii.bad_line = 0;
     vicii.ycounter_reset_checked = 0;
     vicii.force_black_overscan_background_color = 0;
+    vicii.light_pen.state = 0;
     vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = vicii.light_pen.triggered = 0;
     vicii.vbank_phi1 = 0;
     vicii.vbank_phi2 = 0;
@@ -621,6 +623,15 @@ void vicii_set_phi2_vbank(int num_vbank)
 }
 
 /* ---------------------------------------------------------------------*/
+
+/* Set light pen input state.  */
+void vicii_set_light_pen(CLOCK mclk, int state)
+{
+    if (state) {
+        vicii_trigger_light_pen(mclk);
+    }
+    vicii.light_pen.state = state;
+}
 
 /* Trigger the light pen.  */
 void vicii_trigger_light_pen(CLOCK mclk)
@@ -1160,6 +1171,11 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
         vicii.memptr = 0;
         vicii.mem_counter = 0;
         vicii.light_pen.triggered = 0;
+
+        if (vicii.light_pen.state) {
+            vicii_trigger_light_pen(maincpu_clk);
+        }
+
         vicii.raster.blank_off = 0;
 
         if (vicii.viciidtv) {

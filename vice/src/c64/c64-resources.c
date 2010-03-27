@@ -33,6 +33,7 @@
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64io.h"
+#include "c64cia.h"
 #include "c64rom.h"
 #include "cartridge.h"
 #include "emuid.h"
@@ -97,6 +98,12 @@ static io_source_t emu_id_device = {
 
 static io_source_list_t *emu_id_list_item = NULL;
 
+/* Flag: Emulate new CIA 1 (6526A)? */
+int cia1_model;
+
+/* Flag: Emulate new CIA 2 (6526A)? */
+int cia2_model;
+
 static int set_chargen_rom_name(const char *val, void *param)
 {
     if (util_string_set(&chargen_rom_name, val)) {
@@ -136,6 +143,32 @@ static int set_emu_id_enabled(int val, void *param)
         }
         emu_id_enabled = val;
     }
+    return 0;
+}
+
+static int set_cia1_model(int val, void *param)
+{
+    int old_cia_model = cia1_model;
+
+    cia1_model = (val != 0);
+
+    if (old_cia_model != cia1_model) {
+        cia1_update_model();
+    }
+
+    return 0;
+}
+
+static int set_cia2_model(int val, void *param)
+{
+    int old_cia_model = cia2_model;
+
+    cia2_model = (val != 0);
+
+    if (old_cia_model != cia2_model) {
+        cia2_update_model();
+    }
+
     return 0;
 }
 
@@ -245,6 +278,10 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[2], set_romset_firmware, (void *)2 },
     { "EmuID", 0, RES_EVENT_SAME, NULL,
       &emu_id_enabled, set_emu_id_enabled, NULL },
+    { "CIA1Model", 0, RES_EVENT_SAME, NULL,
+      &cia1_model, set_cia1_model, NULL },
+    { "CIA2Model", 0, RES_EVENT_SAME, NULL,
+      &cia2_model, set_cia2_model, NULL },
 #ifdef HAVE_RS232
     { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &acia_de_enabled, set_acia_de_enabled, NULL },
@@ -257,6 +294,12 @@ static const resource_int_t resources_int[] = {
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
     { NULL }
 };
+
+void c64_resources_update_cia_models(int model)
+{
+    set_cia1_model(model, NULL);
+    set_cia2_model(model, NULL);
+}
 
 int c64_resources_init(void)
 {

@@ -3,7 +3,7 @@
 
 #define UNSTABLE
 
-#define FEATURE_CPUMEMHISTORY 1
+/* FIXME: Doesn't work with the rewrite. #define FEATURE_CPUMEMHISTORY 1*/
 #define HAVE_WORKING_VSNPRINTF
 
 #if defined _MSC_VER && _MSC_VER < 1400 

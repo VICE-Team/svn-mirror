@@ -227,7 +227,7 @@ static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
-ui_menu_entry_t sid_submenu[] = {
+static ui_menu_entry_t sid_submenu[] = {
     { N_("SID model"),
       NULL, NULL, sid_model_submenu },
     { "--" },

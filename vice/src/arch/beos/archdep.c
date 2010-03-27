@@ -171,7 +171,7 @@ char *archdep_default_fliplist_file_name(void)
 
     lib_free(fname);
     fname = util_concat(archdep_boot_path(), "/fliplist-", 
-                        machine_name, ".vfl", NULL);
+                        machine_get_name(), ".vfl", NULL);
     return fname;
 }
 
@@ -180,7 +180,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
   const char *home;
 
   home = archdep_boot_path();
-  return util_concat(home, "/autostart-", machine_name, ".d64", NULL);
+  return util_concat(home, "/autostart-", machine_get_name(), ".d64", NULL);
 }
 
 FILE *archdep_open_default_log_file(void)

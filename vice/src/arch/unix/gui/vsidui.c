@@ -55,12 +55,9 @@
 #include "vsidui.h"
 #include "vsiduiunix.h"
 
-extern struct ui_menu_entry_s sid_submenu[];
-
 /* FIXME: sid menus need to be handled differently, but still need to 
    figure out the right way. */
 
-#if 0
 UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 
 static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
@@ -200,9 +197,9 @@ static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
-ui_menu_entry_t sid_submenu[] = {
-    { N_("SID engine"),
-      NULL, NULL, sid_engine_submenu },
+static ui_menu_entry_t sid_submenu[] = {
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
     { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
@@ -222,7 +219,6 @@ ui_menu_entry_t sid_submenu[] = {
 #endif
     { NULL },
 };
-#endif
 
 static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);
@@ -368,6 +364,8 @@ static ui_menu_entry_t vsidui_right_menu[] = {
       NULL, NULL, ui_sound_settings_menu_vsid },
     { "--",
       NULL, NULL, psid_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
     { NULL }
 };
 
@@ -393,6 +391,8 @@ static ui_menu_entry_t vsidui_settings_menu[] = {
       NULL, NULL, ui_sound_settings_menu_vsid },
     { "--",
       NULL, NULL, psid_menu },
+    { "--",
+      NULL, NULL, ui_settings_settings_menu },
     { NULL }
 };
 

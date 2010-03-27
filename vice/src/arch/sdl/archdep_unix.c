@@ -257,9 +257,9 @@ char *archdep_default_fliplist_file_name(void)
         const char *home;
 
         home = archdep_home_path();
-        return util_concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
+        return util_concat(home, "/.vice/fliplist-", machine_get_name(), ".vfl", NULL);
     } else {
-        return util_concat(archdep_pref_path, "/fliplist-", machine_name, ".vfl", NULL);
+        return util_concat(archdep_pref_path, "/fliplist-", machine_get_name(), ".vfl", NULL);
     }
 }
 
@@ -269,9 +269,9 @@ char *archdep_default_autostart_disk_image_file_name(void)
         const char *home;
 
         home = archdep_home_path();
-        return util_concat(home, "/.vice/autostart-", machine_name, ".d64", NULL);
+        return util_concat(home, "/.vice/autostart-", machine_get_name(), ".d64", NULL);
     } else {
-        return util_concat(archdep_pref_path, "/autostart-", machine_name, ".d64", NULL);
+        return util_concat(archdep_pref_path, "/autostart-", machine_get_name(), ".d64", NULL);
     }
 }
 
@@ -281,9 +281,9 @@ char *archdep_default_hotkey_file_name(void)
         const char *home;
 
         home = archdep_home_path();
-        return util_concat(home, "/.vice/sdl-hotkey-", machine_name, ".vkm", NULL);
+        return util_concat(home, "/.vice/sdl-hotkey-", machine_get_name(), ".vkm", NULL);
     } else {
-        return util_concat(archdep_pref_path, "/sdl-hotkey-", machine_name, ".vkm", NULL);
+        return util_concat(archdep_pref_path, "/sdl-hotkey-", machine_get_name(), ".vkm", NULL);
     }
 }
 
@@ -293,9 +293,9 @@ char *archdep_default_joymap_file_name(void)
         const char *home;
 
         home = archdep_home_path();
-        return util_concat(home, "/.vice/sdl-joymap-", machine_name, ".vjm", NULL);
+        return util_concat(home, "/.vice/sdl-joymap-", machine_get_name(), ".vjm", NULL);
     } else {
-        return util_concat(archdep_pref_path, "/sdl-joymap-", machine_name, ".vjm", NULL);
+        return util_concat(archdep_pref_path, "/sdl-joymap-", machine_get_name(), ".vjm", NULL);
     }
 }
 

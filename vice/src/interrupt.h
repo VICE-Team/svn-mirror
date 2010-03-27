@@ -31,6 +31,8 @@
 
 #include <stdio.h>
 
+#include "debug.h"
+#include "log.h"
 #include "types.h"
 
 /* Define the number of cycles needed by the CPU to detect the NMI or IRQ.  */
@@ -79,6 +81,10 @@ struct interrupt_cpu_status_s {
     unsigned int num_dma_per_opcode;
     unsigned int num_cycles_left[INTRRUPT_MAX_DMA_PER_OPCODE];
     CLOCK dma_start_clk[INTRRUPT_MAX_DMA_PER_OPCODE];
+
+    /* counters for delay between interrupt request and handler */
+    unsigned int irq_delay_cycles;
+    unsigned int nmi_delay_cycles;
 
     /* If 1, do a RESET.  */
     int reset;
@@ -140,6 +146,13 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
 
             /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
+#ifdef DEBUG
+            if (debug.maincpu_traceflg) {
+                log_debug("ICLK=%i  last_stolen_cycle=%d", cpu_clk, cs->last_stolen_cycles_clk);
+            }
+#endif
+            cs->irq_delay_cycles = 0;
+
             if (cs->last_stolen_cycles_clk <= cpu_clk)
                 cs->irq_clk = cpu_clk;
             else
@@ -175,6 +188,8 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
 
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
+                cs->nmi_delay_cycles = 0;
+
                 if (cs->last_stolen_cycles_clk <= cpu_clk)
                     cs->nmi_clk = cpu_clk;
                 else

@@ -69,6 +69,9 @@ static int joystick_opposite_enable = 0;
 static const BYTE joystick_opposite_direction[] = 
     { 0, 2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15 };
 
+/* Callback to machine specific joystick routines, needed for lightpen triggering */
+static joystick_machine_func_t joystick_machine_func = NULL;
+
 static alarm_t *joystick_alarm = NULL;
 
 static CLOCK joystick_delay;
@@ -92,6 +95,11 @@ static void joystick_latch_matrix(CLOCK offset)
     } else {
         memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
     }
+
+    if (joystick_machine_func != NULL) {
+        joystick_machine_func();
+    }
+
     ui_display_joyport(joystick_value);
 }
 
@@ -128,6 +136,11 @@ void joystick_event_delayed_playback(void *data)
      */
     memcpy(network_joystick_value, data, sizeof(latch_joystick_value));
     alarm_set(joystick_alarm, maincpu_clk + joystick_delay);
+}
+
+void joystick_register_machine(joystick_machine_func_t func)
+{
+    joystick_machine_func = func;
 }
 
 void joystick_register_delay(unsigned int delay)

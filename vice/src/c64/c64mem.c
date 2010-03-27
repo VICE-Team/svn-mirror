@@ -66,6 +66,9 @@
 #include "tfe.h"
 #endif
 
+/* Machine class (moved from c64.c to distinguish between x64 and x64sc) */
+int machine_class = VICE_MACHINE_C64;
+
 /* C64 memory-related resources.  */
 
 /* Adjust this pointer when the MMU changes banks.  */

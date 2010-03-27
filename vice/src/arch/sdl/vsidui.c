@@ -54,10 +54,7 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "vsidui.h"
-
-#if 0
 #include "vsidui_sdl.h"
-#endif
 
 /* ---------------------------------------------------------------------*/
 /* static variables / functions */
@@ -210,7 +207,6 @@ static const ui_menu_entry_t vsid_main_menu[] = {
 /* ---------------------------------------------------------------------*/
 /* vsidui_sdl.h */
 
-#if 0
 int sdl_vsid_state = 0;
 
 void sdl_vsid_activate(void)
@@ -231,7 +227,6 @@ void sdl_vsid_draw(void)
         sdl_ui_print(vsidstrings[i], 0, i);
     }
 }
-#endif
 
 /* ---------------------------------------------------------------------*/
 /* vsidui.h */
@@ -243,9 +238,7 @@ int vsid_ui_init(void)
     sdl_ui_set_main_menu(vsid_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
 
-#if 0
     sdl_vsid_activate();
-#endif
 
     sprintf(vsidstrings[VSID_CS_TITLE], "Title:");
     sprintf(vsidstrings[VSID_CS_AUTHOR], "Author:");
@@ -298,11 +291,9 @@ void vsid_ui_display_tune_nr(int nr)
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
     sdl_vsid_current_tune = nr;
 
-#if 0
     if (sdl_vsid_state & SDL_VSID_ACTIVE) {
         sdl_vsid_state |= SDL_VSID_REPAINT;
     }
-#endif
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
@@ -322,11 +313,9 @@ void vsid_ui_display_time(unsigned int sec)
     sec = sec - (m * 60);
     sprintf(vsidstrings[VSID_S_TIMER], "%02d:%02d:%02d", h, m, sec);
 
-#if 0
     if (sdl_vsid_state & SDL_VSID_ACTIVE) {
         sdl_vsid_state |= SDL_VSID_REPAINT;
     }
-#endif
 }
 
 void vsid_ui_display_irqtype(const char *irq)

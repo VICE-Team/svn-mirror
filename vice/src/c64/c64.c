@@ -43,6 +43,7 @@
 #include "c64cia.h"
 #include "c64export.h"
 #include "c64fastiec.h"
+#include "c64gluelogic.h"
 #include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64mem.h"
@@ -129,8 +130,9 @@ char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
 };
 
 const char machine_name[] = "C64";
+/* Moved to c64mem.c/c64memsc.c
 int machine_class = VICE_MACHINE_C64;
-
+*/
 static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
@@ -220,6 +222,7 @@ int machine_resources_init(void)
 #ifdef HAVE_MIDI
         || c64_midi_resources_init() < 0
 #endif
+        || c64_glue_resources_init() < 0
         || cartridge_resources_init() < 0) {
         return -1;
     }
@@ -306,6 +309,7 @@ int machine_cmdline_options_init(void)
 #ifdef HAVE_MIDI
         || c64_midi_cmdline_options_init() < 0
 #endif
+        || c64_glue_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0) {
         return -1;
     }
@@ -425,13 +429,17 @@ int machine_specific_init(void)
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
-
         if (vsid_mode) {
             vsid_ui_init();
+        } else if (machine_class == VICE_MACHINE_C64SC) {
+            c64scui_init();
         } else {
             c64ui_init();
         }
     }
+
+    /* Initialize glue logic.  */
+    c64_glue_init();
 
     if (!vsid_mode) {
         /* Initialize the REU.  */
@@ -801,4 +809,17 @@ static int check_cart_range(unsigned int addr)
 int machine_addr_in_ram(unsigned int addr)
 {
     return ((addr < 0xe000 && !(addr >= 0xa000 && addr < 0xc000)) && check_cart_range(addr));
+}
+
+const char *machine_get_name(void)
+{
+    if (vsid_mode) {
+        return "VSID";
+    }
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        return "C64SC";
+    }
+
+    return machine_name;
 }

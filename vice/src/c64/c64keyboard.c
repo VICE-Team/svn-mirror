@@ -26,9 +26,11 @@
 
 #include "vice.h"
 
+#include "c64cia.h"
 #include "c64keyboard.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "vicii.h"
 
@@ -36,22 +38,12 @@ static unsigned int c64keyboard_int_num;
 
 static void c64keyboard_machine_func(int *keyarr)
 {
-    unsigned int lightpen, i;
-    static unsigned int old_lightpen = 1;
+    cia1_check_lightpen();
+}
 
-    lightpen = 1;
-
-    for (i = 0; i < 8; i++) {
-        if (keyarr[i] & 0x10) {
-            lightpen = 0;
-        }
-    }
-
-    if (old_lightpen && !lightpen) {
-        vicii_trigger_light_pen(maincpu_clk);
-    }
-
-    old_lightpen = lightpen;
+static void c64joystick_machine_func(void)
+{
+    cia1_check_lightpen();
 }
 
 void c64keyboard_restore_key(int v)
@@ -69,5 +61,16 @@ void c64keyboard_restore_key(int v)
 void c64keyboard_init(void)
 {
     c64keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "RestoreKEY");
-    keyboard_register_machine(c64keyboard_machine_func);
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C128:
+            keyboard_register_machine(c64keyboard_machine_func);
+            joystick_register_machine(c64joystick_machine_func);
+            break;
+        default:
+            /* No lightpen in x64dtv */
+            break;
+    }
 }

@@ -178,6 +178,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
 
     switch (machine_class) {
         case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
             hadr = ui_sid_c64baseaddress;
             break;
         case VICE_MACHINE_C128:

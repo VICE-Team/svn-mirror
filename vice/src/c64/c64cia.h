@@ -49,4 +49,9 @@ extern BYTE REGPARM1 cia2_peek(WORD addr);
 extern void cia2_set_flagx(void);
 extern void cia2_set_sdrx(BYTE received_byte);
 
+extern void cia1_check_lightpen(void);
+
+extern void cia1_update_model(void);
+extern void cia2_update_model(void);
+
 #endif
