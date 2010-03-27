@@ -38,6 +38,7 @@ noinst_HEADERS = \
 libarchmacosxcocoamenu_a_SOURCES = \
 	c128ui.m \
 	c64ui.m \
+	c64scui.m \
 	c64dtvui.m \
 	cbm2ui.m \
 	petui.m \
