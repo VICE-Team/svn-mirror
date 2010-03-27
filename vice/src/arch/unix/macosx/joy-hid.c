@@ -179,18 +179,9 @@ void joy_hid_exit(void)
 
 int  joy_hid_reload(void)
 {
-    if(device_array) {
-        joy_hidlib_free_devices(device_array);
-        device_array = NULL;
-    }
-    
-    device_array = joy_hidlib_enumerate_devices();
-    if(device_array != NULL) {
-        assign_device_serials(device_array);
-        return device_array->num_devices;
-    } else {
-        return -1;
-    }
+    /* reinit */
+    joy_hid_exit();    
+    return joy_hid_init();
 }
 
 const joy_hid_device_array_t *joy_hid_get_devices(void)
