@@ -248,6 +248,8 @@ BYTE REGPARM1 romh_read(WORD addr)
             return easyflash_romh_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_romh_read(addr);
+        case CARTRIDGE_MAGIC_FORMEL:
+            return magicformel_romh_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_romh_read(addr);
@@ -414,7 +416,7 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_d000_dfff_store(addr, value);
-            break;
+            return;
         case CARTRIDGE_CAPTURE:
             capture_d000_dfff_store(addr, value);
             return;
@@ -562,6 +564,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_CAPTURE:
             capture_reset();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_reset();
             break;
     }
 }
@@ -872,6 +877,9 @@ void cartridge_freeze(int type)
             break;
         case CARTRIDGE_CAPTURE:
             capture_freeze();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_freeze();
             break;
     }
     if (isepic_enabled && isepic_switch) {

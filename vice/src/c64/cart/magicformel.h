@@ -32,6 +32,7 @@
 #include "types.h"
 
 extern BYTE REGPARM1 magicformel_roml_read(WORD addr);
+extern BYTE REGPARM1 magicformel_romh_read(WORD addr);
 extern void REGPARM2 magicformel_roml_store(WORD addr, BYTE value);
 extern void REGPARM2 magicformel_romh_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 magicformel_1000_7fff_read(WORD addr);

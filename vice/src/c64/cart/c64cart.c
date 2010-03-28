@@ -470,6 +470,7 @@ void cartridge_trigger_freeze(void)
         case CARTRIDGE_ATOMIC_POWER:
         case CARTRIDGE_FINAL_I:
         case CARTRIDGE_CAPTURE:
+        case CARTRIDGE_MAGIC_FORMEL:
             maincpu_set_nmi(cartridge_int_num, IK_NMI);
             alarm_set(cartridge_alarm, maincpu_clk + 3);
             break;
