@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-15 11:10+0100\n"
+"POT-Creation-Date: 2010-03-28 17:16+0200\n"
 "PO-Revision-Date: 2009-11-16 16:18+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -15,76 +15,76 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:315
+#: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
 msgstr "Imposta il dispositivo per la porta joystick 1"
 
-#: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:324
+#: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:397
 msgid "Set device for joystick port 2"
 msgstr "Imposta il dispositivo per la porta joystick 2"
 
-#: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:333
+#: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:406
 msgid "Set device for extra joystick port 1"
 msgstr "Imposta il dispositivo per la porta joystick supplementare 1"
 
-#: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:342
+#: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:415
 msgid "Set device for extra joystick port 2"
 msgstr "Imposta il dispositivo per la porta joystick supplementare 2"
 
-#: src/arch/unix/mididrv.c:663 src/arch/unix/mididrv.c:668
+#: src/arch/unix/mididrv.c:667 src/arch/unix/mididrv.c:672
 #: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
 #: src/arch/unix/macosx/mididrv.c:128 src/translate_text.c.po.c:2743
 msgid "<name>"
 msgstr "<nome>"
 
-#: src/arch/unix/mididrv.c:663 src/arch/win32/res.rc.po.c:1103
+#: src/arch/unix/mididrv.c:667 src/arch/win32/res.rc.po.c:1103
 msgid "Specify MIDI-In device"
 msgstr "Specifica device MIDI-In"
 
-#: src/arch/unix/mididrv.c:668 src/arch/win32/res.rc.po.c:1104
+#: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1104
 msgid "Specify MIDI-Out device"
 msgstr "Specifica device MIDI-Out"
 
-#: src/arch/unix/mididrv.c:674
+#: src/arch/unix/mididrv.c:678
 msgid "<driver>"
 msgstr "<driver>"
 
-#: src/arch/unix/mididrv.c:674
+#: src/arch/unix/mididrv.c:678
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Specifica il driver MIDI (0 = OSS, 1 = ALSA)"
 
-#: src/arch/unix/rs232.c:159 src/arch/unix/rs232.c:164
-#: src/arch/unix/rs232.c:169 src/arch/unix/rs232.c:174
+#: src/arch/unix/rs232.c:163 src/arch/unix/rs232.c:168
+#: src/arch/unix/rs232.c:173 src/arch/unix/rs232.c:178
 msgid "<baudrate>"
 msgstr "<baud>"
 
-#: src/arch/unix/rs232.c:159
+#: src/arch/unix/rs232.c:163
 msgid "Specify baudrate of first RS232 device"
 msgstr "Specifica la velocità della prima RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:164
+#: src/arch/unix/rs232.c:168
 msgid "Specify baudrate of second RS232 device"
 msgstr "Specifica la velocità della seconda RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:169
+#: src/arch/unix/rs232.c:173
 msgid "Specify baudrate of third RS232 device"
 msgstr "Specifica la velocità della terza RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:174
+#: src/arch/unix/rs232.c:178
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Specifica la velocità della quarta RS232 (in baud)"
 
 #: src/arch/unix/gui/c128ui.c:76 src/arch/unix/gui/c64dtvui.c:61
 #: src/arch/unix/gui/c64ui.c:80 src/arch/unix/gui/cbm2ui.c:64
 #: src/arch/unix/gui/uited.c:58 src/arch/unix/gui/uivic.c:51
-#: src/arch/unix/gui/vsidui.c:291
+#: src/arch/unix/gui/vsidui.c:287
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:78 src/arch/unix/gui/c64dtvui.c:63
 #: src/arch/unix/gui/c64ui.c:82 src/arch/unix/gui/cbm2ui.c:66
 #: src/arch/unix/gui/uited.c:60 src/arch/unix/gui/uivic.c:53
-#: src/arch/unix/gui/vsidui.c:293
+#: src/arch/unix/gui/vsidui.c:289
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -93,21 +93,21 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/c64ui.c:231 src/arch/unix/gui/c64ui.c:254
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:316
 #: src/arch/unix/gui/petui.c:120 src/arch/unix/gui/plus4ui.c:109
-#: src/arch/unix/gui/vic20ui.c:146
+#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:201
 msgid "SID model"
 msgstr "Modello SID"
 
 #: src/arch/unix/gui/c128ui.c:184 src/arch/unix/gui/c128ui.c:208
 #: src/arch/unix/gui/c64ui.c:234 src/arch/unix/gui/c64ui.c:258
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:320
-#: src/arch/unix/gui/vsidui.c:207
+#: src/arch/unix/gui/vsidui.c:204
 msgid "*Second SID"
 msgstr "*Secondo SID"
 
 #: src/arch/unix/gui/c128ui.c:186 src/arch/unix/gui/c128ui.c:210
 #: src/arch/unix/gui/c64ui.c:236 src/arch/unix/gui/c64ui.c:260
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:322
-#: src/arch/unix/gui/vsidui.c:209
+#: src/arch/unix/gui/vsidui.c:206
 msgid "*Second SID base address"
 msgstr "*Indirizzo base secondo SID"
 
@@ -116,19 +116,19 @@ msgstr "*Indirizzo base secondo SID"
 #: src/arch/unix/gui/c64ui.c:239 src/arch/unix/gui/c64ui.c:262
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:325
 #: src/arch/unix/gui/petui.c:122 src/arch/unix/gui/plus4ui.c:111
-#: src/arch/unix/gui/vic20ui.c:148 src/arch/unix/gui/vsidui.c:212
+#: src/arch/unix/gui/vic20ui.c:148 src/arch/unix/gui/vsidui.c:209
 msgid "*Emulate filters"
 msgstr "*Emula i filtri"
 
 #: src/arch/unix/gui/c128ui.c:193 src/arch/unix/gui/c64dtvui.c:81
 #: src/arch/unix/gui/c64ui.c:243 src/arch/unix/gui/cbm2ui.c:305
-#: src/arch/unix/gui/vsidui.c:218
+#: src/arch/unix/gui/vsidui.c:215
 msgid "reSID sampling method"
 msgstr "Metodo di campionamento del reSID"
 
 #: src/arch/unix/gui/c128ui.c:195 src/arch/unix/gui/c64dtvui.c:83
 #: src/arch/unix/gui/c64ui.c:245 src/arch/unix/gui/cbm2ui.c:307
-#: src/arch/unix/gui/vsidui.c:220
+#: src/arch/unix/gui/vsidui.c:217
 msgid "reSID resampling passband..."
 msgstr "Banda passante di ricampionamento del reSID..."
 
@@ -363,7 +363,7 @@ msgstr "Impostazioni VDC"
 
 #: src/arch/unix/gui/c128ui.c:420 src/arch/unix/gui/c64dtvui.c:179
 #: src/arch/unix/gui/c64ui.c:386 src/arch/unix/gui/cbm2ui.c:356
-#: src/arch/unix/gui/vsidui.c:343 src/arch/win32/ressid.rc.po.c:63
+#: src/arch/unix/gui/vsidui.c:339 src/arch/win32/ressid.rc.po.c:63
 #: src/arch/win32/ressiddtv.rc.po.c:52
 msgid "SID settings"
 msgstr "Impostazioni SID"
@@ -424,7 +424,7 @@ msgstr "Impostazioni"
 msgid "RJHelp"
 msgstr "RJAiuto"
 
-#: src/arch/unix/gui/c64dtvui.c:98 src/arch/unix/gui/vsidui.c:214
+#: src/arch/unix/gui/c64dtvui.c:98 src/arch/unix/gui/vsidui.c:211
 msgid "Chip model"
 msgstr "Modello"
 
@@ -462,7 +462,7 @@ msgstr "Impostazioni ROM"
 msgid "C64DTV settings"
 msgstr "Impostazioni C64DTV"
 
-#: src/arch/unix/gui/c64ui.c:84 src/arch/unix/gui/vsidui.c:295
+#: src/arch/unix/gui/c64ui.c:84 src/arch/unix/gui/vsidui.c:291
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M vecchio"
 
@@ -1374,7 +1374,7 @@ msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/gui/uicommands.c:565 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/x11/gnome/uipalcontrol.c:147
-#: src/arch/unix/x11/gnome/x11ui.c:1706 src/arch/amigaos/intl_text.c.po.c:270
+#: src/arch/unix/x11/gnome/x11ui.c:1707 src/arch/amigaos/intl_text.c.po.c:270
 msgid "Reset"
 msgstr "Reset"
 
@@ -1915,8 +1915,8 @@ msgid "Next: "
 msgstr "Successiva: "
 
 #: src/arch/unix/gui/uifliplist.c:235 src/arch/unix/gui/uifliplist.c:249
-#: src/arch/unix/x11/gnome/x11ui.c:683 src/arch/unix/x11/gnome/x11ui.c:685
-#: src/arch/unix/x11/gnome/x11ui.c:694 src/arch/unix/x11/gnome/x11ui.c:1301
+#: src/arch/unix/x11/gnome/x11ui.c:684 src/arch/unix/x11/gnome/x11ui.c:686
+#: src/arch/unix/x11/gnome/x11ui.c:695 src/arch/unix/x11/gnome/x11ui.c:1302
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -3052,7 +3052,7 @@ msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:280
-#: src/arch/unix/x11/gnome/x11ui.c:1126 src/arch/unix/x11/xaw/x11ui.c:1110
+#: src/arch/unix/x11/gnome/x11ui.c:1127 src/arch/unix/x11/xaw/x11ui.c:1110
 #: src/arch/win32/res.rc.po.c:903 src/arch/amigaos/intl_text.c.po.c:2613
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -3374,7 +3374,7 @@ msgstr "Dimensione del frammento"
 msgid "Suspend time"
 msgstr "Tempo di sospensione"
 
-#: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:333
+#: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:329
 msgid "Sound settings"
 msgstr "Impostazioni audio"
 
@@ -3407,7 +3407,7 @@ msgid "PAL Emulation"
 msgstr "Emulazione PAL"
 
 #: src/arch/unix/gui/uited.c:123 src/arch/unix/gui/uivic.c:141
-#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/gui/vsidui.c:345
+#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/gui/vsidui.c:341
 #: src/arch/amigaos/intl_text.c.po.c:1502
 msgid "Video standard"
 msgstr "Standard video"
@@ -3656,23 +3656,19 @@ msgstr "Emulazione paddle"
 msgid "MIDI emulation"
 msgstr "Emulazione MIDI"
 
-#: src/arch/unix/gui/vsidui.c:204
-msgid "SID engine"
-msgstr "Motore SID"
-
-#: src/arch/unix/gui/vsidui.c:235
+#: src/arch/unix/gui/vsidui.c:231
 msgid "Tunes"
 msgstr "Melodie"
 
-#: src/arch/unix/gui/vsidui.c:246
+#: src/arch/unix/gui/vsidui.c:242
 msgid "Load PSID file"
 msgstr "Carica file PSID"
 
-#: src/arch/unix/gui/vsidui.c:279
+#: src/arch/unix/gui/vsidui.c:275
 msgid "Load PSID file..."
 msgstr "Carica file PSID..."
 
-#: src/arch/unix/gui/vsidui.c:341
+#: src/arch/unix/gui/vsidui.c:337
 msgid "*Override PSID settings"
 msgstr "*Non tener conto delle impostazioni del PSID"
 
@@ -4000,131 +3996,131 @@ msgstr ""
 "Modello: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:609
+#: src/arch/unix/x11/gnome/x11ui.c:610
 msgid "PAL Controls"
 msgstr "Regolazioni PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:621
+#: src/arch/unix/x11/gnome/x11ui.c:622
 msgid "audio/video recording"
 msgstr "Registrazione audio/video"
 
-#: src/arch/unix/x11/gnome/x11ui.c:630 src/arch/unix/x11/gnome/x11ui.c:645
+#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/gnome/x11ui.c:646
 msgid "click to stop recording"
 msgstr "Fai clic per interrompere la registrazione"
 
-#: src/arch/unix/x11/gnome/x11ui.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:637
 msgid "event recording"
 msgstr "registrazione eventi"
 
-#: src/arch/unix/x11/gnome/x11ui.c:651
+#: src/arch/unix/x11/gnome/x11ui.c:652
 msgid "event playback"
 msgstr "riproduzione eventi"
 
-#: src/arch/unix/x11/gnome/x11ui.c:660
+#: src/arch/unix/x11/gnome/x11ui.c:661
 msgid "click to stop playback"
 msgstr "Fai clic per interrompere la riproduzione"
 
-#: src/arch/unix/x11/gnome/x11ui.c:672
+#: src/arch/unix/x11/gnome/x11ui.c:673
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:751
+#: src/arch/unix/x11/gnome/x11ui.c:752
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1108 src/arch/unix/x11/xaw/x11ui.c:1095
+#: src/arch/unix/x11/gnome/x11ui.c:1109 src/arch/unix/x11/xaw/x11ui.c:1095
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1115 src/arch/unix/x11/xaw/x11ui.c:1099
+#: src/arch/unix/x11/gnome/x11ui.c:1116 src/arch/unix/x11/xaw/x11ui.c:1099
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire dal programma?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1123 src/arch/unix/x11/xaw/x11ui.c:1107
+#: src/arch/unix/x11/gnome/x11ui.c:1124 src/arch/unix/x11/xaw/x11ui.c:1107
 msgid "Save the current settings?"
 msgstr "Salvare le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1159 src/arch/unix/x11/gnome/x11ui.c:1161
+#: src/arch/unix/x11/gnome/x11ui.c:1160 src/arch/unix/x11/gnome/x11ui.c:1162
 #: src/arch/unix/x11/xaw/x11ui.c:1175 src/arch/unix/x11/xaw/x11ui.c:1178
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1452
+#: src/arch/unix/x11/gnome/x11ui.c:1453
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1501 src/arch/unix/x11/xaw/x11ui.c:1424
+#: src/arch/unix/x11/gnome/x11ui.c:1502 src/arch/unix/x11/xaw/x11ui.c:1424
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1668 src/arch/amigaos/intl_text.c.po.c:2547
+#: src/arch/unix/x11/gnome/x11ui.c:1669 src/arch/amigaos/intl_text.c.po.c:2547
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1679 src/arch/amigaos/intl_text.c.po.c:2635
+#: src/arch/unix/x11/gnome/x11ui.c:1680 src/arch/amigaos/intl_text.c.po.c:2635
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1706
+#: src/arch/unix/x11/gnome/x11ui.c:1707
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1706 src/arch/amigaos/intl_text.c.po.c:754
+#: src/arch/unix/x11/gnome/x11ui.c:1707 src/arch/amigaos/intl_text.c.po.c:754
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1706
+#: src/arch/unix/x11/gnome/x11ui.c:1707
 msgid "Continue"
 msgstr "Continua"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1748 src/arch/unix/x11/xaw/x11ui.c:1745
+#: src/arch/unix/x11/gnome/x11ui.c:1749 src/arch/unix/x11/xaw/x11ui.c:1745
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1748
+#: src/arch/unix/x11/gnome/x11ui.c:1749
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1759
+#: src/arch/unix/x11/gnome/x11ui.c:1760
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "L'avvio automatico non è possibile per l'unità %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1764 src/arch/unix/x11/gnome/x11ui.c:1770
+#: src/arch/unix/x11/gnome/x11ui.c:1765 src/arch/unix/x11/gnome/x11ui.c:1771
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile avviare automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1941
+#: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2261
+#: src/arch/unix/x11/gnome/x11ui.c:2262
 msgid "Contents"
 msgstr "Contenuti"
 
 #. write-protect checkbox
-#: src/arch/unix/x11/gnome/x11ui.c:2292
+#: src/arch/unix/x11/gnome/x11ui.c:2293
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2299
+#: src/arch/unix/x11/gnome/x11ui.c:2300
 msgid "Show hidden files"
 msgstr "Mostrafile nascosti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2308
+#: src/arch/unix/x11/gnome/x11ui.c:2309
 msgid "Autostart"
 msgstr "Avvio automatico"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2324
+#: src/arch/unix/x11/gnome/x11ui.c:2325
 msgid "Text cannot be displayed.\n"
 msgstr "Il testo non può essere visualizzato.\n"
 
@@ -4301,86 +4297,116 @@ msgstr "%d: Traccia %.1f"
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11video.c:225
+#: src/arch/unix/x11/xaw/x11video.c:230
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Chiama `XSync()' dopo aver aggiornato la finestra di emulazione"
 
-#: src/arch/unix/x11/xaw/x11video.c:230
+#: src/arch/unix/x11/xaw/x11video.c:235
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Non chiamare `XSync()' dopo aver aggiornato la finestra di emulazione"
 
-#: src/arch/unix/x11/xaw/x11video.c:235
+#: src/arch/unix/x11/xaw/x11video.c:240
 msgid "Use shared memory"
 msgstr "Usa la memoria condivisa"
 
-#: src/arch/unix/x11/xaw/x11video.c:240
+#: src/arch/unix/x11/xaw/x11video.c:245
 msgid "Never use shared memory (slower)"
 msgstr "Non usare mai la memoria condivisa (più lento)"
 
-#: src/arch/unix/x11/xaw/x11video.c:246
+#: src/arch/unix/x11/xaw/x11video.c:251
 msgid "<fourcc>"
 msgstr "<fourcc>"
 
-#: src/arch/unix/x11/xaw/x11video.c:246
+#: src/arch/unix/x11/xaw/x11video.c:251
 msgid "Request YUV FOURCC format"
 msgstr "Richiede il formato YUV FOURCC"
 
-#: src/arch/unix/x11/xaw/x11video.c:251
+#: src/arch/unix/x11/xaw/x11video.c:256
 msgid "<aspect ratio>"
 msgstr "<rapporto di formato>"
 
-#: src/arch/unix/x11/xaw/x11video.c:251
+#: src/arch/unix/x11/xaw/x11video.c:256
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Imposta il rapporto di formato (0.8 - 1.2)"
 
-#: src/arch/unix/x11/xaw/x11video.c:324
+#: src/arch/unix/x11/xaw/x11video.c:329
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:587
+#: src/arch/unix/x11/xaw/x11video.c:592
 msgid "MITSHM initialization succeed.\n"
 msgstr "Inizializzazione MITSHM riuscita.\n"
 
-#: src/arch/unix/macosx/joy.c:251
+#: src/arch/unix/macosx/joy.c:304
 msgid "Set HID A device"
 msgstr "Imposta device HID A"
 
-#: src/arch/unix/macosx/joy.c:256
+#: src/arch/unix/macosx/joy.c:309
 msgid "Set X Axis for HID A device"
 msgstr "Imposta asse X per il device HID A"
 
-#: src/arch/unix/macosx/joy.c:261 src/arch/unix/macosx/joy.c:266
+#: src/arch/unix/macosx/joy.c:314
 msgid "Set Y Axis for HID A device"
 msgstr "Imposta asse Y per il device HID A"
 
-#: src/arch/unix/macosx/joy.c:271
+#: src/arch/unix/macosx/joy.c:319
+#, fuzzy
+msgid "Set Buttons for HID A device"
+msgstr "Imposta asse X per il device HID A"
+
+#: src/arch/unix/macosx/joy.c:324
+#, fuzzy
+msgid "Set Auto Fire Buttons for HID A device"
+msgstr "Imposta asse X per il device HID A"
+
+#: src/arch/unix/macosx/joy.c:329
 msgid "Set X Axis Threshold in Percent of HID A device"
 msgstr "Imposta soglia asse X in percentuale per il device HID A"
 
-#: src/arch/unix/macosx/joy.c:276
+#: src/arch/unix/macosx/joy.c:334
 msgid "Set Y Axis Threshold in Percent of HID A device"
 msgstr "Imposta soglia asse Y in percentuale per il device HID A"
 
-#: src/arch/unix/macosx/joy.c:281
+#: src/arch/unix/macosx/joy.c:339
 msgid "Set HID B device"
 msgstr "Imposta device HID B"
 
-#: src/arch/unix/macosx/joy.c:286
+#: src/arch/unix/macosx/joy.c:344
 msgid "Set X Axis for HID B device"
 msgstr "Imposta asse X per il device HID B"
 
-#: src/arch/unix/macosx/joy.c:291 src/arch/unix/macosx/joy.c:296
+#: src/arch/unix/macosx/joy.c:349
 msgid "Set Y Axis for HID B device"
 msgstr "Imposta asse Y per il device HID B"
 
-#: src/arch/unix/macosx/joy.c:301
+#: src/arch/unix/macosx/joy.c:354
+#, fuzzy
+msgid "Set Buttons for HID B device"
+msgstr "Imposta asse X per il device HID B"
+
+#: src/arch/unix/macosx/joy.c:359
+#, fuzzy
+msgid "Set Auto Fire Buttons for HID B device"
+msgstr "Imposta asse X per il device HID B"
+
+#: src/arch/unix/macosx/joy.c:364
 msgid "Set X Axis Threshold in Percent of HID B device"
 msgstr "Imposta soglia asse X in percentuale per il device HID B"
 
-#: src/arch/unix/macosx/joy.c:306
+#: src/arch/unix/macosx/joy.c:369
 msgid "Set Y Axis Threshold in Percent of HID B device"
 msgstr "Imposta soglia asse Y in percentuale per il device HID B"
+
+#: src/arch/unix/macosx/joy.c:374
+#, fuzzy
+msgid "Set Hat Switch for Joystick of HID A device"
+msgstr "Imposta asse X per il device HID A"
+
+#: src/arch/unix/macosx/joy.c:379
+#, fuzzy
+msgid "Set Hat Switch for Joystick of HID B device"
+msgstr "Imposta asse X per il device HID B"
 
 #: src/arch/unix/macosx/mididrv.c:118
 msgid "Name of MIDI Client"
@@ -13431,6 +13457,9 @@ msgstr "Disattiva la cartuccia digimax"
 #: src/translate_text.c.po.c:9925
 msgid "Base address of the digimax cartridge"
 msgstr "Indirizzo base della cartuccia digimax"
+
+#~ msgid "SID engine"
+#~ msgstr "Motore SID"
 
 #~ msgid "*CCS64"
 #~ msgstr "*CCS64"

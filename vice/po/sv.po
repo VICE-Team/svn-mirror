@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-15 11:10+0100\n"
+"POT-Creation-Date: 2010-03-28 17:16+0200\n"
 "PO-Revision-Date: 2009-11-15 16:03+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -14,76 +14,76 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:315
+#: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
 msgstr "Välj enhet för spelport 1"
 
-#: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:324
+#: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:397
 msgid "Set device for joystick port 2"
 msgstr "Välj enhet för spelport 2"
 
-#: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:333
+#: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:406
 msgid "Set device for extra joystick port 1"
 msgstr "Välj enhet för extra spelport 1"
 
-#: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:342
+#: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:415
 msgid "Set device for extra joystick port 2"
 msgstr "Välj enhet för extra spelport 2"
 
-#: src/arch/unix/mididrv.c:663 src/arch/unix/mididrv.c:668
+#: src/arch/unix/mididrv.c:667 src/arch/unix/mididrv.c:672
 #: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
 #: src/arch/unix/macosx/mididrv.c:128 src/translate_text.c.po.c:2743
 msgid "<name>"
 msgstr "<namn>"
 
-#: src/arch/unix/mididrv.c:663 src/arch/win32/res.rc.po.c:1103
+#: src/arch/unix/mididrv.c:667 src/arch/win32/res.rc.po.c:1103
 msgid "Specify MIDI-In device"
 msgstr "Ange enhet för MIDI-in"
 
-#: src/arch/unix/mididrv.c:668 src/arch/win32/res.rc.po.c:1104
+#: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1104
 msgid "Specify MIDI-Out device"
 msgstr "Ange enhet för MIDI-ut"
 
-#: src/arch/unix/mididrv.c:674
+#: src/arch/unix/mididrv.c:678
 msgid "<driver>"
 msgstr "<drivrutin>"
 
-#: src/arch/unix/mididrv.c:674
+#: src/arch/unix/mididrv.c:678
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Ange MIDI-drivrutin (0 = OSS, 1 = ALSA)"
 
-#: src/arch/unix/rs232.c:159 src/arch/unix/rs232.c:164
-#: src/arch/unix/rs232.c:169 src/arch/unix/rs232.c:174
+#: src/arch/unix/rs232.c:163 src/arch/unix/rs232.c:168
+#: src/arch/unix/rs232.c:173 src/arch/unix/rs232.c:178
 msgid "<baudrate>"
 msgstr "<baudhastighet>"
 
-#: src/arch/unix/rs232.c:159
+#: src/arch/unix/rs232.c:163
 msgid "Specify baudrate of first RS232 device"
 msgstr "Ange baudhastighet för första RS232-enheten"
 
-#: src/arch/unix/rs232.c:164
+#: src/arch/unix/rs232.c:168
 msgid "Specify baudrate of second RS232 device"
 msgstr "Ange baudhastighet för andra RS232-enheten"
 
-#: src/arch/unix/rs232.c:169
+#: src/arch/unix/rs232.c:173
 msgid "Specify baudrate of third RS232 device"
 msgstr "Ange baudhastighet för tredje RS232-enheten"
 
-#: src/arch/unix/rs232.c:174
+#: src/arch/unix/rs232.c:178
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Ange baudhastighet för fjärde RS232-enheten"
 
 #: src/arch/unix/gui/c128ui.c:76 src/arch/unix/gui/c64dtvui.c:61
 #: src/arch/unix/gui/c64ui.c:80 src/arch/unix/gui/cbm2ui.c:64
 #: src/arch/unix/gui/uited.c:58 src/arch/unix/gui/uivic.c:51
-#: src/arch/unix/gui/vsidui.c:291
+#: src/arch/unix/gui/vsidui.c:287
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:78 src/arch/unix/gui/c64dtvui.c:63
 #: src/arch/unix/gui/c64ui.c:82 src/arch/unix/gui/cbm2ui.c:66
 #: src/arch/unix/gui/uited.c:60 src/arch/unix/gui/uivic.c:53
-#: src/arch/unix/gui/vsidui.c:293
+#: src/arch/unix/gui/vsidui.c:289
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -92,21 +92,21 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/c64ui.c:231 src/arch/unix/gui/c64ui.c:254
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:316
 #: src/arch/unix/gui/petui.c:120 src/arch/unix/gui/plus4ui.c:109
-#: src/arch/unix/gui/vic20ui.c:146
+#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:201
 msgid "SID model"
 msgstr "SID-modell"
 
 #: src/arch/unix/gui/c128ui.c:184 src/arch/unix/gui/c128ui.c:208
 #: src/arch/unix/gui/c64ui.c:234 src/arch/unix/gui/c64ui.c:258
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:320
-#: src/arch/unix/gui/vsidui.c:207
+#: src/arch/unix/gui/vsidui.c:204
 msgid "*Second SID"
 msgstr "*Andra SID"
 
 #: src/arch/unix/gui/c128ui.c:186 src/arch/unix/gui/c128ui.c:210
 #: src/arch/unix/gui/c64ui.c:236 src/arch/unix/gui/c64ui.c:260
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:322
-#: src/arch/unix/gui/vsidui.c:209
+#: src/arch/unix/gui/vsidui.c:206
 msgid "*Second SID base address"
 msgstr "*Basadress för andra SID"
 
@@ -115,19 +115,19 @@ msgstr "*Basadress för andra SID"
 #: src/arch/unix/gui/c64ui.c:239 src/arch/unix/gui/c64ui.c:262
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:325
 #: src/arch/unix/gui/petui.c:122 src/arch/unix/gui/plus4ui.c:111
-#: src/arch/unix/gui/vic20ui.c:148 src/arch/unix/gui/vsidui.c:212
+#: src/arch/unix/gui/vic20ui.c:148 src/arch/unix/gui/vsidui.c:209
 msgid "*Emulate filters"
 msgstr "*Emulera filter"
 
 #: src/arch/unix/gui/c128ui.c:193 src/arch/unix/gui/c64dtvui.c:81
 #: src/arch/unix/gui/c64ui.c:243 src/arch/unix/gui/cbm2ui.c:305
-#: src/arch/unix/gui/vsidui.c:218
+#: src/arch/unix/gui/vsidui.c:215
 msgid "reSID sampling method"
 msgstr "reSID-samplingsmetod"
 
 #: src/arch/unix/gui/c128ui.c:195 src/arch/unix/gui/c64dtvui.c:83
 #: src/arch/unix/gui/c64ui.c:245 src/arch/unix/gui/cbm2ui.c:307
-#: src/arch/unix/gui/vsidui.c:220
+#: src/arch/unix/gui/vsidui.c:217
 msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
@@ -362,7 +362,7 @@ msgstr "VDC-inställningar"
 
 #: src/arch/unix/gui/c128ui.c:420 src/arch/unix/gui/c64dtvui.c:179
 #: src/arch/unix/gui/c64ui.c:386 src/arch/unix/gui/cbm2ui.c:356
-#: src/arch/unix/gui/vsidui.c:343 src/arch/win32/ressid.rc.po.c:63
+#: src/arch/unix/gui/vsidui.c:339 src/arch/win32/ressid.rc.po.c:63
 #: src/arch/win32/ressiddtv.rc.po.c:52
 msgid "SID settings"
 msgstr "SID-inställningar"
@@ -423,7 +423,7 @@ msgstr "Inställningar"
 msgid "RJHelp"
 msgstr "RJHjälp"
 
-#: src/arch/unix/gui/c64dtvui.c:98 src/arch/unix/gui/vsidui.c:214
+#: src/arch/unix/gui/c64dtvui.c:98 src/arch/unix/gui/vsidui.c:211
 msgid "Chip model"
 msgstr "Kretsmodell"
 
@@ -461,7 +461,7 @@ msgstr "ROM-inställningar"
 msgid "C64DTV settings"
 msgstr "C64DTV-inställningar"
 
-#: src/arch/unix/gui/c64ui.c:84 src/arch/unix/gui/vsidui.c:295
+#: src/arch/unix/gui/c64ui.c:84 src/arch/unix/gui/vsidui.c:291
 msgid "*Old NTSC-M"
 msgstr "*Gammal NTSC-M"
 
@@ -1373,7 +1373,7 @@ msgstr "Om VICE..."
 
 #: src/arch/unix/gui/uicommands.c:565 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/x11/gnome/uipalcontrol.c:147
-#: src/arch/unix/x11/gnome/x11ui.c:1706 src/arch/amigaos/intl_text.c.po.c:270
+#: src/arch/unix/x11/gnome/x11ui.c:1707 src/arch/amigaos/intl_text.c.po.c:270
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1914,8 +1914,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/gui/uifliplist.c:235 src/arch/unix/gui/uifliplist.c:249
-#: src/arch/unix/x11/gnome/x11ui.c:683 src/arch/unix/x11/gnome/x11ui.c:685
-#: src/arch/unix/x11/gnome/x11ui.c:694 src/arch/unix/x11/gnome/x11ui.c:1301
+#: src/arch/unix/x11/gnome/x11ui.c:684 src/arch/unix/x11/gnome/x11ui.c:686
+#: src/arch/unix/x11/gnome/x11ui.c:695 src/arch/unix/x11/gnome/x11ui.c:1302
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -3051,7 +3051,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:280
-#: src/arch/unix/x11/gnome/x11ui.c:1126 src/arch/unix/x11/xaw/x11ui.c:1110
+#: src/arch/unix/x11/gnome/x11ui.c:1127 src/arch/unix/x11/xaw/x11ui.c:1110
 #: src/arch/win32/res.rc.po.c:903 src/arch/amigaos/intl_text.c.po.c:2613
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -3373,7 +3373,7 @@ msgstr "Fragmentstorlek"
 msgid "Suspend time"
 msgstr "Paustid"
 
-#: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:333
+#: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:329
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
@@ -3406,7 +3406,7 @@ msgid "PAL Emulation"
 msgstr "PAL-emulering"
 
 #: src/arch/unix/gui/uited.c:123 src/arch/unix/gui/uivic.c:141
-#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/gui/vsidui.c:345
+#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/gui/vsidui.c:341
 #: src/arch/amigaos/intl_text.c.po.c:1502
 msgid "Video standard"
 msgstr "TV-standard"
@@ -3655,23 +3655,19 @@ msgstr "Paddelemulering"
 msgid "MIDI emulation"
 msgstr "MIDI-emulering"
 
-#: src/arch/unix/gui/vsidui.c:204
-msgid "SID engine"
-msgstr "SID-motor"
-
-#: src/arch/unix/gui/vsidui.c:235
+#: src/arch/unix/gui/vsidui.c:231
 msgid "Tunes"
 msgstr "Låtar"
 
-#: src/arch/unix/gui/vsidui.c:246
+#: src/arch/unix/gui/vsidui.c:242
 msgid "Load PSID file"
 msgstr "Läs PSID-fil"
 
-#: src/arch/unix/gui/vsidui.c:279
+#: src/arch/unix/gui/vsidui.c:275
 msgid "Load PSID file..."
 msgstr "Läs PSID-fil..."
 
-#: src/arch/unix/gui/vsidui.c:341
+#: src/arch/unix/gui/vsidui.c:337
 msgid "*Override PSID settings"
 msgstr "*Överskugga PSID-inställningar"
 
@@ -3999,130 +3995,130 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:609
+#: src/arch/unix/x11/gnome/x11ui.c:610
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:621
+#: src/arch/unix/x11/gnome/x11ui.c:622
 msgid "audio/video recording"
 msgstr "ljud-/bild-inspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:630 src/arch/unix/x11/gnome/x11ui.c:645
+#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/gnome/x11ui.c:646
 msgid "click to stop recording"
 msgstr "avbryt inspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:637
 msgid "event recording"
 msgstr "händelseinspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:651
+#: src/arch/unix/x11/gnome/x11ui.c:652
 msgid "event playback"
 msgstr "händelseåterspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:660
+#: src/arch/unix/x11/gnome/x11ui.c:661
 msgid "click to stop playback"
 msgstr "avbryt återspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:672
+#: src/arch/unix/x11/gnome/x11ui.c:673
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:751
+#: src/arch/unix/x11/gnome/x11ui.c:752
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1108 src/arch/unix/x11/xaw/x11ui.c:1095
+#: src/arch/unix/x11/gnome/x11ui.c:1109 src/arch/unix/x11/xaw/x11ui.c:1095
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1115 src/arch/unix/x11/xaw/x11ui.c:1099
+#: src/arch/unix/x11/gnome/x11ui.c:1116 src/arch/unix/x11/xaw/x11ui.c:1099
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1123 src/arch/unix/x11/xaw/x11ui.c:1107
+#: src/arch/unix/x11/gnome/x11ui.c:1124 src/arch/unix/x11/xaw/x11ui.c:1107
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1159 src/arch/unix/x11/gnome/x11ui.c:1161
+#: src/arch/unix/x11/gnome/x11ui.c:1160 src/arch/unix/x11/gnome/x11ui.c:1162
 #: src/arch/unix/x11/xaw/x11ui.c:1175 src/arch/unix/x11/xaw/x11ui.c:1178
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1452
+#: src/arch/unix/x11/gnome/x11ui.c:1453
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1501 src/arch/unix/x11/xaw/x11ui.c:1424
+#: src/arch/unix/x11/gnome/x11ui.c:1502 src/arch/unix/x11/xaw/x11ui.c:1424
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1668 src/arch/amigaos/intl_text.c.po.c:2547
+#: src/arch/unix/x11/gnome/x11ui.c:1669 src/arch/amigaos/intl_text.c.po.c:2547
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1679 src/arch/amigaos/intl_text.c.po.c:2635
+#: src/arch/unix/x11/gnome/x11ui.c:1680 src/arch/amigaos/intl_text.c.po.c:2635
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1706
+#: src/arch/unix/x11/gnome/x11ui.c:1707
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1706 src/arch/amigaos/intl_text.c.po.c:754
+#: src/arch/unix/x11/gnome/x11ui.c:1707 src/arch/amigaos/intl_text.c.po.c:754
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1706
+#: src/arch/unix/x11/gnome/x11ui.c:1707
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1748 src/arch/unix/x11/xaw/x11ui.c:1745
+#: src/arch/unix/x11/gnome/x11ui.c:1749 src/arch/unix/x11/xaw/x11ui.c:1745
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1748
+#: src/arch/unix/x11/gnome/x11ui.c:1749
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1759
+#: src/arch/unix/x11/gnome/x11ui.c:1760
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Kan inte starta automatiskt från enhet %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1764 src/arch/unix/x11/gnome/x11ui.c:1770
+#: src/arch/unix/x11/gnome/x11ui.c:1765 src/arch/unix/x11/gnome/x11ui.c:1771
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1941
+#: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2261
+#: src/arch/unix/x11/gnome/x11ui.c:2262
 msgid "Contents"
 msgstr "Innehåll"
 
 #. write-protect checkbox
-#: src/arch/unix/x11/gnome/x11ui.c:2292
+#: src/arch/unix/x11/gnome/x11ui.c:2293
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2299
+#: src/arch/unix/x11/gnome/x11ui.c:2300
 msgid "Show hidden files"
 msgstr "Visa dolda filer"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2308
+#: src/arch/unix/x11/gnome/x11ui.c:2309
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2324
+#: src/arch/unix/x11/gnome/x11ui.c:2325
 msgid "Text cannot be displayed.\n"
 msgstr "Texten kan inte visas.\n"
 
@@ -4299,86 +4295,116 @@ msgstr "%d: Spår %.1f"
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/x11video.c:225
+#: src/arch/unix/x11/xaw/x11video.c:230
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:230
+#: src/arch/unix/x11/xaw/x11video.c:235
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:235
+#: src/arch/unix/x11/xaw/x11video.c:240
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/xaw/x11video.c:240
+#: src/arch/unix/x11/xaw/x11video.c:245
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/xaw/x11video.c:246
+#: src/arch/unix/x11/xaw/x11video.c:251
 msgid "<fourcc>"
 msgstr "<fourcc>"
 
-#: src/arch/unix/x11/xaw/x11video.c:246
+#: src/arch/unix/x11/xaw/x11video.c:251
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/xaw/x11video.c:251
+#: src/arch/unix/x11/xaw/x11video.c:256
 msgid "<aspect ratio>"
 msgstr "<storleksförhållande>"
 
-#: src/arch/unix/x11/xaw/x11video.c:251
+#: src/arch/unix/x11/xaw/x11video.c:256
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
-#: src/arch/unix/x11/xaw/x11video.c:324
+#: src/arch/unix/x11/xaw/x11video.c:329
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/xaw/x11video.c:587
+#: src/arch/unix/x11/xaw/x11video.c:592
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
-#: src/arch/unix/macosx/joy.c:251
+#: src/arch/unix/macosx/joy.c:304
 msgid "Set HID A device"
 msgstr "Välj HID-enhet A"
 
-#: src/arch/unix/macosx/joy.c:256
+#: src/arch/unix/macosx/joy.c:309
 msgid "Set X Axis for HID A device"
 msgstr "Välj X-axel för HID-enhet A"
 
-#: src/arch/unix/macosx/joy.c:261 src/arch/unix/macosx/joy.c:266
+#: src/arch/unix/macosx/joy.c:314
 msgid "Set Y Axis for HID A device"
 msgstr "Välj Y-axel för HID-enhet A"
 
-#: src/arch/unix/macosx/joy.c:271
+#: src/arch/unix/macosx/joy.c:319
+#, fuzzy
+msgid "Set Buttons for HID A device"
+msgstr "Välj X-axel för HID-enhet A"
+
+#: src/arch/unix/macosx/joy.c:324
+#, fuzzy
+msgid "Set Auto Fire Buttons for HID A device"
+msgstr "Välj X-axel för HID-enhet A"
+
+#: src/arch/unix/macosx/joy.c:329
 msgid "Set X Axis Threshold in Percent of HID A device"
 msgstr "Välj X-axeltröskel i procent för HID-enhet A"
 
-#: src/arch/unix/macosx/joy.c:276
+#: src/arch/unix/macosx/joy.c:334
 msgid "Set Y Axis Threshold in Percent of HID A device"
 msgstr "Välj Y-axeltröskel i procent för HID-enhet A"
 
-#: src/arch/unix/macosx/joy.c:281
+#: src/arch/unix/macosx/joy.c:339
 msgid "Set HID B device"
 msgstr "Välj HID-enhet B"
 
-#: src/arch/unix/macosx/joy.c:286
+#: src/arch/unix/macosx/joy.c:344
 msgid "Set X Axis for HID B device"
 msgstr "Välj X-axel för HID-enhet B"
 
-#: src/arch/unix/macosx/joy.c:291 src/arch/unix/macosx/joy.c:296
+#: src/arch/unix/macosx/joy.c:349
 msgid "Set Y Axis for HID B device"
 msgstr "Välj Y-axel för HID-enhet B"
 
-#: src/arch/unix/macosx/joy.c:301
+#: src/arch/unix/macosx/joy.c:354
+#, fuzzy
+msgid "Set Buttons for HID B device"
+msgstr "Välj X-axel för HID-enhet B"
+
+#: src/arch/unix/macosx/joy.c:359
+#, fuzzy
+msgid "Set Auto Fire Buttons for HID B device"
+msgstr "Välj X-axel för HID-enhet B"
+
+#: src/arch/unix/macosx/joy.c:364
 msgid "Set X Axis Threshold in Percent of HID B device"
 msgstr "Välj X-axeltröskel i procent för HID-enhet B"
 
-#: src/arch/unix/macosx/joy.c:306
+#: src/arch/unix/macosx/joy.c:369
 msgid "Set Y Axis Threshold in Percent of HID B device"
 msgstr "Välj Y-axeltröskel i procent för HID-enhet B"
+
+#: src/arch/unix/macosx/joy.c:374
+#, fuzzy
+msgid "Set Hat Switch for Joystick of HID A device"
+msgstr "Välj X-axel för HID-enhet A"
+
+#: src/arch/unix/macosx/joy.c:379
+#, fuzzy
+msgid "Set Hat Switch for Joystick of HID B device"
+msgstr "Välj X-axel för HID-enhet B"
 
 #: src/arch/unix/macosx/mididrv.c:118
 msgid "Name of MIDI Client"
@@ -13335,6 +13361,9 @@ msgstr "Inaktivera Digimax Cartridge"
 #: src/translate_text.c.po.c:9925
 msgid "Base address of the digimax cartridge"
 msgstr "Basadress för Digimax-cartridge"
+
+#~ msgid "SID engine"
+#~ msgstr "SID-motor"
 
 #~ msgid "*CCS64"
 #~ msgstr "*CCS64"
