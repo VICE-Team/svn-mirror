@@ -66,5 +66,5 @@ EXTRA_DIST = \
 	zlib.vcproj \
 	vice.sln \
 	make-msvc-bindist.bat \
-	win64-x64.bat \
-	win64-ia64.bat
+	win64_x64.bat \
+	win64_ia64.bat
