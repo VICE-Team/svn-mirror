@@ -1,3 +1,27 @@
+2010-03-30  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.2
+
+2010-03-30  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart-prg.c: always set basic start in autostart
+	  injection. patch by iAN_CooG
+
+	* configure.in: macosx: added SDL joy support
+
+2010-03-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/win64/Makefile.am: Fix two typos, make dist works
+	  again
+
+2010-03-28  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/magicformel.c, src/c64/cart/magicformel.h: Magic
+	  Formel: rewrite of entire cartridge logic, 6821 emulated as
+	  necessary, fixes freezer, basic toolkit, fastloader. Patch by
+	  Groepaz, applied some cleanup.
+
 2010-03-28  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
 
 	* src/arch/win32/c64ui.c: Added return value to c64scui_init().
