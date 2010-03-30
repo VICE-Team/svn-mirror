@@ -272,7 +272,7 @@ int autostart_prg_with_disk_image(const char *file_name,
 int autostart_prg_perform_injection(log_t log)
 {
     int i;
-    WORD end;
+    WORD start,end;
 
     autostart_prg_t *prg = inject_prg;
     
@@ -291,8 +291,9 @@ int autostart_prg_perform_injection(log_t log)
     }
     
     /* now simulate a basic load */
+    mem_get_basic_text(&start, &end);
     end = prg->start_addr + prg->size;
-    mem_set_basic_text(prg->start_addr, end);
+    mem_set_basic_text(start, end);
     
     /* clean up injected prog */
     free_prg(inject_prg);
