@@ -110,8 +110,31 @@ static int detect_elements(struct joystick_descriptor *joy)
                     if (joy->num_hid_axis == JOYSTICK_DESCRIPTOR_MAX_AXIS) {
                         undetected++;
                     } else {
-                        joy->hid->all_axis[joy->num_hid_axis] = element;
-                        joy->num_hid_axis++;
+                        /* check for valid axis */
+                        if(element->min_value != element->max_value) {
+                            
+                            /* check if axis already occured ? 
+                               this works around broken HID devices
+                               that register multiple times e.g. an x axis
+                               but only the last one works actually...
+                            */
+                            int j;
+                            for(j=0;j<joy->num_hid_axis;j++) {
+                                if(joy->hid->all_axis[j]->usage == usage)
+                                    break;
+                            }
+                            
+                            /* create new or overwrite old axis */
+                            joy->hid->all_axis[j] = element;
+                            if(j==joy->num_hid_axis) {
+                                joy->num_hid_axis++;
+                            } else {
+                                log_message(LOG_DEFAULT, "joy-hid: ignoring multiple occurrence of axis element (0x%x)! (broken HID device?)", usage);
+                            }
+                            
+                        } else {
+                            log_message(LOG_DEFAULT, "joy-hid: ignoring element (0x%x) with invalid range! (broken HID device?)", usage);
+                        }
                     }
                     break;
                 case kHIDUsage_GD_Hatswitch:
@@ -256,10 +279,9 @@ int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage)
     hid->mapped_axis[id] = e;
     joy->axis[id].mapped = 1;
     
-    joy_calc_threshold(e->min_value, e->max_value, joy->axis[i].threshold,
-                       &joy->axis[i].min_threshold,
-                       &joy->axis[i].max_threshold);
-    
+    joy_calc_threshold(e->min_value, e->max_value, joy->axis[id].threshold,
+                       &joy->axis[id].min_threshold,
+                       &joy->axis[id].max_threshold);
     return 0;
 }
 

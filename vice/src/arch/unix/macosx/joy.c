@@ -683,20 +683,26 @@ static void setup_auto(void)
                     i, dev->vendor_id, dev->product_id, dev->serial, dev->product_name);
         
         /* query joy A */
+        int assigned = 0;
         if (!auto_assign_a && match_joystick(&joy_a, dev)) {
             setup_joystick(&joy_a, dev, "matched A");
+            assigned = 1;
         }
         /* query joy B */
-        else if (!auto_assign_b && match_joystick(&joy_b, dev)) {
+        if (!auto_assign_b && match_joystick(&joy_b, dev)) {
             setup_joystick(&joy_b, dev, "matched B");
+            assigned = 1;
         }
-        /* auto assign a */
-        else if (auto_assign_a && (joy_a.mapped == 0)) {
-            setup_joystick(&joy_a, dev, "auto-assigned A");
-        }
-        /* auto assign b */
-        else if (auto_assign_b && (joy_b.mapped == 0)) {
-            setup_joystick(&joy_b, dev, "auto-assigned B");
+        
+        if(!assigned) {
+            /* auto assign a */
+            if (auto_assign_a && (joy_a.mapped == 0)) {
+                setup_joystick(&joy_a, dev, "auto-assigned A");
+            }
+            /* auto assign b */
+            else if (auto_assign_b && (joy_b.mapped == 0)) {
+                setup_joystick(&joy_b, dev, "auto-assigned B");
+            }
         }
     }
     
