@@ -69,7 +69,8 @@ BYTE cbuf_pipe1_reg = 0;
 BYTE vbuf_pipe1_reg = 0;
 
 BYTE xscroll_pipe = 0;
-BYTE vmode_pipe = 0;
+BYTE vmode11_pipe = 0;
+BYTE vmode16_pipe = 0;
 
 /* gbuf shift register */
 BYTE gbuf_reg = 0;
@@ -125,79 +126,99 @@ static const BYTE colors[] = {
     COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE    /* ECM=1 BMM=1 MCM=1 */
 };
 
+static DRAW_INLINE void draw_graphics(int i)
+{
+    BYTE px;
+    BYTE cc;
+    BYTE pixel_pri;
+    BYTE vmode;
+
+    /* Load new gbuf/vbuf/cbuf values at offset == xscroll */
+    if (i == xscroll_pipe) {
+        /* latch values at time xs */
+        vbuf_reg = vbuf_pipe1_reg;
+        cbuf_reg = cbuf_pipe1_reg;
+        gbuf_reg = gbuf_pipe1_reg;
+        gbuf_mc_flop = 1;
+    }
+
+    vmode = vmode11_pipe | vmode16_pipe;
+    /* 
+     * read pixels depending on video mode
+     * mc pixels if MCM=1 and BMM=1, or MCM=1 and cbuf bit 3 = 1
+     */
+    if ( (vmode & 0x04) &&
+         ((vmode & 0x08) || (cbuf_reg & 0x08)) ) {
+        /* mc pixels */
+        if (gbuf_mc_flop) {
+            gbuf_pixel_reg = gbuf_reg >> 6;
+        }
+    } else {
+        /* hires pixels */
+        gbuf_pixel_reg = (gbuf_reg & 0x80) ? 3 : 0;
+    }
+    px = gbuf_pixel_reg;
+
+    /* shift the graphics buffer */
+    gbuf_reg <<= 1;
+    gbuf_mc_flop ^= 1;
+
+    /* Determine pixel color and priority */
+    pixel_pri = (px & 0x2);
+    cc = colors[vmode | px];
+
+    /* lookup colors and render pixel */
+    switch (cc) {
+    case COL_NONE:
+        cc = 0;
+        break;
+    case COL_VBUF_L:
+        cc = vbuf_reg & 0x0f;
+        break;
+    case COL_VBUF_H:
+        cc = vbuf_reg >> 4;
+        break;
+    case COL_CBUF:
+        cc = cbuf_reg;
+        break;
+    case COL_CBUF_MC:
+        cc = cbuf_reg & 0x07;
+        break;
+    case COL_D02X_EXT:
+        cc = COL_D021 + (vbuf_reg >> 6);
+        break;
+    default:
+        break;
+    }
+
+    render_buffer[i] = cc;
+    pri_buffer[i] = pixel_pri;
+}
+
 static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
 {
-    int i;
     int vis_en;
 
     vis_en = cycle_is_visible(cycle_flags);
 
     /* render pixels */
-    for (i = 0; i < 8; i++) {
-        BYTE px = 0;
-        BYTE cc;
-        BYTE pixel_pri;
-
-        /* Load new gbuf/vbuf/cbuf values at offset == xscroll */
-        if (i == xscroll_pipe) {
-            /* latch values at time xs */
-            vbuf_reg = vbuf_pipe1_reg;
-            cbuf_reg = cbuf_pipe1_reg;
-            gbuf_reg = gbuf_pipe1_reg;
-            gbuf_mc_flop = 1;
-        }
-
-        /* 
-         * read pixels depending on video mode
-         * mc pixels if MCM=1 and BMM=1, or MCM=1 and cbuf bit 3 = 1
-         */
-        if ( (vmode_pipe & 0x04) &&
-             ((vmode_pipe & 0x08) || (cbuf_reg & 0x08)) ) {
-            /* mc pixels */
-            if (gbuf_mc_flop) {
-                gbuf_pixel_reg = gbuf_reg >> 6;
-            }
-        } else {
-            /* hires pixels */
-            gbuf_pixel_reg = (gbuf_reg & 0x80) ? 3 : 0;
-        }
-        px = gbuf_pixel_reg;
-
-        /* shift the graphics buffer */
-        gbuf_reg <<= 1;
-        gbuf_mc_flop ^= 1;
-
-        /* Determine pixel color and priority */
-        pixel_pri = (px & 0x2);
-        cc = colors[vmode_pipe | px];
-
-        /* lookup colors and render pixel */
-        switch (cc) {
-        case COL_NONE:
-            cc = 0;
-            break;
-        case COL_VBUF_L:
-            cc = vbuf_reg & 0x0f;
-            break;
-        case COL_VBUF_H:
-            cc = vbuf_reg >> 4;
-            break;
-        case COL_CBUF:
-            cc = cbuf_reg;
-            break;
-        case COL_CBUF_MC:
-            cc = cbuf_reg & 0x07;
-            break;
-        case COL_D02X_EXT:
-            cc = COL_D021 + (vbuf_reg >> 6);
-            break;
-        default:
-            break;
-        }
-
-        render_buffer[i] = cc;
-        pri_buffer[i] = pixel_pri;
-    }
+    /* pixel 0 */
+    draw_graphics(0);
+    /* pixel 1 */
+    draw_graphics(1);
+    /* pixel 2 */
+    draw_graphics(2);
+    /* pixel 3 */
+    draw_graphics(3);
+    /* pixel 4 */
+    vmode16_pipe = ( vicii.regs[0x16] & 0x10 ) >> 2;
+    draw_graphics(4);
+    /* pixel 5 */
+    draw_graphics(5);
+    /* pixel 6 */
+    draw_graphics(6);
+    /* pixel 7 */
+    draw_graphics(7);
 
     /* shift and put the next data into the pipe. */
     vbuf_pipe1_reg = vbuf_pipe0_reg;
@@ -231,7 +252,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
         dmli = 0;
     }
 
-    vmode_pipe = ( (vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10) ) >> 2;
+    vmode11_pipe = ( vicii.regs[0x11] & 0x60 ) >> 2;
 }
 
 
