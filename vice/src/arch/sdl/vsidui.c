@@ -48,6 +48,7 @@
 #include "menu_settings.h"
 #include "menu_sid.h"
 #include "menu_sound.h"
+#include "menu_speed.h"
 #include "menu_video.h"
 #include "psid.h"
 #include "ui.h"
@@ -108,32 +109,140 @@ static UI_MENU_CALLBACK(load_psid_callback)
     return NULL;
 }
 
-#define SDLUI_VSID_CMD_NEXT 1
-#define SDLUI_VSID_CMD_PREV 2
+#define SDLUI_VSID_CMD_MASK 0x8000
+#define SDLUI_VSID_CMD_NEXT 0x8001
+#define SDLUI_VSID_CMD_PREV 0x8002
 
 static UI_MENU_CALLBACK(vsidui_tune_callback)
 {
+    int command_or_tune = vice_ptr_to_int(param);
+
     if (activated) {
         int tune = sdl_vsid_current_tune;
-        int command = vice_ptr_to_int(param);
 
-        if (command == SDLUI_VSID_CMD_NEXT) {
-            if (++tune > sdl_vsid_tunes) {
-                tune = sdl_vsid_tunes;
-            }
-        } else if (command == SDLUI_VSID_CMD_PREV) {
-            if (--tune == 0) {
-                tune = 1;
-            }
+        if (command_or_tune == SDLUI_VSID_CMD_NEXT) {
+            ++tune;
+        } else if (command_or_tune == SDLUI_VSID_CMD_PREV) {
+            --tune;
+        } else {
+            tune = command_or_tune;
+        }
+
+        if ((tune < 1) || (tune > sdl_vsid_tunes)) {
+            return NULL;
         }
 
         if (tune != sdl_vsid_current_tune) {
             sdl_vsid_current_tune = tune;
             sdl_ui_menu_radio_helper(1, (ui_callback_data_t)int_to_void_ptr(tune), "PSIDTune");
         }
+    } else {
+        if (command_or_tune == sdl_vsid_current_tune) {
+            return sdl_menu_text_tick;
+        } else if (command_or_tune > sdl_vsid_tunes && !(command_or_tune & SDLUI_VSID_CMD_MASK)) {
+            return "(N/A)";
+        }
     }
     return NULL;
 }
+
+/* This menu is static so hotkeys can be assigned.
+   Only 23 tunes are listed, which is hopefully enough for most cases. */
+static const ui_menu_entry_t vsid_tune_menu[] = {
+    { "Tune 1",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)1 },
+    { "Tune 2",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)2 },
+    { "Tune 3",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)3 },
+    { "Tune 4",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)4 },
+    { "Tune 5",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)5 },
+    { "Tune 6",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)6 },
+    { "Tune 7",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)7 },
+    { "Tune 8",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)8 },
+    { "Tune 9",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)9 },
+    { "Tune 10",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)10 },
+    { "Tune 11",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)11 },
+    { "Tune 12",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)12 },
+    { "Tune 13",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)13 },
+    { "Tune 14",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)14 },
+    { "Tune 15",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)15 },
+    { "Tune 16",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)16 },
+    { "Tune 17",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)17 },
+    { "Tune 18",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)18 },
+    { "Tune 19",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)19 },
+    { "Tune 20",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)20 },
+    { "Tune 21",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)21 },
+    { "Tune 22",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)22 },
+    { "Tune 23",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)23 },
+    { NULL }
+};
 
 UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
 
@@ -142,6 +251,10 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_DIALOG,
       load_psid_callback,
       NULL },
+    { "Select tune",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vsid_tune_menu },
     { "Next tune",
       MENU_ENTRY_OTHER,
       vsidui_tune_callback,
@@ -170,6 +283,10 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)reset_menu },
+    { "Speed settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)speed_menu },
     { "Pause",
       MENU_ENTRY_OTHER,
       pause_callback,
@@ -311,6 +428,7 @@ void vsid_ui_display_time(unsigned int sec)
     sec = sec - (h * 3600);
     m = sec / 60;
     sec = sec - (m * 60);
+    h = h % 100;
     sprintf(vsidstrings[VSID_S_TIMER], "%02d:%02d:%02d", h, m, sec);
 
     if (sdl_vsid_state & SDL_VSID_ACTIVE) {
