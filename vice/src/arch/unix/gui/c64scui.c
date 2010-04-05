@@ -144,21 +144,48 @@ static ui_menu_entry_t set_vicii_model_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(CIA1Model)
-UI_MENU_DEFINE_TOGGLE(CIA2Model)
-UI_MENU_DEFINE_TOGGLE(GlueLogic)
+UI_MENU_DEFINE_RADIO(CIA1Model)
+
+static ui_menu_entry_t set_cia1model_submenu[] = {
+    { N_("*6526 (old)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("*6526A (new)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(CIA2Model)
+
+static ui_menu_entry_t set_cia2model_submenu[] = {
+    { N_("*6526 (old)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("*6526A (new)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(GlueLogic)
+
+static ui_menu_entry_t set_gluelogic_submenu[] = {
+    { N_("*Discrete"), (ui_callback_t)radio_GlueLogic,
+      (ui_callback_data_t)0, NULL },
+    { N_("*Custom IC"), (ui_callback_t)radio_GlueLogic,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
 
 static ui_menu_entry_t c64_model_submenu[] = {
     { N_("C64 model"),
       NULL, NULL, set_c64_model_submenu },
     { N_("VIC-II model"),
       NULL, NULL, set_vicii_model_submenu },
-    { N_("*New CIA 1"),
-      (ui_callback_t)toggle_CIA1Model, NULL, NULL },
-    { N_("*New CIA 2"),
-      (ui_callback_t)toggle_CIA2Model, NULL, NULL },
-    { N_("*ASIC Glue Logic"),
-      (ui_callback_t)toggle_GlueLogic, NULL, NULL },
+    { N_("CIA 1 model"),
+      NULL, NULL, set_cia1model_submenu },
+    { N_("CIA 2 model"),
+      NULL, NULL, set_cia2model_submenu },
+    { N_("Glue logic"),
+      NULL, NULL, set_gluelogic_submenu },
     { NULL }
 };
 

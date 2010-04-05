@@ -105,10 +105,6 @@ static const ui_menu_entry_t c64_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_C64Model_callback,
       (ui_callback_data_t)C64MODEL_C64_OLD_NTSC },
-    { "Unknown",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_C64Model_callback,
-      (ui_callback_data_t)C64MODEL_UNKNOWN },
     { NULL }
 };
 
@@ -142,10 +138,17 @@ static const ui_menu_entry_t vicii_model_submenu[] = {
     { NULL }
 };
 
+static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
+{
+    /* Display the SID model by using the submenu radio callback 
+       on the first submenu (SID model) of the SID settings. */
+    return submenu_radio_callback(0, sid_c64_menu[0].data);
+}
+
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
-UI_MENU_DEFINE_TOGGLE(CIA1Model)
-UI_MENU_DEFINE_TOGGLE(CIA2Model)
-UI_MENU_DEFINE_TOGGLE(GlueLogic)
+UI_MENU_DEFINE_RADIO(CIA1Model)
+UI_MENU_DEFINE_RADIO(CIA2Model)
+UI_MENU_DEFINE_RADIO(GlueLogic)
 
 static const ui_menu_entry_t c64sc_model_menu[] = {
     { "C64 model",
@@ -164,22 +167,36 @@ static const ui_menu_entry_t c64sc_model_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     { "SID settings",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      custom_sidsubmenu_callback,
       (ui_callback_data_t)sid_c64_menu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "New CIA 1",
+    SDL_MENU_ITEM_TITLE("CIA models"),
+    { "CIA 1 6526  (old)",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CIA1Model_callback,
-      NULL },
-    { "New CIA 2",
+      radio_CIA1Model_callback,
+      (ui_callback_data_t)0 },
+    { "CIA 1 6526A (new)",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CIA2Model_callback,
-      NULL },
+      radio_CIA1Model_callback,
+      (ui_callback_data_t)1 },
+    { "CIA 2 6526  (old)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      radio_CIA2Model_callback,
+      (ui_callback_data_t)0 },
+    { "CIA 2 6526A (new)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      radio_CIA2Model_callback,
+      (ui_callback_data_t)1 },
     SDL_MENU_ITEM_SEPARATOR,
-    { "ASIC glue logic",
+    SDL_MENU_ITEM_TITLE("Glue logic"),
+    { "Discrete",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_GlueLogic_callback,
-      NULL },
+      radio_GlueLogic_callback,
+      (ui_callback_data_t)0 },
+    { "Custom IC",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      radio_GlueLogic_callback,
+      (ui_callback_data_t)1 },
     { NULL }
 };
 
