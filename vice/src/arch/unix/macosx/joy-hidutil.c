@@ -217,7 +217,7 @@ void joy_hidlib_free_elements(joy_hid_device_t *device)
 
 int  joy_hidlib_get_value(joy_hid_device_t *device, 
                           joy_hid_element_t *element,
-                          int *value)
+                          int *value, int phys)
 {
     pRecDevice d = device->internal_device;
     pRecElement e = element->internal_element;

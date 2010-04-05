@@ -520,6 +520,7 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
         if(usage == -1) {
             log_message(LOG_DEFAULT, "mac_joy:   %s axis not mapped", 
                         desc[i]);
+            axis->mapped = 0;
         } else {
             /* try to map axis with given HID usage */
             int err = joy_hid_assign_axis(joy, i, usage);
@@ -612,12 +613,17 @@ static void setup_hat_switch_mapping(joystick_descriptor_t *joy)
 {
     int id = joy->hat_switch.id;
     if(id != HID_INVALID_BUTTON) {
-        if( joy_hid_assign_hat_switch(joy, id) != 0) {
+        if( joy_hid_assign_hat_switch(joy, id) == 0) {
+            log_message(LOG_DEFAULT, "mac_joy:   mapped hat switch: %d", id);
+        } else {
             log_message(LOG_DEFAULT, "mac_joy:   NO hat switch %d on HID device!", id);
+            joy->hat_switch.mapped = 0;
         }
+    } else {
+        joy->hat_switch.mapped = 0;
+        log_message(LOG_DEFAULT, "mac_joy:   hat switch not mapped");
     }
     
-    log_message(LOG_DEFAULT, "mac_joy:   hat switch: %d", id);
 }
 
 /* determine if the given device matches the joystick descriptor */
@@ -840,10 +846,10 @@ static BYTE read_hat_switch(joystick_descriptor_t *joy)
         return 0;
 
     /* valid hat directions: 1..8 */
-    if((value < 1) || (value > 8))
+    if((value < 0) || (value > 7))
         return 0;
     
-    return map_hid_to_joy[value-1];
+    return map_hid_to_joy[value];
 }
 
 static BYTE read_joystick(joystick_descriptor_t *joy)

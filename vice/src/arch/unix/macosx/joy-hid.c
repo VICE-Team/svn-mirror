@@ -45,6 +45,7 @@ joy_hid_axis_info_t joy_hid_axis_infos[] = {
     { "Rx", kHIDUsage_GD_Rx },
     { "Ry", kHIDUsage_GD_Ry },
     { "Rz", kHIDUsage_GD_Rz },
+    { "Slider", kHIDUsage_GD_Slider },
     { NULL, 0 }
 };
 
@@ -106,6 +107,7 @@ static int detect_elements(struct joystick_descriptor *joy)
                 case kHIDUsage_GD_Rx:
                 case kHIDUsage_GD_Ry:
                 case kHIDUsage_GD_Rz:
+                case kHIDUsage_GD_Slider:
                     /* axis found */
                     if (joy->num_hid_axis == JOYSTICK_DESCRIPTOR_MAX_AXIS) {
                         undetected++;
@@ -145,7 +147,6 @@ static int detect_elements(struct joystick_descriptor *joy)
                         joy->num_hid_hat_switches++;
                     }
                     break;
-                case kHIDUsage_GD_Slider:
                 case kHIDUsage_GD_Wheel:
                 case kHIDUsage_GD_Dial:
                     undetected++;
@@ -303,7 +304,7 @@ int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id)
         joy_calc_threshold(min, max, threshold, &tmin, &tmax);
 
         int value;
-        if(joy_hidlib_get_value(device, element, &value)==0) {
+        if(joy_hidlib_get_value(device, element, &value, 1)==0) {
             if((value < tmin) || (value > tmax)) {
                 return element->usage;
             }
@@ -316,7 +317,7 @@ int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value)
 {
     joy_hid_device_t *device = joy->hid->device;
     joy_hid_element_t *element = joy->hid->mapped_axis[id];
-    return joy_hidlib_get_value(device, element, value);
+    return joy_hidlib_get_value(device, element, value, 1);
 }
 
 /* ----- buttons ----- */
@@ -353,7 +354,7 @@ int  joy_hid_detect_button(struct joystick_descriptor *joy)
         joy_hid_element_t *element = joy->hid->all_buttons[i];
 
         int value;
-        if(joy_hidlib_get_value(device, element, &value)==0) {
+        if(joy_hidlib_get_value(device, element, &value, 0)==0) {
             if(value != 0) {
                 return element->usage;
             }
@@ -366,7 +367,7 @@ int  joy_hid_read_button(struct joystick_descriptor *joy, int id, int *value)
 {
     joy_hid_device_t *device = joy->hid->device;
     joy_hid_element_t *element = joy->hid->mapped_buttons[id];
-    return joy_hidlib_get_value(device, element, value);    
+    return joy_hidlib_get_value(device, element, value, 0);    
 }
 
 /* ----- Hat Switch ----- */
@@ -403,8 +404,8 @@ int  joy_hid_detect_hat_switch(struct joystick_descriptor *joy)
         joy_hid_element_t *element = joy->hid->all_hat_switches[i];
 
         int value;
-        if(joy_hidlib_get_value(device, element, &value)==0) {
-            if(value != 0) {
+        if(joy_hidlib_get_value(device, element, &value, 0)==0) {
+            if((value >= 0)&&(value <= 7)) {
                 return i + 1;
             }
         }
@@ -416,7 +417,7 @@ int  joy_hid_read_hat_switch(struct joystick_descriptor *joy, int *value)
 {
     joy_hid_device_t *device = joy->hid->device;
     joy_hid_element_t *element = joy->hid->mapped_hat_switch;
-    return joy_hidlib_get_value(device, element, value);        
+    return joy_hidlib_get_value(device, element, value, 0);
 }
 
 /* ----- Tools ----- */

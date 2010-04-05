@@ -332,14 +332,18 @@ void joy_hidlib_free_elements(joy_hid_device_t *device)
 
 int  joy_hidlib_get_value(joy_hid_device_t *device, 
                           joy_hid_element_t *element,
-                          int *value)
+                          int *value, int phys)
 {
     IOHIDValueRef value_ref;
     IOReturn result = IOHIDDeviceGetValue( device->internal_device, 
                                            element->internal_element,
                                            &value_ref );
     if(result == kIOReturnSuccess) {
-        *value = (int)IOHIDValueGetIntegerValue( value_ref );
+        if(phys) {
+            *value = (int)IOHIDValueGetScaledValue( value_ref, kIOHIDValueScaleTypePhysical );
+        } else {
+            *value = (int)IOHIDValueGetIntegerValue( value_ref );
+        }
         return 0;
     } else {
         return -1;
