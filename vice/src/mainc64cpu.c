@@ -81,13 +81,49 @@ inline static void interrupt_delay(void)
         alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
     }
 
-    if (maincpu_int_status->irq_clk <= maincpu_clk) 
-    {
+    if (maincpu_int_status->irq_clk <= maincpu_clk) {
         maincpu_int_status->irq_delay_cycles++;
     }
-    if (maincpu_int_status->nmi_clk <= maincpu_clk) 
-    {
+
+    if (maincpu_int_status->nmi_clk <= maincpu_clk) {
         maincpu_int_status->nmi_delay_cycles++;
+    }
+}
+
+static void maincpu_steal_cycles(void)
+{
+    interrupt_cpu_status_t *cs = maincpu_int_status;
+
+    vicii_steal_cycles();
+    maincpu_ba_low_flag = 0;
+
+    while (maincpu_clk >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
+        alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
+    }
+
+    /* CLI */
+    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x58) {
+        /* this is a hacky way of signaling CLI() that it
+           shouldn't delay the interrupt */
+        OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
+    }
+
+    /* SEI: do not update interrupt delay counters */
+    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) != 0x78) {
+        if (cs->irq_delay_cycles == 0 && cs->irq_clk < maincpu_clk) {
+            cs->irq_delay_cycles++;
+        }
+    }
+
+    /* ANE */
+    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x8b) {
+        /* this is a hacky way of signaling ANE() that
+           cycles were stolen after the first fetch */
+        OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
+    }
+
+    if (cs->nmi_delay_cycles == 0 && cs->nmi_clk < maincpu_clk) {
+        cs->nmi_delay_cycles++;
     }
 }
 
@@ -97,7 +133,7 @@ inline static void check_ba(void)
 #ifdef DEBUG
         CLOCK old_maincpu_clk = maincpu_clk;
 #endif
-        vicii_steal_cycles();
+        maincpu_steal_cycles();
 #ifdef DEBUG
         if (debug_clk == old_maincpu_clk) {
             debug_clk = maincpu_clk;

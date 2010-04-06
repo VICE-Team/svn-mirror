@@ -31,10 +31,7 @@
 
 #include "vice.h"
 
-#include "6510core.h"
-#include "alarm.h"
 #include "debug.h"
-#include "interrupt.h"
 #include "log.h"
 #include "mainc64cpu.h"
 #include "types.h"
@@ -476,9 +473,6 @@ int vicii_cycle(void)
 void vicii_steal_cycles(void)
 {
     int ba_low;
-    interrupt_cpu_status_t *cs = maincpu_int_status;
-
-    maincpu_ba_low_flag = 0;
 
     /*VICII_DEBUG_CYCLE(("steal cycles: line %i, clk %i", vicii.raster_line, vicii.raster_cycle));*/
 
@@ -486,33 +480,4 @@ void vicii_steal_cycles(void)
         maincpu_clk++;
         ba_low = vicii_cycle();
     } while (ba_low);
-
-    while (maincpu_clk >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
-        alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
-    }
-
-    /* CLI */
-    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x58) {
-        /* this is a hacky way of signaling CLI() that it
-           shouldn't delay the interrupt */
-        OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
-    }
-
-    /* SEI: do not update interrupt delay counters */
-    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) != 0x78) {
-        if (cs->irq_delay_cycles == 0 && cs->irq_clk < maincpu_clk) {
-            cs->irq_delay_cycles++;
-        }
-    }
-
-    /* ANE */
-    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x8b) {
-        /* this is a hacky way of signaling ANE() that
-           cycles were stolen after the first fetch */
-        OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
-    }
-
-    if (cs->nmi_delay_cycles == 0 && cs->nmi_clk < maincpu_clk) {
-        cs->nmi_delay_cycles++;
-    }
 }
