@@ -317,8 +317,13 @@
 - (NSString *)pickSaveFileWithTitle:(NSString *)title types:(NSArray *)types
 {
     NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setTitle:title];    
-    [panel setAllowedFileTypes:types];
+    [panel setTitle:title];
+    [panel setExtensionHidden:NO];
+    if(types != nil) {  
+        [panel setAllowedFileTypes:types];
+    } else {
+        [panel setAllowsOtherFileTypes:YES];
+    }
     
     int result = [panel runModal];
     if (result==NSFileHandlingPanelOKButton) {

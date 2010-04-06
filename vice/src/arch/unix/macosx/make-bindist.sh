@@ -81,8 +81,8 @@ ROM_xvic=VIC20
 ROM_REMOVE="{beos,amiga,dos,os2,win,RO}*.vkm"
 DOC_REMOVE="texi2html *.tex *.texi MSDOS* Minix* *.beos *.dos Win32*"
 # define droppable file types
-DROP_TYPES="x64|g64|d64|d71|d81|t64|tap|prg|p00"
-DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00 crt"
+DROP_TYPES="x64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
+DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
 
 # launcher script
 LAUNCHER=x11-launcher.sh
