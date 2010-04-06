@@ -1,5 +1,5 @@
 /*
- * c64scui.m - C64SC ui interface
+ * c64scmachinecontroller.m - C64SC machine controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -24,18 +24,19 @@
  *
  */
 
-#import "c64sccontroller.h"
 #import "c64scmachinecontroller.h"
-#import "vicemachine.h"
+#include "c64model.h"
 
-int c64scui_init(void)
+@implementation C64SCMachineController
+
+-(void)selectModel:(int)model
 {
-    // ensure that the C64Controller gets compiled in
-    [C64SCController class];
-    [theVICEMachine setMachineController:[[C64SCMachineController alloc] init]];
-    return 0;
+    c64model_set(model);
 }
 
-void c64scui_shutdown(void)
+-(int)getModel
 {
+    return c64model_get();
 }
+
+@end

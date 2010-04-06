@@ -18,9 +18,11 @@ noinst_LIBRARIES = libarchmacosxcocoamenu.a
 
 noinst_HEADERS = \
 	c64controller.h \
+	c64sccontroller.h \
 	c64dtvcontroller.h \
 	c128controller.h \
 	c64machinecontroller.h \
+	c64scmachinecontroller.h \
 	c64dtvmachinecontroller.h \
 	c128machinecontroller.h \
 	cbm2controller.h \
@@ -48,6 +50,8 @@ libarchmacosxcocoamenu_a_SOURCES = \
 	c64machinecontroller.m \
 	c64dtvcontroller.m \
 	c64dtvmachinecontroller.m \
+	c64sccontroller.m \
+	c64scmachinecontroller.m \
 	c128controller.m \
 	c128machinecontroller.m \
 	cbm2controller.m \

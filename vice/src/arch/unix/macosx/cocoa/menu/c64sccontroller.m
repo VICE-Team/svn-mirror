@@ -1,5 +1,5 @@
 /*
- * c64scui.m - C64SC ui interface
+ * c64sccontroller.m - C64SC app controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -26,16 +26,26 @@
 
 #import "c64sccontroller.h"
 #import "c64scmachinecontroller.h"
-#import "vicemachine.h"
+#import "viceapplication.h"
 
-int c64scui_init(void)
+@implementation C64SCController
+
+-(IBAction)selectModel:(id)sender
 {
-    // ensure that the C64Controller gets compiled in
-    [C64SCController class];
-    [theVICEMachine setMachineController:[[C64SCMachineController alloc] init]];
-    return 0;
+    [(C64SCMachineController *)[VICEApplication theMachineController]
+        selectModel:(int)[sender tag]];
+    [self updateOptionsResources];
 }
 
-void c64scui_shutdown(void)
-{
+- (void)updateOptionsResources
+{   
+    // set model
+    int model = [(C64SCMachineController *)[VICEApplication theMachineController]
+        getModel];
+    [self updateSubMenuCheckState:modelMenu
+                          withTag:model];
+
+    [super updateOptionsResources];
 }
+
+@end

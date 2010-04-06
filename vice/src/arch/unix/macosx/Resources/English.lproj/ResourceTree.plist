@@ -512,6 +512,23 @@
 				<string>KernalName,fo</string>
 			</dict>
 		</dict>
+		<key>_C64SC_</key>
+		<dict>
+			<key>Model</key>
+			<dict>
+				<key>ASIC glue logic</key>
+				<string>GlueLogic,b</string>
+				<key>New CIA 1 Model</key>
+				<string>CIA1Model,b</string>
+				<key>New CIA 2 Model</key>
+				<string>CIA2Model,b</string>
+			</dict>
+			<key>VIC II</key>
+			<dict>
+				<key>Model</key>
+				<string>VICIIModel,e,6569 (PAL),8565 (PAL),6569R1 (old PAL),6567 (NTSC),8562 (NTSC),6567R56A (old NTSC)</string>
+			</dict>
+		</dict>
 		<key>_C64DTV_</key>
 		<dict>
 			<key>DTV</key>

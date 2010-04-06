@@ -124,6 +124,16 @@
                     if(![self addFromDictionaryLoop:value]) {
                         return FALSE;
                     }
+                } else {
+                    // try get_machine_name as it might differ
+                    NSString *realMachineName = [NSString stringWithFormat:@"_%s_", machine_get_name()];
+                    NSRange range = [key rangeOfString:realMachineName];
+                    if(range.location != NSNotFound) {
+                        // add machine dependent entries to this item
+                        if(![self addFromDictionaryLoop:value]) {
+                            return FALSE;
+                        }
+                    }
                 }
             }
             // normal dictionary with contents
