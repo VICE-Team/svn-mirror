@@ -190,6 +190,10 @@ SOURCE="..\..\c64\cart\ocean.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\prophet.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\retroreplay.c"
 # End Source File
 # Begin Source File
