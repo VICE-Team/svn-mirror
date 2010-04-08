@@ -4273,6 +4273,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_P64_CART,    N_("Attach raw 256KB Prophet 64 cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_P64_CART_DA, "Tilslut råt 256KB Prophet 64-cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_P64_CART_DE, "256KB Prophet 64 (raw) Image einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_P64_CART_FR, "Insérer une cartouche Prophet 64 256KO"},
+/* hu */ {IDCLS_ATTACH_RAW_P64_CART_HU, "256KB-os Prophet 64 cartridge képmás csatolása"},
+/* it */ {IDCLS_ATTACH_RAW_P64_CART_IT, "Seleziona l'immagine di una cartuccia Prophet 64 di 256KB"},
+/* nl */ {IDCLS_ATTACH_RAW_P64_CART_NL, "Koppel binair 256KB Prophet 64-cartridgebestand aan"},
+/* pl */ {IDCLS_ATTACH_RAW_P64_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_P64_CART_SV, "Anslut rå 256KB Prophet 64-insticksmodulfil"},
+/* tr */ {IDCLS_ATTACH_RAW_P64_CART_TR, "Düz 256KB Prophet 64 kartuþ imajý yerleþtir"},
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ENABLE_EXPERT_CART,    N_("Enable expert cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EXPERT_CART_DA, "Aktivér Expert Cartridge"},

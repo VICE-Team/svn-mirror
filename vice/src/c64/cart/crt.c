@@ -57,6 +57,7 @@
 #include "magicformel.h"
 #include "mikroass.h"
 #include "ocean.h"
+#include "prophet64.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
@@ -221,6 +222,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_REX_EP256:
             rc = rexep256_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_P64:
+            rc = p64_crt_attach(fd, rawcart);
             break;
         default:
             rc = -1;

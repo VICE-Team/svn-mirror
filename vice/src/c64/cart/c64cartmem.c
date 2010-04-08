@@ -568,6 +568,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_REX_EP256:
             rexep256_config_init();
             break;
+        case CARTRIDGE_P64:
+            p64_config_init();
+            break;
         default:
             cartridge_config_changed(2, 2, CMODE_READ);
     }
@@ -723,6 +726,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_REX_EP256:
             rexep256_config_setup(rawcart);
+            break;
+        case CARTRIDGE_P64:
+            p64_config_setup(rawcart);
             break;
         default:
             mem_cartridge_type = CARTRIDGE_NONE;

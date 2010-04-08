@@ -98,6 +98,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_MMC_REPLAY         38
 #define CARTRIDGE_IDE64              39
 
+#define CARTRIDGE_P64                64 /* FIXME */
 
 
 /* Expert cartridge has three modes: */

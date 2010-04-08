@@ -50,6 +50,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "prophet64.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "mmcreplay.h"
@@ -285,6 +286,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_EXPERT_CART,
       NULL, NULL },
+    { "-cartp64", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_P64, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_P64_CART,
+      NULL, NULL },
     { "+cart", CALL_FUNCTION, 0,
       attach_cartridge_cmdline, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -426,6 +432,11 @@ int cartridge_attach_image(int type, const char *filename)
             break;
         case CARTRIDGE_STARDOS:
             if (stardos_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_P64:
+            if (p64_bin_attach(filename, rawcart) < 0) {
                 goto done;
             }
             break;
