@@ -58,6 +58,8 @@ libc64cart_a_SOURCES = \
 	magicformel.h \
 	mikroass.c \
 	mikroass.h \
+	mmcreplay.c \
+	mmcreplay.h \
 	ocean.c \
 	ocean.h \
 	retroreplay.c \
@@ -68,6 +70,10 @@ libc64cart_a_SOURCES = \
 	rexutility.h \
 	ross.c \
 	ross.h \
+	ser-eeprom.c \
+	ser-eeprom.h \
+	spi-sdcard.c \
+	spi-sdcard.h \
 	stardos.c \
 	stardos.h \
 	stb.c \

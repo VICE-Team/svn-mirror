@@ -56,6 +56,7 @@
 #include "uimenu.h"
 #include "uimidi.h"
 #include "uimmc64.h"
+#include "uimmcreplay.h"
 #include "uimouse.h"
 #include "uilightpen.h"
 #include "uiperipheraliec.h"
@@ -290,6 +291,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, c64_256k_submenu },
     { N_("MMC64 emulation"),
       NULL, NULL, mmc64_submenu },
+    { N_("MMC Replay emulation"),
+      NULL, NULL, mmcreplay_submenu },
     { N_("Digimax Cart"),
       NULL, NULL, digimax_submenu },
     { N_("IDE64 emulation"),

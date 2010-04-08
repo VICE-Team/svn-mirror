@@ -81,6 +81,9 @@ static UI_MENU_CALLBACK(attach_c64_cart_callback)
             case CARTRIDGE_RETRO_REPLAY:
                 title = "Select Retro Replay image";
                 break;
+            case CARTRIDGE_MMC_REPLAY:
+                title = "Select MMC Replay image";
+                break;
             case CARTRIDGE_STARDOS:
                 title = "Select StarDOS image";
                 break;
@@ -163,6 +166,10 @@ static const ui_menu_entry_t attach_raw_cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_c64_cart_callback,
       (ui_callback_data_t)CARTRIDGE_SUPER_SNAPSHOT_V5 },
+    { "Attach MMC Replay image",
+      MENU_ENTRY_DIALOG,
+      attach_c64_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_MMC_REPLAY },
     { NULL }
 };
 
@@ -254,6 +261,62 @@ static const ui_menu_entry_t easyflash_cart_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(MMCRSDType)
+
+static const ui_menu_entry_t mmcreplay_sd_type_menu[] = {
+    { "Auto",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMCRSDType_callback,
+      (ui_callback_data_t)0 },
+    { "MMC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMCRSDType_callback,
+      (ui_callback_data_t)1 },
+    { "SD",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMCRSDType_callback,
+      (ui_callback_data_t)2 },
+    { "SDHC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMCRSDType_callback,
+      (ui_callback_data_t)3 },
+    { NULL }
+};
+
+UI_MENU_DEFINE_FILE_STRING(MMCRCardImage)
+UI_MENU_DEFINE_FILE_STRING(MMCREEPROMImage)
+UI_MENU_DEFINE_TOGGLE(MMCRCardRW)
+UI_MENU_DEFINE_TOGGLE(MMCREEPROMRW)
+UI_MENU_DEFINE_TOGGLE(MMCRRescueMode)
+
+static const ui_menu_entry_t mmcreplay_cart_menu[] = {
+    { "Card image file",
+      MENU_ENTRY_DIALOG,
+      file_string_MMCRCardImage_callback,
+      (ui_callback_data_t)"Select MMC Replay card image" },
+    { "EEPROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_MMCREEPROMImage_callback,
+      (ui_callback_data_t)"Select MMC Replay EEPROM image" },
+    { "Enable writes to card image",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMCRCardRW_callback,
+      NULL },
+    { "Enable writes to EEPROM image",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMCREEPROMRW_callback,
+      NULL },
+    { "Enable rescue mode",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMCRRescueMode_callback,
+      NULL },
+    { "Card type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)mmcreplay_sd_type_menu },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 const ui_menu_entry_t c64cart_menu[] = {
@@ -291,5 +354,9 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)easyflash_cart_menu },
+    { "MMC Replay cartridge settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)mmcreplay_cart_menu },
     { NULL }
 };

@@ -52,6 +52,7 @@
 #include "monitor.h"
 #include "resources.h"
 #include "retroreplay.h"
+#include "mmcreplay.h"
 #include "stardos.h"
 #include "stb.h"
 #include "supersnapshot.h"
@@ -153,6 +154,10 @@ int cartridge_resources_init(void)
         return -1;
     }
 
+    if (mmcreplay_resources_init() < 0) {
+        return -1;
+    }
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -223,6 +228,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART,
       NULL, NULL },
+    { "-cartmmcr", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_MMC_REPLAY, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 512kB MMC Replay cartridge image") },
     { "-cartide", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_IDE64, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -292,6 +302,9 @@ int cartridge_cmdline_options_init(void)
         return -1;
     }
 
+    if (mmcreplay_cmdline_options_init() < 0)
+        return -1;
+
     return cmdline_register_options(cmdline_options);
 }
 
@@ -322,9 +335,9 @@ int cartridge_attach_image(int type, const char *filename)
     cartridge (hardware) */
 
     if (trying_cart == 0) {
-      cartridge_detach_image();
+        cartridge_detach_image();
     } else {
-      trying_cart = 0;
+        trying_cart = 0;
     }
 
     switch(type) {
@@ -363,6 +376,11 @@ int cartridge_attach_image(int type, const char *filename)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            if (mmcreplay_bin_attach(filename, rawcart) < 0) {
                 goto done;
             }
             break;
@@ -476,6 +494,12 @@ void cartridge_trigger_freeze(void)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_freeze_allowed()) {
+                maincpu_set_nmi(cartridge_int_num, IK_NMI);
+                alarm_set(cartridge_alarm, maincpu_clk + 3);
+            }
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            if (mmcreplay_freeze_allowed()) {
                 maincpu_set_nmi(cartridge_int_num, IK_NMI);
                 alarm_set(cartridge_alarm, maincpu_clk + 3);
             }

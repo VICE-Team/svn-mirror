@@ -65,6 +65,7 @@
 #include "magicformel.h"
 #include "mikroass.h"
 #include "mmc64.h"
+#include "mmcreplay.h"
 #include "ocean.h"
 #include "resources.h"
 #include "retroreplay.h"
@@ -154,6 +155,8 @@ BYTE REGPARM1 roml_read(WORD addr)
             return actionreplay_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_roml_read(addr);
         case CARTRIDGE_IDE64:
             return roml_banks[(addr & 0x3fff) | (roml_bank << 14)];
         case CARTRIDGE_ATOMIC_POWER:
@@ -204,6 +207,9 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_roml_store(addr, value);
             return;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_roml_store(addr, value);
+            return;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_roml_store(addr, value);
             return;
@@ -250,6 +256,8 @@ BYTE REGPARM1 romh_read(WORD addr)
             return capture_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_romh_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_romh_read(addr);
@@ -271,6 +279,9 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
             break;
         case CARTRIDGE_CAPTURE:
             capture_romh_store(addr, value);
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_romh_store(addr, value);
             break;
     }
     if (isepic_enabled && isepic_switch) {
@@ -305,6 +316,8 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
             return magicformel_1000_7fff_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_1000_7fff_read(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_1000_7fff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_1000_7fff_read(addr);
@@ -324,6 +337,9 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_CAPTURE:
             capture_1000_7fff_store(addr, value);
             break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_1000_7fff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_1000_7fff_store(addr, value);
@@ -341,6 +357,8 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
             return magicformel_a000_bfff_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_a000_bfff_read(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_a000_bfff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_a000_bfff_read(addr);
@@ -360,6 +378,9 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
         case CARTRIDGE_CAPTURE:
             capture_a000_bfff_store(addr, value);
             break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_a000_bfff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_a000_bfff_store(addr, value);
@@ -375,6 +396,8 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
             return magicformel_c000_cfff_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_c000_cfff_read(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_c000_cfff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_c000_cfff_read(addr);
@@ -393,6 +416,9 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
             break;
         case CARTRIDGE_CAPTURE:
             capture_c000_cfff_store(addr, value);
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_c000_cfff_store(addr, value);
             break;
     }
     if (isepic_enabled && isepic_switch) {
@@ -444,6 +470,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_init();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_config_init();
             break;
         case CARTRIDGE_IDE64:
             ide64_config_init();
@@ -559,6 +588,9 @@ void cartridge_reset(void)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_reset();
             break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_reset();
+            break;
         case CARTRIDGE_EPYX_FASTLOAD:
             epyxfastload_reset();
             break;
@@ -616,6 +648,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_config_setup(rawcart);
             break;
         case CARTRIDGE_IDE64:
             ide64_config_setup(rawcart);
@@ -792,6 +827,9 @@ void cartridge_detach(int type)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_detach();
             break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_detach();
+            break;
         case CARTRIDGE_SUPER_GAMES:
             supergames_detach();
             break;
@@ -865,6 +903,9 @@ void cartridge_freeze(int type)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_freeze();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_freeze();
             break;
         case CARTRIDGE_KCS_POWER:
             kcs_freeze();

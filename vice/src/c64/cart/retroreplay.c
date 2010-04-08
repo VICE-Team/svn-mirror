@@ -307,6 +307,7 @@ int retroreplay_freeze_allowed(void)
 void retroreplay_config_init(void)
 {
     rr_active = 1;
+    rr_clockport_enabled = 0;
     cartridge_config_changed(0, 0, CMODE_READ);
     write_once = 0;
     no_freeze = 0;
