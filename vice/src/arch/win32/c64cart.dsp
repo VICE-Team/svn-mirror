@@ -182,6 +182,10 @@ SOURCE="..\..\c64\cart\mikroass.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\mmcreplay.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\ocean.c"
 # End Source File
 # Begin Source File
@@ -199,6 +203,14 @@ SOURCE="..\..\c64\cart\rexutility.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\ross.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\ser-eeprom.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\spi-sdcard.c"
 # End Source File
 # Begin Source File
 
