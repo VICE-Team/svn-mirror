@@ -40,7 +40,7 @@
 #include "debug.h"
 #include "interrupt.h"
 #include "machine.h"
-#include "maincpu.h"
+#include "mainc64cpu.h"
 #include "mem.h"
 #include "monitor.h"
 #include "mos6510.h"
@@ -94,8 +94,15 @@ static void maincpu_steal_cycles(void)
 {
     interrupt_cpu_status_t *cs = maincpu_int_status;
 
-    vicii_steal_cycles();
-    maincpu_ba_low_flag = 0;
+    if (maincpu_ba_low_flag & MAINCPU_BA_LOW_VICII) {
+        vicii_steal_cycles();
+        maincpu_ba_low_flag &= ~MAINCPU_BA_LOW_VICII;
+    }
+
+    if (maincpu_ba_low_flag & MAINCPU_BA_LOW_REU) {
+       reu_dma_start();
+       maincpu_ba_low_flag &= ~MAINCPU_BA_LOW_REU;
+    }
 
     while (maincpu_clk >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
         alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);

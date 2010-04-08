@@ -41,8 +41,16 @@ extern int reu_resources_init(void);
 extern void reu_resources_shutdown(void);
 extern int reu_cmdline_options_init(void);
 
+typedef int reu_ba_check_callback_t(void);
+typedef void reu_ba_steal_callback_t(void);
+
+extern void reu_ba_register(reu_ba_check_callback_t *ba_check,
+                            reu_ba_steal_callback_t *ba_steal,
+                            int *ba_var, int ba_mask);
+
 extern void reu_reset(void);
 extern void reu_dma(int immed);
+extern void reu_dma_start(void);
 extern void reu_shutdown(void);
 extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);

@@ -48,7 +48,7 @@
 #include "clkguard.h"
 #include "dqbb.h"
 #include "machine.h"
-#include "maincpu.h"
+#include "mainc64cpu.h"
 #include "mem.h"
 #include "mmc64.h"
 #include "monitor.h"
@@ -58,6 +58,7 @@
 #include "ramcart.h"
 #include "reu.h"
 #include "sid.h"
+#include "vicii-cycle.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
@@ -189,6 +190,9 @@ static void check_data_set_alarm(void)
 void c64_mem_init(void)
 {
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
+
+    /* Initialize REU BA low interface (FIXME find a better place for this) */
+    reu_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flag, MAINCPU_BA_LOW_REU);
 }
 
 void mem_pla_config_changed(void)

@@ -41,7 +41,7 @@ CLOCK maincpu_clk = 0L;
 /* Flag: BA low */
 int maincpu_ba_low_flag = 0;
 
-#define CLK_INC() interrupt_delay(); maincpu_clk++; maincpu_ba_low_flag = vicii_cycle()
+#define CLK_INC() interrupt_delay(); maincpu_clk++; maincpu_ba_low_flag |= vicii_cycle()
 
 #define CLK_ADD(clock, amount) nosuchfunction(&clock, amount)
 

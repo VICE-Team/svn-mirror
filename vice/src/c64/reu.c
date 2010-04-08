@@ -227,6 +227,19 @@ static int reu_deactivate(void);
 
 static unsigned int reu_int_num;
 
+/*! \brief interface for BA interaction with CPU & VICII, used for x64sc */
+struct reu_ba_s {
+    reu_ba_check_callback_t *check;
+    reu_ba_steal_callback_t *steal;
+    int *cpu_ba;
+    int cpu_ba_mask;
+    int enabled;
+};
+
+static struct reu_ba_s reu_ba = {
+    NULL, NULL, NULL, 0, 0
+};
+
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
@@ -526,6 +539,18 @@ void reu_init(void)
     reu_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "REU");
 }
 
+/*! \brief register the BA low interface */
+void reu_ba_register(reu_ba_check_callback_t *ba_check,
+                     reu_ba_steal_callback_t *ba_steal,
+                     int *ba_var, int ba_mask)
+{
+    reu_ba.check = ba_check;
+    reu_ba.steal = ba_steal;
+    reu_ba.cpu_ba = ba_var;
+    reu_ba.cpu_ba_mask = ba_mask;
+    reu_ba.enabled = 1;
+}
+
 /*! \brief reset the REU */
 void reu_reset(void)
 {
@@ -606,6 +631,17 @@ void reu_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 /* helper functions */
+
+/*! \brief BA low check and steal
+  If the BA interface is in use, check for BA low (from VICII) and let it steal
+  cycles from us.
+*/
+inline static void reu_check_and_steal(void)
+{
+    if (reu_ba.enabled && reu_ba.check()) {
+        reu_ba.steal();
+    }
+}
 
 /*! \brief read the REU register values without side effects
   This function reads the REU values, so they can be accessed like
@@ -1001,6 +1037,7 @@ static void reu_dma_host_to_reu(WORD host_addr, unsigned int reu_addr, int host_
     while (len) {
         maincpu_clk++;
         machine_handle_pending_alarms(0);
+        reu_check_and_steal();
         value = mem_read(host_addr);
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Transferring byte: %x from main $%04X to ext $%05X.", value, host_addr, reu_addr));
 
@@ -1044,6 +1081,7 @@ static void reu_dma_reu_to_host(WORD host_addr, unsigned int reu_addr, int host_
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Transferring byte: %x from ext $%05X to main $%04X.", reu_ram[reu_addr % reu_size], reu_addr, host_addr));
         maincpu_clk++;
         value = read_from_reu(reu_addr);
+        reu_check_and_steal();
         mem_store(host_addr, value);
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
@@ -1086,11 +1124,26 @@ static void reu_dma_swap(WORD host_addr, unsigned int reu_addr, int host_step, i
         value_from_reu = read_from_reu(reu_addr);
         maincpu_clk++;
         machine_handle_pending_alarms(0);
+        reu_check_and_steal();
         value_from_c64 = mem_read(host_addr);
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Exchanging bytes: %x from main $%04X with %x from ext $%05X.", value_from_c64, host_addr, value_from_reu, reu_addr));
         store_to_reu(reu_addr, value_from_c64);
+
+        if (reu_ba.enabled) {
+            /* read and store are symmetric on x64sc so we need to have the
+               maincpu_clk++ (and check_and_steal) before the following
+               mem_store */
+            maincpu_clk++;
+            reu_check_and_steal();
+        }
+
         mem_store(host_addr, value_from_reu);
-        maincpu_clk++;
+
+        if (!reu_ba.enabled) {
+            /* ...and on x64/x128 we need it here */
+            maincpu_clk++;
+        }
+
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
@@ -1140,6 +1193,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr, int host_step
         maincpu_clk++;
         machine_handle_pending_alarms(0);
         value_from_reu = read_from_reu(reu_addr);
+        reu_check_and_steal();
         value_from_c64 = mem_read(host_addr);
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Comparing bytes: %x from main $%04X with %x from ext $%05X.", value_from_c64, host_addr, value_from_reu, reu_addr));
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
@@ -1157,6 +1211,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr, int host_step
             if ( len >= 1 ) {
                 maincpu_clk++;
                 machine_handle_pending_alarms(0);
+                reu_check_and_steal();
             }
             break;
         }
@@ -1193,7 +1248,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr, int host_step
 /* ------------------------------------------------------------------------- */
 
 /*! \brief perform REU DMA
- 
+
  This function is called when a write to REC command register or memory
  location FF00 is detected.
 
@@ -1217,10 +1272,6 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr, int host_step
 void reu_dma(int immediate)
 {
     static int delay = 0;
-    int len;
-    int reu_step, host_step;
-    WORD host_addr;
-    unsigned int reu_addr;
 
     if (!reu_enabled) {
         return;
@@ -1235,6 +1286,22 @@ void reu_dma(int immediate)
         }
         delay = 0;
     }
+
+    if (reu_ba.enabled) {
+        /* signal CPU that BA is pulled low */
+        *(reu_ba.cpu_ba) |= reu_ba.cpu_ba_mask;
+    } else {
+        /* start the operation right away */
+        reu_dma_start();
+    }
+}
+
+void reu_dma_start(void)
+{
+    int len;
+    int reu_step, host_step;
+    WORD host_addr;
+    unsigned int reu_addr;
 
     /* wrong address of bank register & calculations corrected  - RH */
     host_addr = rec.base_computer;

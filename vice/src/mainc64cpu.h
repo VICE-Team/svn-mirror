@@ -52,7 +52,9 @@ extern int maincpu_rmw_flag;
 
 extern CLOCK maincpu_clk;
 
-/* Flag: BA low */
+/* Mask: BA low */
+#define MAINCPU_BA_LOW_VICII 1
+#define MAINCPU_BA_LOW_REU   2
 extern int maincpu_ba_low_flag;
 
 /* ------------------------------------------------------------------------- */
