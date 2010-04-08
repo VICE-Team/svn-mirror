@@ -100,22 +100,6 @@ static UI_CALLBACK(freeze_cartridge)
     cartridge_trigger_freeze();
 }
 
-static UI_CALLBACK(control_cartridge)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        switch (mem_cartridge_type) {
-            case CARTRIDGE_EXPERT:
-                ui_menu_set_sensitive(w, 1);
-                break;
-            default:
-                ui_menu_set_sensitive(w, 0);
-                break;
-        }
-    }
-}
-
 static UI_CALLBACK(save_cartridge)
 {
     ui_cartridge_dialog();
@@ -124,6 +108,10 @@ static UI_CALLBACK(save_cartridge)
 UI_MENU_DEFINE_RADIO(CartridgeMode)
 
 static ui_menu_entry_t cartridge_control_submenu[] = {
+    { N_("Enable Expert Cartridge..."),
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_EXPERT, NULL },
+    { "--" },
     { N_("*Prg"), (ui_callback_t)radio_CartridgeMode,
       (ui_callback_data_t)CARTRIDGE_MODE_PRG, NULL },
     { N_("*Off"), (ui_callback_t)radio_CartridgeMode,
@@ -187,9 +175,8 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MMC_REPLAY, NULL },
     { "--" },
-    { N_("Enable Expert Cartridge..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EXPERT, NULL },
+    { N_("Expert cartridge"),
+      NULL, NULL, cartridge_control_submenu },
     { "--" },
     { N_("Set cartridge as default"), (ui_callback_t)
       default_cartridge, NULL, NULL },
@@ -203,8 +190,5 @@ ui_menu_entry_t ui_c64cart_commands_menu[] = {
       (ui_callback_t)detach_cartridge, NULL, NULL },
     { N_("Cartridge freeze"),
       (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
-    { N_("*Cartridge control"),
-      (ui_callback_t)control_cartridge,
-      (ui_callback_data_t)0, cartridge_control_submenu },
     { NULL }
 };

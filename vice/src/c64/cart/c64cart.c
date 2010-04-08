@@ -174,12 +174,14 @@ void cartridge_resources_shutdown(void)
 
 static int attach_cartridge_cmdline(const char *param, void *extra_param)
 {
-    /* patch: iAN CooG */
-    if (!param) {
+    int type = vice_ptr_to_int(extra_param);
+
+    /* NULL param is used for +cart, but Expert cart doesn't have a filename */
+    if (!param && (type != CARTRIDGE_EXPERT)) {
         cartridge_detach_image();
         return 0;
     }
-    return cartridge_attach_image(vice_ptr_to_int(extra_param), param);
+    return cartridge_attach_image(type, param);
 }
 
 static const cmdline_option_t cmdline_options[] =
