@@ -339,11 +339,9 @@ int drive_snapshot_read_module(snapshot_t *s)
             && drive->type != DRIVE_TYPE_1571
             && drive->type != DRIVE_TYPE_1571CR) {
             if (drive->type == DRIVE_TYPE_1581) {
-                rotation_init_table(1, i);
                 resources_set_int("MachineVideoStandard", sync_factor);
             } else {
                 drive->side = 0;
-                rotation_init_table(0, i);
                 resources_set_int("MachineVideoStandard", sync_factor);
             }
         }
