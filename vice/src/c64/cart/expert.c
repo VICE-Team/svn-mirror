@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
+ *  Groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -40,6 +41,37 @@
 #include "resources.h"
 #include "reu.h"
 #include "types.h"
+
+/*
+    Trilogic Expert Cartridge
+
+    - one 8K RAM (!) bank
+    - any access to IO1 area disables the cartridge (if ON)
+
+    the cartridge has a 3 way switch:
+
+    PRG:
+    - RAM is mapped to 8000 and writeable
+
+    ON:
+    - NMI logic is active. on NMI the cartridge will be mapped to E000 for
+      just the few cycles it takes the cpu to fetch the NMI vector, then it
+      will be mapped to 8000 again. the "freezer" can now be activated by
+      either pressing restore or the freezer button.
+
+    OFF:
+    - according to the documentation, the cartridge is disabled. however,
+      the NMI logic of the cart still seems to interfer somehow and makes
+      some program misbehave. the solution for this was to put an additional
+      switch at the NMI line of the cartridge port, which then allows to 
+      completely disable the cartridge for real.
+
+      this misbehavior is NOT emulated
+
+    there also was an "upgrade" to the hardware at some point, called "EMS".
+    this pretty much was no more no less than a freezer button :=)
+
+*/
 
 /* De-assert ~GAME */
 /* Assert ~EXROM */
@@ -124,7 +156,7 @@ BYTE REGPARM1 expert_romh_read(WORD addr)
 void expert_ack_nmi(void)
 {
     if (cartmode == CARTRIDGE_MODE_ON) {
-        cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ);
+        cartridge_config_changed(EXPERT_ON, EXPERT_ON | 0x40, CMODE_READ);
     }
 }
 
@@ -133,10 +165,6 @@ void expert_ack_reset(void)
     if (cartmode == CARTRIDGE_MODE_ON) {
         ack_reset = 1;
     }
-}
-
-void expert_freeze(void)
-{
 }
 
 /* ---------------------------------------------------------------------*/
@@ -164,7 +192,7 @@ void expert_config_init(void)
 
 void expert_config_setup(BYTE *rawcart)
 {
-        /* Clear Expert RAM */
+    /* Clear Expert RAM */
     memcpy(roml_banks, rawcart, 0x2000);
 }
 
@@ -187,7 +215,11 @@ static int expert_common_attach(void)
 
 int expert_bin_attach(const char *filename, BYTE *rawcart)
 {
-    /* Set default mode */
+    /* Set default mode
+       HACK: since we dont actually attach a binary image, but abuse this
+             function to enable the expert cartridge, use PRG mode for
+             convinience.
+    */
     resources_set_int("CartridgeMode", CARTRIDGE_MODE_PRG);
 
     return expert_common_attach();
@@ -205,7 +237,12 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    resources_set_int("CartridgeMode", CARTRIDGE_MODE_ON);
+    /* Set default mode
+       here we want to load a previously saved image. we use OFF as
+       default here, loaded program may be activated by NMI (restore,
+       freeze) or reset.
+    */
+    resources_set_int("CartridgeMode", CARTRIDGE_MODE_OFF);
 
     return expert_common_attach();
 }

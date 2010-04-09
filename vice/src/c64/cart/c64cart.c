@@ -69,7 +69,7 @@ int c64cart_type = CARTRIDGE_NONE;
 
 int cartmode = CARTRIDGE_MODE_OFF;
 
-int cartres = 0;
+static int cartres = 0;
 static char *cartfile = NULL;
 
 static alarm_t *cartridge_alarm = NULL;
@@ -119,7 +119,11 @@ static int set_cartridge_mode(int val, void *param)
     switch (type) {
         case (CARTRIDGE_EXPERT):
             expert_mode_changed(cartridge_mode);
-            break;
+            /* Manually force the cartres bit low and avoid the init.
+               This is needed to have the cart work when saved as default
+               and to not reattach the cart on runtime changes to the mode. */
+            cartres &= ~4;
+            return 0;
     }
 
     return try_cartridge_init(4);
@@ -504,6 +508,12 @@ void cartridge_trigger_freeze(void)
         case CARTRIDGE_MAGIC_FORMEL:
             maincpu_set_nmi(cartridge_int_num, IK_NMI);
             alarm_set(cartridge_alarm, maincpu_clk + 3);
+            break;
+        case CARTRIDGE_EXPERT:
+            if (cartmode == CARTRIDGE_MODE_ON) {
+                maincpu_set_nmi(cartridge_int_num, IK_NMI);
+                alarm_set(cartridge_alarm, maincpu_clk + 3);
+            }
             break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_freeze_allowed()) {
