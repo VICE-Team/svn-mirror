@@ -142,7 +142,7 @@ static io_source_t ide64_device = {
     "IDE64",
     IO_DETACH_CART,
     NULL,
-    0xde00, 0xdeff, 0xff,
+    0xde20, 0xdeff, 0xff,
     0,
     ide64_io1_store,
     ide64_io1_read
@@ -357,14 +357,14 @@ static BYTE REGPARM1 ide64_io1_read(WORD addr)
     ide64_device.io_source_valid = 1;
 
     if (kill_port & 1) {
-        if (addr >= 0xde5f) {
+        if ((addr & 0xff) >= 0x5f) {
             ide64_device.io_source_valid = 0;
             return vicii_read_phi1();
         }
     }
 
-    if (addr >= 0xde60) {
-        return roml_banks[(addr & 0x3fff) | (current_bank << 14)];
+    if ((addr & 0xff) >= 0x60) {
+        return roml_banks[(addr & 0xff) | 0x1e00 | (current_bank << 14)];
     }
 
     switch (addr & 0xff) {
@@ -458,7 +458,7 @@ BYTE ide64_get_killport(void)
 static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
 {
     if (kill_port & 1) {
-        if (addr >= 0xde5f) {
+        if ((addr & 0xff) >= 0x5f) {
             return;
         }
     }
