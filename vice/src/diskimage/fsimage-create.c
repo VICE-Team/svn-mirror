@@ -86,7 +86,7 @@ static int fsimage_create_gcr(disk_image_t *image)
     for (track = 0; track < MAX_TRACKS_1541; track++) {
         const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
-        memset(&gcr_track[2], 0xff, 7928);
+        memset(&gcr_track[2], 0x55, 7928);
         gcr_track[0] = raw_track_size[disk_image_speed_map_1541(track)] % 256;
         gcr_track[1] = raw_track_size[disk_image_speed_map_1541(track)] / 256;
         gcrptr = &gcr_track[2];

@@ -123,7 +123,6 @@ void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, unsigned int track,
     gcr_convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;
 
-    memset(ptr, 0x55, 9);       /* Header Gap */
     ptr += 9;
 
     memset(ptr, 0xff, 5);       /* Sync */
@@ -134,11 +133,6 @@ void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, unsigned int track,
         buffer += 4;
         ptr += 5;
     }
-
-    /* FIXME: This is approximated.  */
-    memset(ptr, 0x55, 6);       /* Gap before next sector.  */
-    ptr += 6;
-
 }
 
 void gcr_convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,

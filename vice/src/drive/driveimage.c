@@ -40,26 +40,22 @@
 
 
 #define GCR_OFFSET(track) ((track - 1) * NUM_MAX_BYTES_TRACK)
-
+#define SECTOR_GCR_SIZE_WITH_HEADER 354
 
 /* Logging goes here.  */
 static log_t driveimage_log = LOG_DEFAULT;
 
 /* Number of bytes per track size.  */
 static const unsigned int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
-
+static const unsigned int gaps_between_sectors[4] = { 9, 12, 17, 8 };
 
 inline static unsigned int sector_offset(unsigned int track,
                                          unsigned int sector,
                                          unsigned int max_sector,
                                          drive_t *drive)
 {
-    unsigned int offset;
-
-    offset = GCR_OFFSET(track)
-        + (drive->gcr->track_size[track - 1] * sector / max_sector);
-
-    return offset;
+    return GCR_OFFSET(track)
+		+ (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[disk_image_speed_map_1541(track-1)]) * sector;
 }
 
 void drive_image_init_track_size_d64(drive_t *drive)
@@ -126,7 +122,7 @@ static void drive_image_read_d64_d71(drive_t *drive)
         max_sector = disk_image_sector_per_track(drive->image->type,
                                                  track);
         /* Clear track to avoid read errors.  */
-        memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
+        memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
 
         for (sector = 0; sector < max_sector; sector++) {
             int rc;
