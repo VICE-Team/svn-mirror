@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-30 21:04+0200\n"
-"PO-Revision-Date: 2010-02-17 20:40+0100\n"
+"PO-Revision-Date: 2010-04-09 22:11+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4334,14 +4334,12 @@ msgid "Set Y Axis for HID A device"
 msgstr "Setze Y Achse für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:319
-#, fuzzy
 msgid "Set Buttons for HID A device"
-msgstr "Setze X Achse für Gerät HID A"
+msgstr "Setze Tasten für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:324
-#, fuzzy
 msgid "Set Auto Fire Buttons for HID A device"
-msgstr "Setze X Achse für Gerät HID A"
+msgstr "Setze Autofeuer Tasten für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:329
 msgid "Set X Axis Threshold in Percent of HID A device"
@@ -4364,14 +4362,12 @@ msgid "Set Y Axis for HID B device"
 msgstr "Setze Y Achse für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:354
-#, fuzzy
 msgid "Set Buttons for HID B device"
-msgstr "Setze X Achse für Gerät HID B"
+msgstr "Setze Tasten für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:359
-#, fuzzy
 msgid "Set Auto Fire Buttons for HID B device"
-msgstr "Setze X Achse für Gerät HID B"
+msgstr "Setze Autofeuer Tasten für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:364
 msgid "Set X Axis Threshold in Percent of HID B device"
