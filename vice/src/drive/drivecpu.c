@@ -430,6 +430,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 {
     CLOCK cycles;
+	int tcycles;
     drivecpu_context_t *cpu;
 
 #define reg_a   (cpu->cpu_regs.a)
@@ -451,29 +452,17 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
     else
         cycles = 0;
 
-    while (cycles > 0) {
-        if (cycles > MAX_TICKS) {
-            cpu->stop_clk = (*(drv->clk_ptr)
-                            + drv->cpud->clk_conv_table[MAX_TICKS]
-                            - cpu->last_exc_cycles);
-            cpu->cycle_accum += drv->cpud->clk_mod_table[MAX_TICKS];
-            cycles -= MAX_TICKS;
-        } else {
-            cpu->stop_clk = (*(drv->clk_ptr)
-                            + drv->cpud->clk_conv_table[cycles]
-                            - cpu->last_exc_cycles);
-            cpu->cycle_accum += drv->cpud->clk_mod_table[cycles];
-            cycles = 0;
-        }
+    while (cycles != 0) {
+		tcycles = cycles > 10000 ? 10000 : cycles;
+		cycles -= tcycles;
 
-        /* Add one clock if enough fractions have accumulated */
-        if (cpu->cycle_accum >= 0x10000) {
-            cpu->cycle_accum -= 0x10000;
-            (cpu->stop_clk)++;
-        }
+		cpu->cycle_accum += drv->cpud->sync_factor * tcycles;
+		cpu->stop_clk += cpu->cycle_accum >> 16;
+		cpu->cycle_accum &= 0xffff;
+	}
 
-        /* Run drive CPU emulation until the stop_clk clock has been reached */
-        while (*(drv->clk_ptr) < cpu->stop_clk) {
+    /* Run drive CPU emulation until the stop_clk clock has been reached */
+    while (*(drv->clk_ptr) < cpu->stop_clk) {
 
 /* Include the 6502/6510 CPU emulation core.  */
 
@@ -516,11 +505,9 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #include "6510core.c"
 
-        }
-
-        cpu->last_exc_cycles = *(drv->clk_ptr) - cpu->stop_clk;
     }
 
+    cpu->last_exc_cycles = *(drv->clk_ptr) - cpu->stop_clk;
     cpu->last_clk = clk_value;
     drivecpu_sleep(drv);
 }

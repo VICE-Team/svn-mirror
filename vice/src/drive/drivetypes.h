@@ -48,11 +48,6 @@ typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, WORD);
 typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, WORD,
                                          BYTE);
 
-
-/* This table is used to approximate the sync between the main and the
-   drive CPU, since the two clock rates are different.  */
-#define MAX_TICKS 0x1000
-
 /*
  *  The private CPU data.
  */
@@ -109,7 +104,6 @@ typedef struct drivecpu_context_s {
  */
 
 typedef struct drivecpud_context_s {
-
     /* Drive RAM */
     BYTE drive_ram[DRIVE_RAM_SIZE];
 
@@ -121,9 +115,7 @@ typedef struct drivecpud_context_s {
     drive_read_func_t  *read_func_nowatch[0x101];
     drive_store_func_t *store_func_nowatch[0x101];
 
-    unsigned long clk_conv_table[MAX_TICKS + 1];
-    unsigned long clk_mod_table[MAX_TICKS + 1];
-
+	int sync_factor;
 } drivecpud_context_t;
 
 
