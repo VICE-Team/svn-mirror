@@ -37,6 +37,7 @@ UI_MENU_DEFINE_RADIO(MMC64_revision)
 UI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
 UI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
 UI_MENU_DEFINE_TOGGLE(MMC64_RO)
+UI_MENU_DEFINE_RADIO(MMC64_sd_type)
 
 UI_CALLBACK(set_mmc64_bios_name)
 {
@@ -53,6 +54,18 @@ static ui_menu_entry_t mmc64_revision_submenu[] = {
       (ui_callback_data_t)0, NULL },
     { N_("*Rev. B"), (ui_callback_t)radio_MMC64_revision,
       (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t mmc64_sd_type_submenu[] = {
+    { "*Auto", (ui_callback_t)radio_MMC64_sd_type,
+      (ui_callback_data_t)0, NULL },
+    { "*MMC", (ui_callback_t)radio_MMC64_sd_type,
+      (ui_callback_data_t)1, NULL },
+    { "*SD", (ui_callback_t)radio_MMC64_sd_type,
+      (ui_callback_data_t)2, NULL },
+    { "*SDHC", (ui_callback_t)radio_MMC64_sd_type,
+      (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -73,5 +86,7 @@ ui_menu_entry_t mmc64_submenu[] = {
     { N_("MMC64 image name..."),
       (ui_callback_t)set_mmc64_image_name,
       (ui_callback_data_t)"MMC64imagefilename", NULL },
+    { N_("*MMC64 card type"),
+      NULL, NULL, mmc64_sd_type_submenu },
     { NULL }
 };
