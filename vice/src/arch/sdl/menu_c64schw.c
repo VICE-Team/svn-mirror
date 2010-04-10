@@ -268,10 +268,6 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_c64_menu },
 #endif
-    { "MMC64 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mmc64_menu },
     { "PLUS60K settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

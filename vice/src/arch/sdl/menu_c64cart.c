@@ -198,6 +198,9 @@ static UI_MENU_CALLBACK(set_c64_cart_default_callback)
     return NULL;
 }
 
+
+/* Expert cartridge */
+
 UI_MENU_DEFINE_RADIO(CartridgeMode)
 
 static UI_MENU_CALLBACK(enable_expert_callback)
@@ -232,6 +235,9 @@ static const ui_menu_entry_t expert_cart_menu[] = {
     { NULL }
 };
 
+
+/* EasyFlash */
+
 UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 
@@ -261,6 +267,89 @@ static const ui_menu_entry_t easyflash_cart_menu[] = {
     { NULL }
 };
 
+
+/* MMC64 */
+
+UI_MENU_DEFINE_RADIO(MMC64_sd_type)
+
+static const ui_menu_entry_t mmc64_sd_type_menu[] = {
+    { "Auto",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMC64_sd_type_callback,
+      (ui_callback_data_t)0 },
+    { "MMC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMC64_sd_type_callback,
+      (ui_callback_data_t)1 },
+    { "SD",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMC64_sd_type_callback,
+      (ui_callback_data_t)2 },
+    { "SDHC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMC64_sd_type_callback,
+      (ui_callback_data_t)3 },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(MMC64)
+UI_MENU_DEFINE_RADIO(MMC64_revision)
+UI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
+UI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
+UI_MENU_DEFINE_FILE_STRING(MMC64BIOSfilename)
+UI_MENU_DEFINE_TOGGLE(MMC64_RO)
+UI_MENU_DEFINE_FILE_STRING(MMC64imagefilename)
+
+static const ui_menu_entry_t mmc64_cart_menu[] = {
+    { "Enable MMC64",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMC64_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MMC64 revision"),
+    { "Rev A",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMC64_revision_callback,
+      (ui_callback_data_t)0 },
+    { "Rev B",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MMC64_revision_callback,
+      (ui_callback_data_t)1 },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "BIOS flash jumper",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMC64_flashjumper_callback,
+      NULL },
+    { "BIOS writes",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMC64_bios_write_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MMC64 BIOS image"),
+    { "MMC64 BIOS image file",
+      MENU_ENTRY_DIALOG,
+      file_string_MMC64BIOSfilename_callback,
+      (ui_callback_data_t)"Select MMC64 BIOS image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "MMC64 image read-only",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMC64_RO_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MMC64 MMC/SD image"),
+    { "MMC64 MMC/SD image file",
+      MENU_ENTRY_DIALOG,
+      file_string_MMC64imagefilename_callback,
+      (ui_callback_data_t)"Select MMC64 MMC/SD image" },
+    { "Card type",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)mmc64_sd_type_menu },
+    { NULL }
+};
+
+
+/* MMC Replay */
 UI_MENU_DEFINE_RADIO(MMCRSDType)
 
 static const ui_menu_entry_t mmcreplay_sd_type_menu[] = {
@@ -317,6 +406,7 @@ static const ui_menu_entry_t mmcreplay_cart_menu[] = {
     { NULL }
 };
 
+
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 const ui_menu_entry_t c64cart_menu[] = {
@@ -354,6 +444,10 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)easyflash_cart_menu },
+    { "MMC64 cartridge settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)mmc64_cart_menu },
     { "MMC Replay cartridge settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

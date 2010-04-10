@@ -89,6 +89,7 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_vic20_rom_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
     { "256K settings",
       MENU_ENTRY_SUBMENU,
@@ -126,10 +127,6 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_c64_menu },
 #endif
-    { "MMC64 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mmc64_menu },
     { "PLUS60K settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

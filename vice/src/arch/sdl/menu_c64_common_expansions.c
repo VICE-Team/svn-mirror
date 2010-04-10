@@ -229,61 +229,6 @@ const ui_menu_entry_t ide64_menu[] = {
 };
 
 
-/* MMC64 CART MENU */
-
-UI_MENU_DEFINE_TOGGLE(MMC64)
-UI_MENU_DEFINE_RADIO(MMC64_revision)
-UI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
-UI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
-UI_MENU_DEFINE_FILE_STRING(MMC64BIOSfilename)
-UI_MENU_DEFINE_TOGGLE(MMC64_RO)
-UI_MENU_DEFINE_FILE_STRING(MMC64imagefilename)
-
-const ui_menu_entry_t mmc64_menu[] = {
-    { "Enable MMC64",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMC64_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("MMC64 revision"),
-    { "Rev A",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MMC64_revision_callback,
-      (ui_callback_data_t)0 },
-    { "Rev B",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_MMC64_revision_callback,
-      (ui_callback_data_t)1 },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "BIOS flash jumper",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMC64_flashjumper_callback,
-      NULL },
-    { "BIOS writes",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMC64_bios_write_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("MMC64 BIOS image"),
-    { "MMC64 BIOS image file",
-      MENU_ENTRY_DIALOG,
-      file_string_MMC64BIOSfilename_callback,
-      (ui_callback_data_t)"Select MMC64 BIOS image" },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "MMC64 image read-only",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMC64_RO_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("MMC64 MMC/SD image"),
-    { "MMC64 MMC/SD image file",
-      MENU_ENTRY_DIALOG,
-      file_string_MMC64imagefilename_callback,
-      (ui_callback_data_t)"Select MMC64 MMC/SD image" },
-    { NULL }
-};
-
-
 /* RAMCART MEMORY EXPANSION MENU */
 
 UI_MENU_DEFINE_TOGGLE(RAMCART)
