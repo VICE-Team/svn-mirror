@@ -55,7 +55,7 @@ extern CLOCK maincpu_clk;
 /* Mask: BA low */
 #define MAINCPU_BA_LOW_VICII 1
 #define MAINCPU_BA_LOW_REU   2
-extern int maincpu_ba_low_flag;
+extern int maincpu_ba_low_flags;
 
 /* ------------------------------------------------------------------------- */
 

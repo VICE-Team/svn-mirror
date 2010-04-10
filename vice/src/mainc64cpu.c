@@ -94,14 +94,14 @@ static void maincpu_steal_cycles(void)
 {
     interrupt_cpu_status_t *cs = maincpu_int_status;
 
-    if (maincpu_ba_low_flag & MAINCPU_BA_LOW_VICII) {
+    if (maincpu_ba_low_flags & MAINCPU_BA_LOW_VICII) {
         vicii_steal_cycles();
-        maincpu_ba_low_flag &= ~MAINCPU_BA_LOW_VICII;
+        maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_VICII;
     }
 
-    if (maincpu_ba_low_flag & MAINCPU_BA_LOW_REU) {
-       reu_dma_start();
-       maincpu_ba_low_flag &= ~MAINCPU_BA_LOW_REU;
+    if (maincpu_ba_low_flags & MAINCPU_BA_LOW_REU) {
+        reu_dma_start();
+        maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_REU;
     }
 
     while (maincpu_clk >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
@@ -136,7 +136,7 @@ static void maincpu_steal_cycles(void)
 
 inline static void check_ba(void)
 {
-    if (maincpu_ba_low_flag) {
+    if (maincpu_ba_low_flags) {
 #ifdef DEBUG
         CLOCK old_maincpu_clk = maincpu_clk;
 #endif

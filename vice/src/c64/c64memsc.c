@@ -192,7 +192,7 @@ void c64_mem_init(void)
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     /* Initialize REU BA low interface (FIXME find a better place for this) */
-    reu_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flag, MAINCPU_BA_LOW_REU);
+    reu_ba_register(vicii_cycle, vicii_steal_cycles, &maincpu_ba_low_flags, MAINCPU_BA_LOW_REU);
 }
 
 void mem_pla_config_changed(void)
