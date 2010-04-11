@@ -537,9 +537,6 @@ darwin*)
 dnl All other UN*X systems
 *)
 
-  dnl disable inline warnings
-  CFLAGS="$CFLAGS -Wno-inline"
-
   dnl special handling of sco unixware 7.x
   case "$host_os" in
     sco3.2v7*)
@@ -586,7 +583,7 @@ dnl All other UN*X systems
     dnl Check for the type of compiler first.
     if test x"$GCC" = "xyes" ; then
 
-      warnings_cxx="-Wall -Winline"
+      warnings_cxx="-Wall -Wno-inline"
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
