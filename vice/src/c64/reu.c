@@ -214,6 +214,9 @@ struct rec_options_s {
 /*! \brief a complete REC options description */
 static struct rec_options_s rec_options;
 
+/*! \brief flag for DMA active */
+static int reu_dma_active = 0;
+
 /*! \brief pointer to a buffer which holds the REU image.  */
 static BYTE *reu_ram = NULL;
 /*! \brief the old ram size of reu_ram. Used to determine if and how much of the 
@@ -250,7 +253,7 @@ static io_source_t reu_device = {
     "REU",
     IO_DETACH_RESOURCE,
     "REU",
-    0xdf00, 0xdfff, 0xff,
+    0xdf00, 0xdfff, REU_REG_LAST_REG,
     0,
     reu_store,
     reu_read
@@ -661,8 +664,6 @@ static BYTE reu_read_without_sideeffects(WORD addr)
 {
     BYTE retval = 0xff;
 
-    addr &= REU_REG_LAST_REG;
-
     switch (addr) {
         case REU_REG_R_STATUS:
             retval = rec.status;
@@ -720,8 +721,6 @@ static BYTE reu_read_without_sideeffects(WORD addr)
 */
 static void reu_store_without_sideeffects(WORD addr, BYTE byte)
 {
-    addr &= REU_REG_LAST_REG;
-
     switch (addr) {
         case REU_REG_R_STATUS:
             /* REC status register is Read Only */
@@ -777,13 +776,14 @@ static BYTE REGPARM1 reu_read(WORD addr)
 {
     BYTE retval = 0xff;
 
-    addr &= 0xff;
-
-    reu_device.io_source_valid = 0;
+    if (reu_dma_active) {
+        reu_device.io_source_valid = 0;
+        return 0;
+    } else {
+        reu_device.io_source_valid = 1;
+    }
 
     if (addr < rec_options.first_unused_register_address) {
-        reu_device.io_source_valid = 1;
-
         retval = reu_read_without_sideeffects(addr);
 
         switch (addr) {
@@ -815,9 +815,7 @@ static BYTE REGPARM1 reu_read(WORD addr)
 */
 static void REGPARM2 reu_store(WORD addr, BYTE byte)
 {
-    addr &= 0xff;
-
-    if (addr < rec_options.first_unused_register_address) {
+    if (!reu_dma_active && (addr < rec_options.first_unused_register_address)) {
         reu_store_without_sideeffects(addr, byte);
 
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "store [$%02X] <= $%02X.", addr, (int)byte) );
@@ -1312,6 +1310,8 @@ void reu_dma_start(void)
     host_step = rec.address_control_reg & REU_REG_RW_ADDR_CONTROL_FIX_C64 ? 0 : 1;
     reu_step  = rec.address_control_reg & REU_REG_RW_ADDR_CONTROL_FIX_REC ? 0 : 1;
 
+    reu_dma_active = 1;
+
     switch (rec.command & REU_REG_RW_COMMAND_TRANSFER_TYPE_MASK) {
         case REU_REG_RW_COMMAND_TRANSFER_TYPE_TO_REU:
             reu_dma_host_to_reu(host_addr, reu_addr, host_step, reu_step, len);
@@ -1327,6 +1327,7 @@ void reu_dma_start(void)
             break;
     }
 
+    reu_dma_active = 0;
     rec.command = (rec.command & ~ REU_REG_RW_COMMAND_EXECUTE) | REU_REG_RW_COMMAND_FF00_TRIGGER_DISABLED;
 }
 
