@@ -635,14 +635,22 @@ void reu_shutdown(void)
 /* ------------------------------------------------------------------------- */
 /* helper functions */
 
-/*! \brief BA low check and steal
-  If the BA interface is in use, check for BA low (from VICII) and let it steal
-  cycles from us.
-*/
-inline static void reu_check_and_steal(void)
+/*! \brief clock handling for x64 */
+inline static void reu_clk_inc_pre(void)
 {
-    if (reu_ba.enabled && reu_ba.check()) {
-        reu_ba.steal();
+    if (!reu_ba.enabled) {
+        maincpu_clk++;
+    }
+}
+
+/*! \brief clock handling for x64sc */
+inline static void reu_clk_inc_post(void)
+{
+    if (reu_ba.enabled) {
+        maincpu_clk++;
+        if (reu_ba.check()) {
+            reu_ba.steal();
+        }
     }
 }
 
@@ -1033,10 +1041,10 @@ static void reu_dma_host_to_reu(WORD host_addr, unsigned int reu_addr, int host_
     assert(len >= 1);
 
     while (len) {
-        maincpu_clk++;
+        reu_clk_inc_pre();
         machine_handle_pending_alarms(0);
-        reu_check_and_steal();
         value = mem_read(host_addr);
+        reu_clk_inc_post();
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Transferring byte: %x from main $%04X to ext $%05X.", value, host_addr, reu_addr));
 
         store_to_reu(reu_addr, value);
@@ -1077,10 +1085,10 @@ static void reu_dma_reu_to_host(WORD host_addr, unsigned int reu_addr, int host_
 
     while (len) {
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Transferring byte: %x from ext $%05X to main $%04X.", reu_ram[reu_addr % reu_size], reu_addr, host_addr));
-        maincpu_clk++;
+        reu_clk_inc_pre();
         value = read_from_reu(reu_addr);
-        reu_check_and_steal();
         mem_store(host_addr, value);
+        reu_clk_inc_post();
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
@@ -1120,28 +1128,15 @@ static void reu_dma_swap(WORD host_addr, unsigned int reu_addr, int host_step, i
 
     while (len) {
         value_from_reu = read_from_reu(reu_addr);
-        maincpu_clk++;
+        reu_clk_inc_pre();
         machine_handle_pending_alarms(0);
-        reu_check_and_steal();
         value_from_c64 = mem_read(host_addr);
+        reu_clk_inc_post();
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Exchanging bytes: %x from main $%04X with %x from ext $%05X.", value_from_c64, host_addr, value_from_reu, reu_addr));
         store_to_reu(reu_addr, value_from_c64);
-
-        if (reu_ba.enabled) {
-            /* read and store are symmetric on x64sc so we need to have the
-               maincpu_clk++ (and check_and_steal) before the following
-               mem_store */
-            maincpu_clk++;
-            reu_check_and_steal();
-        }
-
         mem_store(host_addr, value_from_reu);
-
-        if (!reu_ba.enabled) {
-            /* ...and on x64/x128 we need it here */
-            maincpu_clk++;
-        }
-
+        reu_clk_inc_pre();
+        reu_clk_inc_post();
         machine_handle_pending_alarms(0);
         host_addr = (host_addr + host_step) & 0xffff;
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
@@ -1188,17 +1183,17 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr, int host_step
     /* rec.status &= ~ (REU_REG_R_STATUS_VERIFY_ERROR | REU_REG_R_STATUS_END_OF_BLOCK); */
 
     while (len) {
-        maincpu_clk++;
+        reu_clk_inc_pre();
         machine_handle_pending_alarms(0);
         value_from_reu = read_from_reu(reu_addr);
-        reu_check_and_steal();
         value_from_c64 = mem_read(host_addr);
+        reu_clk_inc_post();
         DEBUG_LOG(DEBUG_LEVEL_TRANSFER_LOW_LEVEL, (reu_log, "Comparing bytes: %x from main $%04X with %x from ext $%05X.", value_from_c64, host_addr, value_from_reu, reu_addr));
         reu_addr = increment_reu_with_wrap_around(reu_addr, reu_step);
         host_addr = (host_addr + host_step) & 0xffff;
         len--;
-        if (value_from_reu != value_from_c64) {
 
+        if (value_from_reu != value_from_c64) {
             DEBUG_LOG(DEBUG_LEVEL_REGISTER, (reu_log, "VERIFY ERROR"));
             new_status_or_mask |= REU_REG_R_STATUS_VERIFY_ERROR;
 
@@ -1207,9 +1202,9 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr, int host_step
              * the failed comparison happened on the last byte of the buffer.
              */
             if ( len >= 1 ) {
-                maincpu_clk++;
+                reu_clk_inc_pre();
                 machine_handle_pending_alarms(0);
-                reu_check_and_steal();
+                reu_clk_inc_post();
             }
             break;
         }
