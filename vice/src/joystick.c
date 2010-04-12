@@ -51,7 +51,7 @@
 #include "log.h"
 #include "resources.h"
 
-#define JOYSTICK_RAND() (rand() & 0x3fff)
+#define JOYSTICK_RAND() (rand() % machine_get_cycles_per_frame())
 
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */

@@ -67,6 +67,7 @@
 #include "mmc64.h"
 #include "mmcreplay.h"
 #include "ocean.h"
+#include "prophet64.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"

@@ -528,6 +528,11 @@ long machine_get_cycles_per_second(void)
     return machine_timing.cycles_per_sec;
 }
 
+long machine_get_cycles_per_frame(void)
+{
+    return machine_timing.cycles_per_rfsh;
+}
+
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
     *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line

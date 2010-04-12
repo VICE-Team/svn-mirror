@@ -110,6 +110,9 @@ extern int machine_has_restore_key(void);
 /* Get the number of CPU cylces per second.  This is used in various parts.  */
 extern long machine_get_cycles_per_second(void);
 
+/* Get the number of CPU cylces per frame. */
+extern long machine_get_cycles_per_frame(void);
+
 /* Set the screen refresh rate, as this is variable in the CRTC.  */
 extern void machine_set_cycles_per_frame(long cpf);
 

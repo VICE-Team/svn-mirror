@@ -55,7 +55,7 @@
 #include "util.h"
 
 
-#define KEYBOARD_RAND() (rand() & 0x3fff)
+#define KEYBOARD_RAND() (rand() % machine_get_cycles_per_frame())
 
 /* Keyboard array.  */
 int keyarr[KBD_ROWS];
