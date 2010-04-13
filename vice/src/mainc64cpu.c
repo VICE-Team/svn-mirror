@@ -44,6 +44,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "mos6510.h"
+#include "reu.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
