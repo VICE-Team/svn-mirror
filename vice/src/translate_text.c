@@ -4287,6 +4287,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART,    N_("Attach raw 8KB Game Killer cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_DA, "Tilslut råt 8KB Game Killer-cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_DE, "8KB Game Killer (raw) Image einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_FR, "Insérer une cartouche Game Killer 8KO"},
+/* hu */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_HU, "8KB-os Game Killer cartridge képmás csatolása"},
+/* it */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_IT, "Seleziona l'immagine di una cartuccia Game Killer di 8KB"},
+/* nl */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_NL, "Koppel binair 8KB Game Killer-cartridgebestand aan"},
+/* pl */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_SV, "Anslut rå 8KB Game Killer-insticksmodulfil"},
+/* tr */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_TR, "Düz 8KB Game Killer kartuþ imajý yerleþtir"},
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ENABLE_EXPERT_CART,    N_("Enable expert cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EXPERT_CART_DA, "Aktivér Expert Cartridge"},

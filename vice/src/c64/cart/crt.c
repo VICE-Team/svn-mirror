@@ -49,6 +49,7 @@
 #include "expert.h"
 #include "final.h"
 #include "funplay.h"
+#include "gamekiller.h"
 #include "generic.h"
 #include "gs.h"
 #include "ide64.h"
@@ -225,6 +226,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_P64:
             rc = p64_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            rc = gamekiller_crt_attach(fd, rawcart);
             break;
         default:
             rc = -1;

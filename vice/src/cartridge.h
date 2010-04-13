@@ -99,6 +99,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_IDE64              39
 
 #define CARTRIDGE_P64                64 /* FIXME */
+#define CARTRIDGE_GAME_KILLER        65 /* FIXME */
 
 
 /* Expert cartridge has three modes: */

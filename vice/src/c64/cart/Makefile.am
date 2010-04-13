@@ -44,6 +44,8 @@ libc64cart_a_SOURCES = \
 	final.h \
 	funplay.c \
 	funplay.h \
+	gamekiller.c \
+	gamekiller.h \
 	generic.c \
 	generic.h \
 	gs.c \

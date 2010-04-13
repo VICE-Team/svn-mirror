@@ -42,6 +42,7 @@
 #include "cmdline.h"
 #include "crt.h"
 #include "expert.h"
+#include "gamekiller.h"
 #include "generic.h"
 #include "ide64.h"
 #include "interrupt.h"
@@ -295,6 +296,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_P64_CART,
       NULL, NULL },
+    { "-cartgamekiller", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_GAME_KILLER, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_GAME_KILLER_CART,
+      NULL, NULL },
     { "+cart", CALL_FUNCTION, 0,
       attach_cartridge_cmdline, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -444,6 +450,11 @@ int cartridge_attach_image(int type, const char *filename)
                 goto done;
             }
             break;
+        case CARTRIDGE_GAME_KILLER:
+            if (gamekiller_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
         default:
             goto done;
     }
@@ -506,6 +517,7 @@ void cartridge_trigger_freeze(void)
         case CARTRIDGE_FINAL_I:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_GAME_KILLER:
             maincpu_set_nmi(cartridge_int_num, IK_NMI);
             alarm_set(cartridge_alarm, maincpu_clk + 3);
             break;

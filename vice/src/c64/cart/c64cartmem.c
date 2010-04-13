@@ -53,6 +53,7 @@
 #include "expert.h"
 #include "final.h"
 #include "funplay.h"
+#include "gamekiller.h"
 #include "generic.h"
 #include "gs.h"
 #include "ide64.h"
@@ -176,6 +177,8 @@ BYTE REGPARM1 roml_read(WORD addr)
             return easyflash_roml_read(addr);
         case CARTRIDGE_EPYX_FASTLOAD:
             return epyxfastload_roml_read(addr);
+        case CARTRIDGE_GAME_KILLER:
+            return gamekiller_roml_read(addr);
     }
     if (dqbb_enabled) {
         return dqbb_roml_read(addr);
@@ -231,6 +234,9 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
             return;
         case CARTRIDGE_EASYFLASH:
             easyflash_roml_store(addr, value);
+            return;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_roml_store(addr, value);
             return;
     }
 
@@ -319,6 +325,8 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
             return capture_1000_7fff_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_1000_7fff_read(addr);
+        case CARTRIDGE_GAME_KILLER:
+            return gamekiller_1000_7fff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_1000_7fff_read(addr);
@@ -341,6 +349,9 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_1000_7fff_store(addr, value);
             break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_1000_7fff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_1000_7fff_store(addr, value);
@@ -360,6 +371,8 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
             return capture_a000_bfff_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_a000_bfff_read(addr);
+        case CARTRIDGE_GAME_KILLER:
+            return gamekiller_a000_bfff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_a000_bfff_read(addr);
@@ -382,6 +395,9 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_a000_bfff_store(addr, value);
             break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_a000_bfff_store(addr, value);
+            break;
     }
     if (isepic_enabled && isepic_switch) {
         isepic_a000_bfff_store(addr, value);
@@ -399,6 +415,8 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
             return capture_c000_cfff_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_c000_cfff_read(addr);
+        case CARTRIDGE_GAME_KILLER:
+            return gamekiller_c000_cfff_read(addr);
     }
     if (isepic_enabled && isepic_switch) {
         return isepic_c000_cfff_read(addr);
@@ -420,6 +438,9 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_c000_cfff_store(addr, value);
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_c000_cfff_store(addr, value);
             break;
     }
     if (isepic_enabled && isepic_switch) {
@@ -571,6 +592,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_P64:
             p64_config_init();
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_config_init();
             break;
         default:
             cartridge_config_changed(2, 2, CMODE_READ);
@@ -730,6 +754,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_P64:
             p64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_config_setup(rawcart);
             break;
         default:
             mem_cartridge_type = CARTRIDGE_NONE;
@@ -928,6 +955,9 @@ void cartridge_freeze(int type)
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_freeze();
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_freeze();
             break;
     }
     if (isepic_enabled && isepic_switch) {
