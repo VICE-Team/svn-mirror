@@ -36,7 +36,6 @@
 #include "c64mem.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 
 static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
@@ -52,7 +51,7 @@ static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ocean_device = {
-    "OCEAN",
+    "Ocean",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,

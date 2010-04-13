@@ -36,14 +36,8 @@
 #include "c64io.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 static unsigned int ar_active;
-
-unsigned int actionreplay_get_active(void)
-{
-    return ar_active;
-}
 
 /* ---------------------------------------------------------------------*/
 
@@ -53,7 +47,7 @@ static BYTE REGPARM1 actionreplay_io2_read(WORD addr);
 static void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t action_replay_io1_device = {
-    "ACTION_REPLAY",
+    "Action Replay",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -63,7 +57,7 @@ static io_source_t action_replay_io1_device = {
 };
 
 static io_source_t action_replay_io2_device = {
-    "ACTION_REPLAY",
+    "Action Replay",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -93,7 +87,7 @@ static BYTE REGPARM1 actionreplay_io2_read(WORD addr)
     action_replay_io2_device.io_source_valid = 0;
 
     if (!ar_active) {
-        return vicii_read_phi1();
+        return 0;
     }
 
     action_replay_io2_device.io_source_valid = 1;

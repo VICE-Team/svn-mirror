@@ -67,7 +67,7 @@ static void io_source_msg_detach(WORD addr, int amount, io_source_list_t *start)
 
     current = current->next;
 
-    while (1) {
+    while (current) {
         if (current->device->io_source_valid) {
             detach_list[i].det_id = current->device->detach_id;
             detach_list[i].det_name = current->device->resource_name;
@@ -91,9 +91,6 @@ static void io_source_msg_detach(WORD addr, int amount, io_source_list_t *start)
                 break;
             }
         }
-        if (current->next == NULL) {
-            break;
-        }
         current = current->next;
     }
 
@@ -104,6 +101,57 @@ static void io_source_msg_detach(WORD addr, int amount, io_source_list_t *start)
         io_source_detach(detach_list[i].det_id, detach_list[i].det_name);
     }
     lib_free(detach_list);
+}
+
+static inline BYTE io_read(io_source_list_t *list, WORD addr)
+{
+    io_source_list_t *current = list->next;
+    int io_source_counter = 0;
+    BYTE retval = 0;
+
+    vicii_handle_pending_alarms_external(0);
+
+    while (current) {
+        if (current->device->read != NULL) {
+            if (addr >= current->device->start_address && addr <= current->device->end_address) {
+                retval = current->device->read((WORD)(addr & current->device->address_mask));
+                if (current->device->io_source_valid) {
+                    io_source_counter++;
+                }
+            } else {
+                current->device->io_source_valid = 0;
+            }
+        }
+        current = current->next;
+    }
+
+    if (io_source_counter == 0) {
+        return vicii_read_phi1();
+    }
+
+    if (io_source_counter == 1) {
+        return retval;
+    }
+
+    io_source_msg_detach(addr, io_source_counter, &c64io1_head);
+
+    return vicii_read_phi1();
+}
+
+static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
+{
+    io_source_list_t *current = list->next;
+
+    vicii_handle_pending_alarms_external_write();
+
+    while (current) {
+        if (current->device->store != NULL) {
+            if (addr >= current->device->start_address && addr <= current->device->end_address) {
+                current->device->store((WORD)(addr & current->device->address_mask), value);
+            }
+        }
+        current = current->next;
+    }
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
@@ -147,138 +195,40 @@ void c64io_unregister(io_source_list_t *device)
 
 BYTE REGPARM1 c64io1_read(WORD addr)
 {
-    io_source_list_t *current = &c64io1_head;
-    int io_source_counter = 0;
-    BYTE real_retval;
-    BYTE retval = 0;
-
-    vicii_handle_pending_alarms_external(0);
-
-    while (current->next) {
-        current = current->next;
-        if (current->device->read != NULL) {
-            if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                retval = current->device->read((WORD)(addr & current->device->address_mask));
-                if (current->device->io_source_valid) {
-                    real_retval = retval;
-                    io_source_counter++;
-                }
-            } else {
-                current->device->io_source_valid = 0;
-            }
-        }
-    }
-
-    if (io_source_counter == 0) {
-        return vicii_read_phi1();
-    }
-
-    if (io_source_counter == 1) {
-        return retval;
-    }
-
-    io_source_msg_detach(addr, io_source_counter, &c64io1_head);
-
-    return vicii_read_phi1();
+    return io_read(&c64io1_head, addr);
 }
 
 void REGPARM2 c64io1_store(WORD addr, BYTE value)
 {
-    io_source_list_t *current = &c64io1_head;
-
-    vicii_handle_pending_alarms_external_write();
-
-    while (current->next) {
-        current = current->next;
-        if (current->device->store != NULL) {
-            if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                current->device->store((WORD)(addr & current->device->address_mask), value);
-            }
-        }
-    }
+    io_store(&c64io1_head, addr, value);
 }
 
 BYTE REGPARM1 c64io2_read(WORD addr)
 {
-    io_source_list_t *current = &c64io2_head;
-    int io_source_counter = 0;
-    BYTE real_retval;
-    BYTE retval = 0;
-
-    vicii_handle_pending_alarms_external(0);
-
-    while (current->next) {
-        current = current->next;
-        if (current->device->read != NULL) {
-            if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                retval = current->device->read((WORD)(addr & current->device->address_mask));
-                if (current->device->io_source_valid) {
-                    real_retval = retval;
-                    io_source_counter++;
-                }
-            } else {
-                current->device->io_source_valid = 0;
-            }
-        }
-    }
-
-    if (io_source_counter == 0) {
-        return vicii_read_phi1();
-    }
-
-    if (io_source_counter == 1) {
-        return retval;
-    }
-
-    io_source_msg_detach(addr, io_source_counter, &c64io2_head);
-
-    return vicii_read_phi1();
+    return io_read(&c64io2_head, addr);
 }
 
 void REGPARM2 c64io2_store(WORD addr, BYTE value)
 {
-    io_source_list_t *current = &c64io2_head;
-
-    vicii_handle_pending_alarms_external_write();
-
-    while (current->next) {
-        current = current->next;
-        if (current->device->store != NULL) {
-            if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                current->device->store((WORD)(addr & current->device->address_mask), value);
-            }
-        }
-    }
+    io_store(&c64io2_head, addr, value);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
 void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
-    io_source_list_t *current = &c64io1_head;
+    io_source_list_t *current = c64io1_head.next;
 
-    if (current->next != NULL) {
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address);
         current = current->next;
-        while (1) {
-            mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address);
-            if (current->next == NULL) {
-                break;
-            }
-            current = current->next;
-        }
     }
 
-    current = &c64io2_head;
-    
-    if (current->next != NULL) {
+    current = c64io2_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address);
         current = current->next;
-        while (1) {
-            mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address);
-            if (current->next == NULL) {
-                break;
-            }
-            current = current->next;
-        }
     }
 }
 

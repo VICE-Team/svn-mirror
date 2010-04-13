@@ -39,6 +39,5 @@ extern void actionreplay3_config_setup(BYTE *rawcart);
 extern int actionreplay3_bin_attach(const char *filename, BYTE *rawcart);
 extern int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart);
 extern void actionreplay3_detach(void);
-extern unsigned int actionreplay3_get_active(void);
 
 #endif

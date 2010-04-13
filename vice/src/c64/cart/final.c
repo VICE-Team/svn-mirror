@@ -54,7 +54,7 @@ static BYTE REGPARM1 warpspeed_io2_read(WORD addr);
 static void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value);
 
 static io_source_t final1_io1_device = {
-    "FINAL I",
+    "Final I",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -64,7 +64,7 @@ static io_source_t final1_io1_device = {
 };
 
 static io_source_t final1_io2_device = {
-    "FINAL I",
+    "Final I",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -77,7 +77,7 @@ static io_source_list_t *final1_io1_list_item = NULL;
 static io_source_list_t *final1_io2_list_item = NULL;
 
 static io_source_t final3_io1_device = {
-    "FINAL III",
+    "Final III",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -87,7 +87,7 @@ static io_source_t final3_io1_device = {
 };
 
 static io_source_t final3_io2_device = {
-    "FINAL III",
+    "Final III",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -166,6 +166,9 @@ BYTE REGPARM1 final_v3_io1_read(WORD addr)
 BYTE REGPARM1 final_v3_io2_read(WORD addr)
 {
     final3_io2_device.io_source_valid = 1;
+
+    addr |= 0xdf00;
+
     switch (roml_bank) {
         case 0:
             return roml_banks[addr & 0x1fff];
@@ -176,6 +179,7 @@ BYTE REGPARM1 final_v3_io2_read(WORD addr)
         case 3:
             return roml_banks[(addr & 0x1fff) + 0x6000];
     }
+
     final3_io2_device.io_source_valid = 0;
     return 0;
 }

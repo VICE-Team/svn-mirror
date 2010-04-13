@@ -40,7 +40,6 @@
 #include "resources.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 static BYTE stardos_kernal[C64_KERNAL_ROM_SIZE];
 static int cnt_de61, cnt_dfa1;
@@ -74,7 +73,7 @@ static BYTE REGPARM1 stardos_io2_read(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stardos_io1_device = {
-    "STARDOS",
+    "StarDOS",
     IO_DETACH_CART,
     NULL,
     0xde61, 0xde61, 0x01,
@@ -84,7 +83,7 @@ static io_source_t stardos_io1_device = {
 };
 
 static io_source_t stardos_io2_device = {
-    "STARDOS",
+    "StarDOS",
     IO_DETACH_CART,
     NULL,
     0xdfa1, 0xdfa1, 0x01,
@@ -109,7 +108,7 @@ static io_source_list_t *stardos_io2_list_item = NULL;
     the emulation somewhat replicates this behaviour (delayed charging of the
     capacitor) by using a counter that is equivalent to the "charge" of the
     caps- and we assume that 256 reads are needed to succesfully switch.
-	
+
     the second rom bank contains a kernal replacement. the necessary select 
     signal comes from a clip that has to be installed inside of the c64.
 */

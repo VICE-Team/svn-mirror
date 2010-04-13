@@ -36,14 +36,8 @@
 #include "c64io.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 static unsigned int ar_active;
-
-unsigned int actionreplay3_get_active(void)
-{
-    return ar_active;
-}
 
 /* ---------------------------------------------------------------------*/
 
@@ -52,7 +46,7 @@ static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 actionreplay3_io2_read(WORD addr);
 
 static io_source_t actionreplay3_io1_device = {
-    "ACTION REPLAY III",
+    "Action Replay III",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -62,7 +56,7 @@ static io_source_t actionreplay3_io1_device = {
 };
 
 static io_source_t actionreplay3_io2_device = {
-    "ACTION REPLAY III",
+    "Action Replay III",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -95,11 +89,14 @@ static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
 static BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
 {
     actionreplay3_io2_device.io_source_valid = 0;
+
     if (!ar_active) {
-        return vicii_read_phi1();
+        return 0;
     }
 
     actionreplay3_io2_device.io_source_valid = 1;
+
+    addr |= 0xdf00;
 
     switch (roml_bank) {
         case 0:

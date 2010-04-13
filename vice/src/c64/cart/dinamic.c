@@ -35,7 +35,6 @@
 #include "c64io.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 static void REGPARM2 dinamic_io1_store(WORD addr, BYTE value)
 {
@@ -45,7 +44,7 @@ static void REGPARM2 dinamic_io1_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t dinamic_device = {
-    "DINAMIC",
+    "Dinamic",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,

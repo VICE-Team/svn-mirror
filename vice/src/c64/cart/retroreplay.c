@@ -40,7 +40,6 @@
 #endif
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 /* Cart is activated.  */
 unsigned int rr_active;
@@ -67,7 +66,7 @@ static BYTE REGPARM1 retroreplay_io2_read(WORD addr);
 static void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t retroreplay_io1_device = {
-    "RETRO REPLAY",
+    "Retro Replay",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -77,7 +76,7 @@ static io_source_t retroreplay_io1_device = {
 };
 
 static io_source_t retroreplay_io2_device = {
-    "RETRO REPLAY",
+    "Retro Replay",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,

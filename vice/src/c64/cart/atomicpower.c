@@ -36,7 +36,6 @@
 #include "c64io.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 /* Atomic Power RAM hack.  */
 static int export_ram_at_a000 = 0;

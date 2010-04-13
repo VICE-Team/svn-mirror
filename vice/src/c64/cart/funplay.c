@@ -36,7 +36,6 @@
 #include "c64mem.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 {
@@ -51,7 +50,7 @@ static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t funplay_device = {
-    "FUN PLAY",
+    "Fun Play",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,

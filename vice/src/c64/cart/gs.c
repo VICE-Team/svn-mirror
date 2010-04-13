@@ -35,7 +35,6 @@
 #include "c64io.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 
 static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
 {
