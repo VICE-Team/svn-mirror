@@ -371,7 +371,7 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
     { N_("*Allow opposite directions"),
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("*Allow keyset joystick"),
-      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META },
+      (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { N_("Swap joystick ports"),
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { "--" },
