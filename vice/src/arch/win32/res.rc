@@ -1534,6 +1534,7 @@ BEGIN
   IDS_MI_TOGGLE_VIRTUAL_DEVICES   "&Virtual device traps"
   IDS_MI_TOGGLE_EMUID             "Emulator &Identification"
   IDS_MI_MOUSE                    "&Grab mouse events"
+  IDS_MI_C64MODEL_SETTINGS        "&C64 model settings..."
   IDS_MI_AUTOSTART_SETTINGS       "&Autostart settings..."
   IDS_MI_VIDEO_SETTINGS           "&Video settings..."
   IDS_MI_DEVICEMANAGER            "&Peripheral settings..."

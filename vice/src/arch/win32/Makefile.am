@@ -126,6 +126,8 @@ libarch_a_SOURCES = \
 	uiautostart.h \
 	uic128.c \
 	uic128.h \
+	uic64.c \
+	uic64.h \
 	uic64_256k.c \
 	uic64_256k.h \
 	uic64cart.c \

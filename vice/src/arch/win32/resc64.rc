@@ -219,6 +219,7 @@ BEGIN
     END
     POPUP "S&ettings"
     BEGIN
+        MENUITEM "", IDM_C64MODEL_SETTINGS
         MENUITEM "", IDM_AUTOSTART_SETTINGS
         MENUITEM "", IDM_VIDEO_SETTINGS
         MENUITEM "", IDM_DEVICEMANAGER
@@ -499,6 +500,53 @@ BEGIN
                     20, 120, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
                     80, 120, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_C64MODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 170
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "C64 model settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT         "C64 model", IDC_C64MODEL_LABEL,
+                  4, 12, 60, 8
+    COMBOBOX      IDC_C64MODEL_LIST,
+                  45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "VIC-II model", IDC_C64VICII_LABEL,
+                  4, 32, 60, 8
+    COMBOBOX      IDC_C64VICII_LIST,
+                  45, 31, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX  "New luminances", IDC_C64LUMINANCES,
+                  45, 46, 95, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT         "SID model", IDC_C64SID_LABEL,
+                  4, 62, 60, 8
+    COMBOBOX      IDC_C64SID_LIST,
+                  45, 61, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX      "CIA1", IDC_C64CIA1_LABEL,
+                  4, 77, 125, 20
+    AUTORADIOBUTTON "6526 (old)", IDC_C64CIA1_OLD,
+                  14, 85, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "6526A (new)", IDC_C64CIA1_NEW,
+                  70, 85, 55, 10, BS_AUTORADIOBUTTON
+    GROUPBOX      "CIA2", IDC_C64CIA2_LABEL,
+                  4, 99, 125, 20
+    AUTORADIOBUTTON "6526 (old)", IDC_C64CIA2_OLD,
+                  14, 107, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "6526A (new)", IDC_C64CIA2_NEW,
+                  70, 107, 55, 10, BS_AUTORADIOBUTTON
+    GROUPBOX      "Glue logic", IDC_C64GLUELOGIC_LABEL,
+                  4, 124, 125, 20
+    AUTORADIOBUTTON "Discrete", IDC_C64GLUE_DISCRETE,
+                  14, 132, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Custom IC", IDC_C64GLUE_IC,
+                  70, 132, 55, 10, BS_AUTORADIOBUTTON
+    DEFPUSHBUTTON   "Okay", IDOK,
+                    20, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL,
+                    80, 150, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------

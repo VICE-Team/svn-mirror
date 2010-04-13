@@ -38,6 +38,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
+#include "uic64.h"
 #include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uidigimax.h"
@@ -306,6 +307,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_TOGGLE_EMUID, IDS_MI_TOGGLE_EMUID },
     { IDM_MOUSE, IDS_MI_MOUSE },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
+    { IDM_C64MODEL_SETTINGS, IDS_MI_C64MODEL_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
     { IDM_JOY_SETTINGS, IDS_MI_JOY_SETTINGS },
@@ -496,6 +498,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
     uic64cart_proc(wparam, hwnd);
 
     switch (wparam) {
+        case IDM_C64MODEL_SETTINGS:
+            ui_c64model_settings_dialog(hwnd);
+            break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog(hwnd);
             break;

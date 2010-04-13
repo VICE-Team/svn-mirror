@@ -267,6 +267,10 @@ SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uic64.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic64_256k.c
 # End Source File
 # Begin Source File

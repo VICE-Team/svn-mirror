@@ -1,8 +1,8 @@
 /*
- * c64model.h - C64 model detection and setting.
+ * uic64.h - Implementation of the C64 specific settings dialog box.
  *
  * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,27 +24,9 @@
  *
  */
 
-#ifndef VICE_C64MODEL_H
-#define VICE_C64MODEL_H
+#ifndef VICE_UIC64_H
+#define VICE_UIC64_H
 
-#include "types.h"
-
-#define C64MODEL_C64_PAL     0
-#define C64MODEL_C64C_PAL    1
-#define C64MODEL_C64_OLD_PAL 2
-
-#define C64MODEL_C64_NTSC     3
-#define C64MODEL_C64C_NTSC    4
-#define C64MODEL_C64_OLD_NTSC 5
-
-#define C64MODEL_UNKNOWN 99
-
-extern int c64model_get(void);
-extern int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
-                             int cia1_model, int cia2_model, int new_luma);
-extern void c64model_set(int model);
-extern void c64model_set_temp(int model, int *vicii_model, int *sid_model,
-                              int *glue_logic, int *cia1_model, int *cia2_model,
-                              int *new_luma);
+extern void ui_c64model_settings_dialog(HWND hwnd);
 
 #endif

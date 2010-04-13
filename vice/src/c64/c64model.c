@@ -78,59 +78,50 @@ static struct model_s c64models[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-
-int c64model_get(void)
+int c64model_get_temp(int vicii_model, int sid_model, int glue_logic, 
+                      int cia1_model, int cia2_model, int new_luma)
 {
-    int vicii_model, sid_model, glue_logic, cia_model, new_luma, new_sid;
+    int new_sid;
 
-    if (cia1_model == cia2_model) {
-        cia_model = cia1_model;
-    } else {
+    if (cia1_model != cia2_model) {
         return C64MODEL_UNKNOWN;
-    }
-
-    if ((resources_get_int("VICIIModel", &vicii_model) < 0)
-     || (resources_get_int("SidModel", &sid_model) < 0)
-     || (resources_get_int("GlueLogic", &glue_logic) < 0)
-     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
-        return -1;
     }
 
     new_sid = is_new_sid(sid_model);
 
     switch (vicii_model) {
         case VICII_MODEL_6569:
-            if (!glue_logic && !cia_model && !new_sid && new_luma) {
+            if (!glue_logic && !cia1_model && !new_sid && new_luma) {
                 return C64MODEL_C64_PAL;
             }
             break;
 
         case VICII_MODEL_8565:
-            if (glue_logic && cia_model && new_sid && new_luma) {
+            if (glue_logic && cia1_model && new_sid && new_luma) {
                 return C64MODEL_C64C_PAL;
             }
             break;
 
         case VICII_MODEL_6569R1:
-            if (!glue_logic && !cia_model && !new_sid && !new_luma) {
+            if (!glue_logic && !cia1_model && !new_sid && !new_luma) {
                 return C64MODEL_C64_OLD_PAL;
             }
             break;
 
         case VICII_MODEL_6567:
-            if (!glue_logic && !cia_model && !new_sid && new_luma) {
+            if (!glue_logic && !cia1_model && !new_sid && new_luma) {
                 return C64MODEL_C64_NTSC;
             }
             break;
 
         case VICII_MODEL_8562:
-            if (glue_logic && cia_model && new_sid && new_luma) {
+            if (glue_logic && cia1_model && new_sid && new_luma) {
                 return C64MODEL_C64C_NTSC;
             }
             break;
 
         case VICII_MODEL_6567R56A:
-            if (!glue_logic && !cia_model && !new_sid && !new_luma) {
+            if (!glue_logic && !cia1_model && !new_sid && !new_luma) {
                 return C64MODEL_C64_OLD_NTSC;
             }
             break;
@@ -140,6 +131,59 @@ int c64model_get(void)
     }
 
     return C64MODEL_UNKNOWN;
+}
+
+int c64model_get(void)
+{
+    int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma;
+    
+    if ((resources_get_int("VICIIModel", &vicii_model) < 0)
+     || (resources_get_int("SidModel", &sid_model) < 0)
+     || (resources_get_int("GlueLogic", &glue_logic) < 0)
+     || (resources_get_int("CIA1Model", &cia1_model) < 0)
+     || (resources_get_int("CIA2Model", &cia2_model) < 0)
+     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        return -1;
+    }
+
+    return c64model_get_temp(vicii_model, sid_model, glue_logic, 
+                            cia1_model, cia2_model, new_luma);
+}
+
+void c64model_set_temp(int model, int *vicii_model, int *sid_model,
+                       int *glue_logic, int *cia1_model, int *cia2_model,
+                       int *new_luma)
+{
+    int old_model;
+    int new_sid_model;
+    int old_type;
+    int new_type;
+
+    old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic, 
+                                  *cia1_model, *cia2_model, *new_luma);
+
+    if ((model == old_model) || (model == C64MODEL_UNKNOWN)) {
+        return;
+    }
+
+    *vicii_model = c64models[model].vicii;
+    *cia1_model = c64models[model].cia;
+    *cia2_model = c64models[model].cia;
+    *glue_logic = c64models[model].glue;
+    *new_luma = c64models[model].luma;
+
+    /* Only change the SID model if the model changes from 6581 to 8580
+       or ReSID-fp wasn't used. This allows to switch between "pal"/"oldpal"
+       without changing the specific SID model. ReSID-fp is enforced, since
+       x64sc aims for accuracy. */
+    new_sid_model = c64models[model].sid;
+
+    old_type = is_new_sid(*sid_model);
+    new_type = is_new_sid(new_sid_model);
+
+    if (((*sid_model >> 8) !=  SID_ENGINE_RESID_FP) || (old_type != new_type)) {
+        *sid_model = (SID_ENGINE_RESID_FP << 8 ) | new_sid_model;
+    }
 }
 
 void c64model_set(int model)
