@@ -199,11 +199,9 @@ static void uic64_update_controls(HWND hwnd, int mode)
 
         sub_hwnd = GetDlgItem(hwnd, IDC_C64SID_LIST);
         SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
-		log_debug("sid_model=%d  sid_engine=%d" ,sid_model,sid_engine);
         for (i = 0; ui_c64sid_engine_model[i]; i++) {
             _stprintf(st, TEXT("%s"), ui_c64sid_engine_model[i]);
             SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-			log_debug("sid_model_values[%d]=%d",i,ui_c64sid_engine_model_values[i]);
             if (ui_c64sid_engine_model_values[i] == ((sid_engine << 8 ) | sid_model)) {
                 active_value = i;
             }

@@ -61,11 +61,18 @@ typedef enum {
 struct ui_menu_toggle_s {
     /* Name of resource.  */
     const char *name;
-
     /* ID of the corresponding menu item.  */
     UINT item_id;
 };
 typedef struct ui_menu_toggle_s ui_menu_toggle_t;
+
+struct ui_menu_toggle_by_machine_s {
+    /* Machine class  */
+    int machine_class;
+    /* ID of the corresponding menu item.  */
+    UINT item_id;
+};
+typedef struct ui_menu_toggle_by_machine_s ui_menu_toggle_by_machine_t;
 
 struct ui_res_possible_values_s {
     int value;

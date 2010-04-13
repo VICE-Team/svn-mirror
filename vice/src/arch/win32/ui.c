@@ -117,11 +117,18 @@ static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg, WPARAM wparam, LP
 static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
 
 /* List of resources that can be grayed out from the menus.  */
-static const ui_menu_toggle_t grayed_list[] = {
+static const ui_menu_toggle_t grayed_list_res[] = {
 #ifdef HAVE_TFE
 /*    { "ETHERNET_DISABLED", IDM_TFE_SETTINGS }, */
 #endif /* #ifdef HAVE_TFE */
     { NULL, 0 }
+};
+
+static const ui_menu_toggle_by_machine_t grayed_list_machine[] = {
+    { VICE_MACHINE_C64SC, IDM_SYNC_FACTOR_PAL },
+    { VICE_MACHINE_C64SC, IDM_SYNC_FACTOR_NTSC },
+    { VICE_MACHINE_C64SC, IDM_SYNC_FACTOR_NTSCOLD },
+    { 0, 0 }
 };
 
 /* List of resources that can be switched on and off from the menus.  */
@@ -772,11 +779,17 @@ static void update_menus(HWND hwnd)
     const char *lang;
     HMENU menu = GetMenu(hwnd);
 
-    for (i = 0; grayed_list[i].name != NULL; i++) {
-        resources_get_int(grayed_list[i].name, &value);
-        EnableMenuItem(menu, grayed_list[i].item_id, value ? MF_GRAYED : MF_ENABLED);
+    for (i = 0; grayed_list_res[i].name != NULL; i++) {
+        resources_get_int(grayed_list_res[i].name, &value);
+        EnableMenuItem(menu, grayed_list_res[i].item_id, value ? MF_GRAYED : MF_ENABLED);
     }
-    
+
+    for (i = 0; grayed_list_machine[i].machine_class != 0; i++) {
+        if (machine_class == grayed_list_machine[i].machine_class) {
+            EnableMenuItem(menu, grayed_list_machine[i].item_id, MF_GRAYED);
+        }
+    }
+
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_int(toggle_list[i].name, &value);
         CheckMenuItem(menu, toggle_list[i].item_id, value ? MF_CHECKED : MF_UNCHECKED);
