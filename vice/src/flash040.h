@@ -1,5 +1,5 @@
 /*
- * flash040.h - (AM)29F040(B) Flash emulation.
+ * flash040.h - (AM)29F0[14]0(B) Flash emulation.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
@@ -30,8 +30,12 @@
 #include "types.h"
 
 enum flash040_type_s {
+    /* 29F040 */
     FLASH040_TYPE_NORMAL,
+    /* 29F040B */
     FLASH040_TYPE_B,
+    /* 29F010 */
+    FLASH040_TYPE_010,
     FLASH040_TYPE_NUM
 };
 typedef enum flash040_type_s flash040_type_t;

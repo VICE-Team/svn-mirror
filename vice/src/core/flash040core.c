@@ -1,5 +1,5 @@
 /*
- * flash040core.c - (AM)29F040(B) Flash emulation.
+ * flash040core.c - (AM)29F0[14]0(B) Flash emulation.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
@@ -51,6 +51,8 @@ struct flash_types_s {
     BYTE manufacturer_ID;
     BYTE device_ID;
     unsigned int size;
+    unsigned int sector_mask;
+    unsigned int sector_size;
     unsigned int magic_1_addr;
     unsigned int magic_2_addr;
     unsigned int magic_1_mask;
@@ -59,8 +61,18 @@ struct flash_types_s {
 typedef struct flash_types_s flash_types_t;
 
 static flash_types_t flash_types[FLASH040_TYPE_NUM] = {
-    { 0x01, 0xa4, 0x80000, 0x5555, 0x2aaa, 0x7fff, 0x7fff },
-    { 0x01, 0xa4, 0x80000, 0x555,  0x2aa,  0x7ff,  0x7ff  }
+    /* 29F040 */
+    { 0x01, 0xa4,
+      0x80000, 0x70000, 0x10000,
+      0x5555, 0x2aaa, 0x7fff, 0x7fff },
+    /* 29F040B */
+    { 0x01, 0xa4,
+      0x80000, 0x70000, 0x10000,
+      0x555,  0x2aa,  0x7ff,  0x7ff  },
+    /* 29F010 */
+    { 0x01, 0x20,
+      0x20000, 0x1c000, 0x04000,
+      0x5555, 0x2aaa, 0x7fff, 0x7fff },
 };
 
 /* -------------------------------------------------------------------------- */
@@ -77,10 +89,11 @@ inline static int flash_magic_2(flash040_context_t *flash040_context, unsigned i
 
 inline static void flash_erase_sector(flash040_context_t *flash040_context, unsigned int addr)
 {
-    unsigned int sector_addr = addr & 0xf0000;
+    unsigned int sector_addr = flash_types[flash040_context->flash_type].sector_mask & addr;
+    unsigned int sector_size = flash_types[flash040_context->flash_type].sector_size;
 
-    FLASH_DEBUG(("Erasing 0x%xXXXX", sector_addr >> 16));
-    memset(&(flash040_context->flash_data[sector_addr]), 0xff, 0x10000);
+    FLASH_DEBUG(("Erasing 0x%x - 0x%x", sector_addr, sector_addr + sector_size - 1));
+    memset(&(flash040_context->flash_data[sector_addr]), 0xff, sector_size);
     flash040_context->flash_dirty = 1;
 }
 
