@@ -46,6 +46,7 @@ struct rotation_s {
     unsigned int last_read_data;
     BYTE last_write_data;
     int bit_counter;
+    int zero_count;
 
     int frequency; /* 1x/2x speed toggle, index to rot_speed_bps */
     int speed_zone; /* speed zone within rot_speed_bps */
@@ -172,7 +173,7 @@ void rotation_rotate_disk(drive_t *dptr)
 {
     rotation_t *rptr;
     CLOCK delta;
-    int tdelta;
+    int tdelta, bit;
     int bits_moved = 0;
 
     rptr = &rotation[dptr->mynumber];
@@ -193,7 +194,6 @@ void rotation_rotate_disk(drive_t *dptr)
 
     if (dptr->read_write_mode) {
         while (bits_moved -- != 0) {
-            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | read_next_bit(dptr);
             /* GCR=0 support.
              * 
              * In the absence of 1-bits (magnetic flux changes), the drive
@@ -228,8 +228,16 @@ void rotation_rotate_disk(drive_t *dptr)
              * 53 11 52 22 24 AA AA AA AA AA AA AA A8 AA AA AA
              */
 
+            bit = read_next_bit(dptr);
+            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe);
+            
+            if (bit) {
+                rptr->zero_count = 0;
+                rptr->last_read_data |= 1;
+            }
+
             /* Simulate random magnetic flux events in our lame-ass emulation. */
-            if ((rptr->last_read_data & 0x3f) == 0x8 && RANDOM_nextInt(rptr) > (1 << 30)) {
+            if (++ rptr->zero_count > 8 && (rptr->last_read_data & 0x3f) == 0x8 && RANDOM_nextInt(rptr) > (1 << 30)) {
                 rptr->last_read_data |= 1;
                 /*
                  * Simulate loss of sync against the underlying platter.
