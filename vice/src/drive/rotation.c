@@ -40,13 +40,17 @@
 
 
 struct rotation_s {
-    unsigned long bits_moved;
     unsigned long accum;
-    int finish_byte;
-    int last_mode;
-	int frequency; /* 1x/2x speed toggle, index to rot_speed_bps */
-	int speed_zone; /* speed zone within rot_speed_bps */
     CLOCK rotation_last_clk;
+
+    unsigned int last_read_data;
+    BYTE last_write_data;
+    int bit_counter;
+
+    int frequency; /* 1x/2x speed toggle, index to rot_speed_bps */
+    int speed_zone; /* speed zone within rot_speed_bps */
+
+    unsigned long seed;
 };
 typedef struct rotation_s rotation_t;
 
@@ -60,8 +64,8 @@ static const int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
 
 void rotation_init(int freq, unsigned int dnr)
 {
-	rotation[dnr].frequency = freq;
-    rotation[dnr].bits_moved = rotation[dnr].accum = 0;
+    rotation[dnr].frequency = freq;
+    rotation[dnr].accum = 0;
 }
 
 void rotation_reset(drive_t *drive)
@@ -70,16 +74,17 @@ void rotation_reset(drive_t *drive)
 
     dnr = drive->mynumber;
 
+    rotation[dnr].last_read_data = 0;
+    rotation[dnr].last_write_data = 0;
+    rotation[dnr].bit_counter = 0;
     rotation[dnr].accum = 0;
-    rotation[dnr].bits_moved = 0;
-    rotation[dnr].finish_byte = 0;
-    rotation[dnr].last_mode = 1;
+    rotation[dnr].seed = 0;
     rotation[dnr].rotation_last_clk = *(drive->clk);
 }
 
 void rotation_speed_zone_set(unsigned int zone, unsigned int dnr)
 {
-	rotation[dnr].speed_zone = zone;
+    rotation[dnr].speed_zone = zone;
 }
 
 void rotation_table_get(DWORD *rotation_table_ptr)
@@ -93,10 +98,11 @@ void rotation_table_get(DWORD *rotation_table_ptr)
         rotation_table_ptr[dnr] = rotation[dnr].speed_zone;
 
         drive->snap_accum = rotation[dnr].accum;
-        drive->snap_bits_moved = rotation[dnr].bits_moved;
-        drive->snap_finish_byte = rotation[dnr].finish_byte;
-        drive->snap_last_mode = rotation[dnr].last_mode;
         drive->snap_rotation_last_clk = rotation[dnr].rotation_last_clk;
+        drive->snap_last_read_data = rotation[dnr].last_read_data;
+        drive->snap_last_write_data = rotation[dnr].last_write_data;
+        drive->snap_bit_counter = rotation[dnr].bit_counter;
+        drive->snap_seed = rotation[dnr].seed;
     }
 }
 
@@ -111,10 +117,11 @@ void rotation_table_set(DWORD *rotation_table_ptr)
         rotation[dnr].speed_zone = rotation_table_ptr[dnr];
 
         rotation[dnr].accum = drive->snap_accum;
-        rotation[dnr].bits_moved = drive->snap_bits_moved;
-        rotation[dnr].finish_byte = drive->snap_finish_byte;
-        rotation[dnr].last_mode = drive->snap_last_mode;
         rotation[dnr].rotation_last_clk = drive->snap_rotation_last_clk;
+        rotation[dnr].last_read_data = drive->snap_last_read_data;
+        rotation[dnr].last_write_data = drive->snap_last_write_data;
+        rotation[dnr].bit_counter = drive->snap_bit_counter;
+        rotation[dnr].seed = drive->snap_seed;
     }
 }
 
@@ -123,82 +130,40 @@ void rotation_overflow_callback(CLOCK sub, unsigned int dnr)
     rotation[dnr].rotation_last_clk -= sub;
 }
 
-void rotation_change_mode(unsigned int dnr)
+inline static void write_next_bit(drive_t *dptr, int value)
 {
-    rotation[dnr].finish_byte = 1;
+    int off = dptr->GCR_head_offset;
+    int byte_offset = off >> 3;
+    int bit = (~off) & 7;
+    dptr->GCR_head_offset = (off + 1) % (dptr->GCR_current_track_size << 3);
+
+    if (value) {
+        dptr->GCR_track_start_ptr[byte_offset] |= 1 << bit;
+    } else {
+        dptr->GCR_track_start_ptr[byte_offset] &= ~(1 << bit);
+    }
 }
 
-#if 0
-inline static unsigned int head_next2_offset(drive_t *dptr)
+inline static int read_next_bit(drive_t *dptr)
 {
-    return (dptr->GCR_head_offset + 2) % dptr->GCR_current_track_size;
-}
-#endif
+    int off = dptr->GCR_head_offset;
+    int byte_offset = off >> 3;
+    int bit = (~off) & 7;
+    dptr->GCR_head_offset = (off + 1) % (dptr->GCR_current_track_size << 3);
 
-inline static unsigned int head_next_offset(drive_t *dptr)
-{
-    return (dptr->GCR_head_offset + 1) % dptr->GCR_current_track_size;
+    return (dptr->GCR_track_start_ptr[byte_offset] >> bit) & 1;
 }
 
-inline static unsigned int head_current_offset(drive_t *dptr)
-{
-    return dptr->GCR_head_offset;
+inline static long RANDOM_nextInt(rotation_t *rptr) {
+    int bits = rptr->seed >> 15;
+    rptr->seed ^= rptr->accum;
+    rptr->seed = rptr->seed << 17 | bits;
+    return (long) rptr->seed;
 }
 
-inline static unsigned int head_previous_offset(drive_t *dptr)
-{
-    return (dptr->GCR_head_offset > 0)
-           ? dptr->GCR_head_offset - 1 : dptr->GCR_current_track_size - 1;
-}
-
-#if 0
-inline static unsigned int head_previous2_offset(drive_t *dptr)
-{
-    return (dptr->GCR_head_offset + dptr->GCR_current_track_size - 2)
-           % dptr->GCR_current_track_size;
-}
-
-inline static BYTE peek_next2(drive_t *dptr)
-{
-    return dptr->GCR_track_start_ptr[head_next2_offset(dptr)];
-}
-#endif
-
-inline static BYTE peek_next(drive_t *dptr)
-{
-    return dptr->GCR_track_start_ptr[head_next_offset(dptr)];
-}
-
-inline static BYTE peek_current(drive_t *dptr)
-{
-    return dptr->GCR_track_start_ptr[head_current_offset(dptr)];
-}
-
-inline static BYTE peek_previous(drive_t *dptr)
-{
-    return dptr->GCR_track_start_ptr[head_previous_offset(dptr)];
-}
-
-#if 0
-inline static BYTE peek_previous2(drive_t *dptr)
-{
-    return dptr->GCR_track_start_ptr[head_previous2_offset(dptr)];
-}
-#endif
-
-inline static void data_write(drive_t *dptr)
-{
-    dptr->GCR_track_start_ptr[dptr->GCR_head_offset] = dptr->GCR_write_value;
-    dptr->GCR_head_offset = head_next_offset(dptr);
-}
-
-inline static void data_read(drive_t *dptr)
-{
-    dptr->GCR_read = peek_current(dptr);
-
-    if (dptr->GCR_head_bitoff > 0)
-        dptr->GCR_read = (dptr->GCR_read << dptr->GCR_head_bitoff)
-                         | (peek_next(dptr) >> (8 - dptr->GCR_head_bitoff));
+void rotation_begins(drive_t *dptr) {
+    unsigned int dnr = dptr->mynumber;
+    rotation[dnr].rotation_last_clk = *(dptr->clk);
 }
 
 /* Rotate the disk according to the current value of `drive_clk[]'.  If
@@ -207,7 +172,8 @@ void rotation_rotate_disk(drive_t *dptr)
 {
     rotation_t *rptr;
     CLOCK delta;
-	int tdelta;
+    int tdelta;
+    int bits_moved = 0;
 
     rptr = &rotation[dptr->mynumber];
 
@@ -217,132 +183,113 @@ void rotation_rotate_disk(drive_t *dptr)
     rptr->rotation_last_clk = *(dptr->clk);
 
     while (delta > 0) {
-		tdelta = delta > 1000 ? 1000 : delta;
-		delta -= tdelta;
+        tdelta = delta > 1000 ? 1000 : delta;
+        delta -= tdelta;
 
-		rptr->accum += rot_speed_bps[rptr->frequency][rptr->speed_zone] * tdelta;
-		rptr->bits_moved += rptr->accum / 1000000;
-		rptr->accum %= 1000000;
-	}
+        rptr->accum += rot_speed_bps[rptr->frequency][rptr->speed_zone] * tdelta;
+        bits_moved += rptr->accum / 1000000;
+        rptr->accum %= 1000000;
+    }
 
-    if (rptr->bits_moved >= 8) {
-        if (rptr->finish_byte) {
-            if (rptr->bits_moved >= 8) {
-                if (rptr->last_mode == 0) { /* write */
-                    dptr->GCR_dirty_track = 1;
-                    data_write(dptr);
-                } else { /* read */
-                    dptr->GCR_head_offset = head_next_offset(dptr);
-                    data_read(dptr);
+    if (dptr->read_write_mode) {
+        while (bits_moved -- != 0) {
+            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | read_next_bit(dptr);
+            /* GCR=0 support.
+             * 
+             * In the absence of 1-bits (magnetic flux changes), the drive
+             * will use a timer counter to count how many 0s it has read. Every
+             * 4 read bits, it will detect a 1-bit, because it doesn't
+             * distinguish between reset occuring from magnetic flux or regular
+             * wraparound.
+             * 
+             * Random magnetic flux events can also occur after GCR data has been
+             * quiet for a long time, for at least 4 bits. So the first value
+             * read will always be 1. Afterwards, the 0-bit sequence lengths
+             * vary randomly, but can never exceed 3.
+             * 
+             * Each time a random event happens, it tends to advance the bit counter
+             * by half a clock, because the random event can occur at any time
+             * and thus the expectation value is that it occurs at 50 % point
+             * within the bitcells.
+             * 
+             * Additionally, the underlying disk rotation has no way to keep in sync
+             * with the electronics, so the bitstream after a GCR=0 may or may not
+             * be shifted with respect to the bit counter by the time drive
+             * encounters it. This situation will persist until the next sync
+             * sequence. There is no specific emulation for variable disk rotation,
+             * this case is thought to be covered by the random event handling.
+             * 
+             * Here's some genuine 1541 patterns for reference:
+             * 
+             * 53 12 46 22 24 AA AA AA AA AA AA AA A8 AA AA AA
+             * 53 11 11 11 14 AA AA AA AA AA AA AA A8 AA AA AA
+             * 53 12 46 22 24 AA AA AA AA AA AA AA A8 AA AA AA
+             * 53 12 22 24 45 2A AA AA AA AA AA AA AA 2A AA AA
+             * 53 11 52 22 24 AA AA AA AA AA AA AA A8 AA AA AA
+             */
+
+            /* Simulate random magnetic flux events in our lame-ass emulation. */
+            if ((rptr->last_read_data & 0x3f) == 0x8 && RANDOM_nextInt(rptr) > (1 << 30)) {
+                rptr->last_read_data |= 1;
+                /*
+                 * Simulate loss of sync against the underlying platter.
+                 * Whenever 1-bits occur, there's a chance that they occured
+                 * due to a random magnetic flux event, and can thus occur
+                 * at any phase of the bit-cell clock.
+                 * 
+                 * It follows, therefore, that such events have a chance to
+                 * advance the bit_counter by about 0,5 clocks each time they
+                 * occur. Hence > 0 here, which filters out 50 % of events.
+                 */
+                if (rptr->bit_counter < 7 && RANDOM_nextInt(rptr) > 0) {
+                    rptr->bit_counter ++;
+                    rptr->last_read_data = (rptr->last_read_data << 1) & 0x3fe;
                 }
-                rptr->bits_moved -= 8;
+            } else if ((rptr->last_read_data & 0xf) == 0) {
+                // Simulate clock reset
+                rptr->last_read_data |= 1;
             }
+            rptr->last_write_data <<= 1;
 
-            rptr->finish_byte = 0;
-            rptr->last_mode = dptr->read_write_mode;
+            /* is sync? reset bit counter, don't move data, etc. */
+            if (rptr->last_read_data == 0x3ff) {
+                rptr->bit_counter = 0;
+            } else {
+                if (++ rptr->bit_counter == 8) {
+                    rptr->bit_counter = 0;
+                    dptr->GCR_read = (BYTE) rptr->last_read_data;
+                    // tlr claims that the write register is loaded at every
+                    // byte boundary, and since the bus is shared, it's reasonable
+                    // to guess that it would be loaded with whatever was last read.
+                    rptr->last_write_data = dptr->GCR_read;
+                    dptr->byte_ready_edge = 1;
+                    dptr->byte_ready_level = 1;
+                }
+            }
         }
-
-        if (rptr->last_mode == 0) {     /* write */
+    } else {
+        /* When writing, the first byte after transition is going to echo the
+         * bits from the last read value.
+         */
+        while (bits_moved -- != 0) {
+            rptr->last_read_data = (rptr->last_read_data << 1) & 0x3fe;
+            if ((rptr->last_read_data & 0xf) == 0) {
+                rptr->last_read_data |= 1;
+            }
+                
             dptr->GCR_dirty_track = 1;
-            while (rptr->bits_moved >= 8) {
-                data_write(dptr);
-                rptr->bits_moved -= 8;
+            write_next_bit(dptr, rptr->last_write_data & 0x80);
+            rptr->last_write_data <<= 1;
+
+            if (++ rptr->bit_counter == 8) {
+                rptr->bit_counter = 0;
+                rptr->last_write_data = dptr->GCR_write_value;
+                dptr->byte_ready_edge = 1;
+                dptr->byte_ready_level = 1;
             }
-        } else {                /* read */
-            dptr->GCR_head_offset = ((dptr->GCR_head_offset
-                                    + rptr->bits_moved / 8)
-                                    % dptr->GCR_current_track_size);
-            data_read(dptr);
-            rptr->bits_moved %= 8;
-            /*log_debug("HEAD %04i READ %02x", dptr->GCR_head_offset,
-                      dptr->GCR_read);*/
-            /* We could use this kludge
-            if (dptr->GCR_read == 0)
-                dptr->GCR_read = *(dptr->clk);
-            */
         }
-
-        /* The byte ready line is only set when no sync is found.  */
-        if (rotation_sync_found(dptr)) {
-            dptr->byte_ready_level = 1;
-            dptr->byte_ready_edge = 1;
-        }
-    } /* if (rptr->shifter >= 8) */
-}
-
-#ifdef NEW_SYNC
-inline static unsigned int count_sync_from_left(BYTE gcr_byte)
-{
-    unsigned int num;
-
-    for (num = 0; (gcr_byte & 0x80) != 0; gcr_byte <<= 1)
-        num++;
-
-    return num;
-}
-
-inline static unsigned int count_sync_from_right(BYTE gcr_byte)
-{
-    unsigned int num;
-
-    for (num = 0; (gcr_byte & 0x01) != 0; gcr_byte >>= 1)
-        num++;
-
-    return num;
-}
-#else
-#if 0
-inline static unsigned int is_one(DWORD gcr_data, unsigned int off)
-{
-    return ((gcr_data >> off) & 1);
-}
-
-inline static unsigned int count_sync_from_right(DWORD gcr_data,
-                                                 unsigned int off)
-{
-    unsigned int i, num;
-
-    for (i = off, num = 0; i < 32; i++) {
-        if (is_one(gcr_data, i))
-            num++;
-        else
-            break;
-    }
-
-    return num;
-}
-
-inline static void add_head_bitoff(drive_t *dptr, unsigned int inc)
-{
-    dptr->GCR_head_bitoff += inc;
-
-    if (dptr->GCR_head_bitoff >= 8) {
-        dptr->GCR_head_bitoff -= 8;
-        dptr->GCR_head_offset = head_next_offset(dptr);
     }
 }
-#else
-inline static unsigned int count_sync_from_left(BYTE gcr_byte)
-{
-    unsigned int num;
-
-    for (num = 0; (gcr_byte & 0x80) != 0; gcr_byte <<= 1)
-        num++;
-
-    return num;
-}
-
-inline static unsigned int count_sync_from_right(BYTE gcr_byte)
-{
-    unsigned int num;
-
-    for (num = 0; (gcr_byte & 0x01) != 0; gcr_byte >>= 1)
-        num++;
-
-    return num;
-}
-#endif
-#endif
 
 /* Return non-zero if the Sync mark is found.  It is required to
    call rotation_rotate_disk() to update drive[].GCR_head_offset first.
@@ -351,95 +298,12 @@ inline static unsigned int count_sync_from_right(BYTE gcr_byte)
    is found.  */
 BYTE rotation_sync_found(drive_t *dptr)
 {
-#ifdef NEW_SYNC
-    unsigned int dnr;
-    BYTE val, preval, nextval;
-    unsigned int sync_bits;
-    unsigned int num;
+    unsigned int dnr = dptr->mynumber;
 
-    dnr = dptr->mynumber;
-
-    if (rotation[dnr].last_mode == 0 || dptr->attach_clk != (CLOCK)0)
+    if (dptr->read_write_mode == 0 || dptr->attach_clk != (CLOCK)0)
         return 0x80;
 
-    val = peek_current(dptr);
-    preval = peek_previous(dptr);
-
-    sync_bits = count_sync_from_right(preval) + count_sync_from_left(val);
-
-    if (sync_bits >= 10)
-        return 0; /* found! */
-
-    if (val != 0xff) /* need to count sync bits from the right */
-        sync_bits = count_sync_from_right(val);        
-
-    nextval = peek_next(dptr);
-
-    num = count_sync_from_left(nextval);
-
-    sync_bits += (num < rotation[dnr].shifter) ? num : rotation[dnr].shifter;
-
-    return (sync_bits >= 10) ? 0 : 0x80;
-
-    /* As the current rotation code cannot cope with non byte aligned
-       writes, do not change `drive[].bits_moved'!  */
-    /* dptr->bits_moved = 0; */
-#else
-#if 0
-    unsigned int dnr;
-    DWORD val;
-    unsigned int offset;
-
-    dnr = dptr->mynumber;
-
-    if (rotation[dnr].last_mode == 0 || dptr->attach_clk != (CLOCK)0)
-        return 0x80;
-
-    val = (peek_previous(dptr) << 24) | (peek_current(dptr) << 16)
-          | (peek_next(dptr) << 8) | peek_next2(dptr);
-
-    offset = 16 - dptr->GCR_head_bitoff - rotation[dnr].shifter;
-
-    if (count_sync_from_right(val, offset) >= 10) {
-        /*add_head_bitoff(dptr->bits_moved);*/
-        /*dptr->bits_moved = 0;*/
-        return 0; /* found! */
-    }
-
-    return 0x80;
-#else
-    unsigned int dnr;
-    BYTE val;
-    unsigned int sync_bits;
-    unsigned int num;
-
-    dnr = dptr->mynumber;
-
-    if (rotation[dnr].last_mode == 0 || dptr->attach_clk != (CLOCK)0)
-        return 0x80;
-
-    val = peek_current(dptr);
-
-    sync_bits = count_sync_from_right(peek_previous(dptr))
-                + count_sync_from_left(val);
-
-    if (sync_bits >= 10)
-        return 0; /* found! */
-
-    if (val != 0xff) /* need to count sync bits from the right */
-        sync_bits = count_sync_from_right(val);
-
-    num = count_sync_from_left(peek_next(dptr));
-
-    sync_bits += (num < rotation[dnr].bits_moved) ? num : rotation[dnr].bits_moved;
-
-    return (sync_bits >= 10) ? 0 : 0x80;
-
-    /* As the current rotation code cannot cope with non byte aligned
-       writes, do not change `drive[].bits_moved'!  */
-    /* dptr->bits_moved = 0; */
-#endif
-#endif
+    return rotation[dnr].last_read_data == 0x3ff ? 0 : 0x80;
 }
 
 void rotation_byte_read(drive_t *dptr)

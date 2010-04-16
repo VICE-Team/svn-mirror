@@ -129,7 +129,6 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     if ((byte & 0x10) != (tpi_context->oldpc & 0x10)) {
         if (tpip->drive->byte_ready_active == 0x06)
             rotation_rotate_disk(tpip->drive);
-        rotation_change_mode(tpip->number);
     }
 }
 

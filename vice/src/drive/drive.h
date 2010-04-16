@@ -146,9 +146,6 @@ typedef struct drive_s {
     /* Offset of the R/W head on the current track (bytes).  */
     unsigned int GCR_head_offset;
 
-    /* Offset of the R/W head on the current track (bits).  */
-    unsigned int GCR_head_bitoff;
-
     /* Are we in read or write mode?  */
     int read_write_mode;
 
@@ -172,11 +169,12 @@ typedef struct drive_s {
     BYTE GCR_read;
 
     /* Only used for snapshot */
-    unsigned long snap_bits_moved;
     unsigned long snap_accum;
-    int snap_finish_byte;
-    int snap_last_mode;
     CLOCK snap_rotation_last_clk;
+    int snap_last_read_data;
+    BYTE snap_last_write_data;
+    int snap_bit_counter;
+    int snap_seed;
 
     /* UI stuff.  */
     int old_led_status;

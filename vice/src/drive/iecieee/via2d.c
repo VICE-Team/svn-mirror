@@ -94,9 +94,12 @@ BYTE REGPARM2 via2d_peek(drive_context_t *ctxptr, WORD addr)
 
 void via2d_update_pcr(int pcrval, drive_t *dptr)
 {
+    int bra = dptr->byte_ready_active;
     dptr->read_write_mode = pcrval & 0x20;
-    dptr->byte_ready_active = (dptr->byte_ready_active & ~0x02)
-                              | (pcrval & 0x02);
+    dptr->byte_ready_active = (bra & ~0x02) | (pcrval & 0x02);
+    if (dptr->byte_ready_active == 6 && bra != 6) {
+        rotation_begins(dptr);
+    }
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
@@ -123,6 +126,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
                       WORD addr)
 {
     drivevia2_context_t *via2p;
+    int bra;
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
@@ -141,10 +145,13 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     }
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
-    if ((poldpb ^ byte) & 0x04)     /* Motor on/off */
-        via2p->drive->byte_ready_active
-            = (via2p->drive->byte_ready_active & ~0x04)
-                                     | (byte & 0x04);
+    if ((poldpb ^ byte) & 0x04) {   /* Motor on/off */
+        bra = via2p->drive->byte_ready_active;
+        via2p->drive->byte_ready_active = (bra & ~0x04) | (byte & 0x04);
+        if (via2p->drive->byte_ready_active == 6 && bra != 6) {
+            rotation_begins(via2p->drive);
+        }
+    }
 
     via2p->drive->byte_ready_level = 0;
 }
@@ -182,7 +189,6 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         if ((byte & 0x20) != (via_context->via[addr] & 0x20)) {
             if (via2p->drive->byte_ready_active == 0x06)
                 rotation_rotate_disk(via2p->drive);
-            rotation_change_mode(via2p->number);
         }
     }
     return byte;

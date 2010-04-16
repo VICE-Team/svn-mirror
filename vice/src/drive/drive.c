@@ -464,19 +464,11 @@ void drive_set_half_track(int num, drive_t *dptr)
                                 * NUM_MAX_BYTES_TRACK));
 
     if (dptr->GCR_current_track_size != 0)
-#if 0
-        dptr->GCR_head_offset
-            *= (dptr->gcr->track_size[dptr->current_half_track
-            / 2 - 1]) / dptr->GCR_current_track_size;
-#else
         dptr->GCR_head_offset = (dptr->GCR_head_offset
             * dptr->gcr->track_size[dptr->current_half_track / 2 - 1])
             / dptr->GCR_current_track_size;
-#endif
     else
         dptr->GCR_head_offset = 0;
-
-    dptr->GCR_head_bitoff = 0;
 
     drive_current_track_size_set(dptr);
 }
@@ -767,4 +759,3 @@ void drive_setup_context(void)
         drive_setup_context_for_drive(drive_context[dnr], dnr);
     }
 }
-

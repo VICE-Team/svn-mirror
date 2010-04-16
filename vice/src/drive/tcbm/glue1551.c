@@ -70,8 +70,12 @@ static void glue_pport_update(drive_context_t *drv)
     }
 
     /* Motor on/off.  */
-    if ((old_output ^ output) & 0x04)
+    if ((old_output ^ output) & 0x04) {
         drv->drive->byte_ready_active = (output & 0x04) ? 0x06 : 0;
+        if (drv->drive->byte_ready_active == 0x06) {
+            rotation_begins(drv->drive);
+        }
+    }
 
     /* Drive active LED.  */
     drv->drive->led_status = (output & 8) ? 0 : 1;
