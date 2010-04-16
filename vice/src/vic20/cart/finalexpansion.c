@@ -35,6 +35,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "finalexpansion.h"
 #include "flash040.h"
 #include "log.h"
@@ -597,8 +598,7 @@ int finalexpansion_bin_attach(const char *filename)
     /* flash040core_init() does not clear the flash */
     memset(cart_flash, 0xff, CART_ROM_SIZE);
 
-    /* should we guard this? */
-    flash040core_init(&flash_state, FLASH040_TYPE_B, cart_flash);
+    flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_B, cart_flash);
 
     util_string_set(&cartfile, filename);
     if ( zfile_load(filename, flash_state.flash_data) < 0 ) {
@@ -753,7 +753,7 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
         cart_flash = lib_malloc(CART_ROM_SIZE);
     }
 
-    flash040core_init(&flash_state, FLASH040_TYPE_B, cart_flash);
+    flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_B, cart_flash);
 
     if (0
         || (SMR_B(m, &register_a) < 0)

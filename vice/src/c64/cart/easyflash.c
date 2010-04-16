@@ -41,6 +41,7 @@
 #include "flash040.h"
 #include "lib.h"
 #include "log.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
 #include "translate.h"
@@ -258,10 +259,10 @@ void easyflash_config_setup(BYTE *rawcart)
     easyflash_state_low = lib_malloc(sizeof(flash040_context_t));
     easyflash_state_high = lib_malloc(sizeof(flash040_context_t));
 
-    flash040core_init(easyflash_state_low, FLASH040_TYPE_B, roml_banks);
+    flash040core_init(easyflash_state_low, maincpu_alarm_context, FLASH040_TYPE_B, roml_banks);
     memcpy(easyflash_state_low->flash_data, rawcart, 0x80000);
 
-    flash040core_init(easyflash_state_high, FLASH040_TYPE_B, romh_banks);
+    flash040core_init(easyflash_state_high, maincpu_alarm_context, FLASH040_TYPE_B, romh_banks);
     memcpy(easyflash_state_high->flash_data, rawcart + 0x80000, 0x80000);
 }
 

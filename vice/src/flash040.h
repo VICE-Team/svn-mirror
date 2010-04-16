@@ -46,29 +46,35 @@ enum flash040_state_s {
     FLASH040_STATE_MAGIC_2,
     FLASH040_STATE_AUTOSELECT,
     FLASH040_STATE_BYTE_PROGRAM,
-    FLASH040_STATE_BYTE_PROGRAM_HAPPENING,
     FLASH040_STATE_BYTE_PROGRAM_ERROR,
     FLASH040_STATE_ERASE_MAGIC_1,
     FLASH040_STATE_ERASE_MAGIC_2,
     FLASH040_STATE_ERASE_SELECT,
     FLASH040_STATE_CHIP_ERASE,
     FLASH040_STATE_SECTOR_ERASE,
-    FLASH040_STATE_SECTOR_ERASE_SUSPEND,
+    FLASH040_STATE_SECTOR_ERASE_TIMEOUT,
+    FLASH040_STATE_SECTOR_ERASE_SUSPEND
 };
 typedef enum flash040_state_s flash040_state_t;
 
 typedef struct flash040_context_s {
     BYTE *flash_data;
     flash040_state_t flash_state;
+
     BYTE program_byte;
+    BYTE erase_mask;
     int flash_dirty;
 
     flash040_type_t flash_type;
 
     BYTE last_read;
+    struct alarm_s *erase_alarm;
 } flash040_context_t;
 
+struct alarm_context_s;
+
 extern void flash040core_init(struct flash040_context_s *flash040_context,
+                              struct alarm_context_s *alarm_context,
                               flash040_type_t type, BYTE *data);
 extern void flash040core_shutdown(struct flash040_context_s *flash040_context);
 extern void flash040core_reset(struct flash040_context_s *flash040_context);
@@ -82,7 +88,7 @@ extern BYTE REGPARM2 flash040core_peek(struct flash040_context_s *flash040_conte
 
 struct snapshot_s;
 
-extern int flash040core_snapshot_write_module(struct snapshot_s *s, 
+extern int flash040core_snapshot_write_module(struct snapshot_s *s,
                                               struct flash040_context_s *flash040_context,
                                               const char *name);
 extern int flash040core_snapshot_read_module(struct snapshot_s *s,

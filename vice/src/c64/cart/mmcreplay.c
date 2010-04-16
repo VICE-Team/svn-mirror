@@ -2419,7 +2419,7 @@ void mmcreplay_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, MMCREPLAY_FLASHROM_SIZE);
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
-    flash040core_init(flashrom_state, FLASH040_TYPE_NORMAL, roml_banks);
+    flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_NORMAL, roml_banks);
     memcpy(flashrom_state->flash_data, rawcart, MMCREPLAY_FLASHROM_SIZE);
 
     mmcreplay_set_stdcfg();
