@@ -246,7 +246,7 @@ void rotation_rotate_disk(drive_t *dptr)
                     rptr->last_read_data = (rptr->last_read_data << 1) & 0x3fe;
                 }
             } else if ((rptr->last_read_data & 0xf) == 0) {
-                // Simulate clock reset
+                /* Simulate clock reset */
                 rptr->last_read_data |= 1;
             }
             rptr->last_write_data <<= 1;
@@ -258,9 +258,9 @@ void rotation_rotate_disk(drive_t *dptr)
                 if (++ rptr->bit_counter == 8) {
                     rptr->bit_counter = 0;
                     dptr->GCR_read = (BYTE) rptr->last_read_data;
-                    // tlr claims that the write register is loaded at every
-                    // byte boundary, and since the bus is shared, it's reasonable
-                    // to guess that it would be loaded with whatever was last read.
+                    /* tlr claims that the write register is loaded at every
+                     * byte boundary, and since the bus is shared, it's reasonable
+                     * to guess that it would be loaded with whatever was last read. */
                     rptr->last_write_data = dptr->GCR_read;
                     dptr->byte_ready_edge = 1;
                     dptr->byte_ready_level = 1;
