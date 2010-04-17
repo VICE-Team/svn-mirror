@@ -71,6 +71,7 @@ BYTE vbuf_pipe1_reg = 0;
 BYTE xscroll_pipe = 0;
 BYTE vmode11_pipe = 0;
 BYTE vmode16_pipe = 0;
+BYTE vmode16_pipe2 = 0;
 
 /* gbuf shift register */
 BYTE gbuf_reg = 0;
@@ -115,12 +116,18 @@ static BYTE cregs[0x2f];
 static unsigned int cycle_flags_pipe;
 
 
+/**************************************************************************
+ *
+ * SECTION  draw_graphics()
+ *   
+ ******/
+
 static const BYTE colors[] = {
-    COL_D021,   COL_NONE,   COL_NONE,   COL_CBUF,   /* ECM=0 BMM=0 MCM=0 */
+    COL_D021,   COL_D021,   COL_CBUF,   COL_CBUF,   /* ECM=0 BMM=0 MCM=0 */
     COL_D021,   COL_D022,   COL_D023,   COL_CBUF_MC,/* ECM=0 BMM=0 MCM=1 */
-    COL_VBUF_L, COL_NONE,   COL_NONE,   COL_VBUF_H, /* ECM=0 BMM=1 MCM=0 */
+    COL_VBUF_L, COL_VBUF_L,   COL_VBUF_H,   COL_VBUF_H, /* ECM=0 BMM=1 MCM=0 */
     COL_D021,   COL_VBUF_H, COL_VBUF_L, COL_CBUF,   /* ECM=0 BMM=1 MCM=1 */
-    COL_D02X_EXT, COL_NONE,  COL_NONE,  COL_CBUF,   /* ECM=1 BMM=0 MCM=0 */
+    COL_D02X_EXT, COL_D02X_EXT, COL_CBUF,  COL_CBUF,   /* ECM=1 BMM=0 MCM=0 */
     COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE,   /* ECM=1 BMM=0 MCM=1 */
     COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE,   /* ECM=1 BMM=1 MCM=0 */
     COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE    /* ECM=1 BMM=1 MCM=1 */
@@ -147,7 +154,7 @@ static DRAW_INLINE void draw_graphics(int i)
      * read pixels depending on video mode
      * mc pixels if MCM=1 and BMM=1, or MCM=1 and cbuf bit 3 = 1
      */
-    if ( (vmode & 0x04) &&
+    if ( (vmode16_pipe2 & 0x04) &&
          ((vmode & 0x08) || (cbuf_reg & 0x08)) ) {
         /* mc pixels */
         if (gbuf_mc_flop) {
@@ -155,7 +162,7 @@ static DRAW_INLINE void draw_graphics(int i)
         }
     } else {
         /* hires pixels */
-        gbuf_pixel_reg = (gbuf_reg & 0x80) ? 3 : 0;
+        gbuf_pixel_reg = (gbuf_reg & 0x80) ? 2 : 0;
     }
     px = gbuf_pixel_reg;
 
@@ -218,6 +225,10 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
     /* pixel 6 */
     draw_graphics(6);
     /* pixel 7 */
+    if ( (vicii.regs[0x16] & 0x10) && !vmode16_pipe2 ) {
+        gbuf_mc_flop = 0;
+    }
+    vmode16_pipe2 = ( vicii.regs[0x16] & 0x10 ) >> 2;
     draw_graphics(7);
 
     /* shift and put the next data into the pipe. */
@@ -257,6 +268,11 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
 
 
 
+/**************************************************************************
+ *
+ * SECTION  draw_sprites()
+ *   
+ ******/
 static DRAW_INLINE BYTE get_trigger_candidates(int xpos)
 {
     int s;
@@ -491,7 +507,11 @@ static DRAW_INLINE void draw_sprites8(unsigned int cycle_flags)
 }
 
 
-
+/**************************************************************************
+ *
+ * SECTION  draw_border()
+ *   
+ ******/
 
 static DRAW_INLINE void draw_border8(void)
 {
@@ -513,6 +533,11 @@ static DRAW_INLINE void draw_border8(void)
 }
 
 
+/**************************************************************************
+ *
+ * SECTION  draw_colors()
+ *   
+ ******/
 
 static DRAW_INLINE void update_cregs(void)
 {
@@ -544,6 +569,12 @@ static DRAW_INLINE void draw_colors8(void)
     update_cregs();
 }
 
+
+/**************************************************************************
+ *
+ * SECTION  vicii_draw_cycle()
+ *   
+ ******/
 
 void vicii_draw_cycle(void)
 {
