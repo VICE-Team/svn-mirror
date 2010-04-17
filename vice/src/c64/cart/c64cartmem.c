@@ -52,6 +52,7 @@
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "final3.h"
 #include "funplay.h"
 #include "gamekiller.h"
 #include "generic.h"
@@ -81,6 +82,8 @@
 #include "supersnapshot.h"
 #include "types.h"
 #include "vicii-phi1.h"
+#include "warpspeed.h"
+#include "westermann.h"
 #include "zaxxon.h"
 
 /* #define DEBUG */

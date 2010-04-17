@@ -42,6 +42,8 @@ libc64cart_a_SOURCES = \
 	expert.h \
 	final.c \
 	final.h \
+	final3.c \
+	final3.h \
 	funplay.c \
 	funplay.h \
 	gamekiller.c \
@@ -86,5 +88,9 @@ libc64cart_a_SOURCES = \
 	supergames.h \
 	supersnapshot.c \
 	supersnapshot.h \
+	warpspeed.c \
+	warpspeed.h \
+	westermann.c \
+	westermann.h \
 	zaxxon.c \
 	zaxxon.h

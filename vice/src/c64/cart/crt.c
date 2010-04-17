@@ -48,6 +48,7 @@
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "final3.h"
 #include "funplay.h"
 #include "gamekiller.h"
 #include "generic.h"
@@ -69,6 +70,8 @@
 #include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
+#include "warpspeed.h"
+#include "westermann.h"
 #include "zaxxon.h"
 
 int crttype = 0;
