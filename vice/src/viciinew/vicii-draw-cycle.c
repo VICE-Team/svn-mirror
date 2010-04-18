@@ -154,11 +154,15 @@ static DRAW_INLINE void draw_graphics(int i)
      * read pixels depending on video mode
      * mc pixels if MCM=1 and BMM=1, or MCM=1 and cbuf bit 3 = 1
      */
-    if ( (vmode16_pipe2 & 0x04) &&
-         ((vmode & 0x08) || (cbuf_reg & 0x08)) ) {
-        /* mc pixels */
-        if (gbuf_mc_flop) {
-            gbuf_pixel_reg = gbuf_reg >> 6;
+    if ( (vmode16_pipe2 & 0x04) ) {
+        if ( (vmode & 0x08) || (cbuf_reg & 0x08) ) {
+            /* mc pixels */
+            if (gbuf_mc_flop) {
+                gbuf_pixel_reg = gbuf_reg >> 6;
+            }
+        } else {
+            /* hires pixels */
+            gbuf_pixel_reg = (gbuf_reg & 0x80) ? 3 : 0;
         }
     } else {
         /* hires pixels */
