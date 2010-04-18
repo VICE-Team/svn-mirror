@@ -149,13 +149,12 @@ static DRAW_INLINE void draw_graphics(int i)
         gbuf_mc_flop = 1;
     }
 
-    vmode = vmode11_pipe | vmode16_pipe;
     /* 
      * read pixels depending on video mode
      * mc pixels if MCM=1 and BMM=1, or MCM=1 and cbuf bit 3 = 1
      */
-    if ( (vmode16_pipe2 & 0x04) ) {
-        if ( (vmode & 0x08) || (cbuf_reg & 0x08) ) {
+    if ( vmode16_pipe2 ) {
+        if ( (vmode11_pipe & 0x08) || (cbuf_reg & 0x08) ) {
             /* mc pixels */
             if (gbuf_mc_flop) {
                 gbuf_pixel_reg = gbuf_reg >> 6;
@@ -175,6 +174,7 @@ static DRAW_INLINE void draw_graphics(int i)
     gbuf_mc_flop ^= 1;
 
     /* Determine pixel color and priority */
+    vmode = vmode11_pipe | vmode16_pipe;
     pixel_pri = (px & 0x2);
     cc = colors[vmode | px];
 
@@ -223,17 +223,27 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
     draw_graphics(3);
     /* pixel 4 */
     vmode16_pipe = ( vicii.regs[0x16] & 0x10 ) >> 2;
+    if (vicii.color_latency) {
+        vmode11_pipe |= ( vicii.regs[0x11] & 0x60 ) >> 2;
+    }
     draw_graphics(4);
     /* pixel 5 */
     draw_graphics(5);
     /* pixel 6 */
+    if (vicii.color_latency) {
+        vmode11_pipe &= ( vicii.regs[0x11] & 0x60 ) >> 2;
+    }
     draw_graphics(6);
     /* pixel 7 */
-    if ( (vicii.regs[0x16] & 0x10) && !vmode16_pipe2 ) {
+    if ( vmode16_pipe && !vmode16_pipe2 ) {
         gbuf_mc_flop = 0;
     }
-    vmode16_pipe2 = ( vicii.regs[0x16] & 0x10 ) >> 2;
+    vmode16_pipe2 = vmode16_pipe;
     draw_graphics(7);
+
+    if (!vicii.color_latency) {
+        vmode11_pipe = ( vicii.regs[0x11] & 0x60 ) >> 2;
+    }
 
     /* shift and put the next data into the pipe. */
     vbuf_pipe1_reg = vbuf_pipe0_reg;
@@ -267,7 +277,6 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
         dmli = 0;
     }
 
-    vmode11_pipe = ( vicii.regs[0x11] & 0x60 ) >> 2;
 }
 
 
