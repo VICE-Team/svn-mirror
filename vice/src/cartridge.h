@@ -49,9 +49,7 @@ extern void cartridge_detach(int type);
 extern void cartridge_freeze(int type);
 
 /* Known cartridge types.  */
-#define CARTRIDGE_IEEE488           -11
 #define CARTRIDGE_ULTIMAX           -6
-#define CARTRIDGE_SUPER_SNAPSHOT    -4
 #define CARTRIDGE_GENERIC_8KB       -3
 #define CARTRIDGE_GENERIC_16KB      -2
 #define CARTRIDGE_NONE              -1
@@ -97,6 +95,8 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_MMC64              37
 #define CARTRIDGE_MMC_REPLAY         38
 #define CARTRIDGE_IDE64              39
+#define CARTRIDGE_SUPER_SNAPSHOT     40
+#define CARTRIDGE_IEEE488            41
 
 #define CARTRIDGE_P64                64 /* FIXME */
 #define CARTRIDGE_GAME_KILLER        65 /* FIXME */

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,6 +39,41 @@
 #include "cartridge.h"
 #include "final3.h"
 #include "types.h"
+#include "util.h"
+
+/*
+   The Final Cartridge 3
+
+   - 4 16K ROM Banks at $8000/$a000 (=64K)
+
+        Bank 0:  BASIC, Monitor, Disk-Turbo
+        Bank 1:  Notepad, BASIC (Menu Bar)
+        Bank 2:  Desktop, Freezer/Print
+        Bank 3:  Freezer, Compression
+
+   - the cartridges uses the entire io1 and io2 range
+
+   - one register at $DFFF:
+
+    7      Hide this register (1 = hidden)
+    6      NMI line   (0 = low = active) *1)
+    5      GAME line  (0 = low = active) *2)
+    4      EXROM line (0 = low = active)
+    2-3    unassigned (usually set to 0)
+    0-1    number of bank to show at $8000
+
+    1) if either the freezer button is pressed, or bit 6 is 0, then
+       an NMI is generated
+
+    2) if the freezer button is pressed, GAME is also forced low
+
+    - the rest of io1/io2 contain a mirror of the last 2 pages of the
+      currently selected rom bank (also at $dfff, contrary to what some
+      other documents say)
+
+*/
+
+static int fc3_reg_enabled = 1;
 
 /* some prototypes are needed */
 static BYTE REGPARM1 final_v3_io1_read(WORD addr);
@@ -59,7 +95,7 @@ static io_source_t final3_io2_device = {
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
-    0,
+    1, /* read is always valid */
     final_v3_io2_store,
     final_v3_io2_read
 };
@@ -76,29 +112,14 @@ BYTE REGPARM1 final_v3_io1_read(WORD addr)
 
 BYTE REGPARM1 final_v3_io2_read(WORD addr)
 {
-    final3_io2_device.io_source_valid = 1;
-
-    addr |= 0xdf00;
-
-    switch (roml_bank) {
-        case 0:
-            return roml_banks[addr & 0x1fff];
-        case 1:
-            return roml_banks[(addr & 0x1fff) + 0x2000];
-        case 2:
-            return roml_banks[(addr & 0x1fff) + 0x4000];
-        case 3:
-            return roml_banks[(addr & 0x1fff) + 0x6000];
-    }
-
-    final3_io2_device.io_source_valid = 0;
-    return 0;
+    return roml_banks[0x1f00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
 void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
 {
-    if ((addr & 0xff) == 0xff)  {
-        /* FIXME: Change this to call `cartridge_config_changed'.  */
+    if ((fc3_reg_enabled) && ((addr & 0xff) == 0xff)) {
+        fc3_reg_enabled = ((value >> 7) & 1) ^ 1;
+
         cartridge_romhbank_set(value & 3);
         cartridge_romlbank_set(value & 3);
         export.game = ((value >> 5) & 1) ^ 1;
@@ -106,11 +127,11 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
         mem_pla_config_changed();
         cart_ultimax_phi1 = export.game & (export.exrom ^ 1);
         cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
-        if ((value & 0x30) == 0x10) {
-            cartridge_trigger_freeze_nmi_only();
-        }
+
         if (value & 0x40) {
             cartridge_release_freeze();
+        } else {
+            cartridge_trigger_freeze_nmi_only();
         }
     }
 }
@@ -119,29 +140,21 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v3_roml_read(WORD addr)
 {
-    if (export_ram) {
-        return export_ram0[addr & 0x1fff];
-    }
-
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-void REGPARM2 final_v3_roml_store(WORD addr, BYTE value)
-{
-    if (export_ram) {
-        export_ram0[addr & 0x1fff] = value;
-    }
 }
 
 /* ---------------------------------------------------------------------*/
 
 void final_v3_freeze(void)
 {
-    cartridge_config_changed(3, 3, CMODE_READ);
+    fc3_reg_enabled = 1;
+    /* note: freeze does NOT force a specific bank like some other carts do */
+    cartridge_config_changed(3, (roml_bank << 3) | 3, CMODE_READ);;
 }
 
 void final_v3_config_init(void)
 {
+    fc3_reg_enabled = 1;
     cartridge_config_changed(1, 1, CMODE_READ);
 }
 
@@ -164,6 +177,27 @@ static const c64export_resource_t export_res_v3 = {
     "Final V3", 1, 0
 };
 
+static int final_v3_common_attach(void)
+{
+    if (c64export_add(&export_res_v3) < 0) {
+        return -1;
+    }
+
+    final3_io1_list_item = c64io_register(&final3_io1_device);
+    final3_io2_list_item = c64io_register(&final3_io2_device);
+
+    return 0;
+}
+
+int final_v3_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    return final_v3_common_attach();
+}
+
 int final_v3_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -183,14 +217,7 @@ int final_v3_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res_v3) < 0) {
-        return -1;
-    }
-
-    final3_io1_list_item = c64io_register(&final3_io1_device);
-    final3_io2_list_item = c64io_register(&final3_io2_device);
-
-    return 0;
+    return final_v3_common_attach();
 }
 
 void final_v3_detach(void)

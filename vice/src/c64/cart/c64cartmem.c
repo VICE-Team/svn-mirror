@@ -223,12 +223,6 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
         case CARTRIDGE_EXPERT:
             expert_roml_store(addr, value);
             return;
-        case CARTRIDGE_FINAL_I:
-            final_v1_roml_store(addr, value);
-            return;
-        case CARTRIDGE_FINAL_III:
-            final_v3_roml_store(addr, value);
-            return;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_roml_store(addr, value);
             return;

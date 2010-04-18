@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,6 +39,7 @@
 #include "cartridge.h"
 #include "final.h"
 #include "types.h"
+#include "util.h"
 
 /* some prototypes are needed */
 static BYTE REGPARM1 final_v1_io1_read(WORD addr);
@@ -72,13 +74,13 @@ static io_source_list_t *final1_io2_list_item = NULL;
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
-    cartridge_config_changed(0x42, 0x42, CMODE_READ);
+    cartridge_config_changed(2, 2 | 0x40, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
 void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 {
-    cartridge_config_changed(0x42, 0x42, CMODE_WRITE);
+    cartridge_config_changed(2, 2 | 0x40, CMODE_WRITE);
 }
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)
@@ -96,18 +98,7 @@ void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v1_roml_read(WORD addr)
 {
-    if (export_ram) {
-        return export_ram0[addr & 0x1fff];
-    }
-
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-void REGPARM2 final_v1_roml_store(WORD addr, BYTE value)
-{
-    if (export_ram) {
-        export_ram0[addr & 0x1fff] = value;
-    }
+    return roml_banks[(addr & 0x1fff)];
 }
 
 /* ---------------------------------------------------------------------*/
@@ -135,6 +126,27 @@ static const c64export_resource_t export_res_v1 = {
     "Final V1", 1, 0
 };
 
+static int final_v1_common_attach(void)
+{
+    if (c64export_add(&export_res_v1) < 0) {
+        return -1;
+    }
+
+    final1_io1_list_item = c64io_register(&final1_io1_device);
+    final1_io2_list_item = c64io_register(&final1_io2_device);
+
+    return 0;
+}
+
+int final_v1_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    return final_v1_common_attach();
+}
+
 int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -151,14 +163,7 @@ int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res_v1) < 0) {
-        return -1;
-    }
-
-    final1_io1_list_item = c64io_register(&final1_io1_device);
-    final1_io2_list_item = c64io_register(&final1_io2_device);
-
-    return 0;
+    return final_v1_common_attach();
 }
 
 void final_v1_detach(void)

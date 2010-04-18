@@ -42,6 +42,8 @@
 #include "cmdline.h"
 #include "crt.h"
 #include "expert.h"
+#include "final.h"
+#include "final3.h"
 #include "gamekiller.h"
 #include "generic.h"
 #include "ide64.h"
@@ -241,6 +243,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 512kB MMC Replay cartridge image") },
+    { "-cartfc", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_I, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB Final Cartridge image") },
+    { "-cartfc3", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_III, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 64kB Final Cartridge 3 image") },
     { "-cartide", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_IDE64, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -452,6 +464,16 @@ int cartridge_attach_image(int type, const char *filename)
             break;
         case CARTRIDGE_GAME_KILLER:
             if (gamekiller_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_FINAL_I:
+            if (final_v1_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_FINAL_III:
+            if (final_v3_bin_attach(filename, rawcart) < 0) {
                 goto done;
             }
             break;

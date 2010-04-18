@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,9 +34,9 @@
 
 extern void final_v1_freeze(void);
 extern BYTE REGPARM1 final_v1_roml_read(WORD addr);
-extern void REGPARM2 final_v1_roml_store(WORD addr, BYTE value);
 extern void final_v1_config_init(void);
 extern void final_v1_config_setup(BYTE *rawcart);
+extern int final_v1_bin_attach(const char *filename, BYTE *rawcart);
 extern int final_v1_crt_attach(FILE *fd, BYTE *rawcart);
 extern void final_v1_detach(void);
 
