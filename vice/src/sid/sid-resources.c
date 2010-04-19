@@ -63,7 +63,7 @@ static int sid_hardsid_main;
 static int sid_hardsid_right;
 #endif
 #ifdef HAVE_PARSID
-int parsid_port=0;
+int parsid_port = 0;
 #endif
 
 int sidcart_enabled;
@@ -94,6 +94,18 @@ static int set_sid_engine(int set_engine, void *param)
 {
     int engine = set_engine;
 
+    if (engine == SID_ENGINE_DEFAULT) {
+#ifdef HAVE_RESID
+        if (machine_class == VICE_MACHINE_C64SC) {
+            engine = SID_ENGINE_RESID_FP;
+        } else {
+            engine = SID_ENGINE_RESID;
+        }
+#else
+        engine = SID_ENGINE_FASTSID;
+#endif
+    }
+
     if (engine != SID_ENGINE_FASTSID
 #ifdef HAVE_RESID
         && engine != SID_ENGINE_RESID
@@ -112,21 +124,26 @@ static int set_sid_engine(int set_engine, void *param)
         && engine != SID_ENGINE_PARSID_PORT2
         && engine != SID_ENGINE_PARSID_PORT3
 #endif
-        )
+        ) {
         return -1;
+    }
 
-    if (sid_engine_set(engine) < 0)
+    if (sid_engine_set(engine) < 0) {
         return -1;
+    }
 
     sid_engine = engine;
 
 #ifdef HAVE_PARSID
-    if (engine == SID_ENGINE_PARSID_PORT1)
-      parsid_port=1;
-    if (engine == SID_ENGINE_PARSID_PORT2)
-      parsid_port=2;
-    if (engine == SID_ENGINE_PARSID_PORT3)
-      parsid_port=3;
+    if (engine == SID_ENGINE_PARSID_PORT1) {
+        parsid_port = 1;
+    }
+    if (engine == SID_ENGINE_PARSID_PORT2) {
+        parsid_port = 2;
+    }
+    if (engine == SID_ENGINE_PARSID_PORT3) {
+        parsid_port = 3;
+    }
 #endif
 
     sound_state_changed = 1;
@@ -177,6 +194,8 @@ static int set_sid_model(int val, void *param)
 #ifdef HAVE_RESID
         if (machine_class == VICE_MACHINE_C64DTV) {
             sid_model = SID_MODEL_DTVSID;
+        } else if (machine_class == VICE_MACHINE_C64SC) {
+            sid_model = SID_MODEL_6581R4AR_3789;
         } else
 #endif
         {
@@ -200,8 +219,7 @@ static int set_sid_resid_passband(int i, void *param)
 {
     if (i < 0) {
         i = 0;
-    }
-    else if (i > 90) {
+    } else if (i > 90) {
         i = 90;
     }
 
@@ -212,10 +230,11 @@ static int set_sid_resid_passband(int i, void *param)
 
 static int set_sid_resid_gain(int i, void *param)
 {
-    if (i < 90)
+    if (i < 90) {
         i = 90;
-    else if (i > 100)
+    } else if (i > 100) {
         i = 100;
+    }
 
     sid_resid_gain = i;
     sid_state_changed = 1;
@@ -245,21 +264,25 @@ static int set_sid_hardsid_right(int val, void *param)
 #ifdef HAVE_PARSID
 static int set_sid_parsid_port(int val, void *param)
 {
-    if (val == parsid_port)
+    if (val == parsid_port) {
         return 0;
+    }
 
     if (sid_engine == SID_ENGINE_PARSID_PORT1
         || sid_engine == SID_ENGINE_PARSID_PORT2
         || sid_engine == SID_ENGINE_PARSID_PORT3) {
-        if (parsid_check_port(val) < 0)
+        if (parsid_check_port(val) < 0) {
             return -1;
-        else {
-            if (val == 1)
+        } else {
+            if (val == 1) {
                 sid_engine = SID_ENGINE_PARSID_PORT1;
-            if (val == 2)
+            }
+            if (val == 2) {
                 sid_engine = SID_ENGINE_PARSID_PORT2;
-            if (val == 3)
+            }
+            if (val == 3) {
                 sid_engine = SID_ENGINE_PARSID_PORT3;
+            }
         }
     }
     parsid_port = val;
@@ -282,15 +305,9 @@ static const resource_int_t sidcart_resources_int[] = {
 };
 
 static const resource_int_t sidengine_resources_int[] = {
-#ifdef HAVE_RESID
-    { "SidEngine", SID_ENGINE_RESID,
+    { "SidEngine", SID_ENGINE_DEFAULT,
       RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
       &sid_engine, set_sid_engine, NULL },
-#else
-    { "SidEngine", SID_ENGINE_FASTSID,
-      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID, /* FIXME: deadl. */
-      &sid_engine, set_sid_engine, NULL },
-#endif
     { NULL }
 };
 
@@ -328,20 +345,22 @@ static const resource_int_t common_resources_int[] = {
 
 int sidcart_resources_init(void)
 {
-    if (resources_register_int(sidcart_resources_int)<0)
+    if (resources_register_int(sidcart_resources_int) < 0) {
         return -1;
+    }
 
     return resources_register_int(common_resources_int);
 }
 
 int sid_resources_init(void)
 {
-    if (resources_register_int(sidengine_resources_int)<0)
+    if (resources_register_int(sidengine_resources_int) < 0) {
         return -1;
-
+    }
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
-    if (resources_register_int(resid_resources_int)<0)
+    if (resources_register_int(resid_resources_int) < 0) {
         return -1;
+    }
 #endif
 
     return resources_register_int(common_resources_int);
