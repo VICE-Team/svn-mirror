@@ -93,6 +93,7 @@ typedef struct cia_context_s {
     BYTE todalarm[4];
     BYTE todlatch[4];
     int todticks;                 /* init to 100000 */
+    BYTE todtickcounter;
     signed int log;               /* init to LOG_ERR */
 
     struct ciat_s *ta;

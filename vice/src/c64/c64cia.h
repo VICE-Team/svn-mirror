@@ -54,4 +54,7 @@ extern void cia1_check_lightpen(void);
 extern void cia1_update_model(void);
 extern void cia2_update_model(void);
 
+extern void cia1_set_timing(struct cia_context_s *cia_context, int todticks);
+extern void cia2_set_timing(struct cia_context_s *cia_context, int todticks);
+
 #endif

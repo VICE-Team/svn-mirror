@@ -266,7 +266,7 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->rmw_flag = &maincpu_rmw_flag;
     cia->clk_ptr = &maincpu_clk;
 
-    cia->todticks = 100000;
+    cia->todticks = C64_PAL_CYCLES_PER_RFSH;
 
     ciacore_setup_context(cia);
 
@@ -296,4 +296,9 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->pre_store = pre_store;
     cia->pre_read = pre_read;
     cia->pre_peek = pre_peek;
+}
+
+void cia1_set_timing(cia_context_t *cia_context, int todticks)
+{
+    cia_context->todticks = todticks;
 }

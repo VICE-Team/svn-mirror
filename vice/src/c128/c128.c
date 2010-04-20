@@ -737,6 +737,9 @@ void machine_change_timing(int timeval)
 
     vicii_change_timing(&machine_timing, border_mode);
 
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
+    cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_rfsh);
+
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
 
