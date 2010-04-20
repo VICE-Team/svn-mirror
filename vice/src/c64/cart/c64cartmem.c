@@ -957,9 +957,6 @@ void cartridge_freeze(int type)
             gamekiller_freeze();
             break;
     }
-    if (isepic_enabled && isepic_switch) {
-        isepic_freeze();
-    }
 }
 
 int cartridge_save_image(const char *filename)

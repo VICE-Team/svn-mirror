@@ -78,7 +78,14 @@
 #include "translate.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
+
+/* #define DEBUGISEPIC */
+
+#ifdef DEBUGISEPIC
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -105,7 +112,7 @@ static void REGPARM2 isepic_window_store(WORD addr, BYTE byte);
 static io_source_t isepic_io1_device = {
     "ISEPIC",
     IO_DETACH_RESOURCE,
-    "Isepic",
+    "ISEPIC",
     0xde00, 0xdeff, 0x07,
     0, /* read is never valid */
     isepic_reg_store,
@@ -115,7 +122,7 @@ static io_source_t isepic_io1_device = {
 static io_source_t isepic_io2_device = {
     "ISEPIC",
     IO_DETACH_RESOURCE,
-    "Isepic",
+    "ISEPIC",
     0xdf00, 0xdfff, 0xff,
     0,
     isepic_window_store,
@@ -173,17 +180,12 @@ static int set_isepic_switch(int val, void *param)
     return 0;
 }
 
-void isepic_freeze(void)
-{
-    cartridge_config_changed(2, 3, 0);
-}
-
 /* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_int[] = {
-    { "Isepic", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "ISEPIC", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &isepic_enabled, set_isepic_enabled, NULL },
-    { "IsepicSwitch", 0, RES_EVENT_STRICT, (resource_value_t)1,
+    { "ISEPICSwitch", 0, RES_EVENT_STRICT, (resource_value_t)1,
       &isepic_switch, set_isepic_switch, NULL },
     { NULL }
 };
@@ -219,6 +221,8 @@ int isepic_cmdline_options_init(void)
 
 BYTE REGPARM1 isepic_reg_read(WORD addr)
 {
+    DBG(("io1 r %04x (sw:%d)\n", addr, isepic_switch));
+
     if (isepic_switch) {
         isepic_page = ((addr & 4) >> 2) | (addr & 2) | ((addr & 1) << 2);
     }
@@ -227,6 +231,8 @@ BYTE REGPARM1 isepic_reg_read(WORD addr)
 
 void REGPARM2 isepic_reg_store(WORD addr, BYTE byte)
 {
+    DBG(("io1 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
+
     if (isepic_switch) {
         isepic_page = ((addr & 4) >> 2) | (addr & 2) | ((addr & 1) << 2);
     }
@@ -236,10 +242,12 @@ BYTE REGPARM1 isepic_window_read(WORD addr)
 {
     BYTE retval = 0;
 
-    isepic_io1_device.io_source_valid = 0;
+    DBG(("io2 r %04x (sw:%d) (p:%d)\n", addr, isepic_switch, isepic_page));
+
+    isepic_io2_device.io_source_valid = 0;
 
     if (isepic_switch) {
-        isepic_io1_device.io_source_valid = 1;
+        isepic_io2_device.io_source_valid = 1;
         retval = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
     }
 
@@ -248,6 +256,8 @@ BYTE REGPARM1 isepic_window_read(WORD addr)
 
 void REGPARM2 isepic_window_store(WORD addr, BYTE byte)
 {
+    DBG(("io2 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
+
     if (isepic_switch) {
         isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
     }

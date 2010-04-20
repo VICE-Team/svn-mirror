@@ -34,7 +34,6 @@ extern int isepic_switch;
 
 extern int isepic_resources_init(void);
 extern int isepic_cmdline_options_init(void);
-extern void isepic_freeze(void);
 
 extern BYTE REGPARM1 isepic_romh_read(WORD addr);
 extern void REGPARM2 isepic_romh_store(WORD addr, BYTE byte);
