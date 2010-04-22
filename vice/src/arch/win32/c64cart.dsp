@@ -150,11 +150,19 @@ SOURCE="..\..\c64\cart\final.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\final3.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\funplay.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\c64\cart\gamekiller.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\generic.c"
 # End Source File
 # Begin Source File
 
@@ -231,6 +239,14 @@ SOURCE="..\..\c64\cart\supergames.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\supersnapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\warpspeed.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\westermann.c"
 # End Source File
 # Begin Source File
 
