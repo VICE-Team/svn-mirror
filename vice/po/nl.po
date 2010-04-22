@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-30 21:04+0200\n"
+"POT-Creation-Date: 2010-04-22 20:36+0200\n"
 "PO-Revision-Date: 2008-06-11 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -76,14 +76,14 @@ msgid "Specify baudrate of 4th RS232 device"
 msgstr "Geef de baudrate van het vierde RS232-apparaat"
 
 #: src/arch/unix/gui/c128ui.c:76 src/arch/unix/gui/c64dtvui.c:61
-#: src/arch/unix/gui/c64ui.c:80 src/arch/unix/gui/cbm2ui.c:64
+#: src/arch/unix/gui/c64ui.c:81 src/arch/unix/gui/cbm2ui.c:64
 #: src/arch/unix/gui/uited.c:58 src/arch/unix/gui/uivic.c:51
 #: src/arch/unix/gui/vsidui.c:287
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:78 src/arch/unix/gui/c64dtvui.c:63
-#: src/arch/unix/gui/c64ui.c:82 src/arch/unix/gui/cbm2ui.c:66
+#: src/arch/unix/gui/c64ui.c:83 src/arch/unix/gui/cbm2ui.c:66
 #: src/arch/unix/gui/uited.c:60 src/arch/unix/gui/uivic.c:53
 #: src/arch/unix/gui/vsidui.c:289
 msgid "*NTSC-M"
@@ -91,22 +91,23 @@ msgstr "*NTSC-M"
 
 #: src/arch/unix/gui/c128ui.c:181 src/arch/unix/gui/c128ui.c:204
 #: src/arch/unix/gui/c64dtvui.c:74 src/arch/unix/gui/c64dtvui.c:92
-#: src/arch/unix/gui/c64ui.c:231 src/arch/unix/gui/c64ui.c:254
+#: src/arch/unix/gui/c64ui.c:232 src/arch/unix/gui/c64ui.c:255
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:316
 #: src/arch/unix/gui/petui.c:120 src/arch/unix/gui/plus4ui.c:109
 #: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:201
+#: src/arch/win32/resc64.rc.po.c:493
 msgid "SID model"
 msgstr "SID-model"
 
 #: src/arch/unix/gui/c128ui.c:184 src/arch/unix/gui/c128ui.c:208
-#: src/arch/unix/gui/c64ui.c:234 src/arch/unix/gui/c64ui.c:258
+#: src/arch/unix/gui/c64ui.c:235 src/arch/unix/gui/c64ui.c:259
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:320
 #: src/arch/unix/gui/vsidui.c:204
 msgid "*Second SID"
 msgstr "*Tweede SID"
 
 #: src/arch/unix/gui/c128ui.c:186 src/arch/unix/gui/c128ui.c:210
-#: src/arch/unix/gui/c64ui.c:236 src/arch/unix/gui/c64ui.c:260
+#: src/arch/unix/gui/c64ui.c:237 src/arch/unix/gui/c64ui.c:261
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:322
 #: src/arch/unix/gui/vsidui.c:206
 msgid "*Second SID base address"
@@ -114,7 +115,7 @@ msgstr "*Tweede SID-basisadres"
 
 #: src/arch/unix/gui/c128ui.c:189 src/arch/unix/gui/c128ui.c:212
 #: src/arch/unix/gui/c64dtvui.c:77 src/arch/unix/gui/c64dtvui.c:96
-#: src/arch/unix/gui/c64ui.c:239 src/arch/unix/gui/c64ui.c:262
+#: src/arch/unix/gui/c64ui.c:240 src/arch/unix/gui/c64ui.c:263
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:325
 #: src/arch/unix/gui/petui.c:122 src/arch/unix/gui/plus4ui.c:111
 #: src/arch/unix/gui/vic20ui.c:148 src/arch/unix/gui/vsidui.c:209
@@ -122,19 +123,19 @@ msgid "*Emulate filters"
 msgstr "*Emuleer filters"
 
 #: src/arch/unix/gui/c128ui.c:193 src/arch/unix/gui/c64dtvui.c:81
-#: src/arch/unix/gui/c64ui.c:243 src/arch/unix/gui/cbm2ui.c:305
+#: src/arch/unix/gui/c64ui.c:244 src/arch/unix/gui/cbm2ui.c:305
 #: src/arch/unix/gui/vsidui.c:215
 msgid "reSID sampling method"
 msgstr "reSID-samplingmethode"
 
 #: src/arch/unix/gui/c128ui.c:195 src/arch/unix/gui/c64dtvui.c:83
-#: src/arch/unix/gui/c64ui.c:245 src/arch/unix/gui/cbm2ui.c:307
+#: src/arch/unix/gui/c64ui.c:246 src/arch/unix/gui/cbm2ui.c:307
 #: src/arch/unix/gui/vsidui.c:217
 msgid "reSID resampling passband..."
 msgstr "resamplingdoorlaatband van reSID..."
 
 #: src/arch/unix/gui/c128ui.c:206 src/arch/unix/gui/c64dtvui.c:94
-#: src/arch/unix/gui/c64ui.c:256 src/arch/unix/gui/cbm2ui.c:318
+#: src/arch/unix/gui/c64ui.c:257 src/arch/unix/gui/cbm2ui.c:318
 #: src/arch/unix/gui/uisound.c:127
 msgid "*Enable sound playback"
 msgstr "*Geluidsuitvoer aan"
@@ -172,39 +173,39 @@ msgstr "Externe functie-ROM naam..."
 msgid "Function ROM"
 msgstr "Functie-ROM"
 
-#: src/arch/unix/gui/c128ui.c:264 src/arch/unix/gui/c64ui.c:273
+#: src/arch/unix/gui/c128ui.c:264 src/arch/unix/gui/c64ui.c:274
 msgid "RAM Expansion Unit"
 msgstr "RAM-uitbreidingseenheid (REU)"
 
-#: src/arch/unix/gui/c128ui.c:266 src/arch/unix/gui/c64ui.c:275
+#: src/arch/unix/gui/c128ui.c:266 src/arch/unix/gui/c64ui.c:276
 msgid "GEORAM Expansion Unit"
 msgstr "GEORAM-uitbreidingseenheid"
 
-#: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64ui.c:277
+#: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64ui.c:278
 msgid "RAM Expansion Cart"
 msgstr "RAM-uitbreidingscart"
 
-#: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64ui.c:283
+#: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64ui.c:284
 msgid "EasyFlash cartridge"
 msgstr "EasyFlash cartridge"
 
-#: src/arch/unix/gui/c128ui.c:272 src/arch/unix/gui/c64ui.c:291
+#: src/arch/unix/gui/c128ui.c:272 src/arch/unix/gui/c64ui.c:292
 msgid "MMC64 emulation"
 msgstr "MMC64-emulatie"
 
-#: src/arch/unix/gui/c128ui.c:274 src/arch/unix/gui/c64ui.c:293
+#: src/arch/unix/gui/c128ui.c:274 src/arch/unix/gui/c64ui.c:296
 msgid "Digimax Cart"
 msgstr "Digimax Cart"
 
-#: src/arch/unix/gui/c128ui.c:276 src/arch/unix/gui/c64ui.c:295
+#: src/arch/unix/gui/c128ui.c:276 src/arch/unix/gui/c64ui.c:298
 msgid "IDE64 emulation"
 msgstr "IDE64-emulatie"
 
-#: src/arch/unix/gui/c128ui.c:279 src/arch/unix/gui/c64ui.c:298
+#: src/arch/unix/gui/c128ui.c:279 src/arch/unix/gui/c64ui.c:301
 msgid "Ethernet emulation"
 msgstr "Ethernetemulatie"
 
-#: src/arch/unix/gui/c128ui.c:282 src/arch/unix/gui/c64ui.c:301
+#: src/arch/unix/gui/c128ui.c:282 src/arch/unix/gui/c64ui.c:304
 #: src/arch/unix/gui/petui.c:227 src/arch/unix/gui/vic20ui.c:239
 msgid "*Emulator identification"
 msgstr "*Emulatoridentificatie"
@@ -213,24 +214,24 @@ msgstr "*Emulatoridentificatie"
 msgid "*IEEE488 interface emulation"
 msgstr "*IEEE488-interfaceemulatie"
 
-#: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:304
+#: src/arch/unix/gui/c128ui.c:287 src/arch/unix/gui/c64ui.c:307
 msgid "*Mouse Emulation"
 msgstr "*Muisemulatie"
 
-#: src/arch/unix/gui/c128ui.c:289 src/arch/unix/gui/c64ui.c:306
+#: src/arch/unix/gui/c128ui.c:289 src/arch/unix/gui/c64ui.c:309
 #: src/arch/unix/gui/vic20ui.c:497
 msgid "*Lightpen Emulation"
 msgstr "Lichtpen Emulatie"
 
-#: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:310
+#: src/arch/unix/gui/c128ui.c:293 src/arch/unix/gui/c64ui.c:313
 msgid "MIDI Emulation"
 msgstr "MIDI-emulatie"
 
-#: src/arch/unix/gui/c128ui.c:296 src/arch/unix/gui/c64ui.c:313
+#: src/arch/unix/gui/c128ui.c:296 src/arch/unix/gui/c64ui.c:316
 msgid "*SFX Sound Expander emulation"
 msgstr "*SFX Sound Expander emulatie"
 
-#: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:315
+#: src/arch/unix/gui/c128ui.c:298 src/arch/unix/gui/c64ui.c:318
 msgid "*SFX Sound Sampler emulation"
 msgstr "*SFX Sound Sampler emulatie"
 
@@ -259,41 +260,41 @@ msgid "Load new Chargen ROM"
 msgstr "Laad nieuw Chargen-ROM"
 
 #: src/arch/unix/gui/c128ui.c:327 src/arch/unix/gui/c64dtvui.c:129
-#: src/arch/unix/gui/c64ui.c:336 src/arch/unix/gui/plus4ui.c:140
+#: src/arch/unix/gui/c64ui.c:339 src/arch/unix/gui/plus4ui.c:140
 #: src/arch/unix/gui/vic20ui.c:171
 msgid "Load default ROMs"
 msgstr "Laad standaard-ROMs"
 
 #: src/arch/unix/gui/c128ui.c:331 src/arch/unix/gui/c64dtvui.c:133
-#: src/arch/unix/gui/c64ui.c:340 src/arch/unix/gui/cbm2ui.c:96
+#: src/arch/unix/gui/c64ui.c:343 src/arch/unix/gui/cbm2ui.c:96
 #: src/arch/unix/gui/petui.c:251 src/arch/unix/gui/plus4ui.c:144
 #: src/arch/unix/gui/vic20ui.c:174
 msgid "Load new computer ROM"
 msgstr "Laad nieuw computer-ROM"
 
 #: src/arch/unix/gui/c128ui.c:333 src/arch/unix/gui/c64dtvui.c:135
-#: src/arch/unix/gui/c64ui.c:342 src/arch/unix/gui/cbm2ui.c:98
+#: src/arch/unix/gui/c64ui.c:345 src/arch/unix/gui/cbm2ui.c:98
 #: src/arch/unix/gui/petui.c:253 src/arch/unix/gui/plus4ui.c:146
 #: src/arch/unix/gui/vic20ui.c:176
 msgid "Load new drive ROM"
 msgstr "Laad nieuw drive-ROM"
 
 #: src/arch/unix/gui/c128ui.c:336 src/arch/unix/gui/c64dtvui.c:138
-#: src/arch/unix/gui/c64ui.c:345 src/arch/unix/gui/cbm2ui.c:101
+#: src/arch/unix/gui/c64ui.c:348 src/arch/unix/gui/cbm2ui.c:101
 #: src/arch/unix/gui/petui.c:256 src/arch/unix/gui/plus4ui.c:149
 #: src/arch/unix/gui/vic20ui.c:179
 msgid "ROM set type"
 msgstr "ROM set type"
 
 #: src/arch/unix/gui/c128ui.c:339 src/arch/unix/gui/c64dtvui.c:141
-#: src/arch/unix/gui/c64ui.c:348 src/arch/unix/gui/cbm2ui.c:132
+#: src/arch/unix/gui/c64ui.c:351 src/arch/unix/gui/cbm2ui.c:132
 #: src/arch/unix/gui/petui.c:290 src/arch/unix/gui/plus4ui.c:152
 #: src/arch/unix/gui/vic20ui.c:182
 msgid "ROM set archive"
 msgstr "ROM set archief"
 
 #: src/arch/unix/gui/c128ui.c:341 src/arch/unix/gui/c64dtvui.c:143
-#: src/arch/unix/gui/c64ui.c:350 src/arch/unix/gui/cbm2ui.c:134
+#: src/arch/unix/gui/c64ui.c:353 src/arch/unix/gui/cbm2ui.c:134
 #: src/arch/unix/gui/petui.c:292 src/arch/unix/gui/plus4ui.c:154
 #: src/arch/unix/gui/vic20ui.c:184
 msgid "ROM set file"
@@ -354,7 +355,7 @@ msgid "*Always switch to C64 mode"
 msgstr "*Altijd naar C64-modus schakelen"
 
 #: src/arch/unix/gui/c128ui.c:416 src/arch/unix/gui/c64dtvui.c:177
-#: src/arch/unix/gui/c64ui.c:384 src/arch/unix/gui/cbm2ui.c:354
+#: src/arch/unix/gui/c64ui.c:387 src/arch/unix/gui/cbm2ui.c:354
 msgid "VIC-II settings"
 msgstr "VIC-II-instellingen"
 
@@ -363,7 +364,7 @@ msgid "VDC settings"
 msgstr "VDC-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:420 src/arch/unix/gui/c64dtvui.c:179
-#: src/arch/unix/gui/c64ui.c:386 src/arch/unix/gui/cbm2ui.c:356
+#: src/arch/unix/gui/c64ui.c:389 src/arch/unix/gui/cbm2ui.c:356
 #: src/arch/unix/gui/vsidui.c:339 src/arch/win32/ressid.rc.po.c:63
 #: src/arch/win32/ressiddtv.rc.po.c:52
 msgid "SID settings"
@@ -373,7 +374,7 @@ msgstr "SID-instellingen"
 msgid "Memory and I/O extensions"
 msgstr "Geheugen en I/O extenties"
 
-#: src/arch/unix/gui/c128ui.c:424 src/arch/unix/gui/c64ui.c:390
+#: src/arch/unix/gui/c128ui.c:424 src/arch/unix/gui/c64ui.c:393
 #: src/arch/unix/gui/cbm2ui.c:349 src/arch/unix/gui/plus4ui.c:192
 #: src/arch/unix/gui/vic20ui.c:458
 msgid "RS232 settings"
@@ -384,7 +385,7 @@ msgid "Model settings"
 msgstr "Modelinstellingen"
 
 #: src/arch/unix/gui/c128ui.c:550 src/arch/unix/gui/c64dtvui.c:297
-#: src/arch/unix/gui/c64ui.c:514 src/arch/unix/gui/cbm2ui.c:544
+#: src/arch/unix/gui/c64ui.c:517 src/arch/unix/gui/cbm2ui.c:544
 #: src/arch/unix/gui/cbm2ui.c:560 src/arch/unix/gui/petui.c:489
 #: src/arch/unix/gui/plus4ui.c:318 src/arch/unix/gui/vic20ui.c:632
 #: src/arch/unix/gui/vsidui.c:400 src/arch/amigaos/intl_text.c.po.c:6
@@ -392,7 +393,7 @@ msgid "File"
 msgstr "Bestand"
 
 #: src/arch/unix/gui/c128ui.c:552 src/arch/unix/gui/c64dtvui.c:299
-#: src/arch/unix/gui/c64ui.c:516 src/arch/unix/gui/cbm2ui.c:546
+#: src/arch/unix/gui/c64ui.c:519 src/arch/unix/gui/cbm2ui.c:546
 #: src/arch/unix/gui/cbm2ui.c:562 src/arch/unix/gui/petui.c:491
 #: src/arch/unix/gui/plus4ui.c:320 src/arch/unix/gui/vic20ui.c:634
 #: src/arch/amigaos/intl_text.c.po.c:831
@@ -400,7 +401,7 @@ msgid "Snapshot"
 msgstr "Momentopname"
 
 #: src/arch/unix/gui/c128ui.c:554 src/arch/unix/gui/c64dtvui.c:301
-#: src/arch/unix/gui/c64ui.c:518 src/arch/unix/gui/cbm2ui.c:548
+#: src/arch/unix/gui/c64ui.c:521 src/arch/unix/gui/cbm2ui.c:548
 #: src/arch/unix/gui/cbm2ui.c:564 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:322 src/arch/unix/gui/vic20ui.c:636
 #: src/arch/amigaos/intl_text.c.po.c:1018
@@ -408,7 +409,7 @@ msgid "Options"
 msgstr "Opties"
 
 #: src/arch/unix/gui/c128ui.c:556 src/arch/unix/gui/c64dtvui.c:303
-#: src/arch/unix/gui/c64ui.c:520 src/arch/unix/gui/cbm2ui.c:550
+#: src/arch/unix/gui/c64ui.c:523 src/arch/unix/gui/cbm2ui.c:550
 #: src/arch/unix/gui/cbm2ui.c:566 src/arch/unix/gui/petui.c:495
 #: src/arch/unix/gui/plus4ui.c:324 src/arch/unix/gui/vic20ui.c:638
 #: src/arch/unix/gui/vsidui.c:402 src/arch/unix/x11/gnome/uinetplay.c:66
@@ -419,7 +420,7 @@ msgstr "Instellingen"
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/gui/c128ui.c:560 src/arch/unix/gui/c64dtvui.c:307
-#: src/arch/unix/gui/c64ui.c:524 src/arch/unix/gui/cbm2ui.c:554
+#: src/arch/unix/gui/c64ui.c:527 src/arch/unix/gui/cbm2ui.c:554
 #: src/arch/unix/gui/cbm2ui.c:570 src/arch/unix/gui/petui.c:499
 #: src/arch/unix/gui/plus4ui.c:328 src/arch/unix/gui/vic20ui.c:642
 msgid "RJHelp"
@@ -433,28 +434,28 @@ msgstr "Chipmodel"
 msgid "*PS/2 Mouse Emulation"
 msgstr "*PS/2 muis emulatie"
 
-#: src/arch/unix/gui/c64dtvui.c:116 src/arch/unix/gui/c64ui.c:323
+#: src/arch/unix/gui/c64dtvui.c:116 src/arch/unix/gui/c64ui.c:326
 #: src/arch/unix/gui/petui.c:206 src/arch/unix/gui/plus4ui.c:124
 msgid "Load new kernal ROM"
 msgstr "Laad nieuw kernal-ROM"
 
-#: src/arch/unix/gui/c64dtvui.c:119 src/arch/unix/gui/c64ui.c:326
+#: src/arch/unix/gui/c64dtvui.c:119 src/arch/unix/gui/c64ui.c:329
 #: src/arch/unix/gui/petui.c:212 src/arch/unix/gui/plus4ui.c:127
 msgid "Load new BASIC ROM"
 msgstr "Laad nieuw BASIC-ROM"
 
-#: src/arch/unix/gui/c64dtvui.c:122 src/arch/unix/gui/c64ui.c:329
+#: src/arch/unix/gui/c64dtvui.c:122 src/arch/unix/gui/c64ui.c:332
 #: src/arch/unix/gui/petui.c:259
 msgid "Load new character ROM"
 msgstr "Laad nieuw karakter-ROM"
 
-#: src/arch/unix/gui/c64dtvui.c:167 src/arch/unix/gui/c64ui.c:374
+#: src/arch/unix/gui/c64dtvui.c:167 src/arch/unix/gui/c64ui.c:377
 #: src/arch/unix/gui/cbm2ui.c:378 src/arch/unix/gui/petui.c:363
 #: src/arch/unix/gui/plus4ui.c:74 src/arch/unix/gui/vic20ui.c:482
 msgid "Save media file"
 msgstr "Opslaan mediabestand"
 
-#: src/arch/unix/gui/c64dtvui.c:175 src/arch/unix/gui/c64ui.c:382
+#: src/arch/unix/gui/c64dtvui.c:175 src/arch/unix/gui/c64ui.c:385
 #: src/arch/unix/gui/plus4ui.c:186 src/arch/win32/res.rc.po.c:973
 msgid "ROM settings"
 msgstr "ROM-instellingen"
@@ -463,31 +464,36 @@ msgstr "ROM-instellingen"
 msgid "C64DTV settings"
 msgstr "C64DTV instellingen"
 
-#: src/arch/unix/gui/c64ui.c:84 src/arch/unix/gui/vsidui.c:291
+#: src/arch/unix/gui/c64ui.c:85 src/arch/unix/gui/vsidui.c:291
 msgid "*Old NTSC-M"
 msgstr "*Oud NTSC-M"
 
-#: src/arch/unix/gui/c64ui.c:279
+#: src/arch/unix/gui/c64ui.c:280
 msgid "Double Quick Brown Box cartridge"
 msgstr "Double Quick Brown Box cartridge"
 
-#: src/arch/unix/gui/c64ui.c:281
+#: src/arch/unix/gui/c64ui.c:282
 msgid "Isepic cartridge"
 msgstr "Isepic cartridge"
 
-#: src/arch/unix/gui/c64ui.c:285
+#: src/arch/unix/gui/c64ui.c:286
 msgid "PLUS60K RAM Expansion"
 msgstr "PLUS60K-geheugenuitbreiding"
 
-#: src/arch/unix/gui/c64ui.c:287
+#: src/arch/unix/gui/c64ui.c:288
 msgid "PLUS256K RAM Expansion"
 msgstr "PLUS256K-geheugenuitbreiding"
 
-#: src/arch/unix/gui/c64ui.c:289
+#: src/arch/unix/gui/c64ui.c:290
 msgid "256K RAM Expansion"
 msgstr "256K-geheugenuitbreiding"
 
-#: src/arch/unix/gui/c64ui.c:388 src/arch/unix/gui/petui.c:336
+#: src/arch/unix/gui/c64ui.c:294
+#, fuzzy
+msgid "MMC Replay emulation"
+msgstr "MMC64-emulatie"
+
+#: src/arch/unix/gui/c64ui.c:391 src/arch/unix/gui/petui.c:336
 msgid "I/O extensions"
 msgstr "I/O-extenties"
 
@@ -968,8 +974,8 @@ msgstr "Disk bestand voor PRG autostart"
 
 #: src/arch/unix/gui/uiautostart.c:43 src/arch/unix/gui/uic64_256k.c:40
 #: src/arch/unix/gui/uidqbb.c:40 src/arch/unix/gui/uigeoram.c:40
-#: src/arch/unix/gui/uiide64.c:42 src/arch/unix/gui/uimmc64.c:43
-#: src/arch/unix/gui/uimmc64.c:48 src/arch/unix/gui/uipetreu.c:40
+#: src/arch/unix/gui/uiide64.c:42 src/arch/unix/gui/uimmc64.c:44
+#: src/arch/unix/gui/uimmc64.c:49 src/arch/unix/gui/uipetreu.c:40
 #: src/arch/unix/gui/uiplus256k.c:39 src/arch/unix/gui/uiplus60k.c:40
 #: src/arch/unix/gui/uiramcart.c:41 src/arch/unix/gui/uireu.c:40
 #: src/arch/unix/gui/uisettings.c:275 src/arch/unix/gui/uitfe.c:42
@@ -1033,106 +1039,112 @@ msgstr "Kan cartridge niet koppelen"
 msgid "Attach cartridge image"
 msgstr "Koppel cartridgebestand"
 
-#: src/arch/unix/gui/uic64cart.c:127
-msgid "*Prg"
-msgstr "*Prg"
-
-#: src/arch/unix/gui/uic64cart.c:129
-msgid "*Off"
-msgstr "*Uit"
-
-#: src/arch/unix/gui/uic64cart.c:131
-msgid "*On"
-msgstr "*Aan"
-
-#: src/arch/unix/gui/uic64cart.c:134
-msgid "Save cartridge image..."
-msgstr "Sla cartridgebestand op..."
-
-#: src/arch/unix/gui/uic64cart.c:140
-msgid "Smart attach CRT image..."
-msgstr "Slim koppel CRT-bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:144
-msgid "Attach generic 8KB image..."
-msgstr "Koppel 8KB-bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:147
-msgid "Attach generic 16KB image..."
-msgstr "Koppel 16KB-bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:150
-msgid "Attach Action Replay image..."
-msgstr "Koppel Action Replay bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:153
-msgid "Attach Action Replay III image..."
-msgstr "Koppel Action Replay III bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:156
-msgid "Attach Action Replay IV image..."
-msgstr "Koppel Action Replay IV bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:159
-msgid "Attach StarDOS image..."
-msgstr "Koppel StarDOS bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:162
-msgid "Attach Atomic Power image..."
-msgstr "Koppel Atomic Power bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:165
-msgid "Attach Epyx fastload image..."
-msgstr "Koppel Epyx fastload bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:168
-msgid "Attach IEEE488 interface image..."
-msgstr "Koppel IEEE488 interface bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:171
-msgid "Attach Retro Replay image..."
-msgstr "Koppel Retro Replay bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:174
-msgid "Attach IDE64 interface image..."
-msgstr "Koppel IDE64-interfacebestand..."
-
-#: src/arch/unix/gui/uic64cart.c:177
-msgid "Attach Super Snapshot 4 image..."
-msgstr "Koppel Super Snapshot 4 bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:180
-msgid "Attach Super Snapshot 5 image..."
-msgstr "Koppel Super Snapshot 5 bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:183
-msgid "Attach Structured Basic image..."
-msgstr "Koppel Structured Basic bestand..."
-
-#: src/arch/unix/gui/uic64cart.c:187
+#: src/arch/unix/gui/uic64cart.c:111
 msgid "Enable Expert Cartridge..."
 msgstr "Activeer Expert Cartridge..."
 
-#: src/arch/unix/gui/uic64cart.c:191 src/arch/unix/gui/vic20ui.c:327
+#: src/arch/unix/gui/uic64cart.c:115
+msgid "*Prg"
+msgstr "*Prg"
+
+#: src/arch/unix/gui/uic64cart.c:117
+msgid "*Off"
+msgstr "*Uit"
+
+#: src/arch/unix/gui/uic64cart.c:119
+msgid "*On"
+msgstr "*Aan"
+
+#: src/arch/unix/gui/uic64cart.c:122
+msgid "Save cartridge image..."
+msgstr "Sla cartridgebestand op..."
+
+#: src/arch/unix/gui/uic64cart.c:128
+msgid "Smart attach CRT image..."
+msgstr "Slim koppel CRT-bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:132
+msgid "Attach generic 8KB image..."
+msgstr "Koppel 8KB-bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:135
+msgid "Attach generic 16KB image..."
+msgstr "Koppel 16KB-bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:138
+msgid "Attach Action Replay image..."
+msgstr "Koppel Action Replay bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:141
+msgid "Attach Action Replay III image..."
+msgstr "Koppel Action Replay III bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:144
+msgid "Attach Action Replay IV image..."
+msgstr "Koppel Action Replay IV bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:147
+msgid "Attach StarDOS image..."
+msgstr "Koppel StarDOS bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:150
+msgid "Attach Atomic Power image..."
+msgstr "Koppel Atomic Power bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:153
+msgid "Attach Epyx fastload image..."
+msgstr "Koppel Epyx fastload bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:156
+msgid "Attach IEEE488 interface image..."
+msgstr "Koppel IEEE488 interface bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:159
+msgid "Attach Retro Replay image..."
+msgstr "Koppel Retro Replay bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:162
+msgid "Attach IDE64 interface image..."
+msgstr "Koppel IDE64-interfacebestand..."
+
+#: src/arch/unix/gui/uic64cart.c:165
+msgid "Attach Super Snapshot 4 image..."
+msgstr "Koppel Super Snapshot 4 bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:168
+msgid "Attach Super Snapshot 5 image..."
+msgstr "Koppel Super Snapshot 5 bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:171
+msgid "Attach Structured Basic image..."
+msgstr "Koppel Structured Basic bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:174
+#, fuzzy
+msgid "Attach MMC Replay image..."
+msgstr "Koppel Retro Replay bestand..."
+
+#: src/arch/unix/gui/uic64cart.c:178
+#, fuzzy
+msgid "Expert cartridge"
+msgstr "Expert Cartridge"
+
+#: src/arch/unix/gui/uic64cart.c:181 src/arch/unix/gui/vic20ui.c:327
 #: src/arch/amigaos/intl_text.c.po.c:710
 msgid "Set cartridge as default"
 msgstr "Zet cartridge als standaard"
 
-#: src/arch/unix/gui/uic64cart.c:197 src/arch/unix/gui/vic20ui.c:355
+#: src/arch/unix/gui/uic64cart.c:187 src/arch/unix/gui/vic20ui.c:355
 msgid "Attach a cartridge image"
 msgstr "Koppel een cartridgebestand"
 
-#: src/arch/unix/gui/uic64cart.c:199 src/arch/amigaos/intl_text.c.po.c:413
+#: src/arch/unix/gui/uic64cart.c:189 src/arch/amigaos/intl_text.c.po.c:413
 msgid "Detach cartridge image"
 msgstr "Ontkoppel cartridgebestand"
 
-#: src/arch/unix/gui/uic64cart.c:201 src/arch/amigaos/intl_text.c.po.c:732
+#: src/arch/unix/gui/uic64cart.c:191 src/arch/amigaos/intl_text.c.po.c:732
 msgid "Cartridge freeze"
 msgstr "Cartridge freeze"
-
-#: src/arch/unix/gui/uic64cart.c:203
-msgid "*Cartridge control"
-msgstr "*Cartridge bediening"
 
 #: src/arch/unix/gui/uic64dtv.c:51
 msgid "C64DTV ROM image name"
@@ -2229,50 +2241,55 @@ msgstr "Schrijf toetsenbord naar bestand"
 msgid "Keyboard settings"
 msgstr "Toetsenbordinstellingen"
 
-#: src/arch/unix/gui/uimmc64.c:43
+#: src/arch/unix/gui/uimmc64.c:44
 msgid "MMC64 BIOS name"
 msgstr "MMC64-BIOS naam"
 
-#: src/arch/unix/gui/uimmc64.c:48
+#: src/arch/unix/gui/uimmc64.c:49
 msgid "MMC64 image name"
 msgstr "MMC64-bestandsnaam"
 
-#: src/arch/unix/gui/uimmc64.c:52
+#: src/arch/unix/gui/uimmc64.c:53
 msgid "*Rev. A"
 msgstr "*Revisie A"
 
-#: src/arch/unix/gui/uimmc64.c:54
+#: src/arch/unix/gui/uimmc64.c:55
 msgid "*Rev. B"
 msgstr "*Revisie B"
 
-#: src/arch/unix/gui/uimmc64.c:60
+#: src/arch/unix/gui/uimmc64.c:73
 msgid "*Enable MMC64"
 msgstr "*Activeer MMC64"
 
-#: src/arch/unix/gui/uimmc64.c:62
+#: src/arch/unix/gui/uimmc64.c:75
 msgid "*MMC64 Revision"
 msgstr "*MMC64-revisie"
 
-#: src/arch/unix/gui/uimmc64.c:64
+#: src/arch/unix/gui/uimmc64.c:77
 msgid "*Enable MMC64 flashjumper"
 msgstr "*Activeer MMC64-flashjumper"
 
-#: src/arch/unix/gui/uimmc64.c:66
+#: src/arch/unix/gui/uimmc64.c:79
 msgid "*Enable MMC64 BIOS save when changed"
 msgstr ""
 "*Activeer opslaan van de MMC64-bios op als er veranderingen zijn gemaakt"
 
-#: src/arch/unix/gui/uimmc64.c:68
+#: src/arch/unix/gui/uimmc64.c:81
 msgid "MMC64 BIOS name..."
 msgstr "MMC64-BIOS naam..."
 
-#: src/arch/unix/gui/uimmc64.c:71
+#: src/arch/unix/gui/uimmc64.c:84
 msgid "*Enable MMC64 image read-only"
 msgstr "*Activeer MMC64-bestand alleen-lezen"
 
-#: src/arch/unix/gui/uimmc64.c:73
+#: src/arch/unix/gui/uimmc64.c:86
 msgid "MMC64 image name..."
 msgstr "MMC64-bestandsnaam..."
+
+#: src/arch/unix/gui/uimmc64.c:89
+#, fuzzy
+msgid "*MMC64 card type"
+msgstr "Midi cartridge soort"
 
 #: src/arch/unix/gui/uimouse.c:46
 msgid "*Paddles"
@@ -4173,7 +4190,7 @@ msgstr "Activeer volschermmodus (standaard chip)"
 msgid "Disable fullscreen (default Chip)"
 msgstr "Volschermmodus uitschakelen (standaard chip)"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:4263
+#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:4291
 msgid "<value>"
 msgstr "<waarde>"
 
@@ -4208,8 +4225,8 @@ msgstr "Bladeren..."
 #: src/arch/unix/x11/xaw/uicartridge.c:168 src/arch/unix/x11/xaw/uiedisk.c:389
 #: src/arch/unix/x11/xaw/uiscreenshot.c:257
 #: src/arch/unix/x11/xaw/uisnapshot.c:277 src/arch/win32/res.rc.po.c:674
-#: src/arch/win32/res.rc.po.c:1100 src/arch/win32/resmouse.rc.po.c:21
-#: src/arch/amigaos/intl_text.c.po.c:2965
+#: src/arch/win32/res.rc.po.c:1100 src/arch/win32/resc64.rc.po.c:517
+#: src/arch/win32/resmouse.rc.po.c:21 src/arch/amigaos/intl_text.c.po.c:2965
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -6051,20 +6068,20 @@ msgstr "Drive synchronisatie faktor"
 msgid "S&ettings"
 msgstr "Inst&ellingen"
 
-#: src/arch/win32/res.rc.po.c:1300 src/arch/win32/resc64.rc.po.c:231
+#: src/arch/win32/res.rc.po.c:1300 src/arch/win32/resc64.rc.po.c:232
 #: src/arch/win32/resvic20.rc.po.c:214
 msgid "&Cartridge/IO settings"
 msgstr "&Cartridge/IO-instellingen"
 
 #: src/arch/win32/res.rc.po.c:1301 src/arch/win32/resc128.rc.po.c:271
-#: src/arch/win32/resc64.rc.po.c:264 src/arch/win32/resc64dtv.rc.po.c:197
+#: src/arch/win32/resc64.rc.po.c:265 src/arch/win32/resc64dtv.rc.po.c:197
 #: src/arch/win32/rescbm2.rc.po.c:201 src/arch/win32/respet.rc.po.c:202
 #: src/arch/win32/resplus4.rc.po.c:216 src/arch/win32/resvic20.rc.po.c:233
 msgid "&Language"
 msgstr "&Taal"
 
 #: src/arch/win32/res.rc.po.c:1302 src/arch/win32/resc128.rc.po.c:284
-#: src/arch/win32/resc64.rc.po.c:277 src/arch/win32/resc64dtv.rc.po.c:210
+#: src/arch/win32/resc64.rc.po.c:278 src/arch/win32/resc64dtv.rc.po.c:210
 #: src/arch/win32/rescbm2.rc.po.c:214 src/arch/win32/respet.rc.po.c:215
 #: src/arch/win32/resplus4.rc.po.c:229 src/arch/win32/resvic20.rc.po.c:246
 msgid "&Help"
@@ -6102,11 +6119,11 @@ msgstr "&Hard"
 msgid "&Soft"
 msgstr "&Zacht"
 
-#: src/arch/win32/res.rc.po.c:1313 src/arch/win32/res.rc.po.c:1476
+#: src/arch/win32/res.rc.po.c:1313 src/arch/win32/res.rc.po.c:1477
 msgid "Drive &8"
 msgstr "Drive &8"
 
-#: src/arch/win32/res.rc.po.c:1314 src/arch/win32/res.rc.po.c:1477
+#: src/arch/win32/res.rc.po.c:1314 src/arch/win32/res.rc.po.c:1478
 msgid "Drive &9"
 msgstr "Drive &9"
 
@@ -6440,306 +6457,311 @@ msgstr "&Pak muis bewegingen"
 
 #: src/arch/win32/res.rc.po.c:1402
 #, fuzzy
+msgid "&C64 model settings..."
+msgstr "&MMC64-instellingen..."
+
+#: src/arch/win32/res.rc.po.c:1403
+#, fuzzy
 msgid "&Autostart settings..."
 msgstr "Crtc-instellingen"
 
-#: src/arch/win32/res.rc.po.c:1403
+#: src/arch/win32/res.rc.po.c:1404
 msgid "&Video settings..."
 msgstr "&Videoinstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1404
+#: src/arch/win32/res.rc.po.c:1405
 msgid "&Peripheral settings..."
 msgstr "Randa&pparateninstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1405
+#: src/arch/win32/res.rc.po.c:1406
 msgid "&Joystick settings..."
 msgstr "&Joystick-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1406
+#: src/arch/win32/res.rc.po.c:1407
 msgid "&Userport joystick settings..."
 msgstr "&Userport joystick instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1407
+#: src/arch/win32/res.rc.po.c:1408
 msgid "&Sidcart joystick settings..."
 msgstr "&Sidcart joystick instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1408
+#: src/arch/win32/res.rc.po.c:1409
 msgid "&Keyboard settings..."
 msgstr "&Toetsenbordinstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1409
+#: src/arch/win32/res.rc.po.c:1410
 msgid "S&ound settings..."
 msgstr "G&eluidsinstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1410
+#: src/arch/win32/res.rc.po.c:1411
 msgid "&ROM settings..."
 msgstr "&ROM-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1411
+#: src/arch/win32/res.rc.po.c:1412
 msgid "RA&M settings..."
 msgstr "RA&M-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1412
+#: src/arch/win32/res.rc.po.c:1413
 msgid "D&atasette settings..."
 msgstr "D&atasette-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1413 src/arch/amigaos/intl_text.c.po.c:1733
+#: src/arch/win32/res.rc.po.c:1414 src/arch/amigaos/intl_text.c.po.c:1733
 msgid "VIC-II settings..."
 msgstr "VIC-II-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1414
+#: src/arch/win32/res.rc.po.c:1415
 msgid "Mo&use settings..."
 msgstr "M&uis instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1415
+#: src/arch/win32/res.rc.po.c:1416
 msgid "S&ID settings..."
 msgstr "S&ID-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1416
+#: src/arch/win32/res.rc.po.c:1417
 msgid "RS&232 settings..."
 msgstr "RS&232-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1417
+#: src/arch/win32/res.rc.po.c:1418
 msgid "&REU settings..."
 msgstr "&REU-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1418
+#: src/arch/win32/res.rc.po.c:1419
 msgid "&GEORAM settings..."
 msgstr "&GEORAM-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1419
+#: src/arch/win32/res.rc.po.c:1420
 msgid "&RAMCART settings..."
 msgstr "&RAMCART-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1420
+#: src/arch/win32/res.rc.po.c:1421
 msgid "&Double Quick Brown Box settings..."
 msgstr "&Double Quick Brown Box instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1421
+#: src/arch/win32/res.rc.po.c:1422
 msgid "I&sepic settings..."
 msgstr "I&sepic-instelling..."
 
-#: src/arch/win32/res.rc.po.c:1422
+#: src/arch/win32/res.rc.po.c:1423
 msgid "&MMC64 settings..."
 msgstr "&MMC64-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1423
+#: src/arch/win32/res.rc.po.c:1424
 msgid "M&IDI settings..."
 msgstr "M&IDI-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1424
+#: src/arch/win32/res.rc.po.c:1425
 msgid "&DIGIMAX settings..."
 msgstr "&DIGIMAX-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1425
+#: src/arch/win32/res.rc.po.c:1426
 msgid "&Lightpen settings..."
 msgstr "&Lichtpen instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1426
+#: src/arch/win32/res.rc.po.c:1427
 msgid "&IDE64 settings..."
 msgstr "&IDE64-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1428
+#: src/arch/win32/res.rc.po.c:1429
 msgid "&Ethernet settings..."
 msgstr "&Ethernetinstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1430
+#: src/arch/win32/res.rc.po.c:1431
 msgid "&ACIA settings..."
 msgstr "&ACIA-instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1431
+#: src/arch/win32/res.rc.po.c:1432
 msgid "RS&232 userport settings..."
 msgstr "RS&232-userportinstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1432 src/arch/amigaos/intl_text.c.po.c:2041
+#: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:2041
 msgid "EasyFlash settings..."
 msgstr "EasyFlash instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:2030
+#: src/arch/win32/res.rc.po.c:1434 src/arch/amigaos/intl_text.c.po.c:2030
 msgid "SFX Sound Expander settings..."
 msgstr "SFX Sound Expander instellingen..."
 
-#: src/arch/win32/res.rc.po.c:1434 src/arch/amigaos/intl_text.c.po.c:2052
+#: src/arch/win32/res.rc.po.c:1435 src/arch/amigaos/intl_text.c.po.c:2052
 msgid "Enable SFX Sound Sampler"
 msgstr "Activeer SFX Sound Sampler"
 
-#: src/arch/win32/res.rc.po.c:1435 src/arch/amigaos/intl_text.c.po.c:2162
+#: src/arch/win32/res.rc.po.c:1436 src/arch/amigaos/intl_text.c.po.c:2162
 msgid "Save current settings to specified file"
 msgstr "Huidige instellingen opslaan naar opgegeven bestand"
 
-#: src/arch/win32/res.rc.po.c:1436 src/arch/amigaos/intl_text.c.po.c:2173
+#: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2173
 msgid "Load settings from specified file"
 msgstr "Instellingen laden van opgegeven bestand"
 
-#: src/arch/win32/res.rc.po.c:1437
+#: src/arch/win32/res.rc.po.c:1438
 msgid "&Save current settings"
 msgstr "Huidige instellingen op&slaan"
 
-#: src/arch/win32/res.rc.po.c:1438
+#: src/arch/win32/res.rc.po.c:1439
 msgid "&Load saved settings"
 msgstr "Opges&lagen instellingen laden"
 
-#: src/arch/win32/res.rc.po.c:1439
+#: src/arch/win32/res.rc.po.c:1440
 msgid "Set de&fault settings"
 msgstr "Herstel standaar&dinstellingen"
 
-#: src/arch/win32/res.rc.po.c:1440
+#: src/arch/win32/res.rc.po.c:1441
 msgid "Save settings on e&xit"
 msgstr "Sla instellingen op bij afslui&ten"
 
-#: src/arch/win32/res.rc.po.c:1441
+#: src/arch/win32/res.rc.po.c:1442
 msgid "&Confirm on exit"
 msgstr "Bevestigen bij afsl&uiten"
 
-#: src/arch/win32/res.rc.po.c:1442
+#: src/arch/win32/res.rc.po.c:1443
 msgid "&English"
 msgstr "&Engels"
 
-#: src/arch/win32/res.rc.po.c:1443
+#: src/arch/win32/res.rc.po.c:1444
 msgid "D&anish"
 msgstr "D&eens"
 
-#: src/arch/win32/res.rc.po.c:1444
+#: src/arch/win32/res.rc.po.c:1445
 msgid "&German"
 msgstr "&Duits"
 
-#: src/arch/win32/res.rc.po.c:1445
+#: src/arch/win32/res.rc.po.c:1446
 msgid "&French"
 msgstr "&Frans"
 
-#: src/arch/win32/res.rc.po.c:1446
+#: src/arch/win32/res.rc.po.c:1447
 msgid "&Hungarian"
 msgstr "&Hongaars"
 
-#: src/arch/win32/res.rc.po.c:1447
+#: src/arch/win32/res.rc.po.c:1448
 msgid "&Italian"
 msgstr "&Italiaans"
 
-#: src/arch/win32/res.rc.po.c:1448
+#: src/arch/win32/res.rc.po.c:1449
 msgid "&Dutch"
 msgstr "&Nederlands"
 
-#: src/arch/win32/res.rc.po.c:1449
+#: src/arch/win32/res.rc.po.c:1450
 msgid "&Polish"
 msgstr "&Pools"
 
-#: src/arch/win32/res.rc.po.c:1450
+#: src/arch/win32/res.rc.po.c:1451
 msgid "&Swedish"
 msgstr "&Zweeds"
 
-#: src/arch/win32/res.rc.po.c:1451
+#: src/arch/win32/res.rc.po.c:1452
 msgid "&Turkish"
 msgstr "&Turks"
 
-#: src/arch/win32/res.rc.po.c:1452
+#: src/arch/win32/res.rc.po.c:1453
 msgid "Command line &options"
 msgstr "Commando invoer &opties"
 
-#: src/arch/win32/res.rc.po.c:1453
+#: src/arch/win32/res.rc.po.c:1454
 msgid "&Contributors"
 msgstr "&Medewerkers aan het VICE project"
 
-#: src/arch/win32/res.rc.po.c:1454
+#: src/arch/win32/res.rc.po.c:1455
 msgid "&License"
 msgstr "&Licensie"
 
-#: src/arch/win32/res.rc.po.c:1455
+#: src/arch/win32/res.rc.po.c:1456
 msgid "No &warranty"
 msgstr "Geen &garantie"
 
-#: src/arch/win32/res.rc.po.c:1456 src/arch/amigaos/intl_text.c.po.c:1260
+#: src/arch/win32/res.rc.po.c:1457 src/arch/amigaos/intl_text.c.po.c:1260
 msgid "Fullscreen"
 msgstr "Volscherm"
 
-#: src/arch/win32/res.rc.po.c:1457
+#: src/arch/win32/res.rc.po.c:1458
 msgid "&SID cart settings..."
 msgstr "&SID-cartinstellingen..."
 
-#: src/arch/win32/res.rc.po.c:1458
+#: src/arch/win32/res.rc.po.c:1459
 msgid "&Open"
 msgstr "&Open"
 
-#: src/arch/win32/res.rc.po.c:1459
+#: src/arch/win32/res.rc.po.c:1460
 msgid "&Save"
 msgstr "Op&slaan"
 
-#: src/arch/win32/res.rc.po.c:1460
+#: src/arch/win32/res.rc.po.c:1461
 msgid "&Print"
 msgstr "&Print"
 
-#: src/arch/win32/res.rc.po.c:1461
+#: src/arch/win32/res.rc.po.c:1462
 msgid "E&xit\tAlt+F4"
 msgstr "A&fsluiten\tAlt+F4"
 
-#: src/arch/win32/res.rc.po.c:1462
+#: src/arch/win32/res.rc.po.c:1463
 msgid "&Stop Debug"
 msgstr "&Stop Debug"
 
-#: src/arch/win32/res.rc.po.c:1463
+#: src/arch/win32/res.rc.po.c:1464
 msgid "Stop E&xecution"
 msgstr "Stop &Uitvoering"
 
-#: src/arch/win32/res.rc.po.c:1464
+#: src/arch/win32/res.rc.po.c:1465
 msgid "Step &into"
 msgstr "Stap i&n"
 
-#: src/arch/win32/res.rc.po.c:1465
+#: src/arch/win32/res.rc.po.c:1466
 msgid "Step &over"
 msgstr "Stap &over"
 
-#: src/arch/win32/res.rc.po.c:1466
+#: src/arch/win32/res.rc.po.c:1467
 msgid "Step until &return"
 msgstr "Stap tot &terugkeer"
 
-#: src/arch/win32/res.rc.po.c:1467
+#: src/arch/win32/res.rc.po.c:1468
 msgid "Go to &cursor"
 msgstr "Ga naar &cursor"
 
-#: src/arch/win32/res.rc.po.c:1468
+#: src/arch/win32/res.rc.po.c:1469
 msgid "&Evaluate"
 msgstr "&Evalueren"
 
-#: src/arch/win32/res.rc.po.c:1469
+#: src/arch/win32/res.rc.po.c:1470
 msgid "&Current instruction"
 msgstr "&Huidige instructie"
 
-#: src/arch/win32/res.rc.po.c:1470
+#: src/arch/win32/res.rc.po.c:1471
 msgid "Evaluation &window"
 msgstr "Ev&aluatie venster"
 
-#: src/arch/win32/res.rc.po.c:1471
+#: src/arch/win32/res.rc.po.c:1472
 msgid "&Register window"
 msgstr "&Register venster"
 
-#: src/arch/win32/res.rc.po.c:1472
+#: src/arch/win32/res.rc.po.c:1473
 msgid "&Memory window"
 msgstr "&Geheugen venster"
 
-#: src/arch/win32/res.rc.po.c:1473
+#: src/arch/win32/res.rc.po.c:1474
 msgid "&Disassembly window"
 msgstr "&Disassemblyvenster"
 
-#: src/arch/win32/res.rc.po.c:1474
+#: src/arch/win32/res.rc.po.c:1475
 msgid "&Console window"
 msgstr "&Console venster"
 
-#: src/arch/win32/res.rc.po.c:1475
+#: src/arch/win32/res.rc.po.c:1476
 msgid "&Computer"
 msgstr "&Computer"
 
-#: src/arch/win32/res.rc.po.c:1478
+#: src/arch/win32/res.rc.po.c:1479
 msgid "&Cascade"
 msgstr "&Alle vensters"
 
-#: src/arch/win32/res.rc.po.c:1479
+#: src/arch/win32/res.rc.po.c:1480
 msgid "Tile &vertically"
 msgstr "&Naast elkaar"
 
-#: src/arch/win32/res.rc.po.c:1480
+#: src/arch/win32/res.rc.po.c:1481
 msgid "Tile &horizontally"
 msgstr "Onder &elkaar"
 
-#: src/arch/win32/res.rc.po.c:1481
+#: src/arch/win32/res.rc.po.c:1482
 msgid "&Arrange icons"
 msgstr "&Rangschik iconen"
 
@@ -6976,7 +6998,7 @@ msgid "&Cartridge Settings"
 msgstr "&Cartridgeinstellingen"
 
 #: src/arch/win32/resc128.rc.po.c:412 src/arch/win32/resc128.rc.po.c:539
-#: src/arch/win32/resc64.rc.po.c:319 src/arch/win32/resc64.rc.po.c:415
+#: src/arch/win32/resc64.rc.po.c:320 src/arch/win32/resc64.rc.po.c:416
 #: src/arch/win32/resc64dtv.rc.po.c:254 src/arch/win32/resc64dtv.rc.po.c:315
 #: src/arch/win32/resplus4.rc.po.c:280 src/arch/win32/resplus4.rc.po.c:350
 #: src/arch/win32/resvic20.rc.po.c:291 src/arch/win32/resvic20.rc.po.c:424
@@ -6984,7 +7006,7 @@ msgid "1541"
 msgstr "1541"
 
 #: src/arch/win32/resc128.rc.po.c:419 src/arch/win32/resc128.rc.po.c:541
-#: src/arch/win32/resc64.rc.po.c:326 src/arch/win32/resc64.rc.po.c:417
+#: src/arch/win32/resc64.rc.po.c:327 src/arch/win32/resc64.rc.po.c:418
 #: src/arch/win32/resc64dtv.rc.po.c:261 src/arch/win32/resc64dtv.rc.po.c:317
 #: src/arch/win32/resplus4.rc.po.c:287 src/arch/win32/resplus4.rc.po.c:352
 #: src/arch/win32/resvic20.rc.po.c:298 src/arch/win32/resvic20.rc.po.c:426
@@ -6992,7 +7014,7 @@ msgid "1541-II"
 msgstr "1541-II"
 
 #: src/arch/win32/resc128.rc.po.c:426 src/arch/win32/resc128.rc.po.c:543
-#: src/arch/win32/resc64.rc.po.c:333 src/arch/win32/resc64.rc.po.c:419
+#: src/arch/win32/resc64.rc.po.c:334 src/arch/win32/resc64.rc.po.c:420
 #: src/arch/win32/resc64dtv.rc.po.c:268 src/arch/win32/resc64dtv.rc.po.c:319
 #: src/arch/win32/resdrivec128.rc.po.c:17
 #: src/arch/win32/resdrivec64.rc.po.c:17
@@ -7004,7 +7026,7 @@ msgid "1570"
 msgstr "1570"
 
 #: src/arch/win32/resc128.rc.po.c:433 src/arch/win32/resc128.rc.po.c:545
-#: src/arch/win32/resc64.rc.po.c:340 src/arch/win32/resc64.rc.po.c:421
+#: src/arch/win32/resc64.rc.po.c:341 src/arch/win32/resc64.rc.po.c:422
 #: src/arch/win32/resc64dtv.rc.po.c:275 src/arch/win32/resc64dtv.rc.po.c:321
 #: src/arch/win32/resplus4.rc.po.c:358 src/arch/win32/resvic20.rc.po.c:312
 #: src/arch/win32/resvic20.rc.po.c:430
@@ -7016,7 +7038,7 @@ msgid "1571CR"
 msgstr "1571CR"
 
 #: src/arch/win32/resc128.rc.po.c:447 src/arch/win32/resc128.rc.po.c:549
-#: src/arch/win32/resc64.rc.po.c:347 src/arch/win32/resc64.rc.po.c:423
+#: src/arch/win32/resc64.rc.po.c:348 src/arch/win32/resc64.rc.po.c:424
 #: src/arch/win32/resc64dtv.rc.po.c:282 src/arch/win32/resc64dtv.rc.po.c:323
 #: src/arch/win32/resplus4.rc.po.c:315 src/arch/win32/resplus4.rc.po.c:360
 #: src/arch/win32/resvic20.rc.po.c:319 src/arch/win32/resvic20.rc.po.c:432
@@ -7024,7 +7046,7 @@ msgid "1581"
 msgstr "1581"
 
 #: src/arch/win32/resc128.rc.po.c:454 src/arch/win32/resc128.rc.po.c:551
-#: src/arch/win32/resc64.rc.po.c:354 src/arch/win32/resc64.rc.po.c:425
+#: src/arch/win32/resc64.rc.po.c:355 src/arch/win32/resc64.rc.po.c:426
 #: src/arch/win32/rescbm2.rc.po.c:286 src/arch/win32/rescbm2.rc.po.c:355
 #: src/arch/win32/respet.rc.po.c:287 src/arch/win32/respet.rc.po.c:356
 #: src/arch/win32/resvic20.rc.po.c:326 src/arch/win32/resvic20.rc.po.c:434
@@ -7032,7 +7054,7 @@ msgid "2031"
 msgstr "2031"
 
 #: src/arch/win32/resc128.rc.po.c:461 src/arch/win32/resc128.rc.po.c:553
-#: src/arch/win32/resc64.rc.po.c:361 src/arch/win32/resc64.rc.po.c:427
+#: src/arch/win32/resc64.rc.po.c:362 src/arch/win32/resc64.rc.po.c:428
 #: src/arch/win32/rescbm2.rc.po.c:293 src/arch/win32/rescbm2.rc.po.c:357
 #: src/arch/win32/respet.rc.po.c:294 src/arch/win32/respet.rc.po.c:358
 #: src/arch/win32/resvic20.rc.po.c:333 src/arch/win32/resvic20.rc.po.c:436
@@ -7040,7 +7062,7 @@ msgid "2040"
 msgstr "2040"
 
 #: src/arch/win32/resc128.rc.po.c:468 src/arch/win32/resc128.rc.po.c:555
-#: src/arch/win32/resc64.rc.po.c:368 src/arch/win32/resc64.rc.po.c:429
+#: src/arch/win32/resc64.rc.po.c:369 src/arch/win32/resc64.rc.po.c:430
 #: src/arch/win32/rescbm2.rc.po.c:300 src/arch/win32/rescbm2.rc.po.c:359
 #: src/arch/win32/respet.rc.po.c:301 src/arch/win32/respet.rc.po.c:360
 #: src/arch/win32/resvic20.rc.po.c:340 src/arch/win32/resvic20.rc.po.c:438
@@ -7048,7 +7070,7 @@ msgid "3040"
 msgstr "3040"
 
 #: src/arch/win32/resc128.rc.po.c:475 src/arch/win32/resc128.rc.po.c:557
-#: src/arch/win32/resc64.rc.po.c:375 src/arch/win32/resc64.rc.po.c:431
+#: src/arch/win32/resc64.rc.po.c:376 src/arch/win32/resc64.rc.po.c:432
 #: src/arch/win32/rescbm2.rc.po.c:307 src/arch/win32/rescbm2.rc.po.c:361
 #: src/arch/win32/respet.rc.po.c:308 src/arch/win32/respet.rc.po.c:362
 #: src/arch/win32/resvic20.rc.po.c:347 src/arch/win32/resvic20.rc.po.c:440
@@ -7056,7 +7078,7 @@ msgid "4040"
 msgstr "4040"
 
 #: src/arch/win32/resc128.rc.po.c:482 src/arch/win32/resc128.rc.po.c:559
-#: src/arch/win32/resc64.rc.po.c:382 src/arch/win32/resc64.rc.po.c:433
+#: src/arch/win32/resc64.rc.po.c:383 src/arch/win32/resc64.rc.po.c:434
 #: src/arch/win32/rescbm2.rc.po.c:314 src/arch/win32/rescbm2.rc.po.c:363
 #: src/arch/win32/respet.rc.po.c:315 src/arch/win32/respet.rc.po.c:364
 #: src/arch/win32/resvic20.rc.po.c:354 src/arch/win32/resvic20.rc.po.c:442
@@ -7259,19 +7281,75 @@ msgstr "C&128-instellingen..."
 msgid "&Old NTSC-M"
 msgstr "&Oud NTSC-M"
 
-#: src/arch/win32/resc64.rc.po.c:481 src/arch/amigaos/intl_text.c.po.c:1007
+#: src/arch/win32/resc64.rc.po.c:481
+#, fuzzy
+msgid "C64 model settings"
+msgstr "PET-modelinstellingen"
+
+#: src/arch/win32/resc64.rc.po.c:483
+#, fuzzy
+msgid "C64 model"
+msgstr "C64-modus kernal"
+
+#: src/arch/win32/resc64.rc.po.c:487
+#, fuzzy
+msgid "VIC-II model"
+msgstr "SID-model"
+
+#: src/arch/win32/resc64.rc.po.c:491
+#, fuzzy
+msgid "New luminances"
+msgstr "Nieuwe kleuren"
+
+#: src/arch/win32/resc64.rc.po.c:497
+msgid "CIA1"
+msgstr ""
+
+#: src/arch/win32/resc64.rc.po.c:499 src/arch/win32/resc64.rc.po.c:505
+#, fuzzy
+msgid "6526 (old)"
+msgstr "6581 (oud)"
+
+#: src/arch/win32/resc64.rc.po.c:501 src/arch/win32/resc64.rc.po.c:507
+#, fuzzy
+msgid "6526A (new)"
+msgstr "8580 (nieuw)"
+
+#: src/arch/win32/resc64.rc.po.c:503
+msgid "CIA2"
+msgstr ""
+
+#: src/arch/win32/resc64.rc.po.c:509
+msgid "Glue logic"
+msgstr ""
+
+#: src/arch/win32/resc64.rc.po.c:511
+#, fuzzy
+msgid "Discrete"
+msgstr "Verbreek verbinding"
+
+#: src/arch/win32/resc64.rc.po.c:513
+#, fuzzy
+msgid "Custom IC"
+msgstr "Aangepast"
+
+#: src/arch/win32/resc64.rc.po.c:515
+msgid "Okay"
+msgstr ""
+
+#: src/arch/win32/resc64.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:1007
 msgid "Netplay (experimental)..."
 msgstr "Netplay (experimenteel)..."
 
-#: src/arch/win32/resc64.rc.po.c:482
+#: src/arch/win32/resc64.rc.po.c:526
 msgid "PLUS&60K settings..."
 msgstr "PLUS&60K-instellingen..."
 
-#: src/arch/win32/resc64.rc.po.c:483
+#: src/arch/win32/resc64.rc.po.c:527
 msgid "PLUS2&56K settings..."
 msgstr "PLUS2&56K-instellingen..."
 
-#: src/arch/win32/resc64.rc.po.c:484
+#: src/arch/win32/resc64.rc.po.c:528
 msgid "&256K settings..."
 msgstr "&256K-instellingen..."
 
@@ -10802,7 +10880,7 @@ msgstr ""
 msgid "\"<string>\""
 msgstr "\"<string>\""
 
-#: src/translate_text.c.po.c:2405 src/translate_text.c.po.c:8761
+#: src/translate_text.c.po.c:2405 src/translate_text.c.po.c:8789
 msgid "Put the specified string into the keyboard buffer."
 msgstr "Plaats de opgegeven string in de toetsenbordbuffer."
 
@@ -11328,618 +11406,628 @@ msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Koppel binair 16KB Westermann-learning-cartridgebestand aan"
 
 #: src/translate_text.c.po.c:4221
+#, fuzzy
+msgid "Attach raw 256KB Prophet 64 cartridge image"
+msgstr "Koppel binair 64KB IDE64-cartridgebestand aan"
+
+#: src/translate_text.c.po.c:4235
+#, fuzzy
+msgid "Attach raw 8KB Game Killer cartridge image"
+msgstr "Koppel binair 8KB cartridgebestand"
+
+#: src/translate_text.c.po.c:4249
 msgid "Enable expert cartridge"
 msgstr "Activeer expertcartridge"
 
-#: src/translate_text.c.po.c:4235
+#: src/translate_text.c.po.c:4263
 msgid "Disable default cartridge"
 msgstr "De standaard cartridge uitschakelen"
 
-#: src/translate_text.c.po.c:4249
+#: src/translate_text.c.po.c:4277
 msgid "Specify name of IDE64 image file"
 msgstr "Geef de naam van het IDE64-bestand"
 
-#: src/translate_text.c.po.c:4277
+#: src/translate_text.c.po.c:4305
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Stel het aantal cylinders voor de IDE64-emulatie in"
 
-#: src/translate_text.c.po.c:4291
+#: src/translate_text.c.po.c:4319
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Stel het aantal koppen voor de IDE64-emulatie in"
 
-#: src/translate_text.c.po.c:4305
+#: src/translate_text.c.po.c:4333
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Stel het aantal sectors voor de IDE64-emulatie in"
 
-#: src/translate_text.c.po.c:4319
+#: src/translate_text.c.po.c:4347
 msgid "Autodetect geometry of formatted images"
 msgstr "Automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/translate_text.c.po.c:4333
+#: src/translate_text.c.po.c:4361
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/translate_text.c.po.c:4347
+#: src/translate_text.c.po.c:4375
 msgid "<modelnumber>"
 msgstr "<modelnummer>"
 
-#: src/translate_text.c.po.c:4361
+#: src/translate_text.c.po.c:4389
 msgid "Specify CBM-II model to emulate"
 msgstr "Geef CBM-II-model om te emuleren"
 
-#: src/translate_text.c.po.c:4375
+#: src/translate_text.c.po.c:4403
 msgid "Specify to use VIC-II"
 msgstr "Gebruik de VIC-II"
 
-#: src/translate_text.c.po.c:4389
+#: src/translate_text.c.po.c:4417
 msgid "Specify to use CRTC"
 msgstr "Gebruik de CRTC"
 
-#: src/translate_text.c.po.c:4403
+#: src/translate_text.c.po.c:4431
 msgid "<linenumber>"
 msgstr "<lijnnummer>"
 
-#: src/translate_text.c.po.c:4417
+#: src/translate_text.c.po.c:4445
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "Geef CBM-II-hardwaremodel (0=6x0, 1=7x0)"
 
-#: src/translate_text.c.po.c:4431
+#: src/translate_text.c.po.c:4459
 msgid "<ramsize>"
 msgstr "<geheugengrootte>"
 
-#: src/translate_text.c.po.c:4445
+#: src/translate_text.c.po.c:4473
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "Geef geheugengrootte (64/128/256/512/1024 kByte)"
 
-#: src/translate_text.c.po.c:4459
+#: src/translate_text.c.po.c:4487
 msgid "Specify name of cartridge ROM image for $1000"
 msgstr "Geef de naam van het cartridge-ROM-bestand voor $1000"
 
-#: src/translate_text.c.po.c:4473
+#: src/translate_text.c.po.c:4501
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
 msgstr "Geef de naam van het cartridge-ROM-bestand voor $2000-$3fff"
 
-#: src/translate_text.c.po.c:4487
+#: src/translate_text.c.po.c:4515
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
 msgstr "Geef de naam van het cartridge-ROM-bestand voor $4000-$5fff"
 
-#: src/translate_text.c.po.c:4501
+#: src/translate_text.c.po.c:4529
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
 msgstr "Geef de naam van het cartridge-ROM-bestand voor $6000-$7fff"
 
-#: src/translate_text.c.po.c:4515
+#: src/translate_text.c.po.c:4543
 msgid "Enable RAM mapping in $0800-$0FFF"
 msgstr "Activeer RAM op adres $0800-$0FFF"
 
-#: src/translate_text.c.po.c:4529
+#: src/translate_text.c.po.c:4557
 msgid "Disable RAM mapping in $0800-$0FFF"
 msgstr "RAM op adres $0800-$0FFF uitschakelen"
 
-#: src/translate_text.c.po.c:4543
+#: src/translate_text.c.po.c:4571
 msgid "Enable RAM mapping in $1000-$1FFF"
 msgstr "Activeer RAM op adres $1000-$1FFF"
 
-#: src/translate_text.c.po.c:4557
+#: src/translate_text.c.po.c:4585
 msgid "Disable RAM mapping in $1000-$1FFF"
 msgstr "RAM op adres $1000-$1FFF uitschakelen"
 
-#: src/translate_text.c.po.c:4571
+#: src/translate_text.c.po.c:4599
 msgid "Enable RAM mapping in $2000-$3FFF"
 msgstr "Activeer RAM op adres $2000-$3FFF"
 
-#: src/translate_text.c.po.c:4585
+#: src/translate_text.c.po.c:4613
 msgid "Disable RAM mapping in $2000-$3FFF"
 msgstr "RAM op adres $2000-$3FFF uitschakelen"
 
-#: src/translate_text.c.po.c:4599
+#: src/translate_text.c.po.c:4627
 msgid "Enable RAM mapping in $4000-$5FFF"
 msgstr "Activeer RAM op adres $4000-$5FFF"
 
-#: src/translate_text.c.po.c:4613
+#: src/translate_text.c.po.c:4641
 msgid "Disable RAM mapping in $4000-$5FFF"
 msgstr "RAM op adres $4000-$5FFF uitchakelen"
 
-#: src/translate_text.c.po.c:4627
+#: src/translate_text.c.po.c:4655
 msgid "Enable RAM mapping in $6000-$7FFF"
 msgstr "Activeer RAM op adres $6000-$7FFF"
 
-#: src/translate_text.c.po.c:4641
+#: src/translate_text.c.po.c:4669
 msgid "Disable RAM mapping in $6000-$7FFF"
 msgstr "RAM op adres $6000-$7FFF uitschakelen"
 
-#: src/translate_text.c.po.c:4655
+#: src/translate_text.c.po.c:4683
 msgid "Enable RAM mapping in $C000-$CFFF"
 msgstr "Activeer RAM op adres $C000-$CFFF"
 
-#: src/translate_text.c.po.c:4669
+#: src/translate_text.c.po.c:4697
 msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "RAM op adres $C000-$CFFF uitschakelen"
 
-#: src/translate_text.c.po.c:4684
+#: src/translate_text.c.po.c:4712
 msgid "Specify index of keymap file"
 msgstr "Geef de index van het keymapbestand"
 
-#: src/translate_text.c.po.c:4698
+#: src/translate_text.c.po.c:4726
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr ""
 "Geef de naam van het symbolisch keymapbestand voor het grafische toetsenbord"
 
-#: src/translate_text.c.po.c:4712
+#: src/translate_text.c.po.c:4740
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr ""
 "Geef de naam van het positioneel keymapbestand voor het grafische toetsenbord"
 
-#: src/translate_text.c.po.c:4726
+#: src/translate_text.c.po.c:4754
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 "Geef de naam van het symbolisch keymapbestand voor het UK-businesstoetsenbord"
 
-#: src/translate_text.c.po.c:4740
+#: src/translate_text.c.po.c:4768
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
 "Geef de naam van het positioneel keymapbestand voor het UK-"
 "businesstoetsenbord"
 
-#: src/translate_text.c.po.c:4754
+#: src/translate_text.c.po.c:4782
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 "Geef de naam van het symbolisch keymapbestand voor het Duitse "
 "businesstoetsenbord"
 
-#: src/translate_text.c.po.c:4768
+#: src/translate_text.c.po.c:4796
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 "Geef de naam van het positioneel keymapbestand voor het Duitse "
 "businesstoetsenbord"
 
-#: src/translate_text.c.po.c:4783
+#: src/translate_text.c.po.c:4811
 msgid "Enable hardware-level emulation of disk drives"
 msgstr "Activeer hardwarematige emulatie van diskdrives"
 
-#: src/translate_text.c.po.c:4797
+#: src/translate_text.c.po.c:4825
 msgid "Disable hardware-level emulation of disk drives"
 msgstr "Hardwarematige emulatie van diskdrives uitschakelen"
 
-#: src/translate_text.c.po.c:4811
+#: src/translate_text.c.po.c:4839
 msgid "<type>"
 msgstr "<soort>"
 
-#: src/translate_text.c.po.c:4825
+#: src/translate_text.c.po.c:4853
 msgid "Set drive type (0: no drive)"
 msgstr "Zet drive soort (0: geen drive)"
 
-#: src/translate_text.c.po.c:4839
+#: src/translate_text.c.po.c:4867
 msgid "<method>"
 msgstr "<methode>"
 
-#: src/translate_text.c.po.c:4853
+#: src/translate_text.c.po.c:4881
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr ""
 "Stel beleid voor 40-sporenuitbreiding drive in (0: nooit, 1: vraag, 2: bij "
 "toegang)"
 
-#: src/translate_text.c.po.c:4867
+#: src/translate_text.c.po.c:4895
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "Geef de naam van het 1541 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:4881
+#: src/translate_text.c.po.c:4909
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "Geef de naam van het 1541-II DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:4895
+#: src/translate_text.c.po.c:4923
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "Geef de naam van het 1570 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:4909
+#: src/translate_text.c.po.c:4937
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "Geef de naam van het 1571 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:4923
+#: src/translate_text.c.po.c:4951
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "Geef de naam van het 1581 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:4937
+#: src/translate_text.c.po.c:4965
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Stel de drive-idlemethode in (0: geen traps, 1: sla cycli over, 2: trap idle)"
 
-#: src/translate_text.c.po.c:4951
+#: src/translate_text.c.po.c:4979
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Activeer 8KB RAM-uitbreiding op adres $2000-$3FFF"
 
-#: src/translate_text.c.po.c:4965
+#: src/translate_text.c.po.c:4993
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "8KB RAM-uitbreiding op adres $2000-$3FFF uitschakelen"
 
-#: src/translate_text.c.po.c:4979
+#: src/translate_text.c.po.c:5007
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Activeer 8KB RAM-uitbreiding op adres $4000-$5FFF"
 
-#: src/translate_text.c.po.c:4993
+#: src/translate_text.c.po.c:5021
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "8KB RAM-uitbreiding op adres $4000-$5FFF uitschakelen"
 
-#: src/translate_text.c.po.c:5007
+#: src/translate_text.c.po.c:5035
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Activeer 8KB RAM-uitbreiding op adres $6000-$7FFF"
 
-#: src/translate_text.c.po.c:5021
+#: src/translate_text.c.po.c:5049
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "8KB RAM-uitbreiding op adres $6000-$7FFF uitschakelen"
 
-#: src/translate_text.c.po.c:5035
+#: src/translate_text.c.po.c:5063
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Activeer 8KB RAM-uitbreiding op adres $8000-$9FFF"
 
-#: src/translate_text.c.po.c:5049
+#: src/translate_text.c.po.c:5077
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "8KB RAM-uitbreiding op adres $8000-$9FFF uitschakelen"
 
-#: src/translate_text.c.po.c:5063
+#: src/translate_text.c.po.c:5091
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Activeer 8KB RAM-uitbreiding op adres $A000-$BFFF"
 
-#: src/translate_text.c.po.c:5077
+#: src/translate_text.c.po.c:5105
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM-uitbreiding op adres $A000-$BFFF uitschakelen"
 
-#: src/translate_text.c.po.c:5091
+#: src/translate_text.c.po.c:5119
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
 msgstr "Zet parallele-kabelsoort (0: geen, 1: standaard, 2: Dolphin DOS 3)"
 
-#: src/translate_text.c.po.c:5105
+#: src/translate_text.c.po.c:5133
 msgid "Enable Professional DOS"
 msgstr "Activeer Professional DOS"
 
-#: src/translate_text.c.po.c:5119
+#: src/translate_text.c.po.c:5147
 msgid "Disable Professional DOS"
 msgstr "Professional DOS uitschakelen"
 
-#: src/translate_text.c.po.c:5133
+#: src/translate_text.c.po.c:5161
 msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Geef de naam van het Professional DOS 1571 ROM-bestand"
 
-#: src/translate_text.c.po.c:5147
+#: src/translate_text.c.po.c:5175
 msgid "Set parallel cable type (0: none, 1: standard)"
 msgstr "Zet parallelle-kabelsoort (0: geen, 1: standaard)"
 
-#: src/translate_text.c.po.c:5161
+#: src/translate_text.c.po.c:5189
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "Geef de naam van het 1571CR DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5175
+#: src/translate_text.c.po.c:5203
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "Geef de naam van het 2031 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5189
+#: src/translate_text.c.po.c:5217
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "Geef de naam van het 2040 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5203
+#: src/translate_text.c.po.c:5231
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "Geef de naam van het 3040 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5217
+#: src/translate_text.c.po.c:5245
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "Geef de naam van het 4040 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5231
+#: src/translate_text.c.po.c:5259
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "Geef de naam van het 1001/8050/8250 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5245
+#: src/translate_text.c.po.c:5273
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Geef de naam van het 1551 DOS ROM-bestand"
 
-#: src/translate_text.c.po.c:5259
+#: src/translate_text.c.po.c:5287
 msgid "Use <name> as directory for file system device #8"
 msgstr "Gebruik <naam> als directory voor bestandssysteemapparaat #8"
 
-#: src/translate_text.c.po.c:5273
+#: src/translate_text.c.po.c:5301
 msgid "Use <name> as directory for file system device #9"
 msgstr "Gebruik <naam> als directory voor bestandssysteemapparaat #9"
 
-#: src/translate_text.c.po.c:5287
+#: src/translate_text.c.po.c:5315
 msgid "Use <name> as directory for file system device #10"
 msgstr "Gebruik <naam> als directory voor bestandssysteemapparaat #10"
 
-#: src/translate_text.c.po.c:5301
+#: src/translate_text.c.po.c:5329
 msgid "Use <name> as directory for file system device #11"
 msgstr "Gebruik <naam> als directory voor bestandssysteemapparaat #11"
 
-#: src/translate_text.c.po.c:5316
+#: src/translate_text.c.po.c:5344
 msgid "Set bitrate for audio stream in media file"
 msgstr "Zet de bitrate voor het audiogedeelte van het mediabestand"
 
-#: src/translate_text.c.po.c:5330
+#: src/translate_text.c.po.c:5358
 msgid "Set bitrate for video stream in media file"
 msgstr "Zet de bitrate voor het videogedeelte van het mediabestand"
 
-#: src/translate_text.c.po.c:5345
+#: src/translate_text.c.po.c:5373
 msgid "Specify PET model to emulate"
 msgstr "Geef PET-model om te emuleren"
 
-#: src/translate_text.c.po.c:5359
+#: src/translate_text.c.po.c:5387
 msgid "Specify name of Editor ROM image"
 msgstr "Geef naam van het Editor ROM-bestand"
 
-#: src/translate_text.c.po.c:5373
+#: src/translate_text.c.po.c:5401
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "Geef naam van het 4K uitbreiding ROM-bestand op adres $9***"
 
-#: src/translate_text.c.po.c:5387
+#: src/translate_text.c.po.c:5415
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "Geef naam van het 4K uitbreiding ROM-bestand op adres $A***"
 
-#: src/translate_text.c.po.c:5401
+#: src/translate_text.c.po.c:5429
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "Geef naam van het 4K uitbreiding ROM-bestand op adres $B***"
 
-#: src/translate_text.c.po.c:5415
+#: src/translate_text.c.po.c:5443
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "Activeer PET8296 4K RAM op adres $9***"
 
-#: src/translate_text.c.po.c:5429
+#: src/translate_text.c.po.c:5457
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "PET8296 4K RAM op adres $9*** uitschakelen"
 
-#: src/translate_text.c.po.c:5443
+#: src/translate_text.c.po.c:5471
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "Activeer PET8296 4K RAM op adres $A***"
 
-#: src/translate_text.c.po.c:5457
+#: src/translate_text.c.po.c:5485
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "PET8296 4K RAM op adres $A*** uitschakelen"
 
-#: src/translate_text.c.po.c:5471
+#: src/translate_text.c.po.c:5499
 msgid "Enable SuperPET I/O"
 msgstr "Activeer SuperPET-I/O"
 
-#: src/translate_text.c.po.c:5485
+#: src/translate_text.c.po.c:5513
 msgid "Disable SuperPET I/O"
 msgstr "SuperPET-I/O uitschakelen"
 
-#: src/translate_text.c.po.c:5499
+#: src/translate_text.c.po.c:5527
 msgid "Enable ROM 1 Kernal patches"
 msgstr "Activeer ROM 1 Kernalverbeteringen"
 
-#: src/translate_text.c.po.c:5513
+#: src/translate_text.c.po.c:5541
 msgid "Disable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernalverbeteringen uitschakelen"
 
-#: src/translate_text.c.po.c:5527
+#: src/translate_text.c.po.c:5555
 msgid "Switch upper/lower case charset"
 msgstr "Schakel tussen grote/kleine letters"
 
-#: src/translate_text.c.po.c:5541
+#: src/translate_text.c.po.c:5569
 msgid "Do not switch upper/lower case charset"
 msgstr "Schakel niet tussen grote/kleine letters"
 
-#: src/translate_text.c.po.c:5555
+#: src/translate_text.c.po.c:5583
 msgid "EOI blanks screen"
 msgstr "EOI maakt het scherm leeg"
 
-#: src/translate_text.c.po.c:5569
+#: src/translate_text.c.po.c:5597
 msgid "EOI does not blank screen"
 msgstr "EOI maakt het scherm niet leeg"
 
-#: src/translate_text.c.po.c:5583
+#: src/translate_text.c.po.c:5611
 msgid "Enable userport diagnostic pin"
 msgstr "Activeer userport diagnostic pin"
 
-#: src/translate_text.c.po.c:5597
+#: src/translate_text.c.po.c:5625
 msgid "Disable userport diagnostic pin"
 msgstr "Userport diagnostic pin uitschakelen"
 
-#: src/translate_text.c.po.c:5611
+#: src/translate_text.c.po.c:5639
 msgid "Specify name of Function low ROM image"
 msgstr "Geef de naam van het Function low ROM-bestand"
 
-#: src/translate_text.c.po.c:5625
+#: src/translate_text.c.po.c:5653
 msgid "Specify name of Function high ROM image"
 msgstr "Geef de naam van het Function high ROM-bestand"
 
-#: src/translate_text.c.po.c:5639
+#: src/translate_text.c.po.c:5667
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Geef de naam van het Cartridge 1 low ROM-bestand"
 
-#: src/translate_text.c.po.c:5653
+#: src/translate_text.c.po.c:5681
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Geef de naam van het Cartridge 1 high ROM-bestand"
 
-#: src/translate_text.c.po.c:5667
+#: src/translate_text.c.po.c:5695
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Geef de naam van het Cartridge 2 low ROM-bestand"
 
-#: src/translate_text.c.po.c:5681
+#: src/translate_text.c.po.c:5709
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Geef de naam van het Cartridge 2 high ROM-bestand"
 
-#: src/translate_text.c.po.c:5695
+#: src/translate_text.c.po.c:5723
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
-#: src/translate_text.c.po.c:5709
+#: src/translate_text.c.po.c:5737
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Zet de verzadiging van het intern berekend kleurenpalet [1000]"
 
-#: src/translate_text.c.po.c:5723
+#: src/translate_text.c.po.c:5751
 msgid "Set contrast of internal calculated palette [1100]"
 msgstr "Zet het contrast van het intern berekend kleurenpalet [1100]"
 
-#: src/translate_text.c.po.c:5737
+#: src/translate_text.c.po.c:5765
 msgid "Set brightness of internal calculated palette [1100]"
 msgstr "Zet de helderheid van het intern berekend kleurenpalet [1100]"
 
-#: src/translate_text.c.po.c:5751
+#: src/translate_text.c.po.c:5779
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "Zet de gamma van het intern berekend kleurenpalet [900]"
 
-#: src/translate_text.c.po.c:5765
+#: src/translate_text.c.po.c:5793
 msgid "Set tint of internal calculated palette [1000]"
 msgstr "Zet de tint van het intern berekend kleuren palette [1000]"
 
-#: src/translate_text.c.po.c:5779
+#: src/translate_text.c.po.c:5807
 msgid "Set phase for color carrier in odd lines [1250]"
 msgstr "Zet de fase van de kleuren drager in oneven lijnen [1250]"
 
-#: src/translate_text.c.po.c:5793
+#: src/translate_text.c.po.c:5821
 msgid "Set phase offset for color carrier in odd lines [750]"
 msgstr "Zet de fase compensatie van de kleuren drager in oneven lijnen [750]"
 
-#: src/translate_text.c.po.c:5807
+#: src/translate_text.c.po.c:5835
 msgid "Specify name of printer driver for device #4"
 msgstr "Geef de naam van het stuurprogramma voor apparaat #4"
 
-#: src/translate_text.c.po.c:5821
+#: src/translate_text.c.po.c:5849
 msgid "Specify name of printer driver for device #5"
 msgstr "Geef de naam van het stuurprogramma voor apparaat #5"
 
-#: src/translate_text.c.po.c:5835
+#: src/translate_text.c.po.c:5863
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Geef de naam van het stuurprogramma voor de userport printer"
 
-#: src/translate_text.c.po.c:5849
+#: src/translate_text.c.po.c:5877
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Zet apparaat soort voor apparaat #4 (0: GEEN, 1: FS, 2: ECHT)"
 
-#: src/translate_text.c.po.c:5863
+#: src/translate_text.c.po.c:5891
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Zet apparaat soort voor apparaat #5 (0: GEEN, 1: FS, 2: ECHT)"
 
-#: src/translate_text.c.po.c:5877
+#: src/translate_text.c.po.c:5905
 msgid "Enable the userport printer emulation"
 msgstr "Activeer userport printeremulatie"
 
-#: src/translate_text.c.po.c:5891
+#: src/translate_text.c.po.c:5919
 msgid "Disable the userport printer emulation"
 msgstr "De userport printeremulatie uitschakelen"
 
-#: src/translate_text.c.po.c:5905
+#: src/translate_text.c.po.c:5933
 msgid "Specify name of output device for device #4"
 msgstr "Geef de naam van het uitvoer apparaat voor apparaat #4"
 
-#: src/translate_text.c.po.c:5919
+#: src/translate_text.c.po.c:5947
 msgid "Specify name of output device for device #5"
 msgstr "Geef de naam van het uitvoer apparaat voor apparaat #5"
 
-#: src/translate_text.c.po.c:5933
+#: src/translate_text.c.po.c:5961
 msgid "Specify name of output device for the userport printer"
 msgstr "Geef de naam van het uitvoer apparaat voor de userport printer"
 
-#: src/translate_text.c.po.c:5947
+#: src/translate_text.c.po.c:5975
 msgid "Specify name of printer text device or dump file"
 msgstr "Geef de naam van het text apparaat of het dumpbestand"
 
-#: src/translate_text.c.po.c:5961
+#: src/translate_text.c.po.c:5989
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Geef het text uitvoer apparaat voor IEC printer #4"
 
-#: src/translate_text.c.po.c:5975
+#: src/translate_text.c.po.c:6003
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Geef het text uitvoer apparaat voor IEC printer #5"
 
-#: src/translate_text.c.po.c:5989
+#: src/translate_text.c.po.c:6017
 msgid "Specify printer text output device for userport printer"
 msgstr "Geef het text uitvoer apparaat voor de userport printer"
 
-#: src/translate_text.c.po.c:6003
+#: src/translate_text.c.po.c:6031
 msgid "Enable the video cache"
 msgstr "Activeer de videocache"
 
-#: src/translate_text.c.po.c:6017
+#: src/translate_text.c.po.c:6045
 msgid "Disable the video cache"
 msgstr "De videocache uitschakelen"
 
-#: src/translate_text.c.po.c:6032
+#: src/translate_text.c.po.c:6060
 msgid "Specify name of first RS232 device"
 msgstr "Geef de naam van het eerste RS232 apparaat"
 
-#: src/translate_text.c.po.c:6046
+#: src/translate_text.c.po.c:6074
 msgid "Specify name of second RS232 device"
 msgstr "Geef de naam van het tweede RS232 apparaat"
 
-#: src/translate_text.c.po.c:6060
+#: src/translate_text.c.po.c:6088
 msgid "Specify name of third RS232 device"
 msgstr "Geef de naam van het derde RS232 apparaat"
 
-#: src/translate_text.c.po.c:6074
+#: src/translate_text.c.po.c:6102
 msgid "Specify name of fourth RS232 device"
 msgstr "Geef de naam van het vierde RS232 apparaat"
 
-#: src/translate_text.c.po.c:6089
+#: src/translate_text.c.po.c:6117
 msgid "Enable RS232 userport emulation"
 msgstr "Activeer RS232-userportemulatie"
 
-#: src/translate_text.c.po.c:6103
+#: src/translate_text.c.po.c:6131
 msgid "Disable RS232 userport emulation"
 msgstr "RS232-userportemulatie uitschakelen"
 
-#: src/translate_text.c.po.c:6117
+#: src/translate_text.c.po.c:6145
 msgid "<baud>"
 msgstr "<baud>"
 
-#: src/translate_text.c.po.c:6131
+#: src/translate_text.c.po.c:6159
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Zet de baud rate van de RS232 userport emulatie."
 
-#: src/translate_text.c.po.c:6145
+#: src/translate_text.c.po.c:6173
 msgid "Specify VICE RS232 device for userport"
 msgstr "Geef VICE RS232-apparaat voor userport"
 
-#: src/translate_text.c.po.c:6159
+#: src/translate_text.c.po.c:6187
 msgid "Enable IEC device emulation for device #4"
 msgstr "Activeer IEC-apparaat emulatie voor apparaat #4"
 
-#: src/translate_text.c.po.c:6173
+#: src/translate_text.c.po.c:6201
 msgid "Disable IEC device emulation for device #4"
 msgstr "IEC-apparaat emulatie voor apparaat #4 uitschakelen"
 
-#: src/translate_text.c.po.c:6187
+#: src/translate_text.c.po.c:6215
 msgid "Enable IEC device emulation for device #5"
 msgstr "Activeer IEC-apparaat emulatie voor apparaat #5"
 
-#: src/translate_text.c.po.c:6201
+#: src/translate_text.c.po.c:6229
 msgid "Disable IEC device emulation for device #5"
 msgstr "IEC-apparaat emulatie voor apparaat #5 uitschakelen"
 
-#: src/translate_text.c.po.c:6215
+#: src/translate_text.c.po.c:6243
 msgid "Enable IEC device emulation for device #8"
 msgstr "Activeer IEC-apparaat emulatie voor apparaat #8"
 
-#: src/translate_text.c.po.c:6229
+#: src/translate_text.c.po.c:6257
 msgid "Disable IEC device emulation for device #8"
 msgstr "IEC-apparaat emulatie voor apparaat #8 uitschakelen"
 
-#: src/translate_text.c.po.c:6243
+#: src/translate_text.c.po.c:6271
 msgid "Enable IEC device emulation for device #9"
 msgstr "Activeer IEC-apparaat emulatie voor apparaat #9"
 
-#: src/translate_text.c.po.c:6257
+#: src/translate_text.c.po.c:6285
 msgid "Disable IEC device emulation for device #9"
 msgstr "IEC-apparaat emulatie voor apparaat #9 uitschakelen"
 
-#: src/translate_text.c.po.c:6271
+#: src/translate_text.c.po.c:6299
 msgid "Enable IEC device emulation for device #10"
 msgstr "Activeer IEC-apparaat emulatie voor apparaat #10"
 
-#: src/translate_text.c.po.c:6285
+#: src/translate_text.c.po.c:6313
 msgid "Disable IEC device emulation for device #10"
 msgstr "IEC-apparaat emulatie voor apparaat #10 uitschakelen"
 
-#: src/translate_text.c.po.c:6299
+#: src/translate_text.c.po.c:6327
 msgid "Enable IEC device emulation for device #11"
 msgstr "Activeer IEC-apparaat emulatie voor apparaat #11"
 
-#: src/translate_text.c.po.c:6313
+#: src/translate_text.c.po.c:6341
 msgid "Disable IEC device emulation for device #11"
 msgstr "IEC-apparaat emulatie voor apparaat #11 uitschakelen"
 
-#: src/translate_text.c.po.c:6327
+#: src/translate_text.c.po.c:6355
 msgid "<engine and model>"
 msgstr "<kern en model>"
 
-#: src/translate_text.c.po.c:6342
+#: src/translate_text.c.po.c:6370
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"
@@ -11948,7 +12036,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "260: DTVSID)"
 
-#: src/translate_text.c.po.c:6358
+#: src/translate_text.c.po.c:6386
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -11958,7 +12046,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "260: DTVSID, 512: Catweasel)"
 
-#: src/translate_text.c.po.c:6374
+#: src/translate_text.c.po.c:6402
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
@@ -11968,7 +12056,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "260: DTVSID, 768: HardSID)"
 
-#: src/translate_text.c.po.c:6390
+#: src/translate_text.c.po.c:6418
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: "
@@ -11979,7 +12067,7 @@ msgstr ""
 "260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6406
+#: src/translate_text.c.po.c:6434
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-"
@@ -11996,7 +12084,7 @@ msgstr ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489D)"
 
-#: src/translate_text.c.po.c:6422
+#: src/translate_text.c.po.c:6450
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12006,7 +12094,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "260: DTVSID, 512: Catweasel, 768: HardSID)"
 
-#: src/translate_text.c.po.c:6438
+#: src/translate_text.c.po.c:6466
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12018,7 +12106,7 @@ msgstr ""
 "260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par "
 "port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6454
+#: src/translate_text.c.po.c:6482
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12036,7 +12124,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6470
+#: src/translate_text.c.po.c:6498
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
@@ -12048,7 +12136,7 @@ msgstr ""
 "260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
 "port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6486
+#: src/translate_text.c.po.c:6514
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
@@ -12066,7 +12154,7 @@ msgstr ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6502
+#: src/translate_text.c.po.c:6530
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: "
@@ -12086,7 +12174,7 @@ msgstr ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6518
+#: src/translate_text.c.po.c:6546
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12098,7 +12186,7 @@ msgstr ""
 "260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: "
 "ParSID in par port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6534
+#: src/translate_text.c.po.c:6562
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12116,7 +12204,7 @@ msgstr ""
 "FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
 "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6550
+#: src/translate_text.c.po.c:6578
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12136,7 +12224,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6566
+#: src/translate_text.c.po.c:6594
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: "
@@ -12156,7 +12244,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6582
+#: src/translate_text.c.po.c:6610
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: "
@@ -12176,13 +12264,13 @@ msgstr ""
 "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
 "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6598 src/translate_text.c.po.c:7110
+#: src/translate_text.c.po.c:6626 src/translate_text.c.po.c:7138
 msgid "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)"
 msgstr ""
 "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
 "FastSID 8580)"
 
-#: src/translate_text.c.po.c:6614
+#: src/translate_text.c.po.c:6642
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
@@ -12190,7 +12278,7 @@ msgstr ""
 "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
 "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
 
-#: src/translate_text.c.po.c:6630 src/translate_text.c.po.c:7126
+#: src/translate_text.c.po.c:6658 src/translate_text.c.po.c:7154
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel)"
@@ -12198,14 +12286,14 @@ msgstr ""
 "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
 "FastSID 8580, 512: Catweasel)"
 
-#: src/translate_text.c.po.c:6646 src/translate_text.c.po.c:7142
+#: src/translate_text.c.po.c:6674 src/translate_text.c.po.c:7170
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"
 msgstr ""
 "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
 "FastSID 8580, 768: HardSID)"
 
-#: src/translate_text.c.po.c:6662 src/translate_text.c.po.c:7158
+#: src/translate_text.c.po.c:6690 src/translate_text.c.po.c:7186
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
 "in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
@@ -12214,7 +12302,7 @@ msgstr ""
 "FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6678
+#: src/translate_text.c.po.c:6706
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-"
 "FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, "
@@ -12230,7 +12318,7 @@ msgstr ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6694
+#: src/translate_text.c.po.c:6722
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"
@@ -12239,7 +12327,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "512: Catweasel)"
 
-#: src/translate_text.c.po.c:6710
+#: src/translate_text.c.po.c:6738
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"
@@ -12248,7 +12336,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "768: HardSID)"
 
-#: src/translate_text.c.po.c:6726
+#: src/translate_text.c.po.c:6754
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port "
@@ -12259,7 +12347,7 @@ msgstr ""
 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
 "port 3)"
 
-#: src/translate_text.c.po.c:6742
+#: src/translate_text.c.po.c:6770
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 "
@@ -12276,7 +12364,7 @@ msgstr ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489D)"
 
-#: src/translate_text.c.po.c:6758 src/translate_text.c.po.c:7174
+#: src/translate_text.c.po.c:6786 src/translate_text.c.po.c:7202
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 768: HardSID)"
@@ -12284,7 +12372,7 @@ msgstr ""
 "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: "
 "FastSID 8580, 512: Catweasel, 768: HardSID)"
 
-#: src/translate_text.c.po.c:6774 src/translate_text.c.po.c:7190
+#: src/translate_text.c.po.c:6802 src/translate_text.c.po.c:7218
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
@@ -12294,7 +12382,7 @@ msgstr ""
 "FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in "
 "par port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6790
+#: src/translate_text.c.po.c:6818
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
@@ -12310,7 +12398,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6806 src/translate_text.c.po.c:7206
+#: src/translate_text.c.po.c:6834 src/translate_text.c.po.c:7234
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
@@ -12320,7 +12408,7 @@ msgstr ""
 "FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
 "port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6822
+#: src/translate_text.c.po.c:6850
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
 "HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: "
@@ -12336,7 +12424,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6838
+#: src/translate_text.c.po.c:6866
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
 "in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: "
@@ -12354,7 +12442,7 @@ msgstr ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6854
+#: src/translate_text.c.po.c:6882
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
@@ -12364,7 +12452,7 @@ msgstr ""
 "FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, "
 "512: Catweasel, 768: HardSID)"
 
-#: src/translate_text.c.po.c:6870
+#: src/translate_text.c.po.c:6898
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
@@ -12375,7 +12463,7 @@ msgstr ""
 "512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, "
 "1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6886
+#: src/translate_text.c.po.c:6914
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: "
@@ -12393,7 +12481,7 @@ msgstr ""
 "ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6902
+#: src/translate_text.c.po.c:6930
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
@@ -12404,7 +12492,7 @@ msgstr ""
 "768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
 "ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6918
+#: src/translate_text.c.po.c:6946
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: "
@@ -12422,7 +12510,7 @@ msgstr ""
 "FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6934
+#: src/translate_text.c.po.c:6962
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port "
@@ -12441,7 +12529,7 @@ msgstr ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6950 src/translate_text.c.po.c:7222
+#: src/translate_text.c.po.c:6978 src/translate_text.c.po.c:7250
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
@@ -12451,7 +12539,7 @@ msgstr ""
 "FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, "
 "1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:6966
+#: src/translate_text.c.po.c:6994
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 "
@@ -12467,7 +12555,7 @@ msgstr ""
 "1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: "
 "ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6982
+#: src/translate_text.c.po.c:7010
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
@@ -12485,7 +12573,7 @@ msgstr ""
 "FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
 "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:6998
+#: src/translate_text.c.po.c:7026
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: "
 "HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: "
@@ -12503,7 +12591,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:7014
+#: src/translate_text.c.po.c:7042
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
@@ -12515,7 +12603,7 @@ msgstr ""
 "512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in "
 "par port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:7030
+#: src/translate_text.c.po.c:7058
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
@@ -12533,7 +12621,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:7046
+#: src/translate_text.c.po.c:7074
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: "
@@ -12553,7 +12641,7 @@ msgstr ""
 "8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 "
 "1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:7062
+#: src/translate_text.c.po.c:7090
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: "
@@ -12573,7 +12661,7 @@ msgstr ""
 "3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, "
 "1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:7078
+#: src/translate_text.c.po.c:7106
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: "
 "Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par "
@@ -12591,7 +12679,7 @@ msgstr ""
 "1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, "
 "1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:7094
+#: src/translate_text.c.po.c:7122
 msgid ""
 "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: "
@@ -12611,35 +12699,35 @@ msgstr ""
 "FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP "
 "8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"
 
-#: src/translate_text.c.po.c:7237
+#: src/translate_text.c.po.c:7265
 msgid "Enable second SID"
 msgstr "Activeer stereo-SID"
 
-#: src/translate_text.c.po.c:7251
+#: src/translate_text.c.po.c:7279
 msgid "Enable SID Cartridge"
 msgstr "Activeer SID-Cartridge"
 
-#: src/translate_text.c.po.c:7265
+#: src/translate_text.c.po.c:7293
 msgid "Disable SID Cartridge"
 msgstr "SID-Cartridge uitschakelen"
 
-#: src/translate_text.c.po.c:7279
+#: src/translate_text.c.po.c:7307
 msgid "<base address>"
 msgstr "<basisadres>"
 
-#: src/translate_text.c.po.c:7293
+#: src/translate_text.c.po.c:7321
 msgid "Specify base address for 2nd SID"
 msgstr "Geef het basisadres van de 2e SID"
 
-#: src/translate_text.c.po.c:7307
+#: src/translate_text.c.po.c:7335
 msgid "Emulate SID filters"
 msgstr "Emuleer SID-filters"
 
-#: src/translate_text.c.po.c:7321
+#: src/translate_text.c.po.c:7349
 msgid "Do not emulate SID filters"
 msgstr "SID-filters niet emuleren"
 
-#: src/translate_text.c.po.c:7336
+#: src/translate_text.c.po.c:7364
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -12647,204 +12735,204 @@ msgstr ""
 "reSID-sampling methode (0: snel, 1: interpoleren, 2: resampling, 3: snelle "
 "resampling)"
 
-#: src/translate_text.c.po.c:7350
+#: src/translate_text.c.po.c:7378
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/translate_text.c.po.c:7364
+#: src/translate_text.c.po.c:7392
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "reSID-resampling passband in percentage van de totale bandbreedte (0 - 90)"
 
-#: src/translate_text.c.po.c:7378
+#: src/translate_text.c.po.c:7406
 msgid "reSID gain in percent (90 - 100)"
 msgstr "reSID-versterking procent (90 - 100)"
 
-#: src/translate_text.c.po.c:7393
+#: src/translate_text.c.po.c:7421
 msgid "Set the VDC memory size to 16KB"
 msgstr "Zet de VDC-geheugengrootte als 16KB"
 
-#: src/translate_text.c.po.c:7407
+#: src/translate_text.c.po.c:7435
 msgid "Set the VDC memory size to 64KB"
 msgstr "Zet de VDC-geheugengrootte als 64KB"
 
-#: src/translate_text.c.po.c:7421
+#: src/translate_text.c.po.c:7449
 msgid "Set VDC revision (0..2)"
 msgstr "Zet de VDC-revisie (0..2)"
 
-#: src/translate_text.c.po.c:7435
+#: src/translate_text.c.po.c:7463
 msgid "<spec>"
 msgstr "<spec>"
 
-#: src/translate_text.c.po.c:7449
+#: src/translate_text.c.po.c:7477
 msgid "Specify memory configuration"
 msgstr "Geef geheugenconfiguratie"
 
-#: src/translate_text.c.po.c:7463
+#: src/translate_text.c.po.c:7491
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "Activeer VIC-1112 IEEE488-interface"
 
-#: src/translate_text.c.po.c:7477
+#: src/translate_text.c.po.c:7505
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488-interface uitschakelen"
 
-#: src/translate_text.c.po.c:7491
+#: src/translate_text.c.po.c:7519
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K-ROM op $2000"
 
-#: src/translate_text.c.po.c:7505
+#: src/translate_text.c.po.c:7533
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K-ROM op $4000"
 
-#: src/translate_text.c.po.c:7519
+#: src/translate_text.c.po.c:7547
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K-ROM op $6000"
 
-#: src/translate_text.c.po.c:7533
+#: src/translate_text.c.po.c:7561
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Geef de naam van het bestand voor de 4/8K-ROM op $A000"
 
-#: src/translate_text.c.po.c:7547
+#: src/translate_text.c.po.c:7575
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Geef de naam van het bestand voor de 4K-ROM op $B000"
 
-#: src/translate_text.c.po.c:7561
+#: src/translate_text.c.po.c:7589
 msgid "Specify generic extension ROM name"
 msgstr "Geef de naam van het bestand voor de algemene ROM"
 
-#: src/translate_text.c.po.c:7575
+#: src/translate_text.c.po.c:7603
 msgid "Specify Mega-Cart extension ROM name"
 msgstr "Geef de naam van het bestand voor de Mega-Cart ROM"
 
-#: src/translate_text.c.po.c:7589
+#: src/translate_text.c.po.c:7617
 msgid "Specify Final Expansion extension ROM name"
 msgstr "Geef de naam van het bestand voor de Final Expansion ROM"
 
-#: src/translate_text.c.po.c:7603
+#: src/translate_text.c.po.c:7631
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Activeer terug schrijven naar ROM bestand voor Final Expansion"
 
-#: src/translate_text.c.po.c:7617
+#: src/translate_text.c.po.c:7645
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Terug schrijven naar ROM bestand voor Final Expansion uischakelen"
 
-#: src/translate_text.c.po.c:7631
+#: src/translate_text.c.po.c:7659
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
 msgstr "Zet VIC-II border weergavemodus (0: normaal, 1: volledig, 2: debug)"
 
-#: src/translate_text.c.po.c:7645
+#: src/translate_text.c.po.c:7673
 msgid "Enable sprite-background collision registers"
 msgstr "Activeer sprite-achtergrond botsing registers"
 
-#: src/translate_text.c.po.c:7659
+#: src/translate_text.c.po.c:7687
 msgid "Disable sprite-background collision registers"
 msgstr "Sprite-achtergrond botsing registers uitschakelen"
 
-#: src/translate_text.c.po.c:7673
+#: src/translate_text.c.po.c:7701
 msgid "Enable sprite-sprite collision registers"
 msgstr "Activeer sprite-sprite botsing registers"
 
-#: src/translate_text.c.po.c:7687
+#: src/translate_text.c.po.c:7715
 msgid "Disable sprite-sprite collision registers"
 msgstr "Sprite-sprite botsing registers uitschakelen"
 
-#: src/translate_text.c.po.c:7701
+#: src/translate_text.c.po.c:7729
 msgid "Use new luminances"
 msgstr "Gebruik nieuwe kleuren"
 
-#: src/translate_text.c.po.c:7715
+#: src/translate_text.c.po.c:7743
 msgid "Use old luminances"
 msgstr "Gebruik oude kleuren"
 
-#: src/translate_text.c.po.c:7729
+#: src/translate_text.c.po.c:7757
 msgid "Enable double size"
 msgstr "Activeer dubbele grootte"
 
-#: src/translate_text.c.po.c:7743
+#: src/translate_text.c.po.c:7771
 msgid "Disable double size"
 msgstr "Dubbele grootte uitschakelen"
 
-#: src/translate_text.c.po.c:7757
+#: src/translate_text.c.po.c:7785
 msgid "Enable double scan"
 msgstr "Activeer dubbele scan"
 
-#: src/translate_text.c.po.c:7771
+#: src/translate_text.c.po.c:7799
 msgid "Disable double scan"
 msgstr "Dubbele scan uitschakelen"
 
-#: src/translate_text.c.po.c:7785
+#: src/translate_text.c.po.c:7813
 msgid "Enable hardware scaling"
 msgstr "Activeer hardwareschaling"
 
-#: src/translate_text.c.po.c:7799
+#: src/translate_text.c.po.c:7827
 msgid "Disable hardware scaling"
 msgstr "Hardwareschaling uitschakelen"
 
-#: src/translate_text.c.po.c:7813
+#: src/translate_text.c.po.c:7841
 msgid "Enable Scale2x"
 msgstr "Activeer Schaal2x"
 
-#: src/translate_text.c.po.c:7827
+#: src/translate_text.c.po.c:7855
 msgid "Disable Scale2x"
 msgstr "Schaal2x uitschakelen"
 
-#: src/translate_text.c.po.c:7841
+#: src/translate_text.c.po.c:7869
 msgid "Use an internal calculated palette"
 msgstr "Gebruik een intern berekend kleurenpalet"
 
-#: src/translate_text.c.po.c:7855
+#: src/translate_text.c.po.c:7883
 msgid "Use an external palette (file)"
 msgstr "Gebruik een extern kleurenpalet (bestand)"
 
-#: src/translate_text.c.po.c:7869
+#: src/translate_text.c.po.c:7897
 msgid "Specify name of file of external palette"
 msgstr "Geef de naam van het extern kleurenpaletbestand"
 
-#: src/translate_text.c.po.c:7883
+#: src/translate_text.c.po.c:7911
 msgid "Enable fullscreen mode"
 msgstr "Activeer volschermmodus"
 
-#: src/translate_text.c.po.c:7897
+#: src/translate_text.c.po.c:7925
 msgid "Disable fullscreen mode"
 msgstr "Volschermmodus uitschakelen"
 
-#: src/translate_text.c.po.c:7911
+#: src/translate_text.c.po.c:7939
 msgid "<device>"
 msgstr "<apparaat>"
 
-#: src/translate_text.c.po.c:7925
+#: src/translate_text.c.po.c:7953
 msgid "Select fullscreen device"
 msgstr "Selecteer volschermapparaat"
 
-#: src/translate_text.c.po.c:7939
+#: src/translate_text.c.po.c:7967
 msgid "Enable double size in fullscreen mode"
 msgstr "Activeer dubbele grootte in volschermmodus"
 
-#: src/translate_text.c.po.c:7953
+#: src/translate_text.c.po.c:7981
 msgid "Disable double size in fullscreen mode"
 msgstr "Dubbele grootte in volschermmodus uitschakelen"
 
-#: src/translate_text.c.po.c:7967
+#: src/translate_text.c.po.c:7995
 msgid "Enable double scan in fullscreen mode"
 msgstr "Activeer dubbele scan in volschermmodus"
 
-#: src/translate_text.c.po.c:7981
+#: src/translate_text.c.po.c:8009
 msgid "Disable double scan in fullscreen mode"
 msgstr "Dubbele scan in volschermmodus uitschakelen"
 
-#: src/translate_text.c.po.c:7995
+#: src/translate_text.c.po.c:8023
 msgid "<mode>"
 msgstr "<modus>"
 
-#: src/translate_text.c.po.c:8009
+#: src/translate_text.c.po.c:8037
 msgid "Select fullscreen mode"
 msgstr "Activeer volschermmodus"
 
-#: src/translate_text.c.po.c:8023
+#: src/translate_text.c.po.c:8051
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Geef het RS232-apparaat waarmee deze ACIA moet werken"
 
-#: src/translate_text.c.po.c:8037
+#: src/translate_text.c.po.c:8065
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12852,7 +12940,7 @@ msgstr ""
 "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
 "3: BLOCK APPARAAT)"
 
-#: src/translate_text.c.po.c:8051
+#: src/translate_text.c.po.c:8079
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12860,7 +12948,7 @@ msgstr ""
 "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
 "3: BLOCK APPARAAT)"
 
-#: src/translate_text.c.po.c:8065
+#: src/translate_text.c.po.c:8093
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12868,7 +12956,7 @@ msgstr ""
 "Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
 "3: BLOCK APPARAAT)"
 
-#: src/translate_text.c.po.c:8079
+#: src/translate_text.c.po.c:8107
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12876,450 +12964,450 @@ msgstr ""
 "Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
 "3: BLOCK APPARAAT)"
 
-#: src/translate_text.c.po.c:8093
+#: src/translate_text.c.po.c:8121
 msgid "Attach disk image for drive #8 read only"
 msgstr "Koppel schijfbestand voor drive #8 als alleen-lezen"
 
-#: src/translate_text.c.po.c:8107
+#: src/translate_text.c.po.c:8135
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Koppel schijfbestand voor drive #8 als schrijfbaar (indien mogelijk)"
 
-#: src/translate_text.c.po.c:8121
+#: src/translate_text.c.po.c:8149
 msgid "Attach disk image for drive #9 read only"
 msgstr "Koppel schijfbestand voor drive #9 als alleen-lezen"
 
-#: src/translate_text.c.po.c:8135
+#: src/translate_text.c.po.c:8163
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Koppel schijfbestand voor drive #9 als schrijfbaar (indien mogelijk)"
 
-#: src/translate_text.c.po.c:8149
+#: src/translate_text.c.po.c:8177
 msgid "Attach disk image for drive #10 read only"
 msgstr "Koppel schijfbestand voor drive #10 als alleen-lezen"
 
-#: src/translate_text.c.po.c:8163
+#: src/translate_text.c.po.c:8191
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Koppel schijfbestand voor drive #10 als schrijfbaar (indien mogelijk)"
 
-#: src/translate_text.c.po.c:8177
+#: src/translate_text.c.po.c:8205
 msgid "Attach disk image for drive #11 read only"
 msgstr "Koppel schijfbestand voor drive #11 als alleen-lezen"
 
-#: src/translate_text.c.po.c:8191
+#: src/translate_text.c.po.c:8219
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Koppel schijfbestand voor drive #11 als schrijfbaar (indien mogelijk)"
 
-#: src/translate_text.c.po.c:8205
+#: src/translate_text.c.po.c:8233
 msgid "Enable automatic Datasette-Reset"
 msgstr "Activeer automatische Datasette-Reset"
 
-#: src/translate_text.c.po.c:8219
+#: src/translate_text.c.po.c:8247
 msgid "Disable automatic Datasette-Reset"
 msgstr "Automatische Datasette-Reset uitschakelen"
 
-#: src/translate_text.c.po.c:8233
+#: src/translate_text.c.po.c:8261
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Zet de vertraging in cycli voor een nul in de tap"
 
-#: src/translate_text.c.po.c:8247
+#: src/translate_text.c.po.c:8275
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Zet aantal extra cycli voor elk gat in de tap"
 
-#: src/translate_text.c.po.c:8262
+#: src/translate_text.c.po.c:8290
 msgid "Trace the main CPU"
 msgstr "Traceer de hoofd-CPU"
 
-#: src/translate_text.c.po.c:8276
+#: src/translate_text.c.po.c:8304
 msgid "Do not trace the main CPU"
 msgstr "Traceer de hoofd-CPU niet"
 
-#: src/translate_text.c.po.c:8290
+#: src/translate_text.c.po.c:8318
 msgid "Trace the drive0 CPU"
 msgstr "Traceer de CPU van drive 0/8"
 
-#: src/translate_text.c.po.c:8304
+#: src/translate_text.c.po.c:8332
 msgid "Do not trace the drive0 CPU"
 msgstr "Traceer de CPU van drive 0/8 niet"
 
-#: src/translate_text.c.po.c:8318
+#: src/translate_text.c.po.c:8346
 msgid "Trace the drive1 CPU"
 msgstr "Traceer de CPU van drive 1/9"
 
-#: src/translate_text.c.po.c:8332
+#: src/translate_text.c.po.c:8360
 msgid "Do not trace the drive1 CPU"
 msgstr "Traceer de CPU van drive 1/9 niet"
 
-#: src/translate_text.c.po.c:8347
+#: src/translate_text.c.po.c:8375
 msgid "Trace the drive2 CPU"
 msgstr "Traceer de CPU van drive 2/10"
 
-#: src/translate_text.c.po.c:8361
+#: src/translate_text.c.po.c:8389
 msgid "Do not trace the drive2 CPU"
 msgstr "Traceer de CPU van drive 2/10 niet"
 
-#: src/translate_text.c.po.c:8377
+#: src/translate_text.c.po.c:8405
 msgid "Trace the drive3 CPU"
 msgstr "Traceer de CPU van drive 3/11"
 
-#: src/translate_text.c.po.c:8391
+#: src/translate_text.c.po.c:8419
 msgid "Do not trace the drive3 CPU"
 msgstr "Traceer de CPU van drive 3/11 niet"
 
-#: src/translate_text.c.po.c:8406
+#: src/translate_text.c.po.c:8434
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Traceermodus (0=normaal 1=klein 2=geschiedenis"
 
-#: src/translate_text.c.po.c:8421
+#: src/translate_text.c.po.c:8449
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
-#: src/translate_text.c.po.c:8435
+#: src/translate_text.c.po.c:8463
 msgid "Execute monitor commands from file"
 msgstr "Uitvoeren van commandos uit bestand"
 
-#: src/translate_text.c.po.c:8449
+#: src/translate_text.c.po.c:8477
 msgid "Set an initial breakpoint for the monitor"
 msgstr "Zet een beginnende breakpunt voor de monitor"
 
-#: src/translate_text.c.po.c:8463
+#: src/translate_text.c.po.c:8491
 msgid "Enable remote monitor"
 msgstr "Activeer monitor afstandsbediening"
 
-#: src/translate_text.c.po.c:8477
+#: src/translate_text.c.po.c:8505
 msgid "Disable remote monitor"
 msgstr "afstandsbediening monitor uitschakelen"
 
-#: src/translate_text.c.po.c:8491
+#: src/translate_text.c.po.c:8519
 msgid "The local address the remote monitor should bind to"
 msgstr ""
 "Lokaal adres waar de afstandsbediening voor de monitor aan gebonden moet "
 "worden"
 
-#: src/translate_text.c.po.c:8505
+#: src/translate_text.c.po.c:8533
 msgid "Specify name of the flip list file image"
 msgstr "Geef de naam van het fliplijstbestand"
 
-#: src/translate_text.c.po.c:8519
+#: src/translate_text.c.po.c:8547
 msgid "Show a list of the available options and exit normally"
 msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
 
-#: src/translate_text.c.po.c:8534
+#: src/translate_text.c.po.c:8562
 msgid "Console mode (for music playback)"
 msgstr "Consolemodus (voor afspelen voor muziek)"
 
-#: src/translate_text.c.po.c:8548
+#: src/translate_text.c.po.c:8576
 msgid "Allow production of core dumps"
 msgstr "Maken van core dumps toestaan"
 
-#: src/translate_text.c.po.c:8562
+#: src/translate_text.c.po.c:8590
 msgid "Do not produce core dumps"
 msgstr "Maken van core dumps niet toestaan"
 
-#: src/translate_text.c.po.c:8578
+#: src/translate_text.c.po.c:8606
 msgid "Don't call exception handler"
 msgstr "Geen gebruik maken van de exception handler"
 
-#: src/translate_text.c.po.c:8592
+#: src/translate_text.c.po.c:8620
 msgid "Call exception handler (default)"
 msgstr "Gebruik maken van de exception handler (standaard)"
 
-#: src/translate_text.c.po.c:8607
+#: src/translate_text.c.po.c:8635
 msgid "Restore default (factory) settings"
 msgstr "Herstel standaardinstellingen"
 
-#: src/translate_text.c.po.c:8621
+#: src/translate_text.c.po.c:8649
 msgid "<filename>"
 msgstr "<bestandsnaam>"
 
-#: src/translate_text.c.po.c:8635
+#: src/translate_text.c.po.c:8663
 msgid "Specify config file"
 msgstr "Geef configuratie bestandsnaam"
 
-#: src/translate_text.c.po.c:8649
+#: src/translate_text.c.po.c:8677
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Koppel en autostart een tape/diskbestand <naam>"
 
-#: src/translate_text.c.po.c:8663
+#: src/translate_text.c.po.c:8691
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Koppel en autolaad een tape-/diskbestand <naam>"
 
-#: src/translate_text.c.po.c:8677
+#: src/translate_text.c.po.c:8705
 msgid "Attach <name> as a tape image"
 msgstr "Koppel <naam> als een tapebestand"
 
-#: src/translate_text.c.po.c:8691
+#: src/translate_text.c.po.c:8719
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #8"
 
-#: src/translate_text.c.po.c:8705
+#: src/translate_text.c.po.c:8733
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #9"
 
-#: src/translate_text.c.po.c:8719
+#: src/translate_text.c.po.c:8747
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #10"
 
-#: src/translate_text.c.po.c:8733
+#: src/translate_text.c.po.c:8761
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #11"
 
-#: src/translate_text.c.po.c:8747
+#: src/translate_text.c.po.c:8775
 msgid "<string>"
 msgstr "<string>"
 
-#: src/translate_text.c.po.c:8775
+#: src/translate_text.c.po.c:8803
 msgid "Specify log file name"
 msgstr "Geef de naam van het logbestand"
 
-#: src/translate_text.c.po.c:8789
+#: src/translate_text.c.po.c:8817
 msgid "Enable mouse grab"
 msgstr "Gebruiken van de muis inschakelen"
 
-#: src/translate_text.c.po.c:8803
+#: src/translate_text.c.po.c:8831
 msgid "Disable mouse grab"
 msgstr "Gebruiken van de muis uitschakelen"
 
-#: src/translate_text.c.po.c:8817
+#: src/translate_text.c.po.c:8845
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
 
-#: src/translate_text.c.po.c:8831
+#: src/translate_text.c.po.c:8859
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 msgstr "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 
-#: src/translate_text.c.po.c:8845
+#: src/translate_text.c.po.c:8873
 msgid "Enable PS/2 mouse on userport"
 msgstr "Aktiveer emulatie van een PS/2 muis op de userport"
 
-#: src/translate_text.c.po.c:8859
+#: src/translate_text.c.po.c:8887
 msgid "Disable PS/2 mouse on userport"
 msgstr "Emulatie van een PS/2 muis op de userport afsluiten"
 
-#: src/translate_text.c.po.c:8873
+#: src/translate_text.c.po.c:8901
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Zet de waarde voor het allereerste RAM adres na koude start"
 
-#: src/translate_text.c.po.c:8887
+#: src/translate_text.c.po.c:8915
 msgid "<num of bytes>"
 msgstr "<aantal bytes>"
 
-#: src/translate_text.c.po.c:8901
+#: src/translate_text.c.po.c:8929
 msgid "Length of memory block initialized with the same value"
 msgstr "Geheugenblokgrootte die dezelfde waarde krijgt bij initialisatie"
 
-#: src/translate_text.c.po.c:8915
+#: src/translate_text.c.po.c:8943
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Geheugenblokgrootte met hetzelfde patroon bij initialisatie"
 
-#: src/translate_text.c.po.c:8929
+#: src/translate_text.c.po.c:8957
 msgid "Enable sound playback"
 msgstr "Activeer geluidsweergave"
 
-#: src/translate_text.c.po.c:8943
+#: src/translate_text.c.po.c:8971
 msgid "Disable sound playback"
 msgstr "Geluid uitschakelen"
 
-#: src/translate_text.c.po.c:8957
+#: src/translate_text.c.po.c:8985
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Zet de geluid sample rate naar <waarde> Hz"
 
-#: src/translate_text.c.po.c:8971
+#: src/translate_text.c.po.c:8999
 msgid "Set sound buffer size to <value> msec"
 msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 
-#: src/translate_text.c.po.c:8985
+#: src/translate_text.c.po.c:9013
 msgid "Specify sound driver"
 msgstr "Geef geluidsstuurprogramma"
 
-#: src/translate_text.c.po.c:8999
+#: src/translate_text.c.po.c:9027
 msgid "<args>"
 msgstr "<parameters>"
 
-#: src/translate_text.c.po.c:9013
+#: src/translate_text.c.po.c:9041
 msgid "Specify initialization parameters for sound driver"
 msgstr "Geef de initialisatieparameters voor het geluidsstuurprogramma"
 
-#: src/translate_text.c.po.c:9027
+#: src/translate_text.c.po.c:9055
 msgid "Specify recording sound driver"
 msgstr "Geef geluidsstuurprogramma voor opname"
 
-#: src/translate_text.c.po.c:9041
+#: src/translate_text.c.po.c:9069
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Geef initialisatieparameters voor het geluidsstuurprogramma voor opname"
 
-#: src/translate_text.c.po.c:9055
+#: src/translate_text.c.po.c:9083
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/translate_text.c.po.c:9069
+#: src/translate_text.c.po.c:9097
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Zet geluidssnelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"
 
-#: src/translate_text.c.po.c:9083
+#: src/translate_text.c.po.c:9111
 msgid "<path>"
 msgstr "<pad>"
 
-#: src/translate_text.c.po.c:9097
+#: src/translate_text.c.po.c:9125
 msgid "Define search path to locate system files"
 msgstr "Geef het zoek pad waar de systeem bestanden te vinden zijn"
 
-#: src/translate_text.c.po.c:9111
+#: src/translate_text.c.po.c:9139
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Activeer algemene methoden voor snelle disk/tape emulatie"
 
-#: src/translate_text.c.po.c:9125
+#: src/translate_text.c.po.c:9153
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Algemene methoden voor snelle disk/tape emulatie uitschakelen"
 
-#: src/translate_text.c.po.c:9139
+#: src/translate_text.c.po.c:9167
 msgid "Limit emulation speed to specified value"
 msgstr "Beperk emulatiesnelheid tot de opgegeven waarde"
 
-#: src/translate_text.c.po.c:9153
+#: src/translate_text.c.po.c:9181
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
-#: src/translate_text.c.po.c:9167
+#: src/translate_text.c.po.c:9195
 msgid "Enable warp mode"
 msgstr "Activeer warpmodus"
 
-#: src/translate_text.c.po.c:9181
+#: src/translate_text.c.po.c:9209
 msgid "Disable warp mode"
 msgstr "Warpmodus uitschakelen"
 
-#: src/translate_text.c.po.c:9195
+#: src/translate_text.c.po.c:9223
 msgid "<iso language code>"
 msgstr "<iso taalcode>"
 
-#: src/translate_text.c.po.c:9209
+#: src/translate_text.c.po.c:9237
 msgid "Specify the iso code of the language"
 msgstr "Geef de isocode van de taal"
 
-#: src/translate_text.c.po.c:9223
+#: src/translate_text.c.po.c:9251
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Activeer de PLUS256K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9237
+#: src/translate_text.c.po.c:9265
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "De PLUS256K-geheugenuitbreiding uitschakelen"
 
-#: src/translate_text.c.po.c:9251
+#: src/translate_text.c.po.c:9279
 msgid "Specify name of PLUS256K image"
 msgstr "Geef de naam van het PLUS256K-bestand"
 
-#: src/translate_text.c.po.c:9265
+#: src/translate_text.c.po.c:9293
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Activeer de PLUS60K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9279
+#: src/translate_text.c.po.c:9307
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "De PLUS60K-geheugenuitbreiding uitschakelen"
 
-#: src/translate_text.c.po.c:9293
+#: src/translate_text.c.po.c:9321
 msgid "Specify name of PLUS60K image"
 msgstr "Geef de naam van het PLUS60K-bestand"
 
-#: src/translate_text.c.po.c:9307
+#: src/translate_text.c.po.c:9335
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basisadres van de PLUS60K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9321
+#: src/translate_text.c.po.c:9349
 msgid "Enable the 256K RAM expansion"
 msgstr "Activeer de 256K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9335
+#: src/translate_text.c.po.c:9363
 msgid "Disable the 256K RAM expansion"
 msgstr "De 256K-geheugenuitbreiding uitschakelen"
 
-#: src/translate_text.c.po.c:9349
+#: src/translate_text.c.po.c:9377
 msgid "Specify name of 256K image"
 msgstr "Geef de naam van het 256K-bestand"
 
-#: src/translate_text.c.po.c:9363
+#: src/translate_text.c.po.c:9391
 msgid "Base address of the 256K expansion"
 msgstr "Basisadres van de 256K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9377
+#: src/translate_text.c.po.c:9405
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Koppel binair Structured-Basic-cartridgebestand aan"
 
-#: src/translate_text.c.po.c:9391
+#: src/translate_text.c.po.c:9419
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Activeer de CSORY 256K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9405
+#: src/translate_text.c.po.c:9433
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Activeer de HANNES 256K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9419
+#: src/translate_text.c.po.c:9447
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Activeer de HANNES 1024K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9433
+#: src/translate_text.c.po.c:9461
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Activeer de HANNES 4096K-geheugenuitbreiding"
 
-#: src/translate_text.c.po.c:9447
+#: src/translate_text.c.po.c:9475
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Geef de DTV revisie (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:9461
+#: src/translate_text.c.po.c:9489
 msgid "Enable DTV blitter logs."
 msgstr "Aktiveer DTV blitter logs."
 
-#: src/translate_text.c.po.c:9475
+#: src/translate_text.c.po.c:9503
 msgid "Disable DTV blitter logs."
 msgstr "DTV Blitter logs afsluiten."
 
-#: src/translate_text.c.po.c:9489
+#: src/translate_text.c.po.c:9517
 msgid "Enable DTV DMA logs."
 msgstr "Aktiveer DTV DMA logs."
 
-#: src/translate_text.c.po.c:9503
+#: src/translate_text.c.po.c:9531
 msgid "Disable DTV DMA logs."
 msgstr "DTV DMA logs afsluiten."
 
-#: src/translate_text.c.po.c:9517
+#: src/translate_text.c.po.c:9545
 msgid "Specify name of C64DTV ROM image"
 msgstr "Geef de naam van her C64DTV ROM bestand"
 
-#: src/translate_text.c.po.c:9531
+#: src/translate_text.c.po.c:9559
 msgid "Enable writing to C64DTV ROM image"
 msgstr "Aktiveer schrijven naar C64DTV ROM bestand"
 
-#: src/translate_text.c.po.c:9545
+#: src/translate_text.c.po.c:9573
 msgid "Disable writing to C64DTV ROM image"
 msgstr "Schrijven naar C64DTV ROM bestand afsluiten"
 
-#: src/translate_text.c.po.c:9559
+#: src/translate_text.c.po.c:9587
 msgid "Enable DTV flash chip logs."
 msgstr "Aktiveer DTV flash chip logs."
 
-#: src/translate_text.c.po.c:9573
+#: src/translate_text.c.po.c:9601
 msgid "Disable DTV flash chip logs."
 msgstr "DTV flash chip logs afsluiten."
 
-#: src/translate_text.c.po.c:9587
+#: src/translate_text.c.po.c:9615
 msgid "Use <name> as directory for flash file system device"
 msgstr "Gebruik <naam> als directory voor het flash bestandssysteem apparaat"
 
-#: src/translate_text.c.po.c:9601
+#: src/translate_text.c.po.c:9629
 msgid "Enable true hardware flash file system"
 msgstr "Activeer hardwarmatige flash bestandssysteem"
 
-#: src/translate_text.c.po.c:9615
+#: src/translate_text.c.po.c:9643
 msgid "Disable true hardware flash file system"
 msgstr "Hardwatematig flash bestandssysteem uitschakelen"
 
-#: src/translate_text.c.po.c:9630
+#: src/translate_text.c.po.c:9658
 msgid "Enable MIDI emulation"
 msgstr "Activeer MIDI emulatie"
 
-#: src/translate_text.c.po.c:9644
+#: src/translate_text.c.po.c:9672
 msgid "Disable MIDI emulation"
 msgstr "MIDI emulatie uitschakelen"
 
-#: src/translate_text.c.po.c:9658
+#: src/translate_text.c.po.c:9686
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -13327,81 +13415,84 @@ msgstr ""
 "MIDI interface soort (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:9673
+#: src/translate_text.c.po.c:9701
 msgid "Enable the digiblaster add-on"
 msgstr "Activeer de digiblaster add-on"
 
-#: src/translate_text.c.po.c:9687
+#: src/translate_text.c.po.c:9715
 msgid "Disable the digiblaster add-on"
 msgstr "De digiblaster add-on uitschakelen"
 
-#: src/translate_text.c.po.c:9701
+#: src/translate_text.c.po.c:9729
 msgid "Enable SID cartridge joystick"
 msgstr "Activeer SID cartridge joystick"
 
-#: src/translate_text.c.po.c:9715
+#: src/translate_text.c.po.c:9743
 msgid "Disable SID cartridge joystick"
 msgstr "De SID cartridge joystick uitschakelen"
 
-#: src/translate_text.c.po.c:9729
+#: src/translate_text.c.po.c:9757
 msgid "Enable the SFX soundexpander cartridge"
 msgstr "Activeer de SFX soundexpander cartridge"
 
-#: src/translate_text.c.po.c:9743
+#: src/translate_text.c.po.c:9771
 msgid "Disable the SFX soundexpander cartridge"
 msgstr "De SFX soundexpander cartridge uitschakelen"
 
-#: src/translate_text.c.po.c:9757
+#: src/translate_text.c.po.c:9785
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "Kies de YM chip soort (3526 / 3812)"
 
-#: src/translate_text.c.po.c:9771
+#: src/translate_text.c.po.c:9799
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Activeer de SFX Sound Sampler cartridge"
 
-#: src/translate_text.c.po.c:9785
+#: src/translate_text.c.po.c:9813
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "De SFX Sound Sampler cartridge uitschakelen"
 
-#: src/translate_text.c.po.c:9799
+#: src/translate_text.c.po.c:9827
 msgid "Enable lightpen emulation"
 msgstr "Activeer de lichtpen emulatie"
 
-#: src/translate_text.c.po.c:9813
+#: src/translate_text.c.po.c:9841
 msgid "Disable lightpen emulation"
 msgstr "De lichtpen emulatie uitschakelen"
 
-#: src/translate_text.c.po.c:9827
+#: src/translate_text.c.po.c:9855
 msgid "Set lightpen type"
 msgstr "Geef de lichtpen soort op"
 
-#: src/translate_text.c.po.c:9841
+#: src/translate_text.c.po.c:9869
 msgid "Enable EasyFlash jumper"
 msgstr "Activeer de EasyFlash jumper"
 
-#: src/translate_text.c.po.c:9855
+#: src/translate_text.c.po.c:9883
 msgid "Disable EasyFlash jumper"
 msgstr "De EasyFlash jumper uitschakelen"
 
-#: src/translate_text.c.po.c:9869
+#: src/translate_text.c.po.c:9897
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Activeer schrijven naar het EasyFlash .crt bestand"
 
-#: src/translate_text.c.po.c:9883
+#: src/translate_text.c.po.c:9911
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Schrijven naar het EasyFlash .crt bestand uitschakelen"
 
-#: src/translate_text.c.po.c:9897
+#: src/translate_text.c.po.c:9925
 msgid "Enable the digimax cartridge"
 msgstr "Activeer de digimaxcartridge"
 
-#: src/translate_text.c.po.c:9911
+#: src/translate_text.c.po.c:9939
 msgid "Disable the digimax cartridge"
 msgstr "De digimaxcartridge uitschakelen"
 
-#: src/translate_text.c.po.c:9925
+#: src/translate_text.c.po.c:9953
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
+
+#~ msgid "*Cartridge control"
+#~ msgstr "*Cartridge bediening"
 
 #~ msgid "SID engine"
 #~ msgstr "SID-kern"

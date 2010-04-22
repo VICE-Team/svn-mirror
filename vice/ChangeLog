@@ -1,3 +1,353 @@
+2010-04-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.3
+
+2010-04-20  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/c64cartmem.c, src/c64/isepic.c, src/c64/isepic.h:
+	  ISEPIC: fixed typo, removed nonexisting freeze button. Patch
+	  by Groepaz
+
+	* src/c128/c128.c, src/c128/c128cia1.c, src/c64/c64.c,
+	  src/c64/c64cia.h, src/c64/c64cia1.c, src/c64/c64cia2.c,
+	  src/cia.h, src/core/ciacore.c: Implement CIA TOD frequency bit
+	  emulation, bump up CIA snapshot module version
+
+2010-04-19  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/sid/sid-resources.c, src/sid/sid.h: Default to reSID-fp on
+	  x64sc, some coding style cleanup
+
+2010-04-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/final.c, src/c64/cart/final.h,
+	  src/c64/cart/final3.c, src/c64/cart/final3.h, src/cartridge.h:
+	  Final Cartridge 1/2/3 emulation fixes. Patch by Groepaz
+
+2010-04-18  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-draw-cycle.c: Mostly fixed 6569 emulation
+	  of modesplit.prg.
+
+	* src/viciinew/vicii-draw-cycle.c: Fixed hires pixel generation
+	  in MC text mode.
+
+2010-04-17  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-draw-cycle.c: Mostly fixed modesplit.prg
+	  for the 8565 case.
+
+2010-04-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/crt.c, src/c64/cart/final.c,
+	  src/c64/cart/final.h, src/c64/cart/final3.c,
+	  src/c64/cart/final3.h, src/c64/cart/warpspeed.c,
+	  src/c64/cart/warpspeed.h, src/c64/cart/westermann.c,
+	  src/c64/cart/westermann.h: Split carts from final.c to their
+	  own files. Patch by Groepaz
+
+2010-04-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/easyflash.c, src/c64/cart/mmcreplay.c,
+	  src/core/flash040core.c, src/flash040.h,
+	  src/vic20/cart/finalexpansion.c: flash040: spend finite time
+	  on erase operations, implement sector erase timeout and status
+	  byte read during erase operations
+
+2010-04-16  Antti S. Lankila <alankila@bel.fi>
+
+	* src/drive/rotation.c: At least some copy protections require
+	  distinguishing true GCR=1 from the reinterpreted GCR=0 read as
+	  1.
+
+	* src/drive/drive-snapshot.c: Fix couple of signed/unsigned
+	  reading warnings.
+
+	* src/drive/rotation.c: Fix use of // in comments.
+
+	* src/drive/drive-snapshot.c: Keep support for 1.0 snapshots.
+	  Correct warning when reading 1.1.
+
+	* src/drive/drive-snapshot.c, src/drive/drive.c,
+	  src/drive/drive.h, src/drive/iecieee/via2d.c,
+	  src/drive/rotation.c, src/drive/rotation.h,
+	  src/drive/tcbm/glue1551.c, src/drive/tcbm/tpid.c: Fix tabs.
+	  Rewrite rotation to rotate disk bit-by-bit. Use hardware-style
+	  10-bit sync sequence detection. Support GCR=0 reads in
+	  deterministic fashion based on a PRNG. Bump drive snapshot
+	  version to accommodate new fields.
+
+2010-04-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/flash040core.c, src/flash040.h: Add Am29F010 support
+	  to flash040core
+
+2010-04-13  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui.c, src/arch/win32/ui.h,
+	  src/arch/win32/uic64.c: Added feature to disable menuitems
+	  depending on the machine class. Use it to disable the machine
+	  sync items in x64sc.
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	  src/arch/win32/c64cart.dsp, src/arch/win32/c64ui.c,
+	  src/arch/win32/res.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uic64.c,
+	  src/arch/win32/uic64.h, src/c64/c64model.c,
+	  src/c64/c64model.h: Added Win32 GUI for C64 model selection.
+
+2010-04-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uijoystick2.c: Fix all overlapping hotkeys
+	  in *nix menu. Patch by Groepaz
+
+	* src/arch/unix/gui/uijoystick2.c: Fix overlapping hotkey in
+	  *nix menu. Patch by Groepaz
+
+	* src/c64/c64io.c, src/c64/cart/actionreplay.c,
+	  src/c64/cart/actionreplay.h, src/c64/cart/actionreplay3.c,
+	  src/c64/cart/actionreplay3.h, src/c64/cart/actionreplay4.c,
+	  src/c64/cart/actionreplay4.h, src/c64/cart/atomicpower.c,
+	  src/c64/cart/dinamic.c, src/c64/cart/final.c,
+	  src/c64/cart/funplay.c, src/c64/cart/gs.c,
+	  src/c64/cart/magicdesk.c, src/c64/cart/ocean.c,
+	  src/c64/cart/retroreplay.c, src/c64/cart/stardos.c: Clean up
+	  io code, fix FC3 and AR4 address truncation bug, get rid of
+	  needless vicii-phi1.h includes
+
+	* src/mainc64cpu.c: Add missing include
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	  src/c64/cart/gamekiller.c, src/c64/cart/gamekiller.h,
+	  src/cartridge.h, src/translate.txt, src/translate_text.c: Add
+	  ROBTEK Game Killer cartridge support. Patch by Groepaz
+
+2010-04-12  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/cart/c64cartmem.c,
+	  src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/joystick.c,
+	  src/keyboard.c, src/machine.h, src/pet/pet.c,
+	  src/plus4/plus4.c, src/vic20/vic20.c: Distribute keyboard and
+	  joystick events over the whole frame.
+
+2010-04-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/reu.c: Fix 1 cycle offset on x64sc REU
+
+	* configure.in: Disable inline warnings for *nix
+
+	* src/c64/reu.c: REU: fix address mirroring, implement register
+	  hideout during DMA
+
+2010-04-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64cpu.c, src/c64/c64memsc.c, src/mainc64cpu.c,
+	  src/mainc64cpu.h: Fix BA low canced bug
+
+	* src/arch/sdl/menu_c128hw.c,
+	  src/arch/sdl/menu_c64_common_expansions.c,
+	  src/arch/sdl/menu_c64_common_expansions.h,
+	  src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_c64schw.c: SDL UI: move MMC64 settings under
+	  Cartridge, add card type menu
+
+	* src/arch/unix/gui/uimmc64.c, src/c64/mmc64.c: MMC64 fixes.
+	  Patch by Groepaz, with some additional tweaks
+
+2010-04-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/expert.c: Expert
+	  cartridge fixes. Patch by Groepaz, with some additional tweaks
+
+2010-04-09  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-04-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* configure.in: Committed patch suggested in
+	  http://sourceforge.net/tracker/?func=detail&aid=2956015&group_id=223021&atid=1057619
+
+2010-04-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/ide64.c: Fix IDE64 breakage caused by io rewrite.
+	  Patch by Soci/Singular
+
+2010-04-09  Antti S. Lankila <alankila@bel.fi>
+
+	* src/drive/drivecpu.c, src/drive/drivesync.c,
+	  src/drive/drivetypes.h: Remove senseless optimization of
+	  division and modulo via table.
+
+	* src/diskimage/fsimage-create.c, src/drive/driveimage.c,
+	  src/gcr.c: Fix D64 image sector gaps to resemble the official
+	  disk structure.
+
+2010-04-09  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/Makefile.am, doc/html/plain/VIC-Article.txt,
+	  doc/html/plain/VIC-Artikel.txt: Added Christian Bauer's
+	  VIC-Article by kind permission from him.
+
+2010-04-08  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64cart.dsp: Fixed again (typo).
+
+	* src/arch/win32/c64cart.dsp: Added missing file.
+
+2010-04-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	  src/c64/cart/prophet64.c, src/c64/cart/prophet64.h,
+	  src/cartridge.h, src/translate.txt, src/translate_text.c:
+	  Prophet 64 cartridge support. Patch by Groepaz
+
+2010-04-08  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.h, src/sid/resid-fp.cc: Revert an earlier
+	  tweak about intermixing_leaks & rebalance parameters. This
+	  lightens up the filter sounds somewhat.
+
+	* src/drive/drive-snapshot.c, src/drive/rotation.c: Fix drive
+	  rotation speed jittering/bug.
+
+2010-04-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uic64cart.c, src/c64/cart/c64cart.c: Fix
+	  -cartexpert, move Expert cart controls on *nix UI
+
+2010-04-08  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64cart.dsp: Added missing files.
+
+2010-04-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+@@@MERGE@@@
+	* ., src/arch/msdos/lightpendrv.c, src/arch/msdos/lightpendrv.h,
+	  src/arch/sdl/lightpendrv.c, src/arch/sdl/lightpendrv.h,
+	  src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_lightpen.c,
+	  src/arch/sdl/menu_lightpen.h, src/arch/sdl/menu_midi.c,
+	  src/arch/sdl/menu_midi.h, src/arch/sdl/menu_network.c,
+	  src/arch/sdl/menu_network.h, src/arch/sdl/menu_rs232.c,
+	  src/arch/sdl/menu_rs232.h, src/arch/sdl/menu_tfe.c,
+	  src/arch/sdl/menu_tfe.h, src/arch/sdl/rs232dev.c,
+	  src/arch/sdl/rs232dev.h, src/arch/sdl/rs232net.c,
+	  src/arch/sdl/rs232net.h, src/arch/sdl/uipause.c,
+	  src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/uiautostart.c,
+	  src/arch/unix/gui/uiautostart.h,
+	  src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uieasyflash.c,
+	  src/arch/unix/gui/uieasyflash.h,
+	  src/arch/unix/gui/uimmcreplay.c,
+	  src/arch/unix/gui/uimmcreplay.h, src/arch/win32/lightpendrv.c,
+	  src/arch/win32/lightpendrv.h, src/arch/win32/rs232dev.c,
+	  src/arch/win32/rs232dev.h, src/arch/win32/rs232net.c,
+	  src/arch/win32/rs232net.h, src/c64/c64cart.h,
+	  src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/mmcreplay.h, src/c64/cart/retroreplay.c,
+	  src/c64/cart/ser-eeprom.c, src/c64/cart/ser-eeprom.h,
+	  src/c64/cart/spi-sdcard.c, src/c64/cart/spi-sdcard.h,
+	  src/lightpen.c, src/lightpen.h, src/resid-dtv: Merged MMC
+	  Replay branch (svn merge tags/v2.2/v2.2.2
+	  tags/contributions/v2.2.2-mmcreplay .)
+
+	* src/c64/c64cpu.c, src/c64/c64memsc.c, src/c64/reu.c,
+	  src/c64/reu.h, src/mainc64cpu.c, src/mainc64cpu.h: Fix REU for
+	  x64sc
+
+2010-04-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/mainc64cpu.c, src/viciinew/vicii-cycle.c: Move end-of-DMA
+	  interrupt delay etc handling from vicii-cycle.c to
+	  mainc64cpu.c
+
+2010-04-06  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m,
+	  src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	  src/arch/unix/macosx/cocoa/menu/c64sccontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/c64sccontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/c64scmachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/c64scmachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/c64scui.m: macosx: added cocoa
+	  support for x64sc model selection
+
+	* src/arch/unix/macosx/cocoa/menu/vicefilepanel.m,
+	  src/arch/unix/macosx/make-bindist.sh: macosx: added reu as
+	  VICE extension. allow to pick any extension in save panel
+
+2010-04-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/joy-hid.c,
+	  src/arch/unix/macosx/joy-hidlib.h,
+	  src/arch/unix/macosx/joy-hidmgr.c,
+	  src/arch/unix/macosx/joy-hidutil.c,
+	  src/arch/unix/macosx/joy.c: macosx: joy added HID slider
+	  support. fixed hat switch. fixed axis mapping on some devices.
+
+2010-04-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_c64schw.c, src/arch/unix/gui/c64scui.c:
+	  Improve SDL and *nix x64sc model menus
+
+2010-04-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/vsidui.c: SDL vsid UI: add (static) subtune and
+	  speed settings menus
+
+2010-04-04  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-draw-cycle.c: Naive implementation of 4
+	  pixel shift of MCM splits.
+
+2010-04-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/sid/sid-cmdline-options.c: Allow hex values (using 0x
+	  prefix) on -sidenginemodel and -sidstereoaddress
+
+2010-04-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib:
+	  macosx: fixed typo in menu. reported by Hoild
+
+	* src/arch/unix/macosx/joy-hid.c, src/arch/unix/macosx/joy.c:
+	  macosx: joystick fixes: work around broken devices. allow one
+	  device shared for HID a and b.
+
+
+
+
+
+
+
+
+
 2010-03-30  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.2
@@ -52,6 +402,7 @@
 	  src/arch/unix/macosx/cocoa/menu/c64scui.m: macosx: fixed x64sc
 	  compile
 
+@@@MERGE@@@
 	* Makefile.am, build/macosx/build-vice-dist.sh, configure.in,
 	  src/6510dtvcore.c, src/Makefile.am,
 	  src/arch/amigaos/archdep.c, src/arch/amigaos/joy.c,
