@@ -154,10 +154,6 @@ SOURCE="..\..\c64\cart\funplay.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\c64\cart\funplay.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\cart\gamekiller.c"
 # End Source File
 # Begin Source File
