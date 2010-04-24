@@ -170,6 +170,10 @@ SOURCE=..\menu_drive_rom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_ffmpeg.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_help.c
 # End Source File
 # Begin Source File

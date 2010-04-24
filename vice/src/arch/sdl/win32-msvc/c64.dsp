@@ -138,6 +138,10 @@ SOURCE=..\..\..\c64\c64fastiec.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\c64gluelogic.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\c64\c64iec.c
 # End Source File
 # Begin Source File

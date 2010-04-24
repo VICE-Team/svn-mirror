@@ -26,9 +26,6 @@
  *
  */
 
-#include "resid/sid.h"
-/* resid-dtv/ is used for DTVSID, but the API is the same */
-
 extern "C" {
 
 /* QNX has problems with const and inline definitions
@@ -45,6 +42,13 @@ extern "C" {
 #include "resources.h"
 #include "sid-snapshot.h"
 #include "types.h"
+
+} // extern "C"
+
+#include "resid/sid.h"
+/* resid-dtv/ is used for DTVSID, but the API is the same */
+
+extern "C" {
 
 struct sound_s
 {

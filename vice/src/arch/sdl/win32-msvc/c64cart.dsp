@@ -150,6 +150,10 @@ SOURCE="..\..\..\c64\cart\final.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\final3.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\funplay.c"
 # End Source File
 # Begin Source File
@@ -202,6 +206,10 @@ SOURCE="..\..\..\c64\cart\ross.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\spi-sdcard.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\stardos.c"
 # End Source File
 # Begin Source File
@@ -215,6 +223,14 @@ SOURCE="..\..\..\c64\cart\supergames.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\supersnapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\warpspeed.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\westermann.c"
 # End Source File
 # Begin Source File
 

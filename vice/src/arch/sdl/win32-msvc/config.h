@@ -17,6 +17,7 @@
 #define HAVE_NETWORK           1
 
 #define USE_SDLUI              1
+#define USE_SDL_PREFIX         1
 #define WIN32_COMPILE          1
 #define HAVE_SDLMAIN           1
 #define HAVE_SDL_NUMJOYSTICKS  1
