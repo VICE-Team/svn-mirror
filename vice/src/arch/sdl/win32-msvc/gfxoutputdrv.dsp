@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\gfxoutputdrv\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\lib\lpng" /I "..\..\..\lib\zlib" /I "..\..\..\lib\libffmpeg" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\lib\lpng" /I "..\..\..\lib\zlib" /I "..\..\..\lib\libffmpeg" /I "..\..\win32\msvc" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\gfxoutputdrv\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\lib\lpng" /I "..\..\..\lib\zlib" /I "..\..\..\lib\libffmpeg" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\lib\lpng" /I "..\..\..\lib\zlib" /I "..\..\..\lib\libffmpeg" /I "..\..\win32\msvc" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -83,6 +83,14 @@ LIB32=link.exe -lib
 # Begin Source File
 
 SOURCE=..\..\..\gfxoutputdrv\bmpdrv.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\gfxoutputdrv\ffmpegdrv.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\gfxoutputdrv\ffmpeglib.c
 # End Source File
 # Begin Source File
 
