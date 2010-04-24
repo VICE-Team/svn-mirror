@@ -39,6 +39,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
+#include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_network.h"
 #include "menu_reset.h"
@@ -271,6 +272,11 @@ int cbm2ui_init(void)
     }
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_init();
+#endif
+
     return 0;
 }
 
@@ -279,6 +285,11 @@ void cbm2ui_shutdown(void)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_shutdown();
+#endif
+
     lib_free(cbm2_font_14);
     lib_free(cbm2_font_8);
 }

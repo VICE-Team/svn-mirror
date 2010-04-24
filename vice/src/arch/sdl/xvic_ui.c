@@ -36,6 +36,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
+#include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_midi.h"
 #include "menu_network.h"
@@ -192,6 +193,11 @@ int vic20ui_init(void)
 
     sdl_ui_set_menu_font(vic20_font, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_vic20);
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_init();
+#endif
+
     return 0;
 }
 
@@ -200,6 +206,10 @@ void vic20ui_shutdown(void)
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();
     sdl_menu_midi_out_free();
+#endif
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_shutdown();
 #endif
 
     lib_free(vic20_font);

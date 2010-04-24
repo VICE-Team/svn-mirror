@@ -31,6 +31,7 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "menu_common.h"
+#include "menu_ffmpeg.h"
 #include "menu_screenshot.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -102,5 +103,11 @@ const ui_menu_entry_t screenshot_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"PPM" },
+#ifdef HAVE_FFMPEG
+    { "Record movie",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ffmpeg_menu },
+#endif
     { NULL }
 };

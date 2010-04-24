@@ -36,6 +36,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
+#include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_network.h"
 #include "menu_reset.h"
@@ -147,6 +148,11 @@ int c64dtvui_init(void)
     sdl_ui_set_main_menu(x64dtv_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_c64dtv);
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_init();
+#endif
+
     return 0;
 }
 
@@ -154,5 +160,9 @@ void c64dtvui_shutdown(void)
 {
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
+#endif
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_shutdown();
 #endif
 }

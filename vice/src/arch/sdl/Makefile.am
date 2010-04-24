@@ -74,6 +74,8 @@ libarch_a_SOURCES = \
 	menu_drive.h \
 	menu_drive_rom.c \
 	menu_drive_rom.h \
+	menu_ffmpeg.c \
+	menu_ffmpeg.h \
 	menu_help.c \
 	menu_help.h \
 	menu_joystick.c \

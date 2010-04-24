@@ -37,6 +37,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
+#include "menu_ffmpeg.h"
 #include "menu_help.h"
 #include "menu_midi.h"
 #include "menu_network.h"
@@ -178,6 +179,10 @@ int c64scui_init(void)
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_c64);
 
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_init();
+#endif
+
     return 0;
 }
 
@@ -190,5 +195,9 @@ void c64scui_shutdown(void)
 
 #ifdef HAVE_TFE
     sdl_menu_ethernet_interface_free();
+#endif
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_shutdown();
 #endif
 }
