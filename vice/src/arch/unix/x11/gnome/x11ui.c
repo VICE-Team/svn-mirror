@@ -858,6 +858,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     g_signal_connect(G_OBJECT(new_canvas), "motion-notify-event", G_CALLBACK(mouse_handler), NULL);
     g_signal_connect(G_OBJECT(new_canvas), "key-press-event", G_CALLBACK(kbd_event_handler), NULL);
     g_signal_connect(G_OBJECT(new_canvas), "key-release-event", G_CALLBACK(kbd_event_handler), NULL);
+    g_signal_connect(G_OBJECT(new_canvas), "focus-in-event", G_CALLBACK(enter_window_callback), (void *) c);
 
     if (c->videoconfig->hwscale) {
         /* For hwscale, it's a feature that new_canvas must bloat to 100% size
@@ -2175,6 +2176,16 @@ void ui_unblock_shells(void)
     for (i = 0; i < num_app_shells; i++) {
         gtk_widget_set_sensitive(app_shells[i].shell, TRUE);
     }
+    /* this is an ugly workaround to fix the focus issue on pop-down reported by count zero 
+       - dead keyboard after popdown of some dialogs 
+       this is neither correct nor elegant, as it messes with the mousecursor,
+       which is evil UI design, imho; unfortunately I don't know a "better" way :( - pottendo */
+    keyboard_key_clear();
+    gdk_pointer_grab(ui_cached_video_canvas->emuwindow->window, 1, 0, 
+		     ui_cached_video_canvas->emuwindow->window, 
+		     blankCursor, GDK_CURRENT_TIME);
+    gdk_pointer_ungrab(GDK_CURRENT_TIME);
+
 }
 
 /* Pop up a popup shell and center it to the last visited AppShell */
