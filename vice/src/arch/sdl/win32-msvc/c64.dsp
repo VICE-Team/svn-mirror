@@ -174,6 +174,10 @@ SOURCE=..\..\..\c64\c64memsnapshot.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\c64model.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\c64\c64parallel.c
 # End Source File
 # Begin Source File

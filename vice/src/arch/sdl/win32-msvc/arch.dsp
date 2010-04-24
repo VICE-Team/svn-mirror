@@ -146,6 +146,10 @@ SOURCE=..\menu_c64hw.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_c64schw.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_cbm2cart.c
 # End Source File
 # Begin Source File
@@ -343,6 +347,10 @@ SOURCE=..\x64_ui.c
 # Begin Source File
 
 SOURCE=..\x64dtv_ui.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\x64sc_ui.c
 # End Source File
 # Begin Source File
 

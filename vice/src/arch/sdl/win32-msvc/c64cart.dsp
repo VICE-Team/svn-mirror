@@ -158,6 +158,10 @@ SOURCE="..\..\..\c64\cart\funplay.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\gamekiller.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\generic.c"
 # End Source File
 # Begin Source File
@@ -182,11 +186,19 @@ SOURCE="..\..\..\c64\cart\magicformel.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\mmcreplay.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\mikroass.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\ocean.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\prophet64.c"
 # End Source File
 # Begin Source File
 
@@ -203,6 +215,10 @@ SOURCE="..\..\..\c64\cart\rexutility.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\ross.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\ser-eeprom.c"
 # End Source File
 # Begin Source File
 
