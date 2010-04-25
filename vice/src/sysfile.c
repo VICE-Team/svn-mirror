@@ -266,8 +266,25 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     }
 
     fp = sysfile_open(name, &complete_path, MODE_READ);
-    if (fp == NULL)
+
+    if (fp == NULL) {
+#ifdef __riscos
         goto fail;
+#else
+        /* Try to open the file from the current directory. */
+        const char working_dir_prefix[3] = { '.', FSDEV_DIR_SEP_CHR, '\0' };
+        char *local_name = NULL;
+
+        local_name = util_concat(working_dir_prefix, name, NULL);
+        fp = sysfile_open((const char *)local_name, &complete_path, MODE_READ);
+        lib_free(local_name);
+        local_name = NULL;
+
+        if (fp == NULL) {
+            goto fail;
+        }
+#endif
+    }
 
     log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
 
