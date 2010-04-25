@@ -387,6 +387,11 @@ static const mon_cmds_t mon_cmd_array[] = {
      IDGS_RP_DIRECTORY, IDGS_MON_DIR_DESCRIPTION,
      NULL, NULL },
 
+   { "list", "",
+     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+     IDGS_UNUSED, IDGS_UNUSED,
+     T_("[<device>]"), T_("List disk contents.") },
+
    { "load", "l",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
      IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS, IDGS_MON_LOAD_DESCRIPTION,

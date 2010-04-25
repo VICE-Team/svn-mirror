@@ -31,6 +31,7 @@
 
 extern void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr);
 extern void mon_drive_execute_disk_cmd(char *cmd);
+extern void mon_drive_list(int drive_number);
 
 #endif
 

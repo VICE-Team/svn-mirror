@@ -32,7 +32,10 @@
 #include <string.h>
 
 #include "attach.h"
+#include "diskcontents.h"
 #include "diskimage.h"
+#include "imagecontents.h"
+#include "lib.h"
 #include "montypes.h"
 #include "mon_drive.h"
 #include "mon_util.h"
@@ -126,5 +129,49 @@ void mon_drive_execute_disk_cmd(char *cmd)
     len = (unsigned int)strlen(cmd);
 
     rc = vdrive_command_execute(floppy, (BYTE *)cmd, len);
+}
+
+void mon_drive_list(int drive_number)
+{
+    char *name;
+    image_contents_t *listing;
+    vdrive_t *vdrive;
+
+    if ((drive_number < 8) || (drive_number > 11)) {
+        drive_number = 8;
+    }
+
+    vdrive = file_system_get_vdrive(drive_number);
+
+    if (vdrive == NULL || vdrive->image == NULL) {
+        mon_out("Drive %i not ready.\n", drive_number);
+        return;
+    }
+
+    name = disk_image_name_get(vdrive->image);
+
+    listing = diskcontents_read(name, drive_number);
+
+    if (listing != NULL) {
+        char *string = image_contents_to_string(listing, 1);
+        image_contents_file_list_t *element = listing->file_list;
+
+        mon_out("%s\n", string);
+        lib_free(string);
+
+        if (element == NULL) {
+            mon_out("Empty image\n");
+        } else do {
+            string = image_contents_file_to_string(element, 1);
+            mon_out("%s\n", string);
+            lib_free(string);
+        } while ((element = element->next) != NULL);
+
+        if (listing->blocks_free >= 0) {
+            string = lib_msprintf("%d blocks free.\n", listing->blocks_free);
+            mon_out("%s", string);
+            lib_free(string);
+        }
+    }
 }
 

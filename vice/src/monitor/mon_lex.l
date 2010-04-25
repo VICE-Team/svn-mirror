@@ -123,6 +123,7 @@ HDIGIT  [0-9a-f]
         ignore          { BEGIN(INITIAL);       return CMD_IGNORE; }
         io              { BEGIN(INITIAL);       return CMD_IO; }
         keybuf          { BEGIN(ROL);           return CMD_KEYBUF; }
+        list            { BEGIN(INITIAL);       return CMD_LIST; }
         load|l          { BEGIN(FNAME);         return CMD_LOAD; }
         load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
         mem|m           { BEGIN(INITIAL);       return CMD_MEM_DISPLAY; }
