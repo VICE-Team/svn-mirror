@@ -114,30 +114,38 @@ static int set_format(const char *val, void *param)
 
     format_index = -1;
     util_string_set(&ffmpeg_format, val);
-    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++)
-        if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
+    for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
+        if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0) {
             format_index = i;
+        }
+    }
 
-    if (format_index < 0)
+    if (format_index < 0) {
         return -1;
-    else
+    } else {
         return 0;
+    }
 }
 
 static int set_audio_bitrate(int val, void *param)
 {
     audio_bitrate = (CLOCK)val;
-    if (audio_bitrate < 16000 || audio_bitrate > 128000)
-        audio_bitrate = 64000;
 
+    if ((audio_bitrate < VICE_FFMPEG_AUDIO_RATE_MIN)
+     || (audio_bitrate > VICE_FFMPEG_AUDIO_RATE_MAX)) {
+        audio_bitrate = VICE_FFMPEG_AUDIO_RATE_DEFAULT;
+    }
     return 0;
 }
 
 static int set_video_bitrate(int val, void *param)
 {
     video_bitrate = (CLOCK)val;
-    if (video_bitrate < 100000 || video_bitrate > 10000000)
-        video_bitrate = 800000;
+
+    if ((video_bitrate < VICE_FFMPEG_VIDEO_RATE_MIN)
+     || (video_bitrate > VICE_FFMPEG_VIDEO_RATE_MAX)) {
+        video_bitrate = VICE_FFMPEG_VIDEO_RATE_DEFAULT;
+    }
 
     return 0;
 }
@@ -163,9 +171,11 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "FFMPEGAudioBitrate", 64000, RES_EVENT_NO, NULL,
+    { "FFMPEGAudioBitrate", VICE_FFMPEG_AUDIO_RATE_DEFAULT,
+      RES_EVENT_NO, NULL,
       &audio_bitrate, set_audio_bitrate, NULL },
-    { "FFMPEGVideoBitrate", 800000, RES_EVENT_NO, NULL,
+    { "FFMPEGVideoBitrate", VICE_FFMPEG_VIDEO_RATE_DEFAULT,
+      RES_EVENT_NO, NULL,
       &video_bitrate, set_video_bitrate, NULL },
     { "FFMPEGAudioCodec", CODEC_ID_MP3, RES_EVENT_NO, NULL,
       &audio_codec, set_audio_codec, NULL },

@@ -77,5 +77,13 @@ extern int gfxoutput_register(gfxoutputdrv_t *drv);
 /* GIF driver functions. */
 extern void gfxoutput_init_gif(void);
 
+/* FFMPEG bitrate constants. */
+#define VICE_FFMPEG_VIDEO_RATE_MIN      100000
+#define VICE_FFMPEG_VIDEO_RATE_MAX      10000000
+#define VICE_FFMPEG_VIDEO_RATE_DEFAULT  800000
+#define VICE_FFMPEG_AUDIO_RATE_MIN      16000
+#define VICE_FFMPEG_AUDIO_RATE_MAX      384000
+#define VICE_FFMPEG_AUDIO_RATE_DEFAULT  64000
+
 #endif
 
