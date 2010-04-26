@@ -2185,7 +2185,7 @@ void ui_unblock_shells(void)
 		     ui_cached_video_canvas->emuwindow->window, 
 		     blankCursor, GDK_CURRENT_TIME);
     gdk_pointer_ungrab(GDK_CURRENT_TIME);
-
+    ui_check_mouse_cursor();
 }
 
 /* Pop up a popup shell and center it to the last visited AppShell */
