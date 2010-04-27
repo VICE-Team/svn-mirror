@@ -69,6 +69,7 @@ struct vicii_light_pen_s {
     int state;
     int triggered;
     int x, y, x_extra_bits;
+    CLOCK trigger_cycle;
 };
 typedef struct vicii_light_pen_s vicii_light_pen_t;
 
@@ -107,7 +108,7 @@ struct vicii_s {
 
     /* xpos within the current line.  */
     unsigned int raster_xpos;
-                                   
+
     /* Current line.  */
     unsigned int raster_line;
 
@@ -272,13 +273,14 @@ extern vicii_t vicii;
 /* Private function calls, used by the other VIC-II modules.  */
 extern void vicii_update_memory_ptrs(void);
 extern void vicii_raster_draw_handler(void);
+extern void vicii_trigger_light_pen_internal(int retrigger);
 
 /* Debugging options.  */
 
 /* #define VICII_VMODE_DEBUG */
 /* #define VICII_RASTER_DEBUG */
 /* #define VICII_REGISTERS_DEBUG */
-#define VICII_CYCLE_DEBUG
+/* #define VICII_CYCLE_DEBUG */
 
 #ifdef VICII_VMODE_DEBUG
 #define VICII_DEBUG_VMODE(x) log_debug x

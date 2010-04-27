@@ -285,6 +285,7 @@ void vicii_reset(void)
     vicii.light_pen.state = 0;
     vicii.light_pen.triggered = 0;
     vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = 0;
+    vicii.light_pen.trigger_cycle = CLOCK_MAX;
 
     /* Remove all the IRQ sources.  */
     vicii.regs[0x1a] = 0;
@@ -333,6 +334,7 @@ void vicii_powerup(void)
     vicii.bad_line = 0;
     vicii.light_pen.state = 0;
     vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = vicii.light_pen.triggered = 0;
+    vicii.light_pen.trigger_cycle = CLOCK_MAX;
     vicii.vbank_phi1 = 0;
     vicii.vbank_phi2 = 0;
 
@@ -372,19 +374,28 @@ void vicii_set_phi2_vbank(int num_vbank)
 
 /* ---------------------------------------------------------------------*/
 
-/* Set light pen input state.  */
+/* Set light pen input state. Used by c64cia1.c.  */
 void vicii_set_light_pen(CLOCK mclk, int state)
 {
     if (state) {
-        vicii_trigger_light_pen(mclk);
+        /* add offset depending on chip model (FIXME use proper variable) */
+        vicii.light_pen.x_extra_bits = (vicii.color_latency ? 2 : 1);
+        vicii_trigger_light_pen_internal(0);
     }
     vicii.light_pen.state = state;
 }
 
-/* Trigger the light pen.  */
-void vicii_trigger_light_pen(CLOCK mclk)
+/* Trigger the light pen. Used internally.  */
+void vicii_trigger_light_pen_internal(int retrigger)
 {
     int x, y;
+
+    /* Unset the trigger cycle (originating from lightpen.c).
+       If this function was call from elsewhere before the cycle,
+       then the light pen was triggered by other means than
+       an actual light pen and the following "if" would make the
+       scheduled "actual" triggering pointless. */
+    vicii.light_pen.trigger_cycle = CLOCK_MAX;
 
     if (vicii.light_pen.triggered) {
         return;
@@ -415,11 +426,11 @@ void vicii_trigger_light_pen(CLOCK mclk)
         x -= 0xfc;
     }
 
-    /* add offset depending on chip model (FIXME use proper variable) */
-    x += (vicii.color_latency ? 2 : 1);
+    /* add offset from chip model or an actual light pen */
+    x += vicii.light_pen.x_extra_bits;
 
-    /* HACK signaled retrigger from vicii_cycle */
-    if (mclk == 0) {
+    /* signaled retrigger from vicii_cycle */
+    if (retrigger) {
         x = 0xd1;
 
         /* On 6569R1 the interrupt is triggered only when the line is low
@@ -439,10 +450,9 @@ void vicii_trigger_light_pen(CLOCK mclk)
     }
 }
 
-/* Calculate lightpen pulse time based on x/y */
+/* Calculate lightpen pulse time based on x/y.  */
 CLOCK vicii_lightpen_timing(int x, int y)
 {
-#if 0
     CLOCK pulse_time = maincpu_clk;
 
     x += 0x80 - vicii.screen_leftborderwidth;
@@ -454,18 +464,23 @@ CLOCK vicii_lightpen_timing(int x, int y)
         pulse_time = 0;
     } else {
         pulse_time += (x / 8) + (y * vicii.cycles_per_line);
-        /* Remove frame alarm jitter */
-        pulse_time -= maincpu_clk - VICII_LINE_START_CLK(maincpu_clk);
 
         /* Store x extra bits for sub CLK precision */
         vicii.light_pen.x_extra_bits = (x >> 1) & 0x3;
     }
 
     return pulse_time;
-#else
-    return 0;
-#endif
 }
+
+/* Trigger the light pen. Used by lightpen.c only.  */
+void vicii_trigger_light_pen(CLOCK mclk)
+{
+    /* Record the real trigger time */
+    vicii.light_pen.trigger_cycle = mclk;
+}
+
+
+/* ---------------------------------------------------------------------*/
 
 /* Change the base of RAM seen by the VIC-II.  */
 static inline void vicii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)

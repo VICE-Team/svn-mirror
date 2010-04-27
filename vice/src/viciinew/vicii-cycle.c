@@ -207,8 +207,9 @@ static inline void vicii_cycle_start_of_frame(void)
 
     /* Retrigger light pen if line is still held low */
     if (vicii.light_pen.state) {
-        /* HACK use 0 as special "retrigger" signal */
-        vicii_trigger_light_pen(0);
+        /* add offset depending on chip model (FIXME use proper variable) */
+        vicii.light_pen.x_extra_bits = (vicii.color_latency ? 2 : 1);
+        vicii_trigger_light_pen_internal(1);
     }
 }
 
@@ -465,6 +466,11 @@ int vicii_cycle(void)
 
     /* delay video mode for fetches by one cycle */
     vicii.reg11_delay = vicii.regs[0x11];
+
+    /* trigger light pen if scheduled */
+    if (vicii.light_pen.trigger_cycle == maincpu_clk) {
+        vicii_trigger_light_pen_internal(0);
+    }
 
     return ba_low;
 }

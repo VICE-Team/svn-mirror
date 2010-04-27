@@ -222,6 +222,10 @@ void lightpen_update(int window, int x, int y, int buttons)
 
     lightpen_update_buttons(buttons);
 
+    if ((x < 0) || (y < 0)) {
+        return;
+    }
+
     x += lp_type[lightpen_type].x_offset;
     y += lp_type[lightpen_type].y_offset;
 
