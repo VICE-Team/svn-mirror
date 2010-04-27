@@ -32,6 +32,7 @@
 #include "types.h"
 
 #define DRIVE_NUM 4
+#define MAX_PWM 1000
 
 #define DRIVE_ROM_SIZE 0x8000
 #define DRIVE_RAM_SIZE 0x2000

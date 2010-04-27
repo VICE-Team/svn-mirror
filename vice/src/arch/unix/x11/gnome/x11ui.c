@@ -1252,8 +1252,8 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
         status |= 2;
     }
 
-    ci1 = (int)(((float)led_pwm1 / 1000) * 16) - 1;
-    ci2 = (int)(((float)led_pwm2 / 1000) * 16) - 1;
+    ci1 = (int)(((float)led_pwm1 / MAX_PWM) * 16) - 1;
+    ci2 = (int)(((float)led_pwm2 / MAX_PWM) * 16) - 1;
     if (ci1 < 0) {
         ci1 = 0;
     }

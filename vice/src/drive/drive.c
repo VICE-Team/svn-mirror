@@ -42,6 +42,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <assert.h>
 
 #include "attach.h"
 #include "diskconstants.h"
@@ -664,6 +665,13 @@ static void drive_led_update(drive_t *drive)
         return;
 
     led_pwm = drive->led_active_ticks * 1000 / led_period;
+    /* during startup it has been observer that led_pwm > 1000, 
+       which potentially breaks several UIs */
+    assert(led_pwm <= MAX_PWM);
+    if (led_pwm > MAX_PWM) {
+        led_pwm = MAX_PWM;
+    }
+    
     drive->led_active_ticks = 0;
 
     if (led_pwm != drive->led_last_pwm

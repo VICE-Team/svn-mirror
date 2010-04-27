@@ -32,7 +32,6 @@
 #define EVENT_PLAYBACK  2
 
 #define MAX_COLOR 255
-#define MAX_PWM   1000
 
 #define COLOR_SHADE_RED   0x01
 #define COLOR_SHADE_GREEN 0x100
