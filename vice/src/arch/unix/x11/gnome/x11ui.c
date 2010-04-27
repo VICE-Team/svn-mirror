@@ -257,7 +257,10 @@ void ui_check_mouse_cursor()
         return;
     }
 #endif
-
+    if (ui_cached_video_canvas == NULL) {
+	return;
+    }
+    
     if (_mouse_enabled) {
         if (ui_cached_video_canvas->videoconfig->doublesizex) {
             mouse_accelx = 2;   
