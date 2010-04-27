@@ -800,7 +800,12 @@ void mem_powerup(void)
 void mem_set_vbank(int new_vbank)
 {
     vbank = new_vbank;
-    _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
+
+    /* Do not override watchpoints on vbank switches.  */
+    if (_mem_write_tab_ptr != mem_write_tab_watch) {
+        _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
+    }
+
     vicii_set_vbank(new_vbank);
 }
 
