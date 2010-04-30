@@ -323,11 +323,11 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 vicii_model = new_vicii;
                 cia1_model = new_cia1;
                 cia2_model = new_cia2;
-                sid_engine = (new_sidengmod << 8);
+                sid_engine = (new_sidengmod >> 8);
                 sid_model = (new_sidengmod & 0xff);
                 glue_logic = new_glue;
                 new_luma = new_new_luma;
-                 
+
                 c64_model = c64model_get_temp(vicii_model, sid_model, glue_logic,
                                           cia1_model, cia2_model, new_luma);
                 uic64_update_controls(hwnd, CONTROL_UPDATE_C64MODEL);
