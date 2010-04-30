@@ -612,19 +612,31 @@ int resources_set_value_string(const char *name, const char *value)
 
     switch (r->type) {
       case RES_INTEGER:
-        status = (*r->set_func_int)(atoi(value), r->param);
-	break;
+        {
+            char *endptr;
+            int int_value;
+
+            int_value = (int)strtol(value, &endptr, 0);
+
+            if (*endptr == '\0') {
+                status = (*r->set_func_int)(int_value, r->param);
+            } else {
+                status = -1;
+            }
+        }
+        break;
       case RES_STRING:
         status = (*r->set_func_string)(value, r->param);
-	break;
+        break;
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
         status = -1;
-	break;
+        break;
     }
 
-    if (status != 0)
+    if (status != 0) {
         resources_issue_callback(r, 1);
+    }
 
     return status;
 }

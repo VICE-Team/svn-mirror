@@ -58,20 +58,6 @@ static int sid_common_set_engine_model(const char *param, void *extra_param)
     return sid_set_engine_model(engine, model);
 }
 
-static int sid_set_stereo_address(const char *param, void *extra_param)
-{
-    int value;
-    char *endptr;
-
-    value = (int)strtol(param, &endptr, 0);
-
-    if (*endptr != '\0') {
-        return -1;
-    }
-
-    return resources_set_int("SidStereoAddressStart", value);
-}
-
 static const cmdline_option_t sidcart_cmdline_options[] = {
     { "-sidenginemodel", CALL_FUNCTION, 1,
       sid_common_set_engine_model, NULL, NULL, NULL,
@@ -136,8 +122,8 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_SECOND_SID,
       NULL, NULL },
-    { "-sidstereoaddress", CALL_FUNCTION, 1,
-      sid_set_stereo_address, NULL, NULL, NULL,
+    { "-sidstereoaddress", SET_RESOURCE, 1,
+      NULL, NULL, "SidStereoAddressStart", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_SPECIFY_SID_2_ADDRESS,
       NULL, NULL },
