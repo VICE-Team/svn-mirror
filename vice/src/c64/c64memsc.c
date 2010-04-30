@@ -108,7 +108,7 @@ BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
-static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
+static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
@@ -136,7 +136,7 @@ static BYTE REGPARM1 read_watch(WORD addr)
 static void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
-    mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
+    mem_write_tab[mem_config][addr >> 8](addr, value);
 }
 
 void mem_toggle_watchpoints(int flag, void *context)
@@ -146,7 +146,7 @@ void mem_toggle_watchpoints(int flag, void *context)
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
         _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
+        _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
 }
 
@@ -206,7 +206,7 @@ void mem_pla_config_changed(void)
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
         _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
+        _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
 
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
@@ -377,29 +377,17 @@ BYTE REGPARM1 mem_read(WORD addr)
 
 void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value)
 {
-    store_func_ptr_t *write_tab_ptr;
-
-    write_tab_ptr = mem_write_tab[vbank][mem_config & 7];
-
-    write_tab_ptr[addr >> 8](addr, value);
+    mem_write_tab[mem_config & 7][addr >> 8](addr, value);
 }
 
 BYTE REGPARM1 mem_read_without_ultimax(WORD addr)
 {
-    read_func_ptr_t *read_tab_ptr;
-
-    read_tab_ptr = mem_read_tab[mem_config & 7];
-
-    return read_tab_ptr[addr >> 8](addr);
+    return mem_read_tab[mem_config & 7][addr >> 8](addr);
 }
 
 void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
 {
-    store_func_ptr_t *write_tab_ptr;
-
-    write_tab_ptr = mem_write_tab[vbank][0];
-
-    write_tab_ptr[addr >> 8](addr, value);
+    mem_write_tab[0][addr >> 8](addr, value);
 }
 
 
@@ -419,11 +407,9 @@ BYTE REGPARM1 colorram_read(WORD addr)
 
 /* init 256k memory table changes */
 
-static int check_256k_ram_write(int k, int i, int j)
+static int check_256k_ram_write(int i, int j)
 {
-    /* FIXME get rid of vicii_mem_vbank_* dependancy */ 
-    if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store || mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store ||
-        mem_write_tab[k][i][j] == vicii_mem_vbank_store || mem_write_tab[k][i][j] == ram_hi_store || mem_write_tab[k][i][j] == ram_store) {
+    if (mem_write_tab[i][j] == ram_hi_store || mem_write_tab[i][j] == ram_store) {
         return 1;
     } else {
         return 0;
@@ -432,26 +418,24 @@ static int check_256k_ram_write(int k, int i, int j)
 
 void c64_256k_init_config(void)
 {
-    int i, j, k;
+    int i, j;
 
     if (c64_256k_enabled) {
         mem_limit_256k_init(mem_read_limit_tab);
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 1; j <= 0xff; j++) {
-                for (k = 0; k < NUM_VBANKS; k++) {
-                    if (check_256k_ram_write(k, i, j) == 1) {
-                        if (j < 0x40) {
-                            mem_write_tab[k][i][j] = c64_256k_ram_segment0_store;
-                        }
-                        if (j > 0x3f && j < 0x80) {
-                            mem_write_tab[k][i][j] = c64_256k_ram_segment1_store;
-                        }
-                        if (j > 0x7f && j < 0xc0) {
-                            mem_write_tab[k][i][j] = c64_256k_ram_segment2_store;
-                        }
-                        if (j > 0xbf) {
-                            mem_write_tab[k][i][j] = c64_256k_ram_segment3_store;
-                        }
+                if (check_256k_ram_write(i, j) == 1) {
+                    if (j < 0x40) {
+                        mem_write_tab[i][j] = c64_256k_ram_segment0_store;
+                    }
+                    if (j > 0x3f && j < 0x80) {
+                        mem_write_tab[i][j] = c64_256k_ram_segment1_store;
+                    }
+                    if (j > 0x7f && j < 0xc0) {
+                        mem_write_tab[i][j] = c64_256k_ram_segment2_store;
+                    }
+                    if (j > 0xbf) {
+                        mem_write_tab[i][j] = c64_256k_ram_segment3_store;
                     }
                 }
                 if (mem_read_tab[i][j] == ram_read) {
@@ -479,27 +463,27 @@ void c64_256k_init_config(void)
 
 void plus256k_init_config(void)
 {
-    int i, j, k;
+    int i, j;
 
     if (plus256k_enabled) {
         mem_limit_256k_init(mem_read_limit_tab);
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 1; j <= 0xff; j++) {
-                for (k = 0; k < NUM_VBANKS; k++) {
-                    if (check_256k_ram_write(k, i, j) == 1) {
-                        if (j < 0x10) {
-                            mem_write_tab[k][i][j] = plus256k_ram_low_store;
-                        } else {
-                            mem_write_tab[k][i][j] = plus256k_ram_high_store;
-                        }
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1) {
-                        mem_write_tab[k][i][j] = plus256k_vicii_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j > 0xd1) {
-                        mem_write_tab[k][i][j] = plus256k_vicii_store0;
+                if (check_256k_ram_write(i, j) == 1) {
+                    if (j < 0x10) {
+                        mem_write_tab[i][j] = plus256k_ram_low_store;
+                    } else {
+                        mem_write_tab[i][j] = plus256k_ram_high_store;
                     }
                 }
+
+                if (mem_write_tab[i][j] == vicii_store && j == 0xd1) {
+                    mem_write_tab[i][j] = plus256k_vicii_store;
+                }
+                if (mem_write_tab[i][j] == vicii_store && j > 0xd1) {
+                    mem_write_tab[i][j] = plus256k_vicii_store0;
+                }
+
                 if (mem_read_tab[i][j] == ram_read) {
                     if (j < 0x10) {
                         mem_read_tab[i][j] = plus256k_ram_low_read;
@@ -522,42 +506,31 @@ void plus256k_init_config(void)
 
 static void plus60k_init_config(void)
 {
-    int i, j, k;
+    int i, j;
 
     if (plus60k_enabled) {
         mem_limit_plus60k_init(mem_read_limit_tab);
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 0x10; j <= 0xff; j++) {
-                for (k = 0; k < NUM_VBANKS; k++) {
-                    /* FIXME get rid of vicii_mem_vbank_* dependancy */ 
-                    if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_39xx_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store) {
-                        mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_3fxx_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_mem_vbank_store) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_store;
-                    }
-                    if (mem_write_tab[k][i][j] == ram_hi_store) {
-                        mem_write_tab[k][i][j] = plus60k_ram_hi_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd0 && plus60k_base == 0xd040) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store_old;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd100) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd040) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store0;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j > 0xd1) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store0;
-                    }
-                    if (mem_write_tab[k][i][j] == ram_store) {
-                        mem_write_tab[k][i][j] = plus60k_ram_store;
-                    }
+                if (mem_write_tab[i][j] == ram_hi_store) {
+                    mem_write_tab[i][j] = plus60k_ram_hi_store;
                 }
+                if (mem_write_tab[i][j] == vicii_store && j == 0xd0 && plus60k_base == 0xd040) {
+                    mem_write_tab[i][j] = plus60k_vicii_store_old;
+                }
+                if (mem_write_tab[i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd100) {
+                    mem_write_tab[i][j] = plus60k_vicii_store;
+                }
+                if (mem_write_tab[i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd040) {
+                    mem_write_tab[i][j] = plus60k_vicii_store0;
+                }
+                if (mem_write_tab[i][j] == vicii_store && j > 0xd1) {
+                    mem_write_tab[i][j] = plus60k_vicii_store0;
+                }
+                if (mem_write_tab[i][j] == ram_store) {
+                    mem_write_tab[i][j] = plus60k_ram_store;
+                }
+
                 if (mem_read_tab[i][j] == vicii_read && j == 0xd0 && plus60k_base == 0xd040) {
                     mem_read_tab[i][j] = plus60k_vicii_read_old;
                 }
@@ -584,15 +557,13 @@ static void plus60k_init_config(void)
 
 static void mmc64_init_config(void)
 {
-    int i, j, k;
+    int i, j;
 
     if (mmc64_enabled) {
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 0x80; j <= 0x9f; j++) {
-                for (k = 0; k < NUM_VBANKS; k++) {
-                    if (mem_read_tab[i][j] == roml_read) {
-                        mem_write_tab[k][i][j] = mmc64_roml_store;
-                    }
+                if (mem_read_tab[i][j] == roml_read) {
+                    mem_write_tab[i][j] = mmc64_roml_store;
                 }
             }
         }
@@ -604,11 +575,7 @@ static void mmc64_init_config(void)
 
 void mem_set_write_hook(int config, int page, store_func_t *f)
 {
-    int i;
-
-    for (i = 0; i < NUM_VBANKS; i++) {
-        mem_write_tab[i][config][page] = f;
-    }
+    mem_write_tab[config][page] = f;
 }
 
 void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func)
@@ -623,7 +590,7 @@ void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
 
 void mem_initialize_memory(void)
 {
-    int i, j, k;
+    int i, j;
 
     /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
     const int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
@@ -650,28 +617,12 @@ void mem_initialize_memory(void)
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
             mem_read_base_tab[i][j] = mem_ram + (j << 8);
-            /* FIXME get rid of vicii_mem_vbank_* dependancy (kept around until plus60k & 256k are fixed) */
-            for (k = 0; k < NUM_VBANKS; k++) {
-                if ((j & 0xc0) == (k << 6)) {
-                    switch (j & 0x3f) {
-                        case 0x39:
-                            mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
-                            break;
-                        case 0x3f:
-                            mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
-                            break;
-                        default:
-                            mem_write_tab[k][i][j] = vicii_mem_vbank_store;
-                    }
-                } else {
-                    mem_write_tab[k][i][j] = ram_store;
-                }
-            }
+            mem_write_tab[i][j] = ram_store;
         }
         mem_read_tab[i][0xff] = ram_read;
         mem_read_base_tab[i][0xff] = mem_ram + 0xff00;
 
-        /* vbank access is handled within `ram_hi_store()'.  */
+        /* REU $ff00 trigger is handled within `ram_hi_store()'.  */
         mem_set_write_hook(i, 0xff, ram_hi_store);
     }
 
@@ -701,14 +652,12 @@ void mem_initialize_memory(void)
 
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
-        for (j = 0; j < NUM_VBANKS; j++) {
-            mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
-        }
+        mem_write_tab[i][0x100] = mem_write_tab[i][0];
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
     }
 
     _mem_read_tab_ptr = mem_read_tab[7];
-    _mem_write_tab_ptr = mem_write_tab[vbank][7];
+    _mem_write_tab_ptr = mem_write_tab[7];
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
@@ -751,16 +700,16 @@ void mem_initialize_memory(void)
         for (j = 16; j < 24; j++) {
             for (i = 0x10; i <= 0x7f; i++) {
                 mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                mem_set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_set_write_hook(j, i, mem_write_tab[j - 16][i]);
                 mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
             }
             for (i = 0xa0; i <= 0xbf; i++) {
                 mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                mem_set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_set_write_hook(j, i, mem_write_tab[j - 16][i]);
             }
             for (i = 0xc0; i <= 0xcf; i++) {
                 mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                mem_set_write_hook(j, i, mem_write_tab[0][j - 16][i]);
+                mem_set_write_hook(j, i, mem_write_tab[j - 16][i]);
                 mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
             }
         }
@@ -800,12 +749,6 @@ void mem_powerup(void)
 void mem_set_vbank(int new_vbank)
 {
     vbank = new_vbank;
-
-    /* Do not override watchpoints on vbank switches.  */
-    if (_mem_write_tab_ptr != mem_write_tab_watch) {
-        _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
-    }
-
     vicii_set_vbank(new_vbank);
 }
 
