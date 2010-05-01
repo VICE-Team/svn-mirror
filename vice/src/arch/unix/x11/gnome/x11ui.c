@@ -2185,11 +2185,13 @@ void ui_unblock_shells(void)
        this is neither correct nor elegant, as it messes with the mousecursor,
        which is evil UI design, imho; unfortunately I don't know a "better" way :( - pottendo */
     keyboard_key_clear();
-    gdk_pointer_grab(ui_cached_video_canvas->emuwindow->window, 1, 0, 
-		     ui_cached_video_canvas->emuwindow->window, 
-		     blankCursor, GDK_CURRENT_TIME);
-    gdk_pointer_ungrab(GDK_CURRENT_TIME);
-    ui_check_mouse_cursor();
+    if (ui_cached_video_canvas) {
+	gdk_pointer_grab(ui_cached_video_canvas->emuwindow->window, 1, 0, 
+			 ui_cached_video_canvas->emuwindow->window, 
+			 blankCursor, GDK_CURRENT_TIME);
+	gdk_pointer_ungrab(GDK_CURRENT_TIME);
+	ui_check_mouse_cursor();
+    }
 }
 
 /* Pop up a popup shell and center it to the last visited AppShell */
