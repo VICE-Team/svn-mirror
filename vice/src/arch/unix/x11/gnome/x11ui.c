@@ -525,6 +525,7 @@ int ui_init_finish(void)
 
 int ui_init_finalize(void)
 {
+    ui_check_mouse_cursor();
     return 0;
 }
 
