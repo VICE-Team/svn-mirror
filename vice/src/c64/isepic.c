@@ -90,7 +90,7 @@
 /* ------------------------------------------------------------------------- */
 
 /* Flag: Do we enable the ISEPIC?  */
-int isepic_enabled;
+static int isepic_enabled;
 
 /* Flag: what direction is the switch at, 0 = away, 1 = towards computer */
 int isepic_switch = 0;
@@ -134,6 +134,19 @@ static io_source_list_t *isepic_io2_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
+int isepic_cart_enabled(void)
+{
+    if (isepic_enabled && isepic_switch) {
+        return 1;
+    }
+    return 0;
+}
+
+int isepic_freeze_allowed(void)
+{
+    return isepic_cart_enabled();
+}
+
 static int set_isepic_enabled(int val, void *param)
 {
     if (isepic_enabled && !val) {
@@ -144,7 +157,7 @@ static int set_isepic_enabled(int val, void *param)
         isepic_io1_list_item = NULL;
         isepic_io2_list_item = NULL;
         if (isepic_switch) {
-            cartridge_config_changed(2, 2, 0);
+            cartridge_config_changed(2, 2, CMODE_READ);
             cartridge_release_freeze();
         }
     }
@@ -155,7 +168,7 @@ static int set_isepic_enabled(int val, void *param)
         isepic_io1_list_item = c64io_register(&isepic_io1_device);
         isepic_io2_list_item = c64io_register(&isepic_io2_device);
         if (isepic_switch) {
-            cartridge_config_changed(2, 3, 0);
+            cartridge_config_changed(2, 3, CMODE_READ);
         }
     }
     return 0;
@@ -166,7 +179,7 @@ static int set_isepic_switch(int val, void *param)
     if (isepic_switch && !val) {
         isepic_switch = 0;
         if (isepic_enabled) {
-            cartridge_config_changed(2, 2, 0);
+            cartridge_config_changed(2, 2, CMODE_READ);
             cartridge_release_freeze();
         }
     }

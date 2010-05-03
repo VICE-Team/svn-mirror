@@ -48,6 +48,7 @@
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "finalplus.h"
 #include "final3.h"
 #include "funplay.h"
 #include "gamekiller.h"
@@ -65,6 +66,7 @@
 #include "rexep256.h"
 #include "rexutility.h"
 #include "ross.h"
+#include "simonsbasic.h"
 #include "stardos.h"
 #include "stb.h"
 #include "supergames.h"
@@ -110,7 +112,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
 /*  cart should always be detached. there is no reason for doing fancy checks
     here, and it will cause problems incase a cart MUST be detached before
     attaching another, or even itself. (eg for initialization reasons)
-    
+
     most obvious reason: attaching a different ROM (software) for the same
     cartridge (hardware) */
 
@@ -130,6 +132,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_FINAL_I:
             rc = final_v1_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            rc = final_plus_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_ACTION_REPLAY4:
             rc = actionreplay4_crt_attach(fd, rawcart);
@@ -234,6 +239,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
             rc = gamekiller_crt_attach(fd, rawcart);
             break;
         default:
+            archdep_startup_log_error("unknown CRT ID: %d\n",crttype);
             rc = -1;
             break;
     }

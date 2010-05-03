@@ -37,6 +37,55 @@
 #include "sid.h"
 #include "vicii-mem.h"
 
+/*
+
+ missing: BA,CAS(not needed),RW(through tables),AEC
+
+ bit 4 - !game
+ bit 3 - !exrom
+ bit 2 - loram
+ bit 1 - hiram
+ bit 0 - charen
+
+         8000      a000      d000      e000
+
+ 0 0x00
+ 1 0x01                      chr 
+ 2 0x02                      chr       ker
+ 3 0x03            bas       chr       ker
+ 4 0x04
+ 5 0x05                      io
+ 6 0x06                      io        ker
+ 7 0x07            bas       io        ker
+
+ 8 0x08
+ 9 0x09                      chr
+10 0x0a            romh      chr       ker
+11 0x0b  roml      bas/romh  chr       ker      8k game
+12 0x0c  
+13 0x0d                      io
+14 0x0e            romh      io        ker
+15 0x0f  roml      bas/romh  io        ker      8k game
+
+16 0x10  roml      -         io        romh     ultimax
+17 0x11  roml      -         io        romh     ultimax
+18 0x12  roml      -         io        romh     ultimax
+19 0x13  roml      -         io        romh     ultimax
+20 0x14  roml      -         io        romh     ultimax
+21 0x15  roml      -         io        romh     ultimax
+22 0x16  roml      -         io        romh     ultimax
+23 0x17  roml      -         io        romh     ultimax
+
+24 0x18
+25 0x19                      chr
+26 0x1a            romh      chr       ker
+27 0x1b  roml      romh      chr       ker      16k game
+28 0x1c
+29 0x1d                      io
+30 0x1e            romh      io        ker
+31 0x1f  roml      romh      io        ker      16k game
+
+*/
 
 /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
 const unsigned int c64meminit_io_config[32] = {

@@ -37,6 +37,19 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    Action Replay 3
+
+    - 16k ROM, 2*8kb banks
+
+    io1:
+
+    bit 3 - exrom
+    bit 2 - disable
+    bit 1 - unused
+    bit 0 - bank
+*/
+
 static unsigned int ar_active;
 
 /* ---------------------------------------------------------------------*/
@@ -76,7 +89,7 @@ static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
 
     exrom = (value >> 3) & 1;
     bank = value & 1;
-    conf = (bank << 3) | ((exrom ^ 1) << 1);
+    conf = (bank << CMODE_BANK_SHIFT) | ((exrom ^ 1) << 1);
 
     if (ar_active) {
         cartridge_config_changed((BYTE)conf, (BYTE)conf, CMODE_WRITE);
@@ -121,7 +134,7 @@ void actionreplay3_freeze(void)
 void actionreplay3_config_init(void)
 {
     ar_active = 1;
-    cartridge_config_changed(8, 8, CMODE_READ);
+    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 void actionreplay3_reset(void)
@@ -134,7 +147,7 @@ void actionreplay3_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x4000);
     memcpy(romh_banks, rawcart, 0x4000);
 
-    cartridge_config_changed(8, 8, CMODE_READ);
+    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

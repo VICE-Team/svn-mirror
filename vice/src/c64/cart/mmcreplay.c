@@ -521,45 +521,6 @@ void mmcreplay_io2bank_set(unsigned int bank, unsigned int rambank)
     io2_ram_bank = (int)rambank;
 }
 
-/*
-  mode: (exrom<<1)|game
-        0          0            off
-        0          1            ultimax   roml ($8000),romh ($e000)
-        1          0            8k game   roml ($8000)
-        1          1            16k game  roml ($8000),romh ($a000)
-*/
-/* FIXME: phi1 vs phi2 is probably not quite correct */
-void mmcreplay_config_changed(BYTE mode_phi1,  /* game/exrom */
-                              BYTE mode_phi2,  /* game/exrom */
-                              unsigned int wflag, int release_freeze)
-{
-    if (wflag == CMODE_WRITE) {
-        machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-    } else {
-        machine_handle_pending_alarms(0);
-    }
-
-    export.game = mode_phi2 & 1;
-    export.exrom = ((mode_phi2 >> 1) & 1);
-
-    mem_pla_config_changed();
-
-    if (release_freeze) {
-        cartridge_release_freeze();
-    }
-
-    /* FIXME: i'm totally not sure about these *shrug* */
-
-    mode_phi1 ^= 2;             /* FIXME: invert exrom ? */
-    mode_phi1 = 2 | 0;
-
-    cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1)
-                      & ((~mode_phi1 >> 2) & 1);
-
-    machine_update_memory_ptrs();
-}
-
 #ifdef DEBUG
 static int last_mainmode = 0;
 static int last_biosmode = 0;
@@ -1194,10 +1155,6 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
         romA000_bank = cartbankl;
 
     }
-
-    cartridge_romlbank_set(cartbankl);
-    cartridge_romhbank_set(cartbankh);
-
     mmcreplay_ramlbank_set(rambankl);
     mmcreplay_ramhbank_set(rambankh);
 
@@ -1205,10 +1162,16 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
     mmcreplay_io2bank_set(io2bank, io2bank_ram);
 
     /* FIXME: phi1 should probably be different */
-    active_mode_phi1 = (mapped_exrom << 1) | mapped_game;
-    active_mode_phi2 = (mapped_exrom << 1) | mapped_game;
-    mmcreplay_config_changed(active_mode_phi1, active_mode_phi2, wflag,
-                             release_freeze);
+    active_mode_phi1 = (((mapped_exrom ^ 1) << 1) | mapped_game) | (cartbankl << CMODE_BANK_SHIFT);
+    active_mode_phi2 = (((mapped_exrom ^ 1) << 1) | mapped_game) | (cartbankl << CMODE_BANK_SHIFT);
+
+    if(release_freeze) {
+        wflag |= CMODE_RELEASE_FREEZE;
+    }
+
+    cartridge_config_changed(active_mode_phi1, active_mode_phi2, wflag);
+    cartridge_romlbank_set(cartbankl);
+    cartridge_romhbank_set(cartbankh);
 
     enable_freeze_exit = 0;     /* reset, it should only trigger once */
 }

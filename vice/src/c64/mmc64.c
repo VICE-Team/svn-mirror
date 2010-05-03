@@ -76,7 +76,7 @@
 #endif
 
 /* MMC64 enable */
-int mmc64_enabled;
+static int mmc64_enabled;
 
 /* MMC64 clockport enable */
 int mmc64_clockport_enabled = 1;
@@ -183,6 +183,11 @@ static io_source_t mmc64_io2_device = {
 
 static io_source_list_t *mmc64_clockport_list_item = NULL;
 static io_source_list_t *mmc64_io_list_item = NULL;
+
+int mmc64_cart_enabled(void)
+{
+    return mmc64_enabled;
+}
 
 /* Resets the card */
 void mmc64_reset(void)

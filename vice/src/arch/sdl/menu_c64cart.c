@@ -32,6 +32,7 @@
 
 #include "cartridge.h"
 #include "easyflash.h"
+#include "expert.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "menu_common.h"
@@ -201,7 +202,7 @@ static UI_MENU_CALLBACK(set_c64_cart_default_callback)
 
 /* Expert cartridge */
 
-UI_MENU_DEFINE_RADIO(CartridgeMode)
+UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
 
 static UI_MENU_CALLBACK(enable_expert_callback)
 {
@@ -222,16 +223,16 @@ static const ui_menu_entry_t expert_cart_menu[] = {
     SDL_MENU_ITEM_TITLE("Expert cartridge mode"),
     { "Off",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_CartridgeMode_callback,
-      (ui_callback_data_t)CARTRIDGE_MODE_OFF },
+      radio_ExpertCartridgeMode_callback,
+      (ui_callback_data_t)EXPERT_MODE_OFF },
     { "Prg",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_CartridgeMode_callback,
-      (ui_callback_data_t)CARTRIDGE_MODE_PRG },
+      radio_ExpertCartridgeMode_callback,
+      (ui_callback_data_t)EXPERT_MODE_PRG },
     { "On",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_CartridgeMode_callback,
-      (ui_callback_data_t)CARTRIDGE_MODE_ON },
+      radio_ExpertCartridgeMode_callback,
+      (ui_callback_data_t)EXPERT_MODE_ON },
     { NULL }
 };
 

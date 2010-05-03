@@ -113,7 +113,7 @@ static int ramcart_activate(void);
 static int ramcart_deactivate(void);
 
 /* Flag: Do we enable the external RAMCART?  */
-int ramcart_enabled;
+static int ramcart_enabled;
 
 /* Flag: Is the RAMCART readonly ?  */
 int ramcart_readonly = 0;
@@ -128,6 +128,10 @@ static int ramcart_size_kb = 0;
 static char *ramcart_filename = NULL;
 
 /* ------------------------------------------------------------------------- */
+int ramcart_cart_enabled(void)
+{
+    return ramcart_enabled;
+}
 
 static BYTE REGPARM1 ramcart_reg_read(WORD addr)
 {

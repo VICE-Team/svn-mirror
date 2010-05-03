@@ -47,21 +47,20 @@
 
 static void stb_io(WORD addr)
 {
-    switch (addr & 0xff03) {
-
+    switch (addr & 3) {
         /* normal config: bank 0 visible */
-        case 0xde00:
-        case 0xde01:
+        case 0:
+        case 1:
             cartridge_config_changed(0, 0, CMODE_READ);
             break;
 
         /* bank 1 visible, gets copied to RAM during reset */
-        case 0xde02:
-            cartridge_config_changed(0x08, 0x08, CMODE_READ);
+        case 2:
+            cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
             break;
 
         /* RAM visible, which contains bank 1 */
-        case 0xde03:
+        case 3:
             cartridge_config_changed(2, 2, CMODE_READ);
             break;
     }
@@ -81,7 +80,7 @@ static void REGPARM2 stb_io1_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stb_device = {
-    "STRUCTURED BASIC",
+    "Structured Basic",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,

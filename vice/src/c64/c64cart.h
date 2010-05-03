@@ -63,10 +63,32 @@ extern BYTE roml_banks[], romh_banks[];
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
 
+/* Cartridge ROM limit = 512kB (MMCReplay) */
+#define C64CART_ROM_LIMIT (1024*512)
 /* Cartridge RAM limit = 512kB (MMCReplay) */
 #define C64CART_RAM_LIMIT (1024*512)
 
 /* Expansion port signals.  */
+
+/*
+/IRQ        4     Interrupt Request line to 6502 (active low)
+R/W         5     Read/Write (write active low)
+DOT CLOCK   6     8.18 MHz video dot clock
+/I/O1       7     I/O block 1 @ $ DE00-$DEFF (active low) unbuffered I/O
+/GAME       8     active low ls ttl input
+/EXROM      9     active low ls ttl input
+/I/O2       10    I/O block 2 @ $DF00-$DFFF (active low) buff'ed ls ttl output
+/ROML       11    8K decoded RAM/ROM block @ $8000 (active low) buffered ls ttl output
+BA          12    Bus available signal from the VIC-II chip unbuffered 1 Is load max.
+/DMA        13    Direct memory access request line (active low input) ls ttl input
+D7-D0       14-21 Data bus bit 7-0 - unbuffered, 1 ls ttl load max
+/ROMH       B     8K decoded RAM/ROM block @ $E000 buffered
+/RESET      C     6502 RESET pin(active low) buff'ed ttl out/unbuff'ed in
+/NMI        D     6502 Non Maskable Interrupt (active low) buff'ed ttl out, unbuff'ed in
+02          E     Phase 2 system clock
+A15-A0      F-Y   Address bus bit 0-15 - unbuffered, 1 ls ttl load max
+*/
+
 typedef struct {
     BYTE exrom;
     BYTE game;

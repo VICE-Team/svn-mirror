@@ -43,6 +43,7 @@
 #include "crt.h"
 #include "expert.h"
 #include "final.h"
+#include "finalplus.h"
 #include "final3.h"
 #include "gamekiller.h"
 #include "generic.h"
@@ -59,6 +60,7 @@
 #include "mmcreplay.h"
 #include "stardos.h"
 #include "stb.h"
+#include "supersnapshot4.h"
 #include "supersnapshot.h"
 #include "translate.h"
 #include "util.h"
@@ -69,8 +71,6 @@ static int cartridge_mode;
 static int c64cartridge_reset;
 
 int c64cart_type = CARTRIDGE_NONE;
-
-int cartmode = CARTRIDGE_MODE_OFF;
 
 static int cartres = 0;
 static char *cartfile = NULL;
@@ -109,6 +109,7 @@ static int set_cartridge_file(const char *name, void *param)
     return try_cartridge_init(2);
 }
 
+/* FIXME: hook up user operated toggle (on/off) switches from other carts here */
 static int set_cartridge_mode(int val, void *param)
 {
     const int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
@@ -117,7 +118,6 @@ static int set_cartridge_mode(int val, void *param)
      * Set cartridge mode.
      */
     cartridge_mode = val;
-    cartmode = cartridge_mode;
 
     switch (type) {
         case (CARTRIDGE_EXPERT):
@@ -149,7 +149,7 @@ static const resource_int_t resources_int[] = {
     { "CartridgeType", CARTRIDGE_NONE,
       RES_EVENT_STRICT, (resource_value_t)CARTRIDGE_NONE,
       &cartridge_type, set_cartridge_type, NULL },
-    { "CartridgeMode", CARTRIDGE_MODE_OFF, RES_EVENT_NO, NULL,
+    { "ExpertCartridgeMode", EXPERT_MODE_OFF, RES_EVENT_NO, NULL,
       &cartridge_mode, set_cartridge_mode, NULL },
     { "CartridgeReset", 1, RES_EVENT_NO, NULL,
       &c64cartridge_reset, set_cartridge_reset, NULL },
@@ -248,6 +248,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 16kB Final Cartridge image") },
+    { "-cartfcplus", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_PLUS, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 32kB Final Cartridge Plus image") },
     { "-cartfc3", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_III, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -360,7 +365,7 @@ int cartridge_attach_image(int type, const char *filename)
 /*  cart should always be detached. there is no reason for doing fancy checks
     here, and it will cause problems incase a cart MUST be detached before
     attaching another, or even itself. (eg for initialization reasons)
-    
+
     most obvious reason: attaching a different ROM (software) for the same
     cartridge (hardware) */
 
@@ -472,6 +477,11 @@ int cartridge_attach_image(int type, const char *filename)
                 goto done;
             }
             break;
+        case CARTRIDGE_FINAL_PLUS:
+            if (final_plus_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
         case CARTRIDGE_FINAL_III:
             if (final_v3_bin_attach(filename, rawcart) < 0) {
                 goto done;
@@ -537,6 +547,7 @@ void cartridge_trigger_freeze(void)
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
         case CARTRIDGE_ATOMIC_POWER:
         case CARTRIDGE_FINAL_I:
+        case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
@@ -544,7 +555,7 @@ void cartridge_trigger_freeze(void)
             alarm_set(cartridge_alarm, maincpu_clk + 3);
             break;
         case CARTRIDGE_EXPERT:
-            if (cartmode == CARTRIDGE_MODE_ON) {
+            if (expert_freeze_allowed()) {
                 maincpu_set_nmi(cartridge_int_num, IK_NMI);
                 alarm_set(cartridge_alarm, maincpu_clk + 3);
             }
@@ -562,7 +573,7 @@ void cartridge_trigger_freeze(void)
             }
             break;
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_freeze_allowed()) {
         maincpu_set_nmi(cartridge_int_num, IK_NMI);
         alarm_set(cartridge_alarm, maincpu_clk + 3);
     }

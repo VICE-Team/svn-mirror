@@ -52,6 +52,7 @@
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "finalplus.h"
 #include "final3.h"
 #include "funplay.h"
 #include "gamekiller.h"
@@ -76,10 +77,12 @@
 #include "rexutility.h"
 #include "ramcart.h"
 #include "ross.h"
+#include "simonsbasic.h"
 #include "stardos.h"
 #include "stb.h"
 #include "supergames.h"
 #include "supersnapshot.h"
+#include "supersnapshot4.h"
 #include "types.h"
 #include "vicii-phi1.h"
 #include "warpspeed.h"
@@ -92,7 +95,7 @@
 export_t export;
 
 /* Expansion port ROML/ROMH images.  */
-BYTE roml_banks[0x80000], romh_banks[0x80000];
+BYTE roml_banks[C64CART_ROM_LIMIT], romh_banks[C64CART_ROM_LIMIT];
 
 /* Expansion port RAM images.  */
 BYTE export_ram0[C64CART_RAM_LIMIT];
@@ -108,14 +111,60 @@ unsigned int cart_ultimax_phi2 = 0;
 int mem_cartridge_type = CARTRIDGE_NONE;
 
 /*
-  mode & 3 = 0 : roml
-  mode & 3 = 1 : roml & romh
-  mode & 3 = 2 : ram
-  mode & 3 = 3 : ultimax
+  FIXME: remove this first part, it describes how the interface
+         worked before the reorganisation
+
+  common values:
+   4 0x04 -> phi2 ram, mode 0
+   6 0x06 -> phi2 ram, mode 2
+   8 0x08 -> bank 1, mode 0
+   9 0x09 -> bank 1, mode 1
+  35 0x23 -> export ram, mode 3
+
+  bit 7: unused
+  bit 6:
+  mode_phi2 & 0x40 - release freeze
+  bit 5:
+  mode_phi2 & 0x20 - export ram
+
+  bits 4,3:
+  mode_phi2 & 0x18 - bank
+
+  bit 2:
+  mode_phi1 & 0x04 - cart_ultimax_phi2 mask
+
+  bits 1,0: !exrom,game
+  mode_phi2 & 3 = 0 : roml
+  mode_phi2 & 3 = 1 : roml & romh
+  mode_phi2 & 3 = 2 : ram
+  mode_phi2 & 3 = 3 : ultimax
+
+  <--<-<--<-<--<-<--<-<--<-<--<-<--<-<--<-<--<-<--<-
+  new interface:
+
+  mode_phiN:
+
+  bits N..2: bank (currently max 0x3f)
+
+  bits 1,0: !exrom, game
+
+  mode_phiN & 3 = 0 : roml
+  mode_phiN & 3 = 1 : roml & romh
+  mode_phiN & 3 = 2 : ram
+  mode_phiN & 3 = 3 : ultimax
+
+  wflag:
+
+  bit 4  0x10   - trigger nmi after config changed
+  bit 3  0x08   - export ram enabled
+  bit 2  0x04   - vic phi2 mode (always sees ram if set)
+  bit 1  0x02   - release freeze (stop asserting NMI)
+  bit 0  0x01   - r/w flag
+
 */
 void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
 {
-    if (wflag == CMODE_WRITE) {
+    if ((wflag & CMODE_WRITE) == CMODE_WRITE) {
         machine_handle_pending_alarms(maincpu_rmw_flag + 1);
     } else {
         machine_handle_pending_alarms(0);
@@ -123,25 +172,67 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
 
     export.game = mode_phi2 & 1;
     export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
-    cartridge_romhbank_set((mode_phi2 >> 3) & 3);
-    cartridge_romlbank_set((mode_phi2 >> 3) & 3);
-    export_ram = (mode_phi2 >> 5) & 1;
+    cartridge_romhbank_set((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+    cartridge_romlbank_set((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+    export_ram = (wflag >> CMODE_EXPORT_RAM_SHIFT) & 1;
     mem_pla_config_changed();
-    if (mode_phi2 & 0x40) {
+    if ((wflag & CMODE_RELEASE_FREEZE) == CMODE_RELEASE_FREEZE) {
         cartridge_release_freeze();
     }
     cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~mode_phi1 >> 2) & 1);
+    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~wflag >> CMODE_PHI2_RAM_SHIFT) & 1);
+    /* TODO
+    cartridge_romhbank_phi1_set((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+    cartridge_romlbank_phi1_set((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+    */
     machine_update_memory_ptrs();
+
+    if ((wflag & CMODE_TRIGGER_FREEZE_NMI_ONLY) == CMODE_TRIGGER_FREEZE_NMI_ONLY) {
+        cartridge_trigger_freeze_nmi_only();
+    }
 }
 
+/*
+   - only CPU accesses go through the following hooks. the VICII directly accesses
+     the roml_ romh_ ram0_ tables.
+   - carts that switch game/exrom (ie, the memory config) based on adress, BA, phi2
+     or similar can not be supported correctly with the existing system.
+     the common workaround is to put the cart into ultimax mode, and wrap all hooks
+     to fake the expected mapping.
+
+    carts that use fake ultimax mapping:
+
+        magicformel  (buggy, magic-windows)
+        mmcreplay    (very buggy)
+        capture      (bug when exiting to basic)
+        final plus   (works)
+        game killer  (works)
+        atomic power (works)
+
+    carts that set up their own mapping in c64mem.c/c64memsc.c:
+
+    FIXME: actual carts should only use hooks from this file
+
+        mmc64     (roml_store, 8000-9fff)
+        easyflash (Allow writing at ROML at $8000-$9FFF in Ultimax mode.)
+        expert    (Allow writing at ROML at $8000-$9FFF in Ultimax mode.)
+        ramcart
+
+    internal extensions:
+
+        plus60k (internal)
+        plus256k (internal)
+        c64_256k (internal)
+*/
+
+/* ROML read - mapped to 8000 in 8k,16k,ultimax */
 BYTE REGPARM1 roml_read(WORD addr)
 {
-    if (mmc64_enabled) {
+    if (mmc64_cart_enabled()) {
         return mmc64_roml_read(addr);
     }
 
-    if (ramcart_enabled) {
+    if (ramcart_cart_enabled()) {
         return ramcart_roml_read(addr);
     }
 
@@ -163,13 +254,15 @@ BYTE REGPARM1 roml_read(WORD addr)
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_roml_read(addr);
         case CARTRIDGE_IDE64:
-            return roml_banks[(addr & 0x3fff) | (roml_bank << 14)];
+            return ide64_roml_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_roml_read(addr);
         case CARTRIDGE_EXPERT:
             return expert_roml_read(addr);
         case CARTRIDGE_FINAL_I:
             return final_v1_roml_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_roml_read(addr);
         case CARTRIDGE_FINAL_III:
             return final_v3_roml_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
@@ -183,7 +276,7 @@ BYTE REGPARM1 roml_read(WORD addr)
         case CARTRIDGE_GAME_KILLER:
             return gamekiller_roml_read(addr);
     }
-    if (dqbb_enabled) {
+    if (dqbb_cart_enabled()) {
         return dqbb_roml_read(addr);
     }
 
@@ -194,9 +287,10 @@ BYTE REGPARM1 roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
+/* ROML store - mapped to 8000 in 8k,16k,ultimax */
 void REGPARM2 roml_store(WORD addr, BYTE value)
 {
-    if (ramcart_enabled) {
+    if (ramcart_cart_enabled()) {
         ramcart_roml_store(addr,value);
         return;
     }
@@ -242,6 +336,7 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
     }
 }
 
+/* ROMH read - mapped to A000 in 16k, to e000 in ultimax */
 BYTE REGPARM1 romh_read(WORD addr)
 {
     switch (mem_cartridge_type) {
@@ -250,10 +345,9 @@ BYTE REGPARM1 romh_read(WORD addr)
         case CARTRIDGE_EXPERT:
             return expert_romh_read(addr);
         case CARTRIDGE_OCEAN:
-            /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
-            return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+            return ocean_romh_read(addr);
         case CARTRIDGE_IDE64:
-            return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
+            return ide64_romh_read(addr);
         case CARTRIDGE_EASYFLASH:
             return easyflash_romh_read(addr);
         case CARTRIDGE_CAPTURE:
@@ -262,16 +356,19 @@ BYTE REGPARM1 romh_read(WORD addr)
             return magicformel_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_romh_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_romh_read(addr);
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         return isepic_romh_read(addr);
     }
-    if (dqbb_enabled) {
+    if (dqbb_cart_enabled()) {
         return dqbb_romh_read(addr);
     }
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
+/* ROMH store - mapped to A000 in 16k, to e000 in ultimax */
 void REGPARM2 romh_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
@@ -287,35 +384,44 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_romh_store(addr, value);
             break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_romh_store(addr, value);
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_romh_store(addr, value);
+            break;
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         isepic_romh_store(addr, value);
     }
 }
 
+/* ROMH store - mapped to A000 in 16k */
 void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
 {
-    if (dqbb_enabled) {
+    if (dqbb_cart_enabled()) {
         dqbb_romh_store(addr, value);
         return;
     }
     mem_store_without_romlh(addr, value);
 }
 
+/* ROML store - mapped to 8000 in 8k, 16k */
 void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
 {
-    if (dqbb_enabled) {
+    if (dqbb_cart_enabled()) {
         dqbb_roml_store(addr, value);
         return;
     }
     mem_store_without_romlh(addr, value);
 }
 
+/* ultimax read - 1000 to 7fff */
 BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
-            return export_ram0[addr & 0x7fff];
+            return ide64_1000_7fff_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_1000_7fff_read(addr);
         case CARTRIDGE_CAPTURE:
@@ -324,18 +430,23 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
             return mmcreplay_1000_7fff_read(addr);
         case CARTRIDGE_GAME_KILLER:
             return gamekiller_1000_7fff_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_1000_7fff_read(addr);
+        case CARTRIDGE_ATOMIC_POWER:
+            return atomicpower_1000_7fff_read(addr);
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         return isepic_1000_7fff_read(addr);
     }
     return vicii_read_phi1();
 }
 
+/* ultimax store - 1000 to 7fff */
 void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
-            export_ram0[addr & 0x7fff] = value;
+            ide64_1000_7fff_store(addr, value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_1000_7fff_store(addr, value);
@@ -349,19 +460,26 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_GAME_KILLER:
             gamekiller_1000_7fff_store(addr, value);
             break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_1000_7fff_store(addr, value);
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_1000_7fff_store(addr, value);
+            break;
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         isepic_1000_7fff_store(addr, value);
     }
 }
 
+/* ultimax read - a000 to bfff */
 BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_a000_bfff_read(addr);
         case CARTRIDGE_IDE64:
-            return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
+            return ide64_a000_bfff_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_a000_bfff_read(addr);
         case CARTRIDGE_CAPTURE:
@@ -370,13 +488,16 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
             return mmcreplay_a000_bfff_read(addr);
         case CARTRIDGE_GAME_KILLER:
             return gamekiller_a000_bfff_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_a000_bfff_read(addr);
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         return isepic_a000_bfff_read(addr);
     }
     return vicii_read_phi1();
 }
 
+/* ultimax store - a000 to bfff */
 void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
@@ -395,17 +516,21 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
         case CARTRIDGE_GAME_KILLER:
             gamekiller_a000_bfff_store(addr, value);
             break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_a000_bfff_store(addr, value);
+            break;
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         isepic_a000_bfff_store(addr, value);
     }
 }
 
+/* ultimax read - c000 to cfff */
 BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
-            return export_ram0[addr & 0x7fff];
+            return ide64_c000_cfff_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_c000_cfff_read(addr);
         case CARTRIDGE_CAPTURE:
@@ -414,18 +539,23 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
             return mmcreplay_c000_cfff_read(addr);
         case CARTRIDGE_GAME_KILLER:
             return gamekiller_c000_cfff_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_c000_cfff_read(addr);
+        case CARTRIDGE_ATOMIC_POWER:
+            return atomicpower_c000_cfff_read(addr);
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         return isepic_c000_cfff_read(addr);
     }
     return vicii_read_phi1();
 }
 
+/* ultimax store - c000 to cfff */
 void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
-            export_ram0[addr & 0x7fff] = value;
+            ide64_c000_cfff_store(addr, value);
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_c000_cfff_store(addr, value);
@@ -439,12 +569,19 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
         case CARTRIDGE_GAME_KILLER:
             gamekiller_c000_cfff_store(addr, value);
             break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_c000_cfff_store(addr, value);
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_c000_cfff_store(addr, value);
+            break;
     }
-    if (isepic_enabled && isepic_switch) {
+    if (isepic_cart_enabled()) {
         isepic_c000_cfff_store(addr, value);
     }
 }
 
+/* ultimax read - d000 to dfff */
 BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
@@ -452,10 +589,15 @@ BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
             return magicformel_d000_dfff_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_d000_dfff_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_d000_dfff_read(addr);
+        case CARTRIDGE_ATOMIC_POWER:
+            return atomicpower_d000_dfff_read(addr);
     }
     return read_bank_io(addr);
 }
 
+/* ultimax store - d000 to dfff */
 void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
@@ -464,6 +606,12 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
             return;
         case CARTRIDGE_CAPTURE:
             capture_d000_dfff_store(addr, value);
+            return;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_d000_dfff_store(addr, value);
+            return;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_d000_dfff_store(addr, value);
             return;
     }
     store_bank_io(addr, value);
@@ -517,6 +665,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_FINAL_I:
             final_v1_config_init();
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_config_init();
             break;
         case CARTRIDGE_FINAL_III:
             final_v3_config_init();
@@ -594,8 +745,11 @@ void cartridge_init_config(void)
             gamekiller_config_init();
             break;
         default:
-            cartridge_config_changed(2, 2, CMODE_READ);
+            cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ);
     }
+
+    dqbb_init_config();
+
 }
 
 void cartridge_reset(void)
@@ -606,6 +760,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             actionreplay3_reset();
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_reset();
             break;
         case CARTRIDGE_ACTION_REPLAY:
             actionreplay_reset();
@@ -655,6 +812,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_FINAL_I:
             final_v1_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_config_setup(rawcart);
             break;
         case CARTRIDGE_STARDOS:
             stardos_config_setup(rawcart);
@@ -758,7 +918,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         default:
             mem_cartridge_type = CARTRIDGE_NONE;
     }
-    
+
     resources_get_int("CartridgeReset", &cartridge_reset);
 
     if (cartridge_reset != 0) {
@@ -818,6 +978,9 @@ void cartridge_detach(int type)
             break;
         case CARTRIDGE_FINAL_I:
             final_v1_detach();
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_detach();
             break;
         case CARTRIDGE_EASYFLASH:
             easyflash_detach();
@@ -898,7 +1061,7 @@ void cartridge_detach(int type)
             rexep256_detach();
             break;
     }
-    cartridge_config_changed(6, 6, CMODE_READ);
+    cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
     mem_cartridge_type = CARTRIDGE_NONE;
 
     resources_get_int("CartridgeReset", &cartridge_reset);
@@ -943,6 +1106,9 @@ void cartridge_freeze(int type)
             break;
         case CARTRIDGE_FINAL_I:
             final_v1_freeze();
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_freeze();
             break;
         case CARTRIDGE_FINAL_III:
             final_v3_freeze();

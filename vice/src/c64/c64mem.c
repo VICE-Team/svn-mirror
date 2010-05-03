@@ -46,7 +46,6 @@
 #include "cart/c64cartmem.h"
 #include "cartridge.h"
 #include "clkguard.h"
-#include "dqbb.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -591,7 +590,7 @@ static void mmc64_init_config(void)
 {
     int i, j, k;
 
-    if (mmc64_enabled) {
+    if (mmc64_cart_enabled()) {
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 0x80; j <= 0x9f; j++) {
                 for (k = 0; k < NUM_VBANKS; k++) {
@@ -784,7 +783,6 @@ void mem_initialize_memory(void)
     plus256k_init_config();
     c64_256k_init_config();
     mmc64_init_config();
-    dqbb_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

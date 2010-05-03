@@ -37,6 +37,28 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    Action Replay 4.2, 5, 6 (Hardware stayed the same)
+
+    32K rom, 4*8k pages
+    8K ram
+
+    io1 (writes)
+
+    7    extra ROM bank selector (A15) (unused)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+            I/O2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+
+    io2 (r/w)
+        cart RAM (if enabled) or cart ROM
+*/
+
 static unsigned int ar_active;
 
 /* ---------------------------------------------------------------------*/
@@ -73,8 +95,15 @@ static io_source_list_t *action_replay_io2_list_item = NULL;
 
 static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
 {
+    int mode = 0;
     if (ar_active) {
-        cartridge_config_changed((BYTE)(value & 3), value, CMODE_WRITE);
+        if (value & 0x40) {
+            mode |= CMODE_RELEASE_FREEZE;
+        }
+        if (value & 0x20) {
+            mode |= CMODE_EXPORT_RAM;
+        }
+        cartridge_config_changed((BYTE)(value & 3), (BYTE)(value & 3) | (((value >> 3) & 3) << CMODE_BANK_SHIFT), CMODE_WRITE | mode);
 
         if (value & 4) {
             ar_active = 0;
@@ -146,7 +175,7 @@ void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
 void actionreplay_freeze(void)
 {
     ar_active = 1;
-    cartridge_config_changed(35, 35, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void actionreplay_config_init(void)

@@ -36,4 +36,6 @@ extern void ocean_config_init(void);
 extern int ocean_crt_attach(FILE *fd, BYTE *rawcart);
 extern void ocean_detach(void);
 
+extern BYTE REGPARM1 ocean_romh_read(WORD addr);
+
 #endif

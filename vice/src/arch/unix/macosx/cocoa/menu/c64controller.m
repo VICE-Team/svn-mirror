@@ -102,14 +102,14 @@
 
 -(IBAction)controlExpertCartridge:(id)sender
 {
-    [self setIntResource:@"CartridgeMode" toValue:[sender tag]];
+    [self setIntResource:@"ExpertCartridgeMode" toValue:[sender tag]];
     [self updateMachineResources];
 }
 
 - (void)updateMachineResources
 {
     // Expert Cartridge
-    int expertCartridgeMode = [self getIntResource:@"CartridgeMode"];
+    int expertCartridgeMode = [self getIntResource:@"ExpertCartridgeMode"];
     int i;
     for (i=0;i<3;i++) {
         NSMenuItem *item = [expertCartridgeModeMenu itemAtIndex:i];

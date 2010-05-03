@@ -74,13 +74,13 @@ static io_source_list_t *final1_io2_list_item = NULL;
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
-    cartridge_config_changed(2, 2 | 0x40, CMODE_READ);
+    cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
 void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 {
-    cartridge_config_changed(2, 2 | 0x40, CMODE_WRITE);
+    cartridge_config_changed(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE);
 }
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)

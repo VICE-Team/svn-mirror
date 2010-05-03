@@ -32,6 +32,7 @@
 
 #include "c64cart.h"
 #include "cartridge.h"
+#include "expert.h"
 #include "lib.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -105,19 +106,19 @@ static UI_CALLBACK(save_cartridge)
     ui_cartridge_dialog();
 }
 
-UI_MENU_DEFINE_RADIO(CartridgeMode)
+UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
 
 static ui_menu_entry_t cartridge_control_submenu[] = {
     { N_("Enable Expert Cartridge..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EXPERT, NULL },
     { "--" },
-    { N_("*Prg"), (ui_callback_t)radio_CartridgeMode,
-      (ui_callback_data_t)CARTRIDGE_MODE_PRG, NULL },
-    { N_("*Off"), (ui_callback_t)radio_CartridgeMode,
-      (ui_callback_data_t)CARTRIDGE_MODE_OFF, NULL },
-    { N_("*On"), (ui_callback_t)radio_CartridgeMode,
-      (ui_callback_data_t)CARTRIDGE_MODE_ON, NULL },
+    { N_("*Prg"), (ui_callback_t)radio_ExpertCartridgeMode,
+      (ui_callback_data_t)EXPERT_MODE_PRG, NULL },
+    { N_("*Off"), (ui_callback_t)radio_ExpertCartridgeMode,
+      (ui_callback_data_t)EXPERT_MODE_OFF, NULL },
+    { N_("*On"), (ui_callback_t)radio_ExpertCartridgeMode,
+      (ui_callback_data_t)EXPERT_MODE_ON, NULL },
     { "--" },
     { N_("Save cartridge image..."),
       (ui_callback_t)save_cartridge, NULL, NULL },

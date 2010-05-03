@@ -41,9 +41,47 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    Retro Replay
+
+    64K rom, 8*8k pages
+    32K ram, 4*8k pages
+
+    io1 (writes)
+
+    de00:
+
+    7    extra ROM bank selector (A15)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+            I/O2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+
+    de01:
+
+    7    extra ROM bank selector (A15)
+    6    1 = reu mapping
+    5
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = no freeze
+    1    1 = allow bank
+    0    1 = clockport enabled
+
+    io2 (r/w)
+        cart RAM (if enabled) or cart ROM
+*/
+
 /* Cart is activated.  */
 unsigned int rr_active;
 unsigned int rr_clockport_enabled;
+
+/* current bank */
+static unsigned int rr_bank;
 
 /* Only one write access is allowed.  */
 static unsigned int write_once;
@@ -133,20 +171,29 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
 
 void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
 {
+    int mode = CMODE_WRITE;
+
     if (rr_active) {
         switch (addr & 0xff) {
             case 0:
-                cartridge_config_changed(0, value, CMODE_WRITE);
-                cartridge_romhbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
-                cartridge_romlbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
+                rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
+                if (value & 0x40) {
+                    mode |= CMODE_RELEASE_FREEZE;
+                }
+                if (value & 0x20) {
+                    mode |= CMODE_EXPORT_RAM;
+                }
+                cartridge_config_changed(0, (value & 3) | (rr_bank << CMODE_BANK_SHIFT), mode);
+
                 if (value & 4) {
                     rr_active = 0;
                 }
                 break;
             case 1:
                 if (write_once == 0) {
-                    cartridge_romhbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
-                    cartridge_romlbank_set(((value >> 3) & 3) | ((value >> 5) & 4));
+                    rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
+                    cartridge_romhbank_set(rr_bank);
+                    cartridge_romlbank_set(rr_bank);
                     allow_bank = value & 2;
                     no_freeze = value & 4;
                     reu_mapping = value & 0x40;
@@ -292,7 +339,7 @@ void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
 void retroreplay_freeze(void)
 {
     rr_active = 1;
-    cartridge_config_changed(35, 35, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 int retroreplay_freeze_allowed(void)

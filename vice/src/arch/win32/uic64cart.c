@@ -32,6 +32,7 @@
 #include <windows.h>
 
 #include "cartridge.h"
+#include "expert.h"
 #include "intl.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -44,14 +45,14 @@
 #include "uilib.h"
 
 static const ui_res_possible_values_t CartMode[] = {
-    { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
-    { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
-    { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
+    { EXPERT_MODE_OFF, IDM_CART_MODE_OFF },
+    { EXPERT_MODE_PRG, IDM_CART_MODE_PRG },
+    { EXPERT_MODE_ON, IDM_CART_MODE_ON },
     { -1, 0 }
 };
 
 static const ui_res_value_list_t c64_ui_res_values[] = {
-    { "CartridgeMode", CartMode, 0 },
+    { "ExpertCartridgeMode", CartMode, 0 },
     { NULL, NULL, 0 }
 };
 

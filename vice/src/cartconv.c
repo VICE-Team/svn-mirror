@@ -73,9 +73,7 @@
 #define DELA_EP256_CRT               26
 #define REX_EP256_CRT                27
 #define MIKRO_ASSEMBLER_CRT          28
-/* 29 is reserved for the real
-   fc1, the current fc1 will
-   become fc2 */
+#define FINAL_CARTRIDGE_PLUS_CRT     29
 #define ACTION_REPLAY4_CRT           30
 #define STARDOS_CRT                  31
 #define EASYFLASH_CRT                32
@@ -86,6 +84,10 @@
 #define MMC64_CRT                    37
 #define MMC_REPLAY_CRT               38
 #define IDE64_CRT                    39
+#define SUPER_SNAPSHOT_CRT           40 /* TODO */
+#define IEEE488_CRT                  41 /* TODO */
+#define GAME_KILLER_CRT              42 /* TODO */
+#define P64_CRT                      43 /* TODO */
 
 #define SIZE_4KB     0x1000
 #define SIZE_8KB     0x2000
@@ -162,7 +164,7 @@ static const cart_t cart_info[] = {
     {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP256"},
     {1, 0, SIZE_8KB, 0, 0x8000, 0, "Rex EP256"},
     {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Mikro Assembler"},
-    {0, 0, 0, 0, 0, 0, "Dummy"},
+    {1, 1, SIZE_32KB, 0x8000, 0x0000, 1, "Final Cartridge Plus"},
     {1, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Action Replay 4"},
     {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"},
     {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"},
@@ -172,7 +174,11 @@ static const cart_t cart_info[] = {
     {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
     {0, 0, 0, 0, 0, 0, "MMC64"}, /* to be corrected once the code is rewritten */
     {0, 0, 0, 0, 0, 0, "MMC Replay"}, /* to be corrected once the code is merged */
-    {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "IDE64"}
+    {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "IDE64"},
+    {0, 0, 0, 0, 0, 0, "Super Snapshot"}, /* TODO */
+    {0, 0, 0, 0, 0, 0, "IEEE488"}, /* TODO */
+    {0, 0, 0, 0, 0, 0, "Game Killer"}, /* TODO */
+    {0, 0, 0, 0, 0, 0, "Prophet 64"}, /* TODO */
 };
 
 #ifndef HAVE_STRDUP
@@ -280,6 +286,7 @@ static void usage(void)
     printf("epyx     Epyx Fastload .crt file\n");
     printf("expert   Expert Cartridge .crt file\n");
     printf("fc1      Final Cartridge 1 .crt file\n");
+    printf("fcp      Final Cartridge Plus .crt file\n");
     printf("fc3      Final Cartridge 3 .crt file\n");
     printf("fp       Fun Play, Power Play .crt file\n");
     printf("gs       C64GS, System 3 .crt file\n");
@@ -419,6 +426,9 @@ static void checkflag(char *flg, char *arg)
                         }
                         if (tolower(arg[1]) == 'c' && tolower(arg[2]) == '1') {
                             cart_type = FINAL_CARTRIDGE_1_CRT;
+                        }
+                        if (tolower(arg[1]) == 'c' && tolower(arg[2]) == 'p') {
+                            cart_type = FINAL_CARTRIDGE_PLUS_CRT;
                         }
                         if (tolower(arg[1]) == 'c' && tolower(arg[2]) == '3') {
                             cart_type = FINAL_CARTRIDGE_3_CRT;
@@ -1591,6 +1601,7 @@ int main(int argc, char *argv[])
             case WESTERMANN_CRT:
             case REX_UTILITY_CRT:
             case FINAL_CARTRIDGE_1_CRT:
+            case FINAL_CARTRIDGE_PLUS_CRT:
             case MAGIC_FORMEL_CRT:
             case C64GS_CRT:
             case WARPSPEED_CRT:

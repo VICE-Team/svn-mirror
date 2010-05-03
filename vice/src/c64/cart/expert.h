@@ -45,6 +45,13 @@ extern int expert_bin_attach(const char *filename, BYTE *rawcart);
 extern int expert_crt_attach(FILE *fd, BYTE *rawcart);
 extern void expert_detach(void);
 
+extern int expert_freeze_allowed(void);
+
 extern void expert_mode_changed(int mode);
+
+/* Expert cartridge has three modes: */
+#define EXPERT_MODE_OFF                      0
+#define EXPERT_MODE_PRG                      1
+#define EXPERT_MODE_ON                       2
 
 #endif

@@ -70,13 +70,21 @@ static io_source_list_t *actionreplay4_io2_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-/* $de00 control register
+/*
+   Action Replay 4
+
+   - 32K ROM, 4*8K banks
+
+   $de00 control register
    bit 0: Eprom banking bit 0 (bank address 13)
    bit 1: controls the GAME line (0 sets GAME low, 1 sets GAME high)
    bit 2: Freeze-end bit (disables the register and hides any rom bank)
    bit 3: controls the Exrom line (1 sets EXROM low, 0 sets EXROM high)
    bit 4: Eprom banking bit 1 (bank address 14)
    bit 5 to 7: unused.
+
+   io2:
+   - rom bank mirror
  */
 
 /* ---------------------------------------------------------------------*/
@@ -90,8 +98,8 @@ static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
     exrom = (value >> 3) & 1;
     bank = (value >> 4) & 1;
     bank = (value & 1) | (bank << 1);
-    conf = (bank << 3) | ((exrom ^ 1) << 1) | ((game ^ 1) << 0);
-    
+    conf = (bank << CMODE_BANK_SHIFT) | ((exrom ^ 1) << 1) | ((game ^ 1) << 0);
+
     if (ar_active) {
         cartridge_config_changed((BYTE)(conf & 3), conf, CMODE_WRITE);
         if (disable) {
@@ -146,7 +154,7 @@ void actionreplay4_freeze(void)
 void actionreplay4_config_init(void)
 {
     ar_active = 1;
-    cartridge_config_changed(8, 8, CMODE_READ);
+    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 void actionreplay4_reset(void)
@@ -159,7 +167,7 @@ void actionreplay4_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
 
-    cartridge_config_changed(8, 8, CMODE_READ);
+    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

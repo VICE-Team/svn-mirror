@@ -118,21 +118,16 @@ BYTE REGPARM1 final_v3_io2_read(WORD addr)
 void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
 {
     if ((fc3_reg_enabled) && ((addr & 0xff) == 0xff)) {
+        unsigned int flags = CMODE_WRITE;
+        unsigned int mode;
         fc3_reg_enabled = ((value >> 7) & 1) ^ 1;
-
-        cartridge_romhbank_set(value & 3);
-        cartridge_romlbank_set(value & 3);
-        export.game = ((value >> 5) & 1) ^ 1;
-        export.exrom = ((value >> 4) & 1) ^ 1;
-        mem_pla_config_changed();
-        cart_ultimax_phi1 = export.game & (export.exrom ^ 1);
-        cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
-
         if (value & 0x40) {
-            cartridge_release_freeze();
+            flags |= CMODE_RELEASE_FREEZE;
         } else {
-            cartridge_trigger_freeze_nmi_only();
+            flags |= CMODE_TRIGGER_FREEZE_NMI_ONLY;
         }
+        mode = ((value >> 3) & 2) | (((value >> 5) & 1) ^ 1) | ((value & 3) << CMODE_BANK_SHIFT);
+        cartridge_config_changed(mode, mode, flags);
     }
 }
 
@@ -149,7 +144,7 @@ void final_v3_freeze(void)
 {
     fc3_reg_enabled = 1;
     /* note: freeze does NOT force a specific bank like some other carts do */
-    cartridge_config_changed(3, (roml_bank << 3) | 3, CMODE_READ);;
+    cartridge_config_changed(2, 3 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);;
 }
 
 void final_v3_config_init(void)

@@ -29,11 +29,11 @@
 
 FIXME: the emulation still does not work 100%. perhaps the schematics have an
        error, or maybe i have just overlooked something.
-       
+
 things that work are those from the 64k ROM, the basic toolkit, the freezer,
 monitor, fastloader. anything that uses the additional 32k does NOT work yet
 (and behaves very strange, press F7, then FIRE(and hold, then move stick))
-       
+
 the following is a quick overview of how the cartridge works, as its a bit
 unusual and different from most other cartridges:
 
@@ -105,7 +105,7 @@ CB2            - enable Cartridge (?)
           right now. someone who knows the memory mapping internals better
           than me should take a look at it perhaps :)
 */
-#define USE_ULTIMAX_CONFIG 
+#define USE_ULTIMAX_CONFIG
 
 /* permanently enable RAM in io1 */
 /* #define DEBUG_IO1_NO_DISABLE  */
@@ -173,38 +173,6 @@ static void log_bank(int bank)
     DBG(("]\n"));
 }
 #endif
-
-/****************************************************************************
-* 
-****************************************************************************/
-
-/*
-    mode & 3 = 0 : GAME=0 EXROM=0^1 roml
-    mode & 3 = 1 : GAME=1 EXROM=0^1 roml & romh
-    mode & 3 = 2 : GAME=0 EXROM=1^1 ram
-    mode & 3 = 3 : GAME=1 EXROM=1^1 ultimax
-*/
-static void magicformel_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
-{
-    if (wflag == CMODE_WRITE) {
-        machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-    } else {
-        machine_handle_pending_alarms(0);
-    }
-
-    export.game = mode_phi2 & 1;
-    export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
-
-    cartridge_romhbank_set((mode_phi2 >> 3)&0x0f);
-
-    mem_pla_config_changed();
-    if (mode_phi2 & 0x80) {
-        cartridge_release_freeze();
-    }
-    cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~mode_phi1 >> 2) & 1);
-    machine_update_memory_ptrs();
-}
 
 /****************************************************************************
 * 
@@ -503,7 +471,7 @@ static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value);
 static BYTE REGPARM1 magicformel_io2_read(WORD addr);
 
 static io_source_t magicformel_io1_device = {
-    "MAGIC FORMEL",
+    "Magic Formel",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -513,7 +481,7 @@ static io_source_t magicformel_io1_device = {
 };
 
 static io_source_t magicformel_io2_device = {
-    "MAGIC FORMEL",
+    "Magic Formel",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -694,9 +662,9 @@ void magicformel_freeze(void)
     kernal_decoder(0xfffe);
 
 #ifdef USE_ULTIMAX_CONFIG
-    magicformel_config_changed(2,(1<<7)|((romh_bank&0x0f)<<3)|(3), CMODE_READ);
+    cartridge_config_changed(2, 3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT), CMODE_READ | CMODE_RELEASE_FREEZE);
 #else
-    magicformel_config_changed(2,(1<<7)|((romh_bank&0x0f)<<3)|(2), CMODE_READ);
+    cartridge_config_changed(2, 2 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT), CMODE_READ | CMODE_RELEASE_FREEZE);
 #endif
 
     magicformel_init_mem(romh_bank);
@@ -712,9 +680,9 @@ void magicformel_config_init(void)
     kernal_decoder(0xfffe);
 
 #ifdef USE_ULTIMAX_CONFIG
-    magicformel_config_changed(2, (romh_bank<<3)|(3), CMODE_READ);
+    cartridge_config_changed(2, 3 | (romh_bank << CMODE_BANK_SHIFT), CMODE_READ);
 #else
-    magicformel_config_changed(2, (romh_bank<<3)|(2), CMODE_READ);
+    cartridge_config_changed(2, 2 | (romh_bank << CMODE_BANK_SHIFT), CMODE_READ);
 #endif
 
     magicformel_init_mem(romh_bank);

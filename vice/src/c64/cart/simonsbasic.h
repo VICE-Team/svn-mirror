@@ -1,8 +1,8 @@
 /*
- * ramcart.h - RAMCART emulation.
+ * simonsbasic.h - Cartridge handling, Simons Basic cart.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,28 +24,14 @@
  *
  */
 
-#ifndef VICE_RAMCART_H
-#define VICE_RAMCART_H
+#ifndef VICE_SIMONSBASIC_H
+#define VICE_SIMONSBASIC_H
+
+#include <stdio.h>
 
 #include "types.h"
 
-struct snapshot_s;
-
-extern void ramcart_init(void);
-extern int ramcart_resources_init(void);
-extern void ramcart_resources_shutdown(void);
-extern int ramcart_cmdline_options_init(void);
-
-extern void ramcart_init_config(void);
-extern void ramcart_reset(void);
-extern void ramcart_shutdown(void);
-extern BYTE REGPARM1 ramcart_roml_read(WORD addr);
-extern void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte);
-extern int ramcart_read_snapshot_module(struct snapshot_s *s);
-extern int ramcart_write_snapshot_module(struct snapshot_s *s);
-extern int ramcart_attach(const char *filename, BYTE *rawcart);
-
-extern int ramcart_cart_enabled(void);
-extern int ramcart_readonly;
+extern int simon_crt_attach(FILE *fd, BYTE *rawcart);
+extern void simon_detach(void);
 
 #endif

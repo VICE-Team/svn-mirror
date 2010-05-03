@@ -29,8 +29,9 @@
 
 #include "types.h"
 
-extern int isepic_enabled;
 extern int isepic_switch;
+extern int isepic_cart_enabled(void);
+extern int isepic_freeze_allowed(void);
 
 extern int isepic_resources_init(void);
 extern int isepic_cmdline_options_init(void);

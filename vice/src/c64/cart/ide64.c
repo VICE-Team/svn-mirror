@@ -372,7 +372,7 @@ static BYTE REGPARM1 ide64_io1_read(WORD addr)
             switch (ide_cmd) {
                 case 0x20:
                 case 0xec:
-	              in_d030 = export_ram0[ide_bufp | 0x200] | (export_ram0[ide_bufp | 0x201] << 8);
+                    in_d030 = export_ram0[ide_bufp | 0x200] | (export_ram0[ide_bufp | 0x201] << 8);
                     if (ide_bufp < 510) {
                         ide_bufp += 2;
                     } else {
@@ -467,7 +467,7 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
         case 0x20:
             switch (ide_cmd) {
                 case 0x30:
-    	              export_ram0[ide_bufp | 0x200] = out_d030 & 0xff;
+                    export_ram0[ide_bufp | 0x200] = out_d030 & 0xff;
                     export_ram0[ide_bufp | 0x201] = out_d030 >> 8;
                     if (ide_bufp < 510) {
                         ide_bufp += 2;
@@ -556,7 +556,7 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
                     ide_sector_count_internal = ide_sector_count;
                     break;
                 case 0x91:
-	              ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
+                    ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
                     {
                         unsigned long size;
 #ifdef IDE64_DEBUG
@@ -579,7 +579,7 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
                         break;
                     }
                 case 0xec:
-	              ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_ERR)) | IDE_DRDY | IDE_DRQ;
+                    ide_status = (ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_ERR)) | IDE_DRDY | IDE_DRQ;
 #ifdef IDE64_DEBUG
                     log_debug("IDE64 IDENTIFY");
 #endif
@@ -690,12 +690,47 @@ aborted_command:
         default:
             return;
     }
-    cartridge_config_changed(4, (BYTE)(current_cfg | (current_bank << 3)), CMODE_READ);
+    cartridge_config_changed(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+}
+
+BYTE REGPARM1 ide64_roml_read(WORD addr)
+{
+    return roml_banks[(addr & 0x3fff) | (roml_bank << 14)];
+}
+
+BYTE REGPARM1 ide64_romh_read(WORD addr)
+{
+    return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
+}
+
+BYTE REGPARM1 ide64_1000_7fff_read(WORD addr)
+{
+    return export_ram0[addr & 0x7fff];
+}
+
+void REGPARM2 ide64_1000_7fff_store(WORD addr, BYTE value)
+{
+    export_ram0[addr & 0x7fff] = value;
+}
+
+BYTE REGPARM1 ide64_a000_bfff_read(WORD addr)
+{
+    return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
+}
+
+BYTE REGPARM1 ide64_c000_cfff_read(WORD addr)
+{
+    return export_ram0[addr & 0x7fff];
+}
+
+void REGPARM2 ide64_c000_cfff_store(WORD addr, BYTE value)
+{
+    export_ram0[addr & 0x7fff] = value;
 }
 
 void ide64_config_init(void)
 {
-    cartridge_config_changed(4, 0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ | CMODE_PHI2_RAM);
     current_bank = 0;
     current_cfg = 0;
     kill_port = 0;
@@ -709,7 +744,7 @@ void ide64_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x10000);
     memcpy(romh_banks, rawcart, 0x10000);
-    cartridge_config_changed(4, 0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ | CMODE_PHI2_RAM);
 }
 
 static const c64export_resource_t export_res = {
@@ -789,17 +824,17 @@ static int ide64_common_attach(void)
 
         for (;;) {
 
-    	      res = memcmp(idebuf,"C64-IDE V", 9);
+            res = memcmp(idebuf,"C64-IDE V", 9);
 
             if (res == 0) { /* old filesystem always CHS */
                 cyl = (idebuf[0x10] << 8) | idebuf[0x11];
                 heads = idebuf[0x12] & 0x0f;
                 sectors = idebuf[0x13];
                 is_chs = 1;
-                break;		/* OK */
+                break;  /* OK */
             }
 
-    	      res = memcmp(idebuf + 8, "C64 CFS V", 9);
+            res = memcmp(idebuf + 8, "C64 CFS V", 9);
 
             if (res == 0) {
                 if (idebuf[0x04] & 0x40) { /* LBA */
@@ -807,12 +842,12 @@ static int ide64_common_attach(void)
                     cyl = heads = sectors = 1; /* fake */
                     is_chs = 0;
                 } else { /* CHS */
-    	              cyl = (idebuf[0x05] << 8) | idebuf[0x06];
-    	              heads = idebuf[0x04] & 0x0f;
-    	              sectors = idebuf[0x07];
-	              is_chs = 1;
+                    cyl = (idebuf[0x05] << 8) | idebuf[0x06];
+                    heads = idebuf[0x04] & 0x0f;
+                    sectors = idebuf[0x07];
+                    is_chs = 1;
                 }
-                break;		/* OK */
+                break;  /* OK */
             }
 
             log_message(LOG_DEFAULT, "IDE64: Disk is not formatted, using default 8 MiB.");
@@ -822,10 +857,10 @@ static int ide64_common_attach(void)
         if (is_chs) {
             cyl++;
             heads++;
-    	      size = cyl * heads * sectors;
+            size = cyl * heads * sectors;
             log_message(LOG_DEFAULT, "IDE64: using %i/%i/%i CHS geometry, %lu sectors total.", cyl, heads, sectors, size);
         } else {
-    	      log_message(LOG_DEFAULT, "IDE64: LBA geometry, %lu sectors total.", size);
+            log_message(LOG_DEFAULT, "IDE64: LBA geometry, %lu sectors total.", size);
         }
 
         settings_cylinders = cyl;

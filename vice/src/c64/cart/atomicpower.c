@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,11 +35,57 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "c64mem.h"
 #include "types.h"
+#include "vicii-phi1.h"
 #include "util.h"
 
-/* Atomic Power RAM hack.  */
+/* #define DEBUGAP */
+
+#define USEFAKEULTIMAX 1 /* use fake ultimax mode for special mapping */
+
+#ifdef DEBUGAP
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
+/*
+    Atomic Power/Nordic Power
+
+    - the hardware is very similar to Action Replay 5, with one exception
+
+    32K rom, 4*8k pages
+    8K ram
+
+    io1 (writes)
+
+    7    extra ROM bank selector (A15) (unused)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+            I/O2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+
+    different to original AR:
+
+    if bit 5 (RAM enable) is 1,
+       bit 1,2 (exrom/game) is == 2 (cart off),
+       bit 2,6,7 (cart disable, freeze clear) are 0,
+
+    then Cart ROM (Bank 0..3) is mapped at 8000-9fff,
+     and Cart RAM (Bank 0) is mapped at A000-bfff
+
+    io2 (r/w)
+        cart RAM (if enabled) or cart ROM
+*/
+
+/* Atomic Power RAM hack. */
 static int export_ram_at_a000 = 0;
+static unsigned int ap_active;
 
 /* ---------------------------------------------------------------------*/
 
@@ -48,7 +95,7 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr);
 static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value);
 
 static io_source_t atomicpower_io1_device = {
-    "ATOMIC POWER",
+    "Atomic Power",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -58,7 +105,7 @@ static io_source_t atomicpower_io1_device = {
 };
 
 static io_source_t atomicpower_io2_device = {
-    "ATOMIC POWER",
+    "Atomic Power",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -71,20 +118,48 @@ static io_source_list_t *atomicpower_io1_list_item = NULL;
 static io_source_list_t *atomicpower_io2_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
-
 static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
 {
-    if (value == 0x22) {
-        value = 0x03;
-        export_ram_at_a000 = 1;
-    } else {
-        export_ram_at_a000 = 0;
+    int flags = CMODE_WRITE, bank, mode;
+    if (ap_active) {
+
+        bank = ((value >> 3) & 3);
+        mode = (value & 3);
+        DBG(("io1 w %02x mode %d bank %d\n", value, mode, bank));
+
+        if ((value & 0xe7) == 0x22) {
+#if USEFAKEULTIMAX
+            mode = 3; /* fake ultimax */
+#else
+            mode = 1; /* 16k Game */
+#endif
+            export_ram_at_a000 = 1;
+        } else {
+            /* Action Replay 5 compatible values */
+            export_ram_at_a000 = 0;
+            if (value & 0x40) {
+                flags |= CMODE_RELEASE_FREEZE;
+            }
+            if (value & 0x20) {
+                flags |= CMODE_EXPORT_RAM;
+            }
+            if (value & 4) {
+                ap_active = 0;
+            }
+        }
+
+        cartridge_config_changed((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags | CMODE_PHI2_RAM);
     }
-    cartridge_config_changed((BYTE)(value & 3), value, CMODE_WRITE);
 }
 
 static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
 {
+    atomicpower_io2_device.io_source_valid = 0;
+
+    if (!ap_active) {
+        return 0;
+    }
+
     atomicpower_io2_device.io_source_valid = 1;
 
     if (export_ram) {
@@ -109,8 +184,10 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
 
 static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value)
 {
-    if (export_ram) {
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
+    if (ap_active) {
+        if (export_ram) {
+            export_ram0[0x1f00 + (addr & 0xff)] = value;
+        }
     }
 }
 
@@ -130,44 +207,127 @@ void REGPARM2 atomicpower_roml_store(WORD addr, BYTE value)
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
     }
+#if USEFAKEULTIMAX
+    else {
+        mem_store_without_ultimax(addr, value);
+    }
+#endif
 }
 
 BYTE REGPARM1 atomicpower_romh_read(WORD addr)
 {
+#if USEFAKEULTIMAX
+    if (export_ram_at_a000) {
+        return mem_read_without_ultimax(addr);
+    }
+#else
     if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
     }
-
+#endif
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+}
+
+void REGPARM2 atomicpower_romh_store(WORD addr, BYTE value)
+{
+#if USEFAKEULTIMAX
+    mem_store_without_ultimax(addr, value);
+#else
+    if (export_ram_at_a000) {
+        export_ram0[addr & 0x1fff] = value;
+    }
+#endif
 }
 
 BYTE REGPARM1 atomicpower_a000_bfff_read(WORD addr)
 {
+#if USEFAKEULTIMAX
     if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
     }
-    return 0x55;
+    return mem_read_without_ultimax(addr);
+#else
+    return vicii_read_phi1();
+#endif
 }
 
 void REGPARM2 atomicpower_a000_bfff_store(WORD addr, BYTE value)
 {
+#if USEFAKEULTIMAX
     if (export_ram_at_a000) {
         export_ram0[addr & 0x1fff] = value;
+    } else {
+        mem_store_without_ultimax(addr, value);
     }
-    return;
+#endif
+}
+
+BYTE REGPARM1 atomicpower_1000_7fff_read(WORD addr)
+{
+#if USEFAKEULTIMAX
+    return mem_read_without_ultimax(addr);
+#else
+    return vicii_read_phi1();
+#endif
+}
+
+void REGPARM2 atomicpower_1000_7fff_store(WORD addr, BYTE value)
+{
+#if USEFAKEULTIMAX
+    mem_store_without_ultimax(addr, value);
+#endif
+}
+
+BYTE REGPARM1 atomicpower_c000_cfff_read(WORD addr)
+{
+#if USEFAKEULTIMAX
+    return mem_read_without_ultimax(addr);
+#else
+    return vicii_read_phi1();
+#endif
+}
+
+void REGPARM2 atomicpower_c000_cfff_store(WORD addr, BYTE value)
+{
+#if USEFAKEULTIMAX
+    mem_store_without_ultimax(addr, value);
+#endif
+}
+
+BYTE REGPARM1 atomicpower_d000_dfff_read(WORD addr)
+{
+#if USEFAKEULTIMAX
+    return mem_read_without_ultimax(addr);
+#else
+    return vicii_read_phi1();
+#endif
+}
+
+void REGPARM2 atomicpower_d000_dfff_store(WORD addr, BYTE value)
+{
+#if USEFAKEULTIMAX
+    mem_store_without_ultimax(addr, value);
+#endif
 }
 
 /* ---------------------------------------------------------------------*/
 
 void atomicpower_freeze(void)
 {
-    cartridge_config_changed(35, 35, CMODE_READ);
+    ap_active = 1;
+    cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void atomicpower_config_init(void)
 {
+    ap_active = 1;
     export_ram_at_a000 = 0;
     cartridge_config_changed(0, 0, CMODE_READ);
+}
+
+void atomicpower_reset(void)
+{
+    ap_active = 1;
 }
 
 void atomicpower_config_setup(BYTE *rawcart)

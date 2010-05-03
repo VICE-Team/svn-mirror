@@ -61,32 +61,6 @@ static unsigned int freeze_pressed = 0;
 static unsigned int register_enabled = 0;
 
 /*
-mode & 3 = 0 : GAME=0 EXROM=0^1 roml
-mode & 3 = 1 : GAME=1 EXROM=0^1 roml & romh
-mode & 3 = 2 : GAME=0 EXROM=1^1 ram
-mode & 3 = 3 : GAME=1 EXROM=1^1 ultimax
-*/
-static void capture_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
-{
-    if (wflag == CMODE_WRITE) {
-        machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-    } else {
-        machine_handle_pending_alarms(0);
-    }
-
-    export.game = mode_phi2 & 1;
-    export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
-
-    mem_pla_config_changed();
-    if (mode_phi2 & 0x80) {
-        cartridge_release_freeze();
-    }
-    cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~mode_phi1 >> 2) & 1);
-    machine_update_memory_ptrs();
-}
-
-/*
     the rest of the callbacks should map in cartridge memory or open i/o when 
     cart_enabled is 1, and wrap to the *_without_ultimax functions if the
     cartridge is disabled
@@ -134,7 +108,7 @@ void capture_mapper(WORD addr)
             cart_enabled = 1;
             freeze_pressed = 0;
 #if NOFORCEULTIMAX1
-            capture_config_changed(2, 3, CMODE_READ);
+            cartridge_config_changed(2, 3, CMODE_READ);
 #endif
         }
     } else {
@@ -144,7 +118,7 @@ void capture_mapper(WORD addr)
                     cart_enabled = 0;
                     freeze_pressed = 0;
 #if NOFORCEULTIMAX1
-                    capture_config_changed(2, 2, CMODE_READ);
+                    cartridge_config_changed(2, 2, CMODE_READ);
 #endif
                 }
             } else {
@@ -152,7 +126,7 @@ void capture_mapper(WORD addr)
                     cart_enabled = 1;
                     freeze_pressed = 0;
 #if NOFORCEULTIMAX1
-                    capture_config_changed(2, 3, CMODE_READ);
+                    cartridge_config_changed(2, 3, CMODE_READ);
 #endif
                 }
             }
@@ -258,9 +232,9 @@ void capture_freeze(void)
 {
     if (freeze_pressed == 0) {
 #if NOFORCEULTIMAX2
-        capture_config_changed(2, 3|0x80, CMODE_READ);
+        cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
 #else
-        capture_config_changed(2, 3|0x80, CMODE_READ);
+        cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
 #endif
         freeze_pressed = 1;
         register_enabled = 1;
@@ -270,9 +244,9 @@ void capture_freeze(void)
 void capture_config_init(void)
 {
 #if NOFORCEULTIMAX2
-    capture_config_changed(2, 2, CMODE_READ);
+    cartridge_config_changed(2, 2, CMODE_READ);
 #else
-    capture_config_changed(2, 3, CMODE_READ);
+    cartridge_config_changed(2, 3, CMODE_READ);
 #endif
 }
 
@@ -282,9 +256,9 @@ void capture_reset(void)
     register_enabled = 0;
     freeze_pressed = 0;
 #if NOFORCEULTIMAX2
-    capture_config_changed(2, 2, CMODE_READ);
+    cartridge_config_changed(2, 2, CMODE_READ);
 #else
-    capture_config_changed(2, 3, CMODE_READ);
+    cartridge_config_changed(2, 3, CMODE_READ);
 #endif
 
 }
@@ -294,9 +268,9 @@ void capture_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, rawcart, 0x2000);
 #if NOFORCEULTIMAX2
-    capture_config_changed(2, 2, CMODE_READ);
+    cartridge_config_changed(2, 2, CMODE_READ);
 #else
-    capture_config_changed(2, 3, CMODE_READ);
+    cartridge_config_changed(2, 3, CMODE_READ);
 #endif
 }
 

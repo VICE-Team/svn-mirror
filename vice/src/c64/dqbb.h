@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern int dqbb_enabled;
+extern int dqbb_cart_enabled(void);
 
 extern int dqbb_resources_init(void);
 extern void dqbb_resources_shutdown(void);

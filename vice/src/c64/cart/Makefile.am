@@ -44,6 +44,8 @@ libc64cart_a_SOURCES = \
 	final.h \
 	final3.c \
 	final3.h \
+	finalplus.c \
+	finalplus.h \
 	funplay.c \
 	funplay.h \
 	gamekiller.c \
@@ -78,6 +80,8 @@ libc64cart_a_SOURCES = \
 	ross.h \
 	ser-eeprom.c \
 	ser-eeprom.h \
+	simonsbasic.c \
+	simonsbasic.h \
 	spi-sdcard.c \
 	spi-sdcard.h \
 	stardos.c \
@@ -88,6 +92,8 @@ libc64cart_a_SOURCES = \
 	supergames.h \
 	supersnapshot.c \
 	supersnapshot.h \
+	supersnapshot4.c \
+	supersnapshot4.h \
 	warpspeed.c \
 	warpspeed.h \
 	westermann.c \

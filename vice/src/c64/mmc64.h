@@ -30,7 +30,7 @@
 
 #include "types.h"
 
-extern int mmc64_enabled;
+extern int mmc64_cart_enabled(void);
 extern int mmc64_clockport_enabled;
 extern int mmc64_hw_clockport;
 

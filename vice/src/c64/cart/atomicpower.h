@@ -34,10 +34,18 @@
 extern BYTE REGPARM1 atomicpower_roml_read(WORD addr);
 extern void REGPARM2 atomicpower_roml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 atomicpower_romh_read(WORD addr);
+extern void REGPARM2 atomicpower_romh_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 atomicpower_1000_7fff_read(WORD addr);
+extern void REGPARM2 atomicpower_1000_7fff_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 atomicpower_a000_bfff_read(WORD addr);
 extern void REGPARM2 atomicpower_a000_bfff_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 atomicpower_c000_cfff_read(WORD addr);
+extern void REGPARM2 atomicpower_c000_cfff_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 atomicpower_d000_dfff_read(WORD addr);
+extern void REGPARM2 atomicpower_d000_dfff_store(WORD addr, BYTE value);
 
 extern void atomicpower_freeze(void);
+extern void atomicpower_reset(void);
 
 extern void atomicpower_config_init(void);
 extern void atomicpower_config_setup(BYTE *rawcart);

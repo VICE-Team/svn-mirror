@@ -153,7 +153,7 @@ static io_source_list_t *gamekiller_io2_list_item = NULL;
 void gamekiller_freeze(void)
 {
     DBG(("Game Killer freeze\n"));
-    cartridge_config_changed(3, 3 | 0x40, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     cartridge_disable_flag = 0;
 }
 

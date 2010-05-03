@@ -64,6 +64,12 @@ static io_source_list_t *ocean_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
+BYTE REGPARM1 ocean_romh_read(WORD addr)
+{
+    /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
+    return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+}
+
 void ocean_config_init(void)
 {
     cartridge_config_changed(1, 1, CMODE_READ);

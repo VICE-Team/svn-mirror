@@ -56,7 +56,7 @@ static void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 static BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
     if (addr & 0x80) {
-        cartridge_config_changed(0x43, 0x43, CMODE_READ);
+        cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
     return export_ram0[0x1f00 + (addr & 0xff)];
 }
@@ -67,18 +67,6 @@ static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
         cartridge_config_changed(1, 1, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0xff)] = value;
-}
-
-static BYTE REGPARM1 simon_io1_read(WORD addr)
-{
-    cartridge_config_changed(0, 0, CMODE_READ);
-
-    return 0;
-}
-
-static void REGPARM2 simon_io1_store(WORD addr, BYTE value)
-{
-    cartridge_config_changed(1, 1, CMODE_WRITE);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -106,18 +94,6 @@ static io_source_t kcs_io2_device = {
 static io_source_list_t *kcs_io1_list_item = NULL;
 static io_source_list_t *kcs_io2_list_item = NULL;
 
-static io_source_t simon_device = {
-    "SIMONS BASIC",
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    simon_io1_store,
-    simon_io1_read
-};
-
-static io_source_list_t *simon_list_item = NULL;
-
 /* ---------------------------------------------------------------------*/
 
 void kcs_freeze(void)
@@ -143,10 +119,6 @@ static const c64export_resource_t export_res_kcs = {
     "KCS Power", 1, 1
 };
 
-static const c64export_resource_t export_res_simon = {
-    "Simon's Basic", 1, 1
-};
-
 static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -160,7 +132,7 @@ static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
         if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
             return -1;
         }
-        
+
         if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000, 1, fd) < 1) {
             return -1;
         }
@@ -185,21 +157,6 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
     return 0;
 }
 
-int simon_crt_attach(FILE *fd, BYTE *rawcart)
-{
-    if (generic_kcs_crt_attach(fd,rawcart) < 0) {
-        return -1;
-    }
-
-    if (c64export_add(&export_res_simon) < 0) {
-        return -1;
-    }
-
-    simon_list_item = c64io_register(&simon_device);
-
-    return 0;
-}
-
 void kcs_detach(void)
 {
     c64export_remove(&export_res_kcs);
@@ -207,11 +164,4 @@ void kcs_detach(void)
     c64io_unregister(kcs_io2_list_item);
     kcs_io1_list_item = NULL;
     kcs_io2_list_item = NULL;
-}
-
-void simon_detach(void)
-{
-    c64export_remove(&export_res_simon);
-    c64io_unregister(simon_list_item);
-    simon_list_item = NULL;
 }

@@ -89,25 +89,35 @@
 #define EXPERT_ON ((1 << 0) | (1 << 1))
 
 static int ack_reset = 0;
+static int cartmode = EXPERT_MODE_OFF;
 
 void expert_mode_changed(int mode)
 {
-    switch(mode) {
-        case(CARTRIDGE_MODE_PRG):
+    cartmode = mode;
+    switch (mode) {
+        case EXPERT_MODE_PRG:
             cartridge_config_changed(EXPERT_PRG, EXPERT_PRG, CMODE_READ);
             break;
-        case(CARTRIDGE_MODE_OFF):
-        case(CARTRIDGE_MODE_ON):
+        case EXPERT_MODE_OFF:
+        case EXPERT_MODE_ON:
             cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
             break;
     }
+}
+
+int expert_freeze_allowed(void)
+{
+    if (cartmode == EXPERT_MODE_ON) {
+        return 1;
+    }
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 expert_io1_read(WORD addr)
 {
-    if (cartmode == CARTRIDGE_MODE_ON) {
+    if (cartmode == EXPERT_MODE_ON) {
         cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
     }
     return 0;
@@ -115,15 +125,15 @@ BYTE REGPARM1 expert_io1_read(WORD addr)
 
 void REGPARM2 expert_io1_store(WORD addr, BYTE value)
 {
-    if (cartmode == CARTRIDGE_MODE_ON) {
-        cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
+    if (cartmode == EXPERT_MODE_ON) {
+        cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_WRITE);
     }
 }
 
 /* ---------------------------------------------------------------------*/
 
 static io_source_t expert_device = {
-    "EXPERT",
+    "Expert",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -155,14 +165,14 @@ BYTE REGPARM1 expert_romh_read(WORD addr)
 
 void expert_ack_nmi(void)
 {
-    if (cartmode == CARTRIDGE_MODE_ON) {
-        cartridge_config_changed(EXPERT_ON, EXPERT_ON | 0x40, CMODE_READ);
+    if (cartmode == EXPERT_MODE_ON) {
+        cartridge_config_changed(EXPERT_ON, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
 }
 
 void expert_ack_reset(void)
 {
-    if (cartmode == CARTRIDGE_MODE_ON) {
+    if (cartmode == EXPERT_MODE_ON) {
         ack_reset = 1;
     }
 }
@@ -220,7 +230,7 @@ int expert_bin_attach(const char *filename, BYTE *rawcart)
              function to enable the expert cartridge, use PRG mode for
              convinience.
     */
-    resources_set_int("CartridgeMode", CARTRIDGE_MODE_PRG);
+    resources_set_int("ExpertCartridgeMode", EXPERT_MODE_PRG);
 
     return expert_common_attach();
 }
@@ -242,7 +252,7 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
        default here, loaded program may be activated by NMI (restore,
        freeze) or reset.
     */
-    resources_set_int("CartridgeMode", CARTRIDGE_MODE_OFF);
+    resources_set_int("ExpertCartridgeMode", EXPERT_MODE_OFF);
 
     return expert_common_attach();
 }

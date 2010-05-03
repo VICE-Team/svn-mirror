@@ -77,27 +77,32 @@ static int dqbb_deactivate(void);
 static void dqbb_change_config(void);
 
 /* Flag: Do we enable the DQBB?  */
-int dqbb_enabled = 0;
+static int dqbb_enabled = 0;
 
 /* Filename of the DQBB image.  */
 static char *dqbb_filename = NULL;
 
 /* ------------------------------------------------------------------------- */
 
+int dqbb_cart_enabled(void)
+{
+    return dqbb_enabled;
+}
+
 static void dqbb_change_config(void)
 {
     if (dqbb_enabled) {
         if (dqbb_off) {
-            cartridge_config_changed(2, 2, 0);
+            cartridge_config_changed(2, 2, CMODE_READ);
         } else {
             if (dqbb_a000_mapped) {
-                cartridge_config_changed(1, 1, 0);
+                cartridge_config_changed(1, 1, CMODE_READ);
             } else {
-                cartridge_config_changed(0, 0, 0);
+                cartridge_config_changed(0, 0, CMODE_READ);
             }
         }
     } else {
-        cartridge_config_changed(2, 2, 0);
+        cartridge_config_changed(2, 2, CMODE_READ);
     }
 }
 
