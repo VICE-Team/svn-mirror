@@ -1488,10 +1488,10 @@ void tfe_clockport_changed(void)
         }
     } else {
         tfe_current_device = NULL;
-        if (mmc64_enabled && mmc64_hw_clockport == 0xde02 && mmc64_clockport_enabled) {
+        if (mmc64_cart_enabled() && mmc64_hw_clockport == 0xde02 && mmc64_clockport_enabled) {
             tfe_current_device = &rrnet_io1_mmc64_device;
         }
-        if (mmc64_enabled && mmc64_hw_clockport == 0xdf12 && mmc64_clockport_enabled) {
+        if (mmc64_cart_enabled() && mmc64_hw_clockport == 0xdf12 && mmc64_clockport_enabled) {
             tfe_current_device = &rrnet_io2_mmc64_device;
         }
         if (rr_active && rr_clockport_enabled) {
@@ -1752,10 +1752,10 @@ static int set_tfe_rr_net(int val, void *param)
                 tfe_as_rr_net = 1;
             
                 tfe_current_device = NULL;
-                if (mmc64_enabled && mmc64_hw_clockport == 0xde02 && mmc64_clockport_enabled) {
+                if (mmc64_cart_enabled() && mmc64_hw_clockport == 0xde02 && mmc64_clockport_enabled) {
                     tfe_current_device = &rrnet_io1_mmc64_device;
                 }
-                if (mmc64_enabled && mmc64_hw_clockport == 0xdf12 && mmc64_clockport_enabled) {
+                if (mmc64_cart_enabled() && mmc64_hw_clockport == 0xdf12 && mmc64_clockport_enabled) {
                     tfe_current_device = &rrnet_io2_mmc64_device;
                 }
                 if (rr_active && rr_clockport_enabled) {
