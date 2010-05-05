@@ -128,7 +128,7 @@ static ui_menu_entry_t cartridge_control_submenu[] = {
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart attach CRT image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_CRT, NULL },
+      CARTRIDGE_CRT, NULL, KEYSYM_c, UI_HOTMOD_META },
     { "--" },
     { N_("Attach generic 8KB image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
