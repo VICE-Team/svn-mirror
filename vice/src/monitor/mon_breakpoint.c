@@ -107,7 +107,7 @@ static breakpoint_t *find_checkpoint(int brknum)
     break_list_t *ptr;
     int i;
 
-    for (i = e_comp_space; i < LAST_SPACE; i++) {
+    for (i = FIRST_SPACE; i <= LAST_SPACE; i++) {
         ptr = breakpoints[i];
         while (ptr) {
             if (ptr->brkpt->brknum == brknum)
