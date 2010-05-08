@@ -22,8 +22,8 @@ libc64cart_a_SOURCES = \
 	c64cart.c \
 	c64cartmem.c \
 	c64cartmem.h \
-	../c64tpi.c \
-	../c64tpi.h \
+	c64tpi.c \
+	c64tpi.h \
 	capture.c \
 	capture.h \
 	comal80.c \
@@ -36,10 +36,10 @@ libc64cart_a_SOURCES = \
 	delaep64.h \
 	delaep7x8.c \
 	delaep7x8.h \
-	../digimax.c \
-	../digimax.h \
-	../dqbb.c \
-	../dqbb.h \
+	digimax.c \
+	digimax.h \
+	dqbb.c \
+	dqbb.h \
 	dinamic.c \
 	dinamic.h \
 	easyflash.c \
@@ -50,8 +50,8 @@ libc64cart_a_SOURCES = \
 	exos.h \
 	expert.c \
 	expert.h \
-	../fmopl.c \
-	../fmopl.h \
+	fmopl.c \
+	fmopl.h \
 	final.c \
 	final.h \
 	final3.c \
@@ -64,14 +64,14 @@ libc64cart_a_SOURCES = \
 	gamekiller.h \
 	generic.c \
 	generic.h \
-	../georam.c \
-	../georam.h \
+	georam.c \
+	georam.h \
 	gs.c \
 	gs.h \
 	ide64.c \
 	ide64.h \
-	../isepic.c \
-	../isepic.h \
+	isepic.c \
+	isepic.h \
 	kcs.c \
 	kcs.h \
 	magicdesk.c \
@@ -82,18 +82,18 @@ libc64cart_a_SOURCES = \
 	mikroass.h \
 	mmcreplay.c \
 	mmcreplay.h \
-	../mmc64.c \
-	../mmc64.h \
+	mmc64.c \
+	mmc64.h \
 	ocean.c \
 	ocean.h \
 	prophet64.c \
 	prophet64.h \
-	../ramcart.c \
-	../ramcart.h \
+	ramcart.c \
+	ramcart.h \
 	retroreplay.c \
 	retroreplay.h \
-	../reu.c \
-	../reu.h \
+	reu.c \
+	reu.h \
 	rexep256.c \
 	rexep256.h \
 	rexutility.c \
@@ -102,10 +102,10 @@ libc64cart_a_SOURCES = \
 	ross.h \
 	ser-eeprom.c \
 	ser-eeprom.h \
-	../sfx_soundexpander.c \
-	../sfx_soundexpander.h \
-	../sfx_soundsampler.c \
-	../sfx_soundsampler.h \
+	sfx_soundexpander.c \
+	sfx_soundexpander.h \
+	sfx_soundsampler.c \
+	sfx_soundsampler.h \
 	simonsbasic.c \
 	simonsbasic.h \
 	spi-sdcard.c \

@@ -40,8 +40,6 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "reu.h"
-#include "georam.h"
 #include "sid-resources.h"
 #include "util.h"
 #include "vicii-resources.h"
