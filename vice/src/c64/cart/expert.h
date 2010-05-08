@@ -33,10 +33,9 @@
 
 extern BYTE REGPARM1 expert_roml_read(WORD addr);
 extern void REGPARM2 expert_roml_store(WORD addr, BYTE value);
+extern void REGPARM2 expert_raml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 expert_romh_read(WORD addr);
 
-extern void expert_ack_reset(void);
-extern void expert_ack_nmi(void);
 extern void expert_freeze(void);
 
 extern void expert_config_init(void);
@@ -47,11 +46,14 @@ extern void expert_detach(void);
 
 extern int expert_freeze_allowed(void);
 
-extern void expert_mode_changed(int mode);
+extern int expert_resources_init(void);
+extern void expert_resources_shutdown(void);
 
 /* Expert cartridge has three modes: */
 #define EXPERT_MODE_OFF                      0
 #define EXPERT_MODE_PRG                      1
 #define EXPERT_MODE_ON                       2
+
+#define EXPERT_MODE_DEFAULT EXPERT_MODE_PRG
 
 #endif

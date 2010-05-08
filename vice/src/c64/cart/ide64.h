@@ -30,6 +30,7 @@
 #include "types.h"
 
 extern int ide64_resources_init(void);
+extern int ide64_resources_shutdown(void);
 extern int ide64_cmdline_options_init(void);
 
 extern void ide64_config_init(void);

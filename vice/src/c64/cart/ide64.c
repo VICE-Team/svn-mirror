@@ -43,6 +43,7 @@
 #include "ds1302.h"
 #include "ide64.h"
 #include "log.h"
+#include "lib.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -274,6 +275,13 @@ int ide64_resources_init(void)
     }
 
     return resources_register_int(resources_int);
+}
+
+int ide64_resources_shutdown(void)
+{
+    lib_free(ide64_image_file);
+
+    return 0;
 }
 
 static const cmdline_option_t cmdline_options[] = {

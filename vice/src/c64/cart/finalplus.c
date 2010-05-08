@@ -42,7 +42,7 @@
 #include "types.h"
 #include "util.h"
 
-#define DEBUGFC
+/* #define DEBUGFC */
 
 #ifdef DEBUGFC
 #define DBG(x) printf x
@@ -135,26 +135,6 @@ BYTE REGPARM1 final_plus_romh_read(WORD addr)
     }
 }
 
-void REGPARM2 final_plus_roml_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-void REGPARM2 final_plus_romh_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 final_plus_1000_7fff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 final_plus_1000_7fff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
 BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr)
 {
     if ((fcplus_enabled == 1) && (fcplus_roml == 1)) {
@@ -162,31 +142,6 @@ BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr)
     } else {
         return mem_read_without_ultimax(addr);
     }
-}
-
-void REGPARM2 final_plus_a000_bfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 final_plus_c000_cfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 final_plus_c000_cfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 final_plus_d000_dfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 final_plus_d000_dfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
 }
 
 /* ---------------------------------------------------------------------*/

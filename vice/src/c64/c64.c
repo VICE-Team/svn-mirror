@@ -56,16 +56,11 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
-#include "digimax.h"
-#include "dqbb.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "easyflash.h"
-#include "georam.h"
 #include "imagecontents.h"
-#include "isepic.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "lightpen.h"
@@ -76,7 +71,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mmc64.h"
 #include "monitor.h"
 #include "network.h"
 #include "parallel.h"
@@ -85,15 +79,11 @@
 #include "plus60k.h"
 #include "printer.h"
 #include "psid.h"
-#include "ramcart.h"
 #include "resources.h"
-#include "reu.h"
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
-#include "sfx_soundexpander.h"
-#include "sfx_soundsampler.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
@@ -186,19 +176,9 @@ int machine_resources_init(void)
         || machine_video_resources_init() < 0
         || c64_resources_init() < 0
         || c64export_resources_init() < 0
-        || reu_resources_init() < 0
-        || georam_resources_init() < 0
-        || ramcart_resources_init() < 0
-        || isepic_resources_init() < 0
-        || dqbb_resources_init() < 0
         || plus60k_resources_init() < 0
         || plus256k_resources_init() < 0
         || c64_256k_resources_init() < 0
-        || mmc64_resources_init() < 0
-        || digimax_resources_init() < 0
-        || sfx_soundexpander_resources_init() < 0
-        || sfx_soundsampler_resources_init() < 0
-        || easyflash_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -238,14 +218,9 @@ void machine_resources_shutdown(void)
     serial_shutdown();
     video_resources_shutdown();
     c64_resources_shutdown();
-    reu_resources_shutdown();
-    georam_resources_shutdown();
-    ramcart_resources_shutdown();
     plus60k_resources_shutdown();
     plus256k_resources_shutdown();
     c64_256k_resources_shutdown();
-    mmc64_resources_shutdown();
-    dqbb_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -273,19 +248,9 @@ int machine_cmdline_options_init(void)
         || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
         || c64_cmdline_options_init() < 0
-        || reu_cmdline_options_init() < 0
-        || georam_cmdline_options_init() < 0
-        || ramcart_cmdline_options_init() < 0
-        || isepic_cmdline_options_init() < 0
-        || dqbb_cmdline_options_init() < 0
         || plus60k_cmdline_options_init() < 0
         || plus256k_cmdline_options_init() < 0
         || c64_256k_cmdline_options_init() < 0
-        || mmc64_cmdline_options_init() < 0
-        || digimax_cmdline_options_init() < 0
-        || sfx_soundexpander_cmdline_options_init() < 0
-        || sfx_soundsampler_cmdline_options_init() < 0
-        || easyflash_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif
@@ -442,15 +407,6 @@ int machine_specific_init(void)
     c64_glue_init();
 
     if (!vsid_mode) {
-        /* Initialize the REU.  */
-        reu_init();
-
-        /* Initialize the GEORAM.  */
-        georam_init();
-
-        /* Initialize the RAMCART.  */
-        ramcart_init();
-
         /* Initialize the +60K.  */
         plus60k_init();
 
@@ -459,9 +415,6 @@ int machine_specific_init(void)
 
         /* Initialize the C64 256K.  */
         c64_256k_init();
-
-        /* Initialize the MMC64.  */
-        mmc64_init();
 
 #ifdef HAVE_TFE
         /* Initialize the TFE.  */
@@ -535,17 +488,12 @@ void machine_specific_reset(void)
     cartridge_reset();
     drive_reset();
     datasette_reset();
-    reu_reset();
-    georam_reset();
-    ramcart_reset();
     plus60k_reset();
     plus256k_reset();
     c64_256k_reset();
-    mmc64_reset();
 #ifdef HAVE_MIDI
     midi_reset();
 #endif
-    dqbb_reset();
 }
 
 void machine_specific_powerup(void)
@@ -568,14 +516,9 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
 
-    reu_shutdown();
-    georam_shutdown();
-    ramcart_shutdown();
-    dqbb_shutdown();
     plus60k_shutdown();
     plus256k_shutdown();
     c64_256k_shutdown();
-    mmc64_shutdown();
 
 #ifdef HAVE_TFE
     /* Shutdown the TFE.  */

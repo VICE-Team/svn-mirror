@@ -70,21 +70,7 @@ libc64_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
-	c64tpi.c \
-	c64tpi.h \
 	c64video.c \
-	digimax.c \
-	digimax.h \
-	dqbb.c \
-	dqbb.h \
-	fmopl.c \
-	fmopl.h \
-	georam.c \
-	georam.h \
-	isepic.c \
-	isepic.h \
-	mmc64.c \
-	mmc64.h \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -95,15 +81,7 @@ libc64_a_SOURCES = \
 	psid.h \
 	psiddrv.a65 \
 	psiddrv.h \
-	ramcart.c \
-	ramcart.h \
 	reloc65.c \
-	reu.c \
-	reu.h \
-	sfx_soundexpander.c \
-	sfx_soundexpander.h \
-	sfx_soundsampler.c \
-	sfx_soundsampler.h \
 	tfe.c \
 	tfe.h \
 	tfearch.h
@@ -167,21 +145,7 @@ libc64sc_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
-	c64tpi.c \
-	c64tpi.h \
 	c64video.c \
-	digimax.c \
-	digimax.h \
-	dqbb.c \
-	dqbb.h \
-	fmopl.c \
-	fmopl.h \
-	georam.c \
-	georam.h \
-	isepic.c \
-	isepic.h \
-	mmc64.c \
-	mmc64.h \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -192,15 +156,7 @@ libc64sc_a_SOURCES = \
 	psid.h \
 	psiddrv.a65 \
 	psiddrv.h \
-	ramcart.c \
-	ramcart.h \
 	reloc65.c \
-	reu.c \
-	reu.h \
-	sfx_soundexpander.c \
-	sfx_soundexpander.h \
-	sfx_soundsampler.c \
-	sfx_soundsampler.h \
 	tfe.c \
 	tfe.h \
 	tfearch.h
@@ -256,30 +212,8 @@ libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64sound.c \
-	c64tpi.c \
-	c64tpi.h \
-	digimax.c \
-	digimax.h \
-	dqbb.c \
-	dqbb.h \
-	fmopl.c \
-	fmopl.h \
-	georam.c \
-	georam.h \
-	isepic.c \
-	isepic.h \
-	mmc64.c \
-	mmc64.h \
 	patchrom.c \
 	patchrom.h \
-	ramcart.c \
-	ramcart.h \
-	reu.c \
-	reu.h \
-	sfx_soundexpander.c \
-	sfx_soundexpander.h \
-	sfx_soundsampler.c \
-	sfx_soundsampler.h \
 	tfe.c \
 	tfe.h \
 	tfearch.h

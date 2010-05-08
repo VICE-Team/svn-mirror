@@ -1,5 +1,5 @@
 /*
- * finalplus.h - Cartridge handling, Final cart.
+ * exos.h - Cartridge handling, Exos cart.
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -24,21 +24,20 @@
  *
  */
 
-#ifndef VICE_FINALPLUS_H
-#define VICE_FINALPLUS_H
+#ifndef VICE_EXOS_H
+#define VICE_EXOS_H
 
 #include <stdio.h>
 
 #include "types.h"
 
-extern void final_plus_freeze(void);
-extern void final_plus_config_init(void);
-extern void final_plus_config_setup(BYTE *rawcart);
-extern int final_plus_bin_attach(const char *filename, BYTE *rawcart);
-extern int final_plus_crt_attach(FILE *fd, BYTE *rawcart);
-extern void final_plus_detach(void);
-extern BYTE REGPARM1 final_plus_roml_read(WORD addr);
-extern BYTE REGPARM1 final_plus_romh_read(WORD addr);
-extern BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr);
+extern BYTE REGPARM1 exos_romh_read(WORD addr);
+
+extern void exos_config_init(void);
+extern void exos_reset(void);
+extern void exos_config_setup(BYTE *rawcart);
+extern int exos_bin_attach(const char *filename, BYTE *rawcart);
+extern int exos_crt_attach(FILE *fd, BYTE *rawcart);
+extern void exos_detach(void);
 
 #endif

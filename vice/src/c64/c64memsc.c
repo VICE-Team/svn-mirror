@@ -49,12 +49,10 @@
 #include "machine.h"
 #include "mainc64cpu.h"
 #include "mem.h"
-#include "mmc64.h"
 #include "monitor.h"
 #include "plus256k.h"
 #include "plus60k.h"
 #include "ram.h"
-#include "ramcart.h"
 #include "reu.h"
 #include "sid.h"
 #include "vicii-cycle.h"
@@ -552,26 +550,6 @@ static void plus60k_init_config(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* init mmc64 memory table changes */
-
-static void mmc64_init_config(void)
-{
-    int i, j;
-
-    if (mmc64_cart_enabled()) {
-        for (i = 0; i < NUM_CONFIGS; i++) {
-            for (j = 0x80; j <= 0x9f; j++) {
-                if (mem_read_tab[i][j] == roml_read) {
-                    mem_write_tab[i][j] = mmc64_roml_store;
-                }
-            }
-        }
-        mmc64_init_card_config();
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
 void mem_set_write_hook(int config, int page, store_func_t *f)
 {
     mem_write_tab[config][page] = f;
@@ -591,12 +569,14 @@ void mem_initialize_memory(void)
 {
     int i, j;
 
+/* FIXME: remove this entire block when expert cart has been tested */
+#if 0
     /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
     const int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 1, 0, 0, 0, 1,
                                   1, 1, 1, 1, 1, 1, 1, 1,
                                   0, 0, 0, 1, 0, 0, 0, 1 };
-
+#endif
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
     mem_color_ram_vicii = mem_color_ram;
@@ -660,18 +640,8 @@ void mem_initialize_memory(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
-    /*
-     * Change address decoding.
-     */
-    if (mem_cartridge_type == CARTRIDGE_EASYFLASH) {
-        /* Allow writing at ROML at $8000-$9FFF in Ultimax mode. */
-        for (j = 16; j < 24; j++) {
-            for (i = 0x80; i <= 0x9f; i++) {
-                mem_set_write_hook(j, i, roml_store);
-            }
-        }
-    }
-
+/* FIXME: remove this entire block when expert cart has been tested */
+#if 0
     if (mem_cartridge_type == CARTRIDGE_EXPERT) {
         /* Allow writing at ROML at $8000-$9FFF.  */
         for (j = 0; j < NUM_CONFIGS; j++) {
@@ -713,7 +683,7 @@ void mem_initialize_memory(void)
             }
         }
     }
-
+#endif
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 
     c64pla_pport_reset();
@@ -723,11 +693,12 @@ void mem_initialize_memory(void)
     /* Setup initial memory configuration.  */
     mem_pla_config_changed();
     cartridge_init_config();
-    ramcart_init_config();
+    /* internal expansions, these may modify the above mappings and must take
+       care of hooking up all callbacks correctly.
+    */
     plus60k_init_config();
     plus256k_init_config();
     c64_256k_init_config();
-    mmc64_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

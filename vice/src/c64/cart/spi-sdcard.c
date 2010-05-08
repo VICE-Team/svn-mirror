@@ -606,14 +606,17 @@ static void mmcreplay_execute_cmd(void)
 #endif
                     fseek(mmcreplay_image_file, mmc_current_address_pointer, SEEK_SET);
                     if (!feof(mmcreplay_image_file)) {
-                        fread(readbuf, 1, mmcreplay_block_size, mmcreplay_image_file);
-                        mmc_read_buffer_readptr = 0;
-                        mmc_read_buffer_writeptr = 0;
-                        mmc_read_buffer_set(readbuf, mmcreplay_block_size);
+                        if (fread(readbuf, 1, mmcreplay_block_size, mmcreplay_image_file) > 0)
+                        {
+                            mmc_read_buffer_readptr = 0;
+                            mmc_read_buffer_writeptr = 0;
+                            mmc_read_buffer_set(readbuf, mmcreplay_block_size);
 #ifdef DEBUG_MMC
-                        log_debug("Buffered: %02x %02x", readbuf[0],
-                                   readbuf[1]);
+                            log_debug("Buffered: %02x %02x", readbuf[0], readbuf[1]);
 #endif
+                        } else {
+                            /* FIXME: handle error */
+                        }
                     }
                 }
             } else {
@@ -623,7 +626,7 @@ static void mmcreplay_execute_cmd(void)
             break;
         case 0x58:
 /*log_debug("CMD Block Write received");*/
-            if(!spi_mmc_card_inserted() && mmcreplay_block_size > 0) {
+            if (!spi_mmc_card_inserted() && mmcreplay_block_size > 0) {
                 mmcreplay_write_sequence = 0;
                 mmcreplay_card_state = MMC_CARD_WRITE;
                 mmc_current_address_pointer =
@@ -759,7 +762,11 @@ static void mmcreplay_write_to_mmc(BYTE value)
             break;
         case 1:
             if (mmcreplay_card_state == MMC_CARD_WRITE) {
-                fwrite(&value, 1, 1, mmcreplay_image_file);
+                if (fwrite(&value, 1, 1, mmcreplay_image_file) != 1)
+                {
+                    LOG(("could not write to mmc image file"));
+                    /* FIXME: handle error */
+                }
             }
             mmcreplay_image_pointer++;
             if (mmcreplay_image_pointer == mmcreplay_block_size) {

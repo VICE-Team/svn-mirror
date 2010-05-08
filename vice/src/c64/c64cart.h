@@ -32,8 +32,10 @@
 extern BYTE REGPARM1 roml_read(WORD addr);
 extern void REGPARM2 roml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 romh_read(WORD addr);
+extern BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr);
 extern void REGPARM2 romh_store(WORD addr, BYTE value);
 extern void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value);
+extern void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value);
 extern void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr);
@@ -71,21 +73,21 @@ extern int roml_bank, romh_bank, export_ram;
 /* Expansion port signals.  */
 
 /*
-/IRQ        4     Interrupt Request line to 6502 (active low)
+!IRQ        4     Interrupt Request line to 6502 (active low)
 R/W         5     Read/Write (write active low)
 DOT CLOCK   6     8.18 MHz video dot clock
-/I/O1       7     I/O block 1 @ $ DE00-$DEFF (active low) unbuffered I/O
-/GAME       8     active low ls ttl input
-/EXROM      9     active low ls ttl input
-/I/O2       10    I/O block 2 @ $DF00-$DFFF (active low) buff'ed ls ttl output
-/ROML       11    8K decoded RAM/ROM block @ $8000 (active low) buffered ls ttl output
+!I/O1       7     I/O block 1 @ $ DE00-$DEFF (active low) unbuffered I/O
+!GAME       8     active low ls ttl input
+!EXROM      9     active low ls ttl input
+!I/O2       10    I/O block 2 @ $DF00-$DFFF (active low) buff'ed ls ttl output
+!ROML       11    8K decoded RAM/ROM block @ $8000 (active low) buffered ls ttl output
 BA          12    Bus available signal from the VIC-II chip unbuffered 1 Is load max.
-/DMA        13    Direct memory access request line (active low input) ls ttl input
+!DMA        13    Direct memory access request line (active low input) ls ttl input
 D7-D0       14-21 Data bus bit 7-0 - unbuffered, 1 ls ttl load max
-/ROMH       B     8K decoded RAM/ROM block @ $E000 buffered
-/RESET      C     6502 RESET pin(active low) buff'ed ttl out/unbuff'ed in
-/NMI        D     6502 Non Maskable Interrupt (active low) buff'ed ttl out, unbuff'ed in
-02          E     Phase 2 system clock
+!ROMH       B     8K decoded RAM/ROM block @ $E000 buffered
+!RESET      C     6502 RESET pin(active low) buff'ed ttl out/unbuff'ed in
+!NMI        D     6502 Non Maskable Interrupt (active low) buff'ed ttl out, unbuff'ed in
+phi2        E     Phase 2 system clock
 A15-A0      F-Y   Address bus bit 0-15 - unbuffered, 1 ls ttl load max
 */
 

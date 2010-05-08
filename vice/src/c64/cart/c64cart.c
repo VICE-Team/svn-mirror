@@ -41,23 +41,33 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "digimax.h"
+#include "dqbb.h"
+#include "easyflash.h"
+#include "exos.h"
 #include "expert.h"
 #include "final.h"
 #include "finalplus.h"
 #include "final3.h"
 #include "gamekiller.h"
 #include "generic.h"
+#include "georam.h"
 #include "ide64.h"
 #include "interrupt.h"
 #include "isepic.h"
 #include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mmc64.h"
 #include "monitor.h"
 #include "prophet64.h"
+#include "ramcart.h"
 #include "resources.h"
 #include "retroreplay.h"
+#include "reu.h"
 #include "mmcreplay.h"
+#include "sfx_soundexpander.h"
+#include "sfx_soundsampler.h"
 #include "stardos.h"
 #include "stb.h"
 #include "supersnapshot4.h"
@@ -67,7 +77,6 @@
 
 static int cartridge_type;
 static char *cartridge_file = NULL;
-static int cartridge_mode;
 static int c64cartridge_reset;
 
 int c64cart_type = CARTRIDGE_NONE;
@@ -109,6 +118,10 @@ static int set_cartridge_file(const char *name, void *param)
     return try_cartridge_init(2);
 }
 
+/* FIXME: the previous idea was bollocks :) this hook can happily die and
+          related resources set up via the generic interface
+          remove this after some testing */
+#if 0
 /* FIXME: hook up user operated toggle (on/off) switches from other carts here */
 static int set_cartridge_mode(int val, void *param)
 {
@@ -120,7 +133,7 @@ static int set_cartridge_mode(int val, void *param)
     cartridge_mode = val;
 
     switch (type) {
-        case (CARTRIDGE_EXPERT):
+        case CARTRIDGE_EXPERT:
             expert_mode_changed(cartridge_mode);
             /* Manually force the cartres bit low and avoid the init.
                This is needed to have the cart work when saved as default
@@ -131,6 +144,7 @@ static int set_cartridge_mode(int val, void *param)
 
     return try_cartridge_init(4);
 }
+#endif
 
 static int set_cartridge_reset(int val, void *param)
 {
@@ -149,8 +163,6 @@ static const resource_int_t resources_int[] = {
     { "CartridgeType", CARTRIDGE_NONE,
       RES_EVENT_STRICT, (resource_value_t)CARTRIDGE_NONE,
       &cartridge_type, set_cartridge_type, NULL },
-    { "ExpertCartridgeMode", EXPERT_MODE_OFF, RES_EVENT_NO, NULL,
-      &cartridge_mode, set_cartridge_mode, NULL },
     { "CartridgeReset", 1, RES_EVENT_NO, NULL,
       &c64cartridge_reset, set_cartridge_reset, NULL },
     { NULL }
@@ -158,11 +170,20 @@ static const resource_int_t resources_int[] = {
 
 int cartridge_resources_init(void)
 {
-    if (ide64_resources_init() < 0) {
-        return -1;
-    }
-
-    if (mmcreplay_resources_init() < 0) {
+    if (   reu_resources_init() < 0
+        || georam_resources_init() < 0
+        || ramcart_resources_init() < 0
+        || isepic_resources_init() < 0
+        || dqbb_resources_init() < 0
+        || mmc64_resources_init() < 0
+        || digimax_resources_init() < 0
+        || sfx_soundexpander_resources_init() < 0
+        || sfx_soundsampler_resources_init() < 0
+        || easyflash_resources_init() < 0
+        || ide64_resources_init() < 0
+        || mmcreplay_resources_init() < 0
+        || expert_resources_init() < 0
+        ) {
         return -1;
     }
 
@@ -177,7 +198,13 @@ void cartridge_resources_shutdown(void)
 {
     lib_free(cartridge_file);
     lib_free(cartfile);
-    lib_free(ide64_image_file);
+    ide64_resources_shutdown();
+    expert_resources_shutdown();
+    reu_resources_shutdown();
+    georam_resources_shutdown();
+    ramcart_resources_shutdown();
+    mmc64_resources_shutdown();
+    dqbb_resources_shutdown();
 }
 
 static int attach_cartridge_cmdline(const char *param, void *extra_param)
@@ -303,6 +330,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_STARDOS_CART,
       NULL, NULL },
+    { "-cartexos", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_EXOS, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB Exos cartridge image") },
     { "-cartexpert", CALL_FUNCTION, 0,
       attach_cartridge_cmdline, (void *)CARTRIDGE_EXPERT, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -333,12 +365,20 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
 
-    if (ide64_cmdline_options_init() < 0) {
+    if (reu_cmdline_options_init() < 0
+        || georam_cmdline_options_init() < 0
+        || ramcart_cmdline_options_init() < 0
+        || isepic_cmdline_options_init() < 0
+        || dqbb_cmdline_options_init() < 0
+        || mmc64_cmdline_options_init() < 0
+        || digimax_cmdline_options_init() < 0
+        || sfx_soundexpander_cmdline_options_init() < 0
+        || sfx_soundsampler_cmdline_options_init() < 0
+        || ide64_cmdline_options_init() < 0
+        || mmcreplay_cmdline_options_init() < 0
+        || easyflash_cmdline_options_init() < 0) {
         return -1;
     }
-
-    if (mmcreplay_cmdline_options_init() < 0)
-        return -1;
 
     return cmdline_register_options(cmdline_options);
 }
@@ -487,6 +527,11 @@ int cartridge_attach_image(int type, const char *filename)
                 goto done;
             }
             break;
+        case CARTRIDGE_EXOS:
+            if (exos_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
         default:
             goto done;
     }
@@ -512,6 +557,12 @@ void cartridge_detach_image(void)
         lib_free(cartfile);
         cartfile = NULL;
     }
+
+    reu_shutdown();
+    georam_shutdown();
+    ramcart_shutdown();
+    dqbb_shutdown();
+    mmc64_shutdown();
 }
 
 void cartridge_set_default(void)
@@ -529,6 +580,18 @@ static void cartridge_change_mapping(CLOCK offset, void *data)
 
 void cartridge_init(void)
 {
+    /* Initialize the REU.  */
+    reu_init();
+
+    /* Initialize the GEORAM.  */
+    georam_init();
+
+    /* Initialize the RAMCART.  */
+    ramcart_init();
+
+    /* Initialize the MMC64.  */
+    mmc64_init();
+
     cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cartridge_change_mapping, NULL);
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }

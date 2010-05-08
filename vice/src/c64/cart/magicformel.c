@@ -589,7 +589,7 @@ void REGPARM2 magicformel_romh_store(WORD addr, BYTE value)
     BYTE page;
 
     if (export_game) {
-        if(kernal_decoder(addr)) {
+        if (kernal_decoder(addr)) {
             DBG(("MF: CARTRAM romh store %04x %02x '%c'\n",addr,value,value));
 
             page = (((addr >> 11) & 1) << 0) |
@@ -605,46 +605,6 @@ void REGPARM2 magicformel_romh_store(WORD addr, BYTE value)
         mem_store_without_ultimax(addr, value);
     }
 #endif
-}
-
-BYTE REGPARM1 magicformel_1000_7fff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 magicformel_1000_7fff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 magicformel_a000_bfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 magicformel_a000_bfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 magicformel_c000_cfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 magicformel_c000_cfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 magicformel_d000_dfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 magicformel_d000_dfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
 }
 
 /****************************************************************************/

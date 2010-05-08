@@ -37,13 +37,5 @@ extern int gamekiller_bin_attach(const char *filename, BYTE *rawcart);
 extern int gamekiller_crt_attach(FILE *fd, BYTE *rawcart);
 extern void gamekiller_detach(void);
 extern void gamekiller_freeze(void);
-extern void REGPARM2 gamekiller_1000_7fff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 gamekiller_1000_7fff_read(WORD addr);
-extern void REGPARM2 gamekiller_a000_bfff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 gamekiller_a000_bfff_read(WORD addr);
-extern void REGPARM2 gamekiller_c000_cfff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 gamekiller_c000_cfff_read(WORD addr);
-extern void REGPARM2 gamekiller_roml_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 gamekiller_roml_read(WORD addr);
 
 #endif

@@ -353,22 +353,26 @@ static int try_nvram_load(const char *filename)
 
 static int try_nvram_save(const char *filename)
 {
+    int ret = 0;
     if (cart_nvram && filename && *filename != '\0') {
         FILE *fd;
         fd = fopen(filename, "wb");
         if (fd) {
-            fwrite(cart_nvram, (size_t)CART_NVRAM_SIZE, 1, fd);
+            if (fwrite(cart_nvram, (size_t)CART_NVRAM_SIZE, 1, fd) > 0) {
+                log_message(megacart_log, "Wrote back NvRAM image `%s'.", filename);
+            } else {
+                ret = -1;
+            }
             fclose(fd);
-            log_message(megacart_log, "Wrote back NvRAM image `%s'.",
-                        filename);
         } else {
-            log_message(megacart_log, "Failed to write back NvRAM image `%s'!",
-                        filename);
-            return -1;
+            ret = -1;
+        }
+        if (ret == -1) {
+            log_message(megacart_log, "Failed to write back NvRAM image `%s'!", filename);
         }
     }
 
-    return 0;
+    return ret;
 }
 
 int megacart_bin_attach(const char *filename)

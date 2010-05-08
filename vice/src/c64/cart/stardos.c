@@ -41,8 +41,16 @@
 #include "types.h"
 #include "util.h"
 
-static BYTE stardos_kernal[C64_KERNAL_ROM_SIZE];
+/* #define DBGSTARDOS */
+
+#ifdef DBGSTARDOS
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 static int cnt_de61, cnt_dfa1;
+static int roml_enable;
 
 /* ---------------------------------------------------------------------*/
 
@@ -51,8 +59,9 @@ static BYTE REGPARM1 stardos_io1_read(WORD addr)
     ++cnt_de61;
     if (cnt_de61 > 0xff) {
         /* enable bank 0 at $8000 */
-        cartridge_config_changed(0, 0, CMODE_READ);
+        roml_enable = 1;
         cnt_dfa1 = 0;
+        DBG(("STAROS: roml enable:%d\n",roml_enable));
     }
 
     return 0;
@@ -63,8 +72,9 @@ static BYTE REGPARM1 stardos_io2_read(WORD addr)
     ++cnt_dfa1;
     if (cnt_dfa1 > 0xff) {
         /* disable bank 0 at $8000 */
-        cartridge_config_changed(2, 2, CMODE_READ);
+        roml_enable = 0;
         cnt_de61 = 0;
+        DBG(("STAROS: roml enable:%d\n",roml_enable));
     }
     
     return 0;
@@ -113,34 +123,26 @@ static io_source_list_t *stardos_io2_list_item = NULL;
     signal comes from a clip that has to be installed inside of the c64.
 */
 
-void stardos_install_kernal(void)
-{
-    /* load the stardos_kernal as a kernal overriding buffer */
-    c64rom_load_kernal(NULL, stardos_kernal);
-}
-
-void stardos_remove_kernal(void)
-{
-    const char *rom_name = NULL;
-
-    c64rom_cartkernal_active = 0;
-    resources_get_string("KernalName", &rom_name);
-    c64rom_load_kernal(rom_name, NULL);
-}
-
-/* ---------------------------------------------------------------------*/
-
 BYTE REGPARM1 stardos_roml_read(WORD addr)
 {
-    return roml_banks[(addr & 0x1fff)];
+    if (roml_enable) {
+        return roml_banks[(addr & 0x1fff)];
+    } else {
+        return mem_read_without_ultimax(addr);
+    }
+}
+
+BYTE REGPARM1 stardos_romh_read(WORD addr)
+{
+    return romh_banks[(addr & 0x1fff)];
 }
 
 void stardos_config_init(void)
 {
-    stardos_install_kernal();
     cnt_de61 = 0;
     cnt_dfa1 = 0;
-    cartridge_config_changed(2, 2, CMODE_READ);
+    roml_enable = 1;
+    cartridge_config_changed(2, 3, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -158,9 +160,9 @@ void stardos_reset(void)
 void stardos_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, &rawcart[0], 0x2000);
-    memcpy(stardos_kernal, &rawcart[0x2000], 0x2000);
+    memcpy(romh_banks, &rawcart[0x2000], 0x2000);
 
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cartridge_config_changed(2, 3, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -215,7 +217,6 @@ int stardos_crt_attach(FILE *fd, BYTE *rawcart)
 
 void stardos_detach(void)
 {
-    stardos_remove_kernal();
     c64export_remove(&export_res);
     c64io_unregister(stardos_io1_list_item);
     c64io_unregister(stardos_io2_list_item);

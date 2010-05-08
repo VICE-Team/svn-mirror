@@ -825,7 +825,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         mapped_exrom = 0;       /* ultimax */
 
 
-                        /* if(enable_extended_mode) */
+                        /* if (enable_extended_mode) */
                         {
                             /* full rom banking */
                             cartbankl =
@@ -841,7 +841,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                                 & (0x3f);
                             io2bank = io1bank;
 
-                            /* if(bank_address_16_18==7) */
+                            /* if (bank_address_16_18==7) */
                             {
                                 switch (bank_address_13_15) {
                                     case 6:
@@ -877,7 +877,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
 
                     } else {       /* 16k game */
 #ifdef DEBUG
-                        if(last_biosmode444 != 222) {
+                        if (last_biosmode444 != 222) {
                             LOG(("bios mode 444: ram disabled"));
                             last_biosmode444 = 222;
                         }
@@ -1165,7 +1165,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
     active_mode_phi1 = (((mapped_exrom ^ 1) << 1) | mapped_game) | (cartbankl << CMODE_BANK_SHIFT);
     active_mode_phi2 = (((mapped_exrom ^ 1) << 1) | mapped_game) | (cartbankl << CMODE_BANK_SHIFT);
 
-    if(release_freeze) {
+    if (release_freeze) {
         wflag |= CMODE_RELEASE_FREEZE;
     }
 
@@ -1663,7 +1663,7 @@ void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value)
                 spi_mmc_trigger_mode_write(((value >> 6)) & 1);        /* bit 6 */
                 /* bit 7 always 0 */
                 if (disable_mmc_bios) {
-                    /* if(enable_mmc_regs_pending) */
+                    /* if (enable_mmc_regs_pending) */
                     {
                         enable_mmc_regs = enable_mmc_regs_pending;
                     }

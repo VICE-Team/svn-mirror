@@ -45,12 +45,13 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 
-/*
-    define 1 for alternative config that does not force ultimax mode all the time.
-    for some reason this way does not work properly, hence doing it the hard way :)
-*/
-#define NOFORCEULTIMAX1 0
-#define NOFORCEULTIMAX2 0
+/* #define DBGCAPTURE */
+
+#ifdef DBGCAPTURE
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 static const c64export_resource_t export_res = {
     "Capture", 1, 1
@@ -59,29 +60,14 @@ static const c64export_resource_t export_res = {
 static unsigned int cart_enabled = 0;
 static unsigned int freeze_pressed = 0;
 static unsigned int register_enabled = 0;
+static unsigned int romh_enabled = 0;
 
 /*
-    the rest of the callbacks should map in cartridge memory or open i/o when 
-    cart_enabled is 1, and wrap to the *_without_ultimax functions if the
-    cartridge is disabled
-*/
+    Jason Ranheim "Capture" Cartridge
 
-BYTE REGPARM1 capture_roml_read(WORD addr)
-{
-    if (cart_enabled == 0) {
-        return mem_read_without_ultimax(addr);
-    }
-    return vicii_read_phi1();
-}
+    - 8K ROM (mapped to e000)
+    - 8K RAM (mapped to 6000)
 
-void REGPARM2 capture_roml_store(WORD addr, BYTE value)
-{
-    if (cart_enabled == 0) {
-        mem_store_without_ultimax(addr, value);
-    }
-}
-
-/*
     7474  - 2 D-Flipflops (cart_enabled, register_enabled)
     74125 - 4 Tri-State Buffers
     74133 - NAND with 13 Inputs (adress decoder)
@@ -101,53 +87,48 @@ void REGPARM2 capture_roml_store(WORD addr, BYTE value)
     be disabled again by a hardware reset.
 */
 
-void capture_mapper(WORD addr)
+void capture_reg(WORD addr)
+{
+    if (register_enabled) {
+        if ((addr & 0xffff) == 0xfff7) {
+            cart_enabled = 0;
+            DBG(("CAPTURE: enable: %d\n", cart_enabled));
+        } else if ((addr & 0xffff) == 0xfff8) {
+            cart_enabled = 1;
+            DBG(("CAPTURE: enable: %d\n", cart_enabled));
+        }
+    }
+}
+
+void capture_romhflip(WORD addr)
 {
     if (freeze_pressed) {
         if ((addr & 0xff00) == 0xfe00) {
-            cart_enabled = 1;
             freeze_pressed = 0;
-#if NOFORCEULTIMAX1
-            cartridge_config_changed(2, 3, CMODE_READ);
-#endif
-        }
-    } else {
-        if (register_enabled) {       
-            if (cart_enabled) {
-                if ((addr & 0xffff) == 0xfff7) {
-                    cart_enabled = 0;
-                    freeze_pressed = 0;
-#if NOFORCEULTIMAX1
-                    cartridge_config_changed(2, 2, CMODE_READ);
-#endif
-                }
-            } else {
-                if ((addr & 0xffff) == 0xfff8) {
-                    cart_enabled = 1;
-                    freeze_pressed = 0;
-#if NOFORCEULTIMAX1
-                    cartridge_config_changed(2, 3, CMODE_READ);
-#endif
-                }
-            }
+            romh_enabled = 1;
+            DBG(("CAPTURE: romh enable: %d\n", romh_enabled));
         }
     }
 }
 
 BYTE REGPARM1 capture_romh_read(WORD addr)
 {
-    capture_mapper(addr);
+    capture_reg(addr);
+    capture_romhflip(addr);
 
     if (cart_enabled) {
-        return romh_banks[(addr & 0x1fff)];
-    } else {
-        return mem_read_without_ultimax(addr);
+        if (romh_enabled) {
+            return romh_banks[(addr & 0x1fff)];
+        }
     }
+    return mem_read_without_ultimax(addr);
+
 }
 
 void REGPARM2 capture_romh_store(WORD addr, BYTE value)
 {
-    capture_mapper(addr);
+    capture_reg(addr);
+    /* capture_romhflip(addr); */
 
     if (cart_enabled == 0) {
         mem_store_without_ultimax(addr, value);
@@ -162,8 +143,6 @@ BYTE REGPARM1 capture_1000_7fff_read(WORD addr)
     if (cart_enabled) {
         if (addr>=0x6000) {
             return export_ram0[addr-0x6000];
-        } else {
-            return vicii_read_phi1();
         }
     }
 
@@ -176,54 +155,9 @@ void REGPARM2 capture_1000_7fff_store(WORD addr, BYTE value)
         if (addr>=0x6000) {
             export_ram0[addr-0x6000] = value;
         }
-    }
-
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 capture_a000_bfff_read(WORD addr)
-{
-    if (cart_enabled == 0) {
-        return mem_read_without_ultimax(addr);
-    }
-    return vicii_read_phi1();
-}
-
-void REGPARM2 capture_a000_bfff_store(WORD addr, BYTE value)
-{
-    if (cart_enabled == 0) {
+    } else {
         mem_store_without_ultimax(addr, value);
     }
-}
-
-BYTE REGPARM1 capture_c000_cfff_read(WORD addr)
-{
-    if (cart_enabled == 0) {
-        return mem_read_without_ultimax(addr);
-    }
-    return vicii_read_phi1();
-}
-
-void REGPARM2 capture_c000_cfff_store(WORD addr, BYTE value)
-{
-    if (cart_enabled == 0) {
-        mem_store_without_ultimax(addr, value);
-    }
-}
-
-/*
-    the d000-dfff area is special, as chips and colorram are also 
-    available in ultimax mode
-*/
-
-BYTE REGPARM1 capture_d000_dfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 capture_d000_dfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
 }
 
 /******************************************************************************/
@@ -231,23 +165,17 @@ void REGPARM2 capture_d000_dfff_store(WORD addr, BYTE value)
 void capture_freeze(void)
 {
     if (freeze_pressed == 0) {
-#if NOFORCEULTIMAX2
         cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
-#else
-        cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
-#endif
+        cart_enabled = 1;
         freeze_pressed = 1;
         register_enabled = 1;
+        romh_enabled = 0;
     }
 }
 
 void capture_config_init(void)
 {
-#if NOFORCEULTIMAX2
     cartridge_config_changed(2, 2, CMODE_READ);
-#else
-    cartridge_config_changed(2, 3, CMODE_READ);
-#endif
 }
 
 void capture_reset(void)
@@ -255,23 +183,14 @@ void capture_reset(void)
     cart_enabled = 0;
     register_enabled = 0;
     freeze_pressed = 0;
-#if NOFORCEULTIMAX2
     cartridge_config_changed(2, 2, CMODE_READ);
-#else
-    cartridge_config_changed(2, 3, CMODE_READ);
-#endif
-
 }
 
 void capture_config_setup(BYTE *rawcart)
 {
-    memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, rawcart, 0x2000);
-#if NOFORCEULTIMAX2
+    memset(export_ram0, 0, 0x2000);
     cartridge_config_changed(2, 2, CMODE_READ);
-#else
-    cartridge_config_changed(2, 3, CMODE_READ);
-#endif
 }
 
 int capture_crt_attach(FILE *fd, BYTE *rawcart)

@@ -33,8 +33,8 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64_256k.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -44,8 +44,6 @@
 #include "machine.h"
 #include "mem.h"
 #include "mmc64.h"
-#include "plus256k.h"
-#include "plus60k.h"
 #include "resources.h"
 #include "spi-sdcard.h"
 #ifdef HAVE_TFE
@@ -55,9 +53,11 @@
 #include "types.h"
 #include "util.h"
 
-/*
-#define MMC64DEBUG
+#define USEPASSTHROUGHHACK 0 /* use the old passthrough hack */
 
+/* #define MMC64DEBUG */
+
+/*
 #define LOG_READ_DF10
 #define LOG_READ_DF11
 #define LOG_READ_DF12
@@ -103,7 +103,7 @@ static BYTE mmc64_unlocking[2] = { 0, 0 };
 static int mmc64_bios_changed = 0;
 
 /* flash jumper flag */
-static int mmc64_hw_flashjumper;
+static int mmc64_hw_flashjumper; /* status of the flash jumper */
 
 /* write protect flag */
 static int mmc64_hw_writeprotect;
@@ -128,7 +128,7 @@ static BYTE mmc64_biossel;
 #define MMC_SPISTAT   0x01 /* bit 0: 0 = SPI ready, 1 = SPI busy                     */
 
 /* Variables of the various status bits */
-static BYTE mmc64_flashjumper;
+static BYTE mmc64_flashjumper; /* status of the flash jumper FIXME: remove, duplicated flag */
 static BYTE mmc64_extexrom;
 static BYTE mmc64_extgame;
 
@@ -146,6 +146,8 @@ static int mmc64_deactivate(void);
 
 /* some prototypes are needed */
 static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value);
+static void REGPARM2 mmc64_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 mmc64_io1_read(WORD addr);
 static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value);
 static BYTE REGPARM1 mmc64_io2_read(WORD addr);
 
@@ -181,8 +183,19 @@ static io_source_t mmc64_io2_device = {
     mmc64_io2_read
 };
 
+static io_source_t mmc64_io1_device = {
+    "MMC64",
+    IO_DETACH_RESOURCE,
+    "MMC64",
+    0xde10, 0xde13, 0x03,
+    0,
+    mmc64_io1_store,
+    mmc64_io1_read
+};
+
 static io_source_list_t *mmc64_clockport_list_item = NULL;
-static io_source_list_t *mmc64_io_list_item = NULL;
+static io_source_list_t *mmc64_io1_list_item = NULL;
+static io_source_list_t *mmc64_io2_list_item = NULL;
 
 int mmc64_cart_enabled(void)
 {
@@ -210,10 +223,13 @@ void mmc64_reset(void)
         tfe_clockport_changed();
 #endif
     }
-
     if (mmc64_enabled) {
+#if USEPASSTHROUGHHACK
         export.exrom = 1;
         mem_pla_config_changed();
+#else
+        cartridge_config_changed(0, 0, CMODE_READ);
+#endif
     }
 }
 
@@ -224,6 +240,7 @@ static const c64export_resource_t export_res = {
 
 static int set_mmc64_enabled(int val, void *param)
 {
+    LOG(("MMC64 enabled: %d", mmc64_enabled));
     if (val != mmc64_enabled) {
         if (!val) {
             if (mmc64_deactivate() < 0) {
@@ -235,9 +252,11 @@ static int set_mmc64_enabled(int val, void *param)
             export.exrom = 0;
             mem_pla_config_changed();
             c64io_unregister(mmc64_clockport_list_item);
-            c64io_unregister(mmc64_io_list_item);
+            c64io_unregister(mmc64_io1_list_item);
+            c64io_unregister(mmc64_io2_list_item);
             mmc64_clockport_list_item = NULL;
-            mmc64_io_list_item = NULL;
+            mmc64_io1_list_item = NULL;
+            mmc64_io2_list_item = NULL;
             return 0;
         } else {
             if (c64export_query(&export_res) >= 0) {
@@ -254,7 +273,8 @@ static int set_mmc64_enabled(int val, void *param)
                 export.exrom = 1;
                 mem_pla_config_changed();
                 mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
-                mmc64_io_list_item = c64io_register(&mmc64_io2_device);
+                mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
+                mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
                 return 0;
             } else {
                 return -1;
@@ -268,7 +288,7 @@ static int set_mmc64_readonly(int val, void *param)
 {
     if (!mmc64_image_file_readonly) {
         mmc64_hw_writeprotect = val;
-        if(!((*mmc64_image_filename) == 0)) {
+        if (!((*mmc64_image_filename) == 0)) {
             return mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
         }
         return 0;
@@ -276,7 +296,7 @@ static int set_mmc64_readonly(int val, void *param)
         mmc64_hw_writeprotect = 1;
     }
 
-    if(!((*mmc64_image_filename) == 0)) {
+    if (!((*mmc64_image_filename) == 0)) {
         return mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
     }
 
@@ -287,6 +307,7 @@ static int set_mmc64_flashjumper(int val, void *param)
 {
     mmc64_hw_flashjumper = val;
     mmc64_flashjumper = val * MMC_FLASHJMP;
+    LOG(("MMC64 Flashjumper: %02x %d", mmc64_flashjumper, mmc64_hw_flashjumper));
     return 0;
 }
 
@@ -373,8 +394,12 @@ void mmc64_init_card_config(void)
     mmc64_extgame = 1;
 
     if (mmc64_enabled) {
+#if USEPASSTHROUGHHACK
         export.exrom = 1;
         mem_pla_config_changed();
+#else
+        cartridge_config_changed(0, 0, CMODE_READ);
+#endif
     }
 }
 
@@ -389,7 +414,7 @@ static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value)
     }
 }
 
-static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
+static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
 {
     switch (addr) {
         case 0:
@@ -398,13 +423,18 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
              *
              * byte written is sent to the card
              */
-            if (mmc64_active == 0) {
+            if (active) {
 #ifdef LOG_WRITE_DF10
-                LOG (("MMC64: IO2 ST %04x %02x", addr, value));
+                LOG(("MMC64: IO2 ST %04x %02x", addr, value));
 #endif
                 spi_mmc_data_write(value);
                 return;
             }
+#ifdef LOG_WRITE_DF10
+            else {
+                LOG(("MMC64: unhandled IO2 ST %04x %02x", addr, value));
+            }
+#endif
             break;
 
         case 1:
@@ -423,12 +453,14 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
              * (*) bit can only be programmed when flash jumper is set
              * (**) bit can only be modified after unlocking
              */
-            if (mmc64_active == 0) {
+            if (active) {
                 mmc64_biossel = (value) & 1; /* bit 0 */
                 mmc64_extrom = (value >> 5) & 1;      /* bit 5 */
 
 #ifdef LOG_WRITE_DF11
-                LOG (("MMC64: IO2 ST %04x %02x mmc64_biossel %x mmc64_extrom %x", addr, value, mmc64_biossel, mmc64_extrom));
+                LOG(("MMC64: IO2 ST %04x %02x mmc64_biossel %x mmc64_extrom %x", addr, value, mmc64_biossel, mmc64_extrom));
+                LOG(("MMC64:                  mmc64_flashmode %d", (((value >> 4)) & 1)));
+                LOG(("MMC64:                  mmc64_active %d", (((value >> 7)) & 1)));
 #endif
 
                 spi_mmc_card_selected_write(((value >> 1) ^ 1) & 1);   /* bit 1 */
@@ -440,12 +472,9 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
                 }
                 spi_mmc_trigger_mode_write(((value >> 6)) & 1);        /* bit 6 */
 
-                /* mmc64_active=(((value >> 7)) & 1); */ /* bit 7 */
+                mmc64_active=(((value >> 7)) & 1); /* bit 7 */
 
-                if (mmc64_active) {
-                    log_message(mmc64_log,"disabling MMC64");
-                }
-
+#if USEPASSTHROUGHHACK
                 if (mmc64_active) {
                     export.exrom = 0;
                     mem_pla_config_changed();
@@ -458,7 +487,18 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
                     }
                     mem_pla_config_changed();
                 }
-
+#else
+                if (mmc64_active) {
+                    log_message(mmc64_log,"disabling MMC64");
+                    cartridge_config_changed(2, 2, CMODE_READ);
+                } else {
+                    if (mmc64_biossel) {
+                        cartridge_config_changed(2, 2, CMODE_READ);
+                    } else {
+                        cartridge_config_changed(2, 0, CMODE_READ);
+                    }
+                }
+#endif
                 if (mmc64_cport) {
                     mmc64_hw_clockport = 0xdf22;
                     mmc64_current_clockport_device = &mmc64_io2_clockport_device;
@@ -478,6 +518,11 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
                 }
                 return;
             }
+#ifdef LOG_WRITE_DF11
+            else {
+                LOG(("MMC64: unhandled IO2 ST %04x %02x", addr, value));
+            }
+#endif
             break;
 
         case 2:  /* MMC64 status register, read only */
@@ -487,19 +532,40 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
             mmc64_unlocking[0] = mmc64_unlocking[1];
             mmc64_unlocking[1] = value;
             if ((mmc64_unlocking[0] == 0x55) && (mmc64_unlocking[1] == 0xaa)) {
-                log_message(mmc64_log,"bit 7 unlocked");
+                LOG(("MMC64: bit 7 unlocked"));
                 mmc64_bit7_unlocked=1;    /* unlock bit 7 of $DF11 */
-            }
-            if ((mmc64_unlocking[0] == 0x0a) && (mmc64_unlocking[1] == 0x1c)) {
+            } else if ((mmc64_unlocking[0] == 0x0a) && (mmc64_unlocking[1] == 0x1c)) {
+                LOG(("MMC64: mmc64 reenabled"));
                 mmc64_active = 0;
+#if USEPASSTHROUGHHACK
                 export.exrom = 1;
                 mem_pla_config_changed();   /* re-enable the MMC64 */
+#else
+                cartridge_config_changed(2, 0, CMODE_READ);
+#endif
             }
+#ifdef LOG_WRITE_DF11
+            else {
+                LOG(("MMC64: unhandled IO2 ST %04x %02x", addr, value));
+            }
+#endif
             break;
 
         default:      /* Not for us */
             return;
   }
+}
+
+static void REGPARM2 mmc64_io1_store(WORD addr, BYTE value)
+{
+    if (mmc64_hw_flashjumper) {
+        mmc64_reg_store(addr, value, 1);
+    }
+}
+
+static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
+{
+    mmc64_reg_store(addr, value, mmc64_active ^ 1);
 }
 
 static BYTE REGPARM1 mmc64_io2_read(WORD addr)
@@ -517,7 +583,7 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
              */
             value = spi_mmc_data_read();
 #ifdef LOG_READ_DF10
-            LOG (("MMC64: IO2 RD %04x %02x", addr, value));
+            LOG(("MMC64: IO2 RD %04x %02x", addr, value));
 #endif
             return value;
 
@@ -541,13 +607,13 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
             value |= (spi_mmc_card_selected_read() << 1);  /* bit 1 */
             value |= (spi_mmc_enable_8mhz_read() << 2);    /* bit 2 */
             /* bit 3,4 always 0 */
-            value |= mmc64_cport<<3;
-            value |= mmc64_flashmode<<4;
+            value |= mmc64_cport << 3;
+            value |= mmc64_flashmode << 4;
             value |= (mmc64_extrom << 5); /* bit 5 */
             value |= (spi_mmc_trigger_mode_read() << 6);   /* bit 6 */
-            /* value|=mmc64_active<<7; */   /* bit 7 always 0 */
+            value |= mmc64_active << 7;    /* bit 7 always 0 */
 #ifdef LOG_READ_DF11
-            LOG (("MMC64: IO2 RD %04x %02x mmc64_biossel %x mmc64_extrom %x", addr, value, mmc64_biossel, mmc64_extrom));
+            LOG(("MMC64: IO2 RD %04x %02x mmc64_biossel %x mmc64_extrom %x", addr, value, mmc64_biossel, mmc64_extrom));
 #endif
             return value;
 
@@ -573,7 +639,7 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
 
             /* bit 6,7 not readable */
 #ifdef LOG_READ_DF12
-            LOG (("MMC64: IO2 RD %04x %02x mmc64_extgame %x mmc64_extexrom %x", addr, value, mmc64_extgame, (mmc64_extexrom ^ 1)));
+            LOG(("MMC64: IO2 RD %04x %02x mmc64_extgame %x mmc64_extexrom %x", addr, value, mmc64_extgame, (mmc64_extexrom ^ 1)));
 #endif
             return value;
 
@@ -602,12 +668,20 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
     return 0;
 }
 
+static BYTE REGPARM1 mmc64_io1_read(WORD addr)
+{
+    return mmc64_io2_read(addr);
+}
+
 BYTE REGPARM1 mmc64_roml_read(WORD addr)
 {
     if (!mmc64_active && !mmc64_biossel) {
         return mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset];
     }
 
+/* FIXME: intentionally breaking this, this code should be removed and
+          ram extensions should be handled in the generic interface */
+#if 0
     if (plus60k_enabled) {
         return plus60k_ram_read(addr);
     }
@@ -619,13 +693,15 @@ BYTE REGPARM1 mmc64_roml_read(WORD addr)
     if (c64_256k_enabled) {
         return c64_256k_ram_segment2_read(addr);
     }
-
+#endif
     return mem_ram[addr];
 }
 
 void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
 {
+    /* if (addr == 0x8000) LOG(("roml w %04x %02x active: %d == 0 bios: %d == 0 flashjumper: %d == 1 flashmode: %d == 1\n", addr, byte, mmc64_active, mmc64_biossel, mmc64_flashjumper, mmc64_flashmode)); */
     if (!mmc64_active && !mmc64_biossel && mmc64_flashjumper && mmc64_flashmode) {
+        LOG(("MMC64 Flash w %04x %02x", addr, byte));
         if (mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset] != byte) {
             mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset] = byte;
             mmc64_bios_changed = 1;
@@ -633,6 +709,9 @@ void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
         }
     }
 
+/* FIXME: intentionally breaking this, this code should be removed and
+          ram extensions should be handled in the generic interface */
+#if 0
     if (plus60k_enabled) {
         plus60k_ram_store(addr, byte);
         return;
@@ -647,7 +726,7 @@ void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
         c64_256k_ram_segment2_store(addr, byte);
         return;
     }
-
+#endif
     mem_ram[addr] = byte;
 }
 
@@ -780,6 +859,7 @@ static int mmc64_activate(void)
 static int mmc64_deactivate(void)
 {
     FILE *bios_file = NULL;
+    int ret;
 
     mmc_close_card_image();
 
@@ -787,12 +867,15 @@ static int mmc64_deactivate(void)
         bios_file = fopen(mmc64_bios_filename, "wb");
 
         if (bios_file == NULL) {
-            return 0;
+            return 0; /* FIXME */
         }
 
-        fwrite(&mmc64_bios, 1, 0x2000 + mmc64_bios_offset, bios_file);
+        ret = fwrite(&mmc64_bios, 1, 0x2000 + mmc64_bios_offset, bios_file);
         fclose(bios_file);
         mmc64_bios_changed = 0;
+        if (ret <= 0) {
+            return 0; /* FIXME */
+        }
     }
     return 0;
 }

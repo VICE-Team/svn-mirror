@@ -41,6 +41,17 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    The Final Cartridge 1+2
+
+   - 8k ROM
+
+   - any access to IO1 turns cartridge ROM off
+   - any access to IO2 turns cartridge ROM on
+
+   - cart ROM mirror is visible in io1/io2
+*/
+
 /* some prototypes are needed */
 static BYTE REGPARM1 final_v1_io1_read(WORD addr);
 static void REGPARM2 final_v1_io1_store(WORD addr, BYTE value);

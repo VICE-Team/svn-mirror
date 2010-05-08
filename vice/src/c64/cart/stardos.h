@@ -30,9 +30,8 @@
 
 #include "types.h"
 
-extern int stardos_kernal_enabled;
-
 extern BYTE REGPARM1 stardos_roml_read(WORD addr);
+extern BYTE REGPARM1 stardos_romh_read(WORD addr);
 
 extern void stardos_config_init(void);
 extern void stardos_reset(void);

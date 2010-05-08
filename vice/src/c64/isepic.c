@@ -104,10 +104,10 @@ static unsigned int isepic_page = 0;
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
-static BYTE REGPARM1 isepic_reg_read(WORD addr);
-static void REGPARM2 isepic_reg_store(WORD addr, BYTE byte);
-static BYTE REGPARM1 isepic_window_read(WORD addr);
-static void REGPARM2 isepic_window_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 isepic_io1_read(WORD addr);
+static void REGPARM2 isepic_io1_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 isepic_io2_read(WORD addr);
+static void REGPARM2 isepic_io2_store(WORD addr, BYTE byte);
 
 static io_source_t isepic_io1_device = {
     "ISEPIC",
@@ -115,8 +115,8 @@ static io_source_t isepic_io1_device = {
     "ISEPIC",
     0xde00, 0xdeff, 0x07,
     0, /* read is never valid */
-    isepic_reg_store,
-    isepic_reg_read
+    isepic_io1_store,
+    isepic_io1_read
 };
 
 static io_source_t isepic_io2_device = {
@@ -125,8 +125,8 @@ static io_source_t isepic_io2_device = {
     "ISEPIC",
     0xdf00, 0xdfff, 0xff,
     0,
-    isepic_window_store,
-    isepic_window_read
+    isepic_io2_store,
+    isepic_io2_read
 };
 
 static io_source_list_t *isepic_io1_list_item = NULL;
@@ -149,6 +149,7 @@ int isepic_freeze_allowed(void)
 
 static int set_isepic_enabled(int val, void *param)
 {
+    DBG(("set enabled: %d\n", val));
     if (isepic_enabled && !val) {
         lib_free(isepic_ram);
         isepic_enabled = 0;
@@ -157,8 +158,7 @@ static int set_isepic_enabled(int val, void *param)
         isepic_io1_list_item = NULL;
         isepic_io2_list_item = NULL;
         if (isepic_switch) {
-            cartridge_config_changed(2, 2, CMODE_READ);
-            cartridge_release_freeze();
+            cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
 
@@ -168,7 +168,7 @@ static int set_isepic_enabled(int val, void *param)
         isepic_io1_list_item = c64io_register(&isepic_io1_device);
         isepic_io2_list_item = c64io_register(&isepic_io2_device);
         if (isepic_switch) {
-            cartridge_config_changed(2, 3, CMODE_READ);
+            cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
     return 0;
@@ -176,11 +176,11 @@ static int set_isepic_enabled(int val, void *param)
 
 static int set_isepic_switch(int val, void *param)
 {
+    DBG(("set switch: %d\n", val));
     if (isepic_switch && !val) {
         isepic_switch = 0;
         if (isepic_enabled) {
-            cartridge_config_changed(2, 2, CMODE_READ);
-            cartridge_release_freeze();
+            cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
 
@@ -188,6 +188,7 @@ static int set_isepic_switch(int val, void *param)
         isepic_switch = 1;
         if (isepic_enabled) {
             cartridge_trigger_freeze();
+            cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
     return 0;
@@ -232,7 +233,7 @@ int isepic_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 isepic_reg_read(WORD addr)
+BYTE REGPARM1 isepic_io1_read(WORD addr)
 {
     DBG(("io1 r %04x (sw:%d)\n", addr, isepic_switch));
 
@@ -242,7 +243,7 @@ BYTE REGPARM1 isepic_reg_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 isepic_reg_store(WORD addr, BYTE byte)
+void REGPARM2 isepic_io1_store(WORD addr, BYTE byte)
 {
     DBG(("io1 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
 
@@ -251,7 +252,7 @@ void REGPARM2 isepic_reg_store(WORD addr, BYTE byte)
     }
 }
 
-BYTE REGPARM1 isepic_window_read(WORD addr)
+BYTE REGPARM1 isepic_io2_read(WORD addr)
 {
     BYTE retval = 0;
 
@@ -267,7 +268,7 @@ BYTE REGPARM1 isepic_window_read(WORD addr)
     return retval;
 }
 
-void REGPARM2 isepic_window_store(WORD addr, BYTE byte)
+void REGPARM2 isepic_io2_store(WORD addr, BYTE byte)
 {
     DBG(("io2 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
 
@@ -304,42 +305,20 @@ void REGPARM2 isepic_romh_store(WORD addr, BYTE byte)
     }
 }
 
-BYTE REGPARM1 isepic_roml_read(WORD addr)
+BYTE REGPARM1 isepic_page_read(WORD addr)
 {
-    return mem_read_without_ultimax(addr);
+    if (isepic_switch) {
+        return isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+    } else {
+        return mem_read_without_ultimax(addr);
+    }
 }
 
-void REGPARM2 isepic_roml_store(WORD addr, BYTE value)
+void REGPARM2 isepic_page_store(WORD addr, BYTE value)
 {
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 isepic_1000_7fff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 isepic_1000_7fff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 isepic_a000_bfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 isepic_a000_bfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 isepic_c000_cfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 isepic_c000_cfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
+    if (isepic_switch) {
+        isepic_ram[(isepic_page * 256) + (addr & 0xff)] = value;
+    } else {
+        mem_store_without_ultimax(addr, value);
+    }
 }

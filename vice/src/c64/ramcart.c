@@ -201,6 +201,7 @@ static io_source_list_t *ramcart_io2_list_item = NULL;
 void ramcart_init_config(void)
 {
     if (ramcart_enabled) {
+        /* FIXME */
         export.exrom = 1;
         mem_pla_config_changed();
     }
@@ -448,6 +449,9 @@ BYTE REGPARM1 ramcart_roml_read(WORD addr)
     if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
         return ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)];
     }
+/* FIXME: intentionally breaking this, this code should be removed and
+          ram extensions should be handled in the generic interface */
+#if 0
     if (plus60k_enabled) {
         return plus60k_ram_read(addr);
     }
@@ -457,12 +461,15 @@ BYTE REGPARM1 ramcart_roml_read(WORD addr)
     if (c64_256k_enabled) {
         return c64_256k_ram_segment2_read(addr);
     }
-
+#endif
     return mem_ram[addr];
 }
 
 void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
 {
+/* FIXME: intentionally breaking this, this code should be removed and
+          ram extensions should be handled in the generic interface */
+#if 0
     if (plus60k_enabled) {
         plus60k_ram_store(addr, byte);
         return;
@@ -475,5 +482,6 @@ void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
         c64_256k_ram_segment2_store(addr, byte);
         return;
     }
+#endif
     mem_ram[addr] = byte;
 }

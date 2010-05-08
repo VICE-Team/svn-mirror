@@ -85,47 +85,6 @@ static void REGPARM2 gamekiller_io2_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 gamekiller_1000_7fff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 gamekiller_1000_7fff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 gamekiller_roml_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 gamekiller_roml_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 gamekiller_a000_bfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 gamekiller_a000_bfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
-BYTE REGPARM1 gamekiller_c000_cfff_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 gamekiller_c000_cfff_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-/* ---------------------------------------------------------------------*/
-
 static io_source_t gamekiller_io1_device = {
     "Game Killer",
     IO_DETACH_CART,

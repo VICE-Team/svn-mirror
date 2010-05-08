@@ -42,8 +42,6 @@
 
 /* #define DEBUGAP */
 
-#define USEFAKEULTIMAX 1 /* use fake ultimax mode for special mapping */
-
 #ifdef DEBUGAP
 #define DBG(x) printf x
 #else
@@ -73,11 +71,12 @@
     different to original AR:
 
     if bit 5 (RAM enable) is 1,
-       bit 1,2 (exrom/game) is == 2 (cart off),
+       bit 0,1 (exrom/game) is == 2 (cart off),
        bit 2,6,7 (cart disable, freeze clear) are 0,
 
     then Cart ROM (Bank 0..3) is mapped at 8000-9fff,
      and Cart RAM (Bank 0) is mapped at A000-bfff
+     using 16K Game config
 
     io2 (r/w)
         cart RAM (if enabled) or cart ROM
@@ -128,12 +127,8 @@ static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
         DBG(("io1 w %02x mode %d bank %d\n", value, mode, bank));
 
         if ((value & 0xe7) == 0x22) {
-#if USEFAKEULTIMAX
-            mode = 3; /* fake ultimax */
-#else
             mode = 1; /* 16k Game */
-#endif
-            export_ram_at_a000 = 1;
+            export_ram_at_a000 = 1; /* RAM at a000 enabled */
         } else {
             /* Action Replay 5 compatible values */
             export_ram_at_a000 = 0;
@@ -207,107 +202,21 @@ void REGPARM2 atomicpower_roml_store(WORD addr, BYTE value)
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
     }
-#if USEFAKEULTIMAX
-    else {
-        mem_store_without_ultimax(addr, value);
-    }
-#endif
 }
 
 BYTE REGPARM1 atomicpower_romh_read(WORD addr)
 {
-#if USEFAKEULTIMAX
-    if (export_ram_at_a000) {
-        return mem_read_without_ultimax(addr);
-    }
-#else
     if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
     }
-#endif
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
 void REGPARM2 atomicpower_romh_store(WORD addr, BYTE value)
 {
-#if USEFAKEULTIMAX
-    mem_store_without_ultimax(addr, value);
-#else
     if (export_ram_at_a000) {
         export_ram0[addr & 0x1fff] = value;
     }
-#endif
-}
-
-BYTE REGPARM1 atomicpower_a000_bfff_read(WORD addr)
-{
-#if USEFAKEULTIMAX
-    if (export_ram_at_a000) {
-        return export_ram0[addr & 0x1fff];
-    }
-    return mem_read_without_ultimax(addr);
-#else
-    return vicii_read_phi1();
-#endif
-}
-
-void REGPARM2 atomicpower_a000_bfff_store(WORD addr, BYTE value)
-{
-#if USEFAKEULTIMAX
-    if (export_ram_at_a000) {
-        export_ram0[addr & 0x1fff] = value;
-    } else {
-        mem_store_without_ultimax(addr, value);
-    }
-#endif
-}
-
-BYTE REGPARM1 atomicpower_1000_7fff_read(WORD addr)
-{
-#if USEFAKEULTIMAX
-    return mem_read_without_ultimax(addr);
-#else
-    return vicii_read_phi1();
-#endif
-}
-
-void REGPARM2 atomicpower_1000_7fff_store(WORD addr, BYTE value)
-{
-#if USEFAKEULTIMAX
-    mem_store_without_ultimax(addr, value);
-#endif
-}
-
-BYTE REGPARM1 atomicpower_c000_cfff_read(WORD addr)
-{
-#if USEFAKEULTIMAX
-    return mem_read_without_ultimax(addr);
-#else
-    return vicii_read_phi1();
-#endif
-}
-
-void REGPARM2 atomicpower_c000_cfff_store(WORD addr, BYTE value)
-{
-#if USEFAKEULTIMAX
-    mem_store_without_ultimax(addr, value);
-#endif
-}
-
-BYTE REGPARM1 atomicpower_d000_dfff_read(WORD addr)
-{
-#if USEFAKEULTIMAX
-    return mem_read_without_ultimax(addr);
-#else
-    return vicii_read_phi1();
-#endif
-}
-
-void REGPARM2 atomicpower_d000_dfff_store(WORD addr, BYTE value)
-{
-#if USEFAKEULTIMAX
-    mem_store_without_ultimax(addr, value);
-#endif
 }
 
 /* ---------------------------------------------------------------------*/
