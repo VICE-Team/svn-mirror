@@ -590,14 +590,9 @@ BYTE REGPARM2 viacore_read_(via_context_t *via_context, WORD addr)
 
     addr &= 0xf;
 
-    /* Hack for opcode fetch, where the clock does not change */
-    if (*(via_context->clk_ptr) <= via_context->read_clk) {
-        rclk = via_context->read_clk + (++(via_context->read_offset));
-    } else {
-        via_context->read_clk = *(via_context->clk_ptr);
-        via_context->read_offset = 0;
-        rclk = *(via_context->clk_ptr);
-    }
+    via_context->read_clk = *(via_context->clk_ptr);
+    via_context->read_offset = 0;
+    rclk = *(via_context->clk_ptr);
 
     if (addr >= VIA_T1CL && addr <= VIA_IER) {
         if (via_context->tai && (via_context->tai < *(via_context->clk_ptr)))
@@ -840,23 +835,27 @@ static void viacore_clk_overflow_callback(CLOCK sub, void *data)
 
     via_context = (via_context_t *)data;
 
-    if (via_context->enabled == 0)
+    if (via_context->enabled == 0) {
         return;
+    }
 
-    via_context->tau = via_context->tal + 2 - 
-						((*(via_context->clk_ptr) + sub - via_context->tau)
-								% (via_context->tal + 2));
+    via_context->tau = via_context->tal + 2 -
+                        ((*(via_context->clk_ptr) + sub - via_context->tau)
+                        % (via_context->tal + 2));
 
-	via_context->tbu = via_context->tbl + 2 - 
-						((*(via_context->clk_ptr) + sub - via_context->tbu)
-								% (via_context->tbl + 2));
+    via_context->tbu = via_context->tbl + 2 -
+                        ((*(via_context->clk_ptr) + sub - via_context->tbu)
+                        % (via_context->tbl + 2));
 
-    if (via_context->tai)
+    if (via_context->tai) {
         via_context->tai -= sub;
-    if (via_context->read_clk > sub)
+    }
+
+    if (via_context->read_clk > sub) {
         via_context->read_clk -= sub;
-    else
+    } else {
         via_context->read_clk = 0;
+    }
 }
 
 void viacore_setup_context(via_context_t *via_context)
@@ -870,7 +869,7 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->my_module_name_alt2 = NULL;
 
     via_context->write_offset = 1;
- }
+}
 
 void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
                   interrupt_cpu_status_t *int_status, clk_guard_t *clk_guard)
