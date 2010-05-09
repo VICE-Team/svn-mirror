@@ -91,25 +91,27 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_CAPTURE            34 /* capture.c */
 #define CARTRIDGE_ACTION_REPLAY3     35 /* actionreplay3.c */
 #define CARTRIDGE_RETRO_REPLAY       36 /* retroreplay.c */
-#define CARTRIDGE_MMC64              37 /* + mmc64.c, spi-sdcard.c */
+#define CARTRIDGE_MMC64              37 /* mmc64.c, spi-sdcard.c */
 #define CARTRIDGE_MMC_REPLAY         38 /* mmcreplay.c, ser-eeprom.c, spi-sdcard.c */
 #define CARTRIDGE_IDE64              39 /* ide64.c */
 #define CARTRIDGE_SUPER_SNAPSHOT     40 /* supersnapshot4.c */
-#define CARTRIDGE_IEEE488            41 /* + c64tpi.c */
+#define CARTRIDGE_IEEE488            41 /* c64tpi.c */
 #define CARTRIDGE_GAME_KILLER        42 /* gamekiller.c */
 #define CARTRIDGE_P64                43 /* prophet64.c */
 #define CARTRIDGE_LASTID 43 /* last valid CRT ID */
-/* more carts, which do not have a crt id (yet)s */
+/* more carts, which do not have a crt id (yet): */
 /* FIXME: those that will never get an ID should probably get negative IDs here */
-#define CARTRIDGE_DIGIMAX            100 /* + digimax.c, fmopl.c */
-#define CARTRIDGE_DQBB               101 /* + dqbb.c */
-#define CARTRIDGE_GEORAM             102 /* + georam.c */
-#define CARTRIDGE_ISEPIC             103 /* + isepic.c */
-#define CARTRIDGE_RAMCART            104 /* + ramcart.c */
-#define CARTRIDGE_REU                105 /* + reu.c */
-#define CARTRIDGE_SFX_SOUND_EXPANDER 106 /* + sfx_soundexpander.c */
-#define CARTRIDGE_SFX_SOUND_SAMPLER  107 /* + sfx_soundsampler.c */
-#define CARTRIDGE_EXOS               108 /* + exos.c */
+#define CARTRIDGE_DIGIMAX            100 /* digimax.c, fmopl.c */
+#define CARTRIDGE_DQBB               101 /* dqbb.c */
+#define CARTRIDGE_GEORAM             102 /* georam.c */
+#define CARTRIDGE_ISEPIC             103 /* isepic.c */
+#define CARTRIDGE_RAMCART            104 /* ramcart.c */
+#define CARTRIDGE_REU                105 /* reu.c */
+#define CARTRIDGE_SFX_SOUND_EXPANDER 106 /* sfx_soundexpander.c */
+#define CARTRIDGE_SFX_SOUND_SAMPLER  107 /* sfx_soundsampler.c */
+#define CARTRIDGE_EXOS               108 /* exos.c */
+#define CARTRIDGE_FREEZE_FRAME       109 /* freezeframe.c */
+#define CARTRIDGE_FREEZE_MACHINE     110 /* freezemachine.c */
 /* FIXME: files marked with + above should be moved into the cart directory */
 
 /*

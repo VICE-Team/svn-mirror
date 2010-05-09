@@ -58,6 +58,10 @@ libc64cart_a_SOURCES = \
 	final3.h \
 	finalplus.c \
 	finalplus.h \
+	freezeframe.c \
+	freezeframe.h \
+	freezemachine.c \
+	freezemachine.h \
 	funplay.c \
 	funplay.h \
 	gamekiller.c \

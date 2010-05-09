@@ -55,6 +55,8 @@
 #include "final.h"
 #include "finalplus.h"
 #include "final3.h"
+#include "freezeframe.h"
+#include "freezemachine.h"
 #include "funplay.h"
 #include "gamekiller.h"
 #include "generic.h"
@@ -299,6 +301,11 @@ BYTE REGPARM1 roml_read(WORD addr)
     }
 
     switch (mem_cartridge_type) {
+        case CARTRIDGE_FREEZE_FRAME:
+            /* use default cartridge */
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            return freezemachine_roml_read(addr);
         case CARTRIDGE_STARDOS:
             return stardos_roml_read(addr);
         case CARTRIDGE_ZAXXON:
@@ -414,6 +421,10 @@ BYTE REGPARM1 romh_read(WORD addr)
     }
 
     switch (mem_cartridge_type) {
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+            /* use default cartridge */
+            break;
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
         case CARTRIDGE_EXPERT:
@@ -454,6 +465,10 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
     }
 
     switch (mem_cartridge_type) {
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+            /* use default cartridge */
+            break;
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
         case CARTRIDGE_EXPERT:
@@ -924,6 +939,12 @@ void cartridge_init_config(void)
         case CARTRIDGE_EXOS:
             exos_config_init();
             break;
+        case CARTRIDGE_FREEZE_FRAME:
+            freezeframe_config_init();
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_config_init();
+            break;
         default:
             cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ);
     }
@@ -963,6 +984,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_reset();
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_reset();
             break;
     }
 
@@ -1106,6 +1130,12 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_EXOS:
             exos_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FREEZE_FRAME:
+            freezeframe_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_config_setup(rawcart);
             break;
         default:
             mem_cartridge_type = CARTRIDGE_NONE;
@@ -1255,6 +1285,12 @@ void cartridge_detach(int type)
         case CARTRIDGE_EXOS:
             exos_detach();
             break;
+        case CARTRIDGE_FREEZE_FRAME:
+            freezeframe_detach();
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_detach();
+            break;
     }
     cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
     mem_cartridge_type = CARTRIDGE_NONE;
@@ -1319,6 +1355,12 @@ void cartridge_freeze(int type)
             break;
         case CARTRIDGE_EXPERT:
             expert_freeze();
+            break;
+        case CARTRIDGE_FREEZE_FRAME:
+            freezeframe_freeze();
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_freeze();
             break;
     }
 }
