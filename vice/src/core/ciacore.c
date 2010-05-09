@@ -575,15 +575,9 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
     if (cia_context->pre_read != NULL)
         (cia_context->pre_read)();
 
-    /* Hack for opcode fetch, where the clock does not change */
-    if (*(cia_context->clk_ptr) <= cia_context->read_clk) {
-        rclk = cia_context->read_clk + (++(cia_context->read_offset))
-               - READ_OFFSET;
-    } else {
-        cia_context->read_clk = *(cia_context->clk_ptr);
-        cia_context->read_offset = 0;
-        rclk = *(cia_context->clk_ptr) - READ_OFFSET;
-    }
+    cia_context->read_clk = *(cia_context->clk_ptr);
+    cia_context->read_offset = 0;
+    rclk = *(cia_context->clk_ptr) - READ_OFFSET;
 
     if (cia_context->pre_read != NULL)
         (cia_context->pre_read)();
