@@ -15,7 +15,8 @@ palettes = \
 
 x11_keymaps = \
 	x11_pos.vkm \
-	x11_sym.vkm
+	x11_sym.vkm \
+	x11_sym_de.vkm
 
 sdl_keymaps = \
 	sdl_sym.vkm
