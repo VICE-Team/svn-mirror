@@ -57,7 +57,7 @@ inline static BYTE fetch_phi1(int addr)
     if ((cart_ultimax_phi1 != 0) && ((addr & 0x3fff) >= 0x3000)) {
         p = romh_banks + (romh_bank << 13) + (addr & 0xfff) + 0x1000;
     } else if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
-        p = mem_chargen_rom_ptr + (addr & 0xc00);
+        p = mem_chargen_rom_ptr + (addr & 0xfff);
     } else {
         p = vicii.ram_base_phi1 + addr;
     }
@@ -74,13 +74,15 @@ inline static BYTE fetch_phi2(int addr)
     if ((cart_ultimax_phi2 != 0) && ((addr & 0x3fff) >= 0x3000)) {
         p = romh_banks + (romh_bank << 13) + (addr & 0xfff) + 0x1000;
     } else if ((addr & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {
-        p = mem_chargen_rom_ptr + (addr & 0xc00);
+        p = mem_chargen_rom_ptr + (addr & 0xfff);
     } else {
         p = vicii.ram_base_phi2 + addr;
     }
 
     return *p;
 }
+
+/*-----------------------------------------------------------------------*/
 
 inline static int check_sprite_dma(int i)
 {
@@ -135,22 +137,31 @@ inline static void sprite_dma_cycle_2(int i)
 
 /*-----------------------------------------------------------------------*/
 
-inline static BYTE gfx_data_hires_bitmap(unsigned int num)
+inline static WORD g_fetch_addr(BYTE mode)
 {
-    unsigned int j;
+    WORD a;
 
-    j = (num << 3) | vicii.rc;
-
-    if (j & 0x1000) {
-        return vicii.bitmap_high_ptr[j & 0xfff];
+    /* BMM */
+    if (mode & 0x20) {
+        a = (vicii.vc << 3) | vicii.rc;
+        a |= (vicii.regs[0x18] & 0x8) << 10;
     } else {
-        return vicii.bitmap_low_ptr[j & 0xfff];
+        a = (vicii.vbuf[vicii.vmli] << 3) | vicii.rc;
+        a |= (vicii.regs[0x18] & 0xe) << 10;
     }
+
+    /* ECM */
+    if (mode & 0x40) {
+        a &= 0x39ff;
+    }
+
+    return a;
 }
 
-inline static BYTE gfx_data_normal_text(unsigned int c)
+inline static int is_char_rom(WORD addr)
 {
-    return vicii.chargen_ptr[c * 8 + vicii.rc];
+    addr = ((addr + vicii.vbank_phi1) & vicii.vaddr_mask_phi1) | vicii.vaddr_offset_phi1;
+    return (addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -200,45 +211,36 @@ BYTE vicii_fetch_idle_gfx(void)
 BYTE vicii_fetch_graphics(void)
 {
     BYTE data;
-    BYTE reg11;
-    unsigned int offs;
+    WORD addr;
+
     if (vicii.color_latency) {
-        reg11 = vicii.regs[0x11];
-    } else {
-        reg11 = vicii.reg11_delay;
-    }
+        addr = g_fetch_addr(vicii.regs[0x11] | (vicii.reg11_delay & 0x20));
 
-    if ( (reg11 ^ vicii.reg11_delay) & 0x20) {
-        /* ECM=x BMM=1->0 MCM=x */
-        offs = (vicii.vc & 0x1f) | (vicii.vbuf[vicii.vmli] & 0xe0);
-    } else {
-        if (vicii.reg11_delay & 0x20) {
-            /* ECM=x BMM=1 MCM=x */
-            offs = vicii.vc;
-        } else {
-            /* ECM=x BMM=0 MCM=x */
-            offs = vicii.vbuf[vicii.vmli];
+        if ((vicii.regs[0x11] ^ vicii.reg11_delay) & 0x20) {
+            /* 6569 fetch magic! (FIXME: proper explanation)
+               When changing from RAM to (char)ROM fetches, the LSB of the
+               fetch address is (apparently) latched using the mode from
+               the previous cycle, and the upper bits come from the current
+               mode, due to ...
+
+               TODO: test with $d018 splits and fix above test if needed.
+            */
+            WORD addr_from, addr_to;
+
+            addr_from = g_fetch_addr(vicii.reg11_delay);
+            addr_to = g_fetch_addr(vicii.regs[0x11]);
+
+            if (!is_char_rom(addr_from) && is_char_rom(addr_to)) {
+                addr = (addr_from & 0xff) | (addr_to & 0x3f00);
+            }
         }
+    } else {
+        addr = g_fetch_addr(vicii.reg11_delay);
     }
 
-    switch (reg11 & 0x60) {
-    case 0x00:                             /* ECM=0 BMM=0 MCM=x */
-        data = gfx_data_normal_text(offs);
-        break;
-    case 0x20:                             /* ECM=0 BMM=1 MCM=x */
-        data = gfx_data_hires_bitmap(offs);
-        break;
-    case 0x40:                             /* ECM=1 BMM=0 MCM=x */
-        data = gfx_data_normal_text(offs & (0x01ff >> 3) );
-        break;
-    case 0x60:                             /* ECM=1 BMM=1 MCM=x */
-        data = gfx_data_hires_bitmap(offs & (0x19ff >> 3) );
-        break;
-    default:
-        data = 0xff;
-        break;
-    }
+    data = fetch_phi1(addr);
     vicii.gbuf = data;
+
     vicii.vmli++;
 
     vicii.vc++;
