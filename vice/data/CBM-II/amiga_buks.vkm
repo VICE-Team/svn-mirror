@@ -32,9 +32,9 @@
 #
 
 !CLEAR
-!LSHIFT 1 7
-!RSHIFT 6 4
-!VSHIFT RSHIFT
+!LSHIFT 8 4
+!RSHIFT 8 4
+!VSHIFT LSHIFT
 
 0 7 1 8                 /*            ` -> Left Arrow   */
 1 7 0 8                 /*            1 -> 1            */
@@ -48,7 +48,7 @@
 9 4 0 8                 /*            9 -> 9            */
 10 4 3 8                /*            0 -> 0            */
 11 5 0 8                /*         Plus -> Plus         */
-12 5 3 8                /*            ´ -> Minus        */
+12 5 3 8                /*            ï¿½ -> Minus        */
 13 6 3 8                /*            \ -> CLR/HOME     */
 #14 -1 -1 0             /*              -> (no key)     */
 #15 -1 -1 0             /*     KEYPAD 0 -> (no key)     */
@@ -62,8 +62,8 @@
 23 4 1 8                /*            I -> I            */
 24 4 6 8                /*            O -> O            */
 25 5 1 8                /*            P -> P            */
-26 5 6 8                /*        (å) [ -> @            */
-27 6 1 8                /*        (¨) ] -> *            */
+26 5 6 8                /*        (ï¿½) [ -> @            */
+27 6 1 8                /*        (ï¿½) ] -> *            */
 #28 -1 -1 0             /*              -> (no key)     */
 #29 -1 -1 0             /*     KEYPAD 1 -> (no key)     */
 #30 -1 -1 0             /*     KEYPAD 2 -> (no key)     */
@@ -132,8 +132,8 @@
 #93 -1 -1 0             /*     KEYPAD * -> (no key)     */
 #94 -1 -1 0             /*     KEYPAD + -> (no key)     */
 95 6 6 8                /*         HELP -> Up Arrow     */
-96 1 7 1                /*   Left Shift -> Left Shift   */
-97 6 4 8                /*  Right Shift -> Right Shift  */
+96 8 4 2                /*   Left Shift -> Left Shift   */
+97 8 4 2                /*  Right Shift -> Right Shift  */
 #98 -1 -1 0             /*     CAPSLOCK -> (no key)     */
 99 7 5 8                /*         Ctrl -> CBM          */
 #100 -1 -1 0            /*     LEFT ALT -> (no key)     */

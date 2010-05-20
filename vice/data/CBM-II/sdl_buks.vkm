@@ -34,9 +34,9 @@
 #
 
 !CLEAR
-!LSHIFT 1 7
-!RSHIFT 6 4
-!VSHIFT RSHIFT
+!LSHIFT 8 4
+!RSHIFT 8 4
+!VSHIFT LSHIFT
 
 27 7 0 8        /*          ESC -> ESC          */
 49 9 1 8        /*            1 -> 1            */
@@ -89,7 +89,7 @@
 44 15 4 8       /*            , -> ,            */
 46 15 5 8       /*            . -> .            */
 47 0 5 8        /*            / -> /            */
-303 8 3 4       /*  Right Shift -> Right Shift  */
+303 8 4 2       /*  Right Shift -> Right Shift  */
 32 14 5 8       /*        Space -> Space        */
 282 8 0 8       /*           F1 -> F1           */
 283 9 0 8       /*           F2 -> F2           */

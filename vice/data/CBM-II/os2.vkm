@@ -17,7 +17,7 @@
 //  e.g.
 
 !LSHIFT 8 4
-!RSHIFT 8 3
+!RSHIFT 8 4
 
 // the keyboard is mapped with the keyboard scancodes:
 //      Xcode: row col vshift
@@ -93,7 +93,7 @@
 #51:  15, 4, 0           /*            , -> ,            */
 #52:  15, 5, 0           /*            . -> .            */
 #53:  0, 5, 0            /*            / -> /            */
-#54:  8, 3, 0            /*  Right Shift -> Right Shift  */
+#54:  8, 4, 0            /*  Right Shift -> Right Shift  */
 #55:  6, 1, 0            /*       Grey * -> *            */
 #56:  -1, -1, 0          /*     Left Alt -> (no key)     */
 #57:  14, 5, 0           /*        Space -> Space        */

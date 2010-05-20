@@ -35,8 +35,8 @@
 
 !CLEAR
 !LSHIFT 8 4
-!RSHIFT 8 3
-!VSHIFT RSHIFT
+!RSHIFT 8 4
+!VSHIFT LSHIFT
 
 #0 -1 -1 0      /*           (no key)           */
 1 7 0 8         /*          ESC -> ESC          */
@@ -92,7 +92,7 @@
 51 15 4 8       /*            , -> ,            */
 52 15 5 8       /*            . -> .            */
 53 0 5 8        /*            / -> /            */
-54 8 3 4        /*  Right Shift -> Right Shift  */
+54 8 4 2        /*  Right Shift -> Right Shift  */
 55 6 1 8        /*       Grey * -> *            */
 #56 -1 -1 0     /*     Left Alt -> (no key)     */
 57 14 5 8       /*        Space -> Space        */

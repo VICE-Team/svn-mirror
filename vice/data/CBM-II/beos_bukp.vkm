@@ -35,8 +35,8 @@
 
 !CLEAR
 !LSHIFT 8 4
-!RSHIFT 8 3
-!VSHIFT RSHIFT
+!RSHIFT 8 4
+!VSHIFT LSHIFT
 
 #0 -1 -1 0          /*           (no key)           */
 1 7 0 8             /*          ESC -> ESC          */
@@ -124,7 +124,7 @@
 83 15 4 8           /*            , -> ,            */
 84 15 5 8           /*            . -> .            */
 85 0 5 8            /*            / -> /            */
-86 8 3 4            /*  Right Shift -> Right Shift  */
+86 8 4 2            /*  Right Shift -> Right Shift  */
 87 3 0 8            /*           Up -> CRSR UP      */
 88 4 4 8            /*     Numpad 1 -> Numpad 1     */
 89 5 4 8            /*     Numpad 2 -> Numpad 2     */
