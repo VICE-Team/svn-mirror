@@ -30,7 +30,8 @@ palettes = \
 	white.vpl
 
 x11_keymaps = \
-	x11_buks.vkm
+	x11_buks.vkm \
+	x11_buks_de.vkm
 
 sdl_keymaps = \
 	sdl_buks.vkm
