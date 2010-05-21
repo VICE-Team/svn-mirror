@@ -116,7 +116,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_MIDI_DATEL         112 /* + c64-midi.c */
 #define CARTRIDGE_MIDI_SEQUENTIAL    113 /* + c64-midi.c */
 #define CARTRIDGE_MIDI_NAMESOFT      114 /* + c64-midi.c */
-#define CARTRIDGE_MIDI_PALIN         115 /* + c64-midi.c */
+#define CARTRIDGE_MIDI_MAPLIN        115 /* + c64-midi.c */
 #define CARTRIDGE_TFE                116 /* + tfe.c */
 #define CARTRIDGE_TURBO232           117 /* + c64acia1.c */
 /* FIXME: files marked with + above should be moved into the cart directory */
