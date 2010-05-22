@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\c64cart\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\c64" /I "..\..\rtc" /I "..\..\vicii" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\c64" /I "..\..\rtc" /I "..\..\vicii" /I "..\..\sid" /I "..\..\drive" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\c64cart\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\c64" /I "..\..\rtc" /I "..\..\vicii" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\c64" /I "..\..\rtc" /I "..\..\vicii" /I "..\..\sid" /I "..\..\drive" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -106,6 +106,10 @@ SOURCE="..\..\c64\cart\c64cartmem.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\c64tpi.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\capture.c"
 # End Source File
 # Begin Source File
@@ -130,7 +134,15 @@ SOURCE="..\..\c64\cart\delaep7x8.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\digimax.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\dinamic.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\dqbb.c"
 # End Source File
 # Begin Source File
 
@@ -139,6 +151,10 @@ SOURCE="..\..\c64\cart\easyflash.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\epyxfastload.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\exos.c"
 # End Source File
 # Begin Source File
 
@@ -154,6 +170,22 @@ SOURCE="..\..\c64\cart\final3.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\finalplus.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\fmopl.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\freezeframe.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\freezemachine.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\funplay.c"
 # End Source File
 # Begin Source File
@@ -166,11 +198,19 @@ SOURCE="..\..\c64\cart\generic.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\georam.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\gs.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\c64\cart\ide64.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\isepic.c"
 # End Source File
 # Begin Source File
 
@@ -190,6 +230,10 @@ SOURCE="..\..\c64\cart\mikroass.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\mmc64.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\mmcreplay.c"
 # End Source File
 # Begin Source File
@@ -202,7 +246,15 @@ SOURCE="..\..\c64\cart\prophet64.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\ramcart.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\retroreplay.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\reu.c"
 # End Source File
 # Begin Source File
 
@@ -219,6 +271,18 @@ SOURCE="..\..\c64\cart\ross.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\ser-eeprom.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\sfx_soundexpander.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\sfx_soundsampler.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\simonsbasic.c"
 # End Source File
 # Begin Source File
 
@@ -239,6 +303,10 @@ SOURCE="..\..\c64\cart\supergames.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\supersnapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\c64\cart\supersnapshot4.c"
 # End Source File
 # Begin Source File
 
