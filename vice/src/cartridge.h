@@ -119,6 +119,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_MIDI_MAPLIN        115 /* + c64-midi.c */
 #define CARTRIDGE_TFE                116 /* + tfe.c */
 #define CARTRIDGE_TURBO232           117 /* + c64acia1.c */
+#define CARTRIDGE_SNAPSHOT64         118 /* snapshot64.c */
 /* FIXME: files marked with + above should be moved into the cart directory */
 
 /*

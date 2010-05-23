@@ -112,6 +112,8 @@ libc64cart_a_SOURCES = \
 	sfx_soundsampler.h \
 	simonsbasic.c \
 	simonsbasic.h \
+	snapshot64.c \
+	snapshot64.h \
 	spi-sdcard.c \
 	spi-sdcard.h \
 	stardos.c \

@@ -70,6 +70,7 @@
 #include "mmcreplay.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
+#include "snapshot64.h"
 #include "stardos.h"
 #include "stb.h"
 #include "supersnapshot4.h"
@@ -312,6 +313,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART,
       NULL, NULL },
+    { "-cartss64", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_SNAPSHOT64, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 4kB Snapshot 64 image") },
     { "-cartss4", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -479,6 +485,11 @@ int cartridge_attach_image(int type, const char *filename)
                 goto done;
             }
             break;
+        case CARTRIDGE_SNAPSHOT64:
+            if (snapshot64_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             if (supersnapshot_v4_bin_attach(filename, rawcart) < 0) {
                 goto done;
@@ -628,6 +639,7 @@ void cartridge_trigger_freeze(void)
         case CARTRIDGE_ACTION_REPLAY:
         case CARTRIDGE_KCS_POWER:
         case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_SNAPSHOT64:
         case CARTRIDGE_SUPER_SNAPSHOT:
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
         case CARTRIDGE_ATOMIC_POWER:

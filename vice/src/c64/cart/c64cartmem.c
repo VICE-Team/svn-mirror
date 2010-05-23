@@ -84,6 +84,7 @@
 #include "ramcart.h"
 #include "ross.h"
 #include "simonsbasic.h"
+#include "snapshot64.h"
 #include "stardos.h"
 #include "stb.h"
 #include "supergames.h"
@@ -876,6 +877,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_ULTIMAX:
             generic_ultimax_config_init();
             break;
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_config_init();
+            break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_config_init();
             break;
@@ -1058,6 +1062,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_FINAL_III:
             final_v3_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_config_setup(rawcart);
             break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_config_setup(rawcart);
@@ -1258,6 +1265,9 @@ void cartridge_detach(int type)
         case CARTRIDGE_ROSS:
             ross_detach();
             break;
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_detach();
+            break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_detach();
             break;
@@ -1308,6 +1318,9 @@ void cartridge_detach(int type)
 void cartridge_freeze(int type)
 {
     switch (type) {
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_freeze();
+            break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_freeze();
             break;

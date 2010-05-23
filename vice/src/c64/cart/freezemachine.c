@@ -50,6 +50,13 @@
 /*
     Evesham Micros "Freeze Machine"
 
+    FIXME: this implementation is based on vague guesses on how the hardware
+           really works. remaining problems are:
+           - fastloader fails
+
+    - 2 Buttons (Freeze, Reset)
+    - 7474, 74163, 2 * 7400, 7402
+
     - 32k ROM, splitted into 2 16K parts of which 2 8k banks are used at once
 
     - reading io1 (the software uses de00 only it seems)
@@ -68,6 +75,7 @@
       - enables ultimax mode
       - ROM bank 0/2 is mapped to 8000
       - ROM bank 0/2 is mapped to E000
+
 */
 
 #define FREEZE_MACHINE_CART_SIZE (32*0x400)
