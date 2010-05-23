@@ -306,8 +306,8 @@ static int attach_image(int type, const char *filename)
         if ( !(cartfileA && *cartfileA) ) {
             type = CARTRIDGE_VIC20_8KB_A000;
             memcpy(rawcart + 0x1000, rawcart, 0x1000);
-            util_string_set(&cartfileB, filename);
         }
+        util_string_set(&cartfileB, filename);
         break;
       default:
         zfile_fclose(fd);
