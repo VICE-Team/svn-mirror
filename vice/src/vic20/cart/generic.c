@@ -303,9 +303,11 @@ static int attach_image(int type, const char *filename)
             zfile_fclose(fd);
             return -1;
         }
-        type = CARTRIDGE_VIC20_8KB_A000;
-        memcpy(rawcart + 0x1000, rawcart, 0x1000);
-        util_string_set(&cartfileB, filename);
+        if ( !(cartfileA && *cartfileA) ) {
+            type = CARTRIDGE_VIC20_8KB_A000;
+            memcpy(rawcart + 0x1000, rawcart, 0x1000);
+            util_string_set(&cartfileB, filename);
+        }
         break;
       default:
         zfile_fclose(fd);
@@ -330,6 +332,10 @@ static int attach_image(int type, const char *filename)
         break;
     case CARTRIDGE_VIC20_4KB_A000:
         memcpy(cart_rom+0x0000, rawcart, 0x1000);
+        generic_rom_blocks |= VIC_CART_BLK5;
+        break;
+    case CARTRIDGE_VIC20_4KB_B000:
+        memcpy(cart_rom+0x1000, rawcart, 0x1000);
         generic_rom_blocks |= VIC_CART_BLK5;
         break;
     case CARTRIDGE_VIC20_8KB_A000:
