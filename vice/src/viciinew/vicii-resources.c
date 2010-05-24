@@ -51,8 +51,9 @@ static int set_border_mode(int val, void *param)
 {
     int sync;
 
-    if (resources_get_int("MachineVideoStandard", &sync) < 0)
+    if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
+    }
 
     if (vicii_resources.border_mode != val) {
         vicii_resources.border_mode = val;
@@ -101,7 +102,10 @@ static struct vicii_model_info_s vicii_info[] = {
     { MACHINE_SYNC_NTSC, 1 },
 
     /* VICII_MODEL_6567R56A: NTSC, 64 cycle, 5? luma, "old" */
-    { MACHINE_SYNC_NTSCOLD, 0 }
+    { MACHINE_SYNC_NTSCOLD, 0 },
+
+    /* VICII_MODEL_6572: PAL-N, 65 cycle, 9? luma, "?" */
+    { MACHINE_SYNC_PALN, 1 }
 };
 
 static int set_model(int model, void *param)

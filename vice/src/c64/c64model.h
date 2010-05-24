@@ -39,6 +39,8 @@
 
 #define C64MODEL_C64_PAL_N 6
 
+#define C64MODEL_NUM 7
+
 #define C64MODEL_UNKNOWN 99
 
 extern int c64model_get(void);

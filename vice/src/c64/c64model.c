@@ -79,10 +79,12 @@ static struct model_s c64models[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-int c64model_get_temp(int vicii_model, int sid_model, int glue_logic, 
+
+int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
                       int cia1_model, int cia2_model, int new_luma)
 {
     int new_sid;
+    int i;
 
     if (cia1_model != cia2_model) {
         return C64MODEL_UNKNOWN;
@@ -90,51 +92,14 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
 
     new_sid = is_new_sid(sid_model);
 
-    switch (vicii_model) {
-        case VICII_MODEL_6569:
-            if (!glue_logic && !cia1_model && !new_sid && new_luma) {
-                return C64MODEL_C64_PAL;
-            }
-            break;
-
-        case VICII_MODEL_8565:
-            if (glue_logic && cia1_model && new_sid && new_luma) {
-                return C64MODEL_C64C_PAL;
-            }
-            break;
-
-        case VICII_MODEL_6569R1:
-            if (!glue_logic && !cia1_model && !new_sid && !new_luma) {
-                return C64MODEL_C64_OLD_PAL;
-            }
-            break;
-
-        case VICII_MODEL_6567:
-            if (!glue_logic && !cia1_model && !new_sid && new_luma) {
-                return C64MODEL_C64_NTSC;
-            }
-            break;
-
-        case VICII_MODEL_8562:
-            if (glue_logic && cia1_model && new_sid && new_luma) {
-                return C64MODEL_C64C_NTSC;
-            }
-            break;
-
-        case VICII_MODEL_6567R56A:
-            if (!glue_logic && !cia1_model && !new_sid && !new_luma) {
-                return C64MODEL_C64_OLD_NTSC;
-            }
-            break;
-
-        case VICII_MODEL_6572:
-            if (!glue_logic && !cia1_model && !new_sid && new_luma) {
-                return C64MODEL_C64_PAL_N;
-            }
-            break;
-
-        default:
-            break;
+    for (i = 0; i < C64MODEL_NUM; ++i) {
+        if ((c64models[i].vicii == vicii_model)
+         && (c64models[i].luma == new_luma)
+         && (c64models[i].cia == cia1_model)
+         && (c64models[i].glue == glue_logic)
+         && (is_new_sid(c64models[i].sid) == new_sid)) {
+            return i;
+        }
     }
 
     return C64MODEL_UNKNOWN;
