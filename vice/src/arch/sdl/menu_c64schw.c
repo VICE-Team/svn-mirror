@@ -105,6 +105,10 @@ static const ui_menu_entry_t c64_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_C64Model_callback,
       (ui_callback_data_t)C64MODEL_C64_OLD_NTSC },
+    { "Drean",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_C64Model_callback,
+      (ui_callback_data_t)C64MODEL_C64_PAL_N },
     { NULL }
 };
 
@@ -135,6 +139,10 @@ static const ui_menu_entry_t vicii_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VICIIModel_callback,
       (ui_callback_data_t)VICII_MODEL_6567R56A },
+    { "6572 (PAL-N)",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VICIIModel_callback,
+      (ui_callback_data_t)VICII_MODEL_6572 },
     { NULL }
 };
 

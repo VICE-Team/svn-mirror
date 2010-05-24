@@ -475,6 +475,10 @@ const ui_menu_entry_t c64_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSCOLD },
+    { "PAL-N",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MachineVideoStandard_callback,
+      (ui_callback_data_t)MACHINE_SYNC_PALN },
     { NULL }
 };
 

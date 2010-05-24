@@ -84,6 +84,8 @@ static ui_menu_entry_t set_video_standard_c64_submenu[] = {
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { N_("*Old NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
+    { N_("*PAL-N"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PALN, NULL },
     { NULL }
 };
 

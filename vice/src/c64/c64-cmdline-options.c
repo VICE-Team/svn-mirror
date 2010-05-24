@@ -69,6 +69,8 @@ static struct model_s model_match[] = {
     { "c64newntsc", C64MODEL_C64C_NTSC },
     { "oldntsc", C64MODEL_C64_OLD_NTSC },
     { "c64oldntsc", C64MODEL_C64_OLD_NTSC },
+    { "paln", C64MODEL_C64_PAL_N },
+    { "drean", C64MODEL_C64_PAL_N },
     { NULL, C64MODEL_UNKNOWN }
 };
 
@@ -113,6 +115,9 @@ static int set_video_standard(const char *param, void *extra_param)
 
                 case MACHINE_SYNC_NTSCOLD:
                     return set_c64_model("oldntsc", NULL);
+
+                case MACHINE_SYNC_PALN:
+                    return set_c64_model("paln", NULL);
             }
         default:
             return resources_set_int("MachineVideoStandard", value);
@@ -223,7 +228,7 @@ static const cmdline_option_t cmdline_options[] = {
       set_c64_model, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      T_("<model>"), T_("Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc)") },
+      T_("<model>"), T_("Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)") },
     { NULL }
 };
 

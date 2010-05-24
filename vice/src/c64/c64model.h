@@ -37,6 +37,8 @@
 #define C64MODEL_C64C_NTSC    4
 #define C64MODEL_C64_OLD_NTSC 5
 
+#define C64MODEL_C64_PAL_N 6
+
 #define C64MODEL_UNKNOWN 99
 
 extern int c64model_get(void);

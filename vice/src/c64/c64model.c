@@ -74,7 +74,8 @@ static struct model_s c64models[] = {
     { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, 0, 0, SID_MODEL_6581R4AR_3789 },
     { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, 0, 0, SID_MODEL_6581R4AR_3789 },
     { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, 1, 1, SID_MODEL_8580R5_3691   },
-    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, 0, 0, SID_MODEL_6581R4AR_3789 }
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, 0, 0, SID_MODEL_6581R4AR_3789 },
+    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, 0, 0, SID_MODEL_6581R4AR_3789 }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -126,6 +127,12 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
             }
             break;
 
+        case VICII_MODEL_6572:
+            if (!glue_logic && !cia1_model && !new_sid && new_luma) {
+                return C64MODEL_C64_PAL_N;
+            }
+            break;
+
         default:
             break;
     }
@@ -136,7 +143,7 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
 int c64model_get(void)
 {
     int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma;
-    
+
     if ((resources_get_int("VICIIModel", &vicii_model) < 0)
      || (resources_get_int("SidModel", &sid_model) < 0)
      || (resources_get_int("GlueLogic", &glue_logic) < 0)

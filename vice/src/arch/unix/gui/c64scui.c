@@ -123,6 +123,8 @@ static ui_menu_entry_t set_c64_model_submenu[] = {
       (ui_callback_data_t)C64MODEL_C64C_NTSC, NULL },
     { "*C64 old NTSC", (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_C64_OLD_NTSC, NULL },
+    { "*Drean", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_PAL_N, NULL },
     { NULL }
 };
 
@@ -141,6 +143,8 @@ static ui_menu_entry_t set_vicii_model_submenu[] = {
       (ui_callback_data_t)VICII_MODEL_8562, NULL },
     { "*6567R56A (old NTSC)", (ui_callback_t)radio_VICIIModel,
       (ui_callback_data_t)VICII_MODEL_6567R56A, NULL },
+    { "*6572 (PAL-N)", (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_6572, NULL },
     { NULL }
 };
 
