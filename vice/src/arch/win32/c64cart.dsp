@@ -286,6 +286,10 @@ SOURCE="..\..\c64\cart\simonsbasic.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\snapshot64.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\spi-sdcard.c"
 # End Source File
 # Begin Source File

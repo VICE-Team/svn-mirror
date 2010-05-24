@@ -95,6 +95,10 @@ SOURCE="..\..\vic20\cart\megacart.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vic20\cart\vic-fp.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vic20\cart\vic20cart.c"
 # End Source File
 # Begin Source File
