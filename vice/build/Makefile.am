@@ -13,7 +13,10 @@ EXTRA_DIST = \
 	macosx/build-vice-release.sh \
 	minix3/build-package.sh \
 	minix3/build-sdl-package.sh \
+	nextstep/build.sh \
+	openstep/build.sh \
 	qnx4/build.sh \
+	rhapsody/build.sh \
 	riscos/build-cross.sh \
 	riscos/build-cross-sdl.sh \
 	vms/build.sh \
