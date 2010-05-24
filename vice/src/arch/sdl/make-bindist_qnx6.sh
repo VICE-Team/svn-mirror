@@ -20,7 +20,7 @@ if test x"$PREFIX" != "x/opt"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: \"make\" needs to be done first
   exit 1
@@ -54,6 +54,7 @@ curdir=`pwd`
 $MAKECOMMAND prefix=$curdir/SDLVICE-$VICEVERSION/opt VICEDIR=$curdir/SDLVICE-$VICEVERSION/opt/lib/vice install
 $STRIP SDLVICE-$VICEVERSION/opt/bin/x64
 $STRIP SDLVICE-$VICEVERSION/opt/bin/x64dtv
+$STRIP SDLVICE-$VICEVERSION/opt/bin/x64sc
 $STRIP SDLVICE-$VICEVERSION/opt/bin/x128
 $STRIP SDLVICE-$VICEVERSION/opt/bin/xvic
 $STRIP SDLVICE-$VICEVERSION/opt/bin/xpet
@@ -197,6 +198,7 @@ cat >manifest.15 <<_END
                      <QPM:File>x128</QPM:File>
                      <QPM:File>x64</QPM:File>
                      <QPM:File>x64dtv</QPM:File>
+                     <QPM:File>x64sc</QPM:File>
                      <QPM:File>xcbm2</QPM:File>
                      <QPM:File>xpet</QPM:File>
                      <QPM:File>xplus4</QPM:File>
@@ -645,6 +647,18 @@ _END
       <QPM:Launch name="x64dtv (no sound)">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x64dtv -sounddev dummy"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="x64sc">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/x64sc"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="x64sc (no sound)">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/x64sc -sounddev dummy"/>
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 

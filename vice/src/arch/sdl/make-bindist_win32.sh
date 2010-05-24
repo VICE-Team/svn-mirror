@@ -12,7 +12,7 @@ ZIPKIND=$3
 TOPSRCDIR=$4
 CPU=$5
 
-if [ ! -e src/x64.exe -o ! -e src/x64dtv.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
+if [ ! -e src/x64.exe -o ! -e src/x64dtv.exe -o ! -e src/x64sc.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
 then
   echo Error: executable file\(s\) not found, do a \"make\" first
   exit 1
@@ -29,6 +29,7 @@ rm -f -r SDLVICE-$VICEVERSION-$WINXX
 mkdir SDLVICE-$VICEVERSION-$WINXX
 $STRIP src/x64.exe
 $STRIP src/x64dtv.exe
+$STRIP src/x64sc.exe
 $STRIP src/x128.exe
 $STRIP src/xvic.exe
 $STRIP src/xpet.exe
@@ -40,7 +41,7 @@ $STRIP src/cartconv.exe
 cp src/x64.exe src/x64dtv.exe src/x128.exe SDLVICE-$VICEVERSION-$WINXX
 cp src/xvic.exe src/xpet.exe src/xplus4.exe SDLVICE-$VICEVERSION-$WINXX
 cp src/xcbm2.exe src/c1541.exe src/petcat.exe SDLVICE-$VICEVERSION-$WINXX
-cp src/cartconv.exe SDLVICE-$VICEVERSION-$WINXX
+cp src/cartconv.exe src/x64sc.exe SDLVICE-$VICEVERSION-$WINXX
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 SDLVICE-$VICEVERSION-$WINXX
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II SDLVICE-$VICEVERSION-$WINXX
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET SDLVICE-$VICEVERSION-$WINXX

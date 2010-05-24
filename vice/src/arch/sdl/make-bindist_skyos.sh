@@ -17,7 +17,7 @@ if test x"$PREFIX" != "x/boot/programs/SDLVICE"; then
   exit 1
 fi
 
-if [ ! -e /boot/programs/SDLVICE/bin/x64 -o ! -e /boot/programs/SDLVICE/bin/x64dtv -o ! -e /boot/programs/SDLVICE/bin/x128 -o ! -e /boot/programs/SDLVICE/bin/xvic -o ! -e /boot/programs/SDLVICE/bin/xpet -o ! -e /boot/programs/SDLVICE/bin/xplus4 -o ! -e /boot/programs/SDLVICE/bin/xcbm2 -o ! -e /boot/programs/SDLVICE/bin/c1541 -o ! -e /boot/programs/SDLVICE/bin/petcat -o ! -e /boot/programs/SDLVICE/bin/cartconv ]
+if [ ! -e /boot/programs/SDLVICE/bin/x64 -o ! -e /boot/programs/SDLVICE/bin/x64dtv -o ! -e /boot/programs/SDLVICE/bin/x64sc -o ! -e /boot/programs/SDLVICE/bin/x128 -o ! -e /boot/programs/SDLVICE/bin/xvic -o ! -e /boot/programs/SDLVICE/bin/xpet -o ! -e /boot/programs/SDLVICE/bin/xplus4 -o ! -e /boot/programs/SDLVICE/bin/xcbm2 -o ! -e /boot/programs/SDLVICE/bin/c1541 -o ! -e /boot/programs/SDLVICE/bin/petcat -o ! -e /boot/programs/SDLVICE/bin/cartconv ]
 then
   echo Error: \"make install\" needs to be done first
   exit 1
@@ -50,6 +50,8 @@ mv /boot/programs/SDLVICE/bin/x64 SDLVICE-$VERSION/programs/SDLVICE/bin/x64.app
 $STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x64.app
 mv /boot/programs/SDLVICE/bin/x64dtv SDLVICE-$VERSION/programs/SDLVICE/bin/x64dtv.app
 $STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x64dtv.app
+mv /boot/programs/SDLVICE/bin/x64dtv SDLVICE-$VERSION/programs/SDLVICE/bin/x64sc.app
+$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x64sc.app
 mv /boot/programs/SDLVICE/bin/x128 SDLVICE-$VERSION/programs/SDLVICE/bin/x128.app
 $STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x128.app
 mv /boot/programs/SDLVICE/bin/xvic SDLVICE-$VERSION/programs/SDLVICE/bin/xvic.app
@@ -94,6 +96,7 @@ DefaultPath=
 [PANELMENU]
 /menu="Emulators/SDLVICE"	/name="x64"	/link="/boot/programs/SDLVICE/bin/x64.app"		/icon="/boot/programs/SDLVICE/icons/x64.ico"   
 /menu="Emulators/SDLVICE"	/name="x64dtv"	/link="/boot/programs/SDLVICE/bin/x64dtv.app"		/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"   
+/menu="Emulators/SDLVICE"	/name="x64sc"	/link="/boot/programs/SDLVICE/bin/x64sc.app"		/icon="/boot/programs/SDLVICE/icons/x64sc.ico"   
 /menu="Emulators/SDLVICE"	/name="x128"	/link="/boot/programs/SDLVICE/bin/x128.app"	/icon="/boot/programs/SDLVICE/icons/x128.ico"   
 /menu="Emulators/SDLVICE"	/name="xcbm2"	/link="/boot/programs/SDLVICE/bin/xcbm2.app"	/icon="/boot/programs/SDLVICE/icons/xcbm2.ico"   
 /menu="Emulators/SDLVICE"	/name="xpet"	/link="/boot/programs/SDLVICE/bin/xpet.app"	/icon="/boot/programs/SDLVICE/icons/xpet.ico"   
@@ -103,6 +106,7 @@ DefaultPath=
 [FILEICONS]
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64.app"	/icon="/boot/programs/SDLVICE/icons/x64.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64dtv.app"	/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"
+/file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64sc.app"	/icon="/boot/programs/SDLVICE/icons/x64sc.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x128.app"	/icon="/boot/programs/SDLVICE/icons/x128.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xcbm2.app"	/icon="/boot/programs/SDLVICE/icons/xcbm2.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xpet.app"	/icon="/boot/programs/SDLVICE/icons/xpet.ico"

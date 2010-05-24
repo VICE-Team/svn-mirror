@@ -10,7 +10,7 @@ fi
 
 make
 make install
-for b in x64 x64dtv x128 xvic xplus4 xpet xcbm2 petcat c1541 cartconv
+for b in x64 x64dtv x64sc x128 xvic xplus4 xpet xcbm2 petcat c1541 cartconv
 do
   gstrip /usr/local/bin/$b
   chmem +10000000 /usr/local/bin/$b

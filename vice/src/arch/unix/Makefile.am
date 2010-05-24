@@ -95,6 +95,7 @@ EXTRA_DIST = \
 	sco_sol/make-bindist.sh \
 	skyos/icons/x64.ico \
 	skyos/icons/x64dtv.ico \
+	skyos/icons/x64sc.ico \
 	skyos/icons/x128.ico \
 	skyos/icons/xcbm2.ico \
 	skyos/icons/xpet.ico \

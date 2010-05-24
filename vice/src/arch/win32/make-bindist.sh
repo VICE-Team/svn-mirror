@@ -12,7 +12,7 @@ ZIPKIND=$3
 TOPSRCDIR=$4
 CPU=$5
 
-if [ ! -e src/x64.exe -o ! -e src/x64dtv.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
+if [ ! -e src/x64.exe -o ! -e src/x64dtv.exe -o ! -e src/x64sc.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
 then
   echo Error: executable file\(s\) not found, do a \"make\" first
   exit 1
@@ -36,6 +36,7 @@ rm -f -r $WINVICE
 mkdir $WINVICE
 $STRIP src/x64.exe
 $STRIP src/x64dtv.exe
+$STRIP src/x64sc.exe
 $STRIP src/x128.exe
 $STRIP src/xvic.exe
 $STRIP src/xpet.exe
@@ -46,7 +47,7 @@ $STRIP src/petcat.exe
 $STRIP src/cartconv.exe
 cp src/x64.exe src/x64dtv.exe src/x128.exe src/xvic.exe src/xpet.exe $WINVICE
 cp src/xplus4.exe src/xcbm2.exe src/c1541.exe src/petcat.exe $WINVICE
-cp src/cartconv.exe $WINVICE
+cp src/cartconv.exe src/x64sc.exe $WINVICE
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $TOPSRCDIR/data/C64DTV $WINVICE
 cp -a $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $WINVICE
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $WINVICE

@@ -1,10 +1,12 @@
 # Makefile.am for the AMIGAOS version of `libarch.a'.
 
-bin_PROGRAMS = x64ns x64dtvns x128ns xvicns xplus4ns xcbm2ns xpetns
+bin_PROGRAMS = x64ns x64dtvns x64scns x128ns xvicns xplus4ns xcbm2ns xpetns
 
 x64ns_SOURCES = x64ns.c
 
 x64dtvns_SOURCES = x64dtvns.c
+
+x64scns_SOURCES = x64dtvns.c
 
 x128ns_SOURCES = x128ns.c
 

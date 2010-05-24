@@ -17,7 +17,7 @@ if test x"$PREFIX" != "x/usr/VICE"; then
   exit 1
 fi
 
-if [ ! -e /usr/VICE/bin/x64 -o ! -e /usr/VICE/bin/x64dtv -o ! -e /usr/VICE/bin/x128 -o ! -e /usr/VICE/bin/xvic -o ! -e /usr/VICE/bin/xpet -o ! -e /usr/VICE/bin/xplus4 -o ! -e /usr/VICE/bin/xcbm2 -o ! -e /usr/VICE/bin/c1541 -o ! -e /usr/VICE/bin/petcat -o ! -e /usr/VICE/bin/cartconv ]; then
+if [ ! -e /usr/VICE/bin/x64 -o ! -e /usr/VICE/bin/x64dtv -o ! -e /usr/VICE/bin/x64sc -o ! -e /usr/VICE/bin/x128 -o ! -e /usr/VICE/bin/xvic -o ! -e /usr/VICE/bin/xpet -o ! -e /usr/VICE/bin/xplus4 -o ! -e /usr/VICE/bin/xcbm2 -o ! -e /usr/VICE/bin/c1541 -o ! -e /usr/VICE/bin/petcat -o ! -e /usr/VICE/bin/cartconv ]; then
   echo Error: \"make install\" needs to be done first
   exit 1
 fi

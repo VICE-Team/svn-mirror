@@ -91,7 +91,7 @@ if test x"$CROSS" = "xtrue"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: \"make\" needs to be done first
   exit 1
@@ -103,6 +103,7 @@ curdir=`pwd`
 $MAKECOMMAND -e prefix=$curdir/SDLVICE-$VICEVERSION/usr/local VICEDIR=$curdir/SDLVICE-$VICEVERSION/usr/local/lib/vice install
 $STRIP SDLVICE-$VICEVERSION/usr/local/bin/x64
 $STRIP SDLVICE-$VICEVERSION/usr/local/bin/x64dtv
+$STRIP SDLVICE-$VICEVERSION/usr/local/bin/x64sc
 $STRIP SDLVICE-$VICEVERSION/usr/local/bin/x128
 $STRIP SDLVICE-$VICEVERSION/usr/local/bin/xvic
 $STRIP SDLVICE-$VICEVERSION/usr/local/bin/xpet

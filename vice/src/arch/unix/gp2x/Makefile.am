@@ -61,6 +61,7 @@ EXTRA_DIST = \
 	gpe-files/x128.gpe \
 	gpe-files/x64.gpe \
 	gpe-files/x64dtv.gpe \
+	gpe-files/x64sc.gpe \
 	gpe-files/xvic.gpe \
 	gpe-files/xpet.gpe \
 	gpe-files/xplus4.gpe \

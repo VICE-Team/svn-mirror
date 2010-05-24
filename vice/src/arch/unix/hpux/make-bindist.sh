@@ -64,7 +64,7 @@ if test x"$PREFIX" != "x/usr/local"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
+if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: executable file\(s\) not found, do a \"make all\" first
   exit 1
@@ -117,6 +117,8 @@ $STRIP src/x64
 installfile src/x64 vice/vice-RUN runtmp /usr/local/bin/x64 run 0755
 $STRIP src/x64dtv
 installfile src/x64dtv vice/vice-RUN runtmp /usr/local/bin/x64dtv run 0755
+$STRIP src/x64sc
+installfile src/x64sc vice/vice-RUN runtmp /usr/local/bin/x64sc run 0755
 $STRIP src/xcbm2
 installfile src/xcbm2 vice/vice-RUN runtmp /usr/local/bin/xcbm2 run 0755
 $STRIP src/xpet
