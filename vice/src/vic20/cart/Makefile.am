@@ -13,6 +13,8 @@ libvic20cart_a_SOURCES = \
 	generic.h \
 	megacart.c \
 	megacart.h \
+	vic-fp.c \
+	vic-fp.h \
 	vic20cart.c \
 	vic20cart.h \
 	vic20cartmem.c \

@@ -51,6 +51,7 @@
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
+#include "vic-fp.h"
 #include "megacart.h"
 #include "monitor.h"
 #include "resources.h"
@@ -218,6 +219,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME,
       NULL, NULL },
+    { "-cartfp", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_FP, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_VIC_FP_ROM_NAME,
+      NULL, NULL },
     { "+cart", CALL_FUNCTION, 0,
       detach_cartridge_cmdline, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -300,6 +306,9 @@ int cartridge_attach_image(int type, const char *filename)
     switch (type) {
     case CARTRIDGE_VIC20_GENERIC:
         ret = generic_bin_attach(type_orig, filename);
+        break;
+    case CARTRIDGE_VIC20_FP:
+        ret = vic_fp_bin_attach(filename);
         break;
     case CARTRIDGE_VIC20_MEGACART:
         ret = megacart_bin_attach(filename);
@@ -384,6 +393,10 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
             ret = generic_snapshot_write_module(s);
             break;
 
+        case CARTRIDGE_VIC20_FP:
+            ret = vic_fp_snapshot_write_module(s);
+            break;
+
         case CARTRIDGE_VIC20_MEGACART:
             ret = megacart_snapshot_write_module(s);
             break;
@@ -439,6 +452,10 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     switch (vic20cart_type) {
         case CARTRIDGE_VIC20_GENERIC:
             ret = generic_snapshot_read_module(s);
+            break;
+
+        case CARTRIDGE_VIC20_FP:
+            ret = vic_fp_snapshot_read_module(s);
             break;
 
         case CARTRIDGE_VIC20_MEGACART:

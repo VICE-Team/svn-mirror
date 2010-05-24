@@ -7685,6 +7685,20 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_FINAL_EXPANSION_ROM_NAME_TR, "Final Expansion uzantýsý ROM ismini belirt"},
 #endif
 
+/* vic20/cart/vic20cart.c */
+/* en */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME,    N_("Specify Vic Flash Plugin extension ROM name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DA, "Angiv navn på Vic Flash Plugin udviddelses-ROM"},
+/* de */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_DE, "VC Flash Plugin Erweiterungs ROM definieren"},
+/* fr */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_HU, "Adja meg a Vic Flash Plugin ROM kiterjesztés nevét"},
+/* it */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_IT, "Specifica il nome dell'estensione ROM Vic Flash Plugin"},
+/* nl */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_NL, "Geef de naam van het bestand voor de Vic Flash Plugin ROM"},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_SV, "Ange namn för Vic Flash Plugin-utöknings-ROM"},
+/* tr */ {IDCLS_SPECIFY_VIC_FP_ROM_NAME_TR, "Vic Flash Plugin uzantýsý ROM ismini belirt"},
+#endif
+
 /* vic20/cart/finalexpansion.c */
 /* en */ {IDCLS_ENABLE_FINALEXPANSION_WRITEBACK,    N_("Enable Final Expansion write back to ROM file")},
 #ifdef HAS_TRANSLATION

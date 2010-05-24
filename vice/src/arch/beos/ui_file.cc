@@ -337,6 +337,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == VIC20_GENERIC_CART_FILE) {
         sprintf(title,"Select generic cartridge file");
     }
+    if (filetype == VIC20_FP_FILE) {
+        sprintf(title,"Select Vic Flash Plugin file");
+    }
     if (filetype == VIC20_MEGACART_FILE) {
         sprintf(title,"Select Mega-Cart file");
     }
@@ -518,6 +521,10 @@ void ui_select_file_action(BMessage *msg)
             ui_sound_record_action(fullpath, "wav");
         } else if (last_filetype[1] == VIC20_GENERIC_CART_FILE) {
             if (cartridge_attach_image(CARTRIDGE_VIC20_GENERIC, fullpath) < 0) {
+                ui_error("Invalid cartridge image");
+            }
+        } else if (last_filetype[1] == VIC20_FP_FILE) {
+            if (cartridge_attach_image(CARTRIDGE_VIC20_FP, fullpath) < 0) {
                 ui_error("Invalid cartridge image");
             }
         } else if (last_filetype[1] == VIC20_MEGACART_FILE) {

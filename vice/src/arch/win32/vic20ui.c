@@ -319,6 +319,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_CART_VIC20_GENERIC, IDS_MI_CART_VIC20_GENERIC },
     { IDM_CART_VIC20_MEGACART, IDS_MI_CART_VIC20_MEGACART },
     { IDM_CART_VIC20_FINAL_EXPANSION, IDS_MI_CART_VIC20_FINAL_EXPANSION },
+    { IDM_CART_VIC20_FP, IDS_MI_CART_VIC20_FP },
     { IDM_CART_VIC20_SMART_ATTACH, IDS_MI_CART_VIC20_SMART_ATTACH },
     { IDM_CART_VIC20_8KB_2000, IDS_MI_CART_VIC20_8KB_2000 },
     { IDM_CART_VIC20_16KB_4000, IDS_MI_CART_VIC20_16KB_4000 },
@@ -463,6 +464,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
         case IDM_CART_VIC20_GENERIC:
             uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
+            break;
+        case IDM_CART_VIC20_FP:
+            uicart_attach_special(hwnd, translate_text(IDS_SELECT_FP), UILIB_FILTER_ALL, CARTRIDGE_VIC20_FP);
             break;
         case IDM_CART_VIC20_MEGACART:
             uicart_attach_special(hwnd, translate_text(IDS_SELECT_MEGACART), UILIB_FILTER_ALL, CARTRIDGE_VIC20_MEGACART);

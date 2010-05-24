@@ -118,6 +118,9 @@ void vic20_ui_specific(void *msg, void *window)
         case MENU_CART_VIC20_GENERIC:
             ui_select_file(windowlist[0]->savepanel, VIC20_GENERIC_CART_FILE, (void*)0);
             break;
+        case MENU_CART_VIC20_FP:
+            ui_select_file(windowlist[0]->savepanel, VIC20_FP_FILE, (void*)0);
+            break;
         case MENU_CART_VIC20_MEGACART:
             ui_select_file(windowlist[0]->savepanel, VIC20_MEGACART_FILE, (void*)0);
             break;

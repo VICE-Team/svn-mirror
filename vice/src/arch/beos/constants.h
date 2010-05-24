@@ -117,6 +117,7 @@ const uint32 MENU_CART_VIC20_4KB_B000             = 'M064';
 const uint32 MENU_CART_VIC20_GENERIC              = 'M190';
 const uint32 MENU_CART_VIC20_MEGACART             = 'M191';
 const uint32 MENU_CART_VIC20_FINAL_EXPANSION      = 'M192';
+const uint32 MENU_CART_VIC20_FP                   = 'M223';
 const uint32 MENU_CART_VIC20_SMART_ATTACH         = 'M193';
 
 const uint32 MENU_TOGGLE_FE_WRITE_BACK            = 'M150';

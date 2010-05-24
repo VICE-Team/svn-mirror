@@ -5473,6 +5473,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_GENERIC_SV, "Välj generisk insticksmodulfil" },
 /* tr */ { IDS_SELECT_GENERIC_TR, "Jenerik kartuþ dosyasýný seç" },
 
+/* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin file" },
+/* da */ { IDS_SELECT_FP_DA, "Vælg Vic Flash Plugin-fil" },
+/* de */ { IDS_SELECT_FP_DE, "VC Flash Plugin Image Datei wählen" },
+/* fr */ { IDS_SELECT_FP_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SELECT_FP_HU, "Vic Flash Plugin fájl kiválasztása" },
+/* it */ { IDS_SELECT_FP_IT, "Seleziona file Vic Flash Plugin" },
+/* nl */ { IDS_SELECT_FP_NL, "Selecteer Vic Flash Plugin bestand" },
+/* pl */ { IDS_SELECT_FP_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SELECT_FP_SV, "Välj Vic Flash Plugin-fil" },
+/* tr */ { IDS_SELECT_FP_TR, "Vic Flash Plugin dosyasýný seç" },
+
 /* en */ { IDS_SELECT_MEGACART,    "Select Mega-Cart file" },
 /* da */ { IDS_SELECT_MEGACART_DA, "Vælg MegaCart-fil" },
 /* de */ { IDS_SELECT_MEGACART_DE, "Mega-Cart Image Datei wählen" },
