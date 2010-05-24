@@ -1,5 +1,5 @@
 
-PETCAT version 2.17 PL 1					1 Jan 2008
+PETCAT version 2.18 PL 1					22 May 2010
 
 
   Listed below are keywords and token codes for all CBM Basic versions
@@ -27,6 +27,9 @@ PETCAT version 2.17 PL 1					1 Jan 2008
 	Basic 2.0 with Easy Basic
 	Basic 2.0 with Blarg
 	Basic 2.0 with Game Basic
+      Basic 2.0 with Super Basic
+      Basic 2.0 with Expanded Basic
+      Basic 2.0 with Super Expander Chip
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 4.0 extension for VIC20
@@ -243,48 +246,46 @@ ce0a	pointer
 
   Prefixed Extension Keywords (Tokens FE02 - FE26)
 
-  The following codes are for 7.0 and 10.0 only. Keywords in the
-  middle are commom.
+  The Super Expander Chip for 2.0 basic also uses the 0xfe prefix
 
+Token   7.0          7.1          10.0         SXC
+        Keyword      Keyword      Keyword      Keyword
 
-Token   7.0          7.1          10.0
-        Keyword      Keyword      Keyword
+fe00                                           key
+fe01                                           color
+fe02    bank         bank         bank         graphic
+fe03    filter       filter       filter       scnclr
+fe04    play         play         play         locate
+fe05    tempo        tempo        tempo        scale
+fe06    movspr       movspr       movspr       box
+fe07    sprite       sprite       sprite       circle
 
-fe00
-fe01
-fe02    bank         bank         bank
-fe03    filter       filter       filter
-fe04    play         play         play
-fe05    tempo        tempo        tempo
-fe06    movspr       movspr       movspr
-fe07    sprite       sprite       sprite
+fe08    sprcolor     sprcolor     sprcolor     char
+fe09    rreg         rreg         rreg         draw
+fe0a    envelope     envelope     envelope     gshape
+fe0b    sleep        sleep        sleep        paint
+fe0c    catalog 4)   catalog 4)   catalog 4)   sshape
+fe0d    dopen 4)     dopen 4)     dopen 4)     tune
+fe0e    append 4)    append 4)    append 4)    filter
+fe0f    dclose 4)    dclose 4)    dclose 4)    sprdef
 
-fe08    sprcolor     sprcolor     sprcolor
-fe09    rreg         rreg         rreg
-fe0a    envelope     envelope     envelope
-fe0b    sleep        sleep        sleep
-fe0c    catalog 4)   catalog 4)   catalog 4)
-fe0d    dopen 4)     dopen 4)     dopen 4)
-fe0e    append 4)    append 4)    append 4)
-fe0f    dclose 4)    dclose 4)    dclose 4)
+fe10    bsave        bsave        bsave        tempo
+fe11    bload        bload        bload        movspr
+fe12    record 4)    record 4)    record 4)    sprcol
+fe13    concat 4)    concat 4)    concat 4)    sprite
+fe14    dverify      dverify      dverify      colint
+fe15    dclear       dclear       dclear       sprsav
+fe16    sprsav       sprsav       sprsav       rdump
+fe17    collision    collision    collision    rclr
 
-fe10    bsave        bsave        bsave
-fe11    bload        bload        bload
-fe12    record 4)    record 4)    record 4)
-fe13    concat 4)    concat 4)    concat 4)
-fe14    dverify      dverify      dverify
-fe15    dclear       dclear       dclear
-fe16    sprsav       sprsav       sprsav
-fe17    collision    collision    collision
-
-fe18    begin        begin        begin
-fe19    bend         bend         bend
-fe1a    window       window       window
-fe1b    boot         boot         boot
-fe1c    width        width        width 2)
-fe1d    sprdef       sprdef       sprdef 2)
-fe1e    quit 1)      quit 1)      quit 2)
-fe1f    stash        stash        dma
+fe18    begin        begin        begin        rdot
+fe19    bend         bend         bend         rgr
+fe1a    window       window       window       rjoy
+fe1b    boot         boot         boot         rpen
+fe1c    width        width        width 2)     rpot
+fe1d    sprdef       sprdef       sprdef 2)    rspcol
+fe1e    quit 1)      quit 1)      quit 2)      rsppos
+fe1f    stash        stash        dma          rspr
 
 fe20
 fe21    fetch        fetch        dma
@@ -562,42 +563,69 @@ fe                                          setatr
 
 
   Game Basic Keywords (Tokens CC - E8)
+  Basex Keywords (Tokens CC - EA)
+  Super Basic Keywords (Tokens BD - FE)
+  Expanded Basic Keywords (TOKENS CC - F5)
 
-Token  Game
+Token  Game      Basex      SupBas      ExpBas
 
-cc     window
-cd     bfile
-ce     upper
-cf     lower
+cc     window    append                 hires
+cd     bfile     auto                   norm
+ce     upper     bar                    graph
+cf     lower     circle                 set
 
-d0     cls
-d1     screen
-d2     parse
-d3     proc
-d4     else
-d5     scratch
-d6     replace
-d7     device
+d0     cls       clg                    line
+d1     screen    cls                    circle
+d2     parse     csr                    fill
+d3     proc      delete                 mode
+d4     else      disk                   cls
+d5     scratch   draw                   text
+d6     replace   edge                   color
+d7     device    envelope               gsave
 
-d8     dir
-d9     repeat
-da     until
-db     disk
-dc     fetch#
-dd     put#
-de     prompt
-df     pop
+d8     dir       fill                   gload
+d9     repeat    key                    inverse
+da     until     mob                    frame
+db     disk      mode       volume      move
+dc     fetch#    move       reset       using
+dd     put#      old        mem         renumber
+de     prompt    pic        trace       delete
+df     pop       dump       basic       box
 
-e0     help
-e1     exit
-e2     disable
-e3     enter
-e4     reset
-e5     warm
-e6     num
-e7     type
+e0     help      plot       resume      mobdef
+e1     exit      renumber   letter      sprite
+e2     disable   repeat     help        mobset
+e3     enter     scroll     coke        mobsize
+e4     reset     sound      ground      mobcolor
+e5     warm      while      matrix      mobmulti
+e6     num       until      dispose     mobmove
+e7     type      voice      print@      doke
 
-e8     text$
+e8     text$     ass        himem       allclose
+e9               dis        hardcopy    old
+ea               mem        inputform   auto
+eb                          lock        volume
+ec                          swap        envelope
+ed                          using       wave
+ee                          sec         play
+ef                          else        case error
+
+f0                          error       resume
+f1                          round       no error
+f2                          deek        find
+f3                          string$     inkey
+f4                          point       merge
+f5                          instr       hardcopy
+f6                          ceek
+f7                          min
+
+f8                          max
+f9                          varptr
+fa                          frac
+fb                          odd
+fc                          dec
+fd                          hex$
+fe                          eval
 
 
  Simon's Basic Keywords

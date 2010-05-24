@@ -76,19 +76,19 @@ void ui_error(const char *format, ...)
 {
 }
 
-#define PETCATVERSION   2.17
+#define PETCATVERSION   2.18
 #define PETCATLEVEL     1
 
 #define B_1              1
 #define B_2              2
-#define B_SUPER          3
+#define B_SUPEREXP       3
 #define B_TURTLE         4
 
 #define B_SIMON          5
 #define B_SPEECH         6
 #define B_ATBAS          7
 #define B_4              8
-#define B_4E             9      /* C64 extension, Expand only */
+#define B_4E             9	/* C64 extension, Expand only */
 
 #define B_35            10
 #define B_7             11
@@ -111,6 +111,10 @@ void ui_error(const char *format, ...)
 #define B_VIC5          28
 #define B_WSF           29
 #define B_GB            30
+#define B_BSX           31
+#define B_SUPERBAS      32
+#define B_EXPBAS        33
+#define B_SXC           34
 
 /* Limits */
 
@@ -133,6 +137,7 @@ void ui_error(const char *format, ...)
 #define NUM_V7FE        39
 #define NUM_V71FE       56
 #define NUM_V10FE       62
+#define NUM_SXCFE       32
 
 #define NUM_ULTRCC      51      /* Ultrabasic-64 */
 #define NUM_GRAPHCC     51      /* graphics basic (c64) */
@@ -147,8 +152,12 @@ void ui_error(const char *format, ...)
 #define NUM_EASYCC      51      /* Easy Basic (vic20) */
 #define NUM_WSFCC       51      /* WS basic final (c64) */
 #define NUM_GBCC        29
+#define NUM_BSXCC       31      /* Basex (c64) */
+#define NUM_EXPBASCC    42      /* Expanded Basic (c64) */
 
 #define NUM_BLARGE0     11      /* Blarg (c64) */
+
+#define NUM_SUPERBASDB  36      /* Superbasic (c64) */
 
 
 #define MAX_COMM        0xCB    /* common for all versions */
@@ -177,13 +186,18 @@ void ui_error(const char *format, ...)
 #define MAX_EASYCC      0xFE    /* Easy Basic (vic20) */
 #define MAX_WSFCC       0xFE    /* WS basic final (c64) */
 #define MAX_GBCC        0xE8    /* Game Basic (c64) */
+#define MAX_BSXCC       0xEA    /* Basex (c64) */
+#define MAX_EXPBASCC    0xF5    /* Expanded Basic (c64) */
 
 #define MAX_BLARGE0     0xEA    /* Blarg (c64) */
+
+#define MAX_SUPERBASDB  0xFE    /* Superbasic (c64) */
 
 #define MAX_KWCE        0x0A
 #define MAX_V7FE        0x26
 #define MAX_V71FE       0x39
 #define MAX_V10FE       0x3D
+#define MAX_SXCFE       0x1F
 
 #define KW_NONE         0xFE    /* flag unused token */
 
@@ -205,37 +219,38 @@ static const unsigned char MagicHeaderP00[8] = "C64File\0";
 
 /* all numeric codes */
 static const char *hexcodes[] = {
-	"$00","$01","$02","$03","$04","$05","$06","$07","$08","$09","$0a","$0b","$0c","$0d","$0e","$0f",
-	"$10","$11","$12","$13","$14","$15","$16","$17","$18","$19","$1a","$1b","$1c","$1d","$1e","$1f",
-	"$20","$21","$22","$23","$24","$25","$26","$27","$28","$29","$2a","$2b","$2c","$2d","$2e","$2f",
-	"$30","$31","$32","$33","$34","$35","$36","$37","$38","$39","$3a","$3b","$3c","$3d","$3e","$3f",
-	"$40","$41","$42","$43","$44","$45","$46","$47","$48","$49","$4a","$4b","$4c","$4d","$4e","$4f",
-	"$50","$51","$52","$53","$54","$55","$56","$57","$58","$59","$5a","$5b","$5c","$5d","$5e","$5f",
-	"$60","$61","$62","$63","$64","$65","$66","$67","$68","$69","$6a","$6b","$6c","$6d","$6e","$6f",
-	"$70","$71","$72","$73","$74","$75","$76","$77","$78","$79","$7a","$7b","$7c","$7d","$7e","$7f",
-	"$80","$81","$82","$83","$84","$85","$86","$87","$88","$89","$8a","$8b","$8c","$8d","$8e","$8f",
-	"$90","$91","$92","$93","$94","$95","$96","$97","$98","$99","$9a","$9b","$9c","$9d","$9e","$9f",
-	"$a0","$a1","$a2","$a3","$a4","$a5","$a6","$a7","$a8","$a9","$aa","$ab","$ac","$ad","$ae","$af",
-	"$b0","$b1","$b2","$b3","$b4","$b5","$b6","$b7","$b8","$b9","$ba","$bb","$bc","$bd","$be","$bf",
-	"$c0","$c1","$c2","$c3","$c4","$c5","$c6","$c7","$c8","$c9","$ca","$cb","$cc","$cd","$ce","$cf",
-	"$d0","$d1","$d2","$d3","$d4","$d5","$d6","$d7","$d8","$d9","$da","$db","$dc","$dd","$de","$df",
-	"$e0","$e1","$e2","$e3","$e4","$e5","$e6","$e7","$e8","$e9","$ea","$eb","$ec","$ed","$ee","$ef",
-	"$f0","$f1","$f2","$f3","$f4","$f5","$f6","$f7","$f8","$f9","$fa","$fb","$fc","$fd","$fe","$ff",
+    "$00","$01","$02","$03","$04","$05","$06","$07","$08","$09","$0a","$0b","$0c","$0d","$0e","$0f",
+    "$10","$11","$12","$13","$14","$15","$16","$17","$18","$19","$1a","$1b","$1c","$1d","$1e","$1f",
+    "$20","$21","$22","$23","$24","$25","$26","$27","$28","$29","$2a","$2b","$2c","$2d","$2e","$2f",
+    "$30","$31","$32","$33","$34","$35","$36","$37","$38","$39","$3a","$3b","$3c","$3d","$3e","$3f",
+    "$40","$41","$42","$43","$44","$45","$46","$47","$48","$49","$4a","$4b","$4c","$4d","$4e","$4f",
+    "$50","$51","$52","$53","$54","$55","$56","$57","$58","$59","$5a","$5b","$5c","$5d","$5e","$5f",
+    "$60","$61","$62","$63","$64","$65","$66","$67","$68","$69","$6a","$6b","$6c","$6d","$6e","$6f",
+    "$70","$71","$72","$73","$74","$75","$76","$77","$78","$79","$7a","$7b","$7c","$7d","$7e","$7f",
+    "$80","$81","$82","$83","$84","$85","$86","$87","$88","$89","$8a","$8b","$8c","$8d","$8e","$8f",
+    "$90","$91","$92","$93","$94","$95","$96","$97","$98","$99","$9a","$9b","$9c","$9d","$9e","$9f",
+    "$a0","$a1","$a2","$a3","$a4","$a5","$a6","$a7","$a8","$a9","$aa","$ab","$ac","$ad","$ae","$af",
+    "$b0","$b1","$b2","$b3","$b4","$b5","$b6","$b7","$b8","$b9","$ba","$bb","$bc","$bd","$be","$bf",
+    "$c0","$c1","$c2","$c3","$c4","$c5","$c6","$c7","$c8","$c9","$ca","$cb","$cc","$cd","$ce","$cf",
+    "$d0","$d1","$d2","$d3","$d4","$d5","$d6","$d7","$d8","$d9","$da","$db","$dc","$dd","$de","$df",
+    "$e0","$e1","$e2","$e3","$e4","$e5","$e6","$e7","$e8","$e9","$ea","$eb","$ec","$ed","$ee","$ef",
+    "$f0","$f1","$f2","$f3","$f4","$f5","$f6","$f7","$f8","$f9","$fa","$fb","$fc","$fd","$fe","$ff",
 };
 
 /* 0x00 - 0x1f */
 static const char *ctrl1[] = {
-    "",  "", "", "", "", "wht", "", "",
-    "dish", "ensh", "\n", "", "\f", "\n", "swlc", "",
-    "",  "down", "rvon", "home", "del", "", "", "",
-    "",  "",  "", "esc", "red", "rght", "grn", "blu"
+    "",     "",     "",     "",     "",    "wht",  "",     "",
+    "dish", "ensh", "\n",   "",     "\f",  "\n",   "swlc", "",
+    "",     "down", "rvon", "home", "del", "",     "",     "",
+    "",     "",     "",     "esc",  "red", "rght", "grn",  "blu"
 };
+
 /* 0x80 - 0x9f */
 static const char *ctrl2[] = {
-    "", "orng",  "",  "",  "",  "F1",  "F3",  "F5",
-    "F7",  "F2", "F4",   "F6",   "F8",  "sret", "swuc", "",
-    "blk",  "up", "rvof", "clr",  "inst", "brn",  "lred", "gry1",
-    "gry2", "lgrn", "lblu", "gry3", "pur", "left", "yel", "cyn"
+    "",     "orng", "",     "",     "",     "F1",   "F3",   "F5",
+    "F7",   "F2",   "F4",   "F6",   "F8",   "sret", "swuc", "",
+    "blk",  "up",   "rvof", "clr",  "inst", "brn",  "lred", "gry1",
+    "gry2", "lgrn", "lblu", "gry3", "pur",  "left", "yel",  "cyn"
 };
 
 /*
@@ -245,60 +260,61 @@ static const char *ctrl2[] = {
 
 /* 0x00 - 0x1f */
 const char *a_ctrl1[] = {
-    "", "", "", "", "", "wht", "", "",
-    "up/lo lock on", "up/lo lock off", "", "", "", "return", "lower case", "",
-    "", "down", "rvs on", "home", "delete", "", "", "",
-    "",  "",  "",  "esc", "red", "right", "grn", "blu"
+    "",              "",               "",       "",     "",       "wht",    "",           "",
+    "up/lo lock on", "up/lo lock off", "",       "",     "",       "return", "lower case", "",
+    "",              "down",           "rvs on", "home", "delete", "",       "",           "",
+    "",              "",               "",       "esc",  "red",    "right",  "grn",        "blu"
 };
 
 /* 0x00 - 0x1f */
 const char *b_ctrl1[] = {
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
+    "", "", "",           "", "", "", "", "",
+    "", "", "",           "", "", "", "", "",
     "", "", "REVERSE ON", "", "", "", "", "",
-    "",  "",  "",  "", "", "", "", ""
+    "", "", "",           "", "", "", "", ""
 };
 
 /* 0x20 - 0x3f */
 const char *cbmchars[] = {
     "space", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "",  "",  "",  "", "", "", "", ""
+    "",      "", "", "", "", "", "", "",
+    "",      "", "", "", "", "", "", "",
+    "",      "", "", "", "", "", "", ""
 };
 
 /* 0x80 - 0x9f */
 const char *a_ctrl2[] = {
-    "", "orange", "", "", "", "f1", "f3", "f5",
-    "f7", "f2", "f4", "f6", "f8", "shift return", "upper case", "",
-    "blk",  "up", "rvs off", "clear", "insert", "brown", "lt red", "grey1",
-    "grey2", "lt green", "lt blue", "grey3", "pur", "left", "yel", "cyn"
+    "",      "orange",   "",        "",      "",       "f1",           "f3",         "f5",
+    "f7",    "f2",       "f4",      "f6",    "f8",     "shift return", "upper case", "",
+    "blk",   "up",       "rvs off", "clear", "insert", "brown",        "lt red",     "grey1",
+    "grey2", "lt green", "lt blue", "grey3", "pur",    "left",         "yel",        "cyn"
 };
 
 /* keys for charcodes 0xa0-0xe0 */
 static const char *cbmkeys[] = {
-	"SHIFT-SPACE", "CBM-K", "CBM-I", "CBM-T", "CBM-@", "CBM-G", "CBM-+","CBM-M", 
-	"CBM-POUND","SHIFT-POUND", "CBM-N", "CBM-Q", "CBM-D", "CBM-Z", "CBM-S", "CBM-P",
-	"CBM-A", "CBM-E", "CBM-R", "CBM-W", "CBM-H", "CBM-J", "CBM-L", "CBM-Y",
-	"CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B",
-	"SHIFT-*","SHIFT-A","SHIFT-B","SHIFT-C","SHIFT-D","SHIFT-E","SHIFT-F","SHIFT-G",
-	"SHIFT-H","SHIFT-I","SHIFT-J","SHIFT-K","SHIFT-L","SHIFT-M","SHIFT-N","SHIFT-O",
-	"SHIFT-P","SHIFT-Q","SHIFT-R","SHIFT-S","SHIFT-T","SHIFT-U","SHIFT-V","SHIFT-W",
-	"SHIFT-X","SHIFT-Y","SHIFT-Z","SHIFT-+","CBM--","SHIFT--","SHIFT-^","CBM-*"
-};
-/* alternative keys for charcodes 0xa0-0xe0 */
-static const char *a_cbmkeys[] = {
-	"","","","","","","","",
-	"","","","","","","","",
-	"","","","","","","","",
-	"","","","","","","","",
-	"","","","","","","","",
-	"","","","","","","","",
-	"","","","","","","","",
-	"","","","","","","CBM-^",""
+    "SHIFT-SPACE", "CBM-K",       "CBM-I",   "CBM-T",   "CBM-@",   "CBM-G",   "CBM-+",   "CBM-M", 
+    "CBM-POUND",   "SHIFT-POUND", "CBM-N",   "CBM-Q",   "CBM-D",   "CBM-Z",   "CBM-S",   "CBM-P",
+    "CBM-A",       "CBM-E",       "CBM-R",   "CBM-W",   "CBM-H",   "CBM-J",   "CBM-L",   "CBM-Y",
+    "CBM-U",       "CBM-O",       "SHIFT-@", "CBM-F",   "CBM-C",   "CBM-X",   "CBM-V",   "CBM-B",
+    "SHIFT-*",     "SHIFT-A",     "SHIFT-B", "SHIFT-C", "SHIFT-D", "SHIFT-E", "SHIFT-F", "SHIFT-G",
+    "SHIFT-H",     "SHIFT-I",     "SHIFT-J", "SHIFT-K", "SHIFT-L", "SHIFT-M", "SHIFT-N", "SHIFT-O",
+    "SHIFT-P",     "SHIFT-Q",     "SHIFT-R", "SHIFT-S", "SHIFT-T", "SHIFT-U", "SHIFT-V", "SHIFT-W",
+    "SHIFT-X",     "SHIFT-Y",     "SHIFT-Z", "SHIFT-+", "CBM--",   "SHIFT--", "SHIFT-^", "CBM-*"
 };
 
-#define NUM_VERSIONS  30
+/* alternative keys for charcodes 0xa0-0xe0 */
+static const char *a_cbmkeys[] = {
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "",      "",
+    "", "", "", "", "", "", "CBM-^", ""
+};
+
+#define NUM_VERSIONS  33
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -336,6 +352,10 @@ const char *VersNames[] = {
     "Basic 5.0 extension for VIC20",
     "Basic 2.0 with WS basic final",
     "Basic 2.0 with Game Basic",
+    "Basic 2.0 with Basex",
+    "Basic 2.0 with super basic",
+    "Basic 2.0 with expanded basic",
+    "Basic 2.0 with super expander chip",
     ""
 };
 
@@ -353,27 +373,29 @@ const char *VersNames[] = {
 
 const char *keyword[] = {
     /* Common Keywords, 80 - cb */
-    "end",   "for",  "next", "data", "input#", "input",  "dim", "read",
-    "let",   "goto", "run",  "if",   "restore", "gosub", "return", "rem",
-    "stop",  "on",   "wait", "load", "save",   "verify", "def", "poke",
-    "print#", "print", "cont", "list", "clr",  "cmd", "sys", "open",
-    "close", "get",  "new",  "tab(", "to",    "fn",  "spc(", "then",
-    "not",   "step", "+",    "-",    "*",     "/",   "^",    "and",
-    "or",    ">",    "=",    "<",    "sgn",   "int", "abs",  "usr",
-    "fre",   "pos",  "sqr",  "rnd",  "log",   "exp", "cos",  "sin",
-    "tan",   "atn",  "peek", "len",  "str$",  "val", "asc",  "chr$",
-    "left$", "right$", "mid$", "go",
+    "end",    "for",    "next", "data", "input#",  "input",  "dim",    "read",
+    "let",    "goto",   "run",  "if",   "restore", "gosub",  "return", "rem",
+    "stop",   "on",     "wait", "load", "save",    "verify", "def",    "poke",
+    "print#", "print",  "cont", "list", "clr",     "cmd",    "sys",    "open",
+    "close",  "get",    "new",  "tab(", "to",      "fn",     "spc(",   "then",
+    "not",    "step",   "+",    "-",    "*",       "/",      "^",      "and",
+    "or",     ">",      "=",    "<",    "sgn",     "int",    "abs",    "usr",
+    "fre",    "pos",    "sqr",  "rnd",  "log",     "exp",    "cos",    "sin",
+    "tan",    "atn",    "peek", "len",  "str$",    "val",    "asc",    "chr$",
+    "left$",  "right$", "mid$", "go",
     /*
      * The following codes (0xcc- 0xfe) are for 3.5, 7.0, and 10.0 only.
      * On 10.0 gshape, sshape, and draw are replaced with paste, cut, and line
      * respectively. */
-    "rgr",  "rlcr", "rlum" /* 0xce -- v7 prefix */, "joy",
-    "rdot", "dec",  "hex$", "err$", "instr", "else", "resume", "trap",
-    "tron", "troff", "sound", "vol", "auto", "pudef", "graphic", "paint",
-    "char", "box", "circle", "gshape", "sshape", "draw", "locate", "color",
-    "scnclr", "scale", "help", "do", "loop", "exit", "directory", "dsave",
-    "dload",  "header", "scratch", "collect", "copy", "rename", "backup",
-    "delete", "renumber", "key", "monitor", "using", "until", "while",
+    "rgr", "rlcr", "rlum" /* 0xce -- v7 prefix */, "joy",
+
+    "rdot",     "dec",    "hex$",    "err$",    "instr",  "else",   "resume",    "trap",
+    "tron",     "troff",  "sound",   "vol",     "auto",   "pudef",  "graphic",   "paint",
+    "char",     "box",    "circle",  "gshape",  "sshape", "draw",   "locate",    "color",
+    "scnclr",   "scale",  "help",    "do",      "loop",   "exit",   "directory", "dsave",
+    "dload",    "header", "scratch", "collect", "copy",   "rename", "backup",    "delete",
+    "renumber", "key",    "monitor", "using",   "until",  "while",
+
     /* 0xfe -- prefix */ "", "~" /* '~' is ASCII for 'pi' */
 };
 
@@ -384,54 +406,54 @@ const char *keyword[] = {
  */
 
 const char *kwce[] = {
-    "", "", "pot", "bump", "pen", "rsppos", "rsprite", "rspcolor",
+    "",    "",        "pot", "bump", "pen", "rsppos", "rsprite", "rspcolor",
     "xor", "rwindow", "pointer"
 };
 
 
 const char *kwfe[] = {
-    "", "",  "bank", "filter",  "play", "tempo", "movspr", "sprite",
-    "sprcolor", "rreg", "envelope", "sleep", "catalog", "dopen", "append",
-    "dclose", "bsave",
-     "bload", "record", "concat", "dverify", "dclear", "sprsav", "collision",
-    "begin", "bend",  "window", "boot", "width", "sprdef", "quit", "stash",
-    "",  "fetch", "",  "swap",  "off",  "fast",  "slow",
+    "",         "",      "bank",     "filter", "play",    "tempo",  "movspr", "sprite",
+    "sprcolor", "rreg",  "envelope", "sleep",  "catalog", "dopen",  "append", "dclose",
+    "bsave",    "bload", "record",   "concat", "dverify", "dclear", "sprsav", "collision",
+    "begin",    "bend",  "window",   "boot",   "width",   "sprdef", "quit",   "stash",
+    "",         "fetch", "",         "swap",   "off",     "fast",   "slow",
+
     /* Basic 10.0 only (fe27 - fe3d) */
-    "type",
-    "bverify", "ectory", "erase", "find", "change", "set", "screen", "polygon",
-    "ellipse", "viewport", "gcopy", "pen", "palette", "dmode", "dpat", "pic",
-    "genlock", "foreground", "", "background", "border", "highlight"
+    "type",    "bverify", "ectory",     "erase", "find",       "change",  "set",       "screen",
+    "polygon", "ellipse", "viewport",   "gcopy", "pen",        "palette", "dmode",     "dpat",
+    "pic",     "genlock", "foreground", "",      "background", "border",  "highlight"
 };
+
 
 /* Basic 7.1 extension */
 
 const char *kwfe71[] = {
-    "", "",  "bank", "filter",  "play", "tempo", "movspr", "sprite",
-    "sprcolor", "rreg", "envelope", "sleep", "catalog", "dopen", "append",
-    "dclose", "bsave",
-     "bload", "record", "concat", "dverify", "dclear", "sprsav", "collision",
-    "begin", "bend",  "window", "boot", "width", "sprdef", "quit", "stash",
-    "",  "fetch", "",  "swap",  "off",  "fast",  "slow",
+    "",         "",      "bank",     "filter", "play",    "tempo",  "movspr", "sprite",
+    "sprcolor", "rreg",  "envelope", "sleep",  "catalog", "dopen",  "append", "dclose",
+    "bsave",    "bload", "record",   "concat", "dverify", "dclear", "sprsav", "collision",
+    "begin",    "bend",  "window",   "boot",   "width",   "sprdef", "quit",   "stash",
+    "",         "fetch", "",         "swap",   "off",     "fast",   "slow",
+
     /* Basic 7.1 extension only (fe27 - fe37) */
-    "cwind",
-    "sscrn", "lscrn", "hide", "show", "sfont", "lfont", "view", "fcopy",
-    "esave", "send", "check", "esc", "old", "find", "dump", "merge"
+    "cwind", "sscrn", "lscrn", "hide",  "show", "sfont", "lfont", "view",
+    "fcopy", "esave", "send",  "check", "esc",  "old",   "find",  "dump",
+    "merge"
 };
 
-const char *superkwcc[] = { /* VIC Super Expander commands 0xcc - 0xdd */
-    "key", "graphic", "scnclr", "circle", "draw", "region", "color", "point",
-    "sound", "char",  "paint",  "rpot",   "rpen", "rsnd",   "rcolr", "rgr",
+const char *superexpkwcc[] = { /* VIC Super Expander commands 0xcc - 0xdd */
+    "key",   "graphic", "scnclr", "circle", "draw", "region", "color", "point",
+    "sound", "char",    "paint",  "rpot",   "rpen", "rsnd",   "rcolr", "rgr",
     "rjoy",  "rdot"
 };
 
 
 const char *petkwcc[] = {       /* PET Basic 4.0 0xcc - 0xda */
-    "concat", "dopen", "dclose", "record",
-    "header", "collect", "backup", "copy","append", "dsave","dload", "catalog",
-    "rename", "scratch", "directory",
+    "concat", "dopen", "dclose", "record",  "header", "collect", "backup",    "copy",
+    "append", "dsave", "dload",  "catalog", "rename", "scratch", "directory",
+
     /* Basic 4 Extension for C64 (0xdb - 0xe3) */
-    "color", "cold", "key", "dverify", "delete",
-    "auto", "merge", "old", "monitor"
+    "color",  "cold", "key", "dverify", "delete", "auto", "merge", "old",
+    "monitor"
 };
 
 
@@ -444,60 +466,57 @@ const char *petkwcc[] = {       /* PET Basic 4.0 0xcc - 0xda */
 /* Turtle Basic v1.0 Keywords  -- Craig Bruce */
 
 const char *turtlekwcc[] = {
-    "graphic", "old",  "turn",   "pen",  "draw",  "move", "point", "kill",
-    "write", "repeat", "screen", "doke", "reloc", "fill", "rtime", "base",
-    "pause", "pop",    "color", "merge", "char",  "take", "sound", "vol",
-    "put",   "place",  "cls",  "accept", "reset", "grab", "rdot",  "plr$",
-    "deek",  "joy"
+    "graphic", "old",    "turn",   "pen",    "draw",  "move", "point", "kill",
+    "write",   "repeat", "screen", "doke",   "reloc", "fill", "rtime", "base",
+    "pause",   "pop",    "color",  "merge",  "char",  "take", "sound", "vol",
+    "put",     "place",  "cls",    "accept", "reset", "grab", "rdot",  "plr$",
+    "deek",    "joy"
 };
+
 
 /* Easy Basic Keywords */
 
 const char *easykwcc[] = {
-    "delete", "old",     "renumber",  "dump",   "merge", "plot",
-    "trace",  "kill",    "help",      "dload",  "dsave", "dverify",
-    "append", "screen",  "directory", "key",    "send",  "pop",
-    "off",    "pout",    "header",    "find",   "auto",  "pprint",
-    "accept", "reset",   "scratch",   "color",  "take",  "pause",
-    "base",   "copychr", "char",      "clk",    "cls",   "fill",
-    "retime", "sound",   "poff",      "plist",  "put",   "volume",
-    "joy",    "msb",     "lsb",       "vector", "rkey",  "dec",
-    "hex$",   "grab",    "ds$"
+    "delete", "old",    "renumber", "dump",    "merge",  "plot",   "trace",     "kill",
+    "help",   "dload",  "dsave",    "dverify", "append", "screen", "directory", "key",
+    "send",   "pop",    "off",      "pout",    "header", "find",   "auto",      "pprint",
+    "accept", "reset",  "scratch",  "color",   "take",   "pause",  "base",      "copychr",
+    "char",   "clk",    "cls",      "fill",    "retime", "sound",  "poff",      "plist",
+    "put",    "volume", "joy",      "msb",     "lsb",    "vector", "rkey",      "dec",
+    "hex$",   "grab",   "ds$"
 };
+
 
 /* Mighty basic Keywords */
 
 const char *mightykwcc[] = {
-    "delete",  "old",     "renumber",  "help",   "header", "move",
-    "trace",   "kill",    "dump",      "dsave",  "dload",  "dverify",
-    "dresave", "scratch", "directory", "key",    "send",   "pop",
-    "off",     "bsave",   "bload",     "find",   "auto",   "pprint",
-    "accept",  "reset",   "else",      "color",  "take",   "pause",
-    "base",    "copychr", "char",      "beep",   "cls",    "fill",
-    "merge",   "sound",   "give",      "plist",  "put",    "volume",
-    "rtime",   "msb",     "lsb",       "vector", "joy",    "dec",
-    "hex$",    "grab",    "ds$"
+    "delete", "old",    "renumber", "help",    "header",  "move",    "trace",     "kill",
+    "dump",   "dsave",  "dload",    "dverify", "dresave", "scratch", "directory", "key",
+    "send",   "pop",    "off",      "bsave",   "bload",   "find",    "auto",      "pprint",
+    "accept", "reset",  "else",     "color",   "take",    "pause",   "base",      "copychr",
+    "char",   "beep",   "cls",      "fill",    "merge",   "sound",   "give",      "plist",
+    "put",    "volume", "rtime",    "msb",     "lsb",     "vector",  "joy",       "dec",
+    "hex$",   "grab",   "ds$"
 };
+
 
 /* Basic 4.0 extension Keywords */
 
 const char *vic4kwcc[] = {
-    "concat",  "dopen",   "dclose",    "record", "header", "collect",
-    "backup",  "copy",    "append",    "dsave",  "dload",  "catalog",
-    "rename",  "scratch", "directory", "ieee",   "serial", "parallel",
-    "monitor", "modem"
+    "concat", "dopen",    "dclose",  "record",  "header", "collect", "backup",    "copy",
+    "append", "dsave",    "dload",   "catalog", "rename", "scratch", "directory", "ieee",
+    "serial", "parallel", "monitor", "modem"
 };
+
 
 /* Basic 5.0 extension Keywords */
 
 const char *vic5kwcc[] = {
-    "concat", "dopen",    "dclose",    "record",  "header",  "collect",
-    "backup", "copy",     "append",    "dsave",   "dload",   "catalog",
-    "rename", "scratch",  "directory", "dverify", "monitor", "repeat",
-    "bell",   "commands", "renew",     "`",       "key",     "auto",
-    "off",    "",         "merge",     "color",   "mem",     "enter",
-    "delete", "find",     "number",    "else",    "call",    "graphic",
-    "alpha",  "dmerge"
+    "concat",  "dopen",  "dclose", "record",   "header", "collect", "backup",    "copy",
+    "append",  "dsave",  "dload",  "catalog",  "rename", "scratch", "directory", "dverify",
+    "monitor", "repeat", "bell",   "commands", "renew",  "`",       "key",       "auto",
+    "off",     "",       "merge",  "color",    "mem",    "enter",   "delete",    "find",
+    "number",  "else",   "call",   "graphic",  "alpha",  "dmerge"
 };
 
 
@@ -509,28 +528,40 @@ const char *vic5kwcc[] = {
 /* Speech Basic v2.7  Keywords (Tokens CC - E6) */
 
 const char *speechkwcc[] = {
-    "reset",  "basic", "help",  "key",
-    "himem",  "disk",  "dir",   "bload", "bsave",  "map",    "mem", "pause",
-    "block",  "hear", "record", "play",  "voldef", "coldef", "hex", "dez",
-    "screen", "exec",  "mon",   "<-",    "from",   "speed",  "off"
+    "reset",  "basic",  "help", "key",   "himem",  "disk", "dir",    "bload",
+    "bsave",  "map",    "mem",  "pause", "block",  "hear", "record", "play",
+    "voldef", "coldef", "hex",  "dez",   "screen", "exec", "mon",    "<-",
+    "from",   "speed",  "off"
 };
 
 
-/* Blarg Keywords */
+/* Blarg Keywords (Tokens E0 - EA) -- Marco van den Heuvel */
+
 const char *blargkwe0[] = {
-    "plot",  "line",   "circle", "gron", "groff", "mode", "origin",
-    "clear", "buffer", "swap",   "color"
+    "plot",   "line", "circle", "gron", "groff", "mode", "origin", "clear",
+    "buffer", "swap", "color"
+};
+
+
+/* Super Basic Keywords (Tokens DB - FE) -- Marco van den Heuvel */
+
+const char *superbaskwdb[] = {
+    "volume",  "reset",  "mem",    "trace",   "basic",  "resume", "letter",   "help",
+    "coke",    "ground", "matrix", "dispose", "print@", "himem",  "hardcopy", "inputform",
+    "lock",    "swap",   "using",  "sec",     "else",   "error",  "round",    "deek",
+    "string$", "point",  "instr",  "ceek",    "min",    "max",    "varptr",   "frac",
+    "odd",     "dec",    "hex$",   "eval"
 };
 
 /* @Basic (Atbasic) Keywords (Tokens CC - F6) -- André Fachat */
 
 const char *atbasickwcc[] = {
-    "trace", "delete",  "auto", "old", "dump", "find", "renumber", "dload",
-    "dsave", "dverify", "directory", "catalog", "scratch", "collect",
-    "rename", "copy", "backup", "disk", "header", "append", "merge", "mload",
-    "mverify", "msave", "key", "basic", "reset", "exit", "enter", "doke",
-    "set", "help", "screen", "lomem", "himem", "colour", "type", "time",
-    "deek", "hex$", "bin$", "off", "alarm"
+    "trace",  "delete",  "auto",      "old",     "dump",    "find",    "renumber", "dload",
+    "dsave",  "dverify", "directory", "catalog", "scratch", "collect", "rename",   "copy",
+    "backup", "disk",    "header",    "append",  "merge",   "mload",   "mverify",  "msave",
+    "key",    "basic",   "reset",     "exit",    "enter",   "doke",    "set",      "help",
+    "screen", "lomem",   "himem",     "colour",  "type",    "time",    "deek",     "hex$",
+    "bin$",   "off",     "alarm"
 };
 
 
@@ -550,75 +581,71 @@ const char *ultrabasic64kwcc[] = {
 /* Graphics basic (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
 
 const char *graphicsbasickwcc[] = {
-    "background", "border",    "dir",       "disk",    "fill",   "key",
-    "circle",     "procedure", "dot",       "find",    "change", "ren",
-    "else",       "copy",      "scroll",    "roll",    "box",    "scale",
-    "do",         "line",      "sprite",    "color",   "hires",  "clear",
-    "text",       "window",    "off",       "at",      "shape",  "xysize",
-    "speed",      "from",      "setorigin", "animate", "multi",  "eze",
-    "move",       "under",     "edit",      "reset",   "xpos",   "gprint",
-    "voice",      "adsr",      "wave",      "ne",      "volume", "play",
-    "ypos",       "sound",     "joy"
+    "background", "border",  "dir",    "disk", "fill",   "key",    "circle", "procedure",
+    "dot",        "find",    "change", "ren",  "else",   "copy",   "scroll", "roll",
+    "box",        "scale",   "do",     "line", "sprite", "color",  "hires",  "clear",
+    "text",       "window",  "off",    "at",   "shape",  "xysize", "speed",  "from",
+    "setorigin",  "animate", "multi",  "eze",  "move",   "under",  "edit",   "reset",
+    "xpos",       "gprint",  "voice",  "adsr", "wave",   "ne",     "volume", "play",
+    "ypos",       "sound",   "joy"
 };
 
 
 /* WS (WohnzimmerSoft) basic (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
 
 const char *wsbasickwcc[] = {
-    "copy",   "old",    "port",  "doke",  "vpoke",  "fill",   "error",
-    "send",   "call",   "bit",   "dir",   "bload",  "bsave",  "find",
-    "speed",  "pitch",  "say",   "fast",  "slow",   "talk",   "shutup",
-    "stash",  "fetch",  "swap",  "off",   "screen", "device", "object",
-    "vstash", "vfetch", "quiet", "color", "cls",    "curpos", "monitor",
-    "subend", "do",     "loop",  "exit",  "deek",   "rsc",    "rsm",
-    "dec",    "hex$",   "hi",    "lo",    "ds$",    "line",   "vpeek",
-    "row",    "joy"
+    "copy",  "old",    "port",    "doke",   "vpoke",  "fill",   "error", "send",
+    "call",  "bit",    "dir",     "bload",  "bsave",  "find",   "speed", "pitch",
+    "say",   "fast",   "slow",    "talk",   "shutup", "stash",  "fetch", "swap",
+    "off",   "screen", "device",  "object", "vstash", "vfetch", "quiet", "color",
+    "cls",   "curpos", "monitor", "subend", "do",     "loop",   "exit",  "deek",
+    "rsc",   "rsm",    "dec",     "hex$",   "hi",     "lo",     "ds$",   "line",
+    "vpeek", "row",    "joy"
 };
 
 
 /* WS (WohnzimmerSoft) basic final (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
 
 const char *wsfbasickwcc[] = {
-    "copy",   "bank",   "old",   "doke",  "display", "fill",   "error",
-    "send",   "call",   "bit",   "dir",   "bload",   "bsave",  "find",
-    "speed",  "pitch",  "say",   "fast",  "slow",    "talk",   "shutup",
-    "stash",  "fetch",  "swap",  "off",   "mode",    "device", "object",
-    "vstash", "vfetch", "latch", "color", "cls",     "curpos", "monitor",
-    "subend", "do",     "loop",  "exit",  "deek",    "col",    "rsm",
-    "dec",    "hex$",   "hi",    "lo",    "ds$",     "line",   "bnk",
-    "ypos",   "joy"
+    "copy", "bank",   "old",     "doke",   "display", "fill",   "error", "send",
+    "call", "bit",    "dir",     "bload",  "bsave",   "find",   "speed", "pitch",
+    "say",  "fast",   "slow",    "talk",   "shutup",  "stash",  "fetch", "swap",
+    "off",  "mode",   "device",  "object", "vstash",  "vfetch", "latch", "color",
+    "cls",  "curpos", "monitor", "subend", "do",      "loop",   "exit",  "deek",
+    "col",  "rsm",    "dec",     "hex$",   "hi",      "lo",     "ds$",   "line",
+    "bnk",  "ypos",   "joy"
 };
 
 
 /* Pegasus basic 4.0 (c64) Keywords (Tokens CC - EC) -- Marco van den Heuvel */
  
 const char *pegbasickwcc[] = {
-    "off",      "asc(",     "sin(",      "cos(",  "tan(",     "atn(",
-    "deg(",     "rad(",     "frac(",     "mod(",  "round(",   "dec(",
-    "bin(",     "deek(",    "instr(",    "joy(",  "pot(",     "screen(",
-    "test(",    "using",    "ds$",       "hex$(", "bin$(",    "space$(",
-    "ucase$(",  "string$(", "input$(",   "time$", "spritex(", "spritey(",
-    "turtlex(", "turtley(", "turtleang"
+    "off",      "asc(",     "sin(",    "cos(",  "tan(",     "atn(",     "deg(",     "rad(",
+    "frac(",    "mod(",     "round(",  "dec(",  "bin(",     "deek(",    "instr(",   "joy(",
+    "pot(",     "screen(",  "test(",   "using", "ds$",      "hex$(",    "bin$(",    "space$(",
+    "ucase$(",  "string$(", "input$(", "time$", "spritex(", "spritey(", "turtlex(", "turtley(",
+    "turtleang"
 };
 
 
 /* Xbasic (c64) Keywords (Tokens CC - EC) -- Marco van den Heuvel */
 
 const char *xbasickwcc[] = {
-    "sprat",  "brdr",    "screen",  "quit",  "sprmult",  "move",
-    "sprite", "asprite", "dsprite", "sid",   "envelope", "gate",
-    "frq",    "wave",    "vol",     "fcut",  "fmode",    "filter",
-    "frsn",   "cset",    "multi",   "extnd", "locate",   "center",
-    "hires",  "line",    "hprnt",   "plot",  "text",     "clear",
-    "colr",   "stick",   "btn"
+    "sprat",   "brdr",   "screen",   "quit", "sprmult", "move",  "sprite", "asprite",
+    "dsprite", "sid",    "envelope", "gate", "frq",     "wave",  "vol",    "fcut",
+    "fmode",   "filter", "frsn",     "cset", "multi",   "extnd", "locate", "center",
+    "hires",   "line",   "hprnt",    "plot", "text",    "clear", "colr",   "stick",
+    "btn"
 };
+
 
 /* Drago basic 2.2 (c64) Keywords (Tokens CC - D8) -- Marco van den Heuvel */
 
 const char *dragobasickwcc[] = {
-    "punkt", "linia",   "rysuj",  "param", "kuntur", "anim", "kolor",
-    "puwid", "ryselip", "koguma", "fiut",  "figura", "figuma"
+    "punkt",   "linia",  "rysuj", "param",  "kuntur", "anim", "kolor", "puwid",
+    "ryselip", "koguma", "fiut",  "figura", "figuma"
 };
+
 
 /* REU-basic (c64) Keywords (Tokens CC - DA) -- Marco van den Heuvel */
 
@@ -627,74 +654,103 @@ const char *reubasickwcc[] = {
     "size", "dir",  "@",    "kill", "rom",   "ram",   "move"
 };
 
+
 /* Basic Lightning (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
 
 const char *baslkwcc[] = {
-    "else",  "hex$",  "deek",     "true",    "import",  "cfn",   "size",
-    "false", "ver$",  "lpx",      "lpy",     "common%", "crow",  "ccol",
-    "atr",   "inc",   "num",      "row2",    "col2",    "spn2",  "hgt",
-    "wid",   "row",   "col",      "spn",     "task",    "halt",  "repeat",
-    "until", "while", "wend",     "cif",     "celse",   "cend",  "label",
-    "doke",  "exit",  "allocate", "disable", "pull",    "dload", "dsave",
-    "var",   "local", "procend",  "proc",    "casend",  "of",    "case",
-    "rpt",   "setatr"
+    "else",  "hex$",  "deek",  "true",    "import",  "cfn",      "size",    "false",
+    "ver$",  "lpx",   "lpy",   "common%", "crow",    "ccol",     "atr",     "inc",
+    "num",   "row2",  "col2",  "spn2",    "hgt",     "wid",      "row",     "col",
+    "spn",   "task",  "halt",  "repeat",  "until",   "while",    "wend",    "cif",
+    "celse", "cend",  "label", "doke",    "exit",    "allocate", "disable", "pull",
+    "dload", "dsave", "var",   "local",   "procend", "proc",     "casend",  "of",
+    "case",  "rpt",   "setatr"
 };
+
 
 /* Magic Basic (c64) Keywords (Tokens CC - FD) -- Marco van den Heuvel */
 
 const char *magickwcc[] = {
-    "assembler", "auto",   "cdrive", "cat",     "dappend", "delete",
-    "dez",       "dir",    "dload",  "dsave",   "dverify", "config",
-    "find",      " ",      " ",      "help",    "hex",     "jump",
-    "llist",     "lprint", "off",    "old",     "renum",   "crun",
-    "send",      "status", "hires",  "multi",   "clear",   "plot",
-    "invert",    "line",   "text",   "graphik", "page",    "box",
-    "draw",      "mix",    "copy",   "circle",  "gsave",   "gload",
-    "frame",     "hprint", "vprint", "block",   "fill",    " ",
+    "assembler", "auto",    "cdrive",  "cat",    "dappend", "delete", "dez",    "dir",
+    "dload",     "dsave",   "dverify", "config", "find",    " ",      " ",      "help",
+    "hex",       "jump",    "llist",   "lprint", "off",     "old",    "renum",  "crun",
+    "send",      "status",  "hires",   "multi",  "clear",   "plot",   "invert", "line",
+    "text",      "graphik", "page",    "box",    "draw",    "mix",    "copy",   "circle",
+    "gsave",     "gload",   "frame",   "hprint", "vprint",  "block",  "fill",   " ",
     "replace",   "lrun"
 };
+
 
 /* Game Basic (c64) Keywords (Tokens CC - E8) -- Marco van den Heuvel */
 
 const char *gbkwcc[] = {
-    "window", "bfile",   "upper",   "lower",   "cls",    "screen", "parse",
-    "proc",   "else",    "scratch", "replace", "device", "dir",    "repeat",
-    "until",  "disk",    "fetch#",  "put#",    "prompt", "pop",    "help",
-    "exit",   "disable", "enter",   "reset",   "warm",   "num",    "type",
-    "text$"
+    "window", "bfile",   "upper",   "lower",  "cls",  "screen", "parse",   "proc",
+    "else",   "scratch", "replace", "device", "dir",  "repeat", "until",   "disk",
+    "fetch#", "put#",    "prompt",  "pop",    "help", "exit",   "disable", "enter",
+    "reset",  "warm",    "num",     "type",   "text$"
+};
+
+
+/* Basex (c64) Keywords (Tokens CC - EA) -- Marco van den Heuvel */
+
+const char *bsxkwcc[] = {
+    "append", "auto",  "bar",   "circle",   "clg",  "cls",      "csr",    "delete",
+    "disk",   "draw",  "edge",  "envelope", "fill", "key",      "mob",    "mode",
+    "move",   "old",   "pic",   "dump",     "plot", "renumber", "repeat", "scroll",
+    "sound",  "while", "until", "voice",    "ass",  "dis",      "mem"
+};
+
+/* Expanded Basic (c64) Keywords (Tokens CC - F5) -- Marco van den Heuvel */
+
+const char *expbaskwcc[] = {
+    "hires",    "norm",     "graph",   "set",        "line",     "circle",   "fill",   "mode",
+    "cls",      "text",     "color",   "gsave",      "gload",    "inverse",  "frame",  "move",
+    "using",    "renumber", "delete",  "box",        "mobdef",   "sprite",   "mobset", "modsize",
+    "mobcolor", "mobmulti", "mobmove", "doke",       "allclose", "old",      "auto",   "volume",
+    "envelope", "wave",     "play",    "case error", "resume",   "no error", "find",   "inkey",
+    "merge",    "hardcopy"
 };
 
 /* Simon's Basic Keywords */
 
 const char *simonskw[] = {
-    "", "hires", "plot", "line", "block", "fchr", "fcol", "fill",
-    "rec", "rot", "draw", "char", "hi col", "inv", "frac",  "move",
-    "place", "upb", "upw", "leftw", "leftb", "downb", "downw", "rightb",
-    "rightw", "multi", "colour", "mmob", "bflash", "mob set", "music", "flash",
-    "repeat", "play", ">>", "centre", "envelope", "cgoto", "wave", "fetch",
-    "at(",   "until", ">>", ">>", "use", ">>", "global", ">>",
-    "reset", "proc", "call", "exec", "end proc", "exit", "end loop", "on key",
-    "disable", "resume", "loop", "delay", ">>",  ">>",  ">>",  ">>",
-    "secure", "disapa", "circle", "on error","no error","local","rcomp","else",
-    "retrace", "trace", "dir", "page", "dump", "find", "option", "auto",
-    "old",  "joy", "mod", "div", ">>", "dup", "inkey", "inst",
-    "test", "lin", "exor", "insert", "pot", "penx", ">>", "peny",
-    "sound", "graphics", "design", "rlocmob", "cmob", "bckgnds", "pause","nrm",
-    "mob off", "off", "angl", "arc", "cold", "scrsv", "scrld", "text",
-    "cset",  "vol",  "disk", "hrdcpy", "key", "paint", "low col", "copy",
-    "merge", "renumber", "mem", "detect", "check", "display", "err", "out"
+    "",        "hires",    "plot",   "line",     "block",    "fchr",    "fcol",     "fill",
+    "rec",     "rot",      "draw",   "char",     "hi col",   "inv",     "frac",     "move",
+    "place",   "upb",      "upw",    "leftw",    "leftb",    "downb",   "downw",    "rightb",
+    "rightw",  "multi",    "colour", "mmob",     "bflash",   "mob set", "music",    "flash",
+    "repeat",  "play",     ">>",     "centre",   "envelope", "cgoto",   "wave",     "fetch",
+    "at(",     "until",    ">>",     ">>",       "use",      ">>",      "global",   ">>",
+    "reset",   "proc",     "call",   "exec",     "end proc", "exit",    "end loop", "on key",
+    "disable", "resume",   "loop",   "delay",    ">>",       ">>",      ">>",       ">>",
+    "secure",  "disapa",   "circle", "on error", "no error", "local",   "rcomp",    "else",
+    "retrace", "trace",    "dir",    "page",     "dump",     "find",    "option",   "auto",
+    "old",     "joy",      "mod",    "div",      ">>",       "dup",     "inkey",    "inst",
+    "test",    "lin",      "exor",   "insert",   "pot",      "penx",    ">>",       "peny",
+    "sound",   "graphics", "design", "rlocmob",  "cmob",     "bckgnds", "pause",    "nrm",
+    "mob off", "off",      "angl",   "arc",      "cold",     "scrsv",   "scrld",    "text",
+    "cset",    "vol",      "disk",   "hrdcpy",   "key",      "paint",   "low col",  "copy",
+    "merge",   "renumber", "mem",    "detect",   "check",    "display", "err",      "out"
 };
 
 
 /* Final Cartridge III Keywords -- Matti 'ccr' Hämäläinen */
 
 const char *fc3kw[] = {
-    "off", "auto",  "del", "renum", "?ERROR?", "find", "old", "dload",
-    "dverify", "dsave", "append", "dappend", "dos", "kill",
-    "mon", "pdir", "plist", "bar", "desktop", "dump", "array", "mem",
-    "trace", "replace", "order", "pack", "unpack", "mread", "mwrite"
+    "off",     "auto",  "del",     "renum",   "?ERROR?", "find", "old",   "dload",
+    "dverify", "dsave", "append",  "dappend", "dos",     "kill", "mon",   "pdir",
+    "plist",   "bar",   "desktop", "dump",    "array",   "mem",  "trace", "replace",
+    "order",   "pack",  "unpack",  "mread",   "mwrite"
 };
 
+
+/* Super Expander Chip extension */
+
+const char *sxckwfe[] = {
+    "key",   "color",  "graphic", "scnclr", "locate", "scale",  "box",    "circle",
+    "char",  "draw",   "gshape",  "paint",  "sshape", "tune",   "filter", "sprdef",
+    "tempo", "movspr", "sprcol",  "sprite", "colint", "sprsav", "rbump",  "rclr",
+    "rdot",  "rgr",    "rjoy",    "rpen",   "rpot",   "rspcol", "rsppos", "rspr"
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -704,10 +760,8 @@ static void pet_2_asc (int ctrls);
 static void _p_toascii(int c, int ctrls);
 static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, unsigned int addr, int ctrls);
-static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
-                             int token, int maxitems);
-static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist,
-                            int token, int maxitems);
+static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems);
+static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist, int token, int maxitems);
 
 /* ------------------------------------------------------------------------- */
 
@@ -718,25 +772,24 @@ static int codesnocase=0; /* flag, =1 if controlcodes should be interpreted case
 /* dummy functions */
 int cmdline_register_options(const cmdline_option_t *c)
 {
-  return 0;
+    return 0;
 }
 
 int network_connected(void)
 {
-  return 0;
+    return 0;
 }
 
 int network_get_mode(void)
 {
-  return NETWORK_IDLE;
+    return NETWORK_IDLE;
 }
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
 }
 
-void event_record_in_list(event_list_state_t *list, unsigned int type,
-                          void *data, unsigned int size)
+void event_record_in_list(event_list_state_t *list, unsigned int type, void *data, unsigned int size)
 {
 }
 
@@ -771,7 +824,7 @@ int main(int argc, char **argv)
         if (!strcmp(argv[0], "-l")) {           /* load address */
             if (argc > 1 && sscanf(argv[1], "%x", &load_addr) == 1) {
                 --argc; ++argv;
-            continue;
+                continue;
             }
             /* Fall to error */
         }
@@ -800,9 +853,7 @@ int main(int argc, char **argv)
         } else if (!strcmp(argv[0], "-f")) {      /* force overwrite */
             ++overwrt;
             continue;
-        }
-
-        else if (!strcmp(argv[0], "-o")) {
+        } else if (!strcmp(argv[0], "-o")) {
             if (argc > 1) {
                 outfilename = argv[1];
                 ++outf;
@@ -815,19 +866,17 @@ int main(int argc, char **argv)
 
         /* reading offset */
         if (!strcmp(argv[0], "-skip") || !strcmp(argv[0], "-offset")) {
-            if (argc > 1 && sscanf(argv[1], "%lx", &offset) == 1)
-                {
-                    --argc; ++argv;
-                    continue;
-                }
+            if (argc > 1 && sscanf(argv[1], "%lx", &offset) == 1) {
+                --argc; ++argv;
+                continue;
+            }
             /* Fall to error */
 
         } else if (!strcmp(argv[0], "-text")) {   /* force text mode */
             ++textmode;
             continue;
 
-        } else if (!strcmp(argv[0], "-help") ||
-                 !strncmp(argv[0], "-v", 2)) {  /* version ID */
+        } else if (!strcmp(argv[0], "-help") || !strncmp(argv[0], "-v", 2)) {  /* version ID */
             fprintf(stdout,
                     "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n\tPart of "PACKAGE" "VERSION"\n",
                     progname, (float)PETCATVERSION, PETCATLEVEL );
@@ -837,11 +886,13 @@ int main(int argc, char **argv)
         /* Basic version */
 
         } else if (!strncmp(argv[0], "-w", 2) && !wr_mode) {
-            version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));            ++wr_mode;
+            version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));
+            ++wr_mode;
             continue;
 
         } else if (!strncmp(argv[0], "-k", 2) && !wr_mode) {
-            version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));            ++show_words;
+            version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));
+            ++show_words;
             continue;
 
         } else if ((version = parse_version(&argv[0][1])) >= 0) {
@@ -854,31 +905,31 @@ int main(int argc, char **argv)
                 progname);
 
         fprintf(stdout, "\n"
-            "   -help\tOutput this help screen here\n"
-            "   -v\t\tSame as above\n"
-            "   -c\t\tcontrols (interpret also control codes) <default if textmode>\n"
-            "   -nc\t\tno controls (suppress control codes in printout)\n"
-            "   \t\t<default if non-textmode>\n"
-            "   -ic\t\tinterpret control codes case-insensitive\n"
-            "   -h\t\twrite header <default if output is stdout>\n"
-            "   -nh\t\tno header <default if output is a file>\n"
-            "   -skip <n>\tSkip <n> bytes in the beginning of input file. Ignored on P00.\n"
-            "   -text\tForce text mode\n"
-            "   -<version>\tuse keywords for <version> instead of the v7.0 ones\n"
-            "   -w<version>\ttokenize using keywords on specified Basic version.\n"
-            "   -k<version>\tlist all keywords for the specified Basic version\n"
-            "   -k\t\tlist all Basic versions available.\n"
-            "   -l\t\tSpecify load address for program (in hex, no loading chars!).\n"
-            "   -o <name>\tSpecify the output file name\n"
-            "   -f\t\tForce overwritten the output file\n"
-            "   \t\tThe default depends on the BASIC version.\n");
+                "   -help\tOutput this help screen here\n"
+                "   -v\t\tSame as above\n"
+                "   -c\t\tcontrols (interpret also control codes) <default if textmode>\n"
+                "   -nc\t\tno controls (suppress control codes in printout)\n"
+                "   \t\t<default if non-textmode>\n"
+                "   -ic\t\tinterpret control codes case-insensitive\n"
+                "   -h\t\twrite header <default if output is stdout>\n"
+                "   -nh\t\tno header <default if output is a file>\n"
+                "   -skip <n>\tSkip <n> bytes in the beginning of input file. Ignored on P00.\n"
+                "   -text\tForce text mode\n"
+                "   -<version>\tuse keywords for <version> instead of the v7.0 ones\n"
+                "   -w<version>\ttokenize using keywords on specified Basic version.\n"
+                "   -k<version>\tlist all keywords for the specified Basic version\n"
+                "   -k\t\tlist all Basic versions available.\n"
+                "   -l\t\tSpecify load address for program (in hex, no loading chars!).\n"
+                "   -o <name>\tSpecify the output file name\n"
+                "   -f\t\tForce overwritten the output file\n"
+                "   \t\tThe default depends on the BASIC version.\n");
 
         fprintf(stdout, "\n\tVersions:\n"
                 "\t1\tPET Basic V1.0\n"
                 "\t2\tBasic v2.0\n"
-                "\tsuper\tBasic v2.0 with Super Expander (VIC)\n"
-                "\tturtle\tBasic v2.0 with Turtle Basic by Craig Bruce (VIC)\n"
-                "\tmighty\tBasic v2.0 with Mighty Basic by Craig Bruce (VIC)\n"
+                "\tsuperexp\tBasic v2.0 with Super Expander (VIC20)\n"
+                "\tturtle\tBasic v2.0 with Turtle Basic by Craig Bruce (VIC20)\n"
+                "\tmighty\tBasic v2.0 with Mighty Basic by Craig Bruce (VIC20)\n"
                 "\ta\tBasic v2.0 with AtBasic (C64)\n"
                 "\tsimon\tBasic v2.0 with Simon's Basic extension (C64)\n"
                 "\tspeech\tBasic v2.0 with Speech Basic v2.7 (C64)\n"
@@ -896,21 +947,25 @@ int main(int argc, char **argv)
                 "\teasy\tBasic v2.0 with Easy Basic (VIC20)\n"
                 "\tblarg\tBasic v2.0 with Blarg (C64)\n"
                 "\tGame\tBasic v2.0 with Game Basic (C64)\n"
-                "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
-                "\t3\tBasic v3.5 program (C16)\n"
+                "\tBSX\tBasic v2.0 with Basex (C64)\n"
+                "\tsuperbas\tBasic v2.0 with Super Basic (C64)\n"
+                "\texp\tBasic 2.0 with Expanded Basic (C64)\n"
+                "\tsxc\tBasic 2.0 with Super Expander Chip (C64)\n"
                 "\t4v\tBasic 2.0 with Basic 4.0 extensions (VIC20)\n"
+                "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t5\tBasic 2.0 with Basic 5.0 extensions (VIC20)\n"
+                "\t3\tBasic v3.5 program (C16)\n"
                 "\t70\tBasic v7.0 program (C128)\n"
                 "\t71\tBasic v7.1 program (C128)\n"
                 "\t10\tBasic v10.0 program (C64DX)\n\n");
 
         fprintf(stdout, "\tUsage examples:\n"
-            "\tpetcat -2 -o outputfile.txt -- inputfile.prg\n"
-            "\t\tConvert inputfile.prg to a text file in outputfile.txt,\n"
-            "\t\tusing BASIC V2 only\n"
-            "\tpetcat -wsimon -o outputfile.prg -- inputfile.txt\n"
-            "\t\tConvert inputfile.txt to a PRG file in outputfile.prg,\n"
-            "\t\tusing Simon's BASIC\n");
+                "\tpetcat -2 -o outputfile.txt -- inputfile.prg\n"
+                "\t\tConvert inputfile.prg to a text file in outputfile.txt,\n"
+                "\t\tusing BASIC V2 only\n"
+                "\tpetcat -wsimon -o outputfile.prg -- inputfile.txt\n"
+                "\t\tConvert inputfile.txt to a PRG file in outputfile.prg,\n"
+                "\t\tusing Simon's BASIC\n");
         exit(1);
     }
 
@@ -919,11 +974,13 @@ int main(int argc, char **argv)
  * Check parameters
  */
 
-    if (argc)
+    if (argc) {
         fil++;
+    }
 
-    if (hdr==-1)
+    if (hdr == -1) {
         hdr = outf ? 0 : 1;
+    }
 
     if (version == B_10) {
         keyword[0x63] = "paste";
@@ -940,54 +997,54 @@ int main(int argc, char **argv)
         return (0);
     }
 
-    if (ctrls < 0)
+    if (ctrls < 0) {
         ctrls = (textmode ? 0 : 1);     /*default ON for prgs, OFF for text */
-
+    }
 
     if (!load_addr) {
         switch (version) {
-          case B_PEG:
-          case B_SUPER:
-            load_addr = 0x0401;
-            break;
-          case B_TURTLE:
-            load_addr = 0x3701;
-            break;
-          case B_GRAPH:
-          case B_35:
-            load_addr = 0x1001;
-            break;
-          case B_71:
-          case B_7:
-            load_addr = 0x1c01;
-            break;
-          case B_10:
-            load_addr = 0x2001;
-            break;
-          case B_ULTRA:
-            load_addr = 0x2c01;
-            break;
-          case B_EASY:
-            load_addr = 0x3001;
-            break;
-          case B_MIGHTY:
-            load_addr = 0x3201;
-            break;
+            case B_PEG:
+            case B_SUPEREXP:
+            case B_BSX:
+                load_addr = 0x0401;
+                break;
+            case B_TURTLE:
+                load_addr = 0x3701;
+                break;
+            case B_GRAPH:
+            case B_35:
+                load_addr = 0x1001;
+                break;
+            case B_71:
+            case B_7:
+                load_addr = 0x1c01;
+                break;
+            case B_10:
+                load_addr = 0x2001;
+                break;
+            case B_ULTRA:
+                load_addr = 0x2c01;
+                break;
+            case B_EASY:
+                load_addr = 0x3001;
+                break;
+            case B_MIGHTY:
+                load_addr = 0x3201;
+                break;
 
-          default:
-            load_addr = 0x0801;
+            default:
+                load_addr = 0x0801;
         }
     }
 
     if (wr_mode) {
-        fprintf (stderr, "\nLoad address %04x\n", load_addr);
+        fprintf(stderr, "\nLoad address %04x\n", load_addr);
         if ((load_addr & 255) != 1) {
             fprintf (stderr, "I'm afraid I cannot accept that.\n");
             exit(1);
         }
 
-        fprintf(stderr, "Control code set: %s\n\n",
-                (ctrls ? "enabled" : "disabled"));
+        fprintf(stderr, "Control code set: %s\n\n", (ctrls ? "enabled" : "disabled"));
     }
 
 
@@ -996,7 +1053,7 @@ int main(int argc, char **argv)
      */
 
     do {
-        int  plen = 0;
+        int plen = 0;
         flg = 0;        /* stdin loop flag */
 
 
@@ -1014,8 +1071,7 @@ int main(int argc, char **argv)
 
             source = stdin;
 
-            for (plen = 0, p = MagicHeaderP00; plen < 8 &&
-                 (c = getc(source)) != EOF && (unsigned)c == *p; ++plen, ++p);
+            for (plen = 0, p = MagicHeaderP00; plen < 8 && (c = getc(source)) != EOF && (unsigned)c == *p; ++plen, ++p);
 
             if (plen == 8) {
                 /* skip the rest of header */
@@ -1026,23 +1082,17 @@ int main(int argc, char **argv)
             }
         } else {
             if ((source = fopen(argv[0], "rb")) == NULL) {
-                fprintf(stderr,
-                        "\n%s: Can't open file %s\n", progname, argv[0]);
+                fprintf(stderr, "\n%s: Can't open file %s\n", progname, argv[0]);
                 exit(1);
             }
         }
 
 
-        if (!outf)
+        if (!outf) {
             dest = stdout;
-        else {
-            /*if (extension && *extension == '.') {
-                sprintf(outfilename, "%s%s", argv[0], extension);
-            }*/
-
+        } else {
             if ((dest = fopen(outfilename, "wb")) == NULL) {
-                fprintf(stderr,
-                        "\n%s: Can't open output file %s\n", progname, outfilename);
+                fprintf(stderr, "\n%s: Can't open output file %s\n", progname, outfilename);
                 exit(1);
             }
         }
@@ -1051,8 +1101,9 @@ int main(int argc, char **argv)
         if (wr_mode) {
             p_tokenize(version, load_addr, ctrls);
         } else {
-            if (hdr) /* iAN: name as comment when using petcat name.prg > name.txt */
+            if (hdr) { /* iAN: name as comment when using petcat name.prg > name.txt */
                 fprintf(dest, "\n\n;%s ", (fil ? argv[0] : "<stdin>"));
+            }
 
             /*
              * Use TEXT mode if the offset doesn't equal BASIC load addresses
@@ -1060,47 +1111,48 @@ int main(int argc, char **argv)
              * Explicitly selected textmode overrules these conditions.
              */
 
-            if (textmode || ((offset & 255) !=1 &&
-                ((c = getc(source)) != EOF && ungetc(c, source) != EOF &&
-                c && c != 1)) ) {
+            if (textmode || ((offset & 255) !=1 && ((c = getc(source)) != EOF && ungetc(c, source) != EOF && c && c != 1))) {
 
                 /* Print the bytes lost in header check */
-                if (plen > 0 && plen < 8)
-                    for (c = 0; c < plen; ++c)
-                    fputc (MagicHeaderP00[(int)c], dest);
+                if (plen > 0 && plen < 8) {
+                    for (c = 0; c < plen; ++c) {
+                        fputc (MagicHeaderP00[(int)c], dest);
+                    }
+                }
 
                 pet_2_asc(ctrls);
-            }
-            else {
+            } else {
 
                 /* get load address */
                 /* iAN: load_addr split into 2 lines, when compiled with VC7.1 I got ==0108== instead of ==0801== !! */
                 load_addr = (getc(source) & 0xff) ;
                 load_addr |= (getc(source) & 0xff) << 8;
-                if (hdr)
+                if (hdr) {
                     fprintf(dest, "==%04x==\n", load_addr);
+                }
 
                 if (p_expand(version, load_addr, ctrls)) {
                     fprintf(dest, "\n;*** Machine language part skipped. ***\n");
-                }
-                else    /* End of BASIC on stdin. Is there more ? */
-                    if (!fil && (c = getc(source)) != EOF &&
-                        ungetc(c, source) != EOF && c) {
+                } else {   /* End of BASIC on stdin. Is there more ? */
+                    if (!fil && (c = getc(source)) != EOF && ungetc(c, source) != EOF && c) {
                         ++flg;
                         ++hdr;
                     }
+                }
             }
 
-            if (hdr)
+            if (hdr) {
                 fputc('\n', dest);
+            }
         }
 
 
-        if (fil)
+        if (fil) {
             fclose(source);
-        if (outf)
+        }
+        if (outf) {
             fclose(dest);
-
+        }
     } while (flg || (fil && --argc && ++argv));         /* next file */
     return(0);
 }
@@ -1115,327 +1167,419 @@ static int parse_version(char *str)
 {
     int version = -1;
 
-    if (str == NULL || !*str)
+    if (str == NULL || !*str) {
         return 0;
+    }
 
     switch (toupper(*str)) {
-      case '1':         /* Basic 1.0 and Basic 10.0 */
-        if (str[1] == '0')
-            version = B_10;
-        else if (!str[1])
-            version = B_1;
-        break;
+        case '1':         /* Basic 1.0 and Basic 10.0 */
+            if (str[1] == '0') {
+                version = B_10;
+            } else if (!str[1]) {
+                version = B_1;
+            }
+            break;
 
       case '2':
-        version = B_2;
-        break;
-
-      case 'A':
-        version = B_ATBAS;
-        break;
-
-      case 'S':
-        switch (str[1]) {
-          case 'u':
-          case 'e':
-            version = B_SUPER;
-            break;
-          case 'i':
-            version = B_SIMON;
-            break;
-          case 'p':
-            version = B_SPEECH;
-            break;
-          default:
-            fprintf (stderr,
-                "Please, select one of the following: super, simon, speech\n");
-        }
-        break;
-
-      case 'T':
-        version = B_TURTLE;
-        break;
-
-      case '4':
-        version = ((str[1]=='e') ? B_4E : ((str[1]=='v') ? B_VIC4 : B_4)); /* Basic 4.0 */
-        break;
-
-      case '5':
-        version = B_VIC5; /* 5.0 */
-        break;
+          version = B_2;
+          break;
 
       case '3':
-        version = B_35; /* 3.5 */
-        break;
+          version = B_35; /* 3.5 */
+          break;
+
+      case '4':
+          version = ((toupper(str[1]) == 'E') ? B_4E : ((toupper(str[1]) == 'v') ? B_VIC4 : B_4)); /* Basic 4.0 */
+          break;
+
+      case '5':
+          version = B_VIC5; /* 5.0 */
+          break;
 
       case '7':
-        switch (str[1]) {
-          case '0':
-            version = B_7;
-            break;
-          case '1':
-            version = B_71;
-            break;
-          default:
-            fprintf (stderr,
-                "Please, select one of the following: 70, 71\n");
-        }
-        break;
-
-      case 'F':
-      	version = B_FC3;
-      	break;
-
-      case 'U':
-        version = B_ULTRA;
-        break;
-
-      case 'G':
-        switch (str[1]) {
-          case 'R':
-            version = B_GRAPH;
-            break;
-          case 'A':
-            version = B_GB;
-            break;
-          default:
-            fprintf (stderr,
-                "Please, select one of the following: 70, 71\n");
-        }
-        break;
-
-      case 'W':
-        if (str[1]!='S')
-        {
-          fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
-        }
-        else
-        {
-          if (str[2]!='B')
-          {
-            fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
+          switch (str[1]) {
+              case '0':
+                  version = B_7;
+                  break;
+              case '1':
+                  version = B_71;
+                  break;
+              default:
+                  fprintf(stderr, "Please, select one of the following: 70, 71\n");
           }
-          else
-          {
-            if (str[3]=='F')
-            {
-              version = B_WSF;
-            }
-            else
-            {
-              version = B_WS;
-            }
-          }
-        }
-        break;
+          break;
 
-      case 'M':
-        switch (str[1]) {
-          case 'i':
-            version = B_MIGHTY;
-            break;
-          case 'a':
-            version = B_MAGIC;
-            break;
-          default:
-            fprintf (stderr,
-                "Please, select one of the following: magic, mighty\n");
-        }
-        break;
-
-      case 'P':
-        version = B_PEG;
-        break;
-
-      case 'X':
-        version = B_X;
-        break;
-
-      case 'D':
-        version = B_DRAGO;
-        break;
-
-      case 'R':
-        version = B_REU;
-        break;
-
-      case 'L':
-        version = B_BASL;
-        break;
-
-      case 'E':
-        version = B_EASY;
-        break;
+      case 'A':
+          version = B_ATBAS;
+          break;
 
       case 'B':
-        version = B_BLARG;
-        break;
+          switch (toupper(str[1])) {
+              case 'L':
+                  version = B_BLARG;
+                  break;
+              case 'S':
+                  version = B_BSX;
+                  break;
+              default:
+                  fprintf(stderr, "Please, select on of the following: blarg, bsx\n");
+          }
+          break;
+
+      case 'D':
+          version = B_DRAGO;
+          break;
+
+      case 'E':
+          switch (toupper(str[1])) {
+              case 'A':
+                  version = B_EASY;
+                  break;
+              case 'X':
+                  version = B_EXPBAS;
+                  break;
+          }
+          break;
+
+      case 'F':
+          version = B_FC3;
+          break;
+
+      case 'G':
+          switch (toupper(str[1])) {
+              case 'R':
+                  version = B_GRAPH;
+                  break;
+              case 'A':
+                  version = B_GB;
+                  break;
+              default:
+                  fprintf (stderr, "Please, select one of the following: graphics, game\n");
+          }
+          break;
+
+      case 'L':
+          version = B_BASL;
+          break;
+
+      case 'M':
+          switch (toupper(str[1])) {
+              case 'I':
+                  version = B_MIGHTY;
+                  break;
+              case 'A':
+                  version = B_MAGIC;
+                  break;
+              default:
+                  fprintf (stderr, "Please, select one of the following: magic, mighty\n");
+          }
+          break;
+
+      case 'P':
+          version = B_PEG;
+          break;
+
+      case 'R':
+          version = B_REU;
+          break;
+
+      case 'S':
+          switch (toupper(str[1])) {
+              case 'U':
+                  if (toupper(str[2]) != 'P' || toupper(str[3]) != 'E' || toupper(str[4]) != 'R') {
+                      fprintf(stderr, "Please, select one of the following: superbas, superexp\n");
+                  } else {
+                      switch(toupper(str[5])) {
+                          case 'B':
+                              version = B_SUPERBAS;
+                              break;
+                          case 'E':
+                              version = B_SUPEREXP;
+                              break;
+                          default:
+                              fprintf(stderr, "Please, select one of the following: superbas, superexp\n");
+                      }
+                  }
+                  break;
+              case 'B':
+                  version = B_SUPERBAS;
+                  break;
+              case 'E':
+                  version = B_SUPEREXP;
+                  break;
+              case 'I':
+                  version = B_SIMON;
+                  break;
+              case 'P':
+                  version = B_SPEECH;
+                  break;
+              case 'X':
+                  version = B_SXC;
+                  break;
+              default:
+                  fprintf (stderr, "Please, select one of the following: superbas, superexp, simon, speech, sxc\n");
+          }
+          break;
+
+      case 'T':
+          version = B_TURTLE;
+          break;
+
+      case 'U':
+          version = B_ULTRA;
+          break;
+
+      case 'W':
+          if (str[1] != 'S') {
+              fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
+          } else {
+              if (str[2] != 'B') {
+                  fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
+              } else {
+                  if (str[3] == 'F') {
+                      version = B_WSF;
+                  } else {
+                      version = B_WS;
+                  }
+              }
+          }
+          break;
+
+      case 'X':
+          version = B_X;
+          break;
 
       default:
-        fprintf (stderr, "\nUnimplemented version '%s'\n", str);
-        version = -1;
+          fprintf (stderr, "\nUnimplemented version '%s'\n", str);
+          version = -1;
     }
 
     return (version);
 }
-
 
 static void list_keywords(int version)
 {
     int n, max;
 
     if (version <= 0 || version > NUM_VERSIONS) {
-        printf ("\n  The following versions are supported on  %s V%4.2f\n\n",
-                "petcat", (float)PETCATVERSION );
+        printf("\n  The following versions are supported on  %s V%4.2f\n\n", "petcat", (float)PETCATVERSION );
 
-        for (n = 0; n < NUM_VERSIONS; n++)
-            printf ("\t%s\n", VersNames[n]);
-        printf ("\n");
+        for (n = 0; n < NUM_VERSIONS; n++) {
+            printf("\t%s\n", VersNames[n]);
+        }
+        printf("\n");
         return;
     }
 
     printf("\n  Available Keywords on %s\n\n", VersNames[version - 1]);
 
-    if (version == B_1)
+    if (version == B_1) {
         max = NUM_B_1;
-    else if (version==B_35 || version==B_7 || version==B_71 || version == B_10)
+    } else if (version==B_35 || version==B_7 || version==B_71 || version == B_10) {
         max = 0x7E;
-    else
+    } else {
         max = NUM_COMM;
+    }
 
     for (n = 0; n < max; n++) {
-        if (version == B_35 || n != 0x4e)       /* Skip prefix marker */
+        if (version == B_35 || n != 0x4e) {      /* Skip prefix marker */
             printf("%s\t", keyword[n] /*, n | 0x80*/);
+        }
     }
     printf("%s\n", keyword[127]);
 
 
-    if (version == B_7 || version == B_71 || version == B_10) {
-        for (n = 2; n < ((version == B_10) ? NUM_V10FE : ((version == B_71) ? NUM_V71FE : NUM_V7FE)); n++)
-            printf("%s\t", (version == B_71) ? kwfe71[n] : kwfe[n] /*, 0xfe, n*/);
+    if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
+        switch (version) {
+            case B_10:
+                for (n = 2; n < NUM_V10FE; n++) {
+                    printf("%s\t", kwfe[n] /*, 0xfe, n*/);
+                }
+                break;
+            case B_71:
+                for (n = 2; n < NUM_V71FE; n++) {
+                    printf("%s\t", kwfe71[n] /*, 0xfe, n*/);
+                }
+                break;
+            default:
+            case B_7:
+                for (n = 2; n < NUM_V7FE; n++) {
+                    printf("%s\t", kwfe[n] /*, 0xfe, n*/);
+                }
+                break;
+            case B_SXC:
+                for (n = 0; n < NUM_SXCFE; n++) {
+                    printf("%s\t", sxckwfe[n] /*, 0xfe, n*/);
+                }
+                break;
+        }
 
-        for (n = 2; n < NUM_KWCE; n++)
-            printf("%s\t", kwce[n] /*, 0xce, n*/);
-    }
+        if (version != B_SXC) {
+            for (n = 2; n < NUM_KWCE; n++) {
+                printf("%s\t", kwce[n] /*, 0xce, n*/);
+            }
+        }
+    } else {
+        switch (version) {
+            case B_SUPEREXP:
+                for (n = 0; n < NUM_SECC; n++) {
+                    printf("%s\t", superexpkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-    else
-      switch (version) {
-      case B_SUPER:
-        for (n = 0; n < NUM_SECC; n++)
-            printf("%s\t", superkwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_TURTLE:
+                for (n = 0; n < NUM_TUCC; n++) {
+                    printf("%s\t", turtlekwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_TURTLE:
-        for (n = 0; n < NUM_TUCC; n++)
-            printf("%s\t", turtlekwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_MIGHTY:
+                for (n = 0; n < NUM_MIGHTYCC; n++) {
+                    printf("%s\t", mightykwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_MIGHTY:
-        for (n = 0; n < NUM_MIGHTYCC; n++)
-            printf("%s\t", mightykwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_MAGIC:
+                for (n = 0; n < NUM_MAGICCC; n++) {
+                    printf("%s\t", magickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_MAGIC:
-        for (n = 0; n < NUM_MAGICCC; n++)
-            printf("%s\t", magickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_EASY:
+                for (n = 0; n < NUM_EASYCC; n++) {
+                    printf("%s\t", easykwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_EASY:
-        for (n = 0; n < NUM_EASYCC; n++)
-            printf("%s\t", easykwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_BLARG:
+                for (n = 0; n < NUM_BLARGE0; n++) {
+                    printf("%s\t", blargkwe0[n] /*, n + 0xe0*/);
+                }
+                break;
 
-      case B_BLARG:
-        for (n = 0; n < NUM_BLARGE0; n++)
-            printf("%s\t", blargkwe0[n] /*, n + 0xe0*/);
-        break;
+            case B_SUPERBAS:
+                for (n = 0; n < NUM_SUPERBASDB; n++) {
+                    printf("%s\t", superbaskwdb[n] /*, n + 0xdb*/);
+                }
+                break;
 
-      case B_GB:
-        for (n = 0; n < NUM_GBCC; n++)
-            printf("%s\t", gbkwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_EXPBAS:
+                for (n = 0; n < NUM_EXPBASCC; n++) {
+                    printf("%s\t", expbaskwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_4:
-      case B_4E:
-        for (n = 0; n < ((version == B_4) ? NUM_V4CC : NUM_4ECC); n++)
-            printf("%s\t", petkwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_GB:
+                for (n = 0; n < NUM_GBCC; n++) {
+                    printf("%s\t", gbkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_VIC4:
-        for (n = 0; n < NUM_VIC4; n++)
-            printf("%s\t", vic4kwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_BSX:
+                for (n = 0; n < NUM_BSXCC; n++) {
+                    printf("%s\t", bsxkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_VIC5:
-        for (n = 0; n < NUM_VIC5; n++)
-            printf("%s\t", vic5kwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_4:
+            case B_4E:
+                for (n = 0; n < ((version == B_4) ? NUM_V4CC : NUM_4ECC); n++) {
+                    printf("%s\t", petkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_SIMON:
-        for (n = 1; n < 0x80; n++)
-            printf("%s\t", simonskw[n] /*, 0x64, n*/);
-        break;
+            case B_VIC4:
+                for (n = 0; n < NUM_VIC4; n++) {
+                    printf("%s\t", vic4kwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_SPEECH:
-        for (n = 0; n < NUM_SPECC; n++)
-            printf("%s\t", speechkwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_VIC5:
+                for (n = 0; n < NUM_VIC5; n++) {
+                    printf("%s\t", vic5kwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_ATBAS:
-        for (n = 0; n < NUM_ATBCC; n++)
-            printf("%s\t", atbasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_SIMON:
+                for (n = 1; n < 0x80; n++) {
+                    printf("%s\t", simonskw[n] /*, 0x64, n*/);
+                }
+                break;
+
+            case B_SPEECH:
+                for (n = 0; n < NUM_SPECC; n++) {
+                    printf("%s\t", speechkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
+
+            case B_ATBAS:
+                for (n = 0; n < NUM_ATBCC; n++) {
+                    printf("%s\t", atbasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
         
-      case B_ULTRA:
-        for (n = 0; n < NUM_ULTRCC; n++)
-            printf("%s\t", ultrabasic64kwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_ULTRA:
+                for (n = 0; n < NUM_ULTRCC; n++) {
+                    printf("%s\t", ultrabasic64kwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_GRAPH:
-        for (n = 0; n < NUM_GRAPHCC; n++)
-            printf("%s\t", graphicsbasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_GRAPH:
+                for (n = 0; n < NUM_GRAPHCC; n++) {
+                    printf("%s\t", graphicsbasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_WS:
-        for (n = 0; n < NUM_WSCC; n++)
-            printf("%s\t", wsbasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_WS:
+                for (n = 0; n < NUM_WSCC; n++) {
+                    printf("%s\t", wsbasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_WSF:
-        for (n = 0; n < NUM_WSFCC; n++)
-            printf("%s\t", wsfbasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_WSF:
+                for (n = 0; n < NUM_WSFCC; n++) {
+                    printf("%s\t", wsfbasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_PEG:
-        for (n = 0; n < NUM_PEGCC; n++)
-            printf("%s\t", pegbasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_PEG:
+                for (n = 0; n < NUM_PEGCC; n++) {
+                    printf("%s\t", pegbasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_X:
-        for (n = 0; n < NUM_XCC; n++)
-            printf("%s\t", xbasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_X:
+                for (n = 0; n < NUM_XCC; n++) {
+                    printf("%s\t", xbasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_DRAGO:
-        for (n = 0; n < NUM_DRAGOCC; n++)
-            printf("%s\t", dragobasickwcc[n] /*, n + 0xcc*/);
-        break;
+            case B_DRAGO:
+                for (n = 0; n < NUM_DRAGOCC; n++) {
+                    printf("%s\t", dragobasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_REU:
-        for (n = 0; n < NUM_REUCC; n++)
-            printf("%s\t", reubasickwcc[n] /*, n + 0xcc*/);
+            case B_REU:
+                for (n = 0; n < NUM_REUCC; n++) {
+                    printf("%s\t", reubasickwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-      case B_FC3:
-        for (n = 0; n < NUM_FC3CC; n++)
-            printf("%s\t", fc3kw[n] /*, n + 0xcc*/);
-      break;
+            case B_FC3:
+                for (n = 0; n < NUM_FC3CC; n++) {
+                    printf("%s\t", fc3kw[n] /*, n + 0xcc*/);
+                }
+                break;
       
-      case B_BASL:
-        for (n = 0; n < NUM_BASLCC; n++)
-            printf("%s\t", baslkwcc[n] /*, n + 0xcc*/);
-      break;
+            case B_BASL:
+                for (n = 0; n < NUM_BASLCC; n++) {
+                    printf("%s\t", baslkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
 
-    }  /* switch */
+        }  /* switch */
+    }
 
     printf("\n\n");
 }
@@ -1468,83 +1612,82 @@ iAN: "left arrow" petscii 0x5f was converted as ascii 0x7f and not translated ba
 static void _p_toascii(int c, int ctrls)
 {
     switch (c) {
-      case 0x00:                          /* 00 for SEQ */
-      case 0x0a:
-      case 0x0d:
-        fputc ('\n', dest);
-        break;
-      case 0x40:
-        fputc ('@', dest);
-        break;
-      case 0x5b:
-        fputc ('[', dest);
-        break;
-      case 0x5c:
-        fputc ('\\', dest);
-        break;
-      case 0x5d:
-        fputc (']', dest);
-        break;
-      case 0x5e:
-        fputc ('^', dest);
-        break;
-      case 0x5f:
-        fputc ('_', dest);
-        break;
-      case 0x60: /* produces the same screencode as $c0! */
-        fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
-        break;
-      case 0xc0:
-        fprintf(dest, CLARIF_LP_ST "SHIFT-*" CLARIF_RP_ST);
-        break;
-      case 0x7c:
-        fprintf(dest, CLARIF_LP_ST "CBM--" CLARIF_RP_ST); /* Conflicts with Scandinavian Chars */
-        break;
-      case 0x7f:
-        fprintf(dest, CLARIF_LP_ST "CBM-*" CLARIF_RP_ST);
-        break;
-      case 0xa0:                          /* CBM: Shifted Space */
-      case 0xe0:
-        if (!ctrls)
-            fputc (' ', dest);
-        else
+        case 0x00:                          /* 00 for SEQ */
+        case 0x0a:
+        case 0x0d:
+            fputc('\n', dest);
+            break;
+        case 0x40:
+            fputc('@', dest);
+            break;
+        case 0x5b:
+            fputc('[', dest);
+            break;
+        case 0x5c:
+            fputc('\\', dest);
+            break;
+        case 0x5d:
+            fputc(']', dest);
+            break;
+        case 0x5e:
+            fputc('^', dest);
+            break;
+        case 0x5f:
+            fputc('_', dest);
+            break;
+        case 0x60: /* produces the same screencode as $c0! */
             fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
-        break;
-      case 0xff:
-        fputc (0x7e, dest);
-        break;
-
-      default:
-        switch (c & 0xe0) {
-          case 0x40:                /* 41 - 7F */
-          case 0x60:
-            fputc (c ^ 0x20, dest);
             break;
-          case 0xa0:                /* A1 - BF */
-          case 0xe0:                /* E1 - FE */
-            fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, cbmkeys[c & 0x1f]);
+        case 0xc0:
+            fprintf(dest, CLARIF_LP_ST "SHIFT-*" CLARIF_RP_ST);
             break;
-          case 0xc0:                /* C0 - DF */
-            fputc (c ^ 0x80, dest);
+        case 0x7c:
+            fprintf(dest, CLARIF_LP_ST "CBM--" CLARIF_RP_ST); /* Conflicts with Scandinavian Chars */
+            break;
+        case 0x7f:
+            fprintf(dest, CLARIF_LP_ST "CBM-*" CLARIF_RP_ST);
+            break;
+        case 0xa0:                          /* CBM: Shifted Space */
+        case 0xe0:
+            if (!ctrls) {
+                fputc(' ', dest);
+            } else {
+                fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+            }
+            break;
+        case 0xff:
+            fputc(0x7e, dest);
             break;
 
-          default:
-            if (isprint(c))
-               fputc(c, dest);
+        default:
+            switch (c & 0xe0) {
+                case 0x40:                /* 41 - 7F */
+                case 0x60:
+                    fputc(c ^ 0x20, dest);
+                    break;
+                case 0xa0:                /* A1 - BF */
+                case 0xe0:                /* E1 - FE */
+                    fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, cbmkeys[c & 0x1f]);
+                    break;
+                case 0xc0:                /* C0 - DF */
+                    fputc(c ^ 0x80, dest);
+                    break;
 
-            else if (ctrls) {
-              if ((c < 0x20) && *ctrl1[c])
-                 fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl1[c]);
-              else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f])
-                 fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl2[c & 0x1f]);
-              else
-                 fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
-            }  /* ctrls */
-        }  /* switch */
+                default:
+                    if (isprint(c)) {
+                        fputc(c, dest);
+                    } else if (ctrls) {
+                        if ((c < 0x20) && *ctrl1[c]) {
+                            fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl1[c]);
+                        } else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f]) {
+                            fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl2[c & 0x1f]);
+                        } else {
+                            fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+                        }
+                    }  /* ctrls */
+            }  /* switch */
     }  /* switch */
 }
-
-
 
 
 /*
@@ -1568,19 +1711,18 @@ static int p_expand(int version, int addr, int ctrls)
      * next file on stdin intact.
      */
 
-    while ((fread(line, 1, 2, source) == 2) && (/*line[0] ||*/ line[1]) &&
-           fread(line + 2, 1, 2, source) == 2) {
+    while ((fread(line, 1, 2, source) == 2) && (line[1]) && fread(line + 2, 1, 2, source) == 2) {
         quote = 0;
-        fprintf(dest, " %4d ",
-                (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)) );
+        fprintf(dest, " %4d ", (spnum = (line[2] & 0xff) + ((line[3] & 0xff) << 8)));
 
         if (directory) {
-            if (spnum >= 100)
+            if (spnum >= 100) {
                 spnum = 0;
-            else if (spnum >= 10)
+            } else if (spnum >= 10) {
                 spnum = 1;
-            else
+            } else {
                 spnum = 2;
+            }
         }
 
         /* prevent list protection from terminating listing */
@@ -1592,8 +1734,9 @@ static int p_expand(int version, int addr, int ctrls)
         }
 
         do {
-            if (c == 0x22)
+            if (c == 0x22) {
                 quote ^= c;
+            }
 
             /*
              * Simon's basic. Any flag for this is not needed since it is
@@ -1604,8 +1747,9 @@ static int p_expand(int version, int addr, int ctrls)
                 if ((c = getc(source)) < 0x80) {
                     fprintf(dest, "%s", simonskw[c]);
                     continue;
-                } else
+                } else {
                     fprintf(dest, "($64)");     /* it wasn't prefix */
+                }
             }
 
             /* basic 2.0, 7.0 & 10.0 and extensions */
@@ -1622,134 +1766,180 @@ static int p_expand(int version, int addr, int ctrls)
                 }
                 if (version != B_35 && version != B_FC3) {
                     if (c == 0xce) {            /* 'rlum' on V3.5*/
-                        if ((c = getc(source)) <= MAX_KWCE)
+                        if ((c = getc(source)) <= MAX_KWCE) {
                             fprintf(dest,"%s", kwce[c]);
-                        else
+                        } else {
                             fprintf(dest, "($ce%02x)", c);
+                        }
                         continue;
                     } else if (c == 0xfe) {
-                        if ((c = getc(source)) <= MAX_V10FE)
-                            fprintf(dest, "%s", (version==B_71) ? kwfe71[c] : kwfe[c]);
-                        else
-                            fprintf(dest, "($fe%02x)", c);
+                        if (version == B_SXC) {
+                            fprintf(dest, "%s", sxckwfe[c]);
+                        } else {
+                            if ((c = getc(source)) <= MAX_V10FE) {
+                                fprintf(dest, "%s", (version==B_71) ? kwfe71[c] : kwfe[c]);
+                            } else {
+                                fprintf(dest, "($fe%02x)", c);
+                            }
+                        }
                         continue;
                     }
                 }
                 switch (version) {
-                  case B_2:
-                  case B_SUPER:         /* VIC extension */
-                    if (c >= 0xcc && c <= MAX_SECC)
-                        fprintf(dest, "%s", superkwcc[c - 0xcc]);
-                    break;
+                    case B_2:
+                    case B_SUPEREXP:         /* VIC extension */
+                        if (c >= 0xcc && c <= MAX_SECC) {
+                            fprintf(dest, "%s", superexpkwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_TURTLE:        /* VIC extension as well */
-                    if (c >= 0xcc && c <= MAX_TUCC)
-                        fprintf(dest, "%s", turtlekwcc[c - 0xcc]);
-                    break;
+                    case B_TURTLE:        /* VIC extension as well */
+                        if (c >= 0xcc && c <= MAX_TUCC) {
+                            fprintf(dest, "%s", turtlekwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_MIGHTY:        /* VIC Mightyb basic */
-                    if (c >= 0xcc && c <= MAX_MIGHTYCC)
-                        fprintf(dest, "%s", mightykwcc[c - 0xcc]);
-                    break;
+                    case B_MIGHTY:        /* VIC Mightyb basic */
+                        if (c >= 0xcc && c <= MAX_MIGHTYCC) {
+                            fprintf(dest, "%s", mightykwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_MAGIC:
-                    if (c >= 0xcc && c <= MAX_MAGICCC)
-                        fprintf(dest, "%s", magickwcc[c - 0xcc]);
-                    break;
+                    case B_MAGIC:
+                        if (c >= 0xcc && c <= MAX_MAGICCC) {
+                            fprintf(dest, "%s", magickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_EASY:
-                    if (c >= 0xcc && c <= MAX_EASYCC)
-                        fprintf(dest, "%s", easykwcc[c - 0xcc]);
-                    break;
+                    case B_EASY:
+                        if (c >= 0xcc && c <= MAX_EASYCC) {
+                            fprintf(dest, "%s", easykwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_BLARG:
-                    if (c >= 0xe0 && c <= MAX_BLARGE0)
-                        fprintf(dest, "%s", easykwcc[c - 0xe0]);
-                    break;
+                    case B_BLARG:
+                        if (c >= 0xe0 && c <= MAX_BLARGE0) {
+                            fprintf(dest, "%s", blargkwe0[c - 0xe0]);
+                        }
+                        break;
 
-                  case B_GB:
-                    if (c >= 0xcc && c <= MAX_GBCC)
-                        fprintf(dest, "%s", gbkwcc[c - 0xcc]);
-                    break;
+                    case B_SUPERBAS:
+                        if (c >= 0xdb && c <= MAX_SUPERBASDB) {
+                            fprintf(dest, "%s", superbaskwdb[c - 0xdb]);
+                        }
+                        break;
 
-                  case B_SPEECH:        /* C64 Speech basic */
-                    if (c >= 0xcc && c <= MAX_SPECC)
-                        fprintf(dest, "%s", speechkwcc[c - 0xcc]);
-                    break;
+                    case B_EXPBAS:
+                        if (c >= 0xcc && c <= MAX_EXPBASCC) {
+                            fprintf(dest, "%s", expbaskwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_ATBAS:         /* C64 Atbasic */
-                    if (c >= 0xcc && c <= MAX_ATBCC)
-                        fprintf(dest, "%s", atbasickwcc[c - 0xcc]);
-                    break;
+                    case B_GB:
+                        if (c >= 0xcc && c <= MAX_GBCC) {
+                            fprintf(dest, "%s", gbkwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_FC3:           /* C64 FC3 */
-                    if (c >= 0xcc && c <= MAX_FC3CC)
-                        fprintf(dest, "%s", fc3kw[c - 0xcc]);
-                    break;
+                    case B_BSX:
+                        if (c >= 0xcc && c <= MAX_BSXCC) {
+                            fprintf(dest, "%s", bsxkwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_ULTRA:         /* C64 Ultrabasic-64 */
-                    if (c >= 0xcc && c <= MAX_ULTRCC)
-                        fprintf(dest, "%s", ultrabasic64kwcc[c - 0xcc]);
-                    break;
+                    case B_SPEECH:        /* C64 Speech basic */
+                        if (c >= 0xcc && c <= MAX_SPECC) {
+                            fprintf(dest, "%s", speechkwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_GRAPH:
-                    if (c >= 0xcc && c <= MAX_GRAPHCC)
-                        fprintf(dest, "%s", graphicsbasickwcc[c - 0xcc]);
-                    break;
+                    case B_ATBAS:         /* C64 Atbasic */
+                        if (c >= 0xcc && c <= MAX_ATBCC) {
+                            fprintf(dest, "%s", atbasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_WS:
-                    if (c >= 0xcc && c <= MAX_WSCC)
-                        fprintf(dest, "%s", wsbasickwcc[c - 0xcc]);
-                    break;
+                    case B_FC3:           /* C64 FC3 */
+                        if (c >= 0xcc && c <= MAX_FC3CC) {
+                            fprintf(dest, "%s", fc3kw[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_WSF:
-                    if (c >= 0xcc && c <= MAX_WSFCC)
-                        fprintf(dest, "%s", wsfbasickwcc[c - 0xcc]);
-                    break;
+                    case B_ULTRA:         /* C64 Ultrabasic-64 */
+                        if (c >= 0xcc && c <= MAX_ULTRCC) {
+                            fprintf(dest, "%s", ultrabasic64kwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_PEG:
-                    if (c >= 0xcc && c <= MAX_PEGCC)
-                        fprintf(dest, "%s", pegbasickwcc[c - 0xcc]);
-                    break;
+                    case B_GRAPH:
+                        if (c >= 0xcc && c <= MAX_GRAPHCC) {
+                            fprintf(dest, "%s", graphicsbasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_X:
-                    if (c >= 0xcc && c <= MAX_XCC)
-                        fprintf(dest, "%s", xbasickwcc[c - 0xcc]);
-                    break;
+                    case B_WS:
+                        if (c >= 0xcc && c <= MAX_WSCC) {
+                            fprintf(dest, "%s", wsbasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_DRAGO:
-                    if (c >= 0xcc && c <= MAX_DRAGOCC)
-                        fprintf(dest, "%s", dragobasickwcc[c - 0xcc]);
-                    break;
+                    case B_WSF:
+                        if (c >= 0xcc && c <= MAX_WSFCC) {
+                            fprintf(dest, "%s", wsfbasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_REU:
-                    if (c >= 0xcc && c <= MAX_REUCC)
-                        fprintf(dest, "%s", reubasickwcc[c - 0xcc]);
-                    break;
+                    case B_PEG:
+                        if (c >= 0xcc && c <= MAX_PEGCC) {
+                            fprintf(dest, "%s", pegbasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_BASL:
-                    if (c >= 0xcc && c <= MAX_BASLCC)
-                        fprintf(dest, "%s", baslkwcc[c - 0xcc]);
-                    break;
+                    case B_X:
+                        if (c >= 0xcc && c <= MAX_XCC) {
+                            fprintf(dest, "%s", xbasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_4:             /* PET V4.0 */
-                  case B_4E:            /* V4.0 extension */
-                    if (c >= 0xcc && c <= MAX_4ECC)
-                        fprintf(dest, "%s", petkwcc[c - 0xcc]);
-                    break;
+                    case B_DRAGO:
+                        if (c >= 0xcc && c <= MAX_DRAGOCC) {
+                            fprintf(dest, "%s", dragobasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_VIC4:
-                    if (c >= 0xcc && c <= MAX_VIC4)
-                        fprintf(dest, "%s", vic4kwcc[c - 0xcc]);
-                    break;
+                    case B_REU:
+                        if (c >= 0xcc && c <= MAX_REUCC) {
+                            fprintf(dest, "%s", reubasickwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  case B_VIC5:
-                    if (c >= 0xcc && c <= MAX_VIC5)
-                        fprintf(dest, "%s", vic5kwcc[c - 0xcc]);
-                    break;
+                    case B_BASL:
+                        if (c >= 0xcc && c <= MAX_BASLCC) {
+                            fprintf(dest, "%s", baslkwcc[c - 0xcc]);
+                        }
+                        break;
 
-                  default:              /* C128 */
-                    fprintf(dest, "%s", keyword[c & 0x7f]);
+                    case B_4:             /* PET V4.0 */
+                    case B_4E:            /* V4.0 extension */
+                        if (c >= 0xcc && c <= MAX_4ECC) {
+                            fprintf(dest, "%s", petkwcc[c - 0xcc]);
+                        }
+                        break;
+
+                    case B_VIC4:
+                        if (c >= 0xcc && c <= MAX_VIC4) {
+                            fprintf(dest, "%s", vic4kwcc[c - 0xcc]);
+                        }
+                        break;
+
+                    case B_VIC5:
+                        if (c >= 0xcc && c <= MAX_VIC5) {
+                            fprintf(dest, "%s", vic5kwcc[c - 0xcc]);
+                        }
+                        break;
+
+                    default:              /* C128 */
+                        fprintf(dest, "%s", keyword[c & 0x7f]);
                 }
                 continue;
             } /* quote */
@@ -1767,8 +1957,7 @@ static int p_expand(int version, int addr, int ctrls)
     }      /* line */
 
 #ifdef DEBUG
-    printf("\n c %02x  EOF %d  *line %d  sysflg %d\n",
-           c, feof(source), *line, sysflg);
+    printf("\n c %02x  EOF %d  *line %d  sysflg %d\n", c, feof(source), *line, sysflg);
 #endif
 
     return (!feof(source) && (*line | line[1]) && sysflg);
@@ -1800,8 +1989,8 @@ static int p_expand(int version, int addr, int ctrls)
 
 static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
-    static char line[MAX_INLINE_LEN+1];
-    static char tokenizedline[MAX_OUTLINE_LEN+1];
+    static char line[MAX_INLINE_LEN + 1];
+    static char tokenizedline[MAX_OUTLINE_LEN + 1];
     unsigned char *p1, *p2, quote, c;
     unsigned char rem_data_mode, rem_data_endchar = '\0';
     int len = 0, match;
@@ -1815,33 +2004,41 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
         /*
         iAN: skip comment line when starting with ";"
         */
-        if (*line==';')
+        if (*line == ';') {
             continue;
+        }
 
 	memset(tokenizedline, 0, MAX_OUTLINE_LEN);
 	p1 = (unsigned char *)tokenizedline;
 
 #ifndef GEMDOS
-        if (sscanf(line, "%d%n", &linum, &len) == 1)
+        if (sscanf(line, "%d%n", &linum, &len) == 1) {
             p2 += len;
+        }
 #else
-        if (sscanf(line, "%d", &linum) == 1)
-            while (isspace(*p2) || isdigit(*p2)) p2++;
+        if (sscanf(line, "%d", &linum) == 1) {
+            while (isspace(*p2) || isdigit(*p2)) {
+                p2++;
+            }
+        }
 #endif
 
 #ifdef DEBUG
-	fprintf(stderr,"line: %d [%s]\n",linum,line);
+	fprintf(stderr, "line: %d [%s]\n", linum, line);
 #endif
         quote = 0;
         rem_data_mode = 0;
-        while (isspace(*p2)) p2++;
+        while (isspace(*p2)) {
+            p2++;
+        }
 
         while (*p2) {
             if (*p2 == 0x22) {
                 quote ^= *p2;
             }
-            if (*p2 == 0x0a || *p2 == 0x0d)
+            if (*p2 == 0x0a || *p2 == 0x0d) {
                 break;
+            }
 
             match = 0;
             if (quote) {
@@ -1856,7 +2053,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     p = p2;
 
 #ifdef DEBUG
-	fprintf(stderr,"controlcode start: %c\n", *p2);
+                    fprintf(stderr, "controlcode start: %c\n", *p2);
 #endif
 
                     /* repetition count */
@@ -1980,20 +2177,56 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             else if (isalpha(*p2) || strchr("+-*/^>=<", *p2)) {
 
                 /* FE and CE prefixes are checked first */
-                if (version == B_7 || version == B_71 || version == B_10) {
-                    if ((c = sstrcmp(p2, kwfe, 2,
-                        ((version == B_10)
-                        ? NUM_V10FE : ((version == B_71) ? NUM_V71FE : NUM_V7FE)))) != KW_NONE) {
-                        *p1++ = 0xfe;
-                        *p1++ = c;
-                        p2 += kwlen;
-                        match++;
-                    }
-                    else if ((c = sstrcmp(p2, kwce, 2, NUM_KWCE)) != KW_NONE) {
-                        *p1++ = 0xce;
-                        *p1++ = c;
-                        p2 += kwlen;
-                        match++;
+                if (version == B_7 || version == B_71 || version == B_10 || version == B_SXC) {
+                    switch (version) {
+                        case B_10:
+                            if ((c = sstrcmp(p2, kwfe, 2, NUM_V10FE)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            } else if ((c = sstrcmp(p2, kwce, 2, NUM_KWCE)) != KW_NONE) {
+                                *p1++ = 0xce;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            }
+                            break;
+                        case B_71:
+                            if ((c = sstrcmp(p2, kwfe, 2, NUM_V71FE)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            } else if ((c = sstrcmp(p2, kwce, 2, NUM_KWCE)) != KW_NONE) {
+                                *p1++ = 0xce;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            }
+                            break;
+                        case B_7:
+                            if ((c = sstrcmp(p2, kwfe, 2, NUM_V7FE)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            } else if ((c = sstrcmp(p2, kwce, 2, NUM_KWCE)) != KW_NONE) {
+                                *p1++ = 0xce;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            }
+                            break;
+                        case B_SXC:
+                            if ((c = sstrcmp(p2, sxckwfe, 2, NUM_SXCFE)) != KW_NONE) {
+                                *p1++ = 0xfe;
+                                *p1++ = c;
+                                p2 += kwlen;
+                                match++;
+                            }
+                            break;
+                       
                     }
                 }
 
@@ -2006,7 +2239,7 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                     if (version == B_1)
                         max = NUM_B_1;
-                    else if (version==B_35 || version==B_7 || version==B_71 || version==B_10)
+                    else if (version==B_35 || version==B_7 || version==B_71 || version==B_10 || version==B_SXC)
                         max = 0x7E;
                     else
                         max = NUM_COMM;
@@ -2036,8 +2269,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                 if (!match)
                   switch (version) {
-                  case B_SUPER:
-                    if ((c = sstrcmp(p2, superkwcc, 0, NUM_SECC)) != KW_NONE) {
+                  case B_SUPEREXP:
+                    if ((c = sstrcmp(p2, superexpkwcc, 0, NUM_SECC)) != KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;
@@ -2068,8 +2301,32 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     }
                     break;
 
+                  case B_SUPERBAS:
+                    if ((c = sstrcmp(p2, superbaskwdb, 0, NUM_SUPERBASDB)) !=KW_NONE) {
+                        *p1++ = c + 0xdb;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_EXPBAS:
+                    if ((c = sstrcmp(p2, expbaskwcc, 0, NUM_EXPBASCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
                   case B_GB:
                     if ((c = sstrcmp(p2, gbkwcc, 0, NUM_GBCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p1 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_BSX:
+                    if ((c = sstrcmp(p2, bsxkwcc, 0, NUM_BSXCC)) !=KW_NONE) {
                         *p1++ = c + 0xcc;
                         p1 += kwlen;
                         match++;
@@ -2392,9 +2649,4 @@ void system_mbstowcs_free(char *wcs)
 
 void archdep_ui_init(int argc, char *argv[])
 {
-}
-
-const char *machine_get_name(void)
-{
-    return machine_name;
 }
