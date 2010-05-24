@@ -202,6 +202,7 @@ const uint32 MENU_MAXIMUM_SPEED_200               = 'M136';
 const uint32 MENU_SYNC_FACTOR_PAL                 = 'M140';
 const uint32 MENU_SYNC_FACTOR_NTSC                = 'M141';
 const uint32 MENU_SYNC_FACTOR_NTSCOLD             = 'M142';
+const uint32 MENU_SYNC_FACTOR_PALN                = 'M143';
 
 const uint32 MENU_DRIVE_SETTINGS                  = 'M200';
 const uint32 MENU_DEVICE_SETTINGS                 = 'M201';

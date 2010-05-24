@@ -77,6 +77,8 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
             value = MACHINE_SYNC_NTSC;
         } else if (value == MACHINE_SYNC_NTSC) {
             value = MACHINE_SYNC_NTSCOLD;
+        } else if (value == MACHINE_SYNC_NTSCOLD)
+            value = MACHINE_SYNC_PALN;
         } else {
             value = MACHINE_SYNC_PAL;
         }
@@ -91,6 +93,8 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
             return "NTSC-M";
         case MACHINE_SYNC_NTSCOLD:
             return "old NTSC-M";
+        case MACHINE_SYNC_PALN:
+            return "PAL-N";
         default:
             return "(Custom)";
     }

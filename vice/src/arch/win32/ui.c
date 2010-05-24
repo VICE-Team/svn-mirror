@@ -191,6 +191,7 @@ static const ui_res_possible_values_t SyncFactor[] = {
     { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
     { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
     { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
+    { MACHINE_SYNC_PALN, IDM_SYNC_FACTOR_PALN },
     { -1, 0 }
 };
 

@@ -610,18 +610,21 @@ void machine_change_timing(int timeval)
         case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
         case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
         case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
             timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
             border_mode = VICII_NORMAL_BORDERS;
             break;
         case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
         case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
         case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
             timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
             border_mode = VICII_FULL_BORDERS;
             break;
         case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
         case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
         case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
             timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
             border_mode = VICII_DEBUG_BORDERS;
             break;
@@ -648,6 +651,13 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C64_NTSCOLD_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_NTSCOLD_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_NTSCOLD_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_PALN:
+            machine_timing.cycles_per_sec = C64_PALN_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C64_PALN_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C64_PALN_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C64_PALN_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C64_PALN_SCREEN_LINES;
             break;
         default:
             log_error(c64_log, "Unknown machine timing.");

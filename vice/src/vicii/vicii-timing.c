@@ -40,6 +40,7 @@
 #define VICII_PAL_SCREEN_HEIGHT                      312
 #define VICII_NTSC_SCREEN_HEIGHT                     263
 #define VICII_NTSCOLD_SCREEN_HEIGHT                  262
+#define VICII_PALN_SCREEN_HEIGHT                     312
 
 /* Sideborder sizes */
 #define VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH      0x20
@@ -62,6 +63,13 @@
 #define VICII_SCREEN_NTSCOLD_FULL_RIGHTBORDERWIDTH   0x2c
 #define VICII_SCREEN_NTSCOLD_DEBUG_LEFTBORDERWIDTH   0x88
 #define VICII_SCREEN_NTSCOLD_DEBUG_RIGHTBORDERWIDTH  0x38
+
+#define VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH     0x20
+#define VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH    0x20
+#define VICII_SCREEN_PALN_FULL_LEFTBORDERWIDTH       0x30 /* actually 0x2e, but must be divisible by 8 */
+#define VICII_SCREEN_PALN_FULL_RIGHTBORDERWIDTH      0x24
+#define VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH      0x88
+#define VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH     0x30
 
 /* Y display ranges */
 /* Note: If the last displayed line setting is larger than */
@@ -88,19 +96,29 @@
 #define VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE     0x14
 #define VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE      0x119
 
+#define VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE       0x10
+#define VICII_PALN_NORMAL_LAST_DISPLAYED_LINE        0x11f
+#define VICII_PALN_FULL_FIRST_DISPLAYED_LINE         0x08
+#define VICII_PALN_FULL_LAST_DISPLAYED_LINE          0x12c
+#define VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE        0x00
+#define VICII_PALN_DEBUG_LAST_DISPLAYED_LINE         0x137
+
 /* Number of cycles per line.  */
 #define VICII_PAL_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
 #define VICII_NTSC_CYCLES_PER_LINE     C64_NTSC_CYCLES_PER_LINE
 #define VICII_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
+#define VICII_PALN_CYCLES_PER_LINE     C64_PALN_CYCLES_PER_LINE
 
 /* Cycle # at which sprite DMA is set.  */
 #define VICII_PAL_SPRITE_FETCH_CYCLE       54
 #define VICII_NTSC_SPRITE_FETCH_CYCLE      55
 #define VICII_NTSCOLD_SPRITE_FETCH_CYCLE   54
+#define VICII_PALN_SPRITE_FETCH_CYCLE      55
 
 #define VICII_PAL_SPRITE_WRAP_X     504
 #define VICII_NTSC_SPRITE_WRAP_X    520
 #define VICII_NTSCOLD_SPRITE_WRAP_X 512
+#define VICII_PALN_SPRITE_WRAP_X    520
 
 /* Cycle # at which the current raster line is re-drawn.  It is set to
    `VICII_CYCLES_PER_LINE', so this actually happens at the very beginning
@@ -108,6 +126,7 @@
 #define VICII_PAL_DRAW_CYCLE       VICII_PAL_CYCLES_PER_LINE
 #define VICII_NTSC_DRAW_CYCLE      VICII_NTSC_CYCLES_PER_LINE
 #define VICII_NTSCOLD_DRAW_CYCLE   VICII_NTSCOLD_CYCLES_PER_LINE
+#define VICII_PALN_DRAW_CYCLE      VICII_PALN_CYCLES_PER_LINE
 
 /* Common parameters for all video standards */
 #define VICII_25ROW_START_LINE    0x33
@@ -183,6 +202,34 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
         vicii.sprite_fetch_cycle = VICII_NTSCOLD_SPRITE_FETCH_CYCLE;
         vicii.sprite_wrap_x = VICII_NTSCOLD_SPRITE_WRAP_X;
         break;
+      case MACHINE_SYNC_PALN:
+        vicii.screen_height = VICII_PALN_SCREEN_HEIGHT;
+        switch (border_mode) {
+          default:
+          case VICII_NORMAL_BORDERS:
+            vicii.screen_leftborderwidth = VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH;
+            vicii.screen_rightborderwidth = VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH;
+            vicii.first_displayed_line = VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE;
+            vicii.last_displayed_line = VICII_PALN_NORMAL_LAST_DISPLAYED_LINE;
+            break;
+          case VICII_FULL_BORDERS:
+            vicii.screen_leftborderwidth = VICII_SCREEN_PALN_FULL_LEFTBORDERWIDTH;
+            vicii.screen_rightborderwidth = VICII_SCREEN_PALN_FULL_RIGHTBORDERWIDTH;
+            vicii.first_displayed_line = VICII_PALN_FULL_FIRST_DISPLAYED_LINE;
+            vicii.last_displayed_line = VICII_PALN_FULL_LAST_DISPLAYED_LINE;
+            break;
+          case VICII_DEBUG_BORDERS:
+            vicii.screen_leftborderwidth = VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH;
+            vicii.screen_rightborderwidth = VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH;
+            vicii.first_displayed_line = VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE;
+            vicii.last_displayed_line = VICII_PALN_DEBUG_LAST_DISPLAYED_LINE;
+            break;
+        }
+        vicii.cycles_per_line = VICII_PALN_CYCLES_PER_LINE;
+        vicii.draw_cycle = VICII_PALN_DRAW_CYCLE;
+        vicii.sprite_fetch_cycle = VICII_PALN_SPRITE_FETCH_CYCLE;
+        vicii.sprite_wrap_x = VICII_PALN_SPRITE_WRAP_X;
+        break;
       case MACHINE_SYNC_PAL:
       default:
         vicii.screen_height = VICII_PAL_SCREEN_HEIGHT;
@@ -221,7 +268,7 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
     vicii.row_24_start_line = VICII_24ROW_START_LINE;
     vicii.row_24_stop_line = VICII_24ROW_STOP_LINE;
 
-   vicii.raster.display_xstart = VICII_40COL_START_PIXEL;
+    vicii.raster.display_xstart = VICII_40COL_START_PIXEL;
     vicii.raster.display_xstop = VICII_40COL_STOP_PIXEL;
 
     vicii_sprites_init_sprline();

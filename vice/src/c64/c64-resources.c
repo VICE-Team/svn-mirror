@@ -222,6 +222,12 @@ static int set_sync_factor(int val, void *param)
                 machine_change_timing(MACHINE_SYNC_NTSCOLD ^ border_mode);
             }
             break;
+        case MACHINE_SYNC_PALN:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_PALN ^ border_mode);
+            }
+            break;
         default:
             return -1;
     }

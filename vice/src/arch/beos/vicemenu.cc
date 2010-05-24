@@ -328,6 +328,7 @@ BMenuBar *menu_create(int machine_class)
 
     if (machine_class == VICE_MACHINE_C64) {
             menu->AddItem(new BMenuItem("Old NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
+            menu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_SYNC_FACTOR_PALN)));
     }
 
     if (machine_class == VICE_MACHINE_PET ||
