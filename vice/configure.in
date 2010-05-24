@@ -2292,10 +2292,16 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
                  [ X_LIBS="-lXext $X_LIBS";
                    LINK_X_LIBS="-lXext $LINK_X_LIBS"],,$X_LIBS)
 
-    PKG_CHECK_MODULES(XEXT, [xextproto >= 7.0.99.1],
-                HAVE_XEXTPROTO_71="yes"; AC_DEFINE(HAVE_XEXTPROTO_71, 1, [xextproto 7.1 available]),
-                HAVE_XEXTPROTO_71="no")
-    AM_CONDITIONAL(HAVE_XEXTPROTO_71, [ test "$HAVE_XEXTPROTO_71" = "yes" ])
+    dnl the solution to the X_ShmAttach prototype split can be much simpler
+    dnl without involving the pkgconfig requirement, relying on pkgconfig
+    dnl for simple header checks could lead to the 'problem' not being 'caught'
+    dnl if pkgconfig is not installed.
+
+    dnl since xext 7.1 and up have the shmproto.h file and lower versions
+    dnl don't have the file we just check for the header and set the define
+    dnl when the header is present.
+
+    AC_CHECK_HEADERS(X11/extensions/shmproto.h)
 
     AC_MSG_CHECKING(for X11/extensions/Xvlib.h)
     AC_TRY_LINK([#include <X11/Xlib.h>
@@ -2495,11 +2501,6 @@ unsigned long test; ],
   AC_SUBST(WINDRES)
 
   AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
-fi
-
-dnl Handle the xextproto conditinal for the systems that don't use it
-if test x"$is_unix_x11" != "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_gnomeui" = "xyes"; then
-    AM_CONDITIONAL(HAVE_XEXTPROTO_71, false)
 fi
 
 dnl CBM4Linux/OpenCBM

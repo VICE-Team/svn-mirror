@@ -40,6 +40,9 @@
 #include <X11/keysym.h>
 
 #ifdef USE_MITSHM
+#ifdef HAVE_X11_EXTENSIONS_SHMPROTO_H
+#include <X11/extensions/shmproto.h>
+#endif
 #include <X11/extensions/XShm.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>

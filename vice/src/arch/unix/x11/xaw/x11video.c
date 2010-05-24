@@ -96,10 +96,6 @@ static log_t x11video_log = LOG_ERR;
 #endif
 
 #ifdef USE_MITSHM
-#ifdef HAVE_XEXTPROTO_71
-#include <X11/extensions/shmproto.h>
-#include <X11/extensions/XShm.h>
-#endif
 extern int shmhandler(Display* display, XErrorEvent* err);
 extern int mitshm_failed; /* will be set to true if XShmAttach() failed */
 extern int shmmajor;          /* major number of MITSHM error codes */
