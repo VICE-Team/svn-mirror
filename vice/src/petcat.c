@@ -2650,3 +2650,8 @@ void system_mbstowcs_free(char *wcs)
 void archdep_ui_init(int argc, char *argv[])
 {
 }
+
+const char *machine_get_name(void)
+{
+    return machine_name;
+}
