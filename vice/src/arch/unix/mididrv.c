@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_MIDI
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -684,3 +686,4 @@ int mididrv_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
+#endif

@@ -38,6 +38,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_RS232
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -473,3 +475,4 @@ enum rs232handshake_in rs232_get_status(int fd)
 void rs232_set_bps(int fd, unsigned int bps)
 {
 }
+#endif

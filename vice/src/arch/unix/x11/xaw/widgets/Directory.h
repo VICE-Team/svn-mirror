@@ -256,6 +256,7 @@ typedef DIR_ENTRY DirEntry;
 
 int DirectoryOpen();
 void DirectoryClose();
+void DirectoryRestart();
 int DirectoryReadNextEntry();
 char *DirectoryPathExpand();
 void DirEntryDump();
@@ -264,6 +265,7 @@ void DirEntryDump();
 
 int DirectoryOpen(char *dir_name, Directory *dp);
 void DirectoryClose(Directory *dp);
+void DirectoryRestart(Directory *dp);
 int DirectoryReadNextEntry(Directory *dp, DirEntry *de);
 char *DirectoryPathExpand(char *old_path, char *new_path);
 void DirEntryDump(FILE *fp, DirEntry *de);

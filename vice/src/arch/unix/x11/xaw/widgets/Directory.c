@@ -36,6 +36,14 @@
 #define lstat stat
 #endif
 
+#ifndef HAVE_REWINDDIR
+void rewinddir(DIR *dir)
+{
+    lseek(dir->dd_fd, 0, SEEK_SET);
+    dir->dd_size = 0;
+}
+#endif
+
 /*--------------------------------------------------------------------------*
 
         L O W    L E V E L    D I R E C T O R Y    I N T E R F A C E

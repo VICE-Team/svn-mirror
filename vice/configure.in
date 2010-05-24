@@ -47,6 +47,7 @@ is_win32_x11=no
 is_riscos=no
 is_os2=no
 is_beos=no
+is_beos_x11=no
 is_amiga=no
 
 dnl Try to find out which system we are on...
@@ -226,6 +227,14 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
   if test x"$with_x" = "xyes"; then
     host_os=cygwin-x11
     is_win32_x11=yes
+  fi
+fi
+
+if test x"$host_os" = "xbeos"; then
+  if test x"$with_x" = "xyes"; then
+    host_os=x11beos
+    is_beos_x11=yes
+    is_unix=yes
   fi
 fi
 
@@ -545,6 +554,9 @@ dnl All other UN*X systems
   esac
 
   case "$host" in
+    *x11beos*)
+      LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
+      ;;
     alpha*-*-linux*)
       if test x"$CC" = "xccc"; then
         echo "Using Compaq C Compiler cflags."
@@ -635,11 +647,12 @@ dnl All other UN*X systems
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
-  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
-
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-  AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
+  if test x"$is_beos_x11" != "xyes"; then
+    AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
+    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  fi
 
   AC_CHECK_HEADER(linux/hardsid.h,
       [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.]) ],)
@@ -1919,7 +1932,7 @@ if test x"$is_win32" = "xyes"; then
     fi
 fi
 
-if [[ x"$is_beos" = "xyes" ]] ; then
+if test x"$is_beos" = "xyes" -o x"$is_beos_x11" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o"
 fi
 
@@ -2047,7 +2060,7 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid rewinddir)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have strdup_func=no])
 
 if test x"$have_strdup_func" = "xno"; then
@@ -2172,7 +2185,7 @@ VICE_LIBPNG_INCLUDES=
 old_LIBS="$LIBS"
 GFXOUTPUT_LIBS=
 
-if test x"$is_beos" != "xyes"; then
+if test x"$is_beos" != "xyes" -a x"$is_beos_x11" != "xyes"; then
   if test x"$with_png" != "xno" ; then
     dnl Check for the PNG library.
     AC_CHECK_HEADER(png.h,,)

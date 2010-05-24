@@ -29,6 +29,10 @@
 #include <stdio.h>
 #include <signal.h>
 
+#ifdef __BEOS__
+#include <sys/utsname.h>
+#endif
+
 #include "log.h"
 #include "machine.h"
 #include "main.h"
@@ -53,3 +57,18 @@ void main_exit(void)
 
     putchar('\n');
 }
+
+#ifdef __BEOS__
+/* this check is needed for haiku, since it always returns 1 on
+   SupportsWindowMode() */
+int CheckForHaiku(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    if (!strncasecmp(name.sysname, "Haiku", 5)) {
+        return -1;
+    }
+    return 0;
+}
+#endif
