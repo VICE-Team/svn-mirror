@@ -40,6 +40,7 @@
 #include "menu_network.h"
 #include "menu_petcart.h"
 #include "menu_pethw.h"
+#include "menu_printer.h"
 #include "menu_reset.h"
 #include "menu_screenshot.h"
 #include "menu_settings.h"
@@ -71,6 +72,10 @@ static const ui_menu_entry_t xpet_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)petcart_menu },
+    { "Printer",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)printer_ieee_menu },
     { "Machine settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

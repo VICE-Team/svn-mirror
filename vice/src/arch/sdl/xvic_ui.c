@@ -40,6 +40,7 @@
 #include "menu_help.h"
 #include "menu_midi.h"
 #include "menu_network.h"
+#include "menu_printer.h"
 #include "menu_reset.h"
 #include "menu_screenshot.h"
 #include "menu_settings.h"
@@ -75,6 +76,10 @@ static const ui_menu_entry_t xvic_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vic20cart_menu },
+    { "Printer",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)printer_iec_menu },
     { "Machine settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

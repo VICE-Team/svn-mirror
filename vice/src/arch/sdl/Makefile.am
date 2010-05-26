@@ -96,6 +96,8 @@ libarch_a_SOURCES = \
 	menu_plus4cart.h \
 	menu_plus4hw.c \
 	menu_plus4hw.h \
+	menu_printer.c \
+	menu_printer.h \
 	menu_ram.c \
 	menu_ram.h \
 	menu_reset.c \
