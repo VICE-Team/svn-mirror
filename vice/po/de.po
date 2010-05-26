@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-22 20:36+0200\n"
-"PO-Revision-Date: 2010-04-09 22:11+0200\n"
+"PO-Revision-Date: 2010-05-26 18:37+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -486,9 +486,8 @@ msgid "256K RAM Expansion"
 msgstr "256K RAM Erweiterung"
 
 #: src/arch/unix/gui/c64ui.c:294
-#, fuzzy
 msgid "MMC Replay emulation"
-msgstr "MMC64 Emulation"
+msgstr "MMC Replay Emulation"
 
 #: src/arch/unix/gui/c64ui.c:391 src/arch/unix/gui/petui.c:336
 msgid "I/O extensions"
@@ -1117,12 +1116,10 @@ msgid "Attach Structured Basic image..."
 msgstr "Erweiterungsmodul Structured Basic einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:174
-#, fuzzy
 msgid "Attach MMC Replay image..."
-msgstr "Retro Replay Image einlegen..."
+msgstr "MMC Replay Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:178
-#, fuzzy
 msgid "Expert cartridge"
 msgstr "Expert Cartridge"
 
@@ -2279,9 +2276,8 @@ msgid "MMC64 image name..."
 msgstr "MMC64 Image Name..."
 
 #: src/arch/unix/gui/uimmc64.c:89
-#, fuzzy
 msgid "*MMC64 card type"
-msgstr "Midi Modul Type"
+msgstr "*MMC64 Modul Type"
 
 #: src/arch/unix/gui/uimouse.c:46
 msgid "*Paddles"
@@ -4395,14 +4391,12 @@ msgid "Set Y Axis Threshold in Percent of HID B device"
 msgstr "Setze Schwellwert für Y Achse in Prozent für Gerät HID B"
 
 #: src/arch/unix/macosx/joy.c:374
-#, fuzzy
 msgid "Set Hat Switch for Joystick of HID A device"
-msgstr "Setze X Achse für Gerät HID A"
+msgstr "Setze Hat-Schalter für Gerät HID A"
 
 #: src/arch/unix/macosx/joy.c:379
-#, fuzzy
 msgid "Set Hat Switch for Joystick of HID B device"
-msgstr "Setze X Achse für Gerät HID B"
+msgstr "Setze Hat-Schalter für Gerät HID B"
 
 #: src/arch/unix/macosx/mididrv.c:118
 msgid "Name of MIDI Client"
@@ -6416,9 +6410,8 @@ msgid "&Grab mouse events"
 msgstr "Maus Ereignisse abfan&gen"
 
 #: src/arch/win32/res.rc.po.c:1402
-#, fuzzy
 msgid "&C64 model settings..."
-msgstr "&MMC64 Einstellungen..."
+msgstr "&C64 Modell Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1403
 msgid "&Autostart settings..."
@@ -7241,60 +7234,52 @@ msgid "&Old NTSC-M"
 msgstr "NTSC-M alt"
 
 #: src/arch/win32/resc64.rc.po.c:481
-#, fuzzy
 msgid "C64 model settings"
-msgstr "PET Modell Einstellungen"
+msgstr "C64 Modell Einstellungen"
 
 #: src/arch/win32/resc64.rc.po.c:483
-#, fuzzy
 msgid "C64 model"
-msgstr "C64 Modus Kernal"
+msgstr "C64 Modell"
 
 #: src/arch/win32/resc64.rc.po.c:487
-#, fuzzy
 msgid "VIC-II model"
-msgstr "SID Modell"
+msgstr "VIC-II Modell"
 
 #: src/arch/win32/resc64.rc.po.c:491
-#, fuzzy
 msgid "New luminances"
 msgstr "Neue Helligkeitsemulation"
 
 #: src/arch/win32/resc64.rc.po.c:497
 msgid "CIA1"
-msgstr ""
+msgstr "CIA1"
 
 #: src/arch/win32/resc64.rc.po.c:499 src/arch/win32/resc64.rc.po.c:505
-#, fuzzy
 msgid "6526 (old)"
-msgstr "6581 (alt)"
+msgstr "6526 (alt)"
 
 #: src/arch/win32/resc64.rc.po.c:501 src/arch/win32/resc64.rc.po.c:507
-#, fuzzy
 msgid "6526A (new)"
-msgstr "8580 (neu)"
+msgstr "6526A (neu)"
 
 #: src/arch/win32/resc64.rc.po.c:503
 msgid "CIA2"
-msgstr ""
+msgstr "CIA2"
 
 #: src/arch/win32/resc64.rc.po.c:509
 msgid "Glue logic"
-msgstr ""
+msgstr "Glue Logik"
 
 #: src/arch/win32/resc64.rc.po.c:511
-#, fuzzy
 msgid "Discrete"
-msgstr "Verbindung Trennen"
+msgstr "Diskret"
 
 #: src/arch/win32/resc64.rc.po.c:513
-#, fuzzy
 msgid "Custom IC"
-msgstr "Benutzerdefiniert"
+msgstr "Benutzerdefinierte IC"
 
 #: src/arch/win32/resc64.rc.po.c:515
 msgid "Okay"
-msgstr ""
+msgstr "Okay"
 
 #: src/arch/win32/resc64.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:1007
 msgid "Netplay (experimental)..."
@@ -11355,14 +11340,12 @@ msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "16KB Westermann learning (raw) Image einlegen"
 
 #: src/translate_text.c.po.c:4221
-#, fuzzy
 msgid "Attach raw 256KB Prophet 64 cartridge image"
-msgstr "64KB IDE64 Image einlegen"
+msgstr "256KB Prophet 64 Erweiterungsmodul Image einlegen"
 
 #: src/translate_text.c.po.c:4235
-#, fuzzy
 msgid "Attach raw 8KB Game Killer cartridge image"
-msgstr "8KB Erweiterungsmodul (raw) Image einlegen"
+msgstr "8KB Game Killer Erweiterungsmodul (raw) Image einlegen"
 
 #: src/translate_text.c.po.c:4249
 msgid "Enable expert cartridge"
