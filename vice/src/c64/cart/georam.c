@@ -295,6 +295,7 @@ int georam_resources_init(void)
 void georam_resources_shutdown(void)
 {
     lib_free(georam_filename);
+    georam_filename = NULL;
 }
 
 /* ------------------------------------------------------------------------- */

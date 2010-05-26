@@ -491,6 +491,7 @@ int reu_resources_init(void)
 void reu_resources_shutdown(void)
 {
     lib_free(reu_filename);
+    reu_filename = NULL;
 }
 
 /* ------------------------------------------------------------------------- */

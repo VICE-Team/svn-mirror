@@ -214,6 +214,7 @@ int dqbb_resources_init(void)
 void dqbb_resources_shutdown(void)
 {
     lib_free(dqbb_filename);
+    dqbb_filename = NULL;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -767,6 +767,8 @@ void mmc64_resources_shutdown(void)
 {
     lib_free(mmc64_bios_filename);
     lib_free(mmc64_image_filename);
+    mmc64_bios_filename = NULL;
+    mmc64_image_filename = NULL;
 }
 
 /* ------------------------------------------------------------------------- */

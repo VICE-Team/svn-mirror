@@ -335,6 +335,7 @@ int ramcart_resources_init(void)
 void ramcart_resources_shutdown(void)
 {
     lib_free(ramcart_filename);
+    ramcart_filename = NULL;
 }
 
 /* ------------------------------------------------------------------------- */

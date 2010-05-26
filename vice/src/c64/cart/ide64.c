@@ -280,6 +280,7 @@ int ide64_resources_init(void)
 int ide64_resources_shutdown(void)
 {
     lib_free(ide64_image_file);
+    ide64_image_file = NULL;
 
     return 0;
 }

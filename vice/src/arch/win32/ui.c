@@ -128,6 +128,7 @@ static const ui_menu_toggle_by_machine_t grayed_list_machine[] = {
     { VICE_MACHINE_C64SC, IDM_SYNC_FACTOR_PAL },
     { VICE_MACHINE_C64SC, IDM_SYNC_FACTOR_NTSC },
     { VICE_MACHINE_C64SC, IDM_SYNC_FACTOR_NTSCOLD },
+    { VICE_MACHINE_C64, IDM_C64MODEL_SETTINGS },
     { 0, 0 }
 };
 
