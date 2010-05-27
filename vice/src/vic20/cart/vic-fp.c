@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marko Makela <marko.makela@iki.fi>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  * based on megacart.c by Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -34,15 +35,17 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "cartridge.h"
+#include "flash040.h"
 #include "lib.h"
 #include "machine.h"
-#include "vic-fp.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+#include "vic-fp.h"
 #include "vic20cart.h"
 #include "vic20cartmem.h"
 #include "vic20mem.h"
@@ -92,6 +95,8 @@ static BYTE cart_bank_reg;
 static BYTE cart_cfg_reg;
 
 /* Cartridge States */
+/** Flash state */
+static flash040_context_t flash_state;
 /** configuration register enabled */
 static int cfg_en_flop;
 /** RAM at RAM123 enabled */
@@ -101,19 +106,19 @@ static int blk1_en_flop;
 /** RAM at BLK5 instead of ROM */
 static int ram5_flop;
 
-#define CART_CFG_INIT(value) do {               \
-    cart_cfg_reg = value & CART_CFG_MASK;       \
-    cfg_en_flop = CART_CFG_ENABLE;              \
-    ram123_en_flop = CART_CFG_RAM123;           \
-    blk1_en_flop = CART_CFG_BLK1;               \
-    ram5_flop = CART_CFG_BLK5_RAM;              \
-    cart_rom_bank = &cart_rom[CART_CFG_A21<<21];\
+#define CART_CFG_INIT(value) do {                        \
+    cart_cfg_reg = value & CART_CFG_MASK;                \
+    cfg_en_flop = CART_CFG_ENABLE;                       \
+    ram123_en_flop = CART_CFG_RAM123;                    \
+    blk1_en_flop = CART_CFG_BLK1;                        \
+    ram5_flop = CART_CFG_BLK5_RAM;                       \
+    cart_rom_bank = cart_bank_reg | (CART_CFG_A21 << 8); \
 } while (0)
 
 /* ------------------------------------------------------------------------- */
 
-/* helper pointers */
-static BYTE *cart_rom_bank;
+/* helper variables */
+static unsigned int cart_rom_bank;
 
 /* ------------------------------------------------------------------------- */
 
@@ -171,7 +176,7 @@ BYTE REGPARM1 vic_fp_blk5_read(WORD addr)
     if (ram5_flop) {
         return cart_ram[addr & 0x1fff];
     } else {
-        return cart_rom_bank[(addr & 0x1fff) | (cart_bank_reg << 13)];
+        return flash040core_read(&flash_state, (addr & 0x1fff) | (cart_rom_bank << 13));
     }
 }
 
@@ -181,7 +186,7 @@ void REGPARM2 vic_fp_blk5_store(WORD addr, BYTE value)
     if (ram5_flop) {
         cart_ram[addr & 0x1fff] = value;
     } else if (!CART_CFG_ROM_WP) {
-        cart_rom_bank[(addr & 0x1fff) | (cart_bank_reg << 13)] = value;
+        flash040core_store(&flash_state, (addr & 0x1fff) | (cart_rom_bank << 13), value);
     }
 }
 
@@ -221,6 +226,7 @@ void vic_fp_init(void)
 
 void vic_fp_reset(void)
 {
+    flash040core_reset(&flash_state);
     cart_bank_reg = CART_BANK_DEFAULT;
     CART_CFG_INIT(CART_CFG_DEFAULT);
 }
@@ -264,7 +270,7 @@ int vic_fp_bin_attach(const char *filename)
         return -1;
     }
 
-    cart_rom_bank = CART_CFG_A21 ? cart_rom + 0x200000 : cart_rom;
+    flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_032B_A0_1_SWAP, cart_rom);
 
     mem_cart_blocks = VIC_CART_RAM123 |
         VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
@@ -281,7 +287,6 @@ void vic_fp_detach(void)
     lib_free(cart_rom);
     cart_ram = NULL;
     cart_rom = NULL;
-    cart_rom_bank = NULL;
 }
 
 /* ------------------------------------------------------------------------- */

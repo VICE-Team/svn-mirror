@@ -64,6 +64,7 @@ struct flash_types_s {
     unsigned int magic_2_addr;
     unsigned int magic_1_mask;
     unsigned int magic_2_mask;
+    BYTE status_toggle_bits;
 };
 typedef struct flash_types_s flash_types_t;
 
@@ -72,17 +73,26 @@ static flash_types_t flash_types[FLASH040_TYPE_NUM] = {
     { 0x01, 0xa4,
       0x80000,
       0x70000, 0x10000, 16,
-      0x5555, 0x2aaa, 0x7fff, 0x7fff },
+      0x5555, 0x2aaa, 0x7fff, 0x7fff,
+      0x40 },
     /* 29F040B */
     { 0x01, 0xa4,
       0x80000,
       0x70000, 0x10000, 16,
-      0x555,  0x2aa,  0x7ff,  0x7ff  },
+      0x555,  0x2aa,  0x7ff,  0x7ff,
+      0x40 },
     /* 29F010 */
     { 0x01, 0x20,
       0x20000,
       0x1c000, 0x04000, 14,
-      0x5555, 0x2aaa, 0x7fff, 0x7fff },
+      0x5555, 0x2aaa, 0x7fff, 0x7fff,
+      0x40 },
+    /* 29F032B with A0/1 swap */
+    { 0x01, 0x41,
+      0x400000,
+      0x3f0000, 0x10000, 16,
+      0x556,  0x2a9,  0x7ff,  0x7ff,
+      0x44 },
 };
 
 /* -------------------------------------------------------------------------- */
@@ -97,6 +107,15 @@ inline static int flash_magic_2(flash040_context_t *flash040_context, unsigned i
     return ((addr & flash_types[flash040_context->flash_type].magic_2_mask) == flash_types[flash040_context->flash_type].magic_2_addr);
 }
 
+inline static void flash_clear_erase_mask(flash040_context_t *flash040_context)
+{
+    int i;
+
+    for (i = 0; i < FLASH040_ERASE_MASK_SIZE; ++i) {
+        flash040_context->erase_mask[i] = 0;
+    }
+}
+
 inline static unsigned int flash_sector_to_addr(flash040_context_t *flash040_context, unsigned int sector)
 {
     unsigned int sector_size = flash_types[flash040_context->flash_type].sector_size;
@@ -104,17 +123,19 @@ inline static unsigned int flash_sector_to_addr(flash040_context_t *flash040_con
     return sector * sector_size;
 }
 
-inline static BYTE flash_addr_to_sector_mask(flash040_context_t *flash040_context, unsigned int addr)
+inline static unsigned int flash_addr_to_sector_number(flash040_context_t *flash040_context, unsigned int addr)
 {
     unsigned int sector_addr = flash_types[flash040_context->flash_type].sector_mask & addr;
     unsigned int sector_shift = flash_types[flash040_context->flash_type].sector_shift;
 
-    return (BYTE)(1 << (sector_addr >> sector_shift));
+    return sector_addr >> sector_shift;
 }
 
 inline static void flash_add_sector_to_erase_mask(flash040_context_t *flash040_context, unsigned int addr)
 {
-    flash040_context->erase_mask |= flash_addr_to_sector_mask(flash040_context, addr);
+    unsigned int sector_num = flash_addr_to_sector_number(flash040_context, addr);
+
+    flash040_context->erase_mask[sector_num >> 3] |= (BYTE)(1 << (sector_num & 0x7));
 }
 
 inline static void flash_erase_sector(flash040_context_t *flash040_context, unsigned int sector)
@@ -164,8 +185,9 @@ inline static int flash_erase_operation_status(flash040_context_t *flash040_cont
     /* DQ6 = toggle bit */
     v = flash040_context->program_byte;
 
-    /* toggle the toggle bit */
-    flash040_context->program_byte ^= 0x40;
+    /* toggle the toggle bit(s) */
+    /* FIXME better toggle bit II emulation */
+    flash040_context->program_byte ^= flash_types[flash040_context->flash_type].status_toggle_bits;
 
     /* DQ3 = sector erase timer */
     if (flash040_context->flash_state != FLASH040_STATE_SECTOR_ERASE_TIMEOUT) {
@@ -179,7 +201,7 @@ inline static int flash_erase_operation_status(flash040_context_t *flash040_cont
 
 static void erase_alarm_handler(CLOCK offset, void *data)
 {
-    unsigned int i;
+    unsigned int i, j;
     BYTE m;
     flash040_context_t *flash040_context = (flash040_context_t *)data;
 
@@ -190,15 +212,21 @@ static void erase_alarm_handler(CLOCK offset, void *data)
     switch (flash040_context->flash_state) {
         case FLASH040_STATE_SECTOR_ERASE_TIMEOUT:
         case FLASH040_STATE_SECTOR_ERASE:
-            for (i = 0, m = 0x01; i < 8; ++i, m <<= 1) {
-                if (flash040_context->erase_mask & m) {
+            for (i = 0; i < (8 * FLASH040_ERASE_MASK_SIZE); ++i) {
+                j = i >> 3;
+                m = (BYTE)(1 << (i & 0x7));
+                if (flash040_context->erase_mask[j] & m) {
                     flash_erase_sector(flash040_context, i);
-                    flash040_context->erase_mask &= (BYTE)~m;
+                    flash040_context->erase_mask[j] &= (BYTE)~m;
                     break;
                 }
             }
 
-            if (flash040_context->erase_mask) {
+            for (i = 0, m = 0; i < FLASH040_ERASE_MASK_SIZE; ++i) {
+                m |= flash040_context->erase_mask[i];
+            }
+
+            if (m != 0) {
                 alarm_set(flash040_context->erase_alarm, maincpu_clk + ERASE_SECTOR_CYCLES);
             } else {
                 flash040_context->flash_state = FLASH040_STATE_READ;
@@ -307,7 +335,7 @@ static void REGPARM3 flash040core_store_internal(flash040_context_t *flash040_co
                 flash_add_sector_to_erase_mask(flash040_context, addr);
             } else {
                 flash040_context->flash_state = FLASH040_STATE_READ;
-                flash040_context->erase_mask = 0;
+                flash_clear_erase_mask(flash040_context);
                 alarm_unset(flash040_context->erase_alarm);
             }
             break;
@@ -365,6 +393,12 @@ BYTE REGPARM2 flash040core_read(flash040_context_t *flash040_context, unsigned i
 
     switch (flash040_context->flash_state) {
         case FLASH040_STATE_AUTOSELECT:
+            if (flash040_context->flash_type == FLASH040_TYPE_032B_A0_1_SWAP) {
+                if ((addr & 0xff) < 4) {
+                    addr = "\0\2\1\3"[addr & 0x3];
+                }
+            }
+
             switch (addr & 0xff) {
                 case 0x00:
                     value = flash_types[flash040_context->flash_type].manufacturer_ID;
@@ -420,7 +454,7 @@ void flash040core_reset(flash040_context_t *flash040_context)
     FLASH_DEBUG(("Reset"));
     flash040_context->flash_state = FLASH040_STATE_READ;
     flash040_context->program_byte = 0;
-    flash040_context->erase_mask = 0;
+    flash_clear_erase_mask(flash040_context);
     alarm_unset(flash040_context->erase_alarm);
 }
 
@@ -433,7 +467,7 @@ void flash040core_init(struct flash040_context_s *flash040_context,
     flash040_context->flash_type = type;
     flash040_context->flash_state = FLASH040_STATE_READ;
     flash040_context->program_byte = 0;
-    flash040_context->erase_mask = 0;
+    flash_clear_erase_mask(flash040_context);
     flash040_context->flash_dirty = 0;
     flash040_context->erase_alarm = alarm_new(alarm_context, "Flash040Alarm", erase_alarm_handler, flash040_context);
 }
@@ -463,7 +497,7 @@ int flash040core_snapshot_write_module(snapshot_t *s, flash040_context_t *flash0
     if (0
         || (SMW_B(m, state) < 0)
         || (SMW_B(m, flash040_context->program_byte) < 0)
-        || (SMW_B(m, flash040_context->erase_mask) < 0)
+        || (SMW_BA(m, flash040_context->erase_mask, FLASH040_ERASE_MASK_SIZE) < 0)
         || (SMW_B(m, flash040_context->last_read) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -491,7 +525,7 @@ int flash040core_snapshot_read_module(snapshot_t *s, flash040_context_t *flash04
     if (0
         || (SMR_B(m, &state) < 0)
         || (SMR_B(m, &(flash040_context->program_byte)) < 0)
-        || (SMR_B(m, &(flash040_context->erase_mask)) < 0)
+        || (SMR_BA(m, flash040_context->erase_mask, FLASH040_ERASE_MASK_SIZE) < 0)
         || (SMR_B(m, &(flash040_context->last_read)) < 0)) {
         snapshot_module_close(m);
         return -1;

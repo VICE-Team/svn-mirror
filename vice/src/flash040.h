@@ -36,6 +36,8 @@ enum flash040_type_s {
     FLASH040_TYPE_B,
     /* 29F010 */
     FLASH040_TYPE_010,
+    /* 29F032B, A0/1 swapped */
+    FLASH040_TYPE_032B_A0_1_SWAP,
     FLASH040_TYPE_NUM
 };
 typedef enum flash040_type_s flash040_type_t;
@@ -57,12 +59,14 @@ enum flash040_state_s {
 };
 typedef enum flash040_state_s flash040_state_t;
 
+#define FLASH040_ERASE_MASK_SIZE 8
+
 typedef struct flash040_context_s {
     BYTE *flash_data;
     flash040_state_t flash_state;
 
     BYTE program_byte;
-    BYTE erase_mask;
+    BYTE erase_mask[FLASH040_ERASE_MASK_SIZE];
     int flash_dirty;
 
     flash040_type_t flash_type;
