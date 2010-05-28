@@ -41,6 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{prefix}/bin/x64
 %{prefix}/bin/x64dtv
+%{prefix}/bin/x64sc
 %{prefix}/bin/x128
 %{prefix}/bin/xplus4
 %{prefix}/bin/xvic
