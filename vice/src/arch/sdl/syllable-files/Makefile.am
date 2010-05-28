@@ -7,6 +7,7 @@ EXTRA_DIST = \
 	x128.sh \
 	x64.sh \
 	x64dtv.sh \
+	x64sc.sh \
 	xcbm2.sh \
 	xpet.sh \
 	xplus4.sh \
