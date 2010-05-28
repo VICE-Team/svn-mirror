@@ -282,8 +282,10 @@ EXTRA_DIST = \
 	watcom/c64commonc128.tgt \
 	watcom/c64commonc128c64dtv.tgt \
 	watcom/c64commonc64dtv.tgt \
+	watcom/c64commonsc.tgt \
 	watcom/c64dtv.tgt \
 	watcom/c64exp.tgt \
+	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
 	watcom/config.h \
@@ -329,6 +331,18 @@ EXTRA_DIST = \
 	watcom/vicii.tgt \
 	watcom/viciicommon.tgt \
 	watcom/viciidtv.tgt \
+	watcom/viciinew.c \
+	watcom/viciinew.tgt \
+	watcom/viciinew-cmdline-options.c \
+	watcom/viciinew-color.c \
+	watcom/viciinew-draw.c \
+	watcom/viciinew-fetch.c \
+	watcom/viciinew-irq.c \
+	watcom/viciinew-mem.c \
+	watcom/viciinew-phi1.c \
+	watcom/viciinew-resources.c \
+	watcom/viciinew-snapshot.c \
+	watcom/viciinew-timing.c \
 	watcom/video.tgt \
 	watcom/x128.tgt \
 	watcom/x128main.c \
@@ -336,6 +350,8 @@ EXTRA_DIST = \
 	watcom/x64main.c \
 	watcom/x64dtv.tgt \
 	watcom/x64dtvmain.c \
+	watcom/x64scmain.c \
+	watcom/x64sc.tgt \
 	watcom/xcbm2.tgt \
 	watcom/xcbm2main.c \
 	watcom/xpet.tgt \
