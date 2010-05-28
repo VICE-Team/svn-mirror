@@ -3,6 +3,7 @@ call ..\vice-version.bat
 set VICEDIR=WinVICE-%VICEVERSION%-x86
 if not exist x64.exe goto missingwatcom
 if not exist x64dtv.exe goto missingwatcom
+if not exist x64sc.exe goto missingwatcom
 if not exist x128.exe goto missingwatcom
 if not exist xcbm2.exe goto missingwatcom
 if not exist xpet.exe goto missingwatcom
@@ -16,6 +17,7 @@ if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
 copy x64.exe %VICEDIR%
 copy x64dtv.exe %VICEDIR%
+copy x64sc.exe %VICEDIR%
 copy x128.exe %VICEDIR%
 copy xvic.exe %VICEDIR%
 copy xpet.exe %VICEDIR%

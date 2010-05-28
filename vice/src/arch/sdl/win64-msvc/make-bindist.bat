@@ -3,6 +3,7 @@ call ..\..\win32\vice-version.bat
 set VICEDIR=SDLVICE-%VICEVERSION%-win64
 if not exist ..\..\..\..\data\x64.exe goto missingmsvc
 if not exist ..\..\..\..\data\x64dtv.exe goto missingmsvc
+if not exist ..\..\..\..\data\x64sc.exe goto missingmsvc
 if not exist ..\..\..\..\data\x128.exe goto missingmsvc
 if not exist ..\..\..\..\data\xcbm2.exe goto missingmsvc
 if not exist ..\..\..\..\data\xpet.exe goto missingmsvc
@@ -16,6 +17,7 @@ if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
 copy ..\..\..\..\data\x64.exe %VICEDIR%
 copy ..\..\..\..\data\x64dtv.exe %VICEDIR%
+copy ..\..\..\..\data\x64sc.exe %VICEDIR%
 copy ..\..\..\..\data\x128.exe %VICEDIR%
 copy ..\..\..\..\data\xvic.exe %VICEDIR%
 copy ..\..\..\..\data\xpet.exe %VICEDIR%
