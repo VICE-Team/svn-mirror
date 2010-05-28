@@ -9,8 +9,10 @@ EXTRA_DIST = \
 	c64commonc128.tgt \
 	c64commonc128c64dtv.tgt \
 	c64commonc64dtv.tgt \
+	c64commonsc.tgt \
 	c64dtv.tgt \
 	c64exp.tgt \
+	c64sc.tgt \
 	cartconv.tgt \
 	cbm2.tgt \
 	core.tgt \
@@ -52,6 +54,17 @@ EXTRA_DIST = \
 	vicii.tgt \
 	viciicommon.tgt \
 	viciidtv.tgt \
+	viciinew.c \
+	viciinew-cmdline-options.c \
+	viciinew-color.c \
+	viciinew-draw.c \
+	viciinew-fetch.c \
+	viciinew-irq.c \
+	viciinew-mem.c \
+	viciinew-phi1.c \
+	viciinew-resources.c \
+	viciinew-snapshot.c \
+	viciinew-timing.c \
 	video.tgt \
 	x128.tgt \
 	x128main.c \
@@ -59,6 +72,8 @@ EXTRA_DIST = \
 	x64main.c \
 	x64dtv.tgt \
 	x64dtvmain.c \
+	x64sc.tgt \
+	x64scmain.c \
 	xcbm2.tgt \
 	xcbm2main.c \
 	xpet.tgt \

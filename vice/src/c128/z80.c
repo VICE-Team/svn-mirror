@@ -120,8 +120,11 @@ inline static int z80mem_read_limit(int addr)
 
 #define STORE(addr, value) (*_z80mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
 
+/* undefine IN and OUT first for platforms that have them already defined as something else */
+#undef IN
 #define IN(addr) (io_read_tab[(addr) >> 8])((WORD)(addr))
 
+#undef OUT
 #define OUT(addr, value) (io_write_tab[(addr) >> 8])((WORD)(addr), (BYTE)(value))
 
 #define opcode_t DWORD
