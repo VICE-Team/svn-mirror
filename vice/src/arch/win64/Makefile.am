@@ -13,6 +13,7 @@ EXTRA_DIST = \
 	c64c128.vcproj \
 	c64cart.vcproj \
 	c64exp.vcproj \
+	c64sc.vcproj \
 	cartconv.vcproj \
 	cbm2.vcproj \
 	core.vcproj \
@@ -55,10 +56,12 @@ EXTRA_DIST = \
 	vic20.vcproj \
 	vicii.vcproj \
 	viciidtv.vcproj \
+	viciinew.vcproj \
 	video.vcproj \
 	x128.vcproj \
 	x64.vcproj \
 	x64dtv.vcproj \
+	x64sc.vcproj \
 	xcbm2.vcproj \
 	xpet.vcproj \
 	xplus4.vcproj \
