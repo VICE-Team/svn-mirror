@@ -100,5 +100,9 @@ SOURCE="..\..\..\vic20\cart\vic20cart.c"
 
 SOURCE="..\..\..\vic20\cart\vic20cartmem.c"
 # End Source File
+# Begin Source File
+
+SOURCE="..\..\..\vic20\cart\vic-fp.c"
+# End Source File
 # End Target
 # End Project
