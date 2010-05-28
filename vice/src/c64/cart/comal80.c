@@ -38,6 +38,20 @@
 #include "comal80.h"
 #include "types.h"
 
+/*
+    Comal80 Cartridge
+
+    - 64K ROM (32K mapped to $8000 and 32K mapped to $A000)
+
+    The cart has 1 (write-only) bank control register which
+    is located at $DE00 and mirrored throughout the $DE00-$DEFF
+    range.
+
+    bit 7 of this register needs to be set for a valid bank value.
+
+    bits 1 and 0 control which bank is mapped to both roml and romh.
+*/
+
 static void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
 {
     if (value >= 0x80 && value <= 0x83) {

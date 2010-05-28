@@ -41,6 +41,19 @@
 #include "uiapi.h"
 #include "translate.h"
 
+/*
+    Digimax Cartridge
+
+    This cartridge is a 8bit 4-channel digital sound output
+    interface.
+
+    When inserted into the cart port the cart uses 4 registers,
+    one for each channel. The base address can be relocated
+    through the entire I/O-1 and I/O-2 range in 0x20 increments.
+
+    TODO: Userport pin description.
+*/
+
 /* Flag: Do we enable the external DIGIMAX cartridge?  */
 int digimax_enabled;
 

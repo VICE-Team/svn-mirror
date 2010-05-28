@@ -56,6 +56,15 @@ static BYTE REGPARM1 tpi_read(WORD addr)
     return tpicore_read(machine_context.tpi1, addr);
 }
 
+/*
+    IEEE488 interface for c64 and c128
+
+    - the hardware uses a TPI at $DF00-$DF07 (mirrored through $DF08-$DFFF)
+
+    TODO: register description
+
+*/
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t tpi_device = {

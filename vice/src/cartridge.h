@@ -101,13 +101,13 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_LASTID 43 /* last valid CRT ID */
 /* more carts, which do not have a crt id (yet): */
 /* FIXME: those that will never get an ID should probably get negative IDs here */
-#define CARTRIDGE_DIGIMAX            100 /* digimax.c, fmopl.c */
+#define CARTRIDGE_DIGIMAX            100 /* digimax.c */
 #define CARTRIDGE_DQBB               101 /* dqbb.c */
 #define CARTRIDGE_GEORAM             102 /* georam.c */
 #define CARTRIDGE_ISEPIC             103 /* isepic.c */
 #define CARTRIDGE_RAMCART            104 /* ramcart.c */
 #define CARTRIDGE_REU                105 /* reu.c */
-#define CARTRIDGE_SFX_SOUND_EXPANDER 106 /* sfx_soundexpander.c */
+#define CARTRIDGE_SFX_SOUND_EXPANDER 106 /* sfx_soundexpander.c, fmopl.c */
 #define CARTRIDGE_SFX_SOUND_SAMPLER  107 /* sfx_soundsampler.c */
 #define CARTRIDGE_EXOS               108 /* exos.c */
 #define CARTRIDGE_FREEZE_FRAME       109 /* freezeframe.c */
