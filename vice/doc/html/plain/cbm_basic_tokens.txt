@@ -1,5 +1,5 @@
 
-PETCAT version 2.18 PL 1					22 May 2010
+PETCAT version 2.19 PL 1					27 May 2010
 
 
   Listed below are keywords and token codes for all CBM Basic versions
@@ -30,6 +30,7 @@ PETCAT version 2.18 PL 1					22 May 2010
       Basic 2.0 with Super Basic
       Basic 2.0 with Expanded Basic
       Basic 2.0 with Super Expander Chip
+      Basic 2.0 with Warsaw Basic
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 4.0 extension for VIC20
@@ -176,7 +177,7 @@ d7     rpot       catalog    catalog      catalog    trap           trap
 
 d8     rpen       rename     rename       rename     tron           tron
 d9     rsnd       scratch    scratch      scratch    troff          troff
-da     rcolr      directory  directory	  directory  sound          sound
+da     rcolr      directory  directory    directory  sound          sound
 db     rgr                   ieee         dverify    vol            vol
 dc     rjoy                  serial       monitor    auto           auto
 dd     rdot                  parallel     repeat     pudef          pudef
@@ -564,10 +565,11 @@ fe                                          setatr
 
   Game Basic Keywords (Tokens CC - E8)
   Basex Keywords (Tokens CC - EA)
-  Super Basic Keywords (Tokens BD - FE)
+  Super Basic Keywords (Tokens DB - FE)
   Expanded Basic Keywords (TOKENS CC - F5)
+  Warsaw Basic Keywords (TOKENS DB - FE)
 
-Token  Game      Basex      SupBas      ExpBas
+Token  Game      Basex      SupBas      ExpBas     Warsaw
 
 cc     window    append                 hires
 cd     bfile     auto                   norm
@@ -586,46 +588,46 @@ d7     device    envelope               gsave
 d8     dir       fill                   gload
 d9     repeat    key                    inverse
 da     until     mob                    frame
-db     disk      mode       volume      move
-dc     fetch#    move       reset       using
-dd     put#      old        mem         renumber
-de     prompt    pic        trace       delete
-df     pop       dump       basic       box
+db     disk      mode       volume      move         hisave
+dc     fetch#    move       reset       using        sline
+dd     put#      old        mem         renumber     mem
+de     prompt    pic        trace       delete       trace
+df     pop       dump       basic       box          beep
 
-e0     help      plot       resume      mobdef
-e1     exit      renumber   letter      sprite
-e2     disable   repeat     help        mobset
-e3     enter     scroll     coke        mobsize
-e4     reset     sound      ground      mobcolor
-e5     warm      while      matrix      mobmulti
-e6     num       until      dispose     mobmove
-e7     type      voice      print@      doke
+e0     help      plot       resume      mobdef       resume
+e1     exit      renumber   letter      sprite       letter
+e2     disable   repeat     help        mobset       help
+e3     enter     scroll     coke        mobsize      *****
+e4     reset     sound      ground      mobcolor     ground
+e5     warm      while      matrix      mobmulti     revers
+e6     num       until      dispose     mobmove      dispose
+e7     type      voice      print@      doke         print@
 
-e8     text$     ass        himem       allclose
-e9               dis        hardcopy    old
-ea               mem        inputform   auto
-eb                          lock        volume
-ec                          swap        envelope
-ed                          using       wave
-ee                          sec         play
-ef                          else        case error
+e8     text$     ass        himem       allclose     himem
+e9               dis        hardcopy    old          *****
+ea               mem        inputform   auto         line
+eb                          lock        volume       proc
+ec                          swap        envelope     axis
+ed                          using       wave         using
+ee                          sec         play         sec
+ef                          else        case error   else
 
-f0                          error       resume
-f1                          round       no error
-f2                          deek        find
-f3                          string$     inkey
-f4                          point       merge
-f5                          instr       hardcopy
-f6                          ceek
-f7                          min
+f0                          error       resume       error
+f1                          round       no error     round
+f2                          deek        find         ****
+f3                          string$     inkey        *******
+f4                          point       merge        *****
+f5                          instr       hardcopy     *****
+f6                          ceek                     pound
+f7                          min                      min
 
-f8                          max
-f9                          varptr
-fa                          frac
-fb                          odd
-fc                          dec
-fd                          hex$
-fe                          eval
+f8                          max                      max
+f9                          varptr                   *****
+fa                          frac                     frac
+fb                          odd                      odd
+fc                          dec                      ***
+fd                          hex$                     heek
+fe                          eval                     eval
 
 
  Simon's Basic Keywords

@@ -76,7 +76,7 @@ void ui_error(const char *format, ...)
 {
 }
 
-#define PETCATVERSION   2.18
+#define PETCATVERSION   2.19
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -115,6 +115,7 @@ void ui_error(const char *format, ...)
 #define B_SUPERBAS      32
 #define B_EXPBAS        33
 #define B_SXC           34
+#define B_WARSAW        35
 
 /* Limits */
 
@@ -158,6 +159,7 @@ void ui_error(const char *format, ...)
 #define NUM_BLARGE0     11      /* Blarg (c64) */
 
 #define NUM_SUPERBASDB  36      /* Superbasic (c64) */
+#define NUM_WARSAWDB    36      /* Warsaw Basic (c64) */
 
 
 #define MAX_COMM        0xCB    /* common for all versions */
@@ -192,6 +194,7 @@ void ui_error(const char *format, ...)
 #define MAX_BLARGE0     0xEA    /* Blarg (c64) */
 
 #define MAX_SUPERBASDB  0xFE    /* Superbasic (c64) */
+#define MAX_WARSAWDB    0xFE    /* Warsaw Basic (c64) */
 
 #define MAX_KWCE        0x0A
 #define MAX_V7FE        0x26
@@ -314,7 +317,7 @@ static const char *a_cbmkeys[] = {
     "", "", "", "", "", "", "CBM-^", ""
 };
 
-#define NUM_VERSIONS  33
+#define NUM_VERSIONS  35
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -356,6 +359,7 @@ const char *VersNames[] = {
     "Basic 2.0 with super basic",
     "Basic 2.0 with expanded basic",
     "Basic 2.0 with super expander chip",
+    "Basic 2.0 with Warsaw Basic"
     ""
 };
 
@@ -552,6 +556,18 @@ const char *superbaskwdb[] = {
     "string$", "point",  "instr",  "ceek",    "min",    "max",    "varptr",   "frac",
     "odd",     "dec",    "hex$",   "eval"
 };
+
+
+/* Warsaw Basic Keywords (TOKENS DB - FE) -- Marco van den Heuvel */
+
+const char *warsawkwdb[] = {
+    "hisave",  "sline",  "mem",    "trace",   "beep",   "resume", "letter", "help",
+    "*****",   "ground", "revers", "dispose", "print@", "himem",  "*****",  "line",
+    "proc",    "axis",   "using",  "sec",     "else",   "error",  "round",  "****",
+    "*******", "*****",  "*****",  "pound",   "min",    "max",    "******", "frac",
+    "odd",     "***",    "heek",   "eval"
+};
+
 
 /* @Basic (Atbasic) Keywords (Tokens CC - F6) -- André Fachat */
 
@@ -951,6 +967,7 @@ int main(int argc, char **argv)
                 "\tsuperbas\tBasic v2.0 with Super Basic (C64)\n"
                 "\texp\tBasic 2.0 with Expanded Basic (C64)\n"
                 "\tsxc\tBasic 2.0 with Super Expander Chip (C64)\n"
+                "\twarsaw\tBasic 2.0 with Warsaw Basic (C64)\n"
                 "\t4v\tBasic 2.0 with Basic 4.0 extensions (VIC20)\n"
                 "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t5\tBasic 2.0 with Basic 5.0 extensions (VIC20)\n"
@@ -1330,20 +1347,25 @@ static int parse_version(char *str)
           break;
 
       case 'W':
-          if (str[1] != 'S') {
-              fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
-          } else {
-              if (str[2] != 'B') {
-                  fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
-              } else {
-                  if (str[3] == 'F') {
-                      version = B_WSF;
+          switch (toupper(str[1])) {
+              case 'A':
+                  version = B_WARSAW;
+                  break;
+              case 'S':
+                  if (toupper(str[2]) != 'B') {
+                      fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
                   } else {
-                      version = B_WS;
+                      if (toupper(str[3]) == 'F') {
+                          version = B_WSF;
+                      } else {
+                          version = B_WS;
+                      }
                   }
-              }
+                  break;
+              default:
+                  fprintf(stderr, "Please, select one of the following: Warsaw, WSB, WSBF\n");
+                  break;
           }
-          break;
 
       case 'X':
           version = B_X;
@@ -1460,6 +1482,12 @@ static void list_keywords(int version)
             case B_SUPERBAS:
                 for (n = 0; n < NUM_SUPERBASDB; n++) {
                     printf("%s\t", superbaskwdb[n] /*, n + 0xdb*/);
+                }
+                break;
+
+            case B_WARSAW:
+                for (n = 0; n < NUM_WARSAWDB; n++) {
+                    printf("%s\t", warsawkwdb[n] /*, n + 0xdb*/);
                 }
                 break;
 
@@ -1826,6 +1854,12 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_SUPERBAS:
                         if (c >= 0xdb && c <= MAX_SUPERBASDB) {
                             fprintf(dest, "%s", superbaskwdb[c - 0xdb]);
+                        }
+                        break;
+
+                    case B_WARSAW:
+                        if (c >= 0xdb && c <= MAX_WARSAWDB) {
+                            fprintf(dest, "%s", warsawkwdb[c - 0xdb]);
                         }
                         break;
 
@@ -2303,6 +2337,14 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                   case B_SUPERBAS:
                     if ((c = sstrcmp(p2, superbaskwdb, 0, NUM_SUPERBASDB)) !=KW_NONE) {
+                        *p1++ = c + 0xdb;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_WARSAW:
+                    if ((c = sstrcmp(p2, warsawkwdb, 0, NUM_WARSAWDB)) !=KW_NONE) {
                         *p1++ = c + 0xdb;
                         p2 += kwlen;
                         match++;
