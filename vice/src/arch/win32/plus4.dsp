@@ -136,10 +136,6 @@ SOURCE=..\..\plus4\plus4drive.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\plus4\plus4embedded.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\plus4\plus4iec.c
 # End Source File
 # Begin Source File
