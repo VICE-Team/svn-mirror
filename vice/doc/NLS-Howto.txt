@@ -14,20 +14,27 @@ Please refer to the (quite good) GNU gettext documentation for further
 details. Read it with info ('info gettext'), or go online to 
 http://www.gnu.org/software/gettext/gettext.html
 
+For the windows and amiga based platforms the same message catalogs
+are used to generate string tables to provide national language
+support for those platforms.
+
 
 1 Compiling VICE with localized messages
 ----------------------------------------
 
-VICE is compiled by default with NLS enabled. If you don't want
+VICE is compiled by default with *nix NLS enabled. If you don't want
 NLS invoke configure with the option
 
 ./configure --disable-nls
 
+Note however that this option will not turn off the windows and amiga
+platforms NLS.
+
 If you don't know how to compile VICE, please read the INSTALL file.
 
 
-2 Changing language settings
-----------------------------
+2 Changing *nix language settings
+---------------------------------
 
 In general most modern (Linux-) distributions add support for choosing
 the language at login time or for the actual session.
@@ -38,9 +45,9 @@ appropriate environment variables (see below). To choose the
 appropriate language check the alias in 
   /usr/share/locale/locale.alias
 
-There you'll find  "german", "swedish", "polish" and "italian"; the full
-featured translations ("french" is a bit dated and currently not well
-supported! Any volunteer?)
+There you'll find "danish", "german", "french", hungarian", italian",
+"dutch", "swedish", "turkish" and "polish"; the "polish" translations
+are very outdated and currently not well supported! Any volunteer?
 
 so try
   LC_ALL=german ; export LC_ALL 
@@ -66,7 +73,18 @@ Try this:
   try to set the environment variable `LANGUAGE' or `LC_MESSAGES' to the
   values described above.
   
-3 Adding new messages
+3 Changing windows and amiga language settings
+----------------------------------------------
+
+By default the windows and amiga versions of VICE will try to check
+the current language set for the system/user and use the same
+language (if supported) in VICE.
+
+The windows and amiga versions of VICE can change the language
+setting during runtime, just select the language menu item from
+the main VICE menu and select the language you want to use.
+
+4 Adding new messages
 ---------------------
 
 1. Edit the ALL_LINGUAS line in 'configure.in' and add your
@@ -99,8 +117,8 @@ Try this:
 8. Do a 'make install' to install 'it.gmo' to the appropriate directory.
 
 
-4 Updating messages
--------------------
+5 Updating *nix messages
+------------------------
 
 VICE messages change at every release. Go to the 'po' subdirectory and 
 do a 'make update-po'. This updates all existing PO-files (removing 
@@ -108,7 +126,20 @@ obsolete translations, providing new, empty entries). Check the PO file
 for your language and provide translations for the new, empty entries.
 
 
-5 Notes on translating messages
+6 Updating windows and amiga messages
+-------------------------------------
+
+To update the windows and amiga messages you go to the 'po'
+subdirectory and do a 'make trans-update'. This will update
+the windows, amiga and also the *nix translation files.
+
+Note however that the automatic updating of the windows and amiga
+messages can only be done from a *nix environment with NLS
+support enabled, this might seem counter-intuitive, but because
+we decided to generate all the messages from one set of files
+this is unavoidable.
+
+7 Notes on translating messages
 -------------------------------
 
 A leading '*' is a hint for the menu generator to generate a
@@ -164,3 +195,5 @@ Andrea Musuruane,
 http://musuruane.cjb.net
 
 pottendo <pottendo@gmx.net>
+
+Marco van den Heuvel <blackystardust68@yahoo.com>
