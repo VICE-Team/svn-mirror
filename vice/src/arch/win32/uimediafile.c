@@ -66,6 +66,7 @@ static void update_ffmpeg_codecs(HWND hwnd)
     gfxoutputdrv_format_t *current_format = NULL;
     TCHAR st_selection[MAXSCRNDRVLEN];
     int ac, vc, i;
+    int codec_set;
 
     resources_get_int("FFMPEGAudioCodec", &ac);
     resources_get_int("FFMPEGVideoCodec", &vc);
@@ -79,11 +80,16 @@ static void update_ffmpeg_codecs(HWND hwnd)
         audio_codec_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC);
         SendMessage(audio_codec_combo,CB_RESETCONTENT, 0, 0);
         if (current_format->audio_codecs != NULL) {
+            codec_set = 0;
             for (i = 0; current_format->audio_codecs[i].name != NULL; i++) {
                 SendMessage(audio_codec_combo,CB_ADDSTRING, 0, (LPARAM)current_format->audio_codecs[i].name);
                 if (current_format->audio_codecs[i].id == ac) {
                     SendMessage(audio_codec_combo,CB_SETCURSEL, i, 0);
+                    codec_set = 1;
                 }
+            }
+            if (!codec_set) {
+                SendMessage(audio_codec_combo,CB_SETCURSEL,0 , 0);
             }
             EnableWindow(audio_codec_combo, 1);
         } else {
@@ -95,11 +101,16 @@ static void update_ffmpeg_codecs(HWND hwnd)
         video_codec_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC);
         SendMessage(video_codec_combo,CB_RESETCONTENT, 0, 0);
         if (current_format->video_codecs != NULL) {
+            codec_set = 0;
             for (i = 0; current_format->video_codecs[i].name != NULL; i++) {
                 SendMessage(video_codec_combo,CB_ADDSTRING, 0, (LPARAM)current_format->video_codecs[i].name);
                 if (current_format->video_codecs[i].id == vc) {
                     SendMessage(video_codec_combo,CB_SETCURSEL, i, 0);
+                    codec_set = 1;
                 }
+            }
+            if (!codec_set) {
+                SendMessage(video_codec_combo,CB_SETCURSEL,0 , 0);
             }
             EnableWindow(video_codec_combo, 1);
         } else {

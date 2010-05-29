@@ -48,6 +48,7 @@
 static gfxoutputdrv_codec_t avi_audio_codeclist[] = { 
     { CODEC_ID_MP2, "MP2" },
     { CODEC_ID_MP3, "MP3" },
+    { CODEC_ID_FLAC, "FLAC" },
     { CODEC_ID_PCM_S16LE, "PCM uncompressed" },
     { 0, NULL }
 };
@@ -57,13 +58,24 @@ static gfxoutputdrv_codec_t avi_video_codeclist[] = {
     { CODEC_ID_MPEG1VIDEO, "MPEG1" },
     { CODEC_ID_FFV1, "FFV1 (lossless)" },
     { CODEC_ID_H264, "H264" },
+    { CODEC_ID_THEORA, "Theora" },
+    { 0, NULL }
+};
+
+static gfxoutputdrv_codec_t ogg_audio_codeclist[] = { 
+    { CODEC_ID_FLAC, "FLAC" },
+    { 0, NULL }
+};
+
+static gfxoutputdrv_codec_t ogg_video_codeclist[] = { 
+    { CODEC_ID_THEORA, "Theora" },
     { 0, NULL }
 };
 
 gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
 {
     { "avi", avi_audio_codeclist, avi_video_codeclist },
-    { "ogg", NULL, NULL },
+    { "ogg", ogg_audio_codeclist, ogg_video_codeclist },
     { "wav", NULL, NULL },
     { "mp3", NULL, NULL },
     { "mp2", NULL, NULL },
