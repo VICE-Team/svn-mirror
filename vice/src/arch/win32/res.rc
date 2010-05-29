@@ -210,10 +210,10 @@ BEGIN
     LTEXT         "Copyright (c) 2005-2010 Marco van den Heuvel", IDC_STATIC,          5, 104, 180,  8
     LTEXT         "Copyright (c) 2006-2010 Christian Vogelgsang", IDC_STATIC,          5, 113, 180,  8
     LTEXT         "Copyright (c) 2007-2010 Fabrizio Gennari",     IDC_STATIC,          5, 122, 180,  8
-    LTEXT         "Copyright (c) 2007-2010 M. Kiesel",            IDC_STATIC,          5, 131, 180,  8
-    LTEXT         "Copyright (c) 2007-2010 Hannu Nuotio",         IDC_STATIC,          5, 140, 180,  8
-    LTEXT         "Copyright (c) 2007-2010 Daniel Kahlin",        IDC_STATIC,          5, 149, 180,  8
-    LTEXT         "Copyright (c) 2008-2010 Antti S. Lankila",     IDC_STATIC,          5, 158, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 Hannu Nuotio",         IDC_STATIC,          5, 131, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 Daniel Kahlin",        IDC_STATIC,          5, 140, 180,  8
+    LTEXT         "Copyright (c) 2008-2010 Antti S. Lankila",     IDC_STATIC,          5, 149, 180,  8
+    LTEXT         "Copyright (c) 2007-2010 M. Kiesel",            IDC_STATIC,          5, 158, 180,  8
     LTEXT         "Copyright (c) 1999-2007 Andreas Dehmel",       IDC_STATIC,          5, 167, 158,  8
     LTEXT         "Copyright (c) 1999-2005 Thomas Bretz",         IDC_STATIC,          5, 176, 180,  8
     LTEXT         "Copyright (c) 2003-2005 David Hansel",         IDC_STATIC,          5, 185, 180,  8

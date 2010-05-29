@@ -67,11 +67,11 @@ Copyright @copyright{} 2000-2010 Spiro Trikaliotis
 Copyright @copyright{} 2005-2010 Marco van den Heuvel
 Copyright @copyright{} 2006-2010 Christian Vogelgsang
 Copyright @copyright{} 2007-2010 Fabrizio Gennari
-Copyright @copyright{} 2007-2010 M. Kiesel
 Copyright @copyright{} 2007-2010 Hannu Nuotio
 Copyright @copyright{} 2007-2010 Daniel Kahlin
 Copyright @copyright{} 2008-2010 Antti S. Lankila
 
+Copyright @copyright{} 2007-2010 M. Kiesel
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
@@ -7747,11 +7747,6 @@ Implemented most of the SDL UI. Rewrote xvic CPU/VIC-I core for
 cycle based emulation.
 
 @item
-@b{M. Kiesel} started implementing x64dtv. The C64DTV memory model
-and early versions of the DMA and Blitter engine have been implemented
-by him. Added new monitor commands and features.
-
-@item
 @b{Daniel Kahlin} Worked on DTV VIC emulation, palette, DTV SID support
 in resid, better DMA/Blitter support and did lots of refactoring. Added
 new monitor commands and features. Improved the VIC emulation for xvic.
@@ -7768,6 +7763,11 @@ SID support (ReSID-dtv).
 Former team members:
 
 @itemize @bullet
+
+@item
+@b{M. Kiesel} started implementing x64dtv. The C64DTV memory model
+and early versions of the DMA and Blitter engine have been implemented
+by him. Added new monitor commands and features.
 
 @item
 @b{Thomas Bretz}
@@ -8185,14 +8185,14 @@ Copyright @copyright{} 2006-2010 Christian Vogelgsang
 @item
 Copyright @copyright{} 2007-2010 Fabrizio Gennari
 @item
-Copyright @copyright{} 2007-2010 M. Kiesel
-@item
 Copyright @copyright{} 2007-2010 Hannu Nuotio
 @item
 Copyright @copyright{} 2007-2010 Daniel Kahlin
 @item
 Copyright @copyright{} 2008-2010 Antti S. Lankila
 
+@item
+Copyright @copyright{} 2007-2010 M. Kiesel
 @item
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 @item
