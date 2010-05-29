@@ -4,7 +4,8 @@
  * Written by
  *  Marko Makela <marko.makela@iki.fi>
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
- * based on megacart.c by Daniel Kahlin <daniel@kahlin.net>
+ * Based on megacart.c and finalexpansion.c by
+ *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +38,7 @@
 #include "cartridge.h"
 #include "flash040.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -119,6 +121,12 @@ static int ram5_flop;
 
 /* helper variables */
 static unsigned int cart_rom_bank;
+
+static int vic_fp_writeback;
+static char *cartfile = NULL;   /* perhaps the one in vic20cart.c could
+                                   be used instead? */
+
+static log_t fp_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -221,7 +229,9 @@ void REGPARM2 vic_fp_io2_store(WORD addr, BYTE value)
 
 void vic_fp_init(void)
 {
-    vic_fp_reset();
+    if (fp_log == LOG_ERR) {
+        fp_log = log_open("Vic Flash Plugin");
+    }
 }
 
 void vic_fp_reset(void)
@@ -265,6 +275,7 @@ int vic_fp_bin_attach(const char *filename)
         cart_rom = lib_malloc(CART_ROM_SIZE);
     }
 
+    util_string_set(&cartfile, filename);
     if (zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0 ) {
         vic_fp_detach();
         return -1;
@@ -281,12 +292,83 @@ int vic_fp_bin_attach(const char *filename)
 
 void vic_fp_detach(void)
 {
+    /* try to write back cartridge contents if write back is enabled
+       and cartridge wasn't from a snapshot */
+    if (vic_fp_writeback && !cartridge_is_from_snapshot) {
+        if (flash_state.flash_dirty) {
+            int n;
+            FILE *fd;
+
+            n = 0;
+            log_message(fp_log, "Flash dirty, trying to write back...");
+            fd = fopen(cartfile, "wb");
+            if (fd) {
+                n = fwrite(flash_state.flash_data, (size_t)CART_ROM_SIZE, 1, fd);
+                fclose(fd);
+            }
+            if (n < 1) {
+                log_message(fp_log, "Failed to write back image `%s'!",
+                            cartfile);
+            } else {
+                log_message(fp_log, "Wrote back image `%s'.",
+                            cartfile);
+            }
+        } else {
+            log_message(fp_log, "Flash clean, skipping write back.");
+        }
+    }
+
     mem_cart_blocks = 0;
     mem_initialize_memory();
     lib_free(cart_ram);
     lib_free(cart_rom);
+    lib_free(cartfile);
     cart_ram = NULL;
     cart_rom = NULL;
+    cartfile = NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int set_vic_fp_writeback(int val, void *param)
+{
+    vic_fp_writeback = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "VicFlashPluginWriteBack", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &vic_fp_writeback, set_vic_fp_writeback, NULL },
+    { NULL }
+};
+
+int vic_fp_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+void vic_fp_resources_shutdown(void)
+{
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-fpwriteback", SET_RESOURCE, 0,
+      NULL, NULL, "VicFlashPluginWriteBack", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED /* IDCLS_ENABLE_VIC_FP_WRITEBACK */,
+      NULL, NULL },
+    { "+fpwriteback", SET_RESOURCE, 0,
+      NULL, NULL, "VicFlashPluginWriteBack", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED /* IDCLS_DISABLE_VIC_FP_WRITEBACK */,
+      NULL, NULL },
+    { NULL }
+};
+
+int vic_fp_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -294,6 +376,7 @@ void vic_fp_detach(void)
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "VIC-FlashPlugin"
+#define FLASH_SNAP_MODULE_NAME  "FLASH040FP"
 
 int vic_fp_snapshot_write_module(snapshot_t *s)
 {
@@ -316,6 +399,11 @@ int vic_fp_snapshot_write_module(snapshot_t *s)
     }
 
     snapshot_module_close(m);
+
+    if ((flash040core_snapshot_write_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        return -1;
+    }
+
     return 0;
 }
 
@@ -341,6 +429,8 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
         cart_rom = lib_malloc(CART_ROM_SIZE);
     }
 
+    flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_032B_A0_1_SWAP, cart_rom);
+
     if (0
         || (SMR_B(m, &cart_bank_reg) < 0)
         || (SMR_B(m, &cart_cfg_reg) < 0)
@@ -355,6 +445,14 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
     }
 
     snapshot_module_close(m);
+
+    if ((flash040core_snapshot_read_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        lib_free(flash_state.flash_data);
+        flash040core_shutdown(&flash_state);
+        lib_free(cart_ram);
+        cart_ram = NULL;
+        return -1;
+    }
 
     CART_CFG_INIT(cart_cfg_reg);
 

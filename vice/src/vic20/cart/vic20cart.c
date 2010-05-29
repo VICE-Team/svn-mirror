@@ -138,6 +138,7 @@ int cartridge_resources_init(void)
         resources_register_string(resources_string) < 0 ||
         generic_resources_init() < 0 ||
         finalexpansion_resources_init() < 0 ||
+        vic_fp_resources_init() < 0 ||
         megacart_resources_init() < 0;
 }
 
@@ -239,6 +240,7 @@ int cartridge_cmdline_options_init(void)
 
     return cmdline_register_options(cmdline_options) < 0 ||
         finalexpansion_cmdline_options_init() < 0 ||
+        vic_fp_cmdline_options_init() < 0 ||
         megacart_cmdline_options_init() < 0;
 }
 

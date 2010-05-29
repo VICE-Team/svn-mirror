@@ -334,6 +334,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 
 UI_CALLBACK(set_mc_nvram_image_name)
@@ -346,6 +347,8 @@ static ui_menu_entry_t cartridge_options_submenu[] = {
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { N_("*Final Expansion write back"),
       (ui_callback_t)toggle_FinalExpansionWriteBack, NULL, NULL },
+    { N_("*Vic Flash Plugin write back"),
+      (ui_callback_t)toggle_VicFlashPluginWriteBack, NULL, NULL },
     { N_("*Mega-Cart NvRAM write back"),
       (ui_callback_t)toggle_MegaCartNvRAMWriteBack, NULL, NULL },
     { N_("Mega-Cart NvRAM file..."),

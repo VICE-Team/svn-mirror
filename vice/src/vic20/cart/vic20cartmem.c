@@ -309,6 +309,7 @@ void cartridge_init(void)
     generic_init();
     megacart_init();
     finalexpansion_init();
+    vic_fp_init();
 }
 
 void cartridge_reset(void)

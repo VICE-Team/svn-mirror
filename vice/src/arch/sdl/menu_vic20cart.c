@@ -130,6 +130,7 @@ static UI_MENU_CALLBACK(set_cart_default_callback)
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
+UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
 UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 UI_MENU_DEFINE_FILE_STRING(MegaCartNvRAMfilename)
 
@@ -172,6 +173,10 @@ const ui_menu_entry_t vic20cart_menu[] = {
     { "Final Expansion write back",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_FinalExpansionWriteBack_callback,
+      NULL },
+    { "Vic Flash Plugin write back",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VicFlashPluginWriteBack_callback,
       NULL },
     { "Mega-Cart NvRAM write back",
       MENU_ENTRY_RESOURCE_TOGGLE,
