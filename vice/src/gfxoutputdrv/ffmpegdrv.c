@@ -63,6 +63,7 @@ static gfxoutputdrv_codec_t avi_video_codeclist[] = {
 gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
 {
     { "avi", avi_audio_codeclist, avi_video_codeclist },
+    { "ogg", NULL, NULL },
     { "wav", NULL, NULL },
     { "mp3", NULL, NULL },
     { "mp2", NULL, NULL },
@@ -245,7 +246,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     }
     
     audio_is_open = 1;
-    audio_outbuf_size = 10000;
+    audio_outbuf_size = 100000;
     audio_outbuf = lib_malloc(audio_outbuf_size);
 
     /* ugly hack for PCM codecs (will be removed ASAP with new PCM
