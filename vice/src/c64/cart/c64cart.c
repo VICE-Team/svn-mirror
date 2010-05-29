@@ -73,6 +73,7 @@
 #include "snapshot64.h"
 #include "stardos.h"
 #include "stb.h"
+#include "superexplode5.h"
 #include "supersnapshot4.h"
 #include "supersnapshot.h"
 #include "translate.h"
@@ -318,6 +319,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 4kB Snapshot 64 image") },
+    { "-cartse5", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_SUPER_EXPLODE_V5, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB Super Explode V5 image") },
     { "-cartss4", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -487,6 +493,11 @@ int cartridge_attach_image(int type, const char *filename)
             break;
         case CARTRIDGE_SNAPSHOT64:
             if (snapshot64_bin_attach(filename, rawcart) < 0) {
+                goto done;
+            }
+            break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            if (se5_bin_attach(filename, rawcart) < 0) {
                 goto done;
             }
             break;

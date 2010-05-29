@@ -120,6 +120,8 @@ libc64cart_a_SOURCES = \
 	stardos.h \
 	stb.c \
 	stb.h \
+	superexplode5.c \
+	superexplode5.h \
 	supergames.c \
 	supergames.h \
 	supersnapshot.c \

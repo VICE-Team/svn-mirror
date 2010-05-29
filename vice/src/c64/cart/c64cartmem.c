@@ -88,6 +88,7 @@
 #include "stardos.h"
 #include "stb.h"
 #include "supergames.h"
+#include "superexplode5.h"
 #include "supersnapshot.h"
 #include "supersnapshot4.h"
 #include "types.h"
@@ -880,6 +881,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_config_init();
             break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_config_init();
+            break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_config_init();
             break;
@@ -1065,6 +1069,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_config_setup(rawcart);
             break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_config_setup(rawcart);
@@ -1267,6 +1274,9 @@ void cartridge_detach(int type)
             break;
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_detach();
+            break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_detach();
             break;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_detach();

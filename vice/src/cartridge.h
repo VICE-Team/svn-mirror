@@ -120,6 +120,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_TFE                116 /* + tfe.c */
 #define CARTRIDGE_TURBO232           117 /* + c64acia1.c */
 #define CARTRIDGE_SNAPSHOT64         118 /* snapshot64.c */
+#define CARTRIDGE_SUPER_EXPLODE_V5   119 /* superexplode5.c */
 /* FIXME: files marked with + above should be moved into the cart directory */
 
 /*

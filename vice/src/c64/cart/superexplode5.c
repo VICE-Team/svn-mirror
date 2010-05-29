@@ -1,0 +1,195 @@
+/*
+ * superexplode5.c - Cartridge handling, Super Explode V5 cart.
+ *
+ * Written by
+ *  Groepaz <groepaz@gmx.net>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "c64cart.h"
+#include "c64cartmem.h"
+#include "c64export.h"
+#include "c64io.h"
+#include "c64mem.h"
+#include "superexplode5.h"
+#include "types.h"
+#include "util.h"
+
+/*
+    FIXME: this one has been implemented purely based on guesswork and by
+           examining the cartridge rom dump.
+
+    The Soft Group "Super Explode V5"
+
+    - 2 ROM banks, 8k each == 16kb
+    - one button (reset)
+
+    ROM banks are always mapped to $8000
+    the last page of the ROM bank is also visible at DFxx
+
+    controlregister is $df00:
+        bit 7 selects bank
+
+    this is a very strange cartridge, almost no information about it seems
+    to exist, from http://www.mayhem64.co.uk/cartpower.htm:
+
+    Super Explode! version 5 is primarily a graphics cartridge. It is designed
+    to capture, manipulate, and edit screens and then print them. Its color
+    print capability includes recolorization, and it dumps to all but one
+    available color printer. Its extensive ability to manipulate graphics
+    images makes it the cartridge of choice for graphics buffs. (Note that
+    Super Explode! interfaces with The Soft Group's Video Byte system, a low-
+    cost video digitizer designed to capture full-color images from a VCR or
+    live camera.)
+
+    Super Explode! 5's modest utility repertoire includes a complete disk-turbo
+    feature, directory list to screen, single-stroke disk commands, and easy
+    access to the error channel. These commands are not implemented on function
+    keys, nor are the function keys programmed. There is no BASIC toolkit,
+    monitor, or disk-backup or archiving capability. There is a fast multiple-
+    copy file routine, as well as an unnew command. The freeze button doubles
+    as a reset.
+
+    The manual is on disk (you must print it out) and is rather haphazard.
+    Nonetheless, it contains a wealth of technical information. Topics include
+    split screens, elementary and advanced file conversion (for Doodle, Koala,
+    text screens, and custom character sets), sprite manipulation, and sprite
+    overlay. If you require few utility functions but extensive graphics
+    capability, Super Explode! 5 is for you.
+
+*/
+
+/* #define SE5_DEBUG */
+
+#ifdef SE5_DEBUG
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
+#define SE5_CART_SIZE (2*0x2000)
+
+/* ---------------------------------------------------------------------*/
+
+static void REGPARM2 se5_io2_store(WORD addr, BYTE value)
+{
+    DBG(("io2 wr %04x %02x\n", addr, value));
+    cartridge_romlbank_set((value & 0x80) >> 7);
+}
+
+static BYTE REGPARM1 se5_io2_read(WORD addr)
+{
+    addr |= 0xdf00;
+    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t se5_io2_device = {
+    "Super Explode V5",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is alway valid */
+    se5_io2_store,
+    se5_io2_read
+};
+
+static io_source_list_t *se5_io2_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
+void se5_config_init(void)
+{
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
+}
+
+void se5_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, SE5_CART_SIZE);
+    cartridge_config_changed(0, 0, CMODE_READ);
+    cartridge_romlbank_set(0);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static const c64export_resource_t export_res = {
+    "Super Explode V5", 1, 0
+};
+
+static int se5_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    se5_io2_list_item = c64io_register(&se5_io2_device);
+
+    return 0;
+}
+
+int se5_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, SE5_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    return se5_common_attach();
+}
+
+int se5_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+    int i, cnt = 0;
+
+    for (i = 0; i <= 0x01; i++) {
+
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            break;
+        }
+
+        if (chipheader[0xb] > 0x1f) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+        cnt++;
+    }
+
+    return se5_common_attach();
+}
+
+void se5_detach(void)
+{
+    c64export_remove(&export_res);
+    c64io_unregister(se5_io2_list_item);
+    se5_io2_list_item = NULL;
+}
+
