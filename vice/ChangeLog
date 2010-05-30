@@ -1,3 +1,640 @@
+2010-05-30  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.4
+
+2010-05-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt, src/petcat.c: Added vic20
+	  expanded basic to petcat.
+
+	* src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win64-msvc/arch.vcproj: Uodated windows sdl
+	  project files for the new sdl menu file.
+
+	* src/c64/cart/actionreplay.c, src/c64/cart/final3.c,
+	  src/c64/cart/freezemachine.c, src/c64/cart/magicformel.c,
+	  src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/retroreplay.c, src/c64/cart/ser-eeprom.c,
+	  src/c64/cart/ser-eeprom.h, src/c64/cart/supersnapshot4.c,
+	  src/viciinew/vicii-cycle.c, src/viciinew/vicii-draw-cycle.c,
+	  src/viciinew/vicii-fetch.c, src/viciinew/vicii.c: 'Fixed' most
+	  of the win32 msvc warnings.
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	  src/arch/win32/resvic20.rc, src/translate_text.c: Updated intl
+	  files
+
+2010-05-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_vic20cart.c, src/arch/unix/gui/vic20ui.c,
+	  src/vic20/cart/vic-fp.c, src/vic20/cart/vic20cart.c,
+	  src/vic20/cart/vic20cartmem.c: Add writeback support to Vic
+	  Flash Plugin and the UI items for SDL and *nix UIs, add Flash
+	  handling in snapshots
+
+	* README, doc/html/index.html, doc/vice.texi,
+	  src/arch/amigaos/mui/mui.c, src/arch/beos/ui.cc,
+	  src/arch/msdos/menudefs.c, src/arch/sdl/menu_help.c,
+	  src/arch/unix/macosx/Resources/Credits.html,
+	  src/arch/unix/x11/gnome/about.c,
+	  src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc,
+	  src/info.c, src/main.c: Move M. Kiesel from current to former
+	  team member list.
+
+2010-05-29  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/uimediafile.c, src/gfxoutputdrv/ffmpegdrv.c:
+	  Added codec lists for ogg, some codecs for avi and fixed a bug
+	  in Win32 mediafile UI.
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Added Ogg to the list of output
+	  formats (using Theora and FLAC codecs). FLAC needs larger
+	  audio output buffer so incremented that.
+
+	* src/arch/win32/c64cart.dsp: Added missing file.
+
+2010-05-29  gpz
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/superexplode5.c,
+	  src/c64/cart/superexplode5.h, src/cartridge.h: added Support
+	  for "Super Explode! v5" Cartridge.
+
+2010-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/Makefile.am, src/arch/win64/arch.vcproj,
+	  src/arch/win64/c64.vcproj, src/arch/win64/c64c128.vcproj,
+	  src/arch/win64/c64cart.vcproj, src/arch/win64/c64sc.vcproj,
+	  src/arch/win64/monitor.vcproj, src/arch/win64/vic20.vcproj,
+	  src/arch/win64/vice.sln, src/arch/win64/viciinew.vcproj,
+	  src/arch/win64/x64sc.vcproj: Updated win64 project files to
+	  make VICE compile again
+
+	* src/arch/sdl/win32-msvc/make-bindist.bat,
+	  src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	  src/arch/sdl/win64-msvc/make-bindist.bat,
+	  src/arch/win32/make-msvc-bindist.bat,
+	  src/arch/win32/watcom/make-watcom-bindist.bat: Updated several
+	  batch files for x64sc
+
+	* src/arch/win32/Makefile.am, src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/c64.tgt,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/c64commonc128c64dtv.tgt,
+	  src/arch/win32/watcom/c64commonsc.tgt,
+	  src/arch/win32/watcom/c64sc.tgt,
+	  src/arch/win32/watcom/monitor.tgt,
+	  src/arch/win32/watcom/vic20.tgt,
+	  src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/viciinew-cmdline-options.c,
+	  src/arch/win32/watcom/viciinew-color.c,
+	  src/arch/win32/watcom/viciinew-draw.c,
+	  src/arch/win32/watcom/viciinew-fetch.c,
+	  src/arch/win32/watcom/viciinew-irq.c,
+	  src/arch/win32/watcom/viciinew-mem.c,
+	  src/arch/win32/watcom/viciinew-phi1.c,
+	  src/arch/win32/watcom/viciinew-resources.c,
+	  src/arch/win32/watcom/viciinew-snapshot.c,
+	  src/arch/win32/watcom/viciinew-timing.c,
+	  src/arch/win32/watcom/viciinew.c,
+	  src/arch/win32/watcom/viciinew.tgt,
+	  src/arch/win32/watcom/x64.tgt,
+	  src/arch/win32/watcom/x64sc.tgt,
+	  src/arch/win32/watcom/x64scmain.c: Updated the win32 watcom
+	  files to make VICE compile again
+
+	* src/arch/win32/c128.dsp, src/arch/win32/c64.dsp,
+	  src/arch/win32/c64dtv.dsp, src/arch/win32/cbm2.dsp,
+	  src/arch/win32/pet.dsp, src/arch/win32/plus4.dsp,
+	  src/arch/win32/vic20.dsp: Removed the embedded source files
+	  from the win32 msvc project files
+
+	* vice-mint.spec.in, vice.spec.in: spec files updated
+
+	* build/nextstep/build.sh, build/openstep/build.sh,
+	  build/rhapsody/build.sh: some svn property changes
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	  src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/c64.vcproj,
+	  src/arch/sdl/win64-msvc/c64c128.vcproj,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/c64sc.vcproj,
+	  src/arch/sdl/win64-msvc/config.h,
+	  src/arch/sdl/win64-msvc/monitor.vcproj,
+	  src/arch/sdl/win64-msvc/vic20.vcproj,
+	  src/arch/sdl/win64-msvc/vice.sln,
+	  src/arch/sdl/win64-msvc/viciinew.vcproj,
+	  src/arch/sdl/win64-msvc/x64sc.vcproj: Updated SDL win64
+	  project files to make VICE compile again
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win32-watcom/c128.tgt,
+	  src/arch/sdl/win32-watcom/c1541.tgt,
+	  src/arch/sdl/win32-watcom/c64.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64commonsc.tgt,
+	  src/arch/sdl/win32-watcom/c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64exp.tgt,
+	  src/arch/sdl/win32-watcom/c64sc.tgt,
+	  src/arch/sdl/win32-watcom/cartconv.tgt,
+	  src/arch/sdl/win32-watcom/cbm2.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/core.tgt,
+	  src/arch/sdl/win32-watcom/crtc.tgt,
+	  src/arch/sdl/win32-watcom/diskimage.tgt,
+	  src/arch/sdl/win32-watcom/drive.tgt,
+	  src/arch/sdl/win32-watcom/fileio.tgt,
+	  src/arch/sdl/win32-watcom/fsdevice.tgt,
+	  src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	  src/arch/sdl/win32-watcom/iec.tgt,
+	  src/arch/sdl/win32-watcom/iec128dcr.tgt,
+	  src/arch/sdl/win32-watcom/iecbus.tgt,
+	  src/arch/sdl/win32-watcom/iecieee.tgt,
+	  src/arch/sdl/win32-watcom/ieee.tgt,
+	  src/arch/sdl/win32-watcom/imagecontents.tgt,
+	  src/arch/sdl/win32-watcom/maincpu.tgt,
+	  src/arch/sdl/win32-watcom/monitor.tgt,
+	  src/arch/sdl/win32-watcom/parallel.tgt,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/petcat.tgt,
+	  src/arch/sdl/win32-watcom/plus4.tgt,
+	  src/arch/sdl/win32-watcom/plus4exp.tgt,
+	  src/arch/sdl/win32-watcom/printerdrv.tgt,
+	  src/arch/sdl/win32-watcom/raster.tgt,
+	  src/arch/sdl/win32-watcom/rs232drv.tgt,
+	  src/arch/sdl/win32-watcom/serial.tgt,
+	  src/arch/sdl/win32-watcom/sid.tgt,
+	  src/arch/sdl/win32-watcom/sounddrv.tgt,
+	  src/arch/sdl/win32-watcom/tape.tgt,
+	  src/arch/sdl/win32-watcom/tcbm.tgt,
+	  src/arch/sdl/win32-watcom/vdc.tgt,
+	  src/arch/sdl/win32-watcom/vdrive.tgt,
+	  src/arch/sdl/win32-watcom/vic20.tgt,
+	  src/arch/sdl/win32-watcom/vic20cart.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/vicii.tgt,
+	  src/arch/sdl/win32-watcom/viciicommon.tgt,
+	  src/arch/sdl/win32-watcom/viciidtv.tgt,
+	  src/arch/sdl/win32-watcom/viciinew-cmdline-options.c,
+	  src/arch/sdl/win32-watcom/viciinew-color.c,
+	  src/arch/sdl/win32-watcom/viciinew-draw.c,
+	  src/arch/sdl/win32-watcom/viciinew-fetch.c,
+	  src/arch/sdl/win32-watcom/viciinew-irq.c,
+	  src/arch/sdl/win32-watcom/viciinew-mem.c,
+	  src/arch/sdl/win32-watcom/viciinew-phi1.c,
+	  src/arch/sdl/win32-watcom/viciinew-resources.c,
+	  src/arch/sdl/win32-watcom/viciinew-snapshot.c,
+	  src/arch/sdl/win32-watcom/viciinew-timing.c,
+	  src/arch/sdl/win32-watcom/viciinew.c,
+	  src/arch/sdl/win32-watcom/viciinew.tgt,
+	  src/arch/sdl/win32-watcom/video.tgt,
+	  src/arch/sdl/win32-watcom/x128.tgt,
+	  src/arch/sdl/win32-watcom/x64.tgt,
+	  src/arch/sdl/win32-watcom/x64dtv.tgt,
+	  src/arch/sdl/win32-watcom/x64sc.tgt,
+	  src/arch/sdl/win32-watcom/x64scmain.c,
+	  src/arch/sdl/win32-watcom/xcbm2.tgt,
+	  src/arch/sdl/win32-watcom/xpet.tgt,
+	  src/arch/sdl/win32-watcom/xplus4.tgt,
+	  src/arch/sdl/win32-watcom/xvic.tgt, src/c128/z80.c: Updated
+	  the SDL watcom project files so that VICE compiles again
+
+	* src/arch/sdl/win32-msvc/vic20cart.dsp: Added the new vic-fp
+	  cart to the SDL msvc project files
+
+	* src/arch/sdl/syllable-files/Makefile.am,
+	  src/arch/sdl/syllable-files/x64sc.sh: Added x64sc script for
+	  SDL syllable
+
+	* doc/html/plain/cbm_basic_tokens.txt, src/petcat.c: Added
+	  warsaw basic to petcat
+
+	* doc/NLS-Howto.txt: NLS howto update
+
+	* src/c64/cart/c64tpi.c, src/c64/cart/comal80.c,
+	  src/c64/cart/digimax.c, src/cartridge.h: cart comment
+	  additions
+
+2010-05-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/flash040core.c, src/flash040.h,
+	  src/vic20/cart/vic-fp.c: Add support for 29F032B (with swapped
+	  A0/1) in flash040, use it in Vic Flash Plugin
+
+2010-05-26  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui.c, src/c64/cart/dqbb.c,
+	  src/c64/cart/georam.c, src/c64/cart/ide64.c,
+	  src/c64/cart/mmc64.c, src/c64/cart/ramcart.c,
+	  src/c64/cart/reu.c: Disable model selection for x64 and fix
+	  clearing of some carts filename pointers.
+
+2010-05-26  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-05-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_printer.c,
+	  src/arch/sdl/menu_printer.h, src/arch/sdl/x128_ui.c,
+	  src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	  src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	  src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	  src/arch/sdl/xvic_ui.c: Add printer menus to SDL UI
+
+2010-05-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64model.c, src/c64/c64model.h, src/vicii.h,
+	  src/viciinew/vicii-resources.c: Add Drean to VICIIModel
+	  resource handler too, clean up C64 model selection code
+
+	* src/arch/sdl/menu_c64schw.c, src/arch/sdl/menu_video.c,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/c64/c64-cmdline-options.c, src/c64/c64model.c,
+	  src/c64/c64model.h, src/vicii.h, src/viciinew/vicii-timing.c:
+	  Add Drean (PAL-N) model to x64sc (actual emulation pending),
+	  add PAL-N menu entries to SDL & *nix UIs
+
+2010-05-24  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/c64ui.c,
+	  src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resmenu.txt, src/arch/win32/ui.c,
+	  src/c64/c64-cmdline-options.c, src/c64/c64-resources.c,
+	  src/c64/c64.c, src/c64/c64.h, src/c64/psid.c, src/machine.h,
+	  src/translate.txt, src/vicii/vicii-timing.c: Patch for PAL-N
+	  model selection provided by Pablo Roldán <pdroldan@yahoo.com>
+
+	* src/arch/win32/c64cart.dsp, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/vic20cart.dsp:
+	  Updated MSVC project files and resources.
+
+2010-05-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/info.c: Updated.
+
+	* src/arch/amigaos/intl_text.c, src/arch/amigaos/uires.h,
+	  src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h,
+	  src/arch/beos/constants.h, src/arch/beos/ui_file.cc,
+	  src/arch/beos/ui_file.h, src/arch/beos/vic20ui.cc,
+	  src/arch/beos/vicemenu.cc, src/arch/msdos/vic20ui.c,
+	  src/arch/sdl/menu_vic20cart.c, src/arch/unix/gui/vic20ui.c,
+	  src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c,
+	  src/cartridge.h, src/translate.txt, src/translate_text.c,
+	  src/vic20/cart/Makefile.am, src/vic20/cart/vic-fp.c,
+	  src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cart.c,
+	  src/vic20/cart/vic20cartmem.c: Vic Flash Plugin cartridge
+	  emulation. Patch by Marko M.
+
+	* src/petcat.c: Readd machine_get_name to petcat
+
+2010-05-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build.minix, src/arch/amigaos/Makefile.am,
+	  src/arch/amigaos/make-bindist.sh, src/arch/amigaos/x64scns.c,
+	  src/arch/beos/make-bindist.sh, src/arch/msdos/make-bindist.sh,
+	  src/arch/sdl/make-bindist_amiga.sh,
+	  src/arch/sdl/make-bindist_beos.sh,
+	  src/arch/sdl/make-bindist_dingoo.sh,
+	  src/arch/sdl/make-bindist_gp2x.sh,
+	  src/arch/sdl/make-bindist_qnx6.sh,
+	  src/arch/sdl/make-bindist_scosol.sh,
+	  src/arch/sdl/make-bindist_skyos.sh,
+	  src/arch/sdl/make-bindist_syllable.sh,
+	  src/arch/sdl/make-bindist_win32.sh, src/arch/unix/Makefile.am,
+	  src/arch/unix/gp2x/Makefile.am,
+	  src/arch/unix/gp2x/gpe-files/x64sc.gpe,
+	  src/arch/unix/hpux/make-bindist.sh,
+	  src/arch/unix/next_open_rhap/make-bindist.sh,
+	  src/arch/unix/qnx4/make-bindist.sh,
+	  src/arch/unix/qnx6/make-bindist.sh,
+	  src/arch/unix/sco_sol/make-bindist.sh,
+	  src/arch/unix/skyos/icons/x64sc.ico,
+	  src/arch/unix/skyos/make-bindist.sh,
+	  src/arch/win32/make-bindist.sh: Updated some of the
+	  make-bindist scripts for x64sc.
+
+	* build/Makefile.am, build/nextstep, build/nextstep/build.sh,
+	  build/openstep, build/openstep/build.sh, build/rhapsody,
+	  build/rhapsody/build.sh: Added nextstep, openstep and rhapsody
+	  build scripts.
+
+	* po/nl.po: Updated.
+
+	* doc/html/plain/cbm_basic_tokens.txt, src/petcat.c: Added more
+	  basic expansions to petcat.
+
+	* configure.in, src/arch/unix/mididrv.c, src/arch/unix/rs232.c,
+	  src/arch/unix/unixmain.c, src/arch/unix/vsyncarch.c,
+	  src/arch/unix/x11/xaw/widgets/Directory.c,
+	  src/arch/unix/x11/xaw/widgets/Directory.h: Added BeOS X11
+	  support.
+
+	* configure.in, src/arch/unix/x11/xaw/videoarch.h,
+	  src/arch/unix/x11/xaw/x11video.c: Changed the shmproto.h
+	  header detection to not depend on pkgconfig.
+
+2010-05-23  gpz
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/freezemachine.c,
+	  src/c64/cart/snapshot64.c, src/c64/cart/snapshot64.h,
+	  src/cartridge.h: added support for Snapshot64 Cartridge
+
+2010-05-23  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vic20/cart/generic.c: Corrected a minor slip up with B000
+	  carts.
+
+	* src/vic20/cart/generic.c: Handle the add B000 cart after 4KB
+	  A000 cart more gracefully.
+
+	* src/vic20/cart/generic.c: Repaired generic cartridge auto
+	  detection to fix the 4KB cartridge at A000 case.
+
+2010-05-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	  src/arch/win32/c64cart.dsp, src/arch/win32/c64sc.dsp: Updated
+	  MSVC project files.
+
+2010-05-21  gpz
+
+	* src/cartridge.h: fixed typo
+
+	* src/cartridge.h: added some more cart IDs
+
+2010-05-20  gpz
+
+	* data/CBM-II/ROdflt.vkm, data/CBM-II/amiga_bukp.vkm,
+	  data/CBM-II/amiga_buks.vkm, data/CBM-II/beos_bukp.vkm,
+	  data/CBM-II/beos_buks.vkm, data/CBM-II/dos_bukp.vkm,
+	  data/CBM-II/dos_buks.vkm, data/CBM-II/os2.vkm,
+	  data/CBM-II/osx_pos_uk.vkm, data/CBM-II/osx_sym_uk.vkm,
+	  data/CBM-II/sdl_buks.vkm, data/CBM-II/win_pos_uk.vkm,
+	  data/CBM-II/win_sym_uk.vkm: fixed right Shift issue
+
+	* data/CBM-II/x11_buks_de.vkm: fixed Properties
+
+	* data/CBM-II/Makefile.am, data/CBM-II/x11_buks.vkm,
+	  data/CBM-II/x11_buks_de.vkm: fixed right Shift, added Info on
+	  Keyboard Matrix, added fixed Mapping for german Keyboards
+
+2010-05-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciinew/vicii-fetch.c: Fix fetch_phi[12] charrom case
+	  mask, refactor vicii_fetch_graphics to use address calculation
+	  and fetch_phi1, implement modesplit magic in a different way
+	  (fixing movesplit results)
+
+2010-05-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* data/PLUS4/Makefile.am, data/PLUS4/x11_sym_de.vkm: Add xplus4
+	  sym_de keymap by Groepaz
+
+2010-05-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/viacore.c: Remove obsolete opcode fetch hack from VIA
+	  core. Fixes changing timer values in the monitor. Some coding
+	  style cleanup.
+
+	* src/core/ciacore.c: Remove obsolete opcode fetch hack from CIA
+	  core. Fixes changing timer values in the monitor.
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/freezeframe.c,
+	  src/c64/cart/freezeframe.h, src/c64/cart/freezemachine.c,
+	  src/c64/cart/freezemachine.h, src/cartridge.h: Add support for
+	  Freeze Frame and Freeze Machine. Patch by Groepaz
+
+2010-05-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64tpi.c, src/c64/c64tpi.h, src/c64/cart/Makefile.am,
+	  src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h,
+	  src/c64/cart/digimax.c, src/c64/cart/digimax.h,
+	  src/c64/cart/dqbb.c, src/c64/cart/dqbb.h,
+	  src/c64/cart/fmopl.c, src/c64/cart/fmopl.h,
+	  src/c64/cart/georam.c, src/c64/cart/georam.h,
+	  src/c64/cart/isepic.c, src/c64/cart/isepic.h,
+	  src/c64/cart/mmc64.c, src/c64/cart/mmc64.h,
+	  src/c64/cart/ramcart.c, src/c64/cart/ramcart.h,
+	  src/c64/cart/reu.c, src/c64/cart/reu.h,
+	  src/c64/cart/sfx_soundexpander.c,
+	  src/c64/cart/sfx_soundexpander.h,
+	  src/c64/cart/sfx_soundsampler.c,
+	  src/c64/cart/sfx_soundsampler.h, src/c64/digimax.c,
+	  src/c64/digimax.h, src/c64/dqbb.c, src/c64/dqbb.h,
+	  src/c64/fmopl.c, src/c64/fmopl.h, src/c64/georam.c,
+	  src/c64/georam.h, src/c64/isepic.c, src/c64/isepic.h,
+	  src/c64/mmc64.c, src/c64/mmc64.h, src/c64/ramcart.c,
+	  src/c64/ramcart.h, src/c64/reu.c, src/c64/reu.h,
+	  src/c64/sfx_soundexpander.c, src/c64/sfx_soundexpander.h,
+	  src/c64/sfx_soundsampler.c, src/c64/sfx_soundsampler.h,
+	  src/c64dtv/c64dtv-resources.c: Move some cartridge files from
+	  c64/ to c64/cart/
+
+	* src/c64/Makefile.am, src/c64/c64.c, src/c64/c64cart.h,
+	  src/c64/c64mem.c, src/c64/c64meminit.c, src/c64/c64memsc.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/atomicpower.c,
+	  src/c64/cart/atomicpower.h, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/capture.c,
+	  src/c64/cart/capture.h, src/c64/cart/exos.c,
+	  src/c64/cart/exos.h, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h, src/c64/cart/final.c,
+	  src/c64/cart/finalplus.c, src/c64/cart/finalplus.h,
+	  src/c64/cart/gamekiller.c, src/c64/cart/gamekiller.h,
+	  src/c64/cart/ide64.c, src/c64/cart/ide64.h,
+	  src/c64/cart/magicformel.c, src/c64/cart/magicformel.h,
+	  src/c64/cart/mmcreplay.c, src/c64/cart/ser-eeprom.c,
+	  src/c64/cart/spi-sdcard.c, src/c64/cart/stardos.c,
+	  src/c64/cart/stardos.h, src/c64/isepic.c, src/c64/isepic.h,
+	  src/c64/mmc64.c, src/c64/ramcart.c, src/cartridge.h,
+	  src/vic20/cart/megacart.c: More cleanup, removed special cases
+	  for MMC64, Expert, EasyFlash from c64mem.c/c64memsc.c, moved
+	  some (de)init stuff into generic interface, corrected Atomic
+	  Power, Stardos, Capture, improved Expert and ISEPIC. Patch by
+	  Groepaz
+
+2010-05-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/mon_breakpoint.c, src/monitor/montypes.h: monitor:
+	  scan all valid memspaces in find_checkpoint
+
+2010-05-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uic64cart.c: Use M-c for Smart attach CRT
+	  hotkey on *nix UIs. Patch by Count Zero
+
+2010-05-04  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/tfe.c: Use mmc64_cart_enabled() in lieu of
+	  mmc64_enabled.
+
+2010-05-03  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/amigaos/uic64cart.c,
+	  src/arch/riscos/binfiles/x64vicerc,
+	  src/arch/sdl/dingoo-files/sdl-vicerc,
+	  src/arch/sdl/menu_c64cart.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/macosx/cocoa/menu/c64controller.m,
+	  src/arch/win32/uic64cart.c, src/c64/c64cart.h,
+	  src/c64/c64mem.c, src/c64/c64meminit.c, src/c64/c64memsc.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/actionreplay.c,
+	  src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay4.c,
+	  src/c64/cart/atomicpower.c, src/c64/cart/atomicpower.h,
+	  src/c64/cart/c64cart.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64cartmem.h, src/c64/cart/capture.c,
+	  src/c64/cart/crt.c, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h, src/c64/cart/final.c,
+	  src/c64/cart/final3.c, src/c64/cart/finalplus.c,
+	  src/c64/cart/finalplus.h, src/c64/cart/gamekiller.c,
+	  src/c64/cart/ide64.c, src/c64/cart/ide64.h,
+	  src/c64/cart/kcs.c, src/c64/cart/kcs.h,
+	  src/c64/cart/magicformel.c, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/ocean.c, src/c64/cart/ocean.h,
+	  src/c64/cart/retroreplay.c, src/c64/cart/simonsbasic.c,
+	  src/c64/cart/simonsbasic.h, src/c64/cart/stb.c,
+	  src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot.h,
+	  src/c64/cart/supersnapshot4.c, src/c64/cart/supersnapshot4.h,
+	  src/c64/dqbb.c, src/c64/dqbb.h, src/c64/isepic.c,
+	  src/c64/isepic.h, src/c64/mmc64.c, src/c64/mmc64.h,
+	  src/c64/ramcart.c, src/c64/ramcart.h, src/cartconv.c,
+	  src/cartridge.h: AR-ism removed from cartridge_config_changed,
+	  Final Cartridge Plus added, Atomic Power fixed, hardcoded
+	  stuff from c64cartmem.c removed, general cleanups. Patch by
+	  Groepaz
+
+2010-05-01  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: (ui_unblock_shells): add
+	  sanity check for `ui_cached_video_canvas'. Fixes -vsid
+	  shutdown.
+
+	* src/arch/unix/x11/gnome/x11ui.c: * arch/unix/x11/gnome/x11ui.c
+	  (ui_init_finalize): Call `ui_check_mouse_cursor' to fix grab
+	  mouse in case `-mouse' is given on commandline.
+
+2010-04-30  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/resources.c, src/sid/sid-cmdline-options.c: Allow
+	  0x-prefix hex parameters on all integer cmdline switches
+
+	* src/c64/c64memsc.c: Remove obsolete vbank handling from x64sc
+	  write table
+
+	* src/arch/win32/uic64.c: Fix typo
+
+2010-04-27  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: * arch/unix/x11/gnome/x11ui.c
+	  (ui_check_mouse_cursor): add sanity check to avoid crash at
+	  startup with `... -mouse'. Still not perfect as mouse cursor
+	  isn't grabbed properly.
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/arch/win32/statusbar.h,
+	  src/drive/drive.c, src/drive/drive.h: *
+	  arch/win32/statusbar.h: removed MAX_PWM, now coming from
+	  drive.h.
+	  
+	  * arch/unix/x11/gnome/x11ui.c (ui_display_drive_led): use
+	  MAX_PWM for calculation of color index.
+	  
+	  * drive/drive.c (drive_led_update): Added sanity check and
+	  assertion for led_pwm to stay <= MAX_PWM.
+	  
+	  * drive/drive.h (MAX_PWM): Added MAX_PWM for global limit - to
+	  be used in the UIs.
+
+2010-04-27  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/monitor.dsp: Add src/imagecontents, so
+	  src/monitor/mon_drive.c compiles again.
+
+2010-04-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/lightpen.c, src/viciinew/vicii-cycle.c,
+	  src/viciinew/vicii.c, src/viciinew/viciitypes.h: Implement
+	  lightpen(.c) support for x64sc
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c: Do not override
+	  watchpoints on vbank switches.
+
+2010-04-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Restore mouse cursor state
+	  after closing a dialog
+
+2010-04-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/monitor/Makefile.am, src/monitor/mon_command.c,
+	  src/monitor/mon_drive.c, src/monitor/mon_drive.h,
+	  src/monitor/mon_lex.l, src/monitor/mon_parse.y: Add list
+	  command to monitor.
+
+	* src/sysfile.c: Check for system files also on current
+	  directory. Fixes -kernal <name> etc when using only the
+	  filename without any path.
+
+	* src/arch/sdl/menu_ffmpeg.c,
+	  src/arch/unix/x11/gnome/uiscreenshot.c, src/gfxoutput.h,
+	  src/gfxoutputdrv/ffmpegdrv.c: Define FFMPEG audio/video
+	  bitrate limits in gfxoutput.h and use them in SDL & GTK+ UIs.
+	  Bump up max audio bitrate from 128k to 384k.
+
+2010-04-24  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win32-msvc/gfxoutputdrv.dsp: Added FFMPEG support
+	  to MSVC SDL.
+
+	* src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/c64.dsp,
+	  src/arch/sdl/win32-msvc/c64c128.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp: Fix MSVC SDL compilation.
+
+	* src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/c64.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/config.h, src/sid/resid.cc: Some MSVC
+	  SDL fixes - but still does not link.
+
+2010-04-24  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: * arch/unix/x11/gnome/x11ui.c
+	  (build_screen_canvas_widget): Associate callback
+	  `enter_window_callback' to "focus-in-event".
+	  (ui_unblock_shells): ugly workaround to fix the focus issue on
+	  pop-down reported by count zero. this is neither correct nor
+	  elegant, as it messes with the mousecursor.
+
+2010-04-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	  src/arch/sdl/menu_ffmpeg.c, src/arch/sdl/menu_ffmpeg.h,
+	  src/arch/sdl/menu_screenshot.c, src/arch/sdl/uimenu.c,
+	  src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	  src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	  src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	  src/arch/sdl/xplus4_ui.c, src/arch/sdl/xvic_ui.c: SDL UI: add
+	  FFMPEG menu
+
+2010-04-22  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/c64cart.dsp: Added missing files.
+
+	* src/arch/win32/c64cart.dsp: Removed funplay.c which was
+	  double.
+
 2010-04-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.3
