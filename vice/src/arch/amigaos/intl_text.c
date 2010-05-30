@@ -27,6 +27,8 @@
 intl_translate_t intl_string_table[] = {
 
 
+
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -5474,15 +5476,15 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_SELECT_GENERIC_TR, "Jenerik kartuþ dosyasýný seç" },
 
 /* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin file" },
-/* da */ { IDS_SELECT_FP_DA, "Vælg Vic Flash Plugin-fil" },
-/* de */ { IDS_SELECT_FP_DE, "VC Flash Plugin Image Datei wählen" },
+/* da */ { IDS_SELECT_FP_DA, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_FP_DE, "" },  /* fuzzy */
 /* fr */ { IDS_SELECT_FP_FR, "" },  /* fuzzy */
-/* hu */ { IDS_SELECT_FP_HU, "Vic Flash Plugin fájl kiválasztása" },
-/* it */ { IDS_SELECT_FP_IT, "Seleziona file Vic Flash Plugin" },
-/* nl */ { IDS_SELECT_FP_NL, "Selecteer Vic Flash Plugin bestand" },
+/* hu */ { IDS_SELECT_FP_HU, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_FP_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_FP_NL, "" },  /* fuzzy */
 /* pl */ { IDS_SELECT_FP_PL, "" },  /* fuzzy */
-/* sv */ { IDS_SELECT_FP_SV, "Välj Vic Flash Plugin-fil" },
-/* tr */ { IDS_SELECT_FP_TR, "Vic Flash Plugin dosyasýný seç" },
+/* sv */ { IDS_SELECT_FP_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SELECT_FP_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SELECT_MEGACART,    "Select Mega-Cart file" },
 /* da */ { IDS_SELECT_MEGACART_DA, "Vælg MegaCart-fil" },
@@ -6260,7 +6262,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_RAM_BANKS_2_AND_3_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RAM_BANKS_2_AND_3_HU, "2-es és 3-as RAM bankok" },
 /* it */ { IDS_RAM_BANKS_2_AND_3_IT, "Banchi di RAM 2 & 3" },
-/* nl */ { IDS_RAM_BANKS_2_AND_3_NL, "" },  /* fuzzy */
+/* nl */ { IDS_RAM_BANKS_2_AND_3_NL, "RAM banken 2 & 3" },
 /* pl */ { IDS_RAM_BANKS_2_AND_3_PL, "" },  /* fuzzy */
 /* sv */ { IDS_RAM_BANKS_2_AND_3_SV, "RAM-bank 2 & 3" },
 /* tr */ { IDS_RAM_BANKS_2_AND_3_TR, "RAM banklarý 2 & 3" },
