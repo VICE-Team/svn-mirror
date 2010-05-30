@@ -2057,6 +2057,7 @@ fi
 AC_TYPE_SIGNAL
 AC_FUNC_VFORK
 AC_CHECK_TYPES(u_short)
+AC_CHECK_TYPES(socklen_t, [], [], [[#include <sys/socket.h>]])
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)

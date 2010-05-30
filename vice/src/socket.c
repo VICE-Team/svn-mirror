@@ -106,10 +106,10 @@ struct vice_network_socket_address_s
                              */
     int domain;             /*!< the address family (AF_INET, ...) of this address */
     int protocol;           /*!< the protocol of this address. This can be used to distinguish between different types of an address family. */
-#ifdef _WIN32
-    int len;
-#else
+#if HAVE_SOCKLEN_T
     socklen_t len;          /*!< the length of the socket address */
+#else
+    int len;
 #endif
     union socket_addresses_u address; /* the socket address */
 };
@@ -874,7 +874,7 @@ vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 
     initialize_socket_address( & sockfd->address );
 
-    newsocket = accept(sockfd->sockfd, & sockfd->address.address.generic, (int *)& sockfd->address.len);
+    newsocket = accept(sockfd->sockfd, & sockfd->address.address.generic, & sockfd->address.len);
 
     return SOCKET_IS_INVALID(newsocket) ? NULL : vice_network_alloc_new_socket(newsocket);
 }
