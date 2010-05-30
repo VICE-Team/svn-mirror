@@ -55,7 +55,7 @@
 
 	* src/arch/win32/c64cart.dsp: Added missing file.
 
-2010-05-29  gpz
+2010-05-29  groepaz <groepaz@gmx.net>
 
 	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
 	  src/c64/cart/c64cartmem.c, src/c64/cart/superexplode5.c,
@@ -344,7 +344,7 @@
 	  src/arch/unix/x11/xaw/x11video.c: Changed the shmproto.h
 	  header detection to not depend on pkgconfig.
 
-2010-05-23  gpz
+2010-05-23  groepaz <groepaz@gmx.net>
 
 	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
 	  src/c64/cart/c64cartmem.c, src/c64/cart/freezemachine.c,
@@ -368,13 +368,13 @@
 	  src/arch/win32/c64cart.dsp, src/arch/win32/c64sc.dsp: Updated
 	  MSVC project files.
 
-2010-05-21  gpz
+2010-05-21  groepaz <groepaz@gmx.net>
 
 	* src/cartridge.h: fixed typo
 
 	* src/cartridge.h: added some more cart IDs
 
-2010-05-20  gpz
+2010-05-20  groepaz <groepaz@gmx.net>
 
 	* data/CBM-II/ROdflt.vkm, data/CBM-II/amiga_bukp.vkm,
 	  data/CBM-II/amiga_buks.vkm, data/CBM-II/beos_bukp.vkm,
