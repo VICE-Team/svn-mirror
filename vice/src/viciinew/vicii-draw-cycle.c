@@ -164,8 +164,18 @@ static DRAW_INLINE void draw_graphics(int i)
             gbuf_pixel_reg = (gbuf_reg & 0x80) ? 3 : 0;
         }
     } else {
-        /* hires pixels */
-        gbuf_pixel_reg = (gbuf_reg & 0x80) ? 2 : 0;
+        /*
+         * some kludge magic to fix $d023 glitch at MCM=0 -> 1 during
+         * MC and non-MC chars.
+         * This is rather ugly. There must be a simpler solution.
+         */
+        if ( (vmode11_pipe & 0x08) || (cbuf_reg & 0x08) ) {
+            /* hires pixels */
+            gbuf_pixel_reg = (gbuf_reg & 0x80) ? 2 : 0;
+        } else {
+            /* hires pixels */
+            gbuf_pixel_reg = (gbuf_reg & 0x80) ? 3 : 0;
+        }
     }
     px = gbuf_pixel_reg;
 
