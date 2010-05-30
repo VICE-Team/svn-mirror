@@ -38,7 +38,7 @@ extern void eeprom_cmd_write(BYTE value);
 extern void eeprom_seq_reset(void);
 extern void eeprom_seq_write(BYTE value);
 extern int  eeprom_execute_command(int eeprom_mode);
-extern void eeprom_port_write(int clk,int data,int ddr,int status);
+extern void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status);
 extern int  eeprom_open_image(char *name, int rw);
 extern void eeprom_close_image(int rw);
 

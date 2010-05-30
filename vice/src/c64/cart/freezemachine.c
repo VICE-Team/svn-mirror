@@ -90,7 +90,7 @@ static BYTE REGPARM1 freezemachine_io1_read(WORD addr)
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
         roml_toggle = 1;
-        cartridge_config_changed(2, 1 | (rom_A14 << CMODE_BANK_SHIFT), CMODE_READ);
+        cartridge_config_changed(2, (BYTE)(1 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
         DBG(("Freeze Machine: switching to 16k game mapping\n"));
     }
     return 0; /* invalid */
@@ -154,7 +154,7 @@ void freezemachine_reset(void)
 {
     rom_A14 ^= 1; /* select other 16k ROM bank on every other reset */
     roml_toggle = 0;
-    cartridge_config_changed(2, 0 | (rom_A14 << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_config_changed(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
     DBG(("Freeze Machine: reset (%d)\n", rom_A14));
 }
 
@@ -162,12 +162,12 @@ void freezemachine_freeze(void)
 {
     DBG(("Freeze Machine: freeze\n"));
     roml_toggle = 1;
-    cartridge_config_changed(2, 3 | (rom_A14 << CMODE_BANK_SHIFT), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cartridge_config_changed(2, (BYTE)(3 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 }
 
 void freezemachine_config_init(void)
 {
-    cartridge_config_changed(2, 0 | (rom_A14 << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_config_changed(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void freezemachine_config_setup(BYTE *rawcart)

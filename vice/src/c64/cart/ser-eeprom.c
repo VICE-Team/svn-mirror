@@ -251,7 +251,7 @@ int eeprom_execute_command(int eeprom_mode)
     return eeprom_mode;
 }
 
-void eeprom_port_write(int clk, int data, int ddr, int status)
+void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status)
 {
     int nextmode;
 

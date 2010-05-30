@@ -214,7 +214,7 @@ BYTE vicii_fetch_graphics(void)
     WORD addr;
 
     if (vicii.color_latency) {
-        addr = g_fetch_addr(vicii.regs[0x11] | (vicii.reg11_delay & 0x20));
+        addr = g_fetch_addr((BYTE)(vicii.regs[0x11] | (vicii.reg11_delay & 0x20)));
 
         if ((vicii.regs[0x11] ^ vicii.reg11_delay) & 0x20) {
             /* 6569 fetch magic! (FIXME: proper explanation)

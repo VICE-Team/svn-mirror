@@ -127,8 +127,8 @@ Reset button
 /* the 29F040 statemachine */
 static flash040_context_t *flashrom_state = NULL;
 
-static unsigned int active_mode_phi1 = 0;
-static unsigned int active_mode_phi2 = 0;
+static BYTE active_mode_phi1 = 0;
+static BYTE active_mode_phi2 = 0;
 
 /* RAM banking.*/
 static unsigned int raml_bank = 0, ramh_bank = 0;
@@ -1657,10 +1657,10 @@ void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value)
                 LOG(("MMCREPLAY: IO2 ST %04x %02x disable_mmc_bios %x disable_rr_rom %x", addr, value, disable_mmc_bios, disable_rr_rom));
 #endif
 
-                spi_mmc_card_selected_write(((value >> 1) ^ 1) & 1);   /* bit 1 */
-                spi_mmc_enable_8mhz_write(((value >> 2)) & 1); /* bit 2 */
+                spi_mmc_card_selected_write((BYTE)(((value >> 1) ^ 1) & 1));   /* bit 1 */
+                spi_mmc_enable_8mhz_write((BYTE)(((value >> 2)) & 1)); /* bit 2 */
                 /* bit 3,4 always 0 */
-                spi_mmc_trigger_mode_write(((value >> 6)) & 1);        /* bit 6 */
+                spi_mmc_trigger_mode_write((BYTE)(((value >> 6)) & 1));        /* bit 6 */
                 /* bit 7 always 0 */
                 if (disable_mmc_bios) {
                     /* if (enable_mmc_regs_pending) */
@@ -1718,7 +1718,7 @@ void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value)
                      * bit 5: data/ddr
                      * bit 7: clk
                      */
-                    eeprom_port_write((value >> 7) & 1, (value >> 5) & 1,
+                    eeprom_port_write((BYTE)((value >> 7) & 1), (BYTE)((value >> 5) & 1),
                                       (value >> 1) & 1, (value >> 4) & 1);
                 }
 
@@ -2521,7 +2521,7 @@ static int set_mmcr_rescue_mode(int val, void* param)
 static int set_mmcr_sd_type(int val, void* param)
 {
     mmcr_sd_type = val;
-    mmc_set_card_type(val);
+    mmc_set_card_type((BYTE)val);
     return 0;
 }
 

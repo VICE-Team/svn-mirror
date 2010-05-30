@@ -388,7 +388,8 @@ void vicii_set_light_pen(CLOCK mclk, int state)
 /* Trigger the light pen. Used internally.  */
 void vicii_trigger_light_pen_internal(int retrigger)
 {
-    int x, y;
+    int x;
+    unsigned int y;
 
     /* Unset the trigger cycle (originating from lightpen.c).
        If this function was call from elsewhere before the cycle,

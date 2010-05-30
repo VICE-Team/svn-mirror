@@ -183,7 +183,7 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                 if (value & 0x20) {
                     mode |= CMODE_EXPORT_RAM;
                 }
-                cartridge_config_changed(0, (value & 3) | (rr_bank << CMODE_BANK_SHIFT), mode);
+                cartridge_config_changed(0, (BYTE)((value & 3) | (rr_bank << CMODE_BANK_SHIFT)), mode);
 
                 if (value & 4) {
                     rr_active = 0;

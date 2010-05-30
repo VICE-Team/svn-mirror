@@ -117,9 +117,12 @@ BYTE REGPARM1 final_v3_io2_read(WORD addr)
 
 void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
 {
+    unsigned int flags;
+    BYTE mode;
+
     if ((fc3_reg_enabled) && ((addr & 0xff) == 0xff)) {
-        unsigned int flags = CMODE_WRITE;
-        unsigned int mode;
+        flags = CMODE_WRITE;
+
         fc3_reg_enabled = ((value >> 7) & 1) ^ 1;
         if (value & 0x40) {
             flags |= CMODE_RELEASE_FREEZE;
@@ -143,8 +146,9 @@ BYTE REGPARM1 final_v3_roml_read(WORD addr)
 void final_v3_freeze(void)
 {
     fc3_reg_enabled = 1;
+
     /* note: freeze does NOT force a specific bank like some other carts do */
-    cartridge_config_changed(2, 3 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);;
+    cartridge_config_changed(2, (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);;
 }
 
 void final_v3_config_init(void)

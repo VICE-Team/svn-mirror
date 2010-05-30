@@ -546,7 +546,9 @@ BYTE REGPARM1 magicformel_io2_read(WORD addr)
 
 void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
 {
-    int data, port, reg;
+    int port;
+    WORD reg;
+    BYTE data;
 
     data = (addr & 0x3f) | ((value & 2) << 6); /* d0..d5 d7 */
     port = (addr >> 7) & 1; /* rs1 */
@@ -622,9 +624,9 @@ void magicformel_freeze(void)
     kernal_decoder(0xfffe);
 
 #ifdef USE_ULTIMAX_CONFIG
-    cartridge_config_changed(2, 3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cartridge_config_changed(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 #else
-    cartridge_config_changed(2, 2 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cartridge_config_changed(2, (BYTE)(2 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 #endif
 
     magicformel_init_mem(romh_bank);
@@ -640,9 +642,9 @@ void magicformel_config_init(void)
     kernal_decoder(0xfffe);
 
 #ifdef USE_ULTIMAX_CONFIG
-    cartridge_config_changed(2, 3 | (romh_bank << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 #else
-    cartridge_config_changed(2, 2 | (romh_bank << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_config_changed(2, (BYTE)(2 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 #endif
 
     magicformel_init_mem(romh_bank);

@@ -130,7 +130,8 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 {
     if ((addr & 0xff) == 0) {
         int mode = CMODE_WRITE;
-        romconfig = (value == 2) ? 1 : (1 | (1 << CMODE_BANK_SHIFT));
+
+        romconfig = (BYTE)((value == 2) ? 1 : (1 | (1 << CMODE_BANK_SHIFT)));
         mode = mode | ((ramconfig == 0) ? CMODE_EXPORT_RAM : 0);
         if ((value & 0x7f) == 0) {
             romconfig = 3;

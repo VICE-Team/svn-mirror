@@ -320,7 +320,7 @@ static int set_mmc64_revision(int val, void *param)
 static int set_mmc64_sd_type(int val, void *param)
 {
     mmc64_sd_type = val;
-    mmc_set_card_type(val);
+    mmc_set_card_type((BYTE)val);
     return 0;
 }
 
@@ -463,14 +463,14 @@ static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
                 LOG(("MMC64:                  mmc64_active %d", (((value >> 7)) & 1)));
 #endif
 
-                spi_mmc_card_selected_write(((value >> 1) ^ 1) & 1);   /* bit 1 */
-                spi_mmc_enable_8mhz_write(((value >> 2)) & 1); /* bit 2 */
+                spi_mmc_card_selected_write((BYTE)(((value >> 1) ^ 1) & 1));   /* bit 1 */
+                spi_mmc_enable_8mhz_write((BYTE)(((value >> 2)) & 1)); /* bit 2 */
                 mmc64_cport = (((value >> 3)) & 1); /* bit 3 */
 
                 if (mmc64_flashjumper) {    /* this bit can only be changed if the flashjumper is on */
                     mmc64_flashmode = (((value >> 4)) & 1); /* bit 4 */
                 }
-                spi_mmc_trigger_mode_write(((value >> 6)) & 1);        /* bit 6 */
+                spi_mmc_trigger_mode_write((BYTE)(((value >> 6)) & 1));        /* bit 6 */
 
                 mmc64_active=(((value >> 7)) & 1); /* bit 7 */
 

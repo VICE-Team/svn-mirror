@@ -61,7 +61,7 @@ static inline void check_sprite_display(void)
     int enable = vicii.regs[0x15];
 
     for (i = 0, b = 1; i < VICII_NUM_SPRITES; i++, b <<= 1) {
-        int y = vicii.regs[i*2 + 1]; 	 
+        unsigned int y = vicii.regs[i*2 + 1]; 	 
         vicii.sprite[i].mc = vicii.sprite[i].mcbase;
 
         if (vicii.sprite_dma & b) {
@@ -115,7 +115,7 @@ static inline void check_sprite_dma(void)
     int y_exp = vicii.regs[0x17];
 
     for (i = 0, b = 1; i < VICII_NUM_SPRITES; i++, b <<= 1) {
-        int y = vicii.regs[i*2 + 1];
+        unsigned int y = vicii.regs[i*2 + 1];
 
         if ((enable & b) && (y == (vicii.raster_line & 0xff)) && !(vicii.sprite_dma & b) ) {
             turn_sprite_dma_on(i, y_exp & b);
@@ -243,7 +243,7 @@ static inline void next_vicii_cycle(void)
     vicii.raster_cycle++;
 
     /* Handle wrapping */
-    if (vicii.raster_cycle == vicii.cycles_per_line) {
+    if (vicii.raster_cycle == (unsigned int)vicii.cycles_per_line) {
         vicii.raster_cycle = 0;
     }
 }

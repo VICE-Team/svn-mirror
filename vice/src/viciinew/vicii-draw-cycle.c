@@ -350,12 +350,12 @@ static DRAW_INLINE void draw_sprites(int i)
                         if (sprite_mc_bits & m) {
                             if ( sbuf_mc_flops & m ) {
                                 /* fetch 2 bits */
-                                sbuf_pixel_reg[s] = (sbuf_reg[s] >> 22) & 0x03;
+                                sbuf_pixel_reg[s] = (BYTE)((sbuf_reg[s] >> 22) & 0x03);
                             }
                             sbuf_mc_flops ^= m;
                         } else {
                             /* fetch 1 bit and make it 0 or 2 */
-                            sbuf_pixel_reg[s] = ( (sbuf_reg[s] >> 23) & 0x01 ) << 1;
+                            sbuf_pixel_reg[s] = (BYTE)(( (sbuf_reg[s] >> 23) & 0x01 ) << 1);
                         }
                     }
 
