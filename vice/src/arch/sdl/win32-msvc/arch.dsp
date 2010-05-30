@@ -218,6 +218,10 @@ SOURCE=..\menu_plus4hw.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_printer.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_ram.c
 # End Source File
 # Begin Source File
