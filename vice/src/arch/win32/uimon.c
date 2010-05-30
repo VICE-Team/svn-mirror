@@ -2151,8 +2151,8 @@ static LRESULT CALLBACK mem_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
                 buffer[0] = mon_navigate_get_memspace(&pmp->mmp.navigate);
                 buffer[1] = startaddress & 0xFFu;
                 buffer[2] = (startaddress >> 8) & 0xFFu;
-                buffer[3] = (startaddress >> 16) & 0xFFu;
-                buffer[4] = (startaddress >> 24) & 0xFFu;
+                buffer[3] = 0;
+                buffer[4] = 0;
 
                 WriteExtraData(p, buffer, sizeof buffer);
             }
