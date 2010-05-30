@@ -1274,7 +1274,7 @@ static int parse_version(char *str)
                               version = B_EXPBAS20;
                               break;
                           case '6':
-                              version = B_EXPBAS64:
+                              version = B_EXPBAS64;
                               break;
                           default:
                               fprintf(stderr, "Please, select one of the following: exp20, exp64\n");
