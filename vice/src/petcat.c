@@ -76,7 +76,7 @@ void ui_error(const char *format, ...)
 {
 }
 
-#define PETCATVERSION   2.19
+#define PETCATVERSION   2.20
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -113,9 +113,10 @@ void ui_error(const char *format, ...)
 #define B_GB            30
 #define B_BSX           31
 #define B_SUPERBAS      32
-#define B_EXPBAS        33
+#define B_EXPBAS64      33
 #define B_SXC           34
 #define B_WARSAW        35
+#define B_EXPBAS20      36
 
 /* Limits */
 
@@ -154,7 +155,8 @@ void ui_error(const char *format, ...)
 #define NUM_WSFCC       51      /* WS basic final (c64) */
 #define NUM_GBCC        29
 #define NUM_BSXCC       31      /* Basex (c64) */
-#define NUM_EXPBASCC    42      /* Expanded Basic (c64) */
+#define NUM_EXPBAS64CC  42      /* Expanded Basic (c64) */
+#define NUM_EXPBAS20CC  24      /* Expanded Basic (vic20) */
 
 #define NUM_BLARGE0     11      /* Blarg (c64) */
 
@@ -189,7 +191,8 @@ void ui_error(const char *format, ...)
 #define MAX_WSFCC       0xFE    /* WS basic final (c64) */
 #define MAX_GBCC        0xE8    /* Game Basic (c64) */
 #define MAX_BSXCC       0xEA    /* Basex (c64) */
-#define MAX_EXPBASCC    0xF5    /* Expanded Basic (c64) */
+#define MAX_EXPBAS64CC  0xF5    /* Expanded Basic (c64) */
+#define MAX_EXPBAS20CC  0xE3    /* Expanded Basic (vic20) */
 
 #define MAX_BLARGE0     0xEA    /* Blarg (c64) */
 
@@ -357,7 +360,8 @@ const char *VersNames[] = {
     "Basic 2.0 with Game Basic",
     "Basic 2.0 with Basex",
     "Basic 2.0 with super basic",
-    "Basic 2.0 with expanded basic",
+    "Basic 2.0 with expanded basic 20"
+    "Basic 2.0 with expanded basic 64",
     "Basic 2.0 with super expander chip",
     "Basic 2.0 with Warsaw Basic"
     ""
@@ -718,13 +722,21 @@ const char *bsxkwcc[] = {
 
 /* Expanded Basic (c64) Keywords (Tokens CC - F5) -- Marco van den Heuvel */
 
-const char *expbaskwcc[] = {
+const char *expbas64kwcc[] = {
     "hires",    "norm",     "graph",   "set",        "line",     "circle",   "fill",   "mode",
     "cls",      "text",     "color",   "gsave",      "gload",    "inverse",  "frame",  "move",
     "using",    "renumber", "delete",  "box",        "mobdef",   "sprite",   "mobset", "modsize",
     "mobcolor", "mobmulti", "mobmove", "doke",       "allclose", "old",      "auto",   "volume",
     "envelope", "wave",     "play",    "case error", "resume",   "no error", "find",   "inkey",
     "merge",    "hardcopy"
+};
+
+/* Expanded Basic (vic20) Keywords (Tokens CC - E3) -- Marco van den Heuvel */
+
+const char *expbas20kwcc[] = {
+    "reset", "sound", "slow(", "com",   "mem",    "stat(", "key",   "off",
+    "col(",  "plot(", "pop(",  "chol(", "curol(", "beep(", "paus(", "msav",
+    "reg(",  "dpek(", "pdl",   "joy",   "dpok",   "do",    "until", "old"
 };
 
 /* Simon's Basic Keywords */
@@ -965,7 +977,8 @@ int main(int argc, char **argv)
                 "\tGame\tBasic v2.0 with Game Basic (C64)\n"
                 "\tBSX\tBasic v2.0 with Basex (C64)\n"
                 "\tsuperbas\tBasic v2.0 with Super Basic (C64)\n"
-                "\texp\tBasic 2.0 with Expanded Basic (C64)\n"
+                "\texp20\tBasic 2.0 with Expanded Basic (VIC20)\n"
+                "\texp64\tBasic 2.0 with Expanded Basic (C64)\n"
                 "\tsxc\tBasic 2.0 with Super Expander Chip (C64)\n"
                 "\twarsaw\tBasic 2.0 with Warsaw Basic (C64)\n"
                 "\t4v\tBasic 2.0 with Basic 4.0 extensions (VIC20)\n"
@@ -1239,7 +1252,7 @@ static int parse_version(char *str)
                   version = B_BSX;
                   break;
               default:
-                  fprintf(stderr, "Please, select on of the following: blarg, bsx\n");
+                  fprintf(stderr, "Please, select one of the following: blarg, bsx\n");
           }
           break;
 
@@ -1253,7 +1266,20 @@ static int parse_version(char *str)
                   version = B_EASY;
                   break;
               case 'X':
-                  version = B_EXPBAS;
+                  if (toupper(str[2]) != 'P') {
+                      fprintf(stderr, "Please, select one of the following: exp20, exp64\n");
+                  } else {
+                      switch (toupper(str[3])) {
+                          case '2':
+                              version = B_EXPBAS20;
+                              break;
+                          case '6':
+                              version = B_EXPBAS64:
+                              break;
+                          default:
+                              fprintf(stderr, "Please, select one of the following: exp20, exp64\n");
+                      }
+                  }
                   break;
           }
           break;
@@ -1491,9 +1517,15 @@ static void list_keywords(int version)
                 }
                 break;
 
-            case B_EXPBAS:
-                for (n = 0; n < NUM_EXPBASCC; n++) {
-                    printf("%s\t", expbaskwcc[n] /*, n + 0xcc*/);
+            case B_EXPBAS20:
+                for (n = 0; n < NUM_EXPBAS20CC; n++) {
+                    printf("%s\t", expbas20kwcc[n] /*, n + 0xcc*/);
+                }
+                break;
+
+            case B_EXPBAS64:
+                for (n = 0; n < NUM_EXPBAS64CC; n++) {
+                    printf("%s\t", expbas64kwcc[n] /*, n + 0xcc*/);
                 }
                 break;
 
@@ -1863,9 +1895,15 @@ static int p_expand(int version, int addr, int ctrls)
                         }
                         break;
 
-                    case B_EXPBAS:
-                        if (c >= 0xcc && c <= MAX_EXPBASCC) {
-                            fprintf(dest, "%s", expbaskwcc[c - 0xcc]);
+                    case B_EXPBAS20:
+                        if (c >= 0xcc && c <= MAX_EXPBAS20CC) {
+                            fprintf(dest, "%s", expbas20kwcc[c - 0xcc]);
+                        }
+                        break;
+
+                    case B_EXPBAS64:
+                        if (c >= 0xcc && c <= MAX_EXPBAS64CC) {
+                            fprintf(dest, "%s", expbas64kwcc[c - 0xcc]);
                         }
                         break;
 
@@ -2351,8 +2389,16 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     }
                     break;
 
-                  case B_EXPBAS:
-                    if ((c = sstrcmp(p2, expbaskwcc, 0, NUM_EXPBASCC)) !=KW_NONE) {
+                  case B_EXPBAS20:
+                    if ((c = sstrcmp(p2, expbas20kwcc, 0, NUM_EXPBAS20CC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_EXPBAS64:
+                    if ((c = sstrcmp(p2, expbas64kwcc, 0, NUM_EXPBAS64CC)) !=KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;

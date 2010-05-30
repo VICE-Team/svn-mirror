@@ -1,5 +1,5 @@
 
-PETCAT version 2.19 PL 1					27 May 2010
+PETCAT version 2.20 PL 1					28 May 2010
 
 
   Listed below are keywords and token codes for all CBM Basic versions
@@ -28,7 +28,8 @@ PETCAT version 2.19 PL 1					27 May 2010
 	Basic 2.0 with Blarg
 	Basic 2.0 with Game Basic
       Basic 2.0 with Super Basic
-      Basic 2.0 with Expanded Basic
+      Basic 2.0 with Expanded Basic 20
+      Basic 2.0 with Expanded Basic 64
       Basic 2.0 with Super Expander Chip
       Basic 2.0 with Warsaw Basic
 	Basic 4.0
@@ -338,36 +339,37 @@ fe3d                              highlight
  Turtle Basic v1.0 Keywords (Tokens CC - ED)
  Mighty Basic      Keywords (Tokens CC - FE)
  Easy Basic        Keywords (Tokens CC - FE)
+ Expanded Basic    Keywords (Tokens CC - E3)
 
-Token  Turtle   Mighty     Easy
+Token  Turtle   Mighty     Easy        ExpBas
 
-cc     graphic  delete     delete
-cd     old      old        old
-ce     turn     renumber   renumber
-cf     pen      help       dump
+cc     graphic  delete     delete      reset
+cd     old      old        old         sound
+ce     turn     renumber   renumber    slow(
+cf     pen      help       dump        com
 
-d0     draw     header     merge
-d1     move     move       plot
-d2     point    trace      trace
-d3     kill     kill       kill
-d4     write    dump       help
-d5     repeat   dsave      dload
-d6     screen   dload      dsave
-d7     doke     dverify    dverify
+d0     draw     header     merge       mem
+d1     move     move       plot        stat(
+d2     point    trace      trace       key
+d3     kill     kill       kill        off
+d4     write    dump       help        col(
+d5     repeat   dsave      dload       plot(
+d6     screen   dload      dsave       pop(
+d7     doke     dverify    dverify     chol(
 
-d8     reloc    dresave    append
-d9     fill     scratch    screen
-da     rtime    directory  directory
-db     base     key        key
-dc     pause    send       send
-dd     pop      pop        pop
-de     color    off        off
-df     merge    bsave      pout
+d8     reloc    dresave    append      curol(
+d9     fill     scratch    screen      beep(
+da     rtime    directory  directory   paus(
+db     base     key        key         msav
+dc     pause    send       send        reg(
+dd     pop      pop        pop         dpek(
+de     color    off        off         pdl
+df     merge    bsave      pout        joy
 
-e0     char     bload      header
-e1     take     find       find
-e2     sound    auto       auto
-e3     vol      pprint     pprint
+e0     char     bload      header      dpok
+e1     take     find       find        do
+e2     sound    auto       auto        until
+e3     vol      pprint     pprint      old
 e4     put      accept     accept
 e5     place    reset      reset
 e6     cls      else       scratch
