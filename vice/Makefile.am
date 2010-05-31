@@ -54,8 +54,10 @@ endif
 x64:
 	(cd src; $(MAKE) x64-all)
 
+if SUPPORT_X64SC
 x64sc:
 	(cd src; $(MAKE) x64sc-all)
+endif
 
 x128:
 	(cd src; $(MAKE) x128-all)

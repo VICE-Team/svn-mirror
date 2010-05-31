@@ -2555,13 +2555,22 @@ AC_SUBST(XPLUS4_WINRES)
 AC_SUBST(XCBM2_WINRES)
 
 
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -a x"$enable_sdlui" != "xyes"; then
+dnl disable building of x64dtv for native gp2x, wiz, dingoo and riscos
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$is_riscos" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   AM_CONDITIONAL(SUPPORT_X64DTV, false)
 else
+  AM_CONDITIONAL(SUPPORT_X64DTV, true)
+fi
+
+dnl disable building of x64sc for gp2x, wiz, dingoo, disabled resid and disabled resid-fp configurations
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" != "xyes" -o x"$disable_resid_fp" = "xyes"; then
+  AM_CONDITIONAL(SUPPORT_X64SC, false)
+else
+  dnl also disable building of x64sc for native riscos
   if test x"$is_riscos" = "xyes" -a x"$enable_sdlui" != "xyes"; then
-    AM_CONDITIONAL(SUPPORT_X64DTV, false)
+    AM_CONDITIONAL(SUPPORT_X64SC, false)
   else
-    AM_CONDITIONAL(SUPPORT_X64DTV, true)
+    AM_CONDITIONAL(SUPPORT_X64SC, true)
   fi
 fi
 

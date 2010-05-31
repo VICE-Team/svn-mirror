@@ -727,10 +727,16 @@ endif
 if SUPPORT_X64DTV
 x64dtv_bin = x64dtv
 else
-c64dtv_bin =
+x64dtv_bin =
 endif
 
-bin_PROGRAMS = x64 x64sc x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 c1541 petcat cartconv
+if SUPPORT_X64SC
+x64sc_bin = x64sc
+else
+x64sc_bin =
+endif
+
+bin_PROGRAMS = x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 c1541 petcat cartconv
 
 EXTRA_PROGRAMS =
 
