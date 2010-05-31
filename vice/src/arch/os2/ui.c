@@ -122,6 +122,11 @@ int c64dtvui_init(void)
     return 0;
 }
 
+int c64scui_init(void)
+{
+    return 0;
+}
+
 int c128ui_init(void)
 {
     return 0;

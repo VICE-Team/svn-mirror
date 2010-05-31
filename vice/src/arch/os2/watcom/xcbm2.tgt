@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-149
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XCBM__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\.. -q -ad -r -fo=dlg-xcbm2.res
+158
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XCBM__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xcbm2.res
 wrc -q -ad dlg-xcbm2.res xcbm2.exe
 
 6

@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-146
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XPET__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\.. -q -ad -r -fo=dlg-xpet.res
+155
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XPET__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xpet.res
 wrc -q -ad dlg-xpet.res xpet.exe
 
 6

@@ -62,22 +62,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "dialogs\\dlg-color.c"
 
         source type(c)
-            "reu.c",
-            "georam.c",
-            "ramcart.c",
-            "digimax.c",
-            "mmc64.c",
-            "dqbb.c",
-            "isepic.c",
-            "fmopl.c",
-            "sfx_soundexpander.c",
-            "sfx_soundsampler.c",
             "c64acia1.c",
             "c64bus.c",
             "c64cia2.c",
             "c64datasette.c",
             "c64drive.c",
             "c64export.c",
+            "c64gluelogic.c",
             "c64iec.c",
             "c64io.c",
             "c64keyboard.c",
@@ -88,7 +79,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "c64printer.c",
             "c64rsuser.c",
             "c64sound.c",
-            "c64tpi.c",
             "vicii-clock-stretch.c"
 
         include "../incl/archdep.icc"

@@ -507,7 +507,7 @@ WFileName
 18
 resid-specific.tgt
 0
-5
+1
 116
 VComponent
 117
@@ -523,7 +523,7 @@ WFileName
 20
 x64x128-specific.tgt
 0
-0
+1
 119
 VComponent
 120
@@ -603,7 +603,7 @@ WFileName
 11
 archdep.tgt
 0
-0
+4
 134
 VComponent
 135
@@ -1371,7 +1371,7 @@ WFileName
 8
 xvic.tgt
 0
-2
+0
 278
 VComponent
 279
@@ -1500,4 +1500,4 @@ WFileName
 gentr.tgt
 0
 1
-293
+296
