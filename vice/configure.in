@@ -2563,7 +2563,7 @@ else
 fi
 
 dnl disable building of x64sc for gp2x, wiz, dingoo, disabled resid and disabled resid-fp configurations
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" != "xyes" -o x"$disable_resid_fp" = "xyes"; then
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" = "xno" -o x"$disable_resid_fp" = "xyes"; then
   AM_CONDITIONAL(SUPPORT_X64SC, false)
 else
   dnl also disable building of x64sc for native riscos
