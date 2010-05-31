@@ -1031,7 +1031,7 @@ WFileName
 7
 x64.tgt
 0
-0
+2
 211
 VComponent
 212
@@ -1191,7 +1191,7 @@ WFileName
 15
 c64commonsc.tgt
 0
-13
+0
 241
 VComponent
 242
@@ -1213,7 +1213,7 @@ VComponent
 245
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -1240,4 +1240,4 @@ WFileName
 x64sc.tgt
 0
 0
-67
+208
