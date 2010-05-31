@@ -226,6 +226,7 @@ static gfxoutputdrv_t jpeg_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,jpegdrv_save_memmap

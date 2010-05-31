@@ -93,7 +93,7 @@ struct vdc_s {
     int initialized;            /* = 0; */
 
     /* VDC registers.  */
-    unsigned int regs[64];
+    BYTE regs[64];
 
     /* VDC geometry constants that differ in doulbe size mode.  */
     unsigned int screen_height;

@@ -43,6 +43,7 @@
 
 enum {
     SS_BMP=1,
+    SS_DOODLE,
 #ifdef HAVE_GIF
     SS_GIF,
 #endif
@@ -113,19 +114,20 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
     int format;
     char choices[100] = "";
 
-    strcat(choices,"BMP|");
+    strcat(choices, "BMP|");
+    strcat(choices, "DOODLE|");
 #ifdef HAVE_GIF
-    strcat(choices,"GIF|");
+    strcat(choices, "GIF|");
 #endif
-    strcat(choices,"IFF|");
+    strcat(choices, "IFF|");
 #ifdef HAVE_JPEG
-    strcat(choices,"JPG|");
+    strcat(choices, "JPG|");
 #endif
-    strcat(choices,"PCX|");
+    strcat(choices, "PCX|");
 #ifdef HAVE_PNG
-    strcat(choices,"PNG|");
+    strcat(choices, "PNG|");
 #endif
-    strcat(choices,"PPM|");
+    strcat(choices, "PPM|");
     strcat(choices, translate_text(IDS_CANCEL));
 
     format = ui_requester(translate_text(IDS_SAVE_SCREENSHOT), translate_text(IDS_CHOOSE_SCREENSHOT_FORMAT), choices, 0);
@@ -133,6 +135,9 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
     switch (format) {
         case SS_BMP:
             save_screenshot_file("#?.bmp", "BMP", canvas);
+            break;
+        case SS_DOODLE:
+            save_screenshot_file("#?.dd", "DOODLE", canvas);
             break;
         case SS_GIF:
             save_screenshot_file("#?.gif", "GIF", canvas);

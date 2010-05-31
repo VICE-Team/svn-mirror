@@ -132,11 +132,20 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
     screenshot->convert_line = screenshot_line_data;
 
     if (drv != NULL) {
-        /* It's a usual screenshot. */
-        if ((drv->save)(screenshot, filename) < 0) {
-            log_error(screenshot_log, "Saving failed...");
-            lib_free(screenshot->color_map);
-            return -1;
+        if (drv->save_native != NULL) {
+            /* It's a native screenshot. */
+            if ((drv->save_native)(screenshot, filename) < 0) {
+                log_error(screenshot_log, "Saving failed...");
+                lib_free(screenshot->color_map);
+                return -1;
+            }
+        } else {
+            /* It's a usual screenshot. */
+            if ((drv->save)(screenshot, filename) < 0) {
+                log_error(screenshot_log, "Saving failed...");
+                lib_free(screenshot->color_map);
+                return -1;
+            }
         }
     } else {
         /* We're recording a movie */

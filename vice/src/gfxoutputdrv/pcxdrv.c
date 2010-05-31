@@ -443,6 +443,7 @@ static gfxoutputdrv_t pcx_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,pcxdrv_save_memmap

@@ -806,10 +806,17 @@ void ted_shutdown(void)
 void ted_screenshot(screenshot_t *screenshot)
 {
     raster_screenshot(&ted.raster, screenshot);
+    screenshot->chipid = "TED";
+    screenshot->video_regs = ted.regs;
+    screenshot->screen_ptr = ted.screen_ptr;
+    screenshot->chargen_ptr = ted.chargen_ptr;
+    screenshot->bitmap_ptr = ted.bitmap_ptr;
+    screenshot->bitmap_low_ptr = NULL;
+    screenshot->bitmap_high_ptr = NULL;
+    screenshot->color_ram_ptr = ted.color_ptr;
 }
 
 void ted_async_refresh(struct canvas_refresh_s *refresh)
 {
     raster_async_refresh(&ted.raster, refresh);
 }
-

@@ -290,6 +290,7 @@ static gfxoutputdrv_t gif_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,NULL

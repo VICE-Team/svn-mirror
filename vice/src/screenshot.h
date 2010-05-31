@@ -76,6 +76,30 @@ typedef struct screenshot_s {
 
     /* Pointer for graphics outout driver internal data.  */
     struct gfxoutputdrv_data_s *gfxoutputdrv_data;
+
+    /* native screenshot chip ID */
+    char *chipid;
+
+    /* native screenshot video regs */
+    BYTE *video_regs;
+
+    /* native screenshot screen */
+    BYTE *screen_ptr;
+
+    /* native screenshot chargen */
+    BYTE *chargen_ptr;
+
+    /* native screenshot bitmap */
+    BYTE *bitmap_ptr;
+
+    /* native screenshot low part bitmap */
+    BYTE *bitmap_low_ptr;
+
+    /* native screenshot high part bitmap */
+    BYTE *bitmap_high_ptr;
+
+    /* native screenshot color ram */
+    BYTE *color_ram_ptr;
 } screenshot_t;
 
 #define SCREENSHOT_MODE_PALETTE 0

@@ -548,6 +548,14 @@ int vdc_read_snapshot_module(snapshot_t *s)
 void vdc_screenshot(screenshot_t *screenshot)
 {
     raster_screenshot(&vdc.raster, screenshot);
+    screenshot->chipid = "VDC";
+    screenshot->video_regs = vdc.regs;
+    screenshot->screen_ptr = vdc.ram + vdc.screen_adr;
+    screenshot->chargen_ptr = vdc.ram + vdc.chargen_adr;
+    screenshot->bitmap_ptr = NULL; /* todo */
+    screenshot->bitmap_low_ptr = NULL;
+    screenshot->bitmap_high_ptr = NULL;
+    screenshot->color_ram_ptr = NULL; /* todo */
 }
 
 void vdc_async_refresh(struct canvas_refresh_s *refresh)
@@ -559,4 +567,3 @@ void vdc_shutdown(void)
 {
     raster_shutdown(&vdc.raster);
 }
-

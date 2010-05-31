@@ -671,6 +671,14 @@ void vicii_shutdown(void)
 void vicii_screenshot(screenshot_t *screenshot)
 {
     raster_screenshot(&vicii.raster, screenshot);
+    screenshot->chipid = "VICII";
+    screenshot->video_regs = vicii.regs;
+    screenshot->screen_ptr = vicii.screen_base_phi2;
+    screenshot->chargen_ptr = vicii.chargen_ptr;
+    screenshot->bitmap_ptr = NULL;
+    screenshot->bitmap_low_ptr = vicii.bitmap_low_ptr;
+    screenshot->bitmap_high_ptr = vicii.bitmap_high_ptr;
+    screenshot->color_ram_ptr = mem_color_ram_vicii;
 }
 
 void vicii_async_refresh(struct canvas_refresh_s *refresh)

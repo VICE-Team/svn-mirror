@@ -244,6 +244,7 @@ static gfxoutputdrv_t ppm_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,ppmdrv_save_memmap

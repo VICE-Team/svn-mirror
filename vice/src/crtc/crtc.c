@@ -746,9 +746,42 @@ void crtc_enable_hw_screen_blank(int enable)
     crtc.hw_blank = enable;
 }
 
+/* cols60 is 80 cols with 40 cols timing */
+static BYTE cols40[1] = { 40 };
+static BYTE cols60[1] = { 60 };
+static BYTE cols80[1] = { 80 };
+
+static BYTE charh8[1] = { 8 };
+static BYTE charh14[1] = { 14 };
+
 void crtc_screenshot(screenshot_t *screenshot)
 {
     raster_screenshot(&crtc.raster, screenshot);
+
+    screenshot->chipid = "CRTC";
+    screenshot->video_regs = crtc.regs;
+    screenshot->screen_ptr = crtc.screen_base;
+    screenshot->chargen_ptr = crtc.chargen_base + crtc.chargen_rel;
+    screenshot->bitmap_ptr = NULL;
+
+    /* Use the bitmap_low_ptr as indicator for the amount of hw columns */
+    if (crtc.hw_cols & 2) {
+        screenshot->bitmap_low_ptr = cols80;
+    } else {
+        if (crtc.vaddr_mask == 0x7ff) {
+            screenshot->bitmap_low_ptr = cols60;
+        } else {
+            screenshot->bitmap_low_ptr = cols40;
+        }
+    }
+
+    /* Use the bitmap_high_ptr as indicator for the height of the chars */
+    if (crtc.screen_height == 382) {
+        screenshot->bitmap_high_ptr = charh14;
+    } else {
+        screenshot->bitmap_high_ptr = charh8;
+    }
+    screenshot->color_ram_ptr = NULL;
 }
 
 void crtc_async_refresh(struct canvas_refresh_s *refresh)

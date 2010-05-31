@@ -368,6 +368,7 @@ static gfxoutputdrv_t iff_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,iffdrv_save_memmap

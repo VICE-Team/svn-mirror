@@ -55,6 +55,7 @@
 #include "vic-color.h"
 #include "vic.h"
 #include "vic20.h"
+#include "vic20-resources.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
 #include "videoarch.h"
@@ -270,6 +271,72 @@ void vic_shutdown(void)
 void vic_screenshot(screenshot_t *screenshot)
 {
     raster_screenshot(&vic.raster, screenshot);
+    screenshot->chipid = "VIC";
+    screenshot->video_regs = vic.regs;
+    screenshot->screen_ptr = (vic.regs[0x02] & 0x80) ? mem_ram + 0x1e00 : mem_ram + 0x1000;
+    switch (vic.regs[0x05] & 0xf) {
+        case 0:
+            screenshot->chargen_ptr = vic20memrom_chargen_rom;
+            break;
+        case 1:
+            screenshot->chargen_ptr = vic20memrom_chargen_rom + 0x400;
+            break;
+        case 2:
+            screenshot->chargen_ptr = vic20memrom_chargen_rom + 0x800;
+            break;
+        case 3:
+            screenshot->chargen_ptr = vic20memrom_chargen_rom + 0xc00;
+            break;
+        case 5:
+            screenshot->chargen_ptr = mem_ram + 0x9400;
+            break;
+        case 4:
+        case 6:
+        case 7:
+        default:
+            screenshot->chargen_ptr = NULL;
+            break;
+        case 8:
+            screenshot->chargen_ptr = mem_ram;
+            break;
+        case 9:
+            if (ram_block_0_enabled) {
+                screenshot->chargen_ptr = mem_ram + 0x400;
+            } else {
+                screenshot->chargen_ptr = NULL;
+            }
+            break;
+        case 10:
+            if (ram_block_0_enabled) {
+                screenshot->chargen_ptr = mem_ram + 0x800;
+            } else {
+                screenshot->chargen_ptr = NULL;
+            }
+            break;
+        case 11:
+            if (ram_block_0_enabled) {
+                screenshot->chargen_ptr = mem_ram + 0xc00;
+            } else {
+                screenshot->chargen_ptr = NULL;
+            }
+            break;
+        case 12:
+            screenshot->chargen_ptr = mem_ram + 0x1000;
+            break;
+        case 13:
+            screenshot->chargen_ptr = mem_ram + 0x1400;
+            break;
+        case 14:
+            screenshot->chargen_ptr = mem_ram + 0x1800;
+            break;
+        case 15:
+            screenshot->chargen_ptr = mem_ram + 0x1c00;
+            break;
+    }
+    screenshot->bitmap_ptr = NULL;
+    screenshot->bitmap_low_ptr = NULL;
+    screenshot->bitmap_high_ptr = NULL;
+    screenshot->color_ram_ptr = (vic.regs[0x02] & 0x80) ? mem_ram + 0x9600 : mem_ram + 0x9400;
 }
 
 void vic_async_refresh(struct canvas_refresh_s *refresh)

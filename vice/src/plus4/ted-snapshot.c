@@ -141,7 +141,7 @@ int ted_snapshot_write_module(snapshot_t *s)
 
     for (i = 0; i < 0x40; i++)
         /* Registers */
-        if (SMW_B(m, (BYTE)ted.regs[i]) < 0)
+        if (SMW_B(m, ted.regs[i]) < 0)
             goto fail;
 
     if (0
@@ -250,7 +250,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 0x40; i++)
-        if (SMR_B_INT(m, &ted.regs[i]) < 0 /* Registers */ )
+        if (SMR_B(m, &ted.regs[i]) < 0 /* Registers */ )
             goto fail;
 
 

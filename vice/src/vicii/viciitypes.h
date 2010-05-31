@@ -191,7 +191,7 @@ struct vicii_s {
     raster_t raster;
 
     /* VIC-II registers.  */
-    int regs[0x50];
+    BYTE regs[0x50];
 
     /* DTV Linear Counters */
     int counta;

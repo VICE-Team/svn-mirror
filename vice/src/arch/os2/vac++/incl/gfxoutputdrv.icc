@@ -1,6 +1,7 @@
 source type(c)
     "gfxoutput.c",
     "bmpdrv.c",
+    "doodledrv.c",
     "iffdrv.c",
     "pcxdrv.c",
     "pngdrv.c",

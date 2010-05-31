@@ -143,7 +143,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
 
     for (i = 0; i < 0x40; i++)
         /* Registers */
-        if (SMW_B(m, (BYTE)vicii.regs[i]) < 0)
+        if (SMW_B(m, vicii.regs[i]) < 0)
             goto fail;
 
     if (0

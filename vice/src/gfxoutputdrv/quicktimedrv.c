@@ -615,6 +615,7 @@ static gfxoutputdrv_t quicktime_drv = {
     quicktimedrv_close,
     quicktimedrv_write,
     quicktimedrv_save,
+    NULL,
     quicktimedrv_record,
     NULL,
     quicktimedrv_resources_init,

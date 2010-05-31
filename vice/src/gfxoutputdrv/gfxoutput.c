@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "bmpdrv.h"
+#include "doodledrv.h"
 #include "gfxoutput.h"
 #include "lib.h"
 #include "log.h"
@@ -96,6 +97,7 @@ int gfxoutput_early_init(void)
     gfxoutputdrv_list->next = NULL;
 
     gfxoutput_init_bmp();
+    gfxoutput_init_doodle();
 #if defined(HAVE_GIF) || (defined(WIN32) && !defined(USE_SDLUI))
     gfxoutput_init_gif();
 #endif

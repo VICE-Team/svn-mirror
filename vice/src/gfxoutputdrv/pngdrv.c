@@ -282,6 +282,7 @@ static gfxoutputdrv_t png_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,pngdrv_save_memmap

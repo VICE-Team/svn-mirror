@@ -193,7 +193,7 @@ struct ted_s {
     raster_t raster;
 
     /* VIC-II registers.  */
-    int regs[64];
+    BYTE regs[64];
 
     /* Interrupt register.  */
     int irq_status;             /* = 0; */

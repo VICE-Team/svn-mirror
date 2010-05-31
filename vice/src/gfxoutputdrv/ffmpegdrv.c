@@ -853,6 +853,7 @@ static gfxoutputdrv_t ffmpeg_drv = {
     ffmpegdrv_close,
     ffmpegdrv_write,
     ffmpegdrv_save,
+    NULL,
     ffmpegdrv_record,
     ffmpegdrv_shutdown,
     ffmpegdrv_resources_init,

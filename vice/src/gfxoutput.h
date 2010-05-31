@@ -51,6 +51,7 @@ typedef struct gfxoutputdrv_s {
     int (*close)(struct screenshot_s *);
     int (*write)(struct screenshot_s *);
     int (*save)(struct screenshot_s *, const char *);
+    int (*save_native)(struct screenshot_s *, const char *);
     int (*record)(struct screenshot_s *);
     void (*shutdown)(void);
     int (*resources_init)(void);
@@ -85,5 +86,29 @@ extern void gfxoutput_init_gif(void);
 #define VICE_FFMPEG_AUDIO_RATE_MAX      384000
 #define VICE_FFMPEG_AUDIO_RATE_DEFAULT  64000
 
-#endif
+/* Native screenshot drivers definitions */
+#define NATIVE_SS_OVERSIZE_SCALE                0
+#define NATIVE_SS_OVERSIZE_CROP_LEFT_TOP        1
+#define NATIVE_SS_OVERSIZE_CROP_CENTER_TOP      2
+#define NATIVE_SS_OVERSIZE_CROP_RIGHT_TOP       3
+#define NATIVE_SS_OVERSIZE_CROP_LEFT_CENTER     4
+#define NATIVE_SS_OVERSIZE_CROP_CENTER          5
+#define NATIVE_SS_OVERSIZE_CROP_RIGHT_CENTER    6
+#define NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM     7
+#define NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM   8
+#define NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM    9
 
+#define NATIVE_SS_MC2HR_BLACK_WHITE   0
+#define NATIVE_SS_MC2HR_2_COLORS      1
+#define NATIVE_SS_MC2HR_4_COLORS      2
+#define NATIVE_SS_MC2HR_GRAY          3
+#define NATIVE_SS_MC2HR_DITHER        4
+
+#define NATIVE_SS_TED_LUM_IGNORE   0
+#define NATIVE_SS_TED_LUM_DITHER   1
+
+#define NATIVE_SS_CRTC_WHITE   0
+#define NATIVE_SS_CRTC_AMBER   1
+#define NATIVE_SS_CRTC_GREEN   2
+
+#endif
