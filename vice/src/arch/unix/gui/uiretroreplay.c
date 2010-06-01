@@ -32,16 +32,16 @@
 #include "uimenu.h"
 #include "uiretroreplay.h"
 
-UI_MENU_DEFINE_TOGGLE(RR_flashjumper)
-UI_MENU_DEFINE_TOGGLE(RR_bankjumper)
-UI_MENU_DEFINE_TOGGLE(RR_bios_write)
+UI_MENU_DEFINE_TOGGLE(RRFlashJumper)
+UI_MENU_DEFINE_TOGGLE(RRBankJumper)
+UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
 
 ui_menu_entry_t retroreplay_submenu[] = {
     { N_("*Enable RR flashjumper"),
-      (ui_callback_t)toggle_RR_flashjumper, NULL, NULL },
+      (ui_callback_t)toggle_RRFlashJumper, NULL, NULL },
     { N_("*Set RR bankjumper"),
-      (ui_callback_t)toggle_RR_bankjumper, NULL, NULL },
+      (ui_callback_t)toggle_RRBankJumper, NULL, NULL },
     { N_("*Enable RR ROM save when changed"),
-      (ui_callback_t)toggle_RR_bios_write, NULL, NULL },
+      (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },
     { NULL }
 };

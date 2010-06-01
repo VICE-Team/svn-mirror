@@ -89,11 +89,11 @@ static int no_freeze;
 /* REU compatibility mapping.  */
 unsigned int reu_mapping;
 
-static int rr_hw_flashjumper;
-static int rr_hw_bankjumper;
-static int rr_bios_write;
+static int rr_hw_flashjumper = 0;
+static int rr_hw_bankjumper = 0;
+static int rr_bios_write = 0;
 
-static unsigned int rom_offset;
+static unsigned int rom_offset = 0x10000;
 
 /* the 29F010 statemachine */
 static flash040_context_t *flashrom_state = NULL;
@@ -226,9 +226,9 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
 
                 if (rr_hw_flashjumper) {
                     /* FIXME: what exactly is really happening ? */
-                    if((value & 3) == 3) {
+                    if ((value & 3) == 3) {
                         value = 0;
-                    } else if((value & 3) == 1) {
+                    } else if ((value & 3) == 1) {
                         value = 0;
                     }
                 }
@@ -495,7 +495,9 @@ void retroreplay_config_setup(BYTE *rawcart)
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
     flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_010, roml_banks);
-    memcpy(flashrom_state->flash_data, rawcart, 0x20000);    
+    /* the logical bank 0 is the physical bank 1 */
+    memcpy(flashrom_state->flash_data, &rawcart[0x10000], 0x10000);
+    memcpy(&flashrom_state->flash_data[0x10000], rawcart, 0x10000);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -507,6 +509,7 @@ static const c64export_resource_t export_res = {
 static int set_rr_flashjumper(int val, void *param)
 {
     rr_hw_flashjumper = val;
+    DBG(("set_rr_flashjumper: %d\n", rr_hw_flashjumper));
     return 0;
 }
 
@@ -514,7 +517,7 @@ static int set_rr_bankjumper(int val, void *param)
 {
     /* FIXME: needs confirmation: it appears that when the jumper is set, bank 0 is selected */
     rr_hw_bankjumper = val;
-    if(rr_hw_bankjumper) {
+    if (rr_hw_bankjumper) {
         rom_offset = 0x0;
     } else {
         rom_offset = 0x10000;
@@ -530,13 +533,13 @@ static int set_rr_bios_write(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-  { "RR_flashjumper", 0, RES_EVENT_NO, NULL,
-    &rr_hw_flashjumper, set_rr_flashjumper, NULL },
-  { "RR_bankjumper", 0, RES_EVENT_NO, NULL,
-    &rr_hw_bankjumper, set_rr_bankjumper, NULL },
-  { "RR_bios_write", 0, RES_EVENT_NO, NULL,
-    &rr_bios_write, set_rr_bios_write, NULL },
-  { NULL }
+    { "RRFlashJumper", 0, RES_EVENT_NO, NULL,
+      &rr_hw_flashjumper, set_rr_flashjumper, NULL },
+    { "RRBankJumper", 0, RES_EVENT_NO, NULL,
+      &rr_hw_bankjumper, set_rr_bankjumper, NULL },
+    { "RRBiosWrite", 0, RES_EVENT_NO, NULL,
+      &rr_bios_write, set_rr_bios_write, NULL },
+    { NULL }
 };
 
 int retroreplay_resources_init(void)
@@ -553,13 +556,37 @@ void retroreplay_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-  /* FIXME: ARGS. someone document how to use these defines */
-  { "-rrbioswrite", SET_RESOURCE, 0,
-    NULL, NULL, "RR_bios_write", (resource_value_t)1,
-    USE_PARAM_STRING, USE_DESCRIPTION_ID,
-    IDCLS_UNUSED, IDCLS_MMC64_BIOS_WRITE, /* FIXME */
-    NULL, NULL },
-  { NULL }
+    { "-rrbioswrite", SET_RESOURCE, 0,
+      NULL, NULL, "RRBiosWrite", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable saving of the RR ROM at exit") },
+    { "+rrbioswrite", SET_RESOURCE, 0,
+      NULL, NULL, "RRBiosWrite", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable saving of the RR ROM at exit") },
+    { "-rrbankjumper", SET_RESOURCE, 0,
+      NULL, NULL, "RRBankJumper", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Set RR Bank Jumper") },
+    { "+rrbankjumper", SET_RESOURCE, 0,
+      NULL, NULL, "RRBankJumper", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Unset RR Bank Jumper") },
+    { "-rrflashjumper", SET_RESOURCE, 0,
+      NULL, NULL, "RRFlashJumper", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Set RR Flash Jumper") },
+    { "+rrflashjumper", SET_RESOURCE, 0,
+      NULL, NULL, "RRFlashJumper", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Unset RR Flash Jumper") },
+    { NULL }
 };
 
 int retroreplay_cmdline_options_init(void)
@@ -592,12 +619,12 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
 
     switch (len) {
         case 0x8000: /* 32K */
-            if (util_file_load(filename, &rawcart[0x10000], 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
                 return -1;
             }
             break;
         case 0x10000: /* 64K */
-            if (util_file_load(filename, &rawcart[0x10000], 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
                 return -1;
             }
             break;
