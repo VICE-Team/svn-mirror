@@ -351,6 +351,7 @@ static const ui_menu_entry_t mmc64_cart_menu[] = {
 
 
 /* MMC Replay */
+
 UI_MENU_DEFINE_RADIO(MMCRSDType)
 
 static const ui_menu_entry_t mmcreplay_sd_type_menu[] = {
@@ -408,6 +409,31 @@ static const ui_menu_entry_t mmcreplay_cart_menu[] = {
 };
 
 
+/* Retro Replay */
+
+UI_MENU_DEFINE_TOGGLE(RRBankJumper)
+UI_MENU_DEFINE_TOGGLE(RRFlashJumper)
+UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
+
+static const ui_menu_entry_t retroreplay_cart_menu[] = {
+    { "Bank jumper",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RRBankJumper_callback,
+      NULL },
+    { "BIOS flash jumper",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RRFlashJumper_callback,
+      NULL },
+    { "BIOS writes",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RRBiosWrite_callback,
+      NULL },
+    { NULL }
+};
+
+
+/* Cartridge menu */
+
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 const ui_menu_entry_t c64cart_menu[] = {
@@ -453,5 +479,9 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)mmcreplay_cart_menu },
+    { "Retro Replay cartridge settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)retroreplay_cart_menu },
     { NULL }
 };
