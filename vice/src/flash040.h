@@ -64,6 +64,7 @@ typedef enum flash040_state_s flash040_state_t;
 typedef struct flash040_context_s {
     BYTE *flash_data;
     flash040_state_t flash_state;
+    flash040_state_t flash_base_state;
 
     BYTE program_byte;
     BYTE erase_mask[FLASH040_ERASE_MASK_SIZE];
