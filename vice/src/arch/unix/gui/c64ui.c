@@ -63,6 +63,7 @@
 #include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
+#include "uiretroreplay.h"
 #include "uireu.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
@@ -291,6 +292,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, plus256k_submenu },
     { N_("256K RAM Expansion"),
       NULL, NULL, c64_256k_submenu },
+    { N_("Retro Replay cartridge"),
+      NULL, NULL, retroreplay_submenu },
     { N_("MMC64 emulation"),
       NULL, NULL, mmc64_submenu },
     { N_("MMC Replay emulation"),

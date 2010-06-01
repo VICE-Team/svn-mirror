@@ -33,6 +33,7 @@
 
 extern BYTE REGPARM1 retroreplay_roml_read(WORD addr);
 extern void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 retroreplay_romh_read(WORD addr);
 
 extern void retroreplay_freeze(void);
 extern int retroreplay_freeze_allowed(void);
@@ -47,5 +48,8 @@ extern void retroreplay_detach(void);
 extern unsigned int rr_active;
 extern unsigned int rr_clockport_enabled;
 extern unsigned int reu_mapping;
+
+extern int retroreplay_cmdline_options_init(void);
+extern int retroreplay_resources_init(void);
 
 #endif

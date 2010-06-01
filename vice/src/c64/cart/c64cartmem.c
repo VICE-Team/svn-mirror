@@ -439,6 +439,8 @@ BYTE REGPARM1 romh_read(WORD addr)
             return easyflash_romh_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_romh_read(addr);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
@@ -456,7 +458,12 @@ BYTE REGPARM1 romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-/* ROMH read if hirom is selected - mapped to E000 in ultimax */
+/* ROMH read if hirom is selected - mapped to E000 in ultimax
+
+   most carts that use romh_read also need to use this one. carts
+   that map an "external kernal" _only_ use this one, and wrap to
+   ram_read in romh_read.
+*/
 BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
 {
     if (isepic_cart_enabled()) {
@@ -483,6 +490,8 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
             return easyflash_romh_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_romh_read(addr);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
@@ -577,8 +586,11 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_EXPERT:
             expert_roml_store(addr, value);
             break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_roml_store(addr, value);
+            return;
     }
-    
+
     /* store to c64 ram */
     mem_store_without_romlh(addr, value);
 }
@@ -603,6 +615,9 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_EXPERT:
             expert_raml_store(addr, value);
             break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_roml_store(addr, value);
+            return;
     }
 
     /* store to c64 ram */

@@ -187,6 +187,7 @@ int cartridge_resources_init(void)
         || ide64_resources_init() < 0
         || mmcreplay_resources_init() < 0
         || expert_resources_init() < 0
+        || retroreplay_resources_init() < 0
         ) {
         return -1;
     }
@@ -400,6 +401,7 @@ int cartridge_cmdline_options_init(void)
         || sfx_soundsampler_cmdline_options_init() < 0
         || ide64_cmdline_options_init() < 0
         || mmcreplay_cmdline_options_init() < 0
+        || retroreplay_cmdline_options_init() < 0
         || easyflash_cmdline_options_init() < 0) {
         return -1;
     }
