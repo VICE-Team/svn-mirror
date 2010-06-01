@@ -294,7 +294,7 @@
 	  src/vic20/cart/Makefile.am, src/vic20/cart/vic-fp.c,
 	  src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cart.c,
 	  src/vic20/cart/vic20cartmem.c: Vic Flash Plugin cartridge
-	  emulation. Patch by Marko M.
+	  emulation. Patch by Marko Mäkelä.
 
 	* src/petcat.c: Readd machine_get_name to petcat
 
