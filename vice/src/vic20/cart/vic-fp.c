@@ -356,13 +356,13 @@ static const cmdline_option_t cmdline_options[] =
     { "-fpwriteback", SET_RESOURCE, 0,
       NULL, NULL, "VicFlashPluginWriteBack", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED /* IDCLS_ENABLE_VIC_FP_WRITEBACK */,
-      NULL, NULL },
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable Vic Flash Plugin write back to ROM file") },
     { "+fpwriteback", SET_RESOURCE, 0,
       NULL, NULL, "VicFlashPluginWriteBack", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED /* IDCLS_DISABLE_VIC_FP_WRITEBACK */,
-      NULL, NULL },
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable Vic Flash Plugin write back to ROM file") },
     { NULL }
 };
 
