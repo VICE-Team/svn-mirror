@@ -485,7 +485,10 @@ void mon_bank(MEMSPACE mem, const char *bankname)
         bnp = mon_interfaces[mem]->mem_bank_list();
         mon_out("Available banks (some may be equivalent to others):\n");
         while (*bnp) {
-            mon_out("%s\t", *bnp);
+            if (mon_interfaces[mem]->mem_bank_from_name(*bnp) == mon_interfaces[mem]->current_bank) {
+                mon_out("*");
+            }
+            mon_out("%s \t", *bnp);
             bnp++;
         }
         mon_out("\n");
