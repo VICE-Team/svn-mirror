@@ -33,6 +33,7 @@
 
 extern BYTE REGPARM1 retroreplay_roml_read(WORD addr);
 extern void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value);
+extern int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 retroreplay_romh_read(WORD addr);
 
 extern void retroreplay_freeze(void);
@@ -42,7 +43,7 @@ extern void retroreplay_config_init(void);
 extern void retroreplay_reset(void);
 extern void retroreplay_config_setup(BYTE *rawcart);
 extern int retroreplay_bin_attach(const char *filename, BYTE *rawcart);
-extern int retroreplay_crt_attach(FILE *fd, BYTE *rawcart);
+extern int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
 extern void retroreplay_detach(void);
 
 extern unsigned int rr_active;

@@ -164,7 +164,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
             rc = final_v3_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            rc = retroreplay_crt_attach(fd, rawcart);
+            rc = retroreplay_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_DINAMIC:
             rc = dinamic_crt_attach(fd, rawcart);

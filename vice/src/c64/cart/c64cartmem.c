@@ -587,8 +587,11 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
             expert_roml_store(addr, value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_roml_store(addr, value);
-            return;
+            if (retroreplay_roml_no_ultimax_store(addr, value))
+            {
+                return; /* FIXME: this is weird */
+            }
+            break;
     }
 
     /* store to c64 ram */
@@ -616,8 +619,11 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
             expert_raml_store(addr, value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_roml_store(addr, value);
-            return;
+            if (retroreplay_roml_no_ultimax_store(addr, value))
+            {
+                return; /* FIXME: this is weird */
+            }
+            break;
     }
 
     /* store to c64 ram */

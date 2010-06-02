@@ -30,10 +30,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "flash040.h"
 #include "lib.h"
@@ -60,6 +62,12 @@
 
     io2
         - cart RAM (if enabled) or cart ROM
+
+    Bank Jumper    Flashtool  Physical
+
+    set            Bank2      Bank 0,0x00000
+    not set        Bank1      Bank 1,0x10000
+
 */
 
 /* #define DEBUGRR */
@@ -97,6 +105,17 @@ static unsigned int rom_offset = 0x10000;
 
 /* the 29F010 statemachine */
 static flash040_context_t *flashrom_state = NULL;
+
+static char *retroreplay_filename = NULL;
+static int retroreplay_filetype = 0;
+static int retroreplay_filesize = 0;
+
+static const char CRT_HEADER[] = "C64 CARTRIDGE   ";
+static const char CHIP_HEADER[] = "CHIP";
+static const char STRING_RETRO_REPLAY[] = "Retro Replay";
+
+#define CARTRIDGE_FILETYPE_BIN  1
+#define CARTRIDGE_FILETYPE_CRT  2
 
 /* ---------------------------------------------------------------------*/
 
@@ -259,7 +278,11 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
              */
             case 1:
                 if (rr_hw_flashjumper) {
-                    rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4) | ((value >> 2) & 8);
+                    if (rr_hw_bankjumper) {
+                        rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4) | (((value >> 2) & 8) ^ 8);
+                    } else {
+                        rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
+                    }
                     cartridge_romhbank_set(rr_bank);
                     cartridge_romlbank_set(rr_bank);
                     allow_bank = value & 2;
@@ -400,7 +423,6 @@ BYTE REGPARM1 retroreplay_roml_read(WORD addr)
 void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
 {
 /*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
-
     if (export_ram) {
         switch (roml_bank & 3) {
             case 0:
@@ -417,11 +439,39 @@ void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
                 break;
         }
     } else {
-        /* FIXME: is this correct? perhaps its _always_ ROM in flash mode ? */
+        /* writes to flash are completely disabled if the flash jumper is not set */
         if (rr_hw_flashjumper) {
             flash040core_store(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13), value);
         }
     }
+}
+
+int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
+{
+/*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
+    if (rr_hw_flashjumper) {
+        if (export_ram) {
+            switch (roml_bank & 3) {
+                case 0:
+                    export_ram0[addr & 0x1fff] = value;
+                    break;
+                case 1:
+                    export_ram0[(addr & 0x1fff) + 0x2000] = value;
+                    break;
+                case 2:
+                    export_ram0[(addr & 0x1fff) + 0x4000] = value;
+                    break;
+                case 3:
+                    export_ram0[(addr & 0x1fff) + 0x6000] = value;
+                    break;
+            }
+            return 1;
+        } else {
+            /* writes to flash are completely disabled if the flash jumper is not set */
+            flash040core_store(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13), value);
+        }
+    }
+    return 0;
 }
 
 BYTE REGPARM1 retroreplay_romh_read(WORD addr)
@@ -437,7 +487,7 @@ void retroreplay_freeze(void)
     if (!rr_hw_flashjumper) {
         rr_active = 1;
         cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
-        flash040core_reset(flashrom_state);
+        /* flash040core_reset(flashrom_state); */
     }
 }
 
@@ -480,6 +530,9 @@ void retroreplay_reset(void)
         cartridge_config_changed(0, 0, CMODE_READ);
     }
 
+    /* on the real hardware pressing reset would NOT reset the flash statemachine,
+       only a powercycle would help. we do it here anyway :)
+    */
     flash040core_reset(flashrom_state);
 }
 
@@ -513,9 +566,13 @@ static int set_rr_flashjumper(int val, void *param)
     return 0;
 }
 
+/*
+ "If the bank-select jumper is not set, you only have access to the upper 64K of the Flash"
+*/
+
 static int set_rr_bankjumper(int val, void *param)
 {
-    /* FIXME: needs confirmation: it appears that when the jumper is set, bank 0 is selected */
+    /* if the jumper is set, physical bank 0 is selected */
     rr_hw_bankjumper = val;
     if (rr_hw_bankjumper) {
         rom_offset = 0x0;
@@ -611,12 +668,15 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
     int len = 0;
     FILE *fd;
 
-    /* we accept 32k, 64k and full 128k images */
+    retroreplay_filetype = 0;
+    retroreplay_filesize = 0;
+    retroreplay_filename = NULL;
 
-    fd = fopen(filename, "rb");
+    fd = fopen(filename, MODE_READ);
     len = util_file_length(fd);
     fclose(fd);
 
+    /* we accept 32k, 64k and full 128k images */
     switch (len) {
         case 0x8000: /* 32K */
             if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -636,16 +696,53 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
         default:
             return -1;
     }
-
+    retroreplay_filetype = CARTRIDGE_FILETYPE_BIN;
+    retroreplay_filesize = len;
+    retroreplay_filename = lib_stralloc(filename);
     return retroreplay_common_attach();
 }
 
-/* a valid RR CRT is always 64K */
-int retroreplay_crt_attach(FILE *fd, BYTE *rawcart)
+int retroreplay_save_bin(void)
+{
+    FILE *fd;
+
+    if (retroreplay_filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(retroreplay_filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    if (retroreplay_filesize == 0x20000) {
+        if (fwrite(roml_banks, 1, retroreplay_filesize, fd) != retroreplay_filesize) {
+            fclose(fd);
+            return -1;
+        }
+    } else {
+        if (fwrite(&roml_banks[0x10000], 1, retroreplay_filesize, fd) != retroreplay_filesize) {
+            fclose(fd);
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+/* a valid RR CRT is always 64K
+   - will always get loaded into logical bank 0
+*/
+int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
     BYTE chipheader[0x10];
     int i;
 
+    retroreplay_filetype = 0;
+    retroreplay_filesize = 0;
+    retroreplay_filename = NULL;
+    
     for (i = 0; i <= 7; i++) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
@@ -660,15 +757,89 @@ int retroreplay_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
+    retroreplay_filetype = CARTRIDGE_FILETYPE_CRT;
+    retroreplay_filesize = 0x10000;
+    retroreplay_filename = lib_stralloc(filename);
+
     return retroreplay_common_attach();
+}
+
+/* a valid RR CRT is always 64K
+   - only the logical bank 0 of the flash will be saved as CRT
+*/
+int retroreplay_save_crt(void)
+{
+    FILE *fd;
+    BYTE header[0x40], chipheader[0x10];
+    BYTE *data;
+    int i;
+
+    if (retroreplay_filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(retroreplay_filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    data = &roml_banks[0x10000];
+
+    memset(header, 0x0, 0x40);
+    memset(chipheader, 0x0, 0x10);
+
+    strcpy((char *)header, CRT_HEADER);
+
+    header[0x13] = 0x40;
+    header[0x14] = 0x01;
+    header[0x17] = CARTRIDGE_RETRO_REPLAY;
+    header[0x18] = 0x01;
+    strcpy((char *)&header[0x20], STRING_RETRO_REPLAY);
+    if (fwrite(header, 1, 0x40, fd) != 0x40) {
+        fclose(fd);
+        return -1;
+    }
+
+    strcpy((char *)chipheader, CHIP_HEADER);
+    chipheader[0x06] = 0x20;
+    chipheader[0x07] = 0x10;
+    chipheader[0x09] = 0x02;
+    chipheader[0x0e] = 0x20;
+
+    for (i = 0; i < 8; i++) {
+        chipheader[0x0c] = 0x80;
+
+        if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
+            fclose(fd);
+            return -1;
+        }
+
+        if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+            fclose(fd);
+            return -1;
+        }
+        data += 0x2000;
+    }
+    fclose(fd);
+    return 0;
 }
 
 void retroreplay_detach(void)
 {
-    /* FIXME: save rr rom image (if enabled) */
+    if (rr_bios_write) {
+        if (retroreplay_filetype == CARTRIDGE_FILETYPE_BIN) {
+            retroreplay_save_bin();
+        } else if (retroreplay_filetype == CARTRIDGE_FILETYPE_CRT) {
+            retroreplay_save_crt();
+        }
+    }
 
     flash040core_shutdown(flashrom_state);
     lib_free(flashrom_state);
+    flashrom_state = NULL;
+    lib_free(retroreplay_filename);
+    retroreplay_filename = NULL;
     c64export_remove(&export_res);
     c64io_unregister(retroreplay_io1_list_item);
     c64io_unregister(retroreplay_io2_list_item);
