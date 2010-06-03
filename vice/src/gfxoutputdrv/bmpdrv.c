@@ -509,6 +509,7 @@ static gfxoutputdrv_t bmp_drv =
     NULL,
     NULL,
     NULL,
+    NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
     ,bmpdrv_memmap_save
