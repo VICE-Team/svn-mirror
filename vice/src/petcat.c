@@ -1834,7 +1834,11 @@ static int p_expand(int version, int addr, int ctrls)
                         continue;
                     } else if (c == 0xfe) {
                         if (version == B_SXC) {
-                            fprintf(dest, "%s", sxckwfe[c]);
+                            if ((c = getc(source)) <= MAX_SXCFE) {
+                                fprintf(dest, "%s", sxckwfe[c]);
+                            } else {
+                                fprintf(dest, "($fe%02x)", c);
+                            }
                         } else {
                             if ((c = getc(source)) <= MAX_V10FE) {
                                 fprintf(dest, "%s", (version==B_71) ? kwfe71[c] : kwfe[c]);
