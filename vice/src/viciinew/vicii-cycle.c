@@ -401,7 +401,8 @@ int vicii_cycle(void)
     }
 
     /* Update VC (Cycle 14 on PAL) */
-    if (vicii.raster_cycle == VICII_PAL_CYCLE(14)) {
+    /*  if (vicii.raster_cycle == VICII_PAL_CYCLE(14)) { */
+    if (cycle_is_update_vc(vicii.cycle_flags)) {
         vicii.vc = vicii.vcbase;
         vicii.vmli = 0;
         if (vicii.bad_line) {
@@ -410,7 +411,8 @@ int vicii_cycle(void)
     }
 
     /* Update RC (Cycle 58 on PAL) */
-    if (vicii.raster_cycle == VICII_PAL_CYCLE(58)) {
+    /* if (vicii.raster_cycle == VICII_PAL_CYCLE(58)) { */
+    if (cycle_is_update_rc(vicii.cycle_flags)) {
         /* `rc' makes the chip go to idle state when it reaches the 
            maximum value.  */
         if (vicii.rc == 7) {

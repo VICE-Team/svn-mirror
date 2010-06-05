@@ -77,7 +77,12 @@ extern void vicii_chip_model_init(void);
 #define CHECK_BRD_R       0x40000000
 #define CHECK_BRD_CSEL    0x20000000
 
-#define CHECK_SPR_DISP_M  0x01000000
+#define CHECK_SPR_EXP_M   0x08000000
+#define CHECK_SPR_DMA_M   0x04000000
+#define CHECK_SPR_DISP_M  0x02000000
+
+#define UPDATE_VC_M       0x01000000
+#define UPDATE_RC_M       0x00800000
 
 #define VISIBLE_M         0x00400000
 
@@ -150,6 +155,26 @@ static inline int cycle_is_visible(unsigned int flags)
 static inline int cycle_get_xpos(unsigned int flags)
 {
     return ((flags & XPOS_M) >> XPOS_B) << 3;
+}
+
+static inline int cycle_is_update_vc(unsigned int flags)
+{
+    return (flags & UPDATE_VC_M) ? 1 : 0;
+}
+
+static inline int cycle_is_update_rc(unsigned int flags)
+{
+    return (flags & UPDATE_RC_M) ? 1 : 0;
+}
+
+static inline int cycle_is_check_spr_dma(unsigned int flags)
+{
+    return (flags & CHECK_SPR_DMA_M) ? 1 : 0;
+}
+
+static inline int cycle_is_check_spr_exp(unsigned int flags)
+{
+    return (flags & CHECK_SPR_EXP_M) ? 1 : 0;
 }
 
 static inline int cycle_is_check_spr_disp(unsigned int flags)

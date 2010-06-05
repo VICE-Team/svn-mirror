@@ -274,7 +274,7 @@ void vicii_chip_model_set(struct ViciiChipModel *cm)
     log_message(vicii.log,
                 "                   BA    ");
     log_message(vicii.log,
-                " cycle  xpos vi M76543210");
+                " cycle  xpos vi M76543210   fetch    border gfx      sprite");
 
     for (i=0; i < (cm->cycles_per_line * 2); i++) {
         int phi = (ct[i].cycle & 0x80) ? 1 : 0;
@@ -292,23 +292,109 @@ void vicii_chip_model_set(struct ViciiChipModel *cm)
             char cycle_str[10];
             char visible_str[8];
             char ba_str[10];
+            char fetch_str[12];
+            char border_str[12];
+            char gfx_str[12];
+            char sprite_str[16];
+            int spr;
+
+            /* cycle */
             if (phi == 0) {
                 sprintf(cycle_str, "%2d Phi1", cycle);
             } else {
                 sprintf(cycle_str, "-- Phi2");
             }
+
+            /* visible */
             if (visible < 0) {
                 sprintf(visible_str, "--");
             } else {
                 sprintf(visible_str, "%2d", visible);
             }
+
+            /* BA */
             for (j = 0; j < 9; j++) {
                 ba_str[j] = (ba & (1 << (8-j))) ? '*' : '-';
             }
             ba_str[j] = 0;
 
+            /* fetch */
+            spr = fetch & FetchSprNum_M;
+            switch (fetch & FetchType_M) {
+            case SprPtr(0):
+                sprintf(fetch_str, "SprPtr(%d) ", spr);
+                break;
+            case SprDma0(0):
+                sprintf(fetch_str, "SprDma0(%d)", spr);
+                break;
+            case SprDma1(0):
+                sprintf(fetch_str, "SprDma1(%d)", spr);
+                break;
+            case SprDma2(0):
+                sprintf(fetch_str, "SprDma2(%d)", spr);
+                break;
+            case Refresh:
+                sprintf(fetch_str, "Refresh   ");
+                break;
+            case FetchC:
+                sprintf(fetch_str, "FetchC    ");
+                break;
+            case FetchG:
+                sprintf(fetch_str, "FetchG    ");
+                break;
+            case Idle:
+                sprintf(fetch_str, "Idle      ");
+                break;
+            default:
+                sprintf(fetch_str, "-         ");
+                break;
+            }
+
+            /* border */
+            sprintf(border_str, "-     ");
+            if (flags & ChkBrdL1) {
+                sprintf(border_str, "ChkL1 ");
+            }
+            if (flags & ChkBrdL0) {
+                sprintf(border_str, "ChkL0 ");
+            }
+            if (flags & ChkBrdR0) {
+                sprintf(border_str, "ChkR0 ");
+            }
+            if (flags & ChkBrdR1) {
+                sprintf(border_str, "ChkR1 ");
+            }
+
+            /* Graphics */
+            sprintf(gfx_str, "-       ");
+            if (flags & UpdateVc) {
+                sprintf(gfx_str, "UpdateVc");
+            }
+            if (flags & UpdateRc) {
+                sprintf(gfx_str, "UpdateRc");
+            }
+
+            /* Sprites */
+            sprintf(sprite_str, "-       ");
+            if (flags & ChkSprCrunch) {
+                sprintf(sprite_str, "ChkSprCrunch");
+            }
+            if (flags & UpdateMcBase) {
+                sprintf(sprite_str, "UpdateMcBase");
+            }
+            if (flags & ChkSprDma) {
+                sprintf(sprite_str, "ChkSprDma   ");
+            }
+            if (flags & ChkSprExp) {
+                sprintf(sprite_str, "ChkSprExp   ");
+            }
+            if (flags & ChkSprDisp) {
+                sprintf(sprite_str, "ChkSprDisp  ");
+            }
+
+            /* dump to log */
             log_message(vicii.log,
-                        "%s $%03x %s %s", cycle_str, xpos, visible_str, ba_str);
+                        "%s $%03x %s %s %s %s %s %s", cycle_str, xpos, visible_str, ba_str, fetch_str, border_str, gfx_str, sprite_str);
         }
 
         xpos_phi[phi] = xpos;
@@ -356,6 +442,14 @@ void vicii_chip_model_set(struct ViciiChipModel *cm)
             }
             /* extract xpos */
             entry |= ( (xpos_phi[0] >> 3) << XPOS_B) & XPOS_M;
+
+            /* Update VC/RC (Phi2) */
+            if (flags & UpdateVc) {
+                entry |= UPDATE_VC_M;
+            }
+            if (flags & UpdateRc) {
+                entry |= UPDATE_RC_M;
+            }
 
             if (flags & ChkSprDisp) {
                 entry |= CHECK_SPR_DISP_M;
