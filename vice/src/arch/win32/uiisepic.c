@@ -93,7 +93,7 @@ static void init_isepic_dialog(HWND hwnd)
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
-    resources_get_int("Isepic", &res_value);
+    resources_get_int("IsepicCartridgeEnabled", &res_value);
     CheckDlgButton(hwnd, IDC_ISEPIC_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     resources_get_int("IsepicSwitch", &res_value);
@@ -104,7 +104,7 @@ static void init_isepic_dialog(HWND hwnd)
 
 static void end_isepic_dialog(HWND hwnd)
 {
-    resources_set_int("Isepic", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("IsepicCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("IsepicSwitch", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_SWITCH) == BST_CHECKED ? 1 : 0 ));
 }
 

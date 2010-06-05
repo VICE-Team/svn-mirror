@@ -507,7 +507,7 @@ void machine_specific_shutdown(void)
     tape_image_detach_internal(1);
 
     /* and cartridge */
-    cartridge_detach_image();
+    cartridge_detach_image(-1);
 
     ciacore_shutdown(machine_context.cia1);
     ciacore_shutdown(machine_context.cia2);

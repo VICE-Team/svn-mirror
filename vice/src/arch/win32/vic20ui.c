@@ -488,7 +488,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             cartridge_set_default();
             break;
         case IDM_CART_DETACH:
-            cartridge_detach_image();
+            cartridge_detach_image(-1);
             break;
         case IDM_VIC_SETTINGS:
             ui_vic_settings_dialog(hwnd);

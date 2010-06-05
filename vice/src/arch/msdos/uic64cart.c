@@ -166,7 +166,7 @@ static TUI_MENU_CALLBACK(detach_cartridge_callback)
     const char *s;
 
     if (been_activated) {
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
     }
 
     s = cartridge_get_file_name((WORD)0);

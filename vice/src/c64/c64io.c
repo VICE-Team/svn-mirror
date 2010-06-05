@@ -48,7 +48,7 @@ static void io_source_detach(int detach_id, char *resource_name)
 {
     switch (detach_id) {
         case IO_DETACH_CART:
-            cartridge_detach_image();
+            cartridge_detach_image(-1); /* FIXME ! - pass cart id that is associated with io source */
             break;
         case IO_DETACH_RESOURCE:
             resources_set_int(resource_name, 0);
@@ -180,15 +180,17 @@ io_source_list_t *c64io_register(io_source_t *device)
 
 void c64io_unregister(io_source_list_t *device)
 {
-    io_source_list_t *prev = device->previous;
+    io_source_list_t *prev;
+    if (device) {
+        prev = device->previous;
+        prev->next = device->next;
 
-    prev->next = device->next;
+        if (device->next) {
+            device->next->previous = prev;
+        }
 
-    if (device->next) {
-        device->next->previous = prev;
+        lib_free(device);
     }
-
-    lib_free(device);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */

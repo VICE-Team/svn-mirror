@@ -48,7 +48,7 @@ int c128ui_handle_X(int Xvalue)
         return 1;
     }
     if (Xvalue == 2) {
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
         return 0;
     }
     if (Xvalue == 3) {

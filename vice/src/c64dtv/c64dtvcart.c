@@ -35,7 +35,7 @@ unsigned int cart_ultimax_phi2 = 0;
 int romh_bank = 0;
 BYTE romh_banks[1];
 
-int cartridge_save_image(const char *filename)
+int cartridge_save_image(int type, const char *filename)
 {
     return 0;
 }
@@ -59,7 +59,7 @@ int cartridge_attach_image(int type, const char *filename)
     return 0;
 }
 
-void cartridge_detach_image(void)
+void cartridge_detach_image(int type)
 {
 }
 

@@ -33,6 +33,7 @@
 #include "translate.h"
 #include "uiapi.h"
 
+/* FIXME: rewrite to handle arbitrary number of slots */
 static const char *usage_roml, *usage_romh;
 
 int c64export_query(const c64export_resource_t *export_res)
@@ -56,7 +57,12 @@ int c64export_query(const c64export_resource_t *export_res)
 int c64export_add(const c64export_resource_t *export_res)
 {
     if (c64export_query(export_res) < 0) {
-        return -1;
+        /* return -1; */
+        /* unfortunately, checking for conflicts on ROML/ROMH is not that easy
+           (if not impossible). there may well be cartridges active at the same
+           time which both use the same ROM line. because of that we continue
+           here after showing a warning.
+        */
     }
 
     if (export_res->use_roml > 0) {

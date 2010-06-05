@@ -346,7 +346,7 @@ void mon_detach(int device)
             break;
         case 32:
             if (mon_cart_cmd.cartridge_detach_image != NULL) {
-                (mon_cart_cmd.cartridge_detach_image)();
+                (mon_cart_cmd.cartridge_detach_image)(-1); /* FIXME: param should be cart id, -1 detaches all */
             } else {
                 mon_out("Unsupported.\n");
             }

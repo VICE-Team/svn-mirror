@@ -55,6 +55,7 @@
 #include "generic.h"
 #include "gs.h"
 #include "ide64.h"
+#include "isepic.h"
 #include "kcs.h"
 #include "magicdesk.h"
 #include "magicformel.h"
@@ -76,15 +77,55 @@
 #include "westermann.h"
 #include "zaxxon.h"
 
-int crttype = 0;
-
 /*
  * CRT image "strings".
  */
-static const char CRT_HEADER[] = "C64 CARTRIDGE   ";
-static const char CHIP_HEADER[] = "CHIP";
-static const char STRING_EXPERT[] = "Expert Cartridge";
+const char CRT_HEADER[] = "C64 CARTRIDGE   ";
+const char CHIP_HEADER[] = "CHIP";
 
+static int crt_read_header(FILE *fd, BYTE *header)
+{
+    if (fread(header, 0x40, 1, fd) < 1) {
+        fclose(fd);
+        return -1;
+    }
+
+    if (strncmp((char*)header, CRT_HEADER, 16)) {
+        fclose(fd);
+        return -1;
+    }
+
+    return 0;
+}
+/*
+    returns -1 on error, else a positive CRT ID
+*/
+int crt_getid(const char *filename)
+{
+    BYTE header[0x40];
+    FILE *fd;
+
+    fd = fopen(filename, MODE_READ);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    if (crt_read_header(fd, header) == -1) {
+        return -1;
+    }
+
+    fclose(fd);
+
+    return header[0x17] + header[0x16] * 256;
+}
+
+/*
+    returns -1 on error, else a positive CRT ID
+
+    FIXME: to simplify this function a little bit, all subfunctions should
+           also return the respective CRT ID on success
+*/
 int crt_attach(const char *filename, BYTE *rawcart)
 {
     BYTE header[0x40];
@@ -97,13 +138,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    if (fread(header, 0x40, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
-    }
-
-    if (strncmp((char*)header, "C64 CARTRIDGE   ", 16)) {
-        fclose(fd);
+    if (crt_read_header(fd, header) == -1) {
         return -1;
     }
 
@@ -116,13 +151,16 @@ int crt_attach(const char *filename, BYTE *rawcart)
     most obvious reason: attaching a different ROM (software) for the same
     cartridge (hardware) */
 
-    cartridge_detach_image();
+    cartridge_detach_image(new_crttype);
 
-    crttype = new_crttype;
-
-    switch (crttype) {
+    switch (new_crttype) {
         case CARTRIDGE_CRT:
             rc = generic_crt_attach(fd, rawcart);
+            if ( rc < 0) {
+                return -1;
+            } else {
+                return rc;
+            }
             break;
         case CARTRIDGE_WESTERMANN:
             rc = westermann_crt_attach(fd, rawcart);
@@ -174,6 +212,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_GS:
             rc = gs_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_ISEPIC:
+            rc = isepic_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_MAGIC_DESK:
             rc = magicdesk_crt_attach(fd, rawcart);
@@ -239,137 +280,15 @@ int crt_attach(const char *filename, BYTE *rawcart)
             rc = gamekiller_crt_attach(fd, rawcart);
             break;
         default:
-            archdep_startup_log_error("unknown CRT ID: %d\n",crttype);
+            archdep_startup_log_error("unknown CRT ID: %d\n", new_crttype);
             rc = -1;
             break;
     }
 
     fclose(fd);
-    return rc;
-}
 
-/*
- * This function writes Expert .crt images ONLY!!!
- */
-int crt_save_expert(const char *filename)
-{
-    FILE *fd;
-    BYTE header[0x40], chipheader[0x10];
-
-    fd = fopen(filename, MODE_WRITE);
-
-    if (fd == NULL) {
+    if (rc < 0) {
         return -1;
     }
-
-    /*
-     * Initialize headers to zero.
-     */
-    memset(header, 0x0, 0x40);
-    memset(chipheader, 0x0, 0x10);
-
-    /*
-     * Construct CRT header.
-     */
-    strcpy((char *)header, CRT_HEADER);
-
-    /*
-     * fileheader-length (= 0x0040)
-     */
-    header[0x10] = 0x00;
-    header[0x11] = 0x00;
-    header[0x12] = 0x00;
-    header[0x13] = 0x40;
-
-    /*
-     * Version (= 0x0100)
-     */
-    header[0x14] = 0x01;
-    header[0x15] = 0x00;
-
-    /*
-     * Hardware type (= CARTRIDGE_EXPERT)
-     */
-    header[0x16] = 0x00;
-    header[0x17] = CARTRIDGE_EXPERT;
-
-    /*
-     * Exrom line
-     */
-    header[0x18] = 0x01;            /* ? */
-
-    /*
-     * Game line
-     */
-    header[0x19] = 0x01;            /* ? */
-
-    /*
-     * Set name.
-     */
-    strcpy((char *)&header[0x20], STRING_EXPERT);
-
-    /*
-     * Write CRT header.
-     */
-    if (fwrite(header, sizeof(BYTE), 0x40, fd) != 0x40) {
-        fclose(fd);
-        return -1;
-    }
-
-    /*
-     * Construct chip packet.
-     */
-    strcpy((char *)chipheader, CHIP_HEADER);
-
-    /*
-     * Packet length. (= 0x2010; 0x10 + 0x2000)
-     */
-    chipheader[0x04] = 0x00;
-    chipheader[0x05] = 0x00;
-    chipheader[0x06] = 0x20;
-    chipheader[0x07] = 0x10;
-
-    /*
-     * Chip type. (= FlashROM?)
-     */
-    chipheader[0x08] = 0x00;
-    chipheader[0x09] = 0x02;
-
-    /*
-     * Bank nr. (= 0)
-     */
-    chipheader[0x0a] = 0x00;
-    chipheader[0x0b] = 0x00;
-
-    /*
-     * Address. (= 0x8000)
-     */
-    chipheader[0x0c] = 0x80;
-    chipheader[0x0d] = 0x00;
-
-    /*
-     * Length. (= 0x2000)
-     */
-    chipheader[0x0e] = 0x20;
-    chipheader[0x0f] = 0x00;
-
-    /*
-     * Write CHIP header.
-     */
-    if (fwrite(chipheader, sizeof(BYTE), 0x10, fd) != 0x10) {
-        fclose(fd);
-        return -1;
-    }
-
-    /*
-     * Write CHIP packet data.
-     */
-    if (fwrite(roml_banks, sizeof(char), 0x2000, fd) != 0x2000) {
-        fclose(fd);
-        return -1;
-    }
-
-    fclose(fd);
-
-    return 0;
+    return new_crttype;
 }

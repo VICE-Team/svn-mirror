@@ -49,7 +49,7 @@ static const int ui_isepic_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "Isepic", ui_isepic_enable, ui_isepic_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "IsepicCartridgeEnabled", ui_isepic_enable, ui_isepic_enable_values },
     { NULL, MUI_TYPE_CYCLE, "IsepicSwitch", ui_isepic_enable, ui_isepic_enable_values },
     UI_END /* mandatory */
 };
@@ -61,7 +61,7 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from[0].object, "Isepic", ui_isepic_enable)
+           CYCLE(ui_to_from[0].object, "IsepicCartridgeEnabled", ui_isepic_enable)
            CYCLE(ui_to_from[1].object, translate_text(IDS_ISEPIC_SWITCH), ui_isepic_enable)
            OK_CANCEL_BUTTON
          End;

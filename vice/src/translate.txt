@@ -540,8 +540,11 @@ IDCLS_ATTACH_CBM_IEEE488_CART
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_WESTERMANN_CART
 
-/* c64/cart/c64cart.c */
+/* c64/cart/c64cart.c, c64/expert.c */
 IDCLS_ENABLE_EXPERT_CART
+
+/* c64/expert.c */
+IDCLS_DISABLE_EXPERT_CART
 
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_P64_CART

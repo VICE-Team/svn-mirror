@@ -110,9 +110,13 @@ int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
     return 0;
 }
 
+/*
+    returns -1 on error, else a positive CRT ID
+*/
 int generic_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
+    int crttype = -1;
 
     export_res_ultimax.use_roml = 0;
 
@@ -137,7 +141,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
                     return -1;
                 }
             }
-            return 0;
+            return crttype;
         } else {
             export_res_ultimax.use_roml = 1;
         }
@@ -154,7 +158,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
 
-        return 0;
+        return crttype;
     }
 
     return -1;

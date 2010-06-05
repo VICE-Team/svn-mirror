@@ -159,7 +159,7 @@ static int detach_cartridge_cmdline(const char *param, void *extra_param)
      * are processed after the default cartridge gets attached via
      * resources/.ini.
      */
-    cartridge_detach_image();
+    cartridge_detach_image(-1);
     return 0;
 }
 
@@ -288,7 +288,7 @@ int cartridge_attach_image(int type, const char *filename)
          * This allows us to add images to a generic type.
          */
         if (vic20cart_type != CARTRIDGE_VIC20_GENERIC) {
-            cartridge_detach_image();
+            cartridge_detach_image(-1);
         }
         generic_multifile = 1;
         type=CARTRIDGE_VIC20_GENERIC;
@@ -302,7 +302,7 @@ int cartridge_attach_image(int type, const char *filename)
         generic_multifile = 1;
         break;
     default:
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
     }
 
     switch (type) {
@@ -332,7 +332,7 @@ int cartridge_attach_image(int type, const char *filename)
     return ret;
 }
 
-void cartridge_detach_image(void)
+void cartridge_detach_image(int type)
 {
     cartridge_detach(vic20cart_type);
     vic20cart_type = CARTRIDGE_NONE;
@@ -442,7 +442,7 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
     /* disable cartridge reset while detaching old cart */
     resources_get_int("CartridgeReset", &cartridge_reset);
     resources_set_int("CartridgeReset", 0);
-    cartridge_detach_image();
+    cartridge_detach_image(-1);
     resources_set_int("CartridgeReset", cartridge_reset);
 
     /* disallow "set as default" and write back */

@@ -67,6 +67,8 @@ static Widget button_box;
 static Widget save_button;
 static Widget cancel_button;
 
+static int save_type = 0;
+
 #define FILL_BOX_WIDTH        10
 #define OPTION_LABELS_WIDTH   50
 #define OPTION_LABELS_JUSTIFY XtJustifyLeft
@@ -99,7 +101,7 @@ static UI_CALLBACK(save_callback)
 
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     
-    if (cartridge_save_image (name) < 0) {
+    if (cartridge_save_image (save_type, name) < 0) {
         ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
     }
 }
@@ -172,8 +174,9 @@ static void build_cartridge_dialog(void)
     XtSetKeyboardFocus(cartridge_dialog_pane, file_name_field);
 }
 
-void ui_cartridge_dialog(void)
+void ui_cartridge_save_dialog(int type)
 {
     build_cartridge_dialog();
+    save_type = type;
     ui_popup(cartridge_dialog, _("Save cartridge image"), True);
 }

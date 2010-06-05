@@ -177,7 +177,7 @@ static const ui_menu_entry_t attach_raw_cart_menu[] = {
 static UI_MENU_CALLBACK(detach_c64_cart_callback)
 {
     if (activated) {
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
     }
     return NULL;
 }

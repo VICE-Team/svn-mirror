@@ -137,7 +137,7 @@ void vic20_ui_specific(void *msg, void *window)
             cartridge_set_default();
             break;
         case MENU_CART_DETACH:
-            cartridge_detach_image();
+            cartridge_detach_image(-1);
             break;
         case ATTACH_VIC20_CART:
             {

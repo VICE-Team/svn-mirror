@@ -186,7 +186,7 @@ extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 struct monitor_cartridge_commands_s {
     int (*cartridge_attach_image)(int type, const char *filename);
-    void (*cartridge_detach_image)(void);
+    void (*cartridge_detach_image)(int type);
     void (*cartridge_trigger_freeze)(void);
     void (*cartridge_trigger_freeze_nmi_only)(void);
 };

@@ -65,10 +65,14 @@ extern BYTE roml_banks[], romh_banks[];
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
 
+extern int cartridge_is_slotmain(int type);
+
 /* Cartridge ROM limit = 512kB (MMCReplay) */
 #define C64CART_ROM_LIMIT (1024*512)
 /* Cartridge RAM limit = 512kB (MMCReplay) */
 #define C64CART_RAM_LIMIT (1024*512)
+/* maximum size of a full "all inclusive" cartridge image */
+#define C64CART_IMAGE_LIMIT (C64CART_ROM_LIMIT+C64CART_RAM_LIMIT)
 
 /* Expansion port signals.  */
 
@@ -97,10 +101,7 @@ typedef struct {
 } export_t;
 
 extern export_t export;
-extern int mem_cartridge_type;
 
-extern int c64cart_type;
-
-extern int try_cartridge_init(int c);
+extern int try_cartridge_init(int c); /* FIXME: don't use, remove */
 
 #endif

@@ -48,7 +48,7 @@ void vic20ui_handle_sidengine_resource(int value)
 int vic20ui_handle_X(int Xvalue)
 {
     if (Xvalue == 5) {
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
     }
     return 1;
 }

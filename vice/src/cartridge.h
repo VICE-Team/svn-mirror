@@ -36,17 +36,20 @@ extern void cartridge_resources_shutdown(void);
 extern int cartridge_cmdline_options_init(void);
 
 extern int cartridge_attach_image(int type, const char *filename);
-extern void cartridge_detach_image(void);
+/* detaches the cartridge with the associated id. pass -1 to detach all */
+extern void cartridge_detach_image(int type);
 extern void cartridge_set_default(void);
 extern void cartridge_trigger_freeze(void);
 extern void cartridge_trigger_freeze_nmi_only(void);
 extern const char *cartridge_get_file_name(WORD addr);
 
-extern int cartridge_save_image(const char *filename);
+extern int cartridge_save_image(int type, const char *filename);
 
 extern void cartridge_attach(int type, BYTE *rawcart);
 extern void cartridge_detach(int type);
 extern void cartridge_freeze(int type);
+
+extern int cartridge_type_enabled(int type);
 
 /* Known cartridge types.  */
 #define CARTRIDGE_ULTIMAX           -6

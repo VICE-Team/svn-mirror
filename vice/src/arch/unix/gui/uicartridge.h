@@ -27,6 +27,6 @@
 #ifndef UICARTRIDGE_H
 #define UICARTRIDGE_H
 
-extern void ui_cartridge_dialog(void);
+extern void ui_cartridge_save_dialog(int type);
 
 #endif

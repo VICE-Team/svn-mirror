@@ -302,7 +302,7 @@ static ui_menu_entry_t add_to_generic_cart_submenu[] = {
 
 static UI_CALLBACK(detach_cartridge)
 {
-    cartridge_detach_image();
+    cartridge_detach_image(-1);
 }
 
 static UI_CALLBACK(default_cartridge)

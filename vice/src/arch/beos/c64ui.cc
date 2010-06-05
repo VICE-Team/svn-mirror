@@ -72,7 +72,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "RAMCART", MENU_TOGGLE_RAMCART },
     { "DQBB", MENU_TOGGLE_DQBB },
-    { "Isepic", MENU_TOGGLE_ISEPIC },
+    { "IsepicCartridgeEnabled", MENU_TOGGLE_ISEPIC },
     { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
     { "PLUS256K", MENU_TOGGLE_PLUS256K },
@@ -258,7 +258,7 @@ void c64_ui_specific(void *msg, void *window)
             cartridge_set_default();
             break;
         case MENU_CART_DETACH:
-            cartridge_detach_image();
+            cartridge_detach_image(-1);
             break;
         case MENU_CART_FREEZE:
             keyboard_clear_keymatrix();

@@ -95,7 +95,7 @@ static int c64c128ui_menu_select_config_pre(int *block, int mnum)
 {
     if (!vsid_mode && (block[0] == 0) && (mnum == CONF_MENU_CARTTYPE)) {
         /* must execute cartridge detach before calling ui_set_menu_display_value() */
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
         return 0;
     }
     return -1;

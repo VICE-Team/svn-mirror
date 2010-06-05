@@ -38,7 +38,7 @@
 
 static GtkWidget *cartridge_dialog;
 
-void ui_cartridge_dialog(void)
+void ui_cartridge_save_dialog(int type)
 {
     gint res;
     char *name;
@@ -68,7 +68,7 @@ void ui_cartridge_dialog(void)
         return;
     }
 	    
-    if (cartridge_save_image (name) < 0) {
+    if (cartridge_save_image (type, name) < 0) {
         ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
     } else {
 	ui_message(_("Successfully wrote `%s'\n"), name);

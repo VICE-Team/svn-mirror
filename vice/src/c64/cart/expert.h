@@ -41,13 +41,17 @@ extern void expert_freeze(void);
 extern void expert_config_init(void);
 extern void expert_config_setup(BYTE *rawcart);
 extern int expert_bin_attach(const char *filename, BYTE *rawcart);
+extern int expert_bin_save(const char *filename);
 extern int expert_crt_attach(FILE *fd, BYTE *rawcart);
+extern int expert_crt_save(const char *filename);
 extern void expert_detach(void);
 
 extern int expert_freeze_allowed(void);
+extern int expert_cart_enabled(void);
 
 extern int expert_resources_init(void);
 extern void expert_resources_shutdown(void);
+extern int expert_cmdline_options_init(void);
 
 /* Expert cartridge has three modes: */
 #define EXPERT_MODE_OFF                      0

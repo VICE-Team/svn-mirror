@@ -32,7 +32,6 @@
 
 #include "c64cart.h"
 #include "cartridge.h"
-#include "expert.h"
 #include "lib.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -46,48 +45,35 @@
 static UI_CALLBACK(attach_cartridge)
 {
     int type = vice_ptr_to_int(UI_MENU_CB_PARAM);
+    char *filename;
+    ui_button_t button;
+    static char *last_dir;
 
     vsync_suspend_speed_eval();
 
-    switch (type) {
-        case CARTRIDGE_EXPERT:
-            /*
-             * Expert cartridge has *no* image file.
-             * It's only emulation that should be enabled!
-             */
-            if (cartridge_attach_image(type, NULL) < 0) {
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
+
+    filename = ui_select_file(_("Attach cartridge image"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
+    switch (button) {
+        case UI_BUTTON_OK:
+            if (cartridge_attach_image(type, filename) < 0) {
                 ui_error(_("Cannot attach cartridge"));
             }
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
             break;
         default:
-            {
-                char *filename;
-                ui_button_t button;
-                static char *last_dir;
-                uilib_file_filter_enum_t filter[] = { UILIB_FILTER_CARTRIDGE, UILIB_FILTER_ALL };
-
-                filename = ui_select_file(_("Attach cartridge image"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
-                switch (button) {
-                    case UI_BUTTON_OK:
-                        if (cartridge_attach_image(type, filename) < 0) {
-                            ui_error(_("Cannot attach cartridge"));
-                        }
-                        lib_free(last_dir);
-                        util_fname_split(filename, &last_dir, NULL);
-                        break;
-                    default:
-                        /* Do nothing special. */
-                        break;
-                }
-                lib_free(filename);
-            }
+            /* Do nothing special. */
+            break;
     }
+    lib_free(filename);
+
     ui_update_menus();
 }
 
 static UI_CALLBACK(detach_cartridge)
 {
-    cartridge_detach_image();
+    cartridge_detach_image(-1);
     ui_update_menus();
 }
 
@@ -101,30 +87,6 @@ static UI_CALLBACK(freeze_cartridge)
     cartridge_trigger_freeze();
 }
 
-static UI_CALLBACK(save_cartridge)
-{
-    ui_cartridge_dialog();
-}
-
-UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
-
-static ui_menu_entry_t cartridge_control_submenu[] = {
-    { N_("Enable Expert Cartridge..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EXPERT, NULL },
-    { "--" },
-    { N_("*Prg"), (ui_callback_t)radio_ExpertCartridgeMode,
-      (ui_callback_data_t)EXPERT_MODE_PRG, NULL },
-    { N_("*Off"), (ui_callback_t)radio_ExpertCartridgeMode,
-      (ui_callback_data_t)EXPERT_MODE_OFF, NULL },
-    { N_("*On"), (ui_callback_t)radio_ExpertCartridgeMode,
-      (ui_callback_data_t)EXPERT_MODE_ON, NULL },
-    { "--" },
-    { N_("Save cartridge image..."),
-      (ui_callback_t)save_cartridge, NULL, NULL },
-    { NULL }
-};
-
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart attach CRT image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
@@ -136,48 +98,43 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Attach generic 16KB image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_16KB, NULL },
-    { N_("Attach Action Replay image..."),
+    { "--" },
+    { N_("Attach Action Replay 5 image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
-    { N_("Attach Action Replay III image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ACTION_REPLAY3, NULL },
-    { N_("Attach Action Replay IV image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ACTION_REPLAY4, NULL },
-    { N_("Attach StarDOS image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_STARDOS, NULL },
     { N_("Attach Atomic Power image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
     { N_("Attach Epyx fastload image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EPYX_FASTLOAD, NULL },
-    { N_("Attach IEEE488 interface image..."),
+    { N_("Attach Expert Cartridge image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_IEEE488, NULL },
-    { N_("Attach Retro Replay image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_RETRO_REPLAY, NULL },
+      CARTRIDGE_EXPERT, NULL },
     { N_("Attach IDE64 interface image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IDE64, NULL },
-    { N_("Attach Super Snapshot 4 image..."),
+    { N_("Attach IEEE488 interface image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_SUPER_SNAPSHOT, NULL },
-    { N_("Attach Super Snapshot 5 image..."),
+      CARTRIDGE_IEEE488, NULL },
+    { N_("Attach ISEPIC image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
-    { N_("Attach Structured Basic image..."),
+      CARTRIDGE_ISEPIC, NULL },
+    { N_("Attach Magic Formel image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_STRUCTURED_BASIC, NULL },
+      CARTRIDGE_MAGIC_FORMEL, NULL },
+    { N_("Attach MMC64 image..."),
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_MMC64, NULL },
     { N_("Attach MMC Replay image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MMC_REPLAY, NULL },
-    { "--" },
-    { N_("Expert cartridge"),
-      NULL, NULL, cartridge_control_submenu },
+    { N_("Attach Retro Replay image..."),
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_RETRO_REPLAY, NULL },
+    { N_("Attach Super Snapshot 5 image..."),
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
     { "--" },
     { N_("Set cartridge as default"), (ui_callback_t)
       default_cartridge, NULL, NULL },

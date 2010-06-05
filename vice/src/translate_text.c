@@ -4302,7 +4302,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ATTACH_RAW_GAME_KILLER_CART_TR, ""},  /* fuzzy */
 #endif
 
-/* c64/cart/c64cart.c */
+/* c64/cart/c64cart.c, c64/expert.c */
 /* en */ {IDCLS_ENABLE_EXPERT_CART,    N_("Enable expert cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EXPERT_CART_DA, "Aktivér Expert Cartridge"},
@@ -4314,6 +4314,20 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_EXPERT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_EXPERT_CART_SV, "Aktivera Expert Cartridge"},
 /* tr */ {IDCLS_ENABLE_EXPERT_CART_TR, "Expert kartuþunu aktif et"},
+#endif
+
+/* c64/expert.c */
+/* en */ {IDCLS_DISABLE_EXPERT_CART,    N_("Disable the expert cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_EXPERT_CART_DA, "Deaktivér expert-cartridge"},
+/* de */ {IDCLS_DISABLE_EXPERT_CART_DE, "Expert Modul deaktivieren"},
+/* fr */ {IDCLS_DISABLE_EXPERT_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_EXPERT_CART_HU, "Expert cartridge tiltása"},
+/* it */ {IDCLS_DISABLE_EXPERT_CART_IT, "Disattiva la cartuccia expert"},
+/* nl */ {IDCLS_DISABLE_EXPERT_CART_NL, "De expert cartridge uitschakelen"},
+/* pl */ {IDCLS_DISABLE_EXPERT_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EXPERT_CART_SV, "Inaktivera expert-insticksmodul."},
+/* tr */ {IDCLS_DISABLE_EXPERT_CART_TR, "Expert kartuþunu pasifleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */

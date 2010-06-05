@@ -332,7 +332,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             }
             // FALLTHROUGH!
         case IDM_CARTRIDGEDET:
-            cartridge_detach_image();
+            cartridge_detach_image(-1);
             return;
         case IDM_CRTFREEZE:
             cartridge_trigger_freeze();
@@ -513,7 +513,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("DQBB");
             return;
         case IDM_ISEPIC:
-            toggle("Isepic");
+            toggle("IsepicCartridgeEnabled");
             return;
         case IDM_ISEPIC_SWITCH:
             toggle("IsepicSwitch");
@@ -1327,7 +1327,7 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("DQBB", &val);
             WinCheckMenuItem(hwnd, IDM_DQBB, val);
             WinEnableMenuItem(hwnd, IDM_DQBBFILE, val);
-            resources_get_int("Isepic", &val);
+            resources_get_int("IsepicCartridgeEnabled", &val);
             WinCheckMenuItem(hwnd, IDM_ISEPIC, val);
             resources_get_int("IsepicSwitch", &val);
             WinCheckMenuItem(hwnd, IDM_ISEPIC_SWITCH, val);

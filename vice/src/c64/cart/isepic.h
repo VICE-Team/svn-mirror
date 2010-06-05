@@ -41,4 +41,10 @@ extern void REGPARM2 isepic_romh_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 isepic_page_read(WORD addr);
 extern void REGPARM2 isepic_page_store(WORD addr, BYTE byte);
 
+extern int isepic_bin_attach(const char *filename, BYTE *rawcart);
+extern int isepic_bin_save(const char *filename);
+extern int isepic_crt_attach(FILE *fd, BYTE *rawcart);
+extern int isepic_crt_save(const char *filename);
+extern void isepic_detach(void);
+
 #endif

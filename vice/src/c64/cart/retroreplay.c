@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "flash040.h"
 #include "lib.h"
 #include "maincpu.h"
@@ -110,8 +111,6 @@ static char *retroreplay_filename = NULL;
 static int retroreplay_filetype = 0;
 static int retroreplay_filesize = 0;
 
-static const char CRT_HEADER[] = "C64 CARTRIDGE   ";
-static const char CHIP_HEADER[] = "CHIP";
 static const char STRING_RETRO_REPLAY[] = "Retro Replay";
 
 #define CARTRIDGE_FILETYPE_BIN  1

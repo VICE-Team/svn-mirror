@@ -1,8 +1,8 @@
 /*
- * uiisepic.c
+ * uiexpert.c
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,28 +26,38 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cartridge.h"
+#include "expert.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
-#include "uiisepic.h"
+#include "uiexpert.h"
+#include "vsync.h"
 
-static UI_CALLBACK(isepic_save_cartridge)
+static UI_CALLBACK(expert_save_cartridge)
 {
-    ui_cartridge_save_dialog(CARTRIDGE_ISEPIC);
+    ui_cartridge_save_dialog(CARTRIDGE_EXPERT);
 }
 
-UI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
-UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
+UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
+UI_MENU_DEFINE_TOGGLE(ExpertCartridgeEnabled)
 
-ui_menu_entry_t isepic_submenu[] = {
-    { N_("*Enable Isepic"),
-      (ui_callback_t)toggle_IsepicCartridgeEnabled, NULL, NULL },
-    { N_("*Enable Isepic Switch"),
-      (ui_callback_t)toggle_IsepicSwitch, NULL, NULL },
+ui_menu_entry_t expert_submenu[] = {
+    { N_("*Enable Expert Cartridge"),
+      (ui_callback_t)toggle_ExpertCartridgeEnabled, NULL, NULL },
     { "--" },
-    { N_("Save Isepic image..."),
-      (ui_callback_t)isepic_save_cartridge, NULL, NULL },
+    { N_("*Prg"), (ui_callback_t)radio_ExpertCartridgeMode,
+      (ui_callback_data_t)EXPERT_MODE_PRG, NULL },
+    { N_("*Off"), (ui_callback_t)radio_ExpertCartridgeMode,
+      (ui_callback_data_t)EXPERT_MODE_OFF, NULL },
+    { N_("*On"), (ui_callback_t)radio_ExpertCartridgeMode,
+      (ui_callback_data_t)EXPERT_MODE_ON, NULL },
+    { "--" },
+    { N_("Save Expert Cartridge image..."),
+      (ui_callback_t)expert_save_cartridge, NULL, NULL },
     { NULL }
 };

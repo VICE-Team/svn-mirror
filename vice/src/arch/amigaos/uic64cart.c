@@ -181,7 +181,7 @@ void uic64cart_proc(video_canvas_t *canvas, int idm)
             cartridge_set_default();
             break;
         case IDM_CART_DETACH:
-            cartridge_detach_image();
+            cartridge_detach_image(-1);
             break;
         case IDM_CART_FREEZE:
             keyboard_clear_keymatrix();

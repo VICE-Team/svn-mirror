@@ -61,13 +61,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cart/c64cartmem.h"
+#include "archdep.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "isepic.h"
 #include "lib.h"
 #include "log.h"
@@ -101,6 +103,10 @@ static BYTE *isepic_ram;
 /* current page */
 static unsigned int isepic_page = 0;
 
+static const char STRING_ISEPIC[] = "Isepic Cartridge";
+
+#define ISEPIC_RAM_SIZE 2048
+
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
@@ -110,9 +116,9 @@ static BYTE REGPARM1 isepic_io2_read(WORD addr);
 static void REGPARM2 isepic_io2_store(WORD addr, BYTE byte);
 
 static io_source_t isepic_io1_device = {
-    "ISEPIC",
+    "Isepic",
     IO_DETACH_RESOURCE,
-    "ISEPIC",
+    "Isepic",
     0xde00, 0xdeff, 0x07,
     0, /* read is never valid */
     isepic_io1_store,
@@ -120,13 +126,17 @@ static io_source_t isepic_io1_device = {
 };
 
 static io_source_t isepic_io2_device = {
-    "ISEPIC",
+    "Isepic",
     IO_DETACH_RESOURCE,
-    "ISEPIC",
+    "Isepic",
     0xdf00, 0xdfff, 0xff,
     0,
     isepic_io2_store,
     isepic_io2_read
+};
+
+static const c64export_resource_t export_res = {
+    "Isepic", 1, 1
 };
 
 static io_source_list_t *isepic_io1_list_item = NULL;
@@ -152,21 +162,32 @@ static int set_isepic_enabled(int val, void *param)
     DBG(("set enabled: %d\n", val));
     if (isepic_enabled && !val) {
         lib_free(isepic_ram);
-        isepic_enabled = 0;
+        isepic_ram = NULL;
         c64io_unregister(isepic_io1_list_item);
         c64io_unregister(isepic_io2_list_item);
         isepic_io1_list_item = NULL;
         isepic_io2_list_item = NULL;
+        c64export_remove(&export_res);
+        isepic_enabled = 0;
         if (isepic_switch) {
             cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
 
     if (!isepic_enabled && val) {
-        isepic_ram = lib_malloc(2048);
-        isepic_enabled = 1;
+        isepic_ram = lib_malloc(ISEPIC_RAM_SIZE);
         isepic_io1_list_item = c64io_register(&isepic_io1_device);
         isepic_io2_list_item = c64io_register(&isepic_io2_device);
+        if (c64export_add(&export_res) < 0) {
+            lib_free(isepic_ram);
+            isepic_ram = NULL;
+            c64io_unregister(isepic_io1_list_item);
+            c64io_unregister(isepic_io2_list_item);
+            isepic_io1_list_item = NULL;
+            isepic_io2_list_item = NULL;
+            return -1;
+        }
+        isepic_enabled = 1;
         if (isepic_switch) {
             cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
@@ -197,9 +218,9 @@ static int set_isepic_switch(int val, void *param)
 /* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_int[] = {
-    { "ISEPIC", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "IsepicCartridgeEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &isepic_enabled, set_isepic_enabled, NULL },
-    { "ISEPICSwitch", 0, RES_EVENT_STRICT, (resource_value_t)1,
+    { "IsepicSwitch", 0, RES_EVENT_STRICT, (resource_value_t)1,
       &isepic_switch, set_isepic_switch, NULL },
     { NULL }
 };
@@ -214,12 +235,12 @@ int isepic_resources_init(void)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-isepic", SET_RESOURCE, 0,
-      NULL, NULL, "Isepic", (resource_value_t)1,
+      NULL, NULL, "IsepicCartridgeEnabled", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_ISEPIC,
       NULL, NULL },
     { "+isepic", SET_RESOURCE, 0,
-      NULL, NULL, "Isepic", (resource_value_t)0,
+      NULL, NULL, "IsepicCartridgeEnabled", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_ISEPIC,
       NULL, NULL },
@@ -322,3 +343,194 @@ void REGPARM2 isepic_page_store(WORD addr, BYTE value)
         mem_store_without_ultimax(addr, value);
     }
 }
+
+/* ---------------------------------------------------------------------*/
+
+static int isepic_common_attach(BYTE *rawcart)
+{
+    if (resources_set_int("IsepicCartridgeEnabled", 1) < 0) {
+        return -1;
+    }
+    if (isepic_enabled) {
+        memcpy(isepic_ram, rawcart, ISEPIC_RAM_SIZE);
+        return 0;
+    }
+    return -1;
+}
+
+int isepic_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, ISEPIC_RAM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    return isepic_common_attach(rawcart);
+}
+
+int isepic_bin_save(const char *filename)
+{
+    FILE *fd;
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    if (fwrite(isepic_ram, 1, ISEPIC_RAM_SIZE, fd) != ISEPIC_RAM_SIZE) {
+        fclose(fd);
+        return -1;
+    }
+
+    fclose(fd);
+    return 0;
+}
+
+int isepic_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
+        return -1;
+    }
+
+    if (fread(rawcart, ISEPIC_RAM_SIZE, 1, fd) < 1) {
+        return -1;
+    }
+
+    resources_set_int("IsepicSwitch", 0);
+    return isepic_common_attach(rawcart);
+}
+
+int isepic_crt_save(const char *filename)
+{
+    FILE *fd;
+    BYTE header[0x40], chipheader[0x10];
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    /*
+     * Initialize headers to zero.
+     */
+    memset(header, 0x0, 0x40);
+    memset(chipheader, 0x0, 0x10);
+
+    /*
+     * Construct CRT header.
+     */
+    strcpy((char *)header, CRT_HEADER);
+
+    /*
+     * fileheader-length (= 0x0040)
+     */
+    header[0x10] = 0x00;
+    header[0x11] = 0x00;
+    header[0x12] = 0x00;
+    header[0x13] = 0x40;
+
+    /*
+     * Version (= 0x0100)
+     */
+    header[0x14] = 0x01;
+    header[0x15] = 0x00;
+
+    /*
+     * Hardware type (= CARTRIDGE_ISEPIC)
+     */
+    header[0x16] = 0x00;
+    header[0x17] = CARTRIDGE_ISEPIC;
+
+    /*
+     * Exrom line
+     */
+    header[0x18] = 0x01;            /* ? */
+
+    /*
+     * Game line
+     */
+    header[0x19] = 0x01;            /* ? */
+
+    /*
+     * Set name.
+     */
+    strcpy((char *)&header[0x20], STRING_ISEPIC);
+
+    /*
+     * Write CRT header.
+     */
+    if (fwrite(header, sizeof(BYTE), 0x40, fd) != 0x40) {
+        fclose(fd);
+        return -1;
+    }
+
+    /*
+     * Construct chip packet.
+     */
+    strcpy((char *)chipheader, CHIP_HEADER);
+
+    /*
+     * Packet length. (= 0x0810; 0x10 + 0x0800)
+     */
+    chipheader[0x04] = 0x00;
+    chipheader[0x05] = 0x00;
+    chipheader[0x06] = 0x08;
+    chipheader[0x07] = 0x10;
+
+    /*
+     * Chip type. (= FlashROM?)
+     */
+    chipheader[0x08] = 0x00;
+    chipheader[0x09] = 0x02;
+
+    /*
+     * Bank nr. (= 0)
+     */
+    chipheader[0x0a] = 0x00;
+    chipheader[0x0b] = 0x00;
+
+    /*
+     * Address. (= 0x8000)
+     */
+    chipheader[0x0c] = 0x80;
+    chipheader[0x0d] = 0x00;
+
+    /*
+     * Length. (= 0x0800)
+     */
+    chipheader[0x0e] = 0x08;
+    chipheader[0x0f] = 0x00;
+
+    /*
+     * Write CHIP header.
+     */
+    if (fwrite(chipheader, sizeof(BYTE), 0x10, fd) != 0x10) {
+        fclose(fd);
+        return -1;
+    }
+
+    /*
+     * Write CHIP packet data.
+     */
+    if (fwrite(isepic_ram, sizeof(char), ISEPIC_RAM_SIZE, fd) != ISEPIC_RAM_SIZE) {
+        fclose(fd);
+        return -1;
+    }
+
+    fclose(fd);
+
+    return 0;
+}
+
+void isepic_detach(void)
+{
+    resources_set_int("IsepicCartridgeEnabled", 0);
+}
+

@@ -204,7 +204,7 @@ static tui_menu_item_def_t attach_cartridge_menu_items[] = {
 static TUI_MENU_CALLBACK(detach_cartridge_callback)
 {
     if (been_activated) {
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
     }
 
     return NULL;

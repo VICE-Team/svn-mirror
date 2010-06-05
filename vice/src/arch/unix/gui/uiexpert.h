@@ -1,8 +1,8 @@
 /*
- * crt.h - CRT image handling.
+ * uiexpert.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,11 @@
  *
  */
 
-#ifndef VICE_CRT_H
-#define VICE_CRT_H
+#ifndef VICE_UIEXPERT_H
+#define VICE_UIEXPERT_H
 
-#include "types.h"
+#include "uimenu.h"
 
-extern int crt_attach(const char *filename, BYTE *rawcart);
-extern int crt_getid(const char *filename);
-
-extern const char CRT_HEADER[];
-extern const char CHIP_HEADER[];
+extern struct ui_menu_entry_s expert_submenu[];
 
 #endif

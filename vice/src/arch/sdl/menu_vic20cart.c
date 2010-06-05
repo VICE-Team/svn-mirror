@@ -115,7 +115,7 @@ static const ui_menu_entry_t add_to_generic_cart_submenu[] = {
 static UI_MENU_CALLBACK(detach_cart_callback)
 {
     if (activated) {
-        cartridge_detach_image();
+        cartridge_detach_image(-1);
     }
     return NULL;
 }

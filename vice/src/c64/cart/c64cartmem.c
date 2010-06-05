@@ -122,40 +122,9 @@ unsigned int cart_ultimax_phi1 = 0;
 unsigned int cart_ultimax_phi2 = 0;
 
 /* Type of the cartridge attached.  */
-int mem_cartridge_type = CARTRIDGE_NONE;
+static int mem_cartridge_type = CARTRIDGE_NONE;
 
 /*
-  FIXME: remove this first part, it describes how the interface
-         worked before the reorganisation
-
-  common values:
-   4 0x04 -> phi2 ram, mode 0
-   6 0x06 -> phi2 ram, mode 2
-   8 0x08 -> bank 1, mode 0
-   9 0x09 -> bank 1, mode 1
-  35 0x23 -> export ram, mode 3
-
-  bit 7: unused
-  bit 6:
-  mode_phi2 & 0x40 - release freeze
-  bit 5:
-  mode_phi2 & 0x20 - export ram
-
-  bits 4,3:
-  mode_phi2 & 0x18 - bank
-
-  bit 2:
-  mode_phi1 & 0x04 - cart_ultimax_phi2 mask
-
-  bits 1,0: !exrom,game
-  mode_phi2 & 3 = 0 : roml
-  mode_phi2 & 3 = 1 : roml & romh
-  mode_phi2 & 3 = 2 : ram
-  mode_phi2 & 3 = 3 : ultimax
-
-  <--<-<--<-<--<-<--<-<--<-<--<-<--<-<--<-<--<-<--<-
-  new interface:
-
   mode_phiN:
 
   bits N..2: bank (currently max 0x3f)
@@ -174,7 +143,6 @@ int mem_cartridge_type = CARTRIDGE_NONE;
   bit 2  0x04   - vic phi2 mode (always sees ram if set)
   bit 1  0x02   - release freeze (stop asserting NMI)
   bit 0  0x01   - r/w flag
-
 */
 void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
 {
@@ -206,6 +174,20 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
     if ((wflag & CMODE_TRIGGER_FREEZE_NMI_ONLY) == CMODE_TRIGGER_FREEZE_NMI_ONLY) {
         cartridge_trigger_freeze_nmi_only();
     }
+}
+
+/*
+    generic helper routines, should be used *only* by carts that are in the
+    "main cartridge" category
+*/
+void cartridge_romhbank_set(unsigned int bank)
+{
+    romh_bank = (int)bank;
+}
+
+void cartridge_romlbank_set(unsigned int bank)
+{
+    roml_bank = (int)bank;
 }
 
 /*
@@ -247,6 +229,9 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
 
         georam
         digimax
+        reu
+        midi
+        acia
 
         clockport
 
@@ -284,16 +269,81 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
               ultimax_d000_dfff_store store_bank_io
     e000-ffff romh_read               romh_banks
               romh_store              n/a
+
+    ***
+
+    as a first step to a completely generic cart system, everything should
+    get reorganised based on the following assumptions:
+
+    - it is pointless to attach/use several cartridges of the same type at
+      once. by not supporting this, we can use the cartridge id as a unique
+      id for a given cart, regardless of the underlaying "slot logic"
+    - moreover it is also pointless to support a lot of combinations of
+      cartridges, simply because they won't work anyway.
+
+    "Slot 0"
+    - carts that have a passthrough port go here
+    - the passthrough of individual "Slot 0" carts must be handled on a
+      per case basis.
+    - if any "Slot 0" cart is active, then all following slots are assumed
+      to be attached to the respective "Slot 0" passthrough port.
+    - only ONE of the carts in the "Slot 0" can be active at a time
+
+    mmc64
+    Magic Voice (soon...)
+    ramlink, scpu, ...
+
+    "Slot 1"
+    - other ROM/RAM carts that can be enabled individually
+    - any number of "Slot 1" carts can be, in theory, active at a time
+
+    isepic
+    expert
+    dqbb
+    ramcart
+
+    "Main Slot"
+    - the vast majority of carts go here, since only one of them
+      can be used at a time anyway.
+    - only ONE of the carts in the "Main Slot" can be active at a time
+
+    this pretty much resembles the remains of the old cart system. ultimativly
+    all carts should go into one of the other slots (to be completely generic),
+    but it doesnt make a lot of sense to rewrite them all before passthrough-
+    and mapping is handled correctly.
+
+    "IO Slot"
+    - all carts that do not use the game/exrom lines, and which do only
+      map into io1/io2 go here
+    - any number of "IO Slot" carts can be, in theory, active at a time
+
+    reu
+    georam
+    ethernet
+    acia (rs232)
+    midi
+
+    - all cards *except* those in the "Main Slot" should:
+      - maintain a resource (preferably XYZCartridgeEnabled) that tells
+        wether said cart is "inserted" into our virtual "expansion port expander".
+      - maintain their own arrays to store rom/ram content.
+      - as a consequence, changing said resource equals attaching/detaching the
+        cartridge.
 */
 
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
 BYTE REGPARM1 roml_read(WORD addr)
 {
+    /* "Slot 0" */
+    if (mmc64_cart_enabled()) {
+        return mmc64_roml_read(addr);
+    }
+    /* "Slot 1" */
     if (isepic_cart_enabled()) {
         return isepic_page_read(addr);
     }
-    if (mmc64_cart_enabled()) {
-        return mmc64_roml_read(addr);
+    if (expert_cart_enabled()) {
+        return expert_roml_read(addr);
     }
     if (ramcart_cart_enabled()) {
         return ramcart_roml_read(addr);
@@ -301,7 +351,7 @@ BYTE REGPARM1 roml_read(WORD addr)
     if (dqbb_cart_enabled()) {
         return dqbb_roml_read(addr);
     }
-
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_FREEZE_FRAME:
             /* use default cartridge */
@@ -328,8 +378,6 @@ BYTE REGPARM1 roml_read(WORD addr)
             return ide64_roml_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_roml_read(addr);
-        case CARTRIDGE_EXPERT:
-            return expert_roml_read(addr);
         case CARTRIDGE_FINAL_I:
             return final_v1_roml_read(addr);
         case CARTRIDGE_FINAL_PLUS:
@@ -362,11 +410,17 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
 {
     /* DBG(("ultimax w 8000: %04x %02x\n", addr, value)); */
 
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        expert_roml_store(addr,value);
+        return;
+    }
     if (ramcart_cart_enabled()) {
         ramcart_roml_store(addr,value);
         return;
     }
-
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_roml_store(addr, value);
@@ -385,9 +439,6 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
             return;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_roml_store(addr, value);
-            return;
-        case CARTRIDGE_EXPERT:
-            expert_roml_store(addr, value);
             return;
         case CARTRIDGE_MAGIC_FORMEL:
             magicformel_roml_store(addr, value);
@@ -415,13 +466,19 @@ BYTE REGPARM1 romh_read(WORD addr)
 {
     /* DBG(("ultimax r e000: %04x\n", addr)); */
 
-    if (isepic_cart_enabled()) {
-        return isepic_romh_read(addr);
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        return expert_romh_read(addr);
     }
     if (dqbb_cart_enabled()) {
         return dqbb_romh_read(addr);
     }
+    if (isepic_cart_enabled()) {
+        return isepic_romh_read(addr);
+    }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
@@ -429,8 +486,6 @@ BYTE REGPARM1 romh_read(WORD addr)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
-        case CARTRIDGE_EXPERT:
-            return expert_romh_read(addr);
         case CARTRIDGE_OCEAN:
             return ocean_romh_read(addr);
         case CARTRIDGE_IDE64:
@@ -466,13 +521,19 @@ BYTE REGPARM1 romh_read(WORD addr)
 */
 BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
 {
-    if (isepic_cart_enabled()) {
-        return isepic_romh_read(addr);
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        return expert_romh_read(addr);
     }
     if (dqbb_cart_enabled()) {
         return dqbb_romh_read(addr);
     }
+    if (isepic_cart_enabled()) {
+        return isepic_romh_read(addr);
+    }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
@@ -480,8 +541,6 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
             break;
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
-        case CARTRIDGE_EXPERT:
-            return expert_romh_read(addr);
         case CARTRIDGE_OCEAN:
             return ocean_romh_read(addr);
         case CARTRIDGE_IDE64:
@@ -513,10 +572,13 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
 {
     /* DBG(("ultimax w e000: %04x %02x\n", addr, value)); */
 
+    /* "Slot 0" */
+    /* "Slot 1" */
     if (isepic_cart_enabled()) {
         isepic_romh_store(addr, value);
     }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_EASYFLASH:
             easyflash_romh_store(addr, value);
@@ -549,11 +611,14 @@ void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
 {
     /* DBG(("game    w a000: %04x %02x\n", addr, value)); */
 
+    /* "Slot 0" */
+    /* "Slot 1" */
     if (dqbb_cart_enabled()) {
         dqbb_romh_store(addr, value);
         return;
     }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_romh_store(addr, value);
@@ -572,20 +637,23 @@ void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
 void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
 {
     /* DBG(("game rom    w 8000: %04x %02x\n", addr, value)); */
-
-    if (dqbb_cart_enabled()) {
-        dqbb_roml_store(addr, value);
-        return; /* ? */
-    }
+    /* "Slot 0" */
     if (mmc64_cart_enabled()) {
         mmc64_roml_store(addr, value);
         return; /* ? */
     }
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        expert_roml_store(addr, value);
+        return; /* ? */
+    }
+    if (dqbb_cart_enabled()) {
+        dqbb_roml_store(addr, value);
+        return; /* ? */
+    }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_EXPERT:
-            expert_roml_store(addr, value);
-            break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value))
             {
@@ -608,16 +676,20 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
 void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
 {
     /* DBG(("game ram    w 8000: %04x %02x\n", addr, value)); */
-
+    /* "Slot 0" */
     if (mmc64_cart_enabled()) {
         mmc64_roml_store(addr, value);
         /* return; */
     }
 
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        expert_roml_store(addr, value);
+        /* return; */
+    }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_EXPERT:
-            expert_raml_store(addr, value);
-            break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value))
             {
@@ -634,11 +706,17 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
 /* ultimax read - 1000 to 7fff */
 BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
+    }
     if (isepic_cart_enabled()) {
         /* return mem_read_without_ultimax(addr); */ /* fake ultimax hack */
         return isepic_page_read(addr);
     }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
             return ide64_1000_7fff_read(addr);
@@ -649,7 +727,6 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
@@ -663,10 +740,16 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 /* ultimax store - 1000 to 7fff */
 void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
+    }
     if (isepic_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack */
     }
 
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
             ide64_1000_7fff_store(addr, value);
@@ -680,7 +763,6 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
@@ -694,10 +776,17 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
 /* ultimax read - a000 to bfff */
 BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 basic, ram */
+    }
     if (isepic_cart_enabled()) {
         /* return mem_read_without_ultimax(addr); */ /* fake ultimax hack */
         return isepic_page_read(addr);
     }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
             return ide64_a000_bfff_read(addr);
@@ -708,7 +797,6 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_GAME_KILLER:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 basic, ram */
@@ -721,9 +809,16 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 /* ultimax store - a000 to bfff */
 void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
+    }
     if (isepic_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack */
     }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_a000_bfff_store(addr, value);
@@ -732,7 +827,6 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
@@ -746,10 +840,17 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
 /* ultimax read - c000 to cfff */
 BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
+    }
     if (isepic_cart_enabled()) {
         /* return mem_read_without_ultimax(addr); */ /* fake ultimax hack */
         return isepic_page_read(addr);
     }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
             return ide64_c000_cfff_read(addr);
@@ -759,7 +860,6 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
@@ -772,9 +872,16 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 /* ultimax store - c000 to cfff */
 void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
+    }
     if (isepic_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack */
     }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_IDE64:
             ide64_c000_cfff_store(addr, value);
@@ -786,7 +893,6 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
@@ -800,11 +906,18 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 /* ultimax read - d000 to dfff */
 BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        /* fake ultimax hack, c64 io,colram,ram */
+        return mem_read_without_ultimax(addr);
+    }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
@@ -817,11 +930,18 @@ BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 /* ultimax store - d000 to dfff */
 void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        /* fake ultimax hack, c64 io,colram,ram */
+        mem_store_without_ultimax(addr, value);
+    }
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
         case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_EXPERT:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
@@ -832,8 +952,27 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
     store_bank_io(addr, value);
 }
 
+/*
+    (de)initialization hooks:
+
+    cartridge_reset
+    cartridge_freeze
+
+    cartridge_init_config
+    cartridge_attach
+    cartridge_detach
+    cartridge_save_image
+*/
+
 void cartridge_init_config(void)
 {
+    /* "Slot 0" */
+    mmc64_init_card_config();
+    /* "Slot 1" */
+    ramcart_init_config();
+    dqbb_init_config();
+    expert_config_init();
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_STARDOS:
             stardos_config_init();
@@ -929,9 +1068,6 @@ void cartridge_init_config(void)
         case CARTRIDGE_IEEE488:
             tpi_config_init();
             break;
-        case CARTRIDGE_EXPERT:
-            expert_config_init();
-            break;
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_config_init();
             break;
@@ -977,15 +1113,20 @@ void cartridge_init_config(void)
         default:
             cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ);
     }
-
-    ramcart_init_config();
-    dqbb_init_config();
-    mmc64_init_card_config();
-
 }
 
 void cartridge_reset(void)
 {
+    /* "Slot 0" */
+    mmc64_reset();
+    /* "Slot 1" */
+    dqbb_reset();
+    ramcart_reset();
+    /* "IO Slot" */
+    reu_reset();
+    georam_reset();
+
+    /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_ACTION_REPLAY4:
             actionreplay4_reset();
@@ -1019,22 +1160,26 @@ void cartridge_reset(void)
             break;
     }
 
-    reu_reset();
-    georam_reset();
-    ramcart_reset();
-    mmc64_reset();
-    dqbb_reset();
-
 }
 
 void cartridge_attach(int type, BYTE *rawcart)
 {
     int cartridge_reset;
 
-    mem_cartridge_type = type;
-    cartridge_romhbank_set(0);
-    cartridge_romlbank_set(0);
+    if (cartridge_is_slotmain(type)) {
+        mem_cartridge_type = type;
+        cartridge_romhbank_set(0);
+        cartridge_romlbank_set(0);
+    }
+
     switch (type) {
+        /* "Slot 0" */
+        /* "Slot 1" */
+        case CARTRIDGE_EXPERT:
+            expert_config_setup(rawcart);
+            break;
+        /* "IO Slot" */
+        /* "Main Slot" */
         case CARTRIDGE_GENERIC_8KB:
         case CARTRIDGE_IEEE488:
         case CARTRIDGE_REX:
@@ -1124,9 +1269,6 @@ void cartridge_attach(int type, BYTE *rawcart)
         case CARTRIDGE_COMAL80:
             comal80_config_setup(rawcart);
             break;
-        case CARTRIDGE_EXPERT:
-            expert_config_setup(rawcart);
-            break;
         case CARTRIDGE_ZAXXON:
             zaxxon_config_setup(rawcart);
             break;
@@ -1172,8 +1314,6 @@ void cartridge_attach(int type, BYTE *rawcart)
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_setup(rawcart);
             break;
-        default:
-            mem_cartridge_type = CARTRIDGE_NONE;
     }
 
     resources_get_int("CartridgeReset", &cartridge_reset);
@@ -1190,7 +1330,34 @@ void cartridge_detach(int type)
 {
     int cartridge_reset;
 
+    DBG(("CART: cartridge_detach ID: %d\n", type));
+
     switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_MMC64:
+            mmc64_shutdown();
+            break;
+        /* "Slot 1" */
+        case CARTRIDGE_DQBB:
+            dqbb_shutdown();
+            break;
+        case CARTRIDGE_EXPERT:
+            expert_detach();
+            break;
+        case CARTRIDGE_GEORAM:
+            georam_shutdown();
+            break;
+        case CARTRIDGE_ISEPIC:
+            isepic_detach();
+            break;
+        case CARTRIDGE_RAMCART:
+            ramcart_shutdown();
+            break;
+        /* "IO Slot" */
+        case CARTRIDGE_REU:
+            reu_shutdown();
+            break;
+        /* "Main Slot" */
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_detach();
             break;
@@ -1229,9 +1396,6 @@ void cartridge_detach(int type)
             break;
         case CARTRIDGE_REX:
             rex_detach();
-            break;
-        case CARTRIDGE_EXPERT:
-            expert_detach();
             break;
         case CARTRIDGE_FINAL_I:
             final_v1_detach();
@@ -1334,7 +1498,10 @@ void cartridge_detach(int type)
             break;
     }
     cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
-    mem_cartridge_type = CARTRIDGE_NONE;
+
+    if (cartridge_is_slotmain(type)) {
+        mem_cartridge_type = CARTRIDGE_NONE;
+    }
 
     resources_get_int("CartridgeReset", &cartridge_reset);
 
@@ -1349,6 +1516,13 @@ void cartridge_detach(int type)
 void cartridge_freeze(int type)
 {
     switch (type) {
+        /* "Slot 0" */
+        /* "Slot 1" */
+        case CARTRIDGE_EXPERT:
+            expert_freeze();
+            break;
+        /* "IO Slot" */
+        /* "Main Slot" */
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_freeze();
             break;
@@ -1397,9 +1571,6 @@ void cartridge_freeze(int type)
         case CARTRIDGE_GAME_KILLER:
             gamekiller_freeze();
             break;
-        case CARTRIDGE_EXPERT:
-            expert_freeze();
-            break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_freeze();
             break;
@@ -1409,21 +1580,43 @@ void cartridge_freeze(int type)
     }
 }
 
-int cartridge_save_image(const char *filename)
+/*
+    FIXME: missing here (at least)
+    - rr
+    - easyflash
+    - mmc64
+    - mmcr
+    - dqbb
+    - ramcart
+    - reu
+    - georam
+*/
+static int cartridge_bin_save(int type, const char *filename)
 {
-    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
-        return crt_save_expert(filename);
+    switch (type) {
+        case CARTRIDGE_EXPERT:
+            return expert_bin_save(filename);
+        case CARTRIDGE_ISEPIC:
+            return isepic_bin_save(filename);
     }
-
     return -1;
 }
-
-void cartridge_romhbank_set(unsigned int bank)
+static int cartridge_crt_save(int type, const char *filename)
 {
-    romh_bank = (int)bank;
+    switch (type) {
+        case CARTRIDGE_EXPERT:
+            return expert_crt_save(filename);
+        case CARTRIDGE_ISEPIC:
+            return isepic_crt_save(filename);
+    }
+    return -1;
+}
+/*
+    FIXME: we should auto-detect from the filename wether to save .bin or .crt
+*/
+int cartridge_save_image(int type, const char *filename)
+{
+    /* return cartridge_bin_save(type, filename); */
+    return cartridge_crt_save(type, filename);
 }
 
-void cartridge_romlbank_set(unsigned int bank)
-{
-    roml_bank = (int)bank;
-}

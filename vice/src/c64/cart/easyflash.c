@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "easyflash.h"
 #include "flash040.h"
 #include "lib.h"
@@ -88,8 +89,6 @@ static BYTE easyflash_ram[256];
 /* filename when attached */
 static char *easyflash_crt_filename = NULL;
 
-static const char CRT_HEADER[] = "C64 CARTRIDGE   ";
-static const char CHIP_HEADER[] = "CHIP";
 static const char STRING_EASYFLASH[] = "EasyFlash Cartridge";
 
 /* ---------------------------------------------------------------------*/
