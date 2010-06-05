@@ -7,6 +7,52 @@ dnl
 
 AC_INIT(src/maincpu.c)
 
+dnl Command-line options
+
+VICE_ARG_ENABLE_INIT()
+VICE_ARG_WITH_INIT()
+
+VICE_ARG_WITH_LIST(xaw3d,         [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
+VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
+VICE_ARG_WITH_LIST(midas,         [  --with-midas            use MIDAS sound system instead of Allegro for audio])
+VICE_ARG_WITH_LIST(arts,          [  --with-arts             use aRts sound system])
+VICE_ARG_WITH_LIST(pulse,         [  --with-pulse            use pulseaudio sound system])
+VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
+VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
+VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
+VICE_ARG_WITH_LIST(resid,         [  --without-resid         do not use the reSID engine])
+VICE_ARG_WITH_LIST(png,           [  --without-png           do not use the PNG screenshot system])
+VICE_ARG_WITH_LIST(zlib,          [  --without-zlib          do not use the zlib support])
+VICE_ARG_WITH_LIST(picasso96,     [  --with-picasso96        use Amiga P96 grafix system instead of cgx])
+VICE_ARG_WITH_LIST(cocoa,         [  --with-cocoa            enables native Cocoa UI on Macs])
+VICE_ARG_ENABLE_LIST(textfield,   [  --disable-textfield     disable enhanced text field widget])
+VICE_ARG_ENABLE_LIST(zlibtest,    [  --disable-zlibtest      disable zlib test])
+VICE_ARG_ENABLE_LIST(fullscreen,  [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
+VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI support])
+VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
+VICE_ARG_ENABLE_LIST(gp2x,        [  --enable-gp2x           enables GP2X support])
+VICE_ARG_ENABLE_LIST(wiz,         [  --enable-wiz            enables WIZ support])
+VICE_ARG_ENABLE_LIST(dingux,      [  --enable-dingux         enables Dingoo linux support])
+VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
+VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
+VICE_ARG_ENABLE_LIST(ffmpeg,      [  --disable-ffmpeg        disable FFmpeg library support])
+VICE_ARG_ENABLE_LIST(quicktime,   [  --enable-quicktime      enables Apple QuickTime support])
+VICE_ARG_ENABLE_LIST(ethernet,    [  --enable-ethernet       enables The Final Ethernet emulation])
+VICE_ARG_ENABLE_LIST(ipv6,        [  --disable-ipv6          disables the checking for IPv6 compatibility])
+VICE_ARG_ENABLE_LIST(parsid,      [  --enable-parsid         enables ParSID support])
+VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
+VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
+VICE_ARG_ENABLE_LIST(editline,    [  --disable-editline      disable history in Cocoa UI's console])
+VICE_ARG_ENABLE_LIST(lame,        [  --disable-lame          disable MP3 export with LAME])
+VICE_ARG_ENABLE_LIST(static-lame, [  --enable-static-lame    enable static LAME linking])
+VICE_ARG_ENABLE_LIST(embedded,    [  --enable-embedded       enable embedding of emulation data files])
+VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
+VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
+
+dnl check for invalid options
+VICE_ARG_ENABLE_LIST_CHECK()
+VICE_ARG_WITH_LIST_CHECK()
+
 VICE_VERSION_MAJOR=2
 VICE_VERSION_MINOR=2
 VICE_VERSION_BUILD=4
@@ -52,45 +98,6 @@ is_amiga=no
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
-
-dnl Command-line options
-
-AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
-AC_ARG_ENABLE(zlibtest,[  --disable-zlibtest      disable zlib test])
-AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
-AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
-AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
-AC_ARG_WITH(arts, [  --with-arts             use aRts sound system])
-AC_ARG_WITH(pulse, [  --with-pulse            use pulseaudio sound system])
-AC_ARG_WITH(alsa, [  --without-alsa          do not use the ALSA sound system])
-AC_ARG_WITH(oss, [  --without-oss           do not use the OSS sound system])
-AC_ARG_WITH(sdlsound, [  --with-sdlsound         use SDL sound system])
-AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
-AC_ARG_WITH(png, [  --without-png           do not use the PNG screenshot system])
-AC_ARG_WITH(zlib, [  --without-zlib          do not use the zlib support])
-AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
-AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables GNOME UI support])
-AC_ARG_ENABLE(sdlui,[  --enable-sdlui          enables SDL UI support])
-AC_ARG_ENABLE(gp2x,[  --enable-gp2x           enables GP2X support])
-AC_ARG_ENABLE(wiz,[  --enable-wiz            enables WIZ support])
-AC_ARG_ENABLE(dingux,[  --enable-dingux         enables Dingoo linux support])
-AC_ARG_ENABLE(nls,[  --disable-nls           disables national language support])
-AC_ARG_ENABLE(realdevice,[  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
-AC_ARG_ENABLE(ffmpeg,[  --disable-ffmpeg        disable FFmpeg library support])
-AC_ARG_ENABLE(quicktime,[  --enable-quicktime      enables Apple QuickTime support])
-AC_ARG_ENABLE(ethernet,[  --enable-ethernet       enables The Final Ethernet emulation])
-AC_ARG_ENABLE(ipv6,[  --disable-ipv6          disables the checking for IPv6 compatibility])
-AC_ARG_ENABLE(parsid,[  --enable-parsid         enables ParSID support])
-AC_ARG_WITH(picasso96, [  --with-picasso96        use Amiga P96 grafix system instead of cgx])
-AC_ARG_ENABLE(bundle, [  --disable-bundle        do not use application bundles on Macs])
-AC_ARG_WITH(cocoa, [  --with-cocoa            enables native Cocoa UI on Macs])
-AC_ARG_ENABLE(memmap, [  --enable-memmap         enable the memmap feature])
-AC_ARG_ENABLE(editline, [  --disable-editline      disable history in Cocoa UI's console])
-AC_ARG_ENABLE(lame, [  --disable-lame          disable MP3 export with LAME])
-AC_ARG_ENABLE(static-lame, [  --enable-static-lame    enable static LAME linking])
-AC_ARG_ENABLE(embedded,    [  --enable-embedded       enable embedding of emulation data files])
-AC_ARG_ENABLE(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
-AC_ARG_ENABLE(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 
 dnl gnomeui / sdlui sanity check
 if test x"$enable_gnomeui" = "xyes" -a x"$enable_sdlui" = "xyes"; then
