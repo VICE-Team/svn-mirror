@@ -364,7 +364,8 @@ int vicii_cycle(void)
      */
 
     /* Update sprite mcbase (Cycle 16 on PAL) */
-    if (vicii.raster_cycle == VICII_PAL_CYCLE(16)) {
+    /* if (vicii.raster_cycle == VICII_PAL_CYCLE(16)) { */
+    if (cycle_is_update_mcbase(vicii.cycle_flags)) {
         sprite_mcbase_update();
     }
 

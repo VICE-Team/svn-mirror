@@ -45,12 +45,19 @@ extern void vicii_chip_model_init(void);
 
 /*
  * 28-25 Sprites
- *   000  None
- *   001  Check Sprite DMA
+ *   1--- Check Sprite Exp
+ *   -001 Check Sprite Dma
+ *   -010 Check Sprite Display
+ *   -011 Update MCBASE
+ *   -100 Check Sprite Crunch
  */
-#define CHECK_SPR_DMA_M   0x08000000
-#define CHECK_SPR_EXP_M   0x04000000
-#define CHECK_SPR_DISP_M  0x02000000
+#define CHECK_SPR_EXP_M   0x10000000
+
+#define CHECK_SPR_M       0x0e000000
+#define CHECK_SPR_DMA     0x02000000
+#define CHECK_SPR_DISP    0x04000000
+#define UPDATE_MCBASE     0x06000000
+#define CHECK_SPR_CRUNCH  0x08000000
 
 /*
  * 24-23 VcRc
@@ -169,9 +176,14 @@ static inline int cycle_is_update_rc(unsigned int flags)
     return (flags & UPDATE_RC_M) ? 1 : 0;
 }
 
-static inline int cycle_is_check_spr_dma(unsigned int flags)
+static inline int cycle_is_check_spr_crunch(unsigned int flags)
 {
-    return (flags & CHECK_SPR_DMA_M) ? 1 : 0;
+    return (flags & CHECK_SPR_M) == CHECK_SPR_CRUNCH;
+}
+
+static inline int cycle_is_update_mcbase(unsigned int flags)
+{
+    return (flags & CHECK_SPR_M) == UPDATE_MCBASE;
 }
 
 static inline int cycle_is_check_spr_exp(unsigned int flags)
@@ -179,9 +191,14 @@ static inline int cycle_is_check_spr_exp(unsigned int flags)
     return (flags & CHECK_SPR_EXP_M) ? 1 : 0;
 }
 
+static inline int cycle_is_check_spr_dma(unsigned int flags)
+{
+    return (flags & CHECK_SPR_M) == CHECK_SPR_DMA;
+}
+
 static inline int cycle_is_check_spr_disp(unsigned int flags)
 {
-    return (flags & CHECK_SPR_DISP_M) ? 1 : 0;
+    return (flags & CHECK_SPR_M) == CHECK_SPR_DISP;
 }
 
 static inline int cycle_is_check_border_l(unsigned int flags, int csel)
