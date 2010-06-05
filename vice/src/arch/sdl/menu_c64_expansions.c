@@ -73,44 +73,6 @@ const ui_menu_entry_t c64_256k_menu[] = {
 };
 
 
-/* DQBB CART MENU */
-
-UI_MENU_DEFINE_TOGGLE(DQBB)
-UI_MENU_DEFINE_FILE_STRING(DQBBfilename)
-
-const ui_menu_entry_t dqbb_menu[] = {
-    { "Enable DQBB",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_DQBB_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("RAM image"),
-    { "DQBB image file",
-      MENU_ENTRY_DIALOG,
-      file_string_DQBBfilename_callback,
-      (ui_callback_data_t)"Select DQBB image" },
-    { NULL }
-};
-
-
-/* ISEPIC CART MENU */
-
-UI_MENU_DEFINE_TOGGLE(Isepic)
-UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
-
-const ui_menu_entry_t isepic_menu[] = {
-    { "Enable Isepic cart",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Isepic_callback,
-      NULL },
-    { "Enable Isepic switch",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IsepicSwitch_callback,
-      NULL },
-    { NULL }
-};
-
-
 /* PLUS60K MEMORY EXPANSION HACK MENU */
 
 UI_MENU_DEFINE_TOGGLE(PLUS60K)

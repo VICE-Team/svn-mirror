@@ -36,6 +36,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "menu_common.h"
+#include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
 #include "resources.h"
 #include "ui.h"
@@ -202,22 +203,13 @@ static UI_MENU_CALLBACK(set_c64_cart_default_callback)
 
 /* Expert cartridge */
 
+UI_MENU_DEFINE_TOGGLE(ExpertCartridgeEnabled)
 UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
-
-static UI_MENU_CALLBACK(enable_expert_callback)
-{
-    if (activated) {
-        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0) {
-            ui_error("Cannot enable Expert cartridge.");
-        }
-    }
-    return NULL;
-}
 
 static const ui_menu_entry_t expert_cart_menu[] = {
     { "Enable Expert cartridge",
-      MENU_ENTRY_OTHER,
-      enable_expert_callback,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ExpertCartridgeEnabled_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Expert cartridge mode"),
@@ -233,6 +225,44 @@ static const ui_menu_entry_t expert_cart_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExpertCartridgeMode_callback,
       (ui_callback_data_t)EXPERT_MODE_ON },
+    { NULL }
+};
+
+
+/* Double Quick Brown Box */
+
+UI_MENU_DEFINE_TOGGLE(DQBB)
+UI_MENU_DEFINE_FILE_STRING(DQBBfilename)
+
+static const ui_menu_entry_t dqbb_cart_menu[] = {
+    { "Enable DQBB",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DQBB_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "DQBB image file",
+      MENU_ENTRY_DIALOG,
+      file_string_DQBBfilename_callback,
+      (ui_callback_data_t)"Select DQBB image" },
+    { NULL }
+};
+
+
+/* ISEPIC */
+
+UI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
+UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
+
+static const ui_menu_entry_t isepic_cart_menu[] = {
+    { "Enable Isepic cart",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IsepicCartridgeEnabled_callback,
+      NULL },
+    { "Switch",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IsepicSwitch_callback,
+      NULL },
     { NULL }
 };
 
@@ -463,23 +493,48 @@ const ui_menu_entry_t c64cart_menu[] = {
       toggle_CartridgeReset_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Expert cartridge settings",
+    SDL_MENU_ITEM_TITLE("Cartridge specific settings"),
+    { "RAMCART",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ramcart_menu },
+    { "REU",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)reu_menu },
+    { "GEORAM",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)georam_menu },
+    { "IDE64",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_menu },
+    { "Expert",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)expert_cart_menu },
-    { "EasyFlash cartridge settings",
+    { "Isepic",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)isepic_cart_menu },
+    { "Double Quick Brown Box",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)dqbb_cart_menu },
+    { "EasyFlash",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)easyflash_cart_menu },
-    { "MMC64 cartridge settings",
+    { "MMC64",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)mmc64_cart_menu },
-    { "MMC Replay cartridge settings",
+    { "MMC Replay",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)mmcreplay_cart_menu },
-    { "Retro Replay cartridge settings",
+    { "Retro Replay",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)retroreplay_cart_menu },
