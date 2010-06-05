@@ -171,7 +171,7 @@ Hard way:
 
 For any text you add you will need to create a new ID and add the ID to the
 ID-list in src/translate.txt and add a translation table block in
-src/translation.c. There are two types of ID's in the common code IGDS_*
+src/translate_text.c. There are two types of ID's in the common code IGDS_*
 (Global Strings: text used in common code) and IDCLS_* (Command Line Strings:
 text used in command-line options).
 
