@@ -369,18 +369,21 @@ int vicii_cycle(void)
     }
 
     /* Check sprite DMA (Cycles 55 & 56 on PAL) */
-    if (vicii.raster_cycle == VICII_PAL_CYCLE(55)
-        || vicii.raster_cycle == VICII_PAL_CYCLE(56) ) {
+    /* if (vicii.raster_cycle == VICII_PAL_CYCLE(55)
+       || vicii.raster_cycle == VICII_PAL_CYCLE(56) ) { */
+    if (cycle_is_check_spr_dma(vicii.cycle_flags)) {
         check_sprite_dma();
     }
 
     /* Check sprite expansion flags (Cycle 56 on PAL) */
-    if (vicii.raster_cycle == VICII_PAL_CYCLE(56)) {
+    /* if (vicii.raster_cycle == VICII_PAL_CYCLE(56)) { */
+    if (cycle_is_check_spr_exp(vicii.cycle_flags)) {
         check_exp();
     }
 
     /* Check sprite display (Cycle 58 on PAL) */
-    if (vicii.raster_cycle == VICII_PAL_CYCLE(58)) {
+    /* if (vicii.raster_cycle == VICII_PAL_CYCLE(58)) { */
+    if (cycle_is_check_spr_disp(vicii.cycle_flags)) {
         check_sprite_display();
     }
 

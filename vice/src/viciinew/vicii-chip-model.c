@@ -451,8 +451,15 @@ void vicii_chip_model_set(struct ViciiChipModel *cm)
                 entry |= UPDATE_RC_M;
             }
 
+            /* Sprites */
             if (flags & ChkSprDisp) {
                 entry |= CHECK_SPR_DISP_M;
+            }
+            if (flags & ChkSprExp) {
+                entry |= CHECK_SPR_EXP_M;
+            }
+            if (flags & ChkSprDma) {
+                entry |= CHECK_SPR_DMA_M;
             }
 
             /* Border */
