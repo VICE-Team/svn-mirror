@@ -1,3 +1,220 @@
+2010-06-06  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.5
+
+2010-06-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc/html/Makefile.am: Make vice_X.html depend on
+	  vice_toc.html, so build works again.
+
+	* src/c64/Makefile.am: Rewrote rule "%.h : %.a65" to ".a65.h:"
+	  to remove GNUism.
+
+2010-06-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/warpspeed.c: Fix Warpspeed I/O2 address range
+
+2010-06-05  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-chip-model.c: Source code reformatting.
+
+	* src/viciinew/vicii-chip-model.c,
+	  src/viciinew/vicii-chip-model.h, src/viciinew/vicii-cycle.c,
+	  src/viciinew/vicii-mem.c: Use cycle_flags for sprite crunch
+	  and update MCBASE checks.
+
+	* src/viciinew/vicii-chip-model.c,
+	  src/viciinew/vicii-chip-model.h, src/viciinew/vicii-cycle.c:
+	  Use cycle_flags for Sprite DMA/exp/disp checks.
+
+	* src/viciinew/vicii-chip-model.c,
+	  src/viciinew/vicii-chip-model.h, src/viciinew/vicii-cycle.c:
+	  Use cycle_flags for Update VC/RC.
+
+2010-06-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_c128hw.c,
+	  src/arch/sdl/menu_c64_expansions.c,
+	  src/arch/sdl/menu_c64_expansions.h,
+	  src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_c64schw.c: SDL UI: fix Expert and Isepic
+	  carts, move more cart settings under the Cartridge menu
+
+2010-06-05  groepaz <groepaz@gmx.net>
+
+	* doc/coding-guidelines.txt: replaced src/translation.c by
+	  src/translate_text.c
+
+	* src/arch/amigaos/mui/uiisepic.c, src/arch/amigaos/uic64cart.c,
+	  src/arch/amigaos/vic20ui.c, src/arch/beos/c64ui.cc,
+	  src/arch/beos/vic20ui.cc, src/arch/msdos/uic64cart.c,
+	  src/arch/msdos/vic20ui.c, src/arch/os2/dialogs/menubar.c,
+	  src/arch/riscos/c64c128ui.c, src/arch/sdl/menu_c64cart.c,
+	  src/arch/sdl/menu_vic20cart.c, src/arch/unix/gp2x/c128ui.c,
+	  src/arch/unix/gp2x/c64ui.c, src/arch/unix/gp2x/vic20ui.c,
+	  src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c64scui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uicartridge.h, src/arch/unix/gui/uiexpert.c,
+	  src/arch/unix/gui/uiexpert.h, src/arch/unix/gui/uiisepic.c,
+	  src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/x11/gnome/uicartridge.c,
+	  src/arch/unix/x11/xaw/uicartridge.c,
+	  src/arch/win32/uic64cart.c, src/arch/win32/uiisepic.c,
+	  src/arch/win32/vic20ui.c, src/c64/c64.c, src/c64/c64cart.h,
+	  src/c64/c64export.c, src/c64/c64iec.c, src/c64/c64io.c,
+	  src/c64/cart/c64cart.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/crt.c, src/c64/cart/crt.h,
+	  src/c64/cart/easyflash.c, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h, src/c64/cart/generic.c,
+	  src/c64/cart/isepic.c, src/c64/cart/isepic.h,
+	  src/c64/cart/retroreplay.c, src/c64dtv/c64dtvcart.c,
+	  src/cartridge.h, src/monitor.h, src/monitor/mon_file.c,
+	  src/translate.txt, src/translate_text.c,
+	  src/vic20/cart/vic20cart.c, src/vic20/vic20.c: removed special
+	  cases related to Isepic, Expert. changed
+	  cartridge_detach_image to take cart id as parameter, removed
+	  some globals, better handling of cart resource init, general
+	  cartsystem cleanups, WIP steps to handle several carts at
+	  once, cleaned up gnome/xaw ui, unbroke other uis (hopefully)
+
+2010-06-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.in: Added sanity checks for
+	  --enable-*, --disable-*, --with-* and --without-* command line
+	  options
+
+2010-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Fixed petcat for sxc keywords
+
+2010-06-03  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/gfxoutputdrv/bmpdrv.c: Add missing NULL save_native
+	  callback to bmp_drv struct
+
+2010-06-02  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	  src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h: fixed
+	  Flash Mode, added ROM image saving
+
+2010-06-02  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/vic-fp.c: Add Vic Flash Plugin cmdline texts
+
+2010-06-02  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor.c: mark current bank with an asterisk
+
+2010-06-01  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* doc, doc/html, doc/html/vice_1.html, doc/html/vice_10.html,
+	  doc/html/vice_11.html, doc/html/vice_12.html,
+	  doc/html/vice_13.html, doc/html/vice_14.html,
+	  doc/html/vice_15.html, doc/html/vice_16.html,
+	  doc/html/vice_2.html, doc/html/vice_3.html,
+	  doc/html/vice_4.html, doc/html/vice_5.html,
+	  doc/html/vice_6.html, doc/html/vice_7.html,
+	  doc/html/vice_8.html, doc/html/vice_9.html,
+	  doc/html/vice_toc.html, doc/vice.info: Remove generated files.
+
+2010-06-01  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_c64cart.c: Add new Retro Replay items to SDL
+	  UI
+
+	* src/core/flash040core.c, src/flash040.h: Add base state
+	  (read/autoselect) and support for issuing commands from
+	  autoselect
+
+2010-06-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiretroreplay.c, src/c64/cart/retroreplay.c:
+	  added Commandline Options, renamed Resources, fixed logical vs
+	  physical Bank problem, fixed some Style Issues.
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/uiretroreplay.c,
+	  src/arch/unix/gui/uiretroreplay.h, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h: WIP support for Flash Mode using
+	  flash040core, Bank and Flash Jumpers. needs testing for
+	  Regressions.
+
+2010-05-31  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* configure.in: Change test slightly so omitting --with-resid
+	  doesn't disable x64sc support
+
+2010-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/ui.c, src/arch/os2/vac++/incl/c64.icc,
+	  src/arch/os2/vac++/incl/c64cart.icc,
+	  src/arch/os2/vac++/incl/vic20cart.icc,
+	  src/arch/os2/vac++/x128/X128.ICC,
+	  src/arch/os2/watcom/c128c64.tgt, src/arch/os2/watcom/c64.tgt,
+	  src/arch/os2/watcom/c64cart.tgt,
+	  src/arch/os2/watcom/fsdevice.tgt,
+	  src/arch/os2/watcom/gfxoutputdrv.tgt,
+	  src/arch/os2/watcom/monitor.tgt,
+	  src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
+	  src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x64.tgt,
+	  src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	  src/arch/os2/watcom/xpet.tgt, src/arch/os2/watcom/xplus4.tgt,
+	  src/arch/os2/watcom/xvic.tgt: Updated OS/2 project files,
+	  without x64sc however, but only until I have a chance to add
+	  the ui elements to the OS/2 UI
+
+	* src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/gfxoutputdrv.tgt,
+	  src/arch/win32/watcom/vice.wpj: Updated watcom project files
+
+	* src/arch/amigaos/screen-shot.c, src/arch/msdos/uiscreenshot.c,
+	  src/arch/os2/vac++/incl/gfxoutputdrv.icc,
+	  src/arch/sdl/menu_screenshot.c,
+	  src/arch/sdl/win32-msvc/gfxoutputdrv.dsp,
+	  src/arch/sdl/win64-msvc/gfxoutputdrv.vcproj,
+	  src/arch/win32/gfxoutputdrv.dsp, src/arch/win32/gifdrv.c,
+	  src/arch/win64/gfxoutputdrv.vcproj, src/crtc/crtc.c,
+	  src/gfxoutput.h, src/gfxoutputdrv/Makefile.am,
+	  src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/doodledrv.h,
+	  src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/gfxoutput.c,
+	  src/gfxoutputdrv/gifdrv.c, src/gfxoutputdrv/iffdrv.c,
+	  src/gfxoutputdrv/jpegdrv.c, src/gfxoutputdrv/pcxdrv.c,
+	  src/gfxoutputdrv/pngdrv.c, src/gfxoutputdrv/ppmdrv.c,
+	  src/gfxoutputdrv/quicktimedrv.c, src/plus4/ted-snapshot.c,
+	  src/plus4/ted.c, src/plus4/tedtypes.h, src/screenshot.c,
+	  src/screenshot.h, src/vdc/vdc.c, src/vdc/vdctypes.h,
+	  src/vic20/vic.c, src/vicii/vicii-snapshot.c,
+	  src/vicii/vicii.c, src/vicii/viciidtv-snapshot.c,
+	  src/vicii/viciitypes.h, src/viciinew/vicii-snapshot.c,
+	  src/viciinew/vicii.c: Started on native screenshots feature,
+	  added wip doodle screenshot saver which currently can save
+	  screens of all graphics chips but c64dtv-vicii and vdc
+
+	* Makefile.am, configure.in, src/Makefile.am: Added conditional
+	  building of x64sc
+
+2010-05-30  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-draw-cycle.c: Kludge to gate D023 glitch at
+	  MCM=0 -> 1 transitions by MC enable from cbuf. Fixes
+	  Avantgarde part CIB.
+
+2010-05-30  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* configure.in, src/socket.c: Define HAVE_SOCKLEN_T if socklen_t
+	  is available, and use that instead of hard-coded #ifdef _WIN32
+
+	* src/arch/win32/uimon.c: There's not much sense doing 16 bit
+	  shifts (and more) with 16 bit values.
+
+	* src/petcat.c: Fix semicolon at the end of a statement (before,
+	  there was a colon).
+
 2010-05-30  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.4
