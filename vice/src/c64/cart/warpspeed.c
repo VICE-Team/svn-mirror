@@ -59,7 +59,7 @@ static io_source_t warpspeed_io2_device = {
     "Warpspeed",
     IO_DETACH_CART,
     NULL,
-    0xde00, 0xdeff, 0xff,
+    0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     warpspeed_io2_store,
     warpspeed_io2_read
