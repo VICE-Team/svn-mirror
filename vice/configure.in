@@ -8,9 +8,7 @@ dnl
 AC_INIT(src/maincpu.c)
 
 dnl Command-line options
-
-VICE_ARG_ENABLE_INIT()
-VICE_ARG_WITH_INIT()
+VICE_ARG_INIT()
 
 VICE_ARG_WITH_LIST(xaw3d,         [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
@@ -50,8 +48,30 @@ VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManage
 VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 
 dnl check for invalid options
-VICE_ARG_ENABLE_LIST_CHECK()
-VICE_ARG_WITH_LIST_CHECK()
+VICE_ARG_LIST_CHECK()
+
+dnl check for conflicting ui options
+vice_ui_list="--enable-gnomeui --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz --enable-dingux"
+vice_ui_1=none
+vice_ui_2=none
+
+for command_option in $@
+do
+  for vice_ui in $vice_ui_list
+  do
+    if test x"$command_option" = x"$vice_ui"; then
+      if test x"$vice_ui_1" = "xnone"; then
+        vice_ui_1=$vice_ui
+      else
+        vice_ui_2=$vice_ui
+      fi
+    fi
+  done
+done
+
+if test x"$vice_ui_1" != "xnone" -a x"$vice_ui_2" != "xnone"; then
+  AC_MSG_ERROR([conflicting UI options: $vice_ui_1 $vice_ui_2])
+fi
 
 VICE_VERSION_MAJOR=2
 VICE_VERSION_MINOR=2
@@ -98,66 +118,6 @@ is_amiga=no
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
-
-dnl gnomeui / sdlui sanity check
-if test x"$enable_gnomeui" = "xyes" -a x"$enable_sdlui" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-gnomeui and --enable-sdlui together.])
-fi
-
-dnl cocoa ui / gnomeui sanity check
-if test x"$with_cocoa" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --with-cocoa and --enable-gnomeui together.])
-fi
-
-dnl cocoa ui / sdlui sanity check
-if test x"$with_cocoa" = "xyes" -a x"$enable_sdlui" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --with-cocoa and --enable-sdlui together.])
-fi
-
-dnl gp2x / gnomeui sanity check
-if test x"$enable_gp2x" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-gp2x and --enable-gnomeui together.])
-fi
-
-dnl gp2x / cocoa ui sanity check
-if test x"$enable_gp2x" = "xyes" -a x"$with_cocoa" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-gp2x and --with-cocoa together.])
-fi
-
-dnl wiz / gnomeui sanity check
-if test x"$enable_wiz" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-wiz and --enable-gnomeui together.])
-fi
-
-dnl wiz / cocoa ui sanity check
-if test x"$enable_wiz" = "xyes" -a x"$with_cocoa" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-wiz and --with-cocoa together.])
-fi
-
-dnl dingux / gnomeui sanity check
-if test x"$enable_dingux" = "xyes" -a x"$enable_gnomeui" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-dingux and --enable-gnomeui together.])
-fi
-
-dnl dingux / cocoa ui sanity check
-if test x"$enable_dingux" = "xyes" -a x"$with_cocoa" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-dingux and --with-cocoa together.])
-fi
-
-dnl gp2x / wiz ui sanity check
-if test x"$enable_gp2x" = "xyes" -a x"$with_wiz" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-gp2x and --with-wiz together.])
-fi
-
-dnl gp2x / dingux ui sanity check
-if test x"$enable_gp2x" = "xyes" -a x"$with_dingux" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-gp2x and --with-dingux together.])
-fi
-
-dnl wiz / dingux ui sanity check
-if test x"$enable_wiz" = "xyes" -a x"$with_dingux" = "xyes"; then
-  AC_MSG_ERROR([you cannot use --enable-wiz and --with-dingux together.])
-fi
 
 if test x"$enable_memmap" = "xyes"; then
   AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the memmap feature.])
