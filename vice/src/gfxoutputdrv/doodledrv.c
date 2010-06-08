@@ -501,7 +501,7 @@ static doodle_color_sort_t *doodle_sort_colors_colormap(doodle_data_t *source)
     BYTE color;
     int highest;
     int amount;
-    int highestindex;
+    int highestindex = 0;
     doodle_color_sort_t *colors = lib_malloc(sizeof(doodle_color_sort_t) * 16);
 
     for (i = 0; i < 16; i++) {
@@ -724,7 +724,7 @@ static int doodle_render_and_save(doodle_data_t *source)
     int m = 0;
     int n = 0;
     int retval = 0;
-    BYTE fgcolor;
+    BYTE fgcolor = 0;
     BYTE bgcolor;
     BYTE colorbyte;
 
