@@ -42,6 +42,21 @@
 #include "menu_sid.h"
 #include "uimenu.h"
 
+UI_MENU_DEFINE_TOGGLE(SpeechEnabled)
+UI_MENU_DEFINE_FILE_STRING(SpeechImage)
+
+static const ui_menu_entry_t v364speech_menu[] = {
+    { "Enable V364 Speech",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SpeechEnabled_callback,
+      NULL },
+    { "ROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_SpeechImage_callback,
+      (ui_callback_data_t)"Select Speech ROM image" },
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_TOGGLE(CS256K)
 UI_MENU_DEFINE_RADIO(H256K)
@@ -55,6 +70,10 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_plus4_menu },
+    { "V364 Speech settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)v364speech_menu },
     { "RAM pattern settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

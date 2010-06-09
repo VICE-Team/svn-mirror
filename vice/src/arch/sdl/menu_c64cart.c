@@ -462,6 +462,24 @@ static const ui_menu_entry_t retroreplay_cart_menu[] = {
 };
 
 
+/* Magic Voice */
+
+UI_MENU_DEFINE_TOGGLE(MagicVoiceCartridgeEnabled)
+UI_MENU_DEFINE_FILE_STRING(MagicVoiceImage)
+
+static const ui_menu_entry_t magicvoice_cart_menu[] = {
+    { "Enable Magic Voice",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MagicVoiceCartridgeEnabled_callback,
+      NULL },
+    { "ROM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_MagicVoiceImage_callback,
+      (ui_callback_data_t)"Select Magic Voice ROM image" },
+    { NULL }
+};
+
+
 /* Cartridge menu */
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
@@ -538,5 +556,9 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)retroreplay_cart_menu },
+    { "Magic Voice",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)magicvoice_cart_menu },
     { NULL }
 };
