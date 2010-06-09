@@ -29,8 +29,10 @@
 
 #include "types.h"
 
-extern void cartridge_init(void);
 extern void cartridge_reset(void);
+extern void cartridge_freeze(int type);
+
+extern void cartridge_init(void);
 extern int cartridge_resources_init(void);
 extern void cartridge_resources_shutdown(void);
 extern int cartridge_cmdline_options_init(void);
@@ -38,16 +40,19 @@ extern int cartridge_cmdline_options_init(void);
 extern int cartridge_attach_image(int type, const char *filename);
 /* detaches the cartridge with the associated id. pass -1 to detach all */
 extern void cartridge_detach_image(int type);
+
 extern void cartridge_set_default(void);
 extern void cartridge_trigger_freeze(void);
 extern void cartridge_trigger_freeze_nmi_only(void);
+extern void cartridge_trigger_nmi(void);
 extern const char *cartridge_get_file_name(WORD addr);
 
 extern int cartridge_save_image(int type, const char *filename);
+extern int cartridge_bin_save(int type, const char *filename);
+extern int cartridge_crt_save(int type, const char *filename);
 
 extern void cartridge_attach(int type, BYTE *rawcart);
 extern void cartridge_detach(int type);
-extern void cartridge_freeze(int type);
 
 extern int cartridge_type_enabled(int type);
 
@@ -124,6 +129,7 @@ extern int cartridge_type_enabled(int type);
 #define CARTRIDGE_TURBO232           117 /* + c64acia1.c */
 #define CARTRIDGE_SNAPSHOT64         118 /* snapshot64.c */
 #define CARTRIDGE_SUPER_EXPLODE_V5   119 /* superexplode5.c */
+#define CARTRIDGE_MAGIC_VOICE        120 /* magicvoice.c, tpicore.c, t6721.c */
 /* FIXME: files marked with + above should be moved into the cart directory */
 
 /*
@@ -160,5 +166,10 @@ extern int cartridge_type_enabled(int type);
 #define CARTRIDGE_VIC20_16KB_4000    0x8019
 #define CARTRIDGE_VIC20_16KB_6000    0x8015
 
+/*
+ * plus4 cartridge system
+ */
+/* #define CARTRIDGE_NONE               -1 */
+#define CARTRIDGE_V364_SPEECH        0x8100
 
 #endif

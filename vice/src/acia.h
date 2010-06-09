@@ -129,4 +129,6 @@ enum {
     ACIA_MODE_HIGHEST   = ACIA_MODE_TURBO232
 };
 
+int acia_dump(void *acia_context);
+
 #endif

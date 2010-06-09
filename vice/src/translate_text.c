@@ -9813,6 +9813,34 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_DIGIBLASTER_TR, "Digiblaster eklentisini pasifleþtir"},
 #endif
 
+/* plus4/plus4speech.c */
+/* en */ {IDCLS_ENABLE_PLUS4SPEECH,    N_("Enable the v364 speech add-on")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_PLUS4SPEECH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_PLUS4SPEECH_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_PLUS4SPEECH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_PLUS4SPEECH_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PLUS4SPEECH_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PLUS4SPEECH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_PLUS4SPEECH_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PLUS4SPEECH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_PLUS4SPEECH_TR, ""},  /* fuzzy */
+#endif
+
+/* plus4/plus4speech.c */
+/* en */ {IDCLS_DISABLE_PLUS4SPEECH,    N_("Disable the v364 speech add-on")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_PLUS4SPEECH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_PLUS4SPEECH_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_PLUS4SPEECH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_PLUS4SPEECH_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_PLUS4SPEECH_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_PLUS4SPEECH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_PLUS4SPEECH_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PLUS4SPEECH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_PLUS4SPEECH_TR, ""},  /* fuzzy */
+#endif
+
 /* plus4/sidcartjoy.c */
 /* en */ {IDCLS_ENABLE_SIDCARTJOY,    N_("Enable SID cartridge joystick")},
 #ifdef HAS_TRANSLATION

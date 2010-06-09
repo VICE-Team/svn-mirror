@@ -504,14 +504,26 @@ void mon_bank(MEMSPACE mem, const char *bankname)
     }
 }
 
+/*
+    main entry point for the monitor to read a value from memory
+
+    mem_bank_peek and mem_bank_read are set up in src/drive/drivecpu.c,
+    src/mainc64cpu.c:358, src/mainviccpu.c:237, src/maincpu.c:296
+*/
+
 BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
 {
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
+        }
+    }
 
-    return mon_interfaces[mem]->mem_bank_read(bank, mem_addr,
-                                              mon_interfaces[mem]->context);
+    if ((sidefx == 0) && (mon_interfaces[mem]->mem_bank_peek != NULL)) {
+        return mon_interfaces[mem]->mem_bank_peek(bank, mem_addr, mon_interfaces[mem]->context);
+    } else {
+        return mon_interfaces[mem]->mem_bank_read(bank, mem_addr, mon_interfaces[mem]->context);
+    }
 }
 
 BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr)
@@ -1267,7 +1279,15 @@ void mon_display_screen(void)
     }
 }
 
-void mon_display_io_regs(void)
+/*
+    display io regs
+
+    if addr = 0 display full list, no details
+    if addr = 1 display full list, with details
+
+    for other addr display full details for respective device
+*/
+void mon_display_io_regs(MON_ADDR addr)
 {
     mem_ioreg_list_t *mem_ioreg_list_base;
     unsigned int n;
@@ -1290,10 +1310,29 @@ void mon_display_io_regs(void)
 
     if (mem_ioreg_list_base) {
         while (1) {
-            mon_out("%s:\n", mem_ioreg_list_base[n].name);
-            start = new_addr(default_memspace, mem_ioreg_list_base[n].start);
-            end = new_addr(default_memspace, mem_ioreg_list_base[n].end);
-            mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
+            start = mem_ioreg_list_base[n].start;
+            end = mem_ioreg_list_base[n].end;
+
+            if ((addr < 2) || ((addr >= start) && (addr <= end))) {
+                if ((addr == 1) && (n > 0)) {
+                    mon_out("\n");
+                }
+                start = new_addr(default_memspace, start);
+                end = new_addr(default_memspace, end);
+                mon_out("%s:\n", mem_ioreg_list_base[n].name);
+                mon_memory_display(e_hexadecimal, start, end, DF_PETSCII);
+
+                if (addr > 0) {
+                    if (mem_ioreg_list_base[n].dump) {
+                        mon_out("\n");
+                        if (mem_ioreg_list_base[n].dump(start) < 0) {
+                            mon_out("No details available.\n");
+                        }
+                    } else {
+                        mon_out("No details available.\n");
+                    }
+                }
+            }
 
             if (mem_ioreg_list_base[n].next == 0) {
                 break;
@@ -1309,7 +1348,7 @@ void mon_display_io_regs(void)
 }
 
 void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
-                        int start_, int end_)
+                        int start_, int end_, void *dump)
 {
     mem_ioreg_list_t *base;
     unsigned int n;
@@ -1337,6 +1376,7 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
     base[n].name = name;
     base[n].start = start;
     base[n].end = end;
+    base[n].dump = dump;
     base[n].next = 0;
 
     *list = base;

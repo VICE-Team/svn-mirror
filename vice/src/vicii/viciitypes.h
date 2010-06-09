@@ -449,6 +449,8 @@ extern void vicii_handle_pending_alarms(int num_write_cycles);
 extern void vicii_delay_clk(void);
 extern void vicii_delay_oldclk(CLOCK num);
 
+extern int vicii_dump(struct vicii_s *vic);
+
 /* Debugging options.  */
 
 /* #define VICII_VMODE_DEBUG */

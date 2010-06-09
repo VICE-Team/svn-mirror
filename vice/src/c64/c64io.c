@@ -41,6 +41,14 @@
 #include "vicii-phi1.h"
 #include "vicii.h"
 
+/* #define IODEBUG */
+
+#ifdef IODEBUG
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 static io_source_list_t c64io1_head = { NULL, NULL, NULL };
 static io_source_list_t c64io2_head = { NULL, NULL, NULL };
 
@@ -138,6 +146,44 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
     return vicii_read_phi1();
 }
 
+/* peek from i/o area with no side-effects */
+static inline BYTE io_peek(io_source_list_t *list, WORD addr)
+{
+    io_source_list_t *current = list->next;
+    int io_source_counter = 0;
+    BYTE retval = 0;
+
+    while (current) {
+        if (current->device->read != NULL) {
+            if (addr >= current->device->start_address && addr <= current->device->end_address) {
+                if (current->device->peek) {
+                    retval = current->device->peek((WORD)(addr & current->device->address_mask));
+                } else {
+                    retval = current->device->read((WORD)(addr & current->device->address_mask));
+                }
+                if (current->device->io_source_valid) {
+                    io_source_counter++;
+                }
+            } else {
+                current->device->io_source_valid = 0;
+            }
+        }
+        current = current->next;
+    }
+
+    if (io_source_counter == 0) {
+        return vicii_read_phi1();
+    }
+
+    if (io_source_counter == 1) {
+        return retval;
+    }
+
+    io_source_msg_detach(addr, io_source_counter, &c64io1_head);
+
+    return vicii_read_phi1();
+}
+
 static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
 {
     io_source_list_t *current = list->next;
@@ -197,21 +243,37 @@ void c64io_unregister(io_source_list_t *device)
 
 BYTE REGPARM1 c64io1_read(WORD addr)
 {
+    DBG(("io1 r %04x\n", addr));
     return io_read(&c64io1_head, addr);
+}
+
+BYTE REGPARM1 c64io1_peek(WORD addr)
+{
+    DBG(("io1 p %04x\n", addr));
+    return io_peek(&c64io1_head, addr);
 }
 
 void REGPARM2 c64io1_store(WORD addr, BYTE value)
 {
+    DBG(("io1 w %04x %02x\n", addr, value));
     io_store(&c64io1_head, addr, value);
 }
 
 BYTE REGPARM1 c64io2_read(WORD addr)
 {
+    DBG(("io2 r %04x\n", addr));
     return io_read(&c64io2_head, addr);
+}
+
+BYTE REGPARM1 c64io2_peek(WORD addr)
+{
+    DBG(("io2 p %04x\n", addr));
+    return io_peek(&c64io2_head, addr);
 }
 
 void REGPARM2 c64io2_store(WORD addr, BYTE value)
 {
+    DBG(("io2 w %04x %02x\n", addr, value));
     io_store(&c64io2_head, addr, value);
 }
 
@@ -222,14 +284,14 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
     io_source_list_t *current = c64io1_head.next;
 
     while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address);
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address, current->device->dump);
         current = current->next;
     }
 
     current = c64io2_head.next;
 
     while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address);
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address, current->device->dump);
         current = current->next;
     }
 }

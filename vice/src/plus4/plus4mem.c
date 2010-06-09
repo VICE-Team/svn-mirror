@@ -45,6 +45,7 @@
 #include "plus4memrom.h"
 #include "plus4pio1.h"
 #include "plus4pio2.h"
+#include "plus4speech.h"
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
@@ -407,6 +408,10 @@ static BYTE REGPARM1 fdxx_read(WORD addr)
         return pio1_read(addr);
     }
 
+    if (speech_cart_enabled() && addr >= 0xfd20 && addr <= 0xfd22) {
+        return speech_read(addr);
+    }
+
     if (addr >= 0xfd30 && addr <= 0xfd3f) {
         return pio2_read(addr);
     }
@@ -444,6 +449,10 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
     }
     if (addr >= 0xfd11 && addr <= 0xfd1f && !cs256k_enabled && !h256k_enabled) {
         pio1_store(addr, value);
+        return;
+    }
+    if (speech_cart_enabled() && addr >= 0xfd20 && addr <= 0xfd22) {
+        speech_store(addr, value);
         return;
     }
     if (addr >= 0xfd30 && addr <= 0xfd3f) {
@@ -968,9 +977,9 @@ int mem_rom_trap_allowed(WORD addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram", "rom", "funcrom", "cart1rom", "cart2rom", NULL };
+    "default", "cpu", "ram", "rom", "io", "funcrom", "cart1rom", "cart2rom", NULL };
 
-static const int banknums[] = { 1, 0, 1, 2, 3, 4, 5 };
+static const int banknums[] = { 1, 0, 1, 2, 6, 3, 4, 5 };
 
 const char **mem_bank_list(void)
 {
@@ -990,53 +999,141 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
+void REGPARM2 store_bank_io(WORD addr, BYTE byte)
+{
+    if ((addr >= 0xfd00) && (addr <= 0xfd0f)) {
+        acia_store(addr, byte);
+    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
+        pio1_store(addr, byte);
+    } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
+        speech_store(addr, byte);
+    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
+        pio2_store(addr, byte);
+    } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
+        plus4tcbm2_store(addr, byte);
+    } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
+        plus4tcbm1_store(addr, byte);
+    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+        ted_store(addr, byte);
+    } else {
+        mem_store(addr, byte);
+    }
+}
+
+/* read i/o without side-effects */
+static BYTE peek_bank_io(WORD addr)
+{
+    if ((addr >= 0xfd00) && (addr <= 0xfd0f)) {
+        return acia_read(addr); /* FIXME */
+    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
+        return pio1_read(addr); /* FIXME */
+    } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
+        return speech_peek(addr);
+    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
+        return pio2_read(addr); /* FIXME */
+    } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
+        return plus4tcbm2_read(addr); /* FIXME */
+    } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
+        return plus4tcbm1_read(addr); /* FIXME */
+    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+        return ted_peek(addr);
+    }
+    return 0xff; /* FIXME */
+}
+
+/* read i/o with side-effects */
+static BYTE read_bank_io(WORD addr)
+{
+    if ((addr >= 0xfd00) && (addr <= 0xfd0f)) {
+        return acia_read(addr);
+    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
+        return pio1_read(addr);
+    } else if (speech_cart_enabled() && ((addr >= 0xfd20) && (addr <= 0xfd2f))) {
+        return speech_read(addr);
+    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
+        return pio2_read(addr);
+    } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
+        return plus4tcbm2_read(addr);
+    } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
+        return plus4tcbm1_read(addr);
+    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+        return ted_peek(addr);
+    }
+    return 0xff; /* FIXME */
+}
+
+/* read memory without side-effects */
+BYTE mem_bank_peek(int bank, WORD addr, void *context)
+{
+    switch (bank) {
+        case 0:                   /* current */
+             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
+                       when needed. doing this without checking is wrong, but we do it anyways to
+                       avoid side effects
+            */
+            if ((addr >= 0xfd00) && (addr <= 0xffff)) {
+                return peek_bank_io(addr);
+            }
+            break;
+        case 6:                   /* io */
+            if ((addr >= 0xfd00) && (addr <= 0xffff)) {
+                return peek_bank_io(addr);
+            }
+            break;
+    }
+
+    return mem_bank_read(bank, addr, context); /* FIXME */
+}
+
+/* read memory with side-effects */
 BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);
-        break;
-      case 2:                   /* rom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return plus4memrom_basic_rom[addr & 0x3fff];
-        }
-        if (addr >= 0xc000) {
-            return plus4memrom_kernal_rom[addr & 0x3fff];
-        }
-        break;
-      case 3:                   /* funcrom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return extromlo1[addr & 0x3fff];
-        }
-        if (addr >= 0xc000) {
-            return extromhi1[addr & 0x3fff];
-        }
-        break;
-      case 4:                   /* cart1rom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return extromlo2[addr & 0x3fff];
-        }
-        if (addr >= 0xc000) {
-            return extromhi2[addr & 0x3fff];
-        }
-        break;
-      case 5:                   /* cart2rom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return extromlo3[addr & 0x3fff];
-        }
-        if (addr >= 0xc000) {
-            return extromhi3[addr & 0x3fff];
-        }
-        break;
-      case 1:                   /* ram */
-        break;
+        case 0:                   /* current */
+            return mem_read(addr);
+            break;
+        case 1:                   /* ram */
+            break;
+        case 2:                   /* rom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return plus4memrom_basic_rom[addr & 0x3fff];
+            }
+            if (addr >= 0xc000) {
+                return plus4memrom_kernal_rom[addr & 0x3fff];
+            }
+            break;
+        case 3:                   /* funcrom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return extromlo1[addr & 0x3fff];
+            }
+            if (addr >= 0xc000) {
+                return extromhi1[addr & 0x3fff];
+            }
+            break;
+        case 4:                   /* cart1rom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return extromlo2[addr & 0x3fff];
+            }
+            if (addr >= 0xc000) {
+                return extromhi2[addr & 0x3fff];
+            }
+            break;
+        case 5:                   /* cart2rom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return extromlo3[addr & 0x3fff];
+            }
+            if (addr >= 0xc000) {
+                return extromhi3[addr & 0x3fff];
+            }
+            break;
+        case 6:                   /* i/o */
+            if ((addr >= 0xfd00) && (addr <= 0xffff)) {
+                return read_bank_io(addr);
+            }
+            return mem_read(addr);
+            break;
     }
     return mem_ram[addr];
-}
-
-BYTE mem_bank_peek(int bank, WORD addr, void *context)
-{
-    return mem_bank_read(bank, addr, context);
 }
 
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
@@ -1045,6 +1142,8 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
       case 0:                   /* current */
         mem_store(addr, byte);
         return;
+      case 1:                   /* ram */
+        break;
       case 2:                   /* rom */
         if (addr >= 0x8000 && addr <= 0xbfff) {
             return;
@@ -1077,18 +1176,49 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
             return;
         }
         break;
-      case 1:                   /* ram */
-        break;
+      case 6:                   /* i/o */
+        store_bank_io(addr, byte);
+        return;
     }
     mem_ram[addr] = byte;
+}
+
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0xfd00) && (addr <= 0xfd0f)) {
+        /* return acia_dump(machine_context.acia1); */ /* FIXME */
+    } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
+        /* return pio_dump(machine_context.pio1); */ /* FIXME */
+    } else if ((addr >= 0xfd20) && (addr <= 0xfd2f)) {
+        if (speech_cart_enabled()) {
+            return speech_dump(NULL); /* FIXME */
+        }
+    } else if ((addr >= 0xfd30) && (addr <= 0xfd3f)) {
+        /* return pio_dump(machine_context.pio2); */ /* FIXME */
+    } else if ((addr >= 0xfec0) && (addr <= 0xfedf)) {
+        /* return tia_dump(machine_context.tia1); */ /* FIXME */
+    } else if ((addr >= 0xfee0) && (addr <= 0xfeff)) {
+        /* return tia_dump(machine_context.tia2); */ /* FIXME */
+    } else if ((addr >= 0xff00) && (addr <= 0xff3f)) {
+        /* return ted_dump(machine_context.ted); */ /* FIXME */
+    }
+    return -1;
 }
 
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "ACIA", 0xfd00, 0xfd0f);
-    mon_ioreg_add_list(&mem_ioreg_list, "TED", 0xff00, 0xff3f);
+    mon_ioreg_add_list(&mem_ioreg_list, "ACIA", 0xfd00, 0xfd0f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIO1", 0xfd10, 0xfd1f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIO2", 0xfd30, 0xfd3f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "TIA1", 0xfec0, 0xfedf, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "TIA2", 0xfee0, 0xfeff, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "TED", 0xff00, 0xff3f, mem_dump_io);
+
+    /* FIXME: hook up other extensions */
+    if (speech_cart_enabled()) {
+        mon_ioreg_add_list(&mem_ioreg_list, "SPEECH", 0xfd20, 0xfd2f, mem_dump_io);
+    }
 
     return mem_ioreg_list;
 }

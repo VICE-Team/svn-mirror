@@ -77,6 +77,14 @@
 #include "westermann.h"
 #include "zaxxon.h"
 
+/* #define DEBUGCRT */
+
+#ifdef DEBUGCRT
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
 /*
  * CRT image "strings".
  */
@@ -143,6 +151,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
     }
 
     new_crttype = header[0x17] + header[0x16] * 256;
+    DBG(("crt_attach ID: %d\n", new_crttype));
 
 /*  cart should always be detached. there is no reason for doing fancy checks
     here, and it will cause problems incase a cart MUST be detached before
@@ -156,10 +165,8 @@ int crt_attach(const char *filename, BYTE *rawcart)
     switch (new_crttype) {
         case CARTRIDGE_CRT:
             rc = generic_crt_attach(fd, rawcart);
-            if ( rc < 0) {
-                return -1;
-            } else {
-                return rc;
+            if ( rc !=  CARTRIDGE_NONE) {
+                new_crttype = rc;
             }
             break;
         case CARTRIDGE_WESTERMANN:
@@ -287,8 +294,10 @@ int crt_attach(const char *filename, BYTE *rawcart)
 
     fclose(fd);
 
-    if (rc < 0) {
+    if (rc == -1) {
+        DBG(("crt_attach error (%d)\n", rc));
         return -1;
     }
+    DBG(("crt_attach return ID: %d\n", new_crttype));
     return new_crttype;
 }

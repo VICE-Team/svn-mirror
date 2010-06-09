@@ -2,7 +2,7 @@
  * tpicore.c - TPI 6525 template
  *
  * Written by
- *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andrï¿½ Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -29,6 +29,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "mon_util.h"
 #include "snapshot.h"
 #include "tpi.h"
 #include "types.h"
@@ -288,13 +289,27 @@ BYTE REGPARM2 tpicore_read(tpi_context_t *tpi_context, WORD addr)
     }
 }
 
+/* FIXME: peek into register without any side effect */
 BYTE REGPARM2 tpicore_peek(tpi_context_t *tpi_context, WORD addr)
 {
-    BYTE b = tpicore_read(tpi_context, addr);
+    BYTE byte = 0xff;
+    addr &= 0x07;
 
-    return b;
+    switch (addr) {
+      case TPI_PC:
+        if (irq_mode) {
+            byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
+        } else {
+            byte = tpi_context->c_tpi[addr];
+        }
+        break;
+      default:
+        byte = tpi_context->c_tpi[addr];
+        break;
+    }
+
+    return byte;
 }
-
 
 /* Port C can be setup as interrupt input - this collects connected IRQ states
  * and sets IRQ if necessary
@@ -490,3 +505,11 @@ int tpicore_snapshot_read_module(tpi_context_t *tpi_context, snapshot_t *p)
     return 0;
 }
 
+int tpicore_dump(tpi_context_t *tpi_context)
+{
+    int addr;
+    for (addr = 0; addr < 8; addr++) {
+        mon_out("%02x: %02x\n", addr, tpicore_peek(tpi_context, addr));
+    }
+    return 0;
+}

@@ -105,6 +105,6 @@ extern int tpicore_snapshot_write_module(tpi_context_t *tpi_context,
                                          struct snapshot_s *p);
 extern int tpicore_snapshot_read_module(tpi_context_t *tpi_context,
                                         struct snapshot_s *p);
-
+extern int tpicore_dump(struct tpi_context_s *tpi_context);
 #endif
 

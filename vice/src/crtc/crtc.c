@@ -789,3 +789,8 @@ void crtc_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&crtc.raster, refresh);
 }
 
+int crtc_dump(struct crtc_s *crtc_context)
+{
+    /* FIXME: dump details using mon_out(). return 0 on success */
+    return -1;
+}

@@ -70,6 +70,7 @@
 #include "maincpu.h"
 #include "magicdesk.h"
 #include "magicformel.h"
+#include "magicvoice.h"
 #include "mikroass.h"
 #include "mmc64.h"
 #include "mmcreplay.h"
@@ -121,7 +122,7 @@ int roml_bank = 0, romh_bank = 0, export_ram = 0;
 unsigned int cart_ultimax_phi1 = 0;
 unsigned int cart_ultimax_phi2 = 0;
 
-/* Type of the cartridge attached.  */
+/* Type of the cartridge attached. ("Main Slot") */
 static int mem_cartridge_type = CARTRIDGE_NONE;
 
 /*
@@ -146,8 +147,8 @@ static int mem_cartridge_type = CARTRIDGE_NONE;
 */
 void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
 {
-    DBG(("cartridge_config_changed %d %d %02x\n",mode_phi1, mode_phi2, wflag));
-    
+    DBG(("CARTMEM: cartridge_config_changed phi1:%d phi2:%d bank: %d flags:%02x\n",mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+
     if ((wflag & CMODE_WRITE) == CMODE_WRITE) {
         machine_handle_pending_alarms(maincpu_rmw_flag + 1);
     } else {
@@ -290,7 +291,7 @@ void cartridge_romlbank_set(unsigned int bank)
     - only ONE of the carts in the "Slot 0" can be active at a time
 
     mmc64
-    Magic Voice (soon...)
+    Magic Voice
     ramlink, scpu, ...
 
     "Slot 1"
@@ -337,6 +338,9 @@ BYTE REGPARM1 roml_read(WORD addr)
     /* "Slot 0" */
     if (mmc64_cart_enabled()) {
         return mmc64_roml_read(addr);
+    }
+    if (magicvoice_cart_enabled()) {
+        return magicvoice_roml_read(addr);
     }
     /* "Slot 1" */
     if (isepic_cart_enabled()) {
@@ -411,6 +415,11 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
     /* DBG(("ultimax w 8000: %04x %02x\n", addr, value)); */
 
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        /* fake ultimax hack */
+        mem_store_without_ultimax(addr, value);
+        return;
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         expert_roml_store(addr,value);
@@ -467,6 +476,9 @@ BYTE REGPARM1 romh_read(WORD addr)
     /* DBG(("ultimax r e000: %04x\n", addr)); */
 
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        return magicvoice_romh_read(addr);
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         return expert_romh_read(addr);
@@ -522,6 +534,9 @@ BYTE REGPARM1 romh_read(WORD addr)
 BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        return magicvoice_romh_read(addr);
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         return expert_romh_read(addr);
@@ -573,6 +588,10 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
     /* DBG(("ultimax w e000: %04x %02x\n", addr, value)); */
 
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        /* fake ultimax hack, c64 ram */
+        mem_store_without_ultimax(addr, value);
+    }
     /* "Slot 1" */
     if (isepic_cart_enabled()) {
         isepic_romh_store(addr, value);
@@ -707,6 +726,9 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
 BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
@@ -741,6 +763,9 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
@@ -777,6 +802,9 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
 BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        return magicvoice_a000_bfff_read(addr);
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 basic, ram */
@@ -810,6 +838,10 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        /* fake ultimax hack, c64 ram */
+        mem_store_without_ultimax(addr, value);
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
@@ -841,6 +873,9 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
 BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
@@ -873,6 +908,9 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
@@ -907,6 +945,10 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        /* fake ultimax hack, c64 io,colram,ram */
+        return mem_read_without_ultimax(addr);
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         /* fake ultimax hack, c64 io,colram,ram */
@@ -931,6 +973,11 @@ BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
 {
     /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        /* fake ultimax hack, c64 io,colram,ram */
+        mem_store_without_ultimax(addr, value);
+        return;
+    }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
         /* fake ultimax hack, c64 io,colram,ram */
@@ -955,23 +1002,19 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
 /*
     (de)initialization hooks:
 
-    cartridge_reset
+    cartridge_reset()         XYZ_reset
     cartridge_freeze
 
-    cartridge_init_config
+    cartridge_init_config()   XYZ_config_init
     cartridge_attach
     cartridge_detach
+
     cartridge_save_image
 */
 
+/* called at reset */
 void cartridge_init_config(void)
 {
-    /* "Slot 0" */
-    mmc64_init_card_config();
-    /* "Slot 1" */
-    ramcart_init_config();
-    dqbb_init_config();
-    expert_config_init();
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_STARDOS:
@@ -1110,22 +1153,52 @@ void cartridge_init_config(void)
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_init();
             break;
+        /* HACK: add all missing ones instead of the default */
+        case CARTRIDGE_NONE:
+            break;
         default:
+            DBG(("CARTMEM: no init hook ID: %d\n", mem_cartridge_type));
             cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ);
+            break;
     }
+
+    /* "Slot 1" */
+    if (ramcart_cart_enabled()) {
+        ramcart_init_config();
+    }
+    if (dqbb_cart_enabled()) {
+        dqbb_init_config();
+    }
+    if (expert_cart_enabled()) {
+        expert_config_init();
+    }
+
+    /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        magicvoice_config_init();
+    }
+    if (mmc64_cart_enabled()) {
+        mmc64_init_card_config();
+    }
+
 }
 
+/*
+    the reset signal goes to all active carts. we call the hooks
+    in "back to front" order, so carts closer to the "front" will
+    win with whatever they do.
+*/
 void cartridge_reset(void)
 {
-    /* "Slot 0" */
-    mmc64_reset();
-    /* "Slot 1" */
-    dqbb_reset();
-    ramcart_reset();
     /* "IO Slot" */
-    reu_reset();
-    georam_reset();
-
+/*   if (reu_cart_enabled()) */
+    {
+        reu_reset();
+    }
+/*   if (georam_cart_enabled()) */
+    {
+        georam_reset();
+    }
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_ACTION_REPLAY4:
@@ -1159,7 +1232,20 @@ void cartridge_reset(void)
             freezemachine_reset();
             break;
     }
-
+    /* "Slot 1" */
+    if (dqbb_cart_enabled()) {
+        dqbb_reset();
+    }
+    if (ramcart_cart_enabled()) {
+        ramcart_reset();
+    }
+    /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        magicvoice_reset();
+    }
+    if (mmc64_cart_enabled()) {
+        mmc64_reset();
+    }
 }
 
 void cartridge_attach(int type, BYTE *rawcart)
@@ -1167,13 +1253,19 @@ void cartridge_attach(int type, BYTE *rawcart)
     int cartridge_reset;
 
     if (cartridge_is_slotmain(type)) {
+        DBG(("cartridge_attach MAIN ID: %d\n", type));
         mem_cartridge_type = type;
         cartridge_romhbank_set(0);
         cartridge_romlbank_set(0);
+    } else {
+        DBG(("cartridge_attach (other) ID: %d\n", type));
     }
 
     switch (type) {
         /* "Slot 0" */
+        case CARTRIDGE_MAGIC_VOICE:
+            magicvoice_config_setup(rawcart);
+            break;
         /* "Slot 1" */
         case CARTRIDGE_EXPERT:
             expert_config_setup(rawcart);
@@ -1313,6 +1405,9 @@ void cartridge_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_setup(rawcart);
+            break;
+        default:
+            DBG(("CARTMEM: no attach hook %d\n", type));
             break;
     }
 
@@ -1496,7 +1591,12 @@ void cartridge_detach(int type)
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_detach();
             break;
+        default:
+            DBG(("CARTMEM: no detach hook ID: %d\n", type));
+            break;
     }
+
+    DBG(("CARTMEM: unset cart config\n"));
     cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
     if (cartridge_is_slotmain(type)) {
@@ -1515,13 +1615,14 @@ void cartridge_detach(int type)
 
 void cartridge_freeze(int type)
 {
+    /* "Slot 0" */
+    /* "Slot 1" */
+    if (expert_cart_enabled()) {
+        expert_freeze();
+        return; /* override other slots */
+    }
+    /* "IO Slot" */
     switch (type) {
-        /* "Slot 0" */
-        /* "Slot 1" */
-        case CARTRIDGE_EXPERT:
-            expert_freeze();
-            break;
-        /* "IO Slot" */
         /* "Main Slot" */
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_freeze();
@@ -1591,7 +1692,7 @@ void cartridge_freeze(int type)
     - reu
     - georam
 */
-static int cartridge_bin_save(int type, const char *filename)
+int cartridge_bin_save(int type, const char *filename)
 {
     switch (type) {
         case CARTRIDGE_EXPERT:
@@ -1601,7 +1702,7 @@ static int cartridge_bin_save(int type, const char *filename)
     }
     return -1;
 }
-static int cartridge_crt_save(int type, const char *filename)
+int cartridge_crt_save(int type, const char *filename)
 {
     switch (type) {
         case CARTRIDGE_EXPERT:
@@ -1619,4 +1720,3 @@ int cartridge_save_image(int type, const char *filename)
     /* return cartridge_bin_save(type, filename); */
     return cartridge_crt_save(type, filename);
 }
-

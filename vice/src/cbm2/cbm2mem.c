@@ -37,8 +37,10 @@
 #include "cbm2cia.h"
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
+#include "cia.h"
 #include "crtc-mem.h"
 #include "crtc.h"
+#include "crtctypes.h"
 #include "emuid.h"
 #include "kbdbuf.h"
 #include "machine.h"
@@ -48,11 +50,13 @@
 #include "resources.h"
 #include "sid.h"
 #include "sid-resources.h"
+#include "tpi.h"
 #include "types.h"
 #include "vsync.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
+#include "viciitypes.h"
 
 
 /* ultimax = 0 then the others are not needed */
@@ -1046,11 +1050,11 @@ static const char *banknames[] = {
     "default", "cpu", "ram0", "ram1", "ram2", "ram3",
     "ram4", "ram5", "ram6", "ram7", "ram8", "ram9",
     "ramA", "ramB", "ramC", "ramD", "ramE", "ramF",
-    "romio", NULL
+    "romio", "io", NULL
 };
 
 static const int banknums[] = {
-    17, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+    17, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 16 };
 
 const char **mem_bank_list(void)
 {
@@ -1123,19 +1127,41 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     store_dummy(addr, byte);
 }
 
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0xd800) && (addr <= 0xd82e)) {
+        if (cbm2_isC500) {
+            return vicii_dump(&vicii);
+        } else {
+            return crtc_dump(&crtc);
+        }
+    } else if ((addr >= 0xda00) && (addr <= 0xda1f)) {
+        /* return sidcore_dump(machine_context.sid); */ /* FIXME */
+    } else if ((addr >= 0xdc00) && (addr <= 0xdc0f)) {
+        return ciacore_dump(machine_context.cia1);
+    } else if ((addr >= 0xdd00) && (addr <= 0xdd03)) {
+        /* return acia_dump(machine_context.acia); */ /* FIXME */
+    } else if ((addr >= 0xde00) && (addr <= 0xde07)) {
+        return tpicore_dump(machine_context.tpi1);
+    } else if ((addr >= 0xdf00) && (addr <= 0xdf07)) {
+        return tpicore_dump(machine_context.tpi2);
+    }
+    return -1;
+}
+
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    if (cbm2_isC500)
-        mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd800, 0xd82e);
-    else
-        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xd800, 0xd80f);
-    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xda00, 0xda1f);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
-    mon_ioreg_add_list(&mem_ioreg_list, "ACIA1", 0xdd00, 0xdd03);
-    mon_ioreg_add_list(&mem_ioreg_list, "TPI1", 0xde00, 0xde07);
-    mon_ioreg_add_list(&mem_ioreg_list, "TPI2", 0xdf00, 0xdf07);
+    if (cbm2_isC500) {
+        mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd800, 0xd82e, mem_dump_io);
+    } else {
+        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xd800, 0xd80f, mem_dump_io);
+    }
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xda00, 0xda1f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "ACIA1", 0xdd00, 0xdd03, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "TPI1", 0xde00, 0xde07, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "TPI2", 0xdf00, 0xdf07, mem_dump_io);
 
     return mem_ioreg_list;
 }

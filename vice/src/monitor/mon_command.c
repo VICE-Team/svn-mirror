@@ -99,8 +99,8 @@ static const mon_cmds_t mon_cmd_array[] = {
      NULL, NULL },
 
    { "io", "",
-     USE_PARAM_STRING, USE_DESCRIPTION_ID,
-     IDGS_UNUSED, IDGS_MON_IO_DESCRIPTION,
+     IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE, IDGS_MON_IO_DESCRIPTION,
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
      NULL, NULL },
 
    { "next", "n",

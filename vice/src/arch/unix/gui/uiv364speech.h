@@ -1,8 +1,8 @@
 /*
- * generic.h - Cartridge handling, generic carts.
+ * uiv364speech.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,25 +24,11 @@
  *
  */
 
-#ifndef VICE_GENERIC_H
-#define VICE_GENERIC_H
+#ifndef VICE_UIV364SPEED_H
+#define VICE_UIV364SPEED_H
 
-#include <stdio.h>
+#include "uimenu.h"
 
-#include "types.h"
-
-extern void generic_8kb_config_init(void);
-extern void generic_16kb_config_init(void);
-extern void generic_ultimax_config_init(void);
-extern void generic_8kb_config_setup(BYTE *rawcart);
-extern void generic_16kb_config_setup(BYTE *rawcart);
-extern void generic_ultimax_config_setup(BYTE *rawcart);
-extern int generic_8kb_bin_attach(const char *filename, BYTE *rawcart);
-extern int generic_16kb_bin_attach(const char *filename, BYTE *rawcart);
-extern int generic_ultimax_bin_attach(const char *filename, BYTE *rawcart);
-extern int generic_crt_attach(FILE *fd, BYTE *rawcart);
-extern void generic_8kb_detach(void);
-extern void generic_16kb_detach(void);
-extern void generic_ultimax_detach(void);
+extern struct ui_menu_entry_s speech_submenu[];
 
 #endif

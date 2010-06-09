@@ -5,6 +5,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/crtc \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/tape
 
 noinst_LIBRARIES = libpet.a

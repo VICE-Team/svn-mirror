@@ -183,5 +183,7 @@ extern crtc_t crtc;
 extern int crtc_load_palette(const char *name);
 extern void crtc_resize(void);
 
+extern int crtc_dump(struct crtc_s *crtc_context);
+
 #endif
 

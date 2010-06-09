@@ -50,7 +50,10 @@
 #include "sid.h"
 #include "types.h"
 #include "uiapi.h"
+#include "via.h"
+#include "vic.h"
 #include "vic-mem.h"
+#include "vic20.h"
 #include "vic20-resources.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
@@ -698,13 +701,24 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     }
 }
 
+/* FIXME: add other i/o extensions here */
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0x9000) && (addr <= 0x900f)) {
+        return vic_dump(&vic);
+    } else if ((addr >= 0x9120) && (addr <= 0x912f)) {
+        return viacore_dump(machine_context.via1);
+    } else if ((addr >= 0x9110) && (addr <= 0x911f)) {
+        return viacore_dump(machine_context.via2);
+    }
+    return -1;
+}
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC", 0x9000, 0x900f);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA1", 0x9120, 0x912f);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA2", 0x9110, 0x911f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC", 0x9000, 0x900f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA1", 0x9120, 0x912f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA2", 0x9110, 0x911f, mem_dump_io);
 
     return mem_ioreg_list;
 }

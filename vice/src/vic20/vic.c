@@ -378,3 +378,9 @@ CLOCK vic_lightpen_timing(int x, int y)
 
     return pulse_time;
 }
+
+int vic_dump(vic_t *vic_context)
+{
+    /* FIXME: dump details using mon_out(). return 0 on success */
+    return -1;
+}

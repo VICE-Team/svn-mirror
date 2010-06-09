@@ -92,6 +92,8 @@ libarchgui_a_SOURCES = \
 	uikeyboard.h \
 	uilib.c \
 	uilib.h \
+	uimagicvoice.c \
+	uimagicvoice.h \
 	uimidi.c \
 	uimidi.h \
 	uimmc64.c \
@@ -163,6 +165,8 @@ libarchgui_a_SOURCES = \
 	uited.h \
 	uitfe.c \
 	uitfe.h \
+	uiv364speech.c \
+	uiv364speech.h \
 	uivdc.c \
 	uivdc.h \
 	uivic.c \

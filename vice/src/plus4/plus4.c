@@ -59,6 +59,7 @@
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
 #include "plus4memrom.h"
+#include "plus4speech.h"
 #include "plus4tcbm.h"
 #include "plus4ui.h"
 #include "printer.h"
@@ -252,6 +253,7 @@ int machine_resources_init(void)
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
         || digiblaster_resources_init() < 0
+        || speech_resources_init() < 0
         || sidcartjoy_resources_init() < 0
         || sound_resources_init() < 0
         || sidcart_resources_init() < 0
@@ -293,6 +295,7 @@ int machine_cmdline_options_init(void)
         || sidcartjoy_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sidcart_cmdline_options_init() < 0
+        || speech_cmdline_options_init() < 0
         || acia_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || serial_cmdline_options_init() < 0
@@ -330,6 +333,7 @@ static void plus4_monitor_init(void)
 
 void machine_setup_context(void)
 {
+    speech_setup_context(&machine_context);
     machine_printer_setup_context(&machine_context);
 }
 

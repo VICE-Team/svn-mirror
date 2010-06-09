@@ -110,6 +110,19 @@ int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
     return 0;
 }
 
+int generic_ultimax_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    if (c64export_add(&export_res_ultimax) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
 /*
     returns -1 on error, else a positive CRT ID
 */

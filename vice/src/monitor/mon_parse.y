@@ -222,7 +222,9 @@ machine_state_rules: CMD_BANK end_cmd
                    | CMD_GOTO address end_cmd
                      { mon_jump($2); }
                    | CMD_IO end_cmd
-                     { mon_display_io_regs(); }
+                     { mon_display_io_regs(0); }
+                   | CMD_IO address end_cmd
+                     { mon_display_io_regs($2); }
                    | CMD_CPU end_cmd
                      { monitor_cpu_type_set(""); }
                    | CMD_CPU CPUTYPE end_cmd

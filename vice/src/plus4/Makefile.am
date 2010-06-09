@@ -2,9 +2,11 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
+	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/raster
 
 noinst_LIBRARIES = libplus4.a
@@ -53,6 +55,8 @@ libplus4_a_SOURCES = \
 	plus4rom.c \
 	plus4rom.h \
 	plus4romset.c \
+	plus4speech.c \
+	plus4speech.h \
 	plus4tcbm.c \
 	plus4tcbm.h \
 	plus4video.c \

@@ -33,6 +33,14 @@
 #include "translate.h"
 #include "uiapi.h"
 
+/* #define DEBUGEXPORT */
+
+#ifdef DEBUGEXPORT
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
 /* FIXME: rewrite to handle arbitrary number of slots */
 static const char *usage_roml, *usage_romh;
 
@@ -72,19 +80,25 @@ int c64export_add(const c64export_resource_t *export_res)
         usage_romh = export_res->name;
     }
 
+    DBG(("EXPORT add roml: '%s' romh: '%s'\n", usage_roml, usage_romh));
+
     return 0;
 }
 
+/*
+    same problem as above, if we exit early on error that will result in
+    all sort of problems
+*/
 int c64export_remove(const c64export_resource_t *export_res)
 {
     if (export_res->use_roml > 0) {
         if (usage_roml == NULL) {
-            return -1;
+            /* return -1; */
         }
     }
     if (export_res->use_romh > 0) {
         if (usage_romh == NULL) {
-            return -1;
+            /* return -1; */
         }
     }
 
@@ -94,6 +108,7 @@ int c64export_remove(const c64export_resource_t *export_res)
     if (export_res->use_romh > 0) {
         usage_romh = NULL;
     }
+    DBG(("EXPORT remove roml: '%s' romh: '%s'\n", usage_roml, usage_romh));
 
     return 0;
 }

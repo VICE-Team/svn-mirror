@@ -37,8 +37,10 @@
 #define CPU_LINES_PLUS256K 3
 
 extern BYTE REGPARM1 c64io1_read(WORD addr);
+extern BYTE REGPARM1 c64io1_peek(WORD addr);
 extern void REGPARM2 c64io1_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 c64io2_read(WORD addr);
+extern BYTE REGPARM1 c64io2_peek(WORD addr);
 extern void REGPARM2 c64io2_store(WORD addr, BYTE value);
 
 struct mem_ioreg_list_s;
@@ -59,6 +61,8 @@ typedef struct io_source_s {
     int  io_source_valid;
     void REGPARM2 (*store)(WORD address, BYTE data);
     BYTE REGPARM1 (*read)(WORD address);
+    BYTE REGPARM1 (*peek)(WORD address);
+    int REGPARM1 (*dump)(void);
 } io_source_t;
 
 typedef struct io_source_list_s {

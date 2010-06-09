@@ -1541,6 +1541,12 @@ IDCLS_ENABLE_SIDCARTJOY
 /* plus4/sidcartjoy.c */
 IDCLS_DISABLE_SIDCARTJOY
 
+/* plus4/plus4speech.c */
+IDCLS_ENABLE_PLUS4SPEECH
+
+/* plus4/plus4speech.c */
+IDCLS_DISABLE_PLUS4SPEECH
+
 /* c64/digimax.c */
 IDCLS_ENABLE_DIGIMAX
 

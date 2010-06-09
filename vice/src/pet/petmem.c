@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "crtc-mem.h"
+#include "crtctypes.h"
 #include "emuid.h"
 #include "log.h"
 #include "machine.h"
@@ -50,6 +51,7 @@
 #include "sid.h"
 #include "sid-resources.h"
 #include "types.h"
+#include "via.h"
 #include "vsync.h"
 
 
@@ -969,18 +971,37 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0xe810) && (addr <= 0xe81f)) {
+        /* return piacore_dump(machine_context.pia1); */ /* FIXME */
+    } else if ((addr >= 0xe820) && (addr <= 0xe82f)) {
+        /* return piacore_dump(machine_context.pia2); */ /* FIXME */
+    } else if ((addr >= 0xe840) && (addr <= 0xe84f)) {
+        return viacore_dump(machine_context.via);
+    } else if ((addr >= 0xe880) && (addr <= 0xe881)) {
+        if (petres.crtc) {
+            return crtc_dump(&crtc);
+        }
+    } else if ((addr >= 0xeb00) && (addr <= 0xeb0f)) {
+        if (petdww_enabled) {
+            /* return dwwpiacore_dump(machine_context.dwwpia); */ /* FIXME */
+        }
+    }
+    return -1;
+}
+
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0xe810, 0xe81f);
-    mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0xe820, 0xe82f);
-    mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIA1", 0xe810, 0xe81f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "PIA2", 0xe820, 0xe82f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f, mem_dump_io);
     if (petres.crtc) {
-        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe881);
+        mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe881, mem_dump_io);
     }
     if (petdww_enabled) {
-        mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f);
+        mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f, mem_dump_io);
     }
 
     return mem_ioreg_list;

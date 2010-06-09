@@ -164,23 +164,23 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
         break;
       case DRIVE_TYPE_1551:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, NULL);
         break;
       case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
         break;
       case DRIVE_TYPE_1581:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL);
         break;
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_2040:
@@ -189,8 +189,8 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, NULL);
         break;
       default:
         log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);

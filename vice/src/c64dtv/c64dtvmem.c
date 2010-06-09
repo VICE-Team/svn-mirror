@@ -37,6 +37,7 @@
 #include "c64dtvcpu.h"
 #include "c64dtvdma.h"
 #include "c64dtvflash.h"
+#include "cia.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -47,6 +48,7 @@
 #include "alarm.h"
 #include "hummeradc.h"
 #include "ps2mouse.h"
+#include "viciitypes.h"
 
 /* TODO this is a hack */
 #define C64_RAM_SIZE 0x200000
@@ -63,6 +65,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64.h"
 #include "c64-resources.h"
 #include "c64cia.h"
 #include "c64mem.h"
@@ -78,8 +81,7 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
-
-/* included by c64dtvmem.c */
+#include "viciitypes.h"
 
 /* C64 memory-related resources.  */
 
@@ -542,15 +544,28 @@ static BYTE peek_bank_io(WORD addr)
 
 /* Exported banked memory access functions for the monitor.  */
 
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0xd000) && (addr <= 0xd04f)) {
+        return vicii_dump(&vicii);
+    } else if ((addr >= 0xd400) && (addr <= 0xd41f)) {
+        /* return sidcore_dump(machine_context.sid); */ /* FIXME */
+    } else if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
+        return ciacore_dump(machine_context.cia1);
+    } else if ((addr >= 0xdd00) && (addr <= 0xdd3f)) {
+        return ciacore_dump(machine_context.cia2);
+    }
+    return -1;
+}
+
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd04f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd04f, mem_dump_io);
     /* TODO blitter, DMA... */
-    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io);
 
     return mem_ioreg_list;
 }

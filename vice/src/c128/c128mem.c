@@ -48,6 +48,7 @@
 #include "c64memrom.h"
 #include "c64pla.h"
 #include "c64tpi.h"
+#include "cia.h"
 #include "functionrom.h"
 #include "georam.h"
 #include "keyboard.h"
@@ -65,6 +66,7 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
+#include "viciitypes.h"
 #include "z80mem.h"
 
 #ifdef HAVE_TFE
@@ -1135,16 +1137,33 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0xd000) && (addr <= 0xd03f)) {
+        return vicii_dump(&vicii);
+    } else if ((addr >= 0xd400) && (addr <= 0xd43f)) {
+        /* return sidcore_dump(machine_context.sid); */ /* FIXME */
+    } else if ((addr >= 0xd500) && (addr <= 0xd50b)) {
+        /* return mmu_dump(machine_context.mmu); */ /* FIXME */
+    } else if ((addr >= 0xd600) && (addr <= 0xd602)) {
+        /* return vdc_dump(machine_context.vdc); */ /* FIXME */
+    } else if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
+        return ciacore_dump(machine_context.cia1);
+    } else if ((addr >= 0xdd00) && (addr <= 0xdd3f)) {
+        return ciacore_dump(machine_context.cia2);
+    }
+    return -1;
+}
+
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC-IIe", 0xd000, 0xd030);
-    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
-    mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b);
-    mon_ioreg_add_list(&mem_ioreg_list, "VDC", 0xd600, 0xd601);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC-IIe", 0xd000, 0xd030, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "VDC", 0xd600, 0xd601, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io);
 
     c64io_ioreg_add_list(&mem_ioreg_list);
 

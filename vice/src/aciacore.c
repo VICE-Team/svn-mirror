@@ -1177,3 +1177,9 @@ static void int_acia_rx(CLOCK offset, void *data)
     alarm_set(acia.alarm_rx, acia.alarm_clk_rx);
     acia.alarm_active_rx = 1;
 }
+
+int acia_dump(void *acia_context)
+{
+    /* FIXME: dump details using mod_out(), return 0 on success */
+    return -1;
+}

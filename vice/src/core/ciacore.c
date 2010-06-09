@@ -39,6 +39,7 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
+#include "mon_util.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -1450,3 +1451,14 @@ log_message(cia_context->log,
     return 0;
 }
 
+int ciacore_dump(cia_context_t *cia_context)
+{
+    mon_out("ICR: %02x CTRLA: %02x CTRLB: %02x\n\n", ciacore_peek(cia_context, 0x0d), ciacore_peek(cia_context, 0x0e), ciacore_peek(cia_context, 0x0f));
+    mon_out("Port A:  %02x DDR: %02x\n", ciacore_peek(cia_context, 0x00), ciacore_peek(cia_context, 0x02));
+    mon_out("Port B:  %02x DDR: %02x\n", ciacore_peek(cia_context, 0x01), ciacore_peek(cia_context, 0x03));
+    mon_out("Timer A: %04x\n", ciacore_peek(cia_context, 0x04) + (ciacore_peek(cia_context, 0x05) << 8));
+    mon_out("Timer B: %04x\n", ciacore_peek(cia_context, 0x06) + (ciacore_peek(cia_context, 0x07) << 8));
+    mon_out("TOD:     %d:%d:%d:%d\n", ciacore_peek(cia_context, 0x0b), ciacore_peek(cia_context, 0x0a), ciacore_peek(cia_context, 0x09), ciacore_peek(cia_context, 0x08));
+    mon_out("\nSynchronous Serial I/O Data Buffer: %02x\n", ciacore_peek(cia_context, 0x0c));
+    return 0;
+}

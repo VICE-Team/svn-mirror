@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon_util.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite.h"
@@ -686,3 +687,89 @@ void vicii_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&vicii.raster, refresh);
 }
 
+int vicii_dump(struct vicii_s *vic) {
+    int m_muco, m_disp, m_ext, v_bank;
+    int i, bits;
+
+    m_ext = ((vic->regs[0x11] & 0x40) >> 6); /* 0 standard, 1 extended */
+    m_muco = ((vic->regs[0x16] & 0x10) >> 4); /* 0 hires, 1 multi */
+    m_disp = ((vic->regs[0x11] & 0x20) >> 5); /* 0 text, 1 bitmap */
+
+    v_bank = 0; /* FIXME */
+
+    mon_out("Display Mode:");
+    mon_out(m_ext ? " Extended" : " Standard");
+    mon_out(m_muco ? " Multi Color" : " Hires");
+    mon_out(m_disp ? " Bitmap" : " Text");
+    mon_out("\nColors:       Border: %2d Background: %2d\n", vic->regs[0x20], vic->regs[0x21]);
+    if (m_ext) {
+        mon_out("              BGCol1: %2d BGCol2: %2d BGCol3: %2d\n", vic->regs[0x22], vic->regs[0x23], vic->regs[0x24]);
+    } else if (m_muco && !m_disp) {
+        mon_out("              MuCol1: %2d MuCol2: %2d\n", vic->regs[0x22], vic->regs[0x23]);
+    }
+    mon_out("Scroll X/Y:   %d/%d\n", vic->regs[0x16] & 0x07, vic->regs[0x11] & 0x07);
+    mon_out("Screen Size:  %d x %d\n", 39 + ((vic->regs[0x16] >> 3) & 1), 24 + ((vic->regs[0x11] >> 3) & 1));
+
+    mon_out("\nVIC Memory Bank:   $%04x - $%04x\n", v_bank, v_bank+0x3fff);
+    mon_out("\nVideo Memory:      $%04x\n", ((vic->regs[0x18] >> 4) * 0x0400) + v_bank);
+    mon_out("Character Set:     $%04x\n", (((vic->regs[0x18] >> 1) & 0x7) * 0x800) + v_bank);
+    mon_out("Bitmap Memory:     $%04x\n", (((vic->regs[0x18] >> 3) & 1) * 0x2000) + v_bank);
+
+    mon_out("\nSprites:");
+    mon_out("\n           Spr.0  Spr.1  Spr.2  Spr.3  Spr.4  Spr.5  Spr.6  Spr.7");
+    mon_out("\nEnabled: ");
+    bits = vic->regs[0x15];
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5s", (bits & 1) ? "yes" : "no");
+        bits >>= 1;
+    }
+    mon_out("\nX-Pos:   ");
+    bits = vic->regs[0x10]; /* sprite x msb */
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5d", vic->regs[i << 1] + (256 * (bits & 1)));
+        bits >>= 1;
+    }
+    mon_out("\nY-Pos:   ");
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5d", vic->regs[1 + (i << 1)]);
+    }
+    mon_out("\nColor:   ");
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5d", vic->regs[i + 0x27]);
+    }
+    mon_out("\nMode:    ");
+    bits = vic->regs[0x1c];
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5s", (bits & 1) ? "muco" : "std");
+        bits >>= 1;
+    }
+    mon_out("\nX-Expand:");
+    bits = vic->regs[0x1d];
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5s", (bits & 1) ? "yes" : "no");
+        bits >>= 1;
+    }
+    mon_out("\nY-Expand:");
+    bits = vic->regs[0x17];
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5s", (bits & 1) ? "yes" : "no");
+        bits >>= 1;
+    }
+    mon_out("\nPriority:");
+    bits = vic->regs[0x1b];
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5s", (bits & 1) ? "bg" : "spr");
+        bits >>= 1;
+    }
+    mon_out("\n\nMulti Color 1: %2d Multi Color 2: %2d\n", vic->regs[0x25], vic->regs[0x26]);
+
+/*
+  TODO:
+
+  Current Scanline: 11
+  Raster IRQ Scanline: 311
+  Enabled Interrupts:  None
+  Pending Interrupts:  Raster
+*/
+    return 0;
+}

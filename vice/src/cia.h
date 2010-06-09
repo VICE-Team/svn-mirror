@@ -158,6 +158,6 @@ extern int ciacore_snapshot_write_module(struct cia_context_s *cia_context,
                                          struct snapshot_s *s);
 extern int ciacore_snapshot_read_module(struct cia_context_s *cia_context,
                                         struct snapshot_s *s);
-
+extern int ciacore_dump(cia_context_t *cia_context);
 #endif
 

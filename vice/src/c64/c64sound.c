@@ -32,6 +32,7 @@
 #include "c64io.h"
 #include "digimax.h"
 #include "machine.h"
+#include "magicvoice.h"
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "sid.h"
@@ -137,18 +138,23 @@ sound_t *sound_machine_open(int chipno)
     return sid_sound_machine_open(chipno);
 }
 
+/* FIXME: make hook for carts */
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     digimax_sound_machine_init(psid, speed, cycles_per_sec);
     sfx_soundexpander_sound_machine_init(psid, speed, cycles_per_sec);
     sfx_soundsampler_sound_machine_init(psid, speed, cycles_per_sec);
+    magicvoice_sound_machine_init(psid, speed, cycles_per_sec);
 
     return sid_sound_machine_init(psid, speed, cycles_per_sec);
 }
 
+/* FIXME: make hook for carts */
 void sound_machine_close(sound_t *psid)
 {
     sfx_soundexpander_sound_machine_close(psid);
+    magicvoice_sound_machine_close(psid);
+
     sid_sound_machine_close(psid);
 }
 
@@ -156,10 +162,12 @@ void sound_machine_close(sound_t *psid)
  *                0x20 <= addr <= 0x3f is the digimax
  *                0x40 <= addr <= 0x5f is the SFX sound sampler
  *                0x60 <= addr <= 0x7f is the SFX sound expander
+ *                0x80 <= addr <= 0x9f is the Magic Voice
  *
  * future sound devices will be able to use 0x80 and up
  */
 
+/* FIXME: make hook for carts */
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
     if (addr >= 0x20 && addr <= 0x3f) {
@@ -171,12 +179,17 @@ BYTE sound_machine_read(sound_t *psid, WORD addr)
     }
 
     if (addr >= 0x60 && addr <= 0x7f) {
-        return sfx_soundexpander_sound_machine_read(psid, (WORD)(addr - 0x40));
+        return sfx_soundexpander_sound_machine_read(psid, (WORD)(addr - 0x60)); /* <- typo? was 0x40 */
+    }
+
+    if (addr >= 0x80 && addr <= 0x9f) {
+        return magicvoice_sound_machine_read(psid, (WORD)(addr - 0x80));
     }
 
     return sid_sound_machine_read(psid, addr);
 }
 
+/* FIXME: make hook for carts */
 void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
     if (addr >= 0x20 && addr <= 0x3f) {
@@ -191,17 +204,25 @@ void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
         sfx_soundexpander_sound_machine_store(psid, (WORD)(addr - 0x60), byte);
     }
 
+    if (addr >= 0x80 && addr <= 0x9f) {
+        magicvoice_sound_machine_store(psid, (WORD)(addr - 0x80), byte);
+    }
+
     sid_sound_machine_store(psid, addr, byte);
 }
 
+/* FIXME: make hook for carts */
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
     digimax_sound_reset();
     sfx_soundexpander_sound_reset();
     sfx_soundsampler_sound_reset();
+    magicvoice_sound_machine_reset(psid, cpu_clk);
+
     sid_sound_machine_reset(psid, cpu_clk);
 }
 
+/* FIXME: make hook for carts */
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int temp;
@@ -212,6 +233,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int inte
     digimax_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
     sfx_soundexpander_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
     sfx_soundsampler_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
+    magicvoice_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
 
     return temp;
 }

@@ -2,10 +2,12 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/vicii
 
 noinst_LIBRARIES = libc64cart.a
@@ -82,6 +84,8 @@ libc64cart_a_SOURCES = \
 	magicdesk.h \
 	magicformel.c \
 	magicformel.h \
+	magicvoice.c \
+	magicvoice.h \
 	mikroass.c \
 	mikroass.h \
 	mmcreplay.c \

@@ -65,7 +65,8 @@ extern BYTE roml_banks[], romh_banks[];
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
 
-extern int cartridge_is_slotmain(int type);
+int cartridge_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
+extern int cartridge_is_slotmain(int type); /* returns 1 if cart of given type is in "Main Slot" */
 
 /* Cartridge ROM limit = 512kB (MMCReplay) */
 #define C64CART_ROM_LIMIT (1024*512)

@@ -168,6 +168,6 @@ extern int viacore_snapshot_write_module(struct via_context_s *via_context,
                                          struct snapshot_s *s);
 extern int viacore_snapshot_read_module(struct via_context_s *via_context,
                                         struct snapshot_s *s);
-
+extern int viacore_dump(via_context_t *via_context);
 #endif
 

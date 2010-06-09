@@ -167,15 +167,15 @@ static int set_ide64_config(const char *cfg, void *param)
 
     ide64_DS1302[64] = 0;
     memset(ide64_DS1302, 0x40, 64);
-    ide64_configuration_string = ide64_DS1302;
 
     if (cfg) {
         for (i = 0; cfg[i] && i < 64; i++) {
             ide64_DS1302[i] = cfg[i];
         }
     }
-
-    return try_cartridge_init(16);
+    util_string_set(&ide64_configuration_string, ide64_DS1302);
+    try_cartridge_init(16);
+    return 0;
 }
 
 static int set_ide64_image_file(const char *name, void *param)
@@ -244,7 +244,7 @@ static int set_rtc_offset(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "IDE64Image", "ide.hdd", RES_EVENT_NO, NULL,
       &ide64_image_file, set_ide64_image_file, NULL },
-    { "IDE64Config", "", RES_EVENT_NO, NULL,
+    { "IDE64Config", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", RES_EVENT_NO, NULL,
       &ide64_configuration_string, set_ide64_config, NULL },
     { NULL }
 };
@@ -280,8 +280,9 @@ int ide64_resources_init(void)
 int ide64_resources_shutdown(void)
 {
     lib_free(ide64_image_file);
+    lib_free(ide64_configuration_string);
     ide64_image_file = NULL;
-
+    ide64_configuration_string = NULL;
     return 0;
 }
 

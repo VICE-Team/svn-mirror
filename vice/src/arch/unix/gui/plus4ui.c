@@ -52,6 +52,7 @@
 #include "uisid.h"
 #include "uisound.h"
 #include "uited.h"
+#include "uiv364speech.h"
 #include "vsync.h"
 
 static UI_CALLBACK(save_screenshot)
@@ -106,6 +107,7 @@ UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
 static ui_menu_entry_t sidcart_submenu[] = {
     { N_("*Enable SID cart"),
       (ui_callback_t)toggle_SidCart, NULL, NULL },
+    { "--" },
     { N_("SID model"),
       NULL, NULL, sid_model_noresid_submenu },
     { N_("*Emulate filters"),
@@ -114,9 +116,6 @@ static ui_menu_entry_t sidcart_submenu[] = {
       NULL, NULL, sidcart_address_submenu },
     { N_("SID clock"),
       NULL, NULL, sidcart_clock_submenu },
-    { "--" },
-    { N_("*Enable digiblaster add-on"),
-      (ui_callback_t)toggle_DIGIBLASTER, NULL, NULL },
     { NULL }
 };
 
@@ -182,6 +181,16 @@ ui_menu_entry_t set_ram_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static ui_menu_entry_t io_extensions_submenu[] = {
+    { N_("*Enable digiblaster add-on"),
+      (ui_callback_t)toggle_DIGIBLASTER, NULL, NULL },
+    { N_("SID cartridge settings"),
+      NULL, NULL, sidcart_submenu },
+    { N_("V364 Speech settings"),
+      NULL, NULL, speech_submenu },
+    { NULL }
+};
+
 static ui_menu_entry_t plus4_menu[] = {
     { N_("ROM settings"),
       NULL, NULL, plus4_romset_submenu },
@@ -191,8 +200,8 @@ static ui_menu_entry_t plus4_menu[] = {
       NULL, NULL, ted_submenu },
     { N_("RS232 settings"),
       NULL, NULL, uirs232petplus4cbm2_submenu },
-    { N_("SID cartridge settings"),
-      NULL, NULL, sidcart_submenu },
+    { N_("I/O extensions"),
+      NULL, NULL, io_extensions_submenu },
     { NULL }
 };
 
@@ -293,6 +302,8 @@ static ui_menu_entry_t plus4_options_menu[] = {
       NULL, NULL, joystick_options_submenu },
     { "--",
       NULL, NULL, ui_drive_options_submenu },
+    { "--",
+      NULL, NULL, io_extensions_submenu },
     { NULL }
 };
 

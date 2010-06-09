@@ -69,6 +69,7 @@
 #include "machine-printer.h"
 #include "machine-video.h"
 #include "machine.h"
+#include "magicvoice.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
@@ -302,11 +303,14 @@ static void c64_monitor_init(void)
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init, asmarray);
 }
 
+/* FIXME: make hook for carts */
 void machine_setup_context(void)
 {
     cia1_setup_context(&machine_context);
     cia2_setup_context(&machine_context);
+    /* FIXME: the TPI context probably shouldn't be in the machine context */
     tpi_setup_context(&machine_context);
+    magicvoice_setup_context(&machine_context);
     machine_printer_setup_context(&machine_context);
 }
 
@@ -365,6 +369,7 @@ int machine_specific_init(void)
     cia2_init(machine_context.cia2);
 
     if (!vsid_mode) {
+        /* FIXME: the TPI context probably should not be in the machine context */
         tpi_init(machine_context.tpi1);
 
         acia1_init();
@@ -465,6 +470,7 @@ void machine_specific_reset(void)
     sid_reset();
 
     if (!vsid_mode) {
+        /* FIXME: the TPI context probably should not be in the machine context */
         tpicore_reset(machine_context.tpi1);
 
         acia1_reset();

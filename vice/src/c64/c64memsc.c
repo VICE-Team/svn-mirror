@@ -43,8 +43,9 @@
 #include "c64memlimit.h"
 #include "c64memrom.h"
 #include "c64pla.h"
-#include "cart/c64cartmem.h"
+#include "c64cartmem.h"
 #include "cartridge.h"
+#include "cia.h"
 #include "clkguard.h"
 #include "machine.h"
 #include "mainc64cpu.h"
@@ -55,10 +56,12 @@
 #include "ram.h"
 #include "reu.h"
 #include "sid.h"
+#include "tpi.h"
 #include "vicii-cycle.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
+#include "viciitypes.h"
 
 #ifdef HAVE_TFE
 #include "tfe.h"
@@ -787,8 +790,6 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* Banked memory access functions for the monitor.  */
 
-/* FIXME: peek, cartridge support */
-
 void REGPARM2 store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
@@ -879,9 +880,9 @@ static BYTE peek_bank_io(WORD addr)
         case 0xdd00:
             return cia2_peek(addr);
         case 0xde00:
-            return c64io1_read(addr);  /* FIXME */
+            return c64io1_peek(addr);
         case 0xdf00:
-            return c64io2_read(addr);  /* FIXME */
+            return c64io2_peek(addr);
     }
     return 0xff;
 }
@@ -957,7 +958,14 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-            return mem_read(addr);  /* FIXME */
+             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
+                       when needed. doing this without checking is wrong, but we do it anyways to
+                       avoid side effects
+            */
+            if ((addr >= 0xd000) && (addr < 0xe000)) {
+                return peek_bank_io(addr);
+            }
+            return mem_read(addr);
             break;
         case 3:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
@@ -994,14 +1002,27 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
+static int mem_dump_io(WORD addr) {
+    if ((addr >= 0xd000) && (addr <= 0xd03f)) {
+        return vicii_dump(&vicii);
+    } else if ((addr >= 0xd400) && (addr <= 0xd43f)) {
+        /* return sidcore_dump(machine_context.sid); */ /* FIXME */
+    } else if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
+        return ciacore_dump(machine_context.cia1);
+    } else if ((addr >= 0xdd00) && (addr <= 0xdd3f)) {
+        return ciacore_dump(machine_context.cia2);
+    }
+    return -1;
+}
+
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd02e);
-    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
-    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
+    mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd000, 0xd02e, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io);
+    mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io);
 
     c64io_ioreg_add_list(&mem_ioreg_list);
 

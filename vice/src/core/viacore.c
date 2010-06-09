@@ -1120,3 +1120,8 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     return snapshot_module_close(m);
 }
 
+int viacore_dump(via_context_t *via_context)
+{
+    /* FIXME: dump details using mon_out(). return 0 on success */
+    return -1;
+}
