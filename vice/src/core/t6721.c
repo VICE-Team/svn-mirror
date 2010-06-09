@@ -50,6 +50,10 @@
      246
 */
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #define T6721DEBUG
 
 #define WRITEWAVFILE 0 /* write "test.wav" containing all generated output */
