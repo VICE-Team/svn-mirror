@@ -3,71 +3,56 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <topsrcdir>
-#                 $1      $2             $3       $4          $5
+# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <x64sc-included> <topsrcdir>
+#                 $1      $2             $3       $4          $5               $6
 
 STRIP=$1
 VERSION=$2
 PREFIX=$3
 ZIPKIND=$4
-TOPSRCDIR=$5
+X64SC=$5
+TOPSRCDIR=$6
 
 if test x"$PREFIX" != "x/boot/programs/VICE"; then
   echo Error: installation path is not /boot/programs/VICE
   exit 1
 fi
 
-if [ ! -e /boot/programs/VICE/bin/x64 -o ! -e /boot/programs/VICE/bin/x64dtv -o ! -e /boot/programs/VICE/bin/x64sc -o ! -e /boot/programs/VICE/bin/x128 -o ! -e /boot/programs/VICE/bin/xvic -o ! -e /boot/programs/VICE/bin/xpet -o ! -e /boot/programs/VICE/bin/xplus4 -o ! -e /boot/programs/VICE/bin/xcbm2 -o ! -e /boot/programs/VICE/bin/c1541 -o ! -e /boot/programs/VICE/bin/petcat -o ! -e /boot/programs/VICE/bin/cartconv ]
-then
-  echo Error: \"make install\" needs to be done first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+LANGUAGES="da de fr hu it nl pl sv tr"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e /boot/programs/VICE/bin/$i ]
+  then
+    echo Error: \"make install\" needs to be done first
+    exit 1
+  fi
+done
 
 echo Generating SkyOS port binary distribution.
 rm -f -r VICE-$VERSION
 mkdir -p VICE-$VERSION/programs/VICE
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/da/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/da/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/da/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/de/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/de/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/de/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/fr/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/fr/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/fr/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/it/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/it/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/it/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/sv/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/sv/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/sv/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/pl/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/pl/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/pl/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/nl/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/nl/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/nl/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/hu/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/hu/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/hu/LC_MESSAGES
-mkdir -p VICE-$VERSION/programs/VICE/lib/locale/tr/LC_MESSAGES
-mv /boot/programs/VICE/lib/locale/tr/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/tr/LC_MESSAGES
+for i in $LANGUAGES
+do
+  mkdir -p VICE-$VERSION/programs/VICE/lib/locale/$i/LC_MESSAGES
+  mv /boot/programs/VICE/lib/locale/$i/LC_MESSAGES/vice.* VICE-$VERSION/programs/VICE/lib/locale/$i/LC_MESSAGES
+done
 mkdir VICE-$VERSION/programs/VICE/bin
 mv /boot/programs/VICE/bin/vsid VICE-$VERSION/programs/VICE/bin
-mv /boot/programs/VICE/bin/x64 VICE-$VERSION/programs/VICE/bin/x64.app
-$STRIP VICE-$VERSION/programs/VICE/bin/x64.app
-mv /boot/programs/VICE/bin/x64dtv VICE-$VERSION/programs/VICE/bin/x64dtv.app
-$STRIP VICE-$VERSION/programs/VICE/bin/x64dtv.app
-mv /boot/programs/VICE/bin/x64sc VICE-$VERSION/programs/VICE/bin/x64sc.app
-$STRIP VICE-$VERSION/programs/VICE/bin/x64sc.app
-mv /boot/programs/VICE/bin/x128 VICE-$VERSION/programs/VICE/bin/x128.app
-$STRIP VICE-$VERSION/programs/VICE/bin/x128.app
-mv /boot/programs/VICE/bin/xvic VICE-$VERSION/programs/VICE/bin/xvic.app
-$STRIP VICE-$VERSION/programs/VICE/bin/xvic.app
-mv /boot/programs/VICE/bin/xpet VICE-$VERSION/programs/VICE/bin/xpet.app
-$STRIP VICE-$VERSION/programs/VICE/bin/xpet.app
-mv /boot/programs/VICE/bin/xplus4 VICE-$VERSION/programs/VICE/bin/xplus4.app
-$STRIP VICE-$VERSION/programs/VICE/bin/xplus4.app
-mv /boot/programs/VICE/bin/xcbm2 VICE-$VERSION/programs/VICE/bin/xcbm2.app
-$STRIP VICE-$VERSION/programs/VICE/bin/xcbm2.app
-mv /boot/programs/VICE/bin/c1541 VICE-$VERSION/programs/VICE/bin/c1541.app
-$STRIP VICE-$VERSION/programs/VICE/bin/c1541.app
-mv /boot/programs/VICE/bin/petcat VICE-$VERSION/programs/VICE/bin/petcat.app
-$STRIP VICE-$VERSION/programs/VICE/bin/petcat.app
-mv /boot/programs/VICE/bin/cartconv VICE-$VERSION/programs/VICE/bin/cartconv.app
-$STRIP VICE-$VERSION/programs/VICE/bin/cartconv.app
+for i in $EXECUTABLES
+do
+  mv /boot/programs/VICE/bin/$i VICE-$VERSION/programs/VICE/bin/$i.app
+  $STRIP VICE-$VERSION/programs/VICE/bin/$i.app
+done
 mv /boot/programs/VICE/lib/vice VICE-$VERSION/programs/VICE/lib
 rm `find VICE-$VERSION -name "sdl*.vkm"`
 mkdir -p VICE-$VERSION/programs/VICE/share/man/man1
@@ -97,7 +82,15 @@ DefaultPath=
 [PANELMENU]
 /menu="Emulators/VICE"	/name="x64"	/link="/boot/programs/VICE/bin/x64.app"		/icon="/boot/programs/VICE/icons/x64.ico"   
 /menu="Emulators/VICE"	/name="x64dtv"	/link="/boot/programs/VICE/bin/x64dtv.app"		/icon="/boot/programs/VICE/icons/x64dtv.ico"   
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>VICE-$VERSION/install.sif <<_END
 /menu="Emulators/VICE"	/name="x64sc"	/link="/boot/programs/VICE/bin/x64sc.app"		/icon="/boot/programs/VICE/icons/x64sc.ico"   
+_END
+fi
+
+cat >>VICE-$VERSION/install.sif <<_END
 /menu="Emulators/VICE"	/name="x128"	/link="/boot/programs/VICE/bin/x128.app"	/icon="/boot/programs/VICE/icons/x128.ico"   
 /menu="Emulators/VICE"	/name="xcbm2"	/link="/boot/programs/VICE/bin/xcbm2.app"	/icon="/boot/programs/VICE/icons/xcbm2.ico"   
 /menu="Emulators/VICE"	/name="xpet"	/link="/boot/programs/VICE/bin/xpet.app"	/icon="/boot/programs/VICE/icons/xpet.ico"   
@@ -107,7 +100,15 @@ DefaultPath=
 [FILEICONS]
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64.app"	/icon="/boot/programs/VICE/icons/x64.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64dtv.app"	/icon="/boot/programs/VICE/icons/x64dtv.ico"
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>VICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64sc.app"	/icon="/boot/programs/VICE/icons/x64sc.ico"
+_END
+fi
+
+cat >>VICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/VICE/bin/x128.app"	/icon="/boot/programs/VICE/icons/x128.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xcbm2.app"	/icon="/boot/programs/VICE/icons/xcbm2.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xpet.app"	/icon="/boot/programs/VICE/icons/xpet.ico"

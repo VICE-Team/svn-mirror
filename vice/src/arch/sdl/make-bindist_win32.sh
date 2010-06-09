@@ -3,20 +3,34 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir> <cpu>
-#                 $1      $2             $3          $4           $5
+# make-bindist.sh <strip> <vice-version> <zip|nozip> <x64sc-included> <top-srcdir> <cpu>
+#                 $1      $2             $3          $4               $5           $6
 
 STRIP=$1
 VICEVERSION=$2
 ZIPKIND=$3
-TOPSRCDIR=$4
-CPU=$5
+X64SC=$4
+TOPSRCDIR=$5
+CPU=$6
 
-if [ ! -e src/x64.exe -o ! -e src/x64dtv.exe -o ! -e src/x64sc.exe -o ! -e src/x128.exe -o ! -e src/xvic.exe -o ! -e src/xpet.exe -o ! -e src/xplus4.exe -o ! -e src/xcbm2.exe -o ! -e src/c1541.exe -o ! -e src/petcat.exe -o ! -e src/cartconv.exe ]
-then
-  echo Error: executable file\(s\) not found, do a \"make\" first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i.exe ]
+  then
+    echo Error: executable file\(s\) not found, do a \"make\" first
+    exit 1
+  fi
+done
 
 if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"; then
   WINXX="win64"
@@ -27,21 +41,11 @@ fi
 echo Generating $WINXX SDL port binary distribution.
 rm -f -r SDLVICE-$VICEVERSION-$WINXX
 mkdir SDLVICE-$VICEVERSION-$WINXX
-$STRIP src/x64.exe
-$STRIP src/x64dtv.exe
-$STRIP src/x64sc.exe
-$STRIP src/x128.exe
-$STRIP src/xvic.exe
-$STRIP src/xpet.exe
-$STRIP src/xplus4.exe
-$STRIP src/xcbm2.exe
-$STRIP src/c1541.exe
-$STRIP src/petcat.exe
-$STRIP src/cartconv.exe
-cp src/x64.exe src/x64dtv.exe src/x128.exe SDLVICE-$VICEVERSION-$WINXX
-cp src/xvic.exe src/xpet.exe src/xplus4.exe SDLVICE-$VICEVERSION-$WINXX
-cp src/xcbm2.exe src/c1541.exe src/petcat.exe SDLVICE-$VICEVERSION-$WINXX
-cp src/cartconv.exe src/x64sc.exe SDLVICE-$VICEVERSION-$WINXX
+for i in $EXECUTABLES
+do
+  $STRIP src/$i.exe
+  cp src/$i.exe SDLVICE-$VICEVERSION-$WINXX
+done
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 SDLVICE-$VICEVERSION-$WINXX
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II SDLVICE-$VICEVERSION-$WINXX
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET SDLVICE-$VICEVERSION-$WINXX

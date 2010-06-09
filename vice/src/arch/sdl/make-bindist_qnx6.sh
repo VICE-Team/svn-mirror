@@ -3,28 +3,42 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <topsrcdir> <make-command> <cpu>
-#                 $1      $2             $3       $4      $5          $6          $7             $8
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <x64sc-included> <topsrcdir> <make-command> <cpu>
+#                 $1      $2             $3       $4      $5          $6               $7          $8             $9
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 CROSS=$4
 ZIPKIND=$5
-TOPSRCDIR=$6
-MAKECOMMAND=$7
-CPU=$8
+X64SC=$6
+TOPSRCDIR=$7
+MAKECOMMAND=$8
+CPU=$9
+
+if test x"$X64SC" = "xyes": then
+  SCFILE="x64sc"
+else
+  SCFILE=""
+fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
 if test x"$PREFIX" != "x/opt"; then
   echo Error: installation path is not /opt
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
-then
-  echo Error: \"make\" needs to be done first
-  exit 1
-fi
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i ]
+  then
+    echo Error: \"make\" needs to be done first
+    exit 1
+  fi
+done
 
 VICECPU=""
 
@@ -52,17 +66,10 @@ echo Generating $VICECPU QNX 6 SDL port binary distribution.
 rm -f -r SDLVICE-$VICEVERSION
 curdir=`pwd`
 $MAKECOMMAND prefix=$curdir/SDLVICE-$VICEVERSION/opt VICEDIR=$curdir/SDLVICE-$VICEVERSION/opt/lib/vice install
-$STRIP SDLVICE-$VICEVERSION/opt/bin/x64
-$STRIP SDLVICE-$VICEVERSION/opt/bin/x64dtv
-$STRIP SDLVICE-$VICEVERSION/opt/bin/x64sc
-$STRIP SDLVICE-$VICEVERSION/opt/bin/x128
-$STRIP SDLVICE-$VICEVERSION/opt/bin/xvic
-$STRIP SDLVICE-$VICEVERSION/opt/bin/xpet
-$STRIP SDLVICE-$VICEVERSION/opt/bin/xplus4
-$STRIP SDLVICE-$VICEVERSION/opt/bin/xcbm2
-$STRIP SDLVICE-$VICEVERSION/opt/bin/c1541
-$STRIP SDLVICE-$VICEVERSION/opt/bin/petcat
-$STRIP SDLVICE-$VICEVERSION/opt/bin/cartconv
+for i in $EXECUTABLES
+do
+  $STRIP SDLVICE-$VICEVERSION/opt/bin/$i
+done
 if test x"$ZIPKIND" = "xzip"; then
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getsize.c -o ./getsize
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getlibs.c -o ./getlibs
@@ -198,7 +205,15 @@ cat >manifest.15 <<_END
                      <QPM:File>x128</QPM:File>
                      <QPM:File>x64</QPM:File>
                      <QPM:File>x64dtv</QPM:File>
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>manifest.15 <<_END
                      <QPM:File>x64sc</QPM:File>
+_END
+fi
+
+cat >>manifest.15 <<_END
                      <QPM:File>xcbm2</QPM:File>
                      <QPM:File>xpet</QPM:File>
                      <QPM:File>xplus4</QPM:File>
@@ -300,50 +315,6 @@ _END
                   </QPM:Dir>
 
                   <QPM:Dir name="lib">
-                     <QPM:Dir name="locale">
-                        <QPM:Dir name="de">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="fr">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="hu">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="it">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="nl">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="pl">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="sv">
-                           <QPM:Dir name="LC_MESSAGES">
-                              <QPM:File>vice.mo</QPM:File>
-                           </QPM:Dir>
-                        </QPM:Dir>
-                     </QPM:Dir>
-
                      <QPM:Dir name="vice">
                         <QPM:Dir name="C128">
                            <QPM:File>basic64</QPM:File>
@@ -573,36 +544,6 @@ _END
                   <QPM:Union link="../opt/bin">bin</QPM:Union>
                   <QPM:Union link="../\$(PROCESSOR)/opt/bin">bin</QPM:Union>
                   <QPM:Dir name="lib">
-                     <QPM:Dir name="locale">
-                        <QPM:Dir name="de">
-                           <QPM:Union link="../../../../opt/lib/locale/de/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="fr">
-                           <QPM:Union link="../../../../opt/lib/locale/fr/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="hu">
-                           <QPM:Union link="../../../../opt/lib/locale/hu/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="it">
-                           <QPM:Union link="../../../../opt/lib/locale/it/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="nl">
-                           <QPM:Union link="../../../../opt/lib/locale/nl/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="pl">
-                           <QPM:Union link="../../../../opt/lib/locale/pl/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-
-                        <QPM:Dir name="sv">
-                           <QPM:Union link="../../../../opt/lib/locale/sv/LC_MESSAGES">LC_MESSAGES</QPM:Union>
-                        </QPM:Dir>
-                     </QPM:Dir>
-
                      <QPM:Dir name="vice">
                         <QPM:Union link="../../../opt/lib/vice/fonts">fonts</QPM:Union>
                         <QPM:Union link="../../../opt/lib/vice/doc">doc</QPM:Union>
@@ -650,6 +591,10 @@ _END
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>manifest.15 <<_END
       <QPM:Launch name="x64sc">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x64sc"/>
@@ -662,6 +607,9 @@ _END
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 
+_END
+
+cat >>manifest.15 <<_END
       <QPM:Launch name="x128">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x128"/>

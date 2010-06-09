@@ -3,17 +3,20 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <system> <infodir> <mandir> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4      $5          $6       $7        $8       $9          $10
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <x64sc-included> <system> <infodir> <mandir> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4      $5          $6               $7       $8        $9       $10         $11
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 CROSS=$4
 ZIPKIND=$5
-SYSTEM=$6
-INFODIR=$7
-MANDIR=$8
+X64SC=$6
+SYSTEM=$7
+INFODIR=$8
+MANDIR=$9
+
+shift
 TOPSRCDIR=$9
 
 shift
@@ -61,6 +64,16 @@ checkmake()
   esac
 }
 
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
+fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
   exit 1
@@ -91,27 +104,23 @@ if test x"$CROSS" = "xtrue"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
-then
-  echo Error: \"make\" needs to be done first
-  exit 1
-fi
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i ]
+  then
+    echo Error: \"make\" needs to be done first
+    exit 1
+  fi
+done
 
 echo Generating $PLATFORM SDL port binary distribution.
 rm -f -r SDLVICE-$VICEVERSION
 curdir=`pwd`
 $MAKECOMMAND -e prefix=$curdir/SDLVICE-$VICEVERSION/usr/local VICEDIR=$curdir/SDLVICE-$VICEVERSION/usr/local/lib/vice install
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/x64
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/x64dtv
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/x64sc
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/x128
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/xvic
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/xpet
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/xplus4
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/xcbm2
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/c1541
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/petcat
-$STRIP SDLVICE-$VICEVERSION/usr/local/bin/cartconv
+for i in $EXECUTABLES
+do
+  $STRIP SDLVICE-$VICEVERSION/usr/local/bin/$i
+done
 mkdir -p SDLVICE-$VICEVERSION$MANDIR/man1
 if test x"$ZIPKIND" = "xzip"; then
   rm -f -r /var/spool/pkg/SDLVICE

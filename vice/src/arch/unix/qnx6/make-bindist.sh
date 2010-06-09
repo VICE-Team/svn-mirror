@@ -3,16 +3,17 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4      $5          $6          $7
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <x64sc-included> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4      $5          $6               $7          $8
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 CROSS=$4
 ZIPKIND=$5
-TOPSRCDIR=$6
-MAKECOMMAND=$7
+X64SC=$6
+TOPSRCDIR=$7
+MAKECOMMAND=$8
 
 if test x"$PREFIX" != "x/opt"; then
   echo Error: installation path is not /opt
@@ -24,27 +25,33 @@ if test x"$CROSS" = "xtrue"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
-then
-  echo Error: \"make\" needs to be done first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i ]
+  then
+    echo Error: \"make\" needs to be done first
+    exit 1
+  fi
+done
 
 echo Generating QNX 6 port binary distribution.
 rm -f -r VICE-$VICEVERSION
 curdir=`pwd`
 $MAKECOMMAND prefix=$curdir/VICE-$VICEVERSION/opt VICEDIR=$curdir/VICE-$VICEVERSION/opt/lib/vice install
-$STRIP VICE-$VICEVERSION/opt/bin/x64
-$STRIP VICE-$VICEVERSION/opt/bin/x64dtv
-$STRIP VICE-$VICEVERSION/opt/bin/x64sc
-$STRIP VICE-$VICEVERSION/opt/bin/x128
-$STRIP VICE-$VICEVERSION/opt/bin/xvic
-$STRIP VICE-$VICEVERSION/opt/bin/xpet
-$STRIP VICE-$VICEVERSION/opt/bin/xplus4
-$STRIP VICE-$VICEVERSION/opt/bin/xcbm2
-$STRIP VICE-$VICEVERSION/opt/bin/c1541
-$STRIP VICE-$VICEVERSION/opt/bin/petcat
-$STRIP VICE-$VICEVERSION/opt/bin/cartconv
+for i in $EXECUTABLES
+do
+  $STRIP VICE-$VICEVERSION/opt/bin/$i
+done
 if test x"$ZIPKIND" = "xzip"; then
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getsize.c -o ./getsize
   gcc $TOPSRCDIR/src/arch/unix/qnx6/getlibs.c -o ./getlibs
@@ -180,7 +187,15 @@ cat >manifest.15 <<_END
                      <QPM:File>x128</QPM:File>
                      <QPM:File>x64</QPM:File>
                      <QPM:File>x64dtv</QPM:File>
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>manifest.15 <<_END
                      <QPM:File>x64sc</QPM:File>
+_END
+fi
+
+cat >>manifest.15 <<_END
                      <QPM:File>xcbm2</QPM:File>
                      <QPM:File>xpet</QPM:File>
                      <QPM:File>xplus4</QPM:File>
@@ -283,6 +298,12 @@ _END
 
                   <QPM:Dir name="lib">
                      <QPM:Dir name="locale">
+                        <QPM:Dir name="da">
+                           <QPM:Dir name="LC_MESSAGES">
+                              <QPM:File>vice.mo</QPM:File>
+                           </QPM:Dir>
+                        </QPM:Dir>
+
                         <QPM:Dir name="de">
                            <QPM:Dir name="LC_MESSAGES">
                               <QPM:File>vice.mo</QPM:File>
@@ -320,6 +341,12 @@ _END
                         </QPM:Dir>
 
                         <QPM:Dir name="sv">
+                           <QPM:Dir name="LC_MESSAGES">
+                              <QPM:File>vice.mo</QPM:File>
+                           </QPM:Dir>
+                        </QPM:Dir>
+
+                        <QPM:Dir name="tr">
                            <QPM:Dir name="LC_MESSAGES">
                               <QPM:File>vice.mo</QPM:File>
                            </QPM:Dir>
@@ -562,6 +589,10 @@ _END
                   <QPM:Union link="../\$(PROCESSOR)/opt/bin">bin</QPM:Union>
                   <QPM:Dir name="lib">
                      <QPM:Dir name="locale">
+                        <QPM:Dir name="da">
+                           <QPM:Union link="../../../../opt/lib/locale/da/LC_MESSAGES">LC_MESSAGES</QPM:Union>
+                        </QPM:Dir>
+
                         <QPM:Dir name="de">
                            <QPM:Union link="../../../../opt/lib/locale/de/LC_MESSAGES">LC_MESSAGES</QPM:Union>
                         </QPM:Dir>
@@ -588,6 +619,10 @@ _END
 
                         <QPM:Dir name="sv">
                            <QPM:Union link="../../../../opt/lib/locale/sv/LC_MESSAGES">LC_MESSAGES</QPM:Union>
+                        </QPM:Dir>
+
+                        <QPM:Dir name="tr">
+                           <QPM:Union link="../../../../opt/lib/locale/tr/LC_MESSAGES">LC_MESSAGES</QPM:Union>
                         </QPM:Dir>
                      </QPM:Dir>
 
@@ -638,6 +673,10 @@ _END
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>manifest.15 <<_END
       <QPM:Launch name="x64sc">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x64sc"/>
@@ -650,6 +689,10 @@ _END
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 
+_END
+fi
+
+cat >>manifest.15 <<_END
       <QPM:Launch name="x128">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x128"/>

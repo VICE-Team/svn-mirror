@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <perl> <vice-version> <prefix> <hostcpu> <system> <zip|nozip> <topsrcdir>
-#                 $1      $2     $3             $4       $5        $6       $7          $8
+# make-bindist.sh <strip> <perl> <vice-version> <prefix> <hostcpu> <system> <zip|nozip> <x64sc-included> <topsrcdir>
+#                 $1      $2     $3             $4       $5        $6       $7          $8               $9
 
 STRIP=$1
 PERL=$2
@@ -13,7 +13,8 @@ PREFIX=$4
 CPU=$5
 SYSTEM=$6
 ZIPKIND=$7
-TOPSRCDIR=$8
+X64SC=$8
+TOPSRCDIR=$9
 
 UUID=`uuidgen`
 DATESTRING=`$PERL src/arch/unix/hpux/getnow.pl`
@@ -64,11 +65,24 @@ if test x"$PREFIX" != "x/usr/local"; then
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
-then
-  echo Error: executable file\(s\) not found, do a \"make all\" first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i ]
+  then
+    echo Error: executable file\(s\) not found, do a \"make all\" first
+    exit 1
+  fi
+done
 
 echo Generating HPUX port binary distribution.
 rm -f -r catalog vice runtmp mantmp
@@ -104,29 +118,11 @@ cd ..
 
 # Install and prepare vice-RUN
 runtotal=0
-$STRIP src/c1541
-installfile src/c1541 vice/vice-RUN runtmp /usr/local/bin/c1541 run 0755
-$STRIP src/cartconv
-installfile src/cartconv vice/vice-RUN runtmp /usr/local/bin/cartconv run 0755
-$STRIP src/petcat
-installfile src/petcat vice/vice-RUN runtmp /usr/local/bin/petcat run 0755
-installfile src/arch/unix/vsid vice/vice-RUN runtmp /usr/local/bin/vsid run 0755
-$STRIP src/x128
-installfile src/x128 vice/vice-RUN runtmp /usr/local/bin/x128 run 0755
-$STRIP src/x64
-installfile src/x64 vice/vice-RUN runtmp /usr/local/bin/x64 run 0755
-$STRIP src/x64dtv
-installfile src/x64dtv vice/vice-RUN runtmp /usr/local/bin/x64dtv run 0755
-$STRIP src/x64sc
-installfile src/x64sc vice/vice-RUN runtmp /usr/local/bin/x64sc run 0755
-$STRIP src/xcbm2
-installfile src/xcbm2 vice/vice-RUN runtmp /usr/local/bin/xcbm2 run 0755
-$STRIP src/xpet
-installfile src/xpet vice/vice-RUN runtmp /usr/local/bin/xpet run 0755
-$STRIP src/xplus4
-installfile src/xplus4 vice/vice-RUN runtmp /usr/local/bin/xplus4 run 0755
-$STRIP src/xvic
-installfile src/xvic vice/vice-RUN runtmp /usr/local/bin/xvic run 0755
+for i in $EXECUTABLES
+do
+  $STRIP src/$i
+  installfile src/$i vice/vice-RUN runtmp /usr/local/bin/$i run 0755
+done
 installfile doc/vice.info vice/vice-RUN runtmp /usr/local/info/vice.info run 0644
 installfile data/C128/basic64 vice/vice-RUN runtmp /usr/local/lib/vice/C128/basic64 run 0644
 installfile data/C128/basichi vice/vice-RUN runtmp /usr/local/lib/vice/C128/basichi run 0644

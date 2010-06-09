@@ -3,20 +3,34 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <cpu> <zip|nozip> <top-srcdir>
-#                 $1      $2             $3    $4          $5
+# make-bindist.sh <strip> <vice-version> <cpu> <zip|nozip> <x64sc-included> <top-srcdir>
+#                 $1      $2             $3    $4          $5               $6
 
 STRIP=$1
 VICEVERSION=$2
 CPU=$3
 ZIPKIND=$4
-TOPSRCDIR=$5
+X64SC=$5
+TOPSRCDIR=$6
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
-then
-  echo Error: executable file\(s\) not found, do a \"make\" first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i ]
+  then
+    echo Error: executable file\(s\) not found, do a \"make\" first
+    exit 1
+  fi
+done
 
 echo Generating BEOS port binary distribution.
 if test x"$CPU" = "xpowerpc" -o x"$CPU" = "xppc"; then
@@ -27,21 +41,11 @@ fi
 
 rm -f -r BeVICE-$VICEVERSION.$BEOSCPU
 mkdir BeVICE-$VICEVERSION.$BEOSCPU
-$STRIP src/x64
-$STRIP src/x64dtv
-$STRIP src/x64sc
-$STRIP src/x128
-$STRIP src/xvic
-$STRIP src/xpet
-$STRIP src/xplus4
-$STRIP src/xcbm2
-$STRIP src/c1541
-$STRIP src/petcat
-$STRIP src/cartconv
-cp src/x64 src/x64dtv src/x128 src/xvic BeVICE-$VICEVERSION.$BEOSCPU
-cp src/xpet src/xplus4 src/xcbm2 BeVICE-$VICEVERSION.$BEOSCPU
-cp src/c1541 src/petcat src/cartconv BeVICE-$VICEVERSION.$BEOSCPU
-cp src/x64sc BeVICE-$VICEVERSION.$BEOSCPU
+for i in $EXECUTABLES
+do
+  $STRIP src/$i
+  cp src/$i BeVICE-$VICEVERSION.$BEOSCPU
+done
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 BeVICE-$VICEVERSION.$BEOSCPU
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II BeVICE-$VICEVERSION.$BEOSCPU
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET BeVICE-$VICEVERSION.$BEOSCPU

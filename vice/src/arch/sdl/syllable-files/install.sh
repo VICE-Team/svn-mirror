@@ -15,5 +15,9 @@ rm -f -r /Applications/VICE
 mkdir /Applications/VICE
 cp x*.sh /Applications/VICE
 cp uninstall.sh /Applications/VICE
+if [ -e /usr/VICE/bin/x64sc ]
+then
+  rm -f /Applications/VICE/x64sh.sh
+fi
 echo "VICE has been installed and can be started from the desktop Applications item."
 echo "The installation directory can now be deleted if needed."

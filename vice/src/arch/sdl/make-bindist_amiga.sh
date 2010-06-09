@@ -3,22 +3,36 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <zip|nozip> <top-srcdir> <exe-ext>
-#                 $1      $2             $3         $4            $5          $6           $7
+# make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <zip|nozip> <x64sc-included> <top-srcdir> <exe-ext>
+#                 $1      $2             $3         $4            $5          $6               $7           $8
 
 STRIP=$1
 VICEVERSION=$2
 HOSTCPU=$3
 HOSTSYSTEM=$4
 ZIPKIND=$5
-TOPSCRDIR=$6
-EXEEXT=$7
+X64SC=$6
+TOPSCRDIR=$7
+EXEEXT=$8
 
-if [ ! -e src/x64$EXEEXT -o ! -e src/x64dtv$EXEEXT -o ! -e src/x64sc$EXEEXT -o ! -e src/x128$EXEEXT -o ! -e src/xvic$EXEEXT -o ! -e src/xpet$EXEEXT -o ! -e src/xplus4$EXEEXT -o ! -e src/xcbm2$EXEEXT -o ! -e src/c1541$EXEEXT -o ! -e src/petcat$EXEEXT -o ! -e src/cartconv$EXEEXT ]
-then
-  echo Error: executable file\(s\) not found, do a \"make all\" first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i$EXEEXT ]
+  then
+    echo Error: executable file\(s\) not found, do a \"make all\" first
+    exit 1
+  fi
+done
 
 if test x"$HOSTSYSTEM" = "xaros"; then
   AMIGAFLAVOR=$HOSTCPU-AROS-$VICEVERSION
@@ -51,54 +65,26 @@ fi
 rm -f -r SDLVICE-$AMIGAFLAVOR SDLVICE-$AMIGAFLAVOR.info
 mkdir SDLVICE-$AMIGAFLAVOR
 if test x"$HOSTSYSTEM" != "xaros"; then
-  $STRIP src/x64$EXEEXT
-  $STRIP src/x64dtv$EXEEXT
-  $STRIP src/x64sc$EXEEXT
-  $STRIP src/x128$EXEEXT
-  $STRIP src/xvic$EXEEXT
-  $STRIP src/xpet$EXEEXT
-  $STRIP src/xplus4$EXEEXT
-  $STRIP src/xcbm2$EXEEXT
-  $STRIP src/c1541$EXEEXT
-  $STRIP src/petcat$EXEEXT
-  $STRIP src/cartconv$EXEEXT
+  for i in $EXECUTABLES
+  do
+    $STRIP src/$i$EXEEXT
+  done
 else
-  $STRIP --strip-unneeded --remove-section .comment src/x64$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/x64dtv$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/x64sc$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/x128$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/xvic$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/xpet$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/xplus4$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/xcbm2$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/c1541$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/petcat$EXEEXT
-  $STRIP --strip-unneeded --remove-section .comment src/cartconv$EXEEXT
+  for i in $EXECUTABLES
+  do
+    $STRIP --strip-unneeded --remove-section .comment src/$i$EXEEXT
+  done
 fi
 if test x"$HOSTSYSTEM" = "xmorphos"; then
-  cp src/x64$EXEEXT SDLVICE-$AMIGAFLAVOR/x64
-  cp src/x64dtv$EXEEXT SDLVICE-$AMIGAFLAVOR/x64dtv
-  cp src/x64sc$EXEEXT SDLVICE-$AMIGAFLAVOR/x64sc
-  cp src/x128$EXEEXT SDLVICE-$AMIGAFLAVOR/x128
-  cp src/xvic$EXEEXT SDLVICE-$AMIGAFLAVOR/xvic
-  cp src/xpet$EXEEXT SDLVICE-$AMIGAFLAVOR/xpet
-  cp src/xplus4$EXEEXT SDLVICE-$AMIGAFLAVOR/xplus4
-  cp src/xcbm2$EXEEXT SDLVICE-$AMIGAFLAVOR/xcbm2
-  cp src/c1541$EXEEXT SDLVICE-$AMIGAFLAVOR/c1541
-  cp src/petcat$EXEEXT SDLVICE-$AMIGAFLAVOR/petcat
-  cp src/cartconv$EXEEXT SDLVICE-$AMIGAFLAVOR/cartconv
+  for i in $EXECUTABLES
+  do
+    cp src/$i$EXEEXT SDLVICE-$AMIGAFLAVOR/$i
+  done
 else
-  cp src/x64$EXEEXT SDLVICE-$AMIGAFLAVOR/x64.exe
-  cp src/x64dtv$EXEEXT SDLVICE-$AMIGAFLAVOR/x64dtv.exe
-  cp src/x64sc$EXEEXT SDLVICE-$AMIGAFLAVOR/x64sc.exe
-  cp src/x128$EXEEXT SDLVICE-$AMIGAFLAVOR/x128.exe
-  cp src/xvic$EXEEXT SDLVICE-$AMIGAFLAVOR/xvic.exe
-  cp src/xpet$EXEEXT SDLVICE-$AMIGAFLAVOR/xpet.exe
-  cp src/xplus4$EXEEXT SDLVICE-$AMIGAFLAVOR/xplus4.exe
-  cp src/xcbm2$EXEEXT SDLVICE-$AMIGAFLAVOR/xcbm2.exe
-  cp src/c1541$EXEEXT SDLVICE-$AMIGAFLAVOR/c1541.exe
-  cp src/petcat$EXEEXT SDLVICE-$AMIGAFLAVOR/petcat.exe
-  cp src/cartconv$EXEEXT SDLVICE-$AMIGAFLAVOR/cartconv.exe
+  for i in $EXECUTABLES
+  do
+    cp src/$i$EXEEXT SDLVICE-$AMIGAFLAVOR/$i.exe
+  done
 fi
 cp -a $TOPSCRDIR/data/C128 $TOPSCRDIR/data/C64 SDLVICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/data/C64DTV $TOPSCRDIR/data/CBM-II SDLVICE-$AMIGAFLAVOR
@@ -110,23 +96,26 @@ cp $TOPSCRDIR/FEEDBACK $TOPSCRDIR/README SDLVICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/doc/cartconv.txt SDLVICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/doc/ReadmeSDL.txt SDLVICE-$AMIGAFLAVOR
 if test x"$HOSTSYSTEM" = "xwarpos"; then
-  for i in cartconv.exe c1541.exe petcat.exe x64.exe x64dtv.exe x64sc.exe x128.exe \
-           xcbm2.exe xpet.exe xplus4.exe xvic.exe
+  for i in $EXECUTABLES
   do
-    elf2exe SDLVICE-$AMIGAFLAVOR/$i SDLVICE-$AMIGAFLAVOR/$i.new
-    mv -f SDLVICE-$AMIGAFLAVOR/$i.new SDLVICE-$AMIGAFLAVOR/$i
+    elf2exe SDLVICE-$AMIGAFLAVOR/$i.exe SDLVICE-$AMIGAFLAVOR/$i.new
+    mv -f SDLVICE-$AMIGAFLAVOR/$i.new SDLVICE-$AMIGAFLAVOR/$i.exe
   done
 fi
 if test x"$HOSTSYSTEM" = "xmorphos"; then
   cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/VICE.info SDLVICE-$AMIGAFLAVOR.info
   cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/x*.info SDLVICE-$AMIGAFLAVOR
   cp SDLVICE-$AMIGAFLAVOR/x64.info SDLVICE-$AMIGAFLAVOR/x64dtv.info
-  cp SDLVICE-$AMIGAFLAVOR/x64.info SDLVICE-$AMIGAFLAVOR/x64sc.info
+  if test x"$X64SC" = "xyes"; then
+    cp SDLVICE-$AMIGAFLAVOR/x64.info SDLVICE-$AMIGAFLAVOR/x64sc.info
+  fi
 else
   cp $TOPSCRDIR/src/arch/amigaos/info-files/VICE.info SDLVICE-$AMIGAFLAVOR.info
   cp $TOPSCRDIR/src/arch/amigaos/info-files/*.exe.info SDLVICE-$AMIGAFLAVOR
   cp SDLVICE-$AMIGAFLAVOR/x64.exe.info SDLVICE-$AMIGAFLAVOR/x64dtv.exe.info
-  cp SDLVICE-$AMIGAFLAVOR/x64.exe.info SDLVICE-$AMIGAFLAVOR/x64sc.exe.info
+  if test x"$X64SC" = "xyes"; then
+    cp SDLVICE-$AMIGAFLAVOR/x64.exe.info SDLVICE-$AMIGAFLAVOR/x64sc.exe.info
+  fi
 fi
 rm `find SDLVICE-$AMIGAFLAVOR -name "Makefile*"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "dos_*.vkm"`

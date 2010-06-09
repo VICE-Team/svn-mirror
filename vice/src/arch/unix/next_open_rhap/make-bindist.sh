@@ -3,27 +3,41 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <platform> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4          $5         $6          $7
+# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <x64sc-included> <platform> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4          $5               $6         $7          $8
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 ZIPKIND=$4
-OPERATINGSYSTEM=$5
-TOPSRCDIR=$6
-MAKECOMMAND=$7
+X64SC=$5
+OPERATINGSYSTEM=$6
+TOPSRCDIR=$7
+MAKECOMMAND=$8
 
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
   exit 1
 fi
 
-if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x64sc -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
-then
-  echo Error: \"make\" needs to be done first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e src/$i ]
+  then
+    echo Error: \"make\" needs to be done first
+    exit 1
+  fi
+done
 
 curdir=`pwd
 if [ ! -e VICE-$VICEVERSION ]
@@ -49,17 +63,10 @@ if test x"$OPERATINGSYSTEM" = "xrhapsody"; then
 fi
 
 echo Generating $OSNAME port binary distribution.
-$STRIP VICE-$VICEVERSION/usr/local/bin/x64
-$STRIP VICE-$VICEVERSION/usr/local/bin/x64dtv
-$STRIP VICE-$VICEVERSION/usr/local/bin/x64sc
-$STRIP VICE-$VICEVERSION/usr/local/bin/x128
-$STRIP VICE-$VICEVERSION/usr/local/bin/xvic
-$STRIP VICE-$VICEVERSION/usr/local/bin/xpet
-$STRIP VICE-$VICEVERSION/usr/local/bin/xplus4
-$STRIP VICE-$VICEVERSION/usr/local/bin/xcbm2
-$STRIP VICE-$VICEVERSION/usr/local/bin/c1541
-$STRIP VICE-$VICEVERSION/usr/local/bin/petcat
-$STRIP VICE-$VICEVERSION/usr/local/bin/cartconv
+for i in $EXECUTABLES
+do
+  $STRIP VICE-$VICEVERSION/usr/local/bin/$i
+done
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$OSID" = "xRH"; then
     package $curdir/VICE-$VICEVERSION/usr/local $TOPSRCDIR/src/arch/unix/next_open_rhap/vice.info

@@ -3,71 +3,50 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <topsrcdir>
-#                 $1      $2             $3       $4          $5
+# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <x64sc-included> <topsrcdir>
+#                 $1      $2             $3       $4          $5               $6
 
 STRIP=$1
 VERSION=$2
 PREFIX=$3
 ZIPKIND=$4
-TOPSRCDIR=$5
+X64SC=$5
+TOPSRCDIR=$6
 
 if test x"$PREFIX" != "x/boot/programs/SDLVICE"; then
   echo Error: installation path is not /boot/programs/SDLVICE
   exit 1
 fi
 
-if [ ! -e /boot/programs/SDLVICE/bin/x64 -o ! -e /boot/programs/SDLVICE/bin/x64dtv -o ! -e /boot/programs/SDLVICE/bin/x64sc -o ! -e /boot/programs/SDLVICE/bin/x128 -o ! -e /boot/programs/SDLVICE/bin/xvic -o ! -e /boot/programs/SDLVICE/bin/xpet -o ! -e /boot/programs/SDLVICE/bin/xplus4 -o ! -e /boot/programs/SDLVICE/bin/xcbm2 -o ! -e /boot/programs/SDLVICE/bin/c1541 -o ! -e /boot/programs/SDLVICE/bin/petcat -o ! -e /boot/programs/SDLVICE/bin/cartconv ]
-then
-  echo Error: \"make install\" needs to be done first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e /boot/programs/SDLVICE/bin/$i ]
+  then
+    echo Error: \"make install\" needs to be done first
+    exit 1
+  fi
+done
 
 echo Generating SkyOS SDL port binary distribution.
 rm -f -r SDLVICE-$VERSION
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/da/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/da/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/da/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/de/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/de/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/de/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/fr/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/fr/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/fr/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/it/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/it/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/it/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/sv/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/sv/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/sv/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/pl/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/pl/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/pl/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/nl/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/nl/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/nl/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/hu/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/hu/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/hu/LC_MESSAGES
-mkdir -p SDLVICE-$VERSION/programs/SDLVICE/lib/locale/tr/LC_MESSAGES
-mv /boot/programs/SDLVICE/lib/locale/tr/LC_MESSAGES/vice.* SDLVICE-$VERSION/programs/SDLVICE/lib/locale/tr/LC_MESSAGES
 mkdir SDLVICE-$VERSION/programs/SDLVICE/bin
 mv /boot/programs/SDLVICE/bin/vsid SDLVICE-$VERSION/programs/SDLVICE/bin
-mv /boot/programs/SDLVICE/bin/x64 SDLVICE-$VERSION/programs/SDLVICE/bin/x64.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x64.app
-mv /boot/programs/SDLVICE/bin/x64dtv SDLVICE-$VERSION/programs/SDLVICE/bin/x64dtv.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x64dtv.app
-mv /boot/programs/SDLVICE/bin/x64dtv SDLVICE-$VERSION/programs/SDLVICE/bin/x64sc.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x64sc.app
-mv /boot/programs/SDLVICE/bin/x128 SDLVICE-$VERSION/programs/SDLVICE/bin/x128.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/x128.app
-mv /boot/programs/SDLVICE/bin/xvic SDLVICE-$VERSION/programs/SDLVICE/bin/xvic.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/xvic.app
-mv /boot/programs/SDLVICE/bin/xpet SDLVICE-$VERSION/programs/SDLVICE/bin/xpet.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/xpet.app
-mv /boot/programs/SDLVICE/bin/xplus4 SDLVICE-$VERSION/programs/SDLVICE/bin/xplus4.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/xplus4.app
-mv /boot/programs/SDLVICE/bin/xcbm2 SDLVICE-$VERSION/programs/SDLVICE/bin/xcbm2.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/xcbm2.app
-mv /boot/programs/SDLVICE/bin/c1541 SDLVICE-$VERSION/programs/SDLVICE/bin/c1541.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/c1541.app
-mv /boot/programs/SDLVICE/bin/petcat SDLVICE-$VERSION/programs/SDLVICE/bin/petcat.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/petcat.app
-mv /boot/programs/SDLVICE/bin/cartconv SDLVICE-$VERSION/programs/SDLVICE/bin/cartconv.app
-$STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/cartconv.app
+for i in $EXECUTABLES
+do
+  mv /boot/programs/SDLVICE/bin/$i SDLVICE-$VERSION/programs/SDLVICE/bin/$i.app
+  $STRIP SDLVICE-$VERSION/programs/SDLVICE/bin/$i.app
+done
 mv /boot/programs/SDLVICE/lib/vice SDLVICE-$VERSION/programs/SDLVICE/lib
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE/share/man/man1
 mv /boot/programs/SDLVICE/share/man/man1/* SDLVICE-$VERSION/programs/SDLVICE/share/man/man1/
@@ -96,7 +75,15 @@ DefaultPath=
 [PANELMENU]
 /menu="Emulators/SDLVICE"	/name="x64"	/link="/boot/programs/SDLVICE/bin/x64.app"		/icon="/boot/programs/SDLVICE/icons/x64.ico"   
 /menu="Emulators/SDLVICE"	/name="x64dtv"	/link="/boot/programs/SDLVICE/bin/x64dtv.app"		/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"   
+_end
+
+if test x"$X64SC" = "xyes"; then
+  cat >>SDLVICE-$VERSION/install.sif <<_END
 /menu="Emulators/SDLVICE"	/name="x64sc"	/link="/boot/programs/SDLVICE/bin/x64sc.app"		/icon="/boot/programs/SDLVICE/icons/x64sc.ico"   
+_END
+fi
+
+cat >>SDLVICE-$VERSION/install.sif <<_END
 /menu="Emulators/SDLVICE"	/name="x128"	/link="/boot/programs/SDLVICE/bin/x128.app"	/icon="/boot/programs/SDLVICE/icons/x128.ico"   
 /menu="Emulators/SDLVICE"	/name="xcbm2"	/link="/boot/programs/SDLVICE/bin/xcbm2.app"	/icon="/boot/programs/SDLVICE/icons/xcbm2.ico"   
 /menu="Emulators/SDLVICE"	/name="xpet"	/link="/boot/programs/SDLVICE/bin/xpet.app"	/icon="/boot/programs/SDLVICE/icons/xpet.ico"   
@@ -106,7 +93,15 @@ DefaultPath=
 [FILEICONS]
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64.app"	/icon="/boot/programs/SDLVICE/icons/x64.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64dtv.app"	/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"
+_END
+
+if test x"$X64SC" = "xyes"; then
+  cat >>SDLVICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64sc.app"	/icon="/boot/programs/SDLVICE/icons/x64sc.ico"
+_END
+fi
+
+cat >>SDLVICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x128.app"	/icon="/boot/programs/SDLVICE/icons/x128.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xcbm2.app"	/icon="/boot/programs/SDLVICE/icons/xcbm2.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xpet.app"	/icon="/boot/programs/SDLVICE/icons/xpet.ico"

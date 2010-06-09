@@ -2,8 +2,8 @@
 # make-bindist.sh for Mac OSX
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 #
-# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip> <ui_type> [bin_format]
-
+# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip> <x64sc-included> <ui_type> [bin_format]
+#                 $1           $2      $3             $4          $5               $6        $7
 RUN_PATH=`dirname $0`
 
 echo "Generating Mac OSX binary distribution."
@@ -12,8 +12,9 @@ TOP_DIR=$1
 STRIP=$2
 VICE_VERSION=$3
 ZIP=$4
-UI_TYPE=$5
-BIN_FORMAT=$6
+X64SC=$5
+UI_TYPE=$6
+BIN_FORMAT=$7
 
 # ui type
 if [ "x$UI_TYPE" = "x" ]; then
@@ -63,8 +64,14 @@ if [ ! -d $TOOL_DIR ]; then
   mkdir $TOOL_DIR
 fi
 
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
+fi
+
 # define emulators and command line tools
-EMULATORS="x64 x64dtv x64sc x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
 TOOLS="c1541 petcat cartconv"
 
 # define data files for emulators

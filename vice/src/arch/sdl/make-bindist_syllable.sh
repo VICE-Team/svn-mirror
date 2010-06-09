@@ -3,45 +3,42 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <topsrcdir>
-#                 $1      $2             $3       $4          $5
+# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <x64sc-include> <topsrcdir>
+#                 $1      $2             $3       $4          $5              $6
 
 STRIP=$1
 VERSION=$2
 PREFIX=$3
 ZIPKIND=$4
-TOPSRCDIR=$5
+X64SC=$5
+TOPSRCDIR=$6
 
 if test x"$PREFIX" != "x/usr/VICE"; then
   echo Error: installation path is not /usr/VICE
   exit 1
 fi
 
-if [ ! -e /usr/VICE/bin/x64 -o ! -e /usr/VICE/bin/x64dtv -o ! -e /usr/VICE/bin/x64sc -o ! -e /usr/VICE/bin/x128 -o ! -e /usr/VICE/bin/xvic -o ! -e /usr/VICE/bin/xpet -o ! -e /usr/VICE/bin/xplus4 -o ! -e /usr/VICE/bin/xcbm2 -o ! -e /usr/VICE/bin/c1541 -o ! -e /usr/VICE/bin/petcat -o ! -e /usr/VICE/bin/cartconv ]; then
-  echo Error: \"make install\" needs to be done first
-  exit 1
+if test x"$X64SC" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
+
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+CONSOLE_TOOLS="c1541 cartconv petcat"
+EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
+
+for i in $EXECUTABLES
+do
+  if [ ! -e /usr/VICE/bin/$i ]
+  then
+    echo Error: \"make install\" needs to be done first
+    exit 1
+  fi
+done
 
 echo Generating Syllable SDL port binary distribution.
 rm -f -r SDLVICE-syllable-$VERSION
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/da/LC_MESSAGES
-mv /usr/VICE/lib/locale/da/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/da/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/de/LC_MESSAGES
-mv /usr/VICE/lib/locale/de/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/de/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/fr/LC_MESSAGES
-mv /usr/VICE/lib/locale/fr/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/fr/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/it/LC_MESSAGES
-mv /usr/VICE/lib/locale/it/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/it/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/sv/LC_MESSAGES
-mv /usr/VICE/lib/locale/sv/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/sv/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/pl/LC_MESSAGES
-mv /usr/VICE/lib/locale/pl/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/pl/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/nl/LC_MESSAGES
-mv /usr/VICE/lib/locale/nl/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/nl/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/hu/LC_MESSAGES
-mv /usr/VICE/lib/locale/hu/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/hu/LC_MESSAGES
-mkdir -p SDLVICE-syllable-$VERSION/lib/locale/tr/LC_MESSAGE
-mv /usr/VICE/lib/locale/tr/LC_MESSAGES/vice.* SDLVICE-syllable-$VERSION/lib/locale/tr/LC_MESSAGES
 mkdir SDLVICE-syllable-$VERSION/bin
 mv /usr/VICE/bin/* SDLVICE-syllable-$VERSION/bin
 $STRIP SDLVICE-syllable-$VERSION/bin/*
