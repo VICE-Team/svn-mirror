@@ -540,6 +540,12 @@ void speech_resources_shutdown(void)
     speech_filename = NULL;
 }
 
+static int set_speech_rom(const char *name, void *param)
+{
+    resources_set_string("SpeechImage", name);
+    resources_set_int("SpeechEnabled", 1);
+}
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-speech", SET_RESOURCE, 0,
@@ -552,6 +558,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_PLUS4SPEECH,
       NULL, NULL },      
+    { "-speechrom", CALL_FUNCTION, 1,
+      set_speech_rom, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach Speech ROM image") },
     { NULL }
 };
 
