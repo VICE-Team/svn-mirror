@@ -3783,31 +3783,31 @@ translate_t string_table[] = {
 #endif
 
 /* c64/isepic.c */
-/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the isepic cart")},
+/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the ISEPIC cart")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_ISEPIC_DA, "Aktivér isepic-cartridge"},
-/* de */ {IDCLS_ENABLE_ISEPIC_DE, "Isepic Modul aktivieren"},
+/* da */ {IDCLS_ENABLE_ISEPIC_DA, "Aktivér ISEPIC-cartridge"},
+/* de */ {IDCLS_ENABLE_ISEPIC_DE, "ISEPIC Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_ISEPIC_HU, "Isepic cartridge engedélyezése"},
-/* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia isepic"},
-/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de isepic cartridge"},
+/* hu */ {IDCLS_ENABLE_ISEPIC_HU, "ISEPIC cartridge engedélyezése"},
+/* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia ISEPIC"},
+/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de ISEPIC cartridge"},
 /* pl */ {IDCLS_ENABLE_ISEPIC_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_ISEPIC_SV, "Aktivera isepic-insticksmodul"},
-/* tr */ {IDCLS_ENABLE_ISEPIC_TR, "Isepic kartuþunu aktif et"},
+/* sv */ {IDCLS_ENABLE_ISEPIC_SV, "Aktivera ISEPIC-insticksmodul"},
+/* tr */ {IDCLS_ENABLE_ISEPIC_TR, "ISEPIC kartuþunu aktif et"},
 #endif
 
 /* c64/isepic.c */
-/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the isepic cart")},
+/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the ISEPIC cart")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_ISEPIC_DA, "Deaktivér isepic-cartridge"},
-/* de */ {IDCLS_DISABLE_ISEPIC_DE, "Isepic Modul deaktivieren"},
+/* da */ {IDCLS_DISABLE_ISEPIC_DA, "Deaktivér ISEPIC-cartridge"},
+/* de */ {IDCLS_DISABLE_ISEPIC_DE, "ISEPIC Modul deaktivieren"},
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_ISEPIC_HU, "Isepic cartridge tiltása"},
-/* it */ {IDCLS_DISABLE_ISEPIC_IT, "Disattiva la cartuccia isepic"},
-/* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De isepic cartridge uitschakelen"},
+/* hu */ {IDCLS_DISABLE_ISEPIC_HU, "ISEPIC cartridge tiltása"},
+/* it */ {IDCLS_DISABLE_ISEPIC_IT, "Disattiva la cartuccia ISEPIC"},
+/* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De ISEPIC cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_ISEPIC_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_ISEPIC_SV, "Inaktivera isepic-insticksmodul."},
-/* tr */ {IDCLS_DISABLE_ISEPIC_TR, "Isepic kartuþunu pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_ISEPIC_SV, "Inaktivera ISEPIC-insticksmodul."},
+/* tr */ {IDCLS_DISABLE_ISEPIC_TR, "ISEPIC kartuþunu pasifleþtir"},
 #endif
 
 /* c64/mmc64.c */

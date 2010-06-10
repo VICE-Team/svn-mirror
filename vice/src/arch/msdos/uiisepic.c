@@ -34,14 +34,14 @@
 #include "uiisepic.h"
 
 
-TUI_MENU_DEFINE_TOGGLE(Isepic)
+TUI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
 TUI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 
 static tui_menu_item_def_t isepic_menu_items[] = {
-    { "_Enable Isepic:", "Emulate isepic cartridge",
-      toggle_Isepic_callback, NULL, 3,
+    { "_Enable ISEPIC:", "Emulate ISEPIC cartridge",
+      toggle_IsepicCartridgeEnabled_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Enable Isepic _Switch:", "Isepic switch on/off",
+    { "Enable ISEPIC _Switch:", "ISEPIC switch on/off",
       toggle_IsepicSwitch_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
@@ -51,12 +51,12 @@ void uiisepic_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_isepic_submenu;
 
-    ui_isepic_submenu = tui_menu_create("Isepic settings", 1);
+    ui_isepic_submenu = tui_menu_create("ISEPIC settings", 1);
 
     tui_menu_add(ui_isepic_submenu, isepic_menu_items);
 
-    tui_menu_add_submenu(parent_submenu, "_Isepic settings...",
-                         "Isepic settings",
+    tui_menu_add_submenu(parent_submenu, "_ISEPIC settings...",
+                         "ISEPIC settings",
                          ui_isepic_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);

@@ -398,7 +398,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, dqbb_submenu },
     { N_("Expert cartridge"),
       NULL, NULL, expert_submenu },
-    { N_("Isepic cartridge"),
+    { N_("ISEPIC cartridge"),
       NULL, NULL, isepic_submenu },
     { "--" },
     { N_("EasyFlash cartridge"),

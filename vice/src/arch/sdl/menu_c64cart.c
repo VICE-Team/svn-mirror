@@ -255,7 +255,7 @@ UI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 
 static const ui_menu_entry_t isepic_cart_menu[] = {
-    { "Enable Isepic cart",
+    { "Enable ISEPIC cart",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IsepicCartridgeEnabled_callback,
       NULL },
@@ -532,7 +532,7 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)expert_cart_menu },
-    { "Isepic",
+    { "ISEPIC",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)isepic_cart_menu },

@@ -25,7 +25,7 @@
  */
 
 /*
- * Isepic is a ram based freeze cart.
+ * ISEPIC is a RAM based freeze cart.
  *
  * It has 2KB of ram which is banked into a 256 byte page in the $DF00-$DFFF area.
  *
@@ -116,9 +116,9 @@ static BYTE REGPARM1 isepic_io2_read(WORD addr);
 static void REGPARM2 isepic_io2_store(WORD addr, BYTE byte);
 
 static io_source_t isepic_io1_device = {
-    "Isepic",
+    "ISEPIC",
     IO_DETACH_RESOURCE,
-    "Isepic",
+    "IsepicCartridgeEnabled",
     0xde00, 0xdeff, 0x07,
     0, /* read is never valid */
     isepic_io1_store,
@@ -126,9 +126,9 @@ static io_source_t isepic_io1_device = {
 };
 
 static io_source_t isepic_io2_device = {
-    "Isepic",
+    "ISEPIC",
     IO_DETACH_RESOURCE,
-    "Isepic",
+    "IsepicCartridgeEnabled",
     0xdf00, 0xdfff, 0xff,
     0,
     isepic_io2_store,
@@ -136,7 +136,7 @@ static io_source_t isepic_io2_device = {
 };
 
 static const c64export_resource_t export_res = {
-    "Isepic", 1, 1
+    "ISEPIC", 1, 1
 };
 
 static io_source_list_t *isepic_io1_list_item = NULL;
