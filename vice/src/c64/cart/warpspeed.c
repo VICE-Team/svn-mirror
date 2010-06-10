@@ -39,6 +39,21 @@
 #include "warpspeed.h"
 #include "types.h"
 
+/*
+    Warpspeed
+
+    - 16k ROM
+    - uses full io1/io2
+
+    io1
+    - read: ROM (offset $1e00)
+    - write: enable rom at 8000
+
+    io2
+    - read: ROM (offset $1f00)
+    - write: disable rom at 8000
+*/
+
 /* some prototypes are needed */
 static BYTE REGPARM1 warpspeed_io1_read(WORD addr);
 static void REGPARM2 warpspeed_io1_store(WORD addr, BYTE value);
@@ -52,7 +67,10 @@ static io_source_t warpspeed_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     warpspeed_io1_store,
-    warpspeed_io1_read
+    warpspeed_io1_read,
+    NULL, /* no side effects when reading */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_WARPSPEED
 };
 
 static io_source_t warpspeed_io2_device = {
@@ -62,7 +80,10 @@ static io_source_t warpspeed_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     warpspeed_io2_store,
-    warpspeed_io2_read
+    warpspeed_io2_read,
+    NULL, /* no side effects when reading */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_WARPSPEED
 };
 
 static io_source_list_t *warpspeed_io1_list_item = NULL;
@@ -97,6 +118,17 @@ static const c64export_resource_t export_res_warpspeed = {
 };
 
 /* ---------------------------------------------------------------------*/
+int warpspeed_common_attach(void)
+{
+    if (c64export_add(&export_res_warpspeed) < 0) {
+        return -1;
+    }
+
+    warpspeed_io1_list_item = c64io_register(&warpspeed_io1_device);
+    warpspeed_io2_list_item = c64io_register(&warpspeed_io2_device);
+
+    return 0;
+}
 
 int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -114,14 +146,7 @@ int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res_warpspeed) < 0) {
-        return -1;
-    }
-
-    warpspeed_io1_list_item = c64io_register(&warpspeed_io1_device);
-    warpspeed_io2_list_item = c64io_register(&warpspeed_io2_device);
-
-    return 0;
+    return warpspeed_common_attach();
 }
 
 void warpspeed_detach(void)
@@ -132,4 +157,3 @@ void warpspeed_detach(void)
     warpspeed_io1_list_item = NULL;
     warpspeed_io2_list_item = NULL;
 }
-

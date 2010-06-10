@@ -131,7 +131,10 @@ static io_source_t retroreplay_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     retroreplay_io1_store,
-    retroreplay_io1_read
+    retroreplay_io1_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_RETRO_REPLAY
 };
 
 static io_source_t retroreplay_io2_device = {
@@ -141,7 +144,10 @@ static io_source_t retroreplay_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     retroreplay_io2_store,
-    retroreplay_io2_read
+    retroreplay_io2_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_RETRO_REPLAY
 };
 
 static io_source_list_t *retroreplay_io1_list_item = NULL;

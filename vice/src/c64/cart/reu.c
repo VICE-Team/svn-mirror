@@ -256,7 +256,10 @@ static io_source_t reu_device = {
     0xdf00, 0xdfff, REU_REG_LAST_REG,
     0,
     reu_store,
-    reu_read
+    reu_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_REU
 };
 
 static io_source_list_t *reu_list_item = NULL;

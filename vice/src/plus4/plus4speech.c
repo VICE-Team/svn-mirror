@@ -55,7 +55,7 @@
    - MOS8706 mapped at $fd20
    - Toshiba t6721
 
-   xplus4 -speech -c2lo spk3cc4.bin
+   xplus4 -speechrom spk3cc4.bin
 
     say 0 .. N         say a word
     say "word"         say a word
@@ -544,6 +544,7 @@ static int set_speech_rom(const char *name, void *param)
 {
     resources_set_string("SpeechImage", name);
     resources_set_int("SpeechEnabled", 1);
+    return 0;
 }
 
 static const cmdline_option_t cmdline_options[] =

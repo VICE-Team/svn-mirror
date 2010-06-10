@@ -52,7 +52,7 @@ extern void remove_cpu_lines_lock(void);
 extern char *get_cpu_lines_lock_name(void);
 
 typedef struct io_source_s {
-    char *name;
+    char *name; /* literal name of this i/o device */
     int detach_id;
     char *resource_name;
     WORD start_address;
@@ -61,8 +61,9 @@ typedef struct io_source_s {
     int  io_source_valid;
     void REGPARM2 (*store)(WORD address, BYTE data);
     BYTE REGPARM1 (*read)(WORD address);
-    BYTE REGPARM1 (*peek)(WORD address);
-    int REGPARM1 (*dump)(void);
+    BYTE REGPARM1 (*peek)(WORD address); /* read without side effects (used by monitor) */
+    int REGPARM1 (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
+    int cart_id; /* id of associated cartridge */
 } io_source_t;
 
 typedef struct io_source_list_s {
@@ -73,7 +74,9 @@ typedef struct io_source_list_s {
 
 typedef struct io_source_detach_s {
     int det_id;
+    char *det_devname;
     char *det_name;
+    int det_cartid;
 } io_source_detach_t;
 
 extern io_source_list_t *c64io_register(io_source_t *device);

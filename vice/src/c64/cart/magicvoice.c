@@ -121,7 +121,7 @@ static int mv_mapped_game = 1, mv_mapped_exrom = 1;
 
 static int mv_game_enabled = 0; /* gamecart at passthrough enabled */
 
-static int mv_enabled = 1; /* cartridge physically enabled */
+static int mv_enabled = 0; /* cartridge physically enabled */
 
 static void set_int(unsigned int int_num, int value);
 
@@ -709,7 +709,8 @@ static io_source_t magicvoice_io2_device = {
     magicvoice_io2_store,
     magicvoice_io2_read,
     magicvoice_io2_peek,
-    magicvoice_io2_dump
+    magicvoice_io2_dump,
+    CARTRIDGE_MAGIC_VOICE
 };
 
 static io_source_list_t *magicvoice_io2_list_item = NULL;
@@ -760,21 +761,33 @@ char *magicvoice_filename = NULL;
 
 static int set_magicvoice_enabled(int val, void *param)
 {
-    mv_enabled = 0;
-
-    if (val) {
+    int stat = 0;
+    DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, mv_enabled, val));
+    if (mv_enabled && !val) {
+        if (magicvoice_io2_list_item == NULL) {
+            DBG(("MV: BUG: mv_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
+        }
+        c64io_unregister(magicvoice_io2_list_item);
+        magicvoice_io2_list_item = NULL;
+        DBG(("MV: set_enabled unregistered\n"));
+    } else if (!mv_enabled && val) {
         if (magicvoice_filename) {
             if (*magicvoice_filename) {
                 if (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0) {
-                    return -1;
+                    DBG(("MV: set_enabled did not register\n"));
+                    stat = -1;
+                } else {
+                    DBG(("MV: set_enabled registered\n"));
+                    c64io_register(&magicvoice_io2_device);
+                    stat = 1;
                 }
-                mv_enabled = 1;
             }
         }
     }
 
-    DBG(("MV: set_enabled: '%s' %d : %d\n",magicvoice_filename , val, mv_enabled));
-    return 0;
+    mv_enabled = (stat > 0) ? 1 : 0;
+    DBG(("MV: set_enabled done: '%s' %d : %d ret %d\n",magicvoice_filename , val, mv_enabled, stat));
+    return stat;
 }
 
 static int set_magicvoice_filename(const char *name, void *param)
@@ -786,6 +799,7 @@ static int set_magicvoice_filename(const char *name, void *param)
             return -1;
         }
     }
+    DBG(("MV: set_name: %d '%s'\n",mv_enabled, magicvoice_filename));
 
     util_string_set(&magicvoice_filename, name);
     resources_get_int("MagicVoiceCartridgeEnabled", &enabled);
@@ -793,10 +807,10 @@ static int set_magicvoice_filename(const char *name, void *param)
     if (set_magicvoice_enabled(enabled, NULL) < 0 ) {
         lib_free (magicvoice_filename);
         magicvoice_filename = NULL;
-        DBG(("MV: set_name: %d '%s'\n",mv_enabled, magicvoice_filename));
+        DBG(("MV: set_name done: %d '%s'\n",mv_enabled, magicvoice_filename));
         return -1;
     }
-    DBG(("MV: set_name: %d '%s'\n",mv_enabled, magicvoice_filename));
+    DBG(("MV: set_name done: %d '%s'\n",mv_enabled, magicvoice_filename));
     return 0;
 }
 
@@ -841,8 +855,6 @@ void magicvoice_setup_context(machine_context_t *machine_context)
     tpi_context = lib_malloc(sizeof(tpi_context_t));
 
     tpi_context->prv = NULL;
-
-    tpi_context->context = (void *)machine_context;
 
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
@@ -908,6 +920,8 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
     fclose(fd);
 
     DBG(("MV: attach\n"));
+    /* can't use the resource here, as that would call attach again */
+    /* resources_set_int("MagicVoiceCartridgeEnabled", 1); */
     c64io_register(&magicvoice_io2_device);
     mv_enabled = 1;
     return 0;
@@ -915,10 +929,8 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
 
 void magicvoice_detach(void)
 {
-    DBG(("MV: detach\n"));
-    c64io_unregister(magicvoice_io2_list_item);
-    magicvoice_io2_list_item = NULL;
-    mv_enabled = 0;
+    DBG(("MV: detach %d %p\n", mv_enabled, magicvoice_io2_list_item));
+    resources_set_int("MagicVoiceCartridgeEnabled", 0);
 }
 
 void magicvoice_init(void)
@@ -940,7 +952,6 @@ void magicvoice_reset(void)
         ga_memconfig_changed(CMODE_READ);
     }
 }
-
 
 /* ---------------------------------------------------------------------*/
 

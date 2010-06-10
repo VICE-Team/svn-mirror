@@ -500,7 +500,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_SS5_CART,
       NULL, NULL },
-    /* TODO: CARTRIDGE_WARPSPEED */
+    { "-cartws", CALL_FUNCTION, 1,
+      attach_cartridge_cmdline, (void *)CARTRIDGE_WARPSPEED, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB Warpspeed image") },
     { "-cartwestermann", CALL_FUNCTION, 1,
       attach_cartridge_cmdline, (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -757,6 +761,8 @@ int cartridge_attach_image(int type, const char *filename)
     BYTE *rawcart;
     int carttype = CARTRIDGE_NONE;
     int cartid = CARTRIDGE_NONE;
+    int oldmain = CARTRIDGE_NONE;
+    int slotmain = 0;
 
     if (filename == NULL) {
         return -1;
@@ -784,10 +790,20 @@ int cartridge_attach_image(int type, const char *filename)
     most obvious reason: attaching a different ROM (software) for the same
     cartridge (hardware) */
 
-    if (cartridge_is_slotmain(carttype)) {
-        cartridge_detach_image(cartridge_getid_slotmain());
+    slotmain = cartridge_is_slotmain(carttype);
+    if (slotmain) {
+        /* if the cart to be attached is in the "Main Slot", detach whatever
+           cart currently is in the "Main Slot" */
+        oldmain = cartridge_getid_slotmain();
+        if (oldmain != CARTRIDGE_NONE) {
+            DBG(("CART: detach slot main ID: %d\n", oldmain));
+            cartridge_detach_image(oldmain);
+        }
     }
-    cartridge_detach_image(carttype);
+    if (oldmain != carttype) {
+        DBG(("CART: detach %s ID: %d\n", slotmain ? "slot main" : "other slot", carttype));
+        cartridge_detach_image(carttype);
+    }
 
     if (type == CARTRIDGE_CRT) {
         DBG(("CART: attach CRT ID: %d '%s'\n", carttype, filename));
@@ -850,6 +866,9 @@ static void cartridge_detach_main(void)
     detach a cartridge.
     - carts that are not "main" cartridges can be disabled individually
     - if type is -1, then all carts will get detached
+
+    - carts not in "Main Slot" must make sure their detach hook does not
+      fail when it is called and the cart is not actually attached.
 */
 void cartridge_detach_image(int type)
 {

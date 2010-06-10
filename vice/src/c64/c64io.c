@@ -28,10 +28,12 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 #include "c64io.h"
 #include "cartridge.h"
 #include "lib.h"
+#include "log.h"
 #include "monitor.h"
 #include "resources.h"
 #include "translate.h"
@@ -42,6 +44,7 @@
 #include "vicii.h"
 
 /* #define IODEBUG */
+/* #define IODEBUGRW */
 
 #ifdef IODEBUG
 #define DBG(x) printf x
@@ -49,64 +52,95 @@
 #define DBG(x)
 #endif
 
+#ifdef IODEBUGRW
+#define DBGRW(x) printf x
+#else
+#define DBGRW(x)
+#endif
+
 static io_source_list_t c64io1_head = { NULL, NULL, NULL };
 static io_source_list_t c64io2_head = { NULL, NULL, NULL };
 
-static void io_source_detach(int detach_id, char *resource_name)
+static void io_source_detach(io_source_detach_t *source)
 {
-    switch (detach_id) {
+    switch (source->det_id) {
         case IO_DETACH_CART:
-            cartridge_detach_image(-1); /* FIXME ! - pass cart id that is associated with io source */
+            if (source->det_cartid != CARTRIDGE_NONE) {
+                /* FIXME: remove this check when all cart i/o device structs have been updated */
+                if (source->det_cartid == 0) {
+                    DBG(("IO: cart id in io struct is 0, it should be updated! name: %s\n", source->det_devname));
+                    cartridge_detach_image(-1);
+                } else {
+                    DBG(("IO: io_source_detach id:%d name: %s\n", source->det_cartid, source->det_devname));
+                    cartridge_detach_image(source->det_cartid);
+                }
+            }
             break;
         case IO_DETACH_RESOURCE:
-            resources_set_int(resource_name, 0);
+            resources_set_int(source->det_name, 0);
             break;
     }
     ui_update_menus();
 }
 
+/*
+    amount is 2 or more
+*/
 static void io_source_msg_detach(WORD addr, int amount, io_source_list_t *start)
 {
     io_source_detach_t *detach_list = lib_malloc(sizeof(io_source_detach_t) * amount);
     io_source_list_t *current = start;
     char *old_msg = NULL;
     char *new_msg = NULL;
+    int found = 0;
     int i = 0;
 
     current = current->next;
 
+    DBG(("IO: check %d sources for addr %04x\n", amount, addr));
     while (current) {
+        /* DBG(("IO: check '%s'\n", current->device->name)); */
         if (current->device->io_source_valid) {
+            /* found a conflict */
             detach_list[i].det_id = current->device->detach_id;
             detach_list[i].det_name = current->device->resource_name;
-            if (i == 0) {
+            detach_list[i].det_devname = current->device->name;
+            detach_list[i].det_cartid = current->device->cart_id;
+            DBG(("IO: found '%s'\n", current->device->name));
+            /* first part of the message "read collision at x from" */
+            if (found == 0) {
                 old_msg = lib_stralloc(translate_text(IDGS_IO_READ_COLL_AT_X_FROM));
                 new_msg = util_concat(old_msg, current->device->name, NULL);
                 lib_free(old_msg);
             }
-            if (i != amount - 1 && i != 0) {
+            if ((found != amount - 1) && (found != 0)) {
                 old_msg = new_msg;
                 new_msg = util_concat(old_msg, ", ", current->device->name, NULL);
                 lib_free(old_msg);
             }
-            if (i == amount - 1) {
+            if (found == amount - 1) {
                 old_msg = new_msg;
                 new_msg = util_concat(old_msg, translate_text(IDGS_AND), current->device->name, translate_text(IDGS_ALL_DEVICES_DETACHED), NULL);
                 lib_free(old_msg);
             }
-            i++;
-            if (i == amount) {
+            found++;
+            if (found == amount) {
                 break;
             }
         }
         current = current->next;
     }
 
-    ui_error(new_msg, addr);
-    lib_free(new_msg);
+    if (found) {
+        log_message(LOG_DEFAULT, new_msg, addr);
+        ui_error(new_msg, addr);
+        lib_free(new_msg);
 
-    for (i = 0; i < amount; i++) {
-        io_source_detach(detach_list[i].det_id, detach_list[i].det_name);
+        DBG(("IO: detaching %d\n", found));
+        for (i = 0; i < found; i++) {
+            DBG(("IO: detach id:%d name: %s\n", detach_list[i].det_cartid, detach_list[i].det_devname));
+            io_source_detach(&detach_list[i]);
+        }
     }
     lib_free(detach_list);
 }
@@ -207,6 +241,9 @@ io_source_list_t *c64io_register(io_source_t *device)
     io_source_list_t *current;
     io_source_list_t *retval = lib_malloc(sizeof(io_source_list_t));
 
+    assert(device != NULL);
+    DBG(("IO: register id:%d name:%s\n", device->cart_id, device->name));
+
     if ((device->start_address & 0xff00) == 0xde00) {
         current = &c64io1_head;
     } else {
@@ -227,58 +264,61 @@ io_source_list_t *c64io_register(io_source_t *device)
 void c64io_unregister(io_source_list_t *device)
 {
     io_source_list_t *prev;
-    if (device) {
-        prev = device->previous;
-        prev->next = device->next;
 
-        if (device->next) {
-            device->next->previous = prev;
-        }
+    assert(device != NULL);
+    DBG(("IO: unregister id:%d name:%s\n", device->device->cart_id, device->device->name));
 
-        lib_free(device);
+    prev = device->previous;
+    prev->next = device->next;
+
+    if (device->next) {
+        device->next->previous = prev;
     }
+
+    lib_free(device);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
 BYTE REGPARM1 c64io1_read(WORD addr)
 {
-    DBG(("io1 r %04x\n", addr));
+    DBGRW(("IO: io1 r %04x\n", addr));
     return io_read(&c64io1_head, addr);
 }
 
 BYTE REGPARM1 c64io1_peek(WORD addr)
 {
-    DBG(("io1 p %04x\n", addr));
+    DBGRW(("IO: io1 p %04x\n", addr));
     return io_peek(&c64io1_head, addr);
 }
 
 void REGPARM2 c64io1_store(WORD addr, BYTE value)
 {
-    DBG(("io1 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io1 w %04x %02x\n", addr, value));
     io_store(&c64io1_head, addr, value);
 }
 
 BYTE REGPARM1 c64io2_read(WORD addr)
 {
-    DBG(("io2 r %04x\n", addr));
+    DBGRW(("IO: io2 r %04x\n", addr));
     return io_read(&c64io2_head, addr);
 }
 
 BYTE REGPARM1 c64io2_peek(WORD addr)
 {
-    DBG(("io2 p %04x\n", addr));
+    DBGRW(("IO: io2 p %04x\n", addr));
     return io_peek(&c64io2_head, addr);
 }
 
 void REGPARM2 c64io2_store(WORD addr, BYTE value)
 {
-    DBG(("io2 w %04x %02x\n", addr, value));
+    DBGRW(("IO: io2 w %04x %02x\n", addr, value));
     io_store(&c64io2_head, addr, value);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+/* add all registered i/o devices to the list for the monitor */
 void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     io_source_list_t *current = c64io1_head.next;
