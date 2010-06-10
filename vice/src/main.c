@@ -169,18 +169,9 @@ int main_program(int argc, char **argv)
 
     /* Load the user's default configuration file.  */
     if (vsid_mode) {
-        resources_set_int("Drive8Type", 0);
-        resources_set_int("Sound", 1);
-#ifdef HAVE_RESID
-        /* FIXME: Use `SID_ENGINE_RESID'. */
-        resources_set_int("SidEngine", 1);
-#endif
-        resources_set_int("SidModel", 0);
-        resources_set_int("SidFilters", 1);
-        resources_set_int("SoundSampleRate", 44100);
+        /* FIXME: handle these elsewhere */
         resources_set_int("SoundSpeedAdjustment", 2);
         resources_set_int("SoundBufferSize", 1000);
-        resources_set_int("SoundSuspendTime", 0);
     }
 #if !defined(USE_SDLUI) && !defined(USE_GNOMEUI)
     /* FIXME: vsid can now it's own config [VSID], so this should go away.
@@ -194,8 +185,7 @@ int main_program(int argc, char **argv)
         retval = resources_load(NULL);
 
         /* Do not reset to defaults on vsid mode. This would override
-           the settings made above when the config file is not available,
-           leading to crashes due to incompatible Drive8Type. */
+           the settings made above when the config file is not available. */
         if ((retval < 0) && !vsid_mode) {
             /* The resource file might contain errors, and thus certain
                resources might have been initialized anyway.  */

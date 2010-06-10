@@ -67,10 +67,10 @@ static int cmdline_help(const char *param, void *extra_param)
     return 0;   /* OSF1 cc complains */
 }
 
-static int cmdline_config(const char *param, void *extra_param)
+static int cmdline_dummy_callback(const char *param, void *extra_param)
 {
-    /* "-config" needs to be handled before this gets called
-       but it also needs to be registered as a cmdline option,
+    /* "-config" and "-vsid" need to be handled before this gets called
+       but they also need to be registered as cmdline options,
        hence this kludge. */
     return 0;
 }
@@ -145,6 +145,11 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SHOW_COMMAND_LINE_OPTIONS,
       NULL, NULL },
+    { "-config", CALL_FUNCTION, 1,
+      cmdline_dummy_callback, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE,
+      NULL, NULL },
 #if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0,
       cmdline_console, NULL, NULL, NULL,
@@ -177,8 +182,14 @@ static const cmdline_option_t common_cmdline_options[] = {
 };
 
 static const cmdline_option_t vsid_cmdline_options[] = {
+    { "-vsid", CALL_FUNCTION, 0,
+      cmdline_dummy_callback, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Use vsid mode") /* FIXME proper help text */ },
     { NULL }
 };
+
 
 /* These are the command-line options for the initialization sequence.  */
 
@@ -187,11 +198,6 @@ static const cmdline_option_t cmdline_options[] = {
       cmdline_default, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_RESTORE_DEFAULT_SETTINGS,
-      NULL, NULL },
-    { "-config", CALL_FUNCTION, 1,
-      cmdline_config, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE,
       NULL, NULL },
     { "-autostart", CALL_FUNCTION, 1,
       cmdline_autostart, NULL, NULL, NULL,
@@ -233,14 +239,23 @@ static const cmdline_option_t cmdline_options[] = {
 
 int initcmdline_init(void)
 {
-    const cmdline_option_t *main_cmdline_options =
-        vsid_mode ? vsid_cmdline_options : cmdline_options;
+    /* Show "-vsid" only for x64 */
+    if (machine_class == VICE_MACHINE_C64) {
+        if (cmdline_register_options(vsid_cmdline_options) < 0) {
+            return -1;
+        }
+    }
 
-    if (cmdline_register_options(common_cmdline_options) < 0)
+    if (cmdline_register_options(common_cmdline_options) < 0) {
         return -1;
+    }
 
-    if (cmdline_register_options(main_cmdline_options) < 0)
-        return -1;
+    /* Disable autostart options for vsid */
+    if (!vsid_mode) {
+        if (cmdline_register_options(cmdline_options) < 0) {
+            return -1;
+        }
+    }
 
     return 0;
 }

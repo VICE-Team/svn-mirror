@@ -33,13 +33,16 @@
 #include "iec.h"
 #include "iecieee.h"
 #include "ieee.h"
+#include "machine.h"
 #include "machine-drive.h"
 #include "types.h"
 
 
 int machine_drive_resources_init(void)
 {
-    return drive_resources_type_init(DRIVE_TYPE_1541) | iec_drive_resources_init() | iec_c64exp_resources_init() | ieee_drive_resources_init();
+    int drive_8_type = vsid_mode ? DRIVE_TYPE_NONE : DRIVE_TYPE_1541;
+
+    return drive_resources_type_init(drive_8_type) | iec_drive_resources_init() | iec_c64exp_resources_init() | ieee_drive_resources_init();
 }
 
 void machine_drive_resources_shutdown(void)
