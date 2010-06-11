@@ -21,6 +21,10 @@ libc64cart_a_SOURCES = \
 	actionreplay.h \
 	atomicpower.c \
 	atomicpower.h \
+	c64-midi.c \
+	c64-midi.h \
+	c64acia.h \
+	c64acia1.c \
 	c64cart.c \
 	c64cartmem.c \
 	c64cartmem.h \
@@ -132,6 +136,8 @@ libc64cart_a_SOURCES = \
 	supersnapshot.h \
 	supersnapshot4.c \
 	supersnapshot4.h \
+	tfe.c \
+	tfe.h \
 	warpspeed.c \
 	warpspeed.h \
 	westermann.c \

@@ -82,15 +82,7 @@ LIB32=link.exe -lib
 # Name "c64c128 - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\c64\c64-midi.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\c64-snapshot.c"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64acia1.c
 # End Source File
 # Begin Source File
 
@@ -155,10 +147,6 @@ SOURCE=..\..\c64\c64sound.c
 # Begin Source File
 
 SOURCE=..\..\c64\patchrom.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\tfe.c
 # End Source File
 # End Target
 # End Project

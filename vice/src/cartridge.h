@@ -56,90 +56,104 @@ extern void cartridge_detach(int type);
 
 extern int cartridge_type_enabled(int type);
 
+/* Carts that don't have a rom images */
+#define CARTRIDGE_DIGIMAX            -100 /* digimax.c */
+#define CARTRIDGE_DQBB               -101 /* dqbb.c */
+#define CARTRIDGE_GEORAM             -102 /* georam.c */
+#define CARTRIDGE_ISEPIC             -103 /* isepic.c */
+#define CARTRIDGE_RAMCART            -104 /* ramcart.c */
+#define CARTRIDGE_REU                -105 /* reu.c */
+#define CARTRIDGE_SFX_SOUND_EXPANDER -106 /* sfx_soundexpander.c, fmopl.c */
+#define CARTRIDGE_SFX_SOUND_SAMPLER  -107 /* sfx_soundsampler.c */
+#define CARTRIDGE_MIDI_PASSPORT      -108 /* c64-midi.c */
+#define CARTRIDGE_MIDI_DATEL         -109 /* c64-midi.c */
+#define CARTRIDGE_MIDI_SEQUENTIAL    -110 /* c64-midi.c */
+#define CARTRIDGE_MIDI_NAMESOFT      -111 /* c64-midi.c */
+#define CARTRIDGE_MIDI_MAPLIN        -112 /* c64-midi.c */
+#define CARTRIDGE_TFE                -116 /* tfe.c */
+#define CARTRIDGE_TURBO232           -117 /* c64acia1.c */
+
 /* Known cartridge types.  */
-#define CARTRIDGE_ULTIMAX           -6
-#define CARTRIDGE_GENERIC_8KB       -3
-#define CARTRIDGE_GENERIC_16KB      -2
-#define CARTRIDGE_NONE              -1
-#define CARTRIDGE_CRT                0
+#define CARTRIDGE_ULTIMAX              -6
+#define CARTRIDGE_GENERIC_8KB          -3
+#define CARTRIDGE_GENERIC_16KB         -2
+#define CARTRIDGE_NONE                 -1
+#define CARTRIDGE_CRT                   0
+
 /* the following must match the CRT IDs */
-#define CARTRIDGE_ACTION_REPLAY       1 /* actionreplay.c */
-#define CARTRIDGE_KCS_POWER           2 /* kcs.c */
-#define CARTRIDGE_FINAL_III           3 /* final3.c */
-#define CARTRIDGE_SIMONS_BASIC        4 /* simonsbasic.c */
-#define CARTRIDGE_OCEAN               5 /* ocean.c */
-#define CARTRIDGE_EXPERT              6 /* expert.c */
-#define CARTRIDGE_FUNPLAY             7 /* funplay.c */
-#define CARTRIDGE_SUPER_GAMES         8 /* supergames.c */
-#define CARTRIDGE_ATOMIC_POWER        9 /* atomicpower.c */
-#define CARTRIDGE_EPYX_FASTLOAD      10 /* epyxfastload.c */
-#define CARTRIDGE_WESTERMANN         11 /* westermann.c */
-#define CARTRIDGE_REX                12 /* rexutility.c */
-#define CARTRIDGE_FINAL_I            13 /* final.c */
-#define CARTRIDGE_MAGIC_FORMEL       14 /* magicformel.c */
-#define CARTRIDGE_GS                 15 /* gs.c */
-#define CARTRIDGE_WARPSPEED          16 /* warpspeed.c */
-#define CARTRIDGE_DINAMIC            17 /* dinamic.c */
-#define CARTRIDGE_ZAXXON             18 /* zaxxon.c */
-#define CARTRIDGE_MAGIC_DESK         19 /* magicdesk.c */
-#define CARTRIDGE_SUPER_SNAPSHOT_V5  20 /* supersnapshot.c */
-#define CARTRIDGE_COMAL80            21 /* comal80.c */
-#define CARTRIDGE_STRUCTURED_BASIC   22 /* stb.c */
-#define CARTRIDGE_ROSS               23 /* ross.c */
-#define CARTRIDGE_DELA_EP64          24 /* delaep64.c */
-#define CARTRIDGE_DELA_EP7x8         25 /* delaep7x8.c */
-#define CARTRIDGE_DELA_EP256         26 /* delaep256.c */
-#define CARTRIDGE_REX_EP256          27 /* rexep256.c */
-#define CARTRIDGE_MIKRO_ASSEMBLER    28 /* mikroass.c */
-#define CARTRIDGE_FINAL_PLUS         29 /* finalplus.c */
-#define CARTRIDGE_ACTION_REPLAY4     30 /* actionreplay4.c */
-#define CARTRIDGE_STARDOS            31 /* stardos.c */
-#define CARTRIDGE_EASYFLASH          32 /* easyflash.c */
-#define CARTRIDGE_EASYFLASH_XBANK    33 /* easyflash.c */
-#define CARTRIDGE_CAPTURE            34 /* capture.c */
-#define CARTRIDGE_ACTION_REPLAY3     35 /* actionreplay3.c */
-#define CARTRIDGE_RETRO_REPLAY       36 /* retroreplay.c */
-#define CARTRIDGE_MMC64              37 /* mmc64.c, spi-sdcard.c */
-#define CARTRIDGE_MMC_REPLAY         38 /* mmcreplay.c, ser-eeprom.c, spi-sdcard.c */
-#define CARTRIDGE_IDE64              39 /* ide64.c */
-#define CARTRIDGE_SUPER_SNAPSHOT     40 /* supersnapshot4.c */
-#define CARTRIDGE_IEEE488            41 /* c64tpi.c */
-#define CARTRIDGE_GAME_KILLER        42 /* gamekiller.c */
-#define CARTRIDGE_P64                43 /* prophet64.c */
-#define CARTRIDGE_LASTID 43 /* last valid CRT ID */
-/* more carts, which do not have a crt id (yet): */
-/* FIXME: those that will never get an ID should probably get negative IDs here */
-#define CARTRIDGE_DIGIMAX            100 /* digimax.c */
-#define CARTRIDGE_DQBB               101 /* dqbb.c */
-#define CARTRIDGE_GEORAM             102 /* georam.c */
-#define CARTRIDGE_ISEPIC             103 /* isepic.c */
-#define CARTRIDGE_RAMCART            104 /* ramcart.c */
-#define CARTRIDGE_REU                105 /* reu.c */
-#define CARTRIDGE_SFX_SOUND_EXPANDER 106 /* sfx_soundexpander.c, fmopl.c */
-#define CARTRIDGE_SFX_SOUND_SAMPLER  107 /* sfx_soundsampler.c */
-#define CARTRIDGE_EXOS               108 /* exos.c */
-#define CARTRIDGE_FREEZE_FRAME       109 /* freezeframe.c */
-#define CARTRIDGE_FREEZE_MACHINE     110 /* freezemachine.c */
-#define CARTRIDGE_MIDI_PASSPORT      111 /* + c64-midi.c */
-#define CARTRIDGE_MIDI_DATEL         112 /* + c64-midi.c */
-#define CARTRIDGE_MIDI_SEQUENTIAL    113 /* + c64-midi.c */
-#define CARTRIDGE_MIDI_NAMESOFT      114 /* + c64-midi.c */
-#define CARTRIDGE_MIDI_MAPLIN        115 /* + c64-midi.c */
-#define CARTRIDGE_TFE                116 /* + tfe.c */
-#define CARTRIDGE_TURBO232           117 /* + c64acia1.c */
-#define CARTRIDGE_SNAPSHOT64         118 /* snapshot64.c */
-#define CARTRIDGE_SUPER_EXPLODE_V5   119 /* superexplode5.c */
-#define CARTRIDGE_MAGIC_VOICE        120 /* magicvoice.c, tpicore.c, t6721.c */
-/* FIXME: files marked with + above should be moved into the cart directory */
+#define CARTRIDGE_ACTION_REPLAY         1 /* actionreplay.c */
+#define CARTRIDGE_KCS_POWER             2 /* kcs.c */
+#define CARTRIDGE_FINAL_III             3 /* final3.c */
+#define CARTRIDGE_SIMONS_BASIC          4 /* simonsbasic.c */
+#define CARTRIDGE_OCEAN                 5 /* ocean.c */
+#define CARTRIDGE_EXPERT                6 /* expert.c */
+#define CARTRIDGE_FUNPLAY               7 /* funplay.c */
+#define CARTRIDGE_SUPER_GAMES           8 /* supergames.c */
+#define CARTRIDGE_ATOMIC_POWER          9 /* atomicpower.c */
+#define CARTRIDGE_EPYX_FASTLOAD        10 /* epyxfastload.c */
+#define CARTRIDGE_WESTERMANN           11 /* westermann.c */
+#define CARTRIDGE_REX                  12 /* rexutility.c */
+#define CARTRIDGE_FINAL_I              13 /* final.c */
+#define CARTRIDGE_MAGIC_FORMEL         14 /* magicformel.c */
+#define CARTRIDGE_GS                   15 /* gs.c */
+#define CARTRIDGE_WARPSPEED            16 /* warpspeed.c */
+#define CARTRIDGE_DINAMIC              17 /* dinamic.c */
+#define CARTRIDGE_ZAXXON               18 /* zaxxon.c */
+#define CARTRIDGE_MAGIC_DESK           19 /* magicdesk.c */
+#define CARTRIDGE_SUPER_SNAPSHOT_V5    20 /* supersnapshot.c */
+#define CARTRIDGE_COMAL80              21 /* comal80.c */
+#define CARTRIDGE_STRUCTURED_BASIC     22 /* stb.c */
+#define CARTRIDGE_ROSS                 23 /* ross.c */
+#define CARTRIDGE_DELA_EP64            24 /* delaep64.c */
+#define CARTRIDGE_DELA_EP7x8           25 /* delaep7x8.c */
+#define CARTRIDGE_DELA_EP256           26 /* delaep256.c */
+#define CARTRIDGE_REX_EP256            27 /* rexep256.c */
+#define CARTRIDGE_MIKRO_ASSEMBLER      28 /* mikroass.c */
+#define CARTRIDGE_FINAL_PLUS           29 /* finalplus.c */
+#define CARTRIDGE_ACTION_REPLAY4       30 /* actionreplay4.c */
+#define CARTRIDGE_STARDOS              31 /* stardos.c */
+#define CARTRIDGE_EASYFLASH            32 /* easyflash.c */
+
+/* cartconv TODO */
+#define CARTRIDGE_EASYFLASH_XBANK      33 /* easyflash.c */
+
+#define CARTRIDGE_CAPTURE              34 /* capture.c */
+#define CARTRIDGE_ACTION_REPLAY3       35 /* actionreplay3.c */
+#define CARTRIDGE_RETRO_REPLAY         36 /* retroreplay.c */
+
+/* cartconv TODO */
+#define CARTRIDGE_MMC64                37 /* mmc64.c, spi-sdcard.c */
+#define CARTRIDGE_MMC_REPLAY           38 /* mmcreplay.c, ser-eeprom.c, spi-sdcard.c */
+
+#define CARTRIDGE_IDE64                39 /* ide64.c */
+
+/* cartconv TODO */
+#define CARTRIDGE_SUPER_SNAPSHOT       40 /* supersnapshot4.c */
+#define CARTRIDGE_IEEE488              41 /* c64tpi.c */
+#define CARTRIDGE_GAME_KILLER          42 /* gamekiller.c */
+#define CARTRIDGE_P64                  43 /* prophet64.c */
+
+#define CARTRIDGE_LASTID               43 /* last valid CRT ID */
+
+/* more carts, which do not have a crt id (yet) */
+/* these have the 'suggested' ID number but possibly */
+/* need to be changed if a different cart already */
+/* has the ID assigned to it */
+#define CARTRIDGE_EXOS                 44 /* exos.c */
+#define CARTRIDGE_FREEZE_FRAME         45 /* freezeframe.c */
+#define CARTRIDGE_FREEZE_MACHINE       46 /* freezemachine.c */
+#define CARTRIDGE_SNAPSHOT64           47 /* snapshot64.c */
+#define CARTRIDGE_SUPER_EXPLODE_V5     48 /* superexplode5.c */
+#define CARTRIDGE_MAGIC_VOICE          49 /* magicvoice.c, tpicore.c, t6721.c */
 
 /*
  * VIC20 cartridge system
  */
 /* #define CARTRIDGE_NONE               -1 */
-#define CARTRIDGE_VIC20_GENERIC      1
-#define CARTRIDGE_VIC20_MEGACART     2
+#define CARTRIDGE_VIC20_GENERIC         1
+#define CARTRIDGE_VIC20_MEGACART        2
 #define CARTRIDGE_VIC20_FINAL_EXPANSION 3
-#define CARTRIDGE_VIC20_FP           4
+#define CARTRIDGE_VIC20_FP              4
 
 /* 
  * VIC20 Generic cartridges
@@ -171,5 +185,16 @@ extern int cartridge_type_enabled(int type);
  */
 /* #define CARTRIDGE_NONE               -1 */
 #define CARTRIDGE_V364_SPEECH        0x8100
+
+#define CARTRIDGE_SIZE_4KB     0x1000
+#define CARTRIDGE_SIZE_8KB     0x2000
+#define CARTRIDGE_SIZE_16KB    0x4000
+#define CARTRIDGE_SIZE_20KB    0x5000
+#define CARTRIDGE_SIZE_32KB    0x8000
+#define CARTRIDGE_SIZE_64KB    0x10000
+#define CARTRIDGE_SIZE_128KB   0x20000
+#define CARTRIDGE_SIZE_256KB   0x40000
+#define CARTRIDGE_SIZE_512KB   0x80000
+#define CARTRIDGE_SIZE_1024KB  0x100000
 
 #endif

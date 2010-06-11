@@ -98,6 +98,14 @@ SOURCE="..\..\c64\cart\atomicpower.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\c64-midi.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\cart\c64acia1.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\c64cart.c"
 # End Source File
 # Begin Source File
@@ -319,6 +327,10 @@ SOURCE="..\..\c64\cart\supersnapshot.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\supersnapshot4.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\cart\tfe.c
 # End Source File
 # Begin Source File
 

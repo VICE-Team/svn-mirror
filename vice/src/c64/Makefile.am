@@ -16,8 +16,6 @@ noinst_LIBRARIES = libc64.a libc64sc.a libc64c128.a libc64c64dtv.a
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
-	c64-midi.c \
-	c64-midi.h \
 	c64-resources.c \
 	c64-resources.h \
 	c64-snapshot.c \
@@ -26,8 +24,6 @@ libc64_a_SOURCES = \
 	c64.h \
 	c64_256k.c \
 	c64_256k.h \
-	c64acia.h \
-	c64acia1.c \
 	c64bus.c \
 	c64cart.h \
 	c64cia.h \
@@ -83,15 +79,11 @@ libc64_a_SOURCES = \
 	psiddrv.a65 \
 	psiddrv.h \
 	reloc65.c \
-	tfe.c \
-	tfe.h \
 	tfearch.h
 
 libc64sc_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
-	c64-midi.c \
-	c64-midi.h \
 	c64-resources.c \
 	c64-resources.h \
 	c64-snapshot.c \
@@ -100,8 +92,6 @@ libc64sc_a_SOURCES = \
 	c64.h \
 	c64_256k.c \
 	c64_256k.h \
-	c64acia.h \
-	c64acia1.c \
 	c64bus.c \
 	c64cart.h \
 	c64cia.h \
@@ -158,8 +148,6 @@ libc64sc_a_SOURCES = \
 	psiddrv.a65 \
 	psiddrv.h \
 	reloc65.c \
-	tfe.c \
-	tfe.h \
 	tfearch.h
 
 libc64c64dtv_a_SOURCES = \
@@ -182,10 +170,6 @@ libc64c64dtv_a_SOURCES = \
 	patchrom.h
 
 libc64c128_a_SOURCES = \
-	c64-midi.c \
-	c64-midi.h \
-	c64acia.h \
-	c64acia1.c \
 	c64bus.c \
 	c64cart.h \
 	c64cia.h \
@@ -215,8 +199,6 @@ libc64c128_a_SOURCES = \
 	c64sound.c \
 	patchrom.c \
 	patchrom.h \
-	tfe.c \
-	tfe.h \
 	tfearch.h
 
 BUILT_SOURCES = psiddrv.h

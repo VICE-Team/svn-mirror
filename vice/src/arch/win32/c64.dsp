@@ -86,10 +86,6 @@ SOURCE="..\..\c64\c64-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\c64\c64-midi.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\c64-resources.c"
 # End Source File
 # Begin Source File
@@ -103,10 +99,6 @@ SOURCE=..\..\c64\c64.c
 # Begin Source File
 
 SOURCE=..\..\c64\c64_256k.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64acia1.c
 # End Source File
 # Begin Source File
 
@@ -227,10 +219,6 @@ SOURCE=..\..\c64\psid.c
 # Begin Source File
 
 SOURCE=..\..\c64\reloc65.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\tfe.c
 # End Source File
 # End Target
 # End Project

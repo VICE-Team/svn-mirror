@@ -44,61 +44,7 @@
 #include <io.h>
 #endif
 
-#define GENERIC_CRT                   0
-#define ACTION_REPLAY_CRT             1
-#define KCS_CRT                       2
-#define FINAL_CARTRIDGE_3_CRT         3
-#define SIMONS_BASIC_CRT              4
-#define OCEAN_CRT                     5
-#define EXPERT_CRT                    6
-#define FUN_PLAY_CRT                  7
-#define SUPER_GAMES_CRT               8
-#define ATOMIC_POWER_CRT              9
-#define EPYX_CRT                     10
-#define WESTERMANN_CRT               11
-#define REX_UTILITY_CRT              12
-#define FINAL_CARTRIDGE_1_CRT        13
-#define MAGIC_FORMEL_CRT             14
-#define C64GS_CRT                    15
-#define WARPSPEED_CRT                16
-#define DINAMIC_CRT                  17
-#define ZAXXON_CRT                   18
-#define MAGIC_DESK_CRT               19
-#define SUPER_SNAPSHOT_5_CRT         20
-#define COMAL80_CRT                  21
-#define STRUCTURED_BASIC_CRT         22
-#define ROSS_CRT                     23
-#define DELA_EP64_CRT                24
-#define DELA_EP7x8_CRT               25
-#define DELA_EP256_CRT               26
-#define REX_EP256_CRT                27
-#define MIKRO_ASSEMBLER_CRT          28
-#define FINAL_CARTRIDGE_PLUS_CRT     29
-#define ACTION_REPLAY4_CRT           30
-#define STARDOS_CRT                  31
-#define EASYFLASH_CRT                32
-#define EASYFLASH_XBANK_CRT          33
-#define CAPTURE_CRT                  34
-#define ACTION_REPLAY3_CRT           35
-#define RETRO_REPLAY_CRT             36
-#define MMC64_CRT                    37
-#define MMC_REPLAY_CRT               38
-#define IDE64_CRT                    39
-#define SUPER_SNAPSHOT_CRT           40 /* TODO */
-#define IEEE488_CRT                  41 /* TODO */
-#define GAME_KILLER_CRT              42 /* TODO */
-#define P64_CRT                      43 /* TODO */
-
-#define SIZE_4KB     0x1000
-#define SIZE_8KB     0x2000
-#define SIZE_16KB    0x4000
-#define SIZE_20KB    0x5000
-#define SIZE_32KB    0x8000
-#define SIZE_64KB    0x10000
-#define SIZE_128KB   0x20000
-#define SIZE_256KB   0x40000
-#define SIZE_512KB   0x80000
-#define SIZE_1024KB  0x100000
+#include "cartridge.h"
 
 static FILE *infile, *outfile;
 static int load_address = 0;
@@ -125,60 +71,84 @@ typedef struct cart_s {
     unsigned int sizes;
     unsigned int bank_size;
     unsigned int load_address;
-    unsigned char banks;
+    unsigned char banks;   /* 0 means the amount of banks need to be taken from the load-size and bank-size */
+    unsigned int data_type;
     char *name;
+    char *opt;
+    void (*save)(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char gameline, unsigned char exromline);
 } cart_t;
+
+/* some prototypes to save routines */
+static void save_regular_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_2_blocks_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6);
+static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_zaxxon_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_stardos_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 
 static const cart_t cart_info[] = {
 
-/*  {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Generic 8kb"}, */
-/*  {0, 0, SIZE_16KB, 0x4000, 0x8000, 1, "Generic 16kb"}, */
-/*  {0, 1, SIZE_4KB | SIZE_16KB, 0, 0, 1, "Ultimax"}, */
+/*  {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Generic 8kb", NULL, NULL}, */
+/*  {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Generic 16kb", NULL, NULL}, */
+/*  {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_16KB, 0, 0, 1, 0, "Ultimax", NULL, NULL}, */
 
-    {1, 0, SIZE_4KB | SIZE_8KB | SIZE_16KB, 0, 0, 1, "Generic Cartridge"},
-    {0, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Action Replay"},
-    {0, 0, SIZE_16KB, 0x2000, 0, 2, "KCS Power Cartridge"},
-    {1, 1, SIZE_64KB, 0x4000, 0x8000, 4, "Final Cartridge III"},
-    {1, 0, SIZE_16KB, 0x2000, 0, 2, "Simons Basic"},
-    {0, 0, SIZE_128KB | SIZE_256KB | SIZE_512KB, 0x2000, 0, 0, "Ocean"},
-    {1, 1, SIZE_8KB, 0x2000, 0x8000, 1, "Expert Cartridge"},
-    {0, 0, SIZE_128KB, 0x2000, 0x8000, 16, "Fun Play, Power Play"},
-    {0, 0, SIZE_64KB, 0x4000, 0x8000, 4, "Super Games"},
-    {0, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Atomic Power"},
-    {1, 1, SIZE_8KB, 0x2000, 0x8000, 1, "Epyx Fastload"},
-    {0, 0, SIZE_16KB, 0x4000, 0x8000, 1, "Westermann Learning"},
-    {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Rex Utility"},
-    {1, 1, SIZE_16KB, 0x4000, 0x8000, 1, "Final Cartridge I"},
-    {0, 0, SIZE_64KB, 0x2000, 0xe000, 8, "Magic Formel"},
-    {0, 1, SIZE_512KB, 0x2000, 0x8000, 64, "C64GS, System 3"},
-    {0, 1, SIZE_16KB, 0x4000, 0x8000, 1, "WarpSpeed"},
-    {0, 1, SIZE_128KB, 0x2000, 0x8000, 16, "Dinamic"},
-    {1, 1, SIZE_20KB, 0, 0, 3, "Zaxxon"},
-    {0, 1, SIZE_32KB | SIZE_64KB | SIZE_128KB, 0x2000, 0x8000, 0, "Magic Desk, Domark, Hes Australia"},
-    {1, 1, SIZE_64KB, 0x4000, 0x8000, 4, "Super Snapshot 5"},
-    {1, 1, SIZE_64KB, 0x4000, 0x8000, 4, "Comal-80"},
-    {0, 1, SIZE_16KB, 0x2000, 0x8000, 2, "Structured Basic"},
-    {1, 1, SIZE_16KB | SIZE_32KB, 0x4000, 0x8000, 0, "Ross"},
-    {1, 0, SIZE_8KB, 0, 0x8000, 0, "Dela EP64"},
-    {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP7x8"},
-    {1, 0, SIZE_8KB, 0x2000, 0x8000, 0, "Dela EP256"},
-    {1, 0, SIZE_8KB, 0, 0x8000, 0, "Rex EP256"},
-    {1, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Mikro Assembler"},
-    {1, 1, SIZE_32KB, 0x8000, 0x0000, 1, "Final Cartridge Plus"},
-    {1, 0, SIZE_32KB, 0x2000, 0x8000, 4, "Action Replay 4"},
-    {0, 1, SIZE_16KB, 0x2000, 0, 0, "StarDOS"},
-    {0, 1, SIZE_1024KB, 0x2000, 0, 0, "EasyFlash"},
-    {0, 0, 0, 0, 0, 0, "EasyFlash xbank"},
-    {0, 0, SIZE_8KB, 0x2000, 0x8000, 1, "Capture"},
-    {1, 0, SIZE_16KB, 0x2000, 0x8000, 2, "Action Replay 3"},
-    {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "Retro Replay"},
-    {0, 0, 0, 0, 0, 0, "MMC64"}, /* to be corrected once the code is rewritten */
-    {0, 0, 0, 0, 0, 0, "MMC Replay"}, /* to be corrected once the code is merged */
-    {0, 0, SIZE_64KB, 0x2000, 0x8000, 8, "IDE64"},
-    {0, 0, 0, 0, 0, 0, "Super Snapshot"}, /* TODO */
-    {0, 0, 0, 0, 0, 0, "IEEE488"}, /* TODO */
-    {0, 0, 0, 0, 0, 0, "Game Killer"}, /* TODO */
-    {0, 0, 0, 0, 0, 0, "Prophet 64"}, /* TODO */
+    {1, 0, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB | CARTRIDGE_SIZE_16KB, 0, 0, 0, 0, "Generic Cartridge", NULL, save_generic_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Action Replay", "ar1", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, "KCS Power Cartridge", "kcs", save_2_blocks_crt},
+    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Final Cartridge III", "fc3", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, "Simons Basic", "simon", save_2_blocks_crt},
+    {0, 0, CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_256KB | CARTRIDGE_SIZE_512KB, 0x2000, 0, 0, 0, "Ocean", "ocean", save_ocean_crt},
+    {1, 1, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 2, "Expert Cartridge", "expert", NULL},
+    {0, 0, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, "Fun Play, Power Play", "fp", save_funplay_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Super Games", "sg", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Atomic Power", "ap", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Epyx Fastload", "epyx", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Westermann Learning", "wl", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Rex Utility", "ru", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Final Cartridge I", "fc1", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0xe000, 8, 0, "Magic Formel", "mf", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, "C64GS, System 3", "gs", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "WarpSpeed", "ws", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, "Dinamic", "din", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_20KB, 0, 0, 3, 0, "Zaxxon", "zax", save_zaxxon_crt},
+    {0, 1, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Magic Desk, Domark, Hes Australia", "md", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Super Snapshot 5", "ss5", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Comal-80", "comal", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Structured Basic", "sb", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x4000, 0x8000, 0, 0, "Ross", "ross", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, "Dela EP64", "dep64", save_delaep64_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, "Dela EP7x8", "dep7x8", save_delaep7x8_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, "Dela EP256", "dep256", save_delaep256_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, "Rex EP256", "rep256", save_rexep256_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Mikro Assembler", "mikro", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_32KB, 0x8000, 0x0000, 1, 0, "Final Cartridge Plus", "fcp", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Action Replay 4", "ar4", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0, 4, 0, "StarDOS", "star", save_stardos_crt},
+    {0, 1, CARTRIDGE_SIZE_1024KB, 0x2000, 0, 128, 0, "EasyFlash", "easy", save_easyflash_crt},
+    {0, 0, 0, 0, 0, 0, 0, "EasyFlash xbank", NULL, NULL}, /* TODO ?? */
+    {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Capture", "cap", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 3", "ar3", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "Retro Replay", "retro", save_regular_crt},
+    {0, 0, 0, 0, 0, 0, 0, "MMC64", NULL, NULL}, /* to be corrected once the code is rewritten */
+    {0, 0, 0, 0, 0, 0, 0, "MMC Replay", NULL, NULL}, /* to be corrected once the code is merged */
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "IDE64", "ide64", save_regular_crt},
+    {0, 0, 0, 0, 0, 0, 0, "Super Snapshot 4", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "IEEE488", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Game Killer", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Prophet 64", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Exos", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Freeze Frame", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Freeze Machine", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Snapshot 64", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Super Explode 5", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, "Magic Voice", NULL, NULL}, /* TODO */
+    {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
 #ifndef HAVE_STRDUP
@@ -316,6 +286,8 @@ static void usage(void)
 
 static void checkflag(char *flg, char *arg)
 {
+    int i;
+
     switch (tolower(flg[1])) {
         case 'o':
             if (output_filename == NULL) {
@@ -342,138 +314,19 @@ static void checkflag(char *flg, char *arg)
             if (cart_type != -1 || convert_to_bin != 0 || convert_to_prg != 0 || convert_to_ultimax != 0) {
                 usage();
             } else {
+                for (i = 0; cart_info[i].name != NULL; i++) {
+                    if (cart_info[i].opt != NULL) {
+                        if (!strncasecmp(cart_info[i].opt, arg, strlen(cart_info[i].opt))) {
+                            cart_type = i;
+                        }
+                    }
+                }
                 switch (tolower(arg[0])) {
-                    case 'a':
-                        if (tolower(arg[1]) == 'p' || tolower(arg[1]) == 't') {
-                            cart_type = ATOMIC_POWER_CRT;
-                        }
-                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) != '4' && tolower(arg[2]) != '3') {
-                            cart_type = ACTION_REPLAY_CRT;
-                        }
-                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) == '3') {
-                            cart_type = ACTION_REPLAY3_CRT;
-                        }
-                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) == '4') {
-                            cart_type = ACTION_REPLAY4_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
                     case 'b':
                         convert_to_bin = 1;
                         break;
-                    case 'c':
-                        if (tolower(arg[1]) == '6') {
-                            cart_type = C64GS_CRT;
-                        }
-                        if (tolower(arg[1]) == 'a') {
-                            cart_type = CAPTURE_CRT;
-                        }
-                        if (tolower(arg[1]) == 'o') {
-                            cart_type = COMAL80_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
-                    case 'd':
-                        if (tolower(arg[1]) == 'i') {
-                            cart_type = DINAMIC_CRT;
-                        }
-                        if (tolower(arg[1]) == 'o') {
-                            cart_type = MAGIC_DESK_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'p' && tolower(arg[3]) == '2') {
-                            cart_type = DELA_EP256_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'p' && tolower(arg[3]) == '6') {
-                            cart_type = DELA_EP64_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'p' && tolower(arg[3]) == '7') {
-                            cart_type = DELA_EP7x8_CRT;
-                        }
-                        if (!strncasecmp(arg, "delaep2", 7)) {
-                            cart_type = DELA_EP256_CRT;
-                        }
-                        if (!strncasecmp(arg, "delaep6", 7)) {
-                            cart_type = DELA_EP64_CRT;
-                        }
-                        if (!strncasecmp(arg, "delaep7", 7)) {
-                            cart_type = DELA_EP7x8_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
-                    case 'e':
-                        if (tolower(arg[1]) == 'f' || tolower(arg[1]) == 'p') {
-                            cart_type = EPYX_CRT;
-                        }
-                        if (tolower(arg[1]) == 'x') {
-                            cart_type = EXPERT_CRT;
-                        }
-                        if (tolower(arg[1]) == 'a') {
-                            cart_type = EASYFLASH_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
-                    case 'f':
-                        if (tolower(arg[1]) == 'p' || tolower(arg[1]) == 'u') {
-                            cart_type = FUN_PLAY_CRT;
-                        }
-                        if (tolower(arg[1]) == 'c' && tolower(arg[2]) == '1') {
-                            cart_type = FINAL_CARTRIDGE_1_CRT;
-                        }
-                        if (tolower(arg[1]) == 'c' && tolower(arg[2]) == 'p') {
-                            cart_type = FINAL_CARTRIDGE_PLUS_CRT;
-                        }
-                        if (tolower(arg[1]) == 'c' && tolower(arg[2]) == '3') {
-                            cart_type = FINAL_CARTRIDGE_3_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
-                    case 'g':
-                        cart_type = C64GS_CRT;
-                        break;
-                    case 'h':
-                        cart_type = MAGIC_DESK_CRT;
-                        break;
-                    case 'i':
-                        cart_type = IDE64_CRT;
-                        break;
-                    case 'k':
-                        cart_type = KCS_CRT;
-                        break;
-                    case 'm':
-                        if (tolower(arg[1]) == 'd') {
-                            cart_type = MAGIC_DESK_CRT;
-                        }
-                        if (tolower(arg[1]) == 'f') {
-                            cart_type = MAGIC_FORMEL_CRT;
-                        }
-                        if (!strncasecmp(arg, "magicd", 6)) {
-                            cart_type = MAGIC_DESK_CRT;
-                        }
-                        if (!strncasecmp(arg, "magicf", 6)) {
-                            cart_type = MAGIC_FORMEL_CRT;
-                        }
-                        if (tolower(arg[1]) == 'i') {
-                            cart_type = MIKRO_ASSEMBLER_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
                     case 'n':
-                        cart_type = GENERIC_CRT;
-                        break;
-                    case 'o':
-                        cart_type = OCEAN_CRT;
+                        cart_type = CARTRIDGE_CRT;
                         break;
                     case 'p':
                         if (tolower(arg[1]) == 'r' && tolower(arg[2]) == 'g') {
@@ -482,79 +335,13 @@ static void checkflag(char *flg, char *arg)
                         if (tolower(arg[1]) == 'r' && tolower(arg[2]) == 'o') {
                             convert_to_prg=1;
                         }
-                        if (tolower(arg[1]) == 'o') {
-                            cart_type = FUN_PLAY_CRT;
-                        }
                         if (cart_type == -1 && convert_to_prg == 0) {
                             usage();
                         }
                         break;
-                    case 'r':
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'p' && tolower(arg[3]) == '2') {
-                            cart_type = REX_EP256_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'x' && tolower(arg[3]) == 'e') {
-                            cart_type = REX_EP256_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'x' && tolower(arg[3]) == 'u') {
-                            cart_type = REX_UTILITY_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 'p' && tolower(arg[3]) == 'l') {
-                            cart_type = ACTION_REPLAY_CRT;
-                        }
-                        if (tolower(arg[1]) == 'e' && tolower(arg[2]) == 't') {
-                            cart_type = RETRO_REPLAY_CRT;
-                        }
-                        if (tolower(arg[1]) == 'o') {
-                            cart_type = ROSS_CRT;
-                        }
-                        if (tolower(arg[1]) == 'u') {
-                            cart_type = REX_UTILITY_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
-                    case 's':
-                        if (tolower(arg[1]) == '3' || tolower(arg[1]) == 'y') {
-                            cart_type = C64GS_CRT;
-                        }
-                        if (tolower(arg[1]) == 'b' || (tolower(arg[1]) == 't' && tolower(arg[2]) == 'r')) {
-                            cart_type = STRUCTURED_BASIC_CRT;
-                        }
-                        if (tolower(arg[1]) == 't' && tolower(arg[2]) == 'a') {
-                            cart_type = STARDOS_CRT;
-                        }
-                        if (tolower(arg[1]) == 'g') {
-                            cart_type = SUPER_GAMES_CRT;
-                        }
-                        if (tolower(arg[1]) == 'i') {
-                            cart_type = SIMONS_BASIC_CRT;
-                        }
-                        if (tolower(arg[1]) == 's') {
-                            cart_type = SUPER_SNAPSHOT_5_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
                     case 'u':
-                        cart_type = GENERIC_CRT;
+                        cart_type = CARTRIDGE_CRT;
                         convert_to_ultimax = 1;
-                        break;
-                    case 'w':
-                        if (tolower(arg[1]) == 'l' || tolower(arg[1]) == 'l') {
-                            cart_type = WESTERMANN_CRT;
-                        }
-                        if (tolower(arg[1]) == 's' || tolower(arg[1]) == 'a') {
-                            cart_type = WARPSPEED_CRT;
-                        }
-                        if (cart_type == -1) {
-                            usage();
-                        }
-                        break;
-                    case 'z':
-                        cart_type = ZAXXON_CRT;
                         break;
                     default:
                         usage();
@@ -614,7 +401,7 @@ static int load_all_banks(void)
 {
     unsigned int length;
 
-    if (loadfile_cart_type == EASYFLASH_CRT) {
+    if (loadfile_cart_type == CARTRIDGE_EASYFLASH) {
         return load_easyflash_crt();
     }
 
@@ -774,22 +561,22 @@ static void bin2crt_ok(void)
     printf("Conversion from binary format to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
 }
 
-static void save_regular_crt(unsigned int length,
-                             unsigned char banks,
-                             unsigned int address,
-                             unsigned char type,
-                             unsigned char gameline,
-                             unsigned char exromline)
+static void save_regular_crt(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
 {
-    int i;
+    unsigned int i;
+    unsigned int real_banks = banks;
 
-    if (write_crt_header(gameline, exromline) < 0) {
+    if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
     }
 
+    if (real_banks == 0) {
+        real_banks = loadfile_size / length;
+    }
+
     for (i = 0; i < banks; i++) {
-        if (write_chip_package(length, i, address, type) < 0) {
+        if (write_chip_package(length, i, address, (unsigned char)type) < 0) {
             cleanup();
             exit(1);
         }
@@ -800,21 +587,20 @@ static void save_regular_crt(unsigned int length,
     exit(0);
 }
 
-static void save_2_blocks_crt(unsigned int length1, unsigned int length2,
-                              unsigned int address1, unsigned int address2,
-                              unsigned char gameline, unsigned char exromline)
+static void save_2_blocks_crt(unsigned int l1, unsigned int l2, unsigned int a1, unsigned int a2, unsigned char game, unsigned char exrom)
 {
-    if (write_crt_header(gameline, exromline) < 0) {
+
+    if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
     }
 
-    if (write_chip_package(length1, 0, address1, 0) < 0) {
+    if (write_chip_package(0x2000, 0, 0x8000, 0) < 0) {
         cleanup();
         exit(1);
     }
 
-    if (write_chip_package(length2, 0, address2, 0) < 0) {
+    if (write_chip_package(0x2000, 0, (a2 == 0xe000) ? 0xe000 : 0xa000, 0) < 0) {
         cleanup();
         exit(1);
     }
@@ -837,7 +623,7 @@ static int check_empty_easyflash(void)
     return 1;
 }
 
-static void save_easyflash_crt(void)
+static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int i, j;
 
@@ -865,36 +651,40 @@ static void save_easyflash_crt(void)
     exit(0);
 }
 
-static void save_ocean_256kb_crt(void)
+static void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int i;
 
-    if (write_crt_header(0, 0) < 0) {
+    if (loadfile_size != CARTRIDGE_SIZE_256KB) {
+        save_regular_crt(0x2000, 0, 0x8000, 0, 0, 0);
+    } else {
+        if (write_crt_header(0, 0) < 0) {
+            cleanup();
+            exit(1);
+        }
+
+        for (i = 0; i < 16; i++) {
+            if (write_chip_package(0x2000, i, 0x8000, 0) < 0) {
+                cleanup();
+                exit(1);
+            }
+        }
+
+        for (i = 0; i < 16; i++) {
+            if (write_chip_package(0x2000, i + 16, 0xa000, 0) < 0) {
+                cleanup();
+                exit(1);
+            }
+        }
+
+        fclose(outfile);
+        bin2crt_ok();
         cleanup();
-        exit(1);
+        exit(0);
     }
-
-    for (i = 0; i < 16; i++) {
-        if (write_chip_package(0x2000, i, 0x8000, 0) < 0) {
-            cleanup();
-            exit(1);
-        }
-    }
-
-    for (i = 0; i < 16; i++) {
-        if (write_chip_package(0x2000, i + 16, 0xa000, 0) < 0) {
-            cleanup();
-            exit(1);
-        }
-    }
-
-    fclose(outfile);
-    bin2crt_ok();
-    cleanup();
-    exit(0);
 }
 
-static void save_funplay_crt(void)
+static void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int i=0;
 
@@ -920,7 +710,7 @@ static void save_funplay_crt(void)
     exit(0);
 }
 
-static void save_zaxxon_crt(void)
+static void save_zaxxon_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     if (write_crt_header(1, 1) < 0) {
         cleanup();
@@ -948,7 +738,7 @@ static void save_zaxxon_crt(void)
     exit(0);
 }
 
-static void save_stardos_crt(void)
+static void save_stardos_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     if (write_crt_header(1, 0) < 0) {
         cleanup();
@@ -1066,11 +856,11 @@ static void close_output_cleanup(void)
     exit(1);
 }
 
-static void save_delaep64_crt(void)
+static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int i;
 
-    if (loadfile_size != SIZE_8KB) {
+    if (loadfile_size != CARTRIDGE_SIZE_8KB) {
         printf("Error: wrong size of Dela EP64 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
@@ -1100,7 +890,7 @@ static void save_delaep64_crt(void)
             printf("Error: to be inserted file can only be a binary for Dela EP64\n");
             close_output_cleanup();
         }
-        if (loadfile_size != SIZE_32KB) {
+        if (loadfile_size != CARTRIDGE_SIZE_32KB) {
             printf("Error: to be insterted file can only be 32KB in size for Dela EP64\n");
             close_output_cleanup();
         }
@@ -1115,12 +905,12 @@ static void save_delaep64_crt(void)
     exit(0);
 }
 
-static void save_delaep256_crt(void)
+static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int i,j;
     unsigned int insert_size = 0;
 
-    if (loadfile_size != SIZE_8KB) {
+    if (loadfile_size != CARTRIDGE_SIZE_8KB) {
         printf("Error: wrong size of Dela EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
@@ -1147,7 +937,7 @@ static void save_delaep256_crt(void)
             close_output_cleanup();
         }
 
-        if (loadfile_size != SIZE_32KB && loadfile_size != SIZE_8KB) {
+        if (loadfile_size != CARTRIDGE_SIZE_32KB && loadfile_size != CARTRIDGE_SIZE_8KB) {
             printf("Error: only 32KB binary files or 8KB bin/crt files can be inserted in Dela EP256\n");
             close_output_cleanup();
         }
@@ -1156,7 +946,7 @@ static void save_delaep256_crt(void)
             insert_size = loadfile_size;
         }
 
-        if (insert_size == SIZE_32KB && input_filenames > 8) {
+        if (insert_size == CARTRIDGE_SIZE_32KB && input_filenames > 8) {
             printf("Error: a maximum of 8 32KB images can be inserted\n");
             close_output_cleanup();
         }
@@ -1166,12 +956,12 @@ static void save_delaep256_crt(void)
             close_output_cleanup();
         }
 
-        if (loadfile_is_crt == 1 && (loadfile_size != SIZE_8KB || load_address != 0x8000 || loadfile_is_ultimax == 1)) {
+        if (loadfile_is_crt == 1 && (loadfile_size != CARTRIDGE_SIZE_8KB || load_address != 0x8000 || loadfile_is_ultimax == 1)) {
             printf("Error: you can only insert generic 8KB .crt files for Dela EP256\n");
             close_output_cleanup();
         }
 
-        if (insert_size == SIZE_32KB) {
+        if (insert_size == CARTRIDGE_SIZE_32KB) {
             for (j = 0; j < 4; j++) {
                 if (write_chip_package(0x2000, (i * 4) + j + 1, 0x8000, 0) < 0) {
                     close_output_cleanup();
@@ -1192,13 +982,13 @@ static void save_delaep256_crt(void)
     exit(0);
 }
 
-static void save_delaep7x8_crt(void)
+static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int inserted_size = 0;
     int name_counter = 1;
     int chip_counter = 1;
 
-    if (loadfile_size != SIZE_8KB) {
+    if (loadfile_size != CARTRIDGE_SIZE_8KB) {
         printf("Error: wrong size of Dela EP7x8 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
@@ -1225,7 +1015,7 @@ static void save_delaep7x8_crt(void)
             close_output_cleanup();
         }
 
-        if (loadfile_size == SIZE_32KB) {
+        if (loadfile_size == CARTRIDGE_SIZE_32KB) {
             if (loadfile_is_crt == 1) {
                 printf("Error: (%s) only binary 32KB images can be inserted into a Dela EP7x8 .crt\n",
                        input_filename[name_counter]);
@@ -1256,7 +1046,7 @@ static void save_delaep7x8_crt(void)
             }
         }
 
-        if (loadfile_size == SIZE_16KB) {
+        if (loadfile_size == CARTRIDGE_SIZE_16KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
                 printf("Error: (%s) only generic 16KB .crt images can be inserted into a Dela EP7x8 .crt\n",
                        input_filename[name_counter]);
@@ -1281,7 +1071,7 @@ static void save_delaep7x8_crt(void)
             }
         }
 
-        if (loadfile_size == SIZE_8KB) {
+        if (loadfile_size == CARTRIDGE_SIZE_8KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
                 printf("Error: (%s) only generic 8KB .crt images can be inserted into a Dela EP7x8 .crt\n",
                        input_filename[name_counter]);
@@ -1311,7 +1101,7 @@ static void save_delaep7x8_crt(void)
     exit(0);
 }
 
-static void save_rexep256_crt(void)
+static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
     int eprom_size_for_8kb = 0;
     int images_of_8kb_started = 0;
@@ -1319,7 +1109,7 @@ static void save_rexep256_crt(void)
     int chip_counter = 1;
     int subchip_counter = 1;
 
-    if (loadfile_size != SIZE_8KB) {
+    if (loadfile_size != CARTRIDGE_SIZE_8KB) {
         printf("Error: wrong size of Rex EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
@@ -1350,7 +1140,7 @@ static void save_rexep256_crt(void)
             printf("Error: no more room for %s in the Rex EP256 .crt\n", input_filename[name_counter]);
         }
 
-        if (loadfile_size == SIZE_32KB) {
+        if (loadfile_size == CARTRIDGE_SIZE_32KB) {
             if (loadfile_is_crt == 1) {
                 printf("Error: (%s) only binary 32KB images can be inserted into a Rex EP256 .crt\n",
                        input_filename[name_counter]);
@@ -1371,7 +1161,7 @@ static void save_rexep256_crt(void)
             }
         }
 
-        if (loadfile_size == SIZE_8KB) {
+        if (loadfile_size == CARTRIDGE_SIZE_8KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
                 printf("Error: (%s) only generic 8KB .crt images can be inserted into a Rex EP256 .crt\n",
                        input_filename[name_counter]);
@@ -1467,6 +1257,33 @@ static void save_rexep256_crt(void)
     exit(0);
 }
 
+static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
+{
+    if (convert_to_ultimax == 1) {
+        switch (loadfile_size) {
+            case CARTRIDGE_SIZE_4KB:
+                save_regular_crt(0x1000, 1, 0xf000, 0, 0, 1);
+                break;
+            case CARTRIDGE_SIZE_8KB:
+                save_regular_crt(0x2000, 1, 0xe000, 0, 0, 1);
+                break;
+            case CARTRIDGE_SIZE_16KB:
+                save_2_blocks_crt(0x2000, 0x2000, 0x8000, 0xe000, 0, 1);
+                break;
+        }
+    } else {
+        switch (loadfile_size) {
+            case CARTRIDGE_SIZE_4KB:
+            case CARTRIDGE_SIZE_8KB:
+                save_regular_crt(0x1000, 0, 0x8000, 0, 1, 0);
+                break;
+            case CARTRIDGE_SIZE_16KB:
+                save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
+                break;
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     int i;
@@ -1508,35 +1325,22 @@ int main(int argc, char *argv[])
         cleanup();
         exit(1);
     }
-    if (input_filenames > 1 && cart_type != DELA_EP64_CRT && cart_type != DELA_EP256_CRT &&
-        cart_type != DELA_EP7x8_CRT && cart_type != REX_EP256_CRT && loadfile_cart_type != DELA_EP64_CRT &&
-        loadfile_cart_type != DELA_EP256_CRT && loadfile_cart_type != DELA_EP7x8_CRT &&
-        loadfile_cart_type != REX_EP256_CRT) {
+    if (input_filenames > 1 && cart_type != CARTRIDGE_DELA_EP64 && cart_type != CARTRIDGE_DELA_EP256 &&
+        cart_type != CARTRIDGE_DELA_EP7x8 && cart_type != CARTRIDGE_REX_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP64 &&
+        loadfile_cart_type != CARTRIDGE_DELA_EP256 && loadfile_cart_type != CARTRIDGE_DELA_EP7x8 &&
+        loadfile_cart_type != CARTRIDGE_REX_EP256) {
         too_many_inputs();
     }
-    if ((cart_type == DELA_EP64_CRT || loadfile_cart_type == DELA_EP64_CRT) && input_filenames > 3) {
+    if ((cart_type == CARTRIDGE_DELA_EP64 || loadfile_cart_type == CARTRIDGE_DELA_EP64) && input_filenames > 3) {
         too_many_inputs();
     }
-    if ((cart_type == DELA_EP7x8_CRT || loadfile_cart_type == DELA_EP7x8_CRT) && input_filenames > 8) {
+    if ((cart_type == CARTRIDGE_DELA_EP7x8 || loadfile_cart_type == CARTRIDGE_DELA_EP7x8) && input_filenames > 8) {
         too_many_inputs();
     }
     if (loadfile_is_crt == 1) {
-        if (cart_type == DELA_EP64_CRT || cart_type == DELA_EP256_CRT || cart_type == DELA_EP7x8_CRT ||
-            cart_type == REX_EP256_CRT) {
-            switch (cart_type) {
-                case DELA_EP64_CRT:
-                    save_delaep64_crt();
-                    break;
-                case DELA_EP256_CRT:
-                    save_delaep256_crt();
-                    break;
-                case DELA_EP7x8_CRT:
-                    save_delaep7x8_crt();
-                    break;
-                case REX_EP256_CRT:
-                    save_rexep256_crt();
-                    break;
-            }
+        if (cart_type == CARTRIDGE_DELA_EP64 || cart_type == CARTRIDGE_DELA_EP256 || cart_type == CARTRIDGE_DELA_EP7x8 ||
+            cart_type == CARTRIDGE_REX_EP256) {
+            cart_info[(unsigned char)cart_type].save(0, 0, 0, 0, 0, 0);
         } else {
             if (cart_type == -1) {
                 if (save_binary_output_file() < 0) {
@@ -1561,132 +1365,13 @@ int main(int argc, char *argv[])
             cleanup();
             exit(1);
         }
-        switch (cart_type) {
-            case GENERIC_CRT:
-                if (convert_to_ultimax == 1) {
-                    switch (loadfile_size) {
-                        case SIZE_4KB:
-                            save_regular_crt(0x1000, 1, 0xf000, 0, 0, 1);
-                            break;
-                        case SIZE_8KB:
-                            save_regular_crt(0x2000, 1, 0xe000, 0, 0, 1);
-                            break;
-                        case SIZE_16KB:
-                            save_2_blocks_crt(0x2000, 0x2000, 0x8000, 0xe000, 0, 1);
-                            break;
-                    }
-                } else {
-                    switch (loadfile_size) {
-                        case SIZE_4KB:
-                            save_regular_crt(0x1000, 1, 0x8000, 0, 1, 0);
-                            break;
-                        case SIZE_8KB:
-                            save_regular_crt(0x2000, 1, 0x8000, 0, 1, 0);
-                            break;
-                        case SIZE_16KB:
-                            save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
-                            break;
-                    }
-                }
-                break;
-            case ACTION_REPLAY_CRT:
-            case ACTION_REPLAY3_CRT:
-            case ACTION_REPLAY4_CRT:
-            case RETRO_REPLAY_CRT:
-            case FINAL_CARTRIDGE_3_CRT:
-            case SUPER_GAMES_CRT:
-            case ATOMIC_POWER_CRT:
-            case EPYX_CRT:
-            case MIKRO_ASSEMBLER_CRT:
-            case WESTERMANN_CRT:
-            case REX_UTILITY_CRT:
-            case FINAL_CARTRIDGE_1_CRT:
-            case FINAL_CARTRIDGE_PLUS_CRT:
-            case MAGIC_FORMEL_CRT:
-            case C64GS_CRT:
-            case WARPSPEED_CRT:
-            case DINAMIC_CRT:
-            case SUPER_SNAPSHOT_5_CRT:
-            case COMAL80_CRT:
-            case STRUCTURED_BASIC_CRT:
-            case CAPTURE_CRT:
-            case IDE64_CRT:
-                save_regular_crt(cart_info[(unsigned char)cart_type].bank_size,
-                                 cart_info[(unsigned char)cart_type].banks,
-                                 cart_info[(unsigned char)cart_type].load_address,
-                                 0,
-                                 cart_info[(unsigned char)cart_type].game,
-                                 cart_info[(unsigned char)cart_type].exrom);
-                break;
-            case KCS_CRT:
-                save_2_blocks_crt(0x2000, 0x2000, 0x8000, 0xa000, 0, 0);
-                break;
-            case SIMONS_BASIC_CRT:
-                save_2_blocks_crt(0x2000, 0x2000, 0x8000, 0xa000, 1, 0);
-                break;
-            case OCEAN_CRT:
-                switch (loadfile_size) {
-                    case SIZE_128KB:
-                        save_regular_crt(0x2000, 16, 0x8000, 0, 0, 0);
-                        break;
-                    case SIZE_256KB:
-                        save_ocean_256kb_crt();
-                        break;
-                    case SIZE_512KB:
-                        save_regular_crt(0x2000, 64, 0x8000, 0, 0, 0);
-                        break;
-                }
-                break;
-            case EXPERT_CRT:
-                save_regular_crt(0x2000, 4, 0x8000, 2, 0, 1);
-                break;
-            case FUN_PLAY_CRT:
-                save_funplay_crt();
-                break;
-            case ZAXXON_CRT:
-                save_zaxxon_crt();
-                break;
-            case STARDOS_CRT:
-                save_stardos_crt();
-                break;
-            case MAGIC_DESK_CRT:
-                switch (loadfile_size) {
-                    case SIZE_32KB:
-                        save_regular_crt(0x2000, 4, 0x8000, 0, 0, 1);
-                        break;
-                    case SIZE_64KB:
-                        save_regular_crt(0x2000, 8, 0x8000, 0, 0, 1);
-                        break;
-                    case SIZE_128KB:
-                        save_regular_crt(0x2000, 16, 0x8000, 0, 0, 1);
-                        break;
-                }
-                break;
-            case ROSS_CRT:
-                switch (loadfile_size) {
-                    case SIZE_16KB:
-                        save_regular_crt(0x4000, 1, 0x8000, 0, 1, 1);
-                        break;
-                    case SIZE_32KB:
-                        save_regular_crt(0x4000, 2, 0x8000, 0, 1, 1);
-                        break;
-                }
-                break;
-            case DELA_EP64_CRT:
-                save_delaep64_crt();
-                break;
-            case DELA_EP7x8_CRT:
-                save_delaep7x8_crt();
-                break;
-            case DELA_EP256_CRT:
-                save_delaep256_crt();
-                break;
-            case REX_EP256_CRT:
-                save_rexep256_crt();
-                break;
-            case EASYFLASH_CRT:
-                save_easyflash_crt();
-                break;
+        if (cart_info[(unsigned char)cart_type].save != NULL) {
+            cart_info[(unsigned char)cart_type].save(cart_info[(unsigned char)cart_type].bank_size,
+            cart_info[(unsigned char)cart_type].banks,
+            cart_info[(unsigned char)cart_type].load_address,
+            cart_info[(unsigned char)cart_type].data_type,
+            cart_info[(unsigned char)cart_type].game,
+            cart_info[(unsigned char)cart_type].exrom);
         }
     }
     return 0;
