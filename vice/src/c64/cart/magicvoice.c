@@ -151,8 +151,8 @@ static int DTRD = 0;
 
 void update_dtrd(int d)
 {
+#if 0
     int prev = DTRD;
-
     if (d) {
         DTRD = 1;
     } else {
@@ -170,8 +170,8 @@ void update_dtrd(int d)
             }
         }
     }
+
     if (prev != DTRD) {
-#if 1
         if (DTRD) {
             DBG(("MV: set NMI DTRD  %d\n", DTRD));
             cart_trigger_nmi();
@@ -179,9 +179,9 @@ void update_dtrd(int d)
             DBG(("MV: unset NMI DTRD  %d\n", DTRD));
             cartridge_release_freeze();
         }
-#endif
         tpicore_set_int(tpi_context, NMI_DTRD, DTRD);
     }
+#endif
 }
 
 /* hooked to callback of t6721 chip */
@@ -273,6 +273,23 @@ static void write_data_nibble(BYTE nibble)
 }
 
 /* hooked to callback of t6721 chip */
+static void set_dtrd(t6721_state *t6721)
+{
+    static int old;
+    if (old != t6721->dtrd) {
+        DBG(("MV: set dtrd IRQ:%x\n", t6721->dtrd));
+        DTRD = t6721->dtrd;
+        tpicore_set_int(tpi_context, NMI_DTRD, t6721->dtrd);
+        if (t6721->dtrd) {
+            cart_trigger_nmi();
+        } else {
+            cartridge_release_freeze();
+        }
+        old = t6721->dtrd;
+    }
+}
+
+/* hooked to callback of t6721 chip */
 static void set_apd(t6721_state *t6721)
 {
     if (t6721->apd) {
@@ -286,14 +303,14 @@ static void set_apd(t6721_state *t6721)
         update_dtrd(0);
     }
     DBG(("MV: set apd:%x\n", t6721->apd));
-    tpicore_set_int(tpi_context, NMI_APD, t6721->apd ^ 1);
+    /* tpicore_set_int(tpi_context, NMI_APD, t6721->apd ^ 1); */
 }
 
 /* hooked to callback of t6721 chip */
 static void set_eos(t6721_state *t6721)
 {
     DBG(("MV: set eos:%x\n", t6721->eos));
-    tpicore_set_int(tpi_context, NMI_EOS, t6721->eos ^ 1);
+    /* tpicore_set_int(tpi_context, NMI_EOS, t6721->eos ^ 1); */
 }
 
 /*****************************************************************************
@@ -361,6 +378,8 @@ MV: memconfig changed exrom 1 pc6: 0 pb5: 1 pb6: 0 | game 1 A000: 1 E000: 1 16K 
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
         mv_game = 1;
+        mv_romA000_enabled = 0; /* ? */
+        mv_romE000_enabled = 0; /* ? */
     } else if (
         ((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))
        ){
@@ -376,12 +395,14 @@ MV: memconfig changed exrom 1 pc6: 0 pb5: 1 pb6: 0 | game 1 A000: 1 E000: 1 16K 
         mv_romA000_enabled = 0;
         mv_game = 1;
         n = 0;
+        mv_game_enabled = 0; /* ? */
     } else if (
         ((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))
        ){
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
         mv_game = 1;
+        mv_game_enabled = 0; /* ? */
     } else if (
         ((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))
        ){
@@ -389,12 +410,14 @@ MV: memconfig changed exrom 1 pc6: 0 pb5: 1 pb6: 0 | game 1 A000: 1 E000: 1 16K 
         mv_romA000_enabled = 1;
         mv_game = 1;
         n = 0;
+        mv_game_enabled = 0; /* ? */
     } else if (
         ((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))
        ){
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
         mv_game = 1;
+        mv_game_enabled = 0; /* ? */
     } else if (
         ((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))
        ){
@@ -408,22 +431,24 @@ MV: memconfig changed exrom 1 pc6: 0 pb5: 1 pb6: 0 | game 1 A000: 1 E000: 1 16K 
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
         mv_game = 1;
+        mv_game_enabled = 0; /* ? */
     } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 0) && (ga_pb6 == 0)) ){ /* 12 */
         /* NMI with cart ? */
         mv_romE000_enabled = 0;
-        mv_romA000_enabled = 0;
+        mv_romA000_enabled = 1;
         mv_game = 1;
         mv_game_enabled = 0;
-    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0)) ){
+    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0)) ){ /* 14 */
         /* before running "16k cart" */
         mv_romE000_enabled = 0;
         mv_romA000_enabled = 0;
         mv_game = 1;
         mv_game_enabled = 1;
-    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1)) ){
+    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1)) ){ /* 15 */
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
         mv_game = 1;
+        mv_game_enabled = 0; /* ? */
     } else {
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
@@ -456,13 +481,13 @@ static void set_int(unsigned int int_num, int value)
     static int old;
     int isirq;
 
-    isirq = ((tpi_context->c_tpi[TPI_ILR]  ^ 0x0f) & tpi_context->c_tpi[TPI_IMR]) & 0x0f;
+    isirq = ((tpi_context->c_tpi[TPI_ILR]) & tpi_context->c_tpi[TPI_IMR]) & 0x0f;
     if (old != isirq) {
         if (isirq) {
-            DBG(("MV: NMI set NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
+            DBG(("MV: TPI set NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
             cart_trigger_nmi();
         } else {
-            DBG(("MV: NMI unset NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
+            DBG(("MV: TPI unset NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
             cartridge_release_freeze();
         }
     }
@@ -520,7 +545,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
     byte |= ((t6721->eos ^ 1) << 6); /* !EOS = End of Speech from T6721 */
     byte |= (DTRD << 7); /* DIR = Data in Ready from 40105 */
 
-    DBG(("MV: read pa %02x\n", byte));
+    /* DBG(("MV: read pa %02x\n", byte)); */
 
     return byte;
 }
@@ -606,8 +631,9 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 
 static BYTE read_pc(tpi_context_t *tpi_context)
 {
-    BYTE byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
 #if 0
+    BYTE byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
+#else
     static BYTE byte = 0;
 
     byte |= ((t6721->eos ^ 1) << 2); /* !EOS (End of Speech) */
@@ -674,8 +700,10 @@ static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
             DBGREG(("MV: @:%04x io2 r %04x %02x (IRQ Mask)\n", reg_pc, addr, value));
             break;
         case 7:
-#if 0
-            value |= 8; /* hack */
+            /* FIXME: this register contains a "wrong" value when checked by the software */
+#if 1
+            value |= (DTRD << 3); /* hack: dtrd */
+            value |= ((t6721->eos) << 2); /* hack: eos */
 #endif
             DBGREG(("MV: @:%04x io2 r %04x %02x (Active IRQs)\n", reg_pc, addr, value));
             break;
@@ -893,10 +921,11 @@ void magicvoice_setup_context(machine_context_t *machine_context)
 
     /* init t6721 chip */
     t6721 = lib_malloc(sizeof(t6721_state));
-    t6721_reset(t6721);
     t6721->read_data = read_data;
     t6721->set_apd = set_apd;
     t6721->set_eos = set_eos;
+    t6721->set_dtrd = set_dtrd;
+    t6721_reset(t6721);
 }
 
 
@@ -962,6 +991,7 @@ void magicvoice_reset(void)
         mv_game_enabled = 0;
         mv_exrom = 1;
         ga_reset();
+        t6721_reset(t6721);
         tpicore_reset(tpi_context);
         ga_memconfig_changed(CMODE_READ);
     }

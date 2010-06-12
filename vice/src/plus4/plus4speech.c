@@ -106,11 +106,18 @@
 */
 
 #define SPEECHDEBUG
+/* #define DEBUGIRQ */
 
 #ifdef SPEECHDEBUG
 #define DBG(x) printf x
 #else
 #define DBG(x)
+#endif
+
+#ifdef DEBUGIRQ
+#define DBGIRQ(x) printf x
+#else
+#define DBGIRQ(x)
 #endif
 
 static int speech_enabled = 0;
@@ -141,17 +148,18 @@ static int last = 0;
 
 void latch_trigger(void)
 {
-    int this = irq_latch & irq_enable;
+    int this = (irq_latch & irq_enable) ? 1 : 0;
 
     if (last != this) {
 
         if (this) {
-            DBG(("SPEECH: irq assert latch: eos:%x dtrd:%x mask:  eos:%x dtrd:%x\n",
-                 (irq_latch >> 1) & 1, irq_latch & 1, (irq_enable >> 1) & 1, irq_enable & 1));
-            maincpu_set_irq(0, 1);
+            DBGIRQ(("SPEECH: irq assert latch cause: "));
+            DBGIRQ(("%s", (((irq_latch & irq_enable) >> IRQNUM_EOS)) & 1 ? "eos " : ""));
+            DBGIRQ(("%s", (((irq_latch & irq_enable) >> IRQNUM_DTRD)) & 1 ? "dtrd " : ""));
+            DBGIRQ(("\n"));
+               maincpu_set_irq(0, 1);
         } else {
-            DBG(("SPEECH: irq deassert latch: eos:%x dtrd:%x mask:  eos:%x dtrd:%x\n",
-                 (irq_latch >> 1) & 1, irq_latch & 1, (irq_enable >> 1) & 1, irq_enable & 1));
+            DBGIRQ(("SPEECH: irq deassert latch\n"));
             maincpu_set_irq(0, 0);
         }
     }
@@ -173,17 +181,18 @@ void latch_set_mask(int mask)
 
 void latch_set_irq(int num, int bit)
 {
-    irq_latch |= (bit << num);
+    irq_latch &= ~(1 << num);
+    irq_latch |= ((bit & 1) << num);
     latch_trigger();
 }
 
 int latch_load_and_clear(void)
 {
     int val = irq_latch;
-/*
-    irq_latch = 0;
+
+/*    irq_latch = 0; */
     latch_trigger();
-*/
+
     return val;
 }
 
@@ -192,16 +201,14 @@ int latch_load_and_clear(void)
 */
 #define FIFO_LEN        (16)
 
-BYTE buffer[FIFO_LEN];
 int readptr, writeptr;
 int DTRD = 0;
 int datainfifo = 0;
 int fifo_reset = 0;
-int fakeread = 0;
 unsigned int fifo_buffer = 0;
 
 void update_dtrd(int d) {
-
+#if 0
     if (d) {
         DTRD = 1;
     } else {
@@ -220,8 +227,8 @@ void update_dtrd(int d) {
         }
 
     }
-
     latch_set_irq(IRQNUM_DTRD, DTRD);
+#endif
 }
 
 /* hooked to callback of t6721 chip */
@@ -310,6 +317,18 @@ static void write_data_nibble(BYTE nibble)
 }
 
 /* hooked to callback of t6721 chip */
+static void set_dtrd(t6721_state *t6721)
+{
+    static int old;
+    if (old != t6721->dtrd) {
+        DTRD = t6721->dtrd;
+        old = t6721->dtrd;
+        /* DBG(("SPEECH: irq assert dtrd:%x masked:%x\n", DTRD, DTRD & irq_enable)); */
+        latch_set_irq(IRQNUM_DTRD, DTRD);
+    }
+}
+
+/* hooked to callback of t6721 chip */
 static void set_apd(t6721_state *t6721)
 {
     if (t6721->apd) {
@@ -319,8 +338,6 @@ static void set_apd(t6721_state *t6721)
         writeptr = 0;
         readptr = 0;
         datainfifo = 0;
-
-        memset(buffer, 0xff, FIFO_LEN);
 
         update_dtrd(0);
     }
@@ -332,9 +349,9 @@ static void set_eos(t6721_state *t6721)
     static int last;
     if (last != t6721->eos) {
         DBG(("SPEECH: set EOS: %d\n", t6721->eos));
+        latch_set_irq(IRQNUM_EOS, t6721->eos);
     }
     last = t6721->eos;
-    latch_set_irq(IRQNUM_EOS, t6721->eos);
 }
 
 /*
@@ -462,10 +479,11 @@ void speech_setup_context(machine_context_t *machine_context)
     DBG(("SPEECH: speech_setup_context\n"));
     /* init t6721 chip */
     t6721 = lib_malloc(sizeof(t6721_state));
-    t6721_reset(t6721);
     t6721->read_data = read_bit_from_fifo;
     t6721->set_apd = set_apd;
     t6721->set_eos = set_eos;
+    t6721->set_dtrd = set_dtrd;
+    t6721_reset(t6721);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -471,14 +471,14 @@ static void reset_di_fifo(void)
 static int read_di_fifo(t6721_state *t6721)
 {
     unsigned int bit;
-
+/*
     if (t6721->dtrd) {
         set_dtrd(t6721, 0);
         return -1;
     }
 
     set_dtrd(t6721, 1);
-
+*/
     if (t6721->read_data(t6721, &bit) < 1)
     {
         /* DBGADD(("<*>")); */
@@ -609,7 +609,7 @@ static void set_eos(t6721_state *t6721, int eos)
     if (eos) {
         /* FIXME: confirm: is this correct ? */
         /* 10ms or 20ms depending on current framelen */
-        t6721->eos_samples = (t6721->cycles_per_sec * t6721->cond2_framelen) / 100;
+        t6721->eos_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100);
     }
 }
 
@@ -639,6 +639,7 @@ void t6721_update_tick(t6721_state *t6721)
             phrase_samples--;
         } else {
 
+            set_dtrd(t6721, 1);
             res = read_di_fifo(t6721);
             if ( res == -1) {
                 /* not enough data in FIFO */
@@ -651,7 +652,8 @@ void t6721_update_tick(t6721_state *t6721)
                 }
                 /* FIXME: confirm: is this correct ? */
                 /* 10ms or 20ms depending on current framelen */
-                phrase_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100) - ((t6721->cond2_framebits ? 96 : 48) * 2);
+                phrase_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100) - ((t6721->cond2_framebits ? 96 : 48) * 10);
+                set_dtrd(t6721, 0);
 #ifdef T6721DEBUG
                 DBG(("got Frame: "));
                 switch (parcor_frametype) {

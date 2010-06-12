@@ -593,6 +593,9 @@ void cart_freeze(int type)
 {
     switch (type) {
         /* "Slot 0" */
+        case CARTRIDGE_MAGIC_VOICE:
+            /* cartridge_release_freeze(); */
+            break;
         /* "Slot 1" */
         case CARTRIDGE_EXPERT:
             expert_freeze();
