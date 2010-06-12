@@ -34,6 +34,8 @@
 #include "c64.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64cartsystem.h"
+#include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
@@ -92,7 +94,7 @@
     - Jump to beginning of Magic Voice code at $C000
 */
 
-#define MVDEBUG
+/* #define MVDEBUG */
 /* #define REGDEBUG */
 
 #ifdef MVDEBUG
@@ -172,7 +174,7 @@ void update_dtrd(int d)
 #if 1
         if (DTRD) {
             DBG(("MV: set NMI DTRD  %d\n", DTRD));
-            cartridge_trigger_nmi();
+            cart_trigger_nmi();
         } else {
             DBG(("MV: unset NMI DTRD  %d\n", DTRD));
             cartridge_release_freeze();
@@ -458,7 +460,7 @@ static void set_int(unsigned int int_num, int value)
     if (old != isirq) {
         if (isirq) {
             DBG(("MV: NMI set NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
-            cartridge_trigger_nmi();
+            cart_trigger_nmi();
         } else {
             DBG(("MV: NMI unset NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
             cartridge_release_freeze();
@@ -715,6 +717,10 @@ static io_source_t magicvoice_io2_device = {
 
 static io_source_list_t *magicvoice_io2_list_item = NULL;
 
+static const c64export_resource_t export_res = {
+    "Magic Voice", 1, 1, NULL, &magicvoice_io2_device, CARTRIDGE_MAGIC_VOICE
+};
+
 /* ---------------------------------------------------------------------*/
 BYTE REGPARM1 magicvoice_roml_read(WORD addr)
 {
@@ -767,6 +773,7 @@ static int set_magicvoice_enabled(int val, void *param)
         if (magicvoice_io2_list_item == NULL) {
             DBG(("MV: BUG: mv_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
         }
+        c64export_remove(&export_res);
         c64io_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
         DBG(("MV: set_enabled unregistered\n"));
@@ -778,8 +785,12 @@ static int set_magicvoice_enabled(int val, void *param)
                     stat = -1;
                 } else {
                     DBG(("MV: set_enabled registered\n"));
-                    c64io_register(&magicvoice_io2_device);
-                    stat = 1;
+                    if (c64export_add(&export_res) < 0) {
+                        stat = -1;
+                    } else {
+                        c64io_register(&magicvoice_io2_device);
+                        stat = 1;
+                    }
                 }
             }
         }
@@ -922,6 +933,9 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
     DBG(("MV: attach\n"));
     /* can't use the resource here, as that would call attach again */
     /* resources_set_int("MagicVoiceCartridgeEnabled", 1); */
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
     c64io_register(&magicvoice_io2_device);
     mv_enabled = 1;
     return 0;
@@ -999,8 +1013,10 @@ void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 
 int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    DBG(("MV: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
-    t6721_sound_machine_init(t6721, speed, cycles_per_sec);
+    if (mv_enabled) {
+        DBG(("MV: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
+        t6721_sound_machine_init(t6721, speed, cycles_per_sec);
+    }
 
     return 0; /* ? */
 }

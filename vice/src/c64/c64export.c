@@ -29,7 +29,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "assert.h"
+#include "c64cart.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
+#include "lib.h"
+#include "mon_util.h"
 #include "translate.h"
 #include "uiapi.h"
 
@@ -41,82 +46,107 @@
 #define DBG(x)
 #endif
 
-/* FIXME: rewrite to handle arbitrary number of slots */
-static const char *usage_roml, *usage_romh;
+export_list_t c64export_head = { NULL, NULL, NULL };
 
-int c64export_query(const c64export_resource_t *export_res)
+export_list_t *c64export_query_list(export_list_t *item)
 {
-    if (export_res->use_roml > 0) {
-        if (usage_roml != NULL && strcmp(usage_roml, export_res->name) != 0) {
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S), "ROML", usage_roml);
-            return -1;
-        }
+    if (item) {
+        return item->next;
+    } else {
+        return c64export_head.next;
     }
-    if (export_res->use_romh > 0) {
-        if (usage_romh != NULL && strcmp(usage_romh, export_res->name)!=0) {
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S), "ROMH", usage_romh);
-            return -1;
-        }
-    }
+}
 
-    return 0;
+void c64export_dump(void)
+{
+    export_list_t *current = NULL;
+    io_source_t *io;
+
+    current = c64export_query_list(current);
+
+    if (current == NULL) {
+        mon_out("No expansion port devices.\n");
+    } else {
+        while (current != NULL) {
+            if (cartridge_is_slotmain(current->device->cartid)) {
+                mon_out("* ");
+            } else {
+                mon_out("  ");
+            }
+            mon_out("%5d ", current->device->cartid);
+            mon_out("%4s ", current->device->game ? "GAME" : "-");
+            mon_out("%5s ", current->device->exrom ? "EXROM" : "-");
+            io=current->device->io1;
+            if (io) {
+                mon_out("IO1:%04x-%04x ", io->start_address, io->end_address);
+            } else {
+                mon_out("              ");
+            }
+            io=current->device->io2;
+            if (io) {
+                mon_out("IO2:%04x-%04x ", io->start_address, io->end_address);
+            } else {
+                mon_out("              ");
+            }
+            mon_out("%s\n", current->device->name);
+            current = current->next;
+        }
+    }
 }
 
 int c64export_add(const c64export_resource_t *export_res)
 {
-    if (c64export_query(export_res) < 0) {
-        /* return -1; */
-        /* unfortunately, checking for conflicts on ROML/ROMH is not that easy
-           (if not impossible). there may well be cartridges active at the same
-           time which both use the same ROM line. because of that we continue
-           here after showing a warning.
-        */
-    }
+    export_list_t *current;
+    export_list_t *newentry = lib_malloc(sizeof(export_list_t));
 
-    if (export_res->use_roml > 0) {
-        usage_roml = export_res->name;
-    }
-    if (export_res->use_romh > 0) {
-        usage_romh = export_res->name;
-    }
+    assert(export_res != NULL);
+    DBG(("EXP: register name:%s\n", export_res->name));
 
-    DBG(("EXPORT add roml: '%s' romh: '%s'\n", usage_roml, usage_romh));
+    /* find last entry */
+    current = &c64export_head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    /* add new entry at end of list */
+    current->next = newentry;
+    newentry->previous = current;
+    newentry->device = (c64export_resource_t *)export_res;
+    newentry->next = NULL;
 
     return 0;
 }
 
-/*
-    same problem as above, if we exit early on error that will result in
-    all sort of problems
-*/
 int c64export_remove(const c64export_resource_t *export_res)
 {
-    if (export_res->use_roml > 0) {
-        if (usage_roml == NULL) {
-            /* return -1; */
-        }
-    }
-    if (export_res->use_romh > 0) {
-        if (usage_romh == NULL) {
-            /* return -1; */
-        }
-    }
+    export_list_t *current;
+    export_list_t *prev;
 
-    if (export_res->use_roml > 0) {
-        usage_roml = NULL;
-    }
-    if (export_res->use_romh > 0) {
-        usage_romh = NULL;
-    }
-    DBG(("EXPORT remove roml: '%s' romh: '%s'\n", usage_roml, usage_romh));
+    assert(export_res != NULL);
+    DBG(("EXP: unregister name:%s\n", export_res->name));
 
-    return 0;
+    /* find entry */
+    current = c64export_head.next;
+    while (current != NULL) {
+        if (current->device) {
+            if (current->device == export_res) {
+                /* if entry found, remove it from list */
+                prev = current->previous;
+                prev->next = current->next;
+                if (current->next) {
+                    current->next->previous = prev;
+                }
+                lib_free(current);
+                return 0;
+            }
+        }
+        current = current->next;
+    }
+    /* FIXME: when all structs have been updated we can place an assertion here */
+    DBG(("EXP: BUG unregister name: '%s' not found\n", export_res->name));
+    return -1;
 }
 
 int c64export_resources_init(void)
 {
-    usage_roml = NULL;
-    usage_romh = NULL;
-
     return 0;
 }

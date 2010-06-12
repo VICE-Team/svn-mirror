@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c64cart.h"
 #include "c128.h"
 #include "c128-resources.h"
 #include "c128mem.h"
@@ -37,6 +38,7 @@
 #include "c128memsnapshot.h"
 #include "c128mmu.h"
 #include "c128rom.h"
+#include "cartridge.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
@@ -48,7 +50,6 @@
 #ifdef HAVE_RS232
 #include "c64acia.h"
 #endif
-
 
 static log_t c128_snapshot_log = LOG_ERR;
 
@@ -197,20 +198,9 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
     if (save_roms && mem_write_rom_snapshot_module(s) <0)
         goto fail;
 
-    /* REU module: FIXME.  */
-
-    /* GEORAM module: FIXME.  */
-
-    /* IEEE 488 module.  */
-    if (ieee488_enabled
-        && tpicore_snapshot_write_module(machine_context.tpi1, s) < 0)
+    if (cartridge_snapshot_read_modules(s) < 0) {
         goto fail;
-
-#ifdef HAVE_RS232
-    /* ACIA module.  */
-    if (acia_de_enabled && acia1_snapshot_write_module(s) < 0)
-        goto fail;
-#endif
+    }
 
     return 0;
 
@@ -261,25 +251,9 @@ int c128_snapshot_read_module(snapshot_t *s)
     if (mem_read_rom_snapshot_module(s) < 0)
         goto fail;
 
-    /* REU module: FIXME.  */
-
-    /* GEORAM module: FIXME.  */
-
-    /* IEEE488 module.  */
-    if (tpicore_snapshot_read_module(machine_context.tpi1, s) < 0) {
-        ieee488_enabled = 0;
-    } else {
-        ieee488_enabled = 1;
+    if (cartridge_snapshot_read_modules(s) < 0) {
+        goto fail;
     }
-
-#ifdef HAVE_RS232
-    /* ACIA module.  */
-    if (acia1_snapshot_read_module(s) < 0) {
-        acia_de_enabled = 0;
-    } else {
-        acia_de_enabled = 1;
-    }
-#endif
 
     ui_update_menus();
 
@@ -290,4 +264,3 @@ fail:
         snapshot_module_close(m);
     return -1;
 }
-

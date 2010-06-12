@@ -76,11 +76,6 @@ char *kernal_revision = NULL;
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;
 
-#ifdef HAVE_RS232
-/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
-int acia_de_enabled;
-#endif
-
 static BYTE REGPARM1 emu_id_read(WORD address)
 {
     return emuid_read((WORD)(address - 0xdfa0));
@@ -179,21 +174,6 @@ static int set_kernal_revision(const char *val, void *param)
     return 0;
 }
 
-#ifdef HAVE_RS232
-static int set_acia_de_enabled(int val, void *param)
-{
-    if (val != acia_de_enabled) {
-        if (val) {
-            acia1_enable();
-        } else {
-            acia1_disable();
-        }
-        acia_de_enabled = val;
-    }
-    return 0;
-}
-#endif
-
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -288,10 +268,6 @@ static const resource_int_t resources_int[] = {
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", 0, RES_EVENT_SAME, NULL,
       &cia2_model, set_cia2_model, NULL },
-#ifdef HAVE_RS232
-    { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &acia_de_enabled, set_acia_de_enabled, NULL },
-#endif
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

@@ -48,6 +48,7 @@
 #include "c64memrom.h"
 #include "c64pla.h"
 #include "c64tpi.h"
+#include "cartridge.h"
 #include "cia.h"
 #include "functionrom.h"
 #include "georam.h"

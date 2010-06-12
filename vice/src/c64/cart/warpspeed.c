@@ -114,7 +114,7 @@ void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static const c64export_resource_t export_res_warpspeed = {
-    "Warpspeed", 1, 0
+    "Warpspeed", 1, 0, &warpspeed_io1_device, &warpspeed_io2_device, CARTRIDGE_WARPSPEED
 };
 
 /* ---------------------------------------------------------------------*/

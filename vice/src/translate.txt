@@ -1673,6 +1673,9 @@ IDGS_MON_GOTO_DESCRIPTION
 IDGS_MON_IO_DESCRIPTION
 
 /* monitor/mon_command.c */
+IDGS_MON_EXPORT_DESCRIPTION
+
+/* monitor/mon_command.c */
 IDGS_MON_NEXT_DESCRIPTION
 
 /* monitor/mon_command.c */

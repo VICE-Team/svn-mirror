@@ -30,7 +30,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "maincpu.h"
@@ -52,16 +54,23 @@ static void REGPARM2 sfx_soundsampler_sound_store(WORD addr, BYTE value)
 /* ------------------------------------------------------------------------- */
 
 static io_source_t sfx_soundsampler_device = {
-    "SFX SOUND SAMPLER",
+    "SFX Sound Sampler",
     IO_DETACH_RESOURCE,
     "SFXSoundSampler",
     0xde00, 0xdeff, 0x01,
     0,
     sfx_soundsampler_sound_store,
-    NULL
+    NULL,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
 static io_source_list_t *sfx_soundsampler_list_item = NULL;
+
+static const c64export_resource_t export_res= {
+    "SFX Sound Sampler", 0, 0, &sfx_soundsampler_device, NULL, CARTRIDGE_SFX_SOUND_SAMPLER
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -72,13 +81,18 @@ static int set_sfx_soundsampler_enabled(int val, void *param)
 {
     if (sfx_soundsampler_enabled != val) {
         if (val) {
+            if (c64export_add(&export_res) < 0) {
+                return -1;
+            }
             sfx_soundsampler_list_item = c64io_register(&sfx_soundsampler_device);
+            sfx_soundsampler_enabled = 1;
         } else {
+            c64export_remove(&export_res);
             c64io_unregister(sfx_soundsampler_list_item);
             sfx_soundsampler_list_item = NULL;
+            sfx_soundsampler_enabled = 0;
         }
     }
-    sfx_soundsampler_enabled = val;
     return 0;
 }
 

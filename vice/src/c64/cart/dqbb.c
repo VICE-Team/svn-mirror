@@ -123,7 +123,10 @@ static io_source_t dqbb_device = {
     0xde00, 0xdeff, 0x01,
     0,
     dqbb_reg_store,
-    NULL
+    NULL,
+    NULL,
+    NULL,
+    CARTRIDGE_DQBB
 };
 
 static io_source_list_t *dqbb_list_item = NULL;
@@ -131,7 +134,7 @@ static io_source_list_t *dqbb_list_item = NULL;
 /* ------------------------------------------------------------------------- */
 
 static const c64export_resource_t export_res = {
-    "Double Quick Brown Box", 1, 1
+    "Double Quick Brown Box", 1, 1, &dqbb_device, NULL, CARTRIDGE_DQBB
 };
 
 static int set_dqbb_enabled(int val, void *param)

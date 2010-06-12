@@ -30,7 +30,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "digimax.h"
 #include "lib.h"
@@ -137,43 +139,53 @@ static io_source_t digimax_device = {
     0xde00, 0xde03, 0x03,
     1, /* read is always valid */
     digimax_sound_store,
-    digimax_sound_read
+    digimax_sound_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_DIGIMAX
 };
 
 static io_source_list_t * digimax_list_item = NULL;
+
+static c64export_resource_t export_res = {
+    "DIGIMAX", 0, 0, &digimax_device, NULL, CARTRIDGE_DIGIMAX
+};
 
 /* ---------------------------------------------------------------------*/
 
 static int set_digimax_enabled(int val, void *param)
 {
-    if (digimax_enabled != val) {
-        if (val) {
-            if (digimax_address != 0xdd00) {
-                digimax_list_item = c64io_register(&digimax_device);
+    if (!digimax_enabled && val) {
+        if (digimax_address != 0xdd00) {
+            if (c64export_add(&export_res) < 0) {
+                return -1;
             }
-        } else {
-            if (digimax_list_item != NULL) {
-                c64io_unregister(digimax_list_item);
-                digimax_list_item = NULL;
-            }
+            digimax_list_item = c64io_register(&digimax_device);
         }
-        digimax_enabled = val;
+        digimax_enabled = 1;
+    } else if (digimax_enabled && !val) {
+        if (digimax_list_item != NULL) {
+            c64export_remove(&export_res);
+            c64io_unregister(digimax_list_item);
+            digimax_list_item = NULL;
+        }
+        digimax_enabled = 0;
     }
     return 0;
 }
 
 static int set_digimax_base(int val, void *param)
 {
+    int old = digimax_enabled;
+
     if (val == digimax_address) {
         return 0;
     }
 
+    set_digimax_enabled(0, NULL);
+
     switch (val) {
         case 0xdd00:   /* special case, userport interface */
-            if (digimax_list_item != NULL) {
-                c64io_unregister(digimax_list_item);
-                digimax_list_item = NULL;
-            }
             break;
         case 0xde00:
         case 0xde20:
@@ -183,6 +195,11 @@ static int set_digimax_base(int val, void *param)
         case 0xdea0:
         case 0xdec0:
         case 0xdee0:
+            digimax_device.start_address = (WORD)val;
+            digimax_device.end_address = (WORD)(val + 3);
+            export_res.io1 = &digimax_device;
+            export_res.io2 = NULL;
+            break;
         case 0xdf00:
         case 0xdf20:
         case 0xdf40:
@@ -193,20 +210,16 @@ static int set_digimax_base(int val, void *param)
         case 0xdfe0:
             digimax_device.start_address = (WORD)val;
             digimax_device.end_address = (WORD)(val + 3);
-            if (digimax_enabled) {
-                if (digimax_list_item != NULL) {
-                    c64io_unregister(digimax_list_item);
-                }
-                digimax_list_item = c64io_register(&digimax_device);
-            }
+            export_res.io1 = NULL;
+            export_res.io2 = &digimax_device;
             break;
         default:
             return -1;
-  }
+    }
 
-  digimax_address = val;
-
-  return 0;
+    digimax_address = val;
+    set_digimax_enabled(old, NULL);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/

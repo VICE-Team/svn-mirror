@@ -29,26 +29,31 @@
 
 #ifdef HAVE_MIDI
 
+#include <string.h>
+
 #include "types.h"
 
 #include "c64-midi.h"
+#include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
 
+/* the order must match the enum in c64-midi.h */
 midi_interface_t midi_interface[] = {
     /* Sequential Circuits Inc. */
-    { "Sequential", 0xde00, 0, 2, 1, 3, 0xff, 1, 1 },
+    { "Sequential", 0xde00, 0, 2, 1, 3, 0xff, 1, 1, CARTRIDGE_MIDI_SEQUENTIAL },
     /* Passport & Syntech */
-    { "Passport", 0xde00, 8, 8, 9, 9, 0xff, 1, 1 },
+    { "Passport", 0xde00, 8, 8, 9, 9, 0xff, 1, 1, CARTRIDGE_MIDI_PASSPORT },
     /* DATEL/Siel/JMS */
-    { "DATEL", 0xde00, 4, 6, 5, 7, 0xff, 2, 1 },
+    { "DATEL", 0xde00, 4, 6, 5, 7, 0xff, 2, 1, CARTRIDGE_MIDI_DATEL },
     /* Namesoft */
-    { "Namesoft", 0xde00, 0, 2, 1, 3, 0xff, 1, 2 },
+    { "Namesoft", 0xde00, 0, 2, 1, 3, 0xff, 1, 2, CARTRIDGE_MIDI_NAMESOFT },
     /* Electronics - Maplin magazine */
-    { "Maplin", 0xdf00, 0, 0, 1, 1, 0xff, 2, 0 },
+    { "Maplin", 0xdf00, 0, 0, 1, 1, 0xff, 2, 0, CARTRIDGE_MIDI_MAPLIN },
     { NULL }
 };
 
@@ -68,46 +73,62 @@ static io_source_t midi_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     midi_store,
-    c64midi_read
+    c64midi_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_MIDI_SEQUENTIAL
+};
+
+static c64export_resource_t export_res = {
+    "MIDI", 0, 0, &midi_device, NULL, CARTRIDGE_MIDI_SEQUENTIAL
 };
 
 static io_source_list_t *midi_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
+static int set_midi_enabled(int val, void *param)
+{
+    if (!midi_enabled && val) {
+        if (c64export_add(&export_res) < 0) {
+            return -1;
+        }
+        midi_list_item = c64io_register(&midi_device);
+        midi_enabled = 1;
+    } else if (midi_enabled && !val) {
+        c64export_remove(&export_res);
+        c64io_unregister(midi_list_item);
+        midi_list_item = NULL;
+        midi_enabled = 0;
+    }
+    midi_enabled = val;
+    return 0;
+}
+
 static int midi_set_c64mode(int new_mode, void *param)
 {
+    int old = midi_enabled;
     if (midi_mode != new_mode) {
+        set_midi_enabled(0, NULL);
         switch (new_mode) {
-            case 4:
+            case MIDI_MODE_MAPLIN:
                 midi_device.start_address = 0xdf00;
                 midi_device.end_address = 0xdfff;
+                export_res.io1 = NULL;
+                export_res.io2 = &midi_device;
                 break;
             default:
                 midi_device.start_address = 0xde00;
                 midi_device.end_address = 0xdeff;
+                export_res.io1 = &midi_device;
+                export_res.io2 = NULL;
                 break;
         }
-        if (midi_enabled) {
-            c64io_unregister(midi_list_item);
-            midi_list_item = c64io_register(&midi_device);
-        }
+        export_res.cartid = midi_interface[new_mode].cartid;
+        /* export_res.name = midi_interface[new_mode].name; */
+        set_midi_enabled(old, NULL);
         return midi_set_mode(new_mode, param);
     }
-    return 0;
-}
-
-static int set_midi_enabled(int val, void *param)
-{
-    if (midi_enabled != val) {
-        if (val) {
-            midi_list_item = c64io_register(&midi_device);
-        } else {
-            c64io_unregister(midi_list_item);
-            midi_list_item = NULL;
-        }
-    }
-    midi_enabled = val;
     return 0;
 }
 

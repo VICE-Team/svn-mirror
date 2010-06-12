@@ -356,7 +356,7 @@ void cartridge_set_default(void)
     reset_try_flags();
 }
 
-const char *cartridge_get_file_name(WORD addr)
+const char *cartridge_get_file_name(int addr)
 {
     if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
         /* special case handling for the multiple file generic type */

@@ -632,13 +632,28 @@ void tfe_init(void)
 
 void tfe_shutdown(void)
 {
+#ifdef TFE_DEBUG
+    log_message(tfe_log, "tfe_shutdown().");
+#endif
+
     assert((tfe && tfe_packetpage) || (!tfe && !tfe_packetpage));
 
-    if (tfe) {
-        tfe_deactivate();
+    if (tfe_enabled) {
+        if (tfe) {
+#ifdef TFE_DEBUG
+            log_message(tfe_log, "...1");
+#endif
+            tfe_deactivate();
+        }
+#ifdef TFE_DEBUG
+        log_message(tfe_log, "...2");
+#endif
+        lib_free(tfe_interface);
     }
 
-    lib_free(tfe_interface);
+#ifdef TFE_DEBUG
+    log_message(tfe_log, "tfe_shutdown() done.");
+#endif
 }
 
 

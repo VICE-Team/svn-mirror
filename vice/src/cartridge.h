@@ -29,32 +29,57 @@
 
 #include "types.h"
 
-extern void cartridge_reset(void);
-extern void cartridge_freeze(int type);
+/*
+    This is the toplevel generic cartridge interface
+*/
 
+/* init the cartridge system */
 extern void cartridge_init(void);
 extern int cartridge_resources_init(void);
-extern void cartridge_resources_shutdown(void);
 extern int cartridge_cmdline_options_init(void);
+/* shutdown the cartridge system */
+extern void cartridge_resources_shutdown(void);
 
+/* init the cartridge config so the cartridge can start (or whatever) */
+extern void cartridge_init_config(void);
+
+/* attach a cartridge by type and filename (takes crt and bin files) */
 extern int cartridge_attach_image(int type, const char *filename);
+/* enable/disable cartridge by type. should be used by the UI instead of using the resources directly */
+extern int cartridge_enable_type(int type);
 /* detaches the cartridge with the associated id. pass -1 to detach all */
 extern void cartridge_detach_image(int type);
 
+/* FIXME: this should also be made a generic function that takes the type */
+/* set current "Main Slot" cart as default */
 extern void cartridge_set_default(void);
-extern void cartridge_trigger_freeze(void);
-extern void cartridge_trigger_freeze_nmi_only(void);
-extern void cartridge_trigger_nmi(void);
-extern const char *cartridge_get_file_name(WORD addr);
 
+/* reset button pressed in UI */
+extern void cartridge_reset(void);
+
+/* FIXME: this should also be made a generic function that takes the type */
+/* freeze button pressed in UI */
+extern void cartridge_trigger_freeze(void);
+
+/* FIXME: this should also be made a generic function that takes the type */
+/* trigger a freeze, but don't trigger the cartridge logic (which might release it). used by monitor */
+extern void cartridge_trigger_freeze_nmi_only(void);
+
+/* FIXME: this should also be made a generic function that takes the type */
+extern void cartridge_release_freeze(void);
+
+extern const char *cartridge_get_file_name(int type);
+extern int cartridge_type_enabled(int type);
+
+/* save an image of the give type to a file */
 extern int cartridge_save_image(int type, const char *filename);
 extern int cartridge_bin_save(int type, const char *filename);
 extern int cartridge_crt_save(int type, const char *filename);
 
-extern void cartridge_attach(int type, BYTE *rawcart);
-extern void cartridge_detach(int type);
-
-extern int cartridge_type_enabled(int type);
+/* load/write snapshots */
+struct snapshot_s;
+extern int cartridge_snapshot_read_modules(struct snapshot_s *s);
+extern int cartridge_snapshot_write_modules(struct snapshot_s *s);
 
 /* Carts that don't have a rom images */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */

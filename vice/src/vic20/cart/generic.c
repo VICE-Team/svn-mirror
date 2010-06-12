@@ -487,6 +487,7 @@ void generic_set_default(void)
     set_cartridge_file_B(cartfileB, NULL);
 }
 
+/* FIXME: rewrite to use cartids defined in cartridge.h instead of an address */
 const char *generic_get_file_name(WORD addr)
 {
     switch (addr) {

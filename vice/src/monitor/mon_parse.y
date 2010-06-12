@@ -156,6 +156,7 @@ extern int cur_len, last_len;
 %token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST
+%token CMD_EXPORT
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
@@ -441,6 +442,8 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
 
                    | CMD_DEVICE memspace end_cmd
                      { monitor_change_device($2); }
+                   | CMD_EXPORT end_cmd
+                     { mon_export(); }
                    | CMD_QUIT end_cmd
                      { mon_quit(); YYACCEPT; }
                    | CMD_EXIT end_cmd

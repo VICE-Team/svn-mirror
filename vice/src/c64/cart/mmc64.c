@@ -38,6 +38,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -158,7 +159,10 @@ static io_source_t mmc64_io1_clockport_device = {
     0xde01, 0xde01, 0x01,
     0,
     mmc64_clockport_enable_store,
-    NULL
+    NULL,
+    NULL,
+    NULL,
+    CARTRIDGE_MMC64
 };
 
 static io_source_t mmc64_io2_clockport_device = {
@@ -168,10 +172,19 @@ static io_source_t mmc64_io2_clockport_device = {
     0xdf21, 0xdf21, 0x01,
     0,
     mmc64_clockport_enable_store,
-    NULL
+    NULL,
+    NULL,
+    NULL,
+    CARTRIDGE_MMC64
 };
 
 static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device;
+
+/* FIXME: register/handle this resource properly */
+
+static const c64export_resource_t export_cp_res = {
+    "MMC64 Clockport", 0, 0, &mmc64_io1_clockport_device, &mmc64_io2_clockport_device, CARTRIDGE_MMC64
+};
 
 static io_source_t mmc64_io2_device = {
     "MMC64",
@@ -180,7 +193,10 @@ static io_source_t mmc64_io2_device = {
     0xdf10, 0xdf13, 0x03,
     0,
     mmc64_io2_store,
-    mmc64_io2_read
+    mmc64_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_MMC64
 };
 
 static io_source_t mmc64_io1_device = {
@@ -190,12 +206,19 @@ static io_source_t mmc64_io1_device = {
     0xde10, 0xde13, 0x03,
     0,
     mmc64_io1_store,
-    mmc64_io1_read
+    mmc64_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_MMC64
 };
 
 static io_source_list_t *mmc64_clockport_list_item = NULL;
 static io_source_list_t *mmc64_io1_list_item = NULL;
 static io_source_list_t *mmc64_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "MMC64", 1, 0, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
+};
 
 int mmc64_cart_enabled(void)
 {
@@ -233,53 +256,40 @@ void mmc64_reset(void)
     }
 }
 
-
-static const c64export_resource_t export_res = {
-    "MMC64", 1, 0
-};
-
 static int set_mmc64_enabled(int val, void *param)
 {
-    LOG(("MMC64 enabled: %d", mmc64_enabled));
-    if (val != mmc64_enabled) {
-        if (!val) {
-            if (mmc64_deactivate() < 0) {
-                return -1;
-            }
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-            c64export_remove(&export_res);
-            mmc64_enabled = 0;
-            export.exrom = 0;
-            mem_pla_config_changed();
-            c64io_unregister(mmc64_clockport_list_item);
-            c64io_unregister(mmc64_io1_list_item);
-            c64io_unregister(mmc64_io2_list_item);
-            mmc64_clockport_list_item = NULL;
-            mmc64_io1_list_item = NULL;
-            mmc64_io2_list_item = NULL;
-            return 0;
-        } else {
-            if (c64export_query(&export_res) >= 0) {
-                if (mmc64_activate() < 0) {
-                    return -1;
-                }
-                machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-
-                if (c64export_add(&export_res) < 0) {
-                    return -1;
-                }
-
-                mmc64_enabled = 1;
-                export.exrom = 1;
-                mem_pla_config_changed();
-                mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
-                mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
-                mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
-                return 0;
-            } else {
-                return -1;
-            }
+    LOG(("MMC64: set enabled: %d", mmc64_enabled));
+    if (!mmc64_enabled && val) {
+        if (mmc64_activate() < 0) {
+            return -1;
         }
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+
+        if (c64export_add(&export_res) < 0) {
+            return -1;
+        }
+
+        mmc64_enabled = 1;
+        export.exrom = 1;
+        mem_pla_config_changed();
+        mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+        mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
+        mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
+    } else if (mmc64_enabled && !val) {
+        if (mmc64_deactivate() < 0) {
+            return -1;
+        }
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        c64export_remove(&export_res);
+        mmc64_enabled = 0;
+        export.exrom = 0;
+        mem_pla_config_changed();
+        c64io_unregister(mmc64_clockport_list_item);
+        c64io_unregister(mmc64_io1_list_item);
+        c64io_unregister(mmc64_io2_list_item);
+        mmc64_clockport_list_item = NULL;
+        mmc64_io1_list_item = NULL;
+        mmc64_io2_list_item = NULL;
     }
     return 0;
 }

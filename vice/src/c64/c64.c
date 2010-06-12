@@ -180,13 +180,9 @@ int machine_resources_init(void)
         || plus60k_resources_init() < 0
         || plus256k_resources_init() < 0
         || c64_256k_resources_init() < 0
-#ifdef HAVE_TFE
-        || tfe_resources_init() < 0
-#endif
         || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
-        || acia1_resources_init() < 0
         || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
         || serial_resources_init() < 0
@@ -200,9 +196,6 @@ int machine_resources_init(void)
 #endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
-#ifdef HAVE_MIDI
-        || c64_midi_resources_init() < 0
-#endif
         || c64_glue_resources_init() < 0
         || cartridge_resources_init() < 0) {
         return -1;
@@ -227,9 +220,6 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
-#ifdef HAVE_MIDI
-    midi_resources_shutdown();
-#endif
 }
 
 /* C64-specific command-line option initialization.  */
@@ -252,13 +242,9 @@ int machine_cmdline_options_init(void)
         || plus60k_cmdline_options_init() < 0
         || plus256k_cmdline_options_init() < 0
         || c64_256k_cmdline_options_init() < 0
-#ifdef HAVE_TFE
-        || tfe_cmdline_options_init() < 0
-#endif
         || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
-        || acia1_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
         || serial_cmdline_options_init() < 0
@@ -272,9 +258,6 @@ int machine_cmdline_options_init(void)
 #endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
-#ifdef HAVE_MIDI
-        || c64_midi_cmdline_options_init() < 0
-#endif
         || c64_glue_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0) {
         return -1;
@@ -372,8 +355,6 @@ int machine_specific_init(void)
         /* FIXME: the TPI context probably should not be in the machine context */
         tpi_init(machine_context.tpi1);
 
-        acia1_init();
-
 #ifndef COMMON_KBD
         /* Initialize the keyboard.  */
         if (c64_kbd_init() < 0) {
@@ -421,11 +402,6 @@ int machine_specific_init(void)
         /* Initialize the C64 256K.  */
         c64_256k_init();
 
-#ifdef HAVE_TFE
-        /* Initialize the TFE.  */
-        tfe_init();
-#endif
-
 #ifdef HAVE_MOUSE
         /* Initialize mouse support (if present).  */
         mouse_init();
@@ -435,14 +411,10 @@ int machine_specific_init(void)
         lightpen_register_timing_callback(vicii_lightpen_timing, 0);
         lightpen_register_trigger_callback(vicii_trigger_light_pen);
 #endif
-
         c64iec_init();
         c64fastiec_init();
 
         cartridge_init();
-#ifdef HAVE_MIDI
-        midi_init();
-#endif
     }
 
     machine_drive_stub();
@@ -473,13 +445,12 @@ void machine_specific_reset(void)
         /* FIXME: the TPI context probably should not be in the machine context */
         tpicore_reset(machine_context.tpi1);
 
-        acia1_reset();
-        rs232drv_reset();
+        rs232drv_reset(); /* driver is used by both user- and expansion port ? */
         rsuser_reset();
 
         printer_reset();
 
-        /* FIXME */
+        /* FIXME: whats actually broken here? */
         /* reset_reu(); */
     }
 
@@ -497,9 +468,6 @@ void machine_specific_reset(void)
     plus60k_reset();
     plus256k_reset();
     c64_256k_reset();
-#ifdef HAVE_MIDI
-    midi_reset();
-#endif
 }
 
 void machine_specific_powerup(void)
@@ -525,11 +493,6 @@ void machine_specific_shutdown(void)
     plus60k_shutdown();
     plus256k_shutdown();
     c64_256k_shutdown();
-
-#ifdef HAVE_TFE
-    /* Shutdown the TFE.  */
-    tfe_shutdown();
-#endif
 
     if (vsid_mode) {
         vsid_ui_close();

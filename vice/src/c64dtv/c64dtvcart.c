@@ -78,7 +78,7 @@ void cartridge_trigger_freeze_nmi_only(void)
 {
 }
 
-const char *cartridge_get_file_name(WORD addr_ignored)
+const char *cartridge_get_file_name(int type)
 {
     return 0; /* NULL */
 }

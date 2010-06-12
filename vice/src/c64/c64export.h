@@ -27,16 +27,31 @@
 #ifndef VICE_C64EXPORT_H
 #define VICE_C64EXPORT_H
 
+#include "c64io.h"
+
 struct c64export_resource_s {
     const char *name;
-    unsigned int use_roml;
-    unsigned int use_romh;
+    unsigned int game;
+    unsigned int exrom;
+    io_source_t *io1;
+    io_source_t *io2;
+    unsigned int cartid;
 };
 typedef struct c64export_resource_s c64export_resource_t;
 
-extern int c64export_query(const c64export_resource_t *export_res);
+typedef struct export_list_s {
+    struct export_list_s *previous;
+    c64export_resource_t *device;
+    struct export_list_s *next;
+} export_list_t;
+
+/* returns head of list if param is NULL, else the next item */
+extern export_list_t *c64export_query_list(export_list_t *item);
+void c64export_dump(void);
+
 extern int c64export_add(const c64export_resource_t *export_res);
 extern int c64export_remove(const c64export_resource_t *export_res);
+
 extern int c64export_resources_init(void);
 
 #endif

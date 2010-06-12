@@ -51,6 +51,8 @@ struct midi_interface_s {
     BYTE midi_cd;
     /* Interrupt type: none (0), IRQ (1) or NMI (2) */
     int irq_type;
+    /* cart-ID of associated cartridge/type of expansion, 0 means internal */
+    int cartid;
 };
 typedef struct midi_interface_s midi_interface_t;
 

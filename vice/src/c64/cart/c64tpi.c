@@ -32,19 +32,40 @@
 #include "archdep.h"
 #include "c64.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
 #include "c64tpi.h"
+#include "cartridge.h"
 #include "drivecpu.h"
 #include "lib.h"
 #include "log.h"
 #include "parallel.h"
 #include "maincpu.h"
+#include "resources.h"
 #include "tpi.h"
 #include "types.h"
 
+/*
+    IEEE488 interface for c64 and c128
+
+    - the hardware uses a TPI at $DF00-$DF07 (mirrored through $DF08-$DFFF)
+
+    TODO: register description
+
+*/
+
 #define mytpi_init tpi_init
 #define mytpi_set_int tpi_set_int
+
+static int ieee488_enabled = 0;
+
+int tpi_cart_enabled(void)
+{
+    return ieee488_enabled;
+}
+
+/* ---------------------------------------------------------------------*/
 
 static void REGPARM2 tpi_store(WORD addr, BYTE data)
 {
@@ -56,15 +77,6 @@ static BYTE REGPARM1 tpi_read(WORD addr)
     return tpicore_read(machine_context.tpi1, addr);
 }
 
-/*
-    IEEE488 interface for c64 and c128
-
-    - the hardware uses a TPI at $DF00-$DF07 (mirrored through $DF08-$DFFF)
-
-    TODO: register description
-
-*/
-
 /* ---------------------------------------------------------------------*/
 
 static io_source_t tpi_device = {
@@ -74,10 +86,17 @@ static io_source_t tpi_device = {
     0xdf00, 0xdfff, 0x07,
     1, /* read is always valid */
     tpi_store,
-    tpi_read
+    tpi_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_IEEE488
 };
 
 static io_source_list_t *tpi_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "IEEE488", 0, 0, NULL, &tpi_device, CARTRIDGE_IEEE488
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -89,7 +108,7 @@ void tpi_config_init(void)
 int tpi_bin_attach(const char *filename, BYTE *rawcart)
 {
     FILE *fd;
-    
+
     fd = fopen(filename, MODE_READ);
     if (!fd) {
         return -1;
@@ -100,14 +119,20 @@ int tpi_bin_attach(const char *filename, BYTE *rawcart)
     }
     fclose(fd);
 
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
     c64io_register(&tpi_device);
+    ieee488_enabled = 1;
     return 0;
 }
 
 void tpi_detach(void)
 {
     c64io_unregister(tpi_list_item);
+    c64export_remove(&export_res);
     tpi_list_item = NULL;
+    ieee488_enabled = 0;
 }
 
 BYTE REGPARM1 tpi_peek(WORD addr)
@@ -275,6 +300,8 @@ static BYTE read_pc(tpi_context_t *tpi_context)
     return byte;
 }
 
+/* ---------------------------------------------------------------------*/
+
 void tpi_init(tpi_context_t *tpi_context)
 {
     tpi_context->log = log_open(tpi_context->myname);
@@ -312,4 +339,51 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->set_cb = set_cb;
     tpi_context->set_int = set_int;
     tpi_context->restore_int = restore_int;
+}
+
+static int set_ieee488_enabled(int val, void *param)
+{
+    if (!val) {
+        ieee488_enabled = 0;
+    } else {
+        ieee488_enabled = 1;
+    }
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "IEEE488", 0, RES_EVENT_SAME, NULL,
+      &ieee488_enabled, set_ieee488_enabled, NULL },
+    { NULL }
+};
+
+int tpi_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+void tpi_resources_shutdown(void)
+{
+
+}
+
+/* ---------------------------------------------------------------------*/
+
+int tpi_snapshot_read_module(struct snapshot_s *s)
+{
+    if (tpicore_snapshot_read_module(machine_context.tpi1, s) < 0) {
+        ieee488_enabled = 0;
+        return -1;
+    } else {
+        ieee488_enabled = 1;
+    }
+    return 0;
+}
+
+int tpi_snapshot_write_module(struct snapshot_s *s)
+{
+    if (tpicore_snapshot_write_module(machine_context.tpi1, s) < 0) {
+        return -1;
+    }
+    return 0;
 }

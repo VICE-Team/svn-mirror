@@ -1027,7 +1027,16 @@ void mon_cart_freeze(void)
         (mon_cart_cmd.cartridge_trigger_freeze)();
     } else {
         mon_out("Unsupported.\n");
-   }
+    }
+}
+
+void mon_export(void)
+{
+    if (mon_cart_cmd.export_dump != NULL) {
+        (mon_cart_cmd.export_dump)();
+    } else {
+        mon_out("Unsupported.\n");
+    }
 }
 
 /* Local helper functions for building the lists */

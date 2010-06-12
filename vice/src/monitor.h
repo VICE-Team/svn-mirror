@@ -189,6 +189,7 @@ struct monitor_cartridge_commands_s {
     void (*cartridge_detach_image)(int type);
     void (*cartridge_trigger_freeze)(void);
     void (*cartridge_trigger_freeze_nmi_only)(void);
+    void (*export_dump)(void);
 };
 typedef struct monitor_cartridge_commands_s monitor_cartridge_commands_t;
 

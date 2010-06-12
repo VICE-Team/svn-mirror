@@ -142,47 +142,48 @@
      CMD_MEMMAPSAVE = 358,
      CMD_COMMENT = 359,
      CMD_LIST = 360,
-     CMD_LABEL_ASGN = 361,
-     L_PAREN = 362,
-     R_PAREN = 363,
-     ARG_IMMEDIATE = 364,
-     REG_A = 365,
-     REG_X = 366,
-     REG_Y = 367,
-     COMMA = 368,
-     INST_SEP = 369,
-     REG_B = 370,
-     REG_C = 371,
-     REG_D = 372,
-     REG_E = 373,
-     REG_H = 374,
-     REG_L = 375,
-     REG_AF = 376,
-     REG_BC = 377,
-     REG_DE = 378,
-     REG_HL = 379,
-     REG_IX = 380,
-     REG_IY = 381,
-     REG_SP = 382,
-     REG_IXH = 383,
-     REG_IXL = 384,
-     REG_IYH = 385,
-     REG_IYL = 386,
-     STRING = 387,
-     FILENAME = 388,
-     R_O_L = 389,
-     OPCODE = 390,
-     LABEL = 391,
-     BANKNAME = 392,
-     CPUTYPE = 393,
-     MON_REGISTER = 394,
-     COMPARE_OP = 395,
-     RADIX_TYPE = 396,
-     INPUT_SPEC = 397,
-     CMD_CHECKPT_ON = 398,
-     CMD_CHECKPT_OFF = 399,
-     TOGGLE = 400,
-     MASK = 401
+     CMD_EXPORT = 361,
+     CMD_LABEL_ASGN = 362,
+     L_PAREN = 363,
+     R_PAREN = 364,
+     ARG_IMMEDIATE = 365,
+     REG_A = 366,
+     REG_X = 367,
+     REG_Y = 368,
+     COMMA = 369,
+     INST_SEP = 370,
+     REG_B = 371,
+     REG_C = 372,
+     REG_D = 373,
+     REG_E = 374,
+     REG_H = 375,
+     REG_L = 376,
+     REG_AF = 377,
+     REG_BC = 378,
+     REG_DE = 379,
+     REG_HL = 380,
+     REG_IX = 381,
+     REG_IY = 382,
+     REG_SP = 383,
+     REG_IXH = 384,
+     REG_IXL = 385,
+     REG_IYH = 386,
+     REG_IYL = 387,
+     STRING = 388,
+     FILENAME = 389,
+     R_O_L = 390,
+     OPCODE = 391,
+     LABEL = 392,
+     BANKNAME = 393,
+     CPUTYPE = 394,
+     MON_REGISTER = 395,
+     COMPARE_OP = 396,
+     RADIX_TYPE = 397,
+     INPUT_SPEC = 398,
+     CMD_CHECKPT_ON = 399,
+     CMD_CHECKPT_OFF = 400,
+     TOGGLE = 401,
+     MASK = 402
    };
 #endif
 /* Tokens.  */
@@ -289,47 +290,48 @@
 #define CMD_MEMMAPSAVE 358
 #define CMD_COMMENT 359
 #define CMD_LIST 360
-#define CMD_LABEL_ASGN 361
-#define L_PAREN 362
-#define R_PAREN 363
-#define ARG_IMMEDIATE 364
-#define REG_A 365
-#define REG_X 366
-#define REG_Y 367
-#define COMMA 368
-#define INST_SEP 369
-#define REG_B 370
-#define REG_C 371
-#define REG_D 372
-#define REG_E 373
-#define REG_H 374
-#define REG_L 375
-#define REG_AF 376
-#define REG_BC 377
-#define REG_DE 378
-#define REG_HL 379
-#define REG_IX 380
-#define REG_IY 381
-#define REG_SP 382
-#define REG_IXH 383
-#define REG_IXL 384
-#define REG_IYH 385
-#define REG_IYL 386
-#define STRING 387
-#define FILENAME 388
-#define R_O_L 389
-#define OPCODE 390
-#define LABEL 391
-#define BANKNAME 392
-#define CPUTYPE 393
-#define MON_REGISTER 394
-#define COMPARE_OP 395
-#define RADIX_TYPE 396
-#define INPUT_SPEC 397
-#define CMD_CHECKPT_ON 398
-#define CMD_CHECKPT_OFF 399
-#define TOGGLE 400
-#define MASK 401
+#define CMD_EXPORT 361
+#define CMD_LABEL_ASGN 362
+#define L_PAREN 363
+#define R_PAREN 364
+#define ARG_IMMEDIATE 365
+#define REG_A 366
+#define REG_X 367
+#define REG_Y 368
+#define COMMA 369
+#define INST_SEP 370
+#define REG_B 371
+#define REG_C 372
+#define REG_D 373
+#define REG_E 374
+#define REG_H 375
+#define REG_L 376
+#define REG_AF 377
+#define REG_BC 378
+#define REG_DE 379
+#define REG_HL 380
+#define REG_IX 381
+#define REG_IY 382
+#define REG_SP 383
+#define REG_IXH 384
+#define REG_IXL 385
+#define REG_IYH 386
+#define REG_IYL 387
+#define STRING 388
+#define FILENAME 389
+#define R_O_L 390
+#define OPCODE 391
+#define LABEL 392
+#define BANKNAME 393
+#define CPUTYPE 394
+#define MON_REGISTER 395
+#define COMPARE_OP 396
+#define RADIX_TYPE 397
+#define INPUT_SPEC 398
+#define CMD_CHECKPT_ON 399
+#define CMD_CHECKPT_OFF 400
+#define TOGGLE 401
+#define MASK 402
 
 
 
@@ -354,7 +356,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 358 "mon_parse.h"
+#line 360 "mon_parse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

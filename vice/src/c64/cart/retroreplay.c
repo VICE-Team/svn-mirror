@@ -153,6 +153,10 @@ static io_source_t retroreplay_io2_device = {
 static io_source_list_t *retroreplay_io1_list_item = NULL;
 static io_source_list_t *retroreplay_io2_list_item = NULL;
 
+static const c64export_resource_t export_res = {
+    "Retro Replay", 1, 1, &retroreplay_io1_device, &retroreplay_io2_device, CARTRIDGE_RETRO_REPLAY
+};
+
 /* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 retroreplay_io1_read(WORD addr)
@@ -559,10 +563,6 @@ void retroreplay_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Retro Replay", 1, 1
-};
 
 static int set_rr_flashjumper(int val, void *param)
 {

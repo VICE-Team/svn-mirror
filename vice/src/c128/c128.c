@@ -255,22 +255,10 @@ int machine_resources_init(void)
         || machine_video_resources_init() < 0
         || c128_resources_init() < 0
         || c64export_resources_init() < 0
-        || reu_resources_init() < 0
-        || georam_resources_init() < 0
-        || ramcart_resources_init() < 0
-        || mmc64_resources_init() < 0
-        || digimax_resources_init() < 0
-        || sfx_soundexpander_resources_init() < 0
-        || sfx_soundsampler_resources_init() < 0
-        || easyflash_resources_init() < 0
-#ifdef HAVE_TFE
-        || tfe_resources_init() < 0
-#endif
         || vicii_resources_init() < 0
         || vdc_init_resources() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
-        || acia1_resources_init() < 0
         || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
         || serial_resources_init() < 0
@@ -285,9 +273,6 @@ int machine_resources_init(void)
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || cartridge_resources_init() < 0
-#ifdef HAVE_MIDI
-        || c64_midi_resources_init() < 0
-#endif
         || mmu_resources_init() < 0
         || z80mem_resources_init() < 0
         || functionrom_resources_init() < 0) {
@@ -302,18 +287,11 @@ void machine_resources_shutdown(void)
     serial_shutdown();
     video_resources_shutdown();
     c128_resources_shutdown();
-    reu_resources_shutdown();
-    georam_resources_shutdown();
-    ramcart_resources_shutdown();
-    mmc64_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
-#ifdef HAVE_MIDI
-    midi_resources_shutdown();
-#endif
     functionrom_resources_shutdown();
 }
 
@@ -324,22 +302,10 @@ int machine_cmdline_options_init(void)
         || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
         || c128_cmdline_options_init() < 0
-        || reu_cmdline_options_init() < 0
-        || georam_cmdline_options_init() < 0
-        || ramcart_cmdline_options_init() < 0
-        || mmc64_cmdline_options_init() < 0
-        || digimax_cmdline_options_init() < 0
-        || sfx_soundexpander_cmdline_options_init() < 0
-        || sfx_soundsampler_cmdline_options_init() < 0
-        || easyflash_cmdline_options_init() < 0
-#ifdef HAVE_TFE
-        || tfe_cmdline_options_init() < 0
-#endif
         || vicii_cmdline_options_init() < 0
         || vdc_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
-        || acia1_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
         || serial_cmdline_options_init() < 0
@@ -354,9 +320,6 @@ int machine_cmdline_options_init(void)
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0
-#ifdef HAVE_MIDI
-        || c64_midi_cmdline_options_init() < 0
-#endif
         || mmu_cmdline_options_init() < 0
         || functionrom_cmdline_options_init() < 0
         || z80mem_cmdline_options_init() < 0) {
@@ -450,9 +413,8 @@ int machine_specific_init(void)
     cia1_init(machine_context.cia1);
     cia2_init(machine_context.cia2);
 
+    /* FIXME: the TPI context probably should not be in the machine context */
     tpi_init(machine_context.tpi1);
-
-    acia1_init();
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
@@ -479,23 +441,6 @@ int machine_specific_init(void)
     /* Initialize the C128-specific part of the UI.  */
     c128ui_init();
 
-    /* Initialize the REU.  */
-    reu_init();
-
-    /* Initialize the GEORAM.  */
-    georam_init();
-
-    /* Initialize the RAMCART.  */
-    ramcart_init();
-
-    /* Initialize the MMC64.  */
-    mmc64_init();
-
-#ifdef HAVE_TFE
-    /* Initialize the TFE.  */
-    tfe_init();
-#endif
-
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */
     mouse_init();
@@ -511,10 +456,6 @@ int machine_specific_init(void)
     c128fastiec_init();
 
     cartridge_init();
-
-#ifdef HAVE_MIDI
-    midi_init();
-#endif
 
     mmu_init();
 
@@ -551,7 +492,6 @@ void machine_specific_reset(void)
     sid_reset();
     tpicore_reset(machine_context.tpi1);
 
-    acia1_reset();
     rs232drv_reset();
     rsuser_reset();
 
@@ -565,14 +505,6 @@ void machine_specific_reset(void)
     cartridge_reset();
     drive_reset();
     datasette_reset();
-    reu_reset();
-    georam_reset();
-    ramcart_reset();
-    mmc64_reset();
-
-#ifdef HAVE_MIDI
-    midi_reset();
-#endif
 
     z80mem_initialize();
     z80_reset();
@@ -587,6 +519,9 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach_internal(1);
 
+    /* and cartridge */
+    cartridge_detach_image(-1);
+
     ciacore_shutdown(machine_context.cia1);
     ciacore_shutdown(machine_context.cia2);
     tpicore_shutdown(machine_context.tpi1);
@@ -594,16 +529,6 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
     vdc_shutdown();
-
-    reu_shutdown();
-    georam_shutdown();
-    ramcart_shutdown();
-    mmc64_shutdown();
-
-#ifdef HAVE_TFE
-    /* Shutdown the TFE.  */
-    tfe_shutdown();
-#endif
 
     c128ui_shutdown();
 }

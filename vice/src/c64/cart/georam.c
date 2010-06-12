@@ -82,6 +82,7 @@
 #include <string.h>
 
 #include "c64cart.h"
+#include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -167,7 +168,10 @@ static io_source_t georam_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     georam_window_store,
-    georam_window_read
+    georam_window_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_GEORAM
 };
 
 static io_source_t georam_io2_device = {
@@ -177,40 +181,45 @@ static io_source_t georam_io2_device = {
     0xdf80, 0xdfff, 0x7f,
     0,
     georam_reg_store,
-    NULL
+    NULL,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_GEORAM
 };
 
 static io_source_list_t *georam_io1_list_item = NULL;
 static io_source_list_t *georam_io2_list_item = NULL;
 
+static const c64export_resource_t export_res= {
+    "GEORAM", 0, 0, &georam_io1_device, &georam_io2_device, CARTRIDGE_GEORAM
+};
+
 /* ------------------------------------------------------------------------- */
 
 static int set_georam_enabled(int val, void *param)
 {
-    if (!val) {
-        if (georam_enabled) {
-            if (georam_deactivate() < 0) {
-                return -1;
-            }
-            c64io_unregister(georam_io1_list_item);
-            c64io_unregister(georam_io2_list_item);
-            georam_io1_list_item = NULL;
-            georam_io2_list_item = NULL;
+    if (georam_enabled && !val) {
+        if (georam_deactivate() < 0) {
+            return -1;
         }
+        c64io_unregister(georam_io1_list_item);
+        c64io_unregister(georam_io2_list_item);
+        georam_io1_list_item = NULL;
+        georam_io2_list_item = NULL;
+        c64export_remove(&export_res);
         georam_enabled = 0;
-        return 0;
-    } else { 
-        if (!georam_enabled) {
-            if (georam_activate() < 0) {
-                return -1;
-            }
-            georam_io1_list_item = c64io_register(&georam_io1_device);
-            georam_io2_list_item = c64io_register(&georam_io2_device);
+    } if (!georam_enabled && val) {
+        if (georam_activate() < 0) {
+            return -1;
         }
-
+        if (c64export_add(&export_res) < 0) {
+            return -1;
+        }
+        georam_io1_list_item = c64io_register(&georam_io1_device);
+        georam_io2_list_item = c64io_register(&georam_io2_device);
         georam_enabled = 1;
-        return 0;
     }
+    return 0;
 }
 
 static int set_georam_size(int val, void *param)

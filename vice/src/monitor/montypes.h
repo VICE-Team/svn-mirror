@@ -299,4 +299,6 @@ extern void mon_end_recording(void);
 extern void mon_playback_init(const char* filename);
 extern void monitor_change_device(MEMSPACE mem);
 
+extern void mon_export(void);
+
 #endif

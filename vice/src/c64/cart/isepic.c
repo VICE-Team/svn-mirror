@@ -122,7 +122,10 @@ static io_source_t isepic_io1_device = {
     0xde00, 0xdeff, 0x07,
     0, /* read is never valid */
     isepic_io1_store,
-    isepic_io1_read
+    isepic_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_ISEPIC
 };
 
 static io_source_t isepic_io2_device = {
@@ -132,11 +135,14 @@ static io_source_t isepic_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     isepic_io2_store,
-    isepic_io2_read
+    isepic_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_ISEPIC
 };
 
 static const c64export_resource_t export_res = {
-    "ISEPIC", 1, 1
+    "ISEPIC", 1, 1, &isepic_io1_device, &isepic_io2_device, CARTRIDGE_ISEPIC
 };
 
 static io_source_list_t *isepic_io1_list_item = NULL;

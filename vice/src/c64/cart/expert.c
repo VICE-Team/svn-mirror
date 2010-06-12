@@ -144,11 +144,14 @@ static io_source_t expert_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     expert_io1_store,
-    expert_io1_read
+    expert_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_EXPERT
 };
 
 static const c64export_resource_t export_res = {
-    "Expert Cartridge", 1, 1
+    "Expert Cartridge", 1, 1, &expert_io1_device, NULL, CARTRIDGE_EXPERT
 };
 
 static io_source_list_t *expert_io1_list_item = NULL;

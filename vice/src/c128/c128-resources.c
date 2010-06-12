@@ -106,21 +106,8 @@ static char *kernal64_rom_name = NULL;
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;
 
-/* Flag: Do we enable the IEEE488 interface emulation?  */
-int ieee488_enabled;
-
 /* Flag: Do we enable the emulation of banks 2 and 3 of ram? */
 int c128_full_banks;
-
-#ifdef HAVE_RS232
-/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
-int acia_de_enabled;
-
-#if 0
-/* Flag: Do we enable the $D7** ACIA RS232 interface emulation?  */
-int acia_d7_enabled;
-#endif
-#endif
 
 /* Flag: Emulate new CIA (6526A)? */
 /* FIXME not switchable yet */
@@ -394,43 +381,6 @@ static int set_emu_id_enabled(int val, void *param)
     }
 }
 
-static int set_ieee488_enabled(int val, void *param)
-{
-    if (!val) {
-        ieee488_enabled = 0;
-        return 0;
-    } else {
-        int reu_enabled;
-
-        resources_get_int("REU", &reu_enabled);
-
-        if (!reu_enabled) {
-            ieee488_enabled = 1;
-            return 0;
-        } else {
-            /* The REU and the IEEE488 interface share the same address
-               space, so they cannot be enabled at the same time.  */
-            return -1;
-        }
-    }
-}
-
-#ifdef HAVE_RS232
-#if 0
-static int set_acia_d7_enabled(int val, void *param)
-{
-    acia_d7_enabled = val;
-    return 0;
-}
-#endif
-
-static int set_acia_de_enabled(int val, void *param)
-{
-    acia_de_enabled = val;
-    return 0;
-}
-#endif
-
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -544,14 +494,8 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[13], set_romset_firmware, (void *)13 },
     { "RomsetBasic64Name", 0, RES_EVENT_NO, NULL,
       &romset_firmware[14], set_romset_firmware, (void *)14 },
-    { "IEEE488", 0, RES_EVENT_SAME, NULL,
-      &ieee488_enabled, set_ieee488_enabled, NULL },
     { "EmuID", 0, RES_EVENT_SAME, NULL,
       &emu_id_enabled, set_emu_id_enabled, NULL },
-#ifdef HAVE_RS232
-    { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &acia_de_enabled, set_acia_de_enabled, NULL },
-#endif
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C128_SYM, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

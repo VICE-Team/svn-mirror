@@ -114,6 +114,7 @@ HDIGIT  [0-9a-f]
         dump            { BEGIN(FNAME);         return CMD_DUMP; }
         enable          { BEGIN(INITIAL);       return CMD_CHECKPT_ON; }
         exit|x          { BEGIN(INITIAL);       return CMD_EXIT; }
+        export|exp      { BEGIN(INITIAL);       return CMD_EXPORT; }
         fill|f          { BEGIN(INITIAL);       return CMD_FILL; }
         goto|g          { BEGIN(INITIAL);       return CMD_GOTO; }
         help|"?"        { BEGIN(ROL);           return CMD_HELP; }

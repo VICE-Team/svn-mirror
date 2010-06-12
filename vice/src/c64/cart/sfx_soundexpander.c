@@ -30,7 +30,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "fmopl.h"
 #include "lib.h"
@@ -59,27 +61,41 @@ static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr);
 static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr);
 
 static io_source_t sfx_soundexpander_sound_device = {
-    "SFX SOUND EXPANDER",
+    "SFX Sound Expander",
     IO_DETACH_RESOURCE,
     "SFXSoundExpander",
     0xdf00, 0xdfff, 0x7f,
     0,
     sfx_soundexpander_sound_store,
-    sfx_soundexpander_sound_read
+    sfx_soundexpander_sound_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
 static io_source_t sfx_soundexpander_piano_device = {
-    "SFX SOUND EXPANDER",
+    "SFX Sound Expander",
     IO_DETACH_RESOURCE,
     "SFXSoundExpander",
     0xdf00, 0xdfff, 0x1f,
     0,
     NULL,
-    sfx_soundexpander_piano_read
+    sfx_soundexpander_piano_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
 static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
 static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
+
+static const c64export_resource_t export_res_sound= {
+    "SFX Sound Expander", 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_SAMPLER
+};
+
+static const c64export_resource_t export_res_piano= {
+    "SFX Sound Expander", 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_SAMPLER
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -87,16 +103,25 @@ static int set_sfx_soundexpander_enabled(int val, void *param)
 {
     if (sfx_soundexpander_enabled != val) {
         if (val) {
+            if (c64export_add(&export_res_sound) < 0) {
+                return -1;
+            }
+            if (c64export_add(&export_res_piano) < 0) {
+                return -1;
+            }
             sfx_soundexpander_sound_list_item = c64io_register(&sfx_soundexpander_sound_device);
             sfx_soundexpander_piano_list_item = c64io_register(&sfx_soundexpander_piano_device);
+            sfx_soundexpander_enabled = 1;
         } else {
+            c64export_remove(&export_res_sound);
+            c64export_remove(&export_res_piano);
             c64io_unregister(sfx_soundexpander_sound_list_item);
             c64io_unregister(sfx_soundexpander_piano_list_item);
             sfx_soundexpander_sound_list_item = NULL;
             sfx_soundexpander_piano_list_item = NULL;
+            sfx_soundexpander_enabled = 0;
         }
     }
-    sfx_soundexpander_enabled = val;
     return 0;
 }
 

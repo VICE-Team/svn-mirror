@@ -96,10 +96,6 @@
 #include "util.h"
 #include "vicii-phi1.h"
 
-static const c64export_resource_t export_res = {
-    "RAMCART", 1, 0
-};
-
 /* RAMCART registers */
 static BYTE ramcart[2];
 
@@ -180,7 +176,10 @@ static io_source_t ramcart_io1_device = {
     0xde00, 0xdeff, 0x01,
     1, /* read is always valid */
     ramcart_reg_store,
-    ramcart_reg_read
+    ramcart_reg_read,
+    NULL,
+    NULL,
+    CARTRIDGE_RAMCART
 };
 
 static io_source_t ramcart_io2_device = {
@@ -190,11 +189,18 @@ static io_source_t ramcart_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     ramcart_window_store,
-    ramcart_window_read
+    ramcart_window_read,
+    NULL,
+    NULL,
+    CARTRIDGE_RAMCART
 };
 
 static io_source_list_t *ramcart_io1_list_item = NULL;
 static io_source_list_t *ramcart_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "RAMCART", 1, 0, &ramcart_io1_device, &ramcart_io2_device, CARTRIDGE_RAMCART
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -209,43 +215,32 @@ void ramcart_init_config(void)
 
 static int set_ramcart_enabled(int val, void *param)
 {
-    if (!val) {
-        if (ramcart_enabled) {
-            if (ramcart_deactivate() < 0) {
-                return -1;
-            }
-            c64io_unregister(ramcart_io1_list_item);
-            c64io_unregister(ramcart_io2_list_item);
-            ramcart_io1_list_item = NULL;
-            ramcart_io2_list_item = NULL;
+    if(!ramcart_enabled && val) {
+        if (ramcart_activate() < 0) {
+            return -1;
         }
+        if (c64export_add(&export_res) < 0) {
+            return -1;
+        }
+        ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
+        ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
+        ramcart_enabled = 1;
+        export.exrom = 1;
+        mem_pla_config_changed();
+    } else if(ramcart_enabled && !val) {
+        if (ramcart_deactivate() < 0) {
+            return -1;
+        }
+        c64io_unregister(ramcart_io1_list_item);
+        c64io_unregister(ramcart_io2_list_item);
+        ramcart_io1_list_item = NULL;
+        ramcart_io2_list_item = NULL;
         c64export_remove(&export_res);
         ramcart_enabled = 0;
         export.exrom = 0;
         mem_pla_config_changed();
-        return 0;
-    } else { 
-        if (c64export_query(&export_res) >= 0) {
-            if (!ramcart_enabled) {
-                if (ramcart_activate() < 0) {
-                    return -1;
-                }
-                ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
-                ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
-            }
-
-            if (c64export_add(&export_res) < 0) {
-                return -1;
-            }
-
-            ramcart_enabled = 1;
-            export.exrom = 1;
-            mem_pla_config_changed();
-            return 0;
-        } else {
-            return -1;
-        }
     }
+    return 0;
 }
 
 static int set_ramcart_readonly(int val, void *param)

@@ -1056,6 +1056,20 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
+/* en */ {IDGS_MON_EXPORT_DESCRIPTION,    N_("Print out list of attached expansion port devices.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_EXPORT_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_EXPORT_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_EXPORT_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_EXPORT_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_EXPORT_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_EXPORT_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_EXPORT_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_EXPORT_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_EXPORT_DESCRIPTION_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
 /* en */ {IDGS_MON_NEXT_DESCRIPTION,    N_("Advance to the next instruction.  Subroutines are treated as\na single instruction.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_NEXT_DESCRIPTION_DA, "Gå frem til næste instruktion. Subrutiner bliver behandlet som\nen enkelt instruktion."},

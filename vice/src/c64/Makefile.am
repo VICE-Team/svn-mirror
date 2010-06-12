@@ -9,6 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
+	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/viciinew
 
 noinst_LIBRARIES = libc64.a libc64sc.a libc64c128.a libc64c64dtv.a

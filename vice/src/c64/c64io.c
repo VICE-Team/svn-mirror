@@ -69,7 +69,7 @@ static void io_source_detach(io_source_detach_t *source)
                 /* FIXME: remove this check when all cart i/o device structs have been updated */
                 if (source->det_cartid == 0) {
                     DBG(("IO: cart id in io struct is 0, it should be updated! name: %s\n", source->det_devname));
-                    cartridge_detach_image(-1);
+                    cartridge_detach_image(0); /* will detach the cartridge from main slot */
                 } else {
                     DBG(("IO: io_source_detach id:%d name: %s\n", source->det_cartid, source->det_devname));
                     cartridge_detach_image(source->det_cartid);

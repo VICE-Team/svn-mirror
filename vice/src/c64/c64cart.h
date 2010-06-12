@@ -47,13 +47,7 @@ extern void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr);
 extern void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value);
 
-extern void REGPARM1 cartridge_decode_address(WORD addr);
-
-extern void cartridge_init_config(void);
-extern void cartridge_release_freeze(void);
-
-/* Handle nmi/reset acknowledge for cartridge emulation. (CARTRIDGE_EXPERT) */
-extern void cartridge_ack_nmi_reset(void);
+/* FIXME: these are for the "Main Slot" */
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 extern unsigned int cart_ultimax_phi1;
@@ -61,12 +55,8 @@ extern unsigned int cart_ultimax_phi2;
 
 /* Exansion port ROML/ROMH images.  */
 extern BYTE roml_banks[], romh_banks[];
-
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
-
-int cartridge_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
-extern int cartridge_is_slotmain(int type); /* returns 1 if cart of given type is in "Main Slot" */
 
 /* Cartridge ROM limit = 512kB (MMCReplay) */
 #define C64CART_ROM_LIMIT (1024*512)

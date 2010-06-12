@@ -29,19 +29,17 @@
 
 #include "types.h"
 
+extern int aciacart_cart_enabled(void);
+extern void aciacart_init(void);
+extern BYTE REGPARM1 aciacart_read(WORD a);
+extern void aciacart_reset(void);
+
+extern int aciacart_cmdline_options_init(void);
+extern int aciacart_resources_init(void);
+extern void aciacart_resources_shutdown(void);
+
 struct snapshot_s;
-
-extern void acia1_init(void);
-extern void acia1_reset(void);
-extern BYTE REGPARM1 acia1_read(WORD a);
-
-extern void acia1_enable(void);
-extern void acia1_disable(void);
-
-extern int acia1_cmdline_options_init(void);
-extern int acia1_resources_init(void);
-
-extern int acia1_snapshot_write_module(struct snapshot_s *p);
-extern int acia1_snapshot_read_module(struct snapshot_s *p);
+extern int aciacart_snapshot_write_module(struct snapshot_s *p);
+extern int aciacart_snapshot_read_module(struct snapshot_s *p);
 
 #endif

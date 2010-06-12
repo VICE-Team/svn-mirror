@@ -26,8 +26,10 @@ libc64cart_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
 	c64cart.c \
+	c64carthooks.c \
 	c64cartmem.c \
 	c64cartmem.h \
+	c64cartsystem.h \
 	c64tpi.c \
 	c64tpi.h \
 	capture.c \

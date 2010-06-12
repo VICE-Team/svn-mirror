@@ -44,6 +44,7 @@
 #include <string.h>
 
 #include "c64cart.h"
+#include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -264,6 +265,10 @@ static io_source_t reu_device = {
 
 static io_source_list_t *reu_list_item = NULL;
 
+static const c64export_resource_t export_res_reu= {
+    "REU", 0, 0, NULL, &reu_device, CARTRIDGE_REU
+};
+
 /* ------------------------------------------------------------------------- */
 
 /*! \brief Flag: Is the external REU enabled?  */
@@ -297,6 +302,7 @@ static int set_reu_enabled(int val, void *param)
             if (reu_deactivate() < 0) {
                 return -1;
             }
+            c64export_remove(&export_res_reu);
             c64io_unregister(reu_list_item);
             reu_list_item = NULL;
         }
@@ -305,6 +311,9 @@ static int set_reu_enabled(int val, void *param)
     } else {
         if (!reu_enabled) {
             if (reu_activate() < 0) {
+                return -1;
+            }
+            if (c64export_add(&export_res_reu) < 0) {
                 return -1;
             }
             reu_list_item = c64io_register(&reu_device);
@@ -631,8 +640,10 @@ static int reu_deactivate(void)
     return 0;
 }
 
+/* detach the reu from the cartridge port */
 void reu_shutdown(void)
 {
+    set_reu_enabled(0, NULL);
     reu_deactivate();
 }
 

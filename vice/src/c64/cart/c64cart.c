@@ -36,7 +36,12 @@
 #include "atomicpower.h"
 #include "alarm.h"
 #include "archdep.h"
+#include "c64.h"
+#include "c64-midi.h"
+#include "c64acia.h"
 #include "c64cart.h"
+#include "c64cartsystem.h"
+#include "c64export.h"
 #include "c64tpi.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -58,6 +63,7 @@
 #include "interrupt.h"
 #include "isepic.h"
 #include "lib.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "magicvoice.h"
 #include "mem.h"
@@ -77,19 +83,22 @@
 #include "superexplode5.h"
 #include "supersnapshot4.h"
 #include "supersnapshot.h"
+#include "tfe.h"
 #include "translate.h"
+#include "tpi.h"
 #include "util.h"
 
 /* #define DEBUGCART */
 
 #ifdef DEBUGCART
-#define DBG(x)  printf x
+#define DBG(x)  printf x ; fflush(stdout);
 #else
 #define DBG(x)
 #endif
 
 /* global options for the cart system */
-static int c64cartridge_reset = 1; /* (resource) hardreset system after cart was attached/detached */
+static int c64cartridge_reset; /* (resource) hardreset system after cart was attached/detached */
+
 /* defaults for the "Main Slot" */
 static char *cartridge_file = NULL; /* (resource) file name */
 static int cartridge_type = CARTRIDGE_NONE; /* (resource) is == CARTRIDGE_CRT (0) if CRT file */
@@ -100,18 +109,6 @@ static int crttype = CARTRIDGE_NONE; /* contains CRT ID if c64cart_type == 0 */
 
 static alarm_t *cartridge_alarm = NULL; /* cartridge alarm context */
 static unsigned int cartridge_int_num; /* irq number for cart */
-
-/*
-    we have 3 resources for the main cart that may be changed in arbitrary order:
-
-    - cartridge type
-    - cartridge file name
-    - cartridge change reset behaviour
-
-    the following functions try to deal with this in a hopefully sane way... however,
-    do _NOT_ change the used resources from the (G)UI directly. (used the set_default
-    function instead)
-*/
 
 /* FIXME: remove this trying... stuff and do better sanity checks
           - this function is only used from within ide64.c, this should be changed
@@ -131,6 +128,18 @@ int try_cartridge_init(int c)
     return cartridge_attach_image(c64cart_type, cartfile);
 }
 
+/*
+    we have 3 resources for the main cart that may be changed in arbitrary order:
+
+    - cartridge type
+    - cartridge file name
+    - cartridge change reset behaviour
+
+    the following functions try to deal with this in a hopefully sane way... however,
+    do _NOT_ change the used resources from the (G)UI directly. (used the set_default
+    function instead)
+*/
+
 static int try_cartridge_attach(int type, const char *filename)
 {
     int crtid;
@@ -139,11 +148,9 @@ static int try_cartridge_attach(int type, const char *filename)
         if (util_file_exists(filename)) {
             if((crtid=crt_getid(filename)) > 0) {
                 cartridge_type = CARTRIDGE_CRT; /* resource value modified */
-                trying_cart = 1; /* FIXME */
                 return cartridge_attach_image(CARTRIDGE_CRT, filename);
             } else if ((type != CARTRIDGE_NONE) && (type != CARTRIDGE_CRT)) {
                 cartridge_type = type; /* resource value modified */
-                trying_cart = 1; /* FIXME */
                 return cartridge_attach_image(type, filename);
             }
         } else {
@@ -226,26 +233,12 @@ static const resource_string_t resources_string[] = {
 
 int cartridge_resources_init(void)
 {
-    if (   reu_resources_init() < 0
-        || georam_resources_init() < 0
-        || ramcart_resources_init() < 0
-        || isepic_resources_init() < 0
-        || dqbb_resources_init() < 0
-        || mmc64_resources_init() < 0
-        || magicvoice_resources_init() < 0
-        || digimax_resources_init() < 0
-        || sfx_soundexpander_resources_init() < 0
-        || sfx_soundsampler_resources_init() < 0
-        || easyflash_resources_init() < 0
-        || ide64_resources_init() < 0
-        || mmcreplay_resources_init() < 0
-        || expert_resources_init() < 0
-        || retroreplay_resources_init() < 0
-        ) {
+    /* first the general int resource, so we get the "Cartridge Reset" one */
+    if (resources_register_int(resources_int) < 0) {
         return -1;
     }
 
-    if (resources_register_int(resources_int) < 0) {
+    if (cart_resources_init() < 0) {
         return -1;
     }
 
@@ -254,23 +247,14 @@ int cartridge_resources_init(void)
 
 void cartridge_resources_shutdown(void)
 {
-    /* "IO Slot" */
-    reu_resources_shutdown();
-    georam_resources_shutdown();
+    cart_resources_shutdown();
     /* "Main Slot" */
     lib_free(cartridge_file);
     lib_free(cartfile);
-    ide64_resources_shutdown();
-    /* "Slot 1" */
-    expert_resources_shutdown();
-    dqbb_resources_shutdown();
-    ramcart_resources_shutdown();
-    /* "Slot 0" */
-    mmc64_resources_shutdown();
-    magicvoice_resources_shutdown();
 }
+
 /* ---------------------------------------------------------------------*/
-static int attach_cartridge_cmdline(const char *param, void *extra_param)
+int cart_attach_cmdline(const char *param, void *extra_param)
 {
     int type = vice_ptr_to_int(extra_param);
 
@@ -282,28 +266,6 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
     return cartridge_attach_image(type, param);
 }
 
-/*
-    TODO: add commandline options for the missing carts
-    TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_MAGIC_VOICE)
-
-    the following carts, which do not have any rom or ram, are NOT in the list below,
-    for obvious reasons:
-
-        CARTRIDGE_DIGIMAX
-        CARTRIDGE_SFX_SOUND_EXPANDER
-        CARTRIDGE_SFX_SOUND_SAMPLER
-        CARTRIDGE_MIDI_PASSPORT
-        CARTRIDGE_MIDI_DATEL
-        CARTRIDGE_MIDI_SEQUENTIAL
-        CARTRIDGE_MIDI_NAMESOFT
-        CARTRIDGE_MIDI_MAPLIN
-        CARTRIDGE_TFE
-        CARTRIDGE_TURBO232
-
-    all other carts should get a commandline option here like this:
-
-    -cartXYZ <name>     attach a ram/rom image for cartridgeXYZ
-*/
 static const cmdline_option_t cmdline_options[] =
 {
     /* hardreset on cartridge change */
@@ -319,198 +281,10 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     /* no cartridge */
     { "+cart", CALL_FUNCTION, 0,
-      attach_cartridge_cmdline, NULL, NULL, NULL,
+      cart_attach_cmdline, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_CART,
       NULL, NULL },
-    /* generic cartridges */
-    { "-cart8", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_GENERIC_8KB, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_GENERIC_8KB_CART,
-      NULL, NULL },
-    { "-cart16", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_GENERIC_16KB, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_GENERIC_16KB_CART,
-      NULL, NULL },
-    { "-cartultimax", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_ULTIMAX, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach generic 16kB Ultimax Cartridge image") },
-    /* smart-insert CRT */
-    { "-cartcrt", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_CRT, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_CRT_CART,
-      NULL, NULL },
-    /* binary images: */
-    { "-cartar3", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_ACTION_REPLAY3, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART,
-      NULL, NULL },
-    { "-cartar4", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_ACTION_REPLAY4, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART,
-      NULL, NULL },
-    { "-cartar", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY_CART },
-    { "-cartap", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ATOMIC_POWER_CART,
-      NULL, NULL },
-    /* TODO: CARTRIDGE_CAPTURE */
-    /* TODO: CARTRIDGE_COMAL80 */
-    /* TODO: CARTRIDGE_DELA_EP64 */
-    /* TODO: CARTRIDGE_DELA_EP7x8 */
-    /* TODO: CARTRIDGE_DELA_EP256 */
-    /* TODO: CARTRIDGE_DINAMIC */
-    /* TODO: CARTRIDGE_DQBB */
-    /* TODO: CARTRIDGE_EASYFLASH */
-    /* TODO: CARTRIDGE_EASYFLASH_XBANK */
-    { "-cartepyx", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_EPYX_FASTLOAD, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART,
-      NULL, NULL },
-    { "-cartexos", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_EXOS, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 8kB Exos cartridge image") },
-    { "-cartexpert", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_EXPERT, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 8kB Expert cartridge image") },
-    { "-cartfc", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_I, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 16kB Final Cartridge image") },
-    { "-cartfc3", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_III, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 64kB Final Cartridge 3 image") },
-    { "-cartfcplus", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_FINAL_PLUS, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 32kB Final Cartridge Plus image") },
-    { "-cartff", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_FREEZE_FRAME, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 8kB Freeze Frame image") },
-    { "-cartfm", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_FREEZE_MACHINE, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 32kB Freeze Machine image") },
-    /* TODO: CARTRIDGE_FUNPLAY */
-    { "-cartgamekiller", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_GAME_KILLER, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_GAME_KILLER_CART,
-      NULL, NULL },
-    /* TODO: CARTRIDGE_GEORAM */
-    /* TODO: CARTRIDGE_GS */
-    { "-cartide", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_IDE64, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_IDE64_CART,
-      NULL, NULL },
-    { "-cartieee488", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_IEEE488, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_CBM_IEEE488_CART,
-      NULL, NULL },
-    { "-cartisepic", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_ISEPIC, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 2kB Isepic image") },
-    /* TODO: CARTRIDGE_KCS_POWER */
-    /* TODO: CARTRIDGE_MAGIC_DESK */
-    /* TODO: CARTRIDGE_MAGIC_FORMEL */
-    /* TODO: CARTRIDGE_MIKRO_ASSEMBLER */
-    /* TODO: CARTRIDGE_MMC64 */
-    { "-cartmmcr", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_MMC_REPLAY, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 512kB MMC Replay cartridge image") },
-    { "-cartmv", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_MAGIC_VOICE, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 16kB Magic Voice image") },
-    /* TODO: CARTRIDGE_OCEAN */
-    { "-cartp64", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_P64, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_P64_CART,
-      NULL, NULL },
-    /* TODO: CARTRIDGE_RAMCART */
-    /* TODO: CARTRIDGE_REU */
-    /* TODO: CARTRIDGE_REX */
-    /* TODO: CARTRIDGE_REX_EP256 */
-    /* TODO: CARTRIDGE_ROSS */
-    { "-cartrr", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART,
-      NULL, NULL },
-    /* TODO: CARTRIDGE_SIMONS_BASIC */
-    /* TODO: CARTRIDGE_SUPER_GAMES */
-    { "-carts64", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_SNAPSHOT64, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 4kB Snapshot 64 image") },
-    { "-cartstardos", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_STARDOS, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_STARDOS_CART,
-      NULL, NULL },
-    { "-cartstb", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_STB_CART,
-      NULL, NULL },
-    { "-cartse5", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_SUPER_EXPLODE_V5, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 16kB Super Explode V5 image") },
-    { "-cartss4", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_SS4_CART,
-      NULL, NULL },
-    { "-cartss5", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_SS5_CART,
-      NULL, NULL },
-    { "-cartws", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_WARPSPEED, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 8kB Warpspeed image") },
-    { "-cartwestermann", CALL_FUNCTION, 1,
-      attach_cartridge_cmdline, (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART,
-      NULL, NULL },
-    /* TODO: CARTRIDGE_ZAXXON */
     { NULL }
 };
 
@@ -520,21 +294,9 @@ int cartridge_cmdline_options_init(void)
     mon_cart_cmd.cartridge_detach_image = cartridge_detach_image;
     mon_cart_cmd.cartridge_trigger_freeze = cartridge_trigger_freeze;
     mon_cart_cmd.cartridge_trigger_freeze_nmi_only = cartridge_trigger_freeze_nmi_only;
+    mon_cart_cmd.export_dump = c64export_dump;
 
-    if (reu_cmdline_options_init() < 0
-        || georam_cmdline_options_init() < 0
-        || ramcart_cmdline_options_init() < 0
-        || isepic_cmdline_options_init() < 0
-        || expert_cmdline_options_init() < 0
-        || dqbb_cmdline_options_init() < 0
-        || mmc64_cmdline_options_init() < 0
-        || digimax_cmdline_options_init() < 0
-        || sfx_soundexpander_cmdline_options_init() < 0
-        || sfx_soundsampler_cmdline_options_init() < 0
-        || ide64_cmdline_options_init() < 0
-        || mmcreplay_cmdline_options_init() < 0
-        || retroreplay_cmdline_options_init() < 0
-        || easyflash_cmdline_options_init() < 0) {
+    if (cart_cmdline_options_init() < 0) {
         return -1;
     }
 
@@ -542,186 +304,6 @@ int cartridge_cmdline_options_init(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-static int cartridge_bin_attach(int type, const char *filename, BYTE *rawcart)
-{
-    switch(type) {
-        case CARTRIDGE_MAGIC_VOICE:
-            if (magicvoice_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-
-        case CARTRIDGE_GENERIC_8KB:
-        case CARTRIDGE_EPYX_FASTLOAD:
-            if (generic_8kb_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_GENERIC_16KB:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_WARPSPEED:
-            if (generic_16kb_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_ULTIMAX:
-            if (generic_ultimax_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_ACTION_REPLAY3:
-            if (actionreplay3_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_ACTION_REPLAY4:
-            if (actionreplay4_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_ACTION_REPLAY:
-            if (actionreplay_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_ATOMIC_POWER:
-            if (atomicpower_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            if (retroreplay_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            if (mmcreplay_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_IDE64:
-            if (c64cart_type==CARTRIDGE_IDE64) {
-                ide64_detach(); /* detach IDE64 if reattaching */
-            }
-            if (ide64_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_SNAPSHOT64:
-            if (snapshot64_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-            if (se5_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            if (supersnapshot_v4_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            if (supersnapshot_v5_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_IEEE488:
-            if (tpi_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_STRUCTURED_BASIC:
-            if (stb_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_STARDOS:
-            if (stardos_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_P64:
-            if (p64_bin_attach(filename, rawcart) < 0) {
-               return -1;
-            }
-            break;
-        case CARTRIDGE_GAME_KILLER:
-            if (gamekiller_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_FINAL_I:
-            if (final_v1_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_FINAL_PLUS:
-            if (final_plus_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_FINAL_III:
-            if (final_v3_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_EXOS:
-            if (exos_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_FREEZE_FRAME:
-            if (freezeframe_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_FREEZE_MACHINE:
-            if (freezemachine_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_ISEPIC:
-            if (isepic_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        case CARTRIDGE_EXPERT:
-            if (expert_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-            break;
-        default:
-            return -1;
-    }
-
-    return 0;
-}
-
-/*
-    returns 1 if given cart type is in "Main Slot"
-*/
-int cartridge_is_slotmain(int type)
-{
-   switch (type) {
-        /* slot 0 */
-        case CARTRIDGE_MMC64:
-        case CARTRIDGE_MAGIC_VOICE:
-        /* slot 1 */
-        case CARTRIDGE_DQBB:
-        case CARTRIDGE_EXPERT:
-        case CARTRIDGE_ISEPIC:
-        case CARTRIDGE_RAMCART:
-        /* io slot */
-        case CARTRIDGE_GEORAM:
-        case CARTRIDGE_REU:
-            return 0;
-        default:
-            return 1;
-    }
-}
 
 /*
     returns ID of cart in "Main Slot"
@@ -732,6 +314,21 @@ int cartridge_getid_slotmain(void)
         return crttype;
     }
     return c64cart_type;
+}
+
+/* ---------------------------------------------------------------------*/
+
+/*
+    get filename of cart with given type
+
+    FIXME: only works for carts in "Main Slot"
+*/
+const char *cartridge_get_file_name(int type)
+{
+    if (cartridge_getid_slotmain() == type) {
+        return cartfile;
+    }
+    return cart_get_file_name(type);
 }
 
 /*
@@ -745,7 +342,7 @@ int cartridge_type_enabled(int type)
     if (cartridge_getid_slotmain() == type) {
         return 1;
     }
-    return 0;
+    return cart_type_enabled(type);
 }
 
 /*
@@ -823,7 +420,7 @@ int cartridge_attach_image(int type, const char *filename)
     }
 
     DBG(("CART: attach RAW ID: %d\n", cartid));
-    cartridge_attach(cartid, rawcart);
+    cart_attach(cartid, rawcart);
 
     if (cartridge_is_slotmain(cartid)) {
         /* "Main Slot" */
@@ -844,14 +441,21 @@ exiterror:
     return -1;
 }
 
+int cartridge_enable_type(int type)
+{
+    /* FIXME */
+    return -1;
+}
+
 /*
     detach cartridge from "Main Slot"
 */
-static void cartridge_detach_main(void)
+void cartridge_detach_main(void)
 {
-    if (c64cart_type != CARTRIDGE_NONE) {
-        DBG(("CART: detach main type: %d id: %d\n", c64cart_type, crttype));
-        cartridge_detach(cartridge_getid_slotmain());
+    int type = cartridge_getid_slotmain();
+    DBG(("CART: detach main %d: type: %d id: %d\n", type, c64cart_type, crttype));
+    if (type != CARTRIDGE_NONE) {
+        cart_detach(type);
         /* reset "Main Slot" */
         c64cart_type = CARTRIDGE_NONE;
         crttype = CARTRIDGE_NONE;
@@ -875,30 +479,15 @@ void cartridge_detach_image(int type)
     if (type == 0) {
         DBG(("CART: detach MAIN ID: %d\n", type));
         cartridge_detach_main();
-    }
-    if (type == -1) {
-        DBG(("CART: detach all\n"));
-        /* detach all cartridges */
-        /* "slot 0" */
-        mmc64_shutdown();
-        magicvoice_detach();
-        /* "Slot 1" */
-        dqbb_shutdown();
-        expert_detach();
-        isepic_detach();
-        ramcart_shutdown();
-        /* "io Slot" */
-        georam_shutdown();
-        reu_shutdown();
-        /* "Main Slot" */
-        cartridge_detach_main();
+    } else if (type == -1) {
+        cartridge_detach_all();
     } else {
         DBG(("CART: detach ID: %d\n", type));
         /* detach only given type */
         if (cartridge_is_slotmain(type)) {
             cartridge_detach_main();
         } else {
-            cartridge_detach(type);
+            cart_detach(type);
         }
     }
 }
@@ -930,108 +519,52 @@ void cartridge_set_default(void)
 }
 
 /*
-    get filename of cart in "Main Slot"
+    FIXME: we should auto-detect from the filename wether to save .bin or .crt
 */
-const char *cartridge_get_file_name(WORD addr_ignored)
+int cartridge_save_image(int type, const char *filename)
 {
-    return cartfile;
+    /* return cartridge_bin_save(type, filename); */
+    return cartridge_crt_save(type, filename);
 }
 
-static void cartridge_change_mapping(CLOCK offset, void *data)
-{
-    alarm_unset(cartridge_alarm);
-
-    /* "Slot 0" */
-    /* "Slot 1" */
-    if (expert_freeze_allowed()) {
-        cartridge_freeze(CARTRIDGE_EXPERT);
-    }
-    if (isepic_freeze_allowed()) {
-        cartridge_freeze(CARTRIDGE_ISEPIC);
-    }
-    /* "Main Slot" */
-    cartridge_freeze(cartridge_getid_slotmain());
-}
-
-/* called by c64.c:machine_specific_init */
-void cartridge_init(void)
-{
-    /* "Slot 0" */
-    mmc64_init(); /* Initialize the MMC64.  */
-    magicvoice_init();
-    /* "Slot 1" */
-    ramcart_init(); /* Initialize the RAMCART.  */
-    /* "IO Slot" */
-    reu_init(); /* Initialize the REU.  */
-    georam_init(); /* Initialize the GEORAM.  */
-
-    cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cartridge_change_mapping, NULL);
-    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
-}
-
+/* trigger a freeze, but don't trigger the cartridge logic (which might release it). used by monitor */
 void cartridge_trigger_freeze_nmi_only(void)
 {
     maincpu_set_nmi(cartridge_int_num, IK_NMI);
 }
 
-void cartridge_trigger_nmi(void)
-{
-    maincpu_set_nmi(cartridge_int_num, IK_NMI);
-    alarm_set(cartridge_alarm, maincpu_clk + 3);
-}
-
+/* called by individual carts */
 void cartridge_release_freeze(void)
 {
     maincpu_set_nmi(cartridge_int_num, 0);
 }
 
-void cartridge_trigger_freeze(void)
+/* called from individual carts */
+void cart_trigger_nmi(void)
 {
-    int maintype = cartridge_getid_slotmain();
-    /* "Slot 0" */
-    /* "Slot 1" */
-    if (expert_freeze_allowed()) {
-        maincpu_set_nmi(cartridge_int_num, IK_NMI);
-        alarm_set(cartridge_alarm, maincpu_clk + 3);
-    }
-    if (isepic_freeze_allowed()) {
-        maincpu_set_nmi(cartridge_int_num, IK_NMI);
-        alarm_set(cartridge_alarm, maincpu_clk + 3);
-    }
+    maincpu_set_nmi(cartridge_int_num, IK_NMI);
+    alarm_set(cartridge_alarm, maincpu_clk + 3);
+}
 
-    /* "Main Slot" */
-    switch (maintype) {
-        case CARTRIDGE_ACTION_REPLAY4:
-        case CARTRIDGE_ACTION_REPLAY3:
-        case CARTRIDGE_ACTION_REPLAY:
-        case CARTRIDGE_KCS_POWER:
-        case CARTRIDGE_FINAL_III:
-        case CARTRIDGE_SNAPSHOT64:
-        case CARTRIDGE_SUPER_SNAPSHOT:
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        case CARTRIDGE_ATOMIC_POWER:
-        case CARTRIDGE_FINAL_I:
-        case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_MAGIC_FORMEL:
-        case CARTRIDGE_GAME_KILLER:
-        case CARTRIDGE_FREEZE_FRAME:
-        case CARTRIDGE_FREEZE_MACHINE:
-            maincpu_set_nmi(cartridge_int_num, IK_NMI);
-            alarm_set(cartridge_alarm, maincpu_clk + 3);
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            if (retroreplay_freeze_allowed()) {
-                maincpu_set_nmi(cartridge_int_num, IK_NMI);
-                alarm_set(cartridge_alarm, maincpu_clk + 3);
-            }
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            if (mmcreplay_freeze_allowed()) {
-                maincpu_set_nmi(cartridge_int_num, IK_NMI);
-                alarm_set(cartridge_alarm, maincpu_clk + 3);
-            }
-            break;
-    }
+/* called by c64carthooks.c:cartridge_trigger_freeze */
+void cart_trigger_freeze(void)
+{
+    maincpu_set_nmi(cartridge_int_num, IK_NMI);
+    alarm_set(cartridge_alarm, maincpu_clk + 3);
+}
+
+/* called by the NMI alarm */
+static void cart_nmi_alarm_triggered(CLOCK offset, void *data)
+{
+    alarm_unset(cartridge_alarm);
+    cart_nmi_alarm(offset, data);
+}
+
+/* called by c64.c:machine_specific_init */
+void cartridge_init(void)
+{
+    cart_init();
+    cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cart_nmi_alarm_triggered, NULL);
+    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
 

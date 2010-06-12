@@ -131,7 +131,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
     BYTE chipheader[0x10];
     int crttype = -1;
 
-    export_res_ultimax.use_roml = 0;
+    export_res_ultimax.game = 0;
 
     if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
@@ -156,7 +156,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
             }
             return crttype;
         } else {
-            export_res_ultimax.use_roml = 1;
+            export_res_ultimax.game = 1;
         }
     }
 
