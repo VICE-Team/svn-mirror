@@ -83,7 +83,9 @@
 #include "superexplode5.h"
 #include "supersnapshot4.h"
 #include "supersnapshot.h"
+#ifdef HAVE_TFE
 #include "tfe.h"
+#endif
 #include "translate.h"
 #include "tpi.h"
 #include "util.h"
