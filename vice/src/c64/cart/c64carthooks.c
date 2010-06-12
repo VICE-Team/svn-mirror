@@ -438,7 +438,7 @@ int cart_cmdline_options_init(void)
         ) {
         return -1;
     }
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
