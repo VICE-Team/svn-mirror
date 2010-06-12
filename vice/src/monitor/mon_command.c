@@ -104,8 +104,8 @@ static const mon_cmds_t mon_cmd_array[] = {
      NULL, NULL },
 
    { "io", "",
-     IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE, USE_DESCRIPTION_ID,
-     USE_PARAM_ID, IDGS_MON_IO_DESCRIPTION,
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     IDGS_P_ADDRESS, IDGS_MON_IO_DESCRIPTION,
      NULL, NULL },
 
    { "next", "n",
