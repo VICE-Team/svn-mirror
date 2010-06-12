@@ -134,6 +134,8 @@ static int entered_rom = 0;
 
 /* ------------------------------------------------------------------------- */
 
+static int autostart_basic_load = 0;
+
 static int AutostartRunWithColon = 0;
 
 static int AutostartHandleTrueDriveEmulation = 0;
@@ -153,6 +155,14 @@ static void set_handle_true_drive_emulation_state(void)
     handle_drive_true_emulation_overridden =
         AutostartHandleTrueDriveEmulation ?
             handle_drive_true_emulation_by_machine : 0;
+}
+
+/*! \internal \brief set if autostart should use LOAD ... ,1 */
+static int set_autostart_basic_load(int val, void *param)
+{
+    autostart_basic_load = val ? 1 : 0;
+
+    return 0;
 }
 
 /*! \internal \brief set if autostart should execute with a colon or not
@@ -201,7 +211,7 @@ static int set_autostart_handle_tde(int val, void *param)
 static int set_autostart_warp(int val, void *param)
 {
     AutostartWarp = val ? 1 : 0;
-    
+
     return 0;
 }
 
@@ -212,7 +222,7 @@ static int set_autostart_prg_mode(int val, void *param)
     if ((val < 0) || (val > AUTOSTART_PRG_MODE_LAST)) {
         val = 0;
     }
-    
+
     return 0;
 }
 
@@ -235,6 +245,8 @@ static resource_string_t resources_string[] = {
 
 /*! \brief integer resources used by autostart */
 static const resource_int_t resources_int[] = {
+    { "AutostartBasicLoad", 0, RES_EVENT_NO, (resource_value_t)0,
+      &autostart_basic_load, set_autostart_basic_load, NULL },
     { "AutostartRunWithColon", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartRunWithColon, set_autostart_run_with_colon, NULL },
     { "AutostartHandleTrueDriveEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
@@ -273,6 +285,16 @@ void autostart_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
+    { "-basicload", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartBasicLoad", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("On autostart, load to BASIC start (without ',1')") },
+    { "+basicload", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartBasicLoad", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("On autostart, load with ',1'") },
     { "-autostartwithcolon", SET_RESOURCE, 0,
       NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -400,10 +422,11 @@ static void set_warp_mode(int on)
 static int get_warp_mode(void)
 {
     int value;
-    
-    if (resources_get_int("WarpMode", &value) < 0)
+
+    if (resources_get_int("WarpMode", &value) < 0) {
         return 0;
-        
+    }
+
     return value;
 }
 
@@ -427,7 +450,7 @@ static void disable_warp_if_was_requested(void)
             log_message(autostart_log, "Turning Warp mode off");
             set_warp_mode(0);
         }
-    }    
+    }
 }
 
 static void check_rom_area(void)
@@ -455,8 +478,10 @@ static void check_rom_area(void)
 static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
     if (autostart_program_name
-        && machine_read_snapshot((char *)autostart_program_name, 0) < 0)
+        && machine_read_snapshot((char *)autostart_program_name, 0) < 0) {
         ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_FILE));
+    }
+
     ui_update_menus();
 }
 
@@ -477,10 +502,11 @@ void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
 
     set_handle_true_drive_emulation_state();
 
-    if (_min_cycles)
+    if (_min_cycles) {
         autostart_enabled = 1;
-    else
+    } else {
         autostart_enabled = 0;
+    }
 }
 
 /* Initialize autostart.  */
@@ -488,7 +514,7 @@ int autostart_init(CLOCK min_cycles, int handle_drive_true_emulation,
                    int blnsw, int pnt, int pntr, int lnmx)
 {
     autostart_prg_init();
-    
+
     autostart_reinit(min_cycles, handle_drive_true_emulation, blnsw, pnt,
                      pntr, lnmx);
 
@@ -665,9 +691,10 @@ static void advance_hasdisk(void)
                 traps = 0;
             }
         }
-        tmp = lib_msprintf("LOAD\"%s\",8,1:\r", 
+        tmp = lib_msprintf("LOAD\"%s\",8%s:\r", 
             autostart_program_name ?
-              autostart_program_name : "*");
+              autostart_program_name : "*",
+            autostart_basic_load ? "" : ",1");
         kbdbuf_feed(tmp);
         lib_free(tmp);
 
@@ -1025,10 +1052,11 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     int result;
     const char *boot_file_name;
     int mode;
-    
-    if (network_connected())
+
+    if (network_connected()) {
         return -1;
-    
+    }
+
     /* open prg file */
     finfo = fileio_open(file_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
                         FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
