@@ -423,10 +423,31 @@ char *archdep_filename_parameter(const char *name)
     return lib_stralloc(name);
 }
 
+/*
+    "special" chars in *unix are:
+
+    "'\[]()´
+
+    tested unproblematic (no escaping):
+
+    "'()´
+
+    tested problematic (need escaping):
+
+    \[]
+    - if the name of a file _inside_ a .zip file contain \, [ or ], then extracting
+      it will fail if they are not escaped.
+
+    several problems on autostart remain, which are not quoting but ascii vs petscii related.
+*/
 char *archdep_quote_parameter(const char *name)
 {
-    /*not needed(?) */
-    return lib_stralloc(name);
+    char *a;
+
+    a = util_subst(name, "\\", "\\\\");
+    a = util_subst(a, "[", "\\[");
+    a = util_subst(a, "]", "\\]");
+    return a;
 }
 
 char *archdep_tmpnam(void)
