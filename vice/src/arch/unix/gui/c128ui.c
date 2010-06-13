@@ -38,6 +38,7 @@
 #include "resources.h"
 #include "uiapi.h"
 #include "uiattach.h"
+#include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uicommands.h"
 #include "uidatasette.h"
@@ -50,13 +51,18 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uilib.h"
+#include "uimagicvoice.h"
 #include "uimenu.h"
 #include "uimidi.h"
 #include "uimmc64.h"
+#include "uimmcreplay.h"
 #include "uimouse.h"
 #include "uilightpen.h"
 #include "uiperipheraliec.h"
+#include "uiplus256k.h"
+#include "uiplus60k.h"
 #include "uiramcart.h"
+#include "uiretroreplay.h"
 #include "uireu.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
@@ -66,6 +72,7 @@
 #include "uisound.h"
 #include "uisoundexpander.h"
 #include "uitfe.h"
+#include "uitpi.h"
 #include "uivdc.h"
 #include "uivicii.h"
 #include "vsync.h"
@@ -216,7 +223,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
@@ -260,35 +266,55 @@ static ui_menu_entry_t functionrom_submenu[] = {
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("Function ROM"),
       NULL, NULL, functionrom_submenu },
+    { N_("*Banks 2 & 3"),
+      (ui_callback_t)toggle_C128FullBanks, NULL, NULL },
     { "--" },
-    { N_("RAM Expansion Unit"),
-      NULL, NULL, reu_submenu },
+/*
+    { N_("256K RAM Expansion"),
+      NULL, NULL, c64_256k_submenu },
+*/
     { N_("GEORAM Expansion Unit"),
       NULL, NULL, georam_submenu },
+/*
+    { N_("PLUS60K RAM Expansion"),
+      NULL, NULL, plus60k_submenu },
+    { N_("PLUS256K RAM Expansion"),
+      NULL, NULL, plus256k_submenu },
+*/
     { N_("RAM Expansion Cart"),
       NULL, NULL, ramcart_submenu },
+    { N_("RAM Expansion Unit"),
+      NULL, NULL, reu_submenu },
+    { "--" },
     { N_("EasyFlash cartridge"),
       NULL, NULL, easyflash_submenu },
-    { N_("MMC64 emulation"),
-      NULL, NULL, mmc64_submenu },
-    { N_("Digimax Cart"),
-      NULL, NULL, digimax_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
+    { N_("MMC64 emulation"),
+      NULL, NULL, mmc64_submenu },
+    { N_("MMC Replay emulation"),
+      NULL, NULL, mmcreplay_submenu },
+    { N_("Retro Replay cartridge"),
+      NULL, NULL, retroreplay_submenu },
+    { "--" },
 #ifdef HAVE_TFE
     { N_("Ethernet emulation"),
       NULL, NULL, tfe_submenu },
 #endif
-    { N_("*Emulator identification"),
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
-    { N_("*IEEE488 interface emulation"),
-      (ui_callback_t)toggle_IEEE488, NULL, NULL },
+    { N_("IEEE 488 Interface"),
+      NULL, NULL, tpi_submenu },
 #ifdef HAVE_MOUSE
+    { "--" },
     { N_("*Mouse Emulation"),
       NULL, NULL, mouse_submenu },
     { N_("*Lightpen Emulation"),
       NULL, NULL, lightpen_submenu },
 #endif
+    { "--" },
+    { N_("Digimax Cart"),
+      NULL, NULL, digimax_submenu },
+    { N_("Magic Voice"),
+      NULL, NULL, magicvoice_submenu },
 #ifdef HAVE_MIDI
     { N_("MIDI Emulation"),
       NULL, NULL, midi_c64_submenu },
@@ -297,8 +323,9 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, soundexpander_submenu },
     { N_("*SFX Sound Sampler emulation"),
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
-    { N_("*Banks 2 & 3"),
-      (ui_callback_t)toggle_C128FullBanks, NULL, NULL },
+    { "--" },
+    { N_("*Emulator identification"),
+      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }
 };
 

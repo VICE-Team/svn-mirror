@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "tpi.h"
 #include "types.h"
+#include "util.h"
 
 /*
     IEEE488 interface for c64 and c128
@@ -54,6 +55,14 @@
     TODO: register description
 
 */
+
+/* #define DEBUGTPI */
+
+#ifdef DEBUGTPI
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 #define mytpi_init tpi_init
 #define mytpi_set_int tpi_set_int
@@ -75,6 +84,11 @@ static void REGPARM2 tpi_store(WORD addr, BYTE data)
 static BYTE REGPARM1 tpi_read(WORD addr)
 {
     return tpicore_read(machine_context.tpi1, addr);
+}
+
+BYTE REGPARM1 tpi_peek(WORD addr)
+{
+    return tpicore_peek(machine_context.tpi1, addr);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -99,46 +113,6 @@ static const c64export_resource_t export_res = {
 };
 
 /* ---------------------------------------------------------------------*/
-
-void tpi_config_init(void)
-{
-    cartridge_config_changed(0, 0, CMODE_READ);
-}
-
-int tpi_bin_attach(const char *filename, BYTE *rawcart)
-{
-    FILE *fd;
-
-    fd = fopen(filename, MODE_READ);
-    if (!fd) {
-        return -1;
-    }
-    if (fread(rawcart, 0x1000, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
-    }
-    fclose(fd);
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-    c64io_register(&tpi_device);
-    ieee488_enabled = 1;
-    return 0;
-}
-
-void tpi_detach(void)
-{
-    c64io_unregister(tpi_list_item);
-    c64export_remove(&export_res);
-    tpi_list_item = NULL;
-    ieee488_enabled = 0;
-}
-
-BYTE REGPARM1 tpi_peek(WORD addr)
-{
-    return tpicore_peek(machine_context.tpi1, addr);
-}
 
 static void set_int(unsigned int int_num, int value)
 {
@@ -341,30 +315,133 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->restore_int = restore_int;
 }
 
+/* ---------------------------------------------------------------------*/
+
+static char *ieee488_filename = NULL;
+
 static int set_ieee488_enabled(int val, void *param)
 {
-    if (!val) {
+    DBG(("IEEE: set_enabled: (%p) '%s' %d to %d\n", param, ieee488_filename, ieee488_enabled, val));
+    if (ieee488_enabled && !val) {
+#ifdef DEBUGTPI
+        if (tpi_list_item == NULL) {
+            DBG(("IEEE: BUG: ieee488_enabled == 1 and tpi_list_item == NULL ?!\n"));
+        }
+#endif
+        c64export_remove(&export_res);
+        c64io_unregister(tpi_list_item);
+        tpi_list_item = NULL;
         ieee488_enabled = 0;
-    } else {
-        ieee488_enabled = 1;
+        DBG(("IEEE: set_enabled unregistered\n"));
+    } else if (!ieee488_enabled && val) {
+        if (param) {
+            /* if the param is != NULL, then we should load the default image file */
+            if (ieee488_filename) {
+                if (*ieee488_filename) {
+                    DBG(("IEEE: attach default image\n"));
+                    if (cartridge_attach_image(CARTRIDGE_IEEE488, ieee488_filename) < 0) {
+                        DBG(("IEEE: set_enabled did not register\n"));
+                        return -1;
+                    }
+                    /* ieee488_enabled = 1; */ /* cartridge_attach_image will end up calling set_ieee488_enabled again */
+                    return 0;
+                }
+            }
+        } else {
+            /* if the param is == NULL, then we should actually set the resource */
+            if (c64export_add(&export_res) < 0) {
+                DBG(("IEEE: set_enabled did not register\n"));
+                return -1;
+            } else {
+                DBG(("IEEE: set_enabled registered\n"));
+                tpi_list_item = c64io_register(&tpi_device);
+                ieee488_enabled = 1;
+            }
+        }
     }
+
+    DBG(("IEEE: set_enabled done: '%s' %d : %d\n",ieee488_filename , val, ieee488_enabled));
     return 0;
 }
 
+static int set_ieee488_filename(const char *name, void *param)
+{
+    int enabled;
+
+    if (name != NULL && *name != '\0') {
+        if (util_check_filename_access(name) < 0) {
+            return -1;
+        }
+    }
+    DBG(("IEEE: set_name: %d '%s'\n",ieee488_enabled, ieee488_filename));
+
+    util_string_set(&ieee488_filename, name);
+    resources_get_int("IEEE488", &enabled);
+
+    if (set_ieee488_enabled(enabled, (void*)1) < 0 ) {
+        lib_free (ieee488_filename);
+        ieee488_filename = NULL;
+        DBG(("IEEE: set_name done: %d '%s'\n",ieee488_enabled, ieee488_filename));
+        return -1;
+    }
+
+    DBG(("IEEE: set_name done: %d '%s'\n",ieee488_enabled, ieee488_filename));
+    return 0;
+}
+
+static const resource_string_t resources_string[] = {
+    { "IEEE488Image", "", RES_EVENT_NO, NULL,
+      &ieee488_filename, set_ieee488_filename, NULL },
+    { NULL }
+};
+
 static const resource_int_t resources_int[] = {
     { "IEEE488", 0, RES_EVENT_SAME, NULL,
-      &ieee488_enabled, set_ieee488_enabled, NULL },
+      &ieee488_enabled, set_ieee488_enabled, (void *)1 },
     { NULL }
 };
 
 int tpi_resources_init(void)
 {
+    if (resources_register_string(resources_string) < 0) {
+        return -1;
+    }
     return resources_register_int(resources_int);
 }
 
 void tpi_resources_shutdown(void)
 {
+    lib_free(ieee488_filename);
+    ieee488_filename = NULL;
+}
 
+/* ---------------------------------------------------------------------*/
+
+void tpi_config_init(void)
+{
+    cartridge_config_changed(0, 0, CMODE_READ);
+}
+
+int tpi_bin_attach(const char *filename, BYTE *rawcart)
+{
+    FILE *fd;
+
+    fd = fopen(filename, MODE_READ);
+    if (!fd) {
+        return -1;
+    }
+    if (fread(rawcart, 0x1000, 1, fd) < 1) {
+        fclose(fd);
+        return -1;
+    }
+    fclose(fd);
+
+    return set_ieee488_enabled(1, NULL);
+}
+
+void tpi_detach(void)
+{
+    set_ieee488_enabled(0, NULL);
 }
 
 /* ---------------------------------------------------------------------*/

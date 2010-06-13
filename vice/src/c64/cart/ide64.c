@@ -912,7 +912,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    c64io_register(&ide64_device);
+    ide64_list_item = c64io_register(&ide64_device);
     return 0;
 }
 
@@ -939,6 +939,6 @@ int ide64_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    c64io_register(&ide64_device);
+    ide64_list_item = c64io_register(&ide64_device);
     return 0;
 }

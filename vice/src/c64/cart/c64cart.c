@@ -40,6 +40,7 @@
 #include "c64-midi.h"
 #include "c64acia.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64tpi.h"
@@ -111,6 +112,9 @@ static int crttype = CARTRIDGE_NONE; /* contains CRT ID if c64cart_type == 0 */
 
 static alarm_t *cartridge_alarm = NULL; /* cartridge alarm context */
 static unsigned int cartridge_int_num; /* irq number for cart */
+
+/* Type of the cartridge attached. ("Main Slot") */
+int mem_cartridge_type = CARTRIDGE_NONE;
 
 /* FIXME: remove this trying... stuff and do better sanity checks
           - this function is only used from within ide64.c, this should be changed
@@ -421,8 +425,22 @@ int cartridge_attach_image(int type, const char *filename)
         }
     }
 
+    if (cartridge_is_slotmain(type)) {
+        DBG(("cartridge_attach MAIN ID: %d\n", type));
+        mem_cartridge_type = type;
+        cartridge_romhbank_set(0);
+        cartridge_romlbank_set(0);
+    } else {
+        DBG(("cartridge_attach (other) ID: %d\n", type));
+    }
+
     DBG(("CART: attach RAW ID: %d\n", cartid));
     cart_attach(cartid, rawcart);
+
+    if (c64cartridge_reset) {
+        /* "Turn off machine before inserting cartridge" */
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
 
     if (cartridge_is_slotmain(cartid)) {
         /* "Main Slot" */
@@ -458,7 +476,17 @@ void cartridge_detach_main(void)
     DBG(("CART: detach main %d: type: %d id: %d\n", type, c64cart_type, crttype));
     if (type != CARTRIDGE_NONE) {
         cart_detach(type);
+
+        DBG(("CARTMEM: unset cart config\n"));
+        cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
+
+        if (c64cartridge_reset) {
+            /* "Turn off machine before removing cartridge" */
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        }
+
         /* reset "Main Slot" */
+        mem_cartridge_type = CARTRIDGE_NONE;
         c64cart_type = CARTRIDGE_NONE;
         crttype = CARTRIDGE_NONE;
         if (cartfile) {
@@ -491,6 +519,14 @@ void cartridge_detach_image(int type)
         } else {
             cart_detach(type);
         }
+    }
+
+    DBG(("CARTMEM: unset cart config\n"));
+    cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
+
+    if (c64cartridge_reset) {
+        /* "Turn off machine before removing cartridge" */
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
 }
 

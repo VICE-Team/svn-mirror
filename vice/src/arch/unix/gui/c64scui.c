@@ -76,6 +76,7 @@
 #include "uisound.h"
 #include "uisoundexpander.h"
 #include "uitfe.h"
+#include "uitpi.h"
 #include "uivicii.h"
 #include "vsync.h"
 #include "vicii.h"
@@ -411,11 +412,13 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, mmcreplay_submenu },
     { N_("Retro Replay cartridge"),
       NULL, NULL, retroreplay_submenu },
-#ifdef HAVE_TFE
     { "--" },
+#ifdef HAVE_TFE
     { N_("Ethernet emulation"),
       NULL, NULL, tfe_submenu },
 #endif
+    { N_("IEEE 488 Interface"),
+      NULL, NULL, tpi_submenu },
 #ifdef HAVE_MOUSE
     { "--" },
     { N_("*Mouse Emulation"),

@@ -81,6 +81,10 @@ struct snapshot_s;
 extern int cartridge_snapshot_read_modules(struct snapshot_s *s);
 extern int cartridge_snapshot_write_modules(struct snapshot_s *s);
 
+/* setup context */
+struct machine_context_s;
+extern void cartridge_setup_context(struct machine_context_s *machine_context);
+
 /* Carts that don't have a rom images */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */
 #define CARTRIDGE_DQBB               -101 /* dqbb.c */

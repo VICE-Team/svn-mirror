@@ -507,9 +507,33 @@ int tpicore_snapshot_read_module(tpi_context_t *tpi_context, snapshot_t *p)
 
 int tpicore_dump(tpi_context_t *tpi_context)
 {
-    int addr;
-    for (addr = 0; addr < 8; addr++) {
-        mon_out("%02x: %02x\n", addr, tpicore_peek(tpi_context, addr));
+    const char *ctrlmodes[4] = {
+        "irq", "pulse", "low", "high"
+    };
+    int mode = tpi_context->c_tpi[TPI_CREG] & 1;
+
+    mon_out("Mode:               %d\n", mode);
+    mon_out("Interrupt Priority: %s\n", ((tpi_context->c_tpi[TPI_CREG] >> 1) & 1) ? "enabled" : "disabled");
+    mon_out("IRQ 3 Edge Select:  %s\n", ((tpi_context->c_tpi[TPI_CREG] >> 2) & 1) ? "enabled" : "disabled");
+    mon_out("IRQ 4 Edge Select:  %s\n", ((tpi_context->c_tpi[TPI_CREG] >> 3) & 1) ? "enabled" : "disabled");
+    mon_out("CA Control Mode:    %s\n", ctrlmodes[(tpi_context->c_tpi[TPI_CREG] >> 4) & 3]);
+    mon_out("CB Control Mode:    %s\n", ctrlmodes[(tpi_context->c_tpi[TPI_CREG] >> 6) & 3]);
+    if (mode) {
+        mon_out("Port A:             %02x\n", tpi_context->c_tpi[TPI_PA]);
+        mon_out("Port B:             %02x\n", tpi_context->c_tpi[TPI_PB]);
+        mon_out("Port Direction A:   %02x\n", tpi_context->c_tpi[TPI_DDPA]);
+        mon_out("Port Direction B:   %02x\n", tpi_context->c_tpi[TPI_DDPB]);
+        mon_out("Interrupt latch:    %02x\n", irq_latches & 0x1f);
+        mon_out("Interrupt active:   %s\n", irq_active ? "yes" : "no");
+        mon_out("Active Interrupt:   %02x\n", tpi_context->c_tpi[TPI_AIR]);
+    } else {
+        mon_out("Port Register A:    %02x\n", tpi_context->c_tpi[TPI_PA]);
+        mon_out("Port Register B:    %02x\n", tpi_context->c_tpi[TPI_PB]);
+        mon_out("Port Register C:    %02x\n", tpi_context->c_tpi[TPI_PC]);
+        mon_out("Port Direction A:   %02x\n", tpi_context->c_tpi[TPI_DDPA]);
+        mon_out("Port Direction B:   %02x\n", tpi_context->c_tpi[TPI_DDPB]);
+        mon_out("Port Direction C:   %02x\n", tpi_context->c_tpi[TPI_DDPC]);
+        mon_out("Active Interrupt:   %02x\n", tpi_context->c_tpi[TPI_AIR]);
     }
     return 0;
 }

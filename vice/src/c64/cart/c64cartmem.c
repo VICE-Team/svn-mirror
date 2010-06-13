@@ -124,8 +124,8 @@ int roml_bank = 0, romh_bank = 0, export_ram = 0;
 unsigned int cart_ultimax_phi1 = 0;
 unsigned int cart_ultimax_phi2 = 0;
 
-/* Type of the cartridge attached. ("Main Slot") */
-int mem_cartridge_type = CARTRIDGE_NONE;
+/* from c64cart.c */
+extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") */
 
 /*
   mode_phiN:

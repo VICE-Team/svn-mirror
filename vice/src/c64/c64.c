@@ -286,14 +286,11 @@ static void c64_monitor_init(void)
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init, asmarray);
 }
 
-/* FIXME: make hook for carts */
 void machine_setup_context(void)
 {
     cia1_setup_context(&machine_context);
     cia2_setup_context(&machine_context);
-    /* FIXME: the TPI context probably shouldn't be in the machine context */
-    tpi_setup_context(&machine_context);
-    magicvoice_setup_context(&machine_context);
+    cartridge_setup_context(&machine_context);
     machine_printer_setup_context(&machine_context);
 }
 

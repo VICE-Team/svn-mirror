@@ -688,15 +688,16 @@ void vicii_async_refresh(struct canvas_refresh_s *refresh)
 }
 
 int vicii_dump(struct vicii_s *vic) {
-    int m_muco, m_disp, m_ext, v_bank;
+    int m_muco, m_disp, m_ext, v_bank, v_vram;
     int i, bits;
 
     m_ext = ((vic->regs[0x11] & 0x40) >> 6); /* 0 standard, 1 extended */
     m_muco = ((vic->regs[0x16] & 0x10) >> 4); /* 0 hires, 1 multi */
     m_disp = ((vic->regs[0x11] & 0x20) >> 5); /* 0 text, 1 bitmap */
 
-    v_bank = 0; /* FIXME */
+    v_bank = vic->vbank_phi2;
 
+    mon_out("Rasterline:   current: %d IRQ: %d\n", vic->raster.current_line, vic->raster_irq_line);
     mon_out("Display Mode:");
     mon_out(m_ext ? " Extended" : " Standard");
     mon_out(m_muco ? " Multi Color" : " Hires");
@@ -710,10 +711,25 @@ int vicii_dump(struct vicii_s *vic) {
     mon_out("Scroll X/Y:   %d/%d\n", vic->regs[0x16] & 0x07, vic->regs[0x11] & 0x07);
     mon_out("Screen Size:  %d x %d\n", 39 + ((vic->regs[0x16] >> 3) & 1), 24 + ((vic->regs[0x11] >> 3) & 1));
 
-    mon_out("\nVIC Memory Bank:   $%04x - $%04x\n", v_bank, v_bank+0x3fff);
-    mon_out("\nVideo Memory:      $%04x\n", ((vic->regs[0x18] >> 4) * 0x0400) + v_bank);
-    mon_out("Character Set:     $%04x\n", (((vic->regs[0x18] >> 1) & 0x7) * 0x800) + v_bank);
-    mon_out("Bitmap Memory:     $%04x\n", (((vic->regs[0x18] >> 3) & 1) * 0x2000) + v_bank);
+    mon_out("\nVIC Memory Bank:   $%04x - $%04x\n", v_bank, v_bank + 0x3fff);
+    v_vram = ((vic->regs[0x18] >> 4) * 0x0400) + v_bank;
+    mon_out("\nVideo Memory:      $%04x\n", v_vram);
+    if (m_disp) {
+        mon_out("Bitmap Memory:     $%04x\n", (((vic->regs[0x18] >> 3) & 1) * 0x2000) + v_bank);
+    } else {
+        i=(((vic->regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
+        /* FIXME: how does cbm510 work ? */
+        if (machine_class == VICE_MACHINE_C64   ||
+            machine_class == VICE_MACHINE_C128  ||
+            machine_class == VICE_MACHINE_C64DTV||
+            machine_class == VICE_MACHINE_C64SC ) {
+                /* $1x00 and $9x00 mapped to $dx00 */
+                if ( (( i >> 12) == 1 ) || (( i >> 12) == 9 ) ) {
+                    i = 0xd000 | (i & 0x0f00);
+                }
+        }
+        mon_out("Character Set:     $%04x\n", i);
+    }
 
     mon_out("\nSprites:");
     mon_out("\n           Spr.0  Spr.1  Spr.2  Spr.3  Spr.4  Spr.5  Spr.6  Spr.7");
@@ -723,6 +739,12 @@ int vicii_dump(struct vicii_s *vic) {
         mon_out("  %5s", (bits & 1) ? "yes" : "no");
         bits >>= 1;
     }
+/* FIXME: mmh, how to read from the machine ram here ? */
+#if 0
+    mon_out("\nPointer: ");
+    for (i = 0; i < 8; i++) {
+    }
+#endif
     mon_out("\nX-Pos:   ");
     bits = vic->regs[0x10]; /* sprite x msb */
     for (i = 0; i < 8; i++) {
@@ -732,16 +754,6 @@ int vicii_dump(struct vicii_s *vic) {
     mon_out("\nY-Pos:   ");
     for (i = 0; i < 8; i++) {
         mon_out("  %5d", vic->regs[1 + (i << 1)]);
-    }
-    mon_out("\nColor:   ");
-    for (i = 0; i < 8; i++) {
-        mon_out("  %5d", vic->regs[i + 0x27]);
-    }
-    mon_out("\nMode:    ");
-    bits = vic->regs[0x1c];
-    for (i = 0; i < 8; i++) {
-        mon_out("  %5s", (bits & 1) ? "muco" : "std");
-        bits >>= 1;
     }
     mon_out("\nX-Expand:");
     bits = vic->regs[0x1d];
@@ -761,7 +773,20 @@ int vicii_dump(struct vicii_s *vic) {
         mon_out("  %5s", (bits & 1) ? "bg" : "spr");
         bits >>= 1;
     }
-    mon_out("\n\nMulti Color 1: %2d Multi Color 2: %2d\n", vic->regs[0x25], vic->regs[0x26]);
+    mon_out("\nMode:    ");
+    bits = vic->regs[0x1c];
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5s", (bits & 1) ? "muco" : "std");
+        bits >>= 1;
+    }
+    mon_out("\nColor:   ");
+    for (i = 0; i < 8; i++) {
+        mon_out("  %5d", vic->regs[i + 0x27]);
+    }
+    if (vic->regs[0x1c]) {
+        mon_out("\nMulti Color 1: %d  Multi Color 2: %d", vic->regs[0x25], vic->regs[0x26]);
+    }
+    mon_out("\n");
 
 /*
   TODO:

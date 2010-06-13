@@ -913,6 +913,8 @@ void t6721_sound_machine_init(t6721_state *t6721, int speed, int cycles_per_sec)
 
 int t6721_dump(t6721_state *t6721)
 {
+    mon_out("reference cycles per second: %d\n", t6721->cycles_per_sec);
+    mon_out("output sample per second:    %d\n", t6721->samples_per_sec);
     mon_out("apd: %d busy: %d eos: %d playing: %d\n", t6721->apd, t6721->busy, t6721->eos, t6721->playing);
 
     return 0;

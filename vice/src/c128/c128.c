@@ -355,7 +355,7 @@ void machine_setup_context(void)
 {
     cia1_setup_context(&machine_context);
     cia2_setup_context(&machine_context);
-    tpi_setup_context(&machine_context);
+    cartridge_setup_context(&machine_context);
     machine_printer_setup_context(&machine_context);
 }
 

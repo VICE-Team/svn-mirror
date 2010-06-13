@@ -224,8 +224,10 @@ static BYTE write_bit_to_fifo(BYTE bit)
     }
 
     /* if dtrd==0, then run 1 tick, which makes dtrd==1 */
-    if (t6721->dtrd) {
+    if (!t6721->dtrd) {
         t6721_update_ticks(t6721, 1);
+        update_dtrd(0);
+        return 1;
     }
 
     if (datainfifo >= FIFO_LEN) {
@@ -689,6 +691,7 @@ static void REGPARM2 magicvoice_io2_store(WORD addr, BYTE data)
             break;
     }
     tpicore_store(tpi_context, addr & 7, data);
+    t6721_update_ticks(t6721, 1);
 }
 
 static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
@@ -711,6 +714,7 @@ static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
             DBGREG(("MV: @:%04x io2 r %04x %02x\n", reg_pc, addr, value));
             break;
     }
+    t6721_update_ticks(t6721, 1);
     return value;
 }
 
@@ -795,38 +799,46 @@ char *magicvoice_filename = NULL;
 
 static int set_magicvoice_enabled(int val, void *param)
 {
-    int stat = 0;
     DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, mv_enabled, val));
     if (mv_enabled && !val) {
+#ifdef MVDEBUG
         if (magicvoice_io2_list_item == NULL) {
             DBG(("MV: BUG: mv_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
         }
+#endif
         c64export_remove(&export_res);
         c64io_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
+        mv_enabled =  0;
         DBG(("MV: set_enabled unregistered\n"));
     } else if (!mv_enabled && val) {
-        if (magicvoice_filename) {
-            if (*magicvoice_filename) {
-                if (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0) {
-                    DBG(("MV: set_enabled did not register\n"));
-                    stat = -1;
-                } else {
-                    DBG(("MV: set_enabled registered\n"));
-                    if (c64export_add(&export_res) < 0) {
-                        stat = -1;
-                    } else {
-                        c64io_register(&magicvoice_io2_device);
-                        stat = 1;
+        if (param) {
+            /* if the param is != NULL, then we should load the default image file */
+            if (magicvoice_filename) {
+                if (*magicvoice_filename) {
+                    if (cartridge_attach_image(CARTRIDGE_MAGIC_VOICE, magicvoice_filename) < 0) {
+                        DBG(("MV: set_enabled did not register\n"));
+                        return -1;
                     }
+                    /* mv_enabled = 1; */ /* cartridge_attach_image will end up calling set_magicvoice_enabled again */
+                    return 0;
                 }
+            }
+        } else {
+            /* if the param is == NULL, then we should actually set the resource */
+            if (c64export_add(&export_res) < 0) {
+                DBG(("MV: set_enabled did not register\n"));
+                return -1;
+            } else {
+                DBG(("MV: set_enabled registered\n"));
+                magicvoice_io2_list_item = c64io_register(&magicvoice_io2_device);
+                mv_enabled =  1;
             }
         }
     }
 
-    mv_enabled = (stat > 0) ? 1 : 0;
-    DBG(("MV: set_enabled done: '%s' %d : %d ret %d\n",magicvoice_filename , val, mv_enabled, stat));
-    return stat;
+    DBG(("MV: set_enabled done: '%s' %d : %d\n",magicvoice_filename , val, mv_enabled));
+    return 0;
 }
 
 static int set_magicvoice_filename(const char *name, void *param)
@@ -843,7 +855,7 @@ static int set_magicvoice_filename(const char *name, void *param)
     util_string_set(&magicvoice_filename, name);
     resources_get_int("MagicVoiceCartridgeEnabled", &enabled);
 
-    if (set_magicvoice_enabled(enabled, NULL) < 0 ) {
+    if (set_magicvoice_enabled(enabled, (void*)1) < 0 ) {
         lib_free (magicvoice_filename);
         magicvoice_filename = NULL;
         DBG(("MV: set_name done: %d '%s'\n",mv_enabled, magicvoice_filename));
@@ -860,7 +872,7 @@ static const resource_string_t resources_string[] = {
 };
 static const resource_int_t resources_int[] = {
     { "MagicVoiceCartridgeEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &mv_enabled, set_magicvoice_enabled, NULL },
+      &mv_enabled, set_magicvoice_enabled, (void *)1 },
     { NULL }
 };
 
@@ -894,6 +906,8 @@ void magicvoice_setup_context(machine_context_t *machine_context)
     tpi_context = lib_malloc(sizeof(tpi_context_t));
 
     tpi_context->prv = NULL;
+
+    tpi_context->context = (void *)machine_context;
 
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
@@ -960,28 +974,19 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
     fclose(fd);
 
     DBG(("MV: attach\n"));
-    /* can't use the resource here, as that would call attach again */
-    /* resources_set_int("MagicVoiceCartridgeEnabled", 1); */
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-    c64io_register(&magicvoice_io2_device);
-    mv_enabled = 1;
-    return 0;
+    return set_magicvoice_enabled(1, NULL);
 }
 
 void magicvoice_detach(void)
 {
     DBG(("MV: detach %d %p\n", mv_enabled, magicvoice_io2_list_item));
-    resources_set_int("MagicVoiceCartridgeEnabled", 0);
+    set_magicvoice_enabled(0, NULL);
 }
 
 void magicvoice_init(void)
 {
     DBG(("MV: init\n"));
-    if (mv_enabled) {
-        tpi_context->log = log_open(tpi_context->myname);
-    }
+    tpi_context->log = log_open(tpi_context->myname);
 }
 
 void magicvoice_reset(void)
@@ -1043,10 +1048,8 @@ void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 
 int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    if (mv_enabled) {
-        DBG(("MV: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
-        t6721_sound_machine_init(t6721, speed, cycles_per_sec);
-    }
+    DBG(("MV: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
+    t6721_sound_machine_init(t6721, speed, cycles_per_sec);
 
     return 0; /* ? */
 }

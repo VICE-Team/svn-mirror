@@ -165,6 +165,8 @@ libarchgui_a_SOURCES = \
 	uited.h \
 	uitfe.c \
 	uitfe.h \
+	uitpi.c \
+	uitpi.h \
 	uiv364speech.c \
 	uiv364speech.h \
 	uivdc.c \
