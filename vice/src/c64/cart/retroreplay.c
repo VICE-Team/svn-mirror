@@ -109,7 +109,6 @@ static flash040_context_t *flashrom_state = NULL;
 
 static char *retroreplay_filename = NULL;
 static int retroreplay_filetype = 0;
-static int retroreplay_filesize = 0;
 
 static const char STRING_RETRO_REPLAY[] = "Retro Replay";
 
@@ -674,12 +673,13 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
     FILE *fd;
 
     retroreplay_filetype = 0;
-    retroreplay_filesize = 0;
     retroreplay_filename = NULL;
 
     fd = fopen(filename, MODE_READ);
     len = util_file_length(fd);
     fclose(fd);
+
+    memset(rawcart, 0xff, 0x20000);
 
     /* we accept 32k, 64k and full 128k images */
     switch (len) {
@@ -702,9 +702,63 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
             return -1;
     }
     retroreplay_filetype = CARTRIDGE_FILETYPE_BIN;
-    retroreplay_filesize = len;
     retroreplay_filename = lib_stralloc(filename);
     return retroreplay_common_attach();
+}
+
+/*
+    a CRT may contain up to 16 8k chunks. 64K and 128K total are accepted.
+    - 64K files will always get loaded into logical bank 0
+*/
+int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
+{
+    BYTE chipheader[0x10];
+    int i;
+
+    memset(rawcart, 0xff, 0x20000);
+
+    retroreplay_filetype = 0;
+    retroreplay_filename = NULL;
+
+    for (i = 0; i <= 15; i++) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            break;
+        }
+
+        if (chipheader[0xb] > 15) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+    }
+
+    if ((i != 8) && (i != 16)) {
+        return -1;
+    }
+
+    retroreplay_filetype = CARTRIDGE_FILETYPE_CRT;
+    retroreplay_filename = lib_stralloc(filename);
+
+    return retroreplay_common_attach();
+}
+
+/*
+    saving will create either 64k or 128k files, depending on the state
+    of the flash chip.
+*/
+
+static int checkempty(int bank)
+{
+    int i;
+    bank *= 0x10000;
+    for (i = 0;i < 0x10000;i++) {
+        if (roml_banks[i + bank] != 0xff) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 int retroreplay_save_bin(void)
@@ -721,13 +775,15 @@ int retroreplay_save_bin(void)
         return -1;
     }
 
-    if (retroreplay_filesize == 0x20000) {
-        if (fwrite(roml_banks, 1, retroreplay_filesize, fd) != retroreplay_filesize) {
+    if (!checkempty(1)) {
+        if (fwrite(&roml_banks[0x10000], 1, 0x10000, fd) != 0x10000) {
             fclose(fd);
             return -1;
         }
-    } else {
-        if (fwrite(&roml_banks[0x10000], 1, retroreplay_filesize, fd) != retroreplay_filesize) {
+    }
+
+    if (!checkempty(0)) {
+        if (fwrite(&roml_banks[0x00000], 1, 0x10000, fd) != 0x10000) {
             fclose(fd);
             return -1;
         }
@@ -736,42 +792,6 @@ int retroreplay_save_bin(void)
     return 0;
 }
 
-/* a valid RR CRT is always 64K
-   - will always get loaded into logical bank 0
-*/
-int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
-{
-    BYTE chipheader[0x10];
-    int i;
-
-    retroreplay_filetype = 0;
-    retroreplay_filesize = 0;
-    retroreplay_filename = NULL;
-    
-    for (i = 0; i <= 7; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
-            return -1;
-        }
-
-        if (chipheader[0xb] > 7) {
-            return -1;
-        }
-
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
-            return -1;
-        }
-    }
-
-    retroreplay_filetype = CARTRIDGE_FILETYPE_CRT;
-    retroreplay_filesize = 0x10000;
-    retroreplay_filename = lib_stralloc(filename);
-
-    return retroreplay_common_attach();
-}
-
-/* a valid RR CRT is always 64K
-   - only the logical bank 0 of the flash will be saved as CRT
-*/
 int retroreplay_save_crt(void)
 {
     FILE *fd;
@@ -789,8 +809,6 @@ int retroreplay_save_crt(void)
         return -1;
     }
 
-    data = &roml_banks[0x10000];
-
     memset(header, 0x0, 0x40);
     memset(chipheader, 0x0, 0x10);
 
@@ -806,25 +824,56 @@ int retroreplay_save_crt(void)
         return -1;
     }
 
-    strcpy((char *)chipheader, CHIP_HEADER);
-    chipheader[0x06] = 0x20;
-    chipheader[0x07] = 0x10;
-    chipheader[0x09] = 0x02;
-    chipheader[0x0e] = 0x20;
+    if (!checkempty(1)) {
+        data = &roml_banks[0x10000];
 
-    for (i = 0; i < 8; i++) {
-        chipheader[0x0c] = 0x80;
+        strcpy((char *)chipheader, CHIP_HEADER);
+        chipheader[0x06] = 0x20;
+        chipheader[0x07] = 0x10;
+        chipheader[0x09] = 0x02;
+        chipheader[0x0e] = 0x20;
 
-        if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
-            fclose(fd);
-            return -1;
+        for (i = 0; i < 8; i++) {
+            chipheader[0x0c] = 0x80;
+            chipheader[0x0b] = i; /* bank */
+
+            if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
+                fclose(fd);
+                return -1;
+            }
+
+            if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+                fclose(fd);
+                return -1;
+            }
+            data += 0x2000;
         }
+    }
 
-        if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
-            fclose(fd);
-            return -1;
+    if (!checkempty(0)) {
+        data = &roml_banks[0x00000];
+
+        strcpy((char *)chipheader, CHIP_HEADER);
+        chipheader[0x06] = 0x20;
+        chipheader[0x07] = 0x10;
+        chipheader[0x09] = 0x02;
+        chipheader[0x0e] = 0x20;
+
+        for (i = 0; i < 8; i++) {
+            chipheader[0x0c] = 0x80;
+            chipheader[0x0b] = 8 + i; /* bank */
+
+            if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
+                fclose(fd);
+                return -1;
+            }
+
+            if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+                fclose(fd);
+                return -1;
+            }
+            data += 0x2000;
         }
-        data += 0x2000;
     }
     fclose(fd);
     return 0;
@@ -832,7 +881,7 @@ int retroreplay_save_crt(void)
 
 void retroreplay_detach(void)
 {
-    if (rr_bios_write) {
+    if (rr_bios_write && flashrom_state->flash_dirty) {
         if (retroreplay_filetype == CARTRIDGE_FILETYPE_BIN) {
             retroreplay_save_bin();
         } else if (retroreplay_filetype == CARTRIDGE_FILETYPE_CRT) {

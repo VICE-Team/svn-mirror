@@ -238,49 +238,21 @@ static void cleanup(void)
 
 static void usage(void)
 {
+    int i = 1, n;
     cleanup();
     printf("cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
     printf("carttypes:\n");
-    printf("ap       Atomic Power .crt file\n");
-    printf("ar1      Action Replay .crt file\n");
-    printf("ar3      Action Replay 3 .crt file\n");
-    printf("ar4      Action Replay 4 .crt file\n");
+
     printf("bin      Binary .bin file (Default crt->bin\n");
-    printf("cap      Capture .crt file\n");
-    printf("comal    Comal-80 .crt file\n");
-    printf("dep7x8   Dela EP7x8 .crt file, extra files can be inserted\n");
-    printf("dep64    Dela EP64 .crt file, extra files can be inserted\n");
-    printf("dep256   Dela EP256 .crt file, extra files can be inserted\n");
-    printf("din      Dinamic .crt file\n");
-    printf("easy     EasyFlash .crt file\n");
-    printf("epyx     Epyx Fastload .crt file\n");
-    printf("expert   Expert Cartridge .crt file\n");
-    printf("fc1      Final Cartridge 1 .crt file\n");
-    printf("fcp      Final Cartridge Plus .crt file\n");
-    printf("fc3      Final Cartridge 3 .crt file\n");
-    printf("fp       Fun Play, Power Play .crt file\n");
-    printf("gs       C64GS, System 3 .crt file\n");
-    printf("ide64    IDE64 .crt file\n");
-    printf("kcs      KCS .crt file\n");
-    printf("md       Magic Desk, Domark, Hes Australia .crt file\n");
-    printf("mf       Magic Formel .crt file\n");
-    printf("mikro    Mikro Assembler .crt file\n");
     printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
-    printf("ocean    Ocean type 1/2 .crt file\n");
     printf("prg      Binary C64 .prg file with load-address\n");
-    printf("retro    Retro Replay .crt file\n");
-    printf("rep256   Rex EP256 .crt file, extra files can be inserted\n");
-    printf("ross     Ross .crt file\n");
-    printf("ru       Rex Utility .crt file\n");
-    printf("sb       Structured Basic .crt file\n");
-    printf("sg       Super Games .crt file\n");
-    printf("simon    Simons Basic .crt file\n");
-    printf("ss5      Super Snapshot 5 .crt file\n");
-    printf("star     StarDOS .crt file\n");
     printf("ulti     Ultimax mode 4kb/16kb .crt file\n");
-    printf("wl       Westermann Learning .crt file\n");
-    printf("ws       WarpSpeed .crt file\n");
-    printf("zax      Zaxxon, Super Zaxxon .crt file\n");
+
+    while (cart_info[i].opt) {
+        n = (((i == CARTRIDGE_DELA_EP7x8) || (i == CARTRIDGE_DELA_EP64) || (i == CARTRIDGE_REX_EP256) || (i == CARTRIDGE_DELA_EP256)));
+        printf("%-8s %s .crt file%s\n", cart_info[i].opt, cart_info[i].name, n ? ", extra files can be inserted" : "");
+        i++;
+    }
     exit(1);
 }
 
@@ -318,33 +290,23 @@ static void checkflag(char *flg, char *arg)
                     if (cart_info[i].opt != NULL) {
                         if (!strncasecmp(cart_info[i].opt, arg, strlen(cart_info[i].opt))) {
                             cart_type = i;
+                            break;
                         }
                     }
                 }
-                switch (tolower(arg[0])) {
-                    case 'b':
+                if (cart_type == -1) {
+                    if (!strcmp(arg, "bin")) {
                         convert_to_bin = 1;
-                        break;
-                    case 'n':
+                    } else if (!strcmp(arg, "normal")) {
                         cart_type = CARTRIDGE_CRT;
-                        break;
-                    case 'p':
-                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) == 'g') {
-                            convert_to_prg = 1;
-                        }
-                        if (tolower(arg[1]) == 'r' && tolower(arg[2]) == 'o') {
-                            convert_to_prg=1;
-                        }
-                        if (cart_type == -1 && convert_to_prg == 0) {
-                            usage();
-                        }
-                        break;
-                    case 'u':
+                    } else if (!strcmp(arg, "prg")) {
+                        convert_to_prg = 1;
+                    } else if (!strcmp(arg, "ulti")) {
                         cart_type = CARTRIDGE_CRT;
                         convert_to_ultimax = 1;
-                        break;
-                    default:
+                    } else {
                         usage();
+                    }
                 }
             }
             break;
