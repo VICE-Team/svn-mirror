@@ -54,6 +54,12 @@
 #  endif
 #endif
 
+#if !defined(WIN32_COMPILE) && defined(__CYGWIN32__)
+#define PLATFORM_OS "Cygwin"
+#define PLATFORM_COMPILER "GCC"
+#define FIND_X86_CPU
+#endif
+
 /* MacOS X discovery */
 #ifdef __APPLE__
 #   define PLATFORM_OS "Mac OS X"
