@@ -167,18 +167,13 @@ int main_program(int argc, char **argv)
     translate_arch_language_init();
 #endif
 
-    /* Load the user's default configuration file.  */
     if (vsid_mode) {
         /* FIXME: handle these elsewhere */
         resources_set_int("SoundSpeedAdjustment", 2);
         resources_set_int("SoundBufferSize", 1000);
     }
-#if !defined(USE_SDLUI) && !defined(USE_GNOMEUI)
-    /* FIXME: vsid can now it's own config [VSID], so this should go away.
-       Only SDL & GTK+ UIs have the "Save resources" menu item and have been
-       tested to work, hence this ugly ifndef. */
-    else
-#endif
+
+    /* Load the user's default configuration file.  */
     {
         int retval;
 
