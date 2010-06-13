@@ -8392,7 +8392,7 @@ msgstr "Final Expansion Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:513
 msgid "Vic Flash Plugin image..."
-msgstr "Vic Flahs Plugin Image..."
+msgstr "Vic Flash Plugin Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:349
 msgid "Smart-attach image..."
