@@ -27,6 +27,15 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef WATCOM_COMPILE
+#define _STDIO_H_INCLUDED
+#include <cstdio>
+using std::FILE;
+using std::sprintf;
+#endif
+
 /* resid itself is always compiled with C64DTV support */
 #include "resid-fp/sid.h"
 

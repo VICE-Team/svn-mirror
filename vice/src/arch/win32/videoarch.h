@@ -37,7 +37,7 @@
 #include <ddraw.h>
 
 /* Hack to check if d3d9.h is present */ 	 
-#ifdef MSVC_RC
+#if defined(MSVC_RC) && !defined(WATCOM_COMPILE)
 #define _WINSOCKAPI_
 #include <dsound.h> 	 
 #undef _WINSOCKAPI_

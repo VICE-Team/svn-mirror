@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-87
-.;..;..\..\..;..\..\..\raster;..\..\..\c64;..\..\..\c64dtv;$(%watcom)\h;$(%watcom)\h\nt
+104
+.;..;..\..\..;..\..\..\raster;..\..\..\c64;..\..\..\monitor;..\..\..\c64dtv;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MRState

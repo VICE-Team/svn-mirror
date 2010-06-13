@@ -13,6 +13,10 @@
 #define HAVE_RS232                 1
 #define HAVE_NETWORK               1
 
+#define HAVE_RESID                 1
+#define HAVE_RESID_FP              1
+#define HAVE_RESID_DTV             1
+
 #define HAS_LONGLONG_INTEGER       1
 #define HAS_UNLOCKRESOURCE         1
 #define SIZEOF_UNSIGNED_INT        4
@@ -45,10 +49,7 @@
 #define HAVE_HTONS                 1
 #define HAVE_STRNCASECMP           1
 #define HAVE_PROCESS_H             1
-#define HAVE_GUIDLIB               1
 #define HAVE_GETCWD                1
-#define HAVE_DINPUT                1
-#define HAVE_DINPUT_LIB            1
 
 #define USE_DXSOUND                1
 

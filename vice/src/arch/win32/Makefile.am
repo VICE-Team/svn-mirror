@@ -316,9 +316,30 @@ EXTRA_DIST = \
 	watcom/printerdrv.tgt \
 	watcom/raster.tgt \
 	watcom/README.txt \
+	watcom/resid.tgt \
+	watcom/resid-sid.cc \
+	watcom/resid-dtv.tgt \
+	watcom/residdtv-envelope.cc \
+	watcom/residdtv-extfilt.cc \
+	watcom/residdtv-filter.cc \
+	watcom/residdtv-sid.cc \
+	watcom/residdtv-version.cc \
+	watcom/residdtv-voice.cc \
+	watcom/residdtv-wave.cc \
+	watcom/resid-fp.tgt \
+	watcom/residfp-envelope.cc \
+	watcom/residfp-extfilt.cc \
+	watcom/residfp-filter.cc \
+	watcom/residfp-pot.cc \
+	watcom/residfp-sid.cc \
+	watcom/residfp-version.cc \
+	watcom/residfp-voice.cc \
+	watcom/residfp-wave.cc \
 	watcom/rs232drv.tgt \
 	watcom/serial.tgt \
 	watcom/sid.tgt \
+	watcom/siddefs.h \
+	watcom/siddefs-fp.h \
 	watcom/sounddrv.tgt \
 	watcom/system.h \
 	watcom/tape.tgt \
