@@ -2282,7 +2282,9 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     dnl don't have the file we just check for the header and set the define
     dnl when the header is present.
 
-    AC_CHECK_HEADER(X11/extensions/shmproto.h,,,[#include <X11/Xmd.h>])
+    AC_CHECK_HEADER(X11/extensions/shmproto.h,
+            [ AC_DEFINE(HAVE_X11_EXTENSIONS_SHMPROTO_H,,[Use new XShm header]) ]
+            ,,[#include <X11/Xlibint.h>])
 
     AC_MSG_CHECKING(for X11/extensions/Xvlib.h)
     AC_TRY_LINK([#include <X11/Xlib.h>
