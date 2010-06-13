@@ -82,15 +82,7 @@ LIB32=link.exe -lib
 # Name "c64c128 - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\..\c64\c64-midi.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\..\c64\c64-snapshot.c"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64acia1.c
 # End Source File
 # Begin Source File
 
@@ -154,55 +146,7 @@ SOURCE=..\..\..\c64\c64sound.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\c64tpi.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\digimax.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\dqbb.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\fmopl.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\georam.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\isepic.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\mmc64.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\patchrom.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\ramcart.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\reu.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\sfx_soundexpander.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\sfx_soundsampler.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\tfe.c
 # End Source File
 # End Target
 # End Project

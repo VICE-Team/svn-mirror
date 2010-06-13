@@ -17,6 +17,7 @@ EXTRA_DIST = \
 	c64dtv.dsp \
 	c64dtvstubs.dsp \
 	c64exp.dsp \
+	c64sc.dsp \
 	cartconv.dsp \
 	cbm2.dsp \
 	core.dsp \
@@ -59,10 +60,12 @@ EXTRA_DIST = \
 	vice.dsw \
 	vicii.dsp \
 	viciidtv.dsp \
+	viciinew.dsp \
 	video.dsp \
 	x128.dsp \
 	x64.dsp \
 	x64dtv.dsp \
+	x64sc.dsp \
 	xcbm2.dsp \
 	xpet.dsp \
 	xplus4.dsp \

@@ -86,10 +86,6 @@ SOURCE="..\..\..\c64\c64-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\c64\c64-midi.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\..\c64\c64-resources.c"
 # End Source File
 # Begin Source File
@@ -103,10 +99,6 @@ SOURCE=..\..\..\c64\c64.c
 # Begin Source File
 
 SOURCE=..\..\..\c64\c64_256k.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64acia1.c
 # End Source File
 # Begin Source File
 
@@ -206,35 +198,7 @@ SOURCE=..\..\..\c64\c64sound.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\c64tpi.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\c64video.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\digimax.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\dqbb.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\fmopl.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\georam.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\isepic.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\mmc64.c
 # End Source File
 # Begin Source File
 
@@ -254,27 +218,7 @@ SOURCE=..\..\..\c64\psid.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\ramcart.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\reloc65.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\reu.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\sfx_soundexpander.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\sfx_soundsampler.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\tfe.c
 # End Source File
 # End Target
 # End Project

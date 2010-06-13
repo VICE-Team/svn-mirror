@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\c64cart\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64" /I "..\..\..\rtc" /I "..\..\..\vicii" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64" /I "..\..\..\rtc" /I "..\..\..\vicii" /I "..\..\..\drive" /I "..\..\..\sid" /I "..\..\..\monitor" /I "..\..\..\core" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\c64cart\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64" /I "..\..\..\rtc" /I "..\..\..\vicii" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64" /I "..\..\..\rtc" /I "..\..\..\vicii" /I "..\..\..\drive" /I "..\..\..\sid" /I "..\..\..\monitor" /I "..\..\..\core" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -98,11 +98,23 @@ SOURCE="..\..\..\c64\cart\atomicpower.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\c64-midi.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\c64acia1.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\c64cart.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\c64cartmem.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\c64tpi.c
 # End Source File
 # Begin Source File
 
@@ -130,7 +142,15 @@ SOURCE="..\..\..\c64\cart\delaep7x8.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\cart\digimax.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\dinamic.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\dqbb.c
 # End Source File
 # Begin Source File
 
@@ -139,6 +159,10 @@ SOURCE="..\..\..\c64\cart\easyflash.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\epyxfastload.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\exos.c"
 # End Source File
 # Begin Source File
 
@@ -154,6 +178,22 @@ SOURCE="..\..\..\c64\cart\final3.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\finalplus.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\fmopl.c
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\freezeframe.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\freezemachine.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\funplay.c"
 # End Source File
 # Begin Source File
@@ -166,11 +206,19 @@ SOURCE="..\..\..\c64\cart\generic.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\cart\georam.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\gs.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\ide64.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\isepic.c
 # End Source File
 # Begin Source File
 
@@ -183,6 +231,14 @@ SOURCE="..\..\..\c64\cart\magicdesk.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\magicformel.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\magicvoice.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\mmc64.c
 # End Source File
 # Begin Source File
 
@@ -202,7 +258,15 @@ SOURCE="..\..\..\c64\cart\prophet64.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\cart\ramcart.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\retroreplay.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\reu.c
 # End Source File
 # Begin Source File
 
@@ -222,6 +286,22 @@ SOURCE="..\..\..\c64\cart\ser-eeprom.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\cart\sfx_soundexpander.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\sfx_soundsampler.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\simonsbasic.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\snapshot64.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\spi-sdcard.c"
 # End Source File
 # Begin Source File
@@ -234,11 +314,23 @@ SOURCE="..\..\..\c64\cart\stb.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\superexplode5.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\supergames.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\supersnapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\supersnapshot4.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\cart\tfe.c
 # End Source File
 # Begin Source File
 
