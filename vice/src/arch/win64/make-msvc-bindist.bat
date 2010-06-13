@@ -4,6 +4,7 @@ call win64_id.bat
 set VICEDIR=WinVICE-%VICEVERSION%-%WIN64TYPE%
 if not exist ..\..\..\data\x64.exe goto missingmsvc
 if not exist ..\..\..\data\x64dtv.exe goto missingmsvc
+if not exist ..\..\..\data\x64sc.exe goto missingmsvc
 if not exist ..\..\..\data\x128.exe goto missingmsvc
 if not exist ..\..\..\data\xcbm2.exe goto missingmsvc
 if not exist ..\..\..\data\xpet.exe goto missingmsvc
@@ -12,11 +13,12 @@ if not exist ..\..\..\data\xvic.exe goto missingmsvc
 if not exist ..\..\..\data\c1541.exe goto missingmsvc
 if not exist ..\..\..\data\cartconv.exe goto missingmsvc
 if not exist ..\..\..\data\petcat.exe goto missingmsvc
-echo generating MSVC WIN32 binary port distribution
+echo generating MSVC WIN64 binary port distribution
 if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
 copy ..\..\..\data\x64.exe %VICEDIR%
 copy ..\..\..\data\x64dtv.exe %VICEDIR%
+copy ..\..\..\data\x64sc.exe %VICEDIR%
 copy ..\..\..\data\x128.exe %VICEDIR%
 copy ..\..\..\data\xvic.exe %VICEDIR%
 copy ..\..\..\data\xpet.exe %VICEDIR%

@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video,..\..\monitor"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\viciinew\Debug/viciinew.pch"
@@ -117,14 +117,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video,..\..\monitor"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\libs\viciinew\Release/viciinew.pch"
 				AssemblerListingLocation=".\libs\viciinew\Release/"
-				ObjectFile=".\libs\vicii\Release/"
+				ObjectFile=".\libs\viciinew\Release/"
 				ProgramDataBaseFileName=".\libs\viciinew\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -190,7 +190,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video,..\..\monitor"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\viciinew\Debug/viciinew.pch"
@@ -263,7 +263,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\c64dtv,..\..\raster,..\..\video,..\..\monitor"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -753,7 +753,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\vicii\viciinew-snapshot.c"
+			RelativePath="..\..\viciinew\vicii-snapshot.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"

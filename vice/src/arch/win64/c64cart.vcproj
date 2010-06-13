@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -118,7 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\c64cart\Debug/c64cart.pch"
@@ -191,7 +191,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -264,7 +264,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\c64cart\Debug/c64cart.pch"
@@ -1833,6 +1833,46 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath="..\..\c64\cart\magicvoice.c"
+			>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath="..\..\c64\cart\mikroass.c"
 			>
 			<FileConfiguration
@@ -2554,6 +2594,46 @@
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\stb.c"
+			>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\c64\cart\superexplode5.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"

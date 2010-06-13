@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\core\Debug/core.pch"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -190,7 +190,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\core\Debug/core.pch"
@@ -263,7 +263,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -434,6 +434,46 @@
 		</File>
 		<File
 			RelativePath="..\..\core\riotcore.c"
+			>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\core\t6721.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
