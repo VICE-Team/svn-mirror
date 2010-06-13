@@ -3,10 +3,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.2\n"
+"Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-06 18:32+0200\n"
-"PO-Revision-Date: 2010-05-26 18:37+0200\n"
+"PO-Revision-Date: 2010-06-13 11:13+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -466,9 +466,8 @@ msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
 #: src/arch/unix/gui/c64ui.c:89
-#, fuzzy
 msgid "*PAL-N"
-msgstr "*PAL-G"
+msgstr "*PAL-N"
 
 #: src/arch/unix/gui/c64ui.c:278
 msgid "256K RAM Expansion"
@@ -499,9 +498,8 @@ msgid "MMC Replay emulation"
 msgstr "MMC Replay Emulation"
 
 #: src/arch/unix/gui/c64ui.c:306
-#, fuzzy
 msgid "Retro Replay cartridge"
-msgstr "Retro Replay Erweiterungsmodul Image einlegen"
+msgstr "Retro Replay Erweiterungsmodul"
 
 #: src/arch/unix/gui/c64ui.c:405 src/arch/unix/gui/petui.c:336
 msgid "I/O extensions"
@@ -1062,9 +1060,8 @@ msgid "Attach generic 16KB image..."
 msgstr "Universal 16Kb Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:102
-#, fuzzy
 msgid "Attach Action Replay 5 image..."
-msgstr "Action Replay Image einlegen..."
+msgstr "Action Replay 5 Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:105
 msgid "Attach Atomic Power image..."
@@ -1075,9 +1072,8 @@ msgid "Attach Epyx fastload image..."
 msgstr "Epyx Fastload Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:111
-#, fuzzy
 msgid "Attach Expert Cartridge image..."
-msgstr "Erweiterungsmodul einlegen..."
+msgstr "Expert Cartridge Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach IDE64 interface image..."
@@ -1088,19 +1084,16 @@ msgid "Attach IEEE488 interface image..."
 msgstr "IEEE 488 Schnittstellenmodul einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:120
-#, fuzzy
 msgid "Attach ISEPIC image..."
-msgstr "Band Image einlegen..."
+msgstr "ISEPIC Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:123
-#, fuzzy
 msgid "Attach Magic Formel image..."
-msgstr "Band Image einlegen..."
+msgstr "Magic Formel Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:126
-#, fuzzy
 msgid "Attach MMC64 image..."
-msgstr "MMC Replay Image einlegen..."
+msgstr "MMC64 Image einlegen..."
 
 #: src/arch/unix/gui/uic64cart.c:129
 msgid "Attach MMC Replay image..."
@@ -2021,9 +2014,8 @@ msgid "*Enable Isepic Switch"
 msgstr "*Isepic Schalter aktivieren"
 
 #: src/arch/unix/gui/uiisepic.c:50
-#, fuzzy
 msgid "Save Isepic image..."
-msgstr "Snapshot Datei speichern..."
+msgstr "ISEPIC Image speichern..."
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 msgid "*CGA userport joystick adapter"
@@ -3608,9 +3600,8 @@ msgid "Attach Final Expansion image..."
 msgstr "Final Expansion Imagedatei einlegen..."
 
 #: src/arch/unix/gui/vic20ui.c:323
-#, fuzzy
 msgid "Attach Vic Flash Plugin image..."
-msgstr "DTV Flash Image einlegen"
+msgstr "Vic Flash Plugin Image einlegen"
 
 #: src/arch/unix/gui/vic20ui.c:327
 msgid "Add to generic cartridge"
@@ -3629,9 +3620,8 @@ msgid "*Final Expansion write back"
 msgstr "*Final Expansion rückschreiben"
 
 #: src/arch/unix/gui/vic20ui.c:350
-#, fuzzy
 msgid "*Vic Flash Plugin write back"
-msgstr "*Final Expansion rückschreiben"
+msgstr "*Vic Flash Plugin rückschreiben"
 
 #: src/arch/unix/gui/vic20ui.c:352
 msgid "*Mega-Cart NvRAM write back"
@@ -7240,9 +7230,8 @@ msgid "&Old NTSC-M"
 msgstr "NTSC-M alt"
 
 #: src/arch/win32/resc64.rc.po.c:209
-#, fuzzy
 msgid "PAL-&N"
-msgstr "PAL-G"
+msgstr "PAL-&N"
 
 #: src/arch/win32/resc64.rc.po.c:482
 msgid "C64 model settings"
@@ -8354,9 +8343,8 @@ msgid "Select Final Expansion image"
 msgstr "Final Expansion Image Datei auswählen"
 
 #: src/arch/win32/resvic20.rc.po.c:501
-#, fuzzy
 msgid "Select Vic Flash Plugin image"
-msgstr "Final Expansion Image Datei auswählen"
+msgstr "Vic Flash Plugin Image auswählen"
 
 #: src/arch/win32/resvic20.rc.po.c:502
 msgid "Select cartridge image"
@@ -8403,9 +8391,8 @@ msgid "Final Expansion image..."
 msgstr "Final Expansion Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:513
-#, fuzzy
 msgid "Vic Flash Plugin image..."
-msgstr "Final Expansion Image..."
+msgstr "Vic Flahs Plugin Image..."
 
 #: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:349
 msgid "Smart-attach image..."
@@ -9590,9 +9577,8 @@ msgid "Select generic cartridge file"
 msgstr "Unverselles Erweiterungsmodul Image Datei wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:5454
-#, fuzzy
 msgid "Select Vic Flash Plugin file"
-msgstr "Final Expansion Datei wählen"
+msgstr "Vic Flash Plugin Datei wählen"
 
 #: src/arch/amigaos/intl_text.c.po.c:5465
 msgid "Select Mega-Cart file"
@@ -11378,9 +11364,8 @@ msgid "Enable expert cartridge"
 msgstr "Expert Cartridge aktivieren"
 
 #: src/translate_text.c.po.c:4265
-#, fuzzy
 msgid "Disable the expert cartridge"
-msgstr "Expert Cartridge aktivieren"
+msgstr "Expert Cartridge deaktivieren"
 
 #: src/translate_text.c.po.c:4279
 msgid "Disable default cartridge"
@@ -12752,9 +12737,8 @@ msgid "Specify Final Expansion extension ROM name"
 msgstr "Name für Final Expansion Erweiterungs ROM definieren"
 
 #: src/translate_text.c.po.c:7647
-#, fuzzy
 msgid "Specify Vic Flash Plugin extension ROM name"
-msgstr "Name für Final Expansion Erweiterungs ROM definieren"
+msgstr "Name für Vic Flash Plugin Erweiterungs ROM definieren"
 
 #: src/translate_text.c.po.c:7661
 msgid "Enable Final Expansion write back to ROM file"
