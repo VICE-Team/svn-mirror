@@ -911,11 +911,14 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
     initBlankCursor(canvas);
     c->app_shell = num_app_shells - 1;
-    xaw_init_lightpen(display);
-
     c->emuwindow = canvas;
-    ui_cached_video_canvas = c;
-    xaw_lightpen_update_canvas(ui_cached_video_canvas, TRUE);
+
+    if (!vsid_mode) {
+        xaw_init_lightpen(display);
+
+        ui_cached_video_canvas = c;
+        xaw_lightpen_update_canvas(ui_cached_video_canvas, TRUE);
+    }
     
     return 0;
 }
@@ -1011,7 +1014,7 @@ void ui_set_drive8_menu(Widget w)
         if (app_shells[i].drive_mapping[0] < 0) {
             XtDestroyWidget(w);
             return;
-	}
+        }
     }
 
     if (!drive8_menu_translations) {
@@ -2245,9 +2248,11 @@ UI_CALLBACK(enter_window_callback_shell)
     video_canvas_t *video_canvas = (video_canvas_t *)client_data;
 
     last_visited_app_shell = w;
-    last_visited_canvas = video_canvas->emuwindow;   /* keep global up to date */
-    ui_cached_video_canvas = video_canvas;
-    xaw_lightpen_update_canvas(video_canvas, TRUE);
+    if (!vsid_mode) {
+        last_visited_canvas = video_canvas->emuwindow;   /* keep global up to date */
+        ui_cached_video_canvas = video_canvas;
+        xaw_lightpen_update_canvas(video_canvas, TRUE);
+    }
 }
 
 UI_CALLBACK(exposure_callback_shell)

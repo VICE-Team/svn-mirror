@@ -106,7 +106,7 @@ struct vice_network_socket_address_s
                              */
     int domain;             /*!< the address family (AF_INET, ...) of this address */
     int protocol;           /*!< the protocol of this address. This can be used to distinguish between different types of an address family. */
-#if HAVE_SOCKLEN_T
+#ifdef HAVE_SOCKLEN_T
     socklen_t len;          /*!< the length of the socket address */
 #else
     int len;

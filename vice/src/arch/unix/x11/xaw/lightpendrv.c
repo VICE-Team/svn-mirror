@@ -70,7 +70,21 @@ void xaw_lightpen_update_xy(int x, int y)
 void x11_lightpen_update(void)
 {
 
-    if (c && lightpen_enabled)  {
+    if (c == NULL) {
+#if LP_DEBUG
+        fprintf(stderr, "x11_lightpen_update: c == NULL\n");
+#endif
+        return;
+    }
+
+    if (display == NULL) {
+#if LP_DEBUG
+        fprintf(stderr, "x11_lightpen_update: display == NULL\n");
+#endif
+        return;
+    }
+
+    if (lightpen_enabled)  {
         int x, y;
         float scalex, scaley;
         int offx, offy;
@@ -162,8 +176,11 @@ void x11_lightpen_update(void)
 
         lightpen_update(c->app_shell, x, y, buttons);
     } else {
-        if (c) {
-            XUndefineCursor(display, XtWindow(c->emuwindow));
+        if (c->emuwindow) {
+            Window w = XtWindow(c->emuwindow);
+            if (w) {
+                XUndefineCursor(display, w);
+            }
         }
         buttons = 0;
     }
@@ -172,8 +189,8 @@ void x11_lightpen_update(void)
 void xaw_lightpen_update_canvas(struct video_canvas_s *p, int enter) 
 {
 #if LP_DEBUG
-    fprintf(stderr,"xaw_lightpen_update_canvas %p %d shell=%d\n",
-                p, enter, p ? p->app_shell : -1);
+    fprintf(stderr,"xaw_lightpen_update_canvas: video_canvas_t %p %d shell=%d emuwindow=%p\n",
+                p, enter, p ? p->app_shell : -1, p ? p->emuwindow : NULL);
 #endif
     c = enter ? p : NULL;
 }
