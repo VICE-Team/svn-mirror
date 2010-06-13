@@ -39,9 +39,30 @@ EXTRA_DIST = \
 	plus4exp.tgt \
 	printerdrv.tgt \
 	raster.tgt \
+	resid.tgt \
+	resid-sid.cc \
+	residdtv.tgt \
+	residdtv-envelope.cc \
+	residdtv-extfilt.cc \
+	residdtv-filter.cc \
+	residdtv-sid.cc \
+	residdtv-version.cc \
+	residdtv-voice.cc \
+	residdtv-wave.cc \
+	residfp.tgt \
+	residfp-envelope.cc \
+	residfp-extfilt.cc \
+	residfp-filter.cc \
+	residfp-pot.cc \
+	residfp-sid.cc \
+	residfp-version.cc \
+	residfp-voice.cc \
+	residfp-wave.cc \
 	rs232drv.tgt \
 	serial.tgt \
 	sid.tgt \
+	siddefs.h \
+	siddefs-fp.h \
 	sounddrv.tgt \
 	tape.tgt \
 	tcbm.tgt \

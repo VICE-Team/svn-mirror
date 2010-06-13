@@ -12,6 +12,10 @@
 #define HAVE_MOUSE            1
 #define HAVE_NETWORK          1
 
+#define HAVE_RESID             1
+#define HAVE_RESID_FP          1
+#define HAVE_RESID_DTV         1
+
 #define USE_SDLUI             1
 #define WIN32_COMPILE         1
 #define HAVE_SDLMAIN          1
