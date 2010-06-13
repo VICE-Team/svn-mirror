@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\vicii,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\viciinew,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\c64sc\Debug/c64sc.pch"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\vicii,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\viciinew,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -190,7 +190,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\vicii,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\viciinew,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
 				PreprocessorDefinitions="WINIA64;WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\c64sc\Debug/c64sc.pch"
@@ -263,7 +263,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\vicii,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\viciinew,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
 				PreprocessorDefinitions="WINIA64;WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -314,46 +314,6 @@
 	<Files>
 		<File
 			RelativePath="..\..\..\c64\c64-cmdline-options.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\c64-midi.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -514,46 +474,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\c64\c64_256k.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\c64acia1.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -1794,46 +1714,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\c64\reloc65.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\tfe.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"

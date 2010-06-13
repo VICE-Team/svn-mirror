@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib version.lib"
+				AdditionalDependencies="wsock32.lib version.lib SDLmain.lib SDL.lib"
 				OutputFile=".\..\..\..\..\data/cartconv.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -165,7 +165,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib version.lib"
+				AdditionalDependencies="wsock32.lib version.lib SDLmain.lib SDL.lib"
 				OutputFile=".\..\..\..\..\data/cartconv.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -255,7 +255,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib version.lib"
+				AdditionalDependencies="wsock32.lib version.lib SDLmain.lib SDL.lib"
 				OutputFile=".\..\..\..\..\data/cartconv.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -349,7 +349,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib version.lib"
+				AdditionalDependencies="wsock32.lib version.lib SDLmain.lib SDL.lib"
 				OutputFile=".\..\..\..\..\data/cartconv.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

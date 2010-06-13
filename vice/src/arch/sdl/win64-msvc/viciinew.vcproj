@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video,..\..\..\monitor"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\viciinew\Debug/viciinew.pch"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video,..\..\..\monitor"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -190,7 +190,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video,..\..\..\monitor"
 				PreprocessorDefinitions="WINIA64;WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\viciinew\Debug/viciinew.pch"
@@ -263,7 +263,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\c64,..\..\..\c64dtv,..\..\..\raster,..\..\..\video,..\..\..\monitor"
 				PreprocessorDefinitions="WINIA64;WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -313,7 +313,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\vicii\vicii-chip-model.c"
+			RelativePath="..\..\..\viciinew\vicii-chip-model.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -353,7 +353,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-cmdline-options.c"
+			RelativePath="..\..\..\viciinew\vicii-cmdline-options.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -393,7 +393,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-color.c"
+			RelativePath="..\..\..\viciinew\vicii-color.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -433,7 +433,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-cycle.c"
+			RelativePath="..\..\..\viciinew\vicii-cycle.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -473,7 +473,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-draw.c"
+			RelativePath="..\..\..\viciinew\vicii-draw.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -513,7 +513,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-draw-cycle.c"
+			RelativePath="..\..\..\viciinew\vicii-draw-cycle.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -553,7 +553,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-fetch.c"
+			RelativePath="..\..\..\viciinew\vicii-fetch.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -593,7 +593,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-irq.c"
+			RelativePath="..\..\..\viciinew\vicii-irq.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -633,7 +633,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-mem.c"
+			RelativePath="..\..\..\viciinew\vicii-mem.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -673,7 +673,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-phi1.c"
+			RelativePath="..\..\..\viciinew\vicii-phi1.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -713,7 +713,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-resources.c"
+			RelativePath="..\..\..\viciinew\vicii-resources.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -753,7 +753,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-snapshot.c"
+			RelativePath="..\..\..\viciinew\vicii-snapshot.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -793,7 +793,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii-timing.c"
+			RelativePath="..\..\..\viciinew\vicii-timing.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -833,7 +833,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\vicii\vicii.c"
+			RelativePath="..\..\..\viciinew\vicii.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"

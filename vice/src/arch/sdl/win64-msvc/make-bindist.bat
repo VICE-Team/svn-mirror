@@ -1,6 +1,7 @@
 @echo off
 call ..\..\win32\vice-version.bat
-set VICEDIR=SDLVICE-%VICEVERSION%-win64
+call win64_id.bat
+set VICEDIR=SDLVICE-%VICEVERSION%-win64-%WIN64TYPE%
 if not exist ..\..\..\..\data\x64.exe goto missingmsvc
 if not exist ..\..\..\..\data\x64dtv.exe goto missingmsvc
 if not exist ..\..\..\..\data\x64sc.exe goto missingmsvc
@@ -12,7 +13,7 @@ if not exist ..\..\..\..\data\xvic.exe goto missingmsvc
 if not exist ..\..\..\..\data\c1541.exe goto missingmsvc
 if not exist ..\..\..\..\data\cartconv.exe goto missingmsvc
 if not exist ..\..\..\..\data\petcat.exe goto missingmsvc
-echo generating MSVC SDL WIN32 binary port distribution
+echo generating MSVC SDL WIN64 binary port distribution
 if exist %VICEDIR% goto removedir
 mkdir %VICEDIR%
 copy ..\..\..\..\data\x64.exe %VICEDIR%
@@ -96,7 +97,7 @@ copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
 copy ..\..\..\..\doc\cartconv.txt %VICEDIR%
 copy ..\..\..\..\ReadmeSDL.txt %VICEDIR%
-echo WIN32 port binary distribution directory generated as %VICEDIR%
+echo SDL WIN64 (%WIN64TYPE%) port binary distribution directory generated as %VICEDIR%
 goto end
 :missingmsvc
 echo executables are missing, please build the project first.

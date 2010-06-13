@@ -1,20 +1,17 @@
+## Makefile.am for Win64
+
 EXTRA_DIST = \
-	config.h \
-	dirent.h \
-	siddefs.h \
-	siddefs-fp.h \
-	vice.manifest \
 	_vice.vcproj \
 	arch.vcproj \
-	base.vcproj \
+	base.vcproj\
 	c128.vcproj \
 	c1541.vcproj \
 	c64.vcproj \
-	c64c128.vcproj \
 	c64c64dtv.vcproj \
-	c64cart.vcproj \
 	c64dtv.vcproj \
 	c64dtvstubs.vcproj \
+	c64c128.vcproj \
+	c64cart.vcproj \
 	c64exp.vcproj \
 	c64sc.vcproj \
 	cartconv.vcproj \
@@ -25,7 +22,9 @@ EXTRA_DIST = \
 	drive.vcproj \
 	fileio.vcproj \
 	fsdevice.vcproj \
+	genmsvcver.vcproj \
 	gentranslate.vcproj \
+	genwinres.vcproj \
 	gfxoutputdrv.vcproj \
 	iec.vcproj \
 	iec128dcr.vcproj \
@@ -33,7 +32,6 @@ EXTRA_DIST = \
 	iecieee.vcproj \
 	ieee.vcproj \
 	imagecontents.vcproj \
-	make-bindist.bat \
 	monitor.vcproj \
 	parallel.vcproj \
 	pet.vcproj \
@@ -56,11 +54,12 @@ EXTRA_DIST = \
 	vdc.vcproj \
 	vdrive.vcproj \
 	vic20.vcproj \
-	vice.sln \
 	vicii.vcproj \
 	viciidtv.vcproj \
 	viciinew.vcproj \
 	video.vcproj \
+	win64_ia64.bat \
+	win64_x64.bat \
 	x128.vcproj \
 	x64.vcproj \
 	x64dtv.vcproj \
@@ -69,4 +68,8 @@ EXTRA_DIST = \
 	xpet.vcproj \
 	xplus4.vcproj \
 	xvic.vcproj \
-	zlib.vcproj
+	zlib.vcproj \
+	vice.sln \
+	make-msvc-bindist.bat \
+	win64_x64.bat \
+	win64_ia64.bat
