@@ -41,6 +41,6 @@ extern void georam_shutdown(void);
 extern int georam_read_snapshot_module(struct snapshot_s *s);
 extern int georam_write_snapshot_module(struct snapshot_s *s);
 
-extern int georam_enabled;
+int georam_cart_enabled(void);
 
 #endif

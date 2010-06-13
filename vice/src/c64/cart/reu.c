@@ -272,7 +272,7 @@ static const c64export_resource_t export_res_reu= {
 /* ------------------------------------------------------------------------- */
 
 /*! \brief Flag: Is the external REU enabled?  */
-int reu_enabled;
+static int reu_enabled;
 
 /*! \brief Size of the REU.  */
 static unsigned int reu_size = 0;
@@ -283,6 +283,10 @@ static int reu_size_kb = 0;
 /*! \brief Filename of the REU image.  */
 static char *reu_filename = NULL;
 
+int reu_cart_enabled(void)
+{
+    return reu_enabled;
+}
 
 /*! \internal \brief set the reu to the enabled or disabled state
 
@@ -1449,9 +1453,11 @@ int reu_read_snapshot_module(snapshot_t *s)
 
 
     snapshot_module_close(m);
+    reu_enabled = 1;
     return 0;
 
 fail:
     snapshot_module_close(m);
+    reu_enabled = 0;
     return -1;
 }

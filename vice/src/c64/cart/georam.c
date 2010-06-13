@@ -116,7 +116,7 @@ static int georam_activate(void);
 static int georam_deactivate(void);
 
 /* Flag: Do we enable the external GEORAM?  */
-int georam_enabled;
+static int georam_enabled = 0;
 
 /* Size of the GEORAM.  */
 static int georam_size = 0;
@@ -126,6 +126,11 @@ static int georam_size_kb = 0;
 
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
+
+int georam_cart_enabled(void)
+{
+    return georam_enabled;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -473,9 +478,11 @@ int georam_read_snapshot_module(snapshot_t *s)
     }
 
     snapshot_module_close(m);
+    georam_enabled = 1;
     return 0;
 
 fail:
     snapshot_module_close(m);
+    georam_enabled = 0;
     return -1;
 }

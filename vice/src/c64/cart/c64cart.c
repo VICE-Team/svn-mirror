@@ -425,13 +425,13 @@ int cartridge_attach_image(int type, const char *filename)
         }
     }
 
-    if (cartridge_is_slotmain(type)) {
-        DBG(("cartridge_attach MAIN ID: %d\n", type));
-        mem_cartridge_type = type;
+    if (cartridge_is_slotmain(cartid)) {
+        DBG(("cartridge_attach MAIN ID: %d\n", cartid));
+        mem_cartridge_type = cartid;
         cartridge_romhbank_set(0);
         cartridge_romlbank_set(0);
     } else {
-        DBG(("cartridge_attach (other) ID: %d\n", type));
+        DBG(("cartridge_attach (other) ID: %d\n", cartid));
     }
 
     DBG(("CART: attach RAW ID: %d\n", cartid));

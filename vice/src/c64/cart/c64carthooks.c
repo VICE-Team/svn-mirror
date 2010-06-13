@@ -1163,7 +1163,7 @@ void cartridge_init_config(void)
         case CARTRIDGE_NONE:
             break;
         default:
-            DBG(("CARTMEM: no init hook ID: %d\n", mem_cartridge_type));
+            DBG(("CART: no init hook ID: %d\n", mem_cartridge_type));
             cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ);
             break;
     }
@@ -1443,11 +1443,15 @@ int cartridge_crt_save(int type, const char *filename)
 int cartridge_snapshot_write_modules(struct snapshot_s *s)
 {
     /* "I/O Slot" */
-    if (reu_enabled && reu_write_snapshot_module(s) < 0) {
-        return -1;
+    if (reu_cart_enabled()) {
+        if (reu_write_snapshot_module(s) < 0) {
+            return -1;
+        }
     }
-    if (georam_enabled && georam_write_snapshot_module(s) < 0) {
-        return -1;
+    if (georam_cart_enabled()) {
+        if (georam_write_snapshot_module(s) < 0) {
+            return -1;
+        }
     }
 #ifdef HAVE_RS232
     if (aciacart_cart_enabled()) {
@@ -1468,14 +1472,10 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
 {
     /* "I/O Slot" */
     if (reu_read_snapshot_module(s) < 0) {
-        reu_enabled = 0;
-    } else {
-        reu_enabled = 1;
+        /* REU disabled  */
     }
     if (georam_read_snapshot_module(s) < 0) {
-        georam_enabled = 0;
-    } else {
-        georam_enabled = 1;
+        /* georam disabled  */
     }
 #ifdef HAVE_RS232
     if (aciacart_snapshot_read_module(s) < 0) {

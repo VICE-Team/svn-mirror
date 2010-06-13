@@ -55,6 +55,6 @@ extern void reu_shutdown(void);
 extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);
 
-extern int reu_enabled;
+int reu_cart_enabled(void);
 
 #endif
