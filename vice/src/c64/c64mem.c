@@ -429,7 +429,8 @@ BYTE REGPARM1 colorram_read(WORD addr)
 static int check_256k_ram_write(int k, int i, int j)
 {
     if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store || mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store ||
-        mem_write_tab[k][i][j] == vicii_mem_vbank_store || mem_write_tab[k][i][j] == ram_hi_store || mem_write_tab[k][i][j] == ram_store) {
+        mem_write_tab[k][i][j] == vicii_mem_vbank_store || mem_write_tab[k][i][j] == ram_hi_store || mem_write_tab[k][i][j] == ram_store ||
+        mem_write_tab[k][i][j] == raml_no_ultimax_store) { /* possibly breaks mmc64 and expert */
         return 1;
     } else {
         return 0;
@@ -561,6 +562,9 @@ static void plus60k_init_config(void)
                     }
                     if (mem_write_tab[k][i][j] == ram_store) {
                         mem_write_tab[k][i][j] = plus60k_ram_store;
+                    }
+                    if (mem_write_tab[k][i][j] == raml_no_ultimax_store) {
+                        mem_write_tab[k][i][j] = plus60k_ram_store; /* possibly breaks mmc64 and expert */
                     }
                 }
                 if (mem_read_tab[i][j] == vicii_read && j == 0xd0 && plus60k_base == 0xd040) {
