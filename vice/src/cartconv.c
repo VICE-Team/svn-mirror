@@ -243,14 +243,16 @@ static void usage(void)
     printf("cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
     printf("carttypes:\n");
 
-    printf("bin      Binary .bin file (Default crt->bin\n");
+    printf("bin      Binary .bin file (Default crt->bin)\n");
     printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
     printf("prg      Binary C64 .prg file with load-address\n");
     printf("ulti     Ultimax mode 4kb/16kb .crt file\n");
 
-    while (cart_info[i].opt) {
-        n = (((i == CARTRIDGE_DELA_EP7x8) || (i == CARTRIDGE_DELA_EP64) || (i == CARTRIDGE_REX_EP256) || (i == CARTRIDGE_DELA_EP256)));
-        printf("%-8s %s .crt file%s\n", cart_info[i].opt, cart_info[i].name, n ? ", extra files can be inserted" : "");
+    while (cart_info[i].name) {
+        if (cart_info[i].opt) {
+            n = (((i == CARTRIDGE_DELA_EP7x8) || (i == CARTRIDGE_DELA_EP64) || (i == CARTRIDGE_REX_EP256) || (i == CARTRIDGE_DELA_EP256)));
+            printf("%-8s %s .crt file%s\n", cart_info[i].opt, cart_info[i].name, n ? ", extra files can be inserted" : "");
+        }
         i++;
     }
     exit(1);
@@ -449,7 +451,7 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
     if (cart_name == NULL) {
         cart_name = strdup("VICE CART");
     }
-  
+
     for (i = 0; i < 32; i++) {
         if (endofname == 1) {
             crt_header[0x20 + i] = 0;
@@ -537,7 +539,7 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
         real_banks = loadfile_size / length;
     }
 
-    for (i = 0; i < banks; i++) {
+    for (i = 0; i < real_banks; i++) {
         if (write_chip_package(length, i, address, (unsigned char)type) < 0) {
             cleanup();
             exit(1);
