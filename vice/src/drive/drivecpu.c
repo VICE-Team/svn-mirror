@@ -639,6 +639,7 @@ int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         || SMW_DW(m, (DWORD)(cpu->last_clk)) < 0
         || SMW_DW(m, (DWORD)(cpu->cycle_accum)) < 0
         || SMW_DW(m, (DWORD)(cpu->last_exc_cycles)) < 0
+        || SMW_DW(m, (DWORD)(cpu->stop_clk)) < 0
         )
         goto fail;
 
@@ -706,6 +707,7 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || SMR_DW(m, &(cpu->last_clk)) < 0
         || SMR_DW(m, &(cpu->cycle_accum)) < 0
         || SMR_DW(m, &(cpu->last_exc_cycles)) < 0
+        || SMR_DW(m, &(cpu->stop_clk)) < 0
         )
         goto fail;
 
