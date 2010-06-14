@@ -123,7 +123,7 @@ void rotation_table_set(DWORD *rotation_table_ptr)
         rotation[dnr].last_read_data = drive->snap_last_read_data;
         rotation[dnr].last_write_data = drive->snap_last_write_data;
         rotation[dnr].bit_counter = drive->snap_bit_counter;
-        rotation[dnr].zero_count = driver->snap_zero_count;
+        rotation[dnr].zero_count = drive->snap_zero_count;
         rotation[dnr].seed = drive->snap_seed;
     }
 }
