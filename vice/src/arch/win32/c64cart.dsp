@@ -110,6 +110,10 @@ SOURCE="..\..\c64\cart\c64cart.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\c64carthooks.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\c64cartmem.c"
 # End Source File
 # Begin Source File
