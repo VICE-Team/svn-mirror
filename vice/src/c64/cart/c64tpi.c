@@ -422,6 +422,11 @@ void tpi_config_init(void)
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
+static int tpi_common_attach(void)
+{
+    return set_ieee488_enabled(1, NULL);
+}
+
 int tpi_bin_attach(const char *filename, BYTE *rawcart)
 {
     FILE *fd;
@@ -436,7 +441,22 @@ int tpi_bin_attach(const char *filename, BYTE *rawcart)
     }
     fclose(fd);
 
-    return set_ieee488_enabled(1, NULL);
+    return tpi_common_attach();
+}
+
+int tpi_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
+        return -1;
+    }
+
+    if (fread(&rawcart[0x0000], 0x1000, 1, fd) < 1) {
+        return -1;
+    }
+
+    return tpi_common_attach();
 }
 
 void tpi_detach(void)

@@ -1340,14 +1340,14 @@ void cartridge_reset(void)
     {
         aciacart_reset();
     }
-/*   if (georam_cart_enabled()) */
+    if (georam_cart_enabled())
     {
         georam_reset();
     }
 #ifdef HAVE_MIDI
     midi_reset();
 #endif
-/*   if (reu_cart_enabled()) */
+    if (reu_cart_enabled())
     {
         reu_reset();
     }

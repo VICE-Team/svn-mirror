@@ -44,10 +44,12 @@ extern void tpi_resources_shutdown(void);
 
 extern void tpi_setup_context(struct machine_context_s *machine_context);
 extern int tpi_bin_attach(const char *filename, BYTE *rawcart);
+extern int tpi_crt_attach(FILE *fd, BYTE *rawcart);
 
 extern void tpi_init(struct tpi_context_s *tpi_context);
 extern BYTE REGPARM1 tpi_peek(WORD addr);
 
+struct snapshot_s;
 extern int tpi_snapshot_read_module(struct snapshot_s *s);
 extern int tpi_snapshot_write_module(struct snapshot_s *s);
 

@@ -40,4 +40,7 @@ extern int actionreplay3_bin_attach(const char *filename, BYTE *rawcart);
 extern int actionreplay3_crt_attach(FILE *fd, BYTE *rawcart);
 extern void actionreplay3_detach(void);
 
+extern BYTE REGPARM1 actionreplay3_roml_read(WORD addr);
+extern BYTE REGPARM1 actionreplay3_romh_read(WORD addr);
+
 #endif

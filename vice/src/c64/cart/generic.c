@@ -37,6 +37,16 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    the default cartridge works like this:
+
+    1 banking register (for ROM only)
+    - 8k ROM banks
+    - 8k RAM may be enabled at ROML
+*/
+
+/* ---------------------------------------------------------------------*/
+
 static const c64export_resource_t export_res_8kb = {
     "Generic 8KB", 1, 0
 };
@@ -48,6 +58,8 @@ static const c64export_resource_t export_res_16kb = {
 static c64export_resource_t export_res_ultimax = {
     "Generic Ultimax", 0, 1
 };
+
+/* ---------------------------------------------------------------------*/
 
 void generic_8kb_config_init(void)
 {
@@ -191,3 +203,30 @@ void generic_ultimax_detach(void)
 {
     c64export_remove(&export_res_ultimax);
 }
+
+/* ---------------------------------------------------------------------*/
+
+/* ROML read - mapped to 8000 in 8k,16k,ultimax */
+BYTE REGPARM1 generic_roml_read(WORD addr)
+{
+    if (export_ram) {
+        return export_ram0[addr & 0x1fff];
+    }
+
+    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+}
+
+/* ROML store - mapped to 8000 in ultimax mode */
+void REGPARM2 generic_roml_store(WORD addr, BYTE value)
+{
+    if (export_ram) {
+        export_ram0[addr & 0x1fff] = value;
+    }
+}
+
+/* ROMH read - mapped to A000 in 16k, to E000 in ultimax */
+BYTE REGPARM1 generic_romh_read(WORD addr)
+{
+    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+}
+

@@ -36,6 +36,7 @@
 #include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64tpi.h"
 #include "cartridge.h"
 #include "comal80.h"
 #include "capture.h"
@@ -46,6 +47,7 @@
 #include "dinamic.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
+#include "exos.h"
 #include "expert.h"
 #include "final.h"
 #include "finalplus.h"
@@ -168,6 +170,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
             if ( rc !=  CARTRIDGE_NONE) {
                 new_crttype = rc;
             }
+            break;
+        case CARTRIDGE_EXOS:
+            rc = exos_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_IEEE488:
+            rc = tpi_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_WESTERMANN:
             rc = westermann_crt_attach(fd, rawcart);

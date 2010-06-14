@@ -235,14 +235,7 @@ void cartridge_romlbank_set(unsigned int bank)
         reu
         midi
         acia
-
-        clockport
-
-    the default cartridge works like this:
-
-    1 banking register (for ROM only)
-    - 8k ROM banks
-    - 8k RAM may be enabled at ROML
+        clockport (tfe)
 
               hook                    default
 
@@ -272,67 +265,8 @@ void cartridge_romlbank_set(unsigned int bank)
               ultimax_d000_dfff_store store_bank_io
     e000-ffff romh_read               romh_banks
               romh_store              n/a
-
-    ***
-
-    as a first step to a completely generic cart system, everything should
-    get reorganised based on the following assumptions:
-
-    - it is pointless to attach/use several cartridges of the same type at
-      once. by not supporting this, we can use the cartridge id as a unique
-      id for a given cart, regardless of the underlaying "slot logic"
-    - moreover it is also pointless to support a lot of combinations of
-      cartridges, simply because they won't work anyway.
-
-    "Slot 0"
-    - carts that have a passthrough port go here
-    - the passthrough of individual "Slot 0" carts must be handled on a
-      per case basis.
-    - if any "Slot 0" cart is active, then all following slots are assumed
-      to be attached to the respective "Slot 0" passthrough port.
-    - only ONE of the carts in the "Slot 0" can be active at a time
-
-    mmc64
-    Magic Voice
-    ramlink, scpu, ...
-
-    "Slot 1"
-    - other ROM/RAM carts that can be enabled individually
-    - any number of "Slot 1" carts can be, in theory, active at a time
-
-    isepic
-    expert
-    dqbb
-    ramcart
-
-    "Main Slot"
-    - the vast majority of carts go here, since only one of them
-      can be used at a time anyway.
-    - only ONE of the carts in the "Main Slot" can be active at a time
-
-    this pretty much resembles the remains of the old cart system. ultimativly
-    all carts should go into one of the other slots (to be completely generic),
-    but it doesnt make a lot of sense to rewrite them all before passthrough-
-    and mapping is handled correctly.
-
-    "IO Slot"
-    - all carts that do not use the game/exrom lines, and which do only
-      map into io1/io2 go here
-    - any number of "IO Slot" carts can be, in theory, active at a time
-
-    reu
-    georam
-    ethernet
-    acia (rs232)
-    midi
-
-    - all cards *except* those in the "Main Slot" should:
-      - maintain a resource (preferably XYZCartridgeEnabled) that tells
-        wether said cart is "inserted" into our virtual "expansion port expander".
-      - maintain their own arrays to store rom/ram content.
-      - as a consequence, changing said resource equals attaching/detaching the
-        cartridge.
 */
+
 
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
 BYTE REGPARM1 roml_read(WORD addr)
@@ -359,9 +293,6 @@ BYTE REGPARM1 roml_read(WORD addr)
     }
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_FREEZE_FRAME:
-            /* use default cartridge */
-            break;
         case CARTRIDGE_FREEZE_MACHINE:
             return freezemachine_roml_read(addr);
         case CARTRIDGE_STARDOS:
@@ -374,6 +305,8 @@ BYTE REGPARM1 roml_read(WORD addr)
             return supersnapshot_v5_roml_read(addr);
         case CARTRIDGE_ACTION_REPLAY4:
             return actionreplay4_roml_read(addr);
+        case CARTRIDGE_ACTION_REPLAY3:
+            return actionreplay3_roml_read(addr);
         case CARTRIDGE_ACTION_REPLAY:
             return actionreplay_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
@@ -401,14 +334,17 @@ BYTE REGPARM1 roml_read(WORD addr)
         case CARTRIDGE_EXOS:
             /* fake ultimax hack */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_FREEZE_FRAME:
+        default: /* use default cartridge */
+            return generic_roml_read(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
-    /* default cartridge */
-    if (export_ram) {
-        return export_ram0[addr & 0x1fff];
-    }
-
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+    /* open bus */
+    DBG(("CARTMEM: BUG! ROML open bus read (addr %04x)\n", addr));
+    return vicii_read_phi1();
 }
 
 /* ROML store - mapped to 8000 in ultimax mode */
@@ -464,12 +400,16 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
             /* fake ultimax hack */
             mem_store_without_ultimax(addr, value);
             return;
+        default: /* use default cartridge */
+            generic_roml_store(addr, value);
+            return;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
-    /* default cartridge */
-    if (export_ram) {
-        export_ram0[addr & 0x1fff] = value;
-    }
+    /* open bus */
+    DBG(("CARTMEM: BUG! ROML open bus store (addr %04x)\n", addr));
 }
 
 /* ROMH read - mapped to A000 in 16k, to E000 in ultimax */
@@ -494,10 +434,8 @@ BYTE REGPARM1 romh_read(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_FREEZE_FRAME:
-        case CARTRIDGE_FREEZE_MACHINE:
-            /* use default cartridge */
-            break;
+        case CARTRIDGE_ACTION_REPLAY3:
+            return actionreplay3_romh_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
         case CARTRIDGE_OCEAN:
@@ -521,10 +459,18 @@ BYTE REGPARM1 romh_read(WORD addr)
             /* fake ultimax hack, read from ram */
             return ram_read(addr);
             /* return mem_read_without_ultimax(addr); */
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+        default: /* use default cartridge */
+            return generic_romh_read(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
-    /* default cartridge */
-    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+    /* open bus */
+    DBG(("CARTMEM: BUG! ROMH open bus read (addr %04x)\n", addr));
+    return vicii_read_phi1();
 }
 
 /* ROMH read if hirom is selected - mapped to E000 in ultimax
@@ -552,10 +498,8 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_FREEZE_FRAME:
-        case CARTRIDGE_FREEZE_MACHINE:
-            /* use default cartridge */
-            break;
+        case CARTRIDGE_ACTION_REPLAY3:
+            return actionreplay3_romh_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
         case CARTRIDGE_OCEAN:
@@ -578,10 +522,18 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
             return exos_romh_read(addr);
         case CARTRIDGE_STARDOS:
             return stardos_romh_read(addr);
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+        default: /* use default cartridge */
+            return generic_romh_read(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
-    /* default cartridge */
-    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+    /* open bus */
+    DBG(("CARTMEM: BUG! ROMH open bus read (addr %04x)\n", addr));
+    return vicii_read_phi1();
 }
 
 /* ROMH store - mapped to E000 in ultimax mode */
@@ -619,7 +571,13 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
             return;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
+
+    /* open bus */
+    DBG(("CARTMEM: BUG! ROMH open bus store (addr %04x)\n", addr));
 }
 
 /* ROMH store - A000-BFFF in 16kGame
@@ -643,6 +601,9 @@ void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_romh_store(addr, value);
+            break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
     }
     /* store to c64 ram */
@@ -681,6 +642,9 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
                 return; /* FIXME: this is weird */
             }
             break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
     /* store to c64 ram */
@@ -716,6 +680,9 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
             {
                 return; /* FIXME: this is weird */
             }
+            break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
     }
 
@@ -755,6 +722,9 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
     /* default; no cart, open bus */
@@ -795,6 +765,9 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
             break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
     /* default; no cart, open bus */
@@ -831,6 +804,9 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 basic, ram */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
     /* default; no cart, open bus */
     return vicii_read_phi1();
@@ -865,6 +841,9 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
+            break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
     }
 
@@ -901,6 +880,9 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 ram */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
     /* default; no cart, open bus */
     return vicii_read_phi1();
@@ -938,6 +920,9 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
             break;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
 
     /* default; no cart, open bus */
@@ -966,6 +951,9 @@ BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
     /* default; no cart, c64 i/o */
     return read_bank_io(addr);
@@ -996,6 +984,9 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
             /* fake ultimax hack, c64 io,colram,ram */
             mem_store_without_ultimax(addr, value);
             return;
+        case CARTRIDGE_CRT: /* invalid */
+            DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
+            break;
     }
     /* default;no cart, c64 i/o */
     store_bank_io(addr, value);

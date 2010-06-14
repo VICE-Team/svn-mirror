@@ -99,6 +99,66 @@
 #define DBG(x)
 #endif
 
+/*
+    as a first step to a completely generic cart system, everything should
+    get reorganised based on the following assumptions:
+
+    - it is pointless to attach/use several cartridges of the same type at
+      once. by not supporting this, we can use the cartridge id as a unique
+      id for a given cart, regardless of the underlaying "slot logic"
+    - moreover it is also pointless to support a lot of combinations of
+      cartridges, simply because they won't work anyway.
+
+    "Slot 0"
+    - carts that have a passthrough port go here
+    - the passthrough of individual "Slot 0" carts must be handled on a
+      per case basis.
+    - if any "Slot 0" cart is active, then all following slots are assumed
+      to be attached to the respective "Slot 0" passthrough port.
+    - only ONE of the carts in the "Slot 0" can be active at a time
+
+    mmc64
+    Magic Voice
+    ramlink, scpu, ...
+
+    "Slot 1"
+    - other ROM/RAM carts that can be enabled individually
+    - any number of "Slot 1" carts can be, in theory, active at a time
+
+    isepic
+    expert
+    dqbb
+    ramcart
+
+    "Main Slot"
+    - the vast majority of carts go here, since only one of them
+      can be used at a time anyway.
+    - only ONE of the carts in the "Main Slot" can be active at a time
+
+    this pretty much resembles the remains of the old cart system. ultimativly
+    all carts should go into one of the other slots (to be completely generic),
+    but it doesnt make a lot of sense to rewrite them all before passthrough-
+    and mapping is handled correctly.
+
+    "IO Slot"
+    - all carts that do not use the game/exrom lines, and which do only
+      map into io1/io2 go here
+    - any number of "IO Slot" carts can be, in theory, active at a time
+
+    reu
+    georam
+    ethernet
+    acia (rs232)
+    midi
+
+    - all cards *except* those in the "Main Slot" should:
+      - maintain a resource (preferably XYZCartridgeEnabled) that tells
+        wether said cart is "inserted" into our virtual "expansion port expander".
+      - maintain their own arrays to store rom/ram content.
+      - as a consequence, changing said resource equals attaching/detaching the
+        cartridge.
+*/
+
 /* global options for the cart system */
 static int c64cartridge_reset; /* (resource) hardreset system after cart was attached/detached */
 

@@ -92,6 +92,8 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
 static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 
+/* this table must be in correct order so it can be indexed by CRT ID */
+/* game, exrom, sizes, bank size, load addr, num banks, data type, name, option, saver */
 static const cart_t cart_info[] = {
 
 /*  {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Generic 8kb", NULL, NULL}, */
@@ -112,7 +114,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Westermann Learning", "wl", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Rex Utility", "ru", save_regular_crt},
     {1, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Final Cartridge I", "fc1", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0xe000, 8, 0, "Magic Formel", "mf", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0xe000, 8, 0, "Magic Formel", "mf", save_regular_crt}, /* FIXME: 64k (v1), 96k (v2) and 128k (full) bins exist */
     {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, "C64GS, System 3", "gs", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "WarpSpeed", "ws", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, "Dinamic", "din", save_regular_crt},
@@ -134,20 +136,20 @@ static const cart_t cart_info[] = {
     {0, 0, 0, 0, 0, 0, 0, "EasyFlash xbank", NULL, NULL}, /* TODO ?? */
     {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Capture", "cap", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 3", "ar3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "Retro Replay", "retro", save_regular_crt},
-    {0, 0, 0, 0, 0, 0, 0, "MMC64", NULL, NULL}, /* to be corrected once the code is rewritten */
-    {0, 0, 0, 0, 0, 0, 0, "MMC Replay", NULL, NULL}, /* to be corrected once the code is merged */
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 8, 0, "Retro Replay", "retro", save_regular_crt},  /* FIXME: test 128k */
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "MMC64", "mmc64", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 8, 0, "MMC Replay", NULL, NULL}, /* FIXME: test 512k */
     {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "IDE64", "ide64", save_regular_crt},
-    {0, 0, 0, 0, 0, 0, 0, "Super Snapshot 4", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "IEEE488", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Game Killer", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Prophet 64", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Exos", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Freeze Frame", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Freeze Machine", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Snapshot 64", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Super Explode 5", NULL, NULL}, /* TODO */
-    {0, 0, 0, 0, 0, 0, 0, "Magic Voice", NULL, NULL}, /* TODO */
+    {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Super Snapshot 4", "ss4", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0x8000, 1, 0, "IEEE488", "ieee", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, "Game Killer", "gk", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_256KB, 0x2000, 0x8000, 32, 0, "Prophet 64", "p64", save_regular_crt},
+    {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, "Exos", "exos", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Freeze Frame", "ff", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Freeze Machine", "fm", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0xe000, 1, 0, "Snapshot 64", "s64", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Super Explode 5", "se5", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Magic Voice", "mv", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -236,6 +238,7 @@ static void cleanup(void)
     }
 }
 
+/* FIXME: sort the list of options alphabetically before printing */
 static void usage(void)
 {
     int i = 1, n;
