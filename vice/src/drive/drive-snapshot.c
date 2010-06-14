@@ -169,6 +169,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_DW(m, (DWORD)(drive->snap_accum)) < 0
             || SMW_DW(m, (DWORD)(drive->snap_rotation_last_clk)) < 0
             || SMW_DW(m, (DWORD)(drive->snap_bit_counter)) < 0
+            || SMW_DW(m, (DWORD)(drive->snap_zero_count)) < 0
             || SMW_W(m, (WORD)(drive->snap_last_read_data)) < 0
             || SMW_B(m, (BYTE)(drive->snap_last_write_data)) < 0
             || SMW_DW(m, (BYTE)(drive->snap_seed)) < 0
@@ -338,6 +339,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW_UL(m, &(drive->snap_accum)) < 0
                 || SMR_DW(m, &(drive->snap_rotation_last_clk)) < 0
                 || SMR_DW_INT(m, &(drive->snap_bit_counter)) < 0
+                || SMR_DW_INT(m, &(drive->snap_zero_count)) < 0
                 || SMR_W_INT(m, &(drive->snap_last_read_data)) < 0
                 || SMR_B(m, &(drive->snap_last_write_data)) < 0
                 || SMR_DW_INT(m, &(drive->snap_seed)) < 0

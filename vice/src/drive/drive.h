@@ -175,6 +175,7 @@ typedef struct drive_s {
     int snap_last_read_data;
     BYTE snap_last_write_data;
     int snap_bit_counter;
+    int snap_zero_count;
     int snap_seed;
 
     /* UI stuff.  */
