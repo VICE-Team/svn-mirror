@@ -145,6 +145,8 @@ static int mmc64_bios_offset = 0;
 static int mmc64_activate(void);
 static int mmc64_deactivate(void);
 
+/* ---------------------------------------------------------------------*/
+
 /* some prototypes are needed */
 static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value);
 static void REGPARM2 mmc64_io1_store(WORD addr, BYTE value);
@@ -220,6 +222,8 @@ static const c64export_resource_t export_res = {
     "MMC64", 1, 0, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
 };
 
+/* ---------------------------------------------------------------------*/
+
 int mmc64_cart_enabled(void)
 {
     return mmc64_enabled;
@@ -256,6 +260,7 @@ void mmc64_reset(void)
     }
 }
 
+/* FIXME: resetting the c64 should be handled in the upper layer */
 static int set_mmc64_enabled(int val, void *param)
 {
     LOG(("MMC64: set enabled: %d", mmc64_enabled));
@@ -740,6 +745,8 @@ void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
     mem_ram[addr] = byte;
 }
 
+/* ---------------------------------------------------------------------*/
+
 static const resource_string_t resources_string[] = {
   { "MMC64BIOSfilename", "", RES_EVENT_NO, NULL,
     &mmc64_bios_filename, set_mmc64_bios_filename, NULL },
@@ -835,6 +842,17 @@ void mmc64_init(void)
     mmc64_log = log_open("MMC64");
 }
 
+/* FIXME: attach/detach and enable/disable are equivalent, and should share
+          all common code
+*/
+static int mmc64_common_activate(void)
+{
+    mmc64_bios_changed = 0;
+    mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
+    mmc64_reset();
+    return 0;
+}
+
 static int mmc64_activate(void)
 {
     FILE *bios_file = NULL;
@@ -859,12 +877,7 @@ static int mmc64_activate(void)
     }
 
     mmc64_bios_offset = amount_read & 3;
-
-    mmc64_bios_changed = 0;
-
-    mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
-    mmc64_reset();
-    return 0;
+    return mmc64_common_activate();
 
 }
 
@@ -892,7 +905,63 @@ static int mmc64_deactivate(void)
     return 0;
 }
 
-void mmc64_shutdown(void)
+void mmc64_config_setup(BYTE *rawcart)
+{
+    memcpy(mmc64_bios, rawcart, 0x2000);
+}
+
+static int mmc64_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    mmc64_enabled = 1;
+    /* FIXME: should use cartridge_config_changed */
+    export.exrom = 1;
+    mem_pla_config_changed();
+    mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+    mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
+    mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
+
+    mmc64_bios_offset = 0;
+    return mmc64_common_activate();
+}
+
+int mmc64_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
+        return -1;
+    }
+
+    if (chipheader[0xb] > 1) {
+        return -1;
+    }
+
+    if (fread(rawcart, 0x2000, 1, fd) < 1) {
+        return -1;
+    }
+
+    return mmc64_common_attach();
+}
+
+void mmc64_detach(void)
 {
     mmc64_deactivate();
+
+    if (mmc64_enabled) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        c64export_remove(&export_res);
+        mmc64_enabled = 0;
+        export.exrom = 0;
+        mem_pla_config_changed();
+        c64io_unregister(mmc64_clockport_list_item);
+        c64io_unregister(mmc64_io1_list_item);
+        c64io_unregister(mmc64_io2_list_item);
+        mmc64_clockport_list_item = NULL;
+        mmc64_io1_list_item = NULL;
+        mmc64_io2_list_item = NULL;
+    }
 }

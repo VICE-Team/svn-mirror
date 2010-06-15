@@ -148,15 +148,16 @@ extern void cartridge_setup_context(struct machine_context_s *machine_context);
 
 #define CARTRIDGE_CAPTURE              34 /* capture.c */
 #define CARTRIDGE_ACTION_REPLAY3       35 /* actionreplay3.c */
-#define CARTRIDGE_RETRO_REPLAY         36 /* retroreplay.c */
 
 /* cartconv TODO */
+#define CARTRIDGE_RETRO_REPLAY         36 /* retroreplay.c */
+
 #define CARTRIDGE_MMC64                37 /* mmc64.c, spi-sdcard.c */
+
+/* cartconv TODO */
 #define CARTRIDGE_MMC_REPLAY           38 /* mmcreplay.c, ser-eeprom.c, spi-sdcard.c */
 
 #define CARTRIDGE_IDE64                39 /* ide64.c */
-
-/* cartconv TODO */
 #define CARTRIDGE_SUPER_SNAPSHOT       40 /* supersnapshot4.c */
 #define CARTRIDGE_IEEE488              41 /* c64tpi.c */
 #define CARTRIDGE_GAME_KILLER          42 /* gamekiller.c */

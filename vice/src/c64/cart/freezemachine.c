@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "freezemachine.h"
 #include "types.h"
 #include "util.h"
@@ -124,7 +125,10 @@ static io_source_t freezemachine_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     freezemachine_io1_store,
-    freezemachine_io1_read
+    freezemachine_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_FREEZE_MACHINE
 };
 static io_source_t freezemachine_io2_device = {
     "Freeze Machine",
@@ -133,11 +137,20 @@ static io_source_t freezemachine_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     freezemachine_io2_store,
-    freezemachine_io2_read
+    freezemachine_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_FREEZE_MACHINE
 };
 
 static io_source_list_t *freezemachine_io1_list_item = NULL;
 static io_source_list_t *freezemachine_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Freeze Machine", 1, 1, &freezemachine_io1_device, &freezemachine_io2_device, CARTRIDGE_FREEZE_MACHINE
+};
+
+/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 freezemachine_roml_read(WORD addr)
 {
@@ -183,10 +196,6 @@ void freezemachine_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res = {
-    "Freeze Machine", 1, 1
-};
-
 static int freezemachine_common_attach(void)
 {
     if (c64export_add(&export_res) < 0) {
@@ -211,18 +220,22 @@ int freezemachine_bin_attach(const char *filename, BYTE *rawcart)
 
 int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
 {
+    int i;
     BYTE chipheader[0x10];
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
-        return -1;
-    }
+    for (i = 0; i < 4; i++) {
 
-    if (chipheader[0xb] > 0) {
-        return -1;
-    }
-
-    if (fread(rawcart, FREEZE_MACHINE_CART_SIZE, 1, fd) < 1) {
-        return -1;
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            return -1;
+        }
+/*
+        if (chipheader[0xb] > 0) {
+            return -1;
+        }
+*/
+        if (fread(&rawcart[0x2000 * i], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
     }
 
     return freezemachine_common_attach();

@@ -537,7 +537,7 @@ void cartridge_detach_main(void)
     if (type != CARTRIDGE_NONE) {
         cart_detach(type);
 
-        DBG(("CARTMEM: unset cart config\n"));
+        DBG(("CART: unset cart config\n"));
         cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
         if (c64cartridge_reset) {
@@ -581,7 +581,7 @@ void cartridge_detach_image(int type)
         }
     }
 
-    DBG(("CARTMEM: unset cart config\n"));
+    DBG(("CART: unset cart config\n"));
     cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
     if (c64cartridge_reset) {

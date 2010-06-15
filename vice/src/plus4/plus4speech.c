@@ -105,7 +105,7 @@
     14      GND                     15      WR#     (t6721)
 */
 
-#define SPEECHDEBUG
+/* #define SPEECHDEBUG */
 /* #define DEBUGIRQ */
 
 #ifdef SPEECHDEBUG

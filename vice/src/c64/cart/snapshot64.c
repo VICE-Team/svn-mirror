@@ -33,6 +33,8 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "c64mem.h"
+#include "cartridge.h"
 #include "snapshot64.h"
 #include "types.h"
 #include "util.h"
@@ -48,8 +50,7 @@
     - one button (freeze)
 
     io2 - df00 (r/w)
-     0 - cart off
-     1 - cart enabled
+    bit 0:  0 - cart off  1 - cart enabled
 
     after reset NO menu is shown. when pressing freeze the screen goes blank, then
 
@@ -65,7 +66,7 @@
 
 */
 
-/* #define SS64DEBUG */
+#define SS64DEBUG
 
 #ifdef SS64DEBUG
 #define DBG(x) printf x
@@ -88,16 +89,23 @@ static io_source_t ss64_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     snapshot64_io2_store,
-    snapshot64_io2_read
+    snapshot64_io2_read,
+    NULL, /* reads have no side effect */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_SNAPSHOT64
 };
 
 static io_source_list_t *ss64_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Snapshot 64", 1, 1, NULL, &ss64_io2_device, CARTRIDGE_SNAPSHOT64
+};
 
 /* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 snapshot64_io2_read(WORD addr)
 {
-    DBG(("io2 rd %04x\n", addr));
+    DBG(("io2 rd %04x (%02x)\n", addr, romconfig));
 
     ss64_io2_device.io_source_valid = 1;
 
@@ -114,64 +122,114 @@ void REGPARM2 snapshot64_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 wr %04x %02x\n", addr, value));
 
-    romconfig = value & 1;
-
     if ((addr & 0xff) == 0) {
+
+        romconfig = value & 1;
+
         if (romconfig == 0) {
             cartridge_config_changed(2, 2, CMODE_WRITE);
+/*            cartridge_config_changed(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
         } else {
             cartridge_config_changed(3, 3, CMODE_WRITE);
+/*            cartridge_config_changed(3, 3, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
         }
     }
 }
 
 /* ---------------------------------------------------------------------*/
 
+BYTE REGPARM1 snapshot64_roml_read(WORD addr)
+{
+#if 1
+    if (addr < 0x9000) {
+        return roml_banks[addr & 0x0fff];
+    } else {
+        return mem_read_without_ultimax(addr);
+    }
+#else
+    return roml_banks[addr & 0x0fff];
+#endif
+}
+
+BYTE REGPARM1 snapshot64_romh_read(WORD addr)
+{
+#if 1
+    if (addr >= 0xf000) {
+        return roml_banks[addr & 0x0fff];
+    } else {
+        return mem_read_without_ultimax(addr);
+    }
+#else
+    return roml_banks[addr & 0x0fff];
+#endif
+}
+
+/* ---------------------------------------------------------------------*/
+
 void snapshot64_freeze(void)
 {
-    cartridge_config_changed(3, 3, CMODE_READ);
+    DBG(("SNAPSHOT64: freeze\n"));
+    romconfig = 1;
+    cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+/*    cartridge_config_changed(3, 3, CMODE_READ); */
 }
 
 void snapshot64_config_init(void)
 {
-    DBG(("snapshot64_config_init\n"));
+    DBG(("SNAPSHOT64: config_init\n"));
     romconfig = 0;
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
 void snapshot64_config_setup(BYTE *rawcart)
 {
+    DBG(("SNAPSHOT64: config setup\n"));
     memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x1000);
-    memcpy(&roml_banks[0x1000], &rawcart[0x0000], 0x1000);
-    memcpy(&romh_banks[0x0000], &rawcart[0x0000], 0x1000);
-    memcpy(&romh_banks[0x1000], &rawcart[0x0000], 0x1000);
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res_v4 = {
-    "Snapshot 64", 1, 1
-};
+static int snapshot64_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    ss64_io2_list_item = c64io_register(&ss64_io2_device);
+    return 0;
+}
 
 int snapshot64_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x1000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
+    return snapshot64_common_attach();
+}
 
-    if (c64export_add(&export_res_v4) < 0) {
+int snapshot64_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+
+    if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
     }
 
-    ss64_io2_list_item = c64io_register(&ss64_io2_device);
+    if (chipheader[0xb] > 0) {
+        return -1;
+    }
 
-    return 0;
+    if (fread(rawcart, 0x1000, 1, fd) < 1) {
+        return -1;
+    }
+
+    return snapshot64_common_attach();
 }
 
 void snapshot64_detach(void)
 {
-    c64export_remove(&export_res_v4);
+    c64export_remove(&export_res);
     c64io_unregister(ss64_io2_list_item);
     ss64_io2_list_item = NULL;
 }

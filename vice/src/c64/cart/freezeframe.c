@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "freezeframe.h"
 #include "types.h"
 #include "util.h"
@@ -110,7 +111,10 @@ static io_source_t freezeframe_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     freezeframe_io1_store,
-    freezeframe_io1_read
+    freezeframe_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_FREEZE_FRAME
 };
 static io_source_t freezeframe_io2_device = {
     "Freeze Frame",
@@ -119,11 +123,18 @@ static io_source_t freezeframe_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     freezeframe_io2_store,
-    freezeframe_io2_read
+    freezeframe_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_FREEZE_FRAME
 };
 
 static io_source_list_t *freezeframe_io1_list_item = NULL;
 static io_source_list_t *freezeframe_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Freeze Frame", 1, 1, &freezeframe_io1_device, &freezeframe_io2_device, CARTRIDGE_FREEZE_FRAME
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -147,10 +158,6 @@ void freezeframe_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Freeze Frame", 1, 1
-};
 
 static int freezeframe_common_attach(void)
 {

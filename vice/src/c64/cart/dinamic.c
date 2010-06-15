@@ -33,6 +33,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "types.h"
 #include "util.h"
 
@@ -50,10 +51,17 @@ static io_source_t dinamic_device = {
     0xde00, 0xdeff, 0xff,
     0,
     dinamic_io1_store,
-    NULL
+    NULL,
+    NULL,
+    NULL,
+    CARTRIDGE_DINAMIC
 };
 
 static io_source_list_t *dinamic_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Dinamic", 1, 1, &dinamic_device, NULL, CARTRIDGE_DINAMIC
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -73,10 +81,6 @@ void dinamic_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Dinamic", 1, 1
-};
 
 int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
 {

@@ -45,23 +45,6 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 
-/* #define DBGCAPTURE */
-
-#ifdef DBGCAPTURE
-#define DBG(x) printf x
-#else
-#define DBG(x)
-#endif
-
-static const c64export_resource_t export_res = {
-    "Capture", 1, 1
-};
-
-static unsigned int cart_enabled = 0;
-static unsigned int freeze_pressed = 0;
-static unsigned int register_enabled = 0;
-static unsigned int romh_enabled = 0;
-
 /*
     Jason Ranheim "Capture" Cartridge
 
@@ -72,11 +55,11 @@ static unsigned int romh_enabled = 0;
     74125 - 4 Tri-State Buffers
     74133 - NAND with 13 Inputs (adress decoder)
 
-    the cartridge is disabled after a reset. 
+    the cartridge is disabled after a reset.
 
     when the freeze button is pressed the following happens:
     - an NMI is generated
-    - as soon as the current adress is in bank 0xfe the cart switches 
+    - as soon as the current adress is in bank 0xfe the cart switches
       to ultimax mode. the cart rom then contains one page full of
       "jmp $eaea", which ultimatively calls the freezer code.
     - the fff7/fff8 "register" logic is enabled
@@ -86,6 +69,23 @@ static unsigned int romh_enabled = 0;
     on (enter ultimax mode). the "register logic" that causes this can only
     be disabled again by a hardware reset.
 */
+
+/* #define DBGCAPTURE */
+
+#ifdef DBGCAPTURE
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
+static const c64export_resource_t export_res = {
+    "Capture", 1, 1, NULL, NULL, CARTRIDGE_CAPTURE
+};
+
+static unsigned int cart_enabled = 0;
+static unsigned int freeze_pressed = 0;
+static unsigned int register_enabled = 0;
+static unsigned int romh_enabled = 0;
 
 void capture_reg(WORD addr)
 {
@@ -122,14 +122,12 @@ BYTE REGPARM1 capture_romh_read(WORD addr)
         }
     }
     return mem_read_without_ultimax(addr);
-
 }
 
 void REGPARM2 capture_romh_store(WORD addr, BYTE value)
 {
     capture_reg(addr);
     /* capture_romhflip(addr); */
-
     if (cart_enabled == 0) {
         mem_store_without_ultimax(addr, value);
     }
@@ -164,6 +162,7 @@ void REGPARM2 capture_1000_7fff_store(WORD addr, BYTE value)
 
 void capture_freeze(void)
 {
+    DBG(("CAPTURE: freeze\n"));
     if (freeze_pressed == 0) {
         cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         cart_enabled = 1;
@@ -175,11 +174,13 @@ void capture_freeze(void)
 
 void capture_config_init(void)
 {
+    DBG(("CAPTURE: config init\n"));
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
 void capture_reset(void)
 {
+    DBG(("CAPTURE: reset\n"));
     cart_enabled = 0;
     register_enabled = 0;
     freeze_pressed = 0;
@@ -188,9 +189,19 @@ void capture_reset(void)
 
 void capture_config_setup(BYTE *rawcart)
 {
+    DBG(("CAPTURE: config setup\n"));
     memcpy(romh_banks, rawcart, 0x2000);
     memset(export_ram0, 0, 0x2000);
     cartridge_config_changed(2, 2, CMODE_READ);
+}
+
+static int capture_common_attach(void)
+{
+    DBG(("CAPTURE: attach\n"));
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 int capture_crt_attach(FILE *fd, BYTE *rawcart)
@@ -205,11 +216,7 @@ int capture_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return capture_common_attach();
 }
 
 void capture_detach(void)

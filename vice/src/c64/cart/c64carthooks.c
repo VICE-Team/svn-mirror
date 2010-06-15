@@ -639,6 +639,9 @@ void cart_attach(int type, BYTE *rawcart)
         case CARTRIDGE_MAGIC_VOICE:
             magicvoice_config_setup(rawcart);
             break;
+        case CARTRIDGE_MMC64:
+            mmc64_config_setup(rawcart);
+            break;
         /* "Slot 1" */
         case CARTRIDGE_EXPERT:
             expert_config_setup(rawcart);
@@ -780,7 +783,7 @@ void cart_attach(int type, BYTE *rawcart)
             freezemachine_config_setup(rawcart);
             break;
         default:
-            DBG(("CARTMEM: no attach hook %d\n", type));
+            DBG(("CART: no attach hook %d\n", type));
             break;
     }
 }
@@ -799,7 +802,7 @@ void cartridge_detach_all(void)
     DBG(("CART: detach all\n"));
     /* detach all cartridges */
     /* "slot 0" */
-    mmc64_shutdown();
+    mmc64_detach();
     magicvoice_detach();
     /* "Slot 1" */
     dqbb_shutdown();
@@ -824,7 +827,7 @@ void cart_detach(int type)
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_MMC64:
-            mmc64_shutdown();
+            mmc64_detach();
             break;
         /* "Slot 1" */
         case CARTRIDGE_DQBB:
@@ -991,7 +994,7 @@ void cart_detach(int type)
             freezemachine_detach();
             break;
         default:
-            DBG(("CARTMEM: no detach hook ID: %d\n", type));
+            DBG(("CART: no detach hook ID: %d\n", type));
             break;
     }
 }

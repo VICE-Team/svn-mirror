@@ -35,6 +35,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "supersnapshot4.h"
 #include "types.h"
 #include "util.h"
@@ -73,7 +74,10 @@ static io_source_t ss4_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     supersnapshot_v4_io1_store,
-    supersnapshot_v4_io1_read
+    supersnapshot_v4_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_SUPER_SNAPSHOT
 };
 
 static io_source_t ss4_io2_device = {
@@ -83,11 +87,19 @@ static io_source_t ss4_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     supersnapshot_v4_io2_store,
-    supersnapshot_v4_io2_read
+    supersnapshot_v4_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_SUPER_SNAPSHOT
 };
 
 static io_source_list_t *ss4_io1_list_item = NULL;
 static io_source_list_t *ss4_io2_list_item = NULL;
+
+
+static const c64export_resource_t export_res_v4 = {
+    "Super Snapshot V4", 1, 1, &ss4_io1_device, &ss4_io2_device, CARTRIDGE_SUPER_SNAPSHOT
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -207,24 +219,44 @@ void supersnapshot_v4_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res_v4 = {
-    "Super Snapshot V4", 1, 1
-};
+static int supersnapshot_v4_common_attach(void)
+{
+    if (c64export_add(&export_res_v4) < 0) {
+        return -1;
+    }
+    ss4_io1_list_item = c64io_register(&ss4_io1_device);
+    ss4_io2_list_item = c64io_register(&ss4_io2_device);
+    return 0;
+}
 
 int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
+    return supersnapshot_v4_common_attach();
+}
 
-    if (c64export_add(&export_res_v4) < 0) {
-        return -1;
+int supersnapshot_v4_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    int i = 4;
+    BYTE chipheader[0x10];
+
+    while (i--) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            return -1;
+        }
+
+        if (chipheader[0xb] > 3) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
     }
 
-    ss4_io1_list_item = c64io_register(&ss4_io1_device);
-    ss4_io2_list_item = c64io_register(&ss4_io2_device);
-
-    return 0;
+    return supersnapshot_v4_common_attach();
 }
 
 void supersnapshot_v4_detach(void)

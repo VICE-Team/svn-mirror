@@ -101,11 +101,7 @@ CB2            - enable Cartridge (?)
 */
 
 /* if defined, permanently use ultimax mode to fake full external decoding. */
-/* FIXME: undefining selects 'proper' external decoding, which does NOT work
-          right now. someone who knows the memory mapping internals better
-          than me should take a look at it perhaps :)
-*/
-#define USE_ULTIMAX_CONFIG
+/* #define USE_ULTIMAX_CONFIG */
 
 /* permanently enable RAM in io1 */
 /* #define DEBUG_IO1_NO_DISABLE  */
@@ -115,7 +111,6 @@ CB2            - enable Cartridge (?)
 
 /* #define LOG_BANKS */
 /* #define LOG_PORTS */
-
 
 #ifdef MAGICFORMEL_DEBUG
 #define DBG(x)  printf x
@@ -133,15 +128,54 @@ CB2            - enable Cartridge (?)
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "maincpu.h"
 #include "machine.h"
 #include "magicformel.h"
 #include "types.h"
 
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 magicformel_io1_read(WORD addr);
+static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value);
+static BYTE REGPARM1 magicformel_io2_read(WORD addr);
+
+static io_source_t magicformel_io1_device = {
+    "Magic Formel",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    magicformel_io1_store,
+    magicformel_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_MAGIC_FORMEL
+};
+
+static io_source_t magicformel_io2_device = {
+    "Magic Formel",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    magicformel_io2_store,
+    magicformel_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_MAGIC_FORMEL
+};
+
+static io_source_list_t *magicformel_io1_list_item = NULL;
+static io_source_list_t *magicformel_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Magic Formel", 1, 1
+    "Magic Formel", 1, 1, &magicformel_io1_device, &magicformel_io2_device, CARTRIDGE_MAGIC_FORMEL
 };
+
+/* ---------------------------------------------------------------------*/
 
 static unsigned int ram_page = 0;
 static unsigned int io1_enabled = 0;     /* PA4 */
@@ -186,6 +220,14 @@ static int kernal_decoder(WORD addr)
 {
     export_game = kernal_enabled || freeze_enabled;
 
+#ifndef USE_ULTIMAX_CONFIG
+    if (export_game) {
+        cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+    } else {
+        cartridge_config_changed(2, (BYTE)(2 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+    }
+#endif
+
     if (addr < 0xe000) {
         return 0;
     }
@@ -206,26 +248,6 @@ static void freeze_flipflop(int reset,int freeze,int clear)
     }
 /* DBG(("freeze_flipflop reset %d freeze %d clear %d -> freeze_enabled %d kernal_enabled %d\n",reset,freeze,clear,freeze_enabled,kernal_enabled)); */
 }
-
-#ifndef USE_ULTIMAX_CONFIG
-static BYTE REGPARM1 magicformel_kernal64_read(WORD addr)
-{
-    if (kernal_decoder(addr)) {
-        if (export_game) {
-            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
-        }
-    }
-    return mem_read_without_ultimax(addr);
-}
-#endif
-
-static void magicformel_init_mem(int bank)
-{
-#ifndef USE_ULTIMAX_CONFIG
-    /* TODO */
-#endif
-}
-
 
 /***************************************************************************
     very fake mc6821 "emulation" :)
@@ -356,7 +378,6 @@ static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
                 }
                 freeze_flipflop(0 /* reset */,0 /* freeze */,CB2);
                 kernal_decoder(0xdf00);
-                magicformel_init_mem(romh_bank);
 
 #ifdef LOG_BANKS
                 log_bank(romh_bank);
@@ -395,7 +416,7 @@ static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
 
                 freeze_flipflop(0 /* reset */, 0 /* freeze */, CB2);
                 kernal_decoder(0xdf00);
-                magicformel_init_mem(romh_bank);
+
             } else if ((data & 0x30) == 0x20) {
                 /* TODO */
                 CB2state = 1;
@@ -443,7 +464,6 @@ static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
 
                 freeze_flipflop(0 /* reset */,0 /* freeze */,CB2);
                 kernal_decoder(0xdf00);
-                magicformel_init_mem(romh_bank);
 
                 dataB = data;
 #ifdef LOG_PORTS
@@ -463,37 +483,6 @@ static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
 /****************************************************************************
 * 
 ****************************************************************************/
-
-/* some prototypes are needed */
-static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 magicformel_io1_read(WORD addr);
-static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value);
-static BYTE REGPARM1 magicformel_io2_read(WORD addr);
-
-static io_source_t magicformel_io1_device = {
-    "Magic Formel",
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    magicformel_io1_store,
-    magicformel_io1_read
-};
-
-static io_source_t magicformel_io2_device = {
-    "Magic Formel",
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    magicformel_io2_store,
-    magicformel_io2_read
-};
-
-static io_source_list_t *magicformel_io1_list_item = NULL;
-static io_source_list_t *magicformel_io2_list_item = NULL;
-
-/* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 magicformel_io1_read(WORD addr)
 {
@@ -563,19 +552,13 @@ void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
 ****************************************************************************/
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 magicformel_roml_read(WORD addr)
-{
-    return mem_read_without_ultimax(addr);
-}
-
-void REGPARM2 magicformel_roml_store(WORD addr, BYTE value)
-{
-    mem_store_without_ultimax(addr, value);
-}
-
+/*
+    the "mf-windows" stuff only works if it reads RAM here, the freezer must
+    however always read ROM
+*/
 BYTE REGPARM1 magicformel_romh_read(WORD addr)
 {
-    if (export_game) {
+    if (freeze_enabled) {
         if (kernal_decoder(addr)) {
             return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
         }
@@ -583,30 +566,12 @@ BYTE REGPARM1 magicformel_romh_read(WORD addr)
     return mem_read_without_ultimax(addr);
 }
 
-void REGPARM2 magicformel_romh_store(WORD addr, BYTE value)
+BYTE REGPARM1 magicformel_romh_read_hirom(WORD addr)
 {
-#if 1
-    mem_store_without_ultimax(addr, value);
-#else
-    BYTE page;
-
-    if (export_game) {
-        if (kernal_decoder(addr)) {
-            DBG(("MF: CARTRAM romh store %04x %02x '%c'\n",addr,value,value));
-
-            page = (((addr >> 11) & 1) << 0) |
-                   (((addr >> 10) & 1) << 1) |
-                   (((addr >> 8) & 1) << 2) |
-                   (((addr >> 9) & 1) << 3) |
-                   (((addr >> 12) & 1) << 4);
-
-            export_ram0[(page << 8) + (addr & 0xff)] = value;
-        }
-    } else {
-        DBG(("MF: romh store %04x %02x '%c'\n",addr,value,value));
-        mem_store_without_ultimax(addr, value);
+    if (kernal_decoder(addr)) {
+        return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
     }
-#endif
+    return mem_read_without_ultimax(addr);
 }
 
 /****************************************************************************/
@@ -619,6 +584,7 @@ void magicformel_freeze(void)
 
     kernal_enabled = 1;   /* PB7 */
     romh_bank = 0x01;
+    io1_enabled = 1;
 
     freeze_flipflop(0 /* reset */, 1 /* freeze */, CB2);
     kernal_decoder(0xfffe);
@@ -626,10 +592,8 @@ void magicformel_freeze(void)
 #ifdef USE_ULTIMAX_CONFIG
     cartridge_config_changed(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 #else
-    cartridge_config_changed(2, (BYTE)(2 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cartridge_config_changed(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 #endif
-
-    magicformel_init_mem(romh_bank);
 }
 
 void magicformel_config_init(void)
@@ -644,10 +608,8 @@ void magicformel_config_init(void)
 #ifdef USE_ULTIMAX_CONFIG
     cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 #else
-    cartridge_config_changed(2, (BYTE)(2 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 #endif
-
-    magicformel_init_mem(romh_bank);
 }
 
 void magicformel_reset(void)
@@ -692,6 +654,7 @@ int magicformel_crt_attach(FILE *fd, BYTE *rawcart)
     } else if (cnt == 12) {
         DBG(("MF: 64k+32k ROM loaded.\n"));
         hwversion = 1;
+        memcpy(&rawcart[0x18000], &rawcart[0x10000], 0x8000);
     } else if (cnt == 16) {
         DBG(("MF: 2*64k ROM loaded.\n"));
         hwversion = 2;

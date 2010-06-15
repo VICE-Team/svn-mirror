@@ -38,11 +38,14 @@ extern void mmc64_init_card_config(void);
 extern BYTE REGPARM1 mmc64_roml_read(WORD addr);
 extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
 
+extern void mmc64_config_setup(BYTE *rawcart);
+extern int mmc64_crt_attach(FILE *fd, BYTE *rawcart);
+
 extern int mmc64_resources_init(void);
 extern void mmc64_resources_shutdown(void);
 extern int mmc64_cmdline_options_init(void);
 extern void mmc64_init(void);
-extern void mmc64_shutdown(void);
+extern void mmc64_detach(void);
 extern void mmc64_reset(void);
 
 #endif

@@ -38,6 +38,7 @@ extern void supersnapshot_v4_freeze(void);
 extern void supersnapshot_v4_config_init(void);
 extern void supersnapshot_v4_config_setup(BYTE *rawcart);
 extern int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart);
+extern int supersnapshot_v4_crt_attach(FILE *fd, BYTE *rawcart);
 
 extern void supersnapshot_v4_detach(void);
 

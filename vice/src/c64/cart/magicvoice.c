@@ -959,6 +959,14 @@ void magicvoice_config_setup(BYTE *rawcart)
     memcpy(mv_rom, rawcart, 0x4000);
 }
 
+/* ---------------------------------------------------------------------*/
+
+static int magicvoice_common_attach(void)
+{
+    DBG(("MV: attach\n"));
+    return set_magicvoice_enabled(1, NULL);
+}
+
 int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
 {
     FILE *fd;
@@ -972,9 +980,29 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
     fclose(fd);
+    return magicvoice_common_attach();
+}
 
-    DBG(("MV: attach\n"));
-    return set_magicvoice_enabled(1, NULL);
+int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    int i = 2;
+    BYTE chipheader[0x10];
+
+    while (i--) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            return -1;
+        }
+
+        if (chipheader[0xb] > 1) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+    }
+
+    return magicvoice_common_attach();
 }
 
 void magicvoice_detach(void)

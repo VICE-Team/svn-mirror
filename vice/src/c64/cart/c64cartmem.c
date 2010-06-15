@@ -100,7 +100,7 @@
 #include "westermann.h"
 #include "zaxxon.h"
 
-/* #define DEBUGCART */
+#define DEBUGCART
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x ; fflush(stdout);
@@ -149,7 +149,13 @@ extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") 
 */
 void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
 {
-    DBG(("CARTMEM: cartridge_config_changed phi1:%d phi2:%d bank: %d flags:%02x\n",mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+#ifdef DEBUGCART
+    static int old1 = 0, old2 = 0, old3 = 0;
+    if ((mode_phi1 != old1) || (mode_phi2 != old2) || (wflag != old3)) {
+        DBG(("CARTMEM: cartridge_config_changed phi1:%d phi2:%d bank: %d flags:%02x\n",mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+    }
+    old1 = mode_phi1; old2 = mode_phi2; old3 = wflag;
+#endif
 
     if ((wflag & CMODE_WRITE) == CMODE_WRITE) {
         machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -293,45 +299,48 @@ BYTE REGPARM1 roml_read(WORD addr)
     }
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_FREEZE_MACHINE:
-            return freezemachine_roml_read(addr);
-        case CARTRIDGE_STARDOS:
-            return stardos_roml_read(addr);
-        case CARTRIDGE_ZAXXON:
-            return zaxxon_roml_read(addr);
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            return supersnapshot_v4_roml_read(addr);
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            return supersnapshot_v5_roml_read(addr);
-        case CARTRIDGE_ACTION_REPLAY4:
-            return actionreplay4_roml_read(addr);
-        case CARTRIDGE_ACTION_REPLAY3:
-            return actionreplay3_roml_read(addr);
         case CARTRIDGE_ACTION_REPLAY:
             return actionreplay_roml_read(addr);
-        case CARTRIDGE_RETRO_REPLAY:
-            return retroreplay_roml_read(addr);
-        case CARTRIDGE_MMC_REPLAY:
-            return mmcreplay_roml_read(addr);
-        case CARTRIDGE_IDE64:
-            return ide64_roml_read(addr);
+        case CARTRIDGE_ACTION_REPLAY3:
+            return actionreplay3_roml_read(addr);
+        case CARTRIDGE_ACTION_REPLAY4:
+            return actionreplay4_roml_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_roml_read(addr);
-        case CARTRIDGE_FINAL_I:
-            return final_v1_roml_read(addr);
-        case CARTRIDGE_FINAL_PLUS:
-            return final_plus_roml_read(addr);
-        case CARTRIDGE_FINAL_III:
-            return final_v3_roml_read(addr);
-        case CARTRIDGE_MAGIC_FORMEL:
-            return magicformel_roml_read(addr);
         case CARTRIDGE_EASYFLASH:
             return easyflash_roml_read(addr);
         case CARTRIDGE_EPYX_FASTLOAD:
             return epyxfastload_roml_read(addr);
+        case CARTRIDGE_FINAL_I:
+            return final_v1_roml_read(addr);
+        case CARTRIDGE_FINAL_III:
+            return final_v3_roml_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_roml_read(addr);
+        case CARTRIDGE_FREEZE_MACHINE:
+            return freezemachine_roml_read(addr);
+        case CARTRIDGE_IDE64:
+            return ide64_roml_read(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_roml_read(addr);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_roml_read(addr);
+        case CARTRIDGE_STARDOS:
+            return stardos_roml_read(addr);
+        case CARTRIDGE_SNAPSHOT64:
+            return snapshot64_roml_read(addr);
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            return supersnapshot_v4_roml_read(addr);
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            return supersnapshot_v5_roml_read(addr);
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            return se5_roml_read(addr);
+        case CARTRIDGE_ZAXXON:
+            return zaxxon_roml_read(addr);
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_EXOS:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_MAGIC_FORMEL: /* ? */
             /* fake ultimax hack */
             return mem_read_without_ultimax(addr);
         case CARTRIDGE_FREEZE_FRAME:
@@ -369,34 +378,32 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
     }
     /* "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_roml_store(addr, value);
+            return;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_roml_store(addr, value);
+            return;
+        case CARTRIDGE_EASYFLASH:
+            easyflash_roml_store(addr, value);
+            return;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_roml_store(addr, value);
+            return;
         case CARTRIDGE_SUPER_SNAPSHOT:
             supersnapshot_v4_roml_store(addr, value);
             return;
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             supersnapshot_v5_roml_store(addr, value);
             return;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_roml_store(addr, value);
-            return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_roml_store(addr, value);
             return;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_roml_store(addr, value);
-            return;
-        case CARTRIDGE_ATOMIC_POWER:
-            atomicpower_roml_store(addr, value);
-            return;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_roml_store(addr, value);
-            return;
-        case CARTRIDGE_EASYFLASH:
-            easyflash_roml_store(addr, value);
-            return;
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_EXOS:
+        case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_MAGIC_FORMEL: /* ? */
             /* fake ultimax hack */
             mem_store_without_ultimax(addr, value);
             return;
@@ -412,7 +419,11 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
     DBG(("CARTMEM: BUG! ROML open bus store (addr %04x)\n", addr));
 }
 
-/* ROMH read - mapped to A000 in 16k, to E000 in ultimax */
+/* ROMH read - mapped to A000 in 16k, to E000 in ultimax
+
+   most carts that use romh_read also need to use ultimax_romh_read_hirom
+   below. carts that map an "external kernal" wrap to ram_read here.
+*/
 BYTE REGPARM1 romh_read(WORD addr)
 {
     /* DBG(("ultimax r e000: %04x\n", addr)); */
@@ -438,22 +449,24 @@ BYTE REGPARM1 romh_read(WORD addr)
             return actionreplay3_romh_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
-        case CARTRIDGE_OCEAN:
-            return ocean_romh_read(addr);
-        case CARTRIDGE_IDE64:
-            return ide64_romh_read(addr);
-        case CARTRIDGE_EASYFLASH:
-            return easyflash_romh_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_romh_read(addr);
-        case CARTRIDGE_RETRO_REPLAY:
-            return retroreplay_romh_read(addr);
+        case CARTRIDGE_EASYFLASH:
+            return easyflash_romh_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_romh_read(addr);
+        case CARTRIDGE_IDE64:
+            return ide64_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_romh_read(addr);
-        case CARTRIDGE_FINAL_PLUS:
-            return final_plus_romh_read(addr);
+        case CARTRIDGE_OCEAN:
+            return ocean_romh_read(addr);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_romh_read(addr);
+        case CARTRIDGE_SNAPSHOT64:
+            return snapshot64_romh_read(addr);
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, read from ram */
@@ -502,24 +515,26 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
             return actionreplay3_romh_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_romh_read(addr);
-        case CARTRIDGE_OCEAN:
-            return ocean_romh_read(addr);
-        case CARTRIDGE_IDE64:
-            return ide64_romh_read(addr);
-        case CARTRIDGE_EASYFLASH:
-            return easyflash_romh_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_romh_read(addr);
-        case CARTRIDGE_RETRO_REPLAY:
-            return retroreplay_romh_read(addr);
-        case CARTRIDGE_MAGIC_FORMEL:
-            return magicformel_romh_read(addr);
-        case CARTRIDGE_MMC_REPLAY:
-            return mmcreplay_romh_read(addr);
-        case CARTRIDGE_FINAL_PLUS:
-            return final_plus_romh_read(addr);
+        case CARTRIDGE_EASYFLASH:
+            return easyflash_romh_read(addr);
         case CARTRIDGE_EXOS:
             return exos_romh_read(addr);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_romh_read(addr);
+        case CARTRIDGE_IDE64:
+            return ide64_romh_read(addr);
+        case CARTRIDGE_MAGIC_FORMEL:
+            return magicformel_romh_read_hirom(addr);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_romh_read(addr);
+        case CARTRIDGE_OCEAN:
+            return ocean_romh_read(addr);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_romh_read(addr);
+        case CARTRIDGE_SNAPSHOT64:
+            return snapshot64_romh_read(addr);
         case CARTRIDGE_STARDOS:
             return stardos_romh_read(addr);
         case CARTRIDGE_FREEZE_FRAME:
@@ -536,7 +551,9 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
     return vicii_read_phi1();
 }
 
-/* ROMH store - mapped to E000 in ultimax mode */
+/* ROMH store - mapped to E000 in ultimax mode
+   - carts that use "external kernal" mode must wrap to ram_store here
+*/
 void REGPARM2 romh_store(WORD addr, BYTE value)
 {
     /* DBG(("ultimax w e000: %04x %02x\n", addr, value)); */
@@ -552,32 +569,33 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
     }
 
     /* "Main Slot" */
+    /* to aid in debugging, use return instead of break incase of a successful store */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_EASYFLASH:
-            easyflash_romh_store(addr, value);
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_romh_store(addr, value);
-            break;
         case CARTRIDGE_CAPTURE:
             capture_romh_store(addr, value);
-            break;
+            return;
+        case CARTRIDGE_EASYFLASH:
+            easyflash_romh_store(addr, value);
+            return;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_romh_store(addr, value);
-            break;
-        case CARTRIDGE_FINAL_PLUS:
+            return;
         case CARTRIDGE_EXOS:
+        case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_SNAPSHOT64: /* ? */
+        case CARTRIDGE_MAGIC_FORMEL: /* ? */
             /* fake ultimax hack, c64 ram */
-            mem_store_without_ultimax(addr, value);
+            /* mem_store_without_ultimax(addr, value); */
+            ram_store(addr, value);
             return;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
-            break;
+            return;
     }
 
     /* open bus */
-    DBG(("CARTMEM: BUG! ROMH open bus store (addr %04x)\n", addr));
+    DBG(("CARTMEM: possible BUG! ROMH open bus store (@$%04x, addr %04x)\n", reg_pc, addr));
 }
 
 /* ROMH store - A000-BFFF in 16kGame
@@ -944,10 +962,11 @@ BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
+        case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
             return mem_read_without_ultimax(addr);
@@ -976,10 +995,11 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
+        case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, c64 io,colram,ram */
             mem_store_without_ultimax(addr, value);

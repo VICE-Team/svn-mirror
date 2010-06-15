@@ -341,7 +341,7 @@ BYTE REGPARM1 actionreplay3_roml_read(WORD addr)
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
     } else {
         return ram_read(addr);
-        return mem_read_without_ultimax(addr);
+        /* return mem_read_without_ultimax(addr); */
     }
 }
 

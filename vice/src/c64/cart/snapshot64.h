@@ -30,13 +30,14 @@
 #include "types.h"
 
 extern BYTE REGPARM1 snapshot64_roml_read(WORD addr);
-extern void REGPARM2 snapshot64_roml_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 snapshot64_romh_read(WORD addr);
 
 extern void snapshot64_freeze(void);
 
 extern void snapshot64_config_init(void);
 extern void snapshot64_config_setup(BYTE *rawcart);
 extern int snapshot64_bin_attach(const char *filename, BYTE *rawcart);
+extern int snapshot64_crt_attach(FILE *f, BYTE *rawcart);
 
 extern void snapshot64_detach(void);
 

@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "superexplode5.h"
 #include "types.h"
 #include "util.h"
@@ -116,10 +117,29 @@ static io_source_t se5_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is alway valid */
     se5_io2_store,
-    se5_io2_read
+    se5_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_SUPER_EXPLODE_V5
 };
 
 static io_source_list_t *se5_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Super Explode V5", 1, 0, NULL, &se5_io2_device, CARTRIDGE_SUPER_EXPLODE_V5
+};
+
+/* ---------------------------------------------------------------------*/
+
+BYTE REGPARM1 se5_roml_read(WORD addr)
+{
+    if (addr < 0x9f00) {
+        return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+    } else {
+        return ram_read(addr);
+        /* return mem_read_without_ultimax(addr); */
+    }
+}
 
 /* ---------------------------------------------------------------------*/
 
@@ -137,10 +157,6 @@ void se5_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Super Explode V5", 1, 0
-};
 
 static int se5_common_attach(void)
 {
