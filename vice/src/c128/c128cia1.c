@@ -141,7 +141,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
     cia1_internal_lightpen_check(b,  machine_context.cia1->old_pb);
 
 #ifdef HAVE_MOUSE
-    mouse_set_paddle_port((b >> 6) & 0x03);
+    mouse_set_input((b >> 6) & 0x03);
 
     if (_mouse_enabled) {
         if ((mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2)) {

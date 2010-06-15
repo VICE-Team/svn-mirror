@@ -46,6 +46,31 @@ int _mouse_enabled = 0;
 int mouse_port = 1;
 int mouse_type;
 
+/* --------------------------------------------------------- */
+/* POT input selection */
+
+/* POT input port. Defaults to 1 for xvic. */
+static BYTE input_port = 1;
+
+void mouse_set_input(int port)
+{
+    input_port = port & 3;
+}
+
+
+/* --------------------------------------------------------- */
+/* 1351 mouse */
+
+static BYTE mouse_get_1351_x(void)
+{
+    return (input_port == mouse_port) ? mousedrv_get_x() : 0xff;
+}
+
+static BYTE mouse_get_1351_y(void)
+{
+    return (input_port == mouse_port) ? mousedrv_get_y() : 0xff;
+}
+
 
 /* --------------------------------------------------------- */
 /* NEOS mouse */
@@ -73,38 +98,29 @@ enum {
 static void neos_get_new_movement(void)
 {
     BYTE new_x, new_y;
-    
+
     new_x = mousedrv_get_x();
     new_y = mousedrv_get_y();
     neos_x = new_x - neos_lastx;
-    if (new_x < neos_lastx)
-    {
-        if (neos_lastx > 0x6f && new_x < 0x10)
-        {
+
+    if (new_x < neos_lastx) {
+        if (neos_lastx > 0x6f && new_x < 0x10) {
             neos_x += 0x80;
         }
-    }
-    else if (new_x > neos_lastx)
-    {
-        if (neos_lastx < 0x10 && new_x > 0x6f)
-        {
+    } else if (new_x > neos_lastx) {
+        if (neos_lastx < 0x10 && new_x > 0x6f) {
             neos_x += 0x80;
         }
     }
     neos_lastx = new_x;
 
     neos_y = new_y - neos_lasty;
-    if (new_y < neos_lasty)
-    {
-        if (neos_lasty > 0x6f && new_y < 0x10)
-        {
+    if (new_y < neos_lasty) {
+        if (neos_lasty > 0x6f && new_y < 0x10) {
             neos_y += 0x80;
         }
-    }
-    else if (new_y > neos_lasty)
-    {
-        if (neos_lasty < 0x10 && new_y > 0x6f)
-        {
+    } else if (new_y > neos_lasty) {
+        if (neos_lasty < 0x10 && new_y > 0x6f) {
             neos_y += 0x80;
         }
     }
@@ -115,27 +131,27 @@ static void neos_get_new_movement(void)
     neos_x = -neos_x;
 }
 
-void neos_mouse_store(BYTE val) 
+void neos_mouse_store(BYTE val)
 {
     switch (neos_state) {
         case NEOS_IDLE:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16)==0)) {
+            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) == 0)) {
                 ++neos_state;
                 neos_get_new_movement();
             }
             break;
         case NEOS_XH:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16)!=0)) {
+            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) != 0)) {
                 ++neos_state;
             }
             break;
         case NEOS_XL:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16)==0)) {
+            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) == 0)) {
                 ++neos_state;
             }
             break;
         case NEOS_YH:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16)!=0)) {
+            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) != 0)) {
                 ++neos_state;
                 alarm_set(neosmouse_alarm, maincpu_clk + NEOS_RESET_CLK);
             }
@@ -152,8 +168,7 @@ void neos_mouse_store(BYTE val)
 
 BYTE neos_mouse_read(void)
 {
-    switch (neos_state)
-    {
+    switch (neos_state) {
         case NEOS_XH:
             return ((neos_x >> 4) & 0xf) | 0xf0;
             break;
@@ -192,12 +207,11 @@ static const BYTE amiga_mouse_table[4] = { 0x0, 0x1, 0x5, 0x4 };
 BYTE amiga_mouse_read(void)
 {
     BYTE new_x, new_y;
-    
-    new_x = mousedrv_get_x()/2;
-    new_y = (-mousedrv_get_y())/2;
 
-    return (amiga_mouse_table[new_x & 3] << 1) | amiga_mouse_table[new_y & 
-3] | 0xf0;
+    new_x = mousedrv_get_x() / 2;
+    new_y = (-mousedrv_get_y()) / 2;
+
+    return (amiga_mouse_table[new_x & 3] << 1) | amiga_mouse_table[new_y & 3] | 0xf0;
 }
 #endif
 
@@ -214,41 +228,29 @@ BYTE amiga_mouse_read(void)
 {
     BYTE new_x, new_y;
     signed char dir_x, dir_y;
-    
+
     /* get the new mouse values */
     new_x = mousedrv_get_x();
     new_y = (-mousedrv_get_y());
 
     /* find out the x direction */
-    if (new_x == old_x)
-    {
+    if (new_x == old_x) {
         /* no direction, 0 */
         dir_x = 0;
-    }
-    else
-    {
-        if (new_x > old_x)
-        {
-            if ((new_x - old_x) < (old_x + 256 - new_x))
-            {
+    } else {
+        if (new_x > old_x) {
+            if ((new_x - old_x) < (old_x + 256 - new_x)) {
                 /* right, +1 */
                 dir_x = 1;
-            }
-            else
-            {
+            } else {
                 /* left underflow, -1 */
                 dir_x = -1;
             }
-        }
-        else
-        {
-            if ((old_x - new_x) < (new_x + 256 - old_x))
-            {
+        } else {
+            if ((old_x - new_x) < (new_x + 256 - old_x)) {
                 /* left, -1 */
                 dir_x = -1;
-            }
-            else
-            {
+            } else {
                 /* right overflow, +1 */
                 dir_x = 1;
             }
@@ -256,31 +258,19 @@ BYTE amiga_mouse_read(void)
     }
 
     /* find out the y direction */
-    if (new_y == old_y)
-    {
+    if (new_y == old_y) {
         dir_y = 0;
-    }
-    else
-    {
-        if (new_y > old_y)
-        {
-            if ((new_y - old_y) < (old_y + 256 - new_y))
-            {
+    } else {
+        if (new_y > old_y) {
+            if ((new_y - old_y) < (old_y + 256 - new_y)) {
                 dir_y = 1;
-            }
-            else
-            {
+            } else {
                 dir_y = -1;
             }
-        }
-        else
-        {
-            if ((old_y - new_y) < (new_y + 256 - old_y))
-            {
+        } else {
+            if ((old_y - new_y) < (new_y + 256 - old_y)) {
                 dir_y = -1;
-            }
-            else
-            {
+            } else {
                 dir_y = 1;
             }
         }
@@ -303,7 +293,7 @@ BYTE amiga_mouse_read(void)
 /* --------------------------------------------------------- */
 /* Paddle support */
 
-static BYTE paddle_val[] = { 
+static BYTE paddle_val[] = {
 /*  x     y  */
     0x00, 0xff, /* no port */
     0x00, 0xff, /* port 1 */
@@ -311,14 +301,13 @@ static BYTE paddle_val[] = {
     0x00, 0xff  /* both ports */
 };
 
-static BYTE paddle_old[] = { 
-    0xff, 0xff, 
-    0xff, 0xff, 
-    0xff, 0xff, 
+static BYTE paddle_old[] = {
+    0xff, 0xff,
+    0xff, 0xff,
+    0xff, 0xff,
     0xff, 0xff
 };
 
-static BYTE paddle_port = 1;
 
 static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
 {
@@ -340,7 +329,7 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
     *old_v = new_v;
 
     if (((paddle_v & 0x80) ^ (new_paddle & 0x80)) && ((new_paddle & 0x80) == (diff & 0x80))) {
-        new_paddle = (paddle_v & 0x80)?0xff:0;
+        new_paddle = (paddle_v & 0x80) ? 0xff : 0;
     }
 
     return new_paddle;
@@ -348,29 +337,24 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
 
 static BYTE mouse_get_paddle_x(void)
 {
-    int i = (paddle_port << 1);
+    int i = (input_port << 1);
 
-    if (paddle_port == mouse_port) {
+    if (input_port == mouse_port) {
         paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_x());
     }
 
-    return 0xff-paddle_val[i];
+    return 0xff - paddle_val[i];
 }
 
 static BYTE mouse_get_paddle_y(void)
 {
-    int i = (paddle_port << 1) + 1;
+    int i = (input_port << 1) + 1;
 
-    if (paddle_port == mouse_port) {
+    if (input_port == mouse_port) {
         paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
     }
 
-    return 0xff-paddle_val[i];
-}
-
-void mouse_set_paddle_port(int port)
-{
-    paddle_port = port & 3;
+    return 0xff - paddle_val[i];
 }
 
 /* --------------------------------------------------------- */
@@ -385,8 +369,9 @@ static int set_mouse_enabled(int val, void *param)
 
 static int set_mouse_port(int val, void *param)
 {
-    if (val < 1 || val > 2)
+    if (val < 1 || val > 2) {
         return -1;
+    }
 
     mouse_port = val;
 
@@ -395,7 +380,7 @@ static int set_mouse_port(int val, void *param)
 
 static int set_mouse_type(int val, void *param)
 {
-    if (!((val >= 0) && (val <= 3))) {
+    if (!((val >= 0) && (val < MOUSE_TYPE_NUM))) {
         return -1;
     }
 
@@ -538,11 +523,9 @@ BYTE mouse_get_x(void)
 {
     switch (mouse_type) {
         case MOUSE_TYPE_1351:
-            return mousedrv_get_x();
-            break;
+            return mouse_get_1351_x();
         case MOUSE_TYPE_PADDLE:
             return mouse_get_paddle_x();
-            break;
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
             return (neos_and_amiga_buttons & 1) ? 0xff : 0;
@@ -557,11 +540,9 @@ BYTE mouse_get_y(void)
 {
     switch (mouse_type) {
         case MOUSE_TYPE_1351:
-            return mousedrv_get_y();
-            break;
+            return mouse_get_1351_y();
         case MOUSE_TYPE_PADDLE:
             return mouse_get_paddle_y();
-            break;
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
         default:

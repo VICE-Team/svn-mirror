@@ -39,6 +39,8 @@ extern void mouse_init(void);
 extern void mouse_button_left(int pressed);
 extern void mouse_button_right(int pressed);
 
+extern void mouse_set_input(int port);
+
 extern BYTE mouse_get_x(void);
 extern BYTE mouse_get_y(void);
 
@@ -49,11 +51,11 @@ extern int mouse_port;
 extern void neos_mouse_store(BYTE val);
 extern BYTE neos_mouse_read(void);
 extern BYTE amiga_mouse_read(void);
-extern void mouse_set_paddle_port(int port);
 
 #define MOUSE_TYPE_1351   0
 #define MOUSE_TYPE_NEOS   1
 #define MOUSE_TYPE_AMIGA  2
 #define MOUSE_TYPE_PADDLE 3
+#define MOUSE_TYPE_NUM    4
 
 #endif
