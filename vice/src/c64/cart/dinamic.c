@@ -34,33 +34,60 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
+#include "maincpu.h"
 #include "types.h"
 #include "util.h"
 
-static void REGPARM2 dinamic_io1_store(WORD addr, BYTE value)
+/* #define DBGDINAMIC */
+
+#ifdef DBGDINAMIC
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
+/*
+    Dinamic Software Game Cartridge
+
+    - Narco Police (128k, 8k*16)
+    - Satan (128k, 8k*16)
+
+    - 16 8k ROM Banks, mapped to $8000 in 8k Game Mode
+
+    io1:
+    - banks are switched by read accesses to deXX, where XX is the bank number
+
+*/
+
+static BYTE REGPARM1 dinamic_io1_read(WORD addr)
 {
-    cartridge_romlbank_set(addr & 0x0f);
+    DBG(("@ $%04x io1 rd %04x (bank: %02x)\n", reg_pc, addr, addr & 0x0f));
+    if ((addr & 0x0f) == addr) {
+        cartridge_romlbank_set(addr & 0x0f);
+        cartridge_romhbank_set(addr & 0x0f);
+    }
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
 
-static io_source_t dinamic_device = {
+static io_source_t dinamic_io1_device = {
     "Dinamic",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
-    0,
-    dinamic_io1_store,
+    0, /* reads are never valid */
     NULL,
+    dinamic_io1_read,
     NULL,
     NULL,
     CARTRIDGE_DINAMIC
 };
 
-static io_source_list_t *dinamic_list_item = NULL;
+static io_source_list_t *dinamic_io1_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Dinamic", 1, 1, &dinamic_device, NULL, CARTRIDGE_DINAMIC
+    "Dinamic", 1, 0, &dinamic_io1_device, NULL, CARTRIDGE_DINAMIC
 };
 
 /* ---------------------------------------------------------------------*/
@@ -68,16 +95,12 @@ static const c64export_resource_t export_res = {
 void dinamic_config_init(void)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
-    dinamic_io1_store((WORD)0xde00, 0);
 }
 
 void dinamic_config_setup(BYTE *rawcart)
 {
-    memcpy(roml_banks, rawcart, 0x2000 * 64);
-    memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
-
-    /* Hack: using 16kB configuration, but some carts are 8kB only */
-    cartridge_config_changed(1, 1, CMODE_READ);
+    memcpy(roml_banks, rawcart, 0x2000 * 16);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -85,15 +108,18 @@ void dinamic_config_setup(BYTE *rawcart)
 int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
+    int bank;
 
     while (1) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
         }
-        if (chipheader[0xb] >= 64 || (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0)) {
+        bank = chipheader[0xb];
+
+        if ((bank >= 16) || (chipheader[0xc] != 0x80)) {
             return -1;
         }
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+        if (fread(&rawcart[bank << 13], 0x2000, 1, fd) < 1) {
             return -1;
         }
     }
@@ -102,14 +128,13 @@ int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    dinamic_list_item = c64io_register(&dinamic_device);
-
+    dinamic_io1_list_item = c64io_register(&dinamic_io1_device);
     return 0;
 }
 
 void dinamic_detach(void)
 {
-    c64io_unregister(dinamic_list_item);
-    dinamic_list_item = NULL;
+    c64io_unregister(dinamic_io1_list_item);
+    dinamic_io1_list_item = NULL;
     c64export_remove(&export_res);
 }
