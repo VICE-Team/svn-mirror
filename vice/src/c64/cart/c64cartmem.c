@@ -100,7 +100,7 @@
 #include "westermann.h"
 #include "zaxxon.h"
 
-#define DEBUGCART
+/* #define DEBUGCART */
 
 #ifdef DEBUGCART
 #define DBG(x)  printf x ; fflush(stdout);

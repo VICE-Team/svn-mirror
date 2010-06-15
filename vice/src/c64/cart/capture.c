@@ -96,6 +96,10 @@ void capture_reg(WORD addr)
         } else if ((addr & 0xffff) == 0xfff8) {
             cart_enabled = 1;
             DBG(("CAPTURE: enable: %d\n", cart_enabled));
+        } else if ((addr & 0xffff) == 0xfff9) {
+            /* HACK: this one is needed to survive the ram clearing loop */
+            cart_enabled = 0;
+            DBG(("CAPTURE: enable: %d\n", cart_enabled));
         }
     }
 }
