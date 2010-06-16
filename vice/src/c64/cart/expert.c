@@ -48,43 +48,46 @@
 #include "types.h"
 #include "util.h"
 
-/* #define DBGEXPERT */
-
-#ifdef DBGEXPERT
-#define DBG(x) printf x
-#else
-#define DBG(x)
-#endif
-
 /*
     FIXME: the following description is atleast inaccurate, if not plain wrong.
 
     Trilogic Expert Cartridge
 
     - one 8K RAM (!) bank
-    - any access to IO1 area disables the cartridge (if ON)
+    - IO1 seems to be connected to a flipflop, which makes a single bit "register".
+      wether it is decoded fully or mirrored over the full IO1 range is unknown
+      (the software only uses $de00).
+      - any access to io1 toggles the flipflop, which means enabling or disabling
+        ROMH (exrom) (?)
 
     the cartridge has a 3 way switch:
 
     PRG:
-    - NMI logic and registers are disabled
 
-      - RAM is mapped to 8000 (writeable)
+      - NMI logic and registers are disabled
+      - RAM is mapped to 8000 (writeable) in 8k game mode
 
     ON:
-    - after reset: NMI logic is active. the "freezer" can now be activated by
-      either pressing restore or the freezer button.
 
+    - after switching from OFF to ON
+      - NMI logic is active. the "freezer" can now be activated by either
+        pressing restore or the freezer button.
+      - Io1 "register" logic is disabled
       - RAM not mapped
 
-    - freezer button pressed: on NMI the cartridge will be mapped to E000 for
-      just the few cycles it takes the cpu to fetch the NMI vector, then it
-      will be mapped to 8000 again.
+    - after reset:
+      - RAM is mapped to 8000 (writeable) and E000 (read only) in ultimax mode
+      - Io1 "register" logic is enabled (?)
 
-      - RAM is mapped to E000 (read only)
-      - any access to IO1 area disables the RAM at E000
+    - on NMI (restore or freezer button pressed):
+      - RAM is mapped to 8000 (writeable) and E000 (read only) in ultimax mode
+      - Io1 "register" logic is enabled
 
     OFF:
+
+      - NMI logic and registers are disabled
+      - RAM not mapped
+
     - according to the documentation, the cartridge is disabled. however,
       the NMI logic of the cart still seems to interfer somehow and makes
       some program misbehave. the solution for this was to put an additional
@@ -93,26 +96,91 @@
 
       this misbehavior is NOT emulated
 
-      - RAM not mapped
-
     there also was an "upgrade" to the hardware at some point, called "EMS".
     this pretty much was no more no less than a freezer button :=)
 
+    short instructions:
+
+    note: the state of the switch and the order of doing things is very important,
+          making a mistake here will almost certainly cause it not to work as
+          expected. also, since the software tracks its state internally to act
+          accordingly, saving it will not result in a runable image at any time.
+
+    preparing the expert ram (skip this if you use a crt file)
+
+    - switch to OFF
+    - reset
+    - switch to PRG
+    - load and run the install software
+    - switch to ON (as beeing told on screen)
+    - reset. this will usually start some menu/intro screen
+    - space to go to monitor
+
+    using the freezer / monitor
+
+    - "pp" or "p" clears memory (and will reset)
+    - (if you want to save a crt file for later use, do that now)
+    - switch to OFF
+    - reset
+    - load and run game
+    - switch to ON
+    - hit restore (or freezer button)
+    - z "name" to save backup
+    - r to restart running program
 */
 
 /*
 this sequence from expert 2.10 indicates that a full ROM is available at E000
 when the cartridge is ON, HIROM is selected.
 
+it also indicates that the de00 register is a toggle
+
 .C:038b   A9 37      LDA #$37
 .C:038d   85 01      STA $01
-.C:038f   AD 00 DE   LDA $DE00
+.C:038f   AD 00 DE   LDA $DE00  toggle expert RAM on/off
 .C:0392   AD BD FD   LDA $FDBD  fdbd is $00 in kernal rom
-.C:0395   D0 F8      BNE $038F
+.C:0395   D0 F8      BNE $038F  do again if expert RAM not off
+
+Reset entry from expert 2.70:
+
+.C:9fd1   78         SEI
+.C:9fd2   D8         CLD
+.C:9fd3   A2 FF      LDX #$FF
+.C:9fd5   9A         TXS
+.C:9fd6   E8         INX
+.C:9fd7   8E F2 9F   STX $9FF2  set to 0
+
+.C:03b0   48         PHA
+.C:03b1   A9 37      LDA #$37
+.C:03b3   85 01      STA $01
+.C:03b5   AD 00 DE   LDA $DE00  toggle expert RAM on/off  
+.C:03b8   AD 00 E0   LDA $E000  is $85 in kernal
+.C:03bb   C9 85      CMP #$85
+.C:03bd   D0 F6      BNE $03B5
+.C:03bf   68         PLA
+.C:03c0   60         RTS
+
+NMI entry from expert 2.70:
+
+.C:9c00   2C F2 9F   BIT $9FF2  get bit7 into N
+.C:9c03   10 01      BPL $9C06  if N=0 branch
+.C:9c05   40         RTI
+
+.C:9c06   78         SEI
+.C:9c07   8D 01 80   STA $8001
+.C:9c0a   A9 FF      LDA #$FF
+.C:9c0c   8D F2 9F   STA $9FF2
 */
 
-#define USEFAKEONMAPPING        1 /* permanently use ultimax in ON mode */
-#define USEFAKEPRGMAPPING       0 /* emulate PRG mode as 8k game */
+/* #define DBGEXPERT */
+
+#ifdef DBGEXPERT
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
+#define USEFAKEPRGMAPPING       1 /* emulate PRG mode as 8k game */
 
 #if USEFAKEPRGMAPPING
 #define EXPERT_PRG ((0 << 0) | (0 << 1)) /* 8k game */
@@ -122,10 +190,12 @@ when the cartridge is ON, HIROM is selected.
 #define EXPERT_OFF ((0 << 0) | (1 << 1)) /* ram */
 #define EXPERT_ON  ((1 << 0) | (1 << 1)) /* ultimax */
 
-static int ack_reset = 0;
+//static int ack_reset = 0;
 static int cartmode = EXPERT_MODE_DEFAULT;
 static int expert_enabled = 0;
-static int expert_ram_enabled = 0;
+static int expert_register_enabled = 0;
+static int expert_ram_writeable = 0;
+static int expert_ramh_enabled = 0; /* equals EXROM ? */
 
 /* 8 KB RAM */
 static BYTE *expert_ram = NULL;
@@ -136,14 +206,16 @@ static const char STRING_EXPERT[] = "Expert Cartridge";
 
 BYTE REGPARM1 expert_io1_read(WORD addr);
 void REGPARM2 expert_io1_store(WORD addr, BYTE value);
+BYTE REGPARM1 expert_io2_read(WORD addr);
+void REGPARM2 expert_io2_store(WORD addr, BYTE value);
 
 static io_source_t expert_io1_device = {
     "Expert",
     IO_DETACH_CART,
     NULL,
-    0xde00, 0xdeff, 0xff,
+    0xde00, 0xde01, 0xff,
     0, /* read is never valid */
-    expert_io1_store,
+    NULL,
     expert_io1_read,
     NULL,
     NULL,
@@ -169,23 +241,27 @@ static int expert_mode_changed(int mode, void *param)
 {
     cartmode = mode;
     DBG(("EXPERT: expert_mode_changed cartmode: %d\n", cartmode));
-    switch (mode) {
-        case EXPERT_MODE_PRG:
-            cartridge_config_changed(2, EXPERT_PRG, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-            expert_ram_enabled = 0;
-            break;
-        case EXPERT_MODE_ON:
-#if USEFAKEONMAPPING
-            cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-#else
-            cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-#endif
-            expert_ram_enabled = 1;
-            break;
-        case EXPERT_MODE_OFF:
-            cartridge_config_changed(2, EXPERT_OFF, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-            expert_ram_enabled = 0;
-            break;
+    if (expert_enabled) {
+        switch (mode) {
+            case EXPERT_MODE_PRG:
+                cartridge_config_changed(2, EXPERT_PRG, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+                expert_register_enabled = 1;
+                expert_ramh_enabled = 0;
+                expert_ram_writeable = 1;
+                break;
+            case EXPERT_MODE_ON:
+                cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+                expert_register_enabled = 0;
+                expert_ramh_enabled = 0;
+                expert_ram_writeable = 0;
+                break;
+            case EXPERT_MODE_OFF:
+                cartridge_config_changed(2, EXPERT_OFF, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+                expert_register_enabled = 0;
+                expert_ramh_enabled = 0;
+                expert_ram_writeable = 0;
+                break;
+        }
     }
 
     return 0;
@@ -193,9 +269,10 @@ static int expert_mode_changed(int mode, void *param)
 
 static int set_expert_enabled(int val, void *param)
 {
-    DBG(("EXPERT: set enabled: %d\n", val));
+    DBG(("EXPERT: set enabled: %d:%d\n", expert_enabled, val));
 
     if (expert_enabled && !val) {
+        DBG(("EXPERT: disable\n"));
         lib_free(expert_ram);
         expert_ram = NULL;
         c64io_unregister(expert_io1_list_item);
@@ -203,6 +280,7 @@ static int set_expert_enabled(int val, void *param)
         c64export_remove(&export_res);
         expert_enabled = 0;
     } else if (!expert_enabled && val) {
+        DBG(("EXPERT: enable\n"));
         expert_ram = lib_malloc(EXPERT_RAM_SIZE);
         expert_io1_list_item = c64io_register(&expert_io1_device);
         if (c64export_add(&export_res) < 0) {
@@ -215,12 +293,7 @@ static int set_expert_enabled(int val, void *param)
             return -1;
         }
         expert_enabled = 1;
-
-        /* Set default mode
-           since we don't attach a binary image (yet), but use this function
-           to enable the expert cartridge, use PRG mode for convinience.
-        */
-        resources_set_int("ExpertCartridgeMode", EXPERT_MODE_PRG);
+        resources_set_int("ExpertCartridgeMode", cartmode);
     }
     
     return 0;
@@ -229,21 +302,15 @@ static int set_expert_enabled(int val, void *param)
 
 BYTE REGPARM1 expert_io1_read(WORD addr)
 {
-    if ((cartmode == EXPERT_MODE_ON) && (expert_ram_enabled == 1)) {
-        DBG(("EXPERT: io1 rd %04x\n", addr));
-        cartridge_config_changed(2, EXPERT_OFF, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-        expert_ram_enabled = 0;
+    expert_io1_device.io_source_valid = 0;
+    /* DBG(("EXPERT: io1 rd %04x (%d)\n", addr, expert_ramh_enabled)); */
+    if ((cartmode == EXPERT_MODE_ON) && (expert_register_enabled == 1)) {
+        cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+        expert_ramh_enabled ^= 1;
+        expert_ram_writeable = 0; /* =0 ? */
+        DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n",expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
     }
     return 0;
-}
-
-void REGPARM2 expert_io1_store(WORD addr, BYTE value)
-{
-    if ((cartmode == EXPERT_MODE_ON) && (expert_ram_enabled == 1)) {
-        DBG(("EXPERT: io1 st %04x %02x\n", addr, value));
-        cartridge_config_changed(2, EXPERT_OFF, CMODE_WRITE | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-        expert_ram_enabled = 0;
-    }
 }
 
 /* ---------------------------------------------------------------------*/
@@ -256,26 +323,22 @@ BYTE REGPARM1 expert_roml_read(WORD addr)
     } else if (cartmode == EXPERT_MODE_ON) {
         return expert_ram[addr & 0x1fff];
     } else {
-        return mem_read_without_ultimax(addr);
+        return ram_read(addr);
     }
 }
 
 void REGPARM2 expert_roml_store(WORD addr, BYTE value)
 {
 /*    DBG(("EXPERT: set expert_roml_store: %x\n", addr)); */
-    if (cartmode == EXPERT_MODE_PRG) {
-        expert_ram[addr & 0x1fff] = value;
-    } else {
-        /* mem_store_without_ultimax(addr, value); */
-        ram_store(addr, value);
-    }
-}
-
-void REGPARM2 expert_raml_store(WORD addr, BYTE value)
-{
-/*    DBG(("EXPERT: set expert_raml_store: %x\n", value)); */
-    if (cartmode == EXPERT_MODE_PRG) {
-        expert_ram[addr & 0x1fff] = value;
+    if (expert_ram_writeable) {
+        if (cartmode == EXPERT_MODE_PRG) {
+            expert_ram[addr & 0x1fff] = value;
+        } else if (cartmode == EXPERT_MODE_ON) {
+            expert_ram[addr & 0x1fff] = value;
+        } else {
+            /* mem_store_without_ultimax(addr, value); */
+            ram_store(addr, value);
+        }
     } else {
         ram_store(addr, value);
     }
@@ -283,32 +346,9 @@ void REGPARM2 expert_raml_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 expert_romh_read(WORD addr)
 {
-    DBG(("EXPERT: set expert_romh_read: %p %x\n", expert_ram, addr));
-    if (cartmode == EXPERT_MODE_ON) {
-#if USEFAKEONMAPPING
-        cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-        expert_ram_enabled = 1;
+/*    DBG(("EXPERT: set expert_romh_read: %x mode %d %02x %02x\n", addr, cartmode, expert_ram[0x1ffe], expert_ram[0x1fff])); */
+    if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
         return expert_ram[addr & 0x1fff];
-#else
-        /* FIXME: how exactly does that damn NMI logic work? */
-        switch (addr) {
-/*
-            case 0xfffa:
-            case 0xfffb:
-            case 0xfffc:
-            case 0xfffd:
-*/
-            case 0xfffe:
-            case 0xffff:
-                cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-                expert_ram_enabled = 1;
-                return expert_ram[addr & 0x1fff];
-                break;
-            default:
-                return mem_read_without_ultimax(addr);
-                break;
-        }
-#endif
     } else {
         return mem_read_without_ultimax(addr);
     }
@@ -326,10 +366,13 @@ int expert_freeze_allowed(void)
 
 void expert_freeze(void)
 {
-    DBG(("EXPERT: freeze\n"));
     if (cartmode == EXPERT_MODE_ON) {
+        DBG(("EXPERT: freeze\n"));
+        /* DBG(("ram %02x %02x\n", expert_ram[0x1ffe], expert_ram[0x1fff])); */
         cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-        expert_ram_enabled = 1;
+        expert_register_enabled = 1;
+        expert_ram_writeable = 1;
+        expert_ramh_enabled = 1;
     }
 }
 
@@ -337,17 +380,32 @@ void expert_ack_nmi(void)
 {
     if (cartmode == EXPERT_MODE_ON) {
         DBG(("EXPERT:ack nmi\n"));
+        /* DBG(("ram %02x %02x\n", expert_ram[0x1ffe], expert_ram[0x1fff])); */
         cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
-        expert_ram_enabled = 1;
+        expert_register_enabled = 1;
+        expert_ram_writeable = 1;
+        expert_ramh_enabled = 1;
     }
 }
 
-void expert_ack_reset(void)
+void expert_reset(void)
 {
+    DBG(("EXPERT: reset\n"));
     if (cartmode == EXPERT_MODE_ON) {
-        DBG(("EXPERT: ack reset\n"));
-        ack_reset = 1;
-        expert_ram_enabled = 1;
+        expert_register_enabled = 1;
+        expert_ram_writeable = 1;
+        expert_ramh_enabled = 1;
+        cartridge_config_changed(2, 3, CMODE_READ | CMODE_PHI2_RAM);
+    } else if (cartmode == EXPERT_MODE_PRG) {
+        expert_register_enabled = 1;
+        expert_ram_writeable = 1;
+        expert_ramh_enabled = 0;
+        cartridge_config_changed(2, EXPERT_PRG, CMODE_READ);
+    } else {
+        expert_register_enabled = 0;
+        expert_ram_writeable = 0;
+        expert_ramh_enabled = 0;
+        cartridge_config_changed(2, EXPERT_OFF, CMODE_READ | CMODE_PHI2_RAM);
     }
 }
 
@@ -357,50 +415,32 @@ void expert_config_init(void)
 {
     if (expert_enabled) {
         DBG(("EXPERT: config_init cartmode: %d\n", cartmode));
-
-        expert_ram_enabled = 1;
-
-        /*
-        * Initialize nmi/reset trap functions.
-        */
+        expert_reset();
         interrupt_set_nmi_trap_func(maincpu_int_status, expert_ack_nmi);
-        interrupt_set_reset_trap_func(maincpu_int_status, expert_ack_reset);
-        /*
-        * Initialize cartridge mode/configuration.
-        */
-        if (!ack_reset) {
-            expert_mode_changed(cartmode, NULL);
-        } else {
-            /*
-            * Do ack_reset mapping.
-            * - reset with switch ON starts the cart with cart RAM not mapped
-            */
-            cartridge_config_changed(2, 2, CMODE_READ | CMODE_PHI2_RAM);
-            ack_reset = 0;
-        }
     }
 }
 
 void expert_config_setup(BYTE *rawcart)
 {
-    /* memcpy(roml_banks, rawcart, 0x2000); */
+    memcpy(expert_ram, rawcart, EXPERT_RAM_SIZE);
+    /* DBG(("ram %02x %02x\n", expert_ram[0x1ffe], expert_ram[0x1fff])); */
 }
 
 /* ---------------------------------------------------------------------*/
 
 static int expert_common_attach(BYTE *rawcart)
 {
+    DBG(("EXPERT: common attach\n"));
     if (resources_set_int("ExpertCartridgeEnabled", 1) < 0) {
         return -1;
     }
     if (expert_enabled) {
-        memcpy(expert_ram, rawcart, EXPERT_RAM_SIZE);
         /* Set default mode
         here we want to load a previously saved image. we use ON as
-        default here, loaded program may be activated by NMI (restore,
-        freeze).
+        default here.
         */
         resources_set_int("ExpertCartridgeMode", EXPERT_MODE_ON);
+        DBG(("EXPERT: common attach ok\n"));
         return 0;
     }
     return -1;
@@ -418,6 +458,11 @@ int expert_bin_attach(const char *filename, BYTE *rawcart)
 int expert_bin_save(const char *filename)
 {
     FILE *fd;
+
+    if (expert_ram == NULL) {
+        DBG(("EXPERT: ERROR expert_ram == NULL\n"));
+        return -1;
+    }
 
     if (filename == NULL) {
         return -1;
@@ -457,6 +502,13 @@ int expert_crt_save(const char *filename)
 {
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
+
+    DBG(("EXPERT: save crt '%s'\n", filename));
+
+    if (expert_ram == NULL) {
+        DBG(("EXPERT: ERROR expert_ram == NULL\n"));
+        return -1;
+    }
 
     fd = fopen(filename, MODE_WRITE);
 
@@ -566,12 +618,13 @@ int expert_crt_save(const char *filename)
     /*
      * Write CHIP packet data.
      */
-    if (fwrite(expert_ram, sizeof(char), 0x2000, fd) != 0x2000) {
+    if (fwrite(expert_ram, sizeof(char), EXPERT_RAM_SIZE, fd) != EXPERT_RAM_SIZE) {
         fclose(fd);
         return -1;
     }
 
     fclose(fd);
+    DBG(("EXPERT: ERROR save crt ok\n"));
 
     return 0;
 }

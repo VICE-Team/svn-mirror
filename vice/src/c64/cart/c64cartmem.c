@@ -499,11 +499,11 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
         return magicvoice_romh_read(addr);
     }
     /* "Slot 1" */
-    if (expert_cart_enabled()) {
-        return expert_romh_read(addr);
-    }
     if (dqbb_cart_enabled()) {
         return dqbb_romh_read(addr);
+    }
+    if (expert_cart_enabled()) {
+        return expert_romh_read(addr);
     }
     if (isepic_cart_enabled()) {
         return isepic_romh_read(addr);
@@ -595,7 +595,7 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
     }
 
     /* open bus */
-    DBG(("CARTMEM: possible BUG! ROMH open bus store (@$%04x, addr %04x)\n", reg_pc, addr));
+/*    DBG(("CARTMEM: possible BUG! ROMH open bus store (@$%04x, addr %04x)\n", reg_pc, addr)); */
 }
 
 /* ROMH store - A000-BFFF in 16kGame
@@ -666,7 +666,8 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
     }
 
     /* store to c64 ram */
-    mem_store_without_romlh(addr, value);
+    /* mem_store_without_romlh(addr, value); */
+    ram_store(addr, value);
 }
 
 /* RAML store (ROML _NOT_ selected) - mapped to 8000-9fff in 8kGame, 16kGame
@@ -991,6 +992,7 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
     if (expert_cart_enabled()) {
         /* fake ultimax hack, c64 io,colram,ram */
         mem_store_without_ultimax(addr, value);
+        return;
     }
 
     /* "Main Slot" */

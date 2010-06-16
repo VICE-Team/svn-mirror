@@ -1020,7 +1020,7 @@ void cart_init(void)
 }
 
 /*
-    called at reset (calls XYZ_config_init)
+    called from c64mem.c:mem_initialize_memory (calls XYZ_config_init)
 */
 void cartridge_init_config(void)
 {
@@ -1192,6 +1192,83 @@ void cartridge_init_config(void)
 
 }
 
+/*
+    called by c64.c:machine_specific_reset (calls XYZ_reset)
+
+    the reset signal goes to all active carts. we call the hooks
+    in "back to front" order, so carts closer to the "front" will
+    win with whatever they do.
+*/
+void cartridge_reset(void)
+{
+    /* "IO Slot" */
+    if (aciacart_cart_enabled())
+    {
+        aciacart_reset();
+    }
+    if (georam_cart_enabled())
+    {
+        georam_reset();
+    }
+#ifdef HAVE_MIDI
+    midi_reset();
+#endif
+    if (reu_cart_enabled())
+    {
+        reu_reset();
+    }
+    /* "Main Slot" */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY4:
+            actionreplay4_reset();
+            break;
+        case CARTRIDGE_ACTION_REPLAY3:
+            actionreplay3_reset();
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_reset();
+            break;
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_reset();
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_reset();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_reset();
+            break;
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_reset();
+            break;
+        case CARTRIDGE_CAPTURE:
+            capture_reset();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_reset();
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_reset();
+            break;
+    }
+    /* "Slot 1" */
+    if (dqbb_cart_enabled()) {
+        dqbb_reset();
+    }
+    if (expert_cart_enabled()) {
+        expert_reset();
+    }
+    if (ramcart_cart_enabled()) {
+        ramcart_reset();
+    }
+    /* "Slot 0" */
+    if (magicvoice_cart_enabled()) {
+        magicvoice_reset();
+    }
+    if (mmc64_cart_enabled()) {
+        mmc64_reset();
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* called by cart_nmi_alarm_triggered, aftern an alarm occured */
@@ -1329,79 +1406,6 @@ void cartridge_trigger_freeze(void)
     }
 }
 
-/*
-    called at reset (calls XYZ_reset)
-
-    the reset signal goes to all active carts. we call the hooks
-    in "back to front" order, so carts closer to the "front" will
-    win with whatever they do.
-*/
-void cartridge_reset(void)
-{
-    /* "IO Slot" */
-    if (aciacart_cart_enabled())
-    {
-        aciacart_reset();
-    }
-    if (georam_cart_enabled())
-    {
-        georam_reset();
-    }
-#ifdef HAVE_MIDI
-    midi_reset();
-#endif
-    if (reu_cart_enabled())
-    {
-        reu_reset();
-    }
-    /* "Main Slot" */
-    switch (mem_cartridge_type) {
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_reset();
-            break;
-        case CARTRIDGE_ACTION_REPLAY3:
-            actionreplay3_reset();
-            break;
-        case CARTRIDGE_ATOMIC_POWER:
-            atomicpower_reset();
-            break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_reset();
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_reset();
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_reset();
-            break;
-        case CARTRIDGE_EPYX_FASTLOAD:
-            epyxfastload_reset();
-            break;
-        case CARTRIDGE_CAPTURE:
-            capture_reset();
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_reset();
-            break;
-        case CARTRIDGE_FREEZE_MACHINE:
-            freezemachine_reset();
-            break;
-    }
-    /* "Slot 1" */
-    if (dqbb_cart_enabled()) {
-        dqbb_reset();
-    }
-    if (ramcart_cart_enabled()) {
-        ramcart_reset();
-    }
-    /* "Slot 0" */
-    if (magicvoice_cart_enabled()) {
-        magicvoice_reset();
-    }
-    if (mmc64_cart_enabled()) {
-        mmc64_reset();
-    }
-}
 
 /* ------------------------------------------------------------------------- */
 
