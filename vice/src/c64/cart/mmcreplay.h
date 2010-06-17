@@ -51,6 +51,7 @@ extern void mmcreplay_config_init(void);
 extern void mmcreplay_reset(void);
 extern void mmcreplay_config_setup(BYTE *rawcart);
 extern int mmcreplay_bin_attach(const char *filename, BYTE *rawcart);
+extern int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
 extern void mmcreplay_detach(void);
 
 extern int mmcreplay_resources_init(void);

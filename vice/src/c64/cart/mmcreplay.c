@@ -2437,6 +2437,39 @@ int mmcreplay_bin_attach(const char *filename, BYTE *rawcart)
     return mmcreplay_common_attach();
 }
 
+int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
+{
+    BYTE chipheader[0x10];
+    int i;
+
+    memset(rawcart, 0xff, 0x80000);
+
+    for (i = 0; i <= 63; i++) {
+        if (fread(chipheader, 0x10, 1, fd) < 1) {
+            break;
+        }
+
+        if (chipheader[0xb] > 63) {
+            return -1;
+        }
+
+        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+            return -1;
+        }
+    }
+
+    if ((i != 8) && (i != 64)) {
+        return -1;
+    }
+
+    if (i == 8) {
+        memcpy(&rawcart[7*0x10000], &rawcart[0], 0x10000);
+        memset(&rawcart[0], 0xff, 0x10000);
+    }
+
+    return mmcreplay_common_attach();
+}
+
 void mmcreplay_detach(void)
 {
     flash040core_shutdown(flashrom_state);

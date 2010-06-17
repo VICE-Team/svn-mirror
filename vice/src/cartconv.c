@@ -62,8 +62,11 @@ static char loadfile_is_crt = 0;
 static char loadfile_is_ultimax = 0;
 static unsigned char loadfile_cart_type = 0;
 static unsigned char filebuffer[(1024 * 1024) + 2];
+static unsigned char headerbuffer[0x40];
 static unsigned char extra_buffer_32kb[0x8000];
 static unsigned char chipbuffer[16];
+
+static int load_input_file(char *filename);
 
 typedef struct cart_s {
     unsigned char game;
@@ -93,7 +96,11 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
 static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 
 /* this table must be in correct order so it can be indexed by CRT ID */
-/* game, exrom, sizes, bank size, load addr, num banks, data type, name, option, saver */
+/*
+    game, exrom, sizes, bank size, load addr, num banks, data type, name, option, saver
+
+    num banks == 0 - take number of banks from input file size
+*/
 static const cart_t cart_info[] = {
 
 /*  {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Generic 8kb", NULL, NULL}, */
@@ -114,7 +121,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Westermann Learning", "wl", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Rex Utility", "ru", save_regular_crt},
     {1, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Final Cartridge I", "fc1", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0xe000, 8, 0, "Magic Formel", "mf", save_regular_crt}, /* FIXME: 64k (v1), 96k (v2) and 128k (full) bins exist */
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_96KB | CARTRIDGE_SIZE_128KB, 0x2000, 0xe000, 0, 0, "Magic Formel", "mf", save_regular_crt}, /* FIXME: 64k (v1), 96k (v2) and 128k (full) bins exist */
     {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, "C64GS, System 3", "gs", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "WarpSpeed", "ws", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, "Dinamic", "din", save_regular_crt},
@@ -136,9 +143,9 @@ static const cart_t cart_info[] = {
     {0, 0, 0, 0, 0, 0, 0, "EasyFlash xbank", NULL, NULL}, /* TODO ?? */
     {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Capture", "cap", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 3", "ar3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 8, 0, "Retro Replay", "retro", save_regular_crt},  /* FIXME: test 128k */
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Retro Replay", "retro", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "MMC64", "mmc64", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 8, 0, "MMC Replay", NULL, NULL}, /* FIXME: test 512k */
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, "MMC Replay", "mmcr", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "IDE64", "ide64", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Super Snapshot 4", "ss4", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0x8000, 1, 0, "IEEE488", "ieee", save_regular_crt},
@@ -243,13 +250,14 @@ static void usage(void)
 {
     int i = 1, n;
     cleanup();
-    printf("cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
-    printf("carttypes:\n");
+    printf("convert:    cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
+    printf("print info: cartconv -f \"input name\"\n");
+    printf("\ncarttypes:\n");
 
     printf("bin      Binary .bin file (Default crt->bin)\n");
     printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
     printf("prg      Binary C64 .prg file with load-address\n");
-    printf("ulti     Ultimax mode 4kb/16kb .crt file\n");
+    printf("ulti     Ultimax mode 4kb/16kb .crt file\n\n");
 
     while (cart_info[i].name) {
         if (cart_info[i].opt) {
@@ -261,11 +269,33 @@ static void usage(void)
     exit(1);
 }
 
+static void printinfo(char *name)
+{
+    int crtid;
+    char *idname;
+    load_input_file(name);
+    crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+    if (headerbuffer[0x17] & 0x80) {
+        /* handle our negative test IDs */
+        crtid -= 0x10000;
+    }
+    if ((crtid >= 0) && (crtid <= CARTRIDGE_LAST)) {
+        idname = cart_info[crtid].name;
+    } else {
+        idname = "unknown";
+    }
+    printf("Hardware ID:%5d %20s %s\n", crtid, idname, name);
+    exit (0);
+}
+
 static void checkflag(char *flg, char *arg)
 {
     int i;
 
     switch (tolower(flg[1])) {
+        case 'f':
+            printinfo(arg);
+            break;
         case 'o':
             if (output_filename == NULL) {
                 output_filename = strdup(arg);
@@ -743,22 +773,22 @@ static int load_input_file(char *filename)
     }
     if (!strncmp("C64 CARTRIDGE   ", (char *)filebuffer, 16)) {
         loadfile_is_crt = 1;
-        if (fread(filebuffer + 0x10, 1, 0x30, infile) != 0x30) {
+        if (fread(headerbuffer + 0x10, 1, 0x30, infile) != 0x30) {
             printf("Error: Can't read the full header of %s\n", filename);
             fclose(infile);
             return -1;
         }
-        if (filebuffer[0x10] != 0 || filebuffer[0x11] != 0 || filebuffer[0x12] != 0 || filebuffer[0x13] != 0x40) {
+        if (headerbuffer[0x10] != 0 || headerbuffer[0x11] != 0 || headerbuffer[0x12] != 0 || headerbuffer[0x13] != 0x40) {
             printf("Error: Illegal header size in %s\n", filename);
             fclose(infile);
             return -1;
         }
-        if (filebuffer[0x18] == 1 && filebuffer[0x19] == 0) {
+        if (headerbuffer[0x18] == 1 && headerbuffer[0x19] == 0) {
             loadfile_is_ultimax = 1;
         } else {
             loadfile_is_ultimax = 0;
         }
-        loadfile_cart_type = filebuffer[0x17];
+        loadfile_cart_type = headerbuffer[0x17];
         loadfile_size = 0;
         if (load_all_banks() < 0) {
             printf("Error: Can't load all banks of %s\n", filename);
@@ -833,36 +863,34 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
         exit(1);
     }
 
-    if (input_filenames == 1) {
-        printf("Error: no files to insert into Dela EP64 .crt\n");
-        cleanup();
-        exit(1);
-    }
-
     if (write_crt_header(1, 0) < 0) {
         cleanup();
         exit(1);
     }
 
+    /* write base file */
     if (write_chip_package(0x2000, 0, 0x8000, 0) < 0) {
         cleanup();
         exit(1);
     }
 
-    for (i = 0; i < input_filenames; i++) {
-        if (load_input_file(input_filename[i]) < 0) {
-            close_output_cleanup();
-        }
-        if (loadfile_is_crt == 1) {
-            printf("Error: to be inserted file can only be a binary for Dela EP64\n");
-            close_output_cleanup();
-        }
-        if (loadfile_size != CARTRIDGE_SIZE_32KB) {
-            printf("Error: to be insterted file can only be 32KB in size for Dela EP64\n");
-            close_output_cleanup();
-        }
-        if (write_chip_package(0x8000, i + 1, 0x8000, 0) < 0) {
-            close_output_cleanup();
+    if (input_filenames > 1) {
+        /* write user eproms */
+        for (i = 0; i < input_filenames; i++) {
+            if (load_input_file(input_filename[i]) < 0) {
+                close_output_cleanup();
+            }
+            if (loadfile_is_crt == 1) {
+                printf("Error: to be inserted file can only be a binary for Dela EP64\n");
+                close_output_cleanup();
+            }
+            if (loadfile_size != CARTRIDGE_SIZE_32KB) {
+                printf("Error: to be insterted file can only be 32KB in size for Dela EP64\n");
+                close_output_cleanup();
+            }
+            if (write_chip_package(0x8000, i + 1, 0x8000, 0) < 0) {
+                close_output_cleanup();
+            }
         }
     }
 
@@ -1326,6 +1354,9 @@ int main(int argc, char *argv[])
             cleanup();
             exit(1);
         }
+        /* FIXME: the sizes are used in a bitfield, and also by their absolute values. this
+                  check is doomed to fail because of that :)
+        */
         if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
             printf("Error: Input file size (%d) doesn't match %s requirements\n",
                    loadfile_size, cart_info[(unsigned char)cart_type].name);

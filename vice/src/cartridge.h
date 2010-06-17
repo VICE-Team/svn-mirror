@@ -176,6 +176,8 @@ extern void cartridge_setup_context(struct machine_context_s *machine_context);
 #define CARTRIDGE_SUPER_EXPLODE_V5     48 /* superexplode5.c */
 #define CARTRIDGE_MAGIC_VOICE          49 /* magicvoice.c, tpicore.c, t6721.c */
 
+#define CARTRIDGE_LAST                 49 /* cartconv: last cartridge in list */
+
 /*
  * VIC20 cartridge system
  */
@@ -216,15 +218,17 @@ extern void cartridge_setup_context(struct machine_context_s *machine_context);
 /* #define CARTRIDGE_NONE               -1 */
 #define CARTRIDGE_V364_SPEECH        0x8100
 
-#define CARTRIDGE_SIZE_4KB     0x1000
-#define CARTRIDGE_SIZE_8KB     0x2000
-#define CARTRIDGE_SIZE_16KB    0x4000
-#define CARTRIDGE_SIZE_20KB    0x5000
-#define CARTRIDGE_SIZE_32KB    0x8000
-#define CARTRIDGE_SIZE_64KB    0x10000
-#define CARTRIDGE_SIZE_128KB   0x20000
-#define CARTRIDGE_SIZE_256KB   0x40000
-#define CARTRIDGE_SIZE_512KB   0x80000
-#define CARTRIDGE_SIZE_1024KB  0x100000
+/* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
+#define CARTRIDGE_SIZE_4KB     0x00001000
+#define CARTRIDGE_SIZE_8KB     0x00002000
+#define CARTRIDGE_SIZE_16KB    0x00004000
+#define CARTRIDGE_SIZE_20KB    0x00005000
+#define CARTRIDGE_SIZE_32KB    0x00008000
+#define CARTRIDGE_SIZE_64KB    0x00010000
+#define CARTRIDGE_SIZE_96KB    0x00018000
+#define CARTRIDGE_SIZE_128KB   0x00020000
+#define CARTRIDGE_SIZE_256KB   0x00040000
+#define CARTRIDGE_SIZE_512KB   0x00080000
+#define CARTRIDGE_SIZE_1024KB  0x00100000
 
 #endif

@@ -66,6 +66,7 @@
 #include "magicvoice.h"
 #include "mikroass.h"
 #include "mmc64.h"
+#include "mmcreplay.h"
 #include "ocean.h"
 #include "prophet64.h"
 #include "resources.h"
@@ -159,7 +160,11 @@ int crt_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    new_crttype = header[0x17] + header[0x16] * 256;
+    new_crttype = (header[0x17] + (header[0x16] * 256));
+    if (header[0x17] & 0x80) {
+        /* handle our negative test IDs */
+        new_crttype -= 0x10000;
+    }
     DBG(("crt_attach ID: %d\n", new_crttype));
 
 /*  cart should always be detached. there is no reason for doing fancy checks
@@ -270,6 +275,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_MMC64:
             rc = mmc64_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            rc = mmcreplay_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_OCEAN:
             rc = ocean_crt_attach(fd, rawcart);
