@@ -73,7 +73,7 @@ static BYTE *cart_ram = NULL;
 static BYTE *cart_rom = NULL;
 
 #define CART_CFG_ENABLE (!(cart_cfg_reg & 0x80)) /* cart_cfg_reg enable */
-#define CART_CFG_ROM_WP (cart_cfg_reg & 0x40) /* ROM write protect */
+#define CART_CFG_BLK5_WP (cart_cfg_reg & 0x40) /* BLK5 write protect */
 #define CART_CFG_BLK5_RAM (cart_cfg_reg & 0x20) /* RAM at BLK5 instead of ROM */
 #define CART_CFG_BLK1 ((cart_cfg_reg & 0x18) == 0x18) /* BLK1 enabled */
 #define CART_CFG_RAM123 ((cart_cfg_reg & 0x18) == 0x08) /* RAM123 enabled */
@@ -191,9 +191,10 @@ BYTE REGPARM1 vic_fp_blk5_read(WORD addr)
 /* store 0xa000-0xbfff */
 void REGPARM2 vic_fp_blk5_store(WORD addr, BYTE value)
 {
-    if (ram5_flop) {
+    if (CART_CFG_BLK5_WP) {
+    } else if (ram5_flop) {
         cart_ram[addr & 0x1fff] = value;
-    } else if (!CART_CFG_ROM_WP) {
+    } else {
         flash040core_store(&flash_state, (addr & 0x1fff) | (cart_rom_bank << 13), value);
     }
 }
