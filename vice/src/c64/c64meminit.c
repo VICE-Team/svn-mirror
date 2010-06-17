@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64cia.h"
 #include "c64io.h"
 #include "c64mem.h"

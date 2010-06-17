@@ -5,6 +5,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/c64dtv
 
 noinst_LIBRARIES = libvicii.a libviciidtv.a

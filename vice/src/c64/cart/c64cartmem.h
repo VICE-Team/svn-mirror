@@ -55,9 +55,35 @@
 
 extern void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
 
-/* "Main Slot" */
+/* FIXME: these are for the "Main Slot" only, move to internal header */
 extern void cartridge_romhbank_set(unsigned int bank);
 extern void cartridge_romlbank_set(unsigned int bank);
 extern BYTE export_ram0[];
+/* "Main Slot" ROML/ROMH images.  */
+extern BYTE roml_banks[], romh_banks[];
+/* "Main Slot" ROML/ROMH/RAM banking.  */
+extern int roml_bank, romh_bank, export_ram;
+
+/* expansion port memory read/write hooks */
+extern BYTE REGPARM1 roml_read(WORD addr);
+extern void REGPARM2 roml_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 romh_read(WORD addr);
+extern BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr);
+extern void REGPARM2 romh_store(WORD addr, BYTE value);
+extern void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value);
+extern void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value);
+extern void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value);
+
+extern BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr);
+extern void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr);
+extern void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr);
+extern void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr);
+extern void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value);
+
+extern BYTE *ultimax_romh_phi1_ptr(WORD addr);
+extern BYTE *ultimax_romh_phi2_ptr(WORD addr);
 
 #endif

@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "kcs.h"
 #include "types.h"
 
@@ -63,7 +64,7 @@ static BYTE REGPARM1 kcs_io2_read(WORD addr)
 
 static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 {
-    if (!cart_ultimax_phi2) {
+    if (!export.ultimax_phi2) { /* FIXME */
         cartridge_config_changed(1, 1, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0xff)] = value;
@@ -78,7 +79,10 @@ static io_source_t kcs_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     kcs_io1_store,
-    kcs_io1_read
+    kcs_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_KCS_POWER
 };
 
 static io_source_t kcs_io2_device = {
@@ -88,11 +92,18 @@ static io_source_t kcs_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     kcs_io2_store,
-    kcs_io2_read
+    kcs_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_KCS_POWER
 };
 
 static io_source_list_t *kcs_io1_list_item = NULL;
 static io_source_list_t *kcs_io2_list_item = NULL;
+
+static const c64export_resource_t export_res_kcs = {
+    "KCS Power", 1, 1, &kcs_io1_device, &kcs_io2_device, CARTRIDGE_KCS_POWER
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -114,10 +125,6 @@ void kcs_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res_kcs = {
-    "KCS Power", 1, 1
-};
 
 static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
 {

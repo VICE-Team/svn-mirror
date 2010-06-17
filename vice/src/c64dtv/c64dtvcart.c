@@ -25,15 +25,14 @@
  */
 
 #include "vice.h"
+#include "types.h"
 
 #include "c64cart.h"
-#include "cartridge.h"
 
-int mem_cartridge_type = 0;
-unsigned int cart_ultimax_phi1 = 0;
-unsigned int cart_ultimax_phi2 = 0;
-int romh_bank = 0;
-BYTE romh_banks[1];
+/* Expansion port signals. */
+export_t export = { 0, 0, 0, 0};
+
+static BYTE romh_banks[1]; /* dummy */
 
 int cartridge_save_image(int type, const char *filename)
 {
@@ -66,6 +65,7 @@ void cartridge_detach_image(int type)
 void cartridge_set_default(void)
 {
 }
+
 void cartridge_init(void)
 {
 }
@@ -83,3 +83,12 @@ const char *cartridge_get_file_name(int type)
     return 0; /* NULL */
 }
 
+BYTE *ultimax_romh_phi1_ptr(WORD addr)
+{
+    return romh_banks;
+}
+
+BYTE *ultimax_romh_phi2_ptr(WORD addr)
+{
+    return romh_banks;
+}

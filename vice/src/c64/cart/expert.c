@@ -130,6 +130,14 @@
 */
 
 /*
+    notes from c64mem.c:
+    - ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.
+    - Allow writing at ROML at $8000-$9FFF.
+    - Allow ROML being visible independent of charen, hiram & loram
+    - Copy settings from "normal" operation mode into "ultimax" configuration.
+*/
+
+/*
 this sequence from expert 2.10 indicates that a full ROM is available at E000
 when the cartridge is ON, HIROM is selected.
 

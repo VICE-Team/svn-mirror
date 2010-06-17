@@ -109,20 +109,14 @@
 #endif
 
 /* Expansion port signals.  */
-export_t export;
+export_t export = { 0, 0, 0, 0};
 
 /* Expansion port ROML/ROMH images.  */
 BYTE roml_banks[C64CART_ROM_LIMIT], romh_banks[C64CART_ROM_LIMIT];
-
 /* Expansion port RAM images.  */
 BYTE export_ram0[C64CART_RAM_LIMIT];
-
 /* Expansion port ROML/ROMH/RAM banking.  */
 int roml_bank = 0, romh_bank = 0, export_ram = 0;
-
-/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
-unsigned int cart_ultimax_phi1 = 0;
-unsigned int cart_ultimax_phi2 = 0;
 
 /* from c64cart.c */
 extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") */
@@ -172,8 +166,8 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
     if ((wflag & CMODE_RELEASE_FREEZE) == CMODE_RELEASE_FREEZE) {
         cartridge_release_freeze();
     }
-    cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
-    cart_ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~wflag >> CMODE_PHI2_RAM_SHIFT) & 1);
+    export.ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
+    export.ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~wflag >> CMODE_PHI2_RAM_SHIFT) & 1);
     /* TODO
     cartridge_romhbank_phi1_set((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
     cartridge_romlbank_phi1_set((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
@@ -1014,3 +1008,35 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
     store_bank_io(addr, value);
 }
 
+/* FIXME: only works for cart in main slot */
+BYTE *ultimax_romh_phi1_ptr(WORD addr)
+{
+    return romh_banks + (romh_bank << 13) + addr;
+}
+
+/* FIXME: only works for cart in main slot */
+BYTE *ultimax_romh_phi2_ptr(WORD addr)
+{
+    return romh_banks + (romh_bank << 13) + addr;
+}
+
+/* read from cart memory for monitor */
+/* FIXME: only works for cart in main slot */
+BYTE cartridge_peek_mem(WORD addr)
+{
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+    }
+
+    if (export.exrom) {
+        if (addr >= 0xe000 && addr <= 0xffff) {
+            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+        }
+    } else {
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+        }
+    }
+
+    return mem_ram[addr];
+}

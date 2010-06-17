@@ -52,6 +52,7 @@
 #include "c64.h"
 #include "cartridge.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64dtvblitter.h"
 #include "c64dtvdma.h"
 #include "clkguard.h"
@@ -745,37 +746,48 @@ void vicii_update_memory_ptrs(unsigned int cycle)
 
     VICII_DEBUG_REGISTER(("Bitmap memory at $%04X", tmp & 0xe000));
 
-    if (cart_ultimax_phi2 != 0) {
-        if ((screen_addr & 0x3fff) >= 0x3000)
-            vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
-                                     + (screen_addr & 0xfff) + 0x1000;
-        else
+    if (export.ultimax_phi2 != 0) {
+        /* phi2 fetch from expansion port in ultimax mode */
+        if ((screen_addr & 0x3fff) >= 0x3000) {
+            /* vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
+                                     + (screen_addr & 0xfff) + 0x1000; */
+            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr(0x1000  + (screen_addr & 0xfff));
+        } else {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
+        }
     } else {
         if ((screen_addr & vicii.vaddr_chargen_mask_phi2)
-            != vicii.vaddr_chargen_value_phi2)
+            != vicii.vaddr_chargen_value_phi2) {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
-        else
+        } else {
             vicii.screen_base_phi2 = mem_chargen_rom_ptr
                                      + (screen_addr & 0xc00);
+        }
     }
 
-    if (cart_ultimax_phi1 != 0) {
-        if ((screen_addr & 0x3fff) >= 0x3000)
-            vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
-                                     + (screen_addr & 0xfff) + 0x1000;
-        else
+    if (export.ultimax_phi1 != 0) {
+        /* phi1 fetch from expansion port in ultimax mode */
+        if ((screen_addr & 0x3fff) >= 0x3000) {
+            /* vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
+                                     + (screen_addr & 0xfff) + 0x1000; */
+            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr(0x1000  + (screen_addr & 0xfff));
+        } else {
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
+        }
 
-        if ((tmp & 0x3fff) >= 0x3000)
-            char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000;
-        else
+        if ((tmp & 0x3fff) >= 0x3000) {
+            /* char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000; */
+            char_base = ultimax_romh_phi1_ptr(0x1000  + (tmp & 0xfff));
+        } else {
             char_base = vicii.ram_base_phi1 + tmp;
+        }
 
-        if (((bitmap_bank + 0x1000) & 0x3fff) >= 0x3000)
-            bitmap_high_base = romh_banks + (romh_bank << 13) + 0x1000;
-        else
+        if (((bitmap_bank + 0x1000) & 0x3fff) >= 0x3000) {
+            /* bitmap_high_base = romh_banks + (romh_bank << 13) + 0x1000; */
+            bitmap_high_base = ultimax_romh_phi1_ptr(0x1000);
+        } else {
             bitmap_high_base = bitmap_low_base + 0x1000;
+        }
 
     } else {
         if ((screen_addr & vicii.vaddr_chargen_mask_phi1)

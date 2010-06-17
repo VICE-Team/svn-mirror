@@ -30,7 +30,7 @@
 /*
     these are the functions which are only shared internally by the cartridge
     system, meaning c64cart.c, c64cartmem.c, c64carthooks, c64export and the
-    indiviual cartridge implementations
+    individual cartridge implementations
 */
 
 #include "types.h"

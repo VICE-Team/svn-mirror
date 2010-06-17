@@ -572,14 +572,6 @@ void mem_initialize_memory(void)
 {
     int i, j;
 
-/* FIXME: remove this entire block when expert cart has been tested */
-#if 0
-    /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
-    const int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
-                                  0, 0, 0, 1, 0, 0, 0, 1,
-                                  1, 1, 1, 1, 1, 1, 1, 1,
-                                  0, 0, 0, 1, 0, 0, 0, 1 };
-#endif
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
     mem_color_ram_vicii = mem_color_ram;
@@ -643,50 +635,6 @@ void mem_initialize_memory(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
-/* FIXME: remove this entire block when expert cart has been tested */
-#if 0
-    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
-        /* Allow writing at ROML at $8000-$9FFF.  */
-        for (j = 0; j < NUM_CONFIGS; j++) {
-            if (roml_config[j]) {
-                for (i = 0x80; i <= 0x9f; i++) {
-                    mem_set_write_hook(j, i, roml_store);
-                }
-            }
-        }
-
-        /* Allow ROML being visible independent of charen, hiram & loram */
-        for (j = 8; j < 16; j++) {
-            for (i = 0x80; i <= 0x9f; i++) {
-                mem_read_tab[j][i] = roml_read;
-                mem_read_limit_tab[j][i] = -1;
-                mem_read_base_tab[j][i] = NULL;
-                mem_set_write_hook(j, i, roml_store);
-            }
-        }
-
-        /*
-         * Copy settings from "normal" operation mode into "ultimax"
-         * configuration.
-         */
-        for (j = 16; j < 24; j++) {
-            for (i = 0x10; i <= 0x7f; i++) {
-                mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                mem_set_write_hook(j, i, mem_write_tab[j - 16][i]);
-                mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
-            }
-            for (i = 0xa0; i <= 0xbf; i++) {
-                mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                mem_set_write_hook(j, i, mem_write_tab[j - 16][i]);
-            }
-            for (i = 0xc0; i <= 0xcf; i++) {
-                mem_read_tab[j][i] = mem_read_tab[j - 16][i];
-                mem_set_write_hook(j, i, mem_write_tab[j - 16][i]);
-                mem_read_base_tab[j][i] = mem_read_base_tab[j - 16][i];
-            }
-        }
-    }
-#endif
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 
     c64pla_pport_reset();
@@ -932,12 +880,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
                 return read_bank_io(addr);
             }
         case 4:                   /* cart */
-            if (addr >= 0x8000 && addr <= 0x9fff) {
-                return roml_banks[addr & 0x1fff];
-            }
-            if (addr >= 0xa000 && addr <= 0xbfff) {
-                return romh_banks[addr & 0x1fff];
-            }
+            return cartridge_peek_mem(addr);
         case 2:                   /* rom */
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return c64memrom_basic64_rom[addr & 0x1fff];
@@ -971,6 +914,8 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
             }
+        case 4:                   /* cart */
+            return cartridge_peek_mem(addr);
     }
     return mem_bank_read(bank, addr, context);
 }

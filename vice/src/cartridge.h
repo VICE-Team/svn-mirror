@@ -76,7 +76,7 @@ extern int cartridge_save_image(int type, const char *filename);
 extern int cartridge_bin_save(int type, const char *filename);
 extern int cartridge_crt_save(int type, const char *filename);
 
-/* load/write snapshots */
+/* load/write snapshot modules for attached cartridges */
 struct snapshot_s;
 extern int cartridge_snapshot_read_modules(struct snapshot_s *s);
 extern int cartridge_snapshot_write_modules(struct snapshot_s *s);
@@ -84,6 +84,9 @@ extern int cartridge_snapshot_write_modules(struct snapshot_s *s);
 /* setup context */
 struct machine_context_s;
 extern void cartridge_setup_context(struct machine_context_s *machine_context);
+
+/* generic cartridge memory peek for the monitor */
+extern BYTE cartridge_peek_mem(WORD addr);
 
 /* Carts that don't have a rom images */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */

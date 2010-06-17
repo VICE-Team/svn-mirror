@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cbm2cart.h"
 #include "cartridge.h"
 #include "cbm2-resources.h"
 #include "cbm2.h"
@@ -58,13 +59,20 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
+/* Expansion port signals. */
+export_t export = { 0, 0};
 
-/* ultimax = 0 then the others are not needed */
-unsigned int cart_ultimax_phi1 = 0;
-unsigned int cart_ultimax_phi2 = 0;
-int mem_cartridge_type = CARTRIDGE_NONE;
-int romh_bank;
-BYTE romh_banks[1];
+static BYTE romh_banks[1]; /* dummy */
+
+BYTE *ultimax_romh_phi1_ptr(WORD addr)
+{
+    return romh_banks;
+}
+
+BYTE *ultimax_romh_phi2_ptr(WORD addr)
+{
+    return romh_banks;
+}
 
 void cia1_set_extended_keyboard_rows_mask(BYTE foo)
 {

@@ -36,12 +36,29 @@
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rom.h"
+#include "cartridge.h"
 #include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "util.h"
 
-/* #define DBGSTARDOS */
+/*  the stardos hardware is kindof perverted. it has two "registers", which
+    are nothing more than the IO1 and/or IO2 line connected to a capacitor.
+    the caps are then connected to a flipflop. now multiple reads of one of
+    the "registers" charges a capacitor, which then when its charged enough
+    causes the flipflop to switch. the output of the flipflop then controls
+    the GAME line, ie it switches a rom bank at $8000 on or off.
+
+    the original stardos code reads either $de61 or $dfa1 256 times in a loop,
+    the emulation somewhat replicates this behaviour (delayed charging of the
+    capacitor) by using a counter that is equivalent to the "charge" of the
+    caps- and we assume that 256 reads are needed to succesfully switch.
+
+    the second rom bank contains a kernal replacement. the necessary select
+    signal comes from a clip that has to be installed inside of the c64.
+*/
+
+#define DBGSTARDOS
 
 #ifdef DBGSTARDOS
 #define DBG(x) printf x
@@ -53,11 +70,12 @@ static int cnt_de61, cnt_dfa1;
 static int roml_enable;
 
 /* ---------------------------------------------------------------------*/
+#define CHARGETIME      0xfe
 
 static BYTE REGPARM1 stardos_io1_read(WORD addr)
 {
     ++cnt_de61;
-    if (cnt_de61 > 0xff) {
+    if (cnt_de61 > CHARGETIME) {
         /* enable bank 0 at $8000 */
         roml_enable = 1;
         cnt_dfa1 = 0;
@@ -70,7 +88,7 @@ static BYTE REGPARM1 stardos_io1_read(WORD addr)
 static BYTE REGPARM1 stardos_io2_read(WORD addr)
 {
     ++cnt_dfa1;
-    if (cnt_dfa1 > 0xff) {
+    if (cnt_dfa1 > CHARGETIME) {
         /* disable bank 0 at $8000 */
         roml_enable = 0;
         cnt_de61 = 0;
@@ -89,7 +107,10 @@ static io_source_t stardos_io1_device = {
     0xde61, 0xde61, 0x01,
     0, /* read is never valid */
     NULL,
-    stardos_io1_read
+    stardos_io1_read,
+    NULL,
+    NULL,
+    CARTRIDGE_STARDOS
 };
 
 static io_source_t stardos_io2_device = {
@@ -99,29 +120,20 @@ static io_source_t stardos_io2_device = {
     0xdfa1, 0xdfa1, 0x01,
     0, /* read is never valid */
     NULL,
-    stardos_io2_read
+    stardos_io2_read,
+    NULL,
+    NULL,
+    CARTRIDGE_STARDOS
 };
 
 static io_source_list_t *stardos_io1_list_item = NULL;
 static io_source_list_t *stardos_io2_list_item = NULL;
 
+static const c64export_resource_t export_res = {
+    "StarDOS", 1, 1, &stardos_io1_device, &stardos_io2_device, CARTRIDGE_STARDOS
+};
+
 /* ---------------------------------------------------------------------*/
-
-/*  the stardos hardware is kindof perverted. it has two "registers", which
-    are nothing more than the IO1 and/or IO2 line connected to a capacitor.
-    the caps are then connected to a flipflop. now multiple reads of one of
-    the "registers" charges a capacitor, which then when its charged enough
-    causes the flipflop to switch. the output of the flipflop then controls
-    the GAME line, ie it switches a rom bank at $8000 on or off.
-
-    the original stardos code reads either $de61 or $dfa1 256 times in a loop,
-    the emulation somewhat replicates this behaviour (delayed charging of the
-    capacitor) by using a counter that is equivalent to the "charge" of the
-    caps- and we assume that 256 reads are needed to succesfully switch.
-
-    the second rom bank contains a kernal replacement. the necessary select 
-    signal comes from a clip that has to be installed inside of the c64.
-*/
 
 BYTE REGPARM1 stardos_roml_read(WORD addr)
 {
@@ -166,10 +178,6 @@ void stardos_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "StarDOS", 1, 1
-};
 
 static int stardos_common_attach(void)
 {

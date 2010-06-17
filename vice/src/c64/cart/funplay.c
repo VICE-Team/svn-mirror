@@ -34,17 +34,19 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "types.h"
 #include "util.h"
 
 static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 {
+    /* FIXME */
     cartridge_romhbank_set(((value >> 2) | (value & 1)) & 15);
     cartridge_romlbank_set(((value >> 2) | (value & 1)) & 15);
     export.game = export.exrom = 1;
     mem_pla_config_changed();
-    cart_ultimax_phi1 = 0;
-    cart_ultimax_phi2 = 0;
+    export.ultimax_phi1 = 0;
+    export.ultimax_phi2 = 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -56,10 +58,17 @@ static io_source_t funplay_device = {
     0xde00, 0xdeff, 0xff,
     0,
     funplay_io1_store,
-    NULL
+    NULL,
+    NULL,
+    NULL,
+    CARTRIDGE_FUNPLAY
 };
 
 static io_source_list_t *funplay_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Fun Play", 1, 1, &funplay_device, NULL, CARTRIDGE_FUNPLAY
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -79,10 +88,6 @@ void funplay_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Fun Play", 1, 1
-};
 
 int funplay_crt_attach(FILE *fd, BYTE *rawcart)
 {

@@ -36,6 +36,7 @@
 #include "alarm.h"
 #include "debug.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "dma.h"
 #include "log.h"
 #include "maincpu.h"
@@ -401,10 +402,13 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
             my_memptr = sprite_status->sprites[i].memptr;
             dest = (BYTE *)(sprite_status->new_sprite_data + i);
 
-            if (cart_ultimax_phi1) {
-                if (*spr_base >= 0xc0)
-                    src_phi1 = (romh_banks + 0x1000 + (romh_bank << 13)
-                               + ((*spr_base - 0xc0) << 6));
+            if (export.ultimax_phi1) {
+                /* phi1 fetch from expansion port in ultimax mode */
+                if (*spr_base >= 0xc0) {
+                    /* src_phi1 = (romh_banks + 0x1000 + (romh_bank << 13)
+                               + ((*spr_base - 0xc0) << 6)); */
+                    src_phi1 = ultimax_romh_phi1_ptr(0x1000  + ((*spr_base - 0xc0) << 6));
+                }
             } else {
                 if (((vicii.vbank_phi1 + (*spr_base << 6))
                     & vicii.vaddr_chargen_mask_phi1)
@@ -412,10 +416,13 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                     src_phi1 = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
             }
 
-            if (cart_ultimax_phi2) {
-                if (*spr_base >= 0xc0)
-                    src_phi2 = (romh_banks + 0x1000 + (romh_bank << 13)
-                               + ((*spr_base - 0xc0) << 6));
+            if (export.ultimax_phi2) {
+                /* phi2 fetch from expansion port in ultimax mode */
+                if (*spr_base >= 0xc0) {
+                    /* src_phi2 = (romh_banks + 0x1000 + (romh_bank << 13)
+                               + ((*spr_base - 0xc0) << 6)); */
+                    src_phi2 = ultimax_romh_phi2_ptr(0x1000  + ((*spr_base - 0xc0) << 6));
+                }
             } else {
                 if (((vicii.vbank_phi2 + (*spr_base << 6))
                     & vicii.vaddr_chargen_mask_phi2)

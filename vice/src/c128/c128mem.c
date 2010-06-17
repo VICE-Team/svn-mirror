@@ -1043,12 +1043,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             }
             break;
         case 7:
-            if (addr >= 0x8000 && addr <= 0x9fff) {
-                return roml_banks[addr & 0x1fff];
-            }
-            if (addr >= 0xa000 && addr <= 0xbfff) {
-                return romh_banks[addr & 0x1fff];
-            }
+            return cartridge_peek_mem(addr);
         case 8:
             if (addr >= 0xa000 && addr <= 0xbfff) {
                 return c64memrom_basic64_rom[addr & 0x1fff];
@@ -1070,12 +1065,22 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-            return mem_read(addr);  /* FIXME */
+             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
+                       when needed. doing this without checking is wrong, but we do it anyways to
+                       avoid side effects
+            */
+            if (addr >= 0xd000 && addr < 0xe000) {
+                return peek_bank_io(addr);
+            }
+            return mem_read(addr);
             break;
         case 3:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
             }
+            break;
+        case 7:
+            return cartridge_peek_mem(addr);
     }
     return mem_bank_read(bank, addr, context);
 }
