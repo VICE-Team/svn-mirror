@@ -145,6 +145,8 @@ typedef struct _t6721_state
     int status; /* output: D0..D3 */
 
     int playing;  /* chip is playing audio */
+    int playing_delay;
+
     int readmode; /* chip readmode, rom or status */
 
     int eos_samples; /* samples left until eos is deasserted */

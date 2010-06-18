@@ -95,7 +95,10 @@
 */
 
 /* #define MVDEBUG */
+/* #define CFGDEBUG */
+/* #define FIFODEBUG */
 /* #define REGDEBUG */
+/* #define NMIDEBUG */
 
 #ifdef MVDEBUG
 #define DBG(x) printf x
@@ -118,12 +121,16 @@ static BYTE mv_rom[MV_ROM_SIZE];
 static int mv_game = 1, mv_exrom = 1;
 static int mv_romA000_enabled = 1;
 static int mv_romE000_enabled = 1;
+static int mv_gameA000_enabled = 0;
+static int mv_gameE000_enabled = 0;
 
 static int mv_mapped_game = 1, mv_mapped_exrom = 1;
 
-static int mv_game_enabled = 0; /* gamecart at passthrough enabled */
+static int mv_game8000_enabled = 0; /* gamecart at passthrough enabled */
 
 static int mv_enabled = 0; /* cartridge physically enabled */
+
+static void ga_memconfig_changed(int mode);
 
 static void set_int(unsigned int int_num, int value);
 
@@ -141,7 +148,7 @@ int magicvoice_cart_enabled(void)
 #define NMI_EOS         2
 #define NMI_DTRD        3
 
-#define FIFO_LEN        (16)
+#define FIFO_LEN        (32)
 static unsigned int fifo_buffer = 0;
 static int readptr, writeptr;
 static int datainfifo = 0;
@@ -149,37 +156,13 @@ static int fifo_reset = 0;
 
 static int DTRD = 0;
 
-void update_dtrd(int d)
+void update_dtrd(void)
 {
-#if 0
-    int prev = DTRD;
-    if (d) {
-        DTRD = 1;
-    } else {
-
+#if 1
+   if (datainfifo > (FIFO_LEN - 4)) {
         DTRD = 0;
-
-        if (t6721->apd == 0)
-        if (t6721->eos == 0)
-        if (t6721->playing == 1)
-        {
-            if (datainfifo < 4) {
-                DTRD = 1;
-            } else {
-                DTRD = 0;
-            }
-        }
-    }
-
-    if (prev != DTRD) {
-        if (DTRD) {
-            DBG(("MV: set NMI DTRD  %d\n", DTRD));
-            cart_trigger_nmi();
-        } else {
-            DBG(("MV: unset NMI DTRD  %d\n", DTRD));
-            cartridge_release_freeze();
-        }
-        tpicore_set_int(tpi_context, NMI_DTRD, DTRD);
+    } else {
+        DTRD = 1 & t6721->dtrd;
     }
 #endif
 }
@@ -190,11 +173,11 @@ static BYTE read_data(t6721_state *t6721, unsigned int *bit)
     *bit = 0;
 
     if (datainfifo < 1) {
-        update_dtrd(1);
         return 0;
     }
 
     datainfifo--;
+    update_dtrd();
     if (fifo_buffer & (1 << readptr)) {
         *bit = 1;
     }
@@ -203,13 +186,6 @@ static BYTE read_data(t6721_state *t6721, unsigned int *bit)
     if (readptr == FIFO_LEN) {
         readptr = 0;
     }
-
-    if (datainfifo < 4) {
-        update_dtrd(1);
-    } else {
-        update_dtrd(0);
-    }
-
     return 1;
 }
 
@@ -220,18 +196,21 @@ static BYTE write_bit_to_fifo(BYTE bit)
 {
     if (fifo_reset) {
          /* DBG(("SPEECH: first bit %04x %d\n", writeptr, bit)); */
-         datainfifo = 0;
+        datainfifo = 0;
+        readptr = 0;
+        writeptr = 0;
     }
-
+#if 0
     /* if dtrd==0, then run 1 tick, which makes dtrd==1 */
     if (!t6721->dtrd) {
         t6721_update_ticks(t6721, 1);
         update_dtrd(0);
         return 1;
     }
-
+#endif
     if (datainfifo >= FIFO_LEN) {
-        update_dtrd(0);
+        update_dtrd();
+        t6721_update_ticks(t6721, 1);
         return 1;
     }
 
@@ -244,15 +223,14 @@ static BYTE write_bit_to_fifo(BYTE bit)
     writeptr++;
 
     datainfifo++;
+    update_dtrd();
     fifo_reset = 0; /* unset FIFO reset condition on first written byte */
 
     if (writeptr == FIFO_LEN) {
         writeptr = 0;
     }
 
-    t6721_update_ticks(t6721, 2); /* run 2 ticks, which gives the chip time to read 1 bit */
-
-    update_dtrd(0);
+    t6721_update_ticks(t6721, 1); /* run 1 tick, which gives the chip time to read 1 bit */
     return 0;
 }
 
@@ -264,14 +242,19 @@ static void write_data_nibble(BYTE nibble)
     int i;
     BYTE mask;
 
+#ifdef FIFODEBUG
 /* DBG(("SPEECH: wr byte %04x\n", nibble)); */
-/* DBG(("[%x]", nibble)); */
+    DBG(("[%x]", nibble));
+#endif
+
     for (i = 0, mask = 1; i < 4; ++i, mask <<= 1) {
         if (write_bit_to_fifo(nibble & mask)) {
+#ifdef FIFODEBUG
+            DBG(("<!"));
+#endif
             return;
         }
     }
-
 }
 
 /* hooked to callback of t6721 chip */
@@ -279,14 +262,20 @@ static void set_dtrd(t6721_state *t6721)
 {
     static int old;
     if (old != t6721->dtrd) {
+#ifdef IRQDEBUG
         DBG(("MV: set dtrd IRQ:%x\n", t6721->dtrd));
-        DTRD = t6721->dtrd;
+#endif
+/*        DTRD = t6721->dtrd; */
+        update_dtrd();
         tpicore_set_int(tpi_context, NMI_DTRD, t6721->dtrd);
+        tpicore_set_int(tpi_context, NMI_DTRD, t6721->dtrd ^ 1);
+#if 0
         if (t6721->dtrd) {
             cart_trigger_nmi();
         } else {
             cartridge_release_freeze();
         }
+#endif
         old = t6721->dtrd;
     }
 }
@@ -302,7 +291,7 @@ static void set_apd(t6721_state *t6721)
         readptr = 0;
         datainfifo = 0;
 
-        update_dtrd(0);
+        update_dtrd();
     }
     DBG(("MV: set apd:%x\n", t6721->apd));
     /* tpicore_set_int(tpi_context, NMI_APD, t6721->apd ^ 1); */
@@ -312,7 +301,8 @@ static void set_apd(t6721_state *t6721)
 static void set_eos(t6721_state *t6721)
 {
     DBG(("MV: set eos:%x\n", t6721->eos));
-    /* tpicore_set_int(tpi_context, NMI_EOS, t6721->eos ^ 1); */
+    tpicore_set_int(tpi_context, NMI_EOS, t6721->eos ^ 1);
+    tpicore_set_int(tpi_context, NMI_EOS, t6721->eos);
 }
 
 /*****************************************************************************
@@ -355,123 +345,162 @@ static void set_eos(t6721_state *t6721)
 exrom - does not go into the GA but due to the way we do the fake mapping it
         goes into the equations here too
 
+reset goes to configs: 8, 11, 15, 2 (normal and with game)
+then for game: 6, 14, 10, 2, 0
+
 *****************************************************************************/
 static int ga_pc6;
 static int ga_pb5;
 static int ga_pb6;
 
+void ga_reset(void)
+{
+    ga_pc6 = 0;
+    ga_pb5 = 0;
+    ga_pb6 = 0;
+}
+
 static void ga_memconfig_changed(int mode)
 {
 int n = 1;
+#ifdef CFGDEBUG
 int this;
 static int last;
-
-/*
-MV: memconfig changed exrom 0 game 1 pc6 (ram/rom?): 0 pb5: 0 pb6: 0 | A000: 1 E000: 1
-
-MV: memconfig changed game 1 exrom 0 pc6: 0 pb5: 1 pb6: 0 | A000: 0 E000: 0
-MV: memconfig changed game 1 exrom 1 pc6: 1 pb5: 1 pb6: 0 | A000: 0 E000: 0 16K Game: 1
-MV: memconfig changed exrom 1 pc6: 0 pb5: 1 pb6: 0 | game 1 A000: 1 E000: 1 16K Game: 1
-*/
-
-    if (
-        ((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))
-       ){
-        mv_romE000_enabled = 1;
-        mv_romA000_enabled = 1;
-        mv_game = 1;
-        mv_romA000_enabled = 0; /* ? */
-        mv_romE000_enabled = 0; /* ? */
-    } else if (
-        ((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))
-       ){
-        /* before running "no cart" */
+#endif
+    if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 0 */
+        /* "game */
+        mv_romA000_enabled = 0; /* ! */
+        mv_romE000_enabled = 0; /* ! */
+        mv_game = 0;
+        mv_game8000_enabled = 0; /* ! */
+        mv_gameA000_enabled = 0; /* ! */
+        mv_gameE000_enabled = 1; /* ? */
+    } else if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 2 */
+        /* in init with "no cart" */
+        mv_romA000_enabled = 0;
+        mv_romE000_enabled = 0;  /* ! */
+        mv_game = 0;
+        mv_game8000_enabled = 0;
+        mv_gameA000_enabled = 0; /* ? */
+        mv_gameE000_enabled = 0; /* ! */
+#if 1
+    } else if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 3 */
+        n = 0;
+        /* used once in init in a loop ? */
         mv_romE000_enabled = 0;
         mv_romA000_enabled = 0;
         mv_game = 0;
-        mv_game_enabled = 0;
-    } else if (
-        ((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))
-       ){
-        mv_romE000_enabled = 0;
+        mv_game8000_enabled = 0; /* ? */
+        mv_gameA000_enabled = 0; /* ? */
+        mv_gameE000_enabled = 0; /* ? */
+#endif
+    } else if (((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 6 */
+        /* "game */
         mv_romA000_enabled = 0;
-        mv_game = 1;
-        n = 0;
-        mv_game_enabled = 0; /* ? */
-    } else if (
-        ((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))
-       ){
-        mv_romE000_enabled = 1;
-        mv_romA000_enabled = 1;
-        mv_game = 1;
-        mv_game_enabled = 0; /* ? */
-    } else if (
-        ((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))
-       ){
-        mv_romE000_enabled = 1;
-        mv_romA000_enabled = 1;
-        mv_game = 1;
-        n = 0;
-        mv_game_enabled = 0; /* ? */
-    } else if (
-        ((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))
-       ){
-        mv_romE000_enabled = 1;
-        mv_romA000_enabled = 1;
-        mv_game = 1;
-        mv_game_enabled = 0; /* ? */
-    } else if (
-        ((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))
-       ){
         mv_romE000_enabled = 0;
+        mv_game = 0;
+        mv_game8000_enabled = 1; /* ? */
+        mv_gameA000_enabled = 1; /* ? */
+        mv_gameE000_enabled = 1; /* ? */
+    } else if (((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 7 */
+        n = 0;
+        /* used once in init in a loop ? */
+        mv_romA000_enabled = 1; /* ! */
+        mv_romE000_enabled = 1; /* ! */
+        mv_game = 0;
+        mv_game8000_enabled = 0; /* ? */
+        mv_gameA000_enabled = 0; /* ! */
+        mv_gameE000_enabled = 0; /* ! */
+    } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 8 */
+        /* in init with "no cart" */
+        mv_romA000_enabled = 1;
+        mv_romE000_enabled = 1;
+        mv_game = 0;
+        mv_game8000_enabled = 0; /* ? */
+        mv_gameA000_enabled = 0; /* ? */
+        mv_gameE000_enabled = 0; /* ? */
+    } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 10 */
+        /* "game" */
         mv_romA000_enabled = 0;
+        mv_romE000_enabled = 0;
         mv_game = 1;
-        mv_game_enabled = 1;
-    } else if (
-        ((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))
-       ){
+        mv_game8000_enabled = 1;
+        mv_gameA000_enabled = 1; /* ? */
+        mv_gameE000_enabled = 1; /* ? */
+    } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 11 */
+        /* in init with "no cart" */
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
-        mv_game = 1;
-        mv_game_enabled = 0; /* ? */
-    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 0) && (ga_pb6 == 0)) ){ /* 12 */
+        mv_game = 0;
+        mv_game8000_enabled = 0; /* ? */
+        mv_gameA000_enabled = 0; /* ? */
+        mv_gameE000_enabled = 0; /* ? */
+#if 0
+    } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 12 */
         /* NMI with cart ? */
-        mv_romE000_enabled = 0;
         mv_romA000_enabled = 1;
+        mv_romE000_enabled = 0;
         mv_game = 1;
-        mv_game_enabled = 0;
-    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0)) ){ /* 14 */
+        mv_game8000_enabled = 0;
+        mv_gameA000_enabled = 0; /* ? */
+        mv_gameE000_enabled = 0; /* ? */
+#endif
+    } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 14 */
         /* before running "16k cart" */
-        mv_romE000_enabled = 0;
         mv_romA000_enabled = 0;
+        mv_romE000_enabled = 0;
         mv_game = 1;
-        mv_game_enabled = 1;
-    } else if ( ((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1)) ){ /* 15 */
-        mv_romE000_enabled = 1;
+        mv_game8000_enabled = 1;
+        mv_gameA000_enabled = 1;
+        mv_gameE000_enabled = 0; /* ? */
+    } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 15 */
+        /* in init with "no cart" */
         mv_romA000_enabled = 1;
-        mv_game = 1;
-        mv_game_enabled = 0; /* ? */
+        mv_romE000_enabled = 1;
+        mv_game = 0;
+        mv_game8000_enabled = 0; /* ? */
+        mv_gameA000_enabled = 0; /* ? */
+        mv_gameE000_enabled = 0; /* ? */
     } else {
-        mv_romE000_enabled = 1;
-        mv_romA000_enabled = 1;
-        mv_game = 1;
         n = 2;
+        mv_romA000_enabled = 0;
+        mv_romE000_enabled = 0;
+        mv_game = 0;
+        mv_game8000_enabled = 0;
+        mv_gameA000_enabled = 0;
+        mv_gameE000_enabled = 0;
     }
 
-    cartridge_config_changed(2, (mv_mapped_game) | ((mv_mapped_exrom) << 1), mode);
+    cartridge_config_changed(2, (mv_mapped_game) | ((mv_mapped_exrom) << 1), mode | CMODE_PHI2_RAM);
 
-    this = (ga_pb6 << 0) |
-           (ga_pb5 << 1) |
-           (ga_pc6 << 2) |
-           (mv_exrom << 3);
+#ifdef CFGDEBUG
+    this = (ga_pb6 << 0) | (ga_pb5 << 1) | (ga_pc6 << 2) | (mv_exrom << 3);
 
-    if (last != this)
-    {
-        if (n == 2) DBG(("-->"));
-        if (n) DBG(("MV: memconfig changed (%2d) exrom %d pc6: %d pb5: %d pb6: %d | game %d A000: %d E000: %d 16K Passthrough: %d\n", this, mv_exrom, ga_pc6, ga_pb5, ga_pb6, mv_game,  mv_romA000_enabled, mv_romE000_enabled, mv_game_enabled));
+    if (last != this) {
+        if (n == 2) {
+            DBG(("-->"));
+        }
+        if (n) {
+            DBG(("MV: @$%04x config (%2d) exrom %d pc6: %d pb5: %d pb6: %d | game: %d mv A000: %d E000: %d game 8000: %d  A000: %d E000: %d ",
+                 reg_pc, this, mv_exrom, ga_pc6, ga_pb5, ga_pb6, mv_game,  mv_romA000_enabled, mv_romE000_enabled, mv_game8000_enabled, mv_gameA000_enabled, mv_gameE000_enabled));
+            switch((mv_exrom << 1) | mv_game) {
+                case 0:
+                    DBG(("(ram)\n"));
+                    break;
+                case 1:
+                    DBG(("(8k game)\n"));
+                    break;
+                case 2:
+                    DBG(("(ultimax)\n"));
+                    break;
+                case 3:
+                    DBG(("(16k game)\n"));
+                    break;
+            }
+        }
     }
-
     last = this;
+#endif
 }
 
 /*****************************************************************************
@@ -483,15 +512,18 @@ static void set_int(unsigned int int_num, int value)
     static int old;
     int isirq;
 
-    isirq = ((tpi_context->c_tpi[TPI_ILR]) & tpi_context->c_tpi[TPI_IMR]) & 0x0f;
+    isirq = (((tpi_context->c_tpi[TPI_ILR]) & tpi_context->c_tpi[TPI_IMR]) & 0x0f);
     if (old != isirq) {
+#ifdef IRQDEBUG
+        DBG(("MV: TPI set NMI %d  num:%02x val:%02x ILR:%02x IMR:%02x\n", isirq, int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
+#endif
+#if 1
         if (isirq) {
-            DBG(("MV: TPI set NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
             cart_trigger_nmi();
         } else {
-            DBG(("MV: TPI unset NMI  num:%02x val:%02x ILR:%02x IMR:%02x\n", int_num, value, tpi_context->c_tpi[TPI_ILR], tpi_context->c_tpi[TPI_IMR]));
             cartridge_release_freeze();
         }
+#endif
     }
 
     old = isirq;
@@ -508,16 +540,6 @@ static void reset(tpi_context_t *tpi_context)
 }
 
 /*
-PA 6 + PC 2: (= /EOS of T6721, End Of Speech)
-LOW: End of Speech (LOW for one Frame only, about 10 or 20ms)
-HIGH: No voice is synthesized
-
-PA 7 + PC 3: (= DIR of 40105, Data In Ready)
-LOW: FIFO is full/busy
-HIGH: FIFO is ready to accept data
-*/
-
-/*
     Port A (df80)
 
     PA0..3      OUT: D0..D3 Data -> FIFO -> Gate Array -> T6721 DI (highest Nibble first)
@@ -525,6 +547,11 @@ HIGH: FIFO is ready to accept data
     PA5         IN:  !GAME of the Magic Voice Cartridge Passthrough Port (with pullup)
     PA6         IN:  !EOS <- T6721 (End of Speech)
     PA7         IN:  <- FIFO CO (Data in Ready)
+
+    eos LOW:  End of Speech (LOW for one Frame only, about 10 or 20ms)
+        HIGH: No voice is synthesized
+    dir LOW: FIFO is full/busy
+        HIGH: FIFO is ready to accept data
 */
 
 #define MV_GAME_NOCART  1
@@ -547,6 +574,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
     byte |= ((t6721->eos ^ 1) << 6); /* !EOS = End of Speech from T6721 */
     byte |= (DTRD << 7); /* DIR = Data in Ready from 40105 */
 
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA]) | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
     /* DBG(("MV: read pa %02x\n", byte)); */
 
     return byte;
@@ -554,24 +582,24 @@ static BYTE read_pa(tpi_context_t *tpi_context)
 
 static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
+    static BYTE last;
 /* DBG(("MV: store pa %02x\n", byte)); */
-    if (byte & 0x10) {
+    if ((byte & 0x10)) {
         /* out: PB3..PB0 go to D3..D0*/
-        write_data_nibble(byte & 0x0f); /* write nibble to FIFO */
+        write_data_nibble(last & 0x0f); /* write nibble to FIFO */
     }
+    last = byte;
 }
 
 /*
     Port B (df81)
 
     PB0..3      OUT: D0..D3 Data -> T6721 D0..D3 (highest Nibble first)
+                IN: T6721 D0..D3 (Status)
     PB4         OUT: !WR -> T6721 WR (write to T6721, L->H "Pretty Please")
     PB5         OUT? -> Gate Array (with pullup)
     PB6         OUT? -> Gate Array (with pullup)
     PB7         IN:  !EXROM <- Exrom of the MV Cartridge Port (with pullup)
-
-    PB5 w=1 system assign
-    PB6 w=0 system assign
 */
 static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 {
@@ -601,6 +629,8 @@ static BYTE read_pb(tpi_context_t *tpi_context)
         byte |= (MV_EXROM_NOCART << 7); /* passthrough !EXROM */
     }
 
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB]) | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
+
     return byte;
 }
 
@@ -609,8 +639,8 @@ static BYTE read_pb(tpi_context_t *tpi_context)
 
     PC0              unused ?
     PC1              unused ?
-    PC2         IN:  !EOS <- T6721 (End of Speech)
-    PC3         IN:  <- FIFO CO (Data in Ready)
+    PC2   IRQ   IN:  !EOS <- T6721 (End of Speech)
+    PC3   IRQ   IN:  <- FIFO CO (Data in Ready)
     PC4              unused ?
     PC5         OUT: !NMI -> Cartridge Port (automatically generated if /EOS or DIR occurs)
     PC6         OUT: (CA) CA ? <-> Gate Array (with pullup) (toggles rom on/off ?)
@@ -618,7 +648,9 @@ static BYTE read_pb(tpi_context_t *tpi_context)
 */
 static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
+    /* this function is actually never used ? */
     DBG(("MV: store pc %02x\n", byte));
+#if 0
     if ((byte & 0x20) == 0){
         DBG(("MV: triggered NMI ?\n"));
         /* OUT: !NMI (automatically generated if /EOS or DIR occurs) */
@@ -626,21 +658,22 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     } else {
         DBG(("MV: untriggered NMI ?\n"));
     }
-
+#endif
+#if 0
     ga_pc6 = (byte >> 6) & 1;
     ga_memconfig_changed(CMODE_READ);
+#endif
 }
 
 static BYTE read_pc(tpi_context_t *tpi_context)
 {
-#if 0
-    BYTE byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
-#else
     static BYTE byte = 0;
-
+#if 0
+    /* IRQ inputs */
     byte |= ((t6721->eos ^ 1) << 2); /* !EOS (End of Speech) */
     byte |= (DTRD << 3); /* DIR (Data in Ready) */
 #endif
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
     DBG(("MV: read pc %02x\n", byte));
     return byte;
 }
@@ -687,11 +720,12 @@ static void REGPARM2 magicvoice_io2_store(WORD addr, BYTE data)
         default:
             DBGREG(("MV: @:%04x io2 w %04x %02x\n", reg_pc, addr, data));
             break;
+        case 0:
+        case 2:
         case 6:
             break;
     }
     tpicore_store(tpi_context, addr & 7, data);
-    t6721_update_ticks(t6721, 1);
 }
 
 static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
@@ -703,18 +737,21 @@ static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
             DBGREG(("MV: @:%04x io2 r %04x %02x (IRQ Mask)\n", reg_pc, addr, value));
             break;
         case 7:
-            /* FIXME: this register contains a "wrong" value when checked by the software */
+            /* FIXME: this register contains a wrong value when checked by the software */
 #if 1
-            value |= (DTRD << 3); /* hack: dtrd */
-            value |= ((t6721->eos) << 2); /* hack: eos */
+            value &= ~(3 << 2);
+            value |= ((t6721->playing) << 3);   /* hack: dtrd */
+            value |= ((t6721->eos) << 2);  /* hack: eos */
 #endif
             DBGREG(("MV: @:%04x io2 r %04x %02x (Active IRQs)\n", reg_pc, addr, value));
             break;
         default:
             DBGREG(("MV: @:%04x io2 r %04x %02x\n", reg_pc, addr, value));
             break;
+        case 0:
+        case 2:
+            break;
     }
-    t6721_update_ticks(t6721, 1);
     return value;
 }
 
@@ -756,18 +793,19 @@ static const c64export_resource_t export_res = {
 /* ---------------------------------------------------------------------*/
 BYTE REGPARM1 magicvoice_roml_read(WORD addr)
 {
-    if ((mv_game_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
+    if ((mv_game8000_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
         return roml_banks[(addr & 0x1fff)];
     } else {
-        return mem_read_without_ultimax(addr);
+        return ram_read(addr);
     }
 }
 
 BYTE REGPARM1 magicvoice_a000_bfff_read(WORD addr)
 {
-    if ((mv_game_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
+    if ((mv_gameA000_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
+        /* return mv_rom[(addr & 0x1fff)]; */
         return romh_banks[(addr & 0x1fff)];
     } else {
         if (mv_romA000_enabled) {
@@ -780,11 +818,16 @@ BYTE REGPARM1 magicvoice_a000_bfff_read(WORD addr)
 
 BYTE REGPARM1 magicvoice_romh_read(WORD addr)
 {
-    if ((mv_game_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
-            /* "passthrough" */
-            /* return romh_banks[(addr & 0x1fff)]; */
-            return mem_read_without_ultimax(addr);
-        } else {
+#if 0
+    if (addr == 0xfffa) {
+        DBG(("MV: fetch vector %04x game: %d e000: %d\n", addr, mv_game8000_enabled, mv_romE000_enabled));
+    }
+#endif
+    if ((mv_gameE000_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
+        /* "passthrough" */
+        /* return mv_rom[(addr & 0x1fff) + 0x2000]; */
+        return romh_banks[(addr & 0x1fff)];
+    } else {
         if (mv_romE000_enabled) {
             return mv_rom[(addr & 0x1fff) + 0x2000];
         } else {
@@ -891,18 +934,11 @@ void magicvoice_resources_shutdown(void)
 }
 
 /* ---------------------------------------------------------------------*/
-void ga_reset(void)
-{
-    ga_pc6 = 0;
-    ga_pb5 = 0;
-    ga_pb6 = 0;
-}
 
 void magicvoice_setup_context(machine_context_t *machine_context)
 {
     DBG(("MV: setup_context\n"));
 
-    /* FIXME: setup TPI context */
     tpi_context = lib_malloc(sizeof(tpi_context_t));
 
     tpi_context->prv = NULL;
@@ -916,7 +952,7 @@ void magicvoice_setup_context(machine_context_t *machine_context)
 
     tpicore_setup_context(tpi_context);
 
-    tpi_context->tpi_int_num = 1; /* FIXME */
+    tpi_context->tpi_int_num = IK_NMI;
 
     tpi_context->store_pa = store_pa;
     tpi_context->store_pb = store_pb;
@@ -942,15 +978,26 @@ void magicvoice_setup_context(machine_context_t *machine_context)
     t6721_reset(t6721);
 }
 
+#ifdef NMIDEBUG
+static void mv_ack_nmi(void)
+{
+    DBG(("MV: ack nmi\n"));
+}
+#endif
 
 /* called at reset */
 void magicvoice_config_init(void)
 {
     DBG(("MV: magicvoice_config_init\n"));
 
-    mv_exrom = 1;
-    ga_reset();
-    ga_memconfig_changed(CMODE_READ);
+    if (mv_enabled) {
+        mv_exrom = 1;
+        ga_reset();
+        ga_memconfig_changed(CMODE_READ);
+#ifdef NMIDEBUG
+        interrupt_set_nmi_trap_func(maincpu_int_status, mv_ack_nmi);
+#endif
+    }
 }
 
 void magicvoice_config_setup(BYTE *rawcart)
@@ -1021,7 +1068,7 @@ void magicvoice_reset(void)
 {
     DBG(("MV: reset\n"));
     if (mv_enabled) {
-        mv_game_enabled = 0;
+        mv_game8000_enabled = 0;
         mv_exrom = 1;
         ga_reset();
         t6721_reset(t6721);

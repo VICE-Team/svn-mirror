@@ -214,8 +214,9 @@ static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
 
 static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
-    /* 1 = active */
-    mem_set_exrom((byte & 8) ? 0 : 1);
+    int exrom = ((byte & 8) ? 0 : 1); /* 1 = active */
+    /* FIXME: passthrough support */
+    cartridge_config_changed(exrom << 1, exrom << 1, CMODE_READ);
 }
 
 static void undump_pc(tpi_context_t *tpi_context, BYTE byte)

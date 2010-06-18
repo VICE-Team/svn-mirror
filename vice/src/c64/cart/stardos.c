@@ -58,7 +58,7 @@
     signal comes from a clip that has to be installed inside of the c64.
 */
 
-#define DBGSTARDOS
+/* #define DBGSTARDOS */
 
 #ifdef DBGSTARDOS
 #define DBG(x) printf x

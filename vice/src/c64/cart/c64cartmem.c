@@ -1028,7 +1028,7 @@ BYTE cartridge_peek_mem(WORD addr)
         return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
     }
 
-    if (export.exrom) {
+    if (!export.exrom && export.game) {
         if (addr >= 0xe000 && addr <= 0xffff) {
             return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
         }

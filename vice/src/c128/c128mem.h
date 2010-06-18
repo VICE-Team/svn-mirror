@@ -67,7 +67,6 @@ extern void mem_set_ram_config(BYTE value);
 extern void mem_set_ram_bank(BYTE value);
 extern void mem_set_vbank(int new_vbank);
 extern void mem_set_tape_sense(int sense);
-extern void mem_set_exrom(int active);
 extern void mem_pla_config_changed(void);
 
 extern void mem_set_write_hook(int config, int page, store_func_t *f);

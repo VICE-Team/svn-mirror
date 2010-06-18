@@ -1186,11 +1186,6 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: is called from c64tpi.c to enable/disable C64 IEEE488 ROM module */
-void mem_set_exrom(int active)
-{
-}
-
 void mem_color_ram_to_snapshot(BYTE *color_ram)
 {
     unsigned int i;

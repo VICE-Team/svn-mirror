@@ -479,8 +479,7 @@ static int read_di_fifo(t6721_state *t6721)
 
     set_dtrd(t6721, 1);
 */
-    if (t6721->read_data(t6721, &bit) < 1)
-    {
+    if (t6721->read_data(t6721, &bit) < 1) {
         /* DBGADD(("<*>")); */
         return -1;
     }
@@ -568,6 +567,7 @@ static void set_playing(t6721_state *t6721, int playing)
     if (t6721->playing != playing) {
         if (playing) {
             DBG(("start playing\n"));
+            t6721->playing_delay = 0x10000; /* FIXME: find out real value */
         } else {
             DBG(("stop playing\n"));
             ringbuffer_reset();
@@ -631,54 +631,57 @@ void t6721_update_tick(t6721_state *t6721)
         t6721->eos_samples--;
     }
 
-    if (t6721->playing == 1)
-    if (t6721->apd == 0)
-    if (t6721->eos == 0)
-    {
-        if (phrase_samples > 0) {
-            phrase_samples--;
-        } else {
+    if (t6721->playing_delay) {
+        t6721->playing_delay--;
+        return;
+    }
 
-            set_dtrd(t6721, 1);
-            res = read_di_fifo(t6721);
-            if ( res == -1) {
-                /* not enough data in FIFO */
-            } else if ( res == 1) {
-                /* got PARCOR frame */
-                if ((parcor_frametype == T6721_FRAMETYPE_SILENT) ||
-                    (parcor_frametype == T6721_FRAMETYPE_VOICED) ||
-                    (parcor_frametype == T6721_FRAMETYPE_UNVOICED)) {
-                    parcor_render_frame(t6721, parcor_param);
-                }
-                /* FIXME: confirm: is this correct ? */
-                /* 10ms or 20ms depending on current framelen */
-                phrase_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100) - ((t6721->cond2_framebits ? 96 : 48) * 10);
-                set_dtrd(t6721, 0);
-#ifdef T6721DEBUG
-                DBG(("got Frame: "));
-                switch (parcor_frametype) {
-                    case T6721_FRAMETYPE_VOICED:
-                        DBGADD(("[voiced]   "));
-                        break;
-                    case T6721_FRAMETYPE_UNVOICED:
-                        DBGADD(("[unvoiced] "));
-                        break;
-                    case T6721_FRAMETYPE_EOS:
-                        DBGADD(("[eos]      "));
-                        break;
-                    case T6721_FRAMETYPE_ZERO:
-                        DBGADD(("[zero]     "));
-                        break;
-                    case T6721_FRAMETYPE_SILENT:
-                        DBGADD(("[silent]   "));
-                        break;
-                }
-                for (i = 0; i < parcor_framelen; i++) {
-                    DBGADD(("%03x ", parcor_param[i] >> (16 - parcor_param_len[t6721->cond2_framebits][i])));
-                }
-                DBGADD(("\n"));
-#endif
+    if (phrase_samples) {
+        phrase_samples--;
+        return;
+    }
+
+    if ((t6721->playing == 1) && (t6721->apd == 0) && (t6721->eos == 0)) {
+
+        set_dtrd(t6721, 1);
+        res = read_di_fifo(t6721);
+        if ( res == -1) {
+            /* not enough data in FIFO */
+        } else if ( res == 1) {
+            /* got PARCOR frame */
+            if ((parcor_frametype == T6721_FRAMETYPE_SILENT) ||
+                (parcor_frametype == T6721_FRAMETYPE_VOICED) ||
+                (parcor_frametype == T6721_FRAMETYPE_UNVOICED)) {
+                parcor_render_frame(t6721, parcor_param);
             }
+            /* FIXME: confirm: is this correct ? */
+            /* 10ms or 20ms depending on current framelen */
+            phrase_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100) - ((t6721->cond2_framebits ? 96 : 48) * 10);
+            set_dtrd(t6721, 0);
+#ifdef T6721DEBUG
+            DBG(("got Frame: "));
+            switch (parcor_frametype) {
+                case T6721_FRAMETYPE_VOICED:
+                    DBGADD(("[voiced]   "));
+                    break;
+                case T6721_FRAMETYPE_UNVOICED:
+                    DBGADD(("[unvoiced] "));
+                    break;
+                case T6721_FRAMETYPE_EOS:
+                    DBGADD(("[eos]      "));
+                    break;
+                case T6721_FRAMETYPE_ZERO:
+                    DBGADD(("[zero]     "));
+                    break;
+                case T6721_FRAMETYPE_SILENT:
+                    DBGADD(("[silent]   "));
+                    break;
+            }
+            for (i = 0; i < parcor_framelen; i++) {
+                DBGADD(("%03x ", parcor_param[i] >> (16 - parcor_param_len[t6721->cond2_framebits][i])));
+            }
+            DBGADD(("\n"));
+#endif
         }
     }
 }
@@ -778,7 +781,7 @@ void REGPARM2 t6721_store(t6721_state *t6721, BYTE data)
                     } else {
                         t6721->cond2_framebits = T6721_FRAME_48BIT;
                     }
-                    DBGADD(("stages: %d repeat: %d len: %d0ms bits: %d\n", t6721->cond2_stages, t6721->cond2_repeat, t6721->cond2_framelen, t6721->cond2_framebits ));
+                    DBGADD(("stages: %d repeat: %d len: %d0ms bits: %d\n", t6721->cond2_stages, t6721->cond2_repeat, t6721->cond2_framelen, t6721->cond2_framebits ? 96 : 48 ));
                     break;
             }
 
@@ -874,6 +877,7 @@ BYTE t6721_read(t6721_state *t6721)
     } else {
         /* FIXME: read-through from speech ROM is missing */
         data = 0;
+        DBG(("FIXME read-through from speech ROM\n"));
     }
 
     return data;
@@ -916,6 +920,5 @@ int t6721_dump(t6721_state *t6721)
     mon_out("reference cycles per second: %d\n", t6721->cycles_per_sec);
     mon_out("output sample per second:    %d\n", t6721->samples_per_sec);
     mon_out("apd: %d busy: %d eos: %d playing: %d\n", t6721->apd, t6721->busy, t6721->eos, t6721->playing);
-
     return 0;
 }

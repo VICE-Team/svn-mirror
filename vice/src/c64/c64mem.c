@@ -1049,13 +1049,6 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
-void mem_set_exrom(int active)
-{
-    export.exrom = active ? 0 : 1;
-
-    mem_pla_config_changed();
-}
-
 void mem_color_ram_to_snapshot(BYTE *color_ram)
 {
     memcpy(color_ram, mem_color_ram, 0x400);
