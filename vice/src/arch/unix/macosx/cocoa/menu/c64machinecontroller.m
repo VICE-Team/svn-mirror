@@ -43,7 +43,7 @@
 
 - (void)detachCartridge
 {
-    cartridge_detach_image();
+    cartridge_detach_image(-1); // detach all for now
 }
 
 - (void)setDefaultCartridge
