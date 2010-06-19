@@ -74,9 +74,9 @@
 #define DBG_STATUS()
 #endif
 
-#define PARCOR_OUTPUT_KHZ       (8000)
+#define PARCOR_OUTPUT_HZ       (8000)
 
-#define PARCOR_BUFFER_LEN (0x10000)
+#define PARCOR_BUFFER_LEN (0x100)
 SWORD ringbuffer[PARCOR_BUFFER_LEN]; /* FIXME */
 int ringbuffer_rptr = 0;
 int ringbuffer_wptr = 0;
@@ -84,7 +84,7 @@ int phrase_sample_len = 0;
 
 #define RBSTATE_STOP 0
 #define RBSTATE_PLAY 1
-#define RBSTATE_DELAY_SAMPLES (PARCOR_OUTPUT_KHZ/200) /* 5 ms */
+#define RBSTATE_DELAY_SAMPLES (PARCOR_OUTPUT_HZ/200) /* 5 ms */
 static int ringbuffer_state = 0;
 
 float upsmpcnt = 0;
@@ -367,7 +367,7 @@ static int render_subframe(t6721_state *t6721, int sub_i, int voiced)
     }
 /* DBGADD(("\n")); */
 
-    for (i = 0; i < ((PARCOR_OUTPUT_KHZ / 100 / 8) * t6721->cond2_framelen); ++i) {
+    for (i = 0; i < ((PARCOR_OUTPUT_HZ / 100 / 8) * t6721->cond2_framelen); ++i) {
         /* sample */
         if (voiced) {
             phase += phase_inc;
@@ -401,7 +401,7 @@ static int render_silence(t6721_state *t6721)
 {
     int i;
 
-    for (i = 0; i < ((PARCOR_OUTPUT_KHZ / 100) * t6721->cond2_framelen); ++i) {
+    for (i = 0; i < ((PARCOR_OUTPUT_HZ / 100) * t6721->cond2_framelen); ++i) {
         if (parcor_output_sample(t6721, 0)) {
             return 1;
         }
@@ -920,7 +920,7 @@ void t6721_sound_machine_init(t6721_state *t6721, int speed, int cycles_per_sec)
     t6721->samples_per_sec = speed;
     t6721->cycles_per_sec = cycles_per_sec;
     /* ratio for converting ringbuffer -> output */
-    upsmp = (((float)speed) / ((float)PARCOR_OUTPUT_KHZ));
+    upsmp = (((float)speed) / ((float)PARCOR_OUTPUT_HZ));
     /* ratio for converting samples in output buffer -> cpu/system cycles */
     up2smp = (((float)cycles_per_sec) / ((float)speed));
 }
