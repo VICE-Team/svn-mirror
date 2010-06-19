@@ -32,31 +32,36 @@
 
 @implementation C64Controller
 
-// Cartridge
+// ----- Cartridge -----
 
 -(IBAction)attachCartridge:(id)sender
 {
     NSDictionary *cartTypes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithInt:CARTRIDGE_CRT], @"CRT",
+        
         [NSNumber numberWithInt:CARTRIDGE_GENERIC_8KB], @"Generic 8KB",
         [NSNumber numberWithInt:CARTRIDGE_GENERIC_16KB], @"Generic 16KB",
         [NSNumber numberWithInt:CARTRIDGE_ACTION_REPLAY], @"Action Replay",
         [NSNumber numberWithInt:CARTRIDGE_ACTION_REPLAY3], @"Action Replay III",
+        [NSNumber numberWithInt:CARTRIDGE_ACTION_REPLAY4], @"Action Replay IV",
         
         [NSNumber numberWithInt:CARTRIDGE_ATOMIC_POWER], @"Atomic Power",
         [NSNumber numberWithInt:CARTRIDGE_EPYX_FASTLOAD], @"Epyx Fastload",
-        [NSNumber numberWithInt:CARTRIDGE_IEEE488], @"IEEE488",
-        [NSNumber numberWithInt:CARTRIDGE_RETRO_REPLAY], @"Retro Replay",
         [NSNumber numberWithInt:CARTRIDGE_IDE64], @"IDE64",
+        [NSNumber numberWithInt:CARTRIDGE_IEEE488], @"IEEE488",
+        [NSNumber numberWithInt:CARTRIDGE_MMC_REPLAY], @"MMC Replay",
+        [NSNumber numberWithInt:CARTRIDGE_RETRO_REPLAY], @"Retro Replay",
         
+        [NSNumber numberWithInt:CARTRIDGE_STARDOS], @"StarDOS",        
+        [NSNumber numberWithInt:CARTRIDGE_STRUCTURED_BASIC], @"Structured Basic",
         [NSNumber numberWithInt:CARTRIDGE_SUPER_SNAPSHOT], @"Super Snapshot 4",
         [NSNumber numberWithInt:CARTRIDGE_SUPER_SNAPSHOT_V5], @"Super Snapshot 5",
-        [NSNumber numberWithInt:CARTRIDGE_STRUCTURED_BASIC], @"Structured Basic",
         
         nil, nil];
 
     NSArray *result = [[self getFilePanel] pickAttachFileWithTitle:@"Attach Cartridge Image"
-                                                 andTypeDictionary:cartTypes];
+                                                 andTypeDictionary:cartTypes
+                                                 defaultType:@"CRT"];
     if(result != nil) {
         NSString *filename   = [result objectAtIndex:0];
         NSNumber *typeNumber = [result objectAtIndex:1];
@@ -74,21 +79,10 @@
     }
 }
 
-// ----- Cartridge -----
-
--(IBAction)attachExpertCartridge:(id)sender
-{
-    [(C64MachineController *)[VICEApplication theMachineController]
-        attachExpertCartridge];
-    [(C64MachineController *)[VICEApplication theMachineController]
-        setDefaultCartridge];
-    [self updateMachineResources];
-}
-
 -(IBAction)detachCartridge:(id)sender
 {
     [(C64MachineController *)[VICEApplication theMachineController]
-        detachCartridge];
+        detachCartridge:-1];
     [(C64MachineController *)[VICEApplication theMachineController]
         setDefaultCartridge];
     [self updateMachineResources];
@@ -100,32 +94,10 @@
         freezeCartridge];
 }
 
--(IBAction)controlExpertCartridge:(id)sender
-{
-    [self setIntResource:@"ExpertCartridgeMode" toValue:[sender tag]];
-    [self updateMachineResources];
-}
-
-- (void)updateMachineResources
-{
-    // Expert Cartridge
-    int expertCartridgeMode = [self getIntResource:@"ExpertCartridgeMode"];
-    int i;
-    for (i=0;i<3;i++) {
-        NSMenuItem *item = [expertCartridgeModeMenu itemAtIndex:i];
-        [item setState:(i == expertCartridgeMode) ? NSOnState : NSOffState];
-    }
-    
-    [super updateMachineResources];
-}
-
 -  (BOOL)validateMenuItem:(NSMenuItem *)item
 {
     if (item==cartridgeFreezeMenuItem) {
         return [self getIntResource:@"CartridgeType"] != CARTRIDGE_NONE;
-    }
-    else if ([item menu]==expertCartridgeModeMenu) {
-        return [self getIntResource:@"CartridgeType"] == CARTRIDGE_EXPERT;
     }
     return YES;
 }

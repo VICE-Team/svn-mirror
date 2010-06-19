@@ -32,14 +32,11 @@
 {
     // Machine Outlets
     IBOutlet NSMenuItem *cartridgeFreezeMenuItem;
-    IBOutlet NSMenu *expertCartridgeModeMenu;
 }
 
 // Cartridge
 -(IBAction)attachCartridge:(id)sender;
--(IBAction)attachExpertCartridge:(id)sender;
 -(IBAction)detachCartridge:(id)sender;
 -(IBAction)freezeCartridge:(id)sender;
--(IBAction)controlExpertCartridge:(id)sender;
 
 @end

@@ -33,8 +33,7 @@
 }
 
 - (BOOL)attachCartridge:(int)type image:(NSString *)imageFile;
-- (BOOL)attachExpertCartridge;
-- (void)detachCartridge;
+- (void)detachCartridge:(int)type;
 - (void)setDefaultCartridge;
 - (void)freezeCartridge;
 

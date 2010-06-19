@@ -347,7 +347,7 @@
     return nil;
 }
 
-- (NSArray *)pickAttachFileWithTitle:(NSString *)title andTypeDictionary:(NSDictionary *)types
+- (NSArray *)pickAttachFileWithTitle:(NSString *)title andTypeDictionary:(NSDictionary *)types defaultType:(NSString *)defaultType
 {
     NSOpenPanel * panel = [NSOpenPanel openPanel];
     
@@ -366,6 +366,7 @@
     NSArray *sortedKeys = [[types allKeys] sortedArrayUsingSelector:@selector(compare:)];
     [type_button addItemsWithTitles:sortedKeys];
     [type_button autorelease];
+    [type_button selectItemWithTitle:defaultType];
 
     [accessories addSubview:type_button];
     [accessories addSubview:type_label];

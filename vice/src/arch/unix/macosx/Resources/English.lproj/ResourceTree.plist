@@ -72,6 +72,13 @@
 					<key>Save CRT on detach</key>
 					<string>EasyFlashWriteCRT,b</string>
 				</dict>
+				<key>Expert Cartridge</key>
+				<dict>
+					<key>Enable</key>
+					<string>ExpertCartridgeEnabled,b</string>
+					<key>Mode</key>
+					<string>ExpertCartridgeMode,e,OFF,PRG,ON</string>
+				</dict>
 				<key>GEORAM</key>
 				<dict>
 					<key>Enable</key>
@@ -99,6 +106,13 @@
 					<key>Type</key>
 					<string>MIDIMode,e,Sequential,Passport,DATEL,Namesoft,Maplin</string>
 				</dict>
+				<key>Magic Voice</key>
+				<dict>
+					<key>Enabled</key>
+					<string>MagicVoiceCartridgeEnabled,b</string>
+					<key>Image</key>
+					<string>MagicVoiceImage,fo</string>
+				</dict>
 				<key>MMC64</key>
 				<dict>
 					<key>BIOS File</key>
@@ -115,6 +129,23 @@
 					<string>MMC64_RO,b</string>
 					<key>Save BIOS when changed</key>
 					<string>MMC64_bios_write,b</string>
+					<key>Card Type</key>
+					<string>MMC64_sd_type,e,Auto,MMC,SD,SDHC</string>
+				</dict>
+				<key>MMCReplay</key>
+				<dict>
+					<key>Card Image</key>
+					<string>MMCRCardImage,fs</string>
+					<key>EEPROM Image</key>
+					<string>MMCREEPROMImage,fs</string>
+					<key>Card R/W</key>
+					<string>MMCRCardRW,b</string>
+					<key>EEPROM R/W</key>
+					<string>MMCREEPROMRW,b</string>
+					<key>Rescue Mode</key>
+					<string>MMCRRescueMode,b</string>
+					<key>Card Type</key>
+					<string>MMCRSDType,e,Auto,MMC,SD,SDHC</string>
 				</dict>
 				<key>RAMCART</key>
 				<dict>
@@ -257,7 +288,7 @@
 				<key>Isepic</key>
 				<dict>
 					<key>Enable</key>
-					<string>Isepic,b</string>
+					<string>IsepicCartridgeEnabled,b</string>
 					<key>Enable Switch</key>
 					<string>IsepicSwitch,b</string>
 				</dict>
@@ -623,6 +654,10 @@
 			</dict>
 			<key>PET</key>
 			<dict>
+				<key>DWW Hi-Res Graphics</key>
+				<string>PETDWW,b</string>
+				<key>DWW Hi-Res Graphics Image</key>
+				<string>PETDWWfilename,fs</string>
 				<key>CRTC chip enable</key>
 				<string>Crtc,b</string>
 				<key>EOI does blank screen</key>
@@ -745,6 +780,8 @@
 			<string>AutostartHandleTrueDriveEmulation,b</string>
 			<key>Run With Colon</key>
 			<string>AutostartRunWithColon,b</string>
+			<key>BASIC Load without ,1</key>
+			<string>AutostartBasicLoad,b</string>
 			<key>Warp Mode during Autostart</key>
 			<string>AutostartWarp,b</string>
 			<key>PRG Startup Mode</key>

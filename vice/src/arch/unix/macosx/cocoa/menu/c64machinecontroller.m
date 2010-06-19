@@ -36,14 +36,9 @@
     return cartridge_attach_image(type,[imageFile cStringUsingEncoding:NSUTF8StringEncoding]) == 0;
 }
 
-- (BOOL)attachExpertCartridge
+- (void)detachCartridge:(int)type
 {
-    return cartridge_attach_image(CARTRIDGE_EXPERT,NULL) == 0;
-}
-
-- (void)detachCartridge
-{
-    cartridge_detach_image(-1); // detach all for now
+    cartridge_detach_image(type);
 }
 
 - (void)setDefaultCartridge
