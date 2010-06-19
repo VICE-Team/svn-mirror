@@ -63,12 +63,13 @@ static void video_reconfigure()
 static int set_sync_draw_mode(int val, void *param)
 {
     if((val < 0) || (val > SYNC_DRAW_LAST))
-        return;
+        return 0;
     
     if(val != video_param.sync_draw_mode) {
         video_param.sync_draw_mode = val;
         video_reconfigure();
     }
+    return 0;
 }
 
 static int set_sync_draw_buffers(int val, void *param)
@@ -82,6 +83,7 @@ static int set_sync_draw_buffers(int val, void *param)
         video_param.sync_draw_buffers = val;
         video_reconfigure();
     }
+    return 0;
 }
 
 static int set_sync_draw_flicker_fix(int val, void *param)
@@ -95,6 +97,7 @@ static int set_sync_draw_flicker_fix(int val, void *param)
         video_param.sync_draw_flicker_fix = val;
         video_reconfigure();
     }
+    return 0;
 }
 
 static resource_int_t resources_int[] =
