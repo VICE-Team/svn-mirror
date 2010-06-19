@@ -318,20 +318,32 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
+static int decodemask(BYTE mask)
+{
+    int len = 255;
+
+    while (((mask & 0x80) == 0) && (len > 0)) {
+        mask<<=1;
+        len>>=1;
+    }
+
+    return len;
+}
+
 /* add all registered i/o devices to the list for the monitor */
 void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     io_source_list_t *current = c64io1_head.next;
 
     while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address, current->device->dump);
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
         current = current->next;
     }
 
     current = c64io2_head.next;
 
     while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->end_address, current->device->dump);
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
         current = current->next;
     }
 }

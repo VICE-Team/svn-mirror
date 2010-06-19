@@ -46,8 +46,13 @@
 
     problematic words:
 
+    magicvoice:
+     68 "ing" (uses 48bits/frame)
+
+    WoW (uses 48bits/frame)
+
     v364:
-     246
+     246 "repeat" (end not detected)
 */
 
 #ifndef M_PI
@@ -102,13 +107,15 @@ static WORD parcor_param[1 + 1 + 10];
 /* parameter lengths (bits) */
 static const int parcor_param_len[2][1 + 1 + 10] = {
     /* FIXME: 48 bits/frame */
-    { 7, 7, 10, 10, 10, 8, 8, 8, 7, 7, 7, 7 },
-    /* 96 bits/frame (these seem correct= */
+    { 5, 5, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3 },
+    /* 96 bits/frame (these seem correct) */
     { 7, 7, 10, 10, 10, 8, 8, 8, 7, 7, 7, 7 }
 };
 static WORD chip_buf = 0;
 static int chip_bit_i = 0;
 static int param_i = 0;
+
+#define PARMVALUE(ctx, x) (parcor_param[x] >> (16 - parcor_param_len[(ctx)->cond2_framebits][x]))
 
 /* ------------------------------------------------------------------------- */
 
@@ -277,17 +284,19 @@ static int parcor_output_sample(t6721_state *t6721, SWORD value)
 
 /*
     render one output sample
-    FIXME: this does only very bad upsampling, we could atleast interpolate or sth
 */
 SWORD output_update_sample(t6721_state *t6721)
 {
+    static float from, to;
     int next_rptr;
     SWORD this;
 
-    this = ringbuffer[ringbuffer_rptr];
+    this = (SWORD) ((from * (1.0f - upsmpcnt)) + (to * upsmpcnt));
 
     upsmpcnt += (1.0f / upsmp);
     if (upsmpcnt >= 1.0f) {
+        upsmpcnt -= 1.0f;
+        from = to;
         if (ringbuffer_state == RBSTATE_STOP) {
             if (phrase_sample_len > RBSTATE_DELAY_SAMPLES) {
                 ringbuffer_state = RBSTATE_PLAY;
@@ -306,8 +315,9 @@ SWORD output_update_sample(t6721_state *t6721)
                 ringbuffer_state = RBSTATE_STOP;
             }
         }
-        upsmpcnt -= 1.0f;
+        to = (float) ringbuffer[ringbuffer_rptr];
     }
+
     return this;
 }
 
@@ -377,7 +387,7 @@ static int render_subframe(t6721_state *t6721, int sub_i, int voiced)
         }
 
         /* scale to 16bit */
-        output = (data * 10000.0f);
+        output = (data * (8192.0f + 2048.0f));
 
         if (parcor_output_sample(t6721, output)) {
             return 1;
@@ -409,12 +419,12 @@ static int parcor_render_frame(t6721_state *t6721, WORD *new_param)
     int i, voiced, silent;
     BYTE new_pitch;
 
-    new_pitch = (BYTE)(new_param[1] >> (16 - 7));
+    new_pitch = (BYTE)PARMVALUE(t6721, 1);
     voiced = (new_pitch > 0);
 
     memcpy(&p_from, &p_to, sizeof(p_from));
 
-    p_to.energy = (BYTE)(new_param[0] >> (16 - 7));
+    p_to.energy = (BYTE)PARMVALUE(t6721, 0);
     silent = ((new_pitch == 0x7e) && (p_to.energy == 1));
 
     if (!voiced && !silent) {
@@ -485,7 +495,7 @@ static int read_di_fifo(t6721_state *t6721)
     }
 
     if ((param_i == 1) && (chip_bit_i == 0)) {
-        if (parcor_param[0] == 0) {
+        if (PARMVALUE(t6721, 0) == 0) {
             if (bit) {
                 reset_di_fifo();
                 set_eos(t6721, 1);
@@ -535,12 +545,12 @@ static int read_di_fifo(t6721_state *t6721)
             parcor_framelen = 12;
             break;
         case 1:
-            if (parcor_param[1] == 0) {
+            if (PARMVALUE(t6721, 1) == 0) {
                 parcor_framelen = 6;
                 parcor_frametype = T6721_FRAMETYPE_UNVOICED;
             } else {
-                if (((parcor_param[0] >> (16 - 7)) == 1) && (parcor_param[1] == 0x7e)) {
-                        parcor_frametype = T6721_FRAMETYPE_SILENT;
+                if ((PARMVALUE(t6721, 0) == 1) && (PARMVALUE(t6721, 1) == 0x7e)) {
+                    parcor_frametype = T6721_FRAMETYPE_SILENT;
                 } else {
                     parcor_frametype = T6721_FRAMETYPE_VOICED;
                 }
