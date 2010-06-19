@@ -454,7 +454,7 @@ else
   STRIP="strip"
 fi
 (cd "$BUILD_DIR/$ARCH" && \
-$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION $ZIP $UI_TYPE "$ARCH-$SDK_VERSION-$COMPILER")
+$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION $ZIP yes $UI_TYPE "$ARCH-$SDK_VERSION-$COMPILER")
 
 echo "----- Ready: architecture: [$ARCH-$SDK_VERSION-$COMPILER,$UI_TYPE,$DIST_TYPE] -----"
 echo "VICE was configured with: $CONFIGURE_OPTS"
