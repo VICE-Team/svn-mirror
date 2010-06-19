@@ -38,7 +38,7 @@
 {
     NSDictionary *cartTypes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithInt:CARTRIDGE_VIC20_GENERIC], @"Generic",
-        [NSNumber numberWithInt:CARTRIDGE_VIC20_FP], @"Vic Flash",
+        [NSNumber numberWithInt:CARTRIDGE_VIC20_FP], @"Vic Flash Plugin",
         [NSNumber numberWithInt:CARTRIDGE_VIC20_MEGACART], @"Mega-Cart",
         [NSNumber numberWithInt:CARTRIDGE_VIC20_FINAL_EXPANSION], @"Final Expansion",
 

@@ -361,7 +361,7 @@
 					<key>Write Back</key>
 					<string>FinalExpansionWriteBack,b</string>
 				</dict>
-				<key>Vic Flash</key>
+				<key>Vic Flash Plugin</key>
 				<dict>
 					<key>Write Back</key>
 					<string>VicFlashPluginWriteBack,b</string>
