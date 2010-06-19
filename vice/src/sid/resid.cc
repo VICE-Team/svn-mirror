@@ -67,7 +67,7 @@ extern "C" {
 struct sound_s
 {
     /* resid sid implementation */
-    SID	*sid;
+    RESID	*sid;
 };
 
 typedef struct sound_s sound_t;
@@ -78,7 +78,7 @@ static sound_t *resid_open(BYTE *sidstate)
     int	i;
 
     psid = new sound_t;
-    psid->sid = new SID;
+    psid->sid = new RESID;
 
     for (i = 0x00; i <= 0x18; i++) {
 	psid->sid->write(i, sidstate[i]);
@@ -218,7 +218,7 @@ static char *resid_dump_state(sound_t *psid)
 
 static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
-    SID::State state;
+    RESID::State state;
     unsigned int i;
 
     state = psid->sid->read_state();
@@ -244,7 +244,7 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 
 static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
-    SID::State state;
+    RESID::State state;
     unsigned int i;
 
     for (i = 0; i < 0x20; i++) {
@@ -267,7 +267,7 @@ static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
         state.hold_zero[i] = (sid_state->hold_zero[i] != 0);
     }
 
-    psid->sid->write_state((const SID::State)state);
+    psid->sid->write_state((const RESID::State)state);
 }
 
 sid_engine_t resid_hooks =

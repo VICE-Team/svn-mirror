@@ -47,7 +47,7 @@ protected:
   // Temporary state of filter.
   sound_sample Vnf;
 
-friend class SID;
+friend class RESID;
 };
 
 
