@@ -745,6 +745,13 @@
 				<key>SID Address</key>
 				<string>SidAddress,e,$FD40,$FE80</string>
 			</dict>
+			<key>V364 Speech</key>
+			<dict>
+				<key>Enable</key>
+				<string>SpeechEnabled,b</string>
+				<key>Image File</key>
+				<string>SpeechImage,fo</string>
+			</dict>
 		</dict>
 		<key>_VIC20_</key>
 		<dict>
