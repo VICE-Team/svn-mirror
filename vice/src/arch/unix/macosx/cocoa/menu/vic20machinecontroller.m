@@ -23,9 +23,26 @@
  *  02111-1307  USA.
  *
  */
-
+ 
+#include "cartridge.h"
+ 
 #import "vic20machinecontroller.h"
 
 @implementation VIC20MachineController
+
+ - (BOOL)attachCartridge:(int)type image:(NSString *)imageFile
+ {
+     return cartridge_attach_image(type,[imageFile cStringUsingEncoding:NSUTF8StringEncoding]) == 0;
+ }
+
+ - (void)detachCartridge:(int)type
+ {
+     cartridge_detach_image(type);
+ }
+
+ - (void)setDefaultCartridge
+ {
+     cartridge_set_default();
+ }
 
 @end

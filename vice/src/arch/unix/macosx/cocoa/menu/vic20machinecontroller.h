@@ -32,4 +32,8 @@
 {
 }
 
+- (BOOL)attachCartridge:(int)type image:(NSString *)imageFile;
+- (void)detachCartridge:(int)type;
+- (void)setDefaultCartridge;
+
 @end

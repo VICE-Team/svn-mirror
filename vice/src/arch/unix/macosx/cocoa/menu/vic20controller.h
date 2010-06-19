@@ -31,4 +31,9 @@
 @interface VIC20Controller : VICEAppController
 {
 }
+
+// Cartridge
+-(IBAction)attachCartridge:(id)sender;
+-(IBAction)detachCartridge:(id)sender;
+
 @end
