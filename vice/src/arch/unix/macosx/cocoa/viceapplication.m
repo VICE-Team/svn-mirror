@@ -60,18 +60,18 @@ const float control_win_width = 200;
         
         // find canvas with lover id that sits right above us
         int j;
-        int foundWinId = -1;
+        int foundWinId = 0;
         for(j=0;j<i;j++) {
             VICEWindow *preWin = (VICEWindow *)[wins objectAtIndex:j];
             int preWinId = [preWin canvasId];
             if(preWinId < winId) {
-                foundWinId = preWinId;
+                foundWinId = preWinId + 1;
                 break;
             }
         }
 
         // store in prefs above which canvas we will be ordered
-        // use -1 to order window in front of all windows
+        // use 0 to order window in front of all windows
         [def setInteger:foundWinId forKey:tag];
     }
 }
@@ -83,11 +83,12 @@ const float control_win_width = 200;
     NSString *tag = [title stringByAppendingString:@"OrderBelow"];
     int belowId = [def integerForKey:tag];
     
-    if(belowId == -1) {
+    if(belowId == 0) {
         // order myself front and make me key window
         [window orderFront:self];
         return TRUE;
     } else {
+        belowId --;
         // find canvas to 
         NSArray *wins = [[NSApplication sharedApplication] orderedWindows];
         int i;
