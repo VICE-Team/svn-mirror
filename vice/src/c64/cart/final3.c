@@ -87,7 +87,10 @@ static io_source_t final3_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     NULL,
-    final_v3_io1_read
+    final_v3_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_FINAL_III
 };
 
 static io_source_t final3_io2_device = {
@@ -97,11 +100,18 @@ static io_source_t final3_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     final_v3_io2_store,
-    final_v3_io2_read
+    final_v3_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_FINAL_III
 };
 
 static io_source_list_t *final3_io1_list_item = NULL;
 static io_source_list_t *final3_io2_list_item = NULL;
+
+static const c64export_resource_t export_res_v3 = {
+    "Final V3", 1, 0, &final3_io1_device, &final3_io2_device, CARTRIDGE_FINAL_III
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -171,10 +181,6 @@ void final_v3_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res_v3 = {
-    "Final V3", 1, 0
-};
 
 static int final_v3_common_attach(void)
 {

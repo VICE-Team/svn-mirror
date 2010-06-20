@@ -35,8 +35,9 @@ extern int dqbb_resources_init(void);
 extern void dqbb_resources_shutdown(void);
 extern int dqbb_cmdline_options_init(void);
 extern void dqbb_reset(void);
-extern void dqbb_shutdown(void);
+extern void dqbb_detach(void);
 extern void dqbb_init_config(void);
+extern int dqbb_enable(void);
 
 extern BYTE REGPARM1 dqbb_roml_read(WORD addr);
 extern void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte);

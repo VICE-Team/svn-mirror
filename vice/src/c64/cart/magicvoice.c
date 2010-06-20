@@ -564,7 +564,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte = 0;
 
-    if (cartridge_getid_slotmain() != CARTRIDGE_NONE) {
+    if (cart_getid_slotmain() != CARTRIDGE_NONE) {
         /* passthrough */
         byte |= (MV_GAME_GAMECART << 5); /* passthrough !GAME */
     } else {
@@ -622,7 +622,7 @@ static BYTE read_pb(tpi_context_t *tpi_context)
     byte |= (1 << 5); /* ? pullup */
     byte |= (1 << 6); /* ? pullup */
 #endif
-    if (cartridge_getid_slotmain() != CARTRIDGE_NONE) {
+    if (cart_getid_slotmain() != CARTRIDGE_NONE) {
         /* passthrough */
         byte |= (MV_EXROM_GAMECART << 7); /* passthrough !EXROM */
     } else {
@@ -793,7 +793,7 @@ static const c64export_resource_t export_res = {
 /* ---------------------------------------------------------------------*/
 BYTE REGPARM1 magicvoice_roml_read(WORD addr)
 {
-    if ((mv_game8000_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
+    if ((mv_game8000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
         return roml_banks[(addr & 0x1fff)];
     } else {
@@ -803,7 +803,7 @@ BYTE REGPARM1 magicvoice_roml_read(WORD addr)
 
 BYTE REGPARM1 magicvoice_a000_bfff_read(WORD addr)
 {
-    if ((mv_gameA000_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
+    if ((mv_gameA000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
         /* return mv_rom[(addr & 0x1fff)]; */
         return romh_banks[(addr & 0x1fff)];
@@ -823,7 +823,7 @@ BYTE REGPARM1 magicvoice_romh_read(WORD addr)
         DBG(("MV: fetch vector %04x game: %d e000: %d\n", addr, mv_game8000_enabled, mv_romE000_enabled));
     }
 #endif
-    if ((mv_gameE000_enabled) && (cartridge_getid_slotmain() != CARTRIDGE_NONE)) {
+    if ((mv_gameE000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
         /* return mv_rom[(addr & 0x1fff) + 0x2000]; */
         return romh_banks[(addr & 0x1fff)];
@@ -1056,6 +1056,12 @@ void magicvoice_detach(void)
 {
     DBG(("MV: detach %d %p\n", mv_enabled, magicvoice_io2_list_item));
     set_magicvoice_enabled(0, NULL);
+}
+
+int magicvoice_enable(void)
+{
+    DBG(("MV: enable\n"));
+    return set_magicvoice_enabled(1, (void*)1);
 }
 
 void magicvoice_init(void)

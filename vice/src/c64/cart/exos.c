@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rom.h"
+#include "cartridge.h"
 #include "machine.h"
 #include "resources.h"
 #include "types.h"
@@ -51,6 +52,10 @@
     - ROM is mapped to $e000 using ultimax mode, but only when hirom is selected
       (the cartridge uses a clip to the inside of the computer for this)
 */
+
+static const c64export_resource_t export_res = {
+    "Exos", 1, 1, NULL, NULL, CARTRIDGE_EXOS
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -73,10 +78,6 @@ void exos_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Exos", 1, 1
-};
 
 static int exos_common_attach(void)
 {

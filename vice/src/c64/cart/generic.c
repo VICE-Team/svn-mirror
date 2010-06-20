@@ -45,18 +45,26 @@
     - 8k RAM may be enabled at ROML
 */
 
+/* #define DBGGENERIC */
+
+#ifdef DBGGENERIC
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 /* ---------------------------------------------------------------------*/
 
 static const c64export_resource_t export_res_8kb = {
-    "Generic 8KB", 1, 0
+    "Generic 8KB", 1, 0, NULL, NULL, CARTRIDGE_GENERIC_8KB
 };
 
 static const c64export_resource_t export_res_16kb = {
-    "Generic 16KB", 1, 1
+    "Generic 16KB", 1, 1, NULL, NULL, CARTRIDGE_GENERIC_16KB
 };
 
 static c64export_resource_t export_res_ultimax = {
-    "Generic Ultimax", 0, 1
+    "Generic Ultimax", 0, 1, NULL, NULL, CARTRIDGE_ULTIMAX
 };
 
 /* ---------------------------------------------------------------------*/
@@ -149,6 +157,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    DBG(("chip1 at %02x len %02x\n", chipheader[0xc], chipheader[0xe]));
     if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0 && chipheader[0xe] <= 0x40) {
         if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
             return -1;
@@ -170,6 +179,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         } else {
             export_res_ultimax.game = 1;
         }
+        DBG(("chip2 at %02x len %02x\n", chipheader[0xc], chipheader[0xe]));
     }
 
     if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0 && (chipheader[0xe] + chipheader[0xc]) == 0x100) {

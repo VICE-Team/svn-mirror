@@ -33,42 +33,10 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "cartridge.h"
 #include "c64io.h"
 #include "types.h"
 #include "util.h"
-
-static unsigned int ar_active;
-
-/* ---------------------------------------------------------------------*/
-
-/* some prototypes are needed */
-static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 actionreplay4_io2_read(WORD addr);
-
-static io_source_t actionreplay4_io1_device = {
-    "Action Replay 4",
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0,
-    actionreplay4_io1_store,
-    NULL
-};
-
-static io_source_t actionreplay4_io2_device = {
-    "Action Replay 4",
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0xff,
-    0,
-    NULL,
-    actionreplay4_io2_read
-};
-
-static io_source_list_t *actionreplay4_io1_list_item = NULL;
-static io_source_list_t *actionreplay4_io2_list_item = NULL;
-
-/* ---------------------------------------------------------------------*/
 
 /*
    Action Replay 4
@@ -85,7 +53,49 @@ static io_source_list_t *actionreplay4_io2_list_item = NULL;
 
    io2:
    - rom bank mirror
- */
+*/
+
+
+static unsigned int ar_active;
+
+/* ---------------------------------------------------------------------*/
+
+/* some prototypes are needed */
+static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value);
+static BYTE REGPARM1 actionreplay4_io2_read(WORD addr);
+
+static io_source_t actionreplay4_io1_device = {
+    "Action Replay 4",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0,
+    actionreplay4_io1_store,
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ACTION_REPLAY4
+};
+
+static io_source_t actionreplay4_io2_device = {
+    "Action Replay 4",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0xff,
+    0,
+    NULL,
+    actionreplay4_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ACTION_REPLAY4
+};
+
+static io_source_list_t *actionreplay4_io1_list_item = NULL;
+static io_source_list_t *actionreplay4_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Action Replay 4", 1, 1, &actionreplay4_io1_device, &actionreplay4_io2_device, CARTRIDGE_ACTION_REPLAY4
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -171,10 +181,6 @@ void actionreplay4_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Action Replay 4", 1, 1
-};
 
 static int actionreplay4_common_attach(void)
 {

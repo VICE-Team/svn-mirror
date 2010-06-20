@@ -34,6 +34,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "types.h"
 #include "util.h"
 
@@ -58,10 +59,17 @@ static io_source_t magicdesk_device = {
     0xde00, 0xdeff, 0xff,
     0,
     magicdesk_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_MAGIC_DESK
 };
 
 static io_source_list_t *magicdesk_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Magic Desk", 1, 1, &magicdesk_device, NULL, CARTRIDGE_MAGIC_DESK
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -78,10 +86,6 @@ void magicdesk_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Magic Desk", 1, 1
-};
 
 int magicdesk_crt_attach(FILE *fd, BYTE *rawcart)
 {

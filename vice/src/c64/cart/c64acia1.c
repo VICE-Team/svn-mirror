@@ -66,6 +66,8 @@
 static int acia_de_enabled = 0;
 #endif
 
+/* ------------------------------------------------------------------------- */
+
 /* a prototype is needed */
 static BYTE REGPARM1 aciacart_read(WORD addr);
 
@@ -90,6 +92,8 @@ static const c64export_resource_t export_res = {
     "Turbo232", 0, 0, &acia_de_device, NULL, CARTRIDGE_TURBO232
 };
 
+/* ------------------------------------------------------------------------- */
+
 int aciacart_cart_enabled(void) {
     return acia_de_enabled;
 }
@@ -113,16 +117,19 @@ static void acia1_disable(void)
 #ifdef HAVE_RS232
 static int set_acia_de_enabled(int val, void *param)
 {
-    if (val != acia_de_enabled) {
-        if (val) {
-            acia1_enable();
-        } else {
-            acia1_disable();
+    if ((val) && (!acia_de_enabled)) {
+        if (acia1_enable() < 0) {
+            return -1;
         }
-        acia_de_enabled = val;
+        acia_de_enabled = 1;
+    } else if ((!val) && (acia_de_enabled)) {
+        acia1_disable();
+        acia_de_enabled = 0;
     }
     return 0;
 }
+
+/* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
@@ -147,6 +154,8 @@ void aciacart_resources_shutdown(void)
 {
 
 }
+
+/* ------------------------------------------------------------------------- */
 
 static BYTE REGPARM1 aciacart_read(WORD addr)
 {
@@ -175,6 +184,18 @@ int aciacart_cmdline_options_init(void)
 {
     return acia1_cmdline_options_init();
 }
+
+void aciacart_detach(void)
+{
+    set_acia_de_enabled(0, NULL);
+}
+
+int aciacart_enable(void)
+{
+    return set_acia_de_enabled(1, NULL);
+}
+
+/* ------------------------------------------------------------------------- */
 
 int aciacart_snapshot_write_module(struct snapshot_s *p)
 {

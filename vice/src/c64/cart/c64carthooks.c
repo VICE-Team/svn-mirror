@@ -33,6 +33,7 @@
 
 #include "alarm.h"
 #include "archdep.h"
+#include "actionreplay2.h"
 #include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "actionreplay.h"
@@ -184,6 +185,11 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_P_NAME, IDCLS_ATTACH_CRT_CART,
       NULL, NULL },
     /* binary images: */
+    { "-cartar2", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_ACTION_REPLAY2, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB Action Replay 2 image") },
     { "-cartar3", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_ACTION_REPLAY3, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -194,7 +200,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART,
       NULL, NULL },
-    { "-cartar", CALL_FUNCTION, 1,
+    { "-cartar5", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY_CART },
@@ -274,7 +280,7 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_ISEPIC, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 2kB Isepic image") },
+      NULL, T_("Attach raw 2kB ISEPIC image") },
     /* TODO: CARTRIDGE_KCS_POWER */
     /* TODO: CARTRIDGE_MAGIC_DESK */
     /* TODO: CARTRIDGE_MAGIC_FORMEL */
@@ -306,7 +312,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART,
       NULL, NULL },
-    /* TODO: CARTRIDGE_SIMONS_BASIC */
+    { "-cartsb", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_SIMONS_BASIC, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB Simons Basic image") },
     /* TODO: CARTRIDGE_SUPER_GAMES */
     { "-carts64", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_SNAPSHOT64, NULL, NULL,
@@ -348,7 +358,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART,
       NULL, NULL },
-    /* TODO: CARTRIDGE_ZAXXON */
+    { "-cartzaxxon", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_ZAXXON, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB Zaxxon image") },
     { NULL }
 };
 
@@ -448,12 +462,13 @@ void cart_resources_shutdown(void)
 /*
     returns 1 if given cart type is in "Main Slot"
 */
-int cartridge_is_slotmain(int type)
+int cart_is_slotmain(int type)
 {
    switch (type) {
         /* slot 0 */
         case CARTRIDGE_MMC64:
         case CARTRIDGE_MAGIC_VOICE:
+        case CARTRIDGE_IEEE488:
         /* slot 1 */
         case CARTRIDGE_DQBB:
         case CARTRIDGE_EXPERT:
@@ -484,11 +499,29 @@ int cartridge_is_slotmain(int type)
     returns 1 if the cartridge of the given type is enabled
 
     FIXME: incomplete, but currently only used by c64iec.c:iec_available_busses
-    FIXME: only works for carts in "Main Slot" (handled in c64cart.c)
 */
 int cart_type_enabled(int type)
 {
-    /* FIXME */
+    switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            return tpi_cart_enabled();
+        case CARTRIDGE_MAGIC_VOICE:
+            return magicvoice_cart_enabled();
+        case CARTRIDGE_MMC64:
+            return mmc64_cart_enabled();
+        /* "Slot 1" */
+        case CARTRIDGE_DQBB:
+            return dqbb_cart_enabled();
+        case CARTRIDGE_EXPERT:
+            return expert_cart_enabled();
+        case CARTRIDGE_ISEPIC:
+            return isepic_cart_enabled();
+        case CARTRIDGE_RAMCART:
+            return ramcart_cart_enabled();
+        /* "I/O Slot" */
+        /* Main Slot handled in c64cart.c */
+    }
     return 0;
 }
 
@@ -517,54 +550,54 @@ void cartridge_setup_context(machine_context_t *machine_context)
 
 /* ------------------------------------------------------------------------- */
 
-int cartridge_bin_attach(int type, const char *filename, BYTE *rawcart)
+int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
 {
-    int res = -1;
-
     switch(type) {
         /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            return tpi_bin_attach(filename, rawcart);
         case CARTRIDGE_MAGIC_VOICE:
-            res = magicvoice_bin_attach(filename, rawcart);
-            break;
+            return magicvoice_bin_attach(filename, rawcart);
+        /* FIXME: MMC64 missing */
         /* "Slot 1" */
+        /* FIXME: dqbb missing */
         case CARTRIDGE_EXPERT:
-            res = expert_bin_attach(filename, rawcart);
-            break;
+            return expert_bin_attach(filename, rawcart);
         case CARTRIDGE_ISEPIC:
-            res = isepic_bin_attach(filename, rawcart);
-            break;
+            return isepic_bin_attach(filename, rawcart);
+        /* FIXME: ramcart missing */
         /* "I/O Slot" */
         /* "Main Slot" */
-        case CARTRIDGE_GENERIC_8KB:
-        case CARTRIDGE_EPYX_FASTLOAD:
-            res = generic_8kb_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_GENERIC_16KB:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_WARPSPEED:
-            res = generic_16kb_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_ULTIMAX:
-            res = generic_ultimax_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_ACTION_REPLAY3:
-            res = actionreplay3_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_ACTION_REPLAY4:
-            res = actionreplay4_bin_attach(filename, rawcart);
-            break;
         case CARTRIDGE_ACTION_REPLAY:
-            res = actionreplay_bin_attach(filename, rawcart);
-            break;
+            return actionreplay_bin_attach(filename, rawcart);
+        case CARTRIDGE_ACTION_REPLAY2:
+            return actionreplay2_bin_attach(filename, rawcart);
+        case CARTRIDGE_ACTION_REPLAY3:
+            return actionreplay3_bin_attach(filename, rawcart);
+        case CARTRIDGE_ACTION_REPLAY4:
+            return actionreplay4_bin_attach(filename, rawcart);
         case CARTRIDGE_ATOMIC_POWER:
-            res = atomicpower_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            res = retroreplay_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            res = mmcreplay_bin_attach(filename, rawcart);
-            break;
+            return atomicpower_bin_attach(filename, rawcart);
+        case CARTRIDGE_EPYX_FASTLOAD:
+            return epyxfastload_bin_attach(filename, rawcart);
+        case CARTRIDGE_EXOS:
+            return exos_bin_attach(filename, rawcart);
+        case CARTRIDGE_FINAL_I:
+            return final_v1_bin_attach(filename, rawcart);
+        case CARTRIDGE_FINAL_III:
+            return final_v3_bin_attach(filename, rawcart);
+        case CARTRIDGE_FINAL_PLUS:
+            return final_plus_bin_attach(filename, rawcart);
+        case CARTRIDGE_FREEZE_FRAME:
+            return freezeframe_bin_attach(filename, rawcart);
+        case CARTRIDGE_FREEZE_MACHINE:
+            return freezemachine_bin_attach(filename, rawcart);
+        case CARTRIDGE_GAME_KILLER:
+            return gamekiller_bin_attach(filename, rawcart);
+        case CARTRIDGE_GENERIC_8KB:
+            return generic_8kb_bin_attach(filename, rawcart);
+        case CARTRIDGE_GENERIC_16KB:
+            return generic_16kb_bin_attach(filename, rawcart);
         case CARTRIDGE_IDE64:
 /* FIXME: test if it works and then delete this */
 #if 0
@@ -575,56 +608,37 @@ int cartridge_bin_attach(int type, const char *filename, BYTE *rawcart)
                 return -1;
             }
 #endif
-            res = ide64_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_SNAPSHOT64:
-            res = snapshot64_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-            res = se5_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            res = supersnapshot_v4_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            res = supersnapshot_v5_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_IEEE488:
-            res = tpi_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_STRUCTURED_BASIC:
-            res = stb_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_STARDOS:
-            res = stardos_bin_attach(filename, rawcart);
-            break;
+            return ide64_bin_attach(filename, rawcart);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_bin_attach(filename, rawcart);
         case CARTRIDGE_P64:
-            res = p64_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_GAME_KILLER:
-            res = gamekiller_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_FINAL_I:
-            res = final_v1_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_FINAL_PLUS:
-            res = final_plus_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_FINAL_III:
-            res = final_v3_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_EXOS:
-            res = exos_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_FREEZE_FRAME:
-            res = freezeframe_bin_attach(filename, rawcart);
-            break;
-        case CARTRIDGE_FREEZE_MACHINE:
-            res = freezemachine_bin_attach(filename, rawcart);
-            break;
+            return p64_bin_attach(filename, rawcart);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_bin_attach(filename, rawcart);
+        case CARTRIDGE_SIMONS_BASIC:
+            return simon_bin_attach(filename, rawcart);
+        case CARTRIDGE_SNAPSHOT64:
+            return snapshot64_bin_attach(filename, rawcart);
+        case CARTRIDGE_STARDOS:
+            return stardos_bin_attach(filename, rawcart);
+        case CARTRIDGE_STRUCTURED_BASIC:
+            return stb_bin_attach(filename, rawcart);
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            return se5_bin_attach(filename, rawcart);
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            return supersnapshot_v4_bin_attach(filename, rawcart);
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            return supersnapshot_v5_bin_attach(filename, rawcart);
+        case CARTRIDGE_ULTIMAX:
+            return generic_ultimax_bin_attach(filename, rawcart);
+        case CARTRIDGE_WARPSPEED:
+            return warpspeed_bin_attach(filename, rawcart);
+        case CARTRIDGE_WESTERMANN:
+            return westermann_bin_attach(filename, rawcart);
+        case CARTRIDGE_ZAXXON:
+            return zaxxon_bin_attach(filename, rawcart);
     }
-
-    return res;
+    return -1;
 }
 
 /*
@@ -634,8 +648,12 @@ int cartridge_bin_attach(int type, const char *filename, BYTE *rawcart)
 */
 void cart_attach(int type, BYTE *rawcart)
 {
+    cart_detach_conflicting(type);
     switch (type) {
         /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            tpi_config_setup(rawcart);
+            break;
         case CARTRIDGE_MAGIC_VOICE:
             magicvoice_config_setup(rawcart);
             break;
@@ -646,114 +664,32 @@ void cart_attach(int type, BYTE *rawcart)
         case CARTRIDGE_EXPERT:
             expert_config_setup(rawcart);
             break;
+        /* FIXME: ISEPIC missing here ? */
         /* "IO Slot" */
         /* "Main Slot" */
-        case CARTRIDGE_GENERIC_8KB:
-        case CARTRIDGE_IEEE488:
-        case CARTRIDGE_REX:
-            generic_8kb_config_setup(rawcart);
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_config_setup(rawcart);
             break;
-        case CARTRIDGE_EPYX_FASTLOAD:
-            epyxfastload_config_setup(rawcart);
-            break;
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-            mikroass_config_setup(rawcart);
-            break;
-        case CARTRIDGE_GENERIC_16KB:
-        case CARTRIDGE_SIMONS_BASIC:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_WARPSPEED:
-            generic_16kb_config_setup(rawcart);
-            break;
-        case CARTRIDGE_FINAL_I:
-            final_v1_config_setup(rawcart);
-            break;
-        case CARTRIDGE_FINAL_PLUS:
-            final_plus_config_setup(rawcart);
-            break;
-        case CARTRIDGE_STARDOS:
-            stardos_config_setup(rawcart);
-            break;
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_config_setup(rawcart);
+        case CARTRIDGE_ACTION_REPLAY2:
+            actionreplay2_config_setup(rawcart);
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             actionreplay3_config_setup(rawcart);
             break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_config_setup(rawcart);
+        case CARTRIDGE_ACTION_REPLAY4:
+            actionreplay4_config_setup(rawcart);
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_setup(rawcart);
             break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_config_setup(rawcart);
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_config_setup(rawcart);
-            break;
-        case CARTRIDGE_IDE64:
-            ide64_config_setup(rawcart);
-            break;
-        case CARTRIDGE_KCS_POWER:
-            kcs_config_setup(rawcart);
-            break;
-        case CARTRIDGE_FINAL_III:
-            final_v3_config_setup(rawcart);
-            break;
-        case CARTRIDGE_SNAPSHOT64:
-            snapshot64_config_setup(rawcart);
-            break;
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-            se5_config_setup(rawcart);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            supersnapshot_v4_config_setup(rawcart);
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            supersnapshot_v5_config_setup(rawcart);
-            break;
-        case CARTRIDGE_FUNPLAY:
-            funplay_config_setup(rawcart);
-            break;
-        case CARTRIDGE_DINAMIC:
-            dinamic_config_setup(rawcart);
-            break;
-        case CARTRIDGE_OCEAN:
-            ocean_config_setup(rawcart);
-            break;
-        case CARTRIDGE_GS:
-            gs_config_setup(rawcart);
-            break;
-        case CARTRIDGE_EASYFLASH:
-            easyflash_config_setup(rawcart);
-            break;
-        case CARTRIDGE_ULTIMAX:
-            generic_ultimax_config_setup(rawcart);
-            break;
-        case CARTRIDGE_SUPER_GAMES:
-            supergames_config_setup(rawcart);
+        case CARTRIDGE_CAPTURE:
+            capture_config_setup(rawcart);
             break;
         case CARTRIDGE_COMAL80:
             comal80_config_setup(rawcart);
             break;
-        case CARTRIDGE_ZAXXON:
-            zaxxon_config_setup(rawcart);
-            break;
-        case CARTRIDGE_MAGIC_DESK:
-            magicdesk_config_setup(rawcart);
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_config_setup(rawcart);
-            break;
-        case CARTRIDGE_CAPTURE:
-            capture_config_setup(rawcart);
-            break;
-        case CARTRIDGE_ROSS:
-            ross_config_setup(rawcart);
-            break;
-        case CARTRIDGE_STRUCTURED_BASIC:
-            stb_config_setup(rawcart);
+        case CARTRIDGE_DELA_EP256:
+            delaep256_config_setup(rawcart);
             break;
         case CARTRIDGE_DELA_EP64:
             delaep64_config_setup(rawcart);
@@ -761,20 +697,26 @@ void cart_attach(int type, BYTE *rawcart)
         case CARTRIDGE_DELA_EP7x8:
             delaep7x8_config_setup(rawcart);
             break;
-        case CARTRIDGE_DELA_EP256:
-            delaep256_config_setup(rawcart);
+        case CARTRIDGE_DINAMIC:
+            dinamic_config_setup(rawcart);
             break;
-        case CARTRIDGE_REX_EP256:
-            rexep256_config_setup(rawcart);
+        case CARTRIDGE_EASYFLASH:
+            easyflash_config_setup(rawcart);
             break;
-        case CARTRIDGE_P64:
-            p64_config_setup(rawcart);
-            break;
-        case CARTRIDGE_GAME_KILLER:
-            gamekiller_config_setup(rawcart);
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_config_setup(rawcart);
             break;
         case CARTRIDGE_EXOS:
             exos_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FINAL_I:
+            final_v1_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FINAL_III:
+            final_v3_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_config_setup(rawcart);
             break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_config_setup(rawcart);
@@ -782,10 +724,174 @@ void cart_attach(int type, BYTE *rawcart)
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_setup(rawcart);
             break;
+        case CARTRIDGE_FUNPLAY:
+            funplay_config_setup(rawcart);
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_config_setup(rawcart);
+            break;
+        case CARTRIDGE_GENERIC_8KB:
+            generic_8kb_config_setup(rawcart);
+            break;
+        case CARTRIDGE_GENERIC_16KB:
+            generic_16kb_config_setup(rawcart);
+            break;
+        case CARTRIDGE_GS:
+            gs_config_setup(rawcart);
+            break;
+        case CARTRIDGE_IDE64:
+            ide64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_KCS_POWER:
+            kcs_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MAGIC_DESK:
+            magicdesk_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+            mikroass_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_config_setup(rawcart);
+            break;
+        case CARTRIDGE_OCEAN:
+            ocean_config_setup(rawcart);
+            break;
+        case CARTRIDGE_P64:
+            p64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_config_setup(rawcart);
+            break;
+        case CARTRIDGE_REX:
+            rex_config_setup(rawcart);
+            break;
+        case CARTRIDGE_REX_EP256:
+            rexep256_config_setup(rawcart);
+            break;
+        case CARTRIDGE_ROSS:
+            ross_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SIMONS_BASIC:
+            simon_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_STARDOS:
+            stardos_config_setup(rawcart);
+            break;
+        case CARTRIDGE_STRUCTURED_BASIC:
+            stb_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SUPER_GAMES:
+            supergames_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            supersnapshot_v4_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            supersnapshot_v5_config_setup(rawcart);
+            break;
+        case CARTRIDGE_ULTIMAX:
+            generic_ultimax_config_setup(rawcart);
+            break;
+        case CARTRIDGE_WARPSPEED:
+            warpspeed_config_setup(rawcart);
+            break;
+        case CARTRIDGE_WESTERMANN:
+            westermann_config_setup(rawcart);
+            break;
+        case CARTRIDGE_ZAXXON:
+            zaxxon_config_setup(rawcart);
+            break;
         default:
             DBG(("CART: no attach hook %d\n", type));
             break;
     }
+}
+
+/* only one of the "Slot 0" carts can be enabled at a time */
+static int slot0conflicts[]=
+{
+    CARTRIDGE_IEEE488,
+    CARTRIDGE_MAGIC_VOICE,
+    CARTRIDGE_MMC64,
+    0
+};
+
+void cart_detach_conflicts0(int *list, int type)
+{
+    int *l = list;
+    /* find in list */
+    while (*l != 0) {
+        if (*l == type) {
+            /* if in list, remove all others */
+            while (*list != 0) {
+                if (*list != type) {
+                    if (cartridge_type_enabled(*list)) {
+                        DBG(("CART: detach conflicting cart: %d (only one Slot 0 cart can be active)\n", *list));
+                        cartridge_detach_image(*list);
+                    }
+                }
+                list++;
+            }
+            return;
+        }
+        l++;
+    }
+}
+
+void cart_detach_conflicting(int type)
+{
+    DBG(("CART: detach conflicting for type: %d ...\n", type));
+    cart_detach_conflicts0(slot0conflicts, type);
+}
+
+/* FIXME: many still missing */
+int cartridge_enable(int type)
+{
+    switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            tpi_enable();
+            break;
+        case CARTRIDGE_MAGIC_VOICE:
+            magicvoice_enable();
+            break;
+        /* FIXME: MMC64 */
+        /* "Slot 1" */
+        case CARTRIDGE_DQBB:
+            dqbb_enable();
+            break;
+        case CARTRIDGE_EXPERT:
+            expert_enable();
+            break;
+        /* FIXME: ISEPIC */
+        case CARTRIDGE_RAMCART:
+            ramcart_enable();
+            break;
+        /* "I/O Slot" */
+        /* FIXME: missing: georam, tfe, digimax, midi, sfx expander, sfx sampler */
+        case CARTRIDGE_REU:
+            reu_enable();
+            break;
+        case CARTRIDGE_TURBO232:
+            aciacart_enable();
+            break;
+        /* "Main Slot" */
+        default:
+            DBG(("CART: no enable hook %d\n", type));
+            break;
+    }
+    cart_detach_conflicting(type);
+    return -1;
 }
 
 /*
@@ -794,29 +900,30 @@ void cart_attach(int type, BYTE *rawcart)
 
     - carts not in "Main Slot" must make sure their _detach hook does not
       fail when it is called and the cart is not actually attached.
-
-    FIXME: review, fix, rename the _shutdown functions here
 */
-void cartridge_detach_all(void)
+void cart_detach_all(void)
 {
     DBG(("CART: detach all\n"));
     /* detach all cartridges */
     /* "slot 0" */
-    mmc64_detach();
+    tpi_detach();
     magicvoice_detach();
+    mmc64_detach();
     /* "Slot 1" */
-    dqbb_shutdown();
+    dqbb_detach();
     expert_detach();
     isepic_detach();
-    ramcart_shutdown();
+    ramcart_detach();
     /* "io Slot" */
-    georam_shutdown();
+    /* FIXME: missing: digimax, midi, sfx expander, sfx sampler */
+    aciacart_detach();
+    georam_detach();
+    reu_detach();
 #ifdef HAVE_TFE
-    tfe_shutdown();
+    tfe_shutdown(); /* FIXME: review and rename */
 #endif
-    reu_shutdown();
     /* "Main Slot" */
-    cartridge_detach_main();
+    cart_detach_main();
     return ;
 }
 
@@ -826,12 +933,18 @@ void cart_detach(int type)
 
     switch (type) {
         /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            tpi_detach();
+            break;
+        case CARTRIDGE_MAGIC_VOICE:
+            magicvoice_detach();
+            break;
         case CARTRIDGE_MMC64:
             mmc64_detach();
             break;
         /* "Slot 1" */
         case CARTRIDGE_DQBB:
-            dqbb_shutdown();
+            dqbb_detach();
             break;
         case CARTRIDGE_EXPERT:
             expert_detach();
@@ -840,137 +953,45 @@ void cart_detach(int type)
             isepic_detach();
             break;
         case CARTRIDGE_RAMCART:
-            ramcart_shutdown();
+            ramcart_detach();
             break;
         /* "IO Slot" */
+        /* FIXME: missing: acia, digimax, midi, sfx expander, sfx sampler */
         case CARTRIDGE_GEORAM:
-            georam_shutdown();
+            georam_detach();
+            break;
+        case CARTRIDGE_REU:
+            reu_detach();
             break;
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
-            tfe_shutdown();
+            tfe_shutdown(); /* FIXME: review and rename */
             break;
 #endif
-        case CARTRIDGE_REU:
-            reu_shutdown();
+        case CARTRIDGE_TURBO232:
+            aciacart_detach();
             break;
         /* "Main Slot" */
-        case CARTRIDGE_MAGIC_DESK:
-            magicdesk_detach();
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_detach();
             break;
-        case CARTRIDGE_GS:
-            gs_detach();
-            break;
-        case CARTRIDGE_OCEAN:
-            ocean_detach();
-            break;
-        case CARTRIDGE_DINAMIC:
-            dinamic_detach();
-            break;
-        case CARTRIDGE_FUNPLAY:
-            funplay_detach();
-            break;
-        case CARTRIDGE_STARDOS:
-            stardos_detach();
-            break;
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_detach();
+        case CARTRIDGE_ACTION_REPLAY2:
+            actionreplay2_detach();
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             actionreplay3_detach();
             break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_detach();
+        case CARTRIDGE_ACTION_REPLAY4:
+            actionreplay4_detach();
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_detach();
             break;
-        case CARTRIDGE_EPYX_FASTLOAD:
-            epyxfastload_detach();
-            break;
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-            mikroass_detach();
-            break;
-        case CARTRIDGE_REX:
-            rex_detach();
-            break;
-        case CARTRIDGE_FINAL_I:
-            final_v1_detach();
-            break;
-        case CARTRIDGE_FINAL_PLUS:
-            final_plus_detach();
-            break;
-        case CARTRIDGE_EASYFLASH:
-            easyflash_detach();
-            break;
-        case CARTRIDGE_WESTERMANN:
-            westermann_detach();
-            break;
-        case CARTRIDGE_WARPSPEED:
-            warpspeed_detach();
-            break;
-        case CARTRIDGE_FINAL_III:
-            final_v3_detach();
-            break;
-        case CARTRIDGE_GENERIC_16KB:
-            generic_16kb_detach();
-            break;
-        case CARTRIDGE_GENERIC_8KB:
-            generic_8kb_detach();
-            break;
-        case CARTRIDGE_IDE64:
-            ide64_detach();
-            break;
-        case CARTRIDGE_IEEE488:
-            tpi_detach();
-            break;
-        case CARTRIDGE_KCS_POWER:
-            kcs_detach();
-            break;
-        case CARTRIDGE_SIMONS_BASIC:
-            simon_detach();
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_detach();
-            break;
         case CARTRIDGE_CAPTURE:
             capture_detach();
             break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_detach();
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_detach();
-            break;
-        case CARTRIDGE_SUPER_GAMES:
-            supergames_detach();
-            break;
         case CARTRIDGE_COMAL80:
             comal80_detach();
-            break;
-        case CARTRIDGE_STRUCTURED_BASIC:
-            stb_detach();
-            break;
-        case CARTRIDGE_ROSS:
-            ross_detach();
-            break;
-        case CARTRIDGE_SNAPSHOT64:
-            snapshot64_detach();
-            break;
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-            se5_detach();
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            supersnapshot_v4_detach();
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            supersnapshot_v5_detach();
-            break;
-        case CARTRIDGE_ULTIMAX:
-            generic_ultimax_detach();
-            break;
-        case CARTRIDGE_ZAXXON:
-            zaxxon_detach();
             break;
         case CARTRIDGE_DELA_EP64:
             delaep64_detach();
@@ -981,17 +1002,113 @@ void cart_detach(int type)
         case CARTRIDGE_DELA_EP256:
             delaep256_detach();
             break;
-        case CARTRIDGE_REX_EP256:
-            rexep256_detach();
+        case CARTRIDGE_DINAMIC:
+            dinamic_detach();
+            break;
+        case CARTRIDGE_EASYFLASH:
+            easyflash_detach();
+            break;
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_detach();
             break;
         case CARTRIDGE_EXOS:
             exos_detach();
+            break;
+        case CARTRIDGE_FINAL_I:
+            final_v1_detach();
+            break;
+        case CARTRIDGE_FINAL_III:
+            final_v3_detach();
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_detach();
             break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_detach();
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_detach();
+            break;
+        case CARTRIDGE_FUNPLAY:
+            funplay_detach();
+            break;
+        case CARTRIDGE_GENERIC_16KB:
+            generic_16kb_detach();
+            break;
+        case CARTRIDGE_GENERIC_8KB:
+            generic_8kb_detach();
+            break;
+        case CARTRIDGE_GS:
+            gs_detach();
+            break;
+        case CARTRIDGE_IDE64:
+            ide64_detach();
+            break;
+        case CARTRIDGE_KCS_POWER:
+            kcs_detach();
+            break;
+        case CARTRIDGE_MAGIC_DESK:
+            magicdesk_detach();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_detach();
+            break;
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+            mikroass_detach();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_detach();
+            break;
+        case CARTRIDGE_OCEAN:
+            ocean_detach();
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_detach();
+            break;
+        case CARTRIDGE_REX:
+            rex_detach();
+            break;
+        case CARTRIDGE_REX_EP256:
+            rexep256_detach();
+            break;
+        case CARTRIDGE_ROSS:
+            ross_detach();
+            break;
+        case CARTRIDGE_SIMONS_BASIC:
+            simon_detach();
+            break;
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_detach();
+            break;
+        case CARTRIDGE_STARDOS:
+            stardos_detach();
+            break;
+        case CARTRIDGE_STRUCTURED_BASIC:
+            stb_detach();
+            break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_detach();
+            break;
+        case CARTRIDGE_SUPER_GAMES:
+            supergames_detach();
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            supersnapshot_v4_detach();
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            supersnapshot_v5_detach();
+            break;
+        case CARTRIDGE_ULTIMAX:
+            generic_ultimax_detach();
+            break;
+        case CARTRIDGE_WARPSPEED:
+            warpspeed_detach();
+            break;
+        case CARTRIDGE_WESTERMANN:
+            westermann_detach();
+            break;
+        case CARTRIDGE_ZAXXON:
+            zaxxon_detach();
             break;
         default:
             DBG(("CART: no detach hook ID: %d\n", type));
@@ -1029,14 +1146,17 @@ void cartridge_init_config(void)
         case CARTRIDGE_STARDOS:
             stardos_config_init();
             break;
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_config_init();
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_config_init();
+            break;
+        case CARTRIDGE_ACTION_REPLAY2:
+            actionreplay2_config_init();
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             actionreplay3_config_init();
             break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_config_init();
+        case CARTRIDGE_ACTION_REPLAY4:
+            actionreplay4_config_init();
             break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_init();
@@ -1202,52 +1322,52 @@ void cartridge_init_config(void)
 void cartridge_reset(void)
 {
     /* "IO Slot" */
-    if (aciacart_cart_enabled())
-    {
+    if (aciacart_cart_enabled()) {
         aciacart_reset();
     }
-    if (georam_cart_enabled())
-    {
+    if (georam_cart_enabled()) {
         georam_reset();
     }
 #ifdef HAVE_MIDI
     midi_reset();
 #endif
-    if (reu_cart_enabled())
-    {
+    if (reu_cart_enabled()) {
         reu_reset();
     }
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_reset();
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_reset();
+            break;
+        case CARTRIDGE_ACTION_REPLAY2:
+            actionreplay2_reset();
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             actionreplay3_reset();
             break;
+        case CARTRIDGE_ACTION_REPLAY4:
+            actionreplay4_reset();
+            break;
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_reset();
-            break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_reset();
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_reset();
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_reset();
-            break;
-        case CARTRIDGE_EPYX_FASTLOAD:
-            epyxfastload_reset();
             break;
         case CARTRIDGE_CAPTURE:
             capture_reset();
             break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_reset();
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_reset();
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_reset();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_reset();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_reset();
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_reset();
             break;
     }
     /* "Slot 1" */
@@ -1274,6 +1394,7 @@ void cartridge_reset(void)
 /* called by cart_nmi_alarm_triggered, aftern an alarm occured */
 void cart_freeze(int type)
 {
+    DBG(("CART: freeze\n"));
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_MAGIC_VOICE:
@@ -1302,6 +1423,9 @@ void cart_freeze(int type)
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             actionreplay3_freeze();
+            break;
+        case CARTRIDGE_ACTION_REPLAY2:
+            actionreplay2_freeze();
             break;
         case CARTRIDGE_ACTION_REPLAY:
             actionreplay_freeze();
@@ -1357,13 +1481,13 @@ void cart_nmi_alarm(CLOCK offset, void *data)
         cart_freeze(CARTRIDGE_ISEPIC);
     }
     /* "Main Slot" */
-    cart_freeze(cartridge_getid_slotmain());
+    cart_freeze(cart_getid_slotmain());
 }
 
 /* called by the UI when the freeze button is pressed */
 void cartridge_trigger_freeze(void)
 {
-    int maintype = cartridge_getid_slotmain();
+    int maintype = cart_getid_slotmain();
     /* "Slot 0" */
     /* "Slot 1" */
     if (expert_freeze_allowed()) {
@@ -1377,6 +1501,7 @@ void cartridge_trigger_freeze(void)
     switch (maintype) {
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_ACTION_REPLAY3:
+        case CARTRIDGE_ACTION_REPLAY2:
         case CARTRIDGE_ACTION_REPLAY:
         case CARTRIDGE_KCS_POWER:
         case CARTRIDGE_FINAL_III:

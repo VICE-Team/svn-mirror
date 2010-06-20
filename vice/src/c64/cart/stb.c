@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "stb.h"
 #include "types.h"
 #include "util.h"
@@ -86,10 +87,17 @@ static io_source_t stb_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     stb_io1_store,
-    stb_io1_read
+    stb_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_STRUCTURED_BASIC
 };
 
 static io_source_list_t *stb_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Structured Basic", 1, 0, &stb_device, NULL, CARTRIDGE_STRUCTURED_BASIC
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -109,10 +117,6 @@ void stb_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Structured Basic", 1, 0
-};
 
 static int stb_common_attach(void)
 {

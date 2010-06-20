@@ -436,7 +436,7 @@ void expert_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static int expert_common_attach(BYTE *rawcart)
+static int expert_common_attach(void)
 {
     DBG(("EXPERT: common attach\n"));
     if (resources_set_int("ExpertCartridgeEnabled", 1) < 0) {
@@ -460,7 +460,7 @@ int expert_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    return expert_common_attach(rawcart);
+    return expert_common_attach();
 }
 
 int expert_bin_save(const char *filename)
@@ -503,7 +503,7 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    return expert_common_attach(rawcart);
+    return expert_common_attach();
 }
 
 int expert_crt_save(const char *filename)
@@ -640,6 +640,15 @@ int expert_crt_save(const char *filename)
 void expert_detach(void)
 {
     resources_set_int("ExpertCartridgeEnabled", 0);
+}
+
+int expert_enable(void)
+{
+    DBG(("EXPERT: enable\n"));
+    if (resources_set_int("ExpertCartridgeEnabled", 1) < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

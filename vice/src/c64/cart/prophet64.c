@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "prophet64.h"
 #include "types.h"
 #include "util.h"
@@ -76,10 +77,17 @@ static io_source_t p64_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     p64_io2_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_P64
 };
 
 static io_source_list_t *p64_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Prophet 64", 1, 0, NULL, &p64_device, CARTRIDGE_P64
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -97,10 +105,6 @@ void p64_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Prophet 64", 1, 0
-};
 
 static int p64_common_attach(void)
 {

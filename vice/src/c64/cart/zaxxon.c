@@ -34,11 +34,13 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "cartridge.h"
 #include "types.h"
+#include "util.h"
 #include "zaxxon.h"
 
 static const c64export_resource_t export_res = {
-    "Zaxxon", 1, 1
+    "Zaxxon", 1, 1, NULL, NULL, CARTRIDGE_ZAXXON
 };
 
 BYTE REGPARM1 zaxxon_roml_read(WORD addr)
@@ -57,6 +59,23 @@ void zaxxon_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x4000);
     cartridge_config_changed(1, 1, CMODE_READ);
+}
+
+static int zaxxon_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+int zaxxon_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return zaxxon_common_attach();
 }
 
 int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
@@ -89,11 +108,7 @@ int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return zaxxon_common_attach();
 }
 
 void zaxxon_detach(void)

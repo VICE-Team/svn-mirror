@@ -131,41 +131,72 @@ static io_source_t dqbb_device = {
 
 static io_source_list_t *dqbb_list_item = NULL;
 
-/* ------------------------------------------------------------------------- */
-
 static const c64export_resource_t export_res = {
     "Double Quick Brown Box", 1, 1, &dqbb_device, NULL, CARTRIDGE_DQBB
 };
 
-static int set_dqbb_enabled(int val, void *param)
+/* ------------------------------------------------------------------------- */
+
+static int dqbb_activate(void)
 {
-    if (!val) {
-        if (dqbb_enabled) {
-            if (dqbb_deactivate() < 0) {
+    lib_free(dqbb_ram);
+    dqbb_ram = lib_malloc(0x4000);
+
+    if (!util_check_null_string(dqbb_filename)) {
+        if (util_file_load(dqbb_filename, dqbb_ram, 0x4000, UTIL_FILE_LOAD_RAW) < 0) {
+            if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
                 return -1;
             }
-            c64io_unregister(dqbb_list_item);
-            dqbb_list_item = NULL;
+            return 0;
         }
+    }
+    return 0;
+}
+
+static int dqbb_deactivate(void)
+{
+    if (dqbb_ram == NULL) {
+        return 0;
+    }
+
+    if (!util_check_null_string(dqbb_filename)) {
+        if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
+            return -1;
+        }
+    }
+
+    lib_free(dqbb_ram);
+    dqbb_ram = NULL;
+
+    c64export_remove(&export_res);
+
+    return 0;
+}
+
+static int set_dqbb_enabled(int val, void *param)
+{
+    if ((!val) && (dqbb_enabled)) {
+        if (dqbb_deactivate() < 0) {
+            return -1;
+        }
+        c64io_unregister(dqbb_list_item);
+        dqbb_list_item = NULL;
         dqbb_enabled = 0;
         dqbb_reset();
         dqbb_change_config();
-        return 0;
-    } else {
-        if (!dqbb_enabled) {
-            if (c64export_add(&export_res) < 0) {
-                return -1;
-            }
-            if (dqbb_activate() < 0) {
-                return -1;
-            }
-            dqbb_list_item = c64io_register(&dqbb_device);
+    } else if ((val) && (!dqbb_enabled)) {
+        if (c64export_add(&export_res) < 0) {
+            return -1;
         }
+        if (dqbb_activate() < 0) {
+            return -1;
+        }
+        dqbb_list_item = c64io_register(&dqbb_device);
         dqbb_enabled = 1;
         dqbb_reset();
         dqbb_change_config();
-        return 0;
     }
+    return 0;
 }
 
 static int set_dqbb_filename(const char *name, void *param)
@@ -266,45 +297,17 @@ void dqbb_init_config(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int dqbb_activate(void)
+void dqbb_detach(void)
 {
-    lib_free(dqbb_ram);
-    dqbb_ram = lib_malloc(0x4000);
-
-    if (!util_check_null_string(dqbb_filename)) {
-        if (util_file_load(dqbb_filename, dqbb_ram, 0x4000, UTIL_FILE_LOAD_RAW) < 0) {
-            if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
-                return -1;
-            }
-            return 0;
-        }
-    }
-    return 0;
+    resources_set_int("DQBB", 0);
 }
 
-static int dqbb_deactivate(void)
+int dqbb_enable(void)
 {
-    if (dqbb_ram == NULL) {
-        return 0;
+    if (resources_set_int("DQBB", 1) < 0) {
+        return -1;
     }
-
-    if (!util_check_null_string(dqbb_filename)) {
-        if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
-            return -1;
-        }
-    }
-
-    lib_free(dqbb_ram);
-    dqbb_ram = NULL;
-
-    c64export_remove(&export_res);
-
     return 0;
-}
-
-void dqbb_shutdown(void)
-{
-    dqbb_deactivate();
 }
 
 /* ------------------------------------------------------------------------- */

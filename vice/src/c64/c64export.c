@@ -68,7 +68,7 @@ void c64export_dump(void)
         mon_out("No expansion port devices.\n");
     } else {
         while (current != NULL) {
-            if (cartridge_is_slotmain(current->device->cartid)) {
+            if (cart_is_slotmain(current->device->cartid)) {
                 mon_out("* ");
             } else {
                 mon_out("  ");

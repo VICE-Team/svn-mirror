@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "supergames.h"
 #include "types.h"
 
@@ -64,10 +65,17 @@ static io_source_t supergames_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     supergames_io2_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_SUPER_GAMES
 };
 
 static io_source_list_t *supergames_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Super Games", 1, 1, NULL, &supergames_device, CARTRIDGE_SUPER_GAMES
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -90,10 +98,6 @@ void supergames_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Super Games", 1, 1
-};
 
 int supergames_crt_attach(FILE *fd, BYTE *rawcart)
 {

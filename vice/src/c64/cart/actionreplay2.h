@@ -1,8 +1,8 @@
 /*
- * zaxxon.h - Cartridge handling, Zaxxon cart.
+ * actionreplay2.h - Cartridge handling, Action Replay II cart.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,23 @@
  *
  */
 
-#ifndef VICE_ZAXXON_H
-#define VICE_ZAXXON_H
+#ifndef VICE_ACTIONREPLAY2_H
+#define VICE_ACTIONREPLAY2_H
 
 #include <stdio.h>
 
 #include "types.h"
 
-extern BYTE REGPARM1 zaxxon_roml_read(WORD addr);
+extern void actionreplay2_freeze(void);
 
-extern void zaxxon_config_init(void);
-extern void zaxxon_config_setup(BYTE *rawcart);
-extern int zaxxon_bin_attach(const char *filename, BYTE *rawcart);
-extern int zaxxon_crt_attach(FILE *fd, BYTE *rawcart);
-extern void zaxxon_detach(void);
+extern void actionreplay2_config_init(void);
+extern void actionreplay2_reset(void);
+extern void actionreplay2_config_setup(BYTE *rawcart);
+extern int actionreplay2_bin_attach(const char *filename, BYTE *rawcart);
+extern int actionreplay2_crt_attach(FILE *fd, BYTE *rawcart);
+extern void actionreplay2_detach(void);
+
+extern BYTE REGPARM1 actionreplay2_roml_read(WORD addr);
+extern BYTE REGPARM1 actionreplay2_romh_read(WORD addr);
 
 #endif

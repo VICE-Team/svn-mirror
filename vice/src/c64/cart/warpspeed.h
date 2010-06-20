@@ -31,6 +31,8 @@
 
 #include "types.h"
 
+extern void warpspeed_config_setup(BYTE *rawcart);
+extern int warpspeed_bin_attach(const char *filename, BYTE *rawcart);
 extern int warpspeed_crt_attach(FILE *fd, BYTE *rawcart);
 extern void warpspeed_detach(void);
 

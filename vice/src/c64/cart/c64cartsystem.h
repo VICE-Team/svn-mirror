@@ -40,6 +40,9 @@ extern int cart_attach_cmdline(const char *param, void *extra_param);
 
 extern void cart_trigger_freeze(void);
 extern void cart_trigger_nmi(void);
+extern void cart_detach_main(void);
+
+extern int cart_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
 
 /* from c64carthooks.c */
 extern void cart_nmi_alarm(CLOCK offset, void *data);
@@ -50,17 +53,14 @@ extern void cart_resources_shutdown(void);
 extern int cart_cmdline_options_init(void);
 
 extern const char *cart_get_file_name(int type);
+extern int cart_is_slotmain(int type); /* returns 1 if cart of given type is in "Main Slot" */
 extern int cart_type_enabled(int type);
 
 extern void cart_attach(int type, BYTE *rawcart);
+extern int cart_bin_attach(int type, const char *filename, BYTE *rawcart);
 extern void cart_detach(int type);
+extern void cart_detach_all(void);
 
-/* FIXME: rename those too ... */
-extern int cartridge_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
-extern int cartridge_is_slotmain(int type); /* returns 1 if cart of given type is in "Main Slot" */
-
-extern int cartridge_bin_attach(int type, const char *filename, BYTE *rawcart);
-extern void cartridge_detach_main(void);
-extern void cartridge_detach_all(void);
+extern void cart_detach_conflicting(int type);
 
 #endif

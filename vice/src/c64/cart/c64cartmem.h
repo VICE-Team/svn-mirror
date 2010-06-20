@@ -55,14 +55,12 @@
 
 extern void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
 
-/* FIXME: these are for the "Main Slot" only, move to internal header */
+/* FIXME: these are for the "Main Slot" only, move to internal header and rename to cart_... */
 extern void cartridge_romhbank_set(unsigned int bank);
 extern void cartridge_romlbank_set(unsigned int bank);
 extern BYTE export_ram0[];
-/* "Main Slot" ROML/ROMH images.  */
-extern BYTE roml_banks[], romh_banks[];
-/* "Main Slot" ROML/ROMH/RAM banking.  */
-extern int roml_bank, romh_bank, export_ram;
+extern BYTE roml_banks[], romh_banks[]; /* "Main Slot" ROML/ROMH images.  */
+extern int roml_bank, romh_bank, export_ram; /* "Main Slot" ROML/ROMH/RAM banking.  */
 
 /* expansion port memory read/write hooks */
 extern BYTE REGPARM1 roml_read(WORD addr);

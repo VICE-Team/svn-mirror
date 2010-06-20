@@ -33,6 +33,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "types.h"
 #include "util.h"
 
@@ -58,10 +59,17 @@ static io_source_t gs_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     gs_io1_store,
-    gs_io1_read
+    gs_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_GS
 };
 
 static io_source_list_t *gs_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "GS", 1, 1, &gs_device, NULL, CARTRIDGE_GS
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -81,10 +89,6 @@ void gs_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "GS", 1, 1
-};
 
 int gs_crt_attach(FILE *fd, BYTE *rawcart)
 {

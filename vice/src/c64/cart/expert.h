@@ -46,6 +46,7 @@ extern int expert_bin_save(const char *filename);
 extern int expert_crt_attach(FILE *fd, BYTE *rawcart);
 extern int expert_crt_save(const char *filename);
 extern void expert_detach(void);
+extern int expert_enable(void);
 
 extern int expert_freeze_allowed(void);
 extern int expert_cart_enabled(void);

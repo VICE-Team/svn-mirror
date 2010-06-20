@@ -39,6 +39,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "ds1302.h"
 #include "ide64.h"
@@ -146,10 +147,17 @@ static io_source_t ide64_device = {
     0xde20, 0xdeff, 0xff,
     0,
     ide64_io1_store,
-    ide64_io1_read
+    ide64_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_IDE64
 };
 
 static io_source_list_t *ide64_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "IDE64", 1, 1, &ide64_device, NULL, CARTRIDGE_IDE64
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -756,10 +764,6 @@ void ide64_config_setup(BYTE *rawcart)
     memcpy(romh_banks, rawcart, 0x10000);
     cartridge_config_changed(0, 0, CMODE_READ | CMODE_PHI2_RAM);
 }
-
-static const c64export_resource_t export_res = {
-    "IDE64", 1, 1
-};
 
 void ide64_detach(void)
 {

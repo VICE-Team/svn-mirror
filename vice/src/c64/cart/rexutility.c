@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "rexutility.h"
 #include "types.h"
 
@@ -58,16 +59,25 @@ static io_source_t rex_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     NULL,
-    rex_io2_read
+    rex_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_REX
 };
 
 static io_source_list_t *rex_list_item = NULL;
 
+static const c64export_resource_t export_res_rex = {
+    "REX", 0, 0, NULL, &rex_device, CARTRIDGE_REX
+};
+
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res_rex = {
-    "REX", 0, 0
-};
+void rex_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, 0x2000);
+    cartridge_config_changed(0, 0, CMODE_READ);
+}
 
 int rex_crt_attach(FILE *fd, BYTE *rawcart)
 {

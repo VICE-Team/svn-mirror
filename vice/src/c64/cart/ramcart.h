@@ -38,7 +38,8 @@ extern int ramcart_cmdline_options_init(void);
 
 extern void ramcart_init_config(void);
 extern void ramcart_reset(void);
-extern void ramcart_shutdown(void);
+extern void ramcart_detach(void);
+extern int ramcart_enable(void);
 extern BYTE REGPARM1 ramcart_roml_read(WORD addr);
 extern void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte);
 extern int ramcart_read_snapshot_module(struct snapshot_s *s);

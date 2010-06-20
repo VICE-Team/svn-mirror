@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "archdep.h"
 #include "c64.h"
@@ -67,6 +68,36 @@
 #define mytpi_init tpi_init
 #define mytpi_set_int tpi_set_int
 
+/* 4 KB ROM */
+#define TPI_ROM_SIZE 0x1000
+static BYTE *tpi_rom = NULL;
+
+/* ---------------------------------------------------------------------*/
+static void REGPARM2 tpi_store(WORD addr, BYTE data);
+static BYTE REGPARM1 tpi_read(WORD addr);
+static BYTE REGPARM1 tpi_peek(WORD addr);
+
+static io_source_t tpi_device = {
+    "IEEE488",
+    IO_DETACH_CART,
+    NULL,
+    0xdf00, 0xdfff, 0x07,
+    1, /* read is always valid */
+    tpi_store,
+    tpi_read,
+    tpi_peek,
+    NULL, /* TODO: dump */
+    CARTRIDGE_IEEE488
+};
+
+static io_source_list_t *tpi_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "IEEE488", 0, 0, NULL, &tpi_device, CARTRIDGE_IEEE488
+};
+
+/* ---------------------------------------------------------------------*/
+
 static int ieee488_enabled = 0;
 
 int tpi_cart_enabled(void)
@@ -86,31 +117,17 @@ static BYTE REGPARM1 tpi_read(WORD addr)
     return tpicore_read(machine_context.tpi1, addr);
 }
 
-BYTE REGPARM1 tpi_peek(WORD addr)
+static BYTE REGPARM1 tpi_peek(WORD addr)
 {
     return tpicore_peek(machine_context.tpi1, addr);
 }
 
 /* ---------------------------------------------------------------------*/
 
-static io_source_t tpi_device = {
-    "IEEE488",
-    IO_DETACH_CART,
-    NULL,
-    0xdf00, 0xdfff, 0x07,
-    1, /* read is always valid */
-    tpi_store,
-    tpi_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
-    CARTRIDGE_IEEE488
-};
-
-static io_source_list_t *tpi_list_item = NULL;
-
-static const c64export_resource_t export_res = {
-    "IEEE488", 0, 0, NULL, &tpi_device, CARTRIDGE_IEEE488
-};
+BYTE REGPARM1 tpi_roml_read(WORD addr)
+{
+    return tpi_rom[addr & 0x1fff];
+}
 
 /* ---------------------------------------------------------------------*/
 
@@ -329,12 +346,17 @@ static int set_ieee488_enabled(int val, void *param)
             DBG(("IEEE: BUG: ieee488_enabled == 1 and tpi_list_item == NULL ?!\n"));
         }
 #endif
+        lib_free(tpi_rom);
+        tpi_rom = NULL;
         c64export_remove(&export_res);
         c64io_unregister(tpi_list_item);
         tpi_list_item = NULL;
         ieee488_enabled = 0;
         DBG(("IEEE: set_enabled unregistered\n"));
     } else if (!ieee488_enabled && val) {
+        if (tpi_rom == NULL) {
+            tpi_rom = lib_malloc(TPI_ROM_SIZE);
+        }
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
             if (ieee488_filename) {
@@ -342,6 +364,8 @@ static int set_ieee488_enabled(int val, void *param)
                     DBG(("IEEE: attach default image\n"));
                     if (cartridge_attach_image(CARTRIDGE_IEEE488, ieee488_filename) < 0) {
                         DBG(("IEEE: set_enabled did not register\n"));
+                        lib_free(tpi_rom);
+                        tpi_rom = NULL;
                         return -1;
                     }
                     /* ieee488_enabled = 1; */ /* cartridge_attach_image will end up calling set_ieee488_enabled again */
@@ -352,6 +376,8 @@ static int set_ieee488_enabled(int val, void *param)
             /* if the param is == NULL, then we should actually set the resource */
             if (c64export_add(&export_res) < 0) {
                 DBG(("IEEE: set_enabled did not register\n"));
+                lib_free(tpi_rom);
+                tpi_rom = NULL;
                 return -1;
             } else {
                 DBG(("IEEE: set_enabled registered\n"));
@@ -418,6 +444,12 @@ void tpi_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
+void tpi_config_setup(BYTE *rawcart)
+{
+    DBG(("TPI: config_setup\n"));
+    memcpy(tpi_rom, rawcart, TPI_ROM_SIZE);
+}
+
 void tpi_config_init(void)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
@@ -436,7 +468,7 @@ int tpi_bin_attach(const char *filename, BYTE *rawcart)
     if (!fd) {
         return -1;
     }
-    if (fread(rawcart, 0x1000, 1, fd) < 1) {
+    if (fread(rawcart, TPI_ROM_SIZE, 1, fd) < 1) {
         fclose(fd);
         return -1;
     }
@@ -453,7 +485,7 @@ int tpi_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (fread(&rawcart[0x0000], 0x1000, 1, fd) < 1) {
+    if (fread(rawcart, TPI_ROM_SIZE, 1, fd) < 1) {
         return -1;
     }
 
@@ -463,6 +495,11 @@ int tpi_crt_attach(FILE *fd, BYTE *rawcart)
 void tpi_detach(void)
 {
     set_ieee488_enabled(0, NULL);
+}
+
+int tpi_enable(void)
+{
+    return set_ieee488_enabled(1, (void*)1);
 }
 
 /* ---------------------------------------------------------------------*/

@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "delaep256.h"
 #include "types.h"
 
@@ -80,10 +81,17 @@ static io_source_t delaep256_device = {
     0xde00, 0xdeff, 0xff,
     0,
     delaep256_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_DELA_EP256
 };
 
 static io_source_list_t *delaep256_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Dela EP256", 1, 0, &delaep256_device, NULL, CARTRIDGE_DELA_EP256
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -100,10 +108,6 @@ void delaep256_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Dela EP256", 1, 0
-};
 
 int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 {

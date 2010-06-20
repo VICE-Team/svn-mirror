@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "delaep64.h"
 #include "types.h"
 #include "vicii-phi1.h"
@@ -89,10 +90,17 @@ static io_source_t delaep64_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     delaep64_io1_store,
-    delaep64_io1_read
+    delaep64_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_DELA_EP64
 };
 
 static io_source_list_t *delaep64_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Dela EP64", 1, 0, &delaep64_device, NULL, CARTRIDGE_DELA_EP64
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -107,10 +115,6 @@ void delaep64_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Dela EP64", 1, 0
-};
 
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {

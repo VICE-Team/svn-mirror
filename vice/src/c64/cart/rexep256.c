@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "rexep256.h"
 #include "types.h"
 
@@ -116,10 +117,17 @@ static io_source_t rexep256_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     rexep256_io2_store,
-    rexep256_io2_read
+    rexep256_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_REX_EP256
 };
 
 static io_source_list_t *rexep256_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "REX EP256", 1, 0, NULL, &rexep256_device, CARTRIDGE_REX_EP256
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -136,10 +144,6 @@ void rexep256_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "REX EP256", 1, 0
-};
 
 int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 {

@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "comal80.h"
 #include "types.h"
 
@@ -69,10 +70,17 @@ static io_source_t comal80_device = {
     0xde00, 0xdeff, 0xff,
     0,
     comal80_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_COMAL80
 };
 
 static io_source_list_t *comal80_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Comal-80", 1, 1, &comal80_device, NULL, CARTRIDGE_COMAL80
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -95,10 +103,6 @@ void comal80_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Comal-80", 1, 1
-};
 
 int comal80_crt_attach(FILE *fd, BYTE *rawcart)
 {

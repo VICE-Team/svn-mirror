@@ -38,9 +38,11 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "epyxfastload.h"
 #include "maincpu.h"
 #include "types.h"
+#include "util.h"
 
 /* The Epyx FastLoad cart discharges a capacitor on ROML and IO1 accesses. */
 /* This constant defines the number of cycles it takes to recharge it.     */
@@ -88,7 +90,10 @@ static io_source_t epyxfastload_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     NULL,
-    epyxfastload_io1_read
+    epyxfastload_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_EPYX_FASTLOAD
 };
 
 static io_source_t epyxfastload_io2_device = {
@@ -98,11 +103,18 @@ static io_source_t epyxfastload_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     NULL,
-    epyxfastload_io2_read
+    epyxfastload_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_EPYX_FASTLOAD
 };
 
 static io_source_list_t *epyxfastload_io1_list_item = NULL;
 static io_source_list_t *epyxfastload_io2_list_item = NULL;
+
+static const c64export_resource_t export_res_epyx = {
+    "Epyx Fastload", 0, 0, &epyxfastload_io1_device, &epyxfastload_io2_device, CARTRIDGE_EPYX_FASTLOAD
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -134,10 +146,27 @@ void epyxfastload_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int epyxfastload_common_attach(void)
+{
+    if (c64export_add(&export_res_epyx) < 0) {
+        return -1;
+    }
 
-static const c64export_resource_t export_res_epyx = {
-    "Epyx Fastload", 0, 0
-};
+    epyxrom_alarm = alarm_new(maincpu_alarm_context, "EPYXCartRomAlarm", epyxfastload_alarm_handler, NULL);
+
+    epyxfastload_io1_list_item = c64io_register(&epyxfastload_io1_device);
+    epyxfastload_io2_list_item = c64io_register(&epyxfastload_io2_device);
+
+    return 0;
+}
+
+int epyxfastload_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return epyxfastload_common_attach();
+}
 
 int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -151,16 +180,7 @@ int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res_epyx) < 0) {
-        return -1;
-    }
-
-    epyxrom_alarm = alarm_new(maincpu_alarm_context, "EPYXCartRomAlarm", epyxfastload_alarm_handler, NULL);
-
-    epyxfastload_io1_list_item = c64io_register(&epyxfastload_io1_device);
-    epyxfastload_io2_list_item = c64io_register(&epyxfastload_io2_device);
-
-    return 0;
+    return epyxfastload_common_attach();
 }
 
 void epyxfastload_detach(void)

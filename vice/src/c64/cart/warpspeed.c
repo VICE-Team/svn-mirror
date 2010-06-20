@@ -38,6 +38,7 @@
 #include "cartridge.h"
 #include "warpspeed.h"
 #include "types.h"
+#include "util.h"
 
 /*
     Warpspeed
@@ -118,7 +119,15 @@ static const c64export_resource_t export_res_warpspeed = {
 };
 
 /* ---------------------------------------------------------------------*/
-int warpspeed_common_attach(void)
+
+void warpspeed_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, 0x2000);
+    memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+    cartridge_config_changed(1, 1, CMODE_READ);
+}
+
+static int warpspeed_common_attach(void)
 {
     if (c64export_add(&export_res_warpspeed) < 0) {
         return -1;
@@ -128,6 +137,14 @@ int warpspeed_common_attach(void)
     warpspeed_io2_list_item = c64io_register(&warpspeed_io2_device);
 
     return 0;
+}
+
+int warpspeed_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return warpspeed_common_attach();
 }
 
 int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)

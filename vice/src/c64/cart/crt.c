@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "actionreplay.h"
+#include "actionreplay2.h"
 #include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "atomicpower.h"
@@ -104,11 +105,13 @@ const char CHIP_HEADER[] = "CHIP";
 static int crt_read_header(FILE *fd, BYTE *header)
 {
     if (fread(header, 0x40, 1, fd) < 1) {
+        DBG(("CRT: could not read header\n"));
         fclose(fd);
         return -1;
     }
 
     if (strncmp((char*)header, CRT_HEADER, 16)) {
+        DBG(("CRT: header invalid\n"));
         fclose(fd);
         return -1;
     }
@@ -150,6 +153,8 @@ int crt_attach(const char *filename, BYTE *rawcart)
     int rc, new_crttype;
     FILE *fd;
 
+    DBG(("crt_attach: %s\n", filename));
+
     fd = fopen(filename, MODE_READ);
 
     if (fd == NULL) {
@@ -185,6 +190,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_ACTION_REPLAY:
             rc = actionreplay_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_ACTION_REPLAY2:
+            rc = actionreplay2_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_ACTION_REPLAY3:
             rc = actionreplay3_crt_attach(fd, rawcart);

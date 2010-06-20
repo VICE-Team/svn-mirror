@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "types.h"
 #include "util.h"
 
@@ -75,7 +76,10 @@ static io_source_t action_replay_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     actionreplay_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ACTION_REPLAY
 };
 
 static io_source_t action_replay_io2_device = {
@@ -85,11 +89,18 @@ static io_source_t action_replay_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     actionreplay_io2_store,
-    actionreplay_io2_read
+    actionreplay_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ACTION_REPLAY
 };
 
 static io_source_list_t *action_replay_io1_list_item = NULL;
 static io_source_list_t *action_replay_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Action Replay", 1, 1, &action_replay_io1_device, &action_replay_io2_device, CARTRIDGE_ACTION_REPLAY
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -198,10 +209,6 @@ void actionreplay_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Action Replay", 1, 1
-};
 
 static int actionreplay_common_attach(void)
 {

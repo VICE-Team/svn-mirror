@@ -51,10 +51,11 @@ extern void reu_ba_register(reu_ba_check_callback_t *ba_check,
 extern void reu_reset(void);
 extern void reu_dma(int immed);
 extern void reu_dma_start(void);
-extern void reu_shutdown(void);
+extern void reu_detach(void);
+extern int reu_enable(void);
 extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);
 
-int reu_cart_enabled(void);
+extern int reu_cart_enabled(void);
 
 #endif

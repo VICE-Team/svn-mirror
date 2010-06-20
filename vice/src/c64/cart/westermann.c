@@ -38,6 +38,7 @@
 #include "cartridge.h"
 #include "westermann.h"
 #include "types.h"
+#include "util.h"
 
 /* some prototypes are needed */
 static BYTE REGPARM1 westermann_io2_read(WORD addr);
@@ -49,10 +50,17 @@ static io_source_t westermann_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     NULL,
-    westermann_io2_read
+    westermann_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_WESTERMANN
 };
 
 static io_source_list_t *westermann_list_item = NULL;
+
+static const c64export_resource_t export_res_westermann = {
+    "Westermann", 1, 0, NULL, &westermann_device, CARTRIDGE_WESTERMANN
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -64,11 +72,30 @@ BYTE REGPARM1 westermann_io2_read(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-static const c64export_resource_t export_res_westermann = {
-    "Westermann", 1, 0
-};
+void westermann_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, 0x2000);
+    memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+    cartridge_config_changed(1, 1, CMODE_READ);
+}
 
-/* ---------------------------------------------------------------------*/
+static int westermann_common_attach(void)
+{
+    if (c64export_add(&export_res_westermann) < 0) {
+        return -1;
+    }
+    westermann_list_item = c64io_register(&westermann_device);
+
+    return 0;
+}
+
+int westermann_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return westermann_common_attach();
+}
 
 int westermann_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -86,13 +113,7 @@ int westermann_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res_westermann) < 0) {
-        return -1;
-    }
-
-    westermann_list_item = c64io_register(&westermann_device);
-
-    return 0;
+    return westermann_common_attach();
 }
 
 void westermann_detach(void)

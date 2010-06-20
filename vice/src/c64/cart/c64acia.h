@@ -38,6 +38,9 @@ extern int aciacart_cmdline_options_init(void);
 extern int aciacart_resources_init(void);
 extern void aciacart_resources_shutdown(void);
 
+extern void aciacart_detach(void);
+extern int aciacart_enable(void);
+
 struct snapshot_s;
 extern int aciacart_snapshot_write_module(struct snapshot_s *p);
 extern int aciacart_snapshot_read_module(struct snapshot_s *p);

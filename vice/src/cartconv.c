@@ -108,7 +108,7 @@ static const cart_t cart_info[] = {
 /*  {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_16KB, 0, 0, 1, 0, "Ultimax", NULL, NULL}, */
 
     {1, 0, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB | CARTRIDGE_SIZE_16KB, 0, 0, 0, 0, "Generic Cartridge", NULL, save_generic_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Action Replay", "ar1", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Action Replay", "ar5", save_regular_crt}, /* this is NOT AR1, but 4.2,5,6 etc */
     {0, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, "KCS Power Cartridge", "kcs", save_2_blocks_crt},
     {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Final Cartridge III", "fc3", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, "Simons Basic", "simon", save_2_blocks_crt},
@@ -157,6 +157,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0xe000, 1, 0, "Snapshot 64", "s64", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Super Explode 5", "se5", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Magic Voice", "mv", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 2", "ar2", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -808,6 +809,7 @@ static int load_input_file(char *filename)
             case 0x5000:
             case 0x8000:
             case 0x10000:
+            case 0x18000:
             case 0x20000:
             case 0x40000:
             case 0x80000:
@@ -822,6 +824,7 @@ static int load_input_file(char *filename)
             case 0x5002:
             case 0x8002:
             case 0x10002:
+            case 0x18002:
             case 0x20002:
             case 0x40002:
             case 0x80002:

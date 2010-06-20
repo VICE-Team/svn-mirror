@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "types.h"
 #include "vicii-phi1.h"
 #include "util.h"
@@ -100,7 +101,10 @@ static io_source_t atomicpower_io1_device = {
     0xde00, 0xdeff, 0xff,
     0,
     atomicpower_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ATOMIC_POWER
 };
 
 static io_source_t atomicpower_io2_device = {
@@ -110,11 +114,18 @@ static io_source_t atomicpower_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0,
     atomicpower_io2_store,
-    atomicpower_io2_read
+    atomicpower_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ATOMIC_POWER
 };
 
 static io_source_list_t *atomicpower_io1_list_item = NULL;
 static io_source_list_t *atomicpower_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Action Power", 1, 1, &atomicpower_io1_device, &atomicpower_io2_device, CARTRIDGE_ATOMIC_POWER
+};
 
 /* ---------------------------------------------------------------------*/
 static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
@@ -247,10 +258,6 @@ void atomicpower_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Action Power", 1, 1
-};
 
 static int atomicpower_common_attach(void)
 {

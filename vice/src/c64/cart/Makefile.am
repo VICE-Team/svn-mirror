@@ -13,6 +13,8 @@ INCLUDES = \
 noinst_LIBRARIES = libc64cart.a
 
 libc64cart_a_SOURCES = \
+	actionreplay2.c \
+	actionreplay2.h \
 	actionreplay3.c \
 	actionreplay3.h \
 	actionreplay4.c \

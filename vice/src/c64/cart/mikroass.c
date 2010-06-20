@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "mikroass.h"
 #include "types.h"
 
@@ -56,7 +57,10 @@ static io_source_t mikroass_io1_device = {
     0xde00, 0xdeff, 0xff,
     1, /* read is always valid */
     NULL,
-    mikroass_io1_read
+    mikroass_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_MIKRO_ASSEMBLER
 };
 
 static io_source_t mikroass_io2_device = {
@@ -66,11 +70,18 @@ static io_source_t mikroass_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     NULL,
-    mikroass_io2_read
+    mikroass_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_MIKRO_ASSEMBLER
 };
 
 static io_source_list_t *mikroass_io1_list_item = NULL;
 static io_source_list_t *mikroass_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Mikro Assembler", 1, 0, &mikroass_io1_device, &mikroass_io2_device, CARTRIDGE_MIKRO_ASSEMBLER
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -86,10 +97,6 @@ void mikroass_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Mikro Assembler", 1, 0
-};
 
 int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
 {

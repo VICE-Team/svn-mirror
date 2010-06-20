@@ -34,8 +34,10 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "simonsbasic.h"
 #include "types.h"
+#include "util.h"
 
 static BYTE REGPARM1 simon_io1_read(WORD addr)
 {
@@ -57,18 +59,45 @@ static io_source_t simon_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     simon_io1_store,
-    simon_io1_read
+    simon_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_SIMONS_BASIC
 };
 
 static io_source_list_t *simon_list_item = NULL;
 
-/* ---------------------------------------------------------------------*/
-
 static const c64export_resource_t export_res_simon = {
-    "Simon's Basic", 1, 1
+    "Simon's Basic", 1, 1, &simon_device, NULL, CARTRIDGE_SIMONS_BASIC
 };
 
-static int generic_sb_crt_attach(FILE *fd, BYTE *rawcart)
+/* ---------------------------------------------------------------------*/
+
+void simon_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, 0x2000);
+    memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+    cartridge_config_changed(1, 1, CMODE_READ);
+}
+
+static int simon_common_attach(void)
+{
+    if (c64export_add(&export_res_simon) < 0) {
+        return -1;
+    }
+    simon_list_item = c64io_register(&simon_device);
+    return 0;
+}
+
+int simon_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return simon_common_attach();
+}
+
+int simon_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
     int i;
@@ -87,22 +116,7 @@ static int generic_sb_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    return 0;
-}
-
-int simon_crt_attach(FILE *fd, BYTE *rawcart)
-{
-    if (generic_sb_crt_attach(fd,rawcart) < 0) {
-        return -1;
-    }
-
-    if (c64export_add(&export_res_simon) < 0) {
-        return -1;
-    }
-
-    simon_list_item = c64io_register(&simon_device);
-
-    return 0;
+    return simon_common_attach();
 }
 
 void simon_detach(void)

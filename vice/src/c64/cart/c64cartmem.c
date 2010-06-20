@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "actionreplay2.h"
 #include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "actionreplay.h"
@@ -278,6 +279,9 @@ BYTE REGPARM1 roml_read(WORD addr)
     if (magicvoice_cart_enabled()) {
         return magicvoice_roml_read(addr);
     }
+    if (tpi_cart_enabled()) {
+        return tpi_roml_read(addr);
+    }
     /* "Slot 1" */
     if (isepic_cart_enabled()) {
         return isepic_page_read(addr);
@@ -295,6 +299,8 @@ BYTE REGPARM1 roml_read(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_ACTION_REPLAY:
             return actionreplay_roml_read(addr);
+        case CARTRIDGE_ACTION_REPLAY2:
+            return actionreplay2_roml_read(addr);
         case CARTRIDGE_ACTION_REPLAY3:
             return actionreplay3_roml_read(addr);
         case CARTRIDGE_ACTION_REPLAY4:
@@ -439,6 +445,8 @@ BYTE REGPARM1 romh_read(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY2:
+            return actionreplay2_romh_read(addr);
         case CARTRIDGE_ACTION_REPLAY3:
             return actionreplay3_romh_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
@@ -505,6 +513,8 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY2:
+            return actionreplay2_romh_read(addr);
         case CARTRIDGE_ACTION_REPLAY3:
             return actionreplay3_romh_read(addr);
         case CARTRIDGE_ATOMIC_POWER:

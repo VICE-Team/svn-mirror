@@ -301,31 +301,25 @@ int reu_cart_enabled(void)
 */
 static int set_reu_enabled(int val, void *param)
 {
-    if (!val) {
-        if (reu_enabled) {
-            if (reu_deactivate() < 0) {
-                return -1;
-            }
-            c64export_remove(&export_res_reu);
-            c64io_unregister(reu_list_item);
-            reu_list_item = NULL;
+    if ((!val) && (reu_enabled)) {
+        if (reu_deactivate() < 0) {
+            return -1;
         }
+        c64export_remove(&export_res_reu);
+        c64io_unregister(reu_list_item);
+        reu_list_item = NULL;
         reu_enabled = 0;
-        return 0;
-    } else {
-        if (!reu_enabled) {
-            if (reu_activate() < 0) {
-                return -1;
-            }
-            if (c64export_add(&export_res_reu) < 0) {
-                return -1;
-            }
-            reu_list_item = c64io_register(&reu_device);
+    } else if ((val) && (!reu_enabled)) {
+        if (reu_activate() < 0) {
+            return -1;
         }
-
+        if (c64export_add(&export_res_reu) < 0) {
+            return -1;
+        }
+        reu_list_item = c64io_register(&reu_device);
         reu_enabled = 1;
-        return 0;
     }
+    return 0;
 }
 
 /*! \internal \brief set the first unused REU register address
@@ -645,10 +639,15 @@ static int reu_deactivate(void)
 }
 
 /* detach the reu from the cartridge port */
-void reu_shutdown(void)
+void reu_detach(void)
 {
     set_reu_enabled(0, NULL);
     reu_deactivate();
+}
+
+int reu_enable(void)
+{
+    return set_reu_enabled(1, NULL);
 }
 
 /* ------------------------------------------------------------------------- */

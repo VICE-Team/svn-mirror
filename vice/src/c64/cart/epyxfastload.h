@@ -37,6 +37,7 @@ extern void epyxfastload_reset(void);
 
 extern void epyxfastload_config_init(void);
 extern void epyxfastload_config_setup(BYTE *rawcart);
+extern int epyxfastload_bin_attach(const char *filename, BYTE *rawcart);
 extern int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart);
 extern void epyxfastload_detach(void);
 

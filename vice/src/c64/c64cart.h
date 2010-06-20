@@ -29,13 +29,6 @@
 
 #include "types.h"
 
-/* FIXME: these are for the "Main Slot" */
-/* FIXME: no more used except in cart system, remove from this header */
-/* Exansion port ROML/ROMH images.  */
-//extern BYTE roml_banks[], romh_banks[];
-/* Expansion port ROML/ROMH/RAM banking.  */
-//extern int roml_bank, romh_bank, export_ram;
-
 /* Cartridge ROM limit = 512kB (MMCReplay) */
 #define C64CART_ROM_LIMIT (1024*512)
 /* Cartridge RAM limit = 512kB (MMCReplay) */
@@ -79,6 +72,6 @@ typedef struct {
 
 extern export_t export;
 
-extern int try_cartridge_init(int c); /* FIXME: don't use, remove */
+extern int try_cartridge_init(int c); /* FIXME: don't use, remove (only used in ide64) */
 
 #endif

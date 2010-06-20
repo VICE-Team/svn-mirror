@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "ross.h"
 #include "types.h"
 
@@ -63,7 +64,10 @@ static io_source_t ross_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     NULL,
-    ross_io1_read
+    ross_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ROSS
 };
 
 static io_source_t ross_io2_device = {
@@ -73,11 +77,18 @@ static io_source_t ross_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     NULL,
-    ross_io2_read
+    ross_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_ROSS
 };
 
 static io_source_list_t *ross_io1_list_item = NULL;
 static io_source_list_t *ross_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Ross", 1, 1, &ross_io1_device, &ross_io2_device, CARTRIDGE_ROSS
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -96,10 +107,6 @@ void ross_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Ross", 1, 1
-};
 
 int ross_crt_attach(FILE *fd, BYTE *rawcart)
 {

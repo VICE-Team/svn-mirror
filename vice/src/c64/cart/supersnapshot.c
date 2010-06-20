@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "supersnapshot.h"
 #include "types.h"
 #include "util.h"
@@ -75,10 +76,17 @@ static io_source_t ss5_device = {
     0xde00, 0xdeff, 0xff,
     0,
     supersnapshot_v5_io1_store,
-    supersnapshot_v5_io1_read
+    supersnapshot_v5_io1_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_SUPER_SNAPSHOT_V5
 };
 
 static io_source_list_t *ss5_list_item = NULL;
+
+static const c64export_resource_t export_res_v5 = {
+    "Super Snapshot V5", 1, 1, &ss5_device, NULL, CARTRIDGE_SUPER_SNAPSHOT_V5
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -173,10 +181,6 @@ void supersnapshot_v5_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res_v5 = {
-    "Super Snapshot V5", 1, 1
-};
 
 static int supersnapshot_v5_common_attach(void)
 {

@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "actionreplay2.h"
 #include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "actionreplay.h"
@@ -374,7 +375,7 @@ int cartridge_cmdline_options_init(void)
 /*
     returns ID of cart in "Main Slot"
 */
-int cartridge_getid_slotmain(void)
+int cart_getid_slotmain(void)
 {
     if (c64cart_type == CARTRIDGE_CRT) {
         return crttype;
@@ -391,7 +392,7 @@ int cartridge_getid_slotmain(void)
 */
 const char *cartridge_get_file_name(int type)
 {
-    if (cartridge_getid_slotmain() == type) {
+    if (cart_getid_slotmain() == type) {
         return cartfile;
     }
     return cart_get_file_name(type);
@@ -405,7 +406,7 @@ const char *cartridge_get_file_name(int type)
 */
 int cartridge_type_enabled(int type)
 {
-    if (cartridge_getid_slotmain() == type) {
+    if (cart_getid_slotmain() == type) {
         return 1;
     }
     return cart_type_enabled(type);
@@ -453,11 +454,11 @@ int cartridge_attach_image(int type, const char *filename)
     most obvious reason: attaching a different ROM (software) for the same
     cartridge (hardware) */
 
-    slotmain = cartridge_is_slotmain(carttype);
+    slotmain = cart_is_slotmain(carttype);
     if (slotmain) {
         /* if the cart to be attached is in the "Main Slot", detach whatever
            cart currently is in the "Main Slot" */
-        oldmain = cartridge_getid_slotmain();
+        oldmain = cart_getid_slotmain();
         if (oldmain != CARTRIDGE_NONE) {
             DBG(("CART: detach slot main ID: %d\n", oldmain));
             cartridge_detach_image(oldmain);
@@ -480,12 +481,12 @@ int cartridge_attach_image(int type, const char *filename)
     } else {
         DBG(("CART: attach BIN ID: %d '%s'\n", carttype, filename));
         cartid = carttype;
-        if (cartridge_bin_attach(carttype, filename, rawcart) < 0) {
+        if (cart_bin_attach(carttype, filename, rawcart) < 0) {
             goto exiterror;
         }
     }
 
-    if (cartridge_is_slotmain(cartid)) {
+    if (cart_is_slotmain(cartid)) {
         DBG(("cartridge_attach MAIN ID: %d\n", cartid));
         mem_cartridge_type = cartid;
         cartridge_romhbank_set(0);
@@ -502,7 +503,7 @@ int cartridge_attach_image(int type, const char *filename)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
 
-    if (cartridge_is_slotmain(cartid)) {
+    if (cart_is_slotmain(cartid)) {
         /* "Main Slot" */
         DBG(("CART: set main slot ID: %d type: %d\n", carttype, type));
         c64cart_type = type;
@@ -521,18 +522,12 @@ exiterror:
     return -1;
 }
 
-int cartridge_enable_type(int type)
-{
-    /* FIXME */
-    return -1;
-}
-
 /*
     detach cartridge from "Main Slot"
 */
-void cartridge_detach_main(void)
+void cart_detach_main(void)
 {
-    int type = cartridge_getid_slotmain();
+    int type = cart_getid_slotmain();
     DBG(("CART: detach main %d: type: %d id: %d\n", type, c64cart_type, crttype));
     if (type != CARTRIDGE_NONE) {
         cart_detach(type);
@@ -568,14 +563,14 @@ void cartridge_detach_image(int type)
 {
     if (type == 0) {
         DBG(("CART: detach MAIN ID: %d\n", type));
-        cartridge_detach_main();
+        cart_detach_main();
     } else if (type == -1) {
-        cartridge_detach_all();
+        cart_detach_all();
     } else {
         DBG(("CART: detach ID: %d\n", type));
         /* detach only given type */
-        if (cartridge_is_slotmain(type)) {
-            cartridge_detach_main();
+        if (cart_is_slotmain(type)) {
+            cart_detach_main();
         } else {
             cart_detach(type);
         }

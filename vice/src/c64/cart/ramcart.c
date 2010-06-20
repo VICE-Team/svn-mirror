@@ -204,13 +204,59 @@ static const c64export_resource_t export_res = {
 
 /* ------------------------------------------------------------------------- */
 
-void ramcart_init_config(void)
+static int ramcart_activate(void)
 {
-    if (ramcart_enabled) {
-        /* FIXME */
-        export.exrom = 1;
-        mem_pla_config_changed();
+    if (!ramcart_size) {
+        return 0;
     }
+
+    ramcart_ram = lib_realloc((void *)ramcart_ram, (size_t)ramcart_size);
+
+    /* Clear newly allocated RAM.  */
+    if (ramcart_size > old_ramcart_ram_size) {
+        memset(ramcart_ram, 0, (size_t)(ramcart_size - old_ramcart_ram_size));
+    }
+
+    old_ramcart_ram_size = ramcart_size;
+
+    log_message(ramcart_log, "%dKB unit installed.", ramcart_size >> 10);
+
+    if (!util_check_null_string(ramcart_filename)) {
+        if (util_file_load(ramcart_filename, ramcart_ram, (size_t)ramcart_size, UTIL_FILE_LOAD_RAW) < 0) {
+            log_message(ramcart_log, "Reading RAMCART image %s failed.", ramcart_filename);
+            if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
+                log_message(ramcart_log, "Creating RAMCART image %s failed.", ramcart_filename);
+                return -1;
+            }
+            log_message(ramcart_log, "Creating RAMCART image %s.", ramcart_filename);
+            return 0;
+        }
+        log_message(ramcart_log, "Reading RAMCART image %s.", ramcart_filename);
+    }
+
+    ramcart_reset();
+    return 0;
+}
+
+static int ramcart_deactivate(void)
+{
+    if (ramcart_ram == NULL) {
+        return 0;
+    }
+
+    if (!util_check_null_string(ramcart_filename)) {
+        if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
+            log_message(ramcart_log, "Writing RAMCART image %s failed.", ramcart_filename);
+            return -1;
+        }
+        log_message(ramcart_log, "Writing RAMCART image %s.", ramcart_filename);
+    }
+
+    lib_free(ramcart_ram);
+    ramcart_ram = NULL;
+    old_ramcart_ram_size = 0;
+
+    return 0;
 }
 
 static int set_ramcart_enabled(int val, void *param)
@@ -225,6 +271,7 @@ static int set_ramcart_enabled(int val, void *param)
         ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
         ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
         ramcart_enabled = 1;
+        /* FIXME */
         export.exrom = 1;
         mem_pla_config_changed();
     } else if(ramcart_enabled && !val) {
@@ -237,6 +284,7 @@ static int set_ramcart_enabled(int val, void *param)
         ramcart_io2_list_item = NULL;
         c64export_remove(&export_res);
         ramcart_enabled = 0;
+        /* FIXME */
         export.exrom = 0;
         mem_pla_config_changed();
     }
@@ -367,6 +415,15 @@ int ramcart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+void ramcart_init_config(void)
+{
+    if (ramcart_enabled) {
+        /* FIXME */
+        export.exrom = 1;
+        mem_pla_config_changed();
+    }
+}
+
 void ramcart_init(void)
 {
     ramcart_log = log_open("RAMCART");
@@ -378,64 +435,17 @@ void ramcart_reset(void)
     ramcart[1] = 0;
 }
 
-static int ramcart_activate(void)
+void ramcart_detach(void)
 {
-    if (!ramcart_size) {
-        return 0;
-    }
-
-    ramcart_ram = lib_realloc((void *)ramcart_ram, (size_t)ramcart_size);
-
-    /* Clear newly allocated RAM.  */
-    if (ramcart_size > old_ramcart_ram_size) {
-        memset(ramcart_ram, 0, (size_t)(ramcart_size - old_ramcart_ram_size));
-    }
-
-    old_ramcart_ram_size = ramcart_size;
-
-    log_message(ramcart_log, "%dKB unit installed.", ramcart_size >> 10);
-
-    if (!util_check_null_string(ramcart_filename)) {
-        if (util_file_load(ramcart_filename, ramcart_ram, (size_t)ramcart_size, UTIL_FILE_LOAD_RAW) < 0) {
-            log_message(ramcart_log, "Reading RAMCART image %s failed.", ramcart_filename);
-            if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
-                log_message(ramcart_log, "Creating RAMCART image %s failed.", ramcart_filename);
-                return -1;
-            }
-            log_message(ramcart_log, "Creating RAMCART image %s.", ramcart_filename);
-            return 0;
-        }
-        log_message(ramcart_log, "Reading RAMCART image %s.", ramcart_filename);
-    }
-
-    ramcart_reset();
-    return 0;
+    resources_set_int("RAMCART", 0);
 }
 
-static int ramcart_deactivate(void)
+int ramcart_enable(void)
 {
-    if (ramcart_ram == NULL) {
-        return 0;
+    if (resources_set_int("RAMCART", 1) < 0) {
+        return -1;
     }
-
-    if (!util_check_null_string(ramcart_filename)) {
-        if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
-            log_message(ramcart_log, "Writing RAMCART image %s failed.", ramcart_filename);
-            return -1;
-        }
-        log_message(ramcart_log, "Writing RAMCART image %s.", ramcart_filename);
-    }
-
-    lib_free(ramcart_ram);
-    ramcart_ram = NULL;
-    old_ramcart_ram_size = 0;
-
     return 0;
-}
-
-void ramcart_shutdown(void)
-{
-    ramcart_deactivate();
 }
 
 /* ------------------------------------------------------------------------- */

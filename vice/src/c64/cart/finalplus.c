@@ -85,10 +85,17 @@ static io_source_t final_plus_io2_device = {
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     final_plus_io2_store,
-    final_plus_io2_read
+    final_plus_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_FINAL_PLUS
 };
 
 static io_source_list_t *final_plus_io2_list_item = NULL;
+
+static const c64export_resource_t export_res_plus = {
+    "Final Plus", 1, 1, NULL, &final_plus_io2_device, CARTRIDGE_FINAL_PLUS
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -177,10 +184,6 @@ void final_plus_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res_plus = {
-    "Final Plus", 1, 1
-};
 
 static int final_plus_common_attach(void)
 {

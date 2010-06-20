@@ -43,11 +43,12 @@ extern void cartridge_resources_shutdown(void);
 /* init the cartridge config so the cartridge can start (or whatever) */
 extern void cartridge_init_config(void);
 
-/* attach a cartridge by type and filename (takes crt and bin files) */
+/* attach (and enable) a cartridge by type and filename (takes crt and bin files) */
 extern int cartridge_attach_image(int type, const char *filename);
-/* enable/disable cartridge by type. should be used by the UI instead of using the resources directly */
-extern int cartridge_enable_type(int type);
-/* detaches the cartridge with the associated id. pass -1 to detach all */
+/* enable cartridge by type. loads default image if any.
+   should be used by the UI instead of using the resources directly */
+extern int cartridge_enable(int type);
+/* detaches/disables the cartridge with the associated id. pass -1 to detach all */
 extern void cartridge_detach_image(int type);
 
 /* FIXME: this should also be made a generic function that takes the type */
@@ -178,8 +179,9 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_SNAPSHOT64           47 /* snapshot64.c */
 #define CARTRIDGE_SUPER_EXPLODE_V5     48 /* superexplode5.c */
 #define CARTRIDGE_MAGIC_VOICE          49 /* magicvoice.c, tpicore.c, t6721.c */
+#define CARTRIDGE_ACTION_REPLAY2       50 /* actionreplay2.c */
 
-#define CARTRIDGE_LAST                 49 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 50 /* cartconv: last cartridge in list */
 
 /*
  * VIC20 cartridge system

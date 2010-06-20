@@ -34,6 +34,7 @@
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "delaep7x8.h"
 #include "types.h"
 
@@ -90,10 +91,17 @@ static io_source_t delaep7x8_device = {
     0xde00, 0xdeff, 0xff,
     0,
     delaep7x8_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_DELA_EP7x8
 };
 
 static io_source_list_t *delaep7x8_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Dela EP7x8", 1, 0, &delaep7x8_device, NULL, CARTRIDGE_DELA_EP7x8
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -110,10 +118,6 @@ void delaep7x8_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Dela EP7x8", 1, 0
-};
 
 int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
 {

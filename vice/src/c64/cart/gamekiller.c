@@ -35,6 +35,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "gamekiller.h"
 #include "types.h"
 #include "util.h"
@@ -92,7 +93,10 @@ static io_source_t gamekiller_io1_device = {
     0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
     gamekiller_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_GAME_KILLER
 };
 static io_source_t gamekiller_io2_device = {
     "Game Killer",
@@ -101,11 +105,18 @@ static io_source_t gamekiller_io2_device = {
     0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
     gamekiller_io2_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_GAME_KILLER
 };
 
 static io_source_list_t *gamekiller_io1_list_item = NULL;
 static io_source_list_t *gamekiller_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Game Killer", 1, 1, &gamekiller_io1_device, &gamekiller_io2_device, CARTRIDGE_GAME_KILLER
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -131,10 +142,6 @@ void gamekiller_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
-
-static const c64export_resource_t export_res = {
-    "Game Killer", 1, 1
-};
 
 static int gamekiller_common_attach(void)
 {

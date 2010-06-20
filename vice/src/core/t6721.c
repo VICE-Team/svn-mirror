@@ -76,7 +76,7 @@
 
 #define PARCOR_OUTPUT_HZ       (8000)
 
-#define PARCOR_BUFFER_LEN (0x100)
+#define PARCOR_BUFFER_LEN (0x400)
 SWORD ringbuffer[PARCOR_BUFFER_LEN]; /* FIXME */
 int ringbuffer_rptr = 0;
 int ringbuffer_wptr = 0;

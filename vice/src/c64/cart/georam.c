@@ -201,6 +201,61 @@ static const c64export_resource_t export_res= {
 
 /* ------------------------------------------------------------------------- */
 
+static int georam_activate(void)
+{
+    if (!georam_size) {
+        return 0;
+    }
+
+    georam_ram = lib_realloc((void *)georam_ram, (size_t)georam_size);
+
+    /* Clear newly allocated RAM.  */
+    if (georam_size > old_georam_ram_size) {
+        memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size));
+    }
+
+    old_georam_ram_size = georam_size;
+
+    log_message(georam_log, "%dKB unit installed.", georam_size >> 10);
+
+    if (!util_check_null_string(georam_filename)) {
+        if (util_file_load(georam_filename, georam_ram, (size_t)georam_size, UTIL_FILE_LOAD_RAW) < 0) {
+            log_message(georam_log, "Reading GEORAM image %s failed.", georam_filename);
+            if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
+                log_message(georam_log, "Creating GEORAM image %s failed.", georam_filename);
+                return -1;
+            }
+            log_message(georam_log, "Creating GEORAM image %s.", georam_filename);
+            return 0;
+        }
+        log_message(georam_log, "Reading GEORAM image %s.", georam_filename);
+    }
+
+    georam_reset();
+    return 0;
+}
+
+static int georam_deactivate(void)
+{
+    if (georam_ram == NULL) {
+        return 0;
+    }
+
+    if (!util_check_null_string(georam_filename)) {
+        if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
+            log_message(georam_log, "Writing GEORAM image %s failed.", georam_filename);
+            return -1;
+        }
+        log_message(georam_log, "Writing GEORAM image %s.", georam_filename);
+    }
+
+    lib_free(georam_ram);
+    georam_ram = NULL;
+    old_georam_ram_size = 0;
+
+    return 0;
+}
+
 static int set_georam_enabled(int val, void *param)
 {
     if (georam_enabled && !val) {
@@ -357,64 +412,17 @@ void georam_reset(void)
     georam[1] = 0;
 }
 
-static int georam_activate(void)
+void georam_detach(void)
 {
-    if (!georam_size) {
-        return 0;
-    }
-
-    georam_ram = lib_realloc((void *)georam_ram, (size_t)georam_size);
-
-    /* Clear newly allocated RAM.  */
-    if (georam_size > old_georam_ram_size) {
-        memset(georam_ram, 0, (size_t)(georam_size - old_georam_ram_size));
-    }
-
-    old_georam_ram_size = georam_size;
-
-    log_message(georam_log, "%dKB unit installed.", georam_size >> 10);
-
-    if (!util_check_null_string(georam_filename)) {
-        if (util_file_load(georam_filename, georam_ram, (size_t)georam_size, UTIL_FILE_LOAD_RAW) < 0) {
-            log_message(georam_log, "Reading GEORAM image %s failed.", georam_filename);
-            if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
-                log_message(georam_log, "Creating GEORAM image %s failed.", georam_filename);
-                return -1;
-            }
-            log_message(georam_log, "Creating GEORAM image %s.", georam_filename);
-            return 0;
-        }
-        log_message(georam_log, "Reading GEORAM image %s.", georam_filename);
-    }
-
-    georam_reset();
-    return 0;
+    resources_set_int("GEORAM", 0);
 }
 
-static int georam_deactivate(void)
+int georam_enable(void)
 {
-    if (georam_ram == NULL) {
-        return 0;
+    if (resources_set_int("GEORAM", 1) < 0) {
+        return -1;
     }
-
-    if (!util_check_null_string(georam_filename)) {
-        if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
-            log_message(georam_log, "Writing GEORAM image %s failed.", georam_filename);
-            return -1;
-        }
-        log_message(georam_log, "Writing GEORAM image %s.", georam_filename);
-    }
-
-    lib_free(georam_ram);
-    georam_ram = NULL;
-    old_georam_ram_size = 0;
-
     return 0;
-}
-
-void georam_shutdown(void)
-{
-    georam_deactivate();
 }
 
 /* ------------------------------------------------------------------------- */
