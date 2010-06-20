@@ -50,6 +50,9 @@
 // resize canvas
 - (void)resizeCanvas:(NSSize)size;
 
+// return canvas id
+- (int)canvasId;
+
 // close window -> terminate app
 - (BOOL)windowShouldClose:(id)sender;
 

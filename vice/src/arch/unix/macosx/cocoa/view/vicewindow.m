@@ -123,6 +123,11 @@
     return canvasView;
 }
 
+- (int)canvasId
+{
+    return [canvasView canvasId];
+}
+
 - (void)resizeCanvasToFactorX:(float)fx andY:(float)fy
 {
     NSRect f = [self frame];

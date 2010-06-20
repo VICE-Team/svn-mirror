@@ -44,6 +44,75 @@ const float control_win_width = 200;
 
 // ----- User Defaults -----
 
+- (void)storeWindowOrder
+{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+
+    // find my z order
+    NSArray *wins = [[NSApplication sharedApplication] orderedWindows];
+    int i;
+    int num = [wins count];
+    for(i=0;i<num;i++) {
+        VICEWindow *win = (VICEWindow *)[wins objectAtIndex:i];
+        NSString *title = [win title];
+        NSString *tag = [title stringByAppendingString:@"OrderBelow"];
+        int winId = [win canvasId];
+        
+        // find canvas with lover id that sits right above us
+        int j;
+        int foundWinId = -1;
+        for(j=0;j<i;j++) {
+            VICEWindow *preWin = (VICEWindow *)[wins objectAtIndex:j];
+            int preWinId = [preWin canvasId];
+            if(preWinId < winId) {
+                foundWinId = preWinId;
+                break;
+            }
+        }
+
+        // store in prefs above which canvas we will be ordered
+        // use -1 to order window in front of all windows
+        [def setInteger:foundWinId forKey:tag];
+    }
+}
+
+- (BOOL)restoreWindowOrder:(NSWindow *)window
+{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *title = [window title];
+    NSString *tag = [title stringByAppendingString:@"OrderBelow"];
+    int belowId = [def integerForKey:tag];
+    
+    if(belowId == -1) {
+        // order myself front and make me key window
+        [window orderFront:self];
+        return TRUE;
+    } else {
+        // find canvas to 
+        NSArray *wins = [[NSApplication sharedApplication] orderedWindows];
+        int i;
+        int num = [wins count];
+        VICEWindow *aboveWin = nil;
+        for(i=0;i<num;i++) {
+            VICEWindow *preWin = (VICEWindow *)[wins objectAtIndex:i];
+            int preWinId = [preWin canvasId];
+            if(preWinId == belowId) {
+                aboveWin = preWin;
+                break;
+            }
+        }
+        if(aboveWin != nil) {
+            // found window: order belo
+            [window orderWindow:NSWindowBelow relativeTo:[aboveWin windowNumber]];
+            return FALSE;
+        } else {
+            // Fatal: didn't find window to be ordered below
+            [window orderFront:self];
+            return TRUE;
+        }
+    }
+}
+
 - (BOOL)isWindowVisible:(NSWindow *)window default:(BOOL)show
 {
     NSString *title = [window title];
@@ -255,6 +324,7 @@ const float control_win_width = 200;
     [self storeWindowVisibilityToUserDefaults:consoleWindow];
     [self storeWindowVisibilityToUserDefaults:monitorWindow];
     [self storeWindowVisibilityToUserDefaults:controlWindow];
+    [self storeWindowOrder];
 
     // is monitor still running?
     if ([machine isWaitingForLineInput]) {
@@ -380,7 +450,10 @@ const float control_win_width = 200;
     
     // is visible?
     BOOL visible = [self isWindowVisible:window default:TRUE];
-    [window makeKeyAndOrderFront:self];
+    BOOL isFront = [self restoreWindowOrder:window];
+    if(isFront) {
+        [window makeKeyWindow];
+    }
     if (!visible) {
         [window miniaturize:self];
     }
