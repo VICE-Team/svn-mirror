@@ -128,10 +128,10 @@ typedef struct texture_s texture_t;
 - (void)dealloc;
 
 // the canvas was reconfigured i.e. new parameters were set
-- (void)reconfigure:(struct video_param_s *)vieo_param;
+- (void)reconfigureCanvas:(struct video_param_s *)vieo_param;
 
 // the size of the canvas changed -> adapt textures and resources to new size
-- (void)resize:(NSSize)size;
+- (void)resizeCanvas:(NSSize)size;
 
 // get next render buffer for drawing by emu. may return NULL if out of buffers
 - (BYTE *)beginMachineDraw:(int)frameNo;

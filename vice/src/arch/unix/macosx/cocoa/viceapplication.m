@@ -305,17 +305,47 @@ const float control_win_width = 200;
 
 -(NSRect)placeCanvas:(NSSize)size
 {
+    // fetch screen size
     NSRect screenRect = [[NSScreen mainScreen] visibleFrame];
+
     if (canvasCount==1) {
         canvasStartXPos = NSMinX(screenRect) + control_win_width;
+    } else {
     }
+
+    int sizeFactor;
+
+    // find a size factor for initial window
+    float factorX = NSWidth(screenRect) - canvasStartXPos;
+    float factorY = NSHeight(screenRect);
+    factorX /= size.width;
+    factorY /= size.height;
+    if(factorX < factorY) {
+        sizeFactor = (int)factorX;
+    } else {
+        sizeFactor = (int)factorY;
+    }
+
+    // not full screen so we can see log window
+    sizeFactor --;
+
+    // ensure sane values
+    if(sizeFactor < 1) {
+        sizeFactor = 1;
+    } else if(sizeFactor > 4) {
+        sizeFactor = 4;
+    }
+
     float top_pos = NSMinY(screenRect) + NSHeight(screenRect);
     float canvasY = top_pos - size.height;     
     NSRect rect = NSMakeRect(canvasStartXPos,
                               canvasY,
-                              size.width,
-                              size.height);
-    canvasStartXPos += size.width;
+                              size.width  * sizeFactor,
+                              size.height * sizeFactor);
+
+    // place next canvas
+    canvasStartXPos += size.width * sizeFactor;
+
     return rect;
 }
 
@@ -332,7 +362,8 @@ const float control_win_width = 200;
     
     // create a new vice window (and a glView)
     VICEWindow *window = [[VICEWindow alloc] initWithContentRect:[self placeCanvas:size]
-                                                           title:title];
+                                                           title:title
+                                                      canvasSize:size];
 
     // setup embedded gl view
     VICEGLView *glView = [window getVICEGLView];
@@ -345,7 +376,7 @@ const float control_win_width = 200;
     canvas->depth  = [glView getCanvasDepth];
     
     // (re)configure view for the first time
-    [glView reconfigure:canvas->video_param];
+    [glView reconfigureCanvas:canvas->video_param];
     
     // is visible?
     BOOL visible = [self isWindowVisible:window default:TRUE];
@@ -390,7 +421,7 @@ const float control_win_width = 200;
 {
     video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
     VICEGLView *glView = [canvas->window getVICEGLView];
-    [glView reconfigure:canvas->video_param];
+    [glView reconfigureCanvas:canvas->video_param];
 }
 
 - (void)setCurrentCanvasId:(int)c

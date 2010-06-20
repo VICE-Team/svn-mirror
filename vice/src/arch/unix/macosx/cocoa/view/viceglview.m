@@ -143,7 +143,7 @@ extern log_t video_log;
 // ---------- interface -----------------------------------------------------
 
 // called on startup and every time video param changes
-- (void)reconfigure:(struct video_param_s *)param
+- (void)reconfigureCanvas:(struct video_param_s *)param
 {
     // copy params
     if(param != NULL) {
@@ -253,7 +253,7 @@ extern log_t video_log;
 }
 
 // called if the canvas size was changed by the machine (not the user!)
-- (void)resize:(NSSize)size
+- (void)resizeCanvas:(NSSize)size
 {
     // a resize might happen if the emulation video standard changes
     // so update the machine video parameters here
@@ -434,7 +434,7 @@ extern log_t video_log;
 
     // call postponed configure
     if(postponedReconfigure) {
-        [self reconfigure:NULL];
+        [self reconfigureCanvas:NULL];
     }
 }
 

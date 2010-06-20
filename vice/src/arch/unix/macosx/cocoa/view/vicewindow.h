@@ -37,10 +37,13 @@
     NSSize original_canvas_size;
     BOOL isFullscreen;
     FullscreenWindow *fullscreenWindow;
+    
+    float scale_x;
+    float scale_y;
 }
 
 // create the window and setup canvas structure
-- (id)initWithContentRect:(NSRect)rect title:(NSString *)title;
+- (id)initWithContentRect:(NSRect)rect title:(NSString *)title canvasSize:(NSSize)size;
 
 // return the GLView for render access
 - (VICEGLView *)getVICEGLView;
