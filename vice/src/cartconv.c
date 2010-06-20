@@ -564,6 +564,8 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
     unsigned int i;
     unsigned int real_banks = banks;
 
+    /* printf("save_regular_crt length: %d banks:%d address: %d\n", length, banks, address); */
+
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
@@ -1257,6 +1259,7 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
 
 static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
+    /* printf("save_generic_crt ultimax: %d size: %08x\n", convert_to_ultimax, loadfile_size); */
     if (convert_to_ultimax == 1) {
         switch (loadfile_size) {
             case CARTRIDGE_SIZE_4KB:
@@ -1272,8 +1275,10 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
     } else {
         switch (loadfile_size) {
             case CARTRIDGE_SIZE_4KB:
-            case CARTRIDGE_SIZE_8KB:
                 save_regular_crt(0x1000, 0, 0x8000, 0, 1, 0);
+                break;
+            case CARTRIDGE_SIZE_8KB:
+                save_regular_crt(0x2000, 0, 0x8000, 0, 1, 0);
                 break;
             case CARTRIDGE_SIZE_16KB:
                 save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
