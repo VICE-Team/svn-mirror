@@ -469,9 +469,8 @@ msgid "*Old NTSC-M"
 msgstr "*Oud NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:89
-#, fuzzy
 msgid "*PAL-N"
-msgstr "*PAL-G"
+msgstr "*PAL-N"
 
 #: src/arch/unix/gui/c64ui.c:278
 msgid "256K RAM Expansion"
@@ -502,9 +501,8 @@ msgid "MMC Replay emulation"
 msgstr "MMC Replay emulatie"
 
 #: src/arch/unix/gui/c64ui.c:306
-#, fuzzy
 msgid "Retro Replay cartridge"
-msgstr "Koppel Retro Replay cartridgebestand"
+msgstr "Retro Replay cartridge"
 
 #: src/arch/unix/gui/c64ui.c:405 src/arch/unix/gui/petui.c:336
 msgid "I/O extensions"
@@ -1065,9 +1063,8 @@ msgid "Attach generic 16KB image..."
 msgstr "Koppel 16KB-bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:102
-#, fuzzy
 msgid "Attach Action Replay 5 image..."
-msgstr "Koppel Action Replay bestand..."
+msgstr "Koppel Action Replay 5 bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:105
 msgid "Attach Atomic Power image..."
@@ -1078,9 +1075,8 @@ msgid "Attach Epyx fastload image..."
 msgstr "Koppel Epyx fastload bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:111
-#, fuzzy
 msgid "Attach Expert Cartridge image..."
-msgstr "Koppel cartridgebestand..."
+msgstr "Koppel Expert cartridgebestand..."
 
 #: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach IDE64 interface image..."
@@ -1091,19 +1087,16 @@ msgid "Attach IEEE488 interface image..."
 msgstr "Koppel IEEE488 interface bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:120
-#, fuzzy
 msgid "Attach ISEPIC image..."
-msgstr "Koppel tapebestand..."
+msgstr "Koppel ISEPIC bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:123
-#, fuzzy
 msgid "Attach Magic Formel image..."
-msgstr "Koppel een tapebestand..."
+msgstr "Koppel Magic Formel bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:126
-#, fuzzy
 msgid "Attach MMC64 image..."
-msgstr "Koppel MMC Replay bestand..."
+msgstr "Koppel MMC64 bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:129
 msgid "Attach MMC Replay image..."
@@ -2030,7 +2023,7 @@ msgstr "*Activeer Isepic schakelaar"
 #: src/arch/unix/gui/uiisepic.c:50
 #, fuzzy
 msgid "Save Isepic image..."
-msgstr "Opslaan momentopnamebestand..."
+msgstr "Isepic bestand opslaan..."
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 msgid "*CGA userport joystick adapter"
@@ -3624,9 +3617,8 @@ msgid "Attach Final Expansion image..."
 msgstr "Koppel Final Expansion bestand..."
 
 #: src/arch/unix/gui/vic20ui.c:323
-#, fuzzy
 msgid "Attach Vic Flash Plugin image..."
-msgstr "Koppel DTV Flash Bestand"
+msgstr "Koppel Vic Flash Plugin bestand"
 
 #: src/arch/unix/gui/vic20ui.c:327
 msgid "Add to generic cartridge"
@@ -3645,9 +3637,8 @@ msgid "*Final Expansion write back"
 msgstr "*Final Expansion terug schrijven"
 
 #: src/arch/unix/gui/vic20ui.c:350
-#, fuzzy
 msgid "*Vic Flash Plugin write back"
-msgstr "*Final Expansion terug schrijven"
+msgstr "*Vic Flash Plugin terug schrijven"
 
 #: src/arch/unix/gui/vic20ui.c:352
 msgid "*Mega-Cart NvRAM write back"
@@ -7260,9 +7251,8 @@ msgid "&Old NTSC-M"
 msgstr "&Oud NTSC-M"
 
 #: src/arch/win32/resc64.rc.po.c:209
-#, fuzzy
 msgid "PAL-&N"
-msgstr "PAL-G"
+msgstr "PAL-&N"
 
 #: src/arch/win32/resc64.rc.po.c:482
 msgid "C64 model settings"
@@ -8374,9 +8364,8 @@ msgid "Select Final Expansion image"
 msgstr "Selecteer Final Expansion bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:501
-#, fuzzy
 msgid "Select Vic Flash Plugin image"
-msgstr "Selecteer Final Expansion bestand"
+msgstr "Selecteer Vic Flash Plugin bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:502
 msgid "Select cartridge image"
@@ -8423,9 +8412,8 @@ msgid "Final Expansion image..."
 msgstr "Final Expansion bestand..."
 
 #: src/arch/win32/resvic20.rc.po.c:513
-#, fuzzy
 msgid "Vic Flash Plugin image..."
-msgstr "Final Expansion bestand..."
+msgstr "Vic Flash Plugin bestand..."
 
 #: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:349
 msgid "Smart-attach image..."
@@ -9605,9 +9593,8 @@ msgid "Select generic cartridge file"
 msgstr "Selecteer algemeen cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:5454
-#, fuzzy
 msgid "Select Vic Flash Plugin file"
-msgstr "Selecteer Final Expansion bestand"
+msgstr "Selecteer Vic Flash Plugin bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:5465
 msgid "Select Mega-Cart file"
@@ -11406,9 +11393,8 @@ msgid "Enable expert cartridge"
 msgstr "Activeer expertcartridge"
 
 #: src/translate_text.c.po.c:4265
-#, fuzzy
 msgid "Disable the expert cartridge"
-msgstr "Activeer expertcartridge"
+msgstr "Sluit expertcartridge"
 
 #: src/translate_text.c.po.c:4279
 msgid "Disable default cartridge"
@@ -12800,9 +12786,8 @@ msgid "Specify Final Expansion extension ROM name"
 msgstr "Geef de naam van het bestand voor de Final Expansion ROM"
 
 #: src/translate_text.c.po.c:7647
-#, fuzzy
 msgid "Specify Vic Flash Plugin extension ROM name"
-msgstr "Geef de naam van het bestand voor de Final Expansion ROM"
+msgstr "Geef de naam van het bestand voor de Vic Flash Plugin ROM"
 
 #: src/translate_text.c.po.c:7661
 msgid "Enable Final Expansion write back to ROM file"
@@ -13486,33 +13471,3 @@ msgstr "De digimaxcartridge uitschakelen"
 #: src/translate_text.c.po.c:9983
 msgid "Base address of the digimax cartridge"
 msgstr "Basisadres van de digimaxcartridge"
-
-#~ msgid "Enable Expert Cartridge..."
-#~ msgstr "Activeer Expert Cartridge..."
-
-#~ msgid "*Prg"
-#~ msgstr "*Prg"
-
-#~ msgid "*Off"
-#~ msgstr "*Uit"
-
-#~ msgid "*On"
-#~ msgstr "*Aan"
-
-#~ msgid "Save cartridge image..."
-#~ msgstr "Sla cartridgebestand op..."
-
-#~ msgid "Attach Action Replay III image..."
-#~ msgstr "Koppel Action Replay III bestand..."
-
-#~ msgid "Attach Action Replay IV image..."
-#~ msgstr "Koppel Action Replay IV bestand..."
-
-#~ msgid "Attach StarDOS image..."
-#~ msgstr "Koppel StarDOS bestand..."
-
-#~ msgid "Attach Super Snapshot 4 image..."
-#~ msgstr "Koppel Super Snapshot 4 bestand..."
-
-#~ msgid "Attach Structured Basic image..."
-#~ msgstr "Koppel Structured Basic bestand..."
