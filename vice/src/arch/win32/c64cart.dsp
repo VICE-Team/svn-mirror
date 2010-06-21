@@ -86,6 +86,10 @@ SOURCE="..\..\c64\cart\actionreplay.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\actionreplay2.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\actionreplay3.c"
 # End Source File
 # Begin Source File
