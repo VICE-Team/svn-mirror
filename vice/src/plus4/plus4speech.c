@@ -576,12 +576,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "SpeechEnabled", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_PLUS4SPEECH,
-      NULL, NULL },      
+      NULL, NULL },
     { "-speechrom", CALL_FUNCTION, 1,
       set_speech_rom, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach Speech ROM image") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_SPEECH_ROM_IMAGE,
+      NULL, NULL },
     { NULL }
 };
 

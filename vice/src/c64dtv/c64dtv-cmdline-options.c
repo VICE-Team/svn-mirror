@@ -90,14 +90,14 @@ static const cmdline_option_t cmdline_options[] =
 #endif
     { "-hummeradc", SET_RESOURCE, 0,
       NULL, NULL, "HummerADC", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable Hummer ADC") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_HUMMER_ADC,
+      NULL, NULL },
     { "+hummeradc", SET_RESOURCE, 0,
       NULL, NULL, "HummerADC", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Disable Hummer ADC") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_HUMMER_ADC,
+      NULL, NULL },
     { NULL }
 };
 

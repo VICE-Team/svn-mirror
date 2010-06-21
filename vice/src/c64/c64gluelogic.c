@@ -105,9 +105,9 @@ int c64_glue_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-gluelogictype", SET_RESOURCE, 1,
       NULL, NULL, "GlueLogic", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      T_("<type>"), T_("Set glue logic type (0 = discrete, 1 = 252535-01)") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_SET_GLUE_LOGIC_TYPE,
+      NULL, NULL },
     { NULL }
 };
 

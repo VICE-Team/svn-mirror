@@ -180,6 +180,11 @@ IDGS_DTV_ROM_CREATED
 
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
+/* autostart.c */
+IDCLS_AUTOSTART_LOAD_TO_BASIC_START
+
+/* autostart.c */
+IDCLS_AUTOSTART_LOAD_WITH_1
 
 /* autostart.c */
 IDCLS_ENABLE_AUTOSTARTWITHCOLON
@@ -216,8 +221,8 @@ IDCLS_USE_PAL_SYNC_FACTOR
 IDCLS_USE_NTSC_SYNC_FACTOR
 
 /* c128/c128-cmdline-options.c, c128/functionrom.c,
-   c64/c64-cmdline-options.c, c64/georam.c,
-   c64/ramcart.c, c64/reu.c, c64/cart/c64cart.c,
+   c64/c64-cmdline-options.c, c64/cart/georam.c,
+   c64/cart/ramcart.c, c64/cart/reu.c, c64/cart/c64cart.c,
    c64/cart/ide64.c, cbm2/cbm2-cmdline-options.c,
    drive/iec/iec-cmdline-options.c, drive/iec128dcr/iec128dcr-cmdline-options.c,
    drive/ieee/ieee-cmdline-options.c, drive/tcbm/tcbm-cmdline-options.c,
@@ -228,7 +233,7 @@ IDCLS_USE_NTSC_SYNC_FACTOR
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
    c64/c64_256k.c, pet/petreu.c, c64/plus256k.c,
-   c64/mmc64.c */
+   c64/cart/mmc64.c */
 IDCLS_P_NAME
 
 /* c128/c128-cmdline-options.c */
@@ -362,9 +367,27 @@ IDCLS_ENABLE_EXT_FUNC_ROM
 /* c128/functionrom.c */
 IDCLS_DISABLE_EXT_FUNC_ROM
 
+/* c64/c64-cmdline-options.c, viciinew/vicii-cmdline-options.c */
+IDCLS_P_MODEL
+
 /* c64/c64-cmdline-options.c */
-IDCLS_USE_OLD_NTSC_SYNC_FACTOR
+IDCLS_SET_BOTH_CIA_MODELS
+
+/* c64/c64-cmdline-options.c */
+IDCLS_SET_CIA1_MODEL
+
+/* c64/c64-cmdline-options.c */
+IDCLS_SET_CIA2_MODEL
+
+/* c64/c64-cmdline-options.c */
+IDCLS_SET_C64_MODEL
+
+/* c64/c64-cmdline-options.c */
 IDCLS_USE_PALN_SYNC_FACTOR
+
+/* c64/c64-cmdline-options.c */
+IDCLS_USE_PALN_SYNC_FACTOR
+
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
@@ -388,19 +411,28 @@ IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2
 IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP
 #endif   /* COMMON_KBD */
 
-/* c64/georam.c */
+/* c64/c64gluelogic.c */
+IDCLS_SET_GLUE_LOGIC_TYPE
+
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_ENABLE_HUMMER_ADC
+
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_DISABLE_HUMMER_ADC
+
+/* c64/cart/georam.c */
 IDCLS_ENABLE_GEORAM
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 IDCLS_DISABLE_GEORAM
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 IDCLS_SPECIFY_GEORAM_NAME
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 IDCLS_P_SIZE_IN_KB
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 IDCLS_GEORAM_SIZE
 
 /* c64/psid.c */
@@ -412,80 +444,122 @@ IDCLS_OVERWRITE_PSID_SETTINGS
 /* c64/psid.c */
 IDCLS_SPECIFY_PSID_TUNE_NUMBER
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 IDCLS_ENABLE_RAMCART
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 IDCLS_DISABLE_RAMCART
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 IDCLS_SPECIFY_RAMCART_NAME
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 IDCLS_RAMCART_SIZE
 
-/* c64/dqbb.c */
+/* c64/cart/dqbb.c */
 IDCLS_ENABLE_DQBB
 
-/* c64/dqbb.c */
+/* c64/cart/dqbb.c */
 IDCLS_DISABLE_DQBB
 
-/* c64/dqbb.c */
+/* c64/cart/dqbb.c */
 IDCLS_SPECIFY_DQBB_NAME
 
-/* c64/isepic.c */
+/* c64/cart/isepic.c */
 IDCLS_ENABLE_ISEPIC
 
-/* c64/isepic.c */
+/* c64/cart/isepic.c */
 IDCLS_DISABLE_ISEPIC
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_ENABLE_MMC64
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_DISABLE_MMC64
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_SPECIFY_MMC64_BIOS_NAME
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_SPECIFY_MMC64_IMAGE_NAME
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_MMC64_READONLY
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_MMC64_READWRITE
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 IDCLS_MMC64_BIOS_WRITE
 
-/* c64/reu.c */
+/* c64/cart/mmcreplay.c */
+IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME
+
+/* c64/cart/mmcreplay.c */
+IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE
+
+/* c64/cart/retroplay.c */
+IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT
+
+/* c64/cart/retroplay.c */
+IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT
+
+/* c64/cart/retroplay.c */
+IDCLS_SET_RR_BANK_JUMPER
+
+/* c64/cart/retroplay.c */
+IDCLS_UNSET_RR_BANK_JUMPER
+
+/* c64/cart/retroplay.c */
+IDCLS_SET_RR_FLASH_JUMPER
+
+/* c64/cart/retroplay.c */
+IDCLS_UNSET_RR_FLASH_JUMPER
+
+/* c64/cart/reu.c */
 IDCLS_ENABLE_REU
 
-/* c64/reu.c */
+/* c64/cart/reu.c */
 IDCLS_DISABLE_REU
 
-/* c64/reu.c */
+/* c64/cart/reu.c */
 IDCLS_SPECIFY_REU_NAME
 
-/* c64/reu.c */
+/* c64/cart/reu.c */
 IDCLS_REU_SIZE
 
 #ifdef HAVE_TFE
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 IDCLS_ENABLE_TFE
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 IDCLS_DISABLE_TFE
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 IDCLS_TFE_INTERFACE
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 IDCLS_ENABLE_TFE_AS_RRNET
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 IDCLS_DISABLE_TFE_AS_RRNET
 #endif   /* HAVE_TFE */
 
@@ -540,10 +614,10 @@ IDCLS_ATTACH_CBM_IEEE488_CART
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_WESTERMANN_CART
 
-/* c64/cart/c64cart.c, c64/expert.c */
+/* c64/cart/c64cart.c, c64/cart/expert.c */
 IDCLS_ENABLE_EXPERT_CART
 
-/* c64/expert.c */
+/* c64/cart/expert.c */
 IDCLS_DISABLE_EXPERT_CART
 
 /* c64/cart/c64cart.c */
@@ -685,8 +759,23 @@ IDCLS_P_TYPE
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_TYPE
 
-/* drive/drive-cmdline-options.c */
+/* drive/drive-cmdline-options.c, gfxoutputdrv/doodledrv.c */
 IDCLS_P_METHOD
+
+/* gfxoutputdrv/doodledrv.c */
+IDCLS_P_COLOR
+
+/* gfxoutputdrv/doodledrv.c */
+IDCLS_OVERSIZED_HANDLING
+
+/* gfxoutputdrv/doodledrv.c */
+IDCLS_MULTICOLOR_HANDLING
+
+/* gfxoutputdrv/doodledrv.c */
+IDCLS_TED_LUM_HANDLING
+
+/* gfxoutputdrv/doodledrv.c */
+IDCLS_CRTC_TEXT_COLOR
 
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_EXTENSION_POLICY
@@ -894,6 +983,9 @@ IDCLS_SET_ODDLINES_PHASE
 /* vicii/vicii-cmdline-options.c */
 IDCLS_SET_ODDLINES_OFFSET
 
+/* viciinew/vicii-cmdline-options.c */
+IDCLS_SET_VICII_MODEL
+
 /* printerdrv/driver-select.c */
 IDCLS_SPECIFY_PRT_DRIVER_4_NAME
 
@@ -1028,7 +1120,7 @@ IDCLS_ENABLE_SIDCART
 /* sid/sid-cmdline-options.c */
 IDCLS_DISABLE_SIDCART
 
-/* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c c64/digimax.c */
+/* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c c64/cart/digimax.c */
 IDCLS_P_BASE_ADDRESS
 
 /* sid/sid-cmdline-options.c */
@@ -1106,6 +1198,24 @@ IDCLS_ENABLE_FINALEXPANSION_WRITEBACK
 
 /* vic20/cart/finalexpansion.c */
 IDCLS_DISABLE_FINALEXPANSION_WRITEBACK
+
+/* vic20/cart/finalexpansion.c */
+IDCLS_DISABLE_FINALEXPANSION_WRITEBACK
+
+/* vic20/cart/megacart.c */
+IDCLS_SET_MEGACART_NVRAM_NAME
+
+/* vic20/cart/megacart.c */
+IDCLS_ENABLE_MEGACART_NVRAM_WRITE
+
+/* vic20/cart/megacart.c */
+IDCLS_DISABLE_MEGACART_NVRAM_WRITE
+
+/* vic20/cart/vic-fp.c */
+IDCLS_ENABLE_VICFP_ROM_WRITE
+
+/* vic20/cart/vic-fp.c */
+IDCLS_DISABLE_VICFP_ROM_WRITE
 
 /* vicii/vicii-cmdline-options.c */
 IDCLS_SET_BORDER_MODE
@@ -1323,9 +1433,15 @@ IDCLS_CALL_EXCEPTION_HANDLER
 #endif  /* __OS2__ __BEOS__ */
 
 /* initcmdline.c */
+IDCLS_USE_VSID_MODE
+
+/* initcmdline.c */
 IDCLS_RESTORE_DEFAULT_SETTINGS
 
 /* initcmdline.c */
+IDCLS_RESTORE_DEFAULT_SETTINGS
+
+/* initcmdline.c, c64/cart/mmcreplay.c */
 IDCLS_P_FILE
 
 /* initcmdline.c */
@@ -1402,6 +1518,9 @@ IDCLS_SET_SAMPLE_RATE_VALUE_HZ
 
 /* sound.c */
 IDCLS_SET_SOUND_BUFFER_SIZE_MSEC
+
+/* sound.c */
+IDCLS_SET_SOUND_FRAGMENT_SIZE
 
 /* sound.c */
 IDCLS_SPECIFY_SOUND_DRIVER
@@ -1547,28 +1666,31 @@ IDCLS_ENABLE_PLUS4SPEECH
 /* plus4/plus4speech.c */
 IDCLS_DISABLE_PLUS4SPEECH
 
-/* c64/digimax.c */
+/* plus4/plus4speech.c */
+IDCLS_ATTACH_SPEECH_ROM_IMAGE
+
+/* c64/cart/digimax.c */
 IDCLS_ENABLE_DIGIMAX
 
-/* c64/digimax.c */
+/* c64/cart/digimax.c */
 IDCLS_DISABLE_DIGIMAX
 
-/* c64/digimax.c */
+/* c64/cart/digimax.c */
 IDCLS_DIGIMAX_BASE
 
-/* c64/sfx_soundexpander.c */
+/* c64/cart/sfx_soundexpander.c */
 IDCLS_ENABLE_SFX_SE
 
-/* c64/sfx_soundexpander.c */
+/* c64/cart/sfx_soundexpander.c */
 IDCLS_DISABLE_SFX_SE
 
-/* c64/sfx_soundexpander.c */
+/* c64/cart/sfx_soundexpander.c */
 IDCLS_SET_YM_CHIP_TYPE
 
-/* c64/sfx_soundsampler.c */
+/* c64/cart/sfx_soundsampler.c */
 IDCLS_ENABLE_SFX_SS
 
-/* c64/sfx_soundsampler.c */
+/* c64/cart/sfx_soundsampler.c */
 IDCLS_DISABLE_SFX_SS
 
 /* c64dtv/c64dtv-cmdline-options.c */
@@ -1619,7 +1741,7 @@ IDCLS_ENABLE_MIDI_EMU
 /* midi.c */
 IDCLS_DISABLE_MIDI_EMU
 
-/* c64/c64-midi.c */
+/* c64/cart/c64-midi.c */
 IDCLS_SPECIFY_C64_MIDI_TYPE
 
 /* monitor/mon_command.c */
@@ -1937,7 +2059,13 @@ IDGS_MON_DETACH_DESCRIPTION
 IDGS_RP_DIRECTORY
 
 /* monitor/mon_command.c */
+IDGS_RP_DEVICE
+
+/* monitor/mon_command.c */
 IDGS_MON_DIR_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_LIST_DESCRIPTION
 
 /* monitor/mon_command.c */
 IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS

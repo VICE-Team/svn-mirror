@@ -479,19 +479,19 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-mcnvramfile", SET_RESOURCE, 1,
       NULL, NULL, "MegaCartNvRAMfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Set Mega-Cart NvRAM filename") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SET_MEGACART_NVRAM_NAME,
+      NULL, NULL },
     { "-mcnvramwriteback", SET_RESOURCE, 0,
       NULL, NULL, "MegaCartNvRAMWriteBack", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable Mega-Cart NvRAM writeback") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_MEGACART_NVRAM_WRITE,
+      NULL, NULL },
     { "+mcnvramwriteback", SET_RESOURCE, 0,
       NULL, NULL, "MegaCartNvRAMWriteBack", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Disable Mega-Cart NvRAM writeback") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_MEGACART_NVRAM_WRITE,
+      NULL, NULL },
     { NULL }
 };
 

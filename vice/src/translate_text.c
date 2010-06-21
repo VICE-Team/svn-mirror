@@ -26,9 +26,6 @@
 
 translate_t string_table[] = {
 
-
-
-
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -2288,6 +2285,20 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
+/* en */ {IDGS_RP_DEVICE,    N_("[<directory>]")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_RP_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_RP_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RP_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RP_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RP_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RP_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_RP_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RP_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_RP_DEVICE_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
 /* en */ {IDGS_MON_DIR_DESCRIPTION,    N_("Display the directory contents.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DIR_DESCRIPTION_DA, "Vis katalogets indhold."},
@@ -2299,6 +2310,20 @@ translate_t string_table[] = {
 /* pl */ {IDGS_MON_DIR_DESCRIPTION_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DIR_DESCRIPTION_SV, "Visa katalogens innehåll."},
 /* tr */ {IDGS_MON_DIR_DESCRIPTION_TR, "Dizin içeriðini görüntüle."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_LIST_DESCRIPTION,    N_("List disk contents.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_LIST_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_LIST_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_LIST_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_LIST_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_LIST_DESCRIPTION_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_LIST_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_LIST_DESCRIPTION_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_LIST_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_LIST_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -2640,6 +2665,34 @@ translate_t string_table[] = {
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* autostart.c */
+/* en */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START,    N_("On autostart, load to BASIC start (without ',1')")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_TR, ""},  /* fuzzy */
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_AUTOSTART_LOAD_WITH_1,    N_("On autostart, load with ',1'")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_TR, ""},  /* fuzzy */
+#endif
+
+/* autostart.c */
 /* en */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON,    N_("On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_AUTOSTARTWITHCOLON_DA, "Brug \"RUN\"-kommando med kolon ved autostart, dvs. \"RUN:\""},
@@ -2784,8 +2837,8 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c, c128/functionrom.c,
-   c64/c64-cmdline-options.c, c64/georam.c,
-   c64/ramcart.c, c64/reu.c, c64/cart/c64cart.c,
+   c64/c64-cmdline-options.c, c64/cart/georam.c,
+   c64/cart/ramcart.c, c64/cart/reu.c, c64/cart/c64cart.c,
    c64/cart/ide64.c, cbm2/cbm2-cmdline-options.c,
    drive/iec/iec-cmdline-options.c, drive/iec128dcr/iec128dcr-cmdline-options.c,
    drive/ieee/ieee-cmdline-options.c, drive/tcbm/tcbm-cmdline-options.c,
@@ -3383,6 +3436,76 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_TR, "Eski NTSC senkron faktörü kullan"},
 #endif
 
+/* c64/c64-cmdline-options.c, viciinew/vicii-cmdline-options.c */
+/* en */ {IDCLS_P_MODEL,    N_("<model>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/c64-cmdline-options.c */
+/* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 6526A)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_BOTH_CIA_MODELS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_BOTH_CIA_MODELS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_BOTH_CIA_MODELS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_BOTH_CIA_MODELS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_BOTH_CIA_MODELS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BOTH_CIA_MODELS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/c64-cmdline-options.c */
+/* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 6526A)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_CIA1_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CIA1_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CIA1_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_CIA1_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CIA1_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_CIA1_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CIA1_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CIA1_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CIA1_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/c64-cmdline-options.c */
+/* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 6526A)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_CIA2_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CIA2_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CIA2_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_CIA2_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CIA2_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_CIA2_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CIA2_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CIA2_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CIA2_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/c64-cmdline-options.c */
+/* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_C64_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_C64_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_C64_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_C64_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_C64_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_C64_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_C64_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C64_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
+#endif
+
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE,    N_("Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)")},
 #ifdef HAS_TRANSLATION
@@ -3502,7 +3625,49 @@ translate_t string_table[] = {
 #endif
 #endif
 
-/* c64/georam.c */
+/* c64/c64gluelogic.c */
+/* en */ {IDCLS_SET_GLUE_LOGIC_TYPE,    N_("Set glue logic type (0 = discrete, 1 = 252535-01)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_GLUE_LOGIC_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_GLUE_LOGIC_TYPE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_GLUE_LOGIC_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_GLUE_LOGIC_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_GLUE_LOGIC_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_GLUE_LOGIC_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_GLUE_LOGIC_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_GLUE_LOGIC_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_GLUE_LOGIC_TYPE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64dtv/c64dtv-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_HUMMER_ADC,    N_("Enable Hummer ADC")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_HUMMER_ADC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_HUMMER_ADC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_HUMMER_ADC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_HUMMER_ADC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_HUMMER_ADC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_HUMMER_ADC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_HUMMER_ADC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_HUMMER_ADC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_HUMMER_ADC_TR, ""},  /* fuzzy */
+#endif
+
+/* c64dtv/c64dtv-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_HUMMER_ADC,    N_("Disable Hummer ADC")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_HUMMER_ADC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_HUMMER_ADC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_HUMMER_ADC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_HUMMER_ADC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_HUMMER_ADC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_HUMMER_ADC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_HUMMER_ADC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_HUMMER_ADC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_HUMMER_ADC_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/georam.c */
 /* en */ {IDCLS_ENABLE_GEORAM,    N_("Enable the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_GEORAM_DA, "Aktivér GEORAM-udviddelsesenhed"},
@@ -3516,7 +3681,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_GEORAM_TR, "GEORAM geniþletme birimini aktif et"},
 #endif
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 /* en */ {IDCLS_DISABLE_GEORAM,    N_("Disable the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_GEORAM_DA, "Deaktivér GEORAM-udviddelsesenhed"},
@@ -3530,7 +3695,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_GEORAM_TR, "GEORAM geniþletme birimini pasifleþtir"},
 #endif
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 /* en */ {IDCLS_SPECIFY_GEORAM_NAME,    N_("Specify name of GEORAM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_GEORAM_NAME_DA, "Angiv navn på GEORAM-image"},
@@ -3544,7 +3709,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_GEORAM_NAME_TR, "GEORAM imajýnýn ismini belirt"},
 #endif
 
-/* c64/georam.c, c64/ramcart.c, c64/reu.c, pet/petreu.c */
+/* c64/cart/georam.c, c64/cart/ramcart.c, c64/cart/reu.c, pet/petreu.c */
 /* en */ {IDCLS_P_SIZE_IN_KB,    N_("<size in KB>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SIZE_IN_KB_DA, "<størrelse i KB>"},
@@ -3558,7 +3723,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_SIZE_IN_KB_TR, "<KB cinsinden boyut>"},
 #endif
 
-/* c64/georam.c */
+/* c64/cart/georam.c */
 /* en */ {IDCLS_GEORAM_SIZE,    N_("Size of the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_GEORAM_SIZE_DA, "Størrelse af GEORAM-udviddelsesenhed"},
@@ -3698,7 +3863,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_PSID_TUNE_NUMBER_TR, "PSID parça <numara>'sýný belirt"},
 #endif
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 /* en */ {IDCLS_ENABLE_RAMCART,    N_("Enable the RAMCART expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_RAMCART_DA, "Aktivér RAMCART-udviddelse"},
@@ -3712,7 +3877,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_RAMCART_TR, "RAMCART geniþlemesini aktif et"},
 #endif
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 /* en */ {IDCLS_DISABLE_RAMCART,    N_("Disable the RAMCART expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_RAMCART_DA, "Deaktivér RAMCART-udviddelse"},
@@ -3726,7 +3891,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_RAMCART_TR, "RAMCART geniþlemesini pasifleþtir"},
 #endif
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 /* en */ {IDCLS_SPECIFY_RAMCART_NAME,    N_("Specify name of RAMCART image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_RAMCART_NAME_DA, "Angiv navn på RAMCART-image"},
@@ -3740,7 +3905,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_RAMCART_NAME_TR, "RAMCART imajýnýn ismini belirt"},
 #endif
 
-/* c64/ramcart.c */
+/* c64/cart/ramcart.c */
 /* en */ {IDCLS_RAMCART_SIZE,    N_("Size of the RAMCART expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RAMCART_SIZE_DA, "Størrelse på RAMCART-udviddelse"},
@@ -3754,7 +3919,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_RAMCART_SIZE_TR, "RAMCART geniþlemesinin boyutu"},
 #endif
 
-/* c64/dqbb.c */
+/* c64/cart/dqbb.c */
 /* en */ {IDCLS_ENABLE_DQBB,    N_("Enable Double Quick Brown Box")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DQBB_DA, "Aktivér Double Quick Brown Box"},
@@ -3768,7 +3933,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_DQBB_TR, "Double Quick Brown Box'ý aktif et"},
 #endif
 
-/* c64/dqbb.c */
+/* c64/cart/dqbb.c */
 /* en */ {IDCLS_DISABLE_DQBB,    N_("Disable Double Quick Brown Box")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DQBB_DA, "Deaktivér Double Quick Brown Box"},
@@ -3782,7 +3947,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_DQBB_TR, "Double Quick Brown Box'ý pasifleþtir"},
 #endif
 
-/* c64/dqbb.c */
+/* c64/cart/dqbb.c */
 /* en */ {IDCLS_SPECIFY_DQBB_NAME,    N_("Specify Double Quick Brown Box filename")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_DQBB_NAME_DA, "Angiv filnavn for Double Quick Brown Box"},
@@ -3796,7 +3961,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_DQBB_NAME_TR, "Double Quick Brown Box dosya ismi belirt"},
 #endif
 
-/* c64/isepic.c */
+/* c64/cart/isepic.c */
 /* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the ISEPIC cart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_ISEPIC_DA, "Aktivér ISEPIC-cartridge"},
@@ -3810,7 +3975,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_ISEPIC_TR, "ISEPIC kartuþunu aktif et"},
 #endif
 
-/* c64/isepic.c */
+/* c64/cart/isepic.c */
 /* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the ISEPIC cart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_ISEPIC_DA, "Deaktivér ISEPIC-cartridge"},
@@ -3824,7 +3989,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_ISEPIC_TR, "ISEPIC kartuþunu pasifleþtir"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_ENABLE_MMC64,    N_("Enable the MMC64 expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_MMC64_DA, "Aktivér MMC64-udviddelse"},
@@ -3838,7 +4003,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_MMC64_TR, "MMC64 geniþlemesini aktif et"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_DISABLE_MMC64,    N_("Disable the MMC64 expansion")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_MMC64_DA, "Deaktivér MMC64-udviddelse"},
@@ -3852,7 +4017,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_MMC64_TR, "MMC64 geniþlemesini pasifleþtir"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_SPECIFY_MMC64_BIOS_NAME,    N_("Specify name of MMC64 BIOS image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_DA, "Angiv navn på MMC64-BIOS-image"},
@@ -3866,7 +4031,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_TR, "MMC64 BIOS imajýnýn ismini belirt"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME,    N_("Specify name of MMC64 image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DA, "Angiv navn på MMC64-image"},
@@ -3880,7 +4045,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_TR, "MMC64 imajýnýn ismini belirt"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_MMC64_READONLY,    N_("Set the MMC64 card to read-only")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_READONLY_DA, "Skrivebeskyt MMC64-kort"},
@@ -3894,7 +4059,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_MMC64_READONLY_TR, "MMC64 kartýný salt okunura çevir"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_MMC64_READWRITE,    N_("Set the MMC64 card to read/write")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_READWRITE_DA, "Tillad skrivning på MMC64-kort"},
@@ -3908,7 +4073,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_MMC64_READWRITE_TR, "MMC64 kartýný okunur/yazýlýra çevir"},
 #endif
 
-/* c64/mmc64.c */
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_MMC64_BIOS_WRITE,    N_("Save the MMC64 bios when changed")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_BIOS_WRITE_DA, "Gem MMC64-BIOS ved ændring"},
@@ -3922,7 +4087,203 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_MMC64_BIOS_WRITE_TR, "MMC64 BIOS'unu deðiþtiðinde kaydet"},
 #endif
 
-/* c64/reu.c */
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME,    N_("Specify MMC Replay card image filename")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE,    N_("Enable writes to MMC Replay card image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE,    N_("Disable writes to MMC Replay card image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE,    N_("Specify MMC Replay EEPROM image filename")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE,    N_("Enable writes to MMC Replay EEPROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE,    N_("Disable writes to MMC Replay EEPROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE,    N_("Enable MMC Replay rescue mode")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE,    N_("Disable MMC Replay rescue mode")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT,    N_("Enable saving of the RR ROM at exit")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT,    N_("Disable saving of the RR ROM at exit")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_SET_RR_BANK_JUMPER,    N_("Set RR Bank Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_RR_BANK_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_RR_BANK_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_RR_BANK_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_RR_BANK_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_RR_BANK_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_RR_BANK_JUMPER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_RR_BANK_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_RR_BANK_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_RR_BANK_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_UNSET_RR_BANK_JUMPER,    N_("Unset RR Bank Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_UNSET_RR_BANK_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_UNSET_RR_BANK_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_UNSET_RR_BANK_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_UNSET_RR_BANK_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_UNSET_RR_BANK_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_UNSET_RR_BANK_JUMPER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_UNSET_RR_BANK_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_UNSET_RR_BANK_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_UNSET_RR_BANK_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_SET_RR_FLASH_JUMPER,    N_("Set RR Flash Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_RR_FLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_RR_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_RR_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_RR_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_RR_FLASH_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_RR_FLASH_JUMPER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_RR_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_RR_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_RR_FLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_UNSET_RR_FLASH_JUMPER,    N_("Unset RR Bank Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_UNSET_RR_FLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_UNSET_RR_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_UNSET_RR_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_UNSET_RR_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_UNSET_RR_FLASH_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_UNSET_RR_FLASH_JUMPER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_UNSET_RR_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_UNSET_RR_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_UNSET_RR_FLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/reu.c */
 /* en */ {IDCLS_ENABLE_REU,    N_("Enable the RAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_REU_DA, "Aktivér RAM-udviddelsesenhed"},
@@ -3936,7 +4297,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_REU_TR, "RAM geniþletme birimini aktif et"},
 #endif
 
-/* c64/reu.c */
+/* c64/cart/reu.c */
 /* en */ {IDCLS_DISABLE_REU,    N_("Disable the RAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_REU_DA, "Deaktivér RAM-udviddelsesenhed"},
@@ -3950,7 +4311,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_REU_TR, "RAM geniþletme birimini pasifleþtir"},
 #endif
 
-/* c64/reu.c */
+/* c64/cart/reu.c */
 /* en */ {IDCLS_SPECIFY_REU_NAME,    N_("Specify name of REU image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_REU_NAME_DA, "Angiv navn på REU-image"},
@@ -3964,7 +4325,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_REU_NAME_TR, "REU imajýnýn ismini belirt"},
 #endif
 
-/* c64/reu.c */
+/* c64/cart/reu.c */
 /* en */ {IDCLS_REU_SIZE,    N_("Size of the RAM expansion unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_REU_SIZE_DA, "Størrelse på RAM-udviddelsesenhed"},
@@ -3979,7 +4340,7 @@ translate_t string_table[] = {
 #endif
 
 #ifdef HAVE_TFE
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 /* en */ {IDCLS_ENABLE_TFE,    N_("Enable the TFE (\"The Final Ethernet\") unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TFE_DA, "Aktivér TFE-enhed (\"The Final Ethernet\")"},
@@ -3993,7 +4354,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_TFE_TR, "TFE (\"The Final Ethernet\") birimini aktif et"},
 #endif
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE,    N_("Disable the TFE (\"The Final Ethernet\") unit")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TFE_DA, "Deaktivér TFE-enhed (\"The Final Ethernet\")"},
@@ -4007,7 +4368,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_TFE_TR, "TFE (\"The Final Ethernet\") birimini pasifleþtir"},
 #endif
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 /* en */ {IDCLS_TFE_INTERFACE,    N_("Set the system ethernet interface for TFE emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_TFE_INTERFACE_DA, "Indstil systemets netkort til TFE-emulering"},
@@ -4021,7 +4382,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_TFE_INTERFACE_TR, "Sistem ethernet arabirimini TFE emülasyonu için ayarla"},
 #endif
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 /* en */ {IDCLS_ENABLE_TFE_AS_RRNET,    N_("Enable RRNet mode of TFE emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TFE_AS_RRNET_DA, "Aktivér RRNet-tilstand af TFE-emulering"},
@@ -4035,7 +4396,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_TFE_AS_RRNET_TR, "TFE emülasyonunun RRNet modunu aktif et"},
 #endif
 
-/* c64/tfe.c */
+/* c64/cart/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE_AS_RRNET,    N_("Disable RRNet mode of TFE emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TFE_AS_RRNET_DA, "Deaktivér RRNet-läge af TFE-emulering"},
@@ -4922,7 +5283,7 @@ translate_t string_table[] = {
 #endif
 
 /* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
-   attach.c, drive/iec/iec-cmdline-options.c */
+   attach.c, drive/iec/iec-cmdline-options.c, c64/c64gluelogic.c */
 /* en */ {IDCLS_P_TYPE,    N_("<type>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_TYPE_DA, "<type>"},
@@ -4951,7 +5312,8 @@ translate_t string_table[] = {
 #endif
 
 /* drive/drive-cmdline-options.c,
-   drive/iec/iec-cmdline-options.c */
+   drive/iec/iec-cmdline-options.c,
+   gfxoutputdrv/doodledrv.c */
 /* en */ {IDCLS_P_METHOD,    N_("<method>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_METHOD_DA, "<metode>"},
@@ -4963,6 +5325,76 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_P_METHOD_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_METHOD_SV, "<metod>"},
 /* tr */ {IDCLS_P_METHOD_TR, "<metod>"},
+#endif
+
+/* gfxoutputdrv/doodledrv.c */
+/* en */ {IDCLS_P_COLOR,    N_("<color>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_COLOR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_COLOR_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_COLOR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_COLOR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_COLOR_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_COLOR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_COLOR_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_COLOR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_COLOR_TR, ""},  /* fuzzy */
+#endif
+
+/* gfxoutputdrv/doodledrv.c */
+/* en */ {IDCLS_OVERSIZED_HANDLING,    N_("Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_OVERSIZED_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_OVERSIZED_HANDLING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_OVERSIZED_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_OVERSIZED_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_OVERSIZED_HANDLING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_OVERSIZED_HANDLING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_OVERSIZED_HANDLING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_OVERSIZED_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_OVERSIZED_HANDLING_TR, ""},  /* fuzzy */
+#endif
+
+/* gfxoutputdrv/doodledrv.c */
+/* en */ {IDCLS_MULTICOLOR_HANDLING,    N_("Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MULTICOLOR_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MULTICOLOR_HANDLING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_MULTICOLOR_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MULTICOLOR_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MULTICOLOR_HANDLING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_MULTICOLOR_HANDLING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MULTICOLOR_HANDLING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_MULTICOLOR_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MULTICOLOR_HANDLING_TR, ""},  /* fuzzy */
+#endif
+
+/* gfxoutputdrv/doodledrv.c */
+/* en */ {IDCLS_TED_LUM_HANDLING,    N_("Select the way the TED luminosity should be handled, (0: ignore, 1: dither)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_TED_LUM_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_TED_LUM_HANDLING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TED_LUM_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TED_LUM_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TED_LUM_HANDLING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TED_LUM_HANDLING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TED_LUM_HANDLING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TED_LUM_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_TED_LUM_HANDLING_TR, ""},  /* fuzzy */
+#endif
+
+/* gfxoutputdrv/doodledrv.c */
+/* en */ {IDCLS_CRTC_TEXT_COLOR,    N_("Select the CRTC text color (0: white, 1: amber, 2: green)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_CRTC_TEXT_COLOR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_CRTC_TEXT_COLOR_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_CRTC_TEXT_COLOR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_CRTC_TEXT_COLOR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_CRTC_TEXT_COLOR_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_CRTC_TEXT_COLOR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_CRTC_TEXT_COLOR_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_CRTC_TEXT_COLOR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_CRTC_TEXT_COLOR_TR, ""},  /* fuzzy */
 #endif
 
 /* drive/drive-cmdline-options.c */
@@ -5917,6 +6349,20 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_ODDLINES_OFFSET_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_ODDLINES_OFFSET_SV, "Välj fasutjämning för färgbärarvåg på udda rader [1250]"},
 /* tr */ {IDCLS_SET_ODDLINES_OFFSET_TR, "Tek satýrlardaki renk taþýyýcýlarý için faz ofsetini ayarlayýn [750]"},
+#endif
+
+/* viciinew/vicii-cmdline-options.c */
+/* en */ {IDCLS_SET_VICII_MODEL,    N_("Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_VICII_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VICII_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VICII_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_VICII_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VICII_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VICII_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_VICII_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VICII_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_VICII_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/driver-select.c */
@@ -7757,6 +8203,76 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_FINALEXPANSION_WRITEBACK_TR, "Final Expansion ROM dosyasýna geri yazmayý pasifleþtir"},
 #endif
 
+/* vic20/cart/megacart.c */
+/* en */ {IDCLS_SET_MEGACART_NVRAM_NAME,    N_("Set Mega-Cart NvRAM filename")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_MEGACART_NVRAM_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_MEGACART_NVRAM_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_MEGACART_NVRAM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_MEGACART_NVRAM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_MEGACART_NVRAM_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_MEGACART_NVRAM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_MEGACART_NVRAM_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_MEGACART_NVRAM_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_MEGACART_NVRAM_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/megacart.c */
+/* en */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE,    N_("Enable Mega-Cart NvRAM writeback")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_MEGACART_NVRAM_WRITE_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/megacart.c */
+/* en */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE,    N_("Disable Mega-Cart NvRAM writeback")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_MEGACART_NVRAM_WRITE_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/vic-fp.c */
+/* en */ {IDCLS_ENABLE_VICFP_ROM_WRITE,    N_("Enable Vic Flash Plugin write back to ROM file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_VICFP_ROM_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VICFP_ROM_WRITE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_VICFP_ROM_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_VICFP_ROM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VICFP_ROM_WRITE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VICFP_ROM_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_VICFP_ROM_WRITE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_VICFP_ROM_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_VICFP_ROM_WRITE_TR, ""},  /* fuzzy */
+#endif
+
+/* vic20/cart/vic-fp.c */
+/* en */ {IDCLS_DISABLE_VICFP_ROM_WRITE,    N_("Disable Vic Flash Plugin write back to ROM file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_VICFP_ROM_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_VICFP_ROM_WRITE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_VICFP_ROM_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_VICFP_ROM_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VICFP_ROM_WRITE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VICFP_ROM_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_VICFP_ROM_WRITE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_VICFP_ROM_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_VICFP_ROM_WRITE_TR, ""},  /* fuzzy */
+#endif
+
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BORDER_MODE,    N_("Set VIC-II border display mode (0: normal, 1: full, 2: debug)")},
 #ifdef HAS_TRANSLATION
@@ -8734,6 +9250,20 @@ translate_t string_table[] = {
 #endif
 
 /* initcmdline.c */
+/* en */ {IDCLS_USE_VSID_MODE,    N_("Use vsid mode")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_USE_VSID_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_USE_VSID_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_USE_VSID_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_USE_VSID_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_USE_VSID_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_VSID_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_USE_VSID_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_VSID_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_USE_VSID_MODE_TR, ""},  /* fuzzy */
+#endif
+
+/* initcmdline.c */
 /* en */ {IDCLS_RESTORE_DEFAULT_SETTINGS,    N_("Restore default (factory) settings")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RESTORE_DEFAULT_SETTINGS_DA, "Gendan standardindstillinger"},
@@ -8747,7 +9277,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_TR, "Varsayýlan ayarlara (fabrika ayarlarý) geri dön"},
 #endif
 
-/* initcmdline.c */
+/* initcmdline.c, c64/cart/mmcreplay.c */
 /* en */ {IDCLS_P_FILE,    N_("<filename>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_FILE_DA, "<filnavn>"},
@@ -9109,6 +9639,20 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_SV, "Sätt ljudbuffertstorlek till <värde> ms"},
 /* tr */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_TR, "Ses arabellek boyutunu <deðer> milisaniye olarak ayarla"},
+#endif
+
+/* sound.c */
+/* en */ {IDCLS_SET_SOUND_FRAGMENT_SIZE,    N_("Set sound fragment size (0 = small, 1 = medium, 2 = large)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* sound.c */
@@ -9784,7 +10328,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_MIDI_EMU_TR, "MIDI emülasyonunu pasifleþtir"},
 #endif
 
-/* c64/c64-midi.c */
+/* c64/cart/c64-midi.c */
 /* en */ {IDCLS_SPECIFY_C64_MIDI_TYPE,    N_("MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64_MIDI_TYPE_DA, "MIDI-interfacetype (0: Sekventiel, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"},
@@ -9855,6 +10399,20 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_PLUS4SPEECH_TR, ""},  /* fuzzy */
 #endif
 
+/* plus4/plus4speech.c */
+/* en */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE,    N_("Attach Speech ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_TR, ""},  /* fuzzy */
+#endif
+
 /* plus4/sidcartjoy.c */
 /* en */ {IDCLS_ENABLE_SIDCARTJOY,    N_("Enable SID cartridge joystick")},
 #ifdef HAS_TRANSLATION
@@ -9883,7 +10441,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SIDCARTJOY_TR, "SID kartuþu joystick'ini pasifleþtir"},
 #endif
 
-/* c64/sfx_soundexpander.c */
+/* c64/cart/sfx_soundexpander.c */
 /* en */ {IDCLS_ENABLE_SFX_SE,    N_("Enable the SFX soundexpander cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SFX_SE_DA, ""},  /* fuzzy */
@@ -9897,7 +10455,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_SFX_SE_TR, "SFX soundexpander kartuþunu aktif et"},
 #endif
 
-/* c64/sfx_soundexpander.c */
+/* c64/cart/sfx_soundexpander.c */
 /* en */ {IDCLS_DISABLE_SFX_SE,    N_("Disable the SFX soundexpander cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SFX_SE_DA, ""},  /* fuzzy */
@@ -9911,7 +10469,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SFX_SE_TR, "SFX soundexpander kartuþunu pasifleþtir"},
 #endif
 
-/* c64/sfx_soundexpander.c */
+/* c64/cart/sfx_soundexpander.c */
 /* en */ {IDCLS_SET_YM_CHIP_TYPE,    N_("Set YM chip type (3526 / 3812)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_YM_CHIP_TYPE_DA, ""},  /* fuzzy */
@@ -9925,7 +10483,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_YM_CHIP_TYPE_TR, "YM çip tipini ayarla (3526 / 3812)"},
 #endif
 
-/* c64/sfx_soundsampler.c */
+/* c64/cart/sfx_soundsampler.c */
 /* en */ {IDCLS_ENABLE_SFX_SS,    N_("Enable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SFX_SS_DA, ""},  /* fuzzy */
@@ -9939,7 +10497,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et"},
 #endif
 
-/* c64/sfx_soundsampler.c */
+/* c64/cart/sfx_soundsampler.c */
 /* en */ {IDCLS_DISABLE_SFX_SS,    N_("Disable the SFX Sound Sampler cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SFX_SS_DA, ""},  /* fuzzy */
@@ -10051,7 +10609,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_TR, "EasyFlash .crt imajýna yazmayý pasifleþtir"},
 #endif
 
-/* c64/digimax.c */
+/* c64/cart/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the digimax cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DIGIMAX_DA, ""},  /* fuzzy */
@@ -10065,7 +10623,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_DIGIMAX_TR, "Digimax kartuþunu aktif et"},
 #endif
 
-/* c64/digimax.c */
+/* c64/cart/digimax.c */
 /* en */ {IDCLS_DISABLE_DIGIMAX,    N_("Disable the digimax cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DIGIMAX_DA, ""},  /* fuzzy */
@@ -10079,7 +10637,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_DIGIMAX_TR, "Digimax kartuþunu pasifleþtir"},
 #endif
 
-/* c64/digimax.c */
+/* c64/cart/digimax.c */
 /* en */ {IDCLS_DIGIMAX_BASE,    N_("Base address of the digimax cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DIGIMAX_BASE_DA, ""},  /* fuzzy */

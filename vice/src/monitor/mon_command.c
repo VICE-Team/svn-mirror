@@ -393,9 +393,9 @@ static const mon_cmds_t mon_cmd_array[] = {
      NULL, NULL },
 
    { "list", "",
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-     IDGS_UNUSED, IDGS_UNUSED,
-     T_("[<device>]"), T_("List disk contents.") },
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     IDGS_RP_DEVICE, IDGS_MON_LIST_DESCRIPTION,
+     NULL, NULL },
 
    { "load", "l",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
