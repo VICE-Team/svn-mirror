@@ -57,7 +57,7 @@
     - D                Backup to Disk
     - M                Backup to Disk
     - S                Backup to Disk
-    - C                Backup to Tape
+    - C                Code Inspector
     - T                Backup to Tape
     - X                Backup to Tape
     - B                Hires Saver
@@ -273,10 +273,9 @@ $F0F4 normal Reset     Y=$00 'arrow left
 */
 
 /* #define DEBUGAR */
-/* #define USEFAKE */
 
 #ifdef DEBUGAR
-#define DBG(x) printf x
+#define DBG(x) printf("AR2: @%04x enabled: %d bank: %d cap %d:%d ", reg_pc, ar_enabled, roml_bank, ar_cap_disable, ar_cap_enable); printf x
 #else
 #define DBG(x)
 #endif
@@ -326,72 +325,46 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-#ifdef USEFAKE
+/* these two values are hand tuned */
+#define CAPENABLE  65
+#define CAPDISABLE (50+(7*16))       /* 7*16: (bytes routine at $df27 * max filename max len) */
 
-int fake_addr = 0, fake_count = 0;
-
-void dofake(int addr) {
-    if (addr == fake_addr) {
-        if ((addr == 0xde00)&&(fake_count == 1)) {
-            DBG(("AR2: enabling\n"));
-            cartridge_config_changed((BYTE) 0 | (1 << CMODE_BANK_SHIFT), (BYTE) 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
-        } else if ((addr == 0xdf00)&&(fake_count == 1000)) {
-            DBG(("AR2: disabling\n"));
-            cartridge_config_changed((BYTE) 2 | (1 << CMODE_BANK_SHIFT), (BYTE) 2 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
-        }
-        fake_count++;
-    } else {
-        fake_addr = addr;
-        fake_count = 0;
-    }
-}
-
-#else
-
-#define CAPHI   256     /* steps until disable (30 < x < 100 ?) */
-#define CAPD    128
-
-static int ar_cap = 0;
+static int ar_enabled = 0, ar_cap_enable = 0, ar_cap_disable = 0;
 
 static void cap_charge(void)
 {
-    DBG(("AR2: @%04x cap+ %d (bank %d)\n", reg_pc, ar_cap, roml_bank));
-    if (ar_cap == CAPHI) {
-        DBG(("AR2: @%04x disabling\n", reg_pc));
+    DBG(("cap_charge\n"));
+    ar_cap_disable++;
+    if (ar_cap_disable == CAPDISABLE) {
+        ar_enabled = 0;
+        ar_cap_enable = 0;
         cartridge_config_changed((BYTE) 2 | (roml_bank << CMODE_BANK_SHIFT), (BYTE) 2 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
-        ar_cap++;
-    } else if (ar_cap < CAPHI) {
-        ar_cap++;
-        if (ar_cap > CAPHI) {
-            ar_cap = CAPHI;
-        }
+        DBG(("disabled\n"));
     }
 }
 
 static void cap_discharge(void)
 {
-    DBG(("AR2: @%04x cap- %d\n", reg_pc, ar_cap));
-    if (ar_cap == 0) {
-        DBG(("AR2: @%04x enabling\n", reg_pc));
+    DBG(("cap_discharge\n"));
+    ar_cap_enable++;
+    if (ar_cap_enable == CAPENABLE) {
+        roml_bank = 1;
+        ar_enabled = 1;
         cartridge_config_changed((BYTE) 0 | (roml_bank << CMODE_BANK_SHIFT), (BYTE) 0 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
-        ar_cap--;
-    } else if (ar_cap > 0) {
-        ar_cap -= CAPD;
-        if (ar_cap < 0) {
-            ar_cap = 0;
-        }
+        DBG(("enabled\n"));
     }
+    ar_cap_disable = 0;
 }
-#endif
 
 static BYTE REGPARM1 actionreplay2_io1_read(WORD addr)
 {
-#ifdef USEFAKE
-    dofake(0xde00);
-#else
     cap_discharge();
-#endif
     return 0;
+}
+
+static void REGPARM2 actionreplay2_io1_store(WORD addr, BYTE value)
+{
+    cap_discharge();
 }
 
 static BYTE REGPARM1 actionreplay2_io1_peek(WORD addr)
@@ -399,51 +372,28 @@ static BYTE REGPARM1 actionreplay2_io1_peek(WORD addr)
     return 0;
 }
 
-static void REGPARM2 actionreplay2_io1_store(WORD addr, BYTE value)
-{
-    /* DBG(("cap- %d\n", ar_cap)); */
-#ifdef USEFAKE
-    dofake(0xde00);
-#else
-    cap_discharge();
-#endif
-}
-
 static BYTE REGPARM1 actionreplay2_io2_read(WORD addr)
 {
-#ifdef USEFAKE
-    dofake(0xdf00);
-#else
     cap_charge();
-#endif
-
     addr |= 0xdf00;
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+    return roml_banks[(addr & 0x1fff) + (1 << 13)];
+}
+
+static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value)
+{
+    cap_charge();
 }
 
 static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr)
 {
     addr |= 0xdf00;
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value)
-{
-    /* DBG(("cap- %d\n", ar_cap)); */
-#ifdef USEFAKE
-    dofake(0xdf00);
-#else
-    cap_charge();
-#endif
+    return roml_banks[(addr & 0x1fff) + (1 << 13)];
 }
 
 /* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 actionreplay2_roml_read(WORD addr)
 {
-#ifdef USEFAKE
-    dofake(addr);
-#endif
     if (addr < 0x9f00) {
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
     } else {
@@ -454,37 +404,43 @@ BYTE REGPARM1 actionreplay2_roml_read(WORD addr)
 
 BYTE REGPARM1 actionreplay2_romh_read(WORD addr)
 {
-#ifdef USEFAKE
-    dofake(addr);
-#endif
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 /* ---------------------------------------------------------------------*/
 
 void actionreplay2_freeze(void)
 {
-    DBG(("AR2: freeze\n"));
-    ar_cap = -1;
-    cartridge_config_changed(3, 3, CMODE_READ);
+    roml_bank = 0;
+    ar_enabled = 1;
+    ar_cap_enable = 0;
+    ar_cap_disable = 0;
+    DBG(("freeze\n"));
+    cartridge_config_changed(3 | (roml_bank << CMODE_BANK_SHIFT), 3 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_release_freeze();
 }
 
 void actionreplay2_config_init(void)
 {
-    DBG(("AR2: config init\n"));
-    ar_cap = -1;
-    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+    roml_bank = 1;
+    ar_enabled = 1;
+    ar_cap_enable = 0;
+    ar_cap_disable = 0;
+    DBG(("config init\n"));
+    cartridge_config_changed(0 | (roml_bank << CMODE_BANK_SHIFT), 0 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 void actionreplay2_reset(void)
 {
-    DBG(("AR2: reset\n"));
-    ar_cap = -1;
+    roml_bank = 1;
+    ar_enabled = 1;
+    ar_cap_enable = 0;
+    ar_cap_disable = 0;
+    DBG(("reset\n"));
 }
 
 void actionreplay2_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x4000);
-    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
