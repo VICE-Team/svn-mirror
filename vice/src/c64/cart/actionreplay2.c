@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "maincpu.h"
 #include "types.h"
 #include "util.h"
 
@@ -49,20 +50,18 @@
     after reset, there dont seem to be any basic extensions, just a fastloader
 
     press freeze, then:
-    - f1/f2  restart
-    - f7/f8  backup to disk ?
-    - b ? (crash ?)
-    - c ? (delay, blanked screen)
-    - d      backup to disk ?
-    - f      freeze program + save
-    - h ?
-    - k ?
-    - m ?    backup to disk ?
-    - s ?    backup to disk ?
-    - t      backup to tape ?
-    - x ? (delay, blanked screen)
-    - fire port 1 ?
-    - left arrow ? (crash ?)
+    - F1 / F2          Reset to Fastload
+    - F7 / F8          Restart
+    - left Arrow       normal Reset (Cartridge disabled)
+    - F                Novaload Tape Transfer
+    - D                Backup to Disk
+    - M                Backup to Disk
+    - S                Backup to Disk
+    - C                Backup to Tape
+    - T                Backup to Tape
+    - X                Backup to Tape
+    - B                Hires Saver
+    - H                Koala Saver
 
     Technical:
 
@@ -181,6 +180,98 @@
 
 */
 
+/*
+
+freezer "main menu":
+
+; wait for keypress
+.C:f06c   AD 20 D0   LDA $D020
+.C:f06f   48         PHA
+
+.C:f070   A9 00      LDA #$00
+.C:f072   8D 00 DC   STA $DC00
+.C:f075   EE 20 D0   INC $D020
+.C:f078   AE 01 DC   LDX $DC01
+.C:f07b   EC 01 DC   CPX $DC01
+.C:f07e   D0 F8      BNE $F078
+.C:f080   E0 FF      CPX #$FF
+.C:f082   F0 EC      BEQ $F070
+
+.C:f084   68         PLA
+.C:f085   8D 20 D0   STA $D020
+
+.C:f088   A9 F7      LDA #$F7   ; check row 3
+.C:f08a   20 F8 F0   JSR $F0F8
+
+.C:f08d   A0 01      LDY #$01
+.C:f08f   C9 DF      CMP #$DF   ; "H"
+.C:f091   F0 5B      BEQ $F0EE
+.C:f093   88         DEY
+.C:f094   C9 EF      CMP #$EF   ; "B"
+.C:f096   F0 56      BEQ $F0EE
+
+.C:f098   A9 7F      LDA #$7F   ; check row 7
+.C:f09a   20 F8 F0   JSR $F0F8
+
+.C:f09d   C9 FD      CMP #$FD   ; "arrow left"
+.C:f09f   F0 53      BEQ $F0F4
+
+.C:f0a1   A9 FE      LDA #$FE   ; check row 0
+.C:f0a3   20 F8 F0   JSR $F0F8
+
+.C:f0a6   C9 F7      CMP #$F7   ; "F7"
+.C:f0a8   F0 3E      BEQ $F0E8
+.C:f0aa   C9 EF      CMP #$EF   ; "F1"
+.C:f0ac   F0 3D      BEQ $F0EB
+
+.C:f0ae   A9 EF      LDA #$EF   ; check row 4
+.C:f0b0   20 F8 F0   JSR $F0F8
+
+.C:f0b3   A0 81      LDY #$81
+.C:f0b5   C9 EF      CMP #$EF   ; "M"
+.C:f0b7   F0 2B      BEQ $F0E4
+
+.C:f0b9   A9 FB      LDA #$FB   ; check row 2
+.C:f0bb   20 F8 F0   JSR $F0F8
+
+.C:f0be   A0 03      LDY #$03
+.C:f0c0   C9 EF      CMP #$EF   ; "C"
+.C:f0c2   F0 20      BEQ $F0E4
+.C:f0c4   C9 DF      CMP #$DF   ; "F"
+.C:f0c6   F0 29      BEQ $F0F1
+.C:f0c8   A0 00      LDY #$00
+.C:f0ca   C9 7F      CMP #$7F   ; "X"
+.C:f0cc   F0 16      BEQ $F0E4
+.C:f0ce   A0 01      LDY #$01
+.C:f0d0   C9 FB      CMP #$FB   ; "D"
+.C:f0d2   F0 10      BEQ $F0E4
+.C:f0d4   88         DEY
+.C:f0d5   C9 BF      CMP #$BF   ; "T"
+.C:f0d7   F0 0B      BEQ $F0E4
+
+.C:f0d9   A9 FD      LDA #$FD   ; check row 1
+.C:f0db   20 F8 F0   JSR $F0F8
+
+.C:f0de   A0 02      LDY #$02
+.C:f0e0   C9 DF      CMP #$DF   ; "S"
+.C:f0e2   D0 88      BNE $F06C
+
+; write port A, get port B
+.C:f0f8   8D 00 DC   STA $DC00
+.C:f0fb   AD 01 DC   LDA $DC01
+.C:f0fe   CD 01 DC   CMP $DC01
+.C:f101   D0 F8      BNE $F0FB
+.C:f103   60         RTS
+
+$F0E4 Backup           Y=$00 'X' 'T' Y=$01 'D' Y=$02 'S' Y=$03 'C' Y=$81 'M'
+$F0E8 Restart          Y=$00 'F7'
+$F0EB Reset to Loader  Y=$00 'F1'
+$F0EE Koala Saver      Y=$00 'B' Y=$01 'H'
+$F0F1 Novaload Xfer    Y=$03 'F'
+$F0F4 normal Reset     Y=$00 'arrow left
+
+*/
+
 /* #define DEBUGAR */
 /* #define USEFAKE */
 
@@ -198,6 +289,7 @@ static BYTE REGPARM1 actionreplay2_io1_peek(WORD addr);
 static void REGPARM2 actionreplay2_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 actionreplay2_io2_read(WORD addr);
 static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr);
+static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value);
 
 static io_source_t actionreplay2_io1_device = {
     "Action Replay II",
@@ -218,7 +310,7 @@ static io_source_t actionreplay2_io2_device = {
     NULL,
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
-    NULL,
+    actionreplay2_io2_store,
     actionreplay2_io2_read,
     actionreplay2_io2_peek,
     NULL, /* FIXME: dump */
@@ -256,17 +348,17 @@ void dofake(int addr) {
 
 #else
 
-#define CAPHI   500     /* steps until disable (30 < x < 100 ?) */
-#define CAPD    300
+#define CAPHI   256     /* steps until disable (30 < x < 100 ?) */
+#define CAPD    128
 
 static int ar_cap = 0;
 
 static void cap_charge(void)
 {
-/*    DBG(("cap+ %d (bank %d)\n", ar_cap, roml_bank)); */
+    DBG(("AR2: @%04x cap+ %d (bank %d)\n", reg_pc, ar_cap, roml_bank));
     if (ar_cap == CAPHI) {
-        DBG(("AR2: disabling\n"));
-        cartridge_config_changed((BYTE) 2 | (1 << CMODE_BANK_SHIFT), (BYTE) 2 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+        DBG(("AR2: @%04x disabling\n", reg_pc));
+        cartridge_config_changed((BYTE) 2 | (roml_bank << CMODE_BANK_SHIFT), (BYTE) 2 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
         ar_cap++;
     } else if (ar_cap < CAPHI) {
         ar_cap++;
@@ -278,10 +370,10 @@ static void cap_charge(void)
 
 static void cap_discharge(void)
 {
-/*    DBG(("cap- %d\n", ar_cap)); */
+    DBG(("AR2: @%04x cap- %d\n", reg_pc, ar_cap));
     if (ar_cap == 0) {
-        DBG(("AR2: enabling\n"));
-        cartridge_config_changed((BYTE) 0 | (1 << CMODE_BANK_SHIFT), (BYTE) 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+        DBG(("AR2: @%04x enabling\n", reg_pc));
+        cartridge_config_changed((BYTE) 0 | (roml_bank << CMODE_BANK_SHIFT), (BYTE) 0 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
         ar_cap--;
     } else if (ar_cap > 0) {
         ar_cap -= CAPD;
@@ -334,6 +426,17 @@ static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr)
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
+
+static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value)
+{
+    /* DBG(("cap- %d\n", ar_cap)); */
+#ifdef USEFAKE
+    dofake(0xdf00);
+#else
+    cap_charge();
+#endif
+}
+
 /* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 actionreplay2_roml_read(WORD addr)
@@ -361,21 +464,21 @@ BYTE REGPARM1 actionreplay2_romh_read(WORD addr)
 void actionreplay2_freeze(void)
 {
     DBG(("AR2: freeze\n"));
-    ar_cap = 0;
+    ar_cap = -1;
     cartridge_config_changed(3, 3, CMODE_READ);
 }
 
 void actionreplay2_config_init(void)
 {
     DBG(("AR2: config init\n"));
-    ar_cap = 0;
+    ar_cap = -1;
     cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 void actionreplay2_reset(void)
 {
     DBG(("AR2: reset\n"));
-    ar_cap = 0;
+    ar_cap = -1;
 }
 
 void actionreplay2_config_setup(BYTE *rawcart)
