@@ -226,6 +226,7 @@ extern BYTE cartridge_peek_mem(WORD addr);
 /* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
 #define CARTRIDGE_SIZE_4KB     0x00001000
 #define CARTRIDGE_SIZE_8KB     0x00002000
+#define CARTRIDGE_SIZE_12KB    0x00003000
 #define CARTRIDGE_SIZE_16KB    0x00004000
 #define CARTRIDGE_SIZE_20KB    0x00005000
 #define CARTRIDGE_SIZE_32KB    0x00008000

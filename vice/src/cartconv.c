@@ -81,6 +81,13 @@ typedef struct cart_s {
     void (*save)(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char gameline, unsigned char exromline);
 } cart_t;
 
+typedef struct sorted_cart_s {
+    char *opt;
+    char *name;
+    int crt_id;
+    int insertion;
+} sorted_cart_t;
+
 /* some prototypes to save routines */
 static void save_regular_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_2_blocks_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
@@ -104,16 +111,17 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
 static const cart_t cart_info[] = {
 
 /*  {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Generic 8kb", NULL, NULL}, */
+/*  {0, 0, CARTRIDGE_SIZE_12KB, 0x3000, 0x8000, 1, 0, "Generic 12kb", NULL, NULL}, */
 /*  {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Generic 16kb", NULL, NULL}, */
 /*  {0, 1, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_16KB, 0, 0, 1, 0, "Ultimax", NULL, NULL}, */
 
-    {1, 0, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB | CARTRIDGE_SIZE_16KB, 0, 0, 0, 0, "Generic Cartridge", NULL, save_generic_crt},
+    {1, 0, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB | CARTRIDGE_SIZE_12KB | CARTRIDGE_SIZE_16KB, 0, 0, 0, 0, "Generic Cartridge", NULL, save_generic_crt},
     {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Action Replay", "ar5", save_regular_crt}, /* this is NOT AR1, but 4.2,5,6 etc */
     {0, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, "KCS Power Cartridge", "kcs", save_2_blocks_crt},
     {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Final Cartridge III", "fc3", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0, 2, 0, "Simons Basic", "simon", save_2_blocks_crt},
-    {0, 0, CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_256KB | CARTRIDGE_SIZE_512KB, 0x2000, 0, 0, 0, "Ocean", "ocean", save_ocean_crt},
-    {1, 1, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 2, "Expert Cartridge", "expert", NULL},
+    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_128KB | CARTRIDGE_SIZE_256KB | CARTRIDGE_SIZE_512KB, 0x2000, 0, 0, 0, "Ocean", "ocean", save_ocean_crt},
+    {1, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 2, "Expert Cartridge", "expert", NULL},
     {0, 0, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, "Fun Play, Power Play", "fp", save_funplay_crt},
     {0, 0, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Super Games", "sg", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Atomic Power", "ap", save_regular_crt},
@@ -143,7 +151,7 @@ static const cart_t cart_info[] = {
     {0, 0, 0, 0, 0, 0, 0, "EasyFlash xbank", NULL, NULL}, /* TODO ?? */
     {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Capture", "cap", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 3", "ar3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Retro Replay", "retro", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Retro Replay", "retro", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "MMC64", "mmc64", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, "MMC Replay", "mmcr", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "IDE64", "ide64", save_regular_crt},
@@ -246,27 +254,79 @@ static void cleanup(void)
     }
 }
 
-/* FIXME: sort the list of options alphabetically before printing */
+static int count_valid_option_elements(void)
+{
+    int i = 1;
+    int amount = 0;
+
+    while (cart_info[i].name) {
+        if (cart_info[i].opt) {
+            amount++;
+        }
+        i++;
+    }
+    return amount;
+}
+
+static int compare_elements(const void *op1, const void *op2)
+{
+    sorted_cart_t *p1 = (sorted_cart_t *)op1;
+    sorted_cart_t *p2 = (sorted_cart_t *)op2;
+
+    return strcmp(p1->opt, p2->opt);
+}
+
 static void usage(void)
 {
-    int i = 1, n;
+    int i = 1, n = 0;
+    int amount;
+    sorted_cart_t *sorted_option_elements;
+
     cleanup();
     printf("convert:    cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
     printf("print info: cartconv -f \"input name\"\n");
     printf("\ncarttypes:\n");
 
     printf("bin      Binary .bin file (Default crt->bin)\n");
-    printf("normal   Generic 8kb/16kb .crt file (Default bin->crt)\n");
+    printf("normal   Generic 8kb/12kb/16kb .crt file (Default bin->crt)\n");
     printf("prg      Binary C64 .prg file with load-address\n");
-    printf("ulti     Ultimax mode 4kb/16kb .crt file\n\n");
+    printf("ulti     Ultimax mode 4kb/8kb/16kb .crt file\n\n");
 
+    /* get the amount of valid options, excluding crt id 0 */
+    amount = count_valid_option_elements();
+
+    sorted_option_elements = malloc(amount * sizeof(sorted_cart_t));
+
+    /* fill in the array with the information needed */
     while (cart_info[i].name) {
         if (cart_info[i].opt) {
-            n = (((i == CARTRIDGE_DELA_EP7x8) || (i == CARTRIDGE_DELA_EP64) || (i == CARTRIDGE_REX_EP256) || (i == CARTRIDGE_DELA_EP256)));
-            printf("%-8s %s .crt file%s\n", cart_info[i].opt, cart_info[i].name, n ? ", extra files can be inserted" : "");
+            sorted_option_elements[n].opt = cart_info[i].opt;
+            sorted_option_elements[n].name = cart_info[i].name;
+            sorted_option_elements[n].crt_id = i;
+            switch (i) {
+                case CARTRIDGE_DELA_EP7x8:
+                case CARTRIDGE_DELA_EP64:
+                case CARTRIDGE_REX_EP256:
+                case CARTRIDGE_DELA_EP256:
+                    sorted_option_elements[n].insertion = 1;
+                    break;
+                default:
+                    sorted_option_elements[n].insertion = 0;
+                    break;
+            }
+            n++;
         }
         i++;
     }
+
+    qsort(sorted_option_elements, amount, sizeof(sorted_cart_t), compare_elements);
+
+    /* output the sorted list */
+    for (i = 0; i < amount; i++) {
+         n = sorted_option_elements[i].insertion;
+         printf("%-8s %s .crt file%s\n", sorted_option_elements[i].opt, sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
+    }
+    free(sorted_option_elements);
     exit(1);
 }
 
@@ -805,38 +865,40 @@ static int load_input_file(char *filename)
         loadfile_is_crt = 0;
         loadfile_size = (unsigned int)fread(filebuffer + 0x10, 1, 0x100000 - 14, infile) + 0x10;
         switch (loadfile_size) {
-            case 0x1000:
-            case 0x2000:
-            case 0x4000:
-            case 0x5000:
-            case 0x8000:
-            case 0x10000:
-            case 0x18000:
-            case 0x20000:
-            case 0x40000:
-            case 0x80000:
-            case 0x100000:
+            case CARTRIDGE_SIZE_4KB:
+            case CARTRIDGE_SIZE_8KB:
+            case CARTRIDGE_SIZE_12KB:
+            case CARTRIDGE_SIZE_16KB:
+            case CARTRIDGE_SIZE_20KB:
+            case CARTRIDGE_SIZE_32KB:
+            case CARTRIDGE_SIZE_64KB:
+            case CARTRIDGE_SIZE_96KB:
+            case CARTRIDGE_SIZE_128KB:
+            case CARTRIDGE_SIZE_256KB:
+            case CARTRIDGE_SIZE_512KB:
+            case CARTRIDGE_SIZE_1024KB:
                 loadfile_offset = 0;
                 fclose(infile);
                 return 0;
                 break;
-            case 0x1002:
-            case 0x2002:
-            case 0x4002:
-            case 0x5002:
-            case 0x8002:
-            case 0x10002:
-            case 0x18002:
-            case 0x20002:
-            case 0x40002:
-            case 0x80002:
-            case 0x100002:
+            case CARTRIDGE_SIZE_4KB + 2:
+            case CARTRIDGE_SIZE_8KB + 2:
+            case CARTRIDGE_SIZE_12KB + 2:
+            case CARTRIDGE_SIZE_16KB + 2:
+            case CARTRIDGE_SIZE_20KB + 2:
+            case CARTRIDGE_SIZE_32KB + 2:
+            case CARTRIDGE_SIZE_64KB + 2:
+            case CARTRIDGE_SIZE_96KB + 2:
+            case CARTRIDGE_SIZE_128KB + 2:
+            case CARTRIDGE_SIZE_256KB + 2:
+            case CARTRIDGE_SIZE_512KB + 2:
+            case CARTRIDGE_SIZE_1024KB + 2:
                 loadfile_size -= 2;
                 loadfile_offset = 2;
                 fclose(infile);
                 return 0;
                 break;
-            case 0x8004:
+            case CARTRIDGE_SIZE_32KB + 4:
                 loadfile_size -= 4;
                 loadfile_offset = 4;
                 fclose(infile);
@@ -1279,6 +1341,9 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
                 break;
             case CARTRIDGE_SIZE_8KB:
                 save_regular_crt(0x2000, 0, 0x8000, 0, 1, 0);
+                break;
+            case CARTRIDGE_SIZE_12KB:
+                save_regular_crt(0x3000, 1, 0x8000, 0, 0, 0);
                 break;
             case CARTRIDGE_SIZE_16KB:
                 save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
