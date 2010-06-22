@@ -232,6 +232,7 @@ static int ioutil_count_dir_items(const char *path)
     struct dirent *dp;
     unsigned int len, isdir;
     char *filename;
+    int retval;
 
     dirs_amount = 0;
     files_amount = 0;
@@ -248,11 +249,13 @@ static int ioutil_count_dir_items(const char *path)
     while (dp != NULL)
     {
         filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-        ioutil_stat(filename, &len, &isdir);
-        if (isdir) {
-            dirs_amount++;
-        } else {
-            files_amount++;
+        retval = ioutil_stat(filename, &len, &isdir);
+        if (retval == 0) {
+            if (isdir) {
+                dirs_amount++;
+            } else {
+                files_amount++;
+            }
         }
         dp = readdir(dirp);
         lib_free(filename);
@@ -272,6 +275,7 @@ static void ioutil_filldir(const char *path,
     int file_count=0;
     unsigned int len, isdir;
     char *filename;
+    int retval;
 
     dirp = opendir(path);
 
@@ -279,13 +283,15 @@ static void ioutil_filldir(const char *path,
 
     while (dp != NULL) {
         filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
-        ioutil_stat(filename, &len, &isdir);
-        if (isdir) {
-            dirs[dir_count].name = lib_stralloc(dp->d_name);
-            dir_count++;
-        } else {
-            files[file_count].name = lib_stralloc(dp->d_name);
-            file_count++;
+        retval = ioutil_stat(filename, &len, &isdir);
+        if (retval == 0) {
+            if (isdir) {
+                dirs[dir_count].name = lib_stralloc(dp->d_name);
+                dir_count++;
+            } else {
+                files[file_count].name = lib_stralloc(dp->d_name);
+                file_count++;
+            }
         }
         dp = readdir(dirp);
         lib_free(filename);
