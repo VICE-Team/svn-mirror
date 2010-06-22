@@ -14,7 +14,7 @@ TOPSRCDIR=$5
 CPU=$6
 
 if test x"$X64SC" = "xyes"; then
-  SCFILE="x64sc.exe"
+  SCFILE="x64sc"
 else
   SCFILE=""
 fi
