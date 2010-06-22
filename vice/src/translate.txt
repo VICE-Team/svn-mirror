@@ -386,7 +386,7 @@ IDCLS_SET_CIA2_MODEL
 IDCLS_SET_C64_MODEL
 
 /* c64/c64-cmdline-options.c */
-IDCLS_USE_OLD_NTSC_SYNC_FACTOR
+IDCLS_USE_PALN_SYNC_FACTOR
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
