@@ -50,7 +50,7 @@
 
     io1 (write)
 
-    df00/df01:
+    de00/de01:
 
     bit 4 - rom/ram bank bit1
     bit 3 - rom enable

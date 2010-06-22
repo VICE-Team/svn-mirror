@@ -38,6 +38,34 @@
 #include "types.h"
 #include "util.h"
 
+
+/*
+    the funplay/powerplay carts have 16 banks of ROM at $8000-9FFF,
+    $DE00 is used for bank switching according to the following scheme:
+
+    $DE00 bit 76543210
+              xx210xx3
+
+    leading to the following values:
+
+    $00 -> Bank 0
+    $08 -> Bank 1
+    $10 -> Bank 2
+    $18 -> Bank 3
+    $20 -> Bank 4
+    $28 -> Bank 5
+    $30 -> Bank 6
+    $38 -> Bank 7
+    $01 -> Bank 8
+    $09 -> Bank 9
+    $11 -> Bank 10
+    $19 -> Bank 11
+    $21 -> Bank 12
+    $29 -> Bank 13
+    $31 -> Bank 14
+    $39 -> Bank 15
+ */
+
 static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 {
     /* FIXME */
