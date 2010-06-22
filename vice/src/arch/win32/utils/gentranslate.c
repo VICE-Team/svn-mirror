@@ -115,6 +115,10 @@ void generate_translate_h(char *in_filename, char *out_filename)
     fprintf(outfile, "\n");
     fprintf(outfile, "#define IDGS_UNUSED IDCLS_UNUSED\n");
     fprintf(outfile, "\n");
+    fprintf(outfile, "#define IDCLS_SPECIFY_SIDCART_ENGINE_MODEL   0xffffff /* special case translation */\n");
+    fprintf(outfile, "#define IDCLS_SPECIFY_SID_ENGINE_MODEL       0xfffffe /* special case translation */\n");
+    fprintf(outfile, "#define IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL    0xfffffd /* special case translation */\n");
+    fprintf(outfile, "\n");
     fprintf(outfile, "enum { ID_START_65536=65536,\n");
     fprintf(outfile, "IDCLS_UNUSED,\n");
     fprintf(outfile, "\n");

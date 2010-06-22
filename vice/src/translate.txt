@@ -367,6 +367,9 @@ IDCLS_ENABLE_EXT_FUNC_ROM
 /* c128/functionrom.c */
 IDCLS_DISABLE_EXT_FUNC_ROM
 
+/* c64/c64-cmdline-options.c, c64/psid.c */
+IDCLS_USE_OLD_NTSC_SYNC_FACTOR
+
 /* c64/c64-cmdline-options.c, viciinew/vicii-cmdline-options.c */
 IDCLS_P_MODEL
 
@@ -384,10 +387,6 @@ IDCLS_SET_C64_MODEL
 
 /* c64/c64-cmdline-options.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR
-
-/* c64/c64-cmdline-options.c */
-IDCLS_USE_PALN_SYNC_FACTOR
-
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
@@ -1103,13 +1102,35 @@ IDCLS_DISABLE_IEC_11
 IDCLS_P_ENGINE_MODEL
 
 /* sid/sid-cmdline-options.c */
-IDCLS_SPECIFY_SID_ENGINE_MODEL
+IDCLS_FASTSID_ENGINE_MODEL
+
+#ifdef HAVE_RESID
+/* sid/sid-cmdline-options.c */
+IDCLS_RESID_ENGINE_MODEL
 
 /* sid/sid-cmdline-options.c */
-IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL
+IDCLS_RESIDDTV_ENGINE_MODEL
+#endif
 
+#ifdef HAVE_CATWEASELMKIII
 /* sid/sid-cmdline-options.c */
-IDCLS_SPECIFY_SIDCART_ENGINE_MODEL
+IDCLS_CATWEASELMKIII_ENGINE_MODEL
+#endif
+
+#ifdef HAVE_HARDSID
+/* sid/sid-cmdline-options.c */
+IDCLS_HARDSID_ENGINE_MODEL
+#endif
+
+#ifdef HAVE_PARSID
+/* sid/sid-cmdline-options.c */
+IDCLS_PARSID_ENGINE_MODEL
+#endif
+
+#ifdef HAVE_RESID_FP
+/* sid/sid-cmdline-options.c */
+IDCLS_RESIDFP_ENGINE_MODEL
+#endif
 
 /* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SECOND_SID

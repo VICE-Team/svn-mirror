@@ -6899,899 +6899,111 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_ENGINE_MODEL_TR, "<motor ve model>"},
 #endif
 
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)")},
+/* en */ {IDCLS_FASTSID_ENGINE_MODEL,    N_("0: FastSID 6581, 1: FastSID 8580")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID)"},
+/* da */ {IDCLS_FASTSID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_FASTSID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_FASTSID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_FASTSID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_FASTSID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_FASTSID_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_FASTSID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_FASTSID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_FASTSID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+#ifdef HAVE_RESID
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_RESID_ENGINE_MODEL,    N_("256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RESID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RESID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_RESID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RESID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RESID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESID_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RESID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RESID_ENGINE_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_RESIDDTV_ENGINE_MODEL,    N_("260: DTVSID")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RESIDDTV_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RESIDDTV_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_RESIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RESIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RESIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESIDDTV_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RESIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RESIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+#ifdef HAVE_CATWEASELMKIII
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)")},
+/* en */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL,    N_("512: Catweasel")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell + Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel)"},
+/* da */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_CATWEASELMKIII_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+#ifdef HAVE_HARDSID
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)")},
+/* en */ {IDCLS_HARDSID_ENGINE_MODEL,    N_("768: HardSID")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID)"},
+/* da */ {IDCLS_HARDSID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_HARDSID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_HARDSID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_HARDSID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_HARDSID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_HARDSID_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_HARDSID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_HARDSID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_HARDSID_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+#ifdef HAVE_PARSID
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
+/* en */ {IDCLS_PARSID_ENGINE_MODEL,    N_("1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
+/* da */ {IDCLS_PARSID_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PARSID_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_PARSID_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PARSID_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PARSID_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PARSID_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PARSID_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PARSID_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PARSID_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+#ifdef HAVE_RESID_FP
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
+/* en */ {IDCLS_RESIDFP_ENGINE_MODEL,    N_("1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definineren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 260: DTVSID, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 260: DTVSID, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID på parallel port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* de */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL_TR, ""},  /* fuzzy */
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model  (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581. 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "Sid Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && !defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if !defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiförstärkning)"},
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-#endif
-#endif
-
-#if defined(HAVE_RESID) && defined(HAVE_RESID_FP) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SID_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8680, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digitalforstærkning, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digitalforstærkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digitalforstærkning)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* fr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3, 1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + digiboost)"},
-/* pl */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SPECIFY_SID_ENGINE_MODEL_TR, ""},  /* fuzzy */
-#endif
-#endif
-
-#if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580)"},
-#endif
-#endif
-
-#if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel)"},
-#endif
-#endif
-
-#if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID)"},
-#endif
-#endif
-
-#if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
-#endif
-#endif
-
-#if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
-/* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,    N_("Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DA, "Angiv SID-motor og -model (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID på parallelport 1, 1280: ParSID på parallelport 2, 1536: ParSID på parallelport 3)"},
-/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_DE, "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_HU, "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_IT, "Specifica il motore e il modello di SID (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_NL, "Geef op welke SID-kern en model gebruikt moet worden (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"},
-/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_SV, "Ange SID-motor och -modell (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3)"},
-/* tr */ {IDCLS_SPECIFY_SIDCART_ENGINE_MODEL_TR, "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 512: Catweasel, 768: HardSID, 1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"},
+/* da */ {IDCLS_RESIDFP_ENGINE_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RESIDFP_ENGINE_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_RESIDFP_ENGINE_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RESIDFP_ENGINE_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RESIDFP_ENGINE_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESIDFP_ENGINE_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RESIDFP_ENGINE_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESIDFP_ENGINE_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RESIDFP_ENGINE_MODEL_TR, ""},  /* fuzzy */
 #endif
 #endif
 

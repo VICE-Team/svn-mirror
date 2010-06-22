@@ -150,6 +150,86 @@ static char *get_string_by_id(int id)
   return NULL;
 }
 
+static char *sid_return = NULL;
+
+/* special case translation, this command-line option normally
+   produces alot of lines (which only differ slightly) for the
+   translators to translate, this function builds up the total
+   command-line option from smaller translation pieces.
+ */
+static char *translate_and_build_sid_cmdline_option(int en_resource)
+{
+    char *old, *new;
+
+    /* check if sid_return is already built */
+    if (sid_return != NULL) {
+        lib_free(sid_return);
+    }
+
+    /* start building up the command-line */
+    old = lib_stralloc("Specify SID engine and model (");
+
+    /* add fast sid options */
+    new = util_concat(old, translate_text(IDCLS_FASTSID_ENGINE_MODEL), NULL);
+    lib_free(old);
+    old = new;
+
+
+#ifdef HAVE_RESID
+    /* add resid options if available */
+    if (en_resource != IDCLS_SPECIFY_SIDCART_ENGINE_MODEL) {
+        new = util_concat(old, ", ", translate_text(IDCLS_RESID_ENGINE_MODEL), NULL);
+        lib_free(old);
+        old = new;
+    }
+
+    /* add residdtv options if available */
+    if (en_resource == IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL) {
+        new = util_concat(old, ", ", translate_text(IDCLS_RESIDDTV_ENGINE_MODEL), NULL);
+        lib_free(old);
+        old = new;
+    }
+#endif
+
+#ifdef HAVE_CATWEASELMKIII
+    /* add catweasel options if available */
+    new = util_concat(old, ", ", translate_text(IDCLS_CATWEASELMKIII_ENGINE_MODEL), NULL);
+    lib_free(old);
+    old = new;
+#endif
+
+#ifdef HAVE_HARDSID
+    /* add hardsid options if available */
+    new = util_concat(old, ", ", translate_text(IDCLS_HARDSID_ENGINE_MODEL), NULL);
+    lib_free(old);
+    old = new;
+#endif
+
+#ifdef HAVE_PARSID
+    /* add parsid options if available */
+    new = util_concat(old, ", ", translate_text(IDCLS_PARSID_ENGINE_MODEL), NULL);
+    lib_free(old);
+    old = new;
+#endif
+
+#ifdef HAVE_RESID_FP
+    /* add resid-fp options if available */
+    if (en_resource != IDCLS_SPECIFY_SIDCART_ENGINE_MODEL) {
+        new = util_concat(old, ", ", translate_text(IDCLS_RESIDFP_ENGINE_MODEL), NULL);
+        lib_free(old);
+        old = new;
+    }
+#endif
+
+    /* add ending bracket */
+    new = util_concat(old, ")", NULL);
+    lib_free(old);
+
+    sid_return = new;
+
+    return sid_return;
+}
+
 #ifdef HAS_TRANSLATION
 #include "translate_table.h"
 
@@ -189,6 +269,13 @@ char *translate_text(int en_resource)
   {
     log_error(LOG_DEFAULT, "TRANSLATE ERROR: ID 0 was requested.");
     return "ID 0 translate error";
+  }
+
+  /* handle sid cmdline special case translations */
+  if (en_resource == IDCLS_SPECIFY_SIDCART_ENGINE_MODEL ||
+      en_resource == IDCLS_SPECIFY_SID_ENGINE_MODEL ||
+      en_resource == IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL) {
+      return translate_and_build_sid_cmdline_option(en_resource);
   }
 
   if (en_resource < 0x10000)
@@ -277,6 +364,11 @@ void translate_resources_shutdown(void)
   }
   intl_shutdown();
   lib_free(current_language);
+
+  /* check if sid_return is already built */
+  if (sid_return != NULL) {
+      lib_free(sid_return);
+  }
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -312,6 +404,13 @@ char *translate_text(int en_resource)
   {
     log_error(LOG_DEFAULT, "TRANSLATE ERROR: ID 0 was requested.");
     return "ID 0 translate error";
+  }
+
+  /* handle sid cmdline special case translations */
+  if (en_resource == IDCLS_SPECIFY_SIDCART_ENGINE_MODEL ||
+      en_resource == IDCLS_SPECIFY_SID_ENGINE_MODEL ||
+      en_resource == IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL) {
+      return translate_and_build_sid_cmdline_option(en_resource);
   }
 
   return _(get_string_by_id(en_resource));
