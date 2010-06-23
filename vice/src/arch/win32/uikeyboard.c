@@ -31,10 +31,6 @@
 #include <tchar.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME u1
-#endif
-
 #include "archdep.h"
 #include "intl.h"
 #include "keyboard.h"
@@ -46,6 +42,7 @@
 #include "sysfile.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -53,10 +50,6 @@
 #include "winmain.h"
 
 #include "menuid.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 #define MAXACCEL 1000
 

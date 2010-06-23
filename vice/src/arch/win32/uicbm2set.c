@@ -30,23 +30,16 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 #include "cbm2mem.h"
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uicbm2set.h"
 #include "uilib.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static uilib_localize_dialog_param cbm2_dialog_trans[] = {
     { IDC_MACHINE_DEFAULTS, IDS_MACHINE_DEFAULTS, 0 },

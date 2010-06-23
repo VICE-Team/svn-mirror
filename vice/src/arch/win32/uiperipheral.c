@@ -36,10 +36,6 @@
 #include <shlobj.h>
 #endif
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 #include "attach.h"
 #include "autostart.h"
 #include "iecdrive.h"
@@ -52,15 +48,12 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "uilib.h"
 #include "uiperipheral.h"
 #include "winlong.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 /* -------------------------------------------------------------------------- */
 /*                             Disk Peripherals (8-11)                        */

@@ -31,10 +31,6 @@
 #include <tchar.h>
 #include <windows.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME u1
-#endif
-
 #include "intl.h"
 #include "lib.h"
 #include "machine.h"
@@ -42,13 +38,10 @@
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uic128.h"
 #include "uilib.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static const int ui_machine[] = {
     IDS_INTERNATIONAL,

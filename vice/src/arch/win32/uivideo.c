@@ -36,10 +36,6 @@
 #include <shlobj.h>
 #endif
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME u1
-#endif
-
 #include "fullscrn.h"
 #include "intl.h"
 #include "lib.h"
@@ -53,10 +49,6 @@
 #include "uivideo.h"
 #include "winlong.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static char *palette_file = NULL;
 static char *palette_file2 = NULL;

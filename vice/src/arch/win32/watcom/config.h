@@ -57,8 +57,6 @@
 
 #define inline
 
-#define _ANONYMOUS_UNION
-
 #define MSVC_RC                    1
 
 #define strcasecmp(s1, s2)         _stricmp(s1, s2)

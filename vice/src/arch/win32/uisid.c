@@ -32,10 +32,6 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME u1
-#endif
-
 #include "hardsid.h"
 #include "intl.h"
 #include "machine.h"
@@ -44,14 +40,11 @@
 #include "sid.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "uisid.h"
 #include "winmain.h"
 #include "uilib.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static const TCHAR *ui_sid_engine_model[] = {
     TEXT("6581 (FastSID)"),

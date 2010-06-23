@@ -37,6 +37,14 @@
 #undef DWORD
 #include <wtypes.h>
 
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME u1
+#endif
+
+#if defined(_WIN64) || defined(__WATCOMC__) || defined(WATCOM_COMPILE)
+#define _ANONYMOUS_UNION
+#endif
+
 #define APPLICATION_CLASS TEXT("VICE")
 #define APPLICATION_CLASS_MAIN TEXT("VICE:Main")
 #define APPLICATION_FULLSCREEN_CLASS TEXT("VICE:Fullscreen")

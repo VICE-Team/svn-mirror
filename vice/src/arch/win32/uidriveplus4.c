@@ -30,10 +30,6 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME u1
-#endif
-
 #include "drive.h"
 #include "intl.h"
 #include "res.h"
@@ -41,12 +37,9 @@
 #include "system.h"
 #include "translate.h"
 #include "uidriveplus4.h"
+#include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static void enable_controls_for_drive_settings(HWND hwnd, int type)
 {

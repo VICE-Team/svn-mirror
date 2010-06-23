@@ -31,10 +31,6 @@
 #include <windows.h>
 #include <tchar.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 #include "intl.h"
 #include "lib.h"
 #include "machine.h"
@@ -48,10 +44,6 @@
 #include "uilib.h"
 #include "uirom.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static const uirom_settings_t *settings;
 

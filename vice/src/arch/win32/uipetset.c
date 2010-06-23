@@ -29,23 +29,16 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 #include "intl.h"
 #include "pets.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uilib.h"
 #include "uipetset.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static uilib_localize_dialog_param model_dialog_trans[] = {
     { IDC_PET_MACHINE_DEFAULTS, IDS_PET_MACHINE_DEFAULTS, 0 },

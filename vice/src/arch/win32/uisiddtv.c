@@ -33,10 +33,6 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME u1
-#endif
-
 #include "hardsid.h"
 #include "intl.h"
 #include "machine.h"
@@ -49,10 +45,6 @@
 #include "uisiddtv.h"
 #include "winmain.h"
 #include "uilib.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static const TCHAR *ui_sid_engine_model[] = {
 #ifdef HAVE_RESID

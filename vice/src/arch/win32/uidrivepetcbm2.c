@@ -30,23 +30,16 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifndef DUMMYUNIONNAME
-#define DUMMYUNIONNAME  u1
-#endif
-
 #include "drive.h"
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
 #include "translate.h"
+#include "ui.h"
 #include "uidrivepetcbm2.h"
 #include "uilib.h"
 #include "winmain.h"
-
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
 
 static uilib_localize_dialog_param drive_dialog_trans[] = {
     { IDC_DRIVE_TYPE, IDS_DRIVE_TYPE, 0 },
