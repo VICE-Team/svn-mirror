@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-106
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../drive;../../../sid;../../../vicii;../../../c64/cart"
+123
+"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../drive;../../../sid;../../../vicii;../../../c64/cart;../../../monitor"
 0
 18
 MRState

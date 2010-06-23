@@ -371,13 +371,13 @@ WFileName
 11
 c64cart.tgt
 0
-0
+5
 88
 VComponent
 89
 WRect
-750
-720
+1630
+586
 5700
 4280
 1
@@ -387,7 +387,7 @@ WFileName
 17
 c64commonc128.tgt
 0
-10
+0
 91
 VComponent
 92
@@ -968,8 +968,8 @@ vicii.tgt
 VComponent
 200
 WRect
-0
-0
+1400
+826
 5700
 4280
 1
@@ -1209,7 +1209,7 @@ VComponent
 245
 WRect
 790
-2173
+2160
 5700
 4280
 1
@@ -1259,7 +1259,7 @@ WRect
 250
 240
 5700
-4293
+4280
 1
 0
 255
@@ -1273,9 +1273,9 @@ VComponent
 257
 WRect
 500
-493
+480
 5700
-4293
+4280
 1
 0
 258
@@ -1289,9 +1289,9 @@ VComponent
 260
 WRect
 750
-746
+733
 5700
-4293
+4280
 1
 0
 261
@@ -1300,4 +1300,4 @@ WFileName
 residdtv.tgt
 0
 0
-247
+85
