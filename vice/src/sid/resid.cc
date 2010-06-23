@@ -30,7 +30,6 @@
 
 #ifdef WATCOM_COMPILE
 #define _STDIO_H_INCLUDED
-#define SID SID2
 #include <cstdio>
 using std::FILE;
 using std::sprintf;
@@ -54,10 +53,6 @@ extern "C" {
 #include "types.h"
 
 } // extern "C"
-
-#ifdef WATCOM_COMPILE
-#undef SID
-#endif
 
 #include "resid/sid.h"
 /* resid-dtv/ is used for DTVSID, but the API is the same */
