@@ -234,6 +234,10 @@ SOURCE=..\menu_rom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_rs232.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_screenshot.c
 # End Source File
 # Begin Source File
@@ -275,6 +279,18 @@ SOURCE=..\menu_video.c
 # Begin Source File
 
 SOURCE=..\mousedrv.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\rs232.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\rs232dev.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\rs232net.c
 # End Source File
 # Begin Source File
 
