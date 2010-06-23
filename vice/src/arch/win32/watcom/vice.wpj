@@ -291,7 +291,7 @@ WFileName
 11
 maincpu.tgt
 0
-2
+0
 73
 VComponent
 74
@@ -371,7 +371,7 @@ WFileName
 11
 c64cart.tgt
 0
-0
+5
 88
 VComponent
 89
@@ -1075,7 +1075,7 @@ WFileName
 17
 c64commonc128.tgt
 0
-9
+0
 220
 VComponent
 221
@@ -1096,8 +1096,8 @@ c64commonc64dtv.tgt
 VComponent
 224
 WRect
-250
-240
+3090
+1186
 5700
 4280
 1
@@ -1259,7 +1259,7 @@ WRect
 250
 240
 5700
-4293
+4280
 1
 0
 255
@@ -1273,9 +1273,9 @@ VComponent
 257
 WRect
 500
-493
+480
 5700
-4293
+4280
 1
 0
 258
@@ -1289,9 +1289,9 @@ VComponent
 260
 WRect
 1260
-1253
+1240
 5700
-4293
+4280
 1
 0
 261
@@ -1300,4 +1300,4 @@ WFileName
 resid-fp.tgt
 0
 0
-247
+250
