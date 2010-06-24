@@ -34,7 +34,7 @@
 
 #include <stdio.h>
 
-#if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=91) || defined _MSC_VER
+#if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=91) || defined _MSC_VER || defined __WATCOMC__
 #include <windows.h>
 #include <ddraw.h>
 #include <mmsystem.h>

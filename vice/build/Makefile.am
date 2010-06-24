@@ -15,6 +15,7 @@ EXTRA_DIST = \
 	minix3/build-sdl-package.sh \
 	nextstep/build.sh \
 	openstep/build.sh \
+	openwatcom/win32-build.sh \
 	qnx4/build.sh \
 	rhapsody/build.sh \
 	riscos/build-cross.sh \

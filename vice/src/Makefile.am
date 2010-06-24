@@ -314,6 +314,7 @@ EXTRA_DIST = \
 	aciacore.c \
 	bin2c.c \
 	bin2c.sh \
+	convert_owcc_libs.sh \
 	fixpoint.c \
 	gentranslate_h.sh \
 	gentranslatetable.sh \
@@ -410,14 +411,20 @@ else
 EMBEDDED_H_FILES =
 endif
 
+if OWCC
+OWCC_LIBS = owcc_libs_converted.h
+else
+OWCC_LIBS =
+endif
+
 if HAVE_TRANSLATION
-BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES)
+BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS)
 
 translate_table.h:	$(srcdir)/translate.txt
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
-BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES)
+BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS)
 endif
 
 translate.h:	$(srcdir)/translate.txt
@@ -427,6 +434,11 @@ if MINIX_SUPPORT
 	./gentranslate translate.txt translate.h translate_table.h
 else
 	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
+endif
+
+if OWCC
+owcc_libs_converted.h:
+	$(SHELL) $(srcdir)/convert_owcc_libs.sh $(LIBS)
 endif
 
 bin2c: bin2c.c
@@ -725,18 +737,28 @@ realdevice_lib =
 endif
 
 if SUPPORT_X64DTV
+x64dtv_owbin = x64dtvow
 x64dtv_bin = x64dtv
 else
+x64dtv_owbin =
 x64dtv_bin =
 endif
 
 if SUPPORT_X64SC
+x64sc_owbin = x64scow
 x64sc_bin = x64sc
 else
+x64sc_owbin =
 x64sc_bin =
 endif
 
-bin_PROGRAMS = x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 c1541 petcat cartconv
+if OWCC
+OW_progs = x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow
+else
+OW_progs =
+endif
+
+bin_PROGRAMS = x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 c1541 petcat cartconv $(OW_progs)
 
 EXTRA_PROGRAMS =
 
@@ -1252,11 +1274,18 @@ c1541_SOURCES = \
 	zfile.c \
 	zipcode.c
 
+if OWCC
+OWCC_SYSTEM = @ARCH_DIR@/system.o
+else
+OWCC_SYSTEM =
+endif
+
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
 c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
+	$(OWCC_SYSTEM) \
 	$(blockdev_lib) \
 	$(realdevice_lib) \
 	$(vdrive_lib) \
@@ -1285,6 +1314,7 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
+	$(OWCC_SYSTEM) \
 	$(fileio_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@VICE_ZLIB@ @ZLIB_LIBS@
@@ -1403,3 +1433,27 @@ libvideo:
 	(cd video && $(MAKE))
 libz:
 	(cd lib/zlib && $(MAKE))
+
+x64ow$(EXEEXT): x64$(EXEEXT)
+	wrc -fe=x64ow$(EXEEXT) arch/win32/resc64.res x64$(EXEEXT)
+
+x64dtvow$(EXEEXT): x64dtv$(EXEEXT)
+	wrc -fe=x64dtvow$(EXEEXT) arch/win32/resc64dtv.res x64dtv$(EXEEXT)
+
+x64scow$(EXEEXT): x64sc$(EXEEXT)
+	wrc -fe=x64scow$(EXEEXT) arch/win32/resc64.res x64sc$(EXEEXT)
+
+x128ow$(EXEEXT): x128$(EXEEXT)
+	wrc -fe=x128ow$(EXEEXT) arch/win32/resc128.res x128$(EXEEXT)
+
+xcbm2ow$(EXEEXT): xcbm2$(EXEEXT)
+	wrc -fe=xcbm2ow$(EXEEXT) arch/win32/rescbm2.res xcbm2$(EXEEXT)
+
+xpetow$(EXEEXT): xpet$(EXEEXT)
+	wrc -fe=xpetow$(EXEEXT) arch/win32/respet.res xpet$(EXEEXT)
+
+xplus4ow$(EXEEXT): xplus4$(EXEEXT)
+	wrc -fe=xplus4ow$(EXEEXT) arch/win32/resplus4.res xplus4$(EXEEXT)
+
+xvicow$(EXEEXT): xvic$(EXEEXT)
+	wrc -fe=xvicow$(EXEEXT) arch/win32/resvic20.res xvic$(EXEEXT)

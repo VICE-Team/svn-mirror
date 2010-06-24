@@ -254,8 +254,13 @@ libarch_a_SOURCES = \
 	winmain.c \
 	winmain.h
 
+if OWCC
+libarch_a_DEPENDENCIES = \
+	resc128.res resc64.res resc64dtv.res rescbm2.res respet.res resplus4.res resvic20.res
+else
 libarch_a_DEPENDENCIES = \
 	resc128.o resc64.o resc64dtv.o rescbm2.o respet.o resplus4.o resvic20.o
+endif
 
 EXTRA_DIST = \
 	evc/config.h \
@@ -365,6 +370,7 @@ EXTRA_DIST = \
 	watcom/viciinew-snapshot.c \
 	watcom/viciinew-timing.c \
 	watcom/video.tgt \
+	watcom/watcom-ar.sh \
 	watcom/x128.tgt \
 	watcom/x128main.c \
 	watcom/x64.tgt \
@@ -471,7 +477,7 @@ res.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir
 @CROSS_FALSE@	(cd utils; $(MAKE))
 @CROSS_FALSE@	utils/genwinres res.h menuid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 
-resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
+resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
@@ -487,14 +493,8 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc
-	$(WRC) -i resc128cat.rc -o resc128.res \
-	--include-dir $(top_builddir)/src \
-	--include-dir $(top_srcdir)/src/arch/win32 \
-	--include-dir $(top_srcdir)/src
-	$(WINDRES) -i resc128.res -o $@
-	rm -f resc128.res resc128cat.rc
 
-resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
+resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
@@ -515,41 +515,23 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc
-	$(WRC) -i resc64cat.rc -o resc64.res \
-	--include-dir $(top_builddir)/src \
-	--include-dir $(top_srcdir)/src/arch/win32  \
-	--include-dir $(top_srcdir)/src
-	$(WINDRES) -i resc64.res -o $@
-	rm -f resc64.res resc64cat.rc
 
-resc64dtv.o : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
+resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/resautostart.rc $(top_srcdir)/src/debug.h
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivec64.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc
-	$(WRC) -i resc64dtvcat.rc -o resc64dtv.res \
-	--include-dir $(top_builddir)/src \
-	--include-dir $(top_srcdir)/src/arch/win32  \
-	--include-dir $(top_srcdir)/src
-	$(WINDRES) -i resc64dtv.res -o $@
-	rm -f resc64dtv.res resc64catdtv.rc
 
-rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
+rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc \
 	$(top_srcdir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/ressid.rc \
 	$(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
-	$(WRC) -i rescbm2cat.rc -o rescbm2.res \
-	--include-dir $(top_builddir)/src \
-	--include-dir $(top_srcdir)/src/arch/win32 \
-	--include-dir $(top_srcdir)/src
-	$(WINDRES) -i rescbm2.res -o $@
-	rm -f rescbm2.res rescbm2cat.rc
 
-respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
+respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
 	$(top_srcdir)/src/debug.h
@@ -557,28 +539,16 @@ respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
 	$(srcdir)/resautostart.rc
-	$(WRC) -i respetcat.rc -o respet.res \
-	--include-dir $(top_builddir)/src \
-	--include-dir $(top_srcdir)/src/arch/win32 \
-	--include-dir $(top_srcdir)/src
-	$(WINDRES) -i respet.res -o $@
-	rm -f respet.res respetcat.rc
 
-resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
+resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
 	$(top_srcdir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resautostart.rc
-	$(WRC) -i resplus4cat.rc -o resplus4.res \
-	--include-dir $(top_builddir)/src \
-	--include-dir $(top_srcdir)/src/arch/win32 \
-	--include-dir $(top_srcdir)/src
-	$(WINDRES) -i resplus4.res -o $@
-	rm -f resplus4.res resplus4cat.rc
 
-resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
+resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/reslightpen.rc \
@@ -587,12 +557,116 @@ resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/resautostart.rc
+
+if OWCC
+resc128.res: resc128cat.rc
+	wrc -fo=resc128.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resc128cat.rc
+else
+resc128.o: resc128cat.rc
+	$(WRC) -i resc128cat.rc -o resc128.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32 \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resc128.res -o $@
+endif
+
+if OWCC
+resc64.res: resc64cat.rc
+	wrc -fo=resc64.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resc64cat.rc
+else
+resc64.o: resc64cat.rc
+	$(WRC) -i resc64cat.rc -o resc64.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32  \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resc64.res -o $@
+endif
+
+if OWCC
+resc64dtv.res: resc64dtvcat.rc
+	wrc -fo=resc64dtv.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resc64dtvcat.rc
+else
+resc64dtv.o: resc64dtvcat.rc
+	$(WRC) -i resc64dtvcat.rc -o resc64dtv.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32  \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resc64dtv.res -o $@
+endif
+
+if OWCC
+rescbm2.res: rescbm2cat.rc
+	wrc -fo=rescbm2.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	rescbm2cat.rc
+else
+rescbm2.o: rescbm2cat.rc
+	$(WRC) -i rescbm2cat.rc -o rescbm2.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32 \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i rescbm2.res -o $@
+endif
+
+if OWCC
+respet.res: respetcat.rc
+	wrc -fo=respet.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	respetcat.rc
+else
+	$(WRC) -i respetcat.rc -o respet.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32 \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i respet.res -o $@
+endif
+
+if OWCC
+resplus4.res: resplus4cat.rc
+	wrc -fo=resplus4.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resplus4cat.rc
+else
+resplus4.o: resplus4cat.rc
+	$(WRC) -i resplus4cat.rc -o resplus4.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32 \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resplus4.res -o $@
+endif
+
+if OWCC
+resvic20.res: resvic20cat.rc
+	wrc -fo=resvic20.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resvic20cat.rc
+else
 	$(WRC) -i resvic20cat.rc -o resvic20.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
 	--include-dir $(top_srcdir)/src
 	$(WINDRES) -i resvic20.res -o $@
-	rm -f resvic20.res resvic20cat.rc
+endif
 
 .PHONY: utils
 utils:

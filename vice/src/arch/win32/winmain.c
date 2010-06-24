@@ -57,7 +57,7 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line,
     winmain_prev_instance = prev_instance;
     winmain_cmd_show = cmd_show;
 
-#if defined(_MSC_VER) || defined(_WIN64)
+#if defined(_MSC_VER) || defined(_WIN64) || defined(__WATCOMC__) || defined(WATCOM_COMPILE)
 #ifdef _DEBUG
     {
         int tmpFlag;

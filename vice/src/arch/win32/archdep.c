@@ -86,6 +86,11 @@
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
 
+#if defined(__WATCOMC__) || defined(WATCOM_COMPILE)
+#define _P_WAIT P_WAIT
+#define _spawnvp spawnvp
+#endif
+
 static char *orig_workdir;
 static char *argv0;
 

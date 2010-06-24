@@ -342,11 +342,19 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_win32.sh $(STRIP) $(VICE_VERSION) zip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu)
 else
+if OWCC
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(X64SC_INCLUDED) $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) yes
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) yes
+else
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) no
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(X64SC_INCLUDED) $(top_srcdir) $(host_cpu) no
+endif
 endif
 endif
 

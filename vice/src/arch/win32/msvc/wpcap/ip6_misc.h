@@ -31,6 +31,7 @@
 #include <ws2tcpip.h>
 #endif /* __MINGW32__ */
 
+#undef IN_MULTICAST
 #define IN_MULTICAST(a) IN_CLASSD(a)
 
 #define IN_EXPERIMENTAL(a) ((((u_int32_t) (a)) & 0xe0000000) == 0xe0000000)

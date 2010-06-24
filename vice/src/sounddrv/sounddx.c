@@ -35,7 +35,7 @@
 #include <mmsystem.h>
 #endif
 
-#ifdef WATCOM_COMPILE
+#if defined(WATCOM_COMPILE) || defined(__WATCOMC__)
 #define DIRECTSOUND_VERSION 0x0900
 #include <directx/dsound.h>
 #else

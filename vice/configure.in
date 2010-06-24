@@ -224,6 +224,14 @@ if test "x$CC" = "xgcc"; then
   GCC=yes
 fi
 
+dnl test for openwatcom CC for library conversion
+if test x"$CC" = "xowcc"; then
+  CFLAGS="$CFLAGS -O2"
+  AM_CONDITIONAL(OWCC, true)
+else
+  AM_CONDITIONAL(OWCC, false)
+fi
+
 dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
@@ -2472,13 +2480,15 @@ unsigned long test; ],
   xplus4_LDFLAGS="-mwindows"
   xcbm2_LDFLAGS="-mwindows"
 
-  X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-  X64DTV_WINRES="\$(top_builddir)/src/arch/win32/resc64dtv.o"
-  X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
-  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
-  XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
-  XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
-  XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
+  if test x"$CC" != "xowcc"; then
+    X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+    X64DTV_WINRES="\$(top_builddir)/src/arch/win32/resc64dtv.o"
+    X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
+    XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
+    XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
+    XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
+    XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
+  fi
 
   AC_SUBST(LDFLAGS)
 
@@ -2807,9 +2817,13 @@ elif test x"$is_win32" = "xyes"; then
       AC_DEFINE([PLATFORM], ["win32 x86 cygwin"],[The current arch, cpu and compiler used.])
     else
       if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-        AC_DEFINE([PLATFORM], ["win64 x64 mingw"], [The current arch, cpu and conpiler used.])
+        AC_DEFINE([PLATFORM], ["win64 x64 mingw"], [The current arch, cpu and compiler used.])
       else
-        AC_DEFINE([PLATFORM], ["win32 x86 mingw"], [The current arch, cpu and compiler used.])
+        if test x"$CC" = "xowcc"; then
+          AC_DEFINE([PLATFORM], ["win32 x86 owcc"], [The current arch, cpu and compiler used.])
+        else
+          AC_DEFINE([PLATFORM], ["win32 x86 mingw"], [The current arch, cpu and compiler used.])
+        fi
       fi
     fi
   else

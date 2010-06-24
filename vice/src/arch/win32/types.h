@@ -32,6 +32,10 @@
 
 #include "vice.h"
 
+#if defined(WATCOM_COMPILE) || defined(__WATCOMC__)
+#include <windef.h>
+#endif
+
 #if !defined(_WINDEF_) && !defined(_WINDEF_H)
 
 typedef unsigned char BYTE;
