@@ -55,7 +55,7 @@
  *   512k   | $00-$1f
  *  1024k   | $00-$3f
  *  2048k   | $00-$7f
- *  2048k   | $00-$ff
+ *  4096k   | $00-$ff
  *
  * The unused bits in both registers are ignored and using them in
  * software will cause a wrap-around.

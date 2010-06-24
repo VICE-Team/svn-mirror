@@ -43,6 +43,17 @@
     1 banking register (for ROM only)
     - 8k ROM banks
     - 8k RAM may be enabled at ROML
+
+    The mappings of the carts supported are as follows:
+
+    size   type   roml          romh
+    ----   ----   ----          ----
+     4k    ulti   n/a           $F000-$FFFF
+     8k    norm   $8000-$9FFF   n/a
+     8k    ulti   n/a           $E000-$FFFF
+    16k    norm   $8000-$9FFF   $A000-$BFFF
+    16k    ulti   $8000-$9FFF   $E000-$FFFF
+
 */
 
 /* #define DBGGENERIC */
