@@ -630,6 +630,7 @@ respet.res: respetcat.rc
 	-i=$(top_srcdir)/src \
 	respetcat.rc
 else
+respet.o: respetcat.rc
 	$(WRC) -i respetcat.rc -o respet.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -661,6 +662,7 @@ resvic20.res: resvic20cat.rc
 	-i=$(top_srcdir)/src \
 	resvic20cat.rc
 else
+resvic20.o: resvic20cat.rc
 	$(WRC) -i resvic20cat.rc -o resvic20.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
