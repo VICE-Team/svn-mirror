@@ -467,6 +467,8 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(PETUserportDAC)
+
 int petui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
@@ -493,6 +495,12 @@ int petui_init(void)
     uipetreu_init(ui_ioextensions_submenu);
 
     uisidcart_init(ui_ioextensions_submenu, "$8F00", "$E900", "PET");
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport DAC",
+                      "Enable Userport DAC",
+                      toggle_PETUserportDAC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
 
     return 0;
 }

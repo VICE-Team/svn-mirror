@@ -17,6 +17,8 @@ libpet_a_SOURCES = \
 	pet-resources.h \
 	pet-snapshot.c \
 	pet-snapshot.h \
+	pet_userport_dac.c \
+	pet_userport_dac.h \
 	pet.c \
 	pet.h \
 	petacia.h \

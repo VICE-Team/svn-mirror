@@ -67,6 +67,7 @@ ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "PETREU", MENU_TOGGLE_PETREU },
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
+    { "PETUserportDAC", MENU_TOGGLE_PET_USERPORT_DAC },
     { NULL, 0 }
 };
 

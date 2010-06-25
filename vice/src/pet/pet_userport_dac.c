@@ -1,0 +1,134 @@
+/*
+ * pet_userport_dac.c - PET userport DAC emulation.
+ *
+ * Written by
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "cmdline.h"
+#include "lib.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "pet_userport_dac.h"
+#include "sound.h"
+#include "uiapi.h"
+#include "translate.h"
+
+static BYTE pet_userport_dac_sound_data;
+
+void pet_userport_dac_store(BYTE value)
+{
+    pet_userport_dac_sound_data = value;
+    sound_store((WORD)0x40, value, 0);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Flag: Do we enable the PET userport DAC?  */
+int pet_userport_dac_enabled;
+
+static int set_pet_userport_dac_enabled(int val, void *param)
+{
+    pet_userport_dac_enabled = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "PETUserportDAC", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &pet_userport_dac_enabled, set_pet_userport_dac_enabled, NULL },
+    { NULL }
+};
+
+int pet_userport_dac_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-userportdac", SET_RESOURCE, 0,
+      NULL, NULL, "PETUserportDAC", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable Userport DAC for sound output") },
+    { "+userportdac", SET_RESOURCE, 0,
+      NULL, NULL, "PETUserportDAC", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable Userport DAC for sound output") },
+    { NULL }
+};
+
+int pet_userport_dac_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ---------------------------------------------------------------------*/
+
+struct pet_userport_dac_sound_s
+{
+    BYTE voice0;
+};
+
+static struct pet_userport_dac_sound_s snd;
+
+int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+{
+    int i;
+
+    if (pet_userport_dac_enabled) {
+        for (i = 0; i < nr; i++) {
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], snd.voice0 << 8);
+        }
+    }
+    return 0;
+}
+
+int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    snd.voice0 = 0;
+
+    return 1;
+}
+
+void pet_userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+{
+    snd.voice0 = val;
+}
+
+BYTE pet_userport_dac_sound_machine_read(sound_t *psid, WORD addr)
+{
+    return pet_userport_dac_sound_data;
+}
+
+void pet_userport_dac_sound_reset(void)
+{
+    snd.voice0 = 0;
+    pet_userport_dac_sound_data = 0;
+}

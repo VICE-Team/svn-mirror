@@ -521,6 +521,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("1024 kB", new BMessage(MENU_PETREU_SIZE_1024)));
                 submenu->AddItem(new BMenuItem("2048 kB", new BMessage(MENU_PETREU_SIZE_2048)));
             menu->AddItem(new BMenuItem("PET REU File", new BMessage(MENU_PETREU_FILE)));
+        uppermenu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
     }
 
     if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {

@@ -195,6 +195,7 @@ BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_PETREU_SETTINGS
             MENUITEM "", IDM_SIDCART_SETTINGS
+            MENUITEM "", IDM_TOGGLE_PET_USERPORT_DAC
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
@@ -600,6 +601,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
   IDS_MI_PET_SETTINGS            "P&ET settings..."
   IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -634,6 +636,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
   IDS_MI_PET_SETTINGS            "P&ET-indstillinger..."
   IDS_MI_PETREU_SETTINGS         "PET &REU-indstillinger..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -668,6 +671,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM (nur 8296)"
   IDS_MI_PET_SETTINGS            "P&ET Einstellungen..."
   IDS_MI_PETREU_SETTINGS         "PET &REU Einstellungen..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -702,6 +706,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "*$A*** comme RAM (8296 seulement)"
   IDS_MI_PET_SETTINGS            "Paramètres P&ET..."
   IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -737,6 +742,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** RAM-ként"
   IDS_MI_PET_SETTINGS            "P&ET beállításai..."
   IDS_MI_PETREU_SETTINGS         "PET &REU beállításai..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 #pragma code_page(28591)
 
@@ -772,6 +778,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** come RAM"
   IDS_MI_PET_SETTINGS            "Impostazioni P&ET..."
   IDS_MI_PETREU_SETTINGS         "Impostazioni PET &REU..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -806,6 +813,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM"
   IDS_MI_PET_SETTINGS            "P&ET-instellingen..."
   IDS_MI_PETREU_SETTINGS         "PET &REU-iinstellingen..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -841,6 +849,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
   IDS_MI_PET_SETTINGS            "P&ET settings..."
   IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 #pragma code_page(28591)
 
@@ -876,6 +885,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
   IDS_MI_PET_SETTINGS            "P&ET-inställningar..."
   IDS_MI_PETREU_SETTINGS         "PET &REU-inställningar..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 
 
@@ -911,7 +921,6 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "RAM olarak $&A***"
   IDS_MI_PET_SETTINGS            "P&ET ayarlarý..."
   IDS_MI_PETREU_SETTINGS         "PET &REU ayarlarý..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
 #pragma code_page(28591)
-
-

@@ -216,6 +216,7 @@ static ui_menu_entry_t petui_main_romset_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
+UI_MENU_DEFINE_TOGGLE(PETUserportDAC)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("PET RAM and Expansion Unit"),
@@ -224,6 +225,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, petdww_submenu },
     { N_("SID cartridge"),
       NULL, NULL, sidcart_submenu },
+    { N_("*Userport DAC"),
+      (ui_callback_t)toggle_PETUserportDAC, NULL, NULL },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }

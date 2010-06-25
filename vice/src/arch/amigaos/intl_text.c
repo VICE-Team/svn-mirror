@@ -26,9 +26,6 @@
 
 intl_translate_t intl_string_table[] = {
 
-
-
-
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -2085,6 +2082,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDMS_ENABLE_SFX_SS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler" },
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler'ý Aktif Et" },
+
+/* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable Userport DAC" },
+/* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_DAC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_DAC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_DAC_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_DAC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_DAC_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_DAC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_DAC_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_ETHERNET_SETTINGS,    "Ethernet settings..." },
 /* da */ { IDMS_ETHERNET_SETTINGS_DA, "Ethernetindstillinger..." },

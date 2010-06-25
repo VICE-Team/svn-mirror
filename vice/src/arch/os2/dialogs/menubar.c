@@ -688,6 +688,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PETREUFILE:
             resources_set_string("PETREUfilename", ViceFileSelect(hwnd, 1));
             return;
+
+        case IDM_PET_USERPORT_DAC:
+            toggle("PETUserportDAC");
+            return;
 #endif
 
 #ifdef HAVE_MOUSE
@@ -1360,6 +1364,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_DIAGPIN, "DiagPin");
             WinCheckRes(hwnd, IDM_SUPERPET, "SuperPET");
             WinCheckRes(hwnd, IDM_CRTC, "Crtc");
+            resources_get_int("PETUserportDAC", &val);
+            WinCheckMenuItem(hwnd, IDM_PET_USERPORT_DAC, val);
 #endif // __XPET__
 
             WinCheckRes(hwnd, IDM_AUTOSTART_WARP, "AutostartWarp");

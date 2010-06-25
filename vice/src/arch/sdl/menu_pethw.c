@@ -302,6 +302,7 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(Crtc)
 UI_MENU_DEFINE_TOGGLE(EmuID)
+UI_MENU_DEFINE_TOGGLE(PETUserportDAC)
 
 const ui_menu_entry_t pet_hardware_menu[] = {
     { "Select PET model",
@@ -337,6 +338,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)petdww_menu },
+    { "PET Userport DAC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_PETUserportDAC_callback,
+      NULL },
     { "Memory and I/O settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

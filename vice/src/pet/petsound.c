@@ -32,6 +32,7 @@
 #include <math.h>
 
 #include "lib.h"
+#include "pet_userport_dac.h"
 #include "petsound.h"
 #include "sid.h"
 #include "sid-resources.h"
@@ -208,6 +209,7 @@ sound_t *sound_machine_open(int chipno)
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     pet_sound_machine_init(psid, speed, cycles_per_sec);
+    pet_userport_dac_sound_machine_init(psid, speed, cycles_per_sec);
 
     if (!sidcart_clock)
     {
@@ -226,28 +228,40 @@ void sound_machine_close(sound_t *psid)
 
 /* for read/store 0x00 <= addr <= 0x1f is the sid
  *                0x20 <= addr <= 0x3f is the pet sound
+ *                0x40 <= addr <= 0x5f is the pet userport dac
  *
- * future sound devices will be able to use 0x40 and up
+ * future sound devices will be able to use 0x60 and up
  */
 
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
-    if (addr>=0x20 && addr<=0x3f)
+    if (addr >= 0x20 && addr <= 0x3f) {
         return pet_sound_machine_read(psid, (WORD)(addr-0x20));
-    else
-        return sid_sound_machine_read(psid, addr);
+    } else {
+        if (addr >= 0x40 && addr <= 0x5f) {
+            return pet_userport_dac_sound_machine_read(psid, addr);
+        } else {
+            return sid_sound_machine_read(psid, addr);
+        }
+    }
 }
 
 void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    if (addr>=0x20 && addr<=0x3f)
+    if (addr >= 0x20 && addr <= 0x3f) {
         pet_sound_machine_store(psid, (WORD)(addr-0x20), byte);
-    else
-        sid_sound_machine_store(psid, addr, byte);
+    } else {
+        if (addr >= 0x40 && addr <= 0x5f) {
+            pet_userport_dac_sound_machine_store(psid, addr, byte);
+        } else {
+            sid_sound_machine_store(psid, addr, byte);
+        }
+    }
 }
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
+    pet_userport_dac_sound_reset();
     sid_sound_machine_reset(psid, cpu_clk);
 }
 
@@ -258,6 +272,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
     temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
     pet_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    pet_userport_dac_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
     return temp;
 }
 

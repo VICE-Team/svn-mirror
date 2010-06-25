@@ -98,6 +98,10 @@ SOURCE=..\..\pet\pet.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pet\pet_userport_dac.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\petacia1.c
 # End Source File
 # Begin Source File

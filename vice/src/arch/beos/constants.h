@@ -149,6 +149,7 @@ const uint32 MENU_TOGGLE_PLUS60K                  = 'M146';
 const uint32 MENU_TOGGLE_PLUS256K                 = 'M148';
 const uint32 MENU_TOGGLE_C64_256K                 = 'M144';
 const uint32 MENU_TOGGLE_PETREU                   = 'M147';
+const uint32 MENU_TOGGLE_PET_USERPORT_DAC         = 'M212';
 const uint32 MENU_TOGGLE_DIGIMAX                  = 'M149';
 const uint32 MENU_TOGGLE_MMC64                    = 'M039';
 const uint32 MENU_TOGGLE_MMC64_FLASHJUMPER        = 'M057';

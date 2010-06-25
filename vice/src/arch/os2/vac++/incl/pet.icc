@@ -3,6 +3,7 @@ source type (c)
     "pet-resources.c",
     "pet-snapshot.c",
     "pet.c",
+    "pet_userport_dac.c",
     "petbus.c",
     "petacia1.c",
     "petdatasette.c",
