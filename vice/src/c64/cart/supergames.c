@@ -39,6 +39,21 @@
 #include "supergames.h"
 #include "types.h"
 
+/*
+    This cart uses 4 16Kb banks mapped in at $8000-$BFFF.
+
+    The control registers is at $DF00, and has the following meaning:
+
+    bit   meaning
+    ---   -------
+     0    bank bit 0
+     1    bank bit 1
+     2    inverted GAME line
+     3    inverted EXROM line
+    4-7   unused
+ */
+
+
 static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
 {
     cartridge_romhbank_set(value & 3);

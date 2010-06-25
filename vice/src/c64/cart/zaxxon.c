@@ -39,6 +39,15 @@
 #include "util.h"
 #include "zaxxon.h"
 
+/*
+    this cart uses 4Kb mapped in at $8000-$8FFF and mirrored at $9000-$9FFF
+    and 2 banks of 8Kb mapped in at $A000-$BFFF.
+
+    the banks at $A000-$BFFF are selected by a read access to either
+    $8000-$8FFF (select bank 1 in $A000-$BFFF) or $9000-$9FFF (select bank 2
+    at $A000-$BFFF)
+ */
+
 static const c64export_resource_t export_res = {
     "Zaxxon", 1, 1, NULL, NULL, CARTRIDGE_ZAXXON
 };

@@ -57,6 +57,24 @@
    different eprom at $8000 (followed by a reset) it is possible
    to place generic 8kb carts (games/tools) in the eproms and
    use them.
+
+   The bank selecting is done by writing to $DE00. Each low bit is used to
+   bank in the respective eprom. If all bits are high then  the  EXROM  is
+   switched off.
+
+   The bit values for each eprom bank is:
+
+   eprom bank 1 : 11111110 ($FE) (base eprom)
+   eprom bank 2 : 11111101 ($FD)
+   eprom bank 3 : 11111011 ($FB)
+   eprom bank 4 : 11110111 ($F7)
+   eprom bank 5 : 11101111 ($EF)
+   eprom bank 6 : 11011111 ($DF)
+   eprom bank 7 : 10111111 ($BF)
+   eprom bank 8 : 01111111 ($7F)
+
+   EXROM off    : 11111111 ($FF)
+
  */
 
 /* ---------------------------------------------------------------------*/

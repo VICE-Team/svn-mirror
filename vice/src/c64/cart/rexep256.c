@@ -55,6 +55,22 @@
    Because of the fact that this system supports switching in a
    different eprom at $8000 (followed by a reset) it is possible
    to place other 8kb carts in the eproms and use them.
+
+   The bank selecting is done by  writing  to  $DFA0:
+
+   bit   meaning
+   ---   -------
+    0    socket selection bit 0
+    1    socket selection bit 1
+    2    socket selection bit 2
+    3    unused
+    4    8kb bank selection bit 0
+    5    8kb bank selection bit 1
+   6-7   unused
+
+    Reading from $DFC0 switches off the EXROM.
+
+    Reading from $DFE0 switches on the EXROM.
  */
 
 /* ---------------------------------------------------------------------*/

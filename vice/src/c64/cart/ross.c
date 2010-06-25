@@ -39,6 +39,15 @@
 #include "ross.h"
 #include "types.h"
 
+/*
+    This cart has 16Kb mapped in at $8000-$BFFF.
+
+    Any read access to $DE00 will switch in bank 1 (if cart is 32Kb).
+
+    Any read access to $DF00 will switch off EXROM and GAME.
+
+ */
+
 static BYTE REGPARM1 ross_io1_read(WORD addr)
 {
     cartridge_romhbank_set(1);

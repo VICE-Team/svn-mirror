@@ -38,6 +38,15 @@
 #include "mikroass.h"
 #include "types.h"
 
+/*
+    This cart has 8Kb ROM mapped at $8000-$9FFF.
+
+    The $9E00-$9EFF range is mirrored at $DE00-$DEFF.
+
+    The $9F00-$9FFF range is mirrored at $DF00-$DFFF.
+
+ */
+
 static BYTE REGPARM1 mikroass_io1_read(WORD addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];

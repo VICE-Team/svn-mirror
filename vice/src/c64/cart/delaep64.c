@@ -43,6 +43,49 @@
  * for cart schematics, see http://a98.shuttle.de/~michael/dela-ep64/
  */
 
+
+/*
+    This is an eprom cartridge. It has 1 2764 (8Kb) which  holds  the  base
+    eprom with the base menu, and 2 27256 eproms of  which  8Kb  parts  are
+    banked into the $8000-9FFF area.
+
+    The bank selecting is done by writing to $DE00. The following bits  are
+    used for bank decoding in $DE00:
+
+    bit   meaning
+    ---   -------
+     0    eprom selection bit 2
+     1    eprom selection bit 3
+     2    unused
+     3    unused
+     4    eprom selection bit 0
+     5    eprom selection bit 1
+     6    unused
+     7    EXROM control (1=EXROM off, 0=EXROM on
+
+
+    The following eprom select values result in the following bank selection:
+
+    value   bank
+    -----   ----
+      0      0 (base)
+      1      0 (base)
+      2      0 (base)
+      3      0 (base)
+      4      1
+      5      2
+      6      3
+      7      4
+      8      5
+      9      6
+     10      7
+     11      8
+     12      0 (base)
+     13      0 (base)
+     14      0 (base)
+     15      0 (base)
+ */
+
 /* ---------------------------------------------------------------------*/
 
 static void delaep64_io1(BYTE value, unsigned int mode)

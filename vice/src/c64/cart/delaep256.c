@@ -50,6 +50,18 @@
    Because of the fact that this system supports switching in a
    different eprom at $8000 (followed by a reset) it is possible
    to place other 8kb carts in the eproms and use them.
+
+   The bank selecting is done by writing to $DE00.
+
+   The values for the (extra) eprom banks are:
+
+   eprom banks  1- 8 : $38-3F
+   eprom banks  9-16 : $28-2F
+   eprom banks 17-24 : $18-1F
+   eprom banks 25-32 : $08-0F
+
+   Setting bit 7 high will switch off EXROM.
+
  */
 
 /* ---------------------------------------------------------------------*/

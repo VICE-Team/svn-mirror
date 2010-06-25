@@ -38,6 +38,14 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    this cart comes in 3 sizes, 32Kb, 64Kb and 128Kb, all mapped in at
+    $8000-$9FFF. Bank switching is done by writing the bank value to $DE00.
+
+    Setting bit 7 of $DE00 is used to switch off the cart.
+
+ */
+
 static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
 {
     cartridge_romlbank_set(value & 0x3f);

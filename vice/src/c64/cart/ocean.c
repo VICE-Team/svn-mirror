@@ -39,6 +39,23 @@
 #include "util.h"
 
 
+/*
+    This type of cart comes in 4 sizes: 32Kb, 128Kb, 256Kb, 512Kb.
+
+    The 32Kb type of cart has 4 banks, banked in at $8000-$9FFF.
+
+    The 128Kb type of cart has 16 banks, banked in at $8000-$9FFF.
+
+    The 256Kb type of cart has 32 banks, 16 banked in at $8000-$9FFF,
+    and 16 banked in at $A000-$BFFF.
+
+    The 512Kb type of cart has 64 banks, banked in at $8000-$9FFF.
+
+    Bank switching is done by writing to $DE00. The lower six bits give the
+    bank number (ranging from 0-63). Bit 8 in this selection word is always
+    set.
+ */
+
 static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
 {
     /* FIXME */
