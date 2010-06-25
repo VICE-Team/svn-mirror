@@ -1,5 +1,5 @@
 /*
- * digimax.c - Digimax DAC cartridge emulation.
+ * sfx_soundsampler.c - SFX Sound Sampler cartridge emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
