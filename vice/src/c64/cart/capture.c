@@ -70,6 +70,25 @@
     be disabled again by a hardware reset.
 */
 
+/*
+... program is loaded to $0800, then:
+
+.C:fad3   A0 00      LDY #$00
+.C:fad5   B9 00 08   LDA $0800,Y
+.C:fad8   C0 03      CPY #$03
+.C:fada   B0 05      BCS $FAE1
+
+.C:fadc   D9 F8 FF   CMP $FFF8,Y  ; "4a 59 43" "JYC"
+.C:fadf   D0 0C      BNE $FAED
+
+.C:fae1   59 00 FE   EOR $FE00,Y
+.C:fae4   99 00 08   STA $0800,Y
+.C:fae7   C8         INY
+.C:fae8   D0 EB      BNE $FAD5
+.C:faea   6C 04 08   JMP ($0804)
+.C:faed   60         RTS
+*/
+
 /* #define DBGCAPTURE */
 
 #ifdef DBGCAPTURE
@@ -97,9 +116,11 @@ void capture_reg(WORD addr)
             cart_enabled = 1;
             DBG(("CAPTURE: enable: %d\n", cart_enabled));
         } else if ((addr & 0xffff) == 0xfff9) {
-            /* HACK: this one is needed to survive the ram clearing loop */
-            cart_enabled = 0;
-            DBG(("CAPTURE: enable: %d\n", cart_enabled));
+            if ((!freeze_pressed) && (!romh_enabled)) {
+                /* HACK: this one is needed to survive the ram clearing loop */
+                cart_enabled = 0;
+                DBG(("CAPTURE: enable: %d\n", cart_enabled));
+            }
         }
     }
 }
