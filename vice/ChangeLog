@@ -1,3 +1,820 @@
+2010-07-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/vic-fp.c: Fix vic-fp $9800 handling. Patch by
+	  Marko Mäkelä.
+
+2010-06-30  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/capture.c: fixed "Load and Execute" Extensions
+
+2010-06-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/c64c128.vcproj, src/arch/win64/c64cart.vcproj,
+	  src/arch/win64/vicii.vcproj, src/arch/win64/viciidtv.vcproj,
+	  src/arch/win64/viciinew.vcproj: Updated the win64 project
+	  files.
+
+	* src/c64/cart/sfx_soundsampler.c: Corrected some text.
+
+	* src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	  src/c64/cart/delaep7x8.c, src/c64/cart/magicdesk.c,
+	  src/c64/cart/mikroass.c, src/c64/cart/ocean.c,
+	  src/c64/cart/rexep256.c, src/c64/cart/ross.c,
+	  src/c64/cart/supergames.c, src/c64/cart/zaxxon.c: Carts
+	  comments update.
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	  src/arch/amigaos/petui.c, src/arch/amigaos/petuires.h,
+	  src/arch/amigaos/uires.h, src/arch/beos/constants.h,
+	  src/arch/beos/petui.cc, src/arch/beos/vicemenu.cc,
+	  src/arch/msdos/petui.c, src/arch/os2/dialogs/menubar.c,
+	  src/arch/os2/dialogs/menubar.h,
+	  src/arch/os2/dialogs/menubar.rc,
+	  src/arch/os2/vac++/incl/pet.icc, src/arch/sdl/menu_pethw.c,
+	  src/arch/sdl/win32-msvc/pet.dsp,
+	  src/arch/sdl/win64-msvc/pet.vcproj, src/arch/unix/gui/petui.c,
+	  src/arch/win32/pet.dsp, src/arch/win32/petui.c,
+	  src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win64/pet.vcproj,
+	  src/pet/Makefile.am, src/pet/pet.c,
+	  src/pet/pet_userport_dac.c, src/pet/pet_userport_dac.h,
+	  src/pet/petsound.c, src/pet/petvia.c: Added pet userport DAC
+	  (audio output) support.
+
+	* src/arch/win32/Makefile.am: Fix for accidentially left out
+	  res* targets in the win32 Makefile.am.
+
+2010-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/generic.c, src/c64/cart/georam.c: Updated some
+	  cart comments.
+
+	* Makefile.am, build/Makefile.am, build/openwatcom,
+	  build/openwatcom/win32-build.sh, configure.in,
+	  src/Makefile.am, src/arch/win32/Makefile.am,
+	  src/arch/win32/archdep.c, src/arch/win32/make-bindist.sh,
+	  src/arch/win32/msvc/wpcap/ip6_misc.h,
+	  src/arch/win32/msvc/wpcap/pcap.h, src/arch/win32/tfearch.c,
+	  src/arch/win32/types.h, src/arch/win32/watcom/watcom-ar.sh,
+	  src/arch/win32/winmain.c, src/convert_owcc_libs.sh,
+	  src/sounddrv/sounddx.c, src/sounddrv/soundwmm.c, src/vice.h:
+	  Added support for compiling the win32 port with owcc.
+
+2010-06-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.h, src/arch/win32/uic128.c,
+	  src/arch/win32/uicbm2set.c, src/arch/win32/uidrivec128.c,
+	  src/arch/win32/uidrivec64.c, src/arch/win32/uidrivepetcbm2.c,
+	  src/arch/win32/uidriveplus4.c, src/arch/win32/uidrivevic20.c,
+	  src/arch/win32/uikeyboard.c, src/arch/win32/uiperipheral.c,
+	  src/arch/win32/uipetset.c, src/arch/win32/uirom.c,
+	  src/arch/win32/uisid.c, src/arch/win32/uisiddtv.c,
+	  src/arch/win32/uivideo.c, src/arch/win32/watcom/config.h:
+	  Simplified the win32 ui anonymous union code
+
+	* src/sid/resid.cc: Removed the watcom 'SID already defined'
+	  work-around.
+
+	* src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/viciicommon.tgt: Updated the sdl
+	  win32 watcom project files.
+
+	* src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/c64c128.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win32-msvc/vicii.dsp,
+	  src/arch/sdl/win32-msvc/viciidtv.dsp,
+	  src/arch/sdl/win32-msvc/viciinew.dsp: Updated the sdl win32
+	  msvc project files.
+
+	* src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/viciicommon.tgt,
+	  src/arch/win32/watcom/viciinew.tgt: Updated the win32 watcom
+	  project files.
+
+2010-06-22  groepaz <groepaz@gmx.net>
+
+	* src/translate.txt: unbreaking
+
+2010-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/gentranslate.c, src/gentranslate_h.sh,
+	  src/translate.c, src/translate.txt, src/translate_text.c:
+	  Added a special translation case for the resid* command-line
+	  options, making the translations easier to maintain.
+
+	* src/arch/win32/make-bindist.sh: Fixed the win32 makebindist
+	  script
+
+	* src/ioutil.c: Fixed ioutil.c
+
+	* src/c64/cart/funplay.c, src/c64/cart/supersnapshot.c:
+	  Added/fixed some comments in some carts source files.
+
+	* doc/cartconv.txt, src/cartconv.c, src/cartridge.h: Updated the
+	  cartconv.txt document and added a option sorting routine for
+	  the usage output of cartconv.
+
+2010-06-21  groepaz <groepaz@gmx.net>
+
+	* data/C64/x11_posger.vkm, data/C64/x11_symger.vkm: some
+	  tweaking, cleanup, comments
+
+	* src/c64/cart/actionreplay2.c: rewrote capacitor logic, seems
+	  to be stable now
+
+	* src/c64/cart/actionreplay2.c: fixed freeze mode
+
+2010-06-21  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64cart.dsp, src/autostart.c,
+	  src/translate.txt: Updated MSVC file, fixed typos(?) that
+	  broke compilation.
+
+2010-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/make-bindist.sh: Fixed the win32 makebindist
+	  script
+
+	* doc/coding-guidelines.txt, src/autostart.c,
+	  src/c64/c64-cmdline-options.c, src/c64/c64gluelogic.c,
+	  src/c64/cart/mmcreplay.c, src/c64/cart/retroreplay.c,
+	  src/c64dtv/c64dtv-cmdline-options.c,
+	  src/gfxoutputdrv/doodledrv.c, src/initcmdline.c,
+	  src/monitor/mon_command.c, src/plus4/plus4speech.c,
+	  src/sound.c, src/translate.txt, src/translate_text.c,
+	  src/vic20/cart/megacart.c, src/vic20/cart/vic-fp.c,
+	  src/viciinew/vicii-cmdline-options.c: Added some T() type
+	  translations to the intl
+
+	* po/nl.po: Updated nl.po
+
+2010-06-20  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: fixed writing of normal 8k carts
+
+	* src/c64/c64cart.h, src/c64/c64export.c, src/c64/c64io.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/actionreplay.c,
+	  src/c64/cart/actionreplay2.c, src/c64/cart/actionreplay2.h,
+	  src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay4.c,
+	  src/c64/cart/atomicpower.c, src/c64/cart/c64acia.h,
+	  src/c64/cart/c64acia1.c, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64cartmem.h, src/c64/cart/c64cartsystem.h,
+	  src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h,
+	  src/c64/cart/comal80.c, src/c64/cart/crt.c,
+	  src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	  src/c64/cart/delaep7x8.c, src/c64/cart/dqbb.c,
+	  src/c64/cart/dqbb.h, src/c64/cart/epyxfastload.c,
+	  src/c64/cart/epyxfastload.h, src/c64/cart/exos.c,
+	  src/c64/cart/expert.c, src/c64/cart/expert.h,
+	  src/c64/cart/final.c, src/c64/cart/final3.c,
+	  src/c64/cart/finalplus.c, src/c64/cart/gamekiller.c,
+	  src/c64/cart/generic.c, src/c64/cart/georam.c,
+	  src/c64/cart/georam.h, src/c64/cart/gs.c,
+	  src/c64/cart/ide64.c, src/c64/cart/magicdesk.c,
+	  src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	  src/c64/cart/mikroass.c, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/prophet64.c, src/c64/cart/ramcart.c,
+	  src/c64/cart/ramcart.h, src/c64/cart/reu.c,
+	  src/c64/cart/reu.h, src/c64/cart/rexep256.c,
+	  src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	  src/c64/cart/simonsbasic.c, src/c64/cart/simonsbasic.h,
+	  src/c64/cart/stb.c, src/c64/cart/supergames.c,
+	  src/c64/cart/supersnapshot.c, src/c64/cart/warpspeed.c,
+	  src/c64/cart/warpspeed.h, src/c64/cart/westermann.c,
+	  src/c64/cart/westermann.h, src/c64/cart/zaxxon.c,
+	  src/c64/cart/zaxxon.h, src/cartconv.c, src/cartridge.h,
+	  src/core/t6721.c: cartconv: fixed 96k input files, added AR2.
+	  carts: resolved AR3 confusion, added AR2, reverted AR3.
+	  updated all remaining i/o and export structs (hopefully). made
+	  IEEE488 interface a proper "Slot0" cart. more cleanup
+
+2010-06-20  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m: macos/cocoa:
+	  small fix for ordering restoration if no config is available
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.h,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: macosx/cocoa:
+	  correctly restore window order of canvas views on restart
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/view/viceglview.h,
+	  src/arch/unix/macosx/cocoa/view/viceglview.m,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.h,
+	  src/arch/unix/macosx/cocoa/view/vicewindow.m: macosx/cocoa:
+	  remember scale of window when changing canvas size
+
+2010-06-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/video.m: fixed some warnings
+
+	* configure.in: added ReSID-fp configure options to main
+	  configure file to pass arg checks
+
+2010-06-19  groepaz <groepaz@gmx.net>
+
+	* src/core/t6721.c: made ringbuffer much smaller
+
+	* src/c64/c64io.c, src/c64/cart/magicvoice.c, src/core/t6721.c:
+	  honouring address mask when registering i/o devices in
+	  monitor, prepare t6721 for 48bit frames
+
+2010-06-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/cocoa/menu/vic20controller.m: adjusted
+	  Vic Flash Plugin naming
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/menu/vic20controller.h,
+	  src/arch/unix/macosx/cocoa/menu/vic20controller.m,
+	  src/arch/unix/macosx/cocoa/menu/vic20machinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vic20machinecontroller.m:
+	  macosx/cocoa: added xvic cartridge support
+
+2010-06-19  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/resid-dtv/envelope.h, src/resid-dtv/extfilt.h,
+	  src/resid-dtv/filter.h, src/resid-dtv/sid.cc,
+	  src/resid-dtv/sid.h, src/resid-dtv/voice.h,
+	  src/resid-dtv/wave.h, src/resid/envelope.h,
+	  src/resid/extfilt.h, src/resid/filter.h, src/resid/sid.cc,
+	  src/resid/sid.h, src/resid/voice.h, src/resid/wave.h,
+	  src/sid/resid.cc: Rename class SID as class RESID to avoid
+	  conflicts with some windows API.
+
+2010-06-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	  macosx/cocoa: added V364 speech resources to xplus4
+
+	* build/macosx/build-vice-dist.sh: macosx: fixed build script to
+	  support new make-bindist.sh x64sc argument
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib:
+	  macosx/cocoa: removed Video Mode selection in UI
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/menu/c64controller.h,
+	  src/arch/unix/macosx/cocoa/menu/c64controller.m,
+	  src/arch/unix/macosx/cocoa/menu/c64machinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/c64machinecontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicefilepanel.h,
+	  src/arch/unix/macosx/cocoa/menu/vicefilepanel.m: macosx:
+	  applied all recent c64 cartridge changes to cocoa. (mmcr,
+	  magic voice, expert...)
+
+	* src/arch/unix/macosx/cocoa/menu/c64machinecontroller.m:
+	  macosx: adapted to new cartridge_detach
+
+2010-06-19  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/vicii.dsp, src/arch/win32/viciidtv.dsp,
+	  src/arch/win32/viciinew.dsp: Updated MSVC project files.
+
+2010-06-18  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mem.c, src/c128/c128mem.h, src/c64/c64cart.h,
+	  src/c64/c64mem.c, src/c64/c64mem.h, src/c64/c64memsc.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/c64tpi.c,
+	  src/c64/cart/magicvoice.c, src/c64/cart/stardos.c,
+	  src/core/t6721.c, src/core/t6721.h: removed special case from
+	  IEEE488, some progress on magic voice ("magic voice demo"
+	  works)
+
+2010-06-17  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mem.c, src/c64/c64cart.h, src/c64/c64mem.c,
+	  src/c64/c64meminit.c, src/c64/c64memsc.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/c64cartmem.h,
+	  src/c64/cart/c64cartsystem.h, src/c64/cart/expert.c,
+	  src/c64/cart/funplay.c, src/c64/cart/kcs.c,
+	  src/c64/cart/ocean.c, src/c64/cart/stardos.c,
+	  src/c64dtv/c64dtvcart.c, src/cartridge.h, src/cbm2/cbm2cart.h,
+	  src/cbm2/cbm2mem.c, src/vicii/Makefile.am,
+	  src/vicii/vicii-fetch.c, src/vicii/vicii.c,
+	  src/viciinew/Makefile.am, src/viciinew/vicii-fetch.c,
+	  src/viciinew/vicii.c: added wrappers for VIC-2 phi1/phi2
+	  ultimax accesses. added wrapper for monitor cart mem access.
+	  updated stardos, funplay, ocean, kcs. more cleanup.
+
+2010-06-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/vic-fp.c: Vic Flash Plugin BLK5 write protect.
+	  Patch by Marko M.
+
+2010-06-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/crt.c, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/mmcreplay.h, src/cartconv.c, src/cartridge.h:
+	  fixed crt loading for mmcr, added switch to cartconv to show
+	  info on a given file, fixed conversion to magic formel, retro
+	  replay, mmcr crt files of variable length.
+
+2010-06-16  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/expert.c, src/c64/cart/expert.h: fixed expert
+	  cartridge
+
+2010-06-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciinew/vicii.c: Compact and extend viciinew io dump
+	  output
+
+	* src/viciinew/vicii-chip-model.c: Fix x64sc NTSC timing
+
+2010-06-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/dinamic.c: fixed Dinamic (Narco Police, Satan)
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/capture.c: fixed
+	  capture
+
+	* src/c64/cart/actionreplay3.c, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/capture.c, src/c64/cart/crt.c,
+	  src/c64/cart/dinamic.c, src/c64/cart/freezeframe.c,
+	  src/c64/cart/freezemachine.c, src/c64/cart/magicformel.c,
+	  src/c64/cart/magicformel.h, src/c64/cart/magicvoice.c,
+	  src/c64/cart/magicvoice.h, src/c64/cart/mmc64.c,
+	  src/c64/cart/mmc64.h, src/c64/cart/snapshot64.c,
+	  src/c64/cart/snapshot64.h, src/c64/cart/superexplode5.c,
+	  src/c64/cart/superexplode5.h, src/c64/cart/supersnapshot4.c,
+	  src/c64/cart/supersnapshot4.h, src/cartridge.h,
+	  src/plus4/plus4speech.c: updated: freeze machine, capture,
+	  snapshot64, freeze frame, super snapshot 4, super explode v5,
+	  dinamic. added crt loading to freeze frame, freeze machine,
+	  snapshot64, mmc64, super snapshot 4, magic voice, super
+	  explode v5. (all carts have a crt loader now) fixed super
+	  explode v5 and magic formel (please re-test). some more
+	  cleanup and forgotten debug messages disabled
+
+2010-06-15  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c, src/mouse.c,
+	  src/mouse.h: Use POT input selection for 1351 emulation (fixes
+	  erroneus simultaneous movement on both ports), some code
+	  cleanup
+
+2010-06-14  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay3.h,
+	  src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/c64tpi.c,
+	  src/c64/cart/c64tpi.h, src/c64/cart/crt.c,
+	  src/c64/cart/generic.c, src/c64/cart/generic.h,
+	  src/cartconv.c: added missing carts to cartconv, fixed crt
+	  loading for exos and ieee488, updated and fixed ar3, more
+	  cleanup
+
+2010-06-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/drive/drivecpu.c: Store stop_clk in snapshot.This fixes
+	  some hostory recording bug.
+
+2010-06-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/cartconv.c: Fix save_regular_crt (banks -> real_banks),
+	  extend usage output to all supported types
+
+2010-06-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	  src/arch/win32/c64cart.dsp: Fixed MSVC project files.
+
+2010-06-14  Antti S. Lankila <alankila@bel.fi>
+
+	* src/drive/rotation.c: s/driver/drive/
+
+	* src/drive/drive-snapshot.c, src/drive/drive.h,
+	  src/drive/rotation.c: Add consecutive run of zeros into the
+	  snapshot to ensure that snapshots won't break for that reason.
+
+2010-06-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/main.c: Load configuration file for vsid on all ports
+
+	* src/arch/unix/x11/xaw/lightpendrv.c,
+	  src/arch/unix/x11/xaw/x11ui.c, src/socket.c: For Xaw, work
+	  around some extremely weird display initialisation hacks in
+	  vsid mode. Patch by Olaf Seibert.
+
+2010-06-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/retroreplay.c, src/cartconv.c: unbreak cartconv,
+	  cartconv help uses global table, retroreplay crt/bin
+	  read/write fixed
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/georam.c, src/c64/cart/georam.h,
+	  src/c64/cart/reu.c, src/c64/cart/reu.h: unbreak crt attach,
+	  reu and georam snapshots
+
+2010-06-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* configure.in, src/arch/unix/x11/xaw/videoarch.h,
+	  src/arch/unix/x11/xaw/x11video.c: Use Xlibint.h in the
+	  shmproto.h test, add a define based on the result, move
+	  shmproto.h include from the videoarch.h to x11video.c to avoid
+	  Xlibint.h include in the header (which causes problems with
+	  files including videoarch.h outside of arch/).
+
+2010-06-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/uitpi.c, src/arch/unix/gui/uitpi.h,
+	  src/c128/c128.c, src/c64/c64.c, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64tpi.c, src/c64/cart/ide64.c,
+	  src/c64/cart/magicvoice.c, src/cartridge.h, src/core/t6721.c,
+	  src/core/tpicore.c, src/vicii/vicii.c, src/viciinew/vicii.c:
+	  fixed resource (de)init for ide64, c64tpi, magicvoice. some
+	  better detail i/o output for vic, tpi, t6721. added proper
+	  gnome/xaw gui items for ieee488 interface to x64/x64sc,
+	  updated x128 gui.
+
+2010-06-13  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/de.po: Fixed typo.
+
+2010-06-13  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-06-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/archdep.c: quote brackets and backslash, needed
+	  to eg work with filenames containing those inside .zip files.
+
+2010-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	  src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/c64.vcproj,
+	  src/arch/sdl/win64-msvc/c64c128.vcproj,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/c64dtv.vcproj,
+	  src/arch/sdl/win64-msvc/c64sc.vcproj,
+	  src/arch/sdl/win64-msvc/cartconv.vcproj,
+	  src/arch/sdl/win64-msvc/core.vcproj,
+	  src/arch/sdl/win64-msvc/make-bindist.bat,
+	  src/arch/sdl/win64-msvc/plus4.vcproj,
+	  src/arch/sdl/win64-msvc/vicii.vcproj,
+	  src/arch/sdl/win64-msvc/viciidtv.vcproj,
+	  src/arch/sdl/win64-msvc/viciinew.vcproj,
+	  src/arch/sdl/win64-msvc/win64_ia64.bat,
+	  src/arch/sdl/win64-msvc/win64_x64.bat: Updated sdl win64
+	  project files.
+
+	* src/arch/win64/base.vcproj, src/arch/win64/c64cart.vcproj,
+	  src/arch/win64/c64dtv.vcproj, src/arch/win64/core.vcproj,
+	  src/arch/win64/make-msvc-bindist.bat,
+	  src/arch/win64/plus4.vcproj, src/arch/win64/vicii.vcproj,
+	  src/arch/win64/viciidtv.vcproj,
+	  src/arch/win64/viciinew.vcproj: Updated the win64 project
+	  files.
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/c64.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	  src/arch/sdl/win32-watcom/c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64sc.tgt,
+	  src/arch/sdl/win32-watcom/cartconv.tgt,
+	  src/arch/sdl/win32-watcom/cbm2.tgt,
+	  src/arch/sdl/win32-watcom/config.h,
+	  src/arch/sdl/win32-watcom/core.tgt,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/plus4.tgt,
+	  src/arch/sdl/win32-watcom/resid-sid.cc,
+	  src/arch/sdl/win32-watcom/resid.tgt,
+	  src/arch/sdl/win32-watcom/residdtv-envelope.cc,
+	  src/arch/sdl/win32-watcom/residdtv-extfilt.cc,
+	  src/arch/sdl/win32-watcom/residdtv-filter.cc,
+	  src/arch/sdl/win32-watcom/residdtv-sid.cc,
+	  src/arch/sdl/win32-watcom/residdtv-version.cc,
+	  src/arch/sdl/win32-watcom/residdtv-voice.cc,
+	  src/arch/sdl/win32-watcom/residdtv-wave.cc,
+	  src/arch/sdl/win32-watcom/residdtv.tgt,
+	  src/arch/sdl/win32-watcom/residfp-envelope.cc,
+	  src/arch/sdl/win32-watcom/residfp-extfilt.cc,
+	  src/arch/sdl/win32-watcom/residfp-filter.cc,
+	  src/arch/sdl/win32-watcom/residfp-pot.cc,
+	  src/arch/sdl/win32-watcom/residfp-sid.cc,
+	  src/arch/sdl/win32-watcom/residfp-version.cc,
+	  src/arch/sdl/win32-watcom/residfp-voice.cc,
+	  src/arch/sdl/win32-watcom/residfp-wave.cc,
+	  src/arch/sdl/win32-watcom/residfp.tgt,
+	  src/arch/sdl/win32-watcom/sid.tgt,
+	  src/arch/sdl/win32-watcom/siddefs-fp.h,
+	  src/arch/sdl/win32-watcom/siddefs.h,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/viciinew.tgt,
+	  src/arch/sdl/win32-watcom/x128.tgt,
+	  src/arch/sdl/win32-watcom/x64.tgt,
+	  src/arch/sdl/win32-watcom/x64dtv.tgt,
+	  src/arch/sdl/win32-watcom/x64sc.tgt,
+	  src/arch/sdl/win32-watcom/xcbm2.tgt,
+	  src/arch/sdl/win32-watcom/xpet.tgt,
+	  src/arch/sdl/win32-watcom/xplus4.tgt,
+	  src/arch/sdl/win32-watcom/xvic.tgt, src/sid/resid.cc:
+	  Updated sdl win32 watcom project files for recent changes with
+	  new files and moving of files.
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	  src/arch/sdl/win32-msvc/c64.dsp,
+	  src/arch/sdl/win32-msvc/c64c128.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/c64dtv.dsp,
+	  src/arch/sdl/win32-msvc/c64sc.dsp,
+	  src/arch/sdl/win32-msvc/cartconv.dsp,
+	  src/arch/sdl/win32-msvc/core.dsp,
+	  src/arch/sdl/win32-msvc/monitor.dsp,
+	  src/arch/sdl/win32-msvc/plus4.dsp,
+	  src/arch/sdl/win32-msvc/vice.dsw,
+	  src/arch/sdl/win32-msvc/vicii.dsp,
+	  src/arch/sdl/win32-msvc/viciidtv.dsp,
+	  src/arch/sdl/win32-msvc/viciinew.dsp,
+	  src/arch/sdl/win32-msvc/x64sc.dsp: updated sdl win32 project
+	  files for recent changes with new files and moving of files.
+
+	* src/arch/platform.h: Added support for cygwin-x11 in the
+	  platform.h header.
+
+	* src/arch/win32/Makefile.am, src/arch/win32/videoarch.h,
+	  src/arch/win32/watcom/README.txt,
+	  src/arch/win32/watcom/c64.tgt,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/c64dtv.tgt,
+	  src/arch/win32/watcom/c64sc.tgt,
+	  src/arch/win32/watcom/cbm2.tgt,
+	  src/arch/win32/watcom/config.h,
+	  src/arch/win32/watcom/core.tgt, src/arch/win32/watcom/pet.tgt,
+	  src/arch/win32/watcom/plus4.tgt,
+	  src/arch/win32/watcom/resid-dtv.tgt,
+	  src/arch/win32/watcom/resid-fp.tgt,
+	  src/arch/win32/watcom/resid-sid.cc,
+	  src/arch/win32/watcom/resid.tgt,
+	  src/arch/win32/watcom/residdtv-envelope.cc,
+	  src/arch/win32/watcom/residdtv-extfilt.cc,
+	  src/arch/win32/watcom/residdtv-filter.cc,
+	  src/arch/win32/watcom/residdtv-sid.cc,
+	  src/arch/win32/watcom/residdtv-version.cc,
+	  src/arch/win32/watcom/residdtv-voice.cc,
+	  src/arch/win32/watcom/residdtv-wave.cc,
+	  src/arch/win32/watcom/residfp-envelope.cc,
+	  src/arch/win32/watcom/residfp-extfilt.cc,
+	  src/arch/win32/watcom/residfp-filter.cc,
+	  src/arch/win32/watcom/residfp-pot.cc,
+	  src/arch/win32/watcom/residfp-sid.cc,
+	  src/arch/win32/watcom/residfp-version.cc,
+	  src/arch/win32/watcom/residfp-voice.cc,
+	  src/arch/win32/watcom/residfp-wave.cc,
+	  src/arch/win32/watcom/sid.tgt,
+	  src/arch/win32/watcom/siddefs-fp.h,
+	  src/arch/win32/watcom/siddefs.h,
+	  src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/vicii.tgt,
+	  src/arch/win32/watcom/viciicommon.tgt,
+	  src/arch/win32/watcom/viciinew.tgt,
+	  src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	  src/arch/win32/watcom/x64dtv.tgt,
+	  src/arch/win32/watcom/x64sc.tgt,
+	  src/arch/win32/watcom/xcbm2.tgt,
+	  src/arch/win32/watcom/xpet.tgt,
+	  src/arch/win32/watcom/xplus4.tgt,
+	  src/arch/win32/watcom/xvic.tgt, src/sid/resid-fp.cc,
+	  src/sid/resid.cc, src/sounddrv/sounddx.c: Updated the win32
+	  watcom files to (finally) build resid* and updated for the
+	  recent changes with new files and moving of files.
+
+2010-06-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64mem.c: fix +256k mapping, patch by soci
+
+2010-06-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_drive.c, src/autostart.c: Add -basicload
+	  (and SDL UI menu item) for doing autostart LOAD without the
+	  ,1. Some stray whitespace and coding style cleanup.
+
+2010-06-12  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c: unbreak compilation when TFE is not
+	  enabled
+
+	* src/monitor/mon_command.c: fixed monitor io command help
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/magicvoice.c,
+	  src/core/t6721.c, src/plus4/plus4speech.c: fixed DTRD behavior
+	  of T6721 chip, makes irq work in xplus, small improvement with
+	  magic voice
+
+	* src/c64/cart/c64carthooks.c: make cart cmdline options work
+	  again
+
+	* src/arch/os2/Makefile.am, src/arch/riscos/Makefile.am,
+	  src/arch/unix/Makefile.am, src/c128/c128-resources.c,
+	  src/c128/c128.c, src/c128/c128mem.c,
+	  src/c128/c128memsnapshot.c, src/c64/Makefile.am,
+	  src/c64/c64-resources.c, src/c64/c64.c, src/c64/c64cart.h,
+	  src/c64/c64export.c, src/c64/c64export.h, src/c64/c64io.c,
+	  src/c64/c64memsnapshot.c, src/c64/cart/Makefile.am,
+	  src/c64/cart/c64-midi.c, src/c64/cart/c64acia.h,
+	  src/c64/cart/c64acia1.c, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64cartmem.h, src/c64/cart/c64cartsystem.h,
+	  src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h,
+	  src/c64/cart/digimax.c, src/c64/cart/dqbb.c,
+	  src/c64/cart/expert.c, src/c64/cart/generic.c,
+	  src/c64/cart/georam.c, src/c64/cart/isepic.c,
+	  src/c64/cart/magicvoice.c, src/c64/cart/mmc64.c,
+	  src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	  src/c64/cart/reu.c, src/c64/cart/sfx_soundexpander.c,
+	  src/c64/cart/sfx_soundsampler.c, src/c64/cart/tfe.c,
+	  src/c64/cart/tfearch.h, src/c64/cart/warpspeed.c,
+	  src/c64/tfearch.h, src/c64dtv/c64dtvcart.c, src/cartridge.h,
+	  src/midi.h, src/monitor.h, src/monitor/mon_command.c,
+	  src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	  src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	  src/monitor/mon_parse.y, src/monitor/monitor.c,
+	  src/monitor/montypes.h, src/translate.txt,
+	  src/translate_text.c, src/vic20/cart/generic.c,
+	  src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cart.h:
+	  rewrote expansion port resource logic to work with a list.
+	  updated to i/o and expansion port structs in generic, dqbb,
+	  isepic, retroreplay, tpi, acia, expert, mmc64, warpspeed, reu,
+	  digimax, georam, magicvoice, midi, sfx sampler, sfx expander
+	  (all non-main, so cartsystem is sane again). updated c128 cart
+	  stuff, changed cartridge_get_file_name (see devlog), added
+	  monitor command "export" / "exp" that shows the expansion port
+	  devices, added snapshot hook to cart system, fixed reu and tfe
+	  disable bug, various other cleanups. breaking msvc with new
+	  files as usual :)
+
+2010-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	  src/arch/win32/c64cart.dsp, src/arch/win32/c64sc.dsp,
+	  src/arch/win64/c64.vcproj, src/arch/win64/c64c128.vcproj,
+	  src/arch/win64/c64cart.vcproj, src/arch/win64/c64sc.vcproj,
+	  src/c64/Makefile.am, src/c64/c64-midi.c, src/c64/c64-midi.h,
+	  src/c64/c64acia.h, src/c64/c64acia1.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/c64-midi.c,
+	  src/c64/cart/c64-midi.h, src/c64/cart/c64acia.h,
+	  src/c64/cart/c64acia1.c, src/c64/cart/tfe.c,
+	  src/c64/cart/tfe.h, src/c64/tfe.c, src/c64/tfe.h,
+	  src/cartconv.c, src/cartridge.h: Made some changes to cartconv
+	  which should make it easier to add new carts, also moved the
+	  midi, acia and tfe files from the c64 dir to the c64 cart dir.
+
+2010-06-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64drive.c, src/initcmdline.c, src/main.c: Add -vsid
+	  to the x64 -? output, enable -vsid -config, move vsid default
+	  drive disabling to c64/c64drive.c, remove vsid specific
+	  redundant/obsolete resource_set_int calls from main.c
+
+2010-06-10  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64io.c, src/c64/c64io.h, src/c64/cart/c64cart.c,
+	  src/c64/cart/magicvoice.c, src/c64/cart/retroreplay.c,
+	  src/c64/cart/reu.c, src/c64/cart/warpspeed.c,
+	  src/plus4/plus4speech.c: fixed i/o conflict message. added
+	  assertions, added cart id to i/o struct, fixed passing of cart
+	  id when unregistering. updated i/o struct for warpspeed, reu,
+	  magicvoice, retroreplay. added commandline option to attach
+	  binary warpspeed image
+
+2010-06-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/msdos/uiisepic.c, src/arch/sdl/menu_c64cart.c,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/uiisepic.c, src/c64/cart/isepic.c,
+	  src/translate_text.c: Some Isepic -> ISEPIC renaming
+	  (apparently the cart name is in all caps), fix related MSDOS
+	  resource name, fix resource name in I/O struct
+
+2010-06-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64cart.dsp, src/arch/win32/c64dtv.dsp,
+	  src/arch/win32/core.dsp, src/arch/win32/plus4.dsp,
+	  src/arch/win32/vicii.dsp, src/arch/win32/viciidtv.dsp,
+	  src/arch/win32/viciinew.dsp, src/core/t6721.c: Updated for
+	  MSVC compilation.
+
+2010-06-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_plus4hw.c: Add
+	  Magic Voice and V364 Speech menu items to SDL UI
+
+2010-06-09  groepaz <groepaz@gmx.net>
+
+	* src/plus4/plus4speech.c: added -speechrom option to attach
+	  speech rom
+
+	* src/acia.h, src/aciacore.c, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uimagicvoice.c,
+	  src/arch/unix/gui/uimagicvoice.h,
+	  src/arch/unix/gui/uiv364speech.c,
+	  src/arch/unix/gui/uiv364speech.h, src/c128/c128mem.c,
+	  src/c64/Makefile.am, src/c64/c64.c, src/c64/c64cart.h,
+	  src/c64/c64export.c, src/c64/c64io.c, src/c64/c64io.h,
+	  src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/c64sound.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	  src/c64/cart/generic.c, src/c64/cart/generic.h,
+	  src/c64/cart/ide64.c, src/c64/cart/magicvoice.c,
+	  src/c64/cart/magicvoice.h, src/c64dtv/Makefile.am,
+	  src/c64dtv/c64dtvmem.c, src/cartridge.h, src/cbm2/Makefile.am,
+	  src/cbm2/cbm2mem.c, src/cia.h, src/core/Makefile.am,
+	  src/core/ciacore.c, src/core/t6721.c, src/core/t6721.h,
+	  src/core/tpicore.c, src/core/viacore.c, src/crtc/crtc.c,
+	  src/crtc/crtctypes.h, src/drive/drivemem.c, src/mem.h,
+	  src/monitor.h, src/monitor/mon_command.c,
+	  src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	  src/monitor/mon_parse.y, src/monitor/monitor.c,
+	  src/monitor/montypes.h, src/pet/Makefile.am, src/pet/petmem.c,
+	  src/plus4/Makefile.am, src/plus4/plus4.c,
+	  src/plus4/plus4mem.c, src/plus4/plus4speech.c,
+	  src/plus4/plus4speech.h, src/plus4/ted-sound.c, src/tpi.h,
+	  src/translate.txt, src/translate_text.c, src/via.h,
+	  src/vic20/vic.c, src/vic20/vic.h, src/vic20/vic20mem.c,
+	  src/vicii/Makefile.am, src/vicii/vicii.c,
+	  src/vicii/viciitypes.h, src/viciinew/Makefile.am,
+	  src/viciinew/vicii.c, src/viciinew/viciitypes.h: Monitor:
+	  fixed "sfx" command, added peek support for Carts, added
+	  detailed "io" mode Carts: added peek and dump functions to i/o
+	  system, cart init fixes C64: added WIP magicvoice emulation,
+	  gnome/xaw ui updated Plus4: added WIP speech emulation,
+	  monitor fixes, peek support, gnome/xaw ui updated CBM2: fixed
+	  io bank other: added detailed i/o dump hooks (new files will
+	  break msvc build as usual, sorry)
+
+2010-06-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciinew/vicii-chip-model.c: Add initial NTSC, old NTSC
+	  and Drean support to x64sc
+
+2010-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, src/arch/amigaos/make-bindist.sh,
+	  src/arch/beos/make-bindist.sh, src/arch/msdos/make-bindist.sh,
+	  src/arch/sdl/make-bindist_amiga.sh,
+	  src/arch/sdl/make-bindist_beos.sh,
+	  src/arch/sdl/make-bindist_dingoo.sh,
+	  src/arch/sdl/make-bindist_gp2x.sh,
+	  src/arch/sdl/make-bindist_qnx6.sh,
+	  src/arch/sdl/make-bindist_scosol.sh,
+	  src/arch/sdl/make-bindist_skyos.sh,
+	  src/arch/sdl/make-bindist_syllable.sh,
+	  src/arch/sdl/make-bindist_win32.sh,
+	  src/arch/sdl/syllable-files/install.sh,
+	  src/arch/unix/gp2x/Makefile.am,
+	  src/arch/unix/gp2x/gpe-files/x64sc.gpe,
+	  src/arch/unix/hpux/make-bindist.sh,
+	  src/arch/unix/macosx/make-bindist.sh,
+	  src/arch/unix/next_open_rhap/make-bindist.sh,
+	  src/arch/unix/qnx4/make-bindist.sh,
+	  src/arch/unix/qnx6/make-bindist.sh,
+	  src/arch/unix/sco_sol/make-bindist.sh,
+	  src/arch/unix/skyos/make-bindist.sh: Added handling of x64sc
+	  disabling to the several make-bindist scripts and made them
+	  easier to maintain in the process.
+
+2010-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c: Some warning fixes
+
+2010-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.in: Made the argument checking simpler
+	  and changed the ui arguments conflict checking simpler
+
+	* configure.in: Fixed shmproto.h detection
+
 2010-06-06  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.5
