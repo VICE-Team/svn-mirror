@@ -1466,8 +1466,8 @@ static int doodle_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const c
     BYTE fgcolor;
     BYTE bgcolor;
     BYTE brdrcolor;
-    BYTE fglum;
-    BYTE bglum;
+    BYTE fglum = 0;
+    BYTE bglum = 0;
     BYTE brdrlum;
     int i, j, k, l;
     doodle_data_t *data;
