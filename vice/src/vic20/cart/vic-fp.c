@@ -108,13 +108,16 @@ static int blk1_en_flop;
 /** RAM at BLK5 instead of ROM */
 static int ram5_flop;
 
-#define CART_CFG_INIT(value) do {                        \
-    cart_cfg_reg = value & CART_CFG_MASK;                \
+#define CART_CFG_UPDATE do {                             \
     cfg_en_flop = CART_CFG_ENABLE;                       \
     ram123_en_flop = CART_CFG_RAM123;                    \
     blk1_en_flop = CART_CFG_BLK1;                        \
     ram5_flop = CART_CFG_BLK5_RAM;                       \
     cart_rom_bank = cart_bank_reg | (CART_CFG_A21 << 8); \
+} while (0)
+#define CART_CFG_INIT(value) do {                        \
+    cart_cfg_reg = value & CART_CFG_MASK;                \
+    CART_CFG_UPDATE;                                     \
 } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -223,6 +226,7 @@ void REGPARM2 vic_fp_io2_store(WORD addr, BYTE value)
         CART_CFG_INIT(value);
     } else {
         cart_bank_reg = value;
+        CART_CFG_UPDATE;
     }
 }
 
