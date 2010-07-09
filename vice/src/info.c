@@ -1240,6 +1240,7 @@ const char info_contrib_text[] =
 "  Frank Reichel <Frank.Reichel@forchheim.baynet.de>\n"
 "  Ullrich von Bassewitz\n"
 "  Holger Busse\n"
+"  David 'jbevren' Wood\n"
 "\n"
 "Last but not least, a very special thanks to Andreas Arens, Lutz\n"
 "Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha\n"
