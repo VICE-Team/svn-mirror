@@ -14,7 +14,7 @@ VICE_ARG_WITH_LIST(xaw3d,         [  --with-xaw3d            use Xaw3d library i
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
 VICE_ARG_WITH_LIST(midas,         [  --with-midas            use MIDAS sound system instead of Allegro for audio])
 VICE_ARG_WITH_LIST(arts,          [  --with-arts             use aRts sound system])
-VICE_ARG_WITH_LIST(pulse,         [  --with-pulse            use pulseaudio sound system])
+VICE_ARG_WITH_LIST(pulse,         [  --with-pulse            use PulseAudio sound system])
 VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
 VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
@@ -30,7 +30,7 @@ VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI su
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(gp2x,        [  --enable-gp2x           enables GP2X support])
 VICE_ARG_ENABLE_LIST(wiz,         [  --enable-wiz            enables WIZ support])
-VICE_ARG_ENABLE_LIST(dingux,      [  --enable-dingux         enables Dingoo linux support])
+VICE_ARG_ENABLE_LIST(dingux,      [  --enable-dingux         enables Dingoo Linux support])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(ffmpeg,      [  --disable-ffmpeg        disable FFmpeg library support])
@@ -56,7 +56,7 @@ dnl check for invalid options
 VICE_ARG_LIST_CHECK()
 
 dnl check for conflicting ui options
-vice_ui_list="--enable-gnomeui --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz --enable-dingux"
+vice_ui_list="--enable-gnomeui --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz"
 vice_ui_1=none
 vice_ui_2=none
 
