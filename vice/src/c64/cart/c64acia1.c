@@ -68,6 +68,7 @@ static int acia_de_enabled = 0;
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAVE_RS232
 /* a prototype is needed */
 static BYTE REGPARM1 aciacart_read(WORD addr);
 
@@ -91,13 +92,19 @@ static io_source_list_t *acia_de_list_item = NULL;
 static const c64export_resource_t export_res = {
     "Turbo232", 0, 0, &acia_de_device, NULL, CARTRIDGE_TURBO232
 };
+#endif
 
 /* ------------------------------------------------------------------------- */
 
 int aciacart_cart_enabled(void) {
+#ifdef HAVE_RS232
     return acia_de_enabled;
+#else
+    return 0;
+#endif 
 }
 
+#ifdef HAVE_RS232
 static int acia1_enable(void)
 {
     if (c64export_add(&export_res) < 0) {
@@ -114,8 +121,7 @@ static void acia1_disable(void)
     acia_de_list_item = NULL;
 }
 
-#ifdef HAVE_RS232
-static int set_acia_de_enabled(int val, void *param)
+static int aciacart_detach(int val, void *param)
 {
     if ((val) && (!acia_de_enabled)) {
         if (acia1_enable() < 0) {
@@ -128,9 +134,11 @@ static int set_acia_de_enabled(int val, void *param)
     }
     return 0;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAVE_RS232
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &acia_de_enabled, set_acia_de_enabled, NULL },
@@ -157,19 +165,17 @@ void aciacart_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAVE_RS232
 static BYTE REGPARM1 aciacart_read(WORD addr)
 {
-#ifdef HAVE_RS232
     acia_de_device.io_source_valid = 0;
     if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
         return 0;
     }
     acia_de_device.io_source_valid = 1;
     return myacia_read(addr);
-#else
-    return 0;
-#endif
 }
+#endif
 
 void aciacart_reset(void)
 {
@@ -187,25 +193,34 @@ int aciacart_cmdline_options_init(void)
 
 void aciacart_detach(void)
 {
+#ifdef HAVE_RS232
     set_acia_de_enabled(0, NULL);
+#endif
 }
 
 int aciacart_enable(void)
 {
+#ifdef HAVE_RS232
     return set_acia_de_enabled(1, NULL);
+#else
+    return 0;
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
 
 int aciacart_snapshot_write_module(struct snapshot_s *p)
 {
+#ifdef HAVE_RS232
     if (acia1_snapshot_write_module(p) < 0) {
         return -1;
     }
+#endif
     return 0;
 }
 int aciacart_snapshot_read_module(struct snapshot_s *p)
 {
+#ifdef HAVE_RS232
     if (acia1_snapshot_read_module(p) < 0) {
         acia_de_enabled = 0;
         return -1;
@@ -215,5 +230,6 @@ int aciacart_snapshot_read_module(struct snapshot_s *p)
         aciacart_reset();          /* Clear interrupts.  */
         acia_de_enabled = 1;
     }
+#endif
     return 0;
 }

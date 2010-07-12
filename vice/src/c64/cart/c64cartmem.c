@@ -455,6 +455,8 @@ BYTE REGPARM1 romh_read(WORD addr)
             return capture_romh_read(addr);
         case CARTRIDGE_EASYFLASH:
             return easyflash_romh_read(addr);
+        case CARTRIDGE_FINAL_I:
+            return final_v1_romh_read(addr);
         case CARTRIDGE_FINAL_PLUS:
             return final_plus_romh_read(addr);
         case CARTRIDGE_IDE64:
@@ -525,6 +527,8 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
             return easyflash_romh_read(addr);
         case CARTRIDGE_EXOS:
             return exos_romh_read(addr);
+        case CARTRIDGE_FINAL_I:
+            return final_v1_romh_read(addr);
         case CARTRIDGE_FINAL_PLUS:
             return final_plus_romh_read(addr);
         case CARTRIDGE_IDE64:

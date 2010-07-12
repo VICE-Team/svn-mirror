@@ -44,7 +44,7 @@
 /*
     The Final Cartridge 1+2
 
-   - 8k ROM
+   - 16k ROM
 
    - any access to IO1 turns cartridge ROM off
    - any access to IO2 turns cartridge ROM on
@@ -52,10 +52,20 @@
    - cart ROM mirror is visible in io1/io2
 */
 
+/* #define FCDEBUG */
+
+#ifdef FCDEBUG
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 /* some prototypes are needed */
 static BYTE REGPARM1 final_v1_io1_read(WORD addr);
+static BYTE REGPARM1 final_v1_io1_peek(WORD addr);
 static void REGPARM2 final_v1_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 final_v1_io2_read(WORD addr);
+static BYTE REGPARM1 final_v1_io2_peek(WORD addr);
 static void REGPARM2 final_v1_io2_store(WORD addr, BYTE value);
 
 static io_source_t final1_io1_device = {
@@ -66,7 +76,7 @@ static io_source_t final1_io1_device = {
     1, /* read is always valid */
     final_v1_io1_store,
     final_v1_io1_read,
-    NULL, /* TODO: peek */
+    final_v1_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_FINAL_I
 };
@@ -79,7 +89,7 @@ static io_source_t final1_io2_device = {
     1, /* read is always valid */
     final_v1_io2_store,
     final_v1_io2_read,
-    NULL, /* TODO: peek */
+    final_v1_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_FINAL_I
 };
@@ -95,24 +105,38 @@ static const c64export_resource_t export_res_v1 = {
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
+    DBG(("disable %04x\n", addr));
     cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
+    return roml_banks[0x1e00 + (addr & 0xff)];
+}
+
+BYTE REGPARM1 final_v1_io1_peek(WORD addr)
+{
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
 void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 {
+    DBG(("disable %04x %02x\n", addr, value));
     cartridge_config_changed(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE);
 }
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    DBG(("enable %04x\n", addr));
+    cartridge_config_changed(1, 1, CMODE_READ | CMODE_RELEASE_FREEZE);
+    return roml_banks[0x1f00 + (addr & 0xff)];
+}
+
+BYTE REGPARM1 final_v1_io2_peek(WORD addr)
+{
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
 void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 {
-    cartridge_config_changed(1, 1, CMODE_WRITE);
+    DBG(("enable %04x %02x\n", addr, value));
+    cartridge_config_changed(1, 1, CMODE_WRITE | CMODE_RELEASE_FREEZE);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -122,11 +146,18 @@ BYTE REGPARM1 final_v1_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff)];
 }
 
+BYTE REGPARM1 final_v1_romh_read(WORD addr)
+{
+    return romh_banks[(addr & 0x1fff)];
+}
+
 /* ---------------------------------------------------------------------*/
 
 void final_v1_freeze(void)
 {
-    cartridge_config_changed(3, 3, CMODE_READ);
+    DBG(("freeze enable\n"));
+    cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cartridge_release_freeze();
 }
 
 void final_v1_config_init(void)

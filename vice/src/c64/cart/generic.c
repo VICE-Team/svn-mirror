@@ -173,10 +173,11 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
             return -1;
         }
-
         crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB : CARTRIDGE_GENERIC_16KB;
+        DBG(("type %d\n", crttype));
         /* try to read next CHIP header in case of 16k Ultimax cart */
         if (fread(chipheader, 0x10, 1, fd) < 1) {
+        DBG(("type %d (generic game)\n", crttype));
             if (crttype == CARTRIDGE_GENERIC_8KB) {
                 if (c64export_add(&export_res_8kb) < 0) {
                     return -1;

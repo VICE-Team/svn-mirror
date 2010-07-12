@@ -159,6 +159,7 @@ static unsigned int enable_flash_write = 1;     /* (r) */
 static unsigned int enable_exrom = 0;   /* status of exrom line */
 /* bit 2:       1 = disable RR (W) */
 /*              (*) bit can be reset by setting bit 6 of $df12 */
+static unsigned int rr_active_bit = 0;  /* (w) Cart is activated., also used in Nordic Power mode  */
 static unsigned int rr_active = 0;      /* (w) Cart is activated.  */
 static unsigned int freeze_pressed = 0; /* (r) freeze button pressed.  */
 /* ^ bit 3:     bank address 13 (W) */
@@ -311,10 +312,10 @@ void mmcreplay_dump_cfg(void)
              enable_16k_mapping, enable_ram_io1, allow_bank);
     if (strcmp(dumpstr1, ndumpstr) != 0) {
         strcpy(dumpstr1, ndumpstr);
-        LOG((dumpstr1));
+        LOG(("%s", dumpstr1));
     }
 
-    config = active_mode_phi2;
+    config = active_mode_phi2 & 3;
 
     if (disable_mmc_bios == 0) {
         /* mmc bios mapper */
@@ -453,12 +454,15 @@ void mmcreplay_dump_cfg(void)
             strcat(str, " off ");
         }
 
-        sprintf(ndumpstr, "MMCREPLAY: [%s] %s %s", str_mapper[mapper],
-                 str_config[config], str);
+        sprintf(ndumpstr, "[%s] %s %s", str_mapper[mapper], str_config[config], str);
+#if 1
         if (strcmp(dumpstr2, ndumpstr) != 0) {
             strcpy(dumpstr2, ndumpstr);
-            LOG((dumpstr2));
+            LOG(("%s", dumpstr2));
         }
+#else
+        LOG(("MMCREPLAY: %s", ndumpstr));
+#endif
     }
 
 }
@@ -532,7 +536,7 @@ void mmcreplay_io2bank_set(unsigned int bank, unsigned int rambank)
     io2_ram_bank = (int)rambank;
 }
 
-#ifdef DEBUG
+#ifdef MMCRDEBUG
 static int last_mainmode = 0;
 static int last_biosmode = 0;
 static int last_biosmode444 = 0;
@@ -545,7 +549,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
     unsigned int rambankl = 0, rambankh = 0;
     unsigned int io1bank = 0, io2bank = 0;
     unsigned int io1bank_ram = 0, io2bank_ram = 0;
-    int mapped_game, mapped_exrom;
+    int mapped_game = -1, mapped_exrom = -1;
 
     ultimax_mapping_hack = 0;
 
@@ -567,7 +571,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
             mapped_game = 0;
             LOG(("main mode: rescue"));
         } else {
-#ifdef DEBUG
+#ifdef MMCRDEBUG
             if (last_mainmode != 111) {
                 LOG(("main mode: mmc bios"));
                 last_mainmode = 111;
@@ -612,7 +616,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                 mapped_exrom = 1;
 
                 if (enable_ram_io1) {
-#ifdef DEBUG
+#ifdef MMCRDEBUG
                     if (last_biosmode != 111) {
                         LOG(("bios mode: 111"));
                         last_biosmode = 111;
@@ -661,7 +665,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         enable_io2 = 0;
                     }
                 } else {
-#ifdef DEBUG
+#ifdef MMCRDEBUG
                     if (last_biosmode != 222) {
                         LOG(("bios mode: 222"));
                         last_biosmode = 222;
@@ -725,7 +729,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                 ultimax_mapping_hack = 1;
 
                 if (enable_ram_io1) {
-#ifdef DEBUG
+#ifdef MMCRDEBUG
                     if (last_biosmode != 333) {
                         LOG(("bios mode: 333"));
                         last_biosmode = 333;
@@ -779,7 +783,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         mapped_exrom = 1;       /* 16k game */
                     }
                 } else {
-#ifdef DEBUG
+#ifdef MMCRDEBUG
                     if (last_biosmode != 444) {
                         LOG(("bios mode: 444"));
                         last_biosmode = 444;
@@ -821,7 +825,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                      * high bank=7 if not extended mode
                      */
                     if (enable_ram_io) { /* ultimax */
-#ifdef DEBUG
+#ifdef MMCRDEBUG
                         if (last_biosmode444 != 111) {
                             LOG(("bios mode 444: ram enabled"));
                             last_biosmode444 = 111;
@@ -887,7 +891,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
                         rambankh = rambankl;
 
                     } else {       /* 16k game */
-#ifdef DEBUG
+#ifdef MMCRDEBUG
                         if (last_biosmode444 != 222) {
                             LOG(("bios mode 444: ram disabled"));
                             last_biosmode444 = 222;
@@ -931,7 +935,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
             }
         }
     } else if (enable_16k_mapping) {
-#ifdef DEBUG
+#ifdef MMCRDEBUG
         if (last_mainmode != 222) {
             LOG(("main mode: super mapper"));
             last_mainmode = 222;
@@ -1024,7 +1028,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
     /**************************************************************************************************
      * normal mapper
      **************************************************************************************************/
-#ifdef DEBUG
+#ifdef MMCRDEBUG
         if (last_mainmode != 333) {
             LOG(("main mode: normal mapper"));
             last_mainmode = 333;
@@ -1056,7 +1060,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
         /**************************************************************************************************
          * retro replay mapper
          **************************************************************************************************/
-#ifdef DEBUG
+#ifdef MMCRDEBUG
         if (last_mainmode != 444) {
             LOG(("MMCREPLAY: *** main mode: [rr mapper]"));
             last_mainmode = 444;
@@ -1094,25 +1098,37 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
             /* extended RR Mode */
             BYTE value = (enable_game) |     /* bit 0 */
                 ((enable_exrom ^ 1) << 1) |     /* bit 1 FIXME: is the bit inverted in the register ?! */
-                (((bank_address_13_15 & 3) << 3) | ((bank_address_13_15 & 4) << 5)) |   /* bit 3,4,7 */
+                (rr_active_bit << 2) | /* bit 2 */
+                ((bank_address_13_15 & 3) << 3) |   /* bit 3,4 */
                 (enable_ram_io << 5) |  /* bit 5 */
                 (enable_freeze_exit << 6);      /* bit 6 */
 
-            LOG(("rr mode 111 (extended)"));
+            LOG(("rr mode 111 (extended) (%02x)", value));
 
-            /* nordic power hack */
-            if (value == 0x22) {
-                if (enable_ram_io) {
-                    mapped_game = 1;
-                    mapped_exrom = 1;
-                    enable_ramh = 1;
-                    LOG(("nordic power hack"));
-                }
+            if ((value & 0xe7) == 0x22) {
+                /*
+                    different to original AR:
+
+                    if bit 5 (RAM enable) is 1,
+                    bit 0,1 (exrom/game) is == 2 (cart off),
+                    bit 2,6,7 (cart disable, freeze clear) are 0,
+
+                    then Cart ROM (Bank 0..3) is mapped at 8000-9fff,
+                    and Cart RAM (Bank 0) is mapped at A000-bfff
+                    using 16K Game config
+                */
+                mapped_game = 0;
+                mapped_exrom = 1;
+                enable_ramh = 1;
+                LOG(("Nordic Power Mapping"));
             } else {
                 if (enable_ram_io) {
                     enable_raml = 1;
                 }
             }
+
+
+
             /* FIXME */
             enable_io1 = 1;
             enable_io2 = 1;
@@ -1339,8 +1355,9 @@ void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value)
                 enable_game = value & 1;        /* bit 0 */
                 enable_exrom = ((value >> 1) & 1) ^ 1;  /* bit 1 FIXME: is the bit inverted in the register ?! */
                 bank_address_13_15 = (((value >> 3) & 3) | ((value >> 5) & 4)); /* bit 3,4,7 */
-                if (value & 4) {
-                    rr_active = 0;      /* bit 2 */
+                rr_active_bit = value & 4;      /* bit 2 */
+                if (rr_active_bit) {
+                    rr_active = 0;
                 }
                 enable_ram_io = (value >> 5) & 1;       /* bit 5 */
                 enable_freeze_exit = (value >> 6) & 1;  /* bit 6 */
@@ -2129,7 +2146,7 @@ void mmcreplay_set_stdcfg(void)
     enable_ram_io = 0;          /* ? */
     /* enable_ram_io1 = 0; */
 
-#ifdef TEST_AR_MAPPER
+#ifdef TEST_AR_MAPPER   /* bank 0 */
     bank_address_16_18 = 0;
     rr_active = 1;
     enable_rr_regs = 1;
@@ -2138,10 +2155,12 @@ void mmcreplay_set_stdcfg(void)
     enable_ram_io = 0;
     enable_ram_io1 = 0;
     enable_16k_mapping = 0;
-    disable_mmc_bios = 0;
+    disable_mmc_bios = 1;
 
-#elif defined(TEST_RR_MAPPER)   /* bank 4 */
-    bank_address_16_18 = 4;
+    enable_exrom = 1;
+    enable_game = 1;
+#elif defined(TEST_RR_MAPPER)   /* bank 1 */
+    bank_address_16_18 = 1;
     rr_active = 1;
     enable_rr_regs = 1;
     no_freeze = 0;
@@ -2149,9 +2168,10 @@ void mmcreplay_set_stdcfg(void)
     enable_ram_io = 0;          /* mmmmh */
     enable_ram_io1 = 0;
     enable_16k_mapping = 0;
-    disable_mmc_bios = 0;
+    disable_mmc_bios = 1;
 
-
+    enable_exrom = 1;
+    enable_game = 1;
 #elif defined(TEST_NORDIC_MAPPER)       /* bank 2 */
     bank_address_16_18 = 2;
     rr_active = 1;
@@ -2165,6 +2185,8 @@ void mmcreplay_set_stdcfg(void)
     enable_16k_mapping = 0;
     disable_mmc_bios = 1;
 
+    enable_exrom = 1;
+    enable_game = 0;
 #elif defined(TEST_SUPER_8KCRT) /* bank 2 */
     bank_address_16_18 = 2;
     rr_active = 1;
@@ -2383,7 +2405,7 @@ void mmcreplay_config_init(void)
     }
 #endif
     mmcreplay_set_stdcfg();
-    mmcreplay_update_mapper(CMODE_WRITE, 0);
+    mmcreplay_update_mapper(CMODE_READ, 0);
 
     flash040core_reset(flashrom_state);
 }

@@ -42,7 +42,7 @@
 /*
     Super Snapshot v5
 
-    - 32K ROM,4*8K Banks
+    - 64K ROM,8*8K Banks (4*16k)
     - 32K RAM,4*8K Banks
 
     io1: (read)
