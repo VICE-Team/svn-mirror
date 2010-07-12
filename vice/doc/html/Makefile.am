@@ -17,6 +17,7 @@ doc_DATA = \
 	plain/NEWS \
 	plain/PETdoc.txt \
 	plain/TODO \
+	plain/VIC-Appendum.txt \
 	plain/VIC-Article.txt \
 	plain/VIC-Artikel.txt \
 	plain/Walkthrough-Howto.txt \
