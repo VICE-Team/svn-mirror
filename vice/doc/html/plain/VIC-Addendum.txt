@@ -1,4 +1,4 @@
-VIC-Appendum.txt
+VIC-Addendum.txt
 ----------------
 revision 0.2 20100414
 
