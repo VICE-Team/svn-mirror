@@ -121,7 +121,7 @@ static void acia1_disable(void)
     acia_de_list_item = NULL;
 }
 
-static int aciacart_detach(int val, void *param)
+static int set_acia_de_enabled(int val, void *param)
 {
     if ((val) && (!acia_de_enabled)) {
         if (acia1_enable() < 0) {
