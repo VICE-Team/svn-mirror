@@ -40,6 +40,7 @@ cp -a $TOPSRCDIR/data/CBM-II SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/VIC20 SDLVICE-dingoo-$VICEVERSION
 cp $TOPSRCDIR/doc/ReadmeSDL.txt SDLVICE-dingoo-$VICEVERSION
+rm -rf `find SDLVICE-dingoo-$VICEVERSION -name ".svn"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "Makefile*"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "amiga_*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "beos_*.vkm"`
