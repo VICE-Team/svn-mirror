@@ -73,10 +73,12 @@ static int fill_cache(raster_cache_t *cache, unsigned int *xs,
 
     if (cache->background_data[0] != vic.raster.background_color
         || cache->color_data_2[0] != vic.auxiliary_color
-        || cache->numcols != vic.text_cols) {
+        || cache->numcols != vic.text_cols
+        || cache->reverse != vic.reverse) {
         cache->background_data[0] = vic.raster.background_color;
         cache->color_data_2[0] = vic.auxiliary_color;
         cache->numcols = vic.text_cols;
+        cache->reverse = vic.reverse;
         *xs = 0;
         *xe = vic.text_cols - 1;
         rr = 1;

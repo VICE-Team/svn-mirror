@@ -104,6 +104,9 @@ struct raster_cache_s {
     BYTE color_data_1[RASTER_CACHE_MAX_TEXTCOLS];
     BYTE color_data_2[RASTER_CACHE_MAX_TEXTCOLS];
     BYTE color_data_3[RASTER_CACHE_MAX_TEXTCOLS];
+
+    /* reverse bit for the VIC-I */
+    int reverse;
 };
 typedef struct raster_cache_s raster_cache_t;
 
