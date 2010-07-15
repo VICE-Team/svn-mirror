@@ -40,7 +40,7 @@
 
 
 struct rotation_s {
-    unsigned long accum;
+    DWORD accum;
     CLOCK rotation_last_clk;
 
     unsigned int last_read_data;
@@ -51,7 +51,7 @@ struct rotation_s {
     int frequency; /* 1x/2x speed toggle, index to rot_speed_bps */
     int speed_zone; /* speed zone within rot_speed_bps */
 
-    unsigned long seed;
+    DWORD seed;
 };
 typedef struct rotation_s rotation_t;
 
@@ -157,11 +157,11 @@ inline static int read_next_bit(drive_t *dptr)
     return (dptr->GCR_track_start_ptr[byte_offset] >> bit) & 1;
 }
 
-inline static long RANDOM_nextInt(rotation_t *rptr) {
-    int bits = rptr->seed >> 15;
+inline static SDWORD RANDOM_nextInt(rotation_t *rptr) {
+    DWORD bits = rptr->seed >> 15;
     rptr->seed ^= rptr->accum;
     rptr->seed = rptr->seed << 17 | bits;
-    return (long) rptr->seed;
+    return (SDWORD) rptr->seed;
 }
 
 void rotation_begins(drive_t *dptr) {
