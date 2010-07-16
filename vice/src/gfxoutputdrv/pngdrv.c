@@ -76,7 +76,9 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    if (setjmp(screenshot->gfxoutputdrv_data->png_ptr->jmpbuf)) {
+/* pngdrv.c:79: warning: ‘jmpbuf’ is deprecated (declared at /usr/include/libpng14/png.h:1096) */
+/*  if (setjmp(screenshot->gfxoutputdrv_data->png_ptr->jmpbuf)) { */
+    if (setjmp(png_jmpbuf(screenshot->gfxoutputdrv_data->png_ptr))) {
         png_destroy_write_struct(&(screenshot->gfxoutputdrv_data->png_ptr),
                                  &(screenshot->gfxoutputdrv_data->info_ptr));
         lib_free(sdata);
@@ -99,10 +101,21 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
     png_init_io(sdata->png_ptr, sdata->fd);
     png_set_compression_level(sdata->png_ptr, Z_BEST_COMPRESSION);
 
+/*
+pngdrv.c:102: warning: ‘width’ is deprecated (declared at /usr/include/libpng14/png.h:639)
+pngdrv.c:103: warning: ‘height’ is deprecated (declared at /usr/include/libpng14/png.h:640)
+pngdrv.c:104: warning: ‘bit_depth’ is deprecated (declared at /usr/include/libpng14/png.h:651)
+pngdrv.c:105: warning: ‘color_type’ is deprecated (declared at /usr/include/libpng14/png.h:653)
+*/
+/*
     sdata->info_ptr->width = screenshot->width;
     sdata->info_ptr->height= screenshot->height;
     sdata->info_ptr->bit_depth = 8;
     sdata->info_ptr->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
+*/
+    png_set_IHDR(sdata->png_ptr, sdata->info_ptr, screenshot->width, screenshot->height,
+                 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
+                 PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
     png_write_info(sdata->png_ptr, sdata->info_ptr);
 
@@ -146,8 +159,9 @@ static int pngdrv_close(screenshot_t *screenshot)
 
 static int pngdrv_save(screenshot_t *screenshot, const char *filename)
 {
-    if (pngdrv_open(screenshot, filename) < 0)
+    if (pngdrv_open(screenshot, filename) < 0) {
         return -1;
+    }
 
     for (screenshot->gfxoutputdrv_data->line = 0;
         screenshot->gfxoutputdrv_data->line < screenshot->height;
@@ -155,8 +169,9 @@ static int pngdrv_save(screenshot_t *screenshot, const char *filename)
         pngdrv_write(screenshot);
     }
 
-    if (pngdrv_close(screenshot) < 0)
+    if (pngdrv_close(screenshot) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -186,8 +201,7 @@ static int pngdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
     int i;
     BYTE pixval;
 
-    for (i=0; i<x_size; i++)
-    {
+    for (i=0; i<x_size; i++) {
       pixval = gfx[(line*x_size)+i];
       pngdrv_memmap_png_data[i*4] = palette[pixval*3];
       pngdrv_memmap_png_data[(i*4)+1] = palette[(pixval*3)+1];
@@ -204,19 +218,18 @@ static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
 {
     pngdrv_memmap_png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (void *)NULL, NULL, NULL);
 
-    if (pngdrv_memmap_png_ptr == NULL)
+    if (pngdrv_memmap_png_ptr == NULL) {
         return -1;
+    }
 
     pngdrv_memmap_info_ptr = png_create_info_struct(pngdrv_memmap_png_ptr);
 
-    if (pngdrv_memmap_info_ptr == NULL)
-    {
+    if (pngdrv_memmap_info_ptr == NULL) {
         png_destroy_write_struct(&(pngdrv_memmap_png_ptr), (png_infopp)NULL);
         return -1;
     }
 
-    if (setjmp(pngdrv_memmap_png_ptr->jmpbuf))
-    {
+    if (setjmp(pngdrv_memmap_png_ptr->jmpbuf)) {
         png_destroy_write_struct(&(pngdrv_memmap_png_ptr), &(pngdrv_memmap_info_ptr));
         return -1;
     }
@@ -225,8 +238,7 @@ static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
 
     pngdrv_memmap_fd = fopen(pngdrv_memmap_ext_filename, MODE_WRITE);
 
-    if (pngdrv_memmap_fd == NULL)
-    {
+    if (pngdrv_memmap_fd == NULL) {
         lib_free(pngdrv_memmap_ext_filename);
         return -1;
     }
@@ -254,16 +266,17 @@ static int pngdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE
 {
     int line;
 
-    if (pngdrv_open_memmap(filename, x_size, y_size, palette) < 0)
+    if (pngdrv_open_memmap(filename, x_size, y_size, palette) < 0) {
         return -1;
+    }
 
-    for (line = 0; line < y_size; line++)
-    {
+    for (line = 0; line < y_size; line++) {
         pngdrv_write_memmap(line, x_size, gfx, palette);
     }
 
-    if (pngdrv_close_memmap() < 0)
+    if (pngdrv_close_memmap() < 0) {
         return -1;
+    }
 
     return 0;
 }
