@@ -31,6 +31,7 @@
 #include "sound.h"
 #include "types.h"
 #include "archdep.h"
+#include "log.h"
 
 #define VOC_MAX 0x6fc00c   /* taken from sound conversion program */
 
@@ -73,78 +74,92 @@ static int voc_init(const char *param, int *speed, int *fragsize, int *fragnr, i
 
 static int voc_write(SWORD *pbuf, size_t nr)
 {
-  BYTE rlen[3];
+    BYTE rlen[3];
 
-  /* VOC block header. */
-  BYTE extra_block_header[] = "\002sss";
+    /* VOC block header. */
+    BYTE extra_block_header[] = "\002sss";
 
-#ifdef WORDS_BIGENDIAN
-  unsigned int i;
+    #ifdef WORDS_BIGENDIAN
+    unsigned int i;
 
-  /* Swap bytes on big endian machines. */
-  for (i=0; i<nr; i++)
-  {
-    pbuf[i]=(((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
-  }
-#endif
-
-  if ((samples+(nr*2))>=(VOC_MAX-12))
-  {
-    if (extra_block==0)
-    {
-      rlen[0]=(BYTE)(((samples*2)+12) & 0xff);
-      rlen[1]=(BYTE)((((samples*2)+12) >> 8) & 0xff);
-      rlen[2]=(BYTE)((((samples*2)+12) >> 16) & 0xff);
-      fseek(voc_fd, block_start+1, SEEK_SET);
-      fwrite(rlen, 1, 3, voc_fd);
-      fseek(voc_fd, 0, SEEK_END);
-      block_start=ftell(voc_fd);
-      fwrite(extra_block_header, 1, 4, voc_fd);
-      samples=0;
-      extra_block++;
+    /* Swap bytes on big endian machines. */
+    for (i = 0; i < nr; i++) {
+        pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
     }
-    else
+    #endif
+
+    if ((samples + (nr * 2)) >= (VOC_MAX - 12))
     {
-      rlen[0]=(BYTE)((samples*2) & 0xff);
-      rlen[1]=(BYTE)(((samples*2) >> 8) & 0xff);
-      rlen[2]=(BYTE)(((samples*2) >> 16) & 0xff);
-      fseek(voc_fd, block_start+1, SEEK_SET);
-      fwrite(rlen, 1, 3, voc_fd);
-      fseek(voc_fd, 0, SEEK_END);
-      block_start=ftell(voc_fd);
-      fwrite(extra_block_header, 1, 4, voc_fd);
-      samples=0;
+        if (extra_block == 0)
+        {
+            rlen[0] = (BYTE)(((samples * 2) + 12) & 0xff);
+            rlen[1] = (BYTE)((((samples * 2) + 12) >> 8) & 0xff);
+            rlen[2] = (BYTE)((((samples * 2) + 12) >> 16) & 0xff);
+            fseek(voc_fd, block_start + 1, SEEK_SET);
+            if (fwrite(rlen, 1, 3, voc_fd) != 3) {
+                return 1;
+            }
+            fseek(voc_fd, 0, SEEK_END);
+            block_start = ftell(voc_fd);
+            if (fwrite(extra_block_header, 1, 4, voc_fd) != 4) {
+                return 1;
+            }
+            samples = 0;
+            extra_block++;
+        }
+        else
+        {
+            rlen[0] = (BYTE)((samples * 2) & 0xff);
+            rlen[1] = (BYTE)(((samples * 2) >> 8) & 0xff);
+            rlen[2] = (BYTE)(((samples * 2) >> 16) & 0xff);
+            fseek(voc_fd, block_start + 1, SEEK_SET);
+            if (fwrite(rlen, 1, 3, voc_fd) != 3) {
+                return 1;
+            }
+            fseek(voc_fd, 0, SEEK_END);
+            block_start = ftell(voc_fd);
+            if (fwrite(extra_block_header, 1, 4, voc_fd) != 4) {
+                return 1;
+            }
+            samples = 0;
+        }
     }
-  }    
 
-  if (nr!=fwrite(pbuf, sizeof(SWORD), nr, voc_fd))
-    return 1;
+    if (nr != fwrite(pbuf, sizeof(SWORD), nr, voc_fd)) {
+        return 1;
+    }
 
-  /* Swap the bytes back just in case. */
-#ifdef WORDS_BIGENDIAN
-  for (i=0; i<nr; i++)
-  {
-    pbuf[i]=(((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
-  }
-#endif
+    /* Swap the bytes back just in case. */
+    #ifdef WORDS_BIGENDIAN
+    for (i = 0; i < nr; i++) {
+        pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
+    }
+    #endif
 
-  /* Accumulate number of samples. */
-  samples+=(int)nr;
+    /* Accumulate number of samples. */
+    samples += (int)nr;
 
-  return 0;
+    return 0;
 }
 
 static void voc_close(void)
 {
-  BYTE rlen[3];
+    int res = -1;
+    BYTE rlen[3];
 
-  rlen[0]=(BYTE)((samples*2) & 0xff);
-  rlen[1]=(BYTE)(((samples*2) >> 8) & 0xff);
-  rlen[2]=(BYTE)(((samples*2) >> 16) & 0xff);
-  fseek(voc_fd, block_start+1, SEEK_SET);
-  fwrite(rlen, 1, 3, voc_fd);
-  fclose(voc_fd);
-  voc_fd=NULL;
+    rlen[0] = (BYTE)((samples*2) & 0xff);
+    rlen[1] = (BYTE)(((samples*2) >> 8) & 0xff);
+    rlen[2] = (BYTE)(((samples*2) >> 16) & 0xff);
+    fseek(voc_fd, block_start + 1, SEEK_SET);
+    if (fwrite(rlen, 1, 3, voc_fd) == 3) {
+        res = 0;
+    }
+    fclose(voc_fd);
+    voc_fd = NULL;
+    
+    if (res < 0) {
+        log_debug("ERROR voc_close failed.");
+    }
 }
 
 static sound_device_t voc_device =

@@ -211,31 +211,34 @@ static int pcxdrv_write(screenshot_t *screenshot)
 
 static int pcxdrv_close(screenshot_t *screenshot)
 {
-  gfxoutputdrv_data_t *sdata;
-  unsigned int i;
-  BYTE pcx_color_prefix[2]="\x0c";
-  BYTE pcx_colors[256*3];
+    gfxoutputdrv_data_t *sdata;
+    unsigned int i;
+    int res = -1;
+    BYTE pcx_color_prefix[2]="\x0c";
+    BYTE pcx_colors[256*3];
 
-  sdata = screenshot->gfxoutputdrv_data;
+    sdata = screenshot->gfxoutputdrv_data;
 
-  fwrite(pcx_color_prefix, 1, 1, sdata->fd);
+    if (fwrite(pcx_color_prefix, 1, 1, sdata->fd) == 1) {
 
-  for (i = 0; i < screenshot->palette->num_entries; i++)
-  {
-    pcx_colors[i*3]=screenshot->palette->entries[i].red;
-    pcx_colors[(i*3)+1]=screenshot->palette->entries[i].green;
-    pcx_colors[(i*3)+2]=screenshot->palette->entries[i].blue;
-  }
+        for (i = 0; i < screenshot->palette->num_entries; i++) {
+            pcx_colors[(i * 3)] = screenshot->palette->entries[i].red;
+            pcx_colors[(i * 3) + 1] = screenshot->palette->entries[i].green;
+            pcx_colors[(i * 3) + 2] = screenshot->palette->entries[i].blue;
+        }
 
-  fwrite(pcx_colors, 3*256, 1, sdata->fd);
+        if (fwrite(pcx_colors, (3 * 256), 1, sdata->fd) == (3 * 256)) {
+            res = 0;
+        }
+    }
 
-  fclose(sdata->fd);
-  lib_free(sdata->data);
-  lib_free(sdata->pcx_data);
-  lib_free(sdata->ext_filename);
-  lib_free(sdata);
+    fclose(sdata->fd);
+    lib_free(sdata->data);
+    lib_free(sdata->pcx_data);
+    lib_free(sdata->ext_filename);
+    lib_free(sdata);
 
-  return 0;
+    return res;
 }
 
 static int pcxdrv_save(screenshot_t *screenshot, const char *filename)

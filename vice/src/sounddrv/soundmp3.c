@@ -97,15 +97,17 @@ static int mp3_write(SWORD *pbuf, size_t nr)
 
 static void mp3_close(void)
 {
-  int mp3_size;
+    int mp3_size;
 
-  mp3_size=vice_lame_encode_flush(gfp, mp3_buffer, MP3_BUFFER_SIZE);
+    mp3_size=vice_lame_encode_flush(gfp, mp3_buffer, MP3_BUFFER_SIZE);
 
-  fwrite(mp3_buffer, 1, mp3_size, mp3_fd);
-  fclose(mp3_fd);
-  mp3_fd=NULL;
-  
-  vice_lame_close(gfp);
+    if (fwrite(mp3_buffer, 1, mp3_size, mp3_fd) != mp3_size) {
+        log_debug("ERROR mp3_close failed.");
+    }
+    fclose(mp3_fd);
+    mp3_fd=NULL;
+
+    vice_lame_close(gfp);
 }
 
 static sound_device_t mp3_device =

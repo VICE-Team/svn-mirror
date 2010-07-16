@@ -199,7 +199,13 @@ static char *try_uncompress_with_gzip(const char *name)
 
         len = gzread(fdsrc, (void *)buf, 256);
         if (len > 0) {
-            fwrite((void *)buf, 1, (size_t)len, fddest);
+            if (fwrite((void *)buf, 1, (size_t)len, fddest) < len) {
+                gzclose(fdsrc);
+                fclose(fddest);
+                ioutil_remove(tmp_name);
+                lib_free(tmp_name);
+                return NULL;
+            }
         }
     } while (len > 0);
 
@@ -435,7 +441,9 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     nameoffset = search ? -1 : 0;
     len = search ? strlen(search) : 0;
     while (!feof(fd) && !found) {
-        fgets(tmp, 1024, fd);
+        if (fgets(tmp, 1024, fd) == NULL) {
+            break;
+        }
         l = strlen(tmp);
         while (l > 0) {
             tmp[--l] = 0;

@@ -31,6 +31,7 @@
 #include "sound.h"
 #include "types.h"
 #include "archdep.h"
+#include "log.h"
 
 static FILE *iff_fd=NULL;
 static int samples=0;
@@ -97,56 +98,63 @@ static int iff_write(SWORD *pbuf, size_t nr)
 
 static void iff_close(void)
 {
-  BYTE blen[4];
-  BYTE slen[4];
-  BYTE flen[4];
+    int res = -1;
+    BYTE blen[4];
+    BYTE slen[4];
+    BYTE flen[4];
 
-  blen[0]=(BYTE)((samples >> 24) & 0xff);
-  blen[1]=(BYTE)((samples >> 16) & 0xff);
-  blen[2]=(BYTE)((samples >> 8) & 0xff);
-  blen[3]=(BYTE)(samples & 0xff);
+    blen[0] = (BYTE)((samples >> 24) & 0xff);
+    blen[1] = (BYTE)((samples >> 16) & 0xff);
+    blen[2] = (BYTE)((samples >> 8) & 0xff);
+    blen[3] = (BYTE)(samples & 0xff);
 
-  if (stereo==1)
-  {
-    slen[0]=(BYTE)((samples >> 25) & 0xff);
-    slen[1]=(BYTE)((samples >> 17) & 0xff);
-    slen[2]=(BYTE)((samples >> 9) & 0xff);
-    slen[3]=(BYTE)((samples >> 1) & 0xff);
+    if (stereo == 1) {
+        slen[0] = (BYTE)((samples >> 25) & 0xff);
+        slen[1] = (BYTE)((samples >> 17) & 0xff);
+        slen[2] = (BYTE)((samples >> 9) & 0xff);
+        slen[3] = (BYTE)((samples >> 1) & 0xff);
 
-    flen[0]=(BYTE)(((samples+52) >> 24) & 0xff);
-    flen[1]=(BYTE)(((samples+52) >> 16) & 0xff);
-    flen[2]=(BYTE)(((samples+52) >> 8) & 0xff);
-    flen[3]=(BYTE)((samples+52) & 0xff);
-  }
-  else
-  {
-    slen[0]=blen[0];
-    slen[1]=blen[1];
-    slen[2]=blen[2];
-    slen[3]=blen[3];
+        flen[0] = (BYTE)(((samples+52) >> 24) & 0xff);
+        flen[1] = (BYTE)(((samples+52) >> 16) & 0xff);
+        flen[2] = (BYTE)(((samples+52) >> 8) & 0xff);
+        flen[3] = (BYTE)((samples+52) & 0xff);
+    } else {
+        slen[0] = blen[0];
+        slen[1] = blen[1];
+        slen[2] = blen[2];
+        slen[3] = blen[3];
 
-    flen[0]=(BYTE)(((samples+40) >> 24) & 0xff);
-    flen[1]=(BYTE)(((samples+40) >> 16) & 0xff);
-    flen[2]=(BYTE)(((samples+40) >> 8) & 0xff);
-    flen[3]=(BYTE)((samples+40) & 0xff);
-  }
-  fseek(iff_fd, 4, SEEK_SET);
-  fwrite(flen, 1, 4, iff_fd);
-  fseek(iff_fd, 20, SEEK_SET);
-  fwrite(slen, 1, 4, iff_fd);
+        flen[0] = (BYTE)(((samples+40) >> 24) & 0xff);
+        flen[1] = (BYTE)(((samples+40) >> 16) & 0xff);
+        flen[2] = (BYTE)(((samples+40) >> 8) & 0xff);
+        flen[3] = (BYTE)((samples+40) & 0xff);
+    }
+    fseek(iff_fd, 4, SEEK_SET);
+    if (fwrite(flen, 1, 4, iff_fd) != 4) {
+        goto fail;
+    }
+    fseek(iff_fd, 20, SEEK_SET);
+    if (fwrite(slen, 1, 4, iff_fd) != 4) {
+        goto fail;
+    }
 
-  if (stereo==1)
-  {
-    fseek(iff_fd, 56, SEEK_SET);
-    fwrite(blen, 1, 4, iff_fd);
-  }
-  else
-  {
-    fseek(iff_fd, 44, SEEK_SET);
-    fwrite(blen, 1, 4, iff_fd);
-  }
-  fclose(iff_fd);
-  iff_fd = NULL;
+    if (stereo == 1) {
+        fseek(iff_fd, 56, SEEK_SET);
+    } else {
+        fseek(iff_fd, 44, SEEK_SET);
+    }
+    if (fwrite(blen, 1, 4, iff_fd) != 4) {
+        goto fail;
+    }
+    res = 0;
+
+fail:
+    fclose(iff_fd);
+    iff_fd = NULL;
+
+    if (res < 0) {
+        log_debug("ERROR iff_close failed.");
+    }
 }
 
 static sound_device_t iff_device =

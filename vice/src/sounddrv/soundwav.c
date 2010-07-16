@@ -32,6 +32,7 @@
 #include "sound.h"
 #include "types.h"
 #include "archdep.h"
+#include "log.h"
 
 static FILE *wav_fd = NULL;
 static int samples = 0;
@@ -100,6 +101,7 @@ static int wav_write(SWORD *pbuf, size_t nr)
 
 static void wav_close(void)
 {
+    int res = -1;
     BYTE rlen[4];
     BYTE dlen[4];
     DWORD rifflen = samples*2 + 36;
@@ -109,13 +111,18 @@ static void wav_close(void)
     le_store(dlen, datalen, 4);
 
     fseek(wav_fd, 4, SEEK_SET);
-    fwrite(rlen, 1, 4, wav_fd);
-
-    fseek(wav_fd, 32, SEEK_CUR);
-    fwrite(dlen, 1, 4, wav_fd);
+    if (fwrite(rlen, 1, 4, wav_fd) == 4) {
+        fseek(wav_fd, 32, SEEK_CUR);
+        if (fwrite(dlen, 1, 4, wav_fd) == 4) {
+            res = 0;
+        }
+    }
 
     fclose(wav_fd);
     wav_fd = NULL;
+    if (res != 0) {
+        log_debug("ERROR wav_close failed.");
+    }
 }
 
 static sound_device_t wav_device =

@@ -353,11 +353,15 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     char buffer[buffer_size];
     int all_units = 0, i;
 
-    if (filename == NULL || *filename == 0 || (fp = fopen(filename, MODE_READ)) == NULL)
+    if (filename == NULL || *filename == 0 || (fp = fopen(filename, MODE_READ)) == NULL) {
         return -1;
+    }
 
     buffer[0] = '\0';
-    fgets(buffer, buffer_size, fp);
+    if (fgets(buffer, buffer_size, fp) == NULL) {
+        fclose(fp);
+        return -1;
+    }
 
     if (strncmp(buffer, flip_file_header, strlen(flip_file_header)) != 0) {
         log_message(LOG_DEFAULT, "File %s is not a fliplist file", filename);
@@ -376,7 +380,10 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
         char *b;
 
         buffer[0] = '\0';
-        fgets(buffer, buffer_size, fp);
+        if (fgets(buffer, buffer_size, fp) == NULL) {
+            fclose(fp);
+            return -1;
+        }
 
         if (strncmp("UNIT ", buffer, 5) == 0) {
             if (all_units != 0) {

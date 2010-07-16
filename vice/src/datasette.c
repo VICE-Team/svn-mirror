@@ -780,7 +780,9 @@ inline static void bit_write(void)
         current_image->current_file_seek_position++;
     } else {
         write_gap = 0;
-        fwrite(&write_gap, 1, 1, current_image->fd);
+        if (fwrite(&write_gap, 1, 1, current_image->fd) != 1) {
+            log_debug("datasette bit_write failed.");
+        }
         current_image->current_file_seek_position++;
         if (current_image->version >= 1) {
             BYTE long_gap[3];

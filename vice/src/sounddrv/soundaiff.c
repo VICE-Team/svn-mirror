@@ -31,6 +31,7 @@
 #include "sound.h"
 #include "types.h"
 #include "archdep.h"
+#include "log.h"
 
 static FILE *aiff_fd=NULL;
 static int samples=0;
@@ -103,36 +104,49 @@ static int aiff_write(SWORD *pbuf, size_t nr)
 
 static void aiff_close(void)
 {
-  BYTE slen[4];
-  BYTE alen[4];
-  BYTE flen[4];
+    int res = -1;
+    BYTE slen[4];
+    BYTE alen[4];
+    BYTE flen[4];
 
-  alen[0]=(BYTE)((samples >> 24) & 0xff);
-  alen[1]=(BYTE)((samples >> 16) & 0xff);
-  alen[2]=(BYTE)((samples >> 8) & 0xff);
-  alen[3]=(BYTE)(samples & 0xff);
+    alen[0]=(BYTE)((samples >> 24) & 0xff);
+    alen[1]=(BYTE)((samples >> 16) & 0xff);
+    alen[2]=(BYTE)((samples >> 8) & 0xff);
+    alen[3]=(BYTE)(samples & 0xff);
 
-  slen[0]=(BYTE)((((samples*2)+8) >> 24) & 0xff);
-  slen[1]=(BYTE)((((samples*2)+8) >> 16) & 0xff);
-  slen[2]=(BYTE)((((samples*2)+8) >> 8) & 0xff);
-  slen[3]=(BYTE)(((samples*2)+8) & 0xff);
+    slen[0]=(BYTE)((((samples*2)+8) >> 24) & 0xff);
+    slen[1]=(BYTE)((((samples*2)+8) >> 16) & 0xff);
+    slen[2]=(BYTE)((((samples*2)+8) >> 8) & 0xff);
+    slen[3]=(BYTE)(((samples*2)+8) & 0xff);
 
-  flen[0]=(BYTE)((((samples*2)+46) >> 24) & 0xff);
-  flen[1]=(BYTE)((((samples*2)+46) >> 16) & 0xff);
-  flen[2]=(BYTE)((((samples*2)+46) >> 8) & 0xff);
-  flen[3]=(BYTE)(((samples*2)+46) & 0xff);
+    flen[0]=(BYTE)((((samples*2)+46) >> 24) & 0xff);
+    flen[1]=(BYTE)((((samples*2)+46) >> 16) & 0xff);
+    flen[2]=(BYTE)((((samples*2)+46) >> 8) & 0xff);
+    flen[3]=(BYTE)(((samples*2)+46) & 0xff);
 
-  fseek(aiff_fd, 4, SEEK_SET);
-  fwrite(flen, 1, 4, aiff_fd);
+    fseek(aiff_fd, 4, SEEK_SET);
+    if (fwrite(flen, 1, 4, aiff_fd) != 4) {
+        goto fail;
+    }
 
-  fseek(aiff_fd, 22, SEEK_SET);
-  fwrite(alen, 1, 4, aiff_fd);
+    fseek(aiff_fd, 22, SEEK_SET);
+    if (fwrite(alen, 1, 4, aiff_fd) != 4) {
+        goto fail;
+    }
 
-  fseek(aiff_fd, 42, SEEK_SET);
-  fwrite(slen, 1, 4, aiff_fd);
+    fseek(aiff_fd, 42, SEEK_SET);
+    if (fwrite(slen, 1, 4, aiff_fd) != 4) {
+        goto fail;
+    }
+    res = 0;
 
-  fclose(aiff_fd);
-  aiff_fd=NULL;
+fail:
+    fclose(aiff_fd);
+    aiff_fd=NULL;
+
+    if (res < 0) {
+        log_debug("ERROR aiff_close failed.");
+    }
 }
 
 static sound_device_t aiff_device =

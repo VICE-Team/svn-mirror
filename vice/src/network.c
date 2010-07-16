@@ -372,7 +372,9 @@ static void network_server_connect_trap(WORD addr, void *data)
         }
         buf_size = util_file_length(f);
         buf = lib_malloc(buf_size);
-        fread(buf, 1, buf_size, f);
+        if (fread(buf, 1, buf_size, f) <= 0) {
+            log_debug("network_server_connect_trap read failed.");
+        }
         fclose(f);
 
         ui_display_statustext(translate_text(IDGS_SENDING_SNAPSHOT_TO_CLIENT), 0);
@@ -621,7 +623,9 @@ int network_connect_client(void)
         return -1;
     }
 
-    fwrite(buf, 1, buf_size, f);
+    if (fwrite(buf, 1, buf_size, f) <= 0) {
+        log_debug("network_connect_client write failed.");
+    }
     fclose(f);
     lib_free(buf);
 

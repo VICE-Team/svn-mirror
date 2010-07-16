@@ -298,7 +298,9 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         log_warning(LOG_DEFAULT,
                     "ROM `%s': two bytes too large - removing assumed "
                     "start address.", complete_path);
-        fread((char *)dest, 1, 2, fp);
+        if(fread((char *)dest, 1, 2, fp) < 2) {
+            goto fail;
+        }
         rsize -= 2;
     }
     if (rsize < ((size_t)maxsize)) {

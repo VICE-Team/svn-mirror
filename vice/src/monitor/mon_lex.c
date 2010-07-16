@@ -1480,7 +1480,10 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO fwrite( yytext, yyleng, 1, yyout )
+#define ECHO \
+        { if (fwrite( yytext, yyleng, 1, yyout ) < 1) { \
+            YY_FATAL_ERROR( "output failed" ); \
+        }}
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
