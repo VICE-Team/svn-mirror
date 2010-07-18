@@ -102,8 +102,7 @@ static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 
     tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    if (tpip->drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(tpip->drive);
+    rotation_rotate_disk(tpip->drive);
 
     tpip->drive->GCR_write_value = byte;
 }
@@ -127,8 +126,7 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     tpip->drive->read_write_mode = byte & 0x10;
 
     if ((byte & 0x10) != (tpi_context->oldpc & 0x10)) {
-        if (tpip->drive->byte_ready_active == 0x06)
-            rotation_rotate_disk(tpip->drive);
+        rotation_rotate_disk(tpip->drive);
     }
 }
 
@@ -178,8 +176,7 @@ static BYTE read_pc(tpi_context_t *tpi_context)
 
     tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    if (tpip->drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(tpip->drive);
+    rotation_rotate_disk(tpip->drive);
 
     byte = (tpi_context->c_tpi[TPI_PC] | ~(tpi_context->c_tpi)[TPI_DDPC])
            /* Bit 0, 1 */

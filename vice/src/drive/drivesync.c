@@ -68,8 +68,7 @@ void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
     dnr = drv->mynumber;
 
     if (rom_loaded) {
-        if (drv->drive->byte_ready_active == 0x06)
-            rotation_rotate_disk(drv->drive);
+        rotation_rotate_disk(drv->drive);
         rotation_init(new_sync ? 1 : 0, dnr);
         drv->drive->clock_frequency = (new_sync) ? 2 : 1;
         drivesync_factor(drv);

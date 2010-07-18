@@ -31,9 +31,6 @@
 #include "rotation.h"
 #include "types.h"
 
-
-/*#define NEW_SYNC*/
-
 #define ACCUM_MAX 0x10000
 
 #define ROTATION_TABLE_SIZE 0x1000
@@ -178,6 +175,10 @@ void rotation_rotate_disk(drive_t *dptr)
     int tdelta, bit;
     int bits_moved = 0;
 
+    if ((dptr->byte_ready_active & 4) == 0) {
+        return;
+    }
+
     rptr = &rotation[dptr->mynumber];
 
     /* Calculate the number of bits that have passed under the R/W head since
@@ -272,8 +273,10 @@ void rotation_rotate_disk(drive_t *dptr)
                      * byte boundary, and since the bus is shared, it's reasonable
                      * to guess that it would be loaded with whatever was last read. */
                     rptr->last_write_data = dptr->GCR_read;
-                    dptr->byte_ready_edge = 1;
-                    dptr->byte_ready_level = 1;
+                    if ((dptr->byte_ready_active & 2) != 0) {
+                        dptr->byte_ready_edge = 1;
+                        dptr->byte_ready_level = 1;
+                    }
                 }
             }
         }
@@ -294,8 +297,10 @@ void rotation_rotate_disk(drive_t *dptr)
             if (++ rptr->bit_counter == 8) {
                 rptr->bit_counter = 0;
                 rptr->last_write_data = dptr->GCR_write_value;
-                dptr->byte_ready_edge = 1;
-                dptr->byte_ready_level = 1;
+                if ((dptr->byte_ready_active & 2) != 0) {
+                   dptr->byte_ready_edge = 1;
+                   dptr->byte_ready_level = 1;
+                }
             }
         }
     }
@@ -329,8 +334,7 @@ void rotation_byte_read(drive_t *dptr)
         else
             dptr->attach_detach_clk = (CLOCK)0;
     } else {
-        if (dptr->byte_ready_active == 0x06)
-            rotation_rotate_disk(dptr);
+        rotation_rotate_disk(dptr);
     }
 }
 

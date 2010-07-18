@@ -44,8 +44,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     dnr = vice_ptr_to_uint(data);
     drive = drive_context[dnr]->drive;
 
-    if (drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(drive);
+    rotation_rotate_disk(drive);
 
     rotation_overflow_callback(sub, dnr);
 

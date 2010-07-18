@@ -88,8 +88,7 @@ static void glue_pport_update(drive_context_t *drv)
     if ((old_output ^ output) & 0x60)
         rotation_speed_zone_set((output >> 5) & 0x3, drv->mynumber);
 
-    if (drv->drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(drv->drive);
+    rotation_rotate_disk(drv->drive);
 
     input = drive_writeprotect_sense(drv->drive)
             | (drv->drive->byte_ready_level ? 0x80 : 0);

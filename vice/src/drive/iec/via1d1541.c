@@ -270,8 +270,7 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
         || via1p->drive->type == DRIVE_TYPE_1571
         || via1p->drive->type == DRIVE_TYPE_1571CR) {
         BYTE tmp;
-        if (via1p->drive->byte_ready_active == 0x6)
-            rotation_rotate_disk(via1p->drive);
+        rotation_rotate_disk(via1p->drive);
         tmp = (via1p->drive->byte_ready_level ? 0 : 0x80)
             | (via1p->drive->current_half_track == 2 ? 0 : 1);
         return (tmp & ~(via_context->via[VIA_DDRA]))

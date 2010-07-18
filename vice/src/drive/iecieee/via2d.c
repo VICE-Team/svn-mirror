@@ -94,12 +94,10 @@ BYTE REGPARM2 via2d_peek(drive_context_t *ctxptr, WORD addr)
 
 void via2d_update_pcr(int pcrval, drive_t *dptr)
 {
+    rotation_rotate_disk(dptr);
     int bra = dptr->byte_ready_active;
     dptr->read_write_mode = pcrval & 0x20;
     dptr->byte_ready_active = (bra & ~0x02) | (pcrval & 0x02);
-    if (dptr->byte_ready_active == 6 && bra != 6) {
-        rotation_begins(dptr);
-    }
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
@@ -108,9 +106,7 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
     drivevia2_context_t *via2p;
 
     via2p = (drivevia2_context_t *)(via_context->prv);
-
-    if (via2p->drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(via2p->drive);
+    rotation_rotate_disk(via2p->drive);
 
     via2p->drive->GCR_write_value = byte;
 
@@ -127,8 +123,10 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
 {
     drivevia2_context_t *via2p;
     int bra;
-
+ 
     via2p = (drivevia2_context_t *)(via_context->prv);
+
+    rotation_rotate_disk(via2p->drive);
 
     if (via2p->drive->led_status)
         via2p->drive->led_active_ticks += *(via_context->clk_ptr)
@@ -148,7 +146,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     if ((poldpb ^ byte) & 0x04) {   /* Motor on/off */
         bra = via2p->drive->byte_ready_active;
         via2p->drive->byte_ready_active = (bra & ~0x04) | (byte & 0x04);
-        if (via2p->drive->byte_ready_active == 6 && bra != 6) {
+        if ((byte & 0x04) != 0) {
             rotation_begins(via2p->drive);
         }
     }
@@ -173,6 +171,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     drivevia2_context_t *via2p;
 
     via2p = (drivevia2_context_t *)(via_context->prv);
+    rotation_rotate_disk(via2p->drive);
 
     /* FIXME: this should use via_set_ca2() and via_set_cb2() */
     if (byte != via_context->via[VIA_PCR]) {
@@ -186,10 +185,6 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         bit 5 is the write output to the analog circuitry:
         0 = writing, 0x20 = reading */
         via2d_update_pcr(tmp, via2p->drive);
-        if ((byte & 0x20) != (via_context->via[addr] & 0x20)) {
-            if (via2p->drive->byte_ready_active == 0x06)
-                rotation_rotate_disk(via2p->drive);
-        }
     }
     return byte;
 }
@@ -253,9 +248,7 @@ static BYTE read_prb(via_context_t *via_context)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    if (via2p->drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(via2p->drive);
-
+    rotation_rotate_disk(via2p->drive);
     byte = ((rotation_sync_found(via2p->drive)
            | drive_writeprotect_sense(via2p->drive))
            & ~(via_context->via[VIA_DDRB]))

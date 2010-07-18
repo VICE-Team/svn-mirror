@@ -289,8 +289,7 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
     if (machine_drive_rom_check_loaded(type) < 0)
         return -1;
 
-    if (drv->drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(drv->drive);
+    rotation_rotate_disk(drv->drive);
 
     drivesync_clock_frequency(type, drv->drive);
 

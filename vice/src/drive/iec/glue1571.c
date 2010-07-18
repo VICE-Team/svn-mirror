@@ -37,8 +37,7 @@ void glue1571_side_set(unsigned int side, struct drive_s *drive)
 
     num = drive->current_half_track;
 
-    if (drive->byte_ready_active == 0x06)
-        rotation_rotate_disk(drive);
+    rotation_rotate_disk(drive);
 
     drive_gcr_data_writeback(drive);
 
