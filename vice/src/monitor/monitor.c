@@ -1334,7 +1334,7 @@ void mon_display_io_regs(MON_ADDR addr)
                 if (addr > 0) {
                     if (mem_ioreg_list_base[n].dump) {
                         mon_out("\n");
-                        if (mem_ioreg_list_base[n].dump(start) < 0) {
+                        if (mem_ioreg_list_base[n].dump(addr_location(start)) < 0) {
                             mon_out("No details available.\n");
                         }
                     } else {

@@ -947,7 +947,8 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0xd000) && (addr <= 0xd03f)) {
         return vicii_dump(&vicii);
     } else if ((addr >= 0xd400) && (addr <= 0xd43f)) {
