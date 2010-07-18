@@ -811,7 +811,7 @@ static int sound_run_sound(void)
             }
 
             if (delta_t) {
-                return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
+                log_warning(sound_log, translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
             }
         }
     } else {
