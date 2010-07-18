@@ -91,7 +91,7 @@ void archdep_network_shutdown(void)
 int archdep_init(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
-
+    log_verbose_init(*argc, argv);
     archdep_ui_init(*argc, argv);
     return 0;
 }
@@ -311,7 +311,7 @@ int archdep_num_text_lines(void)
 
     s = getenv("LINES");
     if (s == NULL) {
-        printf("No LINES!\n");
+        log_verbose("LINES not set.");
         return -1;
     }
     return atoi(s);
@@ -323,6 +323,7 @@ int archdep_num_text_columns(void)
 
     s = getenv("COLUMNS");
     if (s == NULL) {
+        log_verbose("COLUMNS not set.");
         return -1;
     }
     return atoi(s);

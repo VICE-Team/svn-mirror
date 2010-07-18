@@ -166,6 +166,7 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Super Explode 5", "se5", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Magic Voice", "mv", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 2", "ar2", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Mach 5", "mach5", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
@@ -1386,6 +1387,11 @@ int main(int argc, char *argv[])
     }
     if (input_filenames == 0) {
         printf("Error: no input filename\n");
+        cleanup();
+        exit(1);
+    }
+    if (!strcmp(output_filename, input_filename[0])) {
+        printf("Error: output filename = input filename\n");
         cleanup();
         exit(1);
     }

@@ -42,6 +42,8 @@ extern log_t log_open(const char *id);
 extern int log_close(log_t log);
 extern void log_close_all(void);
 extern void log_enable(int on);
+extern int log_set_verbose(int n);
+extern int log_verbose_init(int argc, char **argv);
 
 #ifdef __GNUC__
 extern int log_message(log_t log, const char *format, ...)
@@ -52,11 +54,14 @@ extern int log_error(log_t log, const char *format, ...)
     __attribute__((format(printf, 2, 3)));
 extern int log_debug(const char *format, ...)
     __attribute__((format(printf, 1, 2)));
+extern int log_verbose(const char *format, ...)
+    __attribute__((format(printf, 1, 2)));
 #else
 extern int log_message(log_t log, const char *format, ...);
 extern int log_warning(log_t log, const char *format, ...);
 extern int log_error(log_t log, const char *format, ...);
 extern int log_debug(const char *format, ...);
+extern int log_verbose(const char *format, ...);
 #endif
 
 #endif

@@ -48,7 +48,7 @@ typedef unsigned int DWORD;
 typedef signed int SDWORD;
 #elif SIZEOF_UNSIGNED_LONG == 4
 typedef unsigned long DWORD;
-typedef signed long SWORD;
+typedef signed long SDWORD;
 #else
 #error Cannot find a proper 32-bit type!
 #endif

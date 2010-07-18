@@ -129,6 +129,7 @@ static int tape_cmd(int nargs, char **args);
 static int unit_cmd(int nargs, char **args);
 static int unlynx_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
+static int verbose_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
 
@@ -325,6 +326,10 @@ const command_t command_list[] = {
       "Validate the disk in unit <unit>.  If <unit> is not specified, validate\n"
       "the disk in the current unit.",
       0, 1, validate_cmd },
+    { "verbose",
+      "verbose",
+      "Enable verbose output.",
+      0, 0, verbose_cmd },
     { "write",
       "write <source> [<destination>]",
       "Write <source> from the file system into <destination> on a disk image.",      1, 2, write_cmd },
@@ -1414,6 +1419,11 @@ static int quit_cmd(int nargs, char **args)
     return 0;   /* OSF1 cc complains */
 }
 
+static int verbose_cmd(int nargs, char **args)
+{
+    return log_set_verbose(1);
+}
+
 static int read_cmd(int nargs, char **args)
 {
     char *src_name_petscii, *src_name_ascii;
@@ -2422,7 +2432,7 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
     long lbsize, bsize;
     char cname[20], ftype;
     BYTE val;
-    int cnt;
+    int cnt, len;
     char buff[256];
     cbmdos_cmd_parse_t cmd_parse;
 
@@ -2432,22 +2442,28 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         /* Read CBM filename */
         cnt = 0;
         while (1) {
-            fread(&val, 1, 1, f);
-            if (val != 13 && cnt < 20 - 1)
+            if (fread(&val, 1, 1, f) != 1) {
+                return FD_RDERR;
+            }
+            if (val != 13 && cnt < 20 - 1) {
                 cname[cnt++] = val;
-            else
+            } else {
                 break;
+            }
         }
         cname[cnt] = 0;
 
         /* Read the block size */
         cnt = 0;
         while (1) {
-            fread(&val, 1, 1, f);
-            if (val != 13)
+            if (fread(&val, 1, 1, f) != 1) {
+                return FD_RDERR;
+            }
+            if (val != 13) {
                 buff[cnt++] = val;
-            else
+            } else {
                 break;
+            }
         }
         buff[cnt] = 0;
 
@@ -2481,11 +2497,14 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         /* Get the byte size of the last block +1 */
         cnt = 0;
         while (1) {
-            fread(&val, 1, 1, f);
-            if (val != 13)
+            if (fread(&val, 1, 1, f) != 1) {
+                return FD_RDERR;
+            }
+            if (val != 13) {
                 buff[cnt++] = val;
-            else
+            } else {
                 break;
+            }
         }
         buff[cnt] = 0;
 
@@ -2512,7 +2531,9 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         }
 
         while (cnt != 0) {
-            fread(&val, 1, 1, f2);
+            if (fread(&val, 1, 1, f2) != 1) {
+                return FD_RDERR;
+            }
             if (vdrive_iec_write(vdrive, val, 1)) {
                 fprintf(stderr, "No space on image ?\n");
                 break;
@@ -2522,8 +2543,12 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
         vdrive_iec_close(vdrive, 1);
 
         /* Adjust for the last block */
-        if (lbsize < 255)
-            fread(buff, 1, 254 + 1 - lbsize, f2);
+        if (lbsize < 255) {
+            len = 254 + 1 - lbsize;
+            if (fread(buff, 1, len, f2) != len) {
+                return FD_RDERR;
+            }
+        }
         dentries--;
     }
 
@@ -2565,13 +2590,17 @@ static int unlynx_cmd(int nargs, char **args)
     /* Look for the 0, 0, 0 sign of the end of BASIC.  */
     cnt = 0;
     while (1) {
-        fread(&val, 1, 1, f);
-        if (val == 0)
+        if (fread(&val, 1, 1, f) != 1) {
+            return FD_RDERR;
+        }
+        if (val == 0) {
             cnt++;
-        else
+        } else {
             cnt = 0;
-        if (cnt == 3)
+        }
+        if (cnt == 3) {
             break;
+        }
     }
 
     /* Bypass the 1st return in the file */
@@ -2580,11 +2609,14 @@ static int unlynx_cmd(int nargs, char **args)
     /* Get the directory block size */
     cnt = 0;
     while (1) {
-        fread(&val, 1, 1, f);
-        if (val != 13)
+        if (fread(&val, 1, 1, f) != 1) {
+            return FD_RDERR;
+        }
+        if (val != 13) {
             buff[cnt++] = val;
-        else
+        } else {
             break;
+        }
     }
 
     buff[cnt] = 0;
@@ -2598,11 +2630,14 @@ static int unlynx_cmd(int nargs, char **args)
     /* Get the number of dir entries */
     cnt = 0;
     while (1) {
-        fread(&val, 1, 1, f);
-        if (val != 13 && cnt < 256 - 1)
+        if (fread(&val, 1, 1, f) != 1) {
+            return FD_RDERR;
+        }
+        if (val != 13 && cnt < 256 - 1) {
             buff[cnt++] = val;
-        else
+        } else {
             break;
+        }
     }
 
     buff[cnt] = 0;
@@ -2974,8 +3009,9 @@ int main(int argc, char **argv)
             args[0] = argv[i] + 1;
             nargs = 1;
             i++;
-            for (; i < argc && *argv[i] != '-'; i++)
+            for (; i < argc && *argv[i] != '-'; i++) {
                 args[nargs++] = argv[i];
+            }
             if (lookup_and_execute_command(nargs, args) < 0) {
                 retval = 1;
                 break;

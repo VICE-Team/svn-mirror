@@ -69,6 +69,7 @@
 #include "isepic.h"
 #include "kcs.h"
 #include "log.h"
+#include "mach5.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "magicdesk.h"

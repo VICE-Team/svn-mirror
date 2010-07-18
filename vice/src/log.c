@@ -46,6 +46,7 @@ static char **logs = NULL;
 static log_t num_logs = 0;
 
 static int log_enabled = 1; /* cv: this flag allows to temporarly disable all logging */
+static int verbose = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -83,6 +84,30 @@ static int set_log_file_name(const char *val, void *param)
     return 0;
 }
 
+static int log_verbose_opt(const char *param, void *extra_param)
+{
+    verbose = vice_ptr_to_int(extra_param);
+    return 0;
+}
+
+int log_set_verbose(int n)
+{
+    if (n) {
+        return log_verbose_opt(NULL, (void*)1);
+    }
+    return log_verbose_opt(NULL, (void*)0);
+}
+
+int log_verbose_init(int argc, char **argv)
+{
+    if (argc > 1) {
+        if (!strcmp("-verbose", argv[1])) {
+            log_set_verbose(1);
+        }
+    }
+    return 0;
+}
+
 #ifndef __X1541__
 static const resource_string_t resources_string[] = {
     { "LogFileName", "", RES_EVENT_NO, NULL,
@@ -106,6 +131,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_LOG_FILE_NAME,
       NULL, NULL },
+    { "-verbose", CALL_FUNCTION, 0,
+      log_verbose_opt, (void*)1, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable verbose log output.") },
     { NULL }
 };
 
@@ -293,6 +323,18 @@ int log_debug(const char *format, ...)
 
     va_start(ap, format);
     return log_helper(LOG_DEFAULT, 0, format, ap);
+}
+
+int log_verbose(const char *format, ...)
+{
+    va_list ap;
+
+    if (verbose) {
+        va_start(ap, format);
+        return log_helper(LOG_DEFAULT, 0, format, ap);
+    } else {
+        return 0;
+    }
 }
 
 void log_enable(int on)

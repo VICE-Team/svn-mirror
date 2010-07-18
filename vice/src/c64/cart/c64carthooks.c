@@ -79,6 +79,7 @@
 #include "kcs.h"
 #include "lib.h"
 #include "log.h"
+#include "mach5.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "magicdesk.h"
@@ -286,6 +287,11 @@ static const cmdline_option_t cmdline_options[] =
     /* TODO: CARTRIDGE_MAGIC_FORMEL */
     /* TODO: CARTRIDGE_MIKRO_ASSEMBLER */
     /* TODO: CARTRIDGE_MMC64 */
+    { "-cartmach5", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_MACH5, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB Mach 5 cartridge image") },
     { "-cartmmcr", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_MMC_REPLAY, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -609,6 +615,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             }
 #endif
             return ide64_bin_attach(filename, rawcart);
+        case CARTRIDGE_MACH5:
+            return mach5_bin_attach(filename, rawcart);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_bin_attach(filename, rawcart);
         case CARTRIDGE_P64:
@@ -744,6 +752,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_KCS_POWER:
             kcs_config_setup(rawcart);
+            break;
+        case CARTRIDGE_MACH5:
+            mach5_config_setup(rawcart);
             break;
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_config_setup(rawcart);
@@ -1047,6 +1058,9 @@ void cart_detach(int type)
         case CARTRIDGE_KCS_POWER:
             kcs_detach();
             break;
+        case CARTRIDGE_MACH5:
+            mach5_detach();
+            break;
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_detach();
             break;
@@ -1163,6 +1177,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_init();
+            break;
+        case CARTRIDGE_MACH5:
+            mach5_config_init();
             break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_config_init();

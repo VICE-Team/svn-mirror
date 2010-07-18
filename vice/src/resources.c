@@ -562,10 +562,11 @@ void resources_set_value_event(void *data, int size)
     name = (const char *)data;
     valueptr = name + strlen(name) + 1;
     r = lookup(name);
-    if (r->type == RES_INTEGER)
-        resources_set_value_internal(r, (resource_value_t)*(DWORD *)valueptr);
-    else
+    if (r->type == RES_INTEGER) {
+        resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(DWORD*)valueptr));
+    } else {
         resources_set_value_internal(r, (resource_value_t)valueptr);
+    }
 }
 
 int resources_set_int_sprintf(const char *name, int value, ...)
@@ -1070,7 +1071,7 @@ static char *string_resource_item(int num, const char *delim)
 
     switch (resources[num].type) {
       case RES_INTEGER:
-        v = (resource_value_t)*(int *)resources[num].value_ptr;
+        v = (resource_value_t) uint_to_void_ptr(*(int *)resources[num].value_ptr);
         line = lib_msprintf("%s=%d%s", resources[num].name, vice_ptr_to_int(v), delim);
         break;
       case RES_STRING:

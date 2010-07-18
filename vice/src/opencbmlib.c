@@ -71,7 +71,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         opencbm_so = vice_dynlib_open(OPENCBM_SO_NAME);
 
         if (opencbm_so == NULL) {
-            log_debug("opening dynamic library " OPENCBM_SO_NAME " failed!");
+            log_verbose("opening dynamic library " OPENCBM_SO_NAME " failed!");
             return -1;
         }
 
@@ -89,7 +89,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         GET_SYMBOL_AND_TEST(cbm_get_eoi);
         GET_SYMBOL_AND_TEST(cbm_reset);
         
-        log_debug("sucessfully loaded " OPENCBM_SO_NAME);
+        log_verbose("sucessfully loaded " OPENCBM_SO_NAME);
     }
 
     return 0;
