@@ -94,8 +94,8 @@ BYTE REGPARM2 via2d_peek(drive_context_t *ctxptr, WORD addr)
 
 void via2d_update_pcr(int pcrval, drive_t *dptr)
 {
-    rotation_rotate_disk(dptr);
     int bra = dptr->byte_ready_active;
+    rotation_rotate_disk(dptr);
     dptr->read_write_mode = pcrval & 0x20;
     dptr->byte_ready_active = (bra & ~0x02) | (pcrval & 0x02);
 }
