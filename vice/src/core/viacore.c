@@ -798,6 +798,10 @@ static void viacore_intt1(CLOCK offset, void *data)
         /* load counter with latch value */
         via_context->tai += via_context->tal + 2;
         alarm_set(via_context->t1_alarm, via_context->tai);
+        
+        /* Let tau also keep up with the cpu clock
+           this should avoid "% (via_context->tal + 2)" case */
+        via_context->tau += via_context->tal + 2;
     }
     via_context->ifr |= VIA_IM_T1;
     update_myviairq_rclk(via_context, rclk);
@@ -839,6 +843,7 @@ static void viacore_clk_overflow_callback(CLOCK sub, void *data)
         return;
     }
 
+#if 0
     via_context->tau = via_context->tal + 2 -
                         ((*(via_context->clk_ptr) + sub - via_context->tau)
                         % (via_context->tal + 2));
@@ -846,6 +851,10 @@ static void viacore_clk_overflow_callback(CLOCK sub, void *data)
     via_context->tbu = via_context->tbl + 2 -
                         ((*(via_context->clk_ptr) + sub - via_context->tbu)
                         % (via_context->tbl + 2));
+#else
+    via_context->tau -= sub;
+    via_context->tbu -= sub;
+#endif
 
     if (via_context->tai) {
         via_context->tai -= sub;
