@@ -199,8 +199,13 @@ static int final_plus_common_attach(void)
 int final_plus_bin_attach(const char *filename, BYTE *rawcart)
 {
     DBG(("fc+ bin attach\n"));
+
+    /* accept 32k and 24k binaries */
     if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+        if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+        memmove(&rawcart[0x2000],rawcart,0x6000);
     }
 
     return final_plus_common_attach();

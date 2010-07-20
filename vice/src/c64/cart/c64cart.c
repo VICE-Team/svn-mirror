@@ -171,7 +171,8 @@ static char *cartfile = NULL; /* file name */
 static int c64cart_type = CARTRIDGE_NONE; /* is == CARTRIDGE_CRT (0) if CRT file */
 static int crttype = CARTRIDGE_NONE; /* contains CRT ID if c64cart_type == 0 */
 
-static alarm_t *cartridge_alarm = NULL; /* cartridge alarm context */
+static alarm_t *cartridge_nmi_alarm = NULL; /* cartridge nmi alarm context */
+static alarm_t *cartridge_freeze_alarm = NULL; /* cartridge freeze button alarm context */
 static unsigned int cartridge_int_num; /* irq number for cart */
 
 /* Type of the cartridge attached. ("Main Slot") */
@@ -636,28 +637,56 @@ void cartridge_release_freeze(void)
 void cart_trigger_nmi(void)
 {
     maincpu_set_nmi(cartridge_int_num, IK_NMI);
-    alarm_set(cartridge_alarm, maincpu_clk + 3);
-}
-
-/* called by c64carthooks.c:cartridge_trigger_freeze */
-void cart_trigger_freeze(void)
-{
-    maincpu_set_nmi(cartridge_int_num, IK_NMI);
-    alarm_set(cartridge_alarm, maincpu_clk + 3);
+    alarm_set(cartridge_nmi_alarm, maincpu_clk + 3);
 }
 
 /* called by the NMI alarm */
 static void cart_nmi_alarm_triggered(CLOCK offset, void *data)
 {
-    alarm_unset(cartridge_alarm);
-    cart_nmi_alarm(offset, data);
+    alarm_unset(cartridge_nmi_alarm);
+    cart_nmi_alarm(offset, data); /* c64carthooks.c */
+}
+
+/* called by the Freeze Button alarm */
+static void cart_freeze_alarm_triggered(CLOCK offset, void *data)
+{
+    DBG(("cart_freeze_alarm_triggered\n"));
+    alarm_unset(cartridge_freeze_alarm);
+
+    if(cart_freeze_allowed()) {  /* c64carthooks.c */
+        DBG(("cart_trigger_freeze delay 3 cycles\n"));
+        maincpu_set_nmi(cartridge_int_num, IK_NMI);
+        alarm_set(cartridge_nmi_alarm, maincpu_clk + 3);
+    }
+}
+
+/*
+   called by the UI when the freeze button is pressed
+
+   sets cartridge_freeze_alarm to delay button press up to one frame, then
+
+   - cart_freeze_alarm_triggered
+     - cart_freeze_allowed (c64carthooks.c)
+       checks wether freeze is allowed for currently active cart(s)
+     if yes, sets up cartridge_nmi_alarm to delay NMI 3 cycles
+
+   - cart_nmi_alarm_triggered
+     - cart_nmi_alarm (c64carthooks.c)
+
+*/
+void cartridge_trigger_freeze(void)
+{
+    int delay=1+(int)(((float)machine_get_cycles_per_frame())*rand()/(RAND_MAX+1.0));
+    alarm_set(cartridge_freeze_alarm, maincpu_clk + delay);
+    DBG(("cartridge_trigger_freeze delay %d cycles\n", delay));
 }
 
 /* called by c64.c:machine_specific_init */
 void cartridge_init(void)
 {
     cart_init();
-    cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cart_nmi_alarm_triggered, NULL);
+    cartridge_nmi_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cart_nmi_alarm_triggered, NULL);
+    cartridge_freeze_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cart_freeze_alarm_triggered, NULL);
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
 

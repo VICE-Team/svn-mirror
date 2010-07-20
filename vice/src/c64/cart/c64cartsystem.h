@@ -38,7 +38,6 @@
 /* from c64cart.c */
 extern int cart_attach_cmdline(const char *param, void *extra_param);
 
-extern void cart_trigger_freeze(void);
 extern void cart_trigger_nmi(void);
 extern void cart_detach_main(void);
 
@@ -46,6 +45,7 @@ extern int cart_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
 
 /* from c64carthooks.c */
 extern void cart_nmi_alarm(CLOCK offset, void *data);
+extern int cart_freeze_allowed(void);
 
 extern void cart_init(void);
 extern int cart_resources_init(void);

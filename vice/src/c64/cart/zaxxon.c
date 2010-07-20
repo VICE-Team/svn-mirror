@@ -79,10 +79,14 @@ static int zaxxon_common_attach(void)
     return 0;
 }
 
+/* accept 20k (4k+16k) and 24k (8k+16k) binaries */
 int zaxxon_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+    if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        if (util_file_load(filename, rawcart, 0x5000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+        memmove(&rawcart[0x1000], &rawcart[0x0000], 0x5000);
     }
     return zaxxon_common_attach();
 }

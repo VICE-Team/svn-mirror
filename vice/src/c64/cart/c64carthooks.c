@@ -1408,7 +1408,7 @@ void cartridge_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* called by cart_nmi_alarm_triggered, aftern an alarm occured */
+/* called by cart_nmi_alarm_triggered, after an alarm occured */
 void cart_freeze(int type)
 {
     DBG(("CART: freeze\n"));
@@ -1502,16 +1502,16 @@ void cart_nmi_alarm(CLOCK offset, void *data)
 }
 
 /* called by the UI when the freeze button is pressed */
-void cartridge_trigger_freeze(void)
+int cart_freeze_allowed(void)
 {
     int maintype = cart_getid_slotmain();
     /* "Slot 0" */
     /* "Slot 1" */
     if (expert_freeze_allowed()) {
-        cart_trigger_freeze();
+        return 1;
     }
     if (isepic_freeze_allowed()) {
-        cart_trigger_freeze();
+        return 1;
     }
 
     /* "Main Slot" */
@@ -1533,19 +1533,19 @@ void cartridge_trigger_freeze(void)
         case CARTRIDGE_GAME_KILLER:
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
-            cart_trigger_freeze();
-            break;
+            return 1;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_freeze_allowed()) {
-                cart_trigger_freeze();
+                return 1;
             }
             break;
         case CARTRIDGE_MMC_REPLAY:
             if (mmcreplay_freeze_allowed()) {
-                cart_trigger_freeze();
+                return 1;
             }
             break;
     }
+    return 0;
 }
 
 
