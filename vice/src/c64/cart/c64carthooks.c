@@ -1338,6 +1338,8 @@ void cartridge_init_config(void)
 */
 void cartridge_reset(void)
 {
+    cart_unset_alarms();
+
     /* "IO Slot" */
     if (aciacart_cart_enabled()) {
         aciacart_reset();

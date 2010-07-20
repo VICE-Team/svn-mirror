@@ -681,6 +681,12 @@ void cartridge_trigger_freeze(void)
     DBG(("cartridge_trigger_freeze delay %d cycles\n", delay));
 }
 
+void cart_unset_alarms(void)
+{
+    alarm_unset(cartridge_freeze_alarm);
+    alarm_unset(cartridge_nmi_alarm);
+}
+
 /* called by c64.c:machine_specific_init */
 void cartridge_init(void)
 {

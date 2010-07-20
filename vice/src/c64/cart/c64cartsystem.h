@@ -42,6 +42,7 @@ extern void cart_trigger_nmi(void);
 extern void cart_detach_main(void);
 
 extern int cart_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
+extern void cart_unset_alarms(void);
 
 /* from c64carthooks.c */
 extern void cart_nmi_alarm(CLOCK offset, void *data);
