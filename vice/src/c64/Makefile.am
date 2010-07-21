@@ -79,8 +79,7 @@ libc64_a_SOURCES = \
 	psid.h \
 	psiddrv.a65 \
 	psiddrv.h \
-	reloc65.c \
-	tfearch.h
+	reloc65.c
 
 libc64sc_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -148,8 +147,7 @@ libc64sc_a_SOURCES = \
 	psid.h \
 	psiddrv.a65 \
 	psiddrv.h \
-	reloc65.c \
-	tfearch.h
+	reloc65.c
 
 libc64c64dtv_a_SOURCES = \
 	c64bus.c \
@@ -199,8 +197,7 @@ libc64c128_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	patchrom.c \
-	patchrom.h \
-	tfearch.h
+	patchrom.h
 
 BUILT_SOURCES = psiddrv.h
 

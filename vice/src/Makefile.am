@@ -752,6 +752,16 @@ x64sc_owbin =
 x64sc_bin =
 endif
 
+# workaround for extra exe creation
+x128ow_SOURCES = maincpu.c
+x64ow_SOURCES = maincpu.c
+x64dtvow_SOURCES = maincpu.c
+x64scow_SOURCES = maincpu.c
+xcbm2ow_SOURCES = maincpu.c
+xpetow_SOURCES = maincpu.c
+xplus4ow_SOURCES = maincpu.c
+xvicow_SOURCES = maincpu.c
+
 if OWCC
 OW_progs = x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow
 else

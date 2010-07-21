@@ -144,6 +144,7 @@ libc64cart_a_SOURCES = \
 	supersnapshot4.h \
 	tfe.c \
 	tfe.h \
+	tfearch.h \
 	warpspeed.c \
 	warpspeed.h \
 	westermann.c \

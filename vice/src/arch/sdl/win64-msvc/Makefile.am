@@ -22,9 +22,7 @@ EXTRA_DIST = \
 	drive.vcproj \
 	fileio.vcproj \
 	fsdevice.vcproj \
-	genmsvcver.vcproj \
 	gentranslate.vcproj \
-	genwinres.vcproj \
 	gfxoutputdrv.vcproj \
 	iec.vcproj \
 	iec128dcr.vcproj \
@@ -70,6 +68,6 @@ EXTRA_DIST = \
 	xvic.vcproj \
 	zlib.vcproj \
 	vice.sln \
-	make-msvc-bindist.bat \
+	make-bindist.bat \
 	win64_x64.bat \
 	win64_ia64.bat
