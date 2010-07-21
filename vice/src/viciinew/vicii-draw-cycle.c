@@ -541,6 +541,23 @@ static DRAW_INLINE void draw_sprites8(unsigned int cycle_flags)
 static DRAW_INLINE void draw_border8(void)
 {
     BYTE csel = vicii.regs[0x16] & 0x8;
+
+#if 1
+    /* early exit for the no border case */
+    if ( !(border_state || vicii.main_border) ) {
+        return;
+    }
+    /* early exit for the continuous border case */
+    if ( border_state && vicii.main_border ) {
+        memset(render_buffer, COL_D020, 8);
+        return;
+    }
+#endif
+
+    /* 
+     * normal border handling in case there was a transition
+     * (the code below can handle all border logic)
+     */
     if (csel) {
         if (border_state) {
             memset(render_buffer, COL_D020, 8);
