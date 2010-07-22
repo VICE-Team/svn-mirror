@@ -1,3 +1,171 @@
+2010-07-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.6
+
+2010-07-22  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* build/Makefile.am, data/C64/Makefile.am,
+	  data/C64DTV/Makefile.am, src/arch/amigaos/Makefile.am,
+	  src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win64-msvc/Makefile.am,
+	  src/arch/unix/gp2x/wiz/Makefile.am,
+	  src/arch/win32/Makefile.am, src/cbm2/Makefile.am: Add missing
+	  files.
+
+2010-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/sdl/win64-msvc/Makefile.am,
+	  src/c64/Makefile.am, src/c64/cart/Makefile.am: make dist
+	  fixes.
+
+2010-07-21  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-draw-cycle.c: Added early exit
+	  optimizations to border rendering.
+
+	* src/viciinew/vicii-draw-cycle.c: Minor refactoring.
+
+2010-07-20  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartsystem.h: unset freeze alarms on cartridge
+	  reset
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartsystem.h, src/c64/cart/finalplus.c,
+	  src/c64/cart/zaxxon.c: distribute freeze button presses
+	  randomly over one frame. (fixes tracker #2459243) fixed
+	  .bin loading for fcplus and zaxxon.
+
+2010-07-19  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64cart.dsp: Added mach5.c to MSVC project
+	  file.
+
+2010-07-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/archdep.c, src/arch/unix/types.h, src/c1541.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/crt.c,
+	  src/c64/cart/mach5.c, src/c64/cart/mach5.h,
+	  src/c64/cart/spi-sdcard.c, src/cartconv.c, src/cartridge.h,
+	  src/log.c, src/log.h, src/opencbmlib.c, src/resources.c,
+	  src/sound.c: fixed some more warnings, added support for MACH5
+	  cartridge c1541: fixed warn_unused_result, removed (usually)
+	  unwanted output, added --verbose option to bring it back.
+	  cartconv: added support for MACH5 cartridge, refuse to
+	  overwrite input file
+
+2010-07-18  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/c64/c64memsc.c, src/mem.h, src/monitor/monitor.c: Fixed a
+	  rather nasty declaration mismatch causing the callback for
+	  mem_dump_io() to fail on some systems (e.g win32). Monitor
+	  commands like 'io d000' now work correctly.
+
+2010-07-18  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/core/viacore.c: Fixed/simplified VIA clkguard overflow by
+	  updating tau each T1 counter loop.
+
+2010-07-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/drive/drivecpu.c: When resetting C64 system, also reset
+	  the stop_clk so that drive cpu doesn't spin to the last
+	  timestamp value before reset.
+
+	* src/drive/iecieee/via2d.c: Move declaration at start, not at
+	  second line.
+
+	* src/drive/drive-overflow.c, src/drive/drive.c,
+	  src/drive/drivecpu.c, src/drive/drivesync.c,
+	  src/drive/iec/glue1571.c, src/drive/iec/via1d1541.c,
+	  src/drive/iecieee/via2d.c, src/drive/rotation.c,
+	  src/drive/tcbm/glue1551.c, src/drive/tcbm/tpid.c: Make drive
+	  rotation conditional on just "motor on", not both "motor on"
+	  and "byte ready". Make rotation a no-op if motor is off. Seems
+	  fo fix Glance's Snapshot.
+
+2010-07-18  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/sound.c: Just log buffer overflow instead of stopping
+	  sound as suggested by iAN CooG.
+
+2010-07-16  groepaz <groepaz@gmx.net>
+
+	* src/datasette.c, src/fliplist.c, src/gfxoutputdrv/bmpdrv.c,
+	  src/gfxoutputdrv/pcxdrv.c, src/monitor/mon_lex.c,
+	  src/network.c, src/sounddrv/soundaiff.c,
+	  src/sounddrv/soundiff.c, src/sounddrv/soundmp3.c,
+	  src/sounddrv/soundvoc.c, src/sounddrv/soundwav.c,
+	  src/sysfile.c, src/zfile.c: warn_unused_result killing spree
+	  :)
+
+	* src/gfxoutputdrv/pngdrv.c: dont use deprecated struct accesses
+	  (libpng 1.4)
+
+2010-07-15  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/drive/rotation.c: Applied patch by nojoopa for making weak
+	  bits work on 64-bit systems.
+
+2010-07-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/raster/raster-cache.h, src/vic20/vic-draw.c: Reuse
+	  existing cache variable instead of introducing another.
+
+	* src/raster/raster-cache.h, src/vic20/vic-draw.c: Fixed video
+	  cache for VIC regarding the reverse bit.
+
+2010-07-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/make-bindist_dingoo.sh: Remove .svn directories
+	  from Dingoo bindist. Patch by Peter Edwards.
+
+2010-07-13  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/Makefile.am, doc/html/plain/VIC-Addendum.txt,
+	  doc/html/plain/VIC-Appendum.txt: Renamed VIC-Appendum to
+	  VIC-Addendum.
+
+2010-07-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64acia1.c: fixed compilation again :)
+
+2010-07-12  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64acia1.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/final.c, src/c64/cart/final.h,
+	  src/c64/cart/generic.c, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/supersnapshot.c: cleanup, fixed typos, fixed
+	  compilation without HAVE_RS232
+
+2010-07-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/html/Makefile.am, doc/html/plain/VIC-Appendum.txt: Add
+	  VIC-Appendum (WIP)
+
+2010-07-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciinew/vicii-chip-model.c: Fix NTSC sprite DMA check
+	  cycles, assume old NTSC behaves similarly
+
+2010-07-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* configure.in: Remove --enable-dingux from the UI conflict test
+	  as the Dingux port uses SDL UI
+
+	* src/info.c: Add thanks to jbevren for old NTSC testing
+
+2010-07-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: Updated.
+
+	* src/gfxoutputdrv/doodledrv.c: Fix warnings about uninitialized
+	  fglum and bglum. This is only a workaround for now, correct
+	  fix still missing.
+
 2010-07-05  Hannu Nuotio <hannu.nuotio@tut.fi>
 
 	* src/vic20/cart/vic-fp.c: Fix vic-fp $9800 handling. Patch by
