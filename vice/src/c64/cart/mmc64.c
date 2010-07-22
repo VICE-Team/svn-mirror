@@ -35,6 +35,7 @@
 #include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -268,7 +269,7 @@ static int set_mmc64_enabled(int val, void *param)
         if (mmc64_activate() < 0) {
             return -1;
         }
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        cart_power_off();
 
         if (c64export_add(&export_res) < 0) {
             return -1;
@@ -284,7 +285,7 @@ static int set_mmc64_enabled(int val, void *param)
         if (mmc64_deactivate() < 0) {
             return -1;
         }
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        cart_power_off();
         c64export_remove(&export_res);
         mmc64_enabled = 0;
         export.exrom = 0;

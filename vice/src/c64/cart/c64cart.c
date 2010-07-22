@@ -499,10 +499,7 @@ int cartridge_attach_image(int type, const char *filename)
     DBG(("CART: attach RAW ID: %d\n", cartid));
     cart_attach(cartid, rawcart);
 
-    if (c64cartridge_reset) {
-        /* "Turn off machine before inserting cartridge" */
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    }
+    cart_power_off();
 
     if (cart_is_slotmain(cartid)) {
         /* "Main Slot" */
@@ -523,6 +520,14 @@ exiterror:
     return -1;
 }
 
+void cart_power_off(void)
+{
+    if (c64cartridge_reset) {
+        /* "Turn off machine before removing cartridge" */
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+}
+
 /*
     detach cartridge from "Main Slot"
 */
@@ -536,10 +541,7 @@ void cart_detach_main(void)
         DBG(("CART: unset cart config\n"));
         cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
-        if (c64cartridge_reset) {
-            /* "Turn off machine before removing cartridge" */
-            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        }
+        cart_power_off();
 
         /* reset "Main Slot" */
         mem_cartridge_type = CARTRIDGE_NONE;
@@ -580,10 +582,7 @@ void cartridge_detach_image(int type)
     DBG(("CART: unset cart config\n"));
     cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
-    if (c64cartridge_reset) {
-        /* "Turn off machine before removing cartridge" */
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    }
+    cart_power_off();
 }
 
 /*

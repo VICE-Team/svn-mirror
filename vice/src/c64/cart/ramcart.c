@@ -77,6 +77,7 @@
 
 #include "c64_256k.h"
 #include "c64cart.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -262,6 +263,7 @@ static int ramcart_deactivate(void)
 static int set_ramcart_enabled(int val, void *param)
 {
     if(!ramcart_enabled && val) {
+        cart_power_off();
         if (ramcart_activate() < 0) {
             return -1;
         }
@@ -275,6 +277,7 @@ static int set_ramcart_enabled(int val, void *param)
         export.exrom = 1;
         mem_pla_config_changed();
     } else if(ramcart_enabled && !val) {
+        cart_power_off();
         if (ramcart_deactivate() < 0) {
             return -1;
         }

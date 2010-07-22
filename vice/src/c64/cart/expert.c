@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64mem.h"
 #include "c64io.h"
@@ -287,6 +288,7 @@ static int set_expert_enabled(int val, void *param)
         expert_io1_list_item = NULL;
         c64export_remove(&export_res);
         expert_enabled = 0;
+        cart_power_off();
     } else if (!expert_enabled && val) {
         DBG(("EXPERT: enable\n"));
         expert_ram = lib_malloc(EXPERT_RAM_SIZE);
@@ -302,6 +304,7 @@ static int set_expert_enabled(int val, void *param)
         }
         expert_enabled = 1;
         resources_set_int("ExpertCartridgeMode", cartmode);
+        cart_power_off();
     }
     
     return 0;

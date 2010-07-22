@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "c64.h"
 #include "c64cartmem.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -341,6 +342,7 @@ static int set_ieee488_enabled(int val, void *param)
 {
     DBG(("IEEE: set_enabled: (%p) '%s' %d to %d\n", param, ieee488_filename, ieee488_enabled, val));
     if (ieee488_enabled && !val) {
+        cart_power_off();
 #ifdef DEBUGTPI
         if (tpi_list_item == NULL) {
             DBG(("IEEE: BUG: ieee488_enabled == 1 and tpi_list_item == NULL ?!\n"));
@@ -373,6 +375,7 @@ static int set_ieee488_enabled(int val, void *param)
                 }
             }
         } else {
+            cart_power_off();
             /* if the param is == NULL, then we should actually set the resource */
             if (c64export_add(&export_res) < 0) {
                 DBG(("IEEE: set_enabled did not register\n"));

@@ -844,6 +844,7 @@ static int set_magicvoice_enabled(int val, void *param)
 {
     DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, mv_enabled, val));
     if (mv_enabled && !val) {
+        cart_power_off();
 #ifdef MVDEBUG
         if (magicvoice_io2_list_item == NULL) {
             DBG(("MV: BUG: mv_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
@@ -868,6 +869,7 @@ static int set_magicvoice_enabled(int val, void *param)
                 }
             }
         } else {
+            cart_power_off();
             /* if the param is == NULL, then we should actually set the resource */
             if (c64export_add(&export_res) < 0) {
                 DBG(("MV: set_enabled did not register\n"));

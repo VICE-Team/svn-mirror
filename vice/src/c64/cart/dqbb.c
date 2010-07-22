@@ -51,6 +51,7 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -176,6 +177,7 @@ static int dqbb_deactivate(void)
 static int set_dqbb_enabled(int val, void *param)
 {
     if ((!val) && (dqbb_enabled)) {
+        cart_power_off();
         if (dqbb_deactivate() < 0) {
             return -1;
         }
@@ -185,6 +187,7 @@ static int set_dqbb_enabled(int val, void *param)
         dqbb_reset();
         dqbb_change_config();
     } else if ((val) && (!dqbb_enabled)) {
+        cart_power_off();
         if (c64export_add(&export_res) < 0) {
             return -1;
         }

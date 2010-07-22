@@ -64,6 +64,7 @@
 #include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64cartsystem.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -167,6 +168,7 @@ static int set_isepic_enabled(int val, void *param)
 {
     DBG(("set enabled: %d\n", val));
     if (isepic_enabled && !val) {
+        cart_power_off();
         lib_free(isepic_ram);
         isepic_ram = NULL;
         c64io_unregister(isepic_io1_list_item);
@@ -178,9 +180,8 @@ static int set_isepic_enabled(int val, void *param)
         if (isepic_switch) {
             cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
-    }
-
-    if (!isepic_enabled && val) {
+    } else if (!isepic_enabled && val) {
+        cart_power_off();
         isepic_ram = lib_malloc(ISEPIC_RAM_SIZE);
         isepic_io1_list_item = c64io_register(&isepic_io1_device);
         isepic_io2_list_item = c64io_register(&isepic_io2_device);
