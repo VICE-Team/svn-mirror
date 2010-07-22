@@ -453,7 +453,7 @@ static ui_menu_entry_t petui_snapshot_menu[] = {
       NULL, NULL, ui_snapshot_commands_submenu },
     { "--",
       NULL, NULL, ui_screenshot_commands_menu },
-    { "",
+    { "--",
       NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };

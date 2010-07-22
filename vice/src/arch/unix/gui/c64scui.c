@@ -183,12 +183,14 @@ static ui_menu_entry_t set_gluelogic_submenu[] = {
     { NULL }
 };
 
-
 static ui_menu_entry_t c64_model_submenu[] = {
     { N_("C64 model"),
       NULL, NULL, set_c64_model_submenu },
+    { "--" },
     { N_("VIC-II model"),
       NULL, NULL, set_vicii_model_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
     { N_("CIA 1 model"),
       NULL, NULL, set_cia1model_submenu },
     { N_("CIA 2 model"),
@@ -340,9 +342,6 @@ UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
     { N_("*Second SID base address"),
@@ -360,19 +359,9 @@ static ui_menu_entry_t sid_submenu[] = {
     { NULL },
 };
 
-UI_MENU_DEFINE_TOGGLE(Sound)
-
-static ui_menu_entry_t sid_options_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { N_("*Enable sound playback"),
-      (ui_callback_t)toggle_Sound, NULL, NULL },
-    { N_("*Second SID"),
-      (ui_callback_t)toggle_SidStereo, NULL, NULL },
-    { N_("*Second SID base address"),
-      NULL, NULL, set_sid_stereo_address_submenu },
-    { N_("*Emulate filters"),
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+static ui_menu_entry_t model_options_submenu[] = {
+    { N_("C64 model"),
+      NULL, NULL, set_c64_model_submenu },
     { NULL }
 };
 
@@ -380,6 +369,7 @@ static ui_menu_entry_t sid_options_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("256K RAM Expansion"),
@@ -442,6 +432,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--" },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
+    { N_("*Power Off on Cartridge Change"),
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
 
@@ -603,7 +595,7 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
       NULL, NULL, ui_snapshot_commands_submenu },
     { "--",
       NULL, NULL, ui_screenshot_commands_menu },
-    { "",
+    { "--",
       NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };
@@ -614,9 +606,7 @@ static ui_menu_entry_t x64_options_submenu[] = {
     { "--",
       NULL, NULL, joystick_options_submenu },
     { "--",
-      NULL, NULL, sid_options_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
+      NULL, NULL, model_options_submenu },
     { "--",
       NULL, NULL, io_extensions_submenu },
     { NULL }

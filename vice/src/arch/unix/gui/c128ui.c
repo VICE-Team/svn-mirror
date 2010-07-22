@@ -43,11 +43,14 @@
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidigimax.h"
+#include "uidqbb.h"
 #include "uidrive.h"
 #include "uidrivec128.h"
 #include "uieasyflash.h"
+#include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
+#include "uiisepic.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -205,19 +208,9 @@ static ui_menu_entry_t sid_submenu[] = {
     { NULL },
 };
 
-UI_MENU_DEFINE_TOGGLE(Sound)
-
 static ui_menu_entry_t sid_options_submenu[] = {
     { N_("SID model"),
       NULL, NULL, sid_model_submenu },
-    { N_("*Enable sound playback"),
-      (ui_callback_t)toggle_Sound, NULL, NULL },
-    { N_("*Second SID"),
-      (ui_callback_t)toggle_SidStereo, NULL, NULL },
-    { N_("*Second SID base address"),
-      NULL, NULL, set_sid_stereo_address_submenu },
-    { N_("*Emulate filters"),
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { NULL }
 };
 
@@ -228,6 +221,7 @@ UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(InternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 UI_CALLBACK(set_function_rom_name)
 {
@@ -286,6 +280,13 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("RAM Expansion Unit"),
       NULL, NULL, reu_submenu },
     { "--" },
+    { N_("Double Quick Brown Box cartridge"),
+      NULL, NULL, dqbb_submenu },
+    { N_("Expert cartridge"),
+      NULL, NULL, expert_submenu },
+    { N_("ISEPIC cartridge"),
+      NULL, NULL, isepic_submenu },
+    { "--" },
     { N_("EasyFlash cartridge"),
       NULL, NULL, easyflash_submenu },
     { N_("IDE64 emulation"),
@@ -326,6 +327,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--" },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
+    { N_("*Power Off on Cartridge Change"),
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
 
@@ -536,7 +539,7 @@ static ui_menu_entry_t c128_snapshot_menu[] = {
       NULL, NULL, ui_snapshot_commands_submenu },
     { "--",
       NULL, NULL, screenshot_submenu },
-    { "",
+    { "--",
       NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };
@@ -548,8 +551,6 @@ static ui_menu_entry_t c128_options_menu[] = {
       NULL, NULL, joystick_options_submenu },
     { "--",
       NULL, NULL, sid_options_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
     { "--",
       NULL, NULL, io_extensions_submenu },
     { NULL }

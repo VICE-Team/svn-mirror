@@ -31,11 +31,13 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c64model.h"
 #include "debug.h"
 #include "icon.h"
 #include "machine.h"
 #include "machine-video.h"
 #include "resources.h"
+#include "sid.h"
 #include "uiapi.h"
 #include "uiattach.h"
 #include "uic64_256k.h"
@@ -79,17 +81,302 @@
 #include "uivicii.h"
 #include "vsync.h"
 
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
+/* ------------------------------------------------------------------------- */
+
+struct model_s {
+    int video;
+    int luma;
+    int cia;
+    int sid;
+    int sidtype;
+};
+
+static struct model_s c64models[] = {
+    {MACHINE_SYNC_PAL,     1, 0, 0, SID_MODEL_6581R4AR_3789 },
+    {MACHINE_SYNC_PAL,     1, 1, 1, SID_MODEL_8580R5_3691   },
+    {MACHINE_SYNC_PAL,     0, 0, 0, SID_MODEL_6581R4AR_3789 },
+    {MACHINE_SYNC_NTSC,    1, 0, 0, SID_MODEL_6581R4AR_3789 },
+    {MACHINE_SYNC_NTSC,    1, 1, 1, SID_MODEL_8580R5_3691   },
+    {MACHINE_SYNC_NTSCOLD, 0, 0, 0, SID_MODEL_6581R4AR_3789 },
+    {MACHINE_SYNC_PALN,    1, 0, 0, SID_MODEL_6581R4AR_3789 }
+};
+
+static int is_new_sid(int model)
+{
+    switch (model) {
+        case SID_MODEL_6581:
+        case SID_MODEL_6581R4:
+        case SID_MODEL_6581R3_4885:
+        case SID_MODEL_6581R3_0486S:
+        case SID_MODEL_6581R3_3984:
+        case SID_MODEL_6581R4AR_3789:
+        case SID_MODEL_6581R3_4485:
+        case SID_MODEL_6581R4_1986S:
+        default:
+            return 0;
+
+        case SID_MODEL_8580:
+        case SID_MODEL_8580D:
+        case SID_MODEL_8580R5_3691:
+        case SID_MODEL_8580R5_3691D:
+        case SID_MODEL_8580R5_1489:
+        case SID_MODEL_8580R5_1489D:
+            return 1;
+    }
+}
+
+static int model_get_temp(int video, int sid_model,
+                      int cia1_model, int cia2_model, int new_luma)
+{
+    int new_sid;
+    int i;
+
+    if (cia1_model != cia2_model) {
+        return C64MODEL_UNKNOWN;
+    }
+
+    new_sid = is_new_sid(sid_model);
+
+    for (i = 0; i < C64MODEL_NUM; ++i) {
+        if ((c64models[i].video == video)
+         && (c64models[i].luma == new_luma)
+         && (c64models[i].cia == cia1_model)
+         && (c64models[i].sid == new_sid)) {
+            return i;
+        }
+    }
+
+    return C64MODEL_UNKNOWN;
+}
+
+static int model_get(void)
+{
+    int video, sid_model, cia1_model, cia2_model, new_luma;
+
+    if ((resources_get_int("MachineVideoStandard", &video) < 0)
+     || (resources_get_int("SidModel", &sid_model) < 0)
+     || (resources_get_int("CIA1Model", &cia1_model) < 0)
+     || (resources_get_int("CIA2Model", &cia2_model) < 0)
+     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        return -1;
+    }
+
+    return model_get_temp(video, sid_model,
+                            cia1_model, cia2_model, new_luma);
+}
+
+static void model_set(int model)
+{
+    int old_model;
+    int old_engine;
+    int old_sid_model;
+    int old_type;
+    int new_sid_model;
+    int new_type;
+
+    old_model = model_get();
+
+    if ((model == old_model) || (model == C64MODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", c64models[model].video);
+    resources_set_int("CIA1Model", c64models[model].cia);
+    resources_set_int("CIA2Model", c64models[model].cia);
+    resources_set_int("VICIINewLuminances", c64models[model].luma);
+
+    /* Only change the SID model if the model changes from 6581 to 8580
+       This allows to switch between "pal"/"oldpal" without changing the specific SID model. */
+    resources_get_int("SidEngine", &old_engine);
+    resources_get_int("SidModel", &old_sid_model);
+    if (old_engine == SID_ENGINE_RESID_FP) {
+        new_sid_model = c64models[model].sidtype;
+    } else {
+        new_sid_model = c64models[model].sid;
+    }
+
+    old_type = is_new_sid(old_sid_model);
+    new_type = is_new_sid(new_sid_model);
+
+    if (old_type != new_type) {
+        sid_set_engine_model(old_engine, new_sid_model);
+    }
+}
+
+#define VICMODEL_UNKNOWN -1
+#define VICMODEL_NUM 5
+
+struct vicmodel_s {
+    int video;
+    int luma;
+};
+
+static struct vicmodel_s vicmodels[] = {
+    {MACHINE_SYNC_PAL,     1 },
+    {MACHINE_SYNC_PAL,     0 },
+    {MACHINE_SYNC_NTSC,    1 },
+    {MACHINE_SYNC_NTSCOLD, 0 },
+    {MACHINE_SYNC_PALN,    1 }
+};
+
+static int vicmodel_get_temp(int video,int new_luma)
+{
+    int i;
+
+    for (i = 0; i < VICMODEL_NUM; ++i) {
+        if ((vicmodels[i].video == video)
+         && (vicmodels[i].luma == new_luma)) {
+            return i;
+        }
+    }
+
+    return VICMODEL_UNKNOWN;
+}
+
+static int vicmodel_get(void)
+{
+    int video, new_luma;
+
+    if ((resources_get_int("MachineVideoStandard", &video) < 0)
+     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        return -1;
+    }
+
+    return vicmodel_get_temp(video, new_luma);
+}
+
+static void vicmodel_set(int model)
+{
+    int old_model;
+
+    old_model = vicmodel_get();
+
+    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", vicmodels[model].video);
+    resources_set_int("VICIINewLuminances", vicmodels[model].luma);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static UI_CALLBACK(radio_c64model)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        model_set(selected);
+        ui_update_menus();
+    } else {
+        model = model_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
+static ui_menu_entry_t set_c64_model_submenu[] = {
+    { "*C64 PAL", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_PAL, NULL },
+    { "*C64C PAL", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64C_PAL, NULL },
+    { "*C64 old PAL", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_OLD_PAL, NULL },
+    { "*C64 NTSC", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_NTSC, NULL },
+    { "*C64C NTSC", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64C_NTSC, NULL },
+    { "*C64 old NTSC", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_OLD_NTSC, NULL },
+    { "*Drean", (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_PAL_N, NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(noop_video_standard)
+{
+    return;
+}
 
 static ui_menu_entry_t set_video_standard_c64_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { N_("*Old NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
-    { N_("*PAL-N"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PALN, NULL },
+    /* PAL/NTSC switching is handled via VICII (or C64) model */
+    { N_("Switch using C64 or VIC-II model"), (ui_callback_t)noop_video_standard,
+      (ui_callback_data_t)0, NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(radio_VICIIModel)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        vicmodel_set(selected);
+        ui_update_menus();
+    } else {
+        model = vicmodel_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
+static ui_menu_entry_t set_vicii_model_submenu[] = {
+    { "*PAL-G", (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)0, NULL },
+    { "*Old PAL-G", (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)1, NULL },
+    { "*NTSC-M", (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)2, NULL },
+    { "*Old NTSC-M", (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)3, NULL },
+    { "*PAL-N", (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)4, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(CIA1Model)
+
+static ui_menu_entry_t set_cia1model_submenu[] = {
+    { N_("*6526 (old)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("*6526A (new)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(CIA2Model)
+
+static ui_menu_entry_t set_cia2model_submenu[] = {
+    { N_("*6526 (old)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("*6526A (new)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t c64_model_submenu[] = {
+    { N_("C64 model"),
+      NULL, NULL, set_c64_model_submenu },
+    { "--" },
+    { N_("VIC-II model"),
+      NULL, NULL, set_vicii_model_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
+    { N_("CIA 1 model"),
+      NULL, NULL, set_cia1model_submenu },
+    { N_("CIA 2 model"),
+      NULL, NULL, set_cia2model_submenu },
     { NULL }
 };
 
@@ -235,9 +522,6 @@ UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
     { N_("*Second SID base address"),
@@ -255,19 +539,9 @@ static ui_menu_entry_t sid_submenu[] = {
     { NULL },
 };
 
-UI_MENU_DEFINE_TOGGLE(Sound)
-
-static ui_menu_entry_t sid_options_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { N_("*Enable sound playback"),
-      (ui_callback_t)toggle_Sound, NULL, NULL },
-    { N_("*Second SID"),
-      (ui_callback_t)toggle_SidStereo, NULL, NULL },
-    { N_("*Second SID base address"),
-      NULL, NULL, set_sid_stereo_address_submenu },
-    { N_("*Emulate filters"),
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+static ui_menu_entry_t model_options_submenu[] = {
+    { N_("C64 model"),
+      NULL, NULL, set_c64_model_submenu },
     { NULL }
 };
 
@@ -275,6 +549,7 @@ static ui_menu_entry_t sid_options_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("256K RAM Expansion"),
@@ -337,6 +612,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--" },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
+    { N_("*Power Off on Cartridge Change"),
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
 
@@ -402,6 +679,8 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_menu[] = {
+    { N_("Model settings"),
+      NULL, NULL, c64_model_submenu },
     { N_("ROM settings"),
       NULL, NULL, c64_romset_submenu },
     { N_("VIC-II settings"),
@@ -496,7 +775,7 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
       NULL, NULL, ui_snapshot_commands_submenu },
     { "--",
       NULL, NULL, ui_screenshot_commands_menu },
-    { "",
+    { "--",
       NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };
@@ -507,9 +786,7 @@ static ui_menu_entry_t x64_options_submenu[] = {
     { "--",
       NULL, NULL, joystick_options_submenu },
     { "--",
-      NULL, NULL, sid_options_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
+      NULL, NULL, model_options_submenu },
     { "--",
       NULL, NULL, io_extensions_submenu },
     { NULL }
