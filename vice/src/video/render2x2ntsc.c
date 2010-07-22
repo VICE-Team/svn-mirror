@@ -1,7 +1,8 @@
 /*
- * render2x2pal.c - 2x2 PAL renderers
+ * render2x2ntsc.c - 2x2 NTSC renderers
  *
  * Written by
+ *  groepaz <groepaz@gmx.net> based on the pal renderers written by
  *  John Selck <graham@cruise.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -29,10 +30,16 @@
 #include <stdio.h>
 
 #include "render2x2.h"
-#include "render2x2pal.h"
+#include "render2x2ntsc.h"
 #include "types.h"
 #include "video-resources.h"
 #include "video-color.h"
+
+/*
+    right now this is basically the PAL renderer without delay line emulation
+
+    TODO: use NTSC color space and conversion matrix
+*/
 
 static inline
 void yuv_to_rgb(SDWORD y, SDWORD u, SDWORD v, SWORD *red, SWORD *grn, SWORD *blu)
@@ -249,20 +256,19 @@ void store_line_and_scanline_YVYU(
 #endif
 }
 
+
 static inline
 void get_yuv_from_video(
     const SDWORD unew, const SDWORD vnew,
-    SDWORD *const line, const int off_flip,
+    const int off_flip,
     SDWORD *const u, SDWORD *const v)
 {
-    *u = (unew + line[0]) * off_flip;
-    *v = (vnew + line[1]) * off_flip;
-    line[0] = unew;
-    line[1] = vnew;
+    *u = (unew) * off_flip;
+    *v = (vnew) * off_flip;
 }
 
 static inline
-void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
+void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        unsigned int xs, const unsigned int ys,
@@ -280,9 +286,9 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     const SDWORD *ytableh = color_tab->ytableh;
     const BYTE *tmpsrc;
     BYTE *tmptrg, *tmptrgscanline;
-    SDWORD *line, *cbtable, *crtable;
+    SDWORD *cbtable, *crtable;
     DWORD x, y, wfirst, wlast, yys;
-    SDWORD l, l2, u, u2, unew, v, v2, vnew, off, off_flip, shade;
+    SDWORD l, l2, u, u2, unew, v, v2, vnew, off_flip, shade;
 
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
@@ -292,31 +298,6 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     wlast = width & 1;
     width >>= 1;
 
-    line = color_tab->line_yuv_0;
-    /* get previous line into buffer. */
-    tmpsrc = ys > 0 ? src - pitchs : src;
-
-    if (ys & 1) {
-        cbtable = write_interpolated_pixels ? color_tab->cbtable : color_tab->cutable;
-        crtable = write_interpolated_pixels ? color_tab->crtable : color_tab->cvtable;
-    } else {
-        cbtable = write_interpolated_pixels ? color_tab->cbtable_odd : color_tab->cutable_odd;
-        crtable = write_interpolated_pixels ? color_tab->crtable_odd : color_tab->cvtable_odd;
-    }
-
-    /* Initialize line */
-    unew = cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]];
-    vnew = crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]];
-    for (x = 0; x < width + wfirst + 1; x++) {
-        unew += cbtable[tmpsrc[3]];
-        vnew += crtable[tmpsrc[3]];
-        line[0] = unew;
-        line[1] = vnew;
-        unew -= cbtable[tmpsrc[0]];
-        vnew -= crtable[tmpsrc[0]];
-        tmpsrc ++;
-        line += 2;
-    }
     /* That's all initialization we need for full lines. Unfortunately, for
      * scanlines we also need to calculate the RGB color of the previous
      * full line, and that requires initialization from 2 full lines above our
@@ -325,9 +306,9 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
      * for one full line after it! */
 
     /* Calculate odd line shading */
-    off = (int) (((float) video_resources.pal_oddlines_offset * (1.5f / 2000.0f) - (1.5f / 2.0f - 1.0f)) * (1 << 5));
     shade = (int) ((float) video_resources.pal_scanlineshade / 1000.0f * 256.f);
-    
+    off_flip = 1 << 6;
+
     /* height & 1 == 0. */
     for (y = yys; y < yys + height + 1; y += 2) {
 
@@ -356,27 +337,17 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
 
 	/* current source image for YUV xform */
         tmpsrc = src;
-	/* prev line's YUV-xformed data */
-        line = color_tab->line_yuv_0;
 
-	if (y & 2) { /* odd sourceline */
-            off_flip = off;
-            cbtable = write_interpolated_pixels ? color_tab->cbtable_odd : color_tab->cutable_odd;
-            crtable = write_interpolated_pixels ? color_tab->crtable_odd : color_tab->cvtable_odd;
-        } else {    
-            off_flip = 1 << 5;
-            cbtable = write_interpolated_pixels ? color_tab->cbtable : color_tab->cutable;
-            crtable = write_interpolated_pixels ? color_tab->crtable : color_tab->cvtable;
-        }
+        cbtable = write_interpolated_pixels ? color_tab->cbtable : color_tab->cutable;
+        crtable = write_interpolated_pixels ? color_tab->crtable : color_tab->cvtable;
 
         l = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
         unew = cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]] + cbtable[tmpsrc[3]];
         vnew = crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]] + crtable[tmpsrc[3]];
-	get_yuv_from_video(unew, vnew, line, off_flip, &u, &v);
+	get_yuv_from_video(unew, vnew, off_flip, &u, &v);
         unew -= cbtable[tmpsrc[0]];
         vnew -= crtable[tmpsrc[0]];
         tmpsrc += 1;
-        line += 2;
 
         /* actual line */
 	prevrgblineptr = &color_tab->prevrgbline[0];
@@ -384,11 +355,10 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
             l2 = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
             unew += cbtable[tmpsrc[3]];
             vnew += crtable[tmpsrc[3]];
-            get_yuv_from_video(unew, vnew, line, off_flip, &u2, &v2);
+            get_yuv_from_video(unew, vnew, off_flip, &u2, &v2);
             unew -= cbtable[tmpsrc[0]];
             vnew -= crtable[tmpsrc[0]];
             tmpsrc += 1;
-            line += 2;
 
             if (write_interpolated_pixels) {
                 store_func(tmptrg, tmptrgscanline, prevrgblineptr, shade, (l+l2)>>1, (u+u2)>>1, (v+v2)>>1);
@@ -410,11 +380,10 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
             l2 = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
             unew += cbtable[tmpsrc[3]];
             vnew += crtable[tmpsrc[3]];
-            get_yuv_from_video(unew, vnew, line, off_flip, &u2, &v2);
+            get_yuv_from_video(unew, vnew, off_flip, &u2, &v2);
             unew -= cbtable[tmpsrc[0]];
             vnew -= crtable[tmpsrc[0]];
             tmpsrc += 1;
-            line += 2;
 
             if (write_interpolated_pixels) {
                 store_func(tmptrg, tmptrgscanline, prevrgblineptr, shade, (l+l2)>>1, (u+u2)>>1, (v+v2)>>1);
@@ -436,7 +405,7 @@ void render_generic_2x2_pal(video_render_color_tables_t *color_tab,
     }
 }
 
-void render_UYVY_2x2_pal(video_render_color_tables_t *color_tab,
+void render_UYVY_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -444,12 +413,12 @@ void render_UYVY_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-  render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
+  render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                          xt, yt, pitchs, pitcht, viewport,
                          4, store_line_and_scanline_UYVY, 0);
 }
 
-void render_YUY2_2x2_pal(video_render_color_tables_t *color_tab,
+void render_YUY2_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -457,12 +426,12 @@ void render_YUY2_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-  render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
+  render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                          xt, yt, pitchs, pitcht, viewport,
                          4, store_line_and_scanline_YUY2, 0);
 }
 
-void render_YVYU_2x2_pal(video_render_color_tables_t *color_tab,
+void render_YVYU_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -470,12 +439,12 @@ void render_YVYU_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-  render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
+  render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                          xt, yt, pitchs, pitcht, viewport,
                          4, store_line_and_scanline_YVYU, 0);
 }
 
-void render_16_2x2_pal(video_render_color_tables_t *color_tab,
+void render_16_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -483,12 +452,12 @@ void render_16_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-    render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
+    render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
                            2, store_line_and_scanline_2, 1);
 }
 
-void render_24_2x2_pal(video_render_color_tables_t *color_tab,
+void render_24_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -496,12 +465,12 @@ void render_24_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-    render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
+    render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
                            3, store_line_and_scanline_3, 1);
 }
 
-void render_32_2x2_pal(video_render_color_tables_t *color_tab,
+void render_32_2x2_ntsc(video_render_color_tables_t *color_tab,
                        const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
@@ -509,7 +478,7 @@ void render_32_2x2_pal(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-    render_generic_2x2_pal(color_tab, src, trg, width, height, xs, ys,
+    render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
                            4, store_line_and_scanline_4, 1);
 }

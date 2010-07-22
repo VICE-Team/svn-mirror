@@ -30,11 +30,15 @@
 
 #include <stdio.h>
 
+#include "machine.h"
 #include "render1x1.h"
 #include "render1x1pal.h"
+#include "render1x1ntsc.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
+#include "render2x2ntsc.h"
 #include "renderscale2x.h"
+#include "resources.h"
 #include "types.h"
 #include "video-render.h"
 #include "video-resources.h"
@@ -48,7 +52,14 @@ static void video_render_pal_main(video_render_config_t *config,
                                   viewport_t *viewport)
 {
     video_render_color_tables_t *colortab;
-    int doublescan, delayloop, rendermode, scale2x;
+    int doublescan, delayloop, rendermode, scale2x, video;
+
+    resources_get_int("MachineVideoStandard", &video);
+    if ((video == MACHINE_SYNC_PAL) || (video == MACHINE_SYNC_PALN)) {
+        video = 1;
+    } else {
+        video = 0;
+    }
 
     rendermode = config->rendermode;
     doublescan = config->doublescan;
@@ -73,19 +84,36 @@ static void video_render_pal_main(video_render_config_t *config,
 
       case VIDEO_RENDER_PAL_1X1:
         if (delayloop && depth != 8) {
-            switch (depth) {
-              case 16:
-                render_16_1x1_pal(colortab, src, trg, width, height,
+            if (video) {
+                switch (depth) {
+                case 16:
+                    render_16_1x1_pal(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht);
+                    return;
+                case 24:
+                    render_24_1x1_pal(colortab, src, trg, width, height,
                                     xs, ys, xt, yt, pitchs, pitcht);
-                return;
-              case 24:
-                render_24_1x1_pal(colortab, src, trg, width, height,
-                                  xs, ys, xt, yt, pitchs, pitcht);
-                return;
-              case 32:
-                render_32_1x1_pal(colortab, src, trg, width, height,
-                                  xs, ys, xt, yt, pitchs, pitcht);
-                return;
+                    return;
+                case 32:
+                    render_32_1x1_pal(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht);
+                    return;
+                }
+            } else {
+                switch (depth) {
+                case 16:
+                    render_16_1x1_ntsc(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht);
+                    return;
+                case 24:
+                    render_24_1x1_ntsc(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht);
+                    return;
+                case 32:
+                    render_32_1x1_ntsc(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht);
+                    return;
+                }
             }
         } else {
             switch (depth) {
@@ -110,22 +138,42 @@ static void video_render_pal_main(video_render_config_t *config,
         return;
       case VIDEO_RENDER_PAL_2X2:
         if (delayloop && depth != 8) {
-            switch (depth) {
-              case 16:
-                render_16_2x2_pal(colortab, src, trg, width, height,
-                                  xs, ys, xt, yt, pitchs, pitcht,
-                                  viewport);
-                return;
-              case 24:
-                render_24_2x2_pal(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht,
-                                 viewport);
-                return;
-              case 32:
-                render_32_2x2_pal(colortab, src, trg, width, height,
-                                  xs, ys, xt, yt, pitchs, pitcht,
-                                  viewport);
-                return;
+            if (video) {
+                switch (depth) {
+                case 16:
+                    render_16_2x2_pal(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht,
+                                    viewport);
+                    return;
+                case 24:
+                    render_24_2x2_pal(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht,
+                                    viewport);
+                    return;
+                case 32:
+                    render_32_2x2_pal(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht,
+                                    viewport);
+                    return;
+                }
+            } else {
+                switch (depth) {
+                case 16:
+                    render_16_2x2_ntsc(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht,
+                                    viewport);
+                    return;
+                case 24:
+                    render_24_2x2_ntsc(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht,
+                                    viewport);
+                    return;
+                case 32:
+                    render_32_2x2_ntsc(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht,
+                                    viewport);
+                    return;
+                }
             }
         } else if (scale2x) {
             switch (depth) {

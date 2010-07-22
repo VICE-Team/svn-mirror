@@ -13,12 +13,16 @@ libvideo_a_SOURCES = \
 	render1x1.h \
 	render1x1pal.c \
 	render1x1pal.h \
+	render1x1ntsc.c \
+	render1x1ntsc.h \
 	render1x2.c \
 	render1x2.h \
 	render2x2.c \
 	render2x2.h \
 	render2x2pal.c \
 	render2x2pal.h \
+	render2x2ntsc.c \
+	render2x2ntsc.h \
 	renderscale2x.c \
 	renderscale2x.h \
 	renderyuv.c \
