@@ -19,6 +19,7 @@ libarchwizsys_a_SOURCES = \
 	gp2xwiz.h \
 	pollux_set.c \
 	pollux_set.h \
+	polluxregs.h \
 	sys_cacheflush.h \
 	sys_cacheflush.S \
 	uppermem.c \

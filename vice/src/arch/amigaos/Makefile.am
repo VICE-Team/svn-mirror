@@ -113,6 +113,7 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.c \
 	vsyncapi.c \
+	x64scns.c \
 	mui/filereq.c \
 	mui/filereq.h \
 	mui/mui.c \

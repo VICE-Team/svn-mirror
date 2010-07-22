@@ -76,6 +76,7 @@ EXTRA_DIST = \
 	viciicommon.tgt \
 	viciidtv.tgt \
 	viciinew.c \
+	viciinew.tgt \
 	viciinew-cmdline-options.c \
 	viciinew-color.c \
 	viciinew-draw.c \

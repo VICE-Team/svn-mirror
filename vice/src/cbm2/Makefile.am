@@ -23,6 +23,7 @@ libcbm2_a_SOURCES = \
 	cbm2acia.h \
 	cbm2acia1.c \
 	cbm2bus.c \
+	cbm2cart.h \
 	cbm2cia.h \
 	cbm2cia1.c \
 	cbm2cpu.c \

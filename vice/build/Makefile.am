@@ -11,6 +11,7 @@ EXTRA_DIST = \
 	macosx/build-vice-dist.sh \
 	macosx/build-ffmpeglame.sh \
 	macosx/build-vice-release.sh \
+	macosx/build-sdlmain.sh \
 	minix3/build-package.sh \
 	minix3/build-sdl-package.sh \
 	nextstep/build.sh \

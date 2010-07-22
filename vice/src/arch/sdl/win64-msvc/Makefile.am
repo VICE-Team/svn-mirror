@@ -16,8 +16,10 @@ EXTRA_DIST = \
 	c64sc.vcproj \
 	cartconv.vcproj \
 	cbm2.vcproj \
+	config.h \
 	core.vcproj \
 	crtc.vcproj \
+	dirent.h \
 	diskimage.vcproj \
 	drive.vcproj \
 	fileio.vcproj \
@@ -46,12 +48,15 @@ EXTRA_DIST = \
 	rtc.vcproj \
 	serial.vcproj \
 	sid.vcproj \
+	siddefs.h \
+	siddefs-fp.h \
 	sounddrv.vcproj \
 	tape.vcproj \
 	tcbm.vcproj \
 	vdc.vcproj \
 	vdrive.vcproj \
 	vic20.vcproj \
+	vice.manifest \
 	vicii.vcproj \
 	viciidtv.vcproj \
 	viciinew.vcproj \

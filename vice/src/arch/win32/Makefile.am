@@ -399,6 +399,7 @@ EXTRA_DIST = \
 	c64c128.dsp \
 	c64cart.dsp \
 	c64exp.dsp \
+	c64sc.dsp \
 	cartconv.dsp \
 	cbm2.dsp \
 	core.dsp \
@@ -437,6 +438,7 @@ EXTRA_DIST = \
 	resmenu.txt \
 	resstrings.txt \
 	rs232drv.dsp \
+	rtc.dsp \
 	serial.dsp \
 	sid.dsp \
 	sounddrv.dsp \
@@ -448,10 +450,12 @@ EXTRA_DIST = \
 	vic20cart.dsp \
 	vicii.dsp \
 	viciidtv.dsp \
+	viciinew.dsp \
 	video.dsp \
 	x128.dsp \
 	x64.dsp \
 	x64dtv.dsp \
+	x64sc.dsp \
 	xcbm2.dsp \
 	xpet.dsp \
 	xplus4.dsp \
