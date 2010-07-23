@@ -86,6 +86,10 @@ SOURCE="..\..\video\render1x1.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\video\render1x1ntsc.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\video\render1x1pal.c"
 # End Source File
 # Begin Source File
@@ -95,6 +99,10 @@ SOURCE="..\..\video\render1x2.c"
 # Begin Source File
 
 SOURCE="..\..\video\render2x2.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\video\render2x2ntsc.c"
 # End Source File
 # Begin Source File
 
