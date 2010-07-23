@@ -46,17 +46,7 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
         resources_set_int("PALEmulation", !delayloopemulation);
         ui_update_menus();
     } else {
-        int video_standard;
-
-        resources_get_int("MachineVideoStandard", &video_standard);
-
         ui_menu_set_tick(w, delayloopemulation);
-
-        if (video_standard == MACHINE_SYNC_PAL) {
-            ui_menu_set_sensitive(w, 1);
-        } else {
-            ui_menu_set_sensitive(w, 0);
-        }
     }
 }
 
