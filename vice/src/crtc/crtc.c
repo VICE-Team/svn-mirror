@@ -225,6 +225,33 @@ static inline void crtc_update_disp_char(void)
 */
 }
 
+/* return pixel aspect ratio for current video mode */
+/* FIXME: calculate proper values.
+   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
+   for an example calculation
+*/
+static float crtc_get_pixel_aspect(void)
+{
+/*
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 0.936f;
+        default:
+            return 0.75f;
+    }
+*/
+    return 1.0f; /* assume 1:1 for CRTC */
+}
+
+/* return type of monitor used for current video mode */
+static int crtc_get_crt_type(void)
+{
+    return 2; /* RGB */
+}
+
 /* update screen window */
 void crtc_update_window(void)
 {
@@ -249,6 +276,9 @@ void crtc_update_window(void)
                         CRTC_SCREEN_BORDERHEIGHT,
                         crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
                         0, 0);
+
+    crtc.raster.geometry->pixel_aspect_ratio = crtc_get_pixel_aspect();
+    crtc.raster.viewport->crt_type = crtc_get_crt_type();
 }
 
 /*--------------------------------------------------------------------*/

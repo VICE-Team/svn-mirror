@@ -270,6 +270,38 @@ void vicii_handle_pending_alarms_external_write(void)
         vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
 }
 
+/* return pixel aspect ratio for current video mode */
+/* FIXME: calculate proper values.
+   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
+   for an example calculation
+*/
+static float vicii_get_pixel_aspect(void)
+{
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 0.936f; /* "standard" PAL */
+        default:
+            return 0.75f; /* "standard" NTSC */
+    }
+}
+
+/* return type of monitor used for current video mode */
+static int vicii_get_crt_type(void)
+{
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 1; /* PAL */
+        default:
+            return 0; /* NTSC */
+    }
+}
+
 static void vicii_set_geometry(void)
 {
     unsigned int width, height;
@@ -293,6 +325,8 @@ static void vicii_set_geometry(void)
     video_ack_vga_mode();
 #endif
 
+    vicii.raster.geometry->pixel_aspect_ratio = vicii_get_pixel_aspect();
+    vicii.raster.viewport->crt_type = vicii_get_crt_type();
 }
 
 static int init_raster(void)

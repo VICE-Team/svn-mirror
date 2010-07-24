@@ -246,6 +246,37 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
     }
 }
 
+/* return pixel aspect ratio for current video mode */
+/* FIXME: calculate proper values.
+   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
+   for an example calculation
+*/
+static float ted_get_pixel_aspect(void)
+{
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 0.936f;
+        default:
+            return 0.75f;
+    }
+}
+
+/* return type of monitor used for current video mode */
+static int ted_get_crt_type(void)
+{
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 1; /* PAL */
+        default:
+            return 0; /* NTSC */
+    }
+}
 
 static void ted_set_geometry(void)
 {
@@ -267,7 +298,8 @@ static void ted_set_geometry(void)
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
-
+    ted.raster.geometry->pixel_aspect_ratio = ted_get_pixel_aspect();
+    ted.raster.viewport->crt_type = ted_get_crt_type();
 }
 
 static int init_raster(void)

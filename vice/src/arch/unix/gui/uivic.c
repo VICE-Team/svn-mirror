@@ -76,6 +76,13 @@ UI_MENU_DEFINE_TOGGLE(VICHwScale)
 
 UI_MENU_DEFINE_TOGGLE(VICScale2x)
 
+#ifdef HAVE_HWSCALE
+#ifdef USE_GNOMEUI
+UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
+UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
+#endif
+#endif
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 
@@ -144,6 +151,12 @@ ui_menu_entry_t vic_submenu[] = {
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_VICHwScale, NULL, NULL },
+#ifdef USE_GNOMEUI
+    { N_("*Keep aspect ratio"),
+      (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
+    { N_("*True aspect ratio"),
+      (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
+#endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { N_("*OpenGL Rastersynchronization"),

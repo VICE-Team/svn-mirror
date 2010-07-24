@@ -54,18 +54,14 @@ static void video_render_pal_main(video_render_config_t *config,
     video_render_color_tables_t *colortab;
     int doublescan, delayloop, rendermode, scale2x, video;
 
-    resources_get_int("MachineVideoStandard", &video);
-    if ((video == MACHINE_SYNC_PAL) || (video == MACHINE_SYNC_PALN)) {
-        video = 1;
-    } else {
-        video = 0;
-    }
+    video = viewport->crt_type;
 
     rendermode = config->rendermode;
     doublescan = config->doublescan;
     colortab = &config->color_tables;
     scale2x = config->scale2x;
 
+    /* FIXME: bad name. this toggles the CRT emulation */
     delayloop = video_resources.delayloop_emulation;
 
     /*

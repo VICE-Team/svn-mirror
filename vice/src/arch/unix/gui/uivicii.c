@@ -139,6 +139,13 @@ UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
 
+#ifdef HAVE_HWSCALE
+#ifdef USE_GNOMEUI
+UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
+UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
+#endif
+#endif
+
 static UI_CALLBACK(color_set)
 {
     if (!CHECK_MENUS) {
@@ -190,6 +197,12 @@ ui_menu_entry_t vicii_submenu[] = {
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_VICIIHwScale, NULL, NULL },
+#ifdef USE_GNOMEUI
+    { N_("*Keep aspect ratio"),
+      (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
+    { N_("*True aspect ratio"),
+      (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
+#endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { N_("*OpenGL Rastersynchronization"),

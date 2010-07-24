@@ -60,6 +60,9 @@ struct viewport_s {
 
     /* Only display canvas if this flag is set.  */
     int update_canvas;
+
+    /* type of emulated monitor, used to select renderer */
+    int crt_type;
 };
 typedef struct viewport_s viewport_t;
 
@@ -88,6 +91,8 @@ struct geometry_s {
 
     unsigned int extra_offscreen_border_left;
     unsigned int extra_offscreen_border_right;
+    /* true pixel aspect ratio of the current video mode */
+    float pixel_aspect_ratio;
 };
 typedef struct geometry_s geometry_t;
 

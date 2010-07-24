@@ -210,11 +210,13 @@ typedef struct {
     GtkWidget *shell;
     GtkWidget *topmenu;
     GtkWidget *status_bar;
+    GtkWidget *pal_ctrl;
     GtkLabel *speed_label;
     GtkLabel *statustext;
     GtkAccelGroup *accel;
     drive_status_widget drive_status[NUM_DRIVES];
     tape_status_widget tape_status;
+    GdkGeometry geo;
 } app_shell_type;
 
 static app_shell_type app_shells[MAX_APP_SHELLS];
@@ -910,15 +912,15 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
     gtk_widget_set_events(new_window,
-			  GDK_LEAVE_NOTIFY_MASK |
-			  GDK_ENTER_NOTIFY_MASK |			  
-			  GDK_BUTTON_PRESS_MASK |
-			  GDK_BUTTON_RELEASE_MASK |
-			  GDK_KEY_PRESS_MASK |
-			  GDK_KEY_RELEASE_MASK |
-			  GDK_FOCUS_CHANGE_MASK |
-			  GDK_POINTER_MOTION_MASK |
-			  GDK_EXPOSURE_MASK);
+                            GDK_LEAVE_NOTIFY_MASK |
+                            GDK_ENTER_NOTIFY_MASK |
+                            GDK_BUTTON_PRESS_MASK |
+                            GDK_BUTTON_RELEASE_MASK |
+                            GDK_KEY_PRESS_MASK |
+                            GDK_KEY_RELEASE_MASK |
+                            GDK_FOCUS_CHANGE_MASK |
+                            GDK_POINTER_MOTION_MASK |
+                            GDK_EXPOSURE_MASK);
     if (!_ui_top_level) {
         _ui_top_level = new_window;
     }
@@ -936,7 +938,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_widget_modify_bg(c->pane, GTK_STATE_NORMAL, &black);
     gtk_box_pack_start(GTK_BOX(panelcontainer), c->pane, TRUE, TRUE, 0);
     gtk_widget_show(c->pane);
-    
+
     gtk_widget_show(new_window);
     if (vsid_mode) {
         GtkWidget *new_canvas = build_vsid_ctrl_widget();
@@ -944,7 +946,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         gtk_widget_show(new_canvas);
     } else {
         build_screen_canvas_widget(c);
-	c->app_shell = num_app_shells - 1;
+        c->app_shell = num_app_shells - 1;
     }
 
     sb = ui_create_status_bar(panelcontainer);
@@ -972,6 +974,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     app_shells[num_app_shells - 1].topmenu = topmenu;
     app_shells[num_app_shells - 1].accel = accel;
     app_shells[num_app_shells - 1].status_bar = sb;
+    app_shells[num_app_shells - 1].pal_ctrl = pal_ctrl_widget;
 
     gtk_window_set_title(GTK_WINDOW(new_window), title);
 
@@ -1023,7 +1026,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     c->offx = c->geometry->screen_size.width - w;
     ui_cached_video_canvas = c;
-    
+
     return 0;
 }
 
@@ -1570,13 +1573,116 @@ int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
     return 0;
 }
 
+static void toggle_aspect(video_canvas_t *canvas)
+{
+    int keep_aspect_ratio, flags = 0;
+    app_shell_type *appshell = &app_shells[canvas->app_shell];
+
+    if ((appshell != NULL) && (appshell->shell != NULL)) {
+        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+        if (keep_aspect_ratio) {
+            flags |= GDK_HINT_ASPECT;
+            if (appshell->geo.max_width) {
+                flags |= GDK_HINT_MAX_SIZE;
+            }
+        }
+        gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | flags);
+    }
+}
+
+static gfloat get_aspect(video_canvas_t *canvas)
+{
+    int keep_aspect_ratio, true_aspect_ratio;
+    resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+    if (keep_aspect_ratio) {
+        resources_get_int("TrueAspectRatio", &true_aspect_ratio);
+        if (true_aspect_ratio) {
+#ifdef HAVE_HWSCALE
+            if (canvas->videoconfig->hwscale) {
+                return canvas->geometry->pixel_aspect_ratio;
+            }
+#endif
+        }
+        return 1.0f;
+    }
+    return 0.0f;
+}
+
+static void setup_aspect(video_canvas_t *canvas)
+{
+    gfloat aspect, taspect;
+    int w, h, winw, winh;
+    app_shell_type *appshell = &app_shells[canvas->app_shell];
+    GtkWidget *win;
+    GtkWidget *topmenu;
+    GtkWidget *sb;
+    GtkWidget *palctrl;
+
+    if (appshell == NULL) {
+        return;
+    }
+
+    win = appshell->shell;
+    topmenu = appshell->topmenu;
+    sb = appshell->status_bar;
+    palctrl = appshell->pal_ctrl;
+
+    if ((win == NULL) || (topmenu == NULL) || (sb == NULL) || (palctrl == NULL)) {
+        return;
+    }
+
+    /* get size of drawing buffer */
+    w = canvas->draw_buffer->canvas_width;
+    h = canvas->draw_buffer->canvas_height;
+    if (canvas->videoconfig->doublesizex) {
+        w <<= 1;
+    }
+    if (canvas->videoconfig->doublesizey) {
+        h <<= 1;
+    }
+    /* calculate unscaled size of window */
+    winw = w;
+    winh = h + topmenu->allocation.height + sb->allocation.height;
+    if (gtk_widget_get_visible(palctrl)) {
+        winh += palctrl->allocation.height;
+    }
+
+    /* default geometry hints, no scaling, 1:1 aspect */
+    appshell->geo.min_width = winw;
+    appshell->geo.min_height = winh;
+    appshell->geo.max_width = winw;
+    appshell->geo.max_height = winh;
+    appshell->geo.min_aspect = 1.0f;
+    appshell->geo.max_aspect = 1.0f;
+
+    taspect = get_aspect(canvas);
+    if (taspect > 0.0f) {
+        aspect = ((float)winw * taspect) / ((float)winh);
+        appshell->geo.min_aspect = aspect;
+        appshell->geo.max_aspect = aspect;
+        appshell->geo.min_width = (int)((float)winw * taspect);
+        if (canvas->videoconfig->hwscale) {
+            appshell->geo.max_width = 0;
+            appshell->geo.max_height = 0;
+        }
+    }
+}
+
 /* Resize one window. */
 void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
 {
+    app_shell_type *appshell = &app_shells[canvas->app_shell];
+
     build_screen_canvas_widget(canvas);
     if (! canvas->videoconfig->hwscale) {
         gtk_widget_set_size_request(canvas->emuwindow, width, height);
     }
+
+    /* maintain aspect ratio */
+    setup_aspect(canvas);
+    toggle_aspect(canvas);
+    /* set initial (properly scaled) window size */
+    gtk_window_resize(GTK_WINDOW(appshell->shell), appshell->geo.min_width, appshell->geo.min_height);
 }
 
 void x11ui_move_canvas_window(ui_window_t w, int x, int y)
@@ -2418,8 +2524,9 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
 
 gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
-    /* This should work, but doesn't... Sigh...
     video_canvas_t *c = (video_canvas_t *) client_data;
+
+    /* This should work, but doesn't... Sigh...
     c->draw_buffer->canvas_width = e->width;
     c->draw_buffer->canvas_height = e->height;
     if (c->videoconfig->doublesizex) {
@@ -2444,6 +2551,9 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
     }
 #endif
 
+    /* maintain aspect ratio */
+    setup_aspect(c);
+    toggle_aspect(c);
     return 0;
 }
 
@@ -2454,6 +2564,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
     if (canvas == NULL) {
         return 0;
     }
+
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
         GdkGLContext *gl_context = gtk_widget_get_gl_context(w);

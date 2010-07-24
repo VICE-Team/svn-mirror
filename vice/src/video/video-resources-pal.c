@@ -69,8 +69,8 @@ static int set_color_gamma(int val, void *param)
 {
     if (val < 0)
         val=0;
-    if (val > 2000)
-        val=2000;
+    if (val > 4000)
+        val=4000;
     video_resources.color_gamma = val;
     return video_color_update_palette(video_current_canvas);
 }
@@ -151,7 +151,7 @@ static const resource_int_t resources_int[] =
       &video_resources.color_contrast, set_color_contrast, NULL },
     { "ColorBrightness", 1000, RES_EVENT_NO, NULL,
       &video_resources.color_brightness, set_color_brightness, NULL },
-    { "ColorGamma", 880, RES_EVENT_NO, NULL,
+    { "ColorGamma", 2200, RES_EVENT_NO, NULL,
       &video_resources.color_gamma, set_color_gamma, NULL },
     { "ColorTint", 1000, RES_EVENT_NO, NULL,
       &video_resources.color_tint, set_color_tint, NULL },

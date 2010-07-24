@@ -38,21 +38,21 @@ static video_canvas_t *cached_canvas;
 typedef struct pal_res_s {
     char *label;		/* Label of Adjustmentbar */
     char *res;			/* Associated resource */
-    int scale;			/* Scale to adjust to value range 0..2000 */
+    int scale;			/* Scale to adjust to value range 0..4000 */
     GtkObject *adj;		/* pointer to widget */
     GtkWidget *w;		/* widget holding the scrollbar+label */
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
-    { N_("Blurredness"), "PALBlur", 2, NULL, NULL },
-    { N_("Scanline Shade"), "PALScanLineShade", 2, NULL, NULL  },
-    { N_("Saturation"), "ColorSaturation", 1, NULL, NULL  },
-    { N_("Contrast"), "ColorContrast", 1, NULL, NULL  },
-    { N_("Brightness"), "ColorBrightness", 1, NULL, NULL  },
+    { N_("Blurredness"), "PALBlur", 4, NULL, NULL },
+    { N_("Scanline Shade"), "PALScanLineShade", 4, NULL, NULL  },
+    { N_("Saturation"), "ColorSaturation", 2, NULL, NULL  },
+    { N_("Contrast"), "ColorContrast", 2, NULL, NULL  },
+    { N_("Brightness"), "ColorBrightness", 2, NULL, NULL  },
     { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
-    { N_("Tint"), "ColorTint", 1, NULL, NULL  },
-    { N_("Odd Line Phase"), "PALOddLinePhase", 1, NULL, NULL  },
-    { N_("Odd Line Offset"), "PALOddLineOffset", 1, NULL, NULL  },
+    { N_("Tint"), "ColorTint", 2, NULL, NULL  },
+    { N_("Odd Line Phase"), "PALOddLinePhase", 2, NULL, NULL  },
+    { N_("Odd Line Offset"), "PALOddLineOffset", 2, NULL, NULL  },
 };
 
 static void upd_sb (GtkAdjustment *adj, gpointer data)
@@ -121,7 +121,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
         gtk_box_pack_start(GTK_BOX(hb), c, FALSE, FALSE, 5);
         gtk_widget_show(c);
 
-        ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
+        ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
 	
         /* FIXME: temporary solution, gnome/gtk people need to fix this
            situation */

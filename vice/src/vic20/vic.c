@@ -104,6 +104,38 @@ void vic_change_timing(void)
     }
 }
 
+/* return pixel aspect ratio for current video mode */
+/* FIXME: calculate proper values.
+   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
+   for an example calculation
+*/
+static float vic_get_pixel_aspect(void)
+{
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 0.936f;
+        default:
+            return 0.75f;
+    }
+}
+
+/* return type of monitor used for current video mode */
+static int vic_get_crt_type(void)
+{
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 1; /* PAL */
+        default:
+            return 0; /* NTSC */
+    }
+}
+
 static void vic_set_geometry(void)
 {
     unsigned int width, height;
@@ -129,6 +161,9 @@ static void vic_set_geometry(void)
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
+
+    vic.raster.geometry->pixel_aspect_ratio = vic_get_pixel_aspect();
+    vic.raster.viewport->crt_type = vic_get_crt_type();
 }
 
 

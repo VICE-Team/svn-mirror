@@ -60,6 +60,33 @@ vdc_t vdc;
 
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data);
 
+/* return pixel aspect ratio for current video mode */
+/* FIXME: calculate proper values.
+   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
+   for an example calculation
+*/
+static float vdc_get_pixel_aspect(void)
+{
+/*
+    int video;
+    resources_get_int("MachineVideoStandard", &video);
+    switch (video) {
+        case MACHINE_SYNC_PAL:
+        case MACHINE_SYNC_PALN:
+            return 0.936f;
+        default:
+            return 0.75f;
+    }
+*/
+    return 1.0f; /* assume 1:1 for CGA */
+}
+
+/* return type of monitor used for current video mode */
+static int vdc_get_crt_type(void)
+{
+    return 2; /* RGB */
+}
+
 static void vdc_set_geometry(void)
 {
     raster_t *raster;
@@ -118,6 +145,9 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         first_displayed_line,   /* 1st line of virtual screen physically visible */
                         last_displayed_line,    /* last line physically visible */
                         0, 0); /* extra off screen border left / right */
+
+    raster->geometry->pixel_aspect_ratio = vdc_get_pixel_aspect();
+    raster->viewport->crt_type = vdc_get_crt_type();
 }
 
 static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)

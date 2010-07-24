@@ -73,6 +73,13 @@ UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
 
+#ifdef HAVE_HWSCALE
+#ifdef USE_GNOMEUI
+UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
+UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
+#endif
+#endif
+
 ui_menu_entry_t crtc_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
@@ -86,6 +93,12 @@ ui_menu_entry_t crtc_submenu[] = {
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_CrtcHwScale, NULL, NULL },
+#ifdef USE_GNOMEUI
+    { N_("*Keep aspect ratio"),
+      (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
+    { N_("*True aspect ratio"),
+      (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
+#endif
 #endif
     { "--" },
     { N_("*CRTC Screen color"),

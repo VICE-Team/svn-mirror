@@ -33,6 +33,7 @@
 
 #include "fullscreenarch.h"
 #include "log.h"
+#include "resources.h"
 #include "types.h"
 #include "videoarch.h"
 #include "video.h"
@@ -49,12 +50,33 @@
 
 static log_t gnomevideo_log = LOG_ERR;
 
+static int keepaspect, trueaspect;
+static int set_keepaspect(int val, void *param)
+{
+    keepaspect = val;
+    return 0;
+}
+
+static int set_trueaspect(int val, void *param)
+{
+    trueaspect = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "KeepAspectRatio", 1, RES_EVENT_NO, NULL,
+      &keepaspect, set_keepaspect, NULL },
+    { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
+      &trueaspect, set_trueaspect, NULL },
+    { NULL }
+};
+
 int video_arch_resources_init(void)
 {
 #ifdef HAVE_OPENGL_SYNC
     openGL_register_resources();
 #endif
-    return 0;
+    return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)

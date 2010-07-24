@@ -33,6 +33,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "palette.h"
+#include "resources.h"
 #include "video-canvas.h"
 #include "video-color.h"
 #include "video-resources.h"
@@ -284,8 +285,23 @@ static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
 #endif
 }
 
-/* gammatable calculation */
+static float video_get_gamma(void)
+{
+    int video;
+    float mgam, vgam;
 
+    resources_get_int("MachineVideoStandard", &video);
+    if ((video == MACHINE_SYNC_PAL) || (video == MACHINE_SYNC_PALN)) {
+        vgam = 2.8f;
+    } else {
+        vgam = 2.2f;
+    }
+
+    mgam = ((float)(video_resources.color_gamma))/1000.0f;
+    return mgam / vgam;
+}
+
+/* gammatable calculation */
 static void video_calc_gammatable(void)
 {
     int i;
@@ -295,7 +311,7 @@ static void video_calc_gammatable(void)
     bri = ((float)(video_resources.color_brightness - 1000))
           * (128.0f / 1000.0f);
     con = ((float)(video_resources.color_contrast   )) / 1000.0f;
-    gam = ((float)(video_resources.color_gamma      )) / 1000.0f;
+    gam = video_get_gamma();
     scn = ((float)(video_resources.pal_scanlineshade)) / 1000.0f;
 
     for (i = 0; i < (256 * 3); i++) {
@@ -440,7 +456,7 @@ static palette_t *video_calc_palette(const video_ycbcr_palette_t *p)
     sat = ((float)(video_resources.color_saturation     )) / 1000.0f;
     bri = ((float)(video_resources.color_brightness-1000)) * (128.0f / 1000.0f);
     con = ((float)(video_resources.color_contrast       )) / 1000.0f;
-    gam = ((float)(video_resources.color_gamma          )) / 1000.0f;
+    gam = video_get_gamma();
     tin = (((float)(video_resources.color_tint           )) / (2000.0f / 50.0f))-25.0f;
     
     if ((!video_resources.delayloop_emulation) || (p->num_entries > 16)) {
