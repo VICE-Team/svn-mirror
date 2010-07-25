@@ -59,7 +59,7 @@ static const ui_menu_entry_t vicii_border_menu[] = {
     { NULL }
 };
 
-/* PAL emulation menu */
+/* CRT emulation menu */
 
 UI_MENU_DEFINE_TOGGLE(PALEmulation)
 UI_MENU_DEFINE_SLIDER(PALScanLineShade, 0, 1000)
@@ -67,13 +67,13 @@ UI_MENU_DEFINE_SLIDER(PALBlur, 0, 1000)
 UI_MENU_DEFINE_SLIDER(PALOddLinePhase, 0, 2000)
 UI_MENU_DEFINE_SLIDER(PALOddLineOffset, 0, 2000)
 
-static const ui_menu_entry_t pal_controls_menu[] = {
-    { "PAL emulation",
+static const ui_menu_entry_t crt_controls_menu[] = {
+    { "CRT emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_PALEmulation_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("PAL controls"),
+    SDL_MENU_ITEM_TITLE("CRT controls"),
     { "Scanline shade",
       MENU_ENTRY_RESOURCE_INT,
       slider_PALScanLineShade_callback,
@@ -95,7 +95,7 @@ static const ui_menu_entry_t pal_controls_menu[] = {
 
 /* Color menu */
 
-UI_MENU_DEFINE_SLIDER(ColorGamma, 0, 2000)
+UI_MENU_DEFINE_SLIDER(ColorGamma, 0, 4000)
 UI_MENU_DEFINE_SLIDER(ColorTint, 0, 2000)
 UI_MENU_DEFINE_SLIDER(ColorSaturation, 0, 2000)
 UI_MENU_DEFINE_SLIDER(ColorContrast, 0, 2000)
@@ -105,7 +105,7 @@ static const ui_menu_entry_t color_controls_menu[] = {
     { "Gamma",
       MENU_ENTRY_RESOURCE_INT,
       slider_ColorGamma_callback,
-      (ui_callback_data_t)"Set gamma (0-2000)" },
+      (ui_callback_data_t)"Set gamma (0-4000)" },
     { "Tint",
       MENU_ENTRY_RESOURCE_INT,
       slider_ColorTint_callback,
@@ -180,12 +180,30 @@ UI_MENU_DEFINE_RADIO(SDLLimitMode)
       (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
 
 #ifdef HAVE_HWSCALE
+
+UI_MENU_DEFINE_RADIO(SDLGLAspectMode)
+
+static const ui_menu_entry_t aspect_menu[] = {
+    { "Off",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SDLGLAspectMode_callback,
+      (ui_callback_data_t)0 },
+    { "Custom",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SDLGLAspectMode_callback,
+      (ui_callback_data_t)1 },
+    { "True",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SDLGLAspectMode_callback,
+      (ui_callback_data_t)2 },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
 UI_MENU_DEFINE_TOGGLE(VDCHwScale)
 UI_MENU_DEFINE_TOGGLE(CrtcHwScale)
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
-UI_MENU_DEFINE_TOGGLE(SDLGLAspectMode)
 UI_MENU_DEFINE_STRING(AspectRatio)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipX)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
@@ -198,10 +216,10 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
       toggle_##chip##HwScale_callback,         \
       NULL },                                  \
     { "Fixed aspect ratio",                    \
-      MENU_ENTRY_RESOURCE_TOGGLE,              \
-      toggle_SDLGLAspectMode_callback,         \
-      NULL },                                  \
-    { "Aspect ratio",                          \
+      MENU_ENTRY_SUBMENU,                      \
+      submenu_radio_callback,                  \
+      (ui_callback_data_t)aspect_menu },       \
+    { "Custom aspect ratio",                   \
       MENU_ENTRY_RESOURCE_STRING,              \
       string_AspectRatio_callback,             \
       (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
@@ -376,10 +394,10 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "VICII Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
@@ -444,10 +462,10 @@ const ui_menu_entry_t c64_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
@@ -508,10 +526,10 @@ const ui_menu_entry_t c64sc_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
@@ -558,10 +576,10 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
@@ -615,10 +633,10 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIScale2x_callback,
@@ -714,10 +732,10 @@ const ui_menu_entry_t plus4_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_TEDScale2x_callback,
@@ -776,10 +794,10 @@ const ui_menu_entry_t vic20_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
-    { "PAL emulation controls",
+    { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)pal_controls_menu },
+      (ui_callback_data_t)crt_controls_menu },
     { "Scale2x",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICScale2x_callback,

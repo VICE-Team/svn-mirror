@@ -151,7 +151,7 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
 {
     int old_v = sdl_gl_aspect_mode;
 
-    if ((v < 0) || (v > 1)) {
+    if ((v < 0) || (v > 2)) {
         return -1;
     }
 
@@ -296,10 +296,10 @@ static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_HWSCALE
     { "-sdlaspectmode", SET_RESOURCE, 1, NULL, NULL, "SDLGLAspectMode", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<mode>", "Set aspect ratio mode (0 = any, 1 = fixed)" },
+      "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
     { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<aspect ratio>", "Set aspect ratio (0.5 - 2.0)" },
+      "<aspect ratio>", "Set custom aspect ratio (0.5 - 2.0)" },
     { "-sdlflipx", SET_RESOURCE, 0, NULL, NULL, "SDLGLFlipX", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable X flip" },
@@ -389,14 +389,21 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
     int dest_x = 0, dest_y = 0;
 
     if (sdl_gl_aspect_mode != 0) {
+        double aspect = aspect_ratio;
+
+        /* Get "true" aspect ratio */
+        if (sdl_gl_aspect_mode == 2) {
+            aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
+        }
+
         /* Keep aspect ratio of src image. */
-        if (dest_w*src_h < src_w * aspect_ratio * dest_h) {
+        if (dest_w * src_h < src_w * aspect * dest_h) {
             dest_y = dest_h;
-            dest_h = (unsigned int)(dest_w * src_h / (src_w * aspect_ratio));
+            dest_h = (unsigned int)(dest_w * src_h / (src_w * aspect));
             dest_y = (dest_y - dest_h) / 2;
         } else {
             dest_x = dest_w;
-            dest_w = (unsigned int)(dest_h * src_w * aspect_ratio / src_h);
+            dest_w = (unsigned int)(dest_h * src_w * aspect / src_h);
             dest_x = (dest_x - dest_w) / 2;
         }
     }
