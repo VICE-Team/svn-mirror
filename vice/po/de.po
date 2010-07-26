@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-22 21:46+0200\n"
-"PO-Revision-Date: 2010-06-13 11:13+0200\n"
+"PO-Revision-Date: 2010-07-26 22:55+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -221,9 +221,8 @@ msgid "Ethernet emulation"
 msgstr "Ethernet Emulation"
 
 #: src/arch/unix/gui/c128ui.c:304 src/arch/unix/gui/c64ui.c:315
-#, fuzzy
 msgid "IEEE 488 Interface"
-msgstr "IEEE 488 Schnittstellen-Emulation"
+msgstr "IEEE 488 Schnittstelle"
 
 #: src/arch/unix/gui/c128ui.c:308 src/arch/unix/gui/c64ui.c:319
 msgid "*Mouse Emulation"
@@ -239,9 +238,8 @@ msgid "Digimax Cart"
 msgstr "Digimax Modul"
 
 #: src/arch/unix/gui/c128ui.c:316 src/arch/unix/gui/c64ui.c:327
-#, fuzzy
 msgid "Magic Voice"
-msgstr "Haupt Gerät"
+msgstr "Magic Voice"
 
 #: src/arch/unix/gui/c128ui.c:319 src/arch/unix/gui/c64ui.c:330
 msgid "MIDI Emulation"
@@ -514,9 +512,8 @@ msgid "Expert cartridge"
 msgstr "Expert Cartridge"
 
 #: src/arch/unix/gui/c64ui.c:297
-#, fuzzy
 msgid "ISEPIC cartridge"
-msgstr "SID Modul"
+msgstr "ISEPIC Modul"
 
 #: src/arch/unix/gui/c64ui.c:411 src/arch/unix/gui/petui.c:339
 #: src/arch/unix/gui/plus4ui.c:203
@@ -729,9 +726,8 @@ msgid "SID cartridge"
 msgstr "SID Modul"
 
 #: src/arch/unix/gui/petui.c:228
-#, fuzzy
 msgid "*Userport DAC"
-msgstr "*Userport"
+msgstr "*Userport DAC"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Basic 1"
@@ -878,9 +874,8 @@ msgid "SID cartridge settings"
 msgstr "SID Modul Einstellungen"
 
 #: src/arch/unix/gui/plus4ui.c:189
-#, fuzzy
 msgid "V364 Speech settings"
-msgstr "C64 Modell Einstellungen"
+msgstr "V364 Stimme Einstellungen"
 
 #: src/arch/unix/gui/plus4ui.c:197
 msgid "RAM settings"
@@ -2034,19 +2029,16 @@ msgid "*Sectors..."
 msgstr "*Sektoren..."
 
 #: src/arch/unix/gui/uiisepic.c:45
-#, fuzzy
 msgid "*Enable ISEPIC"
-msgstr "*Aktivieren der REU"
+msgstr "*Aktiviere ISEPIC"
 
 #: src/arch/unix/gui/uiisepic.c:47
-#, fuzzy
 msgid "*Enable ISEPIC Switch"
-msgstr "*Isepic Schalter aktivieren"
+msgstr "*ISEPIC Schalter aktivieren"
 
 #: src/arch/unix/gui/uiisepic.c:50
-#, fuzzy
 msgid "Save ISEPIC image..."
-msgstr "ISEPIC Image einlegen..."
+msgstr "ISEPIC Image speichern..."
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 msgid "*CGA userport joystick adapter"
@@ -8006,9 +7998,8 @@ msgid "PET &REU settings..."
 msgstr "PET &REU Einstellungen..."
 
 #: src/arch/win32/respet.rc.po.c:558
-#, fuzzy
 msgid "Enable PET &Userport DAC"
-msgstr "RS232 Userport Emulation aktivi&eren"
+msgstr "PET &Userport DAC aktivi&eren"
 
 #: src/arch/win32/respetreu.rc.po.c:34 src/arch/amigaos/intl_text.c.po.c:4681
 msgid "PET REU Settings"
@@ -8987,9 +8978,8 @@ msgid "Digimax settings..."
 msgstr "Digimax Einstellungen..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2062
-#, fuzzy
 msgid "Enable Userport DAC"
-msgstr "RS232 Userport Emulation aktivi&eren"
+msgstr "Userport DAC aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:2073
 msgid "Ethernet settings..."
@@ -10208,11 +10198,11 @@ msgstr "Setze PC auf ADRESSE und setze Ausführung fort"
 
 #: src/translate_text.c.po.c:1018
 msgid "Print out the I/O area of the emulated machine."
-msgstr "Drucke den I/O Bereich der emuliertern Maschine."
+msgstr "Zeige den I/O Bereich der emulierten Maschine."
 
 #: src/translate_text.c.po.c:1032
 msgid "Print out list of attached expansion port devices."
-msgstr ""
+msgstr "Zeige eine Liste der Geräte am Expansion Port."
 
 #: src/translate_text.c.po.c:1046
 msgid ""
@@ -10814,7 +10804,6 @@ msgid "Display the directory contents."
 msgstr "Zeige den Verzeichnisinhalt."
 
 #: src/translate_text.c.po.c:2292
-#, fuzzy
 msgid "List disk contents."
 msgstr "Zeige den Verzeichnisinhalt."
 
@@ -10952,11 +10941,11 @@ msgstr ""
 
 #: src/translate_text.c.po.c:2644
 msgid "On autostart, load to BASIC start (without ',1')"
-msgstr ""
+msgstr "Bei Autostart, lade auf BASIC Start (ohne ',1')"
 
 #: src/translate_text.c.po.c:2658
 msgid "On autostart, load with ',1'"
-msgstr ""
+msgstr "Bei Autostart, lade mit ',1'"
 
 #: src/translate_text.c.po.c:2672
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
@@ -11155,25 +11144,24 @@ msgid "Use old NTSC sync factor"
 msgstr "Alten NTSC Sync Faktor verwenden"
 
 #: src/translate_text.c.po.c:3390
-#, fuzzy
 msgid "<model>"
-msgstr "<Modus>"
+msgstr "<Modell>"
 
 #: src/translate_text.c.po.c:3404
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-msgstr ""
+msgstr "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A)"
 
 #: src/translate_text.c.po.c:3418
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-msgstr ""
+msgstr "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A)"
 
 #: src/translate_text.c.po.c:3432
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-msgstr ""
+msgstr "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A)\""
 
 #: src/translate_text.c.po.c:3446
 msgid "Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"
-msgstr ""
+msgstr "Wähle C64 Modell (c64/c64c/c64alt/c64ntsc/c64cntsc/c64altntsc/drean)"
 
 #: src/translate_text.c.po.c:3460
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
@@ -11209,12 +11197,11 @@ msgstr "Name von symbolischer Keymap Datei definieren"
 
 #: src/translate_text.c.po.c:3574
 msgid "Set glue logic type (0 = discrete, 1 = 252535-01)"
-msgstr ""
+msgstr "Setze Glue-Lokig Typ (0 = diskret, 1 = 252535-01)"
 
 #: src/translate_text.c.po.c:3602
-#, fuzzy
 msgid "Disable Hummer ADC"
-msgstr "Hummer ADC Aktivieren"
+msgstr "Hummer ADC deaktivieren"
 
 #: src/translate_text.c.po.c:3616
 msgid "Enable the GEORAM expansion unit"
@@ -11301,14 +11288,12 @@ msgid "Specify Double Quick Brown Box filename"
 msgstr "Double Quick Brown Box Dateiname spezifizieren"
 
 #: src/translate_text.c.po.c:3910
-#, fuzzy
 msgid "Enable the ISEPIC cart"
-msgstr "*SID Modul aktivieren"
+msgstr "ISEPIC Modul aktivieren"
 
 #: src/translate_text.c.po.c:3924
-#, fuzzy
 msgid "Disable the ISEPIC cart"
-msgstr "Isepic Modul deaktivieren"
+msgstr "ISEPIC Modul deaktivieren"
 
 #: src/translate_text.c.po.c:3938
 msgid "Enable the MMC64 expansion"
@@ -11339,65 +11324,56 @@ msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS speichern bei Änderung"
 
 #: src/translate_text.c.po.c:4036
-#, fuzzy
 msgid "Specify MMC Replay card image filename"
-msgstr "Logdateiname definieren"
+msgstr "MMC Replay Modul imeage datei definieren"
 
 #: src/translate_text.c.po.c:4050
-#, fuzzy
 msgid "Enable writes to MMC Replay card image"
-msgstr "Erlaube &Schreibzugriff auf DTV ROM Datei"
+msgstr "Erlaube Schreibzugriff auf MMC Replay Imagedatei"
 
 #: src/translate_text.c.po.c:4064
-#, fuzzy
 msgid "Disable writes to MMC Replay card image"
-msgstr "Schreibzugriff auf EasyFlash ROM Image verhindern"
+msgstr "Schreibzugriff auf MMC Replay Imagedatei verhindern"
 
 #: src/translate_text.c.po.c:4078
-#, fuzzy
 msgid "Specify MMC Replay EEPROM image filename"
-msgstr "Logdateiname definieren"
+msgstr "MMC Replay EEPROM Imagedatei definieren"
 
 #: src/translate_text.c.po.c:4092
-#, fuzzy
 msgid "Enable writes to MMC Replay EEPROM image"
-msgstr "Erlaube &Schreibzugriff auf DTV ROM Datei"
+msgstr "Erlaube Schreibzugriff auf MMC Replay EEPROM Imagedatei"
 
 #: src/translate_text.c.po.c:4106
-#, fuzzy
 msgid "Disable writes to MMC Replay EEPROM image"
-msgstr "Schreibzugriff auf C64DTV ROM Image verhindern"
+msgstr "Schreibzugriff auf MMC Replay EEPROM Imagedatei verhindern"
 
 #: src/translate_text.c.po.c:4120
-#, fuzzy
 msgid "Enable MMC Replay rescue mode"
-msgstr "*MMC64 Flashjumper aktivieren"
+msgstr "MMC Replay Rescue Modus aktivieren"
 
 #: src/translate_text.c.po.c:4134
-#, fuzzy
 msgid "Disable MMC Replay rescue mode"
-msgstr "Vollbild Modus deaktivieren"
+msgstr "MMC Replay Rescue Modus deaktivieren"
 
 #: src/translate_text.c.po.c:4148
 msgid "Enable saving of the RR ROM at exit"
-msgstr ""
+msgstr "Speichern des RR ROMs beim Beenden aktivieren"
 
 #: src/translate_text.c.po.c:4162
 msgid "Disable saving of the RR ROM at exit"
-msgstr ""
+msgstr "Speichern des RR ROMs beim Beenden deaktivieren"
 
 #: src/translate_text.c.po.c:4176
 msgid "Set RR Bank Jumper"
-msgstr ""
+msgstr "Aktiviere RR Bank Jumpler"
 
 #: src/translate_text.c.po.c:4190 src/translate_text.c.po.c:4218
 msgid "Unset RR Bank Jumper"
-msgstr ""
+msgstr "Deaktiviere RR Bank Jumper"
 
 #: src/translate_text.c.po.c:4204
-#, fuzzy
 msgid "Set RR Flash Jumper"
-msgstr "BIOS Flashjumper"
+msgstr "Aktviere RR Flash Jumper"
 
 #: src/translate_text.c.po.c:4232
 msgid "Enable the RAM expansion unit"
@@ -11691,9 +11667,8 @@ msgid "<method>"
 msgstr "<Methode>"
 
 #: src/translate_text.c.po.c:5272
-#, fuzzy
 msgid "<color>"
-msgstr "Farben"
+msgstr "<Farbe>"
 
 #: src/translate_text.c.po.c:5286
 msgid ""
@@ -11701,22 +11676,22 @@ msgid ""
 "crop left top, 2: crop center top,  3: crop right top, 4: crop left center, "
 "5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center "
 "bottom, 9:  crop right bottom)"
-msgstr ""
+msgstr "Wähle, wie übergroßer Input behandelt werden soll, (0: skaliere, 1: schneide links oben, 2: schneide mitte oben,  3: schneide rechts oben, 4: schneide links mitte, 5: schneide mitte, 6: schneide rechts mitte, 7: schneide links unten, 8: schneide mitte unten, 9:  schneide rechts unten)"
 
 #: src/translate_text.c.po.c:5300
 msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
-msgstr ""
+msgstr "Wähle, wie Mulitcolore zu Hochauflösung behandelte werden soll, (0: S&W, 1: 2 Farben, 2: 4 Farben, 4 Graustufen, 4: Beste Zellenfarben)"
 
 #: src/translate_text.c.po.c:5314
 msgid ""
 "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
-msgstr ""
+msgstr "Wähle, wie TED Leuchtstärke behandelt werden soll, (0: ignorieren, 1: dither)"
 
 #: src/translate_text.c.po.c:5328
 msgid "Select the CRTC text color (0: white, 1: amber, 2: green)"
-msgstr ""
+msgstr "Wähle CRTC Textfarbe (0: weiß, 1: Amberbraun, 2: Grün)"
 
 #: src/translate_text.c.po.c:5342
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
@@ -11973,7 +11948,7 @@ msgstr "Kontrast für intern berechneten Palette setzen [1100]"
 
 #: src/translate_text.c.po.c:6226
 msgid "Set brightness of internal calculated palette [1100]"
-msgstr "Helliogkeit für intern berechneten Palette setzen [1100]"
+msgstr "Helligkeit für intern berechneten Palette setzen [1100]"
 
 #: src/translate_text.c.po.c:6240
 msgid "Set gamma of internal calculated palette [900]"
@@ -11993,7 +11968,7 @@ msgstr "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"
 
 #: src/translate_text.c.po.c:6296
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
-msgstr ""
+msgstr "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a)"
 
 #: src/translate_text.c.po.c:6310
 msgid "Specify name of printer driver for device #4"
@@ -12148,56 +12123,39 @@ msgid "<engine and model>"
 msgstr "<Engine und Modell>"
 
 #: src/translate_text.c.po.c:6844
-#, fuzzy
 msgid "0: FastSID 6581, 1: FastSID 8580"
-msgstr "SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580)"
+msgstr "0: FastSID 6581, 1: FastSID 8580"
 
 #: src/translate_text.c.po.c:6859
-#, fuzzy
 msgid "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
-msgstr ""
-"SID Modell und Engine (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, "
-"257: ReSID 8580, 258: ReSID 8580 + digiboost)"
+msgstr "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
 
 #: src/translate_text.c.po.c:6873
-#, fuzzy
 msgid "260: DTVSID"
-msgstr "*DTVSID"
+msgstr "260: DTVSID"
 
 #: src/translate_text.c.po.c:6889
-#, fuzzy
 msgid "512: Catweasel"
-msgstr "*Catweasel MKIII"
+msgstr "512: Catweasel"
 
 #: src/translate_text.c.po.c:6905
-#, fuzzy
 msgid "768: HardSID"
-msgstr "*HardSID"
+msgstr "768: HardSID"
 
 #: src/translate_text.c.po.c:6921
-#, fuzzy
 msgid ""
 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
 "port 3"
-msgstr ""
-"SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1024: "
-"ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+msgstr "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3"
 
 #: src/translate_text.c.po.c:6937
-#, fuzzy
 msgid ""
 "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
 "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
 "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489D"
-msgstr ""
-"SID Modell und Engine definieren (0: FastSID 6581, 1: FastSID 8580, 1800: "
-"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
-"FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-"digiboost)"
+msgstr "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489D"
 
 #: src/translate_text.c.po.c:6952
 msgid "Enable second SID"
@@ -12322,29 +12280,24 @@ msgid "Disable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM Schreibzugriff deaktivieren"
 
 #: src/translate_text.c.po.c:7360
-#, fuzzy
 msgid "Set Mega-Cart NvRAM filename"
-msgstr "Mega-Cart NvRAM Imagename"
+msgstr "Mega-Cart NvRAM Imagename definieren"
 
 #: src/translate_text.c.po.c:7374
-#, fuzzy
 msgid "Enable Mega-Cart NvRAM writeback"
-msgstr "*Mega-Cart NvRAM rückschreiben"
+msgstr "Mega-Cart NvRAM Rückschreiben aktivieren"
 
 #: src/translate_text.c.po.c:7388
-#, fuzzy
 msgid "Disable Mega-Cart NvRAM writeback"
-msgstr "*Mega-Cart NvRAM rückschreiben"
+msgstr "Mega-Cart NvRAM Rückschreiben deaktivieren"
 
 #: src/translate_text.c.po.c:7402
-#, fuzzy
 msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Final Expansion ROM Schreibzugriff aktivieren"
+msgstr "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren"
 
 #: src/translate_text.c.po.c:7416
-#, fuzzy
 msgid "Disable Vic Flash Plugin write back to ROM file"
-msgstr "Final Expansion ROM Schreibzugriff deaktivieren"
+msgstr "Vic Flash Plugin Rückschreiben auf ROM Datei deaktivieren"
 
 #: src/translate_text.c.po.c:7430
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -12637,9 +12590,8 @@ msgid "Call exception handler (default)"
 msgstr "Ausnahmebehandlung aktivieren (Default)"
 
 #: src/translate_text.c.po.c:8406
-#, fuzzy
 msgid "Use vsid mode"
-msgstr "Benutze Shared Memory !"
+msgstr "Benutze vsid Modus"
 
 #: src/translate_text.c.po.c:8420
 msgid "Restore default (factory) settings"
@@ -12747,7 +12699,7 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 
 #: src/translate_text.c.po.c:8798
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
-msgstr ""
+msgstr "Setze Sound Fragmentgröße (0 = klein, 1 = mittel, 2 = groß)"
 
 #: src/translate_text.c.po.c:8812
 msgid "Specify sound driver"
@@ -12959,19 +12911,16 @@ msgid "Disable the digiblaster add-on"
 msgstr "Digiblaster add-on deaktivieren"
 
 #: src/translate_text.c.po.c:9528
-#, fuzzy
 msgid "Enable the v364 speech add-on"
-msgstr "Digiblaster add-on aktivieren"
+msgstr "v364 Spracherweiterung aktivieren"
 
 #: src/translate_text.c.po.c:9542
-#, fuzzy
 msgid "Disable the v364 speech add-on"
-msgstr "Digiblaster add-on deaktivieren"
+msgstr "v364 Spracherweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:9556
-#, fuzzy
 msgid "Attach Speech ROM image"
-msgstr "Band Image einlegen"
+msgstr "Spracherweiterung ROM Imagedatei einlegen"
 
 #: src/translate_text.c.po.c:9570
 msgid "Enable SID cartridge joystick"
