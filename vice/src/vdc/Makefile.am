@@ -9,6 +9,8 @@ noinst_LIBRARIES = libvdc.a
 libvdc_a_SOURCES = \
 	vdc-cmdline-options.c \
 	vdc-cmdline-options.h \
+	vdc-color.c \
+	vdc-color.h \
 	vdc-draw.c \
 	vdc-draw.h \
 	vdc-mem.c \

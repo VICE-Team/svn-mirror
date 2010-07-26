@@ -50,22 +50,31 @@ int crtc_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_CRTC_DSCAN;
     video_chip_cap.hwscale_allowed = ARCHDEP_CRTC_HWSCALE;
     video_chip_cap.scale2x_allowed = ARCHDEP_CRTC_DSIZE;
-    video_chip_cap.internal_palette_allowed = 0;
+    video_chip_cap.internal_palette_allowed = 1;
     video_chip_cap.external_palette_name = "green";
-    video_chip_cap.palemulation_allowed = 0;
+    video_chip_cap.palemulation_allowed = 1;
     video_chip_cap.double_buffering_allowed = ARCHDEP_CRTC_DBUF;
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
-    video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;
+    video_chip_cap.single_mode.rmode = VIDEO_RENDER_CRT_1X1;
+    /* FIXME: both are equally wrong. some mechanism is needed to
+              dynamically handle 40 vs 80 colums crtc */
+#if 0
+    /* 40 columns */
     video_chip_cap.double_mode.sizex = 2;
     video_chip_cap.double_mode.sizey = 2;
-    video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGB_2X2;
-
+    video_chip_cap.double_mode.rmode = VIDEO_RENDER_CRT_2X2;
+#else
+    /* 80 columns */
+    video_chip_cap.double_mode.sizex = 1;
+    video_chip_cap.double_mode.sizey = 2;
+    video_chip_cap.double_mode.rmode = VIDEO_RENDER_CRT_1X2;
+#endif
     fullscreen_capability(&(video_chip_cap.fullscreen));
 
-    if (raster_resources_chip_init("Crtc", &crtc.raster, &video_chip_cap) < 0)
+    if (raster_resources_chip_init("Crtc", &crtc.raster, &video_chip_cap) < 0) {
         return -1;
-
+    }
     crtc.video_chip_cap = &video_chip_cap;
 
     return 0;

@@ -33,7 +33,6 @@
 #include "video-render.h"
 #include "video.h"
 
-
 static void video_render_2x2_main(video_render_config_t *config,
                                   const BYTE *src, BYTE *trg,
                                   unsigned int width, const unsigned int height,

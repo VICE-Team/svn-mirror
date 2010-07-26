@@ -81,18 +81,6 @@
 #include "vsync.h"
 #include "vicii.h"
 
-static UI_CALLBACK(noop_video_standard)
-{
-    return;
-}
-
-static ui_menu_entry_t set_video_standard_c64_submenu[] = {
-    /* PAL/NTSC switching is handled via VICII (or C64) model */
-    { N_("Switch using C64 or VIC-II model"), (ui_callback_t)noop_video_standard,
-      (ui_callback_data_t)0, NULL },
-    { NULL }
-};
-
 /* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(radio_c64model)
@@ -649,8 +637,6 @@ static ui_menu_entry_t x64_main_menu[] = {
 static ui_menu_entry_t x64_speed_menu[] = {
     { "",
       NULL, NULL, ui_performance_settings_menu },
-    { "--" },
-    { "--" },
     { NULL }
 };
 
@@ -676,8 +662,6 @@ static void c64ui_dynamic_menu_shutdown(void)
 
 int c64scui_init(void)
 {
-    memcpy(set_video_standard_submenu, set_video_standard_c64_submenu, sizeof(set_video_standard_c64_submenu));
-
     ui_set_application_icon(c64_icon_data);
     c64ui_dynamic_menu_create();
 

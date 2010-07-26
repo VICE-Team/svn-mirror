@@ -30,6 +30,7 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s vdc_submenu[];
+extern struct ui_menu_entry_s set_vdcmodel_submenu[];
 
 extern void uivdc_menu_create(void);
 extern void uivdc_menu_shutdown(void);

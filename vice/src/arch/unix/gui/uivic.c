@@ -45,16 +45,6 @@
 
 UI_FULLSCREEN(VIC, KEYSYM_d)
 
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
-
-static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_STRING_RADIO(VICPaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
@@ -140,13 +130,10 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("*Color set"),
       (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
-    { N_("PAL Emulation Settings"),
+    { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_VICScale2x, NULL, NULL },
-    { "--" },
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
     { "--" },
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
@@ -159,12 +146,14 @@ ui_menu_entry_t vic_submenu[] = {
 #endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
+    { "--" },
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
     { N_("Desktop Refreshrate..."),
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
+    { "--" },
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVIC },
 #endif
 #ifndef USE_GNOMEUI

@@ -45,14 +45,6 @@
 #include "lib.h"
 #endif
 
-/* array for the actual data to be copied into */
-struct ui_menu_entry_s set_video_standard_submenu[4] = {
-    { NULL },
-    { NULL },
-    { NULL },
-    { NULL }
-};
-
 #include "uifullscreen-menu.h"
 UI_FULLSCREEN(VICII, KEYSYM_d)
 
@@ -129,7 +121,6 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
         }
     }
 }
-
 #endif
 
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
@@ -178,13 +169,15 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*Color set"),
       (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
-    { N_("PAL Emulation"),
+    { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_VICIIScale2x, NULL, NULL },
+#if 0
     { "--" },
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
+#endif
     { "--" },
     { N_("*Border mode"),
       NULL, NULL, bordermode_submenu },
@@ -193,8 +186,8 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)toggle_VICIICheckSsColl, NULL, NULL },
     { N_("*Sprite-background collisions"),
       (ui_callback_t)toggle_VICIICheckSbColl, NULL, NULL },
-    { "--" },
 #ifdef HAVE_HWSCALE
+    { "--" },
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_VICIIHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
@@ -205,15 +198,18 @@ ui_menu_entry_t vicii_submenu[] = {
 #endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
+    { "--" },
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
     { N_("Desktop Refreshrate..."),
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
+    { "--" },
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVICII },
 #endif
 #ifndef USE_GNOMEUI
+    { "--" },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif

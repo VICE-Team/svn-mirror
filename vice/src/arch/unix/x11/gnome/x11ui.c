@@ -152,7 +152,6 @@ static GtkStyle *ui_style_red;
 static GtkStyle *ui_style_green;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
-static GtkWidget *pal_ctrl_widget;
 static char *fixedfontname="CBM 10";
 static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
@@ -252,7 +251,7 @@ extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
 /* ------------------------------------------------------------------------- */
 
-void ui_check_mouse_cursor()
+void ui_check_mouse_cursor(void)
 {
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled) {
@@ -533,14 +532,16 @@ int ui_init_finalize(void)
 
 static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 {
+    app_shell_type *appshell = ((app_shell_type*) data);
+
     if (!w || !GTK_IS_TOGGLE_BUTTON(w)) {
         return;
     }
 
     if (GTK_TOGGLE_BUTTON(w)->active) {
-        gtk_widget_show(pal_ctrl_widget);
+        gtk_widget_show(appshell->pal_ctrl);
     } else {
-        gtk_widget_hide(pal_ctrl_widget);
+        gtk_widget_hide(appshell->pal_ctrl);
     }
 }
 
@@ -613,9 +614,9 @@ ui_create_status_bar(GtkWidget *pane)
     /* PAL Control checkbox */
     pal_ctrl_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
-    pcb = gtk_check_button_new_with_label(_("PAL Controls"));
+    pcb = gtk_check_button_new_with_label(_("CRT Controls"));
     GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-    g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), pcb);
+    g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), as);
     gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
     gtk_widget_show(pcb);
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, FALSE, FALSE, 0);
@@ -898,7 +899,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
 /* Create a shell with a canvas widget in it.  */
 int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat)
 {
-    GtkWidget *new_window, *topmenu, *panelcontainer, *sb;
+    GtkWidget *new_window, *topmenu, *panelcontainer, *sb, *pal_ctrl_widget = NULL;
     GtkAccelGroup* accel;
     GdkColor black = { 0, 0, 0, 255 };
     int i;

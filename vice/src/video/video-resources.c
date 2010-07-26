@@ -44,7 +44,7 @@ video_resources_t video_resources =
     1000, /* color_saturation */
     1100, /* color_contrast */
     1100, /* color_brightness */ 
-    880,  /* color_gamma */
+    2200, /* color_gamma */
     1000, /* color_tint */
     0,    /* delayloop_emulation */
     667,  /* pal_scanlineshade */
@@ -81,10 +81,11 @@ static int set_double_size_enabled(int val, void *param)
     int old_doublesizex, old_doublesizey;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
 
-    if (val)
+    if (val) {
         cap_render = &video_chip_cap->double_mode;
-    else
+    } else {
         cap_render = &video_chip_cap->single_mode;
+    }
 
     canvas->videoconfig->rendermode = cap_render->rmode;
 

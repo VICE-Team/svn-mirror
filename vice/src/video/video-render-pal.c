@@ -30,10 +30,13 @@
 
 #include <stdio.h>
 
+#include "log.h"
 #include "machine.h"
 #include "render1x1.h"
 #include "render1x1pal.h"
 #include "render1x1ntsc.h"
+#include "render1x2.h"
+#include "render1x2crt.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
 #include "render2x2ntsc.h"
@@ -134,42 +137,45 @@ static void video_render_pal_main(video_render_config_t *config,
         return;
       case VIDEO_RENDER_PAL_2X2:
         if (delayloop && depth != 8) {
-            if (video) {
-                switch (depth) {
-                case 16:
-                    render_16_2x2_pal(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
-                    return;
-                case 24:
-                    render_24_2x2_pal(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
-                    return;
-                case 32:
-                    render_32_2x2_pal(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
-                    return;
-                }
-            } else {
-                switch (depth) {
-                case 16:
-                    render_16_2x2_ntsc(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
-                    return;
-                case 24:
-                    render_24_2x2_ntsc(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
-                    return;
-                case 32:
-                    render_32_2x2_ntsc(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
-                    return;
-                }
+            switch (video) {
+                case 0: /* NTSC */
+                    switch (depth) {
+                    case 16:
+                        render_16_2x2_ntsc(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht,
+                                        viewport);
+                        return;
+                    case 24:
+                        render_24_2x2_ntsc(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht,
+                                        viewport);
+                        return;
+                    case 32:
+                        render_32_2x2_ntsc(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht,
+                                        viewport);
+                        return;
+                    }
+                    break;
+                case 1: /* PAL */
+                    switch (depth) {
+                    case 16:
+                        render_16_2x2_pal(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht,
+                                        viewport);
+                        return;
+                    case 24:
+                        render_24_2x2_pal(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht,
+                                        viewport);
+                        return;
+                    case 32:
+                        render_32_2x2_pal(colortab, src, trg, width, height,
+                                        xs, ys, xt, yt, pitchs, pitcht,
+                                        viewport);
+                        return;
+                    }
+                    break;
             }
         } else if (scale2x) {
             switch (depth) {
@@ -211,6 +217,7 @@ static void video_render_pal_main(video_render_config_t *config,
             }
         }
     }
+    log_debug("video_render_pal_main unsupported rendermode (%d)\n", rendermode);
 }
 
 void video_render_pal_init(void)

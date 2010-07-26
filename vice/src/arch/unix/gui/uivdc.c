@@ -30,11 +30,17 @@
 
 #include "fullscreenarch.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uimenu.h"
+#include "uipalemu.h"
 #include "uipalette.h"
 #include "uivdc.h"
-
 #include "uifullscreen-menu.h"
+#ifdef HAVE_OPENGL_SYNC
+#include <stdlib.h>             /* strtol() */
+#include "openGL_sync.h"
+#include "lib.h"
+#endif
 
 UI_FULLSCREEN(VDC, KEYSYM_f)
 
@@ -68,6 +74,7 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+UI_MENU_DEFINE_TOGGLE(VDCExternalPalette)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(VDCHwScale, HwScalePossible, NOTHING)
@@ -86,6 +93,55 @@ UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 #endif
 
+#ifdef HAVE_OPENGL_SYNC
+UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+
+static UI_CALLBACK(openGL_set_desktoprefresh)
+{
+    if (!CHECK_MENUS) {
+        float f;
+        char *buf = lib_calloc(sizeof(char), 10);
+
+        sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+        ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
+        f = (float) strtol(buf, NULL, 10);
+        openGL_set_canvas_refreshrate(f);
+        lib_free(buf);
+    } else {
+        if (openGL_available(0) && openGL_sync_enabled()) {
+            ui_menu_set_sensitive(w, 1);
+        } else {
+            ui_menu_set_sensitive(w, 0);
+        }
+    }
+}
+#endif
+
+static UI_CALLBACK(color_set)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int val;
+
+        resources_get_int("VDCExternalPalette", &val);
+
+        if (val) {
+            ui_menu_set_sensitive(w, 1);
+        } else {
+            ui_menu_set_sensitive(w, 0);
+        }
+    }
+}
+
+ui_menu_entry_t set_vdcmodel_submenu[] = {
+    { N_("*64KB display memory"),
+      (ui_callback_t)toggle_VDC64KB, NULL, NULL },
+    { N_("Revision"),
+      NULL, NULL, set_vdc_revison_submenu },
+    { NULL }
+};
+
 ui_menu_entry_t vdc_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_VDCDoubleSize, NULL, NULL },
@@ -94,10 +150,15 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { "--" },
-#ifdef HAVE_FULLSCREEN
-    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVDC },
-#endif
+    { N_("*External color set"),
+      (ui_callback_t)toggle_VDCExternalPalette, NULL, NULL },
+    { N_("*Color set"),
+      (ui_callback_t)color_set, NULL, vdc_palette_submenu },
+    { "--" },
+    { N_("CRT Emulation Settings"),
+      NULL, NULL, PALMode_submenu },
 #ifdef HAVE_HWSCALE
+    { "--" },
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_VDCHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
@@ -107,18 +168,22 @@ ui_menu_entry_t vdc_submenu[] = {
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
 #endif
+#ifdef HAVE_OPENGL_SYNC
+    { "--" },
+    { N_("*OpenGL Rastersynchronization"),
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+    { N_("Desktop Refreshrate..."),
+      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
+#endif
+#ifdef HAVE_FULLSCREEN
+    { "--" },
+    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVDC },
+#endif
 #ifndef USE_GNOMEUI
+    { "--" },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
-    { "--" },
-    { N_("*64KB display memory"),
-      (ui_callback_t)toggle_VDC64KB, NULL, NULL },
-    { N_("Revision"),
-      NULL, NULL, set_vdc_revison_submenu },
-    { "--" },
-    { N_("Color set"),
-      NULL, NULL, vdc_palette_submenu },
     { NULL }
 };
 

@@ -57,7 +57,7 @@
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-static ui_menu_entry_t set_video_standard_c64dtv_submenu[] = {
+static ui_menu_entry_t set_viciimodel_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
@@ -71,9 +71,6 @@ static ui_menu_entry_t set_video_standard_c64dtv_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_dtv_model_submenu },
-    { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
 #ifdef HAVE_RESID
@@ -84,30 +81,6 @@ static ui_menu_entry_t sid_submenu[] = {
       (ui_callback_t)set_sid_resid_passband, NULL, NULL },
 #endif
     { NULL },
-};
-
-UI_MENU_DEFINE_TOGGLE(Sound)
-
-static ui_menu_entry_t sid_options_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { N_("*Enable sound playback"),
-      (ui_callback_t)toggle_Sound, NULL, NULL },
-    { N_("*Emulate filters"),
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
-    { N_("Chip model"),
-      NULL, NULL, sid_model_submenu },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-static ui_menu_entry_t io_extensions_submenu[] = {
-#ifdef HAVE_MOUSE
-    { N_("*PS/2 Mouse Emulation"),
-      NULL, NULL, ps2_mouse_submenu },
-#endif
-    { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -171,15 +144,29 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+ui_menu_entry_t c64dtv_model_submenu[] = {
+    { N_("Blitter Revision"),
+      NULL, NULL, c64dtv_revision_submenu },
+    { N_("VIC-II model"),
+      NULL, NULL, set_viciimodel_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_dtv_model_submenu },
+    { NULL }
+};
+
 static ui_menu_entry_t c64_menu[] = {
+    { N_("Model settings"),
+      NULL, NULL, c64dtv_model_submenu },
     { N_("ROM settings"),
       NULL, NULL, c64_romset_submenu },
     { N_("VIC-II settings"),
       NULL, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
-    { N_("C64DTV settings"),
-      NULL, NULL, c64dtv_submenu },
+    { N_("Flash settings"),
+      NULL, NULL, c64dtv_flash_submenu },
+    { N_("I/O extensions"),
+      NULL, NULL, c64dtv_extension_submenu },
     { NULL }
 };
 
@@ -252,7 +239,7 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
       NULL, NULL, ui_snapshot_commands_submenu },
     { "--",
       NULL, NULL, ui_screenshot_commands_menu },
-    { "",
+    { "--",
       NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };
@@ -263,15 +250,9 @@ static ui_menu_entry_t x64_options_submenu[] = {
     { "--",
       NULL, NULL, joystick_options_submenu },
     { "--",
-      NULL, NULL, sid_options_submenu },
+      NULL, NULL, c64dtv_model_submenu },
     { "--",
-      NULL, NULL, c64dtv_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
-    { "--",
-      NULL, NULL, ui_flash_options_submenu },
-    { "--",
-      NULL, NULL, io_extensions_submenu },
+      NULL, NULL, c64dtv_extension_submenu },
     { NULL }
 };
 
@@ -312,8 +293,6 @@ static ui_menu_entry_t x64_main_menu[] = {
 static ui_menu_entry_t x64_speed_menu[] = {
     { "",
       NULL, NULL, ui_performance_settings_menu },
-    { "--" },
-    { "--" },
     { NULL }
 };
 
@@ -331,8 +310,6 @@ static void c64ui_dynamic_menu_shutdown(void)
 
 int c64dtvui_init(void)
 {
-    memcpy(set_video_standard_submenu, set_video_standard_c64dtv_submenu, sizeof(set_video_standard_c64dtv_submenu));
-
     ui_set_application_icon(c64dtv_icon_data);
     c64ui_dynamic_menu_create();
 

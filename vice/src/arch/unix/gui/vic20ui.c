@@ -36,6 +36,7 @@
 #include "icon.h"
 #include "joy.h"
 #include "lib.h"
+#include "machine.h"
 #include "machine-video.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -222,9 +223,6 @@ static ui_menu_entry_t memory_settings_submenu[] = {
     { N_("Common configurations"),
       NULL, NULL, common_memory_configurations_submenu },
     { "--" },
-    { N_("ROM sets"),
-      NULL, NULL, vic20_romset_submenu },
-    { "--" },
     { N_("*Block 0 (3K at $0400-$0FFF)"),
       (ui_callback_t)toggle_RAMBlock0, NULL, NULL },
     { N_("*Block 1 (8K at $2000-$3FFF)"),
@@ -235,19 +233,8 @@ static ui_menu_entry_t memory_settings_submenu[] = {
       (ui_callback_t)toggle_RAMBlock3, NULL, NULL },
     { N_("*Block 5 (8K at $A000-$BFFF)"),
       (ui_callback_t)toggle_RAMBlock5, NULL, NULL },
-    { "--" },
-    { N_("*Emulator identification"),
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }
 };
-
-#if 0
-static ui_menu_entry_t memory_settings_menu[] = {
-    { N_("Memory expansions"),
-      NULL, NULL, memory_settings_submenu },
-    { NULL }
-};
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -490,11 +477,25 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t vic20_menu[] = {
-    { N_("VIC settings"),
-      NULL, NULL, vic_submenu },
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
+
+static ui_menu_entry_t set_vic_model_submenu[] = {
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_model_submenu[] = {
+    { N_("VIC model"),
+      NULL, NULL, set_vic_model_submenu },
     { N_("Memory expansions"),
       NULL, NULL, memory_settings_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("SID cartridge settings"),
       NULL, NULL, sidcart_submenu },
     { N_("Paddle emulation"),
@@ -507,6 +508,23 @@ static ui_menu_entry_t vic20_menu[] = {
     { N_("MIDI emulation"),
       NULL, NULL, midi_vic20_submenu },
 #endif
+    { "--" },
+    { N_("*Emulator identification"),
+      (ui_callback_t)toggle_EmuID, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_menu[] = {
+    { N_("Model settings"),
+      NULL, NULL, vic20_model_submenu },
+    { N_("ROM settings"),
+      NULL, NULL, vic20_romset_submenu },
+    { N_("VIC settings"),
+      NULL, NULL, vic_submenu },
+    { N_("I/O extensions"),
+      NULL, NULL, io_extensions_submenu },
+    { "",
+      NULL, NULL, rs232_settings_menu },
     { NULL }
 };
 
@@ -553,8 +571,6 @@ static ui_menu_entry_t vic20_right_menu[] = {
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "",
       NULL, NULL, joystick_settings_menu },
-    { "",
-      NULL, NULL, rs232_settings_menu },
     { "--",
       NULL, NULL, vic20_menu },
     { "--",
@@ -610,7 +626,7 @@ static ui_menu_entry_t vic20_options_menu[] = {
     { "",
       NULL, NULL, ui_performance_settings_menu },
     { "--",
-      NULL, NULL, ui_drive_options_submenu },
+      NULL, NULL, io_extensions_submenu },
     { NULL }
 };
 
@@ -625,8 +641,6 @@ static ui_menu_entry_t vic20_settings_menu[] = {
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "",
       NULL, NULL, joystick_settings_menu },
-    { "",
-      NULL, NULL, rs232_settings_menu },
     { "--",
       NULL, NULL, vic20_menu },
     { "--",

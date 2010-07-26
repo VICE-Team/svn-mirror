@@ -34,6 +34,9 @@
 #include "uilib.h"
 #include "uimenu.h"
 #include "uic64dtv.h"
+#include "uidrive.h"
+#include "uidrivec64dtv.h"
+#include "uidrivec64vic20.h"
 #include "uips2mouse.h"
 #include "util.h"
 
@@ -63,7 +66,7 @@ UI_CALLBACK(set_c64dtv_rom_name)
     lib_free(filename);
 }
 
-static ui_menu_entry_t c64dtv_revision_submenu[] = {
+ui_menu_entry_t c64dtv_revision_submenu[] = {
     { "*DTV2", (ui_callback_t)radio_DtvRevision,
       (ui_callback_data_t)2, NULL },
     { "*DTV3", (ui_callback_t)radio_DtvRevision,
@@ -71,19 +74,23 @@ static ui_menu_entry_t c64dtv_revision_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t c64dtv_submenu[] = {
+ui_menu_entry_t c64dtv_flash_submenu[] = {
     { N_("C64DTV ROM image name..."),
       (ui_callback_t)set_c64dtv_rom_name,
       (ui_callback_data_t)"c64dtvromfilename", NULL },
     { N_("*Enable writes to C64DTV ROM image"),
       (ui_callback_t)toggle_c64dtvromrw, NULL, NULL },
-    { "--" },
-    { N_("C64DTV blitter revision"),
-      NULL, NULL, c64dtv_revision_submenu },
-    { "--" },
+    { "--",
+      NULL, NULL, ui_flash_options_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t c64dtv_extension_submenu[] = {
     { N_("*Enable Hummer ADC"),
       (ui_callback_t) toggle_HummerADC, NULL, NULL },
+#ifdef HAVE_MOUSE
     { N_("PS/2 mouse on Userport"),
       NULL, NULL, ps2_mouse_submenu },
+#endif
     { NULL }
 };

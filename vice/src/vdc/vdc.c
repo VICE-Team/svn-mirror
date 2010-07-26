@@ -45,6 +45,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "vdc-cmdline-options.h"
+#include "vdc-color.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
 #include "vdc-snapshot.h"
@@ -155,14 +156,6 @@ static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
     raster_new_cache(raster, screen_height);
 }
 
-static video_cbm_palette_t vdc_palette =
-{
-    VDC_NUM_COLORS,
-    NULL,
-    0,
-    0
-};
-
 static int init_raster(void)
 {
     raster_t *raster;
@@ -172,30 +165,30 @@ static int init_raster(void)
     raster->sprite_status = NULL;
     raster_line_changes_init(raster);
 
-    if (raster_init(raster, VDC_NUM_VMODES) < 0)
+    if (raster_init(raster, VDC_NUM_VMODES) < 0) {
         return -1;
+    }
 
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
     resources_touch("VDCVideoCache");
 
     vdc_set_geometry();
 
-    video_color_palette_internal(vdc.raster.canvas, &vdc_palette);
-    if (video_color_update_palette(vdc.raster.canvas) < 0) {
+    if (vdc_color_update_palette(vdc.raster.canvas) < 0) {
         log_error(vdc.log, "Cannot load palette.");
         return -1;
     }
 
     raster_set_title(raster, machine_name);
 
-    if (raster_realize(raster) < 0)
+    if (raster_realize(raster) < 0) {
         return -1;
+    }
 
     raster->border_color = 0;
 
     return 0;
 }
-
 
 int vdc_init_resources(void)
 {
@@ -206,7 +199,6 @@ int vdc_init_cmdline_options(void)
 {
     return vdc_cmdline_options_init();
 }
-
 
 /* Initialize the VDC emulation. */
 raster_t *vdc_init(void)
@@ -224,8 +216,9 @@ raster_t *vdc_init(void)
 
     vdc_powerup();
 
-    if (init_raster() < 0)
+    if (init_raster() < 0) {
         return NULL;
+    }
 
     vdc.force_resize = 0;
     vdc.force_repaint = 0;
@@ -370,11 +363,11 @@ CLOCK vdc_lightpen_timing(int x, int y)
     host_cycles_per_second = (double)machine_get_cycles_per_second();
     vdc_cycles_per_line = (double)(vdc.xchars_total) * 8.0
                           * host_cycles_per_second / VDC_DOT_CLOCK;
-    
+
     /* FIXME - this doesn't work properly.. */
     pulse_time = maincpu_clk;
     pulse_time += (CLOCK)((x / 8) + (y * vdc_cycles_per_line));
-        
+
     /* Figure out what values should go into the registers when triggered */
     vdc.light_pen.y = (y - (int)vdc.first_displayed_line - 1) / ((int)(vdc.regs[9] & 0x1f) + 1);
     if (vdc.light_pen.y < 0) {

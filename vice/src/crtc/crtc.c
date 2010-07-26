@@ -37,6 +37,7 @@
 #include "alarm.h"
 #include "clkguard.h"
 #include "crtc-cmdline-options.h"
+#include "crtc-color.h"
 #include "crtc-draw.h"
 #include "crtc-resources.h"
 #include "crtc.h"
@@ -363,14 +364,6 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 /*--------------------------------------------------------------------*/
 
-static video_cbm_palette_t crtc_palette =
-{
-    CRTC_NUM_COLORS,
-    NULL,
-    0,
-    0    
-};
-
 raster_t *crtc_init(void)
 {
     raster_t *raster;
@@ -387,11 +380,17 @@ raster_t *crtc_init(void)
     raster->sprite_status = NULL;
     raster_line_changes_init(raster);
 
-    if (raster_init(raster, CRTC_NUM_VMODES) < 0)
+    if (raster_init(raster, CRTC_NUM_VMODES) < 0) {
         return NULL;
+    }
 
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
     resources_touch("CrtcVideoCache");
+
+    if (crtc_color_update_palette(raster->canvas) < 0) {
+        log_error(crtc.log, "Cannot load palette.");
+        return NULL;
+    }
 
     if (!crtc.regs[0])
         crtc.regs[0] = 49;
@@ -426,16 +425,11 @@ raster_t *crtc_init(void)
 
     crtc_update_window();
 
-    video_color_palette_internal(crtc.raster.canvas, &crtc_palette);
-    if (video_color_update_palette(crtc.raster.canvas) < 0) {
-        log_error(crtc.log, "Cannot load palette.");
-        return NULL;
-    }
-
     raster_set_title(raster, machine_name);
 
-    if (raster_realize(raster) < 0)
+    if (raster_realize(raster) < 0) {
         return NULL;
+    }
 
     crtc_update_chargen_rel();
     crtc_update_disp_char();

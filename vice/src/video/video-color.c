@@ -285,6 +285,7 @@ static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
 #endif
 }
 
+/* FIXME: handle gamme for CRT emulation (CGA and Monochrom video) too */
 static float video_get_gamma(void)
 {
     int video;
@@ -554,8 +555,9 @@ int video_color_update_palette(struct video_canvas_s *canvas)
 
     video_ycbcr_palette_free(ycbcr);
 
-    if (palette != NULL)
+    if (palette != NULL) {
         return video_canvas_palette_set(canvas, palette);
+    }
 
     return -1;
 }

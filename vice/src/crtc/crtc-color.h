@@ -1,8 +1,8 @@
 /*
- * c128video.c - Machine specific video handling.
+ * crtc-color.h - Colors for the CRTC emulation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,42 +24,12 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_CRTC_COLOR_H
+#define VICE_CRTC_COLOR_H
 
-#include <stdio.h>
+struct video_canvas_s;
 
-#include "machine-video.h"
-#include "vdc.h"
-#include "vicii.h"
-#include "video.h"
+extern int crtc_color_update_palette(struct video_canvas_s *canvas);
 
-void machine_video_init(void)
-{
-    video_render_1x2_init();
-    video_render_2x2_init();
-    video_render_pal_init();
-    video_render_crt_init();
-}
+#endif
 
-int machine_video_resources_init(void)
-{
-    if (video_resources_pal_init() < 0
-        || video_resources_crt_init() < 0
-        || video_resources_init() < 0) {
-        return -1;
-    }
-
-    return 0;
-}
-
-struct video_canvas_s *machine_video_canvas_get(unsigned int window)
-{
-    if (window == 0) {
-        return vdc_get_canvas();
-    }
-    if (window == 1) {
-        return vicii_get_canvas();
-    }
-
-    return NULL;
-}

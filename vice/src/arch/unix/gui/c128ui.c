@@ -82,7 +82,7 @@
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-static ui_menu_entry_t set_video_standard_c128_submenu[] = {
+static ui_menu_entry_t set_viciimodel_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
@@ -188,9 +188,6 @@ UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
     { N_("*Second SID base address"),
@@ -429,11 +426,43 @@ static ui_menu_entry_t machine_type_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(Go64Mode)
 
+/* FIXME: enable resources in c128 port */
+#if 0
+UI_MENU_DEFINE_RADIO(CIA1Model)
+static ui_menu_entry_t set_cia1model_submenu[] = {
+    { N_("*6526 (old)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("*6526A (new)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(CIA2Model)
+static ui_menu_entry_t set_cia2model_submenu[] = {
+    { N_("*6526 (old)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("*6526A (new)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+#endif
+
 ui_menu_entry_t c128_model_submenu[] = {
     { N_("Machine type"),
       NULL, NULL, machine_type_submenu },
-    { N_("ROM sets"),
-      NULL, NULL, c128_romset_submenu },
+    { N_("VIC-II model"),
+      NULL, NULL, set_viciimodel_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
+    { N_("VDC model"),
+      NULL, NULL, set_vdcmodel_submenu },
+/* FIXME: enable resources in c128 port */
+#if 0
+    { N_("CIA 1 model"),
+      NULL, NULL, set_cia1model_submenu },
+    { N_("CIA 2 model"),
+      NULL, NULL, set_cia2model_submenu },
+#endif
     { "--" },
     { N_("*Always switch to C64 mode"),
       (ui_callback_t)toggle_Go64Mode, NULL, NULL },
@@ -443,6 +472,10 @@ ui_menu_entry_t c128_model_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c128_menu[] = {
+    { N_("Model settings"),
+      NULL, NULL, c128_model_submenu },
+    { N_("ROM settings"),
+      NULL, NULL, c128_romset_submenu },
     { N_("VIC-II settings"),
       NULL, NULL, vicii_submenu },
     { N_("VDC settings"),
@@ -453,8 +486,6 @@ static ui_menu_entry_t c128_menu[] = {
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"),
       NULL, NULL, uirs232c64c128_submenu },
-    { N_("Model settings"),
-      NULL, NULL, c128_model_submenu },
     { NULL }
 };
 
@@ -614,8 +645,6 @@ static void c128ui_dynamic_menu_shutdown(void)
 
 int c128ui_init(void)
 {
-    memcpy(set_video_standard_submenu, set_video_standard_c128_submenu, sizeof(set_video_standard_c128_submenu));
-
     ui_set_application_icon(c128_icon_data);
     c128ui_dynamic_menu_create();
     ui_set_left_menu(c128_left_menu);

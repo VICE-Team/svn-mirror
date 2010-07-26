@@ -356,17 +356,17 @@ static int init_raster(void)
 
     raster_set_title(raster, machine_name);
 
-    if (raster_realize(raster) < 0)
+    if (raster_realize(raster) < 0) {
         return -1;
-
+    }
     raster->display_ystart = vicii.row_25_start_line;
     raster->display_ystop = vicii.row_25_stop_line;
     raster->display_xstart = VICII_40COL_START_PIXEL;
     raster->display_xstop = VICII_40COL_STOP_PIXEL;
 
-    if (vicii.viciidtv)
+    if (vicii.viciidtv) {
         raster->can_disable_border = 1;
-
+    }
     return 0;
 }
 

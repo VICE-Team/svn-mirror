@@ -173,3 +173,8 @@ int video_resources_pal_init(void)
     return resources_register_int(resources_int);
 }
 
+/* FIXME: we use the same resources for now, seperation will be needed for x128/vdc later */
+int video_resources_crt_init(void)
+{
+    return resources_register_int(resources_int);
+}

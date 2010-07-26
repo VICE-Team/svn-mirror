@@ -1,8 +1,8 @@
 /*
- * c128video.c - Machine specific video handling.
+ * crtc-color.c - Colors for the CRTC emulation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,40 +26,37 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-
-#include "machine-video.h"
-#include "vdc.h"
-#include "vicii.h"
+#include "crtctypes.h"
+#include "crtc-color.h"
+#include "crtc-resources.h"
 #include "video.h"
 
-void machine_video_init(void)
+/* base saturation */
+#define CRTC_SATURATION  150.0f
+
+/* phase shift of all colors */
+#define CRTC_PHASE         0.5f
+
+/* chroma angles in UV space */
+#define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
+#define ANGLE_GRN       -135.0f
+
+static video_cbm_color_t crtc_colors[CRTC_NUM_COLORS]=
 {
-    video_render_1x2_init();
-    video_render_2x2_init();
-    video_render_pal_init();
-    video_render_crt_init();
-}
+    {   0.0f, ANGLE_ORN, -0, "Black"       },
+    { 192.0f, ANGLE_GRN,  1, "Green"       },
+};
 
-int machine_video_resources_init(void)
+static video_cbm_palette_t crtc_palette =
 {
-    if (video_resources_pal_init() < 0
-        || video_resources_crt_init() < 0
-        || video_resources_init() < 0) {
-        return -1;
-    }
+    CRTC_NUM_COLORS,
+    crtc_colors,
+    CRTC_SATURATION,
+    CRTC_PHASE
+};
 
-    return 0;
-}
-
-struct video_canvas_s *machine_video_canvas_get(unsigned int window)
+int crtc_color_update_palette(struct video_canvas_s *canvas)
 {
-    if (window == 0) {
-        return vdc_get_canvas();
-    }
-    if (window == 1) {
-        return vicii_get_canvas();
-    }
-
-    return NULL;
+    video_color_palette_internal(canvas, &crtc_palette);
+    return video_color_update_palette(canvas);
 }

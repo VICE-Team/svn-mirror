@@ -17,6 +17,8 @@ libvideo_a_SOURCES = \
 	render1x1ntsc.h \
 	render1x2.c \
 	render1x2.h \
+	render1x2crt.c \
+	render1x2crt.h \
 	render2x2.c \
 	render2x2.h \
 	render2x2pal.c \
@@ -34,6 +36,7 @@ libvideo_a_SOURCES = \
 	video-color.h \
 	video-render-1x2.c \
 	video-render-2x2.c \
+	video-render-crt.c \
 	video-render-pal.c \
 	video-render.c \
 	video-render.h \

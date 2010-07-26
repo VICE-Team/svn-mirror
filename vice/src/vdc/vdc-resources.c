@@ -83,16 +83,16 @@ int vdc_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_VDC_DSCAN;
     video_chip_cap.hwscale_allowed = ARCHDEP_VDC_HWSCALE;
     video_chip_cap.scale2x_allowed = 0;
-    video_chip_cap.internal_palette_allowed = 0;
+    video_chip_cap.internal_palette_allowed = 1;
     video_chip_cap.external_palette_name = "vdc_deft";
-    video_chip_cap.palemulation_allowed = 0;
+    video_chip_cap.palemulation_allowed = 1;
     video_chip_cap.double_buffering_allowed = ARCHDEP_VDC_DBUF;
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
-    video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;
+    video_chip_cap.single_mode.rmode = VIDEO_RENDER_CRT_1X1;
     video_chip_cap.double_mode.sizex = 1;
     video_chip_cap.double_mode.sizey = 2;
-    video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGB_1X2;
+    video_chip_cap.double_mode.rmode = VIDEO_RENDER_CRT_1X2;
 
     fullscreen_capability(&(video_chip_cap.fullscreen));
 

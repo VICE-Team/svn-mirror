@@ -30,11 +30,17 @@
 #include <stdio.h>
 
 #include "fullscreenarch.h"
+#include "uiapi.h"
 #include "uicrtc.h"
 #include "uimenu.h"
+#include "uipalemu.h"
 #include "uipalette.h"
 #include "resources.h"
+#ifdef HAVE_OPENGL_SYNC
+#include <stdlib.h>             /* strtol() */
 #include "openGL_sync.h"
+#include "lib.h"
+#endif
 
 #include "uifullscreen-menu.h"
 
@@ -60,6 +66,8 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
+UI_MENU_DEFINE_TOGGLE(CrtcExternalPalette)
+
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(CrtcHwScale, HwScalePossible, NOTHING)
 #endif
@@ -67,6 +75,26 @@ UI_MENU_DEFINE_TOGGLE(CrtcScale2x)
 
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+
+static UI_CALLBACK(openGL_set_desktoprefresh)
+{
+    if (!CHECK_MENUS) {
+        float f;
+        char *buf = lib_calloc(sizeof(char), 10);
+
+        sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+        ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
+        f = (float) strtol(buf, NULL, 10);
+        openGL_set_canvas_refreshrate(f);
+        lib_free(buf);
+    } else {
+        if (openGL_available(0) && openGL_sync_enabled()) {
+            ui_menu_set_sensitive(w, 1);
+        } else {
+            ui_menu_set_sensitive(w, 0);
+        }
+    }
+}
 #endif
 
 #ifndef USE_GNOMEUI
@@ -79,6 +107,22 @@ UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 #endif
+static UI_CALLBACK(color_set)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int val;
+
+        resources_get_int("CRTCExternalPalette", &val);
+
+        if (val) {
+            ui_menu_set_sensitive(w, 1);
+        } else {
+            ui_menu_set_sensitive(w, 0);
+        }
+    }
+}
 
 ui_menu_entry_t crtc_submenu[] = {
     { N_("*Double size"),
@@ -88,9 +132,17 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { "--" },
+    { N_("*External color set"),
+      (ui_callback_t)toggle_CrtcExternalPalette, NULL, NULL },
+    { N_("*CRTC Screen color"),
+      (ui_callback_t)color_set, NULL, crtc_palette_submenu },
+    { "--" },
+    { N_("CRT Emulation Settings"),
+      NULL, NULL, PALMode_submenu },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_CrtcScale2x, NULL, NULL },
 #ifdef HAVE_HWSCALE
+    { "--" },
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_CrtcHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
@@ -100,18 +152,19 @@ ui_menu_entry_t crtc_submenu[] = {
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
 #endif
-    { "--" },
-    { N_("*CRTC Screen color"),
-      NULL, NULL, crtc_palette_submenu },
-    { "--" },
 #ifdef HAVE_OPENGL_SYNC
+    { "--" },
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+    { N_("Desktop Refreshrate..."),
+      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
+    { "--" },
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuCRTC },
 #endif    
 #ifndef USE_GNOMEUI
+    { "--" },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif

@@ -28,5 +28,8 @@
 #define VICE_UI_C64DTV_H
 
 extern struct ui_menu_entry_s c64dtv_submenu[];
+extern struct ui_menu_entry_s c64dtv_revision_submenu[];
+extern struct ui_menu_entry_s c64dtv_flash_submenu[];
+extern struct ui_menu_entry_s c64dtv_extension_submenu[];
 
 #endif

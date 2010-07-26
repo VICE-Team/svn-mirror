@@ -56,6 +56,10 @@ static void(*render_pal_func)(video_render_config_t *, BYTE *, BYTE *,
                               int, int, int, int,
                               int, int, int, int, int, viewport_t *);
 
+static void(*render_crt_func)(video_render_config_t *, BYTE *, BYTE *,
+                              int, int, int, int,
+                              int, int, int, int, int, viewport_t *);
+
 
 /* this function is the interface to the outer world */
 
@@ -71,8 +75,9 @@ void video_render_initconfig(video_render_config_t *config)
     config->rendermode = VIDEO_RENDER_NULL;
     config->doublescan = 0;
 
-    for (i = 0; i < 256; i++)
+    for (i = 0; i < 256; i++) {
         config->color_tables.physical_colors[i] = 0;
+    }
 }
 
 void video_render_setphysicalcolor(video_render_config_t *config, int index,
@@ -104,7 +109,6 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
               width, height, xs, ys, xt, yt, pitchs, pitcht, depth);
 
 #endif
-
     if (width <= 0)
         return; /* some render routines don't like invalid width */
 
@@ -118,6 +122,13 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
       case VIDEO_RENDER_PAL_1X1:
       case VIDEO_RENDER_PAL_2X2:
         (*render_pal_func)(config, src, trg, width, height, xs, ys, xt, yt,
+                           pitchs, pitcht, depth, viewport);
+        return;
+
+      case VIDEO_RENDER_CRT_1X1:
+      case VIDEO_RENDER_CRT_1X2:
+      case VIDEO_RENDER_CRT_2X2:
+        (*render_crt_func)(config, src, trg, width, height, xs, ys, xt, yt,
                            pitchs, pitcht, depth, viewport);
         return;
 
@@ -181,6 +192,13 @@ void video_render_palfunc_set(void(*func)(video_render_config_t *,
                               int, int, int, int, int, viewport_t *))
 {
     render_pal_func = func;
+}
+
+void video_render_crtfunc_set(void(*func)(video_render_config_t *,
+                              BYTE *, BYTE *, int, int, int, int,
+                              int, int, int, int, int, viewport_t *))
+{
+    render_crt_func = func;
 }
 
 

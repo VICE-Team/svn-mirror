@@ -32,6 +32,7 @@
 
 #include "debug.h"
 #include "icon.h"
+#include "machine.h"
 #include "machine-video.h"
 #include "plus4ui.h"
 #include "resources.h"
@@ -54,6 +55,11 @@
 #include "uited.h"
 #include "uiv364speech.h"
 #include "vsync.h"
+#ifdef HAVE_OPENGL_SYNC
+#include <stdlib.h>             /* strtol() */
+#include "openGL_sync.h"
+#include "lib.h"
+#endif
 
 static UI_CALLBACK(save_screenshot)
 {
@@ -191,17 +197,36 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t plus4_menu[] = {
-    { N_("ROM settings"),
-      NULL, NULL, plus4_romset_submenu },
+
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
+
+static ui_menu_entry_t set_ted_model_submenu[] = {
+    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t plus4_model_submenu[] = {
+    { N_("TED model"),
+      NULL, NULL, set_ted_model_submenu },
     { N_("RAM settings"),
       NULL, NULL, set_ram_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t plus4_menu[] = {
+    { N_("Model settings"),
+      NULL, NULL, plus4_model_submenu },
+    { N_("ROM settings"),
+      NULL, NULL, plus4_romset_submenu },
     { N_("TED settings"),
       NULL, NULL, ted_submenu },
-    { N_("RS232 settings"),
-      NULL, NULL, uirs232petplus4cbm2_submenu },
     { N_("I/O extensions"),
       NULL, NULL, io_extensions_submenu },
+    { N_("RS232 settings"),
+      NULL, NULL, uirs232petplus4cbm2_submenu },
     { NULL }
 };
 
@@ -300,8 +325,6 @@ static ui_menu_entry_t plus4_options_menu[] = {
       NULL, NULL, ui_performance_settings_menu },
     { "--",
       NULL, NULL, joystick_options_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
     { "--",
       NULL, NULL, io_extensions_submenu },
     { NULL }

@@ -227,6 +227,9 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, sidcart_submenu },
     { N_("*Userport DAC"),
       (ui_callback_t)toggle_PETUserportDAC, NULL, NULL },
+    { N_("*PET userport diagnostic pin"),
+      (ui_callback_t)toggle_DiagPin, NULL, NULL },
+    { "--" },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }
@@ -303,9 +306,6 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { N_("Model defaults"),
       NULL, NULL, model_defaults_submenu },
     { "--" },
-    { N_("ROM sets"),
-      NULL, NULL, pet_romset_submenu },
-    { "--" },
     { N_("Video size"),
       NULL, NULL, pet_video_submenu },
     { N_("Memory size"),
@@ -333,14 +333,12 @@ static ui_menu_entry_t model_settings_submenu[] = {
 static ui_menu_entry_t pet_menu[] = {
     { N_("PET model settings"),
       NULL, NULL, model_settings_submenu },
-    { N_("*PET userport diagnostic pin"),
-      (ui_callback_t)toggle_DiagPin, NULL, NULL },
-    { "--" },
+    { N_("ROM settings"),
+      NULL, NULL, pet_romset_submenu },
+    { N_("CRTC settings"),
+      NULL, NULL, crtc_submenu },
     { N_("I/O extensions"),
       NULL, NULL, io_extensions_submenu },
-    { "--" },
-    { N_("Crtc settings"),
-      NULL, NULL, crtc_submenu },
     { NULL }
 };
 
@@ -463,8 +461,6 @@ static ui_menu_entry_t petui_options_menu[] = {
       NULL, NULL, ui_performance_settings_menu },
     { "--",
       NULL, NULL, joystick_options_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
     { "--",
       NULL, NULL, io_extensions_submenu },
     { NULL }

@@ -29,19 +29,21 @@
 
 #include "types.h"
 
-
 /* These constants are used to configure the video output.  */
 
-/* PAL is for PAL based video outputs, like VIC, VIC-II or TED */
-/* RGB is for anything which doesn't need any color filtering  */
-/* for display, like monochrome or rgbi (CRTC and VDC)         */
-
+/* no video output (dummy) */
 #define VIDEO_RENDER_NULL       0
+/* PAL or NTSC TV/Monitor (like VIC, VIC-II or TED) */
 #define VIDEO_RENDER_PAL_1X1    1
 #define VIDEO_RENDER_PAL_2X2    2
+/* no filtering */
 #define VIDEO_RENDER_RGB_1X1    3
 #define VIDEO_RENDER_RGB_1X2    4
 #define VIDEO_RENDER_RGB_2X2    5
+/* RGB(I) or monochrome Monitor (CRTC and VDC) */
+#define VIDEO_RENDER_CRT_1X1    6 /* FIXME: to be written */
+#define VIDEO_RENDER_CRT_1X2    7
+#define VIDEO_RENDER_CRT_2X2    8 /* FIXME: to be written, needed by crtc */
 
 struct video_canvas_s;
 struct video_cbm_palette_s;
@@ -218,6 +220,7 @@ struct raster_s;
 extern int video_resources_init(void);
 extern void video_resources_shutdown(void);
 extern int video_resources_pal_init(void);
+extern int video_resources_crt_init(void);
 extern int video_resources_chip_init(const char *chipname,
                                      struct video_canvas_s **canvas,
                                      video_chip_cap_t *video_chip_cap);
@@ -254,6 +257,7 @@ extern int video_render_get_fake_pal_state(void);
 extern void video_render_1x2_init(void);
 extern void video_render_2x2_init(void);
 extern void video_render_pal_init(void);
+extern void video_render_crt_init(void);
 
 #endif
 

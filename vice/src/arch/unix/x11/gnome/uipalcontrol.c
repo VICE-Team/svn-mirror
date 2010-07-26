@@ -62,10 +62,7 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
 
     v  = (int)v / p->scale;
 
-    /* FIXME: temporary solution, gnome/gtk people need to fix this situation */
-    if (machine_class != VICE_MACHINE_PET) {
-        resources_set_int(p->res, v);
-    }
+    resources_set_int(p->res, v);
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
@@ -73,12 +70,6 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
     unsigned int i;
     int tmp;
 
-    /* FIXME: temporary solution, gnome/gtk people need to fix this
-       situation */
-    if (machine_class == VICE_MACHINE_PET) {
-        return;
-    }
-    
     for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
         resources_get_default_value(ctrls[i].res, (void *)&tmp);
         resources_set_int(ctrls[i].res, tmp);
@@ -104,7 +95,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     int v;
 
     cached_canvas = canvas;
-    f = gtk_frame_new(_("PAL Settings"));
+    f = gtk_frame_new(_("CRT Settings"));
 
     b = gtk_vbox_new(FALSE, 5);
 
@@ -122,12 +113,8 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
         gtk_widget_show(c);
 
         ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
-	
-        /* FIXME: temporary solution, gnome/gtk people need to fix this
-           situation */
-        if (machine_class != VICE_MACHINE_PET) {
-            resources_get_int(ctrls[i].res, &v);
-        }
+
+        resources_get_int(ctrls[i].res, &v);
 
         gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrls[i].scale));
         sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));

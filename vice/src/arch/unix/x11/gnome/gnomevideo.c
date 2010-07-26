@@ -50,6 +50,9 @@
 
 static log_t gnomevideo_log = LOG_ERR;
 
+/* FIXME: a resize event should be triggered
+          when any of these two is changed
+*/
 static int keepaspect, trueaspect;
 static int set_keepaspect(int val, void *param)
 {

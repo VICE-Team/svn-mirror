@@ -36,9 +36,12 @@
 #include "uipalemu.h"
 #include "uipalette.h"
 #include "uited.h"
-#include "openGL_sync.h"
-
 #include "uifullscreen-menu.h"
+#ifdef HAVE_OPENGL_SYNC
+#include <stdlib.h>             /* strtol() */
+#include "openGL_sync.h"
+#include "lib.h"
+#endif
 
 UI_FULLSCREEN(TED, KEYSYM_d)
 
@@ -49,16 +52,6 @@ UI_MENU_DEFINE_STRING_RADIO(TEDPaletteFile)
 static ui_menu_entry_t palette_submenu[] = {
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"TEDPaletteFile", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
-
-static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };
 
@@ -73,10 +66,6 @@ UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 
-#ifdef HAVE_OPENGL_SYNC
-UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
-#endif
-
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
@@ -86,6 +75,30 @@ UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
+#endif
+
+#ifdef HAVE_OPENGL_SYNC
+UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+
+static UI_CALLBACK(openGL_set_desktoprefresh)
+{
+    if (!CHECK_MENUS) {
+        float f;
+        char *buf = lib_calloc(sizeof(char), 10);
+
+        sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+        ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
+        f = (float) strtol(buf, NULL, 10);
+        openGL_set_canvas_refreshrate(f);
+        lib_free(buf);
+    } else {
+        if (openGL_available(0) && openGL_sync_enabled()) {
+            ui_menu_set_sensitive(w, 1);
+        } else {
+            ui_menu_set_sensitive(w, 0);
+        }
+    }
+}
 #endif
 
 static UI_CALLBACK(color_set)
@@ -118,19 +131,12 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("*Color set"),
       (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
-#if 0
-    { N_("*Fast PAL emulation"),
-      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-#endif
-    { N_("PAL Emulation"),
+    { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_TEDScale2x, NULL, NULL },
-    { "--" },
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { "--" },
 #ifdef HAVE_HWSCALE
+    { "--" },
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_TEDHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
@@ -141,13 +147,18 @@ ui_menu_entry_t ted_submenu[] = {
 #endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
+    { "--" },
     { N_("*OpenGL Rastersynchronization"),
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+    { N_("Desktop Refreshrate..."),
+      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
+    { "--" },
     { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuTED },
 #endif
 #ifndef USE_GNOMEUI
+    { "--" },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif

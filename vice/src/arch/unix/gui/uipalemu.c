@@ -66,28 +66,28 @@ static UI_CALLBACK(PAL_control_cb)
             resources_get_int(resource, &current);
             current /= 10;
             sprintf(buf, "%d", current);
-            button = ui_input_string(_("PAL Scanline shade"), _("Scanline Shade in percent"), buf, 50);
+            button = ui_input_string(_("CRT Scanline shade"), _("Scanline Shade in percent"), buf, 50);
             break;
         case 2:
             resource = "ColorTint";
             resources_get_int(resource, &current);
             current /= 10;
             sprintf(buf, "%d", current);
-            button = ui_input_string(_("New PAL Tint"), _("Tint in percent"), buf, 50);
+            button = ui_input_string(_("CRT Tint"), _("Tint in percent"), buf, 50);
             break;
         case 3:
             resource = "PALOddLinePhase";
             resources_get_int(resource, &current);
             current /= 10;
             sprintf(buf, "%d", current);
-            button = ui_input_string(_("New PAL Odd Line Phase"), _("Phase in percent"), buf, 50);
+            button = ui_input_string(_("CRT Odd Line Phase"), _("Phase in percent"), buf, 50);
             break;
         case 4:
             resource = "PALOddLineOffset";
             resources_get_int(resource, &current);
             current /= 10;
             sprintf(buf, "%d", current);
-            button = ui_input_string(_("New PAL Odd Line Offset"), _("Offset in percent"), buf, 50);
+            button = ui_input_string(_("CRT Odd Line Offset"), _("Offset in percent"), buf, 50);
             break;
         case 1:
         default:
@@ -95,7 +95,7 @@ static UI_CALLBACK(PAL_control_cb)
             resources_get_int(resource, &current);
             current /= 10;
             sprintf(buf, "%d", current);
-            button = ui_input_string(_("PAL Blurredness"), _("Blurredness in percent"), buf, 50);
+            button = ui_input_string(_("CRT Blurredness"), _("Blurredness in percent"), buf, 50);
             break;
     }
     
@@ -117,19 +117,19 @@ static UI_CALLBACK(PAL_control_cb)
 #endif
 
 ui_menu_entry_t PALMode_submenu[] = {
-    { N_("*Activate PAL emulation"),
+    { N_("*Activate CRT emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
 #ifndef USE_GNOMEUI
     { "--" },
-    { N_("PAL Scanline Shade"),
+    { N_("CRT Scanline Shade"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 0, NULL },
-    { N_("PAL Blurredness"),
+    { N_("CRT Blurredness"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 1, NULL },
-    { N_("New PAL Tint"),
+    { N_("CRT Tint"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 2, NULL },
-    { N_("New PAL Odd Lines Phase"),
+    { N_("CRT Odd Lines Phase"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 3, NULL },
-    { N_("New PAL Odd Lines Offset"),
+    { N_("CRT Odd Lines Offset"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 4, NULL },
 #endif
     { NULL }

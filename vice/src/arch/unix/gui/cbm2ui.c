@@ -60,7 +60,7 @@
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-static ui_menu_entry_t set_video_standard_cbm2_submenu[] = {
+static ui_menu_entry_t set_viciimodel_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
@@ -236,9 +236,10 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { N_("Model defaults"),
       (ui_callback_t)Cbm2modelMenu, NULL, model_defaults_submenu },
     { "--" },
-    { N_("ROM sets"),
-      NULL, NULL, cbm2_romset_submenu },
-    { "--" },
+    { N_("VIC-II model"),
+      NULL, NULL, set_viciimodel_submenu },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
     { N_("Memory size"),
       NULL, NULL, cbm2_memsize_submenu },
     { N_("Hardwired switches"),
@@ -290,9 +291,6 @@ UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { "--" },
     { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
     { N_("*Second SID base address"),
@@ -308,23 +306,6 @@ static ui_menu_entry_t sid_submenu[] = {
       (ui_callback_t)set_sid_resid_passband, NULL, NULL },
 #endif
     { NULL },
-};
-
-UI_MENU_DEFINE_TOGGLE(Sound)
-
-static ui_menu_entry_t sid_options_submenu[] = {
-    { N_("SID model"),
-      NULL, NULL, sid_model_submenu },
-    { N_("*Enable sound playback"),
-      (ui_callback_t)toggle_Sound, NULL, NULL },
-    { N_("*Second SID"),
-      (ui_callback_t)toggle_SidStereo, NULL, NULL },
-    { N_("*Second SID base address"),
-      NULL, NULL, set_sid_stereo_address_daxx_submenu },
-    { "--" },
-    { N_("*Emulate filters"),
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
-    { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -346,15 +327,16 @@ static UI_CALLBACK(VicMenu)
 static ui_menu_entry_t cbm2_menu[] = {
     { N_("CBM-II model settings"),
       NULL, NULL, model_settings_submenu },
-    { N_("RS232 settings"),
-      NULL, NULL, uirs232petplus4cbm2_submenu },
-    { "--" },
-    { N_("Crtc settings"),
+    { N_("ROM settings"),
+      NULL, NULL, cbm2_romset_submenu },
+    { N_("CRTC settings"),
       (ui_callback_t)CrtcMenu, NULL, crtc_submenu },
     { N_("VIC-II settings"),
       (ui_callback_t)VicMenu, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
+    { N_("RS232 settings"),
+      NULL, NULL, uirs232petplus4cbm2_submenu },
     { NULL }
 };
 
@@ -497,10 +479,9 @@ static ui_menu_entry_t cbm2_options_menu[] = {
       NULL, NULL,  ui_performance_settings_menu },
     { "--",
       NULL, NULL, joystick_options_submenu },
-    { "--",
-      NULL, NULL, sid_options_submenu },
-    { "--",
-      NULL, NULL, ui_drive_options_submenu },
+    { "--" },
+    { N_("SID model"),
+      NULL, NULL, sid_model_submenu },
     { NULL }
 };
 
@@ -590,8 +571,6 @@ static void cbm2ui_dynamic_menu_shutdown(void)
 
 int cbm2ui_init(void)
 {
-    memcpy(set_video_standard_submenu, set_video_standard_cbm2_submenu, sizeof(set_video_standard_cbm2_submenu));
-
     ui_set_application_icon(cbm2_icon_data);
     cbm2ui_dynamic_menu_create();
     ui_set_left_menu(cbm2_left_menu);
