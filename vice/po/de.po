@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-22 21:46+0200\n"
-"PO-Revision-Date: 2010-07-26 22:55+0200\n"
+"PO-Revision-Date: 2010-07-27 20:36+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -663,7 +663,7 @@ msgstr "SID Adresse"
 #: src/arch/unix/gui/vic20ui.c:152 src/arch/win32/ressidcart.rc.po.c:81
 #: src/arch/amigaos/intl_text.c.po.c:5539
 msgid "SID clock"
-msgstr "SID Uhr"
+msgstr "SID Takt"
 
 #: src/arch/unix/gui/petui.c:132
 msgid "*4 kByte"
