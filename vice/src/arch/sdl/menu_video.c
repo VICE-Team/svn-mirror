@@ -59,6 +59,7 @@ static const ui_menu_entry_t vicii_border_menu[] = {
     { NULL }
 };
 
+
 /* CRT emulation menu */
 
 UI_MENU_DEFINE_TOGGLE(PALEmulation)
@@ -93,6 +94,7 @@ static const ui_menu_entry_t crt_controls_menu[] = {
     { NULL }
 };
 
+
 /* Color menu */
 
 UI_MENU_DEFINE_SLIDER(ColorGamma, 0, 4000)
@@ -124,6 +126,7 @@ static const ui_menu_entry_t color_controls_menu[] = {
       (ui_callback_data_t)"Set brightness (0-2000)" },
     { NULL }
 };
+
 
 /* Size menu template */
 
@@ -233,6 +236,7 @@ UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
       NULL },
 #endif
 
+
 /* VICII size menu */
 
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
@@ -247,6 +251,7 @@ static const ui_menu_entry_t vicii_size_menu[] = {
 #endif
     { NULL }
 };
+
 
 /* VDC size menu */
 
@@ -263,6 +268,7 @@ static const ui_menu_entry_t vdc_size_menu[] = {
     { NULL }
 };
 
+
 /* Crtc size menu */
 
 UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
@@ -277,6 +283,7 @@ static const ui_menu_entry_t crtc_size_menu[] = {
 #endif
     { NULL }
 };
+
 
 /* TED size menu */
 
@@ -293,6 +300,7 @@ static const ui_menu_entry_t ted_size_menu[] = {
     { NULL }
 };
 
+
 /* VIC size menu */
 
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
@@ -308,6 +316,7 @@ static const ui_menu_entry_t vic_size_menu[] = {
     { NULL }
 };
 
+
 /* Misc. callbacks */
 
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
@@ -319,9 +328,11 @@ UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICScale2x)
-UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
+UI_MENU_DEFINE_TOGGLE(VDCExternalPalette)
+UI_MENU_DEFINE_TOGGLE(CrtcExternalPalette)
 UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
+UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static UI_MENU_CALLBACK(restore_size_callback)
@@ -337,6 +348,7 @@ UI_MENU_DEFINE_FILE_STRING(VDCPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(CrtcPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(TEDPaletteFile)
 UI_MENU_DEFINE_FILE_STRING(VICPaletteFile)
+
 
 /* C128 video menu */
 
@@ -390,7 +402,7 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIINewLuminances_callback,
       NULL },
-    { "VICII Color controls",
+    { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)color_controls_menu },
@@ -410,10 +422,13 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose VICII palette file" },
-    SDL_MENU_ITEM_SEPARATOR,
     { "VDC Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VDCVideoCache_callback,
+      NULL },
+    { "External VDC palette",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VDCExternalPalette_callback,
       NULL },
     { "VDC external palette file",
       MENU_ENTRY_DIALOG,
@@ -431,6 +446,7 @@ const ui_menu_entry_t c128_video_menu[] = {
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
     { NULL }
 };
+
 
 /* C64 video menu */
 
@@ -500,6 +516,7 @@ const ui_menu_entry_t c64_video_menu[] = {
     { NULL }
 };
 
+
 /* C64SC video menu */
 
 const ui_menu_entry_t c64sc_video_menu[] = {
@@ -545,6 +562,7 @@ const ui_menu_entry_t c64sc_video_menu[] = {
       (ui_callback_data_t)"Choose palette file" },
     { NULL }
 };
+
 
 /* C64DTV video menu */
 
@@ -607,6 +625,7 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
     { NULL }
 };
 
+
 /* CBM-II 5x0 video menu */
 
 const ui_menu_entry_t cbm5x0_video_menu[] = {
@@ -663,6 +682,7 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
     { NULL }
 };
 
+
 /* CBM-II 6x0/7x0 video menu */
 
 const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
@@ -680,12 +700,25 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
       toggle_CrtcVideoCache_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Color controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)color_controls_menu },
+    { "CRT emulation controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)crt_controls_menu },
+    { "External palette",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CrtcExternalPalette_callback,
+      NULL },
     { "External palette file",
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
     { NULL }
 };
+
 
 /* PET video menu */
 
@@ -704,12 +737,25 @@ const ui_menu_entry_t pet_video_menu[] = {
       toggle_CrtcVideoCache_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "Color controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)color_controls_menu },
+    { "CRT emulation controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)crt_controls_menu },
+    { "External palette",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CrtcExternalPalette_callback,
+      NULL },
     { "External palette file",
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
     { NULL }
 };
+
 
 /* PLUS4 video menu */
 
@@ -761,6 +807,7 @@ const ui_menu_entry_t plus4_video_menu[] = {
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
     { NULL }
 };
+
 
 /* VIC-20 video menu */
 
