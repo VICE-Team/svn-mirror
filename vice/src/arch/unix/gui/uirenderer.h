@@ -1,8 +1,8 @@
 /*
- * uipalette.h
+ * uirenderer.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +24,11 @@
  *
  */
 
-#ifndef VICE_UI_PALETTE_H
-#define VICE_UI_PALETTE_H
+#ifndef VICE_UI_RENDERER_H
+#define VICE_UI_RENDERER_H
 
 #include "uimenu.h"
 
-extern UI_CALLBACK(ui_load_palette);
-extern void ui_select_palette(ui_window_t w, int check, char *palette, char *chip);
+extern void ui_select_renderer(ui_window_t w, int check, int type, char *chip);
 
 #endif

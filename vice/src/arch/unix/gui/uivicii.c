@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c64ui.h"
 #include "fullscreenarch.h"
@@ -37,6 +38,7 @@
 #include "uimenu.h"
 #include "uivicii.h"
 #include "uipalemu.h"
+#include "uirenderer.h"
 #include "vicii.h"
 
 #ifdef HAVE_OPENGL_SYNC
@@ -48,9 +50,15 @@
 #include "uifullscreen-menu.h"
 UI_FULLSCREEN(VICII, KEYSYM_d)
 
-UI_MENU_DEFINE_STRING_RADIO(VICIIPaletteFile)
+static UI_CALLBACK(radio_VICIIPaletteFile)
+{
+    ui_select_palette(w, CHECK_MENUS, UI_MENU_CB_PARAM, "VICII");
+}
 
 static ui_menu_entry_t palette_submenu[] = {
+    { N_("*internal"), (ui_callback_t)radio_VICIIPaletteFile,
+      NULL, NULL },
+    { "--" },
     { N_("*Default"), (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"default", NULL },
     { "*VICE", (ui_callback_t)radio_VICIIPaletteFile,
@@ -69,7 +77,7 @@ static ui_menu_entry_t palette_submenu[] = {
       (ui_callback_data_t)"c64hq", NULL },
     { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"VICIIPaletteFile", NULL },
+      (ui_callback_data_t)"VICII", NULL },
     { NULL }
 };
 
@@ -85,19 +93,31 @@ static ui_menu_entry_t bordermode_submenu[] = {
     { NULL }
 };
 
+static UI_CALLBACK(radio_renderer)
+{
+    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "VICII");
+}
+
+static ui_menu_entry_t renderer_submenu[] = {
+    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)0, NULL },
+    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)1, NULL },
+    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
 #define NOTHING(x) x
 
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
-UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(VICIIHwScale, HwScalePossible, NOTHING)
 #endif
-
-UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
@@ -137,23 +157,6 @@ UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 #endif
 
-static UI_CALLBACK(color_set)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        int val;
-
-        resources_get_int("VICIIExternalPalette", &val);
-
-        if (val) {
-            ui_menu_set_sensitive(w, 1);
-        } else {
-            ui_menu_set_sensitive(w, 0);
-        }
-    }
-}
-
 ui_menu_entry_t vicii_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_VICIIDoubleSize, NULL, NULL },
@@ -164,19 +167,14 @@ ui_menu_entry_t vicii_submenu[] = {
     { "--" },
     { N_("*New Luminances"),
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_VICIIExternalPalette, NULL, NULL },
-    { N_("*Color set"),
-      (ui_callback_t)color_set, NULL, palette_submenu },
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
     { "--" },
+    { N_("Renderer"),
+      NULL, NULL, renderer_submenu },
+#ifndef USE_GNOMEUI
     { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
-    { N_("*Scale 2x render"),
-      (ui_callback_t)toggle_VICIIScale2x, NULL, NULL },
-#if 0
-    { "--" },
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
 #endif
     { "--" },
     { N_("*Border mode"),

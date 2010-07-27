@@ -35,6 +35,7 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
+#include "uirenderer.h"
 #include "resources.h"
 #ifdef HAVE_OPENGL_SYNC
 #include <stdlib.h>             /* strtol() */
@@ -44,11 +45,17 @@
 
 #include "uifullscreen-menu.h"
 
-UI_FULLSCREEN(CRTC, KEYSYM_f)
+UI_FULLSCREEN(CRTC, KEYSYM_d)
 
-UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
+static UI_CALLBACK(radio_CrtcPaletteFile)
+{
+    ui_select_palette(w, CHECK_MENUS, UI_MENU_CB_PARAM, "Crtc");
+}
 
 static ui_menu_entry_t crtc_palette_submenu[] = {
+    { N_("*internal"), (ui_callback_t)radio_CrtcPaletteFile,
+      NULL, NULL },
+    { "--" },
     { N_("*Default (Green)"), (ui_callback_t)radio_CrtcPaletteFile,
       (ui_callback_data_t)"green", NULL },
     { N_("*Amber"), (ui_callback_t)radio_CrtcPaletteFile,
@@ -57,7 +64,24 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
       (ui_callback_data_t)"white", NULL },
     { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"CrtcPaletteFile", NULL },
+      (ui_callback_data_t)"Crtc", NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(radio_renderer)
+{
+    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "Crtc");
+}
+
+static ui_menu_entry_t renderer_submenu[] = {
+    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)0, NULL },
+    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)1, NULL },
+#if 0
+    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)2, NULL },
+#endif
     { NULL }
 };
 
@@ -66,12 +90,10 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-UI_MENU_DEFINE_TOGGLE(CrtcExternalPalette)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(CrtcHwScale, HwScalePossible, NOTHING)
 #endif
-UI_MENU_DEFINE_TOGGLE(CrtcScale2x)
 
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
@@ -107,22 +129,6 @@ UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 #endif
-static UI_CALLBACK(color_set)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        int val;
-
-        resources_get_int("CRTCExternalPalette", &val);
-
-        if (val) {
-            ui_menu_set_sensitive(w, 1);
-        } else {
-            ui_menu_set_sensitive(w, 0);
-        }
-    }
-}
 
 ui_menu_entry_t crtc_submenu[] = {
     { N_("*Double size"),
@@ -132,15 +138,15 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { "--" },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_CrtcExternalPalette, NULL, NULL },
-    { N_("*CRTC Screen color"),
-      (ui_callback_t)color_set, NULL, crtc_palette_submenu },
+    { N_("Color set"),
+      NULL, NULL, crtc_palette_submenu },
     { "--" },
+    { N_("Renderer"),
+      NULL, NULL, renderer_submenu },
+#ifndef USE_GNOMEUI
     { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
-    { N_("*Scale 2x render"),
-      (ui_callback_t)toggle_CrtcScale2x, NULL, NULL },
+#endif
 #ifdef HAVE_HWSCALE
     { "--" },
     { N_("*Hardware scaling"),

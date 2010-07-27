@@ -34,6 +34,7 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
+#include "uirenderer.h"
 #include "uivdc.h"
 #include "uifullscreen-menu.h"
 #ifdef HAVE_OPENGL_SYNC
@@ -44,16 +45,39 @@
 
 UI_FULLSCREEN(VDC, KEYSYM_f)
 
-UI_MENU_DEFINE_STRING_RADIO(VDCPaletteFile)
+static UI_CALLBACK(radio_VDCPaletteFile)
+{
+    ui_select_palette(w, CHECK_MENUS, UI_MENU_CB_PARAM, "VDC");
+}
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
+    { N_("*internal"), (ui_callback_t)radio_VDCPaletteFile,
+      NULL, NULL },
+    { "--" },
     { N_("*Default"), (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_deft", NULL },
     { N_("*Composite"), (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_comp", NULL },
     { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"VDCPaletteFile", NULL },
+      (ui_callback_data_t)"VDC", NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(radio_renderer)
+{
+    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "VDC");
+}
+
+static ui_menu_entry_t renderer_submenu[] = {
+    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)0, NULL },
+    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)1, NULL },
+#if 0
+    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)2, NULL },
+#endif
     { NULL }
 };
 
@@ -74,7 +98,6 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
-UI_MENU_DEFINE_TOGGLE(VDCExternalPalette)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(VDCHwScale, HwScalePossible, NOTHING)
@@ -117,23 +140,6 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 }
 #endif
 
-static UI_CALLBACK(color_set)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        int val;
-
-        resources_get_int("VDCExternalPalette", &val);
-
-        if (val) {
-            ui_menu_set_sensitive(w, 1);
-        } else {
-            ui_menu_set_sensitive(w, 0);
-        }
-    }
-}
-
 ui_menu_entry_t set_vdcmodel_submenu[] = {
     { N_("*64KB display memory"),
       (ui_callback_t)toggle_VDC64KB, NULL, NULL },
@@ -150,13 +156,15 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { "--" },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_VDCExternalPalette, NULL, NULL },
-    { N_("*Color set"),
-      (ui_callback_t)color_set, NULL, vdc_palette_submenu },
+    { N_("Color set"),
+      NULL, NULL, vdc_palette_submenu },
     { "--" },
+    { N_("Renderer"),
+      NULL, NULL, renderer_submenu },
+#ifndef USE_GNOMEUI
     { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
+#endif
 #ifdef HAVE_HWSCALE
     { "--" },
     { N_("*Hardware scaling"),

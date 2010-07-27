@@ -35,6 +35,7 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
+#include "uirenderer.h"
 #ifdef HAVE_OPENGL_SYNC
 #include <stdlib.h>		/* strtol() */
 #include "openGL_sync.h"
@@ -45,26 +46,45 @@
 
 UI_FULLSCREEN(VIC, KEYSYM_d)
 
-UI_MENU_DEFINE_STRING_RADIO(VICPaletteFile)
+static UI_CALLBACK(radio_VICPaletteFile)
+{
+    ui_select_palette(w, CHECK_MENUS, UI_MENU_CB_PARAM, "VIC");
+}
 
 static ui_menu_entry_t palette_submenu[] = {
+    { N_("*internal"), (ui_callback_t)radio_VICPaletteFile,
+      NULL, NULL },
+    { "--" },
     { N_("*Default"), (ui_callback_t)radio_VICPaletteFile,
       (ui_callback_data_t)"default", NULL },
+    { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"VICPaletteFile", NULL },
+      (ui_callback_data_t)"VIC", NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(radio_renderer)
+{
+    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "VIC");
+}
+
+static ui_menu_entry_t renderer_submenu[] = {
+    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)0, NULL },
+    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)1, NULL },
+    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
 #endif
-
-UI_MENU_DEFINE_TOGGLE(VICScale2x)
 
 #ifdef HAVE_HWSCALE
 #ifdef USE_GNOMEUI
@@ -100,23 +120,6 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
 
-static UI_CALLBACK(color_set)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        int val;
-
-        resources_get_int("VICExternalPalette", &val);
-
-        if (val) {
-            ui_menu_set_sensitive(w, 1);
-        } else {
-            ui_menu_set_sensitive(w, 0);
-        }
-    }
-}
-
 ui_menu_entry_t vic_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_VICDoubleSize, NULL, NULL },
@@ -125,15 +128,15 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICVideoCache, NULL, NULL },
     { "--" },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_VICExternalPalette, NULL, NULL },
-    { N_("*Color set"),
-      (ui_callback_t)color_set, NULL, palette_submenu },
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
     { "--" },
+    { N_("Renderer"),
+      NULL, NULL, renderer_submenu },
+#ifndef USE_GNOMEUI
     { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
-    { N_("*Scale 2x render"),
-      (ui_callback_t)toggle_VICScale2x, NULL, NULL },
+#endif
     { "--" },
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),

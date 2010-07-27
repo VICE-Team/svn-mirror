@@ -137,6 +137,8 @@ libarchgui_a_SOURCES = \
 	uips2mouse.h \
 	uiramcart.c \
 	uiramcart.h \
+	uirenderer.c \
+	uirenderer.h \
 	uiretroreplay.c \
 	uiretroreplay.h \
 	uireu.c \

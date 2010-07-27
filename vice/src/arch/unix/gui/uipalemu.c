@@ -36,6 +36,8 @@
 #include "uipalemu.h"
 #include "util.h"
 
+#ifndef USE_GNOMEUI
+
 static UI_CALLBACK(toggle_DelayLoopEmulation)
 {
     int delayloopemulation;
@@ -50,7 +52,6 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
     }
 }
 
-#ifndef USE_GNOMEUI
 static UI_CALLBACK(PAL_control_cb)
 {
     char buf[50];
@@ -114,12 +115,10 @@ static UI_CALLBACK(PAL_control_cb)
         resources_set_int(resource, (int)(res * 10));
     }
 }
-#endif
 
 ui_menu_entry_t PALMode_submenu[] = {
     { N_("*Activate CRT emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-#ifndef USE_GNOMEUI
     { "--" },
     { N_("CRT Scanline Shade"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 0, NULL },
@@ -131,6 +130,7 @@ ui_menu_entry_t PALMode_submenu[] = {
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 3, NULL },
     { N_("CRT Odd Lines Offset"),
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 4, NULL },
-#endif
     { NULL }
 };
+
+#endif

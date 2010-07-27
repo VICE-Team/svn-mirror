@@ -35,6 +35,7 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
+#include "uirenderer.h"
 #include "uited.h"
 #include "uifullscreen-menu.h"
 #ifdef HAVE_OPENGL_SYNC
@@ -45,26 +46,45 @@
 
 UI_FULLSCREEN(TED, KEYSYM_d)
 
-/*
-UI_MENU_DEFINE_STRING_RADIO(TEDPaletteFile)
-*/
+static UI_CALLBACK(radio_TEDPaletteFile)
+{
+    ui_select_palette(w, CHECK_MENUS, UI_MENU_CB_PARAM, "TED");
+}
 
 static ui_menu_entry_t palette_submenu[] = {
+    { N_("*internal"), (ui_callback_t)radio_TEDPaletteFile,
+      NULL, NULL },
+    { "--" },
+    { N_("*Default"), (ui_callback_t)radio_TEDPaletteFile,
+      (ui_callback_data_t)"default", NULL },
+    { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"TEDPaletteFile", NULL },
+      (ui_callback_data_t)"TED", NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(radio_renderer)
+{
+    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "TED");
+}
+
+static ui_menu_entry_t renderer_submenu[] = {
+    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)0, NULL },
+    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)1, NULL },
+    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+      (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
-UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 #endif
-
-UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
@@ -101,23 +121,6 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 }
 #endif
 
-static UI_CALLBACK(color_set)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        int val;
-
-        resources_get_int("TEDExternalPalette", &val);
-
-        if (val) {
-            ui_menu_set_sensitive(w, 1);
-        } else {
-            ui_menu_set_sensitive(w, 0);
-        }
-    }
-}
-
 ui_menu_entry_t ted_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_TEDDoubleSize, NULL, NULL },
@@ -126,15 +129,15 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
     { "--" },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_TEDExternalPalette, NULL, NULL },
-    { N_("*Color set"),
-      (ui_callback_t)color_set, NULL, palette_submenu },
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
     { "--" },
+    { N_("Renderer"),
+      NULL, NULL, renderer_submenu },
+#ifndef USE_GNOMEUI
     { N_("CRT Emulation Settings"),
       NULL, NULL, PALMode_submenu },
-    { N_("*Scale 2x render"),
-      (ui_callback_t)toggle_TEDScale2x, NULL, NULL },
+#endif
 #ifdef HAVE_HWSCALE
     { "--" },
     { N_("*Hardware scaling"),
