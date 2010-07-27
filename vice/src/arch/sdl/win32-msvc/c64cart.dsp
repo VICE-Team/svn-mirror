@@ -234,6 +234,10 @@ SOURCE="..\..\..\c64\cart\kcs.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\mach5.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\magicdesk.c"
 # End Source File
 # Begin Source File

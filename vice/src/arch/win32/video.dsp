@@ -98,6 +98,10 @@ SOURCE="..\..\video\render1x2.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\video\render1x2crt.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\video\render2x2.c"
 # End Source File
 # Begin Source File
@@ -135,6 +139,10 @@ SOURCE="..\..\video\video-render-1x2.c"
 # Begin Source File
 
 SOURCE="..\..\video\video-render-2x2.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\video\video-render-crt.c"
 # End Source File
 # Begin Source File
 

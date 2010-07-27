@@ -86,6 +86,10 @@ SOURCE="..\..\crtc\crtc-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\crtc\crtc-color.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\crtc\crtc-draw.c"
 # End Source File
 # Begin Source File

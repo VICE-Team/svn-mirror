@@ -86,6 +86,10 @@ SOURCE="..\..\..\vdc\vdc-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\vdc\vdc-color.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\vdc\vdc-draw.c"
 # End Source File
 # Begin Source File
