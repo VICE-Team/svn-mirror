@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
@@ -128,27 +129,37 @@ static void REGPARM2 easyflash_io2_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t easyflash_io1_device = {
-    "EASYFLASH",
+    "Easy Flash",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
     0,
     easyflash_io1_store,
-    NULL
+    NULL,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_EASYFLASH
 };
 
 static io_source_t easyflash_io2_device = {
-    "EASYFLASH",
+    "Easy Flash",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     easyflash_io2_store,
-    easyflash_io2_read
+    easyflash_io2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    CARTRIDGE_EASYFLASH
 };
 
 static io_source_list_t *easyflash_io1_list_item = NULL;
 static io_source_list_t *easyflash_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Easy Flash", 1, 1, &easyflash_io1_device, &easyflash_io2_device, CARTRIDGE_EASYFLASH
+};
 
 /* ---------------------------------------------------------------------*/
 
@@ -266,6 +277,19 @@ void easyflash_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int easyflash_common_attach(const char *filename)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    easyflash_io1_list_item = c64io_register(&easyflash_io1_device);
+    easyflash_io2_list_item = c64io_register(&easyflash_io2_device);
+
+    easyflash_crt_filename = lib_stralloc(filename);
+
+    return 0;
+}
 
 int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
 {
@@ -304,12 +328,8 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *file
             return -1;
         }
     }
-    easyflash_crt_filename = lib_stralloc(filename);
 
-    easyflash_io1_list_item = c64io_register(&easyflash_io1_device);
-    easyflash_io2_list_item = c64io_register(&easyflash_io2_device);
-
-    return 0;
+    return easyflash_common_attach(filename);
 }
 
 void easyflash_detach(void)
@@ -327,6 +347,7 @@ void easyflash_detach(void)
     c64io_unregister(easyflash_io2_list_item);
     easyflash_io1_list_item = NULL;
     easyflash_io2_list_item = NULL;
+    c64export_remove(&export_res);
 }
 
 int easyflash_save_crt(void)
