@@ -1,4 +1,3 @@
-
 /*
  * t6721.c - Toshiba 6721a Emulation
  *
@@ -24,6 +23,8 @@
  *  02111-1307  USA.
  *
  */
+
+#include "vice.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -176,7 +176,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
         return retval;
     }
 
-    io_source_msg_detach(addr, io_source_counter, &c64io1_head);
+    io_source_msg_detach(addr, io_source_counter, list);
 
     return vicii_read_phi1();
 }
@@ -185,14 +185,15 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
 static inline BYTE io_peek(io_source_list_t *list, WORD addr)
 {
     io_source_list_t *current = list->next;
-    int io_source_counter = 0;
+    int io_source_counter = 0, valid_peek = 0;
     BYTE retval = 0;
 
     while (current) {
-        if (current->device->read != NULL) {
+        if (current->device->read != NULL || current->device->peek != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
                 if (current->device->peek) {
                     retval = current->device->peek((WORD)(addr & current->device->address_mask));
+                    valid_peek++;
                 } else {
                     retval = current->device->read((WORD)(addr & current->device->address_mask));
                 }
@@ -206,15 +207,15 @@ static inline BYTE io_peek(io_source_list_t *list, WORD addr)
         current = current->next;
     }
 
+    if ((valid_peek > 0) || (io_source_counter == 1)) {
+        return retval;
+    }
+
     if (io_source_counter == 0) {
         return vicii_read_phi1();
     }
 
-    if (io_source_counter == 1) {
-        return retval;
-    }
-
-    io_source_msg_detach(addr, io_source_counter, &c64io1_head);
+    io_source_msg_detach(addr, io_source_counter, list);
 
     return vicii_read_phi1();
 }

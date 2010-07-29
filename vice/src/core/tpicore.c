@@ -25,6 +25,8 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 
 #include "lib.h"

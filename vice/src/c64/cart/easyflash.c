@@ -45,10 +45,11 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon_util.h"
 #include "resources.h"
 #include "translate.h"
 
-/* the 27F040B statemachine */
+/* the 29F040B statemachine */
 static flash040_context_t *easyflash_state_low = NULL;
 static flash040_context_t *easyflash_state_high = NULL;
 
@@ -128,29 +129,45 @@ static void REGPARM2 easyflash_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
+static BYTE REGPARM1 easyflash_io1_peek(WORD addr)
+{
+    return (addr & 2) ? easyflash_register_02 : easyflash_register_00;
+}
+
+static int REGPARM1 easyflash_io1_dump(void)
+{
+    mon_out("Mode %i, LED %s, jumper %s\n",
+        easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)],
+        (easyflash_register_02 & 0x80) ? "on" : "off",
+        easyflash_jumper ? "on" : "off");
+    return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+
 static io_source_t easyflash_io1_device = {
-    "Easy Flash",
+    "EasyFlash",
     IO_DETACH_CART,
     NULL,
-    0xde00, 0xdeff, 0xff,
+    0xde00, 0xdeff, 0x03,
     0,
     easyflash_io1_store,
     NULL,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    easyflash_io1_peek,
+    easyflash_io1_dump,
     CARTRIDGE_EASYFLASH
 };
 
 static io_source_t easyflash_io2_device = {
-    "Easy Flash",
+    "EasyFlash",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
     1, /* read is always valid */
     easyflash_io2_store,
     easyflash_io2_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    easyflash_io2_read, /* same implementation */
+    NULL, /* nothing to dump */
     CARTRIDGE_EASYFLASH
 };
 
@@ -158,7 +175,7 @@ static io_source_list_t *easyflash_io1_list_item = NULL;
 static io_source_list_t *easyflash_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Easy Flash", 1, 1, &easyflash_io1_device, &easyflash_io2_device, CARTRIDGE_EASYFLASH
+    "EasyFlash", 1, 1, &easyflash_io1_device, &easyflash_io2_device, CARTRIDGE_EASYFLASH
 };
 
 /* ---------------------------------------------------------------------*/
