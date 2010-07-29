@@ -61,6 +61,11 @@ void mouse_set_input(int port)
 /* --------------------------------------------------------- */
 /* 1351 mouse */
 
+#if 0
+/* FIXME this is too simplistic as it doesn't take the sampling
+   period into account. Using this code breaks (at least) the
+   Final Cartridge III mouse code, hence disabling it for now.
+*/
 static BYTE mouse_get_1351_x(void)
 {
     return (input_port == mouse_port) ? mousedrv_get_x() : 0xff;
@@ -70,7 +75,17 @@ static BYTE mouse_get_1351_y(void)
 {
     return (input_port == mouse_port) ? mousedrv_get_y() : 0xff;
 }
+#else
+static BYTE mouse_get_1351_x(void)
+{
+    return mousedrv_get_x();
+}
 
+static BYTE mouse_get_1351_y(void)
+{
+    return mousedrv_get_y();
+}
+#endif
 
 /* --------------------------------------------------------- */
 /* NEOS mouse */
