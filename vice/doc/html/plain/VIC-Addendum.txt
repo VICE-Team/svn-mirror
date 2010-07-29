@@ -1,6 +1,6 @@
 VIC-Addendum.txt
 ----------------
-revision 0.2 20100414
+revision 0.3 20100729
 
 AUTHORS
   The debugging, analysis and insights found here was done by
@@ -86,8 +86,9 @@ Line timing wraps normally at cycle 63.
 
 Fetch
 -----
-Switching from VC to VMLI addressing will create a glitch
-on 6569, but not on 8565.
+When changing from RAM to (char)ROM fetches, the LSB of the fetch address
+is latched using the mode from the previous cycle, and the upper bits come
+from the current mode. This glitch happens on 6569, but not on 8565.
 
 [T:modesplit, movesplit]
 

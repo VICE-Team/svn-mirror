@@ -24,11 +24,6 @@ What are we going to do next (or not)
 
 - Add some wishlist.
 
-* C64 improvements
-------------------
-
-- Cycle exact sprite emulation.
-
 * C128 improvements
 -------------------
 
@@ -38,8 +33,6 @@ What are we going to do next (or not)
 --------------------
 
 - Improve the accuracy of the audio emulation.
-
-- Cycle exact memory fetch of the VIC.
 
 * PET improvements
 ------------------

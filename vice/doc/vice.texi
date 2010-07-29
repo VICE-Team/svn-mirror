@@ -584,10 +584,17 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 @node C64 emulator features, C64DTV emulator features, Preface, Preface
 @section C64 emulator features
 
-The C64 emulator, called @samp{x64}, features a fairly complete
+As of version 2.3, two C64 emulators are provided: @samp{x64} (fast)
+and @samp{x64sc} (accurate).
+
+The fast C64 emulator, called @samp{x64}, features a fairly complete
 emulation of the VIC-II video chip: sprites, all registers and all video
 modes are fully emulated.  The emulation has been fully cycle-accurate
 since version 0.13.0.
+
+The accurate C64 emulator, called @samp{x64sc}, features a cycle-based
+and pixel-accurate VIC-II emulation. This requires a much faster machine
+than the old @samp{x64}.
 
 A rather complete emulation of the SID sound chip is also provided.  All
 the basic features are implemented as well as most of the complex ones
@@ -1094,7 +1101,10 @@ The names of the available emulators are:
 @itemize @bullet
 
 @item
-@code{x64}, the C64 emulator
+@code{x64}, the fast C64 emulator
+
+@item
+@code{x64sc}, the accurate C64 emulator
 
 @item
 @code{x64dtv}, the C64DTV emulator
