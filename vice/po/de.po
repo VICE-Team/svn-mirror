@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-22 21:46+0200\n"
-"PO-Revision-Date: 2010-07-27 20:36+0200\n"
+"PO-Revision-Date: 2010-07-30 11:08+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11161,7 +11161,7 @@ msgstr "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A)\""
 
 #: src/translate_text.c.po.c:3446
 msgid "Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"
-msgstr "Wähle C64 Modell (c64/c64c/c64alt/c64ntsc/c64cntsc/c64altntsc/drean)"
+msgstr "Wähle C64 Modell (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"
 
 #: src/translate_text.c.po.c:3460
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
