@@ -354,11 +354,14 @@ static BYTE *bmpdrv_memmap_bmp_data;
 
 static int bmpdrv_close_memmap(int x_size, int y_size)
 {
-    fwrite(bmpdrv_memmap_bmp_data, y_size * x_size, 1, bmpdrv_memmap_fd);
+    int res = 0;
+    if (fwrite(bmpdrv_memmap_bmp_data, y_size * x_size, 1, bmpdrv_memmap_fd) != y_size * x_size) {
+        res = -1;
+    }
     fclose(bmpdrv_memmap_fd);
     lib_free(bmpdrv_memmap_ext_filename);
     lib_free(bmpdrv_memmap_bmp_data);
-    return 0;
+    return res;
 }
 
 static DWORD bmpdrv_memmap_bmp_size(int x_size, int y_size)

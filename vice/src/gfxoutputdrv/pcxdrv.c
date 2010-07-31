@@ -266,17 +266,20 @@ static BYTE *pcxdrv_memmap_pcx_data;
 
 static int pcxdrv_close_memmap(BYTE *palette)
 {
-  BYTE pcx_color_prefix[2]="\x0c";
+    int res = 0;
+    BYTE pcx_color_prefix[2]="\x0c";
 
-  fwrite(pcx_color_prefix, 1, 1, pcxdrv_memmap_fd);
+    if (fwrite(pcx_color_prefix, 1, 1, pcxdrv_memmap_fd) != 1) {
+        res = -1;
+    } else if (fwrite(palette, 3*256, 1, pcxdrv_memmap_fd) != 3*256) {
+        res = -1;
+    }
 
-  fwrite(palette, 3*256, 1, pcxdrv_memmap_fd);
+    fclose(pcxdrv_memmap_fd);
+    lib_free(pcxdrv_memmap_pcx_data);
+    lib_free(pcxdrv_memmap_ext_filename);
 
-  fclose(pcxdrv_memmap_fd);
-  lib_free(pcxdrv_memmap_pcx_data);
-  lib_free(pcxdrv_memmap_ext_filename);
-
-  return 0;
+    return res;
 }
 
 static int pcxdrv_write_memmap(int line, int x_size, BYTE *gfx)

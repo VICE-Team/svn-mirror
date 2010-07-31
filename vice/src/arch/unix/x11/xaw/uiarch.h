@@ -88,8 +88,8 @@ typedef enum ui_keysym_s ui_keysym_t;
 #define UI_CALLBACK(name) void name(Widget w, ui_callback_data_t client_data, ui_callback_data_t call_data)
 
 /* fill callback variables */
-#define CHECK_MENUS call_data
-#define UI_MENU_CB_PARAM client_data
+#define CHECK_MENUS (call_data != NULL)
+#define UI_MENU_CB_PARAM (client_data)
 
 extern Widget _ui_top_level;
 extern Visual *visual;
