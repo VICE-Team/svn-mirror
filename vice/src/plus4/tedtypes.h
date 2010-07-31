@@ -41,7 +41,7 @@
 
 /* FIXME don't need */
 #define TED_PAL_OFFSET                  48
-#define TED_NTSC_OFFSET                 0
+#define TED_NTSC_OFFSET                 0 /* FIXME */
 
 /* Sizes */
 #define TED_SCREEN_XPIX                 320
@@ -49,10 +49,10 @@
 #define TED_SCREEN_TEXTCOLS             40
 #define TED_SCREEN_TEXTLINES            25
 #define TED_SCREEN_PAL_BORDERWIDTH      32
-  /* FIXME Not used */
+/* FIXME Not used */
 #define TED_SCREEN_PAL_BORDERHEIGHT     51
 #define TED_SCREEN_NTSC_BORDERWIDTH     32
-  /* FIXME Not used */
+/* FIXME Not used */
 #define TED_SCREEN_NTSC_BORDERHEIGHT    27
 
 /* values in the coordinate system of the Raster object */
@@ -72,12 +72,20 @@
 #define TED_PAL_24ROW_STOP_LINE         0xc7
 
 /* FIXME calculate NTSC values */
+/*
 #define TED_NTSC_FIRST_DISPLAYED_LINE   (0x20 - TED_NTSC_OFFSET)
 #define TED_NTSC_LAST_DISPLAYED_LINE    0x102
 #define TED_NTSC_25ROW_START_LINE       (0x33 - TED_NTSC_OFFSET)
 #define TED_NTSC_25ROW_STOP_LINE        (0xfb - TED_NTSC_OFFSET)
 #define TED_NTSC_24ROW_START_LINE       (0x37 - TED_NTSC_OFFSET)
 #define TED_NTSC_24ROW_STOP_LINE        (0xf7 - TED_NTSC_OFFSET)
+*/
+#define TED_NTSC_FIRST_DISPLAYED_LINE   19
+#define TED_NTSC_LAST_DISPLAYED_LINE    260
+#define TED_NTSC_25ROW_START_LINE       4
+#define TED_NTSC_25ROW_STOP_LINE        0xcb
+#define TED_NTSC_24ROW_START_LINE       8
+#define TED_NTSC_24ROW_STOP_LINE        0xc7
 
 #define TED_40COL_START_PIXEL           0x20
 #define TED_40COL_STOP_PIXEL            0x160
@@ -160,9 +168,14 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 /* TED raster_counter values */
 #define TED_PAL_FIRST_DMA_LINE      0x0
 #define TED_PAL_LAST_DMA_LINE       0xcb
-/* FIXME */
+
+/* FIXME: verify ntsc values */
+/*
 #define TED_NTSC_FIRST_DMA_LINE     (0x30 - TED_NTSC_OFFSET)
 #define TED_NTSC_LAST_DMA_LINE      0xf7
+*/
+#define TED_NTSC_FIRST_DMA_LINE     0x0   /* FIXME */
+#define TED_NTSC_LAST_DMA_LINE      0xcb  /* FIXME */
 
 /* TED structures.  This is meant to be used by TED modules
    *exclusively*!  */
