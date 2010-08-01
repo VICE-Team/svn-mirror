@@ -43,7 +43,7 @@ static UI_CALLBACK(ui_edit_command_copy)
 {
     char * text = NULL;
 
-    text = clipboard_read_screen_output("\r\n");
+    text = clipboard_read_screen_output("\n");
     if (text != NULL) {
         gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), text, strlen(text));
     }

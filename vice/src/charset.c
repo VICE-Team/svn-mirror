@@ -37,7 +37,6 @@
 #include "log.h"
 #include "types.h"
 
-
 BYTE *charset_petconvstring(BYTE *c, int dir)
 {
     BYTE *p;
@@ -53,10 +52,15 @@ BYTE *charset_petconvstring(BYTE *c, int dir)
         break;
 
       case 1: /* To ascii. */
-      case 2: /* To ascii, convert also screencodes. */
-        dir--;
         while (*p) {
-            *p = charset_p_toascii(*p, dir);
+            *p = charset_p_toascii(*p, 0);
+            p++;
+        }
+        break;
+        
+      case 2: /* To ascii, convert also screencodes. */
+        while (*p) {
+            *p = charset_p_toascii(*p, 1);
             p++;
         }
         break;
@@ -66,69 +70,110 @@ BYTE *charset_petconvstring(BYTE *c, int dir)
     return c;
 }
 
+/*
+   replace the CHROUT duplicates by the proper petcii codes
+
+   FIXME: this one doesn't work correct yet for a bunch of codes. luckily
+          these are all codes that can not be converted between ascci and
+          petscii anyway, so that isn't a real problem.
+*/
+static BYTE petcii_fix_dupes(BYTE c)
+{
+    if ((c >= 0x60) && (c <= 0x7f)) {
+        return ((c - 0x60) + 0xc0);
+    } else if ((c >= 0xe0) && (c <= 0xff)) {
+        return ((c - 0xe0) + 0xa0);
+    }
+    return c;
+}
+
 BYTE charset_p_toascii(BYTE c, int cs)
 {
-    switch (c) {
-      case 0x0a:
-      case 0x0d:
-        return (BYTE)(cs ? (c | 0x40) : '\n'); /* Pet screen codes or CR/LF */
-      case 0x40:
-      case 0x60:
-        return c;
-      case 0xa0:                                /* CBM: Shifted Space */
-      case 0xe0:
+    if (cs) {
+        /* convert ctrl chars to "screencodes" (used by monitor) */
+        if ((c >= 0x00) && (c <= 0x1f)) {
+            c += 0x40;
+        }
+    }
+
+    c = petcii_fix_dupes(c);
+
+    /* map petscii to ascii */
+    if (c == 0x0d) {  /* petscii "return" */
+        return '\n';
+    } else if (c == 0x0a) {
+        return '\r';
+    } else if ((c >= 0x00) && (c <= 0x1f)) {
+        /* unhandled ctrl codes */
+        return '.';
+    } else if (c == 0xa0) { /* petscii Shifted Space */
         return ' ';
-      default:
-        switch (c & 0xe0) {
-          case 0x40: /* 41 - 7E */
-          case 0x60:
-            return (BYTE)(c ^ 0x20);
-
-          case 0xc0: /* C0 - DF */
-            return (BYTE)(c ^ 0x80);
-
-          case 0x00: /* 01 - 1F */
-            if (cs && c) /* Pet screen codes */
-              return (BYTE)(c | 0x40);
-
-      }
+    } else if ((c >= 0xc1) && (c <= 0xda)) {
+        /* uppercase (petscii 0xc1 -) */
+        return (BYTE)((c - 0xc1) + 'A');
+    } else if ((c >= 0x41) && (c <= 0x5a)) {
+        /* lowercase (petscii 0x41 -) */
+        return (BYTE)((c - 0x41) + 'a');
     }
 
     return ((isprint(c) ? c : '.'));
 }
 
-
 BYTE charset_p_topetcii(BYTE c)
 {
-    if ((c >= 0x5b) && (c <= 0x7e))
-        return (BYTE)(c ^ 0x20);
-    else if ((c >= 'A') && (c <= 'Z'))          /* C0 - DF */
-        return (BYTE)(c | 0x80);
-    return c;
+    /* map ascii to petscii */
+    if (c == '\n') {
+        return 0x0d; /* petscii "return" */
+    } else if (c == '\r') {
+        return 0x0a;
+    } else if ((c >= 0x00) && (c <= 0x1f)) {
+        /* unhandled ctrl codes */
+        return 0x2e; /* petscii "." */
+    } else if (c == '`') {
+        return 0x27; /* petscii "'" */
+    } else if ((c >= 'a') && (c <= 'z')) {
+        /* lowercase (petscii 0x41 -) */
+        return (BYTE)((c - 'a') + 0x41);
+    } else if ((c >= 'A') && (c <= 'Z')) {
+        /* uppercase (petscii 0xc1 -)
+           (don't use duplicate codes 0x61 - ) */
+        return (BYTE)((c - 'A') + 0xc1);
+    } else if (c >= 0x7b) {
+        /* last not least, ascii codes >= 0x7b can not be
+           represented properly in petscii */
+        return 0x2e; /* petscii "." */
+    }
+
+    return petcii_fix_dupes(c);
 }
 
 BYTE charset_screencode_to_petcii(BYTE code)
 {
-    if (code <= 0x1f)
+    code &= 0x7f; /* mask inverse bit */
+    if (code <= 0x1f) {
         return (BYTE)(code + 0x40);
-    if (code >= 0x40 && code <= 0x5f)
+    } else if (code >= 0x40 && code <= 0x5f) {
         return (BYTE)(code + 0x20);
+    }
     return code;
 }
 
 BYTE charset_petcii_to_screencode(BYTE code, unsigned int reverse_mode)
 {
-    if (code >= 0x40 && code <= 0x5f)
-        return (BYTE)(code - 0x40);
-    if (code >= 0x60 && code <= 0x7f)
-        return (BYTE)(code - 0x20);
-    if (code >= 0xa0 && code <= 0xbf)
-        return (BYTE)(code - 0x40);
-    if (code >= 0xc0 && code <= 0xfe)
-        return (BYTE)(code - 0x80);
-    if (code == 0xff)
-        return 0x5e;
-    return code;
+    BYTE rev = (reverse_mode ? 0x80 : 0x00);
+
+    if (code >= 0x40 && code <= 0x5f) {
+        return (BYTE)(code - 0x40) | rev;
+    } else if (code >= 0x60 && code <= 0x7f) {
+        return (BYTE)(code - 0x20) | rev;
+    } else if (code >= 0xa0 && code <= 0xbf) {
+        return (BYTE)(code - 0x40) | rev;
+    } else if (code >= 0xc0 && code <= 0xfe) {
+        return (BYTE)(code - 0x80) | rev;
+    } else if (code == 0xff) {
+        return 0x5e | rev;
+    }
+    return code | rev;
 }
 
 void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
