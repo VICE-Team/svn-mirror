@@ -610,11 +610,10 @@ static DRAW_INLINE void draw_colors_8565(int offs, int i)
 
     lookup_index = i;
     /* resolve any unresolved colors */
-    if (i == 0) {
-        /* special case for grey dot handling */
-        if (pixel_buffer[lookup_index] == last_color_reg) {
-            pixel_buffer[lookup_index] = 0x0f;
-        }
+
+    /* special case for grey dot handling */
+    if (i == 0 && pixel_buffer[lookup_index] == last_color_reg) {
+        pixel_buffer[lookup_index] = 0x0f;
     } else {
         pixel_buffer[lookup_index] = cregs[pixel_buffer[lookup_index]];
     }
