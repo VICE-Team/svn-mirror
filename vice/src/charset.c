@@ -37,36 +37,65 @@
 #include "log.h"
 #include "types.h"
 
+/*
+    test for line ending, return number of bytes to skip if found.
+
+    FIXME: although covering probably the vast majority of common
+           cases, this function does not yet work for the general
+           case (exotic platforms, unicode text).
+*/
+static int test_lineend(BYTE *s)
+{
+    if ((s[0] == '\r') && (s[1] == '\n')) {
+        /* CRLF (Windows, DOS) */
+        return 2;
+    } else if (s[0] == '\n') {
+        /* LF (*nix) */
+        return 1;
+    } else if (s[0] == '\r') {
+        /* CR (MacOS9) */
+        return 1;
+    }
+    return 0;
+}
+
 BYTE *charset_petconvstring(BYTE *c, int dir)
 {
-    BYTE *p;
-
-    p = c;
+    BYTE *s = c, *d = c;
+    int ch;
 
     switch (dir) {
       case 0: /* To petscii.  */
-        while (*p) {
-            *p = charset_p_topetcii(*p);
-            p++;
+        while (*s) {
+            if ((ch = test_lineend(s))) {
+                *d++ = 0x0d; /* petscii CR */
+                s += ch;
+            } else {
+                *d++ = charset_p_topetcii(*s);
+                s++;
+            }
         }
         break;
 
       case 1: /* To ascii. */
-        while (*p) {
-            *p = charset_p_toascii(*p, 0);
-            p++;
+        while (*s) {
+            *d++ = charset_p_toascii(*s, 0);
+            s++;
         }
         break;
-        
+
       case 2: /* To ascii, convert also screencodes. */
-        while (*p) {
-            *p = charset_p_toascii(*p, 1);
-            p++;
+        while (*s) {
+            *d++ = charset_p_toascii(*s, 1);
+            s++;
         }
         break;
       default:
         log_error(LOG_DEFAULT, "Unkown conversion rule.");
     }
+
+    *d = 0;
+
     return c;
 }
 
