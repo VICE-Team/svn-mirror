@@ -626,7 +626,6 @@ static DRAW_INLINE void draw_colors_8565(int offs, int i)
 
 static DRAW_INLINE void draw_colors8(void)
 {
-    int i;
     int offs = vicii.dbuf_offset;
 
     /* guard (could possibly be removed) */
