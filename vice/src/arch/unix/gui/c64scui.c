@@ -49,6 +49,7 @@
 #include "uidrivec64.h"
 #include "uidrivec64vic20.h"
 #include "uieasyflash.h"
+#include "uiedit.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
@@ -578,6 +579,14 @@ static ui_menu_entry_t x64_file_submenu[] = {
     { NULL }
 };
 
+#ifdef USE_GNOMEUI
+static ui_menu_entry_t x64_edit_submenu[] = {
+    { "",
+      NULL, NULL, ui_edit_commands_submenu },
+    { NULL }
+};
+#endif
+
 static ui_menu_entry_t x64_snapshot_submenu[] = {
     { "",
       NULL, NULL, ui_snapshot_commands_submenu },
@@ -621,6 +630,10 @@ static ui_menu_entry_t x64_settings_submenu[] = {
 static ui_menu_entry_t x64_main_menu[] = {
     { N_("File"),
       NULL, NULL, x64_file_submenu },
+#ifdef USE_GNOMEUI
+    { N_("Edit"),
+      NULL, NULL, x64_edit_submenu },
+#endif
     { N_("Snapshot"),
       NULL, NULL, x64_snapshot_submenu },
     { N_("Options"),

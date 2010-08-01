@@ -45,6 +45,7 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivepetcbm2.h"
+#include "uiedit.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uiperipheralieee.h"
@@ -464,6 +465,14 @@ static ui_menu_entry_t cbm2_file_menu[] = {
     { NULL }
 };
 
+#ifdef USE_GNOMEUI
+static ui_menu_entry_t cbm2_edit_submenu[] = {
+    { "",
+      NULL, NULL, ui_edit_commands_submenu },
+    { NULL }
+};
+#endif
+
 static ui_menu_entry_t cbm2_snapshot_menu[] = {
     { "",
       NULL, NULL,  ui_snapshot_commands_submenu },
@@ -540,6 +549,10 @@ static ui_menu_entry_t cbm5x0_top_menu[] = {
 static ui_menu_entry_t cbm6x0_top_menu[] = {
     { N_("File"),
       NULL, NULL, cbm2_file_menu },
+#ifdef USE_GNOMEUI
+    { N_("Edit"),
+      NULL, NULL, cbm2_edit_submenu },
+#endif
     { N_("Snapshot"),
       NULL, NULL, cbm2_snapshot_menu },
     { N_("Options"),

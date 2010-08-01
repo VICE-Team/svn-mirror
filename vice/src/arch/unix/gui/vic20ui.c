@@ -46,6 +46,7 @@
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
 #include "uidrivevic20.h"
+#include "uiedit.h"
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uimenu.h"
@@ -612,6 +613,14 @@ static ui_menu_entry_t vic20_file_menu[] = {
     { NULL }
 };
 
+#ifdef USE_GNOMEUI
+static ui_menu_entry_t vic20_edit_submenu[] = {
+    { "",
+      NULL, NULL, ui_edit_commands_submenu },
+    { NULL }
+};
+#endif
+
 static ui_menu_entry_t vic20_snapshot_menu[] = {
     { "",
       NULL, NULL, ui_snapshot_commands_submenu },
@@ -651,6 +660,10 @@ static ui_menu_entry_t vic20_settings_menu[] = {
 static ui_menu_entry_t vic20_top_menu[] = {
     { N_("File"),
       NULL, NULL, vic20_file_menu },
+#ifdef USE_GNOMEUI
+    { N_("Edit"),
+      NULL, NULL, vic20_edit_submenu },
+#endif
     { N_("Snapshot"),
       NULL, NULL, vic20_snapshot_menu },
     { N_("Options"),

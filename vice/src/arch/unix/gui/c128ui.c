@@ -47,6 +47,7 @@
 #include "uidrive.h"
 #include "uidrivec128.h"
 #include "uieasyflash.h"
+#include "uiedit.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
@@ -565,6 +566,14 @@ static ui_menu_entry_t c128_file_menu[] = {
     { NULL }
 };
 
+#ifdef USE_GNOMEUI
+static ui_menu_entry_t c128_edit_submenu[] = {
+    { "",
+      NULL, NULL, ui_edit_commands_submenu },
+    { NULL }
+};
+#endif
+
 static ui_menu_entry_t c128_snapshot_menu[] = {
     { "",
       NULL, NULL, ui_snapshot_commands_submenu },
@@ -608,6 +617,10 @@ static ui_menu_entry_t c128_settings_menu[] = {
 static ui_menu_entry_t c128_main_menu[] = {
     { N_("File"),
       NULL, NULL, c128_file_menu },
+#ifdef USE_GNOMEUI
+    { N_("Edit"),
+      NULL, NULL, c128_edit_submenu },
+#endif
     { N_("Snapshot"),
       NULL, NULL, c128_snapshot_menu },
     { N_("Options"),

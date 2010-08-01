@@ -43,6 +43,7 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivepetcbm2.h"
+#include "uiedit.h"
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
@@ -446,6 +447,14 @@ static ui_menu_entry_t petui_file_menu[] = {
     { NULL }
 };
 
+#ifdef USE_GNOMEUI
+static ui_menu_entry_t petui_edit_submenu[] = {
+    { "",
+      NULL, NULL, ui_edit_commands_submenu },
+    { NULL }
+};
+#endif
+
 static ui_menu_entry_t petui_snapshot_menu[] = {
     { "",
       NULL, NULL, ui_snapshot_commands_submenu },
@@ -487,6 +496,10 @@ static ui_menu_entry_t petui_settings_menu[] = {
 static ui_menu_entry_t petui_top_menu[] = {
     { N_("File"),
       NULL, NULL, petui_file_menu },
+#ifdef USE_GNOMEUI
+    { N_("Edit"),
+      NULL, NULL, petui_edit_submenu },
+#endif
     { N_("Snapshot"),
       NULL, NULL, petui_snapshot_menu },
     { N_("Options"),
