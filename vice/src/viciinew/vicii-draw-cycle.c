@@ -112,6 +112,8 @@ static BYTE pixel_buffer[8];
 
 /* color resolution registers */
 static BYTE cregs[0x2f];
+static BYTE last_color_reg;
+static BYTE last_color_value;
 
 static unsigned int cycle_flags_pipe;
 
@@ -583,28 +585,79 @@ static DRAW_INLINE void draw_border8(void)
 
 static DRAW_INLINE void update_cregs(void)
 {
-    memcpy(&cregs[0x20], &vicii.regs[0x20], 0x0f);
+    last_color_reg = vicii.last_color_reg;
+    last_color_value = vicii.last_color_value;
+    vicii.last_color_reg = 0xff;
 }
 
+static DRAW_INLINE void draw_colors_6569(int offs, int i)
+{
+    int lookup_index;
+
+    /* resolve any unresolved colors */
+    lookup_index = (i + 1) & 0x07;
+    pixel_buffer[lookup_index] = cregs[pixel_buffer[lookup_index]];
+
+    /* draw pixel to buffer */
+    vicii.dbuf[offs + i] = pixel_buffer[i];
+
+    pixel_buffer[i] = render_buffer[i];
+}
+
+static DRAW_INLINE void draw_colors_8565(int offs, int i)
+{
+    int lookup_index;
+
+    lookup_index = i;
+    /* resolve any unresolved colors */
+    if (i == 0) {
+        /* special case for grey dot handling */
+        if (pixel_buffer[lookup_index] == last_color_reg) {
+            pixel_buffer[lookup_index] = 0x0f;
+        }
+    } else {
+        pixel_buffer[lookup_index] = cregs[pixel_buffer[lookup_index]];
+    }
+
+    /* draw pixel to buffer */
+    vicii.dbuf[offs + i] = pixel_buffer[i];
+
+    pixel_buffer[i] = render_buffer[i];
+}
 
 static DRAW_INLINE void draw_colors8(void)
 {
     int i;
     int offs = vicii.dbuf_offset;
+
+    /* guard (could possibly be removed) */
     if (offs > VICII_DRAW_BUFFER_SIZE-8)
         return;
 
-    for (i = 0; i < 8; i++) {
-        int lookup_index;
+    /* update color register (if written) */
+    if (last_color_reg) {
+        cregs[last_color_reg] = last_color_value;
+    }
 
-        /* resolve any unresolved colors */
-        lookup_index = (i + vicii.color_latency) & 0x07;
-        pixel_buffer[lookup_index] = cregs[pixel_buffer[lookup_index]];
-
-        /* draw pixel to buffer */
-        vicii.dbuf[offs + i] = pixel_buffer[i];
-
-        pixel_buffer[i] = render_buffer[i];
+    /* render pixels */
+    if (vicii.color_latency) {
+        draw_colors_6569(offs, 0);
+        draw_colors_6569(offs, 1);
+        draw_colors_6569(offs, 2);
+        draw_colors_6569(offs, 3);
+        draw_colors_6569(offs, 4);
+        draw_colors_6569(offs, 5);
+        draw_colors_6569(offs, 6);
+        draw_colors_6569(offs, 7);
+    } else {
+        draw_colors_8565(offs, 0);
+        draw_colors_8565(offs, 1);
+        draw_colors_8565(offs, 2);
+        draw_colors_8565(offs, 3);
+        draw_colors_8565(offs, 4);
+        draw_colors_8565(offs, 5);
+        draw_colors_8565(offs, 6);
+        draw_colors_8565(offs, 7);
     }
     vicii.dbuf_offset += 8;
 
@@ -653,6 +706,8 @@ void vicii_draw_cycle_init(void)
     for (i=0; i < 0x10; i++) {
         cregs[i] = i;
     }
+    vicii.last_color_reg = 0xff;
+    last_color_reg = 0xff;
 
     cycle_flags_pipe = 0;
 

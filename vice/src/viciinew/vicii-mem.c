@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -278,14 +279,20 @@ inline static void collision_store(const WORD addr, const BYTE value)
     VICII_DEBUG_REGISTER(("(collision register, Read Only)"));
 }
 
+inline static void color_reg_store(WORD addr, BYTE value)
+{
+    vicii.regs[addr] = value;
+    vicii.last_color_reg = addr;
+    vicii.last_color_value = value;
+}
+
 inline static void d020_store(BYTE value)
 {
     VICII_DEBUG_REGISTER(("Border color register: $%02X", value));
 
     value &= 0x0f;
 
-    vicii.regs[0x20] = value;
-
+    color_reg_store(0x20, value);
 }
 
 inline static void d021_store(BYTE value)
@@ -294,7 +301,7 @@ inline static void d021_store(BYTE value)
 
     value &= 0x0f;
 
-    vicii.regs[0x21] = value;
+    color_reg_store(0x21, value);
 }
 
 inline static void ext_background_store(WORD addr, BYTE value)
@@ -304,7 +311,7 @@ inline static void ext_background_store(WORD addr, BYTE value)
     VICII_DEBUG_REGISTER(("Background color #%d register: $%02X",
                           addr - 0x21, value));
 
-    vicii.regs[addr] = value;
+    color_reg_store(addr, value);
 }
 
 inline static void d025_store(BYTE value)
@@ -313,7 +320,7 @@ inline static void d025_store(BYTE value)
 
     VICII_DEBUG_REGISTER(("Sprite multicolor register #0: $%02X", value));
 
-    vicii.regs[0x25] = value;
+    color_reg_store(0x25, value);
 }
 
 inline static void d026_store(BYTE value)
@@ -322,7 +329,7 @@ inline static void d026_store(BYTE value)
 
     VICII_DEBUG_REGISTER(("Sprite multicolor register #1: $%02X", value));
 
-    vicii.regs[0x26] = value;
+    color_reg_store(0x26, value);
 }
 
 inline static void sprite_color_store(WORD addr, BYTE value)
@@ -332,7 +339,7 @@ inline static void sprite_color_store(WORD addr, BYTE value)
     VICII_DEBUG_REGISTER(("Sprite #%d color register: $%02X",
                          addr - 0x27, value));
 
-    vicii.regs[addr] = value;
+    color_reg_store(addr, value);
 }
 
 /* Store a value in a VIC-II register.  */

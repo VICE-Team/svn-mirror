@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -242,6 +243,11 @@ struct vicii_s {
 
     /* cycle table (set by vicii-chip-model). */
     unsigned int cycle_table[65];
+
+    /* last color register update (set by vicii-mem.c,
+       cleared by vicii-draw-cycle.c */
+    BYTE last_color_reg;
+    BYTE last_color_value;
 
     /* Last value read by VICII during phi1.  */
     BYTE last_read_phi1;
