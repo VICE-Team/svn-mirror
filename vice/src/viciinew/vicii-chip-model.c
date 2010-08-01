@@ -101,6 +101,7 @@ struct ViciiChipModel {
     struct ViciiCycle *cycle_tab;
     int color_latency;
     int lightpen_old_irq_mode;
+    int new_luminances;
 };
 
 
@@ -235,27 +236,30 @@ static struct ViciiCycle cycle_tab_pal[] = {
 };
 
 struct ViciiChipModel chip_model_mos6569r1 = {
-    "MOS6569R1",
-    63,
-    cycle_tab_pal,
-    1,
-    1
+    "MOS6569R1",     /* name */
+    63,              /* cycles per line */
+    cycle_tab_pal,   /* cycle table */
+    1,               /* color latency */
+    1,               /* old light pen irq mode */
+    0                /* new luminances */
 };
 
 struct ViciiChipModel chip_model_mos6569r3 = {
-    "MOS6569R3",
-    63,
-    cycle_tab_pal,
-    1,
-    0
+    "MOS6569R3",     /* name */
+    63,              /* cycles per line */
+    cycle_tab_pal,   /* cycle table */
+    1,               /* color latency */
+    0,               /* old light pen irq mode */
+    1                /* new luminances */
 };
 
 struct ViciiChipModel chip_model_mos8565 = {
-    "MOS8565",
-    63,
-    cycle_tab_pal,
-    0,
-    0
+    "MOS8565",       /* name */
+    63,              /* cycles per line */
+    cycle_tab_pal,   /* cycle table */
+    0,               /* color latency */
+    0,               /* old light pen irq mode */
+    1                /* new luminances */
 };
 
 
@@ -394,27 +398,30 @@ static struct ViciiCycle cycle_tab_ntsc[] = {
 };
 
 struct ViciiChipModel chip_model_mos6567r8 = {
-    "MOS6567R8",
-    65,
-    cycle_tab_ntsc,
-    1,
-    0
+    "MOS6567R8",     /* name */
+    65,              /* cycles per line */
+    cycle_tab_ntsc,  /* cycle table */
+    1,               /* color latency */
+    0,               /* old light pen irq mode */
+    1                /* new luminances */
 };
 
 struct ViciiChipModel chip_model_mos8562 = {
-    "MOS8562",
-    65,
-    cycle_tab_ntsc,
-    0,
-    0
+    "MOS8562",       /* name */
+    65,              /* cycles per line */
+    cycle_tab_ntsc,  /* cycle table */
+    0,               /* color latency */
+    0,               /* old light pen irq mode */
+    1                /* new luminances */
 };
 
 struct ViciiChipModel chip_model_mos6572 = {
-    "MOS6572",
-    65,
-    cycle_tab_ntsc,
-    1,
-    0
+    "MOS6572",       /* name */
+    65,              /* cycles per line */
+    cycle_tab_ntsc,  /* cycle table */
+    1,               /* color latency */
+    0,               /* old light pen irq mode */
+    1                /* new luminances */
 };
 
 
@@ -551,11 +558,12 @@ static struct ViciiCycle cycle_tab_ntsc_old[] = {
 };
 
 struct ViciiChipModel chip_model_mos6567r56a = {
-    "MOS6567R56A",
-    64,
-    cycle_tab_ntsc_old,
-    1,
-    1
+    "MOS6567R56A",   /* name */
+    64,              /* cycles per line */
+    cycle_tab_ntsc_old, /* cycle table */
+    1,               /* color latency */
+    1,               /* old light pen irq mode */
+    0                /* new luminances */
 };
 
 
@@ -570,10 +578,10 @@ static void vicii_chip_model_set(struct ViciiChipModel *cm)
 
     struct ViciiCycle *ct = cm->cycle_tab;
 
-    vicii.cycles_per_line   = cm->cycles_per_line;
-    vicii.color_latency     = cm->color_latency;
+    vicii.cycles_per_line       = cm->cycles_per_line;
+    vicii.color_latency         = cm->color_latency;
     vicii.lightpen_old_irq_mode = cm->lightpen_old_irq_mode;
-
+    /* vicii.new_luminances        = cm->new_luminances; */
 
     log_message(vicii.log,
                 "Initializing chip model \"%s\" (%d cycles per line).",
