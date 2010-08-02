@@ -1,3 +1,187 @@
+2010-08-01  groepaz <groepaz@gmx.net>
+
+	* src/charset.c: improved handling of line endings
+
+2010-08-01  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciinew/vicii-draw-cycle.c: Got rid of an unused variable
+	  warning.
+
+	* src/viciinew/vicii-chip-model.c: Minor refactoring.
+
+	* src/viciinew/vicii-draw-cycle.c: Fixed a last minute mess up
+	  of grey dot rendering on 8565.
+
+	* src/viciinew/vicii-draw-cycle.c, src/viciinew/vicii-mem.c,
+	  src/viciinew/viciitypes.h: Implemented grey dot emulation on
+	  8565 (currently hardwired). Fixes 'Emusuxx0r+'.
+
+2010-08-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiedit.c, src/charset.c:
+	  fixed/improved ascii/petscii conversion (please test for
+	  regressions)
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	  src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uiedit.h,
+	  src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/x11/gnome/Makefile.am,
+	  src/arch/unix/x11/gnome/uiedit.c: added copy/paste feature to
+	  gnome ui
+
+2010-07-31  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/xaw/uiarch.h, src/gfxoutputdrv/bmpdrv.c,
+	  src/gfxoutputdrv/pcxdrv.c: fixed some warnings
+
+	* src/plus4/tedtypes.h: make xplus4 not crash in ntsc mode
+	  (still needs proper fix)
+
+2010-07-30  pottendo <pottendo@aon.at>
+
+	* po/de.po: Reverted `c64alt' -> `c64old' to match commandline.
+	  `c64altntsc' -> `c64oldntsc' likewise.
+
+2010-07-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64io.c, src/c64/cart/easyflash.c, src/core/t6721.c,
+	  src/core/tpicore.c: Fix io_peek for carts with write only
+	  registers, use correct list head on io_read/peek conflicts,
+	  add EasyFlash peek/dump, add a few missing vice.h includes
+
+	* doc/html/plain/NEWS, doc/html/plain/TODO,
+	  doc/html/plain/VIC-Addendum.txt, doc/vice.texi, man/vice.1:
+	  Add (minimal) x64sc info to various docs, initial 2.3 NEWS
+	  updates, remove done TODOs
+
+	* src/mouse.c: Revert to input port ignoring 1351 handling
+	  (fixes FC3)
+
+2010-07-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/easyflash.c: updated to use new io/export
+	  resources
+
+2010-07-27  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/crtc.dsp,
+	  src/arch/sdl/win32-msvc/vdc.dsp,
+	  src/arch/sdl/win32-msvc/video.dsp, src/arch/win32/crtc.dsp,
+	  src/arch/win32/vdc.dsp, src/arch/win32/video.dsp: Fix MSVC
+	  compilation for Win32 native and SDL.
+
+2010-07-27  pottendo <pottendo@aon.at>
+
+	* po/de.po: Changed `Uhr' -> `Takt'.
+
+2010-07-27  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uicrtc.c,
+	  src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalette.c,
+	  src/arch/unix/gui/uipalette.h, src/arch/unix/gui/uirenderer.c,
+	  src/arch/unix/gui/uirenderer.h, src/arch/unix/gui/uited.c,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	  src/arch/unix/gui/uivicii.c: nicer menus for palette and
+	  renderer selection
+
+2010-07-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c: SDL UI: add VDC/Crtc external
+	  palette entries, color controls and CRT emulation settings to
+	  all video chip menus
+
+2010-07-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	  src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uic64dtv.c,
+	  src/arch/unix/gui/uic64dtv.h, src/arch/unix/gui/uicrtc.c,
+	  src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uited.c,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivdc.h,
+	  src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	  src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/x11/gnome/gnomevideo.c,
+	  src/arch/unix/x11/gnome/uipalcontrol.c,
+	  src/arch/unix/x11/gnome/x11ui.c, src/c128/c128video.c,
+	  src/cbm2/cbm2video.c, src/crtc/Makefile.am,
+	  src/crtc/crtc-color.c, src/crtc/crtc-color.h,
+	  src/crtc/crtc-resources.c, src/crtc/crtc.c,
+	  src/pet/petvideo.c, src/plus4/plus4video.c,
+	  src/vdc/Makefile.am, src/vdc/vdc-color.c, src/vdc/vdc-color.h,
+	  src/vdc/vdc-resources.c, src/vdc/vdc.c, src/vicii/vicii.c,
+	  src/video.h, src/video/Makefile.am, src/video/render1x2crt.c,
+	  src/video/render1x2crt.h, src/video/video-color.c,
+	  src/video/video-render-2x2.c, src/video/video-render-crt.c,
+	  src/video/video-render-pal.c, src/video/video-render.c,
+	  src/video/video-render.h, src/video/video-resources-pal.c,
+	  src/video/video-resources.c: added CRT emulation for CRTC and
+	  VDC (see devlog). related xaw/gnome ui updates, more cosmetic
+	  ui fixes.
+
+2010-07-26  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-07-25  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/ui.c,
+	  src/arch/sdl/video.c: SDL UI: Fix ColorGamma range, add true
+	  aspect ratio mode, PAL->CRT emulation rename, add statusbar
+	  cmdline switch
+
+2010-07-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	  src/arch/unix/gui/uivicii.c,
+	  src/arch/unix/x11/gnome/gnomevideo.c,
+	  src/arch/unix/x11/gnome/uipalcontrol.c,
+	  src/arch/unix/x11/gnome/x11ui.c, src/crtc/crtc.c,
+	  src/plus4/ted.c, src/vdc/vdc.c, src/vic20/vic.c,
+	  src/vicii/vicii.c, src/viciinew/vicii.c,
+	  src/video/video-color.c, src/video/video-render-pal.c,
+	  src/video/video-resources-pal.c, src/viewport.h: changed gamma
+	  calculation to handle different video modes (see devlog!).
+	  added pixel_aspect_ratio to geometry_s (see devlog). fixed
+	  some scaling issues in gnome-ui, added "keep aspect ratio" and
+	  "true aspect ratio" options.
+
+2010-07-23  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/win32/video.dsp: Add render1x1ntsc.c and
+	  render2x2ntsc.c to fix compilation.
+
+2010-07-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uipalemu.c: allow
+	  CRT emulation regardless of video mode
+
+2010-07-22  groepaz <groepaz@gmx.net>
+
+	* src/video/Makefile.am, src/video/render1x1ntsc.c,
+	  src/video/render1x1ntsc.h, src/video/render1x1pal.c,
+	  src/video/render2x2ntsc.c, src/video/render2x2ntsc.h,
+	  src/video/render2x2pal.c, src/video/video-render-pal.c: added
+	  seperate renderer for ntsc emulation
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uisettings.c, src/arch/unix/gui/vic20ui.c:
+	  added model selection to x64, updated carts for x128, cosmetic
+	  fixes and cleanups
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64cartsystem.h,
+	  src/c64/cart/c64tpi.c, src/c64/cart/dqbb.c,
+	  src/c64/cart/expert.c, src/c64/cart/isepic.c,
+	  src/c64/cart/magicvoice.c, src/c64/cart/mmc64.c,
+	  src/c64/cart/ramcart.c: fixed reset on cart change for all
+	  "slot0" and "slot1" carts
+
 2010-07-22  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.6
