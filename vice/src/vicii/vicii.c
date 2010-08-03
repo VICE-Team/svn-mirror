@@ -1466,12 +1466,14 @@ int vicii_dump(struct vicii_s *vic) {
         mon_out("  %5s", (bits & 1) ? "yes" : "no");
         bits >>= 1;
     }
-/* FIXME: mmh, how to read from the machine ram here ? */
-#if 0
     mon_out("\nPointer: ");
-    for (i = 0; i < 8; i++) {
+    for (i = 0x3f8; i < 0x400; i++) {
+        mon_out("    $%02x", *(vic->screen_ptr+i));
     }
-#endif
+    mon_out("\nAddress: ");
+    for (i = 0x3f8; i < 0x400; i++) {
+        mon_out("  $%04x", v_bank+((*(vic->screen_ptr+i))*0x40));
+    }
     mon_out("\nX-Pos:   ");
     bits = vic->regs[0x10]; /* sprite x msb */
     for (i = 0; i < 8; i++) {
