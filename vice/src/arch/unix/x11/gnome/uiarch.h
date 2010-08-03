@@ -75,7 +75,7 @@ enum ui_keysym_s {
     KEYSYM_F9  = GDK_F9 ,
     KEYSYM_F10 = GDK_F10,
     KEYSYM_F11 = GDK_F11,
-    KEYSYM_F12 = GDK_F12,
+    KEYSYM_F12 = GDK_F12
 };
 typedef enum ui_keysym_s ui_keysym_t;
 

@@ -1240,7 +1240,7 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
     double track_number = (double)half_track_number / 2.0;
 
     sprintf(str, "%.1f", (double)track_number);
-    
+
     for (i = 0; i < num_app_shells; i++) {
         gtk_label_set_text(GTK_LABEL(app_shells[i].drive_status[drive_number].track_label), str);
     }
@@ -1268,7 +1268,7 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
     if (ci2 < 0) {
         ci2 = 0;
     }
-    
+
     for (i = 0; i < num_app_shells; i++) {
         drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
 
@@ -1411,7 +1411,7 @@ void ui_display_tape_control_status(int control)
 
         gdk_draw_rectangle(ts->control_pixmap, app_gc, TRUE, 0, 0, CTRL_WIDTH, CTRL_HEIGHT);
     }
-    
+
     switch (control) {
         case DATASETTE_CONTROL_START:
             num = 3;
@@ -1440,7 +1440,7 @@ void ui_display_tape_control_status(int control)
             p = stop;
             break;
     }
-    
+
     color = &tape_control_pixel;
     gdk_gc_set_rgb_fg_color(app_gc, color);
     for (i = 0; i < num_app_shells; i++) {
@@ -1807,7 +1807,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     va_list ap;
     static GtkWidget *jam_dialog, *message;
     gint res;
-    
+
     va_start(ap, format);
 
     if (console_mode) {
@@ -1898,7 +1898,7 @@ static void menu_set_style(GtkWidget *w, gpointer data)
 static unsigned char *convert_utf8(unsigned char *s)
 {
     unsigned char *d, *r;
-    
+
     r = d = lib_malloc((size_t)(strlen((char *)s) * 2 + 1));
     while (*s) {
         if (*s < 0x80) {

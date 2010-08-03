@@ -108,8 +108,7 @@ static UI_CALLBACK(dump_keymap)
     wd = lib_malloc(len);
 
     ioutil_getcwd(wd, len);
-    vsync_suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"), wd, len) == UI_BUTTON_OK) {
+    if (uilib_input_file(_("VICE setting"), _("Write to Keymap File:"), wd, len) == UI_BUTTON_OK) {
         if (keyboard_keymap_dump(wd) < 0) {
             ui_error(strerror(errno));
         }

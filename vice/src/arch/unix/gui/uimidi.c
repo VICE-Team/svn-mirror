@@ -46,12 +46,12 @@ UI_MENU_DEFINE_RADIO(MIDIDriver)
 
 UI_CALLBACK(set_midi_in_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-In device"), _("Name:"));
+    uilib_select_dev((char *)UI_MENU_CB_PARAM, _("MIDI-In device"), UILIB_FILTER_MIDI);
 }
 
 UI_CALLBACK(set_midi_out_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MIDI-Out device"), _("Name:"));
+    uilib_select_dev((char *)UI_MENU_CB_PARAM, _("MIDI-Out device"), UILIB_FILTER_MIDI);
 }
 
 #ifdef USE_ALSA

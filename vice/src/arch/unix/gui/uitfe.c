@@ -39,7 +39,7 @@ UI_MENU_DEFINE_TOGGLE(ETHERNET_AS_RR)
 
 UI_CALLBACK(set_interface_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), _("Name:"));
+    uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), UILIB_FILTER_ETH);
 }
 
 ui_menu_entry_t tfe_submenu[] = {

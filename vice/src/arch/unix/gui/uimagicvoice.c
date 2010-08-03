@@ -39,13 +39,18 @@
 #include "uiromset.h"
 #include "vsync.h"
 
+UI_CALLBACK(set_magicvoice_image_name)
+{
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Magic Voice image"), UILIB_FILTER_ALL);
+}
+
 UI_MENU_DEFINE_TOGGLE(MagicVoiceCartridgeEnabled)
 
 ui_menu_entry_t magicvoice_submenu[] = {
     { N_("*Enable Magic Voice Cartridge"),
       (ui_callback_t)toggle_MagicVoiceCartridgeEnabled, NULL, NULL },
     { N_("Set Magic Voice ROM image..."),
-      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_t)set_magicvoice_image_name,
       (ui_callback_data_t)"MagicVoiceImage", NULL },
     { NULL }
 };

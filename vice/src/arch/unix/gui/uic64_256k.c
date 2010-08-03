@@ -37,7 +37,12 @@ UI_MENU_DEFINE_RADIO(C64_256Kbase)
 
 UI_CALLBACK(set_c64_256k_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("256K image name"), _("Name:"));
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("256K image"), UILIB_FILTER_ALL);
+#else
+    /* XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("256K image"), _("Image:"));
+#endif
 }
 
 static ui_menu_entry_t c64_256k_base_submenu[] = {

@@ -269,7 +269,8 @@ static GC _video_gc;
 #else
 GC _video_gc;
 #endif
-static void (*_refresh_func)();
+
+static void (*_refresh_func)() = NULL;
 
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;

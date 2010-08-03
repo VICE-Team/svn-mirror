@@ -160,13 +160,16 @@ static void initBlankCursor(Widget canvas)
     XFreePixmap(display, blank);
 }
 
-static void freeBlankCursor()
+/* seemingly dead code */
+#if 0
+static void freeBlankCursor(void)
 {
     if (blankCursor) {
         XFreeCursor(display, blankCursor);
         blankCursor = 0;
     }
 }
+#endif
 
 static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
 {
@@ -2301,7 +2304,7 @@ static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_
 
 void ui_display_statustext(const char *text, int fade_out)
 {
-    log_message(LOG_DEFAULT, text);
+    log_message(LOG_DEFAULT, "%s", text);
     statusbar_setstatustext(text);
     if (fade_out) {
         statustext_display_time = 5;

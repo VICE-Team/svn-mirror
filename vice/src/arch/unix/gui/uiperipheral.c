@@ -48,7 +48,7 @@ UI_CALLBACK(uiperipheral_set_fsdevice_directory)
     resname = lib_msprintf("FSDevice%dDir", unit);
     title = lib_msprintf("Attach file system directory to device #%d", unit);
 
-    uilib_select_string(resname, title, _("Path:"));
+    uilib_select_dir(resname, title, _("Path:"));
 
     lib_free(resname);
     lib_free(title);

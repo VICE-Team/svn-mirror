@@ -36,7 +36,7 @@ UI_MENU_DEFINE_TOGGLE(PETDWW)
 
 UI_CALLBACK(set_petdww_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PETDWW image name"), _("Name:"));
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PETDWW image"), UILIB_FILTER_ALL);
 }
 
 ui_menu_entry_t petdww_submenu[] = {

@@ -37,7 +37,12 @@ UI_MENU_DEFINE_RADIO(PLUS60Kbase)
 
 UI_CALLBACK(set_plus60k_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS60K image name"), _("Name:"));
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS60K image"), UILIB_FILTER_ALL);
+#else
+    /* XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS60K image"), _("Image:"));
+#endif
 }
 
 static ui_menu_entry_t plus60k_base_submenu[] = {

@@ -41,12 +41,12 @@ UI_MENU_DEFINE_RADIO(MMC64_sd_type)
 
 UI_CALLBACK(set_mmc64_bios_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC64 BIOS name"), _("Name:"));
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 BIOS name"), UILIB_FILTER_ALL);
 }
 
 UI_CALLBACK(set_mmc64_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC64 image name"), _("Name:"));
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 image"), UILIB_FILTER_ALL);
 }
 
 static ui_menu_entry_t mmc64_revision_submenu[] = {

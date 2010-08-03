@@ -39,13 +39,18 @@
 #include "uiv364speech.h"
 #include "vsync.h"
 
+UI_CALLBACK(set_speech_image_name)
+{
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Speech ROM image"), UILIB_FILTER_ALL);
+}
+
 UI_MENU_DEFINE_TOGGLE(SpeechEnabled)
 
 ui_menu_entry_t speech_submenu[] = {
     { N_("*Enable V364 Speech"),
       (ui_callback_t)toggle_SpeechEnabled, NULL, NULL },
     { N_("Set Speech ROM image..."),
-      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_t)set_speech_image_name,
       (ui_callback_data_t)"SpeechImage", NULL },
     { NULL }
 };

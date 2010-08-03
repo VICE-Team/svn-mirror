@@ -111,23 +111,7 @@ ui_menu_entry_t ser2_baud_submenu[] = {
 
 UI_CALLBACK(set_rs232_device_file)
 {
-    char *resource = (char *)UI_MENU_CB_PARAM;
-    char *filename;
-    ui_button_t button;
-    uilib_file_filter_enum_t filter = UILIB_FILTER_SERIAL;
-
-    vsync_suspend_speed_eval();
-
-    filename = ui_select_file(_("Select RS232 device file"), NULL, 0, "/dev", &filter, 1, &button, 0, NULL, UI_FC_LOAD);
-    switch (button) {
-        case UI_BUTTON_OK:
-            resources_set_string(resource, filename);
-            break;
-        default:
-            /* Do nothing special.  */
-            break;
-    }
-    lib_free(filename);
+    uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Select RS232 device file"), UILIB_FILTER_SERIAL);
 }
 
 UI_CALLBACK(set_rs232_exec_file)
@@ -137,5 +121,9 @@ UI_CALLBACK(set_rs232_exec_file)
 
 UI_CALLBACK(set_rs232_dump_file)
 {
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), UILIB_FILTER_ALL);
+#else
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), _("Dump file:"));
+#endif
 }

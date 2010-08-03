@@ -65,19 +65,13 @@ static UI_CALLBACK(change_working_directory)
 
     ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
-#ifdef USE_GNOMEUI
-    if (ui_change_dir(_("VICE setting"), _("Change current working directory"), wd, len) == UI_BUTTON_OK) {
+
+    if (uilib_change_dir(_("VICE setting"), _("Change current working directory"), wd, len) == UI_BUTTON_OK) {
         if (ioutil_chdir(wd) < 0) {
             ui_error(_("Directory not found"));
         }
     }
-#else
-    if (ui_input_string(_("VICE setting"), _("Change current working directory"), wd, len) == UI_BUTTON_OK) {
-        if (ioutil_chdir(wd) < 0) {
-            ui_error(_("Directory not found"));
-        }
-    }
-#endif
+
     lib_free(wd);
 }
 
@@ -110,7 +104,7 @@ static UI_CALLBACK(run_c1541)
 #endif
     vsync_suspend_speed_eval();
     sound_close();
-    switch (system("xterm -sb -e c1541 &")) {
+    switch (system("xterm -sb -rightbar -e c1541 &")) {
         case 127:
             ui_error(_("Couldn't run /bin/sh???"));
             break;

@@ -27,8 +27,7 @@
 #ifndef VICE_UILIB_H
 #define VICE_UILIB_H
 
-extern void uilib_select_string(const char *resname, const char *title, const char *name);
-
+/* this must be in sync with uifileentry.c */
 typedef enum uilib_file_filter_enum_s {
     UILIB_FILTER_ALL,
     UILIB_FILTER_PALETTE,
@@ -51,7 +50,18 @@ typedef enum uilib_file_filter_enum_s {
     UILIB_FILTER_VIC20CART,
     UILIB_FILTER_SID,
     UILIB_FILTER_DTVROM,
-    UILIB_FILTER_COMPRESSED
+    UILIB_FILTER_COMPRESSED,
+    UILIB_FILTER_ETH,
+    UILIB_FILTER_MIDI
 } uilib_file_filter_enum_t;
+
+#include "ui.h"
+
+extern void uilib_select_string(const char *resname, const char *title, const char *name);
+extern void uilib_select_file(const char *resname, const char *title, uilib_file_filter_enum_t filter);
+extern ui_button_t uilib_change_dir(const char *title, const char *prompt, char *buf, unsigned int buflen);
+extern void uilib_select_dir(const char *resname, const char *title, const char *name);
+extern void uilib_select_dev(const char *resource, const char *title, uilib_file_filter_enum_t filter);
+extern ui_button_t uilib_input_file(const char *title, const char *prompt, char *buf, unsigned int buflen);
 
 #endif

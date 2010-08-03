@@ -129,7 +129,7 @@ static UI_CALLBACK(uiromset_archive_save)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("File to save ROM set archive to"), _("ROM set archive:"), new_value, len);
+    button = uilib_input_file(_("File to save ROM set archive to"), _("ROM set archive:"), new_value, len);
 
     if (button == UI_BUTTON_OK) {
         romset_archive_save(new_value);
@@ -268,7 +268,7 @@ static UI_CALLBACK(uiromset_file_save)
     new_value = lib_malloc(len + 1);
     strcpy(new_value, "");
 
-    button = ui_input_string(_("File to save ROM set definition to"), _("ROM set file:"), new_value, len);
+    button = uilib_input_file(_("File to save ROM set definition to"), _("ROM set file:"), new_value, len);
 
     if (button == UI_BUTTON_OK) {
         machine_romset_file_save(new_value);

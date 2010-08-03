@@ -38,13 +38,18 @@
 #include "uiromset.h"
 #include "vsync.h"
 
+UI_CALLBACK(set_tpi_image_name)
+{
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("IEEE 488 Interface image"), UILIB_FILTER_ALL);
+}
+
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 
 ui_menu_entry_t tpi_submenu[] = {
     { N_("*Enable IEEE 488 Interface"),
       (ui_callback_t)toggle_IEEE488, NULL, NULL },
     { N_("Set IEEE 488 Interface ROM image..."),
-      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_t)set_tpi_image_name,
       (ui_callback_data_t)"IEEE488Image", NULL },
     { NULL }
 };

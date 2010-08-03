@@ -80,6 +80,8 @@ static uilib_file_filter_t compressed_filter[] = {
     { "*.bz2", 0 },
     { NULL }
 };
+static uilib_file_filter_t eth_filter[] = { { "eth*", 1 }, { NULL } };
+static uilib_file_filter_t midi_filter[] = { { "mi*", 1 }, { NULL } }; /* FIXME */
 
 /* this must be in sync with uilib_file_filter_enum_t */
 struct {
@@ -107,7 +109,9 @@ struct {
     { "VIC20 cartridges", vic20cart_filter },
     { "SID files", sid_filter },
     { "C64DTV ROM images", dtvrom_filter },
-    { "Compressed files", compressed_filter }
+    { "Compressed files", compressed_filter },
+    { "Network ports", eth_filter },
+    { "Midi ports", midi_filter },
 };
 
 GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const char *default_dir, uilib_file_filter_enum_t* patterns, int num_patterns, ui_filechooser_t action)

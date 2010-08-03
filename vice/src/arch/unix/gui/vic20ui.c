@@ -327,7 +327,12 @@ UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 
 UI_CALLBACK(set_mc_nvram_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Mega-Cart NvRAM image name"), _("Name:"));
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Mega-Cart NvRAM image"), UILIB_FILTER_ALL);
+#else
+    /* XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Mega-Cart NvRAM image"), _("Image:"));
+#endif
 }
 
 static ui_menu_entry_t cartridge_options_submenu[] = {

@@ -37,7 +37,12 @@ UI_MENU_DEFINE_TOGGLE(DQBB)
 
 UI_CALLBACK(set_dqbb_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("DQBB image name"), _("Name:"));
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("DQBB image"), UILIB_FILTER_ALL);
+#else
+    /* XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("DQBB image"), _("Image:"));
+#endif
 }
 
 ui_menu_entry_t dqbb_submenu[] = {

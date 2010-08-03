@@ -68,7 +68,6 @@ typedef enum {
 struct video_canvas_s;
 struct palette_s;
 
-enum uilib_file_filter_enum_s;
 typedef enum ui_filechooser_s {
     UI_FC_LOAD = 0,
     UI_FC_SAVE
@@ -80,8 +79,18 @@ void ui_dispatch_events(void);
 extern void ui_exit(void);
 extern void ui_show_text(const char *title, const char *text, int width, int height);
 
+/* only used in the X11 (XAW/GTK) UI */
+#ifndef X_DISPLAY_MISSING
+#include "gui/uilib.h"
+extern char *ui_select_file(const char *title, read_contents_func_type read_contents_func, unsigned int allow_autostart, const char *default_dir, uilib_file_filter_enum_t* patterns,
+                            int num_patterns, ui_button_t *button_return, unsigned int show_preview, int *attach_wp, ui_filechooser_t action);
+#else
+/* FIXME: this can probably be removed as no other ui uses it (?) */
+/* only used in non X11 UIs */
+enum uilib_file_filter_enum_s;
 extern char *ui_select_file(const char *title, read_contents_func_type read_contents_func, unsigned int allow_autostart, const char *default_dir, enum uilib_file_filter_enum_s* patterns,
                             int num_patterns, ui_button_t *button_return, unsigned int show_preview, int *attach_wp, ui_filechooser_t action);
+#endif
 
 extern ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
 
