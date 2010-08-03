@@ -257,10 +257,11 @@ static float ted_get_pixel_aspect(void)
     resources_get_int("MachineVideoStandard", &video);
     switch (video) {
         case MACHINE_SYNC_PAL:
-        case MACHINE_SYNC_PALN:
-            return 0.936f;
+            return ((float)TED_SCREEN_PAL_NORMAL_HEIGHT * 4.0f) / ((float)TED_SCREEN_PAL_NORMAL_WIDTH * 3.0f);
+        case MACHINE_SYNC_NTSC:
+            return ((float)TED_SCREEN_NTSC_NORMAL_HEIGHT * 4.0f) / ((float)TED_SCREEN_NTSC_NORMAL_WIDTH * 3.0f);
         default:
-            return 0.75f;
+            return 1.0f;
     }
 }
 

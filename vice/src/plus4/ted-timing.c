@@ -33,7 +33,6 @@
 #include "ted-timing.h"
 #include "tedtypes.h"
 
-
 /* Number of cycles per line.  */
 #define TED_PAL_CYCLES_PER_LINE     PLUS4_PAL_CYCLES_PER_LINE
 #define TED_NTSC_CYCLES_PER_LINE    PLUS4_NTSC_CYCLES_PER_LINE
@@ -43,7 +42,6 @@
    (i.e. cycle 0) of the next line.  */
 #define TED_PAL_DRAW_CYCLE          TED_PAL_CYCLES_PER_LINE
 #define TED_NTSC_DRAW_CYCLE         TED_NTSC_CYCLES_PER_LINE
-
 
 void ted_timing_set(machine_timing_t *machine_timing)
 {

@@ -112,6 +112,8 @@ struct video_chip_cap_s {
 };
 typedef struct video_chip_cap_s video_chip_cap_t;
 
+#define VIDEO_MAX_OUTPUT_WIDTH  2048
+
 struct video_render_color_tables_s {
     DWORD physical_colors[256];
     SDWORD ytableh[256];        /* y for current pixel */
@@ -127,9 +129,9 @@ struct video_render_color_tables_s {
 
     /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
     DWORD yuv_table[256];
-    SDWORD line_yuv_0[1024 * 3];
-    SWORD prevrgbline[1024 * 3];
-    BYTE rgbscratchbuffer[1024 * 4];
+    SDWORD line_yuv_0[VIDEO_MAX_OUTPUT_WIDTH * 3];
+    SWORD prevrgbline[VIDEO_MAX_OUTPUT_WIDTH * 3];
+    BYTE rgbscratchbuffer[VIDEO_MAX_OUTPUT_WIDTH * 4];
 };
 typedef struct video_render_color_tables_s video_render_color_tables_t;
 

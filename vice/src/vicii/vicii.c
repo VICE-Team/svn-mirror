@@ -281,10 +281,15 @@ static float vicii_get_pixel_aspect(void)
     resources_get_int("MachineVideoStandard", &video);
     switch (video) {
         case MACHINE_SYNC_PAL:
+            return ((float)VICII_SCREEN_PAL_NORMAL_HEIGHT * 4.0f) / ((float)VICII_SCREEN_PAL_NORMAL_WIDTH * 3.0f);
         case MACHINE_SYNC_PALN:
-            return 0.936f; /* "standard" PAL */
+            return ((float)VICII_SCREEN_PALN_NORMAL_HEIGHT * 4.0f) / ((float)VICII_SCREEN_PALN_NORMAL_WIDTH * 3.0f);
+        case MACHINE_SYNC_NTSC:
+            return ((float)VICII_SCREEN_NTSC_NORMAL_HEIGHT * 4.0f) / ((float)VICII_SCREEN_NTSC_NORMAL_WIDTH * 3.0f);
+        case MACHINE_SYNC_NTSCOLD:
+            return ((float)VICII_SCREEN_NTSCOLD_NORMAL_HEIGHT * 4.0f) / ((float)VICII_SCREEN_NTSCOLD_NORMAL_WIDTH * 3.0f);
         default:
-            return 0.75f; /* "standard" NTSC */
+            return 1.0f;
     }
 }
 

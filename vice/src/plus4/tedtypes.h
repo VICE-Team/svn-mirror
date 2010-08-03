@@ -92,13 +92,17 @@
 #define TED_38COL_START_PIXEL           0x28
 #define TED_38COL_STOP_PIXEL            0x158
 
+#define TED_SCREEN_PAL_NORMAL_WIDTH  (TED_SCREEN_PAL_BORDERWIDTH + TED_SCREEN_XPIX)
+#define TED_SCREEN_PAL_NORMAL_HEIGHT (TED_PAL_LAST_DISPLAYED_LINE - TED_PAL_FIRST_DISPLAYED_LINE)
+#define TED_SCREEN_NTSC_NORMAL_WIDTH  (TED_SCREEN_NTSC_BORDERWIDTH + TED_SCREEN_XPIX)
+#define TED_SCREEN_NTSC_NORMAL_HEIGHT (TED_NTSC_LAST_DISPLAYED_LINE - TED_NTSC_FIRST_DISPLAYED_LINE)
+
 /* TED raster counter values */
 #define TED_PAL_VSYNC_LINE              257
 #define TED_NTSC_VSYNC_LINE             229
 
 /* FIXME add negated colors as well */
 #define TED_NUM_COLORS                  128
-
 
 /* Available video modes.  The number is given by TED registers.  */
 enum ted_video_mode_s {
