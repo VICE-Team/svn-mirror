@@ -53,7 +53,7 @@ static cmdline_option_t cmdline_options_chip_size[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SIZE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_scan[] =
@@ -75,7 +75,7 @@ static cmdline_option_t cmdline_options_chip_scan[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_DOUBLE_SCAN,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_hwscale[] =
@@ -97,7 +97,7 @@ static cmdline_option_t cmdline_options_chip_hwscale[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_HARDWARE_SCALING,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_scale2x[] =
@@ -119,7 +119,7 @@ static cmdline_option_t cmdline_options_chip_scale2x[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SCALE2X,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_internal_palette[] =
@@ -141,7 +141,7 @@ static cmdline_option_t cmdline_options_chip_internal_palette[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_EXTERNAL_FILE_PALETTE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_palette[] =
@@ -157,7 +157,7 @@ static cmdline_option_t cmdline_options_chip_palette[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_fullscreen[] =
@@ -189,7 +189,7 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_DEVICE, IDCLS_SELECT_FULLSCREEN_DEVICE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const char *cname_chip_fullscreen_mode[] =
@@ -205,7 +205,7 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODE, IDCLS_SELECT_FULLSCREEN_MODE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int video_cmdline_options_chip_init(const char *chipname,

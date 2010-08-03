@@ -79,7 +79,7 @@ static resource_int_t resources_chip[] =
 {
     { NULL, DEFAULT_VideoCache_VALUE, RES_EVENT_NO, NULL,
       NULL, set_video_cache_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int raster_resources_chip_init(const char *chipname, raster_t *raster,

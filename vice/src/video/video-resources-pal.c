@@ -165,7 +165,7 @@ static const resource_int_t resources_int[] =
       &video_resources.pal_oddlines_phase, set_pal_oddlinesphase, NULL },
     { "PALOddLineOffset", 750, RES_EVENT_NO, NULL,
       &video_resources.pal_oddlines_offset, set_pal_oddlinesoffset, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_resources_pal_init(void)

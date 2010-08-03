@@ -77,6 +77,8 @@ struct resource_int_s {
 };
 typedef struct resource_int_s resource_int_t;
 
+#define RESOURCE_INT_LIST_END { NULL, 0, 0, NULL, NULL, NULL, NULL }
+
 struct resource_string_s {
     /* Resource name.  */
     const char *name;
@@ -101,6 +103,8 @@ struct resource_string_s {
     void *param;
 };
 typedef struct resource_string_s resource_string_t;
+
+#define RESOURCE_STRING_LIST_END { NULL, NULL, 0, NULL, NULL, NULL, NULL }
 
 #define RESERR_FILE_NOT_FOUND       -1
 #define RESERR_FILE_INVALID         -2

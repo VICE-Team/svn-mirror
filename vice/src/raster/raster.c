@@ -192,7 +192,6 @@ static int perform_mode_change(raster_t *raster)
             raster->canvas->palette) < 0)
             return -1;
     }
-
     raster_force_repaint(raster);
 
     /* FIXME: `video_viewport_resize()' already calls
@@ -201,6 +200,7 @@ static int perform_mode_change(raster_t *raster)
                         raster->canvas->draw_buffer->canvas_width,
                         raster->canvas->draw_buffer->canvas_height);
     video_viewport_resize(raster->canvas);
+
     return 0;
 }
 
@@ -304,8 +304,29 @@ typedef struct raster_list_t {
     struct raster_list_t *next;
 } raster_list_t;
 
-static raster_list_t *ActiveRasters = NULL;
+#if 1
+/*
+    FIXME !!! this can only be a temporary workaround !
 
+    inserting this dummy here "fixes" occasional corruption of the following pointer,
+    which might happen eg when switching video mode in x64sc, or running x128 in linux.
+
+    if you can reproduce the problem (comment out the dummy and recompile) then try
+    debugging it like this:
+
+    gdb -args x64sc
+    > watch ActiveRasters
+    > run
+
+    - unfortunately for me the result is that x64sc will no more crash, great (gpz)
+*/
+raster_list_t *DUMMY = NULL;
+raster_list_t *ActiveRasters = NULL;
+#else
+static raster_list_t *ActiveRasters = NULL;
+#endif
+
+/* seemingly dead code */
 #if 0
 raster_t *raster_new(unsigned int num_modes,
                      unsigned int num_sprites)
@@ -319,6 +340,12 @@ raster_t *raster_new(unsigned int num_modes,
 }
 #endif
 
+/*
+    FIXME !!!
+
+    this function fails sometimes because the ActiveRasters pointer
+    became corrupted. (see above)
+*/
 void raster_mode_change(void)
 {
     raster_list_t *rasters = ActiveRasters;
@@ -410,28 +437,34 @@ int raster_realize(raster_t *raster)
     if (realize_canvas(raster) < 0)
         return -1;
 
-    /* On some linux platforms ActiveRasters
-       gets set to something else than NULL */
-    if (raster_realize_init_done == 0)
-    {
+    /*
+       FIXME !!!
+
+       On some linux platforms ActiveRasters
+       gets set to something else than NULL
+    */
+    if (raster_realize_init_done == 0) {
         ActiveRasters = NULL;
-        raster_realize_init_done++;
     }
+    raster_realize_init_done++;
 
     video_canvas_refresh_all(raster->canvas);
 
     rlist = lib_malloc(sizeof(raster_list_t));
     rlist->raster = raster;
     rlist->next = NULL;
+
     if (ActiveRasters == NULL) {
         ActiveRasters = rlist;
     } else {
         raster_list_t *rasters = ActiveRasters;
 
-        while (rasters->next != NULL)
+        while (rasters->next != NULL) {
             rasters = rasters->next;
+        }
         rasters->next = rlist;
     }
+
     return 0;
 }
 
@@ -453,6 +486,13 @@ static void raster_destroy_raster(raster_t *raster)
         else
             tmplist->next = rlist->next;
         lib_free(rlist);
+    }
+
+    if (raster_realize_init_done > 0) {
+        raster_realize_init_done--;
+        if (raster_realize_init_done == 0) {
+            ActiveRasters = NULL;
+        }
     }
 }
 

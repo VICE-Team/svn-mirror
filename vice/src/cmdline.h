@@ -131,4 +131,6 @@ extern char *cmdline_options_get_param(int counter);
 extern char *cmdline_options_get_description(int counter);
 extern int cmdline_get_num_options(void);
 
+#define CMDLINE_LIST_END { NULL, 0, 0, NULL, NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL } 
+
 #endif

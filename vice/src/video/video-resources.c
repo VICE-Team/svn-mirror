@@ -141,7 +141,7 @@ static resource_int_t resources_chip_size[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_double_size_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int set_double_scan_enabled(int val, void *param)
@@ -164,7 +164,7 @@ static resource_int_t resources_chip_scan[] =
 {
     { NULL, 1, RES_EVENT_NO, NULL,
       NULL, set_double_scan_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int hwscale_possible;
@@ -205,7 +205,7 @@ static resource_int_t resources_chip_hwscale[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_hwscale_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static resource_int_t resources_chip_hwscale_possible[] =
@@ -218,7 +218,7 @@ static resource_int_t resources_chip_hwscale_possible[] =
 #endif
       RES_EVENT_NO, NULL,
       &hwscale_possible, set_hwscale_possible, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int set_scale2x_enabled(int val, void *param)
@@ -241,7 +241,7 @@ static resource_int_t resources_chip_scale2x[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_scale2x_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int set_fullscreen_enabled(int val, void *param)
@@ -326,7 +326,7 @@ static resource_string_t resources_chip_fullscreen_string[] =
 {
     { NULL, NULL, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_device, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static resource_int_t resources_chip_fullscreen_int[] =
@@ -339,7 +339,7 @@ static resource_int_t resources_chip_fullscreen_int[] =
       NULL, set_fullscreen_double_size_enabled, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_double_scan_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int set_fullscreen_mode(int val, void *param)
@@ -362,7 +362,7 @@ static resource_int_t resources_chip_fullscreen_mode[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_mode, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int set_ext_palette(int val, void *param)
@@ -392,14 +392,14 @@ static resource_string_t resources_chip_palette_string[] =
 {
     { NULL, NULL, RES_EVENT_NO, NULL,
       NULL, set_palette_file_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static resource_int_t resources_chip_palette_int[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_ext_palette, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int set_double_buffer_enabled(int val, void *param)
@@ -417,7 +417,7 @@ static resource_int_t resources_chip_double_buffer[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_double_buffer_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_resources_chip_init(const char *chipname,

@@ -52,7 +52,7 @@ static cmdline_option_t cmdline_options_chip[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_VIDEO_CACHE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int raster_cmdline_options_chip_init(const char *chipname,
