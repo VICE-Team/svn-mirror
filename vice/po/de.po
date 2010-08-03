@@ -2079,7 +2079,7 @@ msgstr "GEORAM Größe"
 
 #: src/arch/unix/gui/uigeoram.c:66
 msgid "GEORAM image name..."
-msgstr "GEROAM Image Name..."
+msgstr "GEORAM Image Name..."
 
 #: src/arch/unix/gui/uiide64.c:42
 msgid "IDE64 image name"
