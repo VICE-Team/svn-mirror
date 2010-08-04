@@ -54,7 +54,7 @@ CLOCK maincpu_clk = 0L;
 
 /* opcode_t etc */
 
-#if defined ALLOW_UNALIGNED_ACCESS
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #define opcode_t DWORD
 
@@ -62,7 +62,9 @@ CLOCK maincpu_clk = 0L;
 #define p1 ((opcode >> 8) & 0xff)
 #define p2 (opcode >> 8)
 
-#else /* !ALLOW_UNALIGNED_ACCESS */
+#define SET_OPCODE(o) (opcode) = o;
+
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
 #define opcode_t          \
     struct {              \
@@ -77,38 +79,35 @@ CLOCK maincpu_clk = 0L;
 #define p2 (opcode.op.op16)
 
 #ifdef WORDS_BIGENDIAN
-#  define p1 (opcode.op.op8[1])
-#else
-#  define p1 (opcode.op.op8[0])
-#endif
 
-#endif /* !ALLOW_UNALIGNED_ACCESS */
+#define p1 (opcode.op.op8[1])
 
-/*  SET_OPCODE for traps */
-#if defined ALLOW_UNALIGNED_ACCESS 
-#define SET_OPCODE(o) (opcode) = o; 
-#else 
-#if !defined WORDS_BIGENDIAN 
-#define SET_OPCODE(o)                          \
-    do {                                       \
-        opcode.ins = (o) & 0xff;               \
-        opcode.op.op8[0] = ((o) >> 8) & 0xff;  \
-        opcode.op.op8[1] = ((o) >> 16) & 0xff; \
-    } while (0) 
-#else 
 #define SET_OPCODE(o)                          \
     do {                                       \
         opcode.ins = (o) & 0xff;               \
         opcode.op.op8[1] = ((o) >> 8) & 0xff;  \
         opcode.op.op8[0] = ((o) >> 16) & 0xff; \
-    } while (0) 
-#endif 
-#endif 
+    } while (0)
+
+#else /* !WORDS_BIGENDIAN */
+
+#define p1 (opcode.op.op8[0])
+
+#define SET_OPCODE(o)                          \
+    do {                                       \
+        opcode.ins = (o) & 0xff;               \
+        opcode.op.op8[0] = ((o) >> 8) & 0xff;  \
+        opcode.op.op8[1] = ((o) >> 16) & 0xff; \
+    } while (0)
+
+#endif
+
+#endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
 
 /* FETCH_OPCODE implementation(s) */
 /* FIXME: update last_read on "< bank_limit" case */
-#if defined ALLOW_UNALIGNED_ACCESS
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 #define FETCH_OPCODE(o) \
     do { \
         if (((int)reg_pc) < bank_limit) {                       \
@@ -130,7 +129,7 @@ CLOCK maincpu_clk = 0L;
         }                                                       \
     } while (0)
 
-#else /* !ALLOW_UNALIGNED_ACCESS */
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 #define FETCH_OPCODE(o) \
     do { \
         if (((int)reg_pc) < bank_limit) {                         \
@@ -154,7 +153,7 @@ CLOCK maincpu_clk = 0L;
         }                                                         \
     } while (0)
 
-#endif /* !ALLOW_UNALIGNED_ACCESS */
+#endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
 
 #include "../mainviccpu.c"
