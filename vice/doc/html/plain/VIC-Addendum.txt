@@ -103,3 +103,19 @@ When using the data direction register to change a single bit 0->1
 the bank change is delayed by one cycle. This effect is unstable.
 
 [T:fetchsplit]
+
+
+Grey Dots on 856x
+-----------------
+When writing a color register ($D020-$D02E) currently being used to
+display graphics a grey dot (color 15) appears at the first pixel of the
+cycle.  
+
+The reason for the grey dot appears to be a glitch in the color register
+bank itself, not in the mapping from color enables to actual 4-bit color.
+This effect is thus independent of the previous color register displayed. 
+
+It has been reported that the dot can be smaller than 1 pixel, and that
+it does not show or randomly appears on some machines.
+
+[T:greydot]
