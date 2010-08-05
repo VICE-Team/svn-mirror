@@ -819,7 +819,7 @@ Package=<4>
 
 ##############################################################################
 
-Project: "viciinew"=".\viciinew.dsp" - Package Owner=<4>
+Project: "viciidtv"=".\viciidtv.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -834,7 +834,7 @@ Package=<4>
 
 ##############################################################################
 
-Project: "viciidtv"=".\viciidtv.dsp" - Package Owner=<4>
+Project: "viciisc"=".\viciisc.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1164,7 +1164,7 @@ Package=<4>
     Project_Dep_Name sounddrv
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name viciinew
+    Project_Dep_Name viciisc
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rtc

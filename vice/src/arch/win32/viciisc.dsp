@@ -1,4 +1,4 @@
-# Microsoft Developer Studio Project File - Name="viciinew" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="viciisc" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
@@ -8,17 +8,17 @@ CFG=vicii - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "viciinew.mak".
+!MESSAGE NMAKE /f "viciisc.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "viciinew.mak" CFG="viciinew - Win32 Debug"
+!MESSAGE NMAKE /f "viciisc.mak" CFG="viciisc - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "viciinew - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "viciinew - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "viciisc - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "viciisc - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=vicii - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "viciinew - Win32 Release"
+!IF  "$(CFG)" == "viciisc - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -37,8 +37,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "libs\viciinew\Release"
-# PROP Intermediate_Dir "libs\viciinew\Release"
+# PROP Output_Dir "libs\viciisc\Release"
+# PROP Intermediate_Dir "libs\viciisc\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\c64" /I "..\..\c64dtv" /I "..\..\raster" /I "..\..\video" /I "..\..\monitor" /I "..\..\c64\cart" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
@@ -51,7 +51,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "viciinew - Win32 Debug"
+!ELSEIF  "$(CFG)" == "viciisc - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -60,8 +60,8 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "libs\viciinew\Debug"
-# PROP Intermediate_Dir "libs\viciinew\Debug"
+# PROP Output_Dir "libs\viciisc\Debug"
+# PROP Intermediate_Dir "libs\viciisc\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\c64" /I "..\..\c64dtv" /I "..\..\raster" /I "..\..\video" /I "..\..\monitor" /I "..\..\c64\cart" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
@@ -78,63 +78,63 @@ LIB32=link.exe -lib
 
 # Begin Target
 
-# Name "viciinew - Win32 Release"
-# Name "viciinew - Win32 Debug"
+# Name "viciisc - Win32 Release"
+# Name "viciisc - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-chip-model.c"
+SOURCE="..\..\viciisc\vicii-chip-model.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-cmdline-options.c"
+SOURCE="..\..\viciisc\vicii-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-color.c"
+SOURCE="..\..\viciisc\vicii-color.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-cycle.c"
+SOURCE="..\..\viciisc\vicii-cycle.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-draw.c"
+SOURCE="..\..\viciisc\vicii-draw.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-draw-cycle.c"
+SOURCE="..\..\viciisc\vicii-draw-cycle.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-fetch.c"
+SOURCE="..\..\viciisc\vicii-fetch.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-irq.c"
+SOURCE="..\..\viciisc\vicii-irq.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-mem.c"
+SOURCE="..\..\viciisc\vicii-mem.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-phi1.c"
+SOURCE="..\..\viciisc\vicii-phi1.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-resources.c"
+SOURCE="..\..\viciisc\vicii-resources.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-snapshot.c"
+SOURCE="..\..\viciisc\vicii-snapshot.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciinew\vicii-timing.c"
+SOURCE="..\..\viciisc\vicii-timing.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\viciinew\vicii.c
+SOURCE=..\..\viciisc\vicii.c
 # End Source File
 # End Target
 # End Project
