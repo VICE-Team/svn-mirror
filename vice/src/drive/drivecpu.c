@@ -321,10 +321,6 @@ static CLOCK drivecpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
         }
     }
 
-    /* warp our clock accounting towards zero */
-    *(drv->clk_ptr) -= drv->cpu->stop_clk;
-    drv->cpu->stop_clk = 0;
-
     /* Then, check our own clock counters.  */
     return clk_guard_prevent_overflow(drv->cpu->clk_guard);
 }
@@ -470,9 +466,11 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
         cpu->cycle_accum &= 0xffff;
     }
 
-
-    /* Run drive CPU emulation until the stop_clk clock has been reached */
-    while (*(drv->clk_ptr) < cpu->stop_clk) {
+    /* Run drive CPU emulation until the stop_clk clock has been reached.
+     * There appears to be a nasty 32-bit overflow problem here, so we
+     * paper over it by only considering subtractions of 2nd complement
+     * integers. */
+    while ((int) (*(drv->clk_ptr) - cpu->stop_clk) < 0) {
 
 /* Include the 6502/6510 CPU emulation core.  */
 
