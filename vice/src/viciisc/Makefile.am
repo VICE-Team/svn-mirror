@@ -7,9 +7,9 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64/cart
 
-noinst_LIBRARIES = libviciinew.a
+noinst_LIBRARIES = libviciisc.a
 
-libviciinew_a_SOURCES = \
+libviciisc_a_SOURCES = \
 	vicii-chip-model.c \
 	vicii-chip-model.h \
 	vicii-cmdline-options.c \

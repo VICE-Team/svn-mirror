@@ -370,7 +370,7 @@ IDCLS_DISABLE_EXT_FUNC_ROM
 /* c64/c64-cmdline-options.c, c64/psid.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR
 
-/* c64/c64-cmdline-options.c, viciinew/vicii-cmdline-options.c */
+/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c */
 IDCLS_P_MODEL
 
 /* c64/c64-cmdline-options.c */
@@ -982,7 +982,7 @@ IDCLS_SET_ODDLINES_PHASE
 /* vicii/vicii-cmdline-options.c */
 IDCLS_SET_ODDLINES_OFFSET
 
-/* viciinew/vicii-cmdline-options.c */
+/* viciisc/vicii-cmdline-options.c */
 IDCLS_SET_VICII_MODEL
 
 /* printerdrv/driver-select.c */

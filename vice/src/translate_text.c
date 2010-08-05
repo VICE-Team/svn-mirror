@@ -3436,7 +3436,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_TR, "Eski NTSC senkron faktörü kullan"},
 #endif
 
-/* c64/c64-cmdline-options.c, viciinew/vicii-cmdline-options.c */
+/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c */
 /* en */ {IDCLS_P_MODEL,    N_("<model>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_MODEL_DA, ""},  /* fuzzy */
@@ -6351,7 +6351,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_ODDLINES_OFFSET_TR, "Tek satýrlardaki renk taþýyýcýlarý için faz ofsetini ayarlayýn [750]"},
 #endif
 
-/* viciinew/vicii-cmdline-options.c */
+/* viciisc/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_VICII_MODEL,    N_("Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_VICII_MODEL_DA, ""},  /* fuzzy */

@@ -651,7 +651,7 @@
 
 #define ANE()                                                     \
   do {                                                            \
-      /* Set by viciinew to signal steal after first fetch */     \
+      /* Set by viciisc to signal steal after first fetch */     \
       if (OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {                 \
           /* Remove the signal */                                 \
           LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
@@ -871,7 +871,7 @@
 #define CLI()                                           \
   do {                                                  \
       INC_PC(1);                                        \
-      /* Set by viciinew to signal steal during CLI */  \
+      /* Set by viciisc to signal steal during CLI */  \
       if (!OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {      \
           if (LOCAL_INTERRUPT()) {                      \
               OPCODE_ENABLES_IRQ();                     \

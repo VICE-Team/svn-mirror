@@ -25,7 +25,7 @@ SUBDIRS = \
 	video \
 	raster \
 	vicii \
-	viciinew \
+	viciisc \
 	vdc \
 	crtc \
 	gfxoutputdrv \
@@ -59,7 +59,7 @@ DIST_SUBDIRS = \
 	video \
 	raster \
 	vicii \
-	viciinew \
+	viciisc \
 	vdc \
 	crtc \
 	gfxoutputdrv \
@@ -711,7 +711,7 @@ vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vic20cart_lib = $(top_builddir)/src/vic20/cart/libvic20cart.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
-viciinew_lib = $(top_builddir)/src/viciinew/libviciinew.a
+viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
@@ -853,7 +853,7 @@ x64sc_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
-	$(viciinew_lib) \
+	$(viciisc_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
@@ -887,7 +887,7 @@ x64sc-all: \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
-	libviciinew \
+	libviciisc \
 	libvideo \
 	libarch \
 	libmonitor \
@@ -1337,7 +1337,7 @@ cartconv_LDADD = @INTLLIBS@
 
 .PHONY: libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
-	libfsdevice libtape libarch libvicii libviciinew libviciidtv libvdc libsid libcrtc libvideo
+	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc libvideo
 	libserial libparallel libcore libiecbus libfileio @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
 	@VICE_LIBPNG_DEP@ @VICE_ZLIB_DEP@
 
@@ -1437,8 +1437,8 @@ libvicii:
 	(cd vicii && $(MAKE) libvicii.a)
 libviciidtv:
 	(cd vicii && $(MAKE) libviciidtv.a)
-libviciinew:
-	(cd viciinew && $(MAKE) libviciinew.a)
+libviciisc:
+	(cd viciisc && $(MAKE) libviciisc.a)
 libvideo:
 	(cd video && $(MAKE))
 libz:
