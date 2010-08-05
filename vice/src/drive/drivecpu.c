@@ -321,6 +321,10 @@ static CLOCK drivecpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
         }
     }
 
+    /* warp our clock accounting towards zero */
+    *(drv->clk_ptr) -= drv->cpu->stop_clk;
+    drv->cpu->stop_clk = 0;
+
     /* Then, check our own clock counters.  */
     return clk_guard_prevent_overflow(drv->cpu->clk_guard);
 }
@@ -454,13 +458,14 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
         cycles = 0;
 
     while (cycles != 0) {
-		tcycles = cycles > 10000 ? 10000 : cycles;
-		cycles -= tcycles;
+        tcycles = cycles > 10000 ? 10000 : cycles;
+        cycles -= tcycles;
 
-		cpu->cycle_accum += drv->cpud->sync_factor * tcycles;
-		cpu->stop_clk += cpu->cycle_accum >> 16;
-		cpu->cycle_accum &= 0xffff;
-	}
+        cpu->cycle_accum += drv->cpud->sync_factor * tcycles;
+        cpu->stop_clk += cpu->cycle_accum >> 16;
+        cpu->cycle_accum &= 0xffff;
+    }
+
 
     /* Run drive CPU emulation until the stop_clk clock has been reached */
     while (*(drv->clk_ptr) < cpu->stop_clk) {
@@ -506,7 +511,6 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
     }
 
-    cpu->last_exc_cycles = *(drv->clk_ptr) - cpu->stop_clk;
     cpu->last_clk = clk_value;
     drivecpu_sleep(drv);
 }
