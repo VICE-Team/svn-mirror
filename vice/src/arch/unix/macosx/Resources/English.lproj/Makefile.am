@@ -24,6 +24,8 @@ EXTRA_DIST = \
 	DriveSettings.nib/keyedobjects.nib \
 	IECDriveSettings.nib/designable.nib \
 	IECDriveSettings.nib/keyedobjects.nib \
+	MemoryWindow.nib/designable.nib \
+	MemoryWindow.nib/keyedobjects.nib \
 	NetplayControl.nib/designable.nib \
 	NetplayControl.nib/keyedobjects.nib \
 	PrinterSettings.nib/designable.nib \
@@ -36,6 +38,8 @@ EXTRA_DIST = \
 	RecordMedia.nib/keyedobjects.nib \
 	RecordHistory.nib/designable.nib \
 	RecordHistory.nib/keyedobjects.nib \
+	RegisterWindow.nib/designable.nib \
+	RegisterWindow.nib/keyedobjects.nib \
 	ResourceEditor.nib/designable.nib \
 	ResourceEditor.nib/keyedobjects.nib \
 	SIDSettings.nib/designable.nib \

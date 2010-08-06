@@ -30,6 +30,7 @@
 #import "consolewindow.h"
 #import "controlwindow.h"
 #import "registerwindowcontroller.h"
+#import "memorywindowcontroller.h"
 
 @class VICEAppController;
 
@@ -58,6 +59,7 @@
 
     // debugger windows
     RegisterWindowController *registerWindowController;    
+    MemoryWindowController *memoryWindowController;
     
     IBOutlet VICEAppController *appController;
     IBOutlet NSMenu *debuggerWindowsMenu;

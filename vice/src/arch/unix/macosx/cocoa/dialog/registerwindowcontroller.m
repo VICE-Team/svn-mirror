@@ -25,7 +25,6 @@
  */
 
 #include "vice.h"
-#include "drive.h"
 
 #import "registerwindowcontroller.h"
 #import "viceapplication.h"
@@ -40,7 +39,6 @@
 
 -(void)dealloc
 {
-    [registers release];
     [lastRegisters release];
     [registers release];
     [super dealloc];
@@ -117,9 +115,9 @@
             theValue = [self toBinaryString:value width:8];
         } else {
             if(size == 8) {
-                theValue = [NSString stringWithFormat:@"$%02x",value];
+                theValue = [NSString stringWithFormat:@"%02X",value];
             } else {
-                theValue = [NSString stringWithFormat:@"$%04x",value];
+                theValue = [NSString stringWithFormat:@"%04X",value];
             }
         }
         

@@ -265,6 +265,7 @@ extern void mon_stack_down(int count);
 extern void mon_print_convert(int val);
 extern void mon_change_dir(const char *path);
 extern void mon_bank(MEMSPACE mem, const char *bank);
+extern const char *mon_get_current_bank_name(MEMSPACE mem);
 extern void mon_display_io_regs(MON_ADDR addr);
 extern void mon_evaluate_default_addr(MON_ADDR *a);
 extern void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val);
@@ -283,6 +284,8 @@ extern bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr,
 extern void mon_print_bin(int val, char on, char off);
 extern BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr);
 extern BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr);
+extern void mon_get_mem_block(MEMSPACE mem, WORD mem_start, WORD mem_end, BYTE *data);
+extern void mon_get_mem_block_ex(MEMSPACE mem, int bank, WORD mem_start, WORD mem_end, BYTE *data);
 extern void mon_jump(MON_ADDR addr);
 extern void mon_keyboard_feed(const char *string);
 extern char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr);

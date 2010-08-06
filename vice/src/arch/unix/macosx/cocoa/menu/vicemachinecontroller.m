@@ -31,6 +31,7 @@
 #include "drivecpu.h"
 #include "monitor.h"
 #include "monitor/mon_register.h"
+#include "monitor/montypes.h"
 #include "machine.h"
 #include "keyboard.h"
 #include "diskimage.h"
@@ -201,6 +202,26 @@
 
     lib_free(pMonRegs);
     return regs;
+}
+
+-(NSData *)readMemory:(int)memSpace startAddress:(int)start endAddress:(int)end
+{
+    int len = end - start + 1;
+
+    void *data = malloc(len);
+    if(data == NULL)
+        return nil;
+    
+    mon_get_mem_block(memSpace, start, end, data);
+    return [NSData dataWithBytesNoCopy:data length:len freeWhenDone:YES];
+}
+
+-(NSString *)getCurrentMemoryBankName:(int)memSpace
+{
+    const char *name = mon_get_current_bank_name(memSpace);
+    if(name == NULL)
+        return nil;
+    return [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
 }
 
 // ----- Snapshot -----

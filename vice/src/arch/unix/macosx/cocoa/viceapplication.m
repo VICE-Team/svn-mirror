@@ -47,9 +47,19 @@ const float control_win_width = 200;
 
 - (void)setupDebuggerWindowsMenu
 {
-    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Computer Registers"
-                                                 action:@selector(toggleRegisterWindow:)
-                                          keyEquivalent:@""];
+    NSMenuItem *item;
+    
+    // CPU Registers
+    item = [[NSMenuItem alloc] initWithTitle:@"CPU Registers"
+                                      action:@selector(toggleRegisterWindow:)
+                               keyEquivalent:@""];
+    [item setTag:e_comp_space];
+    [debuggerWindowsMenu addItem:item];
+    
+    // CPU Memory
+    item = [[NSMenuItem alloc] initWithTitle:@"CPU Memory"
+                                      action:@selector(toggleMemoryWindow:)
+                               keyEquivalent:@""];
     [item setTag:e_comp_space];
     [debuggerWindowsMenu addItem:item];
 }
@@ -691,6 +701,14 @@ const float control_win_width = 200;
         registerWindowController = [[RegisterWindowController alloc] initWithMemSpace:[sender tag]];
     }
     [registerWindowController toggleWindow:sender];
+}
+
+- (void)toggleMemoryWindow:(id)sender
+{
+    if(!memoryWindowController) {
+        memoryWindowController = [[MemoryWindowController alloc] initWithMemSpace:[sender tag]];
+    }
+    [memoryWindowController toggleWindow:sender];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

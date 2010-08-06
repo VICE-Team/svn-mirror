@@ -30,6 +30,7 @@
 
 @interface VICEMachineController : NSObject
 {
+    NSData *memoryDump;
 }
 
 // ----- Resources -----
@@ -62,6 +63,10 @@
 -(void)activateMonitor;
 // read machine registers
 -(NSArray *)getRegisters:(int)memSpace;
+// read machine data
+-(NSData *)readMemory:(int)memSpace startAddress:(int)start endAddress:(int)end;
+// get current bank name
+-(NSString *)getCurrentMemoryBankName:(int)memSpace;
 
 // ----- Snapshot -----
 // read a snapshot from a file

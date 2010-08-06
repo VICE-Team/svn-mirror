@@ -24,6 +24,7 @@ noinst_HEADERS = \
 	printersettingswindowcontroller.h \
 	joysticksettingswindowcontroller.h \
 	keyboardsettingswindowcontroller.h \
+	memorywindowcontroller.h \
 	sidsettingswindowcontroller.h \
 	soundsettingswindowcontroller.h \
 	viceresourcewindowcontroller.h \
@@ -44,6 +45,7 @@ libarchmacosxcocoadialog_a_SOURCES = \
 	printersettingswindowcontroller.m \
 	joysticksettingswindowcontroller.m \
 	keyboardsettingswindowcontroller.m \
+	memorywindowcontroller.m \
 	sidsettingswindowcontroller.m \
 	soundsettingswindowcontroller.m \
 	viceresourcewindowcontroller.m \

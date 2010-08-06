@@ -504,6 +504,22 @@ void mon_bank(MEMSPACE mem, const char *bankname)
     }
 }
 
+const char *mon_get_current_bank_name(MEMSPACE mem)
+{
+    if (!mon_interfaces[mem]->mem_bank_list) {
+        return NULL;
+    }
+    
+    const char **bnp = mon_interfaces[mem]->mem_bank_list();
+    while (*bnp) {
+        if (mon_interfaces[mem]->mem_bank_from_name(*bnp) == mon_interfaces[mem]->current_bank) {
+            return *bnp;
+        }
+        bnp++;
+    }
+    return NULL;
+}
+
 /*
     main entry point for the monitor to read a value from memory
 
@@ -529,6 +545,19 @@ BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
 BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr)
 {
     return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
+}
+
+void mon_get_mem_block_ex(MEMSPACE mem, int bank, WORD start, WORD end, BYTE *data)
+{
+    int i;
+    for(i=0;i<=end;i++) {
+        data[i] = mon_get_mem_val_ex(mem, bank, start+i);
+    }
+}
+
+void mon_get_mem_block(MEMSPACE mem, WORD start, WORD end, BYTE *data)
+{
+    mon_get_mem_block_ex(mem, mon_interfaces[mem]->current_bank, start, end, data);
 }
 
 void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
