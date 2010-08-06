@@ -33,7 +33,7 @@
 
 -(id)initWithMemSpace:(int)space
 {
-    self = [super initWithWindowNibName:@"RegisterWindow" memSpace:space];
+    self = [super initWithWindowNibName:@"RegisterWindow" title:@"Registers" memSpace:space];
     return self;
 }
 

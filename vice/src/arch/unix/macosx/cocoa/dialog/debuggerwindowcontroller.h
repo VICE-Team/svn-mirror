@@ -32,9 +32,10 @@
     int memSpace;
 }
 
-- (id)initWithWindowNibName:(NSString *)nib memSpace:(int)memSpace;
+- (id)initWithWindowNibName:(NSString *)nib title:(NSString *)title memSpace:(int)memSpace;
 
 - (void)update;
+- (void)machineInitDone;
 - (void)monitorOn;
 - (void)monitorOff;
 - (void)monitorSuspend;

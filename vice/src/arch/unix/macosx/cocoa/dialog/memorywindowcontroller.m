@@ -38,7 +38,7 @@
 
 -(id)initWithMemSpace:(int)space
 {
-    self = [super initWithWindowNibName:@"MemoryWindow" memSpace:space];
+    self = [super initWithWindowNibName:@"MemoryWindow" title:@"Memory" memSpace:space];
     return self;
 }
 
@@ -85,8 +85,8 @@
     
     // update window title with new bank
     if(!sameBank) {
-        NSString *title = [NSString stringWithFormat:@"%@ - Bank %@",windowBaseTitle, memoryBankName];
-        [[self window] setTitle:title];
+        NSString *curTitle = [NSString stringWithFormat:@"%@ - Bank %@",windowBaseTitle, memoryBankName];
+        [[self window] setTitle:curTitle];
     }
 }
 
@@ -137,6 +137,9 @@
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
     row:(NSInteger)rowIndex
 {
+    if(data == nil)
+        return nil;
+    
     id theValue = nil;
 
     NSParameterAssert(rowIndex >= 0 && rowIndex < TOTAL_LINES);

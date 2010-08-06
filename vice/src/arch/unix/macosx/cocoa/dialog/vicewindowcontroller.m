@@ -31,28 +31,99 @@
 
 @implementation VICEWindowController
 
--(id)initWithWindowNibName:(NSString *)name
+-(id)initWithWindowNibName:(NSString *)name title:(NSString *)customTitle showOnDefault:(BOOL)show
 {
     self = [super initWithWindowNibName:name];
+    
+    // store the show on default flag
+    showOnDefault = show;
+    
+    // setup window naming without loading the window first
+    title = [NSString stringWithFormat:@"VICE: %s %@",machine_get_name(),customTitle];
+    [title retain];
+    
+    // set auto save name for window
+    [self setWindowFrameAutosaveName:title];
+
+    // load & show window if its visible
+    [self setWindowVisibilityFromUserDefaults];
+    
+    return self;
+}
+
+-(id)initWithWindow:(NSWindow *)window showOnDefault:(BOOL)show
+{
+    self = [super initWithWindow:window];
+
+    // store the default show flag
+    showOnDefault = show;
+    
+    // take the window title
+    title = [NSString stringWithFormat:@"VICE: %s %@",machine_get_name(),[window title]];
+    [title retain];
+    
+    // update window title
+    [window setTitle:title];
+    [window setFrameAutosaveName:title];
+    
+    [self setWindowVisibilityFromUserDefaults];
+    
     return self;
 }
 
 -(void)dealloc
 {
+    // save visibility of window to user prefs
+    [self storeWindowVisibilityToUserDefaults];
+
+    [title release];
+    [super dealloc];
 }
 
--(void)windowDidLoad
+- (BOOL)isWindowStoredAsVisible
+{
+    NSString *key = [title stringByAppendingString:@"Visible"];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+
+    BOOL visible;
+    if ([def objectForKey:key] == nil) {
+        visible = showOnDefault; // use factory default
+    } else {
+        visible = [def boolForKey:key];
+    }
+    return visible;
+}
+
+- (void)storeWindowVisibility:(BOOL)visible
+{
+    NSString *key = [title stringByAppendingString:@"Visible"];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+
+    [def setBool:visible forKey:key];
+}
+
+- (BOOL)setWindowVisibilityFromUserDefaults
+{
+    if ([self isWindowStoredAsVisible]) {
+        [[self window] orderFront:self];
+        //NSLog(@"restore window %@ visible",title);
+        return true;
+    } else {
+        //NSLog(@"restore window %@ not visible",title);
+        return false;
+    }
+}
+
+- (void)storeWindowVisibilityToUserDefaults
+{
+    //NSLog(@"store window %@ as visible %d",title,[[self window] isVisible]);
+    [self storeWindowVisibility:[[self window] isVisible]];
+}
+
+- (void)windowDidLoad
 {
     [super windowDidLoad];
-
-    // adjust window title: prepend machine
-    NSWindow *window = [self window];
-    NSString *title = [window title];
-    NSString *newTitle = [NSString stringWithFormat:@"VICE: %s %@",machine_get_name(),title];
-    [window setTitle:newTitle];
-    
-    // set autosave name
-    [self setWindowFrameAutosaveName:newTitle];
+    [[self window] setTitle:title];
 }
 
 - (void)toggleWindow:(id)sender

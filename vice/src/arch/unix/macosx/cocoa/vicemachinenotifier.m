@@ -40,6 +40,16 @@
     return self;
 }
 
+// ----- Machine State -----
+
+-(void)postMachineInitDoneNotification
+{
+    NSDictionary *dict = [NSDictionary dictionary];
+    
+    [self postNotificationName:VICEMachineInitDoneNotification
+                      userInfo:dict];
+}
+
 // ----- Drive Notification -----
 
 -(void)setEnableDriveStatus:(int)enable color:(int *)color

@@ -29,9 +29,18 @@
 
 @interface VICEWindowController : NSWindowController
 {
+    BOOL showOnDefault;
+    NSString *title;
 }
+
+-(id)initWithWindowNibName:(NSString *)name title:(NSString *)title showOnDefault:(BOOL)show;
+-(id)initWithWindow:(NSWindow *)window showOnDefault:(BOOL)show;
 
 - (void)toggleWindow:(id)sender;
 - (void)checkMenuItem:(NSMenuItem *)item;
 
+- (BOOL)setWindowVisibilityFromUserDefaults;
+- (void)storeWindowVisibilityToUserDefaults;
+
 @end
+

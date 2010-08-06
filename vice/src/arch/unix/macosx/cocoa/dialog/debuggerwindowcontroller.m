@@ -33,15 +33,9 @@
 
 @implementation DebuggerWindowController
 
-- (id)initWithWindowNibName:(NSString *)nib memSpace:(int)space;
+- (id)initWithWindowNibName:(NSString *)nib title:(NSString *)title memSpace:(int)space;
 {
     memSpace = space;
-    return [super initWithWindowNibName:nib];
-}
-
--(void)windowDidLoad
-{
-    [super windowDidLoad];
 
     // adjust window title: prepend machine and append memspace
     NSString *spaceName[] = {
@@ -52,10 +46,14 @@
         @"Drive #10",
         @"Drive #11"
     };
-    NSWindow *window = [self window];
-    NSString *title = [window title];
     NSString *newTitle = [NSString stringWithFormat:@"%@ (%@)",title,spaceName[memSpace]];
-    [window setTitle:newTitle];
+
+    return [super initWithWindowNibName:nib title:newTitle showOnDefault:NO];
+}
+
+-(void)windowDidLoad
+{
+    [super windowDidLoad];
     
     // register for monitor state updates
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -66,6 +64,10 @@
                                              selector:@selector(monitorUpdateRequest:)
                                                  name:VICEMonitorUpdateNotification
                                                object:nil];
+   [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(monitorInitDone:)
+                                                name:VICEMachineInitDoneNotification
+                                              object:nil];
 }
 
 -(void)monitorStateChanged:(NSNotification *)notification
@@ -97,6 +99,17 @@
 -(void)monitorUpdateRequest:(NSNotification *)notification
 {
     //NSLog(@"Monitor update");
+    [self update];
+}
+
+-(void)monitorInitDone:(NSNotification *)notification
+{
+    [self machineInitDone];
+}
+
+-(void)machineInitDone
+{
+    //NSLog(@"Machine init done");
     [self update];
 }
 

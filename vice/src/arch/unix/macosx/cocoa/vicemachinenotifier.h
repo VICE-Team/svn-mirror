@@ -40,6 +40,9 @@
 
 -(id)init;
 
+// ----- Machine State -----
+-(void)postMachineInitDoneNotification;
+
 // ----- Drive Display -----
 // set enabled drive status
 -(void)setEnableDriveStatus:(int)enable color:(int *)color;

@@ -25,6 +25,9 @@
  *
  */
 
+// Machine Init Done
+#define VICEMachineInitDoneNotification           @"VICEMachineInitDoneNotification"
+
 // Display in VICE Window
 #define VICEDisplayRecordingNotification          @"VICEDisplayRecordingNotification"
 #define VICEDisplayPlaybackNotification           @"VICEDisplayPlaybackNotification"

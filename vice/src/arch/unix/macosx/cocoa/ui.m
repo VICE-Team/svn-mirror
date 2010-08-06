@@ -45,8 +45,12 @@ int ui_init_finish(void)
 
 int ui_init_finalize(void)
 {
+    // tell all that the machine init is now done
+    [[theVICEMachine machineNotifier] postMachineInitDoneNotification];
+
     // report an resouce update to the UI
     [[theVICEMachine machineNotifier] postChangedResourcesNotification];
+    
     return 0;
 }
 

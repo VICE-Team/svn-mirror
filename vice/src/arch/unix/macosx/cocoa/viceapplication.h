@@ -42,24 +42,26 @@
     id<VICEMachineProtocol> machine;
     BOOL canTerminate;
     
-    // log
+    // log window
+    VICEWindowController *consoleWC;
     ConsoleWindow *consoleWindow;
     int canvasCount;
     int currentCanvasId;
     int canvasStartXPos;
     
-    // monitor
+    // monitor window
+    VICEWindowController *monitorWC;
     ConsoleWindow *monitorWindow;
     NSWindow *oldKeyWindow;
     BOOL closeMonitor;
     BOOL inMonitor;
     
-    // control
-    ControlWindow *controlWindow;
+    // control window
+    VICEWindowController *controlWC;
 
     // debugger windows
-    RegisterWindowController *registerWindowController;    
-    MemoryWindowController *memoryWindowController;
+    RegisterWindowController *cpuRegisterWC;    
+    MemoryWindowController   *cpuMemoryWC;
     
     IBOutlet VICEAppController *appController;
     IBOutlet NSMenu *debuggerWindowsMenu;
@@ -93,8 +95,6 @@
 - (void)toggleMonitorWindow:(id)sender;
 // show/hide the control window
 - (void)toggleControlWindow:(id)sender;
-// show/hide the register window
-- (void)toggleRegisterWindow:(id)sender;
 
 // show error message
 + (void)runErrorMessage:(NSString *)message;

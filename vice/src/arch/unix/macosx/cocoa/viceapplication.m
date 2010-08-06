@@ -41,6 +41,9 @@ extern int default_log_fd;
 // initial width of control panel
 const float control_win_width = 200;
 
+#define TAG_CPU_REGISTERS       0
+#define TAG_CPU_MEMORY          1
+
 @implementation VICEApplication
 
 // ----- Setup windows -----
@@ -51,17 +54,30 @@ const float control_win_width = 200;
     
     // CPU Registers
     item = [[NSMenuItem alloc] initWithTitle:@"CPU Registers"
-                                      action:@selector(toggleRegisterWindow:)
+                                      action:@selector(toggleDebuggerWindow:)
                                keyEquivalent:@""];
-    [item setTag:e_comp_space];
+    [item setTag:TAG_CPU_REGISTERS];
     [debuggerWindowsMenu addItem:item];
     
     // CPU Memory
     item = [[NSMenuItem alloc] initWithTitle:@"CPU Memory"
-                                      action:@selector(toggleMemoryWindow:)
+                                      action:@selector(toggleDebuggerWindow:)
                                keyEquivalent:@""];
-    [item setTag:e_comp_space];
+    [item setTag:TAG_CPU_MEMORY];
     [debuggerWindowsMenu addItem:item];
+}
+
+// setup window controlles
+- (void)setupDebuggerWindowControllers
+{
+    cpuRegisterWC = [[RegisterWindowController alloc] initWithMemSpace:e_comp_space];
+    cpuMemoryWC = [[MemoryWindowController alloc] initWithMemSpace:e_comp_space];
+}
+
+- (void)deallocDebuggerWindowControllers
+{
+    [cpuRegisterWC release];
+    [cpuMemoryWC release];
 }
 
 // ----- User Defaults -----
@@ -172,24 +188,7 @@ const float control_win_width = 200;
     [self storeWindowVisibility:window visible:[window isVisible]];
 }
 
-// ----- Startup -----
-
-// initial start up of application
-- (void)runWithArgC:(int)argc argV:(char**)argv
-{
-    // build args array
-    argsArray = [[NSMutableArray alloc] init];
-    int i;
-    for (i=0;i<argc;i++) {
-        [argsArray addObject:[NSString stringWithCString:argv[i] encoding:NSUTF8StringEncoding]];
-    }
-
-    postponeAutostart = YES;
-    inMonitor = FALSE;
-
-    // enter run loop here
-    [super run];
-}
+// ----- Tool Windows and Controllers -----
 
 // console place
 - (NSRect)placeConsole:(BOOL)left
@@ -218,6 +217,54 @@ const float control_win_width = 200;
                       10);
 }
 
+// setup console window controllers
+- (void)setupToolWindowControllers
+{
+    // create default log console
+    consoleWindow = [[ConsoleWindow alloc] 
+         initWithContentRect:[self placeConsole:TRUE]
+                       title:@"Console"];
+    consoleWC = [[VICEWindowController alloc] initWithWindow:consoleWindow showOnDefault:YES];
+
+    // create monitor window
+    monitorWindow = [[ConsoleWindow alloc] 
+         initWithContentRect:[self placeConsole:FALSE]
+                       title:@"Monitor"];
+    monitorWC = [[VICEWindowController alloc] initWithWindow:monitorWindow showOnDefault:NO];
+    
+    // create control window
+    NSWindow *controlWindow = [[ControlWindow alloc] 
+         initWithContentRect:[self placeControl]
+                       title:@"Control"];
+    controlWC = [[VICEWindowController alloc] initWithWindow:controlWindow showOnDefault:YES];
+}
+
+- (void)deallocToolWindowControllers
+{
+    [consoleWC release];
+    [monitorWC release];
+    [controlWC release];
+}
+
+// ----- Startup -----
+
+// initial start up of application
+- (void)runWithArgC:(int)argc argV:(char**)argv
+{
+    // build args array
+    argsArray = [[NSMutableArray alloc] init];
+    int i;
+    for (i=0;i<argc;i++) {
+        [argsArray addObject:[NSString stringWithCString:argv[i] encoding:NSUTF8StringEncoding]];
+    }
+
+    postponeAutostart = YES;
+    inMonitor = FALSE;
+
+    // enter run loop here
+    [super run];
+}
+
 // application is ready to run, so fire up machine thread
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
@@ -225,27 +272,12 @@ const float control_win_width = 200;
     machine = nil;
     canTerminate = NO;
     canvasCount = 0;
- 
-    // create default log console
-    consoleWindow = [[ConsoleWindow alloc] 
-         initWithContentRect:[self placeConsole:TRUE]
-                       title:[NSString stringWithCString:_("VICE: Console") encoding:NSUTF8StringEncoding]];
-
-    // create monitor window
-    monitorWindow = [[ConsoleWindow alloc] 
-         initWithContentRect:[self placeConsole:FALSE]
-                       title:[NSString stringWithCString:_("VICE: Monitor") encoding:NSUTF8StringEncoding]];
-    
-    // create control window
-    controlWindow = [[ControlWindow alloc] 
-         initWithContentRect:[self placeControl]
-                       title:[NSString stringWithCString:_("VICE: Control") encoding:NSUTF8StringEncoding]];
     
     // set visibility of windows
-    [self setWindowVisibilityFromUserDefaults:consoleWindow default:YES];
-    [self setWindowVisibilityFromUserDefaults:monitorWindow default:NO];
-    [self setWindowVisibilityFromUserDefaults:controlWindow default:YES];
+    [self setupToolWindowControllers];
 
+    // setup window controllers
+    [self setupDebuggerWindowControllers];
     [self setupDebuggerWindowsMenu];
     
     // set as new default console
@@ -346,9 +378,6 @@ const float control_win_width = 200;
     }
 
     // save window visibility
-    [self storeWindowVisibilityToUserDefaults:consoleWindow];
-    [self storeWindowVisibilityToUserDefaults:monitorWindow];
-    [self storeWindowVisibilityToUserDefaults:controlWindow];
     [self storeWindowOrder];
 
     // is monitor still running?
@@ -368,7 +397,8 @@ const float control_win_width = 200;
 // shutdown application
 - (void)applicationWillTerminate:(NSNotification*)notification
 {
-    [consoleWindow close];
+    [self deallocToolWindowControllers];
+    [self deallocDebuggerWindowControllers];
 }
 
 // machine did stop
@@ -670,45 +700,30 @@ const float control_win_width = 200;
 
 - (void)toggleControlWindow:(id)sender
 {
-    if ([controlWindow isVisible]) {
-        [controlWindow orderOut:sender];
-    } else {
-        [controlWindow makeKeyAndOrderFront:sender];
-    }
+    [controlWC toggleWindow:sender];
 }
 
 - (void)toggleConsoleWindow:(id)sender
 {
-    if ([consoleWindow isVisible]) {
-        [consoleWindow orderOut:sender];
-    } else {
-        [consoleWindow makeKeyAndOrderFront:sender];
-    }
+    [consoleWC toggleWindow:sender];
 }
 
 - (void)toggleMonitorWindow:(id)sender
 {
-    if ([monitorWindow isVisible]) {
-        [monitorWindow orderOut:sender];
-    } else {
-        [monitorWindow makeKeyAndOrderFront:sender];
-    }
+    [monitorWC toggleWindow:sender];
 }
 
-- (void)toggleRegisterWindow:(id)sender
+- (void)toggleDebuggerWindow:(id)sender
 {
-    if(!registerWindowController) {
-        registerWindowController = [[RegisterWindowController alloc] initWithMemSpace:[sender tag]];
+    int tag = [sender tag];
+    switch(tag) {
+        case TAG_CPU_REGISTERS:
+            [cpuRegisterWC toggleWindow:sender];
+            break;
+        case TAG_CPU_MEMORY:
+            [cpuMemoryWC toggleWindow:sender];
+            break;
     }
-    [registerWindowController toggleWindow:sender];
-}
-
-- (void)toggleMemoryWindow:(id)sender
-{
-    if(!memoryWindowController) {
-        memoryWindowController = [[MemoryWindowController alloc] initWithMemSpace:[sender tag]];
-    }
-    [memoryWindowController toggleWindow:sender];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -716,29 +731,22 @@ const float control_win_width = 200;
     SEL action = [menuItem action];
     
     if (action==@selector(toggleConsoleWindow:)) {
-        if ([consoleWindow isVisible]) {
-            [menuItem setState:NSOnState];
-        } else {
-            [menuItem setState:NSOffState];
-        }
+        [consoleWC checkMenuItem:menuItem];
     }
     else if (action==@selector(toggleMonitorWindow:)) {
-        if ([monitorWindow isVisible]) {
-            [menuItem setState:NSOnState];
-        } else {
-            [menuItem setState:NSOffState];
-        }
+        [monitorWC checkMenuItem:menuItem];
     }
     else if (action==@selector(toggleControlWindow:)) {
-        if ([controlWindow isVisible]) {
-            [menuItem setState:NSOnState];
-        } else {
-            [menuItem setState:NSOffState];
-        }            
+        [controlWC checkMenuItem:menuItem];
     }
-    else if (action==@selector(toggleRegisterWindow:)) {
-        if(registerWindowController) {
-            [registerWindowController checkMenuItem:menuItem];
+    else if (action==@selector(toggleDebuggerWindow:)) {
+        switch([menuItem tag]) {
+            case TAG_CPU_REGISTERS:
+                [cpuRegisterWC checkMenuItem:menuItem];
+                break;
+            case TAG_CPU_MEMORY:
+                [cpuMemoryWC checkMenuItem:menuItem];
+                break;
         }
     }
     return [super validateMenuItem:menuItem];  
