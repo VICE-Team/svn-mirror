@@ -1644,9 +1644,16 @@ static void setup_aspect(video_canvas_t *canvas)
     /* calculate unscaled size of window */
     winw = w;
     winh = h + topmenu->allocation.height + sb->allocation.height;
+
+#if GTK_CHECK_VERSION(2,18,0)
     if (gtk_widget_get_visible(palctrl)) {
         winh += palctrl->allocation.height;
     }
+#else
+    if (GTK_WIDGET_VISIBLE(palctrl)) {
+        winh += palctrl->allocation.height;
+    }
+#endif
 
     /* default geometry hints, no scaling, 1:1 aspect */
     appshell->geo.min_width = winw;
