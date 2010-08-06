@@ -30,6 +30,7 @@
 #include "vsync.h"
 #include "drivecpu.h"
 #include "monitor.h"
+#include "monitor/mon_register.h"
 #include "machine.h"
 #include "keyboard.h"
 #include "diskimage.h"
@@ -176,6 +177,30 @@
         monitor_startup();
     else
         monitor_startup_trap();
+}
+
+-(NSArray *)getRegisters:(int)memSpace
+{
+    mon_reg_list_t *pMonRegs = mon_register_list_get(memSpace);
+    mon_reg_list_t *p;
+
+    // count registers
+    unsigned int cnt;
+    for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ );
+
+    NSMutableArray *regs = [NSMutableArray arrayWithCapacity:cnt];
+    for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ ) {
+        NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSString stringWithCString:p->name encoding:NSUTF8StringEncoding], @"name",
+        [NSNumber numberWithUnsignedInt:p->val], @"value",
+        [NSNumber numberWithUnsignedInt:p->size], @"size",
+        [NSNumber numberWithUnsignedInt:p->flags], @"flags",
+        nil];
+        [regs addObject:entry];
+    }
+
+    lib_free(pMonRegs);
+    return regs;
 }
 
 // ----- Snapshot -----

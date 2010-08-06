@@ -64,4 +64,5 @@
 #define VICEMonitorStateOn              1
 #define VICEMonitorStateSuspend         2
 #define VICEMonitorStateResume          3
+#define VICEMonitorUpdateNotification             @"VICEMonitorUpdateNotification"
 

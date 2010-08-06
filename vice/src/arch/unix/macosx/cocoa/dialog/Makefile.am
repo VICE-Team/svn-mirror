@@ -17,6 +17,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarchmacosxcocoadialog.a
 
 noinst_HEADERS = \
+	debuggerwindowcontroller.h \
 	drivesettingswindowcontroller.h \
 	iecdrivesettingswindowcontroller.h \
 	netplaycontrolwindowcontroller.h \
@@ -27,6 +28,8 @@ noinst_HEADERS = \
 	soundsettingswindowcontroller.h \
 	viceresourcewindowcontroller.h \
 	viceinformationwindowcontroller.h \
+	vicewindowcontroller.h \
+	registerwindowcontroller.h \
 	resourceeditorcontroller.h \
 	resourcetreeitem.h \
 	recordmediawindowcontroller.h \
@@ -34,6 +37,7 @@ noinst_HEADERS = \
 	videosettingswindowcontroller.h
    
 libarchmacosxcocoadialog_a_SOURCES = \
+	debuggerwindowcontroller.m \
 	drivesettingswindowcontroller.m \
 	iecdrivesettingswindowcontroller.m \
 	netplaycontrolwindowcontroller.m \
@@ -44,6 +48,8 @@ libarchmacosxcocoadialog_a_SOURCES = \
 	soundsettingswindowcontroller.m \
 	viceresourcewindowcontroller.m \
 	viceinformationwindowcontroller.m \
+	vicewindowcontroller.m \
+	registerwindowcontroller.m \
 	resourceeditorcontroller.m \
 	resourcetreeitem.m \
 	recordmediawindowcontroller.m \

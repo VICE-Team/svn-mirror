@@ -27,6 +27,7 @@
 #include "videoarch.h"
 #include "viewport.h"
 #include "uiapi.h"
+#include "monitor.h"
 
 #import "viceapplication.h"
 #import "vicenotifications.h"
@@ -41,6 +42,17 @@ extern int default_log_fd;
 const float control_win_width = 200;
 
 @implementation VICEApplication
+
+// ----- Setup windows -----
+
+- (void)setupDebuggerWindowsMenu
+{
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Computer Registers"
+                                                 action:@selector(toggleRegisterWindow:)
+                                          keyEquivalent:@""];
+    [item setTag:e_comp_space];
+    [debuggerWindowsMenu addItem:item];
+}
 
 // ----- User Defaults -----
 
@@ -223,6 +235,8 @@ const float control_win_width = 200;
     [self setWindowVisibilityFromUserDefaults:consoleWindow default:YES];
     [self setWindowVisibilityFromUserDefaults:monitorWindow default:NO];
     [self setWindowVisibilityFromUserDefaults:controlWindow default:YES];
+
+    [self setupDebuggerWindowsMenu];
     
     // set as new default console
     default_log_fd = [consoleWindow fdForWriting];
@@ -534,6 +548,15 @@ const float control_win_width = 200;
                                                       userInfo:dict];
 }
 
+// post a notification if the state of the monitor has changed
+- (void)postMonitorUpdateNotification
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:VICEMonitorUpdateNotification
+                                                        object:self
+                                                      userInfo:nil];
+}
+
+
 // filter all actions if monitor is enabled
 - (id)targetForAction:(SEL)anAction to:(id)aTarget from:(id)sender
 {
@@ -592,7 +615,7 @@ const float control_win_width = 200;
 // some monitor values have changed. update views (e.g. mem window)
 -(void)updateMonitor
 {
-    
+    [self postMonitorUpdateNotification];
 }
 
 // print something in the monitor view
@@ -662,28 +685,43 @@ const float control_win_width = 200;
     }
 }
 
+- (void)toggleRegisterWindow:(id)sender
+{
+    if(!registerWindowController) {
+        registerWindowController = [[RegisterWindowController alloc] initWithMemSpace:[sender tag]];
+    }
+    [registerWindowController toggleWindow:sender];
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-    if ([menuItem action]==@selector(toggleConsoleWindow:)) {
+    SEL action = [menuItem action];
+    
+    if (action==@selector(toggleConsoleWindow:)) {
         if ([consoleWindow isVisible]) {
             [menuItem setState:NSOnState];
         } else {
             [menuItem setState:NSOffState];
         }
     }
-    else if ([menuItem action]==@selector(toggleMonitorWindow:)) {
+    else if (action==@selector(toggleMonitorWindow:)) {
         if ([monitorWindow isVisible]) {
             [menuItem setState:NSOnState];
         } else {
             [menuItem setState:NSOffState];
         }
     }
-    else if ([menuItem action]==@selector(toggleControlWindow:)) {
+    else if (action==@selector(toggleControlWindow:)) {
         if ([controlWindow isVisible]) {
             [menuItem setState:NSOnState];
         } else {
             [menuItem setState:NSOffState];
         }            
+    }
+    else if (action==@selector(toggleRegisterWindow:)) {
+        if(registerWindowController) {
+            [registerWindowController checkMenuItem:menuItem];
+        }
     }
     return [super validateMenuItem:menuItem];  
 }

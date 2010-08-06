@@ -60,6 +60,8 @@
 // ----- Monitor -----
 // activate monitor
 -(void)activateMonitor;
+// read machine registers
+-(NSArray *)getRegisters:(int)memSpace;
 
 // ----- Snapshot -----
 // read a snapshot from a file
