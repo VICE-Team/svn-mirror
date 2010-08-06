@@ -506,11 +506,13 @@ void mon_bank(MEMSPACE mem, const char *bankname)
 
 const char *mon_get_current_bank_name(MEMSPACE mem)
 {
+    const char **bnp = NULL;
+
     if (!mon_interfaces[mem]->mem_bank_list) {
         return NULL;
     }
     
-    const char **bnp = mon_interfaces[mem]->mem_bank_list();
+    bnp = mon_interfaces[mem]->mem_bank_list();
     while (*bnp) {
         if (mon_interfaces[mem]->mem_bank_from_name(*bnp) == mon_interfaces[mem]->current_bank) {
             return *bnp;
