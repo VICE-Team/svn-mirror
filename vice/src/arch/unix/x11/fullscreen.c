@@ -50,7 +50,8 @@
 #include "xrandr.h"
 #endif
 
-int fullscreen_is_enabled;
+int fullscreen_is_enabled = 0;
+static int status_is_enabled = 0;
 
 int fullscreen_available(void) 
 {
@@ -97,6 +98,21 @@ void fullscreen_set_mouse_timeout(void)
 #ifdef USE_XF86_VIDMODE_EXT
     vidmode_set_mouse_timeout();
 #endif
+}
+
+void fullscreen_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
+{
+    if (fullscreen_is_enabled) {
+        if (canvas->fullscreenconfig->driver == FSDRIVER_VIDMODE) {
+#ifdef USE_XF86_VIDMODE_EXT
+            vidmode_mouse_moved(canvas, x, y, leave);
+#endif
+        } else if (canvas->fullscreenconfig->driver == FSDRIVER_XRANDR) {
+#ifdef HAVE_XRANDR
+            xrandr_mouse_moved(canvas, x, y, leave);
+#endif
+        }
+    }
 }
 
 void fullscreen_mode_callback(const char *device, void *callback)
@@ -158,16 +174,44 @@ void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas)
 {
 }
 
+/*
+    resize the fullscreen canvas, taking eventually visible gui
+    elements into account to maintain aspect ratio
+*/
+void fullscreen_resize(struct video_canvas_s *canvas, int uienable)
+{
+    if (fullscreen_is_enabled) {
+        if (canvas->fullscreenconfig->driver == FSDRIVER_VIDMODE) {
+#ifdef USE_XF86_VIDMODE_EXT
+            vidmode_resize(canvas, uienable);
+#endif
+        } else if (canvas->fullscreenconfig->driver == FSDRIVER_XRANDR) {
+#ifdef HAVE_XRANDR
+            xrandr_resize(canvas, uienable);
+#endif
+        }
+    }
+}
+
+/* enable/disable statusbar and menubar */
 static int fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
+    status_is_enabled = enable;
+
     if (!fullscreen_is_enabled) {
         return 0;
     }
-    return ui_fullscreen_statusbar(canvas, enable);
+
+    ui_fullscreen_statusbar(canvas, enable);
+    ui_dispatch_events();
+    fullscreen_resize(canvas, enable);
+    return 0;
 }
 
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
+    canvas->fullscreenconfig->driver = 0;
+
     if (canvas->fullscreenconfig->device == NULL) {
         return 0;
     }
@@ -177,6 +221,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
         if (vidmode_enable(canvas, enable) < 0) {
             return -1;
         }
+        canvas->fullscreenconfig->driver = FSDRIVER_VIDMODE;
     }
 #endif
 #ifdef HAVE_XRANDR
@@ -184,10 +229,15 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
         if (xrandr_enable(canvas, enable) < 0) {
             return -1;
         }
+        canvas->fullscreenconfig->driver = FSDRIVER_XRANDR;
     }
 #endif
     fullscreen_is_enabled = canvas->fullscreenconfig->enable = enable;
     resources_set_int("UseFullscreen", enable);
+
+    ui_dispatch_events();
+    fullscreen_resize(canvas, status_is_enabled);
+
     return 0;
 }
 

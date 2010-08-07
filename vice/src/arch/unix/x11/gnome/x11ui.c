@@ -142,7 +142,6 @@ static int tape_control_status = -1;
 static GtkWidget *tape_menu, *speed_menu;
 static GtkWidget *drive_menus[NUM_DRIVES];
 GtkWidget *video_ctrl_checkbox;
-GtkWidget *status_bar;		/* still needed for vidmode, remove me asap */
 static GtkWidget *video_ctrl_checkbox_label;
 static GtkWidget *event_rec_checkbox;
 static GtkWidget *event_rec_checkbox_label;
@@ -237,6 +236,7 @@ static GtkWidget* build_file_selector(const char *title, GtkWidget **attach_writ
 static GtkWidget* build_show_text(const gchar *text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
+static gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer p);
 static gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer p);
 static gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer p);
@@ -396,12 +396,17 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
           }
       }
    } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
-       GdkEventButton *bevent = (GdkEventButton*)event;
-       mouse_button(bevent->button-1, FALSE);
-       gtk_lightpen_setbutton(bevent->button, FALSE);
-   } else if (event->type == GDK_MOTION_NOTIFY && _mouse_enabled) {
-       GdkEventMotion *mevent = (GdkEventMotion*)event;
-       mouse_move((int)mevent->x, (int)mevent->y);
+        GdkEventButton *bevent = (GdkEventButton*)event;
+        mouse_button(bevent->button-1, FALSE);
+        gtk_lightpen_setbutton(bevent->button, FALSE);
+   } else if (event->type == GDK_MOTION_NOTIFY) {
+        GdkEventMotion *mevent = (GdkEventMotion*)event;
+        if (_mouse_enabled) {
+            mouse_move((int)mevent->x, (int)mevent->y);
+        }
+#ifdef HAVE_FULLSCREEN
+        fullscreen_mouse_moved((struct video_canvas_s *)data, (int)mevent->x, (int)mevent->y, 0);
+#endif
    }
 }
 
@@ -515,7 +520,7 @@ int ui_init_finish(void)
         log_warning(ui_log, "Cannot load CBM font %s.", fixedfontname);
         have_cbm_font = FALSE;
     }
-    
+
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_init() != 0) {
         log_warning(ui_log, "Some fullscreen devices aren't initialized properly.");
@@ -563,7 +568,7 @@ static void ui_update_event_checkbox (GtkWidget *w, gpointer data)
 static void statusbar_setstatustext(const char *t)
 {
     int i;
-    
+
     for (i = 0; i < num_app_shells; i++) {
         gtk_label_set_text(app_shells[i].statustext, t);
     }
@@ -854,17 +859,18 @@ static void build_screen_canvas_widget(video_canvas_t *c)
                           GDK_POINTER_MOTION_MASK |
                           GDK_STRUCTURE_MASK |
                           GDK_EXPOSURE_MASK);
-
     /* XVideo must be refreshed when the application window is moved. */
     g_signal_connect(G_OBJECT(new_canvas), "configure-event", G_CALLBACK(configure_callback_canvas), (void*)c);
     g_signal_connect(G_OBJECT(new_canvas), "expose-event", G_CALLBACK(exposure_callback_canvas), (void*)c);
     g_signal_connect(G_OBJECT(new_canvas), "enter-notify-event", G_CALLBACK(enter_window_callback), (void *)c);
+    g_signal_connect(G_OBJECT(new_canvas), "leave-notify-event", G_CALLBACK(leave_window_callback), (void *)c);
+    g_signal_connect(G_OBJECT(new_canvas), "focus-out-event", G_CALLBACK(leave_window_callback), (void *)c);
     g_signal_connect(G_OBJECT(new_canvas), "map-event", G_CALLBACK(map_callback), NULL);
-    g_signal_connect(G_OBJECT(new_canvas), "button-press-event", G_CALLBACK(mouse_handler), NULL);
-    g_signal_connect(G_OBJECT(new_canvas), "button-release-event", G_CALLBACK(mouse_handler), NULL);
-    g_signal_connect(G_OBJECT(new_canvas), "motion-notify-event", G_CALLBACK(mouse_handler), NULL);
-    g_signal_connect(G_OBJECT(new_canvas), "key-press-event", G_CALLBACK(kbd_event_handler), NULL);
-    g_signal_connect(G_OBJECT(new_canvas), "key-release-event", G_CALLBACK(kbd_event_handler), NULL);
+    g_signal_connect(G_OBJECT(new_canvas), "button-press-event", G_CALLBACK(mouse_handler), (void *) c);
+    g_signal_connect(G_OBJECT(new_canvas), "button-release-event", G_CALLBACK(mouse_handler), (void *) c);
+    g_signal_connect(G_OBJECT(new_canvas), "motion-notify-event", G_CALLBACK(mouse_handler), (void *) c);
+    g_signal_connect(G_OBJECT(new_canvas), "key-press-event", G_CALLBACK(kbd_event_handler), (void *) c);
+    g_signal_connect(G_OBJECT(new_canvas), "key-release-event", G_CALLBACK(kbd_event_handler), (void *) c);
     g_signal_connect(G_OBJECT(new_canvas), "focus-in-event", G_CALLBACK(enter_window_callback), (void *) c);
 
     if (c->videoconfig->hwscale) {
@@ -1558,18 +1564,24 @@ void x11ui_fullscreen(int i)
 
 int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
+    app_shell_type *appshell = &app_shells[canvas->app_shell];
     int j;
-    
+
     if (enable) {
         for (j = 0; j < num_app_shells; j++) {
             gtk_widget_show(app_shells[j].status_bar);
             gtk_widget_show(app_shells[j].topmenu);
         }
+        canvas->fullscreenconfig->ui_border_top = appshell->topmenu->allocation.height;
+        canvas->fullscreenconfig->ui_border_bottom = appshell->status_bar->allocation.height;
+
     } else {
         for (j = 0; j < num_app_shells; j++) {
             gtk_widget_hide(app_shells[j].status_bar);
             gtk_widget_hide(app_shells[j].topmenu);
         }
+        canvas->fullscreenconfig->ui_border_top = 0;
+        canvas->fullscreenconfig->ui_border_bottom = 0;
     }
     return 0;
 }
@@ -1579,15 +1591,20 @@ static void toggle_aspect(video_canvas_t *canvas)
     int keep_aspect_ratio, flags = 0;
     app_shell_type *appshell = &app_shells[canvas->app_shell];
 
+    /* printf("toggle_aspect fs:%d\n", canvas->fullscreenconfig->enable); */
     if ((appshell != NULL) && (appshell->shell != NULL)) {
-        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
-        if (keep_aspect_ratio) {
-            flags |= GDK_HINT_ASPECT;
-            if (appshell->geo.max_width) {
-                flags |= GDK_HINT_MAX_SIZE;
+        if (canvas->fullscreenconfig->enable) {
+            gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE);
+        } else {
+            resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+            if (keep_aspect_ratio) {
+                flags |= GDK_HINT_ASPECT;
+                if (appshell->geo.max_width) {
+                    flags |= GDK_HINT_MAX_SIZE;
+                }
             }
+            gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | flags);
         }
-        gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | flags);
     }
 }
 
@@ -1618,6 +1635,8 @@ static void setup_aspect(video_canvas_t *canvas)
     GtkWidget *topmenu;
     GtkWidget *sb;
     GtkWidget *palctrl;
+
+    /* printf("setup_aspect:%d\n", canvas->fullscreenconfig->enable); */
 
     if (appshell == NULL) {
         return;
@@ -1663,15 +1682,18 @@ static void setup_aspect(video_canvas_t *canvas)
     appshell->geo.min_aspect = 1.0f;
     appshell->geo.max_aspect = 1.0f;
 
-    taspect = get_aspect(canvas);
-    if (taspect > 0.0f) {
-        aspect = ((float)winw * taspect) / ((float)winh);
-        appshell->geo.min_aspect = aspect;
-        appshell->geo.max_aspect = aspect;
-        appshell->geo.min_width = (int)((float)winw * taspect);
-        if (canvas->videoconfig->hwscale) {
-            appshell->geo.max_width = 0;
-            appshell->geo.max_height = 0;
+    if (canvas->fullscreenconfig->enable) {
+    } else {
+        taspect = get_aspect(canvas);
+        if (taspect > 0.0f) {
+            aspect = ((float)winw * taspect) / ((float)winh);
+            appshell->geo.min_aspect = aspect;
+            appshell->geo.max_aspect = aspect;
+            appshell->geo.min_width = (int)((float)winw * taspect);
+            if (canvas->videoconfig->hwscale) {
+                appshell->geo.max_width = 0;
+                appshell->geo.max_height = 0;
+            }
         }
     }
 }
@@ -2145,11 +2167,11 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
             return NULL;
             break;
     }
-    
+
     if (attach_wp) {
         *attach_wp = GTK_TOGGLE_BUTTON(wp)->active;
     }
-    
+
     auto_start_button = NULL;
     gtk_widget_destroy(file_selector);
 
@@ -2221,7 +2243,7 @@ void ui_show_text(const char *title, const char *text, int width, int height)
     ui_popup(show_text, title, FALSE);
     gtk_dialog_run(GTK_DIALOG(show_text));
     ui_popdown(show_text);
-    
+
     if (show_text) {
         gtk_widget_destroy(show_text);
     }
@@ -2314,7 +2336,7 @@ void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
 #ifdef HAVE_FULLSCREEN
     fullscreen_suspend(1);
 #endif
-    
+
     ui_restore_mouse();
 
     /* Keep sure that we really know which was the last visited shell. */
@@ -2327,7 +2349,7 @@ void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
 
     gdk_window_set_decorations(w->window, GDK_DECOR_ALL | GDK_DECOR_MENU);
     gdk_window_set_functions(w->window, GDK_FUNC_ALL | GDK_FUNC_RESIZE);
-    
+
     ui_block_shells();
     /* If requested, wait for this widget to be popped down before
        returning. */
@@ -2500,6 +2522,14 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     gtk_lightpen_update_canvas(p, TRUE);
     keyboard_key_clear();
 
+    return 0;
+}
+
+gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
+{
+#ifdef HAVE_FULLSCREEN
+    fullscreen_mouse_moved((struct video_canvas_s *)p, 0, 0, 1);
+#endif
     return 0;
 }
 

@@ -98,7 +98,7 @@ int xrandr_mode(struct video_canvas_s *canvas, int mode)
     }
     xrandr_selected_mode = mode;
     current_canvas = canvas;
-    
+
     return 0;
 }
 
@@ -147,7 +147,7 @@ void xrandr_resume(void)
 int xrandr_init(void)
 {
     Display *dpy;
-    
+
     if (xrandr_log == LOG_ERR) {
         xrandr_log = log_open("XRandR");
     }
@@ -173,7 +173,7 @@ void xrandr_menu_create(struct ui_menu_entry_s *menu)
 
     if (!resolutions_submenu) {
         resolutions_submenu = lib_calloc((size_t)(screen_info.n_all_modes + 1), sizeof(ui_menu_entry_t));
-	
+
         for (i = 0; i < screen_info.n_all_modes; i++) {
             resolutions_submenu[i].string = screen_info.all_modes[i].mode_string;
             resolutions_submenu[i].callback = (ui_callback_t)menu_callback;
@@ -199,6 +199,14 @@ void xrandr_mode_callback(ui_callback_t cb)
     menu_callback = cb;
 }
 
+void xrandr_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
+{
+}
+
+void xrandr_resize(struct video_canvas_s *canvas, int uienable)
+{
+}
+
 void xrandr_shutdown(void)
 {
     if (xrandr_active) {
@@ -209,13 +217,13 @@ void xrandr_shutdown(void)
 void xrandr_menu_shutdown(struct ui_menu_entry_s *menu)
 {
     int i;
-    
-    sd = 1;			/* kludge to avoid segfault in shutdown, 
-				   where some resources seemed to be freed 
-				   already */
-    
-    xrandr_shutdown();		/* early shutdown, otherwhise 
-				   screen_info.all_modes[0] is freed  */
+
+    sd = 1; /* kludge to avoid segfault in shutdown,
+               where some resources seemed to be freed
+               already */
+
+    xrandr_shutdown(); /* early shutdown, otherwhise
+                          screen_info.all_modes[0] is freed  */
     if (resolutions_submenu) {
         lib_free(resolutions_submenu);
         resolutions_submenu = NULL;
@@ -235,7 +243,7 @@ static int init_XRandR(Display *dpy)
 {
     int event_base, error_base;
     int major, minor, i, j;
-    
+
     if (!XRRQueryExtension(dpy, &event_base, &error_base) || XRRQueryVersion(dpy, &major, &minor) == 0) {
         return 1;
     }
@@ -270,7 +278,7 @@ static int init_XRandR(Display *dpy)
         screen_info.all_modes[current].mode_string = lib_stralloc(_("*Desktop"));
         current_canvas->refreshrate = (float)screen_info.current_rate;
         ++current;
-	
+
         /* now iterate again and fill the allocated array */
         for (i = 0; i < screen_info.n_sizes; i++) {
             int n_rates;
@@ -301,7 +309,7 @@ static int set_xrandr(int val)
     xrandr_active = val;
     log_message(xrandr_log, "%s XRandR", xrandr_active ? "enabling" : "disabling");
     vsync_suspend_speed_eval();
-    
+
     if (xrandr_active) {
         status = XRRSetScreenConfigAndRate(x11ui_get_display_ptr(), screen_info.config, x11ui_get_X11_window(), screen_info.all_modes[xrandr_selected_mode].index,
                                            screen_info.current_rotation, screen_info.all_modes[xrandr_selected_mode].rate, 0);
@@ -322,7 +330,7 @@ static int set_xrandr(int val)
             current_canvas->refreshrate = screen_info.all_modes[0].rate;
         }
     }
-	
+
     if (!sd) {
         ui_update_menus();
     }

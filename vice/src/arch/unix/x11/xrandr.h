@@ -38,5 +38,7 @@ extern void xrandr_mode_callback(ui_callback_t cb);
 extern void xrandr_shutdown(void);
 extern void xrandr_suspend(int level);
 extern void xrandr_resume(void);
+extern void xrandr_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave);
+extern void xrandr_resize(struct video_canvas_s *canvas, int uienable);
 
 #endif /* __xrandr_h__ */

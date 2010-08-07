@@ -29,12 +29,19 @@
 
 struct video_canvas_s;
 
+#define FSDRIVER_XRANDR   1
+#define FSDRIVER_VIDMODE  2
+
 struct fullscreenconfig_s {
     int enable;
     char *device;
     int double_size;
     int double_scan;
     int mode;
+    int driver;
+    /* extra space taken up by UI elements */
+    unsigned int ui_border_top;
+    unsigned int ui_border_bottom;
 };
 typedef struct fullscreenconfig_s fullscreenconfig_t;
 
@@ -53,5 +60,7 @@ extern void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu);
 extern int fullscreen_init(void);
 extern int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas);
 extern void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas);
+extern void fullscreen_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave);
+extern void fullscreen_resize(struct video_canvas_s *canvas, int uienable);
 
 #endif

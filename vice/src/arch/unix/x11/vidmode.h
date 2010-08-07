@@ -54,5 +54,7 @@ extern void vidmode_set_mouse_timeout(void);
 extern void vidmode_mode_callback(void *callback);
 extern void vidmode_menu_create(struct ui_menu_entry_s *menu);
 extern void vidmode_menu_shutdown(struct ui_menu_entry_s *menu);
+extern void vidmode_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave);
+extern void vidmode_resize(struct video_canvas_s *canvas, int uienable);
 
 #endif
