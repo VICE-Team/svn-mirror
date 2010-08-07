@@ -55,13 +55,18 @@ inline static BYTE fetch_phi1(int addr)
 
     addr = ((addr + vicii.vbank_phi1) & vicii.vaddr_mask_phi1) | vicii.vaddr_offset_phi1;
 
-    if ((export.ultimax_phi1 != 0) && ((addr & 0x3fff) >= 0x3000)) {
-        /* p = romh_banks + (romh_bank << 13) + (addr & 0xfff) + 0x1000; */
-        p = ultimax_romh_phi1_ptr(0x1000  + (addr & 0xfff));
-    } else if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
-        p = mem_chargen_rom_ptr + (addr & 0xfff);
+    if (export.ultimax_phi1) {
+        if ((addr & 0x3fff) >= 0x3000) {
+            p = ultimax_romh_phi1_ptr(0x1000  + (addr & 0xfff));
+        } else {
+            p = vicii.ram_base_phi1 + addr;
+        }
     } else {
-        p = vicii.ram_base_phi1 + addr;
+        if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
+            p = mem_chargen_rom_ptr + (addr & 0xfff);
+        } else {
+            p = vicii.ram_base_phi1 + addr;
+        }
     }
 
     return *p;
@@ -73,13 +78,18 @@ inline static BYTE fetch_phi2(int addr)
 
     addr = ((addr + vicii.vbank_phi2) & vicii.vaddr_mask_phi2) | vicii.vaddr_offset_phi2;
 
-    if ((export.ultimax_phi2 != 0) && ((addr & 0x3fff) >= 0x3000)) {
-        /* p = romh_banks + (romh_bank << 13) + (addr & 0xfff) + 0x1000; */
-        p = ultimax_romh_phi2_ptr(0x1000  + (addr & 0xfff));
-    } else if ((addr & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {
-        p = mem_chargen_rom_ptr + (addr & 0xfff);
+    if (export.ultimax_phi2) {
+        if ((addr & 0x3fff) >= 0x3000) {
+            p = ultimax_romh_phi2_ptr(0x1000  + (addr & 0xfff));
+        } else {
+            p = vicii.ram_base_phi2 + addr;
+        }
     } else {
-        p = vicii.ram_base_phi2 + addr;
+        if ((addr & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {
+            p = mem_chargen_rom_ptr + (addr & 0xfff);
+        } else {
+            p = vicii.ram_base_phi2 + addr;
+        }
     }
 
     return *p;

@@ -740,12 +740,18 @@ static const char *fetch_phi1_type(int addr)
 {
     addr = (addr & vicii.vaddr_mask_phi1) | vicii.vaddr_offset_phi1;
 
-    if ((export.ultimax_phi1 != 0) && ((addr & 0x3fff) >= 0x3000)) {
-        return "Cart";
-    } else if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
-        return "CharROM";
+    if (export.ultimax_phi1) {
+        if ((addr & 0x3fff) >= 0x3000) {
+            return "Cart";
+        } else {
+            return "RAM";
+        }
     } else {
-        return "RAM";
+        if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
+            return "CharROM";
+        } else {
+            return "RAM";
+        }
     }
 }
 
@@ -765,7 +771,7 @@ int vicii_dump(struct vicii_s *vic) {
     int video_mode, m_mcm, m_bmm, m_ecm, v_bank, v_vram;
     int i, bits, bits2;
 
-    video_mode = ((vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10)) >> 4;
+    video_mode = ((vic->regs[0x11] & 0x60) | (vic->regs[0x16] & 0x10)) >> 4;
 
     m_ecm = (video_mode & 4) >> 2;  /* 0 standard, 1 extended */
     m_bmm = (video_mode & 2) >> 1;  /* 0 text, 1 bitmap */
