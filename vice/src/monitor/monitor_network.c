@@ -128,7 +128,8 @@ char * monitor_network_get_command_line(void)
     static int bufferpos = 0;
 
     char * p = NULL;
-    char * cr;
+    char * cr_start = NULL;
+    char * cr_end = NULL;
 
     do {
         if (monitor_network_data_available()) {
@@ -144,15 +145,35 @@ char * monitor_network_get_command_line(void)
             }
         }
 
-        cr = strchr(buffer, '\n');
+        cr_start = strchr(buffer, '\n');
+        cr_end   = strchr(buffer, '\r');
 
-        if (cr) {
-            *cr = 0;
+        if (cr_start || cr_end) {
+            if (cr_start == NULL) {
+                cr_start = cr_end;
+            }
+            else if (cr_end == NULL) {
+                cr_end = cr_start;
+            }
+            else if (cr_end < cr_start) {
+                char * cr_temp = cr_end;
+                cr_end = cr_start;
+                cr_start = cr_temp;
+            }
+
+            assert(cr_start != NULL);
+            assert(cr_end != NULL);
+        }
+
+        if (cr_start) {
+            assert(cr_end != NULL);
+
+            *cr_start = 0;
             p = lib_stralloc(buffer);
 
-            memmove(buffer, cr + 1, strlen(cr+1) );
+            memmove(buffer, cr_end + 1, strlen(cr_end + 1) );
 
-            bufferpos -= (int)strlen(p) + 1;
+            bufferpos -= (int) strlen(p) + (cr_end - cr_start) + 1;
             buffer[bufferpos] = 0;
             break;
         }
