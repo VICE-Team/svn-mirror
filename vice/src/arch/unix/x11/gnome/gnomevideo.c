@@ -237,8 +237,10 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 #endif
 
     if (xi + w > canvas->gdk_image->width || yi + h > canvas->gdk_image->height) {
+#ifdef DEBUG	
         log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, canvas->gdk_image->width, canvas->gdk_image->height);
-        exit(-1);
+#endif
+	return;
     }
 
 #ifdef HAVE_HWSCALE
