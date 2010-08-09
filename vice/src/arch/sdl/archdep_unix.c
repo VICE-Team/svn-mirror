@@ -102,7 +102,6 @@ static int archdep_init_extra(int *argc, char **argv)
 #else
     argv0 = lib_stralloc(argv[0]);
 #endif
-    archdep_ui_init(*argc, argv);
     return 0;
 }
 
@@ -362,8 +361,9 @@ int archdep_num_text_columns(void)
     return atoi(s);
 }
 
-int archdep_default_logger(const char *level_string, const char *txt) {
-    if (fputs(level_string, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
+int archdep_default_logger(const char *level_string, const char *txt)
+{
+    if (fputs(level_string, stdout) == EOF || fprintf(stdout, "%s", txt) < 0 || fputc('\n', stdout) == EOF) {
         return -1;
     }
     return 0;

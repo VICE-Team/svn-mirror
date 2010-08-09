@@ -155,13 +155,6 @@ void ui_check_mouse_cursor(void)
     }
 }
 
-void archdep_ui_init(int argc, char *argv[])
-{
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
-}
-
 void ui_message(const char* format, ...)
 {
     va_list ap;
