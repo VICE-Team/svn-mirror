@@ -325,6 +325,22 @@ static UI_CALLBACK(VicMenu)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+static ui_menu_entry_t keymap_sym_submenu[] = {
+    { "*US", (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_buks.vkm", NULL },
+    { N_("*German"), (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_buks_de.vkm", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t keymap_pos_submenu[] = {
+/*    { "*US", (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL }, */
+/*    { N_("*German"), (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_posger.vkm", NULL }, */
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t cbm2_menu[] = {
     { N_("CBM-II model settings"),
       NULL, NULL, model_settings_submenu },
@@ -573,6 +589,9 @@ static void cbm2ui_dynamic_menu_create(void)
     uisound_menu_create();
     uicrtc_menu_create();
     uivicii_menu_create();
+
+    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
+    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
 }
 
 static void cbm2ui_dynamic_menu_shutdown(void)

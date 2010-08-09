@@ -36,6 +36,7 @@
 #include "icon.h"
 #include "joy.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "machine-video.h"
 #include "resources.h"
@@ -84,12 +85,9 @@ enum {
 
 static UI_CALLBACK(set_common_memory_configuration)
 {
-    int blocks;
+    int blocks = 0;
 
     switch (vice_ptr_to_int(UI_MENU_CB_PARAM)) {
-        case MEM_NONE:
-            blocks = 0;
-            break;
         case MEM_ALL:
             blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
             break;
@@ -107,8 +105,10 @@ static UI_CALLBACK(set_common_memory_configuration)
             break;
         default:
             /* Shouldn't happen.  */
-            fprintf(stderr, _("What?!\n"));
-            blocks = 0;         /* Make compiler happy.  */
+            log_error(LOG_DEFAULT, "vic20ui:set_common_memory_configuration bogus memory config.");
+        case MEM_NONE:
+            blocks = 0;
+            break;
     }
     resources_set_int("RamBlock0", blocks & BLOCK_0 ? 1 : 0);
     resources_set_int("RamBlock1", blocks & BLOCK_1 ? 1 : 0);
@@ -520,6 +520,22 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
+
+static ui_menu_entry_t keymap_sym_submenu[] = {
+    { "*US", (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_sym.vkm", NULL },
+/*    { N_("*German"), (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_symger.vkm", NULL }, */
+    { NULL }
+};
+
+static ui_menu_entry_t keymap_pos_submenu[] = {
+    { "*US", (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL },
+/*    { N_("*German"), (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_posger.vkm", NULL }, */
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t vic20_menu[] = {
     { N_("Model settings"),
       NULL, NULL, vic20_model_submenu },
@@ -686,6 +702,9 @@ static void vic20ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
     uivic_menu_create();
+
+    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
+    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
 }
 
 static void vic20ui_dynamic_menu_shutdown(void)

@@ -43,7 +43,7 @@ static UI_CALLBACK(ui_edit_command_copy)
 {
     char * text = NULL;
 
-    if(!CHECK_MENUS) {
+    if (!CHECK_MENUS) {
         text = clipboard_read_screen_output("\n");
         if (text != NULL) {
             gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), text, strlen(text));
@@ -64,7 +64,7 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
 
 static UI_CALLBACK(ui_edit_command_paste)
 {
-    if(!CHECK_MENUS) {
+    if (!CHECK_MENUS) {
         gtk_clipboard_request_text(gtk_clipboard_get(GDK_NONE), paste_callback, NULL);
     }
 }

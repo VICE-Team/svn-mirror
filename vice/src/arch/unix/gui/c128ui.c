@@ -472,6 +472,20 @@ ui_menu_entry_t c128_model_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static ui_menu_entry_t keymap_sym_submenu[] = {
+    { "*US", (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_sym.vkm", NULL },
+/*    { N_("*German"), (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_symger.vkm", NULL }, */
+    { NULL }
+};
+
+static ui_menu_entry_t keymap_pos_submenu[] = {
+    { "*US", (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_pos.vkm", NULL },
+/*    { N_("*German"), (ui_callback_t)radio_PosKeymap, (ui_callback_data_t)"x11_posger.vkm", NULL }, */
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t c128_menu[] = {
     { N_("Model settings"),
       NULL, NULL, c128_model_submenu },
@@ -647,6 +661,9 @@ static void c128ui_dynamic_menu_create(void)
     uisound_menu_create();
     uivicii_menu_create();
     uivdc_menu_create();
+
+    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
+    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
 }
 
 static void c128ui_dynamic_menu_shutdown(void)

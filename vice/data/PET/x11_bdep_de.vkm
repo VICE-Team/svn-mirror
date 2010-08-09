@@ -1,9 +1,8 @@
-# VICE keyboard mapping file
+# this is a PET business (de) keyboard mapping (positional)
+# for 1:1 keyboard mapping with a German PC keyboard
 
-# use business (uk) as base
-!INCLUDE x11_buks.vkm
-
-# this is a PET business (de) keyboard mapping (symbolic)
+# use business (de) as base
+!INCLUDE x11_bdep.vkm
 
 # Business (DE) matrix (differences to UK)
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
@@ -18,3 +17,13 @@
 # 5 |        |        |        |        |        |        |   ä    |        |
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
 
+#
+# Changes to UK mapping
+#
+ssharp     1 5 0
+udiaeresis 2 4 0
+adiaeresis 5 6 0
+odiaeresis 4 4 0
+Udiaeresis 2 4 1
+Adiaeresis 5 6 1
+Odiaeresis 4 4 1

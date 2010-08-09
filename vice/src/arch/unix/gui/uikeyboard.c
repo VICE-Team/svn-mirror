@@ -65,7 +65,7 @@ static UI_CALLBACK(set_keymap_type)
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
     { N_("*Symbolic mapping"), (ui_callback_t)set_keymap_type,
       (ui_callback_data_t)0, NULL },
-    { N_("*Positional mapping (US)"), (ui_callback_t)set_keymap_type,
+    { N_("*Positional mapping"), (ui_callback_t)set_keymap_type,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };
@@ -116,17 +116,78 @@ static UI_CALLBACK(dump_keymap)
     lib_free(wd);
 }
 
-static ui_menu_entry_t keyboard_settings_submenu[] = {
-    { N_("Keyboard mapping type"),
-      NULL, NULL, keyboard_maptype_submenu },
+void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
+{
+    const char *resname;
+    int kindex;
+    const char *wd;
+
+    resources_get_int("KeymapIndex", &kindex);
+    kindex = (kindex & ~1) + sympos;
+    resname = machine_keymap_res_name_list[kindex];
+
+    if (name) {
+        if (!check) {
+            resources_set_string(resname, name);
+            ui_update_menus();
+        } else {
+            resources_get_string(resname, &wd);
+            if (!strcmp(wd, name)) {
+                ui_menu_set_tick(w, 1);
+            } else {
+                ui_menu_set_tick(w, 0);
+            }
+        }
+    }
+}
+
+UI_CALLBACK(radio_SymKeymap)
+{
+    ui_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 0);
+}
+
+UI_CALLBACK(radio_PosKeymap)
+{
+    ui_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 1);
+}
+
+/* array for the actual data to be copied into */
+struct ui_menu_entry_s uikeymap_sym_submenu[4] = {
+    { NULL },
+    { NULL },
+    { NULL },
+    { NULL }
+};
+struct ui_menu_entry_s uikeymap_pos_submenu[4] = {
+    { NULL },
+    { NULL },
+    { NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t keyboard_sym_submenu[] = {
+    { "", NULL, NULL, uikeymap_sym_submenu },
     { "--" },
     { N_("Set symbolic keymap file"), (ui_callback_t)select_user_keymap,
       (ui_callback_data_t)0, NULL},
+    { NULL }
+};
+
+static ui_menu_entry_t keyboard_pos_submenu[] = {
+    { "", NULL, NULL, uikeymap_pos_submenu },
+    { "--" },
     { N_("Set positional keymap file"), (ui_callback_t)select_user_keymap,
       (ui_callback_data_t)1, NULL},
+    { NULL }
+};
+
+static ui_menu_entry_t keyboard_settings_submenu[] = {
+    { N_("Keyboard mapping type"), NULL, NULL, keyboard_maptype_submenu },
     { "--" },
-    { N_("Dump keymap to file"),
-      (ui_callback_t) dump_keymap, NULL, NULL },
+    { N_("Select symbolic keymap"), NULL, NULL, keyboard_sym_submenu},
+    { N_("Select positional keymap"), NULL, NULL, keyboard_pos_submenu},
+    { "--" },
+    { N_("Dump keymap to file"), (ui_callback_t) dump_keymap, NULL, NULL },
     { NULL }
 };
 

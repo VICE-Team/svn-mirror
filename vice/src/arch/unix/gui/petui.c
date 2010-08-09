@@ -32,6 +32,8 @@
 
 #include "debug.h"
 #include "icon.h"
+#include "keyboard.h"
+#include "machine.h"
 #include "machine-video.h"
 #include "pets.h"
 #include "petui.h"
@@ -86,7 +88,7 @@ static UI_CALLBACK(set_KeyboardType)
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == new_value);
+        ui_menu_set_tick(w, (current_value & ~1) == new_value);
     }
 }
 
@@ -331,6 +333,61 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
+
+static void pet_select_keymap(ui_window_t w, int check, char *name, int sympos)
+{
+    char filename[0x20];
+    const char *resname;
+    int kindex;
+    const char *wd;
+    const char *maps[6] = {"x11_buks", "x11_bukp", "x11_bgrs", "x11_bgrp", "x11_bdes", "x11_bdep"};
+
+    resources_get_int("KeymapIndex", &kindex);
+    strcpy(filename, maps[kindex]);
+    strcat(filename, name);
+    kindex = (kindex & ~1) + sympos;
+    resname = machine_keymap_res_name_list[kindex];
+
+    if (name) {
+        if (!check) {
+            resources_set_string(resname, filename);
+            ui_update_menus();
+        } else {
+            resources_get_string(resname, &wd);
+            if (!strcmp(wd, filename)) {
+                ui_menu_set_tick(w, 1);
+            } else {
+                ui_menu_set_tick(w, 0);
+            }
+        }
+    }
+}
+
+static UI_CALLBACK(radio_SymKeymap_pet)
+{
+    pet_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 0);
+}
+
+static UI_CALLBACK(radio_PosKeymap_pet)
+{
+    pet_select_keymap(w, CHECK_MENUS, UI_MENU_CB_PARAM, 1);
+}
+
+static ui_menu_entry_t keymap_sym_submenu[] = {
+    { "*US", (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)".vkm", NULL },
+    { N_("*German"), (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t keymap_pos_submenu[] = {
+    { "*US", (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)".vkm", NULL },
+    { N_("*German"), (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t pet_menu[] = {
     { N_("PET model settings"),
       NULL, NULL, model_settings_submenu },
@@ -517,6 +574,9 @@ static void petui_dynamic_menu_create(void)
 {
     uisound_menu_create();
     uicrtc_menu_create();
+
+    memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
+    memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
 }
 
 static void petui_dynamic_menu_shutdown(void)

@@ -43,6 +43,25 @@
 #include "resources.h"
 #include "util.h"
 
+/*
+    the following keyboard modells exist for the PET:
+
+    - chicklet keyboard (original PET 2001)
+    - graphics keyboard with the 20 key numpad (PET 2001-N)
+
+      "Graphics" (BGRS/BGRP)
+
+    - business keyboard (PET 2001-B)
+
+      For some countries (e.g. Germany) there where some kits for the business
+      keyboard including an changed Exxx-EPROM (editor) with other keyboard
+      mappings and some changeable keyboard caps with the right characters on it.
+
+      "Business (us)"
+      "Business (uk)" (BUKS/BUKP)
+      "Business (de)" (BDES/BDEP)
+      "Business (jp)"
+*/
 
 #define KBD_INDEX_PET_BUKS  0
 #define KBD_INDEX_PET_BUKP  1
