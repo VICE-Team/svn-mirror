@@ -50,6 +50,7 @@
 #include "fsdevicetypes.h"
 #include "ioutil.h"
 #include "lib.h"
+#include "log.h"
 #include "tape.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
@@ -70,8 +71,9 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         return FLOPPY_ERROR;
     }
 
-    if (!(mask = strrchr(rname, '/')))
+    if (!(mask = strrchr(rname, '/'))) {
         mask = rname;
+    }
 
     /* Test on wildcards.  */
     if (cbmdos_parse_wildcard_check(mask, (unsigned int)strlen(mask))) {
@@ -90,12 +92,14 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
             cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
         }
     }
+
     /* trying to open */
     ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd));
     if (ioutil_dir == NULL) {
         for (p = (BYTE *)(cmd_parse->parsecmd); *p; p++) {
-            if (isupper((int)*p))
+            if (isupper((int)*p)) {
                 *p = tolower((int)*p);
+            }
         }
         ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd));
         if (ioutil_dir == NULL) {
@@ -160,18 +164,21 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     unsigned int format = 0;
     fileio_info_t *finfo;
 
-    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
         format |= FILEIO_FORMAT_P00;
-    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
+    }
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
         format |= FILEIO_FORMAT_RAW;
+    }
 
     /* Remove comma.  */
     if ((cmd_parse->parsecmd)[0] == ',') {
         (cmd_parse->parsecmd)[1] = '\0';
     } else {
         comma = strchr(cmd_parse->parsecmd, ',');
-        if (comma != NULL)
+        if (comma != NULL) {
             *comma = '\0';
+        }
     }
 
     /* Test on wildcards.  */
@@ -186,10 +193,11 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for write mode access.  */
     if (bufinfo[secondary].mode == Write) {
-        if (fsdevice_save_p00_enabled[vdrive->unit - 8])
+        if (fsdevice_save_p00_enabled[vdrive->unit - 8]) {
             format = FILEIO_FORMAT_P00;
-        else
+        } else {
             format = FILEIO_FORMAT_RAW;
+        }
 
         finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
                             FILEIO_COMMAND_WRITE, bufinfo[secondary].type);
@@ -240,16 +248,15 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         tape_seek_start(tape);
         tape_seek_to_file(tape, 0);
         r = tape_get_current_file_record(tape);
-        if ( (r->type==1) || (r->type==3) )
-          {
+        if ( (r->type==1) || (r->type==3) ) {
             startaddr[0] = r->start_addr & 255;
             startaddr[1] = r->start_addr >> 8;
             bufinfo[secondary].bufp = startaddr;
             bufinfo[secondary].buflen = 2;
-          }
-        else
+        } else {
           bufinfo[secondary].buflen = 0;
-          
+        }
+
         return FLOPPY_COMMAND_OK;
     }
 
@@ -266,6 +273,15 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     return FLOPPY_ERROR;
 }
 
+static int fsdevice_open_buffer(vdrive_t *vdrive, unsigned int secondary,
+                              bufinfo_t *bufinfo,
+                              cbmdos_cmd_parse_t *cmd_parse, char *rname)
+{
+    log_message(LOG_DEFAULT, "Fsdevice: Warning - open channel '%s'. (block access needs disk image)", rname);
+    fsdevice_error(vdrive, CBMDOS_IPE_OK);
+    return FLOPPY_COMMAND_OK;
+}
+
 int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
                   unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
 {
@@ -277,12 +293,14 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
 
     bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
 
-    if (bufinfo[secondary].fileio_info != NULL)
+    if (bufinfo[secondary].fileio_info != NULL) {
         return FLOPPY_ERROR;
+    }
 
     if (secondary == 15) {
-        for (i = 0; i < length; i++)
+        for (i = 0; i < length; i++) {
             status = fsdevice_write(vdrive, name[i], 15);
+        }
         return status;
     }
 
@@ -291,7 +309,6 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     cmd_parse.secondary = secondary;
 
     rc = cbmdos_command_parse(&cmd_parse);
-
     if (rc != SERIAL_OK) {
         status = SERIAL_ERROR;
         goto out;
@@ -319,19 +336,32 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         break;
     }
 
+    /*
+        check wether the length of the name string does not match the
+        passed length. this might happen if a) the cbm filename in the
+        running program is zero terminated and b) a wrong namelen is
+        passed to SETNAM. this would almost certainly result in a "file
+        not found" - so it is the best we can do in that case, too.
+    */
+    if (strlen((const char*)name) != length) {
+        log_message(LOG_DEFAULT, "Fsdevice: Warning - filename '%s' with bogus length '%d'.", cmd_parse.parsecmd, length);
+        status = CBMDOS_IPE_NOT_FOUND;
+        goto out;
+    }
+
     if (*name == '$') {
-        status = fsdevice_open_directory(vdrive, secondary, bufinfo,
-                                         &cmd_parse, rname);
+        status = fsdevice_open_directory(vdrive, secondary, bufinfo, &cmd_parse, rname);
+    } else if (*name == '#') {
+        status = fsdevice_open_buffer(vdrive, secondary, bufinfo, &cmd_parse, rname);
     } else {
-        status = fsdevice_open_file(vdrive, secondary, bufinfo,
-                                    &cmd_parse, rname);
+        status = fsdevice_open_file(vdrive, secondary, bufinfo, &cmd_parse, rname);
     }
 
     lib_free(rname);
 
-    if (status != FLOPPY_COMMAND_OK)
+    if (status != FLOPPY_COMMAND_OK) {
         goto out;
-
+    }
 
 #ifdef __riscos
     archdep_set_drive_leds(vdrive->unit - 8, 1);
@@ -343,5 +373,3 @@ out:
 
     return status;
 }
-
-
