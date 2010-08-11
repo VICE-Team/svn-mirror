@@ -104,14 +104,15 @@ int xrandr_mode(struct video_canvas_s *canvas, int mode)
 
 int xrandr_enable(struct video_canvas_s *canvas, int activate)
 {
-    int ret;
-
+    int ret = -1;
+#ifdef HAVE_FULLSCREEN
     if (canvas->fullscreenconfig->double_size) {
         log_message(xrandr_log, "double size not implemented - use standard double size from menu.");
     }
 
     ret = set_xrandr(activate);
     x11ui_fullscreen(activate);
+#endif
     return ret;
 }
 

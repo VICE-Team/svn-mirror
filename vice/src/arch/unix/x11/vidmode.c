@@ -51,7 +51,9 @@ static log_t vidmode_log = LOG_ERR;
 int vm_mode_count;
 static unsigned int vm_index = 0;
 static int vm_available = 0;
+#ifdef HAVE_FULLSCREEN
 static int saved_h, saved_w;
+#endif
 static int vidmode_selected_mode = 0;
 
 XF86VidModeModeInfo **vm_modes;
@@ -160,9 +162,11 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
 
     vm_display = x11ui_get_display_ptr();
 
+#ifdef HAVE_FULLSCREEN
     if (uienable) {
         status_h = canvas->fullscreenconfig->ui_border_top + canvas->fullscreenconfig->ui_border_bottom;
     }
+#endif
 
     /* fs_w = ((float)vm->hdisplay * get_aspect(canvas)); */
     fs_h = vm->vdisplay;
@@ -200,7 +204,7 @@ void vidmode_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
 {
     static int lastx, lasty;
     int winx, winy;
-    int menu_h;
+    int menu_h = 0;
     int wrap;
 
     Display *vm_display;
@@ -213,7 +217,9 @@ void vidmode_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
 
     if (leave) {
         /* pointer left canvas */
+#ifdef HAVE_FULLSCREEN
         menu_h = canvas->fullscreenconfig->ui_border_top;
+#endif
         x11ui_canvas_position(canvas->emuwindow, &winx, &winy);
 
         if (lastx < 20) {
@@ -260,6 +266,7 @@ void vidmode_resize(struct video_canvas_s *canvas, int uienable)
 
 int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
+#ifdef HAVE_FULLSCREEN
     Display *vm_display;
 
     if (vm_available == 0) {
@@ -296,7 +303,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         canvas->draw_buffer->canvas_height = saved_h;
         video_viewport_resize(canvas);
     }
-    printf("vidmode_enable done\n");
+#endif
     return 0;
 }
 

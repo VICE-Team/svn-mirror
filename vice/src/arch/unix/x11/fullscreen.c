@@ -297,6 +297,7 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 
+#ifdef HAVE_FULLSCREEN
 #ifdef HAVE_XRANDR
     cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_XRANDR;
     cap_fullscreen->enable = fullscreen_enable;
@@ -316,5 +317,6 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     cap_fullscreen->device = fullscreen_device;
     cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_vidmode;
     cap_fullscreen->device_num += 1;
+#endif
 #endif
 }

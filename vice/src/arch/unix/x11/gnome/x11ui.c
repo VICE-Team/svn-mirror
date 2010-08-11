@@ -1572,16 +1572,19 @@ int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
             gtk_widget_show(app_shells[j].status_bar);
             gtk_widget_show(app_shells[j].topmenu);
         }
+#ifdef HAVE_FULLSCREEN
         canvas->fullscreenconfig->ui_border_top = appshell->topmenu->allocation.height;
         canvas->fullscreenconfig->ui_border_bottom = appshell->status_bar->allocation.height;
-
+#endif
     } else {
         for (j = 0; j < num_app_shells; j++) {
             gtk_widget_hide(app_shells[j].status_bar);
             gtk_widget_hide(app_shells[j].topmenu);
         }
+#ifdef HAVE_FULLSCREEN
         canvas->fullscreenconfig->ui_border_top = 0;
         canvas->fullscreenconfig->ui_border_bottom = 0;
+#endif
     }
     return 0;
 }
@@ -1593,9 +1596,11 @@ static void toggle_aspect(video_canvas_t *canvas)
 
     /* printf("toggle_aspect fs:%d\n", canvas->fullscreenconfig->enable); */
     if ((appshell != NULL) && (appshell->shell != NULL)) {
+#ifdef HAVE_FULLSCREEN
         if (canvas->fullscreenconfig->enable) {
             gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE);
         } else {
+#endif
             resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
             if (keep_aspect_ratio) {
                 flags |= GDK_HINT_ASPECT;
@@ -1604,7 +1609,9 @@ static void toggle_aspect(video_canvas_t *canvas)
                 }
             }
             gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | flags);
+#ifdef HAVE_FULLSCREEN
         }
+#endif
     }
 }
 
@@ -1682,8 +1689,11 @@ static void setup_aspect(video_canvas_t *canvas)
     appshell->geo.min_aspect = 1.0f;
     appshell->geo.max_aspect = 1.0f;
 
+#ifdef HAVE_FULLSCREEN
     if (canvas->fullscreenconfig->enable) {
+        /* TODO */
     } else {
+#endif
         taspect = get_aspect(canvas);
         if (taspect > 0.0f) {
             aspect = ((float)winw * taspect) / ((float)winh);
@@ -1695,7 +1705,9 @@ static void setup_aspect(video_canvas_t *canvas)
                 appshell->geo.max_height = 0;
             }
         }
+#ifdef HAVE_FULLSCREEN
     }
+#endif
 }
 
 /* Resize one window. */
