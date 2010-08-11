@@ -1,3 +1,7 @@
+
+note: this file may be outdated and no more activly maintained. please use the
+      bugtracker and the wiki on sourceforge instead.
+
 - VIC-II shows wrong colors when switching from hires background to idle
   with borders open (Krestology).
   
