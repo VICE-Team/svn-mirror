@@ -663,6 +663,12 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_roml_store(addr, value);
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_roml_store(addr, value);
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value))
             {
@@ -675,6 +681,7 @@ void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value)
     }
 
     /* store to c64 ram */
+    /* DBG(("c64 ram    w 8000: %04x %02x\n", addr, value)); */
     /* mem_store_without_romlh(addr, value); */
     ram_store(addr, value);
 }
@@ -703,6 +710,12 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_roml_store(addr, value);
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_roml_store(addr, value);
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value))
             {
@@ -715,6 +728,7 @@ void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value)
     }
 
     /* store to c64 ram */
+    /* DBG(("c64 ram    w 8000: %04x %02x\n", addr, value)); */
     ram_store(addr, value);
     /* mem_store_without_romlh(addr, value); */
 }
