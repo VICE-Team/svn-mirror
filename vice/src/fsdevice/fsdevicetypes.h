@@ -32,6 +32,9 @@
 #define FSDEVICE_BUFFER_MAX 16
 #define FSDEVICE_DEVICE_MAX 4
 
+#define FSDEVICE_TRACK_MAX   80
+#define FSDEVICE_SECTOR_MAX  32
+
 enum fsmode {
     Write, Read, Append, Directory
 };
@@ -66,6 +69,8 @@ struct fsdevice_dev_s {
     unsigned int cptr;
     BYTE *cmdbuf;
     bufinfo_t bufinfo[FSDEVICE_BUFFER_MAX];
+    int track, sector; /* fake track/sector pointer */
+    BYTE bam[(FSDEVICE_TRACK_MAX * FSDEVICE_SECTOR_MAX) >> 3]; /* fake bam */
 };
 typedef struct fsdevice_dev_s fsdevice_dev_t;
 

@@ -51,24 +51,26 @@ int fsdevice_write(struct vdrive_s *vdrive, BYTE data, unsigned int secondary)
 
     bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
 
-    if (secondary == 15)
+    if (secondary == 15) {
         return fsdevice_flush_write_byte(vdrive, data);
+    }
 
     if (bufinfo[secondary].mode != Write
-        && bufinfo[secondary].mode != Append)
+        && bufinfo[secondary].mode != Append) {
         return SERIAL_ERROR;
+    }
 
     if (bufinfo[secondary].fileio_info != NULL) {
         unsigned int len;
 
         len = fileio_write(bufinfo[secondary].fileio_info, &data, 1);
 
-        if (len == 0)
+        if (len == 0) {
             return SERIAL_ERROR;
+        }
 
         return SERIAL_OK;
     }
 
     return SERIAL_ERROR;
 }
-

@@ -87,7 +87,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
                            unsigned int length)
 {
     int status = CBMDOS_IPE_OK;
-    BYTE *p, *p2;
+    BYTE *cmd, *p, *p2;
     char *name;
     BYTE *minus;
 
@@ -98,18 +98,22 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         return CBMDOS_IPE_LONG_LINE;
     }
 
-    p = lib_malloc(length + 1);
-    memcpy(p, buf, length);
+    cmd = lib_malloc(length + 1);
+    memcpy(cmd, buf, length);
 
-    if (p[length - 1] == 0x0d)
+    if (cmd[length - 1] == 0x0d) {
         --length; /* chop CR character */
-    p[length] = 0;
+    }
+    cmd[length] = 0;
+
+    p = cmd;
 
     name = (char *)memchr(p, ':', length);
     minus = (BYTE *)memchr(p, '-', length);
 
-    if (name) /* Fix name length */
+    if (name) { /* Fix name length */
         for (p2 = p; *p2 && *p2 != ':' && length > 0; p2++, length--);
+    }
 
 #ifdef DEBUG_DRIVE
     log_debug("Command %c.", *p);
@@ -224,12 +228,13 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         break;
     } /* commands */
 
-    if (status == CBMDOS_IPE_INVAL)
-        log_error(vdrive_command_log, "Wrong command `%s'.", p);
+    if (status == CBMDOS_IPE_INVAL) {
+        log_error(vdrive_command_log, "Wrong command `%s'.", cmd);
+    }
 
     vdrive_command_set_error(vdrive, status, 0, 0);
 
-    lib_free((char *)p);
+    lib_free((char *)cmd);
     return status;
 }
 
@@ -406,42 +411,42 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
             return CBMDOS_IPE_NO_CHANNEL;
         vdrive->buffers[channel].bufptr = position;
         break;
+      case 'E':
+        l = vdrive_get_block_parameters(buffer, &channel, &drive, &track, &sector);
+        log_message(vdrive_command_log, "Warning - B-E: %d %d %d %d (needs TDE)", channel, drive, track, sector);
+        break;
       default:
         return CBMDOS_IPE_INVAL;
     }
     return CBMDOS_IPE_OK;
 }
 
+/*
+    the buffer pointer passed to this function points to the character
+    following '-' in the memory command.
+
+    the buffer pointer passed to the sub functions points to the byte
+    after the first argument (address) which is passed seperately.
+*/
+
 static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
                                  unsigned int length)
 {
     WORD addr = 0;
 
-    if (length < 3)
+    if (length < 3) {
         return CBMDOS_IPE_SYNTAX;
+    }
 
     addr = buffer[1] | (buffer[2] << 8);
 
     switch (*buffer) {
-#if 0
       case 'W':
-        if (length < 5)
-            return CBMDOS_IPE_SYNTAX;
-        count = buffer[3];
-        /* data= buffer[4 ... 4+34]; */
-
-        if (vdrive->buffers[addrlo].mode != BUFFER_MEMORY_BUFFER) {
-            return CBMDOS_IPE_SYNTAX;
-        memcpy ( ... , buffer + 4, buffer[3]);
-        }
-        break;
-#endif
+        return vdrive_command_memory_write(vdrive, buffer + 3, addr, length);
       case 'R':
-        return vdrive_command_memory_read(vdrive, addr, length);
-#if 0
+        return vdrive_command_memory_read(vdrive, buffer + 3, addr, length);
       case 'E':
-        break;
-#endif
+        return vdrive_command_memory_exec(vdrive, buffer + 3, addr, length);
       default:
         break;
     }
@@ -884,56 +889,100 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
     p->bufptr = 0;
 
     if (code && code != CBMDOS_IPE_DOS_VERSION
-        && code != CBMDOS_IPE_MEMORY_READ)
+        && code != CBMDOS_IPE_MEMORY_READ) {
         log_message(vdrive_command_log, "ERR = %02d, %s, %02d, %02d",
                     code == CBMDOS_IPE_DELETED ? vdrive->deleted_files : code,
                     message, track, sector);
+    }
 
     p->readmode = CBMDOS_FAM_READ;
 }
 
-int vdrive_command_memory_read(vdrive_t *vdrive, WORD addr,
-                               unsigned int length)
+/* FIXME: incomplete */
+int vdrive_command_memory_write(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
 {
+    unsigned int len = buf[0];
+    log_message(vdrive_command_log, "Warning - M-W %04x %02x (+%02x) (may need TDE)", addr, len, length - 6);
+#if 0
+        if (length < 5)
+            return CBMDOS_IPE_SYNTAX;
+        count = buffer[3];
+        /* data= buffer[4 ... 4+34]; */
+
+        if (vdrive->buffers[addrlo].mode != BUFFER_MEMORY_BUFFER) {
+            return CBMDOS_IPE_SYNTAX;
+        memcpy ( ... , buffer + 4, buffer[3]);
+        }
+#endif
+    return CBMDOS_IPE_OK;
+}
+
+int vdrive_command_memory_exec(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
+{
+    log_message(vdrive_command_log, "Warning - M-E %04x (+%02x) (needs TDE)", addr, length - 5);
+    return CBMDOS_IPE_OK;
+}
+
+/*
+    FIXME: machine_drive_rom_read will always return $00 right now, because appearently the
+           floppy roms are not loaded when truedrive emulation is disabled.
+           this is not really critical, as it rarely makes sense to return the floppy rom on
+           memory reads anyway - the more common (and useful) case is to return zeros, or
+           whatever else that will make programs notice that they are NOT talking to a drive
+           they "know", so they can eg disable their fastloader.
+           for this reason, when fixing this, make sure to make it optional!
+*/
+int vdrive_command_memory_read(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
+{
+    unsigned int len = buf[0];
     unsigned int i;
+    BYTE val;
 
-    if (length == 0 || length > IP_MAX_COMMAND_LEN)
-        length = IP_MAX_COMMAND_LEN;
+    log_message(vdrive_command_log, "Warning - M-R %04x %02x (+%02x) (may need TDE)", addr, len, length - 6);
 
-    for (i = 0; i < length; i++) {
-        BYTE val = 0;
+    if (len == 0 || len > IP_MAX_COMMAND_LEN) {
+        len = IP_MAX_COMMAND_LEN;
+    }
+
+    for (i = 0; i < len; i++) {
+        val = 0;
 
         if (addr >= 0x8000) {
             switch (vdrive->image_format) {
               case VDRIVE_IMAGE_FORMAT_2040:
-                if (machine_drive_rom_read(2040, addr, &val) < 0)
+                if (machine_drive_rom_read(2040, addr, &val) < 0) {
                     val = 0x55;
+                }
                 break;
               case VDRIVE_IMAGE_FORMAT_1541:
-                if (machine_drive_rom_read(1541, addr, &val) < 0)
+                if (machine_drive_rom_read(1541, addr, &val) < 0) {
                     val = 0x55;
+                }
                 break;
               case VDRIVE_IMAGE_FORMAT_1571:
-                if (machine_drive_rom_read(1571, addr, &val) < 0)
+                if (machine_drive_rom_read(1571, addr, &val) < 0) {
                     val = 0x55;
+                }
                 break;
               case VDRIVE_IMAGE_FORMAT_1581:
-                if (machine_drive_rom_read(1581, addr, &val) < 0)
+                if (machine_drive_rom_read(1581, addr, &val) < 0) {
                     val = 0x55;
+                }
                 break;
               case VDRIVE_IMAGE_FORMAT_8050:
               case VDRIVE_IMAGE_FORMAT_8250:
-                if (machine_drive_rom_read(1001, addr, &val) < 0)
+                if (machine_drive_rom_read(1001, addr, &val) < 0) {
                     val = 0x55;
+                }
                 break;
             }
         }
+        addr++;
 
         vdrive->mem_buf[i] = val;
-        addr++;
     }
 
-    vdrive->mem_length = length - 1;
+    vdrive->mem_length = len;
     return CBMDOS_IPE_MEMORY_READ;
 }
 
