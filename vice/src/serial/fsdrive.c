@@ -34,15 +34,23 @@
 #include "serial.h"
 #include "types.h"
 
-
 #define SERIAL_NAMELENGTH 255
-
 
 static log_t fsdrive_log = LOG_ERR;
 
 static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 static int SerialPtr;
 
+/*
+   On a real system an opened channel is affected only after having
+   received and parsed the complete next open command.
+   This patch tries to emulate this behavior and allows to keep the
+   status channel continuously open while opening and closing other
+   files on the same device.
+
+   FIXME: test for regressions and either revert to, or remove old code
+*/
+#define DELAYEDCLOSE
 
 /* Handle Serial Bus Commands under Attention.  */
 static BYTE serialcommand(unsigned int device, BYTE secondary)
@@ -59,10 +67,11 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
     p = serial_device_get(device & 0x0f);
     channel = secondary & 0x0f;
 
-    if ((device & 0x0f) >= 8)
+    if ((device & 0x0f) >= 8) {
         vdrive = (void *)file_system_get_vdrive(device & 0x0f);
-    else
+    } else {
         vdrive = NULL;
+    }
 
     /* if command on a channel, reset output buffer... */
     if ((secondary & 0xf0) != 0x60) {
@@ -76,12 +85,14 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
         if (p->isopen[channel] == 1) {
             p->isopen[channel] = 2;
             st = (BYTE)((*(p->openf))(vdrive, NULL, 0, channel, NULL));
-            for (i = 0; i < SerialPtr; i++)
+            for (i = 0; i < SerialPtr; i++) {
                 (*(p->putf))(vdrive, ((BYTE)(SerialBuffer[i])), channel);
+            }
             SerialPtr = 0;
         }
-        if (p->flushf)
+        if (p->flushf) {
             (*(p->flushf))(vdrive, channel);
+        }
         break;
 
         /*
@@ -97,6 +108,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
          */
       case 0xF0:
         if (p->isopen[channel]) {
+#ifndef DELAYEDCLOSE
             if (p->isopen[channel] == 2) {
                 log_warning(fsdrive_log, "Bogus close?");
                 (*(p->closef))(vdrive, channel);
@@ -113,9 +125,26 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
 
                 log_error(fsdrive_log, "Cannot open file. Status $%02x.", st);
             }
+#else
+            if (SerialPtr != 0 || channel == 0x0f) {
+                (*(p->closef))(vdrive, channel);
+                p->isopen[channel] = 2;
+                SerialBuffer[SerialPtr] = 0;
+                st = (BYTE)((*(p->openf))(vdrive, SerialBuffer, SerialPtr,
+                     channel, NULL));
+                SerialPtr = 0;
+                if (st) {
+                    p->isopen[channel] = 0;
+                    (*(p->closef))(vdrive, channel);
+
+                    log_error(fsdrive_log, "Cannot open file. Status $%02x.", st);
+                }
+            }
+#endif
         }
-        if (p->flushf)
+        if (p->flushf) {
             (*(p->flushf))(vdrive, channel);
+        }
         break;
 
       default:
@@ -130,16 +159,21 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
 void fsdrive_open(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
     serial_t *p;
+#ifndef DELAYEDCLOSE
     void *vdrive;
+#endif
 
     p = serial_device_get(device & 0x0f);
+#ifndef DELAYEDCLOSE
     if (p->isopen[secondary & 0x0f] == 2) {
-        if ((device & 0x0f) >= 8)
+        if ((device & 0x0f) >= 8) {
             vdrive = (void *)file_system_get_vdrive(device & 0x0f);
-        else
+        } else {
             vdrive = NULL;
+        }
         (*(p->closef))(vdrive, secondary & 0x0f);
     }
+#endif
     p->isopen[secondary & 0x0f] = 1;
 }
 
@@ -213,16 +247,18 @@ void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
 
     p = serial_device_get(device & 0x0f);
 
-    if ((device & 0x0f) >= 8)
+    if ((device & 0x0f) >= 8) {
         vdrive = (void *)file_system_get_vdrive(device & 0x0f);
-    else
+    } else {
         vdrive = NULL;
+    }
 
     if (p->inuse) {
         if (p->isopen[secondary & 0x0f] == 1) {
             /* Store name here */
-            if (SerialPtr < SERIAL_NAMELENGTH)
+            if (SerialPtr < SERIAL_NAMELENGTH) {
                 SerialBuffer[SerialPtr++] = data;
+            }
         } else {
             /* Send to device */
             st = (*(p->putf))(vdrive, data, (int)(secondary & 0x0f));
@@ -242,10 +278,11 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 
     p = serial_device_get(device & 0x0f);
 
-    if ((device & 0x0f) >= 8)
+    if ((device & 0x0f) >= 8) {
         vdrive = (void *)file_system_get_vdrive(device & 0x0f);
-    else
+    } else {
         vdrive = NULL;
+    }
 
 #if 0
     /* Get next byte if necessary.  */

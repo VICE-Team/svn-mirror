@@ -58,6 +58,16 @@ static log_t parallel_log = LOG_DEFAULT;
 static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 static int SerialPtr;
 
+/*
+   On a real system an opened channel is affected only after having
+   received and parsed the complete next open command.
+   This patch tries to emulate this behavior and allows to keep the
+   status channel continuously open while opening and closing other
+   files on the same device.
+
+   FIXME: test for regressions and either revert to, or remove old code
+*/
+#define DELAYEDCLOSE
 
 static int parallelcommand(void)
 {
@@ -70,8 +80,9 @@ static int parallelcommand(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drive->enable)
+            && drive_context[dnr]->drive->enable) {
             return 0x83;    /* device not present */
+        }
     }
 
     /* which device ? */
@@ -90,12 +101,14 @@ static int parallelcommand(void)
         if (!p->isopen[channel] == 1) {
             p->isopen[channel] = 2;
             st = (*(p->openf))(vdrive, NULL, 0, channel, NULL);
-            for (i = 0; i < SerialPtr; i++)
+            for (i = 0; i < SerialPtr; i++) {
                 (*(p->putf))(vdrive, SerialBuffer[i], channel);
+            }
             SerialPtr = 0;
         }
-        if (p->flushf)
+        if (p->flushf) {
             (*(p->flushf))(vdrive, channel);
+        }
 
         if ((!st) && ((TrapDevice & 0xf0) == 0x40)) {
             /* any error, except eof */
@@ -110,6 +123,7 @@ static int parallelcommand(void)
       case 0xF0:
         /* Open File */
         if (p->isopen[channel]) {
+#ifndef DELAYEDCLOSE
             if (p->isopen[channel] == 2) {
                 log_warning(parallel_log, "Bogus close?");
                 (*(p->closef))(vdrive, channel);
@@ -124,9 +138,26 @@ static int parallelcommand(void)
                (*(p->closef))(vdrive, channel);
                log_error(parallel_log, "Cannot open file. Status $%02x.", st);
             }
+#else
+            if (SerialPtr != 0 || channel == 0x0f) {
+                (*(p->closef))(vdrive, channel);
+                p->isopen[channel] = 2;
+
+                SerialBuffer[SerialPtr] = 0;
+                st = (*(p->openf))(vdrive, SerialBuffer, SerialPtr, channel, NULL);
+                SerialPtr = 0;
+
+                if (st) {
+                   p->isopen[channel] = 0;
+                   (*(p->closef))(vdrive, channel);
+                   log_error(parallel_log, "Cannot open file. Status $%02x.", st);
+                }
+            }
+#endif
         }
-        if (p->flushf)
+        if (p->flushf) {
             (*(p->flushf))(vdrive, channel);
+        }
         break;
       default:
         log_error(parallel_log, "Unknown command %02X.", TrapSecondary & 0xff);
@@ -140,8 +171,9 @@ int parallel_trap_attention(int b)
     serial_t *p;
     void *vdrive;
 
-    if (parallel_debug)
+    if (parallel_debug) {
         log_message(parallel_log, "ParallelAttention(%02x).", b);
+    }
 
     if (b == 0x3f
         && (((TrapSecondary & 0xf0) == 0xf0)
@@ -173,16 +205,16 @@ int parallel_trap_attention(int b)
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
-    if (!(p->inuse))
+    if (!(p->inuse)) {
         st |= 0x80;
+    }
 
     if ( ((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40) || ((b & 0xf0) == 0x60)
         || (b == 0x3f) ) {
         if (p->listenf) {
             /* send talk/listen/unlisten to emulated devices for
                flushing of REL file write buffer. */
-            if ((TrapDevice & 0x0f) >= 8)
-            {
+            if ((TrapDevice & 0x0f) >= 8) {
                 vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
                 (*(p->listenf))(vdrive, TrapSecondary & 0x0f);
             }
@@ -196,8 +228,9 @@ int parallel_trap_attention(int b)
 
     st |= TrapDevice << 8;
 
-    if (attention_callback_func)
+    if (attention_callback_func) {
         attention_callback_func();
+    }
 
     return st;
 }
@@ -211,8 +244,9 @@ int parallel_trap_sendbyte(BYTE data)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drive->enable)
+            && drive_context[dnr]->drive->enable) {
             return 0x83;    /* device not present */
+        }
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
@@ -221,12 +255,14 @@ int parallel_trap_sendbyte(BYTE data)
     if (p->inuse) {
         if (p->isopen[TrapSecondary & 0x0f] == 1) {
 
-            if (parallel_debug)
+            if (parallel_debug) {
                 log_message(parallel_log,
                             "SerialSendByte[%2d] = %02x.", SerialPtr, data);
+            }
             /* Store name here */
-            if (SerialPtr < SERIAL_NAMELENGTH)
+            if (SerialPtr < SERIAL_NAMELENGTH) {
                 SerialBuffer[SerialPtr++] = data;
+            }
         } else {
             /* Send to device */
             st = (*(p->putf))(vdrive, data, TrapSecondary & 0x0f);
@@ -247,8 +283,9 @@ int parallel_trap_receivebyte(BYTE * data, int fake)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if ((unsigned int)(TrapDevice & 0x0f) == dnr + 8
-            && drive_context[dnr]->drive->enable)
+            && drive_context[dnr]->drive->enable) {
             return 0x83;    /* device not present */
+        }
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
@@ -276,8 +313,9 @@ int parallel_trap_receivebyte(BYTE * data, int fake)
     }
 #endif
     *data = p->lastbyte[secadr];
-    if (!fake)
+    if (!fake) {
         p->lastok[secadr] = 0;
+    }
 #if 0
     st = p->nextok[secadr] ? p->nextst[secadr] :
         (p->lastok[secadr] ? p->lastst[secadr] : 2);
@@ -285,7 +323,7 @@ int parallel_trap_receivebyte(BYTE * data, int fake)
     st = p->lastst[secadr]; /* added */
     st += TrapDevice << 8;
 
-    if (parallel_debug)
+    if (parallel_debug) {
         log_message(parallel_log,
                     "receive: sa=%02x lastb = %02x (data=%02x), "
                     "ok=%s, st=%04x, nextb = %02x, "
@@ -295,12 +333,14 @@ int parallel_trap_receivebyte(BYTE * data, int fake)
                     p->lastst[secadr],
                     p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
                     p->nextst[secadr]);
+    }
 #if 0
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr])
         p->nextok[secadr] = 0;
 #endif
-    if ((st & 0x40) && eof_callback_func != NULL)
+    if ((st & 0x40) && eof_callback_func != NULL) {
         eof_callback_func();
+    }
     return st;
 }
 
