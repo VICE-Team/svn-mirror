@@ -228,7 +228,8 @@ int machine_cmdline_options_init(void)
     if (vsid_mode) {
         if (sound_cmdline_options_init() < 0
             || sid_cmdline_options_init() < 0
-            || psid_init_cmdline_options() < 0) {
+            || psid_init_cmdline_options() < 0
+            || vsync_cmdline_options_init() < 0) {
             return -1;
         }
 

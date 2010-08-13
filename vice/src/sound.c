@@ -667,11 +667,6 @@ int sound_open(void)
 
         sid_state_changed = FALSE;
 
-        /* Set warp mode for non-realtime sound devices in vsid mode. */
-        if (vsid_mode && !pdev->bufferspace) {
-            resources_set_int("WarpMode", 1);
-        }
-
         /* Fill up the sound hardware buffer. */
         if (pdev->bufferspace) {
             /* Fill to bufsize - fragsize. */

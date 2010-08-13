@@ -185,7 +185,7 @@ static const cmdline_option_t vsid_cmdline_options[] = {
     { "-vsid", CALL_FUNCTION, 0,
       cmdline_dummy_callback, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_USE_VSID_MODE, /* FIXME proper help text */
+      IDCLS_UNUSED, IDCLS_SID_PLAYER_MODE,
       NULL, NULL },
     { NULL }
 };

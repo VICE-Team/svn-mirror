@@ -179,11 +179,11 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("UI");
         return -1;
     }
-    if (autostart_cmdline_options_init() < 0) {
+    if (!vsid_mode && autostart_cmdline_options_init() < 0) {
         init_resource_fail("autostart");
         return -1;
     }
-    if (fliplist_cmdline_options_init() < 0) {
+    if (!vsid_mode && fliplist_cmdline_options_init() < 0) {
         init_cmdline_options_fail("flip list");
         return -1;
     }
@@ -195,7 +195,7 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("disk image");
         return -1;
     }
-    if (event_cmdline_options_init() < 0) {
+    if (!vsid_mode && event_cmdline_options_init() < 0) {
         init_cmdline_options_fail("event");
         return -1;
     }

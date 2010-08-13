@@ -127,12 +127,6 @@ int psid_init_resources(void)
     return resources_register_int(resources_int);
 }
 
-static int cmdline_vsid_mode(const char *param, void *extra_param)
-{
-    vsid_mode = 1;
-    return 0;
-}
-
 static int cmdline_keepenv(const char *param, void *extra_param)
 {
     keepenv = 1;
@@ -167,11 +161,6 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_PALN,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_PALN_SYNC_FACTOR,
-      NULL, NULL },
-    { "-vsid", CALL_FUNCTION, 0,
-      cmdline_vsid_mode, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SID_PLAYER_MODE,
       NULL, NULL },
     { "-keepenv", CALL_FUNCTION, 0,
       cmdline_keepenv, NULL, NULL, NULL,
