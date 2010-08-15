@@ -33,6 +33,8 @@
 #include "uiarch.h"
 #include "videoarch.h"
 
+/* #define LP_DEBUG 1  */
+
 static GdkCursor *cursor;
 static int buttons;
 static struct video_canvas_s *c;
@@ -44,18 +46,15 @@ void gtk_init_lightpen(void) {
 void gtk_lightpen_setbutton(int b, int set)
 {
     if (set) {
-	buttons |= (b == 1) ? LP_HOST_BUTTON_1 : 0;
-	buttons |= (b == 3) ? LP_HOST_BUTTON_2 : 0;
+        buttons |= (b == 1) ? LP_HOST_BUTTON_1 : 0;
+        buttons |= (b == 3) ? LP_HOST_BUTTON_2 : 0;
     } else {
-	buttons &= (b == 1) ? ~(buttons & LP_HOST_BUTTON_1) : 0xff;
-	buttons &= (b == 3) ? ~(buttons & LP_HOST_BUTTON_2) : 0xff;
+        buttons &= (b == 1) ? ~(buttons & LP_HOST_BUTTON_1) : 0xff;
+        buttons &= (b == 3) ? ~(buttons & LP_HOST_BUTTON_2) : 0xff;
     }
 }
 
-/*
-#define LP_DEBUG 1
-*/
-void x11_lightpen_update(void) 
+void x11_lightpen_update(void)
 {
     int x, y;
     int h, w;

@@ -210,6 +210,7 @@ static int fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
+    fullscreen_is_enabled = 0;
     canvas->fullscreenconfig->driver = 0;
 
     if (canvas->fullscreenconfig->device == NULL) {
@@ -232,11 +233,12 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
         canvas->fullscreenconfig->driver = FSDRIVER_XRANDR;
     }
 #endif
-    fullscreen_is_enabled = canvas->fullscreenconfig->enable = enable;
+    canvas->fullscreenconfig->enable = enable;
     resources_set_int("UseFullscreen", enable);
 
     ui_dispatch_events();
     fullscreen_resize(canvas, status_is_enabled);
+    fullscreen_is_enabled = enable; /* should be the last thing set */
 
     return 0;
 }

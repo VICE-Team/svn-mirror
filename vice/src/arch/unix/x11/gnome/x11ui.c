@@ -154,7 +154,6 @@ static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static char *fixedfontname="CBM 10";
 static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
-static int cursor_is_blank = 0;
 static video_canvas_t *ui_cached_video_canvas;
 static int statustext_display_time = 0;
 static int popped_up_count = 0;
@@ -163,8 +162,8 @@ static int popped_up_count = 0;
 static GtkWidget *left_menu, *right_menu;
 
 /* Toplevel widget. */
-GtkWidget * _ui_top_level;
-static GdkGC *app_gc;
+GtkWidget * _ui_top_level = NULL;
+static GdkGC *app_gc = NULL;
 
 /* Our colormap. */
 GdkColormap *colormap;
@@ -251,20 +250,49 @@ extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
 /* ------------------------------------------------------------------------- */
 
+/*
+    grab pointer and keyboard, set mouse pointer shape
+
+    TODO: also route lightpen stuff through this function
+*/
+static int mouse_grabbed = 0;
+static void mouse_cursor_grab(int grab, GdkCursor *cursor)
+{
+    if (mouse_grabbed) {
+        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+        gdk_pointer_ungrab(GDK_CURRENT_TIME);
+        mouse_grabbed = 0;
+    }
+    if (grab) {
+        gdk_keyboard_grab(_ui_top_level->window, 1, GDK_CURRENT_TIME);
+        /* XXX check this -- latter _ui_top_level->window used to be
+         * canvas->emuwindow->window... */
+        gdk_pointer_grab(_ui_top_level->window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, _ui_top_level->window, cursor, GDK_CURRENT_TIME);
+        mouse_grabbed = 1;
+    }
+}
+
 void ui_check_mouse_cursor(void)
 {
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled) {
+        if (_mouse_enabled) {
+            mouse_accelx = 2;
+            mouse_accely = 2;
+            mouse_cursor_grab(1, blankCursor);
+        } else {
+            mouse_cursor_grab(1, NULL);
+        }
         return;
     }
 #endif
     if (ui_cached_video_canvas == NULL) {
-	return;
+        return;
     }
-    
+
     if (_mouse_enabled) {
         if (ui_cached_video_canvas->videoconfig->doublesizex) {
-            mouse_accelx = 2;   
+            mouse_accelx = 2;
         } else {
             mouse_accelx = 4;
         }
@@ -274,30 +302,15 @@ void ui_check_mouse_cursor(void)
         } else {
             mouse_accely = 4;
         }
-
-        cursor_is_blank = 1;
-        gdk_keyboard_grab(_ui_top_level->window, 1, GDK_CURRENT_TIME);
-        /* XXX check this -- latter _ui_top_level->window used to be
-         * canvas->emuwindow->window... */
-        gdk_pointer_grab(_ui_top_level->window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, _ui_top_level->window, blankCursor, GDK_CURRENT_TIME);
-    } else if (cursor_is_blank) {
-        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
-        gdk_pointer_ungrab(GDK_CURRENT_TIME);
+        mouse_cursor_grab(1, blankCursor);
+    } else {
+        mouse_cursor_grab(0, NULL);
     }
 }
 
 void ui_restore_mouse(void)
 {
-#ifdef HAVE_FULLSCREEN
-    if (fullscreen_is_enabled) {
-        return;
-    }
-#endif
-    if (_mouse_enabled && cursor_is_blank) {
-        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
-        gdk_pointer_ungrab(GDK_CURRENT_TIME);
-        cursor_is_blank = 0; 
-    }
+    mouse_cursor_grab(0, NULL);
 }
 
 void initBlankCursor(void)
@@ -309,7 +322,7 @@ void initBlankCursor(void)
     GdkBitmap *mask = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
 
     blankCursor = gdk_cursor_new_from_pixmap (source, mask, &fg, &bg, 1, 1); 
-    
+
     g_object_unref (source);
     g_object_unref (mask); 
 }
@@ -379,33 +392,117 @@ gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data)
     return TRUE;
 }
 
+static gint mouse_posx, mouse_posy;
+static gint mouse_lasteventx, mouse_lasteventy;
+static gint mouse_warped = 0;
+#define MOUSE_WRAP_MARGIN  40
+
+static gfloat get_aspect(video_canvas_t *canvas);
+
 void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-   if (event->type == GDK_BUTTON_PRESS) {
-      GdkEventButton *bevent = (GdkEventButton*)event;
-      if (_mouse_enabled || lightpen_enabled) {
-          mouse_button(bevent->button-1, TRUE);
-	  gtk_lightpen_setbutton(bevent->button, TRUE);
-      } else {
-          if (bevent->button == 1) {
-              ui_menu_update_all_GTK();
-              gtk_menu_popup(GTK_MENU(left_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
-          } else if (bevent->button == 3) {
-              ui_menu_update_all_GTK();
-              gtk_menu_popup(GTK_MENU(right_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
-          }
-      }
-   } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
+    video_canvas_t *canvas = (video_canvas_t *)data;
+    app_shell_type *appshell = &app_shells[canvas->app_shell];
+
+    if (event->type == GDK_BUTTON_PRESS) {
+        GdkEventButton *bevent = (GdkEventButton*)event;
+        if (_mouse_enabled || lightpen_enabled) {
+            mouse_button(bevent->button-1, TRUE);
+            gtk_lightpen_setbutton(bevent->button, TRUE);
+        } else {
+            if (bevent->button == 1) {
+                ui_menu_update_all_GTK();
+                gtk_menu_popup(GTK_MENU(left_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
+            } else if (bevent->button == 3) {
+                ui_menu_update_all_GTK();
+                gtk_menu_popup(GTK_MENU(right_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
+            }
+        }
+    } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
         GdkEventButton *bevent = (GdkEventButton*)event;
         mouse_button(bevent->button-1, FALSE);
         gtk_lightpen_setbutton(bevent->button, FALSE);
    } else if (event->type == GDK_MOTION_NOTIFY) {
         GdkEventMotion *mevent = (GdkEventMotion*)event;
         if (_mouse_enabled) {
-            mouse_move((int)mevent->x, (int)mevent->y);
+            /* handle pointer motion events for mouse emulation */
+            if (mouse_warped) {
+                /* ignore this event, its the result of us having moved the pointer */
+                mouse_warped = 0;
+                /* printf("warped!\n"); */
+            } else {
+                gint x=0, y=0, w=0, h=0, warp=0;
+                gint ptrx, ptry;
+                GdkDisplay *display = NULL;
+                GdkScreen *screen = NULL;
+                gfloat taspect;
+
+                /* get default display and screen */
+                display = gdk_display_get_default ();
+                screen = gdk_display_get_default_screen (display);
+
+                /* get cursor position */
+                gdk_display_get_pointer (display, NULL, &x, &y, NULL);
+
+                ptrx = (int)mevent->x;
+                ptry = (int)mevent->y;
+                ptry += appshell->topmenu->allocation.height;
+
+                w = canvas->geometry->screen_size.width;
+                h = canvas->geometry->screen_size.height;
+
+                if (canvas->videoconfig->doublesizex) {
+                    w <<= 1;
+                }
+                if (canvas->videoconfig->doublesizey) {
+                    h <<= 1;
+                }
+
+                taspect = get_aspect(canvas);
+                if (taspect > 0.0f) {
+                    w = ((float)w) * taspect;
+                }
+
+                if (ptrx < MOUSE_WRAP_MARGIN) {
+                    x = mouse_lasteventx = w - (MOUSE_WRAP_MARGIN + 10);
+                    warp = 1;
+                }
+                else if (ptrx > (w - MOUSE_WRAP_MARGIN)) {
+                    x = mouse_lasteventx = (MOUSE_WRAP_MARGIN + 10);
+                    warp = 1;
+                }
+
+                h -= (appshell->topmenu->allocation.height + appshell->status_bar->allocation.height);
+
+                if (ptry < (appshell->topmenu->allocation.height + MOUSE_WRAP_MARGIN)) {
+                    if (canvas->fullscreenconfig->enable == 0) {
+                        mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
+                    } else {
+                        mouse_lasteventy = h - ((MOUSE_WRAP_MARGIN + 10) *2); /* FIXME */
+                    }
+                    y = mouse_lasteventy + appshell->topmenu->allocation.height;
+                    warp = 1;
+                } else if (ptry > (h - MOUSE_WRAP_MARGIN)) {
+                    mouse_lasteventy = (MOUSE_WRAP_MARGIN + 10) + appshell->topmenu->allocation.height;
+                    y = mouse_lasteventy + appshell->topmenu->allocation.height;
+                    warp = 1;
+                }
+
+                if (warp) {
+                    /* set new cusor position */
+                    mouse_warped = 1;
+                    gdk_display_warp_pointer (display, screen, x, y);
+                } else {
+                    mouse_posx += ptrx - mouse_lasteventx;
+                    mouse_posy += ptry - mouse_lasteventy;
+                    mouse_move(mouse_posx, mouse_posy);
+                    mouse_lasteventx = ptrx;
+                    mouse_lasteventy = ptry;
+                }
+            }
         }
 #ifdef HAVE_FULLSCREEN
-        fullscreen_mouse_moved((struct video_canvas_s *)data, (int)mevent->x, (int)mevent->y, 0);
+        fullscreen_mouse_moved(canvas, (int)mevent->x, (int)mevent->y, 0);
 #endif
    }
 }
@@ -798,7 +895,7 @@ ui_create_status_bar(GtkWidget *pane)
     return status_bar;
 }
 
-#ifdef USE_XF86_EXTENSIONS
+/* #ifdef USE_XF86_EXTENSIONS */
 int x11ui_get_display_depth(void)
 {
     return depth;
@@ -809,16 +906,20 @@ Display *x11ui_get_display_ptr(void)
     return display;
 }
 
-Window x11ui_get_X11_window()
+Window x11ui_get_X11_window(void)
 {
-    return GDK_WINDOW_XID(_ui_top_level->window);
+    if (_ui_top_level->window) {
+        return GDK_WINDOW_XID(_ui_top_level->window);
+    } else {
+        return 0;
+    }
 }
 
-int x11ui_get_screen()
+int x11ui_get_screen(void)
 {
     return screen;
 }
-#endif
+/* #endif */
 
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
@@ -1559,6 +1660,7 @@ void x11ui_fullscreen(int i)
         gtk_window_present(GTK_WINDOW(s));
     } else {
         gtk_window_unfullscreen(GTK_WINDOW(s));
+        mouse_cursor_grab(0, NULL);
     }
 }
 
@@ -2533,6 +2635,10 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     gtk_widget_grab_focus(w);
     gtk_lightpen_update_canvas(p, TRUE);
     keyboard_key_clear();
+
+#ifdef HAVE_FULLSCREEN
+    fullscreen_mouse_moved((struct video_canvas_s *)p, 0, 0, 2);
+#endif
 
     return 0;
 }

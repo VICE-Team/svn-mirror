@@ -110,13 +110,13 @@ BYTE mousedrv_get_y(void)
 
 void mouse_move(int x, int y)
 {
-
     if (!_mouse_enabled) {
         return;
     }
 
     mouse_x = x;
-    mouse_y = 256 - y;
+    /* mouse_y = 256 - y; */
+    mouse_y = ~(y - 1);
 }
 
 #endif

@@ -108,7 +108,7 @@ unsigned int vidmode_available_modes(void)
     return vm_index;
 }
 
-/*
+#if 0
 static float get_aspect(video_canvas_t *canvas)
 {
     int keep_aspect_ratio, true_aspect_ratio;
@@ -125,7 +125,7 @@ static float get_aspect(video_canvas_t *canvas)
     }
     return 1.0f;
 }
-*/
+#endif
 
 /* FIXME: Limiting vidmode to one active fullscreen window.  */
 static video_canvas_t *active_canvas;
@@ -140,6 +140,9 @@ static void vidmode_center_canvas(struct video_canvas_s *canvas)
     if (vm_available == 0) {
         return;
     }
+    if (active_canvas != canvas) {
+        return;
+    }
 
     vm_display = x11ui_get_display_ptr();
 
@@ -149,6 +152,8 @@ static void vidmode_center_canvas(struct video_canvas_s *canvas)
     XF86VidModeSetViewPort(vm_display, screen, x + xoffs, y + yoffs);
     ui_dispatch_events();
 }
+
+#define EXTRA_BORDER    0
 
 static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
 {
@@ -172,7 +177,6 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
     fs_h = vm->vdisplay;
     fs_w = vm->hdisplay;
 
-
     if (canvas->videoconfig->doublesizex) {
         xoffs = ((fs_w) - (vm->hdisplay));
         fs_w /= 2;
@@ -189,10 +193,10 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
         fs_h -= status_h;
     }
 
-    fs_w += 2;
-    fs_h += 2;
-    xoffs += 2;
-    yoffs += 2;
+    fs_w += (EXTRA_BORDER * 2);
+    fs_h += (EXTRA_BORDER * 2);
+    xoffs += EXTRA_BORDER;
+    yoffs += EXTRA_BORDER;
 
     canvas->draw_buffer->canvas_width = fs_w;
     canvas->draw_buffer->canvas_height = fs_h;
@@ -200,25 +204,43 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
     ui_dispatch_events();
 }
 
+static int delayed_center = 0;
+
 void vidmode_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
 {
     static int lastx, lasty;
     int winx, winy;
     int menu_h = 0;
+    int status_h = 0;
     int wrap;
 
     Display *vm_display;
+    Window shellwin;
 
     if (vm_available == 0) {
         return;
     }
 
+    if (canvas->emuwindow == NULL) {
+        return;
+    }
+
     vm_display = x11ui_get_display_ptr();
+    if (vm_display == NULL) {
+        return;
+    }
 
     if (leave) {
-        /* pointer left canvas */
+        shellwin = x11ui_get_X11_window();
+        if (shellwin == 0)  {
+            return;
+        }
+    }
+
+    if (leave == 1) { /* pointer left canvas */
 #ifdef HAVE_FULLSCREEN
         menu_h = canvas->fullscreenconfig->ui_border_top;
+        status_h = canvas->fullscreenconfig->ui_border_bottom;
 #endif
         x11ui_canvas_position(canvas->emuwindow, &winx, &winy);
 
@@ -239,7 +261,7 @@ void vidmode_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
         } else {
             if (lasty < 20) {
                 wrap = 0;
-            } else if (lasty > ((vm->vdisplay + yoffs) - 20)) {
+            } else if (lasty > ((vm->vdisplay + yoffs) - (menu_h + status_h + 20))) { /* FIXME */
                 wrap = 0;
             }
         }
@@ -248,13 +270,54 @@ void vidmode_mouse_moved(struct video_canvas_s *canvas, int x, int y, int leave)
 
         if (wrap) {
             XWarpPointer(vm_display, None, DefaultRootWindow(vm_display), 0, 0, vm->hdisplay, vm->vdisplay, lastx, lasty);
+            /* grab the pointer and keyboard */
+            XGrabPointer(vm_display, shellwin, 1, PointerMotionMask, GrabModeAsync, GrabModeAsync, shellwin, None, CurrentTime);
+            vidmode_center_canvas(canvas);
+            /* ui_dispatch_events(); */
         }
+    } else if (leave == 2) { /* enter the canvas */
+        /* grab the pointer and keyboard */
+        XGrabPointer(vm_display, shellwin, 1, PointerMotionMask, GrabModeAsync, GrabModeAsync, shellwin, None, CurrentTime);
+        /* vidmode_center_canvas(canvas); */ /* this crashes ? */
+        delayed_center = 1;
     } else {
         lastx = x;
         lasty = y;
+
+#ifdef HAVE_FULLSCREEN
+        menu_h = canvas->fullscreenconfig->ui_border_top;
+#endif
+        y -= (menu_h + yoffs);
+        x -= (xoffs);
+
+        wrap = 0;
+        if (x < 1) {
+            x =  vm->hdisplay - 10;
+            wrap = 1;
+        } else if (x >= (vm->hdisplay-1)) {
+            x =  xoffs + 10;
+            wrap = 1;
+        }
+
+        /* only wrap around at y if menu/status is disabled */
+        if (menu_h == 0) {
+            if (y < 1) {
+                y =  vm->vdisplay - 10;
+                wrap = 1;
+            } else if (y >= (vm->vdisplay-1)) {
+                y =  ((menu_h + yoffs) * 2) + 50; /* FIXME */
+                wrap = 1;
+            }
+        }
+
+        if (wrap) {
+            XWarpPointer(vm_display, None, DefaultRootWindow(vm_display), 0, 0, vm->hdisplay, vm->vdisplay, x, y);
+            vidmode_center_canvas(canvas);
+        } else if (delayed_center) {
+            delayed_center = 0;
+            vidmode_center_canvas(canvas);
+        }
     }
-    vidmode_center_canvas(canvas);
-    ui_dispatch_events();
 }
 
 void vidmode_resize(struct video_canvas_s *canvas, int uienable)
@@ -268,6 +331,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
 #ifdef HAVE_FULLSCREEN
     Display *vm_display;
+    Window shellwin;
 
     if (vm_available == 0) {
         return 0;
@@ -276,6 +340,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
     vm_display = x11ui_get_display_ptr();
 
     if (enable) {
+        vm_is_enabled = 0;
         log_message(vidmode_log, "Enabling Vidmode with%s", vm_bestmodes[vidmode_selected_mode].name);
         vm = vm_modes[vm_bestmodes[vidmode_selected_mode].modeindex];
 
@@ -287,6 +352,10 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         vidmode_center_canvas(canvas);
         XWarpPointer(vm_display, None, DefaultRootWindow(vm_display), 0, 0, vm->hdisplay, vm->vdisplay, x + vm->hdisplay / 2, y + vm->vdisplay / 2);
 
+        /* grab the pointer */
+        shellwin = x11ui_get_X11_window();
+        XGrabPointer(vm_display, shellwin, 1, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, shellwin, None, CurrentTime);
+
         active_canvas = canvas;
         vm_is_enabled = 1;
         vm_is_suspended = 0;
@@ -294,14 +363,19 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         if (!vm_is_enabled) {
             return 0;
         }
-        vm_is_enabled = 0;
         log_message(vidmode_log, "Disabling Vidmode");
+
+        /* FIXME: don't ungrab if either mouse or lightpen emulation is enabled */
+        XUngrabPointer(vm_display, CurrentTime);
+        XUngrabKeyboard(vm_display, CurrentTime);
+
         XF86VidModeSwitchToMode(vm_display, screen, vm_modes[0]);
 
         /* restore canvas size for windowed mode */
         canvas->draw_buffer->canvas_width = saved_w;
         canvas->draw_buffer->canvas_height = saved_h;
         video_viewport_resize(canvas);
+        vm_is_enabled = 0;
     }
 #endif
     return 0;
@@ -314,7 +388,7 @@ int vidmode_mode(struct video_canvas_s *canvas, int mode)
     }
 
     if (vidmode_log != LOG_ERR) {
-	log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
+        log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
     }
     vidmode_selected_mode = mode;
 

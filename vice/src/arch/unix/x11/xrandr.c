@@ -318,11 +318,16 @@ static int set_xrandr(int val)
             log_message(xrandr_log, "XRandR setting failed: %d", status);
         } else {
             current_canvas->refreshrate = screen_info.all_modes[xrandr_selected_mode].rate;
-#ifdef HAVE_OPENGL_SYNC	    
+#ifdef HAVE_OPENGL_SYNC
             init_openGL();
 #endif
         }
     } else {
+
+        /* FIXME: don't ungrab if either mouse or lightpen emulation is enabled */
+        XUngrabPointer(x11ui_get_display_ptr(), CurrentTime);
+        XUngrabKeyboard(x11ui_get_display_ptr(), CurrentTime);
+
         status = XRRSetScreenConfigAndRate(x11ui_get_display_ptr(), screen_info.config, x11ui_get_X11_window(), screen_info.all_modes[0].index,
                                            screen_info.current_rotation, screen_info.all_modes[0].rate, 0);
         if (status) {

@@ -113,90 +113,10 @@ static log_t ui_log = LOG_ERR;
 extern log_t vsid_log;
 
 Cursor blankCursor;
-int cursor_is_blank = 0;
 static video_canvas_t *ui_cached_video_canvas;
 static Widget last_visited_canvas;
 
 static void ui_display_drive_current_image2(void);
-
-/* ------------------------------------------------------------------------- */
-
-void ui_restore_mouse(void)
-{
-#if 0
-    if (fullscreen_is_enabled) {
-        return;
-    }
-#endif
-    if (_mouse_enabled && cursor_is_blank) {
-        XUndefineCursor(display,XtWindow(last_visited_canvas));
-        XUngrabPointer(display, CurrentTime);
-        XUngrabKeyboard(display, CurrentTime);
-        cursor_is_blank = 0; 
-    }
-}
-
-static void initBlankCursor(Widget canvas)
-{
-    static char no_data[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    static Pixmap blank;
-    XColor trash, dummy;
-
-    if (blankCursor) {
-        return;
-    }
-
-    XAllocNamedColor(display, DefaultColormapOfScreen(DefaultScreenOfDisplay(display)), "black", &trash, &dummy);
-
-    /*
-     * "The pixmaps can be freed immediately if no further explicit
-     * references to them are to be made." XCreateFontCursor(3)
-     */
-    blank = XCreateBitmapFromData(display, XtWindow(canvas), no_data, 8, 8);
-
-    /* warning: must call XFreeCursor() when finished! */
-    blankCursor = XCreatePixmapCursor(display, blank, blank, &trash, &trash, 0, 0);
-
-    XFreePixmap(display, blank);
-}
-
-/* seemingly dead code */
-#if 0
-static void freeBlankCursor(void)
-{
-    if (blankCursor) {
-        XFreeCursor(display, blankCursor);
-        blankCursor = 0;
-    }
-}
-#endif
-
-static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
-{
-    if (!_mouse_enabled && !lightpen_enabled) {
-        return;
-    }
-
-    switch(report->type) {
-        case MotionNotify:
-            if (_mouse_enabled) {
-                mouse_move(report->xmotion.x, report->xmotion.y);
-            }
-            if (lightpen_enabled) {
-                xaw_lightpen_update_xy(report->xmotion.x, report->xmotion.y);
-            }
-            break;
-        case ButtonPress:
-        case ButtonRelease:
-            if (_mouse_enabled) {
-                mouse_button(report->xbutton.button - 1, (report->type == ButtonPress));
-            }
-            if (lightpen_enabled) {
-                xaw_lightpen_setbutton(report->xbutton.button, (report->type == ButtonPress));
-            }
-            break;
-    }
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -240,8 +160,7 @@ static int *drive_active_led;
 static Widget last_visited_app_shell = NULL;
 
 #define MAX_APP_SHELLS 10
-
-static struct {
+typedef struct {
     String title;
     Widget shell;
     Widget canvas;
@@ -257,8 +176,9 @@ static struct {
     } drive_widgets[NUM_DRIVES];
     int drive_mapping[NUM_DRIVES];
     int drive_nleds[NUM_DRIVES];
-} app_shells[MAX_APP_SHELLS];
+} app_shell_type;
 
+static app_shell_type app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
 
 char last_attached_images[NUM_DRIVES][256];
@@ -270,6 +190,160 @@ Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
 /* static int resources_have_changed = 0; */
 
 static char *filesel_dir = NULL;
+
+static void mouse_cursor_grab(int grab, Cursor cursor);
+
+/* ------------------------------------------------------------------------- */
+
+void ui_restore_mouse(void)
+{
+    mouse_cursor_grab(0, None);
+}
+
+static void initBlankCursor(Widget canvas)
+{
+    static char no_data[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    static Pixmap blank;
+    XColor trash, dummy;
+
+    if (blankCursor) {
+        return;
+    }
+
+    XAllocNamedColor(display, DefaultColormapOfScreen(DefaultScreenOfDisplay(display)), "black", &trash, &dummy);
+
+    /*
+     * "The pixmaps can be freed immediately if no further explicit
+     * references to them are to be made." XCreateFontCursor(3)
+     */
+    blank = XCreateBitmapFromData(display, XtWindow(canvas), no_data, 8, 8);
+
+    /* warning: must call XFreeCursor() when finished! */
+    blankCursor = XCreatePixmapCursor(display, blank, blank, &trash, &trash, 0, 0);
+
+    XFreePixmap(display, blank);
+}
+
+/* seemingly dead code */
+#if 0
+static void freeBlankCursor(void)
+{
+    if (blankCursor) {
+        XFreeCursor(display, blankCursor);
+        blankCursor = 0;
+    }
+}
+#endif
+
+static int mouse_posx, mouse_posy;
+static int mouse_lasteventx, mouse_lasteventy;
+static int mouse_warped = 0;
+#define MOUSE_WRAP_MARGIN  40
+
+static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
+{
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
+    app_shell_type *appshell;
+
+    canvas = ui_cached_video_canvas; /* FIXME */
+    appshell = &app_shells[canvas->app_shell];
+
+    switch(report->type) {
+        case MotionNotify:
+            /* handle pointer motion events for mouse emulation */
+#ifdef HAVE_FULLSCREEN
+            if ((canvas->fullscreenconfig) && (canvas->fullscreenconfig->enable)) {
+                fullscreen_mouse_moved(canvas, (int)report->xmotion.x, (int)report->xmotion.y, 0);
+            }
+#endif
+            if (_mouse_enabled) {
+                if (mouse_warped) {
+                    /* ignore this event, its the result of us having moved the pointer */
+                    mouse_warped = 0;
+                    /* printf("warped!\n"); */
+                } else {
+                    int x=0, y=0, w=0, h=0, warp=0;
+                    int ptrx, ptry;
+                    int menu_h = 0;
+                    /* float taspect; */
+
+                    /* get cursor position */
+                    x = (int)report->xmotion.x;
+                    y = (int)report->xmotion.y;
+
+                    ptrx = (int)report->xmotion.x;
+                    ptry = (int)report->xmotion.y;
+
+                    w = canvas->geometry->screen_size.width;
+                    h = canvas->geometry->screen_size.height;
+
+                    if (canvas->videoconfig->doublesizex) {
+                        w <<= 1;
+                    }
+                    if (canvas->videoconfig->doublesizey) {
+                        h <<= 1;
+                    }
+#if 0
+                    taspect = get_aspect(canvas);
+                    if (taspect > 0.0f) {
+                        w = ((float)w) * taspect;
+                    }
+#endif
+                    if (ptrx < MOUSE_WRAP_MARGIN) {
+                        x = mouse_lasteventx = w - (MOUSE_WRAP_MARGIN + 10);
+                        warp = 1;
+                    }
+                    else if (ptrx > (w - MOUSE_WRAP_MARGIN)) {
+                        x = mouse_lasteventx = (MOUSE_WRAP_MARGIN + 10);
+                        warp = 1;
+                    }
+
+                    /* menu_h = appshell->topmenu->allocation.height; */
+                    menu_h = 100; /* FIXME */
+                    h -= menu_h;
+
+                    if (ptry < (MOUSE_WRAP_MARGIN)) {
+                        if (canvas->fullscreenconfig->enable == 0) {
+                            mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
+                        } else {
+                            mouse_lasteventy = h - ((MOUSE_WRAP_MARGIN + 10) *2);
+                        }
+                        y = mouse_lasteventy;
+                        warp = 1;
+                    } else if (ptry > (h - MOUSE_WRAP_MARGIN)) {
+                        mouse_lasteventy = (MOUSE_WRAP_MARGIN + 10);
+                        y = mouse_lasteventy;
+                        warp = 1;
+                    }
+
+                    if (warp) {
+                        /* set new cusor position */
+                        mouse_warped = 1;
+                        XWarpPointer(display, None, XtWindow(last_visited_canvas), 0, 0, 0, 0, x, y);
+                    } else {
+                        mouse_posx += ptrx - mouse_lasteventx;
+                        mouse_posy += ptry - mouse_lasteventy;
+                        mouse_move(mouse_posx, mouse_posy);
+                        mouse_lasteventx = ptrx;
+                        mouse_lasteventy = ptry;
+                    }
+                }
+            }
+            if (lightpen_enabled) {
+                xaw_lightpen_update_xy(report->xmotion.x, report->xmotion.y);
+            }
+            break;
+        case ButtonPress:
+        case ButtonRelease:
+            if (_mouse_enabled) {
+                mouse_button(report->xbutton.button - 1, (report->type == ButtonPress));
+            }
+            if (lightpen_enabled) {
+                xaw_lightpen_setbutton(report->xbutton.button, (report->type == ButtonPress));
+            }
+            break;
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -293,8 +367,42 @@ static void disable_mouse_menus(void)
     }
 }
 
-void ui_check_mouse_cursor()
+/*
+    grab pointer and keyboard, set mouse pointer shape
+
+    TODO: also route lightpen stuff through this function
+*/
+static int mouse_grabbed = 0;
+static void mouse_cursor_grab(int grab, Cursor cursor)
 {
+    if (mouse_grabbed) {
+        XUndefineCursor(display, XtWindow(last_visited_canvas));
+        XUngrabPointer(display, CurrentTime);
+        XUngrabKeyboard(display, CurrentTime);
+        mouse_grabbed = 0;
+    }
+    if (grab) {
+        XGrabKeyboard(display, XtWindow(last_visited_canvas), 1, GrabModeAsync, GrabModeAsync,  CurrentTime);
+        XGrabPointer(display, XtWindow(last_visited_canvas), 0, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), cursor, CurrentTime);
+        mouse_grabbed = 1;
+    }
+}
+
+void ui_check_mouse_cursor(void)
+{
+#ifdef HAVE_FULLSCREEN
+    if (fullscreen_is_enabled) {
+        if (_mouse_enabled) {
+            mouse_accelx = 2;
+            mouse_accely = 2;
+            mouse_cursor_grab(1, blankCursor);
+        } else {
+            mouse_cursor_grab(1, None);
+        }
+        return;
+    }
+#endif
+
     if (!ui_cached_video_canvas) {
         return;
     }
@@ -311,16 +419,9 @@ void ui_check_mouse_cursor()
         } else {
             mouse_accely = 4;
         }
-
-        XDefineCursor(display,XtWindow(last_visited_canvas), blankCursor);
-        cursor_is_blank = 1;
-
-        XGrabKeyboard(display, XtWindow(last_visited_canvas), 1, GrabModeAsync, GrabModeAsync,  CurrentTime);
-        XGrabPointer(display, XtWindow(last_visited_canvas), 1, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), None, CurrentTime);
-    } else if (cursor_is_blank) {
-        XUndefineCursor(display, XtWindow(last_visited_canvas));
-        XUngrabPointer(display, CurrentTime);
-        XUngrabKeyboard(display, CurrentTime);
+        mouse_cursor_grab(1, blankCursor);
+    } else {
+        mouse_cursor_grab(0, None);
     }
 
     if (_mouse_enabled || lightpen_enabled) {
@@ -707,7 +808,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
         XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
     }
-    XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, NULL);
+    XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, canvas);
 
 
     /* Create the status bar on the bottom.  */
