@@ -42,6 +42,7 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
+#include "event.h"
 #include "fileio.h"
 #include "fsdevice.h"
 #include "imagecontents.h"
@@ -922,7 +923,8 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     BYTE vmajor, vminor;
     snapshot_t *snap;
 
-    if (network_connected() || file_name == NULL || !autostart_enabled)
+    if (network_connected() || event_record_active() || event_playback_active()
+        || file_name == NULL || !autostart_enabled)
         return -1;
 
     deallocate_program_name();  /* not needed at all */
@@ -949,7 +951,8 @@ int autostart_tape(const char *file_name, const char *program_name,
 {
     char *name = NULL;
 
-    if (network_connected() || !file_name || !autostart_enabled)
+    if (network_connected() || event_record_active() || event_playback_active()
+        || !file_name || !autostart_enabled)
         return -1;
 
     /* Get program name first to avoid more than one file handle open on
@@ -1015,7 +1018,8 @@ int autostart_disk(const char *file_name, const char *program_name,
 {
     char *name = NULL;
 
-    if (network_connected() || !file_name || !autostart_enabled)
+    if (network_connected() || event_record_active() || event_playback_active()
+        || !file_name || !autostart_enabled)
         return -1;
 
     /* Get program name first to avoid more than one file handle open on
@@ -1053,7 +1057,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     const char *boot_file_name;
     int mode;
 
-    if (network_connected()) {
+    if (network_connected() || event_record_active() || event_playback_active()) {
         return -1;
     }
 
@@ -1112,7 +1116,8 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 int autostart_autodetect(const char *file_name, const char *program_name,
                          unsigned int program_number, unsigned int runmode)
 {
-    if (network_connected() || file_name == NULL)
+    if (network_connected() || event_record_active() || event_playback_active()
+        || file_name == NULL)
         return -1;
 
     if (!autostart_enabled) {
@@ -1154,7 +1159,8 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 /* Autostart the image attached to device `num'.  */
 int autostart_device(int num)
 {
-    if (network_connected() || !autostart_enabled)
+    if (network_connected() || event_playback_active() || event_record_active()
+        || !autostart_enabled)
         return -1;
 
     switch (num) {
