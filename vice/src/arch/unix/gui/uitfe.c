@@ -39,7 +39,10 @@ UI_MENU_DEFINE_TOGGLE(ETHERNET_AS_RR)
 
 UI_CALLBACK(set_interface_name)
 {
-    uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), UILIB_FILTER_ETH);
+    /* FIXME: might actually make some sense to use the file browser on *nix systems which
+              actually DO have /dev/eth0. linux doesn't however */
+    /* uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), UILIB_FILTER_ETH); */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), _("Name:"));
 }
 
 ui_menu_entry_t tfe_submenu[] = {
