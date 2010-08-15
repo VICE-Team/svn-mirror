@@ -475,11 +475,15 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                 h -= (appshell->topmenu->allocation.height + appshell->status_bar->allocation.height);
 
                 if (ptry < (appshell->topmenu->allocation.height + MOUSE_WRAP_MARGIN)) {
-                    if (canvas->fullscreenconfig->enable == 0) {
-                        mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
-                    } else {
+#ifdef HAVE_FULLSCREEN
+                    if (canvas->fullscreenconfig->enable) {
                         mouse_lasteventy = h - ((MOUSE_WRAP_MARGIN + 10) *2); /* FIXME */
+                    } else {
+#endif
+                        mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
+#ifdef HAVE_FULLSCREEN
                     }
+#endif
                     y = mouse_lasteventy + appshell->topmenu->allocation.height;
                     warp = 1;
                 } else if (ptry > (h - MOUSE_WRAP_MARGIN)) {
@@ -1666,7 +1670,9 @@ void x11ui_fullscreen(int i)
 
 int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
+#ifdef HAVE_FULLSCREEN
     app_shell_type *appshell = &app_shells[canvas->app_shell];
+#endif
     int j;
 
     if (enable) {
