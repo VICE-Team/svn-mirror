@@ -34,6 +34,7 @@
 #include "alarm.h"
 #include "archdep.h"
 #include "attach.h"
+#include "autostart.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "crc32.h"
@@ -698,8 +699,10 @@ int event_record_start(void)
             return -1;
     }
 
-    if (record_active != 0)
+    if (record_active != 0 || autostart_in_progress())
+    {
         return -1;
+    }
 
     interrupt_maincpu_trigger_trap(event_record_start_trap, (void *)0);
 
@@ -853,11 +856,10 @@ static void event_playback_start_trap(WORD addr, void *data)
 
 int event_playback_start(void)
 {
-    if (record_active != 0)
+    if (record_active != 0 || playback_active != 0 || autostart_in_progress())
+    {
         return -1;
-
-    if (playback_active != 0)
-        return -1;
+    }
 
     interrupt_maincpu_trigger_trap(event_playback_start_trap, (void *)0);
 

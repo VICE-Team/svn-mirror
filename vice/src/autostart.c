@@ -1174,6 +1174,11 @@ int autostart_device(int num)
     return -1;
 }
 
+int autostart_in_progress(void)
+{
+    return (autostartmode != AUTOSTART_NONE && autostartmode != AUTOSTART_DONE);
+}
+
 /* Disable autostart on reset.  */
 void autostart_reset(void)
 {
