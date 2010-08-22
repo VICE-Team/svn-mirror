@@ -149,9 +149,9 @@ static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
             if (value & 0x20) {
                 flags |= CMODE_EXPORT_RAM;
             }
-            if (value & 4) {
-                ap_active = 0;
-            }
+        }
+        if (value & 4) {
+            ap_active = 0;
         }
 
         cartridge_config_changed((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags | CMODE_PHI2_RAM);
