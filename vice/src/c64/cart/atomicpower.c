@@ -77,6 +77,7 @@
 
     then Cart ROM (Bank 0..3) is mapped at 8000-9fff,
      and Cart RAM (Bank 0) is mapped at A000-bfff
+     and Cart RAM (Bank 0) is is enabled in io2 area
      using 16K Game config
 
     io2 (r/w)
@@ -135,7 +136,7 @@ static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
 
         bank = ((value >> 3) & 3);
         mode = (value & 3);
-        DBG(("io1 w %02x mode %d bank %d\n", value, mode, bank));
+        DBG(("io1 w %02x mode %d bank %d (np special: %s)\n", value, mode, bank, ((value & 0xe7) == 0x22)?"yes":"no"));
 
         if ((value & 0xe7) == 0x22) {
             mode = 1; /* 16k Game */
@@ -168,7 +169,7 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
 
     atomicpower_io2_device.io_source_valid = 1;
 
-    if (export_ram) {
+    if (export_ram || export_ram_at_a000) {
         return export_ram0[0x1f00 + (addr & 0xff)];
     }
 
@@ -191,7 +192,7 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
 static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value)
 {
     if (ap_active) {
-        if (export_ram) {
+        if (export_ram || export_ram_at_a000) {
             export_ram0[0x1f00 + (addr & 0xff)] = value;
         }
     }
