@@ -1525,6 +1525,7 @@ BEGIN
   IDS_MI_MAXIMUM_SPEED_CUSTOM     "&Custom"
   IDS_MI_TOGGLE_WARP_MODE         "&Warp mode"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Always on Top"
+  IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
   IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
   IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Swap &Joysticks"

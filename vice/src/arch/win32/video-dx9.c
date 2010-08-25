@@ -72,21 +72,20 @@ void video_shutdown_dx9(void)
 
 int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
 {
-    D3DPRESENT_PARAMETERS d3dpp;
     int device = D3DADAPTER_DEFAULT;
 
-    ZeroMemory(&d3dpp, sizeof(d3dpp));
-    d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-    d3dpp.BackBufferCount = 1;
-    d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
-    d3dpp.SwapEffect = D3DSWAPEFFECT_FLIP;
-    d3dpp.Flags = 0;
-    d3dpp.EnableAutoDepthStencil = FALSE;
-    d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+    ZeroMemory(&canvas->d3dpp, sizeof(canvas->d3dpp));
+    canvas->d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+    canvas->d3dpp.BackBufferCount = 1;
+    canvas->d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
+    canvas->d3dpp.SwapEffect = D3DSWAPEFFECT_FLIP;
+    canvas->d3dpp.Flags = 0;
+    canvas->d3dpp.EnableAutoDepthStencil = FALSE;
+    canvas->d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
     if (dx_primary_surface_rendering) {
-        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+        canvas->d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
     } else {
-        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+        canvas->d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
     }
 
     if (fullscreen) {
@@ -96,8 +95,6 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
         double canvas_aspect_ratio;
   
         GetCurrentModeParameters(&device, &width, &height, &bitdepth, &refreshrate);
-        if (height <= 0)
-            return -1;
 
         resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
         if (keep_aspect_ratio == 0) {
@@ -121,17 +118,17 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
                 canvas->dest_rect.bottom = canvas->dest_rect.top + shrinked_height - 1;
             }
         }
-        d3dpp.Windowed = FALSE;
-        d3dpp.BackBufferWidth = width;
-        d3dpp.BackBufferHeight = height;
+        canvas->d3dpp.Windowed = FALSE;
+        canvas->d3dpp.BackBufferWidth = width;
+        canvas->d3dpp.BackBufferHeight = height;
     } else {
         canvas->dest_rect_ptr = NULL;
-        d3dpp.Windowed = TRUE;
-        d3dpp.BackBufferWidth = canvas->width;
-        d3dpp.BackBufferHeight = canvas->height;
+        canvas->d3dpp.Windowed = TRUE;
+        canvas->d3dpp.BackBufferWidth = canvas->width;
+        canvas->d3dpp.BackBufferHeight = canvas->height;
     }
 
-    if (S_OK != IDirect3D9_CreateDevice(d3d, device, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &canvas->d3ddev)) {
+    if (S_OK != IDirect3D9_CreateDevice(d3d, device, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &canvas->d3dpp, &canvas->d3ddev)) {
         log_debug("video_dx9: Failed to create the DirectX9 device!");
         return -1;
     }
@@ -162,9 +159,6 @@ video_canvas_t *video_canvas_create_dx9(video_canvas_t *canvas, unsigned int *wi
     }
 
     video_canvas_add(canvas);
-    if (IsFullscreenEnabled()) {
-        SwitchToFullscreenMode(canvas->hwnd);
-    }
 
     return canvas;
 }
@@ -184,48 +178,52 @@ void video_device_release_dx9(video_canvas_t *canvas)
 HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
 {
     LPDIRECT3DSWAPCHAIN9 d3dsc;
-    D3DPRESENT_PARAMETERS d3dpp;
     HRESULT ddresult;
 
-    if (canvas->d3ddev == NULL || canvas->d3dsurface == NULL) {
+    if (canvas->d3ddev == NULL) {
         log_debug("video_dx9: Cannot reset canvas. Invalid D3D objects.");
         return -1;
     }
 
-    if (S_OK != IDirect3DSurface9_Release(canvas->d3dsurface) ||
-        S_OK != IDirect3DDevice9_GetSwapChain(canvas->d3ddev, 0, &d3dsc) ||
-        S_OK != IDirect3DSwapChain9_GetPresentParameters(d3dsc, &d3dpp) ||
-        S_OK != IDirect3DSwapChain9_Release(d3dsc)) {
+    if ((canvas->d3dsurface != NULL) 
+            && (S_OK != IDirect3DSurface9_Release(canvas->d3dsurface))
+        || S_OK != IDirect3DDevice9_GetSwapChain(canvas->d3ddev, 0, &d3dsc)
+        || S_OK != IDirect3DSwapChain9_Release(d3dsc))
+    {
         log_debug("video_dx9: Failed to release the DirectX9 device resources!");
-        return -1;
     }
     
     canvas->d3dsurface = NULL;
 
-    if (d3dpp.Windowed == 0) {
+    if (canvas->d3dpp.Windowed == 0) {
         int device, width, height, bitdepth, refreshrate;
 
         GetCurrentModeParameters(&device, &width, &height, &bitdepth, &refreshrate);
-        d3dpp.BackBufferWidth = width;
-        d3dpp.BackBufferHeight = height;
+        canvas->d3dpp.BackBufferWidth = width;
+        canvas->d3dpp.BackBufferHeight = height;
     } else {
-        d3dpp.BackBufferWidth = canvas->width;
-        d3dpp.BackBufferHeight = canvas->height;
+        canvas->d3dpp.BackBufferWidth = canvas->width;
+        canvas->d3dpp.BackBufferHeight = canvas->height;
     }
 
     if (dx_primary_surface_rendering) {
-        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+        canvas->d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
     } else {
-        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+        canvas->d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
     }
 
-    if (S_OK != (ddresult = IDirect3DDevice9_Reset(canvas->d3ddev, &d3dpp))) {
+    if (S_OK != (ddresult = IDirect3DDevice9_Reset(
+                                canvas->d3ddev,
+                                &canvas->d3dpp)))
+    {
         log_debug("video_dx9: Failed to reset the DirectX9 device!");
-        canvas->d3ddev = NULL;
-        return ddresult;
     }
     
-    if (S_OK != (ddresult = IDirect3DDevice9_CreateOffscreenPlainSurface(canvas->d3ddev, canvas->width, canvas->height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &canvas->d3dsurface, NULL))) {
+    if (S_OK != (ddresult = IDirect3DDevice9_CreateOffscreenPlainSurface(
+                                canvas->d3ddev, canvas->width, canvas->height,
+                                D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT,
+                                &canvas->d3dsurface, NULL)))
+    {
         log_debug("video_dx9: Failed to create new offscreen surface!");
         return ddresult;
     }
@@ -302,7 +300,9 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
         log_debug("video_dx9: StretchRect failed even without filtering!");
     }
 
-    if (S_OK != IDirect3DSurface9_Release(d3dbackbuffer) || S_OK != IDirect3DDevice9_EndScene(canvas->d3ddev)) {
+    if (S_OK != IDirect3DSurface9_Release(d3dbackbuffer) 
+        || S_OK != IDirect3DDevice9_EndScene(canvas->d3ddev))
+    {
         log_debug("video_dx9: EndScene failed!");
         return -1;
     }

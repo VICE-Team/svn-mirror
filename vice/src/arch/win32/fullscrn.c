@@ -45,16 +45,51 @@
 static int fullscreen_nesting_level = 0;
 static int dx_primary;
 static int keep_aspect_ratio, aspect_ratio;
+static int ui_setup_finished = 0;
 
-DirectDrawDeviceList *devices = NULL;
-DirectDrawModeList *modes = NULL;
+static DirectDrawDeviceList *devices = NULL;
+static DirectDrawModeList *modes = NULL;
+
+
+void fullscreen_setup_finished(void)
+{
+    ui_setup_finished = 1;
+
+    if (IsFullscreenEnabled() && number_of_windows > 0) {
+        /* Enable fullscreen mode for window of last canvas */
+        SwitchToFullscreenMode(window_handles[number_of_windows - 1]);
+    }
+}
+
+void fullscreen_devices_and_modes_free(void)
+{
+    DirectDrawModeList *m1, *m2;
+    DirectDrawDeviceList *d1, *d2;
+
+    m1 = modes;
+    while (m1 != NULL) {
+        m2 = m1->next;
+        lib_free(m1);
+        m1 = m2;
+    }
+    modes = NULL;
+
+    d1 = devices;
+    while (d1 != NULL) {
+        d2 = d1->next;
+        lib_free(d1->desc);
+        lib_free(d1);
+        d1 = d2;
+    }
+    devices = NULL;
+}
 
 int fullscreen_get_nesting_level(void)
 {
     return fullscreen_nesting_level;
 }
 
-void fullscreen_set_res_from_current_display(void)
+static void fullscreen_set_res_from_current_display(void)
 {
     int bitdepth, width, height, refreshrate;
 
@@ -88,41 +123,29 @@ static int fullscrn_res_valid(void)
 void fullscreen_getmodes(void)
 {
     if (video_dx9_enabled()) {
-        fullscreen_getmodes_dx9();
+        fullscreen_use_devices_dx9(&devices, &modes);
     } else {
-        fullscreen_getmodes_ddraw();
+        fullscreen_use_devices_ddraw(&devices, &modes);
     }
-}
-
-void ui_fullscreen_init(void)
-{
-    fullscreen_getmodes();
-
+    
     /* Use current display parameters if resources are not valid */
     if (fullscrn_res_valid() < 0) {
         fullscreen_set_res_from_current_display();
     }
 }
 
+void ui_fullscreen_init(void)
+{
+    fullscreen_getmodes_ddraw();
+    fullscreen_getmodes_dx9();
+}
+
 void ui_fullscreen_shutdown(void)
 {
-    DirectDrawModeList *m1, *m2;
-    DirectDrawDeviceList *d1, *d2;
-
-    m1 = modes;
-    while (m1 != NULL) {
-        m2 = m1->next;
-        lib_free(m1);
-        m1 = m2;
-    }
-
-    d1 = devices;
-    while (d1 != NULL) {
-        d2 = d1->next;
-        lib_free(d1->desc);
-        lib_free(d1);
-        d1 = d2;
-    }
+    fullscreen_use_devices_dx9(&devices, &modes);
+    fullscreen_devices_and_modes_free();
+    fullscreen_use_devices_ddraw(&devices, &modes);
+    fullscreen_devices_and_modes_free();
 }
 
 void GetCurrentModeParameters(int *device, int *width, int *height, int *bitdepth, int *refreshrate)
@@ -140,11 +163,19 @@ int IsFullscreenEnabled(void)
 
     resources_get_int("FullscreenEnabled", &b);
 
-    return b;
+    return (ui_setup_finished && b);
 }
 
 void SwitchToFullscreenMode(HWND hwnd)
 {
+    if (!ui_setup_finished)
+        return;
+
+    /* Check for valid fullscreen params */
+    if (fullscrn_res_valid() < 0) {
+        fullscreen_set_res_from_current_display();
+    }
+
     if (video_dx9_enabled()) {
         SwitchToFullscreenModeDx9(hwnd);
     } else {
@@ -154,6 +185,9 @@ void SwitchToFullscreenMode(HWND hwnd)
 
 void SwitchToWindowedMode(HWND hwnd)
 {
+    if (!ui_setup_finished)
+        return;
+
     if (video_dx9_enabled()) {
         SwitchToWindowedModeDx9(hwnd);
     } else {
@@ -528,6 +562,8 @@ static void init_fullscreen_dialog(HWND hwnd)
     int size;
     double fval;
     TCHAR newval[64];
+
+    fullscreen_getmodes();
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, fullscreen_dialog_trans);

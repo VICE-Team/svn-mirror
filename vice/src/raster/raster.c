@@ -586,10 +586,10 @@ void raster_shutdown(raster_t *raster)
     lib_free(raster->fake_draw_buffer_line);
     raster_canvas_shutdown(raster);
 
-    raster_resources_chip_shutdown(raster);
 
     video_color_palette_free(raster->canvas->palette);
     video_canvas_destroy(raster->canvas);
+    raster_resources_chip_shutdown(raster);
     raster_destroy_raster(raster);
 }
 

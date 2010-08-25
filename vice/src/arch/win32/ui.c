@@ -142,6 +142,7 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
+    { "DX9Disable", IDM_TOGGLE_DX9DISABLE },
     { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
     { "KeySetEnable", IDM_JOYKEYS_TOGGLE },
     { "JoyOpposite", IDM_ALLOW_JOY_OPPOSITE_TOGGLE },
@@ -391,6 +392,7 @@ int ui_init_finish(void)
 
 int ui_init_finalize(void)
 {
+    fullscreen_setup_finished();
     return 0;
 }
 
@@ -576,6 +578,8 @@ void ui_make_resizable(video_canvas_t *canvas, int enable)
         style &= ~WS_SIZEBOX;
     }
     SetWindowLong(canvas->hwnd, GWL_STYLE, style);
+    SetWindowPos(canvas->hwnd, NULL, 0, 0, 0, 0, 
+        SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 }
 
 void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
@@ -692,7 +696,6 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     wrect.right = wrect.left + width;
     wrect.bottom = wrect.top + height + statusbar_get_status_height();
     adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
-
     AdjustWindowRect(&wrect, adjust_style, TRUE);
     window_padding_x[window_index] = wrect.right - wrect.left - width;
     window_padding_y[window_index] = wrect.bottom - wrect.top - height;
@@ -1951,8 +1954,9 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             statusbar_notify(window, window_index, wparam, lparam);
             break;
         case WM_NCACTIVATE:
-            if (IsFullscreenEnabled() && fullscreen_get_nesting_level() == 0)
+            if (IsFullscreenEnabled() && fullscreen_get_nesting_level() == 0) {
                 return 0;
+            }
     }
 
     return DefWindowProc(window, msg, wparam, lparam);

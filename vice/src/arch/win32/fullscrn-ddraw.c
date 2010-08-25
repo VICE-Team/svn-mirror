@@ -63,6 +63,9 @@ static LPDIRECTDRAW DirectDrawObject;
 static LPDIRECTDRAW2 DirectDrawObject2;
 static float fullscreen_refreshrate_buffer = -1.0f;
 
+static DirectDrawDeviceList *ddraw_devices = NULL;
+static DirectDrawModeList *ddraw_modes = NULL;
+
 #define CHECK_DDRESULT(ddresult)                                     \
     {                                                                \
         if (ddresult != DD_OK) {                                     \
@@ -88,10 +91,10 @@ static BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescri
 
     new_device->desc = lib_stralloc(lpDriverDescription);
 
-    if (devices == NULL) {
-        devices = new_device;
+    if (ddraw_devices == NULL) {
+        ddraw_devices = new_device;
     } else {
-        search_device = devices;
+        search_device = ddraw_devices;
         while (search_device->next != NULL) {
             search_device = search_device->next;
         }
@@ -134,10 +137,10 @@ static HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
         new_mode->refreshrate = desc->u2.dwRefreshRate;
 #endif
     }
-    if (modes == NULL) {
-        modes = new_mode;
+    if (ddraw_modes == NULL) {
+        ddraw_modes = new_mode;
     } else {
-        search_mode = modes;
+        search_mode = ddraw_modes;
         while (search_mode->next != NULL) {
             search_mode = search_mode->next;
         }
@@ -156,8 +159,8 @@ void fullscreen_getmodes_ddraw(void)
     /*  Enumerate DirectDraw Devices */
     ddresult = DirectDrawEnumerate(DDEnumCallbackFunction, NULL);
 
-    /*  List all available modes for all available devices */
-    search_device = devices;
+    /*  List all available ddraw_modes for all available devices */
+    search_device = ddraw_devices;
     i = 0;
     while (search_device != NULL) {
         if (search_device->isNullGUID) {
@@ -189,7 +192,7 @@ static GUID *GetGUIDForActualDevice(int device)
 {
     DirectDrawDeviceList *search_device;
 
-    search_device = devices;
+    search_device = ddraw_devices;
     while (search_device != NULL) {
         if (device == 0) {
             if (search_device->isNullGUID) {
@@ -203,6 +206,17 @@ static GUID *GetGUIDForActualDevice(int device)
     }
     return NULL;
 }
+
+void fullscreen_use_devices_ddraw(DirectDrawDeviceList **devices,
+                                DirectDrawModeList **modes)
+{
+    if (ddraw_devices == NULL) {
+        fullscreen_getmodes_ddraw();
+    }
+    *devices = ddraw_devices;
+    *modes = ddraw_modes;
+}
+
 
 static HMENU old_menu;
 static RECT old_rect;
@@ -234,10 +248,10 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
 
     fullscreen_transition = 1;
 
-    //  Get fullscreen parameters
+    /*  Get fullscreen parameters */
     GetCurrentModeParameters(&device, &fullscreen_width, &fullscreen_height, &bitdepth, &refreshrate);
 
-    //  Get the Canvas for this window
+    /*  Get the Canvas for this window */
     c = video_canvas_for_hwnd(hwnd);
 
     memset(&desc2, 0, sizeof(desc2));
@@ -259,16 +273,16 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
 
     statusbar_destroy(hwnd);
 
-    //  Remove Window Styles
+    /*  Remove Window Styles */
     old_style = GetWindowLong(hwnd, GWL_STYLE);
     GetWindowRect(hwnd, &old_rect);
     SetWindowLong(hwnd, GWL_STYLE, old_style & ~WS_SYSMENU & ~WS_CAPTION);
 
-    //  Remove Menu
+    /*  Remove Menu */
     old_menu = GetMenu(hwnd);
     SetMenu(hwnd, NULL);
 
-    //  Cover screen with window
+    /*  Cover screen with window */
     wnow = GetSystemMetrics(SM_CXSCREEN);
     hnow = GetSystemMetrics(SM_CYSCREEN);
     w = (fullscreen_width > wnow) ? fullscreen_width : wnow;
@@ -281,13 +295,13 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
     ddresult = IDirectDraw_QueryInterface(c->dd_object, (GUID *)&IID_IDirectDraw2, (LPVOID *)&c->dd_object2);
 
-    //  Set cooperative level
+    /*  Set cooperative level */
     ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
 
-    //  Set Mode
+    /*  Set Mode */
     ddresult = IDirectDraw2_SetDisplayMode(c->dd_object2, fullscreen_width, fullscreen_height, bitdepth, refreshrate, 0);
 
-    //  Adjust window size
+    /*  Adjust window size */
     old_client_width = c->client_width;
     old_client_height = c->client_height;
     c->client_width = fullscreen_width;
@@ -338,7 +352,7 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
 
     fullscreen_transition = 1;
 
-    //  Get the Canvas for this window
+    /*  Get the Canvas for this window */
     c = video_canvas_for_hwnd(hwnd);
 
     IDirectDrawSurface_Release(c->temporary_surface);
@@ -351,7 +365,7 @@ void SwitchToWindowedModeDDraw(HWND hwnd)
     LockWindowUpdate(hwnd);
     SetWindowLong(hwnd, GWL_STYLE, old_style);
 
-    //  Restore Menu
+    /*  Restore Menu */
     SetMenu(hwnd,old_menu);
     ui_show_menu();
     SetWindowPos(hwnd, HWND_TOP, old_rect.left, old_rect.top, old_rect.right - old_rect.left, old_rect.bottom - old_rect.top, SWP_NOCOPYBITS);

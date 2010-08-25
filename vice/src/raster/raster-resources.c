@@ -119,5 +119,6 @@ void raster_resources_chip_shutdown(raster_t *raster)
 {
     video_resources_chip_shutdown(raster->canvas);
     lib_free(raster->raster_resource_chip);
+    video_canvas_shutdown(raster->canvas);
 }
 

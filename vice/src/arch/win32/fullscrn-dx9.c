@@ -44,6 +44,9 @@ static RECT old_rect;
 static DWORD old_style;
 static float old_refreshrate;
 
+static DirectDrawDeviceList *dx9_devices = NULL;
+static DirectDrawModeList *dx9_modes = NULL;
+
 void fullscreen_getmodes_dx9(void)
 {
     int adapter, numAdapter, mode, numAdapterModes;
@@ -59,10 +62,10 @@ void fullscreen_getmodes_dx9(void)
         new_device = lib_malloc(sizeof(DirectDrawDeviceList));
         new_device->next = NULL;
         new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
-        if (devices == NULL) {
-            devices = new_device;
+        if (dx9_devices == NULL) {
+            dx9_devices = new_device;
         } else {
-            search_device = devices;
+            search_device = dx9_devices;
             while (search_device->next != NULL) {
                 search_device = search_device->next;
             }
@@ -84,10 +87,10 @@ void fullscreen_getmodes_dx9(void)
                 new_mode->bitdepth = 32;
                 new_mode->refreshrate = displayMode.RefreshRate;
 
-                if (modes == NULL) {
-                    modes = new_mode;
+                if (dx9_modes == NULL) {
+                    dx9_modes = new_mode;
                 } else {
-                    search_mode = modes;
+                    search_mode = dx9_modes;
                     while (search_mode->next != NULL) {
                         search_mode = search_mode->next;
                     }
@@ -96,6 +99,16 @@ void fullscreen_getmodes_dx9(void)
             }
         }
     }
+}
+
+void fullscreen_use_devices_dx9(DirectDrawDeviceList **devices,
+                                DirectDrawModeList **modes)
+{
+    if (dx9_devices == NULL) {
+        fullscreen_getmodes_dx9();
+    }
+    *devices = dx9_devices;
+    *modes = dx9_modes;
 }
 
 void SwitchToFullscreenModeDx9(HWND hwnd)
@@ -180,6 +193,11 @@ void fullscreen_get_current_display_dx9(int *bitdepth, int *width, int *height, 
 /* some dummies for compilation without DirectX9 header */
 
 void fullscreen_getmodes_dx9(void)
+{
+}
+
+void fullscreen_use_devices_dx9(DirectDrawDeviceList **devices,
+                                DirectDrawModeList **modes)
 {
 }
 

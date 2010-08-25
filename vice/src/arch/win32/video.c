@@ -70,12 +70,40 @@ static int set_dx_primary_surface_rendering(int val, void *param)
 
 static int set_dx9_disable(int val, void *param)
 {
-    if (dx9_disable != val && video_number_of_canvases > 0) {
-        ui_error("Sorry. Cannot change video engine on the fly. Please restart emulator to change engine.");
-        return 0;
+    int i;
+    int old_dx9_disable, old_num_of_canvases;
+    int old_width[2], old_height[2];
+
+    old_dx9_disable = dx9_disable;
+    old_num_of_canvases = video_number_of_canvases;
+
+    if (old_dx9_disable != val) {
+        for (i = 0; i < video_number_of_canvases; i++) {       
+            old_width[i] = video_canvases[i]->width;
+            old_height[i] = video_canvases[i]->height;
+            if (old_dx9_disable) {
+                /* Anything to do here?? */
+            } else {
+                video_device_release_dx9(video_canvases[i]);
+            }
+        }
+
+        dx9_disable = val;
+        video_number_of_canvases = 0;
+
+        for (i = 0; i < old_num_of_canvases; i++) {
+            if (old_dx9_disable) {
+                video_canvas_create_dx9(video_canvases[i], &old_width[i], &old_height[i]);
+            } else {
+                video_canvas_create_ddraw(video_canvases[i], &old_width[i], &old_height[i]);
+            }
+            ui_canvas_child_window(video_canvases[i], old_dx9_disable);
+            ui_resize_canvas_window(video_canvases[i]);
+        }
+        
+        fullscreen_getmodes();
     }
 
-    dx9_disable = val;
     return 0;
 }
 
@@ -205,9 +233,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     }
 
     ui_open_canvas_window(canvas);
+    ui_canvas_child_window(canvas, video_dx9_enabled());
 
     if (video_dx9_enabled()) {
-        ui_canvas_child_window(canvas, 1);
         canvas_temp = video_canvas_create_dx9(canvas, width, height);
         if (canvas_temp == NULL) {
             log_debug("video: Falling back to DirectDraw canvas!");
@@ -232,7 +260,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
         }
         lib_free(canvas->title);
         canvas->title = NULL;
-        video_canvas_shutdown(canvas);
     }
 }
 
