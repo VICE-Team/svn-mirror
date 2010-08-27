@@ -7,7 +7,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 #define FILE_DESCRIPTION  "Vice C64 Emulator"
 
@@ -603,7 +605,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -612,7 +616,9 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K beállításai..."
   IDS_MI_C64_256K_SETTINGS "&256K beállításai..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -641,7 +647,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -650,7 +658,9 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
   IDS_MI_C64_256K_SETTINGS "&256K settings..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -667,7 +677,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -676,6 +688,6 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K ayarlarý..."
   IDS_MI_C64_256K_SETTINGS "&256K ayarlarý..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

@@ -6,7 +6,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 #define FILE_DESCRIPTION  "Vice PET Emulator"
 
@@ -713,7 +715,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -745,7 +749,9 @@ BEGIN
   IDS_MI_PETREU_SETTINGS         "PET &REU beállításai..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -820,7 +826,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -852,7 +860,9 @@ BEGIN
   IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -892,7 +902,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -924,4 +936,6 @@ BEGIN
   IDS_MI_PETREU_SETTINGS         "PET &REU ayarlarý..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif

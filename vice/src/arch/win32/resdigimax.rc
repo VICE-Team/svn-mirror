@@ -68,7 +68,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -76,7 +78,9 @@ BEGIN
   IDS_DIGIMAX_ENABLE  "Digimax &engedélyezése"
   IDS_DIGIMAX_BASE    "Digimax báziscíme"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -103,7 +107,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -111,7 +117,9 @@ BEGIN
   IDS_DIGIMAX_ENABLE  "&Enable digimax"
   IDS_DIGIMAX_BASE    "Digimax base address"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -127,7 +135,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -135,6 +145,6 @@ BEGIN
   IDS_DIGIMAX_ENABLE  "Digimax'ý aktif &et"
   IDS_DIGIMAX_BASE    "Digimax taban adresi"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

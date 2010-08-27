@@ -217,7 +217,9 @@ int main(int argc, char *argv[])
         for (i = 1; files[i].filename != NULL; i++) {
             fprintf(files[i].filehandle, "%s\n\n", files[i].title);
             if (files[i].pragma != NULL) {
+                fprintf(files[i].filehandle, "#ifndef WINDRES_CP_IGNORE\n");
                 fprintf(files[i].filehandle, "#pragma code_page(%s)\n", files[i].pragma);
+                fprintf(files[i].filehandle, "#endif\n");
             }
             fprintf(files[i].filehandle, "STRINGTABLE\n");
             fprintf(files[i].filehandle, "LANGUAGE %s, %s\n", files[i].lang, files[i].sublang);
@@ -328,7 +330,9 @@ int main(int argc, char *argv[])
         for (i = 0; files[i].filename != NULL; i++) {
             fprintf(files[i].filehandle, "END\n");
             if (files[i].pragma != NULL) {
+                fprintf(files[i].filehandle, "#ifndef WINDRES_CP_IGNORE\n");
                 fprintf(files[i].filehandle, "#pragma code_page(28591)\n");
+                fprintf(files[i].filehandle, "#endif\n");
             }
             fprintf(files[i].filehandle, "\n\n");
         }

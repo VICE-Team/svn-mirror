@@ -5,7 +5,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 // template of dialog for all languages
 
@@ -117,7 +119,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -131,7 +135,9 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE   "Teljes méret: %iKB"
     IDS_IDE64_SELECT_IMAGE "Válassza ki a merevlemez képmás fájlt"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -170,7 +176,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -184,7 +192,9 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
     IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -206,7 +216,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -220,6 +232,6 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE   "Toplam boyut: %iKB"
     IDS_IDE64_SELECT_IMAGE "HD imaj dosyasý seç"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

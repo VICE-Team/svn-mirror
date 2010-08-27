@@ -74,7 +74,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -83,7 +85,9 @@ BEGIN
   IDS_PLUS256K_FILE        "PLUS256K fájl"
   IDS_PLUS256K_SELECT_FILE "Válasszon fájlt a PLUS256K-hoz"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -112,7 +116,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -121,7 +127,9 @@ BEGIN
   IDS_PLUS256K_FILE        "PLUS256K file"
   IDS_PLUS256K_SELECT_FILE "Select file for PLUS256K"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -138,7 +146,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -147,6 +157,6 @@ BEGIN
   IDS_PLUS256K_FILE        "PLUS256K dosyasý"
   IDS_PLUS256K_SELECT_FILE "PLUS256K için dosya seçin"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

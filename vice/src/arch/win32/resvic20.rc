@@ -6,7 +6,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 #define FILE_DESCRIPTION  "Vice VIC20 Emulator"
 
@@ -710,7 +712,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -755,7 +759,9 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart NvRAM visszaírás engedélyezése"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Válassza ki az NvRAM képfájlt"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -856,7 +862,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -901,7 +909,9 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -954,7 +964,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -999,6 +1011,6 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

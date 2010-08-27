@@ -1907,6 +1907,24 @@ if test x"$is_win32" = "xyes"; then
             AC_MSG_WARN([WRC not found, WRC is required for propper internationalization support])
             WRC="$WINDRES"
         fi
+        dnl if windres is used, test for propper ISO codepage support
+        if test x"$WRC" = x"$WINDRES"; then
+          AC_MSG_CHECKING(if windres supports iso codepages)
+          rm -f test.rc test.res
+          echo >test.rc "#pragma code_page(29852)"
+          echo >>test.rc "STRINGTABLE"
+          echo >>test.rc "BEGIN"
+          echo >>test.rc "1, \"test\""
+          echo >>test.rc "END"
+          $WINDRES test.rc -o test.res 2>/dev/null
+          if test -e "test.res"; then
+            AC_MSG_RESULT(yes)
+          else
+            AC_DEFINE(WINDRES_CP_IGNORE,,[Have windres ignore code page pragmas])
+            AC_MSG_RESULT(no)
+          fi
+          rm -f test.rc test.res
+        fi
     else
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
     fi

@@ -5,7 +5,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 // template of dialog for all languages
 
@@ -70,14 +72,18 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL "Egér típusa"
   IDS_MOUSE_PORT_LABEL "Egér port"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -102,14 +108,18 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL "Mouse type"
   IDS_MOUSE_PORT_LABEL "Mouse port"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -124,13 +134,15 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL "Mouse tipi"
   IDS_MOUSE_PORT_LABEL "Mouse portu"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

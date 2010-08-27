@@ -6,7 +6,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 #define FILE_DESCRIPTION  "Vice 264 Series Emulator (C16/Plus4)"
 
@@ -582,7 +584,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -610,7 +614,9 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCHI       "Function felsõ képmás (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 beállításai..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -677,7 +683,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -705,7 +713,9 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -741,7 +751,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -769,6 +781,6 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCHI       "Function high imajý (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 ayarlarý..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

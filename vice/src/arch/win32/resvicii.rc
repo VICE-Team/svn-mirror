@@ -5,7 +5,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 // template of dialog for all languages
 
@@ -104,7 +106,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -118,7 +122,9 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-&háttér ütközések"
     IDS_VICII_LUMINANCE     "Új &fényerõk"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -157,7 +163,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -171,7 +179,9 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-background &collisions"
     IDS_VICII_LUMINANCE     "New &Luminances"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -193,7 +203,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -207,6 +219,6 @@ BEGIN
     IDS_VICII_BACKCOLL      "Yaratýk-arka plan ça&rpýþmalarý"
     IDS_VICII_LUMINANCE     "Yeni Par&laklýklar"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

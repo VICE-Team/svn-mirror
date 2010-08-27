@@ -7,7 +7,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -922,7 +924,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -979,7 +983,9 @@ BEGIN
   IDS_MI_IEEE488                "IEEE&488 interfész emuláció"
   IDS_MI_C128_SETTINGS          "C&128 beállításai..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -1104,7 +1110,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -1161,7 +1169,9 @@ BEGIN
   IDS_MI_IEEE488                "IEEE&488 Interface emulation"
   IDS_MI_C128_SETTINGS          "C&128 settings..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -1226,7 +1236,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -1283,6 +1295,6 @@ BEGIN
   IDS_MI_IEEE488                "IEEE&488 Arabirimi emülasyonu"
   IDS_MI_C128_SETTINGS          "C&128 ayarlarý..."
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

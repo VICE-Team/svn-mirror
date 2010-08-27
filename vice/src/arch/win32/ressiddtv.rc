@@ -5,7 +5,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 // template of dialog for all languages
 
@@ -137,7 +139,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -153,7 +157,9 @@ BEGIN
   IDS_HARDSID_GROUP      "Eszközök kiválasztása"
   IDS_HARDSID_LEFT_LABEL "Fõ eszköz"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -196,7 +202,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -212,7 +220,9 @@ BEGIN
   IDS_HARDSID_GROUP      "Device selection"
   IDS_HARDSID_LEFT_LABEL "Main device"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -236,7 +246,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -252,6 +264,6 @@ BEGIN
   IDS_HARDSID_GROUP      "Aygýt seçimi"
   IDS_HARDSID_LEFT_LABEL "Ana aygýt"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif

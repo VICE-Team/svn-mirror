@@ -5,7 +5,9 @@
 #include "res.h"
 #include "rescommon.h"
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 // template of dialog for all languages
 
@@ -76,7 +78,9 @@ END
 
 // HUNGARIAN text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
@@ -85,7 +89,9 @@ BEGIN
   IDS_EASYFLASH_AUTOSAVE "CRT mentése &leválasztáskor"
   IDS_EASYFLASH_SAVE_NOW "CRT mentése &most"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // ITALIAN text
@@ -114,7 +120,9 @@ END
 
 // POLISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28592)
+#endif
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
@@ -123,7 +131,9 @@ BEGIN
   IDS_EASYFLASH_AUTOSAVE "&Save CRT on detach"
   IDS_EASYFLASH_SAVE_NOW "Save CRT &now"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
+#endif
 
 
 // SWEDISH text
@@ -140,7 +150,9 @@ END
 
 // TURKISH text
 
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28599)
+#endif
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
@@ -149,6 +161,6 @@ BEGIN
   IDS_EASYFLASH_AUTOSAVE "Çýkartýldý e&snada CRT'yi kaydet"
   IDS_EASYFLASH_SAVE_NOW "CRT'yi heme&n kaydet"
 END
+#ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
-
-
+#endif
