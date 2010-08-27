@@ -137,7 +137,9 @@ void fullscreen_getmodes(void)
 void ui_fullscreen_init(void)
 {
     fullscreen_getmodes_ddraw();
-    fullscreen_getmodes_dx9();
+    if (video_dx9_enabled()) {
+        fullscreen_getmodes_dx9();
+    }
 }
 
 void ui_fullscreen_shutdown(void)
