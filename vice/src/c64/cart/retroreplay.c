@@ -676,6 +676,9 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
     retroreplay_filename = NULL;
 
     fd = fopen(filename, MODE_READ);
+    if(fd == NULL) {
+        return -1;
+    }
     len = util_file_length(fd);
     fclose(fd);
 
