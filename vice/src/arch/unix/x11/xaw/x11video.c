@@ -734,8 +734,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
         lib_free(canvas->fullscreenconfig);
     }
 #endif
-
-    video_canvas_shutdown(canvas);
 }
 
 int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)

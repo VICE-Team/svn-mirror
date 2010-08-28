@@ -151,8 +151,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
 #ifdef HAVE_HWSCALE
     lib_free(canvas->hwscale_image);
 #endif
-
-    video_canvas_shutdown(canvas);
 }
 
 /* set it, update if we know the endianness required by the image */
