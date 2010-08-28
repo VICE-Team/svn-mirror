@@ -213,8 +213,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
 
     // call UI thread to destroy canvas
     [[theVICEMachine app] destroyCanvas:data];
-
-    video_canvas_shutdown(canvas);
 }
 
 // VICE wants to change the size of the canvas -> adapt View

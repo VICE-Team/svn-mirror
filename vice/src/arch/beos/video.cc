@@ -221,7 +221,6 @@ void video_canvas_destroy(video_canvas_t *c)
         delete c->vicewindow;
     }
     lib_free(c->title);
-    video_canvas_shutdown(c);
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */

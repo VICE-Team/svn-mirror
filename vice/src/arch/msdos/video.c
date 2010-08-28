@@ -337,7 +337,6 @@ void video_canvas_destroy(video_canvas_t *canvas)
     }
 
     canvas_free_bitmaps(canvas);
-    video_canvas_shutdown(canvas);
 
     for (i = 0; i < MAX_CANVAS_NUM; i++) {
         if (canvaslist[i] == canvas) {

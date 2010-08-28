@@ -1196,7 +1196,6 @@ void video_canvas_destroy(video_canvas_t *s)
 
     video_frame_buffer_free(s, NULL);
 
-    video_canvas_shutdown(s);
 }
 
 void video_canvas_map(video_canvas_t *s)

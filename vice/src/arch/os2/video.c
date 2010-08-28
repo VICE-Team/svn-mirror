@@ -1637,7 +1637,6 @@ void video_canvas_destroy(video_canvas_t *c)
     // Free title and canvas structure
     //
     lib_free(c->title);
-    video_canvas_shutdown(c);
 
     //
     // Close Mutex Semaphore

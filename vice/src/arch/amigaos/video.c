@@ -1263,7 +1263,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 
         lib_free(canvas->os);
         canvas->os = NULL;
-        video_canvas_shutdown(canvas);
     }
 }
 
