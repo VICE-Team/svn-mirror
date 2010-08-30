@@ -144,8 +144,10 @@ void ui_fullscreen_init(void)
 
 void ui_fullscreen_shutdown(void)
 {
-    fullscreen_use_devices_dx9(&devices, &modes);
-    fullscreen_devices_and_modes_free();
+    if (video_dx9_available()) {
+        fullscreen_use_devices_dx9(&devices, &modes);
+        fullscreen_devices_and_modes_free();
+    }
     fullscreen_use_devices_ddraw(&devices, &modes);
     fullscreen_devices_and_modes_free();
 }

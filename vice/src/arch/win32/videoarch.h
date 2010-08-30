@@ -113,6 +113,7 @@ extern void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, in
 
 extern float video_refresh_rate(video_canvas_t *c);
 extern int video_dx9_enabled(void);
+extern int video_dx9_available(void);
 
 /* DDraw functions */
 extern video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *width, unsigned int *height);

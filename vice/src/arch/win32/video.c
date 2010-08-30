@@ -75,7 +75,7 @@ static int set_dx9_disable(int val, void *param)
     int old_width[2], old_height[2];
 
     if (!dx9_available) {
-        return;
+        return 0;
     }
 
     old_dx9_disable = dx9_disable;
@@ -183,6 +183,11 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 int video_dx9_enabled(void)
 {
     return (dx9_available && !dx9_disable);
+}
+
+int video_dx9_available(void)
+{
+    return dx9_available;
 }
 
 /* ------------------------------------------------------------------------ */
