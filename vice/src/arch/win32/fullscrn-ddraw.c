@@ -169,7 +169,7 @@ void fullscreen_getmodes_ddraw(void)
             ddresult = DirectDrawCreate(&search_device->guid, &DirectDrawObject, NULL);
         }
         CHECK_DDRESULT(ddresult);
-        ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject, ui_get_main_hwnd(), DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+        ddresult = IDirectDraw_SetCooperativeLevel(DirectDrawObject, ui_get_main_hwnd(), DDSCL_NORMAL);
         CHECK_DDRESULT(ddresult);
         ddresult = IDirectDraw_QueryInterface(DirectDrawObject, (GUID *)&IID_IDirectDraw2, (LPVOID *)&DirectDrawObject2);
         CHECK_DDRESULT(ddresult);
@@ -294,9 +294,6 @@ void SwitchToFullscreenModeDDraw(HWND hwnd)
     ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
     ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
     ddresult = IDirectDraw_QueryInterface(c->dd_object, (GUID *)&IID_IDirectDraw2, (LPVOID *)&c->dd_object2);
-
-    /*  Set cooperative level */
-    ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, c->hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
 
     /*  Set Mode */
     ddresult = IDirectDraw2_SetDisplayMode(c->dd_object2, fullscreen_width, fullscreen_height, bitdepth, refreshrate, 0);
