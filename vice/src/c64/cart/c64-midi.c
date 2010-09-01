@@ -108,6 +108,7 @@ static int set_midi_enabled(int val, void *param)
 static int midi_set_c64mode(int new_mode, void *param)
 {
     int old = midi_enabled;
+
     if (midi_mode != new_mode) {
         set_midi_enabled(0, NULL);
         switch (new_mode) {
@@ -127,9 +128,8 @@ static int midi_set_c64mode(int new_mode, void *param)
         export_res.cartid = midi_interface[new_mode].cartid;
         /* export_res.name = midi_interface[new_mode].name; */
         set_midi_enabled(old, NULL);
-        return midi_set_mode(new_mode, param);
     }
-    return 0;
+    return midi_set_mode(new_mode, param);
 }
 
 /* ---------------------------------------------------------------------*/

@@ -281,24 +281,24 @@ static void mididrv_alsa_out_close(void)
     }
     fd_out = -1;
 }
-  
+
 /** this function is called when one MIDI byte need to be transmitted.
     @param b MIDI byte
  */
 static void mididrv_alsa_out(BYTE b)
 {
     snd_seq_event_t ev;
-  
+
 #ifdef DEBUG
     log_message(mididrv_log, "alsa_out %02x", b);
 #endif
-      
+
     /* if ALSA MIDI has not been initialized, we skip transmission */
     if (!seq) {
         return;
     }
     snd_seq_ev_clear(&ev);        /* setup sequencer event */
-  
+
     /* add the MIDI byte to the event parser. */
     if (snd_midi_event_encode_byte(midi_event_parser, b, &ev) > 0) {
         /* the MIDI event is complete, fill out remaining details on the event */
@@ -369,7 +369,7 @@ static int mididrv_alsa_in(BYTE *b)
         *b = buf[bufI++];
         return 1;
     }
-    
+
     /* reset buf */
     bufI = eventSize = -1;
 
@@ -426,7 +426,7 @@ static int mididrv_alsa_in(BYTE *b)
         *b = buf[0];
         return 1;
     }
-    
+
     /* no MIDI available now */
     return 0;
 }
@@ -483,7 +483,7 @@ static void mididrv_alsa_init(void)
     /* create one MIDI port */
     port = snd_seq_create_simple_port(seq, "MIDI in/out",
                                       SND_SEQ_PORT_CAP_WRITE | SND_SEQ_PORT_CAP_SUBS_WRITE | SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ,
-                                      SND_SEQ_PORT_TYPE_APPLICATION);
+                                      SND_SEQ_PORT_TYPE_MIDI_GENERIC | SND_SEQ_PORT_TYPE_APPLICATION);
     if (port < 0) {
         log_error(mididrv_log, "could not create ALSA sequencer port");
         return;
@@ -686,4 +686,4 @@ int mididrv_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
-#endif
+#endif /* HAVE_MIDI */
