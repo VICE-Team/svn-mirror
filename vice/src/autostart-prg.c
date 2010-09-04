@@ -287,7 +287,7 @@ int autostart_prg_perform_injection(log_t log)
                 
     /* store data in emu memory */
     for (i = 0; i < prg->size; i++) {
-        mem_store((WORD)(prg->start_addr + i), prg->data[i]);
+        mem_inject((WORD)(prg->start_addr + i), prg->data[i]);
     }
     
     /* now simulate a basic load */

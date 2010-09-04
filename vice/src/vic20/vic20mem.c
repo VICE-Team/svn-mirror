@@ -642,6 +642,12 @@ int mem_rom_trap_allowed(WORD addr)
     return addr >= 0xe000;
 }
 
+void mem_inject(DWORD addr, BYTE value)
+{
+    /* just call mem_store(), otherwise expansions might fail */
+    mem_store(addr & 0xffff, value);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Banked memory access functions for the monitor */

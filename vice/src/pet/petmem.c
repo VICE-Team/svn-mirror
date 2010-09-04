@@ -812,6 +812,14 @@ void mem_set_basic_text(WORD start, WORD end)
     mem_ram[0x2b] = mem_ram[0x2d] = mem_ram[0x2f] = mem_ram[0xca] = end >> 8;
 }
 
+void mem_inject(DWORD addr, BYTE value)
+{
+    /* just call mem_store() to be safe.
+       This could possibly be changed to write straight into the
+       memory array.  mem_ram[addr & mask] = value; */
+    mem_store(addr & 0xffff, value);
+}
+
 /* ------------------------------------------------------------------------- */
 
 int mem_rom_trap_allowed(WORD addr)

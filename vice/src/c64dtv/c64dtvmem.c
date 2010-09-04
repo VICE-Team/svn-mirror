@@ -418,6 +418,11 @@ void mem_set_basic_text(WORD start, WORD end)
     mem_ram[0x2e] = mem_ram[0x30] = mem_ram[0x32] = mem_ram[0xaf] = end >> 8;
 }
 
+void mem_inject(DWORD addr, BYTE value)
+{
+    mem_ram[addr & 0x1fffff] = value;
+}
+
 /* ------------------------------------------------------------------------- */
 
 int mem_rom_trap_allowed(WORD addr)

@@ -31,6 +31,7 @@
 
 #include "types.h"
 
+
 typedef BYTE REGPARM1 read_func_t(WORD addr);
 typedef read_func_t *read_func_ptr_t;
 typedef void REGPARM2 store_func_t(WORD addr, BYTE value);
@@ -60,6 +61,13 @@ extern int mem_rom_trap_allowed(WORD addr);
 extern void mem_set_bank_pointer(BYTE **base, int *limit);
 extern void mem_color_ram_to_snapshot(BYTE *color_ram);
 extern void mem_color_ram_from_snapshot(BYTE *color_ram);
+
+/*
+ * DWORD addr allows injection on machines with more than 64Kb of RAM.
+ * Injection should be made to follow (mostly) how load would write to
+ * RAM on that machine.
+ */
+extern void mem_inject(DWORD addr, BYTE value);
 
 extern read_func_t rom_read, rom_trap_read, zero_read;
 extern store_func_t rom_store, rom_trap_store, zero_store;

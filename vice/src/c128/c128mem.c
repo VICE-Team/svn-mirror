@@ -811,6 +811,13 @@ void mem_set_basic_text(WORD start, WORD end)
     mem_ram[0x1211] = end >> 8;
 }
 
+void mem_inject(DWORD addr, BYTE value)
+{
+    /* this could be altered to handle more that 64 Kb in some
+       useful way */
+    mem_ram[addr & 0xffff] = value;
+}
+
 /* ------------------------------------------------------------------------- */
 
 int mem_rom_trap_allowed(WORD addr)
