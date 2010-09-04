@@ -154,7 +154,7 @@ static const cart_t cart_info[] = {
     {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Retro Replay", "retro", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "MMC64", "mmc64", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, "MMC Replay", "mmcr", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_64KB, 0x2000, 0x8000, 8, 0, "IDE64", "ide64", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "IDE64", "ide64", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Super Snapshot 4", "ss4", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0x8000, 1, 0, "IEEE488", "ieee", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, "Game Killer", "gk", save_regular_crt},

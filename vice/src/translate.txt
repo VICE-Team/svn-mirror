@@ -650,6 +650,9 @@ IDCLS_AUTODETECT_IDE64_GEOMETRY
 /* c64/cart/ide64.c */
 IDCLS_NO_AUTODETECT_IDE64_GEOMETRY
 
+/* c64/cart/ide64.c */
+IDCLS_IDE64_VERSION4
+
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_P_MODELNUMBER
 
