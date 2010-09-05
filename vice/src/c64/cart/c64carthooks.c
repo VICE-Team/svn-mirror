@@ -117,7 +117,6 @@
 #include "tpi.h"
 #include "types.h"
 #include "util.h"
-#include "vicii-phi1.h"
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"

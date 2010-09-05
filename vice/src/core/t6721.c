@@ -60,7 +60,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#define T6721DEBUG
+/* #define T6721DEBUG */
 
 #define WRITEWAVFILE 0 /* write "test.wav" containing all generated output */
 
@@ -633,7 +633,10 @@ static void set_eos(t6721_state *t6721, int eos)
 /* run chip for exactly one CPU/System Cycle */
 void t6721_update_tick(t6721_state *t6721)
 {
-    int res, i;
+    int res;
+#ifdef T6721DEBUG
+    int i;
+#endif
 
     /* once asserted, the EOS signal is generated for 20ms */
     if (t6721->eos_samples == 0) {

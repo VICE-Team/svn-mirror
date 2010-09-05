@@ -38,7 +38,6 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "types.h"
-#include "vicii-phi1.h"
 #include "util.h"
 
 /* #define DEBUGAP */

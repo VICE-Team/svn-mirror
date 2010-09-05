@@ -42,8 +42,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
-#include "vicii-mem.h"
-#include "vicii-phi1.h"
 
 /*
     Jason Ranheim "Capture" Cartridge
