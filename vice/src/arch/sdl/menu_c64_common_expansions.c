@@ -195,17 +195,22 @@ const ui_menu_entry_t georam_menu[] = {
 
 /* IDE64 CART MENU */
 
+UI_MENU_DEFINE_TOGGLE(IDE64version4)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image1)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image2)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image3)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image4)
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
-UI_MENU_DEFINE_TOGGLE(IDE64version4)
 UI_MENU_DEFINE_INT(IDE64Cylinders)
 UI_MENU_DEFINE_INT(IDE64Heads)
 UI_MENU_DEFINE_INT(IDE64Sectors)
 
 const ui_menu_entry_t ide64_menu[] = {
+    { "Cartridge version 4",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64version4_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("HD images"),
     { "IDE64 HD1 image file",
       MENU_ENTRY_DIALOG,
@@ -228,10 +233,6 @@ const ui_menu_entry_t ide64_menu[] = {
     { "Autodetect geometry",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IDE64AutodetectSize_callback,
-      NULL },
-    { "Cartridge version 4",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64version4_callback,
       NULL },
     { "Cylinders",
       MENU_ENTRY_RESOURCE_INT,

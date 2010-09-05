@@ -29,7 +29,6 @@
 
 #include "vice.h"
 
-#include "machine.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,6 +45,7 @@
 #include "ide64.h"
 #include "log.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -68,6 +68,9 @@
 #define IDE_ABRT 0x04
 #define IDE_TK0N 0x02
 #define IDE_AMNF 0x01
+
+/* Flag: cartridge enabled */
+static int ide64_enabled;
 
 /* Current IDE64 bank */
 static unsigned int current_bank;
@@ -176,15 +179,23 @@ static void ide64_reset(struct drive_t *cdrive)
     cdrive->ide_cmd = 0x00;
 }
 
-static int ide64_disk_attach(struct drive_t *cdrive) {
+static int ide64_disk_attach(struct drive_t *cdrive)
+{
+    if (!ide64_enabled) {
+        return 0;
+    }
 
     ide64_reset(cdrive);
 
-    if (cdrive->ide_disk != NULL) fclose(cdrive->ide_disk);
-    
+    if (cdrive->ide_disk != NULL) {
+        fclose(cdrive->ide_disk);
+    }
+
     cdrive->ide_disk = NULL;
 
-    if (!cdrive->ide64_image_file[0]) return 0;
+    if (!cdrive->ide64_image_file[0]) {
+        return 0;
+    }
 
     cdrive->ide_disk = fopen(cdrive->ide64_image_file, MODE_READ_WRITE);
 
@@ -398,7 +409,9 @@ static int set_autodetect_size(int val, void *param)
 
 static int set_version4(int val, void *param)
 {
-    if (settings_version4 != val) machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    if (settings_version4 != val) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
 
     settings_version4 = val;
 
@@ -459,7 +472,11 @@ int ide64_resources_init(void)
         return -1;
     }
 
-    for (i=0; i < 4; i++) drives[i].ide_disk = NULL;
+    for (i = 0; i < 4; i++) {
+        drives[i].ide_disk = NULL;
+    }
+
+    ide64_enabled = 0;
 
     return 0;
 }
@@ -470,11 +487,12 @@ int ide64_resources_shutdown(void)
 
     lib_free(ide64_configuration_string);
 
-    for (i=0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         if (drives[i].ide_disk != NULL) {
             lib_free(drives[i].ide64_image_file);
             drives[i].ide64_image_file = NULL;
         }
+    }
     ide64_configuration_string = NULL;
     return 0;
 }
@@ -605,36 +623,52 @@ static BYTE REGPARM1 ide64_io1_read(WORD addr)
                 default:
                     in_d030 = (WORD)vicii_read_phi1();
             }
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x21:
             in_d030 = cdrive->ide_error;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x22:
             in_d030 = cdrive->ide_sector_count;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x23:
             in_d030 = cdrive->ide_sector;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x24:
             in_d030 = cdrive->ide_cylinder_low;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x25:
             in_d030 = cdrive->ide_cylinder_high;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x26:
             in_d030 = cdrive->ide_head;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x27:
         case 0x2e:
             in_d030 = cdrive->ide_status;
-            if (settings_version4) return in_d030 & 0xff;
+            if (settings_version4) {
+                return in_d030 & 0xff;
+            }
             break;
         case 0x28:
         case 0x29:
@@ -646,15 +680,19 @@ static BYTE REGPARM1 ide64_io1_read(WORD addr)
             in_d030 = (WORD)vicii_read_phi1();
             break;
         case 0x30:
-            if (settings_version4) break;
+            if (settings_version4) {
+                break;
+            }
             return (unsigned char)in_d030;
         case 0x31:
             return in_d030 >> 8;
         case 0x32:
-            return (settings_version4?0x20:0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
+            return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
         case 0x5f:
             i = vicii_read_phi1();
-            if ((kill_port & 2) == 0) return i;
+            if ((kill_port & 2) == 0) {
+                return i;
+            }
             i &= ~1;
             ds1302_set_lines(ds1302_context, 1u, 0u, 1u);
             i |= ds1302_read_data_line(ds1302_context);
@@ -680,7 +718,9 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
 
     switch (addr & 0xff) {
         case 0x20:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             switch (cdrive->ide_cmd) {
                 case 0x30:
                 case 0xe8:
@@ -709,27 +749,39 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
             }
             return;
         case 0x21:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             drives[idrive & ~1].ide_features = drives[idrive | 1].ide_features = out_d030 & 0xff;
             return;
         case 0x22:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             drives[idrive & ~1].ide_sector_count = drives[idrive | 1].ide_sector_count = out_d030 & 0xff;
             return;
         case 0x23:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             drives[idrive & ~1].ide_sector = drives[idrive | 1].ide_sector = out_d030 & 0xff;
             return;
         case 0x24:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             drives[idrive & ~1].ide_cylinder_low = drives[idrive | 1].ide_cylinder_low = out_d030 & 0xff;
             return;
         case 0x25:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             drives[idrive & ~1].ide_cylinder_high = drives[idrive | 1].ide_cylinder_high = out_d030 & 0xff;
             return;
         case 0x26:
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             drives[idrive & ~1].ide_head = drives[idrive | 1].ide_head = out_d030 & 0xff;
             idrive = (idrive & ~1) | ((out_d030 >> 4) & 1);
             cdrive = &drives[idrive];
@@ -738,7 +790,9 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
             if (!cdrive->ide_disk) {
                 return; /* if image file exists? */
             }
-            if (settings_version4) out_d030 = value | (out_d030 & 0xff00);
+            if (settings_version4) {
+                out_d030 = value | (out_d030 & 0xff00);
+            }
             switch (out_d030 & 0xff) {
                 case 0x20:
                 case 0x21:
@@ -776,7 +830,7 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
                     break;
                 case 0x30:
                 case 0x31:
-	              cdrive->ide_status = (cdrive->ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
+                    cdrive->ide_status = (cdrive->ide_status & (~IDE_BSY) & (~IDE_DF) & (~IDE_DRQ) & (~IDE_ERR)) | IDE_DRDY;
 #ifdef IDE64_DEBUG
                     if (cdrive->ide_head & 0x40) {
                         log_debug("IDE64 %d WRITE (%d)*%d", idrive, (cdrive->ide_cylinder_low << 8) | (cdrive->ide_cylinder_high << 16) |
@@ -900,26 +954,36 @@ aborted_command:
             drives[idrive | 1].ide_control = value;
             return;
         case 0x30:
-            if (settings_version4) return;
+            if (settings_version4) {
+                return;
+            }
             out_d030 = (out_d030 & 0xff00) | value;
             return;
         case 0x31:
             out_d030 = (out_d030 & 0x00ff) | (value << 8);
             return;
         case 0x32:
-            if (settings_version4) break;
+            if (settings_version4) {
+                break;
+            }
             current_bank = 0;
             break;
         case 0x33:
-            if (settings_version4) break;
+            if (settings_version4) {
+                break;
+            }
             current_bank = 1;
             break;
         case 0x34:
-            if (settings_version4) break;
+            if (settings_version4) {
+                break;
+            }
             current_bank = 2;
             break;
         case 0x35:
-            if (settings_version4) break;
+            if (settings_version4) {
+                break;
+            }
             current_bank = 3;
             break;
         case 0x5f:
@@ -930,28 +994,44 @@ aborted_command:
             ds1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
             return;
         case 0x60:
-            if (settings_version4) current_bank = 0;
+            if (settings_version4) {
+                current_bank = 0;
+            }
             break;
         case 0x61:
-            if (settings_version4) current_bank = 1;
+            if (settings_version4) {
+                current_bank = 1;
+            }
             break;
         case 0x62:
-            if (settings_version4) current_bank = 2;
+            if (settings_version4) {
+                current_bank = 2;
+            }
             break;
         case 0x63:
-            if (settings_version4) current_bank = 3;
+            if (settings_version4) {
+                current_bank = 3;
+            }
             break;
         case 0x64:
-            if (settings_version4) current_bank = 4;
+            if (settings_version4) {
+                current_bank = 4;
+            }
             break;
         case 0x65:
-            if (settings_version4) current_bank = 5;
+            if (settings_version4) {
+                current_bank = 5;
+            }
             break;
         case 0x66:
-            if (settings_version4) current_bank = 6;
+            if (settings_version4) {
+                current_bank = 6;
+            }
             break;
         case 0x67:
-            if (settings_version4) current_bank = 7;
+            if (settings_version4) {
+                current_bank = 7;
+            }
             break;
         case 0xfb:
             if (((kill_port & 0x02) == 0) && (value & 0x02)) {
@@ -1045,11 +1125,14 @@ void ide64_detach(void)
         ds1302_context = NULL;
     }
 
-    for (i = 0; i < 4; i++) 
+    for (i = 0; i < 4; i++) {
         if (drives[i].ide_disk != NULL) {
             fclose(drives[i].ide_disk);
             drives[i].ide_disk = NULL;
+        }
     }
+
+    ide64_enabled = 0;
 
     c64io_unregister(ide64_list_item);
     ide64_list_item = NULL;
@@ -1061,9 +1144,12 @@ void ide64_detach(void)
 static int ide64_common_attach(void)
 {
     int i;
+
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
+
+    ide64_enabled = 1;
 
     if (ds1302_context != NULL) {
         ds1302_destroy(ds1302_context);
@@ -1105,7 +1191,9 @@ int ide64_crt_attach(FILE *fd, BYTE *rawcart)
 
     for (i = 0; i <= 7; i++) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
-            if (i == 4) break;
+            if (i == 4) {
+                break;
+            }
             return -1;
         }
 
