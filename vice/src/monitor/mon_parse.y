@@ -71,6 +71,7 @@ extern char *alloca();
 #include "mon_command.h"
 #include "mon_disassemble.h"
 #include "mon_drive.h"
+#include "mon_fallback.h"
 #include "mon_file.h"
 #include "mon_memory.h"
 #include "mon_util.h"
@@ -799,7 +800,8 @@ void parse_and_execute_line(char *input)
    temp_buf[i++] = '\0';
 
    make_buffer(temp_buf);
-   if ( (rc =yyparse()) != 0) {
+   rc = yyparse();
+   if (rc && fallback_parse(input)) {
        mon_out("ERROR -- ");
        switch(rc) {
          case ERR_BAD_CMD:

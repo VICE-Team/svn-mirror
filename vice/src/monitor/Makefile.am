@@ -30,6 +30,8 @@ libmonitor_a_SOURCES = \
 	mon_disassemble.h \
 	mon_drive.c \
 	mon_drive.h \
+	mon_fallback.c \
+	mon_fallback.h \
 	mon_file.c \
 	mon_file.h \
 	mon_memory.c \
