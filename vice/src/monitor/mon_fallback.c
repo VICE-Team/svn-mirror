@@ -31,6 +31,7 @@
 #include "mon_disassemble.h"
 #include "mon_memory.h"
 #include "monitor.h"
+#include "montypes.h"
 
 
 /* undefine to remove the experimental fallback parser. */
@@ -40,7 +41,7 @@
 static char *skip_ws(char *str)
 {
     /* skip white space */
-    while( isspace(*str) ) {
+    while( *str && isspace(*str) ) {
         *str++;
     }
     return str;
@@ -56,6 +57,9 @@ static char *get_hex(char *str, int n, int *val)
         char c;
         int t = 0;
         str = skip_ws(str);
+        if (*str == 0) 
+            break;
+
         c = tolower(*str);
         if (c >= '0' && c <= '9') {
             t = c - '0';
