@@ -42,7 +42,7 @@ static char *skip_ws(char *str)
 {
     /* skip white space */
     while( *str && isspace(*str) ) {
-        *str++;
+        str++;
     }
     return str;
 }
@@ -57,8 +57,9 @@ static char *get_hex(char *str, int n, int *val)
         char c;
         int t = 0;
         str = skip_ws(str);
-        if (*str == 0) 
+        if (*str == 0) {
             break;
+        }
 
         c = tolower(*str);
         if (c >= '0' && c <= '9') {
@@ -101,7 +102,7 @@ static char *may_get_range(char *str, MON_ADDR *a1, MON_ADDR *a2)
 
 
 #ifndef HAVE_FALLBACK_PARSER
-int_fallback_parse(char *str)
+int fallback_parse(char *str)
 {
     return 1;
 }
