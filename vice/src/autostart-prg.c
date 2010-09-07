@@ -49,8 +49,8 @@ static autostart_prg_t *inject_prg;
 
 static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, log_t log)
 {
-    WORD ptr;
-    int  end;
+    DWORD ptr;
+    DWORD end;
     BYTE lo,hi;
     int  i;
     autostart_prg_t *prg;
