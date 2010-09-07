@@ -371,7 +371,7 @@ WFileName
 11
 c64cart.tgt
 0
-5
+0
 88
 VComponent
 89
@@ -888,8 +888,8 @@ vicii.tgt
 VComponent
 185
 WRect
-500
-480
+2490
+160
 5700
 4280
 1
@@ -1097,7 +1097,7 @@ VComponent
 224
 WRect
 3090
-1186
+1173
 5700
 4280
 1

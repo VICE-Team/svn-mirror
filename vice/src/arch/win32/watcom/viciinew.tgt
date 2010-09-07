@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-156
-.;..;..\..\..;..\..\..\raster;..\..\..\c64;..\..\..\c64dtv;..\..\..\viciinew;..\..\..\raster;..\..\..\monitor;..\..\..\c64\cart;$(%watcom)\h;$(%watcom)\h\nt
+155
+.;..;..\..\..;..\..\..\raster;..\..\..\c64;..\..\..\c64dtv;..\..\..\viciisc;..\..\..\raster;..\..\..\monitor;..\..\..\c64\cart;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 WVList
@@ -79,8 +79,8 @@ WVList
 0
 19
 MItem
-36
-..\..\..\viciinew\vicii-chip-model.c
+35
+..\..\..\viciisc\vicii-chip-model.c
 20
 WString
 4
@@ -97,8 +97,8 @@ WVList
 0
 23
 MItem
-31
-..\..\..\viciinew\vicii-cycle.c
+30
+..\..\..\viciisc\vicii-cycle.c
 24
 WString
 4
@@ -115,8 +115,8 @@ WVList
 0
 27
 MItem
-36
-..\..\..\viciinew\vicii-draw-cycle.c
+35
+..\..\..\viciisc\vicii-draw-cycle.c
 28
 WString
 4
