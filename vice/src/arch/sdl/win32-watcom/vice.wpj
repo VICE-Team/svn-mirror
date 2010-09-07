@@ -371,13 +371,13 @@ WFileName
 11
 c64cart.tgt
 0
-5
+0
 88
 VComponent
 89
 WRect
 1630
-586
+573
 5700
 4280
 1
@@ -969,7 +969,7 @@ VComponent
 200
 WRect
 1400
-826
+813
 5700
 4280
 1
@@ -1289,7 +1289,7 @@ VComponent
 260
 WRect
 750
-733
+720
 5700
 4280
 1
@@ -1300,4 +1300,4 @@ WFileName
 residdtv.tgt
 0
 0
-85
+247

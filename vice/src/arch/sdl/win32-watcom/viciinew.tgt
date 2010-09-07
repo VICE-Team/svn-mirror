@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-185
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../sid;../../../viciinew;../../../drive;../../../raster;../../../c64;../../../raster;../../../monitor;../../../tape;../../../c64/cart"
+184
+"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../sid;../../../viciisc;../../../drive;../../../raster;../../../c64;../../../raster;../../../monitor;../../../tape;../../../c64/cart"
 0
 18
 MRState
@@ -127,8 +127,8 @@ WVList
 0
 31
 MItem
-36
-..\..\..\viciinew\vicii-chip-model.c
+35
+..\..\..\viciisc\vicii-chip-model.c
 32
 WString
 4
@@ -145,8 +145,8 @@ WVList
 0
 35
 MItem
-31
-..\..\..\viciinew\vicii-cycle.c
+30
+..\..\..\viciisc\vicii-cycle.c
 36
 WString
 4
@@ -163,8 +163,8 @@ WVList
 0
 39
 MItem
-36
-..\..\..\viciinew\vicii-draw-cycle.c
+35
+..\..\..\viciisc\vicii-draw-cycle.c
 40
 WString
 4
