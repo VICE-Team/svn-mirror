@@ -303,11 +303,15 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                     h -= menu_h;
 
                     if (ptry < (MOUSE_WRAP_MARGIN)) {
+#ifdef HAVE_FULLSCREEN
                         if (canvas->fullscreenconfig->enable == 0) {
                             mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
                         } else {
                             mouse_lasteventy = h - ((MOUSE_WRAP_MARGIN + 10) *2);
                         }
+#else
+                        mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
+#endif
                         y = mouse_lasteventy;
                         warp = 1;
                     } else if (ptry > (h - MOUSE_WRAP_MARGIN)) {
