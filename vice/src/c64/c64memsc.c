@@ -907,12 +907,12 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
-                       when needed. doing this without checking is wrong, but we do it anyways to
-                       avoid side effects
-            */
-            if ((addr >= 0xd000) && (addr < 0xe000)) {
-                return peek_bank_io(addr);
+             /* we must check for which bank is currently active, and only use peek_bank_io
+                when needed to avoid side effects */
+            if (((mem_config & 7) > 0x04) || ((mem_config & 0x18)  == 0x10)) {
+                if ((addr >= 0xd000) && (addr < 0xe000)) {
+                    return peek_bank_io(addr);
+                }
             }
             return mem_read(addr);
             break;
