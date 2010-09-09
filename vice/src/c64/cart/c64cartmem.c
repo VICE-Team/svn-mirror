@@ -1053,19 +1053,11 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
 /* FIXME: only works for cart in main slot */
 BYTE cartridge_peek_mem(WORD addr)
 {
-    if (addr >= 0x8000 && addr <= 0x9fff) {
-        return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+    /* "Main Slot" */
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_peek_mem(addr);
     }
-
-    if (!export.exrom && export.game) {
-        if (addr >= 0xe000 && addr <= 0xffff) {
-            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
-        }
-    } else {
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
-        }
-    }
-
-    return mem_ram[addr];
+    /* use default cartridge */
+    return generic_peek_mem(addr);
 }

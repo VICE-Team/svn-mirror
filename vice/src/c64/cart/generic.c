@@ -31,6 +31,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64mem.h"
 #include "cartridge.h"
 #include "crt.h"
 #include "generic.h"
@@ -252,3 +253,24 @@ BYTE REGPARM1 generic_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
+BYTE generic_peek_mem(WORD addr)
+{
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        if (export_ram) {
+            return export_ram0[addr & 0x1fff];
+        }
+        return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+    }
+
+    if (!export.exrom && export.game) {
+        if (addr >= 0xe000 && addr <= 0xffff) {
+            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+        }
+    } else {
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+        }
+    }
+
+    return ram_read(addr);
+}

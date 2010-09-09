@@ -34,6 +34,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64mem.h"
 #include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -487,6 +488,22 @@ BYTE REGPARM1 retroreplay_romh_read(WORD addr)
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
 }
 
+BYTE retroreplay_peek_mem(WORD addr)
+{
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        return retroreplay_roml_read(addr);
+    }
+    if (!export.exrom && export.game) {
+        if (addr >= 0xe000 && addr <= 0xffff) {
+            return retroreplay_romh_read(addr);
+        }
+    } else {
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return retroreplay_romh_read(addr);
+        }
+    }
+    return ram_read(addr);
+}
 /* ---------------------------------------------------------------------*/
 
 void retroreplay_freeze(void)
