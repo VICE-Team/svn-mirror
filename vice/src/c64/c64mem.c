@@ -973,7 +973,7 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
         case 0:                   /* current */
              /* we must check for which bank is currently active, and only use peek_bank_io
                 when needed to avoid side effects */
-            if (((mem_config & 7) > 0x04) || ((mem_config & 0x18)  == 0x10)) {
+            if (c64meminit_io_config[mem_config]) {
                 if ((addr >= 0xd000) && (addr < 0xe000)) {
                     return peek_bank_io(addr);
                 }
