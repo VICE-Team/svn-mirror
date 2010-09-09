@@ -341,7 +341,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 128 "mon_parse.y"
+#line 127 "mon_parse.y"
 
     MON_ADDR a;
     MON_ADDR range[2];
