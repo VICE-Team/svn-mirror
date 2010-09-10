@@ -109,11 +109,13 @@ static GtkWidget *last_drive_menus[NUM_DRIVES];
 #ifdef USE_XF86_EXTENSIONS
 #include <gdk/gdkx.h>
 #include "x11ui.h"
+#endif
 
+/* #ifdef USE_XF86_EXTENSIONS */
 static Display *display;
 int screen;
 static int depth;
-#endif
+/* #endif */
 
 #if !GTK_CHECK_VERSION(2, 12, 0)
 static void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
