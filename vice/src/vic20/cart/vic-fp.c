@@ -452,10 +452,11 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
     snapshot_module_close(m);
 
     if ((flash040core_snapshot_read_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
-        lib_free(flash_state.flash_data);
         flash040core_shutdown(&flash_state);
         lib_free(cart_ram);
+        lib_free(cart_rom);
         cart_ram = NULL;
+        cart_rom = NULL;
         return -1;
     }
 

@@ -762,20 +762,22 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
         || (SMR_BA(m, cart_ram, CART_RAM_SIZE) < 0)
         || (SMR_BA(m, flash_state.flash_data, CART_ROM_SIZE) < 0)) {
         snapshot_module_close(m);
-        lib_free(flash_state.flash_data);
         flash040core_shutdown(&flash_state);
         lib_free(cart_ram);
+        lib_free(cart_flash);
         cart_ram = NULL;
+        cart_flash = NULL;
         return -1;
     }
 
     snapshot_module_close(m);
 
     if ((flash040core_snapshot_read_module(s, &flash_state, FLASH_SNAP_MODULE_NAME) < 0)) {
-        lib_free(flash_state.flash_data);
         flash040core_shutdown(&flash_state);
         lib_free(cart_ram);
+        lib_free(cart_flash);
         cart_ram = NULL;
+        cart_flash = NULL;
         return -1;
     }
 
