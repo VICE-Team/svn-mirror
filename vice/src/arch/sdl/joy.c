@@ -253,9 +253,9 @@ static const cmdline_option_t joydev2cmdline_options[] = {
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
-    {"-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
-     USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-     "<0-4>", "Set device for extra joystick port 1" },
+    { "-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-4>", "Set device for extra joystick port 1" },
     { NULL }
 };
 
@@ -637,7 +637,7 @@ static void joy_arch_parse_entry(char *buffer)
     int joynum, inputindex, data1, data2;
     sdljoystick_input_t inputtype;
     sdljoystick_action_t action;
- 
+
     p = strtok(buffer, " \t:");
 
     joynum = atoi(p);
@@ -741,7 +741,7 @@ int joy_arch_mapping_load(const char *filename)
 
             /* remove comments */
             if ((p = strchr(buffer, '#'))) {
-                *p=0;
+                *p = 0;
             }
 
             switch (*buffer) {
@@ -786,6 +786,30 @@ static inline BYTE sdljoy_axis_direction(Sint16 value, BYTE prev)
     return prev;
 }
 
+static inline BYTE sdljoy_hat_direction(Uint8 value, BYTE prev)
+{
+    BYTE b;
+
+    b = (value ^ prev) & value;
+    b &= SDL_HAT_UP | SDL_HAT_DOWN | SDL_HAT_LEFT | SDL_HAT_RIGHT;
+
+    switch (b) {
+        case SDL_HAT_UP:
+            return 1;
+        case SDL_HAT_DOWN:
+            return 2;
+        case SDL_HAT_LEFT:
+            return 3;
+        case SDL_HAT_RIGHT:
+            return 4;
+        default:
+            /* ignore diagonals and releases */
+            break;
+    }
+
+    return 0;
+}
+
 static sdljoystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
 {
     sdljoystick_mapping_t *retval = NULL;
@@ -794,9 +818,16 @@ static sdljoystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
     switch (e.type) {
         case SDL_JOYAXISMOTION:
             cur = sdljoy_axis_direction(e.jaxis.value, 0);
-            if (cur>0) {
+            if (cur > 0) {
                 --cur;
                 retval = &(sdljoystick[e.jaxis.which].input[AXIS][e.jaxis.axis * input_mult[AXIS] + cur]);
+            }
+            break;
+        case SDL_JOYHATMOTION:
+            cur = sdljoy_hat_direction(e.jhat.value, 0);
+            if (cur > 0) {
+                --cur;
+                retval = &(sdljoystick[e.jhat.which].input[HAT][e.jhat.hat * input_mult[HAT] + cur]);
             }
             break;
         case SDL_JOYBUTTONDOWN:
@@ -923,6 +954,31 @@ BYTE sdljoy_check_axis_movement(SDL_Event e)
     return cur;
 }
 
+BYTE sdljoy_check_hat_movement(SDL_Event e)
+{
+    BYTE cur, prev;
+    int index;
+    Uint8 joynum;
+    Uint8 hat;
+    Uint8 value;
+
+    joynum = e.jhat.which;
+    hat = e.jhat.hat;
+    value = e.jhat.value;
+
+    index = hat * input_mult[HAT];
+    prev = sdljoystick[joynum].input[HAT][index].prev;
+
+    if (value == prev) {
+        return 0;
+    }
+
+    cur = sdljoy_hat_direction(value, prev);
+
+    sdljoystick[joynum].input[HAT][index].prev = value;
+    return cur;
+}
+
 ui_menu_action_t sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value)
 {
     BYTE cur, prev;
@@ -971,7 +1027,7 @@ ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
     int index;
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
-    index = hat*input_mult[HAT];
+    index = hat * input_mult[HAT];
     prev = sdljoystick[joynum].input[HAT][index].prev;
 
     if (value == prev) {

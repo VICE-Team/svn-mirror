@@ -99,8 +99,12 @@ SDL_Event sdl_ui_poll_event(const char *what, const char *target, int options, i
                     break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
                 case SDL_JOYBUTTONDOWN:
-                case SDL_JOYHATMOTION:
                     if (allow_joystick) {
+                        polling = 0;
+                    }
+                    break;
+                case SDL_JOYHATMOTION:
+                    if (allow_joystick && (sdljoy_check_hat_movement(e) != 0)) {
                         polling = 0;
                     }
                     break;
