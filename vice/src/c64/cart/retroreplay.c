@@ -455,7 +455,7 @@ void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
     }
 }
 
-int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
+int REGPARM2 retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
 {
 /*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
     if (rr_hw_flashjumper) {
@@ -488,7 +488,7 @@ BYTE REGPARM1 retroreplay_romh_read(WORD addr)
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
 }
 
-BYTE retroreplay_peek_mem(WORD addr)
+BYTE REGPARM1 retroreplay_peek_mem(WORD addr)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         return retroreplay_roml_read(addr);

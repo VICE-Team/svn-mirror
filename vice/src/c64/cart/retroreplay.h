@@ -33,7 +33,7 @@
 
 extern BYTE REGPARM1 retroreplay_roml_read(WORD addr);
 extern void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value);
-extern int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value);
+extern int REGPARM2 retroreplay_roml_no_ultimax_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 retroreplay_romh_read(WORD addr);
 extern BYTE REGPARM1 retroreplay_peek_mem(WORD addr);
 
