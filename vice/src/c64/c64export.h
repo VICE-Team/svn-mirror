@@ -47,7 +47,7 @@ typedef struct export_list_s {
 
 /* returns head of list if param is NULL, else the next item */
 extern export_list_t *c64export_query_list(export_list_t *item);
-void c64export_dump(void);
+extern void c64export_dump(void);
 
 extern int c64export_add(const c64export_resource_t *export_res);
 extern int c64export_remove(const c64export_resource_t *export_res);

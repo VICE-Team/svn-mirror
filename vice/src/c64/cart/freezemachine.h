@@ -39,6 +39,6 @@ extern void freezemachine_detach(void);
 extern void freezemachine_freeze(void);
 extern void freezemachine_reset(void);
 
-BYTE REGPARM1 freezemachine_roml_read(WORD addr);
+extern BYTE REGPARM1 freezemachine_roml_read(WORD addr);
 
 #endif

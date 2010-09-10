@@ -151,6 +151,6 @@ extern int ym3526_timer_over(FM_OPL *chip, int c);
  * '*buffer' is the output buffer pointer
  * 'length' is the number of samples that should be generated
  */
-void ym3526_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length);
+extern void ym3526_update_one(FM_OPL *chip, OPLSAMPLE *buffer, int length);
 
 #endif /* VICE_FMOPL_H */

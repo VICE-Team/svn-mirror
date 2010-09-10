@@ -45,9 +45,9 @@ extern void generic_8kb_detach(void);
 extern void generic_16kb_detach(void);
 extern void generic_ultimax_detach(void);
 
-BYTE REGPARM1 generic_roml_read(WORD addr);
-void REGPARM2 generic_roml_store(WORD addr, BYTE value);
-BYTE REGPARM1 generic_romh_read(WORD addr);
-BYTE generic_peek_mem(WORD addr);
+extern BYTE REGPARM1 generic_roml_read(WORD addr);
+extern void REGPARM2 generic_roml_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 generic_romh_read(WORD addr);
+extern BYTE generic_peek_mem(WORD addr);
 
 #endif
