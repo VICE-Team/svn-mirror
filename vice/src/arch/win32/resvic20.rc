@@ -635,7 +635,7 @@ BEGIN
     IDS_SELECT_GENERIC                "Universelle Image Datei wählen"
     IDS_SELECT_MEGACART               "Mega-Cart Image Date wählen"
     IDS_SELECT_FINAL_EXPANSION        "Final Expansion Image Datei auswählen"
-    IDS_SELECT_FP                     "Select Vic Flash Plugin image"
+    IDS_SELECT_FP                     "Vic Flash Plugin Image auswählen"
     IDS_SELECT_CARTRIDGE_IMAGE        "Erweiterungsmodul Image Datei wählen"
     IDS_ATTACH_4_8_16_CART_2000       "4/8/16KB Modul Image bei $2000 einlegen"
     IDS_ATTACH_4_8_16_CART_4000       "4/8/16KB Modul Image bei $4000 einlegen"
@@ -647,7 +647,7 @@ BEGIN
     IDS_MI_CART_VIC20_GENERIC         "Generisches Image..."
     IDS_MI_CART_VIC20_MEGACART        "Mega-Cart Image..."
     IDS_MI_CART_VIC20_FINAL_EXPANSION "Final Expansion Image..."
-    IDS_MI_CART_VIC20_FP              "Vic Flash Plugin image..."
+    IDS_MI_CART_VIC20_FP              "Vic Flash Plugin Image..."
     IDS_MP_ADD_TO_GENERIC             "Zu Universal Image hinzufügen..."
     IDS_MI_CART_VIC20_SMART_ATTACH    "Smart-Einlegen Image Date..."
     IDS_MI_CART_VIC20_8KB_2000        "4/8/16KB Modul Image bei $2000..."
@@ -833,7 +833,7 @@ BEGIN
     IDS_SELECT_GENERIC                "Selecteer Algemeen bestand"
     IDS_SELECT_MEGACART               "Selecteer Mega-Cart bestand"
     IDS_SELECT_FINAL_EXPANSION        "Selecteer Final Expansion bestand"
-    IDS_SELECT_FP                     "Select Vic Flash Plugin image"
+    IDS_SELECT_FP                     "Selecteer Vic Flash Plugin bestand"
     IDS_SELECT_CARTRIDGE_IMAGE        "Selecteer cartridge bestand"
     IDS_ATTACH_4_8_16_CART_2000       "Koppel 4/8/16KB-bestand op $2000"
     IDS_ATTACH_4_8_16_CART_4000       "Koppel 4/8/16KB-bestand op $4000"
@@ -845,7 +845,7 @@ BEGIN
     IDS_MI_CART_VIC20_GENERIC         "Algemeen bestand..."
     IDS_MI_CART_VIC20_MEGACART        "Mega-Cart bestand..."
     IDS_MI_CART_VIC20_FINAL_EXPANSION "Final Expansion bestand..."
-    IDS_MI_CART_VIC20_FP              "Vic Flash Plugin image..."
+    IDS_MI_CART_VIC20_FP              "Vic Flash Plugin bestand..."
     IDS_MP_ADD_TO_GENERIC             "Voeg toe aan algemeen..."
     IDS_MI_CART_VIC20_SMART_ATTACH    "Slimme bestandskoppeling..."
     IDS_MI_CART_VIC20_8KB_2000        "Koppel 4/8/16KB-cartridgebestand op $&2000"
@@ -1014,3 +1014,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

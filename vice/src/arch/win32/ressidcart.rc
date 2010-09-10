@@ -120,7 +120,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SIDCART_ENABLE                         "SID Aktivier&en"
   IDS_SIDCART_ADDRESS_LABEL                  "SID Adresse"
-  IDS_SIDCART_CLOCK_LABEL                    "SID Uhr"
+  IDS_SIDCART_CLOCK_LABEL                    "SID Takt"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Geräte Auswahl"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Haupt Gerät"
   IDS_DIGIBLASTER                            "Digiblaster add-on aktivieren"
@@ -241,3 +241,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

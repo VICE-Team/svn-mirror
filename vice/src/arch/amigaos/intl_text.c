@@ -26,6 +26,7 @@
 
 intl_translate_t intl_string_table[] = {
 
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -2085,7 +2086,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable Userport DAC" },
 /* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "Userport DAC aktivieren" },
 /* fr */ { IDMS_ENABLE_USERPORT_DAC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_DAC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_DAC_IT, "" },  /* fuzzy */
@@ -5485,11 +5486,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin file" },
 /* da */ { IDS_SELECT_FP_DA, "" },  /* fuzzy */
-/* de */ { IDS_SELECT_FP_DE, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_FP_DE, "Vic Flash Plugin Datei wählen" },
 /* fr */ { IDS_SELECT_FP_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SELECT_FP_HU, "" },  /* fuzzy */
 /* it */ { IDS_SELECT_FP_IT, "" },  /* fuzzy */
-/* nl */ { IDS_SELECT_FP_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_FP_NL, "Selecteer Vic Flash Plugin bestand" },
 /* pl */ { IDS_SELECT_FP_PL, "" },  /* fuzzy */
 /* sv */ { IDS_SELECT_FP_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SELECT_FP_TR, "" },  /* fuzzy */
@@ -5562,7 +5563,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SID_CLOCK,    "SID clock" },
 /* da */ { IDS_SID_CLOCK_DA, "SID-klok" },
-/* de */ { IDS_SID_CLOCK_DE, "SID Uhr" },
+/* de */ { IDS_SID_CLOCK_DE, "SID Takt" },
 /* fr */ { IDS_SID_CLOCK_FR, "Horloge SID" },
 /* hu */ { IDS_SID_CLOCK_HU, "SID órajel" },
 /* it */ { IDS_SID_CLOCK_IT, "SID clock" },

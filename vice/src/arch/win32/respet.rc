@@ -674,7 +674,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM (nur 8296)"
   IDS_MI_PET_SETTINGS            "P&ET Einstellungen..."
   IDS_MI_PETREU_SETTINGS         "PET &REU Einstellungen..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET &Userport DAC aktivi&eren"
 END
 
 
@@ -939,3 +939,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
