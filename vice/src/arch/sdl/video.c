@@ -228,17 +228,18 @@ static const resource_string_t resources_string[] = {
     { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
-static const resource_int_t resources_int[] = {
 #ifdef WATCOM_COMPILE
-    { "SDLBitdepth", 32, RES_EVENT_NO, NULL,
-      &sdl_bitdepth, set_sdl_bitdepth, NULL },
+#define VICE_DEFAULT_BITDEPTH 32
 #else
-    { "SDLBitdepth", 0, RES_EVENT_NO, NULL,
-      &sdl_bitdepth, set_sdl_bitdepth, NULL },
+#define VICE_DEFAULT_BITDEPTH 0
 #endif
+
+static const resource_int_t resources_int[] = {
+    { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
+      &sdl_bitdepth, set_sdl_bitdepth, NULL },
     { "SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
       &sdl_limit_mode, set_sdl_limit_mode, NULL },
     { "SDLCustomWidth", 800, RES_EVENT_NO, NULL,
@@ -253,7 +254,7 @@ static const resource_int_t resources_int[] = {
     { "SDLGLFlipY", 0, RES_EVENT_NO, NULL,
       &sdl_gl_flipy, set_sdl_gl_flipy, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_arch_resources_init(void)
@@ -313,7 +314,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable Y flip" },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int video_init_cmdline_options(void)
@@ -954,7 +955,6 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->video_draw_buffer_callback = NULL;
 
     canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
-    fullscreen_init_alloc_hooks(canvas);
 
     if (sdl_active_canvas_num == sdl_num_screens) {
         sdl_active_canvas = canvas;
@@ -986,6 +986,8 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
             sdl_canvaslist[i]->screen = NULL;
         }
     }
+
+    lib_free(canvas->fullscreenconfig);
 }
 
 void video_add_handlers(void)

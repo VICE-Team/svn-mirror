@@ -159,5 +159,5 @@ const ui_menu_entry_t speed_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_Speed_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

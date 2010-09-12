@@ -69,7 +69,7 @@ const ui_menu_entry_t c64_256k_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_C64_256Kfilename_callback,
       (ui_callback_data_t)"Select C64 256K image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -100,7 +100,7 @@ const ui_menu_entry_t plus60k_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_PLUS60Kfilename_callback,
       (ui_callback_data_t)"Select PLUS60K image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -120,5 +120,5 @@ const ui_menu_entry_t plus256k_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_PLUS256Kfilename_callback,
       (ui_callback_data_t)"Select PLUS256K image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };

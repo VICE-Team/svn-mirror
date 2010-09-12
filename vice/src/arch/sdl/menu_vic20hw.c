@@ -115,7 +115,7 @@ static const ui_menu_entry_t vic20_memory_common_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_memory_callback,
       (ui_callback_data_t)(BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5) },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(Mouse)
@@ -200,5 +200,5 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RAMBlock5_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

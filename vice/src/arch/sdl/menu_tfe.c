@@ -146,7 +146,7 @@ const ui_menu_entry_t tfe_menu[] = {
       toggle_ETHERNET_AS_RR_callback,
       NULL },
     VICE_SDL_TFE_ARCHDEP_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #endif /* HAVE_TFE */

@@ -56,7 +56,7 @@ static const ui_menu_entry_t vicii_border_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VICIIBorderMode_callback,
       (ui_callback_data_t)VICII_DEBUG_BORDERS },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -91,7 +91,7 @@ static const ui_menu_entry_t crt_controls_menu[] = {
       MENU_ENTRY_RESOURCE_INT,
       slider_PALOddLineOffset_callback,
       (ui_callback_data_t)"Set PAL oddline offset (0-2000)" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -124,7 +124,7 @@ static const ui_menu_entry_t color_controls_menu[] = {
       MENU_ENTRY_RESOURCE_INT,
       slider_ColorBrightness_callback,
       (ui_callback_data_t)"Set brightness (0-2000)" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -199,7 +199,7 @@ static const ui_menu_entry_t aspect_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SDLGLAspectMode_callback,
       (ui_callback_data_t)2 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
@@ -249,7 +249,7 @@ static const ui_menu_entry_t vicii_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VICII)
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -265,7 +265,7 @@ static const ui_menu_entry_t vdc_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VDC)
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -281,7 +281,7 @@ static const ui_menu_entry_t crtc_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(Crtc)
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -297,7 +297,7 @@ static const ui_menu_entry_t ted_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(TED)
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -313,7 +313,7 @@ static const ui_menu_entry_t vic_size_menu[] = {
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VIC)
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -444,7 +444,7 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -513,7 +513,7 @@ const ui_menu_entry_t c64_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_PALN },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -560,7 +560,7 @@ const ui_menu_entry_t c64sc_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -622,7 +622,7 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -679,7 +679,7 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -716,7 +716,7 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -753,7 +753,7 @@ const ui_menu_entry_t pet_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -805,7 +805,7 @@ const ui_menu_entry_t plus4_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -868,5 +868,5 @@ const ui_menu_entry_t vic20_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_vic20_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
-    { NULL }
+    SDL_MENU_LIST_END
 };

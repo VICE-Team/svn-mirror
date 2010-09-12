@@ -75,6 +75,8 @@ typedef struct ui_menu_entry_s {
     ui_callback_data_t data;
 } ui_menu_entry_t;
 
+#define SDL_MENU_LIST_END { NULL, MENU_ENTRY_TEXT, NULL, NULL }
+
 typedef enum {
     MENU_RETVAL_DEFAULT,
     MENU_RETVAL_EXIT_UI

@@ -50,7 +50,7 @@ static const ui_menu_entry_t printer_##prn##_driver_submenu[] = { \
       MENU_ENTRY_RESOURCE_RADIO,                \
       radio_Printer##prn##Driver_callback,      \
       (ui_callback_data_t)"nl10" },             \
-    { NULL }                                    \
+    SDL_MENU_LIST_END                           \
 };
 
 VICE_SDL_PRINTER_DRIVER_MENU(4)
@@ -72,7 +72,7 @@ static const ui_menu_entry_t printer_##prn##_device_submenu[] = { \
       MENU_ENTRY_RESOURCE_RADIO,                \
       radio_Printer##prn##TextDevice_callback,  \
       (ui_callback_data_t)2 },                  \
-    { NULL }                                    \
+    SDL_MENU_LIST_END                           \
 };
 
 VICE_SDL_PRINTER_DEVICE_MENU(4)
@@ -91,7 +91,7 @@ static const ui_menu_entry_t printer_##prn##_output_submenu[] = { \
       MENU_ENTRY_RESOURCE_RADIO,                \
       radio_Printer##prn##Output_callback,      \
       (ui_callback_data_t)"graphics" },         \
-    { NULL }                                    \
+    SDL_MENU_LIST_END                           \
 };
 
 VICE_SDL_PRINTER_OUTPUT_MENU(4)
@@ -115,7 +115,7 @@ static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
       MENU_ENTRY_RESOURCE_RADIO,                \
       radio_Printer##prn##_callback,            \
       (ui_callback_data_t)PRINTER_DEVICE_REAL },\
-    { NULL }                                    \
+    SDL_MENU_LIST_END                           \
 };
 
 #else   /* !HAVE_OPENCBM */
@@ -131,7 +131,7 @@ static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
       MENU_ENTRY_RESOURCE_RADIO,                \
       radio_Printer##prn##_callback,            \
       (ui_callback_data_t)PRINTER_DEVICE_FS },  \
-    { NULL }                                    \
+    SDL_MENU_LIST_END                           \
 };
 
 #endif
@@ -250,7 +250,7 @@ const ui_menu_entry_t printer_iec_menu[] = {
     VICE_SDL_PRINTER_USERPORT_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t printer_ieee_menu[] = {
@@ -261,7 +261,7 @@ const ui_menu_entry_t printer_ieee_menu[] = {
     VICE_SDL_PRINTER_USERPORT_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t printer_iec_nouserport_menu[] = {
@@ -270,6 +270,6 @@ const ui_menu_entry_t printer_iec_nouserport_menu[] = {
     VICE_SDL_PRINTER_COMMON_IEC5_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 

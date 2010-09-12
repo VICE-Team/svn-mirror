@@ -102,7 +102,7 @@ static const ui_menu_entry_t network_control_menu[] = {
       MENU_ENTRY_OTHER,
       custom_network_control_callback,
       (ui_callback_data_t)(NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET) },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static UI_MENU_CALLBACK(custom_connect_client_callback)
@@ -183,7 +183,7 @@ const ui_menu_entry_t network_menu[] = {
       MENU_ENTRY_RESOURCE_STRING,
       string_MonitorServerAddress_callback,
       (ui_callback_data_t)"Set remote monitor server address" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #endif

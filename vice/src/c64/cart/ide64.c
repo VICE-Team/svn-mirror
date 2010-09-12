@@ -330,32 +330,13 @@ static int set_ide64_config(const char *cfg, void *param)
     return 0;
 }
 
-static int set_ide64_image_file1(const char *name, void *param)
+static int set_ide64_image_file(const char *name, void *param)
 {
-    util_string_set(&drives[0].ide64_image_file, name);
+    int i = vice_ptr_to_int(param);
 
-    return ide64_disk_attach(&drives[0]);
-}
+    util_string_set(&drives[i].ide64_image_file, name);
 
-static int set_ide64_image_file2(const char *name, void *param)
-{
-    util_string_set(&drives[1].ide64_image_file, name);
-
-    return ide64_disk_attach(&drives[1]);
-}
-
-static int set_ide64_image_file3(const char *name, void *param)
-{
-    util_string_set(&drives[2].ide64_image_file, name);
-
-    return ide64_disk_attach(&drives[2]);
-}
-
-static int set_ide64_image_file4(const char *name, void *param)
-{
-    util_string_set(&drives[3].ide64_image_file, name);
-
-    return ide64_disk_attach(&drives[3]);
+    return ide64_disk_attach(&drives[i]);
 }
 
 static int set_cylinders(int val, void *param)
@@ -427,13 +408,13 @@ static int set_rtc_offset(int val, void *param)
 
 static const resource_string_t resources_string[] = {
     { "IDE64Image1", "ide.hdd", RES_EVENT_NO, NULL,
-      &drives[0].ide64_image_file, set_ide64_image_file1, NULL },
+      &drives[0].ide64_image_file, set_ide64_image_file, (void *)0 },
     { "IDE64Image2", "", RES_EVENT_NO, NULL,
-      &drives[1].ide64_image_file, set_ide64_image_file2, NULL },
+      &drives[1].ide64_image_file, set_ide64_image_file, (void *)1 },
     { "IDE64Image3", "", RES_EVENT_NO, NULL,
-      &drives[2].ide64_image_file, set_ide64_image_file3, NULL },
+      &drives[2].ide64_image_file, set_ide64_image_file, (void *)2 },
     { "IDE64Image4", "", RES_EVENT_NO, NULL,
-      &drives[3].ide64_image_file, set_ide64_image_file4, NULL },
+      &drives[3].ide64_image_file, set_ide64_image_file, (void *)3 },
     { "IDE64Config", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", RES_EVENT_NO, NULL,
       &ide64_configuration_string, set_ide64_config, NULL },
     { NULL }
@@ -488,10 +469,8 @@ int ide64_resources_shutdown(void)
     lib_free(ide64_configuration_string);
 
     for (i = 0; i < 4; i++) {
-        if (drives[i].ide_disk != NULL) {
-            lib_free(drives[i].ide64_image_file);
-            drives[i].ide64_image_file = NULL;
-        }
+        lib_free(drives[i].ide64_image_file);
+        drives[i].ide64_image_file = NULL;
     }
     ide64_configuration_string = NULL;
     return 0;

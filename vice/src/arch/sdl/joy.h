@@ -40,6 +40,7 @@
 extern int joy_arch_init(void);
 extern void joystick_close(void);
 extern int joystick_arch_init_resources(void);
+extern void joystick_arch_resources_shutdown(void);
 extern int joystick_init_cmdline_options(void);
 
 #ifdef HAVE_SDL_NUMJOYSTICKS

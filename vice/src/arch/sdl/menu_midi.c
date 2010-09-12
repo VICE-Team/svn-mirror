@@ -61,7 +61,7 @@ static const ui_menu_entry_t midi_driver_menu[] = {
       radio_MIDIDriver_callback,
       (ui_callback_data_t)1 },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS            \
@@ -270,7 +270,7 @@ static const ui_menu_entry_t midi_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIMode_callback,
       (ui_callback_data_t)4 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t midi_c64_menu[] = {
@@ -283,7 +283,7 @@ const ui_menu_entry_t midi_c64_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)midi_type_menu },
     VICE_SDL_MIDI_ARCHDEP_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t midi_vic20_menu[] = {
@@ -292,7 +292,7 @@ const ui_menu_entry_t midi_vic20_menu[] = {
       toggle_MIDIEnable_callback,
       NULL },
     VICE_SDL_MIDI_ARCHDEP_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #endif /* HAVE_MIDI */

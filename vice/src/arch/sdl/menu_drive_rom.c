@@ -131,7 +131,7 @@ const ui_menu_entry_t c128_drive_rom_menu[] = {
     DRIVE_ROM_3040_ITEM,
     DRIVE_ROM_4040_ITEM,
     DRIVE_ROM_1001_ITEM,
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t plus4_drive_rom_menu[] = {
@@ -141,7 +141,7 @@ const ui_menu_entry_t plus4_drive_rom_menu[] = {
     DRIVE_ROM_1570_ITEM,
     DRIVE_ROM_1571_ITEM,
     DRIVE_ROM_1581_ITEM,
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t iec_ieee_drive_rom_menu[] = {
@@ -155,7 +155,7 @@ const ui_menu_entry_t iec_ieee_drive_rom_menu[] = {
     DRIVE_ROM_3040_ITEM,
     DRIVE_ROM_4040_ITEM,
     DRIVE_ROM_1001_ITEM,
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t ieee_drive_rom_menu[] = {
@@ -164,7 +164,7 @@ const ui_menu_entry_t ieee_drive_rom_menu[] = {
     DRIVE_ROM_3040_ITEM,
     DRIVE_ROM_4040_ITEM,
     DRIVE_ROM_1001_ITEM,
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t iec_drive_rom_menu[] = {
@@ -173,5 +173,5 @@ const ui_menu_entry_t iec_drive_rom_menu[] = {
     DRIVE_ROM_1570_ITEM,
     DRIVE_ROM_1571_ITEM,
     DRIVE_ROM_1581_ITEM,
-    { NULL }
+    SDL_MENU_LIST_END
 };

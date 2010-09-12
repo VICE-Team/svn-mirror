@@ -158,5 +158,5 @@ const ui_menu_entry_t plus4cart_menu[] = {
       MENU_ENTRY_OTHER,
       detach_cart_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

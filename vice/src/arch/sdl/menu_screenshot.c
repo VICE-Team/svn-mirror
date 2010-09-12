@@ -113,5 +113,5 @@ const ui_menu_entry_t screenshot_menu[] = {
       submenu_callback,
       (ui_callback_data_t)ffmpeg_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };

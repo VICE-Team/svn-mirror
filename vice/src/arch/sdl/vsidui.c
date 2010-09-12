@@ -241,7 +241,7 @@ static const ui_menu_entry_t vsid_tune_menu[] = {
       MENU_ENTRY_OTHER,
       vsidui_tune_callback,
       (ui_callback_data_t)23 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(PSIDKeepEnv)
@@ -317,7 +317,7 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_OTHER,
       quit_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 

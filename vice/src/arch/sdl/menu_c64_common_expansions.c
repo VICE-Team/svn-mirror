@@ -54,7 +54,7 @@ const ui_menu_entry_t soundexpander_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SFXSoundExpanderChip_callback,
       (ui_callback_data_t)3812 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -138,7 +138,7 @@ const ui_menu_entry_t digimax_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_DIGIMAXbase_callback,
       (ui_callback_data_t)0xdfe0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -189,7 +189,7 @@ const ui_menu_entry_t georam_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_GEORAMfilename_callback,
       (ui_callback_data_t)"Select GEORAM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -246,7 +246,7 @@ const ui_menu_entry_t ide64_menu[] = {
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Sectors_callback,
       (ui_callback_data_t)"Enter amount of sectors (0-63)" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -282,7 +282,7 @@ const ui_menu_entry_t ramcart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_RAMCARTfilename_callback,
       (ui_callback_data_t)"Select RAMCART image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -335,5 +335,5 @@ const ui_menu_entry_t reu_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_REUfilename_callback,
       (ui_callback_data_t)"Select REU image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };

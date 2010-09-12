@@ -31,7 +31,6 @@
 #include "uimenu.h"
 
 extern void kbd_arch_init(void);
-extern void kbd_arch_shutdown(void);
 
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
@@ -75,6 +74,7 @@ extern int sdlkbd_hotkeys_load(const char *filename);
 extern int sdlkbd_hotkeys_dump(const char *filename);
 
 extern int sdlkbd_init_resources(void);
+extern void sdlkbd_resources_shutdown(void);
 
 extern void kbd_enter_leave(void);
 extern void kbd_focus_change(void);

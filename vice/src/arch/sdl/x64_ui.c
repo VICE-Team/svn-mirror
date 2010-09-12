@@ -144,7 +144,7 @@ static const ui_menu_entry_t x64_main_menu[] = {
       MENU_ENTRY_OTHER,
       quit_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 int c64ui_init(void)

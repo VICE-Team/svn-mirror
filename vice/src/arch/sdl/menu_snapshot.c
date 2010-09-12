@@ -209,7 +209,7 @@ static const ui_menu_entry_t save_snapshot_menu[] = {
       MENU_ENTRY_DIALOG,
       save_snapshot_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t snapshot_menu[] = {
@@ -269,5 +269,5 @@ const ui_menu_entry_t snapshot_menu[] = {
       MENU_ENTRY_DIALOG,
       select_history_files_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

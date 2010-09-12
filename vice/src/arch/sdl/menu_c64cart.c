@@ -172,7 +172,7 @@ static const ui_menu_entry_t attach_raw_cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_c64_cart_callback,
       (ui_callback_data_t)CARTRIDGE_MMC_REPLAY },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static UI_MENU_CALLBACK(detach_c64_cart_callback)
@@ -225,7 +225,7 @@ static const ui_menu_entry_t expert_cart_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExpertCartridgeMode_callback,
       (ui_callback_data_t)EXPERT_MODE_ON },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -245,7 +245,7 @@ static const ui_menu_entry_t dqbb_cart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_DQBBfilename_callback,
       (ui_callback_data_t)"Select DQBB image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -263,7 +263,7 @@ static const ui_menu_entry_t isepic_cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IsepicSwitch_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -295,7 +295,7 @@ static const ui_menu_entry_t easyflash_cart_menu[] = {
       MENU_ENTRY_OTHER,
       easyflash_save_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -320,7 +320,7 @@ static const ui_menu_entry_t mmc64_sd_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MMC64_sd_type_callback,
       (ui_callback_data_t)3 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(MMC64)
@@ -376,7 +376,7 @@ static const ui_menu_entry_t mmc64_cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)mmc64_sd_type_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -401,7 +401,7 @@ static const ui_menu_entry_t mmcreplay_sd_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MMCRSDType_callback,
       (ui_callback_data_t)3 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_FILE_STRING(MMCRCardImage)
@@ -435,7 +435,7 @@ static const ui_menu_entry_t mmcreplay_cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)mmcreplay_sd_type_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -458,7 +458,7 @@ static const ui_menu_entry_t retroreplay_cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RRBiosWrite_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -476,7 +476,7 @@ static const ui_menu_entry_t magicvoice_cart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_MagicVoiceImage_callback,
       (ui_callback_data_t)"Select Magic Voice ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 
@@ -560,5 +560,5 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)magicvoice_cart_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };

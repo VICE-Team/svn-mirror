@@ -146,7 +146,7 @@ static const ui_menu_entry_t x128_main_menu[] = {
       MENU_ENTRY_OTHER,
       quit_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)

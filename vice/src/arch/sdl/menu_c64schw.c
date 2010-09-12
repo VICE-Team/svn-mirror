@@ -109,7 +109,7 @@ static const ui_menu_entry_t c64_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       custom_C64Model_callback,
       (ui_callback_data_t)C64MODEL_C64_PAL_N },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(VICIIModel)
@@ -143,7 +143,7 @@ static const ui_menu_entry_t vicii_model_submenu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VICIIModel_callback,
       (ui_callback_data_t)VICII_MODEL_6572 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
@@ -205,7 +205,7 @@ static const ui_menu_entry_t c64sc_model_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       radio_GlueLogic_callback,
       (ui_callback_data_t)1 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
@@ -286,5 +286,5 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

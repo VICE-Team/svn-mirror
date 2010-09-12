@@ -106,5 +106,5 @@ const ui_menu_entry_t c64dtv_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64dtv_rom_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };

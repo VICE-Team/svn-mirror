@@ -146,7 +146,7 @@ static const ui_menu_entry_t xcbm6x0_7x0_main_menu[] = {
       MENU_ENTRY_OTHER,
       quit_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t xcbm5x0_main_menu[] = {
@@ -230,7 +230,7 @@ static const ui_menu_entry_t xcbm5x0_main_menu[] = {
       MENU_ENTRY_OTHER,
       quit_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static BYTE *cbm2_font_14 = NULL;

@@ -66,7 +66,7 @@ const ui_menu_entry_t lightpen_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_LightpenType_callback,
       (ui_callback_data_t)LIGHTPEN_TYPE_GUN_L },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #endif

@@ -84,7 +84,7 @@ static int hotkey_file_set(const char *val, void *param)
 static resource_string_t resources_string[] = {
     { "HotkeyFile", NULL, RES_EVENT_NO, NULL,
       &hotkey_file, hotkey_file_set, (void *)0 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int sdlkbd_init_resources(void)
@@ -95,6 +95,14 @@ int sdlkbd_init_resources(void)
         return -1;
     }
     return 0;
+}
+
+void sdlkbd_resources_shutdown(void)
+{
+    lib_free(resources_string[0].factory_value);
+    resources_string[0].factory_value = NULL;
+    lib_free(hotkey_file);
+    hotkey_file = NULL;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -363,15 +371,6 @@ void kbd_arch_init(void)
 
     sdlkbd_keyword_clear();
     sdlkbd_hotkeys_load(hotkey_file);
-}
-
-void kbd_arch_shutdown(void)
-{
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
-
-    lib_free(hotkey_file);
 }
 
 signed long kbd_arch_keyname_to_keynum(char *keyname)

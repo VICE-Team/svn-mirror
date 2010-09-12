@@ -120,5 +120,5 @@ const ui_menu_entry_t reset_menu[] = {
       MENU_ENTRY_OTHER,
       drive11cpu_reset_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

@@ -31,27 +31,14 @@ struct video_canvas_s;
 
 struct fullscreenconfig_s {
     int enable;
-    char *device;
-    int double_size;
-    int double_scan;
     int mode;
+    int device_set;
 };
 typedef struct fullscreenconfig_s fullscreenconfig_t;
 
 struct ui_menu_entry_s;
 
-extern int fullscreen_available(void);
-
-extern void fullscreen_shutdown(void);
-extern void fullscreen_suspend(int level);
 extern void fullscreen_resume(void);
-extern void fullscreen_set_mouse_timeout(void);
-extern void fullscreen_mode_callback(const char *device, void *callback);
-extern void fullscreen_menu_create(struct ui_menu_entry_s *menu);
-extern void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu);
-extern int fullscreen_init(void);
-extern int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas);
-extern void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas);
 
 #define FULLSCREEN_MODE_AUTO   0
 #define FULLSCREEN_MODE_CUSTOM 1

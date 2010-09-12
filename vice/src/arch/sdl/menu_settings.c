@@ -259,7 +259,7 @@ static const ui_menu_entry_t define_ui_keyset_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_ui_keyset_callback,
       (ui_callback_data_t)"MenuKeyMap" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t settings_manager_menu[] = {
@@ -317,5 +317,5 @@ const ui_menu_entry_t settings_manager_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)define_ui_keyset_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };

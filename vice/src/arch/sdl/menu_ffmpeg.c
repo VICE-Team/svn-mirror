@@ -113,7 +113,7 @@ ui_menu_entry_t ffmpeg_menu[] = {
       MENU_ENTRY_DIALOG,
       save_movie_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static void update_codec_menus(const char *current_format)

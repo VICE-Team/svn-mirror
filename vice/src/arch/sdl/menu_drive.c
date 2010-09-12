@@ -639,7 +639,7 @@ static const ui_menu_entry_t create_disk_image_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       set_disk_type_callback,
       (ui_callback_data_t)DISK_IMAGE_TYPE_X64 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t create_disk_image_menu[] = {
@@ -651,7 +651,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
       MENU_ENTRY_DIALOG,
       create_disk_image_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #define DRIVE_TYPE_ITEM(text, data) \
@@ -692,7 +692,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
         DRIVE_TYPE_ITEM("1001", DRIVE_TYPE_1001 + (x * 0x10000))                    \
         DRIVE_TYPE_ITEM("8050", DRIVE_TYPE_8050 + (x * 0x10000))                    \
         DRIVE_TYPE_ITEM("8250", DRIVE_TYPE_8250 + (x * 0x10000))                    \
-        {NULL}                                                                      \
+        SDL_MENU_LIST_END                                                           \
     };
 
 DRIVE_TYPE_MENU(8)
@@ -718,7 +718,7 @@ DRIVE_TYPE_MENU(11)
           MENU_ENTRY_OTHER,                                   \
           set_hide_p00_files_callback,                        \
           (ui_callback_data_t)x },                            \
-        { NULL }                                              \
+        SDL_MENU_LIST_END                                     \
     };
 
 DRIVE_FSDIR_MENU(8)
@@ -740,7 +740,7 @@ DRIVE_FSDIR_MENU(11)
           MENU_ENTRY_OTHER,                                        \
           set_extend_callback,                                     \
           (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (x * 256)) }, \
-        { NULL }                                                   \
+        SDL_MENU_LIST_END                                          \
     };
 
 DRIVE_EXTEND_MENU(8)
@@ -770,7 +770,7 @@ DRIVE_EXTEND_MENU(11)
           MENU_ENTRY_OTHER,                                    \
           set_expand_callback,                                 \
           (ui_callback_data_t)(0xa000 + (x * 0x10000)) },      \
-        { NULL }                                               \
+        SDL_MENU_LIST_END                                      \
     };
 
 DRIVE_EXPAND_MENU(8)
@@ -792,7 +792,7 @@ DRIVE_EXPAND_MENU(11)
           MENU_ENTRY_OTHER,                                           \
           set_idle_callback,                                          \
           (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x * 256)) },   \
-        { NULL }                                                      \
+        SDL_MENU_LIST_END                                             \
     };
 
 DRIVE_IDLE_MENU(8)
@@ -841,7 +841,7 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
           set_par_callback,                              \
           (ui_callback_data_t)x},                        \
         DRIVE_MENU_RAWDRIVE_ITEM                         \
-        { NULL }                                         \
+        SDL_MENU_LIST_END                                \
     };
 
 DRIVE_MENU(8)
@@ -874,7 +874,7 @@ static const ui_menu_entry_t fliplist_menu[] = {
       MENU_ENTRY_DIALOG,
       fliplist_callback,
       (ui_callback_data_t)UI_FLIP_SAVE },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
@@ -920,7 +920,7 @@ static const ui_menu_entry_t autostart_settings_menu[] = {
       MENU_ENTRY_RESOURCE_STRING,
       string_AutostartPrgDiskImage_callback,
       (ui_callback_data_t)"Disk image for autostarting PRG files" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t drive_menu[] = {
@@ -998,5 +998,5 @@ const ui_menu_entry_t drive_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)fliplist_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };

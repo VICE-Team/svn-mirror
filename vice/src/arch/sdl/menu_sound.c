@@ -265,7 +265,7 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
       radio_SoundDeviceName_callback,
       (ui_callback_data_t)"wmm" },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static ui_menu_entry_t fragment_size_menu[] = {
@@ -281,7 +281,7 @@ static ui_menu_entry_t fragment_size_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundFragmentSize_callback,
       (ui_callback_data_t)SOUND_FRAGMENT_LARGE },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sound_record_menu[] = {
@@ -322,7 +322,7 @@ static const ui_menu_entry_t sound_record_menu[] = {
       MENU_ENTRY_OTHER,
       start_recording_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sound_output_menu[] = {
@@ -384,5 +384,5 @@ const ui_menu_entry_t sound_output_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sound_record_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };

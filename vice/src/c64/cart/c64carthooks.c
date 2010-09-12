@@ -453,6 +453,7 @@ void cart_resources_shutdown(void)
     tpi_resources_shutdown();
     /* "Main Slot" */
     ide64_resources_shutdown();
+    mmcreplay_resources_shutdown();
     /* "Slot 1" */
     expert_resources_shutdown();
     dqbb_resources_shutdown();

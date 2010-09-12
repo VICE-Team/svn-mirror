@@ -249,9 +249,9 @@ static int set_fullscreen_enabled(int val, void *param)
     int r = 0;
     video_canvas_t *canvas = (video_canvas_t *)param;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
-    
+
     canvas->videoconfig->fullscreen_enabled = val;
-    
+
 #ifndef USE_SDLUI
     if (canvas->initialized)
 #endif
@@ -304,16 +304,16 @@ static int set_fullscreen_device(const char *val, void *param)
     video_canvas_t *canvas = (video_canvas_t *)param;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
 
-    if (canvas->videoconfig->fullscreen_enabled)
-    {
-	log_message(LOG_DEFAULT, 
-		    _("Fullscreen (%s) already active - disable first."),
-		    canvas->videoconfig->fullscreen_device);
-	return 0;
-    }
-    
-    if (util_string_set(&canvas->videoconfig->fullscreen_device, val))
+    if (canvas->videoconfig->fullscreen_enabled) {
+        log_message(LOG_DEFAULT,
+            _("Fullscreen (%s) already active - disable first."),
+            canvas->videoconfig->fullscreen_device);
         return 0;
+    }
+
+    if (util_string_set(&canvas->videoconfig->fullscreen_device, val)) {
+        return 0;
+    }
 
     return (video_chip_cap->fullscreen.device)(canvas, val);
 }
@@ -590,6 +590,10 @@ int video_resources_chip_init(const char *chipname,
 void video_resources_chip_shutdown(struct video_canvas_s *canvas)
 {
     lib_free(canvas->videoconfig->external_palette_name);
+
+    if (canvas->videoconfig->cap->fullscreen.device_num > 0) {
+        lib_free(canvas->videoconfig->fullscreen_device);
+    }
 }
 
 static void video_resources_update_ui(video_canvas_t *canvas)

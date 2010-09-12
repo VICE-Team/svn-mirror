@@ -420,5 +420,5 @@ const ui_menu_entry_t help_menu[] = {
       show_font_callback,
       NULL },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };

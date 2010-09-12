@@ -65,7 +65,7 @@ UI_MENU_DEFINE_RADIO(JoyDevice4)
           MENU_ENTRY_RESOURCE_RADIO,                                     \
           radio_JoyDevice##port##_callback,                              \
           (ui_callback_data_t)JOYDEV_JOYSTICK },                         \
-        { NULL }                                                         \
+        SDL_MENU_LIST_END                                                \
     };
 
 VICE_SDL_JOYSTICK_DEVICE_MENU(1)
@@ -147,7 +147,7 @@ static const ui_menu_entry_t define_keyset_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_keyset_callback,
       (ui_callback_data_t)"KeySet2Fire" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
@@ -209,7 +209,7 @@ static const ui_menu_entry_t define_joy##port##_menu[] = { \
       MENU_ENTRY_DIALOG,                                   \
       custom_joymap_callback,                              \
       (ui_callback_data_t)(4 | ((port - 1) << 4)) },       \
-    { NULL }                                               \
+    SDL_MENU_LIST_END                                      \
 };
 
 VICE_SDL_JOYSTICK_MAPPING_MENU(1)
@@ -261,7 +261,7 @@ static const ui_menu_entry_t define_joy_misc_menu[] = {
       MENU_ENTRY_RESOURCE_INT,
       slider_JoyFuzz_callback,
       (ui_callback_data_t)"Set joystick fuzz (0 - 32767)" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 #endif
 
@@ -302,7 +302,7 @@ const ui_menu_entry_t joystick_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(ExtraJoy)
@@ -329,7 +329,7 @@ static const ui_menu_entry_t joystick_extra_joy_type_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExtraJoyType_callback,
       (ui_callback_data_t)EXTRA_JOYSTICK_OEM },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t joystick_extra_joy_type_no_hit_menu[] = {
@@ -349,7 +349,7 @@ static const ui_menu_entry_t joystick_extra_joy_type_no_hit_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExtraJoyType_callback,
       (ui_callback_data_t)EXTRA_JOYSTICK_OEM },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_c64_menu[] = {
@@ -418,7 +418,7 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_c64dtv_menu[] = {
@@ -487,7 +487,7 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
@@ -546,7 +546,7 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_vic20_menu[] = {
@@ -603,7 +603,7 @@ const ui_menu_entry_t joystick_vic20_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t joystick_userport_only_menu[] = {
@@ -652,5 +652,5 @@ const ui_menu_entry_t joystick_userport_only_menu[] = {
       submenu_callback,
       (ui_callback_data_t)define_joy_misc_menu },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };

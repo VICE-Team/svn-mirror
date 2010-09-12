@@ -144,7 +144,7 @@ static const ui_menu_entry_t xplus4_main_menu[] = {
       MENU_ENTRY_OTHER,
       quit_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 void plus4ui_set_menu_params(int index, menu_draw_t *menu_draw)

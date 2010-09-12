@@ -73,7 +73,7 @@ const ui_menu_entry_t mouse_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Mouseport_callback,
       (ui_callback_data_t)2 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #endif

@@ -219,7 +219,7 @@ static const resource_int_t resources_int[] = {
       &save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 0, RES_EVENT_NO, NULL,
       &confirm_on_exit, set_confirm_on_exit, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 void ui_sdl_quit(void)
@@ -244,8 +244,11 @@ int ui_resources_init(void)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
 
-    return resources_register_int(resources_int);
+    return uistatusbar_init_resources();
 }
 
 void ui_resources_shutdown(void)
@@ -253,6 +256,8 @@ void ui_resources_shutdown(void)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
+    joystick_arch_resources_shutdown();
+    sdlkbd_resources_shutdown();
 }
 
 static const cmdline_option_t cmdline_options[] = {
@@ -301,7 +306,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "+statusbar", SET_RESOURCE, 0, NULL, NULL, "SDLStatusbar", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable statusbar" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int ui_cmdline_options_init(void)
@@ -318,9 +323,6 @@ int ui_init(int *argc, char **argv)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
-    /* TODO move somewhere else */
-    uistatusbar_init_resources();
-
     return 0;
 }
 
@@ -329,7 +331,6 @@ int ui_init_finish(void)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
-
     return 0;
 }
 
@@ -349,9 +350,6 @@ void ui_shutdown(void)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
-
-    /* TODO find a better place */
-    kbd_arch_shutdown();
 }
 
 /* Print an error message.  */

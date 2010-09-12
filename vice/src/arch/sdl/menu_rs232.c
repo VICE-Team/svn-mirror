@@ -81,7 +81,7 @@ UI_MENU_DEFINE_RADIO(RsDevice4Baud)
           MENU_ENTRY_RESOURCE_RADIO,                    \
           radio_RsDevice##x##Baud_callback,             \
           (ui_callback_data_t)115200 },                 \
-        { NULL }                                         \
+        SDL_MENU_LIST_END                               \
     };
 
 RS_BAUD_MENU(1)
@@ -137,7 +137,7 @@ static const ui_menu_entry_t acia1dev_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Dev_callback,
       (ui_callback_data_t)3 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(Acia1Irq)
@@ -155,7 +155,7 @@ static const ui_menu_entry_t acia1irq_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Irq_callback,
       (ui_callback_data_t)2 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(Acia1Mode)
@@ -173,7 +173,7 @@ static const ui_menu_entry_t acia1mode_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Acia1Mode_callback,
       (ui_callback_data_t)2 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(RsUserEnable)
@@ -196,7 +196,7 @@ static const ui_menu_entry_t rsuserbaud_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RsUserBaud_callback,
       (ui_callback_data_t)9600 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(RsUserDev)
@@ -218,7 +218,7 @@ static const ui_menu_entry_t rsuserdev_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RsUserDev_callback,
       (ui_callback_data_t)3 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t rs232_noacia_menu[] = {
@@ -249,7 +249,7 @@ const ui_menu_entry_t rs232_noacia_menu[] = {
       string_RsDevice4_callback,
       (ui_callback_data_t)"RS232 host device 4" },
     VICE_SDL_RS232_ARCHDEP_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t rs232_nouser_menu[] = {
@@ -290,7 +290,7 @@ const ui_menu_entry_t rs232_nouser_menu[] = {
       string_RsDevice4_callback,
       (ui_callback_data_t)"RS232 host device 4" },
     VICE_SDL_RS232_ARCHDEP_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t rs232_menu[] = {
@@ -342,7 +342,7 @@ const ui_menu_entry_t rs232_menu[] = {
       string_RsDevice4_callback,
       (ui_callback_data_t)"RS232 host device 4" },
     VICE_SDL_RS232_ARCHDEP_ITEMS
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #endif /* HAVE_RS232 */

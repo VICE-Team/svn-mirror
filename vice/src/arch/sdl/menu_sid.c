@@ -175,7 +175,7 @@ static const ui_menu_entry_t sid_model_menu[] = {
     VICE_SDL_SID_PARSID_MODELS
 #endif
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_dtv_model_menu[] = {
@@ -204,7 +204,7 @@ static const ui_menu_entry_t sid_dtv_model_menu[] = {
     VICE_SDL_SID_PARSID_MODELS
 #endif
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_model_noresid_menu[] = {
@@ -222,7 +222,7 @@ static const ui_menu_entry_t sid_model_noresid_menu[] = {
     VICE_SDL_SID_PARSID_MODELS
 #endif
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #ifdef HAVE_RESID
@@ -245,7 +245,7 @@ static const ui_menu_entry_t sid_sampling_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidResidSampling_callback,
       (ui_callback_data_t)3 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_INT(SidResidPassband)
@@ -299,7 +299,7 @@ static const ui_menu_entry_t sid_d4x0_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xd4e0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_d5x0_menu[] = {
@@ -339,7 +339,7 @@ static const ui_menu_entry_t sid_d5x0_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xd5e0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_d6x0_menu[] = {
@@ -379,7 +379,7 @@ static const ui_menu_entry_t sid_d6x0_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xd6e0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_d7x0_menu[] = {
@@ -419,7 +419,7 @@ static const ui_menu_entry_t sid_d7x0_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xd7e0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_dex0_menu[] = {
@@ -459,7 +459,7 @@ static const ui_menu_entry_t sid_dex0_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xdee0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t sid_dfx0_menu[] = {
@@ -499,7 +499,7 @@ static const ui_menu_entry_t sid_dfx0_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xdfe0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t cbm2_stereo_sid_base_menu[] = {
@@ -535,7 +535,7 @@ static const ui_menu_entry_t cbm2_stereo_sid_base_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereoAddressStart_callback,
       (ui_callback_data_t)0xdae0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t c128_stereo_sid_base_menu[] = {
@@ -559,7 +559,7 @@ static const ui_menu_entry_t c128_stereo_sid_base_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_dfx0_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t c64_stereo_sid_base_menu[] = {
@@ -591,7 +591,7 @@ static const ui_menu_entry_t c64_stereo_sid_base_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_dfx0_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sid_c64_menu[] = {
@@ -621,7 +621,7 @@ const ui_menu_entry_t sid_c64_menu[] = {
       int_SidResidPassband_callback,
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sid_c128_menu[] = {
@@ -651,7 +651,7 @@ const ui_menu_entry_t sid_c128_menu[] = {
       int_SidResidPassband_callback,
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sid_cbm2_menu[] = {
@@ -681,7 +681,7 @@ const ui_menu_entry_t sid_cbm2_menu[] = {
       int_SidResidPassband_callback,
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sid_dtv_menu[] = {
@@ -703,7 +703,7 @@ const ui_menu_entry_t sid_dtv_menu[] = {
       int_SidResidPassband_callback,
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
 #endif
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(SidCart)
@@ -743,7 +743,7 @@ const ui_menu_entry_t sid_vic_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
       (ui_callback_data_t)1 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t sid_pet_menu[] = {
@@ -779,7 +779,7 @@ const ui_menu_entry_t sid_pet_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidClock_callback,
       (ui_callback_data_t)1 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
@@ -822,5 +822,5 @@ const ui_menu_entry_t sid_plus4_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DIGIBLASTER_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

@@ -54,7 +54,7 @@ static const ui_menu_entry_t v364speech_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_SpeechImage_callback,
       (ui_callback_data_t)"Select Speech ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(RamSize)
@@ -118,5 +118,5 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_H256K_callback,
       (ui_callback_data_t)3 },
-    { NULL }
+    SDL_MENU_LIST_END
 };

@@ -73,5 +73,5 @@ const ui_menu_entry_t petcart_menu[] = {
       MENU_ENTRY_OTHER,
       detach_cart_callback,
       (ui_callback_data_t)"RomModuleBName" },
-    { NULL }
+    SDL_MENU_LIST_END
 };

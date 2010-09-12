@@ -85,7 +85,7 @@ static const ui_menu_entry_t vdc_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VDC64KB_callback,
       (ui_callback_data_t)1 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
@@ -168,5 +168,5 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

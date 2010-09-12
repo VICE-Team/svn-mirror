@@ -106,7 +106,7 @@ static const ui_menu_entry_t pet_memory_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SuperPET_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 /* PETREU */
@@ -144,7 +144,7 @@ static const ui_menu_entry_t petreu_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_PETREUfilename_callback,
       (ui_callback_data_t)"Select PET REU image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 /* PETDWW */
@@ -163,7 +163,7 @@ static const ui_menu_entry_t petdww_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_PETDWWfilename_callback,
       (ui_callback_data_t)"Select PET DWW image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 /* PET MODEL SELECTION */
@@ -283,7 +283,7 @@ static const ui_menu_entry_t pet_model_menu[] = {
       MENU_ENTRY_OTHER,
       select_pet_model_callback,
       (ui_callback_data_t)PET_MODEL_SUPERPET },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(KeymapIndex)
@@ -297,7 +297,7 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_KeymapIndex_callback,
       (ui_callback_data_t)0 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(Crtc)
@@ -360,5 +360,5 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

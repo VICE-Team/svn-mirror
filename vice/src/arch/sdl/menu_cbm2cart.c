@@ -82,5 +82,5 @@ const ui_menu_entry_t cbm2cart_menu[] = {
       MENU_ENTRY_OTHER,
       detach_cart_callback,
       (ui_callback_data_t)"Cart6Name" },
-    { NULL }
+    SDL_MENU_LIST_END
 };

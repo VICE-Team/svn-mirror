@@ -119,7 +119,7 @@ static const ui_menu_entry_t cbm2_model_menu[] = {
       MENU_ENTRY_OTHER,
       select_cbm2_model_callback,
       (ui_callback_data_t)CBM2_MODEL_720PLUS },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t cbm2_memory_menu[] = {
@@ -166,7 +166,7 @@ static const ui_menu_entry_t cbm2_memory_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RamC_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
@@ -202,7 +202,7 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
@@ -241,5 +241,5 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

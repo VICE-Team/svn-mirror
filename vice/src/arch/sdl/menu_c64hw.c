@@ -137,5 +137,5 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
       NULL },
-    { NULL }
+    SDL_MENU_LIST_END
 };

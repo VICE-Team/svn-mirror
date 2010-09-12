@@ -199,7 +199,7 @@ static int joymap_file_set(const char *val, void *param)
 static resource_string_t resources_string[] = {
     { "JoyMapFile", NULL, RES_EVENT_NO, NULL,
       &joymap_file, joymap_file_set, (void *)0 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
@@ -218,7 +218,7 @@ static const resource_int_t resources_int[] = {
     { "JoyFuzz", DEFAULT_JOYSTICK_FUZZ, RES_EVENT_NO, NULL,
       &joystick_fuzz, set_joystick_fuzz, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 /* Command-line options.  */
@@ -235,35 +235,35 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-32767>", "Set joystick fuzz" },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 1" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for joystick port 2" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
     { "-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for extra joystick port 1" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
     { "-extrajoydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-4>", "Set device for extra joystick port 2" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int joystick_arch_init_resources(void)
@@ -280,6 +280,16 @@ int joystick_arch_init_resources(void)
         return -1;
     }
     return resources_register_int(resources_int);
+}
+
+void joystick_arch_resources_shutdown(void)
+{
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    lib_free(resources_string[0].factory_value);
+    resources_string[0].factory_value = NULL;
+    lib_free(joymap_file);
+    joymap_file = NULL;
+#endif
 }
 
 int joystick_init_cmdline_options(void)
@@ -416,9 +426,6 @@ void joystick_close(void)
 fprintf(stderr,"%s\n",__func__);
 #endif
 
-    lib_free(joymap_file);
-    joymap_file = NULL;
-
     if (sdljoystick == NULL) {
         return;
     }
@@ -547,7 +554,9 @@ int joy_arch_mapping_dump(const char *filename)
             "# Keywords and their lines are:\n"
             "# '!CLEAR'    clear all mappings\n"
             "#\n"
-            "# inputtype:\n"
+        );
+
+    fprintf(fp, "# inputtype:\n"
             "# 0      axis\n"
             "# 1      button\n"
             "# 2      hat\n"
@@ -1185,4 +1194,5 @@ int joy_arch_init(void)
 {
     return 0;
 }
+
 #endif

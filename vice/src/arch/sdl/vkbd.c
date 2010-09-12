@@ -105,7 +105,7 @@ static const ui_menu_entry_t define_shift_options_menu[] = {
       MENU_ENTRY_OTHER,
       custom_shift_callback,
       (ui_callback_data_t)8 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t shift_menu[] = {
@@ -113,7 +113,7 @@ static const ui_menu_entry_t shift_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)define_shift_options_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 #define VKBD_COMMAND_MOVE  0xff

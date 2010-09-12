@@ -109,7 +109,7 @@ static const ui_menu_entry_t add_to_generic_cart_submenu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static UI_MENU_CALLBACK(detach_cart_callback)
@@ -186,5 +186,5 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_MegaCartNvRAMfilename_callback,
       (ui_callback_data_t)"Select Mega-Cart NvRAM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };

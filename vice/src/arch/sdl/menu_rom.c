@@ -57,7 +57,7 @@ static const ui_menu_entry_t c128_function_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_ExternalFunctionName_callback,
       (ui_callback_data_t)"Select external function ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_FILE_STRING(KernalIntName)
@@ -151,7 +151,7 @@ const ui_menu_entry_t c128_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_Basic64Name_callback,
       (ui_callback_data_t)"Select C64 mode basic ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t c64_vic20_rom_menu[] = {
@@ -173,7 +173,7 @@ const ui_menu_entry_t c64_vic20_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_ChargenName_callback,
       (ui_callback_data_t)"Select chargen ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t c64dtv_rom_menu[] = {
@@ -195,7 +195,7 @@ const ui_menu_entry_t c64dtv_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_ChargenName_callback,
       (ui_callback_data_t)"Select chargen ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t cbm2_rom_menu[] = {
@@ -217,7 +217,7 @@ const ui_menu_entry_t cbm2_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_ChargenName_callback,
       (ui_callback_data_t)"Select chargen ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_FILE_STRING(EditorName)
@@ -245,7 +245,7 @@ const ui_menu_entry_t pet_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_EditorName_callback,
       (ui_callback_data_t)"Select editor ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 UI_MENU_DEFINE_FILE_STRING(3plus1loName)
@@ -274,5 +274,5 @@ const ui_menu_entry_t plus4_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_3plus1hiName_callback,
       (ui_callback_data_t)"Select 3+1 high ROM image" },
-    { NULL }
+    SDL_MENU_LIST_END
 };

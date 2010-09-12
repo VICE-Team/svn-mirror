@@ -337,7 +337,7 @@ static int set_statusbar(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
       &statusbar_enabled, set_statusbar, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int uistatusbar_init_resources(void)

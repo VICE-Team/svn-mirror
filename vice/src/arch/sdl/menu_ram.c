@@ -87,7 +87,7 @@ static const ui_menu_entry_t constant_values_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RAMInitValueInvert_callback,
       (ui_callback_data_t)1024 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 static const ui_menu_entry_t constant_pattern_menu[] = {
@@ -139,7 +139,7 @@ static const ui_menu_entry_t constant_pattern_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RAMInitPatternInvert_callback,
       (ui_callback_data_t)1024 },
-    { NULL }
+    SDL_MENU_LIST_END
 };
 
 const ui_menu_entry_t ram_menu[] = {
@@ -161,5 +161,5 @@ const ui_menu_entry_t ram_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)constant_pattern_menu },
-    { NULL }
+    SDL_MENU_LIST_END
 };
