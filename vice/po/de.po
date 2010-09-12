@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-10 04:21+0200\n"
-"PO-Revision-Date: 2010-07-30 11:08+0200\n"
+"PO-Revision-Date: 2010-09-12 14:46+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -256,9 +256,8 @@ msgid "*Emulator identification"
 msgstr "*Emulator Identifikation"
 
 #: src/arch/unix/gui/c128ui.c:328 src/arch/unix/gui/c64ui.c:604
-#, fuzzy
 msgid "*Power Off on Cartridge Change"
-msgstr "*Reset bei Wechsel von Erweiterungsmodulen"
+msgstr "*Abschalten bei Wechsel von Erweiterungsmodulen"
 
 #: src/arch/unix/gui/c128ui.c:336
 msgid "Load new Int. Kernal ROM"
@@ -366,15 +365,13 @@ msgstr "*Schwedisch"
 
 #: src/arch/unix/gui/c128ui.c:434 src/arch/unix/gui/c128ui.c:443
 #: src/arch/unix/gui/c64ui.c:340 src/arch/unix/gui/c64ui.c:350
-#, fuzzy
 msgid "*6526 (old)"
-msgstr "6526 (alt)"
+msgstr "*6526 (alt)"
 
 #: src/arch/unix/gui/c128ui.c:436 src/arch/unix/gui/c128ui.c:445
 #: src/arch/unix/gui/c64ui.c:342 src/arch/unix/gui/c64ui.c:352
-#, fuzzy
 msgid "*6526A (new)"
-msgstr "6526A (neu)"
+msgstr "*6526A (neu)"
 
 #: src/arch/unix/gui/c128ui.c:452 src/arch/win32/resc128.rc.po.c:650
 #: src/arch/amigaos/intl_text.c.po.c:6188
@@ -388,19 +385,16 @@ msgid "VIC-II model"
 msgstr "VIC-II Modell"
 
 #: src/arch/unix/gui/c128ui.c:458
-#, fuzzy
 msgid "VDC model"
-msgstr "SID Modell"
+msgstr "VDC Modell"
 
 #: src/arch/unix/gui/c128ui.c:462 src/arch/unix/gui/c64ui.c:365
-#, fuzzy
 msgid "CIA 1 model"
-msgstr "ACIA Modus"
+msgstr "CIA 1 Modell"
 
 #: src/arch/unix/gui/c128ui.c:464 src/arch/unix/gui/c64ui.c:367
-#, fuzzy
 msgid "CIA 2 model"
-msgstr "ACIA Modus"
+msgstr "CIA 2 Modell"
 
 #: src/arch/unix/gui/c128ui.c:468
 msgid "*Always switch to C64 mode"
@@ -520,14 +514,12 @@ msgid "Save media file"
 msgstr "Media Image speichern"
 
 #: src/arch/unix/gui/c64dtvui.c:149
-#, fuzzy
 msgid "Blitter Revision"
-msgstr "C64DTV Blitter Revision"
+msgstr "Blitter Revision"
 
 #: src/arch/unix/gui/c64dtvui.c:183
-#, fuzzy
 msgid "Flash settings"
-msgstr "EasyFlash Einstellungen"
+msgstr "Flash Einstellungen"
 
 #: src/arch/unix/gui/c64dtvui.c:185 src/arch/unix/gui/c64ui.c:693
 #: src/arch/unix/gui/petui.c:398 src/arch/unix/gui/plus4ui.c:243
@@ -677,9 +669,8 @@ msgid "CBM-II model settings"
 msgstr "CBM-II Modell Einstellungen"
 
 #: src/arch/unix/gui/cbm2ui.c:349 src/arch/unix/gui/petui.c:396
-#, fuzzy
 msgid "CRTC settings"
-msgstr "VDC Einstellungen"
+msgstr "CRTC Einstellungen"
 
 #: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:115
 #: src/arch/unix/gui/vic20ui.c:146
@@ -911,9 +902,8 @@ msgid "V364 Speech settings"
 msgstr "V364 Stimme Einstellungen"
 
 #: src/arch/unix/gui/plus4ui.c:213
-#, fuzzy
 msgid "TED model"
-msgstr "SID Modell"
+msgstr "TED Modell"
 
 #: src/arch/unix/gui/plus4ui.c:215
 msgid "RAM settings"
@@ -1080,18 +1070,16 @@ msgstr "Autostart Disk Image..."
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uic64_256k.c:41 src/arch/unix/gui/uic64_256k.c:44
-#, fuzzy
 msgid "256K image"
-msgstr "256K Image Name"
+msgstr "256K Image"
 
 #: src/arch/unix/gui/uic64_256k.c:44 src/arch/unix/gui/uidqbb.c:44
 #: src/arch/unix/gui/uigeoram.c:44 src/arch/unix/gui/uipetreu.c:44
 #: src/arch/unix/gui/uiplus256k.c:43 src/arch/unix/gui/uiplus60k.c:44
 #: src/arch/unix/gui/uiramcart.c:45 src/arch/unix/gui/uireu.c:44
 #: src/arch/unix/gui/vic20ui.c:334
-#, fuzzy
 msgid "Image:"
-msgstr "Neue Image Datei"
+msgstr "Image:"
 
 #: src/arch/unix/gui/uic64_256k.c:61
 msgid "*Enable 256K"
@@ -1437,9 +1425,8 @@ msgstr "Emulator beenden"
 #: src/arch/unix/gui/uicrtc.c:56 src/arch/unix/gui/uited.c:55
 #: src/arch/unix/gui/uivdc.c:54 src/arch/unix/gui/uivic.c:55
 #: src/arch/unix/gui/uivicii.c:59
-#, fuzzy
 msgid "*internal"
-msgstr "*International"
+msgstr "*intern"
 
 #: src/arch/unix/gui/uicrtc.c:59
 msgid "*Default (Green)"
@@ -1463,21 +1450,19 @@ msgstr "Benutzerdefiniert..."
 #: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:72
 #: src/arch/unix/gui/uivicii.c:102
 msgid "*unfiltered"
-msgstr ""
+msgstr "*ungefiltert"
 
 #: src/arch/unix/gui/uicrtc.c:79 src/arch/unix/gui/uited.c:74
 #: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:74
 #: src/arch/unix/gui/uivicii.c:104
-#, fuzzy
 msgid "*CRT Emulation"
-msgstr "PAL Emulation"
+msgstr "*CRT Emulation"
 
 #: src/arch/unix/gui/uicrtc.c:82 src/arch/unix/gui/uited.c:76
 #: src/arch/unix/gui/uivdc.c:78 src/arch/unix/gui/uivic.c:76
 #: src/arch/unix/gui/uivicii.c:106
-#, fuzzy
 msgid "*Scale 2x"
-msgstr "Scale2x"
+msgstr "*Scale2x"
 
 #: src/arch/unix/gui/uicrtc.c:108 src/arch/unix/gui/uited.c:110
 #: src/arch/unix/gui/uivdc.c:129 src/arch/unix/gui/uivic.c:105
@@ -1519,14 +1504,13 @@ msgstr "Farbpalette..."
 #: src/arch/unix/gui/uivdc.c:162 src/arch/unix/gui/uivic.c:134
 #: src/arch/unix/gui/uivicii.c:173
 msgid "Renderer"
-msgstr ""
+msgstr "Renderer"
 
 #: src/arch/unix/gui/uicrtc.c:147 src/arch/unix/gui/uited.c:138
 #: src/arch/unix/gui/uivdc.c:165 src/arch/unix/gui/uivic.c:137
 #: src/arch/unix/gui/uivicii.c:176
-#, fuzzy
 msgid "CRT Emulation Settings"
-msgstr "PAL Emulator Einstellungen"
+msgstr "CRT Emulator Einstellungen"
 
 #: src/arch/unix/gui/uicrtc.c:152 src/arch/unix/gui/uited.c:143
 #: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:142
@@ -1537,16 +1521,14 @@ msgstr "*Hardwareunterstützung"
 #: src/arch/unix/gui/uicrtc.c:155 src/arch/unix/gui/uited.c:146
 #: src/arch/unix/gui/uivdc.c:173 src/arch/unix/gui/uivic.c:145
 #: src/arch/unix/gui/uivicii.c:192
-#, fuzzy
 msgid "*Keep aspect ratio"
-msgstr "Seitenverhältnis beibehalten (0,5..2)"
+msgstr "*Seitenverhältnis beibehalten"
 
 #: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:148
 #: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:147
 #: src/arch/unix/gui/uivicii.c:194
-#, fuzzy
 msgid "*True aspect ratio"
-msgstr "<Seitenverhältnis>"
+msgstr "Echtes Seitenverhältnis"
 
 #: src/arch/unix/gui/uicrtc.c:163 src/arch/unix/gui/uited.c:154
 #: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:153
@@ -1627,9 +1609,8 @@ msgstr "Digimax Basis"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uidqbb.c:41 src/arch/unix/gui/uidqbb.c:44
-#, fuzzy
 msgid "DQBB image"
-msgstr "DQBB Image Name"
+msgstr "DQBB Image"
 
 #: src/arch/unix/gui/uidqbb.c:49
 msgid "*Enable DQBB"
@@ -2076,9 +2057,8 @@ msgstr "Vollbild Gerät"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uigeoram.c:41 src/arch/unix/gui/uigeoram.c:44
-#, fuzzy
 msgid "GEORAM image"
-msgstr "GEORAM Image Name"
+msgstr "GEORAM Image"
 
 #: src/arch/unix/gui/uigeoram.c:67
 msgid "*Enable GEORAM"
@@ -2093,9 +2073,8 @@ msgid "GEORAM image name..."
 msgstr "GEORAM Image Name..."
 
 #: src/arch/unix/gui/uiide64.c:42
-#, fuzzy
 msgid "IDE64 image"
-msgstr "IDE64 Image Name"
+msgstr "IDE64 Image"
 
 #: src/arch/unix/gui/uiide64.c:73
 msgid "Enter number of cylinders"
@@ -2324,9 +2303,8 @@ msgid "*Symbolic mapping"
 msgstr "*Symbolische Zuordnung"
 
 #: src/arch/unix/gui/uikeyboard.c:68
-#, fuzzy
 msgid "*Positional mapping"
-msgstr "*Positions Zuordnung (US)"
+msgstr "*Positions Zuordnung"
 
 #: src/arch/unix/gui/uikeyboard.c:87
 msgid "Read Keymap File"
@@ -2349,14 +2327,12 @@ msgid "Keyboard mapping type"
 msgstr "Tastatur Mapping"
 
 #: src/arch/unix/gui/uikeyboard.c:187
-#, fuzzy
 msgid "Select symbolic keymap"
-msgstr "Symbolische Keymap Datei definieren"
+msgstr "Symbolische Keymap Datei auswählen"
 
 #: src/arch/unix/gui/uikeyboard.c:188
-#, fuzzy
 msgid "Select positional keymap"
-msgstr "Positions Keymap Datei definieren"
+msgstr "Positions Keymap Datei auswählen"
 
 #: src/arch/unix/gui/uikeyboard.c:190
 msgid "Dump keymap to file"
@@ -2371,9 +2347,8 @@ msgid "MMC64 BIOS name"
 msgstr "MMC64 BIOS Name"
 
 #: src/arch/unix/gui/uimmc64.c:49
-#, fuzzy
 msgid "MMC64 image"
-msgstr "MMC64 Image Name"
+msgstr "MMC64 Image"
 
 #: src/arch/unix/gui/uimmc64.c:53
 msgid "*Rev. A"
@@ -2495,69 +2470,60 @@ msgid "Disconnect"
 msgstr "Verbindung Trennen"
 
 #: src/arch/unix/gui/uipalemu.c:70
-#, fuzzy
 msgid "CRT Scanline shade"
-msgstr "PAL Scanline Schatten"
+msgstr "CRT Scanline Schatten"
 
 #: src/arch/unix/gui/uipalemu.c:70
 msgid "Scanline Shade in percent"
 msgstr "Scanline Schatten in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:77 src/arch/unix/gui/uipalemu.c:127
-#, fuzzy
 msgid "CRT Tint"
-msgstr "Farbton"
+msgstr "CRT Farbton"
 
 #: src/arch/unix/gui/uipalemu.c:77
 msgid "Tint in percent"
 msgstr "Farbton in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:84
-#, fuzzy
 msgid "CRT Odd Line Phase"
-msgstr "Ungerade Zeilenphase"
+msgstr "CRT Ungerade Zeilenphase"
 
 #: src/arch/unix/gui/uipalemu.c:84
 msgid "Phase in percent"
 msgstr "Phase in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:91
-#, fuzzy
 msgid "CRT Odd Line Offset"
-msgstr "Ungerader Zeilenoffset"
+msgstr "CRT Ungerader Zeilenoffset"
 
 #: src/arch/unix/gui/uipalemu.c:91
 msgid "Offset in percent"
 msgstr "Offset in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:99 src/arch/unix/gui/uipalemu.c:125
-#, fuzzy
 msgid "CRT Blurredness"
-msgstr "Unschärfe"
+msgstr "CRT Unschärfe"
 
 #: src/arch/unix/gui/uipalemu.c:99
 msgid "Blurredness in percent"
 msgstr "Unschärfe in Prozent"
 
 #: src/arch/unix/gui/uipalemu.c:120
-#, fuzzy
 msgid "*Activate CRT emulation"
-msgstr "*PAL Emulation aktivieren"
+msgstr "*CRT Emulation aktivieren"
 
 #: src/arch/unix/gui/uipalemu.c:123
-#, fuzzy
 msgid "CRT Scanline Shade"
-msgstr "Scanline Schatten"
+msgstr "CRT Scanline Schatten"
 
 #: src/arch/unix/gui/uipalemu.c:129
-#, fuzzy
 msgid "CRT Odd Lines Phase"
-msgstr "Ungerade Zeilenphase"
+msgstr "CRT Ungerade Zeilenphase"
 
 #: src/arch/unix/gui/uipalemu.c:131
-#, fuzzy
 msgid "CRT Odd Lines Offset"
-msgstr "Ungerader Zeilenoffset"
+msgstr "CRT Ungerader Zeilenoffset"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
@@ -2708,9 +2674,8 @@ msgstr "Peripherie Einstellungen"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uipetreu.c:41 src/arch/unix/gui/uipetreu.c:44
-#, fuzzy
 msgid "PETREU image"
-msgstr "PETREU Image Name"
+msgstr "PETREU Image"
 
 #: src/arch/unix/gui/uipetreu.c:61
 msgid "*Enable PET REU"
@@ -2727,9 +2692,8 @@ msgstr "PET REU Image Name..."
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiplus256k.c:40 src/arch/unix/gui/uiplus256k.c:43
-#, fuzzy
 msgid "PLUS256K image"
-msgstr "PLUS256K Image Name"
+msgstr "PLUS256K Image"
 
 #: src/arch/unix/gui/uiplus256k.c:48
 msgid "*Enable PLUS256K"
@@ -2741,9 +2705,8 @@ msgstr "PLUS256K Image Name..."
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiplus60k.c:41 src/arch/unix/gui/uiplus60k.c:44
-#, fuzzy
 msgid "PLUS60K image"
-msgstr "PLUS60K Image Name"
+msgstr "PLUS60K Image"
 
 #: src/arch/unix/gui/uiplus60k.c:57
 msgid "*Enable PLUS60K"
@@ -2886,9 +2849,8 @@ msgstr "*Maus Ereignisse abfangen"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiramcart.c:42 src/arch/unix/gui/uiramcart.c:45
-#, fuzzy
 msgid "RAMCART image"
-msgstr "RAMCART Image Name"
+msgstr "RAMCART Image"
 
 #: src/arch/unix/gui/uiramcart.c:58
 msgid "*Enable RAMCART"
@@ -2908,9 +2870,8 @@ msgstr "RAMCART Image Name..."
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uireu.c:41 src/arch/unix/gui/uireu.c:44
-#, fuzzy
 msgid "REU image"
-msgstr "REU Image Name"
+msgstr "REU Image"
 
 #: src/arch/unix/gui/uireu.c:69
 msgid "*Enable REU"
@@ -3728,9 +3689,8 @@ msgstr "Zu univesellem Erweiterungsmodul hinzufügen"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/vic20ui.c:331 src/arch/unix/gui/vic20ui.c:334
-#, fuzzy
 msgid "Mega-Cart NvRAM image"
-msgstr "Mega-Cart NvRAM Imagename"
+msgstr "Mega-Cart NvRAM Image"
 
 #: src/arch/unix/gui/vic20ui.c:339
 msgid "*Reset on cartridge change"
@@ -3761,9 +3721,8 @@ msgid "Cartridge options"
 msgstr "Erweiterungsmodul Einstellungen"
 
 #: src/arch/unix/gui/vic20ui.c:497
-#, fuzzy
 msgid "VIC model"
-msgstr "VIC-II Modell"
+msgstr "VIC Modell"
 
 #: src/arch/unix/gui/vic20ui.c:499
 msgid "Memory expansions"
@@ -4048,9 +4007,8 @@ msgid "Odd Line Offset"
 msgstr "Ungerader Zeilenoffset"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:98
-#, fuzzy
 msgid "CRT Settings"
-msgstr "RAMCART Einstellungen"
+msgstr "CRT Einstellungen"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:212
 msgid "Save Media File..."
@@ -4132,9 +4090,8 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/x11ui.c:725
-#, fuzzy
 msgid "CRT Controls"
-msgstr "PAL Steuerung"
+msgstr "CRT Steuerung"
 
 #: src/arch/unix/x11/gnome/x11ui.c:737
 msgid "audio/video recording"
@@ -6498,9 +6455,8 @@ msgid "Always on Top"
 msgstr "Immer im Vordergrund"
 
 #: src/arch/win32/res.rc.po.c:1395
-#, fuzzy
 msgid "Disable DirectX9"
-msgstr "DirectX9 Video Treiber deaktivieren"
+msgstr "DirectX9 deaktivieren"
 
 #: src/arch/win32/res.rc.po.c:1396 src/arch/amigaos/intl_text.c.po.c:2513
 msgid "PAL Emulation"
