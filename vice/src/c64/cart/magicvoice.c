@@ -939,11 +939,11 @@ void magicvoice_resources_shutdown(void)
 
 void magicvoice_shutdown(void)
 {
-    if(tpi_context) {
-        lib_free(tpi_context);
+    if (tpi_context) {
+        tpicore_shutdown(tpi_context);
         tpi_context = NULL;
     }
-    if(t6721) {
+    if (t6721) {
         lib_free(t6721);
         t6721 = NULL;
     }
