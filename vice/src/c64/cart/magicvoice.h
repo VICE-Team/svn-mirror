@@ -40,6 +40,8 @@ extern BYTE REGPARM1 magicvoice_roml_read(WORD addr);
 extern BYTE REGPARM1 magicvoice_romh_read(WORD addr);
 
 extern void magicvoice_init(void);
+extern void magicvoice_shutdown(void);
+
 extern void magicvoice_config_init(void);
 extern void magicvoice_config_setup(BYTE *rawcart);
 extern void magicvoice_setup_context(struct machine_context_s *machine_context);

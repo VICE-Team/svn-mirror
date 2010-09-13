@@ -73,6 +73,8 @@
 #define TPI_ROM_SIZE 0x1000
 static BYTE *tpi_rom = NULL;
 
+static tpi_context_t *tpi_context;
+
 /* ---------------------------------------------------------------------*/
 static void REGPARM2 tpi_store(WORD addr, BYTE data);
 static BYTE REGPARM1 tpi_read(WORD addr);
@@ -110,17 +112,17 @@ int tpi_cart_enabled(void)
 
 static void REGPARM2 tpi_store(WORD addr, BYTE data)
 {
-    tpicore_store(machine_context.tpi1, addr, data);
+    tpicore_store(tpi_context, addr, data);
 }
 
 static BYTE REGPARM1 tpi_read(WORD addr)
 {
-    return tpicore_read(machine_context.tpi1, addr);
+    return tpicore_read(tpi_context, addr);
 }
 
 static BYTE REGPARM1 tpi_peek(WORD addr)
 {
-    return tpicore_peek(machine_context.tpi1, addr);
+    return tpicore_peek(tpi_context, addr);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -295,17 +297,24 @@ static BYTE read_pc(tpi_context_t *tpi_context)
 
 /* ---------------------------------------------------------------------*/
 
-void tpi_init(tpi_context_t *tpi_context)
+void tpi_reset(void)
+{
+    tpicore_reset(tpi_context);
+}
+
+void tpi_init(void)
 {
     tpi_context->log = log_open(tpi_context->myname);
 }
 
+void tpi_shutdown(void)
+{
+    tpicore_shutdown(tpi_context);
+}
+
 void tpi_setup_context(machine_context_t *machine_context)
 {
-    tpi_context_t *tpi_context;
-
-    machine_context->tpi1 = lib_malloc(sizeof(tpi_context_t));
-    tpi_context = machine_context->tpi1;
+    tpi_context = lib_malloc(sizeof(tpi_context_t));
 
     tpi_context->prv = NULL;
 
@@ -509,7 +518,7 @@ int tpi_enable(void)
 
 int tpi_snapshot_read_module(struct snapshot_s *s)
 {
-    if (tpicore_snapshot_read_module(machine_context.tpi1, s) < 0) {
+    if (tpicore_snapshot_read_module(tpi_context, s) < 0) {
         ieee488_enabled = 0;
         return -1;
     } else {
@@ -520,7 +529,7 @@ int tpi_snapshot_read_module(struct snapshot_s *s)
 
 int tpi_snapshot_write_module(struct snapshot_s *s)
 {
-    if (tpicore_snapshot_write_module(machine_context.tpi1, s) < 0) {
+    if (tpicore_snapshot_write_module(tpi_context, s) < 0) {
         return -1;
     }
     return 0;

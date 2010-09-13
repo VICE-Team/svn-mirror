@@ -38,6 +38,7 @@ extern void cartridge_init(void);
 extern int cartridge_resources_init(void);
 extern int cartridge_cmdline_options_init(void);
 /* shutdown the cartridge system */
+extern void cartridge_shutdown(void);
 extern void cartridge_resources_shutdown(void);
 
 /* init the cartridge config so the cartridge can start (or whatever) */

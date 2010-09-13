@@ -549,7 +549,6 @@ const char *cart_get_file_name(int type)
 /* called once by machine_setup_context */
 void cartridge_setup_context(machine_context_t *machine_context)
 {
-    /* FIXME: the TPI context probably shouldn't be in the machine context */
     tpi_setup_context(machine_context);
     magicvoice_setup_context(machine_context);
 }
@@ -1136,6 +1135,8 @@ void cart_init(void)
     /* "Slot 0" */
     mmc64_init(); /* Initialize the MMC64.  */
     magicvoice_init();
+    tpi_init();
+
     /* "Slot 1" */
     ramcart_init(); /* Initialize the RAMCART.  */
     /* "IO Slot" */
@@ -1148,6 +1149,14 @@ void cart_init(void)
 #ifdef HAVE_TFE
     tfe_init(); /* Initialize the TFE.  */
 #endif
+}
+
+/* called once by cartridge_init at machine shutdown */
+void cartridge_shutdown(void)
+{
+    /* "Slot 0" */
+    tpi_shutdown();
+    magicvoice_shutdown();
 }
 
 /*
@@ -1400,6 +1409,9 @@ void cartridge_reset(void)
         ramcart_reset();
     }
     /* "Slot 0" */
+    if (tpi_cart_enabled()) {
+        tpi_reset();
+    }
     if (magicvoice_cart_enabled()) {
         magicvoice_reset();
     }

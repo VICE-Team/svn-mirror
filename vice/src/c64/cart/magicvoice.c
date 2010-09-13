@@ -112,8 +112,8 @@
 #define DBGREG(x)
 #endif
 
-static t6721_state *t6721; /* context for the t6721 chip */
-static tpi_context_t *tpi_context; /* context for the TPI chip */
+static t6721_state *t6721 = NULL; /* context for the t6721 chip */
+static tpi_context_t *tpi_context = NULL; /* context for the TPI chip */
 
 #define MV_ROM_SIZE 0x4000
 static BYTE mv_rom[MV_ROM_SIZE];
@@ -936,6 +936,18 @@ void magicvoice_resources_shutdown(void)
 }
 
 /* ---------------------------------------------------------------------*/
+
+void magicvoice_shutdown(void)
+{
+    if(tpi_context) {
+        lib_free(tpi_context);
+        tpi_context = NULL;
+    }
+    if(t6721) {
+        lib_free(t6721);
+        t6721 = NULL;
+    }
+}
 
 void magicvoice_setup_context(machine_context_t *machine_context)
 {

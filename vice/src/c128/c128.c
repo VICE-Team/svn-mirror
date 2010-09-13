@@ -413,9 +413,6 @@ int machine_specific_init(void)
     cia1_init(machine_context.cia1);
     cia2_init(machine_context.cia2);
 
-    /* FIXME: the TPI context probably should not be in the machine context */
-    tpi_init(machine_context.tpi1);
-
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
     if (c128_kbd_init() < 0) {
@@ -490,7 +487,6 @@ void machine_specific_reset(void)
     ciacore_reset(machine_context.cia1);
     ciacore_reset(machine_context.cia2);
     sid_reset();
-    tpicore_reset(machine_context.tpi1);
 
     rs232drv_reset();
     rsuser_reset();
@@ -524,7 +520,8 @@ void machine_specific_shutdown(void)
 
     ciacore_shutdown(machine_context.cia1);
     ciacore_shutdown(machine_context.cia2);
-    tpicore_shutdown(machine_context.tpi1);
+
+    cartridge_shutdown();
 
     /* close the video chip(s) */
     vicii_shutdown();
