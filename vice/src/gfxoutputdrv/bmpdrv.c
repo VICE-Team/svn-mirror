@@ -99,14 +99,16 @@ static int bmpdrv_write_file_header(screenshot_t *screenshot)
 
     util_dword_to_le_buf(&header[2], bmpdrv_bmp_size(screenshot));
 
-    if (sdata->bpp == 24)
+    if (sdata->bpp == 24) {
         util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET24);
-    else
+    } else {
         util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET);
+    }
 
     if (fwrite(header, sizeof(header), 1, screenshot->gfxoutputdrv_data->fd)
-        < 1)
+        < 1) {
         return -1;
+    }
 
     return 0;
 }
@@ -136,22 +138,19 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     util_dword_to_le_buf(&binfo[24], screenshot->dpi_x * 10000 / 254);
     util_dword_to_le_buf(&binfo[28], screenshot->dpi_y * 10000 / 254);
 
-    if (screenshot->gfxoutputdrv_data->bpp == 24)
-    {
+    if (screenshot->gfxoutputdrv_data->bpp == 24) {
         util_dword_to_le_buf(&binfo[32], 0);
         util_dword_to_le_buf(&binfo[36], 0);
-    }
-    else
-    {
+    } else {
         util_dword_to_le_buf(&binfo[32], screenshot->palette->num_entries);
         util_dword_to_le_buf(&binfo[36], screenshot->palette->num_entries);
     }
 
-    if (fwrite(binfo, sizeof(binfo), 1, screenshot->gfxoutputdrv_data->fd) < 1)
+    if (fwrite(binfo, sizeof(binfo), 1, screenshot->gfxoutputdrv_data->fd) < 1) {
         return -1;
+    }
 
-    if (screenshot->gfxoutputdrv_data->bpp != 24)
-    {
+    if (screenshot->gfxoutputdrv_data->bpp != 24) {
         bcolor = lib_malloc(screenshot->palette->num_entries * 4);
 
         for (i = 0; i < screenshot->palette->num_entries; i++) {
@@ -181,14 +180,15 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 
     screenshot->gfxoutputdrv_data = sdata;
 
-    if (screenshot->palette->num_entries <= 2)
+    if (screenshot->palette->num_entries <= 2) {
         sdata->bpp = 1;
-    else if (screenshot->palette->num_entries <= 16)
+    } else if (screenshot->palette->num_entries <= 16) {
         sdata->bpp = 4;
-    else if (screenshot->palette->num_entries <= 256)
+    } else if (screenshot->palette->num_entries <= 256) {
         sdata->bpp = 8;
-    else
+    } else {
         sdata->bpp = 24;
+    }
 
     sdata->line = 0;
 
@@ -217,13 +217,13 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    if (sdata->bpp == 24)
+    if (sdata->bpp == 24) {
         sdata->data = lib_malloc(screenshot->width * 3);
-    else
+    } else {
         sdata->data = lib_malloc(screenshot->width);
+    }
 
-    switch (sdata->bpp)
-    {
+    switch (sdata->bpp) {
         case 1:
           sdata->bmp_data = lib_malloc(screenshot->height
                                                * screenshot->width / 8);
@@ -252,10 +252,11 @@ static int bmpdrv_write(screenshot_t *screenshot)
 
     sdata = screenshot->gfxoutputdrv_data;
 
-    if (sdata->bpp == 24)
+    if (sdata->bpp == 24) {
         (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_RGB24);
-    else
+    } else {
         (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_PALETTE);
+    }
 
     switch (sdata->bpp) {
       case 1:
@@ -300,6 +301,7 @@ static int bmpdrv_close(screenshot_t *screenshot)
 {
     int res = -1;
     size_t len = 0;
+
     switch (screenshot->gfxoutputdrv_data->bpp) {
       case 1:
         len = screenshot->height * screenshot->width / 8;
@@ -314,9 +316,11 @@ static int bmpdrv_close(screenshot_t *screenshot)
         len = screenshot->height * screenshot->width * 3;
         break;
     }
-    if (fwrite(screenshot->gfxoutputdrv_data->bmp_data, len, 1, screenshot->gfxoutputdrv_data->fd) == len) {
+
+    if (fwrite(screenshot->gfxoutputdrv_data->bmp_data, len, 1, screenshot->gfxoutputdrv_data->fd) == 1) {
         res = 0;
     }
+
     lib_free(screenshot->gfxoutputdrv_data->data);
     lib_free(screenshot->gfxoutputdrv_data->bmp_data);
     fclose(screenshot->gfxoutputdrv_data->fd);
@@ -329,8 +333,9 @@ static int bmpdrv_save(screenshot_t *screenshot, const char *filename)
 {
     unsigned int i;
 
-    if (bmpdrv_open(screenshot, filename) < 0)
+    if (bmpdrv_open(screenshot, filename) < 0) {
         return -1;
+    }
 
     for (i = 0; i < screenshot->height; i++) {
         if (bmpdrv_write(screenshot) < 0) {
@@ -341,8 +346,9 @@ static int bmpdrv_save(screenshot_t *screenshot, const char *filename)
         }
     }
 
-    if (bmpdrv_close(screenshot) < 0)
+    if (bmpdrv_close(screenshot) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -355,9 +361,11 @@ static BYTE *bmpdrv_memmap_bmp_data;
 static int bmpdrv_close_memmap(int x_size, int y_size)
 {
     int res = 0;
-    if (fwrite(bmpdrv_memmap_bmp_data, y_size * x_size, 1, bmpdrv_memmap_fd) != y_size * x_size) {
+
+    if (fwrite(bmpdrv_memmap_bmp_data, y_size * x_size, 1, bmpdrv_memmap_fd) != 1) {
         res = -1;
     }
+
     fclose(bmpdrv_memmap_fd);
     lib_free(bmpdrv_memmap_ext_filename);
     lib_free(bmpdrv_memmap_bmp_data);
@@ -406,16 +414,14 @@ static int bmpdrv_memmap_write_bitmap_info(int x_size, int y_size, BYTE *palette
 
     bcolor = lib_malloc(256 * 4);
 
-    for (i = 0; i < 256; i++)
-    {
+    for (i = 0; i < 256; i++) {
         bcolor[i * 4] = palette[(i*3)+2];
         bcolor[i * 4 + 1] = palette[(i*3)+1];
         bcolor[i * 4 + 2] = palette[(i*3)];
         bcolor[i * 4 + 3] = 0;
     }
 
-    if (fwrite(bcolor, 256 * 4, 1, bmpdrv_memmap_fd) < 1)
-    {
+    if (fwrite(bcolor, 256 * 4, 1, bmpdrv_memmap_fd) < 1) {
         lib_free(bcolor);
         return -1;
     }
@@ -437,8 +443,9 @@ static int bmpdrv_memmap_write_file_header(int x_size, int y_size)
 
     util_dword_to_le_buf(&header[10], (14 + 40 + 4 * 256));
 
-    if (fwrite(header, sizeof(header), 1, bmpdrv_memmap_fd) < 1)
+    if (fwrite(header, sizeof(header), 1, bmpdrv_memmap_fd) < 1) {
         return -1;
+    }
 
     return 0;
 }
@@ -449,27 +456,24 @@ static int bmpdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
 
     bmpdrv_memmap_fd = fopen(bmpdrv_memmap_ext_filename, MODE_WRITE);
 
-    if (bmpdrv_memmap_fd == NULL)
-    {
+    if (bmpdrv_memmap_fd == NULL) {
         lib_free(bmpdrv_memmap_ext_filename);
         return -1;
     }
 
-    if (bmpdrv_memmap_write_file_header(x_size, y_size) < 0)
-    {
+    if (bmpdrv_memmap_write_file_header(x_size, y_size) < 0) {
         fclose(bmpdrv_memmap_fd);
         lib_free(bmpdrv_memmap_ext_filename);
         return -1;
     }
 
-    if (bmpdrv_memmap_write_bitmap_info(x_size, y_size, palette) < 0)
-    {
+    if (bmpdrv_memmap_write_bitmap_info(x_size, y_size, palette) < 0) {
         fclose(bmpdrv_memmap_fd);
         lib_free(bmpdrv_memmap_ext_filename);
         return -1;
     }
 
-    bmpdrv_memmap_bmp_data = lib_malloc(x_size*y_size);
+    bmpdrv_memmap_bmp_data = lib_malloc(x_size * y_size);
 
     return 0;
 }
@@ -483,16 +487,17 @@ static int bmpdrv_memmap_save(const char *filename, int x_size, int y_size, BYTE
 {
     int line;
 
-    if (bmpdrv_open_memmap(filename, x_size, y_size, palette) < 0)
+    if (bmpdrv_open_memmap(filename, x_size, y_size, palette) < 0) {
         return -1;
+    }
 
-    for (line=0; line<y_size; line++)
-    {
+    for (line = 0; line < y_size; line++) {
         bmpdrv_write_memmap(line, x_size, y_size, gfx);
     }
 
-    if (bmpdrv_close_memmap(x_size, y_size) < 0)
+    if (bmpdrv_close_memmap(x_size, y_size) < 0) {
         return -1;
+    }
 
     return 0;
 }
