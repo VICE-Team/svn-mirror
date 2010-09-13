@@ -273,6 +273,8 @@ void cartridge_romlbank_set(unsigned int bank)
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
 BYTE REGPARM1 roml_read(WORD addr)
 {
+/*    DBG(("CARTMEM roml_read (addr %04x)\n", addr)); */
+
     /* "Slot 0" */
     if (mmc64_cart_enabled()) {
         return mmc64_roml_read(addr);
@@ -1053,6 +1055,11 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
 /* FIXME: only works for cart in main slot */
 BYTE cartridge_peek_mem(WORD addr)
 {
+/*    DBG(("CARTMEM cartridge_peek_mem (type %d addr %04x)\n", mem_cartridge_type, addr)); */
+    /* "Slot 0" */
+    if (tpi_cart_enabled()) {
+        return tpi_peek_mem(addr);
+    }
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_RETRO_REPLAY:

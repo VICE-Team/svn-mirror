@@ -1263,9 +1263,6 @@ void cartridge_init_config(void)
         case CARTRIDGE_DINAMIC:
             dinamic_config_init();
             break;
-        case CARTRIDGE_IEEE488:
-            tpi_config_init();
-            break;
         case CARTRIDGE_MAGIC_DESK:
             magicdesk_config_init();
             break;
@@ -1334,6 +1331,9 @@ void cartridge_init_config(void)
     }
     if (mmc64_cart_enabled()) {
         mmc64_init_card_config();
+    }
+    if (tpi_cart_enabled()) {
+        tpi_config_init();
     }
 
 }

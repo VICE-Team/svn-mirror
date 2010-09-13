@@ -132,6 +132,15 @@ BYTE REGPARM1 tpi_roml_read(WORD addr)
     return tpi_rom[addr & 0x1fff];
 }
 
+BYTE REGPARM1 tpi_peek_mem(WORD addr)
+{
+    if ((addr >= 0x8000) && (addr <= 0x9fff)) {
+        return tpi_rom[addr & 0x1fff];
+    } else {
+        return 0;
+    }
+}
+
 /* ---------------------------------------------------------------------*/
 
 static void set_int(unsigned int int_num, int value)
@@ -236,6 +245,7 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
     int exrom = ((byte & 8) ? 0 : 1); /* 1 = active */
     /* FIXME: passthrough support */
+    DBG(("TPI store_pc %d:%d\n", exrom << 1, exrom << 1));
     cartridge_config_changed(exrom << 1, exrom << 1, CMODE_READ);
 }
 
@@ -299,6 +309,7 @@ static BYTE read_pc(tpi_context_t *tpi_context)
 
 void tpi_reset(void)
 {
+    DBG(("TPI: tpi_reset\n"));
     tpicore_reset(tpi_context);
 }
 
@@ -464,17 +475,20 @@ void tpi_config_setup(BYTE *rawcart)
 
 void tpi_config_init(void)
 {
+    DBG(("TPI: tpi_config_init\n"));
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 static int tpi_common_attach(void)
 {
+    DBG(("TPI: tpi_common_attach\n"));
     return set_ieee488_enabled(1, NULL);
 }
 
 int tpi_bin_attach(const char *filename, BYTE *rawcart)
 {
     FILE *fd;
+    DBG(("TPI: tpi_bin_attach\n"));
 
     fd = fopen(filename, MODE_READ);
     if (!fd) {
