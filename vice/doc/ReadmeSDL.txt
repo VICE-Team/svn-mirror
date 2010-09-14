@@ -18,14 +18,14 @@ SDL port of VICE
 
 The SDL port is meant to be an easily portable version of VICE
 that is fully usable with just a joystick (with at least 2 buttons)
-or a keyboard. OS/arch-specific features (such as RS-232 support)
+or a keyboard. OS/arch-specific features (such as copy/paste support)
 may be omitted for portability. Everything is configurable via the UI.
 
 
 1.2 Features
 
 Some new features that are missing from (some of) the native versions:
- - Free scaling using OpenGL (from the GTK port) with optional fixed aspect ratio
+ - Free scaling using OpenGL (from the GTK port) with fixed aspect ratio options
  - Virtual keyboard (adapted from the GP2X port)
  - Hotkey mapping to any menu item
  - (Host) joystick event mapping to (machine) joystick, keyboard or menu item
@@ -164,12 +164,12 @@ empty spot.
 Keys and joystick events can be mapped to the keyboard via the virtual keyboard.
 
 
-2.4 Text input dialog virtual keyboard
+2.4 Text input dialog virtual PC keyboard
 
-The text input dialog also has a virtual keyboard, which can be activated
+The text input dialog also has a virtual PC keyboard, which can be activated
 with the key F10 or joystick commands Cancel or Map.
 
-When the virtual keyboard is active, the following commands are active:
+When the virtual PC keyboard is active, the following commands are active:
 (default keys/joymap shown)
 
 --------------------------------------------------
@@ -181,22 +181,23 @@ Left     | left  |  l   | Move cursor left
 Right    | right |  r   | Move cursor right
 Select   | enter | fire | Press the key
 Cancel   | <-    | btn2 | Press with shift
-Exit     | ESC   | N/A  | Close the virtual kbd
-Map      | m     | btn3 | Close the virtual kbd
+Exit     | ESC   | N/A  | Close the virtual PC kbd
+Map      | m     | btn3 | Close the virtual PC kbd
 --------------------------------------------------
 
-The joystick command Activate behaves as Cancel while using the virtual
+The joystick command Activate behaves as Cancel while using the virtual PC
 keyboard.
 
-Simultaneous keypresses are not possible. The virtual keyboard cannot be moved.
+The virtual PC keyboard uses the US keymap. Simultaneous keypresses are not
+possible. The virtual PC keyboard cannot be moved.
 
-The virtual keyboard can be closed by pressing the 'X' in the top left corner,
-with the commands Exit and Map or with the command Cancel when the cursor is at an
-empty spot.
+The virtual PC keyboard can be closed by pressing the 'X' in the top left corner,
+with the commands Exit and Map or with the command Cancel when the cursor is at
+an empty spot.
 
-To exit/cancel the dialog itself, press "esc" on the virtual keyboard.
+To exit/cancel the text dialog itself, press "esc" on the virtual PC keyboard.
 
-Note that normal text input via keyboard is not possible while the virtual
+Note that normal text input via keyboard is not possible while the virtual PC
 keyboard is active.
 
 
@@ -272,9 +273,10 @@ at all times.
 3.4 OpenGL
 
 OpenGL free scaling works only with bit depths 24 and 32. For fullscreen with
-OpenGL, using "Custom" mode is strongly advised. The pixel aspect ratio can be
-(optionally) fixed to a settable constant. Resolution limiting is disabled
-when free scaling is enabled.
+OpenGL, using the "Custom" fullscreen mode is strongly advised. The pixel aspect
+ratio can be left as is ("Off"), fixed to a settable constant ("Custom") or
+fixed to the true aspect ratio of the emulated video chip/system ("True").
+Resolution limiting is disabled when free scaling is enabled.
 
 
 4. Building
