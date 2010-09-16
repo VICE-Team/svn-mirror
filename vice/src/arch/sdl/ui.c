@@ -47,6 +47,7 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uicolor.h"
+#include "uifilereq.h"
 #include "uimenu.h"
 #include "uimsgbox.h"
 #include "uistatusbar.h"
@@ -350,6 +351,7 @@ void ui_shutdown(void)
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif
+    sdl_ui_file_selection_dialog_shutdown();
 }
 
 /* Print an error message.  */

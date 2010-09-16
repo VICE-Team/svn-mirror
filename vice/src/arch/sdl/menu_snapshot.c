@@ -76,7 +76,7 @@ static UI_MENU_CALLBACK(save_snapshot_callback)
     char *name;
 
     if (activated) {
-        name = sdl_ui_file_selection_dialog("Choose snapshot file to save", FILEREQ_MODE_CHOOSE_FILE);
+        name = sdl_ui_file_selection_dialog("Choose snapshot file to save", FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
             util_add_extension(&name, "vsf");
             if (machine_write_snapshot(name, save_roms, save_disks, 0) < 0) {

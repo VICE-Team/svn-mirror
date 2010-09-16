@@ -86,7 +86,7 @@ static UI_MENU_CALLBACK(save_keymap_callback)
     if (activated) {
         char *name = NULL;
 
-        name = sdl_ui_file_selection_dialog("Choose file for keymap", FILEREQ_MODE_CHOOSE_FILE);
+        name = sdl_ui_file_selection_dialog("Choose file for keymap", FILEREQ_MODE_SAVE_FILE);
 
         if (name != NULL) {
             if (keyboard_keymap_dump(name) < 0) {

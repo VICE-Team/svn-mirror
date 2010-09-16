@@ -52,7 +52,7 @@ static UI_MENU_CALLBACK(save_screenshot_callback)
 
     if (activated) {
         sprintf(title, "Choose %s file", (char *)param);
-        name = sdl_ui_file_selection_dialog(title, FILEREQ_MODE_CHOOSE_FILE);
+        name = sdl_ui_file_selection_dialog(title, FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
             width = sdl_active_canvas->draw_buffer->draw_buffer_width;
             height = sdl_active_canvas->draw_buffer->draw_buffer_height;

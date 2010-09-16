@@ -336,7 +336,7 @@ static UI_MENU_CALLBACK(fliplist_callback)
                break;
             case UI_FLIP_SAVE:
             default:
-                name = sdl_ui_file_selection_dialog("Select fliplist to save", FILEREQ_MODE_CHOOSE_FILE);
+                name = sdl_ui_file_selection_dialog("Select fliplist to save", FILEREQ_MODE_SAVE_FILE);
                 if (name != NULL) {
                     util_add_extension(&name, "vfl");
                     if (fliplist_save_list((unsigned int)-1, name) != 0) {
@@ -590,7 +590,7 @@ UI_MENU_CALLBACK(create_disk_image_callback)
     int overwrite = 1;
 
     if (activated) {
-        name = sdl_ui_file_selection_dialog("Select diskimage name", FILEREQ_MODE_CHOOSE_FILE);
+        name = sdl_ui_file_selection_dialog("Select diskimage name", FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
             if (util_file_exists(name)) {
                 if (message_box("VICE QUESTION","File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {

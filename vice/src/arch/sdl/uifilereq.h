@@ -32,9 +32,11 @@
 
 typedef enum {
     FILEREQ_MODE_CHOOSE_FILE = 0,
+    FILEREQ_MODE_SAVE_FILE,
     FILEREQ_MODE_CHOOSE_DIR
 } ui_menu_filereq_mode_t;
 
 extern char *sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mode);
+extern void sdl_ui_file_selection_dialog_shutdown(void);
 
 #endif
