@@ -316,7 +316,7 @@ asm_rules: CMD_ASSEMBLE address
 memory_rules: CMD_MOVE address_range opt_sep address end_cmd
               { mon_memory_move($2[0], $2[1], $4); }
             | CMD_COMPARE address_range opt_sep address end_cmd
-              { mon_memory_compare($2[0], $2[0], $4); }
+              { mon_memory_compare($2[0], $2[1], $4); }
             | CMD_FILL address_range opt_sep data_list end_cmd
               { mon_memory_fill($2[0], $2[1],(unsigned char *)$4); }
             | CMD_HUNT address_range opt_sep hunt_list end_cmd
