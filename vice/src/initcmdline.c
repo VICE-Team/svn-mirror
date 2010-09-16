@@ -38,6 +38,7 @@
 #include "charset.h"
 #include "cmdline.h"
 #include "initcmdline.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -78,6 +79,11 @@ static int cmdline_dummy_callback(const char *param, void *extra_param)
 static int cmdline_default(const char *param, void *extra_param)
 {
     return resources_set_defaults();
+}
+
+static int cmdline_chdir(const char *param, void *extra_param)
+{
+    return ioutil_chdir(param);
 }
 
 static int cmdline_autostart(const char *param, void *extra_param)
@@ -150,6 +156,11 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE,
       NULL, NULL },
+    { "-chdir", CALL_FUNCTION, 1,
+      cmdline_chdir, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE, /* FIXME possibly: IDGS_P_DIRECTORY, IDGS_MON_CD_DESCRIPTION, */
+      T_("<directory>"), T_("Change the working directory") },
 #if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0,
       cmdline_console, NULL, NULL, NULL,
