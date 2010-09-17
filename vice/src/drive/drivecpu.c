@@ -760,7 +760,9 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     /* Update `*bank_base'.  */
     JUMP(reg_pc);
 
-    interrupt_read_new_snapshot(drv->cpu->int_status, m);
+    if (interrupt_read_new_snapshot(drv->cpu->int_status, m) < 0) {
+        goto fail;
+    }
 
     return snapshot_module_close(m);
 

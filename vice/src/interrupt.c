@@ -174,57 +174,19 @@ void interrupt_log_wrong_nnmi(void)
 
 void interrupt_restore_irq(interrupt_cpu_status_t *cs, int int_num, int value)
 {
-    if (cs->needs_global_restore) {
-        /* old snapshot restore; global_pending_int needs to be set */
-        if (value) {
-            if (!(cs->pending_int[int_num] & IK_IRQ)) {
-                cs->nirq++;
-                cs->global_pending_int |= IK_IRQ;
-                cs->pending_int[int_num] |= IK_IRQ;
-            }
-        } else {
-            if (cs->pending_int[int_num] & IK_IRQ) {
-                if (cs->nirq > 0) {
-                    cs->pending_int[int_num] &= ~IK_IRQ;
-                    if (--cs->nirq == 0)
-                        cs->global_pending_int &= ~IK_IRQ;
-                }
-            }
-        }
+    if (value) {
+        cs->pending_int[int_num] |= IK_IRQ;
     } else {
-        if (value)
-            cs->pending_int[int_num] |= IK_IRQ;
-        else
-            cs->pending_int[int_num] &= ~IK_IRQ;
+        cs->pending_int[int_num] &= ~IK_IRQ;
     }
 }
 
 void interrupt_restore_nmi(interrupt_cpu_status_t *cs, int int_num, int value)
 {
-    if (cs->needs_global_restore) {
-        /* old snapshot restore; global_pending_int needs to be set */
-        if (value) {
-            if (!(cs->pending_int[int_num] & IK_NMI)) {
-                if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI))
-                    cs->global_pending_int |= IK_NMI;
-                cs->nnmi++;
-                cs->pending_int[int_num] |= IK_NMI;
-            }
-        } else {
-            if (cs->pending_int[int_num] & IK_NMI) {
-                if (cs->nnmi > 0) {
-                    cs->nnmi--;
-                    cs->pending_int[int_num] &= ~IK_NMI;
-                    if (maincpu_clk == cs->nmi_clk)
-                    cs->global_pending_int &= ~IK_NMI;
-                }
-            }
-        }
+    if (value) {
+        cs->pending_int[int_num] |= IK_NMI;
     } else {
-        if (value)
-            cs->pending_int[int_num] |= IK_NMI;
-        else
-            cs->pending_int[int_num] &= ~IK_NMI;
+        cs->pending_int[int_num] &= ~IK_NMI;
     }
 }
 
@@ -371,8 +333,9 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     if (SMW_DW(m, cs->irq_clk) < 0
         || SMW_DW(m, cs->nmi_clk) < 0
         || SMW_DW(m, (DWORD)cs->num_last_stolen_cycles) < 0
-        || SMW_DW(m, cs->last_stolen_cycles_clk) < 0)
+        || SMW_DW(m, cs->last_stolen_cycles_clk) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -380,24 +343,12 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs,
                                  snapshot_module_t *m)
 {
-/*
-    unsigned int i;
-*/
     if (SMW_DW(m, cs->nirq) < 0
         || SMW_DW(m, cs->nnmi) < 0
-        || SMW_DW(m, cs->global_pending_int) < 0)
+        || SMW_DW(m, cs->global_pending_int) < 0) {
         return -1;
-/*
-    if (SMW_DW(m, cs->num_dma_per_opcode) < 0)
-        return -1;
-
-    for (i = 0; i < cs->num_dma_per_opcode; i++) {
-        if (SMW_DW(m, cs->dma_start_clk[i]) < 0)
-            return -1;
-        if (SMW_DW(m, cs->num_cycles_left[i]) < 0)
-            return -1;
     }
-*/
+
     return 0;
 }
 
@@ -417,47 +368,38 @@ int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     unsigned int i;
     DWORD dw;
 
-    for (i = 0; i < cs->num_ints; i++)
+    for (i = 0; i < cs->num_ints; i++) {
         cs->pending_int[i] = IK_NONE;
+    }
+
     cs->global_pending_int = IK_NONE;
     cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
 
     if (SMR_DW(m, &cs->irq_clk) < 0
-        || SMR_DW(m, &cs->nmi_clk) < 0)
+        || SMR_DW(m, &cs->nmi_clk) < 0) {
         return -1;
+    }
 
-    if (SMR_DW(m, &dw) < 0)
+    if (SMR_DW(m, &dw) < 0) {
         return -1;
+    }
     cs->num_last_stolen_cycles = dw;
 
-    if (SMR_DW(m, &dw) < 0)
+    if (SMR_DW(m, &dw) < 0) {
         return -1;
+    }
     cs->last_stolen_cycles_clk = dw;
-
-    /* old-style snapshot need restore of the global interrupt settings */
-    cs->needs_global_restore = 1;
 
     return 0;
 }
 
 int interrupt_read_new_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 {
-    DWORD dw;
-
-    if (SMR_DW(m, &dw) < 0)
-        return 0;
-    cs->nirq = dw;
-
-    if (SMR_DW(m, &dw) < 0)
-        return 0;
-    cs->nnmi = dw;
-
-    if (SMR_DW(m, &dw) < 0)
-        return 0;
-    cs->global_pending_int = dw;
-
-    /* new-style snapshot need no restore of the global interrupt settings */
-    cs->needs_global_restore = 0;
+    if (SMR_DW_INT(m, &cs->nirq) < 0
+        || SMR_DW_INT(m, &cs->nnmi) < 0
+        || SMR_DW_UINT(m, &cs->global_pending_int) < 0) {
+        return -1;
+    }
 
     return 0;
 }

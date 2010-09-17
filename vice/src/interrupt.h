@@ -112,9 +112,6 @@ struct interrupt_cpu_status_s {
     void (*nmi_trap_func)(void);
 
     void (*reset_trap_func)(void);
-
-    /* flag for interrupt_restore to handle CPU snapshots before 1.1 */
-    int needs_global_restore;
 };
 typedef struct interrupt_cpu_status_s interrupt_cpu_status_t;
 

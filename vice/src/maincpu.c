@@ -653,10 +653,13 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
 #endif
 
-    if (interrupt_read_snapshot(maincpu_int_status, m) < 0)
+    if (interrupt_read_snapshot(maincpu_int_status, m) < 0) {
         goto fail;
+    }
 
-    interrupt_read_new_snapshot(maincpu_int_status, m);
+    if (interrupt_read_new_snapshot(maincpu_int_status, m) < 0) {
+        goto fail;
+    }
 
     return snapshot_module_close(m);
 
