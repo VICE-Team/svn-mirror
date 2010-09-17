@@ -401,6 +401,17 @@ int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs,
     return 0;
 }
 
+int interrupt_write_sc_snapshot(interrupt_cpu_status_t *cs,
+                                snapshot_module_t *m)
+{
+    if (SMW_DW(m, cs->irq_delay_cycles) < 0
+        || SMW_DW(m, cs->nmi_delay_cycles) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
 int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 {
     unsigned int i;
@@ -447,6 +458,16 @@ int interrupt_read_new_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m
 
     /* new-style snapshot need no restore of the global interrupt settings */
     cs->needs_global_restore = 0;
+
+    return 0;
+}
+
+int interrupt_read_sc_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
+{
+    if (SMR_DW_UINT(m, &cs->irq_delay_cycles) < 0
+        || SMR_DW_UINT(m, &cs->nmi_delay_cycles) < 0) {
+        return -1;
+    }
 
     return 0;
 }

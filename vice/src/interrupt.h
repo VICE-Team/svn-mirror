@@ -280,9 +280,13 @@ extern int interrupt_read_snapshot(interrupt_cpu_status_t *cs,
                                    struct snapshot_module_s *m);
 extern int interrupt_read_new_snapshot(interrupt_cpu_status_t *cs,
                                    struct snapshot_module_s *m);
+extern int interrupt_read_sc_snapshot(interrupt_cpu_status_t *cs,
+                                   struct snapshot_module_s *m);
 extern int interrupt_write_snapshot(interrupt_cpu_status_t *cs,
                                     struct snapshot_module_s *m);
 extern int interrupt_write_new_snapshot(interrupt_cpu_status_t *cs,
+                                    struct snapshot_module_s *m);
+extern int interrupt_write_sc_snapshot(interrupt_cpu_status_t *cs,
                                     struct snapshot_module_s *m);
 
 extern void interrupt_restore_irq(interrupt_cpu_status_t *cs, int int_num,

@@ -63,7 +63,7 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_get_name());
 
     if (s == NULL)
         return -1;
@@ -99,7 +99,7 @@ int cbm2_snapshot_read(const char *name, int event_mode)
     snapshot_t *s;
     BYTE minor, major;
 
-    s = snapshot_open(name, &major, &minor, machine_name);
+    s = snapshot_open(name, &major, &minor, machine_get_name());
 
     if (s == NULL)
         return -1;

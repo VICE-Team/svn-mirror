@@ -304,7 +304,7 @@ alarm_context_t *maincpu_alarm_context = NULL;
 clk_guard_t *maincpu_clk_guard = NULL;
 monitor_interface_t *maincpu_monitor_interface = NULL;
 
-/* This flag is an obsolete optimization. It's always 0 for the VIC-20 CPU,
+/* This flag is an obsolete optimization. It's always 0 for the x64sc CPU,
    but has to be kept for the common code. */
 int maincpu_rmw_flag = 0;
 
@@ -573,8 +573,9 @@ int maincpu_snapshot_write_module(snapshot_t *s)
 
     m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
                                ((BYTE)SNAP_MINOR));
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (0
         || SMW_DW(m, maincpu_clk) < 0
@@ -584,20 +585,29 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
         || SMW_W(m, (WORD)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
         || SMW_B(m, (BYTE)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || SMW_DW(m, (DWORD)last_opcode_info) < 0)
+        || SMW_DW(m, (DWORD)last_opcode_info) < 0
+        || SMW_DW(m, (DWORD)maincpu_ba_low_flags) < 0) {
         goto fail;
+    }
 
-    if (interrupt_write_snapshot(maincpu_int_status, m) < 0)
+    if (interrupt_write_snapshot(maincpu_int_status, m) < 0) {
         goto fail;
+    }
 
-    if (interrupt_write_new_snapshot(maincpu_int_status, m) < 0)
+    if (interrupt_write_new_snapshot(maincpu_int_status, m) < 0) {
         goto fail;
+    }
+
+    if (interrupt_write_sc_snapshot(maincpu_int_status, m) < 0) {
+        goto fail;
+    }
 
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -609,12 +619,9 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
-
-    /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
-       wrong number of cycles.  */
-    maincpu_rmw_flag = 0;
+    }
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
@@ -625,8 +632,10 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW_UINT(m, &last_opcode_info) < 0)
+        || SMR_DW_UINT(m, &last_opcode_info) < 0
+        || SMR_DW_INT(m, &maincpu_ba_low_flags) < 0) {
         goto fail;
+    }
 
     MOS6510_REGS_SET_A(&maincpu_regs, a);
     MOS6510_REGS_SET_X(&maincpu_regs, x);
@@ -635,16 +644,24 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     MOS6510_REGS_SET_PC(&maincpu_regs, pc);
     MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
 
-    if (interrupt_read_snapshot(maincpu_int_status, m) < 0)
+    if (interrupt_read_snapshot(maincpu_int_status, m) < 0) {
         goto fail;
+    }
 
-    interrupt_read_new_snapshot(maincpu_int_status, m);
+    if (interrupt_read_new_snapshot(maincpu_int_status, m) < 0) {
+        goto fail;
+    }
+
+    if (interrupt_read_sc_snapshot(maincpu_int_status, m) < 0) {
+        goto fail;
+    }
 
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 

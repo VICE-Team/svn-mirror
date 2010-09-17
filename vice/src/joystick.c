@@ -508,19 +508,18 @@ int joystick_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, "JOYSTICK", 1, 0);
-    if (m == NULL)
+    if (m == NULL) {
        return -1;
+    }
 
-    /* FIXME "- 2" is to keep compatible with old snapshots */
-    if (0
-        || SMW_BA(m, joystick_value, (JOYSTICK_NUM + 1) - 2) < 0)
-    {
+    if (SMW_BA(m, joystick_value, (JOYSTICK_NUM + 1)) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -536,10 +535,7 @@ int joystick_snapshot_read_module(snapshot_t *s)
         return 0;
     }
 
-    /* FIXME "- 2" is to keep compatible with old snapshots */
-    if (0
-        || SMR_BA(m, joystick_value, (JOYSTICK_NUM + 1) - 2) < 0)
-    {
+    if (SMR_BA(m, joystick_value, (JOYSTICK_NUM + 1)) < 0) {
         snapshot_module_close(m);
         return -1;
     }
