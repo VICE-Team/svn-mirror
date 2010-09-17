@@ -165,7 +165,6 @@ noinst_HEADERS = \
 	mainc64cpu.h \
 	maincpu.h \
 	mainviccpu.c \
-	mainviccpu.h \
 	mc6821.h \
 	mem.h \
 	midi.h \

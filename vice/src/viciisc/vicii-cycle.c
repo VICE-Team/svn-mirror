@@ -33,7 +33,7 @@
 
 #include "debug.h"
 #include "log.h"
-#include "mainc64cpu.h"
+#include "maincpu.h"
 #include "types.h"
 #include "vicii-chip-model.h"
 #include "vicii-cycle.h"

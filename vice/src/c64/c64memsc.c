@@ -49,6 +49,7 @@
 #include "clkguard.h"
 #include "machine.h"
 #include "mainc64cpu.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
 #include "plus256k.h"

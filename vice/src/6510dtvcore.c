@@ -33,7 +33,7 @@
  */
 
 /* This file is included by (some) CPU definition files */
-/* (maindtvcpu.c) */
+/* (mainc64cpu.c, mainviccpu.c) */
 
 #define CPU_STR "Main CPU"
 

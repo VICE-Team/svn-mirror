@@ -1,9 +1,8 @@
 /*
- * mainc64cpu.h - Emulation of the C64 6510 processor.
+ * mainc64cpu.h - x64sc main CPU extra API.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,61 +27,10 @@
 #ifndef VICE_MAINC64CPU_H
 #define VICE_MAINC64CPU_H
 
-#include "types.h"
-
-
-/* Information about the last opcode executed by the main CPU.  */
-extern unsigned int last_opcode_info;
-
-/* Masks to extract information. */
-#define OPINFO_NUMBER_MSK               0xff
-
-/* Return the opcode number for `opinfo'.  */
-#define OPINFO_NUMBER(opinfo)                   \
-    ((opinfo) & OPINFO_NUMBER_MSK)
-
-/* The VIC-II emulation needs this ugly hack.  */
-extern unsigned int reg_pc;
-
-struct mos6510_regs_s;
-extern struct mos6510_regs_s maincpu_regs;
-
-/* Always 0 */
-extern int maincpu_rmw_flag;
-
-extern CLOCK maincpu_clk;
-
 /* Mask: BA low */
 #define MAINCPU_BA_LOW_VICII 1
 #define MAINCPU_BA_LOW_REU   2
 extern int maincpu_ba_low_flags;
-
-/* ------------------------------------------------------------------------- */
-
-struct alarm_context_s;
-struct snapshot_s;
-struct clk_guard_s;
-struct monitor_interface_s;
-
-extern const CLOCK maincpu_opcode_write_cycles[];
-extern struct alarm_context_s *maincpu_alarm_context;
-extern struct clk_guard_s *maincpu_clk_guard;
-extern struct monitor_interface_s *maincpu_monitor_interface;
-
-/* Return the number of write accesses in the last opcode emulated. */
-inline static CLOCK maincpu_num_write_cycles(void)
-{
-    return maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)];
-}
-
-extern void maincpu_init(void);
-extern void maincpu_early_init(void);
-extern void maincpu_shutdown(void);
-extern void maincpu_reset(void);
-extern void maincpu_mainloop(void);
-extern struct monitor_interface_s *maincpu_monitor_interface_get(void);
-extern int maincpu_snapshot_read_module(struct snapshot_s *s);
-extern int maincpu_snapshot_write_module(struct snapshot_s *s);
 
 #endif
 

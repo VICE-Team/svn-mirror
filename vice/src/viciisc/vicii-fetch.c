@@ -38,7 +38,7 @@
 #include "debug.h"
 #include "dma.h"
 #include "log.h"
-#include "mainc64cpu.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "types.h"
 #include "vicii-chip-model.h"
