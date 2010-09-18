@@ -158,9 +158,9 @@ static const cmdline_option_t common_cmdline_options[] = {
       NULL, NULL },
     { "-chdir", CALL_FUNCTION, 1,
       cmdline_chdir, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE, /* FIXME possibly: IDGS_P_DIRECTORY, IDGS_MON_CD_DESCRIPTION, */
-      T_("<directory>"), T_("Change the working directory") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDGS_P_DIRECTORY, IDGS_MON_CD_DESCRIPTION,
+      NULL, NULL },
 #if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0,
       cmdline_console, NULL, NULL, NULL,
