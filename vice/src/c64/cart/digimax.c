@@ -73,6 +73,11 @@ static BYTE digimax_userport_direction_B;
 
 static BYTE digimax_sound_data[4];
 
+static int digimax_is_userport(void)
+{
+    return (digimax_address == 0xdd00);
+}
+
 static void REGPARM2 digimax_sound_store(WORD addr, BYTE value)
 {
     digimax_sound_data[addr] = value;
@@ -88,21 +93,28 @@ static BYTE REGPARM1 digimax_sound_read(WORD addr)
     return value;
 }
 
+/*
+    PA2  low, /PA3  low: DAC #0 (left)
+    PA2 high, /PA3  low: DAC #1 (right)
+    PA2  low, /PA3 high: DAC #2 (left)
+    PA2 high, /PA3 high: DAC #3 (right).
+*/
+
 static void digimax_userport_sound_store(BYTE value)
 {
     WORD addr = 0;
 
-    switch ((digimax_address & digimax_userport_direction_A) & 0xc) {
-        case 0:
+    switch ((digimax_userport_address & digimax_userport_direction_A) & 0xc) {
+        case 0x0:
             addr = 2;
             break;
-        case 4:
+        case 0x4:
             addr = 3;
             break;
-        case 8:
+        case 0x8:
             addr = 0;
             break;
-        case 12:
+        case 0xc:
             addr = 1;
             break;
     }
@@ -117,7 +129,7 @@ void digimax_userport_store(WORD addr, BYTE value)
             digimax_userport_address = value;
             break;
         case 1:
-            if (digimax_enabled && digimax_address == 0xdd00) {
+            if (digimax_enabled && digimax_is_userport()) {
                 digimax_userport_sound_store(value);
             }
             break;
@@ -156,7 +168,7 @@ static c64export_resource_t export_res = {
 static int set_digimax_enabled(int val, void *param)
 {
     if (!digimax_enabled && val) {
-        if (digimax_address != 0xdd00) {
+        if (!digimax_is_userport()) {
             if (c64export_add(&export_res) < 0) {
                 return -1;
             }
@@ -284,7 +296,10 @@ int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, 
      * this code. */
     if (digimax_enabled) {
         for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],(snd.voice0 + snd.voice1 + snd.voice2 + snd.voice3) << 6);
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice0) << 6);
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice1) << 6);
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice2) << 6);
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice3) << 6);
         }
     }
     return 0;
