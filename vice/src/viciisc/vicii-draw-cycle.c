@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include "types.h"
+#include "snapshot.h"
 #include "vicii-chip-model.h"
 #include "vicii-draw-cycle.h"
 #include "viciitypes.h"
@@ -61,45 +62,45 @@
 
 /* foreground/background graphics */
 
-BYTE gbuf_pipe0_reg = 0;
-BYTE cbuf_pipe0_reg = 0;
-BYTE vbuf_pipe0_reg = 0;
-BYTE gbuf_pipe1_reg = 0;
-BYTE cbuf_pipe1_reg = 0;
-BYTE vbuf_pipe1_reg = 0;
+static BYTE gbuf_pipe0_reg = 0;
+static BYTE cbuf_pipe0_reg = 0;
+static BYTE vbuf_pipe0_reg = 0;
+static BYTE gbuf_pipe1_reg = 0;
+static BYTE cbuf_pipe1_reg = 0;
+static BYTE vbuf_pipe1_reg = 0;
 
-BYTE xscroll_pipe = 0;
-BYTE vmode11_pipe = 0;
-BYTE vmode16_pipe = 0;
-BYTE vmode16_pipe2 = 0;
+static BYTE xscroll_pipe = 0;
+static BYTE vmode11_pipe = 0;
+static BYTE vmode16_pipe = 0;
+static BYTE vmode16_pipe2 = 0;
 
 /* gbuf shift register */
-BYTE gbuf_reg = 0;
-BYTE gbuf_mc_flop = 0;
-BYTE gbuf_pixel_reg = 0;
+static BYTE gbuf_reg = 0;
+static BYTE gbuf_mc_flop = 0;
+static BYTE gbuf_pixel_reg = 0;
 
 /* cbuf and vbuf registers */
-BYTE cbuf_reg = 0;
-BYTE vbuf_reg = 0;
+static BYTE cbuf_reg = 0;
+static BYTE vbuf_reg = 0;
 
-BYTE dmli = 0;
+static BYTE dmli = 0;
 
 
 /* sprites */
-int sprite_x_pipe[8];
-BYTE sprite_pri_bits = 0;
-BYTE sprite_mc_bits = 0;
-BYTE sprite_expx_bits = 0;
+static int sprite_x_pipe[8];
+static BYTE sprite_pri_bits = 0;
+static BYTE sprite_mc_bits = 0;
+static BYTE sprite_expx_bits = 0;
 
-BYTE sprite_pending_bits = 0;
-BYTE sprite_active_bits = 0;
-BYTE sprite_halt_bits = 0;
+static BYTE sprite_pending_bits = 0;
+static BYTE sprite_active_bits = 0;
+static BYTE sprite_halt_bits = 0;
 
 /* sbuf shift registers */
-DWORD sbuf_reg[8];
-BYTE sbuf_pixel_reg[8];
-BYTE sbuf_expx_flops;
-BYTE sbuf_mc_flops;
+static DWORD sbuf_reg[8];
+static BYTE sbuf_pixel_reg[8];
+static BYTE sbuf_expx_flops;
+static BYTE sbuf_mc_flops;
 
 /* border */
 static int border_state = 0;
@@ -708,6 +709,142 @@ void vicii_draw_cycle_init(void)
     last_color_reg = 0xff;
 
     cycle_flags_pipe = 0;
-
-
 }
+
+
+/**************************************************************************
+ *
+ * SECTION  snapshot
+ *
+ ******/
+
+/* FIXME this is likely way more state than needed */
+
+int vicii_draw_cycle_snapshot_write(snapshot_module_t *m)
+{
+    int i;
+
+    if (0
+        || SMW_B(m, gbuf_pipe0_reg) < 0
+        || SMW_B(m, cbuf_pipe0_reg) < 0
+        || SMW_B(m, vbuf_pipe0_reg) < 0
+        || SMW_B(m, gbuf_pipe1_reg) < 0
+        || SMW_B(m, cbuf_pipe1_reg) < 0
+        || SMW_B(m, vbuf_pipe1_reg) < 0
+        || SMW_B(m, xscroll_pipe) < 0
+        || SMW_B(m, vmode11_pipe) < 0
+        || SMW_B(m, vmode16_pipe) < 0
+        || SMW_B(m, vmode16_pipe2) < 0
+        || SMW_B(m, gbuf_reg) < 0
+        || SMW_B(m, gbuf_mc_flop) < 0
+        || SMW_B(m, gbuf_pixel_reg) < 0
+        || SMW_B(m, cbuf_reg) < 0
+        || SMW_B(m, vbuf_reg) < 0
+        || SMW_B(m, dmli) < 0) {
+        return -1;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (SMW_DW(m, (DWORD)sprite_x_pipe[i]) < 0) {
+            return -1;
+        }
+    }
+
+    if (0
+        || SMW_B(m, sprite_pri_bits) < 0
+        || SMW_B(m, sprite_mc_bits) < 0
+        || SMW_B(m, sprite_expx_bits) < 0
+        || SMW_B(m, sprite_pending_bits) < 0
+        || SMW_B(m, sprite_active_bits) < 0
+        || SMW_B(m, sprite_halt_bits) < 0) {
+        return -1;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (SMW_DW(m, sbuf_reg[i]) < 0) {
+            return -1;
+        }
+    }
+
+    if (0
+        || SMW_BA(m, sbuf_pixel_reg, 8) < 0
+        || SMW_B(m, sbuf_expx_flops) < 0
+        || SMW_B(m, sbuf_mc_flops) < 0
+        || SMW_B(m, (BYTE)border_state) < 0
+        || SMW_BA(m, render_buffer, 8) < 0
+        || SMW_BA(m, pri_buffer, 8) < 0
+        || SMW_BA(m, pixel_buffer, 8) < 0
+        || SMW_BA(m, cregs, 0x2f) < 0
+        || SMW_B(m, last_color_reg) < 0
+        || SMW_B(m, last_color_value) < 0
+        || SMW_DW(m, (DWORD)cycle_flags_pipe) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+int vicii_draw_cycle_snapshot_read(snapshot_module_t *m)
+{
+    int i;
+
+    if (0
+        || SMR_B(m, &gbuf_pipe0_reg) < 0
+        || SMR_B(m, &cbuf_pipe0_reg) < 0
+        || SMR_B(m, &vbuf_pipe0_reg) < 0
+        || SMR_B(m, &gbuf_pipe1_reg) < 0
+        || SMR_B(m, &cbuf_pipe1_reg) < 0
+        || SMR_B(m, &vbuf_pipe1_reg) < 0
+        || SMR_B(m, &xscroll_pipe) < 0
+        || SMR_B(m, &vmode11_pipe) < 0
+        || SMR_B(m, &vmode16_pipe) < 0
+        || SMR_B(m, &vmode16_pipe2) < 0
+        || SMR_B(m, &gbuf_reg) < 0
+        || SMR_B(m, &gbuf_mc_flop) < 0
+        || SMR_B(m, &gbuf_pixel_reg) < 0
+        || SMR_B(m, &cbuf_reg) < 0
+        || SMR_B(m, &vbuf_reg) < 0
+        || SMR_B(m, &dmli) < 0) {
+        return -1;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (SMR_DW_INT(m, &sprite_x_pipe[i]) < 0) {
+            return -1;
+        }
+    }
+
+    if (0
+        || SMR_B(m, &sprite_pri_bits) < 0
+        || SMR_B(m, &sprite_mc_bits) < 0
+        || SMR_B(m, &sprite_expx_bits) < 0
+        || SMR_B(m, &sprite_pending_bits) < 0
+        || SMR_B(m, &sprite_active_bits) < 0
+        || SMR_B(m, &sprite_halt_bits) < 0) {
+        return -1;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (SMR_DW(m, &sbuf_reg[i]) < 0) {
+            return -1;
+        }
+    }
+
+    if (0
+        || SMR_BA(m, sbuf_pixel_reg, 8) < 0
+        || SMR_B(m, &sbuf_expx_flops) < 0
+        || SMR_B(m, &sbuf_mc_flops) < 0
+        || SMR_B_INT(m, &border_state) < 0
+        || SMR_BA(m, render_buffer, 8) < 0
+        || SMR_BA(m, pri_buffer, 8) < 0
+        || SMR_BA(m, pixel_buffer, 8) < 0
+        || SMR_BA(m, cregs, 0x2f) < 0
+        || SMR_B(m, &last_color_reg) < 0
+        || SMR_B(m, &last_color_value) < 0
+        || SMR_DW_UINT(m, &cycle_flags_pipe) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+

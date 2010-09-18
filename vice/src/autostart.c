@@ -929,7 +929,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 
     deallocate_program_name();  /* not needed at all */
 
-    if (!(snap = snapshot_open(file_name, &vmajor, &vminor, machine_name)) ) {
+    if (!(snap = snapshot_open(file_name, &vmajor, &vminor, machine_get_name())) ) {
         autostartmode = AUTOSTART_ERROR;
         return -1;
     }
