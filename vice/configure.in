@@ -14,7 +14,7 @@ VICE_ARG_WITH_LIST(xaw3d,         [  --with-xaw3d            use Xaw3d library i
 VICE_ARG_WITH_LIST(readline,      [  --without-readline      do not try to use the system's readline library])
 VICE_ARG_WITH_LIST(midas,         [  --with-midas            use MIDAS sound system instead of Allegro for audio])
 VICE_ARG_WITH_LIST(arts,          [  --with-arts             use aRts sound system])
-VICE_ARG_WITH_LIST(pulse,         [  --with-pulse            use PulseAudio sound system])
+VICE_ARG_WITH_LIST(pulse,         [  --without-pulse         do not use PulseAudio sound system])
 VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA sound system])
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
 VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
@@ -25,7 +25,7 @@ VICE_ARG_WITH_LIST(picasso96,     [  --with-picasso96        use Amiga P96 grafi
 VICE_ARG_WITH_LIST(cocoa,         [  --with-cocoa            enables native Cocoa UI on Macs])
 VICE_ARG_ENABLE_LIST(textfield,   [  --disable-textfield     disable enhanced text field widget])
 VICE_ARG_ENABLE_LIST(zlibtest,    [  --disable-zlibtest      disable zlib test])
-VICE_ARG_ENABLE_LIST(fullscreen,  [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
+VICE_ARG_ENABLE_LIST(fullscreen,  [  --disable-fullscreen    disable XFree86 fullscreen detection])
 VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(gp2x,        [  --enable-gp2x           enables GP2X support])
@@ -1750,7 +1750,7 @@ if test x"$is_unix" = "xyes"; then
   AC_CHECK_HEADERS(cwsid.h, AC_DEFINE(HAVE_CATWEASELMKIII,,
                    [Support for Catweasel MKIII.]), )
 
-  if test x"$with_pulse" == "xyes"; then
+  if test x"$with_pulse" != "xno"; then
     AC_CHECK_HEADERS(pulse/simple.h,[AC_CHECK_LIB(pulse-simple, pa_simple_new,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundpulse.o";
                       SOUND_LIBS="$SOUND_LIBS -lpulse-simple";
