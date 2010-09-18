@@ -118,7 +118,7 @@ static int set_sdl_bitdepth(int d, void *param)
 
 static int set_sdl_limit_mode(int v, void *param)
 {
-    if ((v < 0) || (v > 2)) {
+    if ((v < SDL_LIMIT_MODE_OFF) || (v > SDL_LIMIT_MODE_FIXED)) {
         return -1;
     }
 
@@ -151,7 +151,7 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
 {
     int old_v = sdl_gl_aspect_mode;
 
-    if ((v < 0) || (v > 2)) {
+    if ((v < SDL_ASPECT_MODE_OFF) || (v > SDL_ASPECT_MODE_TRUE)) {
         return -1;
     }
 
@@ -247,7 +247,7 @@ static const resource_int_t resources_int[] = {
     { "SDLCustomHeight", 600, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
 #ifdef HAVE_HWSCALE
-    { "SDLGLAspectMode", 0, RES_EVENT_NO, NULL,
+    { "SDLGLAspectMode", SDL_ASPECT_MODE_OFF, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
       &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
@@ -389,11 +389,11 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 {
     int dest_x = 0, dest_y = 0;
 
-    if (sdl_gl_aspect_mode != 0) {
+    if (sdl_gl_aspect_mode != SDL_ASPECT_MODE_OFF) {
         double aspect = aspect_ratio;
 
         /* Get "true" aspect ratio */
-        if (sdl_gl_aspect_mode == 2) {
+        if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
             aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
         }
 

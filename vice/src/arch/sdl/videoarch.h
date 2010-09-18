@@ -97,4 +97,11 @@ extern int sdl_forced_resize;
 #define SDL_LIMIT_MODE_MAX   1
 #define SDL_LIMIT_MODE_FIXED 2
 
+#ifdef HAVE_HWSCALE
+/* Modes of fixed aspect ratio */
+#define SDL_ASPECT_MODE_OFF    0
+#define SDL_ASPECT_MODE_CUSTOM 1
+#define SDL_ASPECT_MODE_TRUE   2
+#endif
+
 #endif

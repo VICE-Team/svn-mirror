@@ -190,15 +190,15 @@ static const ui_menu_entry_t aspect_menu[] = {
     { "Off",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SDLGLAspectMode_callback,
-      (ui_callback_data_t)0 },
+      (ui_callback_data_t)SDL_ASPECT_MODE_OFF },
     { "Custom",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SDLGLAspectMode_callback,
-      (ui_callback_data_t)1 },
+      (ui_callback_data_t)SDL_ASPECT_MODE_CUSTOM },
     { "True",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SDLGLAspectMode_callback,
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)SDL_ASPECT_MODE_TRUE },
     SDL_MENU_LIST_END
 };
 
