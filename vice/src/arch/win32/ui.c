@@ -92,6 +92,7 @@
 #include "util.h"
 #include "version.h"
 #include "videoarch.h"
+#include "viewport.h"
 #include "vsync.h"
 #include "winlong.h"
 #include "winmain.h"
@@ -584,7 +585,7 @@ void ui_make_resizable(video_canvas_t *canvas, int enable)
 
 void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
 {
-    int keep_aspect_ratio;
+    int keep_aspect_ratio, true_aspect_ratio;
     int aspect_ratio;
     double canvas_aspect_ratio;
     RECT *rc = (RECT *)lparam;
@@ -601,9 +602,16 @@ void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
         return;
     }
 
-    resources_get_int("AspectRatio", &aspect_ratio);
     canvas = video_canvas_for_hwnd(window);
+
+    resources_get_int("TrueAspectRatio", &true_aspect_ratio);
+    if (true_aspect_ratio) {
+        aspect_ratio = (int)(canvas->geometry->pixel_aspect_ratio * 1000);
+    } else {
+        resources_get_int("AspectRatio", &aspect_ratio);
+    }
     canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->width / canvas->height;
+
     switch (wparam) {
         case WMSZ_TOP:
         case WMSZ_BOTTOM:
@@ -655,7 +663,7 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     HWND w, cw;
     unsigned int width, height;
     DWORD adjust_style;
-    int aspect_ratio, keep_aspect_ratio;
+    int aspect_ratio, true_aspect_ratio, keep_aspect_ratio;
 
     w = canvas->hwnd;
     cw = canvas->client_hwnd;
@@ -665,7 +673,12 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     if (video_dx9_enabled()) {
         resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
         if (keep_aspect_ratio) {
-            resources_get_int("AspectRatio", &aspect_ratio);
+            resources_get_int("TrueAspectRatio", &true_aspect_ratio);
+            if (true_aspect_ratio) {
+                aspect_ratio = (int)(canvas->geometry->pixel_aspect_ratio * 1000);
+            } else {
+                resources_get_int("AspectRatio", &aspect_ratio);
+            }
             width = (int)((double)width * aspect_ratio / 1000.0 + 0.5);
         }
     }

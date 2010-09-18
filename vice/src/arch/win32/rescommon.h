@@ -6,6 +6,7 @@
 #define WS_POPUP             0x80000000L
 #define WS_CHILD             0x40000000L
 #define WS_VISIBLE           0x10000000L
+#define WS_DISABLED          0x08000000L
 #define WS_CLIPSIBLINGS      0x04000000L
 #define WS_CAPTION           0x00c00000L
 #define WS_BORDER            0x00800000L

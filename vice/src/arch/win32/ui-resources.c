@@ -59,6 +59,7 @@ struct {
     char *initialdir[UILIB_SELECTOR_STYLES_NUM];
     int alwaysontop;
     int keep_aspect_ratio;
+    int true_aspect_ratio;
     int aspect_ratio;
 } ui_resources;
 
@@ -209,6 +210,17 @@ static int set_keep_aspect_ratio(int val, void *param)
     return 0;
 }
 
+static int set_true_aspect_ratio(int val, void *param)
+{
+    int old_val = ui_resources.true_aspect_ratio;
+
+    ui_resources.true_aspect_ratio = val;
+    if (old_val != val && ui_resources.keep_aspect_ratio) {
+        resize_every_canvas();
+    }
+    return 0;
+}
+
 static int set_aspect_ratio(int val, void *param)
 {
     int old_val = ui_resources.aspect_ratio;
@@ -278,6 +290,8 @@ static const resource_int_t resources_int[] = {
       &ui_resources.alwaysontop, set_alwaysontop, NULL },
     { "KeepAspectRatio", 0, RES_EVENT_NO, NULL,
       &ui_resources.keep_aspect_ratio, set_keep_aspect_ratio, NULL },
+    { "TrueAspectRatio", 0, RES_EVENT_NO, NULL,
+      &ui_resources.true_aspect_ratio, set_true_aspect_ratio, NULL },
     { "AspectRatio", 1000, RES_EVENT_NO, NULL,
       &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
     { NULL }

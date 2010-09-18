@@ -33,6 +33,7 @@
 #include "ui.h"
 #include "video.h"
 #include "videoarch.h"
+#include "viewport.h"
 
 #ifdef HAVE_D3D9_H
 
@@ -90,7 +91,7 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
 
     if (fullscreen) {
         int width, height, bitdepth, refreshrate;
-        int keep_aspect_ratio, aspect_ratio;
+        int keep_aspect_ratio, true_aspect_ratio, aspect_ratio;
         int shrinked_width, shrinked_height;
         double canvas_aspect_ratio;
   
@@ -101,7 +102,13 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
             canvas->dest_rect_ptr = NULL;
         } else {
             canvas->dest_rect_ptr = &canvas->dest_rect;
-            resources_get_int("AspectRatio", &aspect_ratio);
+            resources_get_int("TrueAspectRatio", &true_aspect_ratio);
+            if (true_aspect_ratio) {
+                aspect_ratio = (int)(canvas->geometry->pixel_aspect_ratio * 1000);
+            } else {
+                resources_get_int("AspectRatio", &aspect_ratio);
+            }
+            canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->width / canvas->height;
             canvas_aspect_ratio = aspect_ratio / 1000.0 
                                     * canvas->width / canvas->height;
             if (canvas_aspect_ratio < (double) width / height) {

@@ -613,7 +613,7 @@ END
 
 // dialog template for all languages
 
-IDD_FULLSCREEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180,87
+IDD_FULLSCREEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180,124
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -641,6 +641,10 @@ BEGIN
                  9, 101, 115, 8, BS_AUTOCHECKBOX | WS_TABSTOP
     EDITTEXT     IDC_ASPECT_RATIO,
                  127, 99, 32, 12, WS_TABSTOP
+    AUTOCHECKBOX "", IDC_TOGGLE_TRUE_ASPECT_RATIO,
+                 9, 113, 115, 8, BS_AUTOCHECKBOX | WS_TABSTOP
+    EDITTEXT     IDC_GEOMETRY_ASPECT_RATIO,
+                 127, 111, 32, 12, WS_TABSTOP | WS_DISABLED
 END
 
 // -----------------------------------------------------------------------------
@@ -1298,6 +1302,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK synchronization"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render to DX Primary surface"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Saturation (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
@@ -1892,6 +1897,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK-synkronisering"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rendér til DXs primære overflade"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Vælg aspektforhold (0,5-2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Mætning (0..2)"
   IDS_COLORS_CONTRAST             "Kontrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Lysstyrke (0..2)"
@@ -2486,6 +2492,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK Synchronisation"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "DX Primary Oberflächenrendering"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Seitenverhältnis beibehalten (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Sättigung (0..2)"
   IDS_COLORS_CONTRAST             "Kontrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Helligkeit (0..2)"
@@ -3080,6 +3087,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "Synchronisation VBLANK"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rendu à la surface primaire DX"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Saturation (0..2)"
   IDS_COLORS_CONTRAST             "Contraste (0..2)"
   IDS_COLORS_BRIGHTNESS           "Luminosité (0..2)"
@@ -3677,6 +3685,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK szinkronizáció"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rajzolás a DX elsõdleges felületre"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Képarány megtartása (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Telítettség (0..2)"
   IDS_COLORS_CONTRAST             "Kontraszt (0..2)"
   IDS_COLORS_BRIGHTNESS           "Fényesség (0..2)"
@@ -4274,6 +4283,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "Sincronizzazione VBLANK"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Visualizza sulla superficie primaria DX"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Mantieni il rapporto di formato (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Saturazione (0..2)"
   IDS_COLORS_CONTRAST             "Contrasto (0..2)"
   IDS_COLORS_BRIGHTNESS           "Luminosità (0..2)"
@@ -4868,6 +4878,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK synchronisatie"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render naar DX Primaire oppervlakte"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Aspect ratio gebruiken (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Verzadiging (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Helderheid (0..2)"
@@ -5465,6 +5476,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK synchronization"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render to DX Primary surface"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Saturation (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
@@ -6062,6 +6074,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK-synkronisering"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rendrera till DXs primära yta"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Behåll bredd-/höjdförhållande (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Mättnad (0..2)"
   IDS_COLORS_CONTRAST             "Kontrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Ljusstyrka (0..2)"
@@ -6659,6 +6672,7 @@ BEGIN
   IDS_TOGGLE_VIDEO_VBLANK_SYNC    "VBLANK senkronizasyonu"
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "DX Birincil yüzeyine çiz"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "En boy oraný koru (0,5..2)"
+  IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
   IDS_COLORS_SATURATION           "Doygunluk (0..2)"
   IDS_COLORS_CONTRAST             "Karþýtlýk (0..2)"
   IDS_COLORS_BRIGHTNESS           "Parlaklýk (0..2)"
