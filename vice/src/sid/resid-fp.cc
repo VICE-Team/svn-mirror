@@ -108,11 +108,11 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec)
     if (model < 8 || model > 15) {
       psid->sid->set_chip_model(MOS8580FP);
       psid->sid->set_voice_nonlinearity(1.0f);
-      psid->sid->get_filter().set_distortion_properties(0.5f, 0.f, 0.f);
+      psid->sid->get_filter().set_distortion_properties(0.5f, 0.f);
     } else {
       psid->sid->set_chip_model(MOS6581FP);
       psid->sid->set_voice_nonlinearity(0.96f);
-      psid->sid->get_filter().set_distortion_properties(0.50f, 3.3e6f, 1.5e-4f);
+      psid->sid->get_filter().set_distortion_properties(0.50f, 3.3e6f);
     }
 
     switch (model) {

@@ -125,7 +125,7 @@ public:
 
   void enable_filter(bool enable);
   void set_chip_model(chip_model model);
-  void set_distortion_properties(float, float, float);
+  void set_distortion_properties(float, float);
   void set_type3_properties(float, float, float, float);
   void set_type4_properties(float, float);
   void set_clock_frequency(float);
@@ -181,7 +181,7 @@ private:
   float clock_frequency;
 
   /* Distortion params for Type3 */
-  float attenuation, distortion_nonlinearity, intermixing_leaks;
+  float attenuation, distortion_nonlinearity;
 
   /* Type3 params. */
   float type3_baseresistance, type3_offset, type3_steepness, type3_minimumfetresistance;
@@ -303,17 +303,6 @@ float FilterFP::clock(float voice1,
         Vlp -= Vbp * type3_w0(Vbp);
         Vbp -= Vhp * type3_w0(Vhp);
         Vhp = (Vbp * _1_div_Q - Vlp - Vi) * attenuation;
-
-        /* output strip mixing to filter state */
-        if (hp_bp_lp & 1) {
-            Vlp += (Vf - Vlp) * intermixing_leaks;
-        }
-        if (hp_bp_lp & 2) {
-            Vbp += (Vf - Vbp) * intermixing_leaks;
-        }
-        if (hp_bp_lp & 4) {
-            Vhp += (Vf - Vhp) * intermixing_leaks;
-        }
 
         Vf *= volf;
         Vf = waveshaper1(Vf);

@@ -47,19 +47,15 @@ float expf(float val)
 // Constructor.
 // ----------------------------------------------------------------------------
 FilterFP::FilterFP()
+    : enabled(true),
+      model(MOS6581FP),
+      clock_frequency(1000000),
+      attenuation(0.5f), distortion_nonlinearity(3.3e6f),
+    type3_baseresistance(129501), type3_offset(284015710), type3_steepness(1.0065), type3_minimumfetresistance(18741),
+      type4_k(20), type4_b(6.55f),
+      nonlinearity(0.96f)
 {
-  model = (chip_model) 0; // neither 6581/8580; init time only
-  enable_filter(true);
-  /* approximate; sid.cc calls us when set_sampling_parameters() occurs. */
-  set_clock_frequency(1e6f);
-  /* these parameters are a work-in-progress. */
-  set_distortion_properties(0.5f, 3.3e6f, 3.0e-4f);
-  /* sound similar to alankila6581r4ar3789 */
-  set_type3_properties(1299501.5675945764f, 284015710.29875594f, 1.0065089724604026f, 18741.324073610594f);
-  /* sound similar to trurl8580r5_3691 */
-  set_type4_properties(6.55f, 20.f);
   reset();
-  set_chip_model(MOS6581FP);
 }
 
 
@@ -96,11 +92,10 @@ void FilterFP::set_clock_frequency(float clock) {
     set_w0();
 }
 
-void FilterFP::set_distortion_properties(float a, float nl, float il)
+void FilterFP::set_distortion_properties(float a, float nl)
 {
     attenuation = a;
     distortion_nonlinearity = nl;
-    intermixing_leaks = il;
     set_w0();
 }
 
@@ -189,7 +184,7 @@ void FilterFP::set_Q()
      * 
      * The filter hump must be about 8 dB when subtracting res=0 behavior from res=f.
      */
-    _1_div_Q = 1.f / (0.5f + res / 20.f);
+    _1_div_Q = 1.f / (0.5f + res / 18.f);
   } else {
     _1_div_Q = 1.f / (0.707f + res / 15.f);
   }

@@ -102,7 +102,7 @@ protected:
   float ext_in;
 
   // Resampling constants.
-  enum { RINGSIZE = 2048 };
+  enum { RINGSIZE = 4096 };
 
   // Sampling variables.
   sampling_method sampling;
@@ -122,10 +122,6 @@ protected:
   float* fir;
 
   bool can_use_sse;
-
-  /* analog parts are run at half the rate of digital ones. */
-  float lastsample[3];
-  unsigned char filtercyclegate;
 
   chip_model model;
 };
