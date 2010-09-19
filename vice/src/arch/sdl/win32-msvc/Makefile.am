@@ -60,7 +60,7 @@ EXTRA_DIST = \
 	vice.dsw \
 	vicii.dsp \
 	viciidtv.dsp \
-	viciinew.dsp \
+	viciisc.dsp \
 	video.dsp \
 	x128.dsp \
 	x64.dsp \
