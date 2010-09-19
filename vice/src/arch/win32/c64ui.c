@@ -85,6 +85,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "IsepicSwitch", IDM_ISEPIC_SWITCH },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { "ExpertCartridgeEnabled", IDM_CART_ENABLE_EXPERT },
     { NULL, 0 }
 };
 

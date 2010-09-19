@@ -79,13 +79,6 @@ static const uicart_params_t c64_ui_cartridges[] = {
 static void uic64cart_attach(WPARAM wparam, HWND hwnd,
                              const uicart_params_t *cartridges)
 {
-    if (wparam == IDM_CART_ENABLE_EXPERT) {
-        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0) {
-            ui_error(translate_text(IDS_INVALID_CARTRIDGE));
-        }
-        return;
-    }
-
     uicart_attach(wparam, hwnd, cartridges);
 }
 
@@ -108,7 +101,6 @@ void uic64cart_proc(WPARAM wparam, HWND hwnd)
         case IDM_CART_ATTACH_SS4:
         case IDM_CART_ATTACH_SS5:
         case IDM_CART_ATTACH_STB:
-        case IDM_CART_ENABLE_EXPERT:
             uic64cart_attach(wparam, hwnd, c64_ui_cartridges);
             break;
         case IDM_CART_SET_DEFAULT:

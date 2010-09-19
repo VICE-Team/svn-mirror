@@ -99,6 +99,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
     { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { "ExpertCartridgeEnabled", IDM_CART_ENABLE_EXPERT },
     { NULL, 0 }
 };
 
