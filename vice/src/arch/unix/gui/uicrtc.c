@@ -53,7 +53,7 @@ static UI_CALLBACK(radio_CrtcPaletteFile)
 }
 
 static ui_menu_entry_t crtc_palette_submenu[] = {
-    { N_("*internal"), (ui_callback_t)radio_CrtcPaletteFile,
+    { N_("*Internal"), (ui_callback_t)radio_CrtcPaletteFile,
       NULL, NULL },
     { "--" },
     { N_("*Default (Green)"), (ui_callback_t)radio_CrtcPaletteFile,
@@ -74,7 +74,7 @@ static UI_CALLBACK(radio_renderer)
 }
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+    { N_("*Unfiltered"), (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
     { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
@@ -126,8 +126,8 @@ UI_MENU_DEFINE_TOGGLE(UseXSync)
 #ifdef HAVE_HWSCALE
 #ifdef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
-UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
+UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 
 ui_menu_entry_t crtc_submenu[] = {
@@ -154,9 +154,9 @@ ui_menu_entry_t crtc_submenu[] = {
 #ifdef USE_GNOMEUI
     { N_("*Keep aspect ratio"),
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
+#endif
     { N_("*True aspect ratio"),
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
-#endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { "--" },

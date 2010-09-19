@@ -37,7 +37,7 @@
 #include "uipalette.h"
 #include "uirenderer.h"
 #ifdef HAVE_OPENGL_SYNC
-#include <stdlib.h>		/* strtol() */
+#include <stdlib.h>     /* strtol() */
 #include "openGL_sync.h"
 #include "lib.h"
 #endif
@@ -52,7 +52,7 @@ static UI_CALLBACK(radio_VICPaletteFile)
 }
 
 static ui_menu_entry_t palette_submenu[] = {
-    { N_("*internal"), (ui_callback_t)radio_VICPaletteFile,
+    { N_("*Internal"), (ui_callback_t)radio_VICPaletteFile,
       NULL, NULL },
     { "--" },
     { N_("*Default"), (ui_callback_t)radio_VICPaletteFile,
@@ -69,7 +69,7 @@ static UI_CALLBACK(radio_renderer)
 }
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("*unfiltered"), (ui_callback_t)radio_renderer,
+    { N_("*Unfiltered"), (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
     { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
@@ -89,8 +89,8 @@ UI_MENU_DEFINE_TOGGLE(VICHwScale)
 #ifdef HAVE_HWSCALE
 #ifdef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
-UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
+UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 
 #ifdef HAVE_OPENGL_SYNC
@@ -99,13 +99,13 @@ UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 static UI_CALLBACK(openGL_set_desktoprefresh)
 {
     if (!CHECK_MENUS) {
-	float f;
-	char *buf = lib_calloc(sizeof(char), 10);
-	sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
-	ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
-	f = (float) strtol(buf, NULL, 10);
-	openGL_set_canvas_refreshrate(f);
-	lib_free(buf);
+        float f;
+        char *buf = lib_calloc(sizeof(char), 10);
+        sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
+        ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
+        f = (float) strtol(buf, NULL, 10);
+        openGL_set_canvas_refreshrate(f);
+        lib_free(buf);
     } else {
         if (openGL_available(0) && openGL_sync_enabled()) {
             ui_menu_set_sensitive(w, 1);
@@ -144,9 +144,9 @@ ui_menu_entry_t vic_submenu[] = {
 #ifdef USE_GNOMEUI
     { N_("*Keep aspect ratio"),
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
+#endif
     { N_("*True aspect ratio"),
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
-#endif
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { "--" },

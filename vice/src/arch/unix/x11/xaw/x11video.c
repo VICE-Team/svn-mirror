@@ -124,6 +124,8 @@ static char *fourcc_s = NULL;
 
 static double aspect_ratio;
 static char *aspect_ratio_s = NULL;
+
+static int trueaspect;
 #endif
 
 static int set_use_xsync(int val, void *param)
@@ -176,6 +178,12 @@ static int set_aspect_ratio(const char *val, void *param)
 
     return 0;
 }
+
+static int set_trueaspect(int val, void *param)
+{
+    trueaspect = val;
+    return 0;
+}
 #endif
 
 /* Video-related resources.  */
@@ -195,6 +203,10 @@ static const resource_int_t resources_int[] = {
       /* turn MITSHM on by default */
     { "MITSHM", 1, RES_EVENT_NO, NULL,
       &try_mitshm, set_try_mitshm, NULL },
+#ifdef HAVE_XVIDEO
+    { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
+      &trueaspect, set_trueaspect, NULL },
+#endif
     { NULL }
 };
 
@@ -253,6 +265,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<aspect ratio>"), N_("Set aspect ratio (0.8 - 1.2)") },
+    { "-trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Enable true aspect ratio") },
+    { "+trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Disable true aspect ratio") },
 #endif
     { NULL }
 };
@@ -862,7 +884,12 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
          * However, that is what we can use the hardware scaling for!
          */
         canvas_height = canvas->height;
-        local_aspect_ratio = aspect_ratio;
+
+        if (trueaspect) {
+            local_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
+        } else {
+            local_aspect_ratio = aspect_ratio;
+        }
 
         if (!doublesize && canvas->videoconfig->doublesizey) {
             canvas_height /= 2;
@@ -902,8 +929,8 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
     if (xi + w > canvas->width || yi + h > canvas->height) {
         log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, canvas->width, canvas->height);
-        return;			/* this makes `-fullscreen -80col' work 
-					   XXX fix me some day */
+        return; /* this makes `-fullscreen -80col' work
+                   XXX fix me some day */
     }
 
     video_canvas_render(canvas, (BYTE *)canvas->x_image->data, w, h, xs, ys, xi, yi, canvas->x_image->bytes_per_line, canvas->x_image->bits_per_pixel);
@@ -912,7 +939,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     display = x11ui_get_display_ptr();
 
     _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image, xi, yi, xi, yi, w, h, False, NULL, canvas);
-    
+
     if (_video_use_xsync) {
         XSync(display, False);
     }
