@@ -40,6 +40,14 @@
 #include "uimmc64.h"
 #include "winmain.h"
 
+static char *ui_mmc64_sdtype[] = {
+    "Auto",
+    "MMC",
+    "SD",
+    "SDHC",
+    NULL
+};
+
 static void enable_mmc64_controls(HWND hwnd)
 {
     int is_enabled;
@@ -56,6 +64,7 @@ static void enable_mmc64_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_MMC64_IMAGE_RO), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_MMC64_IMAGE_BROWSE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_MMC64_IMAGE_FILE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_MMC64_SDTYPE), is_enabled);
 }
 
 static uilib_localize_dialog_param mmc64_dialog_trans[] = {
@@ -68,6 +77,7 @@ static uilib_localize_dialog_param mmc64_dialog_trans[] = {
     { IDC_MMC64_IMAGE_RO, IDS_MMC64_IMAGE_RO, 0 },
     { IDC_MMC64_IMAGE_FILE_LABEL, IDS_MMC64_IMAGE_FILE_LABEL, 0 },
     { IDC_MMC64_IMAGE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_MMC64_SDTYPE_LABEL, IDS_MMC64_SDTYPE_LABEL, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -121,6 +131,7 @@ static void init_mmc64_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
     int res_value;
+    int res_value_loop;
     const char *mmc64_image_file;
     TCHAR *st_mmc64_image_file;
     const char *mmc64_bios_file;
@@ -178,6 +189,13 @@ static void init_mmc64_dialog(HWND hwnd)
     SetDlgItemText(hwnd, IDC_MMC64_IMAGE_FILE, mmc64_image_file != NULL ? st_mmc64_image_file : TEXT(""));
     system_mbstowcs_free(st_mmc64_image_file);
 
+    resources_get_int("MMC64_sd_type", &res_value);
+    temp_hwnd = GetDlgItem(hwnd, IDC_MMC64_SDTYPE);
+    for (res_value_loop = 0; ui_mmc64_sdtype[res_value_loop]; res_value_loop++) {
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_mmc64_sdtype[res_value_loop]);
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
     enable_mmc64_controls(hwnd);
 }
 
@@ -198,6 +216,7 @@ static void end_mmc64_dialog(HWND hwnd)
     resources_set_int("MMC64_bios_write", (IsDlgButtonChecked(hwnd, IDC_MMC64_BIOS_SAVE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MMC64_RO", (IsDlgButtonChecked(hwnd, IDC_MMC64_IMAGE_RO) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MMC64_revision",(int)SendMessage(GetDlgItem(hwnd, IDC_MMC64_REVISION), CB_GETCURSEL, 0, 0));
+    resources_set_int("MMC64_sd_type", (int)SendMessage(GetDlgItem(hwnd, IDC_MMC64_SDTYPE), CB_GETCURSEL, 0, 0));
 }
 
 static void browse_mmc64_bios_file(HWND hwnd)
