@@ -450,6 +450,9 @@ void cart_resources_shutdown(void)
     midi_resources_shutdown();
 #endif
     reu_resources_shutdown();
+#ifdef HAVE_TFE
+    tfe_resources_shutdown();
+#endif
     tpi_resources_shutdown();
     /* "Main Slot" */
     ide64_resources_shutdown();

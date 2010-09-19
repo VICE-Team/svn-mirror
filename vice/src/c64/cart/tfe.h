@@ -47,6 +47,7 @@ extern int tfe_as_rr_net;
 
 extern void tfe_init(void);
 extern int tfe_resources_init(void);
+extern void tfe_resources_shutdown(void);
 extern int tfe_cmdline_options_init(void);
 
 extern void tfe_reset(void);

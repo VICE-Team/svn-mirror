@@ -1879,6 +1879,12 @@ int tfe_resources_init(void)
     return resources_register_int(resources_int);
 }
 
+void tfe_resources_shutdown(void)
+{
+    lib_free(tfe_interface);
+}
+
+
 /* ------------------------------------------------------------------------- */
 /*    commandline support functions                                          */
 
