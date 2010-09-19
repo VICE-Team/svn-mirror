@@ -387,6 +387,10 @@ SOURCE=.\uimmc64.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uimmcreplay.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uimon.c
 # End Source File
 # Begin Source File
