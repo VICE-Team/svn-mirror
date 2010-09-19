@@ -1,3 +1,740 @@
+2010-09-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.7
+
+2010-09-19  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/sdl/win32-msvc/Makefile.am: Fix for 'make dist':
+	  viciinew.dsp -> viciisc.dsp
+
+	* src/arch/win32/Makefile.am: Fix for 'make dist': viciinew.dsp
+	  -> viciisc.dsp
+
+2010-09-19  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64-snapshot.c, src/c64/c64cia2.c,
+	  src/c64/c64gluelogic.c, src/c64/c64gluelogic.h: Fix gluelogic
+	  reset behaviour, implement gluelogic snapshots, bump up C64
+	  snapshot revision
+
+2010-09-19  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/tfe.c,
+	  src/c64/cart/tfe.h: Fixed memory leak.
+
+2010-09-18  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/filter.cc, src/resid-fp/filter.h,
+	  src/resid-fp/sid.cc, src/resid-fp/sid.h, src/sid/resid-fp.cc:
+	  Get rid of bunch of bullshit that I thought would make sense
+	  when I was young and naive: use of halved filter sample rate
+	  and the intermixing-leaks variable. Fix use of uninitialized
+	  variables by using C++ initializers.
+
+	* src/arch/unix/vsid: Execute x64 from same directory as vsid
+
+2010-09-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/autostart.c, src/viciisc/vicii-draw-cycle.c,
+	  src/viciisc/vicii-draw-cycle.h, src/viciisc/vicii-snapshot.c:
+	  Initial x64sc snapshot implementation
+
+2010-09-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/initcmdline.c: Updated for translations.
+
+	* configure.in: Changed --with-pulse to --without-pulse (which
+	  enables the checking for the pulse headers/libs by default)
+	  and changed --enable-fullscreen to --disable-fullscreen.
+
+2010-09-18  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/res.rc,
+	  src/arch/win32/rescommon.h, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/ui-resources.c,
+	  src/arch/win32/ui.c, src/arch/win32/video-dx9.c: Implemented
+	  TrueAspectRatio for Win32.
+
+2010-09-18  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_video.c, src/arch/sdl/video.c,
+	  src/arch/sdl/videoarch.h: Magic constant cleanup
+
+2010-09-18  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/digimax.c: properly combine channels to mono,
+	  fixes bug 2483496
+
+2010-09-17  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/drive/drivecpu.c, src/interrupt.c, src/interrupt.h,
+	  src/maincpu.c, src/mainviccpu.c: Drop support for pre-1.1
+	  interrupt snapshots
+
+	* src/c64/c64-snapshot.c, src/cbm2/cbm2-snapshot.c,
+	  src/interrupt.c, src/interrupt.h, src/joystick.c,
+	  src/mainc64cpu.c: Add missing extra joystick state to
+	  snapshots, use machine_get_name() for x64(sc) & xcbm2 snapshot
+	  signature, implement mainc64cpu snapshot (incl. new interrupt
+	  state)
+
+	* src/6510dtvcore.c, src/Makefile.am, src/c64/c64memsc.c,
+	  src/mainc64cpu.c, src/mainc64cpu.h, src/mainviccpu.h,
+	  src/viciisc/vicii-cycle.c, src/viciisc/vicii-fetch.c: Remove
+	  unused mainviccpu.h, remove maincpu.h duplication from
+	  mainc64cpu.h
+
+2010-09-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/initcmdline.c: Add -chdir cmdline switch
+
+2010-09-16  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	  src/monitor/mon_parse.y: parse second arg of compare command
+	  correctly, fixes bug 3061246
+
+2010-09-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_drive.c, src/arch/sdl/menu_ffmpeg.c,
+	  src/arch/sdl/menu_screenshot.c, src/arch/sdl/menu_settings.c,
+	  src/arch/sdl/menu_snapshot.c, src/arch/sdl/menu_tape.c,
+	  src/arch/sdl/ui.c, src/arch/sdl/uifilereq.c,
+	  src/arch/sdl/uifilereq.h: SDL UI: remember last selected file
+
+2010-09-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/res.rc: Fixed gamma interval in Win32 UI.
+
+2010-09-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt: Update and clarify
+
+2010-09-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h: fixed forgotten
+	  config_init for IEEE488 interface and added monitor peek for
+	  it.
+
+2010-09-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/gfxoutputdrv/bmpdrv.c, src/gfxoutputdrv/pcxdrv.c: Fix
+	  fwrite return value checks, coding style cleanup
+
+2010-09-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicvoice.c: use tpicore_shutdown
+
+	* src/c128/c128.c, src/c128/c128.h, src/c64/c64.c,
+	  src/c64/c64.h, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h,
+	  src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	  src/cartridge.h: removed tpi context from machine context.
+	  fixed memory leak when shutting down magic voice.
+
+2010-09-12  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-09-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/fullscreen.c, src/arch/sdl/fullscreenarch.h,
+	  src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/sdl/kbd.c,
+	  src/arch/sdl/kbd.h, src/arch/sdl/menu_c128hw.c,
+	  src/arch/sdl/menu_c64_common_expansions.c,
+	  src/arch/sdl/menu_c64_expansions.c,
+	  src/arch/sdl/menu_c64cart.c, src/arch/sdl/menu_c64dtvhw.c,
+	  src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_c64schw.c,
+	  src/arch/sdl/menu_cbm2cart.c, src/arch/sdl/menu_cbm2hw.c,
+	  src/arch/sdl/menu_debug.c, src/arch/sdl/menu_drive.c,
+	  src/arch/sdl/menu_drive_rom.c, src/arch/sdl/menu_ffmpeg.c,
+	  src/arch/sdl/menu_help.c, src/arch/sdl/menu_joystick.c,
+	  src/arch/sdl/menu_lightpen.c, src/arch/sdl/menu_midi.c,
+	  src/arch/sdl/menu_mouse.c, src/arch/sdl/menu_network.c,
+	  src/arch/sdl/menu_petcart.c, src/arch/sdl/menu_pethw.c,
+	  src/arch/sdl/menu_plus4cart.c, src/arch/sdl/menu_plus4hw.c,
+	  src/arch/sdl/menu_printer.c, src/arch/sdl/menu_ram.c,
+	  src/arch/sdl/menu_reset.c, src/arch/sdl/menu_rom.c,
+	  src/arch/sdl/menu_rs232.c, src/arch/sdl/menu_screenshot.c,
+	  src/arch/sdl/menu_settings.c, src/arch/sdl/menu_sid.c,
+	  src/arch/sdl/menu_snapshot.c, src/arch/sdl/menu_sound.c,
+	  src/arch/sdl/menu_speed.c, src/arch/sdl/menu_tape.c,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_vic20cart.c,
+	  src/arch/sdl/menu_vic20hw.c, src/arch/sdl/menu_video.c,
+	  src/arch/sdl/ui.c, src/arch/sdl/uimenu.h,
+	  src/arch/sdl/uistatusbar.c, src/arch/sdl/video.c,
+	  src/arch/sdl/vkbd.c, src/arch/sdl/vsidui.c,
+	  src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	  src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	  src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	  src/arch/sdl/xplus4_ui.c, src/arch/sdl/xvic_ui.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/ide64.c,
+	  src/video/video-resources.c: IDE64 image file resource
+	  handlers combined, string resource free fixes, cleanup
+
+2010-09-10  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/c64/c64export.h, src/c64/cart/fmopl.h,
+	  src/c64/cart/freezemachine.h, src/c64/cart/generic.h,
+	  src/c64/cart/georam.h, src/c64/cart/ide64.h: Made usage of
+	  extern for function declarations more consistent.
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/generic.c,
+	  src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h: Fixed
+	  a few REGPARM macro discrepancies breaking compilation on MSYS
+	  + a few missing EOLs.
+
+2010-09-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c, src/vic20/cart/vic-fp.c: Fix
+	  FE3 & vic-fp dangling pointers on failed flash040 snapshot
+	  loads
+
+	* src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/sdl/uipoll.c:
+	  SDL UI: joystick hat mapping support (untested due to lack of
+	  hardware)
+
+2010-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	  src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resc64_256k.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/resgeoram.rc,
+	  src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	  src/arch/win32/resmmc64.rc, src/arch/win32/resmouse.rc,
+	  src/arch/win32/respet.rc, src/arch/win32/respetreu.rc,
+	  src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	  src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	  src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	  src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	  src/arch/win32/ressiddtv.rc,
+	  src/arch/win32/ressoundexpander.rc, src/arch/win32/restfe.rc,
+	  src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	  src/translate_text.c: Did a make trans-update.
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/pl.po,
+	  po/sv.po, po/tr.po: Removed obsolete items.
+
+	* po/nl.po: Updated.
+
+	* src/arch/unix/x11/gnome/x11ui.c: Fixed a #ifdef
+	  USE_XF86_EXTENSIONS issue.
+
+2010-09-09  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/generic.c,
+	  src/c64/cart/generic.h, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h: fixed monitor cart bank for
+	  generic and retroreplay
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c: use table instead of
+	  magic values :)
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c: fixed monitor peek in
+	  i/o area
+
+2010-09-09  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/monitor/Makefile.am, src/monitor/mon_fallback.c,
+	  src/monitor/mon_fallback.h, src/monitor/mon_parse.c,
+	  src/monitor/mon_parse.h, src/monitor/mon_parse.y: Reverted
+	  commits r22827, r22830-r22832 to remove the obsoleted monitor
+	  fallback parser.
+
+2010-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Added an #ifdef
+	  HAVE_FULLSCREEN.
+
+2010-09-07  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/autostart-prg.c, src/autostart-prg.h: Fixed a bug with
+	  autostarting files that load up to FFFF.
+
+	* src/monitor/mon_fallback.c, src/monitor/mon_fallback.h: Native
+	  line endings. Corrected non-conforming coding style.
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h: Updated
+	  mon_parse.[c|h] to reflect the current mon_parse.y.
+
+	* src/monitor/mon_fallback.c: Fixed a buffer overrun in the
+	  fallback parser that caused rather strange behaviour.
+
+2010-09-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64sc.tgt,
+	  src/arch/sdl/win32-watcom/crtc.tgt,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/vdc.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/viciinew.tgt,
+	  src/arch/sdl/win32-watcom/video.tgt: Updated win32 sdl watcom
+	  project files.
+
+	* src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/c64sc.tgt,
+	  src/arch/win32/watcom/crtc.tgt, src/arch/win32/watcom/pet.tgt,
+	  src/arch/win32/watcom/vdc.tgt, src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/viciinew.tgt,
+	  src/arch/win32/watcom/video.tgt: Updated win32 watcom project
+	  files.
+
+2010-09-06  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/monitor/Makefile.am, src/monitor/mon_fallback.c,
+	  src/monitor/mon_fallback.h, src/monitor/mon_parse.y:
+	  Implemented an experimental fallback parser for the monitor.
+	  Accepts 'd', 'm', 'i', 'h' with even less error checking than
+	  PETMON.
+
+2010-09-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/atomicpower.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/capture.c, src/core/t6721.c: Disable T6721 debug
+	  messages, clean up unneeded vicii-phi1.h includes
+
+	* src/arch/sdl/menu_c64_common_expansions.c,
+	  src/c64/cart/ide64.c: IDE64: don't create HD image file(s) if
+	  the cart isn't attached, coding style fixes, move SDL UI v4
+	  item away from the geometry settings
+
+2010-09-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/dingoo-files/sdl-vicerc,
+	  src/arch/sdl/menu_c64_common_expansions.c,
+	  src/c64/cart/ide64.c, src/cartconv.c, src/translate.txt: Added
+	  support for IDE64 4.1 (without USB support), added multiple
+	  drive emulation support and added support for 128Kb IDE64
+	  images to both x64/x128 and cartconv. (original patch supplied
+	  by soci)
+
+2010-09-04  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/autostart-prg.c, src/c128/c128mem.c, src/c64/c64mem.c,
+	  src/c64/c64memsc.c, src/c64dtv/c64dtvmem.c,
+	  src/cbm2/cbm2mem.c, src/mem.h, src/pet/petmem.c,
+	  src/plus4/plus4mem.c, src/vic20/vic20mem.c: Made autostart
+	  inject load directly into RAM using a new mem_inject()
+	  function instead of using mem_store(). This makes loading
+	  under I/O on x64[sc] work. It also makes it possible to inject
+	  more than 64Kb on x64dtv.
+
+2010-09-01  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/mididrv.c, src/c64/cart/c64-midi.c: MIDI: always
+	  call midi_set_mode on the MIDIMode resource handler (fixes
+	  uninitialized interrupt type), advertise the ALSA port also as
+	  SND_SEQ_PORT_TYPE_MIDI_GENERIC to keep aplaymidi happy,
+	  unix/mididrv stray whitespace cleanup
+
+2010-08-30  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/video.c,
+	  src/arch/win32/videoarch.h: Fixed another crash (this time at
+	  machine shutdown) on older windows versions.
+
+	* src/arch/win32/fullscrn-ddraw.c: Use DDSCL_NORMAL for mode
+	  enumeration to avoid screen flickering at startup. Removed
+	  duplicate call of SetCooperativeLevel().
+
+2010-08-28  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/amigaos/video.c, src/arch/beos/video.cc,
+	  src/arch/msdos/video.c, src/arch/os2/video.c,
+	  src/arch/riscos/video.c, src/arch/unix/macosx/cocoa/video.m:
+	  Removed every call to video_canvas_shutdown() in <arch>/video.
+
+2010-08-28  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/retroreplay.c: added missing check on file open
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	  src/arch/unix/x11/xaw/x11video.c: removed calls to
+	  video_canvas_shutdown. (please create devlog entries when
+	  breaking ports =P)
+
+2010-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, po/gen_win32_rc.c, src/arch/win32,
+	  src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	  src/arch/win32/resc64.rc, src/arch/win32/resc64_256k.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	  src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	  src/arch/win32/resdrivepetcbm2.rc,
+	  src/arch/win32/resdriveplus4.rc,
+	  src/arch/win32/resdrivevic20.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/resgeoram.rc,
+	  src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	  src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	  src/arch/win32/resmmc64.rc, src/arch/win32/resmouse.rc,
+	  src/arch/win32/respet.rc, src/arch/win32/respetreu.rc,
+	  src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	  src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	  src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	  src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	  src/arch/win32/ressiddtv.rc,
+	  src/arch/win32/ressoundexpander.rc, src/arch/win32/restfe.rc,
+	  src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc: Added
+	  support for the new(er) windres which seems to be able to
+	  handle code pages, however currently only windows native
+	  codepages seem to be supported by the new(er) windres, a test
+	  has been added to configure to see if ISO code pages are
+	  supported by windres, ifnot then the code page pragma's in the
+	  win32 resources will be ignored.
+
+2010-08-27  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/video.c: Fixes for
+	  windows with DX9 unavailable.
+
+2010-08-25  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	  src/arch/win32/fullscrn-ddraw.c,
+	  src/arch/win32/fullscrn-dx9.c, src/arch/win32/fullscrn.c,
+	  src/arch/win32/fullscrn.h, src/arch/win32/petui.c,
+	  src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	  src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
+	  src/arch/win32/vic20ui.c, src/arch/win32/video-ddraw.c,
+	  src/arch/win32/video-dx9.c, src/arch/win32/video.c,
+	  src/arch/win32/videoarch.h, src/raster/raster-resources.c,
+	  src/raster/raster.c: Enabled on-the-fly switch between
+	  DirectX9 and DirectDraw driver. Fixed x128 -fullscreen
+	  segfault in Win32. Added call of video_canvas_shutdown in
+	  raster_resources_chip_shutdown. This may make every similar
+	  call in <arch>/video.c obsolete.
+
+2010-08-23  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/atomicpower.c: always enable ram in io2 in nordic
+	  power special mode(s)
+
+2010-08-22  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/atomicpower.c: ctrl reg bit 2 fixed, passes
+	  countzeros ram test now (to be added to testprogs later...)
+
+2010-08-16  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/autostart.c, src/autostart.h, src/event.c: Disable history
+	  recording/playback while autostart sequence is in progress.
+
+2010-08-15  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/autostart.c: Suppress usage of autostart in event history
+	  mode.
+
+2010-08-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uitfe.c: removed file browser from device
+	  selection. there is no /dev/eth0 in linux, oops.
+
+	* src/arch/unix/x11/gnome/x11ui.c: added missing ifdef
+	  HAVE_FULLSCREEN (again)
+
+	* src/arch/unix/mousedrv.c, src/arch/unix/x11/fullscreen.c,
+	  src/arch/unix/x11/gnome/lightpendrv.c,
+	  src/arch/unix/x11/gnome/videoarch.h,
+	  src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/xaw/x11ui.c, src/arch/unix/x11/xrandr.c:
+	  fixed mouse coordinate handling when mouse emulation is
+	  enabled (bug 3003765). added mouse grab to fullscreen modes as
+	  another step to un-break vidmode
+
+2010-08-13  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64.c, src/c64/psid.c, src/init.c, src/initcmdline.c,
+	  src/sound.c: vsid: disable automatic warp enable, add vsync
+	  cmdline options (incl. warp), remove useless
+	  fliplist/autostart/event cmdline options, remove duplicated
+	  vsid entry on x64 -vsid -?
+
+2010-08-13  groepaz <groepaz@gmx.net>
+
+	* src/fsdevice/fsdevice-flush.c, src/fsdevice/fsdevice-write.c,
+	  src/fsdevice/fsdevice.c, src/fsdevice/fsdevicetypes.h,
+	  src/vdrive/vdrive-command.c, src/vdrive/vdrive-command.h:
+	  added fake support for most dos commands for fsdevice, added
+	  warnings for commands which likely don't work without TDE.
+
+	* src/parallel/parallel-trap.c, src/serial/fsdrive.c: added
+	  delayed close (patch 2918696)
+
+2010-08-12  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c: fixed action replay/nordic power
+	  ram mapping
+
+2010-08-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/fullscreen.c,
+	  src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/xrandr.c: added some ifdefs needed to
+	  compile without HAVE_FULLSCREEN
+
+	* doc/html/plain/BUGS, doc/html/plain/TODO,
+	  src/arch/unix/x11/gnome/TODO: added note to use/refer to the
+	  tracker instead of these files. created a merged and
+	  (hopefully) more up to date list in the wiki.
+
+2010-08-10  groepaz <groepaz@gmx.net>
+
+	* src/fsdevice/fsdevice-open.c: fake open "#" files/channels.
+	  additional check for namelen vs passed len (fixes bug 2911881)
+
+2010-08-09  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c: *
+	  arch/unix/x11/gnome/gnomevideo.c (video_canvas_refresh):
+	  replaced `exit()' in case drawing outside canvas is requested
+	  by a silent return. This fixes xvic and others where a
+	  scenario such as width == 0 (xs == xe) ; see
+	  src/raster/raster-canvas.c:refresh_canvas() can happen.
+
+2010-08-09  groepaz <groepaz@gmx.net>
+
+	* data/PET/x11_bdep.vkm, data/PET/x11_bdep_de.vkm,
+	  data/PET/x11_bdes.vkm, data/PET/x11_bdes_de.vkm,
+	  data/PET/x11_bgrp.vkm, data/PET/x11_bgrp_de.vkm,
+	  data/PET/x11_bgrs.vkm, data/PET/x11_bgrs_de.vkm,
+	  data/PET/x11_bukp.vkm, data/PET/x11_bukp_de.vkm,
+	  data/PET/x11_buks.vkm, data/PET/x11_buks_de.vkm,
+	  src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	  src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uikeyboard.c,
+	  src/arch/unix/gui/uikeyboard.h, src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/x11/gnome/uiedit.c, src/pet/pet-resources.c:
+	  all: made existing keyboard mappings selectable from menus
+	  xpet: seperated pet-keyboard model selection from (pc)
+	  keyboard mapping selection, added keymap templates to make
+	  everything work. needs refinement by some pet hacker :)
+
+2010-08-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/sdl/ui.c,
+	  src/arch/sdl/ui.h, src/arch/sdl/uimenu.c,
+	  src/arch/sdl/uimenu.h: SDL UI: use own conversion table
+	  instead of charset_*(), misc. cleanup
+
+2010-08-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiedit.c: added missing CHECK_MENUS,
+	  fixes potential keyboard buffer issues
+
+2010-08-08  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/monitor/monitor_network.c: Allow for CR or LF or CR/LF
+	  line endings when receiving.
+
+2010-08-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/fullscreenarch.h,
+	  src/arch/unix/x11/fullscreen.c,
+	  src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/vidmode.h, src/arch/unix/x11/xrandr.c,
+	  src/arch/unix/x11/xrandr.h: made vidmode slightly less
+	  annoying to use :)
+
+2010-08-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciisc/vicii-fetch.c, src/viciisc/vicii.c: x64sc: don't
+	  access charROM on Ultimax mode VIC-II fetches
+
+2010-08-06  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/monitor/monitor.c: Remove C99ish variable declaration not
+	  at the beginning of a block.
+
+2010-08-06  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fixed compilation for pre
+	  2.18 gtk+
+
+	* src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/ui.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/vicemachinenotifier.h,
+	  src/arch/unix/macosx/cocoa/vicemachinenotifier.m,
+	  src/arch/unix/macosx/cocoa/vicenotifications.h: macosx:
+	  unified window controllers for all tool windows
+
+	* src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/Resources/English.lproj/MemoryWindow.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/MemoryWindow.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/MemoryWindow.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/monitor/monitor.c, src/monitor/montypes.h: macosx: added
+	  cocoa memory window
+
+	* src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/RegisterWindow.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m,
+	  src/arch/unix/macosx/cocoa/vicenotifications.h: macosx: added
+	  register window for cocoa
+
+2010-08-05  Antti S. Lankila <alankila@bel.fi>
+
+	* src/drive/drivecpu.c: Workaround the clock overflow issue by
+	  subtraction of the 2nd complement integer followed by cast to
+	  signed type, which makes the test work regardless of the value
+	  of the MSB.
+
+2010-08-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/drive/drivecpu.c: Fix MSVC compilation for release builds.
+	  Patch by someone, I do not remember. If anyone recognises his
+	  patch, please tell me! (I am sorry for this.)
+
+2010-08-05  Antti S. Lankila <alankila@bel.fi>
+
+	* src/drive/drivecpu.c: Avoid overflow at stop_clk value by
+	  migrating the number of clocks to execute towards 0 at end of
+	  every frame.
+
+2010-08-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/sdl/win32-msvc/c64sc.dsp,
+	  src/arch/sdl/win32-msvc/vice.dsw,
+	  src/arch/sdl/win32-msvc/viciinew.dsp,
+	  src/arch/sdl/win32-msvc/viciisc.dsp, src/arch/win32/c64sc.dsp,
+	  src/arch/win32/vice.dsw, src/arch/win32/viciinew.dsp,
+	  src/arch/win32/viciisc.dsp: Fix MSVC compilation for native
+	  and SDL.
+
+2010-08-05  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* configure.in, src/6510dtvcore.c, src/Makefile.am,
+	  src/c64/Makefile.am, src/translate.txt, src/translate_text.c,
+	  src/vicii.h, src/viciinew, src/viciisc,
+	  src/viciisc/Makefile.am: Renamed viciinew into viciisc.
+
+2010-08-04  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii.c: de-obfuscated r22778 :)
+
+2010-08-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/vic20cpu.c: FETCH_OPCODE for big endian xvic
+	  (hopefully) fixed
+
+2010-08-04  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/plain/VIC-Addendum.txt: Added explanation on grey
+	  dots.
+
+2010-08-04  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/pngdrv.c: fixed some more deprecated stuff
+
+2010-08-03  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii.c: added patch 3017065 (output sprite pointers
+	  in io dump)
+
+	* src/cmdline.h, src/raster/Makefile.am,
+	  src/raster/raster-cmdline-options.c,
+	  src/raster/raster-resources.c, src/raster/raster.c,
+	  src/resources.h, src/video/Makefile.am,
+	  src/video/video-cmdline-options.c,
+	  src/video/video-resources-pal.c, src/video/video-resources.c:
+	  another workaround for the bug outlined in raster.c ,
+	  drastically increased warning level for video/ and raster/
+	  (and made a few related fixes) in an attempt to fight this
+	  problem along the way. this issue needs further care!
+
+	* po/de.po: GEROAM -> GEORAM :)
+
+	* src/plus4/ted-timing.c, src/plus4/ted.c, src/plus4/tedtypes.h,
+	  src/vic20/vic.c, src/vic20/vic.h, src/vic20/vic20.h,
+	  src/vicii/vicii-timing.c, src/vicii/vicii-timing.h,
+	  src/vicii/vicii.c, src/viciinew/vicii-timing.c,
+	  src/viciinew/vicii-timing.h, src/viciinew/vicii.c,
+	  src/video.h: calculate true aspect ratio from actual screen
+	  dimensions instead of using fixed precalculated values.
+
+	* src/arch/unix/gui/uic64_256k.c,
+	  src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uidqbb.c,
+	  src/arch/unix/gui/uigeoram.c, src/arch/unix/gui/uiide64.c,
+	  src/arch/unix/gui/uikeyboard.c, src/arch/unix/gui/uilib.c,
+	  src/arch/unix/gui/uilib.h, src/arch/unix/gui/uimagicvoice.c,
+	  src/arch/unix/gui/uimidi.c, src/arch/unix/gui/uimmc64.c,
+	  src/arch/unix/gui/uimmcreplay.c,
+	  src/arch/unix/gui/uiperipheral.c,
+	  src/arch/unix/gui/uipetdww.c, src/arch/unix/gui/uipetreu.c,
+	  src/arch/unix/gui/uiplus256k.c, src/arch/unix/gui/uiplus60k.c,
+	  src/arch/unix/gui/uiramcart.c, src/arch/unix/gui/uireu.c,
+	  src/arch/unix/gui/uiromset.c, src/arch/unix/gui/uirs232.c,
+	  src/arch/unix/gui/uitfe.c, src/arch/unix/gui/uitpi.c,
+	  src/arch/unix/gui/uiv364speech.c, src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/ui.h, src/arch/unix/x11/gnome/uiarch.h,
+	  src/arch/unix/x11/gnome/uifileentry.c,
+	  src/arch/unix/x11/gnome/x11ui.c,
+	  src/arch/unix/x11/xaw/x11ui.c,
+	  src/arch/unix/x11/xaw/x11video.c: use file browser instead of
+	  string input whenever possible
+
+2010-08-02  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: Updated.
+
 2010-08-01  groepaz <groepaz@gmx.net>
 
 	* src/charset.c: improved handling of line endings
