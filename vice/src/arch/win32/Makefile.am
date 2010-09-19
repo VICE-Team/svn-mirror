@@ -450,7 +450,7 @@ EXTRA_DIST = \
 	vic20cart.dsp \
 	vicii.dsp \
 	viciidtv.dsp \
-	viciinew.dsp \
+	viciisc.dsp \
 	video.dsp \
 	x128.dsp \
 	x64.dsp \
