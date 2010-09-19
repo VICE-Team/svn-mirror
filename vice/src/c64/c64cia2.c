@@ -117,7 +117,7 @@ static void do_reset_cia(cia_context_t *cia_context)
 #endif
 
     vbank = 0;
-    c64_glue_set_vbank(vbank, 0);
+    c64_glue_reset();
 }
 
 static void pre_store(void)
@@ -165,7 +165,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     }
 #endif
     vbank = (byte ^ 3) & 3;
-    c64_glue_set_vbank(vbank, 0);
+    c64_glue_undump(vbank);
 
     iecbus_cpu_undump((BYTE)(byte ^ 0xff));
 }

@@ -31,6 +31,7 @@
 
 #include "c64-snapshot.h"
 #include "c64.h"
+#include "c64gluelogic.h"
 #include "c64memsnapshot.h"
 #include "cia.h"
 #include "drive-snapshot.h"
@@ -51,7 +52,7 @@
 #include "vicii.h"
 
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 int c64_snapshot_write(const char *name, int save_roms, int save_disks, int event_mode)
 {
@@ -74,6 +75,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || vicii_snapshot_write_module(s) < 0
+        || c64_glue_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
@@ -111,6 +113,7 @@ int c64_snapshot_read(const char *name, int event_mode)
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
         || vicii_snapshot_read_module(s) < 0
+        || c64_glue_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
