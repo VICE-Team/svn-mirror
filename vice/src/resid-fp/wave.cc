@@ -233,11 +233,13 @@ void WaveformGeneratorFP::writeFREQ_HI(reg8 freq_hi)
 void WaveformGeneratorFP::writePW_LO(reg8 pw_lo)
 {
   pw = (pw & 0xf00) | (pw_lo & 0x0ff);
+  update_pw();
 }
 
 void WaveformGeneratorFP::writePW_HI(reg8 pw_hi)
 {
   pw = ((pw_hi << 8) & 0xf00) | (pw & 0x0ff);
+  update_pw();
 }
 
 void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 control)
@@ -252,15 +254,13 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
   }
 
   waveform = waveform_next;
-  ring_mod = (control & 0x04) != 0;
+  ring_mod = (control & 0x04) != 0 && (waveform & 0x3) == 1;
   sync = (control & 0x02) != 0;
   bool test_next = (control & 0x08) != 0;
 
   // Test bit rising? Invert bit 19 and write it to bit 1.
   if (test_next && !test) {
     accumulator = 0;
-    reg24 bit19 = (shift_register >> 18) & 2;
-    shift_register = (shift_register & 0x7ffffd) | (bit19^2);
     noise_overwrite_delay = 200000; /* 200 ms, probably too generous? */
   } else {
     // Test bit falling? clock noise once,
@@ -271,6 +271,7 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
   }
  
   test = test_next;
+  update_pw();
 }
 
 reg8 WaveformGeneratorFP::readOSC6581(WaveformGeneratorFP& source) {
@@ -295,7 +296,7 @@ reg8 WaveformGeneratorFP::readOSC(reg24 ring_accumulator, reg24 my_accumulator)
     pw = 0;
   }
   reg24 oldaccumulator = accumulator;
-  accumulator = my_accumulator ^ ((waveform & 3) == 1 && ring_mod && (ring_accumulator & 0x800000) ? 0x800000 : 0);
+  accumulator = my_accumulator ^ (ring_mod ? ring_accumulator & 0x800000 : 0);
   calculate_waveform_sample(o);
   pw = oldpw;
   accumulator = oldaccumulator;
@@ -314,7 +315,7 @@ reg8 WaveformGeneratorFP::readOSC(reg24 ring_accumulator, reg24 my_accumulator)
 void WaveformGeneratorFP::clock_noise(const bool clock)
 {
   if (clock) {
-    reg24 bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
+    reg24 bit0 = (((shift_register >> 22) | (test ? 1 : 0)) ^ (shift_register >> 17)) & 0x1;
     shift_register <<= 1;
     shift_register |= bit0;
   }
@@ -322,11 +323,11 @@ void WaveformGeneratorFP::clock_noise(const bool clock)
   // clear output bits of shift register if noise and other waveforms
   // are selected simultaneously
   if (waveform > 8) {
-    shift_register &= 0x7fffff^(1<<22)^(1<<20)^(1<<16)^(1<<13)^(1<<11)^(1<<7)^(1<<4)^(1<<2);
+    shift_register &= 0x7fffff^(1<<20)^(1<<18)^(1<<14)^(1<<11)^(1<<9)^(1<<5)^(1<<2)^(1<<0);
   }
 
   if (waveform >= 8) {
-    previous = outputN___() >> 4;
+    previous = outputN___();
     previous_dac = wave_zero;
     for (int i = 0; i < 8; i ++) {
       if (previous & (1 << i)) {
@@ -336,17 +337,17 @@ void WaveformGeneratorFP::clock_noise(const bool clock)
   }
 }
 
-reg12 WaveformGeneratorFP::outputN___()
+reg8 WaveformGeneratorFP::outputN___()
 {
   return
-    ((shift_register & 0x400000) >> 11) |
-    ((shift_register & 0x100000) >> 10) |
-    ((shift_register & 0x010000) >> 7) |
-    ((shift_register & 0x002000) >> 5) |
-    ((shift_register & 0x000800) >> 4) |
-    ((shift_register & 0x000080) >> 1) |
-    ((shift_register & 0x000010) << 1) |
-    ((shift_register & 0x000004) << 2);
+    ((shift_register & (1 << 20)) >> 13) |
+    ((shift_register & (1 << 18)) >> 12) |
+    ((shift_register & (1 << 14)) >> 9) |
+    ((shift_register & (1 << 11)) >> 7) |
+    ((shift_register & (1 <<  9)) >> 6) |
+    ((shift_register & (1 <<  5)) >> 3) |
+    ((shift_register & (1 <<  2)) >> 1) |
+    ((shift_register & (1 <<  0)));
 }
 
 // ----------------------------------------------------------------------------
@@ -357,11 +358,10 @@ void WaveformGeneratorFP::reset()
   accumulator_prev = accumulator = 0;
   previous = 0;
   previous_dac = 0;
-  shift_register = 0x7ffffc;
+  shift_register = 0x7fffff;
   freq = 0;
   pw = 0;
   test = 0;
   waveform = 0;
   writeCONTROL_REG(*this, 0);
-  msb_rising = false;
 }

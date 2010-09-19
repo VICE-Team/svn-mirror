@@ -58,15 +58,13 @@ protected:
   reg8 readOSC(reg24 ring_accumulator, reg24 my_accumulator);
 
   void clock_noise(const bool clock);
-  reg12 outputN___();
+  reg8 outputN___();
   void set_nonlinearity(float nl);
   void rebuild_wftable();
   void calculate_waveform_sample(float o[12]);
+  void update_pw();
 
   chip_model model;
-
-  // Tell whether the accumulator MSB was set high on this cycle.
-  bool msb_rising;
 
   reg24 accumulator, accumulator_prev;
   reg24 shift_register;
@@ -78,6 +76,7 @@ protected:
   reg16 freq; /* shifted left by 8 for optimization */
   // PWout = (PWn/40.95)%
   reg12 pw;
+  reg24 output_pw;
 
   // The control register right-shifted 4 bits; used for output function
   // table lookup.
@@ -105,7 +104,7 @@ void WaveformGeneratorFP::clock()
   if (test) {
     if (noise_overwrite_delay != 0) {
 	if (-- noise_overwrite_delay == 0) {
-	    shift_register |= 0x7ffffc;
+	    shift_register |= 0x7fffff;
 	    clock_noise(false);
 	}
     }
@@ -117,9 +116,6 @@ void WaveformGeneratorFP::clock()
   // Calculate new accumulator value;
   accumulator += freq;
   accumulator &= 0xffffff;
-
-  // Check whether the MSB became set high. This is used for synchronization.
-  msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
 
   // Shift noise register once for each time accumulator bit 19 is set high.
   if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
@@ -140,7 +136,8 @@ void WaveformGeneratorFP::synchronize(WaveformGeneratorFP& sync_dest, WaveformGe
   // A special case occurs when a sync source is synced itself on the same
   // cycle as when its MSB is set high. In this case the destination will
   // not be synced. This has been verified by sampling OSC3.
-  if (msb_rising && sync_dest.sync && !(sync && sync_source.msb_rising)) {
+  if (sync_dest.sync && ((~accumulator_prev) & accumulator & 0x800000) != 0
+      && !(sync && ((~sync_source.accumulator_prev) & sync_source.accumulator & 0x800000) != 0)) {
     sync_dest.accumulator = 0;
   }
 }
@@ -156,17 +153,28 @@ float WaveformGeneratorFP::output(WaveformGeneratorFP& sync_source)
   }
   /* waveforms 1 .. 7 left */
 
-  /* Phase for all waveforms */
-  reg12 phase = accumulator >> 12;
   /* pulse on/off generates 4 more variants after the main pulse types */
-  int variant = waveform >= 4 && (test || phase >= pw) ? 3 : -1;
+  int variant = accumulator >= output_pw ? 3 : -1;
 
   /* triangle waveform XOR circuit. Since the table already makes a triangle
    * wave internally, we only need to account for the sync source here.
    * Flipping the top bit suffices to reproduce the original SID ringmod */
-  phase ^= ((waveform & 3) == 1 && ring_mod && (sync_source.accumulator & 0x800000)) ? 0x800 : 0x00;
+   reg24 phase = accumulator ^
+        (ring_mod ? (sync_source.accumulator & 0x800000) : 0);
 
-  return wftable[waveform + variant][phase];
+  return wftable[waveform + variant][phase >> 12];
+}
+
+RESID_INLINE
+void WaveformGeneratorFP::update_pw()
+{
+    /* Pulse not used? Always use the -1 variant */
+    if ((waveform & 4) == 0) {
+        output_pw = 1 << 24;
+    } else {
+        /* Test bit -> always on, otherwise compare pw to accumulator */
+        output_pw = test ? 0 : pw << 12;
+    }
 }
 
 #endif // not VICE__WAVE_H__
