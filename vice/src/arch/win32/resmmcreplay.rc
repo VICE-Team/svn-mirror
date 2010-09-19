@@ -31,7 +31,7 @@ BEGIN
     EDITTEXT        IDC_MMCREPLAY_EEPROMIMAGE,
                     9, 55, 160, 12, WS_TABSTOP
     AUTOCHECKBOX    "", IDC_MMCREPLAY_RESCUEMODE,
-                    9 75, 60, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+                    9, 75, 60, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "", IDC_MMCREPLAY_SDTYPE_LABEL,
                     80, 75, 30, 8
     COMBOBOX        IDC_MMCREPLAY_SDTYPE,
