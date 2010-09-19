@@ -50,6 +50,7 @@
 #include "uilightpen.h"
 #include "uimidi.h"
 #include "uimmc64.h"
+#include "uimmcreplay.h"
 #include "uireu.h"
 #include "uigeoram.h"
 #include "uimouse.h"
@@ -290,6 +291,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_CART_ATTACH_EPYX, IDS_MI_CART_ATTACH_EPYX },
     { IDM_CART_ATTACH_IEEE488, IDS_MI_CART_ATTACH_IEEE488 },
     { IDM_CART_ATTACH_RR, IDS_MI_CART_ATTACH_RR },
+    { IDM_CART_ATTACH_MMC_REPLAY, IDS_MI_CART_ATTACH_MMC_REPLAY },
     { IDM_CART_ATTACH_IDE64, IDS_MI_CART_ATTACH_IDE64 },
     { IDM_CART_ATTACH_SS4, IDS_MI_CART_ATTACH_SS4 },
     { IDM_CART_ATTACH_SS5, IDS_MI_CART_ATTACH_SS5 },
@@ -378,6 +380,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_RAMCART_SETTINGS, IDS_MI_RAMCART_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
+    { IDM_MMCREPLAY_SETTINGS, IDS_MI_MMCREPLAY_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
 #ifdef HAVE_TFE
@@ -634,6 +637,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_MMC64_SETTINGS:
             ui_mmc64_settings_dialog(hwnd);
+            break;
+        case IDM_MMCREPLAY_SETTINGS:
+            ui_mmcreplay_settings_dialog(hwnd);
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_settings_dialog(hwnd);
