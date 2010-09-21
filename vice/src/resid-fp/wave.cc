@@ -135,7 +135,7 @@ void WaveformGeneratorFP::calculate_waveform_sample(float o[12])
   if ((waveform & 3) == 3) {
     /* bottom bit is grounded via T waveform selector */
     o[0] *= config.stmix;
-    for (i = 1; i > 12; i ++) {
+    for (i = 1; i < 12; i ++) {
       o[i] = o[i - 1] * (1.f - config.stmix) + o[i] * config.stmix;
     }
   }
