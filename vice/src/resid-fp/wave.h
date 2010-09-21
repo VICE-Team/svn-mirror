@@ -83,8 +83,11 @@ protected:
   reg8 waveform;
 
   // The remaining control register bits.
-  bool test, ring_mod, sync;
+  bool test, sync;
   // The gate bit is handled by the EnvelopeGenerator.
+
+  /* Ring mod xor gate. */
+  reg24 ring;
 
   // zero level offset of waveform (< 0)
   float wave_zero;
@@ -159,8 +162,7 @@ float WaveformGeneratorFP::output(WaveformGeneratorFP& sync_source)
   /* triangle waveform XOR circuit. Since the table already makes a triangle
    * wave internally, we only need to account for the sync source here.
    * Flipping the top bit suffices to reproduce the original SID ringmod */
-   reg24 phase = accumulator ^
-        (ring_mod ? (sync_source.accumulator & 0x800000) : 0);
+   reg24 phase = accumulator ^ (sync_source.accumulator & ring);
 
   return wftable[waveform + variant][phase >> 12];
 }

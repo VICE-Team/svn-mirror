@@ -449,7 +449,7 @@ SIDFP::State SIDFP::read_state()
     state.sid_register[j + 4] =
       (wave.waveform << 4)
       | (wave.test ? 0x08 : 0)
-      | (wave.ring_mod ? 0x04 : 0)
+      | (wave.ring ? 0x04 : 0)
       | (wave.sync ? 0x02 : 0)
       | (envelope.gate ? 0x01 : 0);
     state.sid_register[j + 5] = (envelope.attack << 4) | envelope.decay;

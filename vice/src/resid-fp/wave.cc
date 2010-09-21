@@ -254,7 +254,7 @@ void WaveformGeneratorFP::writeCONTROL_REG(WaveformGeneratorFP& source, reg8 con
   }
 
   waveform = waveform_next;
-  ring_mod = (control & 0x04) != 0 && (waveform & 0x3) == 1;
+  ring = (control & 0x04) != 0 && (waveform & 0x3) == 1 ? 0x800000 : 0;
   sync = (control & 0x02) != 0;
   bool test_next = (control & 0x08) != 0;
 
@@ -296,7 +296,7 @@ reg8 WaveformGeneratorFP::readOSC(reg24 ring_accumulator, reg24 my_accumulator)
     pw = 0;
   }
   reg24 oldaccumulator = accumulator;
-  accumulator = my_accumulator ^ (ring_mod ? ring_accumulator & 0x800000 : 0);
+  accumulator = my_accumulator ^ (ring_accumulator & ring);
   calculate_waveform_sample(o);
   pw = oldpw;
   accumulator = oldaccumulator;
