@@ -135,7 +135,7 @@ struct sdljoystick_mapping_s {
 typedef struct sdljoystick_mapping_s sdljoystick_mapping_t;
 
 struct sdljoystick_s {
-    SDL_Wrapped_Joystick *joyptr;
+    SDL_Joystick *joyptr;
     const char *name;
     int input_max[NUM_INPUT_TYPES];
     sdljoystick_mapping_t *input[NUM_INPUT_TYPES];
@@ -145,193 +145,6 @@ typedef struct sdljoystick_s sdljoystick_t;
 static sdljoystick_t *sdljoystick = NULL;
 
 #endif /* HAVE_SDL_NUMJOYSTICKS */
-
-/* ------------------------------------------------------------------------- */
-
-/* GP2X buttons to axis wrapper */
-
-#ifdef GP2X_SDL
-
-#define GP2X_BUTTON_UP        (0)
-#define GP2X_BUTTON_DOWN      (4)
-#define GP2X_BUTTON_LEFT      (2)
-#define GP2X_BUTTON_RIGHT     (6)
-#define GP2X_BUTTON_UPLEFT    (1)
-#define GP2X_BUTTON_UPRIGHT   (7)
-#define GP2X_BUTTON_DOWNLEFT  (3)
-#define GP2X_BUTTON_DOWNRIGHT (5)
-
-SDL_Wrapped_Joystick *SDL_Wrapped_JoystickOpen(int index)
-{
-    SDL_Wrapped_Joystick *joy = lib_malloc(sizeof(SDL_Wrapped_Joystick));
-
-    joy->index = index;
-    joy->joystick = SDL_JoystickOpen(index);
-    
-    if (joy->joystick == NULL) {
-        lib_free(joy);
-        return NULL;
-    }
-    return joy;
-}
-
-int SDL_Wrapped_JoystickNumAxes(SDL_Wrapped_Joystick *joystick)
-{
-    if (joystick->index == 0) {
-        return 2;
-    } else {
-        return SDL_JoystickNumAxes(joystick->joystick);
-    }
-}
-
-int SDL_Wrapped_JoystickNumButtons(SDL_Wrapped_Joystick *joystick)
-{
-    if (joystick->index == 0) {
-        return SDL_JoystickNumButtons(joystick->joystick) - 8;
-    } else {
-        return SDL_JoystickNumButtons(joystick->joystick);
-    }
-}
-
-int SDL_Wrapped_JoystickNumHats(SDL_Wrapped_Joystick *joystick)
-{
-    return SDL_JoystickNumHats(joystick->joystick);
-}
-
-int SDL_Wrapped_JoystickNumBalls(SDL_Wrapped_Joystick *joystick)
-{
-    return SDL_JoystickNumBalls(joystick->joystick);
-}
-
-void SDL_Wrapped_JoystickClose(SDL_Wrapped_Joystick *joystick)
-{
-    SDL_JoystickClose(joystick->joystick);
-    lib_free(joystick);
-}
-
-static BYTE GP2X_button1 = 0xff;
-static BYTE GP2X_button2 = 0xff;
-
-static BYTE valid_buttons[8] = {
-    GP2X_BUTTON_UP,
-    GP2X_BUTTON_DOWN,
-    GP2X_BUTTON_LEFT,
-    GP2X_BUTTON_RIGHT,
-    GP2X_BUTTON_UPLEFT,
-    GP2X_BUTTON_UPRIGHT,
-    GP2X_BUTTON_DOWNLEFT,
-    GP2X_BUTTON_DOWNRIGHT
-};
-
-static void register_button_down(BYTE button)
-{
-    if (GP2X_button1 == 0xff) {
-        GP2X_button1 = button;
-    } else {
-        GP2X_button2 = button;
-    }
-}
-
-static void register_button_up(BYTE button)
-{
-    if (GP2X_button1 == button) {
-        GP2X_button1 = GP2X_button2;
-    }
-    GP2X_button2 = 0xff;
-}
-
-static int button_is_valid(BYTE button)
-{
-    int i;
-
-    for (i = 0; i < 8; i++) {
-        if (button == valid_buttons[i]) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-static void button_to_axis_events(void)
-{
-    SDL_Event my_event;
-
-    my_event.type = SDL_JOYAXISMOTION;
-    my_event.jaxis.which = 0;
-
-    /* X-axis events */
-    my_event.jaxis.axis = 0;
-
-    switch (GP2X_button1) {
-        case GP2X_BUTTON_UP:
-        case GP2X_BUTTON_DOWN:
-        default:
-            my_event.jaxis.value = 0;
-            break;
-        case GP2X_BUTTON_RIGHT:
-        case GP2X_BUTTON_UPRIGHT:
-        case GP2X_BUTTON_DOWNRIGHT:
-            my_event.jaxis.value = 32767;
-            break;
-        case GP2X_BUTTON_LEFT:
-        case GP2X_BUTTON_UPLEFT:
-        case GP2X_BUTTON_DOWNLEFT:
-            my_event.jaxis.value = -32767;
-            break;
-    }
-    SDL_PushEvent(&my_event);
-
-    /* Y-axis event */
-    my_event.jaxis.axis = 1;
-    switch (GP2X_button1) {
-        case GP2X_BUTTON_RIGHT:
-        case GP2X_BUTTON_LEFT:
-        default:
-            my_event.jaxis.value = 0;
-            break;
-        case GP2X_BUTTON_UP:
-        case GP2X_BUTTON_UPLEFT:
-        case GP2X_BUTTON_UPRIGHT:
-            my_event.jaxis.value = 32767;
-            break;
-        case GP2X_BUTTON_DOWN:
-        case GP2X_BUTTON_DOWNRIGHT:
-        case GP2X_BUTTON_DOWNLEFT:
-            my_event.jaxis.value = -32767;
-            break;
-    }
-    SDL_PushEvent(&my_event);
-}
-
-int SDL_Wrapped_PollEvent(SDL_Event *event)
-{
-    int ret;
-
-    while (1) {
-        ret = SDL_PollEvent(event);
-        if (ret = 0) {
-            return ret;
-        }
-        if (event->type != SDL_JOYBUTTONDOWN && event->type != SDL_JOYBUTTONUP) {
-            return ret;
-        }
-        if (event->jbutton.which != 0) {
-            return ret;
-        } else {
-            if (button_is_valid(event->jbutton.button) == 0) {
-                return ret;
-            }
-            if (event->type == SDL_JOYBUTTONDOWN) {
-                register_button_down(event->jbutton.button);
-                button_to_axis_events();
-            } else {
-                register_button_up(event->jbutton.button);
-                button_to_axis_events();
-            }
-        }
-    }
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -550,7 +363,7 @@ int joy_arch_init(void)
 {
     int i, axis, button, hat, ball;
     sdljoystick_input_t j;
-    SDL_Wrapped_Joystick *joy;
+    SDL_Joystick *joy;
 
     sdljoystick = NULL;
 
@@ -573,13 +386,13 @@ int joy_arch_init(void)
     sdljoystick = lib_malloc(sizeof(sdljoystick_t) * num_joysticks);
 
     for (i = 0; i < num_joysticks; ++i) {
-        joy = sdljoystick[i].joyptr = SDL_Wrapped_JoystickOpen(i);
+        joy = sdljoystick[i].joyptr = SDL_JoystickOpen(i);
         if (joy) {
             sdljoystick[i].name = lib_stralloc(SDL_JoystickName(i));
-            axis = sdljoystick[i].input_max[AXIS] = SDL_Wrapped_JoystickNumAxes(joy);
-            button = sdljoystick[i].input_max[BUTTON] = SDL_Wrapped_JoystickNumButtons(joy);
-            hat = sdljoystick[i].input_max[HAT] = SDL_Wrapped_JoystickNumHats(joy);
-            ball = sdljoystick[i].input_max[BALL] = SDL_Wrapped_JoystickNumBalls(joy);
+            axis = sdljoystick[i].input_max[AXIS] = SDL_JoystickNumAxes(joy);
+            button = sdljoystick[i].input_max[BUTTON] = SDL_JoystickNumButtons(joy);
+            hat = sdljoystick[i].input_max[HAT] = SDL_JoystickNumHats(joy);
+            ball = sdljoystick[i].input_max[BALL] = SDL_JoystickNumBalls(joy);
 
             for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
                 if (sdljoystick[i].input_max[j] > 0) {
@@ -622,7 +435,7 @@ fprintf(stderr,"%s\n",__func__);
         sdljoystick[i].name = NULL;
 
         if (sdljoystick[i].joyptr) {
-            SDL_Wrapped_JoystickClose(sdljoystick[i].joyptr);
+            SDL_JoystickClose(sdljoystick[i].joyptr);
         }
 
         for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
@@ -654,11 +467,7 @@ void joy_arch_init_default_mapping(int joynum)
 
         /* Poll each joystick axis once */
         if ((i % input_mult[AXIS]) == 0) {
-#ifdef GP2X_SDL
-            state = 0;
-#else
             state = SDL_JoystickGetAxis(sdljoystick[joynum].joyptr, i / input_mult[AXIS]);
-#endif
         }
 
         /* Check that the default joystick value is within the threshold.

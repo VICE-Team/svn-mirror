@@ -68,31 +68,4 @@ extern void sdljoy_swap_ports(void);
 #define JOYDEV_KEYSET2  3
 #define JOYDEV_JOYSTICK 4
 
-/* GP2X buttons to axis wrapper */
-
-#ifdef GP2X_SDL
-typedef struct SDL_Wrapped_Joy {
-    int index;
-    SDL_Joystick *joystick;
-} SDL_Wrapped_Joystick;
-
-extern SDL_Wrapped_Joystick *SDL_Wrapped_JoystickOpen(int index);
-extern int SDL_Wrapped_JoystickNumAxes(SDL_Wrapped_Joystick *joystick);
-extern int SDL_Wrapped_JoystickNumButtons(SDL_Wrapped_Joystick *joystick);
-extern int SDL_Wrapped_JoystickNumHats(SDL_Wrapped_Joystick *joystick);
-extern int SDL_Wrapped_JoystickNumBalls(SDL_Wrapped_Joystick *joystick);
-extern void SDL_Wrapped_JoystickClose(SDL_Wrapped_Joystick *joystick);
-extern int SDL_Wrapped_PollEvent(SDL_Event *event);
-#else
-/* map calls to the actual functions */
-#define SDL_Wrapped_Joystick SDL_Joystick
-#define SDL_Wrapped_JoystickOpen SDL_JoystickOpen
-#define SDL_Wrapped_JoystickNumAxes SDL_JoystickNumAxes
-#define SDL_Wrapped_JoystickNumButtons SDL_JoystickNumButtons
-#define SDL_Wrapped_JoystickNumHats SDL_JoystickNumHats
-#define SDL_Wrapped_JoystickNumBalls SDL_JoystickNumBalls
-#define SDL_Wrapped_JoystickClose SDL_JoystickClose
-#define SDL_Wrapped_PollEvent SDL_PollEvent
-#endif
-
 #endif
