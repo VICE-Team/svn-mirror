@@ -775,6 +775,10 @@ case $basic_machine in
 		basic_machine=hppa1.1-oki
 		os=-proelf
 		;;
+	open2x)
+		basic_machine=arm-open2x
+		os=-linux-gnu
+		;;
 	openrisc | openrisc-*)
 		basic_machine=or32-unknown
 		;;
