@@ -583,6 +583,9 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
 
   // 16 bits -> -96dB stopband attenuation.
   const double A = -20*log10(1.0/(1 << bits));
+  // A fraction of the bandwidth is allocated to the transition band, which we double
+  // because we design the filter to transition halfway at nyquist.
+  double dw = (1 - 2*pass_freq / sample_freq) * M_PI * 2;
 
   // For calculation of beta and N see the reference for the kaiserord
   // function in the MATLAB Signal Processing Toolbox:
@@ -592,22 +595,13 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
 
   // Since we clock the filter at half the rate, we need to design the FIR
   // with the reduced rate in mind.
-  double f_samples_per_cycle = sample_freq/(clock_freq * 0.5f);
-  double f_cycles_per_sample = (clock_freq * 0.5f)/sample_freq;
+  double f_samples_per_cycle = sample_freq/(clock_freq);
+  double f_cycles_per_sample = (clock_freq)/sample_freq;
 
-  /* This code utilizes the fact that aliasing back to 20 kHz from
-   * sample_freq/2 is inaudible. This allows us to define a passband
-   * wider than normally. We might also consider aliasing back to pass_freq,
-   * but as this can be less than 20 kHz, it might become audible... */
-  double aliasing_allowance = sample_freq / 2 - 20000;
-  if (aliasing_allowance < 0)
-    aliasing_allowance = 0;
-
-  double transition_bandwidth = sample_freq/2 - pass_freq + aliasing_allowance;
   {
     /* Filter order according to Kaiser's paper. */
 
-    int N = (int) ((A - 7.95)/(2 * M_PI * 2.285 * transition_bandwidth/sample_freq) + 0.5);
+    int N = (int) ((A - 7.95)/(2.285 * dw) + 0.5);
     N += N & 1;
 
     // The filter length is equal to the filter order + 1.
@@ -628,8 +622,8 @@ bool SIDFP::set_sampling_parameters(float clock_freq, sampling_method method,
   delete[] fir;
   fir = new float[fir_N*fir_RES];
 
-  // The cutoff frequency is midway through the transition band.
-  double wc = (pass_freq + transition_bandwidth/2) / sample_freq * M_PI * 2;
+  // The cutoff frequency is midway through the transition band, in effect the same as nyquist.
+  double wc = M_PI;
 
   // Calculate fir_RES FIR tables for linear interpolation.
   for (int i = 0; i < fir_RES; i++) {
