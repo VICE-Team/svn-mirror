@@ -163,48 +163,33 @@ static HWND hwndActive = NULL;
 
 static void update_shown(void);
 
-#if 0
-/* This section broke on gcc.exe (GCC) 3.4.2 (mingw-special)
-   commenting it out /tlr */
-
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
-void *uimon_icep(void **dest, void *xchg, void *compare)
+#if defined(__GNUC__) && defined(__i386__) && !defined(__x86_64__)
+static inline void *uimon_icep(void **dest, void *xchg, void *compare)
 {
     void *ret;
-#ifdef __x86_64__
-    __asm__ volatile ("lock; cmpxchgq %2,(%1)"
-        : "=a" (ret) : "r" (dest), "r" (xchg), "" (compare) : "memory");
-#else
-    __asm__ volatile ("lock; cmpxchgl %2,(%1)"
-        : "=a" (ret) : "r" (dest), "r" (xchg), "" (compare) : "memory");
-#endif
-    return ret;
+
+    __asm__ __volatile__ ("lock; cmpxchgl %2,%0"
+        : "=m" (*dest), "=a" (ret)
+        : "r" (xchg), "m" (*dest), "a" (compare));
+
+    return (ret);
 }
 #else
 #define uimon_icep(x, y, z) InterlockedCompareExchangePointer(x, y, z)
 #endif
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
-void *uimon_iep(void **dest, void *val)
+#if defined(__GNUC__) && defined(__i386__) && !defined(__x86_64__)
+static inline void *uimon_iep(volatile void **dest, void *val)
 {
     void *ret;
-#ifdef __x86_64__
-    __asm__ volatile ("lock; xchgq %0,(%1)"
-        : "=r" (ret) :"r" (dest), "" (val) : "memory");
-#else
-    __asm__ volatile ("lock; xchgl %0,(%1)"
-        : "=r" (ret) : "r" (dest), "" (val) : "memory" );
-#endif
-    return ret;
+
+    __asm__ __volatile__ ("1:;lock; cmpxchgl %2,%0; jne 1b"
+        : "=m" (*dest), "=a" (ret)
+        : "r" (val), "m" (*dest), "a" (*dest));
+
+    return (ret);
 }
 #else
-#define uimon_iep(x, y) InterlockedExchangePointer(x, y)
-#endif
-
-#else
-/* Fall back to fix above breakage  /tlr */
-
-#define uimon_icep(x, y, z) InterlockedCompareExchangePointer(x, y, z)
 #define uimon_iep(x, y) InterlockedExchangePointer(x, y)
 #endif
 
