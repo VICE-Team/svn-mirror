@@ -201,7 +201,7 @@ int main_program(int argc, char **argv)
 
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
-    log_message(LOG_DEFAULT, "Platform: %s", PLATFORM);
+    /*log_message(LOG_DEFAULT, "Platform: %s", PLATFORM);*/
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
                 program_name, machine_name);
