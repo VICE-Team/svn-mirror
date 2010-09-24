@@ -46,8 +46,6 @@
 #      else
 #        define PLATFORM_COMPILER "MSVC"
 #      endif
-#    else
-#      define PLATFORM_COMPILER "GCC"
 #    endif
 #    define PLATFORM_OS "WIN32"
 #    define FIND_X86_CPU
@@ -56,7 +54,6 @@
 
 #if !defined(WIN32_COMPILE) && defined(__CYGWIN32__)
 #define PLATFORM_OS "Cygwin"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -65,8 +62,6 @@
 #   define PLATFORM_OS "Mac OS X"
 #   ifdef __llvm__
 #       define PLATFORM_COMPILER  "llvm"
-#   else
-#       define PLATFORM_COMPILER  "gcc"
 #   endif
 #   ifdef __POWERPC__
 #       define PLATFORM_CPU "ppc"
@@ -86,8 +81,6 @@
 /* find out which compiler is being used */
 #ifdef __TOS_AIX__
 #  define PLATFORM_COMPILER "xLC"
-#else
-#  define PLATFORM COMPILER "GCC"
 #endif
 
 /* Get AIX version */
@@ -99,7 +92,6 @@
 /* AmigaOS 4.x discovery */
 #ifdef AMIGA_OS4
 #define PLATFORM_OS "AmigaOS 4.x"
-#define PLATFORM_COMPILER "GCC"
 #define PLATFORM_CPU "PPC"
 #endif
 
@@ -107,14 +99,12 @@
 /* AROS discovery */
 #ifdef AMIGA_AROS
 #define PLATFORM_OS "AROS"
-#define PLATFORM_COMPILER "GCC"
 #endif
 
 
 /* MorphOS discovery */
 #ifdef AMIGA_MORPHOS
 #define PLATFORM_OS "MorphOS"
-#define PLATFORM_COMPILER "GCC"
 #endif
 
 
@@ -126,7 +116,6 @@
 #define PLATFORM_COMPILER "MetroWerks"
 #else
 #define FIND_X86_CPU
-#define PLATFORM_COMPILER "GCC"
 #endif
 
 #define PLATFORM_OS "BeOS"
@@ -137,7 +126,6 @@
 /* BSDI discovery */
 #ifdef __bsdi__
 #define PLATFORM_OS "BSDi"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -145,7 +133,6 @@
 /* DragonFly BSD discovery */
 #ifdef __DragonFly__
 #define PLATFORM_OS "DragonFly BSD"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -186,8 +173,6 @@
 /* QNX 6.x discovery */
 #ifdef __QNXNTO__
 
-#define PLATFORM_COMPILER "GCC"
-
 /* Get QNX version */
 #include "platform_qnx6_version.h"
 
@@ -222,21 +207,18 @@
 
 #if defined(__hpux) && !defined(_hpux)
 #define PLATFORM_OS "HPUX"
-#define PLATFORM_COMPILER "GCC"
 #endif
 
 
 /* IRIX discovery */
 #ifdef __sgi
 #define PLATFORM_OS "IRIX"
-#define PLATFORM_COMPILER "GCC"
 #endif
 
 
 /* OpenServer 5.x discovery */
 #ifdef OPENSERVER5_COMPILE
 #define PLATFORM_OS "OpenServer 5.x"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -244,7 +226,6 @@
 /* OpenServer 6.x discovery */
 #ifdef OPENSERVER6_COMPILE
 #define PLATFORM_OS "OpenServer 6.x"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -252,7 +233,6 @@
 /* UnixWare 7.x discovery */
 #ifdef _UNIXWARE7
 #define PLATFORM_OS "UnixWare 7.x"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -269,7 +249,6 @@
 /* UWIN discovery */
 #ifdef _UWIN
 #define PLATFORM_OS "UWIN"
-#define PLATFORM_COMPILER "GCC"
 #define FIND_X86_CPU
 #endif
 
@@ -356,15 +335,19 @@
 #endif /* FIND_X86_CPU */
 
 
+#if !defined(PLATFORM_COMPILER) && defined(__GNUC__)
+#define PLATFORM_COMPILER "GCC"
+#endif
+
 /* Fallbacks for unidentified systems */
 #ifndef PLATFORM_CPU
-#define PLATFORM_CPU "CPU?"
+#define PLATFORM_CPU "unknown CPU"
 #endif
 #ifndef PLATFORM_OS
-#define PLATFORM_OS "OS?"
+#define PLATFORM_OS "unknown OS"
 #endif
 #ifndef PLATFORM_COMPILER
-#define PLATFORM_COMPILER "CC?"
+#define PLATFORM_COMPILER "unknown compiler"
 #endif
 
 #endif

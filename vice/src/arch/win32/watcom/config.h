@@ -81,5 +81,8 @@
 /* end: for FFMPEG: common.h */
 
 #define PLATFORM "win32 x86 watcom"
+#define PLATFORM_OS "win32"
+#define PLATFORM_CPU "x86"
+#define PLATFORM_COMPILER "watcom"
 
 #endif

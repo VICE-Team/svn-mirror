@@ -101,11 +101,20 @@
 
 #ifdef WINIA64
 #define PLATFORM "win64 ia64 msvc"
+#define PLATFORM_OS "win64"
+#define PLATFORM_CPU "ia64"
+#define PLATFORM_COMPILER "msvc"
 #else
 #  ifdef _WIN64
 #    define PLATFORM "win64 x64 msvc"
+#    define PLATFORM_OS "win64"
+#    define PLATFORM_CPU "x64"
+#    define PLATFORM_COMPILER "msvc"
 #  else
 #    define PLATFORM "win32 x86 msvc"
+#    define PLATFORM_OS "win32"
+#    define PLATFORM_CPU "x86"
+#    define PLATFORM_COMPILER "msvc"
 #  endif
 #endif
 

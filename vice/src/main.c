@@ -56,6 +56,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "main.h"
+#include "platform.h"
 #include "resources.h"
 #include "sysfile.h"
 #ifdef HAS_TRANSLATION
@@ -201,7 +202,9 @@ int main_program(int argc, char **argv)
 
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
-    /*log_message(LOG_DEFAULT, "Platform: %s", PLATFORM);*/
+    log_message(LOG_DEFAULT, "OS compiled for: %s", PLATFORM_OS);
+    log_message(LOG_DEFAULT, "CPU compiled for: %s", PLATFORM_CPU);
+    log_message(LOG_DEFAULT, "Compiler used: %s", PLATFORM_COMPILER);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
                 program_name, machine_name);
