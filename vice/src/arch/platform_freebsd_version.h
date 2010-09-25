@@ -202,12 +202,20 @@
 #define PLATFORM_OS "FreeBSD 7.1"
 #endif
 
-#if (__FreeBSD_version>=702000 && __FreeBSD_version<=799999)
+#if (__FreeBSD_version>=702000 && __FreeBSD_version<=702999)
 #define PLATFORM_OS "FreeBSD 7.2"
 #endif
 
-#if (__FreeBSD_version>=800000 && __FreeBSD_version<=899999)
+#if (__FreeBSD_version>=703000 && __FreeBSD_version<=799999)
+#define PLATFORM_OS "FreeBSD 7.3"
+#endif
+
+#if (__FreeBSD_version>=800000 && __FreeBSD_version<=800999)
 #define PLATFORM_OS "FreeBSD 8.0"
+#endif
+
+#if (__FreeBSD_version>=801000 && __FreeBSD_version<=899999)
+#define PLATFORM_OS "FreeBSD 8.1"
 #endif
 
 #if (__FreeBSD_version>=900000 && __FreeBSD_version<=999999)

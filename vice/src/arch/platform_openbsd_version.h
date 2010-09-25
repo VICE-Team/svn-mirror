@@ -130,6 +130,14 @@
 #define PLATFORM_OS "OpenBSD 4.6"
 #endif
 
+#ifdef OpenBSD4_7
+#define PLATFORM_OS "OpenBSD 4.7"
+#endif
+
+#ifdef OpenBSD4_8
+#define PLATFORM_OS "OpenBSD 4.8"
+#endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "OpenBSD"
 #endif
