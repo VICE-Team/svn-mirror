@@ -246,6 +246,7 @@
 #  endif
 #endif
 
+
 /* UWIN discovery */
 #ifdef _UWIN
 #define PLATFORM_OS "UWIN"
@@ -255,61 +256,6 @@
 
 /* Generic cpu discovery */
 #include "platform_cpu_type.h"
-
-
-/* Generic m68k cpu discovery */
-#ifdef FIND_M68K_CPU
-
-#ifdef __mc68060__
-#define PLATFORM_CPU "68060"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__mc68040__)
-#define PLATFORM_CPU "68040"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__mc68030__)
-#define PLATFORM_CPU "68030"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__mc68020__)
-#define PLATFORM_CPU "68020"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__mc68010__)
-#define PLATFORM_CPU "68010"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__mc68000__)
-#define PLATFORM_CPU "68000"
-#endif
-
-#ifndef PLATFORM_CPU
-#define PLATFORM_CPU "M68K"
-#endif
-
-#endif /* FIND_M68K_CPU */
-
-/* Generic x86 cpu discovery */
-#ifdef FIND_X86_CPU
-
-#ifdef __i686__
-#define PLATFORM_CPU "Pentium Pro"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__i586__)
-#define PLATFORM_CPU "Pentium"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__i486__)
-#define PLATFORM_CPU "80486"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__i386__)
-#define PLATFORM_CPU "80386"
-#endif
-
-#endif /* FIND_X86_CPU */
 
 
 #if !defined(PLATFORM_COMPILER) && defined(__GNUC__)
