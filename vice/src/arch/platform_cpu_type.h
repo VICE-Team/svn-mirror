@@ -1,8 +1,66 @@
-#if !defined(PLATFORM_CPU) && !defined(FIND_X86_CPU) && !defined(FIND_M68K_CPU) && !defined(FIND_ALPHA_CPU)
+/* Platform CPU discovery
+ *
+ * CPU      | support
+ * -------------------------------------------------
+ * alpha    | yes, including sub-type
+ * arm      | yes, including endian, but no sub-type
+ * avr32    | yes, no sub-type
+ * blackfin | no
+ * cris     | no
+ * frv      | no
+ * h8300    | no
+ * ia64     | yes, no sub-type
+ */
 
-#ifdef __ia64__
+/* Generic alpha cpu discovery */
+#if !defined(FIND_ALPHA_CPU) && (defined(__alpha__) || defined(__alpha_ev6__) || defined(__alpha_ev5__) || defined(__alpha_ev4__))
+#define FIND_ALPHA_CPU
+#endif
+
+#ifdef FIND_ALPHA_CPU
+
+#ifdef __alpha_ev6__
+#define PLATFORM_CPU "Alpha EV6"
+#endif
+
+#if !defined(PLATFORM_CPU) && defined(__alpha_ev5__)
+#define PLATFORM_CPU "Alpha EV5"
+#endif
+
+#if !defined(PLATFORM_CPU) && defined(__alpha_ev4__)
+#define PLATFORM_CPU "Alpha EV4"
+#endif
+
+#ifndef PLATFORM_CPU
+#define PLATFORM_CPU "Alpha"
+#endif
+
+#endif
+
+
+/* Generic arm cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__arm__)
+#  ifdef WORDS_BIGENDIAN
+#    define PLATFORM_CPU "ARM (big endian)"
+#  else
+#    define PLATFORM_CPU "ARM (little endian)"
+#  endif
+#endif
+
+
+/* Generic avr32 cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__avr32__)
+#define PLATFORM_CPU "AVR32"
+#endif
+
+
+/* Generic ia64 cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__ia64__)
 #define PLATFORM_CPU "IA64"
 #endif
+
+
+#if !defined(PLATFORM_CPU) && !defined(FIND_X86_CPU) && !defined(FIND_M68K_CPU)
 
 #if defined(__amd64__) || defined(__x86_64__)
 #define PLATFORM_CPU "AMD64/x86_64"
@@ -20,24 +78,12 @@
 #define FIND_X86_CPU
 #endif
 
-#ifdef __alpha__
-#define FIND_ALPHA_CPU
-#endif
-
 #ifdef __sparc64__
 #define PLATFORM_CPU "SPARC64"
 #endif
 
 #if defined(__sparc__) && !defined(__sparc64__)
 #define PLATFORM_CPU "SPARC"
-#endif
-
-#ifdef __arm__
-#  ifdef WORDS_BIGENDIAN
-#    define PLATFORM_CPU "ARM (big endian)"
-#  else
-#    define PLATFORM_CPU "ARM (little endian)"
-#  endif
 #endif
 
 #ifdef __hppa__
@@ -82,10 +128,6 @@
 
 #ifdef __s390x__
 #define PLATFORM_CPU "S390x"
-#endif
-
-#ifdef __avr32__
-#define PLATFORM_CPU "AVR32"
 #endif
 
 #ifdef __vax__

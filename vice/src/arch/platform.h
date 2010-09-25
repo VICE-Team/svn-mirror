@@ -290,29 +290,6 @@
 
 #endif /* FIND_M68K_CPU */
 
-
-/* Generic alpha cpu discovery */
-#ifdef FIND_ALPHA_CPU
-
-#ifdef __alpha_ev6__
-#define PLATFORM_CPU "Alpha EV6"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__alpha_ev5__)
-#define PLATFORM_CPU "Alpha EV5"
-#endif
-
-#if !defined(PLATFORM_CPU) && defined(__alpha_ev4__)
-#define PLATFORM_CPU "Alpha EV4"
-#endif
-
-#ifndef PLATFORM_CPU
-#define PLATFORM_CPU "Alpha"
-#endif
-
-#endif /* FIND_ALPHA_CPU */
-
-
 /* Generic x86 cpu discovery */
 #ifdef FIND_X86_CPU
 
