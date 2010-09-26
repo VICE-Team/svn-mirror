@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-19 16:48+0200\n"
-"PO-Revision-Date: 2010-09-12 14:46+0200\n"
+"PO-Revision-Date: 2010-09-26 11:22+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5597,7 +5597,6 @@ msgid "Keep aspect ratio (0,5..2)"
 msgstr "Seitenverhältnis beibehalten (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1170
-#, fuzzy
 msgid "True aspect ratio"
 msgstr "Echtes Seitenverhältnis"
 
@@ -5626,9 +5625,8 @@ msgid "Odd lines offset (0..2)"
 msgstr "Ungerader Zeilenoffset (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1177
-#, fuzzy
 msgid "Gamma (0..4)"
-msgstr "Gamma (0..2)"
+msgstr "Gamma (0..4)"
 
 #: src/arch/win32/res.rc.po.c:1178
 msgid "Phase (0..2)"
