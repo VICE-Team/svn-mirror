@@ -36,8 +36,13 @@
  * s390       | yes
  * s390x      | yes
  * score      | no
- * sh         | yes, but incomplete sub-type and endian (*)
+ * sh         | yes, but incomplete sub-type and endian
+ * sparc      | yes, but no sub-type
+ * sparc64    | yes, but no sub-type
+ * tile       | no
+ * vax        | yes
  * x86        | yes, including sub-type
+ * xtensa     | no
  */
 
 /* Generic alpha cpu discovery */
@@ -185,6 +190,37 @@
 #endif
 
 
+/* Generic sh cpu descovery */
+#if !defined(PLATFORM_CPU) && defined(__sh3__)
+#  ifdef WORDS_BIGENDIAN
+#    define PLATFORM_CPU "SH3 (big endian)"
+#  else
+#    define PLATFORM_CPU "SH3 (little endian)"
+#  endif
+#endif
+
+#if !defined(PLATFORM_CPU) && defined(__SH4__)
+#define PLATFORM_CPU "SH4"
+#endif
+
+
+/* Generic sparc64 cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__sparc64__)
+#define PLATFORM_CPU "SPARC64"
+#endif
+
+
+/* Generic sparc cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__sparc__)
+#define PLATFORM_CPU "SPARC"
+#endif
+
+
+/* Generic vax cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__vax__)
+#define PLATFORM_CPU "VAX"
+#endif
+
 /* Generic x86 cpu discovery */
 #if !defined(PLATFORM_CPU) && !defined(FIND_X86_CPU) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
 #define FIND_X86_CPU
@@ -214,31 +250,3 @@
 
 #endif
 
-
-#ifndef PLATFORM_CPU
-
-#ifdef __sparc64__
-#define PLATFORM_CPU "SPARC64"
-#endif
-
-#if defined(__sparc__) && !defined(__sparc64__)
-#define PLATFORM_CPU "SPARC"
-#endif
-
-#ifdef __sh3__
-#  ifdef WORDS_BIGENDIAN
-#    define PLATFORM_CPU "SH3 (big endian)"
-#  else
-#    define PLATFORM_CPU "SH3 (little endian)"
-#  endif
-#endif
-
-#ifdef __SH4__
-#define PLATFORM_CPU "SH4"
-#endif
-
-#ifdef __vax__
-#define PLATFORM_CPU "VAX"
-#endif
-
-#endif

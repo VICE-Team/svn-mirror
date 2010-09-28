@@ -24,6 +24,35 @@
  *
  */
 
+/* Operating systems supported:
+ *
+ * platform     | support
+ * ----------------------
+ * aix          | yes
+ * amigaos4     | yes
+ * aros         | yes
+ * beos         | yes
+ * bsdi         | yes
+ * cygwin       | yes
+ * dragonflybsd | yes
+ * freebsd      | yes
+ * hpux         | yes
+ * irix         | yes
+ * linux        | yes, but no libc type and version yet
+ * macosx       | yes
+ * morphos      | yes
+ * netbsd       | yes
+ * openbsd      | yes
+ * openserver   | yes
+ * qnx          | yes
+ * solaris      | yes
+ * sunos        | yes
+ * unixware     | yes
+ * uwin         | yes
+ * win32        | yes
+ * win64        | yes
+ */
+
 #ifndef VICE_PLATFORM_H
 #define VICE_PLATFORM_H
 
@@ -251,6 +280,12 @@
 #ifdef _UWIN
 #define PLATFORM_OS "UWIN"
 #define FIND_X86_CPU
+#endif
+
+
+/* Linux discovery */
+#ifdef __linux
+#define PLATFORM_OS "Linux"
 #endif
 
 
