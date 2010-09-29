@@ -174,7 +174,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
                 max_len = 0;
                 j = i;
 
-                while (menu[j].type == block_type) {
+                while ((j < num_items) && (menu[j].type == block_type)) {
                     len = strlen(menu[j].string);
                     offsets[j] = len;
                     if (len > max_len) {
