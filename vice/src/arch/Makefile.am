@@ -50,6 +50,7 @@ endif
 noinst_HEADERS = \
 	platform.h \
 	platform_aix_version.h \
+	platform_compiler.h \
 	platform_cpu_type.h \
 	platform_freebsd_version.h \
 	platform_linux_libc_version.h \

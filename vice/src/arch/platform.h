@@ -38,7 +38,7 @@
  * freebsd      | yes
  * hpux         | yes
  * irix         | yes
- * linux        | yes, but no libc type and version yet
+ * linux        | yes
  * macosx       | yes
  * morphos      | yes
  * netbsd       | yes
@@ -89,9 +89,6 @@
 /* MacOS X discovery */
 #ifdef __APPLE__
 #   define PLATFORM_OS "Mac OS X"
-#   ifdef __llvm__
-#       define PLATFORM_COMPILER  "llvm"
-#   endif
 #   ifdef __POWERPC__
 #       define PLATFORM_CPU "ppc"
 #   else
@@ -106,11 +103,6 @@
 /* AIX discovery */
 
 #ifdef _AIX
-
-/* find out which compiler is being used */
-#ifdef __TOS_AIX__
-#  define PLATFORM_COMPILER "xLC"
-#endif
 
 /* Get AIX version */
 #include "platform_aix_version.h"
@@ -229,12 +221,7 @@
 
 
 /* HPUX discovery */
-#ifdef _hpux
-#define PLATFORM_OS "HPUX"
-#define PLATFORM_COMPILER "HP UPC"
-#endif
-
-#if defined(__hpux) && !defined(_hpux)
+#if defined(__hpux) || defined(_hpux)
 #define PLATFORM_OS "HPUX"
 #endif
 
@@ -292,18 +279,18 @@
 /* Generic cpu discovery */
 #include "platform_cpu_type.h"
 
-
-#if !defined(PLATFORM_COMPILER) && defined(__GNUC__)
-#define PLATFORM_COMPILER "GCC"
-#endif
+/* Generic compiler discovery */
+#include "platform_compiler.h"
 
 /* Fallbacks for unidentified systems */
 #ifndef PLATFORM_CPU
 #define PLATFORM_CPU "unknown CPU"
 #endif
+
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "unknown OS"
 #endif
+
 #ifndef PLATFORM_COMPILER
 #define PLATFORM_COMPILER "unknown compiler"
 #endif
