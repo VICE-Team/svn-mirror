@@ -285,7 +285,7 @@
 
 /* Linux discovery */
 #ifdef __linux
-#define PLATFORM_OS "Linux"
+#include "platform_linux_libc_version.h"
 #endif
 
 
