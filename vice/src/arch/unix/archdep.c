@@ -461,27 +461,29 @@ char *archdep_tmpnam(void)
     return lib_stralloc(tmp_string);
 #else
 #ifdef HAVE_MKSTEMP
-    char *tmpName;
-    const char mkstempTemplate[] = "/vice.XXXXXX";
+    char *tmp_name;
+    const char mkstemp_template[] = "/vice.XXXXXX";
     int fd;
-    char* tmp;
+    char *tmp;
+    char *final_name;
 
-    tmpName = lib_malloc(ioutil_maxpathlen());
+    tmp_name = lib_malloc(ioutil_maxpathlen());
     if ((tmp = getenv("TMPDIR")) != NULL) {
-        strncpy(tmpName, tmp, ioutil_maxpathlen());
-        tmpName[ioutil_maxpathlen() - sizeof(mkstempTemplate)] = '\0';
+        strncpy(tmp_name, tmp, ioutil_maxpathlen());
+        tmp_name[ioutil_maxpathlen() - sizeof(mkstemp_template)] = '\0';
     } else {
-        strcpy(tmpName, "/tmp" );
+        strcpy(tmp_name, "/tmp");
     }
-    strcat(tmpName, mkstempTemplate);
-    if ((fd = mkstemp(tmpName)) < 0) {
-        tmpName[0] = '\0';
+    strcat(tmp_name, mkstemp_template);
+    if ((fd = mkstemp(tmp_name)) < 0) {
+        tmp_name[0] = '\0';
     } else {
         close(fd);
     }
 
-    lib_free(tmpName);
-    return lib_stralloc(tmpName);
+    final_name = lib_stralloc(tmp_name);
+    lib_free(tmp_name);
+    return final_name;
 #else
     return lib_stralloc(tmpnam(NULL));
 #endif

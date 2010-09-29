@@ -461,32 +461,34 @@ char *archdep_quote_parameter(const char *name)
 char *archdep_tmpnam(void)
 {
 #ifdef HAVE_MKSTEMP
-    char *tmpName;
-    const char mkstempTemplate[] = "/vice.XXXXXX";
+    char *tmp_name;
+    const char mkstemp_template[] = "/vice.XXXXXX";
     int fd;
-    char* tmp;
+    char *tmp;
+    char *final_name;
 
-    tmpName = lib_malloc(ioutil_maxpathlen());
+    tmp_name = lib_malloc(ioutil_maxpathlen());
 #ifdef USE_EXE_RELATIVE_TMP
-    strcpy(tmpName, archdep_boot_path());
-    strcat(tmpName, "/tmp");
+    strcpy(tmp_name, archdep_boot_path());
+    strcat(tmp_name, "/tmp");
 #else
-    if ((tmp = getenv("TMPDIR")) != NULL ) {
-        strncpy(tmpName, tmp, ioutil_maxpathlen());
-        tmpName[ioutil_maxpathlen() - sizeof(mkstempTemplate)] = '\0';
+    if ((tmp = getenv("TMPDIR")) != NULL) {
+        strncpy(tmp_name, tmp, ioutil_maxpathlen());
+        tmp_name[ioutil_maxpathlen() - sizeof(mkstemp_template)] = '\0';
     } else {
-        strcpy(tmpName, "/tmp" );
+        strcpy(tmp_name, "/tmp");
     }
 #endif
-    strcat(tmpName, mkstempTemplate );
-    if ((fd = mkstemp(tmpName)) < 0 ) {
-        tmpName[0] = '\0';
+    strcat(tmp_name, mkstemp_template);
+    if ((fd = mkstemp(tmp_name)) < 0) {
+        tmp_name[0] = '\0';
     } else {
         close(fd);
     }
 
-    lib_free(tmpName);
-    return lib_stralloc(tmpName);
+    final_name = lib_stralloc(tmp_name);
+    lib_free(tmp_name);
+    return final_name;
 #else
     return lib_stralloc(tmpnam(NULL));
 #endif
