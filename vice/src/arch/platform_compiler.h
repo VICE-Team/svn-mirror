@@ -26,16 +26,36 @@
 
 /* Compilers supported:
  *
- * compiler | support
- * ------------------
- * gcc      | yes
- * hp uc    | yes
- * llvm     | yes
- * xLC      | yes
+ * compiler       | support
+ * ------------------------------------------------------
+ * comeau c++     | yes, but wrong version format for now
+ * compaq/dec     | yes, but wrong version format for now
+ * dignus systems | yes, but wrong version format for now
+ * EKOPath        | yes
+ * gcc            | yes
+ * green hill     | yes, but wrong version format for now
+ * hp uc          | yes
+ * intel cc       | yes, but wrong version format for now
+ * llvm           | yes
+ * xLC            | yes
  */
 
 #ifndef VICE_PLATFORM_COMPILER_H
 #define VICE_PLATFORM_COMPILER_H
+
+#undef XQUOTE
+#undef QUOTE
+#define QUOTE(x) XQUOTE(x)
+#define XQUOTE(x) #x
+
+/* GCC discovery first */
+#if !defined(PLATFORM_COMPILER) && defined(__GNUC__)
+#  if (__GNUC__>2)
+#    define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) "." QUOTE(__GNUC_MINOR__) "." QUOTE(__GNUC_PATCHLEVEL__)
+#  else
+#    define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) "." QUOTE(__GNUC_MINOR__)
+#  endif
+#endif
 
 /* llvm discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__APPLE__) && defined(llvm)
@@ -52,8 +72,33 @@
 #define PLATFORM_COMPILER "HP UPC"
 #endif
 
-#if !defined(PLATFORM_COMPILER) && defined(__GNUC__)
-#define PLATFORM_COMPILER "GCC"
+/* Comeau compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__COMO__)
+#define PLATFORM_COMPILE "Comeau c++ " QUOTE(__COMO_VERSION__)
+#endif
+
+/* Intel compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__INTEL_COMPILER)
+#define PLATFORM_COMPILER "Intel Compiler " QUOTE(__INTEL_COMPILER)
+#endif
+
+/* compaq/dec compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__DECC)
+#define PLATFORM_COMPILER "Compaq/DEC compiler " QUOTE(__DECC_VER)
+#endif
+
+/* Dignus Systems compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__SYSC__)
+#define PLATFORM_COMPILER "Dignus Systems compiler " QUOTE(__SYSC_VER__)
+#endif
+
+/* EKOPath compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__PATHCC__)
+#define PLATFORM_COMPILER "EKOPath compiler " QUOTE(__PATHCC__) "." QUOTE(__PATHCC_MINOR__) "." QUOTE(__PATHCC_PATCHLEVEL__)
+#endif
+
+#if !defined(PLATFORM_COMPILER) && defined(__ghs__)
+#define PLATFORM_COMPILER "Green Hill C/C++ " QUOTE(__GHS_VERSION_NUMBER__)
 #endif
 
 #endif

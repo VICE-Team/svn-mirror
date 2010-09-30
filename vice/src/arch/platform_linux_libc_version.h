@@ -27,7 +27,8 @@
 #ifndef VICE_PLATFORM_LINUX_LIBC_VERSION_H
 #define VICE_PLATFORM_LINUX_LIBC_VERSION_H
 
-#define QUOTE(x) #x
+#define QUOTE(x) XQUOTE(x)
+#define XQUOTE(x) #x
 
 /* Linux old libc / glibc version discovery */
 #if !defined(PLATFORM_OS) && defined(__GNU_LIBRARY__)
