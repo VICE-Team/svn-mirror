@@ -295,4 +295,52 @@
 #define PLATFORM_COMPILER "unknown compiler"
 #endif
 
+
+/* Both the defines and the following functions can be used to get
+   the platform information, however, note that for certain version
+   information to be in human-readable format the functions need to
+   be used.
+ */
+inline static char *platform_get_compile_time_os(void)
+{
+    return PLATFORM_OS;
+}
+
+inline static char *platform_get_compile_time_compiler(void)
+{
+    return PLATFORM_COMPILER;
+}
+
+inline static char *platform_get_compile_time_cpu(void)
+{
+    return PLATFORM_CPU;
+}
+
+inline static char *platform_get_ui(void)
+{
+#ifdef USE_SDLUI
+    return "SDL";
+#elif USE_GNOMEUI
+    return "GTK+";
+#elif MACOSX_COCOA
+    return "COCOA";
+#elif UNIX_COMPILE
+    return "XAW";
+#else
+    return "NATIVE";
+#endif
+}
+
+inline static char *platform_get_runtime_os(void)
+{
+    /* dummy till implemented */
+    return "not yet implemented";
+}
+
+inline static char *platform_get_runtime_cpu(void)
+{
+    /* dummy till implemented */
+    return "not yet implemented";
+}
+
 #endif
