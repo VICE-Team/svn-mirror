@@ -28,15 +28,19 @@
  *
  * compiler       | support
  * ------------------------------------------------------
- * comeau c++     | yes, but wrong version format for now
+ * clang          | yes
+ * comeau c++     | yes
  * compaq/dec     | yes, but wrong version format for now
- * dignus systems | yes, but wrong version format for now
+ * dignus systems | yes
  * EKOPath        | yes
  * gcc            | yes
- * green hill     | yes, but wrong version format for now
+ * green hill     | yes
  * hp uc          | yes
- * intel cc       | yes, but wrong version format for now
+ * intel cc       | yes
  * llvm           | yes
+ * metrowerks     | yes
+ * MIPSpro        | yes
+ * RealView C     | yes
  * xLC            | yes
  */
 
@@ -48,7 +52,12 @@
 #define QUOTE(x) XQUOTE(x)
 #define XQUOTE(x) #x
 
-/* GCC discovery first */
+/* clang discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__clang__)
+#define PLATFORM_COMPILER "clang " QUOTE(__clang_major__) "." QUOTE(__clang_minor__) "." QUOTE(__clang_patchlevel__)
+#endif
+
+/* GCC discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__GNUC__)
 #  if (__GNUC__>2)
 #    define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) "." QUOTE(__GNUC_MINOR__) "." QUOTE(__GNUC_PATCHLEVEL__)
@@ -74,12 +83,21 @@
 
 /* Comeau compiler discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__COMO__)
-#define PLATFORM_COMPILE "Comeau c++ " QUOTE(__COMO_VERSION__)
+#define PLATFORM_COMPILER "Comeau c++ " QUOTE(__COMO_VERSION__)
+#define PLATFORM_COMPILER_NAME "Comeau c++"
+#define PLATFORM_COMPILER_VERSION __COMO_VERSION__
+#define PLATFORM_COMPILER_MAJOR_MASK 100
+#define PLATFORM_COMPILER_MINOR_MASK 1
 #endif
 
 /* Intel compiler discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__INTEL_COMPILER)
 #define PLATFORM_COMPILER "Intel Compiler " QUOTE(__INTEL_COMPILER)
+#define PLATFORM_COMPILER_NAME "Intel Compiler"
+#define PLATFORM_COMPILER_VERSION __INTEL_COMPILER
+#define PLATFORM_COMPILER_MAJOR_MASK 100
+#define PLATFORM_COMPILER_MINOR_MASK 10
+#define PLATFORM_COMPILER_PATCHLEVEL_MASK 1
 #endif
 
 /* compaq/dec compiler discovery */
@@ -90,6 +108,11 @@
 /* Dignus Systems compiler discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__SYSC__)
 #define PLATFORM_COMPILER "Dignus Systems compiler " QUOTE(__SYSC_VER__)
+#define PLATFORM_COMPILER_NAME "Dignus Systems compiler"
+#define PLATFORM_COMPILER_VERSION __SYSC_VER__
+#define PLATFORM_COMPILER_MAJOR_MASK 10000
+#define PLATFORM_COMPILER_MINOR_MASK 100
+#define PLATFORM_COMPILER_PATCHLEVEL_MASK 1
 #endif
 
 /* EKOPath compiler discovery */
@@ -97,8 +120,53 @@
 #define PLATFORM_COMPILER "EKOPath compiler " QUOTE(__PATHCC__) "." QUOTE(__PATHCC_MINOR__) "." QUOTE(__PATHCC_PATCHLEVEL__)
 #endif
 
+/* Green Hill C/C++ compiler discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__ghs__)
 #define PLATFORM_COMPILER "Green Hill C/C++ " QUOTE(__GHS_VERSION_NUMBER__)
+#define PLATFORM_COMPILER_NAME "Green Hill C/C++"
+#define PLATFORM_COMPILER_VERSION __GHS_VERSION_NUMBER__
+#define PLATFORM_COMPILER_MAJOR_MASK 100
+#define PLATFORM_COMPILER_MINOR_MASK 10
+#define PLATFORM_COMPILER_PATCHLEVEL_MASK 1
+#endif
+
+/* MetroWerks compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__MWERKS__)
+#if (__MWERKS__>1)
+#define PLATFORM_COMPILER "MetroWerks " QUOTE(__MWERKS__)
+#define PLATFORM_COMPILER_VERSION __MWERKS__
+#define PLATFORM_COMPILER_MAJOR_MASK 0x1000
+#define PLATFORM_COMPILER_MINOR_MASK 0x100
+#else
+#define PLATFORM_COMPILER "MetroWerks"
+#endif
+#endif
+
+/* MIPSpro compiler discovery */
+#if !defined(PLATFORM_COMPILER) && (defined(__sgi) || defined(sgi))
+#if defined(_COMPILER_VERSION) || defined(_SGI_COMPILER_VERSION)
+#ifdef _COMPILER_VERSION
+#define PLATFORM_COMPILER "MIPSpro " QUOTE(_COMPILER_VERSION)
+#define PLATFORM_COMPILER_VERSION _COMPILER_VERSION
+#else
+#define PLATFORM_COMPILER "MIPSpro" QUOTE(_SGI_COMPILER_VERSION)
+#define PLATFORM_COMPILER_VERSION _SGI_COMPILER_VERSION
+#endif
+#define PLATFORM_COMPILER_MAJOR_MASK 100
+#define PLATFORM_COMPILER_MINOR_MASK 10
+#define PLATFORM_COMPILER_PATCHLEVEL_MASK 1
+#else
+#define PLATFORM_COMPILER "MIPSpro"
+#endif
+#endif
+
+/* RealView C compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__CC_ARM)
+#define PLATFORM_COMPILER "RealView C " QUOTE(__ARMCC_VERSION)
+#define PLATFORM_COMPILER_VERSION __ARMCC_VERSION
+#define PLATFORM_COMPILER_MAJOR_MASK 100000
+#define PLATFORM_COMPILER_MINOR_MASK 10000
+#define PLATFORM_COMPILER_PATCHLEVEL_MASK 1000
 #endif
 
 #endif

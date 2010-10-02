@@ -311,9 +311,33 @@ inline static char *platform_get_compile_time_compiler(void)
     return PLATFORM_COMPILER;
 }
 
+#ifdef PLATFORM_COMPILER_MAJOR_MASK
+static char platform_compiler_version[256];
+#endif
+
 inline static char *platform_get_compile_time_cpu(void)
 {
+#ifndef PLATFORM_COMPILER_MAJOR_MASK
     return PLATFORM_CPU;
+#else
+    int major_mask = PLATFORM_COMPILER_MAJOR_MASK;
+    int minor_mask = PLATFORM_COMPILER_MINOR_MASK;
+#ifdef PLATFORM_COMPILER_PATCHLEVEL_MASK
+    int patchlevel_mask = PLATFORM_COMPILER_PATCHLEVEL_MASK;
+#endif
+    int version = PLATFORM_COMPILER_VERSION;
+
+    int major = (int)(version / major_mask);
+    int minor = (int)((version - (major * major_mask)) / minor_mask);
+#ifdef PLATFORM_COMPILER_PATCHLEVEL_MASK
+    int patchlevel = (int)((version - ((major * major_mask) + (minor * minor_mask)) / patchlevel_mask);
+
+    sprintf(platform_compiler_version, "%s %d.%d.%d", PLATFORM_COMPILER_NAME, major, minor, patchlevel);
+#else
+    sprintf(platform_compiler_version, "%s %d.%d", PLATFORM_COMPILER_NAME, major, minor);
+#endif
+    return platform_compiler_version;
+#endif
 }
 
 inline static char *platform_get_ui(void)
