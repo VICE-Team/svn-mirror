@@ -44,17 +44,27 @@
  * linux        | yes
  * lynxos       | yes
  * macosx       | yes
+ * minix        | yes
+ * msdos        | yes
  * morphos      | yes
  * netbsd       | yes
  * openbsd      | yes
  * openserver   | yes
+ * os/2         | yes
  * qnx          | yes
+ * sinux        | yes
  * solaris      | yes
  * sunos        | yes
+ * symbian os   | yes
+ * tru64        | yes
+ * ultrix       | yes
  * unixware     | yes
  * uwin         | yes
+ * vms          | yes
  * win32        | yes
  * win64        | yes
+ * xbox         | yes
+ * xbox-360     | yes
  */
 
 #ifndef VICE_PLATFORM_H
@@ -300,6 +310,66 @@
 /* LynxOS discovery */
 #ifdef __Lynx__
 #define PLATFORM_OS "LynxOS"
+#endif
+
+
+/* Minix discovery */
+#ifdef __minix
+#define PLATFORM_OS "Minix"
+#endif
+
+
+/* DOS discovery */
+#ifdef __DOS__
+#define PLATFORM_OS "DOS"
+#endif
+
+
+/* OS/2 discovery */
+#ifdef __OS2__
+#define PLATFORM_OS "OS/2"
+#endif
+
+
+/* Sinux (Reliant UNIX) discovery */
+#ifdef sinux
+#define PLATFORM_OS "Sinux"
+#endif
+
+
+/* Symbian OS discovery */
+#ifdef __SYMBIAN32__
+#define PLATFORM_OS "Symbian OS"
+#endif
+
+
+/* Tru64 discovery */
+#if defined(__osf__) || defined(__osf)
+#define PLATFORM_OS "Tru64"
+#endif
+
+
+/* Ultrix discovery */
+#if defined(ultrix) || defined(__ultrix) || defined(__ultrix)
+#define PLATFORM_OS "Ultrix"
+#endif
+
+
+/* VMS discovery */
+#if defined(VMS) || defined(__VMS)
+#define PLATFORM_OS "VMS"
+#endif
+
+
+/* XBOX(360) discovery */
+#ifdef _XBOX
+#  ifdef _XBOX_VER
+#    if (_XBOX_VER>199)
+#      define PLATFORM_OS "XBOX360"
+#    else
+#      define PLATFORM_OS "XBOX"
+#    endif
+#  endif
 #endif
 
 

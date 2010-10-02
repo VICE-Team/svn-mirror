@@ -4,8 +4,8 @@
  * -------------------------------------------------------
  * alpha      | yes, including sub-type
  * amd64      | yes
- * arc        | no
- * arm        | yes, including endian, but no sub-type yet
+ * arc        | yes, including endian
+ * arm        | yes, including endian and sub-type
  * avr32      | yes, no sub-type
  * blackfin   | no
  * cris       | no
@@ -14,7 +14,7 @@
  * frv        | no
  * h8300      | no
  * hppa       | yes, no sub-type yet
- * ia64       | yes, no sub-type
+ * ia64       | yes, no sub-type yet
  * lm32       | no
  * m32c       | no
  * m32r       | no
@@ -77,13 +77,193 @@
 #endif
 
 
+/* Generic arc cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__arc__)
+#  ifdef WORDS_BIGENDIAN
+#    define PLATFORM_CPU "ARC (big endian)"
+#  else
+#    define PLATFORM_CPU "ARC (little endian)"
+#  endif
+#endif
+
+
 /* Generic arm cpu discovery */
 #if !defined(PLATFORM_CPU) && defined(__arm__)
+
 #  ifdef WORDS_BIGENDIAN
-#    define PLATFORM_CPU "ARM (big endian)"
+#    define PLATFORM_ENDIAN " (big endian)"
 #  else
-#    define PLATFORM_CPU "ARM (little endian)"
+#    define PLATFORM_ENDIAN " (little endian)"
 #  endif
+
+/* find specific cpu name definitions first */
+#  if defined(arm2)
+#    define PCPU "ARM2"
+#  elif defined(arm250)
+#    define PCPU "ARM250"
+#  elif defined(arm3)
+#    define PCPU "ARM3"
+#  elif defined(arm6)
+#    define PCPU "ARM6"
+#  elif defined(arm60)
+#    define PCPU "ARM60"
+#  elif defined(arm600)
+#    define PCPU "ARM600"
+#  elif defined(arm610)
+#    define PCPU "ARM610"
+#  elif defined(arm620)
+#    define PCPU "ARM620"
+#  elif defined(arm7)
+#    define PCPU "ARM7"
+#  elif defined(arm7d)
+#    define PCPU "ARM7D"
+#  elif defined(arm7di)
+#    define PCPU "ARM7DI"
+#  elif defined(arm70)
+#    define PCPU "ARM70"
+#  elif defined(arm700)
+#    define PCPU "ARM700"
+#  elif defined(arm700i)
+#    define PCPU "ARM700I"
+#  elif defined(arm710)
+#    define PCPU "ARM710"
+#  elif defined(arm720)
+#    define PCPU "ARM720"
+#  elif defined(arm710c)
+#    define PCPU "ARM710C"
+#  elif defined(arm7100)
+#    define PCPU "ARM7100"
+#  elif defined(arm7500)
+#    define PCPU "ARM7500"
+#  elif defined(arm7500fe)
+#    define PCPU "ARM7500FE"
+#  elif defined(arm7m)
+#    define PCPU "ARM7M"
+#  elif defined(arm7dm)
+#    define PCPU "ARM7DM"
+#  elif defined(arm7dmi)
+#    define PCPU "ARM7DMI"
+#  elif defined(arm8)
+#    define PCPU "ARM8"
+#  elif defined(arm810)
+#    define PCPU "ARM810"
+#  elif defined(strongarm)
+#    define PCPU "StrongARM"
+#  elif defined(strongarm110)
+#    define PCPU "StrongARM110"
+#  elif defined(strongarm1100)
+#    define PCPU "StrongARM1100"
+#  elif defined(strongarm1110)
+#    define PCPU "StrongARM1110"
+#  elif defined(arm7tdmi)
+#    define PCPU "ARM7TDMI"
+#  elif defined(arm7tdmis)
+#    define PCPU "ARM7TDMI-S"
+#  elif defined(arm710t)
+#    define PCPU "ARM710T"
+#  elif defined(arm720t)
+#    define PCPU "ARM720T"
+#  elif defined(arm740t)
+#    define PCPU "ARM740T"
+#  elif defined(arm9)
+#    define PCPU "ARM9"
+#  elif defined(arm9tdmi)
+#    define PCPU "ARM9TDMI"
+#  elif defined(arm920)
+#    define PCPU "ARM920"
+#  elif defined(arm920t)
+#    define PCPU "ARM920T"
+#  elif defined(arm922t)
+#    define PCPU "ARM922T"
+#  elif defined(arm940t)
+#    define PCPU "ARM940T"
+#  elif defined(ep9312)
+#    define PCPU "EP9312"
+#  elif defined(arm10tdmi)
+#    define PCPU "ARM10TDMI"
+#  elif defined(arm1020t)
+#    define PCPU "ARM1020T"
+#  elif defined(arm9e)
+#    define PCPU "ARM9E"
+#  elif defined(arm946es)
+#    define PCPU "ARM946E-S"
+#  elif defined(arm966es)
+#    define PCPU "ARM966E-S"
+#  elif defined(arm968es)
+#    define PCPU "ARM968E-S"
+#  elif defined(arm10e)
+#    define PCPU "ARM10E"
+#  elif defined(arm1020e)
+#    define PCPU "ARM1020E"
+#  elif defined(arm1022e)
+#    define PCPU "ARM1022E"
+#  elif defined(xscale)
+#    define PCPU "XSCALE"
+#  elif defined(iwmmxt)
+#    define PCPU "IWMMXT"
+#  elif defined(iwmmxt2)
+#    define PCPU "IWMMXT2"
+#  elif defined(arm926ejs)
+#    define PCPU "ARM926EJ-S"
+#  elif defined(arm1026ejs)
+#    define PCPU "ARM1026EJ-S"
+#  elif defined(arm1136js)
+#    define PCPU "ARM1136J-S"
+#  elif defined(arm1136jfs)
+#    define PCPU "ARM1136JF-S"
+#  elif defined(arm1176jzs)
+#    define PCPU "ARM1176JZ-S"
+#  elif defined(arm1176jzfs)
+#    define PCPU "ARM1176JZF-S"
+#  elif defined(mpcorenovfp)
+#    define PCPU "MPCORENOVFP"
+#  elif defined(mpcore)
+#    define PCPU "MPCORE"
+#  elif defined(arm1156t2s)
+#    define PCPU "ARM1156T2-S"
+#  elif defined(arm1156t2fs)
+#    define PCPU "ARM1156T2F-S"
+#  elif defined(cortexa5)
+#    define PCPU "CORTEX-A5"
+#  elif defined(cortexa8)
+#    define PCPU "CORTEX-A8"
+#  elif defined(cortexa15)
+#    define PCPU "CORTEX-A15"
+#  elif defined(cortexr4)
+#    define PCPU "CORTEX-R4"
+#  elif defined(cortexr4f)
+#    define PCPU "CORTEX-R4F"
+#  elif defined(cortexm4)
+#    define PCPU "CORTEX-M4"
+#  elif defined(cortexm3)
+#    define PCPU "CORTEX-M3"
+#  elif defined(cortexm1)
+#    define PCPU "CORTEX-M1"
+#  elif defined(cortexm0)
+#    define PCPU "CORTEX-M0"
+#  else
+
+/* find out by generic cpu defines what we are compiling for */
+
+#    if defined(__MAVERICK__)
+#      define PCPU "Maverick"
+#    elif defined(__XSCALE__)
+#      define PCPU "XSCALE"
+#    elif defined(__IWMMXT__)
+#      define PCPU "IWMMXT"
+#    elif defined(__ARM_NEON__)
+#      define PCPU "NEON"
+#    elif defined(__thumb__)
+#      define PCPU "Thumb"
+#    elif defined(__thumb2__)
+#      define PCPU "Thumb2"
+#    else
+
+/* Unknown cpu, so handle as plain ARM */
+     #define PCPU "ARM"
+#    endif
+#  endif
+#  define PLATFORM_CPU PCPU PLATFORM_ENDIAN
 #endif
 
 
