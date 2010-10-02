@@ -141,7 +141,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_USE_OLD_NTSC_SYNC_FACTOR,
       NULL, NULL },
     { "-paln", CALL_FUNCTION, 0,
-      set_video_standard, (void *)MACHINE_SYNC_NTSCOLD, NULL, NULL,
+      set_video_standard, (void *)MACHINE_SYNC_PALN, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_PALN_SYNC_FACTOR,
       NULL, NULL },
