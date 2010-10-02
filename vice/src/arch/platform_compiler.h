@@ -41,6 +41,9 @@
  * metrowerks     | yes
  * MIPSpro        | yes
  * RealView C     | yes
+ * SAS/C          | yes
+ * Sun Studio     | yes
+ * Tiny C         | yes
  * xLC            | yes
  */
 
@@ -134,6 +137,7 @@
 #if !defined(PLATFORM_COMPILER) && defined(__MWERKS__)
 #if (__MWERKS__>1)
 #define PLATFORM_COMPILER "MetroWerks " QUOTE(__MWERKS__)
+#define PLATFORM_COMPILER_NAME "MetroWerks"
 #define PLATFORM_COMPILER_VERSION __MWERKS__
 #define PLATFORM_COMPILER_MAJOR_MASK 0x1000
 #define PLATFORM_COMPILER_MINOR_MASK 0x100
@@ -152,6 +156,7 @@
 #define PLATFORM_COMPILER "MIPSpro" QUOTE(_SGI_COMPILER_VERSION)
 #define PLATFORM_COMPILER_VERSION _SGI_COMPILER_VERSION
 #endif
+#define PLATFORM_COMPILER_NAME "MIPSpro"
 #define PLATFORM_COMPILER_MAJOR_MASK 100
 #define PLATFORM_COMPILER_MINOR_MASK 10
 #define PLATFORM_COMPILER_PATCHLEVEL_MASK 1
@@ -163,10 +168,39 @@
 /* RealView C compiler discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__CC_ARM)
 #define PLATFORM_COMPILER "RealView C " QUOTE(__ARMCC_VERSION)
+#define PLATFORM_COMPILER_NAME "RealView C"
 #define PLATFORM_COMPILER_VERSION __ARMCC_VERSION
 #define PLATFORM_COMPILER_MAJOR_MASK 100000
 #define PLATFORM_COMPILER_MINOR_MASK 10000
 #define PLATFORM_COMPILER_PATCHLEVEL_MASK 1000
+#endif
+
+/* SAS/C compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__SASC)
+#ifdef __VERSION__
+#define PLATFORM_COMPILER "SAS/C " QUOTE(__VERSION__) "." QUOTE(__REVISION__)
+#else
+#define PLATFORM_COMPILER "SASC " QUOTE(__SASC__)
+#define PLATFORM_COMPILER_NAME "SAS/C"
+#define PLATFORM_COMPILER_VERSION ___SASC__
+#define PLATFORM_COMPILER_MAJOR_MASK 100
+#define PLATFORM_COMPILER_MINOR_MASK 1
+#endif
+#endif
+
+/* Sun Studio compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__SUNPRO_C)
+#define PLATFORM_COMPILER "Sun Studio Compiler " QUOTE(__SUNPRO_C)
+#define PLATFORM_COMPILER_NAME "Sun Studio Compiler"
+#define PLATFORM_COMPILER_VERSION __SUNPRO_C
+#define PLATFORM_COMPILER_MAJOR_MASK 0x100
+#define PLATFORM_COMPILER_MINOR_MASK 0x10
+#define PLATFORM_COMPILER_PATCHLEVEL_MASK 1
+#endif
+
+/* Tiny C compiler discovery */
+#if !defined(PLATFORM_COMPILER) && defined(__TINYC__)
+#define PLATFORM_COMPILER "Tiny C"
 #endif
 
 #endif

@@ -30,15 +30,19 @@
  * ----------------------
  * aix          | yes
  * amigaos4     | yes
+ * android      | yes
  * aros         | yes
  * beos         | yes
  * bsdi         | yes
  * cygwin       | yes
  * dragonflybsd | yes
+ * dynix        | yes
  * freebsd      | yes
  * hpux         | yes
+ * hurd         | yes
  * irix         | yes
  * linux        | yes
+ * lynxos       | yes
  * macosx       | yes
  * morphos      | yes
  * netbsd       | yes
@@ -128,6 +132,11 @@
 #define PLATFORM_OS "MorphOS"
 #endif
 
+
+/* Android discovery */
+#ifdef __ANDROID__
+#define PLATFORM_OS "Android"
+#endif
 
 /* BeOS discovery */
 #ifdef __BEOS__
@@ -276,6 +285,24 @@
 #endif
 
 
+/* DYNIX discovery */
+#ifdef _SEQUENT_
+#define PLATFORM_OS "DYNIX"
+#endif
+
+
+/* GNU Hurd discovery */
+#ifdef __GNU__
+#define PLATFORM_OS "GNU Hurd"
+#endif
+
+
+/* LynxOS discovery */
+#ifdef __Lynx__
+#define PLATFORM_OS "LynxOS"
+#endif
+
+
 /* Generic cpu discovery */
 #include "platform_cpu_type.h"
 
@@ -344,11 +371,11 @@ inline static char *platform_get_ui(void)
 {
 #ifdef USE_SDLUI
     return "SDL";
-#elif USE_GNOMEUI
+#elif defined(USE_GNOMEUI)
     return "GTK+";
-#elif MACOSX_COCOA
+#elif defined(MACOSX_COCOA)
     return "COCOA";
-#elif UNIX_COMPILE
+#elif defined(UNIX_COMPILE)
     return "XAW";
 #else
     return "NATIVE";
