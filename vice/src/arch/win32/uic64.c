@@ -57,6 +57,7 @@ static const TCHAR *ui_c64model[] = {
     TEXT("C64 NTSC"),
     TEXT("C64C NTSC"),
     TEXT("C64 old NTSC"),
+    TEXT("Drean"),
     TEXT("Custom"),
     NULL
 };
@@ -68,6 +69,7 @@ static const int ui_c64model_values[] = {
     C64MODEL_C64_NTSC,
     C64MODEL_C64C_NTSC,
     C64MODEL_C64_OLD_NTSC,
+    C64MODEL_C64_PAL_N,
     C64MODEL_UNKNOWN,
     -1
 };
@@ -79,6 +81,7 @@ static const TCHAR *ui_c64vicii[] = {
     TEXT("6567 (NTSC)"),
     TEXT("8562 (NTSC)"),
     TEXT("6567R56A (old NTSC)"),
+    TEXT("6572 (PAL-N)"),
     NULL
 };
 
@@ -89,6 +92,7 @@ static const int ui_c64vicii_values[] = {
     VICII_MODEL_6567,
     VICII_MODEL_8562,
     VICII_MODEL_6567R56A,
+    VICII_MODEL_6572,
     -1
 };
 
