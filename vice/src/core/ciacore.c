@@ -188,7 +188,7 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 {
     if ((cia_context->rdi != rclk - 1) || (cia_context->irq_line == IK_NMI)) {
         if (cia_context->irqflags & cia_context->c_cia[CIA_ICR] & 0x7f) {
-            if (cia_context->rdi != rclk) {
+            if (cia_context->model || (cia_context->rdi != rclk)) {
                 my_set_int(cia_context, cia_context->irq_line, rclk + !cia_context->model);
                 cia_context->irqflags |= 0x80;
             }
