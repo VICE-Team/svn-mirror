@@ -31,6 +31,7 @@
 #include "types.h"
 
 #include "c64model.h"
+#include "cia.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64_expansions.h"
 #include "menu_common.h"
@@ -154,8 +155,28 @@ static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
 }
 
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
-UI_MENU_DEFINE_RADIO(CIA1Model)
-UI_MENU_DEFINE_RADIO(CIA2Model)
+
+#define CIA_MODEL_MENU(xyz)           \
+UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
+static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
+    { "6526  (old)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526 },                 \
+    { "6526x (old)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526X },                \
+    { "6526A (new)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526A },                \
+    SDL_MENU_LIST_END                                       \
+};
+
+CIA_MODEL_MENU(1)
+CIA_MODEL_MENU(2)
+
 UI_MENU_DEFINE_RADIO(GlueLogic)
 
 static const ui_menu_entry_t c64sc_model_menu[] = {
@@ -179,22 +200,14 @@ static const ui_menu_entry_t c64sc_model_menu[] = {
       (ui_callback_data_t)sid_c64_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("CIA models"),
-    { "CIA 1 6526  (old)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_CIA1Model_callback,
-      (ui_callback_data_t)0 },
-    { "CIA 1 6526A (new)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_CIA1Model_callback,
-      (ui_callback_data_t)1 },
-    { "CIA 2 6526  (old)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_CIA2Model_callback,
-      (ui_callback_data_t)0 },
-    { "CIA 2 6526A (new)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      radio_CIA2Model_callback,
-      (ui_callback_data_t)1 },
+    { "CIA 1 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia1_model_submenu },
+    { "CIA 2 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia2_model_submenu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Glue logic"),
     { "Discrete",

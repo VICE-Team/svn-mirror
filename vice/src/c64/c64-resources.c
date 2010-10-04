@@ -36,6 +36,7 @@
 #include "c64cia.h"
 #include "c64rom.h"
 #include "cartridge.h"
+#include "cia.h"
 #include "emuid.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -93,10 +94,7 @@ static io_source_t emu_id_device = {
 
 static io_source_list_t *emu_id_list_item = NULL;
 
-/* Flag: Emulate new CIA 1 (6526A)? */
 int cia1_model;
-
-/* Flag: Emulate new CIA 2 (6526A)? */
 int cia2_model;
 
 static int set_chargen_rom_name(const char *val, void *param)
@@ -145,7 +143,15 @@ static int set_cia1_model(int val, void *param)
 {
     int old_cia_model = cia1_model;
 
-    cia1_model = (val != 0);
+    switch (val) {
+        case CIA_MODEL_6526:
+        case CIA_MODEL_6526A:
+        case CIA_MODEL_6526X:
+            cia1_model = val;
+            break;
+        default:
+            return -1;
+    }
 
     if (old_cia_model != cia1_model) {
         cia1_update_model();
@@ -158,7 +164,15 @@ static int set_cia2_model(int val, void *param)
 {
     int old_cia_model = cia2_model;
 
-    cia2_model = (val != 0);
+    switch (val) {
+        case CIA_MODEL_6526:
+        case CIA_MODEL_6526A:
+        case CIA_MODEL_6526X:
+            cia2_model = val;
+            break;
+        default:
+            return -1;
+    }
 
     if (old_cia_model != cia2_model) {
         cia2_update_model();

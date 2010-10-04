@@ -35,6 +35,11 @@
 #define byte2bcd(byte)  (((((byte) / 10) << 4) + ((byte) % 10)) & 0xff)
 #define bcd2byte(bcd)   (((10*(((bcd) & 0xf0) >> 4)) + ((bcd) & 0xf)) & 0xff)
 
+/* MOS 6526 models */
+#define CIA_MODEL_6526  0  /* "old", with timer B bug */
+#define CIA_MODEL_6526A 1  /* "new" */
+#define CIA_MODEL_6526X 2  /* "old", without timer B bug */
+
 /* MOS 6526 registers */
 #define CIA_PRA         0  /* Port A */
 #define CIA_PRB         1  /* Port B */
@@ -111,7 +116,7 @@ typedef struct cia_context_s {
     CLOCK *clk_ptr;
     int *rmw_flag;
     int write_offset;             /* 1 if CPU core does CLK++ before store */
-    int model;                    /* 0 = 6526 (old), 1 = 6526A (new) */
+    int model;
 
     int enabled;
 

@@ -28,12 +28,18 @@
 
 #include "c64-resources.h"
 #include "c64model.h"
+#include "cia.h"
 #include "machine.h"
 #include "resources.h"
 #include "sid.h"
 #include "types.h"
 #include "vicii.h"
 
+#define SID_MODEL_DEFAULT_OLD SID_MODEL_6581R4AR_3789
+#define SID_MODEL_DEFAULT_NEW SID_MODEL_8580R5_3691
+
+#define CIA_MODEL_DEFAULT_OLD CIA_MODEL_6526
+#define CIA_MODEL_DEFAULT_NEW CIA_MODEL_6526A
 
 static int is_new_sid(int model)
 {
@@ -59,6 +65,19 @@ static int is_new_sid(int model)
     }
 }
 
+static int is_new_cia(int model)
+{
+    switch (model) {
+        case CIA_MODEL_6526:
+        case CIA_MODEL_6526X:
+        default:
+            return 0;
+
+        case CIA_MODEL_6526A:
+            return 1;
+    }
+}
+
 struct model_s {
     int vicii;
     int video;
@@ -69,13 +88,13 @@ struct model_s {
 };
 
 static struct model_s c64models[] = {
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, 0, 0, SID_MODEL_6581R4AR_3789 },
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, 1, 1, SID_MODEL_8580R5_3691   },
-    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, 0, 0, SID_MODEL_6581R4AR_3789 },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, 0, 0, SID_MODEL_6581R4AR_3789 },
-    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, 1, 1, SID_MODEL_8580R5_3691   },
-    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, 0, 0, SID_MODEL_6581R4AR_3789 },
-    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, 0, 0, SID_MODEL_6581R4AR_3789 }
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, SID_MODEL_DEFAULT_NEW },
+    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, SID_MODEL_DEFAULT_NEW },
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -84,6 +103,7 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
                       int cia1_model, int cia2_model, int new_luma)
 {
     int new_sid;
+    int new_cia;
     int i;
 
     if (cia1_model != cia2_model) {
@@ -91,11 +111,12 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
     }
 
     new_sid = is_new_sid(sid_model);
+    new_cia = is_new_cia(cia1_model);
 
     for (i = 0; i < C64MODEL_NUM; ++i) {
         if ((c64models[i].vicii == vicii_model)
          && (c64models[i].luma == new_luma)
-         && (c64models[i].cia == cia1_model)
+         && (is_new_cia(c64models[i].cia) == new_cia)
          && (c64models[i].glue == glue_logic)
          && (is_new_sid(c64models[i].sid) == new_sid)) {
             return i;

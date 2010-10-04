@@ -186,14 +186,30 @@ static void cia_update_tb(cia_context_t *cia_context, CLOCK rclk)
  */
 static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 {
-    if ((cia_context->rdi != rclk - 1) || (cia_context->irq_line == IK_NMI)) {
-        if (cia_context->irqflags & cia_context->c_cia[CIA_ICR] & 0x7f) {
-            if (cia_context->model || (cia_context->rdi != rclk)) {
-                my_set_int(cia_context, cia_context->irq_line, rclk + !cia_context->model);
-                cia_context->irqflags |= 0x80;
-            }
-        }
+    if ((cia_context->model == CIA_MODEL_6526)
+     && (cia_context->rdi == rclk - 1)
+     && (cia_context->irq_line != IK_NMI)) {
+        /* timer B bug */
+        return;
     }
+
+    if (!(cia_context->irqflags & cia_context->c_cia[CIA_ICR] & 0x7f)) {
+        /* no interrupts */
+        return;
+    }
+
+    if ((cia_context->model != CIA_MODEL_6526A) && (cia_context->rdi == rclk)) {
+        /* FIXME explanation */
+        return;
+    }
+
+    if (cia_context->model != CIA_MODEL_6526A) {
+        /* interrupts are delayed by 1 clk on old CIAs */
+        rclk++;
+    }
+
+    my_set_int(cia_context, cia_context->irq_line, rclk);
+    cia_context->irqflags |= 0x80;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -943,15 +959,16 @@ static void ciacore_inttb(CLOCK offset, void *data)
     CIAT_LOGIN(("ciaTimerB int_myciatb: myclk=%d, rclk=%d",
                *(cia_context->clk_ptr), rclk));
 
-#if 1
-    if ((n = ciat_update(cia_context->tb, rclk))
-        && (cia_context->rdi != rclk - 1)) {
-        cia_context->irqflags |= CIA_IM_TB;
-        cia_context->tbt = (cia_context->tbt + n) & 1;
+    if (cia_context->model == CIA_MODEL_6526) {
+        /* timer B bug */
+        if ((n = ciat_update(cia_context->tb, rclk))
+            && (cia_context->rdi != rclk - 1)) {
+            cia_context->irqflags |= CIA_IM_TB;
+            cia_context->tbt = (cia_context->tbt + n) & 1;
+        }
+    } else {
+        cia_do_update_tb(cia_context, rclk);
     }
-#else
-    cia_do_update_tb(cia_context, rclk);
-#endif
 
     ciat_ack_alarm(cia_context->tb, rclk);
 
