@@ -278,9 +278,9 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[2], set_romset_firmware, (void *)2 },
     { "EmuID", 0, RES_EVENT_SAME, NULL,
       &emu_id_enabled, set_emu_id_enabled, NULL },
-    { "CIA1Model", 0, RES_EVENT_SAME, NULL,
+    { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
-    { "CIA2Model", 0, RES_EVENT_SAME, NULL,
+    { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia2_model, set_cia2_model, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,

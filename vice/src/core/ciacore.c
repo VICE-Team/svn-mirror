@@ -186,7 +186,7 @@ static void cia_update_tb(cia_context_t *cia_context, CLOCK rclk)
  */
 static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 {
-    if ((cia_context->model == CIA_MODEL_6526)
+    if ((cia_context->model == CIA_MODEL_6526X)
      && (cia_context->rdi == rclk - 1)
      && (cia_context->irq_line != IK_NMI)) {
         /* timer B bug */
@@ -959,7 +959,7 @@ static void ciacore_inttb(CLOCK offset, void *data)
     CIAT_LOGIN(("ciaTimerB int_myciatb: myclk=%d, rclk=%d",
                *(cia_context->clk_ptr), rclk));
 
-    if (cia_context->model == CIA_MODEL_6526) {
+    if (cia_context->model == CIA_MODEL_6526X) {
         /* timer B bug */
         if ((n = ciat_update(cia_context->tb, rclk))
             && (cia_context->rdi != rclk - 1)) {
