@@ -47,7 +47,7 @@
 #define MODE_READ_WRITE        "r+b"
 #define MODE_WRITE             "wb"
 #define MODE_WRITE_TEXT        "wt"
-#define MODE_APPEND            "wb"
+#define MODE_APPEND            "ab"
 #define MODE_APPEND_READ_WRITE "a+b"
 
 /* Printer default devices.  */
