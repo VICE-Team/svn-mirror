@@ -36,6 +36,7 @@
 UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_TOGGLE(AutostartWarp)
 UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
+UI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
 UI_CALLBACK(set_autostart_image_name)
@@ -60,6 +61,8 @@ ui_menu_entry_t uiautostart_settings_submenu[] = {
       (ui_callback_t)toggle_AutostartWarp, NULL, NULL },
     { N_("*RUN with colon"),
       (ui_callback_t)toggle_AutostartRunWithColon, NULL, NULL },
+    { N_("*Load to basic start"),
+      (ui_callback_t)toggle_AutostartBasicLoad, NULL, NULL },
     { N_("Autostart PRG mode"),
       NULL, NULL, uiautostart_prg_mode_submenu },
     { N_("Autostart PRG disk image..."),
