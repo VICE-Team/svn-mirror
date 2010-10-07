@@ -7,8 +7,8 @@
  * arc        | yes, including endian
  * arm        | yes, including endian and sub-type
  * avr32      | yes, no sub-type
- * blackfin   | no
- * cris       | no
+ * blackfin   | yes, including sub-type
+ * cris       | yes, including sub-type (*)
  * crx        | no
  * fr30       | no
  * frv        | no
@@ -260,7 +260,7 @@
 #    else
 
 /* Unknown cpu, so handle as plain ARM */
-     #define PCPU "ARM"
+#      define PCPU "ARM"
 #    endif
 #  endif
 #  define PLATFORM_CPU PCPU PLATFORM_ENDIAN
@@ -272,6 +272,77 @@
 #define PLATFORM_CPU "AVR32"
 #endif
 
+
+/* Generic bfin cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(BFIN)
+#if defined(__ADSPBF512__)
+#define PLATFORM_CPU "BFIN512"
+#elif defined(__ADSPBF514__)
+#define PLATFORM_CPU "BFIN514"
+#elif defined(__ADSPBF516__)
+#define PLATFORM_CPU "BFIN516"
+#elif defined(__ADSPBF518__)
+#define PLATFORM_CPU "BFIN518"
+#elif defined(__ADSPBF522__)
+#define PLATFORM_CPU "BFIN522"
+#elif defined(__ADSPBF523__)
+#define PLATFORM_CPU "BFIN523"
+#elif defined(__ADSPBF524__)
+#define PLATFORM_CPU "BFIN524"
+#elif defined(__ADSPBF525__)
+#define PLATFORM_CPU "BFIN525"
+#elif defined(__ADSPBF526__)
+#define PLATFORM_CPU "BFIN526"
+#elif defined(__ADSPBF527__)
+#define PLATFORM_CPU "BFIN527"
+#elif defined(__ADSPBF531__)
+#define PLATFORM_CPU "BFIN531"
+#elif defined(__ADSPBF532__)
+#define PLATFORM_CPU "BFIN532"
+#elif defined(__ADSPBF533__)
+#define PLATFORM_CPU "BFIN533"
+#elif defined(__ADSPBF534__)
+#define PLATFORM_CPU "BFIN534"
+#elif defined(__ADSPBF536__)
+#define PLATFORM_CPU "BFIN536"
+#elif defined(__ADSPBF537__)
+#define PLATFORM_CPU "BFIN537"
+#elif defined(__ADSPBF538__)
+#define PLATFORM_CPU "BFIN538"
+#elif defined(__ADSPBF539__)
+#define PLATFORM_CPU "BFIN539"
+#elif defined(__ADSPBF542M__)
+#define PLATFORM_CPU "BFIN542M"
+#elif defined(__ADSPBF542__)
+#define PLATFORM_CPU "BFIN542"
+#elif defined(__ADSPBF544M__)
+#define PLATFORM_CPU "BFIN544M"
+#elif defined(__ADSPBF544__)
+#define PLATFORM_CPU "BFIN544"
+#elif defined(__ADSPBF547M__)
+#define PLATFORM_CPU "BFIN547M"
+#elif defined(__ADSPBF547__)
+#define PLATFORM_CPU "BFIN547"
+#elif defined(__ADSPBF548M__)
+#define PLATFORM_CPU "BFIN548M"
+#elif defined(__ADSPBF548__)
+#define PLATFORM_CPU "BFIN548"
+#elif defined(__ADSPBF549M__)
+#define PLATFORM_CPU "BFIN549M"
+#elif defined(__ADSPBF549__)
+#define PLATFORM_CPU "BFIN549"
+#elif defined(__ADSPBF561__)
+#define PLATFORM_CPU "BFIN561"
+#else
+#define PLATFORM_CPU "BFIN"
+#endif
+#endif
+
+
+/* Generic cris cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(CRIS)
+
+#endif
 
 /* Generic hppa cpu discovery */
 #if !defined(PLATFORM_CPU) && defined(__hppa__)

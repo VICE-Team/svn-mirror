@@ -61,6 +61,7 @@
  * unixware     | yes
  * uwin         | yes
  * vms          | yes
+ * vxworks      | yes
  * win32        | yes
  * win64        | yes
  * xbox         | yes
@@ -370,6 +371,13 @@
 #      define PLATFORM_OS "XBOX"
 #    endif
 #  endif
+#endif
+
+
+/* vxworks discovery */
+
+#ifdef __vxworks__
+#define PLATFORM_OS "VXWORKS"
 #endif
 
 
