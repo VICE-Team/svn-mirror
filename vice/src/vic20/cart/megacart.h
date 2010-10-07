@@ -32,14 +32,17 @@
 #include "types.h"
 
 extern BYTE REGPARM1 megacart_ram123_read(WORD addr);
+extern BYTE REGPARM1 megacart_ram123_peek(WORD addr);
 extern void REGPARM2 megacart_ram123_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 megacart_blk123_read(WORD addr);
 extern void REGPARM2 megacart_blk123_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 megacart_blk5_read(WORD addr);
 extern void REGPARM2 megacart_blk5_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 megacart_io2_read(WORD addr);
+extern BYTE REGPARM1 megacart_io2_peek(WORD addr);
 extern void REGPARM2 megacart_io2_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 megacart_io3_read(WORD addr);
+extern BYTE REGPARM1 megacart_io3_peek(WORD addr);
 extern void REGPARM2 megacart_io3_store(WORD addr, BYTE value);
 
 extern void megacart_init(void);

@@ -143,6 +143,11 @@ BYTE REGPARM1 vic_fp_ram123_read(WORD addr)
     }
 }
 
+BYTE REGPARM1 vic_fp_ram123_peek(WORD addr)
+{
+    return cart_ram[(addr & 0x1fff) + 0x2000];
+}
+
 /* store 0x0400-0x0fff */
 void REGPARM2 vic_fp_ram123_store(WORD addr, BYTE value)
 {
@@ -159,6 +164,11 @@ BYTE REGPARM1 vic_fp_blk1_read(WORD addr)
     }
 
     return vic20_cpu_last_data;
+}
+
+BYTE REGPARM1 vic_fp_blk1_peek(WORD addr)
+{
+    return cart_ram[addr];
 }
 
 /* store 0x2000-0x3fff */
@@ -191,6 +201,15 @@ BYTE REGPARM1 vic_fp_blk5_read(WORD addr)
     }
 }
 
+BYTE REGPARM1 vic_fp_blk5_peek(WORD addr)
+{
+    if (ram5_flop) {
+        return cart_ram[addr & 0x1fff];
+    } else {
+        return flash040core_peek(&flash_state, (addr & 0x1fff) | (cart_rom_bank << 13));
+    }
+}
+
 /* store 0xa000-0xbfff */
 void REGPARM2 vic_fp_blk5_store(WORD addr, BYTE value)
 {
@@ -209,6 +228,19 @@ BYTE REGPARM1 vic_fp_io2_read(WORD addr)
     if (!cfg_en_flop) {
         value = vic20_cpu_last_data;
     } else if (addr & 1) {
+        value = cart_cfg_reg;
+    } else {
+        value = cart_bank_reg;
+    }
+
+    return value;
+}
+
+BYTE REGPARM1 vic_fp_io2_peek(WORD addr)
+{
+    BYTE value;
+
+    if (addr & 1) {
         value = cart_cfg_reg;
     } else {
         value = cart_bank_reg;

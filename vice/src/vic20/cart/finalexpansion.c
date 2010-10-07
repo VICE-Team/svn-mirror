@@ -479,7 +479,7 @@ void REGPARM2 finalexpansion_blk5_store(WORD addr, BYTE value)
 
 /* read 0x9c00-0x9fff */
 BYTE REGPARM1 finalexpansion_io3_read(WORD addr)
-{   
+{
     BYTE value;
 
     addr &= 0x03;
@@ -498,6 +498,27 @@ BYTE REGPARM1 finalexpansion_io3_read(WORD addr)
         }
     } else {
         value = vic20_cpu_last_data;
+    }
+    return value;
+}
+
+BYTE REGPARM1 finalexpansion_io3_peek(WORD addr)
+{
+    BYTE value;
+
+    addr &= 0x03;
+    FE_DEBUG(("Peek reg%02x", addr));
+
+    switch (addr) {
+    case 0x02:
+        value = register_a;
+        break;
+    case 0x03:
+        value = register_b;
+        break;
+    default:
+        value = 0;
+        break;
     }
     return value;
 }

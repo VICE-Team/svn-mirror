@@ -70,6 +70,23 @@ BYTE REGPARM1 cartridge_read_ram123(WORD addr)
     return vic20_cpu_last_data;
 }
 
+BYTE REGPARM1 cartridge_peek_ram123(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_GENERIC:
+        return generic_ram123_read(addr);
+    case CARTRIDGE_VIC20_FP:
+        return vic_fp_ram123_peek(addr);
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_ram123_peek(addr);
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        return finalexpansion_ram123_read(addr);
+    default:
+        break;
+    }
+    return 0;
+}
+
 void REGPARM2 cartridge_store_ram123(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
@@ -107,6 +124,21 @@ BYTE REGPARM1 cartridge_read_blk1(WORD addr)
         break;
     }
     return vic20_cpu_last_data;
+}
+
+BYTE REGPARM1 cartridge_peek_blk1(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_GENERIC:
+        return generic_blk1_read(addr);
+    case CARTRIDGE_VIC20_FP:
+        return vic_fp_blk1_peek(addr);
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_blk123_read(addr);
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        return finalexpansion_blk1_read(addr);
+    }
+    return 0;
 }
 
 void REGPARM2 cartridge_store_blk1(WORD addr, BYTE value)
@@ -147,6 +179,21 @@ BYTE REGPARM1 cartridge_read_blk2(WORD addr)
     return vic20_cpu_last_data;
 }
 
+BYTE REGPARM1 cartridge_peek_blk2(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_GENERIC:
+        return generic_blk2_read(addr);
+    case CARTRIDGE_VIC20_FP:
+        return vic_fp_blk23_read(addr);
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_blk123_read(addr);
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        return finalexpansion_blk2_read(addr);
+    }
+    return 0;
+}
+
 void REGPARM2 cartridge_store_blk2(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
@@ -183,6 +230,21 @@ BYTE REGPARM1 cartridge_read_blk3(WORD addr)
         break;
     }
     return vic20_cpu_last_data;
+}
+
+BYTE REGPARM1 cartridge_peek_blk3(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_GENERIC:
+        return generic_blk3_read(addr);
+    case CARTRIDGE_VIC20_FP:
+        return vic_fp_blk23_read(addr);
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_blk123_read(addr);
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        return finalexpansion_blk3_read(addr);
+    }
+    return 0;
 }
 
 void REGPARM2 cartridge_store_blk3(WORD addr, BYTE value)
@@ -223,6 +285,21 @@ BYTE REGPARM1 cartridge_read_blk5(WORD addr)
     return vic20_cpu_last_data;
 }
 
+BYTE REGPARM1 cartridge_peek_blk5(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_GENERIC:
+        return generic_blk5_read(addr);
+    case CARTRIDGE_VIC20_FP:
+        return vic_fp_blk5_peek(addr);
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_blk5_read(addr);
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        return finalexpansion_blk5_read(addr);
+    }
+    return 0;
+}
+
 void REGPARM2 cartridge_store_blk5(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
@@ -258,6 +335,19 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
     return vic20_cpu_last_data;
 }
 
+BYTE REGPARM1 cartridge_peek_io2(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_FP:
+        return vic_fp_io2_peek(addr);
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_io2_peek(addr);
+    default:
+        break;
+    }
+    return 0;
+}
+
 void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
@@ -286,6 +376,19 @@ BYTE REGPARM1 cartridge_read_io3(WORD addr)
     }
     vic20_mem_v_bus_read(addr);
     return vic20_cpu_last_data;
+}
+
+BYTE REGPARM1 cartridge_peek_io3(WORD addr)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_MEGACART:
+        return megacart_io3_peek(addr);
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        return finalexpansion_io3_peek(addr);
+    default:
+        break;
+    }
+    return 0;
 }
 
 void REGPARM2 cartridge_store_io3(WORD addr, BYTE value)

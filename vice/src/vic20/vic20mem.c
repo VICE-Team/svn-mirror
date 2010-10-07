@@ -85,8 +85,10 @@ static int mem_read_limit_tab[0x101];
 /* These ones are used when watchpoints are turned on.  */
 static read_func_ptr_t _mem_read_tab_watch[0x101];
 static store_func_ptr_t _mem_write_tab_watch[0x101];
+
 static read_func_ptr_t _mem_read_tab_nowatch[0x101];
 static store_func_ptr_t _mem_write_tab_nowatch[0x101];
+static read_func_ptr_t _mem_peek_tab[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
@@ -135,6 +137,13 @@ static void REGPARM2 ram_store_v_bus(WORD addr, BYTE value)
     mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value;
 }
 
+static BYTE REGPARM1 ram_peek(WORD addr)
+{
+    return mem_ram[addr];
+}
+
+/* ------------------------------------------------------------------------- */
+
 static BYTE REGPARM1 colorram_read(WORD addr)
 {
     vic20_cpu_last_data = mem_ram[addr] | (vic20_v_bus_last_data & 0xf0);
@@ -148,6 +157,13 @@ static void REGPARM2 colorram_store(WORD addr, BYTE value)
     vic20_v_bus_last_data = vic20_cpu_last_data; /* TODO verify this */
     mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value & 0xf;
 }
+
+static BYTE REGPARM1 colorram_peek(WORD addr)
+{
+    return mem_ram[addr] | (vic20_v_bus_last_data & 0xf0);
+}
+
+/* ------------------------------------------------------------------------- */
 
 static void REGPARM2 via_store(WORD addr, BYTE value)
 {
@@ -179,6 +195,24 @@ static BYTE REGPARM1 via_read(WORD addr)
     }
     vic20_mem_v_bus_read(addr);
     return vic20_cpu_last_data;
+}
+
+static BYTE REGPARM1 via_peek(WORD addr)
+{
+
+    if ((addr & 0x30) == 0x00) {  /* $910x (unconnected V-bus) */
+        return vic20_v_bus_last_data;
+    } else {
+        BYTE temp_bus = 0xff;
+
+        if (addr & 0x10) {          /* $911x (VIA2) */
+            temp_bus &= via2_read(addr);
+        }
+        if (addr & 0x20) {          /* $912x (VIA1) */
+            temp_bus &= via1_read(addr);
+        }
+        return temp_bus;
+    }
 }
 
 static BYTE REGPARM1 read_emuid(WORD addr)
@@ -263,6 +297,37 @@ static void REGPARM2 io3_store(WORD addr, BYTE value)
     return;
 }
 
+static BYTE REGPARM1 io3_peek(WORD addr)
+{
+#if 0
+    /* TODO */
+    if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
+        return sid_peek(addr);
+    }
+#endif
+
+    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) {
+        return read_emuid(addr);
+    }
+
+#ifdef HAVE_MIDI
+#if 0
+    /* TODO */
+    if (midi_enabled && (addr & 0xff00) == 0x9c00) {
+        if (midi_test_read((WORD)(addr & 0xff))) {
+            return midi_peek((WORD)(addr & 0xff));
+        }
+    }
+#endif
+#endif
+
+    if (mem_cart_blocks & VIC_CART_IO3) {
+        return cartridge_peek_io3(addr);
+    }
+
+    return vic20_v_bus_last_data;
+}
+
 static BYTE REGPARM1 io2_read(WORD addr)
 {
     if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f) {
@@ -317,11 +382,42 @@ static void REGPARM2 io2_store(WORD addr, BYTE value)
     return;
 }
 
+static BYTE REGPARM1 io2_peek(WORD addr)
+{
+#if 0
+    /* TODO */
+    if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f) {
+        return sid_peek(addr);
+    }
+
+    if (ieee488_enabled) {
+        if (addr & 0x10) {
+            return ieeevia2_peek(addr);
+        } else {
+            return ieeevia1_peek(addr);
+        }
+    }
+#endif
+
+    if (mem_cart_blocks & VIC_CART_IO2) {
+        return cartridge_peek_io2(addr);
+    }
+
+    return vic20_v_bus_last_data;
+}
+
+/*-------------------------------------------------------------------*/
+
 static BYTE REGPARM1 chargen_read(WORD addr)
 {
     vic20_cpu_last_data = vic20memrom_chargen_read(addr);
     vic20_mem_v_bus_read(addr);
     return vic20_cpu_last_data;
+}
+
+static BYTE REGPARM1 chargen_peek(WORD addr)
+{
+    return vic20memrom_chargen_read(addr);
 }
 
 /*-------------------------------------------------------------------*/
@@ -349,8 +445,18 @@ static void REGPARM2 store_dummy_c_bus(WORD addr, BYTE value)
     vic20_cpu_last_data = value;
 }
 
-/* Watchpoint functions */
+static BYTE REGPARM1 peek_unconnected_v_bus(WORD addr)
+{
+    return vic20_v_bus_last_data;
+}
 
+static BYTE REGPARM1 peek_unconnected_c_bus(WORD addr)
+{
+    return vic20_cpu_last_data;
+}
+
+/*-------------------------------------------------------------------*/
+/* Watchpoint functions */
 
 static BYTE REGPARM1 read_watch(WORD addr)
 {
@@ -365,7 +471,6 @@ static void REGPARM2 store_watch(WORD addr, BYTE value)
 }
 
 /* ------------------------------------------------------------------------- */
-
 /* Generic memory access.  */
 
 void REGPARM2 mem_store(WORD addr, BYTE value)
@@ -378,11 +483,17 @@ BYTE REGPARM1 mem_read(WORD addr)
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
+BYTE REGPARM1 mem_peek(WORD addr)
+{
+    return _mem_peek_tab[addr >> 8](addr);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void set_mem(int start_page, int end_page,
                     read_func_ptr_t read_func,
                     store_func_ptr_t store_func,
+                    read_func_ptr_t peek_func,
                     BYTE *read_base, int base_mask)
 {
     int i;
@@ -391,6 +502,7 @@ static void set_mem(int start_page, int end_page,
         for (i = start_page; i <= end_page; i++) {
             _mem_read_tab_nowatch[i] = read_func;
             _mem_write_tab_nowatch[i] = store_func;
+            _mem_peek_tab[i] = peek_func;
             _mem_read_base_tab[i] = read_base + ((i << 8) & base_mask);
             mem_read_limit_tab[i] = (end_page << 8) + 0xfd;
         }
@@ -398,6 +510,7 @@ static void set_mem(int start_page, int end_page,
         for (i = start_page; i <= end_page; i++) {
             _mem_read_tab_nowatch[i] = read_func;
             _mem_write_tab_nowatch[i] = store_func;
+            _mem_peek_tab[i] = peek_func;
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = -1;
         }
@@ -413,13 +526,13 @@ int vic20_mem_enable_ram_block(int num)
 {
     if (num == 0) {
         set_mem(0x04, 0x0f,
-                ram_read_v_bus, ram_store_v_bus,
+                ram_read_v_bus, ram_store_v_bus, ram_peek,
                 NULL, 0);
         return 0;
     } else {
         if (num > 0 && num != 4 && num <= 5) {
             set_mem(num * 0x20, num * 0x20 + 0x1f,
-                    ram_read, ram_store,
+                    ram_read, ram_store, ram_peek,
                     NULL, 0);
             return 0;
         }
@@ -431,13 +544,13 @@ int vic20_mem_disable_ram_block(int num)
 {
     if (num == 0) {
         set_mem(0x04, 0x0f,
-                read_unconnected_v_bus, store_dummy_v_bus,
+                read_unconnected_v_bus, store_dummy_v_bus, peek_unconnected_v_bus,
                 NULL, 0);
         return 0;
     } else {
         if (num > 0 && num != 4 && num <= 5) {
             set_mem(num * 0x20, num * 0x20 + 0x1f,
-                    read_unconnected_c_bus, store_dummy_c_bus,
+                    read_unconnected_c_bus, store_dummy_c_bus, peek_unconnected_c_bus,
                     NULL, 0);
             return 0;
         }
@@ -451,23 +564,23 @@ void mem_initialize_memory(void)
 
     /* Setup zero page at $0000-$00FF. */
     set_mem(0x00, 0x00,
-            zero_read, zero_store,
+            zero_read, zero_store, ram_peek,
             NULL, 0);
 
     /* Setup low standard RAM at $0100-$03FF. */
     set_mem(0x01, 0x03,
-            ram_read_v_bus, ram_store_v_bus,
+            ram_read_v_bus, ram_store_v_bus, ram_peek,
             NULL, 0);
 
     /* Setup more low RAM at $1000-$1FFF.  */
     set_mem(0x10, 0x1f,
-            ram_read_v_bus, ram_store_v_bus,
+            ram_read_v_bus, ram_store_v_bus, ram_peek,
             NULL, 0);
 
     if (mem_cart_blocks & VIC_CART_RAM123) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0x04, 0x0f,
-                cartridge_read_ram123, cartridge_store_ram123,
+                cartridge_read_ram123, cartridge_store_ram123, cartridge_peek_ram123,
                 NULL, 0);
     } else {
         /* Setup RAM at $0400-$0FFF.  */
@@ -481,7 +594,7 @@ void mem_initialize_memory(void)
     if (mem_cart_blocks & VIC_CART_BLK1) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0x20, 0x3f,
-                cartridge_read_blk1, cartridge_store_blk1,
+                cartridge_read_blk1, cartridge_store_blk1, cartridge_peek_blk1,
                 NULL, 0);
     } else {
         /* Setup RAM at $2000-$3FFF.  */
@@ -495,7 +608,7 @@ void mem_initialize_memory(void)
     if (mem_cart_blocks & VIC_CART_BLK2) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0x40, 0x5f,
-                cartridge_read_blk2, cartridge_store_blk2,
+                cartridge_read_blk2, cartridge_store_blk2, cartridge_peek_blk2,
                 NULL, 0);
     } else {
         /* Setup RAM at $4000-$5FFF.  */
@@ -509,7 +622,7 @@ void mem_initialize_memory(void)
     if (mem_cart_blocks & VIC_CART_BLK3) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0x60, 0x7f,
-                cartridge_read_blk3, cartridge_store_blk3,
+                cartridge_read_blk3, cartridge_store_blk3, cartridge_peek_blk3,
                 NULL, 0);
     } else {
         /* Setup RAM at $6000-$7FFF.  */
@@ -523,7 +636,7 @@ void mem_initialize_memory(void)
     if (mem_cart_blocks & VIC_CART_BLK5) {
         /* a cartridge is selected, map everything to cart/vic20cartmem.c */
         set_mem(0xa0, 0xbf,
-                cartridge_read_blk5, cartridge_store_blk5,
+                cartridge_read_blk5, cartridge_store_blk5, cartridge_peek_blk5,
                 NULL, 0);
     } else {
         /* Setup RAM at $A000-$BFFF.  */
@@ -536,17 +649,17 @@ void mem_initialize_memory(void)
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
-            chargen_read, store_dummy_v_bus,
+            chargen_read, store_dummy_v_bus, chargen_peek,
             NULL, 0);
 
     /* Setup VIC-I at $9000-$90FF. */
     set_mem(0x90, 0x90,
-            vic_read, vic_store,
+            vic_read, vic_store, vic_peek,
             NULL, 0);
 
     /* Setup VIAs at $9100-$93FF. */
     set_mem(0x91, 0x93,
-            via_read, via_store,
+            via_read, via_store, via_peek,
             NULL, 0);
 
     /* Setup color memory at $9400-$97FF.
@@ -554,31 +667,32 @@ void mem_initialize_memory(void)
        separately, we map it directly in the corresponding RAM address
        space. */
     set_mem(0x94, 0x97,
-            colorram_read, colorram_store,
+            colorram_read, colorram_store, colorram_peek,
             NULL, 0);
 
     /* Setup I/O2 at the expansion port */
     set_mem(0x98, 0x9b,
-            io2_read, io2_store,
+            io2_read, io2_store, io2_peek,
             NULL, 0);
 
     /* Setup I/O3 at the expansion port (includes emulator ID) */
     set_mem(0x9c, 0x9f,
-            io3_read, io3_store,
+            io3_read, io3_store, io3_peek,
             NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */
     set_mem(0xc0, 0xdf,
-            vic20memrom_basic_read, store_dummy_c_bus,
+            vic20memrom_basic_read, store_dummy_c_bus, vic20memrom_basic_read,
             NULL, 0);
 
     /* Setup Kernal ROM at $E000-$FFFF. */
     set_mem(0xe0, 0xff,
-            vic20memrom_kernal_read, store_dummy_c_bus,
+            vic20memrom_kernal_read, store_dummy_c_bus, vic20memrom_kernal_read,
             vic20memrom_kernal_trap_rom, 0x1fff);
 
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];
+    _mem_peek_tab[0x100] = _mem_peek_tab[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
     mem_read_limit_tab[0x100] = -1;
 
@@ -654,8 +768,6 @@ void mem_inject(DWORD addr, BYTE value)
 
 /* Exported banked memory access functions for the monitor */
 
-/* FIXME: peek */
-
 static const char *banknames[] = { "default", "cpu", NULL };
 
 static const int banknums[] = { 0, 0 };
@@ -680,37 +792,24 @@ int mem_bank_from_name(const char *name)
 
 BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
-    switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);
-        break;
-    }
-    return 0xff;
+    return mem_read(addr);
 }
 
 BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
-    switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);  /* FIXME */
-        break;
-    }
-    return mem_bank_read(bank, addr, context);
+    return mem_peek(addr);
 }
 
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
-    switch (bank) {
-      case 0:                   /* current */
-        mem_store(addr, byte);
-        return;
-    }
+    mem_store(addr, byte);
 }
 
 /* FIXME: add other i/o extensions here */
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0x9000) && (addr <= 0x900f)) {
-        return vic_dump(&vic);
+        return vic_dump();
     } else if ((addr >= 0x9120) && (addr <= 0x912f)) {
         return viacore_dump(machine_context.via1);
     } else if ((addr >= 0x9110) && (addr <= 0x911f)) {
@@ -718,6 +817,7 @@ static int mem_dump_io(WORD addr) {
     }
     return -1;
 }
+
 mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;

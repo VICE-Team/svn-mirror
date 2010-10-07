@@ -119,6 +119,11 @@ BYTE REGPARM1 megacart_ram123_read(WORD addr)
     }
 }
 
+BYTE REGPARM1 megacart_ram123_peek(WORD addr)
+{
+    return cart_nvram[addr & 0x1fff];
+}
+
 /* store 0x0400-0x0fff */
 void REGPARM2 megacart_ram123_store(WORD addr, BYTE value)
 {
@@ -239,6 +244,11 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
     return value;
 }
 
+BYTE REGPARM1 megacart_io2_peek(WORD addr)
+{
+    return cart_nvram[addr & 0x1fff];
+}
+
 /* store 0x9800-0x9bff */
 void REGPARM2 megacart_io2_store(WORD addr, BYTE value)
 {
@@ -257,6 +267,19 @@ BYTE REGPARM1 megacart_io3_read(WORD addr)
         value = vic20_cpu_last_data;
     }
     return value;
+}
+
+BYTE REGPARM1 megacart_io3_peek(WORD addr)
+{
+    if ((addr & 0x180) == 0x080) { /* $9c80 */
+        return bank_high_reg;
+    }
+
+    if ((addr & 0x180) == 0x100) { /* $9d00 */
+        return bank_low_reg;
+    }
+
+    return cart_nvram[addr & 0x1fff];
 }
 
 /* store 0x9c00-0x9fff */

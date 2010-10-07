@@ -254,7 +254,7 @@ extern void vic_trigger_light_pen(CLOCK mclk);
 extern CLOCK vic_lightpen_timing(int x, int y);
 extern void vic_change_timing(void);
 
-extern int vic_dump(vic_t *vic_context);
+extern int vic_dump(void);
 
 /* Debugging options.  */
 /* #define VIC_RASTER_DEBUG */

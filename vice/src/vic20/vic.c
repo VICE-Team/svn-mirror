@@ -41,6 +41,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"
@@ -415,8 +416,27 @@ CLOCK vic_lightpen_timing(int x, int y)
     return pulse_time;
 }
 
-int vic_dump(vic_t *vic_context)
+/* Make a "real" 16b address from the 14b VIC address */
+static inline int vic_dump_addr(int addr)
 {
-    /* FIXME: dump details using mon_out(). return 0 on success */
-    return -1;
+    int msb = ~((addr & 0x2000) << 2) & 0x8000;
+    return (addr & 0x1fff) | msb;
+}
+
+int vic_dump(void)
+{
+    /* TODO: add a lot more output */
+    mon_out("Raster cycle/line: %d/%d\n", vic.raster_cycle, vic.raster_line);
+    mon_out("X/Y: %d/%d, size %dx%d\n",
+            vic.raster.display_xstart / (4 * VIC_PIXEL_WIDTH),
+            vic.raster.display_ystart,
+            vic.text_cols, vic.text_lines);
+    mon_out("Matrix: %04x, Char: %04x\n",
+            vic_dump_addr(((vic.regs[5] & 0xf0) << 6) | ((vic.regs[2] & 0x80) << 2)),
+            vic_dump_addr((vic.regs[5] & 0xf) << 10));
+    mon_out("Y counter: %d, char height: %d\n",
+            vic.raster.ycounter,
+            vic.char_height);
+
+    return 0;
 }

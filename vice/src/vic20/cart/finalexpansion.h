@@ -42,6 +42,7 @@ extern void REGPARM2 finalexpansion_blk3_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 finalexpansion_blk5_read(WORD addr);
 extern void REGPARM2 finalexpansion_blk5_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 finalexpansion_io3_read(WORD addr);
+extern BYTE REGPARM1 finalexpansion_io3_peek(WORD addr);
 extern void REGPARM2 finalexpansion_io3_store(WORD addr, BYTE value);
 
 extern void finalexpansion_init(void);
