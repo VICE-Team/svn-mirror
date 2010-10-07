@@ -331,6 +331,7 @@ static int ffmpegmovie_init_audio(int speed, int channels,
     c = st->codec;
     c->codec_id = ffmpegdrv_fmt->audio_codec;
     c->codec_type = CODEC_TYPE_AUDIO;
+    c->sample_fmt = SAMPLE_FMT_S16;
 
     /* put sample parameters */
     c->bit_rate = audio_bitrate;
