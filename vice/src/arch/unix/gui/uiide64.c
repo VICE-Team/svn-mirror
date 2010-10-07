@@ -43,6 +43,7 @@ UI_CALLBACK(set_ide64_image_name)
 }
 
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
+UI_MENU_DEFINE_TOGGLE(IDE64version4)
 
 static UI_CALLBACK(set_cylinders)
 {
@@ -175,6 +176,8 @@ ui_menu_entry_t ide64_submenu[] = {
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image4", NULL },
     { "--" },
+    { N_("*Hardware version 4"),
+      (ui_callback_t)toggle_IDE64version4, NULL, NULL },
     { N_("*Autodetect image size"),
       (ui_callback_t)toggle_IDE64AutodetectSize, NULL, NULL },
     { N_("*Cylinders..."),
