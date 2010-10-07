@@ -50,6 +50,10 @@ static const ui_menu_entry_t printer_##prn##_driver_submenu[] = { \
       MENU_ENTRY_RESOURCE_RADIO,                \
       radio_Printer##prn##Driver_callback,      \
       (ui_callback_data_t)"nl10" },             \
+    { "Raw",                                    \
+      MENU_ENTRY_RESOURCE_RADIO,                \
+      radio_Printer##prn##Driver_callback,      \
+      (ui_callback_data_t)"raw" },              \
     SDL_MENU_LIST_END                           \
 };
 
