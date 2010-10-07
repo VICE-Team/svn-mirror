@@ -90,7 +90,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, (BYTE)vicii.irq_status) < 0
         || SMW_DW(m, (DWORD)vicii.raster_irq_line) < 0
         || SMW_B(m, (BYTE)vicii.raster_irq_triggered) < 0
-        /* ram_base_phi[12], vaddr_* and *_ptr updated from elsewhere */
+        /* ram_base_phi[12] and vaddr_* updated from elsewhere */
         || SMW_BA(m, vicii.vbuf, VICII_SCREEN_TEXTCOLS) < 0
         || SMW_BA(m, vicii.cbuf, VICII_SCREEN_TEXTCOLS) < 0
         || SMW_B(m, vicii.gbuf) < 0
@@ -204,7 +204,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
         || SMR_B_INT(m, &vicii.irq_status) < 0
         || SMR_DW_UINT(m, &vicii.raster_irq_line) < 0
         || SMR_B_INT(m, &vicii.raster_irq_triggered) < 0
-        /* ram_base_phi[12], vaddr_* and *_ptr updated from elsewhere */
+        /* ram_base_phi[12] and vaddr_* updated from elsewhere */
         || SMR_BA(m, vicii.vbuf, VICII_SCREEN_TEXTCOLS) < 0
         || SMR_BA(m, vicii.cbuf, VICII_SCREEN_TEXTCOLS) < 0
         || SMR_B(m, &vicii.gbuf) < 0
@@ -269,8 +269,6 @@ int vicii_snapshot_read_module(snapshot_t *s)
     if (vicii.irq_status & 0x80) {
         interrupt_restore_irq(maincpu_int_status, vicii.int_num, 1);
     }
-
-    vicii_update_memory_ptrs();
 
     raster_force_repaint(&vicii.raster);
     snapshot_module_close(m);

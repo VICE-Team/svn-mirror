@@ -233,7 +233,6 @@ inline static void d018_store(const BYTE value)
     }
 
     vicii.regs[0x18] = value;
-    vicii_update_memory_ptrs();
 }
 
 inline static void d019_store(const BYTE value)

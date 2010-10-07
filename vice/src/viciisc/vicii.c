@@ -72,7 +72,6 @@ void vicii_set_phi1_addr_options(WORD mask, WORD offset)
 
     VICII_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x",
                          mask, offset));
-    vicii_update_memory_ptrs_external();
 }
 
 void vicii_set_phi2_addr_options(WORD mask, WORD offset)
@@ -82,7 +81,6 @@ void vicii_set_phi2_addr_options(WORD mask, WORD offset)
 
     VICII_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x",
                          mask, offset));
-    vicii_update_memory_ptrs_external();
 }
 
 void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value)
@@ -92,7 +90,6 @@ void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value)
 
     VICII_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x",
                          mask, value));
-    vicii_update_memory_ptrs_external();
 }
 
 void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value)
@@ -102,7 +99,6 @@ void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value)
 
     VICII_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x",
                          mask, value));
-    vicii_update_memory_ptrs_external();
 }
 
 void vicii_set_chargen_addr_options(WORD mask, WORD value)
@@ -114,7 +110,6 @@ void vicii_set_chargen_addr_options(WORD mask, WORD value)
 
     VICII_DEBUG_REGISTER(("Set chargen addr mask=%04x, value=%04x",
                          mask, value));
-    vicii_update_memory_ptrs_external();
 }
 
 /* ---------------------------------------------------------------------*/
@@ -288,8 +283,6 @@ raster_t *vicii_init(unsigned int flag)
 
     vicii_powerup();
 
-    vicii_update_memory_ptrs();
-
     vicii_draw_init();
     vicii_draw_cycle_init();
     vicii_new_sprites_init();
@@ -391,7 +384,6 @@ static inline void vicii_set_vbanks(int vbank_p1, int vbank_p2)
 {
     vicii.vbank_phi1 = vbank_p1;
     vicii.vbank_phi2 = vbank_p2;
-    vicii_update_memory_ptrs();
 }
 
 /* Phi1 and Phi2 accesses */
@@ -529,7 +521,6 @@ static inline void vicii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
 {
     vicii.ram_base_phi1 = base_p1;
     vicii.ram_base_phi2 = base_p2;
-    vicii_update_memory_ptrs();
 }
 
 void vicii_set_ram_base(BYTE *base)
@@ -547,105 +538,8 @@ void vicii_set_phi2_ram_base(BYTE *base)
     vicii_set_ram_bases(vicii.ram_base_phi1, base);
 }
 
-
 void vicii_update_memory_ptrs_external(void)
 {
-    if (vicii.initialized > 0) {
-        vicii_update_memory_ptrs();
-    }
-}
-
-/* Set the memory pointers according to the values in the registers.  */
-void vicii_update_memory_ptrs(void)
-{
-    WORD screen_addr;             /* Screen start address.  */
-    BYTE *char_base;              /* Pointer to character memory.  */
-    BYTE *bitmap_low_base;        /* Pointer to bitmap memory (low part).  */
-    BYTE *bitmap_high_base;       /* Pointer to bitmap memory (high part).  */
-    int tmp, bitmap_bank;
-
-    screen_addr = vicii.vbank_phi2 + ((vicii.regs[0x18] & 0xf0) << 6);
-
-    screen_addr = (screen_addr & vicii.vaddr_mask_phi2)
-                  | vicii.vaddr_offset_phi2;
-
-    VICII_DEBUG_REGISTER(("Screen memory at $%04X", screen_addr));
-
-    tmp = (vicii.regs[0x18] & 0xe) << 10;
-    tmp = (tmp + vicii.vbank_phi1);
-    tmp &= vicii.vaddr_mask_phi1;
-    tmp |= vicii.vaddr_offset_phi1;
-
-    bitmap_bank = tmp & 0xe000;
-    bitmap_low_base = vicii.ram_base_phi1 + bitmap_bank;
-
-    VICII_DEBUG_REGISTER(("Bitmap memory at $%04X", tmp & 0xe000));
-
-    if (export.ultimax_phi2 != 0) {
-        if ((screen_addr & 0x3fff) >= 0x3000) {
-            /* vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
-                                     + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr(0x1000  + (screen_addr & 0xfff));
-        } else {
-            vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
-        }
-    } else {
-        if ((screen_addr & vicii.vaddr_chargen_mask_phi2)
-            != vicii.vaddr_chargen_value_phi2) {
-            vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
-        } else {
-            vicii.screen_base_phi2 = mem_chargen_rom_ptr
-                                     + (screen_addr & 0xc00);
-        }
-    }
-
-    if (export.ultimax_phi1 != 0) {
-        if ((screen_addr & 0x3fff) >= 0x3000) {
-            /* vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
-                                     + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr(0x1000  + (screen_addr & 0xfff));
-        } else {
-            vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
-        }
-        if ((tmp & 0x3fff) >= 0x3000) {
-            /* char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000; */
-            char_base = ultimax_romh_phi1_ptr(0x1000  + (tmp & 0xfff));
-        } else {
-            char_base = vicii.ram_base_phi1 + tmp;
-        }
-        if (((bitmap_bank + 0x1000) & 0x3fff) >= 0x3000) {
-            /* bitmap_high_base = romh_banks + (romh_bank << 13) + 0x1000; */
-            bitmap_high_base = ultimax_romh_phi1_ptr(0x1000);
-        } else {
-            bitmap_high_base = bitmap_low_base + 0x1000;
-        }
-
-    } else {
-        if ((screen_addr & vicii.vaddr_chargen_mask_phi1)
-            != vicii.vaddr_chargen_value_phi1)
-            vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
-        else
-            vicii.screen_base_phi1 = mem_chargen_rom_ptr
-                                     + (screen_addr & 0xc00);
-
-        if ((tmp & vicii.vaddr_chargen_mask_phi1)
-            != vicii.vaddr_chargen_value_phi1)
-            char_base = vicii.ram_base_phi1 + tmp;
-        else
-            char_base = mem_chargen_rom_ptr + (tmp & 0x0800);
-
-        if (((bitmap_bank + 0x1000) & vicii.vaddr_chargen_mask_phi1)
-            != vicii.vaddr_chargen_value_phi1)
-            bitmap_high_base = bitmap_low_base + 0x1000;
-        else
-            bitmap_high_base = mem_chargen_rom_ptr;
-    }
-
-    /* update pointers */
-    vicii.screen_ptr = vicii.screen_base_phi2;
-    vicii.bitmap_low_ptr = bitmap_low_base;
-    vicii.bitmap_high_ptr = bitmap_high_base;
-    vicii.chargen_ptr = char_base;
 }
 
 /* Redraw the current raster line.  This happens after the last cycle
@@ -718,14 +612,78 @@ void vicii_shutdown(void)
 
 void vicii_screenshot(screenshot_t *screenshot)
 {
+    WORD screen_addr;             /* Screen start address.  */
+    BYTE *screen_base_phi2;       /* Pointer to screen memory.  */
+    BYTE *char_base;              /* Pointer to character memory.  */
+    BYTE *bitmap_low_base;        /* Pointer to bitmap memory (low part).  */
+    BYTE *bitmap_high_base;       /* Pointer to bitmap memory (high part).  */
+    int tmp, bitmap_bank;
+
+    screen_addr = vicii.vbank_phi2 + ((vicii.regs[0x18] & 0xf0) << 6);
+
+    screen_addr = (screen_addr & vicii.vaddr_mask_phi2)
+                  | vicii.vaddr_offset_phi2;
+
+    tmp = (vicii.regs[0x18] & 0xe) << 10;
+    tmp = (tmp + vicii.vbank_phi1);
+    tmp &= vicii.vaddr_mask_phi1;
+    tmp |= vicii.vaddr_offset_phi1;
+
+    bitmap_bank = tmp & 0xe000;
+    bitmap_low_base = vicii.ram_base_phi1 + bitmap_bank;
+
+    if (export.ultimax_phi2) {
+        if ((screen_addr & 0x3fff) >= 0x3000) {
+            screen_base_phi2 = ultimax_romh_phi2_ptr(0x1000 + (screen_addr & 0xfff));
+        } else {
+            screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
+        }
+    } else {
+        if ((screen_addr & vicii.vaddr_chargen_mask_phi2)
+            != vicii.vaddr_chargen_value_phi2) {
+            screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
+        } else {
+            screen_base_phi2 = mem_chargen_rom_ptr + (screen_addr & 0xc00);
+        }
+    }
+
+    if (export.ultimax_phi1) {
+        if ((tmp & 0x3fff) >= 0x3000) {
+            char_base = ultimax_romh_phi1_ptr(0x1000 + (tmp & 0xfff));
+        } else {
+            char_base = vicii.ram_base_phi1 + tmp;
+        }
+
+        if (((bitmap_bank + 0x1000) & 0x3fff) >= 0x3000) {
+            bitmap_high_base = ultimax_romh_phi1_ptr(0x1000);
+        } else {
+            bitmap_high_base = bitmap_low_base + 0x1000;
+        }
+    } else {
+        if ((tmp & vicii.vaddr_chargen_mask_phi1)
+            != vicii.vaddr_chargen_value_phi1) {
+            char_base = vicii.ram_base_phi1 + tmp;
+        } else {
+            char_base = mem_chargen_rom_ptr + (tmp & 0x0800);
+        }
+
+        if (((bitmap_bank + 0x1000) & vicii.vaddr_chargen_mask_phi1)
+            != vicii.vaddr_chargen_value_phi1) {
+            bitmap_high_base = bitmap_low_base + 0x1000;
+        } else {
+            bitmap_high_base = mem_chargen_rom_ptr;
+        }
+    }
+
     raster_screenshot(&vicii.raster, screenshot);
+
     screenshot->chipid = "VICII";
     screenshot->video_regs = vicii.regs;
-    screenshot->screen_ptr = vicii.screen_base_phi2;
-    screenshot->chargen_ptr = vicii.chargen_ptr;
+    screenshot->screen_ptr = screen_base_phi2;
+    screenshot->chargen_ptr = char_base;
     screenshot->bitmap_ptr = NULL;
-    screenshot->bitmap_low_ptr = vicii.bitmap_low_ptr;
-    screenshot->bitmap_high_ptr = vicii.bitmap_high_ptr;
+    screenshot->bitmap_low_ptr = bitmap_low_base;
+    screenshot->bitmap_high_ptr = bitmap_high_base;
     screenshot->color_ram_ptr = mem_color_ram_vicii;
 }
 

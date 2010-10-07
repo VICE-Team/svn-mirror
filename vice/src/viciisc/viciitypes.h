@@ -145,20 +145,6 @@ struct vicii_s {
     WORD vaddr_chargen_value_phi1;   /* compare value for chargen */
     WORD vaddr_chargen_value_phi2;   /* compare value for chargen */
 
-    /* Video memory pointers.  Changed for drawing.  */
-    BYTE *screen_ptr;
-    BYTE *chargen_ptr;
-
-    /* Pointer to the bitmap (lower part)  */
-    BYTE *bitmap_low_ptr;
-
-    /* Pointer to the bitmap (higher part)  */
-    BYTE *bitmap_high_ptr;
-
-    /* Video memory pointers.  Changed immediately.  */
-    BYTE *screen_base_phi1;
-    BYTE *screen_base_phi2;
-
     /* Screen memory buffers (chars and color).  */
     BYTE vbuf[VICII_SCREEN_TEXTCOLS];
     BYTE cbuf[VICII_SCREEN_TEXTCOLS];
@@ -277,7 +263,6 @@ typedef struct vicii_s vicii_t;
 extern vicii_t vicii;
 
 /* Private function calls, used by the other VIC-II modules.  */
-extern void vicii_update_memory_ptrs(void);
 extern void vicii_raster_draw_handler(void);
 extern void vicii_trigger_light_pen_internal(int retrigger);
 
