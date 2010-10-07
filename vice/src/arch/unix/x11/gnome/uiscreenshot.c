@@ -105,6 +105,82 @@ static void ffmpeg_widget(GtkWidget *w, gpointer data)
     gtk_widget_set_sensitive(ffmpg_opts, FALSE);
 }
 
+static void ffmpeg_audio_codec_changed(GtkWidget *widget, gpointer data)
+{
+    GtkTreeModel *audioCodecStore;
+    GtkTreeIter driverIterator, audioCodecIterator;
+    gint selected;
+    int index = -1;
+    int id;
+
+    /* get the selected driver. */
+    if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(data), &driverIterator) == FALSE) {
+        log_error(LOG_DEFAULT, "internal error. iter in driver combo box not found.");
+        return;
+    }
+
+    /* get the index of the selected audio codec. */
+    selected = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+    if (selected == -1) {
+        log_error(LOG_DEFAULT, "internal error: no item selected in combo box.");
+        return;
+    }
+
+    /* get the data model from the driver combo box. */
+    gtk_tree_model_get(GTK_TREE_MODEL(gtk_combo_box_get_model(GTK_COMBO_BOX(data))), &driverIterator, DRV_ACMENU, &audioCodecStore, -1);
+
+    /* iterate over the audio codecs. */
+    if (gtk_tree_model_get_iter_first(audioCodecStore, &audioCodecIterator)) {
+        do {
+            if (++index == selected) {
+                /* get the ID for the selected index. */
+                gtk_tree_model_get(GTK_TREE_MODEL(audioCodecStore), &audioCodecIterator, 1, &id, -1);
+                selected_ac = id;
+                break;
+            }
+        } while (gtk_tree_model_iter_next(audioCodecStore, &audioCodecIterator));
+    }
+
+}
+
+static void ffmpeg_video_codec_changed(GtkWidget *widget, gpointer data)
+{
+    GtkTreeModel *videoCodecStore;
+    GtkTreeIter driverIterator, videoCodecIterator;
+    gint selected;
+    int index = -1;
+    int id;
+
+    /* get the selected driver. */
+    if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(data), &driverIterator) == FALSE) {
+        log_error(LOG_DEFAULT, "internal error. iter in driver combo box not found.");
+        return;
+    }
+
+    /* get the index of the selected video codec. */
+    selected = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+    if (selected == -1) {
+        log_error(LOG_DEFAULT, "internal error: no item selected in combo box.");
+        return;
+    }
+
+    /* get the data model from the driver combo box. */
+    gtk_tree_model_get(GTK_TREE_MODEL(gtk_combo_box_get_model(GTK_COMBO_BOX(data))), &driverIterator, DRV_VCMENU, &videoCodecStore, -1);
+
+    /* iterate over the video codecs. */
+    if (gtk_tree_model_get_iter_first(videoCodecStore, &videoCodecIterator)) {
+        do {
+            if (++index == selected) {
+                /* get the ID for the selected index. */
+                gtk_tree_model_get(GTK_TREE_MODEL(videoCodecStore), &videoCodecIterator, 1, &id, -1);
+                selected_vc = id;
+                break;
+            }
+        } while (gtk_tree_model_iter_next(videoCodecStore, &videoCodecIterator));
+    }
+
+}
+
 static void ffmpeg_details(GtkWidget *w, gpointer data)
 {
     int current_ac_id, current_vc_id;
@@ -142,12 +218,11 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
                 found = (id == current_ac_id);
             } while (!found && gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter));
             gtk_combo_box_set_model(GTK_COMBO_BOX(acmenu), GTK_TREE_MODEL(ac_store));
+            gtk_widget_set_sensitive(GTK_WIDGET(acmenu), TRUE);
             if (found) {
-                gtk_widget_set_sensitive(GTK_WIDGET(acmenu), TRUE);
                 gtk_combo_box_set_active(GTK_COMBO_BOX(acmenu), index);
-                selected_ac = id;
             } else {
-                gtk_widget_set_sensitive(GTK_WIDGET(acmenu), FALSE);
+                gtk_combo_box_set_active(GTK_COMBO_BOX(acmenu), 0);
             }
         } else {
             gtk_widget_set_sensitive(GTK_WIDGET(acmenu), FALSE);
@@ -168,12 +243,11 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
                 found = (id == current_vc_id);
             } while (!found && gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter));
             gtk_combo_box_set_model(GTK_COMBO_BOX(vcmenu), GTK_TREE_MODEL(vc_store));
+            gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), TRUE);
             if (found) {
-                gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), TRUE);
                 gtk_combo_box_set_active(GTK_COMBO_BOX(vcmenu), index);
-                selected_vc = id;
             } else {
-                gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
+                gtk_combo_box_set_active(GTK_COMBO_BOX(vcmenu), 0);
             }
         } else {
             gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
@@ -290,6 +364,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(hbox);
 
     acmenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(ac_store));    
+    g_signal_connect(G_OBJECT(acmenu), "changed", G_CALLBACK(ffmpeg_audio_codec_changed), (gpointer) omenu);
     renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(acmenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(acmenu), renderer, "text", 0, NULL);
@@ -303,6 +378,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(hbox);
 
     vcmenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(vc_store));    
+    g_signal_connect(G_OBJECT(vcmenu), "changed", G_CALLBACK(ffmpeg_video_codec_changed), (gpointer) omenu);
     renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(vcmenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(vcmenu), renderer, "text", 0, NULL);
