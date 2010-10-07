@@ -46,6 +46,8 @@ ui_menu_entry_t uiprinter_pr4_driver_submenu[] = {
       (ui_callback_data_t)"mps803", NULL },
     { "*NL10", (ui_callback_t)radio_Printer4Driver,
       (ui_callback_data_t)"nl10", NULL },
+    { "*RAW", (ui_callback_t)radio_Printer4Driver,
+      (ui_callback_data_t)"raw", NULL },
     { NULL }
 };
 
@@ -58,6 +60,8 @@ ui_menu_entry_t uiprinter_pr5_driver_submenu[] = {
       (ui_callback_data_t)"mps803", NULL },
     { "*NL10", (ui_callback_t)radio_Printer5Driver,
       (ui_callback_data_t)"nl10", NULL },
+    { "*RAW", (ui_callback_t)radio_Printer5Driver,
+      (ui_callback_data_t)"raw", NULL },
     { NULL }
 };
 
@@ -70,6 +74,8 @@ ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
       (ui_callback_data_t)"mps803", NULL },
     { "*NL10", (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"nl10", NULL },
+    { "*RAW", (ui_callback_t)radio_PrinterUserportDriver,
+      (ui_callback_data_t)"raw", NULL },
     { NULL }
 };
 

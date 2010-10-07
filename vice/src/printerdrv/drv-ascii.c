@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +27,7 @@
 
 #include "vice.h"
 
+#include "charset.h"
 #include "driver-select.h"
 #include "drv-ascii.h"
 #include "log.h"
@@ -33,19 +35,110 @@
 #include "output.h"
 #include "types.h"
 
-
 /* #define DEBUG_PRINTER */
 
+#define CHARSPERLINE    74
+
+struct ascii_s
+{
+    int pos;
+    int mode;
+};
+typedef struct ascii_s ascii_t;
+
+static ascii_t drv_ascii[3];
+
 static log_t drv_ascii_log = LOG_ERR;
+
+static int print_char(ascii_t *ascii, unsigned int prnr, BYTE c)
+{
+    BYTE asc;
+
+    switch (c) {
+        case 8: /* bitmap mode */
+            return 0;
+        case 10: /* linefeed */
+            break;
+        case 13: /* return */
+            /* ascii->mode = 0; */ /* ? */
+            break;
+        case 14:  /* EN on*/
+        case 15:  /* EN off*/
+        case 16:  /* POS*/
+            return 0;
+        case 17: /* lowercase */
+            ascii->mode = 1;
+            return 0;
+        case 18: /* revers on */
+            return 0;
+        case 145: /* uppercase */
+            ascii->mode = 0;
+            return 0;
+        case 146: /* revers off */
+            return 0;
+    }
+
+    /* fix duplicated chrout codes */
+    if ((c >= 0x60) && (c <= 0x7f)) {
+        /* uppercase */
+        c = ((c - 0x60) + 0xc0);
+    }
+
+    if (ascii->mode == 0) {
+        /* uppercase / graphics mode */
+        if ((c >= 0x41) && (c <= 0x5a)) {
+            /* lowercase (petscii 0x41 -) */
+            c += 0x80; /* convert to uppercase */
+        } else if ((c >= 0xc1) && (c <= 0xda)) {
+            /* uppercase (petscii 0xc1 -) */
+            c = '.'; /* can't convert gfx characters */
+        }
+    }
+
+    asc = charset_p_toascii(c, 0);
+
+    if (output_select_putc(prnr, asc) < 0) {
+        return -1;
+    }
+    ascii->pos++;
+
+    if (asc == '\n') {
+        ascii->pos = 0;
+#if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
+        if (output_select_putc(prnr, '\r') < 0) {
+            return -1;
+        }
+#endif
+    }
+
+    if (ascii->pos == CHARSPERLINE) {
+        ascii->pos = 0;
+        if (output_select_putc(prnr, '\n') < 0) {
+            return -1;
+        }
+#if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
+        if (output_select_putc(prnr, '\r') < 0) {
+            return -1;
+        }
+#endif
+    }
+
+    return 0;
+}
 
 static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
     output_parameter_t output_parameter;
 
+    /* these are unused for non gfx output */
     output_parameter.maxcol = 480;
     output_parameter.maxrow = 66 * 9;
     output_parameter.dpi_x = 100;
     output_parameter.dpi_y = 100;
+
+    if (secondary == 7) {
+        print_char(&drv_ascii[prnr], prnr, 17);
+    }
 
     return output_select_open(prnr, &output_parameter);
 }
@@ -62,13 +155,10 @@ static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, BYTE b)
                 prnr + 4, secondary, b);
 #endif
 
-    if (output_select_putc(prnr, b) < 0)
+    if (print_char(&drv_ascii[prnr], prnr, b) < 0) {
         return -1;
+    }
 
-#if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
-    if (b == 13)
-        return output_select_putc(prnr, 10);
-#endif
     return 0;
 }
 

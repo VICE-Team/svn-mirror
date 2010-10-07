@@ -1,5 +1,5 @@
 /*
- * drv-ascii.h - ASCII printer driver.
+ * drv-raw.h - RAW printer driver.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef VICE_DRV_ASCII_H
-#define VICE_DRV_ASCII_H
+#ifndef VICE_DRV_RAW_H
+#define VICE_DRV_RAW_H
 
-extern int drv_ascii_init_resources(void);
-extern void drv_ascii_init(void);
+extern int drv_raw_init_resources(void);
+extern void drv_raw_init(void);
 
 #endif
 

@@ -53,8 +53,9 @@ static int set_printer_device_name(const char *val, void *param)
 
 static int set_printer_device(int prn_dev, void *param)
 {
-    if (prn_dev > 3)
+    if (prn_dev > 3) {
         return -1;
+    }
 
     printer_device[vice_ptr_to_int(param)] = (unsigned int)prn_dev;
     return 0;
@@ -132,15 +133,16 @@ static int output_text_open(unsigned int prnr,
       case 0:
       case 1:
       case 2:
-        if (PrinterDev[printer_device[prnr]] == NULL)
+        if (PrinterDev[printer_device[prnr]] == NULL) {
             return -1;
+        }
 
         if (output_fd[printer_device[prnr]] == NULL) {
             FILE *fd;
-
             fd = fopen(PrinterDev[printer_device[prnr]], MODE_APPEND);
-            if (fd == NULL)
+            if (fd == NULL) {
                 return -1;
+            }
             output_fd[printer_device[prnr]] = fd;
         }
         return 0;
@@ -151,15 +153,17 @@ static int output_text_open(unsigned int prnr,
 
 static void output_text_close(unsigned int prnr)
 {
-    if (output_fd[printer_device[prnr]] != NULL)
+    if (output_fd[printer_device[prnr]] != NULL) {
         fclose(output_fd[printer_device[prnr]]);
+    }
     output_fd[printer_device[prnr]] = NULL;
 }
 
 static int output_text_putc(unsigned int prnr, BYTE b)
 {
-    if (output_fd[printer_device[prnr]] == NULL)
+    if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
+    }
     fputc(b, output_fd[printer_device[prnr]]);
 
     return 0;
@@ -167,18 +171,20 @@ static int output_text_putc(unsigned int prnr, BYTE b)
 
 static int output_text_getc(unsigned int prnr, BYTE *b)
 {
-    if (output_fd[printer_device[prnr]] == NULL)
+    if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
+    }
     *b = fgetc(output_fd[printer_device[prnr]]);
     return 0;
 }
 
 static int output_text_flush(unsigned int prnr)
 {
-    if (output_fd[printer_device[prnr]] == NULL)
+    if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
-    fflush(output_fd[printer_device[prnr]]);
+    }
 
+    fflush(output_fd[printer_device[prnr]]);
     return 0;
 }
 
@@ -205,8 +211,9 @@ int output_text_init_resources(void)
 
     output_select_register(&output_select);
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }

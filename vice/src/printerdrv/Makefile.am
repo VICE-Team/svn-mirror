@@ -14,6 +14,8 @@ libprinterdrv_a_SOURCES = \
 	drv-mps803.h \
 	drv-nl10.c \
 	drv-nl10.h \
+	drv-raw.c \
+	drv-raw.h \
 	interface-serial.c \
 	interface-serial.h \
 	interface-userport.c \

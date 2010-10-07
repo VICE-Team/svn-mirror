@@ -30,6 +30,7 @@
 #include "drv-ascii.h"
 #include "drv-mps803.h"
 #include "drv-nl10.h"
+#include "drv-raw.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
 #include "machine-printer.h"
@@ -47,9 +48,11 @@ int printer_resources_init(void)
         || drv_ascii_init_resources() < 0
         || drv_mps803_init_resources() < 0
         || drv_nl10_init_resources() < 0
+        || drv_raw_init_resources() < 0
         || driver_select_init_resources() < 0
-        || machine_printer_resources_init() < 0)
+        || machine_printer_resources_init() < 0) {
         return -1;
+    }
     return 0;
 }
 
@@ -66,8 +69,9 @@ int printer_cmdline_options_init(void)
         || output_text_init_cmdline_options() < 0
         || output_select_init_cmdline_options() < 0
         || driver_select_init_cmdline_options() < 0
-        || machine_printer_cmdline_options_init() < 0)
+        || machine_printer_cmdline_options_init() < 0) {
         return -1;
+    }
     return 0;
 }
 
@@ -79,6 +83,7 @@ void printer_init(void)
     drv_ascii_init();
     drv_mps803_init();
     drv_nl10_init();
+    drv_raw_init();
     driver_select_init();
     machine_printer_init();
 }
