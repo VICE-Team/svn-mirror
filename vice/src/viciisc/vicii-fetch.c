@@ -57,7 +57,7 @@ inline static BYTE fetch_phi1(int addr)
 
     if (export.ultimax_phi1) {
         if ((addr & 0x3fff) >= 0x3000) {
-            p = ultimax_romh_phi1_ptr(0x1000  + (addr & 0xfff));
+            return ultimax_romh_phi1_read(0x1000 + (addr & 0xfff));
         } else {
             p = vicii.ram_base_phi1 + addr;
         }
@@ -80,7 +80,7 @@ inline static BYTE fetch_phi2(int addr)
 
     if (export.ultimax_phi2) {
         if ((addr & 0x3fff) >= 0x3000) {
-            p = ultimax_romh_phi2_ptr(0x1000  + (addr & 0xfff));
+            return ultimax_romh_phi2_read(0x1000 + (addr & 0xfff));
         } else {
             p = vicii.ram_base_phi2 + addr;
         }
@@ -150,6 +150,11 @@ inline static void sprite_dma_cycle_2(int i)
 
 /*-----------------------------------------------------------------------*/
 
+inline static int v_fetch_addr(int offset)
+{
+    return ((vicii.regs[0x18] & 0xf0) << 6) + offset;
+}
+
 inline static WORD g_fetch_addr(BYTE mode)
 {
     WORD a;
@@ -185,7 +190,7 @@ void vicii_fetch_matrix(void)
         vicii.vbuf[vicii.vmli] = 0xff;
         vicii.cbuf[vicii.vmli] = vicii.ram_base_phi2[reg_pc] & 0xf;
     } else {
-        vicii.vbuf[vicii.vmli] = vicii.screen_base_phi2[vicii.vc];
+        vicii.vbuf[vicii.vmli] = fetch_phi2(v_fetch_addr(vicii.vc));
         vicii.cbuf[vicii.vmli] = mem_color_ram_vicii[vicii.vc];
     }
 }
@@ -264,7 +269,7 @@ BYTE vicii_fetch_graphics(void)
 
 BYTE vicii_fetch_sprite_pointer(int i)
 {
-    vicii.sprite[i].pointer = vicii.screen_base_phi1[0x3f8 + i];
+    vicii.sprite[i].pointer = fetch_phi1(v_fetch_addr(0x3f8 + i));
 
     return vicii.sprite[i].pointer;
 }
