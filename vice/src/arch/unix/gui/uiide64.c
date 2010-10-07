@@ -162,9 +162,19 @@ static UI_CALLBACK(set_sectors)
 }
 
 ui_menu_entry_t ide64_submenu[] = {
-    { N_("IDE64 image name..."),
+    { N_("IDE64 image 1 name..."),
       (ui_callback_t)set_ide64_image_name,
-      (ui_callback_data_t)"IDE64Image", NULL },
+      (ui_callback_data_t)"IDE64Image1", NULL },
+    { N_("IDE64 image 2 name..."),
+      (ui_callback_t)set_ide64_image_name,
+      (ui_callback_data_t)"IDE64Image2", NULL },
+    { N_("IDE64 image 3 name..."),
+      (ui_callback_t)set_ide64_image_name,
+      (ui_callback_data_t)"IDE64Image3", NULL },
+    { N_("IDE64 image 4 name..."),
+      (ui_callback_t)set_ide64_image_name,
+      (ui_callback_data_t)"IDE64Image4", NULL },
+    { "--" },
     { N_("*Autodetect image size"),
       (ui_callback_t)toggle_IDE64AutodetectSize, NULL, NULL },
     { N_("*Cylinders..."),
