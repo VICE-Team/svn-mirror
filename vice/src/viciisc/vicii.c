@@ -40,7 +40,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mon_util.h"
+#include "monitor.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite.h"

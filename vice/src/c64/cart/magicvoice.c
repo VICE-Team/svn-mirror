@@ -45,7 +45,7 @@
 #include "magicvoice.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "mon_util.h"
+#include "monitor.h"
 #include "resources.h"
 #include "sound.h"
 #include "t6721.h"

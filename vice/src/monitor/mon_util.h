@@ -39,12 +39,5 @@ extern char *mon_dump_with_label(MEMSPACE memspace, WORD loc, int hex, unsigned 
 extern void mon_set_command(struct console_s *console_log, char *command,
                             void (*)(void));
 
-#ifdef __GNUC__
-extern int mon_out(const char *format, ...)
-    __attribute__((format(printf, 1, 2)));
-#else
-extern int mon_out(const char *format, ...);
-#endif
-
 #endif
 
