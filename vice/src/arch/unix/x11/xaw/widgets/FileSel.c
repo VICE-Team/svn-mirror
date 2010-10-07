@@ -23,6 +23,8 @@
  * <ettore@comm2000.it>; search for [EP].
  * Detailed list of changes in `../../../ChangeLog'.
  *
+ * More changes, for the use case "create a new file", by Olaf Seibert.
+ *
  */
 
 #define VICE
@@ -56,14 +58,6 @@
 #ifndef ENABLE_TEXTFIELD		/* [EP] 11/14/96 */
 #include <X11/Xaw/AsciiTextP.h>
 #include <X11/Xaw/AsciiText.h>
-#ifdef X11R3
-#define asciiTextWidgetClass asciiStringWidgetClass
-#define XawtextEdit          XttextEdit
-#define XtNtype              "type"
-#define XawAsciiString       NULL
-#define XtNautoFill          "autoFill"
-typedef char *XtPointer;
-#endif
 #endif
 
 #include "ScrListP.h"
@@ -107,44 +101,6 @@ typedef char *XtPointer;
 
  *---------------------------------------------------------------------------*/
 
-#if (!NeedFunctionPrototypes)
-
-static void Initialize();
-static void Realize();
-static void Destroy();
-static void Resize();
-static Boolean SetValues();
-static XtGeometryResult GeometryManager();
-static void ChildrenCreate();
-static void ChildrenRealize();
-static void ChildrenRecalculate();
-static void ChildrenUpdate();
-static void ButtonAutostart();
-static void ButtonContents();
-static void ButtonOk();
-static void ButtonCancel();
-static void ButtonGoto();
-static void ButtonSelect();
-static char *GetFileBoxText();
-static void ClickOnPathList();
-static void ClickOnFileList();
-static void SelectFileByIndex();
-static Boolean SelectFileByName();
-static void UnselectAll();
-static void NotifySelectionChange();
-static void ParentizeDirectory();
-static void GotoDeepestLegalDirectory();
-static void UpdateLists();
-static void UpdateTextLines();
-static void Chdir();
-static void DoBusyCursor();
-static void UndoBusyCursor();
-static void TextWidgetSetText();
-/* [EP] 11/25/96 */
-static void TextWidgetSetKeyboardFocusAction();
-
-#else
-
 static void Initialize(Widget request, Widget new);
 static void Realize(Widget gw, XtValueMask *valueMask, XSetWindowAttributes *attrs);
 static void Destroy(XfwfFileSelectorWidget fsw);
@@ -161,12 +117,13 @@ static void ButtonOk(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonCancel(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonGoto(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonSelect(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
+static void FileChanged(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static char *GetFileBoxText(XfwfFileSelectorWidget fsw);
 static void ClickOnPathList(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ClickOnFileList(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void SelectFileByIndex(XfwfFileSelectorWidget fsw, int strchr);
 static Boolean SelectFileByName(XfwfFileSelectorWidget fsw, char *name);
-static void UnselectAll(XfwfFileSelectorWidget fsw);
+static void UnselectAll(XfwfFileSelectorWidget fsw, Boolean clear_cur_file_text);
 static void NotifySelectionChange(XfwfFileSelectorWidget fsw);
 static void ParentizeDirectory(char *dir);
 static void GotoDeepestLegalDirectory(XfwfFileSelectorWidget fsw);
@@ -178,8 +135,6 @@ static void UndoBusyCursor(Widget w);
 static void TextWidgetSetText(Widget tw, char *text);
 /* [EP] 11/25/96 */
 static void TextWidgetSetKeyboardFocusAction(Widget w, XEvent *event, String *params, Cardinal *num_params);
-
-#endif
 
 /*---------------------------------------------------------------------------*
 
@@ -623,6 +578,7 @@ static void ChildrenCreate(XfwfFileSelectorWidget fsw)
     FSNthWidget(fsw, FS_I_CUR_FILE_TEXT) = XtVaCreateManagedWidget("cur_file_text", textfieldWidgetClass, (Widget)fsw, NULL);
     XtOverrideTranslations(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), XtParseTranslationTable(text_box_translations));
     XtAddCallback(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), XtNactivateCallback, (XtCallbackProc)ButtonSelect, (XtPointer)fsw);
+    XtAddCallback(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), XtNcallback, (XtCallbackProc)FileChanged, (XtPointer)fsw);
 #endif
     XtOverrideTranslations(FSNthWidget(fsw, FS_I_CUR_DIR_TEXT), XtParseTranslationTable(text_box_translations));
 
@@ -1013,6 +969,16 @@ static void ButtonSelect(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_da
     UpdateTextLines(fsw);
 } /* End ButtonSelect */
 
+static void FileChanged(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data)
+{
+    String file;
+
+    file = (String)call_data;
+    if (SelectFileByName(fsw, file) == False) {
+        UnselectAll(fsw, False);
+    }
+} /* End FileChanged */
+
 static char *GetFileBoxText(XfwfFileSelectorWidget fsw)
 {
     char *text;
@@ -1032,7 +998,7 @@ static void ClickOnPathList(Widget w, XfwfFileSelectorWidget fsw, XtPointer call
 
     ret = (XfwfScrolledListReturnStruct *)call_data;
     if (ret->index == -1) {
-        UnselectAll(fsw);		/* Click On Blank Space */
+        UnselectAll(fsw, True);         /* Click On Blank Space */
         return;
     }
     strcpy(FSCurrentDirectory(fsw), "/");
@@ -1049,7 +1015,7 @@ static void ClickOnFileList(Widget w, XfwfFileSelectorWidget fsw, XtPointer call
 
     ret = (XfwfScrolledListReturnStruct *)call_data;
     if (ret->index == -1) {
-        UnselectAll(fsw);		/* Click On Blank Space */
+        UnselectAll(fsw, True);         /* Click On Blank Space */
     } else {
         SelectFileByIndex(fsw,ret->index);
     }
@@ -1060,6 +1026,13 @@ static void ClickOnFileList(Widget w, XfwfFileSelectorWidget fsw, XtPointer call
              I N T E R N A L    S U P P O R T    R O U T I N E S
 
  *---------------------------------------------------------------------------*/
+
+static void SetSensitive(XfwfFileSelectorWidget fsw, Boolean value)
+{
+    XtSetSensitive(FSNthWidget(fsw, FS_I_OK_BUTTON), value);
+    XtSetSensitive(FSNthWidget(fsw, FS_I_CONTENTS_BUTTON), value);
+    XtSetSensitive(FSNthWidget(fsw, FS_I_AUTOSTART_BUTTON), value);
+}
 
 static void SelectFileByIndex(XfwfFileSelectorWidget fsw, int index)
 {
@@ -1076,43 +1049,48 @@ static void SelectFileByIndex(XfwfFileSelectorWidget fsw, int index)
         Chdir(fsw);
     } else if (!DirEntryIsBrokenLink(dir_entry)) {
         strcpy(FSCurrentFile(fsw), DirEntryFileName(dir_entry));
-        if (FSCheckExistence(fsw)) {
-            XtSetSensitive(FSNthWidget(fsw, FS_I_OK_BUTTON), True);
-            XtSetSensitive(FSNthWidget(fsw, FS_I_CONTENTS_BUTTON), True);
-            XtSetSensitive(FSNthWidget(fsw, FS_I_AUTOSTART_BUTTON), True);
-        }
+        SetSensitive(fsw, True);
         FSFileSelected(fsw) = True;
         TextWidgetSetText(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), FSCurrentFile(fsw));
         XfwfScrolledListHighlightItem(FSNthWidget(fsw, FS_I_FILE_LIST), index);
+        XfwfScrolledListShowItem(FSNthWidget(fsw, FS_I_FILE_LIST), index);
         NotifySelectionChange(fsw);
     } else {
         XBell(XtDisplay(fsw), 0);
-        UnselectAll(fsw);
+        UnselectAll(fsw, True);
     }
 } /* End SelectFileByIndex */
 
 static Boolean SelectFileByName(XfwfFileSelectorWidget fsw, char *name)
 {
     if (DirectoryMgrGotoNamedItem(FSDirMgr(fsw), name) == FALSE) {
-        return(False);
+        if (FSCheckExistence(fsw)) {
+            SetSensitive(fsw, False);
+            return False;
+        } else {
+            strcpy(FSCurrentFile(fsw), name);
+            UnselectAll(fsw, False);
+            SetSensitive(fsw, name[0] != 0);
+            return True;
+        }
     }
     SelectFileByIndex(fsw, DirectoryMgrCurrentIndex(FSDirMgr(fsw)));
     return True;
 } /* End SelectFileByName */
 
-static void UnselectAll(XfwfFileSelectorWidget fsw)
+static void UnselectAll(XfwfFileSelectorWidget fsw, Boolean clear_cur_file_text)
 {
     Boolean old_file_selected_flag;
 
     old_file_selected_flag = FSFileSelected(fsw);
-    if (FSCheckExistence(fsw)) {
-        XtSetSensitive(FSNthWidget(fsw, FS_I_OK_BUTTON), False);
-        XtSetSensitive(FSNthWidget(fsw, FS_I_CONTENTS_BUTTON), False);
-        XtSetSensitive(FSNthWidget(fsw, FS_I_AUTOSTART_BUTTON), False);
+    if (FSCheckExistence(fsw) || clear_cur_file_text) {
+        SetSensitive(fsw, False);
     }
-    FSCurrentFile(fsw)[0] = '\0';
     FSFileSelected(fsw) = False;
-    TextWidgetSetText(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), FSCurrentFile(fsw));
+    if (clear_cur_file_text) {
+        FSCurrentFile(fsw)[0] = '\0';
+        TextWidgetSetText(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), FSCurrentFile(fsw));
+    }
     XfwfScrolledListUnhighlightAll(FSNthWidget(fsw, FS_I_FILE_LIST));
     if (old_file_selected_flag) {
         NotifySelectionChange(fsw);
@@ -1237,7 +1215,7 @@ static void GotoDeepestLegalDirectory(XfwfFileSelectorWidget fsw)
             break;
         }
     }
-    UnselectAll(fsw);
+    UnselectAll(fsw, True);
     UpdateLists(fsw);
 } /* End GotoDeepestLegalDirectory */
 
@@ -1390,22 +1368,23 @@ static void UndoBusyCursor(Widget w)
 static void TextWidgetSetText(Widget tw, char *text)
 {
     Arg args[3];
-    int length,insert_position;
-#ifdef X11R3
-    static char text_widget_storage[MAXPATHLEN + 2];
-#endif
+    int insert_position;
+    char *old_text;
 
-    length = strlen(text);
-    insert_position = max(length,0);
-#ifndef X11R3
-    XtSetArg(args[0], XtNstring, text);
-    XtSetValues(tw, args, 1);
-#ifndef ENABLE_TEXTFIELD		/* [EP] 11/14/96 */
-    XawTextSetInsertionPoint(tw, insert_position);
+    XtSetArg(args[0], XtNstring, &old_text);
+    XtGetValues(tw, args, 1);
+
+    if (old_text == NULL || strcmp(old_text, text) != 0) {
+        XtSetArg(args[0], XtNstring, text);
+        XtSetValues(tw, args, 1);
+
+        insert_position = strlen(text);
+#ifndef ENABLE_TEXTFIELD                /* [EP] 11/14/96 */
+        XawTextSetInsertionPoint(tw, insert_position);
 #else
-    XtVaSetValues(tw, XtNinsertPosition, insert_position, NULL);
+        XtVaSetValues(tw, XtNinsertPosition, insert_position, NULL);
 #endif
-#endif
+    }
 } /* End TextWidgetSetText */
 
 /* [EP] 11/25/96 */

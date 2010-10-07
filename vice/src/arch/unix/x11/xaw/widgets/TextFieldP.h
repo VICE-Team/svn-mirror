@@ -56,6 +56,7 @@ typedef struct {
     Boolean PendingDelete;
     char *DefaultString;
     XtCallbackList ActivateCallback;
+    XtCallbackList TextChangeCallback;
 
     /* Private stuff ... */
     GC drawGC;			/* GC for drawing and copying */

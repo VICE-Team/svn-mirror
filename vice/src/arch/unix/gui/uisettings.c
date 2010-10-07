@@ -260,20 +260,14 @@ static UI_CALLBACK(save_resources_file)
     char *tmp;
 #endif
 
-#ifdef USE_GNOMEUI
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
-#endif
 
     vsync_suspend_speed_eval();
 
     filename = lib_malloc(len + 1);
     strcpy(filename, "");
 
-#ifdef USE_GNOMEUI
     filename = ui_select_file(_("File to save settings to"), NULL, 0, resources_last_dir, &filter, 1, &button, 0, NULL, UI_FC_SAVE);
-#else
-    button = ui_input_string(_("File to save settings to"), _("Name:"), filename, len);
-#endif
     
     if (button == UI_BUTTON_OK && filename != NULL) {
         if (resources_save(filename) < 0) {

@@ -48,6 +48,8 @@
 #include "util.h"
 #include "vsync.h"
 #include "ioutil.h"
+#include "cbmimage.h"
+#include "diskimage.h"
 
 static int selection_from_image = 0;
 
@@ -193,6 +195,41 @@ ui_menu_entry_t uiattach_disk_menu[] = {
 
 static char *attach_tape_last_dir = NULL;
 
+static UI_CALLBACK(create_new_tape)
+{
+    char *filename;
+    int overwrite = 1;
+    ui_button_t button;
+    uilib_file_filter_enum_t filter[] = { UILIB_FILTER_TAPE, UILIB_FILTER_COMPRESSED, UILIB_FILTER_ALL };
+
+    vsync_suspend_speed_eval();
+
+    filename = ui_select_file(_("Create a new tape image"), tapecontents_read, 0, attach_tape_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_SAVE);
+
+    switch (button) {
+        case UI_BUTTON_OK:
+            if (util_file_exists(filename)) {
+                if (ui_ask_confirmation(_("File exists"),
+                                        _("Do you want to overwrite it?")) !=
+                        UI_BUTTON_OK) {
+                    overwrite = 0;
+                }
+            }
+            if (overwrite != 0) {
+                if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
+                    ui_error("Cannot create tape image");
+                }
+            }
+            lib_free(attach_tape_last_dir);
+            util_fname_split(filename, &attach_tape_last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
+    }
+    lib_free(filename);
+}
+
 static UI_CALLBACK(attach_tape)
 {
     char *filename;
@@ -231,6 +268,9 @@ static UI_CALLBACK(detach_tape)
 }
 
 ui_menu_entry_t uiattach_tape_menu[] = {
+    { N_("Create a new tape image..."),
+      (ui_callback_t)create_new_tape, NULL, NULL,
+      0, 0},
     { N_("Attach a tape image..."),
       (ui_callback_t)attach_tape, NULL, NULL,
       KEYSYM_t, UI_HOTMOD_META},

@@ -84,18 +84,8 @@ typedef struct _XfwfFileSelectorStatusStruct {
 
  *---------------------------------------------------------------------------*/
 
-#if (!NeedFunctionPrototypes)
-
-void XfwfFileSelectorChangeDirectory();
-void XfwfFileSelectorRefresh();
-void XfwfFileSelectorGetStatus();
-
-#else
-
 void XfwfFileSelectorChangeDirectory(XfwfFileSelectorWidget fsw, const char *dir);
 void XfwfFileSelectorRefresh(XfwfFileSelectorWidget fsw);
 void XfwfFileSelectorGetStatus(XfwfFileSelectorWidget fsw, XfwfFileSelectorStatusStruct *ssp);
-
-#endif
 
 #endif

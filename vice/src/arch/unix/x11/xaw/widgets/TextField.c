@@ -52,7 +52,8 @@ static XtResource resources[] = {
     { XtNmargin, XtCMargin, XtRDimension, sizeof(Dimension), offset(Margin), XtRString, "3" },
     { XtNpendingDelete, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(PendingDelete), XtRString, "True" },
     { XtNstring, XtCString, XtRString, sizeof(char *), offset(DefaultString), XtRString, NULL },
-    { XtNactivateCallback, XtCCallback, XtRCallback, sizeof(XtPointer), offset(ActivateCallback), XtRCallback, NULL },
+    { XtNactivateCallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), offset(ActivateCallback), XtRCallback, NULL },
+    { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), offset(TextChangeCallback), XtRCallback, NULL },
 };
 
 #undef offset
@@ -144,9 +145,9 @@ TextFieldClassRec textfieldClassRec = {
     /* compress_exposure      */ XtExposeCompressMultiple,
     /* compress_enterleave    */ True,
     /* visible_interest       */ True,
-    /* destroy                */ Destroy,
-    /* resize                 */ Resize,
-    /* expose                 */ Redisplay,
+    /* destroy                */ (XtWidgetProc)Destroy,
+    /* resize                 */ (XtWidgetProc)Resize,
+    /* expose                 */ (XtExposeProc)Redisplay,
     /* set_values             */ SetValues,
     /* set_values_hook        */ NULL,
     /* set_values_almost      */ XtInheritSetValuesAlmost,
@@ -512,6 +513,17 @@ static int TextPixelToPos(TextFieldWidget w, int x)
 }
 
 /*
+ * Do callback
+ */
+static void TextChanged(TextFieldWidget w)
+{
+    if (XtNcallback) {
+        char *text = w->text.Text;
+        XtCallCallbacks((Widget)w, XtNcallback, text);
+    }
+}
+
+/*
  * TextField Widget Action procedures
  */
 
@@ -596,6 +608,7 @@ static void InsertChar(Widget aw, XEvent *event, String *params, Cardinal *num_p
         } else {
             Draw(w);
         }
+        TextChanged(w);
     }
 }
 
@@ -616,6 +629,7 @@ static void DeleteNext(Widget aw, XEvent *event, String *params, Cardinal *num_p
         TextDelete(w, w->text.CursorPos, 1);
         Draw(w);
     }
+    TextChanged(w);
 }
 
 /* ARGSUSED */
@@ -636,6 +650,7 @@ static void DeletePrev(Widget aw, XEvent *event, String *params, Cardinal *num_p
         w->text.CursorPos--;
         Draw(w);
     }
+    TextChanged(w);
 }
 
 /* ARGSUSED */
@@ -780,7 +795,8 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
     XSelectionRequestEvent *req = XtGetSelectionRequest(aw, *selection, NULL);
 
     if (*target == XA_TARGETS(XtDisplay(aw))) {
-        Atom *targetP, *std_targets;
+        Atom *targetP;
+        XPointer std_targets;
         unsigned long std_length;
 
         XmuConvertStandardSelection(aw, req->time, selection, target, type, &std_targets, &std_length, format);
@@ -861,6 +877,7 @@ static void RequestSelection(Widget aw, XtPointer client, Atom * selection, Atom
         TextInsert(w, (char *)value, (int)(*length));
         w->text.OldCursorX = savex;
         Draw(w);
+        TextChanged(w);
     }
 }
 
@@ -1305,6 +1322,7 @@ void TextFieldInsert(Widget aw, int pos, char *str)
         w->text.HighlightStart = w->text.HighlightEnd = pos;
         TextInsert(w, str, len);
         MassiveChangeDraw(w);
+        TextChanged(w);
     }
 }
 
@@ -1328,6 +1346,7 @@ void TextFieldReplace(Widget aw, int first, int last, char *str)
             TextDeleteHighlighted(w);
             TextInsert(w, str, len);
             MassiveChangeDraw(w);
+            TextChanged(w);
         }
     }
 }
@@ -1400,5 +1419,6 @@ void TextFieldSetString(Widget aw, char *str)
         TextDeleteHighlighted(w);
         TextInsert(w, str, len);
         MassiveChangeDraw(w);
+        TextChanged(w);
     }
 }

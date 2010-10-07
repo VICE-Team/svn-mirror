@@ -1906,6 +1906,9 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
        fixes the problem...  */
     file_selector = build_file_selector(_ui_top_level, &button);
 
+    if (action == UI_FC_SAVE) {
+        XtVaSetValues(file_selector, XtNcheckExistence, False, NULL);
+    }
     XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
     XtVaSetValues(file_selector, XtNshowContentsButton, read_contents_func ? 1 : 0,  NULL);
 
@@ -1921,7 +1924,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     }
 
     ui_popup(XtParent(file_selector), title, False);
-    do {
+    for (;;) {
         button = UI_BUTTON_NONE;
         while (button == UI_BUTTON_NONE) {
             ui_dispatch_next_event();
@@ -1972,10 +1975,16 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
                 ui_error(_("Unknown image type"));
             }
         }
-    } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL) || button == UI_BUTTON_CONTENTS);
+        if (button == UI_BUTTON_CANCEL) {
+            break;
+        }
+        if (button == UI_BUTTON_OK && (action == UI_FC_SAVE || fs_status.file_selected)) {
+            break;
+        }
+    } 
 
     /* `ret' gets always malloc'ed.  */
-    if (fs_status.file_selected) {
+    if (UI_BUTTON_OK && (action == UI_FC_SAVE || fs_status.file_selected)) {
         ret = util_concat(fs_status.path, fs_status.file, NULL);
     } else {
         ret = lib_stralloc("");

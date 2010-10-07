@@ -33,6 +33,8 @@ typedef struct {
     int item_count;
     Boolean *sensitive_array;
     XtCallbackList callback;
+    Position slider_y;
+    Dimension slider_height;
 } XfwfScrolledListPart;
 
 typedef struct _XfwfScrolledListClassRec {

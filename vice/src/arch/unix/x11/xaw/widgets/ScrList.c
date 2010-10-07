@@ -57,21 +57,6 @@
 #define MyData(w)   ((w)->scrolledList)
 #define CoreData(w) ((w)->core)
 
-#if (!NeedFunctionPrototypes)
-
-static void MultiListCallbackHandler();
-static void ClassInitialize();
-static void Initialize();
-static void Realize();
-static void Destroy();
-static void Resize();
-static Boolean SetValues();
-static XtGeometryResult GeometryManager();
-static XtGeometryResult PreferredGeometry();
-static void ReCalcChildren();
-
-#else
-
 static void MultiListCallbackHandler(Widget w, Widget self, XfwfMultiListReturnStruct *call_data);
 static void ClassInitialize(void);
 static void Initialize(Widget request, Widget new);
@@ -82,8 +67,7 @@ static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew);
 static XtGeometryResult GeometryManager(Widget w, XtWidgetGeometry *request, XtWidgetGeometry *reply);
 static XtGeometryResult PreferredGeometry(XfwfScrolledListWidget slw, XtWidgetGeometry *parent_idea, XtWidgetGeometry *our_idea);
 static void ReCalcChildren(XfwfScrolledListWidget w);
-
-#endif
+static void ViewportCallbackHandler(Widget w, Widget self, XawPannerReport *call_data);
 
 /*---------------------------------------------------------------------------*
 
@@ -111,7 +95,7 @@ static XtResource resources[] =
     { XtNlist, XtCList, XtRPointer, sizeof(char **), offset(item_array), XtRPointer, NULL },
     { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), offset(item_count), XtRInt, 0 },
     { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), offset(sensitive_array), XtRPointer, NULL },
-    { XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t), offset(callback), XtRCallback, NULL }
+    { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), offset(callback), XtRCallback, NULL }
 };
 #endif
 
@@ -201,7 +185,7 @@ static void MultiListCallbackHandler(Widget w, Widget self, XfwfMultiListReturnS
         ret_value.index = -1;
         ret_value.string = NULL;
     }
-    XtCallCallbacks(self, XtNcallback, (caddr_t)(&ret_value));
+    XtCallCallbacks(self, XtNcallback, (XtPointer)(&ret_value));
 }
 
 /*---------------------------------------------------------------*
@@ -260,7 +244,8 @@ static void Initialize(Widget request, Widget new)
     XtSetArg(args[7], XtNmaxSelectable, 1);
     MyData(w).list = XtCreateManagedWidget("multilist", xfwfMultiListWidgetClass, MyData(w).viewport, args, 8);
 
-    XtAddCallback(MyData(w).list, XtNcallback, (XtCallbackProc)MultiListCallbackHandler, (caddr_t)w);
+    XtAddCallback(MyData(w).list, XtNcallback, (XtCallbackProc)MultiListCallbackHandler, (XtPointer)w);
+    XtAddCallback(MyData(w).viewport, XtNreportCallback, (XtCallbackProc)ViewportCallbackHandler, (XtPointer)w);
 } /* End Initialize */
 
 /*---------------------------------------------------------------*
@@ -447,9 +432,10 @@ static void ReCalcChildren(XfwfScrolledListWidget w)
 	XfwfScrolledListSetList(w,newlist,items,resize,sensitive_array)
 
 	This routine tries to set the string array to the new array
-	<newlist>.  <items> is the count of strings.  If <items> is 0
+	<newlist>.  <items> is the count of strings.  [[If <items> is 0
 	and the array is NULL terminated, the number of strings will be
-	automatically counted.	The <resize> flag indicates if we want
+	automatically counted. -- this doesn't appear to be true]]
+	The <resize> flag indicates if we want
 	the widget to try to resize itself to hold the new array.  The
 	<sensitive_array> parameter (if non-NULL) contains an array of
 	Booleans representing the sensitivity of the list items.
@@ -502,9 +488,56 @@ void XfwfScrolledListHighlightItem(Widget w, int item_index)
 
 /*---------------------------------------------------------------------------*
 
+        XfwfScrolledListShowItem(w,item_index)
+
+        This routine scrolls the item with index number <item_index>
+        into view, if it isn't already.
+
+ *---------------------------------------------------------------------------*/
+
+static void ViewportCallbackHandler(Widget w, Widget self, XawPannerReport *call_data)
+{
+    if (call_data != NULL) {
+        XfwfScrolledListWidget sw;
+
+        sw = (XfwfScrolledListWidget)self;
+        MyData(sw).slider_y      = call_data->slider_y;
+        MyData(sw).slider_height = call_data->slider_height;
+    }
+}
+
+void XfwfScrolledListShowItem(Widget w, int item_index)
+{
+    XfwfScrolledListWidget slw;
+    Arg multilist_args[1];
+    Dimension row_height, visible_height;
+    Position offset, top, bottom;
+
+    slw = (XfwfScrolledListWidget)w;
+
+    XtSetArg(multilist_args[0], XtNrowHeight, &row_height);
+    XtGetValues(MyData(slw).list, multilist_args, 1);
+
+    offset = item_index * row_height;
+    visible_height = MyData(slw).slider_height;
+    top = MyData(slw).slider_y;
+    bottom = top + visible_height;
+
+    if (offset < top || offset + row_height > bottom) {
+        Widget viewport = MyData(slw).viewport;
+
+        /* Place the middle of the item in the middle of the viewport */
+        XawViewportSetCoordinates(viewport, 0,
+                            offset + (row_height - visible_height) / 2);
+    }
+} /* End XfwfScrolledListShowItem */
+
+/*---------------------------------------------------------------------------*
+
 	XfwfScrolledListGetHighlighted(w)
 
 	This routine returns the current highlighted item.
+        It is not thread-safe (returns pointer to static object).
 
  *---------------------------------------------------------------------------*/
 

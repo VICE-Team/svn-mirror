@@ -83,8 +83,9 @@
  *---------------------------------------------------------------------------*/
 
 #ifndef PFI
-typedef int (*PFI)();
+typedef int (*PFI)(DIR_ENTRY *, fwf_regex_t *);
 #endif
+typedef int (*PFIcomp)(DIR_ENTRY **, DIR_ENTRY **);
 
 typedef struct entry_cons {
     DIR_ENTRY dir_entry;
@@ -102,7 +103,7 @@ typedef struct {
     PFI filter_func;
     fwf_regex_t filter_data;
     int free_filter_data;
-    PFI comp_func;
+    PFIcomp comp_func;
     int current_index;
 } DIRECTORY_MGR;
 
@@ -132,11 +133,11 @@ extern int DirectoryMgrSimpleRefilter(DirectoryMgr *dm, char *pattern);
 extern int DirectoryMgrSimpleResort(DirectoryMgr *dm, int sort_type);
 
 extern int DirectoryMgrCanOpen(char *path);
-extern DirectoryMgr *DirectoryMgrOpen(char *path, PFI c_func, PFI f_func, fwf_regex_t *f_data, int free_data);
+extern DirectoryMgr *DirectoryMgrOpen(char *path, PFIcomp c_func, PFI f_func, fwf_regex_t *f_data, int free_data);
 extern void DirectoryMgrClose(DirectoryMgr *dm);
 extern int DirectoryMgrRefilter(DirectoryMgr *dm, PFI f_func, fwf_regex_t *f_data, int f_free);
 extern int DirectoryMgrRefresh(DirectoryMgr *dm);
-extern void	DirectoryMgrResort(DirectoryMgr *dm, PFI c_func);
+extern void DirectoryMgrResort(DirectoryMgr *dm, PFIcomp c_func);
 
 extern int DirectoryMgrGotoItem(DirectoryMgr *dm, int i);
 extern int DirectoryMgrGotoNamedItem(DirectoryMgr *dm, char *name);
@@ -146,7 +147,7 @@ extern DirEntry *DirectoryMgrNextEntry(DirectoryMgr *dm);
 extern DirEntry *DirectoryMgrPrevEntry(DirectoryMgr *dm);
 
 extern int DirectoryMgrSimpleFilterFunc(char *pattern, PFI *ff_ptr, fwf_regex_t *fd_ptr);
-extern int DirectoryMgrSimpleSortingFunc(int sort_type, PFI *sf_ptr);
+extern int DirectoryMgrSimpleSortingFunc(int sort_type, PFIcomp *sf_ptr);
 
 extern int DirectoryMgrCompareName(DirEntry **e1p, DirEntry **e2p);
 extern int DirectoryMgrCompareNameDirsFirst(DirEntry **e1p, DirEntry **e2p);

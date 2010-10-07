@@ -109,40 +109,6 @@
 
  *===========================================================================*/
 
-#if (!NeedFunctionPrototypes)
-
-static void Initialize();
-static void Redisplay();
-static XtGeometryResult PreferredGeometry();
-static void Destroy();
-static void Resize();
-static Boolean SetValues();
-
-static void DestroyOldData();
-static void InitializeNewData();
-static void CreateNewGCs();
-
-static void RecalcCoords();
-static void NegotiateSizeChange();
-static Boolean Layout();
-
-static void RedrawAll();
-static void RedrawItem();
-static void RedrawRowColumn();
-
-static void PixelToRowColumn();
-static void RowColumnToPixels();
-static Boolean RowColumnToItem();
-static Boolean ItemToRowColumn();
-
-static void Select();
-static void Unselect();
-static void Toggle();
-static void Extend();
-static void Notify();
-
-#else
-
 static void Initialize(Widget request, Widget new);
 static void Destroy(XfwfMultiListWidget mlw);
 static void Redisplay(XfwfMultiListWidget mlw, XEvent *event, Region rectangle_union);
@@ -167,7 +133,6 @@ static void Unselect(XfwfMultiListWidget mlw, XEvent *event, String *params, Car
 static void Toggle(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
 static void Extend(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
 static void Notify(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardinal *num_params);
-#endif
 
 /*===========================================================================*
 
@@ -211,22 +176,22 @@ static XtResource resources[] = {
     { XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(foreground), XtRString, "XtDefaultForeground" },
     { XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_fg), XtRString, "XtDefaultBackground" },
     { XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_bg), XtRString, "XtDefaultForeground" },
-    { XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), MultiListFieldOffset(column_space), XtRImmediate, (caddr_t)8 },
-    { XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), MultiListFieldOffset(row_space), XtRImmediate, (caddr_t)0 },
-    { XtNdefaultColumns, XtCColumns, XtRInt, sizeof(int), MultiListFieldOffset(default_cols), XtRImmediate, (caddr_t)1 },
-    { XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(force_cols), XtRString, (caddr_t)"False" },
-    { XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(paste), XtRString, (caddr_t)"False" },
-    { XtNverticalList, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(row_major), XtRString, (caddr_t)"False" },
-    { XtNlongest, XtCLongest, XtRInt, sizeof(int), MultiListFieldOffset(longest), XtRImmediate, (caddr_t)0 },
-    { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), MultiListFieldOffset(nitems), XtRImmediate, (caddr_t)0 },
+    { XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), MultiListFieldOffset(column_space), XtRImmediate, (XtPointer)8 },
+    { XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension), MultiListFieldOffset(row_space), XtRImmediate, (XtPointer)0 },
+    { XtNdefaultColumns, XtCColumns, XtRInt, sizeof(int), MultiListFieldOffset(default_cols), XtRImmediate, (XtPointer)1 },
+    { XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(force_cols), XtRString, "False" },
+    { XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(paste), XtRString, "False" },
+    { XtNverticalList, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(row_major), XtRString, "False" },
+    { XtNlongest, XtCLongest, XtRInt, sizeof(int), MultiListFieldOffset(longest), XtRImmediate, (XtPointer)0 },
+    { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), MultiListFieldOffset(nitems), XtRImmediate, 0 },
     { XtNfont, XtCFont, XtRFontStruct, sizeof(XFontStruct *), MultiListFieldOffset(font), XtRString, "XtDefaultFont" },
     { XtNlist, XtCList, XtRPointer, sizeof(char **), MultiListFieldOffset(list), XtRString, NULL },
     { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), MultiListFieldOffset(sensitive_array), XtRString, NULL },
-    { XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t), MultiListFieldOffset(callback), XtRCallback, NULL },
-    { XtNmaxSelectable, XtCValue, XtRInt, sizeof(int), MultiListFieldOffset(max_selectable), XtRImmediate, (caddr_t)1 },
+    { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), MultiListFieldOffset(callback), XtRCallback, NULL },
+    { XtNmaxSelectable, XtCValue, XtRInt, sizeof(int), MultiListFieldOffset(max_selectable), XtRImmediate, (XtPointer)1 },
     { XtNshadeSurplus, XtCBoolean, XtRBoolean, sizeof(Boolean), MultiListFieldOffset(shade_surplus), XtRString, "True" },
-    { XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension), MultiListFieldOffset(col_width), XtRImmediate, (caddr_t) 0},
-    { XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension), MultiListFieldOffset(row_height), XtRImmediate, (caddr_t) 0},
+    { XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension), MultiListFieldOffset(col_width), XtRImmediate, (XtPointer) 0},
+    { XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension), MultiListFieldOffset(row_height), XtRImmediate, (XtPointer) 0},
     { XtNtablist, XtCTablist, XtRString, sizeof(int *), MultiListFieldOffset(tablist), XtRImmediate, (XtPointer)NULL },
 };
 #endif
@@ -1275,7 +1240,7 @@ static void Notify(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardi
     }
     ret_value.num_selected = MultiListNumSelected(mlw);
     ret_value.selected_items = MultiListSelArray(mlw);
-    XtCallCallbacks((Widget)mlw, XtNcallback, (caddr_t)&ret_value);
+    XtCallCallbacks((Widget)mlw, XtNcallback, (XtPointer)&ret_value);
 } /* End Notify */
 
 /*===========================================================================*
@@ -1469,6 +1434,7 @@ int XfwfMultiListToggleItem(XfwfMultiListWidget mlw, int item_index)
 	fields contain the highlight information.  The action field
 	is set to MULTILIST_ACTION_STATUS, and the item_index and string
 	fields are invalid.
+        It is not thread-safe (returns pointer to static object).
 
  *---------------------------------------------------------------------------*/
 

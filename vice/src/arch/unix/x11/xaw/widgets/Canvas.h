@@ -56,19 +56,15 @@ typedef struct _CanvasClassRec *CanvasWidgetClass;
 typedef struct _CanvasRec *CanvasWidget;
 
 typedef void(*XfwfCanvasExposeProc) (
-#if NeedFunctionPrototypes
     Widget w,
     XExposeEvent *event,
     Region region,
     XtPointer client_data
-#endif
 );
 
 typedef void(*XfwfCanvasResizeProc)(
-#if NeedFunctionPrototypes
     Widget w,
     XtPointer client_data
-#endif
 );
 
 #endif /* _Canvas_h */

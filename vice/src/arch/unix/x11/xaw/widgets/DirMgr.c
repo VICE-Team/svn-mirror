@@ -49,7 +49,8 @@
 DirectoryMgr *DirectoryMgrSimpleOpen(char *path, int sort_type, char *pattern)
 {
     DirectoryMgr *dm;
-    PFI f_func, s_func;
+    PFI f_func;
+    PFIcomp s_func;
     fwf_regex_t f_data;
 
     if (pattern == NULL) {
@@ -80,7 +81,7 @@ int DirectoryMgrSimpleRefilter(DirectoryMgr *dm, char *pattern)
 
 int DirectoryMgrSimpleResort(DirectoryMgr *dm, int sort_type)
 {
-    PFI c_func;
+    PFIcomp c_func;
 
     if (!DirectoryMgrSimpleSortingFunc(sort_type, &c_func)) {
         return FALSE;
@@ -107,7 +108,7 @@ int DirectoryMgrCanOpen(char *path)
     return(status);
 } /* End DirectoryMgrCanOpen */
 
-DirectoryMgr *DirectoryMgrOpen(char *path, PFI c_func, PFI f_func, fwf_regex_t *f_data, int free_data)
+DirectoryMgr *DirectoryMgrOpen(char *path, PFIcomp c_func, PFI f_func, fwf_regex_t *f_data, int free_data)
 {
     DirectoryMgr *dm;
 
@@ -213,11 +214,11 @@ int DirectoryMgrRefresh(DirectoryMgr *dm)
     return TRUE;
 } /* End DirectoryMgrRefresh */
 
-void DirectoryMgrResort(DirectoryMgr *dm, PFI c_func)
+void DirectoryMgrResort(DirectoryMgr *dm, PFIcomp c_func)
 {
     DirectoryMgrCompFunc(dm) = c_func;
     if (c_func != NULL) {
-        qsort(DirectoryMgrSortedPtrs(dm), DirectoryMgrFilteredCount(dm), sizeof(DirEntry *), DirectoryMgrCompFunc(dm));
+        qsort(DirectoryMgrSortedPtrs(dm), DirectoryMgrFilteredCount(dm), sizeof(DirEntry *), (int (*)(const void *, const void *))DirectoryMgrCompFunc(dm));
     }
     DirectoryMgrRestart(dm);
 } /* End DirectoryMgrResort */
@@ -309,7 +310,7 @@ int DirectoryMgrSimpleFilterFunc(char *pattern, PFI *ff_ptr, fwf_regex_t *fd_ptr
     return TRUE;
 } /* End DirectoryMgrSimpleFilterFunc */
 
-int DirectoryMgrSimpleSortingFunc(int sort_type, PFI *sf_ptr)
+int DirectoryMgrSimpleSortingFunc(int sort_type, PFIcomp *sf_ptr)
 {
     *sf_ptr = NULL;
     switch (sort_type) {

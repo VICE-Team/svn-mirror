@@ -242,21 +242,8 @@ typedef struct _XfwfMultiListReturnStruct
 
  *---------------------------------------------------------------------------*/
 
-#if (!NeedFunctionPrototypes)
-
-extern Boolean XfwfMultiListHighlightItem();
-extern void XfwfMultiListHighlightAll();
-extern void XfwfMultiListUnhighlightItem();
-extern void XfwfMultiListUnhighlightAll();
-extern int XfwfMultiListToggleItem();
-extern XfwfMultiListReturnStruct *XfwfMultiListGetHighlighted();
-extern Boolean XfwfMultiListIsHighlighted();
-extern Boolean XfwfMultiListGetItemInfo();
-extern void XfwfMultiListSetNewData();
-
-#else
-
 extern Boolean XfwfMultiListHighlightItem(XfwfMultiListWidget mlw, int item_index);
+extern void XfwfScrolledListShowItem(Widget w, int item_index);
 extern void XfwfMultiListHighlightAll(XfwfMultiListWidget mlw);
 extern void XfwfMultiListUnhighlightItem(XfwfMultiListWidget mlw, int item_index);
 extern void XfwfMultiListUnhighlightAll(XfwfMultiListWidget mlw);
@@ -265,7 +252,5 @@ extern XfwfMultiListReturnStruct *XfwfMultiListGetHighlighted(XfwfMultiListWidge
 extern Boolean XfwfMultiListIsHighlighted(XfwfMultiListWidget mlw, int item_index);
 extern Boolean XfwfMultiListGetItemInfo(XfwfMultiListWidget mlw, int item_index, String *str_ptr, Boolean *h_ptr, Boolean *s_ptr);
 extern void XfwfMultiListSetNewData(XfwfMultiListWidget mlw, String *list, int nitems, int longest, Boolean resize, Boolean *sensitivity_array);
-
-#endif
 
 #endif
