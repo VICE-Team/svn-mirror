@@ -1039,16 +1039,30 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
     store_bank_io(addr, value);
 }
 
+/* VIC-II reads from cart memory */
+
+/* FIXME: only works for cart in main slot */
+BYTE REGPARM1 ultimax_romh_phi1_read(WORD addr)
+{
+    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+}
+
+/* FIXME: only works for cart in main slot */
+BYTE REGPARM1 ultimax_romh_phi2_read(WORD addr)
+{
+    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+}
+
 /* FIXME: only works for cart in main slot */
 BYTE *ultimax_romh_phi1_ptr(WORD addr)
 {
-    return romh_banks + (romh_bank << 13) + addr;
+    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
 }
 
 /* FIXME: only works for cart in main slot */
 BYTE *ultimax_romh_phi2_ptr(WORD addr)
 {
-    return romh_banks + (romh_bank << 13) + addr;
+    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
 }
 
 /* read from cart memory for monitor */

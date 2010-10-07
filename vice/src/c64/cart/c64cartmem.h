@@ -83,5 +83,7 @@ extern void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value);
 
 extern BYTE *ultimax_romh_phi1_ptr(WORD addr);
 extern BYTE *ultimax_romh_phi2_ptr(WORD addr);
+extern BYTE REGPARM1 ultimax_romh_phi1_read(WORD addr);
+extern BYTE REGPARM1 ultimax_romh_phi2_read(WORD addr);
 
 #endif
