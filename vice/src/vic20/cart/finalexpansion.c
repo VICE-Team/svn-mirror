@@ -40,6 +40,7 @@
 #include "flash040.h"
 #include "log.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
@@ -808,4 +809,18 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
     mem_initialize_memory();
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int REGPARM1 finalexpansion_mon_dump(void)
+{
+    mon_out("Register A: $%02x, B: $%02x, lock bit %i\n", register_a, register_b, lock_bit);
+    /* TODO mode, BLKwise breakdown... */
+    return 0;
+}
+
+void finalexpansion_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
+{
+    mon_ioreg_add_list(mem_ioreg_list, "Final Expansion", 0x9c02, 0x9c03, finalexpansion_mon_dump);
 }

@@ -38,6 +38,7 @@
 #include "machine.h"
 #include "megacart.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
@@ -117,11 +118,6 @@ BYTE REGPARM1 megacart_ram123_read(WORD addr)
     } else {
         return vic20_v_bus_last_data;
     }
-}
-
-BYTE REGPARM1 megacart_ram123_peek(WORD addr)
-{
-    return cart_nvram[addr & 0x1fff];
 }
 
 /* store 0x0400-0x0fff */
@@ -242,11 +238,6 @@ BYTE REGPARM1 megacart_io2_read(WORD addr)
         value = vic20_cpu_last_data;
     }
     return value;
-}
-
-BYTE REGPARM1 megacart_io2_peek(WORD addr)
-{
-    return cart_nvram[addr & 0x1fff];
 }
 
 /* store 0x9800-0x9bff */
@@ -611,4 +602,59 @@ int megacart_snapshot_read_module(snapshot_t *s)
     mem_initialize_memory();
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int REGPARM1 megacart_mon_dump(void)
+{
+    BYTE bank_low;
+    BYTE bank_high;
+    int ram_low_en;
+    int ram_high_en;
+    int ram_wp;
+
+    /* get bank registers */
+    bank_low = (oe_flop) ? bank_low_reg : 0x7f;
+    bank_high = (oe_flop) ? bank_high_reg : 0x7f;
+
+    /* determine flags from bank registers. */
+    ram_low_en = (bank_low & 0x80) ? 1 : 0;
+    ram_high_en = (bank_high & 0x80) ? 1 : 0;
+    ram_wp = (bank_high & 0x40) ? 0 : 1;
+
+    mon_out("Registers: Bank low $%02x, high $%02x\n", bank_low_reg, bank_high_reg);
+    mon_out("NvRAM flop: %i, OE flop: %i\n", nvram_en_flop, oe_flop);
+    mon_out("RAM123: %s\n", nvram_en_flop ? "NvRAM" : "off");
+
+    mon_out("BLKn: ");
+    if (!ram_low_en) {
+        mon_out("ROM bank $%02x, offset $%06x\n", bank_low, bank_low * 0x2000);
+    } else {
+        if (ram_high_en) {
+            mon_out("RAM %s\n", ram_wp ? "(write protected)" : "");
+        } else {
+            mon_out("off\n");
+        }
+    }
+
+    mon_out("BLK5: ");
+    if (!ram_high_en) {
+        mon_out("ROM bank $%02x, offset $%06x\n", bank_high, bank_high * 0x2000 + 0x100000);
+    } else {
+        if (!ram_low_en) {
+            mon_out("ROM bank $%02x, offset $%06x\n", bank_low, bank_low * 0x2000);
+        } else {
+            mon_out("RAM %s\n", ram_wp ? "(write protected)" : "");
+        }
+    }
+
+    return 0;
+}
+
+void megacart_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
+{
+    /* The registers are rather far apart in the address space, so instead
+       of flooding the "io" output, just show the start of I/O3 range. */
+    mon_ioreg_add_list(mem_ioreg_list, "Mega-Cart", 0x9c00, 0x9c00, megacart_mon_dump);
 }

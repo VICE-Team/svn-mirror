@@ -76,9 +76,9 @@ BYTE REGPARM1 cartridge_peek_ram123(WORD addr)
     case CARTRIDGE_VIC20_GENERIC:
         return generic_ram123_read(addr);
     case CARTRIDGE_VIC20_FP:
-        return vic_fp_ram123_peek(addr);
+        return vic_fp_ram123_read(addr);
     case CARTRIDGE_VIC20_MEGACART:
-        return megacart_ram123_peek(addr);
+        return megacart_ram123_read(addr);
     case CARTRIDGE_VIC20_FINAL_EXPANSION:
         return finalexpansion_ram123_read(addr);
     default:
@@ -132,7 +132,7 @@ BYTE REGPARM1 cartridge_peek_blk1(WORD addr)
     case CARTRIDGE_VIC20_GENERIC:
         return generic_blk1_read(addr);
     case CARTRIDGE_VIC20_FP:
-        return vic_fp_blk1_peek(addr);
+        return vic_fp_blk1_read(addr);
     case CARTRIDGE_VIC20_MEGACART:
         return megacart_blk123_read(addr);
     case CARTRIDGE_VIC20_FINAL_EXPANSION:
@@ -291,7 +291,7 @@ BYTE REGPARM1 cartridge_peek_blk5(WORD addr)
     case CARTRIDGE_VIC20_GENERIC:
         return generic_blk5_read(addr);
     case CARTRIDGE_VIC20_FP:
-        return vic_fp_blk5_peek(addr);
+        return vic_fp_blk5_read(addr);
     case CARTRIDGE_VIC20_MEGACART:
         return megacart_blk5_read(addr);
     case CARTRIDGE_VIC20_FINAL_EXPANSION:
@@ -341,7 +341,7 @@ BYTE REGPARM1 cartridge_peek_io2(WORD addr)
     case CARTRIDGE_VIC20_FP:
         return vic_fp_io2_peek(addr);
     case CARTRIDGE_VIC20_MEGACART:
-        return megacart_io2_peek(addr);
+        return megacart_io2_read(addr);
     default:
         break;
     }
@@ -403,6 +403,25 @@ void REGPARM2 cartridge_store_io3(WORD addr, BYTE value)
         break;
     }
     vic20_mem_v_bus_store(addr);
+}
+
+/* ------------------------------------------------------------------------- */
+
+void cartridge_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
+{
+    switch (mem_cartridge_type) {
+    case CARTRIDGE_VIC20_FP:
+        vic_fp_ioreg_add_list(mem_ioreg_list);
+        break;
+    case CARTRIDGE_VIC20_MEGACART:
+        megacart_ioreg_add_list(mem_ioreg_list);
+        break;
+    case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        finalexpansion_ioreg_add_list(mem_ioreg_list);
+        break;
+    default:
+        break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

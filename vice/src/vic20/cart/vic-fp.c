@@ -42,6 +42,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
@@ -143,11 +144,6 @@ BYTE REGPARM1 vic_fp_ram123_read(WORD addr)
     }
 }
 
-BYTE REGPARM1 vic_fp_ram123_peek(WORD addr)
-{
-    return cart_ram[(addr & 0x1fff) + 0x2000];
-}
-
 /* store 0x0400-0x0fff */
 void REGPARM2 vic_fp_ram123_store(WORD addr, BYTE value)
 {
@@ -164,11 +160,6 @@ BYTE REGPARM1 vic_fp_blk1_read(WORD addr)
     }
 
     return vic20_cpu_last_data;
-}
-
-BYTE REGPARM1 vic_fp_blk1_peek(WORD addr)
-{
-    return cart_ram[addr];
 }
 
 /* store 0x2000-0x3fff */
@@ -198,15 +189,6 @@ BYTE REGPARM1 vic_fp_blk5_read(WORD addr)
         return cart_ram[addr & 0x1fff];
     } else {
         return flash040core_read(&flash_state, (addr & 0x1fff) | (cart_rom_bank << 13));
-    }
-}
-
-BYTE REGPARM1 vic_fp_blk5_peek(WORD addr)
-{
-    if (ram5_flop) {
-        return cart_ram[addr & 0x1fff];
-    } else {
-        return flash040core_peek(&flash_state, (addr & 0x1fff) | (cart_rom_bank << 13));
     }
 }
 
@@ -500,4 +482,21 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
     mem_initialize_memory();
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int REGPARM1 vic_fp_mon_dump(void)
+{
+    mon_out("I/O2 %sabled\n", cfg_en_flop ? "en" : "dis");
+    mon_out("BLK5 is R%cM %s\n", ram5_flop ? 'A' : 'O', CART_CFG_BLK5_WP ? "(write protected)" : "");
+    mon_out("BLK1 %sabled\n", blk1_en_flop ? "en" : "dis");
+    mon_out("RAM123 %sabled\n", ram123_en_flop ? "en" : "dis");
+    mon_out("ROM bank $%03x, offset $%06x\n", cart_rom_bank, cart_rom_bank << 13);
+    return 0;
+}
+
+void vic_fp_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
+{
+    mon_ioreg_add_list(mem_ioreg_list, "Vic Flash Plugin", 0x9800, 0x9801, vic_fp_mon_dump);
 }

@@ -54,5 +54,8 @@ BYTE REGPARM1 cartridge_read_io3(WORD addr);
 BYTE REGPARM1 cartridge_peek_io3(WORD addr);
 void REGPARM2 cartridge_store_io3(WORD addr, BYTE value);
 
+struct mem_ioreg_list_s;
+extern void cartridge_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
+
 #endif
 
