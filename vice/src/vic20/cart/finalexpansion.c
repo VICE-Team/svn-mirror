@@ -813,10 +813,170 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
 
 /* ------------------------------------------------------------------------- */
 
+static const char *finalexpansion_acc_mode[] = {
+    "off",
+    "RAM",
+    "ROM"
+};
+
+static void finalexpansion_mon_dump_blk(int blk)
+{
+    int mode;
+    BYTE reg_mask;
+    int sel;
+    int bank_r, bank_w;
+    WORD base;
+    enum { ACC_OFF, ACC_RAM, ACC_FLASH } acc_mode_r, acc_mode_w;
+
+    mon_out("BLK %i: ", blk);
+
+    switch (blk) {
+        case 1:
+            reg_mask = REGA_BLK1_SEL;
+            base = BLK1_BASE;
+            break;
+        case 2:
+            reg_mask = REGA_BLK2_SEL;
+            base = BLK2_BASE;
+            break;
+        case 3:
+            reg_mask = REGA_BLK3_SEL;
+            base = BLK3_BASE;
+            break;
+        case 5:
+            reg_mask = REGA_BLK5_SEL;
+            base = BLK5_BASE;
+            break;
+        default:
+            mon_out("?\n");
+            return;
+    }
+
+    if (register_b & reg_mask) {
+        mon_out("off\n");
+        return;
+    }
+
+    mode = register_a & REGA_MODE_MASK;
+    sel = register_a & reg_mask;
+
+    bank_r = register_a & REGA_BANK_MASK;
+    bank_w = bank_r;
+
+    switch (mode) {
+        default:
+        case MODE_START:
+            bank_r = 0;
+            bank_w = 1;
+            acc_mode_r = (blk == 5) ? ACC_FLASH : ACC_OFF;
+            acc_mode_w = ACC_RAM;
+            break;
+        case MODE_FLASH:
+            acc_mode_r = ACC_FLASH;
+            acc_mode_w = ACC_FLASH;
+            break;
+        case MODE_SUPER_ROM:
+#ifdef FE3_2_SUPER_ROM_BUG
+            bank_w = 1 | (register_a & REGA_BANK_MASK);
+#endif
+            acc_mode_r = ACC_FLASH;
+            acc_mode_w = ACC_RAM;
+            break;
+        case MODE_SUPER_RAM:
+            acc_mode_r = ACC_RAM;
+            acc_mode_w = ACC_RAM;
+            break;
+        case MODE_ROM_RAM:
+            bank_r = 1;
+            bank_w = sel ? 2 : 1;
+            acc_mode_r = sel ? ACC_FLASH : ACC_RAM;
+            acc_mode_w = sel ? ACC_RAM : ACC_OFF;
+            break;
+        case MODE_RAM1:
+            bank_r = 1;
+            bank_w = sel ? 2 : 1;
+            acc_mode_r = ACC_RAM;
+            acc_mode_w = ACC_RAM;
+            break;
+        case MODE_RAM2:
+            bank_r = sel ? 2 : 1;
+            bank_w = 1;
+            acc_mode_r = ACC_RAM;
+            acc_mode_w = ACC_RAM;
+            break;
+    }
+
+    mon_out("\n  read %s ", finalexpansion_acc_mode[acc_mode_r]);
+
+    if (acc_mode_r != ACC_OFF) {
+        mon_out("bank $%02x offset $%06x", bank_r, calc_addr(0, bank_r, base));
+    }
+
+    mon_out("\n write %s ", finalexpansion_acc_mode[acc_mode_w]);
+
+    if (acc_mode_w != ACC_OFF) {
+        mon_out("bank $%02x offset $%06x", bank_w, calc_addr(0, bank_w, base));
+    }
+
+    mon_out("\n");
+}
+
+static const char *finalexpansion_mode_name[] = {
+    "Start",
+    "Flash",
+    "Super ROM",
+    "RAM/ROM",
+    "RAM 1",
+    "Super RAM",
+    "RAM 2"
+};
+
 static int REGPARM1 finalexpansion_mon_dump(void)
 {
+    BYTE mode;
+    int blk, active, ro;
+
+    mode = register_a & REGA_MODE_MASK;
+
     mon_out("Register A: $%02x, B: $%02x, lock bit %i\n", register_a, register_b, lock_bit);
-    /* TODO mode, BLKwise breakdown... */
+    mon_out("Mode: %s\n", finalexpansion_mode_name[mode >> 5]);
+
+    /* BLK 0 */
+    mon_out("BLK 0: ");
+    active = 0;
+    ro = 0;
+
+    if (!(register_b & REGB_BLK0_OFF)) {
+        switch (mode) {
+            case MODE_SUPER_ROM:
+            case MODE_SUPER_RAM:
+                active = 1;
+                break;
+            case MODE_ROM_RAM:
+            case MODE_RAM1:
+            case MODE_RAM2:
+                active = 1;
+                ro = register_a & REGA_BLK0_RO;
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    if (active) {
+        mon_out("RAM%s, offset $%06x\n", ro ? " (read only)" : "", calc_addr(0, 0, BLK0_BASE));
+    } else {
+        mon_out("off\n");
+    }
+
+    /* BLK 1, 2, 3, 5 */
+    for (blk = 1; blk <= 3; blk++) {
+        finalexpansion_mon_dump_blk(blk);
+    }
+
+    finalexpansion_mon_dump_blk(5);
+
     return 0;
 }
 

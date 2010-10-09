@@ -416,6 +416,16 @@ CLOCK vic_lightpen_timing(int x, int y)
     return pulse_time;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static const char *fetch_state_name[] = {
+    "idle",
+    "start",
+    "matrix",
+    "chargen",
+    "done"
+};
+
 /* Make a "real" 16b address from the 14b VIC address */
 static inline int vic_dump_addr(int addr)
 {
@@ -425,18 +435,82 @@ static inline int vic_dump_addr(int addr)
 
 int vic_dump(void)
 {
-    /* TODO: add a lot more output */
+    int xstart, ystart, xstop, ystop, cols, lines, addr;
+    int matrix_base, char_base;
+
     mon_out("Raster cycle/line: %d/%d\n", vic.raster_cycle, vic.raster_line);
-    mon_out("X/Y: %d/%d, size %dx%d\n",
-            vic.raster.display_xstart / (4 * VIC_PIXEL_WIDTH),
-            vic.raster.display_ystart,
-            vic.text_cols, vic.text_lines);
-    mon_out("Matrix: %04x, Char: %04x\n",
-            vic_dump_addr(((vic.regs[5] & 0xf0) << 6) | ((vic.regs[2] & 0x80) << 2)),
-            vic_dump_addr((vic.regs[5] & 0xf) << 10));
-    mon_out("Y counter: %d, char height: %d\n",
+
+    matrix_base = ((vic.regs[5] & 0xf0) << 6) | ((vic.regs[2] & 0x80) << 2);
+    char_base = (vic.regs[5] & 0xf) << 10;
+
+    mon_out("Matrix: $%04x, Char: $%04x, Memptr: $%03x\n",
+            vic_dump_addr(matrix_base),
+            vic_dump_addr(char_base),
+            vic.memptr);
+
+    mon_out("Y counter: %d, char height: %d, offset: %i\n",
             vic.raster.ycounter,
-            vic.char_height);
+            vic.char_height,
+            vic.buf_offset);
+
+    mon_out("Fetch: %s, from ", fetch_state_name[vic.fetch_state]);
+
+    switch (vic.fetch_state) {
+        case VIC_FETCH_MATRIX:
+            addr = matrix_base + (vic.memptr + vic.buf_offset);
+            mon_out("$%04x\n", vic_dump_addr(addr));
+            break;
+
+        case VIC_FETCH_CHARGEN:
+            addr = char_base
+                 + (vic.vbuf * vic.char_height + (vic.raster.ycounter & ((vic.char_height >> 1) | 7)));
+
+            mon_out("$%04x (vbuf $%02x)\n", vic_dump_addr(addr), vic.vbuf);
+            break;
+        default:
+            mon_out("??\n");
+            break;
+    }
+
+    mon_out("Size: X/Y - X/Y, chars\n");
+
+    cols = vic.regs[2] & 0x7f;
+    lines = (vic.regs[3] & 0x7e) >> 1;
+    xstart = (vic.regs[0] & 0x7f) * 4;
+    ystart = vic.regs[1] << 1;
+    xstop = xstart + cols * 8;
+    ystop = ystart + lines * vic.char_height;
+
+    mon_out("  Set: %d/%d - %d/%d, %dx%d\n",
+            xstart, ystart, xstop, ystop, cols, lines);
+
+    mon_out(" Real: ");
+
+    if (vic.fetch_state != VIC_FETCH_IDLE) {
+        mon_out("%d/", vic.raster.display_xstart / VIC_PIXEL_WIDTH);
+    } else {
+        mon_out("?/");
+    }
+
+    if ((vic.area == VIC_AREA_DISPLAY) || (vic.area == VIC_AREA_DONE)) {
+        mon_out("%d - ", vic.raster.display_ystart);
+    } else {
+        mon_out("? - ");
+    }
+
+    if (vic.fetch_state != VIC_FETCH_IDLE) {
+        mon_out("%d/", vic.raster.display_xstop / VIC_PIXEL_WIDTH);
+    } else {
+        mon_out("?/");
+    }
+
+    if (vic.area == VIC_AREA_DONE) {
+        mon_out("%d, ", vic.raster.display_ystop);
+    } else {
+        mon_out("?, ");
+    }
+
+    mon_out("%dx%d\n", vic.text_cols, vic.text_lines);
 
     return 0;
 }
