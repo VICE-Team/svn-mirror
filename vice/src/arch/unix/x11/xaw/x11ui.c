@@ -92,6 +92,7 @@
 #include "widgets/Canvas.h"
 #include "widgets/FileSel.h"
 #include "widgets/TextField.h"
+#include "viewport.h"
 #include "video.h"
 #include "videoarch.h"
 #include "screenshot.h"
