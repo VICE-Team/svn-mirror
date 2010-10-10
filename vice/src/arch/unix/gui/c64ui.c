@@ -339,8 +339,10 @@ UI_MENU_DEFINE_RADIO(CIA1Model)
 static ui_menu_entry_t set_cia1model_submenu[] = {
     { N_("*6526 (old)"), (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)0, NULL },
-    { N_("*6526A (new)"), (ui_callback_t)radio_CIA1Model,
+    { N_("*6526 (new)"), (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)1, NULL },
+    { N_("*6526 (old, Timer B bug)"), (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -349,8 +351,10 @@ UI_MENU_DEFINE_RADIO(CIA2Model)
 static ui_menu_entry_t set_cia2model_submenu[] = {
     { N_("*6526 (old)"), (ui_callback_t)radio_CIA2Model,
       (ui_callback_data_t)0, NULL },
-    { N_("*6526A (new)"), (ui_callback_t)radio_CIA2Model,
+    { N_("*6526 (new)"), (ui_callback_t)radio_CIA2Model,
       (ui_callback_data_t)1, NULL },
+    { N_("*6526 (old, Timer B bug)"), (ui_callback_t)radio_CIA2Model,
+      (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
