@@ -1,9 +1,8 @@
 /*
- * c64model.c - C64 model detection and setting.
+ * c64scmodel.c - C64 model detection and setting.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -65,6 +64,7 @@ static int is_new_sid(int model)
             return 1;
     }
 }
+
 static int is_new_cia(int model)
 {
     switch (model) {
@@ -79,26 +79,28 @@ static int is_new_cia(int model)
 }
 
 struct model_s {
-    int video;   /* machine video timing */
-    int luma;    /* old or new */
-    int cia;     /* old or new */
-    int sid;     /* old or new */
-    int sidtype; /* specific type for residfp */
+    int vicii;
+    int video;
+    int luma;
+    int cia;
+    int glue;
+    int sid;
 };
 
 static struct model_s c64models[] = {
-    { MACHINE_SYNC_PAL,     1, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { MACHINE_SYNC_PAL,     1, 1, 1, SID_MODEL_DEFAULT_NEW },
-    { MACHINE_SYNC_PAL,     0, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { MACHINE_SYNC_NTSC,    1, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { MACHINE_SYNC_NTSC,    1, 1, 1, SID_MODEL_DEFAULT_NEW },
-    { MACHINE_SYNC_NTSCOLD, 0, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { MACHINE_SYNC_PALN,    1, 0, 0, SID_MODEL_DEFAULT_OLD }
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, SID_MODEL_DEFAULT_NEW },
+    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, SID_MODEL_DEFAULT_NEW },
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD }
 };
 
 /* ------------------------------------------------------------------------- */
-int c64model_get_temp(int video, int sid_model, int glue_logic,
-                        int cia1_model, int cia2_model, int new_luma)
+
+int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
+                      int cia1_model, int cia2_model, int new_luma)
 {
     int new_sid;
     int new_cia;
@@ -112,10 +114,11 @@ int c64model_get_temp(int video, int sid_model, int glue_logic,
     new_cia = is_new_cia(cia1_model);
 
     for (i = 0; i < C64MODEL_NUM; ++i) {
-        if ((c64models[i].video == video)
+        if ((c64models[i].vicii == vicii_model)
          && (c64models[i].luma == new_luma)
-         && (c64models[i].cia == new_cia)
-         && (c64models[i].sid == new_sid)) {
+         && (is_new_cia(c64models[i].cia) == new_cia)
+         && (c64models[i].glue == glue_logic)
+         && (is_new_sid(c64models[i].sid) == new_sid)) {
             return i;
         }
     }
@@ -125,17 +128,18 @@ int c64model_get_temp(int video, int sid_model, int glue_logic,
 
 int c64model_get(void)
 {
-    int video, sid_model, cia1_model, cia2_model, new_luma;
+    int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma;
 
-    if ((resources_get_int("MachineVideoStandard", &video) < 0)
+    if ((resources_get_int("VICIIModel", &vicii_model) < 0)
      || (resources_get_int("SidModel", &sid_model) < 0)
+     || (resources_get_int("GlueLogic", &glue_logic) < 0)
      || (resources_get_int("CIA1Model", &cia1_model) < 0)
      || (resources_get_int("CIA2Model", &cia2_model) < 0)
      || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
         return -1;
     }
 
-    return c64model_get_temp(video, sid_model, 0,
+    return c64model_get_temp(vicii_model, sid_model, glue_logic, 
                             cia1_model, cia2_model, new_luma);
 }
 
@@ -144,8 +148,6 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
                        int *new_luma)
 {
     int old_model;
-    int old_engine;
-    int old_sid_model;
     int new_sid_model;
     int old_type;
     int new_type;
@@ -157,30 +159,23 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
         return;
     }
 
-    *vicii_model = c64models[model].video;
+    *vicii_model = c64models[model].vicii;
     *cia1_model = c64models[model].cia;
     *cia2_model = c64models[model].cia;
-    *glue_logic = 0;
+    *glue_logic = c64models[model].glue;
     *new_luma = c64models[model].luma;
 
     /* Only change the SID model if the model changes from 6581 to 8580
-       or the specific SID type changes if residfp is used. This allows
-       to switch between "pal"/"oldpal" without changing the specific
-       SID model. The current engine is preserved. */
-    old_engine = (*sid_model >> 8);
-    old_sid_model = (*sid_model & 0xff);
+       or ReSID-fp wasn't used. This allows to switch between "pal"/"oldpal"
+       without changing the specific SID model. ReSID-fp is enforced, since
+       x64sc aims for accuracy. */
+    new_sid_model = c64models[model].sid;
 
-    if (old_engine == SID_ENGINE_RESID_FP) {
-        new_sid_model = c64models[model].sidtype;
-    } else {
-        new_sid_model = c64models[model].sid;
-    }
-
-    old_type = is_new_sid(old_sid_model);
+    old_type = is_new_sid(*sid_model);
     new_type = is_new_sid(new_sid_model);
 
-    if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
-        *sid_model = (old_engine << 8 ) | new_sid_model;
+    if (((*sid_model >> 8) !=  SID_ENGINE_RESID_FP) || (old_type != new_type)) {
+        *sid_model = (SID_ENGINE_RESID_FP << 8 ) | new_sid_model;
     }
 }
 
@@ -199,28 +194,23 @@ void c64model_set(int model)
         return;
     }
 
-    resources_set_int("MachineVideoStandard", c64models[model].video);
+    resources_set_int("VICIIModel", c64models[model].vicii);
     resources_set_int("CIA1Model", c64models[model].cia);
     resources_set_int("CIA2Model", c64models[model].cia);
-    resources_set_int("VICIINewLuminances", c64models[model].luma);
+    resources_set_int("GlueLogic", c64models[model].glue);
 
     /* Only change the SID model if the model changes from 6581 to 8580
-       or the specific SID type changes if residfp is used. This allows
-       to switch between "pal"/"oldpal" without changing the specific
-       SID model. The current engine is preserved. */
-
+       or ReSID-fp wasn't used. This allows to switch between "pal"/"oldpal"
+       without changing the specific SID model. ReSID-fp is enforced, since
+       x64sc aims for accuracy. */
     resources_get_int("SidEngine", &old_engine);
     resources_get_int("SidModel", &old_sid_model);
-    if (old_engine == SID_ENGINE_RESID_FP) {
-        new_sid_model = c64models[model].sidtype;
-    } else {
-        new_sid_model = c64models[model].sid;
-    }
+    new_sid_model = c64models[model].sid;
 
     old_type = is_new_sid(old_sid_model);
     new_type = is_new_sid(new_sid_model);
 
-    if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
-        sid_set_engine_model(old_engine, new_sid_model);
+    if ((old_engine != SID_ENGINE_RESID_FP) || (old_type != new_type)) {
+        sid_set_engine_model(SID_ENGINE_RESID_FP, new_sid_model);
     }
 }

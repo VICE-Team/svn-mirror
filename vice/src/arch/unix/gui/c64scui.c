@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "c64model.h"
+#include "cia.h"
 #include "debug.h"
 #include "icon.h"
 #include "machine.h"
@@ -146,11 +147,11 @@ UI_MENU_DEFINE_RADIO(CIA1Model)
 
 static ui_menu_entry_t set_cia1model_submenu[] = {
     { N_("*6526 (old)"), (ui_callback_t)radio_CIA1Model,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)CIA_MODEL_6526, NULL },
     { N_("*6526 (new)"), (ui_callback_t)radio_CIA1Model,
-      (ui_callback_data_t)1, NULL },
+      (ui_callback_data_t)CIA_MODEL_6526A, NULL },
     { N_("*6526 (old, Timer B bug)"), (ui_callback_t)radio_CIA1Model,
-      (ui_callback_data_t)2, NULL },
+      (ui_callback_data_t)CIA_MODEL_6526X, NULL },
     { NULL }
 };
 
@@ -158,11 +159,11 @@ UI_MENU_DEFINE_RADIO(CIA2Model)
 
 static ui_menu_entry_t set_cia2model_submenu[] = {
     { N_("*6526 (old)"), (ui_callback_t)radio_CIA2Model,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)CIA_MODEL_6526, NULL },
     { N_("*6526 (new)"), (ui_callback_t)radio_CIA2Model,
-      (ui_callback_data_t)1, NULL },
+      (ui_callback_data_t)CIA_MODEL_6526A, NULL },
     { N_("*6526 (old, Timer B bug)"), (ui_callback_t)radio_CIA2Model,
-      (ui_callback_data_t)2, NULL },
+      (ui_callback_data_t)CIA_MODEL_6526X, NULL },
     { NULL }
 };
 
