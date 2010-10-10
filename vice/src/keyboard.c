@@ -55,7 +55,8 @@
 #include "util.h"
 
 
-#define KEYBOARD_RAND() (rand() % machine_get_cycles_per_frame())
+/* #define KEYBOARD_RAND() (rand() % machine_get_cycles_per_frame()) */
+#define KEYBOARD_RAND() (1 + (int)(((float)machine_get_cycles_per_frame()) * rand() / (RAND_MAX + 1.0)))
 
 /* Keyboard array.  */
 int keyarr[KBD_ROWS];
@@ -77,6 +78,8 @@ static keyboard_machine_func_t keyboard_machine_func = NULL;
 static CLOCK keyboard_delay;
 
 static int keyboard_clear = 0;
+
+static alarm_t *restore_alarm = NULL; /* restore key alarm context */
 
 static void keyboard_latch_matrix(CLOCK offset)
 {
@@ -314,9 +317,71 @@ static int keyboard_key_pressed_matrix(int row, int column, int shift)
     return 0;
 }
 
-void keyboard_key_pressed(signed long key)
+/*
+    restore key handling. restore key presses are distributed randomly
+    across a frame.
+
+    FIXME: when network play is active this is not the case yet
+*/
+
+static int restore_raw = 0;
+static int restore_delayed = 0;
+static int restore_quick_release = 0;
+
+static void restore_alarm_triggered(CLOCK offset, void *data)
 {
     DWORD event_data;
+    alarm_unset(restore_alarm);
+
+    event_data = (DWORD)restore_delayed;
+    machine_set_restore_key(restore_delayed);
+    event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
+    restore_delayed = 0;
+
+    if (restore_quick_release) {
+        restore_quick_release = 0;
+        alarm_set(restore_alarm, maincpu_clk + KEYBOARD_RAND());
+    }
+}
+
+static void keyboard_restore_pressed(void)
+{
+    DWORD event_data;
+    event_data = (DWORD)1;
+    if (network_connected()) {
+        network_event_record(EVENT_KEYBOARD_RESTORE,
+                (void*)&event_data, sizeof(DWORD));
+    } else {
+        if (restore_raw == 0) {
+            restore_delayed = 1;
+            restore_quick_release = 0;
+            alarm_set(restore_alarm, maincpu_clk + KEYBOARD_RAND());
+        }
+    }
+    restore_raw = 1;
+}
+
+static void keyboard_restore_released(void)
+{
+    DWORD event_data;
+    event_data = (DWORD)0;
+    if (network_connected()) {
+        network_event_record(EVENT_KEYBOARD_RESTORE,
+                (void*)&event_data, sizeof(DWORD));
+    } else {
+        if (restore_raw == 1) {
+            if (restore_delayed) {
+                restore_quick_release = 1;
+            } else {
+                alarm_set(restore_alarm, maincpu_clk + KEYBOARD_RAND());
+            }
+        }
+    }
+    restore_raw = 0;
+}
+
+void keyboard_key_pressed(signed long key)
+{
     int i, latch;
 
     if (event_playback_active())
@@ -326,17 +391,7 @@ void keyboard_key_pressed(signed long key)
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
         && machine_has_restore_key())
     {
-            event_data = (DWORD)1;
-        if (network_connected()) {
-            network_event_record(EVENT_KEYBOARD_RESTORE, 
-                    (void*)&event_data, sizeof(DWORD));
-        }
-        else
-        {
-            machine_set_restore_key(1);
-            event_record(EVENT_KEYBOARD_RESTORE, 
-                        (void*)&event_data, sizeof(DWORD));
-        }
+        keyboard_restore_pressed();
         return;
     }
 
@@ -433,7 +488,6 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
 
 void keyboard_key_released(signed long key)
 {
-    DWORD event_data;
     int i, latch;
 
     if (event_playback_active())
@@ -443,17 +497,7 @@ void keyboard_key_released(signed long key)
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
         && machine_has_restore_key())
     {
-        event_data = (DWORD)0;
-        if (network_connected()) {
-            network_event_record(EVENT_KEYBOARD_RESTORE, 
-                    (void*)&event_data, sizeof(DWORD));
-        }
-        else
-        {
-            machine_set_restore_key(0);
-            event_record(EVENT_KEYBOARD_RESTORE, (void *)&event_data, 
-                sizeof(DWORD));
-        }
+        keyboard_restore_released();
         return;
     }
 
@@ -1037,7 +1081,8 @@ void keyboard_init(void)
 
     keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
                                keyboard_latch_handler, NULL);
-
+    restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
+                                restore_alarm_triggered, NULL);
 #ifdef COMMON_KBD
     kbd_arch_init();
 
