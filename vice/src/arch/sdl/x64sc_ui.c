@@ -33,7 +33,7 @@
 #include "debug.h"
 #include "c64mem.h"
 #include "menu_c64cart.h"
-#include "menu_c64schw.h"
+#include "menu_c64hw.h"
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"

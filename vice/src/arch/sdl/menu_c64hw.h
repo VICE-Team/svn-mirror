@@ -32,5 +32,6 @@
 #include "uimenu.h"
 
 extern const ui_menu_entry_t c64_hardware_menu[];
+extern const ui_menu_entry_t c64sc_hardware_menu[];
 
 #endif

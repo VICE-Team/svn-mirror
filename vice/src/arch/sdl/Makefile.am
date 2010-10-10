@@ -60,8 +60,8 @@ libarch_a_SOURCES = \
 	menu_c64dtvhw.h \
 	menu_c64hw.c \
 	menu_c64hw.h \
-	menu_c64schw.c \
-	menu_c64schw.h \
+	menu_c64model.c \
+	menu_c64model.h \
 	menu_cbm2cart.c \
 	menu_cbm2cart.h \
 	menu_cbm2hw.c \

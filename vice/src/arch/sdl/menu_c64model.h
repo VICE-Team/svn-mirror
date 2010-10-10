@@ -1,8 +1,8 @@
 /*
- * menu_c64schw.h - C64SC HW menu for SDL UI.
+ * menu_c64model.h - C64 model menu for SDL UI.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,14 @@
  *
  */
 
-#ifndef VICE_MENU_C64SCHW_H
-#define VICE_MENU_C64SCHW_H
+#ifndef VICE_MENU_C64MODEL_H
+#define VICE_MENU_C64MODEL_H
 
 #include "vice.h"
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t c64sc_hardware_menu[];
+extern const ui_menu_entry_t c64_model_menu[];
+extern const ui_menu_entry_t c64sc_model_menu[];
 
 #endif

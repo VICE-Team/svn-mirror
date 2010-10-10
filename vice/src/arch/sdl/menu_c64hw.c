@@ -32,6 +32,7 @@
 
 #include "menu_c64_common_expansions.h"
 #include "menu_c64_expansions.h"
+#include "menu_c64model.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
 
@@ -63,14 +64,92 @@ UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 const ui_menu_entry_t c64_hardware_menu[] = {
+    { "Model settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c64_model_menu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)joystick_c64_menu },
-    { "SID settings",
+#ifdef HAVE_MOUSE
+    { "Mouse emulation",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)sid_c64_menu },
+      (ui_callback_data_t)mouse_menu },
+    { "Lightpen emulation",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)lightpen_menu },
+#endif
+    { "RAM pattern settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ram_menu },
+    { "ROM settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c64_vic20_rom_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Hardware expansions"),
+    { "256K settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c64_256k_menu },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)rs232_menu },
+#endif
+    { "Digimax settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)digimax_menu },
+#ifdef HAVE_MIDI
+    { "MIDI settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)midi_c64_menu },
+#endif
+    { "PLUS60K settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)plus60k_menu },
+    { "PLUS256K settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)plus256k_menu },
+#ifdef HAVE_TFE
+    { "The Final Ethernet settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tfe_menu },
+#endif
+    { "SFX Sound Expander settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)soundexpander_menu },
+    { "SFX Sound Sampler",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundSampler_callback,
+      NULL },
+    { "Emulator ID",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_EmuID_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t c64sc_hardware_menu[] = {
+    { "Model settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c64sc_model_menu },
+    { "Joystick settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)joystick_c64_menu },
 #ifdef HAVE_MOUSE
     { "Mouse emulation",
       MENU_ENTRY_SUBMENU,

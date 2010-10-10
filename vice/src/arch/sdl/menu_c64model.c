@@ -1,8 +1,9 @@
 /*
- * menu_c64schw.c - C64SC HW menu for SDL UI.
+ * menu_c64model.c - C64 model menu for SDL UI.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,35 +33,15 @@
 
 #include "c64model.h"
 #include "cia.h"
-#include "menu_c64_common_expansions.h"
-#include "menu_c64_expansions.h"
+#include "machine.h"
 #include "menu_common.h"
-#include "menu_joystick.h"
-
-#ifdef HAVE_MIDI
-#include "menu_midi.h"
-#endif
-
-#ifdef HAVE_MOUSE
-#include "menu_lightpen.h"
-#include "menu_mouse.h"
-#endif
-
-#include "menu_ram.h"
-#include "menu_rom.h"
-
-#ifdef HAVE_RS232
-#include "menu_rs232.h"
-#endif
-
 #include "menu_sid.h"
-
-#ifdef HAVE_TFE
-#include "menu_tfe.h"
-#endif
-
+#include "resources.h"
 #include "uimenu.h"
 #include "vicii.h"
+
+/* ------------------------------------------------------------------------- */
+/* common */
 
 static UI_MENU_CALLBACK(custom_C64Model_callback)
 {
@@ -113,9 +94,42 @@ static const ui_menu_entry_t c64_model_submenu[] = {
     SDL_MENU_LIST_END
 };
 
+static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
+{
+    /* Display the SID model by using the submenu radio callback 
+       on the first submenu (SID model) of the SID settings. */
+    return submenu_radio_callback(0, sid_c64_menu[0].data);
+}
+
+UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
+
+#define CIA_MODEL_MENU(xyz)           \
+UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
+static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
+    { "6526  (old)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526 },                 \
+    { "6526x (old)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526X },                \
+    { "6526A (new)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526A },                \
+    SDL_MENU_LIST_END                                       \
+};
+
+CIA_MODEL_MENU(1)
+CIA_MODEL_MENU(2)
+
+/* ------------------------------------------------------------------------- */
+/* x64sc */
+
 UI_MENU_DEFINE_RADIO(VICIIModel)
 
-static const ui_menu_entry_t vicii_model_submenu[] = {
+static const ui_menu_entry_t viciisc_model_submenu[] = {
     { "6569 (PAL)",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VICIIModel_callback,
@@ -147,39 +161,9 @@ static const ui_menu_entry_t vicii_model_submenu[] = {
     SDL_MENU_LIST_END
 };
 
-static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
-{
-    /* Display the SID model by using the submenu radio callback 
-       on the first submenu (SID model) of the SID settings. */
-    return submenu_radio_callback(0, sid_c64_menu[0].data);
-}
-
-UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
-
-#define CIA_MODEL_MENU(xyz)           \
-UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
-static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
-    { "6526  (old)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526 },                 \
-    { "6526x (old)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526X },                \
-    { "6526A (new)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526A },                \
-    SDL_MENU_LIST_END                                       \
-};
-
-CIA_MODEL_MENU(1)
-CIA_MODEL_MENU(2)
-
 UI_MENU_DEFINE_RADIO(GlueLogic)
 
-static const ui_menu_entry_t c64sc_model_menu[] = {
+const ui_menu_entry_t c64sc_model_menu[] = {
     { "C64 model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -188,7 +172,7 @@ static const ui_menu_entry_t c64sc_model_menu[] = {
     { "VICII model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)vicii_model_submenu },
+      (ui_callback_data_t)viciisc_model_submenu },
     { "New luminances",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIINewLuminances_callback,
@@ -221,83 +205,136 @@ static const ui_menu_entry_t c64sc_model_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
-UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+/* ------------------------------------------------------------------------- */
+/* x64 */
 
-const ui_menu_entry_t c64sc_hardware_menu[] = {
-    { "Model settings",
+#define VICMODEL_UNKNOWN -1
+#define VICMODEL_NUM 5
+
+struct vicmodel_s {
+    int video;
+    int luma;
+};
+
+static struct vicmodel_s vicmodels[] = {
+    { MACHINE_SYNC_PAL,     1 },
+    { MACHINE_SYNC_PAL,     0 },
+    { MACHINE_SYNC_NTSC,    1 },
+    { MACHINE_SYNC_NTSCOLD, 0 },
+    { MACHINE_SYNC_PALN,    1 }
+};
+
+static int vicmodel_get_temp(int video,int new_luma)
+{
+    int i;
+
+    for (i = 0; i < VICMODEL_NUM; ++i) {
+        if ((vicmodels[i].video == video)
+         && (vicmodels[i].luma == new_luma)) {
+            return i;
+        }
+    }
+
+    return VICMODEL_UNKNOWN;
+}
+
+static int vicmodel_get(void)
+{
+    int video, new_luma;
+
+    if ((resources_get_int("MachineVideoStandard", &video) < 0)
+     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        return -1;
+    }
+
+    return vicmodel_get_temp(video, new_luma);
+}
+
+static void vicmodel_set(int model)
+{
+    int old_model;
+
+    old_model = vicmodel_get();
+
+    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
+        return;
+    }
+
+    resources_set_int("MachineVideoStandard", vicmodels[model].video);
+    resources_set_int("VICIINewLuminances", vicmodels[model].luma);
+}
+
+static UI_MENU_CALLBACK(custom_VICIIModel_callback)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(param);
+
+    if (activated) {
+        vicmodel_set(selected);
+    } else {
+        model = vicmodel_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
+        }
+    }
+
+    return NULL;
+}
+
+static const ui_menu_entry_t vicii_model_submenu[] = {
+    { "PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VICIIModel_callback,
+      (ui_callback_data_t)0 },
+    { "Old PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VICIIModel_callback,
+      (ui_callback_data_t)1 },
+    { "NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VICIIModel_callback,
+      (ui_callback_data_t)2 },
+    { "Old NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VICIIModel_callback,
+      (ui_callback_data_t)3 },
+    { "PAL-N",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VICIIModel_callback,
+      (ui_callback_data_t)4 },
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t c64_model_menu[] = {
+    { "C64 model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64sc_model_menu },
-    { "Joystick settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)joystick_c64_menu },
-#ifdef HAVE_MOUSE
-    { "Mouse emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)mouse_menu },
-    { "Lightpen emulation",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)lightpen_menu },
-#endif
-    { "RAM pattern settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ram_menu },
-    { "ROM settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64_vic20_rom_menu },
+      submenu_radio_callback,
+      (ui_callback_data_t)c64_model_submenu },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Hardware expansions"),
-    { "256K settings",
+    { "VICII model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64_256k_menu },
-#ifdef HAVE_RS232
-    { "RS232 settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)rs232_menu },
-#endif
-    { "Digimax settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)digimax_menu },
-#ifdef HAVE_MIDI
-    { "MIDI settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)midi_c64_menu },
-#endif
-    { "PLUS60K settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)plus60k_menu },
-    { "PLUS256K settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)plus256k_menu },
-#ifdef HAVE_TFE
-    { "The Final Ethernet settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)tfe_menu },
-#endif
-    { "SFX Sound Expander settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)soundexpander_menu },
-    { "SFX Sound Sampler",
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_model_submenu },
+    { "New luminances",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SFXSoundSampler_callback,
+      toggle_VICIINewLuminances_callback,
       NULL },
-    { "Emulator ID",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_EmuID_callback,
-      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "SID settings",
+      MENU_ENTRY_SUBMENU,
+      custom_sidsubmenu_callback,
+      (ui_callback_data_t)sid_c64_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("CIA models"),
+    { "CIA 1 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia1_model_submenu },
+    { "CIA 2 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia2_model_submenu },
     SDL_MENU_LIST_END
 };
