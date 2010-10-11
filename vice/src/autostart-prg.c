@@ -150,7 +150,8 @@ int autostart_prg_with_virtual_fs(const char *file_name,
     resources_set_int("VirtualDevices", 1);
     resources_set_int("FSDevice8ConvertP00", 1);
     file_system_detach_disk(8);
-    
+    resources_set_int("FileSystemDevice8", ATTACH_DEVICE_FS);
+
     lib_free(directory);
     lib_free(file);
     
