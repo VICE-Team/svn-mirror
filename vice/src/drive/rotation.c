@@ -135,6 +135,12 @@ inline static void write_next_bit(drive_t *dptr, int value)
     int off = dptr->GCR_head_offset;
     int byte_offset = off >> 3;
     int bit = (~off) & 7;
+
+    /* if no image is attached, writes do nothing */
+    if (dptr->GCR_image_loaded == 0) {
+        return;
+    }
+
     dptr->GCR_head_offset = (off + 1) % (dptr->GCR_current_track_size << 3);
 
     if (value) {
@@ -149,6 +155,12 @@ inline static int read_next_bit(drive_t *dptr)
     int off = dptr->GCR_head_offset;
     int byte_offset = off >> 3;
     int bit = (~off) & 7;
+
+    /* if no image is attached, read 0 */
+    if (dptr->GCR_image_loaded == 0) {
+        return 0;
+    }
+
     dptr->GCR_head_offset = (off + 1) % (dptr->GCR_current_track_size << 3);
 
     return (dptr->GCR_track_start_ptr[byte_offset] >> bit) & 1;

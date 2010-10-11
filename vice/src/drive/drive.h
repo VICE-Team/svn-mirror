@@ -132,7 +132,7 @@ typedef struct drive_s {
     /* Disk ID.  */
     BYTE diskID1, diskID2;
 
-    /* Flag: does the current need to be written out to disk?  */
+    /* Flag: does the current track need to be written out to disk?  */
     int GCR_dirty_track;
 
     /* GCR value being written to the disk.  */
