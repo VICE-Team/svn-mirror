@@ -63,8 +63,10 @@ ui_menu_entry_t uiperipheral_set_device8_type_submenu[] = {
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice8,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
+#ifdef HAVE_RAWDRIVE
     { N_("*Raw device access"), (ui_callback_t)radio_FileSystemDevice8,
       (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+#endif
     { NULL }
 };
 
@@ -77,8 +79,10 @@ ui_menu_entry_t uiperipheral_set_device9_type_submenu[] = {
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice9,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
+#ifdef HAVE_RAWDRIVE
     { N_("*Raw device access"), (ui_callback_t)radio_FileSystemDevice9,
       (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+#endif
     { NULL }
 };
 
@@ -91,8 +95,10 @@ ui_menu_entry_t uiperipheral_set_device10_type_submenu[] = {
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice10,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
+#ifdef HAVE_RAWDRIVE
     { N_("*Raw device access"), (ui_callback_t)radio_FileSystemDevice10,
       (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+#endif
     { NULL }
 };
 
@@ -105,7 +111,9 @@ ui_menu_entry_t uiperipheral_set_device11_type_submenu[] = {
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice11,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
+#ifdef HAVE_RAWDRIVE
     { N_("*Raw device access"), (ui_callback_t)radio_FileSystemDevice11,
       (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+#endif
     { NULL }
 };
