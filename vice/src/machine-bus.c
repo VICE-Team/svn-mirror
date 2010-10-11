@@ -34,6 +34,13 @@
 #include "serial.h"
 #include "types.h"
 
+/* #define DEBUG_BUS */
+
+#ifdef DEBUG_BUS
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 /* Call this if device is not attached: -128 == device not present.  */
 static int fn(void)
@@ -83,20 +90,25 @@ int machine_bus_device_attach(unsigned int unit, const char *name,
 
     p = serial_device_get(unit);
 
-    if (p->inuse != 0)
+    DBG(("machine_bus_device_attach unit %d devtype:%d inuse:%d\n", unit, p->device, p->inuse));
+
+    if (p->inuse != 0) {
         machine_bus_device_detach(unit);
+    }
 
-    p->getf = getf;
-    p->putf = putf;
-    p->openf = openf;
-    p->closef = closef;
-    p->flushf = flushf;
-    p->listenf = listenf;
-
-    p->inuse = 1;
-
-    lib_free(p->name);
-    p->name = lib_stralloc(name);
+    if (p->device != SERIAL_DEVICE_NONE) {
+        p->getf = getf;
+        p->putf = putf;
+        p->openf = openf;
+        p->closef = closef;
+        p->flushf = flushf;
+        p->listenf = listenf;
+        p->inuse = 1;
+        if (p->name) {
+            lib_free(p->name);
+        }
+        p->name = lib_stralloc(name);
+    }
 
     for (i = 0; i < 16; i++) {
         p->nextok[i] = 0;
@@ -111,6 +123,8 @@ int machine_bus_device_detach(unsigned int unit)
 {
     serial_t *p;
 
+    DBG(("machine_bus_device_detach unit %d\n", unit));
+
     if (unit >= SERIAL_MAXDEVICES) {
         log_error(LOG_DEFAULT, "Illegal device number %d.", unit);
         return -1;
@@ -120,8 +134,17 @@ int machine_bus_device_detach(unsigned int unit)
 
     if (p != NULL && p->inuse != 0) {
         p->inuse = 0;
-        lib_free(p->name);
+        if (p->name) {
+            lib_free(p->name);
+        }
         p->name = NULL;
+        p->getf = (int (*)(struct vdrive_s *, BYTE *, unsigned int))fn;
+        p->putf = (int (*)(struct vdrive_s *, BYTE, unsigned int))fn;
+        p->openf = (int (*)(struct vdrive_s *, const BYTE *, unsigned int,
+                   unsigned int, struct cbmdos_cmd_parse_s *))fn;
+        p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
+        p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
+        p->listenf = (void (*)(struct vdrive_s *, unsigned int))NULL;
     }
 
     return 0;

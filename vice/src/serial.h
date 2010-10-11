@@ -31,13 +31,13 @@
 
 #include "types.h"
 
-
 #define SERIAL_MAXDEVICES 16
 
-#define SERIAL_DEVICE_VIRT 0
-#define SERIAL_DEVICE_FS   1
-#define SERIAL_DEVICE_REAL 2
-#define SERIAL_DEVICE_RAW  3
+#define SERIAL_DEVICE_NONE 0
+#define SERIAL_DEVICE_FS   1 /* filesystem */
+#define SERIAL_DEVICE_REAL 2 /* real IEC device (opencbm) */
+#define SERIAL_DEVICE_RAW  3 /* raw device */
+#define SERIAL_DEVICE_VIRT 4 /* non-tde drive/image */
 
 struct cbmdos_cmd_parse_s;
 struct disk_image_s;
