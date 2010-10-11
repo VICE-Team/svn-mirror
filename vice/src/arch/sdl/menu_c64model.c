@@ -3,7 +3,6 @@
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,7 +35,6 @@
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_sid.h"
-#include "resources.h"
 #include "uimenu.h"
 #include "vicii.h"
 
@@ -208,102 +206,25 @@ const ui_menu_entry_t c64sc_model_menu[] = {
 /* ------------------------------------------------------------------------- */
 /* x64 */
 
-#define VICMODEL_UNKNOWN -1
-#define VICMODEL_NUM 5
+UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
-struct vicmodel_s {
-    int video;
-    int luma;
-};
-
-static struct vicmodel_s vicmodels[] = {
-    { MACHINE_SYNC_PAL,     1 },
-    { MACHINE_SYNC_PAL,     0 },
-    { MACHINE_SYNC_NTSC,    1 },
-    { MACHINE_SYNC_NTSCOLD, 0 },
-    { MACHINE_SYNC_PALN,    1 }
-};
-
-static int vicmodel_get_temp(int video,int new_luma)
-{
-    int i;
-
-    for (i = 0; i < VICMODEL_NUM; ++i) {
-        if ((vicmodels[i].video == video)
-         && (vicmodels[i].luma == new_luma)) {
-            return i;
-        }
-    }
-
-    return VICMODEL_UNKNOWN;
-}
-
-static int vicmodel_get(void)
-{
-    int video, new_luma;
-
-    if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
-        return -1;
-    }
-
-    return vicmodel_get_temp(video, new_luma);
-}
-
-static void vicmodel_set(int model)
-{
-    int old_model;
-
-    old_model = vicmodel_get();
-
-    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
-        return;
-    }
-
-    resources_set_int("MachineVideoStandard", vicmodels[model].video);
-    resources_set_int("VICIINewLuminances", vicmodels[model].luma);
-}
-
-static UI_MENU_CALLBACK(custom_VICIIModel_callback)
-{
-    int model, selected;
-
-    selected = vice_ptr_to_int(param);
-
-    if (activated) {
-        vicmodel_set(selected);
-    } else {
-        model = vicmodel_get();
-
-        if (selected == model) {
-            return sdl_menu_text_tick;
-        }
-    }
-
-    return NULL;
-}
-
-static const ui_menu_entry_t vicii_model_submenu[] = {
+static const ui_menu_entry_t video_standard_submenu[] = {
     { "PAL",
       MENU_ENTRY_RESOURCE_RADIO,
-      custom_VICIIModel_callback,
-      (ui_callback_data_t)0 },
-    { "Old PAL",
-      MENU_ENTRY_RESOURCE_RADIO,
-      custom_VICIIModel_callback,
-      (ui_callback_data_t)1 },
+      radio_MachineVideoStandard_callback,
+      (ui_callback_data_t)MACHINE_SYNC_PAL },
     { "NTSC",
       MENU_ENTRY_RESOURCE_RADIO,
-      custom_VICIIModel_callback,
-      (ui_callback_data_t)2 },
+      radio_MachineVideoStandard_callback,
+      (ui_callback_data_t)MACHINE_SYNC_NTSC },
     { "Old NTSC",
       MENU_ENTRY_RESOURCE_RADIO,
-      custom_VICIIModel_callback,
-      (ui_callback_data_t)3 },
+      radio_MachineVideoStandard_callback,
+      (ui_callback_data_t)MACHINE_SYNC_NTSCOLD },
     { "PAL-N",
       MENU_ENTRY_RESOURCE_RADIO,
-      custom_VICIIModel_callback,
-      (ui_callback_data_t)4 },
+      radio_MachineVideoStandard_callback,
+      (ui_callback_data_t)MACHINE_SYNC_PALN },
     SDL_MENU_LIST_END
 };
 
@@ -313,10 +234,10 @@ const ui_menu_entry_t c64_model_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)c64_model_submenu },
     SDL_MENU_ITEM_SEPARATOR,
-    { "VICII model",
+    { "Video standard",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)vicii_model_submenu },
+      (ui_callback_data_t)video_standard_submenu },
     { "New luminances",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIINewLuminances_callback,
