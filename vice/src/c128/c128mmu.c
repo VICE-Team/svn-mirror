@@ -62,7 +62,7 @@ static int mmu_column4080_key = 1;
 static int force_c64_mode_res = 0;
 static int force_c64_mode = 0;
 
-static int mmu_config64;
+static int mmu_config64 = 0;
 
 /* Logging goes here.  */
 static log_t mmu_log = LOG_ERR;
@@ -171,6 +171,17 @@ static void mmu_set_ram_bank(BYTE value)
 
 static void mmu_switch_to_c64mode(void)
 {
+#ifdef MMU_DEBUG
+    log_message(mmu_log, "mmu_switch_to_c64mode\n");
+#endif
+    if (force_c64_mode) {
+#ifdef MMU_DEBUG
+        log_message(mmu_log, "mmu_switch_to_c64mode: force_c64_mode\n");
+#endif
+        mmu_config64 = 0x07;
+        mmu[0] = 0x3e;
+        mmu[5] = 0xf7;
+    }
     mem_update_config(0x80 + mmu_config64);
 #if !defined(__OS2__) && !defined(RISCOS)
     keyboard_alternative_set(1);
@@ -182,6 +193,9 @@ static void mmu_switch_to_c64mode(void)
 
 static void mmu_switch_to_c128mode(void)
 {
+#ifdef MMU_DEBUG
+    log_message(mmu_log, "mmu_switch_to_c128mode\n");
+#endif
     mem_update_config(((mmu[0] & 0x2) ? 0 : 1) |
                       ((mmu[0] & 0x0c) >> 1) |
                       ((mmu[0] & 0x30) >> 1) |
