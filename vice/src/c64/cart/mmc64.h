@@ -37,6 +37,7 @@ extern int mmc64_hw_clockport;
 extern void mmc64_init_card_config(void);
 extern BYTE REGPARM1 mmc64_roml_read(WORD addr);
 extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
+extern BYTE REGPARM1 mmc64_peek_mem(WORD addr);
 
 extern void mmc64_config_setup(BYTE *rawcart);
 extern int mmc64_crt_attach(FILE *fd, BYTE *rawcart);

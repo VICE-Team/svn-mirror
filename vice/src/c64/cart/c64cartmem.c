@@ -1044,36 +1044,48 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
 /* FIXME: only works for cart in main slot */
 BYTE REGPARM1 ultimax_romh_phi1_read(WORD addr)
 {
-    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+    /* use default cartridge */
+    return generic_romh_phi1_read(addr);
 }
 
 /* FIXME: only works for cart in main slot */
 BYTE REGPARM1 ultimax_romh_phi2_read(WORD addr)
 {
-    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+    /* use default cartridge */
+    return generic_romh_phi2_read(addr);
 }
 
 /* FIXME: only works for cart in main slot */
 BYTE *ultimax_romh_phi1_ptr(WORD addr)
 {
-    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
+    /* use default cartridge */
+    return generic_romh_phi1_ptr(addr);
 }
 
 /* FIXME: only works for cart in main slot */
 BYTE *ultimax_romh_phi2_ptr(WORD addr)
 {
-    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
+    /* use default cartridge */
+    return generic_romh_phi2_ptr(addr);
 }
 
 /* read from cart memory for monitor */
-/* FIXME: only works for cart in main slot */
 BYTE cartridge_peek_mem(WORD addr)
 {
 /*    DBG(("CARTMEM cartridge_peek_mem (type %d addr %04x)\n", mem_cartridge_type, addr)); */
     /* "Slot 0" */
+    /* TODO: magic voice */
+    if (mmc64_cart_enabled()) {
+        return mmc64_peek_mem(addr);
+    }
     if (tpi_cart_enabled()) {
         return tpi_peek_mem(addr);
     }
+    /* "Slot 1" */
+    /* TODO: dqbb */
+    /* TODO: expert */
+    /* TODO: isepic */
+    /* TODO: ramcard */
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_RETRO_REPLAY:

@@ -253,6 +253,26 @@ BYTE REGPARM1 generic_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
+BYTE REGPARM1 generic_romh_phi1_read(WORD addr)
+{
+    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+}
+
+BYTE REGPARM1 generic_romh_phi2_read(WORD addr)
+{
+    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+}
+
+BYTE *generic_romh_phi1_ptr(WORD addr)
+{
+    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
+}
+
+BYTE *generic_romh_phi2_ptr(WORD addr)
+{
+    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
+}
+
 BYTE generic_peek_mem(WORD addr)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {

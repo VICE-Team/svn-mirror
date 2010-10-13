@@ -713,6 +713,15 @@ BYTE REGPARM1 mmc64_roml_read(WORD addr)
     return mem_ram[addr];
 }
 
+BYTE REGPARM1 mmc64_peek_mem(WORD addr)
+{
+    if ((addr >= 0x8000) && (addr <= 0x9fff)) {
+        return mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset];
+    } else {
+        return 0;
+    }
+}
+
 void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
 {
     /* if (addr == 0x8000) LOG(("roml w %04x %02x active: %d == 0 bios: %d == 0 flashjumper: %d == 1 flashmode: %d == 1\n", addr, byte, mmc64_active, mmc64_biossel, mmc64_flashjumper, mmc64_flashmode)); */
