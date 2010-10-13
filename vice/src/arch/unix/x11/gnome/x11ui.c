@@ -2756,8 +2756,14 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, canvas->screen_texture);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+#ifdef __BIG_ENDIAN__
+#ifndef GL_ABGR_EXT
+    #error "Your headers do not supply GL_ABGR_EXT. Disable HWSCALE and try again."
+#endif
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, canvas->gdk_image->width, canvas->gdk_image->height, 0, GL_ABGR_EXT, GL_UNSIGNED_BYTE, canvas->hwscale_image);
+#else
         glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, canvas->gdk_image->width, canvas->gdk_image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, canvas->hwscale_image);
-
+#endif
         glBegin (GL_QUADS);
 
         /* Lower Right Of Texture */
