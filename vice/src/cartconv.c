@@ -65,6 +65,7 @@ static unsigned char filebuffer[(1024 * 1024) + 2];
 static unsigned char headerbuffer[0x40];
 static unsigned char extra_buffer_32kb[0x8000];
 static unsigned char chipbuffer[16];
+static int repair_mode = 0;
 
 static int load_input_file(char *filename);
 
@@ -284,9 +285,16 @@ static void usage(void)
     sorted_cart_t *sorted_option_elements;
 
     cleanup();
-    printf("convert:    cartconv [-t carttype] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l loadaddress]\n");
-    printf("print info: cartconv -f \"input name\"\n");
-    printf("\ncarttypes:\n");
+    printf("convert:    cartconv [-r] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("print info: cartconv [-r] -f \"input name\"\n\n");
+    printf("-f <name>    print info on file\n");
+    printf("-r           repair mode (accept broken input files)\n");
+    printf("-t <type>    output cart type\n");
+    printf("-i <name>    input filename\n");
+    printf("-o <name>    output filename\n");
+    printf("-n <name>    crt cart name\n");
+    printf("-l <addr>    load address\n");
+    printf("\ncart types:\n");
 
     printf("bin      Binary .bin file (Default crt->bin)\n");
     printf("normal   Generic 8kb/12kb/16kb .crt file (Default bin->crt)\n");
@@ -350,35 +358,38 @@ static void printinfo(char *name)
     exit (0);
 }
 
-static void checkflag(char *flg, char *arg)
+static int checkflag(char *flg, char *arg)
 {
     int i;
 
     switch (tolower(flg[1])) {
         case 'f':
             printinfo(arg);
-            break;
+            return 2;
+        case 'r':
+            repair_mode = 1;
+            return 1;
         case 'o':
             if (output_filename == NULL) {
                 output_filename = strdup(arg);
             } else {
                 usage();
             }
-            break;
+            return 2;
         case 'n':
             if (cart_name == NULL) {
                 cart_name = strdup(arg);
             } else {
                 usage();
             }
-            break;
+            return 2;
         case 'l':
             if (load_address == 0) {
                 load_address = atoi(arg);
             } else {
                 usage();
             }
-            break;
+            return 2;
         case 't':
             if (cart_type != -1 || convert_to_bin != 0 || convert_to_prg != 0 || convert_to_ultimax != 0) {
                 usage();
@@ -406,17 +417,18 @@ static void checkflag(char *flg, char *arg)
                     }
                 }
             }
-            break;
+            return 2;
         case 'i':
             if (input_filenames == 33) {
                 usage();
             }
             input_filename[input_filenames] = strdup(arg);
             input_filenames++;
-            break;
+            return 2;
         default:
             usage();
     }
+    return 1;
 }
 
 static void too_many_inputs(void)
@@ -855,9 +867,15 @@ static int load_input_file(char *filename)
         loadfile_cart_type = headerbuffer[0x17];
         loadfile_size = 0;
         if (load_all_banks() < 0) {
-            printf("Error: Can't load all banks of %s\n", filename);
-            fclose(infile);
-            return -1;
+            if (repair_mode) {
+                printf("Warning: Can't load all banks of %s\n", filename);
+                fclose(infile);
+                return 0;
+            } else {
+                printf("Error: Can't load all banks of %s (use -r to force)\n", filename);
+                fclose(infile);
+                return -1;
+            }
         } else {
             fclose(infile);
             return 0;
@@ -1359,10 +1377,7 @@ int main(int argc, char *argv[])
     int arg_counter = 1;
     char *flag, *argument;
 
-    if (argc == 1) {
-        usage();
-    }
-    if (((argc >> 1) << 1) == argc) {
+    if (argc < 3) {
         usage();
     }
 
@@ -1376,10 +1391,10 @@ int main(int argc, char *argv[])
         if (flag[0] != '-') {
             usage();
         } else {
-            checkflag(flag, argument);
+            arg_counter += checkflag(flag, argument);
         }
-        arg_counter += 2;
     }
+
     if (output_filename == NULL) {
         printf("Error: no output filename\n");
         cleanup();
