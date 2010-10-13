@@ -1586,10 +1586,10 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_MEM_DESCRIPTION,    N_("Display the contents of memory.  If no datatype is given, the default\nis used.  If only one address is specified, the length of data\ndisplayed is based on the datatype.  If no addresses are given, the\n'dot' address is used.")},
+/* en */ {IDGS_MON_MEM_DESCRIPTION,    N_("Display the contents of memory.  If no datatype is given, the default\nis used.  If only one address is specified, the length of data\ndisplayed is based on the datatype.  If no addresses are given, the\n'dot' address is used.\nPlease note: due to the ambiguous meaning of 'b' and 'd' these data-\ntypes must be given in uppercase!")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_MEM_DESCRIPTION_DA, "Vis hukommelsens indhold. Hvis datatype ikke angives, bruges standard.\nHvis kun en adresse angives, justeres længden på visningen baseret\npå datatypen. Hvis der ikke angives nogen adresse anvendes \"punktum\"-adressen."},
-/* de */ {IDGS_MON_MEM_DESCRIPTION_DE, "Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\nStandarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\ndie Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \nwird die aktuelle Adresse verwendet."},
+/* de */ {IDGS_MON_MEM_DESCRIPTION_DE, "Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\nStandarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\ndie Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \nwird die aktuelle Adresse verwendet.\nAchtung: auf Grund der Mehrdeutigkeit von 'b' und 'd' müssen diese Daten-\ntypen in Grossbuchstaben angegeben werden!"},
 /* fr */ {IDGS_MON_MEM_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_MEM_DESCRIPTION_HU, "A memória tartalmának megjelenítése. Ha nincs adat típus megadva,\naz alapbeállításthasználja. Ha egy cím van megadva, a megjelenített adat\nmérete az adat típustól függ. Ha nincs cím megadva, a 'pont' címet használja."},
 /* it */ {IDGS_MON_MEM_DESCRIPTION_IT, "Mostra il contenuto della memoria. Se non è specificato alcun tipo di\ndato, verrà utilizzato quello predefinito. Se è specificato solo un indirizzo,\nla lunghezza del dato visualizato è basato sul tipo. Se non è specificato\nnessun indirizzo, varrà utilizzato l'indirizzo 'dot'."},

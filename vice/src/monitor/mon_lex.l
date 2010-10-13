@@ -64,7 +64,7 @@ YY_BUFFER_STATE my_state;
 
 HDIGIT  [0-9a-f]
 
-%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN LABEL_ASGN BNAME CTYPE
+%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN LABEL_ASGN BNAME CTYPE RADIX
 
 %%
 
@@ -139,7 +139,7 @@ HDIGIT  [0-9a-f]
         print|p         { BEGIN(INITIAL);       return CMD_PRINT; }
         pwd             { BEGIN(INITIAL);       return CMD_PWD; }
         quit            { BEGIN(INITIAL);       return CMD_QUIT; }
-        radix|rad       { BEGIN(INITIAL);       return CMD_RADIX; }
+        radix|rad       { BEGIN(RADIX);         return CMD_RADIX; }
         record|rec      { BEGIN(FNAME);         return CMD_RECORD; }
         registers|r     { BEGIN(REG_ASGN);      return CMD_REGISTERS; }
         reset           { BEGIN(INITIAL);       return CMD_MON_RESET; }
@@ -188,7 +188,7 @@ if		{ BEGIN (COND_MODE); return IF; }
 
 <STR>[^\"\n]*      { yylval.str = lib_stralloc(yytext); return STRING; }
 
-
+ /* prefixes for numbers */
 \.\$		{ yylval.i = e_hexadecimal; return INPUT_SPEC; }
 \.\+		{ yylval.i = e_decimal; return INPUT_SPEC; }
 \.%		{ yylval.i = e_binary; return INPUT_SPEC; }
@@ -199,14 +199,34 @@ if		{ BEGIN (COND_MODE); return IF; }
  /* \.S		{ yylval.i = e_sprite; return INPUT_SPEC; } */
  /* \.C		{ yylval.i = e_character; return INPUT_SPEC; } */
 
-D|d		{ yylval.i = e_decimal; return RADIX_TYPE; }
-H|h		{ yylval.i = e_hexadecimal; return RADIX_TYPE; }
-B|b		{ yylval.i = e_binary; return RADIX_TYPE; }
-O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
- /* C		{ yylval.i = e_character; return RADIX_TYPE; } */
- /* S		{ yylval.i = e_sprite; return RADIX_TYPE; } */
- /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
- /* TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
+ /* used by the "radix" command */
+<RADIX>D|d		{ yylval.i = e_decimal; return RADIX_TYPE; }
+<RADIX>H|h		{ yylval.i = e_hexadecimal; return RADIX_TYPE; }
+<RADIX>B|b		{ yylval.i = e_binary; return RADIX_TYPE; }
+<RADIX>O|o		{ yylval.i = e_octal; return RADIX_TYPE; }
+ /* <RADIX>C		{ yylval.i = e_character; return RADIX_TYPE; } */
+ /* <RADIX>S		{ yylval.i = e_sprite; return RADIX_TYPE; } */
+ /* <RADIX>TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
+ /* <RADIX>TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
+
+ /* used (currently) by the "memory" command */
+<INITIAL>H|h        { yylval.i = e_hexadecimal; return RADIX_TYPE; }
+<INITIAL>O|o        { yylval.i = e_octal; return RADIX_TYPE; }
+ /* 'b' and 'd' are ambiguous (could be either radix or hex value),
+    work around this by only accepting uppercase 'B' and 'D' as the
+    (fortunately, rarely used) radix argument to the memory command */
+<INITIAL>D          { if (yytext[0] == 'D') {
+                        yylval.i = e_decimal; return RADIX_TYPE;
+                      } else {
+                        yylval.i = 0x0d; return H_NUMBER;
+                      }
+                    }
+<INITIAL>B          { if (yytext[0] == 'B') {
+                        yylval.i = e_binary; return RADIX_TYPE;
+                      } else {
+                        yylval.i = 0x0b; return H_NUMBER;
+                      }
+                    }
 
 <BNAME,INITIAL,COND_MODE>(c|C):          { return MEM_COMP; }
 <BNAME,INITIAL,COND_MODE>8:              { return MEM_DISK8; }
