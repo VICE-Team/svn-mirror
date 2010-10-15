@@ -360,11 +360,11 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
 };
 
 static uilib_localize_dialog_param vic20_main_trans[] = {
-    { IDC_VIC20ROM_KERNAL, IDS_KERNAL, 0 },
+    { IDC_KERNAL, IDS_KERNAL, 0 },
     { IDC_VIC20ROM_KERNAL_BROWSE, IDS_BROWSE, 0 },
-    { IDC_VIC20ROM_BASIC, IDS_BASIC, 0 },
+    { IDC_BASIC, IDS_BASIC, 0 },
     { IDC_VIC20ROM_BASIC_BROWSE, IDS_BROWSE, 0 },
-    { IDC_VIC20ROM_CHARGEN, IDS_CHARACTER, 0 },
+    { IDC_CHARACTER, IDS_CHARACTER, 0 },
     { IDC_VIC20ROM_CHARGEN_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
 };
