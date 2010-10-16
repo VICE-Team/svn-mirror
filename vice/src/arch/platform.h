@@ -466,10 +466,11 @@ inline static char *platform_get_runtime_os(void)
     return "not yet implemented";
 }
 
+#ifndef PLATFORM_GET_RUNTIME_CPU_DECLARED
 inline static char *platform_get_runtime_cpu(void)
 {
-    /* dummy till implemented */
-    return "not yet implemented";
+    return "Unknown CPU";
 }
+#endif
 
 #endif

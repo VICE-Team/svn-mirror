@@ -1,48 +1,48 @@
 /* Platform CPU discovery
  *
- * CPU        | support
+ * CPU        | compiletime-support | runtime-support
  * -------------------------------------------------------
- * alpha      | yes, including sub-type
- * amd64      | yes
- * arc        | yes, including endian
- * arm        | yes, including endian and sub-type
- * avr32      | yes, no sub-type
- * blackfin   | yes, including sub-type
- * cris       | yes, including sub-type (*)
- * crx        | no
- * fr30       | no
- * frv        | no
- * h8300      | no
- * hppa       | yes, no sub-type yet
- * ia64       | yes, no sub-type yet
- * lm32       | no
- * m32c       | no
- * m32r       | no
- * m68k       | yes, including incomplete sub-type
- * m68hc1x    | no
- * mcore      | no
- * mep        | no
- * microblaze | no
- * mips       | yes, including endian, no sub-type yet
- * mips64     | yes, including endian, no sub-type yet
- * mmix       | no
- * mn10300    | no
- * ns32k      | yes
- * pdp-11     | no
- * picochip   | no
- * powerpc    | yes, no sub-type yet
- * powerpc64  | yes, no sub-type yet
- * rx         | no
- * s390       | yes
- * s390x      | yes
- * score      | no
- * sh         | yes, but incomplete sub-type and endian
- * sparc      | yes, but no sub-type
- * sparc64    | yes, but no sub-type
- * tile       | no
- * vax        | yes
- * x86        | yes, including sub-type
- * xtensa     | no
+ * alpha      | yes, +sub           | not yet
+ * amd64      | yes                 | not yet
+ * arc        | yes, +endian        | not yet
+ * arm        | yes, +endian +sub   | not yet
+ * avr32      | yes, -sub           | not yet
+ * blackfin   | yes, +sub           | not yet
+ * cris       | yes, ~sub           | not yet
+ * crx        | no                  | not yet
+ * fr30       | no                  | not yet
+ * frv        | no                  | not yet
+ * h8300      | no                  | not yet
+ * hppa       | yes, -sub           | not yet
+ * ia64       | yes, -sub           | not yet
+ * lm32       | no                  | not yet
+ * m32c       | no                  | not yet
+ * m32r       | no                  | not yet
+ * m68k       | yes, incomplete sub | not yet
+ * m68hc1x    | no                  | not yet
+ * mcore      | no                  | not yet
+ * mep        | no                  | not yet
+ * microblaze | no                  | not yet
+ * mips       | yes, +endian -sub   | not yet
+ * mips64     | yes, +endian -sub   | not yet
+ * mmix       | no                  | not yet
+ * mn10300    | no                  | not yet
+ * ns32k      | yes                 | not yet
+ * pdp-11     | no                  | not yet
+ * picochip   | no                  | not yet
+ * powerpc    | yes, -sub           | not yet
+ * powerpc64  | yes, -sub           | not yet
+ * rx         | no                  | not yet
+ * s390       | yes                 | not yet
+ * s390x      | yes                 | not yet
+ * score      | no                  | not yet
+ * sh         | yes, -sub -endian   | not yet
+ * sparc      | yes, -sub           | not yet
+ * sparc64    | yes, -sub           | not yet
+ * tile       | no                  | not yet
+ * vax        | yes                 | not yet
+ * x86        | yes, +sub           | not yet
+ * xtensa     | no                  | not yet
  */
 
 /* Generic alpha cpu discovery */
@@ -478,6 +478,455 @@
 #endif
 
 #if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU)
+
+static char *unknown = "Unknown x86-compatible";
+
+/* cpuid function */
+#ifdef __GNUC__
+#define cpuid(func, ax, bx, cx, dx) \
+    __asm__ __volatile__ ("cpuid":  \
+    "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func))
+#else
+#define cpuid(func, a, b, c, d) \
+    asm { \
+        mov eax, func \
+        cpuid \
+        mov a, eax \
+        mov b, ebx \
+        mov c, ecx \
+        mov d, edx \
+    }
+#endif
+
+/* Detect 8086/8088 CPU */
+inline static int is_8086(void)
+{
+    int is86;
+
+#ifdef __GNUC__
+    __asm__ __volatile__ ("pushf;"
+                          "pop %ax;"
+                          "mov %ax, %cx;"
+                          "and 0x0fff, %ax;"
+                          "push %ax;"
+                          "popf;"
+                          "pushf;"
+                          "pop %ax;"
+                          "and 0x0f000, %ax;"
+                          "cmp 0x0f000, %ax;"
+                          "jne check86done;"
+                          "movl $1, is86;"
+                          "check86done:");
+#else
+    asm {
+        pushfd
+        pop ax
+        mov cx, ax
+        and ax, 0fffh
+        push ax
+        popfd
+        pushfd
+        pop ax
+        and ax, 0f000h
+        cmp ax, 0f000h
+        jne check86done
+        mov is86, 1
+        check86done:
+    }
+#endif
+
+    return is86;
+}
+
+/* Detect 80386 CPU */
+inline static int is_80386(void)
+{
+    int is386;
+
+#ifdef __GNUC__
+    __asm__ __volatile__ ("pushf;"
+                          "pop %eax;"
+                          "movl %eax, %ecx;"
+                          "xorl 0x40000, %eax;"
+                          "push %eax;"
+                          "popf;"
+                          "pushf;"
+                          "pop %eax;"
+                          "xorl %ecx, %eax;"
+                          "movl $1, is386;"
+                          "jz donecheck386;"
+                          "movl $0, is386;"
+                          "donecheck386:");
+#else
+    asm {
+        pushfd
+        pop eax
+        mov ecx, eax
+        xor eax, 0x40000
+        push eax
+        popf
+        pushf
+        pop eax
+        xor eax, ecx
+        mov is386, 1
+        jz donecheck386
+        mov is386, 0
+        donecheck386:
+    }
+#endif
+    return is386;
+}
+
+inline static int is_not_80386(void)
+{
+    return !is_80386();
+}
+
+/* check if cpuid is present */
+inline static int has_cpuid(void)
+{
+    int hasCPUID;
+
+#ifdef __GNUC__
+    __asm__ __volatile__ ("pushf;"
+                          "pop %eax;"
+                          "movl %eax, %ecx;"
+                          "andl 0x00200000, %ecx;"
+                          "xorl 0x00200000, %eax;"
+                          "push %eax;"
+                          "popf;"
+                          "pushf;"
+                          "pop %eax;"
+                          "andl 0x00200000, %eax;"
+                          "xorl %ecx, %eax;"
+                          "movl %eax, hasCPUID");
+#else
+    asm {
+        pushfd
+        pop eax
+        mov ecx, eax
+        and ecx, 0x00200000
+        xor eax, 0x00200000
+        push eax
+        popfd
+        pushfd
+        pop eax
+        and eax, 0x00200000
+        xor eax, ecx
+        mov hasCPUID, eax
+    }
+#endif
+
+    return hasCPUID;
+}
+
+/* check for old i80486 */
+inline static int is_i80486(void)
+{
+    int is486;
+
+#ifdef __GNUC__
+    __asm__ __volatile__ ("movl $0x5555, %eax;"
+                          "xorl %edx, %edx;"
+                          "movl $2, %ecx;"
+                          "clc;"
+                          "divl %ecx;"
+                          "jnc donecheck486;"
+                          "movl $1, is0486;"
+                          "donecheck486:");
+#else
+    asm {
+        mov eax, 0x5555
+        xor edx, edx
+        mov ecx, 2
+        clc
+        div ecx
+        jnc donecheck486
+        mov is486, 1
+        donecheck486:
+    }
+#endif
+
+    return is486;
+}
+
+/* check for cyrix cpu */
+inline static int is_cyrix(void)
+{
+    int cyrix;
+
+#ifdef __GNUC__
+    __asm__ __volatile__ ("xor %ax, %ax;"
+                          "sahf;"
+                          "mov $5, %ax;"
+                          "mov $2, %bx;"
+                          "div %bl;"
+                          "lahf;"
+                          "cmp $2, %ah;"
+                          "jne donecheckcyrix;"
+                          "movl $1, cyrix;"
+                          "donecheckcyrix:");
+#else
+    asm {
+        xor ax, ax
+        sahf
+        mov ax, 5
+        mov bx, 2
+        div bl
+        lahf
+        cmp ah, 2
+        jne donecheckcyrix
+        mov cyrix, 1
+        donecheckcyrix:
+    }
+#endif
+
+    return cyrix;
+}
+
+inline static int is_am386dxllv(void)
+{
+    unsigned int result, temp;
+    int x;
+    unsigned int temp2 = (0x55555555 - (unsigned)&x);
+    unsigned int temp3 = (unsigned)&x;
+
+#ifdef __GNUC__
+    __asm__ __volatile__ ("pusha;"
+                          "addl $4, %0;"
+                          "popa;"
+                          "movl 0x55555555(%0, %3, 2), %1"
+                          : "=a" (result), "=r" (temp)
+                          : "a" (temp2), "r" (temp));
+#else
+    /* TODO */
+#endif
+
+    temp3 = (unsigned)&x;
+    if ((result + temp3) * 3 != -1) {
+        return 1;
+    }
+    return 0;
+}
+
+#define is_vendor_string(string) \
+    DWORD regax, regbx, regcx, regdx; \
+    char type_buf[13]; \
+    cpuid(0, regax, regbx, regcx, regdx); \
+    memcpy(type_buf + 0, &regbx, 4); \
+    memcpy(type_buf + 4, &regdx, 4); \
+    memcpy(type_buf + 8, &regcx, 4); \
+    if (!strcmp(type_buf, string)) { \
+        return 1; \
+    } \
+    return 0
+
+inline static int is_amd_vendor(void)
+{
+    is_vendor_string("AuthenticAMD");
+}
+
+inline static int is_cyrix_vendor(void)
+{
+    is_vendor_string("CyrixInstead");
+}
+
+static inline int is_umc_vendor(void)
+{
+    is_vendor_string("UMC UMC UMC ");
+}
+
+static inline int is_rise_vendor(void)
+{
+    is_vendor_string("RiseRiseRise");
+}
+
+static inline int is_nexgen_vendor(void)
+{
+    is_vendor_string("NexGenDriven");
+}
+
+static inline int is_centaur_vendor(void)
+{
+    is_vendor_string("CentaurHauls");
+}
+
+static inline int is_sis_vendor(void)
+{
+    is_vendor_string("SiS SiS SiS ");
+}
+
+static inline int is_transmeta_vendor(void)
+{
+    is_vendor_string("GenuineTMx86");
+}
+
+static inline int is_nsc_vendor(void)
+{
+    is_vendor_string("Geode by NSC");
+}
+
+typedef struct cpuid_model_s {
+    DWORD type;
+    DWORD mask;
+    char *name;
+    int (*detect)(void);
+} cpuid_model_t;
+
+cpuid_model_t cpu_models[] = {
+    { 0x0000, 0xff00, "i386DX", is_80386 },
+    { 0x0300, 0xfff0, "Am386DX(L/LV)", is_am386dxllv },
+    { 0x0300, 0xfff0, "i386DX", NULL },
+    { 0x0340, 0xfff0, "RapidCAD (tm)", NULL },
+    { 0x03D5, 0xffff, "NexGen Nx5-100", NULL },
+    { 0x2300, 0xfff0, "Am386DX(L/LV)", is_am386dxllv },
+    { 0x2300, 0xfff0, "i386SX", NULL },
+    { 0x3300, 0xff00, "i376", NULL },
+    { 0x4300, 0xfffe, "i376", NULL },
+    { 0x4302, 0xffff, "i376", NULL },
+    { 0x4300, 0xff00, "i386SL", NULL },
+    { 0xA300, 0xff00, "IBM 386SLC", NULL },
+    { 0x0000, 0xffff, "486DX", is_not_80386 },
+    { 0x0005, 0xffff, "Cx486S/D", NULL },
+    { 0x0006, 0xffff, "Cx486DX", NULL },
+    { 0x0007, 0xffff, "Cx486DX2", NULL },
+    { 0x0008, 0xffff, "Cx486DX4", NULL },
+    { 0x0400, 0xffff, "i486DX", NULL },
+    { 0x0405, 0xffff, "i486DX (P4)", NULL },
+    { 0x0400, 0xfff0, "Cx486SLC", is_cyrix },
+    { 0x0400, 0xfff0, "Am486DX", is_amd_vendor },
+    { 0x0400, 0xfff0, "i486DX", NULL },
+    { 0x0410, 0xffff, "Cx486SLC", is_cyrix_vendor },
+    { 0x0410, 0xffff, "TI486SLC/DLC/e / TI486SXL(C)/2", is_cyrix },
+    { 0x0410, 0xffff, "Am486DX", is_amd_vendor },
+    { 0x0410, 0xffff, "i486DX50", NULL },
+    { 0x0411, 0xffff, "TI486SLC/DLC/e / TI486SXL(C)/2", is_cyrix },
+    { 0x0411, 0xffff, "Am486DX", is_amd_vendor },
+    { 0x0411, 0xffff, "i486DX50", NULL },
+    { 0x0412, 0xffff, "Am486DX/DXL/DXLV/DE", NULL },
+    { 0x0413, 0xffff, "i486DX50", NULL },
+    { 0x0414, 0xffff, "i486DX50", NULL },
+    { 0x0415, 0xffff, "i486DX50", NULL },
+    { 0x0410, 0xfff0, "Cx486SLC", is_cyrix },
+    { 0x0410, 0xfff0, "UMC U5(S)D", is_umc_vendor },
+    { 0x0410, 0xfff0, "Am486DX", is_amd_vendor },
+    { 0x0410, 0xfff0, "i486DX50", NULL },
+    { 0x0420, 0xffff, "Cx486SLC", is_cyrix },
+    { 0x0420, 0xffff, "i486SX / i487SX", NULL },
+    { 0x0421, 0xffff, "i487SX", NULL },
+    { 0x0422, 0xffff, "i486SX / i487SX", NULL },
+    { 0x0423, 0xffff, "UMC U5S", is_umc_vendor },
+    { 0x0423, 0xffff, "i486SX", NULL },
+    { 0x0424, 0xffff, "i486SX", NULL },
+    { 0x0427, 0xffff, "i486SX", NULL },
+    { 0x0428, 0xffff, "Cx5x86", is_cyrix },
+    { 0x0428, 0xffff, "i486SX", NULL },
+    { 0x0429, 0xffff, "Cx5x86", NULL },
+    { 0x042A, 0xffff, "Cx5x86", is_cyrix },
+    { 0x042A, 0xffff, "i486SX", NULL },
+    { 0x042B, 0xffff, "Cx5x86", is_cyrix },
+    { 0x042B, 0xffff, "i486SX", NULL },
+    { 0x042C, 0xffff, "Cx5x86", NULL },
+    { 0x042D, 0xffff, "Cx5x86", NULL },
+    { 0x042E, 0xffff, "Cx5x86", is_cyrix },
+    { 0x042E, 0xffff, "i486SX", NULL },
+    { 0x042F, 0xffff, "Cx5x86", NULL },
+    { 0x0420, 0xfff0, "UMC U5S", is_umc_vendor },
+    { 0x0420, 0xfff0, "Cx486SLC / Cx5x86", is_cyrix },
+    { 0x0420, 0xfff0, "i486SX / i486GX / i487SX", NULL },
+    { 0x0432, 0xffff, "Am486DX2 / Am486DXL2 / Am486DX4", is_amd_vendor },
+    { 0x0432, 0xffff, "i486DX2", NULL },
+    { 0x1432, 0xffff, "i486DX2 (overdrive)", NULL },
+    { 0x0433, 0xffff, "i486DX2", NULL },
+    { 0x1433, 0xffff, "i486DX2 (overdrive)", NULL },
+    { 0x0434, 0xffff, "Am486DX2 / Am486DX4", is_amd_vendor },
+    { 0x0434, 0xffff, "i486DX2", NULL },
+    { 0x1434, 0xffff, "i486DX2 (overdrive)", NULL },
+    { 0x0435, 0xffff, "i486DX2", NULL },
+    { 0x0436, 0xffff, "i486DX2WT", NULL },
+    { 0x0430, 0xfff0, "UMC U486DX2", is_umc_vendor },
+    { 0x0430, 0xfff0, "Am486DX2 / Am486DE2 / Am486DX4", is_amd_vendor },
+    { 0x0430, 0xfff0, "i486DX2 / i487SX", NULL },
+    { 0x1430, 0xfff0, "i486DX2 (overdrive)", NULL },
+    { 0x0440, 0xfffe, "i486SL", NULL },
+    { 0x0440, 0xfff0, "MediaGX", is_cyrix_vendor },
+    { 0x0440, 0xfff0, "i486SL / i486DXL", NULL },
+    { 0x045B, 0xffff, "i486SX2", NULL },
+    { 0x0450, 0xfff0, "UMC U486SX2", is_umc_vendor },
+    { 0x0450, 0xfff0, "i486SX2", NULL },
+    { 0x0470, 0xffff, "i486DX2WB", NULL },
+    { 0x0474, 0xffff, "Am486DX2 / Am486DX4", NULL },
+    { 0x0470, 0xfff0, "Am486DX2", is_amd_vendor },
+    { 0x0470, 0xfff0, "i486DX2", NULL },
+    { 0x0480, 0xffff, "IBM BL486DX2 / Cx486DX2-V / TI486DX2", is_cyrix },
+    { 0x0480, 0xffff, "i486DX4", NULL },
+    { 0x0481, 0xffff, "TI486DX4", NULL },
+    { 0x0483, 0xffff, "i486DX4", NULL },
+    { 0x0484, 0xffff, "Am486DX4 / Am5x86", is_amd_vendor },
+    { 0x0484, 0xffff, "i486DX4", NULL },
+    { 0x0480, 0xfff0, "Am486DX4", is_amd_vendor },
+    { 0x0480, 0xfff0, "i486DX4", NULL },
+    { 0x1480, 0xfff0, "i486DX4 (overdrive)", NULL },
+    { 0x0490, 0xffff, "Cx5x86", is_cyrix },
+    { 0x0490, 0xffff, "i486DX4", NULL },
+    { 0x0494, 0xffff, "Am486DX4 / Am5x86", NULL },
+    { 0x0490, 0xfff0, "Cx5x86", is_cyrix },
+    { 0x0490, 0xfff0, "i486DX4WB", NULL },
+    { 0x04E4, 0xffff, "Am486DX5-133 / Am5x86", NULL },
+    { 0x04E0, 0xfff0, "Am5x86", NULL },
+    { 0x04F4, 0xffff, "Am486DX5-133 / Am5x86", NULL },
+    { 0x04F0, 0xfff0, "Am5x86", NULL },
+    { 0x1480, 0xffff, "i486DX4 (overdrive)", NULL },
+    { 0x8400, 0xff00, "IBM 486BLX/BLX2/BLX3", NULL },
+    { 0xA400, 0xfff0, "IBM 486SLC", NULL },
+    { 0xA412, 0xffff, "IBM 486SLC2", NULL },
+    { 0xA410, 0xfff0, "IBM 486SLC(2)", NULL },
+    { 0xA420, 0xfff0, "IBM 486SLC2", NULL },
+    { 0xA439, 0xffff, "IBM 486SLC3", NULL },
+    { 0xA430, 0xfff0, "IBM 486SLC2/SLC3", NULL },
+    { 0xA480, 0xffff, "Cx486Dx2-V / IBM BL486DX2", NULL },
+    { 0xA400, 0xff00, "IBM 486SLC", NULL },
+    { 0x0500, 0xfffe, "Am5k86 (SSA5)", NULL },
+    { 0x0504, 0xffff, "Nx586", NULL },
+    { 0x0506, 0xffff, "Nx586", NULL },
+    { 0x0500, 0xfff0, "Rise mP6 iDragon", is_rise_vendor },
+    { 0x0500, 0xfff0, "Nx586", is_nexgen_vendor },
+    { 0x0500, 0xfff0, "Am5k86", is_amd_vendor },
+    { 0x0511, 0xffff, "K5", NULL },
+    { 0x0512, 0xffff, "K5", is_amd_vendor },
+    { 0x0512, 0xffff, "Pentium", NULL },
+    { 0x0513, 0xffff, "Pentium", NULL },
+    { 0x0514, 0xffff, "K5", is_amd_vendor },
+    { 0x0514, 0xffff, "Pentium", NULL },
+    { 0, 0, NULL, NULL }
+};
+
+/* runtime cpu detection */
+inline static char* platform_get_runtime_cpu(void)
+{
+    DWORD regax, regbx, regcx, regdx;
+    int hasCPUID;
+    int i;
+
+    hasCPUID = detect_cpuid();
+    if (hasCPUID) {
+        cpuid(1, regax, regbx, regcx, regdx);
+        for (i = 0; cpu_models[i].name != NULL; i++) {
+            if ((regax & cpu_models[i].mask) == cpu_models[i].type) {
+                if (cpu_models[i].detect == NULL) {
+                    return cpu_models[i].name;
+                } else {
+                    if (cpu_models[i].detect() == 1) {
+                        return cpu_models[i].name;
+                    }
+                }
+            }
+        }
+    } else {
+    }
+}
+
+#define PLATFORM_GET_RUNTIME_CPU_DECLARED
 
 #ifdef __i686__
 #define PLATFORM_CPU "Pentium Pro"
