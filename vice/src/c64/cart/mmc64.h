@@ -40,7 +40,11 @@ extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 mmc64_peek_mem(WORD addr);
 
 extern void mmc64_config_setup(BYTE *rawcart);
+
 extern int mmc64_crt_attach(FILE *fd, BYTE *rawcart);
+extern int mmc64_bin_attach(const char *filename, BYTE *rawcart);
+extern int mmc64_bin_save(const char *filename);
+extern int mmc64_crt_save(const char *filename);
 
 extern int mmc64_resources_init(void);
 extern void mmc64_resources_shutdown(void);
@@ -48,5 +52,6 @@ extern int mmc64_cmdline_options_init(void);
 extern void mmc64_init(void);
 extern void mmc64_detach(void);
 extern void mmc64_reset(void);
+extern int mmc64_enable(void);
 
 #endif

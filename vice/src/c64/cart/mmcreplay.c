@@ -1266,7 +1266,7 @@ BYTE REGPARM1 mmcreplay_io1_read(WORD addr)
                  * $DE02 - $DE0F: Clockport memory area (when enabled)
                  */
                 if (mmcr_clockport_enabled) {
-                    if (tfe_enabled && tfe_as_rr_net && (addr & 0xff) < 0x10) {
+                    if (tfe_cart_enabled() && tfe_as_rr_net && (addr & 0xff) < 0x10) {
 #ifdef LOG_CLOCKPORT
                         LOG(("MMCREPLAY: Clockport RD %04x", addr));
 #endif
@@ -1419,7 +1419,7 @@ void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value)
                  * $DE02 - $DE0F: Clockport memory area (when enabled)
                  */
                 if (mmcr_clockport_enabled) {
-                    if (tfe_enabled && tfe_as_rr_net && (addr & 0xff) < 0x10) {
+                    if (tfe_cart_enabled() && tfe_as_rr_net && (addr & 0xff) < 0x10) {
 #ifdef LOG_CLOCKPORT
                         LOG(("MMCREPLAY: Clockport ST %04x %02x", addr,
                               value));

@@ -83,6 +83,8 @@ static int dqbb_enabled = 0;
 /* Filename of the DQBB image.  */
 static char *dqbb_filename = NULL;
 
+#define DQBB_RAM_SIZE   0x4000
+
 /* ------------------------------------------------------------------------- */
 
 int dqbb_cart_enabled(void)
@@ -141,11 +143,11 @@ static const c64export_resource_t export_res = {
 static int dqbb_activate(void)
 {
     lib_free(dqbb_ram);
-    dqbb_ram = lib_malloc(0x4000);
+    dqbb_ram = lib_malloc(DQBB_RAM_SIZE);
 
     if (!util_check_null_string(dqbb_filename)) {
-        if (util_file_load(dqbb_filename, dqbb_ram, 0x4000, UTIL_FILE_LOAD_RAW) < 0) {
-            if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
+        if (util_file_load(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {
+            if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
                 return -1;
             }
             return 0;
@@ -161,7 +163,7 @@ static int dqbb_deactivate(void)
     }
 
     if (!util_check_null_string(dqbb_filename)) {
-        if (util_file_save(dqbb_filename, dqbb_ram, 0x4000) < 0) {
+        if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
             return -1;
         }
     }
@@ -296,6 +298,11 @@ void dqbb_reset(void)
 void dqbb_init_config(void)
 {
     dqbb_reset();
+}
+
+void dqbb_config_setup(BYTE *rawcart)
+{
+    memcpy(dqbb_ram, rawcart, DQBB_RAM_SIZE);
 }
 
 /* ------------------------------------------------------------------------- */

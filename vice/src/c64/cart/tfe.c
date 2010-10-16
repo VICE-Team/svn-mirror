@@ -162,7 +162,7 @@ static int  tfe_recv_hashfilter  = 0; /* accept if IA passes the hash filter */
 static int tfe_cannot_use = 0;
 
 /* Flag: Do we have the TFE enabled?  */
-int tfe_enabled = 0;
+static int tfe_enabled = 0;
 
 /* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
 int tfe_as_rr_net = 0;
@@ -1794,6 +1794,11 @@ static int set_tfe_rr_net(int val, void *param)
     return 0;
 }
 
+int tfe_cart_enabled(void)
+{
+    return tfe_enabled;
+}
+
 static int set_tfe_enabled(int val, void *param)
 {
     if (!tfe_cannot_use) {
@@ -1851,6 +1856,11 @@ static int set_tfe_interface(const char *name, void *param)
         }
     }
     return 0;
+}
+
+int tfe_enable(void)
+{
+    return resources_set_int("ETHERNET_ACTIVE", 1);
 }
 
 static const resource_string_t resources_string[] = {

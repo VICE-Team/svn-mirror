@@ -438,6 +438,11 @@ void ramcart_reset(void)
     ramcart[1] = 0;
 }
 
+void ramcart_config_setup(BYTE *rawcart)
+{
+    memcpy(ramcart_ram, rawcart, ramcart_size); /* FIXME */
+}
+
 void ramcart_detach(void)
 {
     resources_set_int("RAMCART", 0);

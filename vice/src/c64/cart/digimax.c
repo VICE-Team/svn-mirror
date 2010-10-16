@@ -57,7 +57,7 @@
 */
 
 /* Flag: Do we enable the external DIGIMAX cartridge?  */
-int digimax_enabled;
+static int digimax_enabled = 0;
 
 /* DIGIMAX address */
 int digimax_address;
@@ -70,6 +70,35 @@ static BYTE digimax_userport_direction_A;
 static BYTE digimax_userport_direction_B;
 
 /* ---------------------------------------------------------------------*/
+
+static void REGPARM2 digimax_sound_store(WORD addr, BYTE value);
+static BYTE REGPARM1 digimax_sound_read(WORD addr);
+
+static io_source_t digimax_device = {
+    "DIGIMAX",
+    IO_DETACH_RESOURCE,
+    "DIGIMAX",
+    0xde00, 0xde03, 0x03,
+    1, /* read is always valid */
+    digimax_sound_store,
+    digimax_sound_read,
+    NULL, /* FIXME: peek */
+    NULL, /* FIXME: dump */
+    CARTRIDGE_DIGIMAX
+};
+
+static io_source_list_t * digimax_list_item = NULL;
+
+static c64export_resource_t export_res = {
+    "DIGIMAX", 0, 0, &digimax_device, NULL, CARTRIDGE_DIGIMAX
+};
+
+/* ---------------------------------------------------------------------*/
+
+int digimax_cart_enabled(void)
+{
+    return digimax_enabled;
+}
 
 static BYTE digimax_sound_data[4];
 
@@ -144,27 +173,6 @@ void digimax_userport_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-static io_source_t digimax_device = {
-    "DIGIMAX",
-    IO_DETACH_RESOURCE,
-    "DIGIMAX",
-    0xde00, 0xde03, 0x03,
-    1, /* read is always valid */
-    digimax_sound_store,
-    digimax_sound_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
-    CARTRIDGE_DIGIMAX
-};
-
-static io_source_list_t * digimax_list_item = NULL;
-
-static c64export_resource_t export_res = {
-    "DIGIMAX", 0, 0, &digimax_device, NULL, CARTRIDGE_DIGIMAX
-};
-
-/* ---------------------------------------------------------------------*/
-
 static int set_digimax_enabled(int val, void *param)
 {
     if (!digimax_enabled && val) {
@@ -234,6 +242,19 @@ static int set_digimax_base(int val, void *param)
     return 0;
 }
 
+void digimax_reset(void)
+{
+}
+
+int digimax_enable(void)
+{
+    return resources_set_int("DIGIMAX", 1);
+}
+void digimax_detach(void)
+{
+    resources_set_int("DIGIMAX", 0);
+}
+
 /* ---------------------------------------------------------------------*/
 
 static const resource_int_t resources_int[] = {
@@ -248,7 +269,9 @@ int digimax_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
-
+void digimax_resources_shutdown(void)
+{
+}
 /* ---------------------------------------------------------------------*/
 
 static const cmdline_option_t cmdline_options[] =

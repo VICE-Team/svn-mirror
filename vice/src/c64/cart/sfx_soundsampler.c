@@ -75,7 +75,12 @@ static const c64export_resource_t export_res= {
 /* ------------------------------------------------------------------------- */
 
 /* Flag: Do we enable the SFX soundsampler cartridge?  */
-int sfx_soundsampler_enabled;
+static int sfx_soundsampler_enabled = 0;
+
+int sfx_soundsampler_cart_enabled(void)
+{
+    return sfx_soundsampler_enabled;
+}
 
 static int set_sfx_soundsampler_enabled(int val, void *param)
 {
@@ -96,6 +101,22 @@ static int set_sfx_soundsampler_enabled(int val, void *param)
     return 0;
 }
 
+void sfx_soundsampler_reset(void)
+{
+    /* FIXME: do nothing ? */
+}
+
+int sfx_soundsampler_enable(void)
+{
+    return resources_set_int("SFXSoundSampler", 1);
+}
+void sfx_soundsampler_detach(void)
+{
+    resources_set_int("SFXSoundSampler", 0);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static const resource_int_t resources_int[] = {
     { "SFXSoundSampler", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sfx_soundsampler_enabled, set_sfx_soundsampler_enabled, NULL },
@@ -105,6 +126,9 @@ static const resource_int_t resources_int[] = {
 int sfx_soundsampler_resources_init(void)
 {
     return resources_register_int(resources_int);
+}
+void sfx_soundsampler_resources_shutdown(void)
+{
 }
 
 static const cmdline_option_t cmdline_options[] =

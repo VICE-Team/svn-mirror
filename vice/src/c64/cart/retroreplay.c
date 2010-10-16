@@ -184,7 +184,7 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                 return ((roml_bank & 3) << 3) | ((roml_bank & 4) << 5) | ((roml_bank & 8) << 2) | allow_bank | reu_mapping | rr_hw_flashjumper;
             default:
 #ifdef HAVE_TFE
-                if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net && (addr & 0xff) < 0x10) {
+                if (rr_clockport_enabled && tfe_cart_enabled() && tfe_as_rr_net && (addr & 0xff) < 0x10) {
                     return 0;
                 }
 #endif
@@ -317,7 +317,7 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                 break;
             default:
 #ifdef HAVE_TFE
-                if (rr_clockport_enabled && tfe_enabled && tfe_as_rr_net && (addr & 0xff) < 0x10) {
+                if (rr_clockport_enabled && tfe_cart_enabled() && tfe_as_rr_net && (addr & 0xff) < 0x10) {
                     return;
                 }
 #endif
@@ -781,15 +781,15 @@ static int checkempty(int bank)
     return 1;
 }
 
-int retroreplay_save_bin(void)
+int retroreplay_bin_save(const char *filename)
 {
     FILE *fd;
 
-    if (retroreplay_filename == NULL) {
+    if (filename == NULL) {
         return -1;
     }
 
-    fd = fopen(retroreplay_filename, MODE_WRITE);
+    fd = fopen(filename, MODE_WRITE);
 
     if (fd == NULL) {
         return -1;
@@ -812,18 +812,18 @@ int retroreplay_save_bin(void)
     return 0;
 }
 
-int retroreplay_save_crt(void)
+int retroreplay_crt_save(const char *filename)
 {
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
     BYTE *data;
     int i;
 
-    if (retroreplay_filename == NULL) {
+    if (filename == NULL) {
         return -1;
     }
 
-    fd = fopen(retroreplay_filename, MODE_WRITE);
+    fd = fopen(filename, MODE_WRITE);
 
     if (fd == NULL) {
         return -1;
@@ -903,9 +903,9 @@ void retroreplay_detach(void)
 {
     if (rr_bios_write && flashrom_state->flash_dirty) {
         if (retroreplay_filetype == CARTRIDGE_FILETYPE_BIN) {
-            retroreplay_save_bin();
+            retroreplay_bin_save(retroreplay_filename);
         } else if (retroreplay_filetype == CARTRIDGE_FILETYPE_CRT) {
-            retroreplay_save_crt();
+            retroreplay_crt_save(retroreplay_filename);
         }
     }
 

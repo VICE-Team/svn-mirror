@@ -553,6 +553,13 @@ void reu_init(void)
     reu_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "REU");
 }
 
+void reu_config_setup(BYTE *rawcart)
+{
+    if (reu_size > 0) {
+        memcpy(reu_ram, rawcart, reu_size); /* FIXME */
+    }
+}
+
 /*! \brief register the BA low interface */
 void reu_ba_register(reu_ba_check_callback_t *ba_check,
                      reu_ba_steal_callback_t *ba_steal,

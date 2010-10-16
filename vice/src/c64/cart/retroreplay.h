@@ -45,6 +45,9 @@ extern void retroreplay_reset(void);
 extern void retroreplay_config_setup(BYTE *rawcart);
 extern int retroreplay_bin_attach(const char *filename, BYTE *rawcart);
 extern int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
+extern int retroreplay_bin_save(const char *filename);
+extern int retroreplay_crt_save(const char *filename);
+
 extern void retroreplay_detach(void);
 
 extern unsigned int rr_active;
@@ -53,5 +56,6 @@ extern unsigned int reu_mapping;
 
 extern int retroreplay_cmdline_options_init(void);
 extern int retroreplay_resources_init(void);
+extern void retroreplay_resources_shutdown(void);
 
 #endif

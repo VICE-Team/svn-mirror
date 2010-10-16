@@ -402,8 +402,7 @@ const char *cartridge_get_file_name(int type)
 /*
     returns 1 if the cartridge of the given type is enabled
 
-    FIXME: incomplete, currently only used by c64iec.c:iec_available_busses
-    FIXME: only works for carts in "Main Slot"
+    - used by c64iec.c:iec_available_busses
 */
 int cartridge_type_enabled(int type)
 {
@@ -511,6 +510,7 @@ int cartridge_attach_image(int type, const char *filename)
         util_string_set(&cartfile, filename);
     }
 
+    DBG(("CART: cartridge_attach_image type: %d ID: %d done.\n", type, carttype));
     lib_free(rawcart);
     return 0;
 

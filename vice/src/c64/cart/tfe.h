@@ -42,7 +42,7 @@
 
 struct snapshot_s;
 
-extern int tfe_enabled;
+extern int tfe_cart_enabled(void);
 extern int tfe_as_rr_net;
 
 extern void tfe_init(void);
@@ -51,7 +51,9 @@ extern void tfe_resources_shutdown(void);
 extern int tfe_cmdline_options_init(void);
 
 extern void tfe_reset(void);
-extern void tfe_shutdown(void);
+extern void tfe_shutdown(void); /* FIXME: review and rename to _detach */
+extern int tfe_enable(void);
+
 extern int tfe_read_snapshot_module(struct snapshot_s *s);
 extern int tfe_write_snapshot_module(struct snapshot_s *s);
 

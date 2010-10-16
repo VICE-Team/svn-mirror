@@ -45,4 +45,14 @@ enum {
     MIDI_MODE_MAPLIN            /* Electronics - Maplin magazine */
 };
 
+extern int c64_midi_cart_enabled(void);
+extern int c64_midi_seq_cart_enabled(void);
+extern int c64_midi_pp_cart_enabled(void);
+extern int c64_midi_datel_cart_enabled(void);
+extern int c64_midi_nsoft_cart_enabled(void);
+extern int c64_midi_maplin_cart_enabled(void);
+
+extern int c64_midi_enable(void);
+extern void c64_midi_detach(void);
+
 #endif

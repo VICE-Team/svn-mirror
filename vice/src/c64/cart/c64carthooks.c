@@ -373,9 +373,9 @@ static const cmdline_option_t cmdline_options[] =
 
 int cart_cmdline_options_init(void)
 {
-        /* "Slot 1" */
-    if (mmc64_cmdline_options_init() < 0
         /* "Slot 0" */
+    if (mmc64_cmdline_options_init() < 0
+        /* "Slot 1" */
         || dqbb_cmdline_options_init() < 0
         || expert_cmdline_options_init() < 0
         || isepic_cmdline_options_init() < 0
@@ -384,7 +384,9 @@ int cart_cmdline_options_init(void)
 #ifdef HAVE_MIDI
         || c64_midi_cmdline_options_init() < 0
 #endif
+#ifdef HAVE_RS232
         || aciacart_cmdline_options_init() < 0
+#endif
         || digimax_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
         || reu_cmdline_options_init() < 0
@@ -405,31 +407,36 @@ int cart_cmdline_options_init(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
+/*
+    resource init and de-init
+    - every cart that has an _init hook should also have a _shutdown hook!
+*/
 int cart_resources_init(void)
 {
         /* "Slot 0" */
     if (mmc64_resources_init() < 0
         || magicvoice_resources_init() < 0
+        || tpi_resources_init() < 0
         /* "Slot 1" */
         || expert_resources_init() < 0
         || dqbb_resources_init() < 0
         || isepic_resources_init() < 0
         || ramcart_resources_init() < 0
         /* "IO Slot" */
+        || digimax_resources_init() < 0
+        || georam_resources_init() < 0
 #ifdef HAVE_MIDI
         || c64_midi_resources_init() < 0
 #endif
-        || aciacart_resources_init() < 0
-        || digimax_resources_init() < 0
-        || georam_resources_init() < 0
         || reu_resources_init() < 0
         || sfx_soundexpander_resources_init() < 0
         || sfx_soundsampler_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
-        || tpi_resources_init() < 0
+#ifdef HAVE_RS232
+        || aciacart_resources_init() < 0
+#endif
         /* "Main Slot" */
         || easyflash_resources_init() < 0
         || ide64_resources_init() < 0
@@ -444,26 +451,37 @@ int cart_resources_init(void)
 void cart_resources_shutdown(void)
 {
     /* "IO Slot" */
-    aciacart_resources_shutdown();
+    digimax_resources_shutdown();
     georam_resources_shutdown();
 #ifdef HAVE_MIDI
     midi_resources_shutdown();
 #endif
     reu_resources_shutdown();
+    sfx_soundexpander_resources_shutdown();
+    sfx_soundsampler_resources_shutdown();
 #ifdef HAVE_TFE
     tfe_resources_shutdown();
 #endif
-    tpi_resources_shutdown();
+#ifdef HAVE_RS232
+    aciacart_resources_shutdown();
+#endif
+
     /* "Main Slot" */
+    easyflash_resources_shutdown();
     ide64_resources_shutdown();
     mmcreplay_resources_shutdown();
+    retroreplay_resources_shutdown();
+
     /* "Slot 1" */
     expert_resources_shutdown();
     dqbb_resources_shutdown();
     ramcart_resources_shutdown();
+    isepic_resources_shutdown();
+
     /* "Slot 0" */
     mmc64_resources_shutdown();
     magicvoice_resources_shutdown();
+    tpi_resources_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -507,7 +525,7 @@ int cart_is_slotmain(int type)
 /*
     returns 1 if the cartridge of the given type is enabled
 
-    FIXME: incomplete, but currently only used by c64iec.c:iec_available_busses
+    -  used by c64iec.c:iec_available_busses (checks for CARTRIDGE_IEEE488)
 */
 int cart_type_enabled(int type)
 {
@@ -529,7 +547,37 @@ int cart_type_enabled(int type)
         case CARTRIDGE_RAMCART:
             return ramcart_cart_enabled();
         /* "I/O Slot" */
-        /* Main Slot handled in c64cart.c */
+        case CARTRIDGE_DIGIMAX:
+            return digimax_cart_enabled();
+        case CARTRIDGE_GEORAM:
+            return georam_cart_enabled();
+#ifdef HAVE_MIDI
+        case CARTRIDGE_MIDI_PASSPORT:
+            return c64_midi_pp_cart_enabled();
+        case CARTRIDGE_MIDI_DATEL:
+            return c64_midi_datel_cart_enabled();
+        case CARTRIDGE_MIDI_SEQUENTIAL:
+            return c64_midi_seq_cart_enabled();
+        case CARTRIDGE_MIDI_NAMESOFT:
+            return c64_midi_nsoft_cart_enabled();
+        case CARTRIDGE_MIDI_MAPLIN:
+            return c64_midi_maplin_cart_enabled();
+#endif
+        case CARTRIDGE_REU:
+            return reu_cart_enabled();
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+            return sfx_soundexpander_cart_enabled();
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+            return sfx_soundsampler_cart_enabled();
+#ifdef HAVE_TFE
+        case CARTRIDGE_TFE:
+            return tfe_cart_enabled();
+#endif
+#ifdef HAVE_RS232
+        case CARTRIDGE_TURBO232:
+            return aciacart_cart_enabled();
+#endif
+        /* Main Slot handled in c64cart.c:cartridge_type_enabled */
     }
     return 0;
 }
@@ -552,8 +600,14 @@ const char *cart_get_file_name(int type)
 /* called once by machine_setup_context */
 void cartridge_setup_context(machine_context_t *machine_context)
 {
+    /* "Slot 0" */
     tpi_setup_context(machine_context);
     magicvoice_setup_context(machine_context);
+    /* mmc64 */
+
+    /* "Slot 1" */
+    /* "Main Slot" */
+    /* "I/O Slot" */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -566,15 +620,18 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return tpi_bin_attach(filename, rawcart);
         case CARTRIDGE_MAGIC_VOICE:
             return magicvoice_bin_attach(filename, rawcart);
-        /* FIXME: MMC64 missing */
+        case CARTRIDGE_MMC64:
+            return mmc64_bin_attach(filename, rawcart);
         /* "Slot 1" */
-        /* FIXME: dqbb missing */
+        /* FIXME: dqbb */
         case CARTRIDGE_EXPERT:
             return expert_bin_attach(filename, rawcart);
         case CARTRIDGE_ISEPIC:
             return isepic_bin_attach(filename, rawcart);
-        /* FIXME: ramcart missing */
+        /* FIXME: ramcart */
         /* "I/O Slot" */
+        /* FIXME: georam */
+        /* FIXME: reu */
         /* "Main Slot" */
         case CARTRIDGE_ACTION_REPLAY:
             return actionreplay_bin_attach(filename, rawcart);
@@ -607,15 +664,6 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
         case CARTRIDGE_GENERIC_16KB:
             return generic_16kb_bin_attach(filename, rawcart);
         case CARTRIDGE_IDE64:
-/* FIXME: test if it works and then delete this */
-#if 0
-            if (c64cart_type==CARTRIDGE_IDE64) {
-                ide64_detach(); /* detach IDE64 if reattaching */
-            }
-            if (ide64_bin_attach(filename, rawcart) < 0) {
-                return -1;
-            }
-#endif
             return ide64_bin_attach(filename, rawcart);
         case CARTRIDGE_MACH5:
             return mach5_bin_attach(filename, rawcart);
@@ -674,8 +722,22 @@ void cart_attach(int type, BYTE *rawcart)
         case CARTRIDGE_EXPERT:
             expert_config_setup(rawcart);
             break;
-        /* FIXME: ISEPIC missing here ? */
+        case CARTRIDGE_ISEPIC:
+            isepic_config_setup(rawcart);
+            break;
+        case CARTRIDGE_DQBB:
+            dqbb_config_setup(rawcart);
+            break;
+        case CARTRIDGE_RAMCART:
+            ramcart_config_setup(rawcart);
+            break;
         /* "IO Slot" */
+        case CARTRIDGE_GEORAM:
+            georam_config_setup(rawcart);
+            break;
+        case CARTRIDGE_REU:
+            reu_config_setup(rawcart);
+            break;
         /* "Main Slot" */
         case CARTRIDGE_ACTION_REPLAY:
             actionreplay_config_setup(rawcart);
@@ -867,7 +929,11 @@ void cart_detach_conflicting(int type)
     cart_detach_conflicts0(slot0conflicts, type);
 }
 
-/* FIXME: many still missing */
+/*
+    attach a cartridge without setting an image name
+
+    FIXME: return value ?
+*/
 int cartridge_enable(int type)
 {
     switch (type) {
@@ -878,7 +944,9 @@ int cartridge_enable(int type)
         case CARTRIDGE_MAGIC_VOICE:
             magicvoice_enable();
             break;
-        /* FIXME: MMC64 */
+        case CARTRIDGE_MMC64:
+            mmc64_enable();
+            break;
         /* "Slot 1" */
         case CARTRIDGE_DQBB:
             dqbb_enable();
@@ -886,18 +954,47 @@ int cartridge_enable(int type)
         case CARTRIDGE_EXPERT:
             expert_enable();
             break;
-        /* FIXME: ISEPIC */
+        case CARTRIDGE_ISEPIC:
+            isepic_enable();
+            break;
         case CARTRIDGE_RAMCART:
             ramcart_enable();
             break;
         /* "I/O Slot" */
-        /* FIXME: missing: georam, tfe, digimax, midi, sfx expander, sfx sampler */
+        case CARTRIDGE_DIGIMAX:
+            digimax_enable();
+            break;
+        case CARTRIDGE_GEORAM:
+            georam_enable();
+            break;
+#ifdef HAVE_MIDI
+        case CARTRIDGE_MIDI_PASSPORT:
+        case CARTRIDGE_MIDI_DATEL:
+        case CARTRIDGE_MIDI_SEQUENTIAL:
+        case CARTRIDGE_MIDI_NAMESOFT:
+        case CARTRIDGE_MIDI_MAPLIN:
+            c64_midi_enable();
+            break;
+#endif
         case CARTRIDGE_REU:
             reu_enable();
             break;
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+            sfx_soundexpander_enable();
+            break;
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+            sfx_soundsampler_enable();
+            break;
+#ifdef HAVE_TFE
+        case CARTRIDGE_TFE:
+            tfe_enable();
+            break;
+#endif
+#ifdef HAVE_RS232
         case CARTRIDGE_TURBO232:
             aciacart_enable();
             break;
+#endif
         /* "Main Slot" */
         default:
             DBG(("CART: no enable hook %d\n", type));
@@ -908,8 +1005,7 @@ int cartridge_enable(int type)
 }
 
 /*
-    detach a cartridge.
-    - carts that are not "main" cartridges can be disabled individually
+    detach all cartridges
 
     - carts not in "Main Slot" must make sure their _detach hook does not
       fail when it is called and the cart is not actually attached.
@@ -917,7 +1013,6 @@ int cartridge_enable(int type)
 void cart_detach_all(void)
 {
     DBG(("CART: detach all\n"));
-    /* detach all cartridges */
     /* "slot 0" */
     tpi_detach();
     magicvoice_detach();
@@ -928,18 +1023,32 @@ void cart_detach_all(void)
     isepic_detach();
     ramcart_detach();
     /* "io Slot" */
-    /* FIXME: missing: digimax, midi, sfx expander, sfx sampler */
-    aciacart_detach();
+    digimax_detach();
     georam_detach();
+#ifdef HAVE_MIDI
+    c64_midi_detach();
+#endif
     reu_detach();
+    sfx_soundexpander_detach();
+    sfx_soundsampler_detach();
 #ifdef HAVE_TFE
     tfe_shutdown(); /* FIXME: review and rename */
 #endif
+#ifdef HAVE_RS232
+    aciacart_detach();
+#endif
     /* "Main Slot" */
     cart_detach_main();
-    return ;
 }
 
+/*
+    detach a cartridge
+
+    - carts that are not "main" cartridges can be disabled individually
+
+    - carts not in "Main Slot" must make sure their _detach hook does not
+      fail when it is called and the cart is not actually attached.
+*/
 void cart_detach(int type)
 {
     DBG(("CART: cart_detach ID: %d\n", type));
@@ -969,21 +1078,40 @@ void cart_detach(int type)
             ramcart_detach();
             break;
         /* "IO Slot" */
-        /* FIXME: missing: acia, digimax, midi, sfx expander, sfx sampler */
+        case CARTRIDGE_DIGIMAX:
+            digimax_detach();
+            break;
         case CARTRIDGE_GEORAM:
             georam_detach();
             break;
+#ifdef HAVE_MIDI
+        case CARTRIDGE_MIDI_PASSPORT:
+        case CARTRIDGE_MIDI_DATEL:
+        case CARTRIDGE_MIDI_SEQUENTIAL:
+        case CARTRIDGE_MIDI_NAMESOFT:
+        case CARTRIDGE_MIDI_MAPLIN:
+            c64_midi_detach();
+            break;
+#endif
         case CARTRIDGE_REU:
             reu_detach();
+            break;
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+            sfx_soundexpander_detach();
+            break;
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+            sfx_soundsampler_detach();
             break;
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
             tfe_shutdown(); /* FIXME: review and rename */
             break;
 #endif
+#ifdef HAVE_RS232
         case CARTRIDGE_TURBO232:
             aciacart_detach();
             break;
+#endif
         /* "Main Slot" */
         case CARTRIDGE_ACTION_REPLAY:
             actionreplay_detach();
@@ -1136,30 +1264,46 @@ void cart_detach(int type)
 void cart_init(void)
 {
     /* "Slot 0" */
-    mmc64_init(); /* Initialize the MMC64.  */
+    mmc64_init();
     magicvoice_init();
     tpi_init();
 
     /* "Slot 1" */
-    ramcart_init(); /* Initialize the RAMCART.  */
+    ramcart_init();
+    /* isepic_init(); */
+    /* expert_init(); */
+    /* dqbb_init(); */
+
+    /* "Main Slot" */
+
     /* "IO Slot" */
-    aciacart_init();
-    georam_init(); /* Initialize the GEORAM.  */
+    /* digimax */
+    georam_init();
 #ifdef HAVE_MIDI
     midi_init();
 #endif
-    reu_init(); /* Initialize the REU.  */
+    reu_init();
+    /* sfx sound expander */
+    /* sfx sound sampler */
 #ifdef HAVE_TFE
-    tfe_init(); /* Initialize the TFE.  */
+    tfe_init();
+#endif
+#ifdef HAVE_RS232
+    aciacart_init();
 #endif
 }
 
-/* called once by cartridge_init at machine shutdown */
+/* called once by c64.c:machine_specific_shutdown at machine shutdown */
 void cartridge_shutdown(void)
 {
     /* "Slot 0" */
     tpi_shutdown();
     magicvoice_shutdown();
+    /* mmc64_shutdown(); */
+
+    /* "Main Slot" */
+    /* "Slot 1" */
+    /* "IO Slot" */
 }
 
 /*
@@ -1308,7 +1452,7 @@ void cartridge_init_config(void)
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_init();
             break;
-        /* HACK: add all missing ones instead of the default */
+        /* FIXME: add all missing ones instead of using the default */
         case CARTRIDGE_NONE:
             break;
         default:
@@ -1326,6 +1470,9 @@ void cartridge_init_config(void)
     }
     if (expert_cart_enabled()) {
         expert_config_init();
+    }
+    if (isepic_cart_enabled()) {
+        isepic_config_init();
     }
 
     /* "Slot 0" */
@@ -1353,18 +1500,36 @@ void cartridge_reset(void)
     cart_unset_alarms();
 
     /* "IO Slot" */
-    if (aciacart_cart_enabled()) {
-        aciacart_reset();
+    if (digimax_cart_enabled()) {
+        digimax_reset();
     }
     if (georam_cart_enabled()) {
         georam_reset();
     }
 #ifdef HAVE_MIDI
-    midi_reset();
+    if (c64_midi_cart_enabled()) {
+        midi_reset();
+    }
 #endif
     if (reu_cart_enabled()) {
         reu_reset();
     }
+    if (sfx_soundexpander_cart_enabled()) {
+        sfx_soundexpander_reset();
+    }
+    if (sfx_soundsampler_cart_enabled()) {
+        sfx_soundsampler_reset();
+    }
+#ifdef HAVE_TFE
+    if (tfe_cart_enabled()) {
+        tfe_reset();
+    }
+#endif
+#ifdef HAVE_RS232
+    if (aciacart_cart_enabled()) {
+        aciacart_reset();
+    }
+#endif
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_ACTION_REPLAY:
@@ -1411,6 +1576,9 @@ void cartridge_reset(void)
     if (ramcart_cart_enabled()) {
         ramcart_reset();
     }
+    if (isepic_cart_enabled()) {
+        isepic_reset();
+    }
     /* "Slot 0" */
     if (tpi_cart_enabled()) {
         tpi_reset();
@@ -1430,7 +1598,7 @@ void cart_freeze(int type)
 {
     DBG(("CART: freeze\n"));
     switch (type) {
-        /* "Slot 0" */
+        /* "Slot 0" (no freezer carts) */
         case CARTRIDGE_MAGIC_VOICE:
             /* cartridge_release_freeze(); */
             break;
@@ -1439,9 +1607,9 @@ void cart_freeze(int type)
             expert_freeze();
             break;
         case CARTRIDGE_ISEPIC:
-            /* FIXME: do nothing ? */
+            isepic_freeze();
             break;
-        /* "IO Slot" */
+        /* "IO Slot" (no freezer carts) */
         /* "Main Slot" */
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_freeze();
@@ -1506,7 +1674,7 @@ void cart_freeze(int type)
 /* called by cart_nmi_alarm_triggered */
 void cart_nmi_alarm(CLOCK offset, void *data)
 {
-    /* "Slot 0" */
+    /* "Slot 0" (no freezer carts) */
     /* "Slot 1" */
     if (expert_freeze_allowed()) {
         cart_freeze(CARTRIDGE_EXPERT);
@@ -1514,6 +1682,7 @@ void cart_nmi_alarm(CLOCK offset, void *data)
     if (isepic_freeze_allowed()) {
         cart_freeze(CARTRIDGE_ISEPIC);
     }
+    /* "I/O Slot" (no freezer carts) */
     /* "Main Slot" */
     cart_freeze(cart_getid_slotmain());
 }
@@ -1522,7 +1691,7 @@ void cart_nmi_alarm(CLOCK offset, void *data)
 int cart_freeze_allowed(void)
 {
     int maintype = cart_getid_slotmain();
-    /* "Slot 0" */
+    /* "Slot 0" (no freezer carts) */
     /* "Slot 1" */
     if (expert_freeze_allowed()) {
         return 1;
@@ -1562,41 +1731,64 @@ int cart_freeze_allowed(void)
             }
             break;
     }
+    /* "I/O Slot" (no freezer carts) */
     return 0;
 }
-
 
 /* ------------------------------------------------------------------------- */
 
 /*
-    FIXME: missing here (at least)
-    - rr
-    - easyflash
-    - mmc64
-    - mmcr
-    - dqbb
-    - ramcart
-    - reu
-    - georam
+    save cartridge to binary filename
+
+    FIXME: incomplete
 */
 int cartridge_bin_save(int type, const char *filename)
 {
     switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_MMC64:
+            return mmc64_bin_save(filename);
+        /* "Slot 1" */
+        /* FIXME: dqbb */
         case CARTRIDGE_EXPERT:
             return expert_bin_save(filename);
         case CARTRIDGE_ISEPIC:
             return isepic_bin_save(filename);
+        /* FIXME: ramcart */
+        /* "Main Slot" */
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_bin_save(filename);
+        /* FIXME: easyflash */
+        /* FIXME: mmcr */
+        /* "I/O Slot" */
+        /* FIXME: reu */
+        /* FIXME: georam */
     }
     return -1;
 }
 
+/*
+    save cartridge to crt file
+
+    FIXME: incomplete
+*/
 int cartridge_crt_save(int type, const char *filename)
 {
     switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_MMC64:
+            return mmc64_crt_save(filename);
+        /* "Slot 1" */
         case CARTRIDGE_EXPERT:
             return expert_crt_save(filename);
         case CARTRIDGE_ISEPIC:
             return isepic_crt_save(filename);
+        /* "Main Slot" */
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_crt_save(filename);
+        case CARTRIDGE_EASYFLASH:
+            return easyflash_crt_save(filename);
+        /* FIXME: mmcr */
     }
     return -1;
 }
@@ -1605,20 +1797,52 @@ int cartridge_crt_save(int type, const char *filename)
 
 /*
     Snapshot reading and writing
+
+    FIXME: incomplete
 */
 int cartridge_snapshot_write_modules(struct snapshot_s *s)
 {
-    /* "I/O Slot" */
-    if (reu_cart_enabled()) {
-        if (reu_write_snapshot_module(s) < 0) {
+    /* "Slot 0" */
+    /* FIXME: magic voice */
+    /* FIXME: mmc64 */
+    if (tpi_cart_enabled()) {
+        if(tpi_snapshot_write_module(s) < 0) {
             return -1;
         }
     }
+
+    /* "Slot 1" */
+    /* FIXME: dqbb */
+    /* FIXME: expert */
+    /* FIXME: isepic */
+    /* FIXME: ramcart */
+
+    /* "Main Slot" */
+
+    /* "I/O Slot" */
+    /* FIXME: digimax */
     if (georam_cart_enabled()) {
         if (georam_write_snapshot_module(s) < 0) {
             return -1;
         }
     }
+#ifdef HAVE_MIDI
+    /* FIXME: midi (passport) */
+    /* FIXME: midi (datel) */
+    /* FIXME: midi (sequential) */
+    /* FIXME: midi (namesoft) */
+    /* FIXME: midi (maplin) */
+#endif
+    if (reu_cart_enabled()) {
+        if (reu_write_snapshot_module(s) < 0) {
+            return -1;
+        }
+    }
+    /* FIXME: sfx sound expander */
+    /* FIXME: sfx sound sampler */
+#ifdef HAVE_TFE
+    /* FIXME: tfe */
+#endif
 #ifdef HAVE_RS232
     if (aciacart_cart_enabled()) {
         if(aciacart_snapshot_write_module(s) < 0) {
@@ -1626,31 +1850,51 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
         }
     }
 #endif
-    if (tpi_cart_enabled()) {
-        if(tpi_snapshot_write_module(s) < 0) {
-            return -1;
-        }
-    }
     return 0;
 }
 
 int cartridge_snapshot_read_modules(struct snapshot_s *s)
 {
-    /* "I/O Slot" */
-    if (reu_read_snapshot_module(s) < 0) {
-        /* REU disabled  */
+    /* "Slot 0" */
+    /* FIXME: magic voice */
+    /* FIXME: mmc64 */
+    if (tpi_snapshot_read_module(s) < 0) {
+        /* IEEE488 module disabled  */
     }
+
+    /* "Slot 1" */
+    /* FIXME: dqbb */
+    /* FIXME: expert */
+    /* FIXME: isepic */
+    /* FIXME: ramcart */
+
+    /* "Main Slot" */
+
+    /* "I/O Slot" */
+    /* FIXME: digimax */
     if (georam_read_snapshot_module(s) < 0) {
         /* georam disabled  */
     }
+#ifdef HAVE_MIDI
+    /* FIXME: midi (passport) */
+    /* FIXME: midi (datel) */
+    /* FIXME: midi (sequential) */
+    /* FIXME: midi (namesoft) */
+    /* FIXME: midi (maplin) */
+#endif
+    if (reu_read_snapshot_module(s) < 0) {
+        /* REU disabled  */
+    }
+    /* FIXME: sfx sound expander */
+    /* FIXME: sfx sound sampler */
+#ifdef HAVE_TFE
+    /* FIXME: tfe */
+#endif
 #ifdef HAVE_RS232
     if (aciacart_snapshot_read_module(s) < 0) {
         /* acia disabled */
     }
 #endif
-    if (tpi_snapshot_read_module(s) < 0) {
-        /* IEEE488 module disabled  */
-    }
     return 0;
 }
 

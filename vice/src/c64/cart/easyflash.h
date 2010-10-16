@@ -31,6 +31,7 @@
 #include "types.h"
 
 extern int easyflash_resources_init(void);
+extern void easyflash_resources_shutdown(void);
 extern int easyflash_cmdline_options_init(void);
 
 extern BYTE REGPARM1 easyflash_roml_read(WORD addr);
@@ -42,6 +43,9 @@ extern void easyflash_config_init(void);
 extern void easyflash_config_setup(BYTE *rawcart);
 extern int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename);
 extern void easyflash_detach(void);
-extern int easyflash_save_crt(void);
+extern int easyflash_crt_save(const char *filename);
+
+/* FIXME: remove, seems to be used in UIs (wth?) */
+int easyflash_save_crt(void);
 
 #endif

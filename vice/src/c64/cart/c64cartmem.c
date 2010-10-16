@@ -1039,37 +1039,67 @@ void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
     store_bank_io(addr, value);
 }
 
-/* VIC-II reads from cart memory */
+/*
+    VIC-II reads from cart memory
 
-/* FIXME: only works for cart in main slot */
+    most carts can simply wrap to ultimax_romh_read_hirom here, only
+    those that handle the vic accesses differently than cpu accesses
+    must provide their own functions.
+
+    FIXME: lots of testing needed!
+*/
+
 BYTE REGPARM1 ultimax_romh_phi1_read(WORD addr)
 {
-    /* use default cartridge */
-    return generic_romh_phi1_read(addr);
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_ULTIMAX:
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_GENERIC_16KB:
+            return generic_romh_phi1_read(addr);
+    }
+
+    /* generic fallback */
+    return ultimax_romh_read_hirom(addr);
 }
 
-/* FIXME: only works for cart in main slot */
 BYTE REGPARM1 ultimax_romh_phi2_read(WORD addr)
 {
-    /* use default cartridge */
-    return generic_romh_phi2_read(addr);
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_ULTIMAX:
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_GENERIC_16KB:
+            return generic_romh_phi2_read(addr);
+    }
+
+    /* generic fallback */
+    return ultimax_romh_read_hirom(addr);
 }
 
-/* FIXME: only works for cart in main slot */
+/*
+    the following two are used by the old non cycle exact vic-ii emulation
+
+    FIXME: only works for (some) carts in main slot
+*/
 BYTE *ultimax_romh_phi1_ptr(WORD addr)
 {
     /* use default cartridge */
     return generic_romh_phi1_ptr(addr);
 }
 
-/* FIXME: only works for cart in main slot */
 BYTE *ultimax_romh_phi2_ptr(WORD addr)
 {
     /* use default cartridge */
     return generic_romh_phi2_ptr(addr);
 }
 
-/* read from cart memory for monitor */
+/*
+    read from cart memory for monitor (without side effects)
+
+    the majority of carts can use the generic fallback, custom functions
+    must be provided by those carts where either:
+    - "fake ultimax" mapping is used
+    - memory can not be read without side effects
+*/
 BYTE cartridge_peek_mem(WORD addr)
 {
 /*    DBG(("CARTMEM cartridge_peek_mem (type %d addr %04x)\n", mem_cartridge_type, addr)); */
@@ -1090,7 +1120,24 @@ BYTE cartridge_peek_mem(WORD addr)
     switch (mem_cartridge_type) {
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_peek_mem(addr);
+        case CARTRIDGE_ULTIMAX:
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_GENERIC_16KB:
+            return generic_peek_mem(addr);
     }
-    /* use default cartridge */
-    return generic_peek_mem(addr);
+
+    /* generic fallback */
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        return roml_read(addr);
+    }
+    if (!export.exrom && export.game) {
+        if (addr >= 0xe000 && addr <= 0xffff) {
+            return ultimax_romh_read_hirom(addr);
+        }
+    } else {
+        if (addr >= 0xa000 && addr <= 0xbfff) {
+            return romh_read(addr);
+        }
+    }
+    return ram_read(addr);
 }

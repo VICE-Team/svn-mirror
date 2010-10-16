@@ -49,37 +49,43 @@
 #endif
 
 /*
-    Evesham Micros "Freeze Machine"
-
     FIXME: this implementation is based on vague guesses on how the hardware
            really works. remaining problems are:
            - fastloader fails
 
+    Evesham Micros "Freeze Frame MK4"
+
+    - 2 Buttons (Freeze, Reset)
+    - 16k ROM
+
+    Evesham Micros "Freeze Machine"
+
     - 2 Buttons (Freeze, Reset)
     - 7474, 74163, 2 * 7400, 7402
-
     - 32k ROM, splitted into 2 16K parts of which 2 8k banks are used at once
 
     - reading io1 (the software uses de00 only it seems)
       - switches to 16k game mode
-      - ROM bank 0/2 is mapped to 8000
-      - ROM bank 1/3 is mapped to A000
+      - ROM bank 0 (2) is mapped to 8000
+      - ROM bank 1 (3) is mapped to A000
+
     - reading io2 (the software uses df00 only it seems)
       - disables cartridge ROM
 
     - reset
       - enables 8K game mode
       - toggles a flipflop which selects wether the upper or lower part of the
-        32k ROM is selected.
-      - ROM bank 0/2 is mapped to 8000
+        32k ROM is selected. (Freeze Machine only)
+      - ROM bank 0 (2) is mapped to 8000
+
     - freeze
       - enables ultimax mode
-      - ROM bank 0/2 is mapped to 8000
-      - ROM bank 0/2 is mapped to E000
-
+      - ROM bank 0 (2) is mapped to 8000
+      - ROM bank 0 (2) is mapped to E000
 */
 
 #define FREEZE_MACHINE_CART_SIZE (32*0x400)
+#define FREEZE_FRAME_MK4_CART_SIZE (16*0x400)
 
 static int rom_A14;     /* when set, bank 2 and 3 are active */
 static int roml_toggle; /* when set, bank 1 or 3 will be used for roml */
@@ -212,7 +218,10 @@ int freezemachine_bin_attach(const char *filename, BYTE *rawcart)
 {
     DBG(("Freeze Machine: bin attach '%s'\n", filename));
     if (util_file_load(filename, rawcart, FREEZE_MACHINE_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+        if (util_file_load(filename, rawcart, FREEZE_FRAME_MK4_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+        memcpy(&rawcart[FREEZE_FRAME_MK4_CART_SIZE], rawcart, FREEZE_FRAME_MK4_CART_SIZE);
     }
 
     return freezemachine_common_attach();
@@ -226,7 +235,7 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
     for (i = 0; i < 4; i++) {
 
         if (fread(chipheader, 0x10, 1, fd) < 1) {
-            return -1;
+            break;
         }
 /*
         if (chipheader[0xb] > 0) {
@@ -234,8 +243,12 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
         }
 */
         if (fread(&rawcart[0x2000 * i], 0x2000, 1, fd) < 1) {
-            return -1;
+            break;
         }
+    }
+
+    if (!((i == 2) || (i == 4))) {
+        return -1;
     }
 
     return freezemachine_common_attach();

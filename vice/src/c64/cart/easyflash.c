@@ -218,6 +218,9 @@ int easyflash_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
+void easyflash_resources_shutdown(void)
+{
+}
 
 /* ---------------------------------------------------------------------*/
 
@@ -352,7 +355,7 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *file
 void easyflash_detach(void)
 {
     if (easyflash_crt_write) {
-        easyflash_save_crt();
+        easyflash_crt_save(easyflash_crt_filename);
     }
     flash040core_shutdown(easyflash_state_low);
     flash040core_shutdown(easyflash_state_high);
@@ -367,18 +370,24 @@ void easyflash_detach(void)
     c64export_remove(&export_res);
 }
 
+/* FIXME: remove, seems to be used in UIs (wth?) */
 int easyflash_save_crt(void)
+{
+    return easyflash_crt_save(easyflash_crt_filename);
+}
+
+int easyflash_crt_save(const char *filename)
 {
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
     BYTE *data;
     int i;
 
-    if (easyflash_crt_filename == NULL) {
+    if (filename == NULL) {
         return -1;
     }
 
-    fd = fopen(easyflash_crt_filename, MODE_WRITE);
+    fd = fopen(filename, MODE_WRITE);
 
     if (fd == NULL) {
         return -1;

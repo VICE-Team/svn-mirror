@@ -164,6 +164,11 @@ int isepic_freeze_allowed(void)
     return isepic_cart_enabled();
 }
 
+void isepic_freeze(void)
+{
+    /* FIXME: do nothing ? */
+}
+
 static int set_isepic_enabled(int val, void *param)
 {
     DBG(("set enabled: %d\n", val));
@@ -202,6 +207,15 @@ static int set_isepic_enabled(int val, void *param)
     return 0;
 }
 
+int isepic_enable(void)
+{
+    DBG(("ISEPIC: enable\n"));
+    if (resources_set_int("IsepicCartridgeEnabled", 1) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
 static int set_isepic_switch(int val, void *param)
 {
     DBG(("set switch: %d\n", val));
@@ -235,6 +249,9 @@ static const resource_int_t resources_int[] = {
 int isepic_resources_init(void)
 {
     return resources_register_int(resources_int);
+}
+void isepic_resources_shutdown(void)
+{
 }
 
 /* ------------------------------------------------------------------------- */
@@ -352,6 +369,21 @@ void REGPARM2 isepic_page_store(WORD addr, BYTE value)
 }
 
 /* ---------------------------------------------------------------------*/
+
+void isepic_config_init(void)
+{
+    /* FIXME: do nothing ? */
+}
+
+void isepic_reset(void)
+{
+    /* FIXME: do nothing ? */
+}
+
+void isepic_config_setup(BYTE *rawcart)
+{
+    memcpy(isepic_ram, rawcart, ISEPIC_RAM_SIZE);
+}
 
 static int isepic_common_attach(BYTE *rawcart)
 {

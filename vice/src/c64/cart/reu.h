@@ -57,5 +57,6 @@ extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);
 
 extern int reu_cart_enabled(void);
+extern void reu_config_setup(BYTE *rawcart);
 
 #endif

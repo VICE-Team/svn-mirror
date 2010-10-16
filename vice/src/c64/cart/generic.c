@@ -119,7 +119,11 @@ void generic_ultimax_config_setup(BYTE *rawcart)
 int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+        /* also accept 4k binaries */
+        if (util_file_load(filename, rawcart, 0x1000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+        memcpy(&rawcart[0x1000], rawcart, 0x1000);
     }
 
     if (c64export_add(&export_res_8kb) < 0) {

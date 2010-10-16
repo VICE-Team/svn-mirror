@@ -30,9 +30,13 @@
 #include "types.h"
 #include "sound.h"
 
-extern int sfx_soundsampler_enabled;
+extern int sfx_soundsampler_cart_enabled(void);
+extern void sfx_soundsampler_reset(void);
+extern int sfx_soundsampler_enable(void);
+extern void sfx_soundsampler_detach(void);
 
 extern int sfx_soundsampler_resources_init(void);
+extern void sfx_soundsampler_resources_shutdown(void);
 extern int sfx_soundsampler_cmdline_options_init(void);
 
 extern int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);

@@ -38,6 +38,7 @@ extern void dqbb_reset(void);
 extern void dqbb_detach(void);
 extern void dqbb_init_config(void);
 extern int dqbb_enable(void);
+extern void dqbb_config_setup(BYTE *rawcart);
 
 extern BYTE REGPARM1 dqbb_roml_read(WORD addr);
 extern void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte);

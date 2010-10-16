@@ -30,10 +30,14 @@
 #include "types.h"
 #include "sound.h"
 
-extern int digimax_enabled;
 extern int digimax_address;
+extern int digimax_cart_enabled(void);
+extern int digimax_enable(void);
+extern void digimax_detach(void);
+extern void digimax_reset(void);
 
 extern int digimax_resources_init(void);
+extern void digimax_resources_shutdown(void);
 extern int digimax_cmdline_options_init(void);
 
 extern int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);

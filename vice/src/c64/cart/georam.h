@@ -43,5 +43,6 @@ extern int georam_read_snapshot_module(struct snapshot_s *s);
 extern int georam_write_snapshot_module(struct snapshot_s *s);
 
 extern int georam_cart_enabled(void);
+extern void georam_config_setup(BYTE *rawcart);
 
 #endif

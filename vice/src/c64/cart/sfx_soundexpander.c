@@ -45,7 +45,7 @@
 #include "translate.h"
 
 /* Flag: Do we enable the SFX soundexpander cartridge?  */
-int sfx_soundexpander_enabled;
+static int sfx_soundexpander_enabled = 0;
 
 /* Flag: What type of ym chip is used?  */
 int sfx_soundexpander_chip = 3526;
@@ -99,6 +99,11 @@ static const c64export_resource_t export_res_piano= {
 
 /* ------------------------------------------------------------------------- */
 
+int sfx_soundexpander_cart_enabled(void)
+{
+    return sfx_soundexpander_enabled;
+}
+
 static int set_sfx_soundexpander_enabled(int val, void *param)
 {
     if (sfx_soundexpander_enabled != val) {
@@ -142,6 +147,20 @@ static int set_sfx_soundexpander_chip(int val, void *param)
     return 0;
 }
 
+void sfx_soundexpander_reset(void)
+{
+    /* FIXME: do nothing ? */
+}
+
+int sfx_soundexpander_enable(void)
+{
+    return resources_set_int("SFXSoundExpander", 1);
+}
+void sfx_soundexpander_detach(void)
+{
+    resources_set_int("SFXSoundExpander", 0);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_int[] = {
@@ -155,6 +174,9 @@ static const resource_int_t resources_int[] = {
 int sfx_soundexpander_resources_init(void)
 {
     return resources_register_int(resources_int);
+}
+void sfx_soundexpander_resources_shutdown(void)
+{
 }
 
 /* ------------------------------------------------------------------------- */

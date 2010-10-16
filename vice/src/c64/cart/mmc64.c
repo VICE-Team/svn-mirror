@@ -41,6 +41,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -142,6 +143,12 @@ static log_t mmc64_log = LOG_ERR;
 
 static BYTE mmc64_bios[0x2002];
 static int mmc64_bios_offset = 0;
+static int mmc64_bios_type = 0;
+
+static const char STRING_MMC64[] = "MMC64";
+
+#define CARTRIDGE_FILETYPE_BIN  1
+#define CARTRIDGE_FILETYPE_CRT  2
 
 static int mmc64_activate(void);
 static int mmc64_deactivate(void);
@@ -261,27 +268,77 @@ void mmc64_reset(void)
     }
 }
 
+static int mmc64_activate(void)
+{
+    mmc64_bios_changed = 0;
+    mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
+    /* mmc64_reset(); */
+    return 0;
+}
+
+static int mmc64_deactivate(void)
+{
+    int ret;
+
+    mmc_close_card_image();
+
+    if (mmc64_bios_changed && mmc64_bios_write) {
+        if (mmc64_bios_type == CARTRIDGE_FILETYPE_CRT) {
+            ret = mmc64_crt_save(mmc64_bios_filename);
+        } else {
+            ret = mmc64_bin_save(mmc64_bios_filename);
+        }
+        if (ret <= 0) {
+            return 0; /* FIXME */
+        }
+    }
+    return 0;
+}
+
 /* FIXME: resetting the c64 should be handled in the upper layer */
 static int set_mmc64_enabled(int val, void *param)
 {
-    LOG(("MMC64: set enabled: %d", mmc64_enabled));
+    LOG(("MMC64: set_enabled: '%s' %d to %d", mmc64_bios_filename, mmc64_enabled, val));
     if (!mmc64_enabled && val) {
-        if (mmc64_activate() < 0) {
-            return -1;
-        }
-        cart_power_off();
+        /* activate mmc64 */
+        if (param) {
+            /* if the param is != NULL, then we should load the default image file */
+            LOG(("MMC64: set_enabled(1) '%s'", mmc64_bios_filename));
+            if (mmc64_bios_filename) {
+                if (*mmc64_bios_filename) {
+                    if (cartridge_attach_image(CARTRIDGE_MMC64, mmc64_bios_filename) < 0) {
+                        LOG(("MMC64: set_enabled(1) did not register"));
+                        return -1;
+                    }
+                    /* mmc64_enabled = 1; */ /* cartridge_attach_image will end up calling set_mmc64_enabled again */
+                    return 0;
+                }
+            }
+        } else {
+            LOG(("MMC64: set_enabled(0) '%s'", mmc64_bios_filename));
+            cart_power_off();
+            /* if the param is == NULL, then we should actually set the resource */
+            if (c64export_add(&export_res) < 0) {
+                LOG(("MMC64: set_enabled(0) did not register"));
+                return -1;
+            } else {
+                LOG(("MMC64: set_enabled registered"));
 
-        if (c64export_add(&export_res) < 0) {
-            return -1;
+                if (mmc64_activate() < 0) {
+                    return -1;
+                }
+                mmc64_enabled = 1;
+                export.exrom = 1;
+                mem_pla_config_changed();
+                mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+                mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
+                mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
+                mmc64_reset();
+            }
         }
 
-        mmc64_enabled = 1;
-        export.exrom = 1;
-        mem_pla_config_changed();
-        mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
-        mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
-        mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
     } else if (mmc64_enabled && !val) {
+        /* remove mmc64 */
         if (mmc64_deactivate() < 0) {
             return -1;
         }
@@ -297,6 +354,7 @@ static int set_mmc64_enabled(int val, void *param)
         mmc64_io1_list_item = NULL;
         mmc64_io2_list_item = NULL;
     }
+    LOG(("MMC64: set_enabled done: '%s' %d : %d",mmc64_bios_filename , val, mmc64_enabled));
     return 0;
 }
 
@@ -348,24 +406,25 @@ static int set_mmc64_bios_write(int val, void *param)
 
 static int set_mmc64_bios_filename(const char *name, void *param)
 {
-    if (mmc64_bios_filename != NULL && name != NULL && strcmp(name, mmc64_bios_filename) == 0) {
-        return 0;
-    }
+    int enabled;
 
     if (name != NULL && *name != '\0') {
         if (util_check_filename_access(name) < 0) {
             return -1;
         }
     }
+    LOG(("MMC64: set_name: %d '%s'",mmc64_enabled, mmc64_bios_filename));
 
-    if (mmc64_enabled) {
-        mmc64_deactivate();
-        util_string_set(&mmc64_bios_filename, name);
-        mmc64_activate();
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    } else {
-        util_string_set(&mmc64_bios_filename, name);
+    util_string_set(&mmc64_bios_filename, name);
+    resources_get_int("MMC64", &enabled);
+
+    if (set_mmc64_enabled(enabled, (void*)1) < 0 ) {
+        lib_free (mmc64_bios_filename);
+        mmc64_bios_filename = NULL;
+        LOG(("MMC64: set_name done: %d '%s'",mmc64_enabled, mmc64_bios_filename));
+        return -1;
     }
+    LOG(("MMC64: set_name done: %d '%s'",mmc64_enabled, mmc64_bios_filename));
 
     return 0;
 }
@@ -392,6 +451,8 @@ static int set_mmc64_image_filename(const char *name, void *param)
 
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
 
 void mmc64_init_card_config(void)
 {
@@ -689,6 +750,8 @@ static BYTE REGPARM1 mmc64_io1_read(WORD addr)
     return mmc64_io2_read(addr);
 }
 
+/* ---------------------------------------------------------------------*/
+
 BYTE REGPARM1 mmc64_roml_read(WORD addr)
 {
     if (!mmc64_active && !mmc64_biossel) {
@@ -767,7 +830,7 @@ static const resource_string_t resources_string[] = {
 
 static const resource_int_t resources_int[] = {
   { "MMC64", 0, RES_EVENT_STRICT, (resource_value_t)0,
-    &mmc64_enabled, set_mmc64_enabled, NULL },
+    &mmc64_enabled, set_mmc64_enabled, (void *)1 },
   { "MMC64_RO", 0, RES_EVENT_NO, NULL,
     &mmc64_hw_writeprotect, set_mmc64_readonly, NULL },
   { "MMC64_flashjumper", 0, RES_EVENT_NO, NULL,
@@ -852,90 +915,112 @@ void mmc64_init(void)
     mmc64_log = log_open("MMC64");
 }
 
-/* FIXME: attach/detach and enable/disable are equivalent, and should share
-          all common code
-*/
-static int mmc64_common_activate(void)
+void mmc64_config_setup(BYTE *rawcart)
 {
+    memcpy(mmc64_bios, rawcart, 0x2000 + mmc64_bios_offset);
+}
+
+static int mmc64_common_attach(void)
+{
+    return set_mmc64_enabled(1, NULL);
+}
+
+int mmc64_bin_save(const char *filename)
+{
+    FILE *fd;
+    int ret;
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+    if (fd == NULL) {
+        return -1;
+    }
+
+    ret = fwrite(mmc64_bios, 1, 0x2000 + mmc64_bios_offset, fd);
+    fclose(fd);
+    if (ret != 0x2000 + mmc64_bios_offset) {
+        return -1;
+    }
     mmc64_bios_changed = 0;
-    mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
-    mmc64_reset();
     return 0;
 }
 
-static int mmc64_activate(void)
+int mmc64_crt_save(const char *filename)
 {
-    FILE *bios_file = NULL;
+    FILE *fd;
+    BYTE header[0x40], chipheader[0x10];
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    memset(header, 0x0, 0x40);
+    memset(chipheader, 0x0, 0x10);
+
+    strcpy((char *)header, CRT_HEADER);
+
+    header[0x13] = 0x40;
+    header[0x14] = 0x01;
+    header[0x17] = CARTRIDGE_MMC64;
+    header[0x18] = 0x01;
+    strcpy((char *)&header[0x20], STRING_MMC64);
+    if (fwrite(header, 1, 0x40, fd) != 0x40) {
+        fclose(fd);
+        return -1;
+    }
+
+    strcpy((char *)chipheader, CHIP_HEADER);
+    chipheader[0x06] = 0x20;
+    chipheader[0x07] = 0x10;
+    chipheader[0x09] = 0x02;
+    chipheader[0x0e] = 0x20;
+
+    chipheader[0x0c] = 0x80;
+    chipheader[0x0b] = 0; /* bank */
+
+    if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
+        fclose(fd);
+        return -1;
+    }
+
+    if (fwrite(mmc64_bios, 1, 0x2000, fd) != 0x2000) {
+        fclose(fd);
+        return -1;
+    }
+
+    fclose(fd);
+    return 0;
+}
+
+int mmc64_bin_attach(const char *filename, BYTE *rawcart)
+{
     int amount_read = 0;
+    FILE *fd;
 
-    if (mmc64_bios_filename == NULL) {
+    fd = fopen(filename, MODE_READ);
+    if (!fd) {
         return -1;
     }
 
-    bios_file = fopen(mmc64_bios_filename, "rb");
-
-    if (bios_file == NULL) {
-        return -1;
-    }
-
-    amount_read = (int)fread(&mmc64_bios, 1, 0x2002, bios_file);
-
-    fclose(bios_file);
+    amount_read = (int)fread(rawcart, 1, 0x2002, fd);
+    fclose(fd);
 
     if (amount_read != 0x2000 && amount_read != 0x2002) {
         return -1;
     }
 
     mmc64_bios_offset = amount_read & 3;
-    return mmc64_common_activate();
-
-}
-
-static int mmc64_deactivate(void)
-{
-    FILE *bios_file = NULL;
-    int ret;
-
-    mmc_close_card_image();
-
-    if (mmc64_bios_changed && mmc64_bios_write) {
-        bios_file = fopen(mmc64_bios_filename, "wb");
-
-        if (bios_file == NULL) {
-            return 0; /* FIXME */
-        }
-
-        ret = fwrite(&mmc64_bios, 1, 0x2000 + mmc64_bios_offset, bios_file);
-        fclose(bios_file);
-        mmc64_bios_changed = 0;
-        if (ret <= 0) {
-            return 0; /* FIXME */
-        }
-    }
-    return 0;
-}
-
-void mmc64_config_setup(BYTE *rawcart)
-{
-    memcpy(mmc64_bios, rawcart, 0x2000);
-}
-
-static int mmc64_common_attach(void)
-{
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    mmc64_enabled = 1;
-    /* FIXME: should use cartridge_config_changed */
-    export.exrom = 1;
-    mem_pla_config_changed();
-    mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
-    mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
-    mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
-
-    mmc64_bios_offset = 0;
-    return mmc64_common_activate();
+    mmc64_bios_type = CARTRIDGE_FILETYPE_BIN;
+    return mmc64_common_attach();
 }
 
 int mmc64_crt_attach(FILE *fd, BYTE *rawcart)
@@ -954,24 +1039,17 @@ int mmc64_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    mmc64_bios_offset = 0;
+    mmc64_bios_type = CARTRIDGE_FILETYPE_CRT;
     return mmc64_common_attach();
 }
 
 void mmc64_detach(void)
 {
-    mmc64_deactivate();
+    set_mmc64_enabled(0, NULL);
+}
 
-    if (mmc64_enabled) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        c64export_remove(&export_res);
-        mmc64_enabled = 0;
-        export.exrom = 0;
-        mem_pla_config_changed();
-        c64io_unregister(mmc64_clockport_list_item);
-        c64io_unregister(mmc64_io1_list_item);
-        c64io_unregister(mmc64_io2_list_item);
-        mmc64_clockport_list_item = NULL;
-        mmc64_io1_list_item = NULL;
-        mmc64_io2_list_item = NULL;
-    }
+int mmc64_enable(void)
+{
+    return set_mmc64_enabled(1, (void*)1);
 }

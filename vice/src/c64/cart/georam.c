@@ -425,6 +425,12 @@ int georam_enable(void)
     return 0;
 }
 
+void georam_config_setup(BYTE *rawcart)
+{
+    if (georam_size > 0) {
+        memcpy(georam_ram, rawcart, georam_size); /* FIXME */
+    }
+}
 /* ------------------------------------------------------------------------- */
 
 static char snap_module_name[] = "GEORAM";

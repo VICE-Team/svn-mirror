@@ -32,8 +32,13 @@
 extern int isepic_switch;
 extern int isepic_cart_enabled(void);
 extern int isepic_freeze_allowed(void);
+extern void isepic_freeze(void);
+extern void isepic_reset(void);
+extern void isepic_config_init(void);
+extern void isepic_config_setup(BYTE *rawcart);
 
 extern int isepic_resources_init(void);
+extern void isepic_resources_shutdown(void);
 extern int isepic_cmdline_options_init(void);
 
 extern BYTE REGPARM1 isepic_romh_read(WORD addr);
@@ -46,5 +51,6 @@ extern int isepic_bin_save(const char *filename);
 extern int isepic_crt_attach(FILE *fd, BYTE *rawcart);
 extern int isepic_crt_save(const char *filename);
 extern void isepic_detach(void);
+extern int isepic_enable(void);
 
 #endif
