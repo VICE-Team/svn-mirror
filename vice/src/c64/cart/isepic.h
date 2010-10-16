@@ -53,4 +53,6 @@ extern int isepic_crt_save(const char *filename);
 extern void isepic_detach(void);
 extern int isepic_enable(void);
 
+extern const char *isepic_get_file_name(void);
+
 #endif

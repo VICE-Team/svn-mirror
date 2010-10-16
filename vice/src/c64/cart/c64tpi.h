@@ -48,6 +48,7 @@ extern BYTE REGPARM1 tpi_peek_mem(WORD addr);
 extern void tpi_setup_context(struct machine_context_s *machine_context);
 extern int tpi_bin_attach(const char *filename, BYTE *rawcart);
 extern int tpi_crt_attach(FILE *fd, BYTE *rawcart);
+extern const char *tpi_get_file_name(void);
 
 extern void tpi_reset(void);
 extern void tpi_init(void);

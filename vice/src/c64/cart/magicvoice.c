@@ -1022,6 +1022,11 @@ void magicvoice_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
+const char *magicvoice_get_file_name(void)
+{
+    return magicvoice_filename;
+}
+
 static int magicvoice_common_attach(void)
 {
     DBG(("MV: attach\n"));

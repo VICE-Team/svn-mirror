@@ -545,6 +545,11 @@ int reu_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+const char *reu_get_file_name(void)
+{
+    return reu_filename;
+}
+
 /*! \brief initialize the REU */
 void reu_init(void)
 {

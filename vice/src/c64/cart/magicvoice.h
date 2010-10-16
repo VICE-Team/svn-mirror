@@ -53,6 +53,7 @@ extern int magicvoice_bin_attach(const char *filename, BYTE *rawcart);
 extern int magicvoice_crt_attach(FILE *fd, BYTE *rawcart);
 extern int magicvoice_enable(void);
 extern void magicvoice_detach(void);
+extern const char *magicvoice_get_file_name(void);
 
 extern BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr);
 extern void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);

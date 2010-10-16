@@ -30,10 +30,10 @@
 
 #include "types.h"
 
-extern int mmc64_cart_enabled(void);
 extern int mmc64_clockport_enabled;
 extern int mmc64_hw_clockport;
 
+extern int mmc64_cart_enabled(void);
 extern void mmc64_init_card_config(void);
 extern BYTE REGPARM1 mmc64_roml_read(WORD addr);
 extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
@@ -53,5 +53,6 @@ extern void mmc64_init(void);
 extern void mmc64_detach(void);
 extern void mmc64_reset(void);
 extern int mmc64_enable(void);
+extern const char *mmc64_get_file_name(void);
 
 #endif

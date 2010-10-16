@@ -31,6 +31,8 @@
 
 struct snapshot_s;
 
+extern int ramcart_readonly;
+
 extern void ramcart_init(void);
 extern int ramcart_resources_init(void);
 extern void ramcart_resources_shutdown(void);
@@ -48,6 +50,6 @@ extern int ramcart_write_snapshot_module(struct snapshot_s *s);
 extern int ramcart_attach(const char *filename, BYTE *rawcart);
 
 extern int ramcart_cart_enabled(void);
-extern int ramcart_readonly;
+extern const char *ramcart_get_file_name(void);
 
 #endif

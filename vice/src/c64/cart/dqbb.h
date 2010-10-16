@@ -45,4 +45,6 @@ extern void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 dqbb_romh_read(WORD addr);
 extern void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte);
 
+extern const char *dqbb_get_file_name(void);
+
 #endif

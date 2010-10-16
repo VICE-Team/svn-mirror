@@ -120,7 +120,8 @@
 
     mmc64
     Magic Voice
-    ramlink, scpu, ...
+    ieee488
+    (ramlink, scpu, ...)
 
     "Slot 1"
     - other ROM/RAM carts that can be enabled individually
@@ -388,8 +389,6 @@ int cart_getid_slotmain(void)
 
 /*
     get filename of cart with given type
-
-    FIXME: only works for carts in "Main Slot"
 */
 const char *cartridge_get_file_name(int type)
 {

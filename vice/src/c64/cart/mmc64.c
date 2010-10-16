@@ -910,6 +910,11 @@ int mmc64_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+const char *mmc64_get_file_name(void)
+{
+    return mmc64_bios_filename;
+}
+
 void mmc64_init(void)
 {
     mmc64_log = log_open("MMC64");

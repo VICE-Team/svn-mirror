@@ -55,6 +55,8 @@ extern int expert_resources_init(void);
 extern void expert_resources_shutdown(void);
 extern int expert_cmdline_options_init(void);
 
+extern const char *expert_get_file_name(void);
+
 /* Expert cartridge has three modes: */
 #define EXPERT_MODE_OFF                      0
 #define EXPERT_MODE_PRG                      1

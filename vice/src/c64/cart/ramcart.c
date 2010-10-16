@@ -418,6 +418,11 @@ int ramcart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+const char *ramcart_get_file_name(void)
+{
+    return ramcart_filename;
+}
+
 void ramcart_init_config(void)
 {
     if (ramcart_enabled) {

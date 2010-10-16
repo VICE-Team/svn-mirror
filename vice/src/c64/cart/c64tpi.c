@@ -467,6 +467,11 @@ void tpi_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
+const char *tpi_get_file_name(void)
+{
+    return ieee488_filename;
+}
+
 void tpi_config_setup(BYTE *rawcart)
 {
     DBG(("TPI: config_setup\n"));

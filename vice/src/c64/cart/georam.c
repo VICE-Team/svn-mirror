@@ -401,6 +401,11 @@ int georam_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+const char *georam_get_file_name(void)
+{
+    return georam_filename;
+}
+
 void georam_init(void)
 {
     georam_log = log_open("GEORAM");

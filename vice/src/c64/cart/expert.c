@@ -439,6 +439,12 @@ void expert_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
+const char *expert_get_file_name(void)
+{
+    /* return expert_filename; */
+    return ""; /* FIXME */
+}
+
 static int expert_common_attach(void)
 {
     DBG(("EXPERT: common attach\n"));

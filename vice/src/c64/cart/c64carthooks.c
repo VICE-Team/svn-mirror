@@ -140,7 +140,7 @@ extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") 
 
 /*
     TODO: add commandline options for the missing carts
-    TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_MAGIC_VOICE)
+    TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_MACH5)
 
     the following carts, which do not have any rom or ram, are NOT in the list below,
     for obvious reasons:
@@ -584,13 +584,55 @@ int cart_type_enabled(int type)
 
 /*
     get filename of cart with given type
-
-    FIXME: only works for carts in "Main Slot" (handled in c64cart.c)
 */
 const char *cart_get_file_name(int type)
 {
-    /* FIXME */
-    return "";
+    switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            return tpi_get_file_name();
+        case CARTRIDGE_MAGIC_VOICE:
+            return magicvoice_get_file_name();
+        case CARTRIDGE_MMC64:
+            return mmc64_get_file_name();
+        /* "Slot 1" */
+        case CARTRIDGE_DQBB:
+            return dqbb_get_file_name();
+        case CARTRIDGE_EXPERT:
+            /* return expert_get_file_name(); */
+            return ""; /* FIXME */
+        case CARTRIDGE_ISEPIC:
+            /* return isepic_get_file_name(); */
+            return ""; /* FIXME */
+        case CARTRIDGE_RAMCART:
+            return ramcart_get_file_name();
+        /* "I/O Slot" */
+        case CARTRIDGE_GEORAM:
+            return georam_get_file_name();
+        case CARTRIDGE_REU:
+            return reu_get_file_name();
+        /* the following have no associated file */
+        case CARTRIDGE_DIGIMAX:
+#ifdef HAVE_MIDI
+        case CARTRIDGE_MIDI_PASSPORT:
+        case CARTRIDGE_MIDI_DATEL:
+        case CARTRIDGE_MIDI_SEQUENTIAL:
+        case CARTRIDGE_MIDI_NAMESOFT:
+        case CARTRIDGE_MIDI_MAPLIN:
+#endif
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+#ifdef HAVE_TFE
+        case CARTRIDGE_TFE:
+#endif
+#ifdef HAVE_RS232
+        case CARTRIDGE_TURBO232:
+#endif
+          break;
+
+        /* Main Slot handled in c64cart.c:cartridge_get_file_name */
+    }
+    return ""; /* ? */
 }
 
 /* ------------------------------------------------------------------------- */

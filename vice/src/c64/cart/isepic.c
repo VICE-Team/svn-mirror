@@ -370,6 +370,12 @@ void REGPARM2 isepic_page_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
+const char *isepic_get_file_name(void)
+{
+    /* return isepic_filename; */
+    return ""; /* FIXME */
+}
+
 void isepic_config_init(void)
 {
     /* FIXME: do nothing ? */

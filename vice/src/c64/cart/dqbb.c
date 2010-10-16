@@ -285,6 +285,11 @@ int dqbb_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+const char *dqbb_get_file_name(void)
+{
+    return dqbb_filename;
+}
+
 void dqbb_reset(void)
 {
     dqbb_a000_mapped = 0;
