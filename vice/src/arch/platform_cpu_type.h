@@ -41,7 +41,7 @@
  * sparc64    | yes, -sub           | not yet
  * tile       | no                  | not yet
  * vax        | yes                 | not yet
- * x86        | yes, +sub           | not yet
+ * x86        | yes, +sub           | in progress
  * xtensa     | no                  | not yet
  */
 
@@ -539,7 +539,7 @@ inline static int is_8086(void)
 }
 
 /* Detect 80386 CPU */
-inline static int is_80386(void)
+static int is_80386(void)
 {
     int is386;
 
@@ -577,7 +577,7 @@ inline static int is_80386(void)
     return is386;
 }
 
-inline static int is_not_80386(void)
+static int is_not_80386(void)
 {
     return !is_80386();
 }
@@ -721,6 +721,11 @@ inline static int is_am386dxllv(void)
     } \
     return 0
 
+inline static int is_intel_vendor(void)
+{
+    is_vendor_string("GenuineIntel");
+}
+
 inline static int is_amd_vendor(void)
 {
     is_vendor_string("AuthenticAMD");
@@ -773,6 +778,8 @@ typedef struct cpuid_model_s {
     int (*detect)(void);
 } cpuid_model_t;
 
+/* 0000 0000 XXFF XXMM TTTT FFFF MMMM SSSS */
+
 cpuid_model_t cpu_models[] = {
     { 0x0000, 0xff00, "i386DX", is_80386 },
     { 0x0300, 0xfff0, "Am386DX(L/LV)", is_am386dxllv },
@@ -786,13 +793,24 @@ cpuid_model_t cpu_models[] = {
     { 0x4302, 0xffff, "i376", NULL },
     { 0x4300, 0xff00, "i386SL", NULL },
     { 0xA300, 0xff00, "IBM 386SLC", NULL },
+
     { 0x0000, 0xffff, "486DX", is_not_80386 },
     { 0x0005, 0xffff, "Cx486S/D", NULL },
     { 0x0006, 0xffff, "Cx486DX", NULL },
     { 0x0007, 0xffff, "Cx486DX2", NULL },
     { 0x0008, 0xffff, "Cx486DX4", NULL },
-    { 0x0400, 0xffff, "i486DX", NULL },
-    { 0x0405, 0xffff, "i486DX (P4)", NULL },
+
+    { 0x000400, 0xffffff, "Intel i80486DX-25/33", is_intel_vendor }, /* CI */
+    { 0x000401, 0xffffff, "Intel i80486DX-50", is_intel_vendor },    /* CI */
+    { 0x000402, 0xffffff, "Intel i80486SX", is_intel_vendor },       /* CI */
+    { 0x000403, 0xffffff, "Intel i80486DX/2", is_intel_vendor },     /* CI */
+    { 0x000404, 0xffffff, "Intel i80486SL", is_intel_vendor },       /* CI */
+    { 0x000405, 0xffffff, "Intel i80486SX/2", is_intel_vendor },     /* CI */
+    { 0x000407, 0xffffff, "Intel i80486DX/2-WB", is_intel_vendor },  /* CI */
+    { 0x000408, 0xffffff, "Intel i80486DX/4", is_intel_vendor },     /* CI */
+    { 0x000409, 0xffffff, "Intel i80486DX/4-WB", is_intel_vendor },  /* CI */
+    { 0x000400, 0xfffff0, "Intel i80486", is_intel_vendor },         /* CI */
+
     { 0x0400, 0xfff0, "Cx486SLC", is_cyrix },
     { 0x0400, 0xfff0, "Am486DX", is_amd_vendor },
     { 0x0400, 0xfff0, "i486DX", NULL },
@@ -886,18 +904,46 @@ cpuid_model_t cpu_models[] = {
     { 0xA430, 0xfff0, "IBM 486SLC2/SLC3", NULL },
     { 0xA480, 0xffff, "Cx486Dx2-V / IBM BL486DX2", NULL },
     { 0xA400, 0xff00, "IBM 486SLC", NULL },
+
+    { 0x000500, 0xffffff, "Intel Pentium 60/66", is_intel_vendor }, /* CI */
+    { 0x001501, 0xffffff, "Intel Pentium 60/66 (overdrive for P5)", is_intel_vendor }, /* CI */
+
     { 0x0500, 0xfffe, "Am5k86 (SSA5)", NULL },
+    
+    { 0x000501, 0xffffff, "Intel Pentium 60/66", is_intel_vendor },                /* CI */
+    { 0x001502, 0xffffff, "Intel Pentium 75 - 200 (overdrive for P54C)", is_intel_vendor }, /* CI */
+    { 0x000502, 0xffffff, "Intel Pentium P54C 75 - 200", is_intel_vendor }, /* CI */
+    { 0x001503, 0xffffff, "Intel Pentium (overdrive for i486 P24T)", is_intel_vendor }, /* CI */
+    { 0x001504, 0xffffff, "Intel Pentium (overdrive for P54C)", is_intel_vendor }, /* CI */
+    { 0x000504, 0xffffff, "Intel Pentium MMX P55C", is_intel_vendor }, /* CI */
+
     { 0x0504, 0xffff, "Nx586", NULL },
     { 0x0506, 0xffff, "Nx586", NULL },
+
+    { 0x000507, 0xffffff, "Intel Pentium MMX P54C 75 - 200", is_intel_vendor }, /* CI */
+    { 0x000508, 0xffffff, "Intel Pentium MMX P55C", is_intel_vendor }, /* CI */
+    { 0x000500, 0xfffff0, "Intel Pentium", is_intel_vendor }, /* CI */
+
     { 0x0500, 0xfff0, "Rise mP6 iDragon", is_rise_vendor },
     { 0x0500, 0xfff0, "Nx586", is_nexgen_vendor },
     { 0x0500, 0xfff0, "Am5k86", is_amd_vendor },
+
+
     { 0x0511, 0xffff, "K5", NULL },
     { 0x0512, 0xffff, "K5", is_amd_vendor },
     { 0x0512, 0xffff, "Pentium", NULL },
     { 0x0513, 0xffff, "Pentium", NULL },
     { 0x0514, 0xffff, "K5", is_amd_vendor },
     { 0x0514, 0xffff, "Pentium", NULL },
+
+    { 0x000600, 0xfffffe, "Intel Pentium Pro", is_intel_vendor }, /* CI */
+    { 0x001603, 0xffffff, "Intel Pentium II (overdrive)", is_intel_vendor }, /* CI */
+    { 0x000603, 0xffffff, "Intel Pentium II (Klamath)", is_intel_vendor }, /* CI */
+    { 0x000604, 0xffffff, "Intel Pentium P55CT overdrive (Deschutes)", is_intel_vendor }, /* CI */
+#if 0
+    { 0x000605, 0xffffff, "Intel Pentium II Xeon (Deschutes)", is_intel_vendor_and_Xeon_Deschutes }, /* CI */
+#endif
+
     { 0, 0, NULL, NULL }
 };
 
