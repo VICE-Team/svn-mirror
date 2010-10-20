@@ -180,10 +180,6 @@ SOURCE=..\..\c64\c64memsnapshot.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\c64model.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\c64\c64parallel.c
 # End Source File
 # Begin Source File
@@ -205,6 +201,10 @@ SOURCE=..\..\c64\c64romset.c
 # Begin Source File
 
 SOURCE=..\..\c64\c64rsuser.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64scmodel.c
 # End Source File
 # Begin Source File
 
