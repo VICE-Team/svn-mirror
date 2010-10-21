@@ -104,7 +104,7 @@ fi
 PLATYPUS_PATH="`which platypus`"
 PLATYPUS=0
 if [ $MULTI_APPS -eq 0 ]; then
-  if [ -e $PLATYPUS_PATH -a "$NO_PLATYPUS" = "" ]; then
+  if [ -e "$PLATYPUS_PATH" -a "$NO_PLATYPUS" = "" ]; then
     PLATYPUS_VERSION=`$PLATYPUS_PATH -v | cut -f 3 -d ' '`
     echo "  using platypus: $PLATYPUS_PATH version $PLATYPUS_VERSION"
     PLATYPUS=1
@@ -205,12 +205,11 @@ for bundle in $BUNDLES ; do
     echo -n "[platypus] "
     $PLATYPUS_PATH \
         -a VICE \
-        -o none \
+        -o None \
         -i $RUN_PATH/Resources/VICE.icns \
         -V "$VICE_VERSION" \
         -u "The VICE Team" \
         -I "org.viceteam.VICE" \
-        -D -X "$DROP_TYPES" \
         -c $RUN_PATH/$LAUNCHER \
         $APP_NAME
     PLATYPUS_STATUS=$?
@@ -330,9 +329,11 @@ for bundle in $BUNDLES ; do
       echo "ERROR: missing ROM: $TOP_DIR/data/$rom"
       exit 1
     fi
-    mkdir "$APP_ROMS/$rom"
+    if [ ! -d "$APP_ROMS/$rom" ]; then
+        mkdir "$APP_ROMS/$rom"
+    fi
     copy_tree "$TOP_DIR/data/$rom" "$APP_ROMS/$rom"
-    (cd $APP_ROMS/$rom && eval "rm -f $ROM_REMOVE")
+    (cd "$APP_ROMS/$rom" && eval "rm -f $ROM_REMOVE")
   done
 
   # copy html docs into bundle
@@ -408,7 +409,9 @@ for bundle in $BUNDLES ; do
       echo "ERROR: missing ROM: $TOP_DIR/data/$ROM"
       exit 1
     fi
-    mkdir "$APP_ROMS/$ROM"
+    if [ ! -d "$APP_ROMS/$ROM" ]; then
+        mkdir "$APP_ROMS/$ROM"
+    fi
     copy_tree "$TOP_DIR/data/$ROM" "$APP_ROMS/$ROM"
     (cd $APP_ROMS/$ROM && eval "rm -f $ROM_REMOVE")
 
