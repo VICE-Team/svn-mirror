@@ -45,6 +45,14 @@
  * xtensa     | no                  | not yet
  */
 
+/*
+ * FIXME!
+ * #if out a bunch of code to avoid compiler breakage with mingw32 and some
+ * other platforms.
+ */
+#define TEMPORARY_DISABLE 1
+
+
 /* Generic alpha cpu discovery */
 #if !defined(FIND_ALPHA_CPU) && (defined(__alpha__) || defined(__alpha_ev6__) || defined(__alpha_ev5__) || defined(__alpha_ev4__))
 #define FIND_ALPHA_CPU
@@ -541,6 +549,7 @@ inline static int is_8086(void)
 /* Detect 80386 CPU */
 static int is_80386(void)
 {
+#if !TEMPORARY_DISABLE
     int is386;
 
 #ifdef __GNUC__
@@ -575,6 +584,9 @@ static int is_80386(void)
     }
 #endif
     return is386;
+#else
+    return 0;
+#endif
 }
 
 static int is_not_80386(void)
@@ -653,6 +665,7 @@ inline static int is_i80486(void)
 /* check for cyrix cpu */
 inline static int is_cyrix(void)
 {
+#if !TEMPORARY_DISABLE
     int cyrix;
 
 #ifdef __GNUC__
@@ -680,8 +693,10 @@ inline static int is_cyrix(void)
         donecheckcyrix:
     }
 #endif
-
     return cyrix;
+#else
+    return 0;
+#endif
 }
 
 inline static int is_am386dxllv(void)
@@ -954,6 +969,7 @@ inline static char* platform_get_runtime_cpu(void)
     int hasCPUID;
     int i;
 
+#if !TEMPORARY_DISABLE
     hasCPUID = detect_cpuid();
     if (hasCPUID) {
         cpuid(1, regax, regbx, regcx, regdx);
@@ -970,6 +986,10 @@ inline static char* platform_get_runtime_cpu(void)
         }
     } else {
     }
+#else
+    return "";
+#endif
+ 
 }
 
 #define PLATFORM_GET_RUNTIME_CPU_DECLARED
