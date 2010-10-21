@@ -80,7 +80,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(NSInteger)rowIndex
+    row:(int)rowIndex
 {
     id theRecord;
 
@@ -134,10 +134,10 @@
 
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     if(registers) {
-        NSInteger num = [registers count];
+        int num = [registers count];
         return num;
     } else {
         return 0;

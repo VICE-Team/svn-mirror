@@ -135,7 +135,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(NSInteger)rowIndex
+    row:(int)rowIndex
 {
     if(data == nil)
         return nil;
@@ -230,7 +230,7 @@
     return theValue;
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return TOTAL_LINES;
 }
