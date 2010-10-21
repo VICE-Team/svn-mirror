@@ -83,7 +83,7 @@
 46 4 4 8            /*            M -> M            */
 47 5 4 8            /*            . -> .            */
 
-48 7 2 8            /*          TAB -> Ctrl         */
+48 5 6 8            /*          TAB -> @            */
 49 7 4 8            /*        Space -> Space        */
 50 7 5 8            /*        < >   -> CBM          */
 51 0 0 8            /*    Backspace -> Del          */
@@ -94,7 +94,7 @@
 56 1 7 2            /*   Left Shift -> Left Shift   */
 #57 -1 -1 0          /*           (no key)           */
 58 7 5 8            /*     Left Alt -> CBM          */
-59 7 2 8            /*    Left Ctrl -> CBM          */
+59 7 2 8            /*    Left Ctrl -> Ctrl         */
 60 6 4 4            /*  Right Shift -> Right Shift  */
 #61 -1 -1 0          /*   Right Alt ->               */
 #62 -1 -1 0          /*           (no key)           */
