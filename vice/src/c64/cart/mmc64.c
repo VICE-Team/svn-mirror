@@ -419,7 +419,7 @@ static int set_mmc64_bios_filename(const char *name, void *param)
     resources_get_int("MMC64", &enabled);
 
     if (set_mmc64_enabled(enabled, (void*)1) < 0 ) {
-        lib_free (mmc64_bios_filename);
+        lib_free(mmc64_bios_filename);
         mmc64_bios_filename = NULL;
         LOG(("MMC64: set_name done: %d '%s'",mmc64_enabled, mmc64_bios_filename));
         return -1;

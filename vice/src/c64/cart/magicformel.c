@@ -26,14 +26,6 @@
  */
 
 /*
-
-FIXME: the emulation still does not work 100%. perhaps the schematics have an
-       error, or maybe i have just overlooked something.
-
-things that work are those from the 64k ROM, the basic toolkit, the freezer,
-monitor, fastloader. anything that uses the additional 32k does NOT work yet
-(and behaves very strange, press F7, then FIRE(and hold, then move stick))
-
 the following is a quick overview of how the cartridge works, as its a bit
 unusual and different from most other cartridges:
 

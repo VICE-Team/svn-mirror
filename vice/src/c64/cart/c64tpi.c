@@ -429,7 +429,7 @@ static int set_ieee488_filename(const char *name, void *param)
     resources_get_int("IEEE488", &enabled);
 
     if (set_ieee488_enabled(enabled, (void*)1) < 0 ) {
-        lib_free (ieee488_filename);
+        lib_free(ieee488_filename);
         ieee488_filename = NULL;
         DBG(("IEEE: set_name done: %d '%s'\n",ieee488_enabled, ieee488_filename));
         return -1;

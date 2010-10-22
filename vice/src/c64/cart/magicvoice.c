@@ -901,7 +901,7 @@ static int set_magicvoice_filename(const char *name, void *param)
     resources_get_int("MagicVoiceCartridgeEnabled", &enabled);
 
     if (set_magicvoice_enabled(enabled, (void*)1) < 0 ) {
-        lib_free (magicvoice_filename);
+        lib_free(magicvoice_filename);
         magicvoice_filename = NULL;
         DBG(("MV: set_name done: %d '%s'\n",mv_enabled, magicvoice_filename));
         return -1;
