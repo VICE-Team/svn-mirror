@@ -45,14 +45,6 @@
  * xtensa     | no                  | not yet
  */
 
-/*
- * FIXME!
- * #if out a bunch of code to avoid compiler breakage with mingw32 and some
- * other platforms.
- */
-#define TEMPORARY_DISABLE 1
-
-
 /* Generic alpha cpu discovery */
 #if !defined(FIND_ALPHA_CPU) && (defined(__alpha__) || defined(__alpha_ev6__) || defined(__alpha_ev5__) || defined(__alpha_ev4__))
 #define FIND_ALPHA_CPU
@@ -549,7 +541,6 @@ inline static int is_8086(void)
 /* Detect 80386 CPU */
 static int is_80386(void)
 {
-#if !TEMPORARY_DISABLE
     int is386;
 
 #ifdef __GNUC__
@@ -584,9 +575,6 @@ static int is_80386(void)
     }
 #endif
     return is386;
-#else
-    return 0;
-#endif
 }
 
 static int is_not_80386(void)
@@ -665,7 +653,6 @@ inline static int is_i80486(void)
 /* check for cyrix cpu */
 inline static int is_cyrix(void)
 {
-#if !TEMPORARY_DISABLE
     int cyrix;
 
 #ifdef __GNUC__
@@ -694,9 +681,6 @@ inline static int is_cyrix(void)
     }
 #endif
     return cyrix;
-#else
-    return 0;
-#endif
 }
 
 inline static int is_am386dxllv(void)
@@ -795,7 +779,7 @@ typedef struct cpuid_model_s {
 
 /* 0000 0000 XXFF XXMM TTTT FFFF MMMM SSSS */
 
-cpuid_model_t cpu_models[] = {
+static cpuid_model_t cpu_models[] = {
     { 0x0000, 0xff00, "i386DX", is_80386 },
     { 0x0300, 0xfff0, "Am386DX(L/LV)", is_am386dxllv },
     { 0x0300, 0xfff0, "i386DX", NULL },
@@ -969,7 +953,6 @@ inline static char* platform_get_runtime_cpu(void)
     int hasCPUID;
     int i;
 
-#if !TEMPORARY_DISABLE
     hasCPUID = detect_cpuid();
     if (hasCPUID) {
         cpuid(1, regax, regbx, regcx, regdx);
@@ -986,9 +969,6 @@ inline static char* platform_get_runtime_cpu(void)
         }
     } else {
     }
-#else
-    return "";
-#endif
  
 }
 
