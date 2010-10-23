@@ -498,478 +498,185 @@ static char *unknown = "Unknown x86-compatible";
     }
 #endif
 
-/* Detect 8086/8088 CPU */
-inline static int is_8086(void)
-{
-    int is86;
-
-#ifdef __GNUC__
-    __asm__ __volatile__ ("pushf;"
-                          "pop %ax;"
-                          "mov %ax, %cx;"
-                          "and 0x0fff, %ax;"
-                          "push %ax;"
-                          "popf;"
-                          "pushf;"
-                          "pop %ax;"
-                          "and 0x0f000, %ax;"
-                          "cmp 0x0f000, %ax;"
-                          "jne check86done;"
-                          "movl $1, is86;"
-                          "check86done:");
-#else
-    asm {
-        pushfd
-        pop ax
-        mov cx, ax
-        and ax, 0fffh
-        push ax
-        popfd
-        pushfd
-        pop ax
-        and ax, 0f000h
-        cmp ax, 0f000h
-        jne check86done
-        mov is86, 1
-        check86done:
-    }
-#endif
-
-    return is86;
-}
-
-/* Detect 80386 CPU */
-static int is_80386(void)
-{
-    int is386;
-
-#ifdef __GNUC__
-    __asm__ __volatile__ ("pushf;"
-                          "pop %eax;"
-                          "movl %eax, %ecx;"
-                          "xorl 0x40000, %eax;"
-                          "push %eax;"
-                          "popf;"
-                          "pushf;"
-                          "pop %eax;"
-                          "xorl %ecx, %eax;"
-                          "movl $1, is386;"
-                          "jz donecheck386;"
-                          "movl $0, is386;"
-                          "donecheck386:");
-#else
-    asm {
-        pushfd
-        pop eax
-        mov ecx, eax
-        xor eax, 0x40000
-        push eax
-        popf
-        pushf
-        pop eax
-        xor eax, ecx
-        mov is386, 1
-        jz donecheck386
-        mov is386, 0
-        donecheck386:
-    }
-#endif
-    return is386;
-}
-
-static int is_not_80386(void)
-{
-    return !is_80386();
-}
-
-/* check if cpuid is present */
 inline static int has_cpuid(void)
 {
-    int hasCPUID;
-
-#ifdef __GNUC__
+    int a, c;
+#ifdef _MSC_VER
+/* TODO */
+#else
     __asm__ __volatile__ ("pushf;"
-                          "pop %eax;"
-                          "movl %eax, %ecx;"
-                          "andl 0x00200000, %ecx;"
-                          "xorl 0x00200000, %eax;"
-                          "push %eax;"
+                          "popl %0;"
+                          "movl %0, %1;"
+                          "xorl $0x200000, %0;"
+                          "push %0;"
                           "popf;"
                           "pushf;"
-                          "pop %eax;"
-                          "andl 0x00200000, %eax;"
-                          "xorl %ecx, %eax;"
-                          "movl %eax, hasCPUID");
-#else
-    asm {
-        pushfd
-        pop eax
-        mov ecx, eax
-        and ecx, 0x00200000
-        xor eax, 0x00200000
-        push eax
-        popfd
-        pushfd
-        pop eax
-        and eax, 0x00200000
-        xor eax, ecx
-        mov hasCPUID, eax
-    }
-#endif
-
-    return hasCPUID;
+                          "popl %0;"
+                          : "=a" (a), "=c" (c)
+                          :
+                          : "cc" );
+    return (a!=c);
 }
+#endif 
 
-/* check for old i80486 */
-inline static int is_i80486(void)
+#define CPU_VENDOR_UNKNOWN     0
+#define CPU_VENDOR_INTEL       1
+#define CPU_VENDOR_UMC         2
+#define CPU_VENDOR_AMD         3
+#define CPU_VENDOR_CYRIX       4
+#define CPU_VENDOR_NEXGEN      5
+#define CPU_VENDOR_CENTAUR     6
+#define CPU_VENDOR_RISE        7
+#define CPU_VENDOR_SIS         8
+#define CPU_VENDOR_TRANSMETA   9
+#define CPU_VENDOR_NSC         10
+#define CPU_VENDOR_VIA         11
+#define CPU_VENDOR_IDT         12
+
+typedef struct cpu_vendor_s {
+    char *string;
+    int id;
+    int (*identify)(void);
+} cpu_vendor_t;
+
+inline static int is_idt_cpu(void)
 {
-    int is486;
+    DWORD regax, regbx, regcx, regdx;
 
-#ifdef __GNUC__
-    __asm__ __volatile__ ("movl $0x5555, %eax;"
-                          "xorl %edx, %edx;"
-                          "movl $2, %ecx;"
-                          "clc;"
-                          "divl %ecx;"
-                          "jnc donecheck486;"
-                          "movl $1, is0486;"
-                          "donecheck486:");
-#else
-    asm {
-        mov eax, 0x5555
-        xor edx, edx
-        mov ecx, 2
-        clc
-        div ecx
-        jnc donecheck486
-        mov is486, 1
-        donecheck486:
-    }
-#endif
-
-    return is486;
-}
-
-/* check for cyrix cpu */
-inline static int is_cyrix(void)
-{
-    int cyrix;
-
-#ifdef __GNUC__
-    __asm__ __volatile__ ("xor %ax, %ax;"
-                          "sahf;"
-                          "mov $5, %ax;"
-                          "mov $2, %bx;"
-                          "div %bl;"
-                          "lahf;"
-                          "cmp $2, %ah;"
-                          "jne donecheckcyrix;"
-                          "movl $1, cyrix;"
-                          "donecheckcyrix:");
-#else
-    asm {
-        xor ax, ax
-        sahf
-        mov ax, 5
-        mov bx, 2
-        div bl
-        lahf
-        cmp ah, 2
-        jne donecheckcyrix
-        mov cyrix, 1
-        donecheckcyrix:
-    }
-#endif
-    return cyrix;
-}
-
-inline static int is_am386dxllv(void)
-{
-    unsigned int result, temp;
-    int x;
-    unsigned int temp2 = (0x55555555 - (unsigned)&x);
-    unsigned int temp3 = (unsigned)&x;
-
-#ifdef __GNUC__
-    __asm__ __volatile__ ("pusha;"
-                          "addl $4, %0;"
-                          "popa;"
-                          "movl 0x55555555(%0, %3, 2), %1"
-                          : "=a" (result), "=r" (temp)
-                          : "a" (temp2), "r" (temp));
-#else
-    /* TODO */
-#endif
-
-    temp3 = (unsigned)&x;
-    if ((result + temp3) * 3 != -1) {
+    cpuid(0xC0000000, regax, regbx, regcx, regdx);
+    if (regax == 0xC0000000) {
         return 1;
     }
     return 0;
 }
 
-#define is_vendor_string(string) \
-    DWORD regax, regbx, regcx, regdx; \
-    char type_buf[13]; \
-    cpuid(0, regax, regbx, regcx, regdx); \
-    memcpy(type_buf + 0, &regbx, 4); \
-    memcpy(type_buf + 4, &regdx, 4); \
-    memcpy(type_buf + 8, &regcx, 4); \
-    if (!strcmp(type_buf, string)) { \
-        return 1; \
-    } \
-    return 0
+static cpu_vendor_t cpu_vendors[] = {
+    { "GenuineIntel", CPU_VENDOR_INTEL, NULL },
+    { "AuthenticAMD", CPU_VENDOR_AMD, NULL },
+    { "AMDisbetter!", CPU_VENDOR_AMD, NULL },
+    { "AMD ISBETTER", CPU_VENDOR_AMD, NULL },
+    { "Geode by NSC", CPU_VENDOR_NSC, NULL },
+    { "CyrixInstead", CPU_VENDOR_CYRIX, NULL },
+    { "UMC UMC UMC ", CPU_VENDOR_UMC, NULL },
+    { "NexGenDriven", CPU_VENDOR_NEXGEN, NULL },
+    { "CentaurHauls", CPU_VENDOR_CENTAUR, NULL },
+    { "RiseRiseRise", CPU_VENDOR_RISE, NULL },
+    { "GenuineTMx86", CPU_VENDOR_TRANSMETA, NULL },
+    { "TransmetaCPU", CPU_VENDOR_TRANSMETA, NULL },
+    { "SiS SiS SiS ", CPU_VENDOR_SIS, NULL },
+    { "VIA VIA VIA ", CPU_VENDOR_VIA, NULL },
+    { NULL, CPU_VENDOR_IDT, is_idt_cpu },
+    { NULL, CPU_VENDOR_UNKNOWN, NULL }
+};
 
-inline static int is_intel_vendor(void)
-{
-    is_vendor_string("GenuineIntel");
-}
-
-inline static int is_amd_vendor(void)
-{
-    is_vendor_string("AuthenticAMD");
-}
-
-inline static int is_cyrix_vendor(void)
-{
-    is_vendor_string("CyrixInstead");
-}
-
-static inline int is_umc_vendor(void)
-{
-    is_vendor_string("UMC UMC UMC ");
-}
-
-static inline int is_rise_vendor(void)
-{
-    is_vendor_string("RiseRiseRise");
-}
-
-static inline int is_nexgen_vendor(void)
-{
-    is_vendor_string("NexGenDriven");
-}
-
-static inline int is_centaur_vendor(void)
-{
-    is_vendor_string("CentaurHauls");
-}
-
-static inline int is_sis_vendor(void)
-{
-    is_vendor_string("SiS SiS SiS ");
-}
-
-static inline int is_transmeta_vendor(void)
-{
-    is_vendor_string("GenuineTMx86");
-}
-
-static inline int is_nsc_vendor(void)
-{
-    is_vendor_string("Geode by NSC");
-}
-
-typedef struct cpuid_model_s {
-    DWORD type;
+typedef struct cpu_name_s {
+    int id;
+    DWORD fms;
     DWORD mask;
     char *name;
-    int (*detect)(void);
-} cpuid_model_t;
+} cpu_name_t;
 
-/* 0000 0000 XXFF XXMM TTTT FFFF MMMM SSSS */
+static cpu_name_t cpu_names[] = {
+    { CPU_VENDOR_INTEL, 0x00300, 0x00f00, "Intel 80386" },
+    { CPU_VENDOR_INTEL, 0x00400, 0x00f00, "Intel 80486" },
+    { CPU_VENDOR_INTEL, 0x00500, 0x00f00, "Intel Pentium" },
+    { CPU_VENDOR_INTEL, 0x00600, 0x00f00, "Intel Pentium Pro/II/III/Celeron/Core/Core 2/Atom" },
+    { CPU_VENDOR_INTEL, 0x00700, 0x00f00, "Intel Itanium" },
+    { CPU_VENDOR_INTEL, 0x00f00, 0xf0f00, "Intel Pentium 4/Pentium D/Pentium Extreme Edition/Celeron/Xeon/Xeon MP" },
+    { CPU_VENDOR_INTEL, 0x10f00, 0xf0f00, "Intel Itanium 2" },
+    { CPU_VENDOR_INTEL, 0x20f00, 0xf0f00, "Intel Itanium 2 dual core" },
+    { CPU_VENDOR_INTEL, 0x00000, 0x00000, "Unknown Intel CPU" },
 
-static cpuid_model_t cpu_models[] = {
-    { 0x0000, 0xff00, "i386DX", is_80386 },
-    { 0x0300, 0xfff0, "Am386DX(L/LV)", is_am386dxllv },
-    { 0x0300, 0xfff0, "i386DX", NULL },
-    { 0x0340, 0xfff0, "RapidCAD (tm)", NULL },
-    { 0x03D5, 0xffff, "NexGen Nx5-100", NULL },
-    { 0x2300, 0xfff0, "Am386DX(L/LV)", is_am386dxllv },
-    { 0x2300, 0xfff0, "i386SX", NULL },
-    { 0x3300, 0xff00, "i376", NULL },
-    { 0x4300, 0xfffe, "i376", NULL },
-    { 0x4302, 0xffff, "i376", NULL },
-    { 0x4300, 0xff00, "i386SL", NULL },
-    { 0xA300, 0xff00, "IBM 386SLC", NULL },
+    { CPU_VENDOR_AMD, 0x00300, 0x00f00, "AMD Am386" },
+    { CPU_VENDOR_AMD, 0x00400, 0x00f00, "AMD Am486" },
+    { CPU_VENDOR_AMD, 0x00500, 0x00f00, "AMD K5/K6" },
+    { CPU_VENDOR_AMD, 0x00600, 0x00f00, "AMD Athlon/Duron" },
+    { CPU_VENDOR_AMD, 0x00700, 0x00f00, "AMD Athlon64/Opteron/Sempron/Turion" },
+    { CPU_VENDOR_AMD, 0x00f00, 0xf0f00, "AMD K8" },
+    { CPU_VENDOR_AMD, 0x10f00, 0xf0f00, "AMD K8L" },
+    { CPU_VENDOR_AMD, 0x00000, 0x00000, "Unknown AMD CPU" },
 
-    { 0x0000, 0xffff, "486DX", is_not_80386 },
-    { 0x0005, 0xffff, "Cx486S/D", NULL },
-    { 0x0006, 0xffff, "Cx486DX", NULL },
-    { 0x0007, 0xffff, "Cx486DX2", NULL },
-    { 0x0008, 0xffff, "Cx486DX4", NULL },
+    { CPU_VENDOR_NSC, 0x00500, 0x00f00, "NSC Geode GX1" },
+    { CPU_VENDOR_NSC, 0x00000, 0x00000, "Unknown NSC CPU" },
 
-    { 0x000400, 0xffffff, "Intel i80486DX-25/33", is_intel_vendor }, /* CI */
-    { 0x000401, 0xffffff, "Intel i80486DX-50", is_intel_vendor },    /* CI */
-    { 0x000402, 0xffffff, "Intel i80486SX", is_intel_vendor },       /* CI */
-    { 0x000403, 0xffffff, "Intel i80486DX/2", is_intel_vendor },     /* CI */
-    { 0x000404, 0xffffff, "Intel i80486SL", is_intel_vendor },       /* CI */
-    { 0x000405, 0xffffff, "Intel i80486SX/2", is_intel_vendor },     /* CI */
-    { 0x000407, 0xffffff, "Intel i80486DX/2-WB", is_intel_vendor },  /* CI */
-    { 0x000408, 0xffffff, "Intel i80486DX/4", is_intel_vendor },     /* CI */
-    { 0x000409, 0xffffff, "Intel i80486DX/4-WB", is_intel_vendor },  /* CI */
-    { 0x000400, 0xfffff0, "Intel i80486", is_intel_vendor },         /* CI */
+    { CPU_VENDOR_CYRIX, 0x00300, 0x00f00, "Cyrix C&T 3860xDX/SX" },
+    { CPU_VENDOR_CYRIX, 0x00400, 0x00f00, "Cyrix Cx486" },
+    { CPU_VENDOR_CYRIX, 0x00500, 0x00f00, "Cyrix M1" },
+    { CPU_VENDOR_CYRIX, 0x00600, 0x00f00, "Cyrix M2" },
+    { CPU_VENDOR_CYRIX, 0x00000, 0x00000, "Unknown Cyrix CPU" },
 
-    { 0x0400, 0xfff0, "Cx486SLC", is_cyrix },
-    { 0x0400, 0xfff0, "Am486DX", is_amd_vendor },
-    { 0x0400, 0xfff0, "i486DX", NULL },
-    { 0x0410, 0xffff, "Cx486SLC", is_cyrix_vendor },
-    { 0x0410, 0xffff, "TI486SLC/DLC/e / TI486SXL(C)/2", is_cyrix },
-    { 0x0410, 0xffff, "Am486DX", is_amd_vendor },
-    { 0x0410, 0xffff, "i486DX50", NULL },
-    { 0x0411, 0xffff, "TI486SLC/DLC/e / TI486SXL(C)/2", is_cyrix },
-    { 0x0411, 0xffff, "Am486DX", is_amd_vendor },
-    { 0x0411, 0xffff, "i486DX50", NULL },
-    { 0x0412, 0xffff, "Am486DX/DXL/DXLV/DE", NULL },
-    { 0x0413, 0xffff, "i486DX50", NULL },
-    { 0x0414, 0xffff, "i486DX50", NULL },
-    { 0x0415, 0xffff, "i486DX50", NULL },
-    { 0x0410, 0xfff0, "Cx486SLC", is_cyrix },
-    { 0x0410, 0xfff0, "UMC U5(S)D", is_umc_vendor },
-    { 0x0410, 0xfff0, "Am486DX", is_amd_vendor },
-    { 0x0410, 0xfff0, "i486DX50", NULL },
-    { 0x0420, 0xffff, "Cx486SLC", is_cyrix },
-    { 0x0420, 0xffff, "i486SX / i487SX", NULL },
-    { 0x0421, 0xffff, "i487SX", NULL },
-    { 0x0422, 0xffff, "i486SX / i487SX", NULL },
-    { 0x0423, 0xffff, "UMC U5S", is_umc_vendor },
-    { 0x0423, 0xffff, "i486SX", NULL },
-    { 0x0424, 0xffff, "i486SX", NULL },
-    { 0x0427, 0xffff, "i486SX", NULL },
-    { 0x0428, 0xffff, "Cx5x86", is_cyrix },
-    { 0x0428, 0xffff, "i486SX", NULL },
-    { 0x0429, 0xffff, "Cx5x86", NULL },
-    { 0x042A, 0xffff, "Cx5x86", is_cyrix },
-    { 0x042A, 0xffff, "i486SX", NULL },
-    { 0x042B, 0xffff, "Cx5x86", is_cyrix },
-    { 0x042B, 0xffff, "i486SX", NULL },
-    { 0x042C, 0xffff, "Cx5x86", NULL },
-    { 0x042D, 0xffff, "Cx5x86", NULL },
-    { 0x042E, 0xffff, "Cx5x86", is_cyrix },
-    { 0x042E, 0xffff, "i486SX", NULL },
-    { 0x042F, 0xffff, "Cx5x86", NULL },
-    { 0x0420, 0xfff0, "UMC U5S", is_umc_vendor },
-    { 0x0420, 0xfff0, "Cx486SLC / Cx5x86", is_cyrix },
-    { 0x0420, 0xfff0, "i486SX / i486GX / i487SX", NULL },
-    { 0x0432, 0xffff, "Am486DX2 / Am486DXL2 / Am486DX4", is_amd_vendor },
-    { 0x0432, 0xffff, "i486DX2", NULL },
-    { 0x1432, 0xffff, "i486DX2 (overdrive)", NULL },
-    { 0x0433, 0xffff, "i486DX2", NULL },
-    { 0x1433, 0xffff, "i486DX2 (overdrive)", NULL },
-    { 0x0434, 0xffff, "Am486DX2 / Am486DX4", is_amd_vendor },
-    { 0x0434, 0xffff, "i486DX2", NULL },
-    { 0x1434, 0xffff, "i486DX2 (overdrive)", NULL },
-    { 0x0435, 0xffff, "i486DX2", NULL },
-    { 0x0436, 0xffff, "i486DX2WT", NULL },
-    { 0x0430, 0xfff0, "UMC U486DX2", is_umc_vendor },
-    { 0x0430, 0xfff0, "Am486DX2 / Am486DE2 / Am486DX4", is_amd_vendor },
-    { 0x0430, 0xfff0, "i486DX2 / i487SX", NULL },
-    { 0x1430, 0xfff0, "i486DX2 (overdrive)", NULL },
-    { 0x0440, 0xfffe, "i486SL", NULL },
-    { 0x0440, 0xfff0, "MediaGX", is_cyrix_vendor },
-    { 0x0440, 0xfff0, "i486SL / i486DXL", NULL },
-    { 0x045B, 0xffff, "i486SX2", NULL },
-    { 0x0450, 0xfff0, "UMC U486SX2", is_umc_vendor },
-    { 0x0450, 0xfff0, "i486SX2", NULL },
-    { 0x0470, 0xffff, "i486DX2WB", NULL },
-    { 0x0474, 0xffff, "Am486DX2 / Am486DX4", NULL },
-    { 0x0470, 0xfff0, "Am486DX2", is_amd_vendor },
-    { 0x0470, 0xfff0, "i486DX2", NULL },
-    { 0x0480, 0xffff, "IBM BL486DX2 / Cx486DX2-V / TI486DX2", is_cyrix },
-    { 0x0480, 0xffff, "i486DX4", NULL },
-    { 0x0481, 0xffff, "TI486DX4", NULL },
-    { 0x0483, 0xffff, "i486DX4", NULL },
-    { 0x0484, 0xffff, "Am486DX4 / Am5x86", is_amd_vendor },
-    { 0x0484, 0xffff, "i486DX4", NULL },
-    { 0x0480, 0xfff0, "Am486DX4", is_amd_vendor },
-    { 0x0480, 0xfff0, "i486DX4", NULL },
-    { 0x1480, 0xfff0, "i486DX4 (overdrive)", NULL },
-    { 0x0490, 0xffff, "Cx5x86", is_cyrix },
-    { 0x0490, 0xffff, "i486DX4", NULL },
-    { 0x0494, 0xffff, "Am486DX4 / Am5x86", NULL },
-    { 0x0490, 0xfff0, "Cx5x86", is_cyrix },
-    { 0x0490, 0xfff0, "i486DX4WB", NULL },
-    { 0x04E4, 0xffff, "Am486DX5-133 / Am5x86", NULL },
-    { 0x04E0, 0xfff0, "Am5x86", NULL },
-    { 0x04F4, 0xffff, "Am486DX5-133 / Am5x86", NULL },
-    { 0x04F0, 0xfff0, "Am5x86", NULL },
-    { 0x1480, 0xffff, "i486DX4 (overdrive)", NULL },
-    { 0x8400, 0xff00, "IBM 486BLX/BLX2/BLX3", NULL },
-    { 0xA400, 0xfff0, "IBM 486SLC", NULL },
-    { 0xA412, 0xffff, "IBM 486SLC2", NULL },
-    { 0xA410, 0xfff0, "IBM 486SLC(2)", NULL },
-    { 0xA420, 0xfff0, "IBM 486SLC2", NULL },
-    { 0xA439, 0xffff, "IBM 486SLC3", NULL },
-    { 0xA430, 0xfff0, "IBM 486SLC2/SLC3", NULL },
-    { 0xA480, 0xffff, "Cx486Dx2-V / IBM BL486DX2", NULL },
-    { 0xA400, 0xff00, "IBM 486SLC", NULL },
+    { CPU_VENDOR_UMC, 0x00400, 0x00f00, "UMC 486 U5" },
+    { CPU_VENDOR_UMC, 0x00000, 0x00000, "Unknown UMC CPU" },
 
-    { 0x000500, 0xffffff, "Intel Pentium 60/66", is_intel_vendor }, /* CI */
-    { 0x001501, 0xffffff, "Intel Pentium 60/66 (overdrive for P5)", is_intel_vendor }, /* CI */
+    { CPU_VENDOR_NEXGEN, 0x00500, 0x00f00, "NexGen Nx586" },
+    { CPU_VENDOR_NEXGEN, 0x00000, 0x00000, "Unknown NexGen CPU" },
 
-    { 0x0500, 0xfffe, "Am5k86 (SSA5)", NULL },
-    
-    { 0x000501, 0xffffff, "Intel Pentium 60/66", is_intel_vendor },                /* CI */
-    { 0x001502, 0xffffff, "Intel Pentium 75 - 200 (overdrive for P54C)", is_intel_vendor }, /* CI */
-    { 0x000502, 0xffffff, "Intel Pentium P54C 75 - 200", is_intel_vendor }, /* CI */
-    { 0x001503, 0xffffff, "Intel Pentium (overdrive for i486 P24T)", is_intel_vendor }, /* CI */
-    { 0x001504, 0xffffff, "Intel Pentium (overdrive for P54C)", is_intel_vendor }, /* CI */
-    { 0x000504, 0xffffff, "Intel Pentium MMX P55C", is_intel_vendor }, /* CI */
+    { CPU_VENDOR_CENTAUR, 0x00500, 0x00f00, "Centaur C6" },
+    { CPU_VENDOR_CENTAUR, 0x00000, 0x00000, "Unknown Centaur CPU" },
 
-    { 0x0504, 0xffff, "Nx586", NULL },
-    { 0x0506, 0xffff, "Nx586", NULL },
+    { CPU_VENDOR_RISE, 0x00500, 0x00f00, "Rise mP6" },
+    { CPU_VENDOR_RISE, 0x00000, 0x00000, "Unknown Rise CPU" },
 
-    { 0x000507, 0xffffff, "Intel Pentium MMX P54C 75 - 200", is_intel_vendor }, /* CI */
-    { 0x000508, 0xffffff, "Intel Pentium MMX P55C", is_intel_vendor }, /* CI */
-    { 0x000500, 0xfffff0, "Intel Pentium", is_intel_vendor }, /* CI */
+    { CPU_VENDOR_TRANSMETA, 0x00500, 0x00f00, "Transmeta Crusoe" },
+    { CPU_VENDOR_TRANSMETA, 0x00000, 0x00000, "Unknown Transmeta CPU" },
 
-    { 0x0500, 0xfff0, "Rise mP6 iDragon", is_rise_vendor },
-    { 0x0500, 0xfff0, "Nx586", is_nexgen_vendor },
-    { 0x0500, 0xfff0, "Am5k86", is_amd_vendor },
+    { CPU_VENDOR_SIS, 0x00500, 0x00f00, "SiS 55x" },
+    { CPU_VENDOR_SIS, 0x00000, 0x00000, "Unknown SiS CPU" },
 
+    { CPU_VENDOR_VIA, 0x00600, 0x00f00, "VIA C3" },
+    { CPU_VENDOR_VIA, 0x00000, 0x00000, "Unknown VIA CPU" },
 
-    { 0x0511, 0xffff, "K5", NULL },
-    { 0x0512, 0xffff, "K5", is_amd_vendor },
-    { 0x0512, 0xffff, "Pentium", NULL },
-    { 0x0513, 0xffff, "Pentium", NULL },
-    { 0x0514, 0xffff, "K5", is_amd_vendor },
-    { 0x0514, 0xffff, "Pentium", NULL },
+    { CPU_VENDOR_IDT, 0x00500, 0x00f00, "IDT WinChip" },
+    { CPU_VENDOR_IDT, 0x00000, 0x00000, "Unknown IDT CPU" },
 
-    { 0x000600, 0xfffffe, "Intel Pentium Pro", is_intel_vendor }, /* CI */
-    { 0x001603, 0xffffff, "Intel Pentium II (overdrive)", is_intel_vendor }, /* CI */
-    { 0x000603, 0xffffff, "Intel Pentium II (Klamath)", is_intel_vendor }, /* CI */
-    { 0x000604, 0xffffff, "Intel Pentium P55CT overdrive (Deschutes)", is_intel_vendor }, /* CI */
-#if 0
-    { 0x000605, 0xffffff, "Intel Pentium II Xeon (Deschutes)", is_intel_vendor_and_Xeon_Deschutes }, /* CI */
-#endif
+    { CPU_VENDOR_UNKNOWN, 0x00300, 0x00f00, "Unknown 80386 compatible CPU" },
+    { CPU_VENDOR_UNKNOWN, 0x00400, 0x00f00, "Unknown 80486 compatible CPU" },
+    { CPU_VENDOR_UNKNOWN, 0x00500, 0x00f00, "Unknown Pentium compatible CPU" },
+    { CPU_VENDOR_UNKNOWN, 0x00600, 0x00f00, "Unknown Pentium Pro compatible CPU" },
+    { CPU_VENDOR_UNKNOWN, 0x00000, 0x00000, "Unknown CPU" },
 
-    { 0, 0, NULL, NULL }
+    { 0, 0, 0, NULL }
 };
 
 /* runtime cpu detection */
 inline static char* platform_get_runtime_cpu(void)
 {
     DWORD regax, regbx, regcx, regdx;
+    char type_buf[13];
     int hasCPUID;
+    int found = 0;
+    int id = CPU_VENDOR_UNKNOWN;
     int i;
 
-    hasCPUID = detect_cpuid();
+    hasCPUID = has_cpuid();
     if (hasCPUID) {
-        cpuid(1, regax, regbx, regcx, regdx);
-        for (i = 0; cpu_models[i].name != NULL; i++) {
-            if ((regax & cpu_models[i].mask) == cpu_models[i].type) {
-                if (cpu_models[i].detect == NULL) {
-                    return cpu_models[i].name;
-                } else {
-                    if (cpu_models[i].detect() == 1) {
-                        return cpu_models[i].name;
-                    }
+        cpuid(0, regax, regbx, regcx, regdx);
+        memcpy(type_buf + 0, &regbx, 4);
+        memcpy(type_buf + 4, &regdx, 4);
+        memcpy(type_buf + 8, &regcx, 4);
+        for (i = 0; (cpu_vendors[i].id != CPU_VENDOR_UNKNOWN) && (found == 0); i++) {
+            if (cpu_vendors[i].identify != NULL) {
+                if (cpu_vendors[i].identify() == 1) {
+                    id = cpu_vendors[i].id;
+                    found = 1;
+                }
+            } else {
+                if (!strcmp(type_buf, cpu_vendors[i].string)) {
+                    id = cpu_vendors[i].id;
+                    found = 1;
                 }
             }
         }
+        cpuid(1, regax, regbx, regcx, regdx);
+        for (i = 0; cpu_names[i].name != NULL; i++) {
+            if ((regax & cpu_names[i].mask) == cpu_names[i].fms && cpu_names[i].id == id) {
+                return cpu_names[i].name;
+            }
+        }
+        return "Unknown CPU";
     } else {
+        return "No cpuid instruction present, output not implemented yet.";
     }
- 
 }
 
 #define PLATFORM_GET_RUNTIME_CPU_DECLARED
