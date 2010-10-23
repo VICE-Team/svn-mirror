@@ -35,6 +35,7 @@
 #define D71_FILE_SIZE      349696        /* D71 image, 70 tracks */
 #define D71_FILE_SIZE_E   (349696+1366)  /* D71 image, 70 tracks with errors */
 #define D81_FILE_SIZE      819200        /* D81 image, 80 tracks */
+#define D81_FILE_SIZE_E    822400        /* D81 image, 80 tracks with errors */
 #define D80_FILE_SIZE      533248        /* D80 image, 77 tracks */
 #define D82_FILE_SIZE     1066496        /* D82 image, 77 tracks */
 

@@ -185,17 +185,18 @@ void disk_image_attach_log(disk_image_t *image, signed int lognum,
 {
     const char *type = disk_image_type(image);
 
-    if (type == NULL)
+    if (type == NULL) {
         return;
+    }
 
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
-        log_message(lognum, "Unit %d: %s disk image attached: %s.",
+        log_verbose("Unit %d: %s disk image attached: %s.",
                     unit, type, fsimage_name_get(image));
         break;
 #ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
-        log_message(lognum, "Unit %d: %s disk attached (drive: %s).",
+        log_verbose("Unit %d: %s disk attached (drive: %s).",
                     unit, type, rawimage_name_get(image));
         break;
 #endif
@@ -207,17 +208,18 @@ void disk_image_detach_log(disk_image_t *image, signed int lognum,
 {
     const char *type = disk_image_type(image);
 
-    if (type == NULL)
+    if (type == NULL) {
         return;
+    }
 
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
-        log_message(lognum, "Unit %d: %s disk image detached: %s.",
+        log_verbose("Unit %d: %s disk image detached: %s.",
                     unit, type, fsimage_name_get(image));
         break;
 #ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
-        log_message(lognum, "Unit %d: %s disk detached (drive: %s).",
+        log_verbose("Unit %d: %s disk detached (drive: %s).",
                     unit, type, rawimage_name_get(image));
         break;
 #endif

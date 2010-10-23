@@ -74,7 +74,7 @@
 
 #define NUM_TRACKS_1581        80
 #define NUM_SECTORS_1581       40       /* Logical sectors */
-#define NUM_BLOCKS_1581        3200     /* 3120 free */
+#define NUM_BLOCKS_1581        3200     /* 3160 free */
 #define MAX_TRACKS_1581        80
 #define MAX_BLOCKS_1581        3200
 #define DIR_TRACK_1581         40

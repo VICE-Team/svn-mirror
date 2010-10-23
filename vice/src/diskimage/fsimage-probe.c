@@ -40,16 +40,13 @@
 #include "util.h"
 #include "x64.h"
 
-
 #define IS_D67_LEN(x) ((x) == D67_FILE_SIZE)
 #define IS_D71_LEN(x) (((x) == D71_FILE_SIZE) || ((x) == D71_FILE_SIZE_E))
-#define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
+#define IS_D81_LEN(x) (((x) == D81_FILE_SIZE) || ((x) == D81_FILE_SIZE_E))
 #define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
 #define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
 
-
 static log_t disk_image_probe_log = LOG_ERR;
-
 
 static void disk_image_check_log(disk_image_t *image, const char *type)
 {
@@ -57,8 +54,7 @@ static void disk_image_check_log(disk_image_t *image, const char *type)
 
     fsimage = image->media.fsimage;
 
-    log_message(disk_image_probe_log,
-                "%s disk image recognised: %s, %d tracks%s",
+    log_verbose("%s disk image recognised: %s, %d tracks%s",
                 type, fsimage->name, image->tracks,
                 image->read_only ? " (read only)." : ".");
 }
@@ -246,17 +242,19 @@ static int disk_image_check_for_d81(disk_image_t *image)
     rewind(fsimage->fd);
 
     while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
-        if (++blk > 3213) {
+        if (++blk > NUM_BLOCKS_1581 + 13) {
             log_error(disk_image_probe_log, "Disk image too large.");
             break;
         }
     }
 
-    if (disk_image_check_min_block(blk, NUM_BLOCKS_1581) < 0)
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_1581) < 0) {
         return 0;
+    }
 
     switch (blk) {
-      case 3200:
+      case NUM_BLOCKS_1581:
+      case NUM_BLOCKS_1581 + 12: /* with errors */
         image->tracks = NUM_TRACKS_1581;
         break;
       default:
