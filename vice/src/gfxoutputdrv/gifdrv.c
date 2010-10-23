@@ -30,6 +30,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <gif_lib.h>
+#include <sys/stat.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -129,17 +130,26 @@ static int gifdrv_write(screenshot_t *screenshot)
 
 static int gifdrv_close(screenshot_t *screenshot)
 {
-  gfxoutputdrv_data_t *sdata;
+    gfxoutputdrv_data_t *sdata;
+    mode_t mask;
 
-  sdata = screenshot->gfxoutputdrv_data;
+    sdata = screenshot->gfxoutputdrv_data;
 
-  EGifCloseFile(sdata->fd);
-  FreeMapObject(gif_colors);
-  lib_free(sdata->data);
-  lib_free(sdata->ext_filename);
-  lib_free(sdata);
+    EGifCloseFile(sdata->fd);
+    FreeMapObject(gif_colors);
 
-  return 0;
+    /* for some reason giflib will create a file with unexpected
+       permissions. for this reason we alter them according to
+       the current umask. */
+    mask = umask(0);
+    umask(mask);
+    chmod(sdata->ext_filename, mask ^ 0666);
+
+    lib_free(sdata->data);
+    lib_free(sdata->ext_filename);
+    lib_free(sdata);
+
+    return 0;
 }
 
 static int gifdrv_save(screenshot_t *screenshot, const char *filename)
