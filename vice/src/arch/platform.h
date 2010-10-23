@@ -380,11 +380,8 @@
 #define PLATFORM_OS "VXWORKS"
 #endif
 
-/* FIXME: disabled because of problems of mingw32 and some gcc versions. */
-#if 0
 /* Generic cpu discovery */
 #include "platform_cpu_type.h"
-#endif
 
 /* Generic compiler discovery */
 #include "platform_compiler.h"
