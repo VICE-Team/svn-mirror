@@ -66,6 +66,7 @@ typedef struct {
 } img_type_buttons;
 
 static img_type_buttons *buttons = NULL;
+static int combo_box_current_active = 0;
 
 #ifdef HAVE_FFMPEG
 
@@ -433,14 +434,15 @@ static GtkWidget *build_screenshot_dialog(void)
 
 int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 {
-    int res, i;
-    char *fn, *tmp;
+    int res, i, driveridx = -1;
+    char *fn, *tmp, *tmpext;
     const char *driver, *ext;
     
     if (screenshot_dialog) {
         gdk_window_show(screenshot_dialog->window);
         gdk_window_raise(screenshot_dialog->window);
         gtk_widget_show(screenshot_dialog);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(drv_menu), combo_box_current_active);
     } else {
         screenshot_dialog = build_screenshot_dialog();
         if (screenshot_dialog) {
@@ -464,10 +466,24 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
         return -1;
     }
 
+    tmpext = util_get_extension(fn);
+    if (tmpext) {
+        for (i = 0; i < gfxoutput_num_drivers(); i++) {
+            if (!strcmp(buttons[i].ext, tmpext)) {
+                driveridx = i;
+                break;
+            }
+        }
+    }
+
     i = gtk_combo_box_get_active(GTK_COMBO_BOX(drv_menu));
     if (i < 0) {
         return -1;
     }
+    if ((driveridx != -1) && (driveridx != i)) {
+        i = driveridx;
+    }
+    combo_box_current_active = i;
 
     driver = buttons[i].driver;
     ext = buttons[i].ext;
