@@ -22,6 +22,8 @@ EXTRA_DIST = \
 	VICEInformation.nib/keyedobjects.nib \
 	DriveSettings.nib/designable.nib \
 	DriveSettings.nib/keyedobjects.nib \
+	DisassemblyWindow.nib/designable.nib \
+	DisassemblyWindow.nib/keyedobjects.nib \
 	IECDriveSettings.nib/designable.nib \
 	IECDriveSettings.nib/keyedobjects.nib \
 	MemoryWindow.nib/designable.nib \

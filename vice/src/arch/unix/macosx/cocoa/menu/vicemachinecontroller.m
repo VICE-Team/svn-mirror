@@ -32,6 +32,7 @@
 #include "monitor.h"
 #include "monitor/mon_register.h"
 #include "monitor/montypes.h"
+#include "monitor/mon_ui.h"
 #include "machine.h"
 #include "keyboard.h"
 #include "diskimage.h"
@@ -222,6 +223,58 @@
     if(name == NULL)
         return nil;
     return [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
+}
+
+-(NSDictionary *)disassembleMemory:(int)memSpace lines:(int)numLines start:(int)address
+{
+    mon_disassembly_private_t dp;
+    
+    mon_disassembly_init(&dp);
+    mon_navigate_set_memspace(&dp.navigate,memSpace);
+    if(address < 0) {
+        // use current PC as start address
+        mon_disassembly_update(&dp);
+    } else {
+        mon_navigate_set_startaddress(&dp.navigate, address);
+    }
+    
+    mon_disassembly_t *data =  mon_disassembly_get_lines(&dp, numLines, numLines);
+    NSMutableArray *lines = [[NSMutableArray alloc] init];
+    while(data != NULL) {
+        
+        // entry dictionary with "content" and "flags"
+        NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSString stringWithCString:data->content encoding:NSUTF8StringEncoding], @"contents",
+            [NSNumber numberWithBool:data->flags.active_line], @"active_line",
+            [NSNumber numberWithBool:data->flags.is_breakpoint], @"is_breakpoint",
+            [NSNumber numberWithBool:data->flags.breakpoint_active], @"breakpoint_active",
+            nil
+        ];
+        [lines addObject:entry];
+        
+        mon_disassembly_t *old = data;
+        data = data->next;
+        lib_free(old);
+    }
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+        lines, @"lines",
+        [NSNumber numberWithInt:dp.navigate.StartAddress], @"start",
+        [NSNumber numberWithInt:dp.navigate.EndAddress], @"end",
+        nil
+    ];
+}
+
+-(NSNumber *)disassembleSeek:(int)memSpace up:(bool)up lines:(int)numLines start:(int)address
+{
+    mon_disassembly_private_t dp;
+    
+    mon_disassembly_init(&dp);
+    mon_navigate_set_memspace(&dp.navigate,memSpace);
+    mon_navigate_set_startaddress(&dp.navigate, address);
+    dp.navigate.Lines = numLines + 1;
+    WORD pos = mon_navigate_scroll(&dp.navigate, up ? MON_SCROLL_PAGE_UP : MON_SCROLL_PAGE_DOWN); 
+    return [NSNumber numberWithInt:pos];
 }
 
 // ----- Snapshot -----

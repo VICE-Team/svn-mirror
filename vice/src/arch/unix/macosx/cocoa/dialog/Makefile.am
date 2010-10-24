@@ -18,6 +18,7 @@ noinst_LIBRARIES = libarchmacosxcocoadialog.a
 
 noinst_HEADERS = \
 	debuggerwindowcontroller.h \
+	disassemblywindowcontroller.h \
 	drivesettingswindowcontroller.h \
 	iecdrivesettingswindowcontroller.h \
 	netplaycontrolwindowcontroller.h \
@@ -39,6 +40,7 @@ noinst_HEADERS = \
    
 libarchmacosxcocoadialog_a_SOURCES = \
 	debuggerwindowcontroller.m \
+	disassemblywindowcontroller.m \
 	drivesettingswindowcontroller.m \
 	iecdrivesettingswindowcontroller.m \
 	netplaycontrolwindowcontroller.m \

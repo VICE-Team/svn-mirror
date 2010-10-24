@@ -31,6 +31,7 @@
 #import "controlwindow.h"
 #import "registerwindowcontroller.h"
 #import "memorywindowcontroller.h"
+#import "disassemblywindowcontroller.h"
 
 @class VICEAppController;
 
@@ -62,6 +63,7 @@
     // debugger windows
     RegisterWindowController *cpuRegisterWC;    
     MemoryWindowController   *cpuMemoryWC;
+    DisassemblyWindowController *cpuDisassemblyWC;
     
     IBOutlet VICEAppController *appController;
     IBOutlet NSMenu *debuggerWindowsMenu;

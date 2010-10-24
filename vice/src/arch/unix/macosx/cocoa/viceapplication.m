@@ -43,6 +43,7 @@ const float control_win_width = 200;
 
 #define TAG_CPU_REGISTERS       0
 #define TAG_CPU_MEMORY          1
+#define TAG_CPU_DISASSEMBLY     2
 
 @implementation VICEApplication
 
@@ -65,6 +66,13 @@ const float control_win_width = 200;
                                keyEquivalent:@""];
     [item setTag:TAG_CPU_MEMORY];
     [debuggerWindowsMenu addItem:item];
+
+    // CPU Disassembly
+    item = [[NSMenuItem alloc] initWithTitle:@"CPU Disassembly"
+                                      action:@selector(toggleDebuggerWindow:)
+                               keyEquivalent:@""];
+    [item setTag:TAG_CPU_DISASSEMBLY];
+    [debuggerWindowsMenu addItem:item];
 }
 
 // setup window controlles
@@ -72,12 +80,14 @@ const float control_win_width = 200;
 {
     cpuRegisterWC = [[RegisterWindowController alloc] initWithMemSpace:e_comp_space];
     cpuMemoryWC = [[MemoryWindowController alloc] initWithMemSpace:e_comp_space];
+    cpuDisassemblyWC = [[DisassemblyWindowController alloc] initWithMemSpace:e_comp_space];
 }
 
 - (void)deallocDebuggerWindowControllers
 {
     [cpuRegisterWC release];
     [cpuMemoryWC release];
+    [cpuDisassemblyWC release];
 }
 
 // ----- User Defaults -----
@@ -723,6 +733,9 @@ const float control_win_width = 200;
         case TAG_CPU_MEMORY:
             [cpuMemoryWC toggleWindow:sender];
             break;
+        case TAG_CPU_DISASSEMBLY:
+            [cpuDisassemblyWC toggleWindow:sender];
+            break;
     }
 }
 
@@ -746,6 +759,9 @@ const float control_win_width = 200;
                 break;
             case TAG_CPU_MEMORY:
                 [cpuMemoryWC checkMenuItem:menuItem];
+                break;
+            case TAG_CPU_DISASSEMBLY:
+                [cpuDisassemblyWC checkMenuItem:menuItem];
                 break;
         }
     }
