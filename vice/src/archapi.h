@@ -48,6 +48,9 @@ extern int archdep_mkdir(const char *pathname, int mode);
 extern int archdep_stat(const char *file_name, unsigned int *len,
                         unsigned int *isdir);
 
+/* set permissions of given file to rw, respecting current umask */
+extern int archdep_fix_permissions(const char *file_name);
+
 /* Resource handling.  */
 extern char *archdep_default_resource_file_name(void);
 extern char *archdep_default_save_resource_file_name(void);

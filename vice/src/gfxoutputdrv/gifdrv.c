@@ -30,7 +30,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <gif_lib.h>
-#include <sys/stat.h>
 
 #include "archdep.h"
 #include "lib.h"
@@ -40,7 +39,6 @@
 #include "screenshot.h"
 #include "types.h"
 #include "util.h"
-
 
 typedef struct gfxoutputdrv_data_s
 {
@@ -131,7 +129,6 @@ static int gifdrv_write(screenshot_t *screenshot)
 static int gifdrv_close(screenshot_t *screenshot)
 {
     gfxoutputdrv_data_t *sdata;
-    mode_t mask;
 
     sdata = screenshot->gfxoutputdrv_data;
 
@@ -141,9 +138,7 @@ static int gifdrv_close(screenshot_t *screenshot)
     /* for some reason giflib will create a file with unexpected
        permissions. for this reason we alter them according to
        the current umask. */
-    mask = umask(0);
-    umask(mask);
-    chmod(sdata->ext_filename, mask ^ 0666);
+    archdep_fix_permissions(sdata->ext_filename);
 
     lib_free(sdata->data);
     lib_free(sdata->ext_filename);

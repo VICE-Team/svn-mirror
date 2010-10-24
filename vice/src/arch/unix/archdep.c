@@ -602,6 +602,14 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     return 0;
 }
 
+/* set permissions of given file to rw, respecting current umask */
+int archdep_fix_permissions(const char *file_name)
+{
+    mode_t mask = umask(0);
+    umask(mask);
+    return chmod(file_name, mask ^ 0666);
+}
+
 int archdep_file_is_blockdev(const char *name)
 {
     struct stat buf;
