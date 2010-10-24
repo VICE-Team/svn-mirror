@@ -276,10 +276,6 @@ const float control_win_width = 200;
     // set visibility of windows
     [self setupToolWindowControllers];
 
-    // setup window controllers
-    [self setupDebuggerWindowControllers];
-    [self setupDebuggerWindowsMenu];
-    
     // set as new default console
     default_log_fd = [consoleWindow fdForWriting];
 
@@ -298,6 +294,10 @@ const float control_win_width = 200;
     [NSThread detachNewThreadSelector:@selector(startConnected:)
                              toTarget:[VICEMachine class] 
                            withObject:args];
+
+    // setup window controllers
+    [self setupDebuggerWindowControllers];
+    [self setupDebuggerWindowsMenu];
 }
 
 // initial callback from machine thread after startup

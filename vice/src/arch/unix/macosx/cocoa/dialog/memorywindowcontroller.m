@@ -57,9 +57,6 @@
  
     windowBaseTitle = [[super window] title];
     [windowBaseTitle retain];
- 
-    [memoryTable setDataSource:self];
-    [self update];
 }
 
 -(void)readMemory
@@ -90,8 +87,19 @@
     }
 }
 
--(void)update
+-(void)monitorInitDone:(NSNotification *)notification;
+{   
+#ifdef MONITOR_DEBUG
+    NSLog(@"mem: -> set data source");
+#endif
+    [memoryTable setDataSource:self];
+}
+
+-(void)monitorUpdate:(NSNotification *)notification
 {
+#ifdef MONITOR_DEBUG
+    NSLog(@"mem: -> update");
+#endif
     [self readMemory];
     [memoryTable reloadData];
 }
@@ -232,7 +240,11 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    return TOTAL_LINES;
+    if(data == nil) {
+        return 0;
+    } else {
+        return TOTAL_LINES;
+    }
 }
 
 @end

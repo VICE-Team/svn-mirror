@@ -34,12 +34,12 @@
 
 - (id)initWithWindowNibName:(NSString *)nib title:(NSString *)title memSpace:(int)memSpace;
 
-- (void)update;
-- (void)machineInitDone;
-- (void)monitorOn;
-- (void)monitorOff;
-- (void)monitorSuspend;
-- (void)monitorResume;
+- (void)monitorInitDone:(NSNotification *)notification;
+- (void)monitorUpdate:(NSNotification *)notification;
+- (void)monitorOn:(NSNotification *)notification;
+- (void)monitorOff:(NSNotification *)notification;
+- (void)monitorSuspend:(NSNotification *)notification;
+- (void)monitorResume:(NSNotification *)notification;
 
 - (NSString *)toBinaryString:(unsigned int)value width:(int)w;
 

@@ -38,4 +38,7 @@
 
 -(id)initWithMemSpace:(int)memSpace;
 
+-(void)monitorInitDone:(NSNotification *)notification;
+-(void)monitorUpdate:(NSNotification *)notification;
+
 @end

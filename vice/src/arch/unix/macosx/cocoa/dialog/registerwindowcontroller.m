@@ -47,10 +47,7 @@
 -(void)windowDidLoad
 {
     [super windowDidLoad];
- 
-    [registerTable setDataSource:self];
-    [self update];
-}
+ }
 
 -(void)readRegisters
 {
@@ -68,8 +65,23 @@
     }
 }
 
--(void)update
+-(void)monitorInitDone:(NSNotification *)notification
 {
+    [super monitorInitDone:notification];    
+
+#ifdef MÓNITOR_DEBUG
+    NSLog(@"reg: -> set data source");
+#endif
+    [registerTable setDataSource:self];
+}
+
+-(void)monitorUpdate:(NSNotification *)notification
+{
+    [super monitorUpdate:notification];
+
+#ifdef MONITOR_DEBUG
+    NSLog(@"reg: -> reload data");
+#endif
     [self readRegisters];
     [registerTable reloadData];
 }

@@ -33,7 +33,7 @@
 
 @implementation DebuggerWindowController
 
-- (id)initWithWindowNibName:(NSString *)nib title:(NSString *)title memSpace:(int)space;
+- (id)initWithWindowNibName:(NSString *)nib title:(NSString *)aTitle memSpace:(int)space;
 {
     memSpace = space;
 
@@ -46,7 +46,7 @@
         @"Drive #10",
         @"Drive #11"
     };
-    NSString *newTitle = [NSString stringWithFormat:@"%@ (%@)",title,spaceName[memSpace]];
+    NSString *newTitle = [NSString stringWithFormat:@"%@ (%@)",aTitle,spaceName[memSpace]];
 
     return [super initWithWindowNibName:nib title:newTitle showOnDefault:NO];
 }
@@ -61,7 +61,7 @@
                                                  name:VICEMonitorStateNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(monitorUpdateRequest:)
+                                             selector:@selector(monitorUpdate:)
                                                  name:VICEMonitorUpdateNotification
                                                object:nil];
    [[NSNotificationCenter defaultCenter] addObserver:self
@@ -77,62 +77,66 @@
     switch (state) {
         case VICEMonitorStateOn:
             //NSLog(@"Monitor on");
-            [self monitorOn];
+            [self monitorOn:notification];
             break;
         case VICEMonitorStateOff:
             //NSLog(@"Monitor off");
-            [self monitorOff];
+            [self monitorOff:notification];
             break;
         case VICEMonitorStateSuspend:
             //NSLog(@"Monitor suspend");
-            [self monitorSuspend];
+            [self monitorSuspend:notification];
             break;
         case VICEMonitorStateResume:
             //NSLog(@"Monitor resume");
-            [self monitorResume];
+            [self monitorResume:notification];
             break;
         default:
             break;
     }
 }
 
--(void)monitorUpdateRequest:(NSNotification *)notification
-{
-    //NSLog(@"Monitor update");
-    [self update];
-}
-
 -(void)monitorInitDone:(NSNotification *)notification
 {
-    [self machineInitDone];
+#ifdef MONITOR_DEBUG
+    NSLog(@"Machine init done");
+#endif
 }
 
--(void)machineInitDone
+-(void)monitorUpdate:(NSNotification *)notification
 {
-    //NSLog(@"Machine init done");
-    [self update];
+#ifdef MONITOR_DEBUG
+    NSLog(@"Monitor update");
+#endif
 }
 
--(void)update
+- (void)monitorOn:(NSNotification *)notification
 {
+#ifdef MONITOR_DEBUG
+    NSLog(@"Monitor on");
+#endif
 }
 
-- (void)monitorOn
+- (void)monitorOff:(NSNotification *)notification
 {
+#ifdef MONITOR_DEBUG
+    NSLog(@"Monitor off");
+#endif
 }
 
-- (void)monitorOff
+- (void)monitorSuspend:(NSNotification *)notification
 {
+#ifdef MONITOR_DEBUG
+    NSLog(@"Monitor suspend");
+#endif
 }
 
-- (void)monitorSuspend
+- (void)monitorResume:(NSNotification *)notification
 {
+#ifdef MONITOR_DEBUG
+    NSLog(@"Monitor resume");
+#endif
 }
-
-- (void)monitorResume
-{
-}
-
 
 - (NSString *)toBinaryString:(unsigned int)value width:(int)w
 {
