@@ -39,6 +39,7 @@
 
 #include "archdep.h"
 #include "c64io.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "crc32.h"
 #include "lib.h"
@@ -82,7 +83,10 @@ static io_source_t rrnet_io1_mmc64_device = {
     0xde02, 0xde0f, 0x0f,
     0,
     tfe_store,
-    tfe_read
+    tfe_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_TFE
 };
 
 static io_source_t rrnet_io1_retroreplay_device = {
@@ -92,7 +96,10 @@ static io_source_t rrnet_io1_retroreplay_device = {
     0xde02, 0xde0f, 0x0f,
     0,
     tfe_store,
-    tfe_read
+    tfe_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_TFE
 };
 
 static io_source_t rrnet_io1_device = {
@@ -102,7 +109,10 @@ static io_source_t rrnet_io1_device = {
     0xde00, 0xde0f, 0x0f,
     0,
     tfe_store,
-    tfe_read
+    tfe_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_TFE
 };
 
 static io_source_t tfe_io1_device = {
@@ -112,7 +122,10 @@ static io_source_t tfe_io1_device = {
     0xde00, 0xdeff, 0x0f,
     0,
     tfe_store,
-    tfe_read
+    tfe_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_TFE
 };
 
 static io_source_t rrnet_io2_mmc64_device = {
@@ -122,7 +135,10 @@ static io_source_t rrnet_io2_mmc64_device = {
     0xdf22, 0xdf2f, 0x0f,
     0,
     tfe_store,
-    tfe_read
+    tfe_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_TFE
 };
 
 
