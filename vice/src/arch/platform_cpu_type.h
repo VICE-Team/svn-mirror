@@ -654,6 +654,7 @@ inline static char* platform_get_runtime_cpu(void)
         memcpy(type_buf + 0, &regbx, 4);
         memcpy(type_buf + 4, &regdx, 4);
         memcpy(type_buf + 8, &regcx, 4);
+        type_buf[12] = 0;
         for (i = 0; (cpu_vendors[i].id != CPU_VENDOR_UNKNOWN) && (found == 0); i++) {
             if (cpu_vendors[i].identify != NULL) {
                 if (cpu_vendors[i].identify() == 1) {
