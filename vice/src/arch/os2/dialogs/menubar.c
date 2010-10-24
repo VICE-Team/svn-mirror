@@ -62,7 +62,7 @@
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
 
 #if defined(__X128__) || defined(__X64__)
-#include "easyflash.h"
+#include "cartridge.h"
 #endif
 
 #ifdef HAVE_MOUSE
@@ -326,7 +326,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
                 resources_get_int("CartridgeType", &val);
                 if (val != CARTRIDGE_EXPERT) {
-                    cartridge_attach_image(CARTRIDGE_EXPERT, NULL);
+                    cartridge_enable(CARTRIDGE_EXPERT);
                     return;
                 }
             }
@@ -505,7 +505,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("EasyFlashWriteCRT");
             return;
         case IDM_EASYFLASH_SAVE_NOW:
-            if (easyflash_save_crt() < 0) {
+            if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
                 ui_error("Can not save to EasyFlash .crt file");
             }
             return;

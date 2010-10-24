@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#include "easyflash.h"
+#include "cartridge.h"
 #include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
@@ -40,7 +40,7 @@ UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 
 static UI_CALLBACK(easyflash_save_callback)
 {
-    if (easyflash_save_crt() < 0) {
+    if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
         ui_error(_("Cannot save cartridge"));
     }
 }

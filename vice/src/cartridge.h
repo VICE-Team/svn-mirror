@@ -73,10 +73,11 @@ extern void cartridge_release_freeze(void);
 extern const char *cartridge_get_file_name(int type);
 extern int cartridge_type_enabled(int type);
 
-/* save an image of the give type to a file */
+/* save the (rom/ram)image of the give cart type to a file */
 extern int cartridge_save_image(int type, const char *filename);
 extern int cartridge_bin_save(int type, const char *filename);
 extern int cartridge_crt_save(int type, const char *filename);
+extern int cartridge_flush_image(int type);
 
 /* load/write snapshot modules for attached cartridges */
 struct snapshot_s;

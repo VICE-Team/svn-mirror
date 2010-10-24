@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#include "easyflash.h"
+#include "cartridge.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -42,7 +42,7 @@ static TUI_MENU_CALLBACK(EasyFlash_save_now_callback)
 {
     if (been_activated) {
 
-        if (easyflash_save_crt() < 0) {
+        if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
             ui_error("Can not save to EasyFlash .crt file");
         }
     }

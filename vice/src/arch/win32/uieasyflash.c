@@ -31,7 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "easyflash.h"
+#include "cartridge.h"
 #include "intl.h"
 #include "res.h"
 #include "resources.h"
@@ -110,7 +110,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
             command = LOWORD(wparam);
             switch (command) {
                 case IDC_EASYFLASH_SAVE_NOW:
-                    if (easyflash_save_crt() < 0) {
+                    if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
                         ui_error(translate_text(IDS_ERROR_SAVING_EASYFLASH_CRT));
                     }
                     break;

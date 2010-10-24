@@ -46,8 +46,8 @@
 
 extern "C" {
 #include "archdep.h"
+#include "cartridge.h"
 #include "constants.h"
-#include "easyflash.h"
 #include "mouse.h"
 #include "resources.h"
 #include "statusbar.h"
@@ -199,7 +199,7 @@ void c128_ui_specific(void *msg, void *window)
             ui_select_file(windowlist[0]->savepanel,RAMCART_FILE,(void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
-            if (easyflash_save_crt() < 0) {
+            if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
                 ui_error("Error saving EasyFlash .crt file");
             }
             break;

@@ -370,8 +370,7 @@ void easyflash_detach(void)
     c64export_remove(&export_res);
 }
 
-/* FIXME: remove, seems to be used in UIs (wth?) */
-int easyflash_save_crt(void)
+int easyflash_flush_image(void)
 {
     return easyflash_crt_save(easyflash_crt_filename);
 }

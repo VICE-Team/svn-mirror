@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "cartridge.h"
-#include "easyflash.h"
 #include "expert.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -275,7 +274,7 @@ UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 static UI_MENU_CALLBACK(easyflash_save_callback)
 {
     if (activated) {
-        if (easyflash_save_crt() < 0) {
+        if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
             ui_error("Cannot save cartridge image.");
         }
     }

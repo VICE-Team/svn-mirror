@@ -30,7 +30,7 @@
 #endif
 #include "mui.h"
 
-#include "easyflash.h"
+#include "cartridge.h"
 #include "intl.h"
 #include "uiplus60k.h"
 #include "translate.h"
@@ -57,7 +57,7 @@ static ui_to_from_t ui_to_from[] = {
 
 static ULONG SaveEasyFlashCRT(struct Hook *hook, Object *obj, APTR arg)
 {
-    if (easyflash_save_crt() < 0) {
+    if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
         ui_error(translate_text(IDS_ERROR_SAVING_EASYFLASH_CRT));
     }
 

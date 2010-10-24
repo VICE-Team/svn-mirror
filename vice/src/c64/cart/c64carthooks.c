@@ -1043,7 +1043,7 @@ int cartridge_enable(int type)
             break;
     }
     cart_detach_conflicting(type);
-    return -1;
+    return 0; /* FIXME */
 }
 
 /*
@@ -1780,7 +1780,25 @@ int cart_freeze_allowed(void)
 /* ------------------------------------------------------------------------- */
 
 /*
-    save cartridge to binary filename
+    flush cart image
+
+    FIXME: incomplete (currently only used for easyflash)
+*/
+int cartridge_flush_image(int type)
+{
+    switch (type) {
+        /* "Slot 0" */
+        /* "Slot 1" */
+        /* "Main Slot" */
+        case CARTRIDGE_EASYFLASH:
+            return easyflash_flush_image();
+        /* "I/O" */
+    }
+    return -1;
+}
+
+/*
+    save cartridge to binary file
 
     FIXME: incomplete
 */

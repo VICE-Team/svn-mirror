@@ -148,7 +148,7 @@ static const uicart_params_t c64_ui_cartridges[] = {
 static void uic64cart_attach(video_canvas_t *canvas, int idm, const uicart_params_t *cartridges)
 {
     if (idm == IDM_CART_ENABLE_EXPERT) {
-        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0) {
+        if (cartridge_enable(CARTRIDGE_EXPERT) < 0) {
             ui_error(translate_text(IDMES_INVALID_CART));
         }
         return;
