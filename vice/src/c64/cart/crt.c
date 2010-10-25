@@ -45,6 +45,7 @@
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
+#include "diashowmaker.h"
 #include "dinamic.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
@@ -219,6 +220,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
         case CARTRIDGE_DELA_EP7x8:
             rc = delaep7x8_crt_attach(fd, rawcart);
             break;
+        case CARTRIDGE_DIASHOW_MAKER:
+            rc = dsm_crt_attach(fd, rawcart);
+            break;
         case CARTRIDGE_DINAMIC:
             rc = dinamic_crt_attach(fd, rawcart);
             break;
@@ -232,7 +236,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
             rc = exos_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_EXPERT:
-            rc = expert_crt_attach(fd, rawcart);
+            rc = expert_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_FINAL_I:
             rc = final_v1_crt_attach(fd, rawcart);
@@ -265,7 +269,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
             rc = tpi_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_ISEPIC:
-            rc = isepic_crt_attach(fd, rawcart);
+            rc = isepic_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_KCS_POWER:
             rc = kcs_crt_attach(fd, rawcart);

@@ -56,6 +56,7 @@
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
+#include "diashowmaker.h"
 #include "digimax.h"
 #include "dinamic.h"
 #include "dqbb.h"
@@ -214,6 +215,11 @@ static const cmdline_option_t cmdline_options[] =
     /* TODO: CARTRIDGE_DELA_EP64 */
     /* TODO: CARTRIDGE_DELA_EP7x8 */
     /* TODO: CARTRIDGE_DELA_EP256 */
+    { "-cartdsm", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_DIASHOW_MAKER, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB Diashow Maker cartridge image") },
     /* TODO: CARTRIDGE_DINAMIC */
     /* TODO: CARTRIDGE_DQBB */
     /* TODO: CARTRIDGE_EASYFLASH */
@@ -685,6 +691,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return actionreplay4_bin_attach(filename, rawcart);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_bin_attach(filename, rawcart);
+        case CARTRIDGE_DIASHOW_MAKER:
+            return dsm_bin_attach(filename, rawcart);
         case CARTRIDGE_EPYX_FASTLOAD:
             return epyxfastload_bin_attach(filename, rawcart);
         case CARTRIDGE_EXOS:
@@ -810,6 +818,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_DELA_EP7x8:
             delaep7x8_config_setup(rawcart);
+            break;
+        case CARTRIDGE_DIASHOW_MAKER:
+            dsm_config_setup(rawcart);
             break;
         case CARTRIDGE_DINAMIC:
             dinamic_config_setup(rawcart);
@@ -1185,6 +1196,9 @@ void cart_detach(int type)
         case CARTRIDGE_DELA_EP256:
             delaep256_detach();
             break;
+        case CARTRIDGE_DIASHOW_MAKER:
+            dsm_detach();
+            break;
         case CARTRIDGE_DINAMIC:
             dinamic_detach();
             break;
@@ -1373,99 +1387,11 @@ void cartridge_init_config(void)
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_config_init();
             break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_config_init();
-            break;
-        case CARTRIDGE_MACH5:
-            mach5_config_init();
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_config_init();
-            break;
-        case CARTRIDGE_IDE64:
-            ide64_config_init();
-            break;
-        case CARTRIDGE_KCS_POWER:
-            kcs_config_init();
-            break;
-        case CARTRIDGE_SUPER_GAMES:
-            supergames_config_init();
-            break;
-        case CARTRIDGE_COMAL80:
-            comal80_config_init();
-            break;
-        case CARTRIDGE_GENERIC_8KB:
-        case CARTRIDGE_REX:
-            generic_8kb_config_init();
-            break;
-        case CARTRIDGE_EPYX_FASTLOAD:
-            epyxfastload_config_init();
-            break;
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-            mikroass_config_init();
-            break;
-        case CARTRIDGE_FINAL_I:
-            final_v1_config_init();
-            break;
-        case CARTRIDGE_FINAL_PLUS:
-            final_plus_config_init();
-            break;
-        case CARTRIDGE_FINAL_III:
-            final_v3_config_init();
-            break;
-        case CARTRIDGE_SIMONS_BASIC:
-        case CARTRIDGE_GENERIC_16KB:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_WARPSPEED:
-            generic_16kb_config_init();
-            break;
-        case CARTRIDGE_ZAXXON:
-            zaxxon_config_init();
-            break;
-        case CARTRIDGE_ULTIMAX:
-            generic_ultimax_config_init();
-            break;
-        case CARTRIDGE_SNAPSHOT64:
-            snapshot64_config_init();
-            break;
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-            se5_config_init();
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT:
-            supersnapshot_v4_config_init();
-            break;
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-            supersnapshot_v5_config_init();
-            break;
-        case CARTRIDGE_OCEAN:
-            ocean_config_init();
-            break;
-        case CARTRIDGE_FUNPLAY:
-            funplay_config_init();
-            break;
-        case CARTRIDGE_EASYFLASH:
-            easyflash_config_init();
-            break;
-        case CARTRIDGE_GS:
-            gs_config_init();
-            break;
-        case CARTRIDGE_DINAMIC:
-            dinamic_config_init();
-            break;
-        case CARTRIDGE_MAGIC_DESK:
-            magicdesk_config_init();
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_config_init();
-            break;
         case CARTRIDGE_CAPTURE:
             capture_config_init();
             break;
-        case CARTRIDGE_ROSS:
-            ross_config_init();
-            break;
-        case CARTRIDGE_STRUCTURED_BASIC:
-            stb_config_init();
+        case CARTRIDGE_COMAL80:
+            comal80_config_init();
             break;
         case CARTRIDGE_DELA_EP64:
             delaep64_config_init();
@@ -1476,23 +1402,122 @@ void cartridge_init_config(void)
         case CARTRIDGE_DELA_EP256:
             delaep256_config_init();
             break;
-        case CARTRIDGE_REX_EP256:
-            rexep256_config_init();
+        case CARTRIDGE_DIASHOW_MAKER:
+            dsm_config_init();
             break;
-        case CARTRIDGE_P64:
-            p64_config_init();
+        case CARTRIDGE_DINAMIC:
+            dinamic_config_init();
             break;
-        case CARTRIDGE_GAME_KILLER:
-            gamekiller_config_init();
+        case CARTRIDGE_EASYFLASH:
+            easyflash_config_init();
+            break;
+        case CARTRIDGE_EPYX_FASTLOAD:
+            epyxfastload_config_init();
             break;
         case CARTRIDGE_EXOS:
             exos_config_init();
+            break;
+        case CARTRIDGE_FINAL_I:
+            final_v1_config_init();
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_config_init();
+            break;
+        case CARTRIDGE_FINAL_III:
+            final_v3_config_init();
             break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_config_init();
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_config_init();
+            break;
+        case CARTRIDGE_FUNPLAY:
+            funplay_config_init();
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_config_init();
+            break;
+        case CARTRIDGE_GENERIC_8KB:
+            generic_8kb_config_init();
+            break;
+        case CARTRIDGE_GENERIC_16KB:
+            generic_16kb_config_init();
+            break;
+        case CARTRIDGE_GS:
+            gs_config_init();
+            break;
+        case CARTRIDGE_IDE64:
+            ide64_config_init();
+            break;
+        case CARTRIDGE_KCS_POWER:
+            kcs_config_init();
+            break;
+        case CARTRIDGE_MACH5:
+            mach5_config_init();
+            break;
+        case CARTRIDGE_MAGIC_DESK:
+            magicdesk_config_init();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_config_init();
+            break;
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+            mikroass_config_init();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_config_init();
+            break;
+        case CARTRIDGE_OCEAN:
+            ocean_config_init();
+            break;
+        case CARTRIDGE_P64:
+            p64_config_init();
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_config_init();
+            break;
+        case CARTRIDGE_REX:
+            generic_8kb_config_init(); /* FIXME */
+            break;
+        case CARTRIDGE_REX_EP256:
+            rexep256_config_init();
+            break;
+        case CARTRIDGE_ROSS:
+            ross_config_init();
+            break;
+        case CARTRIDGE_SIMONS_BASIC:
+            generic_16kb_config_init(); /* FIXME */
+            break;
+        case CARTRIDGE_SNAPSHOT64:
+            snapshot64_config_init();
+            break;
+        case CARTRIDGE_STRUCTURED_BASIC:
+            stb_config_init();
+            break;
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+            se5_config_init();
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT:
+            supersnapshot_v4_config_init();
+            break;
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            supersnapshot_v5_config_init();
+            break;
+        case CARTRIDGE_SUPER_GAMES:
+            supergames_config_init();
+            break;
+        case CARTRIDGE_ULTIMAX:
+            generic_ultimax_config_init();
+            break;
+        case CARTRIDGE_WARPSPEED:
+            generic_16kb_config_init(); /* FIXME */
+            break;
+        case CARTRIDGE_WESTERMANN:
+            generic_16kb_config_init(); /* FIXME */
+            break;
+        case CARTRIDGE_ZAXXON:
+            zaxxon_config_init();
             break;
         /* FIXME: add all missing ones instead of using the default */
         case CARTRIDGE_NONE:
@@ -1641,9 +1666,6 @@ void cart_freeze(int type)
     DBG(("CART: freeze\n"));
     switch (type) {
         /* "Slot 0" (no freezer carts) */
-        case CARTRIDGE_MAGIC_VOICE:
-            /* cartridge_release_freeze(); */
-            break;
         /* "Slot 1" */
         case CARTRIDGE_EXPERT:
             expert_freeze();
@@ -1653,6 +1675,57 @@ void cart_freeze(int type)
             break;
         /* "IO Slot" (no freezer carts) */
         /* "Main Slot" */
+        case CARTRIDGE_ACTION_REPLAY:
+            actionreplay_freeze();
+            break;
+        case CARTRIDGE_ACTION_REPLAY2:
+            actionreplay2_freeze();
+            break;
+        case CARTRIDGE_ACTION_REPLAY3:
+            actionreplay3_freeze();
+            break;
+        case CARTRIDGE_ACTION_REPLAY4:
+            actionreplay4_freeze();
+            break;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_freeze();
+            break;
+        case CARTRIDGE_CAPTURE:
+            capture_freeze();
+            break;
+        case CARTRIDGE_DIASHOW_MAKER:
+            dsm_freeze();
+            break;
+        case CARTRIDGE_FINAL_I:
+            final_v1_freeze();
+            break;
+        case CARTRIDGE_FINAL_III:
+            final_v3_freeze();
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            final_plus_freeze();
+            break;
+        case CARTRIDGE_FREEZE_FRAME:
+            freezeframe_freeze();
+            break;
+        case CARTRIDGE_FREEZE_MACHINE:
+            freezemachine_freeze();
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            gamekiller_freeze();
+            break;
+        case CARTRIDGE_KCS_POWER:
+            kcs_freeze();
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            magicformel_freeze();
+            break;
+        case CARTRIDGE_MMC_REPLAY:
+            mmcreplay_freeze();
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_freeze();
+            break;
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_freeze();
             break;
@@ -1661,54 +1734,6 @@ void cart_freeze(int type)
             break;
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
             supersnapshot_v5_freeze();
-            break;
-        case CARTRIDGE_ACTION_REPLAY4:
-            actionreplay4_freeze();
-            break;
-        case CARTRIDGE_ACTION_REPLAY3:
-            actionreplay3_freeze();
-            break;
-        case CARTRIDGE_ACTION_REPLAY2:
-            actionreplay2_freeze();
-            break;
-        case CARTRIDGE_ACTION_REPLAY:
-            actionreplay_freeze();
-            break;
-        case CARTRIDGE_ATOMIC_POWER:
-            atomicpower_freeze();
-            break;
-        case CARTRIDGE_RETRO_REPLAY:
-            retroreplay_freeze();
-            break;
-        case CARTRIDGE_MMC_REPLAY:
-            mmcreplay_freeze();
-            break;
-        case CARTRIDGE_KCS_POWER:
-            kcs_freeze();
-            break;
-        case CARTRIDGE_FINAL_I:
-            final_v1_freeze();
-            break;
-        case CARTRIDGE_FINAL_PLUS:
-            final_plus_freeze();
-            break;
-        case CARTRIDGE_FINAL_III:
-            final_v3_freeze();
-            break;
-        case CARTRIDGE_CAPTURE:
-            capture_freeze();
-            break;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_freeze();
-            break;
-        case CARTRIDGE_GAME_KILLER:
-            gamekiller_freeze();
-            break;
-        case CARTRIDGE_FREEZE_FRAME:
-            freezeframe_freeze();
-            break;
-        case CARTRIDGE_FREEZE_MACHINE:
-            freezemachine_freeze();
             break;
     }
 }
@@ -1748,30 +1773,32 @@ int cart_freeze_allowed(void)
         case CARTRIDGE_ACTION_REPLAY3:
         case CARTRIDGE_ACTION_REPLAY2:
         case CARTRIDGE_ACTION_REPLAY:
-        case CARTRIDGE_KCS_POWER:
-        case CARTRIDGE_FINAL_III:
-        case CARTRIDGE_SNAPSHOT64:
-        case CARTRIDGE_SUPER_SNAPSHOT:
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
         case CARTRIDGE_ATOMIC_POWER:
-        case CARTRIDGE_FINAL_I:
-        case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_MAGIC_FORMEL:
-        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_DIASHOW_MAKER:
+        case CARTRIDGE_FINAL_I:
+        case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_MAGIC_FORMEL:
             return 1;
-        case CARTRIDGE_RETRO_REPLAY:
-            if (retroreplay_freeze_allowed()) {
-                return 1;
-            }
-            break;
         case CARTRIDGE_MMC_REPLAY:
             if (mmcreplay_freeze_allowed()) {
                 return 1;
             }
             break;
+        case CARTRIDGE_RETRO_REPLAY:
+            if (retroreplay_freeze_allowed()) {
+                return 1;
+            }
+            break;
+        case CARTRIDGE_SNAPSHOT64:
+        case CARTRIDGE_SUPER_SNAPSHOT:
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            return 1;
     }
     /* "I/O Slot" (no freezer carts) */
     return 0;

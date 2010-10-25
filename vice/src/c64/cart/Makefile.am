@@ -45,6 +45,8 @@ libc64cart_a_SOURCES = \
 	delaep64.h \
 	delaep7x8.c \
 	delaep7x8.h \
+	diashowmaker.c \
+	diashowmaker.h \
 	digimax.c \
 	digimax.h \
 	dqbb.c \

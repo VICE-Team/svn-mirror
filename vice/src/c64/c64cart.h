@@ -54,7 +54,7 @@
      phi2        E    Phase 2 system clock
      BA         12    Bus available signal from the VIC-II chip unbuffered 1 Is load max.
      R/!W        5    Read/Write (write active low)
-    !I/O1        7    I/O block 1 @ $ DE00-$DEFF (active low) unbuffered I/O
+    !I/O1        7    I/O block 1 @ $DE00-$DEFF (active low) unbuffered I/O
     !I/O2       10    I/O block 2 @ $DF00-$DFFF (active low) buff'ed ls ttl output
     !ROML       11    8K decoded RAM/ROM block @ $8000 (active low) buffered ls ttl output
     !ROMH        B    8K decoded RAM/ROM block @ $E000 buffered

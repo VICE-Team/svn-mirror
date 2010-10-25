@@ -24,6 +24,11 @@
  *
  */
 
+/*
+    FIXME: this header is currently included from arch dependend code,
+           which breaks the privateness of the cart functions :)
+*/
+
 #ifndef VICE_EXPERT_H
 #define VICE_EXPERT_H
 
@@ -43,7 +48,7 @@ extern void expert_config_init(void);
 extern void expert_config_setup(BYTE *rawcart);
 extern int expert_bin_attach(const char *filename, BYTE *rawcart);
 extern int expert_bin_save(const char *filename);
-extern int expert_crt_attach(FILE *fd, BYTE *rawcart);
+extern int expert_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
 extern int expert_crt_save(const char *filename);
 extern void expert_detach(void);
 extern int expert_enable(void);
@@ -58,10 +63,9 @@ extern int expert_cmdline_options_init(void);
 extern const char *expert_get_file_name(void);
 
 /* Expert cartridge has three modes: */
-#define EXPERT_MODE_OFF                      0
-#define EXPERT_MODE_PRG                      1
-#define EXPERT_MODE_ON                       2
-
+#define EXPERT_MODE_OFF 0
+#define EXPERT_MODE_PRG 1
+#define EXPERT_MODE_ON 2
 #define EXPERT_MODE_DEFAULT EXPERT_MODE_PRG
 
 #endif

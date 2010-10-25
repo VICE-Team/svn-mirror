@@ -62,6 +62,10 @@ extern BYTE export_ram0[];
 extern BYTE roml_banks[], romh_banks[]; /* "Main Slot" ROML/ROMH images.  */
 extern int roml_bank, romh_bank, export_ram; /* "Main Slot" ROML/ROMH/RAM banking.  */
 
+/*
+    this interface is used by: vicii-fetch.c, vicii.c, c64meminit.c, c64mem.c, c64memsc.c
+*/
+
 /* expansion port memory read/write hooks */
 extern BYTE REGPARM1 roml_read(WORD addr);
 extern void REGPARM2 roml_store(WORD addr, BYTE value);

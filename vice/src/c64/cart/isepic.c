@@ -104,6 +104,8 @@ static BYTE *isepic_ram;
 /* current page */
 static unsigned int isepic_page = 0;
 
+static char *isepic_filename = NULL;
+
 static const char STRING_ISEPIC[] = "Isepic Cartridge";
 
 #define ISEPIC_RAM_SIZE 2048
@@ -176,6 +178,10 @@ static int set_isepic_enabled(int val, void *param)
         cart_power_off();
         lib_free(isepic_ram);
         isepic_ram = NULL;
+        if (isepic_filename) {
+            lib_free(isepic_filename);
+            isepic_filename = NULL;
+        }
         c64io_unregister(isepic_io1_list_item);
         c64io_unregister(isepic_io2_list_item);
         isepic_io1_list_item = NULL;
@@ -372,8 +378,15 @@ void REGPARM2 isepic_page_store(WORD addr, BYTE value)
 
 const char *isepic_get_file_name(void)
 {
-    /* return isepic_filename; */
-    return ""; /* FIXME */
+    return isepic_filename;
+}
+
+static void isepic_set_filename(const char *filename)
+{
+    if (isepic_filename) {
+        lib_free(isepic_filename);
+    }
+    isepic_filename = strdup(filename);
 }
 
 void isepic_config_init(void)
@@ -409,6 +422,8 @@ int isepic_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
+    isepic_set_filename(filename);
+
     return isepic_common_attach(rawcart);
 }
 
@@ -435,7 +450,7 @@ int isepic_bin_save(const char *filename)
     return 0;
 }
 
-int isepic_crt_attach(FILE *fd, BYTE *rawcart)
+int isepic_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
     BYTE chipheader[0x10];
 
@@ -446,6 +461,8 @@ int isepic_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, ISEPIC_RAM_SIZE, 1, fd) < 1) {
         return -1;
     }
+
+    isepic_set_filename(filename);
 
     resources_set_int("IsepicSwitch", 0);
     return isepic_common_attach(rawcart);

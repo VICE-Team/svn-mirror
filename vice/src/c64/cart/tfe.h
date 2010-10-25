@@ -24,6 +24,11 @@
  *
  */
 
+/*
+    FIXME: this header is currently included from arch dependend code,
+           which breaks the privateness of the cart functions :)
+*/
+
 #ifdef HAVE_TFE 
 #else
   #error TFE.H should not be included if HAVE_TFE is not defined!

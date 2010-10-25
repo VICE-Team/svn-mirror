@@ -168,6 +168,7 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Magic Voice", "mv", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 2", "ar2", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Mach 5", "mach5", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Diashow Maker", "dsm", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 

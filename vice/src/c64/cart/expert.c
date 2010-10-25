@@ -209,6 +209,8 @@ static int expert_ramh_enabled = 0; /* equals EXROM ? */
 /* 8 KB RAM */
 static BYTE *expert_ram = NULL;
 
+static char *expert_filename = NULL;
+
 #define EXPERT_RAM_SIZE 8192
 
 static const char STRING_EXPERT[] = "Expert Cartridge";
@@ -284,6 +286,10 @@ static int set_expert_enabled(int val, void *param)
         DBG(("EXPERT: disable\n"));
         lib_free(expert_ram);
         expert_ram = NULL;
+        if (expert_filename) {
+            lib_free(expert_filename);
+            expert_filename = NULL;
+        }
         c64io_unregister(expert_io1_list_item);
         expert_io1_list_item = NULL;
         c64export_remove(&export_res);
@@ -441,8 +447,15 @@ void expert_config_setup(BYTE *rawcart)
 
 const char *expert_get_file_name(void)
 {
-    /* return expert_filename; */
-    return ""; /* FIXME */
+    return expert_filename;
+}
+
+static void expert_set_filename(const char *filename)
+{
+    if (expert_filename) {
+        lib_free(expert_filename);
+    }
+    expert_filename = strdup(filename);
 }
 
 static int expert_common_attach(void)
@@ -468,6 +481,8 @@ int expert_bin_attach(const char *filename, BYTE *rawcart)
     if (util_file_load(filename, rawcart, EXPERT_RAM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
+
+    expert_set_filename(filename);
 
     return expert_common_attach();
 }
@@ -500,7 +515,7 @@ int expert_bin_save(const char *filename)
     return 0;
 }
 
-int expert_crt_attach(FILE *fd, BYTE *rawcart)
+int expert_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
     BYTE chipheader[0x10];
 
@@ -511,6 +526,8 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, EXPERT_RAM_SIZE, 1, fd) < 1) {
         return -1;
     }
+
+    expert_set_filename(filename);
 
     return expert_common_attach();
 }

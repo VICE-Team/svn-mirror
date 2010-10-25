@@ -183,8 +183,9 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_MAGIC_VOICE          49 /* magicvoice.c, tpicore.c, t6721.c */
 #define CARTRIDGE_ACTION_REPLAY2       50 /* actionreplay2.c */
 #define CARTRIDGE_MACH5                51 /* mach5.c */
+#define CARTRIDGE_DIASHOW_MAKER        52 /* diashowmaker.c */
 
-#define CARTRIDGE_LAST                 51 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 52 /* cartconv: last cartridge in list */
 
 /*
  * VIC20 cartridge system
