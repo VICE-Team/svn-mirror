@@ -42,6 +42,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
+#include "util.h"
 
 /*
     Jason Ranheim "Capture" Cartridge
@@ -225,6 +226,14 @@ static int capture_common_attach(void)
         return -1;
     }
     return 0;
+}
+
+int capture_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return capture_common_attach();
 }
 
 int capture_crt_attach(FILE *fd, BYTE *rawcart)

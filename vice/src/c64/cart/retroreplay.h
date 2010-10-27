@@ -47,7 +47,7 @@ extern int retroreplay_bin_attach(const char *filename, BYTE *rawcart);
 extern int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
 extern int retroreplay_bin_save(const char *filename);
 extern int retroreplay_crt_save(const char *filename);
-
+extern int retroreplay_flush_image(void);
 extern void retroreplay_detach(void);
 
 extern unsigned int rr_active;

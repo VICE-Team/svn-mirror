@@ -37,7 +37,7 @@
 #include "cartridge.h"
 #include "delaep7x8.h"
 #include "types.h"
-
+#include "util.h"
 
 /* This eprom system by DELA seems to be a bit more advanced
    than the EP64 and EP256. It can handle what the EP64 can
@@ -74,10 +74,10 @@
    eprom bank 8 : 01111111 ($7F)
 
    EXROM off    : 11111111 ($FF)
-
- */
+*/
 
 /* ---------------------------------------------------------------------*/
+static int currbank = 0;
 
 static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
 {
@@ -97,7 +97,13 @@ static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
     }
     if (bank != 0) {
         cartridge_romlbank_set(bank - 1);
+        currbank = bank - 1;
     }
+}
+
+static BYTE REGPARM1 delaep7x8_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -110,7 +116,7 @@ static io_source_t delaep7x8_device = {
     0,
     delaep7x8_io1_store,
     NULL,
-    NULL, /* TODO: peek */
+    delaep7x8_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_DELA_EP7x8
 };
@@ -129,6 +135,7 @@ void delaep7x8_config_init(void)
     cartridge_romlbank_set(0);
 }
 
+/* FIXME: should copy rawcart to roml_banks ! */
 void delaep7x8_config_setup(BYTE *rawcart)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
@@ -136,7 +143,26 @@ void delaep7x8_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int delaep7x8_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    delaep7x8_list_item = c64io_register(&delaep7x8_device);
+    return 0;
+}
 
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
+/* FIXME: handle the various combinations / possible file lengths */
+int delaep7x8_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return delaep7x8_common_attach();
+}
+
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
@@ -165,14 +191,7 @@ int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    delaep7x8_list_item = c64io_register(&delaep7x8_device);
-
-    return 0;
+    return delaep7x8_common_attach();
 }
 
 void delaep7x8_detach(void)

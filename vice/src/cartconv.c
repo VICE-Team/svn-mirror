@@ -91,6 +91,7 @@ typedef struct sorted_cart_s {
 
 /* some prototypes to save routines */
 static void save_regular_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
+static void save_fcplus_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_2_blocks_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
 static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6);
 static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char game, unsigned char exrom);
@@ -134,7 +135,7 @@ static const cart_t cart_info[] = {
     {0, 1, CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 64, 0, "C64GS, System 3", "gs", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "WarpSpeed", "ws", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 16, 0, "Dinamic", "din", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_20KB, 0, 0, 3, 0, "Zaxxon", "zax", save_zaxxon_crt},
+    {1, 1, CARTRIDGE_SIZE_20KB, 0, 0, 3, 0, "Zaxxon", "zaxxon", save_zaxxon_crt},
     {0, 1, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Magic Desk, Domark, Hes Australia", "md", save_regular_crt},
     {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Super Snapshot 5", "ss5", save_regular_crt},
     {1, 1, CARTRIDGE_SIZE_64KB, 0x4000, 0x8000, 4, 0, "Comal-80", "comal", save_regular_crt},
@@ -145,14 +146,14 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, "Dela EP256", "dep256", save_delaep256_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0, 0x8000, 0, 0, "Rex EP256", "rep256", save_rexep256_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Mikro Assembler", "mikro", save_regular_crt},
-    {1, 1, CARTRIDGE_SIZE_32KB, 0x8000, 0x0000, 1, 0, "Final Cartridge Plus", "fcp", save_regular_crt},
+    {1, 1, CARTRIDGE_SIZE_24KB | CARTRIDGE_SIZE_32KB, 0x8000, 0x0000, 1, 0, "Final Cartridge Plus", "fcp", save_fcplus_crt},
     {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Action Replay 4", "ar4", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_16KB, 0x2000, 0, 4, 0, "StarDOS", "star", save_stardos_crt},
     {0, 1, CARTRIDGE_SIZE_1024KB, 0x2000, 0, 128, 0, "EasyFlash", "easy", save_easyflash_crt},
     {0, 0, 0, 0, 0, 0, 0, "EasyFlash xbank", NULL, NULL}, /* TODO ?? */
     {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Capture", "cap", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Action Replay 3", "ar3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Retro Replay", "retro", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "Retro Replay", "rr", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "MMC64", "mmc64", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, "MMC Replay", "mmcr", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, "IDE64", "ide64", save_regular_crt},
@@ -162,7 +163,7 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_256KB, 0x2000, 0x8000, 32, 0, "Prophet 64", "p64", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, "Exos", "exos", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Freeze Frame", "ff", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 4, 0, "Freeze Machine", "fm", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 0, 0, "Freeze Machine", "fm", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0xe000, 1, 0, "Snapshot 64", "s64", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Super Explode 5", "se5", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, "Magic Voice", "mv", save_regular_crt},
@@ -661,6 +662,40 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
     exit(0);
 }
 
+static void save_fcplus_crt(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
+{
+    unsigned int i;
+    unsigned int real_banks = banks;
+
+    /* printf("save_fcplus_crt length: %d banks:%d address: %d\n", length, banks, address); */
+
+    if (write_crt_header(game, exrom) < 0) {
+        cleanup();
+        exit(1);
+    }
+
+    if (real_banks == 0) {
+        real_banks = loadfile_size / length;
+    }
+
+    if (loadfile_size != 0x8000) {
+        memmove(filebuffer + 0x2000, filebuffer, 0x6000);
+        memset(filebuffer, 0xff, 0x2000);
+    }
+
+    for (i = 0; i < real_banks; i++) {
+        if (write_chip_package(length, i, address, (unsigned char)type) < 0) {
+            cleanup();
+            exit(1);
+        }
+    }
+
+    fclose(outfile);
+    bin2crt_ok();
+    cleanup();
+    exit(0);
+}
+
 static void save_2_blocks_crt(unsigned int l1, unsigned int l2, unsigned int a1, unsigned int a2, unsigned char game, unsigned char exrom)
 {
 
@@ -890,6 +925,7 @@ static int load_input_file(char *filename)
             case CARTRIDGE_SIZE_12KB:
             case CARTRIDGE_SIZE_16KB:
             case CARTRIDGE_SIZE_20KB:
+            case CARTRIDGE_SIZE_24KB:
             case CARTRIDGE_SIZE_32KB:
             case CARTRIDGE_SIZE_64KB:
             case CARTRIDGE_SIZE_96KB:
@@ -906,6 +942,7 @@ static int load_input_file(char *filename)
             case CARTRIDGE_SIZE_12KB + 2:
             case CARTRIDGE_SIZE_16KB + 2:
             case CARTRIDGE_SIZE_20KB + 2:
+            case CARTRIDGE_SIZE_24KB + 2:
             case CARTRIDGE_SIZE_32KB + 2:
             case CARTRIDGE_SIZE_64KB + 2:
             case CARTRIDGE_SIZE_96KB + 2:

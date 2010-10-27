@@ -34,6 +34,8 @@
 extern void rex_config_init(void);
 extern void rex_config_setup(BYTE *rawcart);
 extern int rex_crt_attach(FILE *fd, BYTE *rawbyte);
+extern int rex_bin_attach(const char *filename, BYTE *rawcart);
 extern void rex_detach(void);
+extern void rex_config_init(void);
 
 #endif

@@ -38,8 +38,11 @@
 #include "cartridge.h"
 #include "supergames.h"
 #include "types.h"
+#include "util.h"
 
 /*
+    "Super Games"
+
     This cart uses 4 16Kb banks mapped in at $8000-$BFFF.
 
     The control registers is at $DF00, and has the following meaning:
@@ -51,13 +54,15 @@
      2    inverted GAME line
      3    inverted EXROM line
     4-7   unused
- */
+*/
 
+static int currbank = 0;
 
 static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
 {
     cartridge_romhbank_set(value & 3);
     cartridge_romlbank_set(value & 3);
+    currbank = value & 3;
 
     if (value & 0x4) {
         export.game = 0;
@@ -71,6 +76,11 @@ static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
     mem_pla_config_changed();
 }
 
+static BYTE REGPARM1 supergames_io2_peek(WORD addr)
+{
+    return currbank;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t supergames_device = {
@@ -81,7 +91,7 @@ static io_source_t supergames_device = {
     0,
     supergames_io2_store,
     NULL,
-    NULL, /* TODO: peek */
+    supergames_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_SUPER_GAMES
 };
@@ -113,6 +123,22 @@ void supergames_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int supergames_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    supergames_list_item = c64io_register(&supergames_device);
+    return 0;
+}
+
+int supergames_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return supergames_common_attach();
+}
 
 int supergames_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -131,14 +157,7 @@ int supergames_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    supergames_list_item = c64io_register(&supergames_device);
-
-    return 0;
+    return supergames_common_attach();
 }
 
 void supergames_detach(void)

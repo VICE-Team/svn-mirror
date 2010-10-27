@@ -113,9 +113,6 @@ static int retroreplay_filetype = 0;
 
 static const char STRING_RETRO_REPLAY[] = "Retro Replay";
 
-#define CARTRIDGE_FILETYPE_BIN  1
-#define CARTRIDGE_FILETYPE_CRT  2
-
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
@@ -899,14 +896,20 @@ int retroreplay_crt_save(const char *filename)
     return 0;
 }
 
+int retroreplay_flush_image(void)
+{
+    if (retroreplay_filetype == CARTRIDGE_FILETYPE_BIN) {
+        return retroreplay_bin_save(retroreplay_filename);
+    } else if (retroreplay_filetype == CARTRIDGE_FILETYPE_CRT) {
+        return retroreplay_crt_save(retroreplay_filename);
+    }
+    return -1;
+}
+
 void retroreplay_detach(void)
 {
     if (rr_bios_write && flashrom_state->flash_dirty) {
-        if (retroreplay_filetype == CARTRIDGE_FILETYPE_BIN) {
-            retroreplay_bin_save(retroreplay_filename);
-        } else if (retroreplay_filetype == CARTRIDGE_FILETYPE_CRT) {
-            retroreplay_crt_save(retroreplay_filename);
-        }
+        retroreplay_flush_image();
     }
 
     flash040core_shutdown(flashrom_state);

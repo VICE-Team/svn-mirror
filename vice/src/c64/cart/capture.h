@@ -41,6 +41,7 @@ extern void capture_freeze(void);
 extern void capture_config_init(void);
 extern void capture_reset(void);
 extern void capture_config_setup(BYTE *rawcart);
+extern int capture_bin_attach(const char *filename, BYTE *rawcart);
 extern int capture_crt_attach(FILE *fd, BYTE *rawcart);
 extern void capture_detach(void);
 

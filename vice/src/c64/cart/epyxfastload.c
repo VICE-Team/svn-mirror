@@ -44,7 +44,22 @@
 #include "types.h"
 #include "util.h"
 
-/* The Epyx FastLoad cart discharges a capacitor on ROML and IO1 accesses. */
+/*
+    "Epyx Fastload"
+
+    - 8kb ROM, mapped to $8000 in 8k game config (if enabled)
+    - last page of the rom is visible in io2
+
+    The Epyx FastLoad cart uses a simple capacitor to toggle the ROM on and off:
+
+    the capacitor is discharged, and 8k game config enabled, by
+    - reading ROML
+    - reading io1
+
+    if none of that happens the capacitor will charge, and if it is charged
+    then the ROM will get disabled.
+*/
+
 /* This constant defines the number of cycles it takes to recharge it.     */
 #define EPYX_ROM_CYCLES 512
 
@@ -67,15 +82,19 @@ static void epyxfastload_alarm_handler(CLOCK offset, void *data)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 epyxfastload_io1_read(WORD addr)
+static BYTE REGPARM1 epyxfastload_io1_read(WORD addr)
 {
     /* IO1 discharges the capacitor, but does nothing else */
     epyxfastload_trigger_access();
-
     return 0;
 }
 
-BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
+static BYTE REGPARM1 epyxfastload_io1_peek(WORD addr)
+{
+    return 0;
+}
+
+static BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
 {
     /* IO2 allows access to the last 256 bytes of the rom */
     return roml_banks[0x1f00 + (addr & 0xff)];
@@ -91,7 +110,7 @@ static io_source_t epyxfastload_io1_device = {
     0, /* read is never valid */
     NULL,
     epyxfastload_io1_read,
-    NULL, /* TODO: peek */
+    epyxfastload_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_EPYX_FASTLOAD
 };
@@ -104,7 +123,7 @@ static io_source_t epyxfastload_io2_device = {
     1, /* read is always valid */
     NULL,
     epyxfastload_io2_read,
-    NULL, /* TODO: peek */
+    NULL, /* peek */
     NULL, /* TODO: dump */
     CARTRIDGE_EPYX_FASTLOAD
 };

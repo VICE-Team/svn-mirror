@@ -38,8 +38,9 @@
 #include "types.h"
 #include "util.h"
 
-
 /*
+    "Ocean" Game Cartridge
+
     This type of cart comes in 4 sizes: 32Kb, 128Kb, 256Kb, 512Kb.
 
     The 32Kb type of cart has 4 banks, banked in at $8000-$9FFF.
@@ -54,7 +55,9 @@
     Bank switching is done by writing to $DE00. The lower six bits give the
     bank number (ranging from 0-63). Bit 8 in this selection word is always
     set.
- */
+*/
+
+static int currbank = 0;
 
 static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
 {
@@ -65,8 +68,13 @@ static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
     mem_pla_config_changed();
     export.ultimax_phi1 = 0;
     export.ultimax_phi2 = 0;
+    currbank = value & 0x3f;
 }
 
+static BYTE REGPARM1 ocean_io1_peek(WORD addr)
+{
+    return currbank;
+}
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ocean_device = {
@@ -77,8 +85,8 @@ static io_source_t ocean_device = {
     0,
     ocean_io1_store,
     NULL,
-    NULL,
-    NULL,
+    ocean_io1_peek,
+    NULL, /* dump */
     CARTRIDGE_OCEAN
 };
 
@@ -112,6 +120,28 @@ void ocean_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int ocean_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    ocean_list_item = c64io_register(&ocean_device);
+    return 0;
+}
+
+int ocean_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x80000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        if (util_file_load(filename, rawcart, 0x40000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    return -1;
+                }
+            }
+        }
+    }
+    return ocean_common_attach();
+}
 
 int ocean_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -128,14 +158,7 @@ int ocean_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    ocean_list_item = c64io_register(&ocean_device);
-
-    return 0;
+    return ocean_common_attach();
 }
 
 void ocean_detach(void)

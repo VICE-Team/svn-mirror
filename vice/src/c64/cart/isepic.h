@@ -50,6 +50,7 @@ extern int isepic_bin_attach(const char *filename, BYTE *rawcart);
 extern int isepic_bin_save(const char *filename);
 extern int isepic_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
 extern int isepic_crt_save(const char *filename);
+extern int isepic_flush_image(void);
 extern void isepic_detach(void);
 extern int isepic_enable(void);
 

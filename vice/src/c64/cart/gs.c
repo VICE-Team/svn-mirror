@@ -37,17 +37,36 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    GS Cartridge
+
+    - 512kb ROM
+
+    - reading from io1 switches to 8k game config
+
+    - writing to io1 switches to 16k game config. the lower 6 bits
+      of the address are the bank number
+*/
+
+static int currbank = 0;
+
 static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
 {
     cartridge_romlbank_set(addr & 0x3f);
     export.game = 0;
     export.exrom = 1;
+    currbank = addr & 0x3f;
 }
 
 static BYTE REGPARM1 gs_io1_read(WORD addr)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
     return 0;
+}
+
+static BYTE REGPARM1 gs_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -60,7 +79,7 @@ static io_source_t gs_device = {
     0, /* read is never valid */
     gs_io1_store,
     gs_io1_read,
-    NULL, /* TODO: peek */
+    gs_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_GS
 };
@@ -89,6 +108,22 @@ void gs_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int gs_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    gs_list_item = c64io_register(&gs_device);
+    return 0;
+}
+
+int gs_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x80000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return gs_common_attach();
+}
 
 int gs_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -105,14 +140,7 @@ int gs_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    gs_list_item = c64io_register(&gs_device);
-
-    return 0;
+    return gs_common_attach();
 }
 
 void gs_detach(void)

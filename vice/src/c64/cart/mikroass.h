@@ -33,6 +33,7 @@
 
 extern void mikroass_config_init(void);
 extern void mikroass_config_setup(BYTE *rawcart);
+extern int mikroass_bin_attach(const char *filename, BYTE *rawcart);
 extern int mikroass_crt_attach(FILE *fd, BYTE *rawcart);
 extern void mikroass_detach(void);
 

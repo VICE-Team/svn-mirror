@@ -33,6 +33,7 @@
 
 extern void delaep64_config_init(void);
 extern void delaep64_config_setup(BYTE *rawcart);
+extern int delaep64_bin_attach(const char *filename, BYTE *rawcart);
 extern int delaep64_crt_attach(FILE *fd, BYTE *rawcart);
 extern void delaep64_detach(void);
 

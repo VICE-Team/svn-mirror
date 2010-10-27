@@ -147,9 +147,6 @@ static int mmc64_bios_type = 0;
 
 static const char STRING_MMC64[] = "MMC64";
 
-#define CARTRIDGE_FILETYPE_BIN  1
-#define CARTRIDGE_FILETYPE_CRT  2
-
 static int mmc64_activate(void);
 static int mmc64_deactivate(void);
 
@@ -1047,6 +1044,16 @@ int mmc64_crt_attach(FILE *fd, BYTE *rawcart)
     mmc64_bios_offset = 0;
     mmc64_bios_type = CARTRIDGE_FILETYPE_CRT;
     return mmc64_common_attach();
+}
+
+int mmc64_flush_image(void)
+{
+    if (mmc64_bios_type == CARTRIDGE_FILETYPE_BIN) {
+        return mmc64_bin_save(mmc64_bios_filename);
+    } else if (mmc64_bios_type == CARTRIDGE_FILETYPE_CRT) {
+        return mmc64_crt_save(mmc64_bios_filename);
+    }
+    return -1;
 }
 
 void mmc64_detach(void)

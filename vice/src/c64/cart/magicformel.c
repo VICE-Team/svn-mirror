@@ -125,14 +125,17 @@ CB2            - enable Cartridge (?)
 #include "machine.h"
 #include "magicformel.h"
 #include "types.h"
+#include "util.h"
 
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
 static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 magicformel_io1_read(WORD addr);
+static BYTE REGPARM1 magicformel_io1_peek(WORD addr);
 static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value);
 static BYTE REGPARM1 magicformel_io2_read(WORD addr);
+static BYTE REGPARM1 magicformel_io2_peek(WORD addr);
 
 static io_source_t magicformel_io1_device = {
     "Magic Formel",
@@ -142,8 +145,8 @@ static io_source_t magicformel_io1_device = {
     0,
     magicformel_io1_store,
     magicformel_io1_read,
-    NULL,
-    NULL,
+    magicformel_io1_peek,
+    NULL, /* dump */
     CARTRIDGE_MAGIC_FORMEL
 };
 
@@ -155,8 +158,8 @@ static io_source_t magicformel_io2_device = {
     1, /* read is always valid */
     magicformel_io2_store,
     magicformel_io2_read,
-    NULL,
-    NULL,
+    magicformel_io2_peek,
+    NULL, /* dump */
     CARTRIDGE_MAGIC_FORMEL
 };
 
@@ -342,6 +345,39 @@ static BYTE mc6821_read(int port /* rs1 */,int reg /* rs0 */)
     return data;
 }
 
+/* FIXME */
+static BYTE mc6821_peek(int port /* rs1 */,int reg /* rs0 */)
+{
+    BYTE data = 0;
+
+    if (port == 0) {
+        /* MC6821 Port A */
+        if (reg == 1) {
+            /* control register */
+            data = ctrlA;
+        } else {
+            if (ctrlA & 0x04) {
+                data = dataA;
+            } else {
+                /* ? */
+            }
+        }
+    } else {
+        /* MC6821 Port B */
+        if (reg == 1) {
+            /* control register */
+            data = ctrlB;
+        } else {
+            if (ctrlB & 0x04) {
+                data = dataB;
+            } else {
+                /* ? */
+            }
+        }
+    }
+    return data;
+}
+
 static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
 {
     if (port == 0) {
@@ -476,7 +512,7 @@ static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
 * 
 ****************************************************************************/
 
-BYTE REGPARM1 magicformel_io1_read(WORD addr)
+static BYTE REGPARM1 magicformel_io1_read(WORD addr)
 {
 #ifdef DEBUG_IO1_NO_DISABLE
     if (1) {
@@ -490,6 +526,11 @@ BYTE REGPARM1 magicformel_io1_read(WORD addr)
         DBG(("MF: read from disabled io1\n"));
     }
     return 0;
+}
+
+static BYTE REGPARM1 magicformel_io1_peek(WORD addr)
+{
+    return export_ram0[(ram_page << 8) + (addr & 0xff)];
 }
 
 static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value)
@@ -511,7 +552,7 @@ static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value)
     d1 goes to d7
 */
 
-BYTE REGPARM1 magicformel_io2_read(WORD addr)
+static BYTE REGPARM1 magicformel_io2_read(WORD addr)
 {
     int data, port, reg;
 
@@ -525,7 +566,19 @@ BYTE REGPARM1 magicformel_io2_read(WORD addr)
     return mc6821_read(port /* rs1 */, reg /* rs0 */);
 }
 
-void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
+static BYTE REGPARM1 magicformel_io2_peek(WORD addr)
+{
+    int data, port, reg;
+
+    /* fixme: what about d0..d5 ? */
+    data = (addr & 0x3f);   /* d0..d5 d7 */
+    port = (addr >> 7) & 1; /* rs1 */
+    reg = (addr >> 6) & 1;  /* rs0 */
+
+    return mc6821_peek(port /* rs1 */, reg /* rs0 */);
+}
+
+static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
 {
     int port;
     WORD reg;
@@ -616,6 +669,33 @@ void magicformel_config_setup(BYTE *rawcart)
     memcpy(romh_banks, rawcart, 0x20000);
 }
 
+static int magicformel_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+
+    magicformel_io1_list_item = c64io_register(&magicformel_io1_device);
+    magicformel_io2_list_item = c64io_register(&magicformel_io2_device);
+    return 0;
+}
+
+int magicformel_bin_attach(const char *filename, BYTE *rawcart)
+{
+    hwversion = 2;
+    if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        hwversion = 1;
+        if (util_file_load(filename, rawcart, 0x18000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            hwversion = 0;
+            if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                return -1;
+            }
+        }
+        memcpy(&rawcart[0x18000], &rawcart[0x10000], 0x8000);
+    }
+    return magicformel_common_attach();
+}
+
 /*
     load CRT, handles 64k (v1.2), 64k+32k (v2.0), 64k+64k (v2.0)
 */
@@ -653,15 +733,7 @@ int magicformel_crt_attach(FILE *fd, BYTE *rawcart)
     } else {
         return -1;
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    magicformel_io1_list_item = c64io_register(&magicformel_io1_device);
-    magicformel_io2_list_item = c64io_register(&magicformel_io2_device);
-
-    return 0;
+    return magicformel_common_attach();
 }
 
 void magicformel_detach(void)

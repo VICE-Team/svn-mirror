@@ -199,7 +199,6 @@ NMI entry from expert 2.70:
 #define EXPERT_OFF ((0 << 0) | (1 << 1)) /* ram */
 #define EXPERT_ON  ((1 << 0) | (1 << 1)) /* ultimax */
 
-//static int ack_reset = 0;
 static int cartmode = EXPERT_MODE_DEFAULT;
 static int expert_enabled = 0;
 static int expert_register_enabled = 0;
@@ -210,6 +209,7 @@ static int expert_ramh_enabled = 0; /* equals EXROM ? */
 static BYTE *expert_ram = NULL;
 
 static char *expert_filename = NULL;
+static int expert_filetype = 0;
 
 #define EXPERT_RAM_SIZE 8192
 
@@ -483,6 +483,7 @@ int expert_bin_attach(const char *filename, BYTE *rawcart)
     }
 
     expert_set_filename(filename);
+    expert_filetype = CARTRIDGE_FILETYPE_BIN;
 
     return expert_common_attach();
 }
@@ -528,6 +529,7 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
     }
 
     expert_set_filename(filename);
+    expert_filetype = CARTRIDGE_FILETYPE_CRT;
 
     return expert_common_attach();
 }
@@ -661,6 +663,16 @@ int expert_crt_save(const char *filename)
     DBG(("EXPERT: ERROR save crt ok\n"));
 
     return 0;
+}
+
+int expert_flush_image(void)
+{
+    if (expert_filetype == CARTRIDGE_FILETYPE_BIN) {
+        return expert_bin_save(expert_filename);
+    } else if (expert_filetype == CARTRIDGE_FILETYPE_CRT) {
+        return expert_crt_save(expert_filename);
+    }
+    return -1;
 }
 
 void expert_detach(void)

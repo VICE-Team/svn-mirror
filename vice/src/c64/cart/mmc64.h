@@ -45,6 +45,7 @@ extern int mmc64_crt_attach(FILE *fd, BYTE *rawcart);
 extern int mmc64_bin_attach(const char *filename, BYTE *rawcart);
 extern int mmc64_bin_save(const char *filename);
 extern int mmc64_crt_save(const char *filename);
+extern int mmc64_flush_image(void);
 
 extern int mmc64_resources_init(void);
 extern void mmc64_resources_shutdown(void);

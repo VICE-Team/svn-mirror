@@ -33,6 +33,7 @@
 
 extern void rexep256_config_init(void);
 extern void rexep256_config_setup(BYTE *rawcart);
+extern int rexep256_bin_attach(const char *filename, BYTE *rawcart);
 extern int rexep256_crt_attach(FILE *fd, BYTE *rawcart);
 extern void rexep256_detach(void);
 

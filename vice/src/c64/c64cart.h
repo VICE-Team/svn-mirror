@@ -29,10 +29,10 @@
 
 #include "types.h"
 
-/* Cartridge ROM limit = 512kB (MMCReplay) */
-#define C64CART_ROM_LIMIT (1024*512)
-/* Cartridge RAM limit = 512kB (MMCReplay) */
-#define C64CART_RAM_LIMIT (1024*512)
+/* Cartridge ROM limit = 1MB (Easy Flash) */
+#define C64CART_ROM_LIMIT (1024*1024)
+/* Cartridge RAM limit = 16MB (REU) */
+#define C64CART_RAM_LIMIT (16*1024*1024)
 /* maximum size of a full "all inclusive" cartridge image */
 #define C64CART_IMAGE_LIMIT (C64CART_ROM_LIMIT+C64CART_RAM_LIMIT)
 

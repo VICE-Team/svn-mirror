@@ -39,12 +39,18 @@
 #include "util.h"
 
 /*
-    this cart comes in 3 sizes, 32Kb, 64Kb and 128Kb, all mapped in at
-    $8000-$9FFF. Bank switching is done by writing the bank value to $DE00.
+    "Magic Desk" Cartridge
 
-    Setting bit 7 of $DE00 is used to switch off the cart.
+    - this cart comes in 3 sizes, 32Kb, 64Kb and 128Kb.
+    - ROM is always mapped in at $8000-$9FFF.
 
- */
+    - 1 register at io1 / de00:
+
+    bit 0-5   bank number
+    bit 7     exrom (1 = cart disabled)
+*/
+
+static int currbank = 0;
 
 static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
 {
@@ -55,7 +61,13 @@ static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
     } else {
         export.exrom = 1;  /* turn off cart ROM */
     }
+    currbank = value & (0x3f | 0x80);
     mem_pla_config_changed();
+}
+
+static BYTE REGPARM1 magicdesk_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -68,7 +80,7 @@ static io_source_t magicdesk_device = {
     0,
     magicdesk_io1_store,
     NULL,
-    NULL, /* TODO: peek */
+    magicdesk_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_MAGIC_DESK
 };
@@ -95,6 +107,27 @@ void magicdesk_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
+static int magicdesk_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    magicdesk_list_item = c64io_register(&magicdesk_device);
+    return 0;
+}
+
+int magicdesk_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                return -1;
+            }
+        }
+    }
+    return magicdesk_common_attach();
+}
+
 int magicdesk_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -110,14 +143,7 @@ int magicdesk_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    magicdesk_list_item = c64io_register(&magicdesk_device);
-
-    return 0;
+    return magicdesk_common_attach();
 }
 
 void magicdesk_detach(void)

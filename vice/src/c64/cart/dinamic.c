@@ -59,14 +59,22 @@
 
 */
 
+static int currbank = 0;
+
 static BYTE REGPARM1 dinamic_io1_read(WORD addr)
 {
     DBG(("@ $%04x io1 rd %04x (bank: %02x)\n", reg_pc, addr, addr & 0x0f));
     if ((addr & 0x0f) == addr) {
         cartridge_romlbank_set(addr & 0x0f);
         cartridge_romhbank_set(addr & 0x0f);
+        currbank = addr & 0x0f;
     }
     return 0;
+}
+
+static BYTE REGPARM1 dinamic_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -79,8 +87,8 @@ static io_source_t dinamic_io1_device = {
     0, /* reads are never valid */
     NULL,
     dinamic_io1_read,
-    NULL,
-    NULL,
+    dinamic_io1_peek,
+    NULL, /* dump */
     CARTRIDGE_DINAMIC
 };
 
@@ -105,6 +113,23 @@ void dinamic_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
+static int dinamic_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    dinamic_io1_list_item = c64io_register(&dinamic_io1_device);
+    return 0;
+}
+
+int dinamic_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return dinamic_common_attach();
+}
+
 int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -124,12 +149,7 @@ int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    dinamic_io1_list_item = c64io_register(&dinamic_io1_device);
-    return 0;
+    return dinamic_common_attach();
 }
 
 void dinamic_detach(void)

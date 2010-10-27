@@ -38,7 +38,7 @@
 #include "cartridge.h"
 #include "rexep256.h"
 #include "types.h"
-
+#include "util.h"
 
 /* This eprom system by REX is similair to the EP64. It can handle
    what the EP64 can handle, plus the following features :
@@ -71,7 +71,7 @@
     Reading from $DFC0 switches off the EXROM.
 
     Reading from $DFE0 switches on the EXROM.
- */
+*/
 
 /* ---------------------------------------------------------------------*/
 
@@ -124,6 +124,11 @@ static BYTE REGPARM1 rexep256_io2_read(WORD addr)
     return 0;
 }
 
+static BYTE REGPARM1 rexep256_io2_peek(WORD addr)
+{
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t rexep256_device = {
@@ -134,7 +139,7 @@ static io_source_t rexep256_device = {
     0, /* read is never valid */
     rexep256_io2_store,
     rexep256_io2_read,
-    NULL, /* TODO: peek */
+    rexep256_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_REX_EP256
 };
@@ -153,6 +158,7 @@ void rexep256_config_init(void)
     cartridge_romlbank_set(0);
 }
 
+/* FIXME: should copy rawcart to roml_banks ! */
 void rexep256_config_setup(BYTE *rawcart)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
@@ -160,7 +166,26 @@ void rexep256_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int rexep256_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    rexep256_list_item = c64io_register(&rexep256_device);
+    return 0;
+}
 
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
+/* FIXME: handle the various combinations / possible file lengths */
+int rexep256_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return rexep256_common_attach();
+}
+
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
@@ -216,14 +241,7 @@ int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 
         rexep256_total_size=rexep256_total_size+size;
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    rexep256_list_item = c64io_register(&rexep256_device);
-
-    return 0;
+    return rexep256_common_attach();
 }
 
 void rexep256_detach(void)

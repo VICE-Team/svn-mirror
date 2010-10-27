@@ -141,7 +141,8 @@ extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") 
 
 /*
     TODO: add commandline options for the missing carts
-    TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_MACH5)
+    TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_DIASHOW_MAKER)
+    TODO: keep -cartXYZ options in sync with cartconv -t option
 
     the following carts, which do not have any rom or ram, are NOT in the list below,
     for obvious reasons:
@@ -186,6 +187,11 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_P_NAME, IDCLS_ATTACH_CRT_CART,
       NULL, NULL },
     /* binary images: */
+    { "-cartap", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ATOMIC_POWER_CART,
+      NULL, NULL },
     { "-cartar2", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_ACTION_REPLAY2, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -205,25 +211,48 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY_CART },
-    { "-cartap", CALL_FUNCTION, 1,
-      cart_attach_cmdline, (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ATOMIC_POWER_CART,
-      NULL, NULL },
-    /* TODO: CARTRIDGE_CAPTURE */
-    /* TODO: CARTRIDGE_COMAL80 */
-    /* TODO: CARTRIDGE_DELA_EP64 */
-    /* TODO: CARTRIDGE_DELA_EP7x8 */
-    /* TODO: CARTRIDGE_DELA_EP256 */
+    { "-cartcap", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_CAPTURE, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB Capture cartridge image") },
+    { "-cartcomal", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_COMAL80, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 64kB Comal 80 cartridge image") },
+    { "-cartdep256", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_DELA_EP256, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Dela EP256 cartridge image") },
+    { "-cartdep64", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_DELA_EP64, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Dela EP64 cartridge image") },
+    { "-cartdep7x8", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_DELA_EP7x8, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Dela EP7x8 cartridge image") },
+    { "-cartdin", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_DINAMIC, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 128kB Dinamic cartridge image") },
     { "-cartdsm", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_DIASHOW_MAKER, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 8kB Diashow Maker cartridge image") },
-    /* TODO: CARTRIDGE_DINAMIC */
-    /* TODO: CARTRIDGE_DQBB */
-    /* TODO: CARTRIDGE_EASYFLASH */
-    /* TODO: CARTRIDGE_EASYFLASH_XBANK */
+    /* FIXME: CARTRIDGE_DQBB */
+    { "-carteasy", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_EASYFLASH, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Easy Flash cartridge image") },
+    /* omitted: CARTRIDGE_EASYFLASH_XBANK (NO CART EXISTS!) */
     { "-cartepyx", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_EPYX_FASTLOAD, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -239,7 +268,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 8kB Expert cartridge image") },
-    { "-cartfc", CALL_FUNCTION, 1,
+    { "-cartfc1", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_FINAL_I, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
@@ -264,20 +293,28 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 32kB Freeze Machine image") },
-    /* TODO: CARTRIDGE_FUNPLAY */
-    { "-cartgamekiller", CALL_FUNCTION, 1,
+    { "-cartfp", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_FUNPLAY, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 128kB Fun Play/Power Play cartridge image") },
+    { "-cartgk", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_GAME_KILLER, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_GAME_KILLER_CART,
       NULL, NULL },
-    /* TODO: CARTRIDGE_GEORAM */
-    /* TODO: CARTRIDGE_GS */
-    { "-cartide", CALL_FUNCTION, 1,
+    /* FIXME: CARTRIDGE_GEORAM */
+    { "-cartgs", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_GS, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 512kB Game System image") },
+    { "-cartide64", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_IDE64, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_IDE64_CART,
       NULL, NULL },
-    { "-cartieee488", CALL_FUNCTION, 1,
+    { "-cartieee", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_IEEE488, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_CBM_IEEE488_CART,
@@ -287,16 +324,36 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 2kB ISEPIC image") },
-    /* TODO: CARTRIDGE_KCS_POWER */
-    /* TODO: CARTRIDGE_MAGIC_DESK */
-    /* TODO: CARTRIDGE_MAGIC_FORMEL */
-    /* TODO: CARTRIDGE_MIKRO_ASSEMBLER */
-    /* TODO: CARTRIDGE_MMC64 */
+    { "-cartkcs", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_KCS_POWER, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB KCS Power cartridge image") },
     { "-cartmach5", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_MACH5, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 8kB Mach 5 cartridge image") },
+    { "-cartmd", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_DESK, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 32/64/128kB Magic Desk cartridge image") },
+    { "-cartmf", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_MAGIC_FORMEL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Magic Formel cartridge image") },
+    { "-cartmikro", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_MIKRO_ASSEMBLER, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB Mikro Assembler image") },
+    { "-cartmmc64", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_MMC64, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 8kB MMC64 cartridge image") },
     { "-cartmmcr", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_MMC_REPLAY, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -307,39 +364,44 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 16kB Magic Voice image") },
-    /* TODO: CARTRIDGE_OCEAN */
+    { "-cartocean", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_OCEAN, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Ocean cartridge image") },
     { "-cartp64", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_P64, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_P64_CART,
       NULL, NULL },
-    /* TODO: CARTRIDGE_RAMCART */
-    /* TODO: CARTRIDGE_REU */
-    /* TODO: CARTRIDGE_REX */
-    /* TODO: CARTRIDGE_REX_EP256 */
-    /* TODO: CARTRIDGE_ROSS */
+    /* FIXME: CARTRIDGE_RAMCART */
+    /* FIXME: CARTRIDGE_REU */
+    { "-cartrep256", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_REX_EP256, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw REX EP256 cartridge image") },
+    { "-cartross", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_ROSS, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16/32kB Ross cartridge image") },
     { "-cartrr", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART,
       NULL, NULL },
-    { "-cartsb", CALL_FUNCTION, 1,
-      cart_attach_cmdline, (void *)CARTRIDGE_SIMONS_BASIC, NULL, NULL,
+    { "-cartru", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_REX, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Attach raw 16kB Simons Basic image") },
-    /* TODO: CARTRIDGE_SUPER_GAMES */
+      NULL, T_("Attach raw 8kB Rex Utility cartridge image") },
     { "-carts64", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_SNAPSHOT64, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 4kB Snapshot 64 image") },
-    { "-cartstardos", CALL_FUNCTION, 1,
-      cart_attach_cmdline, (void *)CARTRIDGE_STARDOS, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_STARDOS_CART,
-      NULL, NULL },
-    { "-cartstb", CALL_FUNCTION, 1,
+    { "-cartsb", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_STB_CART,
@@ -349,6 +411,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 16kB Super Explode V5 image") },
+    { "-cartsg", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_SUPER_GAMES, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 64kB Super Games cartridge image") },
+    { "-cartsimon", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_SIMONS_BASIC, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw 16kB Simons Basic image") },
     { "-cartss4", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -359,16 +431,21 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_SS5_CART,
       NULL, NULL },
+    { "-cartstar", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_STARDOS, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_STARDOS_CART,
+      NULL, NULL },
+    { "-cartwl", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART,
+      NULL, NULL },
     { "-cartws", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_WARPSPEED, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw 8kB Warpspeed image") },
-    { "-cartwestermann", CALL_FUNCTION, 1,
-      cart_attach_cmdline, (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART,
-      NULL, NULL },
     { "-cartzaxxon", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_ZAXXON, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -605,11 +682,9 @@ const char *cart_get_file_name(int type)
         case CARTRIDGE_DQBB:
             return dqbb_get_file_name();
         case CARTRIDGE_EXPERT:
-            /* return expert_get_file_name(); */
-            return ""; /* FIXME */
+            return expert_get_file_name();
         case CARTRIDGE_ISEPIC:
-            /* return isepic_get_file_name(); */
-            return ""; /* FIXME */
+            return isepic_get_file_name();
         case CARTRIDGE_RAMCART:
             return ramcart_get_file_name();
         /* "I/O Slot" */
@@ -691,8 +766,24 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return actionreplay4_bin_attach(filename, rawcart);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_bin_attach(filename, rawcart);
+        case CARTRIDGE_CAPTURE:
+            return capture_bin_attach(filename, rawcart);
+        case CARTRIDGE_COMAL80:
+            return comal80_bin_attach(filename, rawcart);
+        case CARTRIDGE_DELA_EP64:
+            return delaep64_bin_attach(filename, rawcart);
+        case CARTRIDGE_DELA_EP7x8:
+            return delaep7x8_bin_attach(filename, rawcart);
+        case CARTRIDGE_DELA_EP256:
+            return delaep256_bin_attach(filename, rawcart);
         case CARTRIDGE_DIASHOW_MAKER:
             return dsm_bin_attach(filename, rawcart);
+        case CARTRIDGE_DINAMIC:
+            return dinamic_bin_attach(filename, rawcart);
+        case CARTRIDGE_EASYFLASH:
+            return easyflash_bin_attach(filename, rawcart);
+        case CARTRIDGE_EASYFLASH_XBANK:
+            return -1; /* NO CART EXISTS */
         case CARTRIDGE_EPYX_FASTLOAD:
             return epyxfastload_bin_attach(filename, rawcart);
         case CARTRIDGE_EXOS:
@@ -707,22 +798,42 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return freezeframe_bin_attach(filename, rawcart);
         case CARTRIDGE_FREEZE_MACHINE:
             return freezemachine_bin_attach(filename, rawcart);
+        case CARTRIDGE_FUNPLAY:
+            return funplay_bin_attach(filename, rawcart);
         case CARTRIDGE_GAME_KILLER:
             return gamekiller_bin_attach(filename, rawcart);
         case CARTRIDGE_GENERIC_8KB:
             return generic_8kb_bin_attach(filename, rawcart);
         case CARTRIDGE_GENERIC_16KB:
             return generic_16kb_bin_attach(filename, rawcart);
+        case CARTRIDGE_GS:
+            return gs_bin_attach(filename, rawcart);
         case CARTRIDGE_IDE64:
             return ide64_bin_attach(filename, rawcart);
+        case CARTRIDGE_KCS_POWER:
+            return kcs_bin_attach(filename, rawcart);
         case CARTRIDGE_MACH5:
             return mach5_bin_attach(filename, rawcart);
+        case CARTRIDGE_MAGIC_DESK:
+            return magicdesk_bin_attach(filename, rawcart);
+        case CARTRIDGE_MAGIC_FORMEL:
+            return magicformel_bin_attach(filename, rawcart);
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+            return mikroass_bin_attach(filename, rawcart);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_bin_attach(filename, rawcart);
+        case CARTRIDGE_OCEAN:
+            return ocean_bin_attach(filename, rawcart);
         case CARTRIDGE_P64:
             return p64_bin_attach(filename, rawcart);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_attach(filename, rawcart);
+        case CARTRIDGE_REX:
+            return rex_bin_attach(filename, rawcart);
+        case CARTRIDGE_REX_EP256:
+            return rexep256_bin_attach(filename, rawcart);
+        case CARTRIDGE_ROSS:
+            return ross_bin_attach(filename, rawcart);
         case CARTRIDGE_SIMONS_BASIC:
             return simon_bin_attach(filename, rawcart);
         case CARTRIDGE_SNAPSHOT64:
@@ -733,6 +844,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return stb_bin_attach(filename, rawcart);
         case CARTRIDGE_SUPER_EXPLODE_V5:
             return se5_bin_attach(filename, rawcart);
+        case CARTRIDGE_SUPER_GAMES:
+            return supergames_bin_attach(filename, rawcart);
         case CARTRIDGE_SUPER_SNAPSHOT:
             return supersnapshot_v4_bin_attach(filename, rawcart);
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
@@ -1478,7 +1591,7 @@ void cartridge_init_config(void)
             retroreplay_config_init();
             break;
         case CARTRIDGE_REX:
-            generic_8kb_config_init(); /* FIXME */
+            rex_config_init();
             break;
         case CARTRIDGE_REX_EP256:
             rexep256_config_init();
@@ -1487,7 +1600,7 @@ void cartridge_init_config(void)
             ross_config_init();
             break;
         case CARTRIDGE_SIMONS_BASIC:
-            generic_16kb_config_init(); /* FIXME */
+            simon_config_init();
             break;
         case CARTRIDGE_SNAPSHOT64:
             snapshot64_config_init();
@@ -1511,10 +1624,10 @@ void cartridge_init_config(void)
             generic_ultimax_config_init();
             break;
         case CARTRIDGE_WARPSPEED:
-            generic_16kb_config_init(); /* FIXME */
+            warpspeed_config_init();
             break;
         case CARTRIDGE_WESTERMANN:
-            generic_16kb_config_init(); /* FIXME */
+            westermann_config_init();
             break;
         case CARTRIDGE_ZAXXON:
             zaxxon_config_init();
@@ -1815,11 +1928,25 @@ int cartridge_flush_image(int type)
 {
     switch (type) {
         /* "Slot 0" */
+        case CARTRIDGE_MMC64:
+            return mmc64_flush_image();
         /* "Slot 1" */
+        /* FIXME: dqbb */
+        case CARTRIDGE_EXPERT:
+            return expert_flush_image();
+        case CARTRIDGE_ISEPIC:
+            return isepic_flush_image();
+        /* FIXME: ramcart */
         /* "Main Slot" */
         case CARTRIDGE_EASYFLASH:
             return easyflash_flush_image();
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_flush_image();
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_flush_image();
         /* "I/O" */
+        /* FIXME: reu */
+        /* FIXME: georam */
     }
     return -1;
 }
@@ -1843,10 +1970,12 @@ int cartridge_bin_save(int type, const char *filename)
             return isepic_bin_save(filename);
         /* FIXME: ramcart */
         /* "Main Slot" */
+        case CARTRIDGE_EASYFLASH:
+            return easyflash_bin_save(filename);
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_bin_save(filename);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
-        /* FIXME: easyflash */
-        /* FIXME: mmcr */
         /* "I/O Slot" */
         /* FIXME: reu */
         /* FIXME: georam */
@@ -1857,7 +1986,7 @@ int cartridge_bin_save(int type, const char *filename)
 /*
     save cartridge to crt file
 
-    FIXME: incomplete
+    TODO: add crt save for all ROM carts also
 */
 int cartridge_crt_save(int type, const char *filename)
 {
@@ -1871,11 +2000,12 @@ int cartridge_crt_save(int type, const char *filename)
         case CARTRIDGE_ISEPIC:
             return isepic_crt_save(filename);
         /* "Main Slot" */
-        case CARTRIDGE_RETRO_REPLAY:
-            return retroreplay_crt_save(filename);
         case CARTRIDGE_EASYFLASH:
             return easyflash_crt_save(filename);
-        /* FIXME: mmcr */
+        case CARTRIDGE_MMC_REPLAY:
+            return mmcreplay_crt_save(filename);
+        case CARTRIDGE_RETRO_REPLAY:
+            return retroreplay_crt_save(filename);
     }
     return -1;
 }

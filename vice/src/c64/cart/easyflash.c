@@ -89,7 +89,8 @@ static const BYTE easyflash_memconfig[] = {
 static BYTE easyflash_ram[256];
 
 /* filename when attached */
-static char *easyflash_crt_filename = NULL;
+static char *easyflash_filename = NULL;
+static int easyflash_filetype = 0;
 
 static const char STRING_EASYFLASH[] = "EasyFlash Cartridge";
 
@@ -306,9 +307,34 @@ static int easyflash_common_attach(const char *filename)
     easyflash_io1_list_item = c64io_register(&easyflash_io1_device);
     easyflash_io2_list_item = c64io_register(&easyflash_io2_device);
 
-    easyflash_crt_filename = lib_stralloc(filename);
+    easyflash_filename = lib_stralloc(filename);
 
     return 0;
+}
+
+int easyflash_bin_attach(const char *filename, BYTE *rawcart)
+{
+    FILE *fd;
+
+    easyflash_filetype = 0;
+    memset(rawcart, 0xff, 0x100000);
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_READ);
+    if (fd == NULL) {
+        return -1;
+    }
+
+    if (fread(rawcart, 0x100000, 1, fd) < 1) {
+        fclose(fd);
+        return -1;
+    }
+    fclose(fd);
+    easyflash_filetype = CARTRIDGE_FILETYPE_BIN;
+    return easyflash_common_attach(filename);
 }
 
 int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
@@ -316,6 +342,7 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *file
     BYTE chipheader[0x10];
     WORD bank, offset, length;
 
+    easyflash_filetype = 0;
     memset(rawcart, 0xff, 0x100000);
 
     while (1) {
@@ -349,20 +376,21 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *file
         }
     }
 
+    easyflash_filetype = CARTRIDGE_FILETYPE_CRT;
     return easyflash_common_attach(filename);
 }
 
 void easyflash_detach(void)
 {
     if (easyflash_crt_write) {
-        easyflash_crt_save(easyflash_crt_filename);
+        easyflash_flush_image();
     }
     flash040core_shutdown(easyflash_state_low);
     flash040core_shutdown(easyflash_state_high);
     lib_free(easyflash_state_low);
     lib_free(easyflash_state_high);
-    lib_free(easyflash_crt_filename);
-    easyflash_crt_filename = NULL;
+    lib_free(easyflash_filename);
+    easyflash_filename = NULL;
     c64io_unregister(easyflash_io1_list_item);
     c64io_unregister(easyflash_io2_list_item);
     easyflash_io1_list_item = NULL;
@@ -372,7 +400,55 @@ void easyflash_detach(void)
 
 int easyflash_flush_image(void)
 {
-    return easyflash_crt_save(easyflash_crt_filename);
+    if (easyflash_filetype == CARTRIDGE_FILETYPE_BIN) {
+        return easyflash_bin_save(easyflash_filename);
+    } else if (easyflash_filetype == CARTRIDGE_FILETYPE_CRT) {
+        return easyflash_crt_save(easyflash_filename);
+    }
+    return -1;
+}
+
+int easyflash_bin_save(const char *filename)
+{
+    FILE *fd;
+    BYTE *data;
+    int i, n = 0;
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    for (i = 0; i < 128; i++) {
+        if (i > 63) {
+            data = easyflash_state_high->flash_data + ((i - 64) * 0x2000);
+        } else {
+            data = easyflash_state_low->flash_data + (i * 0x2000);
+        }
+
+        if (easyflash_check_empty(data) == 0) {
+            n = i + 1;
+        }
+    }
+
+    for (i = 0; i < n; i++) {
+        if (i > 63) {
+            data = easyflash_state_high->flash_data + ((i - 64) * 0x2000);
+        } else {
+            data = easyflash_state_low->flash_data + (i * 0x2000);
+        }
+        if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+            fclose(fd);
+            return -1;
+        }
+    }
+    fclose(fd);
+    return 0;
 }
 
 int easyflash_crt_save(const char *filename)

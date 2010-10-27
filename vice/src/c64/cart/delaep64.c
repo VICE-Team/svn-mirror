@@ -37,6 +37,7 @@
 #include "cartridge.h"
 #include "delaep64.h"
 #include "types.h"
+#include "util.h"
 #include "vicii-phi1.h"
 
 /*
@@ -84,9 +85,11 @@
      13      0 (base)
      14      0 (base)
      15      0 (base)
- */
+*/
 
 /* ---------------------------------------------------------------------*/
+
+static int currbank = 0;
 
 static void delaep64_io1(BYTE value, unsigned int mode)
 {
@@ -108,6 +111,7 @@ static void delaep64_io1(BYTE value, unsigned int mode)
         bank = bank - 3;  /* turning the banks into 0-8 */
     }
     cartridge_romlbank_set(bank);
+    currbank = bank;
 }
 
 static BYTE REGPARM1 delaep64_io1_read(WORD addr)
@@ -117,6 +121,11 @@ static BYTE REGPARM1 delaep64_io1_read(WORD addr)
     delaep64_io1(value, CMODE_READ);
 
     return 0;
+}
+
+static BYTE REGPARM1 delaep64_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 void REGPARM2 delaep64_io1_store(WORD addr, BYTE value)
@@ -134,7 +143,7 @@ static io_source_t delaep64_device = {
     0, /* read is never valid */
     delaep64_io1_store,
     delaep64_io1_read,
-    NULL, /* TODO: peek */
+    delaep64_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_DELA_EP64
 };
@@ -152,13 +161,33 @@ void delaep64_config_init(void)
     delaep64_io1(0, CMODE_READ);
 }
 
+/* FIXME: should copy rawcart to roml_banks ! */
 void delaep64_config_setup(BYTE *rawcart)
 {
     delaep64_io1(0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
+static int delaep64_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    delaep64_list_item = c64io_register(&delaep64_device);
+    return 0;
+}
 
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
+/* FIXME: handle the various combinations / possible file lengths */
+int delaep64_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return delaep64_common_attach();
+}
+
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
@@ -222,14 +251,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    delaep64_list_item = c64io_register(&delaep64_device);
-
-    return 0;
+    return delaep64_common_attach();
 }
 
 void delaep64_detach(void)

@@ -33,6 +33,7 @@
 
 extern void comal80_config_init(void);
 extern void comal80_config_setup(BYTE *rawcart);
+extern int comal80_bin_attach(const char *filename, BYTE *rawcart);
 extern int comal80_crt_attach(FILE *fd, BYTE *rawcart);
 extern void comal80_detach(void);
 

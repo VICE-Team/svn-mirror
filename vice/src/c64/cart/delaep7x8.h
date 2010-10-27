@@ -33,6 +33,7 @@
 
 extern void delaep7x8_config_init(void);
 extern void delaep7x8_config_setup(BYTE *rawcart);
+extern int delaep7x8_bin_attach(const char *filename, BYTE *rawcart);
 extern int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart);
 extern void delaep7x8_detach(void);
 

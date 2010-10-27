@@ -39,9 +39,23 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    Simon's Basic Cartridge
+
+    - 16kb ROM
+
+    - reading io1 switches to 8k game config (bank 0 at $8000)
+    - writing io1 switches to 16k game config (bank 0 at $8000, bank 1 at $a000)
+*/
+
 static BYTE REGPARM1 simon_io1_read(WORD addr)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
+    return 0;
+}
+
+static BYTE REGPARM1 simon_io1_peek(WORD addr)
+{
     return 0;
 }
 
@@ -60,7 +74,7 @@ static io_source_t simon_device = {
     0, /* read is never valid */
     simon_io1_store,
     simon_io1_read,
-    NULL, /* TODO: peek */
+    simon_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_SIMONS_BASIC
 };
@@ -72,6 +86,11 @@ static const c64export_resource_t export_res_simon = {
 };
 
 /* ---------------------------------------------------------------------*/
+
+void simon_config_init(void)
+{
+    cartridge_config_changed(1, 1, CMODE_READ);
+}
 
 void simon_config_setup(BYTE *rawcart)
 {

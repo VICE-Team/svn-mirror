@@ -37,6 +37,16 @@
 #include "cartridge.h"
 #include "rexutility.h"
 #include "types.h"
+#include "util.h"
+
+/*
+    REX Utility Cartridge
+
+    - 8kb ROM
+
+    - reading df00-dfbf disables ROM
+    - reading dfc0-dfff enables ROM (8k game config)
+*/
 
 static BYTE REGPARM1 rex_io2_read(WORD addr)
 {
@@ -50,6 +60,11 @@ static BYTE REGPARM1 rex_io2_read(WORD addr)
     return 0;
 }
 
+static BYTE REGPARM1 rex_io2_peek(WORD addr)
+{
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t rex_device = {
@@ -60,7 +75,7 @@ static io_source_t rex_device = {
     0, /* read is never valid */
     NULL,
     rex_io2_read,
-    NULL, /* TODO: peek */
+    rex_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_REX
 };
@@ -73,10 +88,32 @@ static const c64export_resource_t export_res_rex = {
 
 /* ---------------------------------------------------------------------*/
 
+void rex_config_init(void)
+{
+    cartridge_config_changed(0, 0, CMODE_READ);
+}
+
 void rex_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cartridge_config_changed(0, 0, CMODE_READ);
+}
+
+static int rex_common_attach(void)
+{
+    if (c64export_add(&export_res_rex) < 0) {
+        return -1;
+    }
+    rex_list_item = c64io_register(&rex_device);
+    return 0;
+}
+
+int rex_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return rex_common_attach();
 }
 
 int rex_crt_attach(FILE *fd, BYTE *rawcart)
@@ -91,13 +128,7 @@ int rex_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res_rex) < 0) {
-        return -1;
-    }
-
-    rex_list_item = c64io_register(&rex_device);
-
-    return 0;
+    return rex_common_attach();
 }
 
 void rex_detach(void)

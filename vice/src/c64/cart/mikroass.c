@@ -37,15 +37,18 @@
 #include "cartridge.h"
 #include "mikroass.h"
 #include "types.h"
+#include "util.h"
 
 /*
+    "Mikro Assembler" Cartridge
+
     This cart has 8Kb ROM mapped at $8000-$9FFF.
 
     The $9E00-$9EFF range is mirrored at $DE00-$DEFF.
 
     The $9F00-$9FFF range is mirrored at $DF00-$DFFF.
 
- */
+*/
 
 static BYTE REGPARM1 mikroass_io1_read(WORD addr)
 {
@@ -107,6 +110,24 @@ void mikroass_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
+static int mikroass_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    mikroass_io1_list_item = c64io_register(&mikroass_io1_device);
+    mikroass_io2_list_item = c64io_register(&mikroass_io2_device);
+    return 0;
+}
+
+int mikroass_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return mikroass_common_attach();
+}
+
 int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
@@ -119,14 +140,7 @@ int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    mikroass_io1_list_item = c64io_register(&mikroass_io1_device);
-    mikroass_io2_list_item = c64io_register(&mikroass_io2_device);
-
-    return 0;
+    return mikroass_common_attach();
 }
 
 void mikroass_detach(void)

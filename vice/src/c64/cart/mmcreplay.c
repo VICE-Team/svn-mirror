@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
@@ -37,6 +38,7 @@
 #include "c64pla.h"
 #include "cartridge.h"
 #include "cmdline.h"
+#include "crt.h"
 #include "flash040.h"
 #include "lib.h"
 #include "log.h"
@@ -104,14 +106,18 @@
 #define LOG(_x_)
 #endif
 
-int mmcr_enabled = 0;
-int enable_rescue_mode = 0;
-char *mmcr_card_filename = NULL;
-char *mmcr_eeprom_filename = NULL;
-int mmcr_card_rw = 0;
-int mmcr_eeprom_rw = 0;
-int mmcr_sd_type = 0;
+static int mmcr_enabled = 0;
+static int enable_rescue_mode = 0;
+static char *mmcr_card_filename = NULL;
+static char *mmcr_eeprom_filename = NULL;
+static int mmcr_card_rw = 0;
+static int mmcr_eeprom_rw = 0;
+static int mmcr_sd_type = 0;
 
+static char *mmcr_filename = NULL;
+static int mmcr_filetype = 0;
+
+static const char STRING_MMC_REPLAY[] = "MMC Replay";
 
 /*
 Features
@@ -262,7 +268,7 @@ static BYTE REGPARM1 mmcreplay_io2_read(WORD addr);
 static void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t mmcreplay_io1_device = {
-    "MMC REPLAY",
+    "MMC Replay",
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -275,7 +281,7 @@ static io_source_t mmcreplay_io1_device = {
 };
 
 static io_source_t mmcreplay_io2_device = {
-    "MMC REPLAY",
+    "MMC Replay",
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -2424,7 +2430,7 @@ void mmcreplay_config_setup(BYTE *rawcart)
 
 /* ------------------------------------------------------------------------- */
 
-static int mmcreplay_common_attach(void)
+static int mmcreplay_common_attach(const char *filename)
 {
     if (c64export_add(&export_res) < 0) {
         return -1;
@@ -2438,6 +2444,7 @@ static int mmcreplay_common_attach(void)
     mmc_open_card_image(mmcr_card_filename, mmcr_card_rw);
     eeprom_open_image(mmcr_eeprom_filename, mmcr_eeprom_rw);
 
+    mmcr_filename = lib_stralloc(filename);
     return 0;
 }
 
@@ -2445,6 +2452,9 @@ int mmcreplay_bin_attach(const char *filename, BYTE *rawcart)
 {
     int len = 0;
     FILE *fd;
+
+    mmcr_filetype = 0;
+    mmcr_filename = NULL;
 
     if (util_file_load(filename, rawcart, MMCREPLAY_FLASHROM_SIZE,
                        UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
@@ -2462,13 +2472,17 @@ int mmcreplay_bin_attach(const char *filename, BYTE *rawcart)
         }
     }
 
-    return mmcreplay_common_attach();
+    mmcr_filetype = CARTRIDGE_FILETYPE_BIN;
+    return mmcreplay_common_attach(filename);
 }
 
 int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
     BYTE chipheader[0x10];
     int i;
+
+    mmcr_filetype = 0;
+    mmcr_filename = NULL;
 
     memset(rawcart, 0xff, 0x80000);
 
@@ -2495,13 +2509,169 @@ int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
         memset(&rawcart[0], 0xff, 0x10000);
     }
 
-    return mmcreplay_common_attach();
+    mmcr_filetype = CARTRIDGE_FILETYPE_CRT;
+    return mmcreplay_common_attach(filename);
+}
+
+static int checkempty(int bank)
+{
+    int i;
+    bank *= 0x10000;
+    for (i = 0;i < 0x10000;i++) {
+        if (roml_banks[i + bank] != 0xff) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int mmcreplay_bin_save(const char *filename)
+{
+    FILE *fd;
+    int i, n = 0;
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (checkempty(i)) {
+            n++;
+        }
+    }
+
+    if ((n == 7) && (!checkempty(7))) {
+        if (fwrite(&roml_banks[0x70000], 1, 0x10000, fd) != 0x10000) {
+            fclose(fd);
+            return -1;
+        }
+    } else {
+        if (fwrite(&roml_banks[0x00000], 1, 0x10000 * 8, fd) != (0x10000 * 8)) {
+            fclose(fd);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int mmcreplay_crt_save(const char *filename)
+{
+    FILE *fd;
+    BYTE header[0x40], chipheader[0x10];
+    BYTE *data;
+    int i, n = 0;
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    fd = fopen(filename, MODE_WRITE);
+
+    if (fd == NULL) {
+        return -1;
+    }
+
+    memset(header, 0x0, 0x40);
+    memset(chipheader, 0x0, 0x10);
+
+    strcpy((char *)header, CRT_HEADER);
+
+    header[0x13] = 0x40;
+    header[0x14] = 0x01;
+    header[0x17] = CARTRIDGE_MMC_REPLAY;
+    header[0x18] = 0x01;
+    strcpy((char *)&header[0x20], STRING_MMC_REPLAY);
+    if (fwrite(header, 1, 0x40, fd) != 0x40) {
+        fclose(fd);
+        return -1;
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (checkempty(i)) {
+            n++;
+        }
+    }
+
+    if ((!checkempty(7)) && (n == 7)) {
+        data = &roml_banks[0x70000];
+
+        strcpy((char *)chipheader, CHIP_HEADER);
+        chipheader[0x06] = 0x20;
+        chipheader[0x07] = 0x10;
+        chipheader[0x09] = 0x02;
+        chipheader[0x0e] = 0x20;
+
+        for (i = 0; i < 8; i++) {
+            chipheader[0x0c] = 0x80;
+            chipheader[0x0b] = i + (7 * 8); /* bank */
+
+            if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
+                fclose(fd);
+                return -1;
+            }
+
+            if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+                fclose(fd);
+                return -1;
+            }
+            data += 0x2000;
+        }
+    } else {
+        data = &roml_banks[0x00000];
+
+        strcpy((char *)chipheader, CHIP_HEADER);
+        chipheader[0x06] = 0x20;
+        chipheader[0x07] = 0x10;
+        chipheader[0x09] = 0x02;
+        chipheader[0x0e] = 0x20;
+
+        for (i = 0; i < (8 * 8); i++) {
+            chipheader[0x0c] = 0x80;
+            chipheader[0x0b] = i; /* bank */
+
+            if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
+                fclose(fd);
+                return -1;
+            }
+
+            if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+                fclose(fd);
+                return -1;
+            }
+            data += 0x2000;
+        }
+    }
+    fclose(fd);
+    return 0;
+}
+
+
+int mmcreplay_flush_image(void)
+{
+    if (mmcr_filetype == CARTRIDGE_FILETYPE_BIN) {
+        return mmcreplay_bin_save(mmcr_filename);
+    } else if (mmcr_filetype == CARTRIDGE_FILETYPE_CRT) {
+        return mmcreplay_crt_save(mmcr_filename);
+    }
+    return -1;
 }
 
 void mmcreplay_detach(void)
 {
+    if (/* mmcr_bios_write && */ flashrom_state->flash_dirty) {
+         mmcreplay_flush_image();
+    }
+
     flash040core_shutdown(flashrom_state);
     lib_free(flashrom_state);
+    lib_free(mmcr_filename);
+    mmcr_filename = NULL;
     mmc_close_card_image();
     eeprom_close_image(mmcr_eeprom_rw);
     c64export_remove(&export_res);

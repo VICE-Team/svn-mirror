@@ -37,6 +37,13 @@
 #include "cartridge.h"
 #include "kcs.h"
 #include "types.h"
+#include "util.h"
+
+/*
+    KCS Power Cartridge
+
+    - 16kb ROM
+*/
 
 static BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
@@ -46,6 +53,11 @@ static BYTE REGPARM1 kcs_io1_read(WORD addr)
     config = (addr & 2) ? 2 : 0;
 
     cartridge_config_changed(config, config, CMODE_READ);
+    return roml_banks[0x1e00 + (addr & 0xff)];
+}
+
+static BYTE REGPARM1 kcs_io1_peek(WORD addr)
+{
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
@@ -59,6 +71,11 @@ static BYTE REGPARM1 kcs_io2_read(WORD addr)
     if (addr & 0x80) {
         cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
+    return export_ram0[0x1f00 + (addr & 0xff)];
+}
+
+static BYTE REGPARM1 kcs_io2_peek(WORD addr)
+{
     return export_ram0[0x1f00 + (addr & 0xff)];
 }
 
@@ -80,7 +97,7 @@ static io_source_t kcs_io1_device = {
     1, /* read is always valid */
     kcs_io1_store,
     kcs_io1_read,
-    NULL,
+    kcs_io1_peek,
     NULL,
     CARTRIDGE_KCS_POWER
 };
@@ -93,7 +110,7 @@ static io_source_t kcs_io2_device = {
     1, /* read is always valid */
     kcs_io2_store,
     kcs_io2_read,
-    NULL,
+    kcs_io2_peek,
     NULL,
     CARTRIDGE_KCS_POWER
 };
@@ -126,7 +143,26 @@ void kcs_config_setup(BYTE *rawcart)
 
 /* ---------------------------------------------------------------------*/
 
-static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
+static int kcs_common_attach(void)
+{
+    if (c64export_add(&export_res_kcs) < 0) {
+        return -1;
+    }
+
+    kcs_io1_list_item = c64io_register(&kcs_io1_device);
+    kcs_io2_list_item = c64io_register(&kcs_io2_device);
+    return 0;
+}
+
+int kcs_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return kcs_common_attach();
+}
+
+int kcs_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
     int i;
@@ -145,23 +181,7 @@ static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
         }
     }
 
-    return 0;
-}
-
-int kcs_crt_attach(FILE *fd, BYTE *rawcart)
-{
-    if (generic_kcs_crt_attach(fd,rawcart) < 0) {
-        return -1;
-    }
-
-    if (c64export_add(&export_res_kcs) < 0) {
-        return -1;
-    }
-
-    kcs_io1_list_item = c64io_register(&kcs_io1_device);
-    kcs_io2_list_item = c64io_register(&kcs_io2_device);
-
-    return 0;
+    return kcs_common_attach();
 }
 
 void kcs_detach(void)

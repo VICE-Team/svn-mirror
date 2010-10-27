@@ -105,6 +105,7 @@ static BYTE *isepic_ram;
 static unsigned int isepic_page = 0;
 
 static char *isepic_filename = NULL;
+static int isepic_filetype = 0;
 
 static const char STRING_ISEPIC[] = "Isepic Cartridge";
 
@@ -423,6 +424,7 @@ int isepic_bin_attach(const char *filename, BYTE *rawcart)
     }
 
     isepic_set_filename(filename);
+    isepic_filetype = CARTRIDGE_FILETYPE_BIN;
 
     return isepic_common_attach(rawcart);
 }
@@ -463,6 +465,7 @@ int isepic_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
     }
 
     isepic_set_filename(filename);
+    isepic_filetype = CARTRIDGE_FILETYPE_CRT;
 
     resources_set_int("IsepicSwitch", 0);
     return isepic_common_attach(rawcart);
@@ -589,6 +592,16 @@ int isepic_crt_save(const char *filename)
     fclose(fd);
 
     return 0;
+}
+
+int isepic_flush_image(void)
+{
+    if (isepic_filetype == CARTRIDGE_FILETYPE_BIN) {
+        return isepic_bin_save(isepic_filename);
+    } else if (isepic_filetype == CARTRIDGE_FILETYPE_CRT) {
+        return isepic_crt_save(isepic_filename);
+    }
+    return -1;
 }
 
 void isepic_detach(void)

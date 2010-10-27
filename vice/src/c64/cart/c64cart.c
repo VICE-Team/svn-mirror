@@ -30,66 +30,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "actionreplay2.h"
-#include "actionreplay3.h"
-#include "actionreplay4.h"
-#include "actionreplay.h"
-#include "atomicpower.h"
 #include "alarm.h"
 #include "archdep.h"
 #include "c64.h"
-#include "c64-midi.h"
-#include "c64acia.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64cartsystem.h"
 #include "c64export.h"
-#include "c64tpi.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
-#include "digimax.h"
-#include "dqbb.h"
-#include "easyflash.h"
-#include "exos.h"
-#include "expert.h"
-#include "final.h"
-#include "finalplus.h"
-#include "final3.h"
-#include "freezeframe.h"
-#include "freezemachine.h"
-#include "gamekiller.h"
-#include "generic.h"
-#include "georam.h"
-#include "ide64.h"
 #include "interrupt.h"
-#include "isepic.h"
 #include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "magicvoice.h"
 #include "mem.h"
-#include "mmc64.h"
 #include "monitor.h"
-#include "prophet64.h"
-#include "ramcart.h"
 #include "resources.h"
-#include "retroreplay.h"
-#include "reu.h"
-#include "mmcreplay.h"
-#include "sfx_soundexpander.h"
-#include "sfx_soundsampler.h"
-#include "snapshot64.h"
-#include "stardos.h"
-#include "stb.h"
-#include "superexplode5.h"
-#include "supersnapshot4.h"
-#include "supersnapshot.h"
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
 #include "translate.h"
-#include "tpi.h"
 #include "util.h"
 
 /* #define DEBUGCART */
@@ -610,13 +568,13 @@ void cartridge_set_default(void)
     cartridge_type = type; /* resource value modified */
 }
 
-/*
-    FIXME: we should auto-detect from the filename wether to save .bin or .crt
-*/
 int cartridge_save_image(int type, const char *filename)
 {
-    /* return cartridge_bin_save(type, filename); */
-    return cartridge_crt_save(type, filename);
+    char *ext = util_get_extension((char *)filename);
+    if (!strcmp(ext, "crt")) {
+        return cartridge_crt_save(type, filename);
+    }
+    return cartridge_bin_save(type, filename);
 }
 
 /* trigger a freeze, but don't trigger the cartridge logic (which might release it). used by monitor */

@@ -120,6 +120,11 @@ static const c64export_resource_t export_res_warpspeed = {
 
 /* ---------------------------------------------------------------------*/
 
+void warpspeed_config_init(void)
+{
+    cartridge_config_changed(1, 1, CMODE_READ);
+}
+
 void warpspeed_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);

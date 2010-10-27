@@ -41,8 +41,10 @@ extern void REGPARM2 easyflash_romh_store(WORD addr, BYTE value);
 
 extern void easyflash_config_init(void);
 extern void easyflash_config_setup(BYTE *rawcart);
+extern int easyflash_bin_attach(const char *filename, BYTE *rawcart);
 extern int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename);
 extern void easyflash_detach(void);
+extern int easyflash_bin_save(const char *filename);
 extern int easyflash_crt_save(const char *filename);
 extern int easyflash_flush_image(void);
 

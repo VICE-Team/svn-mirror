@@ -40,6 +40,8 @@
 
 
 /*
+    "Fun Play" and "Power Play" game cartridges
+
     the funplay/powerplay carts have 16 banks of ROM at $8000-9FFF,
     $DE00 is used for bank switching according to the following scheme:
 
@@ -64,17 +66,25 @@
     $29 -> Bank 13
     $31 -> Bank 14
     $39 -> Bank 15
- */
+*/
+
+static int currbank = 0;
 
 static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 {
     /* FIXME */
-    cartridge_romhbank_set(((value >> 2) | (value & 1)) & 15);
-    cartridge_romlbank_set(((value >> 2) | (value & 1)) & 15);
+    currbank = ((value >> 3) & 7) | ((value & 1) << 3);
+    cartridge_romhbank_set(currbank);
+    cartridge_romlbank_set(currbank);
     export.game = export.exrom = 1;
     mem_pla_config_changed();
     export.ultimax_phi1 = 0;
     export.ultimax_phi2 = 0;
+}
+
+static BYTE REGPARM1 funplay_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -87,8 +97,8 @@ static io_source_t funplay_device = {
     0,
     funplay_io1_store,
     NULL,
-    NULL,
-    NULL,
+    funplay_io1_peek,
+    NULL, /* dump */
     CARTRIDGE_FUNPLAY
 };
 
@@ -116,6 +126,22 @@ void funplay_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int funplay_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    funplay_list_item = c64io_register(&funplay_device);
+    return 0;
+}
+
+int funplay_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return funplay_common_attach();
+}
 
 int funplay_crt_attach(FILE *fd, BYTE *rawcart)
 {
@@ -128,18 +154,11 @@ int funplay_crt_attach(FILE *fd, BYTE *rawcart)
         if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
             return -1;
         }
-        if (fread(&rawcart[(((chipheader[0xb] >> 2) | (chipheader[0xb] & 1)) & 15) << 13], 0x2000, 1, fd) < 1) {
+        if (fread(&rawcart[(((chipheader[0xb] >> 3) & 7) | ((chipheader[0xb] & 1) << 3)) << 13], 0x2000, 1, fd) < 1) {
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    funplay_list_item = c64io_register(&funplay_device);
-
-    return 0;
+    return funplay_common_attach();
 }
 
 void funplay_detach(void)

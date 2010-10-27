@@ -33,6 +33,7 @@
 
 extern void gs_config_init(void);
 extern void gs_config_setup(BYTE *rawcart);
+extern int gs_bin_attach(const char *filename, BYTE *rawcart);
 extern int gs_crt_attach(FILE *fd, BYTE *rawcart);
 extern void gs_detach(void);
 

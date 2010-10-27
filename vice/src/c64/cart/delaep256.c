@@ -37,7 +37,7 @@
 #include "cartridge.h"
 #include "delaep256.h"
 #include "types.h"
-
+#include "util.h"
 
 /* This eprom system by DELA is similair to the EP64. It can handle
    what the EP64 can handle, plus the following features :
@@ -61,10 +61,11 @@
    eprom banks 25-32 : $08-0F
 
    Setting bit 7 high will switch off EXROM.
-
- */
+*/
 
 /* ---------------------------------------------------------------------*/
+
+static int currbank = 0;
 
 static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
 {
@@ -82,6 +83,12 @@ static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
     }
 
     cartridge_romlbank_set(bank);
+    currbank = bank;
+}
+
+static BYTE REGPARM1 delaep256_io1_peek(WORD addr)
+{
+    return currbank;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -94,7 +101,7 @@ static io_source_t delaep256_device = {
     0,
     delaep256_io1_store,
     NULL,
-    NULL, /* TODO: peek */
+    delaep256_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_DELA_EP256
 };
@@ -113,6 +120,7 @@ void delaep256_config_init(void)
     cartridge_romlbank_set(0);
 }
 
+/* FIXME: should copy rawcart to roml_banks ! */
 void delaep256_config_setup(BYTE *rawcart)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
@@ -120,7 +128,26 @@ void delaep256_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+static int delaep256_common_attach(void)
+{
+    if (c64export_add(&export_res) < 0) {
+        return -1;
+    }
+    delaep256_list_item = c64io_register(&delaep256_device);
+    return 0;
+}
 
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
+/* FIXME: handle the various combinations / possible file lengths */
+int delaep256_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+    return delaep256_common_attach();
+}
+
+/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
@@ -149,14 +176,7 @@ int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
     }
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
-
-    delaep256_list_item = c64io_register(&delaep256_device);
-
-    return 0;
+    return delaep256_common_attach();
 }
 
 void delaep256_detach(void)

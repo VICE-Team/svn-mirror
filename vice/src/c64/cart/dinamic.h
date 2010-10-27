@@ -33,6 +33,7 @@
 
 extern void dinamic_config_init(void);
 extern void dinamic_config_setup(BYTE *rawcart);
+extern int dinamic_bin_attach(const char *filename, BYTE *rawcart);
 extern int dinamic_crt_attach(FILE *fd, BYTE *rawcart);
 extern void dinamic_detach(void);
 

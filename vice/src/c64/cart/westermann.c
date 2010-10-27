@@ -40,8 +40,18 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    Westermann Utility Cartridge
+
+    16kb ROM
+
+    - starts in 16k game config
+    - any read access to io2 switches to 8k game config
+*/
+
 /* some prototypes are needed */
 static BYTE REGPARM1 westermann_io2_read(WORD addr);
+static BYTE REGPARM1 westermann_io2_peek(WORD addr);
 
 static io_source_t westermann_device = {
     "Westermann",
@@ -51,7 +61,7 @@ static io_source_t westermann_device = {
     0, /* read is never valid */
     NULL,
     westermann_io2_read,
-    NULL, /* TODO: peek */
+    westermann_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_WESTERMANN
 };
@@ -64,13 +74,23 @@ static const c64export_resource_t export_res_westermann = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 westermann_io2_read(WORD addr)
+static BYTE REGPARM1 westermann_io2_read(WORD addr)
 {
     cartridge_config_changed(0, 0, CMODE_READ);
     return 0;
 }
 
+static BYTE REGPARM1 westermann_io2_peek(WORD addr)
+{
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
+
+void westermann_config_init(void)
+{
+    cartridge_config_changed(1, 1, CMODE_READ);
+}
 
 void westermann_config_setup(BYTE *rawcart)
 {

@@ -50,6 +50,8 @@ extern int expert_bin_attach(const char *filename, BYTE *rawcart);
 extern int expert_bin_save(const char *filename);
 extern int expert_crt_attach(FILE *fd, BYTE *rawcart, const char *filename);
 extern int expert_crt_save(const char *filename);
+extern int expert_flush_image(void);
+
 extern void expert_detach(void);
 extern int expert_enable(void);
 
