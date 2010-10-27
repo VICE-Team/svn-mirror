@@ -18,20 +18,7 @@ n_2sn
 1
 4
 MCommand
-464
-copy ..\res.txt res.txt
-copy ..\resdialogs.txt resd.txt
-copy ..\resmenu.txt resm.txt
-copy ..\resstrings.txt ress.txt
-copy ..\..\..\translate.txt trans.txt
-genwr res.h menuid.h res.txt resd.txt resm.txt ress.txt
-gentr trans.txt trans.h transtab.h
-copy res.h ..\res.h
-copy menuid.h ..\menuid.h
-copy trans.h ..\..\..\translate.h
-copy transtab.h ..\..\..\translate_table.h
-del res.txt resd.txt resm.txt ress.txt trans.txt res.h menuid.h trans.h transtab.h
-
+0
 5
 MCommand
 0
@@ -55,7 +42,7 @@ WVList
 0
 10
 WPickList
-5
+4
 11
 MItem
 3
@@ -176,8 +163,8 @@ WVList
 0
 39
 MItem
-9
-gentr.exe
+12
+cartconv.exe
 40
 WString
 3
@@ -186,24 +173,6 @@ NIL
 WVList
 0
 42
-WVList
-0
-35
-1
-1
-0
-43
-MItem
-9
-genwr.exe
-44
-WString
-3
-NIL
-45
-WVList
-0
-46
 WVList
 0
 35

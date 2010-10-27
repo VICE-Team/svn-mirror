@@ -99,8 +99,8 @@ n????Include directories:
 1
 25
 WString
-57
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\drive
+63
+$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\drive;..\..
 0
 26
 MRState
