@@ -150,6 +150,10 @@ SOURCE="..\..\c64\cart\delaep7x8.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\diashowmaker.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\digimax.c"
 # End Source File
 # Begin Source File
