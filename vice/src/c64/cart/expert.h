@@ -29,6 +29,14 @@
            which breaks the privateness of the cart functions :)
 */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
+#ifdef CARTRIDGE_INCLUDE_PRIVATE_API
+
 #ifndef VICE_EXPERT_H
 #define VICE_EXPERT_H
 
@@ -64,10 +72,17 @@ extern int expert_cmdline_options_init(void);
 
 extern const char *expert_get_file_name(void);
 
+#endif /* VICE_EXPERT_H */
+#endif /* CARTRIDGE_INCLUDE_PRIVATE_API */
+
+#ifndef VICE_EXPERT_PUBLIC_H
+#define VICE_EXPERT_PUBLIC_H
+
 /* Expert cartridge has three modes: */
 #define EXPERT_MODE_OFF 0
 #define EXPERT_MODE_PRG 1
 #define EXPERT_MODE_ON 2
 #define EXPERT_MODE_DEFAULT EXPERT_MODE_PRG
 
-#endif
+#endif /* VICE_EXPERT_PUBLIC_H */
+

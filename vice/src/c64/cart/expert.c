@@ -41,7 +41,9 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "expert.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 #include "interrupt.h"
 #include "lib.h"
 #include "resources.h"

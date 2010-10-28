@@ -31,7 +31,7 @@
 #include <string.h>
 
 #include "cartridge.h"
-#include "expert.h"
+#include "c64cart.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "menu_common.h"

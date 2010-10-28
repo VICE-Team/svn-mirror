@@ -29,7 +29,7 @@
 #include <stdio.h>
 
 #include "cartridge.h"
-#include "expert.h"
+#include "c64cart.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uicartridge.h"

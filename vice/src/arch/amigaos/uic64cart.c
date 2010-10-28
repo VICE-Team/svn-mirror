@@ -27,7 +27,7 @@
 #include "private.h"
 #include "vice.h"
 #include "cartridge.h"
-#include "expert.h"
+#include "c64cart.h"
 #include "intl.h"
 #include "keyboard.h"
 #include "translate.h"

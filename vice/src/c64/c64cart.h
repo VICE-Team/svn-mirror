@@ -74,4 +74,8 @@ extern export_t export;
 
 extern int try_cartridge_init(int c); /* FIXME: don't use, remove (only used in ide64) */
 
+#define CARTRIDGE_INCLUDE_PUBLIC_API
+#include "cart/expert.h"
+#undef CARTRIDGE_INCLUDE_PUBLIC_API
+
 #endif

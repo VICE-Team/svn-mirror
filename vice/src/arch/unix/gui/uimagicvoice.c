@@ -29,7 +29,6 @@
 #include <stdio.h>
 
 #include "cartridge.h"
-#include "expert.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uicartridge.h"

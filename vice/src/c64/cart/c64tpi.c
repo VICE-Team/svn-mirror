@@ -44,6 +44,7 @@
 #include "log.h"
 #include "parallel.h"
 #include "maincpu.h"
+#include "monitor.h"
 #include "resources.h"
 #include "tpi.h"
 #include "types.h"
@@ -52,10 +53,11 @@
 /*
     IEEE488 interface for c64 and c128
 
+    - 4kb ROM, mapped to $8000 in 8k game config
+
     - the hardware uses a TPI at $DF00-$DF07 (mirrored through $DF08-$DFFF)
 
     TODO: register description
-
 */
 
 /* #define DEBUGTPI */
@@ -79,6 +81,7 @@ static tpi_context_t *tpi_context;
 static void REGPARM2 tpi_store(WORD addr, BYTE data);
 static BYTE REGPARM1 tpi_read(WORD addr);
 static BYTE REGPARM1 tpi_peek(WORD addr);
+static int REGPARM1 tpi_dump(void);
 
 static io_source_t tpi_device = {
     "IEEE488",
@@ -89,7 +92,7 @@ static io_source_t tpi_device = {
     tpi_store,
     tpi_read,
     tpi_peek,
-    NULL, /* TODO: dump */
+    tpi_dump,
     CARTRIDGE_IEEE488
 };
 
@@ -125,6 +128,12 @@ static BYTE REGPARM1 tpi_peek(WORD addr)
     return tpicore_peek(tpi_context, addr);
 }
 
+static int REGPARM1 tpi_dump(void)
+{
+    mon_out("TPI\n");
+    tpicore_dump(tpi_context);
+    return 0;
+}
 /* ---------------------------------------------------------------------*/
 
 BYTE REGPARM1 tpi_roml_read(WORD addr)

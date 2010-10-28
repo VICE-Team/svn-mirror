@@ -29,19 +29,23 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "archdep.h"
+#include "c64cart.h"
+#include "c64cartmem.h"
+#include "cartridge.h"
+#include "crt.h"
+#include "resources.h"
+#include "types.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "actionreplay.h"
 #include "actionreplay2.h"
 #include "actionreplay3.h"
 #include "actionreplay4.h"
 #include "atomicpower.h"
-#include "archdep.h"
-#include "c64cart.h"
-#include "c64cartmem.h"
 #include "c64tpi.h"
-#include "cartridge.h"
 #include "comal80.h"
 #include "capture.h"
-#include "crt.h"
 #include "delaep256.h"
 #include "delaep64.h"
 #include "delaep7x8.h"
@@ -72,7 +76,6 @@
 #include "mmcreplay.h"
 #include "ocean.h"
 #include "prophet64.h"
-#include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
 #include "rexutility.h"
@@ -85,10 +88,10 @@
 #include "supersnapshot4.h"
 #include "supersnapshot.h"
 #include "superexplode5.h"
-#include "types.h"
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /* #define DEBUGCRT */
 
