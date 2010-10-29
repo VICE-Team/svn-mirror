@@ -146,7 +146,7 @@ SOURCE=..\menu_c64hw.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\menu_c64schw.c
+SOURCE=..\menu_c64model.c
 # End Source File
 # Begin Source File
 

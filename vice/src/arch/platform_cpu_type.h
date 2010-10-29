@@ -484,25 +484,25 @@
 static char *unknown = "Unknown x86-compatible";
 
 /* cpuid function */
-#ifdef __GNUC__
+#ifdef _MSC_VER
+#define cpuid(func, a, b, c, d) \
+    __asm mov eax, func \
+    __asm cpuid \
+    __asm mov a, eax \
+    __asm mov b, ebx \
+    __asm mov c, ecx \
+    __asm mov d, edx
+#else
 #define cpuid(func, ax, bx, cx, dx) \
     __asm__ __volatile__ ("cpuid":  \
     "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func))
-#else
-#define cpuid(func, a, b, c, d) \
-    asm { \
-        mov eax, func \
-        cpuid \
-        mov a, eax \
-        mov b, ebx \
-        mov c, ecx \
-        mov d, edx \
-    }
 #endif
 
 inline static int has_cpuid(void)
 {
-    int a, c;
+    int a = 0;
+    int c = 0;
+
 #ifdef _MSC_VER
 /* TODO */
 #else
@@ -517,9 +517,9 @@ inline static int has_cpuid(void)
                           : "=a" (a), "=c" (c)
                           :
                           : "cc" );
+#endif
     return (a!=c);
 }
-#endif 
 
 #define CPU_VENDOR_UNKNOWN     0
 #define CPU_VENDOR_INTEL       1
