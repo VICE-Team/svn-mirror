@@ -413,7 +413,8 @@ void vicii_set_light_pen(CLOCK mclk, int state)
     if (state) {
         /* add offset depending on chip model (FIXME use proper variable) */
         vicii.light_pen.x_extra_bits = (vicii.color_latency ? 2 : 1);
-        vicii_trigger_light_pen_internal(0);
+        /* delay trigger by 1 clock */
+        vicii.light_pen.trigger_cycle = mclk + 1;
     }
     vicii.light_pen.state = state;
 }
@@ -435,29 +436,14 @@ void vicii_trigger_light_pen_internal(int retrigger)
         return;
     }
 
-    /* this is rather ugly. the +8 is to compensate for us being
-       called one cycle too late + and xpos update order problem.
-       This leads to several problems.
-       The latency needs to be fixed elsewhere. */
-
     vicii.light_pen.triggered = 1;
 
-    x = vicii.raster_xpos/2 + 8;
+    x = cycle_get_xpos(vicii.cycle_table[vicii.raster_cycle]) / 2;
     y = vicii.raster_line;
 
-    /* don't trigger on the last line */
-    if (y == (vicii.screen_height - 1)) {
+    /* don't trigger on the last line, except on the first cycle */
+    if ((y == (vicii.screen_height - 1)) && (vicii.raster_cycle > 0)) {
         return;
-    }
-
-    /* due to the +8, handle y update on line change */
-    if (x == 0xc8) {
-        y++;
-    }
-
-    /* due to the +8, handle x wrapping */
-    if (x > 0xf8) {
-        x -= 0xfc;
     }
 
     /* add offset from chip model or an actual light pen */
@@ -465,7 +451,16 @@ void vicii_trigger_light_pen_internal(int retrigger)
 
     /* signaled retrigger from vicii_cycle */
     if (retrigger) {
-        x = 0xd1;
+        switch (vicii.cycles_per_line) {
+            /* TODO case 64: */
+            case 63:
+            default:
+                x = 0xd1;
+                break;
+            case 65:
+                x = 0xd5;
+                break;
+        }
 
         /* On 6569R1 the interrupt is triggered only when the line is low
            on the first cycle of the frame. */

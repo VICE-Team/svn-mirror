@@ -475,8 +475,6 @@ static DRAW_INLINE void draw_sprites8(unsigned int cycle_flags)
     int spr_en;
 
     xpos = cycle_get_xpos(cycle_flags);
-    /* this should go into vicii-cycle.c or something like that */
-    vicii.raster_xpos = xpos;
 
     spr_en = cycle_is_check_spr_disp(cycle_flags);
 

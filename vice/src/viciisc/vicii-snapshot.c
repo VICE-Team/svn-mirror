@@ -84,7 +84,6 @@ int vicii_snapshot_write_module(snapshot_t *s)
         || SMW_BA(m, vicii.regs, 0x40) < 0
         || SMW_DW(m, (DWORD)vicii.raster_cycle) < 0
         || SMW_DW(m, (DWORD)vicii.cycle_flags) < 0
-        || SMW_DW(m, (DWORD)vicii.raster_xpos) < 0
         || SMW_DW(m, (DWORD)vicii.raster_line) < 0
         || SMW_B(m, (BYTE)vicii.start_of_frame) < 0
         || SMW_B(m, (BYTE)vicii.irq_status) < 0
@@ -198,7 +197,6 @@ int vicii_snapshot_read_module(snapshot_t *s)
         || SMR_BA(m, vicii.regs, 0x40) < 0
         || SMR_DW_UINT(m, &vicii.raster_cycle) < 0
         || SMR_DW_UINT(m, &vicii.cycle_flags) < 0
-        || SMR_DW_UINT(m, &vicii.raster_xpos) < 0
         || SMR_DW_UINT(m, &vicii.raster_line) < 0
         || SMR_B_INT(m, &vicii.start_of_frame) < 0
         || SMR_B_INT(m, &vicii.irq_status) < 0

@@ -107,9 +107,6 @@ struct vicii_s {
     /* Cycle flags for the cycle table */
     unsigned int cycle_flags;
 
-    /* xpos within the current line.  */
-    unsigned int raster_xpos;
-
     /* Current line.  */
     unsigned int raster_line;
 
