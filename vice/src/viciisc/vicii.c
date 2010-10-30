@@ -615,7 +615,8 @@ static const char *fetch_phi1_type(int addr)
 }
 
 
-int vicii_dump(struct vicii_s *vic) {
+int vicii_dump(void)
+{
     static const char *mode_name[] = {
         "Standard Text",
         "Multicolor Text",
@@ -630,51 +631,51 @@ int vicii_dump(struct vicii_s *vic) {
     int video_mode, m_mcm, m_bmm, m_ecm, v_bank, v_vram;
     int i, bits, bits2;
 
-    video_mode = ((vic->regs[0x11] & 0x60) | (vic->regs[0x16] & 0x10)) >> 4;
+    video_mode = ((vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10)) >> 4;
 
     m_ecm = (video_mode & 4) >> 2;  /* 0 standard, 1 extended */
     m_bmm = (video_mode & 2) >> 1;  /* 0 text, 1 bitmap */
     m_mcm = video_mode & 1;         /* 0 hires, 1 multi */
 
-    v_bank = vic->vbank_phi1;
+    v_bank = vicii.vbank_phi1;
 
-    mon_out("Raster cycle/line: %d/%d IRQ: %d\n", vic->raster_cycle, vic->raster_line, vic->raster_irq_line);
+    mon_out("Raster cycle/line: %d/%d IRQ: %d\n", vicii.raster_cycle, vicii.raster_line, vicii.raster_irq_line);
     mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
-    mon_out("Colors: Border: %x BG: %x", vic->regs[0x20], vic->regs[0x21]);
+    mon_out("Colors: Border: %x BG: %x", vicii.regs[0x20], vicii.regs[0x21]);
     if (m_ecm) {
-        mon_out("BG1: %x BG2: %x BG3: %x\n", vic->regs[0x22], vic->regs[0x23], vic->regs[0x24]);
+        mon_out("BG1: %x BG2: %x BG3: %x\n", vicii.regs[0x22], vicii.regs[0x23], vicii.regs[0x24]);
     } else if (m_mcm && !m_bmm) {
-        mon_out("MC1: %x MC2: %x\n", vic->regs[0x22], vic->regs[0x23]);
+        mon_out("MC1: %x MC2: %x\n", vicii.regs[0x22], vicii.regs[0x23]);
     } else {
         mon_out("\n");
     }
 
-    mon_out("Scroll X/Y: %d/%d, RC %d, Idle: %d, ", vic->regs[0x16] & 0x07, vic->regs[0x11] & 0x07, vic->rc, vic->idle_state);
-    mon_out("%dx%d\n", 39 + ((vic->regs[0x16] >> 3) & 1), 24 + ((vic->regs[0x11] >> 3) & 1));
+    mon_out("Scroll X/Y: %d/%d, RC %d, Idle: %d, ", vicii.regs[0x16] & 0x07, vicii.regs[0x11] & 0x07, vicii.rc, vicii.idle_state);
+    mon_out("%dx%d\n", 39 + ((vicii.regs[0x16] >> 3) & 1), 24 + ((vicii.regs[0x11] >> 3) & 1));
 
-    mon_out("VC $%03x, VCBASE $%03x, VMLI %2d, Phi1 $%02x\n", vic->vc, vic->vcbase, vic->vmli, vic->last_read_phi1);
+    mon_out("VC $%03x, VCBASE $%03x, VMLI %2d, Phi1 $%02x\n", vicii.vc, vicii.vcbase, vicii.vmli, vicii.last_read_phi1);
 
-    v_vram = ((vic->regs[0x18] >> 4) * 0x0400) + vic->vbank_phi2;
+    v_vram = ((vicii.regs[0x18] >> 4) * 0x0400) + vicii.vbank_phi2;
     mon_out("Video $%04x, ", v_vram);
     if (m_bmm) {
-        i = ((vic->regs[0x18] >> 3) & 1) * 0x2000 + v_bank;
+        i = ((vicii.regs[0x18] >> 3) & 1) * 0x2000 + v_bank;
         mon_out("Bitmap $%04x (%s)\n", i, fetch_phi1_type(i));
     } else {
-        i = (((vic->regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
+        i = (((vicii.regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
         mon_out("Charset $%04x (%s)\n", i, fetch_phi1_type(i));
     }
 
     mon_out("\nSprites: S.0 S.1 S.2 S.3 S.4 S.5 S.6 S.7");
     mon_out("\nEnabled:");
-    bits = vic->regs[0x15];
+    bits = vicii.regs[0x15];
     for (i = 0; i < 8; i++) {
         mon_out("%4s", (bits & 1) ? "yes" : "no");
         bits >>= 1;
     }
 
     mon_out("\nDMA/dis:");
-    bits = vic->sprite_dma;
-    bits2 = vic->sprite_display_bits;
+    bits = vicii.sprite_dma;
+    bits2 = vicii.sprite_display_bits;
     for (i = 0; i < 8; i++) {
         mon_out(" %c/%c", (bits & 1) ? 'D' : ' ', (bits2 & 1) ? 'd' : ' ');
         bits >>= 1;
@@ -683,48 +684,48 @@ int vicii_dump(struct vicii_s *vic) {
 
     mon_out("\nPointer:");
     for (i = 0; i < 8; i++) {
-        mon_out(" $%02x", vic->sprite[i].pointer);
+        mon_out(" $%02x", vicii.sprite[i].pointer);
     }
 
     mon_out("\nMC:     ");
     for (i = 0; i < 8; i++) {
-        mon_out(" $%02x", vic->sprite[i].mc);
+        mon_out(" $%02x", vicii.sprite[i].mc);
     }
 
     mon_out("\nMCBASE: ");
     for (i = 0; i < 8; i++) {
-        mon_out(" $%02x", vic->sprite[i].mcbase);
+        mon_out(" $%02x", vicii.sprite[i].mcbase);
     }
 
     mon_out("\nX-Pos:  ");
     for (i = 0; i < 8; i++) {
-        mon_out("$%03x", vic->sprite[i].x);
+        mon_out("$%03x", vicii.sprite[i].x);
     }
     mon_out("\nY-Pos:  ");
     for (i = 0; i < 8; i++) {
-        mon_out("%4d", vic->regs[1 + (i << 1)]);
+        mon_out("%4d", vicii.regs[1 + (i << 1)]);
     }
     mon_out("\nX/Y-Exp:");
-    bits = vic->regs[0x1d];
-    bits2 = vic->regs[0x17];
+    bits = vicii.regs[0x1d];
+    bits2 = vicii.regs[0x17];
     for (i = 0; i < 8; i++) {
         mon_out(" %c/%c", (bits & 1) ? 'X' : ' ', (bits2 & 1) ? (vicii.sprite[i].exp_flop ? 'Y' : 'y') : ' ');
         bits >>= 1;
         bits2 >>= 1;
     }
     mon_out("\nPri./MC:");
-    bits = vic->regs[0x1b];
-    bits = vic->regs[0x1c];
+    bits = vicii.regs[0x1b];
+    bits = vicii.regs[0x1c];
     for (i = 0; i < 8; i++) {
         mon_out(" %c/%c", (bits & 1) ? 'b' : 's', (bits2 & 1) ? '*' : ' ');
         bits >>= 1;
     }
     mon_out("\nColor:  ");
     for (i = 0; i < 8; i++) {
-        mon_out("   %x", vic->regs[i + 0x27]);
+        mon_out("   %x", vicii.regs[i + 0x27]);
     }
-    if (vic->regs[0x1c]) {
-        mon_out("\nMulti Color 1: %x  Multi Color 2: %x", vic->regs[0x25], vic->regs[0x26]);
+    if (vicii.regs[0x1c]) {
+        mon_out("\nMulti Color 1: %x  Multi Color 2: %x", vicii.regs[0x25], vicii.regs[0x26]);
     }
     mon_out("\n");
 

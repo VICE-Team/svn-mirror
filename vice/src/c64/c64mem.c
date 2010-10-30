@@ -60,7 +60,6 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
-#include "viciitypes.h"
 
 #ifdef HAVE_TFE
 #include "tfe.h"
@@ -1018,9 +1017,10 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0xd000) && (addr <= 0xd03f)) {
-        return vicii_dump(&vicii);
+        return vicii_dump();
     } else if ((addr >= 0xd400) && (addr <= 0xd43f)) {
         /* return sidcore_dump(machine_context.sid); */ /* FIXME */
     } else if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {

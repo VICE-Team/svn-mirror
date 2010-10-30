@@ -48,7 +48,6 @@
 #include "alarm.h"
 #include "hummeradc.h"
 #include "ps2mouse.h"
-#include "viciitypes.h"
 
 /* TODO this is a hack */
 #define C64_RAM_SIZE 0x200000
@@ -549,9 +548,10 @@ static BYTE peek_bank_io(WORD addr)
 
 /* Exported banked memory access functions for the monitor.  */
 
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0xd000) && (addr <= 0xd04f)) {
-        return vicii_dump(&vicii);
+        return vicii_dump();
     } else if ((addr >= 0xd400) && (addr <= 0xd41f)) {
         /* return sidcore_dump(machine_context.sid); */ /* FIXME */
     } else if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {

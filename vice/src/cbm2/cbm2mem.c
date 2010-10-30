@@ -57,7 +57,6 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
-#include "viciitypes.h"
 
 /* Expansion port signals. */
 export_t export = { 0, 0};
@@ -1143,10 +1142,11 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     store_dummy(addr, byte);
 }
 
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0xd800) && (addr <= 0xd82e)) {
         if (cbm2_isC500) {
-            return vicii_dump(&vicii);
+            return vicii_dump();
         } else {
             return crtc_dump(&crtc);
         }

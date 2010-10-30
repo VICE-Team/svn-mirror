@@ -262,8 +262,6 @@ extern vicii_t vicii;
 /* Private function calls, used by the other VIC-II modules.  */
 extern void vicii_raster_draw_handler(void);
 
-extern int vicii_dump(struct vicii_s *vic);
-
 /* Debugging options.  */
 
 /* #define VICII_VMODE_DEBUG */

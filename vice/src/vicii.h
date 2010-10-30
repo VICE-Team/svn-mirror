@@ -85,6 +85,8 @@ extern void vicii_screenshot(struct screenshot_s *screenshot);
 extern void vicii_shutdown(void);
 extern void vicii_change_timing(struct machine_timing_s *machine_timing, int border_mode);
 
+extern int vicii_dump(void);
+
 extern void vicii_snapshot_prepare(void);
 extern int vicii_snapshot_write_module(struct snapshot_s *s);
 extern int vicii_snapshot_read_module(struct snapshot_s *s);
