@@ -30,8 +30,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cartridge.h"
 #include "c64cart.h"
+#include "cartridge.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "menu_common.h"
