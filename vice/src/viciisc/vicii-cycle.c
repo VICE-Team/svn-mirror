@@ -40,6 +40,7 @@
 #include "vicii-draw-cycle.h"
 #include "vicii-fetch.h"
 #include "vicii-irq.h"
+#include "vicii-lightpen.h"
 #include "vicii.h"
 #include "viciitypes.h"
 

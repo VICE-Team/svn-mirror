@@ -25,6 +25,8 @@ libviciisc_a_SOURCES = \
 	vicii-fetch.h \
 	vicii-irq.c \
 	vicii-irq.h \
+	vicii-lightpen.c \
+	vicii-lightpen.h \
 	vicii-mem.c \
 	vicii-mem.h \
 	vicii-phi1.c \

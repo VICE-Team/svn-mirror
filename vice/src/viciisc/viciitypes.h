@@ -261,7 +261,6 @@ extern vicii_t vicii;
 
 /* Private function calls, used by the other VIC-II modules.  */
 extern void vicii_raster_draw_handler(void);
-extern void vicii_trigger_light_pen_internal(int retrigger);
 
 extern int vicii_dump(struct vicii_s *vic);
 
