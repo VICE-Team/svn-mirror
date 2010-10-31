@@ -61,10 +61,6 @@
 #include "vicii-phi1.h"
 #include "vicii.h"
 
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
-
 /* Machine class (moved from c64.c to distinguish between x64 and x64sc) */
 int machine_class = VICE_MACHINE_C64;
 

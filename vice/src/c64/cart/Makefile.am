@@ -61,8 +61,6 @@ libc64cart_a_SOURCES = \
 	exos.h \
 	expert.c \
 	expert.h \
-	fmopl.c \
-	fmopl.h \
 	final.c \
 	final.h \
 	final3.c \
@@ -119,8 +117,6 @@ libc64cart_a_SOURCES = \
 	rexutility.h \
 	ross.c \
 	ross.h \
-	ser-eeprom.c \
-	ser-eeprom.h \
 	sfx_soundexpander.c \
 	sfx_soundexpander.h \
 	sfx_soundsampler.c \
@@ -129,8 +125,6 @@ libc64cart_a_SOURCES = \
 	simonsbasic.h \
 	snapshot64.c \
 	snapshot64.h \
-	spi-sdcard.c \
-	spi-sdcard.h \
 	stardos.c \
 	stardos.h \
 	stb.c \
@@ -145,7 +139,6 @@ libc64cart_a_SOURCES = \
 	supersnapshot4.h \
 	tfe.c \
 	tfe.h \
-	tfearch.h \
 	warpspeed.c \
 	warpspeed.h \
 	westermann.c \

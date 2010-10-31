@@ -24,6 +24,12 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_MMCREPLAY_H
 #define VICE_MMCREPLAY_H
 
@@ -61,6 +67,7 @@ extern int mmcreplay_resources_init(void);
 extern void mmcreplay_resources_shutdown(void);
 extern int mmcreplay_cmdline_options_init(void);
 
+extern int mmcreplay_cart_enabled(void);
 extern int mmcr_clockport_enabled; /* FIXME */
 
 #endif

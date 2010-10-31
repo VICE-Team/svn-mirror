@@ -14,8 +14,7 @@ INCLUDES = \
 noinst_LIBRARIES = libc64dtv.a libc64dtvstubs.a
 
 libc64dtvstubs_a_SOURCES = \
-	c64dtvcart.c \
-	c64dtvtfe.c
+	c64dtvcart.c
 
 libc64dtv_a_SOURCES = \
 	c64dtvmemsnapshot.h \

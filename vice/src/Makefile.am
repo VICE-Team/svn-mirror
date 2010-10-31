@@ -187,6 +187,8 @@ noinst_HEADERS = \
 	ps2mouse.h \
 	ram.h \
 	rawfile.h \
+	rawnet.h \
+	rawnetarch.h \
 	resources.h \
 	riot.h \
 	romset.h \
@@ -269,6 +271,7 @@ base_sources = \
 	palette.c \
 	ram.c \
 	rawfile.c \
+	rawnet.c \
 	resources.c \
 	romset.c \
 	screenshot.c \
@@ -1059,7 +1062,7 @@ xvic_libs =  \
 	$(resid_libs)
 
 xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-xvic_LDADD = $(xvic_libs) $(emu_extlibs) @NETPLAY_LIBS@
+xvic_LDADD = $(xvic_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
@@ -1117,7 +1120,7 @@ xpet_libs =  \
 	$(resid_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
-xpet_LDADD = $(xpet_libs) $(emu_extlibs) @NETPLAY_LIBS@
+xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
@@ -1173,7 +1176,7 @@ xplus4_libs =  \
 	$(resid_libs)
 
 xplus4_SOURCES = $(base_sources) $(mouse_sources)
-xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @NETPLAY_LIBS@
+xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
@@ -1229,7 +1232,7 @@ xcbm2_libs = \
 	$(resid_libs)
 
 xcbm2_SOURCES = $(base_sources) $(mouse_sources)
-xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @NETPLAY_LIBS@
+xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 

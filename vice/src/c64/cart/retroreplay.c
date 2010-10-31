@@ -42,15 +42,18 @@
 #include "flash040.h"
 #include "lib.h"
 #include "maincpu.h"
-#include "retroreplay.h"
-#include "reu.h"
 #include "resources.h"
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "retroreplay.h"
+#include "reu.h"
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*
     Retro Replay (Individual Computers)
@@ -81,7 +84,7 @@
 #endif
 
 /* Cart is activated.  */
-unsigned int rr_active;
+static unsigned int rr_active;
 unsigned int rr_clockport_enabled;
 
 /* current bank */
@@ -573,6 +576,11 @@ void retroreplay_config_setup(BYTE *rawcart)
     /* the logical bank 0 is the physical bank 1 */
     memcpy(flashrom_state->flash_data, &rawcart[0x10000], 0x10000);
     memcpy(&flashrom_state->flash_data[0x10000], rawcart, 0x10000);
+}
+
+int retroreplay_cart_enabled(void)
+{
+    return rr_active;
 }
 
 /* ---------------------------------------------------------------------*/

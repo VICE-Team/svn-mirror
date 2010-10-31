@@ -34,6 +34,7 @@
 
 #include "menu_common.h"
 #include "menu_tfe.h"
+#include "rawnet.h"
 #include "resources.h"
 #include "uimenu.h"
 
@@ -86,7 +87,7 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
         ethernet_interface_dyn_menu_init = 1;
     }
 
-    if (!tfe_enumadapter_open()) {
+    if (!rawnet_enumadapter_open()) {
         ethernet_interface_dyn_menu[0].string = (char *)lib_stralloc("No Devices Present");
         ethernet_interface_dyn_menu[0].type = MENU_ENTRY_TEXT;
         ethernet_interface_dyn_menu[0].callback = seperator_callback;
@@ -96,7 +97,7 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
         ethernet_interface_dyn_menu[i].callback = NULL;
         ethernet_interface_dyn_menu[i].data = NULL;
     } else {
-        for (i = 0; (tfe_enumadapter(&pname, &pdescription)) && (i < 20); i++) {
+        for (i = 0; (rawnet_enumadapter(&pname, &pdescription)) && (i < 20); i++) {
             ethernet_interface_dyn_menu[i].string = (char *)lib_stralloc(pdescription);
             ethernet_interface_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
             ethernet_interface_dyn_menu[i].callback = radio_ETHERNET_INTERFACE_callback;

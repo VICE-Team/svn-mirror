@@ -24,6 +24,12 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_RETROREPLAY_H
 #define VICE_RETROREPLAY_H
 
@@ -50,7 +56,7 @@ extern int retroreplay_crt_save(const char *filename);
 extern int retroreplay_flush_image(void);
 extern void retroreplay_detach(void);
 
-extern unsigned int rr_active;
+extern int retroreplay_cart_enabled(void);
 extern unsigned int rr_clockport_enabled;
 extern unsigned int reu_mapping;
 

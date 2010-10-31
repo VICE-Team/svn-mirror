@@ -69,10 +69,6 @@
 #include "vicii.h"
 #include "z80mem.h"
 
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
-
 /* #define DEBUG_MMU */
 
 #ifdef DEBUG_MMU

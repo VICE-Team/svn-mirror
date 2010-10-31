@@ -24,7 +24,6 @@ INCLUDES = \
 	-I$(top_srcdir)/src/arch \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
@@ -88,7 +87,7 @@ libarch_a_SOURCES = \
 	socketimpl.h \
 	statusbar.c \
 	statusbar.h \
-	tfearch.c \
+	rawnetarch.c \
 	timer.c \
 	timer.h \
 	types.h \

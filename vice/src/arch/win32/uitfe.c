@@ -34,7 +34,7 @@
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
-#include "tfe.h"
+#include "rawnet.h"
 #include "translate.h"
 #include "uitfe.h"
 #include "winmain.h"
@@ -42,12 +42,12 @@
 
 static BOOL get_tfename(int number, char **ppname, char **ppdescription)
 {
-    if (tfe_enumadapter_open()) {
+    if (rawnet_enumadapter_open()) {
         char *pname = NULL;
         char *pdescription = NULL;
 
         while (number--) {
-            if (!tfe_enumadapter(&pname, &pdescription)) {
+            if (!rawnet_enumadapter(&pname, &pdescription)) {
                 break;
             }
 
@@ -55,14 +55,14 @@ static BOOL get_tfename(int number, char **ppname, char **ppdescription)
             lib_free(pdescription);
         }
 
-        if (tfe_enumadapter(&pname, &pdescription)) {
+        if (rawnet_enumadapter(&pname, &pdescription)) {
             *ppname = pname;
             *ppdescription = pdescription;
-            tfe_enumadapter_close();
+            rawnet_enumadapter_close();
             return TRUE;
         }
 
-        tfe_enumadapter_close();
+        rawnet_enumadapter_close();
     }
     return FALSE;
 }
@@ -159,7 +159,7 @@ static void init_tfe_dialog(HWND hwnd)
 
     resources_get_string("ETHERNET_INTERFACE", &interface_name);
 
-    if (tfe_enumadapter_open()) {
+    if (rawnet_enumadapter_open()) {
         int cnt = 0;
 
         char *pname;
@@ -167,7 +167,7 @@ static void init_tfe_dialog(HWND hwnd)
 
         temp_hwnd=GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE);
 
-        for (cnt = 0; tfe_enumadapter(&pname, &pdescription); cnt++) {
+        for (cnt = 0; rawnet_enumadapter(&pname, &pdescription); cnt++) {
             BOOL this_entry = FALSE;
 
             if (strcmp(pname, interface_name) == 0) {
@@ -185,7 +185,7 @@ static void init_tfe_dialog(HWND hwnd)
             }
         }
 
-        tfe_enumadapter_close();
+        rawnet_enumadapter_close();
     }
 
     if (gray_ungray_items(hwnd)) {

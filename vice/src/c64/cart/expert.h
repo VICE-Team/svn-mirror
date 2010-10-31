@@ -24,11 +24,6 @@
  *
  */
 
-/*
-    FIXME: this header is currently included from arch dependend code,
-           which breaks the privateness of the cart functions :)
-*/
-
 #ifndef CARTRIDGE_INCLUDE_PRIVATE_API
 #ifndef CARTRIDGE_INCLUDE_PUBLIC_API
 #error "do not include this header directly, use c64cart.h instead."

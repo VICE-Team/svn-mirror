@@ -1,5 +1,5 @@
 /*
- * tfearch.c - tfearch.c wrapper for the SDL UI.
+ * rawnetarch.c - rawnetarch.c wrapper for the SDL UI.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -29,11 +29,11 @@
 #ifdef HAVE_TFE 
 
 #ifdef UNIX_COMPILE
-#include "../unix/tfearch.c"
+#include "../unix/rawnetarch.c"
 #endif
 
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)
-#include "../win32/tfearch.c"
+#include "../win32/rawnetarch.c"
 #endif
 
 #endif

@@ -6,7 +6,6 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libarch.a
@@ -32,7 +31,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	sounddrv.c \
 	sounddrv.h \
-	tfearch.c \
+	rawnetarch.c \
 	types.h \
 	ui.c \
 	ui.h \

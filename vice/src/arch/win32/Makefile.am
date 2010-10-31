@@ -17,7 +17,6 @@ INCLUDES = \
 	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
@@ -114,7 +113,7 @@ libarch_a_SOURCES = \
 	statusbar.c \
 	statusbar.h \
 	system.c \
-	tfearch.c \
+	rawnetarch.c \
 	types.h \
 	ui-resources.c \
 	ui.c \

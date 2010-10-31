@@ -44,18 +44,22 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "mmcreplay.h"
-#include "reu.h"
 #include "resources.h"
 #include "ser-eeprom.h"
 #include "spi-sdcard.h"
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
 #include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "mmcreplay.h"
+#include "reu.h"
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
+
 
 #define MMCREPLAY_FLASHROM_SIZE (1024*512)
 
@@ -2680,6 +2684,11 @@ void mmcreplay_detach(void)
     mmcreplay_io1_list_item = NULL;
     mmcreplay_io2_list_item = NULL;
     mmcr_enabled = 0;
+}
+
+int mmcreplay_cart_enabled(void)
+{
+    return mmcr_enabled;
 }
 
 /* ------------------------------------------------------------------------- */

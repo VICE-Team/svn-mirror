@@ -25,6 +25,12 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_MMC64_H
 #define VICE_MMC64_H
 

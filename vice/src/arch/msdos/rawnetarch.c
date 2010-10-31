@@ -1,5 +1,5 @@
 /*
- * tfearch.c - TFE ("The final ethernet") emulation, 
+ * rawnetarch.c - raw ethernet interface,
  *                 architecture-dependant stuff
  *
  * Adapted for msdos by
@@ -48,11 +48,15 @@
 
 #include "lib.h"
 #include "log.h"
-#include "tfe.h"
-#include "tfearch.h"
+#include "rawnet.h"
+#include "rawnetarch.h"
 
-/** #define TFE_DEBUG_ARCH 1 **/
-/** #define TFE_DEBUG_PKTDUMP 1 **/
+/*
+    FIXME: rename all remaining tfe_ stuff to rawnet_
+*/
+
+/** #define RAWNET_DEBUG_ARCH 1 **/
+/** #define RAWNET_DEBUG_PKTDUMP 1 **/
 
 typedef pcap_t *(*pcap_open_live_t)(const char *, int, int, int, char *);
 typedef int (*pcap_dispatch_t)(pcap_t *, int, pcap_handler, u_char *);
@@ -62,7 +66,7 @@ typedef int (*pcap_findalldevs_t)(pcap_if_t **, char *);
 typedef void (*pcap_freealldevs_t)(pcap_if_t *);
 typedef int (*pcap_sendpacket_t)(pcap_t *p, u_char *buf, int size);
 
-#define TFE_DEBUG_WARN 1 /* this should not be deactivated */
+#define RAWNET_DEBUG_WARN 1 /* this should not be deactivated */
 
 static pcap_open_live_t p_pcap_open_live;
 static pcap_dispatch_t p_pcap_dispatch;
@@ -75,7 +79,7 @@ static pcap_datalink_t p_pcap_datalink;
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 
-static log_t tfe_arch_log = LOG_ERR;
+static log_t rawnet_arch_log = LOG_ERR;
 
 static pcap_if_t *TfePcapNextDev = NULL;
 static pcap_if_t *TfePcapAlldevs = NULL;
@@ -92,7 +96,7 @@ static char TfePcapErrbuf[PCAP_ERRBUF_SIZE];
 static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 #endif
 
-#ifdef TFE_DEBUG_PKTDUMP
+#ifdef RAWNET_DEBUG_PKTDUMP
 
 static void debug_output(const char *text, BYTE *what, int count)
 {
@@ -115,7 +119,7 @@ static void debug_output(const char *text, BYTE *what, int count)
         OutputDebugString(buffer);
     } while (len1 > 0);
 }
-#endif // #ifdef TFE_DEBUG_PKTDUMP
+#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
 
 static void TfePcapCloseAdapter(void) 
 {
@@ -150,15 +154,15 @@ static void TfePcapCloseAdapter(void)
  TfeEnumAdapter() only fails if there is no more adpater; in this case, 
    *ppname and *ppdescription are not altered.
 */
-int tfe_arch_enumadapter_open(void)
+int rawnet_arch_enumadapter_open(void)
 {
     if (pcap_findalldevs(&TfePcapAlldevs, TfePcapErrbuf) == -1) {
-        log_message(tfe_arch_log, "ERROR in TfeEnumAdapterOpen: pcap_findalldevs: '%s'", TfePcapErrbuf);
+        log_message(rawnet_arch_log, "ERROR in TfeEnumAdapterOpen: pcap_findalldevs: '%s'", TfePcapErrbuf);
         return 0;
     }
 
     if (!TfePcapAlldevs) {
-        log_message(tfe_arch_log, "ERROR in TfeEnumAdapterOpen, finding all pcap devices - Do we have the necessary privilege rights?");
+        log_message(rawnet_arch_log, "ERROR in TfeEnumAdapterOpen, finding all pcap devices - Do we have the necessary privilege rights?");
         return 0;
     }
 
@@ -166,7 +170,7 @@ int tfe_arch_enumadapter_open(void)
     return 1;
 }
 
-int tfe_arch_enumadapter(char **ppname, char **ppdescription)
+int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
 {
     if (!TfePcapNextDev) {
         return 0;
@@ -179,7 +183,7 @@ int tfe_arch_enumadapter(char **ppname, char **ppdescription)
     return 1;
 }
 
-int tfe_arch_enumadapter_close(void)
+int rawnet_arch_enumadapter_close(void)
 {
     if (TfePcapAlldevs) {
         pcap_freealldevs(TfePcapAlldevs);
@@ -193,24 +197,24 @@ static int TfePcapOpenAdapter(const char *interface_name)
 #ifdef HAVE_DOS_LIBNET
     TfePcapFP = pcap_open_live((char*)interface_name, 1700, 1, 20, TfePcapErrbuf);
     if ( TfePcapFP == NULL) {
-        log_message(tfe_arch_log, "ERROR opening adapter: '%s'", TfePcapErrbuf);
+        log_message(rawnet_arch_log, "ERROR opening adapter: '%s'", TfePcapErrbuf);
         return 0;
     }
 
     if (pcap_setnonblock(TfePcapFP, 1, TfePcapErrbuf) < 0) {
-        log_message(tfe_arch_log, "WARNING: Setting PCAP to non-blocking failed: '%s'", TfePcapErrbuf);
+        log_message(rawnet_arch_log, "WARNING: Setting PCAP to non-blocking failed: '%s'", TfePcapErrbuf);
     }
 
     /* Check the link layer. We support only Ethernet for simplicity. */
     if (pcap_datalink(TfePcapFP) != DLT_EN10MB) {
-        log_message(tfe_arch_log, "ERROR: TFE works only on Ethernet networks.");
+        log_message(rawnet_arch_log, "ERROR: TFE works only on Ethernet networks.");
         return 0;
     }
 
     /* now, open the libnet device to be able to send afterwards */
     TfeLibnetFP = libnet_open_link_interface(interface_name, TfeLibnetErrBuf);
     if (TfeLibnetFP == NULL) {
-        log_message(tfe_arch_log, "Libnet interface could not be opened: '%s'", TfeLibnetErrBuf);
+        log_message(rawnet_arch_log, "Libnet interface could not be opened: '%s'", TfeLibnetErrBuf);
 
         if (TfePcapFP) {
             pcap_close(TfePcapFP);
@@ -223,7 +227,7 @@ static int TfePcapOpenAdapter(const char *interface_name)
 #else
     pcap_if_t *TfePcapDevice = NULL;
 
-    if (!tfe_enumadapter_open()) {
+    if (!rawnet_enumadapter_open()) {
         return FALSE;
     } else {
         /* look if we can find the specified adapter */
@@ -235,7 +239,7 @@ static int TfePcapOpenAdapter(const char *interface_name)
             /* we have an interface name, try it */
             TfePcapDevice = TfePcapAlldevs;
 
-            while (tfe_enumadapter(&pname, &pdescription)) {
+            while (rawnet_enumadapter(&pname, &pdescription)) {
                 if (strcmp(pname, interface_name) == 0) {
                     found = TRUE;
                 }
@@ -254,23 +258,23 @@ static int TfePcapOpenAdapter(const char *interface_name)
 
     TfePcapFP = (*p_pcap_open_live)(TfePcapDevice->name, 1700, 1, 20, TfePcapErrbuf);
     if ( TfePcapFP == NULL) {
-        log_message(tfe_arch_log, "ERROR opening adapter: '%s'", TfePcapErrbuf);
-        tfe_enumadapter_close();
+        log_message(rawnet_arch_log, "ERROR opening adapter: '%s'", TfePcapErrbuf);
+        rawnet_enumadapter_close();
         return FALSE;
     }
 
     if ((*p_pcap_setnonblock)(TfePcapFP, 1, TfePcapErrbuf) < 0) {
-        log_message(tfe_arch_log, "WARNING: Setting PCAP to non-blocking failed: '%s'", TfePcapErrbuf);
+        log_message(rawnet_arch_log, "WARNING: Setting PCAP to non-blocking failed: '%s'", TfePcapErrbuf);
     }
 
     /* Check the link layer. We support only Ethernet for simplicity. */
     if ((*p_pcap_datalink)(TfePcapFP) != DLT_EN10MB) {
-        log_message(tfe_arch_log, "ERROR: TFE works only on Ethernet networks.");
-        tfe_enumadapter_close();
+        log_message(rawnet_arch_log, "ERROR: TFE works only on Ethernet networks.");
+        rawnet_enumadapter_close();
         return FALSE;
     }
 	
-    tfe_enumadapter_close();
+    rawnet_enumadapter_close();
     return TRUE;
 #endif
 }
@@ -278,31 +282,31 @@ static int TfePcapOpenAdapter(const char *interface_name)
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
 
-int tfe_arch_init(void)
+int rawnet_arch_init(void)
 {
-    tfe_arch_log = log_open("TFEARCH");
+    rawnet_arch_log = log_open("TFEARCH");
 
     return 1;
 }
 
-void tfe_arch_pre_reset( void )
+void rawnet_arch_pre_reset( void )
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_pre_reset().");
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_pre_reset().");
 #endif
 }
 
-void tfe_arch_post_reset( void )
+void rawnet_arch_post_reset( void )
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_post_reset().");
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_post_reset().");
 #endif
 }
 
-int tfe_arch_activate(const char *interface_name)
+int rawnet_arch_activate(const char *interface_name)
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_activate().");
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_activate().");
 #endif
     if (!TfePcapOpenAdapter(interface_name)) {
         return 0;
@@ -310,24 +314,24 @@ int tfe_arch_activate(const char *interface_name)
     return 1;
 }
 
-void tfe_arch_deactivate( void )
+void rawnet_arch_deactivate( void )
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_deactivate().");
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_deactivate().");
 #endif
 }
 
-void tfe_arch_set_mac( const BYTE mac[6] )
+void rawnet_arch_set_mac( const BYTE mac[6] )
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 #endif
 }
 
-void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
+void rawnet_arch_set_hashfilter(const DWORD hash_mask[2])
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
 #endif
 }
 
@@ -338,25 +342,25 @@ void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
  * int bPromiscuous - promiscuous mode                            *
  * int bIAHash      - accept if IA passes the hash filter         */
 
-void tfe_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
+void rawnet_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_recv_ctl() called with the following parameters:");
-    log_message(tfe_arch_log, "\tbBroadcast   = %s", bBroadcast ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, "\tbIA          = %s", bIA ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, "\tbMulticast   = %s", bMulticast ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, "\tbCorrect     = %s", bCorrect ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, "\tbPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, "\tbIAHash      = %s", bIAHash ? "TRUE" : "FALSE");
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_recv_ctl() called with the following parameters:");
+    log_message(rawnet_arch_log, "\tbBroadcast   = %s", bBroadcast ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "\tbIA          = %s", bIA ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "\tbMulticast   = %s", bMulticast ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "\tbCorrect     = %s", bCorrect ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "\tbPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "\tbIAHash      = %s", bIAHash ? "TRUE" : "FALSE");
 #endif
 }
 
-void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver)
+void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver)
 {
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_line_ctl() called with the following parameters:");
-    log_message(tfe_arch_log, "\tbEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, "\tbEnableReceiver    = %s", bEnableReceiver ? "TRUE" : "FALSE");
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_line_ctl() called with the following parameters:");
+    log_message(rawnet_arch_log, "\tbEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "\tbEnableReceiver    = %s", bEnableReceiver ? "TRUE" : "FALSE");
 #endif
 }
 
@@ -390,7 +394,7 @@ static void TfePcapPacketHandler(u_char *param, const struct pcap_pkthdr *header
 
    At most 'len' bytes are copied.
 */
-static int tfe_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
+static int rawnet_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
 {
     int ret = -1;
 
@@ -400,8 +404,8 @@ static int tfe_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
         ret = pinternal->len;
     }
 
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_receive_frame() called, returns %d.", ret);
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_receive_frame() called, returns %d.", ret);
 #endif
 
     return ret;
@@ -414,12 +418,12 @@ static int tfe_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
  * int txlength    - Frame length                                      *
  * BYTE *txframe   - Pointer to the frame to be transmitted            */
 
-void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
 {
     u_char *plibnet_buffer = NULL;
 
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
                 force ? "TRUE" : "FALSE", 
                 onecoll ? "TRUE" : "FALSE", 
                 inhibit_crc ? "TRUE" : "FALSE", 
@@ -427,32 +431,32 @@ void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, 
                 txlength);
 #endif
 
-#ifdef TFE_DEBUG_PKTDUMP
+#ifdef RAWNET_DEBUG_PKTDUMP
     debug_output("Transmit frame: ", txframe, txlength);
-#endif // #ifdef TFE_DEBUG_PKTDUMP
+#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
 
 #ifdef HAVE_DOS_LIBNET
     /* we want to send via libnet */
     if (libnet_init_packet(txlength, &plibnet_buffer) == -1) {
-        log_message(tfe_arch_log, "WARNING! Could not send packet!");
+        log_message(rawnet_arch_log, "WARNING! Could not send packet!");
     } else {
         if (plibnet_buffer) {
             memcpy(plibnet_buffer, txframe, txlength);
             libnet_write_link_layer(TfeLibnetFP, "eth0", plibnet_buffer, txlength);
             libnet_destroy_packet(&plibnet_buffer);
         } else {
-            log_message(tfe_arch_log, "WARNING! Could not send packet: plibnet_buffer==NULL, but libnet_init_packet() did NOT fail!!");
+            log_message(rawnet_arch_log, "WARNING! Could not send packet: plibnet_buffer==NULL, but libnet_init_packet() did NOT fail!!");
         }
     }
 #else
     if ((*p_pcap_sendpacket)(TfePcapFP, txframe, txlength) == -1) {
-        log_message(tfe_arch_log, "WARNING! Could not send packet!");
+        log_message(rawnet_arch_log, "WARNING! Could not send packet!");
     }
 #endif
 }
 
 /*
-  tfe_arch_receive()
+  rawnet_arch_receive()
 
   This function checks if there was a frame received.
   If so, it returns 1, else 0.
@@ -471,7 +475,7 @@ void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, 
   - if the receive was ok (good CRC and valid length), *prx_ok is set, 
     else cleared.
   - if the dest. address was accepted because it's exactly our MAC address
-    (set by tfe_arch_set_mac()), *pcorrect_mac is set, else cleared.
+    (set by rawnet_arch_set_mac()), *pcorrect_mac is set, else cleared.
   - if the dest. address was accepted since it was a broadcast address,
     *pbroadcast is set, else cleared.
   - if the received frame had a crc error, *pcrc_error is set, else cleared
@@ -488,25 +492,25 @@ void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, 
  * int *pbroadcast   - set if dest. address is a broadcast address                                 *
  * int *pcrc_error   - set if received frame had a CRC error                                       */
 
-int tfe_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
+int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
 {
     int len;
 
     TFE_PCAP_INTERNAL internal = { *plen, pbuffer };
 
-#ifdef TFE_DEBUG_ARCH
-    log_message(tfe_arch_log, "tfe_arch_receive() called, with *plen=%u.", *plen);
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_receive() called, with *plen=%u.", *plen);
 #endif
 
     assert((*plen & 1) == 0);
 
-    len = tfe_arch_receive_frame(&internal);
+    len = rawnet_arch_receive_frame(&internal);
 
     if (len != -1) {
 
-#ifdef TFE_DEBUG_PKTDUMP
+#ifdef RAWNET_DEBUG_PKTDUMP
         debug_output("Received frame: ", internal.buffer, internal.len);
-#endif // #ifdef TFE_DEBUG_PKTDUMP
+#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
 
         if (len & 1) {
             ++len;

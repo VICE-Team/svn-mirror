@@ -1199,7 +1199,7 @@ void cart_detach_all(void)
     sfx_soundexpander_detach();
     sfx_soundsampler_detach();
 #ifdef HAVE_TFE
-    tfe_shutdown(); /* FIXME: review and rename */
+    tfe_detach();
 #endif
 #ifdef HAVE_RS232
     aciacart_detach();
@@ -1271,7 +1271,7 @@ void cart_detach(int type)
             break;
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
-            tfe_shutdown(); /* FIXME: review and rename */
+            tfe_detach();
             break;
 #endif
 #ifdef HAVE_RS232

@@ -9,8 +9,16 @@ libcore_a_SOURCES = \
 	ciacore.c \
 	ciatimer.c \
 	ciatimer.h \
+	cs8900.c \
+	cs8900.h \
 	flash040core.c \
+	fmopl.c \
+	fmopl.h \
 	riotcore.c \
+	ser-eeprom.c \
+	ser-eeprom.h \
+	spi-sdcard.c \
+	spi-sdcard.h \
 	t6721.c \
 	t6721.h \
 	tpicore.c \

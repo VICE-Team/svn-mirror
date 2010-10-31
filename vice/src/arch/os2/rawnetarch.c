@@ -1,5 +1,5 @@
 /*
- * tfearch.c - TFE ("The final ethernet") emulation,
+ * rawnetarch.c - raw ethernet interface,
  *                 architecture-dependant stuff
  *
  * Written by
@@ -34,11 +34,12 @@
 
 #include "ipspy.h"
 #include "log.h"
+#include "rawnetarch.h"
 #include "types.h"
 
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
-static log_t tfe_arch_log = LOG_ERR;
+static log_t rawnet_arch_log = LOG_ERR;
 
 static UCHAR auchInterface[16 + 1] = "";
 static USHORT usOldMode = 0;
@@ -104,14 +105,14 @@ static void IpSpyInstallDriver(void)
 
 /* ------------------------------------------------------------------------- */
 /*    the architecture-dependend functions                                   */
-int tfe_arch_init(void)
+int rawnet_arch_init(void)
 {
     APIRET rc;
     UCHAR **pIFs;
     int i;
     UCHAR *pVersion;
 
-    tfe_arch_log = log_open("ArchTFE");
+    rawnet_arch_log = log_open("ArchTFE");
 
     // view the version
     rc = IpSpy_Version(&pVersion);
@@ -141,24 +142,24 @@ int tfe_arch_init(void)
     return 1;
 }
 
-void tfe_arch_pre_reset(void)
+void rawnet_arch_pre_reset(void)
 {
-    log_message(tfe_arch_log, "tfe_arch_pre_reset()" );
+    log_message(rawnet_arch_log, "rawnet_arch_pre_reset()" );
 }
 
-void tfe_arch_post_reset(void)
+void rawnet_arch_post_reset(void)
 {
-    log_message(tfe_arch_log, "tfe_arch_post_reset()" );
+    log_message(rawnet_arch_log, "rawnet_arch_post_reset()" );
 }
 
-int tfe_arch_activate(const char *interface_name)
+int rawnet_arch_activate(const char *interface_name)
 {
     APIRET rc;
     UCHAR *pSocketError;
     ULONG ulSocketError;
     const USHORT usMode = DIRECTED_MODE | BROADCAST_MODE | PROMISCUOUS_MODE;
 
-    log_message(tfe_arch_log, "tfe_arch_activate()");
+    log_message(rawnet_arch_log, "rawnet_arch_activate()");
 
     strcpy(auchInterface, "lan0");
 
@@ -200,16 +201,16 @@ int tfe_arch_activate(const char *interface_name)
         return 0;
     }
 
-    log_message(tfe_arch_log, "tfe_arch_activated.");
+    log_message(rawnet_arch_log, "rawnet_arch_activated.");
 
     return 1;
 }
 
-void tfe_arch_deactivate( void )
+void rawnet_arch_deactivate( void )
 {
     APIRET rc;
 
-    log_message(tfe_arch_log, "tfe_arch_deactivate().");
+    log_message(rawnet_arch_log, "rawnet_arch_deactivate().");
 
     // end monitor
     rc = IpSpy_Exit(ulHandle);
@@ -223,17 +224,17 @@ void tfe_arch_deactivate( void )
         log_debug("IpSpy_SetReceiveMode Error: %d", rc);
     }
 
-    log_debug("tfe_arch_deactivated");
+    log_debug("rawnet_arch_deactivated");
 }
 
-void tfe_arch_set_mac( const BYTE mac[6] )
+void rawnet_arch_set_mac( const BYTE mac[6] )
 {
-    log_message(tfe_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    log_message(rawnet_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 }
 
-void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
+void rawnet_arch_set_hashfilter(const DWORD hash_mask[2])
 {
-    log_message(tfe_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
+    log_message(rawnet_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
 }
 
 /* int bBroadcast   - broadcast */
@@ -243,22 +244,22 @@ void tfe_arch_set_hashfilter(const DWORD hash_mask[2])
 /* int bPromiscuous - promiscuous mode */
 /* int bIAHash      - accept if IA passes the hash filter */
 
-void tfe_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
+void rawnet_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash)
 {
-    log_message(tfe_arch_log, "tfe_arch_recv_ctl() called with the following parameters:");
-    log_message(tfe_arch_log, " bBroadcast   = %s", bBroadcast ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, " bIA          = %s", bIA ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, " bMulticast   = %s", bMulticast ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, " bCorrect     = %s", bCorrect ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, " bPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, " bIAHash      = %s", bIAHash ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "rawnet_arch_recv_ctl() called with the following parameters:");
+    log_message(rawnet_arch_log, " bBroadcast   = %s", bBroadcast ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, " bIA          = %s", bIA ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, " bMulticast   = %s", bMulticast ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, " bCorrect     = %s", bCorrect ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, " bPromiscuous = %s", bPromiscuous ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, " bIAHash      = %s", bIAHash ? "TRUE" : "FALSE");
 }
 
-void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
+void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 {
-    log_message(tfe_arch_log, "tfe_arch_line_ctl() called with the following parameters:");
-    log_message(tfe_arch_log, " bEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE");
-    log_message(tfe_arch_log, " bEnableReceiver    = %s", bEnableReceiver ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, "rawnet_arch_line_ctl() called with the following parameters:");
+    log_message(rawnet_arch_log, " bEnableTransmitter = %s", bEnableTransmitter ? "TRUE" : "FALSE");
+    log_message(rawnet_arch_log, " bEnableReceiver    = %s", bEnableReceiver ? "TRUE" : "FALSE");
 }
 
 /* int force       - FORCE: Delete waiting frames in transmit buffer */
@@ -268,14 +269,14 @@ void tfe_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 /* int txlength    - Frame length */
 /* BYTE *txframe   - Pointer to the frame to be transmitted */
 
-void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
 {
     APIRET rc;
     USHORT usType;
     ULONG ulTimeStamp;
     USHORT usUnknown;
 
-    log_message(tfe_arch_log, "tfe_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
+    log_message(rawnet_arch_log, "rawnet_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
                 force ? "TRUE" : "FALSE", onecoll ? "TRUE" : "FALSE", inhibit_crc ? "TRUE" : "FALSE", tx_pad_dis ? "TRUE" : "FALSE", txlength);
 
     rc = IpSpy_WriteRaw(ulHandle, txframe, txlength, usType, ulTimeStamp, usUnknown);
@@ -283,7 +284,7 @@ void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, 
 }
 
 /*
-  tfe_arch_receive()
+  rawnet_arch_receive()
 
   This function checks if there was a frame received.
   If so, it returns 1, else 0.
@@ -302,7 +303,7 @@ void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, 
   - if the receive was ok (good CRC and valid length), *prx_ok is set,
     else cleared.
   - if the dest. address was accepted because it's exactly our MAC address
-    (set by tfe_arch_set_mac()), *pcorrect_mac is set, else cleared.
+    (set by rawnet_arch_set_mac()), *pcorrect_mac is set, else cleared.
   - if the dest. address was accepted since it was a broadcast address,
     *pbroadcast is set, else cleared.
   - if the received frame had a crc error, *pcrc_error is set, else cleared
@@ -320,7 +321,7 @@ void tfe_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, 
 /* int *pbroadcast   - set if dest. address is a broadcast address */
 /* int *pcrc_error   - set if received frame had a CRC error */
 
-int tfe_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
+int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
 {
     APIRET rc;
     USHORT usType;

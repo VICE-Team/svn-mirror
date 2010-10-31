@@ -219,8 +219,6 @@ static const char STRING_EXPERT[] = "Expert Cartridge";
 
 BYTE REGPARM1 expert_io1_read(WORD addr);
 void REGPARM2 expert_io1_store(WORD addr, BYTE value);
-BYTE REGPARM1 expert_io2_read(WORD addr);
-void REGPARM2 expert_io2_store(WORD addr, BYTE value);
 
 static io_source_t expert_io1_device = {
     "Expert",

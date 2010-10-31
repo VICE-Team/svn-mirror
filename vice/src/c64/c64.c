@@ -102,10 +102,6 @@
 #include "mouse.h"
 #endif
 
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
-
 machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 3

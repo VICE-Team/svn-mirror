@@ -46,15 +46,19 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
-#include "mmc64.h"
 #include "resources.h"
 #include "spi-sdcard.h"
-#ifdef HAVE_TFE
-#include "tfe.h"
-#endif
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "mmc64.h"
+#include "reu.h"
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 #define USEPASSTHROUGHHACK 0 /* use the old passthrough hack */
 

@@ -30,7 +30,6 @@
 #include <string.h> /* for memset */
 
 #include "log.h"
-#include "mmcreplay.h"
 #include "ser-eeprom.h"
 #include "types.h"
 #include "util.h"
@@ -46,9 +45,11 @@
 #define LOG(_x_)
 #endif
 
+/* FIXME get rid of this */
+#define EEPROM_SIZE (1024)
+
 /* Image file */
 static FILE *eeprom_image_file = NULL;
-
 
 #define EEPROM_IDLE         0
 #define EEPROM_RESET        1
@@ -59,7 +60,7 @@ static FILE *eeprom_image_file = NULL;
 #define EEPROM_INCA1_DATA   6
 static unsigned int eeprom_mode = EEPROM_IDLE;
 
-static BYTE eeprom_data[MMCREPLAY_EEPROM_SIZE];
+static BYTE eeprom_data[EEPROM_SIZE];
 static unsigned int eeprom_readpos = 0;
 static unsigned int eeprom_status = 0;
 
@@ -70,7 +71,7 @@ static unsigned int eeprom_readbit = 0;
 void eeprom_data_readadvance(void)
 {
     eeprom_readpos++;
-    eeprom_readpos &= ((MMCREPLAY_EEPROM_SIZE * 8) - 1);        /* wrap at 8*1024 bit */
+    eeprom_readpos &= ((EEPROM_SIZE * 8) - 1);        /* wrap at 8*1024 bit */
 }
 
 BYTE eeprom_data_readbyte(void)
@@ -409,14 +410,14 @@ int eeprom_open_image(char *name, int rw)
             log_debug("could not open eeprom card image: %s", eeprom_image_filename);
             return -1;
         } else {
-            if (fread(eeprom_data, 1, MMCREPLAY_EEPROM_SIZE, eeprom_image_file) <= 0) {
+            if (fread(eeprom_data, 1, EEPROM_SIZE, eeprom_image_file) <= 0) {
                 log_debug("could not read eeprom card image: %s", eeprom_image_filename);
             }
             fseek(eeprom_image_file, 0, SEEK_SET);
             log_debug("opened eeprom card image (ro): %s", eeprom_image_filename);
         }
     } else {
-        if (fread(eeprom_data, 1, MMCREPLAY_EEPROM_SIZE, eeprom_image_file) <= 0) {
+        if (fread(eeprom_data, 1, EEPROM_SIZE, eeprom_image_file) <= 0) {
             log_debug("could not read eeprom card image: %s", eeprom_image_filename);
         }
         fseek(eeprom_image_file, 0, SEEK_SET);
@@ -431,7 +432,7 @@ void eeprom_close_image(int rw)
     if (eeprom_image_file != NULL) {
         if (rw) {
             fseek(eeprom_image_file, 0, SEEK_SET);
-            if (fwrite(eeprom_data, 1, MMCREPLAY_EEPROM_SIZE, eeprom_image_file) <= 0) {
+            if (fwrite(eeprom_data, 1, EEPROM_SIZE, eeprom_image_file) <= 0) {
                 log_debug("could not write eeprom card image");
             }
         }
