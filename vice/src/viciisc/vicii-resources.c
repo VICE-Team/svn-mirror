@@ -49,17 +49,13 @@ static video_chip_cap_t video_chip_cap;
 
 static int set_border_mode(int val, void *param)
 {
-    int sync;
-
-    if (resources_get_int("MachineVideoStandard", &sync) < 0) {
-        sync = MACHINE_SYNC_PAL;
-    }
-
     if (vicii_resources.border_mode != val) {
         vicii_resources.border_mode = val;
-        machine_change_timing(sync ^ VICII_BORDER_MODE(vicii_resources.border_mode));
+        /* this works because vicii-timing.c only handles borders in
+           viciisc. */
+        vicii_change_timing(0, vicii_resources.border_mode);
     }
-   return 0;
+    return 0;
 }
 
 static int set_sprite_sprite_collisions_enabled(int val, void *param)
