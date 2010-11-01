@@ -27,12 +27,6 @@
 #ifndef VICE_VICII_TIMING_H
 #define VICE_VICII_TIMING_H
 
-/* Screen constants.  */
-#define VICII_PAL_SCREEN_HEIGHT                      312
-#define VICII_NTSC_SCREEN_HEIGHT                     263
-#define VICII_NTSCOLD_SCREEN_HEIGHT                  262
-#define VICII_PALN_SCREEN_HEIGHT                     312
-
 /* Sideborder sizes */
 #define VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH      0x20
 #define VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH     0x20
