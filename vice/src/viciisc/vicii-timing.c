@@ -27,18 +27,11 @@
 
 #include "vice.h"
 
-#include "c64.h"
 #include "machine.h"
 #include "resources.h"
 #include "vicii-timing.h"
 #include "vicii.h"
 #include "viciitypes.h"
-
-/* Number of cycles per line.  */
-#define VICII_PAL_CYCLES_PER_LINE      C64_PAL_CYCLES_PER_LINE
-#define VICII_NTSC_CYCLES_PER_LINE     C64_NTSC_CYCLES_PER_LINE
-#define VICII_NTSCOLD_CYCLES_PER_LINE  C64_NTSCOLD_CYCLES_PER_LINE
-#define VICII_PALN_CYCLES_PER_LINE     C64_PALN_CYCLES_PER_LINE
 
 void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
 {
@@ -48,7 +41,6 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
 
     switch (mode) {
       case MACHINE_SYNC_NTSC:
-        vicii.screen_height = VICII_NTSC_SCREEN_HEIGHT;
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
@@ -70,10 +62,8 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.last_displayed_line = VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE;
             break;
         }
-        vicii.cycles_per_line = VICII_NTSC_CYCLES_PER_LINE;
         break;
       case MACHINE_SYNC_NTSCOLD:
-        vicii.screen_height = VICII_NTSCOLD_SCREEN_HEIGHT;
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
@@ -95,10 +85,8 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.last_displayed_line = VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE;
             break;
         }
-        vicii.cycles_per_line = VICII_NTSCOLD_CYCLES_PER_LINE;
         break;
       case MACHINE_SYNC_PALN:
-        vicii.screen_height = VICII_PALN_SCREEN_HEIGHT;
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
@@ -120,11 +108,9 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.last_displayed_line = VICII_PALN_DEBUG_LAST_DISPLAYED_LINE;
             break;
         }
-        vicii.cycles_per_line = VICII_PALN_CYCLES_PER_LINE;
         break;
       case MACHINE_SYNC_PAL:
       default:
-        vicii.screen_height = VICII_PAL_SCREEN_HEIGHT;
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
@@ -146,7 +132,6 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.last_displayed_line = VICII_PAL_DEBUG_LAST_DISPLAYED_LINE;
             break;
         }
-        vicii.cycles_per_line = VICII_PAL_CYCLES_PER_LINE;
         break;
     }
 
