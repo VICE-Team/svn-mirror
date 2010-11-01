@@ -30,6 +30,7 @@
 #ifdef HAVE_TFE
 
 #include <assert.h>
+#include <stddef.h>
 
 #include "rawnet.h"
 #include "rawnetarch.h"
