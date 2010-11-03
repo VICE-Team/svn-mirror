@@ -8,6 +8,7 @@ src/arch/unix/rs232.c
 # Unix GUI
 src/arch/unix/gui/c128ui.c
 src/arch/unix/gui/c64dtvui.c
+src/arch/unix/gui/c64scui.c
 src/arch/unix/gui/c64ui.c
 src/arch/unix/gui/cbm2ui.c
 src/arch/unix/gui/petui.c
@@ -35,6 +36,7 @@ src/arch/unix/gui/uidrivepetcbm2.c
 src/arch/unix/gui/uidriveplus4.c
 src/arch/unix/gui/uidrivevic20.c
 src/arch/unix/gui/uieasyflash.c
+src/arch/unix/gui/uiexpert.c
 src/arch/unix/gui/uifliplist.c
 src/arch/unix/gui/uifullscreen-menu.h
 src/arch/unix/gui/uigeoram.c
@@ -42,7 +44,11 @@ src/arch/unix/gui/uiide64.c
 src/arch/unix/gui/uiisepic.c
 src/arch/unix/gui/uijoystick2.c
 src/arch/unix/gui/uikeyboard.c
+src/arch/unix/gui/uilightpen.c
+src/arch/unix/gui/uimagicvoice.c
+src/arch/unix/gui/uimidi.c
 src/arch/unix/gui/uimmc64.c
+src/arch/unix/gui/uimmcreplay.c
 src/arch/unix/gui/uimouse.c
 src/arch/unix/gui/uinetplay.c
 src/arch/unix/gui/uipalemu.c
@@ -50,6 +56,7 @@ src/arch/unix/gui/uipalette.c
 src/arch/unix/gui/uiperipheral.c
 src/arch/unix/gui/uiperipheraliec.c
 src/arch/unix/gui/uiperipheralieee.c
+src/arch/unix/gui/uipetdww.c
 src/arch/unix/gui/uipetreu.c
 src/arch/unix/gui/uiplus256k.c
 src/arch/unix/gui/uiplus60k.c
@@ -59,6 +66,7 @@ src/arch/unix/gui/uiprinteriecplus4.c
 src/arch/unix/gui/uiprinterieee.c
 src/arch/unix/gui/uips2mouse.c
 src/arch/unix/gui/uiramcart.c
+src/arch/unix/gui/uiretroreplay.c
 src/arch/unix/gui/uireu.c
 src/arch/unix/gui/uiromset.c
 src/arch/unix/gui/uirs232.c
@@ -71,6 +79,8 @@ src/arch/unix/gui/uisound.c
 src/arch/unix/gui/uisoundexpander.c
 src/arch/unix/gui/uited.c
 src/arch/unix/gui/uitfe.c
+src/arch/unix/gui/uitpi.c
+src/arch/unix/gui/uiv364speech.c
 src/arch/unix/gui/uivdc.c
 src/arch/unix/gui/uivic.c
 src/arch/unix/gui/uivicii.c
@@ -81,6 +91,8 @@ src/arch/unix/gui/vsidui.c
 src/arch/unix/x11/gnome/about.c
 src/arch/unix/x11/gnome/uicartridge.c
 src/arch/unix/x11/gnome/uiedisk.c
+src/arch/unix/x11/gnome/uiedit.c
+# src/arch/unix/x11/gnome/uijoystickkeys.c
 src/arch/unix/x11/gnome/uimenu.c
 src/arch/unix/x11/gnome/uinetplay.c
 src/arch/unix/x11/gnome/uipalcontrol.c
@@ -133,6 +145,7 @@ src/arch/win32/resisepic.rc.po.c
 src/arch/win32/reslightpen.rc.po.c
 src/arch/win32/resmidi.rc.po.c
 src/arch/win32/resmmc64.rc.po.c
+src/arch/win32/resmmcreplay.rc.po.c
 src/arch/win32/resmouse.rc.po.c
 src/arch/win32/respet.rc.po.c
 src/arch/win32/respetreu.rc.po.c
