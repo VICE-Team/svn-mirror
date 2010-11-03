@@ -90,11 +90,27 @@ SOURCE="..\..\core\ciatimer.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\core\cs8900.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\core\flash040core.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\core\fmopl.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\core\riotcore.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\core\ser-eeprom.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\core\spi-sdcard.c"
 # End Source File
 # Begin Source File
 

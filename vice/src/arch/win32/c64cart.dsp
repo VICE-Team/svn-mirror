@@ -194,10 +194,6 @@ SOURCE="..\..\c64\cart\finalplus.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\c64\cart\fmopl.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\cart\freezeframe.c"
 # End Source File
 # Begin Source File
@@ -298,10 +294,6 @@ SOURCE="..\..\c64\cart\ross.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\c64\cart\ser-eeprom.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\cart\sfx_soundexpander.c"
 # End Source File
 # Begin Source File
@@ -315,10 +307,6 @@ SOURCE="..\..\c64\cart\simonsbasic.c"
 # Begin Source File
 
 SOURCE="..\..\c64\cart\snapshot64.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\c64\cart\spi-sdcard.c"
 # End Source File
 # Begin Source File
 

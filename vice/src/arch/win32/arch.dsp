@@ -227,6 +227,10 @@ SOURCE=.\rs232net.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\rawnetarch.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\signals.c
 # End Source File
 # Begin Source File
@@ -236,10 +240,6 @@ SOURCE=.\statusbar.c
 # Begin Source File
 
 SOURCE=.\system.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tfearch.c
 # End Source File
 # Begin Source File
 
