@@ -84,9 +84,5 @@ LIB32=link.exe -lib
 
 SOURCE="..\..\..\c64dtv\c64dtvcart.c"
 # End Source File
-# Begin Source File
-
-SOURCE="..\..\..\c64dtv\c64dtvtfe.c"
-# End Source File
 # End Target
 # End Project

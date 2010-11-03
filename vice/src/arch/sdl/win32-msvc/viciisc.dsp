@@ -114,7 +114,7 @@ SOURCE="..\..\..\viciisc\vicii-irq.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\viciisc\vicii-lightpen.c"
+SOURCE="..\..\..\viciisc\vicii-lightpen.c"
 # End Source File
 # Begin Source File
 
