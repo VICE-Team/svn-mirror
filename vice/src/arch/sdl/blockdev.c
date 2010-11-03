@@ -85,7 +85,7 @@ int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
 
     offset = ((track - 1) * 40 + sector) * 256;
 
-    SDL_RWseek(device, offset, SEEK_SET);
+    SDL_RWseek(device, offset, RW_SEEK_SET);
 
     if (SDL_RWread(device, (void *)buf, 256, 1) != 1) {
         return -1;
@@ -104,7 +104,7 @@ int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
 
     offset = ((track - 1) * 40 + sector) * 256;
 
-    SDL_RWseek(device, offset, SEEK_SET);
+    SDL_RWseek(device, offset, RW_SEEK_SET);
 
     if (SDL_RWwrite(device, (void *)buf, 256, 1) != 1) {
         return -1;

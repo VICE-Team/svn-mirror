@@ -22,6 +22,8 @@ EXTRA_DIST = \
 	fileio.tgt \
 	fsdevice.tgt \
 	gentr.tgt \
+	gentranslate32.tgt \
+	genwt.bat \
 	gfxoutputdrv.tgt \
 	iec.tgt \
 	iec128dcr.tgt \
