@@ -2090,7 +2090,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_ENABLE_USERPORT_DAC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_DAC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_DAC_IT, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_DAC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_DAC_NL, "Activeer userport DAC" },
 /* pl */ { IDMS_ENABLE_USERPORT_DAC_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_USERPORT_DAC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_ENABLE_USERPORT_DAC_TR, "" },  /* fuzzy */

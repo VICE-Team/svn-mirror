@@ -820,7 +820,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM"
   IDS_MI_PET_SETTINGS            "P&ET-instellingen..."
   IDS_MI_PETREU_SETTINGS         "PET &REU-iinstellingen..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer PET &userport DAC"
 END
 
 
