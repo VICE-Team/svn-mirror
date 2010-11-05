@@ -49,10 +49,6 @@
 #include "videoarch.h"
 #include "winmain.h"
 
-#ifdef _WIN64
-#define _ANONYMOUS_UNION
-#endif
-
 // ----------------------------------------------
 
 #ifndef HAVE_GUIDLIB

@@ -42,7 +42,9 @@
 #endif
 
 #if defined(_WIN64) || defined(__WATCOMC__) || defined(WATCOM_COMPILE)
-#define _ANONYMOUS_UNION
+#  ifndef _ANONYMOUS_UNION
+#    define _ANONYMOUS_UNION
+#  endif
 #endif
 
 #define APPLICATION_CLASS TEXT("VICE")
