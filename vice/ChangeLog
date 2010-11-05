@@ -1,3 +1,911 @@
+2010-11-05  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.8
+
+2010-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	  src/arch/win32/res.rc, src/arch/win32/resmmc64.rc,
+	  src/arch/win32/resmmcreplay.rc, src/arch/win32/respet.rc,
+	  src/translate_text.c: Did a 'make trans-update'.
+
+	* data/C64/win_sym_it.vkm: Applied the italian 'U' key code fix
+	  for win32 symbolic keymap, as supplied by Andrea Russo.
+
+2010-11-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in: Updated the POTFILES.in file.
+
+	* src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/c64dtv.tgt,
+	  src/arch/win32/watcom/core.tgt,
+	  src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/viciinew.tgt: Updated win32 openwatcom
+	  project files.
+
+	* src/arch/win32/arch.dsp, src/arch/win32/base.dsp,
+	  src/arch/win32/c64cart.dsp, src/arch/win32/c64dtvstubs.dsp,
+	  src/arch/win32/core.dsp: Updated win32 msvc project files.
+
+	* src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/c64dtvstubs.dsp,
+	  src/arch/sdl/win32-msvc/core.dsp,
+	  src/arch/sdl/win32-msvc/viciisc.dsp: Updated win32 msvc sdl
+	  project files.
+
+	* src/arch/sdl/blockdev.c,
+	  src/arch/sdl/win32-watcom/Makefile.am,
+	  src/arch/sdl/win32-watcom/arch.tgt,
+	  src/arch/sdl/win32-watcom/base.tgt,
+	  src/arch/sdl/win32-watcom/c128.tgt,
+	  src/arch/sdl/win32-watcom/c64.tgt,
+	  src/arch/sdl/win32-watcom/c64cart.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc128c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64commonc64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64commonsc.tgt,
+	  src/arch/sdl/win32-watcom/c64dtv.tgt,
+	  src/arch/sdl/win32-watcom/c64exp.tgt,
+	  src/arch/sdl/win32-watcom/c64sc.tgt,
+	  src/arch/sdl/win32-watcom/cartconv.tgt,
+	  src/arch/sdl/win32-watcom/cbm2.tgt,
+	  src/arch/sdl/win32-watcom/core.tgt,
+	  src/arch/sdl/win32-watcom/crtc.tgt,
+	  src/arch/sdl/win32-watcom/diskimage.tgt,
+	  src/arch/sdl/win32-watcom/drive.tgt,
+	  src/arch/sdl/win32-watcom/fileio.tgt,
+	  src/arch/sdl/win32-watcom/fsdevice.tgt,
+	  src/arch/sdl/win32-watcom/gentr.tgt,
+	  src/arch/sdl/win32-watcom/gentranslate32.tgt,
+	  src/arch/sdl/win32-watcom/genwt.bat,
+	  src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	  src/arch/sdl/win32-watcom/iec.tgt,
+	  src/arch/sdl/win32-watcom/iec128dcr.tgt,
+	  src/arch/sdl/win32-watcom/iecbus.tgt,
+	  src/arch/sdl/win32-watcom/iecieee.tgt,
+	  src/arch/sdl/win32-watcom/ieee.tgt,
+	  src/arch/sdl/win32-watcom/imagecontents.tgt,
+	  src/arch/sdl/win32-watcom/maincpu.tgt,
+	  src/arch/sdl/win32-watcom/monitor.tgt,
+	  src/arch/sdl/win32-watcom/parallel.tgt,
+	  src/arch/sdl/win32-watcom/pet.tgt,
+	  src/arch/sdl/win32-watcom/plus4.tgt,
+	  src/arch/sdl/win32-watcom/plus4exp.tgt,
+	  src/arch/sdl/win32-watcom/printerdrv.tgt,
+	  src/arch/sdl/win32-watcom/raster.tgt,
+	  src/arch/sdl/win32-watcom/resid.tgt,
+	  src/arch/sdl/win32-watcom/residdtv.tgt,
+	  src/arch/sdl/win32-watcom/residfp.tgt,
+	  src/arch/sdl/win32-watcom/rs232drv.tgt,
+	  src/arch/sdl/win32-watcom/serial.tgt,
+	  src/arch/sdl/win32-watcom/sid.tgt,
+	  src/arch/sdl/win32-watcom/sounddrv.tgt,
+	  src/arch/sdl/win32-watcom/tape.tgt,
+	  src/arch/sdl/win32-watcom/tcbm.tgt,
+	  src/arch/sdl/win32-watcom/vdc.tgt,
+	  src/arch/sdl/win32-watcom/vdrive.tgt,
+	  src/arch/sdl/win32-watcom/vic20.tgt,
+	  src/arch/sdl/win32-watcom/vic20cart.tgt,
+	  src/arch/sdl/win32-watcom/vice.wpj,
+	  src/arch/sdl/win32-watcom/vicii.tgt,
+	  src/arch/sdl/win32-watcom/viciicommon.tgt,
+	  src/arch/sdl/win32-watcom/viciidtv.tgt,
+	  src/arch/sdl/win32-watcom/viciinew.tgt,
+	  src/arch/sdl/win32-watcom/video.tgt,
+	  src/arch/sdl/win32-watcom/x128.tgt,
+	  src/arch/sdl/win32-watcom/x64.tgt,
+	  src/arch/sdl/win32-watcom/x64dtv.tgt,
+	  src/arch/sdl/win32-watcom/x64sc.tgt,
+	  src/arch/sdl/win32-watcom/xcbm2.tgt,
+	  src/arch/sdl/win32-watcom/xpet.tgt,
+	  src/arch/sdl/win32-watcom/xplus4.tgt,
+	  src/arch/sdl/win32-watcom/xvic.tgt,
+	  src/arch/win32/Makefile.am: Updated the win32 sdl openwatcom
+	  project files.
+
+2010-11-01  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciisc/vicii-timing.h: Got rid of a few unused
+	  definitions.
+
+	* src/viciisc/vicii-resources.c: Normal/Full/Debug borders
+	  switchable in viciisc.
+
+	* src/viciisc/vicii-chip-model.c, src/viciisc/vicii-timing.c:
+	  Number of raster lines is now handled by vicii-chip-model.
+	  Removes inclusion of c64.h in viciisc.
+
+	* src/rawnet.c: Added inclusion of stddef.h to define NULL.
+
+2010-10-31  groepaz <groepaz@gmx.net>
+
+	* src/Makefile.am, src/arch/amigaos/Makefile.am,
+	  src/arch/amigaos/rawnetarch.c, src/arch/amigaos/tfearch.c,
+	  src/arch/beos/Makefile.am, src/arch/msdos/Makefile.am,
+	  src/arch/msdos/rawnetarch.c, src/arch/msdos/tfearch.c,
+	  src/arch/os2/Makefile.am, src/arch/os2/rawnetarch.c,
+	  src/arch/os2/tfearch.c, src/arch/riscos/Makefile.am,
+	  src/arch/sdl/Makefile.am, src/arch/sdl/menu_tfe.c,
+	  src/arch/sdl/rawnetarch.c, src/arch/sdl/tfearch.c,
+	  src/arch/unix/Makefile.am, src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/rawnetarch.c, src/arch/unix/tfearch.c,
+	  src/arch/win32/Makefile.am, src/arch/win32/rawnetarch.c,
+	  src/arch/win32/tfearch.c, src/arch/win32/uitfe.c,
+	  src/c128/c128.c, src/c128/c128mem.c, src/c64/c64.c,
+	  src/c64/c64mem.c, src/c64/c64memsc.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/expert.c, src/c64/cart/expert.h,
+	  src/c64/cart/fmopl.c, src/c64/cart/fmopl.h,
+	  src/c64/cart/mmc64.c, src/c64/cart/mmc64.h,
+	  src/c64/cart/mmcreplay.c, src/c64/cart/mmcreplay.h,
+	  src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h,
+	  src/c64/cart/ser-eeprom.c, src/c64/cart/ser-eeprom.h,
+	  src/c64/cart/spi-sdcard.c, src/c64/cart/spi-sdcard.h,
+	  src/c64/cart/tfe.c, src/c64/cart/tfe.h,
+	  src/c64/cart/tfearch.h, src/c64dtv/Makefile.am,
+	  src/c64dtv/c64dtvtfe.c, src/core/Makefile.am,
+	  src/core/cs8900.c, src/core/cs8900.h, src/core/fmopl.c,
+	  src/core/fmopl.h, src/core/ser-eeprom.c,
+	  src/core/ser-eeprom.h, src/core/spi-sdcard.c,
+	  src/core/spi-sdcard.h, src/rawnet.c, src/rawnet.h,
+	  src/rawnetarch.h: splitted TFE implementation into cartridge-,
+	  cs8900 core- and generic code. reworked tfe stuff into generic
+	  rawnet interface. moved some chipcores from cart into core
+	  directory. removed (now) unneeded includes and include
+	  directories. updated and unbroke (hopefully) all ports. (msvc
+	  project files need updating)
+
+2010-10-31  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/sdl/win32-msvc/viciisc.dsp,
+	  src/arch/win32/viciisc.dsp: Fixed MSVC project files.
+
+2010-10-30  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c64cart.c: SDL UI:
+	  remove c64/cart from the include dir list
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	  src/c64dtv/c64dtvmem.c, src/cbm2/cbm2mem.c, src/vicii.h,
+	  src/vicii/vicii.c, src/vicii/viciitypes.h,
+	  src/viciisc/vicii.c, src/viciisc/viciitypes.h: Move vicii_dump
+	  prototype to vicii.h, remove the useless parameter and use the
+	  one (and only) vicii instance instead
+
+	* src/viciisc/Makefile.am, src/viciisc/vicii-cycle.c,
+	  src/viciisc/vicii-lightpen.c, src/viciisc/vicii-lightpen.h,
+	  src/viciisc/vicii.c, src/viciisc/viciitypes.h: viciisc: split
+	  lightpen functions to vicii-lightpen, add clk overflow guard
+	  for lightpen trigger cycle
+
+	* src/viciisc/vicii-draw-cycle.c, src/viciisc/vicii-snapshot.c,
+	  src/viciisc/vicii.c, src/viciisc/viciitypes.h: viciisc: clean
+	  up some lightpen magic, get rid of raster_xpos, almost fixes
+	  NTSC/Drean results
+
+2010-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data, src/arch/platform_cpu_type.h,
+	  src/arch/sdl/win32-msvc/arch.dsp,
+	  src/arch/sdl/win32-msvc/c64cart.dsp,
+	  src/arch/sdl/win32-msvc/printerdrv.dsp,
+	  src/arch/sdl/win32-msvc/x128.dsp,
+	  src/arch/sdl/win32-msvc/x64.dsp,
+	  src/arch/sdl/win32-msvc/x64dtv.dsp,
+	  src/arch/sdl/win32-msvc/x64sc.dsp,
+	  src/arch/sdl/win32-msvc/xcbm2.dsp,
+	  src/arch/sdl/win32-msvc/xpet.dsp,
+	  src/arch/sdl/win32-msvc/xplus4.dsp,
+	  src/arch/sdl/win32-msvc/xvic.dsp: Updated msvc win32 sdl
+	  project files.
+
+2010-10-28  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/uic64cart.c, src/arch/sdl/menu_c64cart.c,
+	  src/arch/unix/gui/uiexpert.c,
+	  src/arch/unix/gui/uimagicvoice.c,
+	  src/arch/unix/gui/uiv364speech.c, src/arch/win32/uic64cart.c,
+	  src/c64/c64cart.h, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/c64tpi.c,
+	  src/c64/cart/crt.c, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h: do not include expert.h from ui code,
+	  use c64cart.h instead. added reg-dump to ieee interface.
+
+2010-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c64cart.dsp: Updated win32 msvc project files.
+
+2010-10-27  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciisc/vicii-mem.c: Corrected more unused-bit masks for
+	  registers.
+
+	* src/vicii/vicii-mem.c: Corrected unused-bit masks for
+	  registers.
+
+	* src/viciisc/vicii-mem.c: Corrected unused-bit masks for
+	  registers.
+
+2010-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/base.tgt,
+	  src/arch/win32/watcom/c128.tgt, src/arch/win32/watcom/c64.tgt,
+	  src/arch/win32/watcom/c64cart.tgt,
+	  src/arch/win32/watcom/c64commonc128.tgt,
+	  src/arch/win32/watcom/c64commonc128c64dtv.tgt,
+	  src/arch/win32/watcom/c64commonc64dtv.tgt,
+	  src/arch/win32/watcom/c64commonsc.tgt,
+	  src/arch/win32/watcom/c64dtv.tgt,
+	  src/arch/win32/watcom/c64exp.tgt,
+	  src/arch/win32/watcom/c64sc.tgt,
+	  src/arch/win32/watcom/cartconv.tgt,
+	  src/arch/win32/watcom/cbm2.tgt,
+	  src/arch/win32/watcom/core.tgt,
+	  src/arch/win32/watcom/crtc.tgt,
+	  src/arch/win32/watcom/diskimage.tgt,
+	  src/arch/win32/watcom/drive.tgt,
+	  src/arch/win32/watcom/fileio.tgt,
+	  src/arch/win32/watcom/fsdevice.tgt,
+	  src/arch/win32/watcom/gentranslate32.c,
+	  src/arch/win32/watcom/gentranslate32.tgt,
+	  src/arch/win32/watcom/genwinres32.c,
+	  src/arch/win32/watcom/genwinres32.tgt,
+	  src/arch/win32/watcom/genwt.bat,
+	  src/arch/win32/watcom/gfxoutputdrv.tgt,
+	  src/arch/win32/watcom/iec.tgt,
+	  src/arch/win32/watcom/iec128dcr.tgt,
+	  src/arch/win32/watcom/iecbus.tgt,
+	  src/arch/win32/watcom/iecieee.tgt,
+	  src/arch/win32/watcom/ieee.tgt,
+	  src/arch/win32/watcom/imagecontents.tgt,
+	  src/arch/win32/watcom/maincpu.tgt,
+	  src/arch/win32/watcom/monitor.tgt,
+	  src/arch/win32/watcom/parallel.tgt,
+	  src/arch/win32/watcom/pet.tgt,
+	  src/arch/win32/watcom/plus4.tgt,
+	  src/arch/win32/watcom/plus4exp.tgt,
+	  src/arch/win32/watcom/printerdrv.tgt,
+	  src/arch/win32/watcom/raster.tgt,
+	  src/arch/win32/watcom/resid-dtv.tgt,
+	  src/arch/win32/watcom/resid-fp.tgt,
+	  src/arch/win32/watcom/resid.tgt,
+	  src/arch/win32/watcom/rs232drv.tgt,
+	  src/arch/win32/watcom/serial.tgt,
+	  src/arch/win32/watcom/sid.tgt,
+	  src/arch/win32/watcom/sounddrv.tgt,
+	  src/arch/win32/watcom/tape.tgt,
+	  src/arch/win32/watcom/tcbm.tgt, src/arch/win32/watcom/vdc.tgt,
+	  src/arch/win32/watcom/vdrive.tgt,
+	  src/arch/win32/watcom/vic20.tgt,
+	  src/arch/win32/watcom/vice.wpj,
+	  src/arch/win32/watcom/vicii.tgt,
+	  src/arch/win32/watcom/viciicommon.tgt,
+	  src/arch/win32/watcom/viciidtv.tgt,
+	  src/arch/win32/watcom/viciinew.tgt,
+	  src/arch/win32/watcom/video.tgt,
+	  src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	  src/arch/win32/watcom/x64dtv.tgt,
+	  src/arch/win32/watcom/x64sc.tgt,
+	  src/arch/win32/watcom/xcbm2.tgt,
+	  src/arch/win32/watcom/xpet.tgt,
+	  src/arch/win32/watcom/xplus4.tgt,
+	  src/arch/win32/watcom/xvic.tgt: Updated and fixed the win32
+	  watcom project files.
+
+	* src/arch/platform_cpu_type.h: Added types.h include.
+
+2010-10-27  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64cart.h, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/capture.c,
+	  src/c64/cart/capture.h, src/c64/cart/comal80.c,
+	  src/c64/cart/comal80.h, src/c64/cart/delaep256.c,
+	  src/c64/cart/delaep256.h, src/c64/cart/delaep64.c,
+	  src/c64/cart/delaep64.h, src/c64/cart/delaep7x8.c,
+	  src/c64/cart/delaep7x8.h, src/c64/cart/dinamic.c,
+	  src/c64/cart/dinamic.h, src/c64/cart/easyflash.c,
+	  src/c64/cart/easyflash.h, src/c64/cart/epyxfastload.c,
+	  src/c64/cart/expert.c, src/c64/cart/expert.h,
+	  src/c64/cart/funplay.c, src/c64/cart/funplay.h,
+	  src/c64/cart/gs.c, src/c64/cart/gs.h, src/c64/cart/isepic.c,
+	  src/c64/cart/isepic.h, src/c64/cart/kcs.c, src/c64/cart/kcs.h,
+	  src/c64/cart/magicdesk.c, src/c64/cart/magicdesk.h,
+	  src/c64/cart/magicformel.c, src/c64/cart/magicformel.h,
+	  src/c64/cart/mikroass.c, src/c64/cart/mikroass.h,
+	  src/c64/cart/mmc64.c, src/c64/cart/mmc64.h,
+	  src/c64/cart/mmcreplay.c, src/c64/cart/mmcreplay.h,
+	  src/c64/cart/ocean.c, src/c64/cart/ocean.h,
+	  src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h,
+	  src/c64/cart/rexep256.c, src/c64/cart/rexep256.h,
+	  src/c64/cart/rexutility.c, src/c64/cart/rexutility.h,
+	  src/c64/cart/ross.c, src/c64/cart/ross.h,
+	  src/c64/cart/simonsbasic.c, src/c64/cart/simonsbasic.h,
+	  src/c64/cart/supergames.c, src/c64/cart/supergames.h,
+	  src/c64/cart/warpspeed.c, src/c64/cart/warpspeed.h,
+	  src/c64/cart/westermann.c, src/c64/cart/westermann.h,
+	  src/cartconv.c, src/cartridge.h: added missing bin load for
+	  all carts, added commandline options, updated cartconv. fixed
+	  some register peek hooks, added some docs, more cleanup.
+
+2010-10-25  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64cart.h, src/c64/cart/Makefile.am,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.h,
+	  src/c64/cart/crt.c, src/c64/cart/diashowmaker.c,
+	  src/c64/cart/diashowmaker.h, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h, src/c64/cart/isepic.c,
+	  src/c64/cart/isepic.h, src/c64/cart/tfe.h,
+	  src/c64/cart/tfearch.h, src/cartconv.c, src/cartridge.h,
+	  src/translate_text.c: added support for "Diashow Maker" cart,
+	  updated cartconv, fixed cartridge_get_file_name (expert,
+	  isepic), more cleanup
+
+2010-10-24  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/DisassemblyWindow.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/DisassemblyWindow.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/DisassemblyWindow.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m: macosx: added
+	  minimal disassembly window
+
+	* src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.m: macosx: fixed
+	  debugger window handling
+
+2010-10-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/mui/uieasyflash.c,
+	  src/arch/amigaos/uic64cart.c, src/arch/beos/c128ui.cc,
+	  src/arch/beos/c64ui.cc, src/arch/msdos/uieasyflash.c,
+	  src/arch/os2/dialogs/menubar.c, src/arch/sdl/menu_c64cart.c,
+	  src/arch/unix/gui/uieasyflash.c, src/arch/win32/uieasyflash.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/easyflash.c,
+	  src/c64/cart/easyflash.h, src/cartridge.h: replaced
+	  easyflash_save_crt by generic cartridge_flush_image, unbreak
+	  all UIs. fixed calls to
+	  cartridge_attach_image(CARTRIDGE_EXPERT, NULL)
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	  src/arch/msdos/archdep.c, src/arch/os2/archdep.c,
+	  src/arch/riscos/archdep.c, src/arch/sdl/archdep_amiga.c,
+	  src/arch/sdl/archdep_beos.c, src/arch/sdl/archdep_cegcc.c,
+	  src/arch/sdl/archdep_riscos.c, src/arch/sdl/archdep_unix.c,
+	  src/arch/sdl/archdep_win32.c, src/arch/sdl/archdep_xbox.c,
+	  src/arch/unix/archdep.c, src/arch/win32/archdep.c,
+	  src/archapi.h, src/gfxoutputdrv/gifdrv.c: added
+	  archdep_fix_permissions (unbreak r23039)
+
+	* src/c64/cart/tfe.c: update io structs
+
+2010-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_cpu_type.h: Fixed the vendor string routine
+	  (forgot to end the string properly)
+
+2010-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h: Undid the platform cpu detection header
+	  #if 0
+
+	* src/arch/platform_cpu_type.h: Fixed up and simplified the x86
+	  cpu detection.
+
+2010-10-23  groepaz <groepaz@gmx.net>
+
+	* src/diskconstants.h, src/diskimage.h,
+	  src/diskimage/diskimage.c, src/diskimage/fsimage-probe.c:
+	  handle d81 with error info. moved some log output that floods
+	  the console in fileselector to verbose mode.
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: detect type from
+	  extension, remember last used type.
+
+	* src/gfxoutputdrv/gifdrv.c: fix permissions according to
+	  current umask
+
+2010-10-22  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h: Disabled
+	  the cpu type code in a less kludgy way.
+
+2010-10-22  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64tpi.c, src/c64/cart/magicformel.c,
+	  src/c64/cart/magicvoice.c, src/c64/cart/mmc64.c: style fixes
+
+2010-10-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/make-bindist.sh: macosx: fixed bundling
+	  with X11 and new platypus
+
+	* data/C128/osx_sym.vkm, data/C64/osx_sym_de.vkm,
+	  data/C64/osx_sym_us.vkm, data/C64DTV/osx_sym_de.vkm,
+	  data/C64DTV/osx_sym_us.vkm: macosx: added missing @ key to
+	  c64/c64dtv/c128 keymaps
+
+	* src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m:
+	  macosx: compile fix for 10.4
+
+2010-10-21  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/arch/platform_cpu_type.h: Added a kludge to make vice
+	  compile again on mingw32 and some gcc based platforms.
+
+2010-10-20  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c64sc.dsp: Fixed MSVC project file for c64sc.
+
+2010-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_cpu_type.h: Make platform code compile
+	  again.
+
+2010-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h, src/main.c:
+	  Started on x86 runtime cpu detection code.
+
+2010-10-16  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h,
+	  src/c64/cart/dqbb.c, src/c64/cart/dqbb.h,
+	  src/c64/cart/expert.c, src/c64/cart/expert.h,
+	  src/c64/cart/georam.c, src/c64/cart/georam.h,
+	  src/c64/cart/isepic.c, src/c64/cart/isepic.h,
+	  src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	  src/c64/cart/mmc64.c, src/c64/cart/mmc64.h,
+	  src/c64/cart/ramcart.c, src/c64/cart/ramcart.h,
+	  src/c64/cart/reu.c, src/c64/cart/reu.h: added missing hooks
+	  for cart_get_file_name
+
+	* src/c64/cart/c64-midi.c, src/c64/cart/c64-midi.h,
+	  src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartmem.c, src/c64/cart/digimax.c,
+	  src/c64/cart/digimax.h, src/c64/cart/dqbb.c,
+	  src/c64/cart/dqbb.h, src/c64/cart/easyflash.c,
+	  src/c64/cart/easyflash.h, src/c64/cart/freezemachine.c,
+	  src/c64/cart/generic.c, src/c64/cart/georam.c,
+	  src/c64/cart/georam.h, src/c64/cart/isepic.c,
+	  src/c64/cart/isepic.h, src/c64/cart/mmc64.c,
+	  src/c64/cart/mmc64.h, src/c64/cart/mmcreplay.c,
+	  src/c64/cart/ramcart.c, src/c64/cart/ramcart.h,
+	  src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h,
+	  src/c64/cart/reu.c, src/c64/cart/reu.h,
+	  src/c64/cart/sfx_soundexpander.c,
+	  src/c64/cart/sfx_soundexpander.h,
+	  src/c64/cart/sfx_soundsampler.c,
+	  src/c64/cart/sfx_soundsampler.h, src/c64/cart/tfe.c,
+	  src/c64/cart/tfe.h: fix enable logic for mmc64 (trigger slot0
+	  conflict check correctly), accept 4k images as generic 8k
+	  type, accept 16k (freeze frame mk4) images as freeze machine
+	  type, added generic fallback for monitor memory read, added
+	  generic fallback for vic ultimax reads (x64sc only), added
+	  missing HAVE_RS232 ifdefs, added various missing hooks for
+	  ramcart, sound expander, sound sampler, tfe, mmcr, dqbb,
+	  isepic, rr, georam, reu, digimax, midi, easyflash. some more
+	  cleanup.
+
+2010-10-16  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/c64/c64.h: Fixed frequency of PAL-N according to
+	  investigations of "The WOZ".
+
+2010-10-15  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/resvic20.rc,
+	  src/arch/win32/vic20ui.c: Fixed VIC20 ROM settings in Win32
+	  UI.
+
+2010-10-13  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	  src/translate_text.c: fix ambiguous parsing of the "radix"
+	  argument. (fixes bug 2263290). updated help text for memory
+	  command.
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/generic.c,
+	  src/c64/cart/generic.h, src/c64/cart/mmc64.c,
+	  src/c64/cart/mmc64.h: add monitor peek for mmc64, proper hooks
+	  for generic vic accesses
+
+	* src/arch/unix/x11/gnome/x11ui.c: use bigendian texture on
+	  bigendian target, fixes bug 3039069
+
+	* src/cartconv.c: added "repair mode" option (accept broken
+	  input files)
+
+2010-10-12  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mmu.c: setup mmu before forced switch to c64
+	  mode, fixes bug 3075101
+
+2010-10-11  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.h, src/drive/rotation.c: handle "read" and
+	  "write" if no image is attached, fixes bug 2921608
+
+	* src/attach.c: change default for virtualfs drive 9-11 to none
+
+	* src/autostart-prg.c: attach virtualfs before autostarting prg
+	  file
+
+	* src/attach.c, src/attach.h, src/machine-bus.c, src/serial.h:
+	  handle the case when a non-tde drive is not connected, fixes
+	  bug 3019193
+
+	* src/arch/unix/gui/uiperipheral.c: add missing ifdefs
+
+2010-10-11  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_c64model.c: SDL UI: replace fake x64 VICII
+	  model selection with video standard menu
+
+2010-10-10  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c64hw.c,
+	  src/arch/sdl/menu_c64hw.h, src/arch/sdl/menu_c64model.c,
+	  src/arch/sdl/menu_c64model.h, src/arch/sdl/menu_c64schw.c,
+	  src/arch/sdl/menu_c64schw.h, src/arch/sdl/menu_video.c,
+	  src/arch/sdl/x64sc_ui.c: SDL UI: use model based selection for
+	  x64
+
+2010-10-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	  src/c64/Makefile.am, src/c64/c64model.c, src/c64/c64scmodel.c:
+	  moved model selection code from x64 *nix ui to c64model.c,
+	  created seperate file for x64sc, updated *nix ui.
+
+	* src/keyboard.c: distribute restore key presses randomly across
+	  a frame
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c: add
+	  menu items for new "old" CIA type ;)
+
+2010-10-09  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Added `#include "viewport.h"'
+	  to make geometry_s available. Fixes compilation issue.
+
+2010-10-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c, src/vic20/vic.c: xvic:
+	  monitor dump output improvements
+
+2010-10-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/printerdrv.dsp: Added missing file.
+
+2010-10-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c,
+	  src/vic20/cart/finalexpansion.h, src/vic20/cart/megacart.c,
+	  src/vic20/cart/megacart.h, src/vic20/cart/vic-fp.c,
+	  src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cartmem.c,
+	  src/vic20/cart/vic20cartmem.h, src/vic20/vic20mem.c: xvic:
+	  don't use peek for cart RAM/ROM, add monitor I/O ranges and
+	  dump functions to carts
+
+2010-10-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c,
+	  src/vic20/cart/finalexpansion.h, src/vic20/cart/megacart.c,
+	  src/vic20/cart/megacart.h, src/vic20/cart/vic-fp.c,
+	  src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cartmem.c,
+	  src/vic20/cart/vic20cartmem.h, src/vic20/vic.c,
+	  src/vic20/vic.h, src/vic20/vic20mem.c: Monitor peek handling
+	  for xvic
+
+	* src/c64/Makefile.am, src/c64/c64export.c,
+	  src/c64/cart/Makefile.am, src/c64/cart/easyflash.c,
+	  src/c64/cart/magicvoice.c, src/core/Makefile.am,
+	  src/core/ciacore.c, src/core/t6721.c, src/core/tpicore.c,
+	  src/monitor.h, src/monitor/mon_util.h, src/vicii/Makefile.am,
+	  src/vicii/vicii.c, src/viciisc/Makefile.am,
+	  src/viciisc/vicii.c: Move mon_out prototype to monitor.h and
+	  drop src/monitor/ from include directory lists
+
+2010-10-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h: More
+	  platform macro updates.
+
+2010-10-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciisc/vicii-mem.c, src/viciisc/vicii-snapshot.c,
+	  src/viciisc/vicii.c, src/viciisc/viciitypes.h: Remove useless
+	  pointers and vicii_update_memory_ptrs (move pointer
+	  calculations to vicii_screenshot for Doodle support)
+
+	* src/viciisc/vicii-fetch.c: Move from ultimax_romh_phi1/2_ptr
+	  to _read, route all VICII reads through fetch_phi1/2
+
+2010-10-07  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/c64cartmem.h: added
+	  ultimax_romh_phi1_read, ultimax_romh_phi2_read hooks for
+	  vic-ii accesses in ultimax mode
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: fix various issues
+	  related to ffmpeg settings. patch by David Roden.
+
+	* src/gfxoutputdrv/ffmpegdrv.c: always set a sample format for
+	  the audio codec, fixes “invalid sample format”. patch by David
+	  Roden
+
+	* src/arch/unix/gui/uiide64.c: added menu item for
+	  "IDE64version4"
+
+	* src/arch/unix/gui/uiattach.c, src/arch/unix/gui/uisettings.c,
+	  src/arch/unix/x11/xaw/widgets/Canvas.c,
+	  src/arch/unix/x11/xaw/widgets/Canvas.h,
+	  src/arch/unix/x11/xaw/widgets/DirMgr.c,
+	  src/arch/unix/x11/xaw/widgets/DirMgr.h,
+	  src/arch/unix/x11/xaw/widgets/Directory.h,
+	  src/arch/unix/x11/xaw/widgets/FileSel.c,
+	  src/arch/unix/x11/xaw/widgets/FileSel.h,
+	  src/arch/unix/x11/xaw/widgets/MultiList.c,
+	  src/arch/unix/x11/xaw/widgets/MultiList.h,
+	  src/arch/unix/x11/xaw/widgets/ScrList.c,
+	  src/arch/unix/x11/xaw/widgets/ScrList.h,
+	  src/arch/unix/x11/xaw/widgets/ScrListP.h,
+	  src/arch/unix/x11/xaw/widgets/TabString.h,
+	  src/arch/unix/x11/xaw/widgets/TextField.c,
+	  src/arch/unix/x11/xaw/widgets/TextFieldP.h,
+	  src/arch/unix/x11/xaw/x11ui.c: improve XAW fileselector, add
+	  "create tape image" menu item, cleanup. patch by Olaf Seibert
+
+	* src/arch/unix/gui/uiide64.c: updated/fixed ide64 menu items
+
+	* src/arch/unix/gui/uiautostart.c: added menu item for
+	  "AutostartBasicLoad" to *nix gui
+
+2010-10-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_printer.c: SDL UI: add raw printer driver
+	  menu item
+
+2010-10-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiprinter.c, src/printerdrv/Makefile.am,
+	  src/printerdrv/drv-ascii.c, src/printerdrv/drv-ascii.h,
+	  src/printerdrv/drv-raw.c, src/printerdrv/drv-raw.h,
+	  src/printerdrv/output-text.c, src/printerdrv/printer.c: added
+	  raw output driver (see devlog), fixed charset conversion in
+	  ascii driver, fixed handling of lowercase (business) mode
+	  (fixes bug 2811444), updated unix gui
+
+2010-10-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/archdep.h, src/arch/beos/archdep.h,
+	  src/arch/msdos/archdep.h, src/arch/os2/archdep.h,
+	  src/arch/riscos/archdep.h, src/arch/sdl/archdep_amiga.h,
+	  src/arch/sdl/archdep_beos.h, src/arch/sdl/archdep_cegcc.h,
+	  src/arch/sdl/archdep_riscos.h, src/arch/sdl/archdep_unix.h,
+	  src/arch/sdl/archdep_win32.h, src/arch/sdl/archdep_xbox.h,
+	  src/arch/unix/archdep.h, src/arch/win32/archdep.h: fixed
+	  definition of MODE_APPEND for all platforms. fixes ide64
+	  (image would always be truncated), printer output (would be
+	  truncated at every "open"), fsdevice append mode, p00 append
+	  mode
+
+2010-10-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/c64/c64iec.c: Added capability to debug the IEC bus.
+
+2010-10-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64-resources.c, src/cia.h, src/core/ciacore.c:
+	  Swapped CIA_MODEL_6526/X definitions; now the default CIA
+	  model (-ciamodel 0) is 6526 without the timer B bug
+
+	* src/arch/sdl/menu_c64schw.c, src/c64/c64-resources.c,
+	  src/c64/c64model.c, src/cia.h, src/core/ciacore.c,
+	  src/translate_text.c: Add CIA model 6526x (no timer B bug,
+	  needs proper name), emulate 6526A better, update SDL UI
+
+2010-10-03  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/ciacore.c: Small step closer to proper 6526A
+	  emulation
+
+2010-10-03  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui.c: Disable PAL-N sync selection for C64SC.
+
+	* src/arch/win32/uic64.c: Added "Drean" in C64 model selection
+	  UI.
+
+2010-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h: Updated arm
+	  cpu sub-type discovery.
+
+	* src/arch/platform.h, src/arch/platform_compiler.h: Platform
+	  defines update.
+
+2010-10-02  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64-cmdline-options.c: Fix -paln
+
+2010-10-02  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/main.c: Fixed typos.
+
+2010-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_compiler.h: Updated
+	  platform compiler discovery.
+
+2010-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/main.c: More platform macro updates.
+
+2010-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_compiler.h,
+	  src/arch/platform_linux_libc_version.h: Updated platform
+	  macros.
+
+	* configure.in: Added test for X11 library when configuring for
+	  gnome-ui in combination with fullscreen.
+
+2010-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/platform.h,
+	  src/arch/platform_compiler.h: Added a seperate header for
+	  compiler discovery.
+
+	* src/arch/Makefile.am, src/arch/platform.h,
+	  src/arch/platform_linux_libc_version.h: Added linux libc
+	  discovery.
+
+2010-09-29  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c: Fix
+	  dubious lib_free(ptr); lib_stralloc(ptr); pattern, style
+	  cleanup
+
+	* src/arch/sdl/uimenu.c: SDL UI: don't traverse past the list
+	  when checking string lengths
+
+2010-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h: Updated
+	  platform discovery.
+
+2010-09-27  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	  src/arch/win32/x64dtv.dsp, src/arch/win32/x64sc.dsp,
+	  src/arch/win32/xcbm2.dsp, src/arch/win32/xpet.dsp,
+	  src/arch/win32/xplus4.dsp, src/arch/win32/xvic.dsp: Added
+	  missing include directory.
+
+2010-09-26  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h: More
+	  platform defines updates.
+
+	* src/arch/platform.h, src/arch/platform_cpu_type.h: Started on
+	  organizing and completeting the compile-time cpu detection.
+
+	* src/arch/platform_freebsd_version.h,
+	  src/arch/platform_netbsd_version.h,
+	  src/arch/platform_openbsd_version.h: Updated the *bsd platform
+	  version discovery headers.
+
+2010-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/platform.h,
+	  src/arch/win32/msvc/config.h, src/arch/win32/watcom/config.h,
+	  src/main.c: Started on an update for platform detection,
+	  extended on Andreas M.'s idea about having platform
+	  information in the log, further extensions planned.
+
+2010-09-24  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/main.c: Disabled use of PLATFORM as it doesn't compile in
+	  *nix.
+
+	* src/main.c: Added logging of platform information.
+
+2010-09-24  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc: Some 0.5 factors remained behind from
+	  half-clocked filter. Remove them to make filter again work as
+	  designed. Use JOS's recommended aliasing trick.
+
+2010-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimon.c: Fixed the Interlocked* replacement
+	  functions.
+
+2010-09-23  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/sdl/ui.c:
+	  Revert the GP2X joystick hacks. Emulated vs. actual joystick
+	  state becomes inconsistent whenever f.ex Up+UpLeft is held
+	  down and UpLeft released; fixing this would require either
+	  more hacks in SDL UI event handling (frame barriers) or having
+	  the code count the joyport pin activations (or both).
+
+2010-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/sdl/ui.c:
+	  Added gp2x directional button to axis wrapper routines.
+
+	* config.sub: Added open2x as a valid alias.
+
+2010-09-21  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/sid.cc, src/resid-fp/wave.cc,
+	  src/resid-fp/wave.h: Optimize ring-modulation by observing
+	  that we can merge the boolean and the 0x800000 constant used
+	  to gate the high bit.
+
+	* src/resid-fp/wave.cc: Fix waveform calculation bug spotted by
+	  Landro Nini. Thanks!
+
+2010-09-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid-fp/wave.cc, src/resid-fp/wave.h: Port some
+	  optimizations from jsidplay2: calculate msb_rising when
+	  required. Use simpler definition of output(). Fix noise shift
+	  register based on Dag Lem's upcoming work.
+
+2010-09-19  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	  src/arch/win32/uic64cart.c: Fixed handling of Expert Cartridge
+	  enabling in WIn32.
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/resmmc64.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uimmc64.c,
+	  src/arch/win32/uimmcreplay.c: Added MMC64_sd_type to Win32 UI.
+
+	* src/arch/win32/arch.dsp: Added missing file.
+
+	* src/arch/win32/resmmcreplay.rc: Fixed typo.
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resmmcreplay.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uic64cart.c, src/arch/win32/uimmcreplay.c,
+	  src/arch/win32/uimmcreplay.h, src/arch/win32/x128.dsp,
+	  src/arch/win32/x64.dsp: Implemented MMC Replay GUI for Win32.
+
+2010-09-19  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	  src/arch/unix/gui/uivicii.c, src/arch/unix/x11/xaw/x11video.c:
+	  Add TrueAspectRatio for xaw, detabify, start menu items with a
+	  capital letter
+
 2010-09-19  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.7
@@ -1090,7 +1998,7 @@
 2010-07-05  Hannu Nuotio <hannu.nuotio@tut.fi>
 
 	* src/vic20/cart/vic-fp.c: Fix vic-fp $9800 handling. Patch by
-	  Marko M�kel�.
+	  Marko Mäkelä.
 
 2010-06-30  groepaz <groepaz@gmx.net>
 
@@ -2396,7 +3304,7 @@
 	  src/c64/c64-cmdline-options.c, src/c64/c64-resources.c,
 	  src/c64/c64.c, src/c64/c64.h, src/c64/psid.c, src/machine.h,
 	  src/translate.txt, src/vicii/vicii-timing.c: Patch for PAL-N
-	  model selection provided by Pablo Roldán <pdroldan@yahoo.com>
+	  model selection provided by Pablo RoldÃ¡n <pdroldan@yahoo.com>
 
 	* src/arch/win32/c64cart.dsp, src/arch/win32/resmenu.txt,
 	  src/arch/win32/resstrings.txt, src/arch/win32/vic20cart.dsp:
@@ -2417,7 +3325,7 @@
 	  src/vic20/cart/Makefile.am, src/vic20/cart/vic-fp.c,
 	  src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cart.c,
 	  src/vic20/cart/vic20cartmem.c: Vic Flash Plugin cartridge
-	  emulation. Patch by Marko M�kel�.
+	  emulation. Patch by Marko Mäkelä.
 
 	* src/petcat.c: Readd machine_get_name to petcat
 
@@ -10083,7 +10991,7 @@
 
 	* src/arch/unix/joy.c: Fixed empty "#elif" to "#else" as it is
 	  correctly (and needed for gcc 4.4). Fix provided by Samuli
-	  Suominen, written by Martin Väth.
+	  Suominen, written by Martin VÃ¤th.
 
 2009-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
 
