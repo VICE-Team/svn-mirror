@@ -3304,7 +3304,7 @@
 	  src/c64/c64-cmdline-options.c, src/c64/c64-resources.c,
 	  src/c64/c64.c, src/c64/c64.h, src/c64/psid.c, src/machine.h,
 	  src/translate.txt, src/vicii/vicii-timing.c: Patch for PAL-N
-	  model selection provided by Pablo RoldÃ¡n <pdroldan@yahoo.com>
+	  model selection provided by Pablo Roldán <pdroldan@yahoo.com>
 
 	* src/arch/win32/c64cart.dsp, src/arch/win32/resmenu.txt,
 	  src/arch/win32/resstrings.txt, src/arch/win32/vic20cart.dsp:
@@ -10991,7 +10991,7 @@
 
 	* src/arch/unix/joy.c: Fixed empty "#elif" to "#else" as it is
 	  correctly (and needed for gcc 4.4). Fix provided by Samuli
-	  Suominen, written by Martin VÃ¤th.
+	  Suominen, written by Martin Väth.
 
 2009-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
 
