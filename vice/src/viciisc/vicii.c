@@ -321,11 +321,6 @@ void vicii_reset(void)
     vicii.start_of_frame = 0;
     vicii.raster_irq_triggered = 0;
 
-    /* FIXME: I am not sure this is exact emulation.  */
-    vicii.raster_irq_line = 0;
-    vicii.regs[0x11] = 0;
-    vicii.regs[0x12] = 0;
-
     vicii.light_pen.state = 0;
     vicii.light_pen.triggered = 0;
     vicii.light_pen.x = vicii.light_pen.y = vicii.light_pen.x_extra_bits = 0;
