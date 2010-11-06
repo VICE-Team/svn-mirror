@@ -93,6 +93,11 @@ static struct model_s model_match[] = {
     { "6567r56a", VICII_MODEL_6567R56A },
     { "oldntsc", VICII_MODEL_6567R56A },
 
+    /* PAL-N, 65 cycle, ? luma, "old" */
+    { "6572", VICII_MODEL_6572 },
+    { "paln", VICII_MODEL_6572 },
+    { "drean", VICII_MODEL_6572 },
+
     { NULL, -1 }
 };
 
@@ -202,8 +207,9 @@ static const cmdline_option_t cmdline_options[] =
 
 int vicii_cmdline_options_init(void)
 {
-    if (raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap) < 0)
+    if (raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap) < 0) {
         return -1;
+    }
 
     return cmdline_register_options(cmdline_options);
 }

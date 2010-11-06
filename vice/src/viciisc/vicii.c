@@ -31,8 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64.h"
-#include "cartridge.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "clkguard.h"
@@ -44,7 +42,6 @@
 #include "monitor.h"
 #include "raster-line.h"
 #include "raster-modes.h"
-#include "raster-sprite.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "types.h"
@@ -636,7 +633,7 @@ int vicii_dump(void)
 
     mon_out("Raster cycle/line: %d/%d IRQ: %d\n", vicii.raster_cycle, vicii.raster_line, vicii.raster_irq_line);
     mon_out("Mode: %s (ECM/BMM/MCM=%d/%d/%d)\n", mode_name[video_mode], m_ecm, m_bmm, m_mcm);
-    mon_out("Colors: Border: %x BG: %x", vicii.regs[0x20], vicii.regs[0x21]);
+    mon_out("Colors: Border: %x BG: %x ", vicii.regs[0x20], vicii.regs[0x21]);
     if (m_ecm) {
         mon_out("BG1: %x BG2: %x BG3: %x\n", vicii.regs[0x22], vicii.regs[0x23], vicii.regs[0x24]);
     } else if (m_mcm && !m_bmm) {

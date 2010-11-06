@@ -32,7 +32,6 @@
 #include "vice.h"
 
 #include "debug.h"
-#include "log.h"
 #include "maincpu.h"
 #include "types.h"
 #include "vicii-chip-model.h"
@@ -43,6 +42,10 @@
 #include "vicii-lightpen.h"
 #include "vicii.h"
 #include "viciitypes.h"
+
+#ifdef DEBUG
+#include "log.h"
+#endif
 
 static inline void check_badline(void)
 {
@@ -62,7 +65,7 @@ static inline void check_sprite_display(void)
     int enable = vicii.regs[0x15];
 
     for (i = 0, b = 1; i < VICII_NUM_SPRITES; i++, b <<= 1) {
-        unsigned int y = vicii.regs[i*2 + 1]; 	 
+        unsigned int y = vicii.regs[i*2 + 1];
         vicii.sprite[i].mc = vicii.sprite[i].mcbase;
 
         if (vicii.sprite_dma & b) {
@@ -137,7 +140,7 @@ static inline BYTE cycle_phi1_fetch(unsigned int cycle_flags)
         }
         return data;
     }
- 
+
     if (cycle_is_sprite_ptr_dma0(cycle_flags)) {
         s = cycle_get_sprite_num(cycle_flags);
         data = vicii_fetch_sprite_pointer(s);
@@ -169,8 +172,8 @@ static inline void check_vborder_top(int line)
     }
 }
 
-static inline void check_vborder_bottom(int line) 
-{ 
+static inline void check_vborder_bottom(int line)
+{
     int rsel = vicii.regs[0x11] & 0x08;
 
     if (line == (rsel ? VICII_25ROW_STOP_LINE : VICII_24ROW_STOP_LINE)) {
@@ -189,7 +192,7 @@ static inline void check_hborder(unsigned int cycle_flags)
         if (vicii.vborder == 0) {
             vicii.main_border = 0;
         }
-    } 
+    }
     /* Right border starts at cycles 56 (csel=0) or 57 (csel=1) on PAL. */
     if ( cycle_is_check_border_r(cycle_flags, csel) ) {
         vicii.main_border = 1;
@@ -486,8 +489,6 @@ int vicii_cycle(void)
 void vicii_steal_cycles(void)
 {
     int ba_low;
-
-    /*VICII_DEBUG_CYCLE(("steal cycles: line %i, clk %i", vicii.raster_line, vicii.raster_cycle));*/
 
     do {
         maincpu_clk++;

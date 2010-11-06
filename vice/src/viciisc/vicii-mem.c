@@ -32,12 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cia.h"
 #include "debug.h"
-#include "maincpu.h"
-#include "mem.h"
-#include "raster-sprite-status.h"
-#include "raster-sprite.h"
 #include "types.h"
 #include "vicii-chip-model.h"
 #include "vicii-fetch.h"
@@ -744,7 +739,7 @@ BYTE REGPARM1 vicii_read(WORD addr)
         break;
     }
 
-            vicii.last_bus_phi2 = value;
+    vicii.last_bus_phi2 = value;
     return value;
 }
 

@@ -31,21 +31,19 @@
 
 #include "vice.h"
 
-#include <string.h>
-
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "debug.h"
-#include "dma.h"
-#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "types.h"
 #include "vicii-chip-model.h"
 #include "vicii-fetch.h"
-#include "vicii-irq.h"
 #include "viciitypes.h"
 
+#ifdef DEBUG
+#include "log.h"
+#endif
 
 /*-----------------------------------------------------------------------*/
 
