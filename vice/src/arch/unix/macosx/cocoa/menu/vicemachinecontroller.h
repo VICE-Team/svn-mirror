@@ -70,6 +70,10 @@
 -(NSDictionary *)disassembleMemory:(int)memSpace lines:(int)numLines start:(int)address;
 // seek lines
 -(NSNumber *)disassembleSeek:(int)memSpace up:(bool)up lines:(int)numLines start:(int)address;
+// alter breakpoint
+-(void)alterBreakpoint:(int)memSpace addr:(int)address set:(BOOL)set;
+// get break point state
+-(int)getBreakpointState:(int)memSpace addr:(int)address;
 
 // ----- Snapshot -----
 // read a snapshot from a file

@@ -33,6 +33,7 @@
 #include "monitor/mon_register.h"
 #include "monitor/montypes.h"
 #include "monitor/mon_ui.h"
+#include "monitor/mon_breakpoint.h"
 #include "machine.h"
 #include "keyboard.h"
 #include "diskimage.h"
@@ -275,6 +276,37 @@
     dp.navigate.Lines = numLines + 1;
     WORD pos = mon_navigate_scroll(&dp.navigate, up ? MON_SCROLL_PAGE_UP : MON_SCROLL_PAGE_DOWN); 
     return [NSNumber numberWithInt:pos];
+}
+
+-(void)alterBreakpoint:(int)memSpace addr:(int)address set:(BOOL)set
+{
+    MON_ADDR addr = new_addr(memSpace, address);
+    mon_breakpoint_type_t type = mon_breakpoint_is(addr);
+    
+    if(set) {
+        if(type == BP_NONE) {
+            //NSLog(@"BP set %x",addr);
+            mon_breakpoint_set(addr);
+        } else {
+            //NSLog(@"BP unset %x",addr);
+            mon_breakpoint_unset(addr);
+        }
+    } else {
+        if(type == BP_INACTIVE) {
+            //NSLog(@"BP enable %x",addr);
+            mon_breakpoint_enable(addr);
+        } else if(type == BP_ACTIVE) {
+            //NSLog(@"BP disable %x",addr);
+            mon_breakpoint_disable(addr);
+        }
+    }
+}
+
+-(int)getBreakpointState:(int)memSpace addr:(int)address
+{
+    MON_ADDR addr = new_addr(memSpace, address);
+    mon_breakpoint_type_t type = mon_breakpoint_is(addr);
+    return (int)type;
 }
 
 // ----- Snapshot -----

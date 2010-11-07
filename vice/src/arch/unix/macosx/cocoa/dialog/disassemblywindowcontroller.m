@@ -24,6 +24,7 @@
  *
  */
 
+#include <string.h>
 #include "vice.h"
 #include "charset.h"
 
@@ -55,6 +56,89 @@
                                               selector:@selector(realizeExtend:)
                                                   name:VICEDisassembleRealizeExtendNotification
                                                 object:nil];
+
+    // setup context menu
+    NSMenu *theMenu = [[[NSMenu alloc] initWithTitle:@"Disassembly Menu"] autorelease];
+    [theMenu setDelegate:self];
+    [theMenu setAutoenablesItems:NO];
+    setBreakpointItem = [theMenu addItemWithTitle:@"Activate Breakpoint" action:@selector(contextMenuCall:) keyEquivalent:@""];
+    enableBreakpointItem = [theMenu addItemWithTitle:@"Enable Breakpoint" action:@selector(contextMenuCall:) keyEquivalent:@""];
+    [memoryTable setMenu:theMenu];                                        
+}
+
+-(int)getAddrForSelection
+{
+    int row = [memoryTable clickedRow];
+    if(row == -1) {
+        return -1;
+    }
+    // retrieve address from disassembly's first columns
+    NSDictionary *entry = [lines objectAtIndex:row];
+    NSString *contents = [entry objectForKey:@"contents"];
+    NSString *addrString = [contents substringToIndex:4];
+    int addr;
+    sscanf([addrString cStringUsingEncoding:NSUTF8StringEncoding],"%x",&addr);
+    return addr;
+}
+
+-(void)menuNeedsUpdate:(NSMenu *)menu
+{
+    // check if address is available
+    int addr = [self getAddrForSelection];
+    BOOL setOn = NO;
+    BOOL enableOn = NO;
+    BOOL setText = YES;
+    BOOL enableText = YES;
+    
+    if(addr != -1) {
+        int state = [[VICEApplication theMachineController] getBreakpointState:(int)memSpace addr:(int)addr];
+        if(state == 0) { // NONE
+            setOn = YES;
+        }
+        else if(state == 1) { // INACTIVATE
+            setOn = YES;
+            enableOn = YES;
+            setText = NO;
+        }
+        else { // ACTIVE
+            setOn = YES;
+            enableOn = YES;
+            setText = NO;
+            enableText = NO;
+        }
+    }
+
+    [setBreakpointItem setTitle:setText ? @"Set Breakpoint" : @"Unset Breakpoint"];
+    [setBreakpointItem setEnabled:setOn];
+    [enableBreakpointItem setTitle:enableText ? @"Enable Breakpoint" : @"Disable Breakpoint"];
+    [enableBreakpointItem setEnabled:enableOn];
+}
+
+-(void)updateRow:(int)row addr:(int)addr
+{
+    // read single line
+    NSDictionary *disData = [[VICEApplication theMachineController] disassembleMemory:memSpace lines:1 start:addr];
+    NSArray *myLinesData = [disData objectForKey:@"lines"];
+    id line = [myLinesData objectAtIndex:0];
+    [line retain];
+    
+    id oldLine = [lines objectAtIndex:row];
+    [oldLine release];
+    [lines replaceObjectAtIndex:row withObject:line];
+}
+
+-(void)contextMenuCall:(id)sender
+{
+    int addr = [self getAddrForSelection];
+    if(addr == -1) {
+        return;
+    }
+    
+    // alter breakpoint
+    if((sender == setBreakpointItem)||(sender == enableBreakpointItem)) {
+        [[VICEApplication theMachineController] alterBreakpoint:memSpace addr:addr set:(sender==setBreakpointItem)];
+        [self updateRow:[memoryTable clickedRow] addr:addr];
+    }    
 }
 
 -(NSArray *)disassembleRangeWithLines:(int)myLines start:(int)address
@@ -156,7 +240,9 @@
     // disassemble block beginning with address
     rangeMinAddr = MAX_SIZE+1;
     rangeMaxAddr = -1;
-    lines = [self disassembleRangeWithLines:LINES_PER_CALL start:address];
+    lines = [[NSMutableArray alloc] init];
+    NSArray *newLines = [self disassembleRangeWithLines:LINES_PER_CALL start:address];
+    [lines addObjectsFromArray:newLines];
     
     // give some room above
     int pos = [self extendBefore];
@@ -225,13 +311,34 @@
         // read existing value
         theValue = [entry objectForKey:@"contents"];
         
-        // colorize
+        // colorize:
+        // active line
         bool active_line = [[entry objectForKey:@"active_line"] boolValue];
         if(active_line) {
             theValue = [[NSMutableAttributedString alloc] initWithString:theValue];
             [theValue addAttribute:NSForegroundColorAttributeName
                              value:[NSColor blueColor]
                              range:NSMakeRange(0, [theValue length])];
+        }
+        else {
+            // active breakpoint
+            bool breakpoint_active = [[entry objectForKey:@"breakpoint_active"] boolValue];
+            if(breakpoint_active) {
+                theValue = [[NSMutableAttributedString alloc] initWithString:theValue];
+                [theValue addAttribute:NSForegroundColorAttributeName
+                                 value:[NSColor redColor]
+                                 range:NSMakeRange(0, [theValue length])];
+            }
+            else {
+                // is breakpoint
+                bool is_breakpoint = [[entry objectForKey:@"is_breakpoint"] boolValue];
+                if(is_breakpoint) {
+                    theValue = [[NSMutableAttributedString alloc] initWithString:theValue];
+                    [theValue addAttribute:NSForegroundColorAttributeName
+                                     value:[NSColor brownColor]
+                                     range:NSMakeRange(0, [theValue length])];
+                }
+            }
         }
     }
     

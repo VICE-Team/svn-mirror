@@ -35,7 +35,10 @@
 
     int    rangeMinAddr;
     int    rangeMaxAddr;
-    NSArray *lines;
+    NSMutableArray *lines;
+    
+    NSMenuItem *setBreakpointItem;
+    NSMenuItem *enableBreakpointItem;
 }
 
 -(id)initWithMemSpace:(int)memSpace;
