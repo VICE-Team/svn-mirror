@@ -469,7 +469,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     tmpext = util_get_extension(fn);
     if (tmpext) {
         for (i = 0; i < gfxoutput_num_drivers(); i++) {
-            if (!strcmp(buttons[i].ext, tmpext)) {
+            if (buttons[i].ext && !strcmp(buttons[i].ext, tmpext)) {
                 driveridx = i;
                 break;
             }
