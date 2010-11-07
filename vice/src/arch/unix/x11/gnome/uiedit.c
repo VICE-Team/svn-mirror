@@ -53,7 +53,11 @@ static UI_CALLBACK(ui_edit_command_copy)
 
 static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer data)
 {
-    char *text_in_petscii = strdup(text);
+    char *text_in_petscii;
+    if (text == NULL) {
+	return;
+    }
+    text_in_petscii = strdup(text);
 
     if (text_in_petscii) {
         charset_petconvstring((unsigned char*)text_in_petscii, 0);
