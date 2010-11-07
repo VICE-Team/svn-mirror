@@ -32,6 +32,7 @@
 #import "registerwindowcontroller.h"
 #import "memorywindowcontroller.h"
 #import "disassemblywindowcontroller.h"
+#import "iotreewindowcontroller.h"
 
 @class VICEAppController;
 
@@ -64,6 +65,7 @@
     RegisterWindowController *cpuRegisterWC;    
     MemoryWindowController   *cpuMemoryWC;
     DisassemblyWindowController *cpuDisassemblyWC;
+    IOTreeWindowController *cpuIOTreeWC;
     
     IBOutlet VICEAppController *appController;
     IBOutlet NSMenu *debuggerWindowsMenu;

@@ -21,6 +21,8 @@ noinst_HEADERS = \
 	disassemblywindowcontroller.h \
 	drivesettingswindowcontroller.h \
 	iecdrivesettingswindowcontroller.h \
+	iotreeitem.h \
+	iotreewindowcontroller.h \
 	netplaycontrolwindowcontroller.h \
 	printersettingswindowcontroller.h \
 	joysticksettingswindowcontroller.h \
@@ -43,6 +45,8 @@ libarchmacosxcocoadialog_a_SOURCES = \
 	disassemblywindowcontroller.m \
 	drivesettingswindowcontroller.m \
 	iecdrivesettingswindowcontroller.m \
+	iotreeitem.m \
+	iotreewindowcontroller.m \
 	netplaycontrolwindowcontroller.m \
 	printersettingswindowcontroller.m \
 	joysticksettingswindowcontroller.m \

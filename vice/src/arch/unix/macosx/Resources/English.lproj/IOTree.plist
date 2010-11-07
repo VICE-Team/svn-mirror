@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>VIC II</key>
+	<dict>
+		<key>valid</key>
+		<string>_C64_</string>
+		<key>range</key>
+		<string>d000-d02f</string>
+		<key>children</key>
+		<dict>
+			<key>Sprite 0</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;1</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>03x</string>
+						<key>src</key>
+						<array>
+							<string>d000</string>
+							<string>d010&amp;1&lt;8</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>03x</string>
+						<key>src</key>
+						<array>
+							<string>d001</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;1</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;1</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;1</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;1</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -64,6 +64,7 @@
 -(NSArray *)getRegisters:(int)memSpace;
 // read machine data
 -(NSData *)readMemory:(int)memSpace startAddress:(int)start endAddress:(int)end;
+-(NSData *)readMemory:(int)memSpace bank:(int)bank startAddress:(int)start endAddress:(int)end;
 // get current bank name
 -(NSString *)getCurrentMemoryBankName:(int)memSpace;
 // disassemble lines

@@ -214,7 +214,21 @@
     if(data == NULL)
         return nil;
     
-    mon_get_mem_block(memSpace, start, end, data);
+    // TODO: end is wrong(!) in VICE call
+    mon_get_mem_block(memSpace, start, len-1, data);
+    return [NSData dataWithBytesNoCopy:data length:len freeWhenDone:YES];
+}
+
+-(NSData *)readMemory:(int)memSpace bank:(int)bank startAddress:(int)start endAddress:(int)end
+{
+    int len = end - start + 1;
+
+    void *data = malloc(len);
+    if(data == NULL)
+        return nil;
+    
+    // TODO: end is wrong(!) in VICE call
+    mon_get_mem_block_ex(memSpace, bank, start, len-1, data);
     return [NSData dataWithBytesNoCopy:data length:len freeWhenDone:YES];
 }
 
