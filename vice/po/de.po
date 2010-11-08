@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-05 20:44+0100\n"
-"PO-Revision-Date: 2010-09-26 11:22+0200\n"
+"PO-Revision-Date: 2010-11-08 22:17+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -565,25 +565,21 @@ msgstr "I/O Erweiterungen"
 
 #: src/arch/unix/gui/c64scui.c:151 src/arch/unix/gui/c64scui.c:163
 #: src/arch/unix/gui/c64ui.c:223 src/arch/unix/gui/c64ui.c:235
-#, fuzzy
 msgid "*6526 (new)"
-msgstr "*6526A (neu)"
+msgstr "*6526 (neu)"
 
 #: src/arch/unix/gui/c64scui.c:153 src/arch/unix/gui/c64scui.c:165
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:237
-#, fuzzy
 msgid "*6526 (old, Timer B bug)"
-msgstr "*6526 (alt)"
+msgstr "*6526 (alt, Timer B Fehler)"
 
 #: src/arch/unix/gui/c64scui.c:173
-#, fuzzy
 msgid "*Discrete"
-msgstr "Diskret"
+msgstr "*Diskret"
 
 #: src/arch/unix/gui/c64scui.c:175
-#, fuzzy
 msgid "*Custom IC"
-msgstr "Benutzerdefinierte IC"
+msgstr "*Benutzerdefinierte IC"
 
 #: src/arch/unix/gui/c64scui.c:181 src/arch/unix/gui/c64scui.c:357
 #: src/arch/unix/gui/c64ui.c:243 src/arch/unix/gui/c64ui.c:417
@@ -1058,19 +1054,16 @@ msgid "Fliplist"
 msgstr "Flipliste"
 
 #: src/arch/unix/gui/uiattach.c:207
-#, fuzzy
 msgid "Create a new tape image"
-msgstr "Flash ROM Datei er&zeugen"
+msgstr "Neues Tape Image erzeugen"
 
 #: src/arch/unix/gui/uiattach.c:212
-#, fuzzy
 msgid "File exists"
-msgstr "Dateisystem"
+msgstr "Datei existiert"
 
 #: src/arch/unix/gui/uiattach.c:213
-#, fuzzy
 msgid "Do you want to overwrite it?"
-msgstr "Wirklich beenden?"
+msgstr "Willst Du überschreiben?"
 
 #: src/arch/unix/gui/uiattach.c:241
 msgid "Attach a tape image"
@@ -1081,9 +1074,8 @@ msgid "Invalid Tape Image"
 msgstr "Ungültiges Band Image."
 
 #: src/arch/unix/gui/uiattach.c:271
-#, fuzzy
 msgid "Create a new tape image..."
-msgstr "Band Image einlegen..."
+msgstr "Neues Band Image erzeugen..."
 
 #: src/arch/unix/gui/uiattach.c:274
 msgid "Attach a tape image..."
@@ -1144,7 +1136,7 @@ msgstr "*RUN mit Doppelpunkt"
 
 #: src/arch/unix/gui/uiautostart.c:64
 msgid "*Load to basic start"
-msgstr ""
+msgstr "*Lade auf Basic Start"
 
 #: src/arch/unix/gui/uiautostart.c:66
 msgid "Autostart PRG mode"
@@ -1511,9 +1503,8 @@ msgstr "Emulator beenden"
 #: src/arch/unix/gui/uicrtc.c:56 src/arch/unix/gui/uited.c:55
 #: src/arch/unix/gui/uivdc.c:54 src/arch/unix/gui/uivic.c:55
 #: src/arch/unix/gui/uivicii.c:59
-#, fuzzy
 msgid "*Internal"
-msgstr "*intern"
+msgstr "*Intern"
 
 #: src/arch/unix/gui/uicrtc.c:59
 msgid "*Default (Green)"
@@ -1536,9 +1527,8 @@ msgstr "Benutzerdefiniert..."
 #: src/arch/unix/gui/uicrtc.c:77 src/arch/unix/gui/uited.c:72
 #: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:72
 #: src/arch/unix/gui/uivicii.c:102
-#, fuzzy
 msgid "*Unfiltered"
-msgstr "*ungefiltert"
+msgstr "*Ungefiltert"
 
 #: src/arch/unix/gui/uicrtc.c:79 src/arch/unix/gui/uited.c:74
 #: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:74
@@ -2026,29 +2016,24 @@ msgid "Save CRT now"
 msgstr "CRT Imagedatei jetzt speichern"
 
 #: src/arch/unix/gui/uiexpert.c:50
-#, fuzzy
 msgid "*Enable Expert Cartridge"
-msgstr "Expert Cartridge aktivieren"
+msgstr "*Expert Cartridge aktivieren"
 
 #: src/arch/unix/gui/uiexpert.c:53
-#, fuzzy
 msgid "*Prg"
-msgstr "Prg"
+msgstr "*Prg"
 
 #: src/arch/unix/gui/uiexpert.c:55
-#, fuzzy
 msgid "*Off"
-msgstr "Aus"
+msgstr "*Aus"
 
 #: src/arch/unix/gui/uiexpert.c:57
-#, fuzzy
 msgid "*On"
-msgstr "Ein"
+msgstr "*Ein"
 
 #: src/arch/unix/gui/uiexpert.c:60
-#, fuzzy
 msgid "Save Expert Cartridge image..."
-msgstr "Expert Cartridge Image einlegen..."
+msgstr "Expert Cartridge Image speichern..."
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2214,29 +2199,24 @@ msgid "IDE64 sectors"
 msgstr "IDE64 Sektoren"
 
 #: src/arch/unix/gui/uiide64.c:166
-#, fuzzy
 msgid "IDE64 image 1 name..."
-msgstr "IDE64 Image Name..."
+msgstr "IDE64 Image 1 Name..."
 
 #: src/arch/unix/gui/uiide64.c:169
-#, fuzzy
 msgid "IDE64 image 2 name..."
-msgstr "IDE64 Image Name..."
+msgstr "IDE64 Image 2 Name..."
 
 #: src/arch/unix/gui/uiide64.c:172
-#, fuzzy
 msgid "IDE64 image 3 name..."
-msgstr "IDE64 Image Name..."
+msgstr "IDE64 Image 3 Name..."
 
 #: src/arch/unix/gui/uiide64.c:175
-#, fuzzy
 msgid "IDE64 image 4 name..."
-msgstr "IDE64 Image Name..."
+msgstr "IDE64 Image 4 Name..."
 
 #: src/arch/unix/gui/uiide64.c:179
-#, fuzzy
 msgid "*Hardware version 4"
-msgstr "*Hardwareunterstützung"
+msgstr "*Hardware Version 4"
 
 #: src/arch/unix/gui/uiide64.c:181
 msgid "*Autodetect image size"
@@ -2478,82 +2458,71 @@ msgstr "Tastatur Einstellungen"
 
 #: src/arch/unix/gui/uilightpen.c:40
 msgid "*Pen with button Up"
-msgstr ""
+msgstr "*Stift mit Taste oben"
 
 #: src/arch/unix/gui/uilightpen.c:42
 msgid "*Pen with button Left"
-msgstr ""
+msgstr "*Stift mit Taste links"
 
 #: src/arch/unix/gui/uilightpen.c:44
 msgid "*Datel Pen"
-msgstr ""
+msgstr "*Datel Stift"
 
 #: src/arch/unix/gui/uilightpen.c:46
 msgid "*Magnum Light Phaser"
-msgstr ""
+msgstr "*Magnum Light Phaser"
 
 #: src/arch/unix/gui/uilightpen.c:48
 msgid "*Stack Light Rifle"
-msgstr ""
+msgstr "*Stack Light Rifle"
 
 #: src/arch/unix/gui/uilightpen.c:68
-#, fuzzy
 msgid "*Enable Lightpen"
-msgstr "Lichtgriffel &Emulation aktivieren"
+msgstr "*Lichtgriffel aktivieren"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:24
 msgid "Lightpen type"
 msgstr "Lichtgriffel Type"
 
 #: src/arch/unix/gui/uimagicvoice.c:43
-#, fuzzy
 msgid "Magic Voice image"
-msgstr "Magic Voice"
+msgstr "Magic Voice Image"
 
 #: src/arch/unix/gui/uimagicvoice.c:49
-#, fuzzy
 msgid "*Enable Magic Voice Cartridge"
-msgstr "SID Modul aktivieren"
+msgstr "*Magic Voice Cartridge aktivieren"
 
 #: src/arch/unix/gui/uimagicvoice.c:51
-#, fuzzy
 msgid "Set Magic Voice ROM image..."
-msgstr "Magic Formel Image einlegen..."
+msgstr "Magic Formel Image setzen..."
 
 #: src/arch/unix/gui/uimidi.c:49
-#, fuzzy
 msgid "MIDI-In device"
-msgstr "MIDI-In Gerät spezifieren"
+msgstr "MIDI-In Gerät"
 
 #: src/arch/unix/gui/uimidi.c:54
-#, fuzzy
 msgid "MIDI-Out device"
-msgstr "MIDI-Out Gerät spezifieren"
+msgstr "MIDI-Out Gerät"
 
 #: src/arch/unix/gui/uimidi.c:81 src/arch/unix/gui/uimidi.c:99
-#, fuzzy
 msgid "*Enable MIDI"
-msgstr "SID Aktivier&en"
+msgstr "*MIDI aktivieren"
 
 #: src/arch/unix/gui/uimidi.c:83
-#, fuzzy
 msgid "MIDI type"
-msgstr "Maustyp"
+msgstr "MIDI Typ"
 
 #: src/arch/unix/gui/uimidi.c:86 src/arch/unix/gui/uimidi.c:102
-#, fuzzy
 msgid "MIDI driver"
-msgstr "WMM Treiber"
+msgstr "MIDI Treiber"
 
 #: src/arch/unix/gui/uimidi.c:89 src/arch/unix/gui/uimidi.c:105
-#, fuzzy
 msgid "MIDI-In device..."
-msgstr "MIDI-In Gerät spezifieren"
+msgstr "MIDI-In Gerät"
 
 #: src/arch/unix/gui/uimidi.c:92 src/arch/unix/gui/uimidi.c:108
-#, fuzzy
 msgid "MIDI-Out device..."
-msgstr "MIDI-Out Gerät spezifieren"
+msgstr "MIDI-Out Gerät"
 
 #: src/arch/unix/gui/uimmc64.c:44
 msgid "MMC64 BIOS name"
@@ -2604,45 +2573,37 @@ msgid "*MMC64 card type"
 msgstr "*MMC64 Modul Type"
 
 #: src/arch/unix/gui/uimmcreplay.c:43
-#, fuzzy
 msgid "MMC Replay card image filename"
-msgstr "MMC Replay Modul imeage datei definieren"
+msgstr "MMC Replay Modul Imagedateiname"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uimmcreplay.c:50 src/arch/unix/gui/uimmcreplay.c:54
-#, fuzzy
 msgid "MMC Replay EEPROM image filename"
-msgstr "MMC Replay EEPROM Imagedatei definieren"
+msgstr "MMC Replay EEPROM Imagedateiname"
 
 #: src/arch/unix/gui/uimmcreplay.c:73
-#, fuzzy
 msgid "Card image filename..."
-msgstr "MMC64 Image Name..."
+msgstr "Card Imagedateiname..."
 
 #: src/arch/unix/gui/uimmcreplay.c:76
-#, fuzzy
 msgid "*Enable writes to card image"
-msgstr "Erlaube Schreibzugriff auf MMC Replay Imagedatei"
+msgstr "*Erlaube Schreibzugriff auf Card Imagedatei"
 
 #: src/arch/unix/gui/uimmcreplay.c:78
-#, fuzzy
 msgid "EEPROM image filename..."
-msgstr "GEORAM Image Name..."
+msgstr "EEPROM Imagedateiname..."
 
 #: src/arch/unix/gui/uimmcreplay.c:81
-#, fuzzy
 msgid "*Enable writes to EEPROM image"
-msgstr "Erlaube &Schreibzugriff auf DTV ROM Datei"
+msgstr "*Erlaube Schreibzugriff auf EEPROM Image"
 
 #: src/arch/unix/gui/uimmcreplay.c:83
-#, fuzzy
 msgid "*Enable rescue mode"
-msgstr "*Warp Mode Aktivieren"
+msgstr "*Rescue Modus aktivieren"
 
 #: src/arch/unix/gui/uimmcreplay.c:85
-#, fuzzy
 msgid "*Card Type"
-msgstr "*MMC64 Modul Type"
+msgstr "*Card Typ"
 
 #: src/arch/unix/gui/uimouse.c:46
 msgid "*Paddles"
@@ -2927,19 +2888,16 @@ msgid "Peripheral settings"
 msgstr "Peripherie Einstellungen"
 
 #: src/arch/unix/gui/uipetdww.c:39
-#, fuzzy
 msgid "PETDWW image"
-msgstr "PETREU Image"
+msgstr "PETDWW Image"
 
 #: src/arch/unix/gui/uipetdww.c:43
-#, fuzzy
 msgid "*Enable PET DWW"
-msgstr "*Aktivieren der PETREU"
+msgstr "*Aktivieren der PET DWW"
 
 #: src/arch/unix/gui/uipetdww.c:45
-#, fuzzy
 msgid "PET DWW image name..."
-msgstr "PET REU Image Name..."
+msgstr "PET DWW Image Name..."
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uipetreu.c:41 src/arch/unix/gui/uipetreu.c:44
@@ -3138,19 +3096,16 @@ msgid "RAMCART image name..."
 msgstr "RAMCART Image Name..."
 
 #: src/arch/unix/gui/uiretroreplay.c:40
-#, fuzzy
 msgid "*Enable RR flashjumper"
-msgstr "*MMC64 Flashjumper aktivieren"
+msgstr "*RR Flashjumper aktivieren"
 
 #: src/arch/unix/gui/uiretroreplay.c:42
-#, fuzzy
 msgid "*Set RR bankjumper"
-msgstr "Aktiviere RR Bank Jumpler"
+msgstr "*Aktiviere RR Bank Jumpler"
 
 #: src/arch/unix/gui/uiretroreplay.c:44
-#, fuzzy
 msgid "*Enable RR ROM save when changed"
-msgstr "*MMC64 BIOS Speicherung bei Änderung aktivieren"
+msgstr "*RR ROM Speicherung bei Änderung aktivieren"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uireu.c:41 src/arch/unix/gui/uireu.c:44
@@ -3815,34 +3770,28 @@ msgid "Interface..."
 msgstr "Schnittstelle..."
 
 #: src/arch/unix/gui/uitpi.c:43
-#, fuzzy
 msgid "IEEE 488 Interface image"
 msgstr "IEEE 488 Schnittstellenmodul..."
 
 #: src/arch/unix/gui/uitpi.c:49
-#, fuzzy
 msgid "*Enable IEEE 488 Interface"
-msgstr "IEEE 488 Schnittstelle"
+msgstr "*IEEE 488 Schnittstelle aktivieren"
 
 #: src/arch/unix/gui/uitpi.c:51
-#, fuzzy
 msgid "Set IEEE 488 Interface ROM image..."
-msgstr "IEEE 488 Schnittstellenmodul..."
+msgstr "IEEE 488 Schnittstellenmodul Image..."
 
 #: src/arch/unix/gui/uiv364speech.c:43
-#, fuzzy
 msgid "Speech ROM image"
-msgstr "Spracherweiterung ROM Imagedatei einlegen"
+msgstr "Spracherweiterung ROM Image"
 
 #: src/arch/unix/gui/uiv364speech.c:49
-#, fuzzy
 msgid "*Enable V364 Speech"
-msgstr "v364 Spracherweiterung aktivieren"
+msgstr "*V364 Spracherweiterung aktivieren"
 
 #: src/arch/unix/gui/uiv364speech.c:51
-#, fuzzy
 msgid "Set Speech ROM image..."
-msgstr "Spracherweiterung ROM Imagedatei einlegen"
+msgstr "Spracherweiterung ROM Image"
 
 #: src/arch/unix/gui/uivdc.c:59
 msgid "*Composite"
@@ -4745,14 +4694,12 @@ msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Seitenverhältnis (0.8 - 1.2)"
 
 #: src/arch/unix/x11/xaw/x11video.c:272
-#, fuzzy
 msgid "Enable true aspect ratio"
-msgstr "Echtes Seitenverhältnis"
+msgstr "Echtes Seitenverhältnis aktivieren"
 
 #: src/arch/unix/x11/xaw/x11video.c:277
-#, fuzzy
 msgid "Disable true aspect ratio"
-msgstr "Echtes Seitenverhältnis"
+msgstr "Echtes Seitenverhältnis deaktivieren"
 
 #: src/arch/unix/x11/xaw/x11video.c:351
 #, c-format
@@ -5353,9 +5300,8 @@ msgid "Attach Retro Replay cartridge image"
 msgstr "Retro Replay Erweiterungsmodul Image einlegen"
 
 #: src/arch/win32/res.rc.po.c:1005
-#, fuzzy
 msgid "Attach MMC Replay cartridge image"
-msgstr "Retro Replay Erweiterungsmodul Image einlegen"
+msgstr "MMC Replay Erweiterungsmodul Image einlegen"
 
 #: src/arch/win32/res.rc.po.c:1006 src/arch/amigaos/intl_text.c.po.c:3240
 msgid "Attach IDE64 interface cartridge image"
@@ -6592,9 +6538,8 @@ msgid "&Retro Replay image..."
 msgstr "&Retro Replay Image..."
 
 #: src/arch/win32/res.rc.po.c:1346
-#, fuzzy
 msgid "&MMC Replay image..."
-msgstr "MMC Replay Image einlegen..."
+msgstr "&MMC Replay Image..."
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "IDE&64 interface image..."
@@ -6929,9 +6874,8 @@ msgid "&MMC64 settings..."
 msgstr "&MMC64 Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1434
-#, fuzzy
 msgid "MM&C Replay settings..."
-msgstr "&C64 Modell Einstellungen..."
+msgstr "MM&C Replay Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1435
 msgid "M&IDI settings..."
@@ -8219,28 +8163,24 @@ msgid "MMC/SD &Image File"
 msgstr "MMC/SD &Image Name"
 
 #: src/arch/win32/resmmc64.rc.po.c:58 src/arch/win32/resmmcreplay.rc.po.c:48
-#, fuzzy
 msgid "SD Type"
-msgstr "Typ"
+msgstr "SD Typ"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:44
-#, fuzzy
 msgid "MMC Replay settings"
-msgstr "MMC Replay Emulation"
+msgstr "MMC Replay Einstellungen"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:45
-#, fuzzy
 msgid "Card Image"
-msgstr "Image Datei erzeugen"
+msgstr "Card Image"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:46
-#, fuzzy
 msgid "EEPROM Image"
-msgstr "GEORAM Image"
+msgstr "EEPROM Image"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:47
 msgid "Rescue Mode"
-msgstr ""
+msgstr "Rescue Modus"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:4792
@@ -10870,7 +10810,6 @@ msgid "[<data_type>] [<address_opt_range>]"
 msgstr "[<Datentyp>] [<Optionaler Adressbereich>]"
 
 #: src/translate_text.c.po.c:1565
-#, fuzzy
 msgid ""
 "Display the contents of memory.  If no datatype is given, the default\n"
 "is used.  If only one address is specified, the length of data\n"
@@ -10882,7 +10821,9 @@ msgstr ""
 "Zeige Speicherinhalt. Wenn kein Datentyp angegeben wurde, wird der\n"
 "Standarddatentyp verwendet. Wenn nur eine Adresse angegeben wird, hängt\n"
 "die Länge der Daten vom Datentyp ab. Wenn keine Adresse angeben wurde, \n"
-"wird die aktuelle Adresse verwendet."
+"wird die aktuelle Adresse verwendet.\n"
+"Achtung: Wegen der Mehrdeutigkeit von `b' und `d', müssen die\n"
+"Datentypen in Großbuchstaben angegeben werden!"
 
 #: src/translate_text.c.po.c:1579
 msgid ""
@@ -11573,19 +11514,16 @@ msgid "<model>"
 msgstr "<Modell>"
 
 #: src/translate_text.c.po.c:3405
-#, fuzzy
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
-msgstr "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A)"
+msgstr "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)"
 
 #: src/translate_text.c.po.c:3419
-#, fuzzy
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
-msgstr "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A)"
+msgstr "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)"
 
 #: src/translate_text.c.po.c:3433
-#, fuzzy
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
-msgstr "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A)\""
+msgstr "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)\""
 
 #: src/translate_text.c.po.c:3447
 msgid "Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"
@@ -11891,14 +11829,12 @@ msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "8KB Epyx Fastload Image einlegen"
 
 #: src/translate_text.c.po.c:4543
-#, fuzzy
 msgid "Attach raw 32KB Super Snapshot 4 cartridge image"
-msgstr "32KB Super Snapshot (raw) Image einlegen"
+msgstr "32KB Super Snapshot 4 (raw) Image einlegen"
 
 #: src/translate_text.c.po.c:4557
-#, fuzzy
 msgid "Attach raw 64KB Super Snapshot 5 cartridge image"
-msgstr "64KB Super Snapshot (raw) Image einlegen"
+msgstr "64KB Super Snapshot 5 (raw) Image einlegen"
 
 #: src/translate_text.c.po.c:4571
 msgid "Attach CBM IEEE488 cartridge image"
