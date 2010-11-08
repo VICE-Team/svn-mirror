@@ -24,25 +24,6 @@
  *
  */
 
-/*
- * The Double Quick Brown box is a banked memory system.
- * It uses a register at $de00 to control the areas used, the
- * read/write / read-only state and on/off of the cart.
- *
- * This is done as follows:
- *
- * bit 2:   1 = $A000-$BFFF mapped in, 0 = $A000-$BFFF not mapped in.
- * bit 4:   1 = read/write, 0 = read-only.
- * bit 7:   1 = cart off, 0 = cart on.
- *
- * The register is write-only. Attempting to read it will
- * only return random values.
- *
- * The current emulation has the two registers mirrorred through the
- * range of $de00-$deff
- *
- */
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -65,6 +46,36 @@
 #include "types.h"
 #include "util.h"
 
+/*
+    "Double Quick Brown box"
+
+    - 16k RAM
+
+    The Double Quick Brown box is a banked memory system.
+    It uses a register at $de00 to control the areas used, the
+    read/write / read-only state and on/off of the cart.
+
+    This is done as follows:
+
+    bit 2:   1 = $A000-$BFFF mapped in, 0 = $A000-$BFFF not mapped in.
+    bit 4:   1 = read/write, 0 = read-only.
+    bit 7:   1 = cart off, 0 = cart on.
+
+    The register is write-only. Attempting to read it will
+    only return random values.
+
+    The current emulation has the two registers mirrorred through the
+    range of $de00-$deff
+*/
+
+/* #define DBGDQBB */
+
+#ifdef DBGDQBB
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
+
 /* DQBB register bits */
 static int dqbb_a000_mapped;
 static int dqbb_readwrite;
@@ -84,6 +95,31 @@ static int dqbb_enabled = 0;
 static char *dqbb_filename = NULL;
 
 #define DQBB_RAM_SIZE   0x4000
+
+static int reg_value = 0;
+
+/* ------------------------------------------------------------------------- */
+static BYTE REGPARM1 dqbb_io1_peek(WORD addr);
+static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte);
+
+static io_source_t dqbb_io1_device = {
+    "DOUBLE QUICK BROWN BOX",
+    IO_DETACH_RESOURCE,
+    "DQBB",
+    0xde00, 0xdeff, 0x01,
+    0,
+    dqbb_io1_store,
+    NULL,
+    dqbb_io1_peek,
+    NULL, /* dump */
+    CARTRIDGE_DQBB
+};
+
+static io_source_list_t *dqbb_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Double Quick Brown Box", 1, 1, &dqbb_io1_device, NULL, CARTRIDGE_DQBB
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -109,34 +145,19 @@ static void dqbb_change_config(void)
     }
 }
 
-static void REGPARM2 dqbb_reg_store(WORD addr, BYTE byte)
+static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte)
 {
     dqbb_a000_mapped = (byte & 4) >> 2;
     dqbb_readwrite = (byte & 0x10) >> 4;
     dqbb_off = (byte & 0x80) >> 7;
     dqbb_change_config();
+    reg_value = byte;
 }
 
-/* ------------------------------------------------------------------------- */
-
-static io_source_t dqbb_device = {
-    "DOUBLE QUICK BROWN BOX",
-    IO_DETACH_RESOURCE,
-    "DQBB",
-    0xde00, 0xdeff, 0x01,
-    0,
-    dqbb_reg_store,
-    NULL,
-    NULL,
-    NULL,
-    CARTRIDGE_DQBB
-};
-
-static io_source_list_t *dqbb_list_item = NULL;
-
-static const c64export_resource_t export_res = {
-    "Double Quick Brown Box", 1, 1, &dqbb_device, NULL, CARTRIDGE_DQBB
-};
+static BYTE REGPARM1 dqbb_io1_peek(WORD addr)
+{
+    return reg_value;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -196,7 +217,7 @@ static int set_dqbb_enabled(int val, void *param)
         if (dqbb_activate() < 0) {
             return -1;
         }
-        dqbb_list_item = c64io_register(&dqbb_device);
+        dqbb_list_item = c64io_register(&dqbb_io1_device);
         dqbb_enabled = 1;
         dqbb_reset();
         dqbb_change_config();
@@ -323,6 +344,36 @@ int dqbb_enable(void)
         return -1;
     }
     return 0;
+}
+
+int dqbb_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {
+        return -1;
+    }
+    util_string_set(&dqbb_filename, filename);
+    return dqbb_enable();
+}
+
+int dqbb_bin_save(const char *filename)
+{
+    if (dqbb_ram == NULL) {
+        return -1;
+    }
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    if (util_file_save(filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+int dqbb_flush_image(void)
+{
+    return dqbb_bin_save(dqbb_filename);
 }
 
 /* ------------------------------------------------------------------------- */

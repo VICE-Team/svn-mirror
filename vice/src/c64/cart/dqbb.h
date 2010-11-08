@@ -46,5 +46,8 @@ extern BYTE REGPARM1 dqbb_romh_read(WORD addr);
 extern void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte);
 
 extern const char *dqbb_get_file_name(void);
+extern int dqbb_bin_attach(const char *filename, BYTE *rawcart);
+extern int dqbb_bin_save(const char *filename);
+extern int dqbb_flush_image(void);
 
 #endif

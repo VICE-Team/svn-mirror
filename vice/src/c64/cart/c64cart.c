@@ -42,6 +42,7 @@
 #include "crt.h"
 #include "interrupt.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -469,11 +470,13 @@ int cartridge_attach_image(int type, const char *filename)
 
     DBG(("CART: cartridge_attach_image type: %d ID: %d done.\n", type, carttype));
     lib_free(rawcart);
+    log_message(LOG_DEFAULT, "CART: attached '%s' as ID %d.", filename, carttype);
     return 0;
 
 exiterror:
     DBG(("CART: error\n"));
     lib_free(rawcart);
+    log_message(LOG_DEFAULT, "CART: could not attach '%s'.", filename);
     return -1;
 }
 
