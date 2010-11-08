@@ -24,58 +24,12 @@
  *
  */
 
-/*
- * RamCart is a memory expansion module with battery backup for C64/128
- * that was designed and produced in Poland. At start there was only Atari
- * version, in 1993 a C64/128 cartridge appeared. It was produced in two
- * flavours: 64KB and 128KB.
- *
- * The memory is seen in a 256-byte window, placed at $df00-$dfff. The upper
- * bits of the address are set by writing page number to $de00 (and the
- * lowest bit of $de01 in 128KB version).
- *
- * Additionaly, there is a switch that protects the memory contents from
- * overwriting. If the switch is set to Read-Only and bit 7 of $de01 is
- * cleared (default), then contents of memory window are also visible in
- * the $8000-$80ff area. This allows to emulate usual cartridge takeover
- * after hardware reset by placing boot code with magic CBM80 string in
- * the very first page of RamCart memory.
- *
- * There was some firmware on a floppy that allowed the RamCart to be
- * used as a memory disk, as device number 7. You could load and save
- * files, load directory and delete files. Note that only LOAD and SAVE
- * worked. It wasn't possible to use BASIC command OPEN to create a file.
- * The firmware took over control right after hardware reset and presented
- * the user with a list of stored files. By pressing a letter key it was
- * possible to quickload a file and execute it. Hence RamCart was ideal for
- * storing frequently used tools.
- *
- * The register at $de01 only exists in the 128KB version.
- *
- * Register | bits
- * -------------------
- * $de01    | 7xxxxxx0
- *
- * x = unused, not connected.
- *
- * bit 7 is used in combination with the read-only switch to mirror
- *       $df00-$dfff into $8000-$80ff, when set to 1 and switch is
- *       on, area is mirrored.
- *
- * bit 0 is used as 64k bank selector.
- *
- * The current emulation has support for both 64k and 128k flavors,
- * the unused bits of the $de01 register is assumed to be not
- * connected.
- */
-
 #include "vice.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64_256k.h"
 #include "c64cart.h"
 #include "c64cartsystem.h"
 #include "c64export.h"
@@ -87,15 +41,68 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
-#include "plus256k.h"
-#include "plus60k.h"
 #include "resources.h"
-#include "ramcart.h"
 #include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "c64_256k.h"
+#include "plus256k.h"
+#include "plus60k.h"
+#include "ramcart.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
+
+/*
+    "RamCart"
+
+    - 64kb or 128kb RAM
+
+    RamCart is a memory expansion module with battery backup for C64/128
+    that was designed and produced in Poland. At start there was only Atari
+    version, in 1993 a C64/128 cartridge appeared. It was produced in two
+    flavours: 64KB and 128KB.
+
+    The memory is seen in a 256-byte window, placed at $df00-$dfff. The upper
+    bits of the address are set by writing page number to $de00 (and the
+    lowest bit of $de01 in 128KB version).
+
+    Additionaly, there is a switch that protects the memory contents from
+    overwriting. If the switch is set to Read-Only and bit 7 of $de01 is
+    cleared (default), then contents of memory window are also visible in
+    the $8000-$80ff area. This allows to emulate usual cartridge takeover
+    after hardware reset by placing boot code with magic CBM80 string in
+    the very first page of RamCart memory.
+
+    There was some firmware on a floppy that allowed the RamCart to be
+    used as a memory disk, as device number 7. You could load and save
+    files, load directory and delete files. Note that only LOAD and SAVE
+    worked. It wasn't possible to use BASIC command OPEN to create a file.
+    The firmware took over control right after hardware reset and presented
+    the user with a list of stored files. By pressing a letter key it was
+    possible to quickload a file and execute it. Hence RamCart was ideal for
+    storing frequently used tools.
+
+    The register at $de01 only exists in the 128KB version.
+
+    Register | bits
+    -------------------
+    $de01    | 7xxxxxx0
+
+    x = unused, not connected.
+
+    bit 7 is used in combination with the read-only switch to mirror
+        $df00-$dfff into $8000-$80ff, when set to 1 and switch is
+        on, area is mirrored.
+
+    bit 0 is used as 64k bank selector.
+
+    The current emulation has support for both 64k and 128k flavors,
+    the unused bits of the $de01 register is assumed to be not
+    connected.
+*/
 
 /* RAMCART registers */
 static BYTE ramcart[2];
@@ -125,12 +132,52 @@ static int ramcart_size_kb = 0;
 static char *ramcart_filename = NULL;
 
 /* ------------------------------------------------------------------------- */
+
+static BYTE REGPARM1 ramcart_io1_read(WORD addr);
+static void REGPARM2 ramcart_io1_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 ramcart_io2_read(WORD addr);
+static void REGPARM2 ramcart_io2_store(WORD addr, BYTE byte);
+
+static io_source_t ramcart_io1_device = {
+    "RAMCART",
+    IO_DETACH_RESOURCE,
+    "RAMCART",
+    0xde00, 0xdeff, 0x01,
+    1, /* read is always valid */
+    ramcart_io1_store,
+    ramcart_io1_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_RAMCART
+};
+
+static io_source_t ramcart_io2_device = {
+    "RAMCART",
+    IO_DETACH_RESOURCE,
+    "RAMCART",
+    0xdf00, 0xdfff, 0xff,
+    1, /* read is always valid */
+    ramcart_io2_store,
+    ramcart_io2_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_RAMCART
+};
+
+static io_source_list_t *ramcart_io1_list_item = NULL;
+static io_source_list_t *ramcart_io2_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "RAMCART", 1, 0, &ramcart_io1_device, &ramcart_io2_device, CARTRIDGE_RAMCART
+};
+
+/* ------------------------------------------------------------------------- */
 int ramcart_cart_enabled(void)
 {
     return ramcart_enabled;
 }
 
-static BYTE REGPARM1 ramcart_reg_read(WORD addr)
+static BYTE REGPARM1 ramcart_io1_read(WORD addr)
 {
     BYTE retval;
 
@@ -144,7 +191,7 @@ static BYTE REGPARM1 ramcart_reg_read(WORD addr)
     return retval;
 }
 
-static void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
+static void REGPARM2 ramcart_io1_store(WORD addr, BYTE byte)
 {
     if (addr == 1 && ramcart_size_kb == 128) {
         ramcart[1] = byte & 0x81;
@@ -154,7 +201,7 @@ static void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
     }
 }
 
-static BYTE REGPARM1 ramcart_window_read(WORD addr)
+static BYTE REGPARM1 ramcart_io2_read(WORD addr)
 {
     BYTE retval;
 
@@ -163,45 +210,10 @@ static BYTE REGPARM1 ramcart_window_read(WORD addr)
     return retval;
 }
 
-static void REGPARM2 ramcart_window_store(WORD addr, BYTE byte)
+static void REGPARM2 ramcart_io2_store(WORD addr, BYTE byte)
 {
     ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)] = byte;
 }
-
-/* ------------------------------------------------------------------------- */
-
-static io_source_t ramcart_io1_device = {
-    "RAMCART",
-    IO_DETACH_RESOURCE,
-    "RAMCART",
-    0xde00, 0xdeff, 0x01,
-    1, /* read is always valid */
-    ramcart_reg_store,
-    ramcart_reg_read,
-    NULL,
-    NULL,
-    CARTRIDGE_RAMCART
-};
-
-static io_source_t ramcart_io2_device = {
-    "RAMCART",
-    IO_DETACH_RESOURCE,
-    "RAMCART",
-    0xdf00, 0xdfff, 0xff,
-    1, /* read is always valid */
-    ramcart_window_store,
-    ramcart_window_read,
-    NULL,
-    NULL,
-    CARTRIDGE_RAMCART
-};
-
-static io_source_list_t *ramcart_io1_list_item = NULL;
-static io_source_list_t *ramcart_io2_list_item = NULL;
-
-static const c64export_resource_t export_res = {
-    "RAMCART", 1, 0, &ramcart_io1_device, &ramcart_io2_device, CARTRIDGE_RAMCART
-};
 
 /* ------------------------------------------------------------------------- */
 
@@ -445,7 +457,7 @@ void ramcart_reset(void)
 
 void ramcart_config_setup(BYTE *rawcart)
 {
-    memcpy(ramcart_ram, rawcart, ramcart_size); /* FIXME */
+    memcpy(ramcart_ram, rawcart, ramcart_size);
 }
 
 void ramcart_detach(void)
@@ -459,6 +471,45 @@ int ramcart_enable(void)
         return -1;
     }
     return 0;
+}
+
+int ramcart_bin_attach(const char *filename, BYTE *rawcart)
+{
+    int size = 128;
+
+    if (util_file_load(filename, rawcart, 128*1024, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        size = 64;
+        if (util_file_load(filename, rawcart, 64*1024, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+    }
+    set_ramcart_size(size, NULL);
+    set_ramcart_filename(filename, NULL);
+    return ramcart_enable();
+}
+
+int ramcart_bin_save(const char *filename)
+{
+    if (ramcart_ram == NULL) {
+        return -1;
+    }
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    if (util_file_save(filename, ramcart_ram, ramcart_size) < 0) {
+        log_message(ramcart_log, "Writing RAMCART image %s failed.", filename);
+        return -1;
+    }
+    log_message(ramcart_log, "Writing RAMCART image %s.", filename);
+
+    return 0;
+}
+
+int ramcart_flush_image(void)
+{
+    return ramcart_bin_save(ramcart_filename);
 }
 
 /* ------------------------------------------------------------------------- */

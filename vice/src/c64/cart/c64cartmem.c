@@ -198,8 +198,7 @@ void cartridge_romlbank_set(unsigned int bank)
 }
 
 /*
-   - only CPU accesses go through the following hooks. the VICII directly accesses
-     the roml_ romh_ ram0_ tables.
+   - only CPU accesses go through the following hooks.
    - carts that switch game/exrom (ie, the memory config) based on adress, BA, phi2
      or similar can not be supported correctly with the existing system.
      the common workaround is to put the cart into ultimax mode, and wrap all hooks
@@ -211,11 +210,11 @@ void cartridge_romlbank_set(unsigned int bank)
         exos         (works)
         final plus   (works)
         game killer  (works)
-        capture      (mostly works, bug when exiting to basic)
-        magicformel  (mostly works, extra banks bug; magic-windows)
-        isepic       (mostly works, bug when saving frozen program?)
-        expert       (buggy)
-        mmcreplay    (generally very buggy)
+        capture      (works)
+        magicformel  (works)
+        isepic       (works)
+        expert       (works)
+        mmcreplay    (FIXME: generally very buggy)
 
     carts that use "unusual" mapping:
 

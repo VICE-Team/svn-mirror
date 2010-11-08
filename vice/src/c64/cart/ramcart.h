@@ -24,12 +24,16 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_RAMCART_H
 #define VICE_RAMCART_H
 
 #include "types.h"
-
-struct snapshot_s;
 
 extern int ramcart_readonly;
 
@@ -45,11 +49,16 @@ extern void ramcart_detach(void);
 extern int ramcart_enable(void);
 extern BYTE REGPARM1 ramcart_roml_read(WORD addr);
 extern void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte);
+#if 0
+/* TODO */
+struct snapshot_s;
 extern int ramcart_read_snapshot_module(struct snapshot_s *s);
 extern int ramcart_write_snapshot_module(struct snapshot_s *s);
-extern int ramcart_attach(const char *filename, BYTE *rawcart);
-
+#endif
 extern int ramcart_cart_enabled(void);
 extern const char *ramcart_get_file_name(void);
+extern int ramcart_bin_attach(const char *filename, BYTE *rawcart);
+extern int ramcart_bin_save(const char *filename);
+extern int ramcart_flush_image(void);
 
 #endif

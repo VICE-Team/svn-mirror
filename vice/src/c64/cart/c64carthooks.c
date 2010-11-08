@@ -379,7 +379,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_P64_CART,
       NULL, NULL },
-    /* FIXME: CARTRIDGE_RAMCART */
+    { "-cartramcart", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_RAMCART, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw RamCart cartridge image") },
     /* FIXME: CARTRIDGE_REU */
     { "-cartrep256", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_REX_EP256, NULL, NULL,
@@ -757,7 +761,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return expert_bin_attach(filename, rawcart);
         case CARTRIDGE_ISEPIC:
             return isepic_bin_attach(filename, rawcart);
-        /* FIXME: ramcart */
+        case CARTRIDGE_RAMCART:
+            return ramcart_bin_attach(filename, rawcart);
         /* "I/O Slot" */
         /* FIXME: georam */
         /* FIXME: reu */
@@ -1943,7 +1948,8 @@ int cartridge_flush_image(int type)
             return expert_flush_image();
         case CARTRIDGE_ISEPIC:
             return isepic_flush_image();
-        /* FIXME: ramcart */
+        case CARTRIDGE_RAMCART:
+            return ramcart_flush_image();
         /* "Main Slot" */
         case CARTRIDGE_EASYFLASH:
             return easyflash_flush_image();
@@ -1976,7 +1982,8 @@ int cartridge_bin_save(int type, const char *filename)
             return expert_bin_save(filename);
         case CARTRIDGE_ISEPIC:
             return isepic_bin_save(filename);
-        /* FIXME: ramcart */
+        case CARTRIDGE_RAMCART:
+            return ramcart_bin_save(filename);
         /* "Main Slot" */
         case CARTRIDGE_EASYFLASH:
             return easyflash_bin_save(filename);
