@@ -308,7 +308,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_GAME_KILLER_CART,
       NULL, NULL },
-    /* FIXME: CARTRIDGE_GEORAM */
+    { "-cartgeoram", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_GEORAM, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw Georam image") },
     { "-cartgs", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_GS, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -384,7 +388,13 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw RamCart cartridge image") },
-    /* FIXME: CARTRIDGE_REU */
+/* FIXME
+    { "-cartreu", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_REU, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Attach raw REU image") },
+*/
     { "-cartrep256", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_REX_EP256, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -764,7 +774,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
         case CARTRIDGE_RAMCART:
             return ramcart_bin_attach(filename, rawcart);
         /* "I/O Slot" */
-        /* FIXME: georam */
+        case CARTRIDGE_GEORAM:
+            return georam_bin_attach(filename, rawcart);
         /* FIXME: reu */
         /* "Main Slot" */
         case CARTRIDGE_ACTION_REPLAY:
@@ -1933,6 +1944,8 @@ int cart_freeze_allowed(void)
 /*
     flush cart image
 
+    all carts whose image might be modified at runtime should be hooked up here.
+
     FIXME: incomplete (currently only used for easyflash)
 */
 int cartridge_flush_image(int type)
@@ -1958,8 +1971,9 @@ int cartridge_flush_image(int type)
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_flush_image();
         /* "I/O" */
+        case CARTRIDGE_GEORAM:
+            return georam_flush_image();
         /* FIXME: reu */
-        /* FIXME: georam */
     }
     return -1;
 }
@@ -1967,7 +1981,10 @@ int cartridge_flush_image(int type)
 /*
     save cartridge to binary file
 
+    *atleast* all carts whose image might be modified at runtime should be hooked up here.
+
     FIXME: incomplete
+    TODO: add bin save for all ROM carts also
 */
 int cartridge_bin_save(int type, const char *filename)
 {
@@ -1992,14 +2009,18 @@ int cartridge_bin_save(int type, const char *filename)
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_save(filename);
         /* "I/O Slot" */
+        case CARTRIDGE_GEORAM:
+            return georam_bin_save(filename);
         /* FIXME: reu */
-        /* FIXME: georam */
     }
     return -1;
 }
 
 /*
     save cartridge to crt file
+
+    *atleast* all carts whose image might be modified at runtime AND
+    which have a valid crt id should be hooked up here.
 
     TODO: add crt save for all ROM carts also
 */
@@ -2034,6 +2055,8 @@ int cartridge_crt_save(int type, const char *filename)
 */
 int cartridge_snapshot_write_modules(struct snapshot_s *s)
 {
+    int maintype = cart_getid_slotmain();
+
     /* "Slot 0" */
     /* FIXME: magic voice */
     /* FIXME: mmc64 */
@@ -2050,6 +2073,57 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     /* FIXME: ramcart */
 
     /* "Main Slot" */
+    switch (maintype) {
+        case CARTRIDGE_ACTION_REPLAY:
+        case CARTRIDGE_ACTION_REPLAY2:
+        case CARTRIDGE_ACTION_REPLAY3:
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_ATOMIC_POWER:
+        case CARTRIDGE_CAPTURE:
+        case CARTRIDGE_COMAL80:
+        case CARTRIDGE_DELA_EP64:
+        case CARTRIDGE_DELA_EP7x8:
+        case CARTRIDGE_DELA_EP256:
+        case CARTRIDGE_DIASHOW_MAKER:
+        case CARTRIDGE_DINAMIC:
+        case CARTRIDGE_EASYFLASH:
+        case CARTRIDGE_EPYX_FASTLOAD:
+        case CARTRIDGE_EXOS:
+        case CARTRIDGE_FINAL_I:
+        case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+        case CARTRIDGE_FUNPLAY:
+        case CARTRIDGE_GENERIC_16KB:
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_GS:
+        case CARTRIDGE_IDE64:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_MACH5:
+        case CARTRIDGE_MAGIC_DESK:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+        case CARTRIDGE_MMC_REPLAY:
+        case CARTRIDGE_OCEAN:
+        case CARTRIDGE_RETRO_REPLAY:
+        case CARTRIDGE_REX:
+        case CARTRIDGE_REX_EP256:
+        case CARTRIDGE_ROSS:
+        case CARTRIDGE_SIMONS_BASIC:
+        case CARTRIDGE_SNAPSHOT64:
+        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_STRUCTURED_BASIC:
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+        case CARTRIDGE_SUPER_GAMES:
+        case CARTRIDGE_SUPER_SNAPSHOT:
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_ULTIMAX:
+        case CARTRIDGE_WARPSPEED:
+        case CARTRIDGE_WESTERMANN:
+        case CARTRIDGE_ZAXXON:
+            break;
+    }
 
     /* "I/O Slot" */
     /* FIXME: digimax */
@@ -2087,6 +2161,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 
 int cartridge_snapshot_read_modules(struct snapshot_s *s)
 {
+    int maintype = cart_getid_slotmain();
+
     /* "Slot 0" */
     /* FIXME: magic voice */
     /* FIXME: mmc64 */
@@ -2101,6 +2177,57 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     /* FIXME: ramcart */
 
     /* "Main Slot" */
+    switch (maintype) {
+        case CARTRIDGE_ACTION_REPLAY:
+        case CARTRIDGE_ACTION_REPLAY2:
+        case CARTRIDGE_ACTION_REPLAY3:
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_ATOMIC_POWER:
+        case CARTRIDGE_CAPTURE:
+        case CARTRIDGE_COMAL80:
+        case CARTRIDGE_DELA_EP64:
+        case CARTRIDGE_DELA_EP7x8:
+        case CARTRIDGE_DELA_EP256:
+        case CARTRIDGE_DIASHOW_MAKER:
+        case CARTRIDGE_DINAMIC:
+        case CARTRIDGE_EASYFLASH:
+        case CARTRIDGE_EPYX_FASTLOAD:
+        case CARTRIDGE_EXOS:
+        case CARTRIDGE_FINAL_I:
+        case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+        case CARTRIDGE_FUNPLAY:
+        case CARTRIDGE_GENERIC_16KB:
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_GS:
+        case CARTRIDGE_IDE64:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_MACH5:
+        case CARTRIDGE_MAGIC_DESK:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+        case CARTRIDGE_MMC_REPLAY:
+        case CARTRIDGE_OCEAN:
+        case CARTRIDGE_RETRO_REPLAY:
+        case CARTRIDGE_REX:
+        case CARTRIDGE_REX_EP256:
+        case CARTRIDGE_ROSS:
+        case CARTRIDGE_SIMONS_BASIC:
+        case CARTRIDGE_SNAPSHOT64:
+        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_STRUCTURED_BASIC:
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+        case CARTRIDGE_SUPER_GAMES:
+        case CARTRIDGE_SUPER_SNAPSHOT:
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_ULTIMAX:
+        case CARTRIDGE_WARPSPEED:
+        case CARTRIDGE_WESTERMANN:
+        case CARTRIDGE_ZAXXON:
+            break;
+    }
 
     /* "I/O Slot" */
     /* FIXME: digimax */

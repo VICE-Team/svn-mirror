@@ -24,6 +24,29 @@
  *
  */
 
+#include "vice.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "archdep.h"
+#include "c64cart.h"
+#include "c64export.h"
+#include "c64io.h"
+#include "cartridge.h"
+#include "cmdline.h"
+#include "lib.h"
+#include "log.h"
+#include "machine.h"
+#include "mem.h"
+#include "resources.h"
+#include "georam.h"
+#include "snapshot.h"
+#include "translate.h"
+#include "types.h"
+#include "util.h"
+
 /*
  * The GeoRAM is a banked memory system. It uses the registers at
  * $dffe and $dfff to determine what part of the GeoRAM memory should
@@ -75,28 +98,6 @@
  *
  */
 
-#include "vice.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "c64cart.h"
-#include "c64export.h"
-#include "c64io.h"
-#include "cartridge.h"
-#include "cmdline.h"
-#include "lib.h"
-#include "log.h"
-#include "machine.h"
-#include "mem.h"
-#include "resources.h"
-#include "georam.h"
-#include "snapshot.h"
-#include "translate.h"
-#include "types.h"
-#include "util.h"
-
 /*
  Offsets of the different GEORAM registers
 */
@@ -127,14 +128,54 @@ static int georam_size_kb = 0;
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
 
+/* ---------------------------------------------------------------------*/
+
+static BYTE REGPARM1 georam_io1_read(WORD addr);
+static void REGPARM2 georam_io1_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 georam_io2_peek(WORD addr);
+static void REGPARM2 georam_io2_store(WORD addr, BYTE byte);
+
+static io_source_t georam_io1_device = {
+    "GEORAM",
+    IO_DETACH_RESOURCE,
+    "GEORAM",
+    0xde00, 0xdeff, 0xff,
+    1, /* read is always valid */
+    georam_io1_store,
+    georam_io1_read,
+    NULL, /* peek */
+    NULL, /* dump */
+    CARTRIDGE_GEORAM
+};
+
+static io_source_t georam_io2_device = {
+    "GEORAM",
+    IO_DETACH_RESOURCE,
+    "GEORAM",
+    0xdf80, 0xdfff, 0x7f,
+    0,
+    georam_io2_store,
+    NULL,
+    georam_io2_peek,
+    NULL, /* dump */
+    CARTRIDGE_GEORAM
+};
+
+static io_source_list_t *georam_io1_list_item = NULL;
+static io_source_list_t *georam_io2_list_item = NULL;
+
+static const c64export_resource_t export_res= {
+    "GEORAM", 0, 0, &georam_io1_device, &georam_io2_device, CARTRIDGE_GEORAM
+};
+
+/* ------------------------------------------------------------------------- */
+
 int georam_cart_enabled(void)
 {
     return georam_enabled;
 }
 
-/* ------------------------------------------------------------------------- */
-
-static BYTE REGPARM1 georam_window_read(WORD addr)
+static BYTE REGPARM1 georam_io1_read(WORD addr)
 {
     BYTE retval;
 
@@ -143,7 +184,20 @@ static BYTE REGPARM1 georam_window_read(WORD addr)
     return retval;
 }
 
-static void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
+static void REGPARM2 georam_io1_store(WORD addr, BYTE byte)
+{
+    georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
+}
+
+static BYTE REGPARM1 georam_io2_peek(WORD addr)
+{
+    if (addr < 2) {
+        return georam[addr & 1];
+    }
+    return 0;
+}
+
+static void REGPARM2 georam_io2_store(WORD addr, BYTE byte)
 {
     if ((addr & 1) == 1) {
         while (byte > ((georam_size_kb / 16) - 1)) {
@@ -158,46 +212,6 @@ static void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
         georam[0] = byte;
     }
 }
-
-static void REGPARM2 georam_window_store(WORD addr, BYTE byte)
-{
-    georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
-}
-
-/* ---------------------------------------------------------------------*/
-
-static io_source_t georam_io1_device = {
-    "GEORAM",
-    IO_DETACH_RESOURCE,
-    "GEORAM",
-    0xde00, 0xdeff, 0xff,
-    1, /* read is always valid */
-    georam_window_store,
-    georam_window_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
-    CARTRIDGE_GEORAM
-};
-
-static io_source_t georam_io2_device = {
-    "GEORAM",
-    IO_DETACH_RESOURCE,
-    "GEORAM",
-    0xdf80, 0xdfff, 0x7f,
-    0,
-    georam_reg_store,
-    NULL,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
-    CARTRIDGE_GEORAM
-};
-
-static io_source_list_t *georam_io1_list_item = NULL;
-static io_source_list_t *georam_io2_list_item = NULL;
-
-static const c64export_resource_t export_res= {
-    "GEORAM", 0, 0, &georam_io1_device, &georam_io2_device, CARTRIDGE_GEORAM
-};
 
 /* ------------------------------------------------------------------------- */
 
@@ -433,9 +447,59 @@ int georam_enable(void)
 void georam_config_setup(BYTE *rawcart)
 {
     if (georam_size > 0) {
-        memcpy(georam_ram, rawcart, georam_size); /* FIXME */
+        memcpy(georam_ram, rawcart, georam_size);
     }
 }
+
+int georam_bin_attach(const char *filename, BYTE *rawcart)
+{
+    FILE *fd;
+    int size;
+
+    fd = fopen(filename, MODE_READ);
+    if (fd == NULL) {
+        return -1;
+    }
+    size = util_file_length(fd);
+    fclose(fd);
+
+    if (set_georam_size(size / 1024, NULL) < 0) {
+        return -1;
+    }
+
+    if (set_georam_filename(filename, NULL) < 0) {
+        return -1;
+    }
+
+    if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    return georam_enable();
+}
+
+int georam_bin_save(const char *filename)
+{
+    if (georam_ram == NULL) {
+        return -1;
+    }
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    if (util_file_save(filename, georam_ram, georam_size) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+int georam_flush_image(void)
+{
+    return georam_bin_save(georam_filename);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static char snap_module_name[] = "GEORAM";
