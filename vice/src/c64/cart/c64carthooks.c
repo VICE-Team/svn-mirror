@@ -141,7 +141,6 @@
 extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") */
 
 /*
-    TODO: add commandline options for the missing carts
     TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_DIASHOW_MAKER)
     TODO: keep -cartXYZ options in sync with cartconv -t option
 
@@ -388,13 +387,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw RamCart cartridge image") },
-/* FIXME
     { "-cartreu", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_REU, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Attach raw REU image") },
-*/
     { "-cartrep256", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_REX_EP256, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
@@ -776,7 +773,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
         /* "I/O Slot" */
         case CARTRIDGE_GEORAM:
             return georam_bin_attach(filename, rawcart);
-        /* FIXME: reu */
+        case CARTRIDGE_REU:
+            return reu_bin_attach(filename, rawcart);
         /* "Main Slot" */
         case CARTRIDGE_ACTION_REPLAY:
             return actionreplay_bin_attach(filename, rawcart);
@@ -1119,8 +1117,6 @@ void cart_detach_conflicting(int type)
 
 /*
     attach a cartridge without setting an image name
-
-    FIXME: return value ?
 */
 int cartridge_enable(int type)
 {
@@ -1189,7 +1185,11 @@ int cartridge_enable(int type)
             break;
     }
     cart_detach_conflicting(type);
-    return 0; /* FIXME */
+
+    if (cart_type_enabled(type)) {
+        return 0;
+    }
+    return -1;
 }
 
 /*
@@ -1945,8 +1945,6 @@ int cart_freeze_allowed(void)
     flush cart image
 
     all carts whose image might be modified at runtime should be hooked up here.
-
-    FIXME: incomplete (currently only used for easyflash)
 */
 int cartridge_flush_image(int type)
 {
@@ -1973,7 +1971,8 @@ int cartridge_flush_image(int type)
         /* "I/O" */
         case CARTRIDGE_GEORAM:
             return georam_flush_image();
-        /* FIXME: reu */
+        case CARTRIDGE_REU:
+            return reu_flush_image();
     }
     return -1;
 }
@@ -1983,7 +1982,6 @@ int cartridge_flush_image(int type)
 
     *atleast* all carts whose image might be modified at runtime should be hooked up here.
 
-    FIXME: incomplete
     TODO: add bin save for all ROM carts also
 */
 int cartridge_bin_save(int type, const char *filename)
@@ -2011,7 +2009,8 @@ int cartridge_bin_save(int type, const char *filename)
         /* "I/O Slot" */
         case CARTRIDGE_GEORAM:
             return georam_bin_save(filename);
-        /* FIXME: reu */
+        case CARTRIDGE_REU:
+            return reu_bin_save(filename);
     }
     return -1;
 }

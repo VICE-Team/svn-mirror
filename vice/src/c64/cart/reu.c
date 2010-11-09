@@ -43,6 +43,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "c64cart.h"
 #include "c64export.h"
 #include "c64io.h"
@@ -55,11 +56,14 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
-#include "reu.h"
 #include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "reu.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 #if 0
 #define REU_DEBUG 1 /*!< define this if you want to get debugging output for the REU. */
@@ -247,18 +251,19 @@ static struct reu_ba_s reu_ba = {
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
-static void REGPARM2 reu_store(WORD addr, BYTE byte);
-static BYTE REGPARM1 reu_read(WORD addr);
+static void REGPARM2 reu_io2_store(WORD addr, BYTE byte);
+static BYTE REGPARM1 reu_io2_read(WORD addr);
+static BYTE REGPARM1 reu_io2_peek(WORD addr);
 
-static io_source_t reu_device = {
+static io_source_t reu_io2_device = {
     "REU",
     IO_DETACH_RESOURCE,
     "REU",
     0xdf00, 0xdfff, REU_REG_LAST_REG,
     0,
-    reu_store,
-    reu_read,
-    NULL, /* FIXME: peek */
+    reu_io2_store,
+    reu_io2_read,
+    reu_io2_peek,
     NULL, /* FIXME: dump */
     CARTRIDGE_REU
 };
@@ -266,7 +271,7 @@ static io_source_t reu_device = {
 static io_source_list_t *reu_list_item = NULL;
 
 static const c64export_resource_t export_res_reu= {
-    "REU", 0, 0, NULL, &reu_device, CARTRIDGE_REU
+    "REU", 0, 0, NULL, &reu_io2_device, CARTRIDGE_REU
 };
 
 /* ------------------------------------------------------------------------- */
@@ -316,7 +321,7 @@ static int set_reu_enabled(int val, void *param)
         if (c64export_add(&export_res_reu) < 0) {
             return -1;
         }
-        reu_list_item = c64io_register(&reu_device);
+        reu_list_item = c64io_register(&reu_io2_device);
         reu_enabled = 1;
     }
     return 0;
@@ -662,6 +667,55 @@ int reu_enable(void)
     return set_reu_enabled(1, NULL);
 }
 
+int reu_bin_attach(const char *filename, BYTE *rawcart)
+{
+    FILE *fd;
+    int size;
+
+    fd = fopen(filename, MODE_READ);
+    if (fd == NULL) {
+        return -1;
+    }
+    size = util_file_length(fd);
+    fclose(fd);
+
+    if (set_reu_size(size / 1024, NULL) < 0) {
+        return -1;
+    }
+
+    if (set_reu_filename(filename, NULL) < 0) {
+        return -1;
+    }
+
+    if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        return -1;
+    }
+
+    return reu_enable();
+}
+
+int reu_bin_save(const char *filename)
+{
+    if (reu_ram == NULL) {
+        return -1;
+    }
+
+    if (filename == NULL) {
+        return -1;
+    }
+
+    if (util_file_save(filename, reu_ram, reu_size) < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+int reu_flush_image(void)
+{
+    return reu_bin_save(reu_filename);
+}
+
 /* ------------------------------------------------------------------------- */
 /* helper functions */
 
@@ -810,15 +864,15 @@ static void reu_store_without_sideeffects(WORD addr, BYTE byte)
   \return
     The value the register has
 */
-static BYTE REGPARM1 reu_read(WORD addr)
+static BYTE REGPARM1 reu_io2_read(WORD addr)
 {
     BYTE retval = 0xff;
 
     if (reu_dma_active) {
-        reu_device.io_source_valid = 0;
+        reu_io2_device.io_source_valid = 0;
         return 0;
     } else {
-        reu_device.io_source_valid = 1;
+        reu_io2_device.io_source_valid = 1;
     }
 
     if (addr < rec_options.first_unused_register_address) {
@@ -842,6 +896,15 @@ static BYTE REGPARM1 reu_read(WORD addr)
     return retval;
 }
 
+static BYTE REGPARM1 reu_io2_peek(WORD addr)
+{
+    BYTE retval = 0xff;
+    if (addr < rec_options.first_unused_register_address) {
+        retval = reu_read_without_sideeffects(addr);
+    }
+    return retval;
+}
+
 /*! \brief write the REU register values
   This function is used to write the REU values from the computer.
 
@@ -851,7 +914,7 @@ static BYTE REGPARM1 reu_read(WORD addr)
   \param byte
     The value to set the register to
 */
-static void REGPARM2 reu_store(WORD addr, BYTE byte)
+static void REGPARM2 reu_io2_store(WORD addr, BYTE byte)
 {
     if (!reu_dma_active && (addr < rec_options.first_unused_register_address)) {
         reu_store_without_sideeffects(addr, byte);
