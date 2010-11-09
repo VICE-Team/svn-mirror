@@ -628,11 +628,12 @@ static DRAW_INLINE void draw_colors8(void)
     int offs = vicii.dbuf_offset;
 
     /* guard (could possibly be removed) */
-    if (offs > VICII_DRAW_BUFFER_SIZE-8)
+    if (offs > VICII_DRAW_BUFFER_SIZE-8) {
         return;
+    }
 
     /* update color register (if written) */
-    if (last_color_reg) {
+    if (last_color_reg != 0xff) {
         cregs[last_color_reg] = last_color_value;
     }
 

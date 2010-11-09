@@ -80,7 +80,7 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
     if (canvas->video_draw_buffer_callback) {
         canvas->video_draw_buffer_callback->draw_buffer_free(canvas,
             canvas->draw_buffer->draw_buffer);
-	return;
+        return;
     }
 
     lib_free(canvas->draw_buffer->draw_buffer);
@@ -96,7 +96,7 @@ static void raster_draw_buffer_clear(video_canvas_t *canvas, BYTE value,
         canvas->video_draw_buffer_callback->draw_buffer_clear(canvas,
             canvas->draw_buffer->draw_buffer, value, fb_width, fb_height,
             fb_pitch);
-	return;
+        return;
     }
 
     memset(canvas->draw_buffer->draw_buffer, value, fb_width * fb_height);
@@ -304,27 +304,7 @@ typedef struct raster_list_t {
     struct raster_list_t *next;
 } raster_list_t;
 
-#if 1
-/*
-    FIXME !!! this can only be a temporary workaround !
-
-    inserting this dummy here "fixes" occasional corruption of the following pointer,
-    which might happen eg when switching video mode in x64sc, or running x128 in linux.
-
-    if you can reproduce the problem (comment out the dummy and recompile) then try
-    debugging it like this:
-
-    gdb -args x64sc
-    > watch ActiveRasters
-    > run
-
-    - unfortunately for me the result is that x64sc will no more crash, great (gpz)
-*/
-raster_list_t *DUMMY = NULL;
-raster_list_t *ActiveRasters = NULL;
-#else
 static raster_list_t *ActiveRasters = NULL;
-#endif
 
 /* seemingly dead code */
 #if 0
@@ -340,12 +320,6 @@ raster_t *raster_new(unsigned int num_modes,
 }
 #endif
 
-/*
-    FIXME !!!
-
-    this function fails sometimes because the ActiveRasters pointer
-    became corrupted. (see above)
-*/
 void raster_mode_change(void)
 {
     raster_list_t *rasters = ActiveRasters;
@@ -434,15 +408,10 @@ int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;
 
-    if (realize_canvas(raster) < 0)
+    if (realize_canvas(raster) < 0) {
         return -1;
+    }
 
-    /*
-       FIXME !!!
-
-       On some linux platforms ActiveRasters
-       gets set to something else than NULL
-    */
     if (raster_realize_init_done == 0) {
         ActiveRasters = NULL;
     }
