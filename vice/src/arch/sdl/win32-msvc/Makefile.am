@@ -58,6 +58,7 @@ EXTRA_DIST = \
 	vic20.dsp \
 	vic20cart.dsp \
 	vice.dsw \
+	vice.manifest \
 	vicii.dsp \
 	viciidtv.dsp \
 	viciisc.dsp \
