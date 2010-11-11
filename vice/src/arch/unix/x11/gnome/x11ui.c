@@ -108,14 +108,14 @@ static GtkWidget *last_drive_menus[NUM_DRIVES];
 
 #ifdef USE_XF86_EXTENSIONS
 #include <gdk/gdkx.h>
-#include "x11ui.h"
 #endif
+#include "x11ui.h"
 
-/* #ifdef USE_XF86_EXTENSIONS */
+#ifdef USE_XF86_EXTENSIONS
 static Display *display;
 int screen;
 static int depth;
-/* #endif */
+#endif
 
 #if !GTK_CHECK_VERSION(2, 12, 0)
 static void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
@@ -901,7 +901,7 @@ ui_create_status_bar(GtkWidget *pane)
     return status_bar;
 }
 
-/* #ifdef USE_XF86_EXTENSIONS */
+#ifdef USE_XF86_EXTENSIONS
 int x11ui_get_display_depth(void)
 {
     return depth;
@@ -925,7 +925,7 @@ int x11ui_get_screen(void)
 {
     return screen;
 }
-/* #endif */
+#endif
 
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
