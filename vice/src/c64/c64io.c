@@ -185,37 +185,17 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
 static inline BYTE io_peek(io_source_list_t *list, WORD addr)
 {
     io_source_list_t *current = list->next;
-    int io_source_counter = 0, valid_peek = 0;
-    BYTE retval = 0;
 
     while (current) {
-        if (current->device->read != NULL || current->device->peek != NULL) {
-            if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                if (current->device->peek) {
-                    retval = current->device->peek((WORD)(addr & current->device->address_mask));
-                    valid_peek++;
-                } else {
-                    retval = current->device->read((WORD)(addr & current->device->address_mask));
-                }
-                if (current->device->io_source_valid) {
-                    io_source_counter++;
-                }
-            } else {
-                current->device->io_source_valid = 0;
+        if (addr >= current->device->start_address && addr <= current->device->end_address) {
+            if (current->device->peek) {
+                return current->device->peek((WORD)(addr & current->device->address_mask));
+            } else if (current->device->read) {
+                return current->device->read((WORD)(addr & current->device->address_mask));
             }
         }
         current = current->next;
     }
-
-    if ((valid_peek > 0) || (io_source_counter == 1)) {
-        return retval;
-    }
-
-    if (io_source_counter == 0) {
-        return vicii_read_phi1();
-    }
-
-    io_source_msg_detach(addr, io_source_counter, list);
 
     return vicii_read_phi1();
 }
