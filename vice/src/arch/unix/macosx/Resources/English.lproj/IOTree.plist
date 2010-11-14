@@ -10,10 +10,356 @@
 		<string>d000-d02f</string>
 		<key>children</key>
 		<dict>
+			<key>Colors</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Border Color</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d020</string>
+						</array>
+					</dict>
+					<key>Background Color 0</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d021</string>
+						</array>
+					</dict>
+					<key>Background Color 1 (MC 0)</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d022</string>
+						</array>
+					</dict>
+					<key>Background Color 2 (MC 1)</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d023</string>
+						</array>
+					</dict>
+					<key>Background Color 3</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d024</string>
+						</array>
+					</dict>
+					<key>Sprite Multi Color 0</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d025</string>
+						</array>
+					</dict>
+					<key>Sprite Multi Color 1</key>
+					<dict>
+						<key>format</key>
+						<string>vicii_color</string>
+						<key>src</key>
+						<array>
+							<string>d026</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>IRQ</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Interrupt Request (IRR)</key>
+					<dict>
+						<key>children</key>
+						<dict>
+							<key>IRQ Generated</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d019&amp;80</string>
+								</array>
+							</dict>
+							<key>Light-Pen Triggered Flag</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d019&amp;8</string>
+								</array>
+							</dict>
+							<key>Sprite-To-Sprite Collision Flag</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d019&amp;4</string>
+								</array>
+							</dict>
+							<key>Sprite-To-Background Collision Flag - 2</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d019&amp;2</string>
+								</array>
+							</dict>
+							<key>Raster Compare Flag</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d019&amp;1</string>
+								</array>
+							</dict>
+						</dict>
+					</dict>
+					<key>Interrupt Mask (IMR)</key>
+					<dict>
+						<key>children</key>
+						<dict>
+							<key>Light-Pen Triggered Flag</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d01a&amp;8</string>
+								</array>
+							</dict>
+							<key>Sprite-To-Sprite Collision Flag</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d01a&amp;4</string>
+								</array>
+							</dict>
+							<key>Sprite-To-Background Collision Flag - 2</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d01a&amp;2</string>
+								</array>
+							</dict>
+							<key>Raster Compare Flag</key>
+							<dict>
+								<key>format</key>
+								<string>bool</string>
+								<key>src</key>
+								<array>
+									<string>d01a&amp;1</string>
+								</array>
+							</dict>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
+			<key>Memory Control</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Video Matrix Base Address</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d018&amp;f0&gt;4</string>
+						</array>
+						<key>format</key>
+						<string>map</string>
+						<key>map</key>
+						<array>
+							<string>$0000</string>
+							<string>$0400</string>
+							<string>$0800</string>
+							<string>$0c00</string>
+							<string>$1000</string>
+							<string>$1400</string>
+							<string>$1800</string>
+							<string>$1c00</string>
+							<string>$2000</string>
+							<string>$2400</string>
+							<string>$2800</string>
+							<string>$2c00</string>
+							<string>$3000</string>
+							<string>$3400</string>
+							<string>$3800</string>
+							<string>$3c00</string>
+						</array>
+					</dict>
+					<key>Character Dot Data Base Address</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d018&amp;e&gt;1</string>
+						</array>
+						<key>format</key>
+						<string>map</string>
+						<key>map</key>
+						<array>
+							<string>$0000-$07ff</string>
+							<string>$0800-$0fff</string>
+							<string>$1000-$17ff</string>
+							<string>$1800-$1fff</string>
+							<string>$2000-$27ff</string>
+							<string>$2800-$2fff</string>
+							<string>$3000-$37ff</string>
+							<string>$3800-$3fff</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Raster Pos</key>
+			<dict>
+				<key>format</key>
+				<string>d</string>
+				<key>src</key>
+				<array>
+					<string>d012</string>
+					<string>d011&amp;80&lt;1</string>
+				</array>
+			</dict>
+			<key>Latch X Pos</key>
+			<dict>
+				<key>format</key>
+				<string>d</string>
+				<key>src</key>
+				<array>
+					<string>d013</string>
+				</array>
+			</dict>
+			<key>Latch Y Pos</key>
+			<dict>
+				<key>format</key>
+				<string>d</string>
+				<key>src</key>
+				<array>
+					<string>d014</string>
+				</array>
+			</dict>
+			<key>Control</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Extended Color Text Mode</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d011&amp;40</string>
+						</array>
+					</dict>
+					<key>Bitmap Mode</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d011&amp;20</string>
+						</array>
+					</dict>
+					<key>Blank Screen</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d011&amp;10</string>
+						</array>
+					</dict>
+					<key>25 Row Display</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d011&amp;8</string>
+						</array>
+					</dict>
+					<key>Smooth Y Scroll</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d011&amp;7</string>
+						</array>
+					</dict>
+					<key>Reset-Bit</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d016&amp;20</string>
+						</array>
+					</dict>
+					<key>Multi-Color Mode</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d016&amp;10</string>
+						</array>
+					</dict>
+					<key>40 Column Display</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d016&amp;8</string>
+						</array>
+					</dict>
+					<key>Smooth X Scroll</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d016&amp;7</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
 			<key>Sprite 0</key>
 			<dict>
 				<key>children</key>
 				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d027</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
 					<key>Enable</key>
 					<dict>
 						<key>format</key>
@@ -26,7 +372,7 @@
 					<key>X Pos</key>
 					<dict>
 						<key>format</key>
-						<string>03x</string>
+						<string>d</string>
 						<key>src</key>
 						<array>
 							<string>d000</string>
@@ -36,7 +382,7 @@
 					<key>Y Pos</key>
 					<dict>
 						<key>format</key>
-						<string>03x</string>
+						<string>d</string>
 						<key>src</key>
 						<array>
 							<string>d001</string>
@@ -76,6 +422,583 @@
 						<key>src</key>
 						<array>
 							<string>d017&amp;1</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 1</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d028</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;2</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d002</string>
+							<string>d010&amp;2&lt;7</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d003</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;2</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;2</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;2</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;2</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 2</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d029</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;4</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d004</string>
+							<string>d010&amp;4&lt;6</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d005</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;4</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;4</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;4</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;4</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 3</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d02a</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;8</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d006</string>
+							<string>d010&amp;8&lt;5</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d007</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;8</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;8</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;8</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;8</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 4</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d02b</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;10</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d008</string>
+							<string>d010&amp;10&lt;4</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d009</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;10</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;10</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;10</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;10</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 5</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d02c</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;20</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d00a</string>
+							<string>d010&amp;20&lt;3</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d00b</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;20</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;20</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;20</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;20</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 6</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d02d</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;40</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d00c</string>
+							<string>d010&amp;40&lt;2</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d00d</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;40</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;40</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;40</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;40</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite 7</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>src</key>
+						<array>
+							<string>d02e</string>
+						</array>
+						<key>format</key>
+						<string>vicii_color</string>
+					</dict>
+					<key>Enable</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d015&amp;80</string>
+						</array>
+					</dict>
+					<key>X Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d00e</string>
+							<string>d010&amp;80&lt;1</string>
+						</array>
+					</dict>
+					<key>Y Pos</key>
+					<dict>
+						<key>format</key>
+						<string>d</string>
+						<key>src</key>
+						<array>
+							<string>d00f</string>
+						</array>
+					</dict>
+					<key>Multi Color</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01c&amp;80</string>
+						</array>
+					</dict>
+					<key>Hi Prio</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01b&amp;80</string>
+						</array>
+					</dict>
+					<key>Expand X</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d01d&amp;80</string>
+						</array>
+					</dict>
+					<key>Expand Y</key>
+					<dict>
+						<key>format</key>
+						<string>bool</string>
+						<key>src</key>
+						<array>
+							<string>d017&amp;80</string>
+						</array>
+					</dict>
+				</dict>
+			</dict>
+			<key>Sprite Collision</key>
+			<dict>
+				<key>children</key>
+				<dict>
+					<key>Sprite-To-Sprite</key>
+					<dict>
+						<key>format</key>
+						<string>bits</string>
+						<key>src</key>
+						<array>
+							<string>d01e</string>
+						</array>
+					</dict>
+					<key>Sprite-To-Background</key>
+					<dict>
+						<key>format</key>
+						<string>bits</string>
+						<key>src</key>
+						<array>
+							<string>d01f</string>
 						</array>
 					</dict>
 				</dict>

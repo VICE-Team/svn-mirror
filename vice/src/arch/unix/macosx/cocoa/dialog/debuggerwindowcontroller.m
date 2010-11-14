@@ -138,7 +138,7 @@
 #endif
 }
 
-- (NSString *)toBinaryString:(unsigned int)value width:(int)w
++ (NSString *)toBinaryString:(unsigned int)value width:(int)w
 {
     NSMutableString *str = [NSMutableString stringWithCapacity:w];
     int i;

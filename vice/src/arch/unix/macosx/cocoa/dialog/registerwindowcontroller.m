@@ -124,7 +124,7 @@
         // format value
         if(flags & 1 == 1)  {
             // requested binary output
-            theValue = [self toBinaryString:value width:8];
+            theValue = [DebuggerWindowController toBinaryString:value width:8];
         } else {
             if(size == 8) {
                 theValue = [NSString stringWithFormat:@"%02X",value];

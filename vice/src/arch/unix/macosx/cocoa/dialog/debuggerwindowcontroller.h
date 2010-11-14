@@ -41,6 +41,6 @@
 - (void)monitorSuspend:(NSNotification *)notification;
 - (void)monitorResume:(NSNotification *)notification;
 
-- (NSString *)toBinaryString:(unsigned int)value width:(int)w;
++ (NSString *)toBinaryString:(unsigned int)value width:(int)w;
 
 @end

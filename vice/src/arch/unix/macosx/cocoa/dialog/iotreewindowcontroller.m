@@ -125,7 +125,7 @@
     } else if ([colId isEqualToString:@"Value"]) {
         return [ritem getValue];
     } else {
-        return @"";
+        return [ritem getRegisterValue];
     }
 }
 

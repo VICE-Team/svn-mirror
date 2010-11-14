@@ -30,6 +30,11 @@
 #import "iotreeitem.h"
 #import "iotreewindowcontroller.h"
 
+static const char * vicii_colors[] = {
+    "black","white","red","cyan","purple","green","blue","yellow",
+    "orange", "brown", "light red", "dark grey", "grey", "light green", "light blue", "light grey"
+};
+
 @implementation IOTreeItem
 
 // root item or container without range
@@ -45,6 +50,7 @@
     buildChildren = nil;
 
     format = nil;
+    map = nil;
     
     minAddr = -1;
     maxAddr = -1;
@@ -68,6 +74,7 @@
     buildChildren = nil;
 
     format = nil;
+    map = nil;
     
     minAddr = min;
     maxAddr = max;
@@ -79,7 +86,7 @@
 }
 
 // entry
--(id)initWithTitle:(NSString *)t format:(NSString *)f src:(NSArray *)s
+-(id)initWithTitle:(NSString *)t format:(NSString *)f src:(NSArray *)s map:(NSArray *)m
 {
     self = [super init];
     if (self == nil) {
@@ -92,6 +99,11 @@
 
     format = f;
     [format retain];
+    
+    map = m;
+    if(map!=nil) {
+        [map retain];
+    }
     
     minAddr = -1;
     maxAddr = -1;
@@ -108,8 +120,10 @@
     [title release];
     [children release];
     [format release];
+    [map release];
     [src release];
     [memory release];
+    [regValue release];
     [super dealloc];
 }
 
@@ -184,8 +198,6 @@
     IOTreeItem *newItem = nil;
     
     if(childs != nil) {
-        NSLog(@"parsing container %@",aTitle);
-        
         // check validity of this entry for the current machine
         NSString *valid = [dict objectForKey:@"valid"];
         if(valid != nil) {
@@ -210,8 +222,6 @@
         [newItem addFromDictionaryLoop:childs];
     
     } else {
-        NSLog(@"parsing entry %@",aTitle);
-        
         // type?
         NSString *aFormat = [dict objectForKey:@"format"];
         if(aFormat == nil) {
@@ -226,8 +236,11 @@
             return FALSE;
         }
 
+        // optional map
+        NSArray *aMap = [dict objectForKey:@"map"];
+
         // create entity
-        newItem = [[IOTreeItem alloc] initWithTitle:aTitle format:aFormat src:aSrc];
+        newItem = [[IOTreeItem alloc] initWithTitle:aTitle format:aFormat src:aSrc map:aMap];
     }
 
     // add item to this
@@ -275,7 +288,24 @@
     if([format caseInsensitiveCompare:@"bool"]==NSOrderedSame) {
         // bool
         return value ? @"ON":@"OFF";
-    } else {    
+    }
+    if([format caseInsensitiveCompare:@"bits"]==NSOrderedSame) {
+        // bool
+        return [DebuggerWindowController toBinaryString:value width:8];
+    }
+    else if([format caseInsensitiveCompare:@"map"]==NSOrderedSame) {
+        // map value
+        if(map == nil) {
+            return nil;
+        }
+        return [map objectAtIndex:value];
+    }     
+    else if([format caseInsensitiveCompare:@"vicii_color"]==NSOrderedSame) {
+        // vicii_color
+        int v = value & 15;
+        return [NSString stringWithFormat:@"%s (%d)",vicii_colors[v],v];
+    }
+    else {    
         // format value ala printf
         char result[10];
         NSString *finalFormat = [NSString stringWithFormat:@"%%%@", format];
@@ -283,6 +313,15 @@
         snprintf(result,10,formatStr,value);
         return [NSString stringWithCString:result encoding:NSUTF8StringEncoding];
     }
+}
+
+-(id)getRegisterValue
+{
+    if(src == nil) {
+        return nil;
+    }
+    
+    return regValue;
 }
 
 -(NSComparisonResult)compare:(IOTreeItem *)item
@@ -295,19 +334,28 @@
     value = 0;
     int numSrc = [src count];
     int i;
+    
+    // create new reg value string
+    if(regValue != nil) {
+        [regValue release];
+    }
+    NSMutableString *regString = [[NSMutableString alloc] init];
+    regValue = regString;
+    
     for(i=0;i<numSrc;i++) {
         NSString *srcEntry = [src objectAtIndex:i];
         if(srcEntry != nil) {
             int addr;
             int shift;
-            int mask;
+            int mask = 0xff;
             int v;
             const char *str = [srcEntry cStringUsingEncoding:NSUTF8StringEncoding];
             // try: addr & mask < shift
-            int num = sscanf(str,"%x&%d<%x",&addr,&mask,&shift);
+            int num = sscanf(str,"%x&%x<%x",&addr,&mask,&shift);
             if(num == 3) {
                 v = [self peek:addr];
                 if(v!=-1) {
+                    [regString appendString:[NSString stringWithFormat:@"$%04x:$%02x [&$%02x]  ",addr,v,mask]];
                     v &= mask;
                     v <<= shift;
                     value |= v;
@@ -316,10 +364,11 @@
                 }
             }
             else {
-                num = sscanf(str,"%x&%d>%x",&addr,&mask,&shift);
+                num = sscanf(str,"%x&%x>%x",&addr,&mask,&shift);
                 if(num > 0) {
                     v = [self peek:addr];
                     if(v!=-1) {
+                        [regString appendString:[NSString stringWithFormat:@"$%04x:$%02x [&$%02x]  ",addr,v,mask]];
                         if(num>1) {
                             v &= mask;
                         }

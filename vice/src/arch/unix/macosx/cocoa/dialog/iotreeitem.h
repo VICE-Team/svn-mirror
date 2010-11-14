@@ -38,24 +38,27 @@
     IOTreeItem *parent;
 
     NSString *format;
+    NSArray *map;
 
     int minAddr;
     int maxAddr;
     NSData *memory;
     
+    NSString *regValue;
     NSArray *src;
     int value;    
 }
 
 -(id)initWithTitle:(NSString *)t;
 -(id)initWithTitle:(NSString *)t rangeMinAddr:(int)minAddr maxAddr:(int)maxAddr;
--(id)initWithTitle:(NSString *)t format:(NSString *)format src:(NSArray *)src;
+-(id)initWithTitle:(NSString *)t format:(NSString *)format src:(NSArray *)src map:(NSArray *)map;
 -(void)setParent:(IOTreeItem *)item;
 
 -(BOOL)addFromDictionary:(NSDictionary *)dict;
 -(BOOL)parseDictionary:(NSDictionary *)dict withTitle:(NSString *)title;
 
 -(id)getValue;
+-(id)getRegisterValue;
 -(BOOL)isLeaf;
 -(NSString *)title;
 -(int)numChildren;
