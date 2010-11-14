@@ -237,6 +237,12 @@ static inline BYTE vic_cycle_do_fetch(int addr, BYTE *color)
     return b;
 }
 
+/* Perform no fetch */
+static inline void vic_cycle_no_fetch(void)
+{
+    /* TODO: vic20_v_bus_last_high = ? */
+}
+
 /* Make a "real" 16b address from the 14b VIC address */
 static inline int vic_cycle_fix_addr(int addr)
 {
@@ -256,8 +262,7 @@ static inline void vic_cycle_fetch(void)
         /* fetch done on current line */
         case VIC_FETCH_DONE:
         default:
-            /* TODO verify idle fetch address */
-            vic_cycle_do_fetch(0x001c, &b);
+            vic_cycle_no_fetch();
             break;
 
         /* fetch starting */
@@ -265,7 +270,7 @@ static inline void vic_cycle_fetch(void)
             if ((--vic.buf_offset) == 0) {
                 vic_cycle_start_fetch();
             }
-            /* TODO fetch from where? */
+            vic_cycle_no_fetch();
             break;
 
         /* fetch from screen/color memomy */
