@@ -184,6 +184,7 @@ static const char * vicii_colors[] = {
         // its a dictionary itself
         if ([val isKindOfClass:[NSDictionary class]]) {
             if(![self parseDictionary:val withTitle:key]) {
+                NSLog(@"  error parsing dictionary %@",key);
                 return FALSE;
             }
         }
@@ -204,7 +205,7 @@ static const char * vicii_colors[] = {
             NSString *machineName = [NSString stringWithFormat:@"_%s_", machine_name];
             NSRange range = [valid rangeOfString:machineName];
             if(range.location == NSNotFound) {
-                NSLog(@"  entry not valid for %@",machineName);
+                NSLog(@"  entry %@ not valid for %@",aTitle,machineName);
                 return TRUE;
             }
         }
@@ -298,7 +299,8 @@ static const char * vicii_colors[] = {
         if(map == nil) {
             return nil;
         }
-        return [map objectAtIndex:value];
+        NSString *v = [map objectAtIndex:value];
+        return [NSString stringWithFormat:@"%@ (%d)",v,value];
     }     
     else if([format caseInsensitiveCompare:@"vicii_color"]==NSOrderedSame) {
         // vicii_color
@@ -341,6 +343,7 @@ static const char * vicii_colors[] = {
     }
     NSMutableString *regString = [[NSMutableString alloc] init];
     regValue = regString;
+    [regValue retain];
     
     for(i=0;i<numSrc;i++) {
         NSString *srcEntry = [src objectAtIndex:i];
