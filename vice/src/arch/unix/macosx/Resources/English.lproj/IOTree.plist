@@ -2,6 +2,84 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>6510 On-Chip</key>
+	<dict>
+		<key>range</key>
+		<string>0-1</string>
+		<key>valid</key>
+		<string>_C128_C64_C64DTV_</string>
+		<key>children</key>
+		<dict>
+			<key>Data Direction</key>
+			<dict>
+				<key>format</key>
+				<string>bits</string>
+				<key>src</key>
+				<array>
+					<string>0</string>
+				</array>
+			</dict>
+			<key>Cassette Motor Control</key>
+			<dict>
+				<key>format</key>
+				<string>map</string>
+				<key>map</key>
+				<array>
+					<string>Running</string>
+					<string>Stopped</string>
+				</array>
+				<key>src</key>
+				<array>
+					<string>1&amp;20&gt;5</string>
+				</array>
+			</dict>
+			<key>Cassette Switch Sense</key>
+			<dict>
+				<key>format</key>
+				<string>bool</string>
+				<key>src</key>
+				<array>
+					<string>1&amp;10</string>
+				</array>
+			</dict>
+			<key>Cassette Data Output</key>
+			<dict>
+				<key>format</key>
+				<string>bool</string>
+				<key>src</key>
+				<array>
+					<string>1&amp;8</string>
+				</array>
+			</dict>
+			<key>/CharEn</key>
+			<dict>
+				<key>format</key>
+				<string>bool</string>
+				<key>src</key>
+				<array>
+					<string>1&amp;4</string>
+				</array>
+			</dict>
+			<key>/HiRam</key>
+			<dict>
+				<key>format</key>
+				<string>bool</string>
+				<key>src</key>
+				<array>
+					<string>1&amp;2</string>
+				</array>
+			</dict>
+			<key>/LoRam</key>
+			<dict>
+				<key>format</key>
+				<string>bool</string>
+				<key>src</key>
+				<array>
+					<string>1&amp;1</string>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 	<key>VIC II</key>
 	<dict>
 		<key>valid</key>
