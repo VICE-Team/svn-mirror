@@ -828,8 +828,6 @@ static void finalexpansion_mon_dump_blk(int blk)
     WORD base;
     enum { ACC_OFF, ACC_RAM, ACC_FLASH } acc_mode_r, acc_mode_w;
 
-    mon_out("BLK %i: ", blk);
-
     switch (blk) {
         case 1:
             reg_mask = REGA_BLK1_SEL;
@@ -848,9 +846,11 @@ static void finalexpansion_mon_dump_blk(int blk)
             base = BLK5_BASE;
             break;
         default:
-            mon_out("?\n");
+            /* ignore block 4 */
             return;
     }
+
+    mon_out("BLK %i: ", blk);
 
     if (register_b & reg_mask) {
         mon_out("off\n");
@@ -909,13 +909,13 @@ static void finalexpansion_mon_dump_blk(int blk)
     mon_out("\n  read %s ", finalexpansion_acc_mode[acc_mode_r]);
 
     if (acc_mode_r != ACC_OFF) {
-        mon_out("bank $%02x offset $%06x", bank_r, calc_addr(0, bank_r, base));
+        mon_out("bank $%02x (offset $%06x)", bank_r, calc_addr(0, bank_r, base));
     }
 
     mon_out("\n write %s ", finalexpansion_acc_mode[acc_mode_w]);
 
     if (acc_mode_w != ACC_OFF) {
-        mon_out("bank $%02x offset $%06x", bank_w, calc_addr(0, bank_w, base));
+        mon_out("bank $%02x (offset $%06x)", bank_w, calc_addr(0, bank_w, base));
     }
 
     mon_out("\n");
@@ -965,17 +965,15 @@ static int REGPARM1 finalexpansion_mon_dump(void)
     }
 
     if (active) {
-        mon_out("RAM%s, offset $%06x\n", ro ? " (read only)" : "", calc_addr(0, 0, BLK0_BASE));
+        mon_out("RAM%s (offset $%06x)\n", ro ? " (read only)" : "", calc_addr(0, 0, BLK0_BASE));
     } else {
         mon_out("off\n");
     }
 
     /* BLK 1, 2, 3, 5 */
-    for (blk = 1; blk <= 3; blk++) {
+    for (blk = 1; blk <= 5; blk++) {
         finalexpansion_mon_dump_blk(blk);
     }
-
-    finalexpansion_mon_dump_blk(5);
 
     return 0;
 }

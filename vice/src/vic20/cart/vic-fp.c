@@ -492,7 +492,7 @@ static int REGPARM1 vic_fp_mon_dump(void)
     mon_out("BLK5 is R%cM %s\n", ram5_flop ? 'A' : 'O', CART_CFG_BLK5_WP ? "(write protected)" : "");
     mon_out("BLK1 %sabled\n", blk1_en_flop ? "en" : "dis");
     mon_out("RAM123 %sabled\n", ram123_en_flop ? "en" : "dis");
-    mon_out("ROM bank $%03x, offset $%06x\n", cart_rom_bank, cart_rom_bank << 13);
+    mon_out("ROM bank $%03x (offset $%06x)\n", cart_rom_bank, cart_rom_bank << 13);
     return 0;
 }
 
