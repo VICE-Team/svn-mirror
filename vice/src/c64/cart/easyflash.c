@@ -315,6 +315,9 @@ static int easyflash_common_attach(const char *filename)
 int easyflash_bin_attach(const char *filename, BYTE *rawcart)
 {
     FILE *fd;
+    unsigned int i;
+    BYTE *low;
+    BYTE *high;
 
     easyflash_filetype = 0;
     memset(rawcart, 0xff, 0x100000);
@@ -328,9 +331,14 @@ int easyflash_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    if (fread(rawcart, 0x100000, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
+    low = rawcart;
+    high = rawcart + 0x80000;
+
+    for (i = 0; i < 64; i++, low += 0x2000, high += 0x2000) {
+        if ((fread(low, 0x2000, 1, fd) < 1) || (fread(high, 0x2000, 1, fd) < 1)) {
+            fclose(fd);
+            return -1;
+        }
     }
     fclose(fd);
     easyflash_filetype = CARTRIDGE_FILETYPE_BIN;
@@ -411,8 +419,9 @@ int easyflash_flush_image(void)
 int easyflash_bin_save(const char *filename)
 {
     FILE *fd;
-    BYTE *data;
-    int i, n = 0;
+    int i;
+    BYTE *low;
+    BYTE *high;
 
     if (filename == NULL) {
         return -1;
@@ -424,29 +433,16 @@ int easyflash_bin_save(const char *filename)
         return -1;
     }
 
-    for (i = 0; i < 128; i++) {
-        if (i > 63) {
-            data = easyflash_state_high->flash_data + ((i - 64) * 0x2000);
-        } else {
-            data = easyflash_state_low->flash_data + (i * 0x2000);
-        }
+    low = easyflash_state_low->flash_data;
+    high = easyflash_state_high->flash_data;
 
-        if (easyflash_check_empty(data) == 0) {
-            n = i + 1;
-        }
-    }
-
-    for (i = 0; i < n; i++) {
-        if (i > 63) {
-            data = easyflash_state_high->flash_data + ((i - 64) * 0x2000);
-        } else {
-            data = easyflash_state_low->flash_data + (i * 0x2000);
-        }
-        if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+    for (i = 0; i < 64; i++, low += 0x2000, high += 0x2000) {
+        if ((fwrite(low, 1, 0x2000, fd) != 0x2000) || (fwrite(high, 1, 0x2000, fd) != 0x2000)) {
             fclose(fd);
             return -1;
         }
     }
+
     fclose(fd);
     return 0;
 }
@@ -488,7 +484,7 @@ int easyflash_crt_save(const char *filename)
     chipheader[0x07] = 0x10;
     chipheader[0x09] = 0x02;
     chipheader[0x0e] = 0x20;
- 
+
     for (i = 0; i < 128; i++) {
         if (i > 63) {
             data = easyflash_state_high->flash_data + ((i - 64) * 0x2000);
