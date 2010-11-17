@@ -178,6 +178,19 @@ int c64ui_init(void)
     return 0;
 }
 
+/* duplicated c64ui_init() for now, till the c64sc ui is implemented */
+int c64scui_init(void)
+{
+    uic64cart_init();
+
+    ui_register_menu_translation_layout(c64_ui_translation_menu);
+    ui_register_menu_layout(c64_ui_menu);
+    ui_register_machine_specific(c64_ui_specific);
+    ui_register_menu_toggles(c64_ui_menu_toggles);
+
+    return 0;
+}
+
 void c64ui_shutdown(void)
 {
 }
