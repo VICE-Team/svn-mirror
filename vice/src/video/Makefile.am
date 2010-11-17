@@ -1,7 +1,3 @@
-# AM_CFLAGS = @MAX_INLINE_INSN_SINGLE@
-# AM_CFLAGS = -pedantic -W -Wall -Wextra @MAX_INLINE_INSN_SINGLE@
-AM_CFLAGS = -pedantic -W -Wall -Wextra -Wno-unused-parameter @MAX_INLINE_INSN_SINGLE@
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \

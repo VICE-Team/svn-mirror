@@ -5,8 +5,6 @@ INCLUDES = \
 
 noinst_LIBRARIES = libraster.a
 
-AM_CFLAGS = -pedantic -W -Wall -Wextra
-
 libraster_a_SOURCES = \
 	raster-cache-const.h \
 	raster-cache-fill-1fff.h \
