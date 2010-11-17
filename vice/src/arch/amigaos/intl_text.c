@@ -357,6 +357,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FINAL_EXPANSION_IMAGE_SV, "Final Expansion-fil..." },
 /* tr */ { IDMS_FINAL_EXPANSION_IMAGE_TR, "Final Expansion imajý..." },
 
+/* en */ { IDMS_FP_IMAGE,    "Vic Flash Plugin image..." },
+/* da */ { IDMS_FP_IMAGE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_FP_IMAGE_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_FP_IMAGE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_FP_IMAGE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_FP_IMAGE_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_FP_IMAGE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_FP_IMAGE_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_FP_IMAGE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_FP_IMAGE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_ADD_TO_GENERIC,    "Add to generic..." },
 /* da */ { IDMS_ADD_TO_GENERIC_DA, "Tilføj til standard..." },
 /* de */ { IDMS_ADD_TO_GENERIC_DE, "Zu Universal Image hinzufügen..." },
