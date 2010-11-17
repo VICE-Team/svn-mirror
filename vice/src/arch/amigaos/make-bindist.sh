@@ -68,12 +68,18 @@ if test x"$HOSTSYSTEM" != "xaros"; then
   for i in $EXECUTABLES
   do
     $STRIP src/$i$EXEEXT
+  done
+  for i in $EMULATORS
+  do
     $STRIP src/arch/amigaos/$i"ns"$EXEEXT
   done
 else
   for i in $EXECUTABLES
   do
     $STRIP --strip-unneeded --remove-section .comment src/$i$EXEEXT
+  done
+  for i in $EMULATORS
+  do
     $STRIP --strip-unneeded --remove-section .comment src/arch/amigaos/$i"ns"$EXEEXT
   done
 fi
@@ -81,12 +87,18 @@ if test x"$HOSTSYSTEM" = "xmorphos"; then
   for i in $EXECUTABLES
   do
     cp src/$i$EXEEXT VICE-$AMIGAFLAVOR/$i
+  done
+  for i in $EMULATORS
+  do
     cp src/arch/amigaos/$i"ns"$EXEEXT VICE-$AMIGAFLAVOR/$i\ \(no\ sound\)
   done
 else
   for i in $EXECUTABLES
   do
     cp src/$i$EXEEXT VICE-$AMIGAFLAVOR/$i.exe
+  done
+  for i in $EMULATORS
+  do
     cp src/arch/amigaos/$i"ns"$EXEEXT VICE-$AMIGAFLAVOR/$i\ \(no\ sound\).exe
   done
 fi
