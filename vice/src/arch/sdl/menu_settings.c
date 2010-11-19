@@ -60,6 +60,25 @@ static UI_MENU_CALLBACK(save_settings_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(save_settings_to_callback)
+{
+    if (activated) {
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose file for keymap", FILEREQ_MODE_SAVE_FILE);
+
+        if (name != NULL) {
+            if (resources_save(name) < 0) {
+                ui_error("Cannot save current settings.");
+            } else {
+                ui_message("Settings saved.");
+            }
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
+
 static UI_MENU_CALLBACK(load_settings_callback)
 {
     if (activated) {
@@ -67,6 +86,25 @@ static UI_MENU_CALLBACK(load_settings_callback)
             ui_error("Cannot load settings.");
         } else {
             ui_message("Settings loaded.");
+        }
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(load_settings_from_callback)
+{
+    if (activated) {
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose settings file", FILEREQ_MODE_CHOOSE_FILE);
+
+        if (name != NULL) {
+            if (resources_load(name) < 0) {
+                ui_error("Cannot load settings.");
+            } else {
+                ui_message("Settings loaded.");
+            }
+            lib_free(name);
         }
     }
     return NULL;
@@ -270,6 +308,14 @@ const ui_menu_entry_t settings_manager_menu[] = {
     { "Load settings",
       MENU_ENTRY_OTHER,
       load_settings_callback,
+      NULL },
+    { "Save current settings to",
+      MENU_ENTRY_OTHER,
+      save_settings_to_callback,
+      NULL },
+    { "Load settings from",
+      MENU_ENTRY_OTHER,
+      load_settings_from_callback,
       NULL },
     { "Restore default settings",
       MENU_ENTRY_OTHER,
