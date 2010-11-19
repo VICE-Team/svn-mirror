@@ -34,8 +34,8 @@
 #
 
 !CLEAR
-!LSHIFT 1 7
-!RSHIFT 6 4
+!LSHIFT 6 0
+!RSHIFT 6 6
 !VSHIFT RSHIFT
 
 27 2 0 8        /*          ESC -> ESC          */

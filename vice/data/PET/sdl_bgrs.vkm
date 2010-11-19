@@ -34,8 +34,8 @@
 #
 
 !CLEAR
-!LSHIFT 1 7
-!RSHIFT 6 4
+!LSHIFT 8 0
+!RSHIFT 8 5
 !VSHIFT RSHIFT
 
 27 9 4 8        /*          ESC -> Run/Stop     */
