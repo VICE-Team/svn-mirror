@@ -54,7 +54,12 @@
 #include "vsync.h"
 
 
+#ifdef HAVE_PNG
 #define DEFAULT_DRIVER "PNG"
+#else
+#define DEFAULT_DRIVER "BMP"
+#endif
+
 #define MAXSCRNDRVLEN 256
 static char screendrivername[MAXSCRNDRVLEN];
 static OPENFILENAME ofn;
