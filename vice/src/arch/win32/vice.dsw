@@ -134,9 +134,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name serial
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -566,9 +563,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name fileio
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -599,18 +593,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name base
     End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "png"=".\png.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################
@@ -939,9 +921,6 @@ Package=<4>
     Project_Dep_Name parallel
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name png
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
@@ -1007,9 +986,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1057,9 +1033,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name parallel
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name png
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
@@ -1118,9 +1091,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1168,9 +1138,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name parallel
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name png
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
@@ -1229,9 +1196,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1287,9 +1251,6 @@ Package=<4>
     Project_Dep_Name parallel
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name png
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
@@ -1340,9 +1301,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1384,9 +1342,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name parallel
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name png
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
@@ -1439,9 +1394,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name core
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1483,9 +1435,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name pet
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name png
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
@@ -1535,9 +1484,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name core
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1579,9 +1525,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plus4
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name png
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
@@ -1634,9 +1577,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1678,9 +1618,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name parallel
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name png
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
@@ -1736,21 +1673,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name zlib
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "zlib"=".\zlib.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################

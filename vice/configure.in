@@ -24,7 +24,6 @@ VICE_ARG_WITH_LIST(zlib,          [  --without-zlib          do not use the zlib
 VICE_ARG_WITH_LIST(picasso96,     [  --with-picasso96        use Amiga P96 grafix system instead of cgx])
 VICE_ARG_WITH_LIST(cocoa,         [  --with-cocoa            enables native Cocoa UI on Macs])
 VICE_ARG_ENABLE_LIST(textfield,   [  --disable-textfield     disable enhanced text field widget])
-VICE_ARG_ENABLE_LIST(zlibtest,    [  --disable-zlibtest      disable zlib test])
 VICE_ARG_ENABLE_LIST(fullscreen,  [  --disable-fullscreen    disable XFree86 fullscreen detection])
 VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
@@ -1199,36 +1198,19 @@ AC_CHECK_LIB(m, sqrt,,,$LIBS)
 
 
 dnl ----- ZLib -----
-VICE_ZLIB=
-VICE_ZLIB_DIR=
-VICE_ZLIB_DEP=
-VICE_ZLIB_INCLUDES=
 ZLIB_LIBS=
 
 if test x"$with_zlib" != "xno" ; then
   AC_CHECK_HEADER(zlib.h,,)
   if test x"$ac_cv_header_zlib_h" = "xyes" ; then
     ac_cv_lib_z_zlibVersion=yes
-    if test x"$enable_zlibtest" != "xno" ; then
-      AC_CHECK_LIB(z, zlibVersion,
-                 [ ZLIB_LIBS="-lz";
-                   AC_DEFINE(HAVE_ZLIB,,
-                             [Can we use the ZLIB compression library?]) ],,)
-    fi
-  fi
-  if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
-    AC_DEFINE(HAVE_ZLIB,, [Can we use the ZLIB compression library?])
-    VICE_ZLIB="\$(top_builddir)/src/lib/zlib/libz.a"
-    VICE_ZLIB_DEP=libz
-    VICE_ZLIB_INCLUDES="-I\$(top_srcdir)/src/lib/zlib"
-    VICE_ZLIB_DIR=lib/zlib
+    AC_CHECK_LIB(z, zlibVersion,
+               [ ZLIB_LIBS="-lz";
+                 AC_DEFINE(HAVE_ZLIB,,
+                 [Can we use the ZLIB compression library?]) ],,)
   fi
 fi
 
-AC_SUBST(VICE_ZLIB)
-AC_SUBST(VICE_ZLIB_DIR)
-AC_SUBST(VICE_ZLIB_DEP)
-AC_SUBST(VICE_ZLIB_INCLUDES)
 AC_SUBST(ZLIB_LIBS)
 
 
@@ -2181,42 +2163,25 @@ fi
 
 
 dnl Configure graphics output drivers
-VICE_LIBPNG=
-VICE_LIBPNG_DIR=
-VICE_LIBPNG_DEP=
-VICE_LIBPNG_INCLUDES=
-
 old_LIBS="$LIBS"
 GFXOUTPUT_LIBS=
 
-if test x"$is_beos" != "xyes" -a x"$is_beos_x11" != "xyes"; then
-  if test x"$with_png" != "xno" ; then
-    dnl Check for the PNG library.
-    AC_CHECK_HEADER(png.h,,)
-    if test x"$ac_cv_header_png_h" = "xyes" ; then
+if test x"$with_png" != "xno" ; then
+  dnl Check for the PNG library.
+  AC_CHECK_HEADER(png.h,,)
+  if test x"$ac_cv_header_png_h" = "xyes" ; then
+    unset ac_cv_lib_png_png_sig_cmp
+    AC_CHECK_LIB(png, png_sig_cmp,
+                 [ GFXOUTPUT_LIBS="-lpng $GFXOUTPUT_LIBS";
+                   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+                   AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
+    if test "$ac_cv_lib_png_png_sig_cmp" = "no"; then
       unset ac_cv_lib_png_png_sig_cmp
       AC_CHECK_LIB(png, png_sig_cmp,
-                   [ GFXOUTPUT_LIBS="-lpng $GFXOUTPUT_LIBS";
+                   [ GFXOUTPUT_LIBS="-lpng -lz $GFXOUTPUT_LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                     AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
-      if test "$ac_cv_lib_png_png_sig_cmp" = "no"; then
-        unset ac_cv_lib_png_png_sig_cmp
-        AC_CHECK_LIB(png, png_sig_cmp,
-                     [ GFXOUTPUT_LIBS="-lpng -lz $GFXOUTPUT_LIBS";
-                       GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                       AC_DEFINE(HAVE_PNG,,
-                                 [Can we use the PNG library?]) ],,"-lz")
-      fi
-    fi
-    if test x"$ac_cv_lib_png_png_sig_cmp" != "xyes"; then
-      if test x"$with_zlib" != "xno" ; then
-        AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
-        VICE_LIBPNG="\$(top_builddir)/src/lib/lpng/libpng.a"
-        VICE_LIBPNG_DEP=libpng
-        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o"
-        VICE_LIBPNG_INCLUDES="-I\$(top_srcdir)/src/lib/lpng"
-        VICE_LIBPNG_DIR=lib/lpng
-      fi
+                     AC_DEFINE(HAVE_PNG,,
+                               [Can we use the PNG library?]) ],,"-lz")
     fi
   fi
 fi
@@ -2246,12 +2211,8 @@ if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
 fi
 
 LIBS="$old_LIBS"
-AC_SUBST(VICE_LIBPNG)
-AC_SUBST(VICE_LIBPNG_DIR)
-AC_SUBST(VICE_LIBPNG_DEP)
 AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(GFXOUTPUT_LIBS)
-AC_SUBST(VICE_LIBPNG_INCLUDES)
 
 
 dnl Check for libraries and header files
@@ -3183,8 +3144,6 @@ if false ; then
     mkdir -p iecbus
     mkdir -p imagecontents
     mkdir -p lib
-    mkdir -p lib/lpng
-    mkdir -p lib/zlib
     mkdir -p monitor
     mkdir -p parallel
     mkdir -p pet
@@ -3303,8 +3262,6 @@ AC_OUTPUT([Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
            src/lib/Makefile
-           src/lib/lpng/Makefile
-           src/lib/zlib/Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile

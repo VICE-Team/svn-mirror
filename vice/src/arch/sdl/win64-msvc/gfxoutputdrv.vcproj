@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\lpng,..\..\..\lib\zlib,..\..\..\lib\libffmpeg"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\libffmpeg"
 				PreprocessorDefinitions="DONT_USE_UNISTD_H;WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -118,7 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\lpng,..\..\..\lib\zlib,..\..\..\lib\libffmpeg"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\libffmpeg"
 				PreprocessorDefinitions="DONT_USE_UNISTD_H;WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\gfxoutputdrv\Debug/gfxoutputdrv.pch"
@@ -191,7 +191,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\lpng,..\..\..\lib\zlib,..\..\..\lib\libffmpeg"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\libffmpeg"
 				PreprocessorDefinitions="DONT_USE_UNISTD_H;WINIA64;WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -264,7 +264,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\lpng,..\..\..\lib\zlib,..\..\..\lib\libffmpeg"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\lib\libffmpeg"
 				PreprocessorDefinitions="DONT_USE_UNISTD_H;WINIA64;WIN32;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\gfxoutputdrv\Debug/gfxoutputdrv.pch"
@@ -474,46 +474,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\gfxoutputdrv\pcxdrv.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\gfxoutputdrv\pngdrv.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"

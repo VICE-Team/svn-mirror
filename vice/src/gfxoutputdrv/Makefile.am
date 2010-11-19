@@ -3,8 +3,6 @@
 INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	@VICE_LIBPNG_INCLUDES@ \
-	@VICE_ZLIB_INCLUDES@ \
 	@FFMPEG_INCLUDES@ \
 	@QUICKTIME_INCLUDES@ \
 	@ARCH_INCLUDES@

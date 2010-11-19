@@ -9,8 +9,6 @@ SUBDIRS = \
 	@RESID_DIR@ \
 	@RESID_FP_DIR@ \
 	@RESID_DTV_DIR@ \
-	@VICE_LIBPNG_DIR@ \
-	@VICE_ZLIB_DIR@ \
 	sounddrv \
 	drive \
 	vdrive \
@@ -84,7 +82,6 @@ DIST_SUBDIRS = \
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
-	@VICE_ZLIB_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/arch \
@@ -718,7 +715,7 @@ viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @VICE_LIBPNG@ @VICE_ZLIB@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@ @RESID_FP_LIBS@
 resid_dtv_libs = @RESID_DTV_LIBS@ @RESID_FP_LIBS@
 
@@ -808,8 +805,6 @@ x64-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	libc64 \
 	libc64cart \
 	libdriveiec \
@@ -873,8 +868,6 @@ x64sc-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	libc64sc \
 	libc64cart \
 	libdriveiec \
@@ -937,8 +930,6 @@ x64dtv-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DTV_DEP@ \
 	@RESID_FP_DEP@ \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	libc64dtv \
 	libc64dtvstubs \
 	libc64c64dtv \
@@ -1036,8 +1027,6 @@ x128-all: \
 	librtc \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	x128$(EXEEXT)
 
 # xvic
@@ -1095,8 +1084,6 @@ xvic-all: \
 	libfileio \
 	libcore \
 	librtc \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	xvic$(EXEEXT)
 
 # xpet
@@ -1151,8 +1138,6 @@ xpet-all: \
 	libfileio \
 	libcore \
 	librtc \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -1208,8 +1193,6 @@ xplus4-all: \
 	libfileio \
 	libcore \
 	librtc \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -1248,8 +1231,6 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
-	@VICE_LIBPNG_DEP@ \
-	@VICE_ZLIB_DEP@ \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -1309,7 +1290,7 @@ c1541_LDADD = \
 	$(serial_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
-	@VICE_ZLIB@ @ZLIB_LIBS@ @DYNLIB_LIBS@
+	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
 # petcat
 petcat_SOURCES = \
@@ -1330,7 +1311,7 @@ petcat_LDADD = \
 	$(OWCC_SYSTEM) \
 	$(fileio_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
-	@VICE_ZLIB@ @ZLIB_LIBS@
+	@ZLIB_LIBS@
 
 # cartconv
 cartconv_SOURCES = cartconv.c
@@ -1342,7 +1323,6 @@ cartconv_LDADD = @INTLLIBS@
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc libvideo
 	libserial libparallel libcore libiecbus libfileio @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
-	@VICE_LIBPNG_DEP@ @VICE_ZLIB_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1404,8 +1384,6 @@ libpet:
 	(cd pet && $(MAKE))
 libplus4:
 	(cd plus4 && $(MAKE))
-libpng:
-	(cd lib/lpng && $(MAKE))
 libprinterdrv:
 	(cd printerdrv && $(MAKE))
 librs232drv:
@@ -1444,8 +1422,6 @@ libviciisc:
 	(cd viciisc && $(MAKE) libviciisc.a)
 libvideo:
 	(cd video && $(MAKE))
-libz:
-	(cd lib/zlib && $(MAKE))
 
 x64ow$(EXEEXT): x64$(EXEEXT)
 	wrc -fe=x64ow$(EXEEXT) arch/win32/resc64.res x64$(EXEEXT)

@@ -38,7 +38,6 @@ EXTRA_DIST = \
 	petcat.vcproj \
 	plus4.vcproj \
 	plus4exp.vcproj \
-	png.vcproj \
 	printerdrv.vcproj \
 	raster.vcproj \
 	resid.vcproj \
@@ -66,7 +65,6 @@ EXTRA_DIST = \
 	xpet.vcproj \
 	xplus4.vcproj \
 	xvic.vcproj \
-	zlib.vcproj \
 	vice.sln \
 	make-msvc-bindist.bat \
 	win64_x64.bat \

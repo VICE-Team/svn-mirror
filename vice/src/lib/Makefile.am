@@ -1,5 +1,3 @@
-SUBDIRS = lpng zlib
-
 EXTRA_DIST = \
 	libffmpeg/libavcodec/avcodec.h \
 	libffmpeg/libavcodec/opt.h \

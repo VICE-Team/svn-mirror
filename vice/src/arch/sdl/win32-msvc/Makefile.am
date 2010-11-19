@@ -40,7 +40,6 @@ EXTRA_DIST = \
 	petcat.dsp \
 	plus4.dsp \
 	plus4exp.dsp \
-	png.dsp \
 	printerdrv.dsp \
 	raster.dsp \
 	resid.dsp \
@@ -70,5 +69,4 @@ EXTRA_DIST = \
 	xcbm2.dsp \
 	xpet.dsp \
 	xplus4.dsp \
-	xvic.dsp \
-	zlib.dsp
+	xvic.dsp
