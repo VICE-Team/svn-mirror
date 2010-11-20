@@ -324,8 +324,6 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
       AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     fi
-    with_png=no
-    with_zlib=no
     is_amigaos4=no
     is_amigaos3=yes
   fi
