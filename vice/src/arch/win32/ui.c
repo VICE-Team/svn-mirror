@@ -476,13 +476,7 @@ static void ui_translate_menu_items(HMENU menu, ui_menu_translation_table_t *tra
     }
 
     while (trans_table[i].idm != 0) {
-        /* x64 and x64sc share the same menu except for the model settings item,
-           because of this we delete the menu item for x64 when encountered. */
-        if (machine_class == VICE_MACHINE_C64 && trans_table[i].idm == IDM_C64MODEL_SETTINGS) {
-            DeleteMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING);
-        } else {
-            ModifyMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING, trans_table[i].idm, translate_text(trans_table[i].ids));
-        }
+        ModifyMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING, trans_table[i].idm, translate_text(trans_table[i].ids));
         i++;
     }
 }
