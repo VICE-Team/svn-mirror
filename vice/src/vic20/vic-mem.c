@@ -237,30 +237,30 @@ BYTE REGPARM1 vic_read(WORD addr)
         } else if (lightpen_enabled) {
             return lightpen_read_button_x();
         } else {
-            return vic.regs[addr];
+            return 0xff;
         }
         break;
       case 9:
         if (_mouse_enabled) {
             return mouse_get_y();
         } else if (lightpen_enabled) {
-            return lightpen_read_button_x();
+            return lightpen_read_button_y();
         } else {
-            return vic.regs[addr];
+            return 0xff;
         }
         break;
+#else
+      case 8:
+      case 9:
+        return 0xff;
 #endif
       default:
         return vic.regs[addr];
     }
 }
 
-/* This function is only used by mem_get_screen_parameter(),
-   so all we return is the regs. Change this if it ever gets
-   used for other things. */
 BYTE REGPARM1 vic_peek(WORD addr)
 {
-    addr &= 0xf;
-
-    return vic.regs[addr];
+    /* No side effects (unless mouse_get_* counts) */
+    return vic_read(addr);
 }
