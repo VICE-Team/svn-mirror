@@ -32,19 +32,19 @@
 
 /* Image struct, modeled after XvImage. */
 typedef struct {
-  int width, height;
-  int data_size;              /* bytes */
-  int num_planes;
-  int *pitches;               /* bytes */
-  int *offsets;               /* bytes */
-  BYTE *data;
+    int width, height;
+    int data_size;              /* bytes */
+    int num_planes;
+    int *pitches;               /* bytes */
+    int *offsets;               /* bytes */
+    BYTE *data;
 } image_t;
 
 /* A FOURCC consists of four bytes that can be interpreted either as
    a four-character string or as a four-byte integer. */
 typedef union {
-  int id;
-  char label[4];
+    int id;
+    char label[4];
 } fourcc_t;
 
 /* YUV formats in preferred order. Since the order of the four bytes

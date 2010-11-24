@@ -37,50 +37,60 @@
 
 static int set_color_saturation(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 2000)
+    }
+    if (val > 2000) {
         val = 2000;
+    }
     video_resources.color_saturation = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_contrast(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 2000)
+    }
+    if (val > 2000) {
         val = 2000;
+    }
     video_resources.color_contrast = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_brightness(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 2000)
+    }
+    if (val > 2000) {
         val = 2000;
+    }
     video_resources.color_brightness = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_gamma(int val, void *param)
 {
-    if (val < 0)
-        val=0;
-    if (val > 4000)
-        val=4000;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 4000) {
+        val = 4000;
+    }
     video_resources.color_gamma = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_color_tint(int val, void *param)
 {
-    if (val < 0)
-        val=0;
-    if (val > 2000)
-        val=2000;
+    if (val < 0) {
+        val = 0;
+    }
+    if (val > 2000) {
+        val = 2000;
+    }
     video_resources.color_tint = val;
     return video_color_update_palette(video_current_canvas);
 }
@@ -105,40 +115,48 @@ static int set_delayloop_emulation(int val, void *param)
 
 static int set_pal_scanlineshade(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 1000)
+    }
+    if (val > 1000) {
         val = 1000;
+    }
     video_resources.pal_scanlineshade = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_pal_oddlinesphase(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 2000)
+    }
+    if (val > 2000) {
         val = 2000;
+    }
     video_resources.pal_oddlines_phase = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_pal_oddlinesoffset(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 2000)
+    }
+    if (val > 2000) {
         val = 2000;
+    }
     video_resources.pal_oddlines_offset = val;
     return video_color_update_palette(video_current_canvas);
 }
 
 static int set_pal_blur(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         val = 0;
-    if (val > 1000)
+    }
+    if (val > 1000) {
         val = 1000;
+    }
     video_resources.pal_blur = val;
     return video_color_update_palette(video_current_canvas);
 }

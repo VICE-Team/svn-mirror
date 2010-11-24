@@ -96,28 +96,32 @@ static int set_double_size_enabled(int val, void *param)
         && (video_chip_cap->dsize_limit_width == 0
         || (canvas->draw_buffer->canvas_width > 0
         && canvas->draw_buffer->canvas_width
-        <= video_chip_cap->dsize_limit_width)))
+        <= video_chip_cap->dsize_limit_width))) {
         canvas->videoconfig->doublesizex = 1;
-    else
+    } else {
         canvas->videoconfig->doublesizex = 0;
+    }
 
     if (cap_render->sizey > 1
         && (video_chip_cap->dsize_limit_height == 0
         || (canvas->draw_buffer->canvas_height > 0
         && canvas->draw_buffer->canvas_height
-        <= video_chip_cap->dsize_limit_height)))
+        <= video_chip_cap->dsize_limit_height))) {
         canvas->videoconfig->doublesizey = 1;
-    else
+    } else {
         canvas->videoconfig->doublesizey = 0;
+    }
 
     /* FIXME: Kludge needed until kind of render and dimensions are
        separated from `rendermode' (which is overloaded currently). */
     if (canvas->videoconfig->rendermode == VIDEO_RENDER_RGB_2X2) {
-        if (canvas->videoconfig->doublesizex == 0)
+        if (canvas->videoconfig->doublesizex == 0) {
             canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X2;
+        }
         if (canvas->videoconfig->doublesizex == 0
-            && canvas->videoconfig->doublesizey == 0)
+            && canvas->videoconfig->doublesizey == 0) {
             canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X1;
+        }
     }
 
     if ((canvas->videoconfig->double_size_enabled != val
@@ -150,8 +154,9 @@ static int set_double_scan_enabled(int val, void *param)
 
     canvas->videoconfig->doublescan = val;
 
-    if (canvas->initialized)
+    if (canvas->initialized) {
         video_canvas_refresh_all(canvas);
+    }
 
     video_resources_update_ui(canvas);
 
@@ -227,8 +232,9 @@ static int set_scale2x_enabled(int val, void *param)
 
     canvas->videoconfig->scale2x = val;
 
-    if (canvas->initialized)
+    if (canvas->initialized) {
         video_canvas_refresh_all(canvas);
+    }
 
     video_resources_update_ui(canvas);
 
@@ -442,8 +448,9 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_scan[0].value_ptr
             = &((*canvas)->videoconfig->doublescan);
         resources_chip_scan[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_scan) < 0)
+        if (resources_register_int(resources_chip_scan) < 0) {
             return -1;
+        }
 
         lib_free((char *)(resources_chip_scan[0].name));
     }
@@ -454,14 +461,16 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_hwscale[0].value_ptr
             = &((*canvas)->videoconfig->hwscale);
         resources_chip_hwscale[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_hwscale) < 0)
+        if (resources_register_int(resources_chip_hwscale) < 0) {
             return -1;
+        }
 
         lib_free((char *)(resources_chip_hwscale[0].name));
     }
 
-    if (resources_register_int(resources_chip_hwscale_possible) < 0)
+    if (resources_register_int(resources_chip_hwscale_possible) < 0) {
         return -1;
+    }
 
     if (video_chip_cap->scale2x_allowed != 0) {
         resources_chip_scale2x[0].name
@@ -469,8 +478,9 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_scale2x[0].value_ptr
             = &((*canvas)->videoconfig->scale2x);
         resources_chip_scale2x[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_scale2x) < 0)
+        if (resources_register_int(resources_chip_scale2x) < 0) {
             return -1;
+        }
 
         lib_free((char *)(resources_chip_scale2x[0].name));
     }
@@ -483,8 +493,9 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_size[0].value_ptr
             = &((*canvas)->videoconfig->double_size_enabled);
         resources_chip_size[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_size) < 0)
+        if (resources_register_int(resources_chip_size) < 0) {
             return -1;
+        }
 
         lib_free((char *)(resources_chip_size[0].name));
     }
@@ -512,11 +523,13 @@ int video_resources_chip_init(const char *chipname,
             = &((*canvas)->videoconfig->fullscreen_device);
         resources_chip_fullscreen_string[0].param = (void *)*canvas;
 
-        if (resources_register_string(resources_chip_fullscreen_string) < 0)
+        if (resources_register_string(resources_chip_fullscreen_string) < 0) {
             return -1;
+        }
 
-        if (resources_register_int(resources_chip_fullscreen_int) < 0)
+        if (resources_register_int(resources_chip_fullscreen_int) < 0) {
             return -1;
+        }
 
         lib_free((char *)(resources_chip_fullscreen_int[0].name));
         lib_free((char *)(resources_chip_fullscreen_int[1].name));
@@ -536,8 +549,9 @@ int video_resources_chip_init(const char *chipname,
             resources_chip_fullscreen_mode[0].param
                 = (void *)resource_chip_mode;
 
-            if (resources_register_int(resources_chip_fullscreen_mode) < 0)
+            if (resources_register_int(resources_chip_fullscreen_mode) < 0) {
                 return -1;
+            }
 
             lib_free((char *)(resources_chip_fullscreen_mode[0].name));
         }
@@ -562,15 +576,18 @@ int video_resources_chip_init(const char *chipname,
         (*canvas)->videoconfig->external_palette = 1;
     }
 
-    if (resources_register_string(resources_chip_palette_string) < 0)
+    if (resources_register_string(resources_chip_palette_string) < 0) {
         return -1;
+    }
 
-    if (resources_register_int(resources_chip_palette_int) < 0)
+    if (resources_register_int(resources_chip_palette_int) < 0) {
         return -1;
+    }
 
     lib_free((char *)(resources_chip_palette_string[0].name));
-    if (video_chip_cap->internal_palette_allowed != 0)
+    if (video_chip_cap->internal_palette_allowed != 0) {
         lib_free((char *)(resources_chip_palette_int[0].name));
+    }
 
     if (video_chip_cap->double_buffering_allowed != 0) {
         resources_chip_double_buffer[0].name
@@ -578,8 +595,9 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_double_buffer[0].value_ptr
             = &((*canvas)->videoconfig->double_buffer);
         resources_chip_double_buffer[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_double_buffer) < 0)
+        if (resources_register_int(resources_chip_double_buffer) < 0) {
             return -1;
+        }
 
         lib_free((char *)(resources_chip_double_buffer[0].name));
     }

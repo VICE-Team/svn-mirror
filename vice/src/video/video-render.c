@@ -218,151 +218,148 @@ void render_yuv_image(int double_size,
                       unsigned int src_w, unsigned int src_h,
                       int dest_x, int dest_y)
 {
-  int planar;
-  int shift_y0, shift_u, shift_v, shift_y1;
-  int plane_y, plane_u, plane_v;
-  int double_scan = config->doublescan;
+    int planar;
+    int shift_y0, shift_u, shift_v, shift_y1;
+    int plane_y, plane_u, plane_v;
+    int double_scan = config->doublescan;
 
-  switch (format.id) {
-  case FOURCC_UYVY:
-    planar = 0;
-    plane_y = plane_u = plane_v = 0;
+    switch (format.id) {
+        case FOURCC_UYVY:
+            planar = 0;
+            plane_y = plane_u = plane_v = 0;
 #ifdef WORDS_BIGENDIAN
-    shift_y0 = 16; shift_u = 24; shift_v = 8; shift_y1 = 0;
+            shift_y0 = 16; shift_u = 24; shift_v = 8; shift_y1 = 0;
 #else
-    shift_y0 = 8; shift_u = 0; shift_v = 16; shift_y1 = 24;
+            shift_y0 = 8; shift_u = 0; shift_v = 16; shift_y1 = 24;
 #endif
-    break;
-  case FOURCC_YUY2:
-    planar = 0;
-    plane_y = plane_u = plane_v = 0;
+            break;
+        case FOURCC_YUY2:
+            planar = 0;
+            plane_y = plane_u = plane_v = 0;
 #ifdef WORDS_BIGENDIAN
-    shift_y0 = 24; shift_u = 16; shift_v = 0; shift_y1 = 8;
+            shift_y0 = 24; shift_u = 16; shift_v = 0; shift_y1 = 8;
 #else
-    shift_y0 = 0; shift_u = 8; shift_v = 24; shift_y1 = 16;
+            shift_y0 = 0; shift_u = 8; shift_v = 24; shift_y1 = 16;
 #endif
-    break;
-  case FOURCC_YVYU:
-    planar = 0;
-    plane_y = plane_u = plane_v = 0;
+            break;
+        case FOURCC_YVYU:
+            planar = 0;
+            plane_y = plane_u = plane_v = 0;
 #ifdef WORDS_BIGENDIAN
-    shift_y0 = 24; shift_u = 0; shift_v = 16; shift_y1 = 8;
+            shift_y0 = 24; shift_u = 0; shift_v = 16; shift_y1 = 8;
 #else
-    shift_y0 = 0; shift_u = 24; shift_v = 8; shift_y1 = 16;
+            shift_y0 = 0; shift_u = 24; shift_v = 8; shift_y1 = 16;
 #endif
-    break;
-  case FOURCC_YV12:
-    planar = 1;
-    shift_y0 = shift_u = shift_v = shift_y1 = 0;
-    plane_y = 0; plane_u = 2; plane_v = 1;
-    break;
-  case FOURCC_I420:
-  case FOURCC_IYUV:
-    planar = 1;
-    shift_y0 = shift_u = shift_v = shift_y1 = 0;
-    plane_y = 0; plane_u = 1; plane_v = 2;
-    break;
-  default:
-    return;
-  }
+            break;
+        case FOURCC_YV12:
+            planar = 1;
+            shift_y0 = shift_u = shift_v = shift_y1 = 0;
+            plane_y = 0; plane_u = 2; plane_v = 1;
+            break;
+        case FOURCC_I420:
+        case FOURCC_IYUV:
+            planar = 1;
+            shift_y0 = shift_u = shift_v = shift_y1 = 0;
+            plane_y = 0; plane_u = 1; plane_v = 2;
+            break;
+        default:
+            return;
+    }
 
-  if (double_size) {
-    /* 2x2 */
-    if (planar) {
-      if (! true_pal_mode) {
-        renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
-                           src, src_pitch, config->color_tables.yuv_table,
-                           src_x, src_y, src_w, src_h, dest_x, dest_y,
-                           double_scan, pal_scanline_shade);
-      } else {
-        renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
-                               src, src_pitch, config->color_tables.yuv_table,
-                               src_x, src_y, src_w, src_h, dest_x, dest_y,
-                               pal_blur, double_scan, pal_scanline_shade);
-      }
-    }
-    else {
-      if (! true_pal_mode) {
-        renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-                           src, src_pitch, config->color_tables.yuv_table,
-                           src_x, src_y, src_w, src_h, dest_x, dest_y,
-                           double_scan, pal_scanline_shade);
-      } else {
-        src_w *= 2;
-        src_h *= 2;
-        dest_y *= 2;
-        switch (format.id) {
-        case FOURCC_UYVY:
-            render_UYVY_2x2_pal(
-                &config->color_tables, src, image->data + image->offsets[0],
-                src_w, src_h, src_x, src_y,
-                dest_x, dest_y, src_pitch, image->pitches[0], viewport
-            );
-        break;
-        case FOURCC_YUY2:
-            render_YUY2_2x2_pal(
-                &config->color_tables, src, image->data + image->offsets[0],
-                src_w, src_h, src_x, src_y,
-                dest_x, dest_y, src_pitch, image->pitches[0], viewport
-            );
-        break;
-        case FOURCC_YVYU:
-            render_YVYU_2x2_pal(
-                &config->color_tables, src, image->data + image->offsets[0],
-                src_w, src_h, src_x, src_y,
-                dest_x, dest_y, src_pitch, image->pitches[0], viewport
-            );
-        break;
+    if (double_size) {
+        /* 2x2 */
+        if (planar) {
+            if (!true_pal_mode) {
+                renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
+                                   src, src_pitch, config->color_tables.yuv_table,
+                                   src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                   double_scan, pal_scanline_shade);
+            } else {
+                renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
+                                       src, src_pitch, config->color_tables.yuv_table,
+                                       src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                       pal_blur, double_scan, pal_scanline_shade);
+            }
+        } else {
+            if (!true_pal_mode) {
+                renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                   src, src_pitch, config->color_tables.yuv_table,
+                                   src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                   double_scan, pal_scanline_shade);
+            } else {
+                src_w *= 2;
+                src_h *= 2;
+                dest_y *= 2;
+                switch (format.id) {
+                    case FOURCC_UYVY:
+                        render_UYVY_2x2_pal(
+                            &config->color_tables, src, image->data + image->offsets[0],
+                            src_w, src_h, src_x, src_y,
+                            dest_x, dest_y, src_pitch, image->pitches[0], viewport
+                        );
+                        break;
+                    case FOURCC_YUY2:
+                        render_YUY2_2x2_pal(
+                            &config->color_tables, src, image->data + image->offsets[0],
+                            src_w, src_h, src_x, src_y,
+                            dest_x, dest_y, src_pitch, image->pitches[0], viewport
+                        );
+                        break;
+                    case FOURCC_YVYU:
+                        render_YVYU_2x2_pal(
+                            &config->color_tables, src, image->data + image->offsets[0],
+                            src_w, src_h, src_x, src_y,
+                            dest_x, dest_y, src_pitch, image->pitches[0], viewport
+                        );
+                        break;
+                }
+            }
         }
-      }
-    }
-  }
-  else {
-    /* 1x1 */
-    if (planar) {
-      if (! true_pal_mode) {
-        renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
-                        src, src_pitch, config->color_tables.yuv_table,
-                        src_x, src_y, src_w, src_h, dest_x, dest_y);
-      } else {
-        renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
-                            src, src_pitch, config->color_tables.yuv_table,
-                            src_x, src_y, src_w, src_h, dest_x, dest_y,
-                            pal_blur);
-      }
-    }
-    else {
-      if (! true_pal_mode) {
-        renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-                        src, src_pitch, config->color_tables.yuv_table,
-                        src_x, src_y, src_w, src_h, dest_x, dest_y);
-      } else {
-        switch (format.id) {
-        case FOURCC_UYVY:
-            render_UYVY_1x1_pal(
-                &config->color_tables, src, image->data + image->offsets[0],
-                src_w, src_h, src_x, src_y,
-                dest_x, dest_y, src_pitch, image->pitches[0]
-            );
-        break;
-        case FOURCC_YUY2:
-            render_YUY2_1x1_pal(
-                &config->color_tables, src, image->data + image->offsets[0],
-                src_w, src_h, src_x, src_y,
-                dest_x, dest_y, src_pitch, image->pitches[0]
-            );
-        break;
-        case FOURCC_YVYU:
-            render_YVYU_1x1_pal(
-                &config->color_tables, src, image->data + image->offsets[0],
-                src_w, src_h, src_x, src_y,
-                dest_x, dest_y, src_pitch, image->pitches[0]
-            );
-        break;
+    } else {
+        /* 1x1 */
+        if (planar) {
+            if (!true_pal_mode) {
+                renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+            } else {
+                renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                    pal_blur);
+            }
+        } else {
+            if (!true_pal_mode) {
+                renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+            } else {
+                switch (format.id) {
+                    case FOURCC_UYVY:
+                        render_UYVY_1x1_pal(
+                            &config->color_tables, src, image->data + image->offsets[0],
+                            src_w, src_h, src_x, src_y,
+                            dest_x, dest_y, src_pitch, image->pitches[0]
+                        );
+                        break;
+                    case FOURCC_YUY2:
+                        render_YUY2_1x1_pal(
+                            &config->color_tables, src, image->data + image->offsets[0],
+                            src_w, src_h, src_x, src_y,
+                            dest_x, dest_y, src_pitch, image->pitches[0]
+                        );
+                        break;
+                    case FOURCC_YVYU:
+                        render_YVYU_1x1_pal(
+                            &config->color_tables, src, image->data + image->offsets[0],
+                            src_w, src_h, src_x, src_y,
+                            dest_x, dest_y, src_pitch, image->pitches[0]
+                        );
+                        break;
+                }
+            }
         }
-      }
     }
-  }
 }
 #endif
 

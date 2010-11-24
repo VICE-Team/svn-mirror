@@ -79,7 +79,7 @@ void store_line_and_scanline_2(
     *tmp1 = (WORD) (gamma_red_fac[512 + red + prevline[0]]
           | gamma_grn_fac[512 + grn + prevline[1]]
           | gamma_blu_fac[512 + blu + prevline[2]]);
-    
+
     *tmp2 = (WORD) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
 
     prevline[0] = red;
@@ -106,7 +106,7 @@ void store_line_and_scanline_3(
     scanline[1] = (BYTE) tmp1;
     tmp1 >>= 8;
     scanline[2] = (BYTE) tmp1;
-    
+
     line[0] = (BYTE) tmp2;
     tmp2 >>= 8;
     line[1] = (BYTE) tmp2;
@@ -274,7 +274,7 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
                        unsigned int xs, const unsigned int ys,
                        unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-		               viewport_t *viewport, unsigned int pixelstride,
+                       viewport_t *viewport, unsigned int pixelstride,
                        void (*store_func)(
                             BYTE *const line, BYTE *const scanline,
                             SWORD *const prevline, const int shade,
@@ -318,9 +318,9 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
         if (y == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (y == yys), height == 0 */
-            if (y == yys || y <= viewport->first_line * 2 || y > viewport->last_line * 2)
+            if (y == yys || y <= viewport->first_line * 2 || y > viewport->last_line * 2) {
                 break;
-
+            }
             tmptrg = &color_tab->rgbscratchbuffer[0];
             tmptrgscanline = trg - pitcht;
         } else {
@@ -335,7 +335,7 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
                 : &color_tab->rgbscratchbuffer[0];
         }
 
-	/* current source image for YUV xform */
+        /* current source image for YUV xform */
         tmpsrc = src;
 
         cbtable = write_interpolated_pixels ? color_tab->cbtable : color_tab->cutable;
@@ -344,13 +344,13 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
         l = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
         unew = cbtable[tmpsrc[0]] + cbtable[tmpsrc[1]] + cbtable[tmpsrc[2]] + cbtable[tmpsrc[3]];
         vnew = crtable[tmpsrc[0]] + crtable[tmpsrc[1]] + crtable[tmpsrc[2]] + crtable[tmpsrc[3]];
-	get_yuv_from_video(unew, vnew, off_flip, &u, &v);
+        get_yuv_from_video(unew, vnew, off_flip, &u, &v);
         unew -= cbtable[tmpsrc[0]];
         vnew -= crtable[tmpsrc[0]];
         tmpsrc += 1;
 
         /* actual line */
-	prevrgblineptr = &color_tab->prevrgbline[0];
+        prevrgblineptr = &color_tab->prevrgbline[0];
         if (wfirst) {
             l2 = ytablel[tmpsrc[1]] + ytableh[tmpsrc[2]] + ytablel[tmpsrc[3]];
             unew += cbtable[tmpsrc[3]];
@@ -414,9 +414,9 @@ void render_UYVY_1x2_crt(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-  render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
-                         xt, yt, pitchs, pitcht, viewport,
-                         4, store_line_and_scanline_UYVY, 0);
+    render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
+                           xt, yt, pitchs, pitcht, viewport,
+                           4, store_line_and_scanline_UYVY, 0);
 }
 
 void render_YUY2_1x2_crt(video_render_color_tables_t *color_tab,
@@ -427,9 +427,9 @@ void render_YUY2_1x2_crt(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-  render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
-                         xt, yt, pitchs, pitcht, viewport,
-                         4, store_line_and_scanline_YUY2, 0);
+    render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
+                           xt, yt, pitchs, pitcht, viewport,
+                           4, store_line_and_scanline_YUY2, 0);
 }
 
 void render_YVYU_1x2_crt(video_render_color_tables_t *color_tab,
@@ -440,9 +440,9 @@ void render_YVYU_1x2_crt(video_render_color_tables_t *color_tab,
                        const unsigned int pitchs, const unsigned int pitcht,
                        viewport_t *viewport)
 {
-  render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
-                         xt, yt, pitchs, pitcht, viewport,
-                         4, store_line_and_scanline_YVYU, 0);
+    render_generic_1x2_crt(color_tab, src, trg, width, height, xs, ys,
+                           xt, yt, pitchs, pitcht, viewport,
+                           4, store_line_and_scanline_YVYU, 0);
 }
 
 void render_16_1x2_crt(video_render_color_tables_t *color_tab,

@@ -81,10 +81,12 @@ void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
 {
     viewport_t *viewport = canvas->viewport;
 #ifdef VIDEO_SCALE_SOURCE
-    if (canvas->videoconfig->doublesizex)
+    if (canvas->videoconfig->doublesizex) {
         xs /= 2;
-    if (canvas->videoconfig->doublesizey)
+    }
+    if (canvas->videoconfig->doublesizey) {
         ys /= 2;
+    }
 #endif
     video_render_main(canvas->videoconfig, canvas->draw_buffer->draw_buffer,
                       trg, width, height, xs, ys, xt, yt,
@@ -120,10 +122,12 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
 void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,
                               unsigned int height)
 {
-    if (canvas->videoconfig->doublesizex)
+    if (canvas->videoconfig->doublesizex) {
         width /= 2;
-    if (canvas->videoconfig->doublesizey)
+    }
+    if (canvas->videoconfig->doublesizey) {
         height /= 2;
+    }
 
     if (width != canvas->draw_buffer->canvas_width
         || height != canvas->draw_buffer->canvas_height) {
@@ -139,23 +143,27 @@ int video_canvas_palette_set(struct video_canvas_s *canvas,
 {
     struct palette_s *old_palette;
 
-    if (palette == NULL)
+    if (palette == NULL) {
         return 0;
+    }
 
     old_palette = canvas->palette;
 
     if (canvas->created) {
-        if (video_canvas_set_palette(canvas, palette) < 0)
+        if (video_canvas_set_palette(canvas, palette) < 0) {
             return -1;
+        }
     } else {
         canvas->palette = palette;
     }
 
-    if (old_palette != NULL)
+    if (old_palette != NULL) {
         video_color_palette_free(old_palette);
+    }
 
-    if (canvas->created)
+    if (canvas->created) {
         video_canvas_refresh_all(canvas);
+    }
 
     return 0;
 }

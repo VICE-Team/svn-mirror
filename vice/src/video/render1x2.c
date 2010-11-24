@@ -80,8 +80,9 @@ void render_08_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
             for (x = 0; x < wend; x++) {
                 *tmptrg++ = (BYTE)colortab[*tmpsrc++];
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             color = (BYTE)colortab[0];
             for (x = 0; x < wstart; x++) {
@@ -155,8 +156,9 @@ void render_16_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
             for (x = 0; x < wend; x++) {
                 *tmptrg++ = (WORD)colortab[*tmpsrc++];
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             color = (WORD)colortab[0];
             for (x = 0; x < wstart; x++) {
@@ -196,8 +198,8 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
     register DWORD color;
     DWORD tcolor;
 
-    src=src + pitchs * ys + xs;
-    trg=trg + pitcht * yt + (xt * 3);
+    src = src + pitchs * ys + xs;
+    trg = trg + pitcht * yt + (xt * 3);
     yys = (ys << 1) | (yt & 1);
     if (width < 4) {
         wstart = width;
@@ -214,7 +216,7 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         tmptrg = trg;
         if ((y & 1) || doublescan) {
             for (x = 0; x < wstart; x++) {
-                color=colortab[*tmpsrc++];
+                color = colortab[*tmpsrc++];
                 tmptrg[0] = (BYTE)color;
                 color >>= 8;
                 tmptrg[1] = (BYTE)color;
@@ -259,8 +261,9 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                 tmptrg[2] = (BYTE)color;
                 tmptrg += 3;
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             tcolor = (WORD)colortab[0];
             for (x = 0; x < wstart; x++) {
@@ -327,8 +330,8 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
     unsigned int x, y, wstart, wfast, wend, yys;
     DWORD color;
 
-    src=src + pitchs * ys + xs;
-    trg=trg + pitcht * yt + (xt << 2);
+    src = src + pitchs * ys + xs;
+    trg = trg + pitcht * yt + (xt << 2);
     yys = (ys << 1) | (yt & 1);
     if (width < 8) {
         wstart = width;
@@ -344,7 +347,7 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         tmpsrc = src;
         tmptrg = (DWORD *)trg;
         if ((y & 1) || doublescan) {
-            for (x = 0;x < wstart; x++) {
+            for (x = 0; x < wstart; x++) {
                 *tmptrg++ = colortab[*tmpsrc++];
             }
             for (x = 0; x < wfast; x++) {
@@ -359,11 +362,12 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                 tmpsrc += 8;
                 tmptrg += 8;
             }
-            for (x = 0;x < wend; x++) {
+            for (x = 0; x < wend; x++) {
                 *tmptrg++ = colortab[*tmpsrc++];
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             color = colortab[0];
             for (x = 0; x < wstart; x++) {

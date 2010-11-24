@@ -185,8 +185,9 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
             if (wlast) {
                 *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc];
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             color = colortab[0];
             if (wfirst) {
@@ -352,15 +353,16 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
                 color >>= 8;
                 tmptrg[2] = (BYTE)color;
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             if (wfirst) {
                 *tmptrg++ = 0;
                 *tmptrg++ = 0;
                 *tmptrg++ = 0;
             }
-            for (x=0;x<wstart;x++) {
+            for (x = 0; x < wstart; x++) {
                 tmptrg[0] = 0;
                 tmptrg[1] = 0;
                 tmptrg[2] = 0;
@@ -369,7 +371,7 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
                 tmptrg[5] = 0;
                 tmptrg += 6;
             }
-            for (x=0;x<wfast;x++) {
+            for (x = 0; x < wfast; x++) {
                 tmptrg[0] = 0;
                 tmptrg[1] = 0;
                 tmptrg[2] = 0;
@@ -396,7 +398,7 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
                 tmptrg[23] = 0;
                 tmptrg += 24;
             }
-            for (x=0;x<wend;x++) {
+            for (x = 0; x < wend; x++) {
                 tmptrg[0] = 0;
                 tmptrg[1] = 0;
                 tmptrg[2] = 0;
@@ -494,8 +496,9 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
             if (wlast) {
                 *tmptrg = colortab[*tmpsrc];
             }
-            if (y & 1)
+            if (y & 1) {
                 src += pitchs;
+            }
         } else {
             color = colortab[0];
             if (wfirst) {
@@ -791,7 +794,7 @@ void render_24_2x2_08(const video_render_color_tables_t *color_tab,
                 color >>= 8;
                 *tmptrg++ = (BYTE)color;
             }
-            for (x = 0;x < wstart; x++) {
+            for (x = 0; x < wstart; x++) {
                 color = colortab[*tmpsrc++ | (*tmppre++ << 4)];
                 tcolor = color;
                 tmptrg[0] = (BYTE)color;
@@ -806,7 +809,7 @@ void render_24_2x2_08(const video_render_color_tables_t *color_tab,
                 tmptrg[5] = (BYTE)tcolor;
                 tmptrg += 6;
             }
-            for (x=0;x<wfast;x++) {
+            for (x = 0; x < wfast; x++) {
                 color = colortab[tmpsrc[0] | (tmppre[0] << 4)];
                 tcolor = color;
                 tmptrg[0] = (BYTE)color;
@@ -859,7 +862,7 @@ void render_24_2x2_08(const video_render_color_tables_t *color_tab,
                 tmppre += 4;
                 tmptrg += 24;
             }
-            for (x = 0;x < wend; x++) {
+            for (x = 0; x < wend; x++) {
                 color = colortab[*tmpsrc++ | (*tmppre++ << 4)];
                 tcolor = color;
                 tmptrg[0] = (BYTE)color;
@@ -963,8 +966,8 @@ void render_32_2x2_08(const video_render_color_tables_t *color_tab,
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
     register DWORD color;
 
-    src=src + pitchs * ys + xs;
-    trg=trg + pitcht * yt + (xt << 2);
+    src = src + pitchs * ys + xs;
+    trg = trg + pitcht * yt + (xt << 2);
     yys = (ys << 1) | (yt & 1);
     wfirst = xt & 1;
     width -= wfirst;
