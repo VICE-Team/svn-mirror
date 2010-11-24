@@ -31,6 +31,7 @@
 
 #include "vice.h"
 
+#include "maincpu.h"
 #include "mem.h"
 #include "raster.h"
 #include "types.h"
@@ -167,7 +168,6 @@ static inline void vic_cycle_end_of_frame(void)
     vic.raster.ycounter = 0;
     vic.memptr = 0;
     vic.memptr_inc = 0;
-    vic.light_pen.triggered = 0;
 }
 
 /* Handle memptr increase */
@@ -341,14 +341,30 @@ void vic_cycle(void)
         }
     }
 
-    /* Latch number of rows */
-    if ((vic.raster_line == 0) && (vic.raster_cycle == 2)) {
-        vic_cycle_latch_rows();
+    if (vic.raster_line == 0) {
+        /* Retrigger light pen if line is still held low */
+        if (vic.raster_cycle == 1) {
+            vic.light_pen.triggered = 0;
+
+            if (vic.light_pen.state) {
+                vic.light_pen.trigger_cycle = maincpu_clk + 1;
+            }
+        }
+
+        /* Latch number of rows */
+        if (vic.raster_cycle == 2) {
+            vic_cycle_latch_rows();
+        }
     }
 
     /* Latch number of columns */
     if (vic.raster_cycle == 1) {
         vic_cycle_latch_columns();
+    }
+
+    /* trigger light pen if scheduled */
+    if (vic.light_pen.trigger_cycle == maincpu_clk) {
+        vic_trigger_light_pen_internal(0);
     }
 
     /* Perform fetch */

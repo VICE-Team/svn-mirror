@@ -42,7 +42,7 @@
 
 static char snap_module_name[] = "VIC-I";
 #define SNAP_MAJOR 0
-#define SNAP_MINOR 1
+#define SNAP_MINOR 2
 
 
 int vic_snapshot_write_module(snapshot_t *s)
@@ -72,6 +72,12 @@ int vic_snapshot_write_module(snapshot_t *s)
         || (SMW_DW(m, (DWORD)vic.memptr_inc) < 0)
         || (SMW_DW(m, (DWORD)vic.row_counter) < 0)
         || (SMW_DW(m, (DWORD)vic.buf_offset) < 0)
+        || SMW_B(m, (BYTE)vic.light_pen.state) < 0
+        || SMW_B(m, (BYTE)vic.light_pen.triggered) < 0
+        || SMW_DW(m, (DWORD)vic.light_pen.x) < 0
+        || SMW_DW(m, (DWORD)vic.light_pen.y) < 0
+        || SMW_DW(m, (DWORD)vic.light_pen.x_extra_bits) < 0
+        || SMW_DW(m, (DWORD)vic.light_pen.trigger_cycle) < 0
         || (SMW_B(m, vic.vbuf) < 0)) {
         goto fail;
     }
@@ -158,6 +164,12 @@ int vic_snapshot_read_module(snapshot_t *s)
         || (SMR_DW_UINT(m, &vic.memptr_inc) < 0)
         || (SMR_DW_UINT(m, &vic.row_counter) < 0)
         || (SMR_DW_UINT(m, &vic.buf_offset) < 0)
+        || SMR_B_INT(m, &vic.light_pen.state) < 0
+        || SMR_B_INT(m, &vic.light_pen.triggered) < 0
+        || SMR_DW_INT(m, &vic.light_pen.x) < 0
+        || SMR_DW_INT(m, &vic.light_pen.y) < 0
+        || SMR_DW_INT(m, &vic.light_pen.x_extra_bits) < 0
+        || SMR_DW(m, &vic.light_pen.trigger_cycle) < 0
         || (SMR_B(m, &vic.vbuf) < 0)) {
         goto fail;
     }

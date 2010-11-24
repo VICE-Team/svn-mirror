@@ -121,8 +121,10 @@ struct palette_s;
 struct canvas_refresh_s;
 
 struct vic_light_pen_s {
+    int state;
     int triggered;
     int x, y, x_extra_bits;
+    CLOCK trigger_cycle;
 };
 typedef struct vic_light_pen_s vic_light_pen_t;
 
@@ -222,7 +224,7 @@ struct vic_s
     unsigned int cycle_offset;
     unsigned int max_text_cols;
 
-    vic_light_pen_t light_pen; 
+    vic_light_pen_t light_pen;
 
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
@@ -250,8 +252,12 @@ extern int vic_snapshot_read_module(struct snapshot_s *s);
 extern void vic_screenshot(struct screenshot_s *screenshot);
 extern void vic_async_refresh(struct canvas_refresh_s *refresh);
 extern void vic_shutdown(void);
+
+extern void vic_set_light_pen(CLOCK mclk, int state);
 extern void vic_trigger_light_pen(CLOCK mclk);
 extern CLOCK vic_lightpen_timing(int x, int y);
+extern void vic_trigger_light_pen_internal(int retrigger);
+
 extern void vic_change_timing(void);
 
 extern int vic_dump(void);

@@ -36,6 +36,7 @@
 #include <stdlib.h>
 
 #include "archdep.h"
+#include "clkguard.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -68,6 +69,12 @@ vic_t vic;
 
 static void vic_set_geometry(void);
 
+static void clk_overflow_callback(CLOCK sub, void *unused_data)
+{
+    if (vic.light_pen.trigger_cycle < CLOCK_MAX) {
+        vic.light_pen.trigger_cycle -= sub;
+    }
+}
 
 void vic_change_timing(void)
 {
@@ -255,10 +262,12 @@ raster_t *vic_init(void)
     vic.half_char_flag = 0;
 
     /* FIXME: Where do these values come from? */
+    vic.light_pen.state = 0;
     vic.light_pen.triggered = 0;
     vic.light_pen.x = 87;
     vic.light_pen.y = 234;
     vic.light_pen.x_extra_bits = 1;
+    vic.light_pen.trigger_cycle = CLOCK_MAX;
 
     /* FIXME */
     vic.char_height = 8;
@@ -271,6 +280,8 @@ raster_t *vic_init(void)
     vic_draw_init();
 
     vic.initialized = 1;
+
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     resources_touch("VICDoubleSize");
 
@@ -381,15 +392,58 @@ void vic_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&vic.raster, refresh);
 }
 
-/* Trigger the light pen.  */
-void vic_trigger_light_pen(CLOCK mclk)
+/* ------------------------------------------------------------------------- */
+
+/* Set light pen input state. Used by c64cia1.c.  */
+void vic_set_light_pen(CLOCK mclk, int state)
 {
-    if (!vic.light_pen.triggered) {
-        vic.light_pen.triggered = 1;
-        vic.light_pen.x = 2 * ((mclk + 1) % vic.cycles_per_line) + vic.light_pen.x_extra_bits;
-        vic.light_pen.y = VIC_RASTER_Y(mclk) / 2;
-        vic.light_pen.x_extra_bits = 1;
+    if (state) {
+        /* delay triggering by 1 cycle */
+        vic.light_pen.trigger_cycle = mclk + 1;
+
+        /* HACK for the magic 6 in the PAL dump */
+        if ((vic.raster_line == (vic.screen_height - 1)) && (vic.raster_cycle == (vic.cycles_per_line - 2))) {
+            vic.light_pen.x_extra_bits = 0;
+        }
     }
+    vic.light_pen.state = state;
+}
+
+/* Trigger the light pen. Used internally.  */
+void vic_trigger_light_pen_internal(int retrigger)
+{
+    unsigned int x, y, cycle;
+
+    /* Unset the trigger cycle.
+       If this function was call from elsewhere before the cycle,
+       then the light pen was triggered by other means than
+       an actual light pen and the following "if" would make the
+       scheduled "actual" triggering pointless. */
+    vic.light_pen.trigger_cycle = CLOCK_MAX;
+
+    if (vic.light_pen.triggered) {
+        return;
+    }
+
+    vic.light_pen.triggered = 1;
+
+    y = vic.raster_line;
+
+    cycle = vic.raster_cycle;
+
+    /* don't trigger on the last line, except on the first cycle */
+    if ((y == (vic.screen_height - 1)) && (cycle > 1)) {
+        return;
+    }
+
+    x = 2 * ((cycle + 1) % vic.cycles_per_line);
+
+    /* HACK for the magic 6 in the PAL dump */
+    x += vic.light_pen.x_extra_bits;
+
+    vic.light_pen.x = x;
+    vic.light_pen.y = y / 2;
+    vic.light_pen.x_extra_bits = 1;
 }
 
 /* Calculate lightpen pulse time based on x/y */
@@ -414,6 +468,13 @@ CLOCK vic_lightpen_timing(int x, int y)
     }
 
     return pulse_time;
+}
+
+/* Trigger the light pen. Used by lightpen.c only. */
+void vic_trigger_light_pen(CLOCK mclk)
+{
+    /* Record the real trigger time */
+    vic.light_pen.trigger_cycle = mclk;
 }
 
 /* ------------------------------------------------------------------------- */

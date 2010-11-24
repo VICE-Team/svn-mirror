@@ -46,6 +46,7 @@ extern BYTE REGPARM1 via2_read(WORD addr);
 extern BYTE REGPARM1 via2_peek(WORD addr);
 
 extern void via2_set_tape_sense(int v);
+extern void via2_check_lightpen(void);
 
 #endif
 

@@ -42,6 +42,7 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
+#include "joystick.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -421,6 +422,10 @@ int machine_specific_init(void)
     lightpen_register_timing_callback(vic_lightpen_timing, 0);
     lightpen_register_trigger_callback(vic_trigger_light_pen);
 #endif
+
+    /* Register joystick callback (for lightpen triggering via fire button) */
+    joystick_register_machine(via2_check_lightpen);
+
 #ifdef HAVE_MIDI
     midi_init();
 #endif

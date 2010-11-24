@@ -92,6 +92,23 @@ void via2_set_tape_sense(int v)
     tape_sense = v;
 }
 
+static void via2_internal_lightpen_check(BYTE pa)
+{
+    BYTE b = ~(joystick_value[1] | joystick_value[2]);
+
+    b &= pa;
+
+    vic_set_light_pen(maincpu_clk, !(b & 0x20));
+}
+
+void via2_check_lightpen(void)
+{
+    BYTE pa = machine_context.via2->via[VIA_PRA]
+          | ~(machine_context.via2->via[VIA_DDRA]);
+
+    via2_internal_lightpen_check(pa);
+}
+
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
     iec_pa_write(byte);
@@ -100,9 +117,7 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
                       WORD addr)
 {
-    if (!(byte & 0x20) && (myoldpa & 0x20))
-        vic_trigger_light_pen(maincpu_clk);
-
+    via2_internal_lightpen_check(byte);
     iec_pa_write(byte);
 }
 
@@ -145,12 +160,14 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     if (byte != via_context->via[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
-        if ((tmp & 0x0c) != 0x0c)
+        if ((tmp & 0x0c) != 0x0c) {
             tmp |= 0x02;
-        if ((tmp & 0xc0) != 0xc0)
+        }
+        if ((tmp & 0xc0) != 0xc0) {
             tmp |= 0x20;
+        }
 
-    datasette_set_motor(!(byte & 0x02));
+        datasette_set_motor(!(byte & 0x02));
 
 #ifdef HAVE_RS232
         /* switching userport strobe with CB2 */
