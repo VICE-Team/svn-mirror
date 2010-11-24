@@ -214,7 +214,7 @@ if test x"$host_os" = "xsyllable"; then
   enable_sdlui=yes
 fi
 
-dnl Disable nls for the sdl ui
+dnl Disable nls for the SDL UI
 if test x"$enable_sdlui" = "xyes"; then
   enable_nls=no
 fi
@@ -363,7 +363,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
-  AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
+  AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
   AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
 
@@ -632,7 +632,7 @@ dnl All other UN*X systems
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   if test x"$is_beos_x11" != "xyes"; then
-    AC_DEFINE(HAVE_MIDI,,[Enable support for midi.])
+    AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
   fi
 
@@ -1076,7 +1076,7 @@ AC_SUBST(DYNLIB_LIBS)
 
 dnl ----- Joystick support -----
 JOY_LIBS=
-if test x"$is_unix_x11" = "xyes" ; then
+if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" ; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
                     AC_DEFINE(LINUX_JOYSTICK,,
@@ -1144,7 +1144,7 @@ if test x"$is_unix_x11" = "xyes" ; then
   fi
 fi
 
-if test x"$is_unix_macosx" = "xyes" ; then
+if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" ; then
   dnl --- Mac joystick support ---
   
   dnl check for HID Manager
@@ -1503,24 +1503,24 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
     if test x"$is_riscos" = "xyes" -a x"$enable_sdlui" = "xyes"; then
         LIBS="-lSDLmain -lSDL -lwimp -lstdc++"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-        AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
+        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
     elif test x"$is_unix_macosx" = "xyes"; then
         LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL"
         CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         CXXFLAGS="$CXXFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-        AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
+        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
         AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
         AC_CHECK_FUNCS(SDL_NumJoysticks)
     elif test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
         LIBS="$LIBS -lSDL -lwinsock"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-        AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
+        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
     else
 
@@ -1546,8 +1546,8 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                          [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                           use_sdl_prefix=yes;
-                          AC_DEFINE(USE_SDL_PREFIX,,[Enable sdl prefix for header inclusion.])
-                          AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])],
+                          AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
+                          AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                          [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
                          [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
 
@@ -1556,7 +1556,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
             AC_CHECK_HEADERS(SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                              [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                               use_sdl_prefix=no;
-                              AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])],
+                              AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$SOUND_LIBS $EXTRA_SDL_LIBS)],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
         fi
@@ -1570,8 +1570,8 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         if test x"$enable_sdlui" = "xyes"; then
             AC_CHECK_HEADERS(SDL/SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                              [use_sdl_prefix=yes;
-                              AC_DEFINE(USE_SDL_PREFIX,,[Enable sdl prefix for header inclusion.])
-                              AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])],
+                              AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
+                              AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
                              [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
 
@@ -1579,7 +1579,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
                 unset ac_cv_lib_SDL_SDL_SetVideoMode
                 AC_CHECK_HEADERS(SDL.h,[AC_CHECK_LIB(SDL, SDL_SetVideoMode,
                                  [use_sdl_prefix=no;
-                                  AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])],
+                                  AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])],
                                  [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break],$EXTRA_SDL_LIBS)],
                                  [CFLAGS=$old_cflags; CXXFLAGS=$old_cxxflags; LIBS=$old_libs; break])
             fi
