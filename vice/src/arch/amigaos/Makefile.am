@@ -165,6 +165,8 @@ libarch_a_SOURCES = \
 	mui/uimouse.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
+	mui/uipetdww.c \
+	mui/uipetdww.h \
 	mui/uipetreu.c \
 	mui/uipetreu.h \
 	mui/uipetsettings.c \

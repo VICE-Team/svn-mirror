@@ -2161,6 +2161,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..." },
 /* tr */ { IDMS_SIDCART_SETTINGS_TR, "SID kartuþ ayarlarý..." },
 
+/* en */ { IDMS_PETDWW_SETTINGS,    "PET DWW settings..." },
+/* da */ { IDMS_PETDWW_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PETDWW_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_PETDWW_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PETDWW_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PETDWW_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_PETDWW_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PETDWW_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_PETDWW_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PETDWW_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_FINAL_EXPANSION_WRITEBACK,    "Enable Final Expansion write-back" },
 /* da */ { IDMS_FINAL_EXPANSION_WRITEBACK_DA, "Aktivér Final Expansion tilbageskrivning" },
 /* de */ { IDMS_FINAL_EXPANSION_WRITEBACK_DE, "Final Expansion rückschreiben aktivieren" },
@@ -4735,6 +4746,39 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_PET_REU_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_PET_REU_SETTINGS_SV, "PET REU-Inställningar" },
 /* tr */ { IDS_PET_REU_SETTINGS_TR, "PET REU Ayarlarý" },
+
+/* en */ { IDS_PET_DWW_FILENAME,    "PET DWW file" },
+/* da */ { IDS_PET_DWW_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_PET_DWW_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PET_DWW_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PET_DWW_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_PET_DWW_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PET_DWW_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_DWW_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PET_DWW_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PET_DWW_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PET_DWW_FILENAME_SELECT,    "Select file for PET DWW" },
+/* da */ { IDS_PET_DWW_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_PET_DWW_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PET_DWW_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PET_DWW_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_PET_DWW_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PET_DWW_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_DWW_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PET_DWW_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PET_DWW_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PET_DWW_SETTINGS,    "PET DWW Settings" },
+/* da */ { IDS_PET_DWW_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_PET_DWW_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PET_DWW_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PET_DWW_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_PET_DWW_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PET_DWW_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_DWW_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PET_DWW_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PET_DWW_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PLUS256K_SETTINGS,    "PLUS256K Settings" },
 /* da */ { IDS_PLUS256K_SETTINGS_DA, "PLUS256K-indstillinger" },
