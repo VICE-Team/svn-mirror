@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <zip|nozip> <x64-included> <top-srcdir> <exe-ext>
-#                 $1      $2             $3         $4            $5          $6             $7           $8
+# make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <zip|nozip> <x64sc-included> <top-srcdir> <exe-ext>
+#                 $1      $2             $3         $4            $5          $6               $7           $8
 
 STRIP=$1
 VICEVERSION=$2
