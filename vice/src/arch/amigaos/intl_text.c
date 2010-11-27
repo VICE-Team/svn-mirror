@@ -2051,6 +2051,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_MMC64_SETTINGS_SV, "MMC64-inställningar..." },
 /* tr */ { IDMS_MMC64_SETTINGS_TR, "MMC64 ayarlarý..." },
 
+/* en */ { IDMS_MMCREPLAY_SETTINGS,    "MMC Replay settings..." },
+/* da */ { IDMS_MMCREPLAY_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_MMCREPLAY_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_MMCREPLAY_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_MMCREPLAY_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_MMCREPLAY_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_MMCREPLAY_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_MMCREPLAY_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_MMCREPLAY_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_MMCREPLAY_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_DIGIMAX_SETTINGS,    "Digimax settings..." },
 /* da */ { IDMS_DIGIMAX_SETTINGS_DA, "Digimaxindstillinger..." },
 /* de */ { IDMS_DIGIMAX_SETTINGS_DE, "Digimax Einstellungen..." },
@@ -5494,6 +5505,94 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_MMC64_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_MMC64_SETTINGS_SV, "MMC64-inställningar..." },
 /* tr */ { IDS_MMC64_SETTINGS_TR, "MMC64 ayarlarý" },
+
+/* en */ { IDS_SELECT_EEPROM_FILE,    "Select EEPROM file" },
+/* da */ { IDS_SELECT_EEPROM_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_EEPROM_FILE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SELECT_EEPROM_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SELECT_EEPROM_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_EEPROM_FILE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_EEPROM_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SELECT_EEPROM_FILE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SELECT_EEPROM_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SELECT_EEPROM_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SELECT_CARD_IMAGE_FILE,    "Select card image file" },
+/* da */ { IDS_SELECT_CARD_IMAGE_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SELECT_CARD_IMAGE_FILE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SELECT_CARD_IMAGE_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SELECT_CARD_IMAGE_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SELECT_CARD_IMAGE_FILE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SELECT_CARD_IMAGE_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SELECT_CARD_IMAGE_FILE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SELECT_CARD_IMAGE_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SELECT_CARD_IMAGE_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CARD_FILE,    "Card Image File" },
+/* da */ { IDS_CARD_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_CARD_FILE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_CARD_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CARD_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDS_CARD_FILE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_CARD_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CARD_FILE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_CARD_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CARD_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CARD_READ_WRITE,    "Card read/write" },
+/* da */ { IDS_CARD_READ_WRITE_DA, "" },  /* fuzzy */
+/* de */ { IDS_CARD_READ_WRITE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_CARD_READ_WRITE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CARD_READ_WRITE_HU, "" },  /* fuzzy */
+/* it */ { IDS_CARD_READ_WRITE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_CARD_READ_WRITE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CARD_READ_WRITE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_CARD_READ_WRITE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CARD_READ_WRITE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_EEPROM_FILE,    "EEPROM Image File" },
+/* da */ { IDS_EEPROM_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_EEPROM_FILE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_EEPROM_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EEPROM_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDS_EEPROM_FILE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_EEPROM_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EEPROM_FILE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_EEPROM_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EEPROM_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_EEPROM_READ_WRITE,    "EEPROM read/write" },
+/* da */ { IDS_EEPROM_READ_WRITE_DA, "" },  /* fuzzy */
+/* de */ { IDS_EEPROM_READ_WRITE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_EEPROM_READ_WRITE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EEPROM_READ_WRITE_HU, "" },  /* fuzzy */
+/* it */ { IDS_EEPROM_READ_WRITE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_EEPROM_READ_WRITE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EEPROM_READ_WRITE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_EEPROM_READ_WRITE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EEPROM_READ_WRITE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_RESCUE_MODE,    "Rescue mode" },
+/* da */ { IDS_RESCUE_MODE_DA, "" },  /* fuzzy */
+/* de */ { IDS_RESCUE_MODE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_RESCUE_MODE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RESCUE_MODE_HU, "" },  /* fuzzy */
+/* it */ { IDS_RESCUE_MODE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_RESCUE_MODE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RESCUE_MODE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_RESCUE_MODE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RESCUE_MODE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_MMCREPLAY_SETTINGS,    "MMC Replay settings" },
+/* da */ { IDS_MMCREPLAY_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_MMCREPLAY_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_MMCREPLAY_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MMCREPLAY_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_MMCREPLAY_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_MMCREPLAY_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MMCREPLAY_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_MMCREPLAY_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MMCREPLAY_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SELECT_GENERIC,    "Select generic cartridge file" },
 /* da */ { IDS_SELECT_GENERIC_DA, "Vælg standardcartridgefil" },

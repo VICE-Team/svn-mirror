@@ -45,6 +45,7 @@
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uimmc64.h"
+#include "mui/uimmcreplay.h"
 #include "mui/uimouse.h"
 #include "mui/uiplus256k.h"
 #include "mui/uiplus60k.h"
@@ -107,6 +108,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_MMC64_SETTINGS:
             ui_mmc64_settings_dialog(canvas);
+            break;
+        case IDM_MMCREPLAY_SETTINGS:
+            ui_mmcreplay_settings_dialog(canvas);
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_settings_dialog(canvas);
