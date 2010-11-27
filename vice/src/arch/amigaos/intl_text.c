@@ -5462,6 +5462,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MMC64_IMAGE_FILE_SV, "MMC/SD-avbildningsfil" },
 /* tr */ { IDS_MMC64_IMAGE_FILE_TR, "MMC/SD Imaj Dosyasý" },
 
+/* en */ { IDS_SD_TYPE,    "SD Type" },
+/* da */ { IDS_SD_TYPE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SD_TYPE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SD_TYPE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SD_TYPE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SD_TYPE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SD_TYPE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SD_TYPE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SD_TYPE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SD_TYPE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SELECT_MMC64_IMAGE_FILE,    "Select MMC/SD image file" },
 /* da */ { IDS_SELECT_MMC64_IMAGE_FILE_DA, "Vælg MMC/SD-image" },
 /* de */ { IDS_SELECT_MMC64_IMAGE_FILE_DE, "MMC/SD Image Date wählen" },

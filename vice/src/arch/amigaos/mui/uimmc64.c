@@ -62,6 +62,22 @@ static const int ui_mmc64_bios_revision_values[] = {
     -1
 };
 
+static char *ui_mmc64_card_type[] = {
+    "Auto",
+    "MMC",
+    "SD",
+    "SDHC",
+    NULL
+};
+
+static const int ui_mmc64_card_type_values[] = {
+    0,
+    1,
+    2,
+    3,
+   -1
+};
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "MMC64BIOSfilename", NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMC64", ui_mmc64_enable, ui_mmc64_enable_values },
@@ -70,6 +86,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "MMC64_bios_write", ui_mmc64_enable, ui_mmc64_enable_values },
     { NULL, MUI_TYPE_CYCLE, "MMC64_RO", ui_mmc64_enable, ui_mmc64_enable_values },
     { NULL, MUI_TYPE_FILENAME, "MMC64imagefilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMC64_sd_type", ui_mmc64_card_type, ui_mmc64_card_type_values },
     UI_END /* mandatory */
 };
 
@@ -121,6 +138,7 @@ static APTR build_gui(void)
            FILENAME(ui_to_from[0].object, translate_text(IDS_BIOS_FILE), browse_button_bios)
            CYCLE(ui_to_from[5].object, translate_text(IDS_MMC64_IMAGE_READ_ONLY), ui_mmc64_enable)
            FILENAME(ui_to_from[6].object, translate_text(IDS_MMC64_IMAGE_FILE), browse_button_image)
+           CYCLE(ui_to_from[7].object, translate_text(IDS_SD_TYPE), ui_mmc64_card_type)
            OK_CANCEL_BUTTON
          End;
 
