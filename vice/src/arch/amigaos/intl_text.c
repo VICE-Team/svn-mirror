@@ -5825,16 +5825,16 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_EXTERNAL_PALETTE_SELECT_SV, "Använd en extern palett (fil)" },
 /* tr */ { IDS_EXTERNAL_PALETTE_SELECT_TR, "Harici Palet dosyasý seçin" },
 
-/* en */ { IDS_GAMMA_0_2,    "Gamma (0..2)" },
-/* da */ { IDS_GAMMA_0_2_DA, "Gamma (0..2)" },
-/* de */ { IDS_GAMMA_0_2_DE, "Gamma (0..2)" },
-/* fr */ { IDS_GAMMA_0_2_FR, "Gamma (0..2)" },
-/* hu */ { IDS_GAMMA_0_2_HU, "Gamma (0..2)" },
-/* it */ { IDS_GAMMA_0_2_IT, "Gamma (0..2)" },
-/* nl */ { IDS_GAMMA_0_2_NL, "Gamma (0..2)" },
-/* pl */ { IDS_GAMMA_0_2_PL, "" },  /* fuzzy */
-/* sv */ { IDS_GAMMA_0_2_SV, "Gamma (0..2)" },
-/* tr */ { IDS_GAMMA_0_2_TR, "Gama (0..2)" },
+/* en */ { IDS_GAMMA_0_4,    "Gamma (0..4)" },
+/* da */ { IDS_GAMMA_0_4_DA, "Gamma (0..4)" },
+/* de */ { IDS_GAMMA_0_4_DE, "Gamma (0..4)" },
+/* fr */ { IDS_GAMMA_0_4_FR, "Gamma (0..4)" },
+/* hu */ { IDS_GAMMA_0_4_HU, "Gamma (0..4)" },
+/* it */ { IDS_GAMMA_0_4_IT, "Gamma (0..4)" },
+/* nl */ { IDS_GAMMA_0_4_NL, "Gamma (0..4)" },
+/* pl */ { IDS_GAMMA_0_4_PL, "" },  /* fuzzy */
+/* sv */ { IDS_GAMMA_0_4_SV, "Gamma (0..4)" },
+/* tr */ { IDS_GAMMA_0_4_TR, "Gama (0..4)" },
 
 /* en */ { IDS_PAL_SHADE_0_1,    "PAL Shade (0..1)" },
 /* da */ { IDS_PAL_SHADE_0_1_DA, "Skanlinjeskygge (0..1)" },

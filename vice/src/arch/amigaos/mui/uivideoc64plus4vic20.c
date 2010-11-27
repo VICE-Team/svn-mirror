@@ -91,7 +91,7 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_2), ".0123456789", 5+1)
+           STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
            STRING(ui_to_from[1].object, translate_text(IDS_PAL_SHADE_0_1), ".0123456789", 5+1)
            STRING(ui_to_from[2].object, translate_text(IDS_PAL_BLUR_0_1), ".0123456789", 5+1)
            STRING(ui_to_from[3].object, translate_text(IDS_NEW_PAL_TINT_0_2), ".0123456789", 5+1)
