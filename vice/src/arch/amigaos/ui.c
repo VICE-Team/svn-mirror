@@ -57,6 +57,7 @@
 #include "screen-shot.h"
 #include "ui.h"
 #include "util.h"
+#include "machine.h"
 
 #include "mui/filereq.h"
 #include "mui/mui.h"
@@ -385,7 +386,7 @@ static void ui_paste_clipboard_text(void)
 int ui_menu_create(video_canvas_t *canvas)
 {
     struct Screen* pubscreen = NULL;
-    int i;
+    int i, j;
 
     if (machine_specific_menu == NULL) {
         return -1;
@@ -401,17 +402,50 @@ int ui_menu_create(video_canvas_t *canvas)
         return -1;
     }
 
-    for (i = 0; machine_specific_translation_menu[i].nm_Type != NM_END; i++)
+    for (i = 0, j = 0; machine_specific_translation_menu[i].nm_Type != NM_END; i++)
     {
-        machine_specific_menu[i].nm_Type = machine_specific_translation_menu[i].nm_Type;
-        machine_specific_menu[i].nm_CommKey = machine_specific_translation_menu[i].nm_CommKey;
-        machine_specific_menu[i].nm_Flags = machine_specific_translation_menu[i].nm_Flags;
-        machine_specific_menu[i].nm_MutualExclude = machine_specific_translation_menu[i].nm_MutualExclude;
-        machine_specific_menu[i].nm_UserData = machine_specific_translation_menu[i].nm_UserData;
-        if (machine_specific_translation_menu[i].nm_Label == 0) {
-            machine_specific_menu[i].nm_Label = (STRPTR)NM_BARLABEL;
-        } else {
-            machine_specific_menu[i].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
+        machine_specific_menu[j].nm_Type = machine_specific_translation_menu[i].nm_Type;
+        machine_specific_menu[j].nm_CommKey = machine_specific_translation_menu[i].nm_CommKey;
+        machine_specific_menu[j].nm_Flags = machine_specific_translation_menu[i].nm_Flags;
+        machine_specific_menu[j].nm_MutualExclude = machine_specific_translation_menu[i].nm_MutualExclude;
+        machine_specific_menu[j].nm_UserData = machine_specific_translation_menu[i].nm_UserData;
+        switch (machine_specific_translation_menu[i].nm_Label) {
+            case 0:
+                machine_specific_menu[j++].nm_Label = (STRPTR)NM_BARLABEL;
+                break;
+            /* disable video standard menu for x64sc */
+            case IDMS_NTSC_M:
+            case IDMS_PAL_G:
+            case IDMS_VIDEO_STANDARD:
+                if (machine_class != VICE_MACHINE_C64SC) {
+                    machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
+                }
+                break;
+            /* disable video standard menu for x64sc, and skip item seperator */
+            case IDMS_OLD_NTSC_M:
+                if (machine_class == VICE_MACHINE_C64SC) {
+                    i++;
+                } else {
+                    machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
+                }
+                break;
+            /* enable c64 model settings menu item for x64sc only */
+            case IDMS_C64_MODEL_SETTINGS:
+            case IDMS_C64_PAL:
+            case IDMS_C64C_PAL:
+            case IDMS_C64_OLD_PAL:
+            case IDMS_C64_NTSC:
+            case IDMS_C64C_NTSC:
+            case IDMS_C64_OLD_NTSC:
+            case IDMS_DREAN:
+            case IDMS_CUSTOM_C64_MODEL:
+                if (machine_class == VICE_MACHINE_C64SC) {
+                    machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
+                }
+                break;
+            default:
+                machine_specific_menu[j++].nm_Label = translate_text(machine_specific_translation_menu[i].nm_Label);
+                break;
         }
     }
     machine_specific_menu[i].nm_Type = NM_END;

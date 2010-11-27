@@ -31,12 +31,14 @@
 #define UI_TRANSLATED_MENU_NAME c64_ui_menu
 
 #include "private.h"
+#include "c64model.h"
 #include "c64ui.h"
 #include "c64uires.h"
 #include "uic64cart.h"
 
 #include "mui/uiacia.h"
 #include "mui/uic64_256k.h"
+#include "mui/uic64model.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64vic20.h"
 #include "mui/uieasyflash.h"
@@ -76,6 +78,30 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
+        case IDM_C64_MODEL_C64_PAL:
+            c64model_set(C64MODEL_C64_PAL);
+            break;
+        case IDM_C64_MODEL_C64C_PAL:
+            c64model_set(C64MODEL_C64C_PAL);
+            break;
+        case IDM_C64_MODEL_C64_OLD_PAL:
+            c64model_set(C64MODEL_C64_OLD_PAL);
+            break;
+        case IDM_C64_MODEL_C64_NTSC:
+            c64model_set(C64MODEL_C64_NTSC);
+            break;
+        case IDM_C64_MODEL_C64C_NTSC:
+            c64model_set(C64MODEL_C64C_NTSC);
+            break;
+        case IDM_C64_MODEL_C64_OLD_NTSC:
+            c64model_set(C64MODEL_C64_OLD_NTSC);
+            break;
+        case IDM_C64_MODEL_DREAN:
+            c64model_set(C64MODEL_C64_PAL_N);
+            break;
+        case IDM_C64_MODEL_CUSTOM:
+            ui_c64_model_custom_dialog();
+            break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog();
             break;
@@ -182,7 +208,6 @@ int c64ui_init(void)
     return 0;
 }
 
-/* duplicated c64ui_init() for now, till the c64sc ui is implemented */
 int c64scui_init(void)
 {
     uic64cart_init();

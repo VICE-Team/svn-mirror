@@ -125,6 +125,8 @@ libarch_a_SOURCES = \
 	mui/uic64_256k.h \
 	mui/uic64dtv.c \
 	mui/uic64dtv.h \
+	mui/uic64model.c \
+	mui/uic64model.h \
 	mui/uic128settings.c \
 	mui/uic128settings.h \
 	mui/uicbm2settings.c \
