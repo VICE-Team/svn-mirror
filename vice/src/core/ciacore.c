@@ -729,7 +729,7 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
                       cia_context->irqflags, t, cia_context->sr_bits, clk));
 
             cia_context->irqflags = 0;
-            my_set_int(cia_context, 0, rclk + 1);
+            my_set_int(cia_context, 0, rclk);
 
             CIAT_LOGOUT((""));
 

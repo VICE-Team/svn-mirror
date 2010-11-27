@@ -1453,12 +1453,19 @@ static const BYTE fetch_tab[] = {
     {
         enum cpu_int pending_interrupt;
 
+        if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
+            && (CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
+            && CPU_INT_STATUS->irq_pending_clk <= CLK) {
+            interrupt_ack_irq(CPU_INT_STATUS);
+        }
+
         pending_interrupt = CPU_INT_STATUS->global_pending_int;
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
             if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
-                && CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
+                && CPU_INT_STATUS->global_pending_int & IK_IRQPEND) {
                     CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
+            }
             while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
                 alarm_context_dispatch(ALARM_CONTEXT, CLK);
             }

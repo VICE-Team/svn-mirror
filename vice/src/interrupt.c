@@ -76,6 +76,7 @@ void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
     cs->global_pending_int = IK_NONE;
     cs->nmi_trap_func = NULL;
     cs->reset_trap_func = NULL;
+    cs->irq_pending_clk = CLOCK_MAX;
 }
 
 unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs,
@@ -128,13 +129,17 @@ void interrupt_set_reset_trap_func(interrupt_cpu_status_t *cs,
 void interrupt_cpu_status_time_warp(interrupt_cpu_status_t *cs,
                                     CLOCK warp_amount, int warp_direction)
 {
-    if (warp_direction == 0)
+    if (warp_direction == 0) {
         return;
+    }
 
     if (warp_direction > 0) {
         cs->irq_clk += warp_amount;
         cs->nmi_clk += warp_amount;
         cs->last_stolen_cycles_clk += warp_amount;
+        if (cs->irq_pending_clk < CLOCK_MAX) {
+            cs->irq_pending_clk += warp_amount;
+        }
     } else {
         if (cs->irq_clk > warp_amount) {
             cs->irq_clk -= warp_amount;
@@ -150,6 +155,13 @@ void interrupt_cpu_status_time_warp(interrupt_cpu_status_t *cs,
             cs->last_stolen_cycles_clk -= warp_amount;
         } else {
             cs->last_stolen_cycles_clk = (CLOCK) 0;
+        }
+        if (cs->irq_pending_clk < CLOCK_MAX) {
+            if (cs->irq_pending_clk > warp_amount) {
+                cs->irq_pending_clk -= warp_amount;
+            } else {
+                cs->irq_pending_clk = (CLOCK) 0;
+            }
         }
     }
 }
@@ -332,6 +344,7 @@ int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     /* FIXME: could we avoid some of this info?  */
     if (SMW_DW(m, cs->irq_clk) < 0
         || SMW_DW(m, cs->nmi_clk) < 0
+        || SMW_DW(m, cs->irq_pending_clk) < 0
         || SMW_DW(m, (DWORD)cs->num_last_stolen_cycles) < 0
         || SMW_DW(m, cs->last_stolen_cycles_clk) < 0) {
         return -1;
@@ -376,7 +389,8 @@ int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
     cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
 
     if (SMR_DW(m, &cs->irq_clk) < 0
-        || SMR_DW(m, &cs->nmi_clk) < 0) {
+        || SMR_DW(m, &cs->nmi_clk) < 0
+        || SMR_DW(m, &cs->irq_pending_clk) < 0) {
         return -1;
     }
 
