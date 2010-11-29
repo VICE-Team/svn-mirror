@@ -1,0 +1,163 @@
+// PET DWW specific resources.
+//
+
+// template of dialog for all languages
+
+IDD_PETDWW_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX  "", IDC_PETDWW_ENABLE,
+                  7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT         "", IDC_PETDWW_FILE_LABEL,
+                  9, 24, 30, 8
+    PUSHBUTTON    "", IDC_PETDWW_BROWSE,
+                  45, 22, 50, 14, 0
+    EDITTEXT      IDC_PETDWW_FILE,
+                  9, 38, 160, 12, WS_TABSTOP
+
+    DEFPUSHBUTTON "", IDOK,
+                  30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// HUNGARIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+
+
+// TURKISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28599)
+#endif
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+

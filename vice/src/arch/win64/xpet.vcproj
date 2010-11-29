@@ -494,8 +494,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\respetdww.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\respetdww.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\respetcat.rc"
 				/>
 			</FileConfiguration>
@@ -504,8 +504,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\respetdww.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\respetdww.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\respetcat.rc"
 				/>
 			</FileConfiguration>
@@ -514,8 +514,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\respetdww.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\respetdww.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\respetcat.rc"
 				/>
 			</FileConfiguration>
@@ -524,8 +524,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\respet.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\respetreu.rc + ..\win32\respetdww.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc ..\win32\respetcat.rc  /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\respet.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\respetreu.rc;..\win32\respetdww.rc;..\win32\resautostart.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\respetcat.rc"
 				/>
 			</FileConfiguration>

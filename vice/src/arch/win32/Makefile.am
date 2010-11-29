@@ -89,6 +89,7 @@ libarch_a_SOURCES = \
 	resmmcreplay.rc \
 	resmouse.rc \
 	respet.rc \
+	respetdww.rc \
 	respetreu.rc \
  	resplus256k.rc \
 	resplus4.rc \
@@ -194,6 +195,8 @@ libarch_a_SOURCES = \
 	uinetwork.h \
 	uiperipheral.c \
 	uiperipheral.h \
+	uipetdww.c \
+	uipetdww.h \
 	uipetreu.c \
 	uipetreu.h \
 	uipetset.c \
@@ -541,11 +544,11 @@ rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc 
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
-	$(top_srcdir)/src/debug.h
+	$(srcdir)/respetdww.rc $(top_srcdir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
-	$(srcdir)/resautostart.rc
+	$(srcdir)/respetdww.rc $(srcdir)/resautostart.rc
 
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \

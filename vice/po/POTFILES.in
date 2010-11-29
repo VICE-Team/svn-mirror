@@ -148,6 +148,7 @@ src/arch/win32/resmmc64.rc.po.c
 src/arch/win32/resmmcreplay.rc.po.c
 src/arch/win32/resmouse.rc.po.c
 src/arch/win32/respet.rc.po.c
+src/arch/win32/respetdww.rc.po.c
 src/arch/win32/respetreu.rc.po.c
 src/arch/win32/resplus256k.rc.po.c
 src/arch/win32/resplus4.rc.po.c

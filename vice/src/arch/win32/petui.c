@@ -40,6 +40,7 @@
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
+#include "uipetdww.h"
 #include "uipetreu.h"
 #include "uipetset.h"
 #include "uirom.h"
@@ -309,6 +310,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_WARRANTY, IDS_MI_WARRANTY },
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_PET_SETTINGS, IDS_MI_PET_SETTINGS },
+    { IDM_PETDWW_SETTINGS, IDS_MI_PETDWW_SETTINGS },
     { IDM_PETREU_SETTINGS, IDS_MI_PETREU_SETTINGS },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { 0, 0 }
@@ -446,6 +448,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
         case IDM_PET_SETTINGS:
             ui_pet_settings_dialog(hwnd);
+            break;
+        case IDM_PETDWW_SETTINGS:
+            ui_petdww_settings_dialog(hwnd);
             break;
         case IDM_PETREU_SETTINGS:
             ui_petreu_settings_dialog(hwnd);

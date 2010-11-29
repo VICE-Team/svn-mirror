@@ -407,6 +407,10 @@ SOURCE=.\uiperipheral.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uipetdww.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uipetreu.c
 # End Source File
 # Begin Source File
