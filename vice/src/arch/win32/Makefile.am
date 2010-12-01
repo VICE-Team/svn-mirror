@@ -84,6 +84,7 @@ libarch_a_SOURCES = \
 	reside64.rc \
 	resisepic.rc \
 	reslightpen.rc \
+	resmagicvoice.rc \
 	resmidi.rc \
 	resmmc64.rc \
 	resmmcreplay.rc \
@@ -179,6 +180,8 @@ libarch_a_SOURCES = \
 	uilib.h \
 	uilightpen.c \
 	uilightpen.h \
+	uimagicvoice.c \
+	uimagicvoice.h \
 	uimediafile.c \
 	uimediafile.h \
 	uimidi.c \
@@ -494,6 +497,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc 
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmagicvoice.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resmmcreplay.rc $(top_srcdir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
@@ -502,6 +506,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc 
 	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc \
 	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmagicvoice.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc $(srcdir)/resmmcreplay.rc 
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
@@ -514,6 +519,7 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
 	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmagicvoice.rc \
 	$(srcdir)/resmmcreplay.rc $(top_srcdir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
@@ -524,6 +530,7 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmagicvoice.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc $(srcdir)/resmmcreplay.rc
 
 resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \

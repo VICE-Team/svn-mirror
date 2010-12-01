@@ -375,6 +375,10 @@ SOURCE=.\uilightpen.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uimagicvoice.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uimediafile.c
 # End Source File
 # Begin Source File
