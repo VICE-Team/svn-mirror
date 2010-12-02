@@ -499,6 +499,10 @@ SOURCE=.\uitfe.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiv364speech.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uivicii.c
 # End Source File
 # Begin Source File

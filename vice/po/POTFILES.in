@@ -162,6 +162,7 @@ src/arch/win32/ressidcart.rc.po.c
 src/arch/win32/ressiddtv.rc.po.c
 src/arch/win32/ressoundexpander.rc.po.c
 src/arch/win32/restfe.rc.po.c
+src/arch/win32/resv364speech.rc.po.c
 src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c
 

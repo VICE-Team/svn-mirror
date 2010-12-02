@@ -103,6 +103,7 @@ libarch_a_SOURCES = \
 	ressiddtv.rc \
 	ressoundexpander.rc \
 	restfe.rc \
+	resv364speech.rc \
 	resvic20.rc \
 	resvicii.rc \
 	rs232.c \
@@ -242,6 +243,8 @@ libarch_a_SOURCES = \
 	uispeed.h \
 	uitfe.c \
 	uitfe.h \
+	uiv364speech.c \
+	uiv364speech.h \
 	uivicii.h \
 	uivicii.c \
 	uivicset.h \
@@ -560,9 +563,10 @@ respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
-	$(top_srcdir)/src/debug.h
+	$(srcdir)/resv364speech.rc $(top_srcdir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
+	$(srcdir)/resv364speech.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resautostart.rc
 
 resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \

@@ -71,7 +71,7 @@ BEGIN
             MENUITEM "", IDM_CART_ATTACH_C1HI
             MENUITEM "", IDM_CART_ATTACH_C2LO
             MENUITEM "", IDM_CART_ATTACH_C2HI
-	    MENUITEM SEPARATOR
+            MENUITEM SEPARATOR
             MENUITEM "", IDM_CART_ATTACH_FUNCLO
             MENUITEM "", IDM_CART_ATTACH_FUNCHI
         END
@@ -90,7 +90,7 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-		POPUP "&Debug"
+                POPUP "&Debug"
         BEGIN
             POPUP "M&ode"
             BEGIN
@@ -212,6 +212,7 @@ BEGIN
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_SIDCART_SETTINGS
+            MENUITEM "", IDM_V364SPEECH_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
@@ -486,6 +487,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -517,6 +519,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktion lav-image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Funktion høj-image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4-indstillinger..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -548,6 +551,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktions ROM Image Datei low (3plus1)"
   IDS_MI_CART_ATTACH_FUNCHI       "Funktions ROM Image Datei high (3plus1)"
   IDS_MI_PLUS4_SETTINGS           "P&lus4 Einstellungen..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -579,6 +583,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Image Fonction basse (3+1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Image Fonction haute (3+1)..."
   IDS_MI_PLUS4_SETTINGS           "Paramètres P&lus4"
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -613,6 +618,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function alsó képmás (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function felsõ képmás (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 beállításai..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -647,6 +653,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Immagine della Function low (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Immagine della Function high (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Impostazioni P&lus4..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -678,6 +685,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function low-bestand (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high-bestand (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4-instellingen..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -712,6 +720,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -746,6 +755,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktion låg-avbildning (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Funktion hög-avbildning (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4-inställningar..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 
 
@@ -780,9 +790,9 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  imajý (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high imajý (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 ayarlarý..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 
