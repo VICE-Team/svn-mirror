@@ -11,40 +11,64 @@
 
 // template of dialog for all languages
 
-IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 170
+IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 280
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "", IDC_IDE64_FILE_LABEL,
-                    9, 14, 50, 8
-    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_BROWSE,
-                    60, 12, 50, 14, 0
-    EDITTEXT        IDC_IDE64_HDIMAGE_FILE,
-                    9, 28, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_IDE64_V4,
+                    10, 14, 90, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    LTEXT           "", IDC_IDE64_FILE_1_LABEL,
+                    9, 24, 50, 8
+    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_1_BROWSE,
+                    60, 22, 50, 14, 0
+    EDITTEXT        IDC_IDE64_HDIMAGE_1_FILE,
+                    9, 38, 160, 12, WS_TABSTOP
+
+    LTEXT           "", IDC_IDE64_FILE_2_LABEL,
+                    9, 54, 50, 8
+    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_2_BROWSE,
+                    60, 52, 50, 14, 0
+    EDITTEXT        IDC_IDE64_HDIMAGE_2_FILE,
+                    9, 68, 160, 12, WS_TABSTOP
+
+    LTEXT           "", IDC_IDE64_FILE_3_LABEL,
+                    9, 84, 50, 8
+    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_3_BROWSE,
+                    60, 82, 50, 14, 0
+    EDITTEXT        IDC_IDE64_HDIMAGE_3_FILE,
+                    9, 98, 160, 12, WS_TABSTOP
+
+    LTEXT           "", IDC_IDE64_FILE_4_LABEL,
+                    9, 114, 50, 8
+    PUSHBUTTON      "", IDC_IDE64_HDIMAGE_4_BROWSE,
+                    60, 112, 50, 14, 0
+    EDITTEXT        IDC_IDE64_HDIMAGE_4_FILE,
+                    9, 128, 160, 12, WS_TABSTOP
 
     GROUPBOX        "", IDC_IDE64_GEOMETRY,
-                    5, 48, 120, 95
+                    5, 158, 120, 95
     AUTOCHECKBOX    "", IDC_TOGGLE_IDE64_SIZEAUTODETECT,
-                    10, 60, 90, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+                    10, 170, 90, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     LTEXT           "", IDC_IDE64_CYLINDERS_LABEL,
-                    10, 75, 50, 8
+                    10, 185, 50, 8
     COMBOBOX        IDC_IDE64_CYLINDERS,
-                    55, 73, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    55, 183, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "", IDC_IDE64_HEADS_LABEL,
-                    10, 95, 55, 8
+                    10, 205, 55, 8
     COMBOBOX        IDC_IDE64_HEADS,
-                    55, 93, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    55, 203, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "", IDC_IDE64_SECTORS_LABEL,
-                    10, 115, 50, 8
+                    10, 225, 50, 8
     COMBOBOX        IDC_IDE64_SECTORS,
-                    55, 113, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    55, 223, 60, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "", IDC_IDE64_SIZE,
-                    10, 130, 100, 8
+                    10, 240, 100, 8
 
     DEFPUSHBUTTON   "", IDOK,
-                    60, 150, 50, 14, WS_TABSTOP
+                    60, 260, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
-                    120, 150, 50, 14, WS_TABSTOP
+                    120, 260, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -55,7 +79,11 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 Settings"
-    IDS_IDE64_IMAGE        "&HD image file"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometry"
     IDS_IDE64_AUTODETECT   "&Autodetect"
     IDS_IDE64_CYLINDERS    "Cylinders"
@@ -72,7 +100,11 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64-indstilliinger"
-    IDS_IDE64_IMAGE        "&HD-imagefil"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometri"
     IDS_IDE64_AUTODETECT   "&Autodetektér"
     IDS_IDE64_CYLINDERS    "Cylindrer"
@@ -89,7 +121,11 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 Einstellungen"
-    IDS_IDE64_IMAGE        "&HD Image Name"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometrie"
     IDS_IDE64_AUTODETECT   "&Automatische Erkennung"
     IDS_IDE64_CYLINDERS    "Zylinder"
@@ -106,7 +142,11 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "Paramètres IDE64"
-    IDS_IDE64_IMAGE        "Nom d'image &DD"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Géométrie"
     IDS_IDE64_AUTODETECT   "&Autodétection"
     IDS_IDE64_CYLINDERS    "Cylindres"
@@ -126,7 +166,11 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 beállításai"
-    IDS_IDE64_IMAGE        "&Merevlemez képmás fájl"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometria"
     IDS_IDE64_AUTODETECT   "&Automatikus érzékelés"
     IDS_IDE64_CYLINDERS    "Sávok"
@@ -146,7 +190,11 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "Impostazioni IDE64"
-    IDS_IDE64_IMAGE        "Nome dell'immagine dell'&HD"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometria"
     IDS_IDE64_AUTODETECT   "&Rileva automaticamente"
     IDS_IDE64_CYLINDERS    "Cilindri"
@@ -163,7 +211,11 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64-instellingen"
-    IDS_IDE64_IMAGE        "&HD-bestand"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometrie"
     IDS_IDE64_AUTODETECT   "&Autodetectie"
     IDS_IDE64_CYLINDERS    "Cylinders"
@@ -183,7 +235,11 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 Settings"
-    IDS_IDE64_IMAGE        "&HD image file"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometry"
     IDS_IDE64_AUTODETECT   "&Autodetect"
     IDS_IDE64_CYLINDERS    "Cylinders"
@@ -203,7 +259,11 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64-inställningar"
-    IDS_IDE64_IMAGE        "&HD-avbildningsfil"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometri"
     IDS_IDE64_AUTODETECT   "&Autodetektera"
     IDS_IDE64_CYLINDERS    "Cylindrar"
@@ -223,7 +283,11 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 Ayarlarý"
-    IDS_IDE64_IMAGE        "&HD imaj dosyasý"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
     IDS_IDE64_GEOMETRY     "&Geometri"
     IDS_IDE64_AUTODETECT   "Otom&atik algýla"
     IDS_IDE64_CYLINDERS    "Silindirler"
@@ -235,5 +299,4 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 

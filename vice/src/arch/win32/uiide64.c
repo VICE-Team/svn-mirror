@@ -80,8 +80,15 @@ static void update_text(HWND hwnd)
 
 static uilib_localize_dialog_param ide64_dialog[] = {
     { 0, IDS_IDE64_CAPTION, -1 },
-    { IDC_IDE64_FILE_LABEL, IDS_IDE64_IMAGE, 0 },
-    { IDC_IDE64_HDIMAGE_BROWSE, IDS_BROWSE, 0 },
+    { IDC_IDE64_V4, IDS_IDE64_V4, 0 },
+    { IDC_IDE64_FILE_1_LABEL, IDS_IDE64_IMAGE_1, 0 },
+    { IDC_IDE64_FILE_2_LABEL, IDS_IDE64_IMAGE_2, 0 },
+    { IDC_IDE64_FILE_3_LABEL, IDS_IDE64_IMAGE_3, 0 },
+    { IDC_IDE64_FILE_4_LABEL, IDS_IDE64_IMAGE_4, 0 },
+    { IDC_IDE64_HDIMAGE_1_BROWSE, IDS_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_2_BROWSE, IDS_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_3_BROWSE, IDS_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_4_BROWSE, IDS_BROWSE, 0 },
     { IDC_IDE64_GEOMETRY, IDS_IDE64_GEOMETRY, 0 },
     { IDC_TOGGLE_IDE64_SIZEAUTODETECT, IDS_IDE64_AUTODETECT, 0 },
     { IDC_IDE64_CYLINDERS_LABEL, IDS_IDE64_CYLINDERS, 0 },
@@ -93,12 +100,19 @@ static uilib_localize_dialog_param ide64_dialog[] = {
 };
 
 static uilib_dialog_group ide64_leftgroup[] = {
-    { IDC_IDE64_FILE_LABEL, 0 },
+    { IDC_IDE64_V4, 1 },
+    { IDC_IDE64_FILE_1_LABEL, 0 },
+    { IDC_IDE64_FILE_2_LABEL, 0 },
+    { IDC_IDE64_FILE_3_LABEL, 0 },
+    { IDC_IDE64_FILE_4_LABEL, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group ide64_rightgroup[] = {
-    { IDC_IDE64_HDIMAGE_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_1_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_2_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_3_BROWSE, 0 },
+    { IDC_IDE64_HDIMAGE_4_BROWSE, 0 },
     { 0, 0 }
 };
 
@@ -116,9 +130,27 @@ static void init_ide64_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, ide64_leftgroup);
     uilib_move_group(hwnd, ide64_rightgroup, xsize + 30);
 
-    resources_get_string("IDE64Image", &ide64file);
+    resources_get_int("IDE64version4", &res_value);
+    CheckDlgButton(hwnd, IDC_IDE64_V4, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_string("IDE64Image1", &ide64file);
     st_ide64file = system_mbstowcs_alloc(ide64file);
-    SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st_ide64file != NULL ? st_ide64file : TEXT(""));
+    SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_1_FILE, st_ide64file != NULL ? st_ide64file : TEXT(""));
+    system_mbstowcs_free(st_ide64file);
+
+    resources_get_string("IDE64Image2", &ide64file);
+    st_ide64file = system_mbstowcs_alloc(ide64file);
+    SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_2_FILE, st_ide64file != NULL ? st_ide64file : TEXT(""));
+    system_mbstowcs_free(st_ide64file);
+
+    resources_get_string("IDE64Image3", &ide64file);
+    st_ide64file = system_mbstowcs_alloc(ide64file);
+    SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_3_FILE, st_ide64file != NULL ? st_ide64file : TEXT(""));
+    system_mbstowcs_free(st_ide64file);
+
+    resources_get_string("IDE64Image4", &ide64file);
+    st_ide64file = system_mbstowcs_alloc(ide64file);
+    SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_4_FILE, st_ide64file != NULL ? st_ide64file : TEXT(""));
     system_mbstowcs_free(st_ide64file);
 
     resources_get_int("IDE64AutodetectSize", &res_value);
@@ -159,9 +191,23 @@ static void end_ide64_dialog(HWND hwnd)
     HWND ide64_hwnd;
     int res_value;
 
-    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st, MAX_PATH);
+    resources_set_int("IDE64version4", (IsDlgButtonChecked(hwnd, IDC_IDE64_V4) == BST_CHECKED ? 1 : 0));
+
+    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_1_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_string("IDE64Image", s);
+    resources_set_string("IDE64Image1", s);
+
+    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_2_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_string("IDE64Image2", s);
+
+    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_3_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_string("IDE64Image3", s);
+
+    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_4_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_string("IDE64Image4", s);
 
     resources_set_int("IDE64AutodetectSize", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT) == BST_CHECKED ? 1 : 0));
 
@@ -186,8 +232,17 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
-                case IDC_IDE64_HDIMAGE_BROWSE:
-                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
+                case IDC_IDE64_HDIMAGE_1_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_1_FILE);
+                    break;
+                case IDC_IDE64_HDIMAGE_2_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_2_FILE);
+                    break;
+                case IDC_IDE64_HDIMAGE_3_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_3_FILE);
+                    break;
+                case IDC_IDE64_HDIMAGE_4_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_4_FILE);
                     break;
                 case IDC_TOGGLE_IDE64_SIZEAUTODETECT:
                     enable_ide64_controls(hwnd);
