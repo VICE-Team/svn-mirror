@@ -100,7 +100,7 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-		POPUP "&Debug"
+                POPUP "&Debug"
         BEGIN
             POPUP "M&ode"
             BEGIN
@@ -195,15 +195,15 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
-	MENUITEM SEPARATOR
+        MENUITEM SEPARATOR
         POPUP "Vide&o standard"
         BEGIN
             MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
         END
-	MENUITEM SEPARATOR
-	MENUITEM "", IDM_TOGGLE_EMUID
-	MENUITEM "", IDM_IEEE488
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_TOGGLE_EMUID
+        MENUITEM "", IDM_IEEE488
       MENUITEM "", IDM_PADDLES
     END
     POPUP "S&ettings"
@@ -228,6 +228,7 @@ BEGIN
             MENUITEM "", IDM_SIDCART_SETTINGS
             MENUITEM "", IDM_MIDI_SETTINGS
             MENUITEM "", IDM_FINAL_EXPANSION_WRITEBACK
+            MENUITEM "", IDM_VIC_FLASH_PLUGIN_WRITEBACK
             MENUITEM "", IDM_MEGACART_WRITEBACK
             MENUITEM "", IDM_MEGACART_WRITEBACK_FILE
         END
@@ -561,6 +562,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB image at $&B000..."
     IDS_MI_VIC_SETTINGS               "V&IC settings..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
@@ -609,6 +611,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB-image på $&B000..."
     IDS_MI_VIC_SETTINGS               "V&IC-indstillinger..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Aktivér Final Expansion tilbageskrivning"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Aktivér Mega-Cart NVRAM tilbageskrivning"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Vælg Mega-Cart NVRAM-fil"
 END
@@ -657,6 +660,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB Modul Image bei $B000..."
     IDS_MI_VIC_SETTINGS               "V&IC Einstellungen"
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Final Expansion rückschreiben aktivieren"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart nicht-flüchtiges RAM rückschreiben aktivieren"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Mega-Cart nicht-flüchtiges RAM Datei wählen"
 END
@@ -705,6 +709,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "Insertion d'une image 4Ko à $B000..."
     IDS_MI_VIC_SETTINGS               "Paramètres V&IC..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
@@ -756,6 +761,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB képmás $&B000 címen..."
     IDS_MI_VIC_SETTINGS               "V&IC beállításai..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Final Expansion visszaírás engedélyezése"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart NvRAM visszaírás engedélyezése"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Válassza ki az NvRAM képfájlt"
 END
@@ -807,6 +813,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "Immagine di 4KB a $&B000..."
     IDS_MI_VIC_SETTINGS               "Impostazioni V&IC..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
@@ -855,6 +862,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "Koppel 4KB-cartridgebestand op $&B000"
     IDS_MI_VIC_SETTINGS               "V&IC-instellingen..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Activeer terug schrijven van Final Expansion"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Activeer terug schrijven van Mega-Cart non-volatile RAM"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Selecteer Mega-Cart non-volatile RAM bestand"
 END
@@ -906,6 +914,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB image at $&B000..."
     IDS_MI_VIC_SETTINGS               "V&IC settings..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
@@ -957,6 +966,7 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB-fil vid $&B000..."
     IDS_MI_VIC_SETTINGS               "V&IC-inställningar..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Aktivera Final Expansion-återskrivning"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Aktivera Mega-Cart NvRAM-återskrivning"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Välj NvRAM-fil för Mega-Cart"
 END
@@ -1008,11 +1018,11 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB imajý $&B000 adresinde..."
     IDS_MI_VIC_SETTINGS               "V&IC ayarlarý..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 
