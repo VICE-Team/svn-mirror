@@ -48,6 +48,10 @@ extern void cart_power_off(void);
 /* from c64carthooks.c */
 extern void cart_nmi_alarm(CLOCK offset, void *data);
 extern int cart_freeze_allowed(void);
+extern void cart_undump_alarms(void);
+
+extern CLOCK cart_nmi_alarm_time;
+extern CLOCK cart_freeze_alarm_time;
 
 extern void cart_init(void);
 extern int cart_resources_init(void);

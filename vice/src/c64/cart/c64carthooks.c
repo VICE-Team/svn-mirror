@@ -2109,9 +2109,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
         || SMW_B(m, (BYTE)export_ram) < 0
         || SMW_B(m, export.ultimax_phi1) < 0
         || SMW_B(m, export.ultimax_phi2) < 0
-        /* FIXME freeze & NMI alarm times, dummy values for now */
-        || SMW_DW(m, 0) < 0
-        || SMW_DW(m, 0) < 0
+        || SMW_DW(m, (DWORD)cart_freeze_alarm_time) < 0
+        || SMW_DW(m, (DWORD)cart_nmi_alarm_time) < 0
         /* some room for future expansion */
         || SMW_DW(m, 0) < 0
         || SMW_DW(m, 0) < 0
@@ -2239,9 +2238,8 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
         || SMR_B_INT(m, &export_ram) < 0
         || SMR_B(m, &export.ultimax_phi1) < 0
         || SMR_B(m, &export.ultimax_phi2) < 0
-        /* FIXME freeze & NMI alarm times, dummy values for now */
-        || SMR_DW(m, &dummy) < 0
-        || SMR_DW(m, &dummy) < 0
+        || SMR_DW(m, &cart_freeze_alarm_time) < 0
+        || SMR_DW(m, &cart_nmi_alarm_time) < 0
         /* some room for future expansion */
         || SMR_DW(m, &dummy) < 0
         || SMR_DW(m, &dummy) < 0
@@ -2310,10 +2308,12 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
         cartridge_attach_from_snapshot(cart_ids[i]);
     }
 
-
     /* set up config */
     mem_pla_config_changed();
     machine_update_memory_ptrs();
+
+    /* restore alarms */
+    cart_undump_alarms();
 
     return 0;
 

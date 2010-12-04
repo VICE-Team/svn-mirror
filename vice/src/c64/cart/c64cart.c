@@ -135,6 +135,9 @@ static alarm_t *cartridge_nmi_alarm = NULL; /* cartridge nmi alarm context */
 static alarm_t *cartridge_freeze_alarm = NULL; /* cartridge freeze button alarm context */
 static unsigned int cartridge_int_num; /* irq number for cart */
 
+CLOCK cart_nmi_alarm_time = CLOCK_MAX; /* cartridge NMI alarm time */
+CLOCK cart_freeze_alarm_time = CLOCK_MAX; /* cartridge freeze button alarm time */
+
 /* Type of the cartridge attached. ("Main Slot") */
 int mem_cartridge_type = CARTRIDGE_NONE;
 
@@ -610,13 +613,15 @@ void cartridge_release_freeze(void)
 void cart_trigger_nmi(void)
 {
     maincpu_set_nmi(cartridge_int_num, IK_NMI);
-    alarm_set(cartridge_nmi_alarm, maincpu_clk + 3);
+    cart_nmi_alarm_time = maincpu_clk + 3;
+    alarm_set(cartridge_nmi_alarm, cart_nmi_alarm_time);
 }
 
 /* called by the NMI alarm */
 static void cart_nmi_alarm_triggered(CLOCK offset, void *data)
 {
     alarm_unset(cartridge_nmi_alarm);
+    cart_nmi_alarm_time = CLOCK_MAX;
     cart_nmi_alarm(offset, data); /* c64carthooks.c */
 }
 
@@ -625,11 +630,13 @@ static void cart_freeze_alarm_triggered(CLOCK offset, void *data)
 {
     DBG(("cart_freeze_alarm_triggered\n"));
     alarm_unset(cartridge_freeze_alarm);
+    cart_freeze_alarm_time = CLOCK_MAX;
 
     if(cart_freeze_allowed()) {  /* c64carthooks.c */
         DBG(("cart_trigger_freeze delay 3 cycles\n"));
         maincpu_set_nmi(cartridge_int_num, IK_NMI);
-        alarm_set(cartridge_nmi_alarm, maincpu_clk + 3);
+        cart_nmi_alarm_time = maincpu_clk + 3;
+        alarm_set(cartridge_nmi_alarm, cart_nmi_alarm_time);
     }
 }
 
@@ -649,8 +656,10 @@ static void cart_freeze_alarm_triggered(CLOCK offset, void *data)
 */
 void cartridge_trigger_freeze(void)
 {
-    int delay=1+(int)(((float)machine_get_cycles_per_frame())*rand()/(RAND_MAX+1.0));
-    alarm_set(cartridge_freeze_alarm, maincpu_clk + delay);
+    int delay = 1+(int)(((float)machine_get_cycles_per_frame())*rand()/(RAND_MAX+1.0));
+
+    cart_freeze_alarm_time = maincpu_clk + delay;
+    alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);
     DBG(("cartridge_trigger_freeze delay %d cycles\n", delay));
 }
 
@@ -658,6 +667,18 @@ void cart_unset_alarms(void)
 {
     alarm_unset(cartridge_freeze_alarm);
     alarm_unset(cartridge_nmi_alarm);
+    cart_freeze_alarm_time = CLOCK_MAX;
+    cart_nmi_alarm_time = CLOCK_MAX;
+}
+
+void cart_undump_alarms(void)
+{
+    if (cart_freeze_alarm_time < CLOCK_MAX) {
+        alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);
+    }
+    if (cart_nmi_alarm_time < CLOCK_MAX) {
+        alarm_set(cartridge_nmi_alarm, cart_nmi_alarm_time);
+    }
 }
 
 /* called by c64.c:machine_specific_init */
