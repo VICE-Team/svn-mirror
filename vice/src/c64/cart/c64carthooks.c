@@ -2133,37 +2133,99 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     /* Save individual cart data */
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
-            case CARTRIDGE_GEORAM:
-                if (georam_write_snapshot_module(s) < 0) {
-                    return -1;
-                }
-                break;
-
-            case CARTRIDGE_REU:
-                if (reu_write_snapshot_module(s) < 0) {
-                    return -1;
-                }
-                break;
-
-
+            /* "Slot 0" */
+            /* FIXME case CARTRIDGE_MMC64: */
+            /* FIXME case CARTRIDGE_MAGIC_VOICE: */
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
 
+            /* "Slot 1" */
+            /* FIXME case CARTRIDGE_DQBB: */
+            /* FIXME case CARTRIDGE_EXPERT: */
+            /* FIXME case CARTRIDGE_ISEPIC: */
+            /* FIXME case CARTRIDGE_RAMCART: */
+
+            /* "Main Slot" */
             case CARTRIDGE_ACTION_REPLAY:
                 if (actionreplay_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
-
+            /* FIXME case CARTRIDGE_ACTION_REPLAY2: */
+            /* FIXME case CARTRIDGE_ACTION_REPLAY3: */
+            /* FIXME case CARTRIDGE_ACTION_REPLAY4: */
+            /* FIXME case CARTRIDGE_ATOMIC_POWER: */
+            /* FIXME case CARTRIDGE_CAPTURE: */
+            /* FIXME case CARTRIDGE_COMAL80: */
+            /* FIXME case CARTRIDGE_DELA_EP64: */
+            /* FIXME case CARTRIDGE_DELA_EP7x8: */
+            /* FIXME case CARTRIDGE_DELA_EP256: */
+            /* FIXME case CARTRIDGE_DIASHOW_MAKER: */
+            /* FIXME case CARTRIDGE_DINAMIC: */
             case CARTRIDGE_EASYFLASH:
                 if (easyflash_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
+            /* FIXME case CARTRIDGE_EPYX_FASTLOAD: */
+            /* FIXME case CARTRIDGE_EXOS: */
+            /* FIXME case CARTRIDGE_FINAL_I: */
+            /* FIXME case CARTRIDGE_FINAL_III: */
+            /* FIXME case CARTRIDGE_FINAL_PLUS: */
+            /* FIXME case CARTRIDGE_FREEZE_FRAME: */
+            /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
+            /* FIXME case CARTRIDGE_FUNPLAY: */
+            /* FIXME case CARTRIDGE_GENERIC_16KB: */
+            /* FIXME case CARTRIDGE_GENERIC_8KB: */
+            /* FIXME case CARTRIDGE_GS: */
+            /* FIXME case CARTRIDGE_IDE64: */
+            /* FIXME case CARTRIDGE_KCS_POWER: */
+            /* FIXME case CARTRIDGE_MACH5: */
+            /* FIXME case CARTRIDGE_MAGIC_DESK: */
+            /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
+            /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
+            /* FIXME case CARTRIDGE_MMC_REPLAY: */
+            /* FIXME case CARTRIDGE_OCEAN: */
+            /* FIXME case CARTRIDGE_RETRO_REPLAY: */
+            /* FIXME case CARTRIDGE_REX: */
+            /* FIXME case CARTRIDGE_REX_EP256: */
+            /* FIXME case CARTRIDGE_ROSS: */
+            /* FIXME case CARTRIDGE_SIMONS_BASIC: */
+            /* FIXME case CARTRIDGE_SNAPSHOT64: */
+            /* FIXME case CARTRIDGE_STARDOS: */
+            /* FIXME case CARTRIDGE_STRUCTURED_BASIC: */
+            /* FIXME case CARTRIDGE_SUPER_EXPLODE_V5: */
+            /* FIXME case CARTRIDGE_SUPER_GAMES: */
+            /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
+            /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
+            /* FIXME case CARTRIDGE_ULTIMAX: */
+            /* FIXME case CARTRIDGE_WARPSPEED: */
+            /* FIXME case CARTRIDGE_WESTERMANN: */
+            /* FIXME case CARTRIDGE_ZAXXON: */
 
+            /* "IO Slot" */
+            /* FIXME case CARTRIDGE_DIGIMAX: */
+            case CARTRIDGE_GEORAM:
+                if (georam_write_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            /* FIXME case CARTRIDGE_MIDI_PASSPORT: */
+            /* FIXME case CARTRIDGE_MIDI_DATEL: */
+            /* FIXME case CARTRIDGE_MIDI_SEQUENTIAL: */
+            /* FIXME case CARTRIDGE_MIDI_NAMESOFT: */
+            /* FIXME case CARTRIDGE_MIDI_MAPLIN: */
+            case CARTRIDGE_REU:
+                if (reu_write_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            /* FIXME case CARTRIDGE_SFX_SOUND_EXPANDER: */
+            /* FIXME case CARTRIDGE_SFX_SOUND_SAMPLER: */
+            /* FIXME case CARTRIDGE_TFE: */
 #ifdef HAVE_RS232
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_write_module(s) < 0) {
@@ -2262,36 +2324,99 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     /* Read individual cart data */
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
-            case CARTRIDGE_GEORAM:
-                if (georam_read_snapshot_module(s) < 0) {
-                    return -1;
-                }
-                break;
-
-            case CARTRIDGE_REU:
-                if (reu_read_snapshot_module(s) < 0) {
-                    return -1;
-                }
-                break;
-
+            /* "Slot 0" */
+            /* FIXME case CARTRIDGE_MMC64: */
+            /* FIXME case CARTRIDGE_MAGIC_VOICE: */
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
 
+            /* "Slot 1" */
+            /* FIXME case CARTRIDGE_DQBB: */
+            /* FIXME case CARTRIDGE_EXPERT: */
+            /* FIXME case CARTRIDGE_ISEPIC: */
+            /* FIXME case CARTRIDGE_RAMCART: */
+
+            /* "Main Slot" */
             case CARTRIDGE_ACTION_REPLAY:
                 if (actionreplay_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
-
+            /* FIXME case CARTRIDGE_ACTION_REPLAY2: */
+            /* FIXME case CARTRIDGE_ACTION_REPLAY3: */
+            /* FIXME case CARTRIDGE_ACTION_REPLAY4: */
+            /* FIXME case CARTRIDGE_ATOMIC_POWER: */
+            /* FIXME case CARTRIDGE_CAPTURE: */
+            /* FIXME case CARTRIDGE_COMAL80: */
+            /* FIXME case CARTRIDGE_DELA_EP64: */
+            /* FIXME case CARTRIDGE_DELA_EP7x8: */
+            /* FIXME case CARTRIDGE_DELA_EP256: */
+            /* FIXME case CARTRIDGE_DIASHOW_MAKER: */
+            /* FIXME case CARTRIDGE_DINAMIC: */
             case CARTRIDGE_EASYFLASH:
                 if (easyflash_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
+            /* FIXME case CARTRIDGE_EPYX_FASTLOAD: */
+            /* FIXME case CARTRIDGE_EXOS: */
+            /* FIXME case CARTRIDGE_FINAL_I: */
+            /* FIXME case CARTRIDGE_FINAL_III: */
+            /* FIXME case CARTRIDGE_FINAL_PLUS: */
+            /* FIXME case CARTRIDGE_FREEZE_FRAME: */
+            /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
+            /* FIXME case CARTRIDGE_FUNPLAY: */
+            /* FIXME case CARTRIDGE_GENERIC_16KB: */
+            /* FIXME case CARTRIDGE_GENERIC_8KB: */
+            /* FIXME case CARTRIDGE_GS: */
+            /* FIXME case CARTRIDGE_IDE64: */
+            /* FIXME case CARTRIDGE_KCS_POWER: */
+            /* FIXME case CARTRIDGE_MACH5: */
+            /* FIXME case CARTRIDGE_MAGIC_DESK: */
+            /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
+            /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
+            /* FIXME case CARTRIDGE_MMC_REPLAY: */
+            /* FIXME case CARTRIDGE_OCEAN: */
+            /* FIXME case CARTRIDGE_RETRO_REPLAY: */
+            /* FIXME case CARTRIDGE_REX: */
+            /* FIXME case CARTRIDGE_REX_EP256: */
+            /* FIXME case CARTRIDGE_ROSS: */
+            /* FIXME case CARTRIDGE_SIMONS_BASIC: */
+            /* FIXME case CARTRIDGE_SNAPSHOT64: */
+            /* FIXME case CARTRIDGE_STARDOS: */
+            /* FIXME case CARTRIDGE_STRUCTURED_BASIC: */
+            /* FIXME case CARTRIDGE_SUPER_EXPLODE_V5: */
+            /* FIXME case CARTRIDGE_SUPER_GAMES: */
+            /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
+            /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
+            /* FIXME case CARTRIDGE_ULTIMAX: */
+            /* FIXME case CARTRIDGE_WARPSPEED: */
+            /* FIXME case CARTRIDGE_WESTERMANN: */
+            /* FIXME case CARTRIDGE_ZAXXON: */
 
+            /* "IO Slot" */
+            /* FIXME case CARTRIDGE_DIGIMAX: */
+           case CARTRIDGE_GEORAM:
+                if (georam_read_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            /* FIXME case CARTRIDGE_MIDI_PASSPORT: */
+            /* FIXME case CARTRIDGE_MIDI_DATEL: */
+            /* FIXME case CARTRIDGE_MIDI_SEQUENTIAL: */
+            /* FIXME case CARTRIDGE_MIDI_NAMESOFT: */
+            /* FIXME case CARTRIDGE_MIDI_MAPLIN: */
+            case CARTRIDGE_REU:
+                if (reu_read_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            /* FIXME case CARTRIDGE_SFX_SOUND_EXPANDER: */
+            /* FIXME case CARTRIDGE_SFX_SOUND_SAMPLER: */
+            /* FIXME case CARTRIDGE_TFE: */
 #ifdef HAVE_RS232
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_read_module(s) < 0) {
