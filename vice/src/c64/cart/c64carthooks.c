@@ -51,6 +51,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
@@ -2052,207 +2053,274 @@ int cartridge_crt_save(int type, const char *filename)
 
     FIXME: incomplete
 */
+
+#define C64CART_DUMP_MAX_CARTS  16
+
+#define C64CART_DUMP_VER_MAJOR   0
+#define C64CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "C64CART"
+
 int cartridge_snapshot_write_modules(struct snapshot_s *s)
 {
-    int maintype = cart_getid_slotmain();
+    snapshot_module_t *m;
 
-    /* "Slot 0" */
-    /* FIXME: magic voice */
-    /* FIXME: mmc64 */
-    if (tpi_cart_enabled()) {
-        if(tpi_snapshot_write_module(s) < 0) {
-            return -1;
+    BYTE i;
+    BYTE number_of_carts = 0;
+    int cart_ids[C64CART_DUMP_MAX_CARTS];
+
+    memset(cart_ids, 0, sizeof(cart_ids));
+
+    /* Find out which carts are attached */
+    {
+        export_list_t *e = c64export_query_list(NULL);
+
+        while (e != NULL) {
+            if (number_of_carts == C64CART_DUMP_MAX_CARTS) {
+                DBG(("CART snapshot save: active carts > max (%i)\n", number_of_carts));
+                return -1;
+            }
+            cart_ids[number_of_carts++] = e->device->cartid;
+            e = e->next;
         }
     }
 
-    /* "Slot 1" */
-    /* FIXME: dqbb */
-    /* FIXME: expert */
-    /* FIXME: isepic */
-    /* FIXME: ramcart */
-
-    /* "Main Slot" */
-    switch (maintype) {
-        case CARTRIDGE_ACTION_REPLAY:
-        case CARTRIDGE_ACTION_REPLAY2:
-        case CARTRIDGE_ACTION_REPLAY3:
-        case CARTRIDGE_ACTION_REPLAY4:
-        case CARTRIDGE_ATOMIC_POWER:
-        case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_COMAL80:
-        case CARTRIDGE_DELA_EP64:
-        case CARTRIDGE_DELA_EP7x8:
-        case CARTRIDGE_DELA_EP256:
-        case CARTRIDGE_DIASHOW_MAKER:
-        case CARTRIDGE_DINAMIC:
-        case CARTRIDGE_EASYFLASH:
-        case CARTRIDGE_EPYX_FASTLOAD:
-        case CARTRIDGE_EXOS:
-        case CARTRIDGE_FINAL_I:
-        case CARTRIDGE_FINAL_III:
-        case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_FREEZE_FRAME:
-        case CARTRIDGE_FREEZE_MACHINE:
-        case CARTRIDGE_FUNPLAY:
-        case CARTRIDGE_GENERIC_16KB:
-        case CARTRIDGE_GENERIC_8KB:
-        case CARTRIDGE_GS:
-        case CARTRIDGE_IDE64:
-        case CARTRIDGE_KCS_POWER:
-        case CARTRIDGE_MACH5:
-        case CARTRIDGE_MAGIC_DESK:
-        case CARTRIDGE_MAGIC_FORMEL:
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-        case CARTRIDGE_MMC_REPLAY:
-        case CARTRIDGE_OCEAN:
-        case CARTRIDGE_RETRO_REPLAY:
-        case CARTRIDGE_REX:
-        case CARTRIDGE_REX_EP256:
-        case CARTRIDGE_ROSS:
-        case CARTRIDGE_SIMONS_BASIC:
-        case CARTRIDGE_SNAPSHOT64:
-        case CARTRIDGE_STARDOS:
-        case CARTRIDGE_STRUCTURED_BASIC:
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-        case CARTRIDGE_SUPER_GAMES:
-        case CARTRIDGE_SUPER_SNAPSHOT:
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        case CARTRIDGE_ULTIMAX:
-        case CARTRIDGE_WARPSPEED:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_ZAXXON:
-            break;
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          C64CART_DUMP_VER_MAJOR, C64CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
     }
 
-    /* "I/O Slot" */
-    /* FIXME: digimax */
-    if (georam_cart_enabled()) {
-        if (georam_write_snapshot_module(s) < 0) {
-            return -1;
+    if (SMW_B(m, number_of_carts) < 0) {
+        goto fail;
+    }
+
+    /* Not much to do if no carts present */
+    if (number_of_carts == 0) {
+        return snapshot_module_close(m);
+    }
+
+    /* Save "global" cartridge things */
+    if (0
+        || SMW_DW(m, (DWORD)mem_cartridge_type) < 0
+        || SMW_B(m, export.game) < 0
+        || SMW_B(m, export.exrom) < 0
+        || SMW_DW(m, (DWORD)romh_bank) < 0
+        || SMW_DW(m, (DWORD)roml_bank) < 0
+        || SMW_B(m, (BYTE)export_ram) < 0
+        || SMW_B(m, export.ultimax_phi1) < 0
+        || SMW_B(m, export.ultimax_phi2) < 0
+        /* FIXME freeze & NMI alarm times, dummy values for now */
+        || SMW_DW(m, 0) < 0
+        || SMW_DW(m, 0) < 0
+        /* some room for future expansion */
+        || SMW_DW(m, 0) < 0
+        || SMW_DW(m, 0) < 0
+        || SMW_DW(m, 0) < 0
+        || SMW_DW(m, 0) < 0) {
+        goto fail;
+    }
+
+    /* Save cart IDs */
+    for (i = 0; i < number_of_carts; i++) {
+        if (SMW_DW(m, (DWORD)cart_ids[i]) < 0) {
+            goto fail;
         }
     }
-#ifdef HAVE_MIDI
-    /* FIXME: midi (passport) */
-    /* FIXME: midi (datel) */
-    /* FIXME: midi (sequential) */
-    /* FIXME: midi (namesoft) */
-    /* FIXME: midi (maplin) */
-#endif
-    if (reu_cart_enabled()) {
-        if (reu_write_snapshot_module(s) < 0) {
-            return -1;
-        }
-    }
-    /* FIXME: sfx sound expander */
-    /* FIXME: sfx sound sampler */
-#ifdef HAVE_TFE
-    /* FIXME: tfe */
-#endif
+
+    /* Main module done */
+    snapshot_module_close(m);
+    m = NULL;
+
+    /* Save individual cart data */
+    for (i = 0; i < number_of_carts; i++) {
+        switch (cart_ids[i]) {
+            case CARTRIDGE_GEORAM:
+                if (georam_write_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_REU:
+                if (reu_write_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+
+            case CARTRIDGE_IEEE488:
+                if (tpi_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_ACTION_REPLAY:
+                if (actionreplay_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_EASYFLASH:
+                if (easyflash_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
 #ifdef HAVE_RS232
-    if (aciacart_cart_enabled()) {
-        if(aciacart_snapshot_write_module(s) < 0) {
-            return -1;
+            case CARTRIDGE_TURBO232:
+                if (aciacart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
+
+            default:
+                DBG(("CART snapshot save: cart %i handler missing\n", cart_ids[i]));
+                break;
         }
     }
-#endif
+
     return 0;
+
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+    return -1;
 }
 
 int cartridge_snapshot_read_modules(struct snapshot_s *s)
 {
-    int maintype = cart_getid_slotmain();
+    snapshot_module_t *m;
+    BYTE vmajor, vminor;
 
-    /* "Slot 0" */
-    /* FIXME: magic voice */
-    /* FIXME: mmc64 */
-    if (tpi_snapshot_read_module(s) < 0) {
-        /* IEEE488 module disabled  */
+    BYTE i;
+    BYTE number_of_carts;
+    int cart_ids[C64CART_DUMP_MAX_CARTS];
+    int local_cartridge_reset;
+    DWORD dummy;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+
+    if (m == NULL) {
+        return -1;
     }
 
-    /* "Slot 1" */
-    /* FIXME: dqbb */
-    /* FIXME: expert */
-    /* FIXME: isepic */
-    /* FIXME: ramcart */
-
-    /* "Main Slot" */
-    switch (maintype) {
-        case CARTRIDGE_ACTION_REPLAY:
-        case CARTRIDGE_ACTION_REPLAY2:
-        case CARTRIDGE_ACTION_REPLAY3:
-        case CARTRIDGE_ACTION_REPLAY4:
-        case CARTRIDGE_ATOMIC_POWER:
-        case CARTRIDGE_CAPTURE:
-        case CARTRIDGE_COMAL80:
-        case CARTRIDGE_DELA_EP64:
-        case CARTRIDGE_DELA_EP7x8:
-        case CARTRIDGE_DELA_EP256:
-        case CARTRIDGE_DIASHOW_MAKER:
-        case CARTRIDGE_DINAMIC:
-        case CARTRIDGE_EASYFLASH:
-        case CARTRIDGE_EPYX_FASTLOAD:
-        case CARTRIDGE_EXOS:
-        case CARTRIDGE_FINAL_I:
-        case CARTRIDGE_FINAL_III:
-        case CARTRIDGE_FINAL_PLUS:
-        case CARTRIDGE_FREEZE_FRAME:
-        case CARTRIDGE_FREEZE_MACHINE:
-        case CARTRIDGE_FUNPLAY:
-        case CARTRIDGE_GENERIC_16KB:
-        case CARTRIDGE_GENERIC_8KB:
-        case CARTRIDGE_GS:
-        case CARTRIDGE_IDE64:
-        case CARTRIDGE_KCS_POWER:
-        case CARTRIDGE_MACH5:
-        case CARTRIDGE_MAGIC_DESK:
-        case CARTRIDGE_MAGIC_FORMEL:
-        case CARTRIDGE_MIKRO_ASSEMBLER:
-        case CARTRIDGE_MMC_REPLAY:
-        case CARTRIDGE_OCEAN:
-        case CARTRIDGE_RETRO_REPLAY:
-        case CARTRIDGE_REX:
-        case CARTRIDGE_REX_EP256:
-        case CARTRIDGE_ROSS:
-        case CARTRIDGE_SIMONS_BASIC:
-        case CARTRIDGE_SNAPSHOT64:
-        case CARTRIDGE_STARDOS:
-        case CARTRIDGE_STRUCTURED_BASIC:
-        case CARTRIDGE_SUPER_EXPLODE_V5:
-        case CARTRIDGE_SUPER_GAMES:
-        case CARTRIDGE_SUPER_SNAPSHOT:
-        case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        case CARTRIDGE_ULTIMAX:
-        case CARTRIDGE_WARPSPEED:
-        case CARTRIDGE_WESTERMANN:
-        case CARTRIDGE_ZAXXON:
-            break;
+    if ((vmajor != C64CART_DUMP_VER_MAJOR) || (vminor != C64CART_DUMP_VER_MINOR)) {
+        goto fail;
     }
 
-    /* "I/O Slot" */
-    /* FIXME: digimax */
-    if (georam_read_snapshot_module(s) < 0) {
-        /* georam disabled  */
+    /* disable cartridge reset while detaching old cart */
+    resources_get_int("CartridgeReset", &local_cartridge_reset);
+    resources_set_int("CartridgeReset", 0);
+    cartridge_detach_image(-1);
+    resources_set_int("CartridgeReset", local_cartridge_reset);
+
+    if (SMR_B(m, &number_of_carts) < 0) {
+        goto fail;
     }
-#ifdef HAVE_MIDI
-    /* FIXME: midi (passport) */
-    /* FIXME: midi (datel) */
-    /* FIXME: midi (sequential) */
-    /* FIXME: midi (namesoft) */
-    /* FIXME: midi (maplin) */
-#endif
-    if (reu_read_snapshot_module(s) < 0) {
-        /* REU disabled  */
+
+    /* Not much to do if no carts in snapshot */
+    if (number_of_carts == 0) {
+        return snapshot_module_close(m);
     }
-    /* FIXME: sfx sound expander */
-    /* FIXME: sfx sound sampler */
-#ifdef HAVE_TFE
-    /* FIXME: tfe */
-#endif
+
+    if (number_of_carts > C64CART_DUMP_MAX_CARTS) {
+        DBG(("CART snapshot read: carts %i > max %i\n", number_of_carts, C64CART_DUMP_MAX_CARTS));
+        goto fail;
+    }
+
+    /* Read "global" cartridge things */
+    if (0
+        || SMR_DW_INT(m, &mem_cartridge_type) < 0
+        || SMR_B(m, &export.game) < 0
+        || SMR_B(m, &export.exrom) < 0
+        || SMR_DW_INT(m, &romh_bank) < 0
+        || SMR_DW_INT(m, &roml_bank) < 0
+        || SMR_B_INT(m, &export_ram) < 0
+        || SMR_B(m, &export.ultimax_phi1) < 0
+        || SMR_B(m, &export.ultimax_phi2) < 0
+        /* FIXME freeze & NMI alarm times, dummy values for now */
+        || SMR_DW(m, &dummy) < 0
+        || SMR_DW(m, &dummy) < 0
+        /* some room for future expansion */
+        || SMR_DW(m, &dummy) < 0
+        || SMR_DW(m, &dummy) < 0
+        || SMR_DW(m, &dummy) < 0
+        || SMR_DW(m, &dummy) < 0) {
+        goto fail;
+    }
+
+    /* Read cart IDs */
+    for (i = 0; i < number_of_carts; i++) {
+        if (SMR_DW_INT(m, &cart_ids[i]) < 0) {
+            goto fail;
+        }
+    }
+
+    /* Main module done */
+    snapshot_module_close(m);
+    m = NULL;
+
+    /* Read individual cart data */
+    for (i = 0; i < number_of_carts; i++) {
+        switch (cart_ids[i]) {
+            case CARTRIDGE_GEORAM:
+                if (georam_read_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_REU:
+                if (reu_read_snapshot_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_IEEE488:
+                if (tpi_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_ACTION_REPLAY:
+                if (actionreplay_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
+            case CARTRIDGE_EASYFLASH:
+                if (easyflash_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+
 #ifdef HAVE_RS232
-    if (aciacart_snapshot_read_module(s) < 0) {
-        /* acia disabled */
-    }
+            case CARTRIDGE_TURBO232:
+                if (aciacart_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
 #endif
+
+            default:
+                DBG(("CART snapshot read: cart %i handler missing\n", cart_ids[i]));
+                return -1;
+        }
+
+        cartridge_attach_from_snapshot(cart_ids[i]);
+    }
+
+
+    /* set up config */
+    mem_pla_config_changed();
+    machine_update_memory_ptrs();
+
     return 0;
+
+fail:
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+    return -1;
 }
 

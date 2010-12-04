@@ -47,6 +47,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 
 /* the 29F040B statemachine */
@@ -298,6 +299,7 @@ void easyflash_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+
 static int easyflash_common_attach(const char *filename)
 {
     if (c64export_add(&export_res) < 0) {
@@ -508,5 +510,96 @@ int easyflash_crt_save(const char *filename)
         }
     }
     fclose(fd);
+    return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "EASYFLASH"
+#define FLASH_SNAP_MODULE_NAME  "FLASH040EF"
+
+int easyflash_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, easyflash_register_00) < 0)
+        || (SMW_B(m, easyflash_register_02) < 0)
+        || (SMW_BA(m, easyflash_ram, 256) < 0)
+        || (SMW_BA(m, roml_banks, 0x80000) < 0)
+        || (SMW_BA(m, romh_banks, 0x80000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || (flash040core_snapshot_write_module(s, easyflash_state_low, FLASH_SNAP_MODULE_NAME) < 0)
+        || (flash040core_snapshot_write_module(s, easyflash_state_high, FLASH_SNAP_MODULE_NAME) < 0)) {
+        return -1;
+    }
+
+    return 0;
+}
+
+int easyflash_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B(m, &easyflash_register_00) < 0)
+        || (SMR_B(m, &easyflash_register_02) < 0)
+        || (SMR_BA(m, easyflash_ram, 256) < 0)
+        || (SMR_BA(m, roml_banks, 0x80000) < 0)
+        || (SMR_BA(m, romh_banks, 0x80000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    easyflash_state_low = lib_malloc(sizeof(flash040_context_t));
+    easyflash_state_high = lib_malloc(sizeof(flash040_context_t));
+
+    flash040core_init(easyflash_state_low, maincpu_alarm_context, FLASH040_TYPE_B, roml_banks);
+    flash040core_init(easyflash_state_high, maincpu_alarm_context, FLASH040_TYPE_B, romh_banks);
+
+    if (0
+        || (flash040core_snapshot_read_module(s, easyflash_state_low, FLASH_SNAP_MODULE_NAME) < 0)
+        || (flash040core_snapshot_read_module(s, easyflash_state_low, FLASH_SNAP_MODULE_NAME) < 0)) {
+        flash040core_shutdown(easyflash_state_low);
+        flash040core_shutdown(easyflash_state_high);
+        lib_free(easyflash_state_low);
+        lib_free(easyflash_state_high);
+        return -1;
+    }
+
+    easyflash_common_attach("dummy");
+
+    /* remove dummy filename, set filetype to none */
+    lib_free(easyflash_filename);
+    easyflash_filename = NULL;
+    easyflash_filetype = 0;
+
     return 0;
 }

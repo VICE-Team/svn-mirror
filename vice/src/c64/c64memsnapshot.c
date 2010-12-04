@@ -80,14 +80,6 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
         goto fail;
     }
 
-    /* FIXME: save cartridge ROM (& RAM?) areas:
-       first write out the configuration, i.e.
-       - type of cartridge (banking scheme type)
-       - state of cartridge (active/which bank, ...)
-       then the ROM/RAM arrays:
-       - cartridge ROM areas
-       - cartridge RAM areas  */
-
     ui_update_menus();
 
     if (snapshot_module_close(m) < 0) {
@@ -138,15 +130,6 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
         || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
     }
-
-    /* FIXME: read cartridge ROM (& RAM?) areas:
-       first read out the configuration, i.e.
-       - type of cartridge (banking scheme type)
-       - state of cartridge (active/which bank, ...)
-       then the ROM/RAM arrays:
-       - cartridge ROM areas
-       - cartridge RAM areas
-    */
 
     if (snapshot_module_close(m) < 0) {
         goto fail;

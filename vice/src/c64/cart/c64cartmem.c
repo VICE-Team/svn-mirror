@@ -113,7 +113,7 @@
 #endif
 
 /* Expansion port signals.  */
-export_t export = { 0, 0, 0, 0};
+export_t export = { 0, 0, 0, 0 };
 
 /* Expansion port ROML/ROMH images.  */
 BYTE roml_banks[C64CART_ROM_LIMIT], romh_banks[C64CART_ROM_LIMIT];

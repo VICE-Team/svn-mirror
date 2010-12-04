@@ -489,6 +489,20 @@ void cart_power_off(void)
 }
 
 /*
+    Attach cartridge from snapshot
+
+    Sets static variables related to the "Main Slot".
+    This is needed for cart_getid_slotmain to return a proper
+    value for cart_freeze and such.
+*/
+void cartridge_attach_from_snapshot(int type)
+{
+    if (cart_is_slotmain(type)) {
+        c64cart_type = type;
+    }
+}
+
+/*
     detach cartridge from "Main Slot"
 */
 void cart_detach_main(void)
