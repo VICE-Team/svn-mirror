@@ -32,6 +32,8 @@
 #include <tchar.h>
 
 #include "c64model.h"
+#include "cia.h"
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "sid.h"
@@ -48,6 +50,47 @@ enum {
     CONTROL_UPDATE_EVERYTHING,
     CONTROL_UPDATE_C64MODEL,
     CONTROL_UPDATE_MODELCHANGE
+};
+
+static uilib_localize_dialog_param c64_model_dialog[] = {
+    { 0, IDS_C64_MODEL_CAPTION, -1 },
+    { IDC_C64MODEL_LABEL, IDS_C64_MODEL, 0 },
+    { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
+    { IDC_C64LUMINANCES, IDS_NEW_LUMINANCES, 0 },
+    { IDC_C64SID_LABEL, IDS_SID_MODEL, 0 },
+    { IDC_C64CIA1_LABEL, IDS_CIA1_MODEL, 0 },
+    { IDC_C64CIA2_LABEL, IDS_CIA2_MODEL, 0 },
+    { IDC_C64GLUELOGIC_LABEL, IDS_GLUE_LOGIC, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group c64_model_leftgroup[] = {
+    { IDC_C64MODEL_LABEL, 0 },
+    { IDC_C64VICII_LABEL, 0 },
+    { IDC_C64SID_LABEL, 0 },
+    { IDC_C64CIA1_LABEL, 0 },
+    { IDC_C64CIA2_LABEL, 0 },
+    { IDC_C64GLUELOGIC_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c64_model_rightgroup[] = {
+    { IDC_C64MODEL_LIST, 0 },
+    { IDC_C64VICII_LIST, 0 },
+    { IDC_C64LUMINANCES, 1 },
+    { IDC_C64SID_LIST, 0 },
+    { IDC_C64CIA1_LIST, 0 },
+    { IDC_C64CIA2_LIST, 0 },
+    { IDC_C64GLUELOGIC_LIST, 0 },
+    { 0, 0 }
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
 };
 
 static const TCHAR *ui_c64model[] = {
@@ -74,15 +117,41 @@ static const int ui_c64model_values[] = {
     -1
 };
 
-static const TCHAR *ui_c64vicii[] = {
-    TEXT("6569 (PAL)"),
-    TEXT("8565 (PAL)"),
-    TEXT("6569R1 (old PAL)"),
-    TEXT("6567 (NTSC)"),
-    TEXT("8562 (NTSC)"),
-    TEXT("6567R56A (old NTSC)"),
-    TEXT("6572 (PAL-N)"),
-    NULL
+static const int ui_c64cia[] = {
+   IDS_6526_OLD,
+   IDS_6526A_NEW,
+   IDS_6526X_OLD_TIMER_BUG,
+   0
+};
+
+static const int ui_c64cia_values[] = {
+    CIA_MODEL_6526,
+    CIA_MODEL_6526A,
+    CIA_MODEL_6526X,
+    -1
+};
+
+static const int ui_c64gluelogic[] = {
+    IDS_DISCREET,
+    IDS_CUSTOM_IC,
+    0
+};
+
+static const int ui_c64gluelogic_values[] = {
+    0,
+    1,
+    -1
+};
+
+static const int ui_c64vicii[] = {
+    IDS_6569_PAL,
+    IDS_8565_PAL,
+    IDS_6569R1_OLD_PAL,
+    IDS_6567_NTSC,
+    IDS_8562_NTSC,
+    IDS_6567R56A_OLD_NTSC,
+    IDS_6572_PAL_N,
+    0
 };
 
 static const int ui_c64vicii_values[] = {
@@ -169,7 +238,6 @@ static int vicii_model, sid_model, sid_engine;
 static int glue_logic, cia1_model, cia2_model, new_luma;
 static int c64_model;
 
-
 static void uic64_update_controls(HWND hwnd, int mode)
 {
     int i, active_value;
@@ -192,8 +260,8 @@ static void uic64_update_controls(HWND hwnd, int mode)
     if (mode != CONTROL_UPDATE_C64MODEL) {
         sub_hwnd = GetDlgItem(hwnd, IDC_C64VICII_LIST);
         SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
-        for (i = 0; ui_c64vicii[i]; i++) {
-            _stprintf(st, TEXT("%s"), ui_c64vicii[i]);
+        for (i = 0; ui_c64vicii[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), translate_text(ui_c64vicii[i]));
             SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
             if (ui_c64vicii_values[i] == vicii_model) {
                 active_value = i;
@@ -212,23 +280,70 @@ static void uic64_update_controls(HWND hwnd, int mode)
         }
         SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-        sub_hwnd = GetDlgItem(hwnd, IDC_C64SID_LIST);
+        sub_hwnd = GetDlgItem(hwnd, IDC_C64CIA1_LIST);
+        SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
+        for (i = 0; ui_c64cia[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), translate_text(ui_c64cia[i]));
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            if (ui_c64cia_values[i] == cia1_model) {
+                active_value = i;
+            }
+        }
+        SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
+        sub_hwnd = GetDlgItem(hwnd, IDC_C64CIA2_LIST);
+        SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
+        for (i = 0; ui_c64cia[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), translate_text(ui_c64cia[i]));
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            if (ui_c64cia_values[i] == cia2_model) {
+                active_value = i;
+            }
+        }
+        SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
+        sub_hwnd = GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST);
+        SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
+        for (i = 0; ui_c64gluelogic[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), translate_text(ui_c64gluelogic[i]));
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            if (ui_c64cia_values[i] == glue_logic) {
+                active_value = i;
+            }
+        }
+        SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
         CheckDlgButton(hwnd, IDC_C64LUMINANCES, new_luma ? BST_CHECKED : BST_UNCHECKED);
-
-        CheckRadioButton(hwnd, IDC_C64CIA1_OLD, IDC_C64CIA1_NEW,
-                            cia1_model ? IDC_C64CIA1_NEW : IDC_C64CIA1_OLD);
-
-        CheckRadioButton(hwnd, IDC_C64CIA2_OLD, IDC_C64CIA2_NEW,
-                            cia2_model ? IDC_C64CIA2_NEW : IDC_C64CIA2_OLD);
-
-        CheckRadioButton(hwnd, IDC_C64GLUE_DISCRETE, IDC_C64GLUE_IC,
-                            glue_logic ? IDC_C64GLUE_IC : IDC_C64GLUE_DISCRETE);
     }
 }
 
-
 static void init_c64model_dialog(HWND hwnd)
 {
+    int xpos;
+    RECT rect;
+
+     /* translate all dialog items */
+    uilib_localize_dialog(hwnd, c64_model_dialog);
+
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, c64_model_leftgroup);
+
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, c64_model_leftgroup, &xpos);
+
+    /* move the right group to the correct position */
+    uilib_move_group(hwnd, c64_model_rightgroup, xpos + 30);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, c64_model_rightgroup, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
+
     resources_get_int("VICIIModel", &vicii_model);
     resources_get_int("SidModel", &sid_model);
     resources_get_int("SidEngine", &sid_engine);
@@ -293,23 +408,17 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     new_sidengmod = ui_c64sid_engine_model_values[SendMessage(
                                     GetDlgItem(hwnd, IDC_C64SID_LIST), CB_GETCURSEL, 0, 0)];
                     break;
-                case IDC_C64CIA1_OLD:
-                    new_cia1 = 0;
+                case IDC_C64CIA1_LIST:
+                    new_cia1 = ui_c64cia_values[SendMessage(
+                                    GetDlgItem(hwnd, IDC_C64CIA1_LIST), CB_GETCURSEL, 0, 0)];
                     break;
-                case IDC_C64CIA1_NEW:
-                    new_cia1 = 1;
+                case IDC_C64CIA2_LIST:
+                    new_cia2 = ui_c64cia_values[SendMessage(
+                                    GetDlgItem(hwnd, IDC_C64CIA2_LIST), CB_GETCURSEL, 0, 0)];
                     break;
-                case IDC_C64CIA2_OLD:
-                    new_cia2 = 0;
-                    break;
-                case IDC_C64CIA2_NEW:
-                    new_cia2 = 1;
-                    break;
-                case IDC_C64GLUE_DISCRETE:
-                    new_glue = 0;
-                    break;
-                case IDC_C64GLUE_IC:
-                    new_glue = 1;
+                case IDC_C64GLUELOGIC_LIST:
+                    new_glue = ui_c64gluelogic_values[SendMessage(
+                                    GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST), CB_GETCURSEL, 0, 0)];
                     break;
                 case IDC_C64LUMINANCES:
                     new_new_luma = (new_luma == 0);

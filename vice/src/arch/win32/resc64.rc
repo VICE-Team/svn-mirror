@@ -515,44 +515,45 @@ END
 
 IDD_C64MODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 170
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "C64 model settings"
+CAPTION ""
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT         "C64 model", IDC_C64MODEL_LABEL,
+    LTEXT         "", IDC_C64MODEL_LABEL,
                   4, 12, 60, 8
     COMBOBOX      IDC_C64MODEL_LIST,
                   45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT         "VIC-II model", IDC_C64VICII_LABEL,
+
+    LTEXT         "", IDC_C64VICII_LABEL,
                   4, 32, 60, 8
     COMBOBOX      IDC_C64VICII_LIST,
                   45, 31, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX  "New luminances", IDC_C64LUMINANCES,
+
+    AUTOCHECKBOX  "", IDC_C64LUMINANCES,
                   45, 46, 95, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT         "SID model", IDC_C64SID_LABEL,
+
+    LTEXT         "", IDC_C64SID_LABEL,
                   4, 62, 60, 8
     COMBOBOX      IDC_C64SID_LIST,
                   45, 61, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX      "CIA1", IDC_C64CIA1_LABEL,
-                  4, 77, 125, 20
-    AUTORADIOBUTTON "6526 (old)", IDC_C64CIA1_OLD,
-                  14, 85, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "6526A (new)", IDC_C64CIA1_NEW,
-                  70, 85, 55, 10, BS_AUTORADIOBUTTON
-    GROUPBOX      "CIA2", IDC_C64CIA2_LABEL,
-                  4, 99, 125, 20
-    AUTORADIOBUTTON "6526 (old)", IDC_C64CIA2_OLD,
-                  14, 107, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "6526A (new)", IDC_C64CIA2_NEW,
-                  70, 107, 55, 10, BS_AUTORADIOBUTTON
-    GROUPBOX      "Glue logic", IDC_C64GLUELOGIC_LABEL,
-                  4, 124, 125, 20
-    AUTORADIOBUTTON "Discrete", IDC_C64GLUE_DISCRETE,
-                  14, 132, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Custom IC", IDC_C64GLUE_IC,
-                  70, 132, 55, 10, BS_AUTORADIOBUTTON
-    DEFPUSHBUTTON   "Okay", IDOK,
+
+    LTEXT         "", IDC_C64CIA1_LABEL,
+                  4, 82, 60, 8
+    COMBOBOX      IDC_C64CIA1_LIST,
+                  45, 81, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT         "", IDC_C64CIA2_LABEL,
+                  4, 82, 60, 8
+    COMBOBOX      IDC_C64CIA2_LIST,
+                  45, 81, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT         "", IDC_C64GLUELOGIC_LABEL,
+                  4, 102, 60, 8
+    COMBOBOX      IDC_C64GLUELOGIC_LIST,
+                  45, 101, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
                     20, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL,
+    PUSHBUTTON      "", IDCANCEL,
                     80, 150, 50, 14, WS_TABSTOP
 END
 
@@ -567,6 +568,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
   IDS_MI_C64_256K_SETTINGS "&256K settings..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -579,6 +600,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K-indstillinger..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K-indstillinger..."
   IDS_MI_C64_256K_SETTINGS "&256K-indstillinger..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -591,6 +632,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K Einstellungen..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K Einstellungen..."
   IDS_MI_C64_256K_SETTINGS "&256K Einstellungen..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -603,6 +664,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "Paramètres PLUS&60K..."
   IDS_MI_PLUS256K_SETTINGS "Paramètres PLUS2&56K..."
   IDS_MI_C64_256K_SETTINGS "Paramètres &256K..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -618,6 +699,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K beállításai..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K beállításai..."
   IDS_MI_C64_256K_SETTINGS "&256K beállításai..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -633,6 +734,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS&60K..."
   IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS2&56K..."
   IDS_MI_C64_256K_SETTINGS "Impostazioni 256K..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -645,6 +766,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K-instellingen..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K-instellingen..."
   IDS_MI_C64_256K_SETTINGS "&256K-instellingen..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -660,6 +801,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
   IDS_MI_C64_256K_SETTINGS "&256K settings..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -675,6 +836,26 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K-inställningar..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K-inställningar..."
   IDS_MI_C64_256K_SETTINGS "&256K-inställningar..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 
 
@@ -690,9 +871,28 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS&60K ayarlarý..."
   IDS_MI_PLUS256K_SETTINGS "PLUS2&56K ayarlarý..."
   IDS_MI_C64_256K_SETTINGS "&256K ayarlarý..."
+  IDS_C64_MODEL            "C64 model"
+  IDS_VICII_MODEL          "VIC-II model"
+  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_SID_MODEL            "SID model"
+  IDS_CIA1_MODEL           "CIA1 model"
+  IDS_CIA2_MODEL           "CIA2 model"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (old)"
+  IDS_6526A_NEW            "6526A (new)"
+  IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
+  IDS_DISCREET             "Discreet"
+  IDS_CUSTOM_IC            "Custom IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "C64 model settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 
