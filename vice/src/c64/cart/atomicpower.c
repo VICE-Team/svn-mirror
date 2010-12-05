@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -85,7 +86,7 @@
 
 /* Atomic Power RAM hack. */
 static int export_ram_at_a000 = 0;
-static unsigned int ap_active;
+static int ap_active;
 
 /* ---------------------------------------------------------------------*/
 
@@ -309,4 +310,63 @@ void atomicpower_detach(void)
     c64io_unregister(atomicpower_io2_list_item);
     atomicpower_io1_list_item = NULL;
     atomicpower_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTAP"
+
+int atomicpower_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)ap_active) < 0)
+        || (SMW_B(m, (BYTE)export_ram_at_a000) < 0)
+        || (SMW_BA(m, roml_banks, 0x8000) < 0)
+        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int atomicpower_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &ap_active) < 0)
+        || (SMR_B_INT(m, &export_ram_at_a000) < 0)
+        || (SMR_BA(m, roml_banks, 0x8000) < 0)
+        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    memcpy(romh_banks, roml_banks, 0x8000);
+    return atomicpower_common_attach();
 }

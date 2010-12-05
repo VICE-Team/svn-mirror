@@ -41,6 +41,7 @@
 #include "cartridge.h"
 #include "epyxfastload.h"
 #include "maincpu.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -65,11 +66,14 @@
 
 struct alarm_s *epyxrom_alarm;
 
+static CLOCK epyxrom_alarm_time;
+
 static void epyxfastload_trigger_access(void)
 {
     /* Discharge virtual capacitor, enable rom */
     alarm_unset(epyxrom_alarm);
-    alarm_set(epyxrom_alarm, maincpu_clk + EPYX_ROM_CYCLES);
+    epyxrom_alarm_time = maincpu_clk + EPYX_ROM_CYCLES;
+    alarm_set(epyxrom_alarm, epyxrom_alarm_time);
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
@@ -77,6 +81,7 @@ static void epyxfastload_alarm_handler(CLOCK offset, void *data)
 {
     /* Virtual capacitor charged, disable rom */
     alarm_unset(epyxrom_alarm);
+    epyxrom_alarm_time = CLOCK_MAX;
     cartridge_config_changed(2, 2, CMODE_READ);
 }
 
@@ -165,6 +170,7 @@ void epyxfastload_config_setup(BYTE *rawcart)
 }
 
 /* ---------------------------------------------------------------------*/
+
 static int epyxfastload_common_attach(void)
 {
     if (c64export_add(&export_res_epyx) < 0) {
@@ -172,6 +178,7 @@ static int epyxfastload_common_attach(void)
     }
 
     epyxrom_alarm = alarm_new(maincpu_alarm_context, "EPYXCartRomAlarm", epyxfastload_alarm_handler, NULL);
+    epyxrom_alarm_time = CLOCK_MAX;
 
     epyxfastload_io1_list_item = c64io_register(&epyxfastload_io1_device);
     epyxfastload_io2_list_item = c64io_register(&epyxfastload_io2_device);
@@ -210,4 +217,69 @@ void epyxfastload_detach(void)
     c64io_unregister(epyxfastload_io2_list_item);
     epyxfastload_io1_list_item = NULL;
     epyxfastload_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTEPYX"
+
+int epyxfastload_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_DW(m, epyxrom_alarm_time) < 0)
+        || (SMW_BA(m, roml_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int epyxfastload_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    CLOCK temp_clk;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_DW(m, &temp_clk) < 0)
+        || (SMR_BA(m, roml_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (epyxfastload_common_attach() < 0) {
+        return -1;
+    }
+
+    if (temp_clk < CLOCK_MAX) {
+        epyxrom_alarm_time = temp_clk;
+        alarm_set(epyxrom_alarm, epyxrom_alarm_time);
+    }
+
+    return 0;
 }

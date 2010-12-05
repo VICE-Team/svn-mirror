@@ -37,4 +37,9 @@ extern int funplay_bin_attach(const char *filename, BYTE *rawcart);
 extern int funplay_crt_attach(FILE *fd, BYTE *rawcart);
 extern void funplay_detach(void);
 
+struct snapshot_s;
+
+extern int funplay_snapshot_write_module(struct snapshot_s *s);
+extern int funplay_snapshot_read_module(struct snapshot_s *s);
+
 #endif

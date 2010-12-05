@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "simonsbasic.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -143,4 +144,58 @@ void simon_detach(void)
     c64export_remove(&export_res_simon);
     c64io_unregister(simon_list_item);
     simon_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTSIMON"
+
+int simon_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_BA(m, roml_banks, 0x2000) < 0)
+        || (SMW_BA(m, romh_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int simon_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_BA(m, roml_banks, 0x2000) < 0)
+        || (SMR_BA(m, romh_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return simon_common_attach();
 }

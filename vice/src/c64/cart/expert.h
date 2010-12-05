@@ -61,6 +61,11 @@ extern int expert_enable(void);
 extern int expert_freeze_allowed(void);
 extern int expert_cart_enabled(void);
 
+struct snapshot_s;
+
+extern int expert_snapshot_write_module(struct snapshot_s *s);
+extern int expert_snapshot_read_module(struct snapshot_s *s);
+
 extern int expert_resources_init(void);
 extern void expert_resources_shutdown(void);
 extern int expert_cmdline_options_init(void);

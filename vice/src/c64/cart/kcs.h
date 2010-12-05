@@ -39,4 +39,9 @@ extern int kcs_bin_attach(const char *filename, BYTE *rawcart);
 extern int kcs_crt_attach(FILE *fd, BYTE *rawcart);
 extern void kcs_detach(void);
 
+struct snapshot_s;
+
+extern int kcs_snapshot_write_module(struct snapshot_s *s);
+extern int kcs_snapshot_read_module(struct snapshot_s *s);
+
 #endif

@@ -2144,7 +2144,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 
             /* "Slot 1" */
             /* FIXME case CARTRIDGE_DQBB: */
-            /* FIXME case CARTRIDGE_EXPERT: */
+            case CARTRIDGE_EXPERT:
+                if (expert_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_ISEPIC: */
             /* FIXME case CARTRIDGE_RAMCART: */
 
@@ -2157,7 +2161,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_ACTION_REPLAY2: */
             /* FIXME case CARTRIDGE_ACTION_REPLAY3: */
             /* FIXME case CARTRIDGE_ACTION_REPLAY4: */
-            /* FIXME case CARTRIDGE_ATOMIC_POWER: */
+            case CARTRIDGE_ATOMIC_POWER:
+                if (atomicpower_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_CAPTURE: */
             /* FIXME case CARTRIDGE_COMAL80: */
             /* FIXME case CARTRIDGE_DELA_EP64: */
@@ -2170,7 +2178,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_EPYX_FASTLOAD: */
+            case CARTRIDGE_EPYX_FASTLOAD:
+                if (epyxfastload_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_EXOS: */
             /* FIXME case CARTRIDGE_FINAL_I: */
             case CARTRIDGE_FINAL_III:
@@ -2181,7 +2193,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_FINAL_PLUS: */
             /* FIXME case CARTRIDGE_FREEZE_FRAME: */
             /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
-            /* FIXME case CARTRIDGE_FUNPLAY: */
+            case CARTRIDGE_FUNPLAY:
+                if (funplay_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_GENERIC_16KB:
             case CARTRIDGE_GENERIC_8KB:
             case CARTRIDGE_ULTIMAX:
@@ -2191,7 +2207,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             /* FIXME case CARTRIDGE_GS: */
             /* FIXME case CARTRIDGE_IDE64: */
-            /* FIXME case CARTRIDGE_KCS_POWER: */
+            case CARTRIDGE_KCS_POWER:
+                if (kcs_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_MACH5: */
             /* FIXME case CARTRIDGE_MAGIC_DESK: */
             /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
@@ -2206,12 +2226,20 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_REX: */
             /* FIXME case CARTRIDGE_REX_EP256: */
             /* FIXME case CARTRIDGE_ROSS: */
-            /* FIXME case CARTRIDGE_SIMONS_BASIC: */
+            case CARTRIDGE_SIMONS_BASIC:
+                if (simon_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_SNAPSHOT64: */
             /* FIXME case CARTRIDGE_STARDOS: */
             /* FIXME case CARTRIDGE_STRUCTURED_BASIC: */
             /* FIXME case CARTRIDGE_SUPER_EXPLODE_V5: */
-            /* FIXME case CARTRIDGE_SUPER_GAMES: */
+            case CARTRIDGE_SUPER_GAMES:
+                if (supergames_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
             /* FIXME case CARTRIDGE_WARPSPEED: */
@@ -2347,7 +2375,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
 
             /* "Slot 1" */
             /* FIXME case CARTRIDGE_DQBB: */
-            /* FIXME case CARTRIDGE_EXPERT: */
+            case CARTRIDGE_EXPERT:
+                if (expert_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_ISEPIC: */
             /* FIXME case CARTRIDGE_RAMCART: */
 
@@ -2360,7 +2392,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_ACTION_REPLAY2: */
             /* FIXME case CARTRIDGE_ACTION_REPLAY3: */
             /* FIXME case CARTRIDGE_ACTION_REPLAY4: */
-            /* FIXME case CARTRIDGE_ATOMIC_POWER: */
+            case CARTRIDGE_ATOMIC_POWER:
+                if (atomicpower_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_CAPTURE: */
             /* FIXME case CARTRIDGE_COMAL80: */
             /* FIXME case CARTRIDGE_DELA_EP64: */
@@ -2373,7 +2409,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_EPYX_FASTLOAD: */
+            case CARTRIDGE_EPYX_FASTLOAD:
+                if (epyxfastload_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_EXOS: */
             /* FIXME case CARTRIDGE_FINAL_I: */
             case CARTRIDGE_FINAL_III:
@@ -2384,7 +2424,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_FINAL_PLUS: */
             /* FIXME case CARTRIDGE_FREEZE_FRAME: */
             /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
-            /* FIXME case CARTRIDGE_FUNPLAY: */
+            case CARTRIDGE_FUNPLAY:
+                if (funplay_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_GENERIC_16KB:
             case CARTRIDGE_GENERIC_8KB:
             case CARTRIDGE_ULTIMAX:
@@ -2394,7 +2438,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             /* FIXME case CARTRIDGE_GS: */
             /* FIXME case CARTRIDGE_IDE64: */
-            /* FIXME case CARTRIDGE_KCS_POWER: */
+            case CARTRIDGE_KCS_POWER:
+                if (kcs_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_MACH5: */
             /* FIXME case CARTRIDGE_MAGIC_DESK: */
             /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
@@ -2409,12 +2457,20 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_REX: */
             /* FIXME case CARTRIDGE_REX_EP256: */
             /* FIXME case CARTRIDGE_ROSS: */
-            /* FIXME case CARTRIDGE_SIMONS_BASIC: */
+            case CARTRIDGE_SIMONS_BASIC:
+                if (simon_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_SNAPSHOT64: */
             /* FIXME case CARTRIDGE_STARDOS: */
             /* FIXME case CARTRIDGE_STRUCTURED_BASIC: */
             /* FIXME case CARTRIDGE_SUPER_EXPLODE_V5: */
-            /* FIXME case CARTRIDGE_SUPER_GAMES: */
+            case CARTRIDGE_SUPER_GAMES:
+                if (supergames_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
             /* FIXME case CARTRIDGE_WARPSPEED: */

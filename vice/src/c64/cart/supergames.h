@@ -37,4 +37,9 @@ extern int supergames_bin_attach(const char *filename, BYTE *rawcart);
 extern int supergames_crt_attach(FILE *fd, BYTE *rawcart);
 extern void supergames_detach(void);
 
+struct snapshot_s;
+
+extern int supergames_snapshot_write_module(struct snapshot_s *s);
+extern int supergames_snapshot_read_module(struct snapshot_s *s);
+
 #endif

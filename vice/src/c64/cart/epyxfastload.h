@@ -41,4 +41,9 @@ extern int epyxfastload_bin_attach(const char *filename, BYTE *rawcart);
 extern int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart);
 extern void epyxfastload_detach(void);
 
+struct snapshot_s;
+
+extern int epyxfastload_snapshot_write_module(struct snapshot_s *s);
+extern int epyxfastload_snapshot_read_module(struct snapshot_s *s);
+
 #endif

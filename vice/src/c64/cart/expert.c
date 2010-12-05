@@ -47,6 +47,7 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
@@ -686,6 +687,85 @@ int expert_enable(void)
     if (resources_set_int("ExpertCartridgeEnabled", 1) < 0) {
         return -1;
     }
+    return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTEXPERT"
+
+int expert_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)cartmode) < 0)
+        || (SMW_B(m, (BYTE)expert_register_enabled) < 0)
+        || (SMW_B(m, (BYTE)expert_ram_writeable) < 0)
+        || (SMW_B(m, (BYTE)expert_ramh_enabled) < 0)
+        || (SMW_BA(m, expert_ram, EXPERT_RAM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int expert_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    expert_ram = lib_malloc(EXPERT_RAM_SIZE);
+
+    if (0
+        || (SMR_B_INT(m, &cartmode) < 0)
+        || (SMR_B_INT(m, &expert_register_enabled) < 0)
+        || (SMR_B_INT(m, &expert_ram_writeable) < 0)
+        || (SMR_B_INT(m, &expert_ramh_enabled) < 0)
+        || (SMR_BA(m, expert_ram, EXPERT_RAM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        lib_free(expert_ram);
+        expert_ram = NULL;
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    expert_filetype = 0;
+    expert_enabled = 1;
+
+    /* FIXME ugly code duplication to avoid cartridge_config_changed calls */
+    expert_io1_list_item = c64io_register(&expert_io1_device);
+
+    if (c64export_add(&export_res) < 0) {
+        lib_free(expert_ram);
+        expert_ram = NULL;
+        c64io_unregister(expert_io1_list_item);
+        expert_io1_list_item = NULL;
+        expert_enabled = 0;
+        return -1;
+    }
+
     return 0;
 }
 

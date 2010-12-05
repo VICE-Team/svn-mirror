@@ -37,4 +37,9 @@ extern int simon_crt_attach(FILE *fd, BYTE *rawcart);
 extern void simon_detach(void);
 extern void simon_config_init(void);
 
+struct snapshot_s;
+
+extern int simon_snapshot_write_module(struct snapshot_s *s);
+extern int simon_snapshot_read_module(struct snapshot_s *s);
+
 #endif
