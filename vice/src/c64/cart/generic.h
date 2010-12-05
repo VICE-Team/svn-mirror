@@ -54,4 +54,9 @@ extern BYTE REGPARM1 generic_romh_phi1_read(WORD addr);
 extern BYTE REGPARM1 generic_romh_phi2_read(WORD addr);
 extern BYTE generic_peek_mem(WORD addr);
 
+struct snapshot_s;
+
+extern int generic_snapshot_write_module(struct snapshot_s *s, int type);
+extern int generic_snapshot_read_module(struct snapshot_s *s, int type);
+
 #endif

@@ -35,6 +35,7 @@
 #include "cartridge.h"
 #include "crt.h"
 #include "generic.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -297,4 +298,67 @@ BYTE generic_peek_mem(WORD addr)
     }
 
     return ram_read(addr);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTGENERIC"
+
+int generic_snapshot_write_module(snapshot_t *s, int type)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_BA(m, roml_banks, 0x2000) < 0)
+        || ((type != CARTRIDGE_GENERIC_8KB) && (SMW_BA(m, romh_banks, 0x2000) < 0))) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int generic_snapshot_read_module(snapshot_t *s, int type)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_BA(m, roml_banks, 0x2000) < 0)
+        || ((type != CARTRIDGE_GENERIC_8KB) && (SMR_BA(m, romh_banks, 0x2000) < 0))) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    switch (type) {
+        case CARTRIDGE_GENERIC_8KB:
+            return c64export_add(&export_res_8kb);
+        case CARTRIDGE_GENERIC_16KB:
+            return c64export_add(&export_res_16kb);
+        case CARTRIDGE_ULTIMAX:
+            return c64export_add(&export_res_ultimax);
+    }
+
+    return -1;
 }

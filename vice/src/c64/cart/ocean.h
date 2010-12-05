@@ -39,4 +39,9 @@ extern void ocean_detach(void);
 
 extern BYTE REGPARM1 ocean_romh_read(WORD addr);
 
+struct snapshot_s;
+
+extern int ocean_snapshot_write_module(struct snapshot_s *s);
+extern int ocean_snapshot_read_module(struct snapshot_s *s);
+
 #endif

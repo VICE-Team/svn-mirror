@@ -2173,13 +2173,22 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_EPYX_FASTLOAD: */
             /* FIXME case CARTRIDGE_EXOS: */
             /* FIXME case CARTRIDGE_FINAL_I: */
-            /* FIXME case CARTRIDGE_FINAL_III: */
+            case CARTRIDGE_FINAL_III:
+                if (final_v3_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_FINAL_PLUS: */
             /* FIXME case CARTRIDGE_FREEZE_FRAME: */
             /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
             /* FIXME case CARTRIDGE_FUNPLAY: */
-            /* FIXME case CARTRIDGE_GENERIC_16KB: */
-            /* FIXME case CARTRIDGE_GENERIC_8KB: */
+            case CARTRIDGE_GENERIC_16KB:
+            case CARTRIDGE_GENERIC_8KB:
+            case CARTRIDGE_ULTIMAX:
+                if (generic_snapshot_write_module(s, cart_ids[i]) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_GS: */
             /* FIXME case CARTRIDGE_IDE64: */
             /* FIXME case CARTRIDGE_KCS_POWER: */
@@ -2188,7 +2197,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
             /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
             /* FIXME case CARTRIDGE_MMC_REPLAY: */
-            /* FIXME case CARTRIDGE_OCEAN: */
+            case CARTRIDGE_OCEAN:
+                if (ocean_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_RETRO_REPLAY: */
             /* FIXME case CARTRIDGE_REX: */
             /* FIXME case CARTRIDGE_REX_EP256: */
@@ -2201,7 +2214,6 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_SUPER_GAMES: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
-            /* FIXME case CARTRIDGE_ULTIMAX: */
             /* FIXME case CARTRIDGE_WARPSPEED: */
             /* FIXME case CARTRIDGE_WESTERMANN: */
             /* FIXME case CARTRIDGE_ZAXXON: */
@@ -2364,13 +2376,22 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_EPYX_FASTLOAD: */
             /* FIXME case CARTRIDGE_EXOS: */
             /* FIXME case CARTRIDGE_FINAL_I: */
-            /* FIXME case CARTRIDGE_FINAL_III: */
+            case CARTRIDGE_FINAL_III:
+                if (final_v3_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_FINAL_PLUS: */
             /* FIXME case CARTRIDGE_FREEZE_FRAME: */
             /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
             /* FIXME case CARTRIDGE_FUNPLAY: */
-            /* FIXME case CARTRIDGE_GENERIC_16KB: */
-            /* FIXME case CARTRIDGE_GENERIC_8KB: */
+            case CARTRIDGE_GENERIC_16KB:
+            case CARTRIDGE_GENERIC_8KB:
+            case CARTRIDGE_ULTIMAX:
+                if (generic_snapshot_read_module(s, cart_ids[i]) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_GS: */
             /* FIXME case CARTRIDGE_IDE64: */
             /* FIXME case CARTRIDGE_KCS_POWER: */
@@ -2379,7 +2400,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
             /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
             /* FIXME case CARTRIDGE_MMC_REPLAY: */
-            /* FIXME case CARTRIDGE_OCEAN: */
+            case CARTRIDGE_OCEAN:
+                if (ocean_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_RETRO_REPLAY: */
             /* FIXME case CARTRIDGE_REX: */
             /* FIXME case CARTRIDGE_REX_EP256: */
@@ -2392,7 +2417,6 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_SUPER_GAMES: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
-            /* FIXME case CARTRIDGE_ULTIMAX: */
             /* FIXME case CARTRIDGE_WARPSPEED: */
             /* FIXME case CARTRIDGE_WESTERMANN: */
             /* FIXME case CARTRIDGE_ZAXXON: */

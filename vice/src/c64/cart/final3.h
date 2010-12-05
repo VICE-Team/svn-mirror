@@ -40,4 +40,9 @@ extern int final_v3_bin_attach(const char *filename, BYTE *rawcart);
 extern int final_v3_crt_attach(FILE *fd, BYTE *rawcart);
 extern void final_v3_detach(void);
 
+struct snapshot_s;
+
+extern int final3_snapshot_write_module(struct snapshot_s *s);
+extern int final3_snapshot_read_module(struct snapshot_s *s);
+
 #endif
