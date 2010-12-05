@@ -501,6 +501,7 @@ static const TCHAR *ui_printer_driver[] = {
     TEXT("ASCII"),
     TEXT("MPS803"),
     TEXT("NL10"),
+    TEXT("RAW"),
     NULL
 };
 
@@ -508,6 +509,7 @@ static const char *ui_printer_driver_ascii[] = {
     "ascii",
     "mps803",
     "nl10",
+    "raw",
     NULL
 };
 
