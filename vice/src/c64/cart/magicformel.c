@@ -124,6 +124,7 @@ CB2            - enable Cartridge (?)
 #include "maincpu.h"
 #include "machine.h"
 #include "magicformel.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -172,12 +173,12 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-static unsigned int ram_page = 0;
-static unsigned int io1_enabled = 0;     /* PA4 */
-static unsigned int kernal_enabled = 0;  /* PBZ */
-static unsigned int freeze_enabled = 0;
-static unsigned int export_game = 1;
-static unsigned int hwversion = 0;
+static int ram_page = 0;
+static int io1_enabled = 0;     /* PA4 */
+static int kernal_enabled = 0;  /* PBZ */
+static int freeze_enabled = 0;
+static int export_game = 1;
+static int hwversion = 0;
 
 /****************************************************************************
 * 
@@ -743,4 +744,84 @@ void magicformel_detach(void)
     c64io_unregister(magicformel_io2_list_item);
     magicformel_io1_list_item = NULL;
     magicformel_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTMF"
+
+int magicformel_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)ram_page) < 0)
+        || (SMW_B(m, (BYTE)io1_enabled) < 0)
+        || (SMW_B(m, (BYTE)kernal_enabled) < 0)
+        || (SMW_B(m, (BYTE)freeze_enabled) < 0)
+        || (SMW_B(m, (BYTE)export_game) < 0)
+        || (SMW_B(m, (BYTE)hwversion) < 0)
+        || (SMW_B(m, (BYTE)ctrlA) < 0)
+        || (SMW_B(m, (BYTE)ctrlB) < 0)
+        || (SMW_B(m, (BYTE)dataA) < 0)
+        || (SMW_B(m, (BYTE)dataB) < 0)
+        || (SMW_B(m, (BYTE)CB2) < 0)
+        || (SMW_B(m, (BYTE)CB2state) < 0)
+        || (SMW_BA(m, roml_banks, 0x20000) < 0)
+        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int magicformel_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &ram_page) < 0)
+        || (SMR_B_INT(m, &io1_enabled) < 0)
+        || (SMR_B_INT(m, &kernal_enabled) < 0)
+        || (SMR_B_INT(m, &freeze_enabled) < 0)
+        || (SMR_B_INT(m, &export_game) < 0)
+        || (SMR_B_INT(m, &hwversion) < 0)
+        || (SMR_B_INT(m, &ctrlA) < 0)
+        || (SMR_B_INT(m, &ctrlB) < 0)
+        || (SMR_B_INT(m, &dataA) < 0)
+        || (SMR_B_INT(m, &dataB) < 0)
+        || (SMR_B_INT(m, &CB2) < 0)
+        || (SMR_B_INT(m, &CB2state) < 0)
+        || (SMR_BA(m, roml_banks, 0x20000) < 0)
+        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    memcpy(romh_banks, roml_banks, 0x20000);
+
+    return magicformel_common_attach();
 }

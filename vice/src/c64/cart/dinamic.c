@@ -34,7 +34,8 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
-#include "maincpu.h"
+#include "dinamic.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -157,4 +158,58 @@ void dinamic_detach(void)
     c64io_unregister(dinamic_io1_list_item);
     dinamic_io1_list_item = NULL;
     c64export_remove(&export_res);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTDINAMIC"
+
+int dinamic_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_BA(m, roml_banks, 0x2000 * 16) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int dinamic_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &currbank) < 0)
+        || (SMR_BA(m, roml_banks, 0x2000 * 16) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return dinamic_common_attach();
 }

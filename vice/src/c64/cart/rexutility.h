@@ -38,4 +38,9 @@ extern int rex_bin_attach(const char *filename, BYTE *rawcart);
 extern void rex_detach(void);
 extern void rex_config_init(void);
 
+struct snapshot_s;
+
+extern int rex_snapshot_write_module(struct snapshot_s *s);
+extern int rex_snapshot_read_module(struct snapshot_s *s);
+
 #endif

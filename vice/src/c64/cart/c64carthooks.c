@@ -2172,7 +2172,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_DELA_EP7x8: */
             /* FIXME case CARTRIDGE_DELA_EP256: */
             /* FIXME case CARTRIDGE_DIASHOW_MAKER: */
-            /* FIXME case CARTRIDGE_DINAMIC: */
+            case CARTRIDGE_DINAMIC:
+                if (dinamic_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_EASYFLASH:
                 if (easyflash_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2184,7 +2188,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_EXOS: */
-            /* FIXME case CARTRIDGE_FINAL_I: */
+            case CARTRIDGE_FINAL_I:
+                if (final_v1_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_FINAL_III:
                 if (final_v3_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2205,7 +2213,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_GS: */
+            case CARTRIDGE_GS:
+                if (gs_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_IDE64: */
             case CARTRIDGE_KCS_POWER:
                 if (kcs_snapshot_write_module(s) < 0) {
@@ -2213,8 +2225,16 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_MACH5: */
-            /* FIXME case CARTRIDGE_MAGIC_DESK: */
-            /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
+            case CARTRIDGE_MAGIC_DESK:
+                if (magicdesk_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_MAGIC_FORMEL:
+                if (magicformel_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
             /* FIXME case CARTRIDGE_MMC_REPLAY: */
             case CARTRIDGE_OCEAN:
@@ -2223,7 +2243,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_RETRO_REPLAY: */
-            /* FIXME case CARTRIDGE_REX: */
+            case CARTRIDGE_REX:
+                if (rex_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_REX_EP256: */
             /* FIXME case CARTRIDGE_ROSS: */
             case CARTRIDGE_SIMONS_BASIC:
@@ -2242,9 +2266,26 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
-            /* FIXME case CARTRIDGE_WARPSPEED: */
-            /* FIXME case CARTRIDGE_WESTERMANN: */
-            /* FIXME case CARTRIDGE_ZAXXON: */
+            case CARTRIDGE_SUPER_SNAPSHOT_V5:
+                if (supersnapshot_v5_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_WARPSPEED:
+                if (warpspeed_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_WESTERMANN:
+                if (westermann_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ZAXXON:
+                if (zaxxon_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
 
             /* "IO Slot" */
             /* FIXME case CARTRIDGE_DIGIMAX: */
@@ -2403,7 +2444,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* FIXME case CARTRIDGE_DELA_EP7x8: */
             /* FIXME case CARTRIDGE_DELA_EP256: */
             /* FIXME case CARTRIDGE_DIASHOW_MAKER: */
-            /* FIXME case CARTRIDGE_DINAMIC: */
+            case CARTRIDGE_DINAMIC:
+                if (dinamic_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_EASYFLASH:
                 if (easyflash_snapshot_read_module(s) < 0) {
                     return -1;
@@ -2415,7 +2460,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_EXOS: */
-            /* FIXME case CARTRIDGE_FINAL_I: */
+            case CARTRIDGE_FINAL_I:
+                if (final_v1_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_FINAL_III:
                 if (final_v3_snapshot_read_module(s) < 0) {
                     return -1;
@@ -2436,7 +2485,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_GS: */
+            case CARTRIDGE_GS:
+                if (gs_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_IDE64: */
             case CARTRIDGE_KCS_POWER:
                 if (kcs_snapshot_read_module(s) < 0) {
@@ -2444,8 +2497,16 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_MACH5: */
-            /* FIXME case CARTRIDGE_MAGIC_DESK: */
-            /* FIXME case CARTRIDGE_MAGIC_FORMEL: */
+            case CARTRIDGE_MAGIC_DESK:
+                if (magicdesk_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_MAGIC_FORMEL:
+                if (magicformel_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
             /* FIXME case CARTRIDGE_MMC_REPLAY: */
             case CARTRIDGE_OCEAN:
@@ -2454,7 +2515,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_RETRO_REPLAY: */
-            /* FIXME case CARTRIDGE_REX: */
+            case CARTRIDGE_REX:
+                if (rex_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_REX_EP256: */
             /* FIXME case CARTRIDGE_ROSS: */
             case CARTRIDGE_SIMONS_BASIC:
@@ -2472,10 +2537,26 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 }
                 break;
             /* FIXME case CARTRIDGE_SUPER_SNAPSHOT: */
-            /* FIXME case CARTRIDGE_SUPER_SNAPSHOT_V5: */
-            /* FIXME case CARTRIDGE_WARPSPEED: */
-            /* FIXME case CARTRIDGE_WESTERMANN: */
-            /* FIXME case CARTRIDGE_ZAXXON: */
+            case CARTRIDGE_SUPER_SNAPSHOT_V5:
+                if (supersnapshot_v5_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_WARPSPEED:
+                if (warpspeed_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_WESTERMANN:
+                if (westermann_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ZAXXON:
+                if (zaxxon_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
 
             /* "IO Slot" */
             /* FIXME case CARTRIDGE_DIGIMAX: */

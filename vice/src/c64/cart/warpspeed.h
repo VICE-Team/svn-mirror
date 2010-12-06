@@ -37,4 +37,9 @@ extern int warpspeed_crt_attach(FILE *fd, BYTE *rawcart);
 extern void warpspeed_detach(void);
 extern void warpspeed_config_init(void);
 
+struct snapshot_s;
+
+extern int warpspeed_snapshot_write_module(struct snapshot_s *s);
+extern int warpspeed_snapshot_read_module(struct snapshot_s *s);
+
 #endif

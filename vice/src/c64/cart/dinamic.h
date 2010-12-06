@@ -37,4 +37,9 @@ extern int dinamic_bin_attach(const char *filename, BYTE *rawcart);
 extern int dinamic_crt_attach(FILE *fd, BYTE *rawcart);
 extern void dinamic_detach(void);
 
+struct snapshot_s;
+
+extern int dinamic_snapshot_write_module(struct snapshot_s *s);
+extern int dinamic_snapshot_read_module(struct snapshot_s *s);
+
 #endif

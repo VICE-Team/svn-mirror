@@ -37,4 +37,9 @@ extern int westermann_crt_attach(FILE *fd, BYTE *rawcart);
 extern void westermann_detach(void);
 extern void westermann_config_init(void);
 
+struct snapshot_s;
+
+extern int westermann_snapshot_write_module(struct snapshot_s *s);
+extern int westermann_snapshot_read_module(struct snapshot_s *s);
+
 #endif

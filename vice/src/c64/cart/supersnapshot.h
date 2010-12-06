@@ -40,4 +40,9 @@ extern int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart);
 extern int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart);
 extern void supersnapshot_v5_detach(void);
 
+struct snapshot_s;
+
+extern int supersnapshot_v5_snapshot_write_module(struct snapshot_s *s);
+extern int supersnapshot_v5_snapshot_read_module(struct snapshot_s *s);
+
 #endif
