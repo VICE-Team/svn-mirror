@@ -47,4 +47,9 @@ extern BYTE digimax_sound_machine_read(sound_t *psid, WORD addr);
 extern void digimax_sound_reset(void);
 extern void digimax_userport_store(WORD addr, BYTE value);
 
+struct snapshot_s;
+
+extern int digimax_snapshot_write_module(struct snapshot_s *s);
+extern int digimax_snapshot_read_module(struct snapshot_s *s);
+
 #endif

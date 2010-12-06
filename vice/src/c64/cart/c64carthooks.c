@@ -2391,7 +2391,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
 
             /* "IO Slot" */
-            /* FIXME case CARTRIDGE_DIGIMAX: */
+            case CARTRIDGE_DIGIMAX:
+                if (digimax_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_GEORAM:
                 if (georam_write_snapshot_module(s) < 0) {
                     return -1;
@@ -2768,8 +2772,12 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
 
             /* "IO Slot" */
-            /* FIXME case CARTRIDGE_DIGIMAX: */
-           case CARTRIDGE_GEORAM:
+            case CARTRIDGE_DIGIMAX:
+                if (digimax_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_GEORAM:
                 if (georam_read_snapshot_module(s) < 0) {
                     return -1;
                 }

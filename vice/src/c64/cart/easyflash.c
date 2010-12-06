@@ -517,7 +517,7 @@ int easyflash_crt_save(const char *filename)
 
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "EASYFLASH"
+#define SNAP_MODULE_NAME  "CARTEF"
 #define FLASH_SNAP_MODULE_NAME  "FLASH040EF"
 
 int easyflash_snapshot_write_module(snapshot_t *s)
@@ -531,6 +531,7 @@ int easyflash_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)easyflash_jumper) < 0)
         || (SMW_B(m, easyflash_register_00) < 0)
         || (SMW_B(m, easyflash_register_02) < 0)
         || (SMW_BA(m, easyflash_ram, 256) < 0)
@@ -567,6 +568,7 @@ int easyflash_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &easyflash_jumper) < 0)
         || (SMR_B(m, &easyflash_register_00) < 0)
         || (SMR_B(m, &easyflash_register_02) < 0)
         || (SMR_BA(m, easyflash_ram, 256) < 0)
