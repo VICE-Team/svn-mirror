@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
+#include "snapshot.h"
 #include "supersnapshot4.h"
 #include "types.h"
 #include "util.h"
@@ -266,4 +267,64 @@ void supersnapshot_v4_detach(void)
     c64io_unregister(ss4_io2_list_item);
     ss4_io1_list_item = NULL;
     ss4_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTSS4"
+
+int supersnapshot_v4_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, ramconfig) < 0)
+        || (SMW_B(m, romconfig) < 0)
+        || (SMW_BA(m, roml_banks, 0x4000) < 0)
+        || (SMW_BA(m, romh_banks, 0x4000) < 0)
+        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int supersnapshot_v4_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B(m, &ramconfig) < 0)
+        || (SMR_B(m, &romconfig) < 0)
+        || (SMR_BA(m, roml_banks, 0x4000) < 0)
+        || (SMR_BA(m, romh_banks, 0x4000) < 0)
+        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return supersnapshot_v4_common_attach();
 }

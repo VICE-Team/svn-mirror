@@ -44,6 +44,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "translate.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -930,4 +931,106 @@ void retroreplay_detach(void)
     c64io_unregister(retroreplay_io2_list_item);
     retroreplay_io1_list_item = NULL;
     retroreplay_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTRR"
+#define FLASH_SNAP_MODULE_NAME  "FLASH040RR"
+
+int retroreplay_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)rr_active) < 0)
+        || (SMW_B(m, (BYTE)rr_clockport_enabled) < 0)
+        || (SMW_B(m, (BYTE)rr_bank) < 0)
+        || (SMW_B(m, (BYTE)write_once) < 0)
+        || (SMW_B(m, (BYTE)allow_bank) < 0)
+        || (SMW_B(m, (BYTE)no_freeze) < 0)
+        || (SMW_B(m, (BYTE)reu_mapping) < 0)
+        || (SMW_B(m, (BYTE)rr_hw_flashjumper) < 0)
+        || (SMW_B(m, (BYTE)rr_hw_bankjumper) < 0)
+        || (SMW_DW(m, (DWORD)rom_offset) < 0)
+        || (SMW_BA(m, roml_banks, 0x20000) < 0)
+        || (SMW_BA(m, export_ram0, 0x8000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (0
+        || (flash040core_snapshot_write_module(s, flashrom_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        return -1;
+    }
+
+    return 0;
+}
+
+int retroreplay_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    DWORD temp_rom_offset;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &rr_active) < 0)
+        || (SMR_B_INT(m, &rr_clockport_enabled) < 0)
+        || (SMR_B_INT(m, &rr_bank) < 0)
+        || (SMR_B_INT(m, &write_once) < 0)
+        || (SMR_B_INT(m, &allow_bank) < 0)
+        || (SMR_B_INT(m, &no_freeze) < 0)
+        || (SMR_B_INT(m, &reu_mapping) < 0)
+        || (SMR_B_INT(m, &rr_hw_flashjumper) < 0)
+        || (SMR_B_INT(m, &rr_hw_bankjumper) < 0)
+        || (SMR_DW(m, &temp_rom_offset) < 0)
+        || (SMR_BA(m, roml_banks, 0x20000) < 0)
+        || (SMR_BA(m, export_ram0, 0x8000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    rom_offset = temp_rom_offset;
+
+    flashrom_state = lib_malloc(sizeof(flash040_context_t));
+
+    flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_010, roml_banks);
+
+    if (0
+        || (flash040core_snapshot_read_module(s, flashrom_state, FLASH_SNAP_MODULE_NAME) < 0)) {
+        flash040core_shutdown(flashrom_state);
+        lib_free(flashrom_state);
+        flashrom_state = NULL;
+        return -1;
+    }
+
+    retroreplay_common_attach();
+
+    /* set filetype to none */
+    retroreplay_filename = NULL;
+    retroreplay_filetype = 0;
+
+    return 0;
 }

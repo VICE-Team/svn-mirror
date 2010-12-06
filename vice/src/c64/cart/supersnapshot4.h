@@ -42,4 +42,9 @@ extern int supersnapshot_v4_crt_attach(FILE *fd, BYTE *rawcart);
 
 extern void supersnapshot_v4_detach(void);
 
+struct snapshot_s;
+
+extern int supersnapshot_v4_snapshot_write_module(struct snapshot_s *s);
+extern int supersnapshot_v4_snapshot_read_module(struct snapshot_s *s);
+
 #endif

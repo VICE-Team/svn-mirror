@@ -41,4 +41,9 @@ extern void freezemachine_reset(void);
 
 extern BYTE REGPARM1 freezemachine_roml_read(WORD addr);
 
+struct snapshot_s;
+
+extern int freezemachine_snapshot_write_module(struct snapshot_s *s);
+extern int freezemachine_snapshot_read_module(struct snapshot_s *s);
+
 #endif

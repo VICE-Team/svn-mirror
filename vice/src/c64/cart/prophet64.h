@@ -37,4 +37,9 @@ extern int p64_bin_attach(const char *filename, BYTE *rawcart);
 extern int p64_crt_attach(FILE *fd, BYTE *rawcart);
 extern void p64_detach(void);
 
+struct snapshot_s;
+
+extern int p64_snapshot_write_module(struct snapshot_s *s);
+extern int p64_snapshot_read_module(struct snapshot_s *s);
+
 #endif

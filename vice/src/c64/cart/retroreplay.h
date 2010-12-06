@@ -64,4 +64,9 @@ extern int retroreplay_cmdline_options_init(void);
 extern int retroreplay_resources_init(void);
 extern void retroreplay_resources_shutdown(void);
 
+struct snapshot_s;
+
+extern int retroreplay_snapshot_write_module(struct snapshot_s *s);
+extern int retroreplay_snapshot_read_module(struct snapshot_s *s);
+
 #endif

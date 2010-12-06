@@ -38,4 +38,9 @@ extern int se5_crt_attach(FILE *fd, BYTE *rawcart);
 extern void se5_detach(void);
 extern BYTE REGPARM1 se5_roml_read(WORD addr);
 
+struct snapshot_s;
+
+extern int se5_snapshot_write_module(struct snapshot_s *s);
+extern int se5_snapshot_read_module(struct snapshot_s *s);
+
 #endif

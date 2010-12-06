@@ -43,4 +43,9 @@ extern void actionreplay3_detach(void);
 extern BYTE REGPARM1 actionreplay3_roml_read(WORD addr);
 extern BYTE REGPARM1 actionreplay3_romh_read(WORD addr);
 
+struct snapshot_s;
+
+extern int actionreplay3_snapshot_write_module(struct snapshot_s *s);
+extern int actionreplay3_snapshot_read_module(struct snapshot_s *s);
+
 #endif

@@ -38,4 +38,9 @@ extern int dsm_crt_attach(FILE *fd, BYTE *rawcart);
 extern void dsm_detach(void);
 extern void dsm_freeze(void);
 
+struct snapshot_s;
+
+extern int dsm_snapshot_write_module(struct snapshot_s *s);
+extern int dsm_snapshot_read_module(struct snapshot_s *s);
+
 #endif

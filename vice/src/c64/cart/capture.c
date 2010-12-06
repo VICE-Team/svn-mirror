@@ -39,8 +39,7 @@
 #include "c64tpi.h"
 #include "capture.h"
 #include "cartridge.h"
-#include "machine.h"
-#include "maincpu.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -100,12 +99,12 @@ static const c64export_resource_t export_res = {
     "Capture", 1, 1, NULL, NULL, CARTRIDGE_CAPTURE
 };
 
-static unsigned int cart_enabled = 0;
-static unsigned int freeze_pressed = 0;
-static unsigned int register_enabled = 0;
-static unsigned int romh_enabled = 0;
+static int cart_enabled = 0;
+static int freeze_pressed = 0;
+static int register_enabled = 0;
+static int romh_enabled = 0;
 
-void capture_reg(WORD addr)
+static void capture_reg(WORD addr)
 {
     if (register_enabled) {
         if ((addr & 0xffff) == 0xfff7) {
@@ -124,7 +123,7 @@ void capture_reg(WORD addr)
     }
 }
 
-void capture_romhflip(WORD addr)
+static void capture_romhflip(WORD addr)
 {
     if (freeze_pressed) {
         if ((addr & 0xff00) == 0xfe00) {
@@ -254,4 +253,66 @@ int capture_crt_attach(FILE *fd, BYTE *rawcart)
 void capture_detach(void)
 {
     c64export_remove(&export_res);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTCAPTURE"
+
+int capture_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)cart_enabled) < 0)
+        || (SMW_B(m, (BYTE)freeze_pressed) < 0)
+        || (SMW_B(m, (BYTE)register_enabled) < 0)
+        || (SMW_B(m, (BYTE)romh_enabled) < 0)
+        || (SMW_BA(m, romh_banks, 0x2000) < 0)
+        || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int capture_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &cart_enabled) < 0)
+        || (SMR_B_INT(m, &freeze_pressed) < 0)
+        || (SMR_B_INT(m, &register_enabled) < 0)
+        || (SMR_B_INT(m, &romh_enabled) < 0)
+        || (SMR_BA(m, romh_banks, 0x2000) < 0)
+        || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return capture_common_attach();
 }

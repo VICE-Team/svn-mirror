@@ -41,4 +41,9 @@ extern int snapshot64_crt_attach(FILE *f, BYTE *rawcart);
 
 extern void snapshot64_detach(void);
 
+struct snapshot_s;
+
+extern int snapshot64_snapshot_write_module(struct snapshot_s *s);
+extern int snapshot64_snapshot_read_module(struct snapshot_s *s);
+
 #endif

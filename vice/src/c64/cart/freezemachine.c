@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "freezemachine.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -193,10 +194,10 @@ void freezemachine_config_setup(BYTE *rawcart)
 {
     rom_A14 = 1; /* the following first reset will turn it to 0 again */
     roml_toggle = 0;
-    memcpy(roml_banks, rawcart, FREEZE_MACHINE_CART_SIZE);
-    memcpy(romh_banks, &rawcart[0x2000], FREEZE_MACHINE_CART_SIZE);
-    memcpy(&roml_banks[0x2000], &rawcart[0x4000], FREEZE_MACHINE_CART_SIZE);
-    memcpy(&romh_banks[0x2000], &rawcart[0x6000], FREEZE_MACHINE_CART_SIZE);
+    memcpy(roml_banks, rawcart, 0x2000);
+    memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+    memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
+    memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
     cartridge_config_changed(2, 0 | (0 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
@@ -263,3 +264,60 @@ void freezemachine_detach(void)
     freezemachine_io2_list_item = NULL;
 }
 
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTFREEZEM"
+
+int freezemachine_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)rom_A14) < 0)
+        || (SMW_B(m, (BYTE)roml_toggle) < 0)
+        || (SMW_BA(m, roml_banks, 0x4000) < 0)
+        || (SMW_BA(m, romh_banks, 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int freezemachine_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &rom_A14) < 0)
+        || (SMR_B_INT(m, &roml_toggle) < 0)
+        || (SMR_BA(m, roml_banks, 0x4000) < 0)
+        || (SMR_BA(m, romh_banks, 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return freezemachine_common_attach();
+}

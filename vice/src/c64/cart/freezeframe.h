@@ -38,4 +38,9 @@ extern int freezeframe_crt_attach(FILE *fd, BYTE *rawcart);
 extern void freezeframe_detach(void);
 extern void freezeframe_freeze(void);
 
+struct snapshot_s;
+
+extern int freezeframe_snapshot_write_module(struct snapshot_s *s);
+extern int freezeframe_snapshot_read_module(struct snapshot_s *s);
+
 #endif

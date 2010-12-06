@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "exos.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
@@ -38,8 +37,9 @@
 #include "c64memrom.h"
 #include "c64rom.h"
 #include "cartridge.h"
-#include "machine.h"
+#include "exos.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -114,4 +114,56 @@ int exos_crt_attach(FILE *fd, BYTE *rawcart)
 void exos_detach(void)
 {
     c64export_remove(&export_res);
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTEXOS"
+
+int exos_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_BA(m, romh_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int exos_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_BA(m, romh_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return exos_common_attach();
 }

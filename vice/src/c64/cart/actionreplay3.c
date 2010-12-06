@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -243,4 +244,60 @@ void actionreplay3_detach(void)
     c64io_unregister(actionreplay3_io2_list_item);
     actionreplay3_io1_list_item = NULL;
     actionreplay3_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTAR3"
+
+int actionreplay3_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)ar_active) < 0)
+        || (SMW_B(m, (BYTE)ar_reg) < 0)
+        || (SMW_BA(m, roml_banks, 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int actionreplay3_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &ar_active) < 0)
+        || (SMR_B_INT(m, &ar_reg) < 0)
+        || (SMR_BA(m, roml_banks, 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return actionreplay3_common_attach();
 }
