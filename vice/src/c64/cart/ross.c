@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "ross.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -187,4 +188,60 @@ void ross_detach(void)
     c64io_unregister(ross_io2_list_item);
     ross_io1_list_item = NULL;
     ross_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTROSS"
+
+int ross_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_BA(m, roml_banks, 0x4000) < 0)
+        || (SMW_BA(m, romh_banks, 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int ross_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &currbank) < 0)
+        || (SMR_BA(m, roml_banks, 0x4000) < 0)
+        || (SMR_BA(m, romh_banks, 0x4000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return ross_common_attach();
 }

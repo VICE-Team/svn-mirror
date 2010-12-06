@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "rexep256.h"
+#include "snapshot.h"
 #include "types.h"
 #include "util.h"
 
@@ -84,7 +85,7 @@ static void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
 {
     BYTE eprom_bank, test_value, eprom_part = 0;
 
-    if (addr == 0xdfa0) {
+    if ((addr & 0xff) == 0xa0) {
         eprom_bank = (value & 0xf);
         if (eprom_bank > 7) {
             return;
@@ -113,11 +114,11 @@ static void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
    but in this case it is assumed to be. */
 static BYTE REGPARM1 rexep256_io2_read(WORD addr)
 {
-    if (addr == 0xdfc0) {
+    if ((addr & 0xff) == 0xc0) {
         export.exrom = 0;
         mem_pla_config_changed();
     }
-    if (addr == 0xdfe0) {
+    if ((addr & 0xff) == 0xe0) {
         export.exrom = 1;
         mem_pla_config_changed();
     }
@@ -249,4 +250,60 @@ void rexep256_detach(void)
     c64export_remove(&export_res);
     c64io_unregister(rexep256_list_item);
     rexep256_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTREXEP256"
+
+int rexep256_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_WA(m, rexep256_eprom, 8) < 0)
+        || (SMW_BA(m, rexep256_eprom_roml_bank_offset, 8) < 0)
+        || (SMW_BA(m, roml_banks, 0x42000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int rexep256_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_WA(m, rexep256_eprom, 8) < 0)
+        || (SMR_BA(m, rexep256_eprom_roml_bank_offset, 8) < 0)
+        || (SMR_BA(m, roml_banks, 0x42000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return rexep256_common_attach();
 }

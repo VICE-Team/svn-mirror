@@ -37,4 +37,9 @@ extern int ross_bin_attach(const char *filename, BYTE *rawcart);
 extern int ross_crt_attach(FILE *fd, BYTE *rawcart);
 extern void ross_detach(void);
 
+struct snapshot_s;
+
+extern int ross_snapshot_write_module(struct snapshot_s *s);
+extern int ross_snapshot_read_module(struct snapshot_s *s);
+
 #endif

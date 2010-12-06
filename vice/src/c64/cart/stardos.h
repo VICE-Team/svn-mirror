@@ -40,4 +40,9 @@ extern int stardos_bin_attach(const char *filename, BYTE *rawcart);
 extern int stardos_crt_attach(FILE *fd, BYTE *rawcart);
 extern void stardos_detach(void);
 
+struct snapshot_s;
+
+extern int stardos_snapshot_write_module(struct snapshot_s *s);
+extern int stardos_snapshot_read_module(struct snapshot_s *s);
+
 #endif

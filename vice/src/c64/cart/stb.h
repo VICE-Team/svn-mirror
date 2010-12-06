@@ -37,4 +37,9 @@ extern int stb_bin_attach(const char *filename, BYTE *rawcart);
 extern int stb_crt_attach(FILE *fd, BYTE *rawcart);
 extern void stb_detach(void);
 
+struct snapshot_s;
+
+extern int stb_snapshot_write_module(struct snapshot_s *s);
+extern int stb_snapshot_read_module(struct snapshot_s *s);
+
 #endif

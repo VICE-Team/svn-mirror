@@ -2160,17 +2160,37 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
             /* FIXME case CARTRIDGE_ACTION_REPLAY2: */
             /* FIXME case CARTRIDGE_ACTION_REPLAY3: */
-            /* FIXME case CARTRIDGE_ACTION_REPLAY4: */
+            case CARTRIDGE_ACTION_REPLAY4:
+                if (actionreplay4_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_ATOMIC_POWER:
                 if (atomicpower_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
             /* FIXME case CARTRIDGE_CAPTURE: */
-            /* FIXME case CARTRIDGE_COMAL80: */
-            /* FIXME case CARTRIDGE_DELA_EP64: */
-            /* FIXME case CARTRIDGE_DELA_EP7x8: */
-            /* FIXME case CARTRIDGE_DELA_EP256: */
+            case CARTRIDGE_COMAL80:
+                if (comal80_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DELA_EP64:
+                if (delaep64_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DELA_EP7x8:
+                if (delaep7x8_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DELA_EP256:
+                if (delaep256_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_DIASHOW_MAKER: */
             case CARTRIDGE_DINAMIC:
                 if (dinamic_snapshot_write_module(s) < 0) {
@@ -2198,7 +2218,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_FINAL_PLUS: */
+            case CARTRIDGE_FINAL_PLUS:
+                if (final_plus_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_FREEZE_FRAME: */
             /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
             case CARTRIDGE_FUNPLAY:
@@ -2235,7 +2259,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
+            case CARTRIDGE_MIKRO_ASSEMBLER:
+                if (mikroass_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_MMC_REPLAY: */
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_write_module(s) < 0) {
@@ -2248,16 +2276,32 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_REX_EP256: */
-            /* FIXME case CARTRIDGE_ROSS: */
+            case CARTRIDGE_REX_EP256:
+                if (rexep256_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ROSS:
+                if (ross_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_SIMONS_BASIC:
                 if (simon_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
             /* FIXME case CARTRIDGE_SNAPSHOT64: */
-            /* FIXME case CARTRIDGE_STARDOS: */
-            /* FIXME case CARTRIDGE_STRUCTURED_BASIC: */
+            case CARTRIDGE_STARDOS:
+                if (stardos_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_STRUCTURED_BASIC:
+                if (stb_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_SUPER_EXPLODE_V5: */
             case CARTRIDGE_SUPER_GAMES:
                 if (supergames_snapshot_write_module(s) < 0) {
@@ -2432,17 +2476,37 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             /* FIXME case CARTRIDGE_ACTION_REPLAY2: */
             /* FIXME case CARTRIDGE_ACTION_REPLAY3: */
-            /* FIXME case CARTRIDGE_ACTION_REPLAY4: */
+            case CARTRIDGE_ACTION_REPLAY4:
+                if (actionreplay4_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_ATOMIC_POWER:
                 if (atomicpower_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
             /* FIXME case CARTRIDGE_CAPTURE: */
-            /* FIXME case CARTRIDGE_COMAL80: */
-            /* FIXME case CARTRIDGE_DELA_EP64: */
-            /* FIXME case CARTRIDGE_DELA_EP7x8: */
-            /* FIXME case CARTRIDGE_DELA_EP256: */
+            case CARTRIDGE_COMAL80:
+                if (comal80_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DELA_EP64:
+                if (delaep64_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DELA_EP7x8:
+                if (delaep7x8_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_DELA_EP256:
+                if (delaep256_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_DIASHOW_MAKER: */
             case CARTRIDGE_DINAMIC:
                 if (dinamic_snapshot_read_module(s) < 0) {
@@ -2470,7 +2534,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_FINAL_PLUS: */
+            case CARTRIDGE_FINAL_PLUS:
+                if (final_plus_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_FREEZE_FRAME: */
             /* FIXME case CARTRIDGE_FREEZE_MACHINE: */
             case CARTRIDGE_FUNPLAY:
@@ -2507,7 +2575,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_MIKRO_ASSEMBLER: */
+            case CARTRIDGE_MIKRO_ASSEMBLER:
+                if (mikroass_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_MMC_REPLAY: */
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_read_module(s) < 0) {
@@ -2520,16 +2592,32 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_REX_EP256: */
-            /* FIXME case CARTRIDGE_ROSS: */
+            case CARTRIDGE_REX_EP256:
+                if (rexep256_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_ROSS:
+                if (ross_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_SIMONS_BASIC:
                 if (simon_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
             /* FIXME case CARTRIDGE_SNAPSHOT64: */
-            /* FIXME case CARTRIDGE_STARDOS: */
-            /* FIXME case CARTRIDGE_STRUCTURED_BASIC: */
+            case CARTRIDGE_STARDOS:
+                if (stardos_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_STRUCTURED_BASIC:
+                if (stb_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             /* FIXME case CARTRIDGE_SUPER_EXPLODE_V5: */
             case CARTRIDGE_SUPER_GAMES:
                 if (supergames_snapshot_read_module(s) < 0) {

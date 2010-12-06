@@ -28,7 +28,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "stardos.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
@@ -39,6 +38,8 @@
 #include "cartridge.h"
 #include "machine.h"
 #include "resources.h"
+#include "snapshot.h"
+#include "stardos.h"
 #include "types.h"
 #include "util.h"
 
@@ -94,7 +95,7 @@ static BYTE REGPARM1 stardos_io2_read(WORD addr)
         cnt_de61 = 0;
         DBG(("STAROS: roml enable:%d\n",roml_enable));
     }
-    
+
     return 0;
 }
 
@@ -230,4 +231,64 @@ void stardos_detach(void)
     c64io_unregister(stardos_io2_list_item);
     stardos_io1_list_item = NULL;
     stardos_io2_list_item = NULL;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTSTARDOS"
+
+int stardos_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_DW(m, (DWORD)cnt_de61) < 0)
+        || (SMW_DW(m, (DWORD)cnt_dfa1) < 0)
+        || (SMW_B(m, (BYTE)roml_enable) < 0)
+        || (SMW_BA(m, roml_banks, 0x2000) < 0)
+        || (SMW_BA(m, romh_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int stardos_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_DW_INT(m, &cnt_de61) < 0)
+        || (SMR_DW_INT(m, &cnt_dfa1) < 0)
+        || (SMR_B_INT(m, &roml_enable) < 0)
+        || (SMR_BA(m, roml_banks, 0x2000) < 0)
+        || (SMR_BA(m, romh_banks, 0x2000) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    return stardos_common_attach();
 }

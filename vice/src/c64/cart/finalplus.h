@@ -41,4 +41,9 @@ extern BYTE REGPARM1 final_plus_roml_read(WORD addr);
 extern BYTE REGPARM1 final_plus_romh_read(WORD addr);
 extern BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr);
 
+struct snapshot_s;
+
+extern int final_plus_snapshot_write_module(struct snapshot_s *s);
+extern int final_plus_snapshot_read_module(struct snapshot_s *s);
+
 #endif

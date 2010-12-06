@@ -37,4 +37,9 @@ extern int delaep256_bin_attach(const char *filename, BYTE *rawcart);
 extern int delaep256_crt_attach(FILE *fd, BYTE *rawcart);
 extern void delaep256_detach(void);
 
+struct snapshot_s;
+
+extern int delaep256_snapshot_write_module(struct snapshot_s *s);
+extern int delaep256_snapshot_read_module(struct snapshot_s *s);
+
 #endif
