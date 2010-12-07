@@ -47,9 +47,9 @@ UI_CALLBACK(set_ramcart_image_name)
 }
 
 static ui_menu_entry_t ramcart_size_submenu[] = {
-    { "*64KB", (ui_callback_t)radio_RAMCARTsize,
+    { "*64kB", (ui_callback_t)radio_RAMCARTsize,
       (ui_callback_data_t)64, NULL },
-    { "*128KB", (ui_callback_t)radio_RAMCARTsize,
+    { "*128kB", (ui_callback_t)radio_RAMCARTsize,
       (ui_callback_data_t)128, NULL },
     { NULL }
 };

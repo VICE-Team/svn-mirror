@@ -169,19 +169,19 @@ UI_MENU_DEFINE_RADIO(H256K)
 UI_MENU_DEFINE_RADIO(CS256K)
 
 ui_menu_entry_t set_ram_submenu[] = {
-    { N_("*16KB"), (ui_callback_t)radio_RamSize,
+    { "*16kB", (ui_callback_t)radio_RamSize,
       (ui_callback_data_t)16, NULL },
-    { N_("*32KB"), (ui_callback_t)radio_RamSize,
+    { "*32kB", (ui_callback_t)radio_RamSize,
       (ui_callback_data_t)32, NULL },
-    { N_("*64KB"), (ui_callback_t)radio_RamSize,
+    { "*64kB", (ui_callback_t)radio_RamSize,
       (ui_callback_data_t)64, NULL },
-    { N_("*256KB (CSORY)"), (ui_callback_t)radio_CS256K,
+    { "*256kB (CSORY)", (ui_callback_t)radio_CS256K,
       (ui_callback_data_t)1, NULL },
-    { N_("*256KB (HANNES)"), (ui_callback_t)radio_H256K,
+    { "*256kB (HANNES)", (ui_callback_t)radio_H256K,
       (ui_callback_data_t)1, NULL },
-    { N_("*1024KB (HANNES)"), (ui_callback_t)radio_H256K,
+    { "*1024kB (HANNES)", (ui_callback_t)radio_H256K,
       (ui_callback_data_t)2, NULL },
-    { N_("*4096KB (HANNES)"), (ui_callback_t)radio_H256K,
+    { "*4096kB (HANNES)", (ui_callback_t)radio_H256K,
       (ui_callback_data_t)3, NULL },
     { NULL }
 };
@@ -202,9 +202,9 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_ted_model_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*PAL-G", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*NTSC-M", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };

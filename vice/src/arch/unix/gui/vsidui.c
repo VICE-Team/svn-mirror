@@ -284,9 +284,9 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*PAL-G", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*NTSC-M", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { N_("*Old NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
@@ -297,13 +297,13 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
 static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
-    { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*3.00 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)3000, NULL },
-    { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*1.00 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)1000, NULL },
-    { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.50 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)500, NULL },
-    { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.10 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)100, NULL },
     { NULL }
 };
@@ -403,7 +403,7 @@ static ui_menu_entry_t vsidui_top_menu[] = {
       NULL, NULL, vsidui_settings_menu },
     { NULL }
 };
-#endif	/* USE_GNOMEUI */
+#endif  /* USE_GNOMEUI */
 
 /* ------------------------------------------------------------------------- */
 

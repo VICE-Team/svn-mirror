@@ -46,19 +46,19 @@ UI_CALLBACK(set_georam_image_name)
 }
 
 static ui_menu_entry_t georam_size_submenu[] = {
-    { "*64KB", (ui_callback_t)radio_GEORAMsize,
+    { "*64kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)64, NULL },
-    { "*128KB", (ui_callback_t)radio_GEORAMsize,
+    { "*128kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)128, NULL },
-    { "*256KB", (ui_callback_t)radio_GEORAMsize,
+    { "*256kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)256, NULL },
-    { "*512KB", (ui_callback_t)radio_GEORAMsize,
+    { "*512kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)512, NULL },
-    { "*1024KB", (ui_callback_t)radio_GEORAMsize,
+    { "*1024kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)1024, NULL },
-    { "*2048KB", (ui_callback_t)radio_GEORAMsize,
+    { "*2048kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)2048, NULL },
-    { "*4096KB", (ui_callback_t)radio_GEORAMsize,
+    { "*4096kB", (ui_callback_t)radio_GEORAMsize,
       (ui_callback_data_t)4096, NULL },
     { NULL }
 };

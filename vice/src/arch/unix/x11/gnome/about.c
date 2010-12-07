@@ -112,7 +112,7 @@ void ui_about(gpointer data)
         about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
                              "name", "V I C E",
                              "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
-                             "copyright", _("(c) 1998 - 2010 The Vice Team"),
+                             "copyright", _("(c) 1998 - 2010 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",
                              "authors", authors, 
                              "documenters", docs, 

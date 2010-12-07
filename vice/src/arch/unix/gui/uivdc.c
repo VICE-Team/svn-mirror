@@ -141,7 +141,7 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 #endif
 
 ui_menu_entry_t set_vdcmodel_submenu[] = {
-    { N_("*64KB display memory"),
+    { N_("*64kB display memory"),
       (ui_callback_t)toggle_VDC64KB, NULL, NULL },
     { N_("Revision"),
       NULL, NULL, set_vdc_revison_submenu },

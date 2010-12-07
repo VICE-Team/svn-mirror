@@ -92,10 +92,10 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_CRT, NULL, KEYSYM_c, UI_HOTMOD_META },
     { "--" },
-    { N_("Attach generic 8KB image..."),
+    { N_("Attach generic 8kB image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_8KB, NULL },
-    { N_("Attach generic 16KB image..."),
+    { N_("Attach generic 16kB image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_16KB, NULL },
     { "--" },

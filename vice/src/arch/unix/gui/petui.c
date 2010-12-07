@@ -132,25 +132,25 @@ static ui_menu_entry_t sidcart_submenu[] = {
 };
 
 static ui_menu_entry_t pet_memsize_submenu[] = {
-    { N_("*4 kByte"),
+    { "*4 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)4, NULL },
-    { N_("*8 kByte"),
+    { "*8 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)8, NULL },
-    { N_("*16 kByte"),
+    { "*16 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)16, NULL },
-    { N_("*32 kByte"),
+    { "*32 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)32, NULL },
-    { N_("*96 kByte"),
+    { "*96 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)96, NULL },
-    { N_("*128 kByte"),
+    { "*128 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_iosize_submenu[] = {
-    { N_("*2 kByte"),
+    { "*2 kB",
       (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x800, NULL },
-    { N_("*256 Byte"),
+    { "*256 B",
       (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x100, NULL },
     { NULL }
 };

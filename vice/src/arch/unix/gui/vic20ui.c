@@ -270,19 +270,19 @@ static ui_menu_entry_t add_to_generic_cart_submenu[] = {
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
       KEYSYM_c, UI_HOTMOD_META },
-    { N_("Attach 4/8/16KB image at $2000..."),
+    { N_("Attach 4/8/16kB image at $2000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_2000, NULL },
-    { N_("Attach 4/8/16KB image at $4000..."),
+    { N_("Attach 4/8/16kB image at $4000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_4000, NULL },
-    { N_("Attach 4/8/16KB image at $6000..."),
+    { N_("Attach 4/8/16kB image at $6000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_6000, NULL },
-    { N_("Attach 4/8KB image at $A000..."),
+    { N_("Attach 4/8kB image at $A000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_8KB_A000, NULL },
-    { N_("Attach 4KB image at $B000..."),
+    { N_("Attach 4kB image at $B000..."),
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000, NULL },
     { NULL }
@@ -486,9 +486,9 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_vic_model_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*PAL-G", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*NTSC-M", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };

@@ -62,9 +62,9 @@
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_viciimodel_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*PAL-G", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
+    { "*NTSC-M", (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { NULL }
 };
@@ -154,13 +154,13 @@ static ui_menu_entry_t cbm2_modelline_submenu[] = {
 UI_MENU_DEFINE_RADIO(RamSize)
 
 static ui_menu_entry_t cbm2_memsize_submenu[] = {
-    { N_("*128 kByte"),
+    { "*128 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
-    { N_("*256 kByte"),
+    { "*256 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)256, NULL },
-    { "*512 kByte",
+    { "*512 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)512, NULL },
-    { N_("*1024 kByte"),
+    { "*1024 kB",
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)1024, NULL },
     { NULL }
 };

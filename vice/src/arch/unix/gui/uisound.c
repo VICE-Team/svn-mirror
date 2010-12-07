@@ -63,25 +63,25 @@ ui_menu_entry_t set_sound_sample_rate_submenu[] = {
 };
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
-    { N_("*0.35 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.35 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)350, NULL },
-    { N_("*0.30 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.30 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)250, NULL },
-    { N_("*0.20 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.20 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)150, NULL },
-    { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.10 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)100, NULL },
-    { N_("*0.075 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.075 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)75, NULL },
-    { N_("*0.05 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.05 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)50, NULL },
-    { N_("*0.04 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.04 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)40, NULL },
-    { N_("*0.03 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.03 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)30, NULL },
-    { N_("*0.025 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.025 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)25, NULL },
-    { N_("*0.02 sec"), (ui_callback_t)radio_SoundBufferSize,
+    { "*0.02 s", (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)20, NULL },
     { NULL }
 };
@@ -99,13 +99,13 @@ static ui_menu_entry_t set_sound_fragment_size_submenu[] = {
 static ui_menu_entry_t set_sound_suspend_time_submenu[] = {
     { N_("*Keep going"), (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)0, NULL },
-    { N_("*1 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("*1 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)1, NULL },
-    { N_("*2 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("*2 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)2, NULL },
-    { N_("*5 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("*5 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)5, NULL },
-    { N_("*10 sec suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("*10 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)10, NULL },
     { NULL }
 };
