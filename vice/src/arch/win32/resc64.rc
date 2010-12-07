@@ -524,7 +524,7 @@ BEGIN
                   45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     LTEXT         "", IDC_C64VICII_LABEL,
-                  4, 32, 60, 8
+                  4, 32, 60, 8  
     COMBOBOX      IDC_C64VICII_LIST,
                   45, 31, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
@@ -542,14 +542,14 @@ BEGIN
                   45, 81, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     LTEXT         "", IDC_C64CIA2_LABEL,
-                  4, 82, 60, 8
+                  4, 102, 60, 8
     COMBOBOX      IDC_C64CIA2_LIST,
-                  45, 81, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  45, 103, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     LTEXT         "", IDC_C64GLUELOGIC_LABEL,
-                  4, 102, 60, 8
+                  4, 122, 60, 8
     COMBOBOX      IDC_C64GLUELOGIC_LIST,
-                  45, 101, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  45, 123, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
                     20, 150, 50, 14, WS_TABSTOP
@@ -578,7 +578,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -610,7 +610,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -642,7 +642,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -674,7 +674,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -709,7 +709,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -744,7 +744,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -776,7 +776,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -811,7 +811,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -846,7 +846,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"
@@ -881,7 +881,7 @@ BEGIN
   IDS_6526_OLD             "6526 (old)"
   IDS_6526A_NEW            "6526A (new)"
   IDS_6526X_OLD_TIMER_BUG  "6526x (old with timer B bug)"
-  IDS_DISCREET             "Discreet"
+  IDS_DISCRETE             "Discrete"
   IDS_CUSTOM_IC            "Custom IC"
   IDS_6569_PAL             "6569 (PAL)"
   IDS_8565_PAL             "8565 (PAL)"

@@ -132,7 +132,7 @@ static const int ui_c64cia_values[] = {
 };
 
 static const int ui_c64gluelogic[] = {
-    IDS_DISCREET,
+    IDS_DISCRETE,
     IDS_CUSTOM_IC,
     0
 };
