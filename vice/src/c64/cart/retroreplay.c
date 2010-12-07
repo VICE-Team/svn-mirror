@@ -85,23 +85,23 @@
 #endif
 
 /* Cart is activated.  */
-static unsigned int rr_active;
-unsigned int rr_clockport_enabled;
+static int rr_active;
+int rr_clockport_enabled;
 
 /* current bank */
-static unsigned int rr_bank;
+static int rr_bank;
 
 /* Only one write access is allowed.  */
-static unsigned int write_once;
+static int write_once;
 
 /* RAM bank switching allowed.  */
-static unsigned int allow_bank;
+static int allow_bank;
 
 /* Freeze is disallowed.  */
 static int no_freeze;
 
 /* REU compatibility mapping.  */
-unsigned int reu_mapping;
+static int reu_mapping;
 
 static int rr_hw_flashjumper = 0;
 static int rr_hw_bankjumper = 0;
@@ -306,7 +306,7 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                         allow_bank = value & 2;
                         no_freeze = value & 4;
                         reu_mapping = value & 0x40;
-                        if (rr_clockport_enabled != (unsigned int)(value & 1)) {
+                        if (rr_clockport_enabled != (value & 1)) {
                             rr_clockport_enabled = value & 1;
 #ifdef HAVE_TFE
                             tfe_clockport_changed();

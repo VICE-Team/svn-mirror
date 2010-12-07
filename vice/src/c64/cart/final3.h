@@ -42,7 +42,7 @@ extern void final_v3_detach(void);
 
 struct snapshot_s;
 
-extern int final3_snapshot_write_module(struct snapshot_s *s);
-extern int final3_snapshot_read_module(struct snapshot_s *s);
+extern int final_v3_snapshot_write_module(struct snapshot_s *s);
+extern int final_v3_snapshot_read_module(struct snapshot_s *s);
 
 #endif

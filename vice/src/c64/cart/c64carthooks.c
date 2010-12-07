@@ -2301,9 +2301,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_MMC_REPLAY:
-                /* no snapshot, emulation not ready yet */
-                break;
+            /* FIXME case CARTRIDGE_MMC_REPLAY: */
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2423,8 +2421,10 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 #endif
 
             default:
+                /* If the cart cannot be saved, we obviously can't load it either.
+                   Returning an error at this point is better than failing at later. */
                 DBG(("CART snapshot save: cart %i handler missing\n", cart_ids[i]));
-                break;
+                return -1;
         }
     }
 

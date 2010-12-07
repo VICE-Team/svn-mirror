@@ -69,6 +69,6 @@ extern void cart_detach_all(void);
 
 extern void cart_detach_conflicting(int type);
 
-extern void cart_attach_from_snapshot(int type);
+extern void cartridge_attach_from_snapshot(int type);
 
 #endif
