@@ -150,7 +150,7 @@ static ui_menu_entry_t set_cia1model_submenu[] = {
       (ui_callback_data_t)CIA_MODEL_6526, NULL },
     { N_("6526 (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)CIA_MODEL_6526A, NULL },
-    { N_("6526 (old, Timer B bug)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
+    { N_("6526x (old with timer B bug)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)CIA_MODEL_6526X, NULL },
     { NULL }
 };
@@ -162,7 +162,7 @@ static ui_menu_entry_t set_cia2model_submenu[] = {
       (ui_callback_data_t)CIA_MODEL_6526, NULL },
     { N_("6526 (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA2Model,
       (ui_callback_data_t)CIA_MODEL_6526A, NULL },
-    { N_("6526 (old, Timer B bug)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA2Model,
+    { N_("6526x (old with timer B bug)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA2Model,
       (ui_callback_data_t)CIA_MODEL_6526X, NULL },
     { NULL }
 };
@@ -341,7 +341,7 @@ static ui_menu_entry_t sid_submenu[] = {
     { N_("Second SID base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sid_stereo_address_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Emulate filters"), UI_MENU_TYPE_NORMAL,
+    { N_("SID filters"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
 #ifdef HAVE_RESID
     { "--", UI_MENU_TYPE_SEPARATOR },

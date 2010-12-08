@@ -62,7 +62,7 @@ static ui_menu_entry_t uidrivevic20_drive3_expansion_submenu[] = {
 };
 
 static ui_menu_entry_t drivevic20_settings_submenu[] = {
-    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
+    { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #8 model"), UI_MENU_TYPE_NORMAL,

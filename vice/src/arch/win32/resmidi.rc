@@ -42,11 +42,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Settings"
-  IDS_MIDI_ENABLE     "&Enable midi"
-  IDS_MIDI_TYPE_LABEL "Midi cart type"
-  IDS_MIDI_IN_LABEL   "Midi-in device"
-  IDS_MIDI_OUT_LABEL  "Midi-out device"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 
 

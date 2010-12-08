@@ -524,7 +524,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION                   "VIC Settings"
+    IDS_VIC_CAPTION                   "VIC settings"
     IDS_VIC_NOEXPANSION               "&no expansion memory"
     IDS_VIC_3KEXPANSION               "3&K (block 0)"
     IDS_VIC_8KEXPANSION               "&8K (block 1)"
@@ -548,7 +548,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000          "Attach 4/8KB cartridge image at $A000"
     IDS_ATTACH_4_CART_B000            "Attach 4KB cartridge image at $B000"
     IDS_MI_IEEE488                    "VIC-1112 IEEE &488 module"
-    IDS_MI_PADDLES                    "Enable Paddles"
+    IDS_MI_PADDLES                    "Enable paddles"
     IDS_MI_CART_VIC20_GENERIC         "Generic image..."
     IDS_MI_CART_VIC20_MEGACART        "Mega-Cart image..."
     IDS_MI_CART_VIC20_FINAL_EXPANSION "Final Expansion image..."

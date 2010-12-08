@@ -85,7 +85,7 @@ static UI_CALLBACK(load_save_fliplist)
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_FLIPLIST, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
-    title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"), NULL);
+    title = util_concat(what ? _("Load ") : _("Save"), _("Flip list file"), NULL);
     filename = ui_select_file(title, NULL, 0, load_save_fliplist_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
     lib_free(title);
     switch (button) {
@@ -124,9 +124,9 @@ ui_menu_entry_t fliplist_submenu[] = {
     { N_("Attach previous image (Unit 8)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)0, NULL,
       KEYSYM_N, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Load fliplist file"), UI_MENU_TYPE_NORMAL,
+    { N_("Load flip list file"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL },
-    { N_("Save fliplist file"), UI_MENU_TYPE_NORMAL,
+    { N_("Save flip list file"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)0, NULL },
     { NULL }
 };

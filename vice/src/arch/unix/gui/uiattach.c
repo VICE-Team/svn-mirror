@@ -188,7 +188,7 @@ ui_menu_entry_t uiattach_disk_menu[] = {
       NULL, NULL, attach_empty_disk_image_submenu },
     { N_("Detach disk image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, detach_disk_image_submenu },
-    { N_("Fliplist"), UI_MENU_TYPE_NORMAL,
+    { N_("Flip list"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, fliplist_submenu },
     { NULL }
 };

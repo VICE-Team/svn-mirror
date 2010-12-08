@@ -73,7 +73,7 @@ static ui_menu_entry_t renderer_submenu[] = {
       (ui_callback_data_t)0, NULL },
     { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
-    { N_("Scale 2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
+    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };

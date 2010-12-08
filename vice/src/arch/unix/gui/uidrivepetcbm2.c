@@ -88,7 +88,7 @@ static ui_menu_entry_t set_drive3_type_submenu[] = {
 };
 
 static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
-    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
+    { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #8 floppy disk type"), UI_MENU_TYPE_NORMAL,

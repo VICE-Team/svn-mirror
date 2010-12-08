@@ -147,7 +147,7 @@ static ui_menu_entry_t sidcart_submenu[] = {
       (ui_callback_t)toggle_SidCart, NULL, NULL },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_model_noresid_submenu },
-    { N_("Emulate filters"), UI_MENU_TYPE_TICK,
+    { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_address_submenu },

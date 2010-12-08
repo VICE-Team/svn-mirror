@@ -1479,7 +1479,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_TRUE_DRIVE_EMU_SV, "Äkta diskettenhetsemulering" },
 /* tr */ { IDMS_TRUE_DRIVE_EMU_TR, "Gerçek sürücü emülasyonu" },
 
-/* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle TDE for autostart" },
+/* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle TDE on autostart" },
 /* da */ { IDMS_AUTOSTART_HANDLE_TDE_DA, "Brug TDE ved autostart" },
 /* de */ { IDMS_AUTOSTART_HANDLE_TDE_DE, "TDE bei Autostart beachten" },
 /* fr */ { IDMS_AUTOSTART_HANDLE_TDE_FR, "" },  /* fuzzy */
@@ -1578,7 +1578,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_OLD_NTSC_M_SV, "Gammal NTSC-M" },
 /* tr */ { IDMS_OLD_NTSC_M_TR, "Eski NTSC-M" },
 
-/* en */ { IDMS_EMU_ID,    "Emulator Identification" },
+/* en */ { IDMS_EMU_ID,    "Emulator identification" },
 /* da */ { IDMS_EMU_ID_DA, "Emulatoridentifikation" },
 /* de */ { IDMS_EMU_ID_DE, "Emulator Identifikation" },
 /* fr */ { IDMS_EMU_ID_FR, "" },  /* fuzzy */
@@ -1600,7 +1600,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_VIC_1112_IEEE_488_SV, "VIC-1112 IEEE 488-modul" },
 /* tr */ { IDMS_VIC_1112_IEEE_488_TR, "VIC-1112 IEEE 488 modülü" },
 
-/* en */ { IDMS_ENABLE_PADDLES,    "Enable Paddles" },
+/* en */ { IDMS_ENABLE_PADDLES,    "Enable paddles" },
 /* da */ { IDMS_ENABLE_PADDLES_DA, "Aktivér Paddles" },
 /* de */ { IDMS_ENABLE_PADDLES_DE, "Paddles aktivieren" },
 /* fr */ { IDMS_ENABLE_PADDLES_FR, "" },  /* fuzzy */
@@ -2062,7 +2062,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DQBB_SETTINGS_SV, "Inställninga för dubbel Quick Brown Box..." },
 /* tr */ { IDMS_DQBB_SETTINGS_TR, "Double Quick Brown Box ayarlarý..." },
 
-/* en */ { IDMS_ISEPIC_SETTINGS,    "Isepic settings..." },
+/* en */ { IDMS_ISEPIC_SETTINGS,    "ISEPIC settings..." },
 /* da */ { IDMS_ISEPIC_SETTINGS_DA, "Isepic-indstillinger..." },
 /* de */ { IDMS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen..." },
 /* fr */ { IDMS_ISEPIC_SETTINGS_FR, "" },  /* fuzzy */
@@ -2656,7 +2656,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_START_SOUND_RECORD_SV, "Starta ljudinspelning..." },
 /* tr */ { IDMS_START_SOUND_RECORD_TR, "Ses Kaydýný Baþlat..." },
 
-/* en */ { IDMS_STOP_SOUND_RECORD,    "Stop Sound Record" },
+/* en */ { IDMS_STOP_SOUND_RECORD,    "Stop Sound record" },
 /* da */ { IDMS_STOP_SOUND_RECORD_DA, "Stop lydoptagelse" },
 /* de */ { IDMS_STOP_SOUND_RECORD_DE, "Tonaufnahme stoppen" },
 /* fr */ { IDMS_STOP_SOUND_RECORD_FR, "" },  /* fuzzy */
@@ -4196,7 +4196,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PARALLEL_CABLE_SV, "Parallellkabel" },
 /* tr */ { IDS_PARALLEL_CABLE_TR, "Paralel kablo" },
 
-/* en */ { IDS_DRIVE_SETTINGS,    "Drive Settings" },
+/* en */ { IDS_DRIVE_SETTINGS,    "Drive settings" },
 /* da */ { IDS_DRIVE_SETTINGS_DA, "Diskettedrevindstillinger" },
 /* de */ { IDS_DRIVE_SETTINGS_DE, "Floppy Einstellungen" },
 /* fr */ { IDS_DRIVE_SETTINGS_FR, "Paramètres des lecteurs" },
@@ -4207,7 +4207,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DRIVE_SETTINGS_SV, "Diskettenhetsinställningar" },
 /* tr */ { IDS_DRIVE_SETTINGS_TR, "Sürücü Ayarlarý" },
 
-/* en */ { IDS_GEORAM_SIZE,    "GEORAM Size" },
+/* en */ { IDS_GEORAM_SIZE,    "GEORAM size" },
 /* da */ { IDS_GEORAM_SIZE_DA, "GEORAM-størrelse" },
 /* de */ { IDS_GEORAM_SIZE_DE, "GEORAM Größe" },
 /* fr */ { IDS_GEORAM_SIZE_FR, "" },  /* fuzzy */
@@ -4240,7 +4240,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_FILENAME_SELECT_SV, "Välj fil för GEORAM" },
 /* tr */ { IDS_GEORAM_FILENAME_SELECT_TR, "GEORAM için dosya seçin" },
 
-/* en */ { IDS_GEORAM_SETTINGS,    "GEORAM Settings" },
+/* en */ { IDS_GEORAM_SETTINGS,    "GEORAM settings" },
 /* da */ { IDS_GEORAM_SETTINGS_DA, "GEORAM-indstillinger" },
 /* de */ { IDS_GEORAM_SETTINGS_DE, "GEORAM Einstellungen" },
 /* fr */ { IDS_GEORAM_SETTINGS_FR, "Paramètres GEORAM" },
@@ -4273,7 +4273,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DQBB_FILENAME_SELECT_SV, "Välj fil för DQBB" },
 /* tr */ { IDS_DQBB_FILENAME_SELECT_TR, "DQBB için dosya seç" },
 
-/* en */ { IDS_DQBB_SETTINGS,    "DQBB Settings" },
+/* en */ { IDS_DQBB_SETTINGS,    "DQBB settings" },
 /* da */ { IDS_DQBB_SETTINGS_DA, "DQBB-indstillinger" },
 /* de */ { IDS_DQBB_SETTINGS_DE, "DQBB Einstellungen" },
 /* fr */ { IDS_DQBB_SETTINGS_FR, "" },  /* fuzzy */
@@ -4284,7 +4284,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DQBB_SETTINGS_SV, "DQBB-inställningar" },
 /* tr */ { IDS_DQBB_SETTINGS_TR, "DQBB Ayarlarý" },
 
-/* en */ { IDS_ISEPIC_SETTINGS,    "Isepic Settings" },
+/* en */ { IDS_ISEPIC_SETTINGS,    "ISEPIC settings" },
 /* da */ { IDS_ISEPIC_SETTINGS_DA, "Isepic-indstillinger" },
 /* de */ { IDS_ISEPIC_SETTINGS_DE, "Isepic Einstellungen" },
 /* fr */ { IDS_ISEPIC_SETTINGS_FR, "" },  /* fuzzy */
@@ -4295,7 +4295,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ISEPIC_SETTINGS_SV, "Isepic-inställningar" },
 /* tr */ { IDS_ISEPIC_SETTINGS_TR, "Isepic Ayarlarý" },
 
-/* en */ { IDS_ISEPIC_SWITCH,    "Isepic Switch" },
+/* en */ { IDS_ISEPIC_SWITCH,    "ISEPIC switch" },
 /* da */ { IDS_ISEPIC_SWITCH_DA, "Isepic-kontakt" },
 /* de */ { IDS_ISEPIC_SWITCH_DE, "Isepic Schalter" },
 /* fr */ { IDS_ISEPIC_SWITCH_FR, "" },  /* fuzzy */
@@ -4306,7 +4306,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ISEPIC_SWITCH_SV, "Isepic-omkopplare" },
 /* tr */ { IDS_ISEPIC_SWITCH_TR, "Isepic Anahtarý" },
 
-/* en */ { IDS_EASYFLASH_SETTINGS,    "EasyFlash Settings" },
+/* en */ { IDS_EASYFLASH_SETTINGS,    "EasyFlash settings" },
 /* da */ { IDS_EASYFLASH_SETTINGS_DA, "EasyFlash-indstillinger" },
 /* de */ { IDS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen" },
 /* fr */ { IDS_EASYFLASH_SETTINGS_FR, "" },  /* fuzzy */
@@ -4967,7 +4967,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_LENGTH_CONSTANT_PATTERN_SV, "Längd på konstant mönster" },
 /* tr */ { IDS_LENGTH_CONSTANT_PATTERN_TR, "Sabit desenlerin uzunluðu" },
 
-/* en */ { IDS_RAM_SETTINGS,    "RAM Settings" },
+/* en */ { IDS_RAM_SETTINGS,    "RAM settings" },
 /* da */ { IDS_RAM_SETTINGS_DA, "RAM-indstillinger" },
 /* de */ { IDS_RAM_SETTINGS_DE, "RAM Einstellungen" },
 /* fr */ { IDS_RAM_SETTINGS_FR, "Paramètres de la RAM" },
@@ -5011,7 +5011,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_READ_WRITE_SV, "Läsa/skriva RAMCART" },
 /* tr */ { IDS_RAMCART_READ_WRITE_TR, "RAMCART Oku/Yaz" },
 
-/* en */ { IDS_RAMCART_SIZE,    "RAMCART Size" },
+/* en */ { IDS_RAMCART_SIZE,    "RAMCART size" },
 /* da */ { IDS_RAMCART_SIZE_DA, "RAMCART størrelse" },
 /* de */ { IDS_RAMCART_SIZE_DE, "RAMCART Größe" },
 /* fr */ { IDS_RAMCART_SIZE_FR, "Taille du RAMCART" },
@@ -5055,7 +5055,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_SETTINGS_SV, "RAMCART-inställningar" },
 /* tr */ { IDS_RAMCART_SETTINGS_TR, "RAMCART Ayarlarý" },
 
-/* en */ { IDS_REU_SIZE,    "REU Size" },
+/* en */ { IDS_REU_SIZE,    "REU size" },
 /* da */ { IDS_REU_SIZE_DA, "REU-størrelse" },
 /* de */ { IDS_REU_SIZE_DE, "REU Größe" },
 /* fr */ { IDS_REU_SIZE_FR, "Taille du REU" },
@@ -5143,7 +5143,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RS232_USERPORT_SETTINGS_SV, "RS232-användarportinställningar" },
 /* tr */ { IDS_RS232_USERPORT_SETTINGS_TR, "RS232 Userport Ayarlarý" },
 
-/* en */ { IDS_FAST,    "fast" },
+/* en */ { IDS_FAST,    "Fast" },
 /* da */ { IDS_FAST_DA, "hurtig" },
 /* de */ { IDS_FAST_DE, "Schnell" },
 /* fr */ { IDS_FAST_FR, "rapide" },
@@ -5154,7 +5154,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_FAST_SV, "snabbt" },
 /* tr */ { IDS_FAST_TR, "hýzlý" },
 
-/* en */ { IDS_INTERPOLATING,    "interpolating" },
+/* en */ { IDS_INTERPOLATING,    "Interpolating" },
 /* da */ { IDS_INTERPOLATING_DA, "interpolerende" },
 /* de */ { IDS_INTERPOLATING_DE, "Interpolierend" },
 /* fr */ { IDS_INTERPOLATING_FR, "par interpolation" },
@@ -5165,7 +5165,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_INTERPOLATING_SV, "interpolerande" },
 /* tr */ { IDS_INTERPOLATING_TR, "ara deðer bulma" },
 
-/* en */ { IDS_RESAMPLING,    "resampling" },
+/* en */ { IDS_RESAMPLING,    "Resampling" },
 /* da */ { IDS_RESAMPLING_DA, "om-samplende" },
 /* de */ { IDS_RESAMPLING_DE, "Resampling" },
 /* fr */ { IDS_RESAMPLING_FR, "rééchantillonage" },
@@ -5176,7 +5176,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RESAMPLING_SV, "omsamplande" },
 /* tr */ { IDS_RESAMPLING_TR, "yeniden örnekleme" },
 
-/* en */ { IDS_FAST_RESAMPLING,    "fast resampling" },
+/* en */ { IDS_FAST_RESAMPLING,    "Fast resampling" },
 /* da */ { IDS_FAST_RESAMPLING_DA, "hurtig omsampling" },
 /* de */ { IDS_FAST_RESAMPLING_DE, "Schnelles Resampling" },
 /* fr */ { IDS_FAST_RESAMPLING_FR, "rééchantillonage rapide" },
@@ -5231,7 +5231,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_STEREO_SID_AT_SV, "Stereo-SID på" },
 /* tr */ { IDS_STEREO_SID_AT_TR, "Stereo SID konumu" },
 
-/* en */ { IDS_SID_FILTERS,    "SID Filters" },
+/* en */ { IDS_SID_FILTERS,    "SID filters" },
 /* da */ { IDS_SID_FILTERS_DA, "SID-filter" },
 /* de */ { IDS_SID_FILTERS_DE, "SID Filter" },
 /* fr */ { IDS_SID_FILTERS_FR, "Filtres SID" },
@@ -5275,7 +5275,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NOT_IMPLEMENTED_YET_SV, "Ej implementerat ännu!" },
 /* tr */ { IDS_NOT_IMPLEMENTED_YET_TR, "Henüz tamamlanmadý!" },
 
-/* en */ { IDS_SID_SETTINGS,    "SID Settings" },
+/* en */ { IDS_SID_SETTINGS,    "SID settings" },
 /* da */ { IDS_SID_SETTINGS_DA, "SID-indstillinger" },
 /* de */ { IDS_SID_SETTINGS_DE, "SID Einstellungen" },
 /* fr */ { IDS_SID_SETTINGS_FR, "Paramètres SID" },
@@ -5319,7 +5319,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_EXACT_SV, "Exakt" },
 /* tr */ { IDS_EXACT_TR, "Aynen" },
 
-/* en */ { IDS_SAMPLE_RATE,    "Sample Rate" },
+/* en */ { IDS_SAMPLE_RATE,    "Sample rate" },
 /* da */ { IDS_SAMPLE_RATE_DA, "Samplingfrekvens" },
 /* de */ { IDS_SAMPLE_RATE_DE, "Sample Rate" },
 /* fr */ { IDS_SAMPLE_RATE_FR, "" },  /* fuzzy */
@@ -5330,7 +5330,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SAMPLE_RATE_SV, "Samplingshastighet" },
 /* tr */ { IDS_SAMPLE_RATE_TR, "Örnekleme Hýzý" },
 
-/* en */ { IDS_BUFFER_SIZE,    "Buffer Size" },
+/* en */ { IDS_BUFFER_SIZE,    "Buffer size" },
 /* da */ { IDS_BUFFER_SIZE_DA, "Bufferstørrelse" },
 /* de */ { IDS_BUFFER_SIZE_DE, "Puffergröße" },
 /* fr */ { IDS_BUFFER_SIZE_FR, "" },  /* fuzzy */
@@ -5341,7 +5341,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_BUFFER_SIZE_SV, "Buffertstorlek" },
 /* tr */ { IDS_BUFFER_SIZE_TR, "Arabellek Boyutu" },
 
-/* en */ { IDS_FRAGMENT_SIZE,    "Fragment Size" },
+/* en */ { IDS_FRAGMENT_SIZE,    "Fragment size" },
 /* da */ { IDS_FRAGMENT_SIZE_DA, "Fragmentstørrelse" },
 /* de */ { IDS_FRAGMENT_SIZE_DE, "Fragmentgröße" },
 /* fr */ { IDS_FRAGMENT_SIZE_FR, "" },  /* fuzzy */
@@ -5374,7 +5374,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SPEED_ADJUSTMENT_SV, "Hastighetsjusering" },
 /* tr */ { IDS_SPEED_ADJUSTMENT_TR, "Hýz Ayarlamasý" },
 
-/* en */ { IDS_SOUND_SETTINGS,    "Sound Settings" },
+/* en */ { IDS_SOUND_SETTINGS,    "Sound settings" },
 /* da */ { IDS_SOUND_SETTINGS_DA, "Lydindstillinger" },
 /* de */ { IDS_SOUND_SETTINGS_DE, "Sound Einstellungen" },
 /* fr */ { IDS_SOUND_SETTINGS_FR, "" },  /* fuzzy */
@@ -5385,7 +5385,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SOUND_SETTINGS_SV, "Ljudinställningar" },
 /* tr */ { IDS_SOUND_SETTINGS_TR, "Ses Ayarlarý" },
 
-/* en */ { IDS_VIC_SETTINGS,    "VIC Settings" },
+/* en */ { IDS_VIC_SETTINGS,    "VIC settings" },
 /* da */ { IDS_VIC_SETTINGS_DA, "VIC-indstillinger" },
 /* de */ { IDS_VIC_SETTINGS_DE, "VIC Einstellungen" },
 /* fr */ { IDS_VIC_SETTINGS_FR, "Paramètres VIC" },
@@ -5396,7 +5396,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_VIC_SETTINGS_SV, "VIC-inställningar" },
 /* tr */ { IDS_VIC_SETTINGS_TR, "VIC Ayarlarý" },
 
-/* en */ { IDS_SPRITE_SPRITE_COL,    "Sprite Sprite Collisions" },
+/* en */ { IDS_SPRITE_SPRITE_COL,    "Sprite-sprite collisions" },
 /* da */ { IDS_SPRITE_SPRITE_COL_DA, "Sprite-sprite-kollisioner" },
 /* de */ { IDS_SPRITE_SPRITE_COL_DE, "Sprite Sprite Kollisionen" },
 /* fr */ { IDS_SPRITE_SPRITE_COL_FR, "Collisions sprite avec sprite" },
@@ -5407,7 +5407,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SPRITE_SPRITE_COL_SV, "Sprite-sprite-kollisioner" },
 /* tr */ { IDS_SPRITE_SPRITE_COL_TR, "Yaratýk Yaratýk Çarpýþmalarý" },
 
-/* en */ { IDS_SPRITE_BACKGROUND_COL,    "Sprite Background Collisions" },
+/* en */ { IDS_SPRITE_BACKGROUND_COL,    "Sprite-background collisions" },
 /* da */ { IDS_SPRITE_BACKGROUND_COL_DA, "Sprite-baggrundskollisioner" },
 /* de */ { IDS_SPRITE_BACKGROUND_COL_DE, "Sprite Hintergrund  Kollisionen" },
 /* fr */ { IDS_SPRITE_BACKGROUND_COL_FR, "Collisions sprite avec arrière-plan" },
@@ -5418,7 +5418,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SPRITE_BACKGROUND_COL_SV, "Sprite-bakgrundkollisioner" },
 /* tr */ { IDS_SPRITE_BACKGROUND_COL_TR, "Yaratýk Arka Plan Çarpýþmalarý" },
 
-/* en */ { IDS_NEW_LUMINANCES,    "New Luminances" },
+/* en */ { IDS_NEW_LUMINANCES,    "New luminances" },
 /* da */ { IDS_NEW_LUMINANCES_DA, "Nye lysstyrker" },
 /* de */ { IDS_NEW_LUMINANCES_DE, "Neue Helligkeitsemulation" },
 /* fr */ { IDS_NEW_LUMINANCES_FR, "Nouvelles luminescences" },
@@ -5429,7 +5429,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NEW_LUMINANCES_SV, "Nya ljusstyrkor" },
 /* tr */ { IDS_NEW_LUMINANCES_TR, "Yeni Parlaklýklar" },
 
-/* en */ { IDS_VICII_SETTINGS,    "VIC-II Settings" },
+/* en */ { IDS_VICII_SETTINGS,    "VIC-II settings" },
 /* da */ { IDS_VICII_SETTINGS_DA, "VIC-II-indstillinger" },
 /* de */ { IDS_VICII_SETTINGS_DE, "VIC-II Einstellungen" },
 /* fr */ { IDS_VICII_SETTINGS_FR, "Paramètres VIC-II" },
@@ -5737,7 +5737,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MMCREPLAY_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_MMCREPLAY_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_SELECT_GENERIC,    "Select generic cartridge file" },
+/* en */ { IDS_SELECT_GENERIC,    "Select generic cartridge image" },
 /* da */ { IDS_SELECT_GENERIC_DA, "Vælg standardcartridgefil" },
 /* de */ { IDS_SELECT_GENERIC_DE, "Unverselles Erweiterungsmodul Image Datei wählen" },
 /* fr */ { IDS_SELECT_GENERIC_FR, "" },  /* fuzzy */
@@ -5748,7 +5748,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_GENERIC_SV, "Välj generisk insticksmodulfil" },
 /* tr */ { IDS_SELECT_GENERIC_TR, "Jenerik kartuþ dosyasýný seç" },
 
-/* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin file" },
+/* en */ { IDS_SELECT_FP,    "Select Vic Flash Plugin image" },
 /* da */ { IDS_SELECT_FP_DA, "" },  /* fuzzy */
 /* de */ { IDS_SELECT_FP_DE, "Vic Flash Plugin Datei wählen" },
 /* fr */ { IDS_SELECT_FP_FR, "" },  /* fuzzy */
@@ -5759,7 +5759,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_FP_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SELECT_FP_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_SELECT_MEGACART,    "Select Mega-Cart file" },
+/* en */ { IDS_SELECT_MEGACART,    "Select Mega-Cart image" },
 /* da */ { IDS_SELECT_MEGACART_DA, "Vælg MegaCart-fil" },
 /* de */ { IDS_SELECT_MEGACART_DE, "Mega-Cart Image Datei wählen" },
 /* fr */ { IDS_SELECT_MEGACART_FR, "" },  /* fuzzy */
@@ -5770,7 +5770,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_MEGACART_SV, "Välj Mega-Cart-fil" },
 /* tr */ { IDS_SELECT_MEGACART_TR, "Mega-Cart dosyasýný seç" },
 
-/* en */ { IDS_SELECT_FINAL_EXPANSION,    "Select Final Expansion file" },
+/* en */ { IDS_SELECT_FINAL_EXPANSION,    "Select Final Expansion image" },
 /* da */ { IDS_SELECT_FINAL_EXPANSION_DA, "Vælg Final Expansion-fil" },
 /* de */ { IDS_SELECT_FINAL_EXPANSION_DE, "Final Expansion Datei wählen" },
 /* fr */ { IDS_SELECT_FINAL_EXPANSION_FR, "" },  /* fuzzy */
@@ -5803,7 +5803,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SID_CART_SV, "SID-modul" },
 /* tr */ { IDS_SID_CART_TR, "SID Kartuþu" },
 
-/* en */ { IDS_SID_ENGINE_MODEL,    "SID engine/model" },
+/* en */ { IDS_SID_ENGINE_MODEL,    "SID model" },
 /* da */ { IDS_SID_ENGINE_MODEL_DA, "SID-motor/-model" },
 /* de */ { IDS_SID_ENGINE_MODEL_DE, "SID Engine/Modell" },
 /* fr */ { IDS_SID_ENGINE_MODEL_FR, "" },  /* fuzzy */
@@ -6441,7 +6441,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PET_MODEL_SV, "PET-modell" },
 /* tr */ { IDS_PET_MODEL_TR, "PET Modeli" },
 
-/* en */ { IDS_PLUS4_SETTINGS,    "PLUS4 settings" },
+/* en */ { IDS_PLUS4_SETTINGS,    "Plus4 settings" },
 /* da */ { IDS_PLUS4_SETTINGS_DA, "PLUS4-indstillinger" },
 /* de */ { IDS_PLUS4_SETTINGS_DE, "PLUS4 Einstellungen" },
 /* fr */ { IDS_PLUS4_SETTINGS_FR, "" },  /* fuzzy */
@@ -6705,7 +6705,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SOUND_RECORD_FILE_SV, "Ljudinspelningsfil" },
 /* tr */ { IDS_SOUND_RECORD_FILE_TR, "Ses Kayýt Dosyasý" },
 
-/* en */ { IDS_SOUND_RECORD_SETTINGS,    "Sound Record Settings" },
+/* en */ { IDS_SOUND_RECORD_SETTINGS,    "Sound record settings" },
 /* da */ { IDS_SOUND_RECORD_SETTINGS_DA, "Lydoptagelsesindstillinger" },
 /* de */ { IDS_SOUND_RECORD_SETTINGS_DE, "Tonaufnahme Einstellungen" },
 /* fr */ { IDS_SOUND_RECORD_SETTINGS_FR, "" },  /* fuzzy */
@@ -6870,7 +6870,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MOUSE_AMIGA_SV, "Amigamus" },
 /* tr */ { IDS_MOUSE_AMIGA_TR, "Amiga mouse" },
 
-/* en */ { IDS_MOUSE_PADDLES,    "Paddle" },
+/* en */ { IDS_MOUSE_PADDLES,    "Paddles" },
 /* da */ { IDS_MOUSE_PADDLES_DA, "Paddle" },
 /* de */ { IDS_MOUSE_PADDLES_DE, "Paddle" },
 /* fr */ { IDS_MOUSE_PADDLES_FR, "" },  /* fuzzy */
@@ -6892,7 +6892,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_AUTOSTART_VIRTUAL_FS_SV, "Virtuellt FS" },
 /* tr */ { IDS_AUTOSTART_VIRTUAL_FS_TR, "Sanal FS" },
 
-/* en */ { IDS_AUTOSTART_INJECT,    "Inject" },
+/* en */ { IDS_AUTOSTART_INJECT,    "Inject to RAM" },
 /* da */ { IDS_AUTOSTART_INJECT_DA, "Indskyd" },
 /* de */ { IDS_AUTOSTART_INJECT_DE, "Inject" },
 /* fr */ { IDS_AUTOSTART_INJECT_FR, "" },  /* fuzzy */
@@ -6936,7 +6936,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_WARP_ON_AUTOSTART_SV, "Starta warp automatiskt" },
 /* tr */ { IDS_WARP_ON_AUTOSTART_TR, "Warp modunda otomatik baþlat" },
 
-/* en */ { IDS_RUN_WITH_COLON,    "Use ':' with run" },
+/* en */ { IDS_RUN_WITH_COLON,    "Use ':' with RUN" },
 /* da */ { IDS_RUN_WITH_COLON_DA, "Brug \":\" med RUN" },
 /* de */ { IDS_RUN_WITH_COLON_DE, "Verwende ':' mit RUN" },
 /* fr */ { IDS_RUN_WITH_COLON_FR, "" },  /* fuzzy */
@@ -6969,7 +6969,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_SV, "Autostartdiskavbildning för PRG" },
 /* tr */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_TR, "PRG otomatik baþlatma disk imajý" },
 
-/* en */ { IDS_AUTOSTART_SETTINGS,    "Autostart Settings" },
+/* en */ { IDS_AUTOSTART_SETTINGS,    "Autostart settings" },
 /* da */ { IDS_AUTOSTART_SETTINGS_DA, "Autostartindstillinger" },
 /* de */ { IDS_AUTOSTART_SETTINGS_DE, "Autostart Einstellungen" },
 /* fr */ { IDS_AUTOSTART_SETTINGS_FR, "" },  /* fuzzy */
@@ -7024,7 +7024,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SAVE_EASYFLASH_CRT_NOW_SV, "Spara till EasyFlash-CRT nu" },
 /* tr */ { IDS_SAVE_EASYFLASH_CRT_NOW_TR, "Hemen EasyFlash CRT'ye kaydet" },
 
-/* en */ { IDS_6569_PAL,    "6569 PAL" },
+/* en */ { IDS_6569_PAL,    "6569 (PAL)" },
 /* da */ { IDS_6569_PAL_DA, "" },  /* fuzzy */
 /* de */ { IDS_6569_PAL_DE, "" },  /* fuzzy */
 /* fr */ { IDS_6569_PAL_FR, "" },  /* fuzzy */
@@ -7035,7 +7035,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6569_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_6569_PAL_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_8565_PAL,    "8565 PAL" },
+/* en */ { IDS_8565_PAL,    "8565 (PAL)" },
 /* da */ { IDS_8565_PAL_DA, "" },  /* fuzzy */
 /* de */ { IDS_8565_PAL_DE, "" },  /* fuzzy */
 /* fr */ { IDS_8565_PAL_FR, "" },  /* fuzzy */
@@ -7046,7 +7046,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_8565_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_8565_PAL_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_6569R1_OLD_PAL,    "6569R1 old PAL" },
+/* en */ { IDS_6569R1_OLD_PAL,    "6569R1 (old PAL)" },
 /* da */ { IDS_6569R1_OLD_PAL_DA, "" },  /* fuzzy */
 /* de */ { IDS_6569R1_OLD_PAL_DE, "" },  /* fuzzy */
 /* fr */ { IDS_6569R1_OLD_PAL_FR, "" },  /* fuzzy */
@@ -7057,7 +7057,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6569R1_OLD_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_6569R1_OLD_PAL_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_6567_NTSC,    "6567 NTSC" },
+/* en */ { IDS_6567_NTSC,    "6567 (NTSC)" },
 /* da */ { IDS_6567_NTSC_DA, "" },  /* fuzzy */
 /* de */ { IDS_6567_NTSC_DE, "" },  /* fuzzy */
 /* fr */ { IDS_6567_NTSC_FR, "" },  /* fuzzy */
@@ -7068,7 +7068,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6567_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDS_6567_NTSC_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_8562_NTSC,    "8562 NTSC" },
+/* en */ { IDS_8562_NTSC,    "8562 (NTSC)" },
 /* da */ { IDS_8562_NTSC_DA, "" },  /* fuzzy */
 /* de */ { IDS_8562_NTSC_DE, "" },  /* fuzzy */
 /* fr */ { IDS_8562_NTSC_FR, "" },  /* fuzzy */
@@ -7079,7 +7079,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_8562_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDS_8562_NTSC_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_6567R56A_OLD_NTSC,    "6567R56A old NTSC" },
+/* en */ { IDS_6567R56A_OLD_NTSC,    "6567R56A (old NTSC)" },
 /* da */ { IDS_6567R56A_OLD_NTSC_DA, "" },  /* fuzzy */
 /* de */ { IDS_6567R56A_OLD_NTSC_DE, "" },  /* fuzzy */
 /* fr */ { IDS_6567R56A_OLD_NTSC_FR, "" },  /* fuzzy */
@@ -7090,7 +7090,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6567R56A_OLD_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDS_6567R56A_OLD_NTSC_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_6572_PAL_N,    "6572 PAL N" },
+/* en */ { IDS_6572_PAL_N,    "6572 (PAL-N)" },
 /* da */ { IDS_6572_PAL_N_DA, "" },  /* fuzzy */
 /* de */ { IDS_6572_PAL_N_DE, "" },  /* fuzzy */
 /* fr */ { IDS_6572_PAL_N_FR, "" },  /* fuzzy */
@@ -7145,7 +7145,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CUSTOM_IC_SV, "" },  /* fuzzy */
 /* tr */ { IDS_CUSTOM_IC_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_VICII_MODEL,    "VICII Model" },
+/* en */ { IDS_VICII_MODEL,    "VIC-II model" },
 /* da */ { IDS_VICII_MODEL_DA, "" },  /* fuzzy */
 /* de */ { IDS_VICII_MODEL_DE, "" },  /* fuzzy */
 /* fr */ { IDS_VICII_MODEL_FR, "" },  /* fuzzy */
@@ -7156,7 +7156,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_VICII_MODEL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_VICII_MODEL_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_CIA1_MODEL,    "CIA-1 Model" },
+/* en */ { IDS_CIA1_MODEL,    "CIA 1 model" },
 /* da */ { IDS_CIA1_MODEL_DA, "" },  /* fuzzy */
 /* de */ { IDS_CIA1_MODEL_DE, "" },  /* fuzzy */
 /* fr */ { IDS_CIA1_MODEL_FR, "" },  /* fuzzy */
@@ -7167,7 +7167,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CIA1_MODEL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_CIA1_MODEL_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_CIA2_MODEL,    "CIA-2 Model" },
+/* en */ { IDS_CIA2_MODEL,    "CIA 2 model" },
 /* da */ { IDS_CIA2_MODEL_DA, "" },  /* fuzzy */
 /* de */ { IDS_CIA2_MODEL_DE, "" },  /* fuzzy */
 /* fr */ { IDS_CIA2_MODEL_FR, "" },  /* fuzzy */
@@ -7178,7 +7178,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CIA2_MODEL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_CIA2_MODEL_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_GLUE_LOGIC,    "Glue Logic" },
+/* en */ { IDS_GLUE_LOGIC,    "Glue logic" },
 /* da */ { IDS_GLUE_LOGIC_DA, "" },  /* fuzzy */
 /* de */ { IDS_GLUE_LOGIC_DE, "" },  /* fuzzy */
 /* fr */ { IDS_GLUE_LOGIC_FR, "" },  /* fuzzy */
@@ -7189,7 +7189,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GLUE_LOGIC_SV, "" },  /* fuzzy */
 /* tr */ { IDS_GLUE_LOGIC_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_C64_MODEL_SETTINGS,    "C64 Model Settings" },
+/* en */ { IDS_C64_MODEL_SETTINGS,    "C64 model settings" },
 /* da */ { IDS_C64_MODEL_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_C64_MODEL_SETTINGS_DE, "" },  /* fuzzy */
 /* fr */ { IDS_C64_MODEL_SETTINGS_FR, "" },  /* fuzzy */

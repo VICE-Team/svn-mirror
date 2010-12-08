@@ -79,7 +79,7 @@ static UI_CALLBACK(datasette_settings)
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 
 ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("Reset Datasette on CPU Reset"), UI_MENU_TYPE_TICK,
+    { N_("Reset Datasette with CPU"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL },
     { N_("Datasette zero gap delay"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL },

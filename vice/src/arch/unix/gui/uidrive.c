@@ -179,13 +179,13 @@ UI_CALLBACK(radio_Drive11Type)
 }
 
 ui_menu_entry_t ui_drive_options_submenu[] = {
-    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
+    { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_flash_options_submenu[] = {
-    { N_("Enable true flash filesystem emulation"), UI_MENU_TYPE_TICK,
+    { N_("Enable true flash filesystem"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
     { NULL }
 };

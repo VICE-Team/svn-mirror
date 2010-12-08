@@ -40,7 +40,7 @@ UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 
 static ui_menu_entry_t drivec64dtv_settings_submenu[] = {
-    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
+    { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { N_("Enable true flash filesystem"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },

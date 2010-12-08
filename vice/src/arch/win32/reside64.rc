@@ -78,7 +78,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION      "IDE64 Settings"
+    IDS_IDE64_CAPTION      "IDE64 settings"
     IDS_IDE64_V4           "Enable IDE64 V4"
     IDS_IDE64_IMAGE_1      "&HD image #1 file"
     IDS_IDE64_IMAGE_2      "&HD image #2 file"

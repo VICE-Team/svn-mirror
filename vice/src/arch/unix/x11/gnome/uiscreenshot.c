@@ -370,7 +370,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(acmenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(acmenu), renderer, "text", 0, NULL);
     hbox = gtk_hbox_new(0, FALSE);
-    tmp = gtk_label_new(_("Audio Codec"));
+    tmp = gtk_label_new(_("Audio codec"));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
     gtk_box_pack_start(GTK_BOX(hbox), acmenu, FALSE, FALSE, 0);
@@ -384,7 +384,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(vcmenu), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT(vcmenu), renderer, "text", 0, NULL);
     hbox = gtk_hbox_new(0, FALSE);
-    tmp = gtk_label_new(_("Video Codec"));
+    tmp = gtk_label_new(_("Video codec"));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
     gtk_box_pack_start(GTK_BOX(hbox), vcmenu, FALSE, FALSE, 0);
@@ -396,7 +396,7 @@ static GtkWidget *build_screenshot_dialog(void)
     adj = gtk_adjustment_new((gfloat)audio_bitrate, (gfloat)VICE_FFMPEG_AUDIO_RATE_MIN, (gfloat)VICE_FFMPEG_AUDIO_RATE_MAX, (gfloat)1000, (gfloat)10000, (gfloat)00000);
     ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)1000, 0);
     gtk_widget_set_size_request(ffmpg_audio, 100, -1);
-    l = gtk_label_new(_("Audio Bitrate"));
+    l = gtk_label_new(_("Audio bitrate"));
     tmp = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(tmp), ffmpg_audio, FALSE, FALSE, 0);
@@ -406,7 +406,7 @@ static GtkWidget *build_screenshot_dialog(void)
     adj = gtk_adjustment_new((gfloat)video_bitrate, (gfloat)VICE_FFMPEG_VIDEO_RATE_MIN, (gfloat)VICE_FFMPEG_VIDEO_RATE_MAX, (gfloat)10000, (gfloat)100000, (gfloat)000000);
     ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)10000, 0);
     gtk_widget_set_size_request(ffmpg_video, 100, -1);
-    l = gtk_label_new(_("Video Bitrate"));
+    l = gtk_label_new(_("Video bitrate"));
     tmp = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(tmp), ffmpg_video, FALSE, FALSE, 0);

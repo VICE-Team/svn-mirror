@@ -45,7 +45,7 @@ UI_CALLBACK(set_autostart_image_name)
 }
 
 static ui_menu_entry_t uiautostart_prg_mode_submenu[] = {
-    { N_("VirtualFS"), UI_MENU_TYPE_TICK,
+    { N_("Virtual FS"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS, NULL },
     { N_("Inject to RAM"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT, NULL },
@@ -55,17 +55,17 @@ static ui_menu_entry_t uiautostart_prg_mode_submenu[] = {
 };
 
 ui_menu_entry_t uiautostart_settings_submenu[] = {
-    { N_("Handle True Drive Emulation on autostart"), UI_MENU_TYPE_TICK,
+    { N_("Handle TDE on autostart"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
     { N_("Autostart warp"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartWarp, NULL, NULL },
-    { N_("RUN with colon"), UI_MENU_TYPE_TICK,
+    { N_("Use ':' with RUN"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartRunWithColon, NULL, NULL },
-    { N_("Load to basic start"), UI_MENU_TYPE_TICK,
+    { N_("Load to BASIC start"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartBasicLoad, NULL, NULL },
-    { N_("Autostart PRG mode"), UI_MENU_TYPE_NORMAL,
+    { N_("PRG autostart mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiautostart_prg_mode_submenu },
-    { N_("Autostart PRG disk image..."), UI_MENU_TYPE_NORMAL,
+    { N_("PRG autostart disk image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_autostart_image_name,
       (ui_callback_data_t)"AutostartPrgDiskImage", NULL },
     { NULL }

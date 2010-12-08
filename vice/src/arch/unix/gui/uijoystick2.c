@@ -124,27 +124,27 @@ UI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 UI_MENU_DEFINE_RADIO(ExtraJoyType)
 
 static ui_menu_entry_t userport_joystick_type_c64_submenu[] = {
-    { N_("CGA userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("CGA userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
-    { N_("PET userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("PET userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
-    { N_("Hummer userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("Hummer userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
-    { N_("OEM userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("OEM userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
-    { N_("HIT userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("HIT userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_HIT, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t userport_joystick_type_submenu[] = {
-    { N_("CGA userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("CGA userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
-    { N_("PET userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("PET userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
-    { N_("Hummer userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("Hummer userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
-    { N_("OEM userport joystick adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+    { N_("OEM userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
     { NULL }
 };
@@ -368,7 +368,7 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
@@ -399,7 +399,7 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
@@ -430,7 +430,7 @@ static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
@@ -445,7 +445,7 @@ static ui_menu_entry_t joystick_settings_pet_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
@@ -472,7 +472,7 @@ static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
@@ -501,14 +501,14 @@ static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { N_("Swap joystick ports"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("SIDcart Joystick"), UI_MENU_TYPE_TICK,
+    { N_("SIDcart joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SIDCartJoy, NULL, NULL },
     { N_("Joystick device in extra port 1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
