@@ -168,7 +168,8 @@ void uisound_menu_create(void)
     devices_submenu = lib_calloc((size_t)(num + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; i < num ; i++) {
-        devices_submenu[i].string = (ui_callback_data_t)lib_msprintf("*%s", sound_device_name(i));
+        devices_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", sound_device_name(i));
+        devices_submenu[i].type = UI_MENU_TYPE_TICK;
         devices_submenu[i].callback = (ui_callback_t)radio_SoundDeviceName;
         devices_submenu[i].callback_data = (ui_callback_data_t)lib_stralloc(sound_device_name(i));
     }
