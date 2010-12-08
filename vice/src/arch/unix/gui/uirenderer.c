@@ -42,7 +42,7 @@
 void ui_select_renderer(ui_window_t w, int check, int type, char *chip)
 {
     char r1[0x20], r2[0x20];
-    int renderer = 0, crt, scale2x, doublesize;
+    int renderer = 0, crt, have_scale2x, scale2x, doublesize;
 
     strcpy(r1, chip);
     strcpy(r2, chip);
@@ -50,9 +50,15 @@ void ui_select_renderer(ui_window_t w, int check, int type, char *chip)
     strcat(r2, "DoubleSize");
 
     resources_get_int("PalEmulation", &crt);
-    if (resources_get_int(r1, &scale2x) < 0) {
+
+    if (resources_query_type(r1) == RES_INTEGER) {
+        resources_get_int(r1, &scale2x);
+        have_scale2x = 1;
+    } else {
         scale2x = 0;
+        have_scale2x = 0;
     }
+
     resources_get_int(r2, &doublesize);
 
     if (crt) {
@@ -79,7 +85,9 @@ void ui_select_renderer(ui_window_t w, int check, int type, char *chip)
         }
 
         resources_set_int("PalEmulation", crt);
-        resources_set_int(r1, scale2x);
+        if (have_scale2x) {
+            resources_set_int(r1, scale2x);
+        }
         resources_set_int(r2, doublesize);
 
     } else {

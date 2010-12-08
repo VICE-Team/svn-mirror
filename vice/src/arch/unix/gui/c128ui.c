@@ -260,7 +260,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, functionrom_submenu },
     { N_("Banks 2 & 3"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_C128FullBanks, NULL, NULL },
-    { "--" },
+    { "--", UI_MENU_TYPE_SEPARATOR },
 #if 0
     { N_("256K RAM Expansion"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_256k_submenu },
