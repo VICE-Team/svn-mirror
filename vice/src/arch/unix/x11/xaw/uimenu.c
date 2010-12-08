@@ -55,7 +55,7 @@
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
-    { "--" },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { NULL },
 };
 
@@ -551,9 +551,9 @@ int ui_dispatch_hotkeys(int key)
        here.  */
     for (i = 0; i < num_registered_hotkeys; i++, p++) {
         if (p->keysym == key) {
-	      ((void *(*)(void *, void *, void *))p->callback)(NULL, p->client_data, NULL);
-	      ret = 1;
-	      break;
+              ((void *(*)(void *, void *, void *))p->callback)(NULL, p->client_data, NULL);
+              ret = 1;
+              break;
         }
     }
     return ret;
@@ -770,14 +770,14 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
         char *name;
 
         name = lib_msprintf("MenuItem%d", j);
-        switch (*list[i].string) {
-            case '-':         /* line */
+        switch (list[i].type) {
+            case UI_MENU_TYPE_SEPARATOR:    /* line */
                 new_item = XtVaCreateManagedWidget("separator",
                                                    smeLineObjectClass, w,
                                                    XtNsensitive, 0,
                                                    NULL);
                 break;
-            case '*':         /* toggle */
+            case UI_MENU_TYPE_TICK:         /* toggle */
                 {
                     char *label = make_menu_label(&list[i]);
 
@@ -785,7 +785,7 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                                                        smeBSBObjectClass, w,
                                                        XtNrightMargin, 20,
                                                        XtNleftMargin, 20,
-                                                       XtNlabel, label + 1,
+                                                       XtNlabel, label,
                                                        NULL);
                     /* Add this item to the list of calls to perform to update
                        the menu status. */
@@ -801,7 +801,7 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                     lib_free(label);
                 }
                 break;
-            case 0:
+            case UI_MENU_TYPE_NONE:
                 break;
             default:
                 {
@@ -836,7 +836,7 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                 fprintf(stderr, "Maximum number of sub menus reached! Please fix the code.\n");
                 exit(-1);
             }
-            if (new_item != NULL && *list[i].string != '-') {
+            if (new_item != NULL && (list[i].type != UI_MENU_TYPE_SEPARATOR)) {
                 Widget subw;
 
                 XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap, NULL);

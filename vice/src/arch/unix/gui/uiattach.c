@@ -110,16 +110,16 @@ UI_CALLBACK(attach_disk)
 }
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
-    { N_("Unit #8..."),
+    { N_("Unit #8..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_disk, (ui_callback_data_t)8, NULL,
       KEYSYM_8, UI_HOTMOD_META },
-    { N_("Unit #9..."),
+    { N_("Unit #9..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_disk, (ui_callback_data_t)9, NULL,
       KEYSYM_9, UI_HOTMOD_META },
-    { N_("Unit #10..."),
+    { N_("Unit #10..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_disk, (ui_callback_data_t)10, NULL,
       KEYSYM_0, UI_HOTMOD_META },
-    { N_("Unit #11..."),
+    { N_("Unit #11..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_disk, (ui_callback_data_t)11, NULL,
       KEYSYM_1, UI_HOTMOD_META },
     { NULL }
@@ -147,13 +147,13 @@ static UI_CALLBACK(attach_empty_disk)
 }
 
 static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
-    { N_("Unit #8..."),
+    { N_("Unit #8..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)8, NULL, },
-    { N_("Unit #9..."),
+    { N_("Unit #9..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)9, NULL, },
-    { N_("Unit #10..."),
+    { N_("Unit #10..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)10, NULL, },
-    { N_("Unit #11..."),
+    { N_("Unit #11..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)11, NULL, },
     { NULL }
 };
@@ -167,28 +167,28 @@ UI_CALLBACK(detach_disk)
 }
 
 static ui_menu_entry_t detach_disk_image_submenu[] = {
-    { N_("Unit #8"),
+    { N_("Unit #8"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_disk, (ui_callback_data_t)8, NULL },
-    { N_("Unit #9"),
+    { N_("Unit #9"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_disk, (ui_callback_data_t)9, NULL },
-    { N_("Unit #10"),
+    { N_("Unit #10"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_disk, (ui_callback_data_t)10, NULL },
-    { N_("Unit #11"),
+    { N_("Unit #11"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_disk, (ui_callback_data_t)11, NULL },
-    { "--" },
-    { N_("All"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("All"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_disk, (ui_callback_data_t)-1, NULL },
     { NULL }
 };
 
 ui_menu_entry_t uiattach_disk_menu[] = {
-    { N_("Attach a disk image"),
+    { N_("Attach a disk image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_disk_image_submenu },
-    { N_("Create and attach an empty disk"),
+    { N_("Create and attach an empty disk"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_empty_disk_image_submenu },
-    { N_("Detach disk image"),
+    { N_("Detach disk image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, detach_disk_image_submenu },
-    { N_("Fliplist"),
+    { N_("Fliplist"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, fliplist_submenu },
     { NULL }
 };
@@ -268,13 +268,13 @@ static UI_CALLBACK(detach_tape)
 }
 
 ui_menu_entry_t uiattach_tape_menu[] = {
-    { N_("Create a new tape image..."),
+    { N_("Create a new tape image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)create_new_tape, NULL, NULL,
       0, 0},
-    { N_("Attach a tape image..."),
+    { N_("Attach a tape image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_tape, NULL, NULL,
-      KEYSYM_t, UI_HOTMOD_META},
-    { N_("Detach tape image"),
+      KEYSYM_t, UI_HOTMOD_META },
+    { N_("Detach tape image"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_tape, NULL, NULL },
     { NULL }
 };
@@ -337,10 +337,10 @@ static UI_CALLBACK(smart_attach)
 }
 
 ui_menu_entry_t uiattach_smart_attach_menu[] = {
-    { N_("Smart-attach disk/tape..."),
+    { N_("Smart-attach disk/tape..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)smart_attach, NULL, NULL,
       KEYSYM_a, UI_HOTMOD_META },
-    { N_("Autostart settings"),
+    { N_("Autostart settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiautostart_settings_submenu },
     { NULL }
 };

@@ -473,7 +473,8 @@ void vidmode_menu_create(struct ui_menu_entry_s *menu)
     resolutions_submenu = lib_calloc((size_t)(amodes + 1), sizeof(ui_menu_entry_t));
 
     for (i = 0; i < amodes ; i++) {
-        resolutions_submenu[i].string = (ui_callback_data_t)lib_msprintf("*%s", vm_bestmodes[i].name);
+        resolutions_submenu[i].string = (ui_callback_data_t)lib_msprintf("%s", vm_bestmodes[i].name);
+        resolutions_submenu[i].type = UI_MENU_TYPE_TICK;
         resolutions_submenu[i].callback = (ui_callback_t)mode_callback;
         resolutions_submenu[i].callback_data = (ui_callback_data_t)(unsigned long)i;
     }

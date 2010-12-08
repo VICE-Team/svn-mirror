@@ -57,88 +57,88 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
 
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
-    { N_("Device type"), NULL, NULL, uiperipheral_set_device8_type_submenu },
-    { "--" },
-    { N_("*Read only access"),
+    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device8_type_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Read only access"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AttachDevice8Readonly, NULL, NULL },
-    { "--" },
-    { N_("File system directory..."), (ui_callback_t)uiperipheral_set_fsdevice_directory,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("File system directory..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)uiperipheral_set_fsdevice_directory,
       (ui_callback_data_t)8, NULL },
-    { N_("*Convert P00 file names"), (ui_callback_t)toggle_FSDevice8ConvertP00,
+    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8ConvertP00,
       NULL, NULL },
-    { N_("*Create P00 files on save"), (ui_callback_t)toggle_FSDevice8SaveP00,
+    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8SaveP00,
       NULL, NULL },
-    { N_("*Hide raw CBM files"), (ui_callback_t)toggle_FSDevice8HideCBMFiles,
+    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive9_submenu[] = {
-    { N_("Device type"), NULL, NULL, uiperipheral_set_device9_type_submenu },
-    { "--" },
-    { N_("*Read only access"),
+    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device9_type_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Read only access"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AttachDevice9Readonly, NULL, NULL },
-    { "--" },
-    { N_("File system directory..."), (ui_callback_t)uiperipheral_set_fsdevice_directory,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("File system directory..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)uiperipheral_set_fsdevice_directory,
       (ui_callback_data_t)9, NULL },
-    { N_("*Convert P00 file names"), (ui_callback_t)toggle_FSDevice9ConvertP00,
+    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9ConvertP00,
       NULL, NULL },
-    { N_("*Create P00 files on save"), (ui_callback_t)toggle_FSDevice9SaveP00,
+    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9SaveP00,
       NULL, NULL },
-    { N_("*Hide raw CBM files"), (ui_callback_t)toggle_FSDevice9HideCBMFiles,
+    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive10_submenu[] = {
-    { N_("Device type"), NULL, NULL, uiperipheral_set_device10_type_submenu },
-    { "--" },
-    { N_("*Read only access"),
+    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device10_type_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Read only access"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AttachDevice10Readonly, NULL, NULL },
-    { "--" },
-    { N_("File system directory..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("File system directory..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uiperipheral_set_fsdevice_directory, (ui_callback_data_t)10, NULL },
-    { N_("*Convert P00 file names"),
+    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10ConvertP00, NULL, NULL },
-    { N_("*Create P00 files on save"),
+    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10SaveP00, NULL, NULL },
-    { N_("*Hide raw CBM files"),
+    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10HideCBMFiles, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
-    { N_("Device type"), NULL, NULL, uiperipheral_set_device11_type_submenu },
-    { "--" },
-    { N_("*Read only access"),
+    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device11_type_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Read only access"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AttachDevice11Readonly, NULL, NULL },
-    { "--" },
-    { N_("File system directory..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("File system directory..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uiperipheral_set_fsdevice_directory, (ui_callback_data_t)11, NULL },
-    { N_("*Convert P00 file names"),
+    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11ConvertP00, NULL, NULL },
-    { N_("*Create P00 files on save"),
+    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11SaveP00, NULL, NULL },
-    { N_("*Hide raw CBM files"),
+    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11HideCBMFiles, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t peripheralieee_settings_submenu[] = {
-    { N_("Device #8"), NULL, NULL, fsdevice_drive8_submenu },
-    { N_("Device #9"), NULL, NULL, fsdevice_drive9_submenu },
-    { N_("Device #10"), NULL, NULL, fsdevice_drive10_submenu },
-    { N_("Device #11"), NULL, NULL, fsdevice_drive11_submenu },
-    { "--" },
-    { N_("Printer settings"), NULL, NULL, printerieee_settings_menu },
-    { "--" },
-    { N_("*Enable Virtual Devices"), (ui_callback_t)toggle_VirtualDevices,
+    { N_("Device #8"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
+    { N_("Device #9"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
+    { N_("Device #10"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
+    { N_("Device #11"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, printerieee_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_VirtualDevices,
       NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_peripheralieee_settings_menu[] = {
-    { N_("Peripheral settings"),
+    { N_("Peripheral settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, peripheralieee_settings_submenu },
     { NULL }
 };

@@ -79,30 +79,30 @@ static UI_CALLBACK(datasette_settings)
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 
 ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("*Reset Datasette on CPU Reset"),
+    { N_("Reset Datasette on CPU Reset"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL },
-    { N_("Datasette zero gap delay"),
+    { N_("Datasette zero gap delay"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL },
-    { N_("Datasette speed tuning"),
+    { N_("Datasette speed tuning"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)datasette_settings, (ui_callback_data_t)1, NULL },
-    { "--" },
-    { N_("Stop"), (ui_callback_t)ui_datasette_control,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Stop"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL },
-    { N_("Play"), (ui_callback_t)ui_datasette_control,
+    { N_("Play"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_START, NULL },
-    { N_("Forward"), (ui_callback_t)ui_datasette_control,
+    { N_("Forward"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_FORWARD, NULL },
-    { N_("Rewind"), (ui_callback_t)ui_datasette_control,
+    { N_("Rewind"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_REWIND, NULL },
-    { N_("Record"), (ui_callback_t)ui_datasette_control,
+    { N_("Record"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL },
-    { N_("Reset"), (ui_callback_t)ui_datasette_control,
+    { N_("Reset"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { N_("Datassette control"),
+    { N_("Datassette control"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };

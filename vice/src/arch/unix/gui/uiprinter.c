@@ -40,13 +40,13 @@
 UI_MENU_DEFINE_STRING_RADIO(Printer4Driver)
 
 ui_menu_entry_t uiprinter_pr4_driver_submenu[] = {
-    { "*ASCII", (ui_callback_t)radio_Printer4Driver,
+    { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
       (ui_callback_data_t)"ascii", NULL },
-    { "*MPS803", (ui_callback_t)radio_Printer4Driver,
+    { "MPS803", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
       (ui_callback_data_t)"mps803", NULL },
-    { "*NL10", (ui_callback_t)radio_Printer4Driver,
+    { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
       (ui_callback_data_t)"nl10", NULL },
-    { "*RAW", (ui_callback_t)radio_Printer4Driver,
+    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
       (ui_callback_data_t)"raw", NULL },
     { NULL }
 };
@@ -54,13 +54,13 @@ ui_menu_entry_t uiprinter_pr4_driver_submenu[] = {
 UI_MENU_DEFINE_STRING_RADIO(Printer5Driver)
 
 ui_menu_entry_t uiprinter_pr5_driver_submenu[] = {
-    { "*ASCII", (ui_callback_t)radio_Printer5Driver,
+    { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
       (ui_callback_data_t)"ascii", NULL },
-    { "*MPS803", (ui_callback_t)radio_Printer5Driver,
+    { "MPS803", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
       (ui_callback_data_t)"mps803", NULL },
-    { "*NL10", (ui_callback_t)radio_Printer5Driver,
+    { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
       (ui_callback_data_t)"nl10", NULL },
-    { "*RAW", (ui_callback_t)radio_Printer5Driver,
+    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
       (ui_callback_data_t)"raw", NULL },
     { NULL }
 };
@@ -68,13 +68,13 @@ ui_menu_entry_t uiprinter_pr5_driver_submenu[] = {
 UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
 
 ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
-    { "*ASCII", (ui_callback_t)radio_PrinterUserportDriver,
+    { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"ascii", NULL },
-    { "*MPS803", (ui_callback_t)radio_PrinterUserportDriver,
+    { "MPS803", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"mps803", NULL },
-    { "*NL10", (ui_callback_t)radio_PrinterUserportDriver,
+    { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"nl10", NULL },
-    { "*RAW", (ui_callback_t)radio_PrinterUserportDriver,
+    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"raw", NULL },
     { NULL }
 };
@@ -82,13 +82,13 @@ ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
 UI_MENU_DEFINE_RADIO(PrinterUserportTextDevice)
 
 ui_menu_entry_t uiprinter_pruser_device_submenu[] = {
-    { N_("*Printer 1 (file dump)"),
+    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_PrinterUserportTextDevice,
       (ui_callback_data_t)0, NULL },
-    { N_("*Printer 2 (exec)"),
+    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_PrinterUserportTextDevice,
       (ui_callback_data_t)1, NULL },
-    { N_("*Printer 3 (exec)"),
+    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_PrinterUserportTextDevice,
       (ui_callback_data_t)2, NULL },
     { NULL }
@@ -97,11 +97,11 @@ ui_menu_entry_t uiprinter_pruser_device_submenu[] = {
 UI_MENU_DEFINE_RADIO(Printer4TextDevice)
 
 ui_menu_entry_t uiprinter_pr4_device_submenu[] = {
-    { N_("*Printer 1 (file dump)"),
+    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)0, NULL },
-    { N_("*Printer 2 (exec)"),
+    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)1, NULL },
-    { N_("*Printer 3 (exec)"),
+    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -109,11 +109,11 @@ ui_menu_entry_t uiprinter_pr4_device_submenu[] = {
 UI_MENU_DEFINE_RADIO(Printer5TextDevice)
 
 ui_menu_entry_t uiprinter_pr5_device_submenu[] = {
-    { N_("*Printer 1 (file dump)"),
+    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)0, NULL },
-    { N_("*Printer 2 (exec)"),
+    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)1, NULL },
-    { N_("*Printer 3 (exec)"),
+    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -155,24 +155,24 @@ UI_MENU_DEFINE_RADIO(Printer4)
 UI_MENU_DEFINE_RADIO(Printer5)
 
 ui_menu_entry_t uiprinter_set_printer4_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Printer4,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
       (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
-    { N_("*File system access"), (ui_callback_t)radio_Printer4,
+    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
       (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
 #ifdef HAVE_OPENCBM
-    { N_("*Real device access"), (ui_callback_t)radio_Printer4,
+    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
       (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
 #endif
     { NULL }
 };
 
 ui_menu_entry_t uiprinter_set_printer5_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Printer5,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
       (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
-    { N_("*File system access"), (ui_callback_t)radio_Printer5,
+    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
       (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
 #ifdef HAVE_OPENCBM
-    { N_("*Real device access"), (ui_callback_t)radio_Printer5,
+    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
       (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
 #endif
     { NULL }

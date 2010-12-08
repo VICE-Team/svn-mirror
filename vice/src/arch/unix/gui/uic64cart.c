@@ -88,65 +88,65 @@ static UI_CALLBACK(freeze_cartridge)
 }
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { N_("Smart attach CRT image..."),
+    { N_("Smart attach CRT image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_CRT, NULL, KEYSYM_c, UI_HOTMOD_META },
-    { "--" },
-    { N_("Attach generic 8kB image..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Attach generic 8kB image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_8KB, NULL },
-    { N_("Attach generic 16kB image..."),
+    { N_("Attach generic 16kB image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_16KB, NULL },
-    { "--" },
-    { N_("Attach Action Replay 5 image..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Attach Action Replay 5 image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
-    { N_("Attach Atomic Power image..."),
+    { N_("Attach Atomic Power image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
-    { N_("Attach Epyx fastload image..."),
+    { N_("Attach Epyx fastload image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EPYX_FASTLOAD, NULL },
-    { N_("Attach Expert Cartridge image..."),
+    { N_("Attach Expert Cartridge image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EXPERT, NULL },
-    { N_("Attach IDE64 interface image..."),
+    { N_("Attach IDE64 interface image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IDE64, NULL },
-    { N_("Attach IEEE488 interface image..."),
+    { N_("Attach IEEE488 interface image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IEEE488, NULL },
-    { N_("Attach ISEPIC image..."),
+    { N_("Attach ISEPIC image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ISEPIC, NULL },
-    { N_("Attach Magic Formel image..."),
+    { N_("Attach Magic Formel image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MAGIC_FORMEL, NULL },
-    { N_("Attach MMC64 image..."),
+    { N_("Attach MMC64 image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MMC64, NULL },
-    { N_("Attach MMC Replay image..."),
+    { N_("Attach MMC Replay image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MMC_REPLAY, NULL },
-    { N_("Attach Retro Replay image..."),
+    { N_("Attach Retro Replay image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_RETRO_REPLAY, NULL },
-    { N_("Attach Super Snapshot 5 image..."),
+    { N_("Attach Super Snapshot 5 image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
-    { "--" },
-    { N_("Set cartridge as default"), (ui_callback_t)
-      default_cartridge, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Set cartridge as default"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)default_cartridge, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_c64cart_commands_menu[] = {
-    { N_("Attach a cartridge image"),
+    { N_("Attach a cartridge image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_cartridge_image_submenu },
-    { N_("Detach cartridge image"),
+    { N_("Detach cartridge image"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge, NULL, NULL },
-    { N_("Cartridge freeze"),
+    { N_("Cartridge freeze"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
     { NULL }
 };

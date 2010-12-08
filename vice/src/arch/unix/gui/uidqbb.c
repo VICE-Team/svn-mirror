@@ -46,9 +46,9 @@ UI_CALLBACK(set_dqbb_image_name)
 }
 
 ui_menu_entry_t dqbb_submenu[] = {
-    { N_("*Enable DQBB"),
+    { N_("Enable DQBB"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DQBB, NULL, NULL },
-    { N_("DQBB image name..."),
+    { N_("DQBB image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_dqbb_image_name,
       (ui_callback_data_t)"DQBBfilename", NULL },
     { NULL }

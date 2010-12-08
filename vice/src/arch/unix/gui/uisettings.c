@@ -336,49 +336,49 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t set_refresh_rate_submenu[] = {
-    { N_("*Auto"),
+    { N_("Auto"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)0, NULL },
-    { "*1/1",
+    { "1/1", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)1, NULL },
-    { "*1/2",
+    { "1/2", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)2, NULL },
-    { "*1/3",
+    { "1/3", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)3, NULL },
-    { "*1/4",
+    { "1/4", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)4, NULL },
-    { "*1/5",
+    { "1/5", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)5, NULL },
-    { "*1/6",
+    { "1/6", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)6, NULL },
-    { "*1/7",
+    { "1/7", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)7, NULL },
-    { "*1/8",
+    { "1/8", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)8, NULL },
-    { "*1/9",
+    { "1/9", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)9, NULL },
-    { "*1/10",
+    { "1/10", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)10, NULL },
-    { "--" },
-    { N_("*Custom..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Custom..."), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_custom_refresh_rate, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_maximum_speed_submenu[] = {
-    { "*200%",
+    { "200%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)200, NULL },
-    { "*100%",
+    { "100%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)100, NULL },
-    { "*50%",
+    { "50%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)50, NULL },
-    { "*20%",
+    { "20%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)20, NULL },
-    { "*10%",
+    { "10%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)10, NULL },
-    { N_("*No limit"),
+    { N_("No limit"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)0, NULL },
-    { "--" },
-    { N_("*Custom..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Custom..."), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_custom_maximum_speed, NULL, NULL },
     { NULL }
 };
@@ -386,30 +386,30 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_performance_settings_menu[] = {
-    { N_("Refresh rate"),
+    { N_("Refresh rate"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_refresh_rate_submenu },
-    { N_("Maximum speed"),
+    { N_("Maximum speed"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_maximum_speed_submenu },
-    { N_("*Enable warp mode"),
+    { N_("Enable warp mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_WarpMode, NULL, NULL, KEYSYM_w, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_settings_settings_menu[] = {
-    { N_("Save settings"),
+    { N_("Save settings"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)save_resources, NULL, NULL },
-    { N_("Load settings"),
+    { N_("Load settings"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_resources, NULL, NULL },
-    { N_("Save settings to file..."),
+    { N_("Save settings to file..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)save_resources_file, NULL, NULL },
-    { N_("Load settings from file..."),
+    { N_("Load settings from file..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_resources_file, NULL, NULL },
-    { N_("Restore default settings"),
+    { N_("Restore default settings"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_default_resources, NULL, NULL },
-    { "--" },
-    { N_("*Save settings on exit"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Save settings on exit"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL },
-    { N_("*Confirm on exit"),
+    { N_("Confirm on exit"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ConfirmOnExit, NULL, NULL },
     { NULL }
 };
@@ -420,17 +420,17 @@ UI_MENU_DEFINE_TOGGLE(Drive0CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive1CPU_TRACE)
 
 ui_menu_entry_t debug_settings_submenu[] = {
-    { "*Main CPU Trace",
+    { "Main CPU Trace", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
-    { "*Drive0 CPU Trace",
+    { "Drive0 CPU Trace", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
-    { "*Drive1 CPU Trace",
+    { "Drive1 CPU Trace", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_debug_settings_menu[] = {
-    { "Debug settings",
+    { "Debug settings", UI_MENU_TYPE_NORMAL,
       NULL, NULL, debug_settings_submenu },
     { NULL }
 };

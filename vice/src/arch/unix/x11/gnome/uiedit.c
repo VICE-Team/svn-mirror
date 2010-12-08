@@ -55,7 +55,7 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
 {
     char *text_in_petscii;
     if (text == NULL) {
-	return;
+        return;
     }
     text_in_petscii = strdup(text);
 
@@ -74,7 +74,7 @@ static UI_CALLBACK(ui_edit_command_paste)
 }
 
 ui_menu_entry_t ui_edit_commands_submenu[] = {
-    { N_("Copy"), (ui_callback_t)ui_edit_command_copy, NULL, NULL },
-    { N_("Paste"), (ui_callback_t)ui_edit_command_paste, NULL, NULL },
+    { N_("Copy"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_edit_command_copy, NULL, NULL },
+    { N_("Paste"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_edit_command_paste, NULL, NULL },
     { NULL }
 };

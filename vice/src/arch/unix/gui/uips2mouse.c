@@ -37,9 +37,9 @@ UI_MENU_DEFINE_TOGGLE(Mouse)
 UI_MENU_DEFINE_TOGGLE(ps2mouse)
 
 ui_menu_entry_t ps2_mouse_submenu[] = {
-    { N_("*Enable PS/2 mouse"),
+    { N_("Enable PS/2 mouse"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ps2mouse, NULL, NULL },
-    { N_("*Grab mouse events"),
+    { N_("Grab mouse events"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
 };
 

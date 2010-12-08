@@ -36,17 +36,17 @@ UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
 UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
 
 static ui_menu_entry_t soundexpander_chip_submenu[] = {
-    { "*3526", (ui_callback_t)radio_SFXSoundExpanderChip,
+    { "3526", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SFXSoundExpanderChip,
       (ui_callback_data_t)3526, NULL },
-    { "*3812", (ui_callback_t)radio_SFXSoundExpanderChip,
+    { "3812", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SFXSoundExpanderChip,
       (ui_callback_data_t)3812, NULL },
     { NULL }
 };
 
 ui_menu_entry_t soundexpander_submenu[] = {
-    { N_("*Enable SFX Sound Expander"),
+    { N_("Enable SFX Sound Expander"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
-    { N_("YM chip type"),
+    { N_("YM chip type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, soundexpander_chip_submenu },
     { NULL }
 };

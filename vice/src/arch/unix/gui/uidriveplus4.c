@@ -61,145 +61,145 @@ static UI_CALLBACK(parallel_cable_control)
 }
 
 ui_menu_entry_t set_drive0_parallel_cable_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive8ParallelCable,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
       (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("*Standard Userport"), (ui_callback_t)radio_Drive8ParallelCable,
+    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive1_parallel_cable_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive9ParallelCable,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
       (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("*Standard Userport"), (ui_callback_t)radio_Drive9ParallelCable,
+    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive2_parallel_cable_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive10ParallelCable,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
       (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("*Standard Userport"), (ui_callback_t)radio_Drive10ParallelCable,
+    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive3_parallel_cable_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive11ParallelCable,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
       (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("*Standard Userport"), (ui_callback_t)radio_Drive11ParallelCable,
+    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t uidriveplus4_drive0_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)0,
       set_drive0_parallel_cable_submenu },
-    { "--" },
-    { "",
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uidriveiec_drive0_ram_expansion_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t uidriveplus4_drive1_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)1,
       set_drive1_parallel_cable_submenu },
-    { "--" },
-    { "",
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uidriveiec_drive1_ram_expansion_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t uidriveplus4_drive2_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)2,
       set_drive2_parallel_cable_submenu },
-    { "--" },
-    { "",
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uidriveiec_drive2_ram_expansion_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t uidriveplus4_drive3_expansion_submenu[] = {
-    { N_("*Parallel cable"),
+    { N_("Parallel cable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)parallel_cable_control, (ui_callback_data_t)3,
       set_drive3_parallel_cable_submenu },
-    { "--" },
-    { "",
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uidriveiec_drive3_ram_expansion_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive8Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*1541", (ui_callback_t)radio_Drive8Type,
+    { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
-    { "*1541-II", (ui_callback_t)radio_Drive8Type,
+    { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
-    { "*1551", (ui_callback_t)radio_Drive8Type,
+    { "1551", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
-    { "*1570", (ui_callback_t)radio_Drive8Type,
+    { "1570", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
-    { "*1571", (ui_callback_t)radio_Drive8Type,
+    { "1571", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
-    { "*1581", (ui_callback_t)radio_Drive8Type,
+    { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive1_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive9Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*1541", (ui_callback_t)radio_Drive9Type,
+    { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
-    { "*1541-II", (ui_callback_t)radio_Drive9Type,
+    { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
-    { "*1570", (ui_callback_t)radio_Drive9Type,
+    { "1570", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
-    { "*1571", (ui_callback_t)radio_Drive9Type,
+    { "1571", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
-    { "*1551", (ui_callback_t)radio_Drive9Type,
+    { "1551", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
-    { "*1581", (ui_callback_t)radio_Drive9Type,
+    { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive2_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive10Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*1541", (ui_callback_t)radio_Drive10Type,
+    { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
-    { "*1541-II", (ui_callback_t)radio_Drive10Type,
+    { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
-    { "*1570", (ui_callback_t)radio_Drive10Type,
+    { "1570", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
-    { "*1571", (ui_callback_t)radio_Drive10Type,
+    { "1571", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
-    { "*1551", (ui_callback_t)radio_Drive10Type,
+    { "1551", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
-    { "*1581", (ui_callback_t)radio_Drive10Type,
+    { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive3_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive11Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*1541", (ui_callback_t)radio_Drive11Type,
+    { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
-    { "*1541-II", (ui_callback_t)radio_Drive11Type,
+    { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
-    { "*1570", (ui_callback_t)radio_Drive11Type,
+    { "1570", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
-    { "*1571", (ui_callback_t)radio_Drive11Type,
+    { "1571", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
-    { "*1551", (ui_callback_t)radio_Drive11Type,
+    { "1551", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
-    { "*1581", (ui_callback_t)radio_Drive11Type,
+    { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
     { NULL }
 };
@@ -207,61 +207,61 @@ static ui_menu_entry_t set_drive3_type_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t driveplus4_settings_submenu[] = {
-    { N_("*Enable true drive emulation"),
+    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
-    { "--" },
-    { N_("Drive #8 model"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #8 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive0_type_submenu },
-    { N_("Drive #8 expansion"),
+    { N_("Drive #8 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)0,
       uidriveplus4_drive0_expansion_submenu },
-    { N_("Drive #8 40-track image support"),
+    { N_("Drive #8 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
-    { N_("Drive #8 idle method"),
+    { N_("Drive #8 idle method"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)0,
       set_drive0_idle_method_submenu },
-    { "--" },
-    { N_("Drive #9 model"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #9 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive1_type_submenu },
-    { N_("Drive #9 expansion"),
+    { N_("Drive #9 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)1,
       uidriveplus4_drive1_expansion_submenu },
-    { N_("Drive #9 40-track image support"),
+    { N_("Drive #9 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
-    { N_("Drive #9 idle method"),
+    { N_("Drive #9 idle method"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)1,
       set_drive1_idle_method_submenu },
-    { "--" },
-    { N_("Drive #10 model"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #10 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive2_type_submenu },
-    { N_("Drive #10 expansion"),
+    { N_("Drive #10 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)2,
       uidriveplus4_drive2_expansion_submenu },
-    { N_("Drive #10 40-track image support"),
+    { N_("Drive #10 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
-    { N_("Drive #10 idle method"),
+    { N_("Drive #10 idle method"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)2,
       set_drive2_idle_method_submenu },
-    { "--" },
-    { N_("Drive #11 model"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #11 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive3_type_submenu },
-    { N_("Drive #11 expansion"),
+    { N_("Drive #11 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)3,
       uidriveplus4_drive3_expansion_submenu },
-    { N_("Drive #11 40-track image support"),
+    { N_("Drive #11 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },
-    { N_("Drive #11 idle method"),
+    { N_("Drive #11 idle method"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)3,
       set_drive3_idle_method_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_driveplus4_settings_menu[] = {
-    { N_("Drive settings"),
+    { N_("Drive settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, driveplus4_settings_submenu },
     { NULL }
 };
@@ -269,22 +269,22 @@ ui_menu_entry_t ui_driveplus4_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_driveplus4_romset_submenu[] = {
-    { N_("Load new 1541 ROM"),
+    { N_("Load new 1541 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541", NULL },
-    { N_("Load new 1541-II ROM"),
+    { N_("Load new 1541-II ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541ii", NULL },
-    { N_("Load new 1551 ROM"),
+    { N_("Load new 1551 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1551", NULL },
-    { N_("Load new 1570 ROM"),
+    { N_("Load new 1570 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1570", NULL },
-    { N_("Load new 1571 ROM"),
+    { N_("Load new 1571 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1571", NULL },
-    { N_("Load new 1581 ROM"),
+    { N_("Load new 1581 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1581", NULL },
     { NULL }

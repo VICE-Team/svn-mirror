@@ -99,7 +99,7 @@ static UI_CALLBACK(PAL_control_cb)
             button = ui_input_string(_("CRT Blurredness"), _("Blurredness in percent"), buf, 50);
             break;
     }
-    
+
     switch (button) {
         case UI_BUTTON_OK:
             if (util_string_to_long(buf, NULL, 10, &res) != 0) {
@@ -117,18 +117,18 @@ static UI_CALLBACK(PAL_control_cb)
 }
 
 ui_menu_entry_t PALMode_submenu[] = {
-    { N_("*Activate CRT emulation"),
+    { N_("Activate CRT emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-    { "--" },
-    { N_("CRT Scanline Shade"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("CRT Scanline Shade"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 0, NULL },
-    { N_("CRT Blurredness"),
+    { N_("CRT Blurredness"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 1, NULL },
-    { N_("CRT Tint"),
+    { N_("CRT Tint"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 2, NULL },
-    { N_("CRT Odd Lines Phase"),
+    { N_("CRT Odd Lines Phase"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 3, NULL },
-    { N_("CRT Odd Lines Offset"),
+    { N_("CRT Odd Lines Offset"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 4, NULL },
     { NULL }
 };

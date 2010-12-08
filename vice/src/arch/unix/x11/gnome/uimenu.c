@@ -44,7 +44,7 @@
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
-    { "--" },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { NULL }
 };
 
@@ -143,12 +143,13 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
         int do_right_justify = 0;
         char name[256];
 
-        sprintf(name, "MenuItem%d", j);	/* ugly... */
-        switch (*list[i].string) {
-            case '-':		/* line */
+        sprintf(name, "MenuItem%d", j); /* ugly... */
+
+        switch (list[i].type) {
+            case UI_MENU_TYPE_SEPARATOR:    /* line */
                 new_item  = gtk_menu_item_new();
                 break;
-            case '*':		/* toggle */
+            case UI_MENU_TYPE_TICK:         /* toggle */
                 {
                     /* Add this item to the list of calls to perform to update the
                        menu status. */
@@ -157,10 +158,10 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
                     if (list[i].callback) {
                         checkmark_t *cmt;
 
-                        new_item = gtk_check_menu_item_new_with_label(label + 1);
+                        new_item = gtk_check_menu_item_new_with_label(label);
 
                         cmt = lib_malloc(sizeof(checkmark_t));
-                        cmt->name = lib_stralloc(list[i].string + 1);
+                        cmt->name = lib_stralloc(list[i].string);
                         cmt->w = new_item;
                         cmt->cb = list[i].callback;
                         cmt->obj.value = (void*)list[i].callback_data;
@@ -170,14 +171,14 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
                         checkmark_list = g_list_prepend(checkmark_list, cmt);
                         obj = &cmt->obj;
                     } else {
-                        new_item = gtk_menu_item_new_with_label(label + 1);
+                        new_item = gtk_menu_item_new_with_label(label);
                     }
 
                     j++;
                     lib_free(label);
                     break;
                 }
-            case 0:
+            case UI_MENU_TYPE_NONE:
                 break;
             default:
                 {
@@ -214,7 +215,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 
         if (list[i].sub_menu) {
             GtkWidget *sub;
-            if (new_item && *list[i].string != '-') {
+            if (new_item && (list[i].type != UI_MENU_TYPE_SEPARATOR)) {
                 sub = gtk_menu_new();
                 gtk_menu_item_set_submenu(GTK_MENU_ITEM(new_item), sub);
             } else {
@@ -227,7 +228,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
             }
         }
     }
-    
+
     level--;
 }
 

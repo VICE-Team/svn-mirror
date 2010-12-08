@@ -94,97 +94,97 @@ UI_CALLBACK(uidriveiec_idle_method_control)
 }
 
 ui_menu_entry_t uidriveiec_drive0_ram_expansion_submenu[] = {
-    { N_("*$2000-$3FFF RAM"),
+    { "$2000-$3FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive8RAM2000, NULL, NULL },
-    { N_("*$4000-$5FFF RAM"),
+    { "$4000-$5FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive8RAM4000, NULL, NULL },
-    { N_("*$6000-$7FFF RAM"),
+    { "$6000-$7FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive8RAM6000, NULL, NULL },
-    { N_("*$8000-$9FFF RAM"),
+    { "$8000-$9FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive8RAM8000, NULL, NULL },
-    { N_("*$A000-$BFFF RAM"),
+    { "$A000-$BFFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive8RAMA000, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t uidriveiec_drive1_ram_expansion_submenu[] = {
-    { N_("*$2000-$3FFF RAM"),
+    { "$2000-$3FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive9RAM2000, NULL, NULL },
-    { N_("*$4000-$5FFF RAM"),
+    { "$4000-$5FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive9RAM4000, NULL, NULL },
-    { N_("*$6000-$7FFF RAM"),
+    { "$6000-$7FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive9RAM6000, NULL, NULL },
-    { N_("*$8000-$9FFF RAM"),
+    { "$8000-$9FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive9RAM8000, NULL, NULL },
-    { N_("*$A000-$BFFF RAM"),
+    { "$A000-$BFFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive9RAMA000, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t uidriveiec_drive2_ram_expansion_submenu[] = {
-    { N_("*$2000-$3FFF RAM"),
+    { "$2000-$3FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive10RAM2000, NULL, NULL },
-    { N_("*$4000-$5FFF RAM"),
+    { "$4000-$5FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive10RAM4000, NULL, NULL },
-    { N_("*$6000-$7FFF RAM"),
+    { "$6000-$7FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive10RAM6000, NULL, NULL },
-    { N_("*$8000-$9FFF RAM"),
+    { "$8000-$9FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive10RAM8000, NULL, NULL },
-    { N_("*$A000-$BFFF RAM"),
+    { "$A000-$BFFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive10RAMA000, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t uidriveiec_drive3_ram_expansion_submenu[] = {
-    { N_("*$2000-$3FFF RAM"),
+    { "$2000-$3FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive11RAM2000, NULL, NULL },
-    { N_("*$4000-$5FFF RAM"),
+    { "$4000-$5FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive11RAM4000, NULL, NULL },
-    { N_("*$6000-$7FFF RAM"),
+    { "$6000-$7FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive11RAM6000, NULL, NULL },
-    { N_("*$8000-$9FFF RAM"),
+    { "$8000-$9FFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive11RAM8000, NULL, NULL },
-    { N_("*$A000-$BFFF RAM"),
+    { "$A000-$BFFF RAM", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive11RAMA000, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive0_idle_method_submenu[] = {
-    { N_("*No traps"), (ui_callback_t)radio_Drive8IdleMethod,
+    { N_("No traps"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_NO_IDLE, NULL },
-    { N_("*Skip cycles"), (ui_callback_t)radio_Drive8IdleMethod,
+    { N_("Skip cycles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_SKIP_CYCLES, NULL },
-    { N_("*Trap idle"), (ui_callback_t)radio_Drive8IdleMethod,
+    { N_("Trap idle"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive1_idle_method_submenu[] = {
-    { N_("*No traps"), (ui_callback_t)radio_Drive9IdleMethod,
+    { N_("No traps"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_NO_IDLE, NULL },
-    { N_("*Skip cycles"), (ui_callback_t)radio_Drive9IdleMethod,
+    { N_("Skip cycles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_SKIP_CYCLES, NULL },
-    { N_("*Trap idle"), (ui_callback_t)radio_Drive9IdleMethod,
+    { N_("Trap idle"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive2_idle_method_submenu[] = {
-    { N_("*No traps"), (ui_callback_t)radio_Drive10IdleMethod,
+    { N_("No traps"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_NO_IDLE, NULL },
-    { N_("*Skip cycles"), (ui_callback_t)radio_Drive10IdleMethod,
+    { N_("Skip cycles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_SKIP_CYCLES, NULL },
-    { N_("*Trap idle"), (ui_callback_t)radio_Drive10IdleMethod,
+    { N_("Trap idle"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive3_idle_method_submenu[] = {
-    { N_("*No traps"), (ui_callback_t)radio_Drive11IdleMethod,
+    { N_("No traps"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_NO_IDLE, NULL },
-    { N_("*Skip cycles"), (ui_callback_t)radio_Drive11IdleMethod,
+    { N_("Skip cycles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_SKIP_CYCLES, NULL },
-    { N_("*Trap idle"), (ui_callback_t)radio_Drive11IdleMethod,
+    { N_("Trap idle"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11IdleMethod,
       (ui_callback_data_t)DRIVE_IDLE_TRAP_IDLE, NULL },
     { NULL }
 };

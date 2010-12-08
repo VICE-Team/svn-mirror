@@ -246,6 +246,11 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
     video_canvas_t *canvas = (video_canvas_t *)client_data;
     app_shell_type *appshell;
 
+    /* HACK avoid segfaults on vsid */
+    if (vsid_mode) {
+        return;
+    }
+
     canvas = ui_cached_video_canvas; /* FIXME */
     appshell = &app_shells[canvas->app_shell];
 

@@ -57,32 +57,32 @@ UI_CALLBACK(set_mmcreplay_eeprom_filename)
 }
 
 static ui_menu_entry_t mmcreplay_sd_type_submenu[] = {
-    { "*Auto", (ui_callback_t)radio_MMCRSDType,
+    { N_("Auto"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
       (ui_callback_data_t)0, NULL },
-    { "*MMC", (ui_callback_t)radio_MMCRSDType,
+    { "MMC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
       (ui_callback_data_t)1, NULL },
-    { "*SD", (ui_callback_t)radio_MMCRSDType,
+    { "SD", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
       (ui_callback_data_t)2, NULL },
-    { "*SDHC", (ui_callback_t)radio_MMCRSDType,
+    { "SDHC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
       (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
 
 ui_menu_entry_t mmcreplay_submenu[] = {
-    { N_("Card image filename..."),
+    { N_("Card image filename..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmcreplay_card_filename,
       (ui_callback_data_t)"MMCRCardImage", NULL },
-    { N_("*Enable writes to card image"),
+    { N_("Enable writes to card image"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRCardRW, NULL, NULL },
-    { N_("EEPROM image filename..."),
+    { N_("EEPROM image filename..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmcreplay_eeprom_filename,
       (ui_callback_data_t)"MMCREEPROMImage", NULL },
-    { N_("*Enable writes to EEPROM image"),
+    { N_("Enable writes to EEPROM image"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCREEPROMRW, NULL, NULL },
-    { N_("*Enable rescue mode"),
+    { N_("Enable rescue mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRRescueMode, NULL, NULL },
-    { N_("*Card Type"),
+    { N_("Card Type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmcreplay_sd_type_submenu },
-      { NULL }
+    { NULL }
 };

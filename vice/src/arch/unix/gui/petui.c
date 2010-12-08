@@ -100,9 +100,9 @@ UI_MENU_DEFINE_TOGGLE(SidFilters)
 UI_MENU_DEFINE_RADIO(SidAddress)
 
 static ui_menu_entry_t sidcart_address_submenu[] = {
-    { "*$8F00",
+    { "$8F00", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0, NULL },
-    { "*$E900",
+    { "$E900", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SidAddress, (ui_callback_data_t)1, NULL },
     { NULL }
 };
@@ -110,95 +110,95 @@ static ui_menu_entry_t sidcart_address_submenu[] = {
 UI_MENU_DEFINE_RADIO(SidClock)
 
 static ui_menu_entry_t sidcart_clock_submenu[] = {
-    { "*C64", (ui_callback_t)radio_SidClock,
+    { "C64", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidClock,
       (ui_callback_data_t)0, NULL },
-    { "*PET", (ui_callback_t)radio_SidClock,
+    { "PET", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidClock,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t sidcart_submenu[] = {
-    { N_("*Enable SID cart"),
+    { N_("Enable SID cart"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidCart, NULL, NULL },
-    { N_("SID model"),
+    { N_("SID model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_model_noresid_submenu },
-    { N_("*Emulate filters"),
+    { N_("Emulate filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
-    { N_("SID address"),
+    { N_("SID address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_address_submenu },
-    { N_("SID clock"),
+    { N_("SID clock"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_clock_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t pet_memsize_submenu[] = {
-    { "*4 kB",
+    { "4 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)4, NULL },
-    { "*8 kB",
+    { "8 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)8, NULL },
-    { "*16 kB",
+    { "16 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)16, NULL },
-    { "*32 kB",
+    { "32 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)32, NULL },
-    { "*96 kB",
+    { "96 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)96, NULL },
-    { "*128 kB",
+    { "128 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_iosize_submenu[] = {
-    { "*2 kB",
+    { "2 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x800, NULL },
-    { "*256 B",
+    { "256 B", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_IOSize, (ui_callback_data_t)0x100, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_keybd_submenu[] = {
-    { N_("*Graphics"),
+    { N_("Graphics"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_KeyboardType, (ui_callback_data_t)1, NULL },
-    { N_("*Business (UK)"),
+    { N_("Business (UK)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_KeyboardType, (ui_callback_data_t)0, NULL },
-    { N_("*Business (DE)"),
+    { N_("Business (DE)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_KeyboardType, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_video_submenu[] = {
-    { N_("*Auto (from ROM)"),
+    { N_("Auto (from ROM)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_VideoSize, (ui_callback_data_t)0, NULL },
-    { N_("*40 Columns"),
+    { N_("40 Columns"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_VideoSize, (ui_callback_data_t)40, NULL },
-    { N_("*80 Columns"),
+    { N_("80 Columns"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_VideoSize, (ui_callback_data_t)80, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t model_defaults_submenu[] = {
-    { "PET 2001-8N",
+    { "PET 2001-8N", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"2001", NULL },
-    { "PET 3008",
+    { "PET 3008", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"3008", NULL },
-    { "PET 3016",
+    { "PET 3016", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"3016", NULL },
-    { "PET 3032",
+    { "PET 3032", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"3032", NULL },
-    { "PET 3032B",
+    { "PET 3032B", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"3032B", NULL },
-    { "PET 4016",
+    { "PET 4016", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"4016", NULL },
-    { "PET 4032",
+    { "PET 4032", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"4032", NULL },
-    { "PET 4032B",
+    { "PET 4032B", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"4032B", NULL },
-    { "PET 8032",
+    { "PET 8032", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"8032", NULL },
-    { "PET 8096",
+    { "PET 8096", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"8096", NULL },
-    { "PET 8296",
+    { "PET 8296", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"8296", NULL },
-    { "SuperPET",
+    { "SuperPET", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)petui_set_model, (ui_callback_data_t)"SuperPET", NULL },
     { NULL }
 };
@@ -206,13 +206,13 @@ static ui_menu_entry_t model_defaults_submenu[] = {
 UI_MENU_DEFINE_STRING_RADIO(ChargenName)
 
 static ui_menu_entry_t petui_main_romset_submenu[] = {
-    { N_("Load new kernal ROM"),
+    { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new editor ROM"),
+    { N_("Load new editor ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"EditorName", NULL },
-    { N_("Load new BASIC ROM"),
+    { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"BasicName", NULL },
     { NULL }
@@ -222,83 +222,83 @@ UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(PETUserportDAC)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
-    { N_("PET RAM and Expansion Unit"),
+    { N_("PET RAM and Expansion Unit"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petreu_submenu },
-    { N_("PET DWW hi-res graphics"),
+    { N_("PET DWW hi-res graphics"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petdww_submenu },
-    { N_("SID cartridge"),
+    { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
-    { N_("*Userport DAC"),
+    { N_("Userport DAC"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_PETUserportDAC, NULL, NULL },
-    { N_("*PET userport diagnostic pin"),
+    { N_("PET userport diagnostic pin"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
-    { "--" },
-    { N_("*Emulator identification"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Emulator identification"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t pet_romset_submenu[] = {
-    { N_("Basic 1"),
+    { N_("Basic 1"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom1g.vrs", NULL },
-    { N_("Basic 2, graphics"),
+    { N_("Basic 2, graphics"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom2g.vrs", NULL },
-    { N_("Basic 2, Business"),
+    { N_("Basic 2, Business"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom2b.vrs", NULL },
-    { N_("Basic 4, 40 cols, graphics"),
+    { N_("Basic 4, 40 cols, graphics"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom4g40.vrs", NULL },
-    { N_("Basic 4, 40 cols, business"),
+    { N_("Basic 4, 40 cols, business"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom4b40.vrs", NULL },
-    { N_("Basic 4, 80 cols, business"),
+    { N_("Basic 4, 80 cols, business"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom4b80.vrs", NULL },
-    { "--" },
-    { N_("*Basic 1 Patch (if loaded)"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Basic 1 Patch (if loaded)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Basic1, NULL, NULL },
-    { N_("*Basic 1 character set"),
+    { N_("Basic 1 character set"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Basic1Chars, NULL, NULL },
-    { "--" },
-    { N_("Load new computer ROM"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load new computer ROM"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_main_romset_submenu },
-    { N_("Load new drive ROM"),
+    { N_("Load new drive ROM"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_drivepetcbm2_romset_submenu },
-    { "--" },
-    { N_("ROM set type"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("ROM set type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiromset_type_submenu },
-    { "--" },
-    { N_("Load new character ROM"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
-    { N_("*Original character set"),
+    { N_("Original character set"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_ChargenName,
       (ui_callback_data_t)"chargen", NULL },
-    { N_("*German character set"),
+    { N_("German character set"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_ChargenName,
       (ui_callback_data_t)"chargen.de", NULL },
-    { "--" },
-    { N_("Load new $9*** ROM"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load new $9*** ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"RomModule9Name", NULL },
-    { N_("Unload $9*** ROM"),
+    { N_("Unload $9*** ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_unload_rom_file,
       (ui_callback_data_t)"RomModule9Name", NULL },
-    { "--" },
-    { N_("Load new $A*** ROM"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load new $A*** ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"RomModuleAName", NULL },
-    { N_("Unload $A*** ROM"),
+    { N_("Unload $A*** ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_unload_rom_file,
       (ui_callback_data_t)"RomModuleAName", NULL },
-    { "--" },
-    { N_("Load new $B*** ROM"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load new $B*** ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"RomModuleBName", NULL },
-    { N_("Unload $B*** ROM"),
+    { N_("Unload $B*** ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_unload_rom_file,
       (ui_callback_data_t)"RomModuleBName", NULL },
-    { "--" },
-    { N_("ROM set archive"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("ROM set archive"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiromset_archive_submenu },
-    { N_("ROM set file"),
+    { N_("ROM set file"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiromset_file_submenu },
     { NULL }
 };
@@ -306,29 +306,29 @@ static ui_menu_entry_t pet_romset_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SuperPET)
 
 static ui_menu_entry_t model_settings_submenu[] = {
-    { N_("Model defaults"),
+    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, model_defaults_submenu },
-    { "--" },
-    { N_("Video size"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Video size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_video_submenu },
-    { N_("Memory size"),
+    { N_("Memory size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_memsize_submenu },
-    { N_("I/O size"),
+    { N_("I/O size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_iosize_submenu },
-    { N_("*CRTC chip enable"),
+    { N_("CRTC chip enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Crtc, NULL, NULL },
-    { "--" },
-    { N_("*SuperPET I/O enable (disables 8x96)"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("SuperPET I/O enable (disables 8x96)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SuperPET, NULL, NULL },
-    { N_("SuperPET ACIA"),
+    { N_("SuperPET ACIA"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
-    { "--" },
-    { N_("*$9*** as RAM (8296 only)"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("$9*** as RAM (8296 only)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Ram9, NULL, NULL },
-    { N_("*$A*** as RAM (8296 only)"),
+    { N_("$A*** as RAM (8296 only)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RamA, NULL, NULL },
-    { "--" },
-    { N_("Keyboard type"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Keyboard type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_keybd_submenu },
     { NULL }
 };
@@ -375,27 +375,27 @@ static UI_CALLBACK(radio_PosKeymap_pet)
 }
 
 static ui_menu_entry_t keymap_sym_submenu[] = {
-    { "*US", (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)".vkm", NULL },
-    { N_("*German"), (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
+    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)".vkm", NULL },
+    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
     { NULL }
 };
 
 static ui_menu_entry_t keymap_pos_submenu[] = {
-    { "*US", (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)".vkm", NULL },
-    { N_("*German"), (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
+    { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)".vkm", NULL },
+    { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_PosKeymap_pet, (ui_callback_data_t)"_de.vkm", NULL },
     { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t pet_menu[] = {
-    { N_("PET model settings"),
+    { N_("PET model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, model_settings_submenu },
-    { N_("ROM settings"),
+    { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_romset_submenu },
-    { N_("CRTC settings"),
+    { N_("CRTC settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, crtc_submenu },
-    { N_("I/O extensions"),
+    { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_extensions_submenu },
     { NULL }
 };
@@ -419,153 +419,153 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { N_("Save media file"),
+    { N_("Save media file"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t petui_left_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uiattach_disk_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_tape_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_datasette_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_smart_attach_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_snapshot_commands_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_screenshot_commands_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_record_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_help_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
     { NULL }
 };
 
 static ui_menu_entry_t petui_right_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_drivepetcbm2_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_peripheralieee_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_pet_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, pet_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
 #ifdef DEBUG
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_debug_settings_menu },
 #endif
     { NULL }
 };
 
 static ui_menu_entry_t petui_tape_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uiattach_tape_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t petui_file_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uiattach_smart_attach_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_disk_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_tape_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_datasette_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
     { NULL }
 };
 
 #ifdef USE_GNOMEUI
 static ui_menu_entry_t petui_edit_submenu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_edit_commands_submenu },
     { NULL }
 };
 #endif
 
 static ui_menu_entry_t petui_snapshot_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_snapshot_commands_submenu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_screenshot_commands_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };
 
 static ui_menu_entry_t petui_options_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_options_submenu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, io_extensions_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t petui_settings_menu[] = {
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uikeyboard_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_drivepetcbm2_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_peripheralieee_settings_menu },
-    { "",
+    { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_pet_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, pet_menu },
-    { "--",
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
     { NULL }
 };
 
 static ui_menu_entry_t petui_top_menu[] = {
-    { N_("File"),
+    { N_("File"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_file_menu },
 #ifdef USE_GNOMEUI
-    { N_("Edit"),
+    { N_("Edit"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_edit_submenu },
 #endif
-    { N_("Snapshot"),
+    { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_snapshot_menu },
-    { N_("Options"),
+    { N_("Options"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_options_menu },
-    { N_("Settings"),
+    { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_settings_menu },
                    /* Translators: RJ means right justify and should be
                       saved in your tranlation! e.g. german "RJHilfe" */
-    { N_("RJHelp"),
+    { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_help_commands_menu },
     { NULL }
 };

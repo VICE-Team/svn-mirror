@@ -56,27 +56,27 @@ static UI_CALLBACK(radio_VICIIPaletteFile)
 }
 
 static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Internal"), (ui_callback_t)radio_VICIIPaletteFile,
+    { N_("Internal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       NULL, NULL },
-    { "--" },
-    { N_("*Default"), (ui_callback_t)radio_VICIIPaletteFile,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Default"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"default", NULL },
-    { "*VICE", (ui_callback_t)radio_VICIIPaletteFile,
+    { "VICE", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"vice", NULL },
-    { "*C64S", (ui_callback_t)radio_VICIIPaletteFile,
+    { "C64S", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"c64s", NULL },
-    { "*CCS64", (ui_callback_t)radio_VICIIPaletteFile,
+    { "CCS64", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"ccs64", NULL },
-    { "*Frodo", (ui_callback_t)radio_VICIIPaletteFile,
+    { "Frodo", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"frodo", NULL },
-    { "*GoDot", (ui_callback_t)radio_VICIIPaletteFile,
+    { "GoDot", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"godot", NULL },
-    { "*PC64", (ui_callback_t)radio_VICIIPaletteFile,
+    { "PC64", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"pc64", NULL },
-    { "*C64HQ", (ui_callback_t)radio_VICIIPaletteFile,
+    { "C64HQ", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"c64hq", NULL },
-    { "--" },
-    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VICII", NULL },
     { NULL }
 };
@@ -84,11 +84,11 @@ static ui_menu_entry_t palette_submenu[] = {
 UI_MENU_DEFINE_RADIO(VICIIBorderMode)
 
 static ui_menu_entry_t bordermode_submenu[] = {
-    { N_("*Normal"), (ui_callback_t)radio_VICIIBorderMode,
+    { N_("Normal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIBorderMode,
       (ui_callback_data_t)VICII_NORMAL_BORDERS, NULL },
-    { N_("*Full"), (ui_callback_t)radio_VICIIBorderMode,
+    { N_("Full"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIBorderMode,
       (ui_callback_data_t)VICII_FULL_BORDERS, NULL },
-    { N_("*Debug"), (ui_callback_t)radio_VICIIBorderMode,
+    { N_("Debug"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIBorderMode,
       (ui_callback_data_t)VICII_DEBUG_BORDERS, NULL },
     { NULL }
 };
@@ -99,11 +99,11 @@ static UI_CALLBACK(radio_renderer)
 }
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("*Unfiltered"), (ui_callback_t)radio_renderer,
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
-    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+    { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
-    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+    { N_("Scale 2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -158,57 +158,57 @@ UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 
 ui_menu_entry_t vicii_submenu[] = {
-    { N_("*Double size"),
+    { N_("Double size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIIDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
+    { N_("Double scan"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIIDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
+    { N_("Video cache"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIIVideoCache, NULL, NULL },
-    { "--" },
-    { N_("*New Luminances"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("New Luminances"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
-    { N_("Color set"),
+    { N_("Color set"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("Renderer"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Renderer"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
-    { N_("CRT Emulation Settings"),
+    { N_("CRT Emulation Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, PALMode_submenu },
 #endif
-    { "--" },
-    { N_("*Border mode"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Border mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, bordermode_submenu },
-    { "--" },
-    { N_("*Sprite-sprite collisions"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Sprite-sprite collisions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIICheckSsColl, NULL, NULL },
-    { N_("*Sprite-background collisions"),
+    { N_("Sprite-background collisions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIICheckSbColl, NULL, NULL },
 #ifdef HAVE_HWSCALE
-    { "--" },
-    { N_("*Hardware scaling"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIIHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
-    { N_("*Keep aspect ratio"),
+    { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
 #endif
-    { N_("*True aspect ratio"),
+    { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
 #ifdef HAVE_OPENGL_SYNC
-    { "--" },
-    { N_("*OpenGL Rastersynchronization"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
-    { N_("Desktop Refreshrate..."),
+    { N_("Desktop Refreshrate..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
-    { "--" },
-    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVICII },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Fullscreen settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, fullscreen_menuVICII },
 #endif
 #ifndef USE_GNOMEUI
-    { "--" },
-    { N_("*Use XSync()"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Use XSync()"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
     { NULL }

@@ -63,9 +63,9 @@ static UI_CALLBACK(set_keymap_type)
 }
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
-    { N_("*Symbolic mapping"), (ui_callback_t)set_keymap_type,
+    { N_("Symbolic mapping"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
       (ui_callback_data_t)0, NULL },
-    { N_("*Positional mapping"), (ui_callback_t)set_keymap_type,
+    { N_("Positional mapping"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };
@@ -166,33 +166,33 @@ struct ui_menu_entry_s uikeymap_pos_submenu[4] = {
 };
 
 static ui_menu_entry_t keyboard_sym_submenu[] = {
-    { "", NULL, NULL, uikeymap_sym_submenu },
-    { "--" },
-    { N_("Set symbolic keymap file"), (ui_callback_t)select_user_keymap,
+    { "", UI_MENU_TYPE_NONE, NULL, NULL, uikeymap_sym_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Set symbolic keymap file"), UI_MENU_TYPE_NORMAL, (ui_callback_t)select_user_keymap,
       (ui_callback_data_t)0, NULL},
     { NULL }
 };
 
 static ui_menu_entry_t keyboard_pos_submenu[] = {
-    { "", NULL, NULL, uikeymap_pos_submenu },
-    { "--" },
-    { N_("Set positional keymap file"), (ui_callback_t)select_user_keymap,
+    { "", UI_MENU_TYPE_NONE, NULL, NULL, uikeymap_pos_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Set positional keymap file"), UI_MENU_TYPE_NORMAL, (ui_callback_t)select_user_keymap,
       (ui_callback_data_t)1, NULL},
     { NULL }
 };
 
 static ui_menu_entry_t keyboard_settings_submenu[] = {
-    { N_("Keyboard mapping type"), NULL, NULL, keyboard_maptype_submenu },
-    { "--" },
-    { N_("Select symbolic keymap"), NULL, NULL, keyboard_sym_submenu},
-    { N_("Select positional keymap"), NULL, NULL, keyboard_pos_submenu},
-    { "--" },
-    { N_("Dump keymap to file"), (ui_callback_t) dump_keymap, NULL, NULL },
+    { N_("Keyboard mapping type"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_maptype_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Select symbolic keymap"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_sym_submenu},
+    { N_("Select positional keymap"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_pos_submenu},
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Dump keymap to file"), UI_MENU_TYPE_NORMAL, (ui_callback_t) dump_keymap, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t uikeyboard_settings_menu[] = {
-    { N_("Keyboard settings"),
+    { N_("Keyboard settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, keyboard_settings_submenu },
     { NULL }
 };

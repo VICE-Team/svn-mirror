@@ -434,26 +434,26 @@ static UI_CALLBACK(sound_record_mp3)
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t reset_submenu[] = {
-    { N_("Soft"),
+    { N_("Soft"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)reset, NULL, NULL,
       KEYSYM_F9, UI_HOTMOD_META },
-    { N_("Hard"),
+    { N_("Hard"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)powerup_reset, NULL, NULL,
       KEYSYM_F12, UI_HOTMOD_META },
-    { "--" },
-    { N_("Unit #8"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Unit #8"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)drive_reset, (ui_callback_data_t)0, NULL },
-    { N_("Unit #9"),
+    { N_("Unit #9"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)drive_reset, (ui_callback_data_t)1, NULL },
-    { N_("Unit #10"),
+    { N_("Unit #10"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)drive_reset, (ui_callback_data_t)2, NULL },
-    { N_("Unit #11"),
+    { N_("Unit #11"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)drive_reset, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_directory_commands_menu[] = {
-    { N_("Change working directory..."),
+    { N_("Change working directory..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)change_working_directory, NULL, NULL },
     { NULL }
 };
@@ -461,86 +461,86 @@ ui_menu_entry_t ui_directory_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(EventStartMode)
 
 static ui_menu_entry_t set_event_start_mode_submenu[] = {
-    { N_("*Save new snapshot"), (ui_callback_t)radio_EventStartMode,
+    { N_("Save new snapshot"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_FILE_SAVE, NULL },
-    { N_("*Load existing snapshot"), (ui_callback_t)radio_EventStartMode,
+    { N_("Load existing snapshot"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD, NULL },
-    { N_("*Start with reset"), (ui_callback_t)radio_EventStartMode,
+    { N_("Start with reset"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_RESET, NULL },
-    { N_("*Overwrite running playback"), (ui_callback_t)radio_EventStartMode,
+    { N_("Overwrite running playback"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_PLAYBACK, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_snapshot_commands_submenu[] = {
-    { N_("Load snapshot..."),
+    { N_("Load snapshot..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_snapshot, NULL, NULL,
       KEYSYM_l, UI_HOTMOD_META },
-    { N_("Save snapshot..."),
+    { N_("Save snapshot..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)save_snapshot, NULL, NULL,
       KEYSYM_s, UI_HOTMOD_META },
-    { "--" },
-    { N_("Quickload snapshot"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Quickload snapshot"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_quicksnap, NULL, NULL,
       KEYSYM_F10, UI_HOTMOD_META },
-    { N_("Quicksave snapshot"),
+    { N_("Quicksave snapshot"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)save_quicksnap, NULL, NULL,
       KEYSYM_F11, UI_HOTMOD_META },
-    { "--" },
-    { N_("Select history directory"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Select history directory"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)events_select_dir, NULL, NULL },
-    { N_("Start recording events"),
+    { N_("Start recording events"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)record_events_start, NULL, NULL },
-    { N_("Stop recording events"),
+    { N_("Stop recording events"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)record_events_stop, NULL, NULL },
-    { N_("Start playing back events"),
+    { N_("Start playing back events"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)playback_events_start, NULL, NULL },
-    { N_("Stop playing back events"),
+    { N_("Stop playing back events"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)playback_events_stop, NULL, NULL },
-    { N_("Set recording milestone"),
+    { N_("Set recording milestone"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)events_set_ms, NULL, NULL, KEYSYM_e, UI_HOTMOD_META },
-    { N_("Return to milestone"),
+    { N_("Return to milestone"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)events_return_ms, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
-    { "--" },
-    { N_("Recording start mode"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Recording start mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_event_start_mode_submenu },
-    { "--" },
+    { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_NETWORK
-    { N_("Netplay (experimental)"),
+    { N_("Netplay (experimental)"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, netplay_submenu },
 #endif
     { NULL }
 };
 
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
-    { N_("Snapshot commands"),
+    { N_("Snapshot commands"), UI_MENU_TYPE_NORMAL,
       NULL,  NULL, ui_snapshot_commands_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_sound_record_commands_menu[] = {
-    { N_("Sound record WAV..."),
+    { N_("Sound record WAV..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)sound_record_wav, NULL, NULL },
-    { N_("Sound record AIFF..."),
+    { N_("Sound record AIFF..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)sound_record_aiff, NULL, NULL },
-    { N_("Sound record VOC..."),
+    { N_("Sound record VOC..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)sound_record_voc, NULL, NULL },
-    { N_("Sound record IFF..."),
+    { N_("Sound record IFF..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)sound_record_iff, NULL, NULL },
 #ifdef USE_LAMEMP3
-    { N_("Sound record MP3..."),
+    { N_("Sound record MP3..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)sound_record_mp3, NULL, NULL },
 #endif
-    { N_("Stop Sound record"),
+    { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)sound_record_stop, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_tool_commands_menu[] = {
-    { N_("Activate monitor"),
+    { N_("Activate monitor"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)activate_monitor, NULL, NULL,
       KEYSYM_h, UI_HOTMOD_META },
-    { N_("Run C1541"),
+    { N_("Run C1541"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)run_c1541, NULL, NULL },
     { NULL }
 };
@@ -548,24 +548,24 @@ ui_menu_entry_t ui_tool_commands_menu[] = {
 extern ui_callback_t about;
 
 ui_menu_entry_t ui_help_commands_menu[] = {
-    { N_("Browse manuals"),
+    { N_("Browse manuals"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)browse_manual, NULL, NULL },
-    { N_("About VICE..."),
+    { N_("About VICE..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_about, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_run_commands_menu[] = {
-    { N_("Reset"),
+    { N_("Reset"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, reset_submenu },
-    { N_("*Pause"),
+    { N_("Pause"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_pause, NULL, NULL,
       KEYSYM_p, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
-    { N_("Exit emulator"),
+    { N_("Exit emulator"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)do_exit, NULL, NULL,
       KEYSYM_q, UI_HOTMOD_META },
     { NULL }

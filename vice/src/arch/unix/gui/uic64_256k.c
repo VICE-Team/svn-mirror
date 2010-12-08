@@ -46,23 +46,23 @@ UI_CALLBACK(set_c64_256k_image_name)
 }
 
 static ui_menu_entry_t c64_256k_base_submenu[] = {
-    { "*$DE00-$DE7F", (ui_callback_t)radio_C64_256Kbase,
+    { "$DE00-$DE7F", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
       (ui_callback_data_t)0xde00, NULL },
-    { "*$DE80-$DEFF", (ui_callback_t)radio_C64_256Kbase,
+    { "$DE80-$DEFF", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
       (ui_callback_data_t)0xde80, NULL },
-    { "*$DF00-$DF7F", (ui_callback_t)radio_C64_256Kbase,
+    { "$DF00-$DF7F", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
       (ui_callback_data_t)0xdf00, NULL },
-    { "*$DF80-$DFFF", (ui_callback_t)radio_C64_256Kbase,
+    { "$DF80-$DFFF", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
       (ui_callback_data_t)0xdf80, NULL },
     { NULL }
 };
 
 ui_menu_entry_t c64_256k_submenu[] = {
-    { N_("*Enable 256K"),
+    { N_("Enable 256K"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_C64_256K, NULL, NULL },
-    { N_("256K base"),
+    { N_("256K base"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_256k_base_submenu },
-    { N_("256K image name..."),
+    { N_("256K image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_c64_256k_image_name,
       (ui_callback_data_t)"C64_256Kfilename", NULL },
     { NULL }

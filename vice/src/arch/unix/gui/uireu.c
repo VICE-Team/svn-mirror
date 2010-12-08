@@ -46,31 +46,31 @@ UI_CALLBACK(set_reu_image_name)
 }
 
 static ui_menu_entry_t reu_size_submenu[] = {
-    { "*128kB", (ui_callback_t)radio_REUsize,
+    { "128kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)128, NULL },
-    { "*256kB", (ui_callback_t)radio_REUsize,
+    { "256kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)256, NULL },
-    { "*512kB", (ui_callback_t)radio_REUsize,
+    { "512kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)512, NULL },
-    { "*1024kB", (ui_callback_t)radio_REUsize,
+    { "1024kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)1024, NULL },
-    { "*2048kB", (ui_callback_t)radio_REUsize,
+    { "2048kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)2048, NULL },
-    { "*4096kB", (ui_callback_t)radio_REUsize,
+    { "4096kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)4096, NULL },
-    { "*8192kB", (ui_callback_t)radio_REUsize,
+    { "8192kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)8192, NULL },
-    { "*16384kB", (ui_callback_t)radio_REUsize,
+    { "16384kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_REUsize,
       (ui_callback_data_t)16384, NULL },
     { NULL }
 };
 
 ui_menu_entry_t reu_submenu[] = {
-    { N_("*Enable REU"),
+    { N_("Enable REU"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_REU, NULL, NULL },
-    { N_("REU size"),
+    { N_("REU size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, reu_size_submenu },
-    { N_("REU image name..."),
+    { N_("REU image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_reu_image_name,
       (ui_callback_data_t)"REUfilename", NULL },
     { NULL }

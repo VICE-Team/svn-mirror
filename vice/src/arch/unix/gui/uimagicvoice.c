@@ -46,9 +46,9 @@ UI_CALLBACK(set_magicvoice_image_name)
 UI_MENU_DEFINE_TOGGLE(MagicVoiceCartridgeEnabled)
 
 ui_menu_entry_t magicvoice_submenu[] = {
-    { N_("*Enable Magic Voice Cartridge"),
+    { N_("Enable Magic Voice cartridge"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MagicVoiceCartridgeEnabled, NULL, NULL },
-    { N_("Set Magic Voice ROM image..."),
+    { N_("Set Magic Voice ROM image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_magicvoice_image_name,
       (ui_callback_data_t)"MagicVoiceImage", NULL },
     { NULL }

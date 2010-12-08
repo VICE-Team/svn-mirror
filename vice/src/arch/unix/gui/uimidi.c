@@ -56,56 +56,57 @@ UI_CALLBACK(set_midi_out_name)
 
 #ifdef USE_ALSA
 static ui_menu_entry_t midi_driver_submenu[] = {
-    { "*OSS", (ui_callback_t)radio_MIDIDriver,
+    { "OSS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIDriver,
       (ui_callback_data_t)0, NULL },
-    { "*ALSA", (ui_callback_t)radio_MIDIDriver,
+    { "ALSA", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIDriver,
       (ui_callback_data_t)1, NULL },
+    { NULL }
 };
 #endif
 
 static ui_menu_entry_t midi_mode_submenu[] = {
-    { "*Sequential", (ui_callback_t)radio_MIDIMode,
+    { "Sequential", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIMode,
       (ui_callback_data_t)0, NULL },
-    { "*Passport/Syntech", (ui_callback_t)radio_MIDIMode,
+    { "Passport/Syntech", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIMode,
       (ui_callback_data_t)1, NULL },
-    { "*DATEL/Siel/JMS", (ui_callback_t)radio_MIDIMode,
+    { "DATEL/Siel/JMS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIMode,
       (ui_callback_data_t)2, NULL },
-    { "*Namesoft", (ui_callback_t)radio_MIDIMode,
+    { "Namesoft", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIMode,
       (ui_callback_data_t)3, NULL },
-    { "*Maplin", (ui_callback_t)radio_MIDIMode,
+    { "Maplin", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MIDIMode,
       (ui_callback_data_t)4, NULL },
     { NULL }
 };
 
 ui_menu_entry_t midi_c64_submenu[] = {
-    { N_("*Enable MIDI"),
+    { N_("Enable MIDI"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
-    { N_("MIDI type"),
+    { N_("MIDI type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_mode_submenu },
 #ifdef USE_ALSA
-    { N_("MIDI driver"),
+    { N_("MIDI driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_driver_submenu },
 #endif
-    { N_("MIDI-In device..."),
+    { N_("MIDI-In device..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_midi_in_name,
       (ui_callback_data_t)"MIDIInDev", NULL },
-    { N_("MIDI-Out device..."),
+    { N_("MIDI-Out device..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_midi_out_name,
       (ui_callback_data_t)"MIDIOutDev", NULL },
     { NULL }
 };
 
 ui_menu_entry_t midi_vic20_submenu[] = {
-    { N_("*Enable MIDI"),
+    { N_("Enable MIDI"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
 #ifdef USE_ALSA
-    { N_("MIDI driver"),
+    { N_("MIDI driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_driver_submenu },
 #endif
-    { N_("MIDI-In device..."),
+    { N_("MIDI-In device..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_midi_in_name,
       (ui_callback_data_t)"MIDIInDev", NULL },
-    { N_("MIDI-Out device..."),
+    { N_("MIDI-Out device..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_midi_out_name,
       (ui_callback_data_t)"MIDIOutDev", NULL },
     { NULL }

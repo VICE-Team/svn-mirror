@@ -46,11 +46,11 @@ static UI_CALLBACK(easyflash_save_callback)
 }
 
 ui_menu_entry_t easyflash_submenu[] = {
-    { N_("*Jumper"), (ui_callback_t)toggle_EasyFlashJumper,
+    { N_("Jumper"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_EasyFlashJumper,
       NULL, NULL },
-    { N_("*Save CRT on detach"), (ui_callback_t)toggle_EasyFlashWriteCRT,
+    { N_("Save CRT on detach"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_EasyFlashWriteCRT,
       NULL, NULL },
-    { N_("Save CRT now"),
+    { N_("Save CRT now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)easyflash_save_callback, NULL, NULL },
     { NULL }
 };

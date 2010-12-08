@@ -37,11 +37,11 @@ UI_MENU_DEFINE_TOGGLE(RRBankJumper)
 UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
 
 ui_menu_entry_t retroreplay_submenu[] = {
-    { N_("*Enable RR flashjumper"),
+    { N_("Enable RR flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRFlashJumper, NULL, NULL },
-    { N_("*Set RR bankjumper"),
+    { N_("Set RR bankjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBankJumper, NULL, NULL },
-    { N_("*Enable RR ROM save when changed"),
+    { N_("Enable RR ROM save when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },
     { NULL }
 };

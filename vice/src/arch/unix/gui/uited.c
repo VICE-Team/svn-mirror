@@ -52,13 +52,13 @@ static UI_CALLBACK(radio_TEDPaletteFile)
 }
 
 static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Internal"), (ui_callback_t)radio_TEDPaletteFile,
+    { N_("Internal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDPaletteFile,
       NULL, NULL },
-    { "--" },
-    { N_("*Default"), (ui_callback_t)radio_TEDPaletteFile,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Default"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDPaletteFile,
       (ui_callback_data_t)"default", NULL },
-    { "--" },
-    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"TED", NULL },
     { NULL }
 };
@@ -69,11 +69,11 @@ static UI_CALLBACK(radio_renderer)
 }
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("*Unfiltered"), (ui_callback_t)radio_renderer,
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
-    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+    { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
-    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+    { N_("Scale 2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -122,47 +122,47 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 #endif
 
 ui_menu_entry_t ted_submenu[] = {
-    { N_("*Double size"),
+    { N_("Double size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TEDDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
+    { N_("Double scan"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TEDDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
+    { N_("Video cache"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
-    { "--" },
-    { N_("Color set"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Color set"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("Renderer"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Renderer"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
-    { N_("CRT Emulation Settings"),
+    { N_("CRT Emulation Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, PALMode_submenu },
 #endif
 #ifdef HAVE_HWSCALE
-    { "--" },
-    { N_("*Hardware scaling"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TEDHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
-    { N_("*Keep aspect ratio"),
+    { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
 #endif
-    { N_("*True aspect ratio"),
+    { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
 #ifdef HAVE_OPENGL_SYNC
-    { "--" },
-    { N_("*OpenGL Rastersynchronization"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
-    { N_("Desktop Refreshrate..."),
+    { N_("Desktop Refreshrate..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
-    { "--" },
-    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuTED },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Fullscreen settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, fullscreen_menuTED },
 #endif
 #ifndef USE_GNOMEUI
-    { "--" },
-    { N_("*Use XSync()"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Use XSync()"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
     { NULL }

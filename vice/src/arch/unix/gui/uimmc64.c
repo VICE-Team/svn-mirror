@@ -50,43 +50,43 @@ UI_CALLBACK(set_mmc64_image_name)
 }
 
 static ui_menu_entry_t mmc64_revision_submenu[] = {
-    { N_("*Rev. A"), (ui_callback_t)radio_MMC64_revision,
+    { N_("Rev. A"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_revision,
       (ui_callback_data_t)0, NULL },
-    { N_("*Rev. B"), (ui_callback_t)radio_MMC64_revision,
+    { N_("Rev. B"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_revision,
       (ui_callback_data_t)1, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t mmc64_sd_type_submenu[] = {
-    { "*Auto", (ui_callback_t)radio_MMC64_sd_type,
+    { N_("Auto"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_sd_type,
       (ui_callback_data_t)0, NULL },
-    { "*MMC", (ui_callback_t)radio_MMC64_sd_type,
+    { "MMC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_sd_type,
       (ui_callback_data_t)1, NULL },
-    { "*SD", (ui_callback_t)radio_MMC64_sd_type,
+    { "SD", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_sd_type,
       (ui_callback_data_t)2, NULL },
-    { "*SDHC", (ui_callback_t)radio_MMC64_sd_type,
+    { "SDHC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_sd_type,
       (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
 ui_menu_entry_t mmc64_submenu[] = {
-    { N_("*Enable MMC64"),
+    { N_("Enable MMC64"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMC64, NULL, NULL },
-    { N_("*MMC64 Revision"),
+    { N_("MMC64 Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmc64_revision_submenu },
-    { N_("*Enable MMC64 flashjumper"),
+    { N_("Enable MMC64 flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMC64_flashjumper, NULL, NULL },
-    { N_("*Enable MMC64 BIOS save when changed"),
+    { N_("Enable MMC64 BIOS save when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMC64_bios_write, NULL, NULL },
-    { N_("MMC64 BIOS name..."),
+    { N_("MMC64 BIOS name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmc64_bios_name,
       (ui_callback_data_t)"MMC64BIOSfilename", NULL },
-    { N_("*Enable MMC64 image read-only"),
+    { N_("Enable MMC64 image read-only"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMC64_RO, NULL, NULL },
-    { N_("MMC64 image name..."),
+    { N_("MMC64 image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmc64_image_name,
       (ui_callback_data_t)"MMC64imagefilename", NULL },
-    { N_("*MMC64 card type"),
+    { N_("MMC64 card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmc64_sd_type_submenu },
     { NULL }
 };

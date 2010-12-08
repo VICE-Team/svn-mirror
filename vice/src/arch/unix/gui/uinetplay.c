@@ -106,22 +106,22 @@ static UI_CALLBACK(ui_netplay_disconnect)
 
 ui_menu_entry_t netplay_submenu[] = {
 #ifdef USE_GNOMEUI
-    { N_("Netplay (experimental)"),
+    { N_("Netplay (experimental)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)netplay, NULL, NULL },
 #else
-    { N_("TCP port"),
+    { N_("TCP port"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_set_port, NULL, NULL },
-    { N_("Start server"),
+    { N_("Start server"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_start_server, NULL, NULL },
-    { N_("Server to connect to"),
+    { N_("Server to connect to"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_set_host,
       (ui_callback_data_t)"NetworkServerName", NULL },
-    { N_("Connect to server"),
+    { N_("Connect to server"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_connect_to_server, NULL, NULL },
-    { N_("Disconnect"),
+    { N_("Disconnect"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_disconnect, NULL, NULL },
 #endif /* USE_GNOMEUI */
     { NULL }
 };
 
-#endif	/* HAVE_NETWORK */
+#endif  /* HAVE_NETWORK */

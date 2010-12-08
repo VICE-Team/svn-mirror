@@ -34,11 +34,11 @@
 #define __VIDMODE__                                          \
 /* Translators: 'VidMode' must remain in the beginning       \
    of the translation e.g. German: "VidMode Aufloesungen" */ \
-    { N_("VidMode Resolutions"), (ui_callback_t)NULL, NULL, NULL },
+    { N_("VidMode Resolutions"), UI_MENU_TYPE_NORMAL, (ui_callback_t)NULL, NULL, NULL },
 
 #define VIDMODE_RADIO(__CHIP__) UI_MENU_DEFINE_RADIO(__CHIP__##VidmodeFullscreenMode);
 
-#define VIDMODE_DEVICE_SUBMENU(__CHIP__) { "*Vidmode", (ui_callback_t)radio_##__CHIP__##FullscreenDevice, (ui_callback_data_t)"Vidmode", NULL },
+#define VIDMODE_DEVICE_SUBMENU(__CHIP__) { "Vidmode", UI_MENU_TYPE_TICK, (ui_callback_t)radio_##__CHIP__##FullscreenDevice, (ui_callback_data_t)"Vidmode", NULL },
 
 #define VIDMODE_FULLSCREEN_MENU_CREATE(__CHIP__) fullscreen_mode_callback("Vidmode", (void *)radio_##__CHIP__##VidmodeFullscreenMode);
 
@@ -49,17 +49,17 @@
 #define VIDMODE_DEVICE_SUBMENU(__CHIP__)
 #define VIDMODE_FULLSCREEN_MENU_CREATE(__CHIP__)
 
-#endif	/* USE_XF86_VIDMODE_EXT */
+#endif  /* USE_XF86_VIDMODE_EXT */
 
 #ifdef HAVE_XRANDR 
 #define __XRANDR__                                                            \
     /* Translators: `XRandR' must remain in the beginning of the translation: \
        e.g. German: "XRandR Aufloesungen" */                                  \
-    { N_("XRandR Resolutions"), (ui_callback_t)NULL, NULL, NULL },
+    { N_("XRandR Resolutions"), UI_MENU_TYPE_NORMAL, (ui_callback_t)NULL, NULL, NULL },
 
 #define XRANDR_RADIO(__CHIP__) UI_MENU_DEFINE_RADIO(__CHIP__##XRANDRFullscreenMode);
 
-#define XRANDR_DEVICE_SUBMENU(__CHIP__) { "*XRandR", (ui_callback_t)radio_##__CHIP__##FullscreenDevice, (ui_callback_data_t)"XRANDR", NULL },
+#define XRANDR_DEVICE_SUBMENU(__CHIP__) { "XRandR", UI_MENU_TYPE_TICK, (ui_callback_t)radio_##__CHIP__##FullscreenDevice, (ui_callback_data_t)"XRANDR", NULL },
 
 #define XRANDR_FULLSCREEN_MENU_CREATE(__CHIP__) fullscreen_mode_callback("XRANDR", (void *)radio_##__CHIP__##XRANDRFullscreenMode);
 
@@ -70,7 +70,7 @@
 #define XRANDR_DEVICE_SUBMENU(__CHIP__)
 #define XRANDR_FULLSCREEN_MENU_CREATE(__CHIP__)
 
-#endif	/* HAVE_XRANDR */
+#endif  /* HAVE_XRANDR */
 
 #define FULLSCREENDEVICE_SUBMENU(__CHIP__)                               \
     static ui_menu_entry_t set_fullscreen_device_submenu##__CHIP__[] = { \
@@ -89,13 +89,13 @@
                                                                                    \
 ui_menu_entry_t fullscreen_menu##__CHIP__[] =                                      \
 {                                                                                  \
-    { N_("*Enable fullscreen"),                                                    \
+    { N_("Enable fullscreen"), UI_MENU_TYPE_TICK,                                  \
       (ui_callback_t)toggle_##__CHIP__##Fullscreen, NULL, NULL, __HOTKEY__,        \
       UI_HOTMOD_META },                                                            \
-    { N_("*Show Statusbar/Menu"),                                                  \
+    { N_("Show Statusbar/Menu"), UI_MENU_TYPE_TICK,                                \
       (ui_callback_t)toggle_##__CHIP__##FullscreenStatusbar, NULL, NULL, KEYSYM_b, \
       UI_HOTMOD_META },                                                            \
-    { N_("Fullscreen device"),                                                     \
+    { N_("Fullscreen device"), UI_MENU_TYPE_NORMAL,                                \
       NULL, NULL, set_fullscreen_device_submenu##__CHIP__ },                       \
       __VIDMODE__                                                                  \
       __XRANDR__                                                                   \
@@ -115,4 +115,4 @@ ui_menu_entry_t fullscreen_menu##__CHIP__[] =                                   
 #define UI_FULLSCREEN_MENU_CREATE(__CHIP__)
 #define UI_FULLSCREEN_MENU_SHUTDOWN(__CHIP__)
 
-#endif	/* USE_XF86_EXTENSIONS && HAVE_FULLSCREEN */
+#endif  /* USE_XF86_EXTENSIONS && HAVE_FULLSCREEN */

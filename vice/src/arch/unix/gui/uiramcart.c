@@ -47,21 +47,21 @@ UI_CALLBACK(set_ramcart_image_name)
 }
 
 static ui_menu_entry_t ramcart_size_submenu[] = {
-    { "*64kB", (ui_callback_t)radio_RAMCARTsize,
+    { "64kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RAMCARTsize,
       (ui_callback_data_t)64, NULL },
-    { "*128kB", (ui_callback_t)radio_RAMCARTsize,
+    { "128kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RAMCARTsize,
       (ui_callback_data_t)128, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ramcart_submenu[] = {
-    { N_("*Enable RAMCART"),
+    { N_("Enable RAMCART"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCART, NULL, NULL },
-    { N_("*Readonly"),
+    { N_("Readonly"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCART_RO, NULL, NULL },
-    { N_("RAMCART size"),
+    { N_("RAMCART size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ramcart_size_submenu },
-    { N_("RAMCART image name..."),
+    { N_("RAMCART image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ramcart_image_name,
       (ui_callback_data_t)"RAMCARTfilename", NULL },
     { NULL }

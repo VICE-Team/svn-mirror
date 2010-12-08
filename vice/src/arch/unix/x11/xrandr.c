@@ -177,6 +177,7 @@ void xrandr_menu_create(struct ui_menu_entry_s *menu)
 
         for (i = 0; i < screen_info.n_all_modes; i++) {
             resolutions_submenu[i].string = screen_info.all_modes[i].mode_string;
+            resolutions_submenu[i].type = UI_MENU_TYPE_TICK;
             resolutions_submenu[i].callback = (ui_callback_t)menu_callback;
             resolutions_submenu[i].callback_data = (ui_callback_data_t)(long)i;
         }
@@ -276,7 +277,7 @@ static int init_XRandR(Display *dpy)
         /* remember Desktop resolution in index 0 */
         screen_info.all_modes[current].rate = screen_info.current_rate;
         screen_info.all_modes[current].index = screen_info.current_size;
-        screen_info.all_modes[current].mode_string = lib_stralloc(_("*Desktop"));
+        screen_info.all_modes[current].mode_string = lib_stralloc(_("Desktop"));
         current_canvas->refreshrate = (float)screen_info.current_rate;
         ++current;
 
@@ -288,7 +289,7 @@ static int init_XRandR(Display *dpy)
             for (j = 0; j < n_rates; j++) {
                 screen_info.all_modes[current].rate = rates[j];
                 screen_info.all_modes[current].index = i;
-                screen_info.all_modes[current].mode_string = lib_msprintf("*%dx%d@%dHz", screen_info.sizes[i].width, screen_info.sizes[i].height, rates[j]);
+                screen_info.all_modes[current].mode_string = lib_msprintf("%dx%d@%dHz", screen_info.sizes[i].width, screen_info.sizes[i].height, rates[j]);
                 current++;
             }
         }

@@ -59,41 +59,41 @@ UI_CALLBACK(uidrive_extend_policy_control)
 }
 
 ui_menu_entry_t set_drive0_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+    { N_("Never extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+    { N_("Ask on extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive8ExtendImagePolicy,
+    { N_("Extend on access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive1_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+    { N_("Never extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+    { N_("Ask on extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive9ExtendImagePolicy,
+    { N_("Extend on access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive2_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
+    { N_("Never extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
+    { N_("Ask on extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive10ExtendImagePolicy,
+    { N_("Extend on access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
 
 ui_menu_entry_t set_drive3_extend_image_policy_submenu[] = {
-    { N_("*Never extend"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
+    { N_("Never extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_NEVER, NULL },
-    { N_("*Ask on extend"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
+    { N_("Ask on extend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ASK, NULL },
-    { N_("*Extend on access"), (ui_callback_t)radio_Drive11ExtendImagePolicy,
+    { N_("Extend on access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ExtendImagePolicy,
       (ui_callback_data_t)DRIVE_EXTEND_ACCESS, NULL },
     { NULL }
 };
@@ -179,13 +179,13 @@ UI_CALLBACK(radio_Drive11Type)
 }
 
 ui_menu_entry_t ui_drive_options_submenu[] = {
-    { N_("*Enable true drive emulation"),
+    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_flash_options_submenu[] = {
-    { N_("*Enable true flash filesystem emulation"),
+    { N_("Enable true flash filesystem emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
     { NULL }
 };

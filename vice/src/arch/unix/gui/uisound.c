@@ -49,107 +49,107 @@ UI_CALLBACK(set_sound_device_arg)
 }
 
 ui_menu_entry_t set_sound_sample_rate_submenu[] = {
-    { "*8000Hz", (ui_callback_t)radio_SoundSampleRate,
+    { "8000Hz", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSampleRate,
       (ui_callback_data_t)8000, NULL },
-    { "*11025Hz", (ui_callback_t)radio_SoundSampleRate,
+    { "11025Hz", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSampleRate,
       (ui_callback_data_t)11025, NULL },
-    { "*22050Hz", (ui_callback_t)radio_SoundSampleRate,
+    { "22050Hz", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSampleRate,
       (ui_callback_data_t)22050, NULL },
-    { "*44100Hz", (ui_callback_t)radio_SoundSampleRate,
+    { "44100Hz", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSampleRate,
       (ui_callback_data_t)44100, NULL },
-    { "*48000Hz", (ui_callback_t)radio_SoundSampleRate,
+    { "48000Hz", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSampleRate,
       (ui_callback_data_t)48000, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
-    { "*0.35 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.35 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)350, NULL },
-    { "*0.30 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.30 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)250, NULL },
-    { "*0.20 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.20 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)150, NULL },
-    { "*0.10 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.10 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)100, NULL },
-    { "*0.075 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.075 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)75, NULL },
-    { "*0.05 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.05 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)50, NULL },
-    { "*0.04 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.04 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)40, NULL },
-    { "*0.03 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.03 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)30, NULL },
-    { "*0.025 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.025 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)25, NULL },
-    { "*0.02 s", (ui_callback_t)radio_SoundBufferSize,
+    { "0.02 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)20, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_fragment_size_submenu[] = {
-    { N_("*Small"), (ui_callback_t)radio_SoundFragmentSize,
+    { N_("Small"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
       (ui_callback_data_t)SOUND_FRAGMENT_SMALL, NULL },
-    { N_("*Medium"), (ui_callback_t)radio_SoundFragmentSize,
+    { N_("Medium"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
       (ui_callback_data_t)SOUND_FRAGMENT_MEDIUM, NULL },
-    { N_("*Large"), (ui_callback_t)radio_SoundFragmentSize,
+    { N_("Large"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
       (ui_callback_data_t)SOUND_FRAGMENT_LARGE, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_suspend_time_submenu[] = {
-    { N_("*Keep going"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("Keep going"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)0, NULL },
-    { N_("*1 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("1 s suspend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)1, NULL },
-    { N_("*2 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("2 s suspend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)2, NULL },
-    { N_("*5 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("5 s suspend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)5, NULL },
-    { N_("*10 s suspend"), (ui_callback_t)radio_SoundSuspendTime,
+    { N_("10 s suspend"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundSuspendTime,
       (ui_callback_data_t)10, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sound_adjustment_submenu [] = {
-    { N_("*Flexible"),
+    { N_("Flexible"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SoundSpeedAdjustment,
       (ui_callback_data_t)SOUND_ADJUST_FLEXIBLE, NULL },
-    { N_("*Adjusting"),
+    { N_("Adjusting"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SoundSpeedAdjustment,
       (ui_callback_data_t)SOUND_ADJUST_ADJUSTING, NULL },
-    { N_("*Exact"),
+    { N_("Exact"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SoundSpeedAdjustment,
       (ui_callback_data_t)SOUND_ADJUST_EXACT, NULL },
     { NULL }
 };
 
 ui_menu_entry_t sound_settings_submenu[] = {
-    { N_("*Enable sound playback"),
+    { N_("Enable sound playback"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Sound, NULL, NULL },
-    { "--" },
+    { "--", UI_MENU_TYPE_SEPARATOR },
       /* Do not change position as position 2 is hard coded. */
-    { N_("Sound device name"),
+    { N_("Sound device name"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
-    { N_("Sound driver argument..."),
+    { N_("Sound driver argument..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_sound_device_arg,
       (ui_callback_data_t)"SoundDeviceArg", NULL },
-    { "--" },
-    { N_("Sound synchronization"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Sound synchronization"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sound_adjustment_submenu },
-    { "--" },
-    { N_("Sample rate"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Sample rate"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sound_sample_rate_submenu },
-    { N_("Buffer size"),
+    { N_("Buffer size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sound_buffer_size_submenu },
-    { N_("Fragment size"),
+    { N_("Fragment size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sound_fragment_size_submenu },
-    { N_("Suspend time"),
+    { N_("Suspend time"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sound_suspend_time_submenu },
     { NULL },
 };
 
 ui_menu_entry_t ui_sound_settings_menu[] = {
-    { N_("Sound settings"),
+    { N_("Sound settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sound_settings_submenu },
     { NULL }
 };

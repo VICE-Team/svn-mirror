@@ -53,17 +53,17 @@ static UI_CALLBACK(radio_CrtcPaletteFile)
 }
 
 static ui_menu_entry_t crtc_palette_submenu[] = {
-    { N_("*Internal"), (ui_callback_t)radio_CrtcPaletteFile,
+    { N_("Internal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcPaletteFile,
       NULL, NULL },
-    { "--" },
-    { N_("*Default (Green)"), (ui_callback_t)radio_CrtcPaletteFile,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Default (Green)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcPaletteFile,
       (ui_callback_data_t)"green", NULL },
-    { N_("*Amber"), (ui_callback_t)radio_CrtcPaletteFile,
+    { N_("Amber"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcPaletteFile,
       (ui_callback_data_t)"amber", NULL },
-    { N_("*White"), (ui_callback_t)radio_CrtcPaletteFile,
+    { N_("White"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcPaletteFile,
       (ui_callback_data_t)"white", NULL },
-    { "--" },
-    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"Crtc", NULL },
     { NULL }
 };
@@ -74,12 +74,12 @@ static UI_CALLBACK(radio_renderer)
 }
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("*Unfiltered"), (ui_callback_t)radio_renderer,
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
-    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+    { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
 #if 0
-    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+    { N_("Scale 2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)2, NULL },
 #endif
     { NULL }
@@ -131,47 +131,47 @@ UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 
 ui_menu_entry_t crtc_submenu[] = {
-    { N_("*Double size"),
+    { N_("Double size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
+    { N_("Double scan"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
+    { N_("Video cache"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
-    { "--" },
-    { N_("Color set"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Color set"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, crtc_palette_submenu },
-    { "--" },
-    { N_("Renderer"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Renderer"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
-    { N_("CRT Emulation Settings"),
+    { N_("CRT Emulation Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, PALMode_submenu },
 #endif
 #ifdef HAVE_HWSCALE
-    { "--" },
-    { N_("*Hardware scaling"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
-    { N_("*Keep aspect ratio"),
+    { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
 #endif
-    { N_("*True aspect ratio"),
+    { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
 #ifdef HAVE_OPENGL_SYNC
-    { "--" },
-    { N_("*OpenGL Rastersynchronization"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
-    { N_("Desktop Refreshrate..."),
+    { N_("Desktop Refreshrate..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
-    { "--" },
-    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuCRTC },
-#endif    
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Fullscreen settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, fullscreen_menuCRTC },
+#endif
 #ifndef USE_GNOMEUI
-    { "--" },
-    { N_("*Use XSync()"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Use XSync()"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
     { NULL }

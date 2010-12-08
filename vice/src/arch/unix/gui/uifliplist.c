@@ -112,21 +112,21 @@ static UI_CALLBACK(load_save_fliplist)
 }
 
 ui_menu_entry_t fliplist_submenu[] = {
-    { N_("Add current image (Unit 8)"),
+    { N_("Add current image (Unit 8)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)add2fliplist, (ui_callback_data_t)0, NULL,
       KEYSYM_i, UI_HOTMOD_META },
-    { N_("Remove current image (Unit 8)"),
+    { N_("Remove current image (Unit 8)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)remove_from_fliplist, (ui_callback_data_t)0, NULL,
       KEYSYM_k, UI_HOTMOD_META },
-    { N_("Attach next image (Unit 8)"),
+    { N_("Attach next image (Unit 8)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)1, NULL,
       KEYSYM_n, UI_HOTMOD_META },
-    { N_("Attach previous image (Unit 8)"),
+    { N_("Attach previous image (Unit 8)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)0, NULL,
       KEYSYM_N, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Load fliplist file"),
+    { N_("Load fliplist file"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL },
-    { N_("Save fliplist file"),
+    { N_("Save fliplist file"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)0, NULL },
     { NULL }
 };
@@ -183,6 +183,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         t0 = lib_msprintf(_("Attach #%d"), drive + 8);
         flipmenu[drive][i].string = t0;
+        flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)attach_disk;
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(long)(drive + 8);
         i++;
@@ -190,6 +191,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         t5 = lib_msprintf(_("Detach #%d"), drive + 8);
         flipmenu[drive][i].string = t5;
+        flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)detach_disk;
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(long)(drive + 8);
         i++;
@@ -203,7 +205,8 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         i++;
         /* Write protext UI controll */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        flipmenu[drive][i].string = _("*Write Protect");
+        flipmenu[drive][i].string = _("Write Protect");
+        flipmenu[drive][i].type = UI_MENU_TYPE_TICK;
         if (drive == 0) {
             flipmenu[drive][i].callback = G_CALLBACK(toggle_AttachDevice8Readonly);
         } else {
@@ -228,12 +231,14 @@ void uifliplist_update_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         flipmenu[drive][i].string = "--";
+        flipmenu[drive][i].type = UI_MENU_TYPE_SEPARATOR;
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(fliplist_get_next(drive + 8), &dir, &image);
         t1 = util_concat(_("Next: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t1;
+        flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_NEXT].unit = drive + 8;
         cb_data[drive][CBD_NEXT].data = 1;
@@ -248,6 +253,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         util_fname_split(fliplist_get_prev(drive + 8), &dir, &image);
         t2 = util_concat(_("Previous: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t2;
+        flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_PREV].unit = drive + 8;
         cb_data[drive][CBD_PREV].data = 0;
@@ -262,6 +268,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         util_fname_split(last_attached_images[drive], &dir, &image);
         t3 = util_concat(_("Add: "), image, NULL);
         flipmenu[drive][i].string = t3;
+        flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)add2fliplist2;
         cb_data[drive][CBD_ADD].unit = drive + 8;
         cb_data[drive][CBD_ADD].data = (long) last_attached_images[drive];
@@ -276,6 +283,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         util_fname_split(last_attached_images[drive], &dir, &image);
         t4 = util_concat(_("Remove: "), image, NULL);
         flipmenu[drive][i].string = t4;
+        flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)remove_from_fliplist2;
         cb_data[drive][CBD_REMOVE].unit = drive + 8;
         cb_data[drive][CBD_REMOVE].data = (long) last_attached_images[drive];
@@ -288,6 +296,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         flipmenu[drive][i].string = "--";
+        flipmenu[drive][i].type = UI_MENU_TYPE_SEPARATOR;
         i++;
 
         /* Now collect current fliplist */
@@ -297,6 +306,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
             memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
             util_fname_split(fliplist_get_image(fl_iterator), &dir, &image);
             flipmenu[drive][i].string = util_concat(NO_TRANS, image, NULL);
+            flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
             flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist2;
             flipmenu[drive][i].callback_data = (ui_callback_data_t)fl_iterator;
 

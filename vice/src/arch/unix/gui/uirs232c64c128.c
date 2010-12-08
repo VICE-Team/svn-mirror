@@ -38,11 +38,11 @@
 UI_MENU_DEFINE_RADIO(Acia1Irq)
 
 static ui_menu_entry_t uiacia1_irq_submenu[] = {
-    { N_("*No IRQ/NMI"),
+    { N_("No IRQ/NMI"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)0, NULL },
-    { N_("*IRQ"),
+    { "IRQ", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)1, NULL },
-    { N_("*NMI"),
+    { "NMI", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -50,11 +50,11 @@ static ui_menu_entry_t uiacia1_irq_submenu[] = {
 UI_MENU_DEFINE_RADIO(Acia1Mode)
 
 static ui_menu_entry_t uiacia1_mode_submenu[] = {
-    { N_("*Normal"),
+    { N_("Normal"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Acia1Mode, (ui_callback_data_t)0, NULL },
-    { N_("*Swiftlink"),
+    { "Swiftlink", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Acia1Mode, (ui_callback_data_t)1, NULL },
-    { N_("*Turbo232"),
+    { "Turbo232", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_Acia1Mode, (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -63,36 +63,36 @@ UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 UI_MENU_DEFINE_TOGGLE(RsUserEnable)
 
 ui_menu_entry_t uirs232c64c128_submenu[] = {
-    { N_("*ACIA $DExx RS232 interface emulation"),
+    { N_("ACIA $DExx RS232 interface emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Acia1Enable, NULL, NULL },
-    { N_("ACIA $DExx device"),
+    { N_("ACIA $DExx device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiacia1_device_submenu },
-    { N_("ACIA $DExx Interrupt"),
+    { N_("ACIA $DExx Interrupt"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiacia1_irq_submenu },
-    { N_("ACIA $DExx Emulation Mode"),
+    { N_("ACIA $DExx Emulation Mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiacia1_mode_submenu },
-    { "--" },
-    { N_("*Userport RS232 emulation"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Userport RS232 emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RsUserEnable, NULL, NULL },
-    { N_("Userport RS232 baud rate"),
+    { N_("Userport RS232 baud rate"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, rs232user_baudrate_submenu },
-    { N_("Userport RS232 device"),
+    { N_("Userport RS232 device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, rs232user_device_submenu },
-    { "--" },
-    { N_("Serial 1 device..."), (ui_callback_t)set_rs232_device_file,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Serial 1 device..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)set_rs232_device_file,
       (ui_callback_data_t)"RsDevice1", NULL },
-    { N_("Serial 1 baudrate"),
+    { N_("Serial 1 baudrate"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ser1_c64c128_baud_submenu },
-    { "--" },
-    { "Serial 2 device...", (ui_callback_t)set_rs232_device_file,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { "Serial 2 device...", UI_MENU_TYPE_NORMAL, (ui_callback_t)set_rs232_device_file,
       (ui_callback_data_t)"RsDevice2", NULL },
-    { N_("Serial 2 baudrate"),
+    { N_("Serial 2 baudrate"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ser2_c64c128_baud_submenu },
-    { "--" },
-    { N_("Dump filename..."), (ui_callback_t)set_rs232_dump_file,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Dump filename..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)set_rs232_dump_file,
       (ui_callback_data_t)"RsDevice3", NULL },
-    { "--" },
-    { N_("Program name to exec..."), (ui_callback_t)set_rs232_exec_file,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Program name to exec..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)set_rs232_exec_file,
       (ui_callback_data_t)"RsDevice4", NULL },
     { NULL }
 };

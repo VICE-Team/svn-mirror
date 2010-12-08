@@ -30,8 +30,16 @@
 #include "ui.h"
 #include "uiarch.h"
 
+typedef enum {
+    UI_MENU_TYPE_NORMAL = 0,
+    UI_MENU_TYPE_TICK,
+    UI_MENU_TYPE_SEPARATOR,
+    UI_MENU_TYPE_NONE
+} ui_menu_type_t;
+
 typedef struct ui_menu_entry_s {
     char *string;
+    ui_menu_type_t type;
     ui_callback_t callback;
     ui_callback_data_t callback_data;
     struct ui_menu_entry_s *sub_menu;

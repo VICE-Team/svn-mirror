@@ -42,12 +42,12 @@ UI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 
 ui_menu_entry_t isepic_submenu[] = {
-    { N_("*Enable ISEPIC"),
+    { N_("Enable ISEPIC"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IsepicCartridgeEnabled, NULL, NULL },
-    { N_("*Enable ISEPIC Switch"),
+    { N_("Enable ISEPIC Switch"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IsepicSwitch, NULL, NULL },
-    { "--" },
-    { N_("Save ISEPIC image..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Save ISEPIC image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)isepic_save_cartridge, NULL, NULL },
     { NULL }
 };

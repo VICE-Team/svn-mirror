@@ -38,87 +38,87 @@
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive8Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*2031", (ui_callback_t)radio_Drive8Type,
+    { "2031", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
-    { "*2040", (ui_callback_t)radio_Drive8Type,
+    { "2040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_2040, NULL },
-    { "*3040", (ui_callback_t)radio_Drive8Type,
+    { "3040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_3040, NULL },
-    { "*4040", (ui_callback_t)radio_Drive8Type,
+    { "4040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_4040, NULL },
-    { "*1001", (ui_callback_t)radio_Drive8Type,
+    { "1001", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
-    { "*8050", (ui_callback_t)radio_Drive8Type,
+    { "8050", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_8050, NULL },
-    { "*8250", (ui_callback_t)radio_Drive8Type,
+    { "8250", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_8250, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive1_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive9Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*2031", (ui_callback_t)radio_Drive9Type,
+    { "2031", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
-    { "*1001", (ui_callback_t)radio_Drive9Type,
+    { "1001", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive2_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive10Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*2031", (ui_callback_t)radio_Drive10Type,
+    { "2031", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
-    { "*1001", (ui_callback_t)radio_Drive10Type,
+    { "1001", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_drive3_type_submenu[] = {
-    { N_("*None"), (ui_callback_t)radio_Drive11Type,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
-    { "*2031", (ui_callback_t)radio_Drive11Type,
+    { "2031", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
-    { "*1001", (ui_callback_t)radio_Drive11Type,
+    { "1001", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
-    { N_("*Enable true drive emulation"),
+    { N_("Enable true drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
-    { "--" },
-    { N_("Drive #8 floppy disk type"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #8 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive0_type_submenu },
-    { N_("Drive #8 40-track image support"),
+    { N_("Drive #8 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
-    { "--" },
-    { N_("Drive #9 floppy disk type"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #9 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive1_type_submenu },
-    { N_("Drive #9 40-track image support"),
+    { N_("Drive #9 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
-    { "--" },
-    { N_("Drive #10 floppy disk type"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #10 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive2_type_submenu },
-    { N_("Drive #10 40-track image support"),
+    { N_("Drive #10 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
-    { "--" },
-    { N_("Drive #11 floppy disk type"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Drive #11 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive3_type_submenu },
-    { N_("Drive #11 40-track image support"),
+    { N_("Drive #11 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_drivepetcbm2_settings_menu[] = {
-    { N_("Drive settings"),
+    { N_("Drive settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, drivepetcbm2_settings_submenu },
     { NULL }
 };
@@ -126,19 +126,19 @@ ui_menu_entry_t ui_drivepetcbm2_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_drivepetcbm2_romset_submenu[] = {
-    { N_("Load new 2031 ROM"),
+    { N_("Load new 2031 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName2031", NULL },
-    { N_("Load new 2040 ROM"),
+    { N_("Load new 2040 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName2040", NULL },
-    { N_("Load new 3040 ROM"),
+    { N_("Load new 3040 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName3040", NULL },
-    { N_("Load new 4040 ROM"),
+    { N_("Load new 4040 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName4040", NULL },
-    { N_("Load new 1001 ROM"),
+    { N_("Load new 1001 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1001", NULL },
     { NULL }

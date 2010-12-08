@@ -37,21 +37,21 @@ UI_MENU_DEFINE_RADIO(Mouseport)
 UI_MENU_DEFINE_RADIO(Mousetype)
 
 static ui_menu_entry_t mousetype_submenu[] = {
-    { "*1351", (ui_callback_t)radio_Mousetype,
+    { "1351", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)0, NULL },
-    { "*NEOS", (ui_callback_t)radio_Mousetype,
+    { "NEOS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)1, NULL },
-    { "*AMIGA", (ui_callback_t)radio_Mousetype,
+    { "Amiga", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)2, NULL },
-    { N_("*Paddles"), (ui_callback_t)radio_Mousetype,
+    { N_("Paddles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t mouseport_submenu[] = {
-    { N_("*Port 1"), (ui_callback_t)radio_Mouseport,
+    { N_("Port 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mouseport,
       (ui_callback_data_t)1, NULL },
-    { N_("*Port 2"), (ui_callback_t)radio_Mouseport,
+    { N_("Port 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mouseport,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -59,17 +59,17 @@ static ui_menu_entry_t mouseport_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(Mouse)
 
 ui_menu_entry_t mouse_submenu[] = {
-    { N_("*Enable mouse"),
+    { N_("Enable mouse"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
-    { N_("Mouse type"),
+    { N_("Mouse type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mousetype_submenu },
-    { N_("Mouse port"),
+    { N_("Mouse port"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouseport_submenu },
     { NULL }
 };
 
 ui_menu_entry_t mouse_vic20_submenu[] = {
-    { N_("*Enable paddles"),
+    { N_("Enable paddles"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
     { NULL }
 };

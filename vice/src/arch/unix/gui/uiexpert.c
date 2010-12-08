@@ -47,17 +47,17 @@ UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
 UI_MENU_DEFINE_TOGGLE(ExpertCartridgeEnabled)
 
 ui_menu_entry_t expert_submenu[] = {
-    { N_("*Enable Expert Cartridge"),
+    { N_("Enable Expert Cartridge"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExpertCartridgeEnabled, NULL, NULL },
-    { "--" },
-    { N_("*Prg"), (ui_callback_t)radio_ExpertCartridgeMode,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Prg"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExpertCartridgeMode,
       (ui_callback_data_t)EXPERT_MODE_PRG, NULL },
-    { N_("*Off"), (ui_callback_t)radio_ExpertCartridgeMode,
+    { N_("Off"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExpertCartridgeMode,
       (ui_callback_data_t)EXPERT_MODE_OFF, NULL },
-    { N_("*On"), (ui_callback_t)radio_ExpertCartridgeMode,
+    { N_("On"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExpertCartridgeMode,
       (ui_callback_data_t)EXPERT_MODE_ON, NULL },
-    { "--" },
-    { N_("Save Expert Cartridge image..."),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Save Expert Cartridge image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)expert_save_cartridge, NULL, NULL },
     { NULL }
 };

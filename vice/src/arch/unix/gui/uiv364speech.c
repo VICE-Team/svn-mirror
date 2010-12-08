@@ -46,9 +46,9 @@ UI_CALLBACK(set_speech_image_name)
 UI_MENU_DEFINE_TOGGLE(SpeechEnabled)
 
 ui_menu_entry_t speech_submenu[] = {
-    { N_("*Enable V364 Speech"),
+    { N_("Enable V364 Speech"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SpeechEnabled, NULL, NULL },
-    { N_("Set Speech ROM image..."),
+    { N_("Set Speech ROM image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_speech_image_name,
       (ui_callback_data_t)"SpeechImage", NULL },
     { NULL }

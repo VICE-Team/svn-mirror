@@ -51,15 +51,15 @@ static UI_CALLBACK(radio_VDCPaletteFile)
 }
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
-    { N_("*Internal"), (ui_callback_t)radio_VDCPaletteFile,
+    { N_("Internal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCPaletteFile,
       NULL, NULL },
-    { "--" },
-    { N_("*Default"), (ui_callback_t)radio_VDCPaletteFile,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Default"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_deft", NULL },
-    { N_("*Composite"), (ui_callback_t)radio_VDCPaletteFile,
+    { N_("Composite"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_comp", NULL },
-    { "--" },
-    { N_("Load custom"), (ui_callback_t)ui_load_palette,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VDC", NULL },
     { NULL }
 };
@@ -70,12 +70,12 @@ static UI_CALLBACK(radio_renderer)
 }
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("*Unfiltered"), (ui_callback_t)radio_renderer,
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
-    { N_("*CRT Emulation"), (ui_callback_t)radio_renderer,
+    { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
 #if 0
-    { N_("*Scale 2x"), (ui_callback_t)radio_renderer,
+    { N_("Scale 2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)2, NULL },
 #endif
     { NULL }
@@ -84,11 +84,11 @@ static ui_menu_entry_t renderer_submenu[] = {
 UI_MENU_DEFINE_RADIO(VDCRevision)
 
 static ui_menu_entry_t set_vdc_revison_submenu[] = {
-    { N_("*Revison 0"), (ui_callback_t)radio_VDCRevision,
+    { N_("Revison 0"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)0, NULL },
-    { N_("*Revison 1"), (ui_callback_t)radio_VDCRevision,
+    { N_("Revison 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)1, NULL },
-    { N_("*Revison 2"), (ui_callback_t)radio_VDCRevision,
+    { N_("Revison 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -141,55 +141,55 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 #endif
 
 ui_menu_entry_t set_vdcmodel_submenu[] = {
-    { N_("*64kB display memory"),
+    { N_("64kB display memory"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDC64KB, NULL, NULL },
-    { N_("Revision"),
+    { N_("Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_vdc_revison_submenu },
     { NULL }
 };
 
 ui_menu_entry_t vdc_submenu[] = {
-    { N_("*Double size"),
+    { N_("Double size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
+    { N_("Double scan"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
+    { N_("Video cache"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
-    { "--" },
-    { N_("Color set"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Color set"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vdc_palette_submenu },
-    { "--" },
-    { N_("Renderer"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Renderer"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
-    { N_("CRT Emulation Settings"),
+    { N_("CRT Emulation Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, PALMode_submenu },
 #endif
 #ifdef HAVE_HWSCALE
-    { "--" },
-    { N_("*Hardware scaling"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCHwScale, NULL, NULL },
 #ifdef USE_GNOMEUI
-    { N_("*Keep aspect ratio"),
+    { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
 #endif
-    { N_("*True aspect ratio"),
+    { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
 #ifdef HAVE_OPENGL_SYNC
-    { "--" },
-    { N_("*OpenGL Rastersynchronization"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
-    { N_("Desktop Refreshrate..."),
+    { N_("Desktop Refreshrate..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN
-    { "--" },
-    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVDC },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Fullscreen settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, fullscreen_menuVDC },
 #endif
 #ifndef USE_GNOMEUI
-    { "--" },
-    { N_("*Use XSync()"),
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Use XSync()"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
     { NULL }

@@ -45,9 +45,9 @@ UI_CALLBACK(set_plus256k_image_name)
 }
 
 ui_menu_entry_t plus256k_submenu[] = {
-    { N_("*Enable PLUS256K"),
+    { N_("Enable PLUS256K"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_PLUS256K, NULL, NULL },
-    { N_("PLUS256K image name..."),
+    { N_("PLUS256K image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_plus256k_image_name,
       (ui_callback_data_t)"PLUS256Kfilename", NULL },
     { NULL }
