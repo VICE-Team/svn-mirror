@@ -343,7 +343,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     LIBS="$LIBS -lunix"
   fi
 
-elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
+elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
